@@ -6,4 +6,4 @@ set EPICS_HOST_ARCH=win32-x86
 
 :continue
 
-bin\%EPICS_HOST_ARCH%\mb_test.exe
+%~dp0..\bin\%EPICS_HOST_ARCH%\mb_test.exe
