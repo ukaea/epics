@@ -152,6 +152,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "pvDataApp", "pvDataApp", "{9DC91147-6967-48A9-84CA-F5674DF917D2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "testApp", "testApp", "{D1D78DEE-8FD4-4C28-9EF3-CB2FD1086C59}"
+	ProjectSection(SolutionItems) = preProject
+		testApp\runtests.bat = testApp\runtests.bat
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{F077EB5D-48D5-4DAC-9313-9123678CDA80}"
 EndProject
