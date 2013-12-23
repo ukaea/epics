@@ -142,6 +142,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "base", "base", "{DED3FCCF-E93F-4875-ABDE-142912292D4C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "pcAccessCPP", "pcAccessCPP", "{23350649-01B0-455E-B660-49E8E669AC3B}"
+	ProjectSection(SolutionItems) = preProject
+		Makefile = Makefile
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gtest", "gtest", "{D690BA91-52FF-4029-A564-BCFB94095E9E}"
 EndProject
@@ -151,7 +154,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "pvDataApp", "pvDataApp", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "pvAccessApp", "pvAccessApp", "{07FFAE95-7AFF-405A-8451-DA21E124109C}"
 	ProjectSection(SolutionItems) = preProject
-		Makefile = Makefile
+		pvAccessApp\Makefile = pvAccessApp\Makefile
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "testApp", "testApp", "{70A0AEE4-63A9-47C2-91F3-90B61D1F8E37}"
@@ -160,8 +163,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "testApp", "testApp", "{70A0
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "remote", "remote", "{F08FF853-67CC-4A85-AEBD-45C778FB4CA3}"
+	ProjectSection(SolutionItems) = preProject
+		testApp\remote\Makefile = testApp\remote\Makefile
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utils", "Utils", "{768D8024-1160-4103-985F-611391C71EF7}"
+	ProjectSection(SolutionItems) = preProject
+		testApp\utils\Makefile = testApp\utils\Makefile
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "client", "client", "{2031027A-D5A7-42CE-9E2A-EFB447A2E3CD}"
 EndProject
