@@ -24,11 +24,9 @@
     <None Include="EPICS\Release.pm">
       <Filter>EPICS Files</Filter>
     </None>
-    <None Include="dbdExpand.pl">
-      <Filter>Source Files</Filter>
-    </None>
-    <None Include="registerRecordDeviceDriver.pl">
-      <Filter>Source Files</Filter>
-    </None>
+    <None Include="dbdExpand.pl" />
+    <None Include="registerRecordDeviceDriver.pl" />
+    <None Include="dbdToRecordtypeH.pl" />
+    <None Include="dbdToMenuH.pl" />
   </ItemGroup>
 </Project>

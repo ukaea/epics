@@ -303,6 +303,8 @@ xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="dbdExpand.pl" />
+    <None Include="dbdToMenuH.pl" />
+    <None Include="dbdToRecordtypeH.pl" />
     <None Include="EPICS\Path.pm" />
     <None Include="EPICS\Release.pm" />
     <None Include="makeIncludeDbd.pl">
