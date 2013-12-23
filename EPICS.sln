@@ -95,11 +95,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "configure", "configure\conf
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tools", "src\tools\tools.vcxproj", "{5CCE1C6A-2BD5-48BF-99E2-D29B58F91991}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pvAccessApp", "pcAccessCPP\pvAccessApp\pvAccessApp.vcxproj", "{44ECEA7E-D805-49B6-8E89-62EC3994C1F3}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pvData", "pcDataCPP\pvDataApp\pvData.vcxproj", "{F4A51415-2981-42EE-87C7-F29D5805583E}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mb", "pvCommonCPP\mbApp\mb\mb.vcxproj", "{3B4FB919-CC65-4780-8B45-BFE42896B914}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testc", "pcDataCPP\testApp\capi\testc.vcxproj", "{67BBDD19-4012-49B7-AE15-A8C694C281D8}"
 EndProject
@@ -193,8 +189,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gtest_main-md", "gtest\msvc
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "inetAddressUtilsTest", "pcAccessCPP\testApp\utils\inetAddressUtilsTest.vcxproj", "{4B32C87F-0EC2-4A3C-BAF3-D37CC62FE72E}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pvIOCApp", "pvIOCCPP\pvIocApp\pvIOCApp.vcxproj", "{306F772C-37B9-4EB9-8C4C-3B7761CD4C79}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "exampleClient", "pvIOCCPP\testApp\exampleServiceRPC\exampleClient.vcxproj", "{51FF0DD1-7EFC-45A1-89FE-EC5B29A46D3C}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "exampleServiceRPC", "pvIOCCPP\testApp\exampleServiceRPC\exampleServiceRPC.vcxproj", "{27A29BB8-DF07-457D-AE30-613459DB7F9C}"
@@ -206,6 +200,12 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testBoost", "pvCommonCPP\testApp\boost\testBoost.vcxproj", "{B546B9C3-563A-414F-BC03-FC36CF28C767}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testServer", "pcAccessCPP\testApp\remote\testServer.vcxproj", "{217ACCB0-3708-4875-9FA2-60DD30B63327}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pvAccess", "pcAccessCPP\pvAccessApp\pvAccess.vcxproj", "{44ECEA7E-D805-49B6-8E89-62EC3994C1F3}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pvIOC", "pvIOCCPP\pvIocApp\pvIOC.vcxproj", "{306F772C-37B9-4EB9-8C4C-3B7761CD4C79}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mb_stat", "pvCommonCPP\mbApp\mb\mb_stat.vcxproj", "{3B4FB919-CC65-4780-8B45-BFE42896B914}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -401,18 +401,10 @@ Global
 		{5CCE1C6A-2BD5-48BF-99E2-D29B58F91991}.Debug|Win32.Build.0 = Debug|Win32
 		{5CCE1C6A-2BD5-48BF-99E2-D29B58F91991}.Release|Win32.ActiveCfg = Release|Win32
 		{5CCE1C6A-2BD5-48BF-99E2-D29B58F91991}.Release|Win32.Build.0 = Release|Win32
-		{44ECEA7E-D805-49B6-8E89-62EC3994C1F3}.Debug|Win32.ActiveCfg = Debug|Win32
-		{44ECEA7E-D805-49B6-8E89-62EC3994C1F3}.Debug|Win32.Build.0 = Debug|Win32
-		{44ECEA7E-D805-49B6-8E89-62EC3994C1F3}.Release|Win32.ActiveCfg = Release|Win32
-		{44ECEA7E-D805-49B6-8E89-62EC3994C1F3}.Release|Win32.Build.0 = Release|Win32
 		{F4A51415-2981-42EE-87C7-F29D5805583E}.Debug|Win32.ActiveCfg = Debug|Win32
 		{F4A51415-2981-42EE-87C7-F29D5805583E}.Debug|Win32.Build.0 = Debug|Win32
 		{F4A51415-2981-42EE-87C7-F29D5805583E}.Release|Win32.ActiveCfg = Release|Win32
 		{F4A51415-2981-42EE-87C7-F29D5805583E}.Release|Win32.Build.0 = Release|Win32
-		{3B4FB919-CC65-4780-8B45-BFE42896B914}.Debug|Win32.ActiveCfg = Debug|Win32
-		{3B4FB919-CC65-4780-8B45-BFE42896B914}.Debug|Win32.Build.0 = Debug|Win32
-		{3B4FB919-CC65-4780-8B45-BFE42896B914}.Release|Win32.ActiveCfg = Release|Win32
-		{3B4FB919-CC65-4780-8B45-BFE42896B914}.Release|Win32.Build.0 = Release|Win32
 		{67BBDD19-4012-49B7-AE15-A8C694C281D8}.Debug|Win32.ActiveCfg = Debug|Win32
 		{67BBDD19-4012-49B7-AE15-A8C694C281D8}.Debug|Win32.Build.0 = Debug|Win32
 		{67BBDD19-4012-49B7-AE15-A8C694C281D8}.Release|Win32.ActiveCfg = Release|Win32
@@ -597,10 +589,6 @@ Global
 		{4B32C87F-0EC2-4A3C-BAF3-D37CC62FE72E}.Debug|Win32.Build.0 = Debug|Win32
 		{4B32C87F-0EC2-4A3C-BAF3-D37CC62FE72E}.Release|Win32.ActiveCfg = Release|Win32
 		{4B32C87F-0EC2-4A3C-BAF3-D37CC62FE72E}.Release|Win32.Build.0 = Release|Win32
-		{306F772C-37B9-4EB9-8C4C-3B7761CD4C79}.Debug|Win32.ActiveCfg = Debug|Win32
-		{306F772C-37B9-4EB9-8C4C-3B7761CD4C79}.Debug|Win32.Build.0 = Debug|Win32
-		{306F772C-37B9-4EB9-8C4C-3B7761CD4C79}.Release|Win32.ActiveCfg = Release|Win32
-		{306F772C-37B9-4EB9-8C4C-3B7761CD4C79}.Release|Win32.Build.0 = Release|Win32
 		{51FF0DD1-7EFC-45A1-89FE-EC5B29A46D3C}.Debug|Win32.ActiveCfg = Debug|Win32
 		{51FF0DD1-7EFC-45A1-89FE-EC5B29A46D3C}.Debug|Win32.Build.0 = Debug|Win32
 		{51FF0DD1-7EFC-45A1-89FE-EC5B29A46D3C}.Release|Win32.ActiveCfg = Release|Win32
@@ -625,6 +613,18 @@ Global
 		{217ACCB0-3708-4875-9FA2-60DD30B63327}.Debug|Win32.Build.0 = Debug|Win32
 		{217ACCB0-3708-4875-9FA2-60DD30B63327}.Release|Win32.ActiveCfg = Release|Win32
 		{217ACCB0-3708-4875-9FA2-60DD30B63327}.Release|Win32.Build.0 = Release|Win32
+		{44ECEA7E-D805-49B6-8E89-62EC3994C1F3}.Debug|Win32.ActiveCfg = Debug|Win32
+		{44ECEA7E-D805-49B6-8E89-62EC3994C1F3}.Debug|Win32.Build.0 = Debug|Win32
+		{44ECEA7E-D805-49B6-8E89-62EC3994C1F3}.Release|Win32.ActiveCfg = Release|Win32
+		{44ECEA7E-D805-49B6-8E89-62EC3994C1F3}.Release|Win32.Build.0 = Release|Win32
+		{306F772C-37B9-4EB9-8C4C-3B7761CD4C79}.Debug|Win32.ActiveCfg = Debug|Win32
+		{306F772C-37B9-4EB9-8C4C-3B7761CD4C79}.Debug|Win32.Build.0 = Debug|Win32
+		{306F772C-37B9-4EB9-8C4C-3B7761CD4C79}.Release|Win32.ActiveCfg = Release|Win32
+		{306F772C-37B9-4EB9-8C4C-3B7761CD4C79}.Release|Win32.Build.0 = Release|Win32
+		{3B4FB919-CC65-4780-8B45-BFE42896B914}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3B4FB919-CC65-4780-8B45-BFE42896B914}.Debug|Win32.Build.0 = Debug|Win32
+		{3B4FB919-CC65-4780-8B45-BFE42896B914}.Release|Win32.ActiveCfg = Release|Win32
+		{3B4FB919-CC65-4780-8B45-BFE42896B914}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
