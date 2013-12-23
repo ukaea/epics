@@ -22,14 +22,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\base\configure\configure.vcxproj">
+      <Project>{4b0ce8ee-60f4-44d7-8303-269032990b9b}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\pcAccessCPP\pvAccessApp\pvAccess.vcxproj">
       <Project>{44ecea7e-d805-49b6-8e89-62ec3994c1f3}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\pcDataCPP\pvDataApp\pvData.vcxproj">
       <Project>{f4a51415-2981-42ee-87c7-f29d5805583e}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\src\libCom\Com.vcxproj">
-      <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\pvIocApp\pvIOC.vcxproj">
       <Project>{306f772c-37b9-4eb9-8c4c-3b7761cd4c79}</Project>
