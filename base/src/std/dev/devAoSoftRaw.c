@@ -8,7 +8,7 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 /* devAoSoftRaw.c */
-/* base/src/dev Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd */
+/* base/src/dev $Revision-Id$ */
 
 /* Device Support Routines for soft raw Analog Output Records*/
 /*
@@ -30,8 +30,6 @@
 #include "link.h"
 #include "special.h"
 #include "aoRecord.h"
-
-#define epicsExportSharedSymbols
 #include "epicsExport.h"
 
 /* Create the dset for devAoSoftRaw */

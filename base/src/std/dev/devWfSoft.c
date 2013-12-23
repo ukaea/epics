@@ -7,7 +7,7 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 
-/* Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd
+/* $Revision-Id$
  *
  *      Original Authors: Bob Dalesio and Marty Kraimer
  *      Date: 6-1-90
@@ -20,11 +20,10 @@
 #include "alarm.h"
 #include "dbDefs.h"
 #include "dbAccess.h"
+#include "dbEvent.h"
 #include "recGbl.h"
 #include "devSup.h"
 #include "waveformRecord.h"
-
-#define epicsExportSharedSymbols
 #include "epicsExport.h"
 
 /* Create the dset for devWfSoft */
@@ -78,6 +77,5 @@ static long read_wf(waveformRecord *prec)
             prec->tse == epicsTimeEventDeviceTime)
             dbGetTimeStamp(&prec->inp, &prec->time);
     }
-
     return 0;
 }

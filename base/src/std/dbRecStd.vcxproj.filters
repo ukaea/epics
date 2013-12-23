@@ -1,195 +1,360 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
     <Filter Include="Header Files">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="Database Files">
+    <Filter Include="rec">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="rec\Database Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="dev">
+      <UniqueIdentifier>{a1e657c0-25e9-4bb0-8d85-1923c7bd45dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dev\Database Files">
+      <UniqueIdentifier>{ba33d1e5-14ae-426c-8649-9ff5d3c32e97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="filters">
+      <UniqueIdentifier>{581a52b7-ad63-4619-a6d0-07658c191406}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="aaiRecord.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="rec\aaiRecord.c">
+      <Filter>rec</Filter>
     </ClCompile>
-    <ClCompile Include="aaoRecord.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="rec\aaoRecord.c">
+      <Filter>rec</Filter>
     </ClCompile>
-    <ClCompile Include="aiRecord.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="rec\aiRecord.c">
+      <Filter>rec</Filter>
     </ClCompile>
-    <ClCompile Include="aoRecord.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="rec\aoRecord.c">
+      <Filter>rec</Filter>
     </ClCompile>
-    <ClCompile Include="aSubRecord.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="rec\aSubRecord.c">
+      <Filter>rec</Filter>
     </ClCompile>
-    <ClCompile Include="biRecord.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="rec\biRecord.c">
+      <Filter>rec</Filter>
     </ClCompile>
-    <ClCompile Include="boRecord.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="rec\boRecord.c">
+      <Filter>rec</Filter>
     </ClCompile>
-    <ClCompile Include="calcoutRecord.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="rec\calcoutRecord.c">
+      <Filter>rec</Filter>
     </ClCompile>
-    <ClCompile Include="calcRecord.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="rec\calcRecord.c">
+      <Filter>rec</Filter>
     </ClCompile>
-    <ClCompile Include="compressRecord.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="rec\compressRecord.c">
+      <Filter>rec</Filter>
     </ClCompile>
-    <ClCompile Include="dfanoutRecord.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="rec\dfanoutRecord.c">
+      <Filter>rec</Filter>
     </ClCompile>
-    <ClCompile Include="eventRecord.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="rec\eventRecord.c">
+      <Filter>rec</Filter>
     </ClCompile>
-    <ClCompile Include="fanoutRecord.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="rec\fanoutRecord.c">
+      <Filter>rec</Filter>
     </ClCompile>
-    <ClCompile Include="histogramRecord.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="rec\histogramRecord.c">
+      <Filter>rec</Filter>
     </ClCompile>
-    <ClCompile Include="longinRecord.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="rec\longinRecord.c">
+      <Filter>rec</Filter>
     </ClCompile>
-    <ClCompile Include="longoutRecord.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="rec\longoutRecord.c">
+      <Filter>rec</Filter>
     </ClCompile>
-    <ClCompile Include="mbbiDirectRecord.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="rec\mbbiDirectRecord.c">
+      <Filter>rec</Filter>
     </ClCompile>
-    <ClCompile Include="mbbiRecord.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="rec\mbbiRecord.c">
+      <Filter>rec</Filter>
     </ClCompile>
-    <ClCompile Include="mbboDirectRecord.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="rec\mbboDirectRecord.c">
+      <Filter>rec</Filter>
     </ClCompile>
-    <ClCompile Include="mbboRecord.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="rec\mbboRecord.c">
+      <Filter>rec</Filter>
     </ClCompile>
-    <ClCompile Include="permissiveRecord.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="rec\permissiveRecord.c">
+      <Filter>rec</Filter>
     </ClCompile>
-    <ClCompile Include="selRecord.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="rec\selRecord.c">
+      <Filter>rec</Filter>
     </ClCompile>
-    <ClCompile Include="seqRecord.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="rec\seqRecord.c">
+      <Filter>rec</Filter>
     </ClCompile>
-    <ClCompile Include="stateRecord.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="rec\stateRecord.c">
+      <Filter>rec</Filter>
     </ClCompile>
-    <ClCompile Include="stringinRecord.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="rec\stringinRecord.c">
+      <Filter>rec</Filter>
     </ClCompile>
-    <ClCompile Include="stringoutRecord.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="rec\stringoutRecord.c">
+      <Filter>rec</Filter>
     </ClCompile>
-    <ClCompile Include="subArrayRecord.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="rec\subArrayRecord.c">
+      <Filter>rec</Filter>
     </ClCompile>
-    <ClCompile Include="subRecord.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="rec\subRecord.c">
+      <Filter>rec</Filter>
     </ClCompile>
-    <ClCompile Include="waveformRecord.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="rec\waveformRecord.c">
+      <Filter>rec</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devAaiSoft.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devWfSoft.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devAaoSoft.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devAiSoft.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devAiSoftRaw.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devAoSoft.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devAoSoftCallback.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devAoSoftRaw.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devBiSoft.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devBiSoftRaw.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devBoSoft.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devBoSoftCallback.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devBoSoftRaw.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devCalcoutSoft.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devCalcoutSoftCallback.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devEventSoft.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devGeneralTime.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devHistogramSoft.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devLiSoft.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devLoSoft.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devLoSoftCallback.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devMbbiDirectSoft.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devMbbiDirectSoftRaw.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devMbbiSoft.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devMbbiSoftRaw.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devMbboDirectSoft.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devMbboDirectSoftCallback.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devMbboDirectSoftRaw.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devMbboSoft.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devMbboSoftCallback.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devMbboSoftRaw.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devSASoft.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devSiSoft.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devSoSoft.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devSoSoftCallback.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devSoStdio.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devTimestamp.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="filters\arr.c">
+      <Filter>filters</Filter>
+    </ClCompile>
+    <ClCompile Include="filters\dbnd.c">
+      <Filter>filters</Filter>
+    </ClCompile>
+    <ClCompile Include="filters\sync.c">
+      <Filter>filters</Filter>
+    </ClCompile>
+    <ClCompile Include="filters\ts.c">
+      <Filter>filters</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\asSubRecordFunctions.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devAiSoftCallback.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devBiDbState.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devBiSoftCallback.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devBoDbState.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devLiSoftCallback.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devMbbiDirectSoftCallback.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devMbbiSoftCallback.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devSiSoftCallback.c">
+      <Filter>dev</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="waveformRecord.dbd">
-      <Filter>Database Files</Filter>
+    <CustomBuild Include="rec\aaiRecord.dbd">
+      <Filter>rec\Database Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="histogramRecord.dbd">
-      <Filter>Database Files</Filter>
+    <CustomBuild Include="rec\subRecord.dbd">
+      <Filter>rec\Database Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="aiRecord.dbd">
-      <Filter>Database Files</Filter>
+    <CustomBuild Include="rec\aaoRecord.dbd">
+      <Filter>rec\Database Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="stringinRecord.dbd">
-      <Filter>Database Files</Filter>
+    <CustomBuild Include="rec\aiRecord.dbd">
+      <Filter>rec\Database Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="stringoutRecord.dbd">
-      <Filter>Database Files</Filter>
+    <CustomBuild Include="rec\aoRecord.dbd">
+      <Filter>rec\Database Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="subArrayRecord.dbd">
-      <Filter>Database Files</Filter>
+    <CustomBuild Include="rec\aSubRecord.dbd">
+      <Filter>rec\Database Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="mbboRecord.dbd">
-      <Filter>Database Files</Filter>
+    <CustomBuild Include="rec\biRecord.dbd">
+      <Filter>rec\Database Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="mbboDirectRecord.dbd">
-      <Filter>Database Files</Filter>
+    <CustomBuild Include="rec\boRecord.dbd">
+      <Filter>rec\Database Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="subRecord.dbd">
-      <Filter>Database Files</Filter>
+    <CustomBuild Include="rec\calcoutRecord.dbd">
+      <Filter>rec\Database Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="stateRecord.dbd">
-      <Filter>Database Files</Filter>
+    <CustomBuild Include="rec\calcRecord.dbd">
+      <Filter>rec\Database Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="seqRecord.dbd">
-      <Filter>Database Files</Filter>
+    <CustomBuild Include="rec\compressRecord.dbd">
+      <Filter>rec\Database Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="selRecord.dbd">
-      <Filter>Database Files</Filter>
+    <CustomBuild Include="rec\dfanoutRecord.dbd">
+      <Filter>rec\Database Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="permissiveRecord.dbd">
-      <Filter>Database Files</Filter>
+    <CustomBuild Include="rec\eventRecord.dbd">
+      <Filter>rec\Database Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="longoutRecord.dbd">
-      <Filter>Database Files</Filter>
+    <CustomBuild Include="rec\fanoutRecord.dbd">
+      <Filter>rec\Database Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="mbbiDirectRecord.dbd">
-      <Filter>Database Files</Filter>
+    <CustomBuild Include="rec\histogramRecord.dbd">
+      <Filter>rec\Database Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="mbbiRecord.dbd">
-      <Filter>Database Files</Filter>
+    <CustomBuild Include="rec\longinRecord.dbd">
+      <Filter>rec\Database Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="longinRecord.dbd">
-      <Filter>Database Files</Filter>
+    <CustomBuild Include="rec\longoutRecord.dbd">
+      <Filter>rec\Database Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="fanoutRecord.dbd">
-      <Filter>Database Files</Filter>
+    <CustomBuild Include="rec\mbbiDirectRecord.dbd">
+      <Filter>rec\Database Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="eventRecord.dbd">
-      <Filter>Database Files</Filter>
+    <CustomBuild Include="rec\mbbiRecord.dbd">
+      <Filter>rec\Database Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="dfanoutRecord.dbd">
-      <Filter>Database Files</Filter>
+    <CustomBuild Include="rec\mbboDirectRecord.dbd">
+      <Filter>rec\Database Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="compressRecord.dbd">
-      <Filter>Database Files</Filter>
+    <CustomBuild Include="rec\mbboRecord.dbd">
+      <Filter>rec\Database Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="calcRecord.dbd">
-      <Filter>Database Files</Filter>
+    <CustomBuild Include="rec\permissiveRecord.dbd">
+      <Filter>rec\Database Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="calcoutRecord.dbd">
-      <Filter>Database Files</Filter>
+    <CustomBuild Include="rec\selRecord.dbd">
+      <Filter>rec\Database Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="boRecord.dbd">
-      <Filter>Database Files</Filter>
+    <CustomBuild Include="rec\seqRecord.dbd">
+      <Filter>rec\Database Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="biRecord.dbd">
-      <Filter>Database Files</Filter>
+    <CustomBuild Include="rec\stateRecord.dbd">
+      <Filter>rec\Database Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="aSubRecord.dbd">
-      <Filter>Database Files</Filter>
+    <CustomBuild Include="rec\stringinRecord.dbd">
+      <Filter>rec\Database Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="aoRecord.dbd">
-      <Filter>Database Files</Filter>
+    <CustomBuild Include="rec\stringoutRecord.dbd">
+      <Filter>rec\Database Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="aaoRecord.dbd">
-      <Filter>Database Files</Filter>
+    <CustomBuild Include="rec\subArrayRecord.dbd">
+      <Filter>rec\Database Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="aaiRecord.dbd">
-      <Filter>Database Files</Filter>
+    <CustomBuild Include="rec\waveformRecord.dbd">
+      <Filter>rec\Database Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="dev\devSoft.dbd">
+      <Filter>dev\Database Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="filters\filters.dbd">
+      <Filter>filters</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

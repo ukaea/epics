@@ -3,7 +3,7 @@
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
 
-/* Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd */
+/* $Revision-Id$ */
 /*
  *   Original Author:	Sheng Peng, ORNL / SNS Project
  *   Date:		07/2004
@@ -29,8 +29,6 @@
 #include "boRecord.h"
 #include "longinRecord.h"
 #include "stringinRecord.h"
-
-#define epicsExportSharedSymbols
 #include "epicsExport.h"
 
 

@@ -7,7 +7,7 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 
-/* Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd
+/* $Revision-Id$
  *
  *      Author: Janet Anderson
  *      Date: 09-23-91
@@ -23,8 +23,6 @@
 #include "recGbl.h"
 #include "devSup.h"
 #include "longinRecord.h"
-
-#define epicsExportSharedSymbols
 #include "epicsExport.h"
 
 /* Create the dset for devLiSoft */

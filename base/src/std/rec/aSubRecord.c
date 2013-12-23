@@ -4,7 +4,7 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
-/* Revision-Id: anj@aps.anl.gov-20121011225100-ckrgea8jilbos5ot
+/* $Revision-Id$
  * 
  * Record Support Routines for the Array Subroutine Record type,
  * derived from Andy Foster's genSub record, with some features
@@ -33,12 +33,10 @@
 #include "special.h"
 #include "registryFunction.h"
 #include "recGbl.h"
-
-#define epicsExportSharedSymbols
-#include "epicsExport.h"
 #define GEN_SIZE_OFFSET
 #include "aSubRecord.h"
 #undef  GEN_SIZE_OFFSET
+#include "epicsExport.h"
 
 
 typedef long (*GENFUNCPTR)(struct aSubRecord *);
@@ -54,14 +52,14 @@ static long special(DBADDR *, int);
 static long cvt_dbaddr(DBADDR *);
 static long get_array_info(DBADDR *, long *, long *);
 static long put_array_info(DBADDR *, long );
-#define get_units          NULL
+static long get_units(DBADDR *, char *);
 static long get_precision(DBADDR *, long *);
 #define get_enum_str       NULL
 #define get_enum_strs      NULL
 #define put_enum_str       NULL
-#define get_graphic_double NULL
-#define get_control_double NULL
-#define get_alarm_double   NULL
+static long get_graphic_double(DBADDR *, struct dbr_grDouble *);
+static long get_control_double(DBADDR *, struct dbr_ctrlDouble *);
+static long get_alarm_double(DBADDR *, struct dbr_alDouble *);
 
 rset aSubRSET = {
     RSETNUMBER,
@@ -303,6 +301,11 @@ static long fetch_values(aSubRecord *prec)
             if (!pfunc)
                 return S_db_BadSub;
 
+            if (prec->sadr!=pfunc && prec->cadr) {
+                prec->cadr(prec);
+                prec->cadr = NULL;
+            }
+
             prec->sadr = pfunc;
             strcpy(prec->onam, prec->snam);
         }
@@ -321,15 +324,119 @@ static long fetch_values(aSubRecord *prec)
     return 0;
 }
 
-static long get_precision(DBADDR *paddr, long *precision)
+#define indexof(field) aSubRecord##field
+
+static long get_inlinkNumber(int fieldIndex) {
+    if (fieldIndex >= indexof(A) && fieldIndex <= indexof(U))
+        return fieldIndex - indexof(A);
+    return -1;
+}
+
+static long get_outlinkNumber(int fieldIndex) {
+    if (fieldIndex >= indexof(VALA) && fieldIndex <= indexof(VALU))
+        return fieldIndex - indexof(VALA);
+    return -1;
+}
+
+static long get_units(DBADDR *paddr, char *units)
 {
     aSubRecord *prec = (aSubRecord *)paddr->precord;
+    int linkNumber;
 
-    *precision = prec->prec;
-    recGblGetPrec(paddr, precision);
+    linkNumber = get_inlinkNumber(dbGetFieldIndex(paddr));
+    if (linkNumber >= 0) {
+        dbGetUnits(&prec->inpa + linkNumber, units, DB_UNITS_SIZE);
+        return 0;
+    }
+    linkNumber = get_outlinkNumber(dbGetFieldIndex(paddr));
+    if (linkNumber >= 0) {
+        dbGetUnits(&prec->outa + linkNumber, units, DB_UNITS_SIZE);
+    }
     return 0;
 }
 
+static long get_precision(DBADDR *paddr, long *pprecision)
+{
+    aSubRecord *prec = (aSubRecord *)paddr->precord;
+    int fieldIndex = dbGetFieldIndex(paddr);
+    int linkNumber;
+
+    *pprecision = prec->prec;
+    linkNumber = get_inlinkNumber(fieldIndex);
+    if (linkNumber >= 0) {
+        short precision;
+
+        if (dbGetPrecision(&prec->inpa + linkNumber, &precision) == 0)
+            *pprecision = precision;
+        return 0;
+    }
+
+    linkNumber = get_outlinkNumber(fieldIndex);
+    if (linkNumber >= 0) {
+        short precision;
+
+        if (dbGetPrecision(&prec->outa + linkNumber, &precision) == 0)
+            *pprecision = precision;
+    } else
+        recGblGetPrec(paddr, pprecision);
+    return 0;
+}
+
+static long get_graphic_double(DBADDR *paddr, struct dbr_grDouble *pgd)
+{
+    aSubRecord *prec = (aSubRecord *)paddr->precord;
+    int fieldIndex = dbGetFieldIndex(paddr);
+    int linkNumber;
+    
+    linkNumber = get_inlinkNumber(fieldIndex);
+    if (linkNumber >= 0) {
+        dbGetGraphicLimits(&prec->inpa + linkNumber,
+            &pgd->lower_disp_limit,
+            &pgd->upper_disp_limit);
+        return 0;
+    }
+    linkNumber = get_outlinkNumber(fieldIndex);
+    if (linkNumber >= 0) {
+        dbGetGraphicLimits(&prec->outa + linkNumber,
+            &pgd->lower_disp_limit,
+            &pgd->upper_disp_limit);
+    }
+    return 0;
+}
+
+static long get_control_double(DBADDR *paddr, struct dbr_ctrlDouble *pcd)
+{
+    recGblGetControlDouble(paddr,pcd);
+    return 0;
+}
+
+static long get_alarm_double(DBADDR *paddr, struct dbr_alDouble *pad)
+{
+    aSubRecord *prec = (aSubRecord *)paddr->precord;
+    int fieldIndex = dbGetFieldIndex(paddr);
+    int linkNumber;
+
+    linkNumber = get_inlinkNumber(fieldIndex);
+    if (linkNumber >= 0) {
+        dbGetAlarmLimits(&prec->inpa + linkNumber,
+            &pad->lower_alarm_limit,
+            &pad->lower_warning_limit,
+            &pad->upper_warning_limit,
+            &pad->upper_alarm_limit);
+        return 0;
+    }
+    linkNumber = get_outlinkNumber(fieldIndex);
+    if (linkNumber >= 0) {
+        dbGetAlarmLimits(&prec->outa + linkNumber,
+            &pad->lower_alarm_limit,
+            &pad->lower_warning_limit,
+            &pad->upper_warning_limit,
+            &pad->upper_alarm_limit);
+        return 0;
+    }
+    recGblGetAlarmDouble(paddr, pad);
+    return 0;
+}
 
 static void monitor(aSubRecord *prec)
 {
@@ -480,17 +587,27 @@ static long put_array_info(DBADDR *paddr, long nNew)
 static long special(DBADDR *paddr, int after)
 {
     aSubRecord *prec = (aSubRecord *)paddr->precord;
+    long status = 0;
 
     if (after &&
         prec->lflg == aSubLFLG_IGNORE) {
+        GENFUNCPTR pfunc;
         if (prec->snam[0] == 0)
-            return 0;
-
-        prec->sadr = (GENFUNCPTR)registryFunctionFind(prec->snam);
-        if (!prec->sadr) {
-            recGblRecordError(S_db_BadSub, (void *)prec, prec->snam);
-            return S_db_BadSub;
+            pfunc = 0;
+        else {
+            pfunc = (GENFUNCPTR)registryFunctionFind(prec->snam);
+            if (!pfunc) {
+                status = S_db_BadSub;
+                recGblRecordError(status, (void *)prec, prec->snam);
+            }
         }
+
+        if (prec->sadr != pfunc && prec->cadr) {
+            prec->cadr(prec);
+            prec->cadr = NULL;
+        }
+
+        prec->sadr = pfunc;
     }
-    return 0;
+    return status;
 }

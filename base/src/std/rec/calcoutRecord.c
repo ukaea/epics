@@ -37,7 +37,6 @@
 #include "callback.h"
 #include "taskwd.h"
 
-#define epicsExportSharedSymbols
 #define GEN_SIZE_OFFSET
 #include "calcoutRecord.h"
 #undef  GEN_SIZE_OFFSET
@@ -60,7 +59,7 @@ static long get_precision(DBADDR *, long *);
 #define get_enum_strs NULL
 #define put_enum_str NULL
 static long get_graphic_double(DBADDR *, struct dbr_grDouble *);
-static long get_ctrl_double(DBADDR *, struct dbr_ctrlDouble *);
+static long get_control_double(DBADDR *, struct dbr_ctrlDouble *);
 static long get_alarm_double(DBADDR *, struct dbr_alDouble *);
 
 rset calcoutRSET = {
@@ -80,11 +79,16 @@ rset calcoutRSET = {
     get_enum_strs,
     put_enum_str,
     get_graphic_double,
-    get_ctrl_double,
+    get_control_double,
     get_alarm_double
 };
 epicsExportAddress(rset, calcoutRSET);
-
+
+int calcoutODLYprecision = 2;
+epicsExportAddress(int, calcoutODLYprecision);
+double calcoutODLYlimit = 100000;
+epicsExportAddress(double, calcoutODLYlimit);
+
 typedef struct calcoutDSET {
     long       number;
     DEVSUPFUN  dev_report;
@@ -198,6 +202,8 @@ static long init_record(calcoutRecord *prec, int pass)
     callbackSetUser(prec, &prpvt->checkLinkCb);
     prpvt->cbScheduled = 0;
 
+    prec->epvt = eventNameToHandle(prec->oevt);
+    
     if (pcalcoutDSET->init_record) pcalcoutDSET->init_record(prec);
     prec->pval = prec->val;
     prec->mlst = prec->val;
@@ -362,17 +368,43 @@ static long special(DBADDR *paddr, int after)
         }
         db_post_events(prec, plinkValid, DBE_VALUE);
         return 0;
+      case(calcoutRecordOEVT):
+        prec->epvt = eventNameToHandle(prec->oevt);
+        return 0;
       default:
         recGblDbaddrError(S_db_badChoice, paddr, "calc: special");
         return(S_db_badChoice);
     }
 }
 
+#define indexof(field) calcoutRecord##field
+
+static long get_linkNumber(int fieldIndex) {
+    if (fieldIndex >= indexof(A) && fieldIndex <= indexof(L))
+        return fieldIndex - indexof(A);
+    if (fieldIndex >= indexof(LA) && fieldIndex <= indexof(LL))
+        return fieldIndex - indexof(LA);
+    return -1;
+}
+
 static long get_units(DBADDR *paddr, char *units)
 {
     calcoutRecord *prec = (calcoutRecord *)paddr->precord;
+    int fieldIndex = dbGetFieldIndex(paddr);
+    int linkNumber;
 
-    strncpy(units, prec->egu, DB_UNITS_SIZE);
+    if(fieldIndex == indexof(ODLY)) {
+        strcpy(units, "s");
+        return 0;
+    }
+
+    if(paddr->pfldDes->field_type == DBF_DOUBLE) {
+        linkNumber = get_linkNumber(dbGetFieldIndex(paddr));
+        if (linkNumber >= 0)
+            dbGetUnits(&prec->inpa + linkNumber, units, DB_UNITS_SIZE);
+        else
+            strncpy(units,prec->egu,DB_UNITS_SIZE);
+    }
     return 0;
 }
 
@@ -380,86 +412,109 @@ static long get_precision(DBADDR *paddr, long *pprecision)
 {
     calcoutRecord *prec = (calcoutRecord *)paddr->precord;
     int fieldIndex = dbGetFieldIndex(paddr);
+    int linkNumber;
+
+    if (fieldIndex == indexof(ODLY)) {
+        *pprecision = calcoutODLYprecision;
+        return 0;
+    }
 
     *pprecision = prec->prec;
+    if (fieldIndex == indexof(VAL))
+        return 0;
 
-    if (fieldIndex != calcoutRecordVAL)
+    linkNumber = get_linkNumber(fieldIndex);
+    if (linkNumber >= 0) {
+        short precision;
+
+        if (dbGetPrecision(&prec->inpa + linkNumber, &precision) == 0)
+            *pprecision = precision;
+    } else
         recGblGetPrec(paddr, pprecision);
- 
     return 0;
 }
 
 static long get_graphic_double(DBADDR *paddr, struct dbr_grDouble *pgd)
 {
     calcoutRecord *prec = (calcoutRecord *)paddr->precord;
-
-    if (paddr->pfield == (void *)&prec->val ||
-        paddr->pfield == (void *)&prec->hihi ||
-        paddr->pfield == (void *)&prec->high ||
-        paddr->pfield == (void *)&prec->low ||
-        paddr->pfield == (void *)&prec->lolo) {
-        pgd->upper_disp_limit = prec->hopr;
-        pgd->lower_disp_limit = prec->lopr;
-        return 0;
+    int fieldIndex = dbGetFieldIndex(paddr);
+    int linkNumber;
+    
+    switch (fieldIndex) {
+        case indexof(VAL):
+        case indexof(HIHI):
+        case indexof(HIGH):
+        case indexof(LOW):
+        case indexof(LOLO):
+        case indexof(LALM):
+        case indexof(ALST):
+        case indexof(MLST):
+            pgd->lower_disp_limit = prec->lopr;
+            pgd->upper_disp_limit = prec->hopr;
+            break;
+        case indexof(ODLY):
+            recGblGetGraphicDouble(paddr,pgd);
+            pgd->lower_disp_limit = 0.0;
+            break;       
+        default:
+            linkNumber = get_linkNumber(fieldIndex);
+            if (linkNumber >= 0) {
+                dbGetGraphicLimits(&prec->inpa + linkNumber,
+                    &pgd->lower_disp_limit,
+                    &pgd->upper_disp_limit);
+            } else
+                recGblGetGraphicDouble(paddr,pgd);
     }
-
-    if (paddr->pfield >= (void *)&prec->a &&
-        paddr->pfield <= (void *)&prec->l) {
-        pgd->upper_disp_limit = prec->hopr;
-        pgd->lower_disp_limit = prec->lopr;
-        return 0;
-    }
-    if (paddr->pfield >= (void *)&prec->la &&
-        paddr->pfield <= (void *)&prec->ll) {
-        pgd->upper_disp_limit = prec->hopr;
-        pgd->lower_disp_limit = prec->lopr;
-        return 0;
-    }
-    recGblGetGraphicDouble(paddr, pgd);
     return 0;
 }
 
-static long get_ctrl_double(DBADDR *paddr, struct dbr_ctrlDouble *pcd)
+static long get_control_double(DBADDR *paddr, struct dbr_ctrlDouble *pcd)
 {
     calcoutRecord *prec = (calcoutRecord *)paddr->precord;
-
-    if (paddr->pfield == (void *)&prec->val ||
-        paddr->pfield == (void *)&prec->hihi ||
-        paddr->pfield == (void *)&prec->high ||
-        paddr->pfield == (void *)&prec->low ||
-        paddr->pfield == (void *)&prec->lolo) {
-        pcd->upper_ctrl_limit = prec->hopr;
-        pcd->lower_ctrl_limit = prec->lopr;
-        return 0;
+    
+    switch (dbGetFieldIndex(paddr)) {
+        case indexof(VAL):
+        case indexof(HIHI):
+        case indexof(HIGH):
+        case indexof(LOW):
+        case indexof(LOLO):
+        case indexof(LALM):
+        case indexof(ALST):
+        case indexof(MLST):
+            pcd->lower_ctrl_limit = prec->lopr;
+            pcd->upper_ctrl_limit = prec->hopr;
+            break;
+        case indexof(ODLY):
+            pcd->lower_ctrl_limit = 0.0;
+            pcd->upper_ctrl_limit = calcoutODLYlimit;
+            break;
+        default:
+            recGblGetControlDouble(paddr,pcd);
     }
-
-    if (paddr->pfield >= (void *)&prec->a &&
-        paddr->pfield <= (void *)&prec->l) {
-        pcd->upper_ctrl_limit = prec->hopr;
-        pcd->lower_ctrl_limit = prec->lopr;
-        return 0;
-    }
-    if (paddr->pfield >= (void *)&prec->la &&
-        paddr->pfield <= (void *)&prec->ll) {
-        pcd->upper_ctrl_limit = prec->hopr;
-        pcd->lower_ctrl_limit = prec->lopr;
-        return 0;
-    }
-    recGblGetControlDouble(paddr, pcd);
     return 0;
 }
 
 static long get_alarm_double(DBADDR *paddr, struct dbr_alDouble *pad)
 {
     calcoutRecord *prec = (calcoutRecord *)paddr->precord;
+    int fieldIndex = dbGetFieldIndex(paddr);
+    int linkNumber;
 
-    if (paddr->pfield == (void *)&prec->val) {
+    if (fieldIndex == indexof(VAL)) {
         pad->upper_alarm_limit = prec->hhsv ? prec->hihi : epicsNAN;
         pad->upper_warning_limit = prec->hsv ? prec->high : epicsNAN;
         pad->lower_warning_limit = prec->lsv ? prec->low : epicsNAN;
         pad->lower_alarm_limit = prec->llsv ? prec->lolo : epicsNAN;
     } else {
-        recGblGetAlarmDouble(paddr, pad);
+        linkNumber = get_linkNumber(fieldIndex);
+        if (linkNumber >= 0) {
+            dbGetAlarmLimits(&prec->inpa + linkNumber,
+                &pad->lower_alarm_limit,
+                &pad->lower_warning_limit,
+                &pad->upper_warning_limit,
+                &pad->upper_alarm_limit);
+        } else
+            recGblGetAlarmDouble(paddr, pad);
     }
     return 0;
 }
@@ -471,7 +526,7 @@ static void checkAlarms(calcoutRecord *prec)
     epicsEnum16 asev;
 
     if (prec->udf) {
-        recGblSetSevr(prec, UDF_ALARM, INVALID_ALARM);
+        recGblSetSevr(prec, UDF_ALARM, prec->udfs);
         return;
     }
 
@@ -522,8 +577,6 @@ static void checkAlarms(calcoutRecord *prec)
 
 static void execOutput(calcoutRecord *prec)
 {
-    long status;
-
     /* Determine output data */
     switch(prec->dopt) {
     case calcoutDOPT_Use_VAL:
@@ -538,37 +591,30 @@ static void execOutput(calcoutRecord *prec)
         break;
     }
     if (prec->udf){
-        recGblSetSevr(prec, UDF_ALARM, INVALID_ALARM);
+        recGblSetSevr(prec, UDF_ALARM, prec->udfs);
     }
 
     /* Check to see what to do if INVALID */
     if (prec->nsev < INVALID_ALARM ) {
         /* Output the value */
-        status = writeValue(prec);
-        /* post event if output event != 0 */
-        if (prec->oevt > 0) {
-            post_event((int)prec->oevt);
-        }
+        writeValue(prec);
+        /* post output event if set */
+        if (prec->epvt) postEvent(prec->epvt);
     } else switch (prec->ivoa) {
         case menuIvoaContinue_normally:
-            status = writeValue(prec);
-            /* post event if output event != 0 */
-            if (prec->oevt > 0) {
-                post_event((int)prec->oevt);
-            }
+            writeValue(prec);
+            /* post output event if set */
+            if (prec->epvt) postEvent(prec->epvt);
             break;
         case menuIvoaDon_t_drive_outputs:
             break;
         case menuIvoaSet_output_to_IVOV:
             prec->oval = prec->ivov;
-            status = writeValue(prec);
-            /* post event if output event != 0 */
-            if (prec->oevt > 0) {
-                post_event((int)prec->oevt);
-            }
+            writeValue(prec);
+            /* post output event if set */
+            if (prec->epvt) postEvent(prec->epvt);
             break;
         default:
-            status = -1;
             recGblRecordError(S_db_badField, (void *)prec,
                               "calcout:process Illegal IVOA field");
     }

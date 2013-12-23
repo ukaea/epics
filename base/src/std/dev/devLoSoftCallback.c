@@ -25,8 +25,6 @@
 #include "recSup.h"
 #include "devSup.h"
 #include "longoutRecord.h"
-
-#define epicsExportSharedSymbols
 #include "epicsExport.h"
 
 /* Create the dset for devLoSoftCallback */

@@ -7,7 +7,7 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 
-/* Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd
+/* $Revision-Id$
  *
  *      Original Authors: Bob Dalesio and Matthew Needes
  *      Date: 10-08-93
@@ -23,8 +23,6 @@
 #include "recGbl.h"
 #include "devSup.h"
 #include "mbbiDirectRecord.h"
-
-#define epicsExportSharedSymbols
 #include "epicsExport.h"
 
 /* Create the dset for devMbbiDirectSoft */

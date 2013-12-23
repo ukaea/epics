@@ -38,583 +38,1329 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="aaiRecord.c" />
-    <ClCompile Include="aaoRecord.c" />
-    <ClCompile Include="aiRecord.c" />
-    <ClCompile Include="aoRecord.c" />
-    <ClCompile Include="aSubRecord.c" />
-    <ClCompile Include="biRecord.c" />
-    <ClCompile Include="boRecord.c" />
-    <ClCompile Include="calcoutRecord.c" />
-    <ClCompile Include="calcRecord.c" />
-    <ClCompile Include="compressRecord.c" />
-    <ClCompile Include="dfanoutRecord.c" />
-    <ClCompile Include="eventRecord.c" />
-    <ClCompile Include="fanoutRecord.c" />
-    <ClCompile Include="histogramRecord.c" />
-    <ClCompile Include="longinRecord.c" />
-    <ClCompile Include="longoutRecord.c" />
-    <ClCompile Include="mbbiDirectRecord.c" />
-    <ClCompile Include="mbbiRecord.c" />
-    <ClCompile Include="mbboDirectRecord.c" />
-    <ClCompile Include="mbboRecord.c" />
-    <ClCompile Include="permissiveRecord.c" />
-    <ClCompile Include="selRecord.c" />
-    <ClCompile Include="seqRecord.c" />
-    <ClCompile Include="stateRecord.c" />
-    <ClCompile Include="stringinRecord.c" />
-    <ClCompile Include="stringoutRecord.c" />
-    <ClCompile Include="subArrayRecord.c" />
-    <ClCompile Include="subRecord.c" />
-    <ClCompile Include="waveformRecord.c" />
+    <ClCompile Include="dev\asSubRecordFunctions.c" />
+    <ClCompile Include="dev\devAaiSoft.c" />
+    <ClCompile Include="dev\devAaoSoft.c" />
+    <ClCompile Include="dev\devAiSoft.c" />
+    <ClCompile Include="dev\devAiSoftCallback.c" />
+    <ClCompile Include="dev\devAiSoftRaw.c" />
+    <ClCompile Include="dev\devAoSoft.c" />
+    <ClCompile Include="dev\devAoSoftCallback.c" />
+    <ClCompile Include="dev\devAoSoftRaw.c" />
+    <ClCompile Include="dev\devBiDbState.c" />
+    <ClCompile Include="dev\devBiSoft.c" />
+    <ClCompile Include="dev\devBiSoftCallback.c" />
+    <ClCompile Include="dev\devBiSoftRaw.c" />
+    <ClCompile Include="dev\devBoDbState.c" />
+    <ClCompile Include="dev\devBoSoft.c" />
+    <ClCompile Include="dev\devBoSoftCallback.c" />
+    <ClCompile Include="dev\devBoSoftRaw.c" />
+    <ClCompile Include="dev\devCalcoutSoft.c" />
+    <ClCompile Include="dev\devCalcoutSoftCallback.c" />
+    <ClCompile Include="dev\devEventSoft.c" />
+    <ClCompile Include="dev\devGeneralTime.c" />
+    <ClCompile Include="dev\devHistogramSoft.c" />
+    <ClCompile Include="dev\devLiSoft.c" />
+    <ClCompile Include="dev\devLiSoftCallback.c" />
+    <ClCompile Include="dev\devLoSoft.c" />
+    <ClCompile Include="dev\devLoSoftCallback.c" />
+    <ClCompile Include="dev\devMbbiDirectSoft.c" />
+    <ClCompile Include="dev\devMbbiDirectSoftCallback.c" />
+    <ClCompile Include="dev\devMbbiDirectSoftRaw.c" />
+    <ClCompile Include="dev\devMbbiSoft.c" />
+    <ClCompile Include="dev\devMbbiSoftCallback.c" />
+    <ClCompile Include="dev\devMbbiSoftRaw.c" />
+    <ClCompile Include="dev\devMbboDirectSoft.c" />
+    <ClCompile Include="dev\devMbboDirectSoftCallback.c" />
+    <ClCompile Include="dev\devMbboDirectSoftRaw.c" />
+    <ClCompile Include="dev\devMbboSoft.c" />
+    <ClCompile Include="dev\devMbboSoftCallback.c" />
+    <ClCompile Include="dev\devMbboSoftRaw.c" />
+    <ClCompile Include="dev\devSASoft.c" />
+    <ClCompile Include="dev\devSiSoft.c" />
+    <ClCompile Include="dev\devSiSoftCallback.c" />
+    <ClCompile Include="dev\devSoSoft.c" />
+    <ClCompile Include="dev\devSoSoftCallback.c" />
+    <ClCompile Include="dev\devSoStdio.c" />
+    <ClCompile Include="dev\devTimestamp.c" />
+    <ClCompile Include="dev\devWfSoft.c" />
+    <ClCompile Include="filters\arr.c" />
+    <ClCompile Include="filters\dbnd.c" />
+    <ClCompile Include="filters\sync.c" />
+    <ClCompile Include="filters\ts.c" />
+    <ClCompile Include="rec\aaiRecord.c" />
+    <ClCompile Include="rec\aaoRecord.c" />
+    <ClCompile Include="rec\aiRecord.c" />
+    <ClCompile Include="rec\aoRecord.c" />
+    <ClCompile Include="rec\aSubRecord.c" />
+    <ClCompile Include="rec\biRecord.c" />
+    <ClCompile Include="rec\boRecord.c" />
+    <ClCompile Include="rec\calcoutRecord.c" />
+    <ClCompile Include="rec\calcRecord.c" />
+    <ClCompile Include="rec\compressRecord.c" />
+    <ClCompile Include="rec\dfanoutRecord.c" />
+    <ClCompile Include="rec\eventRecord.c" />
+    <ClCompile Include="rec\fanoutRecord.c" />
+    <ClCompile Include="rec\histogramRecord.c" />
+    <ClCompile Include="rec\longinRecord.c" />
+    <ClCompile Include="rec\longoutRecord.c" />
+    <ClCompile Include="rec\mbbiDirectRecord.c" />
+    <ClCompile Include="rec\mbbiRecord.c" />
+    <ClCompile Include="rec\mbboDirectRecord.c" />
+    <ClCompile Include="rec\mbboRecord.c" />
+    <ClCompile Include="rec\permissiveRecord.c" />
+    <ClCompile Include="rec\selRecord.c" />
+    <ClCompile Include="rec\seqRecord.c" />
+    <ClCompile Include="rec\stateRecord.c" />
+    <ClCompile Include="rec\stringinRecord.c" />
+    <ClCompile Include="rec\stringoutRecord.c" />
+    <ClCompile Include="rec\subArrayRecord.c" />
+    <ClCompile Include="rec\subRecord.c" />
+    <ClCompile Include="rec\waveformRecord.c" />
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="aaiRecord.dbd">
+    <CustomBuild Include="rec\aaiRecord.dbd">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">O.Common\%(Filename).h</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
-    <CustomBuild Include="aaoRecord.dbd">
+    <CustomBuild Include="rec\aaoRecord.dbd">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">O.Common\%(Filename).h</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
-    <CustomBuild Include="aiRecord.dbd">
+    <CustomBuild Include="rec\aiRecord.dbd">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">O.Common\%(Filename).h</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
-    <CustomBuild Include="aoRecord.dbd">
+    <CustomBuild Include="rec\aoRecord.dbd">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">O.Common\%(Filename).h</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
-    <CustomBuild Include="aSubRecord.dbd">
+    <CustomBuild Include="rec\aSubRecord.dbd">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">O.Common\%(Filename).h</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
-    <CustomBuild Include="biRecord.dbd">
+    <CustomBuild Include="rec\biRecord.dbd">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">O.Common\%(Filename).h</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
-    <CustomBuild Include="boRecord.dbd">
+    <CustomBuild Include="rec\boRecord.dbd">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">O.Common\%(Filename).h</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
-    <CustomBuild Include="calcoutRecord.dbd">
+    <CustomBuild Include="rec\calcoutRecord.dbd">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">O.Common\%(Filename).h</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
-    <CustomBuild Include="calcRecord.dbd">
+    <CustomBuild Include="rec\calcRecord.dbd">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">O.Common\%(Filename).h</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
-    <CustomBuild Include="compressRecord.dbd">
+    <CustomBuild Include="rec\compressRecord.dbd">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">O.Common\%(Filename).h</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
-    <CustomBuild Include="dfanoutRecord.dbd">
+    <CustomBuild Include="rec\dfanoutRecord.dbd">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">O.Common\%(Filename).h</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
-    <CustomBuild Include="eventRecord.dbd">
+    <CustomBuild Include="rec\eventRecord.dbd">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">O.Common\%(Filename).h</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
-    <CustomBuild Include="fanoutRecord.dbd">
+    <CustomBuild Include="rec\fanoutRecord.dbd">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">O.Common\%(Filename).h</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
-    <CustomBuild Include="histogramRecord.dbd">
+    <CustomBuild Include="rec\histogramRecord.dbd">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">O.Common\%(Filename).h</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
-    <CustomBuild Include="longinRecord.dbd">
+    <CustomBuild Include="rec\longinRecord.dbd">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">O.Common\%(Filename).h</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
-    <CustomBuild Include="longoutRecord.dbd">
+    <CustomBuild Include="rec\longoutRecord.dbd">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">O.Common\%(Filename).h</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
-    <CustomBuild Include="mbbiDirectRecord.dbd">
+    <CustomBuild Include="rec\mbbiDirectRecord.dbd">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">O.Common\%(Filename).h</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
-    <CustomBuild Include="mbbiRecord.dbd">
+    <CustomBuild Include="rec\mbbiRecord.dbd">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">O.Common\%(Filename).h</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
-    <CustomBuild Include="mbboDirectRecord.dbd">
+    <CustomBuild Include="rec\mbboDirectRecord.dbd">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">O.Common\%(Filename).h</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
-    <CustomBuild Include="mbboRecord.dbd">
+    <CustomBuild Include="rec\mbboRecord.dbd">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">O.Common\%(Filename).h</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
-    <CustomBuild Include="permissiveRecord.dbd">
+    <CustomBuild Include="rec\permissiveRecord.dbd">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">O.Common\%(Filename).h</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
-    <CustomBuild Include="selRecord.dbd">
+    <CustomBuild Include="rec\selRecord.dbd">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">O.Common\%(Filename).h</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
-    <CustomBuild Include="seqRecord.dbd">
+    <CustomBuild Include="rec\seqRecord.dbd">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">O.Common\%(Filename).h</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
-    <CustomBuild Include="stateRecord.dbd">
+    <CustomBuild Include="rec\stateRecord.dbd">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">O.Common\%(Filename).h</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
-    <CustomBuild Include="stringinRecord.dbd">
+    <CustomBuild Include="rec\stringinRecord.dbd">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">O.Common\%(Filename).h</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
-    <CustomBuild Include="stringoutRecord.dbd">
+    <CustomBuild Include="rec\stringoutRecord.dbd">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">O.Common\%(Filename).h</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
-    <CustomBuild Include="subArrayRecord.dbd">
+    <CustomBuild Include="rec\subArrayRecord.dbd">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">O.Common\%(Filename).h</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
-    <CustomBuild Include="subRecord.dbd">
+    <CustomBuild Include="rec\subRecord.dbd">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">O.Common\%(Filename).h</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
-    <CustomBuild Include="waveformRecord.dbd">
+    <CustomBuild Include="rec\waveformRecord.dbd">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">O.Common\%(Filename).h</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">cd rec
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">O.Common\%(Filename).h</Outputs>
@@ -622,21 +1368,103 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ioc\dbStatic\dbToRecordTypeH.vcxproj">
+    <ProjectReference Include="..\ioc\dbCore.vcxproj">
+      <Project>{440c585d-ad66-4738-941c-a87a1817a9be}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\ioc\dbStatic\dbToRecordTypeH.vcxproj">
       <Project>{79e5a43c-7673-47f8-8139-50aea5688464}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\libCom\Com.vcxproj">
+    <ProjectReference Include="..\libCom\Com.vcxproj">
       <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\ioc\registry\registryIoc.vcxproj">
-      <Project>{6803a521-1ea0-409f-839c-b5902e07ae2e}</Project>
-    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="dev\devSoft.dbd">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">O.Common\%(Filename).h</Outputs>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">true</ExcludedFromBuild>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="filters\filters.dbd">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">cd filters
+perl -CSD $(OutDir)dbdToMenuH.pl  -I../O.Common -I$(SolutionDir)include -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">cd filters
+perl -CSD $(OutDir)dbdToMenuH.pl  -I../O.Common -I$(SolutionDir)include -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">cd filters
+perl -CSD $(OutDir)dbdToMenuH.pl  -I../O.Common -I$(SolutionDir)include -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">cd filters
+perl -CSD $(OutDir)dbdToMenuH.pl  -I../O.Common -I$(SolutionDir)include -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">cd filters
+perl -CSD $(OutDir)dbdToMenuH.pl  -I../O.Common -I$(SolutionDir)include -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">cd filters
+perl -CSD $(OutDir)dbdToMenuH.pl  -I../O.Common -I$(SolutionDir)include -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">cd filters
+perl -CSD $(OutDir)dbdToMenuH.pl  -I../O.Common -I$(SolutionDir)include -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">cd filters
+perl -CSD $(OutDir)dbdToMenuH.pl  -I../O.Common -I$(SolutionDir)include -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">O.Common\%(FileName).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">O.Common\%(FileName).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">O.Common\%(FileName).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">O.Common\%(FileName).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">O.Common\%(FileName).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">O.Common\%(FileName).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">O.Common\%(FileName).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">O.Common\%(FileName).h</Outputs>
+    </CustomBuild>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{DAF5E565-164F-4230-AECB-8A5B67336263}</ProjectGuid>
+    <ProjectGuid>{3B0E3542-CB89-4FFA-B004-EAC882B3F277}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>rec</RootNamespace>
-    <SccProjectName>"$/EPICS/base/src/std/rec", EODCAAAA</SccProjectName>
+    <SccProjectName>"$/EPICS/base/src/std", NNDCAAAA</SccProjectName>
     <SccLocalPath>.</SccLocalPath>
     <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
   </PropertyGroup>
@@ -760,7 +1588,8 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
-xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R dev\*.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R rec\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -788,7 +1617,8 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
-xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R dev\*.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R rec\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -815,7 +1645,8 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
-xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R dev\*.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R rec\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -843,7 +1674,8 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
-xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R dev\*.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R rec\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -867,7 +1699,8 @@ xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
-xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R dev\*.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R rec\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -897,7 +1730,8 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
-xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R dev\*.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R rec\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -926,7 +1760,8 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
-xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R dev\*.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R rec\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -956,7 +1791,8 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
-xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R dev\*.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R rec\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>

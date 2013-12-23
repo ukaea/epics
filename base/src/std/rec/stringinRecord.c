@@ -7,7 +7,7 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 
-/* Revision-Id: anj@aps.anl.gov-20121116184057-shgcrp2w3i9f82w6 */
+/* $Revision-Id$ */
 
 /* recStringin.c - Record Support Routines for Stringin records */
 /*
@@ -33,8 +33,6 @@
 #include "recSup.h"
 #include "recGbl.h"
 #include "menuYesNo.h"
-
-#define epicsExportSharedSymbols
 #define GEN_SIZE_OFFSET
 #include "stringinRecord.h"
 #undef  GEN_SIZE_OFFSET

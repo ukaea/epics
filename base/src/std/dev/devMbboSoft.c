@@ -8,7 +8,7 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 /* devMbboSoft.c */
-/* base/src/dev Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd */
+/* base/src/dev $Revision-Id$ */
 /*
  *      Original Author: Bob Dalesio
  *      Current Author:  Marty Kraimer
@@ -25,8 +25,6 @@
 #include "recSup.h"
 #include "devSup.h"
 #include "mbboRecord.h"
-
-#define epicsExportSharedSymbols
 #include "epicsExport.h"
 
 /* Create the dset for devMbboSoft */
@@ -51,19 +49,13 @@ epicsExportAddress(dset,devMbboSoft);
 
 static long init_record(mbboRecord *prec)
 {
- 
-    long status=0;
- 
     /*dont convert*/
-    status=2;
-    return status;
+    return 2;
  
 } /* end init_record() */
 
 static long write_mbbo(mbboRecord *prec)
 {
-    long status;
-
-    status = dbPutLink(&prec->out,DBR_USHORT, &prec->val,1);
-    return(0);
+    dbPutLink(&prec->out,DBR_USHORT, &prec->val,1);
+    return 0;
 }
