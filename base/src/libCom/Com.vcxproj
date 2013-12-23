@@ -62,44 +62,8 @@
     <ClCompile Include="misc\epicsUnitTest.c" />
     <ClCompile Include="misc\ipAddrToAsciiAsynchronous.cpp" />
     <ClCompile Include="misc\truncateFile.c" />
-    <ClCompile Include="O.win32-x86-debug\envData.c">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|X64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="O.win32-x86-debug\errSymTbl.c">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|X64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="O.win32-x86\envData.c">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="O.win32-x86\errSymTbl.c">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="O.windows-x64-debug\envData.c">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|X64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="O.windows-x64-debug\errSymTbl.c">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|X64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="O.windows-x64\envData.c">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="O.windows-x64\errSymTbl.c">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
+    <ClCompile Include="O.Common\envData.c" />
+    <ClCompile Include="O.Common\errSymTbl.c" />
     <ClCompile Include="osi\devLibVME.c" />
     <ClCompile Include="osi\epicsEvent.cpp" />
     <ClCompile Include="osi\epicsGeneralTime.c" />
@@ -280,50 +244,50 @@
   <ItemGroup>
     <None Include="cxxTemplates\README" />
     <CustomBuild Include="env\bldEnvData.pl">
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(IntDir)
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd O.Common
 perl ..\env\bldEnvData.pl $(SolutionDir)configure
 cd $(ProjectDir)
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">cd $(IntDir)
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">cd O.Common
 perl ..\env\bldEnvData.pl $(SolutionDir)configure
 cd $(ProjectDir)
 </Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)envdata.c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">$(IntDir)envdata.c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\envdata.c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\envdata.c</Outputs>
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(IntDir)
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd O.Common
 perl ..\env\bldEnvData.pl $(SolutionDir)configure
 cd $(ProjectDir)
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|X64'">cd $(IntDir)
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|X64'">cd O.Common
 perl ..\env\bldEnvData.pl $(SolutionDir)configure
 cd $(ProjectDir)
 </Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)envdata.c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|X64'">$(IntDir)envdata.c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">O.Common\envdata.c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|X64'">O.Common\envdata.c</Outputs>
     </CustomBuild>
     <CustomBuild Include="error\makeStatTbl.pl">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(IntDir)
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd O.Common
 perl ../../../src/libCom/error/makeStatTbl.pl  ../../../src/libCom/osi/devLib.h ../../../src/as/asLib.h ../../../src/db/dbAccessDefs.h ../../../src/dbStatic/devSup.h ../../../src/dbStatic/drvSup.h ../../../src/dbStatic/recSup.h ../../../src/dbStatic/dbStaticLib.h ../../../src/libCom/error/errMdef.h ../../../src/cas/generic/casdef.h ../../../src/gdd/gddAppFuncTable.h
 cd $(ProjectDir)
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">cd $(IntDir)
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">cd O.Common
 perl ../../../src/libCom/error/makeStatTbl.pl  ../../../src/libCom/osi/devLib.h ../../../src/as/asLib.h ../../../src/db/dbAccessDefs.h ../../../src/dbStatic/devSup.h ../../../src/dbStatic/drvSup.h ../../../src/dbStatic/recSup.h ../../../src/dbStatic/dbStaticLib.h ../../../src/libCom/error/errMdef.h ../../../src/cas/generic/casdef.h ../../../src/gdd/gddAppFuncTable.h
 cd $(ProjectDir)
 </Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)errSymTbl.c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">$(IntDir)errSymTbl.c</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(IntDir)
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\errSymTbl.c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\errSymTbl.c</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd O.Common
 perl ../../../src/libCom/error/makeStatTbl.pl  ../../../src/libCom/osi/devLib.h ../../../src/as/asLib.h ../../../src/db/dbAccessDefs.h ../../../src/dbStatic/devSup.h ../../../src/dbStatic/drvSup.h ../../../src/dbStatic/recSup.h ../../../src/dbStatic/dbStaticLib.h ../../../src/libCom/error/errMdef.h ../../../src/cas/generic/casdef.h ../../../src/gdd/gddAppFuncTable.h
 cd $(ProjectDir)
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|X64'">cd $(IntDir)
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|X64'">cd O.Common
 perl ../../../src/libCom/error/makeStatTbl.pl  ../../../src/libCom/osi/devLib.h ../../../src/as/asLib.h ../../../src/db/dbAccessDefs.h ../../../src/dbStatic/devSup.h ../../../src/dbStatic/drvSup.h ../../../src/dbStatic/recSup.h ../../../src/dbStatic/dbStaticLib.h ../../../src/libCom/error/errMdef.h ../../../src/cas/generic/casdef.h ../../../src/gdd/gddAppFuncTable.h
 cd $(ProjectDir)
 </Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)errSymTbl.c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|X64'">$(IntDir)errSymTbl.c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">O.Common\errSymTbl.c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|X64'">O.Common\errSymTbl.c</Outputs>
     </CustomBuild>
     <None Include="freeList\freeList.html" />
     <None Include="gpHash\gpHash.html" />
@@ -435,6 +399,7 @@ cd $(ProjectDir)
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
 if not exist  $(SolutionDir)include\os md  $(SolutionDir)include\os
 if not exist  $(SolutionDir)include\os\WIN32 md  $(SolutionDir)include\os\WIN32
+if not exist O.Common md O.Common
 xcopy /Y /Q  /D misc\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q  /D osi\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q  /D env\*.h   $(SolutionDir)include &gt; NUL
@@ -490,6 +455,7 @@ xcopy /Y /Q  /D osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
 if not exist  $(SolutionDir)include\os md  $(SolutionDir)include\os
 if not exist  $(SolutionDir)include\os\WIN32 md  $(SolutionDir)include\os\WIN32
+if not exist O.Common md O.Common
 xcopy /Y /Q  /D misc\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q  /D osi\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q  /D env\*.h   $(SolutionDir)include &gt; NUL
@@ -543,6 +509,7 @@ xcopy /Y /Q  /D osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
 if not exist  $(SolutionDir)include\os md  $(SolutionDir)include\os
 if not exist  $(SolutionDir)include\os\WIN32 md  $(SolutionDir)include\os\WIN32
+if not exist O.Common md O.Common
 xcopy /Y /Q  /D misc\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q  /D osi\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q  /D env\*.h   $(SolutionDir)include &gt; NUL
@@ -596,6 +563,7 @@ xcopy /Y /Q  /D osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
 if not exist  $(SolutionDir)include\os md  $(SolutionDir)include\os
 if not exist  $(SolutionDir)include\os\WIN32 md  $(SolutionDir)include\os\WIN32
+if not exist O.Common md O.Common
 xcopy /Y /Q  /D misc\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q  /D osi\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q  /D env\*.h   $(SolutionDir)include &gt; NUL
