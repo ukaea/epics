@@ -12,11 +12,13 @@
  */
 
 #include "epicsUnitTest.h"
+#include "testMain.h"
 
 #define testOk1_success 1
 #define testOk1_failure 0
 
-int main (void) {
+MAIN(UnitTestTest)
+{
     testPlan(11);
     testOk(1, "testOk(1)");
     testOk(0, "testOk(0)");
