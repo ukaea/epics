@@ -26,7 +26,6 @@
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -41,6 +40,10 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>..\..\Bin\win32-x86-debug\</OutDir>
     <IntDir>.\O.win32-x86-debug\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>..\Bin\win32-x86\</OutDir>
+    <IntDir>.\O.win32-x86\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -62,7 +65,6 @@ xcopy /Y /Q  /D pvMisc\*.h ..\..\include\pv &gt; NUL
 xcopy /Y /Q  /D property\*.h ..\..\include\pv &gt; NUL
 xcopy /Y /Q  /D factory\*.h ..\..\include\pv &gt; NUL
 xcopy /Y /Q  /D monitor\*.h ..\..\include\pv &gt; NUL
-
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -81,6 +83,17 @@ xcopy /Y /Q  /D monitor\*.h ..\..\include\pv &gt; NUL
       <OptimizeReferences>true</OptimizeReferences>
       <SubSystem>Windows</SubSystem>
     </Link>
+    <PreBuildEvent>
+      <Command>if not exist ..\..\include md ..\..\include
+if not exist ..\..\include\pv md ..\..\include\pv
+xcopy /Y /Q  /D pv\*.h ..\..\include\pv &gt; NUL
+xcopy /Y /Q  /D misc\*.h ..\..\include\pv &gt; NUL
+xcopy /Y /Q  /D pvMisc\*.h ..\..\include\pv &gt; NUL
+xcopy /Y /Q  /D property\*.h ..\..\include\pv &gt; NUL
+xcopy /Y /Q  /D factory\*.h ..\..\include\pv &gt; NUL
+xcopy /Y /Q  /D monitor\*.h ..\..\include\pv &gt; NUL
+</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="factory\Compare.cpp" />
