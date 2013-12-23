@@ -13,7 +13,7 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Auto-generated files">
+    <Filter Include="O.Common files">
       <UniqueIdentifier>{b2a60c7e-b809-4416-817a-f507fce49ee3}</UniqueIdentifier>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
@@ -22,11 +22,8 @@
     <ClCompile Include="softMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="O.win32-x86-debug\softIoc_registerRecordDeviceDriver.cpp">
-      <Filter>Auto-generated files</Filter>
-    </ClCompile>
-    <ClCompile Include="O.win32-x86\softIoc_registerRecordDeviceDriver.cpp">
-      <Filter>Auto-generated files</Filter>
+    <ClCompile Include="O.Common\softIoc_registerRecordDeviceDriver.cpp">
+      <Filter>O.Common files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
