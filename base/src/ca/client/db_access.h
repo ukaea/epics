@@ -27,8 +27,9 @@
 
 #ifdef INCLdb_accessh_epicsExportSharedSymbols
 #   define epicsExportSharedSymbols
-#   include "shareLib.h"
+#	undef INCLdb_accessh_epicsExportSharedSymbols
 #endif
+#   include "shareLib.h"
 
 
 #ifdef __cplusplus

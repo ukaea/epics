@@ -25,6 +25,9 @@
     <ProjectGuid>{5C5BE6F0-E25F-49B8-8718-D2F7E7A79369}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>pvMB</RootNamespace>
+    <SccProjectName>"$/EPICS", LRZBAAAA</SccProjectName>
+    <SccLocalPath>..\..\..</SccLocalPath>
+    <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -68,6 +71,16 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PreBuildEvent>
+      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
+if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
+xcopy /Y /Q  /D *.h $(SolutionDir)include\pv &gt; NUL
+cd ..\..\boostApp\boost
+bootstrap.bat &gt; NUL
+b2.exe &gt; NUL
+cd $(ProjectDir)
+</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -86,6 +99,16 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>..\..\boostApp\boost\stage\lib</AdditionalLibraryDirectories>
     </Link>
+    <PreBuildEvent>
+      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
+if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
+xcopy /Y /Q  /D *.h $(SolutionDir)include\pv &gt; NUL
+cd ..\..\boostApp\boost
+bootstrap.bat &gt; NUL
+b2.exe &gt; NUL
+cd $(ProjectDir)
+</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
