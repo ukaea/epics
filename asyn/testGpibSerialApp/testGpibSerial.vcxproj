@@ -58,7 +58,7 @@
     <ProjectGuid>{1C2C975D-FA4B-4D13-A4F5-ACD1AC1AEAAE}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>testAsynPortDriverApp</RootNamespace>
-    <SccProjectName>"$/EPICS/asyn/testApp", ORDCAAAA</SccProjectName>
+    <SccProjectName>"$/EPICS/asyn/testGpibSerialApp", DWECAAAA</SccProjectName>
     <SccLocalPath>.</SccLocalPath>
     <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
   </PropertyGroup>
