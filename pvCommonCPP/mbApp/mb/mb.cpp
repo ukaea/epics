@@ -23,12 +23,21 @@
 
 MBMutexInitializer mbStaticMutexInitializer; // Note object here in the header.
 
+// TODO clean this up
+#if defined(__APPLE__)
+#include <mach/mach_time.h>
+uint64_t MBTime()
+{
+    return mach_absolute_time();
+}
+#else
 uint64_t MBTime()
 {
 	epicsTimeStamp TimeStamp;
 	epicsTimeGetCurrent(&TimeStamp);
 	return TimeStamp.secPastEpoch * 1000000000 + TimeStamp.nsec;
 }
+#endif
 
 #ifdef vxWorks
 #include <taskLib.h>
