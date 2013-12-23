@@ -345,7 +345,7 @@ void testScalar(std::ostream& ofile) {
     		std::tr1::static_pointer_cast<PVFloat>(factory->createPVScalar(epics::pvData::pvFloat));
     pvFloat->put(0);
     serializationTest(pvFloat);
-    pvFloat->put(12.345);
+    pvFloat->put(12.345f);
     serializationTest(pvFloat);
     pvFloat->put(FLOAT_MAX_VALUE);
     serializationTest(pvFloat);

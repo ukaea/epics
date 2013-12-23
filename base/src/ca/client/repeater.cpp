@@ -512,7 +512,7 @@ void ca_repeater ()
     pBuf = new char [MAX_UDP_RECV];
 
     {
-        bool success = osiSockAttach();
+        bool success = (osiSockAttach() != 0);
         assert ( success );
     }
 
