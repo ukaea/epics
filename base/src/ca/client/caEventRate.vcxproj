@@ -53,9 +53,12 @@
     <ProjectGuid>{81908E69-60C8-48F8-99FA-EE73DD9E3787}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>caEventRate</RootNamespace>
-    <SccProjectName>"$/EPICS/base", NNCCAAAA</SccProjectName>
-    <SccLocalPath>..\..</SccLocalPath>
-    <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'" Label="Configuration">

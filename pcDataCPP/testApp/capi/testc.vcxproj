@@ -54,9 +54,12 @@
     <ProjectGuid>{67BBDD19-4012-49B7-AE15-A8C694C281D8}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>capi</RootNamespace>
-    <SccProjectName>"$/EPICS", LRZBAAAA</SccProjectName>
-    <SccLocalPath>..\..\..</SccLocalPath>
-    <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'" Label="Configuration">

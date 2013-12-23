@@ -40,9 +40,12 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{F4A51415-2981-42EE-87C7-F29D5805583E}</ProjectGuid>
     <RootNamespace>pvDataApp</RootNamespace>
-    <SccProjectName>"$/EPICS", LRZBAAAA</SccProjectName>
-    <SccLocalPath>..\..</SccLocalPath>
-    <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'" Label="Configuration">

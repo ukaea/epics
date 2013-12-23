@@ -622,6 +622,9 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\dbStatic\dbToRecordTypeH.vcxproj">
+      <Project>{79e5a43c-7673-47f8-8139-50aea5688464}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\db\dbIoc.vcxproj">
       <Project>{2bc8e3ec-fa1e-4d66-896c-35e8dd69a7fd}</Project>
     </ProjectReference>
@@ -636,9 +639,12 @@
     <ProjectGuid>{DAF5E565-164F-4230-AECB-8A5B67336263}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>rec</RootNamespace>
-    <SccProjectName>"$/EPICS/base", NNCCAAAA</SccProjectName>
-    <SccLocalPath>..\..</SccLocalPath>
-    <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'" Label="Configuration">

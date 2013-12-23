@@ -40,10 +40,11 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{44ECEA7E-D805-49B6-8E89-62EC3994C1F3}</ProjectGuid>
     <RootNamespace>pvAccessApp</RootNamespace>
-    <SccProjectName>"$/EPICS", LRZBAAAA</SccProjectName>
-    <SccLocalPath>..\..</SccLocalPath>
-    <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
+    <SccProjectName>&lt;Project Location In Database&gt;</SccProjectName>
+    <SccLocalPath>&lt;Local Binding Root of Project&gt;</SccLocalPath>
+    <SccProvider>Mercurial Source Control Package</SccProvider>
     <ProjectName>pvAccess</ProjectName>
+    <SccAuxPath>&lt;Source Control Database&gt;</SccAuxPath>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'" Label="Configuration">

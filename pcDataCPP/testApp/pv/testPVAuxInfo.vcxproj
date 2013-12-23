@@ -52,9 +52,12 @@
     <ProjectGuid>{71459555-2EBD-4C45-88C6-41FA42DA2BAF}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>testBitSetUtil</RootNamespace>
-    <SccProjectName>"$/EPICS", LRZBAAAA</SccProjectName>
-    <SccLocalPath>..\..\..</SccLocalPath>
-    <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'" Label="Configuration">
