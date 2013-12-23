@@ -9,10 +9,116 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
+    <Filter Include="Header Files\gtest">
+      <UniqueIdentifier>{863c773e-a1ef-40d3-b018-c6f42d34351c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\gtest\internal">
+      <UniqueIdentifier>{e48b2309-4b9b-45eb-b745-eb38e14b53ff}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\gtest-all.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\gtest.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\gtest-death-test.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\gtest-filepath.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\gtest-port.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\gtest-printers.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\gtest-test-part.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\gtest-typed-test.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\gtest\gtest-death-test.h">
+      <Filter>Header Files\gtest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gtest\gtest_prod.h">
+      <Filter>Header Files\gtest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gtest\gtest-message.h">
+      <Filter>Header Files\gtest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gtest\gtest-param-test.h">
+      <Filter>Header Files\gtest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gtest\gtest-printers.h">
+      <Filter>Header Files\gtest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gtest\gtest-spi.h">
+      <Filter>Header Files\gtest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gtest\gtest-test-part.h">
+      <Filter>Header Files\gtest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gtest\gtest-typed-test.h">
+      <Filter>Header Files\gtest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gtest\gtest.h">
+      <Filter>Header Files\gtest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gtest\gtest_pred_impl.h">
+      <Filter>Header Files\gtest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gtest\internal\gtest-death-test-internal.h">
+      <Filter>Header Files\gtest\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gtest\internal\gtest-filepath.h">
+      <Filter>Header Files\gtest\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gtest\internal\gtest-internal.h">
+      <Filter>Header Files\gtest\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gtest\internal\gtest-linked_ptr.h">
+      <Filter>Header Files\gtest\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gtest\internal\gtest-param-util.h">
+      <Filter>Header Files\gtest\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gtest\internal\gtest-param-util-generated.h">
+      <Filter>Header Files\gtest\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gtest\internal\gtest-port.h">
+      <Filter>Header Files\gtest\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gtest\internal\gtest-string.h">
+      <Filter>Header Files\gtest\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gtest\internal\gtest-tuple.h">
+      <Filter>Header Files\gtest\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gtest\internal\gtest-type-util.h">
+      <Filter>Header Files\gtest\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\gtest-internal-inl.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\include\gtest\gtest-param-test.h.pump">
+      <Filter>Header Files\gtest</Filter>
+    </None>
+    <None Include="..\include\gtest\internal\gtest-param-util-generated.h.pump">
+      <Filter>Header Files\gtest\internal</Filter>
+    </None>
+    <None Include="..\include\gtest\internal\gtest-tuple.h.pump">
+      <Filter>Header Files\gtest\internal</Filter>
+    </None>
+    <None Include="..\include\gtest\internal\gtest-type-util.h.pump">
+      <Filter>Header Files\gtest\internal</Filter>
+    </None>
   </ItemGroup>
 </Project>
