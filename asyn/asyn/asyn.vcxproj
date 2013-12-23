@@ -155,6 +155,7 @@
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
 if not exist O.Common md O.Common
 xcopy /Y /Q /D /R .\asynDriver\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R .\asynPortDriver\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\asynGpib\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\devEpics\*.h   $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\interfaces\*.h  $(SolutionDir)include &gt; NUL
@@ -187,6 +188,7 @@ xcopy /Y /Q  /D .\O.Common\*.h $(SolutionDir)include &gt; NUL
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
 if not exist O.Common md O.Common
 xcopy /Y /Q /D /R .\asynDriver\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R .\asynPortDriver\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\asynGpib\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\devEpics\*.h   $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\interfaces\*.h  $(SolutionDir)include &gt; NUL
@@ -219,6 +221,7 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
 if not exist O.Common md O.Common
 xcopy /Y /Q /D /R .\asynDriver\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R .\asynPortDriver\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\asynGpib\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\devEpics\*.h   $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\interfaces\*.h  $(SolutionDir)include &gt; NUL
@@ -251,6 +254,7 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
 if not exist O.Common md O.Common
 xcopy /Y /Q /D /R .\asynDriver\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R .\asynPortDriver\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\asynGpib\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\devEpics\*.h   $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\interfaces\*.h  $(SolutionDir)include &gt; NUL
@@ -291,6 +295,7 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
 if not exist O.Common md O.Common
 xcopy /Y /Q /D /R .\asynDriver\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R .\asynPortDriver\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\asynGpib\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\devEpics\*.h   $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\interfaces\*.h  $(SolutionDir)include &gt; NUL
@@ -326,6 +331,7 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
 if not exist O.Common md O.Common
 xcopy /Y /Q /D /R .\asynDriver\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R .\asynPortDriver\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\asynGpib\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\devEpics\*.h   $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\interfaces\*.h  $(SolutionDir)include &gt; NUL
@@ -361,6 +367,7 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
 if not exist O.Common md O.Common
 xcopy /Y /Q /D /R .\asynDriver\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R .\asynPortDriver\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\asynGpib\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\devEpics\*.h   $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\interfaces\*.h  $(SolutionDir)include &gt; NUL
@@ -396,6 +403,7 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
 if not exist O.Common md O.Common
 xcopy /Y /Q /D /R .\asynDriver\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R .\asynPortDriver\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\asynGpib\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\devEpics\*.h   $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\interfaces\*.h  $(SolutionDir)include &gt; NUL
