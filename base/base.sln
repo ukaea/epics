@@ -93,6 +93,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "asLib", "src\as\asLib.vcxpr
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "catools", "src\catools\catools.vcxproj", "{1F73649C-7543-4E39-87AB-50F0EFB03076}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "configure", "configure\configure.vcxproj", "{4B0CE8EE-60F4-44D7-8303-269032990B9B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tools", "src\tools\tools.vcxproj", "{5CCE1C6A-2BD5-48BF-99E2-D29B58F91991}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -283,6 +287,14 @@ Global
 		{1F73649C-7543-4E39-87AB-50F0EFB03076}.Debug|Win32.Build.0 = Debug|Win32
 		{1F73649C-7543-4E39-87AB-50F0EFB03076}.Release|Win32.ActiveCfg = Release|Win32
 		{1F73649C-7543-4E39-87AB-50F0EFB03076}.Release|Win32.Build.0 = Release|Win32
+		{4B0CE8EE-60F4-44D7-8303-269032990B9B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{4B0CE8EE-60F4-44D7-8303-269032990B9B}.Debug|Win32.Build.0 = Debug|Win32
+		{4B0CE8EE-60F4-44D7-8303-269032990B9B}.Release|Win32.ActiveCfg = Release|Win32
+		{4B0CE8EE-60F4-44D7-8303-269032990B9B}.Release|Win32.Build.0 = Release|Win32
+		{5CCE1C6A-2BD5-48BF-99E2-D29B58F91991}.Debug|Win32.ActiveCfg = Debug|Win32
+		{5CCE1C6A-2BD5-48BF-99E2-D29B58F91991}.Debug|Win32.Build.0 = Debug|Win32
+		{5CCE1C6A-2BD5-48BF-99E2-D29B58F91991}.Release|Win32.ActiveCfg = Release|Win32
+		{5CCE1C6A-2BD5-48BF-99E2-D29B58F91991}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

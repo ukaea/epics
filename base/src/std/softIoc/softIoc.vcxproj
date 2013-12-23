@@ -51,6 +51,9 @@
     <ProjectReference Include="..\rsrv\rsrvIoc.vcxproj">
       <Project>{4e710267-0bfe-4b15-b7ec-88270acb55e0}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\tools\tools.vcxproj">
+      <Project>{5cce1c6a-2bd5-48bf-99e2-d29b58f91991}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{0DF29C1B-6C17-4D60-8B78-27FE8714DC11}</ProjectGuid>
@@ -105,7 +108,8 @@
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 perl $(OutDir)makeIncludeDbd.pl base.dbd dlload.dbd system.dbd O.Common\softIocInclude.dbd
-perl $(OutDir)registerRecordDeviceDriver.pl O.Common/softIoc.dbd softIoc_registerRecordDeviceDriver $(OutDir)..\.. &gt; $(IntDir)softIoc_registerRecordDeviceDriver.cpp
+$(OutDir)dbExpand -I..\..\dbd -oO.Common\softIoc.dbd O.Common\softIocInclude.dbd
+perl $(OutDir)registerRecordDeviceDriver.pl O.Common\softIoc.dbd softIoc_registerRecordDeviceDriver $(SolutionDir) &gt; $(IntDir)softIoc_registerRecordDeviceDriver.cpp
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -128,7 +132,8 @@ perl $(OutDir)registerRecordDeviceDriver.pl O.Common/softIoc.dbd softIoc_registe
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 perl $(OutDir)makeIncludeDbd.pl base.dbd dlload.dbd system.dbd O.Common\softIocInclude.dbd
-perl $(OutDir)registerRecordDeviceDriver.pl O.Common/softIoc.dbd softIoc_registerRecordDeviceDriver $(SolutionDir) &gt; $(IntDir)softIoc_registerRecordDeviceDriver.cpp
+$(OutDir)dbExpand -I..\..\dbd -oO.Common\softIoc.dbd O.Common\softIocInclude.dbd
+perl $(OutDir)registerRecordDeviceDriver.pl O.Common\softIoc.dbd softIoc_registerRecordDeviceDriver $(SolutionDir) &gt; $(IntDir)softIoc_registerRecordDeviceDriver.cpp
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>

@@ -18,5 +18,13 @@
     <ClCompile Include="aitGen.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="aitTypes.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="aitTypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

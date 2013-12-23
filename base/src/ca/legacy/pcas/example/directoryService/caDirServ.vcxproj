@@ -25,6 +25,9 @@
       <Project>{1d35ffaf-078a-4a9f-8f63-d62e9c7b3928}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="directoryServer.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{7434CDA3-4071-4334-B31D-1DA2360CCBC6}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>

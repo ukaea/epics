@@ -12,14 +12,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="aitGen.c" />
+    <ClCompile Include="aitTypes.c" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\libCom\Com.vcxproj">
       <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
     </ProjectReference>
-    <ProjectReference Include="gdd.vcxproj">
-      <Project>{7db032ce-8696-4d7a-8679-e8b486012aec}</Project>
-    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="aitTypes.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{3C906C28-3E5E-429A-9DC9-FADD47DB579E}</ProjectGuid>
@@ -71,6 +72,10 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>if not exist O.Common md O.Common
+$(OutDir)aitGen.exe O.Common/aitConvertGenerated.cc</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>

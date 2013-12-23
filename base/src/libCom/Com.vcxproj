@@ -237,6 +237,11 @@ cd $(ProjectDir)
 </Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">envdata.c</Outputs>
       <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(IntDir)
+perl ..\env\bldEnvData.pl ../../../configure
+cd $(ProjectDir)
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">envdata.c</Outputs>
     </CustomBuild>
     <CustomBuild Include="error\makeStatTbl.pl">
       <FileType>Document</FileType>
@@ -244,7 +249,12 @@ cd $(ProjectDir)
 perl ../../../src/libCom/error/makeStatTbl.pl  ../../../src/libCom/osi/devLib.h ../../../src/as/asLib.h ../../../src/db/dbAccessDefs.h ../../../src/dbStatic/devSup.h ../../../src/dbStatic/drvSup.h ../../../src/dbStatic/recSup.h ../../../src/dbStatic/dbStaticLib.h ../../../src/libCom/error/errMdef.h ../../../src/cas/generic/casdef.h ../../../src/gdd/gddAppFuncTable.h
 cd $(ProjectDir)
 </Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">errSymTbl.c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)errSymTbl.c</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(IntDir)
+perl ../../../src/libCom/error/makeStatTbl.pl  ../../../src/libCom/osi/devLib.h ../../../src/as/asLib.h ../../../src/db/dbAccessDefs.h ../../../src/dbStatic/devSup.h ../../../src/dbStatic/drvSup.h ../../../src/dbStatic/recSup.h ../../../src/dbStatic/dbStaticLib.h ../../../src/libCom/error/errMdef.h ../../../src/cas/generic/casdef.h ../../../src/gdd/gddAppFuncTable.h
+cd $(ProjectDir)
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)errSymTbl.c</Outputs>
     </CustomBuild>
     <None Include="freeList\freeList.html" />
     <None Include="gpHash\gpHash.html" />
@@ -252,8 +262,12 @@ cd $(ProjectDir)
     <None Include="macLib\macLibREADME" />
     <CustomBuild Include="misc\makeEpicsVersion.pl">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">perl .\misc\makeEpicsVersion.pl ..\..\configure\CONFIG_BASE_VERSION ..\..\include</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">perl .\misc\makeEpicsVersion.pl ..\..\configure\CONFIG_BASE_VERSION ..\..\include
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\..\include\EpicsVersion.h</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">perl .\misc\makeEpicsVersion.pl ..\..\configure\CONFIG_BASE_VERSION ..\..\include
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\..\include\EpicsVersion.h</Outputs>
     </CustomBuild>
     <None Include="osi\TODOfuture" />
     <None Include="tsDefs\README" />
@@ -318,6 +332,34 @@ cd $(ProjectDir)
       </Command>
     </CustomBuildStep>
     <PreBuildEvent />
+    <PreBuildEvent>
+      <Command>if not exist ..\..\include md ..\..\include
+if not exist ..\..\include\os md ..\..\include\os
+if not exist ..\..\include\os\WIN32 md ..\..\include\os\WIN32
+xcopy /Y /Q  /D misc\*.h ..\..\include &gt; NUL
+xcopy /Y /Q  /D osi\*.h ..\..\include &gt; NUL
+xcopy /Y /Q  /D env\*.h  ..\..\include &gt; NUL
+xcopy /Y /Q  /D iocsh\*.h ..\..\include &gt; NUL
+xcopy /Y /Q  /D cppStd\*.h ..\..\include &gt; NUL
+xcopy /Y /Q  /D error\*.h ..\..\include &gt; NUL
+xcopy /Y /Q  /D ellLib\*.h ..\..\include &gt; NUL
+xcopy /Y /Q  /D cxxTemplates\*.h ..\..\include &gt; NUL
+xcopy /Y /Q  /D timer\*.h ..\..\include &gt; NUL
+xcopy /Y /Q  /D freeList\*.h ..\..\include &gt; NUL
+xcopy /Y /Q  /D cvtFast\*.h ..\..\include &gt; NUL
+xcopy /Y /Q  /D taskwd\*.h ..\..\include &gt; NUL
+xcopy /Y /Q  /D fdmgr\*.h ..\..\include &gt; NUL
+xcopy /Y /Q  /D gpHash\*.h ..\..\include &gt; NUL
+xcopy /Y /Q  /D bucketLib\*.h ..\..\include &gt; NUL
+xcopy /Y /Q  /D dbmf\*.h ..\..\include &gt; NUL
+xcopy /Y /Q  /D macLib\*.h ..\..\include &gt; NUL
+xcopy /Y /Q  /D calc\*.h ..\..\include &gt; NUL
+xcopy /Y /Q  /D ring\*.h ..\..\include &gt; NUL
+xcopy /Y /Q  /D logClient\*.h ..\..\include &gt; NUL
+xcopy /Y /Q  /D osi\os\default\*.h ..\..\include\os\WIN32 &gt; NUL
+xcopy /Y /Q  /D osi\os\WIN32\*.h ..\..\include\os\WIN32 &gt; NUL
+</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -339,6 +381,34 @@ cd $(ProjectDir)
     <ResourceCompile>
       <AdditionalIncludeDirectories>..\..\include</AdditionalIncludeDirectories>
     </ResourceCompile>
+    <PreBuildEvent>
+      <Command>if not exist ..\..\include md ..\..\include
+if not exist ..\..\include\os md ..\..\include\os
+if not exist ..\..\include\os\WIN32 md ..\..\include\os\WIN32
+xcopy /Y /Q  /D misc\*.h ..\..\include &gt; NUL
+xcopy /Y /Q  /D osi\*.h ..\..\include &gt; NUL
+xcopy /Y /Q  /D env\*.h  ..\..\include &gt; NUL
+xcopy /Y /Q  /D iocsh\*.h ..\..\include &gt; NUL
+xcopy /Y /Q  /D cppStd\*.h ..\..\include &gt; NUL
+xcopy /Y /Q  /D error\*.h ..\..\include &gt; NUL
+xcopy /Y /Q  /D ellLib\*.h ..\..\include &gt; NUL
+xcopy /Y /Q  /D cxxTemplates\*.h ..\..\include &gt; NUL
+xcopy /Y /Q  /D timer\*.h ..\..\include &gt; NUL
+xcopy /Y /Q  /D freeList\*.h ..\..\include &gt; NUL
+xcopy /Y /Q  /D cvtFast\*.h ..\..\include &gt; NUL
+xcopy /Y /Q  /D taskwd\*.h ..\..\include &gt; NUL
+xcopy /Y /Q  /D fdmgr\*.h ..\..\include &gt; NUL
+xcopy /Y /Q  /D gpHash\*.h ..\..\include &gt; NUL
+xcopy /Y /Q  /D bucketLib\*.h ..\..\include &gt; NUL
+xcopy /Y /Q  /D dbmf\*.h ..\..\include &gt; NUL
+xcopy /Y /Q  /D macLib\*.h ..\..\include &gt; NUL
+xcopy /Y /Q  /D calc\*.h ..\..\include &gt; NUL
+xcopy /Y /Q  /D ring\*.h ..\..\include &gt; NUL
+xcopy /Y /Q  /D logClient\*.h ..\..\include &gt; NUL
+xcopy /Y /Q  /D osi\os\default\*.h ..\..\include\os\WIN32 &gt; NUL
+xcopy /Y /Q  /D osi\os\WIN32\*.h ..\..\include\os\WIN32 &gt; NUL
+</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
