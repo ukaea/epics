@@ -264,6 +264,10 @@ perl -CSD  $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I../../dbd -I..\..\..\
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I. -I./O.Common -I../../../dbd -I..\..\..\asyn/dbd -I..\..\..\seq/dbd -I..\..\..\busy/dbd -ID:..\..\..\base/dbd -ID:\EPICS/ipac/dbd   -o  O.Common\WithAsyn_registerRecordDeviceDriver.cpp O.Common/WithAsyn.dbd WithAsyn_registerRecordDeviceDriver ..\..\..\
 </Command>
     </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|x64'">
     <ClCompile>
@@ -285,6 +289,10 @@ perl -CSD  $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I../../dbd -I..\..\..\
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I. -I./O.Common -I../../../dbd -I..\..\..\asyn/dbd -I..\..\..\seq/dbd -I..\..\..\busy/dbd -ID:..\..\..\base/dbd -ID:\EPICS/ipac/dbd   -o  O.Common\WithAsyn_registerRecordDeviceDriver.cpp O.Common/WithAsyn.dbd WithAsyn_registerRecordDeviceDriver ..\..\..\
 </Command>
     </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">
     <ClCompile>
@@ -307,6 +315,10 @@ perl -CSD  $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I../../dbd -I..\..\..\
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I. -I./O.Common -I../../../dbd -I..\..\..\asyn/dbd -I..\..\..\seq/dbd -I..\..\..\busy/dbd -ID:..\..\..\base/dbd -ID:\EPICS/ipac/dbd   -o  O.Common\WithAsyn_registerRecordDeviceDriver.cpp O.Common/WithAsyn.dbd WithAsyn_registerRecordDeviceDriver ..\..\..\
 </Command>
     </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug LIB|x64'">
     <ClCompile>
@@ -329,6 +341,10 @@ perl -CSD  $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I../../dbd -I..\..\..\
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I. -I./O.Common -I../../../dbd -I..\..\..\asyn/dbd -I..\..\..\seq/dbd -I..\..\..\busy/dbd -ID:..\..\..\base/dbd -ID:\EPICS/ipac/dbd   -o  O.Common\WithAsyn_registerRecordDeviceDriver.cpp O.Common/WithAsyn.dbd WithAsyn_registerRecordDeviceDriver ..\..\..\
 </Command>
     </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">
     <ClCompile>
@@ -354,6 +370,10 @@ perl -CSD  $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I../../dbd -I..\..\..\
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I. -I./O.Common -I../../../dbd -I..\..\..\asyn/dbd -I..\..\..\seq/dbd -I..\..\..\busy/dbd -ID:..\..\..\base/dbd -ID:\EPICS/ipac/dbd   -o  O.Common\WithAsyn_registerRecordDeviceDriver.cpp O.Common/WithAsyn.dbd WithAsyn_registerRecordDeviceDriver ..\..\..\
 </Command>
     </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release DLL|x64'">
     <ClCompile>
@@ -379,6 +399,10 @@ perl -CSD  $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I../../dbd -I..\..\..\
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I. -I./O.Common -I../../../dbd -I..\..\..\asyn/dbd -I..\..\..\seq/dbd -I..\..\..\busy/dbd -ID:..\..\..\base/dbd -ID:\EPICS/ipac/dbd   -o  O.Common\WithAsyn_registerRecordDeviceDriver.cpp O.Common/WithAsyn.dbd WithAsyn_registerRecordDeviceDriver ..\..\..\
 </Command>
     </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">
     <ClCompile>
@@ -405,6 +429,10 @@ perl -CSD  $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I../../dbd -I..\..\..\
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I. -I./O.Common -I../../../dbd -I..\..\..\asyn/dbd -I..\..\..\seq/dbd -I..\..\..\busy/dbd -ID:..\..\..\base/dbd -ID:\EPICS/ipac/dbd   -o  O.Common\WithAsyn_registerRecordDeviceDriver.cpp O.Common/WithAsyn.dbd WithAsyn_registerRecordDeviceDriver ..\..\..\
 </Command>
     </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release LIB|x64'">
     <ClCompile>
@@ -431,6 +459,10 @@ perl -CSD  $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I../../dbd -I..\..\..\
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I. -I./O.Common -I../../../dbd -I..\..\..\asyn/dbd -I..\..\..\seq/dbd -I..\..\..\busy/dbd -ID:..\..\..\base/dbd -ID:\EPICS/ipac/dbd   -o  O.Common\WithAsyn_registerRecordDeviceDriver.cpp O.Common/WithAsyn.dbd WithAsyn_registerRecordDeviceDriver ..\..\..\
 </Command>
     </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
