@@ -72,6 +72,9 @@
     <ProjectReference Include="..\dbStatic\dbstaticIoc.vcxproj">
       <Project>{97d3c50e-9c9e-41ef-a49d-eaea78ce8378}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\dbtools\dbtoolsIoc.vcxproj">
+      <Project>{dd37cd43-539b-484a-b680-d2346f70783a}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\db\dbIoc.vcxproj">
       <Project>{2bc8e3ec-fa1e-4d66-896c-35e8dd69a7fd}</Project>
     </ProjectReference>
