@@ -165,7 +165,6 @@ typedef struct daqMxPvt {
 	TaskHandle taskHandle;
 	epicsFloat64 timeout;
 	char *portName;
-	char *deviceNames;
 	int nChannels;
 	int totalNSamples;
 	epicsInt32 nSamples;
@@ -471,7 +470,6 @@ static void dmbReport(void *drvPvt, FILE *fp, int details)
 
     
     fprintf(fp,"DAQport: %s\n",pPvt->portName);
-    fprintf(fp,"Device Names: %s\n",pPvt->deviceNames);
     fprintf(fp,"Nr of Channels: %d\n",pPvt->nChannels);
     fprintf(fp,"Samples per Channel: %d\n",pPvt->nSamples);
     fprintf(fp,"Total N Samples: %d\n",pPvt->totalNSamples);
@@ -1331,434 +1329,433 @@ void DAQmxGenDig(daqMxPvt *pPvt, int Channelnr, char * params)
 
 void DAQmxGen(const char * portName, int Channelnr, char * params)
 {
-    char * token;
-    daqMxPvt * pPvt; 
-    int i;
-    int dataSize;
-    epicsFloat64 * func;
-    epicsFloat64 value;
-    epicsFloat64 values[26];
-    char tmp;
-    int function = -1;
-    int tmpi2;
-    int tmpi3;
-    int tmpi4;
-    int tmpi5;
-    epicsFloat64 tmpf2;
-    epicsFloat64 tmpf3;
-    epicsFloat64 tmpf4;
-    char clear = 0;
+	char * token;
+	daqMxPvt * pPvt; 
+	int i;
+	int dataSize;
+	epicsFloat64 * func;
+	epicsFloat64 value;
+	epicsFloat64 values[26];
+	char tmp;
+	int function = -1;
+	int tmpi2;
+	int tmpi3;
+	int tmpi4;
+	int tmpi5;
+	epicsFloat64 tmpf2;
+	epicsFloat64 tmpf3;
+	epicsFloat64 tmpf4;
+	char clear = 0;
 
-    for (i = 0; i < 26; i++)
-	values[i] = 0;
+	for (i = 0; i < 26; i++)
+		values[i] = 0;
 
-    pPvt = (daqMxPvt*) ellFirst(&daqMxDeviceList);
-    /* run through the linked list to find a node with the
-     * same asyn port name */
-    while (pPvt != NULL)
-    {
- 	if( strcmp(portName, pPvt->portName) == 0) break;
-	pPvt = (daqMxPvt*) ellNext((ELLNODE*)pPvt);
-    }
-	
-    if (pPvt == NULL){
-	printf("ERROR: Can't find port %s\n",portName);
-	return;
-    }
+	pPvt = (daqMxPvt*) ellFirst(&daqMxDeviceList);
+	/* run through the linked list to find a node with the
+	* same asyn port name */
+	while (pPvt != NULL)
+	{
+		if( strcmp(portName, pPvt->portName) == 0) break;
+		pPvt = (daqMxPvt*) ellNext((ELLNODE*)pPvt);
+	}
 
-    if (Channelnr >= pPvt->nChannels){
-	printf("ERROR: Invalid Channelnr (number of channels in port: %d)\n",pPvt->nChannels);
-	return;
-    }
+	if (pPvt == NULL){
+		printf("ERROR: Can't find port %s\n",portName);
+		return;
+	}
 
-    
-    g_PrevGenPort = portName;
-    g_PrevGenChan = Channelnr;
+	if (Channelnr >= pPvt->nChannels){
+		printf("ERROR: Invalid Channelnr (number of channels in port: %d)\n",pPvt->nChannels);
+		return;
+	}
 
-    if (pPvt->daqMode == BO){
-	DAQmxGenDig(pPvt,Channelnr,params);
-	return;
-    }
-    if (pPvt->daqMode != AO){
-	printf("ERROR: DAQmxGen does not support this port's DAQ mode - sorry\n");
-	return;
-    }
+
+	g_PrevGenPort = portName;
+	g_PrevGenChan = Channelnr;
+
+	if (pPvt->daqMode == BO){
+		DAQmxGenDig(pPvt,Channelnr,params);
+		return;
+	}
+	if (pPvt->daqMode != AO){
+		printf("ERROR: DAQmxGen does not support this port's DAQ mode - sorry\n");
+		return;
+	}
 
 	token = strtok(params," ");
-    while (token)
-    {
-	if (epicsStrCaseCmp(token,"clear") == 0){
-	    clear = 1;
-	}else if (epicsStrCaseCmp(token,"block") == 0){
-	    function = 0;
-	    values[0] = 1; /* A = samples at top*/
-	    values[1] = 1; /* B = samples at bottom*/
-	    values[2] = 1; /* C = top volts level*/
-	    values[3] = -1; /* D = bottom volts level*/
-	}else if (epicsStrCaseCmp(token,"Random") == 0){
-	    function = 1;
-	    values[0] = 1; /* A = max value*/
-	    values[1] = -1; /* B = min value */
-	    values[2] = 255; /* C = number of levels*/
-	    values[3] = 0; /* D = seed if non-zero */
-	}else if (epicsStrCaseCmp(token,"Triangle") == 0){
-	    function = 2;
-	    values[0] = 5; /*A = height of triangle */
-	    values[1] = 0; /*B = centre of signal */
-	    /* value of 0 for C or D will go directly to the other side = saw functionality*/
-	    values[2] = 0.1; /* C = delta Volts per sample upwards edge*/
-	    values[3] = 0.1; /* D = delta Volts per sample downwards edge*/
-	    values[4] = 0; /* E = Time stationary at top */
-	    values[5] = 0; /* F = Time stationary at bottom*/
-	}else if (epicsStrCaseCmp(token,"Offset") == 0){
-	    function = 3; 
-	    values[0] = 1; /* A = offset to add */
-	}else if (epicsStrCaseCmp(token,"Sin") == 0){
-	    function = 4;
-	    values[0] = 0.1; /* A =radiants per sample*/
-	    values[1] = 2; /* B = amplitude */
-	    values[2] = 0; /* C = offset */
-	    values[3] = 0; /* D = starting radiants*/
-	}else if (epicsStrCaseCmp(token,"RemoveOffset") == 0){
-	    function = 5;
-	    /* no params */
-	}else if (epicsStrCaseCmp(token,"block2") == 0){
-	    /* Adds 1 block somewhere in waveform */
-	    function = 6;
-	    values[0] = 1; /* A = starting sample number */
-	    values[1] = 10; /* B = number of samples for block*/
-	    values[2] = 2.0; /* C = height of block (can be negative)*/
-	}else if (epicsStrCaseCmp(token,"Pulse") == 0){
-	    function = 7;
-	    /* This is suppose to be a pulse as generated by a signal generator :)*/
-	    values[0] = 25; /* A = centre of pulse sample number*/
-	    values[1] = 5; /* B = amplitude of pulse */
-	    values[2] = 0.7; /* C = gravity factor (actually need an e^ type function) */
-	}else if (epicsStrCaseCmp(token,"SmoothRandom") == 0){
-	    function = 8;
-	    values[0] = 2.0; /* A = max value*/
-	    values[1] = -2.0; /* B = min value*/
-	    values[2] = 0.1; /* C = max delta*/
-	    values[3] = 0; /* D = seed if non-zero*/
-	}else if (epicsStrCaseCmp(token,"StartEndMatch") == 0){
-	    /* Will alter the beginning and end of waveform as to make them match more smoothly */
-	    function = 9;
-	    values[0] = 0.1; /* A = rate of change allowed */
-	}else if (epicsStrCaseCmp(token,"smooth") == 0){
-	    function = 10;
-	    values[0] = 0.1; /* A = max rate of change allowed*/
-	}else if (epicsStrCaseCmp(token,"filter") == 0){
-	    function = 11;
-	    values[0] = 4; /* A = filter factor*/
+	while (token)
+	{
+		if (epicsStrCaseCmp(token,"clear") == 0){
+			clear = 1;
+		}else if (epicsStrCaseCmp(token,"block") == 0){
+			function = 0;
+			values[0] = 1; /* A = samples at top*/
+			values[1] = 1; /* B = samples at bottom*/
+			values[2] = 1; /* C = top volts level*/
+			values[3] = -1; /* D = bottom volts level*/
+		}else if (epicsStrCaseCmp(token,"Random") == 0){
+			function = 1;
+			values[0] = 1; /* A = max value*/
+			values[1] = -1; /* B = min value */
+			values[2] = 255; /* C = number of levels*/
+			values[3] = 0; /* D = seed if non-zero */
+		}else if (epicsStrCaseCmp(token,"Triangle") == 0){
+			function = 2;
+			values[0] = 5; /*A = height of triangle */
+			values[1] = 0; /*B = centre of signal */
+			/* value of 0 for C or D will go directly to the other side = saw functionality*/
+			values[2] = 0.1; /* C = delta Volts per sample upwards edge*/
+			values[3] = 0.1; /* D = delta Volts per sample downwards edge*/
+			values[4] = 0; /* E = Time stationary at top */
+			values[5] = 0; /* F = Time stationary at bottom*/
+		}else if (epicsStrCaseCmp(token,"Offset") == 0){
+			function = 3; 
+			values[0] = 1; /* A = offset to add */
+		}else if (epicsStrCaseCmp(token,"Sin") == 0){
+			function = 4;
+			values[0] = 0.1; /* A =radiants per sample*/
+			values[1] = 2; /* B = amplitude */
+			values[2] = 0; /* C = offset */
+			values[3] = 0; /* D = starting radiants*/
+		}else if (epicsStrCaseCmp(token,"RemoveOffset") == 0){
+			function = 5;
+			/* no params */
+		}else if (epicsStrCaseCmp(token,"block2") == 0){
+			/* Adds 1 block somewhere in waveform */
+			function = 6;
+			values[0] = 1; /* A = starting sample number */
+			values[1] = 10; /* B = number of samples for block*/
+			values[2] = 2.0; /* C = height of block (can be negative)*/
+		}else if (epicsStrCaseCmp(token,"Pulse") == 0){
+			function = 7;
+			/* This is suppose to be a pulse as generated by a signal generator :)*/
+			values[0] = 25; /* A = centre of pulse sample number*/
+			values[1] = 5; /* B = amplitude of pulse */
+			values[2] = 0.7; /* C = gravity factor (actually need an e^ type function) */
+		}else if (epicsStrCaseCmp(token,"SmoothRandom") == 0){
+			function = 8;
+			values[0] = 2.0; /* A = max value*/
+			values[1] = -2.0; /* B = min value*/
+			values[2] = 0.1; /* C = max delta*/
+			values[3] = 0; /* D = seed if non-zero*/
+		}else if (epicsStrCaseCmp(token,"StartEndMatch") == 0){
+			/* Will alter the beginning and end of waveform as to make them match more smoothly */
+			function = 9;
+			values[0] = 0.1; /* A = rate of change allowed */
+		}else if (epicsStrCaseCmp(token,"smooth") == 0){
+			function = 10;
+			values[0] = 0.1; /* A = max rate of change allowed*/
+		}else if (epicsStrCaseCmp(token,"filter") == 0){
+			function = 11;
+			values[0] = 4; /* A = filter factor*/
 
-	}else if (epicsStrCaseCmp(token,"buldge") == 0){
-	    function = 12;
-	    values[0] = 25; /*A = centre of buldge */
-	    values[1] = 50; /* B = width of buldge */
-	    values[2] = 2.0; /* B= amplitude (can be negative)*/
-	}else if (epicsStrCaseCmp(token,"clearregion") == 0){
-	    function = 13;
-	    values[0] = 0; /* A = starting sample*/
-	    values[1] = 10; /* B = ending sample number*/
-	}else if (epicsStrCaseCmp(token,"Scale") == 0){
-	    function = 14;
-	    values[0] = 0.5; /* A = scale factor*/
-	    values[1] = 0; /* B = starting samples number*/
-	    values[2] = 0; /* C = ending sample number*/
-	}else if (epicsStrCaseCmp(token,"xxx") == 0){
-		
-	}else if (strlen(token) > 2){
-	    /* We have paramters a -> z */
-	    tmp = *token;
-	    token++; token++;
-	    if ((tmp >= 'A')&&(tmp <= 'Z')){
-		values[(tmp-'A')] = (epicsFloat64)atof(token);
-		printf("%c(%d) = %.2f\n",tmp,(int)(tmp-'A'),values[(tmp-'A')]);
-	    }
-	    if ((tmp >= 'a')&&(tmp <= 'z')){
-		values[(tmp-'a')] = (epicsFloat64)atof(token);
-		printf("%c(%d) = %.2f\n",tmp,(int)(tmp-'a'),values[(tmp-'a')]);
-	    }
+		}else if (epicsStrCaseCmp(token,"buldge") == 0){
+			function = 12;
+			values[0] = 25; /*A = centre of buldge */
+			values[1] = 50; /* B = width of buldge */
+			values[2] = 2.0; /* B= amplitude (can be negative)*/
+		}else if (epicsStrCaseCmp(token,"clearregion") == 0){
+			function = 13;
+			values[0] = 0; /* A = starting sample*/
+			values[1] = 10; /* B = ending sample number*/
+		}else if (epicsStrCaseCmp(token,"Scale") == 0){
+			function = 14;
+			values[0] = 0.5; /* A = scale factor*/
+			values[1] = 0; /* B = starting samples number*/
+			values[2] = 0; /* C = ending sample number*/
+		}else if (epicsStrCaseCmp(token,"xxx") == 0){
+
+		}else if (strlen(token) > 2){
+			/* We have paramters a -> z */
+			tmp = *token;
+			token++; token++;
+			if ((tmp >= 'A')&&(tmp <= 'Z')){
+				values[(tmp-'A')] = (epicsFloat64)atof(token);
+				printf("%c(%d) = %.2f\n",tmp,(int)(tmp-'A'),values[(tmp-'A')]);
+			}
+			if ((tmp >= 'a')&&(tmp <= 'z')){
+				values[(tmp-'a')] = (epicsFloat64)atof(token);
+				printf("%c(%d) = %.2f\n",tmp,(int)(tmp-'a'),values[(tmp-'a')]);
+			}
+		}
+		token = strtok(NULL," ");
+	}
+	if (!pPvt->aioPvt[Channelnr]->data){
+		if (allocBuffers(pPvt,pPvt->pasynUser) != asynSuccess){
+			printf("Buffer create error - Gen not done\n");
+			return;
+		}
+	}
+	dataSize = pPvt->aioPvt[Channelnr]->dataSize;
+	func = (epicsFloat64*)pPvt->aioPvt[Channelnr]->data;
+
+
+	if (clear){
+		printf("Clearing data\n");
+		for (i = 0; i < dataSize; i++)
+			func[i] = 0;
 	}
 
-    }
-    if (!pPvt->aioPvt[Channelnr]->data){
-	if (allocBuffers(pPvt,pPvt->pasynUser) != asynSuccess){
- 	    printf("Buffer create error - Gen not done\n");
-	    return;
-	}
-    }
-    dataSize = pPvt->aioPvt[Channelnr]->dataSize;
-    func = (epicsFloat64*)pPvt->aioPvt[Channelnr]->data;
-    
-     
-    if (clear){
-	printf("Clearing data\n");
-	for (i = 0; i < dataSize; i++)
-	    func[i] = 0;
-    }
-
-    /* Function generate 
-       See above section for details on how these actually work
-    */
-    switch (function){
+	/* Function generate 
+	See above section for details on how these actually work
+	*/
+	switch (function){
 	case -1:
-	    printf("No waveform generation function specified\n");
-	    break;
+		printf("No waveform generation function specified\n");
+		break;
 	case 0: /* block */
-	    printf("Generating block waveform\n");
-	    tmpi2 = 0;
-	    tmpi3 = 0;
-	    value = values[3];
-	    for (i = 0 ; i < dataSize ; i++){
-		/*printf("Value %d = %.2f\n",i,value);*/
-		func[i] = func[i] + value;
-		tmpi2++;
-		if (tmpi3 == 0){
-		    /*at bottom*/
-		    if (tmpi2 >= values[1]){
-			value = values[2]; /* top value*/
-			tmpi2 = 0;
-			tmpi3 = 1;
-		    }
-		}else{
-		    /*top*/
-		    if (tmpi2 >= values[0]){
-			value = values[3]; /*bottom value*/
-			tmpi2 = 0;
-			tmpi3 = 0;
-		    }
+		printf("Generating block waveform\n");
+		tmpi2 = 0;
+		tmpi3 = 0;
+		value = values[3];
+		for (i = 0 ; i < dataSize ; i++){
+			/*printf("Value %d = %.2f\n",i,value);*/
+			func[i] = func[i] + value;
+			tmpi2++;
+			if (tmpi3 == 0){
+				/*at bottom*/
+				if (tmpi2 >= values[1]){
+					value = values[2]; /* top value*/
+					tmpi2 = 0;
+					tmpi3 = 1;
+				}
+			}else{
+				/*top*/
+				if (tmpi2 >= values[0]){
+					value = values[3]; /*bottom value*/
+					tmpi2 = 0;
+					tmpi3 = 0;
+				}
+			}
 		}
-	    }
-	    break;
+		break;
 	case 1: 
-	    printf("Generating random waveform");
-	    if ((int)values[3] != 0)
-		srand((int)values[3]);
-	    tmpi2 = (int)values[2];
-	    tmpf2 = values[0] - values[1]; /* calc span*/
-	    for (i = 0; i < dataSize; i++){
-		value = (rand() % tmpi2); /* get a number */
-		value = value * tmpf2 / tmpi2; /* scale it down into region we use */
-		value = value + values[1]; /*offset added*/
-		func[i] = func[i] + value;
-	    }
-	    break;
+		printf("Generating random waveform");
+		if ((int)values[3] != 0)
+			srand((int)values[3]);
+		tmpi2 = (int)values[2];
+		tmpf2 = values[0] - values[1]; /* calc span*/
+		for (i = 0; i < dataSize; i++){
+			value = (rand() % tmpi2); /* get a number */
+			value = value * tmpf2 / tmpi2; /* scale it down into region we use */
+			value = value + values[1]; /*offset added*/
+			func[i] = func[i] + value;
+		}
+		break;
 	case 2:
-	    printf("Generating triangle waveform");
-	    tmpf2 = values[1] + (values[0]/2); /*top*/
-	    tmpf3 = values[1] - (values[0]/2); /*bottom*/
-	    printf("top:%f bottom:%f\n",tmpf2,tmpf3);
-	    value = values[1]; /* start on centre going up*/
-	    tmpi4 = 0; /* 0=upwards 1=top 2=downwards 3=bottom*/
-	    tmpi5 = 0; /* count top/bottom */
-	    for (i = 0; i < dataSize; i++){
-		func[i] = func[i] + value;
-		/*printf("%d = %.2f  (tmpi4=%d)\n",i,value,tmpi4);*/
-		switch(tmpi4){
-		    case 0: /*upwards*/
-			value += values[2];
-			if ((value >= tmpf2)||(values[2] <= 0)){
-			    value = tmpf2;
-			    if ((int)values[4] > 0){
-				tmpi4 = 1;
-				tmpi5 = 0;
-			    }else{
-				tmpi4 = 2;
-			    }
+		printf("Generating triangle waveform");
+		tmpf2 = values[1] + (values[0]/2); /*top*/
+		tmpf3 = values[1] - (values[0]/2); /*bottom*/
+		printf("top:%f bottom:%f\n",tmpf2,tmpf3);
+		value = values[1]; /* start on centre going up*/
+		tmpi4 = 0; /* 0=upwards 1=top 2=downwards 3=bottom*/
+		tmpi5 = 0; /* count top/bottom */
+		for (i = 0; i < dataSize; i++){
+			func[i] = func[i] + value;
+			/*printf("%d = %.2f  (tmpi4=%d)\n",i,value,tmpi4);*/
+			switch(tmpi4){
+			case 0: /*upwards*/
+				value += values[2];
+				if ((value >= tmpf2)||(values[2] <= 0)){
+					value = tmpf2;
+					if ((int)values[4] > 0){
+						tmpi4 = 1;
+						tmpi5 = 0;
+					}else{
+						tmpi4 = 2;
+					}
+				}
+				break;
+			case 1: /*top*/
+				tmpi5++;
+				if (tmpi5 >= (int)values[4]){
+					tmpi4 = 2;
+					value -= values[3];
+				}
+				break;
+			case 2:
+				value -= values[3];
+				if ((value <= tmpf3)||(values[3] <= 0)){
+					value = tmpf3;
+					if ((int)values[5] > 0){
+						tmpi4 = 3;
+						tmpi5 = 0;
+					}else{
+						tmpi4 = 0;
+					}
+				}
+				break;
+			case 3: /*bottom*/
+				tmpi5++;
+				if (tmpi5 >= (int)values[5]){
+					tmpi4 = 0;
+					value += values[2];
+				}
+				break;
 			}
-			break;
-		    case 1: /*top*/
-			tmpi5++;
-			if (tmpi5 >= (int)values[4]){
-			    tmpi4 = 2;
-			    value -= values[3];
-			}
-			break;
-		    case 2:
-			value -= values[3];
-			if ((value <= tmpf3)||(values[3] <= 0)){
-			    value = tmpf3;
-			    if ((int)values[5] > 0){
-				tmpi4 = 3;
-				tmpi5 = 0;
-			    }else{
-				tmpi4 = 0;
-			    }
-			}
-			break;
-		    case 3: /*bottom*/
-			tmpi5++;
-			if (tmpi5 >= (int)values[5]){
-			    tmpi4 = 0;
-			    value += values[2];
-			}
-			break;
 		}
-	    }
-	    break;
+		break;
 	case 3:
-	    printf("Adding offset");
-	    for (i = 0; i < dataSize; i++)
-		func[i] = func[i] + values[0];
-	    break;
+		printf("Adding offset");
+		for (i = 0; i < dataSize; i++)
+			func[i] = func[i] + values[0];
+		break;
 	case 4:
-	    printf("Generating Sin waveform\n");
-	    tmpf2 = values[3];
-	    for (i = 0; i < dataSize; i++){
-		value = (sin(tmpf2)*values[1])+ values[2];
-		tmpf2 = tmpf2 + values[0];
-		func[i] = func[i] + value;
-	    }
-	    break;
-	case 5: /* remove the offset*/
-	    tmpf3 = 0;
-	    for (i = 0; i < dataSize; i++)
-		tmpf3 = tmpf3 + func[i];
-	    tmpf3 = tmpf3 / dataSize;
-	    printf("Removing offset (%.3f)\n",tmpf3);
-	    for (i = 0; i < dataSize; i++)
-		func[i] = func[i] - tmpf3;
-	    break;
-	case 6:
-	    printf("Adding a block into the waveform\n");
-	    tmpi2 = (int)values[0];
-	    for (i = 0; i < values[1] ; i++){
-		if ((tmpi2 >= 0)&&(tmpi2 < dataSize))
-		    func[tmpi2] = func[tmpi2] + values[2];
-		tmpi2++;
-	    }
-	    break;
-	case 7:
-	    printf("Adding pulse");
-	    tmpi2 = (int)values[0]+1;
-	    tmpi3 = tmpi2 - 1;
-	    value = values[1];
-	    while (fabs(value) > fabs(values[1]/ 25)){
-		func[tmpi2] = func[tmpi2] - value;
-		func[tmpi3] = func[tmpi3] + value;
-		value = value * values[2];
-		tmpi2++;
-		if (tmpi2 >= dataSize) tmpi2 = 0;
-		tmpi3--;
-		if (tmpi3 < 0) tmpi3 = dataSize-1;
-	    }
-	    break;
-	case 8:
-	    printf("Generating smooth random");
-	    if ((int)values[3] != 0)
-		srand((int)values[3]);
-	    value = 0;
-	    for (i = 0; i < dataSize; i++)
-	    {
-		func[i] = func[i] + value;
-		tmpf4 = ((epicsFloat64)(rand() % 1000) * values[2]/ 500.0);
-		tmpf4 = tmpf4 - values[2];
-		value = value + tmpf4;
-		if (value >= values[0])
-		    value = values[0];
-		if (value <= values[1])
-		    value = values[1];
-	    }
-	    break;
-	case 9: /*start end match*/
-	    printf("Matching start and end  (%.2f)\n",func[0]-func[dataSize-1]);
-	    tmpf2 = func[0] - func[dataSize - 1];
-	    tmpf3 = tmpf2/2;
-	    tmpi2 = 0;
-	    while (tmpf3 > 0){
-		func[tmpi2] = func[tmpi2] - tmpf3;
-		tmpf3 = tmpf3 - values[0];
-		tmpi2++;
-	    }
-	    tmpf3 = tmpf2/2;
-	    tmpi2 = dataSize-1;
-	    while (tmpf3 > 0){
-		func[tmpi2] = func[tmpi2] + tmpf3;
-		tmpf3 = tmpf3 - values[0];
-		tmpi2--;
-	    }
-	    break;
-	case 10:
-	    printf("smoothin waveform\n");
-	    value = func[0];
-	    for (i = 0; i < dataSize ; i++){
-		if (func[i] >= value){
-		    if (func[i] - value > values[0])
-			value = value + values[0];
-		    else
-			value = func[i];
-		}else{
-		    if (value - func[i] >values[0])
-			value = value - values[0];
-		    else
-			value = func[i];
+		printf("Generating Sin waveform\n");
+		tmpf2 = values[3];
+		for (i = 0; i < dataSize; i++){
+			value = (sin(tmpf2)*values[1])+ values[2];
+			tmpf2 = tmpf2 + values[0];
+			func[i] = func[i] + value;
 		}
-		func[i] = value;
-	    }
-	    break;
+		break;
+	case 5: /* remove the offset*/
+		tmpf3 = 0;
+		for (i = 0; i < dataSize; i++)
+			tmpf3 = tmpf3 + func[i];
+		tmpf3 = tmpf3 / dataSize;
+		printf("Removing offset (%.3f)\n",tmpf3);
+		for (i = 0; i < dataSize; i++)
+			func[i] = func[i] - tmpf3;
+		break;
+	case 6:
+		printf("Adding a block into the waveform\n");
+		tmpi2 = (int)values[0];
+		for (i = 0; i < values[1] ; i++){
+			if ((tmpi2 >= 0)&&(tmpi2 < dataSize))
+				func[tmpi2] = func[tmpi2] + values[2];
+			tmpi2++;
+		}
+		break;
+	case 7:
+		printf("Adding pulse");
+		tmpi2 = (int)values[0]+1;
+		tmpi3 = tmpi2 - 1;
+		value = values[1];
+		while (fabs(value) > fabs(values[1]/ 25)){
+			func[tmpi2] = func[tmpi2] - value;
+			func[tmpi3] = func[tmpi3] + value;
+			value = value * values[2];
+			tmpi2++;
+			if (tmpi2 >= dataSize) tmpi2 = 0;
+			tmpi3--;
+			if (tmpi3 < 0) tmpi3 = dataSize-1;
+		}
+		break;
+	case 8:
+		printf("Generating smooth random");
+		if ((int)values[3] != 0)
+			srand((int)values[3]);
+		value = 0;
+		for (i = 0; i < dataSize; i++)
+		{
+			func[i] = func[i] + value;
+			tmpf4 = ((epicsFloat64)(rand() % 1000) * values[2]/ 500.0);
+			tmpf4 = tmpf4 - values[2];
+			value = value + tmpf4;
+			if (value >= values[0])
+				value = values[0];
+			if (value <= values[1])
+				value = values[1];
+		}
+		break;
+	case 9: /*start end match*/
+		printf("Matching start and end  (%.2f)\n",func[0]-func[dataSize-1]);
+		tmpf2 = func[0] - func[dataSize - 1];
+		tmpf3 = tmpf2/2;
+		tmpi2 = 0;
+		while (tmpf3 > 0){
+			func[tmpi2] = func[tmpi2] - tmpf3;
+			tmpf3 = tmpf3 - values[0];
+			tmpi2++;
+		}
+		tmpf3 = tmpf2/2;
+		tmpi2 = dataSize-1;
+		while (tmpf3 > 0){
+			func[tmpi2] = func[tmpi2] + tmpf3;
+			tmpf3 = tmpf3 - values[0];
+			tmpi2--;
+		}
+		break;
+	case 10:
+		printf("smoothin waveform\n");
+		value = func[0];
+		for (i = 0; i < dataSize ; i++){
+			if (func[i] >= value){
+				if (func[i] - value > values[0])
+					value = value + values[0];
+				else
+					value = func[i];
+			}else{
+				if (value - func[i] >values[0])
+					value = value - values[0];
+				else
+					value = func[i];
+			}
+			func[i] = value;
+		}
+		break;
 	case 11:
-	    printf("filtering (method 1)\n");
-	    value = func[0];
-	    for (i = 0; i < dataSize ; i++){
-		value = (value * values[0]) + func[i];
-		value = value / (values[0]+1.0);
-		func[i] = value;
-	    }
-	    break;
+		printf("filtering (method 1)\n");
+		value = func[0];
+		for (i = 0; i < dataSize ; i++){
+			value = (value * values[0]) + func[i];
+			value = value / (values[0]+1.0);
+			func[i] = value;
+		}
+		break;
 	case 12:
-	    printf("adding bulge\n");
-	    tmpi2 = (int)values[0] - ((int)values[1] / 2); /* start value*/
-	    while (tmpi2 < 0) tmpi2 = tmpi2 + dataSize;
-	    for (i = 0; i < (int)values[1]; i++){
-		tmpf3 = ((M_PI*2) / values[1] * i) - M_PI_2;
-		value = sin(tmpf3) + 1.0;
-		value = value * values[2] / 2; 
-		func[tmpi2] = func[tmpi2] + value;
-		tmpi2++;
-		if (tmpi2 >= dataSize) tmpi2 = 0;
-	    }
-	    break;
+		printf("adding bulge\n");
+		tmpi2 = (int)values[0] - ((int)values[1] / 2); /* start value*/
+		while (tmpi2 < 0) tmpi2 = tmpi2 + dataSize;
+		for (i = 0; i < (int)values[1]; i++){
+			tmpf3 = ((M_PI*2) / values[1] * i) - M_PI_2;
+			value = sin(tmpf3) + 1.0;
+			value = value * values[2] / 2; 
+			func[tmpi2] = func[tmpi2] + value;
+			tmpi2++;
+			if (tmpi2 >= dataSize) tmpi2 = 0;
+		}
+		break;
 	case 13:
-	    printf("Clearing Region\n");
-	    tmpi2 = (int)values[0];/* A */
-	    tmpi3 = (int)values[1];/* B */ 
-	    tmpi4 = tmpi3 - tmpi2;
-	    if (tmpi4 < 0) tmpi4 = tmpi4 + dataSize;
-	    tmpi5 = tmpi2;
-	    tmpf2 = func[tmpi2];
-	    tmpf3 = func[tmpi3];
-	    tmpf4 = tmpf3 - tmpf2;
-	    for (i = 0; i < tmpi4 ; i++){
-		func[tmpi5] = tmpf2 + (tmpf4*((double)i)/((double)tmpi4));
-		tmpi5++;
-		if (tmpi5 >= dataSize)
-		    tmpi5 = 0;
-	    }
-	    break;
+		printf("Clearing Region\n");
+		tmpi2 = (int)values[0];/* A */
+		tmpi3 = (int)values[1];/* B */ 
+		tmpi4 = tmpi3 - tmpi2;
+		if (tmpi4 < 0) tmpi4 = tmpi4 + dataSize;
+		tmpi5 = tmpi2;
+		tmpf2 = func[tmpi2];
+		tmpf3 = func[tmpi3];
+		tmpf4 = tmpf3 - tmpf2;
+		for (i = 0; i < tmpi4 ; i++){
+			func[tmpi5] = tmpf2 + (tmpf4*((double)i)/((double)tmpi4));
+			tmpi5++;
+			if (tmpi5 >= dataSize)
+				tmpi5 = 0;
+		}
+		break;
 	case 14:
-	    printf("Scaling\n");
-	    tmpi2 = (int)values[1];
-	    tmpi3 = (int)values[2];
-	    tmpi4 = tmpi2;
-	    do{
-		func[tmpi4] = func[tmpi4] * values[0];
-		tmpi4++;
-		if (tmpi4 >= dataSize)
-		    tmpi4 = 0;
-	    }while(tmpi4 != tmpi3);
-	    break;
+		printf("Scaling\n");
+		tmpi2 = (int)values[1];
+		tmpi3 = (int)values[2];
+		tmpi4 = tmpi2;
+		do{
+			func[tmpi4] = func[tmpi4] * values[0];
+			tmpi4++;
+			if (tmpi4 >= dataSize)
+				tmpi4 = 0;
+		}while(tmpi4 != tmpi3);
+		break;
 	default:
-	    printf("ERROR: function not implemented");
-	    return;
-	token = strtok(NULL," ");
-    }
-    printf("Start-End jump = %.4f\n",func[dataSize-1]-func[0]);
+		printf("ERROR: function not implemented");
+		return;
+	}
+	printf("Start-End jump = %.4f\n",func[dataSize-1]-func[0]);
 
-    /* Force it to write :) */
-    pPvt->writeNeeded = 1;
-    epicsEventSignal(pPvt->writeEvent);
-    SendStart(pPvt);
+	/* Force it to write :) */
+	pPvt->writeNeeded = 1;
+	epicsEventSignal(pPvt->writeEvent);
+	SendStart(pPvt);
 
 }
 
@@ -1866,7 +1863,6 @@ daqMxPvt *getAsynPort(char *portName )
 		pPvt->rawData = NULL;
 		pPvt->prevData = NULL;
 		pPvt->rawDataSize = 0;
-		pPvt->deviceNames = NULL;
 
 		pPvt->sampleRate = DEFAULT_SAMPLE_RATE;
 		pPvt->timeout = DEFAULT_TIMEOUT;
@@ -2596,28 +2592,7 @@ int DAQmxConfig(char *portName, char * deviceName, int Channelnr, char * sacqTyp
 	    printf("### ERROR: Port already used - it is not supported to add Channels at this stage (Please do all DAQmxConfig calls before startioc)\n");
 	    printf("Will continue anyways... (good luck :} )\n");
 	}
-	
-	/* append the device name string to the existing one */
-	if (pPvt->deviceNames == NULL) stringLength = strlen(deviceName);
-	else stringLength = strlen(deviceName) + strlen(pPvt->deviceNames) + 1;
-	
-	/* allocate enough memory to contain possibly the original
-	 * string + one ',' char and the new deviceName string */
-	tmpStrName = new char(stringLength + 1);
-	tmpStrName[stringLength] = 0;
-	if(pPvt->deviceNames != NULL) 
-	{
-		/* if a device name has already been specified...
-		 * copy it out and free the memory to make space 
-		 * for a new appended deviceNames */
-		sprintf(tmpStrName, "%s,%s", pPvt->deviceNames, deviceName);
-		free(pPvt->deviceNames);
-		pPvt->deviceNames = tmpStrName;
-	} else
-	{
-		strcpy(tmpStrName, deviceName);
-	}
-		
+
 	switch(pPvt->daqMode)
 	{
 	    case AI:
@@ -2703,10 +2678,6 @@ int DAQmxConfig(char *portName, char * deviceName, int Channelnr, char * sacqTyp
 	    return -1;
 	}
 	
-	
-	pPvt->deviceNames = tmpStrName;
-
-	printf("Created port \"%s\" with devices: \"%s\"\n", pPvt->portName, pPvt->deviceNames);
 	return 0;
 }
 
