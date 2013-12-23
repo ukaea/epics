@@ -350,6 +350,18 @@
     <ClCompile Include="O.win32-x86-debug\errSymTbl.c">
       <Filter>Auto-generated Files</Filter>
     </ClCompile>
+    <ClCompile Include="O.windows-x64-debug\envData.c">
+      <Filter>Auto-generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="O.windows-x64\envData.c">
+      <Filter>Auto-generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="O.windows-x64\errSymTbl.c">
+      <Filter>Auto-generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="O.windows-x64-debug\errSymTbl.c">
+      <Filter>Auto-generated Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bucketLib\bucketLib.h">
