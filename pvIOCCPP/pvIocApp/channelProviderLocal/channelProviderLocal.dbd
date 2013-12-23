@@ -1,0 +1,2 @@
+registrar("startChannelProviderLocalRegister")
+registrar("stopChannelProviderLocalRegister")

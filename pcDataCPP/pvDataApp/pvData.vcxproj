@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{F4A51415-2981-42EE-87C7-F29D5805583E}</ProjectGuid>
+    <RootNamespace>pvDataApp</RootNamespace>
+    <SccProjectName>"$/EPICS", LRZBAAAA</SccProjectName>
+    <SccLocalPath>..\..</SccLocalPath>
+    <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\include;..\..\include\os\win32</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>..\..\include;..\..\include\os\win32</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="factory\Compare.cpp" />
+    <ClCompile Include="factory\Convert.cpp" />
+    <ClCompile Include="factory\FieldCreateFactory.cpp" />
+    <ClCompile Include="factory\PVArray.cpp" />
+    <ClCompile Include="factory\PVAuxInfoImpl.cpp" />
+    <ClCompile Include="factory\PVDataCreateFactory.cpp" />
+    <ClCompile Include="factory\PVField.cpp" />
+    <ClCompile Include="factory\PVScalar.cpp" />
+    <ClCompile Include="factory\PVScalarArray.cpp" />
+    <ClCompile Include="factory\PVStructure.cpp" />
+    <ClCompile Include="factory\PVStructureArray.cpp" />
+    <ClCompile Include="factory\StandardField.cpp" />
+    <ClCompile Include="factory\StandardPVField.cpp" />
+    <ClCompile Include="factory\TypeFunc.cpp" />
+    <ClCompile Include="misc\bitSet.cpp" />
+    <ClCompile Include="misc\byteBuffer.cpp" />
+    <ClCompile Include="misc\epicsException.cpp" />
+    <ClCompile Include="misc\event.cpp" />
+    <ClCompile Include="misc\executor.cpp" />
+    <ClCompile Include="misc\localStaticLock.cpp" />
+    <ClCompile Include="misc\messageQueue.cpp" />
+    <ClCompile Include="misc\requester.cpp" />
+    <ClCompile Include="misc\serializeHelper.cpp" />
+    <ClCompile Include="misc\status.cpp" />
+    <ClCompile Include="misc\timeFunction.cpp" />
+    <ClCompile Include="misc\timer.cpp" />
+    <ClCompile Include="property\alarm.cpp" />
+    <ClCompile Include="property\pvAlarm.cpp" />
+    <ClCompile Include="property\pvControl.cpp" />
+    <ClCompile Include="property\pvDisplay.cpp" />
+    <ClCompile Include="property\pvEnumerated.cpp" />
+    <ClCompile Include="property\pvTimeStamp.cpp" />
+    <ClCompile Include="property\timeStamp.cpp" />
+    <ClCompile Include="pvMisc\bitSetUtil.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="factory\factory.h" />
+    <ClInclude Include="misc\bitSet.h" />
+    <ClInclude Include="misc\byteBuffer.h" />
+    <ClInclude Include="misc\destroyable.h" />
+    <ClInclude Include="misc\epicsException.h" />
+    <ClInclude Include="misc\event.h" />
+    <ClInclude Include="misc\executor.h" />
+    <ClInclude Include="misc\localStaticLock.h" />
+    <ClInclude Include="misc\lock.h" />
+    <ClInclude Include="misc\messageQueue.h" />
+    <ClInclude Include="misc\noDefaultMethods.h" />
+    <ClInclude Include="misc\queue.h" />
+    <ClInclude Include="misc\requester.h" />
+    <ClInclude Include="misc\serialize.h" />
+    <ClInclude Include="misc\serializeHelper.h" />
+    <ClInclude Include="misc\sharedPtr.h" />
+    <ClInclude Include="misc\status.h" />
+    <ClInclude Include="misc\thread.h" />
+    <ClInclude Include="misc\timeFunction.h" />
+    <ClInclude Include="misc\timer.h" />
+    <ClInclude Include="monitor\monitor.h" />
+    <ClInclude Include="property\alarm.h" />
+    <ClInclude Include="property\control.h" />
+    <ClInclude Include="property\display.h" />
+    <ClInclude Include="property\pvAlarm.h" />
+    <ClInclude Include="property\pvControl.h" />
+    <ClInclude Include="property\pvDisplay.h" />
+    <ClInclude Include="property\pvEnumerated.h" />
+    <ClInclude Include="property\pvTimeStamp.h" />
+    <ClInclude Include="property\timeStamp.h" />
+    <ClInclude Include="pvMisc\bitSetUtil.h" />
+    <ClInclude Include="pv\convert.h" />
+    <ClInclude Include="pv\pvData.h" />
+    <ClInclude Include="pv\pvIntrospect.h" />
+    <ClInclude Include="pv\pvType.h" />
+    <ClInclude Include="pv\standardField.h" />
+    <ClInclude Include="pv\standardPVField.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

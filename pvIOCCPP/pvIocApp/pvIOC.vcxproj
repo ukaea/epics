@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{306F772C-37B9-4EB9-8C4C-3B7761CD4C79}</ProjectGuid>
+    <RootNamespace>pvIOCApp</RootNamespace>
+    <SccProjectName>"$/EPICS", LRZBAAAA</SccProjectName>
+    <SccLocalPath>..\..</SccLocalPath>
+    <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\include;..\..\include\os\win32</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>..\..\include;..\..\include\os\win32</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="channelProviderLocal\channelProviderLocal.cpp" />
+    <ClCompile Include="channelProviderLocal\channelProviderLocalRegister.cpp" />
+    <ClCompile Include="database\pvDatabase.cpp" />
+    <ClCompile Include="database\pvRecord.cpp" />
+    <ClCompile Include="ezchannelRPC\ezchannelRPC.cpp" />
+    <ClCompile Include="install\afterStart.cpp" />
+    <ClCompile Include="install\install.cpp" />
+    <ClCompile Include="install\supportCreation.cpp" />
+    <ClCompile Include="pvCopy\pvCopy.cpp" />
+    <ClCompile Include="pvCopy\pvShare.cpp" />
+    <ClCompile Include="pvCopy\pvShareStructureArray.cpp" />
+    <ClCompile Include="service\channelBase.cpp" />
+    <ClCompile Include="service\channelBaseProvider.cpp" />
+    <ClCompile Include="service\pvServiceChannelCTX.cpp" />
+    <ClCompile Include="service\pvServiceChannelRegister.cpp" />
+    <ClCompile Include="service\pvServiceProvider.cpp" />
+    <ClCompile Include="service\serviceChannelRPC.cpp" />
+    <ClCompile Include="support\basic\genericSupport.cpp" />
+    <ClCompile Include="support\basic\noopSupport.cpp" />
+    <ClCompile Include="support\basic\scanFieldSupport.cpp" />
+    <ClCompile Include="support\recordProcess.cpp" />
+    <ClCompile Include="support\support.cpp" />
+    <ClCompile Include="support\supportState.cpp" />
+    <ClCompile Include="util\eventScanner.cpp" />
+    <ClCompile Include="util\periodicScanner.cpp" />
+    <ClCompile Include="util\requestResultFunc.cpp" />
+    <ClCompile Include="util\scanField.cpp" />
+    <ClCompile Include="util\scanTypeFunc.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="channelProviderLocal\channelProviderLocal.dbd" />
+    <None Include="service\pvServiceChannelRegister.dbd" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="channelProviderLocal\channelProviderLocal.h" />
+    <ClInclude Include="database\pvDatabase.h" />
+    <ClInclude Include="ezchannelRPC\ezchannelRPC.h" />
+    <ClInclude Include="install\install.h" />
+    <ClInclude Include="monitor\monitorAlgorithm.h" />
+    <ClInclude Include="pvCopy\pvCopy.h" />
+    <ClInclude Include="service\channelBase.h" />
+    <ClInclude Include="service\pvServiceProvider.h" />
+    <ClInclude Include="service\service.h" />
+    <ClInclude Include="support\basic\basicSupport.h" />
+    <ClInclude Include="support\support.h" />
+    <ClInclude Include="util\util.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
