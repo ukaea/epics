@@ -113,6 +113,7 @@ set PATH=%PATH%;%~dp0..\..\pvCommonCPP\bin\%EPICS_HOST_ARCH%
 set PATH=%PATH%;%~dp0..\..\pvIOCCPP\bin\%EPICS_HOST_ARCH%
 set PATH=%PATH%;%~dp0..\..\asyn\bin\%EPICS_HOST_ARCH%
 set PATH=%PATH%;%~dp0..\..\seq\bin\%EPICS_HOST_ARCH%
+set PATH=%PATH%;%~dp0..\..\busy\bin\%EPICS_HOST_ARCH%
 
 REM ======================================================
 REM ------- OPTIONAL ENVIRONMENT VARIABLES FOLLOW --------
