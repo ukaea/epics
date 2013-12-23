@@ -362,9 +362,6 @@
     <ClCompile Include="as\asTrapWrite.c">
       <Filter>as</Filter>
     </ClCompile>
-    <ClCompile Include="as\O.Common\asLib.c">
-      <Filter>O.Common</Filter>
-    </ClCompile>
     <ClCompile Include="as\O.Common\asLib_lex.c">
       <Filter>O.Common</Filter>
     </ClCompile>
@@ -397,6 +394,9 @@
     </ClCompile>
     <ClCompile Include="yajl\yajl_parser.c">
       <Filter>yajl</Filter>
+    </ClCompile>
+    <ClCompile Include="O.Common\asLib.c">
+      <Filter>O.Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

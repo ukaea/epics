@@ -58,6 +58,12 @@
     <ClCompile Include="O.Common\parse.c">
       <Filter>O.Common Files</Filter>
     </ClCompile>
+    <ClCompile Include="flex.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\osi\os\WIN32\epicsTempFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="flexdef.h">

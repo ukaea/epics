@@ -51,6 +51,9 @@
     <ClCompile Include="warshall.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\osi\os\WIN32\epicsTempFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="defs.h">

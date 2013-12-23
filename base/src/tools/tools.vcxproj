@@ -303,6 +303,7 @@ xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="EPICS\Path.pm" />
+    <None Include="EPICS\Release.pm" />
     <None Include="makeIncludeDbd.pl">
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">
       </Command>
