@@ -126,7 +126,7 @@ private:
     friend StandardFieldPtr getStandardField();
 };
 
-extern StandardFieldPtr getStandardField();
+epicsShareExtern StandardFieldPtr getStandardField();
     
 }}
 #endif  /* STANDARDFIELD_H */

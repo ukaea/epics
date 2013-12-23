@@ -39,9 +39,6 @@
     <ProjectReference Include="ashost.vcxproj">
       <Project>{815ff5be-8ed0-42d9-95a6-aadf7743adb7}</Project>
     </ProjectReference>
-    <ProjectReference Include="asLib.vcxproj">
-      <Project>{141f5a16-6d4a-473e-9a98-437ec190772e}</Project>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{440C585D-AD66-4738-941C-A87A1817A9BE}</ProjectGuid>

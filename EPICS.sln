@@ -89,8 +89,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "softIoc", "src\softIoc\soft
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testDevIoc", "src\dev\testDev\testDevIoc.vcxproj", "{5218D6C2-FD07-4C3F-9B5C-A834AC7C05E9}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "asLib", "src\as\asLib.vcxproj", "{141F5A16-6D4A-473E-9A98-437EC190772E}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "catools", "src\catools\catools.vcxproj", "{1F73649C-7543-4E39-87AB-50F0EFB03076}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "configure", "configure\configure.vcxproj", "{4B0CE8EE-60F4-44D7-8303-269032990B9B}"
@@ -309,10 +307,6 @@ Global
 		{5218D6C2-FD07-4C3F-9B5C-A834AC7C05E9}.Debug|Win32.Build.0 = Debug|Win32
 		{5218D6C2-FD07-4C3F-9B5C-A834AC7C05E9}.Release|Win32.ActiveCfg = Release|Win32
 		{5218D6C2-FD07-4C3F-9B5C-A834AC7C05E9}.Release|Win32.Build.0 = Release|Win32
-		{141F5A16-6D4A-473E-9A98-437EC190772E}.Debug|Win32.ActiveCfg = Debug|Win32
-		{141F5A16-6D4A-473E-9A98-437EC190772E}.Debug|Win32.Build.0 = Debug|Win32
-		{141F5A16-6D4A-473E-9A98-437EC190772E}.Release|Win32.ActiveCfg = Release|Win32
-		{141F5A16-6D4A-473E-9A98-437EC190772E}.Release|Win32.Build.0 = Release|Win32
 		{1F73649C-7543-4E39-87AB-50F0EFB03076}.Debug|Win32.ActiveCfg = Debug|Win32
 		{1F73649C-7543-4E39-87AB-50F0EFB03076}.Debug|Win32.Build.0 = Debug|Win32
 		{1F73649C-7543-4E39-87AB-50F0EFB03076}.Release|Win32.ActiveCfg = Release|Win32

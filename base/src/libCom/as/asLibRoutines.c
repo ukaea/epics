@@ -166,7 +166,7 @@ long epicsShareAPI asInitialize(ASINPUTFUNCPTR inputfunction)
     return(0);
 }
 
-long epicsShareAPI asInitFile(const char *filename,const char *substitutions)
+long asInitFile(const char *filename,const char *substitutions)
 {
     FILE *fp;
     long status;
@@ -221,7 +221,7 @@ static int myInputFunction(char *buf, int max_size)
     return(n);
 }
 
-long epicsShareAPI asInitFP(FILE *fp,const char *substitutions)
+long asInitFP(FILE *fp,const char *substitutions)
 {
     char	buffer[BUF_SIZE];
     char	mac_buffer[BUF_SIZE];

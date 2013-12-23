@@ -15,6 +15,7 @@
 #include <stdio.h>
 #include <string.h>
 
+
 #include "dbDefs.h"
 #include "ellLib.h"
 #include "epicsThread.h"
@@ -30,10 +31,10 @@
 #include "caeventmask.h"
 #include "alarm.h"
 #include "epicsStdioRedirect.h"
-
-#include "epicsExport.h"
 #include "asLib.h"
 #include "asDbLib.h"
+
+#include "epicsExport.h"
 #include "asCa.h"
 
 int asCaDebug = 0;
