@@ -22,11 +22,11 @@
     <ClCompile Include="src\DAQmxBaseMain.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\drvDaqMxBase.c">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="O.Common\DAQmxBase_registerRecordDeviceDriver.cpp">
       <Filter>O.Common</Filter>
+    </ClCompile>
+    <ClCompile Include="src\drvDaqMxBase.cpp">
+      <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -35,12 +35,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="src\DAQmxBaseSupport.dbd">
-      <Filter>src</Filter>
-    </CustomBuild>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="src\Makefile">
+      <Filter>src</Filter>
+    </None>
+    <None Include="src\DAQmxBaseSupport.dbd">
       <Filter>src</Filter>
     </None>
   </ItemGroup>

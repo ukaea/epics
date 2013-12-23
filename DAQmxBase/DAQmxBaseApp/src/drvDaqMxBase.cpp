@@ -25,8 +25,9 @@
 #include <sys/types.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <string.h>
 #include <time.h>
+
+#include <string>
 
 #ifndef _USE_MATH_DEFINES
 #define _USE_MATH_DEFINES
@@ -36,7 +37,6 @@
 /******************/
 /* EPICS includes */
 /******************/
-
 #include <asynDriver.h>
 #include <asynInt32.h>
 #include <asynFloat64.h>
@@ -44,7 +44,6 @@
 #include <asynFloat64Array.h>
 #include <asynUInt32Digital.h>
 #include <asynDrvUser.h>
-#include <cantProceed.h>	/* callocMustSucceed() */
 #include <epicsTypes.h>
 #include <epicsString.h>
 #include <epicsEvent.h>
@@ -58,6 +57,7 @@
 
 #include <NIDAQmx.h>
 
+#define epicsExportSharedSymbols
 #include <epicsExport.h>
 
 /* various useful enumeration declarations */
@@ -108,7 +108,8 @@ typedef enum {
 #define MAX_ACQ_TYPES 6
 #define MIN_ACQ_TYPES 1
 typedef enum {
-	AI = 1,
+	NotDefined,
+	AI,
 	AO,
 	BI,
 	BO,
@@ -1294,8 +1295,8 @@ static asynStatus dmbRead(	void *drvPvt, asynUser *pasynUser,
 	return( status );
 }
 
-static char * PrevGenPort;
-static int PrevGenChan;
+static std::string g_PrevGenPort;
+static int g_PrevGenChan;
 
 void DAQmxGenDig(daqMxPvt *pPvt, int Channelnr, char * params)
 {
@@ -1328,7 +1329,7 @@ void DAQmxGenDig(daqMxPvt *pPvt, int Channelnr, char * params)
 
 }
 
-void DAQmxGen(char * portName, int Channelnr, char * params)
+void DAQmxGen(const char * portName, int Channelnr, char * params)
 {
     char * token;
     daqMxPvt * pPvt; 
@@ -1371,19 +1372,8 @@ void DAQmxGen(char * portName, int Channelnr, char * params)
     }
 
     
-    
-    if (PrevGenPort){
-	if (strcmp(portName,PrevGenPort)!=0){
-	    free(PrevGenPort);
-	    PrevGenPort = NULL;
-	}
-    }
-    if (!PrevGenPort)
-    {
-	PrevGenPort = (char*) malloc(strlen(portName));
-	strcpy(PrevGenPort,portName);
-    }
-    PrevGenChan = Channelnr;
+    g_PrevGenPort = portName;
+    g_PrevGenChan = Channelnr;
 
     if (pPvt->daqMode == BO){
 	DAQmxGenDig(pPvt,Channelnr,params);
@@ -1774,12 +1764,7 @@ void DAQmxGen(char * portName, int Channelnr, char * params)
 
 void DAQmxGenP(char * params)
 {
-    if (!PrevGenPort)
-    {
-	printf("### ERROR: Must first run DAQmxGen before you can use DAQmxGenP\n");
-	return;
-    }
-    DAQmxGen(PrevGenPort,PrevGenChan,params);
+	DAQmxGen(g_PrevGenPort.c_str(), g_PrevGenChan,params);
 }
 
 
@@ -1871,13 +1856,13 @@ daqMxPvt *getAsynPort(char *portName )
 	 * since NI HW does not support multiple setups across features. */
 	if (pPvt == NULL)
 	{
-		pPvt = callocMustSucceed(1, sizeof(daqMxPvt), "getAsynPort");
+		pPvt = new daqMxPvt();
 		if (pPvt == NULL) return NULL;
 		pPvt->portName = portName;
 		pPvt->nChannels = 0;
 		pPvt->nSamples = DEFAULT_NSAMPLES;
 		pPvt->state = unconfigured;
-		pPvt->daqMode = 0;
+		pPvt->daqMode = NotDefined;
 		pPvt->rawData = NULL;
 		pPvt->prevData = NULL;
 		pPvt->rawDataSize = 0;
@@ -2170,7 +2155,7 @@ static asynStatus allocBuffers(daqMxPvt *pPvt, asynUser *pasynUser)
 		/* allocate memory for the raw buffer */
 		if ((pPvt->rawDataSize < pPvt->totalNSamples) || (pPvt->rawData == NULL)){
 		    if (pPvt->rawData != NULL){
-			free(pPvt->rawData);
+			delete pPvt->rawData;
 			pPvt->rawData = NULL;
 		    }
 		    if (pPvt->prevData != NULL){
@@ -2576,7 +2561,7 @@ int DAQmxConfig(char *portName, char * deviceName, int Channelnr, char * sacqTyp
 	}
 		
 	stringLength = strlen(portName);
-	tmpStrName = malloc( (stringLength + 1) *sizeof(char));
+	tmpStrName = new char(stringLength + 1);
 	tmpStrName[stringLength] = 0;
 	strcpy(tmpStrName, portName);
  	
@@ -2618,7 +2603,7 @@ int DAQmxConfig(char *portName, char * deviceName, int Channelnr, char * sacqTyp
 	
 	/* allocate enough memory to contain possibly the original
 	 * string + one ',' char and the new deviceName string */
-	tmpStrName = calloc( (stringLength + 1), sizeof(char));
+	tmpStrName = new char(stringLength + 1);
 	tmpStrName[stringLength] = 0;
 	if(pPvt->deviceNames != NULL) 
 	{
@@ -2640,7 +2625,7 @@ int DAQmxConfig(char *portName, char * deviceName, int Channelnr, char * sacqTyp
 		    /* allocate the aioPvt struct*/
 		    i = Channelnr;
 
-		    pPvt->aioPvt[i] = (void *) calloc( 1, sizeof( daqAioPvt ));
+		    pPvt->aioPvt[i] = new daqAioPvt();
 		    if (pPvt->aioPvt[i] == NULL)
 		    {
 			printf("### ERROR: could not allocate mem for aioPvt\n");
@@ -2858,6 +2843,7 @@ void DAQmxChangeDeviceName(char * portName, int channelnr, char * newdevicename)
     epicsMutexUnlock(pPvt->lock);
 
 }
+
 void DAQmxStart(char * portName)
 {
     daqMxPvt * pPvt; 
@@ -3178,7 +3164,7 @@ void Configure(daqMxPvt *pPvt)
 		}
 	}else{
 		asynPrint(pPvt->pasynUser, ASYN_TRACE_FLOW,
-			"port %s: No SampleClkTiming configuration done (this is not necessarily and error)\n",pPvt->portName);
+			"port %s: No SampleClkTiming configuration done (this is not necessarily an error)\n",pPvt->portName);
 	}
 	/* I'm unsure if this should be in config or start???*/
 	/* I think triggering wouldn't really work with continuous sampling
@@ -3415,7 +3401,7 @@ void daqThread(void *param)
 			pNode = (interruptNode *)ellFirst(pclientList);
 			while (pNode != NULL)
 			{
-				pUInt32DigitalInterrupt = pNode->drvPvt;
+				pUInt32DigitalInterrupt = static_cast<asynUInt32DigitalInterrupt*>(pNode->drvPvt);
 				reason = pUInt32DigitalInterrupt->pasynUser->reason;
 				if (reason == stateCmd)
 				{
@@ -3494,7 +3480,7 @@ void daqThread(void *param)
 				pNode = (interruptNode *)ellFirst(pclientList);
 				while (pNode != NULL)
 				{
-					pUInt32DigitalInterrupt = pNode->drvPvt;
+					pUInt32DigitalInterrupt = static_cast<asynUInt32DigitalInterrupt*>(pNode->drvPvt);
 					reason = pUInt32DigitalInterrupt->pasynUser->reason;
 					if (reason == acquireCmd)
 					{
@@ -3569,7 +3555,7 @@ void daqThread(void *param)
 															pPvt->nSamples,
 															pPvt->timeout,
 															DAQmx_Val_GroupByChannel,
-															pPvt->rawData,
+															static_cast<double*>(pPvt->rawData),
 															pPvt->totalNSamples,
  										                    &samplesTransferred,
 															NULL) ))
@@ -3617,7 +3603,7 @@ void daqThread(void *param)
 				{
 				    /*asynPrint(pPvt->pasynUser, ASYN_TRACE_FLOW,
 				      "Finding interrupt node\n");*/
-					pFloat64ArrayInterrupt = pNode->drvPvt;
+					pFloat64ArrayInterrupt = static_cast<asynFloat64ArrayInterrupt*>(pNode->drvPvt);
 					reason = pFloat64ArrayInterrupt->pasynUser->reason;
 
 					if (reason == dataCmd)
@@ -3642,7 +3628,7 @@ void daqThread(void *param)
 				{
 				    /*asynPrint(pPvt->pasynUser, ASYN_TRACE_FLOW,
 				      "Finding interrupt node\n");*/
-					pFloat64Interrupt = pNode->drvPvt;
+					pFloat64Interrupt = static_cast<asynFloat64Interrupt*>(pNode->drvPvt);
 					reason = pFloat64Interrupt->pasynUser->reason;
 
 					if ((reason == dataCmd)||(reason == dTimeCmd))
@@ -3717,7 +3703,7 @@ void daqThread(void *param)
 									pPvt->nSamples,
 									pPvt->timeout,
 									DAQmx_Val_GroupByChannel,
-									pPvt->rawData,
+									static_cast<uInt32*>(pPvt->rawData),
 									pPvt->totalNSamples,
 									&samplesTransferred,
 									NULL) ))
@@ -3748,7 +3734,7 @@ void daqThread(void *param)
 			    {
 				/*asynPrint(pPvt->pasynUser, ASYN_TRACE_FLOW,
 				  "Finding interrupt node\n");*/
-				pInt32ArrayInterrupt = pNode->drvPvt;
+				pInt32ArrayInterrupt = static_cast<asynInt32ArrayInterrupt*>(pNode->drvPvt);
 				reason = pInt32ArrayInterrupt->pasynUser->reason;
 				
 				if (reason == dataCmd)
@@ -3773,7 +3759,7 @@ void daqThread(void *param)
 			    {
 				/*asynPrint(pPvt->pasynUser, ASYN_TRACE_FLOW,
 				  "Finding interrupt node\n");*/
-				pInt32Interrupt = pNode->drvPvt;
+				pInt32Interrupt = static_cast<asynInt32Interrupt*>(pNode->drvPvt);
 				reason = pInt32Interrupt->pasynUser->reason;
 				
 				if ((reason == dataCmd)||(reason == dTimeCmd))
@@ -3824,7 +3810,7 @@ void daqThread(void *param)
 				    if( DAQmxFailed( DAQmxReadCounterF64(	pPvt->taskHandle, 
 										pPvt->nSamples,
 										pPvt->timeout,
-										pPvt->rawData,
+										static_cast<double*>(pPvt->rawData),
 										pPvt->totalNSamples,
 										&samplesTransferred,
 										NULL) ))
@@ -3840,7 +3826,7 @@ void daqThread(void *param)
 				    samplesTransferred = 1;
 				    if( DAQmxFailed( DAQmxReadCounterScalarF64(	pPvt->taskHandle, 
 											pPvt->timeout,
-											pPvt->rawData,
+											static_cast<double*>(pPvt->rawData),
 											NULL) ))
 				    {
 					DAQmxGetExtendedErrorInfo(pPvt->daqMxErrBuf, ERR_BUF_SIZE);
@@ -3854,7 +3840,7 @@ void daqThread(void *param)
 				    samplesTransferred = 1;
 				    if( DAQmxFailed( DAQmxReadCounterScalarU32(	pPvt->taskHandle, 
 											pPvt->timeout,
-											pPvt->rawData,
+											static_cast<uInt32*>(pPvt->rawData),
 											NULL) ))
 				    {
 					DAQmxGetExtendedErrorInfo(pPvt->daqMxErrBuf, ERR_BUF_SIZE);
@@ -3869,7 +3855,7 @@ void daqThread(void *param)
 				    if( DAQmxFailed( DAQmxReadCounterU32(	pPvt->taskHandle, 
 										pPvt->nSamples,
 										pPvt->timeout,
-										pPvt->rawData,
+										static_cast<uInt32*>(pPvt->rawData),
 										pPvt->totalNSamples,
 										&samplesTransferred,
 										NULL) ))
@@ -3924,7 +3910,7 @@ void daqThread(void *param)
 				    {
 					/*asynPrint(pPvt->pasynUser, ASYN_TRACE_FLOW,
 					  "Finding interrupt node\n");*/
-					pInt32Interrupt = pNode->drvPvt;
+					pInt32Interrupt = static_cast<asynInt32Interrupt*>(pNode->drvPvt);
 					reason = pInt32Interrupt->pasynUser->reason;
 					
 					if ((reason == dataCmd)||(reason == dTimeCmd))
@@ -3985,7 +3971,7 @@ void daqThread(void *param)
 									 FALSE,
 									 pPvt->timeout,
 									 DAQmx_Val_GroupByChannel,
-									 pPvt->rawData,
+									 static_cast<double*>(pPvt->rawData),
 									 &samplesTransferred, /* using same variable as reading - should be ok? */
 									 NULL)))
 				{
@@ -4000,7 +3986,7 @@ void daqThread(void *param)
 									 FALSE,
 									 pPvt->timeout,
 									 DAQmx_Val_GroupByChannel,
-									 pPvt->rawData,
+									 static_cast<uInt32*>(pPvt->rawData),
 									 &samplesTransferred, /* using same variable as reading - should be ok? */
 									 NULL)))
 				{
@@ -4067,7 +4053,7 @@ void daqThread(void *param)
 				pPvt->state = idle;
 				while (pNode != NULL)
 				{
-					pUInt32DigitalInterrupt = pNode->drvPvt;
+					pUInt32DigitalInterrupt = static_cast<asynUInt32DigitalInterrupt*>(pNode->drvPvt);
 					reason = pUInt32DigitalInterrupt->pasynUser->reason;
 					if (reason == acquireCmd)
 					{
@@ -4183,11 +4169,11 @@ static void DAQmxStartFunc(const iocshArgBuf *args)
 		DAQmxStart(args[0].sval);
 }
 
-static void epicsShareAPI DAQmxBaseRegistrar(void)
+static void DAQmxBaseRegistrar(void)
 {
     globalshutdown = 0;
-    PrevGenPort = NULL;
-    PrevGenChan = 0;
+    g_PrevGenPort = "";
+    g_PrevGenChan = 0;
 
     iocshRegister(&DAQmxConfigFuncDef, DAQmxConfigCallFunc);
 	iocshRegister(&DAQmxResetFuncDef, DAQmxResetCallFunc);
@@ -4199,5 +4185,8 @@ static void epicsShareAPI DAQmxBaseRegistrar(void)
 	iocshRegister(&DAQmxStartFuncDef, DAQmxStartFunc);
 }
 
+extern "C" {
+
 epicsExportRegistrar(DAQmxBaseRegistrar);
 
+}
