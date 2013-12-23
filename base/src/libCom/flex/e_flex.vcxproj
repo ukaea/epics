@@ -61,6 +61,9 @@ move /Y y.tab.h $(IntDir)parse.h
     <ProjectReference Include="..\..\libCom\Com.vcxproj">
       <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\antelope\antelope.vcxproj">
+      <Project>{5f6323ff-ceeb-4ad8-bed3-a443e6f75546}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{285B2DD5-B55E-4195-9B2D-F129CF54A2B4}</ProjectGuid>
