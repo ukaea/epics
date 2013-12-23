@@ -17,6 +17,10 @@
 #include <string.h>
 #include <alarm.h>
 #include <recGbl.h>
+
+
+#define epicsExportSharedSymbols
+#include <epicsExport.h>
 #include <devCommonGpib.h>
 
 

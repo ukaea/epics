@@ -1584,7 +1584,7 @@ cd $(ProjectDir)
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\ioc\bpt;.\O.Common</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4244;4018</DisableSpecificWarnings>
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
       <BrowseInformation>true</BrowseInformation>
@@ -1595,6 +1595,8 @@ cd $(ProjectDir)
     </Link>
     <PostBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
+if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
+xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
 xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
 </Command>
     </PostBuildEvent>
@@ -1603,6 +1605,7 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
 if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
 xcopy /Y /Q /D /R dev\*.dbd $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R rec\*.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R db\*.dbd $(SolutionDir)dbd &gt; NUL
 perl -CSD $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -Ifilters -I$(SolutionDir)dbd -o O.Common/stdRecords.dbd aaiRecord.dbd aaoRecord.dbd aiRecord.dbd aoRecord.dbd aSubRecord.dbd biRecord.dbd boRecord.dbd calcRecord.dbd calcoutRecord.dbd compressRecord.dbd dfanoutRecord.dbd eventRecord.dbd fanoutRecord.dbd histogramRecord.dbd longinRecord.dbd longoutRecord.dbd mbbiRecord.dbd mbbiDirectRecord.dbd mbboRecord.dbd mbboDirectRecord.dbd permissiveRecord.dbd selRecord.dbd seqRecord.dbd stateRecord.dbd stringinRecord.dbd stringoutRecord.dbd subRecord.dbd subArrayRecord.dbd waveformRecord.dbd
 </Command>
     </PreBuildEvent>
@@ -1613,7 +1616,7 @@ perl -CSD $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -Ifilters -I$(SolutionDi
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\ioc\bpt;.\O.Common</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4244;4018</DisableSpecificWarnings>
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
       <BrowseInformation>true</BrowseInformation>
@@ -1625,6 +1628,8 @@ perl -CSD $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -Ifilters -I$(SolutionDi
     </Link>
     <PostBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
+if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
+xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
 xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
 </Command>
     </PostBuildEvent>
@@ -1633,6 +1638,7 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
 if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
 xcopy /Y /Q /D /R dev\*.dbd $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R rec\*.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R db\*.dbd $(SolutionDir)dbd &gt; NUL
 perl -CSD $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -Ifilters -I$(SolutionDir)dbd -o O.Common/stdRecords.dbd aaiRecord.dbd aaoRecord.dbd aiRecord.dbd aoRecord.dbd aSubRecord.dbd biRecord.dbd boRecord.dbd calcRecord.dbd calcoutRecord.dbd compressRecord.dbd dfanoutRecord.dbd eventRecord.dbd fanoutRecord.dbd histogramRecord.dbd longinRecord.dbd longoutRecord.dbd mbbiRecord.dbd mbbiDirectRecord.dbd mbboRecord.dbd mbboDirectRecord.dbd permissiveRecord.dbd selRecord.dbd seqRecord.dbd stateRecord.dbd stringinRecord.dbd stringoutRecord.dbd subRecord.dbd subArrayRecord.dbd waveformRecord.dbd
 </Command>
     </PreBuildEvent>
@@ -1643,7 +1649,7 @@ perl -CSD $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -Ifilters -I$(SolutionDi
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\ioc\bpt;.\O.Common</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4244;4018</DisableSpecificWarnings>
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
       <BrowseInformation>true</BrowseInformation>
@@ -1654,6 +1660,8 @@ perl -CSD $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -Ifilters -I$(SolutionDi
     </Link>
     <PostBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
+if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
+xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
 xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
 </Command>
     </PostBuildEvent>
@@ -1662,6 +1670,7 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
 if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
 xcopy /Y /Q /D /R dev\*.dbd $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R rec\*.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R db\*.dbd $(SolutionDir)dbd &gt; NUL
 perl -CSD $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -Ifilters -I$(SolutionDir)dbd -o O.Common/stdRecords.dbd aaiRecord.dbd aaoRecord.dbd aiRecord.dbd aoRecord.dbd aSubRecord.dbd biRecord.dbd boRecord.dbd calcRecord.dbd calcoutRecord.dbd compressRecord.dbd dfanoutRecord.dbd eventRecord.dbd fanoutRecord.dbd histogramRecord.dbd longinRecord.dbd longoutRecord.dbd mbbiRecord.dbd mbbiDirectRecord.dbd mbboRecord.dbd mbboDirectRecord.dbd permissiveRecord.dbd selRecord.dbd seqRecord.dbd stateRecord.dbd stringinRecord.dbd stringoutRecord.dbd subRecord.dbd subArrayRecord.dbd waveformRecord.dbd
 </Command>
     </PreBuildEvent>
@@ -1672,7 +1681,7 @@ perl -CSD $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -Ifilters -I$(SolutionDi
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\ioc\bpt;.\O.Common</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4244;4018</DisableSpecificWarnings>
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
       <BrowseInformation>true</BrowseInformation>
@@ -1684,6 +1693,8 @@ perl -CSD $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -Ifilters -I$(SolutionDi
     </Link>
     <PostBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
+if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
+xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
 xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
 </Command>
     </PostBuildEvent>
@@ -1692,6 +1703,7 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
 if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
 xcopy /Y /Q /D /R dev\*.dbd $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R rec\*.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R db\*.dbd $(SolutionDir)dbd &gt; NUL
 perl -CSD $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -Ifilters -I$(SolutionDir)dbd -o O.Common/stdRecords.dbd aaiRecord.dbd aaoRecord.dbd aiRecord.dbd aoRecord.dbd aSubRecord.dbd biRecord.dbd boRecord.dbd calcRecord.dbd calcoutRecord.dbd compressRecord.dbd dfanoutRecord.dbd eventRecord.dbd fanoutRecord.dbd histogramRecord.dbd longinRecord.dbd longoutRecord.dbd mbbiRecord.dbd mbbiDirectRecord.dbd mbboRecord.dbd mbboDirectRecord.dbd permissiveRecord.dbd selRecord.dbd seqRecord.dbd stateRecord.dbd stringinRecord.dbd stringoutRecord.dbd subRecord.dbd subArrayRecord.dbd waveformRecord.dbd
 </Command>
     </PreBuildEvent>
@@ -1704,7 +1716,7 @@ perl -CSD $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -Ifilters -I$(SolutionDi
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\ioc\bpt;.\O.Common</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4244;4018</DisableSpecificWarnings>
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
     </ClCompile>
@@ -1718,11 +1730,14 @@ perl -CSD $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -Ifilters -I$(SolutionDi
 if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
 xcopy /Y /Q /D /R dev\*.dbd $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R rec\*.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R db\*.dbd $(SolutionDir)dbd &gt; NUL
 perl -CSD $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -Ifilters -I$(SolutionDir)dbd -o O.Common/stdRecords.dbd aaiRecord.dbd aaoRecord.dbd aiRecord.dbd aoRecord.dbd aSubRecord.dbd biRecord.dbd boRecord.dbd calcRecord.dbd calcoutRecord.dbd compressRecord.dbd dfanoutRecord.dbd eventRecord.dbd fanoutRecord.dbd histogramRecord.dbd longinRecord.dbd longoutRecord.dbd mbbiRecord.dbd mbbiDirectRecord.dbd mbboRecord.dbd mbboDirectRecord.dbd permissiveRecord.dbd selRecord.dbd seqRecord.dbd stateRecord.dbd stringinRecord.dbd stringoutRecord.dbd subRecord.dbd subArrayRecord.dbd waveformRecord.dbd
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
+if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
+xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
 xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
 </Command>
     </PostBuildEvent>
@@ -1735,7 +1750,7 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\ioc\bpt;.\O.Common</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4244;4018</DisableSpecificWarnings>
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -1750,11 +1765,14 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
 if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
 xcopy /Y /Q /D /R dev\*.dbd $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R rec\*.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R db\*.dbd $(SolutionDir)dbd &gt; NUL
 perl -CSD $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -Ifilters -I$(SolutionDir)dbd -o O.Common/stdRecords.dbd aaiRecord.dbd aaoRecord.dbd aiRecord.dbd aoRecord.dbd aSubRecord.dbd biRecord.dbd boRecord.dbd calcRecord.dbd calcoutRecord.dbd compressRecord.dbd dfanoutRecord.dbd eventRecord.dbd fanoutRecord.dbd histogramRecord.dbd longinRecord.dbd longoutRecord.dbd mbbiRecord.dbd mbbiDirectRecord.dbd mbboRecord.dbd mbboDirectRecord.dbd permissiveRecord.dbd selRecord.dbd seqRecord.dbd stateRecord.dbd stringinRecord.dbd stringoutRecord.dbd subRecord.dbd subArrayRecord.dbd waveformRecord.dbd
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
+if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
+xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
 xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
 </Command>
     </PostBuildEvent>
@@ -1767,7 +1785,7 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\ioc\bpt;.\O.Common</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4244;4018</DisableSpecificWarnings>
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
     </ClCompile>
@@ -1781,11 +1799,14 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
 if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
 xcopy /Y /Q /D /R dev\*.dbd $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R rec\*.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R db\*.dbd $(SolutionDir)dbd &gt; NUL
 perl -CSD $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -Ifilters -I$(SolutionDir)dbd -o O.Common/stdRecords.dbd aaiRecord.dbd aaoRecord.dbd aiRecord.dbd aoRecord.dbd aSubRecord.dbd biRecord.dbd boRecord.dbd calcRecord.dbd calcoutRecord.dbd compressRecord.dbd dfanoutRecord.dbd eventRecord.dbd fanoutRecord.dbd histogramRecord.dbd longinRecord.dbd longoutRecord.dbd mbbiRecord.dbd mbbiDirectRecord.dbd mbboRecord.dbd mbboDirectRecord.dbd permissiveRecord.dbd selRecord.dbd seqRecord.dbd stateRecord.dbd stringinRecord.dbd stringoutRecord.dbd subRecord.dbd subArrayRecord.dbd waveformRecord.dbd
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
+if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
+xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
 xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
 </Command>
     </PostBuildEvent>
@@ -1798,7 +1819,7 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\ioc\bpt;.\O.Common</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4244;4018</DisableSpecificWarnings>
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -1813,11 +1834,14 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
 if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
 xcopy /Y /Q /D /R dev\*.dbd $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R rec\*.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R db\*.dbd $(SolutionDir)dbd &gt; NUL
 perl -CSD $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -Ifilters -I$(SolutionDir)dbd -o O.Common/stdRecords.dbd aaiRecord.dbd aaoRecord.dbd aiRecord.dbd aoRecord.dbd aSubRecord.dbd biRecord.dbd boRecord.dbd calcRecord.dbd calcoutRecord.dbd compressRecord.dbd dfanoutRecord.dbd eventRecord.dbd fanoutRecord.dbd histogramRecord.dbd longinRecord.dbd longoutRecord.dbd mbbiRecord.dbd mbbiDirectRecord.dbd mbboRecord.dbd mbboDirectRecord.dbd permissiveRecord.dbd selRecord.dbd seqRecord.dbd stateRecord.dbd stringinRecord.dbd stringoutRecord.dbd subRecord.dbd subArrayRecord.dbd waveformRecord.dbd
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
+if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
+xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
 xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
 </Command>
     </PostBuildEvent>

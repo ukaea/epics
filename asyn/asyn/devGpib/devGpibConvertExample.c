@@ -49,6 +49,9 @@
 
 #include <devCommonGpib.h>
 #include <devSupportGpib.h>
+
+#define epicsExportSharedSymbols
+#include <epicsExport.h>
 #include <devGpib.h>
 
 #define	TIMEOUT	1.0

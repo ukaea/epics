@@ -12,6 +12,8 @@
     February 8, 2012
 */
 
+#define epicsExportSharedSymbols
+#include <epicsExport.h>
 #include "asynInt32.h"
 #include "devAsynXXXTimeSeries.h"
 

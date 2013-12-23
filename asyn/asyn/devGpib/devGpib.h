@@ -40,7 +40,7 @@
 
 #include <devCommonGpib.h>
 #include <devSup.h>
-#include <epicsExport.h>
+//#include <epicsExport.h>
 /* forward declaration: */
 static devGpibParmBlock devSupParms;
 

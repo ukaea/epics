@@ -13,6 +13,10 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="O.Common">
+      <UniqueIdentifier>{9f9fe470-5d53-4b0a-9b5c-f59f102820bc}</UniqueIdentifier>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\DAQmxBaseMain.cpp">
@@ -20,6 +24,9 @@
     </ClCompile>
     <ClCompile Include="src\drvDaqMxBase.c">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="O.Common\DAQmxBase_registerRecordDeviceDriver.cpp">
+      <Filter>O.Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -31,5 +38,10 @@
     <CustomBuild Include="src\DAQmxBaseSupport.dbd">
       <Filter>src</Filter>
     </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\Makefile">
+      <Filter>src</Filter>
+    </None>
   </ItemGroup>
 </Project>

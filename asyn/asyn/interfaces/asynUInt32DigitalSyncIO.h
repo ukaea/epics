@@ -14,9 +14,10 @@
 #ifndef asynUInt32DigitalSyncIOH
 #define asynUInt32DigitalSyncIOH
 
-#include <asynDriver.h>
 #include <epicsTypes.h>
+
 #include <shareLib.h>
+#include <asynDriver.h>
 
 #ifdef __cplusplus
 extern "C" {

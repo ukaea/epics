@@ -12,10 +12,21 @@
 #ifndef asynEpicsUtilsH
 #define asynEpicsUtilsH
 
+#ifdef epicsExportSharedSymbols
+#	define asynEpicsUtils_epicsExportSharedSymbols
+#   undef epicsExportSharedSymbols
+#endif
+
 #include <link.h>
-#include <shareLib.h>
 #include <epicsTypes.h>
 #include <alarm.h>
+
+#ifdef asynEpicsUtils_epicsExportSharedSymbols
+#   define epicsExportSharedSymbols
+#	undef asynEpicsUtils_epicsExportSharedSymbols
+#endif
+
+#include <shareLib.h>
 #include "asynDriver.h"
 
 #ifdef __cplusplus
