@@ -281,6 +281,8 @@
     <ClInclude Include="misc\testMain.h" />
     <ClInclude Include="misc\unixFileName.h" />
     <ClInclude Include="osi\compilerDependencies.h" />
+    <ClInclude Include="osi\compiler\msvc\compilerSpecific.h" />
+    <ClInclude Include="osi\compiler\msvc\epicsAtomicCD.h" />
     <ClInclude Include="osi\devLib.h" />
     <ClInclude Include="osi\devLibVME.h" />
     <ClInclude Include="osi\devLibVMEImpl.h" />

@@ -84,6 +84,12 @@
     <Filter Include="yajl">
       <UniqueIdentifier>{6bd60d53-f00d-4569-8988-6028a4ab516a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="osi\os\compiler">
+      <UniqueIdentifier>{e5068781-9595-45fa-821d-6d2db7997987}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="osi\os\compiler\msvc">
+      <UniqueIdentifier>{83557579-b4f9-4648-a1bc-1c7d41e05d4b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="bucketLib\bucketLib.c">
@@ -741,6 +747,12 @@
     </ClInclude>
     <ClInclude Include="yajl\yajl_parser.h">
       <Filter>yajl</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\compiler\msvc\compilerSpecific.h">
+      <Filter>osi\os\compiler\msvc</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\compiler\msvc\epicsAtomicCD.h">
+      <Filter>osi\os\compiler\msvc</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
