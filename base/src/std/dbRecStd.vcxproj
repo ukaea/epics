@@ -57,266 +57,320 @@
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\aaiRecord.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\aaiRecord.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\%(Filename).h</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
     <CustomBuild Include="aaoRecord.dbd">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\aaoRecord.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\aaoRecord.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\%(Filename).h</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
     <CustomBuild Include="aiRecord.dbd">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\aiRecord.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\aiRecord.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\%(Filename).h</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
     <CustomBuild Include="aoRecord.dbd">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\aoRecord.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\aoRecord.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\%(Filename).h</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
     <CustomBuild Include="aSubRecord.dbd">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\aSubRecord.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\aSubRecord.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\%(Filename).h</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
     <CustomBuild Include="biRecord.dbd">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\biRecord.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\biRecord.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\%(Filename).h</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
     <CustomBuild Include="boRecord.dbd">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\boRecord.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\boRecord.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\%(Filename).h</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
     <CustomBuild Include="calcoutRecord.dbd">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\calcoutRecord.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\calcoutRecord.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\%(Filename).h</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
     <CustomBuild Include="calcRecord.dbd">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\calcRecord.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\calcRecord.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\%(Filename).h</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
     <CustomBuild Include="compressRecord.dbd">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\compressRecord.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\compressRecord.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\%(Filename).h</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
     <CustomBuild Include="dfanoutRecord.dbd">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\dfanoutRecord.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\dfanoutRecord.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\%(Filename).h</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
     <CustomBuild Include="eventRecord.dbd">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> O.Common\eventRecord.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'"> O.Common\eventRecord.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\%(Filename).h</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
     <CustomBuild Include="fanoutRecord.dbd">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\fanoutRecord.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\fanoutRecord.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\%(Filename).h</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
     <CustomBuild Include="histogramRecord.dbd">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\histogramRecord.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\histogramRecord.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\%(Filename).h</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">O.Common\histogramRecord.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|X64'">O.Common\histogramRecord.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
     <CustomBuild Include="longinRecord.dbd">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\longinRecord.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\longinRecord.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\%(Filename).h</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
     <CustomBuild Include="longoutRecord.dbd">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\longoutRecord.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\longoutRecord.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\%(Filename).h</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
     <CustomBuild Include="mbbiDirectRecord.dbd">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\mbbiDirectRecord.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\mbbiDirectRecord.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\%(Filename).h</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
     <CustomBuild Include="mbbiRecord.dbd">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\mbbiRecord.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\mbbiRecord.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\%(Filename).h</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
     <CustomBuild Include="mbboDirectRecord.dbd">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\mbboDirectRecord.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\mbboDirectRecord.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\%(Filename).h</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
     <CustomBuild Include="mbboRecord.dbd">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\mbboRecord.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\mbboRecord.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\%(Filename).h</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
     <CustomBuild Include="permissiveRecord.dbd">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\permissiveRecord.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\permissiveRecord.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\%(Filename).h</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
     <CustomBuild Include="selRecord.dbd">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\selRecord.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\selRecord.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\%(Filename).h</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
     <CustomBuild Include="seqRecord.dbd">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\seqRecord.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\seqRecord.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\%(Filename).h</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
     <CustomBuild Include="stateRecord.dbd">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\stateRecord.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\stateRecord.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\%(Filename).h</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
     <CustomBuild Include="stringinRecord.dbd">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\stringinRecord.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\stringinRecord.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\%(Filename).h</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
     <CustomBuild Include="stringoutRecord.dbd">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> O.Common\stringoutRecord.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'"> O.Common\stringoutRecord.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\%(Filename).h</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
     <CustomBuild Include="subArrayRecord.dbd">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\subArrayRecord.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\subArrayRecord.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\%(Filename).h</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
     <CustomBuild Include="subRecord.dbd">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\subRecord.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\subRecord.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\%(Filename).h</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">O.Common\subRecord.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|X64'">O.Common\subRecord.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
     <CustomBuild Include="waveformRecord.dbd">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\waveformRecord.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\waveformRecord.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\%(Filename).h</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|X64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I$(SolutionDir)dbd %(Filename).dbd O.Common\%(Filename).h</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">O.Common\%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
@@ -398,6 +452,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;.\O.Common</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4244;4018</DisableSpecificWarnings>
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
+      <BrowseInformation>true</BrowseInformation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -424,6 +479,7 @@ xcopy /Y /Q  /D *.dbd $(SolutionDir)dbd &gt; NUL
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;.\O.Common</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4244;4018</DisableSpecificWarnings>
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
+      <BrowseInformation>true</BrowseInformation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
