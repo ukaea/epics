@@ -195,6 +195,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gtest_main-md", "gtest\msvc
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "inetAddressUtilsTest", "pcAccessCPP\testApp\utils\inetAddressUtilsTest.vcxproj", "{4B32C87F-0EC2-4A3C-BAF3-D37CC62FE72E}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pvIOCApp", "pvIOCCPP\pvIocApp\pvIOCApp.vcxproj", "{306F772C-37B9-4EB9-8C4C-3B7761CD4C79}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -589,6 +591,10 @@ Global
 		{4B32C87F-0EC2-4A3C-BAF3-D37CC62FE72E}.Debug|Win32.Build.0 = Debug|Win32
 		{4B32C87F-0EC2-4A3C-BAF3-D37CC62FE72E}.Release|Win32.ActiveCfg = Release|Win32
 		{4B32C87F-0EC2-4A3C-BAF3-D37CC62FE72E}.Release|Win32.Build.0 = Release|Win32
+		{306F772C-37B9-4EB9-8C4C-3B7761CD4C79}.Debug|Win32.ActiveCfg = Debug|Win32
+		{306F772C-37B9-4EB9-8C4C-3B7761CD4C79}.Debug|Win32.Build.0 = Debug|Win32
+		{306F772C-37B9-4EB9-8C4C-3B7761CD4C79}.Release|Win32.ActiveCfg = Release|Win32
+		{306F772C-37B9-4EB9-8C4C-3B7761CD4C79}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TrackFileAccess>false</TrackFileAccess>
+  </PropertyGroup>
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -119,6 +122,9 @@
   <ItemGroup>
     <ProjectReference Include="..\ca\ca.vcxproj">
       <Project>{02caf068-a7fc-463e-aa7e-72eeaf665826}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\dbStatic\dbstaticIoc.vcxproj">
+      <Project>{97d3c50e-9c9e-41ef-a49d-eaea78ce8378}</Project>
     </ProjectReference>
     <ProjectReference Include="..\gdd\gdd.vcxproj">
       <Project>{7db032ce-8696-4d7a-8679-e8b486012aec}</Project>
