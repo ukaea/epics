@@ -77,7 +77,7 @@
     <Filter Include="osi\os\default">
       <UniqueIdentifier>{c6be12f6-3fef-4a14-999e-c0a836c7c94c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Auto-generated Files">
+    <Filter Include="O.Common Files">
       <UniqueIdentifier>{7030ec28-5efe-4a15-abff-02ca0c3fb80d}</UniqueIdentifier>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
@@ -339,10 +339,10 @@
       <Filter>osi\os\default</Filter>
     </ClCompile>
     <ClCompile Include="O.Common\envData.c">
-      <Filter>Auto-generated Files</Filter>
+      <Filter>O.Common Files</Filter>
     </ClCompile>
     <ClCompile Include="O.Common\errSymTbl.c">
-      <Filter>Auto-generated Files</Filter>
+      <Filter>O.Common Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -645,20 +645,11 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="cxxTemplates\README">
-      <Filter>cxxTemplates</Filter>
-    </None>
     <None Include="freeList\freeList.html">
       <Filter>freeList</Filter>
     </None>
     <None Include="gpHash\gpHash.html">
       <Filter>gpHash</Filter>
-    </None>
-    <None Include="macLib\macLibNOTES">
-      <Filter>macLib</Filter>
-    </None>
-    <None Include="macLib\macLibREADME">
-      <Filter>macLib</Filter>
     </None>
     <None Include="osi\TODOfuture">
       <Filter>osi</Filter>

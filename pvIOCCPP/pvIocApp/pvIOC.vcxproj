@@ -331,17 +331,17 @@ xcopy /Y /Q  /D service\*.h $(SolutionDir)include\pv &gt; NUL
     <ClInclude Include="util\util.h" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\base\src\db\dbIoc.vcxproj">
+      <Project>{2bc8e3ec-fa1e-4d66-896c-35e8dd69a7fd}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\base\src\libCom\Com.vcxproj">
+      <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\pcAccessCPP\pvAccessApp\pvAccess.vcxproj">
       <Project>{44ecea7e-d805-49b6-8e89-62ec3994c1f3}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\pcDataCPP\pvDataApp\pvData.vcxproj">
       <Project>{f4a51415-2981-42ee-87c7-f29d5805583e}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\db\dbIoc.vcxproj">
-      <Project>{2bc8e3ec-fa1e-4d66-896c-35e8dd69a7fd}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\libCom\Com.vcxproj">
-      <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
