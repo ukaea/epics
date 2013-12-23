@@ -141,6 +141,7 @@
     <ClInclude Include="dbStatic\link.h" />
     <ClInclude Include="dbStatic\recSup.h" />
     <ClInclude Include="dbStatic\special.h" />
+    <ClInclude Include="dbtemplate\dbLoadTemplate.h" />
     <ClInclude Include="dbtemplate\dbtoolsIocRegister.h" />
     <ClInclude Include="db\callback.h" />
     <ClInclude Include="db\chfPlugin.h" />
@@ -185,6 +186,7 @@
     <ClInclude Include="registry\registryRecordType.h" />
     <ClInclude Include="rsrv\rsrv.h" />
     <ClInclude Include="rsrv\rsrvIocRegister.h" />
+    <ClInclude Include="rsrv\server.h" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="dbtemplate\dbLoadTemplate.y">

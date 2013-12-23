@@ -149,11 +149,6 @@ cd $(ProjectDir)
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">../O.Common/%(FileName).h</Outputs>
     </CustomBuild>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\dbStatic\dbToMenuH.vcxproj">
-      <Project>{ce27ad72-46e7-4f01-b398-4a648f02d249}</Project>
-    </ProjectReference>
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{3D039C8A-8B8D-4408-B1F7-BF1878D50315}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>

@@ -446,7 +446,7 @@ SV * CA_new(const char *class, const char *name, ...) {
     SvREADONLY_on(ca_obj);
 
     pch->chan_ref = ca_ref;
-    SvREFCNT_inc(ca_ref);
+    (void) SvREFCNT_inc(ca_ref);
 
     if (items > 2
         && SvOK(ST(2))) {
@@ -461,7 +461,7 @@ SV * CA_new(const char *class, const char *name, ...) {
         SvREFCNT_dec(ca_ref);
         if (pch->conn_sub)
             SvREFCNT_dec(pch->conn_sub);
-        croak(get_error_msg(status));
+        croak("%s", get_error_msg(status));
     }
 
     return ca_ref;
@@ -490,7 +490,7 @@ void CA_DESTROY(SV *ca_ref) {
     Safefree(pch);
 
     if (status != ECA_NORMAL)
-        croak(get_error_msg(status));
+        croak("%s", get_error_msg(status));
 }
 
 
@@ -515,7 +515,7 @@ void CA_change_connection_event(SV *ca_ref, SV *sub) {
     status = ca_change_connection_event(pch->chan, handler);
 
     if (status != ECA_NORMAL) {
-        croak(get_error_msg(status));
+        croak("%s", get_error_msg(status));
     }
 }
 
@@ -599,7 +599,7 @@ void CA_put(SV *ca_ref, SV *val, ...) {
         Safefree(p.dbr);
     }
     if (status != ECA_NORMAL) {
-        croak(get_error_msg(status));
+        croak("%s", get_error_msg(status));
     }
     XSRETURN(0);
 }
@@ -694,7 +694,7 @@ void CA_put_callback(SV *ca_ref, SV *sub, SV *val, ...) {
     }
     if (status != ECA_NORMAL) {
         SvREFCNT_dec(put_sub);
-        croak(get_error_msg(status));
+        croak("%s", get_error_msg(status));
     }
     XSRETURN(0);
 }
@@ -735,7 +735,7 @@ void CA_put_acks(SV *ca_ref, SV *sevr, ...) {
         status = ca_put(DBR_PUT_ACKS, pch->chan, &acks);
 
     if (status != ECA_NORMAL)
-        croak(get_error_msg(status));
+        croak("%s", get_error_msg(status));
 
     XSRETURN(0);
 }
@@ -759,7 +759,7 @@ void CA_put_ackt(SV *ca_ref, int ack, ...) {
         status = ca_put(DBR_PUT_ACKS, pch->chan, &ackt);
 
     if (status != ECA_NORMAL)
-        croak(get_error_msg(status));
+        croak("%s", get_error_msg(status));
 
     XSRETURN(0);
 }
@@ -787,7 +787,7 @@ void CA_get(SV *ca_ref) {
         status = ca_get(best_type(pch), pch->chan, &pch->data);
     }
     if (status != ECA_NORMAL) {
-        croak(get_error_msg(status));
+        croak("%s", get_error_msg(status));
     }
 }
 
@@ -868,7 +868,7 @@ void CA_get_callback(SV *ca_ref, SV *sub, ...) {
 
 exit_croak:
     SvREFCNT_dec(get_sub);
-    croak(croak_msg);
+    croak("%s", croak_msg);
 }
 
 
@@ -943,14 +943,14 @@ SV * CA_create_subscription(SV *ca_ref, const char *mask_str, SV *sub, ...) {
 
     sv_setiv(mon_obj, (IV)event);
     SvREADONLY_on(mon_obj);
-    SvREFCNT_inc(mon_ref);
+    (void) SvREFCNT_inc(mon_ref);
 
     return mon_ref;
 
 exit_croak:
     SvREFCNT_dec(mon_ref);
     SvREFCNT_dec(mon_sub);
-    croak(croak_msg);
+    croak("%s", croak_msg);
 }
 
 
@@ -967,7 +967,7 @@ void CA_clear_subscription(const char *class, SV *mon_ref) {
     status = ca_clear_subscription(event);
 
     if (status != ECA_NORMAL) {
-        croak(get_error_msg(status));
+        croak("%s", get_error_msg(status));
     }
 }
 
@@ -977,7 +977,7 @@ void CA_clear_subscription(const char *class, SV *mon_ref) {
 void CA_pend_io(const char *class, double timeout) {
     int status = ca_pend_io(timeout);
     if (status != ECA_NORMAL) {
-        croak(get_error_msg(status));
+        croak("%s", get_error_msg(status));
     }
 }
 
@@ -992,7 +992,7 @@ int CA_test_io(const char *class) {
 void CA_pend_event(const char *class, double timeout) {
     int status = ca_pend_event(timeout);
     if (status != ECA_TIMEOUT) {
-        croak(get_error_msg(status));
+        croak("%s", get_error_msg(status));
     }
 }
 
@@ -1080,7 +1080,7 @@ void CA_add_exception_event(const char *class, SV *sub) {
     if (status != ECA_NORMAL) {
         SvREFCNT_dec(exception_sub);
         exception_sub = NULL;
-        croak(get_error_msg(status));
+        croak("%s", get_error_msg(status));
     }
 }
 
@@ -1138,7 +1138,7 @@ void CA_replace_printf_handler(const char *class, SV *sub) {
     if (status != ECA_NORMAL) {
         SvREFCNT_dec(printf_sub);
         printf_sub = NULL;
-        croak(get_error_msg(status));
+        croak("%s", get_error_msg(status));
     }
 }
 
@@ -1222,6 +1222,13 @@ PROTOTYPES: DISABLE
 
 BOOT:
     p5_ctx = Perl_get_context();
+    /* Ensure that the generated boot_Cap5 function is visible
+     * outside of the libCap5.so shared library when compiling
+     * with GCC4+ and -fvisibility=hidden is used.
+     */
+    #if __GNUC__ >= 4
+    #pragma GCC visibility push(default)
+    #endif
 
 
 SV *
