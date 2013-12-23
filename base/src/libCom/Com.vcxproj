@@ -308,7 +308,7 @@ cd $(ProjectDir)
     <IntDir>.\O.win32-x86-debug\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>$SolutionDir)Bin\win32-x86\</OutDir>
+    <OutDir>$(SolutionDir)Bin\win32-x86\</OutDir>
     <IntDir>.\O.win32-x86\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -318,6 +318,7 @@ cd $(ProjectDir)
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_USRDLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4244;4018;4996;4355</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -356,7 +357,11 @@ xcopy /Y /Q  /D macLib\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q  /D calc\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q  /D ring\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q  /D logClient\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D osi\os\default\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q  /D osi\os\default\osdMessageQueue.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q  /D osi\os\default\osdInterrupt.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q  /D osi\os\default\osdVME.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q  /D osi\os\default\epicsReadline.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q  /D osi\os\default\osdWireFormat.h  $(SolutionDir)include\os\WIN32 &gt; NUL
 xcopy /Y /Q  /D osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -370,6 +375,7 @@ xcopy /Y /Q  /D osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4244;4018;4996;4355</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -405,7 +411,11 @@ xcopy /Y /Q  /D macLib\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q  /D calc\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q  /D ring\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q  /D logClient\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D osi\os\default\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q  /D osi\os\default\osdMessageQueue.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q  /D osi\os\default\osdInterrupt.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q  /D osi\os\default\osdVME.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q  /D osi\os\default\epicsReadline.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q  /D osi\os\default\osdWireFormat.h  $(SolutionDir)include\os\WIN32 &gt; NUL
 xcopy /Y /Q  /D osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
 </Command>
     </PreBuildEvent>

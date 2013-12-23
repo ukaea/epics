@@ -2,8 +2,6 @@
 #define NOMINMAX
 #endif
 
-#include "mb.h"
-
 #include <time.h>
 #include <process.h>
 
@@ -18,6 +16,11 @@
 #include <iomanip>
 
 #include <epicsMutex.h>
+
+#define epicsExportSharedSymbols
+#include "mb.h"
+
+MBMutexInitializer mbStaticMutexInitializer; // Note object here in the header.
 
 // TODO clean this up
 #if defined(__APPLE__)
