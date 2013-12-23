@@ -20,14 +20,12 @@
  *     Added support for long strings (array of char) and quoting of nonprintable characters
  *
  */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#define epicsAlarmGLOBAL
 #include <alarm.h>
-#undef epicsAlarmGLOBAL
+#include <alarmString.h>
 #include <epicsTime.h>
 #include <epicsString.h>
 #include <cadef.h>

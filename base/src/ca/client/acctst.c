@@ -61,8 +61,13 @@ static epicsTimeStamp showProgressBeginTime;
 
 static const double timeoutToPendIO = 1e20;
 
+#ifdef NDEBUG
+#   define verify(ignore) ((void) 0)
+#else /* NDEBUG */
 #define verify(exp) ((exp) ? (void)0 : \
     epicsAssert(__FILE__, __LINE__, #exp, epicsAssertAuthor))
+#endif  /* NDEBUG */
+
 
 void showProgressBegin ( const char *pTestName, unsigned interestLevel )
 {
