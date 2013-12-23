@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TrackFileAccess>false</TrackFileAccess>
@@ -52,9 +52,12 @@
     <ProjectGuid>{5BCFEACD-AF21-4BF0-B130-14C814453F07}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>caRepeater</RootNamespace>
-    <SccProjectName>"$/EPICS/base/src/ca/client", ZKDCAAAA</SccProjectName>
-    <SccLocalPath>.</SccLocalPath>
-    <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'" Label="Configuration">

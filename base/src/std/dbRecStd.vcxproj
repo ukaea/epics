@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TrackFileAccess>false</TrackFileAccess>
@@ -1477,9 +1477,12 @@ cd $(ProjectDir)
     <ProjectGuid>{3B0E3542-CB89-4FFA-B004-EAC882B3F277}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>rec</RootNamespace>
-    <SccProjectName>"$/EPICS/base/src/std", NNDCAAAA</SccProjectName>
-    <SccLocalPath>.</SccLocalPath>
-    <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'" Label="Configuration">
@@ -1670,7 +1673,6 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
 if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
 xcopy /Y /Q /D /R dev\*.dbd $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R rec\*.dbd $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R db\*.dbd $(SolutionDir)dbd &gt; NUL
 perl -CSD $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -Ifilters -I$(SolutionDir)dbd -o O.Common/stdRecords.dbd aaiRecord.dbd aaoRecord.dbd aiRecord.dbd aoRecord.dbd aSubRecord.dbd biRecord.dbd boRecord.dbd calcRecord.dbd calcoutRecord.dbd compressRecord.dbd dfanoutRecord.dbd eventRecord.dbd fanoutRecord.dbd histogramRecord.dbd longinRecord.dbd longoutRecord.dbd mbbiRecord.dbd mbbiDirectRecord.dbd mbboRecord.dbd mbboDirectRecord.dbd permissiveRecord.dbd selRecord.dbd seqRecord.dbd stateRecord.dbd stringinRecord.dbd stringoutRecord.dbd subRecord.dbd subArrayRecord.dbd waveformRecord.dbd
 </Command>
     </PreBuildEvent>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TrackFileAccess>false</TrackFileAccess>
@@ -40,9 +40,12 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{5CCE1C6A-2BD5-48BF-99E2-D29B58F91991}</ProjectGuid>
     <RootNamespace>tools</RootNamespace>
-    <SccProjectName>"$/EPICS/base/src/tools", BRCCAAAA</SccProjectName>
-    <SccLocalPath>.</SccLocalPath>
-    <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'" Label="Configuration">
@@ -339,7 +342,17 @@ xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
     <None Include="dbdToMenuH.pl" />
     <None Include="dbdToRecordtypeH.pl" />
     <None Include="DBD\Base.pm" />
+    <None Include="DBD\Breaktable.pm" />
+    <None Include="DBD\Device.pm" />
+    <None Include="DBD\Driver.pm" />
+    <None Include="DBD\Function.pm" />
+    <None Include="DBD\Menu.pm" />
+    <None Include="DBD\Output.pm" />
+    <None Include="DBD\Parser.pm" />
+    <None Include="DBD\Recfield.pm" />
     <None Include="DBD\Recordtype.pm" />
+    <None Include="DBD\Registrar.pm" />
+    <None Include="DBD\Variable.pm" />
     <None Include="EPICS\Path.pm" />
     <None Include="EPICS\Release.pm" />
     <None Include="makeIncludeDbd.pl">

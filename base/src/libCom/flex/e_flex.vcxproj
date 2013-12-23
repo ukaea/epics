@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TrackFileAccess>false</TrackFileAccess>
@@ -181,9 +181,12 @@ move /Y y.tab.h O.Common\parse.h
     <ProjectGuid>{285B2DD5-B55E-4195-9B2D-F129CF54A2B4}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>e_flex</RootNamespace>
-    <SccProjectName>"$/EPICS/base/src/libCom/flex", RKDCAAAA</SccProjectName>
-    <SccLocalPath>.</SccLocalPath>
-    <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'" Label="Configuration">
