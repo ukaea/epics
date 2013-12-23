@@ -25,12 +25,8 @@
     </ClCompile>
     <ClCompile Include="misc.c" />
     <ClCompile Include="nfa.c" />
-    <ClCompile Include="O.win32-x86-debug\parse.c">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="O.win32-x86\parse.c">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
+    <ClCompile Include="O.win32-x86-debug\parse.c" />
+    <ClCompile Include="O.win32-x86\parse.c" />
     <ClCompile Include="scan.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
@@ -45,9 +41,7 @@
   <ItemGroup>
     <ClInclude Include="flexdef.h" />
     <ClInclude Include="O.win32-x86-debug\parse.h" />
-    <ClInclude Include="O.win32-x86\parse.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClInclude>
+    <ClInclude Include="O.win32-x86\parse.h" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="parse.y">

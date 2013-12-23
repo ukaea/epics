@@ -49,8 +49,18 @@
     <ClCompile Include="misc\epicsUnitTest.c" />
     <ClCompile Include="misc\ipAddrToAsciiAsynchronous.cpp" />
     <ClCompile Include="misc\truncateFile.c" />
-    <ClCompile Include="O.win32-x86\envData.c" />
-    <ClCompile Include="O.win32-x86\errSymTbl.c" />
+    <ClCompile Include="O.win32-x86-debug\envData.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="O.win32-x86-debug\errSymTbl.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="O.win32-x86\envData.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="O.win32-x86\errSymTbl.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="osi\devLibVME.c" />
     <ClCompile Include="osi\epicsEvent.cpp" />
     <ClCompile Include="osi\epicsGeneralTime.c" />
