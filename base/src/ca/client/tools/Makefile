@@ -19,7 +19,7 @@ LIBRARY += catools
 INSTALL_LIBS =
 
 catools_SRCS += tool_lib.c
-catools_LIBS += ca Com
+catools_LIBS += ca Com dbStaticIoc
 
 # Build and link programs against the catools library
 PROD_DEFAULT += caget camonitor cainfo caput
@@ -27,7 +27,7 @@ PROD_vxWorks = -nil-
 PROD_RTEMS = -nil-
 PROD_iOS = -nil-
 
-PROD_LIBS += catools ca Com
+PROD_LIBS += catools ca Com dbStaticIoc
 catools_DIR = .
 
 include $(TOP)/configure/RULES
