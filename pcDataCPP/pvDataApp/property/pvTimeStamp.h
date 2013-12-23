@@ -20,7 +20,7 @@
 
 namespace epics { namespace pvData { 
 
-class PVTimeStamp {
+class epicsShareClass PVTimeStamp {
 public:
     PVTimeStamp(){}
     //default constructors and destructor are OK

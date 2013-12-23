@@ -471,7 +471,7 @@ namespace pvAccess {
          * Interface for accessing a channel.
          * A channel is created via a call to ChannelAccess.createChannel(String channelName).
          */
-        class Channel : 
+        class epicsShareClass Channel : 
                 public epics::pvData::Requester,
                 public epics::pvData::Destroyable,
                 private epics::pvData::NoDefaultMethods {
@@ -792,9 +792,9 @@ namespace pvAccess {
             virtual std::auto_ptr<stringVector_t> getProviderNames() = 0;
         };
     
-        extern ChannelAccess::shared_pointer getChannelAccess();
-        extern void registerChannelProviderFactory(ChannelProviderFactory::shared_pointer const & channelProviderFactory);
-        extern void unregisterChannelProviderFactory(ChannelProviderFactory::shared_pointer const & channelProviderFactory);
+        epicsShareExtern ChannelAccess::shared_pointer getChannelAccess();
+        epicsShareExtern void registerChannelProviderFactory(ChannelProviderFactory::shared_pointer const & channelProviderFactory);
+        epicsShareExtern void unregisterChannelProviderFactory(ChannelProviderFactory::shared_pointer const & channelProviderFactory);
 
         /**
          * Interface for creating request structure.

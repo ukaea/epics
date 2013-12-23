@@ -16,7 +16,7 @@
 
 namespace epics { namespace pvData { 
 
-class PVControl {
+class epicsShareClass PVControl {
 public:
     PVControl(){}
     //default constructors and destructor are OK

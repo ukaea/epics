@@ -338,7 +338,7 @@ namespace epics {
 
         };
 
-        class BlockingUDPConnector :
+        class epicsShareClass BlockingUDPConnector :
                 public Connector,
                 private epics::pvData::NoDefaultMethods {
         public:

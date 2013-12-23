@@ -29,7 +29,7 @@ enum AlarmStatus {
 
 
 extern const size_t severityCount;
-class AlarmSeverityFunc {
+class epicsShareClass AlarmSeverityFunc {
 public:
     static AlarmSeverity getSeverity(int value);
     static StringArrayPtr getSeverityNames();

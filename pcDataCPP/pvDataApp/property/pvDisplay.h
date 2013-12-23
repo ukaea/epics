@@ -19,7 +19,7 @@
 
 namespace epics { namespace pvData { 
 
-class PVDisplay {
+class epicsShareClass PVDisplay {
 public:
     PVDisplay() {}
     //default constructors and destructor are OK
