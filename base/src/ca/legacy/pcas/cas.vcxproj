@@ -308,7 +308,7 @@
     </ResourceCompile>
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-xcopy /Y /Q  /D generic\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R generic\*.h  $(SolutionDir)include &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -336,7 +336,7 @@ xcopy /Y /Q  /D generic\*.h  $(SolutionDir)include &gt; NUL
     </ResourceCompile>
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-xcopy /Y /Q  /D generic\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R generic\*.h  $(SolutionDir)include &gt; NUL
 </Command>
     </PreBuildEvent>
     <Lib>
@@ -367,7 +367,7 @@ xcopy /Y /Q  /D generic\*.h  $(SolutionDir)include &gt; NUL
     </ResourceCompile>
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-xcopy /Y /Q  /D generic\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R generic\*.h  $(SolutionDir)include &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -395,7 +395,7 @@ xcopy /Y /Q  /D generic\*.h  $(SolutionDir)include &gt; NUL
     </ResourceCompile>
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-xcopy /Y /Q  /D generic\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R generic\*.h  $(SolutionDir)include &gt; NUL
 </Command>
     </PreBuildEvent>
     <Lib>
@@ -426,7 +426,7 @@ xcopy /Y /Q  /D generic\*.h  $(SolutionDir)include &gt; NUL
     </ResourceCompile>
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-xcopy /Y /Q  /D generic\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R generic\*.h  $(SolutionDir)include &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -454,7 +454,7 @@ xcopy /Y /Q  /D generic\*.h  $(SolutionDir)include &gt; NUL
     </ResourceCompile>
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-xcopy /Y /Q  /D generic\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R generic\*.h  $(SolutionDir)include &gt; NUL
 </Command>
     </PreBuildEvent>
     <Lib>
@@ -485,7 +485,7 @@ xcopy /Y /Q  /D generic\*.h  $(SolutionDir)include &gt; NUL
     </ResourceCompile>
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-xcopy /Y /Q  /D generic\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R generic\*.h  $(SolutionDir)include &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -513,7 +513,7 @@ xcopy /Y /Q  /D generic\*.h  $(SolutionDir)include &gt; NUL
     </ResourceCompile>
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-xcopy /Y /Q  /D generic\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R generic\*.h  $(SolutionDir)include &gt; NUL
 </Command>
     </PreBuildEvent>
     <Lib>

@@ -541,32 +541,32 @@ cd $(ProjectDir)
 if not exist  $(SolutionDir)include\os md  $(SolutionDir)include\os
 if not exist  $(SolutionDir)include\os\WIN32 md  $(SolutionDir)include\os\WIN32
 if not exist O.Common md O.Common
-xcopy /Y /Q  /D misc\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D osi\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D env\*.h   $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D iocsh\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D cppStd\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D error\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D ellLib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D cxxTemplates\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D timer\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D freeList\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D cvtFast\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D taskwd\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D fdmgr\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D gpHash\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D bucketLib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D dbmf\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D macLib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D calc\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D ring\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D logClient\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D osi\os\default\osdMessageQueue.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q  /D osi\os\default\osdInterrupt.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q  /D osi\os\default\osdVME.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q  /D osi\os\default\epicsReadline.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q  /D osi\os\default\osdWireFormat.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q  /D osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R misc\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R osi\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R env\*.h   $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R iocsh\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R cppStd\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R error\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R ellLib\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R cxxTemplates\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R timer\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R freeList\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R cvtFast\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R taskwd\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R fdmgr\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R gpHash\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R bucketLib\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R dbmf\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R macLib\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R calc\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R ring\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R logClient\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R osi\os\default\osdMessageQueue.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R osi\os\default\osdInterrupt.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R osi\os\default\osdVME.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R osi\os\default\epicsReadline.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R osi\os\default\osdWireFormat.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -599,37 +599,38 @@ xcopy /Y /Q  /D osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
 if not exist  $(SolutionDir)include\os md  $(SolutionDir)include\os
 if not exist  $(SolutionDir)include\os\WIN32 md  $(SolutionDir)include\os\WIN32
 if not exist O.Common md O.Common
-xcopy /Y /Q  /D misc\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D osi\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D env\*.h   $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D iocsh\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D cppStd\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D error\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D ellLib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D cxxTemplates\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D timer\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D freeList\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D cvtFast\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D taskwd\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D fdmgr\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D gpHash\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D bucketLib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D dbmf\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D macLib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D calc\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D ring\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D logClient\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D osi\os\default\osdMessageQueue.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q  /D osi\os\default\osdInterrupt.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q  /D osi\os\default\osdVME.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q  /D osi\os\default\epicsReadline.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q  /D osi\os\default\osdWireFormat.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q  /D osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R misc\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R osi\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R env\*.h   $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R iocsh\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R cppStd\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R error\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R ellLib\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R cxxTemplates\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R timer\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R freeList\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R cvtFast\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R taskwd\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R fdmgr\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R gpHash\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R bucketLib\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R dbmf\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R macLib\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R calc\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R ring\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R logClient\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R osi\os\default\osdMessageQueue.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R osi\os\default\osdInterrupt.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R osi\os\default\osdVME.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R osi\os\default\epicsReadline.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R osi\os\default\osdWireFormat.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
 </Command>
     </PreBuildEvent>
     <Lib>
       <SubSystem>Windows</SubSystem>
       <AdditionalOptions>/MACHINE:X86 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>ws2_32.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">
@@ -660,32 +661,32 @@ xcopy /Y /Q  /D osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
 if not exist  $(SolutionDir)include\os md  $(SolutionDir)include\os
 if not exist  $(SolutionDir)include\os\WIN32 md  $(SolutionDir)include\os\WIN32
 if not exist O.Common md O.Common
-xcopy /Y /Q  /D misc\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D osi\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D env\*.h   $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D iocsh\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D cppStd\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D error\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D ellLib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D cxxTemplates\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D timer\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D freeList\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D cvtFast\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D taskwd\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D fdmgr\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D gpHash\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D bucketLib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D dbmf\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D macLib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D calc\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D ring\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D logClient\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D osi\os\default\osdMessageQueue.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q  /D osi\os\default\osdInterrupt.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q  /D osi\os\default\osdVME.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q  /D osi\os\default\epicsReadline.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q  /D osi\os\default\osdWireFormat.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q  /D osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R misc\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R osi\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R env\*.h   $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R iocsh\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R cppStd\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R error\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R ellLib\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R cxxTemplates\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R timer\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R freeList\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R cvtFast\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R taskwd\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R fdmgr\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R gpHash\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R bucketLib\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R dbmf\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R macLib\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R calc\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R ring\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R logClient\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R osi\os\default\osdMessageQueue.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R osi\os\default\osdInterrupt.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R osi\os\default\osdVME.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R osi\os\default\epicsReadline.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R osi\os\default\osdWireFormat.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -718,36 +719,37 @@ xcopy /Y /Q  /D osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
 if not exist  $(SolutionDir)include\os md  $(SolutionDir)include\os
 if not exist  $(SolutionDir)include\os\WIN32 md  $(SolutionDir)include\os\WIN32
 if not exist O.Common md O.Common
-xcopy /Y /Q  /D misc\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D osi\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D env\*.h   $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D iocsh\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D cppStd\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D error\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D ellLib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D cxxTemplates\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D timer\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D freeList\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D cvtFast\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D taskwd\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D fdmgr\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D gpHash\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D bucketLib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D dbmf\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D macLib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D calc\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D ring\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D logClient\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D osi\os\default\osdMessageQueue.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q  /D osi\os\default\osdInterrupt.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q  /D osi\os\default\osdVME.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q  /D osi\os\default\epicsReadline.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q  /D osi\os\default\osdWireFormat.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q  /D osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R misc\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R osi\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R env\*.h   $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R iocsh\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R cppStd\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R error\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R ellLib\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R cxxTemplates\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R timer\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R freeList\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R cvtFast\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R taskwd\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R fdmgr\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R gpHash\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R bucketLib\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R dbmf\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R macLib\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R calc\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R ring\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R logClient\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R osi\os\default\osdMessageQueue.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R osi\os\default\osdInterrupt.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R osi\os\default\osdVME.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R osi\os\default\epicsReadline.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R osi\os\default\osdWireFormat.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
 </Command>
     </PreBuildEvent>
     <Lib>
       <AdditionalOptions>/MACHINE:X64 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>ws2_32.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">
@@ -775,32 +777,32 @@ xcopy /Y /Q  /D osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
 if not exist  $(SolutionDir)include\os md  $(SolutionDir)include\os
 if not exist  $(SolutionDir)include\os\WIN32 md  $(SolutionDir)include\os\WIN32
 if not exist O.Common md O.Common
-xcopy /Y /Q  /D misc\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D osi\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D env\*.h   $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D iocsh\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D cppStd\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D error\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D ellLib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D cxxTemplates\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D timer\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D freeList\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D cvtFast\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D taskwd\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D fdmgr\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D gpHash\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D bucketLib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D dbmf\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D macLib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D calc\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D ring\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D logClient\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D osi\os\default\osdMessageQueue.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q  /D osi\os\default\osdInterrupt.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q  /D osi\os\default\osdVME.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q  /D osi\os\default\epicsReadline.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q  /D osi\os\default\osdWireFormat.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q  /D osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R misc\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R osi\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R env\*.h   $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R iocsh\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R cppStd\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R error\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R ellLib\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R cxxTemplates\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R timer\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R freeList\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R cvtFast\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R taskwd\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R fdmgr\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R gpHash\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R bucketLib\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R dbmf\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R macLib\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R calc\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R ring\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R logClient\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R osi\os\default\osdMessageQueue.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R osi\os\default\osdInterrupt.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R osi\os\default\osdVME.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R osi\os\default\epicsReadline.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R osi\os\default\osdWireFormat.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -830,36 +832,37 @@ xcopy /Y /Q  /D osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
 if not exist  $(SolutionDir)include\os md  $(SolutionDir)include\os
 if not exist  $(SolutionDir)include\os\WIN32 md  $(SolutionDir)include\os\WIN32
 if not exist O.Common md O.Common
-xcopy /Y /Q  /D misc\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D osi\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D env\*.h   $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D iocsh\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D cppStd\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D error\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D ellLib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D cxxTemplates\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D timer\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D freeList\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D cvtFast\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D taskwd\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D fdmgr\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D gpHash\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D bucketLib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D dbmf\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D macLib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D calc\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D ring\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D logClient\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D osi\os\default\osdMessageQueue.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q  /D osi\os\default\osdInterrupt.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q  /D osi\os\default\osdVME.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q  /D osi\os\default\epicsReadline.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q  /D osi\os\default\osdWireFormat.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q  /D osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R misc\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R osi\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R env\*.h   $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R iocsh\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R cppStd\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R error\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R ellLib\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R cxxTemplates\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R timer\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R freeList\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R cvtFast\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R taskwd\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R fdmgr\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R gpHash\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R bucketLib\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R dbmf\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R macLib\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R calc\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R ring\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R logClient\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R osi\os\default\osdMessageQueue.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R osi\os\default\osdInterrupt.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R osi\os\default\osdVME.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R osi\os\default\epicsReadline.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R osi\os\default\osdWireFormat.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
 </Command>
     </PreBuildEvent>
     <Lib>
       <AdditionalOptions>/MACHINE:X86 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>ws2_32.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">
@@ -887,32 +890,32 @@ xcopy /Y /Q  /D osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
 if not exist  $(SolutionDir)include\os md  $(SolutionDir)include\os
 if not exist  $(SolutionDir)include\os\WIN32 md  $(SolutionDir)include\os\WIN32
 if not exist O.Common md O.Common
-xcopy /Y /Q  /D misc\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D osi\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D env\*.h   $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D iocsh\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D cppStd\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D error\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D ellLib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D cxxTemplates\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D timer\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D freeList\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D cvtFast\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D taskwd\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D fdmgr\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D gpHash\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D bucketLib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D dbmf\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D macLib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D calc\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D ring\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D logClient\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D osi\os\default\osdMessageQueue.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q  /D osi\os\default\osdInterrupt.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q  /D osi\os\default\osdVME.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q  /D osi\os\default\epicsReadline.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q  /D osi\os\default\osdWireFormat.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q  /D osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R misc\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R osi\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R env\*.h   $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R iocsh\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R cppStd\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R error\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R ellLib\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R cxxTemplates\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R timer\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R freeList\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R cvtFast\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R taskwd\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R fdmgr\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R gpHash\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R bucketLib\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R dbmf\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R macLib\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R calc\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R ring\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R logClient\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R osi\os\default\osdMessageQueue.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R osi\os\default\osdInterrupt.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R osi\os\default\osdVME.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R osi\os\default\epicsReadline.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R osi\os\default\osdWireFormat.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -942,36 +945,37 @@ xcopy /Y /Q  /D osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
 if not exist  $(SolutionDir)include\os md  $(SolutionDir)include\os
 if not exist  $(SolutionDir)include\os\WIN32 md  $(SolutionDir)include\os\WIN32
 if not exist O.Common md O.Common
-xcopy /Y /Q  /D misc\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D osi\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D env\*.h   $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D iocsh\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D cppStd\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D error\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D ellLib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D cxxTemplates\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D timer\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D freeList\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D cvtFast\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D taskwd\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D fdmgr\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D gpHash\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D bucketLib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D dbmf\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D macLib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D calc\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D ring\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D logClient\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D osi\os\default\osdMessageQueue.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q  /D osi\os\default\osdInterrupt.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q  /D osi\os\default\osdVME.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q  /D osi\os\default\epicsReadline.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q  /D osi\os\default\osdWireFormat.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q  /D osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R misc\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R osi\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R env\*.h   $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R iocsh\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R cppStd\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R error\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R ellLib\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R cxxTemplates\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R timer\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R freeList\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R cvtFast\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R taskwd\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R fdmgr\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R gpHash\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R bucketLib\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R dbmf\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R macLib\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R calc\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R ring\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R logClient\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R osi\os\default\osdMessageQueue.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R osi\os\default\osdInterrupt.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R osi\os\default\osdVME.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R osi\os\default\epicsReadline.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R osi\os\default\osdWireFormat.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
 </Command>
     </PreBuildEvent>
     <Lib>
       <AdditionalOptions>/MACHINE:X64 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>ws2_32.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

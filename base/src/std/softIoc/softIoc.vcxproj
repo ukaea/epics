@@ -69,6 +69,9 @@
     <ProjectReference Include="..\as\asIoc.vcxproj">
       <Project>{440c585d-ad66-4738-941c-a87a1817a9be}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\ca\ca.vcxproj">
+      <Project>{02caf068-a7fc-463e-aa7e-72eeaf665826}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\dbStatic\dbstaticIoc.vcxproj">
       <Project>{97d3c50e-9c9e-41ef-a49d-eaea78ce8378}</Project>
     </ProjectReference>
@@ -78,11 +81,17 @@
     <ProjectReference Include="..\db\dbIoc.vcxproj">
       <Project>{2bc8e3ec-fa1e-4d66-896c-35e8dd69a7fd}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\dev\softDev\softdevIoc.vcxproj">
+      <Project>{47e9454d-f8d8-42b5-a714-1366f859f123}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\libCom\Com.vcxproj">
       <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
     </ProjectReference>
     <ProjectReference Include="..\misc\miscIoc.vcxproj">
       <Project>{926b2d81-5725-4ad4-88ed-d6fd56fe92c9}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\rec\recIoc.vcxproj">
+      <Project>{daf5e565-164f-4230-aecb-8a5b67336263}</Project>
     </ProjectReference>
     <ProjectReference Include="..\registry\registryIoc.vcxproj">
       <Project>{6803a521-1ea0-409f-839c-b5902e07ae2e}</Project>
