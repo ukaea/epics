@@ -4,13 +4,14 @@
  * in file LICENSE that is included with this distribution.
  */
 
-#include <pv/inetAddressUtil.h>
 #include <pv/byteBuffer.h>
 #include <pv/epicsException.h>
-
 #include <osiSock.h>
 #include <ellLib.h>
 #include <epicsAssert.h>
+
+#define epicsExportSharedSymbols
+#include <pv/inetAddressUtil.h>
 #include <pv/logger.h>
 
 #include <vector>

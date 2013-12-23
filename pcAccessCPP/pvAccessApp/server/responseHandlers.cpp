@@ -4,19 +4,21 @@
  * in file LICENSE that is included with this distribution.
  */
 
-#include <pv/responseHandlers.h>
-#include <pv/remote.h>
-#include <pv/hexDump.h>
-#include <pv/serializationHelper.h>
 
 #include <pv/byteBuffer.h>
 
 #include <osiSock.h>
+
+#define epicsExportSharedSymbols
+#include <pv/responseHandlers.h>
+#include <pv/remote.h>
+#include <pv/hexDump.h>
+#include <pv/serializationHelper.h>
 #include <pv/logger.h>
+#include <pv/pvAccessMB.h>
 
 #include <sstream>
 
-#include <pv/pvAccessMB.h>
 
 using std::ostringstream;
 using std::hex;

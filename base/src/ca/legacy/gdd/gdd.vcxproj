@@ -25,7 +25,6 @@
     <ClCompile Include="gddNewDel.cc" />
     <ClCompile Include="gddTest.cc" />
     <ClCompile Include="gddUtils.cc" />
-    <ClCompile Include="genApps.cc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="aitConvert.h" />
@@ -86,11 +85,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>..\..\Bin\win32-x86-debug\</OutDir>
+    <OutDir>$(SolutionDir)Bin\win32-x86-debug\</OutDir>
     <IntDir>.\O.win32-x86-debug\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>..\..\Bin\win32-x86\</OutDir>
+    <OutDir>$SolutionDir)Bin\win32-x86\</OutDir>
     <IntDir>.\O.win32-x86\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -99,15 +98,16 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\include;..\..\include\os\win32;.\O.Common</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;.\O.Common</AdditionalIncludeDirectories>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist ..\..\include md ..\..\include
-xcopy /Y /Q  /D *.h  ..\..\include &gt; NUL
+      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
+xcopy /Y /Q  /D *.h  $(SolutionDir)include &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -119,7 +119,8 @@ xcopy /Y /Q  /D *.h  ..\..\include &gt; NUL
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\include;..\..\include\os\win32;.\O.Common</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;.\O.Common</AdditionalIncludeDirectories>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -127,8 +128,8 @@ xcopy /Y /Q  /D *.h  ..\..\include &gt; NUL
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist ..\..\include md ..\..\include
-copy gddAppFuncTable.h ..\..\include
+      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
+xcopy /Y /Q  /D *.h  $(SolutionDir)include &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>

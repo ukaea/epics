@@ -5,12 +5,9 @@
  */
  
 #define __STDC_LIMIT_MACROS 1
-#include <pv/blockingTCP.h>
-#include <pv/inetAddressUtil.h>
-#include <pv/pvaConstants.h>
-#include <pv/logger.h>
-#include <pv/hexDump.h>
-#include <pv/likely.h>
+#ifdef _WIN32
+#define NOMINMAX
+#endif
 
 #include <pv/lock.h>
 #include <pv/byteBuffer.h>
@@ -20,6 +17,14 @@
 #include <osdSock.h>
 #include <osiSock.h>
 #include <epicsThread.h>
+
+#define epicsExportSharedSymbols
+#include <pv/blockingTCP.h>
+#include <pv/inetAddressUtil.h>
+#include <pv/pvaConstants.h>
+#include <pv/logger.h>
+#include <pv/hexDump.h>
+#include <pv/likely.h>
 
 #include <sys/types.h>
 #include <algorithm>
@@ -31,14 +36,6 @@ typedef SSIZE_T ssize_t;
 #endif
 
 using namespace epics::pvData;
-
-// Microsoft #define max and min, which cuts across the below.
-#ifdef max
-#undef max
-#endif
-#ifdef min
-#undef min
-#endif
 
 using std::max;
 using std::min;

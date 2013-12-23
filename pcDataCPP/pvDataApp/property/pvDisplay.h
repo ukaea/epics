@@ -7,12 +7,16 @@
 /**
  *  @author mrk
  */
+#ifndef PVDISPLAY_H
+#define PVDISPLAY_H
+
 #include <string>
+
 #include <pv/pvType.h>
 #include <pv/pvData.h>
 #include <pv/display.h>
-#ifndef PVDISPLAY_H
-#define PVDISPLAY_H
+#include <sharelib.h>
+
 namespace epics { namespace pvData { 
 
 class PVDisplay {

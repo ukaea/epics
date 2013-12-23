@@ -6,9 +6,12 @@
 
 #include <pv/lock.h>
 #include <pv/noDefaultMethods.h>
-#include <pv/pvAccess.h>
 #include <pv/pvData.h>
+
+#define epicsExportSharedSymbols
+#include <pv/pvAccess.h>
 #include <pv/factory.h>
+
 #include <map>
 #include <vector>
 

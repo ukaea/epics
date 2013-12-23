@@ -7,10 +7,15 @@
 /**
  *  @author mrk
  */
-#include <string>
-#include <pv/pvType.h>
 #ifndef ALARM_H
 #define ALARM_H
+
+#include <string>
+
+#include <pv/pvType.h>
+
+#include <sharelib.h>
+
 namespace epics { namespace pvData { 
 
 enum AlarmSeverity {
@@ -31,13 +36,13 @@ public:
 };
 
 extern const size_t statusCount;
-class AlarmStatusFunc {
+class epicsShareClass AlarmStatusFunc {
 public:
     static AlarmStatus getStatus(int value);
     static StringArrayPtr getStatusNames();
 };
 
-class Alarm {
+class epicsShareClass Alarm {
 public:
     Alarm() : severity(0),status(0), message(String("")) {}
     //default constructors and destructor are OK

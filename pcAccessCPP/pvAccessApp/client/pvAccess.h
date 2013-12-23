@@ -6,13 +6,24 @@
 
 #ifndef PVACCESS_H
 #define PVACCESS_H
-#include <pv/pvData.h>
+
+#include <pv/pvaVersion.h>
+
+#ifdef epicsExportSharedSymbols
+#   define pvAccessEpicsExportSharedSymbols
+#   undef epicsExportSharedSymbols
+#endif
 #include <pv/status.h>
 #include <pv/destroyable.h>
 #include <pv/monitor.h>
-#include <pv/pvaVersion.h>
 #include <vector>
 #include <pv/bitSet.h>
+#include <pv/pvData.h>
+#ifdef pvAccessEpicsExportSharedSymbols
+#   define epicsExportSharedSymbols
+#	undef pvAccessEpicsExportSharedSymbols
+#endif
+#include <shareLib.h>
 
 namespace epics {
 namespace pvAccess { 
@@ -806,7 +817,7 @@ namespace pvAccess {
                  epics::pvData::Requester::shared_pointer const & requester) = 0;
         };
 
-        extern CreateRequest::shared_pointer getCreateRequest();
+        epicsShareExtern CreateRequest::shared_pointer getCreateRequest();
 
 
     }}

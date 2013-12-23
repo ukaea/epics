@@ -4,10 +4,11 @@
  * in file LICENSE that is included with this distribution.
  */
 
-#include <pv/serverContext.h>
-#include <pv/responseHandlers.h>
 #include <epicsSignal.h>
 
+#define epicsExportSharedSymbols
+#include <pv/serverContext.h>
+#include <pv/responseHandlers.h>
 #include <pv/logger.h>
 
 using namespace std;

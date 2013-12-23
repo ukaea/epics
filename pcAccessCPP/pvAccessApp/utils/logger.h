@@ -9,7 +9,16 @@
 
 #include <pv/pvType.h>
 
+#ifdef epicsExportSharedSymbols
+#   define loggerEpicsExportSharedSymbols
+#   undef epicsExportSharedSymbols
+#endif
 #include <errlog.h>
+#ifdef loggerEpicsExportSharedSymbols
+#   define epicsExportSharedSymbols
+#undef loggerEpicsExportSharedSymbols
+#endif
+#include <sharelib.h>
  
 namespace epics {
 namespace pvAccess {
@@ -36,8 +45,8 @@ namespace pvAccess {
     */
 
 
-    void pvAccessLog(pvAccessLogLevel level, const char* format, ...);
-    void pvAccessSetLogLevel(pvAccessLogLevel level);
+    epicsShareExtern void pvAccessLog(pvAccessLogLevel level, const char* format, ...);
+    epicsShareExtern void pvAccessSetLogLevel(pvAccessLogLevel level);
 
 	#if defined (__GNUC__) && __GNUC__ < 3
 	#define LOG(level, format, ARGS...) pvAccessLog(level, format, ##ARGS)
@@ -62,7 +71,7 @@ namespace pvAccess {
         * @param[in] fname The file to write to. If the file exists, it
         * is opened for append.
         */
-    void createFileLogger( epics::pvData::String const & fname );
+    epicsShareExtern void createFileLogger( epics::pvData::String const & fname );
 
 }
 }

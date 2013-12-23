@@ -48,9 +48,6 @@
     <ClCompile Include="gddTest.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="genApps.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="gddUtils.cc">
       <Filter>Source Files</Filter>
     </ClCompile>

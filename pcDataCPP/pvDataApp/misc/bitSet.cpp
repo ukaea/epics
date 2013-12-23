@@ -9,9 +9,11 @@
  */
 #include "string.h"
 #include "stdio.h"
-#include <pv/bitSet.h>
+
+#define epicsExportSharedSymbols
 #include <pv/lock.h>
 #include <pv/serializeHelper.h>
+#include <pv/bitSet.h>
 
 namespace epics { namespace pvData {
  

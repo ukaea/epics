@@ -8,13 +8,13 @@
 #define NOMINMAX
 #endif
 
+#define epicsExportSharedSymbols
 #include <pv/beaconEmitter.h>
 #include <pv/serializationHelper.h>
-
 #include <pv/logger.h>
-#include <algorithm>
-
 #include <pv/serverContext.h>
+
+#include <algorithm>
 
 using namespace std;
 using namespace epics::pvData;

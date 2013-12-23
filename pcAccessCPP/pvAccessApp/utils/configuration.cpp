@@ -4,8 +4,10 @@
  * in file LICENSE that is included with this distribution.
  */
 
-#include <pv/configuration.h>
 #include <pv/epicsException.h>
+
+#define epicsExportSharedSymbols
+#include <pv/configuration.h>
 
 #include <algorithm>
 

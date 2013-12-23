@@ -85,12 +85,12 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>..\..\Bin\win32-x86-debug\</OutDir>
+    <OutDir>$(SolutionDir)Bin\win32-x86-debug\</OutDir>
     <IntDir>.\O.win32-x86-debug\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>..\..\Bin\win32-x86\</OutDir>
+    <OutDir>$SolutionDir)Bin\win32-x86\</OutDir>
     <IntDir>.\O.win32-x86\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -99,7 +99,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\include;..\..\include\os\win32;$(IntDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(IntDir)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -108,7 +108,7 @@
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 perl $(OutDir)makeIncludeDbd.pl base.dbd dlload.dbd system.dbd O.Common\softIocInclude.dbd
-$(OutDir)dbExpand -I..\..\dbd -oO.Common\softIoc.dbd O.Common\softIocInclude.dbd
+$(OutDir)dbExpand -I$(SolutionDir)dbd -oO.Common\softIoc.dbd O.Common\softIocInclude.dbd
 perl $(OutDir)registerRecordDeviceDriver.pl O.Common\softIoc.dbd softIoc_registerRecordDeviceDriver $(SolutionDir) &gt; $(IntDir)softIoc_registerRecordDeviceDriver.cpp
 </Command>
     </PreBuildEvent>
@@ -121,7 +121,7 @@ perl $(OutDir)registerRecordDeviceDriver.pl O.Common\softIoc.dbd softIoc_registe
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\include;..\..\include\os\win32;$(IntDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(IntDir)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -132,7 +132,7 @@ perl $(OutDir)registerRecordDeviceDriver.pl O.Common\softIoc.dbd softIoc_registe
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 perl $(OutDir)makeIncludeDbd.pl base.dbd dlload.dbd system.dbd O.Common\softIocInclude.dbd
-$(OutDir)dbExpand -I..\..\dbd -oO.Common\softIoc.dbd O.Common\softIocInclude.dbd
+$(OutDir)dbExpand -I$(SolutionDir)dbd -oO.Common\softIoc.dbd O.Common\softIocInclude.dbd
 perl $(OutDir)registerRecordDeviceDriver.pl O.Common\softIoc.dbd softIoc_registerRecordDeviceDriver $(SolutionDir) &gt; $(IntDir)softIoc_registerRecordDeviceDriver.cpp
 </Command>
     </PreBuildEvent>

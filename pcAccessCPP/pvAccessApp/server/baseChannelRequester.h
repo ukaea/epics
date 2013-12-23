@@ -10,13 +10,22 @@
 #include <pv/serverContext.h>
 #include <pv/serverChannelImpl.h>
 
+#ifdef epicsExportSharedSymbols
+#   define baseChannelRequesterEpicsExportSharedSymbols
+#   undef epicsExportSharedSymbols
+#endif
 #include <pv/requester.h>
 #include <pv/destroyable.h>
+#ifdef baseChannelRequesterEpicsExportSharedSymbols
+#   define epicsExportSharedSymbols
+#	undef baseChannelRequesterEpicsExportSharedSymbols
+#endif
+#include <shareLib.h>
 
 namespace epics {
 namespace pvAccess {
 
-class BaseChannelRequester :  virtual public epics::pvData::Requester, public epics::pvData::Destroyable
+class epicsShareClass BaseChannelRequester :  virtual public epics::pvData::Requester, public epics::pvData::Destroyable
 {
 public:
 	BaseChannelRequester(ServerContextImpl::shared_pointer const & context, ServerChannelImpl::shared_pointer const & channel,
@@ -49,7 +58,7 @@ private:
 	epics::pvData::int32 _pendingRequest;
 };
 
-class BaseChannelRequesterMessageTransportSender : public TransportSender
+class epicsShareClass BaseChannelRequesterMessageTransportSender : public TransportSender
 {
 public:
 	BaseChannelRequesterMessageTransportSender(const pvAccessID _ioid, const epics::pvData::String message,const epics::pvData::MessageType messageType);
@@ -62,7 +71,7 @@ private:
 	const epics::pvData::MessageType _messageType;
 };
 
-class BaseChannelRequesterFailureMessageTransportSender : public TransportSender
+class epicsShareClass BaseChannelRequesterFailureMessageTransportSender : public TransportSender
 {
 public:
 	BaseChannelRequesterFailureMessageTransportSender(const epics::pvData::int8 command, Transport::shared_pointer const & transport, const pvAccessID ioid, const epics::pvData::int8 qos, const epics::pvData::Status& status);

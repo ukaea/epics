@@ -7,12 +7,21 @@
 #ifndef CONFIGURATION_H
 #define CONFIGURATION_H
 
+#ifdef epicsExportSharedSymbols
+#   define configurationEpicsExportSharedSymbols
+#   undef epicsExportSharedSymbols
+#endif
 #include <pv/pvType.h>
 #include <pv/noDefaultMethods.h>
 #include <pv/lock.h>
 #include <pv/sharedPtr.h>
 
 #include <envDefs.h>
+#ifdef configurationEpicsExportSharedSymbols
+#   define epicsExportSharedSymbols
+#	undef configurationEpicsExportSharedSymbols
+#endif
+#include <shareLib.h>
 
 
 #include <string.h>
@@ -24,7 +33,7 @@
 namespace epics {
 namespace pvAccess {
 
-class Properties
+class epicsShareClass Properties
 {
 public:
 	Properties();
@@ -65,7 +74,7 @@ private:
 /**
  * Configuration
  */
-class Configuration : private epics::pvData::NoDefaultMethods
+class epicsShareClass Configuration : private epics::pvData::NoDefaultMethods
 {
 public:
      POINTER_DEFINITIONS(Configuration);
@@ -126,7 +135,7 @@ public:
 	virtual std::string getPropertyAsString(const std::string &name, const std::string &defaultValue) = 0;
 };
 
-class SystemConfigurationImpl: public Configuration
+class epicsShareClass SystemConfigurationImpl: public Configuration
 {
 public:
 	SystemConfigurationImpl();
@@ -172,7 +181,7 @@ public:
 	virtual void registerConfiguration(const std::string &name, Configuration::shared_pointer const & configuration) = 0;
 };
 
-class ConfigurationProviderImpl: public ConfigurationProvider
+class epicsShareClass ConfigurationProviderImpl: public ConfigurationProvider
 {
 public:
 	ConfigurationProviderImpl();
@@ -190,7 +199,7 @@ private:
 /**
  * Configuration factory.
  */
-class ConfigurationFactory : private epics::pvData::NoDefaultMethods
+class epicsShareClass ConfigurationFactory : private epics::pvData::NoDefaultMethods
 {
 public:
 	POINTER_DEFINITIONS(ConfigurationFactory);

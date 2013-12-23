@@ -35,7 +35,9 @@
 
 #ifdef rsrvRestore_epicsExportSharedSymbols
 #define epicsExportSharedSymbols
+#undef rsrvRestore_epicsExportSharedSymbols
 #endif
+#include <shareLib.h>
 
 /* a modified ca header with capacity for large arrays */
 typedef struct caHdrLargeArray {

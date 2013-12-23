@@ -7,10 +7,13 @@
 /**
  *  @author mrk
  */
-#include <pv/control.h>
-#include <pv/pvData.h>
 #ifndef PVCONTROL_H
 #define PVCONTROL_H
+
+#include <pv/control.h>
+#include <pv/pvData.h>
+#include <sharelib.h>
+
 namespace epics { namespace pvData { 
 
 class PVControl {

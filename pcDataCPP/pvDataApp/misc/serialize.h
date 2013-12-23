@@ -9,8 +9,11 @@
  */
 #ifndef SERIALIZE_H
 #define SERIALIZE_H
+
 #include <pv/byteBuffer.h>
 #include <pv/sharedPtr.h>
+#include <sharelib.h>
+
 namespace epics { namespace pvData { 
 
     class SerializableControl;
@@ -21,7 +24,7 @@ namespace epics { namespace pvData {
     class BitSet;
     class Field;
 
-    class SerializableControl {
+    class epicsShareClass SerializableControl {
     public:
         virtual ~SerializableControl(){}
         virtual void flushSerializeBuffer() =0;
@@ -32,7 +35,7 @@ namespace epics { namespace pvData {
         virtual void cachedSerialize(std::tr1::shared_ptr<const Field> const & field, ByteBuffer* buffer) = 0;
     };
 
-    class DeserializableControl {
+    class epicsShareClass DeserializableControl {
     public:
         virtual ~DeserializableControl(){}
         virtual void ensureData(std::size_t size) =0;
@@ -42,7 +45,7 @@ namespace epics { namespace pvData {
         virtual std::tr1::shared_ptr<const Field> cachedDeserialize(ByteBuffer* buffer) = 0;
     };
 
-    class Serializable {
+    class epicsShareClass Serializable {
     public:
         virtual ~Serializable(){}
         virtual void serialize(ByteBuffer *buffer,
@@ -51,7 +54,7 @@ namespace epics { namespace pvData {
             DeserializableControl *flusher) = 0;
     };
 
-    class BitSetSerializable {
+    class epicsShareClass BitSetSerializable {
     public:
         virtual ~BitSetSerializable(){}
         virtual void serialize(ByteBuffer *buffer,
@@ -61,7 +64,7 @@ namespace epics { namespace pvData {
     };
 
 
-    class SerializableArray : virtual public Serializable {
+    class epicsShareClass SerializableArray : virtual public Serializable {
     public:
         virtual ~SerializableArray(){}
         virtual void serialize(ByteBuffer *buffer,

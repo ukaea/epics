@@ -4,6 +4,7 @@
  * in file LICENSE that is included with this distribution.
  */
 
+#define epicsExportSharedSymbols
 #include <pv/logger.h>
 #include <pv/caProvider.h>
 #include <pv/caChannel.h>
