@@ -210,7 +210,7 @@ xcopy /Y /Q  /D service\*.h $(SolutionDir)include\pv &gt; NUL
     <ClInclude Include="util\util.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\pcAccessCPP\pvAccessApp\pvAccessApp.vcxproj">
+    <ProjectReference Include="..\..\pcAccessCPP\pvAccessApp\pvAccess.vcxproj">
       <Project>{44ecea7e-d805-49b6-8e89-62ec3994c1f3}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\pcDataCPP\pvDataApp\pvData.vcxproj">
