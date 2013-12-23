@@ -1,0 +1,205 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="O.Common">
+      <UniqueIdentifier>{505ed20f-5211-4474-a195-4a671da02a7a}</UniqueIdentifier>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="devESP300.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devMM3000.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devMM4000.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devPM500.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="drvESP300.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="drvMM3000.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="drvMM4000.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="drvPM500.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NewportRegister.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SMC100Register.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tclCall.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="drvMM4000Asyn.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="drvXPSAsyn.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="drvXPSAsynAux.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="strtok_r.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="xps_ftp.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XPSAsynInterpose.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XPSGathering.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XPSGathering2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XPSGatheringRegister.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AG_CONEX.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AG_UC.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="asynOctetSocket.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="hxp_drivers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HXPDriver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SMC100Driver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Socket.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XPS_C8_drivers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XPSAxis.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XPSController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="O.Common\XPS_trajectoryScan.c">
+      <Filter>O.Common</Filter>
+    </ClCompile>
+    <ClCompile Include="O.Common\MM4005_trajectoryScan.c">
+      <Filter>O.Common</Filter>
+    </ClCompile>
+    <ClCompile Include="O.Common\xpsSlave.c">
+      <Filter>O.Common</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AG_CONEX.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AG_UC.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="asynOctetSocket.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="drvMM4000Asyn.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="drvMMCom.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="drvXPSAsyn.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hxp_drivers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hxp_errors.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HXPDriver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NewportRegister.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="seqPVmacros.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SMC100Driver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SMC100Register.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Socket.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="strtok_r.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tclCall.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="trajectoryScan.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="XPS_C8_drivers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="XPS_C8_errors.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="xps_ftp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="XPSAsynInterpose.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="XPSAxis.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="XPSController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="devNewport.dbd">
+      <Filter>Source Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="XPS_trajectoryScan.st">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="MM4005_trajectoryScan.st">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="xpsSlave.st">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>
