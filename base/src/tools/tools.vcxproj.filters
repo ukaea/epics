@@ -24,5 +24,11 @@
     <None Include="EPICS\Release.pm">
       <Filter>EPICS Files</Filter>
     </None>
+    <None Include="dbdExpand.pl">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="registerRecordDeviceDriver.pl">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
