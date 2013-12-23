@@ -6,7 +6,7 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/* Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd */
+/* $Revision-Id$ */
 /*
  * EPICS assert
  *
@@ -30,14 +30,16 @@ extern "C" {
 
 #undef assert
 
-epicsShareFunc void epicsAssert (const char *pFile, const unsigned line,
-    const char *pExp, const char *pAuthorName);
-
 #ifdef NDEBUG
 #   define assert(ignore) ((void) 0)
 #else /* NDEBUG */
+
+epicsShareFunc void epicsAssert (const char *pFile, const unsigned line,
+    const char *pExp, const char *pAuthorName);
+
 #   define assert(exp) ((exp) ? (void)0 : \
         epicsAssert(__FILE__, __LINE__, #exp, epicsAssertAuthor))
+
 #endif  /* NDEBUG */
 
 

@@ -3,13 +3,12 @@
 *     National Laboratory.
 * Copyright (c) 2002 The Regents of the University of California, as
 *     Operator of Los Alamos National Laboratory.
-* EPICS BASE Versions 3.13.7
-* and higher are distributed subject to a Software License Agreement found
-* in file LICENSE that is included with this distribution. 
+* EPICS BASE is distributed subject to a Software License Agreement found
+* in file LICENSE that is included with this distribution.
 \*************************************************************************/
 
 /*
- * Revision-Id: anj@aps.anl.gov-20120618195203-fn89v5ir0faou35v
+ * $Revision-Id$
  *
  * Author: Jeff Hill
  * 
@@ -37,6 +36,8 @@
 #include "epicsAssert.h"
 #include "ellLib.h"
 #include "epicsExit.h"
+
+epicsShareFunc void osdThreadHooksRun(epicsThreadId id);
 
 void setThreadName ( DWORD dwThreadID, LPCSTR szThreadName );
 static void threadCleanupWIN32 ( void );
@@ -95,7 +96,7 @@ static const int osdRealtimePriorityList [osdRealtimePriorityStateCount] =
     6  /* allowed on >= W2k, but no #define supplied */
 };
 
-#if !defined(EPICS_DLL_NO)
+#if defined(EPICS_BUILD_DLL)
 BOOL WINAPI DllMain (
     HANDLE hModule, DWORD dwReason, LPVOID lpReserved )
 {
@@ -246,10 +247,7 @@ static void epicsParmCleanupWIN32 ( win32ThreadParam * pParm )
         ellDelete ( & pGbl->threadList, & pParm->node );
         LeaveCriticalSection ( & pGbl->mutex );
 
-        /* close the handle if its an implicit thread id */
-        if ( ! pParm->funptr ) {
-            CloseHandle ( pParm->handle );
-        }
+        CloseHandle ( pParm->handle );
         free ( pParm );
         TlsSetValue ( pGbl->tlsIndexThreadLibraryEPICS, 0 );
     }
@@ -496,6 +494,7 @@ static unsigned WINAPI epicsWin32ThreadEntry ( LPVOID lpParameter )
 
         success = TlsSetValue ( pGbl->tlsIndexThreadLibraryEPICS, pParm );
         if ( success ) {
+            osdThreadHooksRun ( ( epicsThreadId ) pParm );
             /* printf ( "starting thread %d\n", pParm->id ); */
             ( *pParm->funptr ) ( pParm->parm );
             /* printf ( "terminating thread %d\n", pParm->id ); */
@@ -510,7 +509,6 @@ static unsigned WINAPI epicsWin32ThreadEntry ( LPVOID lpParameter )
     }
 
     epicsExitCallAtThreadExits ();
-
     /*
      * CAUTION: !!!! the thread id might continue to be used after this thread exits !!!!
      */
@@ -944,9 +942,9 @@ static const char * epics_GetThreadPriorityAsString ( HANDLE thr )
 }
 
 /*
- * epicsThreadShowPrivate ()
+ * epicsThreadShowInfo ()
  */
-static void epicsThreadShowPrivate ( epicsThreadId id, unsigned level )
+static void epicsThreadShowInfo ( epicsThreadId id, unsigned level )
 {
     win32ThreadParam * pParm = ( win32ThreadParam * ) id;
 
@@ -972,6 +970,28 @@ static void epicsThreadShowPrivate ( epicsThreadId id, unsigned level )
 }
 
 /*
+ * epicsThreadMap ()
+ */
+epicsShareFunc void epicsThreadMap ( EPICS_THREAD_HOOK_ROUTINE func )
+{
+    win32ThreadGlobal * pGbl = fetchWin32ThreadGlobal ();
+    win32ThreadParam * pParm;
+
+    if ( ! pGbl ) {
+        return;
+    }
+
+    EnterCriticalSection ( & pGbl->mutex );
+
+    for ( pParm = ( win32ThreadParam * ) ellFirst ( & pGbl->threadList );
+            pParm; pParm = ( win32ThreadParam * ) ellNext ( & pParm->node ) ) {
+        func ( ( epicsThreadId ) pParm );
+    }
+
+    LeaveCriticalSection ( & pGbl->mutex );
+}
+
+/*
  * epicsThreadShowAll ()
  */
 epicsShareFunc void epicsShareAPI epicsThreadShowAll ( unsigned level )
@@ -984,11 +1004,11 @@ epicsShareFunc void epicsShareAPI epicsThreadShowAll ( unsigned level )
     }
 
     EnterCriticalSection ( & pGbl->mutex );
-    
-    epicsThreadShowPrivate ( 0, level );
-    for ( pParm = ( win32ThreadParam * ) ellFirst ( & pGbl->threadList ); 
+
+    epicsThreadShowInfo ( 0, level );
+    for ( pParm = ( win32ThreadParam * ) ellFirst ( & pGbl->threadList );
             pParm; pParm = ( win32ThreadParam * ) ellNext ( & pParm->node ) ) {
-        epicsThreadShowPrivate ( ( epicsThreadId ) pParm, level );
+        epicsThreadShowInfo ( ( epicsThreadId ) pParm, level );
     }
 
     LeaveCriticalSection ( & pGbl->mutex );
@@ -999,8 +1019,8 @@ epicsShareFunc void epicsShareAPI epicsThreadShowAll ( unsigned level )
  */
 epicsShareFunc void epicsShareAPI epicsThreadShow ( epicsThreadId id, unsigned level )
 {
-    epicsThreadShowPrivate ( 0, level );
-    epicsThreadShowPrivate ( id, level );
+    epicsThreadShowInfo ( 0, level );
+    epicsThreadShowInfo ( id, level );
 }
 
 /*

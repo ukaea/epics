@@ -28,19 +28,22 @@ int epicsMathTest(void);
 int epicsMessageQueueTest(void);
 int epicsMutexTest(void);
 int epicsStdioTest(void);
+int epicsStdlibTest(void);
 int epicsStringTest(void);
 int epicsThreadOnceTest(void);
 int epicsThreadPriorityTest(void);
 int epicsThreadPrivateTest(void);
+int epicsThreadHooksTest(void);
 int epicsTimeTest(void);
+int epicsTypesTest(void);
 int macLibTest(void);
 int macEnvExpandTest(void);
 int ringPointerTest(void);
 int ringBytesTest(void);
 int blockingSockTest(void);
+int epicsSockResolveTest(void);
 int taskwdTest(void);
 int epicsExitTest(void);
-int UnitTestTest(void);
 
 #ifdef TESTALLATONCE
 int main(int argc, char *argv[] )
@@ -80,6 +83,8 @@ void epicsRunLibComTests(void)
 
     runTest(epicsStdioTest);
 
+    runTest(epicsStdlibTest);
+
     runTest(epicsStringTest);
 
     runTest(epicsThreadOnceTest);
@@ -88,7 +93,11 @@ void epicsRunLibComTests(void)
 
     runTest(epicsThreadPrivateTest);
 
+    runTest(epicsThreadHooksTest);
+
     runTest(epicsTimeTest);
+
+    runTest(epicsTypesTest);
 
     runTest(macLibTest);
 
@@ -99,10 +108,10 @@ void epicsRunLibComTests(void)
     runTest(ringBytesTest);
 
     runTest(blockingSockTest);
+    
+    runTest(epicsSockResolveTest);
 
     runTest(taskwdTest);
-
-	runTest(UnitTestTest);
 
     /*
      * Exit must come last as it never returns

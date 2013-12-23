@@ -4,20 +4,20 @@
 * Copyright (c) 2002 The Regents of the University of California, as
 *     Operator of Los Alamos National Laboratory.
 * EPICS BASE is distributed subject to a Software License Agreement found
-* in file LICENSE that is included with this distribution. 
+* in file LICENSE that is included with this distribution.
 \*************************************************************************/
 
-/*  
- *  Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd
+/*
+ *  $Revision-Id$
  *
- *                              
+ *
  *                    L O S  A L A M O S
  *              Los Alamos National Laboratory
  *               Los Alamos, New Mexico 87545
- *                                  
+ *
  *  Copyright, 1986, The Regents of the University of California.
- *                                  
- *           
+ *
+ *
  *	Author Jeffrey O. Hill
  *	johill@lanl.gov
  *	505 665 1831
@@ -41,18 +41,18 @@
 #include "dbChannelIO.h"
 #include "db_access_routines.h"
 
-dbSubscriptionIO::dbSubscriptionIO ( 
+dbSubscriptionIO::dbSubscriptionIO (
     epicsGuard < epicsMutex > & guard, epicsMutex & mutexIn,
-    dbContext &, dbChannelIO & chanIO, 
-    dbAddr & addr, cacStateNotify & notifyIn, unsigned typeIn, 
+    dbContext &, dbChannelIO & chanIO,
+    dbChannel * dbch, cacStateNotify & notifyIn, unsigned typeIn,
     unsigned long countIn, unsigned maskIn, dbEventCtx ctx ) :
-    mutex ( mutexIn ), count ( countIn ), notify ( notifyIn ), 
+    mutex ( mutexIn ), count ( countIn ), notify ( notifyIn ),
     chan ( chanIO ), es ( 0 ), type ( typeIn ), id ( 0u )
 {
     guard.assertIdenticalMutex ( this->mutex );
     {
         epicsGuardRelease < epicsMutex > unguard ( guard );
-        this->es = db_add_event ( ctx, & addr,
+        this->es = db_add_event ( ctx, dbch,
             dbSubscriptionEventCallback, (void *) this, maskIn );
         if ( this->es == 0 ) {
             throw std::bad_alloc();
@@ -62,17 +62,18 @@ dbSubscriptionIO::dbSubscriptionIO (
     }
 }
 
-dbSubscriptionIO::~dbSubscriptionIO () 
+dbSubscriptionIO::~dbSubscriptionIO ()
 {
 }
 
-void dbSubscriptionIO::destructor ( epicsGuard < epicsMutex > & guard )
+void dbSubscriptionIO::destructor ( CallbackGuard & cbGuard, 
+                              epicsGuard < epicsMutex > & guard )
 {
     guard.assertIdenticalMutex ( this->mutex );
     this->~dbSubscriptionIO ();
 }
 
-void dbSubscriptionIO::unsubscribe ( 
+void dbSubscriptionIO::unsubscribe ( CallbackGuard & cbGuard, 
     epicsGuard < epicsMutex > & guard )
 {
     guard.assertIdenticalMutex ( this->mutex );
@@ -86,19 +87,13 @@ void dbSubscriptionIO::unsubscribe (
     }
 }
 
-void dbSubscriptionIO::channelDeleteException ( 
+void dbSubscriptionIO::channelDeleteException (
+    CallbackGuard &,
     epicsGuard < epicsMutex > & guard )
 {
     guard.assertIdenticalMutex ( this->mutex );
-    this->notify.exception ( guard, ECA_CHANDESTROY, 
+    this->notify.exception ( guard, ECA_CHANDESTROY,
         this->chan.pName(guard), this->type, this->count );
-}
-
-void * dbSubscriptionIO::operator new ( size_t ) // X aCC 361
-{
-    // The HPUX compiler seems to require this even though no code
-    // calls it directly
-    throw std::logic_error ( "why is the compiler calling private operator new" );
 }
 
 void dbSubscriptionIO::operator delete ( void * )
@@ -112,21 +107,21 @@ void dbSubscriptionIO::operator delete ( void * )
         __FILE__, __LINE__ );
 }
 
-void * dbSubscriptionIO::operator new ( size_t size, 
+void * dbSubscriptionIO::operator new ( size_t size,
         tsFreeList < dbSubscriptionIO, 256, epicsMutexNOOP > & freeList )
 {
     return freeList.allocate ( size );
 }
 
 #ifdef CXX_PLACEMENT_DELETE
-void dbSubscriptionIO::operator delete ( void * pCadaver, 
+void dbSubscriptionIO::operator delete ( void * pCadaver,
         tsFreeList < dbSubscriptionIO, 256, epicsMutexNOOP > & freeList )
 {
     freeList.release ( pCadaver );
 }
 #endif
 
-extern "C" void dbSubscriptionEventCallback ( void *pPrivate, struct dbAddr * /* paddr */,
+extern "C" void dbSubscriptionEventCallback ( void *pPrivate, struct dbChannel * /* dbch */,
 	int /* eventsRemaining */, struct db_field_log *pfl )
 {
     dbSubscriptionIO * pIO = static_cast < dbSubscriptionIO * > ( pPrivate );
@@ -139,19 +134,19 @@ void dbSubscriptionIO::show ( unsigned level ) const
     this->show ( guard, level );
 }
 
-void dbSubscriptionIO::show ( 
+void dbSubscriptionIO::show (
     epicsGuard < epicsMutex > & guard, unsigned level ) const
 {
     guard.assertIdenticalMutex ( this->mutex );
 
-    printf ( "Data base subscription IO at %p\n", 
+    printf ( "Data base subscription IO at %p\n",
         static_cast <const void *> ( this ) );
     if ( level > 0u ) {
         short tmpType;
         if ( this->type < SHRT_MAX ) {
             tmpType = static_cast < short > ( this->type );
             printf ( "\ttype %s, count %lu, channel at %p\n",
-                dbf_type_to_text ( tmpType ), this->count, 
+                dbf_type_to_text ( tmpType ), this->count,
                 static_cast <void *> ( &this->chan ) );
         }
         else {
@@ -161,7 +156,7 @@ void dbSubscriptionIO::show (
     }
 }
 
-dbSubscriptionIO * dbSubscriptionIO::isSubscription () 
+dbSubscriptionIO * dbSubscriptionIO::isSubscription ()
 {
     return this;
 }

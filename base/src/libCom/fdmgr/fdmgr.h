@@ -9,7 +9,7 @@
 \*************************************************************************/
 /* fdmgr.h
  *
- *      share/epicsH/Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd
+ *      share/epicsH/$Revision-Id$
  *
  *      Header file associated with a file descriptor manager 
  *	for use with the UNIX system call select

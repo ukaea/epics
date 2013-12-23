@@ -9,7 +9,7 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 /*
- *      Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd
+ *      $Revision-Id$
  *
  *      Author  Jeffrey O. Hill
  *              johill@lanl.gov
@@ -49,7 +49,6 @@ public:
 private:
     class casMonitor & monitor;
 	smartConstGDDPointer pValue;
-    void * operator new ( size_t );
     void operator delete ( void * );
 	caStatus cbFunc ( 
         casCoreClient &, 

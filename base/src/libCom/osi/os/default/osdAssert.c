@@ -6,21 +6,21 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/* Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd */
+/* $Revision-Id$ */
 /*
  *      Author:         Jeffrey Hill
  *      Date:           02-27-95
  */
 
-#include "dbDefs.h"
-#include "epicsVersion.h"
-#include "cantProceed.h"
-
 #define epicsExportSharedSymbols
+#include "dbDefs.h"
+#include "epicsPrint.h"
+#include "epicsVersion.h"
 #include "epicsAssert.h"
 #include "epicsThread.h"
 #include "epicsTime.h"
-#include "epicsPrint.h"
+#include "cantProceed.h"
+
 
 void epicsAssert (const char *pFile, const unsigned line,
     const char *pExp, const char *pAuthorName)

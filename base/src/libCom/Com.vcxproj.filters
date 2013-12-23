@@ -44,9 +44,6 @@
     <Filter Include="iocsh">
       <UniqueIdentifier>{8f4bc1e3-3e4a-4582-aa4d-013422866b17}</UniqueIdentifier>
     </Filter>
-    <Filter Include="logClient">
-      <UniqueIdentifier>{162136c4-9188-4bb5-9432-e48b271cbc64}</UniqueIdentifier>
-    </Filter>
     <Filter Include="macLib">
       <UniqueIdentifier>{2e5e9e35-2994-4fc1-9332-e4e218347f25}</UniqueIdentifier>
     </Filter>
@@ -71,15 +68,21 @@
     <Filter Include="timer">
       <UniqueIdentifier>{143353ca-9e0e-4b55-845d-beab3a4e3a03}</UniqueIdentifier>
     </Filter>
-    <Filter Include="tsDefs">
-      <UniqueIdentifier>{cf9d83fc-bb8c-4042-895b-d340cd6333e1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="osi\os\default">
       <UniqueIdentifier>{c6be12f6-3fef-4a14-999e-c0a836c7c94c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="O.Common Files">
+    <Filter Include="log">
+      <UniqueIdentifier>{162136c4-9188-4bb5-9432-e48b271cbc64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="as">
+      <UniqueIdentifier>{12b91efe-88ec-4f11-99a5-8b6c182d6a13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="O.Common">
       <UniqueIdentifier>{7030ec28-5efe-4a15-abff-02ca0c3fb80d}</UniqueIdentifier>
       <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="yajl">
+      <UniqueIdentifier>{6bd60d53-f00d-4569-8988-6028a4ab516a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -142,12 +145,6 @@
     </ClCompile>
     <ClCompile Include="iocsh\registry.c">
       <Filter>iocsh</Filter>
-    </ClCompile>
-    <ClCompile Include="logClient\iocLog.c">
-      <Filter>logClient</Filter>
-    </ClCompile>
-    <ClCompile Include="logClient\logClient.c">
-      <Filter>logClient</Filter>
     </ClCompile>
     <ClCompile Include="macLib\macCore.c">
       <Filter>macLib</Filter>
@@ -302,9 +299,6 @@
     <ClCompile Include="timer\timerQueuePassive.cpp">
       <Filter>timer</Filter>
     </ClCompile>
-    <ClCompile Include="tsDefs\tsDefs.c">
-      <Filter>tsDefs</Filter>
-    </ClCompile>
     <ClCompile Include="osi\os\default\devLibVMEOSD.c">
       <Filter>osi\os\default</Filter>
     </ClCompile>
@@ -318,9 +312,6 @@
       <Filter>osi\os\default</Filter>
     </ClCompile>
     <ClCompile Include="osi\os\default\osdEnv.c">
-      <Filter>osi\os\default</Filter>
-    </ClCompile>
-    <ClCompile Include="osi\os\default\osdFindSymbol.c">
       <Filter>osi\os\default</Filter>
     </ClCompile>
     <ClCompile Include="osi\os\default\osdInterrupt.c">
@@ -339,10 +330,67 @@
       <Filter>osi\os\default</Filter>
     </ClCompile>
     <ClCompile Include="O.Common\envData.c">
-      <Filter>O.Common Files</Filter>
+      <Filter>O.Common</Filter>
     </ClCompile>
     <ClCompile Include="O.Common\errSymTbl.c">
-      <Filter>O.Common Files</Filter>
+      <Filter>O.Common</Filter>
+    </ClCompile>
+    <ClCompile Include="log\iocLog.c">
+      <Filter>log</Filter>
+    </ClCompile>
+    <ClCompile Include="log\logClient.c">
+      <Filter>log</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\os\default\osdThreadHooks.c">
+      <Filter>osi\os\default</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\os\WIN32\osdThreadExtra.c">
+      <Filter>osi\os\Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="misc\alarmString.c">
+      <Filter>misc</Filter>
+    </ClCompile>
+    <ClCompile Include="as\asLibRoutines.c">
+      <Filter>as</Filter>
+    </ClCompile>
+    <ClCompile Include="as\asTrapWrite.c">
+      <Filter>as</Filter>
+    </ClCompile>
+    <ClCompile Include="as\O.Common\asLib.c">
+      <Filter>O.Common</Filter>
+    </ClCompile>
+    <ClCompile Include="as\O.Common\asLib_lex.c">
+      <Filter>O.Common</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\os\WIN32\epicsAtomicOSD.cpp">
+      <Filter>osi\os\Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\os\WIN32\osdFindSymbol.c">
+      <Filter>osi\os\Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\os\default\osdSpin.c">
+      <Filter>osi\os\default</Filter>
+    </ClCompile>
+    <ClCompile Include="yajl\yajl.c">
+      <Filter>yajl</Filter>
+    </ClCompile>
+    <ClCompile Include="yajl\yajl_alloc.c">
+      <Filter>yajl</Filter>
+    </ClCompile>
+    <ClCompile Include="yajl\yajl_buf.c">
+      <Filter>yajl</Filter>
+    </ClCompile>
+    <ClCompile Include="yajl\yajl_encode.c">
+      <Filter>yajl</Filter>
+    </ClCompile>
+    <ClCompile Include="yajl\yajl_gen.c">
+      <Filter>yajl</Filter>
+    </ClCompile>
+    <ClCompile Include="yajl\yajl_lex.c">
+      <Filter>yajl</Filter>
+    </ClCompile>
+    <ClCompile Include="yajl\yajl_parser.c">
+      <Filter>yajl</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -438,12 +486,6 @@
     </ClInclude>
     <ClInclude Include="iocsh\registry.h">
       <Filter>iocsh</Filter>
-    </ClInclude>
-    <ClInclude Include="logClient\iocLog.h">
-      <Filter>logClient</Filter>
-    </ClInclude>
-    <ClInclude Include="logClient\logClient.h">
-      <Filter>logClient</Filter>
     </ClInclude>
     <ClInclude Include="macLib\macLib.h">
       <Filter>macLib</Filter>
@@ -616,9 +658,6 @@
     <ClInclude Include="timer\timerPrivate.h">
       <Filter>timer</Filter>
     </ClInclude>
-    <ClInclude Include="tsDefs\tsDefs.h">
-      <Filter>tsDefs</Filter>
-    </ClInclude>
     <ClInclude Include="osi\os\default\epicsGetopt.h">
       <Filter>osi\os\default</Filter>
     </ClInclude>
@@ -643,6 +682,66 @@
     <ClInclude Include="osi\os\default\osdWireFormat.h">
       <Filter>osi\os\default</Filter>
     </ClInclude>
+    <ClInclude Include="log\logClient.h">
+      <Filter>log</Filter>
+    </ClInclude>
+    <ClInclude Include="log\iocLog.h">
+      <Filter>log</Filter>
+    </ClInclude>
+    <ClInclude Include="as\asLib.h">
+      <Filter>as</Filter>
+    </ClInclude>
+    <ClInclude Include="as\asTrapWrite.h">
+      <Filter>as</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\os\WIN32\epicsAtomicMS.h">
+      <Filter>osi\os\Win32</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\os\WIN32\epicsAtomicOSD.h">
+      <Filter>osi\os\Win32</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\compilerDependencies.h">
+      <Filter>osi\os</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\epicsAtomic.h">
+      <Filter>osi\os</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\epicsAtomicDefault.h">
+      <Filter>osi\os</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\epicsSpin.h">
+      <Filter>osi\os</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\epicsTempFile.h">
+      <Filter>osi\os</Filter>
+    </ClInclude>
+    <ClInclude Include="yajl\yajl_alloc.h">
+      <Filter>yajl</Filter>
+    </ClInclude>
+    <ClInclude Include="yajl\yajl_buf.h">
+      <Filter>yajl</Filter>
+    </ClInclude>
+    <ClInclude Include="yajl\yajl_bytestack.h">
+      <Filter>yajl</Filter>
+    </ClInclude>
+    <ClInclude Include="yajl\yajl_common.h">
+      <Filter>yajl</Filter>
+    </ClInclude>
+    <ClInclude Include="yajl\yajl_encode.h">
+      <Filter>yajl</Filter>
+    </ClInclude>
+    <ClInclude Include="yajl\yajl_gen.h">
+      <Filter>yajl</Filter>
+    </ClInclude>
+    <ClInclude Include="yajl\yajl_lex.h">
+      <Filter>yajl</Filter>
+    </ClInclude>
+    <ClInclude Include="yajl\yajl_parse.h">
+      <Filter>yajl</Filter>
+    </ClInclude>
+    <ClInclude Include="yajl\yajl_parser.h">
+      <Filter>yajl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="freeList\freeList.html">
@@ -653,9 +752,6 @@
     </None>
     <None Include="osi\TODOfuture">
       <Filter>osi</Filter>
-    </None>
-    <None Include="tsDefs\README">
-      <Filter>tsDefs</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -672,6 +768,12 @@
     </CustomBuild>
     <CustomBuild Include="error\makeStatTbl.pl">
       <Filter>error</Filter>
+    </CustomBuild>
+    <CustomBuild Include="as\asLib.y">
+      <Filter>as</Filter>
+    </CustomBuild>
+    <CustomBuild Include="as\asLib_lex.l">
+      <Filter>as</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

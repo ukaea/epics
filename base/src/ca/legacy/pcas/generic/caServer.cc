@@ -7,7 +7,7 @@
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
 /*
- *      Revision-Id: anj@aps.anl.gov-20121130234247-8kua9rbosnhltlmq
+ *      $Revision-Id$
  *
  *      Author  Jeffrey O. Hill
  *              johill@lanl.gov

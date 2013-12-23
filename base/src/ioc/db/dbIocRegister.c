@@ -21,6 +21,7 @@
 #include "dbNotify.h"
 #include "callback.h"
 #include "dbIocRegister.h"
+#include "dbState.h"
 
 /* dbLoadDatabase */
 static const iocshArg dbLoadDatabaseArg0 = { "file name",iocshArgString};
@@ -266,11 +267,21 @@ static void scanpplCallFunc(const iocshArgBuf *args)
 { scanppl(args[0].dval);}
 
 /* scanpel */
-static const iocshArg scanpelArg0 = { "event number",iocshArgInt};
+static const iocshArg scanpelArg0 = { "event name",iocshArgString};
 static const iocshArg * const scanpelArgs[1] = {&scanpelArg0};
 static const iocshFuncDef scanpelFuncDef = {"scanpel",1,scanpelArgs};
 static void scanpelCallFunc(const iocshArgBuf *args)
-{ scanpel(args[0].ival);}
+{ scanpel(args[0].sval);}
+
+/* postEvent */
+static const iocshArg postEventArg0 = { "event name",iocshArgString};
+static const iocshArg * const postEventArgs[1] = {&postEventArg0};
+static const iocshFuncDef postEventFuncDef = {"postEvent",1,postEventArgs};
+static void postEventCallFunc(const iocshArgBuf *args)
+{
+    EVENTPVT pel = eventNameToHandle(args[0].sval);
+    postEvent(pel);
+}
 
 /* scanpiol */
 static const iocshFuncDef scanpiolFuncDef = {"scanpiol",0};
@@ -287,8 +298,59 @@ static void callbackSetQueueSizeCallFunc(const iocshArgBuf *args)
     callbackSetQueueSize(args[0].ival);
 }
 
+/* dbStateCreate */
+static const iocshArg dbStateArgName = { "name", iocshArgString };
+static const iocshArg * const dbStateCreateArgs[] = { &dbStateArgName };
+static const iocshFuncDef dbStateCreateFuncDef = { "dbStateCreate", 1, dbStateCreateArgs };
+static void dbStateCreateCallFunc (const iocshArgBuf *args)
+{
+    dbStateCreate(args[0].sval);
+}
 
-void epicsShareAPI dbIocRegister(void)
+/* dbStateSet */
+static const iocshArg * const dbStateSetArgs[] = { &dbStateArgName };
+static const iocshFuncDef dbStateSetFuncDef = { "dbStateSet", 1, dbStateSetArgs };
+static void dbStateSetCallFunc (const iocshArgBuf *args)
+{
+    dbStateId sid = dbStateFind(args[0].sval);
+
+    if (sid)
+        dbStateSet(sid);
+}
+
+/* dbStateClear */
+static const iocshArg * const dbStateClearArgs[] = { &dbStateArgName };
+static const iocshFuncDef dbStateClearFuncDef = { "dbStateClear", 1, dbStateClearArgs };
+static void dbStateClearCallFunc (const iocshArgBuf *args)
+{
+    dbStateId sid = dbStateFind(args[0].sval);
+
+    if (sid)
+        dbStateClear(sid);
+}
+
+/* dbStateShow */
+static const iocshArg dbStateShowArg1 = { "level", iocshArgInt };
+static const iocshArg * const dbStateShowArgs[] = { &dbStateArgName, &dbStateShowArg1 };
+static const iocshFuncDef dbStateShowFuncDef = { "dbStateShow", 2, dbStateShowArgs };
+static void dbStateShowCallFunc (const iocshArgBuf *args)
+{
+    dbStateId sid = dbStateFind(args[0].sval);
+
+    if (sid)
+        dbStateShow(sid, args[1].ival);
+}
+
+/* dbStateShowAll */
+static const iocshArg dbStateShowAllArg0 = { "level", iocshArgInt };
+static const iocshArg * const dbStateShowAllArgs[] = { &dbStateShowAllArg0 };
+static const iocshFuncDef dbStateShowAllFuncDef = { "dbStateShowAll", 1, dbStateShowAllArgs };
+static void dbStateShowAllCallFunc (const iocshArgBuf *args)
+{
+    dbStateShowAll(args[0].ival);
+}
+
+void dbIocRegister(void)
 {
     iocshRegister(&dbbFuncDef,dbbCallFunc);
     iocshRegister(&dbdFuncDef,dbdCallFunc);
@@ -328,7 +390,14 @@ void epicsShareAPI dbIocRegister(void)
     iocshRegister(&scanOnceSetQueueSizeFuncDef,scanOnceSetQueueSizeCallFunc);
     iocshRegister(&scanpplFuncDef,scanpplCallFunc);
     iocshRegister(&scanpelFuncDef,scanpelCallFunc);
+    iocshRegister(&postEventFuncDef,postEventCallFunc);
     iocshRegister(&scanpiolFuncDef,scanpiolCallFunc);
 
     iocshRegister(&callbackSetQueueSizeFuncDef,callbackSetQueueSizeCallFunc);
+
+    iocshRegister(&dbStateCreateFuncDef, dbStateCreateCallFunc);
+    iocshRegister(&dbStateSetFuncDef, dbStateSetCallFunc);
+    iocshRegister(&dbStateClearFuncDef, dbStateClearCallFunc);
+    iocshRegister(&dbStateShowFuncDef, dbStateShowCallFunc);
+    iocshRegister(&dbStateShowAllFuncDef, dbStateShowAllCallFunc);
 }

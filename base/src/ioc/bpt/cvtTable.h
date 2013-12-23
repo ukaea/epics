@@ -7,7 +7,7 @@
 * and higher are distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/* Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd
+/* $Revision-Id$
  * Breakpoint Tables
  *
  *      Author:          Marty Kraimer
@@ -24,10 +24,10 @@ extern "C" {
 #endif
 
 /* Global Routines*/
-epicsShareFunc long epicsShareAPI cvtEngToRawBpt(
+epicsShareFunc long cvtEngToRawBpt(
     double *pval,short linr,short init,void **ppbrk,short *plbrk);
 
-epicsShareFunc long epicsShareAPI cvtRawToEngBpt(
+epicsShareFunc long cvtRawToEngBpt(
     double *pval,short linr,short init,void **ppbrk, short *plbrk);
 
 #ifdef __cplusplus

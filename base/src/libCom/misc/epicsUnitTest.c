@@ -5,7 +5,7 @@
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
 
-/* Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd
+/* $Revision-Id$
  * Author: Andrew Johnson
  *
  * Unit test module which generates output in the Test Anything Protocol
@@ -23,6 +23,7 @@
 #include "epicsExit.h"
 #include "epicsTime.h"
 #include "ellLib.h"
+#include "errlog.h"
 #include "cantProceed.h"
 
 typedef struct {
@@ -73,7 +74,7 @@ int testOkV(int pass, const char *fmt, va_list pvar) {
     epicsMutexMustLock(testLock);
     tested++;
     if (pass) {
-	result += 4;	/* skip "not " */
+	result += 4;    /* skip "not " */
 	passed++;
 	if (todo)
 	    bonus++;

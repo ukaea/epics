@@ -6,7 +6,7 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/* Revision-Id: anj@aps.anl.gov-20110926214215-c1ma6lbqwz4dkeqx */
+/* $Revision-Id$ */
 /*
  *      Original Author: Marty Kraimer
  *      Date:            06-01-91
@@ -24,44 +24,45 @@
 #include "dbDefs.h"
 #include "epicsThread.h"
 #include "epicsPrint.h"
+#include "epicsExit.h"
+#include "epicsSignal.h"
 #include "ellLib.h"
-#include "dbDefs.h"
-#include "dbBase.h"
+#include "envDefs.h"
+#include "errMdef.h"
+#include "taskwd.h"
 #include "caeventmask.h"
-#include "dbAddr.h"
-#include "dbBkpt.h"
+
+#define epicsExportSharedSymbols
+#include "alarm.h"
+#include "dbBase.h"
 #include "dbFldTypes.h"
 #include "link.h"
+#include "menuConvert.h"
+#include "menuPini.h"
+#include "registryRecordType.h"
+#include "registryDeviceSupport.h"
+#include "registryDriverSupport.h"
+#include "devSup.h"
+#include "drvSup.h"
+#include "recSup.h"
+#include "dbStaticLib.h"
+
+#include "callback.h"
+#include "dbAddr.h"
+#include "dbBkpt.h"
+#include "dbCommon.h"
 #include "dbLock.h"
 #include "dbAccess.h"
 #include "recGbl.h"
 #include "dbNotify.h"
 #include "dbCa.h"
 #include "dbScan.h"
-#include "taskwd.h"
-#include "callback.h"
-#include "dbCommon.h"
-#include "dbLock.h"
-#include "devSup.h"
-#include "drvSup.h"
-#include "menuConvert.h"
-#include "menuPini.h"
-#include "registryRecordType.h"
-#include "registryDeviceSupport.h"
-#include "registryDriverSupport.h"
-#include "errMdef.h"
-#include "recSup.h"
-#include "envDefs.h"
-#include "rsrv.h"
-#include "asDbLib.h"
-#include "dbStaticLib.h"
 #include "db_access_routines.h"
 #include "initHooks.h"
-#include "epicsExit.h"
-#include "epicsSignal.h"
-
-#define epicsExportSharedSymbols
+#include "dbChannel.h"
 #include "epicsRelease.h"
+#include "rsrv.h"
+#include "asDbLib.h"
 #include "iocInit.h"
 
 static enum {
@@ -140,7 +141,7 @@ int iocBuild(void)
         errlogPrintf("iocBuild: asInit Failed.\n");
         return -1;
     }
-    dbPutNotifyInit();
+    dbProcessNotifyInit();
     epicsThreadSleep(.5);
     initHookAnnounce(initHookAfterScanInit);
 
@@ -415,6 +416,10 @@ static void doInitRecord0(dbRecordType *pdbRecordType, dbCommon *precord,
     /* Reset the process active field */
     precord->pact = FALSE;
 
+    /* Initial UDF severity */
+    if (precord->udf && precord->stat == UDF_ALARM)
+    	precord->sevr = precord->udfs;
+
     /* Init DSET NOTE that result may be NULL */
     pdevSup = dbDTYPtoDevSup(pdbRecordType, precord->dtyp);
     precord->dset = pdevSup ? pdevSup->pdset : NULL;
@@ -426,55 +431,29 @@ static void doInitRecord0(dbRecordType *pdbRecordType, dbCommon *precord,
 static void doResolveLinks(dbRecordType *pdbRecordType, dbCommon *precord,
     void *user)
 {
-    devSup *pdevSup;
+    dbFldDes **papFldDes = pdbRecordType->papFldDes;
+    short *link_ind = pdbRecordType->link_ind;
     int j;
 
-    /* Convert all PV_LINKs to DB_LINKs or CA_LINKs */
     /* For all the links in the record type... */
     for (j = 0; j < pdbRecordType->no_links; j++) {
-        dbFldDes *pdbFldDes =
-            pdbRecordType->papFldDes[pdbRecordType->link_ind[j]];
+        dbFldDes *pdbFldDes = papFldDes[link_ind[j]];
         DBLINK *plink = (DBLINK *)((char *)precord + pdbFldDes->offset);
 
-        if (plink->type == PV_LINK) {
-            DBADDR dbaddr;
+        if (ellCount(&precord->rdes->devList) > 0 &&
+            (strcmp(pdbFldDes->name, "INP") == 0 || strcmp(pdbFldDes->name, "OUT") == 0)) {
+            devSup *pdevSup = dbDTYPtoDevSup(pdbRecordType, precord->dtyp);
 
-            if (plink == &precord->tsel) recGblTSELwasModified(plink);
-            if (!(plink->value.pv_link.pvlMask&(pvlOptCA|pvlOptCP|pvlOptCPP))
-                && (dbNameToAddr(plink->value.pv_link.pvname,&dbaddr)==0)) {
-                DBADDR  *pdbAddr;
-
-                plink->type = DB_LINK;
-                pdbAddr = dbCalloc(1,sizeof(struct dbAddr));
-                *pdbAddr = dbaddr; /*structure copy*/;
-                plink->value.pv_link.pvt = pdbAddr;
-            } else {/*It is a CA link*/
-
-                if (pdbFldDes->field_type == DBF_INLINK) {
-                    plink->value.pv_link.pvlMask |= pvlOptInpNative;
-                }
-                dbCaAddLink(plink);
-                if (pdbFldDes->field_type == DBF_FWDLINK) {
-                    char *pperiod =
-                        strrchr(plink->value.pv_link.pvname,'.');
-
-                    if (pperiod && strstr(pperiod,"PROC")) {
-                        plink->value.pv_link.pvlMask |= pvlOptFWD;
-                    } else {
-                        errlogPrintf("%s.FLNK is a Channel Access Link "
-                            " but does not link to a PROC field\n",
-                                precord->name);
-                    }
+            if (pdevSup) {
+                struct dsxt *pdsxt = pdevSup->pdsxt;
+                if (pdsxt && pdsxt->add_record) {
+                    pdsxt->add_record(precord);
                 }
             }
         }
-    }
-    pdevSup = dbDTYPtoDevSup(pdbRecordType, precord->dtyp);
-    if (pdevSup) {
-        struct dsxt *pdsxt = pdevSup->pdsxt;
-        if (pdsxt && pdsxt->add_record) {
-            pdsxt->add_record(precord);
-        }
+
+        if (plink->type == PV_LINK)
+            dbInitLink(precord, plink, pdbFldDes->field_type);
     }
 }
 
@@ -491,6 +470,7 @@ static void doInitRecord1(dbRecordType *pdbRecordType, dbCommon *precord,
 
 static void initDatabase(void)
 {
+    dbChannelInit();
     iterateRecords(doInitRecord0, NULL);
     iterateRecords(doResolveLinks, NULL);
     iterateRecords(doInitRecord1, NULL);
@@ -610,6 +590,7 @@ static void doCloseLinks(dbRecordType *pdbRecordType, dbCommon *precord,
             dbScanLock(precord);
             locked = 1;
         }
+        scanDelete(precord);    /* Being consistent... */
         pdsxt->del_record(precord);
     }
     if (locked) {

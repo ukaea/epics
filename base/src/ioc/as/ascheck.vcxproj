@@ -41,29 +41,23 @@
     <ClCompile Include="ascheck.c" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\dbStatic\dbStaticHost.vcxproj">
-      <Project>{b39c59ee-27f5-4368-b0c1-e24da2159a8b}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\libCom\Com.vcxproj">
+    <ProjectReference Include="..\..\libCom\Com.vcxproj">
       <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\toolsComm\flex\e_flex.vcxproj">
+    <ProjectReference Include="..\..\libCom\flex\e_flex.vcxproj">
       <Project>{285b2dd5-b55e-4195-9b2d-f129cf54a2b4}</Project>
     </ProjectReference>
-    <ProjectReference Include="ashost.vcxproj">
-      <Project>{815ff5be-8ed0-42d9-95a6-aadf7743adb7}</Project>
+    <ProjectReference Include="..\dbCore.vcxproj">
+      <Project>{440c585d-ad66-4738-941c-a87a1817a9be}</Project>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{3F455271-9010-4995-BA79-FFD5D0881ABC}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>ascheck</RootNamespace>
-    <SccProjectName>
-    </SccProjectName>
-    <SccLocalPath>
-    </SccLocalPath>
-    <SccProvider>
-    </SccProvider>
+    <SccProjectName>"$/EPICS/base/src/ioc/as", YKDCAAAA</SccProjectName>
+    <SccLocalPath>.</SccLocalPath>
+    <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'" Label="Configuration">
@@ -175,8 +169,8 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
       <BrowseInformation>true</BrowseInformation>
     </ClCompile>
@@ -190,8 +184,8 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_DLL_NO</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
       <BrowseInformation>true</BrowseInformation>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -206,8 +200,8 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
       <BrowseInformation>true</BrowseInformation>
     </ClCompile>
@@ -221,8 +215,8 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_DLL_NO</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
       <BrowseInformation>true</BrowseInformation>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -239,8 +233,8 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
     </ClCompile>
     <Link>
@@ -257,8 +251,8 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;EPICS_DLL_NO</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
@@ -276,8 +270,8 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
     </ClCompile>
     <Link>
@@ -293,8 +287,8 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;EPICS_DLL_NO</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>

@@ -8,6 +8,9 @@
 \*************************************************************************/
 
 #include "iocsh.h"
+#include "libComRegister.h"
+
+#define epicsExportSharedSymbols
 #include "dbAccess.h"
 #include "dbStaticIocRegister.h"
 #include "registryIocRegister.h"
@@ -15,13 +18,10 @@
 #include "dbIocRegister.h"
 #include "dbtoolsIocRegister.h"
 #include "rsrvIocRegister.h"
-#include "libComRegister.h"
-
-#define epicsExportSharedSymbols
 #include "miscIocRegister.h"
 #include "iocshRegisterCommon.h"
 
-void epicsShareAPI iocshRegisterCommon(void)
+void iocshRegisterCommon(void)
 {
     iocshPpdbbase = &pdbbase;
 

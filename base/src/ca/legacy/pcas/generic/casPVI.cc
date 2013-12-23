@@ -7,7 +7,7 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 /*
- *      Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd
+ *      $Revision-Id$
  *
  *      Author  Jeffrey O. Hill
  *              johill@lanl.gov
@@ -173,9 +173,10 @@ caStatus casPVI::updateEnumStringTable ( casCtx & ctxIn )
 	}
     else if ( status != S_casApp_asyncCompletion && 
                 status != S_casApp_postponeAsyncIO ) {
-        errMessage ( status, 
-            "- unable to read application type \"enums\" string"
-            " conversion table for enumerated PV");
+        errPrintf ( status, __FILE__, __LINE__,
+            "- unable to read application type \"enums\" "
+            " (string conversion table) from enumerated native type PV \"%s\"", 
+            this->getName() );
     }
 
     pTmp->unreference ();
@@ -317,7 +318,7 @@ casMonitor * casPVI::removeMonitor (
     return pMon;
 }
 
-caServer *casPVI::getExtServer () const // X aCC 361
+caServer *casPVI::getExtServer () const
 {
     epicsGuard < epicsMutex > guard ( this->mutex );
 	if ( this->pCAS ) {
@@ -415,7 +416,7 @@ void casPVI::uninstallIO (
 	this->ioBlockedList::signal();
 }
 
-caStatus  casPVI::bestDBRType ( unsigned & dbrType ) // X aCC 361
+caStatus  casPVI::bestDBRType ( unsigned & dbrType )
 {
     epicsGuard < epicsMutex > guard ( this->mutex );
 	aitEnum bestAIT = this->bestExternalType ();

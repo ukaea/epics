@@ -6,7 +6,7 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/* Revision-Id: anj@aps.anl.gov-20120731184723-1d99w9yb9b7a6m1d */
+/* $Revision-Id$ */
 
 /* Author:  Marty Kraimer Date:    13JUL95*/
 
@@ -29,9 +29,9 @@
 #include "special.h"
 #include "macLib.h"
 #include "epicsString.h"
+#include "epicsExport.h"
 
 #define epicsExportSharedSymbols
-#include "epicsExport.h"
 #include "dbFldTypes.h"
 #include "link.h"
 #include "dbStaticLib.h"
@@ -293,11 +293,11 @@ cleanup:
     return(status);
 }
 
-long epicsShareAPI dbReadDatabase(DBBASE **ppdbbase,const char *filename,
+long dbReadDatabase(DBBASE **ppdbbase,const char *filename,
 	const char *path,const char *substitutions)
 {return (dbReadCOM(ppdbbase,filename,0,path,substitutions));}
 
-long epicsShareAPI dbReadDatabaseFP(DBBASE **ppdbbase,FILE *fp,
+long dbReadDatabaseFP(DBBASE **ppdbbase,FILE *fp,
 	const char *path,const char *substitutions)
 {return (dbReadCOM(ppdbbase,0,fp,path,substitutions));}
 
@@ -862,11 +862,11 @@ static void dbBreakBody(void)
 	char	*str;
 	
 	str = (char *)popFirstTemp();
-	epicsScanDouble(str, &paBrkInt[i].raw);
+	(void) epicsScanDouble(str, &paBrkInt[i].raw);
 	free(str);
 	
 	str = (char *)popFirstTemp();
-	epicsScanDouble(str, &paBrkInt[i].eng);
+	(void) epicsScanDouble(str, &paBrkInt[i].eng);
 	free(str);
     }
     /* Compute slopes */

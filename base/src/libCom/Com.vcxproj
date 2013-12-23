@@ -38,6 +38,37 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="as\asLibRoutines.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="as\asTrapWrite.c" />
+    <ClCompile Include="as\O.Common\asLib.c">
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.\as</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.\as</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.\as</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.\as</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.\as</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.\as</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.\as</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.\as</AdditionalIncludeDirectories>
+    </ClCompile>
+    <ClCompile Include="as\O.Common\asLib_lex.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="bucketLib\bucketLib.c" />
     <ClCompile Include="calc\calcPerform.c" />
     <ClCompile Include="calc\postfix.c" />
@@ -72,12 +103,13 @@
     <ClCompile Include="iocsh\iocsh.cpp" />
     <ClCompile Include="iocsh\libComRegister.c" />
     <ClCompile Include="iocsh\registry.c" />
-    <ClCompile Include="logClient\iocLog.c" />
-    <ClCompile Include="logClient\logClient.c" />
+    <ClCompile Include="log\iocLog.c" />
+    <ClCompile Include="log\logClient.c" />
     <ClCompile Include="macLib\macCore.c" />
     <ClCompile Include="macLib\macEnv.c" />
     <ClCompile Include="macLib\macUtil.c" />
     <ClCompile Include="misc\adjustment.c" />
+    <ClCompile Include="misc\alarmString.c" />
     <ClCompile Include="misc\aToIPAddr.c" />
     <ClCompile Include="misc\cantProceed.c" />
     <ClCompile Include="misc\epicsConvert.c" />
@@ -124,7 +156,6 @@
     </ClCompile>
     <ClCompile Include="osi\os\default\osdAssert.c" />
     <ClCompile Include="osi\os\default\osdEnv.c" />
-    <ClCompile Include="osi\os\default\osdFindSymbol.c" />
     <ClCompile Include="osi\os\default\osdInterrupt.c" />
     <ClCompile Include="osi\os\default\osdMessageQueue.cpp" />
     <ClCompile Include="osi\os\default\osdNetIntf.c">
@@ -157,11 +188,15 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="osi\os\default\osdSpin.c" />
+    <ClCompile Include="osi\os\default\osdThreadHooks.c" />
+    <ClCompile Include="osi\os\WIN32\epicsAtomicOSD.cpp" />
     <ClCompile Include="osi\os\WIN32\epicsGetopt.c" />
     <ClCompile Include="osi\os\WIN32\epicsSocketConvertErrnoToString.cpp" />
     <ClCompile Include="osi\os\WIN32\epicsTempFile.cpp" />
     <ClCompile Include="osi\os\WIN32\forceBadAllocException.cpp" />
     <ClCompile Include="osi\os\WIN32\osdEvent.c" />
+    <ClCompile Include="osi\os\WIN32\osdFindSymbol.c" />
     <ClCompile Include="osi\os\WIN32\osdMutex.c" />
     <ClCompile Include="osi\os\WIN32\osdNetIntf.c" />
     <ClCompile Include="osi\os\WIN32\osdPoolStatus.c" />
@@ -171,6 +206,7 @@
     <ClCompile Include="osi\os\WIN32\osdSockAddrReuse.cpp" />
     <ClCompile Include="osi\os\WIN32\osdStdio.c" />
     <ClCompile Include="osi\os\WIN32\osdThread.c" />
+    <ClCompile Include="osi\os\WIN32\osdThreadExtra.c" />
     <ClCompile Include="osi\os\WIN32\osdTime.cpp" />
     <ClCompile Include="osi\os\WIN32\setThreadName.cpp" />
     <ClCompile Include="osi\os\WIN32\systemCallIntMech.cpp" />
@@ -183,9 +219,17 @@
     <ClCompile Include="timer\timerQueueActive.cpp" />
     <ClCompile Include="timer\timerQueueActiveMgr.cpp" />
     <ClCompile Include="timer\timerQueuePassive.cpp" />
-    <ClCompile Include="tsDefs\tsDefs.c" />
+    <ClCompile Include="yajl\yajl.c" />
+    <ClCompile Include="yajl\yajl_alloc.c" />
+    <ClCompile Include="yajl\yajl_buf.c" />
+    <ClCompile Include="yajl\yajl_encode.c" />
+    <ClCompile Include="yajl\yajl_gen.c" />
+    <ClCompile Include="yajl\yajl_lex.c" />
+    <ClCompile Include="yajl\yajl_parser.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="as\asLib.h" />
+    <ClInclude Include="as\asTrapWrite.h" />
     <ClInclude Include="bucketLib\bucketLib.h" />
     <ClInclude Include="calc\postfix.h" />
     <ClInclude Include="calc\postfixPvt.h" />
@@ -217,8 +261,8 @@
     <ClInclude Include="iocsh\iocsh.h" />
     <ClInclude Include="iocsh\libComRegister.h" />
     <ClInclude Include="iocsh\registry.h" />
-    <ClInclude Include="logClient\iocLog.h" />
-    <ClInclude Include="logClient\logClient.h" />
+    <ClInclude Include="log\iocLog.h" />
+    <ClInclude Include="log\logClient.h" />
     <ClInclude Include="macLib\macLib.h" />
     <ClInclude Include="misc\adjustment.h" />
     <ClInclude Include="misc\cantProceed.h" />
@@ -236,10 +280,13 @@
     <ClInclude Include="misc\shareLib.h" />
     <ClInclude Include="misc\testMain.h" />
     <ClInclude Include="misc\unixFileName.h" />
+    <ClInclude Include="osi\compilerDependencies.h" />
     <ClInclude Include="osi\devLib.h" />
     <ClInclude Include="osi\devLibVME.h" />
     <ClInclude Include="osi\devLibVMEImpl.h" />
     <ClInclude Include="osi\epicsAssert.h" />
+    <ClInclude Include="osi\epicsAtomic.h" />
+    <ClInclude Include="osi\epicsAtomicDefault.h" />
     <ClInclude Include="osi\epicsEndian.h" />
     <ClInclude Include="osi\epicsEvent.h" />
     <ClInclude Include="osi\epicsFindSymbol.h" />
@@ -248,8 +295,10 @@
     <ClInclude Include="osi\epicsMessageQueue.h" />
     <ClInclude Include="osi\epicsMutex.h" />
     <ClInclude Include="osi\epicsSignal.h" />
+    <ClInclude Include="osi\epicsSpin.h" />
     <ClInclude Include="osi\epicsStdio.h" />
     <ClInclude Include="osi\epicsStdioRedirect.h" />
+    <ClInclude Include="osi\epicsTempFile.h" />
     <ClInclude Include="osi\epicsThread.h" />
     <ClInclude Include="osi\epicsTime.h" />
     <ClInclude Include="osi\generalTimeSup.h" />
@@ -267,6 +316,8 @@
     <ClInclude Include="osi\os\default\osdVME.h" />
     <ClInclude Include="osi\os\default\osdWireConfig.h" />
     <ClInclude Include="osi\os\default\osdWireFormat.h" />
+    <ClInclude Include="osi\os\WIN32\epicsAtomicMS.h" />
+    <ClInclude Include="osi\os\WIN32\epicsAtomicOSD.h" />
     <ClInclude Include="osi\os\WIN32\epicsGetopt.h" />
     <ClInclude Include="osi\os\WIN32\epicsMath.h" />
     <ClInclude Include="osi\os\WIN32\osdEvent.h" />
@@ -284,7 +335,15 @@
     <ClInclude Include="taskwd\taskwd.h" />
     <ClInclude Include="timer\epicsTimer.h" />
     <ClInclude Include="timer\timerPrivate.h" />
-    <ClInclude Include="tsDefs\tsDefs.h" />
+    <ClInclude Include="yajl\yajl_alloc.h" />
+    <ClInclude Include="yajl\yajl_buf.h" />
+    <ClInclude Include="yajl\yajl_bytestack.h" />
+    <ClInclude Include="yajl\yajl_common.h" />
+    <ClInclude Include="yajl\yajl_encode.h" />
+    <ClInclude Include="yajl\yajl_gen.h" />
+    <ClInclude Include="yajl\yajl_lex.h" />
+    <ClInclude Include="yajl\yajl_parse.h" />
+    <ClInclude Include="yajl\yajl_parser.h" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="env\bldEnvData.pl">
@@ -373,29 +432,115 @@ cd $(ProjectDir)
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">O.Common\errSymTbl.c</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">O.Common\errSymTbl.c</Outputs>
     </CustomBuild>
+    <CustomBuild Include="as\asLib.y">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">cd .\as
+$(OutDir)antelope.exe .\aslib.y
+move /Y y.tab.c ..\O.Common\asLib.c
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">cd .\as
+$(OutDir)antelope.exe .\aslib.y
+move /Y y.tab.c ..\O.Common\asLib.c
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">cd .\as
+$(OutDir)antelope.exe .\aslib.y
+move /Y y.tab.c ..\O.Common\asLib.c
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">cd .\as
+$(OutDir)antelope.exe .\aslib.y
+move /Y y.tab.c ..\O.Common\asLib.c
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">cd .\as
+$(OutDir)antelope.exe .\aslib.y
+move /Y y.tab.c ..\O.Common\asLib.c
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">cd .\as
+$(OutDir)antelope.exe .\aslib.y
+move /Y y.tab.c ..\O.Common\asLib.c
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">cd .\as
+$(OutDir)antelope.exe .\aslib.y
+move /Y y.tab.c ..\O.Common\asLib.c
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">cd .\as
+$(OutDir)antelope.exe .\aslib.y
+move /Y y.tab.c ..\O.Common\asLib.c
+cd $(ProjectDir)
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">O.Common\asLib.c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">O.Common\asLib.c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">O.Common\asLib.c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">O.Common\asLib.c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">O.Common\asLib.c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">O.Common\asLib.c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">O.Common\asLib.c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">O.Common\asLib.c</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="as\asLib_lex.l">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(OutDir)e_flex.exe -S$(SolutionDir)include/flex.skel.static -8 -I as\asLib_lex.l
+move /Y lex.yy.c O.Common\asLib_lex.c
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">$(OutDir)e_flex.exe -S$(SolutionDir)include/flex.skel.static -8 -I as\asLib_lex.l
+move /Y lex.yy.c O.Common\asLib_lex.c
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">$(OutDir)e_flex.exe -S$(SolutionDir)include/flex.skel.static -8 -I as\asLib_lex.l
+move /Y lex.yy.c O.Common\asLib_lex.c
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">$(OutDir)e_flex.exe -S$(SolutionDir)include/flex.skel.static -8 -I as\asLib_lex.l
+move /Y lex.yy.c O.Common\asLib_lex.c
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">$(OutDir)e_flex.exe -S$(SolutionDir)include/flex.skel.static -8 -I as\asLib_lex.l
+move /Y lex.yy.c O.Common\asLib_lex.c
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">$(OutDir)e_flex.exe -S$(SolutionDir)include/flex.skel.static -8 -I as\asLib_lex.l
+move /Y lex.yy.c O.Common\asLib_lex.c
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">$(OutDir)e_flex.exe -S$(SolutionDir)include/flex.skel.static -8 -I as\asLib_lex.l
+move /Y lex.yy.c O.Common\asLib_lex.c
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">$(OutDir)e_flex.exe -S$(SolutionDir)include/flex.skel.static -8 -I as\asLib_lex.l
+move /Y lex.yy.c O.Common\asLib_lex.c
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">O.Common\asLib_lex.c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">O.Common\asLib_lex.c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">O.Common\asLib_lex.c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">O.Common\asLib_lex.c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">O.Common\asLib_lex.c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">O.Common\asLib_lex.c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">O.Common\asLib_lex.c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">O.Common\asLib_lex.c</Outputs>
+    </CustomBuild>
     <None Include="freeList\freeList.html" />
     <None Include="gpHash\gpHash.html" />
     <CustomBuild Include="misc\makeEpicsVersion.pl">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">perl misc\makeEpicsVersion.pl ..\..\configure\CONFIG_BASE_VERSION $(SolutionDir)include
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">perl misc\makeEpicsVersion.pl -o  $(SolutionDir)include\epicsVersion.h ..\..\configure\CONFIG_BASE_VERSION
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">perl misc\makeEpicsVersion.pl ..\..\configure\CONFIG_BASE_VERSION $(SolutionDir)include
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">perl misc\makeEpicsVersion.pl -o  $(SolutionDir)include\epicsVersion.h ..\..\configure\CONFIG_BASE_VERSION
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">perl misc\makeEpicsVersion.pl ..\..\configure\CONFIG_BASE_VERSION $(SolutionDir)include
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">perl misc\makeEpicsVersion.pl -o  $(SolutionDir)include\epicsVersion.h ..\..\configure\CONFIG_BASE_VERSION
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">perl misc\makeEpicsVersion.pl ..\..\configure\CONFIG_BASE_VERSION $(SolutionDir)include
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">perl misc\makeEpicsVersion.pl -o  $(SolutionDir)include\epicsVersion.h ..\..\configure\CONFIG_BASE_VERSION
 </Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(SolutionDir)include\epicsVersion.h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">$(SolutionDir)include\epicsVersion.h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">$(SolutionDir)include\epicsVersion.h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">$(SolutionDir)include\epicsVersion.h</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">perl misc\makeEpicsVersion.pl ..\..\configure\CONFIG_BASE_VERSION $(SolutionDir)include
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">perl misc\makeEpicsVersion.pl -o  $(SolutionDir)include\epicsVersion.h ..\..\configure\CONFIG_BASE_VERSION
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">perl misc\makeEpicsVersion.pl ..\..\configure\CONFIG_BASE_VERSION $(SolutionDir)include
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">perl misc\makeEpicsVersion.pl -o  $(SolutionDir)include\epicsVersion.h ..\..\configure\CONFIG_BASE_VERSION
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">perl misc\makeEpicsVersion.pl ..\..\configure\CONFIG_BASE_VERSION $(SolutionDir)include
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">perl misc\makeEpicsVersion.pl -o  $(SolutionDir)include\epicsVersion.h ..\..\configure\CONFIG_BASE_VERSION
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">perl misc\makeEpicsVersion.pl ..\..\configure\CONFIG_BASE_VERSION $(SolutionDir)include
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">perl misc\makeEpicsVersion.pl -o  $(SolutionDir)include\epicsVersion.h ..\..\configure\CONFIG_BASE_VERSION
 </Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">$(SolutionDir)include\epicsVersion.h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">$(SolutionDir)include\epicsVersion.h</Outputs>
@@ -403,21 +548,22 @@ cd $(ProjectDir)
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">$(SolutionDir)include\epicsVersion.h</Outputs>
     </CustomBuild>
     <None Include="osi\TODOfuture" />
-    <None Include="tsDefs\README" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Com.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\tools\tools.vcxproj">
+      <Project>{5cce1c6a-2bd5-48bf-99e2-d29b58f91991}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{35E6ABA4-E192-497D-BA02-EFB79D1E0336}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>libCom</RootNamespace>
-    <SccProjectName>
-    </SccProjectName>
-    <SccLocalPath>
-    </SccLocalPath>
-    <SccProvider>
-    </SccProvider>
+    <SccProjectName>"$/EPICS/base/src/libCom", CPCCAAAA</SccProjectName>
+    <SccLocalPath>.</SccLocalPath>
+    <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'" Label="Configuration">
@@ -520,8 +666,8 @@ cd $(ProjectDir)
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4244;4018;4996;4355;4267</DisableSpecificWarnings>
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
       <BrowseInformation>true</BrowseInformation>
@@ -544,6 +690,7 @@ cd $(ProjectDir)
 if not exist  $(SolutionDir)include\os md  $(SolutionDir)include\os
 if not exist  $(SolutionDir)include\os\WIN32 md  $(SolutionDir)include\os\WIN32
 if not exist O.Common md O.Common
+xcopy /Y /Q /D /R as\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R misc\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R osi\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R env\*.h   $(SolutionDir)include &gt; NUL
@@ -563,13 +710,14 @@ xcopy /Y /Q /D /R dbmf\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R macLib\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R calc\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R ring\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R logClient\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R osi\os\default\osdMessageQueue.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q /D /R osi\os\default\osdInterrupt.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q /D /R osi\os\default\osdVME.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q /D /R osi\os\default\epicsReadline.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q /D /R osi\os\default\osdWireFormat.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R log\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R yajl\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R osi\os\default\*.h $(SolutionDir)include\os\WIN32 &gt; NUL
+REM conflict with osi\os\WIN32 header file versions.
+del  $(SolutionDir)include\os\WIN32\osdWireConfig.h
+del  $(SolutionDir)include\os\WIN32\epicsGetopt.h
 xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R osi\compiler\msvc\*.h  $(SolutionDir)include\compiler\msvc\ &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -577,8 +725,8 @@ xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_DLL_NO;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4244;4018;4996;4355;4267</DisableSpecificWarnings>
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
       <BrowseInformation>true</BrowseInformation>
@@ -602,6 +750,7 @@ xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
 if not exist  $(SolutionDir)include\os md  $(SolutionDir)include\os
 if not exist  $(SolutionDir)include\os\WIN32 md  $(SolutionDir)include\os\WIN32
 if not exist O.Common md O.Common
+xcopy /Y /Q /D /R as\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R misc\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R osi\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R env\*.h   $(SolutionDir)include &gt; NUL
@@ -621,13 +770,14 @@ xcopy /Y /Q /D /R dbmf\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R macLib\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R calc\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R ring\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R logClient\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R osi\os\default\osdMessageQueue.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q /D /R osi\os\default\osdInterrupt.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q /D /R osi\os\default\osdVME.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q /D /R osi\os\default\epicsReadline.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q /D /R osi\os\default\osdWireFormat.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R log\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R yajl\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R osi\os\default\*.h $(SolutionDir)include\os\WIN32 &gt; NUL
+REM conflict with osi\os\WIN32 header file versions.
+del  $(SolutionDir)include\os\WIN32\osdWireConfig.h
+del  $(SolutionDir)include\os\WIN32\epicsGetopt.h
 xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R osi\compiler\msvc\*.h  $(SolutionDir)include\compiler\msvc\ &gt; NUL
 </Command>
     </PreBuildEvent>
     <Lib>
@@ -640,8 +790,8 @@ xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4244;4018;4996;4355;4267</DisableSpecificWarnings>
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
       <BrowseInformation>true</BrowseInformation>
@@ -664,6 +814,7 @@ xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
 if not exist  $(SolutionDir)include\os md  $(SolutionDir)include\os
 if not exist  $(SolutionDir)include\os\WIN32 md  $(SolutionDir)include\os\WIN32
 if not exist O.Common md O.Common
+xcopy /Y /Q /D /R as\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R misc\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R osi\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R env\*.h   $(SolutionDir)include &gt; NUL
@@ -683,13 +834,14 @@ xcopy /Y /Q /D /R dbmf\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R macLib\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R calc\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R ring\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R logClient\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R osi\os\default\osdMessageQueue.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q /D /R osi\os\default\osdInterrupt.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q /D /R osi\os\default\osdVME.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q /D /R osi\os\default\epicsReadline.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q /D /R osi\os\default\osdWireFormat.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R log\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R yajl\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R osi\os\default\*.h $(SolutionDir)include\os\WIN32 &gt; NUL
+REM conflict with osi\os\WIN32 header file versions.
+del  $(SolutionDir)include\os\WIN32\osdWireConfig.h
+del  $(SolutionDir)include\os\WIN32\epicsGetopt.h
 xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R osi\compiler\msvc\*.h  $(SolutionDir)include\compiler\msvc\ &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -697,8 +849,8 @@ xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_DLL_NO;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4244;4018;4996;4355;4267</DisableSpecificWarnings>
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
       <BrowseInformation>true</BrowseInformation>
@@ -722,6 +874,7 @@ xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
 if not exist  $(SolutionDir)include\os md  $(SolutionDir)include\os
 if not exist  $(SolutionDir)include\os\WIN32 md  $(SolutionDir)include\os\WIN32
 if not exist O.Common md O.Common
+xcopy /Y /Q /D /R as\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R misc\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R osi\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R env\*.h   $(SolutionDir)include &gt; NUL
@@ -741,13 +894,14 @@ xcopy /Y /Q /D /R dbmf\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R macLib\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R calc\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R ring\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R logClient\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R osi\os\default\osdMessageQueue.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q /D /R osi\os\default\osdInterrupt.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q /D /R osi\os\default\osdVME.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q /D /R osi\os\default\epicsReadline.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q /D /R osi\os\default\osdWireFormat.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R log\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R yajl\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R osi\os\default\*.h $(SolutionDir)include\os\WIN32 &gt; NUL
+REM conflict with osi\os\WIN32 header file versions.
+del  $(SolutionDir)include\os\WIN32\osdWireConfig.h
+del  $(SolutionDir)include\os\WIN32\epicsGetopt.h
 xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R osi\compiler\msvc\*.h  $(SolutionDir)include\compiler\msvc\ &gt; NUL
 </Command>
     </PreBuildEvent>
     <Lib>
@@ -761,8 +915,8 @@ xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4244;4018;4996;4355;4267</DisableSpecificWarnings>
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
     </ClCompile>
@@ -780,6 +934,7 @@ xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
 if not exist  $(SolutionDir)include\os md  $(SolutionDir)include\os
 if not exist  $(SolutionDir)include\os\WIN32 md  $(SolutionDir)include\os\WIN32
 if not exist O.Common md O.Common
+xcopy /Y /Q /D /R as\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R misc\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R osi\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R env\*.h   $(SolutionDir)include &gt; NUL
@@ -799,13 +954,14 @@ xcopy /Y /Q /D /R dbmf\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R macLib\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R calc\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R ring\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R logClient\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R osi\os\default\osdMessageQueue.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q /D /R osi\os\default\osdInterrupt.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q /D /R osi\os\default\osdVME.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q /D /R osi\os\default\epicsReadline.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q /D /R osi\os\default\osdWireFormat.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R log\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R yajl\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R osi\os\default\*.h $(SolutionDir)include\os\WIN32 &gt; NUL
+REM conflict with osi\os\WIN32 header file versions.
+del  $(SolutionDir)include\os\WIN32\osdWireConfig.h
+del  $(SolutionDir)include\os\WIN32\epicsGetopt.h
 xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R osi\compiler\msvc\*.h  $(SolutionDir)include\compiler\msvc\ &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -815,8 +971,8 @@ xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;EPICS_DLL_NO;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4244;4018;4996;4355;4267</DisableSpecificWarnings>
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -835,6 +991,7 @@ xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
 if not exist  $(SolutionDir)include\os md  $(SolutionDir)include\os
 if not exist  $(SolutionDir)include\os\WIN32 md  $(SolutionDir)include\os\WIN32
 if not exist O.Common md O.Common
+xcopy /Y /Q /D /R as\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R misc\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R osi\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R env\*.h   $(SolutionDir)include &gt; NUL
@@ -854,13 +1011,14 @@ xcopy /Y /Q /D /R dbmf\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R macLib\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R calc\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R ring\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R logClient\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R osi\os\default\osdMessageQueue.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q /D /R osi\os\default\osdInterrupt.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q /D /R osi\os\default\osdVME.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q /D /R osi\os\default\epicsReadline.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q /D /R osi\os\default\osdWireFormat.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R log\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R yajl\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R osi\os\default\*.h $(SolutionDir)include\os\WIN32 &gt; NUL
+REM conflict with osi\os\WIN32 header file versions.
+del  $(SolutionDir)include\os\WIN32\osdWireConfig.h
+del  $(SolutionDir)include\os\WIN32\epicsGetopt.h
 xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R osi\compiler\msvc\*.h  $(SolutionDir)include\compiler\msvc\ &gt; NUL
 </Command>
     </PreBuildEvent>
     <Lib>
@@ -874,8 +1032,8 @@ xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4244;4018;4996;4355;4267</DisableSpecificWarnings>
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
     </ClCompile>
@@ -893,6 +1051,7 @@ xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
 if not exist  $(SolutionDir)include\os md  $(SolutionDir)include\os
 if not exist  $(SolutionDir)include\os\WIN32 md  $(SolutionDir)include\os\WIN32
 if not exist O.Common md O.Common
+xcopy /Y /Q /D /R as\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R misc\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R osi\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R env\*.h   $(SolutionDir)include &gt; NUL
@@ -912,13 +1071,14 @@ xcopy /Y /Q /D /R dbmf\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R macLib\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R calc\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R ring\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R logClient\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R osi\os\default\osdMessageQueue.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q /D /R osi\os\default\osdInterrupt.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q /D /R osi\os\default\osdVME.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q /D /R osi\os\default\epicsReadline.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q /D /R osi\os\default\osdWireFormat.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R log\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R yajl\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R osi\os\default\*.h $(SolutionDir)include\os\WIN32 &gt; NUL
+REM conflict with osi\os\WIN32 header file versions.
+del  $(SolutionDir)include\os\WIN32\osdWireConfig.h
+del  $(SolutionDir)include\os\WIN32\epicsGetopt.h
 xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R osi\compiler\msvc\*.h  $(SolutionDir)include\compiler\msvc\ &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -928,8 +1088,8 @@ xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;EPICS_DLL_NO;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4244;4018;4996;4355;4267</DisableSpecificWarnings>
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -948,6 +1108,7 @@ xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
 if not exist  $(SolutionDir)include\os md  $(SolutionDir)include\os
 if not exist  $(SolutionDir)include\os\WIN32 md  $(SolutionDir)include\os\WIN32
 if not exist O.Common md O.Common
+xcopy /Y /Q /D /R as\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R misc\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R osi\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R env\*.h   $(SolutionDir)include &gt; NUL
@@ -967,13 +1128,14 @@ xcopy /Y /Q /D /R dbmf\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R macLib\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R calc\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R ring\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R logClient\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R osi\os\default\osdMessageQueue.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q /D /R osi\os\default\osdInterrupt.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q /D /R osi\os\default\osdVME.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q /D /R osi\os\default\epicsReadline.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q /D /R osi\os\default\osdWireFormat.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R log\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R yajl\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R osi\os\default\*.h $(SolutionDir)include\os\WIN32 &gt; NUL
+REM conflict with osi\os\WIN32 header file versions.
+del  $(SolutionDir)include\os\WIN32\osdWireConfig.h
+del  $(SolutionDir)include\os\WIN32\epicsGetopt.h
 xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R osi\compiler\msvc\*.h  $(SolutionDir)include\compiler\msvc\ &gt; NUL
 </Command>
     </PreBuildEvent>
     <Lib>

@@ -1,26 +1,23 @@
 /*************************************************************************\
-* Copyright (c) 2002 The University of Chicago, as Operator of Argonne
+* Copyright (c) 2010 UChicago Argonne LLC, as Operator of Argonne
 *     National Laboratory.
 * Copyright (c) 2002 The Regents of the University of California, as
 *     Operator of Los Alamos National Laboratory.
-* EPICS BASE Versions 3.13.7
-* and higher are distributed subject to a Software License Agreement found
+* EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 /* link.h */
-/* base/include Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd */
+/* $Id$ */
 
 /*
- *      Original Author: Bob Dalesio
- *      Current Author:  Marty Kraimer
- *      Date:            6-1-90
+ * Original Authors: Bob Dalesio, Marty Kraimer
  */
+
+#ifndef INC_link_H
+#define INC_link_H
 
 #include "dbDefs.h"
 #include "shareLib.h"
-
-#ifndef INClinkh
-#define INClinkh 1
 
 #ifdef __cplusplus
 extern "C" {
@@ -35,17 +32,19 @@ extern "C" {
 #define GPIB_IO		5
 #define BITBUS_IO	6
 #define MACRO_LINK	7
+
+#define PN_LINK         9
 #define DB_LINK		10
 #define CA_LINK		11
 #define INST_IO		12		/* instrument */
 #define	BBGPIB_IO	13		/* bitbus -> gpib */
 #define RF_IO		14
 #define VXI_IO		15
-#define LINK_NTYPES 14
-typedef struct maplinkType{
+#define LINK_NTYPES 15
+typedef struct maplinkType {
 	char	*strvalue;
 	int	value;
-}maplinkType;
+} maplinkType;
 
 epicsShareExtern maplinkType pamaplinkType[];
 
@@ -55,8 +54,8 @@ epicsShareExtern maplinkType pamaplinkType[];
 /* structure of a PV_LINK DB_LINK and a CA_LINK	*/
 /*Options defined by pvlMask			*/
 #define pvlOptMsMode       0x3	/*Maximize Severity mode selection*/
-#define pvlOptNMS            0	/*Dont Maximize Severity*/
-#define pvlOptMS             1	/*Maximize Severity allways*/
+#define pvlOptNMS            0	/*Don't Maximize Severity*/
+#define pvlOptMS             1	/*Maximize Severity always*/
 #define pvlOptMSI            2	/*Maximize Severity if INVALID*/
 #define pvlOptMSS            3	/*Maximize Severity and copy Status*/
 #define pvlOptPP           0x4	/*Process Passive*/
@@ -77,14 +76,15 @@ struct macro_link {
 };
 
 struct dbCommon;
+struct pvlet;
 
 struct pv_link {
-	char	*pvname;	/*pvname to link to*/
-	struct dbCommon *precord;	/*Address of record containing link*/
-	void	*pvt;		/*CA or DB private*/
-	LINKCVT	getCvt;		/*input conversion function*/
-	short	pvlMask;	/*Options mask*/
-	short	lastGetdbrType;	/*last dbrType for DB or CA get*/
+	char	*pvname;		/* pvname link points to */
+	struct dbCommon *precord;	/* Address of record owning link */
+	void	*pvt;			/* CA or DB private */
+	LINKCVT	getCvt;			/* input conversion function */
+	short	pvlMask;		/* Options mask */
+	short	lastGetdbrType;		/* last dbrType for DB or CA get */
 };
 
 /* structure of a VME io channel */
@@ -150,13 +150,12 @@ struct	bbgpibio {
 
 /* structure of an instrument io link */
 struct	instio {
-	char	*string;		/* the cat of location.
-							signal.parameter  */
+	char	*string;
 };
 
 /* structure of a vxi link */
 struct	vxiio{
-	short	flag;				/* 0 = frame/slot, 1 = SA */
+	short	flag;			/* 0 = frame/slot, 1 = SA */
 	short	frame;
 	short	slot;
 	short	la;				/* logical address if flag =1 */
@@ -165,7 +164,7 @@ struct	vxiio{
 };
 
 /* union of possible address structures */
-union value{
+union value {
 	char		*constantStr;	/*constant string*/
 	struct macro_link macro_link;	/* link containing macro substitution*/
 	struct pv_link	pv_link;	/* link to process variable*/
@@ -180,9 +179,9 @@ union value{
 	struct	vxiio	vxiio;		/* vxi io */
 };
 
-struct link{
-	union value	value;
-	short		type;
+struct link {
+	union value value;
+	short type;
         char		*text;		/* original INP/OUT link text */
 };
 
@@ -191,4 +190,4 @@ typedef struct link DBLINK;
 #ifdef __cplusplus
 }
 #endif
-#endif /*INClinkh*/
+#endif /* INC_link_H */

@@ -7,7 +7,7 @@
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
 /*
- *      Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd
+ *      $Revision-Id$
  *
  *      Author  W. Eric Norum
  *              norume@aps.anl.gov
@@ -89,7 +89,7 @@ receiver(void *arg)
         expectmsg[sender-1] = 1;
     while (!testExit) {
         cbuf[0] = '\0';
-        len = q->receive(cbuf, sizeof cbuf, 2.0);
+        len = q->receive(cbuf, sizeof cbuf, 5.0);
         if (len < 0 && !testExit) {
             testDiag("receiver() received unexpected timeout");
             ++errors;
@@ -108,7 +108,8 @@ receiver(void *arg)
         if (expectmsg[sender-1] > 1)
             testDiag("Sender %d -- %d messages", sender, expectmsg[sender-1]-1);
     }
-    testOk1(errors == 0);
+    if (!testOk1(errors == 0))
+        testDiag("error count was %d", errors);
     epicsEventSignal(finished);
 }
 
@@ -134,14 +135,12 @@ extern "C" void messageQueueTest(void *parm)
     char cbuf[80];
     int len;
     int pass;
-    int used;
     int want;
 
     epicsMessageQueue *q1 = new epicsMessageQueue(4, 20);
 
     testDiag("Simple single-thread tests:");
     i = 0;
-    used = 0;
     testOk1(q1->pending() == 0);
     while (q1->trySend((void *)msg1, i ) == 0) {
         i++;
@@ -182,7 +181,6 @@ extern "C" void messageQueueTest(void *parm)
 
     testDiag("Test sender timeout:");
     i = 0;
-    used = 0;
     testOk1(q1->pending() == 0);
     while (q1->send((void *)msg1, i, 1.0 ) == 0) {
         i++;
@@ -273,13 +271,13 @@ extern "C" void messageQueueTest(void *parm)
      * Single receiver, multiple sender tests
      */
     testDiag("Single receiver, multiple sender tests:");
-    testDiag("This test takes 5 minutes...");
+    testDiag("This test lasts 60 seconds...");
     epicsThreadCreate("Sender 1", epicsThreadPriorityLow, epicsThreadGetStackSize(epicsThreadStackMedium), sender, q1);
     epicsThreadCreate("Sender 2", epicsThreadPriorityMedium, epicsThreadGetStackSize(epicsThreadStackMedium), sender, q1);
     epicsThreadCreate("Sender 3", epicsThreadPriorityHigh, epicsThreadGetStackSize(epicsThreadStackMedium), sender, q1);
     epicsThreadCreate("Sender 4", epicsThreadPriorityHigh, epicsThreadGetStackSize(epicsThreadStackMedium), sender, q1);
 
-    epicsThreadSleep(300.0);
+    epicsThreadSleep(60.0);
 
     testExit = 1;
 }
@@ -294,7 +292,7 @@ MAIN(epicsMessageQueueTest)
         epicsThreadGetStackSize(epicsThreadStackMedium),
         messageQueueTest, NULL);
 
-    epicsEventWait(finished);
+    (void) epicsEventWait(finished);
 
     return testDone();
 }

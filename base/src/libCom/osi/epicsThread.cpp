@@ -7,7 +7,7 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 //
-// Revision-Id: johill@lanl.gov-20110115010153-9kqbkxz263lpqcf0
+// $Revision-Id$
 //
 // Author: Jeff Hill
 //

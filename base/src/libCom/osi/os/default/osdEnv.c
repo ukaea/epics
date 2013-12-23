@@ -6,7 +6,7 @@
 \*************************************************************************/
 /* osdEnv.c */
 /*
- * Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd
+ * $Revision-Id$
  *
  * Author: Eric Norum
  *   Date: May 7, 2001
@@ -22,7 +22,7 @@
 #include <errno.h>
 
 #define epicsExportSharedSymbols
-#include <epicsStdioRedirect.h>
+#include "epicsStdio.h"
 #include <errlog.h>
 #include <cantProceed.h>
 #include <envDefs.h>

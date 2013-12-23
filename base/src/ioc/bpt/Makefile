@@ -1,31 +1,27 @@
 #*************************************************************************
-# Copyright (c) 2002 The University of Chicago, as Operator of Argonne
+# Copyright (c) 2011 UChicago Argonne LLC, as Operator of Argonne
 #     National Laboratory.
 # Copyright (c) 2002 The Regents of the University of California, as
 #     Operator of Los Alamos National Laboratory.
-# EPICS BASE Versions 3.13.7
-# and higher are distributed subject to a Software License Agreement found
+# EPICS BASE is distributed subject to a Software License Agreement found
 # in file LICENSE that is included with this distribution. 
 #*************************************************************************
-TOP=../..
-include $(TOP)/configure/CONFIG
+
+# This is a Makefile fragment, see src/ioc/Makefile.
+
+SRC_DIRS += $(IOCDIR)/bpt
 
 INC += cvtTable.h
 
-DBD += menuConvert.dbd
-INC += menuConvert.h
+DBDINC += menuConvert
 
-DBD += bptTypeJdegC.dbd
-DBD += bptTypeJdegF.dbd
-DBD += bptTypeKdegC.dbd
-DBD += bptTypeKdegF.dbd
+BPT_DBD += bptTypeJdegC.dbd
+BPT_DBD += bptTypeJdegF.dbd
+BPT_DBD += bptTypeKdegC.dbd
+BPT_DBD += bptTypeKdegF.dbd
+DBD += $(BPT_DBD)
 
-PROD_LIBS = Com
 PROD_HOST += makeBpt
 
 makeBpt_SRCS = makeBpt
-
-include $(TOP)/configure/RULES
-
-$(COMMON_DBDS): $(TOOLS)/makeBpt$(HOSTEXE)
 

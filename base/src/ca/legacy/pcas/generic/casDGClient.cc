@@ -8,7 +8,7 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 /*
- *      Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd
+ *      $Revision-Id$
  *
  *      Author  Jeffrey O. Hill
  *              johill@lanl.gov
@@ -448,7 +448,7 @@ outBufClient::flushCondition casDGClient::xSend ( char *pBufIn,
 //
 // casDGClient::xRecv ()
 //
-inBufClient::fillCondition casDGClient::xRecv (char *pBufIn, bufSizeT nBytesToRecv, // X aCC 361
+inBufClient::fillCondition casDGClient::xRecv (char *pBufIn, bufSizeT nBytesToRecv,
         fillParameter parm, bufSizeT &nByesRecv)
 {
     const char *pAfter = pBufIn + nBytesToRecv;

@@ -7,7 +7,7 @@
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
 
-/* Revision-Id: anj@aps.anl.gov-20120127154137-3ox5pcoky91em4xp */
+/* $Revision-Id$ */
 /*	database access test subroutines */
 
 #include <stddef.h>
@@ -21,8 +21,9 @@
 #include "errlog.h"
 #include "ellLib.h"
 #include "epicsMutex.h"
-#include "epicsStdioRedirect.h"
 #include "ellLib.h"
+#include "epicsString.h"
+#define epicsExportSharedSymbols
 #include "dbBase.h"
 #include "dbStaticLib.h"
 #include "link.h"
@@ -33,8 +34,6 @@
 #include "dbCommon.h"
 #include "special.h"
 #include "db_field_log.h"
-#include "epicsString.h"
-#define epicsExportSharedSymbols
 #include "dbAddr.h"
 #include "dbLock.h"
 #include "dbAccessDefs.h"
@@ -83,7 +82,7 @@ static char *dbr[DBR_ENUM+2]={
 	"STRING","CHAR","UCHAR","SHORT","USHORT","LONG","ULONG",
 	"FLOAT","DOUBLE","ENUM","NOACCESS"};
 
-long epicsShareAPI dba(const char*pname)
+long dba(const char*pname)
 {
     DBADDR addr;
 
@@ -96,7 +95,7 @@ long epicsShareAPI dba(const char*pname)
     return 0;
 }
 
-long epicsShareAPI dbl(const char *precordTypename, const char *fields)
+long dbl(const char *precordTypename, const char *fields)
 {
     DBENTRY dbentry;
     DBENTRY *pdbentry=&dbentry;
@@ -177,7 +176,7 @@ long epicsShareAPI dbl(const char *precordTypename, const char *fields)
     return 0;
 }
 
-long epicsShareAPI dbnr(int verbose)
+long dbnr(int verbose)
 {
     DBENTRY dbentry;
     DBENTRY *pdbentry=&dbentry;
@@ -213,7 +212,7 @@ long epicsShareAPI dbnr(int verbose)
     return 0;
 }
 
-long epicsShareAPI dbla(const char *pmask)
+long dbla(const char *pmask)
 {
     DBENTRY dbentry;
     DBENTRY *pdbentry = &dbentry;
@@ -242,7 +241,7 @@ long epicsShareAPI dbla(const char *pmask)
     return 0;
 }
 
-long epicsShareAPI dbgrep(const char *pmask)
+long dbgrep(const char *pmask)
 {
     DBENTRY dbentry;
     DBENTRY *pdbentry = &dbentry;
@@ -271,7 +270,7 @@ long epicsShareAPI dbgrep(const char *pmask)
     return 0;
 }
 
-long epicsShareAPI dbgf(const char *pname)
+long dbgf(const char *pname)
 {
     /* declare buffer long just to ensure correct alignment */
     long buffer[100];
@@ -305,7 +304,7 @@ long epicsShareAPI dbgf(const char *pname)
     return 0;
 }
 
-long epicsShareAPI dbpf(const char *pname,const char *pvalue)
+long dbpf(const char *pname,const char *pvalue)
 {
     DBADDR addr;
     long status = 0;
@@ -337,7 +336,7 @@ long epicsShareAPI dbpf(const char *pname,const char *pvalue)
     return status;
 }
 
-long epicsShareAPI dbpr(const char *pname,int interest_level)
+long dbpr(const char *pname,int interest_level)
 {
     static TAB_BUFFER msg_Buff;
     TAB_BUFFER *pMsgBuff = &msg_Buff;
@@ -359,7 +358,7 @@ long epicsShareAPI dbpr(const char *pname,int interest_level)
     return 0;
 }
 
-long epicsShareAPI dbtr(const char *pname)
+long dbtr(const char *pname)
 {
     DBADDR addr;
     long status;
@@ -384,7 +383,7 @@ long epicsShareAPI dbtr(const char *pname)
     return 0;
 }
 
-long epicsShareAPI dbtgf(const char *pname)
+long dbtgf(const char *pname)
 {
     /* declare buffer long just to ensure correct alignment */
     long       buffer[400];
@@ -471,7 +470,7 @@ long epicsShareAPI dbtgf(const char *pname)
     return(0);
 }
 
-long epicsShareAPI dbtpf(const char *pname, const char *pvalue)
+long dbtpf(const char *pname, const char *pvalue)
 {
     /* declare buffer long just to ensure correct alignment */
     long buffer[100];
@@ -588,7 +587,7 @@ long epicsShareAPI dbtpf(const char *pname, const char *pvalue)
     return(0);
 }
 
-long epicsShareAPI dbior(const char *pdrvName,int interest_level)
+long dbior(const char *pdrvName,int interest_level)
 {
     char	 *pname;
     drvSup	 *pdrvSup;
@@ -639,7 +638,7 @@ long epicsShareAPI dbior(const char *pdrvName,int interest_level)
     return 0;
 }
 
-int epicsShareAPI dbhcr(void)
+int dbhcr(void)
 {
     if (!pdbbase) {
         printf("No database loaded\n");

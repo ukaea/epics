@@ -4,7 +4,7 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/* Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd
+/* $Revision-Id$
  *
  * Macro expansion of environment variables
  */
@@ -14,7 +14,7 @@
 #include <string.h>
 
 #define epicsExportSharedSymbols
-#include "cantProceed.h"
+#include "errlog.h"
 #include "epicsString.h"
 #include "macLib.h"
 
@@ -27,8 +27,10 @@ macEnvExpand(const char *str)
     char *dest = NULL;
     int n;
 
-    if (macCreateHandle(&handle, pairs))
-        cantProceed("macEnvExpand: macCreateHandle failed.");
+    if (macCreateHandle(&handle, pairs)){
+        errlogMessage("macEnvExpand: macCreateHandle failed.");
+        return NULL;
+    }
 
     do {
         destCapacity *= 2;
@@ -37,7 +39,10 @@ macEnvExpand(const char *str)
          * keep the original contents.
          */
         free(dest);
-        dest = mallocMustSucceed(destCapacity, "macEnvExpand");
+        dest = malloc(destCapacity);
+        if(!dest)
+            goto done;
+
         n = macExpandString(handle, str, dest, destCapacity);
     } while (n >= (destCapacity - 1));
 
@@ -51,7 +56,8 @@ macEnvExpand(const char *str)
             dest = realloc(dest, n);
     }
 
+done:
     if (macDeleteHandle(handle))
-        cantProceed("macEnvExpand: macDeleteHandle failed.");
+        errlogMessage("macEnvExpand: macDeleteHandle failed.");
     return dest;
 }

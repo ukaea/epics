@@ -26,7 +26,7 @@
 #include <string.h>
 
 #define epicsExportSharedSymbols
-#include "epicsStdioRedirect.h"
+#include "epicsStdio.h"
 #include "epicsThread.h"
 #include "ellLib.h"
 #include "errlog.h"
@@ -239,7 +239,7 @@ void epicsMutex::lock ()
     }
 }
 
-bool epicsMutex::tryLock () // X aCC 361
+bool epicsMutex::tryLock ()
 {
     epicsMutexLockStatus status = epicsMutexTryLock ( this->id );
     if ( status == epicsMutexLockOK ) {

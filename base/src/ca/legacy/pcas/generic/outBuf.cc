@@ -7,7 +7,7 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 /*
- *      Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd
+ *      $Revision-Id$
  *
  *      Author  Jeffrey O. Hill
  *              johill@lanl.gov
@@ -265,7 +265,7 @@ outBufClient::flushCondition outBuf :: flush ()
 //
 // outBuf::pushCtx ()
 //
-const outBufCtx outBuf::pushCtx ( bufSizeT headerSize, // X aCC 361
+const outBufCtx outBuf::pushCtx ( bufSizeT headerSize,
                                  bufSizeT maxBodySize,
                                  void *&pHeader ) 
 {
@@ -292,7 +292,7 @@ const outBufCtx outBuf::pushCtx ( bufSizeT headerSize, // X aCC 361
 //
 // outBuf::popCtx ()
 //
-bufSizeT outBuf::popCtx (const outBufCtx &ctx) // X aCC 361
+bufSizeT outBuf::popCtx (const outBufCtx &ctx)
 {
     if (ctx.stat==outBufCtx::pushCtxSuccess) {
         bufSizeT bytesAdded = this->stack;

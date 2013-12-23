@@ -8,7 +8,7 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 /* dbBkpt.c */
-/* base/src/db Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd */
+/* base/src/db $Revision-Id$ */
 /*
  *      Author:          Matthew Needes
  *      Date:            8-30-93
@@ -65,6 +65,7 @@
 #include "dbAddr.h"
 #include "dbAccessDefs.h"
 #include "dbScan.h"
+#include "dbLink.h"
 #include "dbLock.h"
 #include "recGbl.h"
 #include "dbTest.h"
@@ -253,7 +254,7 @@ static long FIND_CONT_NODE(
 /*
  *  Initialise the breakpoint stack
  */
-void epicsShareAPI dbBkptInit(void)
+void dbBkptInit(void)
 {
     if (! bkpt_stack_sem) {
         bkpt_stack_sem = epicsMutexMustCreate();
@@ -272,7 +273,7 @@ void epicsShareAPI dbBkptInit(void)
  *     7. Add breakpoint to list of breakpoints in structure.
  *     8. Spawn continuation task if it isn't already running.
  */
-long epicsShareAPI dbb(const char *record_name)
+long dbb(const char *record_name)
 {
   struct dbAddr addr;
   struct LS_LIST *pnode;
@@ -392,7 +393,7 @@ long epicsShareAPI dbb(const char *record_name)
  *     5. Turn off break point field.
  *     6. Give up semaphore to "signal" bkptCont task to quit.
  */
-long epicsShareAPI dbd(const char *record_name)
+long dbd(const char *record_name)
 {
   struct dbAddr addr;
   struct LS_LIST *pnode;
@@ -478,7 +479,7 @@ long epicsShareAPI dbd(const char *record_name)
  *     2. Turn off stepping mode.
  *     2. Resume dbBkptCont.
  */
-long epicsShareAPI dbc(const char *record_name)
+long dbc(const char *record_name)
 {
   struct LS_LIST *pnode;
   struct dbCommon *precord = NULL;
@@ -517,7 +518,7 @@ long epicsShareAPI dbc(const char *record_name)
  *     1. Find top node in lockset stack.
  *     2. Resume dbBkptCont.
  */
-long epicsShareAPI dbs(const char *record_name)
+long dbs(const char *record_name)
 {
   struct LS_LIST *pnode;
   struct dbCommon *precord = NULL;
@@ -642,7 +643,7 @@ static void dbBkptCont(dbCommon *precord)
  *        if so, turn on stepping mode.
  *  6.  If stepping mode is set, stop and report the breakpoint.
  */
-int epicsShareAPI dbBkpt(dbCommon *precord)
+int dbBkpt(dbCommon *precord)
 {
   struct LS_LIST *pnode;
   struct EP_LIST *pqe;
@@ -795,7 +796,7 @@ int epicsShareAPI dbBkpt(dbCommon *precord)
 }
 
 /* print record after processing */
-void epicsShareAPI dbPrint(dbCommon *precord )
+void dbPrint(dbCommon *precord )
 {
   struct LS_LIST *pnode;
 
@@ -814,7 +815,7 @@ void epicsShareAPI dbPrint(dbCommon *precord )
 }
 
 /* print stopped record */
-long epicsShareAPI dbp(const char *record_name, int interest_level)
+long dbp(const char *record_name, int interest_level)
 {
   struct LS_LIST *pnode;
   struct dbCommon *precord;
@@ -837,7 +838,7 @@ long epicsShareAPI dbp(const char *record_name, int interest_level)
 }
 
 /* toggle printing after processing a certain record */
-long epicsShareAPI dbap(const char *record_name)
+long dbap(const char *record_name)
 {
   struct dbAddr addr;
   struct dbCommon *precord;
@@ -869,7 +870,7 @@ long epicsShareAPI dbap(const char *record_name)
 }
 
 /* print list of stopped records, and breakpoints set in locksets */
-long epicsShareAPI dbstat(void)
+long dbstat(void)
 {
   struct LS_LIST *pnode;
   struct BP_LIST *pbl;
@@ -932,7 +933,7 @@ long epicsShareAPI dbstat(void)
 /*
  *  Process a record without printing it.
  */
-long epicsShareAPI dbprc(char *record_name)
+long dbprc(char *record_name)
 {
   struct dbAddr addr;
   struct dbCommon *precord;
