@@ -15,16 +15,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="mb.cpp">
-      <Filter>mb</Filter>
-    </ClCompile>
     <ClCompile Include="mb_stat.cpp">
       <Filter>mb</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mb.h">
-      <Filter>mb</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

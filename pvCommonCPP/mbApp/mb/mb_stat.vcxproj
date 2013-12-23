@@ -14,16 +14,18 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="mb.cpp" />
     <ClCompile Include="mb_stat.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="mb.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\libCom\Com.vcxproj">
       <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
     </ProjectReference>
+    <ProjectReference Include="pvMB.vcxproj">
+      <Project>{5c5be6f0-e25f-49b8-8718-d2f7e7a79369}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="mb.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{3B4FB919-CC65-4780-8B45-BFE42896B914}</ProjectGuid>
@@ -37,13 +39,11 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">

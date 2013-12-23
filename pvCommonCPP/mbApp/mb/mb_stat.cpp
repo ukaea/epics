@@ -1,11 +1,10 @@
 #include <iostream>
 #include <fstream>
-#include "mb.h"
 #include <cstring>
 
 #include <epicsGetopt.h>
-#include <epicsStdlib.h>
 #include <epicsTypes.h>
+#include "mb.h"
 
 // NOTE: this can be replaced with epicsScanLong in 3.15
 #include <errno.h>
