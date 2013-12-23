@@ -65,8 +65,8 @@
     <ProjectGuid>{475ED315-1EDE-4A6A-AC74-8473F2F36810}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>KohzuMotor</RootNamespace>
-    <SccProjectName>"$/EPICS/motor/motor", NTDCAAAA</SccProjectName>
-    <SccLocalPath>..\..\..</SccLocalPath>
+    <SccProjectName>"$/EPICS/motor/motorApp/KohzuSrc", COECAAAA</SccProjectName>
+    <SccLocalPath>.</SccLocalPath>
     <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

@@ -67,8 +67,8 @@
     <ProjectGuid>{A1B2935A-A054-48F7-8B2F-8B5CE01AD92F}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>NewFocus</RootNamespace>
-    <SccProjectName>"$/EPICS/motor/motor", NTDCAAAA</SccProjectName>
-    <SccLocalPath>..\..\..</SccLocalPath>
+    <SccProjectName>"$/EPICS/motor/motorApp/NewFocusSrc", IOECAAAA</SccProjectName>
+    <SccLocalPath>.</SccLocalPath>
     <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

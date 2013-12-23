@@ -65,8 +65,8 @@
     <ProjectGuid>{027F74C4-C666-4E16-9CF6-24D2F2DAAA15}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Faulhaber</RootNamespace>
-    <SccProjectName>"$/EPICS/motor/motor", NTDCAAAA</SccProjectName>
-    <SccLocalPath>..\..\..</SccLocalPath>
+    <SccProjectName>"$/EPICS/motor/motorApp/FaulhaberSrc", ZNECAAAA</SccProjectName>
+    <SccLocalPath>.</SccLocalPath>
     <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
