@@ -125,8 +125,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "testApp", "testApp", "{492B
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "exampleServiceRPC", "exampleServiceRPC", "{EEF30E82-9CD1-4952-8091-4BA2550A805E}"
+	ProjectSection(SolutionItems) = preProject
+		testApp\exampleServiceRPC\Makefile = testApp\exampleServiceRPC\Makefile
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "pvIocApp", "pvIocApp", "{191C153D-5758-42F7-A93C-F0917D34CF0D}"
+	ProjectSection(SolutionItems) = preProject
+		pvIocApp\Makefile = pvIocApp\Makefile
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "pvCommonCPP", "pvCommonCPP", "{CEC5F2FD-0211-4424-91A5-B5233B98DE7F}"
 EndProject
