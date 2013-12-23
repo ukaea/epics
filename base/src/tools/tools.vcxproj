@@ -161,7 +161,12 @@
       <Command>xcopy /Y /Q /D /R *.pl $(OutDir) &gt; NUL
 if not exist $(SolutionDir)lib md $(SolutionDir)lib
 if not exist $(SolutionDir)lib\perl md $(SolutionDir)lib\perl
+if not exist $(SolutionDir)lib\perl\DBD md $(SolutionDir)lib\perl\DBD
 if not exist $(SolutionDir)lib\perl\EPICS md $(SolutionDir)lib\perl\EPICS
+
+xcopy /Y /Q /D /R *.pl $(OutDir) &gt; NUL
+xcopy /Y /Q /D /R *.pm $(SolutionDir)lib\perl &gt; NUL
+xcopy /Y /Q /D /R DBD\*.pm $(SolutionDir)lib\perl\DBD &gt; NUL
 xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -178,7 +183,12 @@ xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
       <Command>xcopy /Y /Q /D /R *.pl $(OutDir) &gt; NUL
 if not exist $(SolutionDir)lib md $(SolutionDir)lib
 if not exist $(SolutionDir)lib\perl md $(SolutionDir)lib\perl
+if not exist $(SolutionDir)lib\perl\DBD md $(SolutionDir)lib\perl\DBD
 if not exist $(SolutionDir)lib\perl\EPICS md $(SolutionDir)lib\perl\EPICS
+
+xcopy /Y /Q /D /R *.pl $(OutDir) &gt; NUL
+xcopy /Y /Q /D /R *.pm $(SolutionDir)lib\perl &gt; NUL
+xcopy /Y /Q /D /R DBD\*.pm $(SolutionDir)lib\perl\DBD &gt; NUL
 xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -195,7 +205,12 @@ xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
       <Command>xcopy /Y /Q /D /R *.pl $(OutDir) &gt; NUL
 if not exist $(SolutionDir)lib md $(SolutionDir)lib
 if not exist $(SolutionDir)lib\perl md $(SolutionDir)lib\perl
+if not exist $(SolutionDir)lib\perl\DBD md $(SolutionDir)lib\perl\DBD
 if not exist $(SolutionDir)lib\perl\EPICS md $(SolutionDir)lib\perl\EPICS
+
+xcopy /Y /Q /D /R *.pl $(OutDir) &gt; NUL
+xcopy /Y /Q /D /R *.pm $(SolutionDir)lib\perl &gt; NUL
+xcopy /Y /Q /D /R DBD\*.pm $(SolutionDir)lib\perl\DBD &gt; NUL
 xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -212,7 +227,12 @@ xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
       <Command>xcopy /Y /Q /D /R *.pl $(OutDir) &gt; NUL
 if not exist $(SolutionDir)lib md $(SolutionDir)lib
 if not exist $(SolutionDir)lib\perl md $(SolutionDir)lib\perl
+if not exist $(SolutionDir)lib\perl\DBD md $(SolutionDir)lib\perl\DBD
 if not exist $(SolutionDir)lib\perl\EPICS md $(SolutionDir)lib\perl\EPICS
+
+xcopy /Y /Q /D /R *.pl $(OutDir) &gt; NUL
+xcopy /Y /Q /D /R *.pm $(SolutionDir)lib\perl &gt; NUL
+xcopy /Y /Q /D /R DBD\*.pm $(SolutionDir)lib\perl\DBD &gt; NUL
 xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -233,7 +253,12 @@ xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
       <Command>xcopy /Y /Q /D /R *.pl $(OutDir) &gt; NUL
 if not exist $(SolutionDir)lib md $(SolutionDir)lib
 if not exist $(SolutionDir)lib\perl md $(SolutionDir)lib\perl
+if not exist $(SolutionDir)lib\perl\DBD md $(SolutionDir)lib\perl\DBD
 if not exist $(SolutionDir)lib\perl\EPICS md $(SolutionDir)lib\perl\EPICS
+
+xcopy /Y /Q /D /R *.pl $(OutDir) &gt; NUL
+xcopy /Y /Q /D /R *.pm $(SolutionDir)lib\perl &gt; NUL
+xcopy /Y /Q /D /R DBD\*.pm $(SolutionDir)lib\perl\DBD &gt; NUL
 xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -254,7 +279,12 @@ xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
       <Command>xcopy /Y /Q /D /R *.pl $(OutDir) &gt; NUL
 if not exist $(SolutionDir)lib md $(SolutionDir)lib
 if not exist $(SolutionDir)lib\perl md $(SolutionDir)lib\perl
+if not exist $(SolutionDir)lib\perl\DBD md $(SolutionDir)lib\perl\DBD
 if not exist $(SolutionDir)lib\perl\EPICS md $(SolutionDir)lib\perl\EPICS
+
+xcopy /Y /Q /D /R *.pl $(OutDir) &gt; NUL
+xcopy /Y /Q /D /R *.pm $(SolutionDir)lib\perl &gt; NUL
+xcopy /Y /Q /D /R DBD\*.pm $(SolutionDir)lib\perl\DBD &gt; NUL
 xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -275,7 +305,12 @@ xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
       <Command>xcopy /Y /Q /D /R *.pl $(OutDir) &gt; NUL
 if not exist $(SolutionDir)lib md $(SolutionDir)lib
 if not exist $(SolutionDir)lib\perl md $(SolutionDir)lib\perl
+if not exist $(SolutionDir)lib\perl\DBD md $(SolutionDir)lib\perl\DBD
 if not exist $(SolutionDir)lib\perl\EPICS md $(SolutionDir)lib\perl\EPICS
+
+xcopy /Y /Q /D /R *.pl $(OutDir) &gt; NUL
+xcopy /Y /Q /D /R *.pm $(SolutionDir)lib\perl &gt; NUL
+xcopy /Y /Q /D /R DBD\*.pm $(SolutionDir)lib\perl\DBD &gt; NUL
 xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -296,15 +331,23 @@ xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
       <Command>xcopy /Y /Q /D /R *.pl $(OutDir) &gt; NUL
 if not exist $(SolutionDir)lib md $(SolutionDir)lib
 if not exist $(SolutionDir)lib\perl md $(SolutionDir)lib\perl
+if not exist $(SolutionDir)lib\perl\DBD md $(SolutionDir)lib\perl\DBD
 if not exist $(SolutionDir)lib\perl\EPICS md $(SolutionDir)lib\perl\EPICS
+
+xcopy /Y /Q /D /R *.pl $(OutDir) &gt; NUL
+xcopy /Y /Q /D /R *.pm $(SolutionDir)lib\perl &gt; NUL
+xcopy /Y /Q /D /R DBD\*.pm $(SolutionDir)lib\perl\DBD &gt; NUL
 xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="DBD.pm" />
     <None Include="dbdExpand.pl" />
     <None Include="dbdToMenuH.pl" />
     <None Include="dbdToRecordtypeH.pl" />
+    <None Include="DBD\Base.pm" />
+    <None Include="DBD\Recordtype.pm" />
     <None Include="EPICS\Path.pm" />
     <None Include="EPICS\Release.pm" />
     <None Include="makeIncludeDbd.pl">
