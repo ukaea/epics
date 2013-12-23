@@ -42,7 +42,7 @@
     <ProjectGuid>{3F455271-9010-4995-BA79-FFD5D0881ABC}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>ascheck</RootNamespace>
-    <SccProjectName>"$/EPICS", LRZBAAAA</SccProjectName>
+    <SccProjectName>"$/EPICS/base", NNCCAAAA</SccProjectName>
     <SccLocalPath>..\..</SccLocalPath>
     <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
   </PropertyGroup>

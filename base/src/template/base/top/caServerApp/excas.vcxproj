@@ -59,7 +59,7 @@
     <ProjectGuid>{E1FF8A40-5C5D-405F-90AA-20408AA9654D}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>caServerApp</RootNamespace>
-    <SccProjectName>"$/EPICS", LRZBAAAA</SccProjectName>
+    <SccProjectName>"$/EPICS/base", NNCCAAAA</SccProjectName>
     <SccLocalPath>..\..\..\..</SccLocalPath>
     <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
   </PropertyGroup>

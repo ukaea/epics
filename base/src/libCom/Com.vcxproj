@@ -318,7 +318,7 @@ cd $(ProjectDir)
     <ProjectGuid>{35E6ABA4-E192-497D-BA02-EFB79D1E0336}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>libCom</RootNamespace>
-    <SccProjectName>"$/EPICS", LRZBAAAA</SccProjectName>
+    <SccProjectName>"$/EPICS/base", NNCCAAAA</SccProjectName>
     <SccLocalPath>..\..</SccLocalPath>
     <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
   </PropertyGroup>

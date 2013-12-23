@@ -37,7 +37,7 @@
     <ProjectGuid>{E5A73F45-ECFB-451F-8D17-8545CA3B8B82}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>acctst</RootNamespace>
-    <SccProjectName>"$/EPICS", LRZBAAAA</SccProjectName>
+    <SccProjectName>"$/EPICS/base", NNCCAAAA</SccProjectName>
     <SccLocalPath>..\..</SccLocalPath>
     <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
   </PropertyGroup>

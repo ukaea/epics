@@ -122,7 +122,7 @@ move /Y y.tab.h $(IntDir)parse.h
     <ProjectGuid>{285B2DD5-B55E-4195-9B2D-F129CF54A2B4}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>e_flex</RootNamespace>
-    <SccProjectName>"$/EPICS", LRZBAAAA</SccProjectName>
+    <SccProjectName>"$/EPICS/base", NNCCAAAA</SccProjectName>
     <SccLocalPath>..\..\..</SccLocalPath>
     <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
   </PropertyGroup>

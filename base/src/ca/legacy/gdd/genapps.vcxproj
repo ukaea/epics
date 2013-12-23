@@ -36,7 +36,7 @@
     <ProjectGuid>{8CC25EE1-944A-4AA0-9A58-BEDE2BB3C86C}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>genapps</RootNamespace>
-    <SccProjectName>"$/EPICS", LRZBAAAA</SccProjectName>
+    <SccProjectName>"$/EPICS/base", NNCCAAAA</SccProjectName>
     <SccLocalPath>..\..</SccLocalPath>
     <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
   </PropertyGroup>

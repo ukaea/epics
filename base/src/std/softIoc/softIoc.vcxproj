@@ -76,7 +76,7 @@
     <ProjectGuid>{0DF29C1B-6C17-4D60-8B78-27FE8714DC11}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>softIoc</RootNamespace>
-    <SccProjectName>"$/EPICS", LRZBAAAA</SccProjectName>
+    <SccProjectName>"$/EPICS/base", NNCCAAAA</SccProjectName>
     <SccLocalPath>..\..</SccLocalPath>
     <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
   </PropertyGroup>

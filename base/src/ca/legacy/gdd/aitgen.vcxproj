@@ -37,7 +37,7 @@
     <ProjectGuid>{3C906C28-3E5E-429A-9DC9-FADD47DB579E}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>aitgen</RootNamespace>
-    <SccProjectName>"$/EPICS", LRZBAAAA</SccProjectName>
+    <SccProjectName>"$/EPICS/base", NNCCAAAA</SccProjectName>
     <SccLocalPath>..\..</SccLocalPath>
     <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
   </PropertyGroup>

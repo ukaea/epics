@@ -42,7 +42,7 @@
     <ProjectGuid>{5FE20BFB-A350-4BFA-B123-8182A82CEA79}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>caput</RootNamespace>
-    <SccProjectName>"$/EPICS", LRZBAAAA</SccProjectName>
+    <SccProjectName>"$/EPICS/base", NNCCAAAA</SccProjectName>
     <SccLocalPath>..\..</SccLocalPath>
     <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
   </PropertyGroup>

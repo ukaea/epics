@@ -42,7 +42,7 @@
     <ProjectGuid>{DE8E365E-BBA3-40F4-B8DE-2FCB7868842F}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>camonitor</RootNamespace>
-    <SccProjectName>"$/EPICS", LRZBAAAA</SccProjectName>
+    <SccProjectName>"$/EPICS/base", NNCCAAAA</SccProjectName>
     <SccLocalPath>..\..</SccLocalPath>
     <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
   </PropertyGroup>

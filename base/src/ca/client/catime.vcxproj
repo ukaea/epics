@@ -37,7 +37,7 @@
     <ProjectGuid>{1A44C810-8126-4576-AED9-2F177583EA8C}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>catime</RootNamespace>
-    <SccProjectName>"$/EPICS", LRZBAAAA</SccProjectName>
+    <SccProjectName>"$/EPICS/base", NNCCAAAA</SccProjectName>
     <SccLocalPath>..\..</SccLocalPath>
     <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
   </PropertyGroup>

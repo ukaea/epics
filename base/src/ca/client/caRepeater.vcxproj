@@ -33,7 +33,7 @@
     <ProjectGuid>{5BCFEACD-AF21-4BF0-B130-14C814453F07}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>caRepeater</RootNamespace>
-    <SccProjectName>"$/EPICS", LRZBAAAA</SccProjectName>
+    <SccProjectName>"$/EPICS/base", NNCCAAAA</SccProjectName>
     <SccLocalPath>..\..</SccLocalPath>
     <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
   </PropertyGroup>
