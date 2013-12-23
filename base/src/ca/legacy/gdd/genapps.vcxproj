@@ -74,7 +74,8 @@
     <PostBuildEvent>
       <Command>if not exist O.Common md O.Common
 $(OutDir)genApps.exe .\O.Common\gddApps.h
-xcopy /Y /Q  /D O.Common\gddApps.h  $(SolutionDir)include &gt; NUL</Command>
+xcopy /Y /Q  /D O.Common\gddApps.h  $(SolutionDir)include &gt; NUL
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -92,6 +93,12 @@ xcopy /Y /Q  /D O.Common\gddApps.h  $(SolutionDir)include &gt; NUL</Command>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <PostBuildEvent>
+      <Command>if not exist O.Common md O.Common
+$(OutDir)genApps.exe .\O.Common\gddApps.h
+xcopy /Y /Q  /D O.Common\gddApps.h  $(SolutionDir)include &gt; NUL
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

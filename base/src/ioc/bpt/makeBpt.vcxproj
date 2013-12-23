@@ -26,6 +26,12 @@ $(OutDir)dbToMenuH.exe  -I. -I.. -IO.Common -I../../dbd menuConvert.dbd O.Common
 xcopy /Y /Q  /D O.Common\menuConvert.h ..\..\include &gt; NUL
 </Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> O.Common\menuConvert.h</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">if not exist O.Common md O.Common
+if not exist ..\..\include md ..\..\include
+$(OutDir)dbToMenuH.exe  -I. -I.. -IO.Common -I../../dbd menuConvert.dbd O.Common\menuConvert.h
+xcopy /Y /Q  /D O.Common\menuConvert.h ..\..\include &gt; NUL
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'"> O.Common\menuConvert.h</Outputs>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
