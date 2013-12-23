@@ -11,6 +11,7 @@
 #include <stdexcept>
 #include <memory>
 
+#define epicsExportSharedSymbols
 #include <pv/service.h>
 #include <pv/pvServiceProvider.h>
 

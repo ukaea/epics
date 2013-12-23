@@ -17,6 +17,8 @@
 #include "alarm.h"
 #include "devSup.h"
 #include "recGbl.h"
+
+#define epicsExportSharedSymbols
 #include "epicsExport.h"
 
 #include "aiRecord.h"

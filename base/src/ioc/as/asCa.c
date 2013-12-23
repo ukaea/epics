@@ -34,6 +34,7 @@
 #include "asLib.h"
 #include "asDbLib.h"
 
+#define epicsExportSharedSymbols
 #include "epicsExport.h"
 #include "asCa.h"
 

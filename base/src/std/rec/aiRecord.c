@@ -36,6 +36,8 @@
 #include "recGbl.h"
 #include "special.h"
 #include "menuConvert.h"
+
+#define epicsExportSharedSymbols
 #define GEN_SIZE_OFFSET
 #include "aiRecord.h"
 #undef  GEN_SIZE_OFFSET

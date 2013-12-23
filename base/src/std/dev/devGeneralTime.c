@@ -24,12 +24,14 @@
 #include "devSup.h"
 #include "epicsString.h"
 #include "epicsGeneralTime.h"
-#include "epicsExport.h"
 
 #include "aiRecord.h"
 #include "boRecord.h"
 #include "longinRecord.h"
 #include "stringinRecord.h"
+
+#define epicsExportSharedSymbols
+#include "epicsExport.h"
 
 
 /********* ai record **********/

@@ -7,10 +7,10 @@
 #include <pv/noDefaultMethods.h>
 #include <pv/lock.h>
 #include <pv/pvType.h>
+
 #include <epicsExit.h>
 
 #define epicsExportSharedSymbols
-#include <pv/logger.h>
 #include <pv/logger.h>
 
 #include <fstream>
@@ -60,6 +60,11 @@ namespace epics {
         void pvAccessSetLogLevel(pvAccessLogLevel level)
         {
             g_pvAccessLogLevel = level;
+        }
+
+        bool pvAccessIsLoggable(pvAccessLogLevel level)
+        {
+            return level >= g_pvAccessLogLevel;
         }
 
         class FileLogger : public NoDefaultMethods {

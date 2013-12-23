@@ -25,6 +25,8 @@
 #include "devSup.h"
 #include "link.h"
 #include "stringinRecord.h"
+
+#define epicsExportSharedSymbols
 #include "epicsExport.h"
 
 /* Create the dset for devSiSoft */

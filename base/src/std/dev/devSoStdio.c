@@ -15,8 +15,9 @@
 #include "errlog.h"
 #include "recGbl.h"
 #include "recSup.h"
-#include "epicsExport.h"
 
+#define epicsExportSharedSymbols
+#include "epicsExport.h"
 #include "stringoutRecord.h"
 
 typedef int (*PRINTFFUNC)(const char *fmt, ...);

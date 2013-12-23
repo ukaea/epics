@@ -28,6 +28,8 @@
 #include "recSup.h"
 #include "devSup.h"
 #include "boRecord.h"
+
+#define epicsExportSharedSymbols
 #include "epicsExport.h"
 
 /* added for Channel Access Links */

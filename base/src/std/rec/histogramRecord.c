@@ -37,6 +37,8 @@
 #include "recSup.h"
 #include "recGbl.h"
 #include "menuYesNo.h"
+
+#define epicsExportSharedSymbols
 #define GEN_SIZE_OFFSET
 #include "histogramRecord.h"
 #undef  GEN_SIZE_OFFSET

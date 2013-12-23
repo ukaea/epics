@@ -10,6 +10,7 @@
 /* Author Marty Kraimer 2011.12 */
 
 
+#define epicsExportSharedSymbols
 #include <ezchannelRPC.h>
 
 namespace epics { namespace pvAccess { 

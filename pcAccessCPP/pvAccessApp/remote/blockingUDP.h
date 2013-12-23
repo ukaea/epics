@@ -16,8 +16,6 @@
 #include <pv/lock.h>
 #include <pv/event.h>
 
-#include <sharelib.h>
-
 #include <pv/pvIntrospect.h>
 
 #ifdef epicsExportSharedSymbols

@@ -24,13 +24,12 @@
 #include <epicsThread.h>
 #include <iocsh.h>
 
-#include <epicsExport.h>
-
 #include <pv/pvIntrospect.h>
 #include <pv/pvData.h>
 #include <pv/pvAccess.h>
 #include <pv/serverContext.h>
 
+#include <epicsExport.h>
 #include <pv/channelProviderLocal.h>
 
 namespace epics { namespace pvIOC {
@@ -67,7 +66,8 @@ ChannelProviderLocalRun::~ChannelProviderLocalRun()
 void ChannelProviderLocalRun::run()
 {
     ChannelProviderPtr channelProvider(new ChannelProviderLocal());
-    registerChannelProvider(channelProvider);
+    ChannelBaseProviderFactory::shared_pointer channelProviderFactory(new ChannelBaseProviderFactory(channelProvider));
+    channelProviderFactory->registerSelf();
     ctx->setChannelProviderName(channelProvider->getProviderName());
     ctx->initialize(getChannelAccess());
     ctx->printInfo();

@@ -41,6 +41,9 @@
 #include "recGbl.h"
 #include "cantProceed.h"
 #include "menuYesNo.h"
+#include "aaoRecord.h"
+
+#define epicsExportSharedSymbols
 #define GEN_SIZE_OFFSET
 #include "aaoRecord.h"
 #undef  GEN_SIZE_OFFSET

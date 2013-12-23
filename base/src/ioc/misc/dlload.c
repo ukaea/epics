@@ -7,6 +7,8 @@
 
 #include "epicsFindSymbol.h"
 #include "iocsh.h"
+
+#define epicsExportSharedSymbols
 #include "epicsExport.h"
 
 static const iocshArg dlloadArg0 = { "path/library.so", iocshArgString};

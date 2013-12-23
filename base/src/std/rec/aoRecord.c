@@ -37,6 +37,8 @@
 #include "menuConvert.h"
 #include "menuOmsl.h"
 #include "menuYesNo.h"
+
+#define epicsExportSharedSymbols
 #define GEN_SIZE_OFFSET
 #include "aoRecord.h"
 #undef  GEN_SIZE_OFFSET

@@ -27,7 +27,7 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
@@ -56,6 +56,7 @@
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\pv</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4251;4275;4309</DisableSpecificWarnings>
+      <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -80,6 +81,7 @@ xcopy /Y /Q  /D service\*.h $(SolutionDir)include\pv &gt; NUL
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\pv</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4251;4275;4309</DisableSpecificWarnings>
+      <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -100,7 +102,10 @@ xcopy /Y /Q  /D service\*.h $(SolutionDir)include\pv &gt; NUL
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="channelProviderLocal\channelProviderLocal.cpp" />
-    <ClCompile Include="channelProviderLocal\channelProviderLocalRegister.cpp" />
+    <ClCompile Include="channelProviderLocal\channelProviderLocalRegister.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="database\pvDatabase.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
@@ -202,6 +207,23 @@ xcopy /Y /Q  /D service\*.h $(SolutionDir)include\pv &gt; NUL
     <ClInclude Include="support\basic\basicSupport.h" />
     <ClInclude Include="support\support.h" />
     <ClInclude Include="util\util.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\pcAccessCPP\pvAccessApp\pvAccessApp.vcxproj">
+      <Project>{44ecea7e-d805-49b6-8e89-62ec3994c1f3}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\pcDataCPP\pvDataApp\pvData.vcxproj">
+      <Project>{f4a51415-2981-42ee-87c7-f29d5805583e}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\pvCommonCPP\mbApp\mb\mb.vcxproj">
+      <Project>{3b4fb919-cc65-4780-8b45-bfe42896b914}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\db\dbIoc.vcxproj">
+      <Project>{2bc8e3ec-fa1e-4d66-896c-35e8dd69a7fd}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\libCom\Com.vcxproj">
+      <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

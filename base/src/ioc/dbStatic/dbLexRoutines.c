@@ -29,9 +29,9 @@
 #include "special.h"
 #include "macLib.h"
 #include "epicsString.h"
-#include "epicsExport.h"
 
 #define epicsExportSharedSymbols
+#include "epicsExport.h"
 #include "dbFldTypes.h"
 #include "link.h"
 #include "dbStaticLib.h"
