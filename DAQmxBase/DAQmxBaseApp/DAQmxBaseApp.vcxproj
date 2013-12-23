@@ -39,7 +39,25 @@
     <ClCompile Include="src\drvDaqMxBase.c" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\DAQmxBaseSupport.dbd" />
+    <CustomBuild Include="src\DAQmxBaseSupport.dbd">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">perl $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I../../../dbd -ID:\EPICS/asyn/dbd -ID:\EPICS\base/dbd -o O.Common\DAQmxBase.dbd base.dbd src/%(FileName).dbd asyn.dbd</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">perl $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I../../../dbd -ID:\EPICS/asyn/dbd -ID:\EPICS\base/dbd -o O.Common\DAQmxBase.dbd base.dbd src/%(FileName).dbd asyn.dbd</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">perl $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I../../../dbd -ID:\EPICS/asyn/dbd -ID:\EPICS\base/dbd -o O.Common\DAQmxBase.dbd base.dbd src/%(FileName).dbd asyn.dbd</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">perl $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I../../../dbd -ID:\EPICS/asyn/dbd -ID:\EPICS\base/dbd -o O.Common\DAQmxBase.dbd base.dbd src/%(FileName).dbd asyn.dbd</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|x64'">perl $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I../../../dbd -ID:\EPICS/asyn/dbd -ID:\EPICS\base/dbd -o O.Common\DAQmxBase.dbd base.dbd src/%(FileName).dbd asyn.dbd</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|x64'">perl $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I../../../dbd -ID:\EPICS/asyn/dbd -ID:\EPICS\base/dbd -o O.Common\DAQmxBase.dbd base.dbd src/%(FileName).dbd asyn.dbd</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|x64'">perl $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I../../../dbd -ID:\EPICS/asyn/dbd -ID:\EPICS\base/dbd -o O.Common\DAQmxBase.dbd base.dbd src/%(FileName).dbd asyn.dbd</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|x64'">perl $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I../../../dbd -ID:\EPICS/asyn/dbd -ID:\EPICS\base/dbd -o O.Common\DAQmxBase.dbd base.dbd src/%(FileName).dbd asyn.dbd</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">O.Common\%(FileName).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">O.Common\%(FileName).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">O.Common\%(FileName).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">O.Common\%(FileName).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|x64'">O.Common\%(FileName).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|x64'">O.Common\%(FileName).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|x64'">O.Common\%(FileName).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|x64'">O.Common\%(FileName).dbd</Outputs>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\NIDAQmxBase.h" />
@@ -189,6 +207,10 @@
       <AdditionalLibraryDirectories>C:\Program Files (x86)\National Instruments\NI-DAQmx Base\Lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;nidaqmxbase.lib</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>if not exist O.Common md O.Common
+</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|x64'">
     <ClCompile>
@@ -206,6 +228,10 @@
       <AdditionalLibraryDirectories>C:\Program Files (x86)\National Instruments\NI-DAQmx Base\Lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;nidaqmxbase.lib</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>if not exist O.Common md O.Common
+</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">
     <ClCompile>
@@ -223,6 +249,10 @@
       <AdditionalLibraryDirectories>C:\Program Files (x86)\National Instruments\NI-DAQmx Base\Lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;nidaqmxbase.lib</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>if not exist O.Common md O.Common
+</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug LIB|x64'">
     <ClCompile>
@@ -240,6 +270,10 @@
       <AdditionalLibraryDirectories>C:\Program Files (x86)\National Instruments\NI-DAQmx Base\Lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;nidaqmxbase.lib</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>if not exist O.Common md O.Common
+</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">
     <ClCompile>
@@ -260,6 +294,10 @@
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;nidaqmxbase.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\Program Files (x86)\National Instruments\NI-DAQmx Base\Lib</AdditionalLibraryDirectories>
     </Link>
+    <PreBuildEvent>
+      <Command>if not exist O.Common md O.Common
+</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release DLL|x64'">
     <ClCompile>
@@ -280,6 +318,10 @@
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;nidaqmxbase.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\Program Files (x86)\National Instruments\NI-DAQmx Base\Lib</AdditionalLibraryDirectories>
     </Link>
+    <PreBuildEvent>
+      <Command>if not exist O.Common md O.Common
+</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">
     <ClCompile>
@@ -300,6 +342,10 @@
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;nidaqmxbase.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\Program Files (x86)\National Instruments\NI-DAQmx Base\Lib</AdditionalLibraryDirectories>
     </Link>
+    <PreBuildEvent>
+      <Command>if not exist O.Common md O.Common
+</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release LIB|x64'">
     <ClCompile>
@@ -320,6 +366,10 @@
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;nidaqmxbase.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\Program Files (x86)\National Instruments\NI-DAQmx Base\Lib</AdditionalLibraryDirectories>
     </Link>
+    <PreBuildEvent>
+      <Command>if not exist O.Common md O.Common
+</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
