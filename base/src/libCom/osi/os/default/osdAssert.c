@@ -13,14 +13,14 @@
  */
 
 #include "dbDefs.h"
-#include "epicsPrint.h"
 #include "epicsVersion.h"
-#include "epicsThread.h"
-#include "epicsTime.h"
 #include "cantProceed.h"
 
 #define epicsExportSharedSymbols
 #include "epicsAssert.h"
+#include "epicsThread.h"
+#include "epicsTime.h"
+#include "epicsPrint.h"
 
 void epicsAssert (const char *pFile, const unsigned line,
     const char *pExp, const char *pAuthorName)

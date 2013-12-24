@@ -279,6 +279,7 @@ keyword(void)
     }
     syntax_error(lineno, line, t_cptr);
     /*NOTREACHED*/
+	return (NONASSOC);
 }
 
 

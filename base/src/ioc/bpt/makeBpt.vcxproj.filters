@@ -36,5 +36,17 @@
     <CustomBuild Include="menuConvert.dbd">
       <Filter>Database Files</Filter>
     </CustomBuild>
+    <CustomBuild Include="bptTypeJdegC.data">
+      <Filter>Database Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="bptTypeKdegC.data">
+      <Filter>Database Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="bptTypeKdegF.data">
+      <Filter>Database Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="bptTypeJdegF.data">
+      <Filter>Database Files</Filter>
+    </CustomBuild>
   </ItemGroup>
 </Project>
