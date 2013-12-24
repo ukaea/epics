@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{44ECEA7E-D805-49B6-8E89-62EC3994C1F3}</ProjectGuid>
+    <RootNamespace>pvAccessApp</RootNamespace>
+    <SccProjectName>"$/EPICS", LRZBAAAA</SccProjectName>
+    <SccLocalPath>..\..</SccLocalPath>
+    <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>..\..\include;..\..\include\os\win32</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="ca\caChannel.cpp" />
+    <ClCompile Include="ca\caProvider.cpp" />
+    <ClCompile Include="client\pvAccess.cpp" />
+    <ClCompile Include="factory\ChannelAccessFactory.cpp" />
+    <ClCompile Include="factory\CreateRequestFactory.cpp" />
+    <ClCompile Include="mb\pvAccessMB.cpp" />
+    <ClCompile Include="pva\clientFactory.cpp" />
+    <ClCompile Include="pva\pvaVersion.cpp" />
+    <ClCompile Include="remoteClient\clientContextImpl.cpp" />
+    <ClCompile Include="remote\abstractResponseHandler.cpp" />
+    <ClCompile Include="remote\beaconHandler.cpp" />
+    <ClCompile Include="remote\blockingClientTCPTransport.cpp" />
+    <ClCompile Include="remote\blockingServerTCPTransport.cpp" />
+    <ClCompile Include="remote\blockingTCPAcceptor.cpp" />
+    <ClCompile Include="remote\blockingTCPConnector.cpp" />
+    <ClCompile Include="remote\blockingTCPTransport.cpp" />
+    <ClCompile Include="remote\blockingUDPConnector.cpp" />
+    <ClCompile Include="remote\blockingUDPTransport.cpp" />
+    <ClCompile Include="remote\serializationHelper.cpp" />
+    <ClCompile Include="remote\simpleChannelSearchManagerImpl.cpp" />
+    <ClCompile Include="remote\transportRegistry.cpp" />
+    <ClCompile Include="rpcClient\rpcClient.cpp" />
+    <ClCompile Include="rpcService\rpcServer.cpp" />
+    <ClCompile Include="server\baseChannelRequester.cpp" />
+    <ClCompile Include="server\beaconEmitter.cpp" />
+    <ClCompile Include="server\beaconServerStatusProvider.cpp" />
+    <ClCompile Include="server\responseHandlers.cpp" />
+    <ClCompile Include="server\serverChannelImpl.cpp" />
+    <ClCompile Include="server\serverContext.cpp" />
+    <ClCompile Include="utils\configuration.cpp" />
+    <ClCompile Include="utils\hexDump.cpp" />
+    <ClCompile Include="utils\inetAddressUtil.cpp" />
+    <ClCompile Include="utils\introspectionRegistry.cpp" />
+    <ClCompile Include="utils\logger.cpp" />
+    <ClCompile Include="utils\referenceCountingLock.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ca\caChannel.h" />
+    <ClInclude Include="ca\caProvider.h" />
+    <ClInclude Include="client\pvAccess.h" />
+    <ClInclude Include="mb\pvAccessMB.h" />
+    <ClInclude Include="pva\clientFactory.h" />
+    <ClInclude Include="pva\pvaConstants.h" />
+    <ClInclude Include="pva\pvaVersion.h" />
+    <ClInclude Include="remoteClient\clientContextImpl.h" />
+    <ClInclude Include="remote\beaconHandler.h" />
+    <ClInclude Include="remote\blockingTCP.h" />
+    <ClInclude Include="remote\blockingUDP.h" />
+    <ClInclude Include="remote\channelSearchManager.h" />
+    <ClInclude Include="remote\remote.h" />
+    <ClInclude Include="remote\serializationHelper.h" />
+    <ClInclude Include="remote\simpleChannelSearchManagerImpl.h" />
+    <ClInclude Include="remote\transportRegistry.h" />
+    <ClInclude Include="rpcClient\rpcClient.h" />
+    <ClInclude Include="rpcService\rpcServer.h" />
+    <ClInclude Include="rpcService\rpcService.h" />
+    <ClInclude Include="server\baseChannelRequester.h" />
+    <ClInclude Include="server\beaconEmitter.h" />
+    <ClInclude Include="server\beaconServerStatusProvider.h" />
+    <ClInclude Include="server\responseHandlers.h" />
+    <ClInclude Include="server\serverChannelImpl.h" />
+    <ClInclude Include="server\serverContext.h" />
+    <ClInclude Include="utils\configuration.h" />
+    <ClInclude Include="utils\hexDump.h" />
+    <ClInclude Include="utils\inetAddressUtil.h" />
+    <ClInclude Include="utils\introspectionRegistry.h" />
+    <ClInclude Include="utils\likely.h" />
+    <ClInclude Include="utils\logger.h" />
+    <ClInclude Include="utils\namedLockPattern.h" />
+    <ClInclude Include="utils\referenceCountingLock.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -1,0 +1,3 @@
+registrar("setChannelBaseDebugLevelRegister")
+registrar("startPVServiceChannelRegister")
+registrar("stopPVServiceChannelRegister")
