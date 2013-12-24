@@ -25,8 +25,12 @@
     </ClCompile>
     <ClCompile Include="misc.c" />
     <ClCompile Include="nfa.c" />
-    <ClCompile Include="O.win32-x86-debug\parse.c" />
-    <ClCompile Include="O.win32-x86\parse.c" />
+    <ClCompile Include="O.win32-x86-debug\parse.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="O.win32-x86\parse.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="scan.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
@@ -40,8 +44,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="flexdef.h" />
-    <ClInclude Include="O.win32-x86-debug\parse.h" />
-    <ClInclude Include="O.win32-x86\parse.h" />
+    <ClInclude Include="O.win32-x86-debug\parse.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="O.win32-x86\parse.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="parse.y">
@@ -64,6 +72,15 @@ move /Y y.tab.h $(IntDir)parse.h
     <ProjectReference Include="..\antelope\antelope.vcxproj">
       <Project>{5f6323ff-ceeb-4ad8-bed3-a443e6f75546}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="flex.skel.static">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Outputs>
+      <FileType>Document</FileType>
+    </None>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{285B2DD5-B55E-4195-9B2D-F129CF54A2B4}</ProjectGuid>
@@ -115,6 +132,11 @@ move /Y y.tab.h $(IntDir)parse.h
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PreBuildEvent>
+      <Command>if not exist ..\..\..\include md ..\..\..\include
+xcopy /Y /Q /D flex.skel.static ..\..\..\include &gt; NUL
+</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>

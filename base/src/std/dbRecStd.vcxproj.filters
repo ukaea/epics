@@ -9,7 +9,7 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="Resource Files">
+    <Filter Include="Database Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
@@ -104,92 +104,92 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="aaiRecord.dbd">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="aaoRecord.dbd">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="aiRecord.dbd">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="aoRecord.dbd">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="aSubRecord.dbd">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="biRecord.dbd">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="boRecord.dbd">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="calcoutRecord.dbd">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="calcRecord.dbd">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="compressRecord.dbd">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="dfanoutRecord.dbd">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="eventRecord.dbd">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="fanoutRecord.dbd">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="histogramRecord.dbd">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="longinRecord.dbd">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="longoutRecord.dbd">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="mbbiDirectRecord.dbd">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="mbbiRecord.dbd">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="mbboDirectRecord.dbd">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="mbboRecord.dbd">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="permissiveRecord.dbd">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="selRecord.dbd">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="seqRecord.dbd">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="stateRecord.dbd">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="stringinRecord.dbd">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="stringoutRecord.dbd">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="subArrayRecord.dbd">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="subRecord.dbd">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="waveformRecord.dbd">
-      <Filter>Resource Files</Filter>
-    </None>
+    <CustomBuild Include="waveformRecord.dbd">
+      <Filter>Database Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="histogramRecord.dbd">
+      <Filter>Database Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="aiRecord.dbd">
+      <Filter>Database Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="stringinRecord.dbd">
+      <Filter>Database Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="stringoutRecord.dbd">
+      <Filter>Database Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="subArrayRecord.dbd">
+      <Filter>Database Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="mbboRecord.dbd">
+      <Filter>Database Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="mbboDirectRecord.dbd">
+      <Filter>Database Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="subRecord.dbd">
+      <Filter>Database Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="stateRecord.dbd">
+      <Filter>Database Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="seqRecord.dbd">
+      <Filter>Database Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="selRecord.dbd">
+      <Filter>Database Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="permissiveRecord.dbd">
+      <Filter>Database Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="longoutRecord.dbd">
+      <Filter>Database Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="mbbiDirectRecord.dbd">
+      <Filter>Database Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="mbbiRecord.dbd">
+      <Filter>Database Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="longinRecord.dbd">
+      <Filter>Database Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="fanoutRecord.dbd">
+      <Filter>Database Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="eventRecord.dbd">
+      <Filter>Database Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="dfanoutRecord.dbd">
+      <Filter>Database Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="compressRecord.dbd">
+      <Filter>Database Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="calcRecord.dbd">
+      <Filter>Database Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="calcoutRecord.dbd">
+      <Filter>Database Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="boRecord.dbd">
+      <Filter>Database Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="biRecord.dbd">
+      <Filter>Database Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="aSubRecord.dbd">
+      <Filter>Database Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="aoRecord.dbd">
+      <Filter>Database Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="aaoRecord.dbd">
+      <Filter>Database Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="aaiRecord.dbd">
+      <Filter>Database Files</Filter>
+    </CustomBuild>
   </ItemGroup>
 </Project>

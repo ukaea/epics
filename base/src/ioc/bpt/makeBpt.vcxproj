@@ -18,7 +18,20 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Makefile" />
-    <None Include="menuConvert.dbd" />
+    <CustomBuild Include="menuConvert.dbd">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">if not exist O.Common md O.Common
+if not exist ..\..\include md ..\..\include
+$(OutDir)dbToMenuH.exe  -I. -I.. -IO.Common -I../../dbd menuConvert.dbd O.Common\menuConvert.h
+xcopy /Y /Q  /D O.Common\menuConvert.h ..\..\include &gt; NUL
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> O.Common\menuConvert.h</Outputs>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\dbStatic\dbToMenuH.vcxproj">
+      <Project>{ce27ad72-46e7-4f01-b398-4a648f02d249}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{3D039C8A-8B8D-4408-B1F7-BF1878D50315}</ProjectGuid>
@@ -69,6 +82,13 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PreBuildEvent>
+      <Command>if not exist ..\..\include md ..\..\include
+if not exist ..\..\dbd md ..\..\dbd
+xcopy /Y /Q  /D *.h ..\..\include &gt; NUL
+xcopy /Y /Q  /D *.dbd ..\..\dbd &gt; NUL
+</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -85,6 +105,13 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <PreBuildEvent>
+      <Command>if not exist ..\..\include md ..\..\include
+if not exist ..\..\dbd md ..\..\dbd
+xcopy /Y /Q  /D *.h ..\..\include &gt; NUL
+xcopy /Y /Q  /D *.dbd ..\..\dbd &gt; NUL
+</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
