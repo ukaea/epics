@@ -7,7 +7,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="testBaseException.cpp">
+    <ClCompile Include="testThread.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
