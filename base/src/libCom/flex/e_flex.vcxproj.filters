@@ -13,7 +13,7 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Auto-generated Files">
+    <Filter Include="O.Common Files">
       <UniqueIdentifier>{6dc6a5d4-bc5a-4b85-a4f0-ae2ce4c04ef9}</UniqueIdentifier>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
@@ -55,22 +55,16 @@
     <ClCompile Include="yylex.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="O.win32-x86-debug\parse.c">
-      <Filter>Auto-generated Files</Filter>
-    </ClCompile>
-    <ClCompile Include="O.win32-x86\parse.c">
-      <Filter>Auto-generated Files</Filter>
+    <ClCompile Include="O.Common\parse.c">
+      <Filter>O.Common Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="flexdef.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="O.win32-x86-debug\parse.h">
-      <Filter>Auto-generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="O.win32-x86\parse.h">
-      <Filter>Auto-generated Files</Filter>
+    <ClInclude Include="O.Common\parse.h">
+      <Filter>O.Common Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
