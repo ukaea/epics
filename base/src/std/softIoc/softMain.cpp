@@ -7,7 +7,7 @@
 * found in the file LICENSE that is included with this distribution.
 \*************************************************************************/
 
-/* Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd */
+/* $Revision-Id$ */
 
 /* Author: Andrew Johnson	Date: 2003-04-08 */
 
@@ -129,7 +129,7 @@ int main(int argc, char *argv[])
     }
     
     softIoc_registerRecordDeviceDriver(pdbbase);
-    registryFunctionAdd("exit", (REGISTRYFUNCTION) exitSubroutine); // X aCC 331
+    registryFunctionAdd("exit", (REGISTRYFUNCTION) exitSubroutine);
 
     while (argc>1 && **argv == '-') {
 	switch ((*argv)[1]) {

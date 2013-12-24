@@ -8,7 +8,7 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 /* devBoSoftRaw.c */
-/* base/src/dev Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd */
+/* base/src/dev $Revision-Id$ */
 
 /* devBoSoftRaw.c - Device Support Routines for  SoftRaw Binary Output*/
 /*
@@ -28,8 +28,6 @@
 #include "recSup.h"
 #include "devSup.h"
 #include "boRecord.h"
-
-#define epicsExportSharedSymbols
 #include "epicsExport.h"
 
 /* added for Channel Access Links */

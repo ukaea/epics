@@ -7,7 +7,7 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 
-/* Revision-Id: anj@aps.anl.gov-20121116184057-shgcrp2w3i9f82w6 */
+/* $Revision-Id$ */
 
 /* recStringout.c - Record Support Routines for Stringout records */
 /*
@@ -32,7 +32,6 @@
 #include "errMdef.h"
 #include "recSup.h"
 #include "recGbl.h"
-#define epicsExportSharedSymbols
 #define GEN_SIZE_OFFSET
 #include "stringoutRecord.h"
 #undef  GEN_SIZE_OFFSET
@@ -147,7 +146,7 @@ static long process(stringoutRecord *prec)
 	}
 
         if(prec->udf == TRUE ){
-                recGblSetSevr(prec,UDF_ALARM,INVALID_ALARM);
+                recGblSetSevr(prec,UDF_ALARM,prec->udfs);
         }
 
         if (prec->nsev < INVALID_ALARM )

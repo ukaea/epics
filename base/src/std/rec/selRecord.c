@@ -7,7 +7,7 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 
-/* Revision-Id: anj@aps.anl.gov-20121007024801-ndvgugwghwahg899 */
+/* $Revision-Id$ */
 
 /* selRecord.c - Record Support Routines for Select records */
 /*
@@ -31,8 +31,6 @@
 #include "errMdef.h"
 #include "recSup.h"
 #include "recGbl.h"
-
-#define epicsExportSharedSymbols
 #define GEN_SIZE_OFFSET
 #include "selRecord.h"
 #undef  GEN_SIZE_OFFSET
@@ -134,11 +132,15 @@ static long process(selRecord *prec)
 }
 
 
+#define indexof(field) selRecord##field
+
 static long get_units(DBADDR *paddr, char *units)
 {
     selRecord	*prec=(selRecord *)paddr->precord;
 
-    strncpy(units,prec->egu,DB_UNITS_SIZE);
+    if(paddr->pfldDes->field_type == DBF_DOUBLE) {
+        strncpy(units,prec->egu,DB_UNITS_SIZE);
+    }
     return(0);
 }
 
@@ -168,56 +170,68 @@ static long get_precision(DBADDR *paddr, long *precision)
 static long get_graphic_double(DBADDR *paddr, struct dbr_grDouble *pgd)
 {
     selRecord	*prec=(selRecord *)paddr->precord;
-
-    if(paddr->pfield==(void *)&prec->val
-    || paddr->pfield==(void *)&prec->hihi
-    || paddr->pfield==(void *)&prec->high
-    || paddr->pfield==(void *)&prec->low
-    || paddr->pfield==(void *)&prec->lolo){
-	pgd->upper_disp_limit = prec->hopr;
-	pgd->lower_disp_limit = prec->lopr;
-	return(0);
+    int index = dbGetFieldIndex(paddr);
+    
+    switch (index) {
+        case indexof(VAL):
+        case indexof(HIHI):
+        case indexof(HIGH):
+        case indexof(LOW):
+        case indexof(LOLO):
+        case indexof(LALM):
+        case indexof(ALST):
+        case indexof(MLST):
+#ifdef __GNUC__
+        case indexof(A) ... indexof(L):
+        case indexof(LA) ... indexof(LL):
+            break;
+        default:
+#else
+            break;
+        default:
+            if((index >= indexof(A) && index <= indexof(L))
+            || (index >= indexof(LA) && index <= indexof(LL)))
+                break;
+#endif
+            recGblGetGraphicDouble(paddr,pgd);
+            return(0);
     }
-
-    if(paddr->pfield>=(void *)&prec->a && paddr->pfield<=(void *)&prec->l){
-	pgd->upper_disp_limit = prec->hopr;
-	pgd->lower_disp_limit = prec->lopr;
-	return(0);
-    }
-    if(paddr->pfield>=(void *)&prec->la && paddr->pfield<=(void *)&prec->ll){
-	pgd->upper_disp_limit = prec->hopr;
-	pgd->lower_disp_limit = prec->lopr;
-	return(0);
-    }
-    recGblGetGraphicDouble(paddr,pgd);
+    pgd->upper_disp_limit = prec->hopr;
+    pgd->lower_disp_limit = prec->lopr;
     return(0);
 }
 
 static long get_control_double(struct dbAddr *paddr, struct dbr_ctrlDouble *pcd)
 {
     selRecord	*prec=(selRecord *)paddr->precord;
-
-    if(paddr->pfield==(void *)&prec->val
-    || paddr->pfield==(void *)&prec->hihi
-    || paddr->pfield==(void *)&prec->high
-    || paddr->pfield==(void *)&prec->low
-    || paddr->pfield==(void *)&prec->lolo){
-	pcd->upper_ctrl_limit = prec->hopr;
-	pcd->lower_ctrl_limit = prec->lopr;
-	return(0);
+    int index = dbGetFieldIndex(paddr);
+    
+    switch (index) {
+        case indexof(VAL):
+        case indexof(HIHI):
+        case indexof(HIGH):
+        case indexof(LOW):
+        case indexof(LOLO):
+        case indexof(LALM):
+        case indexof(ALST):
+        case indexof(MLST):
+#ifdef __GNUC__
+        case indexof(A) ... indexof(L):
+        case indexof(LA) ... indexof(LL):
+            break;
+        default:
+#else
+            break;
+        default:
+            if((index >= indexof(A) && index <= indexof(L))
+            || (index >= indexof(LA) && index <= indexof(LL)))
+                break;
+#endif
+            recGblGetControlDouble(paddr,pcd);
+            return(0);
     }
-
-    if(paddr->pfield>=(void *)&prec->a && paddr->pfield<=(void *)&prec->l){
-	pcd->upper_ctrl_limit = prec->hopr;
-	pcd->lower_ctrl_limit = prec->lopr;
-	return(0);
-    }
-    if(paddr->pfield>=(void *)&prec->la && paddr->pfield<=(void *)&prec->ll){
-	pcd->upper_ctrl_limit = prec->hopr;
-	pcd->lower_ctrl_limit = prec->lopr;
-	return(0);
-    }
-    recGblGetControlDouble(paddr,pcd);
+    pcd->upper_ctrl_limit = prec->hopr;
+    pcd->lower_ctrl_limit = prec->lopr;
     return(0);
 }
 
@@ -225,7 +239,7 @@ static long get_alarm_double(DBADDR *paddr, struct dbr_alDouble *pad)
 {
     selRecord	*prec=(selRecord *)paddr->precord;
 
-    if(paddr->pfield==(void *)&prec->val ){
+    if(dbGetFieldIndex(paddr) == indexof(VAL)) {
         pad->upper_alarm_limit = prec->hhsv ? prec->hihi : epicsNAN;
         pad->upper_warning_limit = prec->hsv ? prec->high : epicsNAN;
         pad->lower_warning_limit = prec->lsv ? prec->low : epicsNAN;
@@ -241,7 +255,7 @@ static void checkAlarms(selRecord *prec)
     epicsEnum16 asev;
 
     if (prec->udf) {
-        recGblSetSevr(prec, UDF_ALARM, INVALID_ALARM);
+        recGblSetSevr(prec, UDF_ALARM, prec->udfs);
         return;
     }
 

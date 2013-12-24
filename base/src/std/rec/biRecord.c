@@ -7,7 +7,7 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 
-/* Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd */
+/* $Revision-Id$ */
 
 /* recBi.c - Record Support Routines for Binary Input records */
 /*
@@ -34,14 +34,11 @@
 #include "recSup.h"
 #include "recGbl.h"
 #include "special.h"
-
-#define epicsExportSharedSymbols
 #define GEN_SIZE_OFFSET
 #include "biRecord.h"
 #undef  GEN_SIZE_OFFSET
 #include "epicsExport.h"
 /* Create RSET - Record Support Entry Table*/
-
 #define report NULL
 #define initialize NULL
 static long init_record(biRecord *, int);
@@ -207,7 +204,7 @@ static void checkAlarms(biRecord *prec)
 
 
         if(prec->udf == TRUE){
-                recGblSetSevr(prec,UDF_ALARM,INVALID_ALARM);
+                recGblSetSevr(prec,UDF_ALARM,prec->udfs);
                 return;
         }
 

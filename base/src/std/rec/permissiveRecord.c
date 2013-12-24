@@ -7,7 +7,7 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 
-/* Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd */
+/* $Revision-Id$ */
 
 /* recPermissive.c - Record Support Routines for Permissive records */
 /*
@@ -29,8 +29,6 @@
 #include "errMdef.h"
 #include "recSup.h"
 #include "recGbl.h"
-
-#define epicsExportSharedSymbols
 #define GEN_SIZE_OFFSET
 #include "permissiveRecord.h"
 #undef  GEN_SIZE_OFFSET

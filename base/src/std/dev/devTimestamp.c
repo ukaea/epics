@@ -5,7 +5,7 @@
 * in the file LICENSE that is included with this distribution.
 \*************************************************************************/
 
-/* Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd */
+/* $Revision-Id$ */
 /*
  * Device support for EPICS time stamps
  *
@@ -18,11 +18,9 @@
 #include "devSup.h"
 #include "recGbl.h"
 
-#define epicsExportSharedSymbols
-#include "epicsExport.h"
-
 #include "aiRecord.h"
 #include "stringinRecord.h"
+#include "epicsExport.h"
 
 
 /* Extended device support to allow INP field changes */
@@ -64,7 +62,7 @@ static long read_stringin (stringinRecord *prec)
                               prec->inp.value.instio.string, &prec->time);
     if (len >= sizeof prec->val) {
         prec->udf = TRUE;
-        recGblSetSevr(prec, UDF_ALARM, INVALID_ALARM);
+        recGblSetSevr(prec, UDF_ALARM, prec->udfs);
         return -1;
     }
     prec->udf = FALSE;

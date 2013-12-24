@@ -6,7 +6,7 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/* Revision-Id: anj@aps.anl.gov-20121007024801-ndvgugwghwahg899 */
+/* $Revision-Id$ */
 
 /* aoRecord.c - Record Support Routines for Analog Output records */
 /*
@@ -37,8 +37,6 @@
 #include "menuConvert.h"
 #include "menuOmsl.h"
 #include "menuYesNo.h"
-
-#define epicsExportSharedSymbols
 #define GEN_SIZE_OFFSET
 #include "aoRecord.h"
 #undef  GEN_SIZE_OFFSET
@@ -278,11 +276,21 @@ static long special(DBADDR *paddr, int after)
     }
 }
 
+#define indexof(field) aoRecord##field
+
 static long get_units(DBADDR * paddr,char *units)
 {
     aoRecord	*prec=(aoRecord *)paddr->precord;
 
-    strncpy(units,prec->egu,DB_UNITS_SIZE);
+    if(paddr->pfldDes->field_type == DBF_DOUBLE) {
+        switch (dbGetFieldIndex(paddr)) {
+            case indexof(ASLO):
+            case indexof(AOFF):
+                break;
+            default:
+                strncpy(units,prec->egu,DB_UNITS_SIZE);
+        }
+    }
     return(0);
 }
 
@@ -291,10 +299,14 @@ static long get_precision(DBADDR *paddr,long *precision)
     aoRecord	*prec=(aoRecord *)paddr->precord;
 
     *precision = prec->prec;
-    if(paddr->pfield == (void *)&prec->val
-    || paddr->pfield == (void *)&prec->oval
-    || paddr->pfield == (void *)&prec->pval) return(0);
-    recGblGetPrec(paddr,precision);
+    switch (dbGetFieldIndex(paddr)) {
+        case indexof(VAL):
+        case indexof(OVAL):
+        case indexof(PVAL):
+            break;
+        default:
+            recGblGetPrec(paddr,precision);
+    }
     return(0);
 }
 
@@ -302,16 +314,24 @@ static long get_graphic_double(DBADDR *paddr,struct dbr_grDouble *pgd)
 {
     aoRecord	*prec=(aoRecord *)paddr->precord;
 
-    if(paddr->pfield==(void *)&prec->val
-    || paddr->pfield==(void *)&prec->hihi
-    || paddr->pfield==(void *)&prec->high
-    || paddr->pfield==(void *)&prec->low
-    || paddr->pfield==(void *)&prec->lolo
-    || paddr->pfield==(void *)&prec->oval
-    || paddr->pfield==(void *)&prec->pval){
-        pgd->upper_disp_limit = prec->hopr;
-        pgd->lower_disp_limit = prec->lopr;
-    } else recGblGetGraphicDouble(paddr,pgd);
+    switch (dbGetFieldIndex(paddr)) {
+        case indexof(VAL):
+        case indexof(OVAL):
+        case indexof(PVAL):
+        case indexof(HIHI):
+        case indexof(HIGH):
+        case indexof(LOW):
+        case indexof(LOLO):
+        case indexof(LALM):
+        case indexof(ALST):
+        case indexof(MLST):
+        case indexof(IVOV):
+            pgd->upper_disp_limit = prec->hopr;
+            pgd->lower_disp_limit = prec->lopr;
+            break;
+        default:
+            recGblGetGraphicDouble(paddr,pgd);
+    }
     return(0);
 }
 
@@ -319,23 +339,30 @@ static long get_control_double(DBADDR *paddr, struct dbr_ctrlDouble *pcd)
 {
     aoRecord	*prec=(aoRecord *)paddr->precord;
 
-    if(paddr->pfield==(void *)&prec->val
-    || paddr->pfield==(void *)&prec->hihi
-    || paddr->pfield==(void *)&prec->high
-    || paddr->pfield==(void *)&prec->low
-    || paddr->pfield==(void *)&prec->lolo
-    || paddr->pfield==(void *)&prec->oval
-    || paddr->pfield==(void *)&prec->pval){
-        pcd->upper_ctrl_limit = prec->drvh;
-        pcd->lower_ctrl_limit = prec->drvl;
-    } else recGblGetControlDouble(paddr,pcd);
+    switch (dbGetFieldIndex(paddr)) {
+        case indexof(VAL):
+        case indexof(OVAL):
+        case indexof(PVAL):
+        case indexof(HIHI):
+        case indexof(HIGH):
+        case indexof(LOW):
+        case indexof(LOLO):
+        case indexof(LALM):
+        case indexof(ALST):
+        case indexof(MLST):
+            pcd->upper_ctrl_limit = prec->drvh;
+            pcd->lower_ctrl_limit = prec->drvl;
+            break;
+        default:
+            recGblGetControlDouble(paddr,pcd);
+    }
     return(0);
 }
 static long get_alarm_double(DBADDR *paddr, struct dbr_alDouble *pad)
 {
     aoRecord	*prec=(aoRecord *)paddr->precord;
 
-    if(paddr->pfield==(void *)&prec->val){
+    if(dbGetFieldIndex(paddr) == indexof(VAL)){
         pad->upper_alarm_limit = prec->hhsv ? prec->hihi : epicsNAN;
         pad->upper_warning_limit = prec->hsv ? prec->high : epicsNAN;
         pad->lower_warning_limit = prec->lsv ? prec->low : epicsNAN;
@@ -351,7 +378,7 @@ static void checkAlarms(aoRecord *prec)
     epicsEnum16 asev;
 
     if (prec->udf) {
-        recGblSetSevr(prec, UDF_ALARM, INVALID_ALARM);
+        recGblSetSevr(prec, UDF_ALARM, prec->udfs);
         return;
     }
 

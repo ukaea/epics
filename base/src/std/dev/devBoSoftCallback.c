@@ -27,8 +27,6 @@
 #include "recSup.h"
 #include "devSup.h"
 #include "boRecord.h"
-
-#define epicsExportSharedSymbols
 #include "epicsExport.h"
 
 /* Create the dset for devBoCallbackSoft */

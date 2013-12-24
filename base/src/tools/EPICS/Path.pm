@@ -5,7 +5,7 @@
 # in file LICENSE that is included with this distribution.
 #*************************************************************************
 
-# Revision-Id: anj@aps.anl.gov-20120911171155-ez2rj9ndaz20kzw8
+# $Revision-Id$
 
 use Carp;
 use Cwd qw(getcwd abs_path);

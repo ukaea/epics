@@ -8,7 +8,7 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 /* devLoSoft.c */
-/* base/src/dev Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd */
+/* base/src/dev $Revision-Id$ */
 /*
  *      Author:		Janet Anderson
  *      Date:   	09-23-91
@@ -24,8 +24,6 @@
 #include "recSup.h"
 #include "devSup.h"
 #include "longoutRecord.h"
-
-#define epicsExportSharedSymbols
 #include "epicsExport.h"
 
 /* Create the dset for devLoSoft */
@@ -50,13 +48,11 @@ epicsExportAddress(dset,devLoSoft);
 
 static long init_record(longoutRecord *prec)
 {
-    return(0);
+    return 0;
 } /* end init_record() */
 
 static long write_longout(longoutRecord	*prec)
 {
-    long status;
-
-    status = dbPutLink(&prec->out,DBR_LONG, &prec->val,1);
-    return(0);
+    dbPutLink(&prec->out,DBR_LONG, &prec->val,1);
+    return 0;
 }

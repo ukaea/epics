@@ -7,7 +7,7 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 
-/* Revision-Id: anj@aps.anl.gov-20101112220909-zd1pn4qnqsafag0l
+/* $Revision-Id$
  *
  *      Author: Carl Lionberger
  *      Date: 9-2-93
@@ -23,7 +23,6 @@
 #include "recGbl.h"
 #include "devSup.h"
 #include "subArrayRecord.h"
-#define epicsExportSharedSymbols
 #include "epicsExport.h"
 
 /* Create the dset for devSASoft */
