@@ -890,7 +890,7 @@ epicsShareDef const unsigned short dbr_size[LAST_BUFFER_TYPE+1] = {
 };
 
 // extern "C"
-epicsShareDef const unsigned short dbr_value_size[LAST_BUFFER_TYPE+1] = {
+const unsigned short dbr_value_size[LAST_BUFFER_TYPE+1] = {
 	sizeof(dbr_string_t),	/* string max size		*/
 	sizeof(dbr_short_t),	/* short			*/
 	sizeof(dbr_float_t),	/* IEEE Float			*/

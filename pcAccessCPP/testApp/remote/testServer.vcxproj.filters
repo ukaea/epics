@@ -10,5 +10,8 @@
     <ClCompile Include="testServer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="testADCSim.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

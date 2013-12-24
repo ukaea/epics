@@ -17,10 +17,6 @@
 #define epicsExportSharedSymbols
 #include <alarm.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /* Name strings */
 
 /* ALARM SEVERITIES - must match menuAlarmSevr.dbd and alarm.h */
@@ -59,9 +55,5 @@ const char * epicsAlarmConditionStrings[ALARM_NSTATUS] = {
     "READ_ACCESS",
     "WRITE_ACCESS"
 };
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif

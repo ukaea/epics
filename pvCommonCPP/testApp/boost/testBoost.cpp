@@ -1,6 +1,6 @@
 #include <boost/atomic.hpp>
-#include <tr1/memory>
-#include <tr1/unordered_map>
+#include <boost/tr1/memory.hpp>
+#include <boost/tr1/unordered_map.hpp>
 #include <string>
 
 #include <iostream>
