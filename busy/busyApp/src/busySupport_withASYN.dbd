@@ -1,1 +1,0 @@
-device(busy,INST_IO,asynBusyInt32,"asynInt32")
