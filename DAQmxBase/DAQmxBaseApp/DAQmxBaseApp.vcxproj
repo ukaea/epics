@@ -37,39 +37,16 @@
   <ItemGroup>
     <ClCompile Include="O.Common\DAQmxBase_registerRecordDeviceDriver.cpp" />
     <ClCompile Include="src\DAQmxBaseMain.cpp" />
-    <ClCompile Include="src\drvDaqMxBase.c" />
-  </ItemGroup>
-  <ItemGroup>
-    <CustomBuild Include="src\DAQmxBaseSupport.dbd">
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">
-      </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">
-      </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">
-      </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">
-      </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|x64'">perl $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I../../../dbd -ID:\EPICS/asyn/dbd -ID:\EPICS\base/dbd -o O.Common\DAQmxBase.dbd base.dbd src/%(FileName).dbd asyn.dbd
-perl $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_registerRecordDeviceDriver $(SolutionDir) &gt;O.Common\DAQmxBase_registerRecordDeviceDriver.cpp</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|x64'">perl $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I../../../dbd -ID:\EPICS/asyn/dbd -ID:\EPICS\base/dbd -o O.Common\DAQmxBase.dbd base.dbd src/%(FileName).dbd asyn.dbd
-perl $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_registerRecordDeviceDriver $(SolutionDir) &gt;O.Common\DAQmxBase_registerRecordDeviceDriver.cpp</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|x64'">perl $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I../../../dbd -ID:\EPICS/asyn/dbd -ID:\EPICS\base/dbd -o O.Common\DAQmxBase.dbd base.dbd src/%(FileName).dbd asyn.dbd
-perl $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_registerRecordDeviceDriver $(SolutionDir) &gt;O.Common\DAQmxBase_registerRecordDeviceDriver.cpp</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|x64'">perl $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I../../../dbd -ID:\EPICS/asyn/dbd -ID:\EPICS\base/dbd -o O.Common\DAQmxBase.dbd base.dbd src/%(FileName).dbd asyn.dbd
-perl $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_registerRecordDeviceDriver $(SolutionDir) &gt;O.Common\DAQmxBase_registerRecordDeviceDriver.cpp</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">O.Common\DAQmxBase_registerRecordDeviceDriver.cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">O.Common\DAQmxBase_registerRecordDeviceDriver.cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">O.Common\DAQmxBase_registerRecordDeviceDriver.cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">O.Common\DAQmxBase_registerRecordDeviceDriver.cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|x64'">O.Common\DAQmxBase_registerRecordDeviceDriver.cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|x64'">O.Common\DAQmxBase_registerRecordDeviceDriver.cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|x64'">O.Common\DAQmxBase_registerRecordDeviceDriver.cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|x64'">O.Common\DAQmxBase_registerRecordDeviceDriver.cpp</Outputs>
-    </CustomBuild>
+    <ClCompile Include="src\drvDaqMxBase.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\NIDAQmxBase.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\DAQmxBaseSupport.dbd">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="src\Makefile" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\asyn\asyn\asyn.vcxproj">
@@ -84,9 +61,6 @@ perl $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_reg
     <ProjectReference Include="..\..\base\src\std\dbRecStd.vcxproj">
       <Project>{3b0e3542-cb89-4ffa-b004-eac882b3f277}</Project>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="src\Makefile" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{4198C3D2-FCF6-4FCA-B093-A0C53A4DB235}</ProjectGuid>
@@ -192,7 +166,7 @@ perl $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_reg
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)Bin\win32-x86\</OutDir>
-    <IntDir>O.win32-x86\\</IntDir>
+    <IntDir>O.win32-x86\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release DLL|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -215,7 +189,7 @@ perl $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_reg
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\..\base\src\ioc\db;.\src</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4018</DisableSpecificWarnings>
     </ClCompile>
@@ -223,6 +197,7 @@ perl $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_reg
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\Program Files (x86)\National Instruments\Shared\ExternalCompilerSupport\C\lib32\msvc</AdditionalLibraryDirectories>
+      <AdditionalOptions>/ignore:4049 %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;nidaqmx.lib</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
@@ -238,7 +213,7 @@ perl $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_reg
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\..\base\src\ioc\db;.\src</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4018</DisableSpecificWarnings>
     </ClCompile>
@@ -246,6 +221,7 @@ perl $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_reg
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\Program Files (x86)\National Instruments\Shared\ExternalCompilerSupport\C\lib64\msvc</AdditionalLibraryDirectories>
+      <AdditionalOptions>/ignore:4049 %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;nidaqmx.lib</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
@@ -261,7 +237,7 @@ perl $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_reg
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\..\base\src\ioc\db;.\src</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4018</DisableSpecificWarnings>
     </ClCompile>
@@ -269,6 +245,7 @@ perl $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_reg
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\Program Files (x86)\National Instruments\Shared\ExternalCompilerSupport\C\lib32\msvc</AdditionalLibraryDirectories>
+      <AdditionalOptions>/ignore:4049 %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;nidaqmx.lib</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
@@ -284,7 +261,7 @@ perl $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_reg
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\..\base\src\ioc\db;.\src</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4018</DisableSpecificWarnings>
     </ClCompile>
@@ -292,6 +269,7 @@ perl $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_reg
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\Program Files (x86)\National Instruments\Shared\ExternalCompilerSupport\C\lib64\msvc</AdditionalLibraryDirectories>
+      <AdditionalOptions>/ignore:4049 %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;nidaqmx.lib</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
@@ -309,7 +287,7 @@ perl $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_reg
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\..\base\src\ioc\db;.\src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -317,8 +295,9 @@ perl $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_reg
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;nidaqmx.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\Program Files (x86)\National Instruments\Shared\ExternalCompilerSupport\C\lib32\msvc</AdditionalLibraryDirectories>
+      <AdditionalOptions>/ignore:4049 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;nidaqmx.lib</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
@@ -335,7 +314,7 @@ perl $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_reg
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\..\base\src\ioc\db;.\src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -343,8 +322,9 @@ perl $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_reg
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;nidaqmx.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\Program Files (x86)\National Instruments\Shared\ExternalCompilerSupport\C\lib64\msvc</AdditionalLibraryDirectories>
+      <AdditionalOptions>/ignore:4049 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;nidaqmx.lib</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
@@ -361,7 +341,7 @@ perl $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_reg
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\..\base\src\ioc\db;.\src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -369,8 +349,9 @@ perl $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_reg
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;nidaqmx.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\Program Files (x86)\National Instruments\Shared\ExternalCompilerSupport\C\lib32\msvc</AdditionalLibraryDirectories>
+      <AdditionalOptions>/ignore:4049 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;nidaqmx.lib</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
@@ -387,7 +368,7 @@ perl $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_reg
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\..\base\src\ioc\db;.\src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -395,8 +376,9 @@ perl $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_reg
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;nidaqmx.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\Program Files (x86)\National Instruments\Shared\ExternalCompilerSupport\C\lib64\msvc</AdditionalLibraryDirectories>
+      <AdditionalOptions>/ignore:4049 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;nidaqmx.lib</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
