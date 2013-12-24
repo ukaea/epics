@@ -13,11 +13,6 @@ extern "C" int DAQmxBase_registerRecordDeviceDriver(struct dbBase *pdbbase);
 
 int main(int argc,char *argv[])
 {
-    if (dbLoadDatabase("..\\..\\dbd\\DAQmxBase.dbd", NULL, NULL)) {
-		epicsExit(EXIT_FAILURE);
-    }
-
-	DAQmxBase_registerRecordDeviceDriver(pdbbase);
     if(argc>=2) {    
         iocsh(argv[1]);
         epicsThreadSleep(.2);
