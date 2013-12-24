@@ -33,7 +33,7 @@
     <ProjectGuid>{2FBA803C-AB50-4A33-8300-B6D64893FC14}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>iocLogServer</RootNamespace>
-    <SccProjectName>"$/EPICS", LRZBAAAA</SccProjectName>
+    <SccProjectName>"$/EPICS/base", NNCCAAAA</SccProjectName>
     <SccLocalPath>..\..</SccLocalPath>
     <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
   </PropertyGroup>

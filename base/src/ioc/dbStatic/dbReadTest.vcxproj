@@ -39,7 +39,7 @@
     <ProjectGuid>{BF8B46BA-09DF-4919-A591-26BF83E624AC}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>dbReadTest</RootNamespace>
-    <SccProjectName>"$/EPICS", LRZBAAAA</SccProjectName>
+    <SccProjectName>"$/EPICS/base", NNCCAAAA</SccProjectName>
     <SccLocalPath>..\..</SccLocalPath>
     <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
   </PropertyGroup>

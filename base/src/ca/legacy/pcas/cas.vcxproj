@@ -149,7 +149,7 @@
     <ProjectGuid>{1D35FFAF-078A-4A9F-8F63-D62E9C7B3928}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>cas</RootNamespace>
-    <SccProjectName>"$/EPICS", LRZBAAAA</SccProjectName>
+    <SccProjectName>"$/EPICS/base", NNCCAAAA</SccProjectName>
     <SccLocalPath>..\..</SccLocalPath>
     <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
   </PropertyGroup>

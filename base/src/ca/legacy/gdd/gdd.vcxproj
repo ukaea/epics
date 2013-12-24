@@ -71,7 +71,7 @@
     <ProjectGuid>{7DB032CE-8696-4D7A-8679-E8B486012AEC}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>gdd</RootNamespace>
-    <SccProjectName>"$/EPICS", LRZBAAAA</SccProjectName>
+    <SccProjectName>"$/EPICS/base", NNCCAAAA</SccProjectName>
     <SccLocalPath>..\..</SccLocalPath>
     <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
   </PropertyGroup>

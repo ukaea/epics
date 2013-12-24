@@ -37,7 +37,7 @@
     <ProjectGuid>{7B54722A-A95F-4273-8416-27277A354E5D}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>caconntest</RootNamespace>
-    <SccProjectName>"$/EPICS", LRZBAAAA</SccProjectName>
+    <SccProjectName>"$/EPICS/base", NNCCAAAA</SccProjectName>
     <SccLocalPath>..\..</SccLocalPath>
     <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
   </PropertyGroup>

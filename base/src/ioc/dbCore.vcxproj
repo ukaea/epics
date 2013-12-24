@@ -55,7 +55,7 @@
     <ProjectGuid>{440C585D-AD66-4738-941C-A87A1817A9BE}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>asIoc</RootNamespace>
-    <SccProjectName>"$/EPICS", LRZBAAAA</SccProjectName>
+    <SccProjectName>"$/EPICS/base", NNCCAAAA</SccProjectName>
     <SccLocalPath>..\..</SccLocalPath>
     <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
   </PropertyGroup>

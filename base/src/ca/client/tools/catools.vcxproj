@@ -42,7 +42,7 @@
     <ProjectGuid>{1F73649C-7543-4E39-87AB-50F0EFB03076}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>catoolslib</RootNamespace>
-    <SccProjectName>"$/EPICS", LRZBAAAA</SccProjectName>
+    <SccProjectName>"$/EPICS/base", NNCCAAAA</SccProjectName>
     <SccLocalPath>..\..</SccLocalPath>
     <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
   </PropertyGroup>
