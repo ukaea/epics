@@ -160,7 +160,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;O.Common</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -170,6 +170,8 @@
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
 xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
+if not exist  $(SolutionDir)include md  $(SolutionDir)include
+xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -182,7 +184,7 @@ xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;O.Common</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -192,6 +194,8 @@ xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
 xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
+if not exist  $(SolutionDir)include md  $(SolutionDir)include
+xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -204,7 +208,7 @@ xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;O.Common</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -214,6 +218,8 @@ xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
 xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
+if not exist  $(SolutionDir)include md  $(SolutionDir)include
+xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -226,7 +232,7 @@ xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;O.Common</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -236,6 +242,8 @@ xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
 xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
+if not exist  $(SolutionDir)include md  $(SolutionDir)include
+xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -250,7 +258,7 @@ xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;O.Common</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -261,6 +269,8 @@ xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
 xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
+if not exist  $(SolutionDir)include md  $(SolutionDir)include
+xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -275,7 +285,7 @@ xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;O.Common</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -287,6 +297,8 @@ xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
 xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
+if not exist  $(SolutionDir)include md  $(SolutionDir)include
+xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -301,7 +313,7 @@ xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;O.Common</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -312,6 +324,8 @@ xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
 xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
+if not exist  $(SolutionDir)include md  $(SolutionDir)include
+xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -326,7 +340,7 @@ xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;O.Common</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -338,6 +352,8 @@ xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
 xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
+if not exist  $(SolutionDir)include md  $(SolutionDir)include
+xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
