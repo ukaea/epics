@@ -242,25 +242,24 @@
     <ClInclude Include="tsDefs\tsDefs.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="cxxTemplates\README" />
     <CustomBuild Include="env\bldEnvData.pl">
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd O.Common
-perl ..\env\bldEnvData.pl $(SolutionDir)configure
+perl ..\env\bldEnvData.pl ..\..\..\configure
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">cd O.Common
-perl ..\env\bldEnvData.pl $(SolutionDir)configure
+perl ..\env\bldEnvData.pl ..\..\..\configure
 cd $(ProjectDir)
 </Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\envdata.c</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">O.Common\envdata.c</Outputs>
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd O.Common
-perl ..\env\bldEnvData.pl $(SolutionDir)configure
+perl ..\env\bldEnvData.pl ..\..\..\configure
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|X64'">cd O.Common
-perl ..\env\bldEnvData.pl $(SolutionDir)configure
+perl ..\env\bldEnvData.pl ..\..\..\configure
 cd $(ProjectDir)
 </Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">O.Common\envdata.c</Outputs>
@@ -291,19 +290,17 @@ cd $(ProjectDir)
     </CustomBuild>
     <None Include="freeList\freeList.html" />
     <None Include="gpHash\gpHash.html" />
-    <None Include="macLib\macLibNOTES" />
-    <None Include="macLib\macLibREADME" />
     <CustomBuild Include="misc\makeEpicsVersion.pl">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">perl misc\makeEpicsVersion.pl $(SolutionDir)configure\CONFIG_BASE_VERSION $(SolutionDir)include
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">perl misc\makeEpicsVersion.pl ..\..\configure\CONFIG_BASE_VERSION $(SolutionDir)include
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">perl misc\makeEpicsVersion.pl $(SolutionDir)configure\CONFIG_BASE_VERSION $(SolutionDir)include
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">perl misc\makeEpicsVersion.pl ..\..\configure\CONFIG_BASE_VERSION $(SolutionDir)include
 </Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)include\epicsVersion.h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">$(SolutionDir)include\epicsVersion.h</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">perl misc\makeEpicsVersion.pl $(SolutionDir)configure\CONFIG_BASE_VERSION $(SolutionDir)include
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">perl misc\makeEpicsVersion.pl ..\..\configure\CONFIG_BASE_VERSION $(SolutionDir)include
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|X64'">perl misc\makeEpicsVersion.pl $(SolutionDir)configure\CONFIG_BASE_VERSION $(SolutionDir)include
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|X64'">perl misc\makeEpicsVersion.pl ..\..\configure\CONFIG_BASE_VERSION $(SolutionDir)include
 </Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)include\epicsVersion.h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|X64'">$(SolutionDir)include\epicsVersion.h</Outputs>
@@ -388,7 +385,7 @@ cd $(ProjectDir)
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib</AdditionalDependencies>
     </Link>
     <ResourceCompile>
-      <AdditionalIncludeDirectories>..\..\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>
     </ResourceCompile>
     <CustomBuildStep>
       <Command>
@@ -444,7 +441,7 @@ xcopy /Y /Q  /D osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib</AdditionalDependencies>
     </Link>
     <ResourceCompile>
-      <AdditionalIncludeDirectories>..\..\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>
     </ResourceCompile>
     <CustomBuildStep>
       <Command>
@@ -503,7 +500,7 @@ xcopy /Y /Q  /D osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib</AdditionalDependencies>
     </Link>
     <ResourceCompile>
-      <AdditionalIncludeDirectories>..\..\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
@@ -557,7 +554,7 @@ xcopy /Y /Q  /D osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib</AdditionalDependencies>
     </Link>
     <ResourceCompile>
-      <AdditionalIncludeDirectories>..\..\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
