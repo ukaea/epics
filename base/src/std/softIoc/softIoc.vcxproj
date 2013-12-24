@@ -79,6 +79,9 @@
       <Project>{3b0e3542-cb89-4ffa-b004-eac882b3f277}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="base.dbd" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{0DF29C1B-6C17-4D60-8B78-27FE8714DC11}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
