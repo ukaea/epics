@@ -157,12 +157,12 @@
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q  /D pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q  /D misc\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q  /D pvMisc\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q  /D property\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q  /D factory\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q  /D monitor\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R misc\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R pvMisc\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R property\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R factory\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R monitor\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -183,12 +183,12 @@ xcopy /Y /Q  /D monitor\*.h $(SolutionDir)include\pv &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q  /D pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q  /D misc\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q  /D pvMisc\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q  /D property\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q  /D factory\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q  /D monitor\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R misc\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R pvMisc\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R property\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R factory\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R monitor\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -208,12 +208,12 @@ xcopy /Y /Q  /D monitor\*.h $(SolutionDir)include\pv &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q  /D pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q  /D misc\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q  /D pvMisc\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q  /D property\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q  /D factory\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q  /D monitor\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R misc\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R pvMisc\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R property\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R factory\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R monitor\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -234,12 +234,12 @@ xcopy /Y /Q  /D monitor\*.h $(SolutionDir)include\pv &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q  /D pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q  /D misc\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q  /D pvMisc\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q  /D property\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q  /D factory\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q  /D monitor\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R misc\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R pvMisc\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R property\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R factory\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R monitor\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -263,12 +263,12 @@ xcopy /Y /Q  /D monitor\*.h $(SolutionDir)include\pv &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q  /D pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q  /D misc\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q  /D pvMisc\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q  /D property\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q  /D factory\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q  /D monitor\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R misc\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R pvMisc\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R property\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R factory\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R monitor\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -293,12 +293,12 @@ xcopy /Y /Q  /D monitor\*.h $(SolutionDir)include\pv &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q  /D pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q  /D misc\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q  /D pvMisc\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q  /D property\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q  /D factory\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q  /D monitor\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R misc\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R pvMisc\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R property\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R factory\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R monitor\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -322,12 +322,12 @@ xcopy /Y /Q  /D monitor\*.h $(SolutionDir)include\pv &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q  /D pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q  /D misc\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q  /D pvMisc\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q  /D property\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q  /D factory\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q  /D monitor\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R misc\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R pvMisc\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R property\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R factory\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R monitor\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -352,12 +352,12 @@ xcopy /Y /Q  /D monitor\*.h $(SolutionDir)include\pv &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q  /D pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q  /D misc\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q  /D pvMisc\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q  /D property\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q  /D factory\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q  /D monitor\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R misc\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R pvMisc\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R property\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R factory\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R monitor\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>

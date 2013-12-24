@@ -297,7 +297,7 @@ move /Y y.tab.h O.Common\parse.h
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist O.Common md O.Common
-xcopy /Y /Q /D flex.skel.static $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R flex.skel.static $(SolutionDir)include &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -320,7 +320,7 @@ xcopy /Y /Q /D flex.skel.static $(SolutionDir)include &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist O.Common md O.Common
-xcopy /Y /Q /D flex.skel.static $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R flex.skel.static $(SolutionDir)include &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -342,7 +342,7 @@ xcopy /Y /Q /D flex.skel.static $(SolutionDir)include &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist O.Common md O.Common
-xcopy /Y /Q /D flex.skel.static $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R flex.skel.static $(SolutionDir)include &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -365,7 +365,7 @@ xcopy /Y /Q /D flex.skel.static $(SolutionDir)include &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist O.Common md O.Common
-xcopy /Y /Q /D flex.skel.static $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R flex.skel.static $(SolutionDir)include &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -389,7 +389,7 @@ xcopy /Y /Q /D flex.skel.static $(SolutionDir)include &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist O.Common md O.Common
-xcopy /Y /Q /D flex.skel.static $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R flex.skel.static $(SolutionDir)include &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -414,7 +414,7 @@ xcopy /Y /Q /D flex.skel.static $(SolutionDir)include &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist O.Common md O.Common
-xcopy /Y /Q /D flex.skel.static $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R flex.skel.static $(SolutionDir)include &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -438,7 +438,7 @@ xcopy /Y /Q /D flex.skel.static $(SolutionDir)include &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist O.Common md O.Common
-xcopy /Y /Q /D flex.skel.static $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R flex.skel.static $(SolutionDir)include &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -463,7 +463,7 @@ xcopy /Y /Q /D flex.skel.static $(SolutionDir)include &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist O.Common md O.Common
-xcopy /Y /Q /D flex.skel.static $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R flex.skel.static $(SolutionDir)include &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>

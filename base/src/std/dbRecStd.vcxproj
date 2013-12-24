@@ -760,7 +760,7 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
-xcopy /Y /Q  /D *.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -788,7 +788,7 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
-xcopy /Y /Q  /D *.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -815,7 +815,7 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
-xcopy /Y /Q  /D *.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -843,7 +843,7 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
-xcopy /Y /Q  /D *.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -867,7 +867,7 @@ xcopy /Y /Q  /D *.dbd $(SolutionDir)dbd &gt; NUL
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
-xcopy /Y /Q  /D *.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -897,7 +897,7 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
-xcopy /Y /Q  /D *.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -926,7 +926,7 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
-xcopy /Y /Q  /D *.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -956,7 +956,7 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
-xcopy /Y /Q  /D *.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
