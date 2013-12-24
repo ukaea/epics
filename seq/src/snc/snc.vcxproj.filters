@@ -61,7 +61,7 @@
       <Filter>O.Common</Filter>
     </ClCompile>
     <ClCompile Include="O.Common\snl.c">
-      <Filter>Source Files</Filter>
+      <Filter>O.Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
