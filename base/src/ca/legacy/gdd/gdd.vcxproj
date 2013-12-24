@@ -66,6 +66,9 @@
     <ProjectReference Include="aitgen.vcxproj">
       <Project>{3c906c28-3e5e-429a-9dc9-fadd47db579e}</Project>
     </ProjectReference>
+    <ProjectReference Include="genapps.vcxproj">
+      <Project>{8cc25ee1-944a-4aa0-9a58-bede2bb3c86c}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{7DB032CE-8696-4D7A-8679-E8B486012AEC}</ProjectGuid>

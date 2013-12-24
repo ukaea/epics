@@ -18,5 +18,35 @@
     <ClCompile Include="genApps.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="gddAppTable.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gdd.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="aitHelpers.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gddUtils.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gddContainer.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="aitTypes.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="aitConvert.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gddEnumStringTable.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gddNewDel.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gddAppDefs.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

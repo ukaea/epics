@@ -141,6 +141,9 @@
     <ProjectReference Include="..\gdd\gdd.vcxproj">
       <Project>{7db032ce-8696-4d7a-8679-e8b486012aec}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\gdd\genapps.vcxproj">
+      <Project>{8cc25ee1-944a-4aa0-9a58-bede2bb3c86c}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\libCom\Com.vcxproj">
       <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
     </ProjectReference>
