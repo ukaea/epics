@@ -9,10 +9,22 @@
  */
 #ifndef PVSERVICEPROVIDER_H
 #define PVSERVICEPROVIDER_H
-#include <pv/channelBase.h>
+#ifdef epicsExportSharedSymbols
+#   define pvServiceProviderEpicsExportSharedSymbols
+#   undef epicsExportSharedSymbols
+#endif
+
 #include <pv/thread.h>
 #include <pv/event.h>
 #include <pv/serverContext.h>
+
+#ifdef pvServiceProviderEpicsExportSharedSymbols
+#   define epicsExportSharedSymbols
+#	undef pvServiceProviderEpicsExportSharedSymbols
+#   include "shareLib.h"
+#endif
+
+#include <pv/channelBase.h>
 
 namespace epics { namespace pvIOC { 
 
@@ -40,7 +52,7 @@ public:
 };
 
 
-class PVServiceProvider :
+class epicsShareClass PVServiceProvider :
     public epics::pvAccess::ChannelBaseProvider
 {
 public:
@@ -64,7 +76,7 @@ private:
     epics::pvData::Mutex mutex;
 };
 
-class PVServiceChannelCTX :
+class epicsShareClass PVServiceChannelCTX :
     public epics::pvData::Runnable,
     public std::tr1::enable_shared_from_this<PVServiceChannelCTX>
 {

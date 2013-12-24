@@ -25,6 +25,8 @@
 #include "recSup.h"
 #include "devSup.h"
 #include "mbboDirectRecord.h"
+
+#define epicsExportSharedSymbols
 #include "epicsExport.h"
 
 /* Create the dset for devMbboSoft */

@@ -13,6 +13,8 @@
 #ifndef INC_alarmString_H
 #define INC_alarmString_H
 
+
+#define epicsExportSharedSymbols
 #include <alarm.h>
 
 #ifdef __cplusplus

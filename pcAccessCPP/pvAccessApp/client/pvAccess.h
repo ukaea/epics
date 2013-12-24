@@ -100,7 +100,7 @@ namespace pvAccess {
         };
         
 
-        class Channel;
+        class epicsShareClass Channel;
         class ChannelProvider;
 
         /**

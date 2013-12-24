@@ -34,6 +34,8 @@
 #include "recGbl.h"
 #include "cantProceed.h"
 #include "menuYesNo.h"
+
+#define epicsExportSharedSymbols
 #define GEN_SIZE_OFFSET
 #include "waveformRecord.h"
 #undef  GEN_SIZE_OFFSET

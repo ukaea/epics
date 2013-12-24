@@ -30,6 +30,8 @@
 #include "link.h"
 #include "special.h"
 #include "aoRecord.h"
+
+#define epicsExportSharedSymbols
 #include "epicsExport.h"
 
 /* added for Channel Access Links */

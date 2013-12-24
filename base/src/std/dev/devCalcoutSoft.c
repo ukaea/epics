@@ -27,6 +27,8 @@
 #include "special.h"
 #include "postfix.h"
 #include "calcoutRecord.h"
+
+#define epicsExportSharedSymbols
 #include "epicsExport.h"
 
 static long write_calcout(calcoutRecord *prec);

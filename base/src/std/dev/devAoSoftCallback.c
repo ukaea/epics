@@ -27,6 +27,8 @@
 #include "link.h"
 #include "special.h"
 #include "aoRecord.h"
+
+#define epicsExportSharedSymbols
 #include "epicsExport.h"
 
 /* Create the dset for devAoSoftCallback */

@@ -26,6 +26,8 @@
 #include "devSup.h"
 #include "link.h"
 #include "histogramRecord.h"
+
+#define epicsExportSharedSymbols
 #include "epicsExport.h"
 
 /* Create the dset for devHistogramSoft */

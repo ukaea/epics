@@ -38,6 +38,8 @@
 #include "recGbl.h"
 #include "special.h"
 #include "menuOmsl.h"
+
+#define epicsExportSharedSymbols
 #define GEN_SIZE_OFFSET
 #include "dfanoutRecord.h"
 #undef  GEN_SIZE_OFFSET

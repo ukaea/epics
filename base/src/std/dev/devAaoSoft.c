@@ -27,6 +27,8 @@
 #include "cantProceed.h"
 #include "menuYesNo.h"
 #include "aaoRecord.h"
+
+#define epicsExportSharedSymbols
 #include "epicsExport.h"
 
 /* Create the dset for devAaoSoft */

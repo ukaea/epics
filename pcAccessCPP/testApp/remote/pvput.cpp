@@ -537,6 +537,7 @@ void usage (void)
     "  -r <pv request>:   Request, specifies what fields to return and options, default is '%s'\n"
     "  -w <sec>:          Wait time, specifies timeout, default is %f second(s)\n"
     "  -t:                Terse mode - print only successfully written value, without names\n"
+    "  -q:                Quiet mode, print only error messages\n"
     "  -d:                Enable debug output\n"
     "  -F <ofs>:          Use <ofs> as an alternate output field separator"
     "\nExample: pvput double01 1.234\n\n"
@@ -641,7 +642,7 @@ class ChannelPutRequesterImpl : public ChannelPutRequester
             // show warning
             if (!status.isOK())
             {
-                std::cerr << "[" << m_channelName << "] channel put create: " << status.toString() << std::endl;
+                std::cerr << "[" << m_channelName << "] channel put create: " << status << std::endl;
             }
 
             // assign smart pointers
@@ -660,7 +661,7 @@ class ChannelPutRequesterImpl : public ChannelPutRequester
         }
         else
         {
-            std::cerr << "[" << m_channelName << "] failed to create channel put: " << status.toString() << std::endl;
+            std::cerr << "[" << m_channelName << "] failed to create channel put: " << status << std::endl;
             m_event->signal();
         }
     }
@@ -672,7 +673,7 @@ class ChannelPutRequesterImpl : public ChannelPutRequester
             // show warning
             if (!status.isOK())
             {
-                std::cerr << "[" << m_channelName << "] channel get: " << status.toString() << std::endl;
+                std::cerr << "[" << m_channelName << "] channel get: " << status << std::endl;
             }
 
         	m_done.set();
@@ -696,7 +697,7 @@ class ChannelPutRequesterImpl : public ChannelPutRequester
         }
         else
         {
-            std::cerr << "[" << m_channelName << "] failed to get: " << status.toString() << std::endl;
+            std::cerr << "[" << m_channelName << "] failed to get: " << status << std::endl;
         }
         
         m_event->signal();
@@ -709,14 +710,14 @@ class ChannelPutRequesterImpl : public ChannelPutRequester
             // show warning
             if (!status.isOK())
             {
-                std::cerr << "[" << m_channelName << "] channel put: " << status.toString() << std::endl;
+                std::cerr << "[" << m_channelName << "] channel put: " << status << std::endl;
             }
   
             m_done.set();
         }
         else
         {
-            std::cerr << "[" << m_channelName << "] failed to put: " << status.toString() << std::endl;
+            std::cerr << "[" << m_channelName << "] failed to put: " << status << std::endl;
         }
         
         m_event->signal();
@@ -775,10 +776,12 @@ int main (int argc, char *argv[])
 {
     int opt;                    /* getopt() current option */
     bool debug = false;
+    bool quiet = false;
 
     setvbuf(stdout,NULL,_IOLBF,BUFSIZ);    /* Set stdout to line buffering */
+    putenv(const_cast<char*>("POSIXLY_CORRECT="));            /* Behave correct on GNU getopt systems; e.g. handle negative numbers */
 
-    while ((opt = getopt(argc, argv, ":hr:w:tdF:")) != -1) {
+    while ((opt = getopt(argc, argv, ":hr:w:tqdF:")) != -1) {
         switch (opt) {
         case 'h':               /* Print usage */
             usage();
@@ -801,6 +804,9 @@ int main (int argc, char *argv[])
             break;
         case 'd':               /* Debug log level */
             debug = true;
+            break;
+        case 'q':               /* Quiet mode */
+            quiet = true;
             break;
         case 'F':               /* Store this for output formatting */
             fieldSeparator = (char) *optarg;
@@ -866,19 +872,19 @@ int main (int argc, char *argv[])
         do
         {
             // first connect
-            shared_ptr<ChannelRequesterImpl> channelRequesterImpl(new ChannelRequesterImpl()); 
+            shared_ptr<ChannelRequesterImpl> channelRequesterImpl(new ChannelRequesterImpl(quiet));
             Channel::shared_pointer channel = provider->createChannel(pvName, channelRequesterImpl);
 
             if (channelRequesterImpl->waitUntilConnected(timeOut))
             {
                 shared_ptr<ChannelPutRequesterImpl> putRequesterImpl(new ChannelPutRequesterImpl(channel->getChannelName()));
-                if (mode != TerseMode)
+                if (mode != TerseMode && !quiet)
                 	std::cout << "Old : ";
                 ChannelPut::shared_pointer channelPut = channel->createChannelPut(putRequesterImpl, pvRequest);
                 allOK &= putRequesterImpl->waitUntilDone(timeOut);
                 if (allOK)
                 {
-                	if (mode != TerseMode)
+                    if (mode != TerseMode && !quiet)
                         printValue(pvName, putRequesterImpl->getStructure());
 
                 	// convert value from string
@@ -896,11 +902,11 @@ int main (int argc, char *argv[])
                     if (allOK)
                     {
                         // and than a get again to verify put
-                        if (mode != TerseMode) std::cout << "New : ";
+                        if (mode != TerseMode && !quiet) std::cout << "New : ";
                         putRequesterImpl->resetEvent();
                         channelPut->get();
                         allOK &= putRequesterImpl->waitUntilDone(timeOut);
-                    	if (allOK)
+                        if (allOK && !quiet)
                             printValue(pvName, putRequesterImpl->getStructure());
                     }
                 }

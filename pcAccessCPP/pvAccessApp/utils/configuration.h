@@ -43,6 +43,7 @@ public:
 	void setProperty(const std::string &key,const std::string &value);
 	std::string getProperty(const std::string &key);
 	std::string getProperty(const std::string &key, const std::string &defaultValue);
+    bool hasProperty(const std::string &key);
 
 	void store();
 	void store(const std::string &fileName);
@@ -74,7 +75,7 @@ private:
 /**
  * Configuration
  */
-class epicsShareClass Configuration : private epics::pvData::NoDefaultMethods
+class Configuration : private epics::pvData::NoDefaultMethods
 {
 public:
      POINTER_DEFINITIONS(Configuration);
@@ -133,6 +134,8 @@ public:
 	 * @return environment variable value as std::string or default value if it does not exist.
 	 */
 	virtual std::string getPropertyAsString(const std::string &name, const std::string &defaultValue) = 0;
+
+    virtual bool hasProperty(const std::string &name) = 0;
 };
 
 class epicsShareClass SystemConfigurationImpl: public Configuration
@@ -145,7 +148,8 @@ public:
 	float getPropertyAsFloat(const std::string &name, const float defaultValue);
 	float getPropertyAsDouble(const std::string &name, const double defaultValue);
 	std::string getPropertyAsString(const std::string &name, const std::string &defaultValue);
-	std::auto_ptr<Properties> _properties;
+    bool hasProperty(const std::string &name);
+    std::auto_ptr<Properties> _properties;
 private:
 	ENV_PARAM _envParam;
 	std::istringstream _ibuffer;
@@ -199,7 +203,7 @@ private:
 /**
  * Configuration factory.
  */
-class epicsShareClass ConfigurationFactory : private epics::pvData::NoDefaultMethods
+class ConfigurationFactory : private epics::pvData::NoDefaultMethods
 {
 public:
 	POINTER_DEFINITIONS(ConfigurationFactory);

@@ -23,6 +23,8 @@
 #include "recGbl.h"
 #include "devSup.h"
 #include "aiRecord.h"
+
+#define epicsExportSharedSymbols
 #include "epicsExport.h"
 
 /* Create the dset for devAiSoftRaw */

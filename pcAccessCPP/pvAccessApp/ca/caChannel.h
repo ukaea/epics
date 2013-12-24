@@ -47,8 +47,6 @@ public:
     chtype getNativeType();
     unsigned getElementCount();
 
-    epics::pvData::PVStructure::shared_pointer getPVStructure();
-
     /* --------------- epics::pvAccess::Channel --------------- */
 
     virtual std::tr1::shared_ptr<ChannelProvider> getProvider();
@@ -104,25 +102,38 @@ public:
 
     virtual void destroy();
 
+    /* ---------------------------------------------------------------- */
+
+    void registerRequest(ChannelRequest::shared_pointer const & request);
+    void unregisterRequest(ChannelRequest::shared_pointer const & request);
+
 private:
 
-    CAChannel(ChannelProvider::shared_pointer const & channelProvider,
+    CAChannel(epics::pvData::String const & channelName,
+              ChannelProvider::shared_pointer const & channelProvider,
               ChannelRequester::shared_pointer const & channelRequester);
-    void activate(epics::pvData::String const & channelName, short priority);
+    void activate(short priority);
 
-    // TODO weak_ptr usage?
+    epics::pvData::String channelName;
+    
     ChannelProvider::shared_pointer channelProvider;
     ChannelRequester::shared_pointer channelRequester;
 
     chid channelID;
     chtype channelType;
     unsigned elementCount;
-    epics::pvData::PVStructure::shared_pointer pvStructure;
+    epics::pvData::Structure::const_shared_pointer structure;
+
+    epics::pvData::Mutex requestsMutex;
+    // TODO std::unordered_map
+    // void* is not the nicest thing, but there is no fast weak_ptr==
+    typedef std::map<void*, ChannelRequest::weak_pointer> RequestsList;
+    RequestsList requests;
 };
 
 
 
-class epicsShareClass CAChannelGet :
+class CAChannelGet :
         public ChannelGet,
         public std::tr1::enable_shared_from_this<CAChannelGet>
 {
@@ -158,7 +169,6 @@ private:
                  epics::pvData::PVStructure::shared_pointer const & pvRequest);
     void activate();
 
-    // TODO weak_ptr usage?
     CAChannel::shared_pointer channel;
     ChannelGetRequester::shared_pointer channelGetRequester;
     chtype getType;
@@ -169,7 +179,7 @@ private:
 
 
 
-class epicsShareClass CAChannelPut :
+class CAChannelPut :
         public ChannelPut,
         public std::tr1::enable_shared_from_this<CAChannelPut>
 {
@@ -207,7 +217,6 @@ private:
                  epics::pvData::PVStructure::shared_pointer const & pvRequest);
     void activate();
 
-    // TODO weak_ptr usage?
     CAChannel::shared_pointer channel;
     ChannelPutRequester::shared_pointer channelPutRequester;
     chtype getType;
@@ -251,7 +260,6 @@ private:
                  epics::pvData::PVStructure::shared_pointer const & pvRequest);
     void activate();
 
-    // TODO weak_ptr usage?
     CAChannel::shared_pointer channel;
     epics::pvData::MonitorRequester::shared_pointer monitorRequester;
     chtype getType;

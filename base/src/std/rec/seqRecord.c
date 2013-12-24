@@ -32,6 +32,7 @@
 #include "special.h"
 #include "callback.h"
 
+#define epicsExportSharedSymbols
 #define GEN_SIZE_OFFSET
 #include "seqRecord.h"
 #undef  GEN_SIZE_OFFSET

@@ -34,6 +34,8 @@
 #include "recSup.h"
 #include "recGbl.h"
 #include "special.h"
+
+#define epicsExportSharedSymbols
 #define GEN_SIZE_OFFSET
 #include "mbbiDirectRecord.h"
 #undef  GEN_SIZE_OFFSET

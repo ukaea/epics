@@ -32,9 +32,10 @@
 #include "devSup.h"
 #include "special.h"
 #include "registryFunction.h"
-#include "epicsExport.h"
 #include "recGbl.h"
 
+#define epicsExportSharedSymbols
+#include "epicsExport.h"
 #define GEN_SIZE_OFFSET
 #include "aSubRecord.h"
 #undef  GEN_SIZE_OFFSET

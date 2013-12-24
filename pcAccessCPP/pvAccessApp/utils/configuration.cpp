@@ -82,6 +82,11 @@ string Properties::getProperty(const string &key, const string &defaultValue)
 	return defaultValue;
 }
 
+bool Properties::hasProperty(const string &key)
+{
+    return (_properties.find(key) != _properties.end());
+}
+
 void Properties::load()
 {
 	_properties.clear();
@@ -333,6 +338,11 @@ string SystemConfigurationImpl::getPropertyAsString(const string &name, const st
 		return _properties->getProperty(name, string(val));
 	}
 	return _properties->getProperty(name,defaultValue);
+}
+
+bool SystemConfigurationImpl::hasProperty(const string &key)
+{
+    return _properties->hasProperty(key);
 }
 
 ConfigurationProviderImpl::ConfigurationProviderImpl()
