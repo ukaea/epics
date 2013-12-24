@@ -38,7 +38,8 @@ inline long& indent_value(std::ios_base& ios)
   return ios.iword(indent_index);
 }
 
-std::ostream& operator<<(std::ostream& os, indent_level const& indent);
+epicsShareExtern std::ostream& operator<<(std::ostream& os, indent_level const& indent);
+
 struct indent_scope
 {
     long saved_level;
@@ -62,7 +63,7 @@ struct indent
 {
 };
 
-std::ostream& operator<<(std::ostream& os, indent const&);
+epicsShareExtern std::ostream& operator<<(std::ostream& os, indent const&);
 
 struct array_at
 {
@@ -79,7 +80,7 @@ struct array_at_internal
     array_at_internal(std::size_t ix, std::ostream& str) : index(ix), stream(str) {}
 };
 
-array_at_internal operator<<(std::ostream& str, array_at const& manip);
+epicsShareExtern array_at_internal operator<<(std::ostream& str, array_at const& manip);
 
 };
 
@@ -372,7 +373,7 @@ private:
     friend class PVStructure;
 };
 
-std::ostream& operator<<(std::ostream& o, const PVField& f);
+epicsShareExtern std::ostream& operator<<(std::ostream& o, const PVField& f);
 
 /**
  * PVScalar is the base class for each scalar field.
@@ -399,7 +400,7 @@ protected:
  * Class that holds the data for each posssible scalar type.
  */
 template<typename T>
-class epicsShareClass PVScalarValue : public PVScalar {
+class PVScalarValue : public PVScalar {
 public:
     POINTER_DEFINITIONS(PVScalarValue);
     typedef T value_type;
@@ -544,7 +545,7 @@ private:
     friend class PVDataCreate;
 };
 
-std::ostream& operator<<(format::array_at_internal const& manip, const PVArray& array);
+epicsShareExtern std::ostream& operator<<(format::array_at_internal const& manip, const PVArray& array);
 
 /**
  * Class provided by caller of get

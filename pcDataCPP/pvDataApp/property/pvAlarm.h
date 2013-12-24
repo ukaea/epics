@@ -19,7 +19,7 @@
 
 namespace epics { namespace pvData {
 
-class PVAlarm {
+class epicsShareClass PVAlarm {
 public:
     PVAlarm() {}
     //default constructors and destructor are OK

@@ -18,7 +18,7 @@
 
 namespace epics { namespace pvData { 
 
-class PVEnumerated {
+class epicsShareClass PVEnumerated {
 public:
     PVEnumerated() {}
     //default constructors and destructor are OK

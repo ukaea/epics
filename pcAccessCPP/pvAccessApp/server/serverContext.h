@@ -96,7 +96,7 @@ public:
 };
 
 
-class ServerContextImpl :
+class epicsShareClass ServerContextImpl :
     public ServerContext,
     public Context,
     public ResponseHandlerFactory,
