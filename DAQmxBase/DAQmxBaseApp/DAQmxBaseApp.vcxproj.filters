@@ -23,13 +23,13 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\DAQmxBaseSupport.dbd">
-      <Filter>src</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="src\NIDAQmxBase.h">
       <Filter>src</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="src\DAQmxBaseSupport.dbd">
+      <Filter>src</Filter>
+    </CustomBuild>
   </ItemGroup>
 </Project>
