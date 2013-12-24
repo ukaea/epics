@@ -150,6 +150,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "pvDataApp", "pvDataApp", "{9DC91147-6967-48A9-84CA-F5674DF917D2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "pvAccessApp", "pvAccessApp", "{07FFAE95-7AFF-405A-8451-DA21E124109C}"
+	ProjectSection(SolutionItems) = preProject
+		Makefile = Makefile
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "testApp", "testApp", "{70A0AEE4-63A9-47C2-91F3-90B61D1F8E37}"
 	ProjectSection(SolutionItems) = preProject
