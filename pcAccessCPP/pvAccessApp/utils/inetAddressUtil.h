@@ -72,7 +72,7 @@ namespace pvAccess {
     epicsShareExtern InetAddrVector* getSocketAddressList(epics::pvData::String list, int defaultPort,
             const InetAddrVector* appendList = NULL);
 
-    epicsShareExtern epics::pvData::String inetAddressToString(const osiSockAddr &addr,
+    epicsShareExtern const epics::pvData::String inetAddressToString(const osiSockAddr &addr,
             bool displayPort = true, bool displayHex = false);
 
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
