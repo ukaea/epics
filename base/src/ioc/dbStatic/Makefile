@@ -11,7 +11,6 @@ TOP=../..
 include $(TOP)/configure/CONFIG
 
 INC += alarm.h
-INC += alarmString.h
 INC += dbBase.h
 INC += dbFldTypes.h
 INC += dbStaticLib.h
@@ -31,6 +30,7 @@ LIBSRCS += dbPvdLib.c
 dbStaticHost_SRCS += dbStaticNoRun.c 
 dbStaticIoc_SRCS += dbStaticRun.c
 dbStaticIoc_SRCS += dbStaticIocRegister.c
+dbStaticIoc_SRCS += alarmString.c
 
 LIBRARY_HOST += dbStaticHost
 LIBRARY_IOC += dbStaticIoc
