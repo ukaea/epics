@@ -222,6 +222,7 @@
       </UndefinePreprocessorDefinitions>
       <DisableSpecificWarnings>4355</DisableSpecificWarnings>
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
+      <BrowseInformation>true</BrowseInformation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -248,6 +249,7 @@ xcopy /Y /Q  /D generic\*.h  $(SolutionDir)include &gt; NUL
       </UndefinePreprocessorDefinitions>
       <DisableSpecificWarnings>4355;4244;4267</DisableSpecificWarnings>
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
+      <BrowseInformation>true</BrowseInformation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
