@@ -17,7 +17,7 @@
     <ProjectReference Include="..\..\..\src\libCom\Com.vcxproj">
       <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\pvAccessApp\pvAccessApp.vcxproj">
+    <ProjectReference Include="..\..\pvAccessApp\pvAccess.vcxproj">
       <Project>{44ecea7e-d805-49b6-8e89-62ec3994c1f3}</Project>
     </ProjectReference>
   </ItemGroup>
