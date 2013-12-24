@@ -56,7 +56,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <IntDir>.\O.win32-x86\</IntDir>
-    <OutDir>$SolutionDir)Bin\win32-x86\</OutDir>
+    <OutDir>$(SolutionDir)Bin\win32-x86\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

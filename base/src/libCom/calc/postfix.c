@@ -205,7 +205,7 @@ static int
  * convert an infix expression to a postfix expression
  */
 epicsShareFunc long
-    postfix(const char *psrc, char * const ppostfix, short *perror)
+    postfix(const char *psrc, char *ppostfix, short *perror)
 {
     ELEMENT stack[80];
     ELEMENT *pstacktop = stack;

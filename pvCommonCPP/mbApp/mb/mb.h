@@ -14,11 +14,13 @@
 
 #include <shareLib.h>
 
-static epicsShareClass class MBMutexInitializer {
+class epicsShareClass MBMutexInitializer {
   public:
     MBMutexInitializer ();
     ~MBMutexInitializer ();
-} mbStaticMutexInitializer; // Note object here in the header.
+};
+
+epicsShareExtern MBMutexInitializer mbStaticMutexInitializer; // Note object here in the header.
 
 struct MBPoint
 {

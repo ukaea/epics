@@ -19,9 +19,7 @@
 #include <stdarg.h>
 #include <limits.h>
 
-#define EPICS_DLL_NO
 #include "asLib.h"
-#undef EPICS_DLL_NO
 
 #include "osiSock.h"
 #include "osiPoolStatus.h"
