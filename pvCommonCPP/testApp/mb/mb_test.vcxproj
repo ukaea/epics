@@ -13,6 +13,11 @@
   <ItemGroup>
     <ClCompile Include="mb_test.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\mbApp\mb\mb.vcxproj">
+      <Project>{3b4fb919-cc65-4780-8b45-bfe42896b914}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{18211C01-4D86-4373-B4F1-6329318CE088}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>

@@ -25,6 +25,9 @@
     <ProjectGuid>{7B7CF431-B90C-4BAC-B035-EEB3B3EE07A1}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>testBaseException</RootNamespace>
+    <SccProjectName>"$/EPICS", LRZBAAAA</SccProjectName>
+    <SccLocalPath>..\..\..</SccLocalPath>
+    <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

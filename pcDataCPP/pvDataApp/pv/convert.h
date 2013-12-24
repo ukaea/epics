@@ -764,7 +764,7 @@ private:
     String illegalScalarType;
 };
 
-extern ConvertPtr getConvert();
+epicsShareExtern ConvertPtr getConvert();
     
 }}
 #endif  /* CONVERT_H */
