@@ -20,6 +20,9 @@
     <ClInclude Include="tool_lib.h" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ca\ca.vcxproj">
+      <Project>{02caf068-a7fc-463e-aa7e-72eeaf665826}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\dbStatic\dbstaticIoc.vcxproj">
       <Project>{97d3c50e-9c9e-41ef-a49d-eaea78ce8378}</Project>
     </ProjectReference>
