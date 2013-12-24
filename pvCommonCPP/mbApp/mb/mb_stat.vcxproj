@@ -69,6 +69,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;PV_MB;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;..\..\boostApp\boost\</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4996;4224;4244</DisableSpecificWarnings>
+      <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -95,6 +96,7 @@ cd $(ProjectDir)
       <PreprocessorDefinitions>WIN32;NDEBUG;PV_MB;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;..\..\boostApp\boost\</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4996;4224;4244</DisableSpecificWarnings>
+      <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
