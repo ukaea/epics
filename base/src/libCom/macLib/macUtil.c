@@ -51,11 +51,11 @@ epicsShareAPI macParseDefns(
     int quote;
     int escape;
     size_t nbytes;
-    const unsigned char **ptr;
-    const unsigned char **end;
+    unsigned char **ptr;
+    unsigned char **end;
     int *del;
     char *memCp, **memCpp;
-    const unsigned char *c;
+    unsigned char *c;
     char *s, *d, **p;
     enum { preName, inName, preValue, inValue } state;
 
@@ -68,8 +68,8 @@ epicsShareAPI macParseDefns(
     numMax = strlen( defns );
     if ( numMax < altNumMax )
         numMax = altNumMax;
-    ptr = (const unsigned char **) calloc( numMax, sizeof( char * ) );
-    end = (const unsigned char **) calloc( numMax, sizeof( char * ) );
+    ptr = (unsigned char **) calloc( numMax, sizeof( char * ) );
+    end = (unsigned char **) calloc( numMax, sizeof( char * ) );
     del = (int *) calloc( numMax, sizeof( int ) );
     if ( ptr == NULL || end == NULL  || del == NULL ) goto error;
 
@@ -80,7 +80,7 @@ epicsShareAPI macParseDefns(
     del[0] = FALSE;
     quote  = 0;
     state  = preName;
-    for ( c = (const unsigned char *) defns; *c != '\0'; c++ ) {
+    for ( c = (unsigned char *) defns; *c != '\0'; c++ ) {
 
 	/* handle quotes */
 	if ( quote )

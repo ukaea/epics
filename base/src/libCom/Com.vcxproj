@@ -281,26 +281,26 @@
     <None Include="cxxTemplates\README" />
     <CustomBuild Include="env\bldEnvData.pl">
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd $(IntDir)
-perl ..\env\bldEnvData.pl ../../../configure
+perl ..\env\bldEnvData.pl $(SolutionDir)configure
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">cd $(IntDir)
-perl ..\env\bldEnvData.pl ../../../configure
+perl ..\env\bldEnvData.pl $(SolutionDir)configure
 cd $(ProjectDir)
 </Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">envdata.c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">envdata.c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)envdata.c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">$(IntDir)envdata.c</Outputs>
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(IntDir)
-perl ..\env\bldEnvData.pl ../../../configure
+perl ..\env\bldEnvData.pl $(SolutionDir)configure
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|X64'">cd $(IntDir)
-perl ..\env\bldEnvData.pl ../../../configure
+perl ..\env\bldEnvData.pl $(SolutionDir)configure
 cd $(ProjectDir)
 </Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">envdata.c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|X64'">envdata.c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)envdata.c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|X64'">$(IntDir)envdata.c</Outputs>
     </CustomBuild>
     <CustomBuild Include="error\makeStatTbl.pl">
       <FileType>Document</FileType>
@@ -331,18 +331,18 @@ cd $(ProjectDir)
     <None Include="macLib\macLibREADME" />
     <CustomBuild Include="misc\makeEpicsVersion.pl">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">perl .\misc\makeEpicsVersion.pl ..\..\configure\CONFIG_BASE_VERSION ..\..\include
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">perl misc\makeEpicsVersion.pl $(SolutionDir)configure\CONFIG_BASE_VERSION $(SolutionDir)include
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">perl .\misc\makeEpicsVersion.pl ..\..\configure\CONFIG_BASE_VERSION ..\..\include
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">perl misc\makeEpicsVersion.pl $(SolutionDir)configure\CONFIG_BASE_VERSION $(SolutionDir)include
 </Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\..\include\EpicsVersion.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">..\..\..\include\EpicsVersion.h</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">perl .\misc\makeEpicsVersion.pl ..\..\configure\CONFIG_BASE_VERSION ..\..\include
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)include\epicsVersion.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">$(SolutionDir)include\epicsVersion.h</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">perl misc\makeEpicsVersion.pl $(SolutionDir)configure\CONFIG_BASE_VERSION $(SolutionDir)include
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|X64'">perl .\misc\makeEpicsVersion.pl ..\..\configure\CONFIG_BASE_VERSION ..\..\include
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|X64'">perl misc\makeEpicsVersion.pl $(SolutionDir)configure\CONFIG_BASE_VERSION $(SolutionDir)include
 </Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\..\include\EpicsVersion.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|X64'">..\..\..\include\EpicsVersion.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)include\epicsVersion.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|X64'">$(SolutionDir)include\epicsVersion.h</Outputs>
     </CustomBuild>
     <None Include="osi\TODOfuture" />
     <None Include="tsDefs\README" />
@@ -422,7 +422,6 @@ cd $(ProjectDir)
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib</AdditionalDependencies>
-      <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
     <ResourceCompile>
       <AdditionalIncludeDirectories>..\..\include</AdditionalIncludeDirectories>
@@ -478,7 +477,6 @@ xcopy /Y /Q  /D osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib</AdditionalDependencies>
-      <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
     <ResourceCompile>
       <AdditionalIncludeDirectories>..\..\include</AdditionalIncludeDirectories>
@@ -537,7 +535,6 @@ xcopy /Y /Q  /D osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib</AdditionalDependencies>
-      <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
     <ResourceCompile>
       <AdditionalIncludeDirectories>..\..\include</AdditionalIncludeDirectories>
@@ -591,7 +588,6 @@ xcopy /Y /Q  /D osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib</AdditionalDependencies>
-      <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
     <ResourceCompile>
       <AdditionalIncludeDirectories>..\..\include</AdditionalIncludeDirectories>

@@ -390,7 +390,6 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
     <PostBuildEvent>
       <Command>if not exist ..\..\include md ..\..\include
@@ -417,7 +416,6 @@ xcopy /Y /Q  /D *.dbd $(SolutionDir)dbd &gt; NUL
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
     <PostBuildEvent>
       <Command>if not exist ..\..\include md ..\..\include
@@ -447,7 +445,6 @@ xcopy /Y /Q  /D *.dbd $(SolutionDir)dbd &gt; NUL
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
@@ -477,7 +474,6 @@ xcopy /Y /Q  /D O.Common\*.h ..\..\include &gt; NUL
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common

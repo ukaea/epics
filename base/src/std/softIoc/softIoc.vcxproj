@@ -147,7 +147,6 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
@@ -169,7 +168,6 @@ perl $(OutDir)registerRecordDeviceDriver.pl O.Common\softIoc.dbd softIoc_registe
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
@@ -194,7 +192,6 @@ perl $(OutDir)registerRecordDeviceDriver.pl O.Common\softIoc.dbd softIoc_registe
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
     <PreBuildEvent />
     <PreBuildEvent>
@@ -220,7 +217,6 @@ perl $(OutDir)registerRecordDeviceDriver.pl O.Common\softIoc.dbd softIoc_registe
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
     <PreBuildEvent />
     <PreBuildEvent>
