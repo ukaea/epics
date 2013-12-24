@@ -176,7 +176,7 @@
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
 xcopy /Y /Q  /D *.h $(SolutionDir)include\pv &gt; NUL
 cd ..\..\boostApp\boost
-bootstrap.bat &gt; NUL
+call bootstrap.bat &gt; NUL
 b2.exe &gt; NUL
 cd $(ProjectDir)
 </Command>
@@ -201,7 +201,7 @@ cd $(ProjectDir)
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
 xcopy /Y /Q  /D *.h $(SolutionDir)include\pv &gt; NUL
 cd ..\..\boostApp\boost
-bootstrap.bat &gt; NUL
+call bootstrap.bat &gt; NUL
 b2.exe runtime-link=static &gt; NUL
 cd $(ProjectDir)
 </Command>
@@ -225,7 +225,7 @@ cd $(ProjectDir)
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
 xcopy /Y /Q  /D *.h $(SolutionDir)include\pv &gt; NUL
 cd ..\..\boostApp\boost
-bootstrap.bat &gt; NUL
+call bootstrap.bat &gt; NUL
 b2.exe &gt; NUL
 cd $(ProjectDir)
 </Command>
@@ -250,7 +250,7 @@ cd $(ProjectDir)
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
 xcopy /Y /Q  /D *.h $(SolutionDir)include\pv &gt; NUL
 cd ..\..\boostApp\boost
-bootstrap.bat &gt; NUL
+call bootstrap.bat &gt; NUL
 b2.exe runtime-link=static &gt; NUL
 cd $(ProjectDir)
 </Command>
@@ -277,7 +277,7 @@ cd $(ProjectDir)
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
 xcopy /Y /Q  /D *.h $(SolutionDir)include\pv &gt; NUL
 cd ..\..\boostApp\boost
-bootstrap.bat &gt; NUL
+call bootstrap.bat &gt; NUL
 b2.exe &gt; NUL
 cd $(ProjectDir)
 </Command>
@@ -305,7 +305,7 @@ cd $(ProjectDir)
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
 xcopy /Y /Q  /D *.h $(SolutionDir)include\pv &gt; NUL
 cd ..\..\boostApp\boost
-bootstrap.bat &gt; NUL
+call bootstrap.bat &gt; NUL
 b2.exe runtime-link=static &gt; NUL
 cd $(ProjectDir)
 </Command>
@@ -332,7 +332,7 @@ cd $(ProjectDir)
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
 xcopy /Y /Q  /D *.h $(SolutionDir)include\pv &gt; NUL
 cd ..\..\boostApp\boost
-bootstrap.bat &gt; NUL
+call bootstrap.bat &gt; NUL
 b2.exe &gt; NUL
 cd $(ProjectDir)
 </Command>
@@ -360,7 +360,7 @@ cd $(ProjectDir)
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
 xcopy /Y /Q  /D *.h $(SolutionDir)include\pv &gt; NUL
 cd ..\..\boostApp\boost
-bootstrap.bat &gt; NUL
+call bootstrap.bat &gt; NUL
 b2.exe runtime-link=static &gt; NUL
 cd $(ProjectDir)
 </Command>
