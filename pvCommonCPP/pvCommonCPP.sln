@@ -107,6 +107,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "pvCommonCPP", "pvCommonCPP"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "testApp", "testApp", "{F71D2801-956C-434B-8674-450A9B2C6ED7}"
 	ProjectSection(SolutionItems) = preProject
+		testApp\Makefile = testApp\Makefile
 		testApp\runtests.bat = testApp\runtests.bat
 	EndProjectSection
 EndProject
@@ -115,8 +116,14 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mb", "mb", "{98B41905-445F-4006-A796-C7CA7E44B6AA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "boost", "boost", "{CCF9E5C6-1662-40A4-BA09-4C662E7BBCDB}"
+	ProjectSection(SolutionItems) = preProject
+		testApp\boost\Makefile = testApp\boost\Makefile
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mb", "mb", "{EE21AE70-0060-4734-B2D9-A02AB8F073E0}"
+	ProjectSection(SolutionItems) = preProject
+		testApp\mb\Makefile = testApp\mb\Makefile
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "startup", "startup", "{9DEDFFE1-B0DE-4101-874C-3E88F78E6CCB}"
 	ProjectSection(SolutionItems) = preProject
