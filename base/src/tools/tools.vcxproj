@@ -339,7 +339,17 @@ xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
     <None Include="dbdToMenuH.pl" />
     <None Include="dbdToRecordtypeH.pl" />
     <None Include="DBD\Base.pm" />
+    <None Include="DBD\Breaktable.pm" />
+    <None Include="DBD\Device.pm" />
+    <None Include="DBD\Driver.pm" />
+    <None Include="DBD\Function.pm" />
+    <None Include="DBD\Menu.pm" />
+    <None Include="DBD\Output.pm" />
+    <None Include="DBD\Parser.pm" />
+    <None Include="DBD\Recfield.pm" />
     <None Include="DBD\Recordtype.pm" />
+    <None Include="DBD\Registrar.pm" />
+    <None Include="DBD\Variable.pm" />
     <None Include="EPICS\Path.pm" />
     <None Include="EPICS\Release.pm" />
     <None Include="makeIncludeDbd.pl">

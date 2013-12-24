@@ -32,5 +32,35 @@
     <None Include="DBD\Recordtype.pm">
       <Filter>DBD</Filter>
     </None>
+    <None Include="DBD\Breaktable.pm">
+      <Filter>DBD</Filter>
+    </None>
+    <None Include="DBD\Driver.pm">
+      <Filter>DBD</Filter>
+    </None>
+    <None Include="DBD\Menu.pm">
+      <Filter>DBD</Filter>
+    </None>
+    <None Include="DBD\Function.pm">
+      <Filter>DBD</Filter>
+    </None>
+    <None Include="DBD\Output.pm">
+      <Filter>DBD</Filter>
+    </None>
+    <None Include="DBD\Parser.pm">
+      <Filter>DBD</Filter>
+    </None>
+    <None Include="DBD\Recfield.pm">
+      <Filter>DBD</Filter>
+    </None>
+    <None Include="DBD\Registrar.pm">
+      <Filter>DBD</Filter>
+    </None>
+    <None Include="DBD\Variable.pm">
+      <Filter>DBD</Filter>
+    </None>
+    <None Include="DBD\Device.pm">
+      <Filter>DBD</Filter>
+    </None>
   </ItemGroup>
 </Project>
