@@ -12,10 +12,20 @@
 #ifndef INCasLibh
 #define INCasLibh
 
-#include "shareLib.h"
-#include "ellLib.h"
-#include "errMdef.h"
-#include "errlog.h"
+#ifdef epicsExportSharedSymbols
+#undef epicsExportSharedSymbols
+#define asLibepicsExportSharedSymbols
+#endif
+
+#include <ellLib.h>
+#include <errMdef.h>
+#include <errlog.h>
+
+#ifdef asLibepicsExportSharedSymbols
+#define epicsExportSharedSymbols
+#undef asLibepicsExportSharedSymbols
+#endif
+#include <shareLib.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -50,9 +60,9 @@ long asCheckPut(ASCLIENTPVT asClientPvt);
 #define asTrapWriteAfter(pvt) if((pvt)) asTrapWriteAfterWrite((pvt))
 
 epicsShareFunc long epicsShareAPI asInitialize(ASINPUTFUNCPTR inputfunction);
-long epicsShareAPI asInitFile(
+long epicsShareExtern asInitFile(
     const char *filename,const char *substitutions);
-long epicsShareAPI asInitFP(FILE *fp,const char *substitutions);
+long epicsShareExtern asInitFP(FILE *fp,const char *substitutions);
 /*caller must provide permanent storage for asgName*/
 epicsShareFunc long epicsShareAPI asAddMember(
     ASMEMBERPVT *asMemberPvt,const char *asgName);

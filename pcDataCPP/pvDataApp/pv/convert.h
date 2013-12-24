@@ -21,7 +21,7 @@
 
 namespace epics { namespace pvData { 
 
-bool operator==(PVField&, PVField&);
+bool epicsShareExtern operator==(PVField&, PVField&);
 
 static inline bool operator!=(PVField& a, PVField& b)
 {return !(a==b);}
