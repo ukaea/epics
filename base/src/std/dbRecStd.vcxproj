@@ -119,6 +119,9 @@
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I../../dbd histogramRecord.dbd O.Common\histogramRecord.h
 </Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\histogramRecord.h</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I../../dbd histogramRecord.dbd O.Common\histogramRecord.h
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">O.Common\histogramRecord.h</Outputs>
     </CustomBuild>
     <CustomBuild Include="longinRecord.dbd">
       <FileType>Document</FileType>
@@ -196,8 +199,12 @@
     </CustomBuild>
     <CustomBuild Include="subRecord.dbd">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I../../dbd subRecord.dbd O.Common\subRecord.h</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> O.Common\subRecord.h</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I../../dbd subRecord.dbd O.Common\subRecord.h
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">O.Common\subRecord.h</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -IO.Common -I../../dbd subRecord.dbd O.Common\subRecord.h
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">O.Common\subRecord.h</Outputs>
     </CustomBuild>
     <CustomBuild Include="waveformRecord.dbd">
       <FileType>Document</FileType>
@@ -298,6 +305,11 @@ if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
 xcopy /Y /Q  /D *.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>if not exist ..\..\include md ..\..\include
+xcopy /Y /Q  /D O.Common\*.h ..\..\include &gt; NUL
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
