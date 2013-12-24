@@ -1231,6 +1231,7 @@ cd $(ProjectDir)
 if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
 
 xcopy /Y /Q /D /R as\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R bpt\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R db\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R dbStatic\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R dbtemplate\*.h  $(SolutionDir)include &gt; NUL
@@ -1274,6 +1275,7 @@ xcopy /Y /Q /D /R misc\*.dbd  $(SolutionDir)dbd &gt; NUL
 if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
 
 xcopy /Y /Q /D /R as\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R bpt\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R db\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R dbStatic\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R dbtemplate\*.h  $(SolutionDir)include &gt; NUL
@@ -1314,6 +1316,7 @@ xcopy /Y /Q /D /R misc\*.dbd  $(SolutionDir)dbd &gt; NUL
 if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
 
 xcopy /Y /Q /D /R as\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R bpt\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R db\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R dbStatic\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R dbtemplate\*.h  $(SolutionDir)include &gt; NUL
@@ -1357,6 +1360,7 @@ xcopy /Y /Q /D /R misc\*.dbd  $(SolutionDir)dbd &gt; NUL
 if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
 
 xcopy /Y /Q /D /R as\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R bpt\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R db\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R dbStatic\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R dbtemplate\*.h  $(SolutionDir)include &gt; NUL
@@ -1399,6 +1403,7 @@ xcopy /Y /Q /D /R misc\*.dbd  $(SolutionDir)dbd &gt; NUL
 if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
 
 xcopy /Y /Q /D /R as\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R bpt\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R db\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R dbStatic\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R dbtemplate\*.h  $(SolutionDir)include &gt; NUL
@@ -1444,6 +1449,7 @@ xcopy /Y /Q /D /R misc\*.dbd  $(SolutionDir)dbd &gt; NUL
 if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
 
 xcopy /Y /Q /D /R as\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R bpt\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R db\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R dbStatic\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R dbtemplate\*.h  $(SolutionDir)include &gt; NUL
@@ -1486,6 +1492,7 @@ xcopy /Y /Q /D /R misc\*.dbd  $(SolutionDir)dbd &gt; NUL
 if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
 
 xcopy /Y /Q /D /R as\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R bpt\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R db\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R dbStatic\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R dbtemplate\*.h  $(SolutionDir)include &gt; NUL
@@ -1531,6 +1538,7 @@ xcopy /Y /Q /D /R misc\*.dbd  $(SolutionDir)dbd &gt; NUL
 if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
 
 xcopy /Y /Q /D /R as\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R bpt\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R db\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R dbStatic\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R dbtemplate\*.h  $(SolutionDir)include &gt; NUL
