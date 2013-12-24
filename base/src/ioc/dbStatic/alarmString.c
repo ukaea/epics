@@ -13,6 +13,8 @@
 #ifndef INC_alarmString_H
 #define INC_alarmString_H
 
+#include <alarm.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -21,7 +23,7 @@ extern "C" {
 
 /* ALARM SEVERITIES - must match menuAlarmSevr.dbd and alarm.h */
 
-const char * epicsAlarmSeverityStrings[] = {
+const char * epicsAlarmSeverityStrings[ALARM_NSEV] = {
     "NO_ALARM",
     "MINOR",
     "MAJOR",
@@ -31,7 +33,7 @@ const char * epicsAlarmSeverityStrings[] = {
 
 /* ALARM STATUS - must match menuAlarmStat.dbd and alarm.h */
 
-const char * epicsAlarmConditionStrings[] = {
+const char * epicsAlarmConditionStrings[ALARM_NSTATUS] = {
     "NO_ALARM",
     "READ",
     "WRITE",
