@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="aitConvert.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="aitHelpers.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="aitTypes.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dbMapper.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gdd.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gddAppDefs.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gddAppTable.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gddArray.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gddContainer.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gddEnumStringTable.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gddErrorCodes.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gddTest.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="genApps.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gddUtils.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gddNewDel.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="aitConvert.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="aitHelpers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="aitTypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dbMapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gdd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gddAppFuncTable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gddAppTable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gddArray.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gddArrayI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gddContainer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gddContainerI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gddEnumStringTable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gddErrorCodes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gddI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gddScalar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gddScalarI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gddUtilsI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="smartGDDPointer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gddUtils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gddNewDel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

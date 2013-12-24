@@ -20,12 +20,8 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="O.win32-x86-debug\softIoc_registerRecordDeviceDriver.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="O.win32-x86\softIoc_registerRecordDeviceDriver.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
+    <ClCompile Include="O.win32-x86-debug\softIoc_registerRecordDeviceDriver.cpp" />
+    <ClCompile Include="O.win32-x86\softIoc_registerRecordDeviceDriver.cpp" />
     <ClCompile Include="softMain.cpp" />
   </ItemGroup>
   <ItemGroup>

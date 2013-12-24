@@ -21,7 +21,6 @@
     <None Include="Makefile" />
     <None Include="rc2.caRepeater" />
     <None Include="rc2.logServer" />
-    <None Include="util.vcxproj.user" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ca\ca.vcxproj">

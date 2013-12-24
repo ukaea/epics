@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="aaiRecord.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="aaoRecord.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="aiRecord.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="aoRecord.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="aSubRecord.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="biRecord.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="boRecord.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="calcoutRecord.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="calcRecord.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="compressRecord.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dfanoutRecord.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="eventRecord.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fanoutRecord.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="histogramRecord.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="longinRecord.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="longoutRecord.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mbbiDirectRecord.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mbbiRecord.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mbboDirectRecord.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mbboRecord.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="permissiveRecord.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="selRecord.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="seqRecord.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stateRecord.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stringinRecord.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stringoutRecord.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="subArrayRecord.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="subRecord.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="waveformRecord.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="aaiRecord.dbd">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="aaoRecord.dbd">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="aiRecord.dbd">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="aoRecord.dbd">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="aSubRecord.dbd">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="biRecord.dbd">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="boRecord.dbd">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="calcoutRecord.dbd">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="calcRecord.dbd">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="compressRecord.dbd">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="dfanoutRecord.dbd">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="eventRecord.dbd">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="fanoutRecord.dbd">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="histogramRecord.dbd">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="longinRecord.dbd">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="longoutRecord.dbd">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="mbbiDirectRecord.dbd">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="mbbiRecord.dbd">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="mbboDirectRecord.dbd">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="mbboRecord.dbd">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="permissiveRecord.dbd">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="selRecord.dbd">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="seqRecord.dbd">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="stateRecord.dbd">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="stringinRecord.dbd">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="stringoutRecord.dbd">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="subArrayRecord.dbd">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="subRecord.dbd">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="waveformRecord.dbd">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+</Project>
