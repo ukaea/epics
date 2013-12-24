@@ -383,6 +383,7 @@ xcopy /Y /Q  /D generic\*.h  $(SolutionDir)include &gt; NUL
       <DisableSpecificWarnings>4355;4244;4267</DisableSpecificWarnings>
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
       <BrowseInformation>true</BrowseInformation>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

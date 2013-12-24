@@ -111,10 +111,10 @@ move /Y y.tab.h O.Common\parse.h
 move /Y y.tab.c O.Common\parse.c
 move /Y y.tab.h O.Common\parse.h
 </Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(IntDir)parse.c;$(IntDir)parse.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">$(IntDir)parse.c;$(IntDir)parse.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">$(IntDir)parse.c;$(IntDir)parse.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">$(IntDir)parse.c;$(IntDir)parse.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">O.Common\parse.c;O.Common\parse.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">O.Common\parse.c;O.Common\parse.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">O.Common\parse.c;O.Common\parse.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">O.Common\parse.c;O.Common\parse.h</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">$(OutDir)antelope.exe  -l -d parse.y
 move /Y y.tab.c O.Common\parse.c
 move /Y y.tab.h O.Common\parse.h
@@ -131,10 +131,10 @@ move /Y y.tab.h O.Common\parse.h
 move /Y y.tab.c O.Common\parse.c
 move /Y y.tab.h O.Common\parse.h
 </Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">$(IntDir)parse.c;$(IntDir)parse.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">$(IntDir)parse.c;$(IntDir)parse.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">$(IntDir)parse.c;$(IntDir)parse.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">$(IntDir)parse.c;$(IntDir)parse.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">O.Common\parse.c;O.Common\parse.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">O.Common\parse.c;O.Common\parse.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">O.Common\parse.c;O.Common\parse.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">O.Common\parse.c;O.Common\parse.h</Outputs>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
@@ -356,6 +356,7 @@ xcopy /Y /Q /D flex.skel.static $(SolutionDir)include &gt; NUL
       <DisableSpecificWarnings>4996;4244;4267</DisableSpecificWarnings>
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
       <BrowseInformation>true</BrowseInformation>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
