@@ -338,28 +338,10 @@
     <ClCompile Include="osi\os\default\osdSignal.cpp">
       <Filter>osi\os\default</Filter>
     </ClCompile>
-    <ClCompile Include="O.win32-x86\envData.c">
+    <ClCompile Include="O.Common\envData.c">
       <Filter>Auto-generated Files</Filter>
     </ClCompile>
-    <ClCompile Include="O.win32-x86-debug\envData.c">
-      <Filter>Auto-generated Files</Filter>
-    </ClCompile>
-    <ClCompile Include="O.win32-x86\errSymTbl.c">
-      <Filter>Auto-generated Files</Filter>
-    </ClCompile>
-    <ClCompile Include="O.win32-x86-debug\errSymTbl.c">
-      <Filter>Auto-generated Files</Filter>
-    </ClCompile>
-    <ClCompile Include="O.windows-x64-debug\envData.c">
-      <Filter>Auto-generated Files</Filter>
-    </ClCompile>
-    <ClCompile Include="O.windows-x64\envData.c">
-      <Filter>Auto-generated Files</Filter>
-    </ClCompile>
-    <ClCompile Include="O.windows-x64\errSymTbl.c">
-      <Filter>Auto-generated Files</Filter>
-    </ClCompile>
-    <ClCompile Include="O.windows-x64-debug\errSymTbl.c">
+    <ClCompile Include="O.Common\errSymTbl.c">
       <Filter>Auto-generated Files</Filter>
     </ClCompile>
   </ItemGroup>
