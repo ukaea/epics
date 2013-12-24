@@ -472,6 +472,9 @@ xcopy /Y /Q /D /R mb\*.h $(SolutionDir)include\pv &gt; NUL
     <ProjectReference Include="..\..\pcDataCPP\pvDataApp\pvData.vcxproj">
       <Project>{f4a51415-2981-42ee-87c7-f29d5805583e}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\pvCommonCPP\mbApp\mb\pvMB.vcxproj">
+      <Project>{5c5be6f0-e25f-49b8-8718-d2f7e7a79369}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
