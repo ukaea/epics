@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="O.Common">
+      <UniqueIdentifier>{11817a3d-3377-4bae-91ff-57b1627b0229}</UniqueIdentifier>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="seq_ca.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="seq_cmd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="seq_if.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="seq_mac.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="seq_main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="seq_prog.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="seq_qry.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="seq_queue.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="seq_task.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="seq.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="seq_debug.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="seq_queue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="seqCom.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="seqPvt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="O.Common\seq_release.h">
+      <Filter>O.Common</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="seq_release.pl">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>
