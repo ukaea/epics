@@ -208,7 +208,7 @@
     </Link>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
-perl $(OutDir)dbdExpand.pl  -IO.Common -I. -I$(SolutionDir)dbd -o O.Common\softIoc.dbd base.dbd dlload.dbd system.dbd
+perl $(OutDir)dbdExpand.pl  -I. -I..\O.Common -I..\O.Common -I..\filters -I$(SolutionDir)dbd -o O.Common\softIoc.dbd base.dbd dlload.dbd system.dbd
 perl $(OutDir)registerRecordDeviceDriver.pl O.Common\softIoc.dbd softIoc_registerRecordDeviceDriver $(SolutionDir) &gt;O.Common\softIoc_registerRecordDeviceDriver.cpp
 </Command>
     </PreBuildEvent>
@@ -230,7 +230,7 @@ perl $(OutDir)registerRecordDeviceDriver.pl O.Common\softIoc.dbd softIoc_registe
     </Link>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
-perl $(OutDir)dbdExpand.pl  -IO.Common -I. -I$(SolutionDir)dbd -o O.Common\softIoc.dbd base.dbd dlload.dbd system.dbd
+perl $(OutDir)dbdExpand.pl  -I. -I..\O.Common -I..\O.Common -I..\filters -I$(SolutionDir)dbd -o O.Common\softIoc.dbd base.dbd dlload.dbd system.dbd
 perl $(OutDir)registerRecordDeviceDriver.pl O.Common\softIoc.dbd softIoc_registerRecordDeviceDriver $(SolutionDir) &gt;O.Common\softIoc_registerRecordDeviceDriver.cpp
 </Command>
     </PreBuildEvent>
@@ -251,7 +251,7 @@ perl $(OutDir)registerRecordDeviceDriver.pl O.Common\softIoc.dbd softIoc_registe
     </Link>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
-perl $(OutDir)dbdExpand.pl  -IO.Common -I. -I$(SolutionDir)dbd -o O.Common\softIoc.dbd base.dbd dlload.dbd system.dbd
+perl $(OutDir)dbdExpand.pl  -I. -I..\O.Common -I..\O.Common -I..\filters -I$(SolutionDir)dbd -o O.Common\softIoc.dbd base.dbd dlload.dbd system.dbd
 perl $(OutDir)registerRecordDeviceDriver.pl O.Common\softIoc.dbd softIoc_registerRecordDeviceDriver $(SolutionDir) &gt;O.Common\softIoc_registerRecordDeviceDriver.cpp
 </Command>
     </PreBuildEvent>
@@ -273,7 +273,7 @@ perl $(OutDir)registerRecordDeviceDriver.pl O.Common\softIoc.dbd softIoc_registe
     </Link>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
-perl $(OutDir)dbdExpand.pl  -IO.Common -I. -I$(SolutionDir)dbd -o O.Common\softIoc.dbd base.dbd dlload.dbd system.dbd
+perl $(OutDir)dbdExpand.pl  -I. -I..\O.Common -I..\O.Common -I..\filters -I$(SolutionDir)dbd -o O.Common\softIoc.dbd base.dbd dlload.dbd system.dbd
 perl $(OutDir)registerRecordDeviceDriver.pl O.Common\softIoc.dbd softIoc_registerRecordDeviceDriver $(SolutionDir) &gt;O.Common\softIoc_registerRecordDeviceDriver.cpp
 </Command>
     </PreBuildEvent>
@@ -297,7 +297,7 @@ perl $(OutDir)registerRecordDeviceDriver.pl O.Common\softIoc.dbd softIoc_registe
     <PreBuildEvent />
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
-perl $(OutDir)dbdExpand.pl  -IO.Common -I. -I$(SolutionDir)dbd -o O.Common\softIoc.dbd base.dbd dlload.dbd system.dbd
+perl $(OutDir)dbdExpand.pl  -I. -I..\O.Common -I..\O.Common -I..\filters -I$(SolutionDir)dbd -o O.Common\softIoc.dbd base.dbd dlload.dbd system.dbd
 perl $(OutDir)registerRecordDeviceDriver.pl O.Common\softIoc.dbd softIoc_registerRecordDeviceDriver $(SolutionDir) &gt;O.Common\softIoc_registerRecordDeviceDriver.cpp
 </Command>
     </PreBuildEvent>
@@ -322,7 +322,7 @@ perl $(OutDir)registerRecordDeviceDriver.pl O.Common\softIoc.dbd softIoc_registe
     <PreBuildEvent />
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
-perl $(OutDir)dbdExpand.pl  -IO.Common -I. -I$(SolutionDir)dbd -o O.Common\softIoc.dbd base.dbd dlload.dbd system.dbd
+perl $(OutDir)dbdExpand.pl  -I. -I..\O.Common -I..\O.Common -I..\filters -I$(SolutionDir)dbd -o O.Common\softIoc.dbd base.dbd dlload.dbd system.dbd
 perl $(OutDir)registerRecordDeviceDriver.pl O.Common\softIoc.dbd softIoc_registerRecordDeviceDriver $(SolutionDir) &gt;O.Common\softIoc_registerRecordDeviceDriver.cpp
 </Command>
     </PreBuildEvent>
@@ -346,7 +346,7 @@ perl $(OutDir)registerRecordDeviceDriver.pl O.Common\softIoc.dbd softIoc_registe
     <PreBuildEvent />
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
-perl $(OutDir)dbdExpand.pl  -IO.Common -I. -I$(SolutionDir)dbd -o O.Common\softIoc.dbd base.dbd dlload.dbd system.dbd
+perl $(OutDir)dbdExpand.pl  -I. -I..\O.Common -I..\O.Common -I..\filters -I$(SolutionDir)dbd -o O.Common\softIoc.dbd base.dbd dlload.dbd system.dbd
 perl $(OutDir)registerRecordDeviceDriver.pl O.Common\softIoc.dbd softIoc_registerRecordDeviceDriver $(SolutionDir) &gt;O.Common\softIoc_registerRecordDeviceDriver.cpp
 </Command>
     </PreBuildEvent>
@@ -371,7 +371,7 @@ perl $(OutDir)registerRecordDeviceDriver.pl O.Common\softIoc.dbd softIoc_registe
     <PreBuildEvent />
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
-perl $(OutDir)dbdExpand.pl  -IO.Common -I. -I$(SolutionDir)dbd -o O.Common\softIoc.dbd base.dbd dlload.dbd system.dbd
+perl $(OutDir)dbdExpand.pl  -I. -I..\O.Common -I..\O.Common -I..\filters -I$(SolutionDir)dbd -o O.Common\softIoc.dbd base.dbd dlload.dbd system.dbd
 perl $(OutDir)registerRecordDeviceDriver.pl O.Common\softIoc.dbd softIoc_registerRecordDeviceDriver $(SolutionDir) &gt;O.Common\softIoc_registerRecordDeviceDriver.cpp
 </Command>
     </PreBuildEvent>
