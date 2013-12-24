@@ -418,7 +418,7 @@ static asynDrvUser dmbDrvUser = {
     drvUserDestroy
 };
 
-#define OnboardClock "OnboardClock"
+static const char* OnboardClock = "OnboardClock";
 
 /*
   Simply sends a start message
@@ -902,6 +902,7 @@ static asynStatus drvUserCreate(void *drvPvt, asynUser *pasynUser,
 		token = strtok(NULL," ");
 	}
 	
+	free(dupstring);
 	if (overallsuccess)
 	    return (asynSuccess);
 	
@@ -916,7 +917,6 @@ static asynStatus drvUserGetType(void *drvPvt, asynUser *pasynUser,
                                  const char **pptypeName, size_t *psize)
 {
 	int command = pasynUser->reason;
-	*psize = 0;
 	if ( pptypeName )
 		*pptypeName = epicsStrDup( daqMxCommands[command].commandString);
 	if ( psize )
@@ -1910,6 +1910,7 @@ daqMxPvt *getAsynPort(char *portName )
 		{
 			DAQmxGetExtendedErrorInfo(pPvt->daqMxErrBuf, ERR_BUF_SIZE);
 			printf("### ERROR DAQmx: %s\n", pPvt->daqMxErrBuf);
+			delete pPvt;
 			return NULL;
 		}
 		/* create an epics mutex to protect read/writes in the simulation thread */
@@ -3109,7 +3110,7 @@ void Configure(daqMxPvt *pPvt)
 		sampleMode = DAQmx_Val_ContSamps;
 		nSamples = DEFAULT_NSAMPLES;
 	}
-	if (strcmp(pPvt->clockSource, OnboardClock)!=0)
+	if ((!pPvt->clockSource) || (strcmp(pPvt->clockSource, OnboardClock)!=0))
 		sampleRate = 1E6; /* maximum expected extternal clock rate */
 	if ((sampleRate > 0) && (pPvt->daqMode != BO))
 	{
@@ -3250,6 +3251,7 @@ void daqThread(void *param)
 	/*bool32 boolresult;*/
 	int  reason, signal;
 	daqMxMessage msg;
+	int ErrorCode;
 	daqMxState laststate = pPvt->state;
 
 	ELLLIST *pclientList;
@@ -3809,10 +3811,8 @@ void daqThread(void *param)
 				    break;
 				case 2: /*Scalar U32*/
 				    samplesTransferred = 1;
-				    if( DAQmxFailed( DAQmxReadCounterScalarU32(	pPvt->taskHandle, 
-											pPvt->timeout,
-											static_cast<uInt32*>(pPvt->rawData),
-											NULL) ))
+					ErrorCode = DAQmxReadCounterScalarU32(pPvt->taskHandle, pPvt->timeout, static_cast<uInt32*>(pPvt->rawData), NULL);
+				    if (( DAQmxFailed(ErrorCode) ) && (ErrorCode != DAQmxErrorSamplesNotYetAvailable))
 				    {
 					DAQmxGetExtendedErrorInfo(pPvt->daqMxErrBuf, ERR_BUF_SIZE);
 					asynPrint(	pPvt->pasynUser, ASYN_TRACE_ERROR,
