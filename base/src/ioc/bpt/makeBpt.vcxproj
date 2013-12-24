@@ -115,10 +115,10 @@ cd $(ProjectDir)
 
 
 </Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'"> O.Common\menuConvert.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'"> O.Common\menuConvert.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'"> O.Common\menuConvert.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'"> O.Common\menuConvert.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">../O.Common/%(FileName).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">../O.Common/%(FileName).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">../O.Common/%(FileName).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">../O.Common/%(FileName).h</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">cd db
 perl -CSD $(OutDir)dbdToMenuH.pl  -I../O.Common -I$(SolutionDir)include -o ../O.Common/%(FileName).h %(FileName).dbd
 cd $(ProjectDir)
@@ -143,10 +143,10 @@ cd $(ProjectDir)
 
 
 </Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'"> O.Common\menuConvert.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'"> O.Common\menuConvert.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'"> O.Common\menuConvert.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'"> O.Common\menuConvert.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">../O.Common/%(FileName).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">../O.Common/%(FileName).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">../O.Common/%(FileName).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">../O.Common/%(FileName).h</Outputs>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
@@ -287,8 +287,8 @@ if not exist O.Common md O.Common
 $(OutDir)makeBpt.exe bptTypeJdegF.data  O.Common\bptTypeJdegF.dbd
 $(OutDir)makeBpt.exe bptTypeKdegC.data  O.Common\bptTypeKdegC.dbd
 $(OutDir)makeBpt.exe bptTypeKdegF.data  O.Common\bptTypeKdegF.dbd
-xcopy /Y /Q  /D O.Common\menuConvert.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q  /D ..\O.Common\menuConvert.h $(SolutionDir)include &gt; NUL
+xcopy /Y /Q  /D ..\O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -321,8 +321,8 @@ if not exist O.Common md O.Common
 $(OutDir)makeBpt.exe bptTypeJdegF.data  O.Common\bptTypeJdegF.dbd
 $(OutDir)makeBpt.exe bptTypeKdegC.data  O.Common\bptTypeKdegC.dbd
 $(OutDir)makeBpt.exe bptTypeKdegF.data  O.Common\bptTypeKdegF.dbd
-xcopy /Y /Q  /D O.Common\menuConvert.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q  /D ..\O.Common\menuConvert.h $(SolutionDir)include &gt; NUL
+xcopy /Y /Q  /D ..\O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -355,8 +355,8 @@ if not exist O.Common md O.Common
 $(OutDir)makeBpt.exe bptTypeJdegF.data  O.Common\bptTypeJdegF.dbd
 $(OutDir)makeBpt.exe bptTypeKdegC.data  O.Common\bptTypeKdegC.dbd
 $(OutDir)makeBpt.exe bptTypeKdegF.data  O.Common\bptTypeKdegF.dbd
-xcopy /Y /Q  /D O.Common\menuConvert.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q  /D ..\O.Common\menuConvert.h $(SolutionDir)include &gt; NUL
+xcopy /Y /Q  /D ..\O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -390,8 +390,8 @@ if not exist O.Common md O.Common
 $(OutDir)makeBpt.exe bptTypeJdegF.data  O.Common\bptTypeJdegF.dbd
 $(OutDir)makeBpt.exe bptTypeKdegC.data  O.Common\bptTypeKdegC.dbd
 $(OutDir)makeBpt.exe bptTypeKdegF.data  O.Common\bptTypeKdegF.dbd
-xcopy /Y /Q  /D O.Common\menuConvert.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q  /D ..\O.Common\menuConvert.h $(SolutionDir)include &gt; NUL
+xcopy /Y /Q  /D ..\O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -424,8 +424,8 @@ if not exist O.Common md O.Common
 $(OutDir)makeBpt.exe bptTypeJdegF.data  O.Common\bptTypeJdegF.dbd
 $(OutDir)makeBpt.exe bptTypeKdegC.data  O.Common\bptTypeKdegC.dbd
 $(OutDir)makeBpt.exe bptTypeKdegF.data  O.Common\bptTypeKdegF.dbd
-xcopy /Y /Q  /D O.Common\menuConvert.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q  /D ..\O.Common\menuConvert.h $(SolutionDir)include &gt; NUL
+xcopy /Y /Q  /D ..\O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -459,8 +459,8 @@ if not exist O.Common md O.Common
 $(OutDir)makeBpt.exe bptTypeJdegF.data  O.Common\bptTypeJdegF.dbd
 $(OutDir)makeBpt.exe bptTypeKdegC.data  O.Common\bptTypeKdegC.dbd
 $(OutDir)makeBpt.exe bptTypeKdegF.data  O.Common\bptTypeKdegF.dbd
-xcopy /Y /Q  /D O.Common\menuConvert.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q  /D ..\O.Common\menuConvert.h $(SolutionDir)include &gt; NUL
+xcopy /Y /Q  /D ..\O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -494,8 +494,8 @@ if not exist O.Common md O.Common
 $(OutDir)makeBpt.exe bptTypeJdegF.data  O.Common\bptTypeJdegF.dbd
 $(OutDir)makeBpt.exe bptTypeKdegC.data  O.Common\bptTypeKdegC.dbd
 $(OutDir)makeBpt.exe bptTypeKdegF.data  O.Common\bptTypeKdegF.dbd
-xcopy /Y /Q  /D O.Common\menuConvert.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q  /D ..\O.Common\menuConvert.h $(SolutionDir)include &gt; NUL
+xcopy /Y /Q  /D ..\O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -530,8 +530,8 @@ if not exist O.Common md O.Common
 $(OutDir)makeBpt.exe bptTypeJdegF.data  O.Common\bptTypeJdegF.dbd
 $(OutDir)makeBpt.exe bptTypeKdegC.data  O.Common\bptTypeKdegC.dbd
 $(OutDir)makeBpt.exe bptTypeKdegF.data  O.Common\bptTypeKdegF.dbd
-xcopy /Y /Q  /D O.Common\menuConvert.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q  /D ..\O.Common\menuConvert.h $(SolutionDir)include &gt; NUL
+xcopy /Y /Q  /D ..\O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
