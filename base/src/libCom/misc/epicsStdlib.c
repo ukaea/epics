@@ -1,50 +1,252 @@
 /*************************************************************************\
-* Copyright (c) 2009 UChicago Argonna LLC, as Operator of Argonne
+* Copyright (c) 2012 UChicago Argonna LLC, as Operator of Argonne
 *     National Laboratory.
 * Copyright (c) 2002 The Regents of the University of California, as
 *     Operator of Los Alamos National Laboratory.
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/*epicsStdlib.c*/
-/*Author: Eric Norum */
+/* $Revision-Id$ */
+/* Authors: Eric Norum & Andrew Johnson */
 
 #include <ctype.h>
 #include <stdio.h>
+#include <errno.h>
+#include <float.h>
 
 #define epicsExportSharedSymbols
 #include "epicsMath.h"
 #include "epicsStdlib.h"
 #include "epicsString.h"
+#include "epicsConvert.h"
 
 
-epicsShareFunc int epicsScanDouble(const char *str, double *dest)
+/* These are the conversion primitives */
+
+epicsShareFunc int
+epicsParseLong(const char *str, long *to, int base, char **units)
 {
+    int c;
     char *endp;
-    double dtmp;
+    long value;
 
-    dtmp = epicsStrtod(str, &endp);
+    while ((c = *str) && isspace(c))
+        ++str;
+
+    errno = 0;
+    value = strtol(str, &endp, base);
+
     if (endp == str)
-        return 0;
-    *dest = dtmp;
-    return 1;
+        return S_stdlib_noConversion;
+    if (errno == EINVAL)    /* Not universally supported */
+        return S_stdlib_badBase;
+    if (errno == ERANGE)
+        return S_stdlib_overflow;
+
+    while ((c = *endp) && isspace(c))
+        ++endp;
+    if (c && !units)
+        return S_stdlib_extraneous;
+
+    *to = value;
+    if (units)
+        *units = endp;
+    return 0;
 }
 
-epicsShareFunc int epicsScanFloat(const char *str, float *dest)
+epicsShareFunc int
+epicsParseULong(const char *str, unsigned long *to, int base, char **units)
 {
+    int c;
     char *endp;
-    double dtmp;
+    unsigned long value;
 
-    dtmp = epicsStrtod(str, &endp);
+    while ((c = *str) && isspace(c))
+        ++str;
+
+    errno = 0;
+    value = strtoul(str, &endp, base);
+
     if (endp == str)
-        return 0;
-    *dest = (float)dtmp;
-    return 1;
+        return S_stdlib_noConversion;
+    if (errno == EINVAL)    /* Not universally supported */
+        return S_stdlib_badBase;
+    if (errno == ERANGE)
+        return S_stdlib_overflow;
+
+    while ((c = *endp) && isspace(c))
+        ++endp;
+    if (c && !units)
+        return S_stdlib_extraneous;
+
+    *to = value;
+    if (units)
+        *units = endp;
+    return 0;
 }
 
-/* Systems with a working strtod() just #define epicsStrtod strtod */
+epicsShareFunc int
+epicsParseDouble(const char *str, double *to, char **units)
+{
+    int c;
+    char *endp;
+    double value;
+
+    while ((c = *str) && isspace(c))
+        ++str;
+
+    errno = 0;
+    value = epicsStrtod(str, &endp);
+
+    if (endp == str)
+        return S_stdlib_noConversion;
+    if (errno == ERANGE)
+        return (value == 0) ? S_stdlib_underflow : S_stdlib_overflow;
+
+    while ((c = *endp) && isspace(c))
+        ++endp;
+    if (c && !units)
+        return S_stdlib_extraneous;
+
+    *to = value;
+    if (units)
+        *units = endp;
+    return 0;
+}
+
+
+/* These call the primitives */
+
+epicsShareFunc int
+epicsParseInt8(const char *str, epicsInt8 *to, int base, char **units)
+{
+    long value;
+    int status = epicsParseLong(str, &value, base, units);
+
+    if (status)
+        return status;
+
+    if (value < -0x80 || value > 0x7f)
+        return S_stdlib_overflow;
+
+    *to = value;
+    return 0;
+}
+
+epicsShareFunc int
+epicsParseUInt8(const char *str, epicsUInt8 *to, int base, char **units)
+{
+    unsigned long value;
+    int status = epicsParseULong(str, &value, base, units);
+
+    if (status)
+        return status;
+
+    if (value > 0xff && value <= ~0xffUL)
+        return S_stdlib_overflow;
+
+    *to = value;
+    return 0;
+}
+
+epicsShareFunc int
+epicsParseInt16(const char *str, epicsInt16 *to, int base, char **units)
+{
+    long value;
+    int status = epicsParseLong(str, &value, base, units);
+
+    if (status)
+        return status;
+
+    if (value < -0x8000 || value > 0x7fff)
+        return S_stdlib_overflow;
+
+    *to = value;
+    return 0;
+}
+
+epicsShareFunc int
+epicsParseUInt16(const char *str, epicsUInt16 *to, int base, char **units)
+{
+    unsigned long value;
+    int status = epicsParseULong(str, &value, base, units);
+
+    if (status)
+        return status;
+
+    if (value > 0xffff && value <= ~0xffffUL)
+        return S_stdlib_overflow;
+
+    *to = value;
+    return 0;
+}
+
+epicsShareFunc int
+epicsParseInt32(const char *str, epicsInt32 *to, int base, char **units)
+{
+    long value;
+    int status = epicsParseLong(str, &value, base, units);
+
+    if (status)
+        return status;
+
+#if (LONG_MAX > 0x7fffffff)
+    if (value < -0x80000000L || value > 0x7fffffffL)
+        return S_stdlib_overflow;
+#endif
+
+    *to = value;
+    return 0;
+}
+
+epicsShareFunc int
+epicsParseUInt32(const char *str, epicsUInt32 *to, int base, char **units)
+{
+    unsigned long value;
+    int status = epicsParseULong(str, &value, base, units);
+
+    if (status)
+        return status;
+
+#if (ULONG_MAX > 0xffffffff)
+    if (value > 0xffffffffUL && value <= ~0xffffffffUL)
+        return S_stdlib_overflow;
+#endif
+
+    *to = value;
+    return 0;
+}
+
+epicsShareFunc int
+epicsParseFloat(const char *str, float *to, char **units)
+{
+    double value, abs;
+    int status = epicsParseDouble(str, &value, units);
+
+    if (status)
+        return status;
+
+    abs = fabs(value);
+    if (value > 0 && abs <= FLT_MIN)
+        return S_stdlib_underflow;
+    if (finite(value) && abs >= FLT_MAX)
+        return S_stdlib_overflow;
+
+    *to = value;
+    return 0;
+}
+
+
+/* If strtod() works properly, osdStrtod.h defines this macro:
+ *   #define epicsStrtod strtod
+ *
+ * If strtod() is broken, osdStrtod.h defines this prototype:
+ *   epicsShareFunc double epicsStrtod(const char *str, char **endp);
+ */
+
 #ifndef epicsStrtod
-epicsShareFunc double epicsStrtod(const char *str, char **endp)
+epicsShareFunc double
+epicsStrtod(const char *str, char **endp)
 {
     const char *cp = str;
     int negative = 0;
@@ -60,6 +262,12 @@ epicsShareFunc double epicsStrtod(const char *str, char **endp)
         cp++;
     }
 
+    if (epicsStrnCaseCmp("0x", cp, 2) == 0) {
+        if (negative)
+            return strtol(str, endp, 16);
+        else
+            return strtoul(str, endp, 16);
+    }
     if (!isalpha((int)*cp))
         return strtod(str, endp);
 

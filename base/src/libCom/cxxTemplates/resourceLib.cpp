@@ -8,7 +8,7 @@
 \*************************************************************************/
 
 /*  
- *  Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd
+ *  $Revision-Id$
  *
  *                    L O S  A L A M O S
  *              Los Alamos National Laboratory

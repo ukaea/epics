@@ -181,6 +181,7 @@ void dbPvdFreeMem(dbBase *pdbbase)
             ellDelete(&pbucket->list, (ELLNODE *)ppvdNode);
             free(ppvdNode);
         }
+        epicsMutexUnlock(pbucket->lock);
         epicsMutexDestroy(pbucket->lock);
         free(pbucket);
     }
@@ -188,7 +189,7 @@ void dbPvdFreeMem(dbBase *pdbbase)
     free(ppvd);
 }
 
-void epicsShareAPI dbPvdDump(dbBase *pdbbase, int verbose)
+void dbPvdDump(dbBase *pdbbase, int verbose)
 {
     unsigned int empty = 0;
     dbPvd *ppvd;

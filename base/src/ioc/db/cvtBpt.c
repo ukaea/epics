@@ -7,7 +7,7 @@
 * and higher are distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/* Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd */
+/* $Revision-Id$ */
   
 /* cvtBpt.c - Convert using breakpoint table
  *
@@ -16,11 +16,11 @@
  *	This is adaptation of old bldCvtTable 
  */
 
-#include "dbBase.h"
-#include "dbStaticLib.h"
 #include "epicsPrint.h"
 
 #define epicsExportSharedSymbols
+#include "dbBase.h"
+#include "dbStaticLib.h"
 #include "dbAccess.h"
 #include "cvtTable.h"
 
@@ -42,7 +42,7 @@ static brkTable *findBrkTable(short linr)
 }
 
 /* Used by both ao and ai record types */
-long epicsShareAPI cvtRawToEngBpt(double *pval, short linr, short init,
+long cvtRawToEngBpt(double *pval, short linr, short init,
 	void **ppbrk, short *plbrk)
 {
     double	val = *pval;
@@ -122,7 +122,7 @@ long epicsShareAPI cvtRawToEngBpt(double *pval, short linr, short init,
 }
 
 /* Used by the ao record type */
-long epicsShareAPI cvtEngToRawBpt(double *pval, short linr, short init,
+long cvtEngToRawBpt(double *pval, short linr, short init,
 	void **ppbrk, short *plbrk)
 {
     double	val = *pval;

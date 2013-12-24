@@ -8,7 +8,7 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 /* special.h */
-/* share/epicsH Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd */
+/* share/epicsH $Revision-Id$ */
 
 /*
  *      Author:          Marty Kraimer

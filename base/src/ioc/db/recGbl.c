@@ -6,12 +6,10 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/* recGbl.c */
-/* Revision-Id: anj@aps.anl.gov-20121017230839-u6ohpi6wehm44tqh */
 
 /*
  *      Author:          Marty Kraimer
- *      Date:            11-7-90
+ *                       Andrew Johnson <anj@aps.anl.gov>
  */
 
 #include <stddef.h>
@@ -35,6 +33,7 @@
 #include "caeventmask.h"
 #define epicsExportSharedSymbols
 #include "dbAccessDefs.h"
+#include "dbLink.h"
 #include "dbNotify.h"
 #include "dbCa.h"
 #include "dbEvent.h"
@@ -52,7 +51,7 @@ static void getMaxRangeValues(short field_type, double *pupper_limit,
 
 
 
-void epicsShareAPI recGblDbaddrError(long status, const struct dbAddr *paddr,
+void recGblDbaddrError(long status, const struct dbAddr *paddr,
     const char *pmessage)
 {
     dbCommon *precord = 0;
@@ -71,7 +70,7 @@ void epicsShareAPI recGblDbaddrError(long status, const struct dbAddr *paddr,
     return;
 }
 
-void epicsShareAPI recGblRecordError(long status, void *pdbc,
+void recGblRecordError(long status, void *pdbc,
     const char *pmessage)
 {
     dbCommon	*precord = pdbc;
@@ -83,7 +82,7 @@ void epicsShareAPI recGblRecordError(long status, void *pdbc,
     return;
 }
 
-void epicsShareAPI recGblRecSupError(long status, const struct dbAddr *paddr,
+void recGblRecSupError(long status, const struct dbAddr *paddr,
     const char *pmessage, const char *psupport_name)
 {
     dbCommon *precord = 0;
@@ -108,7 +107,7 @@ void epicsShareAPI recGblRecSupError(long status, const struct dbAddr *paddr,
     return;
 }
 
-void epicsShareAPI recGblGetPrec(const struct dbAddr *paddr, long *precision)
+void recGblGetPrec(const struct dbAddr *paddr, long *precision)
 {
     dbFldDes *pdbFldDes = paddr->pfldDes;
 
@@ -133,7 +132,7 @@ void epicsShareAPI recGblGetPrec(const struct dbAddr *paddr, long *precision)
     }
 }
 
-void epicsShareAPI recGblGetGraphicDouble(const struct dbAddr *paddr,
+void recGblGetGraphicDouble(const struct dbAddr *paddr,
     struct dbr_grDouble *pgd)
 {
     dbFldDes *pdbFldDes = paddr->pfldDes;
@@ -142,7 +141,7 @@ void epicsShareAPI recGblGetGraphicDouble(const struct dbAddr *paddr,
         &pgd->upper_disp_limit, &pgd->lower_disp_limit);
 }
 
-void epicsShareAPI recGblGetAlarmDouble(const struct dbAddr *paddr,
+void recGblGetAlarmDouble(const struct dbAddr *paddr,
     struct dbr_alDouble *pad)
 {
     pad->upper_alarm_limit   = epicsNAN;
@@ -151,7 +150,7 @@ void epicsShareAPI recGblGetAlarmDouble(const struct dbAddr *paddr,
     pad->lower_alarm_limit   = epicsNAN;
 }
 
-void epicsShareAPI recGblGetControlDouble(const struct dbAddr *paddr,
+void recGblGetControlDouble(const struct dbAddr *paddr,
     struct dbr_ctrlDouble *pcd)
 {
     dbFldDes *pdbFldDes = paddr->pfldDes;
@@ -159,61 +158,18 @@ void epicsShareAPI recGblGetControlDouble(const struct dbAddr *paddr,
     getMaxRangeValues(pdbFldDes->field_type,
         &pcd->upper_ctrl_limit, &pcd->lower_ctrl_limit);
 }
-
-int  epicsShareAPI recGblInitConstantLink(
+
+int  recGblInitConstantLink(
     struct link *plink,short dbftype,void *pdest)
 {
-    if(plink->type != CONSTANT) return(FALSE);
-    if(!plink->value.constantStr) return(FALSE);
-    switch(dbftype) {
-    case DBF_STRING:
-	strcpy((char *)pdest,plink->value.constantStr);
-	break;
-    case DBF_CHAR : {
-	epicsInt16 value;
-	epicsInt8 *pvalue = (epicsInt8 *)pdest;
+    long status = dbLoadLink(plink, dbftype, pdest);
 
-	sscanf(plink->value.constantStr,"%hi",&value);
-	*pvalue = value;
-	}
-	break;
-    case DBF_UCHAR : {
-	epicsUInt16 value;
-	epicsUInt8 *pvalue = (epicsUInt8 *)pdest;
-
-	sscanf(plink->value.constantStr,"%hu",&value);
-	*pvalue = value;
-	}
-	break;
-    case DBF_SHORT : 
-	sscanf(plink->value.constantStr,"%hi",(epicsInt16 *)pdest);
-	break;
-    case DBF_USHORT : 
-    case DBF_ENUM : 
-    case DBF_MENU : 
-    case DBF_DEVICE : 
-	sscanf(plink->value.constantStr,"%hu",(epicsUInt16 *)pdest);
-	break;
-    case DBF_LONG : 
-	*(epicsInt32 *)pdest = strtol(plink->value.constantStr, NULL, 0);
-	break;
-    case DBF_ULONG : 
-	*(epicsUInt32 *)pdest = strtoul(plink->value.constantStr, NULL, 10);
-	break;
-    case DBF_FLOAT : 
-	epicsScanFloat(plink->value.constantStr, (epicsFloat32 *)pdest);
-	break;
-    case DBF_DOUBLE : 
-	epicsScanDouble(plink->value.constantStr, (epicsFloat64 *)pdest);
-	break;
-    default:
-	epicsPrintf("Error in recGblInitConstantLink: Illegal DBF type\n");
-	return(FALSE);
-    }
-    return(TRUE);
+    if (status)
+        return FALSE;
+    return TRUE;
 }
-
-unsigned short epicsShareAPI recGblResetAlarms(void *precord)
+
+unsigned short recGblResetAlarms(void *precord)
 {
     dbCommon *pdbc = precord;
     epicsEnum16 prev_stat = pdbc->stat;
@@ -250,8 +206,19 @@ unsigned short epicsShareAPI recGblResetAlarms(void *precord)
     }
     return val_mask;
 }
+
+int recGblSetSevr(void *precord, epicsEnum16 new_stat, epicsEnum16 new_sevr)
+{
+    struct dbCommon *prec = precord;
+    if (prec->nsev < new_sevr) {
+        prec->nsta = new_stat;
+	prec->nsev = new_sevr;
+	return TRUE;
+    }
+    return FALSE;
+}
 
-void epicsShareAPI recGblFwdLink(void *precord)
+void recGblFwdLink(void *precord)
 {
     dbCommon *pdbc = precord;
 
@@ -267,7 +234,7 @@ void epicsShareAPI recGblFwdLink(void *precord)
     pdbc->putf = FALSE;
 }
 
-void epicsShareAPI recGblGetTimeStamp(void *pvoid)
+void recGblGetTimeStamp(void *pvoid)
 {
     dbCommon* prec = (dbCommon*)pvoid;
     struct link *plink = &prec->tsel;
@@ -290,7 +257,7 @@ void epicsShareAPI recGblGetTimeStamp(void *pvoid)
     }
 }
 
-void epicsShareAPI recGblTSELwasModified(struct link *plink)
+void recGblTSELwasModified(struct link *plink)
 {
     struct pv_link *ppv_link = &plink->value.pv_link;
     char *pfieldname;

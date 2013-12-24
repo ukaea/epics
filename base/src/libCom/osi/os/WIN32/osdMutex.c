@@ -9,7 +9,7 @@
 \*************************************************************************/
 /* osdMutex.c */
 /*
- *      Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd
+ *      $Revision-Id$
  *      WIN32 version
  *
  *      Author  Jeffrey O. Hill
@@ -38,6 +38,7 @@
  * It appears that the only entry point used here that causes
  * portability problems with W95\W98\WME is TryEnterCriticalSection.
  */
+#undef _WIN32_WINNT
 #define _WIN32_WINNT 0x0400 
 #include <windows.h>
 
@@ -45,7 +46,7 @@
 #include "shareLib.h"
 #include "epicsMutex.h"
 #include "epicsAssert.h"
-#include "epicsStdioRedirect.h"
+#include "epicsStdio.h"
 
 typedef struct epicsMutexOSD { 
     union {

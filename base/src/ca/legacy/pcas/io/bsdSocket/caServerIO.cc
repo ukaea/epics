@@ -7,7 +7,7 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 //
-// Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd
+// $Revision-Id$
 //
 // verify connection state prior to doing anything in this file
 //
@@ -167,7 +167,7 @@ void caServerIO::show (unsigned /* level */) const
 //
 // getToken()
 //
-static char *getToken(const char **ppString, // X aCC 361
+static char *getToken(const char **ppString,
                       char *pBuf, unsigned bufSIze)
 {
     const char *pToken;

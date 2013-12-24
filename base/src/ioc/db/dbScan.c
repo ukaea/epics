@@ -1,5 +1,5 @@
 /*************************************************************************\
-* Copyright (c) 2008 UChicago Argonne LLC, as Operator of Argonne
+* Copyright (c) 2012 UChicago Argonne LLC, as Operator of Argonne
 *     National Laboratory.
 * Copyright (c) 2002 The Regents of the University of California, as
 *     Operator of Los Alamos National Laboratory.
@@ -9,19 +9,19 @@
 /* dbScan.c */
 /* tasks and subroutines to scan the database */
 /*
- *      Original Author:        Bob Dalesio
- *      Current Author:         Marty Kraimer
- *      Date:                   07/18/91
+ *      Original Authors: Bob Dalesio & Marty Kraimer
  */
 
-#include <epicsStdlib.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <string.h>
 #include <limits.h>
 #include <math.h>
+#include <ctype.h>
 
-#include "epicsStdioRedirect.h"
+#include "epicsStdlib.h"
+#include "epicsStdio.h"
+#include "epicsString.h"
 #include "dbDefs.h"
 #include "ellLib.h"
 #include "taskwd.h"
@@ -34,13 +34,13 @@
 #include "cantProceed.h"
 #include "epicsRingPointer.h"
 #include "epicsPrint.h"
+#define epicsExportSharedSymbols
 #include "dbBase.h"
 #include "dbStaticLib.h"
 #include "dbFldTypes.h"
 #include "link.h"
 #include "devSup.h"
 #include "dbCommon.h"
-#define epicsExportSharedSymbols
 #include "dbAddr.h"
 #include "callback.h"
 #include "dbAccessDefs.h"
@@ -85,6 +85,7 @@ typedef struct scan_element{
 typedef struct periodic_scan_list {
     scan_list           scan_list;
     double              period;
+    unsigned long       overruns;
     volatile enum ctl   scanCtl;
     epicsEventId        loopEvent;
 } periodic_scan_list;
@@ -101,12 +102,13 @@ static char *priorityName[NUM_CALLBACK_PRIORITIES] = {
 
 /* EVENT */
 
-#define MAX_EVENTS 256
-typedef struct event_scan_list {
-    CALLBACK            callback;
-    scan_list           scan_list;
-} event_scan_list;
-static event_scan_list *pevent_list[NUM_CALLBACK_PRIORITIES][MAX_EVENTS];
+typedef struct event_list {
+    CALLBACK            callback[NUM_CALLBACK_PRIORITIES];
+    scan_list           scan_list[NUM_CALLBACK_PRIORITIES];
+    struct event_list *next;
+    char                event_name[MAX_STRING_SIZE];
+} event_list;
+static event_list * volatile pevent_list[256];
 
 
 /* IO_EVENT*/
@@ -160,8 +162,8 @@ long scanInit(void)
     startStopEvent = epicsEventMustCreate(epicsEventEmpty);
     scanCtl = ctlPause;
 
-    initOnce();
     initPeriodic();
+    initOnce();
     initEvent();
     buildScanLists();
     for (i = 0; i < nPeriodic; i++)
@@ -204,35 +206,24 @@ void scanAdd(struct dbCommon *precord)
         recGblRecordError(-1, (void *)precord,
             "scanAdd detected illegal SCAN value");
     } else if (scan == menuScanEvent) {
-        int evnt;
+        char* eventname;
         int prio;
-        event_scan_list *pesl;
+        event_list *pel;
 
-        evnt = precord->evnt;
-        if (evnt < 0 || evnt >= MAX_EVENTS) {
+        eventname = precord->evnt;
+        if (strlen(eventname) >= MAX_STRING_SIZE) {
             recGblRecordError(S_db_badField, (void *)precord,
-                "scanAdd detected illegal EVNT value");
-            precord->scan = menuScanPassive;
+                "scanAdd: too long EVNT value");
             return;
         }
         prio = precord->prio;
         if (prio < 0 || prio >= NUM_CALLBACK_PRIORITIES) {
             recGblRecordError(-1, (void *)precord,
                 "scanAdd: illegal prio field");
-            precord->scan = menuScanPassive;
             return;
         }
-        pesl = pevent_list[prio][evnt];
-        if (pesl == NULL) {
-            pesl = dbCalloc(1, sizeof(event_scan_list));
-            pevent_list[prio][evnt] = pesl;
-            pesl->scan_list.lock = epicsMutexMustCreate();
-            callbackSetCallback(eventCallback, &pesl->callback);
-            callbackSetPriority(prio, &pesl->callback);
-            callbackSetUser(pesl, &pesl->callback);
-            ellInit(&pesl->scan_list.list);
-        }
-        addToList(precord, &pesl->scan_list);
+        pel = eventNameToHandle(eventname);
+        if (pel) addToList(precord, &pel->scan_list[prio]);
     } else if (scan == menuScanI_O_Intr) {
         io_scan_list *piosl = NULL;
         int prio;
@@ -287,31 +278,25 @@ void scanDelete(struct dbCommon *precord)
         recGblRecordError(-1, (void *)precord,
             "scanDelete detected illegal SCAN value");
     } else if (scan == menuScanEvent) {
-        int evnt;
+        char* eventname;
         int prio;
-        event_scan_list *pesl;
+        event_list *pel;
         scan_list *psl = 0;
 
-        evnt = precord->evnt;
-        if (evnt < 0 || evnt >= MAX_EVENTS) {
-            recGblRecordError(S_db_badField, (void *)precord,
-                "scanAdd detected illegal EVNT value");
-            precord->scan = menuScanPassive;
-            return;
-        }
+        eventname = precord->evnt;
         prio = precord->prio;
         if (prio < 0 || prio >= NUM_CALLBACK_PRIORITIES) {
             recGblRecordError(-1, (void *)precord,
-                "scanAdd: illegal prio field");
-            precord->scan = menuScanPassive;
+                "scanDelete detected illegal PRIO field");
             return;
         }
-        pesl = pevent_list[prio][evnt];
-        if (pesl) psl = &pesl->scan_list;
-        if (!pesl || !psl) 
-            recGblRecordError(-1, (void *)precord,
-                "scanDelete for bad evnt");
-        else
+        do /* multithreading: make sure pel is consistent */
+            pel = pevent_list[0];
+        while (pel != pevent_list[0]);
+        for (; pel; pel=pel->next) {
+            if (strcmp(pel->event_name, eventname) == 0) break;
+        }
+        if (pel && (psl = &pel->scan_list[prio]))
             deleteFromList(precord, psl);
     } else if (scan == menuScanI_O_Intr) {
         io_scan_list *piosl=NULL;
@@ -366,27 +351,29 @@ int scanppl(double period)      /* print periodic list */
         ppsl = papPeriodic[i];
         if (ppsl == NULL) continue;
         if (period > 0.0 && (fabs(period - ppsl->period) >.05)) continue;
-        sprintf(message, "Scan Period = %g seconds ", ppsl->period);
+        sprintf(message, "Scan Period = %g seconds (%lu over-runs)",
+            ppsl->period, ppsl->overruns);
         printList(&ppsl->scan_list, message);
     }
     return 0;
 }
 
-int scanpel(int event_number)   /* print event list */
+int scanpel(const char* eventname)   /* print event list */
 {
     char message[80];
-    int prio, evnt;
-    event_scan_list *pesl;
+    int prio;
+    event_list *pel;
 
-    for (evnt = 0; evnt < MAX_EVENTS; evnt++) {
-        if (event_number && evnt<event_number) continue;
-        if (event_number && evnt>event_number) break;
-        for (prio = 0; prio < NUM_CALLBACK_PRIORITIES; prio++) {
-            pesl = pevent_list[prio][evnt];
-            if (!pesl) continue;
-            if (ellCount(&pesl->scan_list.list) == 0) continue;
-            sprintf(message, "Event %d Priority %s", evnt, priorityName[prio]);
-            printList(&pesl->scan_list, message);
+    do /* multithreading: make sure pel is consistent */
+        pel = pevent_list[0];
+    while (pel != pevent_list[0]);
+    for (; pel; pel = pel->next) {
+        if (!eventname || strcmp(pel->event_name, eventname) == 0) {
+            for (prio = 0; prio < NUM_CALLBACK_PRIORITIES; prio++) {
+                if (ellCount(&pel->scan_list[prio].list) == 0) continue;
+                sprintf(message, "Event \"%s\" Priority %s", pel->event_name, priorityName[prio]);
+                printList(&pel->scan_list[prio], message);
+            }
         }
     }
     return 0;
@@ -412,39 +399,73 @@ int scanpiol(void)                  /* print io_event list */
 
 static void eventCallback(CALLBACK *pcallback)
 {
-    event_scan_list *pesl;
+    scan_list *psl;
 
-    callbackGetUser(pesl, pcallback);
-    scanList(&pesl->scan_list);
+    callbackGetUser(psl, pcallback);
+    scanList(psl);
 }
 
 static void initEvent(void)
 {
-    int evnt, prio;
+}
 
-    for (prio = 0; prio < NUM_CALLBACK_PRIORITIES; prio++) {
-        for (evnt = 0; evnt < MAX_EVENTS; evnt++) {
-            pevent_list[prio][evnt] = NULL;
+event_list *eventNameToHandle(const char *eventname)
+{
+    int prio;
+    event_list *pel;
+    static epicsMutexId lock = NULL;
+
+    if (!lock) lock = epicsMutexMustCreate();
+    if (!eventname || eventname[0] == 0) return NULL;
+    epicsMutexMustLock(lock);
+    for (pel = pevent_list[0]; pel; pel=pel->next) {
+        if (strcmp(pel->event_name, eventname) == 0) break;
+    }
+    if (pel == NULL) {
+        pel = dbCalloc(1, sizeof(event_list));
+        strcpy(pel->event_name, eventname);
+        for (prio = 0; prio < NUM_CALLBACK_PRIORITIES; prio++) {
+            callbackSetUser(&pel->scan_list[prio], &pel->callback[prio]);
+            callbackSetPriority(prio, &pel->callback[prio]);
+            callbackSetCallback(eventCallback, &pel->callback[prio]);
+            pel->scan_list[prio].lock = epicsMutexMustCreate();
+            ellInit(&pel->scan_list[prio].list);
         }
+        pel->next=pevent_list[0];
+        pevent_list[0]=pel;
+        { /* backward compatibility */
+            char* p;
+            long e = strtol(eventname, &p, 0);
+            if (*p == 0 && e > 0 && e <= 255)
+                pevent_list[e] = pel;
+        }
+    }
+    epicsMutexUnlock(lock);
+    return pel;
+}
+
+void postEvent(event_list *pel)
+{
+    int prio;
+
+    if (scanCtl != ctlRun) return;
+    if (!pel) return;
+    for (prio = 0; prio < NUM_CALLBACK_PRIORITIES; prio++) {
+        if (ellCount(&pel->scan_list[prio].list) >0)
+            callbackRequest(&pel->callback[prio]);
     }
 }
 
+/* backward compatibility */
 void post_event(int event)
 {
-    int prio;
-    event_scan_list *pesl;
+    event_list* pel;
 
-    if (scanCtl != ctlRun) return;
-    if (event < 0 || event >= MAX_EVENTS) {
-        errMessage(-1, "illegal event passed to post_event");
-        return;
-    }
-    for (prio=0; prio<NUM_CALLBACK_PRIORITIES; prio++) {
-        pesl = pevent_list[prio][event];
-        if (!pesl) continue;
-        if (ellCount(&pesl->scan_list.list) >0)
-            callbackRequest((void *)pesl);
-    }
+    if (event <= 0 || event > 255) return;
+    do { /* multithreading: make sure pel is consistent */
+        pel = pevent_list[event];
+    } while (pel != pevent_list[event]);
+    postEvent(pel);
 }
 
 void scanIoInit(IOSCANPVT *ppioscanpvt)
@@ -532,7 +553,8 @@ static void initOnce(void)
         cantProceed("initOnce: Ring buffer create failed\n");
     }
     onceSem = epicsEventMustCreate(epicsEventEmpty);
-    onceTaskId = epicsThreadCreate("scanOnce", epicsThreadPriorityScanHigh,
+    onceTaskId = epicsThreadCreate("scanOnce",
+        epicsThreadPriorityScanLow + nPeriodic,
         epicsThreadGetStackSize(epicsThreadStackBig), onceTask, 0);
 
     epicsEventWait(startStopEvent);
@@ -541,19 +563,47 @@ static void initOnce(void)
 static void periodicTask(void *arg)
 {
     periodic_scan_list *ppsl = (periodic_scan_list *)arg;
-
-    epicsTimeStamp start_time, end_time;
-    double delay;
+    epicsTimeStamp next, reported;
+    unsigned int overruns = 0;
+    double report_delay = 10.0;
 
     taskwdInsert(0, NULL, NULL);
     epicsEventSignal(startStopEvent);
 
+    epicsTimeGetCurrent(&next);
+    reported = next;
+
     while (ppsl->scanCtl != ctlExit) {
-        epicsTimeGetCurrent(&start_time);
-        if (ppsl->scanCtl == ctlRun) scanList(&ppsl->scan_list);
-        epicsTimeGetCurrent(&end_time);
-        delay = ppsl->period - epicsTimeDiffInSeconds(&end_time, &start_time);
-        if (delay <= 0.0) delay = 0.1;
+        double delay;
+        epicsTimeStamp now;
+
+        if (ppsl->scanCtl == ctlRun)
+            scanList(&ppsl->scan_list);
+
+        epicsTimeAddSeconds(&next, ppsl->period);
+        epicsTimeGetCurrent(&now);
+        delay = epicsTimeDiffInSeconds(&next, &now);
+        if (delay <= 0.0) {
+            delay = 0.1;
+            ppsl->overruns++;
+            next = now;
+            if (++overruns >= 10 &&
+                epicsTimeDiffInSeconds(&now, &reported) > report_delay) {
+                errlogPrintf("dbScan warning: %g second scan over-ran %u times\n",
+                    ppsl->period, overruns);
+
+                reported = now;
+                if (report_delay < 1800.0)
+                    report_delay *= 2;
+                else
+                    report_delay = 3600.0;  /* At most hourly */
+            }
+        }
+        else {
+            overruns = 0;
+            report_delay = 10.0;
+        }
+
         epicsEventWaitWithTimeout(ppsl->loopEvent, delay);
     }
 
@@ -564,25 +614,57 @@ static void periodicTask(void *arg)
 
 static void initPeriodic(void)
 {
-    dbMenu *pmenu;
-    periodic_scan_list *ppsl;
+    dbMenu *pmenu = dbFindMenu(pdbbase, "menuScan");
+    double quantum = epicsThreadSleepQuantum();
     int i;
 
-    pmenu = dbFindMenu(pdbbase, "menuScan");
     if (!pmenu) {
-        epicsPrintf("initPeriodic: menuScan not present\n");
+        errlogPrintf("initPeriodic: menuScan not present\n");
         return;
     }
     nPeriodic = pmenu->nChoice - SCAN_1ST_PERIODIC;
     papPeriodic = dbCalloc(nPeriodic, sizeof(periodic_scan_list*));
     periodicTaskId = dbCalloc(nPeriodic, sizeof(void *));
     for (i = 0; i < nPeriodic; i++) {
-        ppsl = dbCalloc(1, sizeof(periodic_scan_list));
+        periodic_scan_list *ppsl = dbCalloc(1, sizeof(periodic_scan_list));
+        const char *choice = pmenu->papChoiceValue[i + SCAN_1ST_PERIODIC];
+        double number;
+        char *unit;
+        int status = epicsParseDouble(choice, &number, &unit);
 
         ppsl->scan_list.lock = epicsMutexMustCreate();
         ellInit(&ppsl->scan_list.list);
-        epicsScanDouble(pmenu->papChoiceValue[i + SCAN_1ST_PERIODIC],
-                        &ppsl->period);
+        if (status || number == 0) {
+            errlogPrintf("initPeriodic: Bad menuScan choice '%s'\n", choice);
+            ppsl->period = i;
+        }
+        else if (!*unit ||
+                 !epicsStrCaseCmp(unit, "second") ||
+                 !epicsStrCaseCmp(unit, "seconds")) {
+            ppsl->period = number;
+        }
+        else if (!epicsStrCaseCmp(unit, "minute") ||
+                 !epicsStrCaseCmp(unit, "minutes")) {
+            ppsl->period = number * 60;
+        }
+        else if (!epicsStrCaseCmp(unit, "hour") ||
+                 !epicsStrCaseCmp(unit, "hours")) {
+            ppsl->period = number * 60 * 60;
+        }
+        else if (!epicsStrCaseCmp(unit, "Hz") ||
+                 !epicsStrCaseCmp(unit, "Hertz")) {
+            ppsl->period = 1 / number;
+        }
+        else {
+            errlogPrintf("initPeriodic: Bad menuScan choice '%s'\n", choice);
+            ppsl->period = i;
+        }
+        number = ppsl->period / quantum;
+        if ((ppsl->period < 2 * quantum) ||
+            (number / floor(number) > 1.1)) {
+            errlogPrintf("initPeriodic: Scan rate '%s' is not achievable.\n",
+                choice);
+        }
         ppsl->scanCtl = ctlPause;
         ppsl->loopEvent = epicsEventMustCreate(epicsEventEmpty);
 
@@ -596,7 +678,7 @@ static void spawnPeriodic(int ind)
     char taskName[20];
 
     ppsl = papPeriodic[ind];
-    sprintf(taskName, "scan%g", ppsl->period);
+    sprintf(taskName, "scan-%g", ppsl->period);
     periodicTaskId[ind] = epicsThreadCreate(
         taskName, epicsThreadPriorityScanLow + ind,
         epicsThreadGetStackSize(epicsThreadStackBig),

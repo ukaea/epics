@@ -1,25 +1,24 @@
 /*************************************************************************\
-* Copyright (c) 2002 The University of Chicago, as Operator of Argonne
+* Copyright (c) 2012 UChicago Argonne LLC, as Operator of Argonne
 *     National Laboratory.
 * Copyright (c) 2002 The Regents of the University of California, as
 *     Operator of Los Alamos National Laboratory.
-* EPICS BASE Versions 3.13.7
-* and higher are distributed subject to a Software License Agreement found
-* in file LICENSE that is included with this distribution. 
+* EPICS BASE is distributed subject to a Software License Agreement found
+* in file LICENSE that is included with this distribution.
 \*************************************************************************/
 
-/*  
- *  Revision-Id: johill@lanl.gov-20111019180700-7u25j7zwo2w1894n
+/*
+ *  $Revision-Id$
  *
- *                              
+ *
  *                    L O S  A L A M O S
  *              Los Alamos National Laboratory
  *               Los Alamos, New Mexico 87545
- *                                  
+ *
  *  Copyright, 1986, The Regents of the University of California.
- *                                  
- *           
- *  Author: 
+ *
+ *
+ *  Author:
  *  Jeffrey O. Hill
  *  johill@lanl.gov
  *  505 665 1831
@@ -47,30 +46,32 @@
 #include "dbPutNotifyBlocker.h"
 
 dbPutNotifyBlocker::dbPutNotifyBlocker ( epicsMutex & mutexIn ) :
-    mutex ( mutexIn ), pNotify ( 0 ), 
+    mutex ( mutexIn ), pNotify ( 0 ),
     maxValueSize ( sizeof ( this->dbrScalarValue ) )
 {
     memset ( & this->pn, '\0', sizeof ( this->pn ) );
     memset ( & this->dbrScalarValue, '\0', sizeof ( this->dbrScalarValue ) );
-    this->pn.pbuffer = & this->dbrScalarValue;
+    this->pbuffer = & this->dbrScalarValue;
 }
 
-dbPutNotifyBlocker::~dbPutNotifyBlocker () 
+dbPutNotifyBlocker::~dbPutNotifyBlocker ()
 {
 }
 
-void dbPutNotifyBlocker::destructor ( epicsGuard < epicsMutex > & guard )
+void dbPutNotifyBlocker::destructor ( CallbackGuard & cbGuard, 
+                                  epicsGuard < epicsMutex > & guard )
 {
     guard.assertIdenticalMutex ( this->mutex );
-    this->cancel ( guard );
+    this->cancel ( cbGuard, guard );
     if ( this->maxValueSize > sizeof ( this->dbrScalarValue ) ) {
-        char * pBuf = static_cast < char * > ( this->pn.pbuffer );
+        char * pBuf = static_cast < char * > ( this->pbuffer );
         delete [] pBuf;
     }
     this->~dbPutNotifyBlocker ();
 }
 
-void dbPutNotifyBlocker::cancel ( 
+void dbPutNotifyBlocker::cancel (
+    CallbackGuard & cbGuard,
     epicsGuard < epicsMutex > & guard )
 {
     guard.assertIdenticalMutex ( this->mutex );
@@ -82,23 +83,35 @@ void dbPutNotifyBlocker::cancel (
     this->block.signal ();
 }
 
-void dbPutNotifyBlocker::expandValueBuf ( 
+void dbPutNotifyBlocker::expandValueBuf (
     epicsGuard < epicsMutex > & guard, unsigned long newSize )
 {
     guard.assertIdenticalMutex ( this->mutex );
     if ( this->maxValueSize < newSize ) {
         if ( this->maxValueSize > sizeof ( this->dbrScalarValue ) ) {
-            char * pBuf = static_cast < char * > ( this->pn.pbuffer );
+            char * pBuf = static_cast < char * > ( this->pbuffer );
             delete [] pBuf;
             this->maxValueSize = sizeof ( this->dbrScalarValue );
-            this->pn.pbuffer = & this->dbrScalarValue;
+            this->pbuffer = & this->dbrScalarValue;
         }
-        this->pn.pbuffer = new char [newSize];
+        this->pbuffer = new char [newSize];
         this->maxValueSize = newSize;
     }
 }
 
-extern "C" void putNotifyCompletion ( putNotify *ppn )
+extern "C" int putNotifyPut ( processNotify *ppn, notifyPutType type )
+{
+    if(ppn->status==notifyCanceled) return 0;
+/*
+ * No locking in this method because only a dbNotifyCancel could interrupt
+ * and it does not return until cancel is done.
+ */
+    dbPutNotifyBlocker * pBlocker = static_cast < dbPutNotifyBlocker * > ( ppn->usrPvt );
+    return db_put_process(ppn,type,
+        pBlocker->dbrType,pBlocker->pbuffer,pBlocker->nRequest);
+}
+
+extern "C" void putNotifyCompletion ( processNotify *ppn )
 {
     dbPutNotifyBlocker * const pBlocker = 
             static_cast < dbPutNotifyBlocker * > ( ppn->usrPvt );
@@ -112,11 +125,11 @@ extern "C" void putNotifyCompletion ( putNotify *ppn )
         // unavoidable because its possible that the use callback 
         // might destroy this object.
         pBlocker->block.signal ();
-        if ( pBlocker->pn.status != putNotifyOK ) {
+        if ( pBlocker->pn.status != notifyOK ) {
             pNtfy->exception ( 
                 guard, ECA_PUTFAIL,  "put notify unsuccessful",
-                static_cast < unsigned > (pBlocker->pn.dbrType), 
-                static_cast < unsigned > (pBlocker->pn.nRequest) );
+                static_cast < unsigned > (pBlocker->dbrType), 
+                static_cast < unsigned > (pBlocker->nRequest) );
         }
         else {
             pNtfy->completion ( guard );
@@ -127,9 +140,9 @@ extern "C" void putNotifyCompletion ( putNotify *ppn )
     }
 }
 
-void dbPutNotifyBlocker::initiatePutNotify ( 
-    epicsGuard < epicsMutex > & guard, cacWriteNotify & notify, 
-    struct dbAddr & addr, unsigned type, unsigned long count, 
+void dbPutNotifyBlocker::initiatePutNotify (
+    epicsGuard < epicsMutex > & guard, cacWriteNotify & notify,
+    struct dbChannel * dbch, unsigned type, unsigned long count,
     const void * pValue )
 {
     guard. assertIdenticalMutex ( this->mutex );
@@ -163,25 +176,21 @@ void dbPutNotifyBlocker::initiatePutNotify (
         throw cacChannel::badType();
     }
 
-    int status = dbPutNotifyMapType ( 
-                &this->pn, static_cast <short> ( type ) );
-    if ( status ) {
-        this->pNotify = 0;
-        throw cacChannel::badType();
-    }
-
-    this->pn.nRequest = static_cast < unsigned > ( count );
-    this->pn.paddr = &addr;
-    this->pn.userCallback = putNotifyCompletion;
+    this->dbrType = type;
+    this->nRequest = static_cast < unsigned > ( count );
+    this->pn.requestType = putProcessRequest;
+    this->pn.chan = dbch;
+    this->pn.putCallback = putNotifyPut;
+    this->pn.doneCallback = putNotifyCompletion;
     this->pn.usrPvt = this;
 
     unsigned long size = dbr_size_n ( type, count );
     this->expandValueBuf ( guard, size );
-    memcpy ( this->pn.pbuffer, pValue, size );
+    memcpy ( this->pbuffer, pValue, size );
 
     {
         epicsGuardRelease < epicsMutex > autoRelease ( guard );
-        ::dbPutNotify ( &this->pn );
+        ::dbProcessNotify ( &this->pn );
     }
 }
 
@@ -191,36 +200,29 @@ void dbPutNotifyBlocker::show ( unsigned level ) const
     this->show ( guard, level );
 }
 
-void dbPutNotifyBlocker::show ( 
+void dbPutNotifyBlocker::show (
     epicsGuard < epicsMutex > &, unsigned level ) const
 {
-    printf ( "put notify blocker at %p\n", 
+    printf ( "put notify blocker at %p\n",
         static_cast <const void *> ( this ) );
     if ( level > 0u ) {
         this->block.show ( level - 1u );
     }
 }
 
-dbSubscriptionIO * dbPutNotifyBlocker::isSubscription () 
+dbSubscriptionIO * dbPutNotifyBlocker::isSubscription ()
 {
     return 0;
 }
 
-void * dbPutNotifyBlocker::operator new ( size_t size, 
+void * dbPutNotifyBlocker::operator new ( size_t size,
     tsFreeList < dbPutNotifyBlocker, 64, epicsMutexNOOP > & freeList )
 {
     return freeList.allocate ( size );
 }
 
-void * dbPutNotifyBlocker::operator new ( size_t ) // X aCC 361
-{
-    // The HPUX compiler seems to require this even though no code
-    // calls it directly
-    throw std::logic_error ( "why is the compiler calling private operator new" );
-}
-
 #ifdef CXX_PLACEMENT_DELETE
-void dbPutNotifyBlocker::operator delete ( void *pCadaver, 
+void dbPutNotifyBlocker::operator delete ( void *pCadaver,
     tsFreeList < dbPutNotifyBlocker, 64, epicsMutexNOOP > & freeList )
 {
     freeList.release ( pCadaver );

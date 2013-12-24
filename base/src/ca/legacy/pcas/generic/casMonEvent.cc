@@ -7,7 +7,7 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 /*
- *      Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd
+ *      $Revision-Id$
  *
  *      Author  Jeffrey O. Hill
  *              johill@lanl.gov
@@ -56,13 +56,6 @@ void casMonEvent::operator delete ( void * pCadaver,
     freeList.release ( pCadaver, sizeof ( casMonEvent ) );
 }
 #endif
-
-void * casMonEvent::operator new ( size_t ) // X aCC 361
-{
-    // The HPUX compiler seems to require this even though no code
-    // calls it directly
-    throw std::logic_error ( "why is the compiler calling private operator new" );
-}
 
 void casMonEvent::operator delete ( void * )
 {

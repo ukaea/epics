@@ -14,7 +14,7 @@
  * Author:	Jim Kowalkowski
  * Date:	3/97
  *
- * Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd
+ * $Revision-Id$
  *
  */
 
@@ -30,7 +30,7 @@ inline aitIndex gddBounds::first(void) const		{ return start; }
 
 inline gddDestructor::gddDestructor(void) { ref_cnt=0; arg=NULL; }
 inline gddDestructor::gddDestructor(void* usr_arg) { ref_cnt=0; arg=usr_arg; }
-inline void gddDestructor::reference(void)      { ref_cnt++; } // X aCC 818
+inline void gddDestructor::reference(void)      { ref_cnt++; }
 inline int gddDestructor::refCount(void) const  { return ref_cnt; }
 
 #endif

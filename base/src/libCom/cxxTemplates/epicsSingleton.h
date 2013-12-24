@@ -9,7 +9,7 @@
 \*************************************************************************/
 
 /*
- *  Revision-Id: anj@aps.anl.gov-20121130193225-xyua2kqwjiqe8qhm
+ *  $Revision-Id$
  *
  *  Author: Jeffrey O. Hill
  *

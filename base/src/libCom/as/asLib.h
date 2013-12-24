@@ -12,20 +12,10 @@
 #ifndef INCasLibh
 #define INCasLibh
 
-#ifdef epicsExportSharedSymbols
-#undef epicsExportSharedSymbols
-#define asLibepicsExportSharedSymbols
-#endif
-
-#include <ellLib.h>
-#include <errMdef.h>
-#include <errlog.h>
-
-#ifdef asLibepicsExportSharedSymbols
-#define epicsExportSharedSymbols
-#undef asLibepicsExportSharedSymbols
-#endif
-#include <shareLib.h>
+#include "shareLib.h"
+#include "ellLib.h"
+#include "errMdef.h"
+#include "errlog.h"
 
 #ifdef __cplusplus
 extern "C" {

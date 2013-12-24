@@ -13,25 +13,24 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "epicsStdioRedirect.h"
-#include "dbDefs.h"
+#include "errlog.h"
 #include "cantProceed.h"
 #include "epicsThread.h"
-#include "errlog.h"
+#include "epicsStdio.h"
+#include "dbDefs.h"
 #include "taskwd.h"
+#include "asLib.h"
+#define epicsExportSharedSymbols
 #include "alarm.h"
 #include "caeventmask.h"
 #include "callback.h"
 #include "dbStaticLib.h"
-#include "dbAddr.h"
+#include "dbChannel.h"
 #include "dbAccess.h"
 #include "db_field_log.h"
 #include "dbEvent.h"
 #include "dbCommon.h"
 #include "recSup.h"
-#include "asLib.h"
-
-#define epicsExportSharedSymbols
 #include "asCa.h"
 #include "asDbLib.h"
 
@@ -39,7 +38,7 @@ static char	*pacf=NULL;
 static char	*psubstitutions=NULL;
 static epicsThreadId	asInitTheadId=0;
 static int	firstTime = TRUE;
-
+
 static long asDbAddRecords(void)
 {
     DBENTRY	dbentry;
@@ -66,7 +65,7 @@ static long asDbAddRecords(void)
     return(0);
 }
 
-int epicsShareAPI asSetFilename(const char *acf)
+int asSetFilename(const char *acf)
 {
     if (pacf)
         free (pacf);
@@ -87,7 +86,7 @@ int epicsShareAPI asSetFilename(const char *acf)
     return 0;
 }
 
-int epicsShareAPI asSetSubstitutions(const char *substitutions)
+int asSetSubstitutions(const char *substitutions)
 {
     if(psubstitutions) free ((void *)psubstitutions);
     if(substitutions) {
@@ -102,7 +101,7 @@ int epicsShareAPI asSetSubstitutions(const char *substitutions)
     }
     return(0);
 }
-
+
 static void asSpcAsCallback(struct dbCommon *precord)
 {
     asChangeGroup(&precord->asp, precord->asg);
@@ -113,7 +112,7 @@ static void asInitCommonOnce(void *arg)
     int *firstTime = (int *)arg;
     *firstTime = FALSE;
 }
-    
+
 static long asInitCommon(void)
 {
     long	status;
@@ -121,7 +120,7 @@ static long asInitCommon(void)
     int		wasFirstTime = firstTime;
     static epicsThreadOnceId asInitCommonOnceFlag = EPICS_THREAD_ONCE_INIT;
 
-    
+
     epicsThreadOnce(&asInitCommonOnceFlag,asInitCommonOnce,(void *)&firstTime);
     if(wasFirstTime) {
         if(!pacf) return(0); /*access security will NEVER be turned on*/
@@ -148,11 +147,11 @@ static long asInitCommon(void)
     return(status);
 }
 
-int epicsShareAPI asInit(void)
+int asInit(void)
 {
     return(asInitCommon());
 }
-
+
 static void wdCallback(void *arg)
 {
     ASDBCALLBACK *pcallback = (ASDBCALLBACK *)arg;
@@ -174,7 +173,7 @@ static void asInitTask(ASDBCALLBACK *pcallback)
     }
 }
 
-int epicsShareAPI asInitAsyn(ASDBCALLBACK *pcallback)
+int asInitAsyn(ASDBCALLBACK *pcallback)
 {
     if(!pacf) return(0);
     if(asInitTheadId) {
@@ -199,23 +198,15 @@ int epicsShareAPI asInitAsyn(ASDBCALLBACK *pcallback)
     }
     return(0);
 }
-
-int epicsShareAPI asDbGetAsl(void *paddress)
-{
-    DBADDR	*paddr = paddress;
-    dbFldDes	*pflddes;
 
-    pflddes = paddr->pfldDes;
-    return((int)pflddes->as_level);
+int asDbGetAsl(struct dbChannel *chan)
+{
+    return dbChannelFldDes(chan)->as_level;
 }
 
-void * epicsShareAPI asDbGetMemberPvt(void *paddress)
+void * asDbGetMemberPvt(struct dbChannel *chan)
 {
-    DBADDR	*paddr = paddress;
-    dbCommon	*precord;
-
-    precord = paddr->precord;
-    return((void *)precord->asp);
+    return dbChannelRecord(chan)->asp;
 }
 
 static void astacCallback(ASCLIENTPVT clientPvt,asClientStatus status)
@@ -228,7 +219,7 @@ static void astacCallback(ASCLIENTPVT clientPvt,asClientStatus status)
 	(asCheckPut(clientPvt) ? "Yes" : "No"));
 }
 
-int epicsShareAPI astac(const char *pname,const char *user,const char *location)
+int astac(const char *pname,const char *user,const char *location)
 {
     DBADDR	*paddr;
     long	status;
@@ -263,7 +254,7 @@ int epicsShareAPI astac(const char *pname,const char *user,const char *location)
     }
     return(0);
 }
-
+
 static void myMemberCallback(ASMEMBERPVT memPvt,FILE *fp)
 {
     dbCommon	*precord;
@@ -272,62 +263,62 @@ static void myMemberCallback(ASMEMBERPVT memPvt,FILE *fp)
     if(precord) fprintf(fp," Record:%s",precord->name);
 }
 
-int epicsShareAPI asdbdump(void)
+int asdbdump(void)
 {
     asDumpFP(stdout,myMemberCallback,NULL,1);
     return(0);
 }
 
-int epicsShareAPI asdbdumpFP(FILE *fp)
+int asdbdumpFP(FILE *fp)
 {
     asDumpFP(fp,myMemberCallback,NULL,1);
     return(0);
 }
 
-int epicsShareAPI aspuag(const char *uagname)
+int aspuag(const char *uagname)
 {
     asDumpUagFP(stdout,uagname);
     return(0);
 }
 
-int epicsShareAPI aspuagFP(FILE *fp,const char *uagname)
+int aspuagFP(FILE *fp,const char *uagname)
 {
 
     asDumpUagFP(fp,uagname);
     return(0);
 }
 
-int epicsShareAPI asphag(const char *hagname)
+int asphag(const char *hagname)
 {
     asDumpHagFP(stdout,hagname);
     return(0);
 }
 
-int epicsShareAPI asphagFP(FILE *fp,const char *hagname)
+int asphagFP(FILE *fp,const char *hagname)
 {
     asDumpHagFP(fp,hagname);
     return(0);
 }
 
-int epicsShareAPI asprules(const char *asgname)
+int asprules(const char *asgname)
 {
     asDumpRulesFP(stdout,asgname);
     return(0);
 }
 
-int epicsShareAPI asprulesFP(FILE *fp,const char *asgname)
+int asprulesFP(FILE *fp,const char *asgname)
 {
     asDumpRulesFP(fp,asgname);
     return(0);
 }
 
-int epicsShareAPI aspmem(const char *asgname,int clients)
+int aspmem(const char *asgname,int clients)
 {
     asDumpMemFP(stdout,asgname,myMemberCallback,clients);
     return(0);
 }
 
-int epicsShareAPI aspmemFP(FILE *fp,const char *asgname,int clients)
+int aspmemFP(FILE *fp,const char *asgname,int clients)
 {
     asDumpMemFP(fp,asgname,myMemberCallback,clients);
     return(0);

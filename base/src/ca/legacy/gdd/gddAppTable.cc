@@ -10,7 +10,7 @@
 // Author: Jim Kowalkowski
 // Date: 2/96
 // 
-// Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd
+// $Revision-Id$
 // 
 
 #define epicsExportSharedSymbols
@@ -60,21 +60,6 @@ gddApplicationTypeTable::gddApplicationTypeTable(aitUint32 tot)
 	for(i=0;i<max_groups;i++) attr_table[i]=NULL;
 	GenerateTypes();
 }
-
-#if 0
-void* operator new(size_t x)
-{
-	void* v = (void*)malloc(x);
-	fprintf(stderr,"%8.8x In operator new %d\n",v,(int)x);
-	return v;
-}
-
-void operator delete(void* x)
-{
-	fprintf(stderr,"%8.8x In operator delete\n",x);
-	free((char*)x);
-}
-#endif
 
 gddApplicationTypeTable::~gddApplicationTypeTable(void)
 {

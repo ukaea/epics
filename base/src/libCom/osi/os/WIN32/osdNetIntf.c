@@ -9,7 +9,7 @@
 \*************************************************************************/
 
 /*
- *	    Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd
+ *	    $Revision-Id$
  *
  *	    WIN32 specific initialisation for bsd sockets,
  *	    based on Chris Timossi's base/src/ca/windows_depend.c,

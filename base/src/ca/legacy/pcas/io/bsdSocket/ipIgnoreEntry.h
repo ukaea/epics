@@ -10,7 +10,7 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 //
-// Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd
+// $Revision-Id$
 //
 
 #ifndef ipIgnoreEntryh
@@ -44,7 +44,6 @@ private:
     unsigned ipAddr;
 	ipIgnoreEntry ( const ipIgnoreEntry & );
 	ipIgnoreEntry & operator = ( const ipIgnoreEntry & );
-    void * operator new ( size_t size );
     void operator delete ( void * );
 };
 

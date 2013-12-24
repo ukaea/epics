@@ -22,7 +22,6 @@
 #define INCLtool_libh
 
 #include <epicsTime.h>
-#include <alarm.h>
 
 /* Convert status and severity to strings */
 #define stat_to_str(stat)                                       \

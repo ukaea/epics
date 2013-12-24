@@ -97,5 +97,32 @@
     <ClCompile Include="taskwdTest.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="epicsAtomicPerform.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="epicsAtomicTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="epicsSockResolveTest.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="epicsSpinTest.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="epicsStdlibTest.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="epicsThreadHooksTest.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="epicsTypesTest.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fdmgrTest.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rtemsTestHarness.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
