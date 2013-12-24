@@ -16,16 +16,29 @@
 #include <pv/lock.h>
 #include <pv/event.h>
 
+#include <sharelib.h>
+
 #include <pv/pvIntrospect.h>
+
+#ifdef epicsExportSharedSymbols
+#   define blockingUDPEpicsExportSharedSymbols
+#   undef epicsExportSharedSymbols
+#endif
 
 #include <osdSock.h>
 #include <osiSock.h>
 #include <epicsThread.h>
 
+#ifdef blockingUDPEpicsExportSharedSymbols
+#   define epicsExportSharedSymbols
+#	undef blockingUDPEpicsExportSharedSymbols
+#endif
+#include <shareLib.h>
+
 namespace epics {
     namespace pvAccess {
 
-        class BlockingUDPTransport : public epics::pvData::NoDefaultMethods,
+        class epicsShareClass BlockingUDPTransport : public epics::pvData::NoDefaultMethods,
                 public Transport,
                 public TransportSendControl,
                 public std::tr1::enable_shared_from_this<BlockingUDPTransport>

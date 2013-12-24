@@ -10,12 +10,21 @@
 #include <pv/remote.h>
 #include <pv/clientContextImpl.h>
 
+#ifdef epicsExportSharedSymbols
+#   define beaconServerStatusProviderEpicsExportSharedSymbols
+#   undef epicsExportSharedSymbols
+#endif
 #include <pv/destroyable.h>
+#ifdef beaconServerStatusProviderEpicsExportSharedSymbols
+#   define epicsExportSharedSymbols
+#	undef beaconServerStatusProviderEpicsExportSharedSymbols
+#endif
+#include <sharelib.h>
 
 namespace epics {
 namespace pvAccess {
 
-class ServerChannelImpl : public ServerChannel
+class epicsShareClass ServerChannelImpl : public ServerChannel
 {
 public:
 	POINTER_DEFINITIONS(ServerChannelImpl);

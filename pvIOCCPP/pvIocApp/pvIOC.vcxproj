@@ -41,30 +41,31 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IntDir>.\O.win32-x86-debug\</IntDir>
-    <OutDir>..\..\Bin\win32-x86-debug\</OutDir>
+    <OutDir>$(SolutionDir)Bin\win32-x86-debug\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>..\..\Bin\win32-x86\</OutDir>
+    <OutDir>$SolutionDir)Bin\win32-x86\</OutDir>
     <IntDir>.\O.win32-x86\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\include;..\..\include\os\win32</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\pv</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4251;4275;4309</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist ..\..\include md ..\..\include
-if not exist ..\..\include\pv md ..\..\include\pv
-xcopy /Y /Q  /D support\*.h ..\..\include\pv &gt; NUL
-xcopy /Y /Q  /D support\basic\*.h ..\..\include\pv &gt; NUL
-xcopy /Y /Q  /D database\*.h ..\..\include\pv &gt; NUL
-xcopy /Y /Q  /D channelProviderLocal\*.h ..\..\include\pv &gt; NUL
-xcopy /Y /Q  /D ezchannelRPC\*.h ..\..\include\pv &gt; NUL
-xcopy /Y /Q  /D service\*.h ..\..\include\pv &gt; NUL
+      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
+if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
+xcopy /Y /Q  /D support\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q  /D support\basic\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q  /D database\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q  /D channelProviderLocal\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q  /D ezchannelRPC\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q  /D service\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -74,13 +75,25 @@ xcopy /Y /Q  /D service\*.h ..\..\include\pv &gt; NUL
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>..\..\include;..\..\include\os\win32</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\pv</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4251;4275;4309</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <PreBuildEvent>
+      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
+if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
+xcopy /Y /Q  /D support\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q  /D support\basic\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q  /D database\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q  /D channelProviderLocal\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q  /D ezchannelRPC\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q  /D service\*.h $(SolutionDir)include\pv &gt; NUL
+</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="channelProviderLocal\channelProviderLocal.cpp" />

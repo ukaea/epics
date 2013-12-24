@@ -7,15 +7,25 @@
 #ifndef BEACONEMITTER_H
 #define BEACONEMITTER_H
 
+#include <pv/remote.h>
+#include <pv/beaconServerStatusProvider.h>
+
+#ifdef epicsExportSharedSymbols
+#   define beaconEmitterEpicsExportSharedSymbols
+#   undef epicsExportSharedSymbols
+#endif
+
 #include <pv/timer.h>
 #include <pv/timeStamp.h>
-#include <pv/remote.h>
+#include <pv/sharedPtr.h>
 
 #include <osiSock.h>
 
-#include <pv/beaconServerStatusProvider.h>
-//#include <pv/serverContext.h>
-#include <pv/sharedPtr.h>
+#ifdef beaconEmitterEpicsExportSharedSymbols
+#   define epicsExportSharedSymbols
+#	undef beaconEmitterEpicsExportSharedSymbols
+#endif
+#include <shareLib.h>
 
 namespace epics { namespace pvAccess {
 

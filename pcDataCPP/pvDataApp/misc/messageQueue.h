@@ -17,6 +17,7 @@
 #include <pv/pvType.h>
 #include <pv/requester.h>
 #include <pv/queue.h>
+#include <sharelib.h>
 
 namespace epics { namespace pvData { 
 
@@ -26,7 +27,7 @@ typedef std::tr1::shared_ptr<MessageNode> MessageNodePtr;
 typedef std::vector<MessageNodePtr> MessageNodePtrArray;
 typedef std::tr1::shared_ptr<MessageQueue> MessageQueuePtr;
 
-class MessageNode {
+class epicsShareClass MessageNode {
 public:
     MessageNode();
     String getMessage() const;
@@ -37,7 +38,7 @@ private:
     friend class MessageQueue;
 };
 
-class MessageQueue : public Queue<MessageNode> {
+class epicsShareClass MessageQueue : public Queue<MessageNode> {
 public:
     POINTER_DEFINITIONS(MessageQueue);
     static MessageQueuePtr create(int size);

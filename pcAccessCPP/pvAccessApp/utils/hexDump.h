@@ -7,7 +7,16 @@
 #ifndef HEXDUMP_H_
 #define HEXDUMP_H_
 
+#ifdef epicsExportSharedSymbols
+#   define	hexDumpEpicsExportSharedSymbols
+#   undef epicsExportSharedSymbols
+#endif
 #include <pv/pvType.h>
+#ifdef	hexDumpEpicsExportSharedSymbols
+#   define epicsExportSharedSymbols
+#	undef	hexDumpEpicsExportSharedSymbols
+#endif
+#include <shareLib.h>
 
 namespace epics {
 namespace pvAccess {

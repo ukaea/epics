@@ -246,11 +246,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>..\..\Bin\win32-x86-debug\</OutDir>
+    <OutDir>$(SolutionDir)Bin\win32-x86-debug\</OutDir>
     <IntDir>.\O.win32-x86-debug\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>..\..\Bin\win32-x86\</OutDir>
+    <OutDir>$SolutionDir)Bin\win32-x86\</OutDir>
     <IntDir>.\O.win32-x86\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -259,7 +259,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\include;..\..\include\os\win32;O.common</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -272,8 +272,8 @@ xcopy /Y /Q  /D O.Common\*.h ..\..\include &gt; NUL
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
-if not exist ..\..\dbd md ..\..\dbd
-xcopy /Y /Q  /D *.dbd ..\..\dbd &gt; NUL
+if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
+xcopy /Y /Q  /D *.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -285,7 +285,7 @@ xcopy /Y /Q  /D *.dbd ..\..\dbd &gt; NUL
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\include;..\..\include\os\win32</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -294,8 +294,8 @@ xcopy /Y /Q  /D *.dbd ..\..\dbd &gt; NUL
     </Link>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
-if not exist ..\..\dbd md ..\..\dbd
-xcopy /Y /Q  /D *.dbd ..\..\dbd &gt; NUL
+if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
+xcopy /Y /Q  /D *.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>

@@ -40,10 +40,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>..\..\Bin\win32-x86-debug\</OutDir>
+    <OutDir>$(SolutionDir)Bin\win32-x86-debug\</OutDir>
+    <IntDir>.\O.win32-x86-debug\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>..\..\Bin\win32-x86\</OutDir>
+    <OutDir>$SolutionDir)Bin\win32-x86\</OutDir>
     <IntDir>.\O.win32-x86\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -56,10 +57,10 @@
     </Link>
     <PreBuildEvent>
       <Command>xcopy /Y /Q  /D *.pl $(OutDir) &gt; NUL
-if not exist ..\..\lib md ..\..\lib
-if not exist ..\..\lib\perl ..\..\lib\perl
-if not exist ..\..\lib\perl\EPICS ..\..\lib\perl\EPICS
-xcopy /Y /Q  /D EPICS\*.pm ..\..\lib\perl\EPICS &gt; NUL
+if not exist $(SolutionDir)lib md $(SolutionDir)lib
+if not exist $(SolutionDir)lib\perl $(SolutionDir)lib\perl
+if not exist $(SolutionDir)lib\perl\EPICS $(SolutionDir)lib\perl\EPICS
+xcopy /Y /Q  /D EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -77,10 +78,10 @@ xcopy /Y /Q  /D EPICS\*.pm ..\..\lib\perl\EPICS &gt; NUL
     </Link>
     <PreBuildEvent>
       <Command>xcopy /Y /Q  /D *.pl $(OutDir) &gt; NUL
-if not exist ..\..\lib md ..\..\lib
-if not exist ..\..\lib\perl ..\..\lib\perl
-if not exist ..\..\lib\perl\EPICS ..\..\lib\perl\EPICS
-xcopy /Y /Q  /D EPICS\*.pm ..\..\lib\perl\EPICS &gt; NUL
+if not exist $(SolutionDir)lib md $(SolutionDir)lib
+if not exist $(SolutionDir)lib\perl $(SolutionDir)lib\perl
+if not exist $(SolutionDir)lib\perl\EPICS $(SolutionDir)lib\perl\EPICS
+xcopy /Y /Q  /D EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>

@@ -10,8 +10,10 @@
 #ifndef THREAD_H
 #define THREAD_H
 #include <memory>
+
 #include <pv/noDefaultMethods.h>
 #include <pv/pvType.h>
+#include <sharelib.h>
 
 #include <epicsThread.h>
 
@@ -29,7 +31,7 @@ enum ThreadPriority {
 
 typedef epicsThreadRunable Runnable;
 
-class Thread : public epicsThread, private NoDefaultMethods {
+class epicsShareClass Thread : public epicsThread, private NoDefaultMethods {
 public:
 
     Thread(String name,

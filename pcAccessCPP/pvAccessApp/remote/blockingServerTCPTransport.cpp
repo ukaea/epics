@@ -4,12 +4,13 @@
  * in file LICENSE that is included with this distribution.
  */
 
+#include <pv/lock.h>
+#include <pv/byteBuffer.h>
+
+#define epicsExportSharedSymbols
 #include <pv/blockingTCP.h>
 #include <pv/remote.h>
 #include <pv/logger.h>
-
-#include <pv/lock.h>
-#include <pv/byteBuffer.h>
 
 /* standard */
 #include <map>

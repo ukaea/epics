@@ -11,6 +11,8 @@
 #include <cstdlib>
 #include <string>
 #include <cstdio>
+
+#define epicsExportSharedSymbols
 #include <pv/lock.h>
 #include <pv/pvIntrospect.h>
 #include <pv/convert.h>
@@ -119,7 +121,7 @@ void Scalar::serialize(ByteBuffer *buffer, SerializableControl *control) const {
     buffer->putByte(getTypeCodeLUT());
 }
 
-void Scalar::deserialize(ByteBuffer */*buffer*/, DeserializableControl */*control*/) {
+void Scalar::deserialize(ByteBuffer* /*buffer*/, DeserializableControl* /*control*/) {
     // must be done via FieldCreate
     throw std::runtime_error("not valid operation, use FieldCreate::deserialize instead");
 }
@@ -222,7 +224,7 @@ void ScalarArray::serialize(ByteBuffer *buffer, SerializableControl *control) co
     buffer->putByte(0x10 | getTypeCodeLUT());
 }
 
-void ScalarArray::deserialize(ByteBuffer */*buffer*/, DeserializableControl */*control*/) {
+void ScalarArray::deserialize(ByteBuffer* /*buffer*/, DeserializableControl* /*control*/) {
     throw std::runtime_error("not valid operation, use FieldCreate::deserialize instead");
 }
 
@@ -246,13 +248,13 @@ void StructureArray::toString(StringBuilder buffer,int indentLevel) const {
     pstructure->toString(buffer,indentLevel + 1);
 }
 
-void StructureArray::serialize(ByteBuffer *buffer, SerializableControl *control) const {
+void StructureArray::serialize(ByteBuffer* buffer, SerializableControl *control) const {
     control->ensureBuffer(1);
     buffer->putByte(0x90);
     control->cachedSerialize(pstructure, buffer);
 }
 
-void StructureArray::deserialize(ByteBuffer */*buffer*/, DeserializableControl */*control*/) {
+void StructureArray::deserialize(ByteBuffer* /*buffer*/, DeserializableControl* /*control*/) {
     throw std::runtime_error("not valid operation, use FieldCreate::deserialize instead");
 }
 
@@ -357,7 +359,7 @@ void Structure::serialize(ByteBuffer *buffer, SerializableControl *control) cons
     serializeStructureField(this, buffer, control);
 }
 
-void Structure::deserialize(ByteBuffer */*buffer*/, DeserializableControl */*control*/) {
+void Structure::deserialize(ByteBuffer* /*buffer*/, DeserializableControl* /*control*/) {
     throw std::runtime_error("not valid operation, use FieldCreate::deserialize instead");
 }
 

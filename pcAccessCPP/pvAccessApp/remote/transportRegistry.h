@@ -7,18 +7,30 @@
 #ifndef TRANSPORTREGISTRY_H
 #define TRANSPORTREGISTRY_H
 
-#include <map>
-#include <vector>
-#include <iostream>
+#include <pv/remote.h>
+#include <pv/inetAddressUtil.h>
+
+#ifdef epicsExportSharedSymbols
+#   define transportRegistryEpicsExportSharedSymbols
+#   undef epicsExportSharedSymbols
+#endif
 
 #include <osiSock.h>
 
 #include <pv/lock.h>
 #include <pv/pvType.h>
 #include <pv/epicsException.h>
-#include <pv/remote.h>
-#include <pv/inetAddressUtil.h>
 #include <pv/sharedPtr.h>
+
+#ifdef transportRegistryEpicsExportSharedSymbols
+#   define epicsExportSharedSymbols
+#	undef transportRegistryEpicsExportSharedSymbols
+#endif
+#include <shareLib.h>
+
+#include <map>
+#include <vector>
+#include <iostream>
 
 namespace epics {
 namespace pvAccess {

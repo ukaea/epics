@@ -16,6 +16,7 @@
 #include <pv/pvType.h>
 #include <pv/byteBuffer.h>
 #include <pv/serialize.h>
+#include <sharelib.h>
 
 namespace epics { namespace pvData { 
 
@@ -196,7 +197,7 @@ namespace ScalarTypeFunc {
 /**
  * This class implements introspection object for field.
  */
-class Field : 
+class epicsShareClass Field : 
     virtual public Serializable,
     public std::tr1::enable_shared_from_this<Field> {
 public:
@@ -249,7 +250,7 @@ private:
 /**
  * This class implements introspection object for Scalar.
  */
-class Scalar : public Field{
+class epicsShareClass Scalar : public Field{
 public:
     POINTER_DEFINITIONS(Scalar);
     /**
@@ -291,7 +292,7 @@ private:
 /**
  * This class implements introspection object for field.
  */
-class ScalarArray : public Field{
+class epicsShareClass ScalarArray : public Field{
 public:
     POINTER_DEFINITIONS(ScalarArray);
     typedef ScalarArray& reference;
@@ -339,7 +340,7 @@ private:
 /**
  * This class implements introspection object for a structureArray
  */
-class StructureArray : public Field{
+class epicsShareClass StructureArray : public Field{
 public:
     POINTER_DEFINITIONS(StructureArray);
     typedef StructureArray& reference;
@@ -381,7 +382,7 @@ private:
 /**
  * This class implements introspection object for a structure.
  */
-class Structure : public Field {
+class epicsShareClass Structure : public Field {
 public:
     POINTER_DEFINITIONS(Structure);
 
@@ -473,7 +474,7 @@ private:
 class FieldCreate;
 typedef std::tr1::shared_ptr<FieldCreate> FieldCreatePtr;
 
-class FieldCreate {
+class epicsShareClass FieldCreate {
 public:
      static FieldCreatePtr getFieldCreate();
     /**
@@ -553,7 +554,7 @@ private:
  * Get the single class that implemnents FieldCreate,
  * @param The fieldCreate factory.
  */
-extern FieldCreatePtr getFieldCreate();
+epicsShareExtern FieldCreatePtr getFieldCreate();
 
 }}
 #endif  /* PVINTROSPECT_H */

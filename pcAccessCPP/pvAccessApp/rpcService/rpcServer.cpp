@@ -5,10 +5,16 @@
  */
 
 #include <stdexcept>
+
+
+#define epicsExportSharedSymbols
 #include <pv/rpcServer.h>
 
+#if defined(__vxworks) || defined(_WIN32)
 #ifdef __vxworks
 #include <envLib.h>
+#endif
+
 using std::string;
 inline int setenv(const char *name, const char *value, int overwrite)
 {
