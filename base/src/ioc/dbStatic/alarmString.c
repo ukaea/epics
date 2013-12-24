@@ -17,12 +17,6 @@
 extern "C" {
 #endif
 
-/* Compatibility with original alarmString.h names */
-
-#define alarmSeverityString epicsAlarmSeverityStrings
-#define alarmStatusString epicsAlarmConditionStrings
-
-
 /* Name strings */
 
 /* ALARM SEVERITIES - must match menuAlarmSevr.dbd and alarm.h */
