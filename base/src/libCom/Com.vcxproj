@@ -49,16 +49,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="as\asTrapWrite.c" />
-    <ClCompile Include="as\O.Common\asLib.c">
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.\as</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.\as</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.\as</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.\as</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.\as</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.\as</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.\as</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.\as</AdditionalIncludeDirectories>
-    </ClCompile>
     <ClCompile Include="as\O.Common\asLib_lex.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">true</ExcludedFromBuild>
@@ -119,6 +109,16 @@
     <ClCompile Include="misc\epicsUnitTest.c" />
     <ClCompile Include="misc\ipAddrToAsciiAsynchronous.cpp" />
     <ClCompile Include="misc\truncateFile.c" />
+    <ClCompile Include="O.Common\asLib.c">
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.\as</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.\as</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.\as</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.\as</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.\as</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.\as</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.\as</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.\as</AdditionalIncludeDirectories>
+    </ClCompile>
     <ClCompile Include="O.Common\envData.c" />
     <ClCompile Include="O.Common\errSymTbl.c" />
     <ClCompile Include="osi\devLibVME.c" />
@@ -476,14 +476,14 @@ $(OutDir)antelope.exe .\aslib.y
 move /Y y.tab.c ..\O.Common\asLib.c
 cd $(ProjectDir)
 </Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">O.Common\asLib.c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">O.Common\asLib.c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">O.Common\asLib.c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">O.Common\asLib.c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">O.Common\asLib.c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">O.Common\asLib.c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">O.Common\asLib.c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">O.Common\asLib.c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">O.Common\%(FileName).c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">O.Common\%(FileName).c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">O.Common\%(FileName).c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">O.Common\%(FileName).c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">O.Common\%(FileName).c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">O.Common\%(FileName).c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">O.Common\%(FileName).c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">O.Common\%(FileName).c</Outputs>
     </CustomBuild>
     <CustomBuild Include="as\asLib_lex.l">
       <FileType>Document</FileType>
@@ -557,6 +557,12 @@ move /Y lex.yy.c O.Common\asLib_lex.c
   <ItemGroup>
     <ProjectReference Include="..\tools\tools.vcxproj">
       <Project>{5cce1c6a-2bd5-48bf-99e2-d29b58f91991}</Project>
+    </ProjectReference>
+    <ProjectReference Include="flex\e_flex.vcxproj">
+      <Project>{285b2dd5-b55e-4195-9b2d-f129cf54a2b4}</Project>
+    </ProjectReference>
+    <ProjectReference Include="yacc\antelope.vcxproj">
+      <Project>{5f6323ff-ceeb-4ad8-bed3-a443e6f75546}</Project>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
