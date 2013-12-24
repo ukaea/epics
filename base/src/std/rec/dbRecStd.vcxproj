@@ -1371,9 +1371,6 @@ cd $(ProjectDir)
     <ProjectReference Include="..\ioc\dbCore.vcxproj">
       <Project>{440c585d-ad66-4738-941c-a87a1817a9be}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\ioc\dbStatic\dbToRecordTypeH.vcxproj">
-      <Project>{79e5a43c-7673-47f8-8139-50aea5688464}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\libCom\Com.vcxproj">
       <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
     </ProjectReference>

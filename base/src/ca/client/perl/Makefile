@@ -5,7 +5,7 @@
 # in file LICENSE that is included with this distribution. 
 #*************************************************************************
 
-TOP=../..
+TOP=../../../..
 include $(TOP)/configure/CONFIG
 
 
@@ -13,7 +13,7 @@ include $(TOP)/configure/CONFIG
 # to generate header file dependancies for Darwin.
 # Darwin has multiple -arch compiler flags.
 ifeq ($(OS_CLASS),Darwin)
-HDEPENDS_METHOD = CMD
+HDEPENDS_METHOD = MKMF
 endif
 
 ifneq ($(findstring darwin,$(T_A)),)
@@ -50,6 +50,8 @@ Cap5_LIBS = ca Com
 Cap5_INCLUDES = -I$(shell $(PERL) ../perlConfig.pl archlib)/CORE
 Cap5_CFLAGS = $(shell $(PERL) ../perlConfig.pl ccflags)
 
+CLEANS += Cap5.c pod2htmd.tmp pod2htmi.tmp
+
 include $(TOP)/configure/RULES
 
 ifdef T_A
@@ -66,7 +68,4 @@ ifdef T_A
   $(INSTALL_PERL_MODULES)/$(PERL_ARCHPATH)/%: %
 	$(ECHO) "Installing loadable shared library $@"
 	@$(INSTALL_LIBRARY) -d -m $(LIB_PERMISSIONS) $< $(INSTALL_PERL_MODULES)/$(PERL_ARCHPATH)
-
-  clean::
-	$(RM) Cap5.c
 endif
