@@ -40,8 +40,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="src\DAQmxBaseSupport.dbd" />
-    <None Include="src\Makefile" />
-    <None Include="src\NIDAQmxBase.orig" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\NIDAQmxBase.h" />
@@ -58,6 +56,9 @@
     <ProjectGuid>{4198C3D2-FCF6-4FCA-B093-A0C53A4DB235}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>DAQmxBaseApp</RootNamespace>
+    <SccProjectName>"$/EPICS/DAQmxBase/DAQmxBaseApp", ERDCAAAA</SccProjectName>
+    <SccLocalPath>.</SccLocalPath>
+    <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'" Label="Configuration">

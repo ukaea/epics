@@ -26,12 +26,6 @@
     <None Include="src\DAQmxBaseSupport.dbd">
       <Filter>src</Filter>
     </None>
-    <None Include="src\Makefile">
-      <Filter>src</Filter>
-    </None>
-    <None Include="src\NIDAQmxBase.orig">
-      <Filter>src</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\NIDAQmxBase.h">
