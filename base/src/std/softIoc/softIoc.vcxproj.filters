@@ -32,8 +32,6 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <None Include="base.dbd">
-      <Filter>Source Files</Filter>
-    </None>
+    <None Include="base.dbd" />
   </ItemGroup>
 </Project>
