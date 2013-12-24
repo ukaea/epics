@@ -149,6 +149,11 @@ cd $(ProjectDir)
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">../O.Common/%(FileName).h</Outputs>
     </CustomBuild>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\libCom\Com.vcxproj">
+      <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{3D039C8A-8B8D-4408-B1F7-BF1878D50315}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>

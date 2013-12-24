@@ -149,6 +149,9 @@ move /Y y.tab.h O.Common\parse.h
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\tools\tools.vcxproj">
+      <Project>{5cce1c6a-2bd5-48bf-99e2-d29b58f91991}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\yacc\antelope.vcxproj">
       <Project>{5f6323ff-ceeb-4ad8-bed3-a443e6f75546}</Project>
     </ProjectReference>
@@ -293,7 +296,7 @@ move /Y y.tab.h O.Common\parse.h
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\osi;..\misc;..\osi\compiler\msvc</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
       <BrowseInformation>true</BrowseInformation>
@@ -315,7 +318,7 @@ xcopy /Y /Q /D /R flex.skel.static $(SolutionDir)include &gt; NUL
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\osi;..\misc;..\osi\compiler\msvc</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
       <BrowseInformation>true</BrowseInformation>
@@ -338,7 +341,7 @@ xcopy /Y /Q /D /R flex.skel.static $(SolutionDir)include &gt; NUL
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\osi;..\misc;..\osi\compiler\msvc</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4996;4244;4267</DisableSpecificWarnings>
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
       <BrowseInformation>true</BrowseInformation>
@@ -360,7 +363,7 @@ xcopy /Y /Q /D /R flex.skel.static $(SolutionDir)include &gt; NUL
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\osi;..\misc;..\osi\compiler\msvc</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4996;4244;4267</DisableSpecificWarnings>
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
       <BrowseInformation>true</BrowseInformation>
@@ -385,7 +388,7 @@ xcopy /Y /Q /D /R flex.skel.static $(SolutionDir)include &gt; NUL
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\osi;..\misc;..\osi\compiler\msvc</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
     </ClCompile>
@@ -409,7 +412,7 @@ xcopy /Y /Q /D /R flex.skel.static $(SolutionDir)include &gt; NUL
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\osi;..\misc;..\osi\compiler\msvc</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -434,7 +437,7 @@ xcopy /Y /Q /D /R flex.skel.static $(SolutionDir)include &gt; NUL
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\osi;..\misc;..\osi\compiler\msvc</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4996;4244;4267</DisableSpecificWarnings>
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
     </ClCompile>
@@ -458,7 +461,7 @@ xcopy /Y /Q /D /R flex.skel.static $(SolutionDir)include &gt; NUL
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\osi;..\misc;..\osi\compiler\msvc</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4996;4244;4267</DisableSpecificWarnings>
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
