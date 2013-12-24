@@ -104,9 +104,4 @@ epicsShareExtern const char *epicsAlarmConditionStrings [ALARM_NSTATUS];
 }
 #endif
 
-#ifdef epicsAlarmGLOBAL
-#  include "alarmString.h"
-#endif
-
-
 #endif /* INC_alarm_H */

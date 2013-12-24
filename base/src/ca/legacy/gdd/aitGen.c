@@ -21,7 +21,7 @@
 #include <limits.h>
 #include <float.h>
 
-#define epicsExportSharedSymbols
+//#define epicsExportSharedSymbols
 #include "aitTypes.h"
 
 void initMinMaxAIT ( void );

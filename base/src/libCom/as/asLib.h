@@ -50,9 +50,9 @@ long asCheckPut(ASCLIENTPVT asClientPvt);
 #define asTrapWriteAfter(pvt) if((pvt)) asTrapWriteAfterWrite((pvt))
 
 epicsShareFunc long epicsShareAPI asInitialize(ASINPUTFUNCPTR inputfunction);
-epicsShareFunc long epicsShareAPI asInitFile(
+long epicsShareAPI asInitFile(
     const char *filename,const char *substitutions);
-epicsShareFunc long epicsShareAPI asInitFP(FILE *fp,const char *substitutions);
+long epicsShareAPI asInitFP(FILE *fp,const char *substitutions);
 /*caller must provide permanent storage for asgName*/
 epicsShareFunc long epicsShareAPI asAddMember(
     ASMEMBERPVT *asMemberPvt,const char *asgName);
