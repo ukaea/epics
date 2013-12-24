@@ -106,11 +106,11 @@ REM ======================================================
 REM --------------- EPICS --------------------------------
 REM ======================================================
 echo setting EPICS paths.
-set PATH=%PATH%;D:\epics\base\bin\%EPICS_HOST_ARCH%
-set PATH=%PATH%;D:\EPICS\pcDataCPP\Bin\%EPICS_HOST_ARCH%
-set PATH=%PATH%;D:\EPICS\pcAccessCPP\bin\%EPICS_HOST_ARCH%
-set PATH=%PATH%;D:\EPICS\pvCommonCPP\bin\%EPICS_HOST_ARCH%
-set PATH=%PATH%;D:\EPICS\pvIOCCPP\bin\%EPICS_HOST_ARCH%
+set PATH=%PATH%;%~dp0..\bin\%EPICS_HOST_ARCH%
+set PATH=%PATH%;%~dp0..\..\pcDataCPP\Bin\%EPICS_HOST_ARCH%
+set PATH=%PATH%;%~dp0..\..\pcAccessCPP\bin\%EPICS_HOST_ARCH%
+set PATH=%PATH%;%~dp0..\..\pvCommonCPP\bin\%EPICS_HOST_ARCH%
+set PATH=%PATH%;%~dp0..\..\pvIOCCPP\bin\%EPICS_HOST_ARCH%
 
 REM ======================================================
 REM ------- OPTIONAL ENVIRONMENT VARIABLES FOLLOW --------
