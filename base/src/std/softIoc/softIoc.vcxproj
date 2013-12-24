@@ -20,8 +20,16 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="O.win32-x86-debug\softIoc_registerRecordDeviceDriver.cpp" />
-    <ClCompile Include="O.win32-x86\softIoc_registerRecordDeviceDriver.cpp" />
+    <ClCompile Include="O.win32-x86-debug\softIoc_registerRecordDeviceDriver.cpp">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;EPICS_DLL_NO</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;_DEBUG;_CONSOLE;EPICS_DLL_NO</PreprocessorDefinitions>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="O.win32-x86\softIoc_registerRecordDeviceDriver.cpp">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;EPICS_DLL_NO</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;_DEBUG;_CONSOLE;EPICS_DLL_NO</PreprocessorDefinitions>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="softMain.cpp" />
   </ItemGroup>
   <ItemGroup>
