@@ -32,6 +32,14 @@ typedef SSIZE_T ssize_t;
 
 using namespace epics::pvData;
 
+// Microsoft #define max and min, which cuts across the below.
+#ifdef max
+#undef max
+#endif
+#ifdef min
+#undef min
+#endif
+
 using std::max;
 using std::min;
 using std::ostringstream;
@@ -533,7 +541,7 @@ namespace pvAccess {
             _socketBuffer->align(alignment);
         }
 
-        bool BlockingTCPTransport::directSerialize(ByteBuffer */*existingBuffer*/, const char* toSerialize,
+        bool BlockingTCPTransport::directSerialize(ByteBuffer* /*existingBuffer*/, const char* toSerialize,
                                                    std::size_t elementCount, std::size_t elementSize)
         {
             // TODO overflow check, size_t type, other is int32 for payloadSize header field !!!

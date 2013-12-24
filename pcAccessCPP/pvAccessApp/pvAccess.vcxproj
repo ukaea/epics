@@ -39,15 +39,38 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IntDir>.\O.win32-x86-debug\</IntDir>
+    <OutDir>..\..\Bin\win32-x86-debug\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>..\Bin\win32-x86\</OutDir>
+    <IntDir>.\O.win32-x86\</IntDir>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\include;..\..\include\os\win32</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PreBuildEvent>
+      <Command>if not exist ..\..\include md ..\..\include
+if not exist ..\..\include\pv md ..\..\include\pv
+xcopy /Y /Q  /D utils\*.h ..\..\include\pv &gt; NUL
+xcopy /Y /Q  /D remote\*.h ..\..\include\pv &gt; NUL
+xcopy /Y /Q  /D pva\*.h ..\..\include\pv &gt; NUL
+xcopy /Y /Q  /D client\*.h ..\..\include\pv &gt; NUL
+xcopy /Y /Q  /D server\*.h ..\..\include\pv &gt; NUL
+xcopy /Y /Q  /D remoteclient\*.h ..\..\include\pv &gt; NUL
+xcopy /Y /Q  /D ca\*.h ..\..\include\pv &gt; NUL
+xcopy /Y /Q  /D rpcService\*.h ..\..\include\pv &gt; NUL
+xcopy /Y /Q  /D mb\*.h ..\..\include\pv &gt; NUL
+</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -56,6 +79,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <AdditionalIncludeDirectories>..\..\include;..\..\include\os\win32</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

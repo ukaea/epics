@@ -19,7 +19,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -39,7 +39,14 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IntDir>.\O.win32-x86-debug\</IntDir>
+    <OutDir>..\..\Bin\win32-x86-debug\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>..\..\Bin\win32-x86\</OutDir>
+    <IntDir>.\O.win32-x86\</IntDir>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -49,6 +56,17 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PreBuildEvent>
+      <Command>if not exist ..\..\include md ..\..\include
+if not exist ..\..\include\pv md ..\..\include\pv
+xcopy /Y /Q  /D support\*.h ..\..\include\pv &gt; NUL
+xcopy /Y /Q  /D support\basic\*.h ..\..\include\pv &gt; NUL
+xcopy /Y /Q  /D database\*.h ..\..\include\pv &gt; NUL
+xcopy /Y /Q  /D channelProviderLocal\*.h ..\..\include\pv &gt; NUL
+xcopy /Y /Q  /D ezchannelRPC\*.h ..\..\include\pv &gt; NUL
+xcopy /Y /Q  /D service\*.h ..\..\include\pv &gt; NUL
+</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
