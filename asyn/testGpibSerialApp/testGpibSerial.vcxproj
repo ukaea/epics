@@ -58,9 +58,12 @@
     <ProjectGuid>{1C2C975D-FA4B-4D13-A4F5-ACD1AC1AEAAE}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>testAsynPortDriverApp</RootNamespace>
-    <SccProjectName>"$/EPICS/asyn/testGpibSerialApp", DWECAAAA</SccProjectName>
-    <SccLocalPath>.</SccLocalPath>
-    <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'" Label="Configuration">

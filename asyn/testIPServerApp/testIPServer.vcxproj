@@ -59,9 +59,12 @@
     <ProjectGuid>{099AFB59-DDCF-48CC-9F95-4049B2E05698}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>testAsynPortDriverApp</RootNamespace>
-    <SccProjectName>"$/EPICS/asyn/testIPServerApp", FWECAAAA</SccProjectName>
-    <SccLocalPath>.</SccLocalPath>
-    <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'" Label="Configuration">

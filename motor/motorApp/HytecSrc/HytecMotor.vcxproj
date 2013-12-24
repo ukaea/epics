@@ -67,9 +67,12 @@
     <ProjectGuid>{CF437F35-6310-46A2-948D-40E8A047E161}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>HytecMotor</RootNamespace>
-    <SccProjectName>"$/EPICS/motor/motorApp/HytecSrc", AOECAAAA</SccProjectName>
-    <SccLocalPath>.</SccLocalPath>
-    <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'" Label="Configuration">

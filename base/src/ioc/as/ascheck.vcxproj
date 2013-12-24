@@ -55,9 +55,12 @@
     <ProjectGuid>{3F455271-9010-4995-BA79-FFD5D0881ABC}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>ascheck</RootNamespace>
-    <SccProjectName>"$/EPICS/base/src/ioc/as", YKDCAAAA</SccProjectName>
-    <SccLocalPath>.</SccLocalPath>
-    <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'" Label="Configuration">

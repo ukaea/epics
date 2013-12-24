@@ -58,10 +58,13 @@
     <ProjectGuid>{DAAD10B4-E168-4A09-B4EB-BFF1C6922451}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>seqDev</RootNamespace>
-	<TrackFileAccess>false</TrackFileAccess>
-    <SccProjectName>"$/EPICS/seq/src/dev", RNECAAAA</SccProjectName>
-    <SccLocalPath>.</SccLocalPath>
-    <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
+    <TrackFileAccess>false</TrackFileAccess>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'" Label="Configuration">

@@ -78,9 +78,12 @@
     <ProjectGuid>{AE0A5905-CC7D-427B-A385-BCC5253C98C0}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Ipac</RootNamespace>
-    <SccProjectName>"$/EPICS/ipac/drvIpac", ONECAAAA</SccProjectName>
-    <SccLocalPath>.</SccLocalPath>
-    <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'" Label="Configuration">

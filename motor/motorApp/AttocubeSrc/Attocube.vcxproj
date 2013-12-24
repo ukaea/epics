@@ -61,9 +61,12 @@
     <ProjectGuid>{8C4D9717-EFF2-457B-BFC4-294A9BDB537A}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Attocube</RootNamespace>
-    <SccProjectName>"$/EPICS/motor/motorApp/AttocubeSrc", YNECAAAA</SccProjectName>
-    <SccLocalPath>.</SccLocalPath>
-    <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'" Label="Configuration">

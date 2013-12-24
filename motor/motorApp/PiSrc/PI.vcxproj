@@ -99,9 +99,12 @@
     <ProjectGuid>{607CD440-574A-4823-B0FD-4DF3EC5F402C}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>PI</RootNamespace>
-    <SccProjectName>"$/EPICS/motor/motorApp/PiSrc", ROECAAAA</SccProjectName>
-    <SccLocalPath>.</SccLocalPath>
-    <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'" Label="Configuration">

@@ -68,9 +68,12 @@
     <ProjectGuid>{4EA30C3F-89E2-4DA5-8AAF-BDECC5F819E4}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Aerotech</RootNamespace>
-    <SccProjectName>"$/EPICS/motor/motorApp/AerotechSrc", XNECAAAA</SccProjectName>
-    <SccLocalPath>.</SccLocalPath>
-    <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'" Label="Configuration">

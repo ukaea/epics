@@ -38,9 +38,12 @@
     <ProjectGuid>{D1A4A779-4CAF-44CC-B092-30C4E606B109}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>NPointMotor</RootNamespace>
-    <SccProjectName>"$/EPICS/motor/motorApp/NPointSrc", KOECAAAA</SccProjectName>
-    <SccLocalPath>.</SccLocalPath>
-    <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'" Label="Configuration">

@@ -68,9 +68,12 @@
     <ProjectGuid>{12E42356-EE63-4E0B-A20A-7B8B429578C1}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Micos</RootNamespace>
-    <SccProjectName>"$/EPICS/motor/motorApp/MicosSrc", EOECAAAA</SccProjectName>
-    <SccLocalPath>.</SccLocalPath>
-    <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'" Label="Configuration">

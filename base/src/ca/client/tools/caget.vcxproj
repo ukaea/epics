@@ -55,9 +55,12 @@
     <ProjectGuid>{49126258-65C5-4B34-8600-28AB4A0CC2AB}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>catools</RootNamespace>
-    <SccProjectName>"$/EPICS/base/src/ca/client/tools", FLDCAAAA</SccProjectName>
-    <SccLocalPath>.</SccLocalPath>
-    <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'" Label="Configuration">

@@ -158,9 +158,12 @@ cd $(ProjectDir)
     <ProjectGuid>{3D039C8A-8B8D-4408-B1F7-BF1878D50315}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>bpt</RootNamespace>
-    <SccProjectName>"$/EPICS/base/src/ioc/bpt", VKDCAAAA</SccProjectName>
-    <SccLocalPath>.</SccLocalPath>
-    <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'" Label="Configuration">

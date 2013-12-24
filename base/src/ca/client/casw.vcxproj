@@ -52,9 +52,12 @@
     <ProjectGuid>{CCEE947D-00D4-4A3D-B9B0-F519EB50E081}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>casw</RootNamespace>
-    <SccProjectName>"$/EPICS/base/src/ca/client", ZKDCAAAA</SccProjectName>
-    <SccLocalPath>.</SccLocalPath>
-    <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'" Label="Configuration">

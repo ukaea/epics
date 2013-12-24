@@ -65,9 +65,12 @@
     <ProjectGuid>{1B0E5C1F-DFE8-4464-846C-8FA4B989AE78}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>SmartMotor</RootNamespace>
-    <SccProjectName>"$/EPICS/motor/motorApp/SmartMotorSrc", TOECAAAA</SccProjectName>
-    <SccLocalPath>.</SccLocalPath>
-    <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'" Label="Configuration">

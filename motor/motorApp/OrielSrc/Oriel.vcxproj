@@ -67,9 +67,12 @@
     <ProjectGuid>{6EF9E358-A163-4261-8C15-FE098A791FF1}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Oriel</RootNamespace>
-    <SccProjectName>"$/EPICS/motor/motorApp/OrielSrc", NOECAAAA</SccProjectName>
-    <SccLocalPath>.</SccLocalPath>
-    <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'" Label="Configuration">

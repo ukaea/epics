@@ -1477,9 +1477,12 @@ cd $(ProjectDir)
     <ProjectGuid>{3B0E3542-CB89-4FFA-B004-EAC882B3F277}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>rec</RootNamespace>
-    <SccProjectName>"$/EPICS/base/src/std", NNDCAAAA</SccProjectName>
-    <SccLocalPath>.</SccLocalPath>
-    <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'" Label="Configuration">

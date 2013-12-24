@@ -67,9 +67,12 @@
     <ProjectGuid>{157A9E0B-AC2A-46CA-8DF8-A3FCC2CC7917}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>ThorLabs</RootNamespace>
-    <SccProjectName>"$/EPICS/motor/motorApp/ThorLabsSrc", VOECAAAA</SccProjectName>
-    <SccLocalPath>.</SccLocalPath>
-    <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'" Label="Configuration">

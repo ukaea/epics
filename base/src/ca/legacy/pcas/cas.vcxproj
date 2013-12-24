@@ -173,9 +173,12 @@
     <ProjectGuid>{1D35FFAF-078A-4A9F-8F63-D62E9C7B3928}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>cas</RootNamespace>
-    <SccProjectName>"$/EPICS/base/src/ca/legacy/pcas", KODCAAAA</SccProjectName>
-    <SccLocalPath>.</SccLocalPath>
-    <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'" Label="Configuration">

@@ -66,9 +66,12 @@
     <ProjectGuid>{A91C828F-2D6C-4C72-9CCE-CBB0728D6F5D}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Mclennan</RootNamespace>
-    <SccProjectName>"$/EPICS/motor/motorApp/MclennanSrc", DOECAAAA</SccProjectName>
-    <SccLocalPath>.</SccLocalPath>
-    <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'" Label="Configuration">

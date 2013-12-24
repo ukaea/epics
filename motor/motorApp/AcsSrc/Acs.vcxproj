@@ -69,9 +69,12 @@
     <ProjectGuid>{D08CB5E7-0426-4A6D-9407-4DEF9959D76A}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Acs</RootNamespace>
-    <SccProjectName>"$/EPICS/motor/motorApp/AcsSrc", VNECAAAA</SccProjectName>
-    <SccLocalPath>.</SccLocalPath>
-    <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'" Label="Configuration">

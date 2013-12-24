@@ -38,9 +38,12 @@
     <ProjectGuid>{A3EA0C11-220D-4677-B943-904447F032FF}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>PI_GCS2Support</RootNamespace>
-    <SccProjectName>"$/EPICS/motor/motorApp/PIGCS2Src", POECAAAA</SccProjectName>
-    <SccLocalPath>.</SccLocalPath>
-    <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'" Label="Configuration">

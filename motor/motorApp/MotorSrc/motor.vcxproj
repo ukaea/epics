@@ -38,9 +38,12 @@
     <ProjectGuid>{9EA7BD8E-C551-4874-85ED-ABBFCFE7A7D4}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>motorR68</RootNamespace>
-    <SccProjectName>"$/EPICS/motor/motorApp/MotorSrc", HOECAAAA</SccProjectName>
-    <SccLocalPath>.</SccLocalPath>
-    <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'" Label="Configuration">

@@ -90,9 +90,12 @@
     <ProjectGuid>{7DB032CE-8696-4D7A-8679-E8B486012AEC}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>gdd</RootNamespace>
-    <SccProjectName>"$/EPICS/base/src/ca/legacy/gdd", GLDCAAAA</SccProjectName>
-    <SccLocalPath>.</SccLocalPath>
-    <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'" Label="Configuration">

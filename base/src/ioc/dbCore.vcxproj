@@ -1099,9 +1099,12 @@ cd $(ProjectDir)
     <ProjectGuid>{440C585D-AD66-4738-941C-A87A1817A9BE}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>dbCore</RootNamespace>
-    <SccProjectName>"$/EPICS/base/src/ioc", UKDCAAAA</SccProjectName>
-    <SccLocalPath>.</SccLocalPath>
-    <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'" Label="Configuration">

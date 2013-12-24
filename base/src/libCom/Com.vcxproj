@@ -569,9 +569,12 @@ move /Y lex.yy.c O.Common\asLib_lex.c
     <ProjectGuid>{35E6ABA4-E192-497D-BA02-EFB79D1E0336}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>libCom</RootNamespace>
-    <SccProjectName>"$/EPICS/base/src/libCom", CPCCAAAA</SccProjectName>
-    <SccLocalPath>.</SccLocalPath>
-    <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'" Label="Configuration">
