@@ -66,8 +66,8 @@
     <ProjectGuid>{DCDDD0CB-4AFA-4F0C-A109-A7B0705FB920}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>MicroMo</RootNamespace>
-    <SccProjectName>"$/EPICS/motor/motor", NTDCAAAA</SccProjectName>
-    <SccLocalPath>..\..\..</SccLocalPath>
+    <SccProjectName>"$/EPICS/motor/motorApp/MicroMoSrc", FOECAAAA</SccProjectName>
+    <SccLocalPath>.</SccLocalPath>
     <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

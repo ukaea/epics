@@ -66,8 +66,8 @@
     <ProjectGuid>{A91C828F-2D6C-4C72-9CCE-CBB0728D6F5D}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Mclennan</RootNamespace>
-    <SccProjectName>"$/EPICS/motor/motor", NTDCAAAA</SccProjectName>
-    <SccLocalPath>..\..\..</SccLocalPath>
+    <SccProjectName>"$/EPICS/motor/motorApp/MclennanSrc", DOECAAAA</SccProjectName>
+    <SccLocalPath>.</SccLocalPath>
     <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

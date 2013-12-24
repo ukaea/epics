@@ -127,8 +127,8 @@ $(OutDir)snc.exe     O.Common\%(Filename).i -o O.Common\%(Filename).c
     <ProjectGuid>{9C63C890-BBE4-4891-BB8E-CA91374D770D}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>oms</RootNamespace>
-    <SccProjectName>"$/EPICS/motor/motor", NTDCAAAA</SccProjectName>
-    <SccLocalPath>..\..\..</SccLocalPath>
+    <SccProjectName>"$/EPICS/motor/motorApp/OmsSrc", MOECAAAA</SccProjectName>
+    <SccLocalPath>.</SccLocalPath>
     <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

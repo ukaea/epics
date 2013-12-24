@@ -65,8 +65,8 @@
     <ProjectGuid>{532ED83C-468B-41BF-9B39-5AD3B7880A54}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>softMotor</RootNamespace>
-    <SccProjectName>"$/EPICS/motor/motor", NTDCAAAA</SccProjectName>
-    <SccLocalPath>..\..\..</SccLocalPath>
+    <SccProjectName>"$/EPICS/motor/motorApp/SoftMotorSrc", UOECAAAA</SccProjectName>
+    <SccLocalPath>.</SccLocalPath>
     <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

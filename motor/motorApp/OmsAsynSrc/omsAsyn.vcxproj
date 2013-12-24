@@ -72,8 +72,8 @@
     <ProjectGuid>{08109A39-A700-4CFB-ACAB-78EC631D3D3F}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>omsAsyn</RootNamespace>
-    <SccProjectName>"$/EPICS/motor/motor", NTDCAAAA</SccProjectName>
-    <SccLocalPath>..\..\..</SccLocalPath>
+    <SccProjectName>"$/EPICS/motor/motorApp/OmsAsynSrc", LOECAAAA</SccProjectName>
+    <SccLocalPath>.</SccLocalPath>
     <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

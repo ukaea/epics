@@ -74,8 +74,8 @@
     <ProjectGuid>{8F50C372-E2FE-4120-B10E-8A64B93326D5}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Ims</RootNamespace>
-    <SccProjectName>"$/EPICS/motor/motor", NTDCAAAA</SccProjectName>
-    <SccLocalPath>..\..\..</SccLocalPath>
+    <SccProjectName>"$/EPICS/motor/motorApp/ImsSrc", BOECAAAA</SccProjectName>
+    <SccLocalPath>.</SccLocalPath>
     <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
