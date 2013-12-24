@@ -190,7 +190,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\..\base\src\ioc\db;.\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\..\base\src\ioc\db;.\src;C:\Program Files (x86)\National Instruments\Shared\ExternalCompilerSupport\C\include</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4018</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -202,10 +202,15 @@
     </Link>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
+if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
 perl $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I../../../dbd -ID:\EPICS/asyn/dbd -ID:\EPICS\base/dbd -o O.Common\DAQmxBase.dbd base.dbd src/DAQmxBaseSupport.dbd asyn.dbd
 perl $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_registerRecordDeviceDriver $(SolutionDir) &gt;O.Common\DAQmxBase_registerRecordDeviceDriver.cpp
 </Command>
     </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q /D /R O.Common\*.DBD $(SolutionDir)DBD &gt; NUL
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|x64'">
     <ClCompile>
@@ -214,7 +219,7 @@ perl $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_reg
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\..\base\src\ioc\db;.\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\..\base\src\ioc\db;.\src;C:\Program Files (x86)\National Instruments\Shared\ExternalCompilerSupport\C\include</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4018</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -226,10 +231,15 @@ perl $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_reg
     </Link>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
+if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
 perl $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I../../../dbd -ID:\EPICS/asyn/dbd -ID:\EPICS\base/dbd -o O.Common\DAQmxBase.dbd base.dbd src/DAQmxBaseSupport.dbd asyn.dbd
 perl $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_registerRecordDeviceDriver $(SolutionDir) &gt;O.Common\DAQmxBase_registerRecordDeviceDriver.cpp
 </Command>
     </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q /D /R O.Common\*.DBD $(SolutionDir)DBD &gt; NUL
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">
     <ClCompile>
@@ -238,7 +248,7 @@ perl $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_reg
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\..\base\src\ioc\db;.\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\..\base\src\ioc\db;.\src;C:\Program Files (x86)\National Instruments\Shared\ExternalCompilerSupport\C\include</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4018</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -250,10 +260,15 @@ perl $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_reg
     </Link>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
+if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
 perl $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I../../../dbd -ID:\EPICS/asyn/dbd -ID:\EPICS\base/dbd -o O.Common\DAQmxBase.dbd base.dbd src/DAQmxBaseSupport.dbd asyn.dbd
 perl $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_registerRecordDeviceDriver $(SolutionDir) &gt;O.Common\DAQmxBase_registerRecordDeviceDriver.cpp
 </Command>
     </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q /D /R O.Common\*.DBD $(SolutionDir)DBD &gt; NUL
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug LIB|x64'">
     <ClCompile>
@@ -262,7 +277,7 @@ perl $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_reg
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\..\base\src\ioc\db;.\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\..\base\src\ioc\db;.\src;C:\Program Files (x86)\National Instruments\Shared\ExternalCompilerSupport\C\include</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4018</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -274,10 +289,15 @@ perl $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_reg
     </Link>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
+if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
 perl $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I../../../dbd -ID:\EPICS/asyn/dbd -ID:\EPICS\base/dbd -o O.Common\DAQmxBase.dbd base.dbd src/DAQmxBaseSupport.dbd asyn.dbd
 perl $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_registerRecordDeviceDriver $(SolutionDir) &gt;O.Common\DAQmxBase_registerRecordDeviceDriver.cpp
 </Command>
     </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q /D /R O.Common\*.DBD $(SolutionDir)DBD &gt; NUL
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">
     <ClCompile>
@@ -288,7 +308,7 @@ perl $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_reg
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\..\base\src\ioc\db;.\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\..\base\src\ioc\db;.\src;C:\Program Files (x86)\National Instruments\Shared\ExternalCompilerSupport\C\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -301,10 +321,15 @@ perl $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_reg
     </Link>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
+if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
 perl $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I../../../dbd -ID:\EPICS/asyn/dbd -ID:\EPICS\base/dbd -o O.Common\DAQmxBase.dbd base.dbd src/DAQmxBaseSupport.dbd asyn.dbd
 perl $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_registerRecordDeviceDriver $(SolutionDir) &gt;O.Common\DAQmxBase_registerRecordDeviceDriver.cpp
 </Command>
     </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q /D /R O.Common\*.DBD $(SolutionDir)DBD &gt; NUL
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release DLL|x64'">
     <ClCompile>
@@ -315,7 +340,7 @@ perl $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_reg
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\..\base\src\ioc\db;.\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\..\base\src\ioc\db;.\src;C:\Program Files (x86)\National Instruments\Shared\ExternalCompilerSupport\C\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -328,10 +353,15 @@ perl $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_reg
     </Link>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
+if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
 perl $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I../../../dbd -ID:\EPICS/asyn/dbd -ID:\EPICS\base/dbd -o O.Common\DAQmxBase.dbd base.dbd src/DAQmxBaseSupport.dbd asyn.dbd
 perl $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_registerRecordDeviceDriver $(SolutionDir) &gt;O.Common\DAQmxBase_registerRecordDeviceDriver.cpp
 </Command>
     </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q /D /R O.Common\*.DBD $(SolutionDir)DBD &gt; NUL
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">
     <ClCompile>
@@ -342,7 +372,7 @@ perl $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_reg
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\..\base\src\ioc\db;.\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\..\base\src\ioc\db;.\src;C:\Program Files (x86)\National Instruments\Shared\ExternalCompilerSupport\C\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -355,10 +385,15 @@ perl $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_reg
     </Link>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
+if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
 perl $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I../../../dbd -ID:\EPICS/asyn/dbd -ID:\EPICS\base/dbd -o O.Common\DAQmxBase.dbd base.dbd src/DAQmxBaseSupport.dbd asyn.dbd
 perl $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_registerRecordDeviceDriver $(SolutionDir) &gt;O.Common\DAQmxBase_registerRecordDeviceDriver.cpp
 </Command>
     </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q /D /R O.Common\*.DBD $(SolutionDir)DBD &gt; NUL
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release LIB|x64'">
     <ClCompile>
@@ -369,7 +404,7 @@ perl $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_reg
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\..\base\src\ioc\db;.\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\..\base\src\ioc\db;.\src;C:\Program Files (x86)\National Instruments\Shared\ExternalCompilerSupport\C\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -382,10 +417,15 @@ perl $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_reg
     </Link>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
+if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
 perl $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I../../../dbd -ID:\EPICS/asyn/dbd -ID:\EPICS\base/dbd -o O.Common\DAQmxBase.dbd base.dbd src/DAQmxBaseSupport.dbd asyn.dbd
 perl $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_registerRecordDeviceDriver $(SolutionDir) &gt;O.Common\DAQmxBase_registerRecordDeviceDriver.cpp
 </Command>
     </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q /D /R O.Common\*.DBD $(SolutionDir)DBD &gt; NUL
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -24,6 +24,7 @@
 /*******************/
 #include <sys/types.h>
 #include <stdlib.h>
+#include <memory.h>
 #include <stdio.h>
 #include <time.h>
 
@@ -49,7 +50,7 @@
 #include <epicsEvent.h>
 #include <epicsMutex.h>
 #include <epicsThread.h>
-#include <errLog.h>
+#include <errlog.h>
 #include <epicsExit.h>
 #include <epicsMessageQueue.h>
 #include <epicsTime.h>
@@ -94,7 +95,7 @@ typedef enum {
 	acquireAnlg,
 	acquireDig,
 	acquireCnt,
-	write,
+	writeout,
 	counterout,
 	stop
 } daqMxState;
@@ -133,7 +134,7 @@ typedef enum {
 /* interface structures */
 typedef struct daqAioPvt {
         void * data;
-        epicsInt32 dataSize;
+        size_t dataSize;
         char * devicename;
 	epicsFloat64 avgData;
 	epicsFloat64 min;
@@ -143,7 +144,7 @@ typedef struct daqAioPvt {
 
 typedef struct daqBioPvt{
     void * data; 
-    epicsInt32 dataSize;
+    size_t dataSize;
     char * devicename;
 } daqBioPvt;
 
@@ -167,8 +168,8 @@ typedef struct daqMxPvt {
 	char *portName;
 	int nChannels;
 	int totalNSamples;
-	epicsInt32 nSamples;
-	epicsInt32 samplesTransferred;
+	size_t nSamples;
+	size_t samplesTransferred;
         char polled; /*  The driver will not read until the record tries to read*/
         epicsEventId pollnow;
         epicsEventId polldone;
@@ -274,7 +275,7 @@ typedef enum {
 
 typedef struct {
 	daqMxCommand command;
-	char *commandString;
+	const char *commandString;
 } daqMxCommandStuct;
 
 static daqMxCommandStuct daqMxCommands[MAX_COMMANDS] = {
@@ -433,7 +434,7 @@ int SendStart(daqMxPvt *pPvt)
     if (pPvt->state == acquireAnlg) return 0;
     if (pPvt->state == acquireDig) return 0;
     if (pPvt->state == acquireCnt) return 0;
-    if (pPvt->state == write) return 0;
+    if (pPvt->state == writeout) return 0;
     if (pPvt->state == busywait) return 0;
     if (pPvt->state == start) return 0;
     if (pPvt->state == counterout) return 0;
@@ -502,8 +503,8 @@ static void dmbReport(void *drvPvt, FILE *fp, int details)
 	case acquireCnt:
 	    fprintf(fp,"State: acquire Counter\n");
 	    break;
-	case write:
-	    fprintf(fp,"State: write\n");
+	case writeout:
+	    fprintf(fp,"State: write output\n");
 	    break;
 	case counterout:
 	    fprintf(fp,"State: counter output\n");
@@ -853,7 +854,7 @@ static asynStatus drvUserCreate(void *drvPvt, asynUser *pasynUser,
                                 const char **pptypeName, size_t *psize)
 {
 	int i;
-	char *pstring;
+	const char *pstring;
 	char *token;
 	char *dupstring;
 	char success;
@@ -2152,12 +2153,12 @@ static asynStatus allocBuffers(daqMxPvt *pPvt, asynUser *pasynUser)
 		/* allocate memory for the raw buffer */
 		if ((pPvt->rawDataSize < pPvt->totalNSamples) || (pPvt->rawData == NULL)){
 		    if (pPvt->rawData != NULL){
-			delete pPvt->rawData;
-			pPvt->rawData = NULL;
+				free(pPvt->rawData);
+				pPvt->rawData = NULL;
 		    }
 		    if (pPvt->prevData != NULL){
-			free(pPvt->prevData);
-			pPvt->prevData = NULL;
+				free(pPvt->prevData);
+				pPvt->prevData = NULL;
 		    }
 		    pPvt->rawData =  calloc(pPvt->totalNSamples, sampleWidth);
 		    /*pPvt->rawDataF = (epicsFloat64*)pPvt->rawData;
@@ -3446,7 +3447,7 @@ void daqThread(void *param)
 				}else if (pPvt->daqMode == CO){
 				    pPvt->state = counterout;
 				}else{
-				    pPvt->state = write;
+				    pPvt->state = writeout;
 				}
 
 				pasynManager->interruptStart(pPvt->uint32DigitalInterruptPvt, &pclientList);
@@ -3510,7 +3511,7 @@ void daqThread(void *param)
 			    if ((pPvt->daqMode == AO) || (pPvt->daqMode == BO)){
 				asynPrint( pPvt->pasynUser, ASYN_TRACE_ERROR,
 					   "### ERROR - got into acquire mode when not allowed (going to write mode)\n");
-				pPvt->state = write;
+				pPvt->state = writeout;
 				break;
 			    }
 			    if (pPvt->daqMode != AI)
@@ -3658,7 +3659,7 @@ void daqThread(void *param)
 			    if ((pPvt->daqMode == AO) || (pPvt->daqMode == BO)){
 				asynPrint( pPvt->pasynUser, ASYN_TRACE_ERROR,
 					   "### ERROR - got into acquire mode when not allowed (going to write mode)\n");
-				pPvt->state = write;
+				pPvt->state = writeout;
 				break;
 			    }
 			    if (pPvt->daqMode != BI)
@@ -3920,7 +3921,7 @@ void daqThread(void *param)
 
 
 			    break;
- 		        case write:
+ 		        case writeout:
 			    /* Write mode */
 			    
 			    /* Step 1 - wait :)  (see if we need todo something) */	
