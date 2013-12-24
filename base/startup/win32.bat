@@ -105,8 +105,12 @@ set EPICS_HOST_ARCH=win32-x86-debug
 REM ======================================================
 REM --------------- EPICS --------------------------------
 REM ======================================================
-REM set PATH=%PATH%;G:\epics\base\bin\%EPICS_HOST_ARCH%
-REM set PATH=%PATH%;G:\epics\extensions\bin\%EPICS_HOST_ARCH%
+echo setting EPICS paths.
+set PATH=%PATH%;D:\epics\base\bin\%EPICS_HOST_ARCH%
+set PATH=%PATH%;D:\EPICS\pcDataCPP\Bin\%EPICS_HOST_ARCH%
+set PATH=%PATH%;D:\EPICS\pcAccessCPP\bin\%EPICS_HOST_ARCH%
+set PATH=%PATH%;D:\EPICS\pvCommonCPP\bin\%EPICS_HOST_ARCH%
+set PATH=%PATH%;D:\EPICS\pvIOCCPP\bin\%EPICS_HOST_ARCH%
 
 REM ======================================================
 REM ------- OPTIONAL ENVIRONMENT VARIABLES FOLLOW --------
