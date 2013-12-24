@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="devPIC630.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devPIC662.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devPIC663.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devPIC844.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devPIC848.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devPIC862.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devPIE516.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devPIE710.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devPIE816.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="drvPIC630.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="drvPIC662.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="drvPIC663.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="drvPIC844.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="drvPIC848.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="drvPIC862.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="drvPIE516.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="drvPIE710.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="drvPIE816.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PIC630Register.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PIC662Register.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PIC663Register.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PIC848Register.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PIC862Register.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PIE516Register.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PIE710Register.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PIE816Register.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PiRegister.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="devPIMotor.dbd">
+      <Filter>Source Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="drvPI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="drvPIC630.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="drvPIC662.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="drvPIC663.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="drvPIC848.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="drvPIC862.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="drvPIE516.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="drvPIE710.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="drvPIE816.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PIC630Register.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

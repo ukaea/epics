@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="O.Common">
+      <UniqueIdentifier>{0c0548f4-296a-42a6-a758-2887a4694355}</UniqueIdentifier>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="devMAXv.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devOms.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devOms58.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devOmsCom.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devOmsPC68.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="drvMAXv.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="drvMAXv_trajectory.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="drvOms.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="drvOms58.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="drvOmsPC68.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="O.Common\MAX_trajectoryScan.c">
+      <Filter>O.Common</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="devOmsCom.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="drvMAXv.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="drvOms.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="drvOms58.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="drvOmsCom.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="drvOmsPC68Com.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MAX_trajectoryScan.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="devOms.dbd">
+      <Filter>Source Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="MAX_trajectoryScan.st">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>
