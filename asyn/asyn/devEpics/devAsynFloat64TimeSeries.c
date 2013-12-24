@@ -13,6 +13,8 @@
 */
 
 
+#define epicsExportSharedSymbols
+#include <epicsExport.h>
 #include "asynFloat64.h"
 #include "devAsynXXXTimeSeries.h"
 

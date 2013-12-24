@@ -35,9 +35,6 @@
     <Filter Include="ni1014">
       <UniqueIdentifier>{84a6f5cc-e898-4169-8594-fc1ce4586162}</UniqueIdentifier>
     </Filter>
-    <Filter Include="vxi11">
-      <UniqueIdentifier>{bccae263-4344-42e4-9837-ef9ada7d7b31}</UniqueIdentifier>
-    </Filter>
     <Filter Include="asynPortDriver\exceptions">
       <UniqueIdentifier>{adcdf4e1-f45a-495e-9d1c-4ba3e89f2154}</UniqueIdentifier>
     </Filter>
@@ -186,15 +183,6 @@
     </ClInclude>
     <ClInclude Include="miscellaneous\asynShellCommands.h">
       <Filter>miscellaneous</Filter>
-    </ClInclude>
-    <ClInclude Include="vxi11\drvVxi11.h">
-      <Filter>vxi11</Filter>
-    </ClInclude>
-    <ClInclude Include="vxi11\osiRpc.h">
-      <Filter>vxi11</Filter>
-    </ClInclude>
-    <ClInclude Include="vxi11\vxi11.h">
-      <Filter>vxi11</Filter>
     </ClInclude>
     <ClInclude Include="asynPortDriver\exceptions\ParamListInvalidIndex.h">
       <Filter>asynPortDriver\exceptions</Filter>
@@ -396,21 +384,6 @@
     <ClCompile Include="miscellaneous\asynShellCommands.c">
       <Filter>miscellaneous</Filter>
     </ClCompile>
-    <ClCompile Include="vxi11\drvVxi11.c">
-      <Filter>vxi11</Filter>
-    </ClCompile>
-    <ClCompile Include="vxi11\drvVxi11Win32.c">
-      <Filter>vxi11</Filter>
-    </ClCompile>
-    <ClCompile Include="vxi11\E2050Reboot.c">
-      <Filter>vxi11</Filter>
-    </ClCompile>
-    <ClCompile Include="vxi11\E5810Reboot.c">
-      <Filter>vxi11</Filter>
-    </ClCompile>
-    <ClCompile Include="vxi11\TDS3000Reboot.c">
-      <Filter>vxi11</Filter>
-    </ClCompile>
     <ClCompile Include="ni1014\drvNi1014.c">
       <Filter>ni1014</Filter>
     </ClCompile>
@@ -496,15 +469,6 @@
     </None>
     <None Include="miscellaneous\asyn.dbd">
       <Filter>miscellaneous</Filter>
-    </None>
-    <None Include="vxi11\drvVxi11.dbd">
-      <Filter>vxi11</Filter>
-    </None>
-    <None Include="vxi11\vxi11core.rpcl">
-      <Filter>vxi11</Filter>
-    </None>
-    <None Include="vxi11\vxi11intr.rpcl">
-      <Filter>vxi11</Filter>
     </None>
     <None Include="ni1014\drvNi1014.dbd">
       <Filter>ni1014</Filter>

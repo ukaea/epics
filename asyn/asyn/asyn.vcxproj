@@ -142,8 +142,8 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;.\O.Common\</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\..\\base\src\ioc\bpt;.\O.Common</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <TreatWarningAsError>true</TreatWarningAsError>
       <DisableSpecificWarnings>4244;4267</DisableSpecificWarnings>
     </ClCompile>
@@ -174,8 +174,8 @@ xcopy /Y /Q  /D .\O.Common\*.h $(SolutionDir)include &gt; NUL
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;.\O.Common\</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\..\\base\src\ioc\bpt;.\O.Common</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <TreatWarningAsError>true</TreatWarningAsError>
       <DisableSpecificWarnings>4244;4267</DisableSpecificWarnings>
     </ClCompile>
@@ -185,6 +185,7 @@ xcopy /Y /Q  /D .\O.Common\*.h $(SolutionDir)include &gt; NUL
     </Link>
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
+if not exist O.Common md O.Common
 xcopy /Y /Q /D /R .\asynDriver\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\asynGpib\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\devEpics\*.h   $(SolutionDir)include &gt; NUL
@@ -193,7 +194,6 @@ xcopy /Y /Q /D /R .\miscellaneous\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\drvAsynSerial\*.h $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\devGpib\*.h $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\asynPortDriver\exceptions $(SolutionDir)include &gt; NUL
-
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -206,7 +206,7 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;.\O.Common\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\..\\base\src\ioc\bpt;.\O.Common</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <TreatWarningAsError>true</TreatWarningAsError>
       <DisableSpecificWarnings>4244;4267</DisableSpecificWarnings>
@@ -238,16 +238,18 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;.\O.Common\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\..\\base\src\ioc\bpt;.\O.Common</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <TreatWarningAsError>true</TreatWarningAsError>
       <DisableSpecificWarnings>4244;4267</DisableSpecificWarnings>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
+if not exist O.Common md O.Common
 xcopy /Y /Q /D /R .\asynDriver\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\asynGpib\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\devEpics\*.h   $(SolutionDir)include &gt; NUL
@@ -256,7 +258,6 @@ xcopy /Y /Q /D /R .\miscellaneous\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\drvAsynSerial\*.h $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\devGpib\*.h $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\asynPortDriver\exceptions $(SolutionDir)include &gt; NUL
-
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -271,8 +272,8 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;.\O.Common\</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\..\\base\src\ioc\bpt;.\O.Common</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <DisableSpecificWarnings>4244;4267</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -306,8 +307,8 @@ xcopy /Y /Q /D /R .\asynPortDriver\exceptions $(SolutionDir)include &gt; NUL
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;.\O.Common\</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\..\\base\src\ioc\bpt;.\O.Common</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4244;4267</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -323,6 +324,7 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
+if not exist O.Common md O.Common
 xcopy /Y /Q /D /R .\asynDriver\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\asynGpib\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\devEpics\*.h   $(SolutionDir)include &gt; NUL
@@ -331,7 +333,6 @@ xcopy /Y /Q /D /R .\miscellaneous\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\drvAsynSerial\*.h $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\devGpib\*.h $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\asynPortDriver\exceptions $(SolutionDir)include &gt; NUL
-
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -341,7 +342,7 @@ xcopy /Y /Q /D /R .\asynPortDriver\exceptions $(SolutionDir)include &gt; NUL
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;.\O.Common\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\..\\base\src\ioc\bpt;.\O.Common</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <DisableSpecificWarnings>4244;4267</DisableSpecificWarnings>
@@ -377,8 +378,9 @@ xcopy /Y /Q /D /R .\asynPortDriver\exceptions $(SolutionDir)include &gt; NUL
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;.\O.Common\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\..\\base\src\ioc\bpt;.\O.Common</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4244;4267</DisableSpecificWarnings>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -392,6 +394,7 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
+if not exist O.Common md O.Common
 xcopy /Y /Q /D /R .\asynDriver\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\asynGpib\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\devEpics\*.h   $(SolutionDir)include &gt; NUL
@@ -400,7 +403,6 @@ xcopy /Y /Q /D /R .\miscellaneous\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\drvAsynSerial\*.h $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\devGpib\*.h $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\asynPortDriver\exceptions $(SolutionDir)include &gt; NUL
-
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -459,9 +461,6 @@ xcopy /Y /Q /D /R .\asynPortDriver\exceptions $(SolutionDir)include &gt; NUL
     <ClInclude Include="miscellaneous\asynInterposeEos.h" />
     <ClInclude Include="miscellaneous\asynInterposeFlush.h" />
     <ClInclude Include="miscellaneous\asynShellCommands.h" />
-    <ClInclude Include="vxi11\drvVxi11.h" />
-    <ClInclude Include="vxi11\osiRpc.h" />
-    <ClInclude Include="vxi11\vxi11.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="asynDriver\asynManager.c" />
@@ -513,6 +512,10 @@ xcopy /Y /Q /D /R .\asynPortDriver\exceptions $(SolutionDir)include &gt; NUL
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug DLL|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug LIB|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release LIB|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="devGpib\devSupportGpib.c" />
     <ClCompile Include="drvAsynSerial\drvAsynIPPort.c" />
@@ -577,45 +580,51 @@ xcopy /Y /Q /D /R .\asynPortDriver\exceptions $(SolutionDir)include &gt; NUL
     <ClCompile Include="miscellaneous\asynInterposeFlush.c" />
     <ClCompile Include="miscellaneous\asynShellCommands.c" />
     <ClCompile Include="ni1014\drvNi1014.c" />
-    <ClCompile Include="vxi11\drvVxi11.c">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug DLL|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug LIB|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="vxi11\drvVxi11Win32.c" />
-    <ClCompile Include="vxi11\E2050Reboot.c" />
-    <ClCompile Include="vxi11\E5810Reboot.c" />
-    <ClCompile Include="vxi11\TDS3000Reboot.c" />
   </ItemGroup>
   <ItemGroup>
     <None Include="asynRecord\asynRecord.db" />
     <CustomBuild Include="asynRecord\asynRecord.dbd">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -I.\O.Common -I$(SolutionDir)dbd .\asynrecord\%(Filename).dbd .\O.Common\%(Filename).h
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">cd asynRecord
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)dbd -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -I.\O.Common -I$(SolutionDir)dbd .\asynrecord\%(Filename).dbd .\O.Common\%(Filename).h
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">cd asynRecord
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)dbd -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -I.\O.Common -I$(SolutionDir)dbd .\asynrecord\%(Filename).dbd .\O.Common\%(Filename).h
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">cd asynRecord
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)dbd -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -I.\O.Common -I$(SolutionDir)dbd .\asynrecord\%(Filename).dbd .\O.Common\%(Filename).h
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">cd asynRecord
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)dbd -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|x64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -I.\O.Common -I$(SolutionDir)dbd .\asynrecord\%(Filename).dbd .\O.Common\%(Filename).h
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|x64'">cd asynRecord
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)dbd -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|x64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -I.\O.Common -I$(SolutionDir)dbd .\asynrecord\%(Filename).dbd .\O.Common\%(Filename).h
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|x64'">cd asynRecord
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)dbd -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|x64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -I.\O.Common -I$(SolutionDir)dbd .\asynrecord\%(Filename).dbd .\O.Common\%(Filename).h
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|x64'">cd asynRecord
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)dbd -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|x64'">$(OutDir)dbToRecordtypeH.exe  -I. -I.. -I.\O.Common -I$(SolutionDir)dbd .\asynrecord\%(Filename).dbd .\O.Common\%(Filename).h
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|x64'">cd asynRecord
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)dbd -o ../O.Common/%(FileName).h %(FileName).dbd
+cd $(ProjectDir)
 </Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">O.Common\dbCommon.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">O.Common\dbCommon.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">O.Common\dbCommon.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">O.Common\dbCommon.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|x64'">O.Common\dbCommon.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|x64'">O.Common\dbCommon.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|x64'">O.Common\dbCommon.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|x64'">O.Common\dbCommon.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">O.Common\%(FileName).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">O.Common\%(FileName).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">O.Common\%(FileName).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">O.Common\%(FileName).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|x64'">O.Common\%(FileName).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|x64'">O.Common\%(FileName).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|x64'">O.Common\%(FileName).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|x64'">O.Common\%(FileName).h</Outputs>
     </CustomBuild>
     <None Include="asynRecord\devAsynRecord.dbd" />
     <None Include="devEpics\asynFloat64TimeSeries.db" />
@@ -638,25 +647,19 @@ xcopy /Y /Q /D /R .\asynPortDriver\exceptions $(SolutionDir)include &gt; NUL
     <None Include="gsIP488\drvGsIP488.dbd" />
     <None Include="miscellaneous\asyn.dbd" />
     <None Include="ni1014\drvNi1014.dbd" />
-    <None Include="vxi11\drvVxi11.dbd" />
-    <None Include="vxi11\vxi11core.rpcl" />
-    <None Include="vxi11\vxi11intr.rpcl" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\base\src\ca\ca.vcxproj">
+    <ProjectReference Include="..\..\base\src\ca\client\ca.vcxproj">
       <Project>{02caf068-a7fc-463e-aa7e-72eeaf665826}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\base\src\dbStatic\dbstaticIoc.vcxproj">
-      <Project>{97d3c50e-9c9e-41ef-a49d-eaea78ce8378}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\base\src\db\dbIoc.vcxproj">
-      <Project>{2bc8e3ec-fa1e-4d66-896c-35e8dd69a7fd}</Project>
+    <ProjectReference Include="..\..\base\src\ioc\dbCore.vcxproj">
+      <Project>{440c585d-ad66-4738-941c-a87a1817a9be}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\base\src\libCom\Com.vcxproj">
       <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\base\src\rec\recIoc.vcxproj">
-      <Project>{daf5e565-164f-4230-aecb-8a5b67336263}</Project>
+    <ProjectReference Include="..\..\base\src\std\dbRecStd.vcxproj">
+      <Project>{3b0e3542-cb89-4ffa-b004-eac882b3f277}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
