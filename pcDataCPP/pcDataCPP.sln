@@ -1,4 +1,4 @@
-
+﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pvData", "pvDataApp\pvData.vcxproj", "{F4A51415-2981-42EE-87C7-F29D5805583E}"
@@ -98,6 +98,10 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tools", "..\base\src\tools\tools.vcxproj", "{5CCE1C6A-2BD5-48BF-99E2-D29B58F91991}"
 EndProject
 Global
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug DLL|Win32 = Debug DLL|Win32
 		Debug DLL|X64 = Debug DLL|X64
@@ -672,9 +676,5 @@ Global
 		{02CAF068-A7FC-463E-AA7E-72EEAF665826} = {BFE260F8-6F16-4EBD-A700-FE8AD88A4B9E}
 		{285B2DD5-B55E-4195-9B2D-F129CF54A2B4} = {EB2F3773-A474-4D6A-8A19-3D84A735219F}
 		{5CCE1C6A-2BD5-48BF-99E2-D29B58F91991} = {18EE6420-C55B-483C-B25C-6CE073220CCD}
-	EndGlobalSection
-	GlobalSection(MercurialSourceControlSolutionProperties) = preSolution
-		SolutionIsControlled = True
-		SolutionBindings = <Solution Location In Database>
 	EndGlobalSection
 EndGlobal
