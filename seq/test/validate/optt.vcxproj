@@ -96,12 +96,10 @@ $(OutDir)\snc.exe   +m -i  O.Common\%(FileName).i -o O.Common\%(FileName).c
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>optt</RootNamespace>
     <TrackFileAccess>false</TrackFileAccess>
-    <SccProjectName>
-    </SccProjectName>
-    <SccLocalPath>
-    </SccLocalPath>
-    <SccProvider>
-    </SccProvider>
+    <SccProjectName>Svn</SccProjectName>
+    <SccLocalPath>Svn</SccLocalPath>
+    <SccProvider>SubversionScc</SccProvider>
+    <SccAuxPath>Svn</SccAuxPath>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'" Label="Configuration">
