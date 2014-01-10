@@ -4,12 +4,11 @@
  * in file LICENSE that is included with this distribution.
  */
 
-#include <pv/lock.h>
-
-#define epicsExportSharedSymbols
 #include <pv/blockingTCP.h>
 #include <pv/introspectionRegistry.h>
 #include <pv/logger.h>
+
+#include <pv/lock.h>
 
 #include <set>
 #include <epicsTime.h>

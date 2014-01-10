@@ -10,22 +10,13 @@
 #include <pv/pvAccess.h>
 
 /* for CA */
-#ifdef epicsExportSharedSymbols
-#   define caChannelEpicsExportSharedSymbols
-#   undef epicsExportSharedSymbols
-#endif
 #include <cadef.h>
-#ifdef caChannelEpicsExportSharedSymbols
-#   define epicsExportSharedSymbols
-#	undef caChannelEpicsExportSharedSymbols
-#endif
-#include <shareLib.h>
 
 namespace epics {
 namespace pvAccess {
 namespace ca {
 
-class epicsShareClass CAChannel :
+class CAChannel :
         public Channel,
         public std::tr1::enable_shared_from_this<CAChannel>
 {
@@ -226,7 +217,7 @@ private:
 };
 
 
-class epicsShareClass CAChannelMonitor :
+class CAChannelMonitor :
         public epics::pvData::Monitor,
         public std::tr1::enable_shared_from_this<CAChannelMonitor>
 {

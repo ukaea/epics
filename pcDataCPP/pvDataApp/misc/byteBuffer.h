@@ -12,20 +12,10 @@
 
 #include <string>
 #include <pv/pvType.h>
-#include <pv/epicsException.h>
-
-#ifdef epicsExportSharedSymbols
-#define byteBufferepicsExportSharedSymbols
-#undef epicsExportSharedSymbols
-#endif
-
 #include <epicsEndian.h>
+#include <string.h>
 
-#ifdef byteBufferepicsExportSharedSymbols
-#define epicsExportSharedSymbols
-#undef byteBufferepicsExportSharedSymbols
-#endif
-#include <shareLib.h>
+#include <pv/epicsException.h>
 
 namespace epics { 
     namespace pvData {

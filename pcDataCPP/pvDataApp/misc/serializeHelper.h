@@ -13,17 +13,15 @@
 #ifndef SERIALIZEHELPER_H_
 #define SERIALIZEHELPER_H_
 
-
 #include <pv/serialize.h>
 #include <pv/byteBuffer.h>
 #include <pv/noDefaultMethods.h>
 #include <pv/pvIntrospect.h>
-#include <sharelib.h>
 
 namespace epics {
     namespace pvData {
 
-        class epicsShareClass SerializeHelper : public NoDefaultMethods {
+        class SerializeHelper : public NoDefaultMethods {
         public:
 
             /**

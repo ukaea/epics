@@ -6,7 +6,6 @@
 
 #include <sstream>
 
-#define epicsExportSharedSymbols
 #include <pv/pvaVersion.h>
 
 using std::stringstream;

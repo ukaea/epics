@@ -210,7 +210,7 @@ static void floatArray()
     PVFloatArrayPtr pvFloatArray = static_pointer_cast<PVFloatArray>(pvScalarArray);
     FloatArray value;
     value.reserve(length);
-    for(size_t i = 0; i<length; i++) value.push_back(10.0f*i);
+    for(size_t i = 0; i<length; i++) value.push_back(10.0*i);
     pvFloatArray->put(0,length,value,0);
     builder.clear();
     pvFloatArray->toString(&builder);

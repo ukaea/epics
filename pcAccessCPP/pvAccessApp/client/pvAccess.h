@@ -6,24 +6,13 @@
 
 #ifndef PVACCESS_H
 #define PVACCESS_H
-
-#include <pv/pvaVersion.h>
-
-#ifdef epicsExportSharedSymbols
-#   define pvAccessEpicsExportSharedSymbols
-#   undef epicsExportSharedSymbols
-#endif
+#include <pv/pvData.h>
 #include <pv/status.h>
 #include <pv/destroyable.h>
 #include <pv/monitor.h>
+#include <pv/pvaVersion.h>
 #include <vector>
 #include <pv/bitSet.h>
-#include <pv/pvData.h>
-#ifdef pvAccessEpicsExportSharedSymbols
-#   define epicsExportSharedSymbols
-#	undef pvAccessEpicsExportSharedSymbols
-#endif
-#include <shareLib.h>
 
 namespace epics {
 namespace pvAccess { 
@@ -100,7 +89,7 @@ namespace pvAccess {
         };
         
 
-        class epicsShareClass Channel;
+        class Channel;
         class ChannelProvider;
 
         /**
@@ -471,7 +460,7 @@ namespace pvAccess {
          * Interface for accessing a channel.
          * A channel is created via a call to ChannelAccess.createChannel(String channelName).
          */
-        class epicsShareClass Channel : 
+        class Channel : 
                 public epics::pvData::Requester,
                 public epics::pvData::Destroyable,
                 private epics::pvData::NoDefaultMethods {
@@ -792,9 +781,9 @@ namespace pvAccess {
             virtual std::auto_ptr<stringVector_t> getProviderNames() = 0;
         };
     
-        epicsShareExtern ChannelAccess::shared_pointer getChannelAccess();
-        epicsShareExtern void registerChannelProviderFactory(ChannelProviderFactory::shared_pointer const & channelProviderFactory);
-        epicsShareExtern void unregisterChannelProviderFactory(ChannelProviderFactory::shared_pointer const & channelProviderFactory);
+        extern ChannelAccess::shared_pointer getChannelAccess();
+        extern void registerChannelProviderFactory(ChannelProviderFactory::shared_pointer const & channelProviderFactory);
+        extern void unregisterChannelProviderFactory(ChannelProviderFactory::shared_pointer const & channelProviderFactory);
 
         /**
          * Interface for creating request structure.
@@ -817,7 +806,7 @@ namespace pvAccess {
                  epics::pvData::Requester::shared_pointer const & requester) = 0;
         };
 
-        epicsShareExtern CreateRequest::shared_pointer getCreateRequest();
+        extern CreateRequest::shared_pointer getCreateRequest();
 
 
     }}

@@ -7,20 +7,15 @@
 #include <epicsStdlib.h>
 #include <epicsGetopt.h>
 #include <epicsThread.h>
-#include <epicsTime.h>
 #include <pv/logger.h>
 #include <pv/lock.h>
 
 #include <vector>
 #include <string>
 
+#include <stdio.h>
 #include <stdlib.h>
-
-#ifdef _WIN32
-#include <WinSock2.h>
-#else
 #include <sys/time.h>
-#endif
 
 #include <pv/event.h>
 
@@ -107,7 +102,7 @@ void reset()
     sum = 0;
 }
 
-epicsTimeStamp startTime;
+timeval startTime;
 
 void get_all()
 {
@@ -196,16 +191,16 @@ public:
 
             if (iterationCount == iterations)
             {
-                epicsTimeStamp endTime;
-                epicsTimeGetCurrent(&endTime);
+                timeval endTime;
+                gettimeofday(&endTime, NULL);
 
 
                 long seconds, nseconds;
                 double duration;
-				seconds  = endTime.secPastEpoch  - startTime.secPastEpoch;
-				nseconds = endTime.nsec - startTime.nsec;
+                seconds  = endTime.tv_sec  - startTime.tv_sec;
+                nseconds = endTime.tv_usec - startTime.tv_usec;
 
-                duration = seconds + nseconds/10000000.0;
+                duration = seconds + nseconds/1000000.0;
 
                 double getPerSec = iterations*channels/duration;
                 double gbit = getPerSec*arraySize*sizeof(double)*8/(1000*1000*1000); // * bits / giga; NO, it's really 1000 and not 102:
@@ -215,7 +210,7 @@ public:
                 sum += getPerSec;
 
                 iterationCount = 0;
-                epicsTimeGetCurrent(&startTime);
+                gettimeofday(&startTime, NULL);
 
                 runCount++;
                 if (runs == 0 || runCount < runs)
@@ -399,7 +394,7 @@ void runTest()
         Lock guard(waitLoopPtrMutex);
         waitLoopEvent.reset(new Event());
     }
-    epicsTimeGetCurrent(&startTime);
+    gettimeofday(&startTime, NULL);
     get_all();
     
     waitLoopEvent->wait();

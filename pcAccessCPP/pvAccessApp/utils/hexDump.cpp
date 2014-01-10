@@ -4,7 +4,6 @@
  * in file LICENSE that is included with this distribution.
  */
 
-#define epicsExportSharedSymbols
 #include <pv/hexDump.h>
 
 #include <iostream>

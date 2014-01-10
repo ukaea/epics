@@ -9,16 +9,7 @@
 
 #include <string>
 
-#ifdef epicsExportSharedSymbols
-#   define rpcClientEpicsExportSharedSymbols
-#   undef epicsExportSharedSymbols
-#endif
 #include <pv/pvData.h>
-#ifdef rpcClientEpicsExportSharedSymbols
-#   define epicsExportSharedSymbols
-#	undef rpcClientEpicsExportSharedSymbols
-#endif
-#include <shareLib.h>
 
 
 namespace epics

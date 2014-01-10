@@ -10,12 +10,9 @@
 #ifndef BITSET_H
 #define BITSET_H
 #include <stdexcept>
-
 #include <pv/pvType.h>
 #include <pv/serialize.h>
 #include <pv/sharedPtr.h>
-
-#include <sharelib.h>
 
 namespace epics { namespace pvData { 
 
@@ -45,7 +42,7 @@ namespace epics { namespace pvData {
      *
      * Based on Java implementation.
      */
-    class epicsShareClass BitSet : public Serializable {
+    class BitSet : public Serializable {
     public:
         POINTER_DEFINITIONS(BitSet);
         static BitSet::shared_pointer create(uint32 nbits);

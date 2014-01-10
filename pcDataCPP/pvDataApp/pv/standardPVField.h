@@ -31,7 +31,7 @@ namespace epics { namespace pvData {
 class StandardPVField;
 typedef std::tr1::shared_ptr<StandardPVField> StandardPVFieldPtr;
 
-class epicsShareClass StandardPVField : private NoDefaultMethods {
+class StandardPVField : private NoDefaultMethods {
 public:
     static StandardPVFieldPtr getStandardPVField();
     ~StandardPVField();
@@ -48,7 +48,7 @@ private:
     String notImplemented;
 };
 
-epicsShareExtern StandardPVFieldPtr getStandardPVField();
+extern StandardPVFieldPtr getStandardPVField();
     
 }}
 #endif  /* STANDARDPVFIELD_H */

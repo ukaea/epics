@@ -7,12 +7,10 @@
 #ifndef CLIENTFACTORY_H
 #define CLIENTFACTORY_H
 
-#include <shareLib.h>
-
 namespace epics {
 namespace pvAccess { 
 
-class epicsShareClass ClientFactory {
+class ClientFactory {
     public:
     static void start();
     static void stop();

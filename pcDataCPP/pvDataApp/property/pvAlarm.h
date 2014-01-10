@@ -10,16 +10,13 @@
 #ifndef PVALARM_H
 #define PVALARM_H
 #include <string>
-
 #include <pv/pvType.h>
 #include <pv/alarm.h>
 #include <pv/pvData.h>
 
-#include <sharelib.h>
-
 namespace epics { namespace pvData {
 
-class epicsShareClass PVAlarm {
+class PVAlarm {
 public:
     PVAlarm() {}
     //default constructors and destructor are OK

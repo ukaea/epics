@@ -99,6 +99,5 @@ LIBRARY = pvAccess
 pvAccess_LIBS += Com
 pvAccess_LIBS += pvData
 pvAccess_LIBS += ca
-pvAccess_SYS_LIBS_WIN32 = ws2_32 advapi32 user32
 
 include $(TOP)/configure/RULES

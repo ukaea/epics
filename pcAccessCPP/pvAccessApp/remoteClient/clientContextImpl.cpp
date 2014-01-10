@@ -4,25 +4,22 @@
  * in file LICENSE that is included with this distribution.
  */
 
+#include <pv/pvAccess.h>
 #include <iostream>
 #include <sstream>
-#include <memory>
-#include <queue>
-#include <stdexcept>
-
 #include <pv/lock.h>
 #include <pv/standardPVField.h>
-#include <pv/timer.h>
-#include <pv/bitSetUtil.h>
+#include <memory>
+#include <queue>
 
-#define epicsExportSharedSymbols
+#include <stdexcept>
 #include <pv/pvaConstants.h>
+#include <pv/timer.h>
 #include <pv/blockingUDP.h>
 #include <pv/blockingTCP.h>
 #include <pv/namedLockPattern.h>
 #include <pv/inetAddressUtil.h>
 #include <pv/hexDump.h>
-#include <pv/pvAccess.h>
 #include <pv/remote.h>
 #include <pv/channelSearchManager.h>
 #include <pv/simpleChannelSearchManagerImpl.h>
@@ -30,9 +27,10 @@
 #include <pv/configuration.h>
 #include <pv/beaconHandler.h>
 #include <pv/logger.h>
-
+#include <pv/bitSetUtil.h>
 #include <pv/serializationHelper.h>
 #include <pv/convert.h>
+
 #include <pv/pvAccessMB.h>
 
 //#include <tr1/unordered_map>
@@ -548,7 +546,7 @@ namespace epics {
 
             virtual void send(ByteBuffer* buffer, TransportSendControl* control) {
                 int32 pendingRequest = getPendingRequest();
-                bool initStage = ((pendingRequest & QOS_INIT) != 0);
+                bool initStage = (pendingRequest & QOS_INIT);
 
                 MB_POINT_CONDITIONAL(channelGet, 1, "client channelGet->serialize (start)", !initStage); 
                 
@@ -3993,7 +3991,7 @@ namespace epics {
                     m_addressList(""), m_autoAddressList(true), m_connectionTimeout(30.0f), m_beaconPeriod(15.0f),
                     m_broadcastPort(PVA_BROADCAST_PORT), m_receiveBufferSize(MAX_TCP_RECV),
                     m_namedLocker(), m_lastCID(0), m_lastIOID(0),
-                    m_version("pvAccess Client", "cpp", 1, 2, 0, true),
+                    m_version("pvAccess Client", "cpp", 4, 3, 0, false),
                     m_contextState(CONTEXT_NOT_INITIALIZED),
                     m_configuration(new SystemConfigurationImpl()),
                     m_flushStrategy(DELAYED)

@@ -7,7 +7,6 @@ INSTALL_INCLUDE = $(INSTALL_LOCATION)/include/pv
 
 SRC_DIRS += $(MBTOP)/mb
 USR_CXXFLAGS += -DPV_MB
-USR_LDFLAGS += -LIBPATH:../../boostApp/boost/stage/lib/
 INC += mb.h
 LIBSRCS += mb.cpp
 

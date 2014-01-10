@@ -17,9 +17,8 @@
 #include <pv/pvIntrospect.h>
 #include <pv/pvData.h>
 #include <pv/noDefaultMethods.h>
-#include <pv/standardField.h>
 
-#define epicsExportSharedSymbols
+#include <pv/standardField.h>
 #include <pv/channelBase.h>
 
 namespace epics { namespace pvAccess { 

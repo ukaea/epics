@@ -9,10 +9,6 @@
  *  Created on: Oct 25, 2010
  *      Author: Miha Vitorovic
  */
-#ifdef _WIN32
-#define NOMINMAX
-#endif
-
 #include <iostream>
 #include <fstream>
 
@@ -67,7 +63,7 @@ public:
         buffer->align(alignment);
     }
     
-    virtual bool directSerialize(ByteBuffer* /*existingBuffer*/, const char* /*toSerialize*/,
+    virtual bool directSerialize(ByteBuffer */*existingBuffer*/, const char* /*toSerialize*/,
                                  std::size_t /*elementCount*/, std::size_t /*elementSize*/)
     {
         return false;
@@ -95,7 +91,7 @@ public:
         buffer->align(alignment);
     }
 
-    virtual bool directDeserialize(ByteBuffer* /*existingBuffer*/, char* /*deserializeTo*/,
+    virtual bool directDeserialize(ByteBuffer */*existingBuffer*/, char* /*deserializeTo*/,
                                    std::size_t /*elementCount*/, std::size_t /*elementSize*/)
     {
         return false;
@@ -345,7 +341,7 @@ void testScalar(std::ostream& ofile) {
     		std::tr1::static_pointer_cast<PVFloat>(factory->createPVScalar(epics::pvData::pvFloat));
     pvFloat->put(0);
     serializationTest(pvFloat);
-    pvFloat->put(12.345f);
+    pvFloat->put(12.345);
     serializationTest(pvFloat);
     pvFloat->put(FLOAT_MAX_VALUE);
     serializationTest(pvFloat);

@@ -14,11 +14,6 @@
 #include <stdexcept>
 #include <memory>
 
-#ifdef epicsExportSharedSymbols
-#   define serviceExportSharedSymbols
-#   undef epicsExportSharedSymbols
-#endif
-
 #include <pv/status.h>
 #include <pv/monitor.h>
 #include <pv/pvIntrospect.h>
@@ -33,12 +28,6 @@
 #include <pv/timeStamp.h>
 #include <pv/pvTimeStamp.h>
 #include <pv/pvAccess.h>
-
-#ifdef serviceExportSharedSymbols
-#   define epicsExportSharedSymbols
-#	undef serviceExportSharedSymbols
-#   include "shareLib.h"
-#endif
 
 namespace epics { namespace pvIOC { 
 
@@ -60,7 +49,7 @@ public:
         epics::pvData::PVStructurePtr const & pvArgument) = 0;
 };
 
-class epicsShareClass ServiceChannelRPC :
+class ServiceChannelRPC :
     public std::tr1::enable_shared_from_this<ServiceChannelRPC>
 {
 public:

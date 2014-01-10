@@ -8,7 +8,7 @@ program pvGetSyncTest
 
 %%#include "../testSupport.h"
 
-%%epicsShareExtern double seq_sync_timeout;
+%%extern double seq_sync_timeout;
 
 foreign seq_sync_timeout;
 

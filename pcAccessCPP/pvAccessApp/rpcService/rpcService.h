@@ -7,22 +7,10 @@
 #ifndef RPCSERVICE_H
 #define RPCSERVICE_H
 
-#include <pv/pvAccess.h>
-
-#ifdef epicsExportSharedSymbols
-#   define rpcServiceEpicsExportSharedSymbols
-#   undef epicsExportSharedSymbols
-#endif
-
-#include <pv/sharedPtr.h>
-#include <pv/status.h>
-#ifdef rpcServiceEpicsExportSharedSymbols
-#   define epicsExportSharedSymbols
-#	undef rpcServiceEpicsExportSharedSymbols
-#endif
-#include <shareLib.h>
-
 #include <stdexcept>
+#include <pv/sharedPtr.h>
+#include <pv/pvAccess.h>
+#include <pv/status.h>
 
 namespace epics { namespace pvAccess { 
 

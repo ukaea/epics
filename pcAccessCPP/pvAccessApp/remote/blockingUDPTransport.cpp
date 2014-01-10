@@ -4,19 +4,18 @@
  * in file LICENSE that is included with this distribution.
  */
 
+#include <pv/blockingUDP.h>
+#include <pv/pvaConstants.h>
+#include <pv/inetAddressUtil.h>
+#include <pv/logger.h>
+#include <pv/likely.h>
+
 #include <pv/byteBuffer.h>
 #include <pv/lock.h>
 
 #include <osdSock.h>
 #include <osiSock.h>
 #include <epicsThread.h>
-
-#define epicsExportSharedSymbols
-#include <pv/blockingUDP.h>
-#include <pv/pvaConstants.h>
-#include <pv/inetAddressUtil.h>
-#include <pv/logger.h>
-#include <pv/likely.h>
 
 #include <cstdio>
 #include <sys/types.h>

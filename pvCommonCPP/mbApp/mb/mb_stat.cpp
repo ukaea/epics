@@ -1,10 +1,11 @@
 #include <iostream>
 #include <fstream>
+#include "mb.h"
 #include <cstring>
 
 #include <epicsGetopt.h>
-#include <epicsTypes.h>
-#include "mb.h"
+#include <epicsStdlib.h>
+
 
 // NOTE: this can be replaced with epicsScanLong in 3.15
 #include <errno.h>
@@ -55,7 +56,7 @@ MB_DECLARE(importCSV, 64000);
 int main(int argc, char** argv)
 {
     int opt;                    /* getopt() current option */
-    epicsInt8 stageOnly = 0; /* default is all, 0 stage is not valid option */
+    uint8_t stageOnly = 0; /* default is all, 0 stage is not valid option */
     std::size_t ignoreFirstNSamples = 0; /* default is not to ignore anything */
     bool normalizeOnly = false; /* default is to point statistics */
 

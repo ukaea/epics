@@ -10,20 +10,17 @@
 #ifndef TIMESTAMP_H
 #define TIMESTAMP_H
 #include <ctime>
-
-#include <epicsTime.h>
-
+#include "epicsTime.h"
 #include <pv/pvType.h>
-#include <sharelib.h>
 
 namespace epics { namespace pvData { 
 
-epicsShareExtern int32 milliSecPerSec;
-epicsShareExtern int32 microSecPerSec;
-epicsShareExtern int32 nanoSecPerSec;
-epicsShareExtern int64 posixEpochAtEpicsEpoch;
+extern int32 milliSecPerSec;
+extern int32 microSecPerSec;
+extern int32 nanoSecPerSec;
+extern int64 posixEpochAtEpicsEpoch;
 
-class epicsShareClass TimeStamp {
+class TimeStamp {
 public:
     TimeStamp() 
     :secondsPastEpoch(0), nanoSeconds(0), userTag(0) {}

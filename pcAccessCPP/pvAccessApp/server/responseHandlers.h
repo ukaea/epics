@@ -12,14 +12,12 @@
 #include <pv/serverChannelImpl.h>
 #include <pv/baseChannelRequester.h>
 
-#include <sharelib.h>
-
 namespace epics {
 namespace pvAccess {
 
         /**
          */
-        class epicsShareClass AbstractServerResponseHandler : public AbstractResponseHandler {
+        class AbstractServerResponseHandler : public AbstractResponseHandler {
         protected:
             ServerContextImpl::shared_pointer _context;
         public:
@@ -34,7 +32,7 @@ namespace pvAccess {
         /**
          * Bad request handler.
          */
-        class epicsShareClass ServerBadResponse : public AbstractServerResponseHandler {
+        class ServerBadResponse : public AbstractServerResponseHandler {
         public:
             ServerBadResponse(ServerContextImpl::shared_pointer const & context) :
                 AbstractServerResponseHandler(context, "Bad request") {
@@ -72,7 +70,7 @@ namespace pvAccess {
         /**
          * Connection validation message handler.
          */
-        class epicsShareClass ServerConnectionValidationHandler : public AbstractServerResponseHandler {
+        class ServerConnectionValidationHandler : public AbstractServerResponseHandler {
         public:
             ServerConnectionValidationHandler(ServerContextImpl::shared_pointer const & context) :
                 AbstractServerResponseHandler(context, "Connection validation") {
@@ -86,7 +84,7 @@ namespace pvAccess {
         /**
          * NOOP response.
          */
-        class epicsShareClass ServerNoopResponse : public AbstractServerResponseHandler {
+        class ServerNoopResponse : public AbstractServerResponseHandler {
         public:
             ServerNoopResponse(ServerContextImpl::shared_pointer const & context, epics::pvData::String description) :
                 AbstractServerResponseHandler(context, description) {
@@ -96,7 +94,7 @@ namespace pvAccess {
         /**
          * Echo request handler.
          */
-        class epicsShareClass ServerEchoHandler : public AbstractServerResponseHandler {
+        class ServerEchoHandler : public AbstractServerResponseHandler {
         public:
             ServerEchoHandler(ServerContextImpl::shared_pointer const & context) :
                 AbstractServerResponseHandler(context, "Echo request") {
@@ -107,7 +105,7 @@ namespace pvAccess {
                     std::size_t payloadSize, epics::pvData::ByteBuffer* payloadBuffer);
         };
 
-        class epicsShareClass EchoTransportSender : public TransportSender {
+        class EchoTransportSender : public TransportSender {
         public:
         	EchoTransportSender(osiSockAddr* echoFrom) {
         		memcpy(&_echoFrom, echoFrom, sizeof(osiSockAddr));
@@ -135,7 +133,7 @@ namespace pvAccess {
         /**
          * Introspection search request handler.
          */
-        class epicsShareClass ServerIntrospectionSearchHandler : public AbstractServerResponseHandler
+        class ServerIntrospectionSearchHandler : public AbstractServerResponseHandler
         {
         public:
         	ServerIntrospectionSearchHandler(ServerContextImpl::shared_pointer const & context) :
@@ -152,7 +150,7 @@ namespace pvAccess {
          * Search channel request handler.
          */
          // TODO object pool!!!
-        class epicsShareClass ServerSearchHandler : public AbstractServerResponseHandler
+        class ServerSearchHandler : public AbstractServerResponseHandler
         {
         public:
             // TODO
@@ -170,7 +168,7 @@ namespace pvAccess {
         };
 
 
-        class epicsShareClass ServerChannelFindRequesterImpl:
+        class ServerChannelFindRequesterImpl:
             public ChannelFindRequester,
             public TransportSender,
             public std::tr1::enable_shared_from_this<ServerChannelFindRequesterImpl>
@@ -200,7 +198,7 @@ namespace pvAccess {
         /**
          * Create channel request handler.
          */
-        class epicsShareClass ServerCreateChannelHandler : public AbstractServerResponseHandler
+        class ServerCreateChannelHandler : public AbstractServerResponseHandler
         {
         public:
         	ServerCreateChannelHandler(ServerContextImpl::shared_pointer const & context) :
@@ -217,7 +215,7 @@ namespace pvAccess {
 			std::vector<ChannelProvider::shared_pointer> _providers;
         };
 
-        class epicsShareClass ServerChannelRequesterImpl :
+        class ServerChannelRequesterImpl :
             public ChannelRequester,
             public TransportSender,
             public std::tr1::enable_shared_from_this<ServerChannelRequesterImpl>
@@ -230,7 +228,7 @@ namespace pvAccess {
         public:
         	 static ChannelRequester::shared_pointer create(ChannelProvider::shared_pointer const & provider, Transport::shared_pointer const & transport, const epics::pvData::String channelName, const pvAccessID cid);
         	 void channelCreated(const epics::pvData::Status& status, Channel::shared_pointer const & channel);
-        	 virtual void channelStateChange(Channel::shared_pointer const & c, Channel::ConnectionState isConnected);
+        	 void channelStateChange(Channel::shared_pointer const & c, const Channel::ConnectionState isConnected);
         	 epics::pvData::String getRequesterName();
         	 void message(epics::pvData::String const & message, epics::pvData::MessageType messageType);
         	 void lock();
@@ -250,7 +248,7 @@ namespace pvAccess {
         /**
          * Destroy channel request handler.
          */
-        class epicsShareClass ServerDestroyChannelHandler : public AbstractServerResponseHandler
+        class ServerDestroyChannelHandler : public AbstractServerResponseHandler
         {
         public:
         	ServerDestroyChannelHandler(ServerContextImpl::shared_pointer const & context) :
@@ -263,7 +261,7 @@ namespace pvAccess {
         };
 
 
-        class epicsShareClass ServerDestroyChannelHandlerTransportSender : public TransportSender
+        class ServerDestroyChannelHandlerTransportSender : public TransportSender
         {
         public:
         	ServerDestroyChannelHandlerTransportSender(pvAccessID cid, pvAccessID sid): _cid(cid), _sid(sid) {
@@ -292,7 +290,7 @@ namespace pvAccess {
         /**
          * Get request handler.
          */
-        class epicsShareClass ServerGetHandler : public AbstractServerResponseHandler
+        class ServerGetHandler : public AbstractServerResponseHandler
         {
         public:
         	ServerGetHandler(ServerContextImpl::shared_pointer const & context) :
@@ -345,7 +343,7 @@ namespace pvAccess {
         /**
          * Put request handler.
          */
-        class epicsShareClass ServerPutHandler : public AbstractServerResponseHandler
+        class ServerPutHandler : public AbstractServerResponseHandler
         {
         public:
         	ServerPutHandler(ServerContextImpl::shared_pointer context) :
@@ -357,7 +355,7 @@ namespace pvAccess {
         			std::size_t payloadSize, epics::pvData::ByteBuffer* payloadBuffer);
         };
 
-        class epicsShareClass ServerChannelPutRequesterImpl :
+        class ServerChannelPutRequesterImpl :
             public BaseChannelRequester,
             public ChannelPutRequester,
             public TransportSender,
@@ -398,7 +396,7 @@ namespace pvAccess {
         /**
          * Put request handler.
          */
-        class epicsShareClass ServerPutGetHandler : public AbstractServerResponseHandler
+        class ServerPutGetHandler : public AbstractServerResponseHandler
         {
         public:
         	ServerPutGetHandler(ServerContextImpl::shared_pointer const & context) :
@@ -452,7 +450,7 @@ namespace pvAccess {
         /**
          * Monitor request handler.
          */
-        class epicsShareClass ServerMonitorHandler : public AbstractServerResponseHandler
+        class ServerMonitorHandler : public AbstractServerResponseHandler
         {
         public:
         	ServerMonitorHandler(ServerContextImpl::shared_pointer const & context) :
@@ -504,7 +502,7 @@ namespace pvAccess {
         /**
          * Array request handler.
          */
-        class epicsShareClass ServerArrayHandler : public AbstractServerResponseHandler
+        class ServerArrayHandler : public AbstractServerResponseHandler
         {
         public:
         	ServerArrayHandler(ServerContextImpl::shared_pointer const & context) :
@@ -558,7 +556,7 @@ namespace pvAccess {
         /**
          * Cancel request handler.
          */
-        class epicsShareClass ServerCancelRequestHandler : public AbstractServerResponseHandler
+        class ServerCancelRequestHandler : public AbstractServerResponseHandler
         {
         public:
         	ServerCancelRequestHandler(ServerContextImpl::shared_pointer const & context) :
@@ -590,7 +588,7 @@ namespace pvAccess {
         			std::size_t payloadSize, epics::pvData::ByteBuffer* payloadBuffer);
         };
 
-        class epicsShareClass ServerChannelProcessRequesterImpl :
+        class ServerChannelProcessRequesterImpl :
             public BaseChannelRequester,
             public ChannelProcessRequester,
             public TransportSender,
@@ -627,7 +625,7 @@ namespace pvAccess {
         /**
          *  Get field request handler.
          */
-        class epicsShareClass ServerGetFieldHandler : public AbstractServerResponseHandler
+        class ServerGetFieldHandler : public AbstractServerResponseHandler
         {
         public:
         	ServerGetFieldHandler(ServerContextImpl::shared_pointer const & context) :
@@ -665,7 +663,7 @@ namespace pvAccess {
         	epics::pvData::FieldConstPtr _field;
         };
 
-        class epicsShareClass ServerGetFieldHandlerTransportSender : public TransportSender
+        class ServerGetFieldHandlerTransportSender : public TransportSender
         {
         public:
         	ServerGetFieldHandlerTransportSender(const pvAccessID ioid,const epics::pvData::Status& status, Transport::shared_pointer const & transport):
@@ -699,7 +697,7 @@ namespace pvAccess {
         /**
          * RPC handler.
          */
-        class epicsShareClass ServerRPCHandler : public AbstractServerResponseHandler
+        class ServerRPCHandler : public AbstractServerResponseHandler
         {
         public:
         	ServerRPCHandler(ServerContextImpl::shared_pointer const & context) :

@@ -12,7 +12,6 @@
 #include <string>
 #include <cstdio>
 
-#define epicsExportSharedSymbols
 #include <pv/pvIntrospect.h>
 #include <pv/epicsException.h>
 

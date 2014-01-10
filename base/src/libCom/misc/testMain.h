@@ -28,7 +28,7 @@
  *     }
  */
 
-#if defined(vxWorks) || defined(__rtems__) || defined(TESTALLATONCE)
+#if defined(vxWorks) || defined(__rtems__)
   #ifdef __cplusplus
     #define MAIN(prog) extern "C" int prog(void)
   #else

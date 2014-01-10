@@ -8,17 +8,15 @@
 
 #include <iostream>
 
+#include <epicsVersion.h>
+
 #include <boost/atomic.hpp>
 
-#include <shareLib.h>
-
-class epicsShareClass MBMutexInitializer {
+static class MBMutexInitializer {
   public:
     MBMutexInitializer ();
     ~MBMutexInitializer ();
-};
-
-epicsShareExtern MBMutexInitializer mbStaticMutexInitializer; // Note object here in the header.
+} mbStaticMutexInitializer; // Note object here in the header.
 
 struct MBPoint
 {
@@ -32,7 +30,7 @@ struct MBPoint
 
 struct MBEntity;
 
-epicsShareExtern void MBEntityRegister(MBEntity *e);
+extern void MBEntityRegister(MBEntity *e);
 
 typedef std::vector<MBPoint> MBPointType;
 
@@ -54,19 +52,19 @@ struct MBEntity
     }
 };
 
-epicsShareExtern uint64_t MBTime();
+extern uint64_t MBTime();
 
-epicsShareExtern void MBPointAdd(MBEntity &e, std::ptrdiff_t id, uint8_t stage);
+extern void MBPointAdd(MBEntity &e, std::ptrdiff_t id, uint8_t stage);
 
-epicsShareExtern void MBCSVExport(MBEntity &e, uint8_t stageOnly, std::size_t skipFirstNSamples, std::ostream &o);
-epicsShareExtern void MBCSVImport(MBEntity &e, std::istream &i);
+extern void MBCSVExport(MBEntity &e, uint8_t stageOnly, std::size_t skipFirstNSamples, std::ostream &o);
+extern void MBCSVImport(MBEntity &e, std::istream &i);
 
-epicsShareExtern void MBStats(MBEntity &e, uint8_t stageOnly, std::size_t skipFirstNSamples, std::ostream &o);
+extern void MBStats(MBEntity &e, uint8_t stageOnly, std::size_t skipFirstNSamples, std::ostream &o);
 
-epicsShareExtern void MBNormalize(MBEntity &e);
+extern void MBNormalize(MBEntity &e);
 
 
-epicsShareExtern void MBInit();
+extern void MBInit();
 
 
 #define MB_NAME(NAME) g_MB_##NAME

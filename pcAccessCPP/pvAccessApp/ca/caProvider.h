@@ -7,15 +7,14 @@
 #ifndef CAPROVIDER_H
 #define CAPROVIDER_H
 
-#include <pvAccess.h>
-
-#include <shareLib.h>
+#include <pv/pvAccess.h>
+#include <map>
 
 namespace epics {
 namespace pvAccess {
 namespace ca {
 
-class epicsShareClass CAChannelProvider :
+class CAChannelProvider :
         public ChannelProvider,
         public std::tr1::enable_shared_from_this<CAChannelProvider>
 {
@@ -69,7 +68,7 @@ private:
 };
 
 
-class epicsShareClass CAClientFactory
+class CAClientFactory
 {
 public:
     static void start();

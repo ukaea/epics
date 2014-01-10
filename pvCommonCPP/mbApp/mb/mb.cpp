@@ -1,27 +1,17 @@
-#ifdef _WIN32
-#define NOMINMAX
-#endif
+#include "mb.h"
 
 #include <time.h>
-#include <process.h>
-
 #include <map>
 #include <math.h>
 #include <cstdlib>
 #include <limits>
 #include <fstream>
 #include <sstream>
-//#include <unistd.h>
+#include <unistd.h>
 
 #include <iomanip>
 
 #include <epicsMutex.h>
-#include <epicsTime.h>
-
-#define epicsExportSharedSymbols
-#include "mb.h"
-
-MBMutexInitializer mbStaticMutexInitializer; // Note object here in the header.
 
 // TODO clean this up
 #if defined(__APPLE__)
@@ -31,11 +21,15 @@ uint64_t MBTime()
     return mach_absolute_time();
 }
 #else
+//#include <sys/time.h>
 uint64_t MBTime()
 {
-	epicsTimeStamp TimeStamp;
-	epicsTimeGetCurrent(&TimeStamp);
-	return TimeStamp.secPastEpoch * 1000000000 + TimeStamp.nsec;
+     struct timespec ts;
+     clock_gettime(CLOCK_REALTIME, &ts);
+     return static_cast<uint64_t>(ts.tv_sec) * 1000000000 + static_cast<uint64_t>(ts.tv_nsec);
+//     struct timeval tv;
+//     gettimeofday(&tv, NULL);
+//     return static_cast<uint64_t>(tv.tv_sec) * 1000000000 + static_cast<uint64_t>(tv.tv_usec) * 1000;
 }
 #endif
 

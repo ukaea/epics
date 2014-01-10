@@ -7,11 +7,9 @@
 /**
  *  @author mrk
  */
-
-#define epicsExportSharedSymbols
+#include <pv/status.h>
 #include <pv/epicsException.h>
 #include <pv/serializeHelper.h>
-#include <pv/status.h>
 
 namespace epics { namespace pvData {
 

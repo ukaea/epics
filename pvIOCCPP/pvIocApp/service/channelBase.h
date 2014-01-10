@@ -14,11 +14,6 @@
 #include <stdexcept>
 #include <memory>
 
-#ifdef epicsExportSharedSymbols
-#   define channelBaseEpicsExportSharedSymbols
-#   undef epicsExportSharedSymbols
-#endif
-
 #include <pv/status.h>
 #include <pv/monitor.h>
 #include <pv/pvIntrospect.h>
@@ -26,17 +21,11 @@
 #include <pv/lock.h>
 #include <pv/pvAccess.h>
 
-#ifdef channelBaseEpicsExportSharedSymbols
-#   define epicsExportSharedSymbols
-#	undef channelBaseEpicsExportSharedSymbols
-#   include "shareLib.h"
-#endif
-
 #include <set>
 
 namespace epics { namespace pvAccess { 
 
-class epicsShareClass ChannelBaseDebug {
+class ChannelBaseDebug {
 public:
     static void setLevel(int level);
     static int getLevel();
@@ -62,7 +51,7 @@ typedef std::set<ChannelBasePtr> ChannelBaseList;
  * the base class handle the others.
  */
 
-class epicsShareClass ChannelBase :
+class ChannelBase :
   public Channel,
   public std::tr1::enable_shared_from_this<ChannelBase>
 {
@@ -148,7 +137,7 @@ private:
     epics::pvData::Mutex mutex;
 };
 
-class epicsShareClass ChannelBaseProvider :
+class ChannelBaseProvider :
     public ChannelProvider,
     public std::tr1::enable_shared_from_this<ChannelBaseProvider>
 {

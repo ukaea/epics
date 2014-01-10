@@ -17,7 +17,6 @@
 #include <pv/lock.h>
 #include <dbAccess.h>
 
-#define epicsExportSharedSymbols
 #include <pv/pvServiceProvider.h>
 
 namespace epics { namespace pvIOC { 

@@ -7,23 +7,10 @@
 #ifndef INETADDRESSUTIL_H_
 #define INETADDRESSUTIL_H_
 
-#ifdef epicsExportSharedSymbols
-#   define inetAddressUtilExportSharedSymbols
-#   undef epicsExportSharedSymbols
-#endif
-
 #include <pv/pvType.h>
 #include <pv/byteBuffer.h>
 
 #include <osiSock.h>
-
-#ifdef inetAddressUtilExportSharedSymbols
-#   define epicsExportSharedSymbols
-#undef inetAddressUtilExportSharedSymbols
-#endif
-
-#include <sharelib.h>
-
 #include <vector>
 
 // TODO implement using smart pointers
@@ -39,28 +26,28 @@ namespace pvAccess {
      * Conversion of the defaultPort to network byte order performed by
      * the function.
      */
-    epicsShareExtern InetAddrVector* getBroadcastAddresses(SOCKET sock, unsigned short defaultPort);
+    InetAddrVector* getBroadcastAddresses(SOCKET sock, unsigned short defaultPort);
 
     /**
      * Encode IPv4 address as IPv6 address.
      * @param buffer byte-buffer where to put encoded data.
      * @param address address to encode.
      */
-    epicsShareExtern void encodeAsIPv6Address(epics::pvData::ByteBuffer* buffer, const osiSockAddr* address);
+    void encodeAsIPv6Address(epics::pvData::ByteBuffer* buffer, const osiSockAddr* address);
 
     /**
      * Convert an integer into an IPv4 INET address.
      * @param addr integer representation of a given address.
      * @return IPv4 INET address.
      */
-    epicsShareExtern osiSockAddr* intToIPv4Address(epics::pvData::int32 addr);
+    osiSockAddr* intToIPv4Address(epics::pvData::int32 addr);
 
     /**
      * Convert an IPv4 INET address to an integer.
      * @param addr  IPv4 INET address.
      * @return integer representation of a given address.
      */
-    epicsShareExtern epics::pvData::int32 ipv4AddressToInt(const osiSockAddr& addr);
+    epics::pvData::int32 ipv4AddressToInt(const osiSockAddr& addr);
 
     /**
      * Parse space delimited addresss[:port] string and return array of <code>InetSocketAddress</code>.
@@ -69,10 +56,10 @@ namespace pvAccess {
      * @param appendList    list to be appended.
      * @return  array of <code>InetSocketAddress</code>.
      */
-    epicsShareExtern InetAddrVector* getSocketAddressList(epics::pvData::String list, int defaultPort,
+    InetAddrVector* getSocketAddressList(epics::pvData::String list, int defaultPort,
             const InetAddrVector* appendList = NULL);
 
-    epicsShareExtern const epics::pvData::String inetAddressToString(const osiSockAddr &addr,
+    const epics::pvData::String inetAddressToString(const osiSockAddr &addr,
             bool displayPort = true, bool displayHex = false);
 
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -4,14 +4,13 @@
  * in file LICENSE that is included with this distribution.
  */
 
-#include <epicsThread.h>
-#include <osiSock.h>
-
-#define epicsExportSharedSymbols
 #include <pv/blockingTCP.h>
 #include <pv/remote.h>
 #include <pv/namedLockPattern.h>
 #include <pv/logger.h>
+
+#include <epicsThread.h>
+#include <osiSock.h>
 
 #include <sys/types.h>
 #include <sstream>

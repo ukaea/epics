@@ -313,7 +313,7 @@ openRedirect(const char *filename, int lineno, struct iocshRedirect *redirect)
     int i;
 
     for (i = 0 ; i < NREDIRECTS ; i++, redirect++) {
-        if ((redirect->fp == NULL) && (redirect->name != NULL)) {
+        if (redirect->name != NULL) {
             redirect->fp = fopen(redirect->name, redirect->mode);
             if (redirect->fp == NULL) {
                 showError(filename, lineno, "Can't open \"%s\": %s.",

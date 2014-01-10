@@ -14,28 +14,12 @@
 #include <stdexcept>
 #include <memory>
 
-#ifdef epicsExportSharedSymbols
-#   define channelProvideLocalEpicsExportSharedSymbols
-#   undef epicsExportSharedSymbols
-#endif
-
 #include <pv/lock.h>
 #include <pv/pvType.h>
 #include <pv/pvData.h>
 #include <pv/pvAccess.h>
 
 #include <pv/channelBase.h>
-
-#include "tsDLList.h"
-#include "tsFreeList.h"
-#include "epicsTime.h"
-#include "compilerDependencies.h"
-
-#ifdef channelProvideLocalEpicsExportSharedSymbols
-#   define epicsExportSharedSymbols
-#	undef channelProvideLocalEpicsExportSharedSymbols
-#   include "shareLib.h"
-#endif
 
 namespace epics { namespace pvIOC { 
 
@@ -46,7 +30,7 @@ typedef epics::pvAccess::ChannelProvider::shared_pointer ChannelProviderPtr;
 typedef std::vector<ChannelProviderPtr> ChannelProviderPtrArray;
 
 
-class epicsShareClass ChannelProviderLocal :
+class ChannelProviderLocal :
     public epics::pvAccess::ChannelProvider,
     public std::tr1::enable_shared_from_this<ChannelProviderLocal>
 {

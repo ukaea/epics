@@ -52,7 +52,7 @@ void testBasicOperations(std::ostream& ofile) {
     assert(buff->getPosition()==16);
     assert(buff->getRemaining()==16);
 
-    float testFloat = 34.67f;
+    float testFloat = 34.67;
     buff->putFloat(testFloat);
     assert(buff->getPosition()==20);
     assert(buff->getRemaining()==12);

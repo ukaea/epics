@@ -5,13 +5,10 @@ include $(TOP)/configure/CONFIG
 PROD_HOST += testBlockingUDPSrv
 testBlockingUDPSrv_SRCS += testBlockingUDPSrv.cpp
 testBlockingUDPSrv_LIBS += pvData pvAccess pvMB Com
-testBlockingUDPSrv_SYS_LIBS_WIN32 = ws2_32
-
 
 PROD_HOST += testBlockingUDPClnt
 testBlockingUDPClnt_SRCS += testBlockingUDPClnt.cpp
 testBlockingUDPClnt_LIBS += pvData pvAccess pvMB Com
-testBlockingUDPClnt_SYS_LIBS_WIN32 = ws2_32
 
 PROD_HOST += testRemoteClientImpl
 testRemoteClientImpl_SRCS += testRemoteClientImpl.cpp

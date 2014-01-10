@@ -9,9 +9,7 @@
  */
 #ifndef TIMEFUNCTION_H
 #define TIMEFUNCTION_H
-
 #include <pv/sharedPtr.h>
-#include <sharelib.h>
 
 namespace epics { namespace pvData { 
 
@@ -20,7 +18,7 @@ class TimeFunction;
 typedef std::tr1::shared_ptr<TimeFunctionRequester> TimeFunctionRequesterPtr;
 typedef std::tr1::shared_ptr<TimeFunction> TimeFunctionPtr;
 
-class epicsShareClass TimeFunctionRequester {
+class TimeFunctionRequester {
 public:
     POINTER_DEFINITIONS(TimeFunctionRequester);
     virtual ~TimeFunctionRequester(){}
@@ -28,7 +26,7 @@ public:
 };
 
 
-class epicsShareClass TimeFunction {
+class TimeFunction {
 public:
     POINTER_DEFINITIONS(TimeFunction);
     TimeFunction(TimeFunctionRequesterPtr const & requester);

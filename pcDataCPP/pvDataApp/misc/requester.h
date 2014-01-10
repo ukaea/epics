@@ -10,10 +10,8 @@
 #ifndef REQUESTER_H
 #define REQUESTER_H
 #include <string>
-
 #include <pv/pvType.h>
 #include <pv/sharedPtr.h>
-#include <sharelib.h>
 
 namespace epics { namespace pvData { 
 
@@ -24,8 +22,7 @@ enum MessageType {
    infoMessage,warningMessage,errorMessage,fatalErrorMessage
 };
 
-epicsShareExtern String getMessageTypeName(MessageType messageType);
-
+extern String getMessageTypeName(MessageType messageType);
 extern const size_t messageTypeCount;
 class Requester {
 public:

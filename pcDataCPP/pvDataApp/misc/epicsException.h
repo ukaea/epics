@@ -43,8 +43,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <sharelib.h>
-
 // Users may redefine this for a large size if desired
 #ifndef EXCEPT_DEPTH
 #  define EXCEPT_DEPTH 20
@@ -69,7 +67,7 @@ namespace epics { namespace pvData {
 /* Stores file and line number given, and when possible the call stack
  * at the point where it was constructed
  */
-class epicsShareClass ExceptionMixin {
+class ExceptionMixin {
     const char *m_file;
     int m_line;
 #ifndef EXCEPT_USE_NONE
@@ -199,7 +197,7 @@ do { \
 
 #endif // THROW_EXCEPTION_COMPAT
 
-class epicsShareClass BaseException : public std::logic_error {
+class BaseException : public std::logic_error {
 public:
     explicit BaseException(const std::string msg) : std::logic_error(msg) {}
 

@@ -12,8 +12,6 @@
 #include <string>
 #include <cstdio>
 #include <vector>
-
-#define epicsExportSharedSymbols
 #include <pv/pvData.h>
 #include <pv/pvIntrospect.h>
 #include <pv/convert.h>

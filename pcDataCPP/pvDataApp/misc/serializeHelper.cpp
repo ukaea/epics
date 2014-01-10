@@ -11,12 +11,12 @@
  */
 
 #include <algorithm>
-
-#define epicsExportSharedSymbols
 #include <pv/pvType.h>
+
 #include <pv/epicsException.h>
 #include <pv/byteBuffer.h>
 #include <pv/serializeHelper.h>
+
 
 using namespace std;
 

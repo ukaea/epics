@@ -4,21 +4,19 @@
  * in file LICENSE that is included with this distribution.
  */
 
-
-#include <pv/byteBuffer.h>
-
-#include <osiSock.h>
-
-#define epicsExportSharedSymbols
 #include <pv/responseHandlers.h>
 #include <pv/remote.h>
 #include <pv/hexDump.h>
 #include <pv/serializationHelper.h>
+
+#include <pv/byteBuffer.h>
+
+#include <osiSock.h>
 #include <pv/logger.h>
-#include <pv/pvAccessMB.h>
 
 #include <sstream>
 
+#include <pv/pvAccessMB.h>
 
 using std::ostringstream;
 using std::hex;
@@ -416,7 +414,7 @@ void ServerChannelRequesterImpl::channelCreated(const Status& status, Channel::s
     }
 }
 
-void ServerChannelRequesterImpl::channelStateChange(Channel::shared_pointer const & /*channel*/, Channel::ConnectionState /*isConnected*/)
+void ServerChannelRequesterImpl::channelStateChange(Channel::shared_pointer const & /*channel*/, const Channel::ConnectionState /*isConnected*/)
 {
 	// TODO should we notify remote side?
 }

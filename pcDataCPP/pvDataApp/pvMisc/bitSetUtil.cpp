@@ -7,7 +7,6 @@
 /**
  *  @author mrk
  */
-#define epicsExportSharedSymbols
 #include <pv/noDefaultMethods.h>
 #include <pv/pvData.h>
 #include <pv/bitSetUtil.h>

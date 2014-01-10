@@ -12,17 +12,15 @@
 #include <memory>
 #include <vector>
 #include <epicsEvent.h>
-
 #include <pv/pvType.h>
 #include <pv/sharedPtr.h>
-#include <sharelib.h>
 
 namespace epics { namespace pvData { 
 
 class Event;
 typedef std::tr1::shared_ptr<Event> EventPtr;
 
-class epicsShareClass Event {
+class Event {
 public:
     POINTER_DEFINITIONS(Event);
     explicit Event(bool = false);

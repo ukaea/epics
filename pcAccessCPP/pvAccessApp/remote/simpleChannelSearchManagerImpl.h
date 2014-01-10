@@ -9,23 +9,13 @@
 
 #include <pv/channelSearchManager.h>
 
-#ifdef epicsExportSharedSymbols
-#   define simpleChannelSearchManagerImplEpicsExportSharedSymbols
-#   undef epicsExportSharedSymbols
-#endif
-
 #include <pv/lock.h>
 #include <pv/byteBuffer.h>
 #include <pv/timer.h>
 
-#ifdef simpleChannelSearchManagerImplEpicsExportSharedSymbols
-#   define epicsExportSharedSymbols
-#	undef simpleChannelSearchManagerImplEpicsExportSharedSymbols
-#endif
-#include <shareLib.h>
-
 namespace epics {
 namespace pvAccess {
+
 
 class MockTransportSendControl: public TransportSendControl
 {
@@ -42,7 +32,7 @@ public:
         // no cache
         field->serialize(buffer, this);
     }
-    virtual bool directSerialize(epics::pvData::ByteBuffer* /*existingBuffer*/, const char* /*toSerialize*/,
+    virtual bool directSerialize(epics::pvData::ByteBuffer */*existingBuffer*/, const char* /*toSerialize*/,
                                  std::size_t /*elementCount*/, std::size_t /*elementSize*/)
     {
         return false;
@@ -50,7 +40,7 @@ public:
 };
 
 
-class epicsShareClass SimpleChannelSearchManagerImpl :
+class SimpleChannelSearchManagerImpl :
     public ChannelSearchManager,
     public epics::pvData::TimerCallback,
 	public std::tr1::enable_shared_from_this<SimpleChannelSearchManagerImpl>

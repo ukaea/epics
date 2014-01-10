@@ -15,11 +15,6 @@
 #include <string>
 #include <cstdio>
 
-#ifdef epicsExportSharedSymbols
-#   define ezChannelRPCEpicsExportSharedSymbols
-#   undef epicsExportSharedSymbols
-#endif
-
 #include <cadef.h>
 #include <epicsStdio.h>
 #include <epicsMutex.h>
@@ -39,12 +34,6 @@
 #include <pv/timeStamp.h>
 #include <pv/pvTimeStamp.h>
 
-#ifdef ezChannelRPCEpicsExportSharedSymbols
-#   define epicsExportSharedSymbols
-#	undef ezChannelRPCEpicsExportSharedSymbols
-#   include "shareLib.h"
-#endif
-
 
 namespace epics { namespace pvAccess { 
 
@@ -55,7 +44,7 @@ namespace epics { namespace pvAccess {
  * @author mrk
  *
  */
-class epicsShareClass EZChannelRPC :
+class EZChannelRPC :
     public ChannelRequester,
     public ChannelRPCRequester,
     public std::tr1::enable_shared_from_this<EZChannelRPC>

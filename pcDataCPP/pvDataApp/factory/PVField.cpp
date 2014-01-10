@@ -11,8 +11,6 @@
 #include <cstdlib>
 #include <string>
 #include <cstdio>
-
-#define epicsExportSharedSymbols
 #include <pv/lock.h>
 #include <pv/pvData.h>
 #include <pv/factory.h>

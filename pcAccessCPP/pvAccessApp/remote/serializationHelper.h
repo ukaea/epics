@@ -9,12 +9,6 @@
 #define SERIALIZATIONHELPER_H_
 
 #include <pv/pvaConstants.h>
-#include <pv/pvAccess.h>
-
-#ifdef epicsExportSharedSymbols
-#   define serializationHelperEpicsExportSharedSymbols
-#   undef epicsExportSharedSymbols
-#endif
 
 #include <pv/serialize.h>
 #include <pv/pvData.h>
@@ -22,16 +16,13 @@
 #include <pv/pvIntrospect.h>
 #include <pv/byteBuffer.h>
 
-#ifdef serializationHelperEpicsExportSharedSymbols
-#   define epicsExportSharedSymbols
-#	undef serializationHelperEpicsExportSharedSymbols
-#endif
-#include <sharelib.h>
+#include <pv/pvAccess.h>
+
 
 namespace epics {
     namespace pvAccess {
 
-        class epicsShareClass SerializationHelper : public epics::pvData::NoDefaultMethods {
+        class SerializationHelper : public epics::pvData::NoDefaultMethods {
         public:
 
     		static epics::pvData::PVDataCreatePtr _pvDataCreate;

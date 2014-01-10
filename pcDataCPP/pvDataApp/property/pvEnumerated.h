@@ -7,18 +7,14 @@
 /**
  *  @author mrk
  */
-#ifndef PVENUMERATED_H
-#define PVENUMERATED_H
-
 #include <string>
-
 #include <pv/pvType.h>
 #include <pv/pvData.h>
-#include <sharelib.h>
-
+#ifndef PVENUMERATED_H
+#define PVENUMERATED_H
 namespace epics { namespace pvData { 
 
-class epicsShareClass PVEnumerated {
+class PVEnumerated {
 public:
     PVEnumerated() {}
     //default constructors and destructor are OK

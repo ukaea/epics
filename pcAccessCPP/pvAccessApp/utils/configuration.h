@@ -7,21 +7,12 @@
 #ifndef CONFIGURATION_H
 #define CONFIGURATION_H
 
-#ifdef epicsExportSharedSymbols
-#   define configurationEpicsExportSharedSymbols
-#   undef epicsExportSharedSymbols
-#endif
 #include <pv/pvType.h>
 #include <pv/noDefaultMethods.h>
 #include <pv/lock.h>
 #include <pv/sharedPtr.h>
 
 #include <envDefs.h>
-#ifdef configurationEpicsExportSharedSymbols
-#   define epicsExportSharedSymbols
-#	undef configurationEpicsExportSharedSymbols
-#endif
-#include <shareLib.h>
 
 
 #include <string.h>
@@ -33,7 +24,7 @@
 namespace epics {
 namespace pvAccess {
 
-class epicsShareClass Properties
+class Properties
 {
 public:
 	Properties();
@@ -138,7 +129,7 @@ public:
     virtual bool hasProperty(const std::string &name) = 0;
 };
 
-class epicsShareClass SystemConfigurationImpl: public Configuration
+class SystemConfigurationImpl: public Configuration
 {
 public:
 	SystemConfigurationImpl();
@@ -185,7 +176,7 @@ public:
 	virtual void registerConfiguration(const std::string &name, Configuration::shared_pointer const & configuration) = 0;
 };
 
-class epicsShareClass ConfigurationProviderImpl: public ConfigurationProvider
+class ConfigurationProviderImpl: public ConfigurationProvider
 {
 public:
 	ConfigurationProviderImpl();

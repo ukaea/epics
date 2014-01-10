@@ -30,9 +30,9 @@ Based on drvMotorSim.c, Mark Rivers, December 13, 2009
 #include <epicsMutex.h>
 #include <ellLib.h>
 #include <iocsh.h>
+#include <epicsExport.h>
 #include <motor_interface.h>
 
-//#include <epicsExport.h>
 #include "PIasynAxis.h"
 #include "PIasynController.h"
 #include "PIGCSController.h"

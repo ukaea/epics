@@ -19,8 +19,6 @@
 #include <epicsThread.h>
 #include <epicsMutex.h>
 #include <epicsEvent.h>
-
-#define epicsExportSharedSymbols
 #include <pv/noDefaultMethods.h>
 #include <pv/pvType.h>
 #include <pv/lock.h>

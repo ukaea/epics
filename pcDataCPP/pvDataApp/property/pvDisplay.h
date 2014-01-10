@@ -7,19 +7,15 @@
 /**
  *  @author mrk
  */
-#ifndef PVDISPLAY_H
-#define PVDISPLAY_H
-
 #include <string>
-
 #include <pv/pvType.h>
 #include <pv/pvData.h>
 #include <pv/display.h>
-#include <sharelib.h>
-
+#ifndef PVDISPLAY_H
+#define PVDISPLAY_H
 namespace epics { namespace pvData { 
 
-class epicsShareClass PVDisplay {
+class PVDisplay {
 public:
     PVDisplay() {}
     //default constructors and destructor are OK

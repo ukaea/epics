@@ -20,12 +20,11 @@
 #include <epicsString.h>
 #include <epicsTypes.h>
 
-#define epicsExportSharedSymbols
-#include <epicsExport.h>
 #include "asynDriver.h"
 #include "asynOctet.h"
 #include "asynOption.h"
 #include "asynInterposeCom.h"
+#include <epicsExport.h>
 
 /*
  * TELNET special characters

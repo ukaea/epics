@@ -15,23 +15,21 @@
 
 #include <pv/pvIntrospect.h>
 #include <pv/pvData.h>
-#include <sharelib.h>
-
 #include <vector>
 
 namespace epics { namespace pvData { 
 
-bool epicsShareExtern operator==(PVField&, PVField&);
+bool operator==(PVField&, PVField&);
 
 static inline bool operator!=(PVField& a, PVField& b)
 {return !(a==b);}
 
 
-bool epicsShareExtern operator==(const Field&, const Field&);
-bool epicsShareExtern operator==(const Scalar&, const Scalar&);
-bool epicsShareExtern operator==(const ScalarArray&, const ScalarArray&);
-bool epicsShareExtern operator==(const Structure&, const Structure&);
-bool epicsShareExtern operator==(const StructureArray&, const StructureArray&);
+bool operator==(const Field&, const Field&);
+bool operator==(const Scalar&, const Scalar&);
+bool operator==(const ScalarArray&, const ScalarArray&);
+bool operator==(const Structure&, const Structure&);
+bool operator==(const StructureArray&, const StructureArray&);
 
 static inline bool operator!=(const Field& a, const Field& b)
 {return !(a==b);}
@@ -70,7 +68,7 @@ static inline bool operator!=(const StructureArray& a, const StructureArray& b)
 class Convert;
 typedef std::tr1::shared_ptr<Convert> ConvertPtr;
 
-class epicsShareClass Convert {
+class Convert {
 public:
     static ConvertPtr getConvert();
     ~Convert();
@@ -764,7 +762,7 @@ private:
     String illegalScalarType;
 };
 
-epicsShareExtern ConvertPtr getConvert();
+extern ConvertPtr getConvert();
     
 }}
 #endif  /* CONVERT_H */

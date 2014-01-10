@@ -10,23 +10,13 @@
 #include <pv/pvaConstants.h>
 #include <pv/configuration.h>
 
-#ifdef epicsExportSharedSymbols
-#   define remoteEpicsExportSharedSymbols
-#   undef epicsExportSharedSymbols
-#endif
-
 #include <pv/serialize.h>
 #include <pv/pvType.h>
 #include <pv/byteBuffer.h>
 #include <pv/timer.h>
 #include <pv/pvData.h>
-#include <pv/sharedPtr.h>
 
-#ifdef remoteEpicsExportSharedSymbols
-#   define epicsExportSharedSymbols
-#	undef remoteEpicsExportSharedSymbols
-#endif
-#include <sharelib.h>
+#include <pv/sharedPtr.h>
 
 #include <osiSock.h>
 #include <osdSock.h>

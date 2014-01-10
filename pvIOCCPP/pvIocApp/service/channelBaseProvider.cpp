@@ -18,7 +18,6 @@
 #include <epicsExit.h>
 #include <dbAccess.h>
 
-#define epicsExportSharedSymbols
 #include <pv/channelBase.h>
 
 namespace epics { namespace pvAccess { 
@@ -39,7 +38,7 @@ void ChannelBaseProvider::registerSelf()
 {
     if(!isRegistered) {
         isRegistered = true;
-//        registerChannelProvider(getPtrSelf());
+        registerChannelProvider(getPtrSelf());
     }
 }
 
@@ -47,7 +46,7 @@ void ChannelBaseProvider::unregisterSelf()
 {
     if(isRegistered) {
        isRegistered = false;
-//        unregisterChannelProvider(getPtrSelf());
+        unregisterChannelProvider(getPtrSelf());
     }
 }
 

@@ -18,25 +18,14 @@
 
 #include <pv/pvIntrospect.h>
 
-#ifdef epicsExportSharedSymbols
-#   define blockingUDPEpicsExportSharedSymbols
-#   undef epicsExportSharedSymbols
-#endif
-
 #include <osdSock.h>
 #include <osiSock.h>
 #include <epicsThread.h>
 
-#ifdef blockingUDPEpicsExportSharedSymbols
-#   define epicsExportSharedSymbols
-#	undef blockingUDPEpicsExportSharedSymbols
-#endif
-#include <shareLib.h>
-
 namespace epics {
     namespace pvAccess {
 
-        class epicsShareClass BlockingUDPTransport : public epics::pvData::NoDefaultMethods,
+        class BlockingUDPTransport : public epics::pvData::NoDefaultMethods,
                 public Transport,
                 public TransportSendControl,
                 public std::tr1::enable_shared_from_this<BlockingUDPTransport>
@@ -144,13 +133,13 @@ namespace epics {
                 _receiveBuffer->align(alignment);
             }
 
-            virtual bool directSerialize(epics::pvData::ByteBuffer* /*existingBuffer*/, const char* /*toSerialize*/,
+            virtual bool directSerialize(epics::pvData::ByteBuffer */*existingBuffer*/, const char* /*toSerialize*/,
                                          std::size_t /*elementCount*/, std::size_t /*elementSize*/)
             {
                 return false;
             }
 
-            virtual bool directDeserialize(epics::pvData::ByteBuffer* /*existingBuffer*/, char* /*deserializeTo*/,
+            virtual bool directDeserialize(epics::pvData::ByteBuffer */*existingBuffer*/, char* /*deserializeTo*/,
                                            std::size_t /*elementCount*/, std::size_t /*elementSize*/)
             {
                 return false;
@@ -336,7 +325,7 @@ namespace epics {
 
         };
 
-        class epicsShareClass BlockingUDPConnector :
+        class BlockingUDPConnector :
                 public Connector,
                 private epics::pvData::NoDefaultMethods {
         public:

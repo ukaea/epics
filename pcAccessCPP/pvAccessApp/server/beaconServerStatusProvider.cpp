@@ -4,7 +4,6 @@
  * in file LICENSE that is included with this distribution.
  */
 
-#define epicsExportSharedSymbols
 #include <pv/beaconServerStatusProvider.h>
 #include <pv/serverContext.h>
 

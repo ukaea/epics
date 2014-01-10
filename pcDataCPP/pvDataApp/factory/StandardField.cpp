@@ -12,8 +12,6 @@
 #include <stdexcept>
 #include <epicsThread.h>
 #include <epicsExit.h>
-
-#define epicsExportSharedSymbols
 #include <pv/lock.h>
 #include <pv/pvIntrospect.h>
 #include <pv/standardField.h>

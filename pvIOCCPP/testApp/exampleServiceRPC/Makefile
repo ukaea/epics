@@ -5,13 +5,11 @@ include $(TOP)/configure/CONFIG
 PROD_HOST += exampleServiceRPC
 exampleServiceRPC_SRCS += exampleServiceRPCMain.cpp
 exampleServiceRPC_SRCS += exampleServiceRPC.cpp
-exampleServiceRPC_LIBS += pvIOC pvAccess pvData Com
-#exampleServiceRPC_LIBS += pvIOC pvAccess pvData pvMB Com
+exampleServiceRPC_LIBS += pvIOC pvAccess pvData pvMB Com
 
 PROD_HOST += exampleClient
 exampleClient_SRCS += exampleClient.cpp
-#exampleClient_LIBS += pvIOC pvAccess pvData pvMB Com
-exampleClient_LIBS += pvIOC pvAccess pvData Com
+exampleClient_LIBS += pvIOC pvAccess pvData pvMB Com
 
 
 LIBRARY_IOC += exampleServiceIOC

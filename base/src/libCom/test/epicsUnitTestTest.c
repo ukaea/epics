@@ -5,20 +5,18 @@
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
 
-/* Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd
+/* $Revision-Id$
  * Author: Andrew Johnson
  *
  * Test for the unit test module...
  */
 
 #include "epicsUnitTest.h"
-#include "testMain.h"
 
 #define testOk1_success 1
 #define testOk1_failure 0
 
-MAIN(UnitTestTest)
-{
+int main (void) {
     testPlan(11);
     testOk(1, "testOk(1)");
     testOk(0, "testOk(0)");

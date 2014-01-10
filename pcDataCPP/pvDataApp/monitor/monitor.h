@@ -16,8 +16,6 @@
 #include <pv/sharedPtr.h>
 #include <pv/bitSet.h>
 
-#include <sharelib.h>
-
 namespace epics { namespace pvData { 
 
 class MonitorElement;

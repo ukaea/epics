@@ -7,7 +7,6 @@
  *  @author mes
  */
 
-#define epicsExportSharedSymbols
 #include <pv/epicsException.h>
 
 #include <sstream>
