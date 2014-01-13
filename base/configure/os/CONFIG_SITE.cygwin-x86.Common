@@ -1,0 +1,10 @@
+# CONFIG_SITE.cygwin-x86.Common
+#
+# $Revision-Id$
+# This file is maintained by the build community.
+#
+# Site override definitions for cygwin-x86 host builds
+#-------------------------------------------------------
+ 
+#CROSS_COMPILER_TARGET_ARCHS =
+

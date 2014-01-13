@@ -1,0 +1,7 @@
+Define
+
+EPICS_BASE
+PVDATA
+PVCOMMON
+
+variables that points to EPICS base, pvDataCPP, and pvCommonCPP installation directory (includes and libraries) in configure/RELEASE.local

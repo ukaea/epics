@@ -1,0 +1,29 @@
+You are looking at the EPICS State Notation Language compiler
+and runtime sequencer.
+
+For more information see the .txt files under documentation:
+
+Introduction.txt
+   What all this is about, licensing, and other trivia
+Installation.txt
+   How to download, build, etc
+Tutorial.txt
+   Gentle introduction to SNL, some (sloppy) semantics
+Compiling.txt
+   All about snc, the SNL compiler
+Using.txt
+   How to create a working SNL program
+Reference.txt
+   SNL syntax and built-in procedures
+Examples.txt
+   Annotated example programs
+ReleaseNotes-2-0-and-older.txt
+ReleaseNotes-2-1.txt
+   Release notes
+KnownProblems.txt
+   What the name says
+Plans.txt
+   New features, ideas, and wishes
+
+You can also view the documentation online at
+http://www-csr.bessy.de/control/SoftDist/sequencer/

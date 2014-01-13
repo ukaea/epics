@@ -1,0 +1,8 @@
+testAPP is not being build.
+It depends on normativeTypes which is just starting development.
+In order to build testAPP the following must be done:
+
+clone and build a working version of normativeTypes.
+edit configure/Makefile. Edit the line that defines NT
+edit the top level makefile. It has comments about what to do.
+
