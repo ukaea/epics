@@ -1,0 +1,77 @@
+div.breadcrumbs{
+  display:none;
+}
+
+div.secedit{
+  display:none;
+}
+
+div.secedit2{
+  display:none;
+}
+
+.toc, .footerinc, .header, .bar, .user {display:none}
+
+#sidebar {display:none}
+
+#footer { display:none}
+#catlinks { display:none}
+
+/* inline tables */
+table.inline {
+  background-color: #ffffff;
+  border-spacing: 0px;
+}
+
+table.inline th {
+  padding: 3px;
+  border: 1px solid #8cacbb;
+  background-color: #dee7ec;
+}
+
+table.inline td {
+  padding: 3px;
+  border: 1px solid #8cacbb;
+}
+
+.leftalign{
+  text-align: left;
+}
+
+.centeralign{
+  text-align: center;
+}
+
+.rightalign{
+  text-align: right;
+}
+
+blockquote {
+  border-left: 2px solid #8cacbb;
+  padding-left: 3px;
+  margin-left: 0;
+}
+
+/* embedded images */
+img.media {
+  margin: 3px;
+}
+
+img.medialeft {
+  border: 0;
+  float: left;
+  margin: 0 1.5em 0 0;
+}
+
+img.mediaright {
+  border: 0;
+  float: right;
+  margin: 0 0 0 1.5em;
+}
+
+img.mediacenter {
+  border: 0;
+	display: block;
+  margin-left: auto;
+  margin-right: auto;
+}

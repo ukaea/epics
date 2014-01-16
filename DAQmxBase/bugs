@@ -1,0 +1,68 @@
+
+============== ACTIVE BUGS  ==========================
+
+#1 - minor
+If you have an AO channel setup.
+And then you set the frequency the things doesn't reset correctly and 
+the data disappear somehow :(
+
+
+#3 - minor
+In Digital Input mode a DTIME interrupt will not be triggered.
+Can easily fix by adding code. But It feels like it is a waste?
+
+
+#4 - major
+If the DAQmxBaseRead command does not return the required amount of samples.
+And error does get print.
+But for the rest nothing is altered and this can result in problems!
+
+
+#5 - minor
+There is sometimes a segfault when the IOC exits.
+It seems that the thread dies somehow and then some stack frame gets lost or 
+something.
+As the IOC quits anyways this is not a serious problem :)
+- I don't know how to find this now - Heinrich
+
+#6 - major
+If there is errors inside the IOC then this will not get through to alarms or 
+something. So operators is unlikely to know something is going wrong.
+This needs to be addressed ASAP - Heinrich
+(just not sure how)
+
+#7 - functional
+With CO (counter output) mode.
+If we set N=0 then we have continuous output and if we set N=1 we have 1 
+pulse.
+But setting up N=x doesn't work - only generates 1 pulse.
+This seem to be a problem in DAQmxBase? Or either the NI 6014 card I 
+have doesn't support this - Heinrich
+
+
+#8 - minor
+It seems as it the asynPrint output from  PortOptions doesn't happen?!
+
+#9 - minor
+The driver creates an excessive amount of interrupts.
+Even if it reads a value that doesn't change it will still produce 
+millions of interrupts.
+Maybe we should implement if's to check if values actually changed? Or 
+maybe even a hysteresis option? (Will only work if N=1 obviously)	
+
+#10 - minor
+around counters:
+There are 3 types of CI counters.
+And there are 4 types of ReadCounter commands.
+I'm unsure what to use then. Currently there is options to force the 
+issue. But the defaults should be setup to work in 99% of the cases :)
+
+=============== RESOLVED ======================
+
+
+#2
+In non-monster mode:
+It seems as if the Read returns the wrong data every so often?!?!
+-
+Fixed by stopping the task before starting again
+

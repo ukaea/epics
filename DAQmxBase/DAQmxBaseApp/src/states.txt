@@ -1,0 +1,98 @@
+This document describes the state machine.
+
+MESSAGE: msgNoAction
+Does nothing
+
+MESSAGE: msgConfigure
+Should configure/reconfigure
+if unconfigured - state = configure
+if idle - state = reconfigure
+else if not configure - state = stop
+(stopping the task will result in idle -> reconfigure)
+
+MESSAGE: msgStart
+if idle or start - state = start 
+if unconfigured - state = configure
+if running - state = stop -> result in reconfigure
+
+MESSAGE: msgStop
+state = stop
+
+STATE: unconfigured
+default startup state - waits
+
+STATE: reconfigure
+Clears task
+recreate task
+state= configure
+
+STATE: configure
+alloc buffers
+Create channels
+Setup timing 
+Setup trigger
+state = idle
+
+STATE: idle
+waits
+
+STATE: start
+if daqmode = Input : start task
+interrupt ACQUIRE interface
+depending on daqmode:
+ state = acquireAnlg or acquireDig or acquireCnt or counterout or write
+
+STATE: busywait
+wait for event
+unles noRestartTask: start task
+state = acquireAnlg or acquireDig or acquireCnt
+
+STATE: acquireAnlg
+read analog
+swap buffers & update pointers & run softtrigger
+if !monstermode: stop task
+if !polled: start task
+interrupts
+if polled: state = busywait
+
+STATE: acquireDig
+read digital
+swap buffers & update pointers
+if !monstermode: stop task
+if !polled: start task
+interrupts
+if polled: state = busywait
+
+STATE: acquireCnt
+Read counter (4 different methods)
+swap buffers & update pointers
+if !polled & !monster & !noRestartTask: starttask
+interrupts
+if polled: state= busywait
+
+
+STATE: write
+wait for write event
+stop task
+write analog or digital
+start task
+
+
+STATE: counterout
+wait for write event
+start task
+
+STATE: stop
+stop task
+interrupt ACQUIRE
+state = idle
+
+
+Should maybe create some diagram picture to represent this? -H
+
+This file was last updated on 23Aug 2007 - H
+
+
+
+
+
