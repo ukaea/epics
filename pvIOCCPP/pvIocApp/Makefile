@@ -4,8 +4,8 @@ include $(TOP)/configure/CONFIG
 IOC = $(TOP)/pvIocApp/
 
 LIBRARY_IOC += pvIOC
-pvIOC_LIBS += $(EPICS_BASE_IOC_LIBS)
-pvIoc_LIBS += Com pvData pvAccess
+#pvIOC_LIBS += $(EPICS_BASE_IOC_LIBS)
+pvIOC_LIBS += Com pvData pvAccess
 
 SRC_DIRS += $(IOC)/service
 DBD += pvServiceChannelRegister.dbd
@@ -27,7 +27,7 @@ SRC_DIRS += $(IOC)/channelProviderLocal
 DBD += channelProviderLocal.dbd
 INC += channelProviderLocal.h
 LIBSRCS += channelProviderLocal.cpp
-LIBSRCS += channelProviderLocalRegister.cpp
+#LIBSRCS += channelProviderLocalRegister.cpp
 
 #SRC_DIRS += $(IOC)/support
 #INC += support.h
