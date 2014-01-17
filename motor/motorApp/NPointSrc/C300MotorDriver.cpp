@@ -18,6 +18,7 @@ KNOWN PROBLEMS:
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <math.h>
 
 #include <iocsh.h>
 #include <epicsThread.h>
@@ -320,7 +321,7 @@ asynStatus C300Axis::poll(bool *moving)
   // Read error status
 
   // Simulate dmov functionality here
-  done = (abs(theoryPosition_ - encoderPosition_) > C300Tolerance) ? 0 : 1;
+  done = (fabs(theoryPosition_ - encoderPosition_) > C300Tolerance) ? 0 : 1;
   setIntegerParam(pC_->motorStatusDone_, done);
   *moving = done ? false:true;
 

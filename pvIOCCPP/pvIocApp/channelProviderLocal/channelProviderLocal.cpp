@@ -16,8 +16,8 @@
 #include <stdexcept>
 #include <memory>
 
+#define epicsExportSharedSymbols
 #include <pv/channelProviderLocal.h>
-
 
 namespace epics { namespace pvIOC { 
 

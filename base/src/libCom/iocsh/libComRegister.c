@@ -55,14 +55,6 @@ static void dateCallFunc (const iocshArgBuf *args)
 static const iocshArg chdirArg0 = { "directory name",iocshArgString};
 static const iocshArg * const chdirArgs[1] = {&chdirArg0};
 static const iocshFuncDef chdirFuncDef = {"cd",1,chdirArgs};
-static void chdirCallFunc(const iocshArgBuf *args)
-{
-    int status;
-    status = chdir(args[0].sval);
-    if (status) {
-        printf ("Invalid directory path ignored\n");
-    }
-}
 
 /* print current working directory */
 static const iocshFuncDef pwdFuncDef = { "pwd", 0, 0 };
@@ -73,6 +65,22 @@ static void pwdCallFunc (const iocshArgBuf *args)
     if ( pwd ) {
         printf ( "%s\n", pwd );
     }
+}
+
+static void chdirCallFunc(const iocshArgBuf *args)
+{
+    int status;
+	if (!args[0].sval)
+	{
+		pwdCallFunc(NULL);
+	}
+	else
+	{
+		status = chdir(args[0].sval);
+		if (status) {
+			printf ("Invalid directory path ignored\n");
+		}
+	}
 }
 
 /* epicsEnvSet */

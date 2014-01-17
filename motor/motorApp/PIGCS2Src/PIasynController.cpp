@@ -33,11 +33,11 @@ Based on drvMotorSim.c, Mark Rivers, December 13, 2009
 #include <epicsMutex.h>
 #include <ellLib.h>
 #include <iocsh.h>
-#include <epicsExport.h>
 #include <asynOctetSyncIO.h>
 #include <motor_interface.h>
 #include <ctype.h>
 
+#include <epicsExport.h>
 #include "PIasynController.h"
 #include "PIGCSController.h"
 #include "PIasynAxis.h"

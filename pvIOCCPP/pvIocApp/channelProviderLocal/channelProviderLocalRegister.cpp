@@ -24,13 +24,12 @@
 #include <epicsThread.h>
 #include <iocsh.h>
 
-#include <epicsExport.h>
-
 #include <pv/pvIntrospect.h>
 #include <pv/pvData.h>
 #include <pv/pvAccess.h>
 #include <pv/serverContext.h>
 
+#include <epicsExport.h>
 #include <pv/channelProviderLocal.h>
 
 namespace epics { namespace pvIOC {

@@ -7,9 +7,18 @@
 #ifndef BEACONSERVERSTATUSPROVIDER_H
 #define BEACONSERVERSTATUSPROVIDER_H
 
+#ifdef epicsExportSharedSymbols
+#   define beaconServerStatusProviderEpicsExportSharedSymbols
+#   undef epicsExportSharedSymbols
+#endif
 #include <pv/pvData.h>
-//#include <pv/serverContext.h>
 #include <pv/sharedPtr.h>
+
+#ifdef beaconServerStatusProviderEpicsExportSharedSymbols
+#   define epicsExportSharedSymbols
+#	undef beaconServerStatusProviderEpicsExportSharedSymbols
+#endif
+#include <sharelib.h>
 
 namespace epics {
 namespace pvAccess {
@@ -36,7 +45,7 @@ namespace pvAccess {
 	/**
 	 * DefaultBeaconServerStatusProvider
 	 */
-	class DefaultBeaconServerStatusProvider : public BeaconServerStatusProvider
+	class epicsShareClass DefaultBeaconServerStatusProvider : public BeaconServerStatusProvider
 	{
 	public:
 		/**

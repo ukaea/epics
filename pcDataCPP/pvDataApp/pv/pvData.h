@@ -16,10 +16,12 @@
 #include <iterator>
 #include <iostream>
 #include <iomanip>
+
 #include <pv/pvIntrospect.h>
 #include <pv/requester.h>
-namespace epics { namespace pvData { 
+#include <sharelib.h>
 
+namespace epics { namespace pvData { 
 
 namespace format {
 
@@ -36,7 +38,8 @@ inline long& indent_value(std::ios_base& ios)
   return ios.iword(indent_index);
 }
 
-std::ostream& operator<<(std::ostream& os, indent_level const& indent);
+epicsShareExtern std::ostream& operator<<(std::ostream& os, indent_level const& indent);
+
 struct indent_scope
 {
     long saved_level;
@@ -60,7 +63,7 @@ struct indent
 {
 };
 
-std::ostream& operator<<(std::ostream& os, indent const&);
+epicsShareExtern std::ostream& operator<<(std::ostream& os, indent const&);
 
 struct array_at
 {
@@ -77,7 +80,7 @@ struct array_at_internal
     array_at_internal(std::size_t ix, std::ostream& str) : index(ix), stream(str) {}
 };
 
-array_at_internal operator<<(std::ostream& str, array_at const& manip);
+epicsShareExtern array_at_internal operator<<(std::ostream& str, array_at const& manip);
 
 };
 
@@ -147,7 +150,7 @@ typedef std::tr1::shared_ptr<PVStructureArrayPtrArray> PVStructureArrayPtrArrayP
  * Each item is stored as a PVScalar.
  * A (key,value) is provided for accessing the items where the key is a String.
  */
-class PVAuxInfo : private NoDefaultMethods {
+class epicsShareClass PVAuxInfo : private NoDefaultMethods {
 public:
     typedef std::map<String,PVScalarPtr> PVInfoMap;
     typedef std::map<String,PVScalarPtr>::iterator PVInfoIter;
@@ -206,7 +209,7 @@ private:
 /**
  * This class is implemented by code that calls setPostHander
  */
-class PostHandler 
+class epicsShareClass PostHandler 
 {
 public:
     POINTER_DEFINITIONS(PostHandler);
@@ -224,7 +227,7 @@ public:
  * PVField is the base class for each PVData field.
  * Each PVData field has an interface that extends PVField.
  */
-class PVField
+class epicsShareClass PVField
 : virtual public Serializable,
   public std::tr1::enable_shared_from_this<PVField>
 {
@@ -370,12 +373,12 @@ private:
     friend class PVStructure;
 };
 
-std::ostream& operator<<(std::ostream& o, const PVField& f);
+epicsShareExtern std::ostream& operator<<(std::ostream& o, const PVField& f);
 
 /**
  * PVScalar is the base class for each scalar field.
  */
-class PVScalar : public PVField {
+class epicsShareClass PVScalar : public PVField {
 public:
     POINTER_DEFINITIONS(PVScalar);
     /**
@@ -473,7 +476,7 @@ typedef std::tr1::shared_ptr<PVDouble> PVDoublePtr;
 /**
  * PVString is special case, since it implements SerializableArray
  */
-class PVString : public PVScalarValue<String>, SerializableArray {
+class epicsShareClass PVString : public PVScalarValue<String>, SerializableArray {
 public:
     /**
      * Destructor
@@ -489,7 +492,7 @@ typedef std::tr1::shared_ptr<PVString> PVStringPtr;
 /**
  * PVArray is the base class for all array types, i.e. the scalarArray types and structureArray.
  */
-class PVArray : public PVField, public SerializableArray {
+class epicsShareClass PVArray : public PVField, public SerializableArray {
 public:
     POINTER_DEFINITIONS(PVArray);
     /**
@@ -542,7 +545,7 @@ private:
     friend class PVDataCreate;
 };
 
-std::ostream& operator<<(format::array_at_internal const& manip, const PVArray& array);
+epicsShareExtern std::ostream& operator<<(format::array_at_internal const& manip, const PVArray& array);
 
 /**
  * Class provided by caller of get
@@ -573,7 +576,7 @@ public:
 /**
  * Base class for a scalarArray.
  */
-class PVScalarArray : public PVArray {
+class epicsShareClass PVScalarArray : public PVArray {
 public:
     POINTER_DEFINITIONS(PVScalarArray);
     /**
@@ -602,7 +605,7 @@ typedef PVArrayData<PVStructurePtr> StructureArrayData;
 /**
  * Data class for a structureArray
  */
-class PVStructureArray : public PVArray
+class epicsShareClass PVStructureArray : public PVArray
 {
 public:
     POINTER_DEFINITIONS(PVStructureArray);
@@ -702,7 +705,7 @@ private:
 };
 
 
-class PVStructure : public PVField, public BitSetSerializable
+class epicsShareClass PVStructure : public PVField, public BitSetSerializable
 {
 public:
     POINTER_DEFINITIONS(PVStructure);
@@ -1073,7 +1076,7 @@ typedef std::tr1::shared_ptr<PVDataCreate> PVDataCreatePtr;
 /**
  * This is a singlton class for creating data instances.
  */
-class PVDataCreate {
+class epicsShareClass PVDataCreate {
 public:
     static PVDataCreatePtr getPVDataCreate();
     /**
@@ -1165,7 +1168,7 @@ private:
  * @param The PVDataCreate factory.
  */
 
-extern PVDataCreatePtr getPVDataCreate();
+epicsShareExtern PVDataCreatePtr getPVDataCreate();
     
 }}
 #endif  /* PVDATA_H */

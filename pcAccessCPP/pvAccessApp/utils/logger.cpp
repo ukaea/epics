@@ -4,13 +4,13 @@
  * in file LICENSE that is included with this distribution.
  */
 
-#include <pv/logger.h>
-
 #include <pv/noDefaultMethods.h>
 #include <pv/lock.h>
 #include <pv/pvType.h>
 
 #include <epicsExit.h>
+
+#define epicsExportSharedSymbols
 #include <pv/logger.h>
 
 #include <fstream>

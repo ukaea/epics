@@ -5,12 +5,9 @@
  */
  
 #define __STDC_LIMIT_MACROS 1
-#include <pv/blockingTCP.h>
-#include <pv/inetAddressUtil.h>
-#include <pv/pvaConstants.h>
-#include <pv/logger.h>
-#include <pv/hexDump.h>
-#include <pv/likely.h>
+#ifdef _WIN32
+#define NOMINMAX
+#endif
 
 #include <pv/lock.h>
 #include <pv/byteBuffer.h>
@@ -20,6 +17,14 @@
 #include <osdSock.h>
 #include <osiSock.h>
 #include <epicsThread.h>
+
+#define epicsExportSharedSymbols
+#include <pv/blockingTCP.h>
+#include <pv/inetAddressUtil.h>
+#include <pv/pvaConstants.h>
+#include <pv/logger.h>
+#include <pv/hexDump.h>
+#include <pv/likely.h>
 
 #include <sys/types.h>
 #include <algorithm>
@@ -533,7 +538,7 @@ namespace pvAccess {
             _socketBuffer->align(alignment);
         }
 
-        bool BlockingTCPTransport::directSerialize(ByteBuffer */*existingBuffer*/, const char* toSerialize,
+        bool BlockingTCPTransport::directSerialize(ByteBuffer* /*existingBuffer*/, const char* toSerialize,
                                                    std::size_t elementCount, std::size_t elementSize)
         {
             // TODO overflow check, size_t type, other is int32 for payloadSize header field !!!

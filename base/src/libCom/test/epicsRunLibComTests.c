@@ -45,7 +45,11 @@ int epicsSockResolveTest(void);
 int taskwdTest(void);
 int epicsExitTest(void);
 
+#ifdef TESTALLATONCE
+int main(int argc, char *argv[] )
+#else
 void epicsRunLibComTests(void)
+#endif
 {
     testHarness();
 

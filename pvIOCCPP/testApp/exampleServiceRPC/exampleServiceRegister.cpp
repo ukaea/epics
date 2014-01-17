@@ -23,13 +23,13 @@
 #include <epicsThread.h>
 #include <iocsh.h>
 
-#include <epicsExport.h>
-
 #include <pv/pvIntrospect.h>
 #include <pv/pvData.h>
 #include <pv/pvAccess.h>
 #include <pv/serverContext.h>
 
+#define epicsExportSharedSymbols
+#include <epicsExport.h>
 #include "exampleServiceRPC.h"
 
 using namespace epics::pvData;

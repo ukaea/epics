@@ -10,7 +10,17 @@
 #include <pv/remote.h>
 #include <pv/pvAccess.h>
 
+#ifdef epicsExportSharedSymbols
+#   define beaconHandlerExportSharedSymbols
+#   undef epicsExportSharedSymbols
+#endif
 #include <pv/timeStamp.h>
+#ifdef beaconHandlerExportSharedSymbols
+#   define epicsExportSharedSymbols
+#	undef beaconHandlerExportSharedSymbols
+#endif
+#include <sharelib.h>
+
 #include <osiSock.h>
 #include <pv/lock.h>
 
@@ -20,7 +30,7 @@ namespace pvAccess {
 	/**
 	 * BeaconHandler
 	 */
-	class BeaconHandler
+	class epicsShareClass BeaconHandler
 	{
 	public:
 		POINTER_DEFINITIONS(BeaconHandler);

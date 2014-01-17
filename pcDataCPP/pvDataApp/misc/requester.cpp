@@ -9,8 +9,11 @@
  */
 #include <string>
 #include <cstdio>
+
+#define epicsExportSharedSymbols
 #include <pv/lock.h>
 #include <pv/requester.h>
+
 namespace epics { namespace pvData { 
 
 const size_t messageTypeCount = 4; 

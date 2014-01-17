@@ -8,12 +8,24 @@
 #define VERSION_H_
 
 #include <pv/pvType.h>
+
+#ifdef epicsExportSharedSymbols
+#   define pvaVersionEpicsExportSharedSymbols
+#   undef epicsExportSharedSymbols
+#endif
+
 #include <pv/noDefaultMethods.h>
+
+#ifdef pvaVersionEpicsExportSharedSymbols
+#   define epicsExportSharedSymbols
+#	undef pvaVersionEpicsExportSharedSymbols
+#endif
+#include <shareLib.h>
 
 namespace epics {
 namespace pvAccess {
 
-        class Version : public epics::pvData::NoDefaultMethods {
+        class epicsShareClass Version : public epics::pvData::NoDefaultMethods {
         public:
             /**
              * Default constructor.

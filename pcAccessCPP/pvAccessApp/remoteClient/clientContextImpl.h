@@ -9,9 +9,19 @@
 
 #include <pv/pvAccess.h>
 #include <pv/remote.h>
-#include <pv/sharedPtr.h>
 #include <pv/channelSearchManager.h>
 #include <pv/inetAddressUtil.h>
+
+#ifdef epicsExportSharedSymbols
+#   define	clientContextImplEpicsExportSharedSymbols
+#   undef epicsExportSharedSymbols
+#endif
+#include <pv/sharedPtr.h>
+#ifdef	clientContextImplEpicsExportSharedSymbols
+#   define epicsExportSharedSymbols
+#	undef	clientContextImplEpicsExportSharedSymbols
+#endif
+#include <shareLib.h>
 
 class ChannelSearchManager;
 
@@ -21,7 +31,7 @@ namespace epics {
         class BeaconHandler;
         class ClientContextImpl;
         
-        class ChannelImpl :
+        class epicsShareClass ChannelImpl :
                 public Channel,
                 public TransportClient,
                 public TransportSender,
@@ -48,7 +58,7 @@ namespace epics {
 
         };
         
-        class ClientContextImpl : public Context
+        class epicsShareClass ClientContextImpl : public Context
         {
         public:
             POINTER_DEFINITIONS(ClientContextImpl);

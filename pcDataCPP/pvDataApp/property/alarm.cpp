@@ -9,11 +9,14 @@
  */
 #include <string>
 #include <stdexcept>
+
+#define epicsExportSharedSymbols
 #include <pv/lock.h>
 #include <pv/pvType.h>
 #include <pv/pvIntrospect.h>
 #include <pv/pvData.h>
 #include <pv/alarm.h>
+
 namespace epics { namespace pvData { 
 
 

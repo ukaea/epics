@@ -161,7 +161,7 @@ size_t convertFromStringArray(PVScalarArray *pv,
     switch (elemType) {
     case pvBoolean: {
         PVBooleanArray *pvdata = static_cast<PVBooleanArray*>(pv);
-        boolean data[1];
+        epics::pvData::boolean data[1];
         while (len > 0) {
             String fromString = from[fromOffset];
             bool isTrue  = (fromString.compare("true")==0  || fromString.compare("1")==0);

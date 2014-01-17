@@ -10,7 +10,9 @@
 #ifndef LOCALSTATICLOCK_H
 #define LOCALSTATICLOCK_H
 
+
 #include <pv/lock.h>
+#include <sharelib.h>
 
 extern epics::pvData::Mutex& getLocalStaticInitMutex();
 
@@ -21,7 +23,7 @@ extern epics::pvData::Mutex& getLocalStaticInitMutex();
 #define LOCAL_STATIC_LOCK epics::pvData::Lock localStaticInitMutexLock(getLocalStaticInitMutex());
 #endif
 
-static class MutexInitializer {
+static class epicsShareClass MutexInitializer {
   public:
     MutexInitializer ();
     ~MutexInitializer ();

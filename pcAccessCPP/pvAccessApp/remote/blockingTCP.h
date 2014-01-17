@@ -14,11 +14,20 @@
 #include <pv/namedLockPattern.h>
 #include <pv/inetAddressUtil.h>
 
+#ifdef epicsExportSharedSymbols
+#   define blockingTCPEpicsExportSharedSymbols
+#   undef epicsExportSharedSymbols
+#endif
 #include <pv/byteBuffer.h>
 #include <pv/pvType.h>
 #include <pv/lock.h>
 #include <pv/timer.h>
 #include <pv/event.h>
+#ifdef blockingTCPEpicsExportSharedSymbols
+#   define epicsExportSharedSymbols
+#	undef blockingTCPEpicsExportSharedSymbols
+#endif
+#include <shareLib.h>
 
 #include <osdSock.h>
 #include <osiSock.h>
@@ -41,7 +50,7 @@ namespace epics {
             READ_FROM_SOCKET, PROCESS_HEADER, PROCESS_PAYLOAD, UNDEFINED_STAGE
         };
 
-        class BlockingTCPTransport :
+        class epicsShareClass BlockingTCPTransport :
                 public Transport,
                 public TransportSendControl,
                 public std::tr1::enable_shared_from_this<BlockingTCPTransport>
@@ -477,7 +486,7 @@ namespace epics {
         };
 
         
-        class BlockingClientTCPTransport : public BlockingTCPTransport,
+        class epicsShareClass BlockingClientTCPTransport : public BlockingTCPTransport,
                 public TransportSender,
                 public epics::pvData::TimerCallback {
 
@@ -612,7 +621,7 @@ namespace epics {
          * @author <a href="mailto:matej.sekoranjaATcosylab.com">Matej Sekoranja</a>
          * @version $Id: BlockingTCPConnector.java,v 1.1 2010/05/03 14:45:47 mrkraimer Exp $
          */
-        class BlockingTCPConnector : public Connector {
+        class epicsShareClass BlockingTCPConnector : public Connector {
         public:
         	POINTER_DEFINITIONS(BlockingTCPConnector);
 
@@ -661,7 +670,7 @@ namespace epics {
 
         };
 
-        class BlockingServerTCPTransport : public BlockingTCPTransport,
+        class epicsShareClass BlockingServerTCPTransport : public BlockingTCPTransport,
                 public ChannelHostingTransport,
                 public TransportSender {
         public:
@@ -822,7 +831,7 @@ namespace epics {
          * @author <a href="mailto:matej.sekoranjaATcosylab.com">Matej Sekoranja</a>
          * @version $Id: BlockingTCPAcceptor.java,v 1.1 2010/05/03 14:45:42 mrkraimer Exp $
          */
-        class BlockingTCPAcceptor {
+        class epicsShareClass BlockingTCPAcceptor {
         public:
         	POINTER_DEFINITIONS(BlockingTCPAcceptor);
 

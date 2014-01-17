@@ -16,6 +16,7 @@
 #include <pv/pvType.h>
 #include <pv/byteBuffer.h>
 #include <pv/serialize.h>
+#include <sharelib.h>
 
 namespace epics { namespace pvData { 
 
@@ -81,13 +82,13 @@ namespace TypeFunc {
      * @param  type The type.
      * @return The name for the type.
      */
-    const char* name(Type type);
+    epicsShareExtern const char* name(Type type);
     /**
      * Convert the type to a string and add it to builder.
      * @param  builder The string builder.
      * @param  type    The type.
      */
-    void toString(StringBuilder builder,const Type type);
+    epicsShareExtern void toString(StringBuilder builder,const Type type);
 };
 
 /**
@@ -153,50 +154,50 @@ namespace ScalarTypeFunc {
      * @param  scalarType The type.
      * @return (false,true) if the scalarType is an integer.
      */
-    bool isInteger(ScalarType scalarType);
+    epicsShareExtern bool isInteger(ScalarType scalarType);
     /**
      * Is the type an unsigned integer, i. e. is it one of ubyte,...ulong
      * @param  scalarType The type.
      * @return (false,true) if the scalarType is an integer.
      */
-    bool isUInteger(ScalarType scalarType);
+    epicsShareExtern bool isUInteger(ScalarType scalarType);
     /**
      * Is the type numeric, i. e. is it one of byte,...,double
      * @param  scalarType The type.
      * @return (false,true) if the scalarType is a numeric
      */
-    bool isNumeric(ScalarType scalarType);
+    epicsShareExtern bool isNumeric(ScalarType scalarType);
     /**
      * Is the type primitive, i. e. not string
      * @param  scalarType The type.
      * @return (false,true) if the scalarType is primitive.
      */
-    bool isPrimitive(ScalarType scalarType);
+    epicsShareExtern bool isPrimitive(ScalarType scalarType);
     /**
      * Get the scalarType for value.
      * @param  value The name of the scalar type.
      * @return The scalarType.
      * An exception is thrown if the name is not the name of a scalar type.
      */
-    ScalarType getScalarType(String const &value);
+    epicsShareExtern ScalarType getScalarType(String const &value);
     /**
      * Get a name for the scalarType.
      * @param  scalarType The type.
      * @return The name for the scalarType.
      */
-    const char* name(ScalarType scalarType);
+    epicsShareExtern const char* name(ScalarType scalarType);
     /**
      * Convert the scalarType to a string and add it to builder.
      * @param  builder The string builder.
      * @param  scalarType    The type.
      */
-    void toString(StringBuilder builder,ScalarType scalarType);
+    epicsShareExtern void toString(StringBuilder builder,ScalarType scalarType);
 };
 
 /**
  * This class implements introspection object for field.
  */
-class Field : 
+class epicsShareClass Field : 
     virtual public Serializable,
     public std::tr1::enable_shared_from_this<Field> {
 public:
@@ -249,7 +250,7 @@ private:
 /**
  * This class implements introspection object for Scalar.
  */
-class Scalar : public Field{
+class epicsShareClass Scalar : public Field{
 public:
     POINTER_DEFINITIONS(Scalar);
     /**
@@ -291,7 +292,7 @@ private:
 /**
  * This class implements introspection object for field.
  */
-class ScalarArray : public Field{
+class epicsShareClass ScalarArray : public Field{
 public:
     POINTER_DEFINITIONS(ScalarArray);
     typedef ScalarArray& reference;
@@ -339,7 +340,7 @@ private:
 /**
  * This class implements introspection object for a structureArray
  */
-class StructureArray : public Field{
+class epicsShareClass StructureArray : public Field{
 public:
     POINTER_DEFINITIONS(StructureArray);
     typedef StructureArray& reference;
@@ -381,7 +382,7 @@ private:
 /**
  * This class implements introspection object for a structure.
  */
-class Structure : public Field {
+class epicsShareClass Structure : public Field {
 public:
     POINTER_DEFINITIONS(Structure);
 
@@ -473,7 +474,7 @@ private:
 class FieldCreate;
 typedef std::tr1::shared_ptr<FieldCreate> FieldCreatePtr;
 
-class FieldCreate {
+class epicsShareClass FieldCreate {
 public:
      static FieldCreatePtr getFieldCreate();
     /**
@@ -553,7 +554,7 @@ private:
  * Get the single class that implemnents FieldCreate,
  * @param The fieldCreate factory.
  */
-extern FieldCreatePtr getFieldCreate();
+epicsShareExtern FieldCreatePtr getFieldCreate();
 
 }}
 #endif  /* PVINTROSPECT_H */

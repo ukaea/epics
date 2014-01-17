@@ -406,7 +406,7 @@ static void testConvertScalarArray(FILE *fd) {
 
     fprintf(fd,"testConvertScalarArray\n");
     if(debug) fprintf(fd,"\nfromByte\n");
-    size_t length = 4;
+    const size_t length = 4;
     int8 barray[length];
     int8 bval = 127;
     barray[0] = bval;

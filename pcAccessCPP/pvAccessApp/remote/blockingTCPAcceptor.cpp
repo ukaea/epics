@@ -4,14 +4,15 @@
  * in file LICENSE that is included with this distribution.
  */
 
-#include <pv/blockingTCP.h>
-#include <pv/remote.h>
-#include <pv/logger.h>
-
 #include <pv/epicsException.h>
 
 #include <osiSock.h>
 #include <epicsThread.h>
+
+#define epicsExportSharedSymbols
+#include <pv/blockingTCP.h>
+#include <pv/remote.h>
+#include <pv/logger.h>
 
 #include <sstream>
 
