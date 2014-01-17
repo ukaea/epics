@@ -3,6 +3,7 @@ TOP=../..
 include $(TOP)/configure/CONFIG
 
 PROD_LIBS += pvAccess pvData pvMB Com
+PROD_SYS_LIBS_WIN32 = ws2_32 advapi32 user32
 
 TESTPROD += testAtomicBoolean
 testAtomicBoolean_SRCS = testAtomicBoolean.cpp
@@ -17,6 +18,7 @@ testInetAddressUtils = testInetAddressUtils.cpp
 # Avoid errors from inlined htonl() etc. used as template argument
 testInetAddressUtils_CXXFLAGS = -O0
 TESTS += testInetAddressUtils
+testInetAddressUtils_SYS_LIBS_WIN32 = ws2_32
 
 TESTSCRIPTS_HOST += $(TESTS:%=%.t)
 
