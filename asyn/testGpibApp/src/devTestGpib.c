@@ -48,6 +48,7 @@
 #include <longinRecord.h>
 #include <longoutRecord.h>
 
+#include <epicsExport.h>
 #include <devCommonGpib.h>
 #include <devGpib.h>
 
