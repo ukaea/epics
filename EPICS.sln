@@ -410,6 +410,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dev", "dev", "{B801B831-827
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "seqDev", "seq\src\dev\seqDev.vcxproj", "{DAAD10B4-E168-4A09-B4EB-BFF1C6922451}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{821F4D60-DBAD-4BF8-AC45-EC9B3C8CC3EE}"
+	ProjectSection(SolutionItems) = preProject
+		base\src\ioc\misc\dbCore.dbd = base\src\ioc\misc\dbCore.dbd
+		base\src\ioc\misc\dlload.c = base\src\ioc\misc\dlload.c
+		base\src\ioc\misc\dlload.dbd = base\src\ioc\misc\dlload.dbd
+		base\src\ioc\misc\epicsRelease.c = base\src\ioc\misc\epicsRelease.c
+		base\src\ioc\misc\epicsRelease.h = base\src\ioc\misc\epicsRelease.h
+		base\src\ioc\misc\iocInit.c = base\src\ioc\misc\iocInit.c
+		base\src\ioc\misc\iocInit.h = base\src\ioc\misc\iocInit.h
+		base\src\ioc\misc\iocshRegisterCommon.c = base\src\ioc\misc\iocshRegisterCommon.c
+		base\src\ioc\misc\iocshRegisterCommon.h = base\src\ioc\misc\iocshRegisterCommon.h
+		base\src\ioc\misc\Makefile = base\src\ioc\misc\Makefile
+		base\src\ioc\misc\miscIocRegister.c = base\src\ioc\misc\miscIocRegister.c
+		base\src\ioc\misc\miscIocRegister.h = base\src\ioc\misc\miscIocRegister.h
+		base\src\ioc\misc\system.dbd = base\src\ioc\misc\system.dbd
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -2562,6 +2579,7 @@ Global
 		{13D0FCE1-E17D-4994-ADF0-D012BE95D393} = {4B6F199D-9B7F-4516-85BF-FAC530748BF3}
 		{C58E9832-303A-4BDB-910B-315AE9FE48A6} = {4B6F199D-9B7F-4516-85BF-FAC530748BF3}
 		{440C585D-AD66-4738-941C-A87A1817A9BE} = {4B6F199D-9B7F-4516-85BF-FAC530748BF3}
+		{821F4D60-DBAD-4BF8-AC45-EC9B3C8CC3EE} = {4B6F199D-9B7F-4516-85BF-FAC530748BF3}
 		{907B8B6C-2EE8-43F0-8F74-089F604E53BE} = {7067D19A-6A64-4344-B3E0-AEBB36AC45AA}
 		{8FAF349E-BB64-4C0E-8344-4BA5FB9E6F7B} = {7067D19A-6A64-4344-B3E0-AEBB36AC45AA}
 		{7B54722A-A95F-4273-8416-27277A354E5D} = {907B8B6C-2EE8-43F0-8F74-089F604E53BE}
