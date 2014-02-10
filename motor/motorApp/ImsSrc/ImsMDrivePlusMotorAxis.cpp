@@ -62,6 +62,10 @@ asynStatus ImsMDrivePlusMotorAxis::configAxis()
 	static const char *functionName = "configAxis()";
 	// figure out what needs to be done to initialize controller
 
+	sprintf(cmd, "FD");
+	status = pController->writeReadController(cmd, resp, sizeof(resp), &nread, IMS_TIMEOUT);
+	sprintf(cmd, "EM=2");
+	status = pController->writeReadController(cmd, resp, sizeof(resp), &nread, IMS_TIMEOUT);
 	// try getting firmware version to make sure communication works
 	sprintf(cmd, "PR VR");
 	for (int i=0; i<maxRetries; i++) {
@@ -79,6 +83,10 @@ asynStatus ImsMDrivePlusMotorAxis::configAxis()
 			break;
 		}
 	}
+
+// How do I get at the MotorRecord structure to get the value of the ueip flag?
+//	sprintf(cmd, "EE=1");
+//	status = pController->writeController(cmd, IMS_TIMEOUT);
 
 	// set encoder flags
 	sprintf(cmd, "PR EE");
@@ -268,7 +276,7 @@ asynStatus ImsMDrivePlusMotorAxis::stop(double acceleration)
 //! Override asynMotorAxis class implementation
 // Based on smarActMCSMotorDriver.cpp
 //
-//! direction=1: slew at maxVelocity in the minus direction (until switch activates) then creep at vi in the plus direction (until switch becomes inactive again)
+//! direction=1: slew at maxVelocity in the minus direction (until switch activates) then cr`p at vi in the plus direction (until switch becomes inactive again)
 //! direction=3: slew at maxVelocity in the plus direction (until switch activates) then creep at vi in the minus direction (until switch becomes inactive again)
 //
 //! @param[in] minVelocity

@@ -526,7 +526,7 @@ static int motor_init()
     int status;
     asynStatus success_rtn;
     static const char output_terminator[] = "\n";
-    static const char input_terminator[]  = "\n";
+    static const char input_terminator[]  = "\r\n";
 
     initialized = true; /* Indicate that driver is initialized. */
 

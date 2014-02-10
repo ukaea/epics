@@ -569,7 +569,7 @@ static int motor_init()
     int total_axis = 0;
     int status;
     asynStatus success_rtn;
-    static const char output_terminator[] = "\n";
+    static const char output_terminator[] = "\r";
     static const char input_terminator[]  = "\r\n";
 
     initialized = true;     /* Indicate that driver is initialized. */

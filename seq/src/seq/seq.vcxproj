@@ -443,6 +443,20 @@ xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|x64'">perl -CSD %(Filename).pl 2.1.15 &gt; O.Common/%(Filename).h</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|x64'">O.Common/%(Filename).h</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">perl -CSD %(Filename).pl 2.1.15 &gt; O.Common/%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">perl -CSD %(Filename).pl 2.1.15 &gt; O.Common/%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">perl -CSD %(Filename).pl 2.1.15 &gt; O.Common/%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">perl -CSD %(Filename).pl 2.1.15 &gt; O.Common/%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|x64'">perl -CSD %(Filename).pl 2.1.15 &gt; O.Common/%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|x64'">perl -CSD %(Filename).pl 2.1.15 &gt; O.Common/%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|x64'">perl -CSD %(Filename).pl 2.1.15 &gt; O.Common/%(Filename).h</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">O.Common/%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">O.Common/%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">O.Common/%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">O.Common/%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|x64'">O.Common/%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|x64'">O.Common/%(Filename).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|x64'">O.Common/%(Filename).h</Outputs>
     </CustomBuild>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
