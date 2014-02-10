@@ -196,6 +196,11 @@ asyn_SRCS += boSRQonOff.c
 
 include $(TOP)/configure/RULES
 
+# For 3.14
+drvVxi11$(OBJ): vxi11intr.h
+# For 3.15
+drvVxi11$(DEP): vxi11intr.h
+
 ifdef T_A
 ifneq ($(findstring $(OS_CLASS),vxWorks RTEMS),)
 
@@ -219,7 +224,6 @@ endif
 
 endif
 
-$(ASYN)/vxi11/drvVxi11.c: vxi11intr.h
 
 # Parallel build sometimes fails.
 # Make dependences on new records explicit.

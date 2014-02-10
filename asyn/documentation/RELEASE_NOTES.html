@@ -13,6 +13,94 @@
   <div style="text-align: center">
     <hr />
     <h2>
+      Release 4-22</h2>
+    <h2>
+      August XXX, 2013</h2>
+  </div>
+  <h3>
+    asynDriver</h3>
+  <p>
+    Added a new bit to asynTraceMask, ASYN_TRACE_WARNING. This is intended to be used
+    for messages that are less serious than ASYN_TRACE_ERROR, but more serious than
+    ASYN_TRACE_FLOW.</p>
+  <p>
+    Added new asynTraceInfoMask. This mask controls the information printed at the beginning
+    of each message by asynPrint and asynPrintIO. Thanks to Ulrik Pedersen for help
+    with this. The mask is defined with the following bits:</p>
+  <pre>
+#define ASYN_TRACEINFO_TIME 0x0001
+#define ASYN_TRACEINFO_PORT 0x0002
+#define ASYN_TRACEINFO_SOURCE 0x0004
+#define ASYN_TRACEINFO_THREAD 0x0008
+    </pre>
+  <ul>
+    <li>ASYN_TRACEINFO_TIME prints what has been printed in previous versions of asyn,
+      the date and time of the message.</li>
+    <li>ASYN_TRACEINFO_PORT prints [port,addr,reason], where port is the port name, addr
+      is the asyn address, and reason is pasynUser->reason. These are the 3 pieces of
+      "addressing" information in asyn.</li>
+    <li>ASYN_TRACEINFO_SOURCE prints the file name and line number, i.e. [__FILE__,__LINE__]
+      where the asynPrint statement occurs.</li>
+    <li>ASYN_TRACEINFO_THREAD prints the thread name, thread ID and thread priority, i.e.
+      [epicsThreadGetNameSelf(), epicsThreadGetIdSelf(), epicsThreadGetPrioritySelf()].</li>
+  </ul>
+  <p>
+    Added a new shell command to control this mask.</p>
+  <pre>
+    asynSetTraceInfoMask port,addr,mask
+    </pre>
+  <p>
+    Modified the asynRecord to support ASYN_TRACE_WARNING and asynTraceInfoMask.</p>
+  <h3>
+    asynOctetSyncIO</h3>
+  <p>
+    Use simple lock/unlock operations rather than queueLockPort/queueUnlockPort for
+    end-of-string manipulations (setInputEos, getInputEos, setOutputEos, getOutputEos).
+    This ensures that these operations can take place even with device disconnected.</p>
+  <h3>
+    drvAsynIPPort</h3>
+  <p>
+    Fixed a bug in calling poll(). Previously the status return from poll() was not
+    being checked; it was assumed that when poll() returned the port either had new
+    data or had timed out. This is not correct, because poll() can return prematurely
+    with errno=EINTR if a Posix signal occurs before data is received or the timeout
+    expires. This can happen, for example, when the Posix high-resolution timer routines
+    (timer_create, etc.) are used in the IOC. The Prosilica vendor library uses the
+    Posix timer routines, and there were problems using asyn IP ports in IOCs that were
+    also running Prosilica cameras. The problem was fixed by calling poll() again if
+    it returns EINTR and the desired timeout time has not expired since poll() was first
+    called.</p>
+  <p>
+    Added support for AF_UNIX sockets on systems that provide them.</p>
+  <h3>
+    drvAsynSerialPort</h3>
+  <p>
+    Support for all baud rates supported by the operating system.</p>
+  <h3>
+    asynRecord</h3>
+  <p>
+    Added 4 additional baud rates to the BAUD field (460800, 576000, 921600, 1152000).
+    However, the BAUD field can still only support 16 fixed baud rates because it is
+    type DBF_ENUM.</p>
+  <p>
+    Added a new LBAUD (long baud rate) field of type DBF_LONG. This allows selection
+    of any baud rate, not just those in the BAUD menu. Changing the BAUD field changes
+    the LBAUD field. Changing the LBAUD field changes the BAUD field to the appropriate
+    selection if it is a supported value, or to "Unknown" if not.</p>
+  <h3>
+    asynPortDriver</h3>
+  <p>
+    Added new virtual methods to support Eos operations on the asynOctet interface.
+    These are setInputEosOctet(), getInputEosOctet(), setOutputEosOctet(), getOutputEosOctet().
+    Changed the report() method to print the current values of the inputEos and outputEos.</p>
+  <h3>
+    testAsynPortDriver</h3>
+  <p>
+    Added calls to lock() and unlock() in simTask. This was previously a serious omission
+    in this example driver. Thanks to Kay Kasemir for spotting this.</p>
+  <div style="text-align: center">
+    <hr />
+    <h2>
       Release 4-21</h2>
     <h2>
       February 18, 2013</h2>

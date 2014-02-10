@@ -5,10 +5,10 @@ SUPPORT=D:\EPICS
 
 #  IPAC is only necessary if support for Greensprings IP488 is required
 #  IPAC release V2-7 or later is required.
-IPAC=$(SUPPORT)/ipac
+IPAC=D:\EPICS\ipac
 
 # SEQ is required for testIPServer
-SNCSEQ=$(SUPPORT)/seq
+SNCSEQ=D:\EPICS/seq
 
 #  EPICS_BASE 3.14.6 or later is required
 LINUX_GPIB=NO
