@@ -1684,12 +1684,12 @@ static asynStatus queueLockPort(asynUser *pasynUser)
     asynUser *pasynUserCopy;
     asynStatus status = asynSuccess;
 
-    asynPrint(pasynUser,ASYN_TRACE_FLOW, "%s asynManager::queueLockPort locking port\n", pport->portName);
     if(!pport) {
         epicsSnprintf(pasynUser->errorMessage,pasynUser->errorMessageSize,
                 "asynManager::queueLockPort not connected");
         return asynError;
     }
+    asynPrint(pasynUser,ASYN_TRACE_FLOW, "%s asynManager::queueLockPort locking port\n", pport->portName);
     if (pport->attributes & ASYN_CANBLOCK) {   /* Asynchronous driver */
         plockPortPvt = epicsThreadPrivateGet(pport->queueLockPortId);
         if (!plockPortPvt) {
