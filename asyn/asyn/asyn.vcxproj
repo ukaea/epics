@@ -154,6 +154,7 @@
     </Link>
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
+if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
 if not exist O.Common md O.Common
 xcopy /Y /Q /D /R .\asynDriver\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\asynPortDriver\*.h  $(SolutionDir)include &gt; NUL
@@ -164,6 +165,10 @@ xcopy /Y /Q /D /R .\miscellaneous\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\drvAsynSerial\*.h $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\devGpib\*.h $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\asynPortDriver\exceptions $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R .\drvAsynSerial\*.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R .\miscellaneous\*.dbd  $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R .\asynRecord\*.dbd  $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R .\devEpics\*.dbd   $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -187,6 +192,7 @@ xcopy /Y /Q  /D .\O.Common\*.h $(SolutionDir)include &gt; NUL
     </Link>
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
+if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
 if not exist O.Common md O.Common
 xcopy /Y /Q /D /R .\asynDriver\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\asynPortDriver\*.h  $(SolutionDir)include &gt; NUL
@@ -197,6 +203,10 @@ xcopy /Y /Q /D /R .\miscellaneous\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\drvAsynSerial\*.h $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\devGpib\*.h $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\asynPortDriver\exceptions $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R .\drvAsynSerial\*.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R .\miscellaneous\*.dbd  $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R .\asynRecord\*.dbd  $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R .\devEpics\*.dbd   $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -220,6 +230,7 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
     </Link>
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
+if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
 if not exist O.Common md O.Common
 xcopy /Y /Q /D /R .\asynDriver\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\asynPortDriver\*.h  $(SolutionDir)include &gt; NUL
@@ -230,6 +241,10 @@ xcopy /Y /Q /D /R .\miscellaneous\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\drvAsynSerial\*.h $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\devGpib\*.h $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\asynPortDriver\exceptions $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R .\drvAsynSerial\*.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R .\miscellaneous\*.dbd  $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R .\asynRecord\*.dbd  $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R .\devEpics\*.dbd   $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -253,6 +268,7 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
     </Link>
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
+if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
 if not exist O.Common md O.Common
 xcopy /Y /Q /D /R .\asynDriver\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\asynPortDriver\*.h  $(SolutionDir)include &gt; NUL
@@ -263,6 +279,10 @@ xcopy /Y /Q /D /R .\miscellaneous\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\drvAsynSerial\*.h $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\devGpib\*.h $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\asynPortDriver\exceptions $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R .\drvAsynSerial\*.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R .\miscellaneous\*.dbd  $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R .\asynRecord\*.dbd  $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R .\devEpics\*.dbd   $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -294,6 +314,7 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
+if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
 if not exist O.Common md O.Common
 xcopy /Y /Q /D /R .\asynDriver\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\asynPortDriver\*.h  $(SolutionDir)include &gt; NUL
@@ -304,6 +325,10 @@ xcopy /Y /Q /D /R .\miscellaneous\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\drvAsynSerial\*.h $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\devGpib\*.h $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\asynPortDriver\exceptions $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R .\drvAsynSerial\*.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R .\miscellaneous\*.dbd  $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R .\asynRecord\*.dbd  $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R .\devEpics\*.dbd   $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -330,6 +355,7 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
+if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
 if not exist O.Common md O.Common
 xcopy /Y /Q /D /R .\asynDriver\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\asynPortDriver\*.h  $(SolutionDir)include &gt; NUL
@@ -340,6 +366,10 @@ xcopy /Y /Q /D /R .\miscellaneous\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\drvAsynSerial\*.h $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\devGpib\*.h $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\asynPortDriver\exceptions $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R .\drvAsynSerial\*.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R .\miscellaneous\*.dbd  $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R .\asynRecord\*.dbd  $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R .\devEpics\*.dbd   $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -366,6 +396,7 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
+if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
 if not exist O.Common md O.Common
 xcopy /Y /Q /D /R .\asynDriver\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\asynPortDriver\*.h  $(SolutionDir)include &gt; NUL
@@ -376,6 +407,10 @@ xcopy /Y /Q /D /R .\miscellaneous\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\drvAsynSerial\*.h $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\devGpib\*.h $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\asynPortDriver\exceptions $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R .\drvAsynSerial\*.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R .\miscellaneous\*.dbd  $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R .\asynRecord\*.dbd  $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R .\devEpics\*.dbd   $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -402,6 +437,7 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
+if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
 if not exist O.Common md O.Common
 xcopy /Y /Q /D /R .\asynDriver\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\asynPortDriver\*.h  $(SolutionDir)include &gt; NUL
@@ -412,6 +448,10 @@ xcopy /Y /Q /D /R .\miscellaneous\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\drvAsynSerial\*.h $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\devGpib\*.h $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R .\asynPortDriver\exceptions $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R .\drvAsynSerial\*.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R .\miscellaneous\*.dbd  $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R .\asynRecord\*.dbd  $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R .\devEpics\*.dbd   $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
