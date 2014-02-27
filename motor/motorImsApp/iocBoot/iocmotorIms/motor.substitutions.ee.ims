@@ -21,7 +21,7 @@
 # CXI DG4 Support Motion Stand (DG4) Substitution file
 
 
-file "../../motorImsApp/Db/ims_motor.tss.db"
+file "../../Db/ims_motor.tss.db"
 {
 pattern
 {P,    N, M, DTYP,         PORT, UEIP, 	DESC,       ADDR, EGU, 	DIR,  VELO, VBAS,  ACCL, BDST, BVEL,  BACC, DHLM, DLLM, SREV, 	ERES, 		MRES,     		PREC, INIT}    

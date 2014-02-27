@@ -53,9 +53,6 @@
     <ProjectReference Include="..\..\base\src\tools\tools.vcxproj">
       <Project>{5cce1c6a-2bd5-48bf-99e2-d29b58f91991}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\seq\src\pv\pv.vcxproj">
-      <Project>{a463e1aa-5c19-4964-8851-c4070a07aeb7}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\motorApp\ImsSrc\Ims.vcxproj">
       <Project>{8f50c372-e2fe-4120-b10e-8a64b93326d5}</Project>
     </ProjectReference>
@@ -65,7 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\motorIMSMain.cpp" />
-    <ClCompile Include="src\O.Common\motorIMS_registerRecordDeviceDriver.cpp" />
+    <ClCompile Include="src\O.Common\motorIms_registerRecordDeviceDriver.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Db\ims_motor.tss.db" />

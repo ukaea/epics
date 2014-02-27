@@ -27,11 +27,11 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\O.Common\motorIMS_registerRecordDeviceDriver.cpp">
-      <Filter>Src\O.Common</Filter>
-    </ClCompile>
     <ClCompile Include="src\motorIMSMain.cpp">
       <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\O.Common\motorIms_registerRecordDeviceDriver.cpp">
+      <Filter>Src\O.Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
