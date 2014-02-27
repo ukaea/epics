@@ -1,4 +1,4 @@
-..\bin\win32-x86\motorIMS %~nx0
+#!..\bin\win32-x86\motorIms
 
 # Gives (relative) path to the motor project root.
 epicsEnvSet MOTOR ../

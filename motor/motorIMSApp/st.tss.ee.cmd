@@ -1,4 +1,4 @@
-#!../../bin/linux-x86/ImsMDrivePlus
+#!../../bin/linux-x86/MotorIms
 
 # Gives (relative) path to the motor project root.
 epicsEnvSet MOTOR ../
