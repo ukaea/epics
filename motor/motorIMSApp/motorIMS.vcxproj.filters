@@ -27,10 +27,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="st.tss.cmd" />
-    <None Include="st.tss.ee.cmd" />
     <None Include="Db\ims_motor.tss.db">
       <Filter>db</Filter>
     </None>
+    <None Include="st.noee.cmd" />
+    <None Include="st.ee.cmd" />
   </ItemGroup>
 </Project>

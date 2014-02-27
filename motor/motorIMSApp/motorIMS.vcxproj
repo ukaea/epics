@@ -69,8 +69,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Db\ims_motor.tss.db" />
-    <None Include="st.tss.cmd" />
-    <None Include="st.tss.ee.cmd" />
+    <None Include="st.noee.cmd" />
+    <None Include="st.ee.cmd" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{F3A2714F-A106-4024-9195-22956EC1669D}</ProjectGuid>
