@@ -1,15 +1,15 @@
-#!../../bin/linux-x86/MotorIms
+#!../../../bin/linux-x86/MotorIms
 
 # Gives (relative) path to the motor project root.
-epicsEnvSet MOTOR ../
+epicsEnvSet MOTOR ../../..
 
 # Register all support components
-dbLoadDatabase("../dbd/motorIMS.dbd")
+dbLoadDatabase("../../../dbd/motorIMS.dbd")
 motorIMS_registerRecordDeviceDriver pdbbase
 
 # Motors substitutions, customize this for your motor
-dbLoadTemplate (./db/motor.substitutions.tss.ee.ims)
-dbLoadRecords("$(MOTOR)db/motorUtil.db", "P=IOC:")
+dbLoadTemplate (motor.substitutions.ne.ims)
+dbLoadRecords("$(MOTOR)/db/motorUtil.db", "P=IOC:")
 
 MDriveSetup(1, 10)
 MDriveConfig(0, "M06")

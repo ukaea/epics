@@ -69,8 +69,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Db\ims_motor.tss.db" />
-    <None Include="st.noee.cmd" />
-    <None Include="st.ee.cmd" />
+    <None Include="iocBoot\iocmotorIms\motor.substitutions.ee.ims" />
+    <None Include="iocBoot\iocmotorIms\motor.substitutions.ne.ims" />
+    <None Include="iocBoot\iocmotorIms\st.ee.cmd" />
+    <None Include="iocBoot\iocmotorIms\st.ne.cmd" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{F3A2714F-A106-4024-9195-22956EC1669D}</ProjectGuid>

@@ -13,24 +13,42 @@
       <UniqueIdentifier>{9dc1389b-53ec-4c3e-ba9c-f883cd713df7}</UniqueIdentifier>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
-    <Filter Include="NewFilter1">
-      <UniqueIdentifier>{01ad9a73-f1ed-4534-98b8-b8d302d5e392}</UniqueIdentifier>
-    </Filter>
     <Filter Include="db">
       <UniqueIdentifier>{e49368f4-f70d-4ce6-81f3-ddc42defc728}</UniqueIdentifier>
     </Filter>
+    <Filter Include="NewFilter2">
+      <UniqueIdentifier>{f002e29d-adc3-4eae-a958-df3d52124df4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="iocBoot">
+      <UniqueIdentifier>{01ad9a73-f1ed-4534-98b8-b8d302d5e392}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="iocBoot\iocmotorIms">
+      <UniqueIdentifier>{3453ec48-e06a-4629-bfc6-e722c1587b3b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\motorIMSMain.cpp" />
     <ClCompile Include="src\O.Common\motorIMS_registerRecordDeviceDriver.cpp">
       <Filter>Src\O.Common</Filter>
+    </ClCompile>
+    <ClCompile Include="src\motorIMSMain.cpp">
+      <Filter>Src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Db\ims_motor.tss.db">
       <Filter>db</Filter>
     </None>
-    <None Include="st.noee.cmd" />
-    <None Include="st.ee.cmd" />
+    <None Include="iocBoot\iocmotorIms\motor.substitutions.ee.ims">
+      <Filter>iocBoot\iocmotorIms</Filter>
+    </None>
+    <None Include="iocBoot\iocmotorIms\motor.substitutions.ne.ims">
+      <Filter>iocBoot\iocmotorIms</Filter>
+    </None>
+    <None Include="iocBoot\iocmotorIms\st.ee.cmd">
+      <Filter>iocBoot\iocmotorIms</Filter>
+    </None>
+    <None Include="iocBoot\iocmotorIms\st.ne.cmd">
+      <Filter>iocBoot\iocmotorIms</Filter>
+    </None>
   </ItemGroup>
 </Project>
