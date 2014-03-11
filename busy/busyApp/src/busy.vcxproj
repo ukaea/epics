@@ -43,9 +43,22 @@
   <ItemGroup>
     <CustomBuild Include="busyRecord.dbd">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I. -I.. -I../O.Common -I../../../dbd -I$(SolutionDir)dbd -o O.Common/%(FileName).h %(FileName).dbd
-</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">%(FileName).h</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I. -I.. -I../O.Common -I../../../dbd -I$(SolutionDir)dbd -o O.Common/%(FileName).h %(FileName).dbd</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">O.Common/%(FileName).h</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I. -I.. -I../O.Common -I../../../dbd -I$(SolutionDir)dbd -o O.Common/%(FileName).h %(FileName).dbd</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I. -I.. -I../O.Common -I../../../dbd -I$(SolutionDir)dbd -o O.Common/%(FileName).h %(FileName).dbd</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I. -I.. -I../O.Common -I../../../dbd -I$(SolutionDir)dbd -o O.Common/%(FileName).h %(FileName).dbd</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|x64'">perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I. -I.. -I../O.Common -I../../../dbd -I$(SolutionDir)dbd -o O.Common/%(FileName).h %(FileName).dbd</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|x64'">perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I. -I.. -I../O.Common -I../../../dbd -I$(SolutionDir)dbd -o O.Common/%(FileName).h %(FileName).dbd</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|x64'">perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I. -I.. -I../O.Common -I../../../dbd -I$(SolutionDir)dbd -o O.Common/%(FileName).h %(FileName).dbd</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|x64'">perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I. -I.. -I../O.Common -I../../../dbd -I$(SolutionDir)dbd -o O.Common/%(FileName).h %(FileName).dbd</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">O.Common/%(FileName).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">O.Common/%(FileName).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">O.Common/%(FileName).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|x64'">O.Common/%(FileName).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|x64'">O.Common/%(FileName).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|x64'">O.Common/%(FileName).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|x64'">O.Common/%(FileName).h</Outputs>
     </CustomBuild>
     <None Include="busySupport_LOCAL.dbd" />
     <None Include="busySupport_withASYN.dbd" />
