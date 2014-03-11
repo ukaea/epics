@@ -56,7 +56,7 @@ void asynPortDriver::callbackTask()
   * This function is called whenever asyn clients call the functions on the asyn interfaces.
   * Drivers with their own background threads must call lock() to protect conflicts with
   * asyn clients.  They can call unlock() to permit asyn clients to run during times that the driver
-  * thread is idle or is performing compute bound work that does not access memory also accessible by clients. */
+  * thread is idle or is performing compute bound work that does not access memory also accessible by other threads. */
 asynStatus asynPortDriver::lock()
 {
     int status;
@@ -65,11 +65,17 @@ asynStatus asynPortDriver::lock()
     else return(asynSuccess);
 }
 
-/** Unocks the driver; called when an asyn client or driver is done accessing common memory. */
+/** Unlocks the driver; called when an asyn client or driver is done accessing common memory. */
 asynStatus asynPortDriver::unlock()
 {
     epicsMutexUnlock(this->mutexId);
     return(asynSuccess);
+}
+
+/** Returns the asynStdInterfaces structure used by asynPortDriver. */
+asynStandardInterfaces* asynPortDriver::getAsynStdInterfaces()
+{
+    return &this->asynStdInterfaces;
 }
 
 /** Creates a parameter in the parameter library.
@@ -606,6 +612,7 @@ asynStatus asynPortDriver::doCallbacksArray(epicsType *value, size_t nElements,
     ELLLIST *pclientList;
     interruptNode *pnode;
     asynStatus status;
+    epicsTimeStamp timeStamp; getTimeStamp(&timeStamp);
     int addr;
 
     pasynManager->interruptStart(interruptPvt, &pclientList);
@@ -614,12 +621,14 @@ asynStatus asynPortDriver::doCallbacksArray(epicsType *value, size_t nElements,
     while (pnode) {
         interruptType *pInterrupt = (interruptType *)pnode->drvPvt;
         pasynManager->getAddr(pInterrupt->pasynUser, &addr);
-        /* Set the status for the callback */
-        pInterrupt->pasynUser->auxStatus = status;
         /* If this is not a multi-device then address is -1, change to 0 */
         if (addr == -1) addr = 0;
         if ((pInterrupt->pasynUser->reason == reason) &&
             (address == addr)) {
+            /* Set the status for the callback */
+            pInterrupt->pasynUser->auxStatus = status;
+            /* Set the timestamp for the callback */
+            pInterrupt->pasynUser->timestamp = timeStamp;
             pInterrupt->callback(pInterrupt->userPvt,
                                  pInterrupt->pasynUser,
                                  value, nElements);
@@ -702,12 +711,15 @@ asynStatus asynPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *value)
     int function = pasynUser->reason;
     int addr=0;
     asynStatus status = asynSuccess;
+    epicsTimeStamp timeStamp; getTimeStamp(&timeStamp);
     static const char *functionName = "readInt32";
     
     status = getAddress(pasynUser, &addr); if (status != asynSuccess) return(status);
     /* We just read the current value of the parameter from the parameter library.
      * Those values are updated whenever anything could cause them to change */
     status = (asynStatus) getIntegerParam(addr, function, value);
+    /* Set the timestamp */
+    pasynUser->timestamp = timeStamp;
     if (status) 
         epicsSnprintf(pasynUser->errorMessage, pasynUser->errorMessageSize, 
                   "%s:%s: status=%d, function=%d, value=%d", 
@@ -821,12 +833,15 @@ asynStatus asynPortDriver::readUInt32Digital(asynUser *pasynUser, epicsUInt32 *v
     int function = pasynUser->reason;
     int addr=0;
     asynStatus status = asynSuccess;
+    epicsTimeStamp timeStamp; getTimeStamp(&timeStamp);
     static const char *functionName = "readUInt32Digital";
     
     status = getAddress(pasynUser, &addr); if (status != asynSuccess) return(status);
     /* We just read the current value of the parameter from the parameter library.
      * Those values are updated whenever anything could cause them to change */
     status = (asynStatus) getUIntDigitalParam(addr, function, value, mask);
+    /* Set the timestamp */
+    pasynUser->timestamp = timeStamp;
     if (status) 
         epicsSnprintf(pasynUser->errorMessage, pasynUser->errorMessageSize, 
                   "%s:%s: status=%d, function=%d, value=%u mask=%u", 
@@ -1029,12 +1044,15 @@ asynStatus asynPortDriver::readFloat64(asynUser *pasynUser, epicsFloat64 *value)
     int function = pasynUser->reason;
     int addr=0;
     asynStatus status = asynSuccess;
+    epicsTimeStamp timeStamp; getTimeStamp(&timeStamp);
     static const char *functionName = "readFloat64";
     
     status = getAddress(pasynUser, &addr); if (status != asynSuccess) return(status);
     /* We just read the current value of the parameter from the parameter library.
      * Those values are updated whenever anything could cause them to change */
     status = (asynStatus) getDoubleParam(addr, function, value);
+    /* Set the timestamp */
+    pasynUser->timestamp = timeStamp;
     if (status) 
         epicsSnprintf(pasynUser->errorMessage, pasynUser->errorMessageSize, 
                   "%s:%s: status=%d, function=%d, value=%f", 
@@ -1121,12 +1139,15 @@ asynStatus asynPortDriver::readOctet(asynUser *pasynUser,
     int function = pasynUser->reason;
     int addr=0;
     asynStatus status = asynSuccess;
+    epicsTimeStamp timeStamp; getTimeStamp(&timeStamp);
     static const char *functionName = "readOctet";
    
     status = getAddress(pasynUser, &addr); if (status != asynSuccess) return(status);
     /* We just read the current value of the parameter from the parameter library.
      * Those values are updated whenever anything could cause them to change */
     status = (asynStatus)getStringParam(addr, function, (int)maxChars, value);
+    /* Set the timestamp */
+    pasynUser->timestamp = timeStamp;
     if (status) 
         epicsSnprintf(pasynUser->errorMessage, pasynUser->errorMessageSize, 
                   "%s:%s: status=%d, function=%d, value=%s", 
@@ -1224,6 +1245,115 @@ asynStatus asynPortDriver::flushOctet(asynUser *pasynUser)
     pasynUser->timeout = savetimeout;
     return asynSuccess;
 }
+
+extern "C" {static asynStatus setInputEosOctet(void *drvPvt, asynUser *pasynUser, 
+                                const char *eos, int eosLen)
+{
+    asynPortDriver *pPvt = (asynPortDriver *)drvPvt;
+    asynStatus status;
+    
+    pPvt->lock();
+    status = pPvt->setInputEosOctet(pasynUser, eos, eosLen);
+    pPvt->unlock();
+    return(status);
+}}
+
+/** Called when asyn clients call pasynOctet->setInputEos().
+  * The base class implementation simply copies the inputEos to the class private data. 
+  * Derived classes will reimplement this function if they desire a different behavior.
+  * \param[in] pasynUser pasynUser structure that encodes the reason and address.
+  * \param[in] eos The input eos
+  * \param[in] eosLen The number of characters in the eos */
+asynStatus asynPortDriver::setInputEosOctet(asynUser *pasynUser, const char *eos, int eosLen)
+{
+    free(inputEosOctet);
+    inputEosOctet = (char *) calloc(eosLen, sizeof(char));
+    strncpy(inputEosOctet, eos, eosLen);
+    inputEosLenOctet = eosLen;
+    return asynSuccess;
+} 
+
+extern "C" {static asynStatus getInputEosOctet(void *drvPvt, asynUser *pasynUser, 
+                                char *eos, int eosSize, int *eosLen)
+{
+    asynPortDriver *pPvt = (asynPortDriver *)drvPvt;
+    asynStatus status;
+    
+    pPvt->lock();
+    status = pPvt->getInputEosOctet(pasynUser, eos, eosSize, eosLen);
+    pPvt->unlock();
+    return(status);
+}}
+
+/** Called when asyn clients call pasynOctet->getInputEos().
+  * The base class implementation simply copies the inputEos from the class private data. 
+  * Derived classes will reimplement this function if they desire a different behavior.
+  * \param[in] pasynUser pasynUser structure that encodes the reason and address.
+  * \param[out] eos The input eos
+  * \param[in] eosSize The number of characters in the eos
+  * \param[out] eosLen The returned eos length */
+asynStatus asynPortDriver::getInputEosOctet(asynUser *pasynUser, char *eos, int eosSize, int *eosLen)
+{
+    *eosLen = inputEosLenOctet;
+    if (*eosLen > eosSize) *eosLen = eosSize;
+    strncpy(eos, inputEosOctet, *eosLen);
+    return asynSuccess;
+} 
+
+extern "C" {static asynStatus setOutputEosOctet(void *drvPvt, asynUser *pasynUser, 
+                                const char *eos, int eosLen)
+{
+    asynPortDriver *pPvt = (asynPortDriver *)drvPvt;
+    asynStatus status;
+    
+    pPvt->lock();
+    status = pPvt->setOutputEosOctet(pasynUser, eos, eosLen);
+    pPvt->unlock();
+    return(status);
+}}
+
+/** Called when asyn clients call pasynOctet->setOutputEos().
+  * The base class implementation simply copies the outputEos to the class private data. 
+  * Derived classes will reimplement this function if they desire a different behavior.
+  * \param[in] pasynUser pasynUser structure that encodes the reason and address.
+  * \param[in] eos The output eos
+  * \param[in] eosLen The number of characters in the eos */
+asynStatus asynPortDriver::setOutputEosOctet(asynUser *pasynUser, const char *eos, int eosLen)
+{
+    free(outputEosOctet);
+    outputEosOctet = (char *) calloc(eosLen, sizeof(char));
+    strncpy(outputEosOctet, eos, eosLen);
+    outputEosLenOctet = eosLen;
+    return asynSuccess;
+} 
+
+extern "C" {static asynStatus getOutputEosOctet(void *drvPvt, asynUser *pasynUser, 
+                                char *eos, int eosSize, int *eosLen)
+{
+    asynPortDriver *pPvt = (asynPortDriver *)drvPvt;
+    asynStatus status;
+    
+    pPvt->lock();
+    status = pPvt->getOutputEosOctet(pasynUser, eos, eosSize, eosLen);
+    pPvt->unlock();
+    return(status);
+}}
+
+/** Called when asyn clients call pasynOctet->getOutputEos().
+  * The base class implementation simply copies the outputEos from the class private data. 
+  * Derived classes will reimplement this function if they desire a different behavior.
+  * \param[in] pasynUser pasynUser structure that encodes the reason and address.
+  * \param[out] eos The output eos
+  * \param[in] eosSize The number of characters in the eos
+  * \param[out] eosLen The returned eos length */
+asynStatus asynPortDriver::getOutputEosOctet(asynUser *pasynUser, char *eos, int eosSize, int *eosLen)
+{
+    *eosLen = outputEosLenOctet;
+    if (*eosLen > eosSize) *eosLen = eosSize;
+    strncpy(eos, outputEosOctet, *eosLen);
+    return asynSuccess;
+} 
+
 
 
 
@@ -1597,6 +1727,7 @@ asynStatus asynPortDriver::doCallbacksGenericPointer(void *genericPointer, int r
 {
     ELLLIST *pclientList;
     interruptNode *pnode;
+    epicsTimeStamp timeStamp; getTimeStamp(&timeStamp);
     int addr;
 
     pasynManager->interruptStart(this->asynStdInterfaces.genericPointerInterruptPvt, &pclientList);
@@ -1608,6 +1739,10 @@ asynStatus asynPortDriver::doCallbacksGenericPointer(void *genericPointer, int r
         if (addr == -1) addr = 0;
         if ((pInterrupt->pasynUser->reason == reason) &&
             (address == addr)) {
+            /* Set the status for the callback */
+            // PROBLEM - WE DON'T HAVE A WAY TO STORE THE STATUS EXCEPT IN PARAMETER LIST
+            /* Set the timestamp for the callback */
+            pInterrupt->pasynUser->timestamp = timeStamp;
             pInterrupt->callback(pInterrupt->userPvt,
                                  pInterrupt->pasynUser,
                                  genericPointer);
@@ -1890,6 +2025,18 @@ void asynPortDriver::report(FILE *fp, int details)
 
     fprintf(fp, "Port: %s\n", this->portName);
     if (details >= 1) {
+        char buff[256];
+        epicsTimeStamp timeStamp; getTimeStamp(&timeStamp);
+        epicsTimeToStrftime(buff, sizeof(buff), "%Y/%m/%d %H:%M:%S.%03f", &timeStamp);
+        fprintf(fp, "  Timestamp: %s\n", buff);
+        if (asynStdInterfaces.octet.pinterface) {
+            fprintf(fp, "  Input EOS[%d]: ", this->inputEosLenOctet); 
+            epicsStrPrintEscaped(fp, this->inputEosOctet, this->inputEosLenOctet);
+            fprintf(fp, "\n");
+            fprintf(fp, "  Output EOS[%d]: ", this->outputEosLenOctet); 
+            epicsStrPrintEscaped(fp, this->outputEosOctet, this->outputEosLenOctet);
+            fprintf(fp, "\n");
+        }
         this->reportParams(fp, details);
     }
     if (details >= 3) {
@@ -1906,6 +2053,41 @@ void asynPortDriver::report(FILE *fp, int details)
         reportInterrupt<asynGenericPointerInterrupt>(fp, pInterfaces->genericPointerInterruptPvt, "genericPointer");
         reportInterrupt<asynEnumInterrupt>          (fp, pInterfaces->enumInterruptPvt,         "Enum");
     }
+}
+
+//* Time stamp support functions
+/** Updates the timestamp for this port in pasynManager.
+  * Drivers typically call this function when they receive new data and want 
+  * records with TSE=-2 to use this time as their timestamp. */
+asynStatus asynPortDriver::updateTimeStamp()
+{
+    return pasynManager->updateTimeStamp(pasynUserSelf);
+}
+
+/** Updates the timestamp for this port in pasynManager, and returns this timestamp.
+  * Drivers typically call this function when they receive new data and want 
+  * records with TSE=-2 to use this time as their timestamp. 
+  * \param[out] pTimeStamp A pointer to an epicsTimeStamp to receive the new timestamp. */
+asynStatus asynPortDriver::updateTimeStamp(epicsTimeStamp *pTimeStamp)
+{
+    asynStatus status;
+    status = pasynManager->updateTimeStamp(pasynUserSelf);
+    if (status == asynSuccess) status = pasynManager->getTimeStamp(pasynUserSelf, pTimeStamp);
+    return status;
+}
+
+/** Gets the most recent timestamp for this port from pasynManager.
+  * \param[out] pTimeStamp A pointer to an epicsTimeStamp to receive the timestamp. */
+asynStatus asynPortDriver::getTimeStamp(epicsTimeStamp *pTimeStamp)
+{
+    return pasynManager->getTimeStamp(pasynUserSelf, pTimeStamp);
+}
+
+/** Sets the timestamp for this port in pasynManager.
+  * \param[in] pTimeStamp A pointer to the epicsTimeStamp to set. */
+asynStatus asynPortDriver::setTimeStamp(const epicsTimeStamp *pTimeStamp)
+{
+    return pasynManager->setTimeStamp(pasynUserSelf, pTimeStamp);
 }
 
 extern "C" {static asynStatus connect(void *drvPvt, asynUser *pasynUser)
@@ -1999,7 +2181,13 @@ static asynFloat64 ifaceFloat64 = {
 static asynOctet ifaceOctet = {
     writeOctet,
     readOctet,
-    flushOctet
+    flushOctet,
+    NULL,  /* registerInterruptUser */
+    NULL,  /* cancelInterruptUser */
+    setInputEosOctet,
+    getInputEosOctet,
+    setOutputEosOctet,
+    getOutputEosOctet
 };
 
 static asynInt8Array ifaceInt8Array = {
@@ -2082,7 +2270,7 @@ asynPortDriver::asynPortDriver(const char *portNameIn, int maxAddrIn, int paramT
     /* Initialize some members to 0 */
     pInterfaces = &this->asynStdInterfaces;
     memset(pInterfaces, 0, sizeof(asynStdInterfaces));
-       
+        
     this->portName = epicsStrDup(portNameIn);
     if (maxAddrIn < 1) maxAddrIn = 1;
     this->maxAddr = maxAddrIn;
@@ -2094,6 +2282,11 @@ asynPortDriver::asynPortDriver(const char *portNameIn, int maxAddrIn, int paramT
         printf("%s::%s ERROR: epicsMutexCreate failure\n", driverName, functionName);
         return;
     }
+    
+    inputEosOctet = epicsStrDup("");
+    inputEosLenOctet = 0;
+    outputEosOctet = epicsStrDup("");
+    outputEosLenOctet = 0;
 
     status = pasynManager->registerPort(portName,
                                         asynFlags,    /* multidevice and canblock flags */
@@ -2158,7 +2351,7 @@ asynPortDriver::asynPortDriver(const char *portNameIn, int maxAddrIn, int paramT
     this->params = (paramList **) calloc(maxAddr, sizeof(paramList *));    
     /* Initialize the parameter library */
     for (addr=0; addr<maxAddr; addr++) {
-        this->params[addr] = new paramList(paramTableSize, &this->asynStdInterfaces);
+        this->params[addr] = new paramList(paramTableSize, this);
     }
 
     /* Connect to our device for asynTrace */
@@ -2195,7 +2388,7 @@ asynPortDriver::~asynPortDriver()
     free(this->params);
 }
 
-// This is a utility function that returns a pointer to an asynPortDriver object from its name
+/** Utility function that returns a pointer to an asynPortDriver object from its name */
 void* findAsynPortDriver(const char *portName)
 {
     asynUser *pasynUser;

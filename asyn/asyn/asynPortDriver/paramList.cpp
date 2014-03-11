@@ -14,18 +14,18 @@
 
 #define epicsExportSharedSymbols
 #include "paramVal.h"
+#include "paramList.h"
 #include "paramErrors.h"
 #include "asynParamType.h"
 #include "ParamListInvalidIndex.h"
 #include "ParamValWrongType.h"
 #include "ParamValNotDefined.h"
-#include "paramList.h"
 
 /** Constructor for paramList class.
   * \param[in] nValues Number of parameters in the list.
-  * \param[in] pasynInterfaces Pointer to asynStandardInterfaces structure, used for callbacks */
-paramList::paramList(int nValues, asynStandardInterfaces *pasynInterfaces)
-    : nextParam(0), nVals(nValues), nFlags(0), pasynInterfaces(pasynInterfaces)
+  * \param[in] pPort Pointer to asynPortDriver port for this paramList. */
+paramList::paramList(int nValues, asynPortDriver *pPort)
+    : nextParam(0), nVals(nValues), nFlags(0), pasynPortDriver(pPort)
 {
     char eName[6];
     sprintf(eName, "empty");
@@ -385,7 +385,9 @@ asynStatus paramList::int32Callback(int command, int addr)
 {
     ELLLIST *pclientList;
     interruptNode *pnode;
-    asynStandardInterfaces *pInterfaces = this->pasynInterfaces;
+    asynStandardInterfaces *pInterfaces = this->pasynPortDriver->getAsynStdInterfaces();
+    epicsTimeStamp timeStamp;
+    this->pasynPortDriver->getTimeStamp(&timeStamp);
     int address;
     epicsInt32 value;
     asynStatus status;
@@ -398,12 +400,14 @@ asynStatus paramList::int32Callback(int command, int addr)
     while (pnode) {
         asynInt32Interrupt *pInterrupt = (asynInt32Interrupt *) pnode->drvPvt;
         pasynManager->getAddr(pInterrupt->pasynUser, &address);
-        /* Set the status for the callback */
-        pInterrupt->pasynUser->auxStatus = status;
         /* If this is not a multi-device then address is -1, change to 0 */
         if (address == -1) address = 0;
         if ((command == pInterrupt->pasynUser->reason) &&
             (address == addr)) {
+            /* Set the status for the callback */
+            pInterrupt->pasynUser->auxStatus = status;
+            /* Set the timestamp for the callback */
+            pInterrupt->pasynUser->timestamp = timeStamp;
             pInterrupt->callback(pInterrupt->userPvt,
                                  pInterrupt->pasynUser,
                                  value);
@@ -419,7 +423,9 @@ asynStatus paramList::uint32Callback(int command, int addr, epicsUInt32 interrup
 {
     ELLLIST *pclientList;
     interruptNode *pnode;
-    asynStandardInterfaces *pInterfaces = this->pasynInterfaces;
+    asynStandardInterfaces *pInterfaces = this->pasynPortDriver->getAsynStdInterfaces();
+    epicsTimeStamp timeStamp;
+    this->pasynPortDriver->getTimeStamp(&timeStamp);
     int address;
     epicsUInt32 value;
     asynStatus status;
@@ -432,13 +438,15 @@ asynStatus paramList::uint32Callback(int command, int addr, epicsUInt32 interrup
     while (pnode) {
         asynUInt32DigitalInterrupt *pInterrupt = (asynUInt32DigitalInterrupt *) pnode->drvPvt;
         pasynManager->getAddr(pInterrupt->pasynUser, &address);
-        /* Set the status for the callback */
-        pInterrupt->pasynUser->auxStatus = status;
         /* If this is not a multi-device then address is -1, change to 0 */
         if (address == -1) address = 0;
         if ((command == pInterrupt->pasynUser->reason) &&
             (address == addr) &&
             (pInterrupt->mask & interruptMask)) {
+            /* Set the status for the callback */
+            pInterrupt->pasynUser->auxStatus = status;
+            /* Set the timestamp for the callback */
+            pInterrupt->pasynUser->timestamp = timeStamp;
             pInterrupt->callback(pInterrupt->userPvt,
                                  pInterrupt->pasynUser,
                                  pInterrupt->mask & value);
@@ -454,7 +462,9 @@ asynStatus paramList::float64Callback(int command, int addr)
 {
     ELLLIST *pclientList;
     interruptNode *pnode;
-    asynStandardInterfaces *pInterfaces = this->pasynInterfaces;
+    asynStandardInterfaces *pInterfaces = this->pasynPortDriver->getAsynStdInterfaces();
+    epicsTimeStamp timeStamp;
+    this->pasynPortDriver->getTimeStamp(&timeStamp);
     int address;
     epicsFloat64 value;
     asynStatus status;
@@ -467,12 +477,14 @@ asynStatus paramList::float64Callback(int command, int addr)
     while (pnode) {
         asynFloat64Interrupt *pInterrupt = (asynFloat64Interrupt *) pnode->drvPvt;
         pasynManager->getAddr(pInterrupt->pasynUser, &address);
-        /* Set the status for the callback */
-        pInterrupt->pasynUser->auxStatus = status;
         /* If this is not a multi-device then address is -1, change to 0 */
         if (address == -1) address = 0;
         if ((command == pInterrupt->pasynUser->reason) &&
             (address == addr)) {
+            /* Set the status for the callback */
+            pInterrupt->pasynUser->auxStatus = status;
+            /* Set the timestamp for the callback */
+            pInterrupt->pasynUser->timestamp = timeStamp;
             pInterrupt->callback(pInterrupt->userPvt,
                                  pInterrupt->pasynUser,
                                  value);
@@ -488,7 +500,9 @@ asynStatus paramList::octetCallback(int command, int addr)
 {
     ELLLIST *pclientList;
     interruptNode *pnode;
-    asynStandardInterfaces *pInterfaces = this->pasynInterfaces;
+    asynStandardInterfaces *pInterfaces = this->pasynPortDriver->getAsynStdInterfaces();
+    epicsTimeStamp timeStamp;
+    this->pasynPortDriver->getTimeStamp(&timeStamp);
     int address;
     char *value;
     asynStatus status;
@@ -502,12 +516,14 @@ asynStatus paramList::octetCallback(int command, int addr)
     while (pnode) {
         asynOctetInterrupt *pInterrupt = (asynOctetInterrupt *) pnode->drvPvt;
         pasynManager->getAddr(pInterrupt->pasynUser, &address);
-        /* Set the status for the callback */
-        pInterrupt->pasynUser->auxStatus = status;
         /* If this is not a multi-device then address is -1, change to 0 */
         if (address == -1) address = 0;
         if ((command == pInterrupt->pasynUser->reason) &&
             (address == addr)) {
+            /* Set the status for the callback */
+            pInterrupt->pasynUser->auxStatus = status;
+            /* Set the timestamp for the callback */
+            pInterrupt->pasynUser->timestamp = timeStamp;
             pInterrupt->callback(pInterrupt->userPvt,
                                  pInterrupt->pasynUser,
                                  value, strlen(value)+1, ASYN_EOM_END);

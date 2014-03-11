@@ -73,6 +73,7 @@ typedef enum {
 struct tracePvt {
     int           traceMask;
     int           traceIOMask;
+    int           traceInfoMask;
     traceFileType type;
     FILE          *fp;
     size_t        traceTruncateSize;
@@ -204,6 +205,11 @@ struct port {
     asynInterface *pcommonInterface;
     epicsTimerId  connectTimer;
     epicsThreadPrivateId queueLockPortId;
+    /* The following are for timestamp support */
+    epicsTimeStamp timeStamp;
+    timeStampCallback timeStampSource;
+    void           *timeStampPvt;
+
     double        secondsBetweenPortConnect;
 };
 
@@ -305,6 +311,12 @@ static asynStatus removeInterruptUser(asynUser *pasynUser,
                                    interruptNode*pinterruptNode);
 static asynStatus interruptStart(void *pasynPvt,ELLLIST **plist);
 static asynStatus interruptEnd(void *pasynPvt);
+static void defaultTimeStampSource(void *userPvt, epicsTimeStamp *pTimeStamp);
+static asynStatus registerTimeStampSource(asynUser *pasynUser, void *userPvt, timeStampCallback callback);
+static asynStatus unregisterTimeStampSource(asynUser *pasynUser);
+static asynStatus updateTimeStamp(asynUser *pasynUser);
+static asynStatus getTimeStamp(asynUser *pasynUser, epicsTimeStamp *pTimeStamp);
+static asynStatus setTimeStamp(asynUser *pasynUser, const epicsTimeStamp *pTimeStamp);
 static const char *strStatus(asynStatus status);
 
 static asynManager manager = {
@@ -351,6 +363,11 @@ static asynManager manager = {
     removeInterruptUser,
     interruptStart,
     interruptEnd,
+    registerTimeStampSource,
+    unregisterTimeStampSource,
+    updateTimeStamp,
+    getTimeStamp,
+    setTimeStamp,
     strStatus
 };
 epicsShareDef asynManager *pasynManager = &manager;
@@ -362,18 +379,28 @@ static asynStatus setTraceMask(asynUser *pasynUser,int mask);
 static int        getTraceMask(asynUser *pasynUser);
 static asynStatus setTraceIOMask(asynUser *pasynUser,int mask);
 static int        getTraceIOMask(asynUser *pasynUser);
+static asynStatus setTraceInfoMask(asynUser *pasynUser,int mask);
+static int        getTraceInfoMask(asynUser *pasynUser);
 static asynStatus setTraceFile(asynUser *pasynUser,FILE *fp);
 static FILE       *getTraceFile(asynUser *pasynUser);
 static asynStatus setTraceIOTruncateSize(asynUser *pasynUser,size_t size);
 static size_t     getTraceIOTruncateSize(asynUser *pasynUser);
 static int        tracePrint(asynUser *pasynUser,
                       int reason, const char *pformat, ...);
+static int        tracePrintSource(asynUser *pasynUser,
+                      int reason, const char *file, int line, const char *pformat, ...);
 static int        traceVprint(asynUser *pasynUser,
                       int reason, const char *pformat, va_list pvar);
+static int        traceVprintSource(asynUser *pasynUser,
+                      int reason, const char *file, int line, const char *pformat, va_list pvar);
 static int        tracePrintIO(asynUser *pasynUser,int reason,
                       const char *buffer, size_t len,const char *pformat, ...);
+static int        tracePrintIOSource(asynUser *pasynUser,int reason,
+                      const char *buffer, size_t len, const char *file, int line, const char *pformat, ...);
 static int        traceVprintIO(asynUser *pasynUser,int reason,
                       const char *buffer, size_t len,const char *pformat, va_list pvar);
+static int        traceVprintIOSource(asynUser *pasynUser,int reason,
+                      const char *buffer, size_t len, const char *file, int line, const char *pformat, va_list pvar);
 static asynTrace asynTraceManager = {
     traceLock,
     traceUnlock,
@@ -381,14 +408,20 @@ static asynTrace asynTraceManager = {
     getTraceMask,
     setTraceIOMask,
     getTraceIOMask,
+    setTraceInfoMask,
+    getTraceInfoMask,
     setTraceFile,
     getTraceFile,
     setTraceIOTruncateSize,
     getTraceIOTruncateSize,
     tracePrint,
+    tracePrintSource,
     traceVprint,
+    traceVprintSource,
     tracePrintIO,
-    traceVprintIO
+    tracePrintIOSource,
+    traceVprintIO,
+    traceVprintIOSource
 };
 epicsShareDef asynTrace *pasynTrace = &asynTraceManager;
 
@@ -399,6 +432,7 @@ static void tracePvtInit(tracePvt *ptracePvt)
         DEFAULT_TRACE_BUFFER_SIZE,sizeof(char),
         "asynManager:tracePvtInit");
     ptracePvt->traceMask = ASYN_TRACE_ERROR;
+    ptracePvt->traceInfoMask = ASYN_TRACEINFO_TIME;
     ptracePvt->traceTruncateSize = DEFAULT_TRACE_TRUNCATE_SIZE;
     ptracePvt->traceBufferSize = DEFAULT_TRACE_BUFFER_SIZE;
     ptracePvt->type = traceFileStderr;
@@ -682,7 +716,7 @@ static void connectAttempt(dpCommon *pdpCommon)
     pasynInterface = pasynManager->findInterface(pasynUser,asynCommonType,TRUE);
     if(!pasynInterface) {
         asynPrint(pasynUser,ASYN_TRACE_ERROR,
-            "%s %d autoConnect findInterface failed.\n",
+            "%s %d autoConnect findInterface for asynCommon failed.\n",
             pport->portName,addr);
             goto disconnect;
     }
@@ -964,6 +998,8 @@ static void reportPrintPort(printPortArgs *pprintPortArgs)
             (pdpc->exceptionActive ? "Yes" : "No"),
             ellCount(&pdpc->exceptionUserList),
             ellCount(&pdpc->exceptionNotifyList));
+        fprintf(fp,"    traceMask:0x%x traceIOMask:0x%x traceInfoMask:0x%x\n",
+            pdpc->trace.traceMask, pdpc->trace.traceIOMask, pdpc->trace.traceInfoMask);
     }
     if(details>=2) {
         reportPrintInterfaceList(fp,&pdpc->interposeInterfaceList,
@@ -984,12 +1020,14 @@ static void reportPrintPort(printPortArgs *pprintPortArgs)
                     (pdpc->exceptionActive ? "Yes" : "No"));
             }
             if(details>=1) {
-                fprintf(fp,"    exceptionActive %s exceptionUsers %d exceptionNotifys %d\n",
+                fprintf(fp,"        exceptionActive %s exceptionUsers %d exceptionNotifys %d\n",
                     (pdpc->exceptionActive ? "Yes" : "No"),
                     ellCount(&pdpc->exceptionUserList),
                     ellCount(&pdpc->exceptionNotifyList));
-                fprintf(fp,"    blocked %s\n",
+                fprintf(fp,"        blocked %s\n",
                     (pdpc->pblockProcessHolder ? "Yes" : "No"));
+                fprintf(fp,"        traceMask:0x%x traceIOMask:0x%x traceInfoMask:0x%x\n",
+                    pdpc->trace.traceMask, pdpc->trace.traceIOMask, pdpc->trace.traceInfoMask);
             }
             if(details>=2) {
                 reportPrintInterfaceList(fp,&pdpc->interposeInterfaceList,
@@ -1684,12 +1722,12 @@ static asynStatus queueLockPort(asynUser *pasynUser)
     asynUser *pasynUserCopy;
     asynStatus status = asynSuccess;
 
+    asynPrint(pasynUser,ASYN_TRACE_FLOW, "%s asynManager::queueLockPort locking port\n", pport->portName);
     if(!pport) {
         epicsSnprintf(pasynUser->errorMessage,pasynUser->errorMessageSize,
                 "asynManager::queueLockPort not connected");
         return asynError;
     }
-    asynPrint(pasynUser,ASYN_TRACE_FLOW, "%s asynManager::queueLockPort locking port\n", pport->portName);
     if (pport->attributes & ASYN_CANBLOCK) {   /* Asynchronous driver */
         plockPortPvt = epicsThreadPrivateGet(pport->queueLockPortId);
         if (!plockPortPvt) {
@@ -1867,6 +1905,7 @@ static asynStatus registerPort(const char *portName,
     pport->asynManagerLock = epicsMutexMustCreate();
     pport->synchronousLock = epicsMutexMustCreate();
     pport->queueLockPortId = epicsThreadPrivateCreate();
+    pport->timeStampSource = defaultTimeStampSource;
     dpCommonInit(pport,0,autoConnect);
     pport->pasynUser = createAsynUser(0,0);
     ellInit(&pport->deviceList);
@@ -2331,6 +2370,105 @@ static asynStatus interruptEnd(void *pasynPvt)
     epicsMutexUnlock(pport->asynManagerLock);
     return asynSuccess;
 }
+
+/* Time stamp functions */
+
+static void defaultTimeStampSource(void *userPvt, epicsTimeStamp *pTimeStamp)
+{
+    epicsTimeGetCurrent(pTimeStamp);
+}
+
+
+static asynStatus registerTimeStampSource(asynUser *pasynUser, void *pPvt, timeStampCallback callback) 
+{
+    userPvt    *puserPvt = asynUserToUserPvt(pasynUser);
+    port *pport = puserPvt->pport;
+
+    if(!pport) {
+        epicsSnprintf(pasynUser->errorMessage,pasynUser->errorMessageSize,
+            "asynManager:getAddr not connected to device");
+        return asynError;
+    }
+    epicsMutexMustLock(pport->asynManagerLock);
+    pport->timeStampSource = callback;
+    pport->timeStampPvt = pPvt;
+    epicsMutexUnlock(pport->asynManagerLock);
+    return asynSuccess;
+}
+
+static asynStatus unregisterTimeStampSource(asynUser *pasynUser) 
+{
+    userPvt    *puserPvt = asynUserToUserPvt(pasynUser);
+    port *pport = puserPvt->pport;
+
+    if(!pport) {
+        epicsSnprintf(pasynUser->errorMessage,pasynUser->errorMessageSize,
+            "asynManager:getAddr not connected to device");
+        return asynError;
+    }
+    epicsMutexMustLock(pport->asynManagerLock);
+    pport->timeStampSource = defaultTimeStampSource;
+    pport->timeStampPvt = 0;
+    epicsMutexUnlock(pport->asynManagerLock);
+    return asynSuccess;
+}
+
+static asynStatus updateTimeStamp(asynUser *pasynUser) 
+{
+    userPvt    *puserPvt = asynUserToUserPvt(pasynUser);
+    port *pport = puserPvt->pport;
+    asynStatus status=asynSuccess;
+
+    if(!pport) {
+        epicsSnprintf(pasynUser->errorMessage,pasynUser->errorMessageSize,
+            "asynManager:updateTimeStamp not connected to device");
+        return asynError;
+    }
+    epicsMutexMustLock(pport->asynManagerLock);
+    if (pport->timeStampSource) {
+        pport->timeStampSource(pport->timeStampPvt, &pport->timeStamp);
+    } else {
+        status = asynError;
+    }
+    epicsMutexUnlock(pport->asynManagerLock);
+    return status;
+}
+
+static asynStatus getTimeStamp(asynUser *pasynUser, epicsTimeStamp *pTimeStamp) 
+{
+    userPvt    *puserPvt = asynUserToUserPvt(pasynUser);
+    port *pport = puserPvt->pport;
+
+    if(!pport) {
+        epicsSnprintf(pasynUser->errorMessage,pasynUser->errorMessageSize,
+            "asynManager:getTimeStamp not connected to device");
+        return asynError;
+    }
+    epicsMutexMustLock(pport->asynManagerLock);
+    pTimeStamp->secPastEpoch = pport->timeStamp.secPastEpoch;
+    pTimeStamp->nsec = pport->timeStamp.nsec;
+    epicsMutexUnlock(pport->asynManagerLock);
+    return asynSuccess;
+}
+
+static asynStatus setTimeStamp(asynUser *pasynUser, const epicsTimeStamp *pTimeStamp) 
+{
+    userPvt    *puserPvt = asynUserToUserPvt(pasynUser);
+    port *pport = puserPvt->pport;
+
+    if(!pport) {
+        epicsSnprintf(pasynUser->errorMessage,pasynUser->errorMessageSize,
+            "asynManager:setTimeStamp not connected to device");
+        return asynError;
+    }
+    epicsMutexMustLock(pport->asynManagerLock);
+    pport->timeStamp.secPastEpoch = pTimeStamp->secPastEpoch;
+    pport->timeStamp.nsec = pTimeStamp->nsec;
+    epicsMutexUnlock(pport->asynManagerLock);
+    return asynSuccess;
+}
+
+
 
 static asynStatus traceLock(asynUser *pasynUser)
 {
@@ -2430,6 +2568,48 @@ static int getTraceIOMask(asynUser *pasynUser)
     return ptracePvt->traceIOMask;
 }
 
+static asynStatus setTraceInfoMask(asynUser *pasynUser,int mask)
+{
+    if(!pasynBase) asynInit();
+    if(pasynUser == NULL) {
+        pasynBase->trace.traceInfoMask = mask;
+    }
+    else {
+        userPvt *puserPvt = asynUserToUserPvt(pasynUser);
+        port    *pport = puserPvt->pport;
+        device  *pdevice = puserPvt->pdevice;
+
+        if(!pport) {
+            epicsSnprintf(pasynUser->errorMessage,pasynUser->errorMessageSize,
+                "asynManager:setTraceInfoMask -- not connected to port.");
+            return asynError;
+        }
+        if(pdevice) {
+            pdevice->dpc.trace.traceInfoMask = mask;
+            announceExceptionOccurred(pport, pdevice, asynExceptionTraceInfoMask);
+        }
+        else {
+            pdevice = (device *)ellFirst(&pport->deviceList);
+            while(pdevice) {
+                pdevice->dpc.trace.traceInfoMask = mask;
+                announceExceptionOccurred(pport, pdevice, asynExceptionTraceInfoMask);
+                pdevice = (device *)ellNext(&pdevice->node);
+            }
+            pport->dpc.trace.traceInfoMask = mask;
+            announceExceptionOccurred(pport, NULL, asynExceptionTraceInfoMask);
+        }
+    }
+    return asynSuccess;
+}
+
+static int getTraceInfoMask(asynUser *pasynUser)
+{
+    userPvt  *puserPvt = asynUserToUserPvt(pasynUser);
+    tracePvt *ptracePvt  = findTracePvt(puserPvt);
+
+    return ptracePvt->traceInfoMask;
+}
+
 static asynStatus setTraceFile(asynUser *pasynUser,FILE *fp)
 {
     userPvt  *puserPvt = asynUserToUserPvt(pasynUser);
@@ -2500,6 +2680,21 @@ static size_t getTraceIOTruncateSize(asynUser *pasynUser)
 
     return ptracePvt->traceTruncateSize;
 }
+
+static size_t printThread(FILE *fp)
+{
+    size_t nout = 0;
+    unsigned int threadPriority = epicsThreadGetPrioritySelf();
+    epicsThreadId threadId = epicsThreadGetIdSelf();
+    if(fp) {
+        nout = fprintf(fp,"[%s,%p,%d] ",epicsThreadGetNameSelf(),
+                       (void*)threadId,threadPriority);
+    } else {
+        nout = errlogPrintf("[%s,%p,%d] ",epicsThreadGetNameSelf(),
+                            (void*)threadId,threadPriority);
+    }
+    return nout;
+}
 
 static size_t printTime(FILE *fp)
 {
@@ -2522,6 +2717,38 @@ static size_t printTime(FILE *fp)
     }
 }
 
+static size_t printPort(FILE *fp, asynUser *pasynUser)
+{
+    userPvt *puserPvt = asynUserToUserPvt(pasynUser);
+    port    *pport = puserPvt->pport;
+    int addr;
+    size_t nout = 0;
+    
+    if(!pport) {
+        return nout;
+    }
+    
+    getAddr(pasynUser, &addr);
+    if(fp) {
+        nout = fprintf(fp,"[%s,%d,%d] ",pport->portName, addr, pasynUser->reason);
+    } else {
+        nout = errlogPrintf("[%s,%d,%d] ",pport->portName, addr, pasynUser->reason);
+    }
+    return nout;
+}
+
+static size_t printSource(FILE *fp, const char *file, int line)
+{
+    int      nout = 0;
+
+    if(fp) {
+        nout = fprintf(fp,"[%s:%d] ", file, line);
+    } else {
+        nout = errlogPrintf("[%s:%d] ", file, line);
+    }
+    return nout;
+}
+
 static int tracePrint(asynUser *pasynUser,int reason, const char *pformat, ...)
 {
     va_list  pvar;
@@ -2533,19 +2760,38 @@ static int tracePrint(asynUser *pasynUser,int reason, const char *pformat, ...)
     return nout;
 }
 
+static int tracePrintSource(asynUser *pasynUser,int reason, const char *file, int line, const char *pformat, ...)
+{
+    va_list  pvar;
+    int      nout = 0;
+
+    va_start(pvar,pformat);
+    nout = traceVprintSource(pasynUser, reason, file, line, pformat, pvar);
+    va_end(pvar);
+    return nout;
+}
+
 static int traceVprint(asynUser *pasynUser,int reason, const char *pformat, va_list pvar)
+{
+    return traceVprintSource(pasynUser, reason, "", 0, pformat, pvar);
+}
+
+static int traceVprintSource(asynUser *pasynUser,int reason, const char *file, int line, const char *pformat, va_list pvar)
 {
     userPvt  *puserPvt = asynUserToUserPvt(pasynUser);
     tracePvt *ptracePvt  = findTracePvt(puserPvt);
     int      nout = 0;
     FILE     *fp;
 
-    if(!(reason&ptracePvt->traceMask)) return 0;
+    if(!(reason & ptracePvt->traceMask)) return 0;
     epicsMutexMustLock(pasynBase->lockTrace);
     fp = getTraceFile(pasynUser);
-    nout += (int)printTime(fp);
+    if (ptracePvt->traceInfoMask & ASYN_TRACEINFO_TIME) nout += (int)printTime(fp);
+    if (ptracePvt->traceInfoMask & ASYN_TRACEINFO_PORT) nout += (int)printPort(fp, pasynUser);
+    if (ptracePvt->traceInfoMask & ASYN_TRACEINFO_SOURCE) nout += (int)printSource(fp, file, line);
+    if (ptracePvt->traceInfoMask & ASYN_TRACEINFO_THREAD) nout += (int)printThread(fp);
     if(fp) {
-        nout = vfprintf(fp,pformat,pvar);
+        nout += vfprintf(fp,pformat,pvar);
     } else {
         nout += errlogVprintf(pformat,pvar);
     }
@@ -2566,8 +2812,26 @@ static int tracePrintIO(asynUser *pasynUser,int reason,
     return nout;
 }
 
+static int tracePrintIOSource(asynUser *pasynUser,int reason,
+    const char *buffer, size_t len, const char *file, int line, const char *pformat, ...)
+{
+    va_list  pvar;
+    int      nout = 0;
+
+    va_start(pvar,pformat);
+    nout = traceVprintIOSource(pasynUser, reason, buffer, len, file, line, pformat, pvar);
+    va_end(pvar);
+    return nout;
+}
+
 static int traceVprintIO(asynUser *pasynUser,int reason,
     const char *buffer, size_t len,const char *pformat, va_list pvar)
+{
+    return traceVprintIOSource(pasynUser, reason, buffer, len, "", 0, pformat, pvar);
+}
+
+static int traceVprintIOSource(asynUser *pasynUser,int reason,
+    const char *buffer, size_t len, const char *file, int line, const char *pformat, va_list pvar)
 {
     userPvt  *puserPvt = asynUserToUserPvt(pasynUser);
     tracePvt *ptracePvt  = findTracePvt(puserPvt);
@@ -2582,9 +2846,12 @@ static int traceVprintIO(asynUser *pasynUser,int reason,
     if(!(reason&traceMask)) return 0;
     epicsMutexMustLock(pasynBase->lockTrace);
     fp = getTraceFile(pasynUser);
-    nout += (int)printTime(fp);
+    if (ptracePvt->traceInfoMask & ASYN_TRACEINFO_TIME) nout += (int)printTime(fp);
+    if (ptracePvt->traceInfoMask & ASYN_TRACEINFO_PORT) nout += (int)printPort(fp, pasynUser);
+    if (ptracePvt->traceInfoMask & ASYN_TRACEINFO_SOURCE) nout += (int)printSource(fp, file, line);
+    if (ptracePvt->traceInfoMask & ASYN_TRACEINFO_THREAD) nout += (int)printThread(fp);
     if(fp) {
-        nout = vfprintf(fp,pformat,pvar);
+        nout += vfprintf(fp,pformat,pvar);
     } else {
         nout += errlogVprintf(pformat,pvar);
     }

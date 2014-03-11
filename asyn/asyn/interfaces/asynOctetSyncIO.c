@@ -46,8 +46,6 @@ typedef struct ioPvt {
 static asynStatus connect(const char *port, int addr,
                                asynUser **ppasynUser, const char *drvInfo);
 static asynStatus disconnect(asynUser *pasynUser);
-static asynStatus openSocket(const char *server, int port,
-                                         char **portName);
 static asynStatus writeIt(asynUser *pasynUser,
     char const *buffer, size_t buffer_len, double timeout,size_t *nbytesTransfered);
 static asynStatus readIt(asynUser *pasynUser, char *buffer, size_t buffer_len, 
@@ -92,7 +90,6 @@ static asynStatus getOutputEosOnce(const char *port, int addr,
 static asynOctetSyncIO asynOctetSyncIOManager = {
     connect,
     disconnect,
-    openSocket,
     writeIt,
     readIt,
     writeRead,
@@ -183,20 +180,6 @@ static asynStatus disconnect(asynUser *pasynUser)
     return asynSuccess;
 }
 
-static asynStatus openSocket(const char *server, int port,
-       char **portName)
-{
-    char portString[20];
-    asynStatus status;
-
-    sprintf(portString, "%d", port);
-    *portName = calloc(1, strlen(server)+strlen(portString)+3);
-    strcpy(*portName, server);
-    strcat(*portName, ":");
-    strcat(*portName, portString);
-    status = drvAsynIPPortConfigure(*portName, *portName, 0, 0, 0);
-    return(status);
-}
 
 static asynStatus writeIt(asynUser *pasynUser,
     char const *buffer, size_t buffer_len, double timeout,size_t *nbytesTransfered)
@@ -318,8 +301,7 @@ static asynStatus setInputEos(asynUser *pasynUser,
     asynStatus status, unlockStatus;
     ioPvt      *pioPvt = (ioPvt *)pasynUser->userPvt;
 
-    pasynUser->timeout = 1.0;
-    status = pasynManager->queueLockPort(pasynUser);
+    status = pasynManager->lockPort(pasynUser);
     if(status!=asynSuccess) {
         return status;
     }
@@ -329,7 +311,7 @@ static asynStatus setInputEos(asynUser *pasynUser,
          asynPrint(pasynUser, ASYN_TRACEIO_DEVICE,
              "asynOctetSyncIO setInputEos eoslen %d\n",eoslen);
     }
-    unlockStatus = pasynManager->queueUnlockPort(pasynUser);
+    unlockStatus = pasynManager->unlockPort(pasynUser);
     if (unlockStatus != asynSuccess) {
         return unlockStatus;
     }
@@ -342,8 +324,7 @@ static asynStatus getInputEos(asynUser *pasynUser,
     asynStatus status, unlockStatus;
     ioPvt      *pioPvt = (ioPvt *)pasynUser->userPvt;
 
-    pasynUser->timeout = 1.0;
-    status = pasynManager->queueLockPort(pasynUser);
+    status = pasynManager->lockPort(pasynUser);
     if(status!=asynSuccess) {
         return status;
     }
@@ -353,7 +334,7 @@ static asynStatus getInputEos(asynUser *pasynUser,
          asynPrint(pasynUser, ASYN_TRACEIO_DEVICE,
              "asynOctetSyncIO setInputEos eoslen %d\n", *eoslen);
     }
-    unlockStatus = pasynManager->queueUnlockPort(pasynUser);
+    unlockStatus = pasynManager->unlockPort(pasynUser);
     if (unlockStatus != asynSuccess) {
         return unlockStatus;
     }
@@ -366,8 +347,7 @@ static asynStatus setOutputEos(asynUser *pasynUser,
     asynStatus status, unlockStatus;
     ioPvt      *pioPvt = (ioPvt *)pasynUser->userPvt;
 
-    pasynUser->timeout = 1.0;
-    status = pasynManager->queueLockPort(pasynUser);
+    status = pasynManager->lockPort(pasynUser);
     if(status!=asynSuccess) {
         return status;
     }
@@ -377,7 +357,7 @@ static asynStatus setOutputEos(asynUser *pasynUser,
          asynPrint(pasynUser, ASYN_TRACEIO_DEVICE,
              "asynOctetSyncIO setOutputEos eoslen %d\n",eoslen);
     }
-    unlockStatus = pasynManager->queueUnlockPort(pasynUser);
+    unlockStatus = pasynManager->unlockPort(pasynUser);
     if (unlockStatus != asynSuccess) {
         return unlockStatus;
     }
@@ -390,8 +370,7 @@ static asynStatus getOutputEos(asynUser *pasynUser,
     asynStatus status, unlockStatus;
     ioPvt      *pioPvt = (ioPvt *)pasynUser->userPvt;
 
-    pasynUser->timeout = 1.0;
-    status = pasynManager->queueLockPort(pasynUser);
+    status = pasynManager->lockPort(pasynUser);
     if(status!=asynSuccess) {
         return status;
     }
@@ -401,7 +380,7 @@ static asynStatus getOutputEos(asynUser *pasynUser,
          asynPrint(pasynUser, ASYN_TRACEIO_DEVICE,
              "asynOctetSyncIO setOutputEos eoslen %d\n", *eoslen);
     }
-    unlockStatus = pasynManager->queueUnlockPort(pasynUser);
+    unlockStatus = pasynManager->unlockPort(pasynUser);
     if (unlockStatus != asynSuccess) {
         return unlockStatus;
     }

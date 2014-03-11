@@ -342,6 +342,7 @@ static void processCallbackInput(asynUser *pasynUser)
 
     pPvt->result.status = pPvt->puint32->read(pPvt->uint32Pvt, pPvt->pasynUser,
         &pPvt->result.value,pPvt->mask);
+    pPvt->result.time = pPvt->pasynUser->timestamp;
     if (pPvt->result.status == asynSuccess) {
         asynPrint(pasynUser, ASYN_TRACEIO_DEVICE,
             "%s devAsynUInt32Digital::process value=%u\n",
@@ -507,7 +508,7 @@ static int getCallbackValue(devPvt *pPvt)
     epicsMutexLock(pPvt->mutexId);
     if (pPvt->ringTail != pPvt->ringHead) {
         if (pPvt->ringBufferOverflows > 0) {
-            asynPrint(pPvt->pasynUser, ASYN_TRACEIO_DEVICE,
+            asynPrint(pPvt->pasynUser, ASYN_TRACE_WARNING,
                 "%s devAsynInt32 getCallbackValue warning, %d ring buffer overflows\n",
                                     pPvt->pr->name, pPvt->ringBufferOverflows);
             pPvt->ringBufferOverflows = 0;
