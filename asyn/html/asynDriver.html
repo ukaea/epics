@@ -10,12 +10,12 @@
     <h1>
       asynDriver: Asynchronous Driver Support</h1>
     <p>
-      <span style="font-weight: bold; font-size: 14pt">Release 4-21</span></p>
+      <span style="font-weight: bold; font-size: 14pt">Release 4-22</span></p>
     <p>
       <span style="font-weight: bold; font-size: 14pt">Mark Rivers, Eric Norum, and Marty
         Kraimer</span></p>
     <p>
-      <span style="font-weight: bold; font-size: 14pt">February 18, 2012</span></p>
+      <span style="font-weight: bold; font-size: 14pt">October 30, 2013</span></p>
     <h3>
       Other Contributers</h3>
     <p>
@@ -164,6 +164,8 @@
     <li>asynManager: the software layer between device support and drivers.</li>
     <li>asynRecord: EPICS record support that provides a generic interface to asynManager,
       asynCommon, asynOctet, asynGpib, and other interfaces.</li>
+    <li>asynPortDriver: a C++ base class that makes it easy to write asyn drivers, with
+      much of the boilerplate asyn code handled in the base class methods.</li>
     <li>standard interfaces: Standard message and register based interfaces are defined.
       Low Level Drivers implement standard interfaces. Device support communicates with
       low level drivers via standard interfaces.</li>
@@ -172,8 +174,8 @@
       gpibCore support.</li>
     <li>asynGpib: a replacement for the drvGpibCommon layer of the Franksen gpibCore support.</li>
     <li>drvAsynSerialPort: Support for devices connected to serial ports.</li>
-    <li>drvAsynIPPort: Support for devices accessed via Ethernet/Serial converter boxes.
-      TCP/IP and UDP/IP socket communication are supported.</li>
+    <li>drvAsynIPPort: Support for TCP/IP and UDP/IP socket communication, including serial
+      devices accessed via Ethernet/Serial converter boxes.</li>
     <li>drvAsynIPServerPort: Support for asyn socket servers that are accessed from remote
       clients. TCP/IP sockets are supported, UDP is not currently supported.</li>
     <li>VXI-11: A replacement for the VXI-11 support of the Franksen gpibCore support.</li>
@@ -187,41 +189,16 @@
     The following are some of the existing EPICS general purpose device support systems
     that have been converted to use asynDriver.</p>
   <ul>
-    <li>gpibCore is the operating-system-independent version of the Winans/Franksen GPIB
-      support.</li>
-    <li>MPFOSI (Message Passing Facility). It is no longer needed or supported since asynDriver
-      can completely replace MPF.</li>
-    <li>synApps (The APS BCDA synchrotron applications). The mca, dxp, serial, GPIB, Ip330,
-      IpUnidig, DAC128V and quadEM applications in this package have all been converted
-      to asyn.</li>
+    <li>StreamDevice. This is the protocol file-based support for serial/GPIB/CAN from
+      Dirk Zimoch.</li>
+    <li>gpibCore. This is the operating-system-independent version of the Winans/Franksen
+      GPIB support.</li>
+    <li>synApps (The APS BCDA synchrotron applications). The mca, dxp, motor, Ip330, IpUnidig,
+      DAC128V and quadEM applications in this package have all been converted to asyn.
+      The serial and GPIB modules in this package are no longer needed, because the asyn
+      record replaces them. The areaDetector module was written to use asyn, and was the
+      original motivation for the development of asynPortDriver.</li>
   </ul>
-  <p>
-    The following are some of the existing EPICS general purpose device support systems
-    that could be converted to use asynDriver.</p>
-  <ul>
-    <li>STREAMS is the protocol file-based support for serial/GPIB/CAN from Dirk Zimoch.</li>
-    <li>devAscii/drvAscii is serial support from KECK Observatory.</li>
-  </ul>
-  <p>
-    Each of these systems is used at EPICS facilities for accessing GPIB and/or serial
-    devices. Because device support has been written for many instruments and thousands
-    of database records use the device support, users will not be easily persuaded to
-    switch from their existing solution. Thus, asynDriver implements a framework below
-    device support that can be used by all of the above systems so that all can share
-    the same drivers.</p>
-  <p>
-    Each system needs to be modified so that the device support component is compatible
-    with existing use, but replace the driver part with asynDriver. The benefit is that
-    all could share the same set of low level drivers.</p>
-  <p>
-    gpibCore and mpfSerial have already been converted and are included with asynDriver.</p>
-  <p>
-    Dirk Zimoch has created a version of STREAMS that uses asynDriver.</p>
-  <p>
-    Hopefully Allen Honey will get time to convert devAscii.</p>
-  <p>
-    In the future, other protocols will be supported, especially for Ethernet based
-    devices.</p>
   <hr />
   <div style="text-align: center">
     <h2 id="Acknowledgments">
@@ -255,12 +232,12 @@
     <dt>Pete Owens</dt>
     <dd>
       Pete, for the Diamond Light Source, did a survey of several types of device/driver
-      support packages for serial devices. Diamond decided to use the STREAMS support
+      support packages for serial devices. Diamond decided to use the StreamDevice support
       developed by Dirk Zimoch.</dd>
     <dt>Dirk Zimoch</dt>
     <dd>
-      Dirk developed STREAMS, which has a single device support model, but supports arbitrary
-      low level message based drivers, i.e. GPIB, serial, etc.</dd>
+      Dirk developed StreadDevice, which has a single device support model, but supports
+      arbitrary low level message based drivers, i.e. GPIB, serial, etc.</dd>
     <dt>Jun-ichi Odagare</dt>
     <dd>
       Jun-ichi developed NetDev, a system that provides EPICS device support for network
@@ -268,7 +245,7 @@
       for communicating with network based devices.</dd>
     <dt>Mark Rivers</dt>
     <dd>
-      Mark became an active developer of asynDriver soon after he started converting SYNAPPS
+      Mark became an active developer of asynDriver soon after he started converting SynApps
       to use asynDriver. He soon pushed to have asynDriver support synchronous drivers,
       support register based drivers, and support interrupts. With these additions asynDriver
       is a framework for interfacing to a large class of devices instead of just message
@@ -317,7 +294,7 @@
     <li>device
       <p>
         A device (instrument) connected to a port. For example a GPIB interface can have
-        up to 15 devices connected to it. Other ports, e.g. EIA232 serial ports, only support
+        up to 15 devices connected to it. Other ports, e.g. RS-232 serial ports, only support
         a single device. Whenever this document uses the word device without a qualifier,
         it means something that is connected to a port.</p>
     </li>
@@ -630,6 +607,20 @@
         On operating systems like vxWorks or RTEMS interruptStart,interruptEnd MUST NOT
         be called from interupt level.</p>
     </li>
+    <li>Timestamp services
+      <p>
+        Methods: updateTimeStamp, getTimeStamp, setTimeStamp, registerTimeStampSource, unregisterTimeStampSource.</p>
+      <p>
+        These methods provide support for setting a timestamp for a port. This timestamp
+        is typically used to set the pasynUser-&gt;timestamp field that is passed to device
+        support on read or callback operations. Device support uses the pasynUser-&gt;timestamp
+        field to set the record TIME field. This will then be the record timestamp if the
+        record TSE field is -2. asynManager provides a default timestamp source function
+        which just calls epicsTimeGetCurrent(). However, registerTimeStampSource can be
+        used to supply a different user-provided timestamp source function, for example
+        one that calls epicsTimeGetEvent(), or some other site-specific timestamp source.
+        unregisterTimeStampSource reverts to the default timestamp source in pasynManager.</p>
+    </li>
     <li>General purpose freelist service
       <p>
         Methods: memMalloc, memFree</p>
@@ -892,6 +883,11 @@
     <li>asynUser - A struture that contains generic information and is the "handle" for
       calling most methods.</li>
     <li>asynInterface - a structure that describes an interface.</li>
+    <li>userCallback - a typedef for the user process callback function described above.</li>
+    <li>exceptionCallback - a typedef for a user callback to be called when exceptions
+      occur.</li>
+    <li>timeStampCallback - a typedef for a user callback function that will be called
+      by updateTimeStamp.</li>
     <li>asynManager - An interface for communicating with asynDriver.</li>
     <li>asynCommon - An interface providing methods that must be implemented by all low
       level drivers.</li>
@@ -957,7 +953,7 @@
     Defines the exceptions for method exceptionOccurred</p>
   <pre>typedef enum {
     asynExceptionConnect,asynExceptionEnable,asynExceptionAutoConnect,
-    asynExceptionTraceMask,asynExceptionTraceIOMask,
+    asynExceptionTraceMask,asynExceptionTraceIOMask,asynExceptionTraceInfoMask,
     asynExceptionTraceFile,asynExceptionTraceIOTruncateSize
 } asynException;</pre>
   <table border="1">
@@ -993,6 +989,12 @@
           asynExceptionTraceIOMask</td>
         <td>
           The traceIOMask for the port or device has changed.</td>
+      </tr>
+      <tr>
+        <td>
+          asynExceptionTraceInfoMask</td>
+        <td>
+          The traceInfoMask for the port or device has changed.</td>
       </tr>
       <tr>
         <td>
@@ -1217,6 +1219,7 @@ typedef struct interruptNode{
 
 typedef void (*userCallback)(asynUser *pasynUser);
 typedef void (*exceptionCallback)(asynUser *pasynUser,asynException exception);
+typedef void (*timeStampCallback)(void *userPvt, epicsTimeStamp *pTimeStamp);
 
 typedef struct asynManager {
     void      (*report)(FILE *fp,int details,const char*portName);
@@ -1281,6 +1284,13 @@ typedef struct asynManager {
                                   interruptNode*pinterruptNode);
     asynStatus (*interruptStart)(void *pasynPvt,ELLLIST **plist);
     asynStatus (*interruptEnd)(void *pasynPvt);
+    /* Time stamp functions */
+    asynStatus (*registerTimeStampSource)(asynUser *pasynUser, void *userPvt, timeStampCallback callback);
+    asynStatus (*unregisterTimeStampSource)(asynUser *pasynUser);
+    asynStatus (*updateTimeStamp)(asynUser *pasynUser);
+    asynStatus (*getTimeStamp)(asynUser *pasynUser, epicsTimeStamp *pTimeStamp);
+    asynStatus (*setTimeStamp)(asynUser *pasynUser, const epicsTimeStamp *pTimeStamp);
+
     const char *(*strStatus)(asynStatus status);
 }asynManager;
 epicsShareExtern asynManager *pasynManager;</pre>
@@ -1349,13 +1359,12 @@ epicsShareExtern asynManager *pasynManager;</pre>
         <td>
           connectDevice</td>
         <td>
-          Connect to a device specified by portName, addr. The port Name is the same as that
-          specified in a call to registerPort. The call will fail if the asynUser is already
-          connected. If the port does not support multiple devices, than addr is ignored.
-          The call will fail if the asynUser is already connected to a device. connectDevice
-          only connects a user to the port driver for the portName,addr. The port driver may
-          or may not be connected to the actual device. Thus, connectDevice and asynCommon:connect
-          are completely different.
+          Connect the asynUser structure to a device specified by portName, addr. The port
+          Name is the same as that specified in a call to registerPort. The call will fail
+          if the asynUser is already connected to a device. If the port does not support multiple
+          devices, than addr is ignored. connectDevice only connects the asynUser to the port
+          driver for the portName,addr. The port driver may or may not be connected to the
+          actual device. Thus, connectDevice and asynCommon:connect are completely different.
           <p>
             See the Theory of Operation section for a description of the difference between
             single and multi-device port drivers.</p>
@@ -1365,10 +1374,10 @@ epicsShareExtern asynManager *pasynManager;</pre>
         <td>
           disconnect</td>
         <td>
-          Disconnect from the port,addr to which connectDevice is connected. The call will
-          fail if the asynUser is queued or locked, or has a callback registered via exceptionCallbackAdd.
-          Note that asynManager:disconnect and asynCommon:disconnect are completely different.
-        </td>
+          Disconnect the asynUser from the port,addr to which it is connected via a previous
+          call to connectDevice. The call will fail if the asynUser is queued or locked, or
+          has a callback registered via exceptionCallbackAdd. Note that asynManager:disconnect
+          and asynCommon:disconnect are completely different. </td>
       </tr>
       <tr>
         <td>
@@ -1689,6 +1698,42 @@ pasynOctet-&gt;read(pasynOctetPvt,pasynUser,...
       </tr>
       <tr>
         <td>
+          registerTimeStampSource</td>
+        <td>
+          Registers a user-defined time stamp callback function.</td>
+      </tr>
+      <tr>
+        <td>
+          unregisterTimeStampSource</td>
+        <td>
+          Unregisters any user-defined timestamp callback function and reverts to the default
+          timestamp source function in asynManager, which simply calls epicsTimeGetCurrent().
+        </td>
+      </tr>
+      <tr>
+        <td>
+          updateTimeStamp</td>
+        <td>
+          Set the current time stamp for this port by calling either the default timestamp
+          source, or a user-defined timestamp source that was registered with registerTimeStampSource.
+        </td>
+      </tr>
+      <tr>
+        <td>
+          getTimeStamp</td>
+        <td>
+          Get the current time stamp for this port that was returned by the most recent call
+          to updateTimeStamp. </td>
+      </tr>
+      <tr>
+        <td>
+          setTimeStamp</td>
+        <td>
+          Set the current time stamp for this port directly from the timestamp value passed
+          to this function. </td>
+      </tr>
+      <tr>
+        <td>
           strStatus</td>
         <td>
           Returns a descriptive string corresponding to the asynStatus value.</td>
@@ -1886,35 +1931,71 @@ typedef struct asynOption {
 #define ASYN_TRACEIO_FILTER  0x0004
 #define ASYN_TRACEIO_DRIVER  0x0008
 #define ASYN_TRACE_FLOW      0x0010
+#define ASYN_TRACE_WARNING   0x0020
 
 /* traceIO mask definitions*/
 #define ASYN_TRACEIO_NODATA 0x0000
 #define ASYN_TRACEIO_ASCII  0x0001
 #define ASYN_TRACEIO_ESCAPE 0x0002
 #define ASYN_TRACEIO_HEX    0x0004
+
+/* traceInfo mask definitions*/
+#define ASYN_TRACEINFO_TIME 0x0001
+#define ASYN_TRACEINFO_PORT 0x0002
+#define ASYN_TRACEINFO_SOURCE 0x0004
+#define ASYN_TRACEINFO_THREAD 0x0008
+
 /* asynPrint and asynPrintIO are macros that act like
-   int asynPrint(asynUser *pasynUser,int reason, const char *format, ... );
-   int asynPrintIO(asynUser *pasynUser,int reason,
-        const char *buffer, size_t len, const char *format, ... );
+   int asynPrintSource(asynUser *pasynUser,int reason, __FILE__, __LINE__, const char *format, ... );
+   int asynPrintIOSource(asynUser *pasynUser,int reason,
+        const char *buffer, size_t len, __FILE__, __LINE__, const char *format, ... );
 */
 typedef struct asynTrace {
-    /* lock/unlock are only necessary if caller performs I/O other then*/
-    /* by calling asynTrace methods                                    */
+    /* lock/unlock are only necessary if caller performs I/O other than */
+    /* by calling asynTrace methods                                     */
     asynStatus (*lock)(asynUser *pasynUser);
     asynStatus (*unlock)(asynUser *pasynUser);
     asynStatus (*setTraceMask)(asynUser *pasynUser,int mask);
     int        (*getTraceMask)(asynUser *pasynUser);
     asynStatus (*setTraceIOMask)(asynUser *pasynUser,int mask);
     int        (*getTraceIOMask)(asynUser *pasynUser);
+    asynStatus (*setTraceInfoMask)(asynUser *pasynUser,int mask);
+    int        (*getTraceInfoMask)(asynUser *pasynUser);
     asynStatus (*setTraceFile)(asynUser *pasynUser,FILE *fp);
     FILE       *(*getTraceFile)(asynUser *pasynUser);
     asynStatus (*setTraceIOTruncateSize)(asynUser *pasynUser,size_t size);
     size_t     (*getTraceIOTruncateSize)(asynUser *pasynUser);
+#if defined(__GNUC__) && (__GNUC__ < 3)
+    /* GCC 2.95 does not allow EPICS_PRINTF_STYLE on function pointers */
     int        (*print)(asynUser *pasynUser,int reason, const char *pformat, ...);
+    int        (*printSource)(asynUser *pasynUser,int reason, const char *fileName, int line, const char *pformat, ...);
+    int        (*vprint)(asynUser *pasynUser,int reason, const char *pformat, va_list pvar);
+    int        (*vprintSource)(asynUser *pasynUser,int reason, const char *file, int line, const char *pformat, va_list pvar);
     int        (*printIO)(asynUser *pasynUser,int reason,
-               const char *buffer, size_t len,const char *pformat, ...);
+                    const char *buffer, size_t len,const char *pformat, ...);
+    int        (*printIOSource)(asynUser *pasynUser,int reason,
+                    const char *buffer, size_t len,const char *file, int line, const char *pformat, ...);
+    int        (*vprintIO)(asynUser *pasynUser,int reason,
+                    const char *buffer, size_t len,const char *pformat, va_list pvar);
+    int        (*vprintIOSource)(asynUser *pasynUser,int reason,
+                    const char *buffer, size_t len,const char *file, int line, const char *pformat, va_list pvar);
+#else
+    int        (*print)(asynUser *pasynUser,int reason, const char *pformat, ...) EPICS_PRINTF_STYLE(3,4);
+    int        (*printSource)(asynUser *pasynUser,int reason, const char *fileName, int line, const char *pformat, ...) EPICS_PRINTF_STYLE(5,6);
+    int        (*vprint)(asynUser *pasynUser,int reason, const char *pformat, va_list pvar) EPICS_PRINTF_STYLE(3,0);
+    int        (*vprintSource)(asynUser *pasynUser,int reason, const char *file, int line, const char *pformat, va_list pvar) EPICS_PRINTF_STYLE(5,0);
+    int        (*printIO)(asynUser *pasynUser,int reason,
+                    const char *buffer, size_t len,const char *pformat, ...) EPICS_PRINTF_STYLE(5,6);
+    int        (*printIOSource)(asynUser *pasynUser,int reason,
+                    const char *buffer, size_t len,const char *file, int line, const char *pformat, ...) EPICS_PRINTF_STYLE(7,8);
+    int        (*vprintIO)(asynUser *pasynUser,int reason,
+                    const char *buffer, size_t len,const char *pformat, va_list pvar) EPICS_PRINTF_STYLE(5,0);
+    int        (*vprintIOSource)(asynUser *pasynUser,int reason,
+                    const char *buffer, size_t len,const char *file, int line, const char *pformat, va_list pvar) EPICS_PRINTF_STYLE(7,0);
+#endif
 }asynTrace;
-epicsShareExtern asynTrace *pasynTrace;</pre>
+epicsShareExtern asynTrace *pasynTrace;
+</pre>
   <h3>
     asynTrace</h3>
   <p>
@@ -1935,6 +2016,8 @@ epicsShareExtern asynTrace *pasynTrace;</pre>
           callbacks entered, and all calls to drivers. Layers between device support and low
           level drivers should report all calls they make to lower level drivers. Low level
           drivers report calls they make to other support.</li>
+        <li>ASYN_TRACE_WARNING Report warnings, i.e. conditions that are between ASYN_TRACE_ERROR
+          and ASYN_TRACE_FLOW.</li>
       </ul>
     </li>
     <li>Another mask determines how message buffers are printed. The various choices can
@@ -1944,6 +2027,19 @@ epicsShareExtern asynTrace *pasynTrace;</pre>
         <li>ASYN_TRACEIO_ASCII Print with a "%s" style format.</li>
         <li>ASYN_TRACEIO_ESCAPE Call epicsStrPrintEscaped.</li>
         <li>ASYN_TRACEIO_HEX Print each byte with " %2.2x".</li>
+      </ul>
+    </li>
+    <li>Another mask determines what information is printed at the beginning of each message.
+      The various choices can be ORed together.
+      <ul>
+        <li>ASYN_TRACEINFO_TIME prints the date and time of the message.</li>
+        <li>ASYN_TRACEINFO_PORT prints [port,addr,reason], where port is the port name, addr
+          is the asyn address, and reason is pasynUser-&gt;reason. These are the 3 pieces
+          of "addressing" information in asyn.</li>
+        <li>ASYN_TRACEINFO_SOURCE prints the file name and line number, i.e. [__FILE__,__LINE__]
+          where the asynPrint or asynPrintIO statement occurs.</li>
+        <li>ASYN_TRACEINFO_THREAD prints the thread name, thread ID and thread priority, i.e.
+          [epicsThreadGetNameSelf(), epicsThreadGetIdSelf(), epicsThreadGetPrioritySelf()].</li>
       </ul>
     </li>
   </ul>
@@ -2024,6 +2120,22 @@ epicsShareExtern asynTrace *pasynTrace;</pre>
       </tr>
       <tr>
         <td>
+          setTraceInfoMask</td>
+        <td>
+          Set the traceInfo mask. Normally set by the user requesting it via a shell command
+          or the devTrace device support. Setting the traceInfo mask for a port also sets
+          the traceInfo mask for all devices connected to that port</td>
+      </tr>
+      <tr>
+        <td>
+          getTraceInfoMask</td>
+        <td>
+          Get the traceInfo mask. Support that wants to issue its own IO messages instead
+          of calling asynPrint should call this and honor the mask settings. Most code will
+          not need it.</td>
+      </tr>
+      <tr>
+        <td>
           setTraceFile</td>
         <td>
           Set the stream to use for output. A NULL argument means use errlog. Normally set
@@ -2062,7 +2174,29 @@ epicsShareExtern asynTrace *pasynTrace;</pre>
           print</td>
         <td>
           If reason ORed with the current traceMask is not zero, then the message is printed.
-          Most code should call asynPrint instead of calling this method.</td>
+          This method is provided for backwards compatibility. The asynPrint macro now calls
+          printSource().</td>
+      </tr>
+      <tr>
+        <td>
+          printSource</td>
+        <td>
+          If reason ORed with the current traceMask is not zero, then the message is printed.
+          Most code should call asynPrint instead of calling this method. This method is the
+          same as print() but with the additional <b>file</b> and <b>line</b> arguments.
+        </td>
+      </tr>
+      <tr>
+        <td>
+          vprint</td>
+        <td>
+          This is the same as print, but using a va_list as its final argument.</td>
+      </tr>
+      <tr>
+        <td>
+          vprintSource</td>
+        <td>
+          This is the same as printSource, but using a va_list as its final argument.</td>
       </tr>
       <tr>
         <td>
@@ -2070,7 +2204,30 @@ epicsShareExtern asynTrace *pasynTrace;</pre>
         <td>
           If reason ORed with the current traceMask is not zero then the message is printed.
           If len is &gt;0, then the buffer is printed using the traceIO mask and getTraceIOTruncateSize.
-          Most code should call asynPrintIO instead of calling this method.</td>
+          This method is provided for backwards compatibility. The asynPrintIO macro now calls
+          printIOSource().</td>
+      </tr>
+      <tr>
+        <td>
+          printIOSource</td>
+        <td>
+          If reason ORed with the current traceMask is not zero then the message is printed.
+          If len is &gt;0, then the buffer is printed using the traceIO mask and getTraceIOTruncateSize.
+          Most code should call asynPrintIO instead of calling this method. This method is
+          the same as printIO() but with the additional <b>file</b> and <b>line</b> arguments.
+        </td>
+      </tr>
+      <tr>
+        <td>
+          vprintIO</td>
+        <td>
+          This is the same as printIO, but using a va_list as its final argument.</td>
+      </tr>
+      <tr>
+        <td>
+          vprintIOSource</td>
+        <td>
+          This is the same as printIOSource, but using a va_list as its final argument.</td>
       </tr>
     </tbody>
   </table>
@@ -4175,6 +4332,12 @@ int simDetectorConfig(const char *portName, int maxSizeX, int maxSizeY, int data
     and setting the desired value into the timestamp field of the pasynUser structure
     referred to in the device read method or interrupt callback.
   </p>
+  <p>
+    Beginning in asyn R4-22 the timestamp support functions were added to asynManager
+    to update, get and set the most recent timestamp for the port in asynManager. Support
+    was also added for user-supplied timestamp source functions. Timestamp support was
+    also added to asynPortDriver for the base-class read functions and callback functions.
+  </p>
   <h2>
     asynInt32 device support</h2>
   <p>
@@ -5174,7 +5337,7 @@ struct asynGpibPort {
         <td>
           baud</td>
         <td>
-          9600 50 75 110 134 150 200 300 600 1200 ... 230400</td>
+          50 75 110 134 150 200 300 600 1200 2400 9600 ...</td>
       </tr>
       <tr>
         <td>
@@ -5226,6 +5389,11 @@ struct asynGpibPort {
       </tr>
     </tbody>
   </table>
+  <p>
+    On some systems (e.g. Windows, Darwin) the driver accepts any numeric value for
+    the baud rate, which must, of course be supported by the system hardware. On Linux
+    the choices are limited to the values like B300, B9600, etc. which are defined in
+    /usr/include/bits/termios.h.</p>
   <p>
     The clocal and crtscts parameter names are taken from the POSIX termios serial interface
     definition. The clocal parameter controls whether the modem control lines (Data
@@ -5290,7 +5458,9 @@ asynSetOption("L0",0,"baud","9600")</pre>
           commands just as for local serial ports. The default parameters are 9600-8-N-1 with
           no flow control.</li>
       </ul>
-    </li>
+      If the hostInfo argument begins wih the characters <span style="font-weight: bold">
+        unix://</span> the remainder of the argument is taken to be the name of a UNIX-domain
+      stream socket. </li>
     <li>priority - Priority at which the asyn I/O thread will run. If this is zero or
       missing, then epicsThreadPriorityMedium is used.</li>
     <li>noAutoConnect - Zero or missing indicates that portThread should automatically
@@ -5593,6 +5763,7 @@ gsIP488Configure("L0",0,0,0x61,0,0)</pre>
     asynInterposeEosConfig(portName,addr,processIn,processOut)
     asynSetTraceMask(portName,addr,mask)
     asynSetTraceIOMask(portName,addr,mask)
+    asynSetTraceInfoMask(portName,addr,mask)
     asynSetTraceFile(portName,addr,filename)
     asynSetTraceIOTruncateSize(portName,addr,size)
     asynSetOption(portName,addr,key,val)
@@ -5609,7 +5780,10 @@ gsIP488Configure("L0",0,0,0x61,0,0)</pre>
     asynOctetSetInputEos(portName,addr,eos,drvInfo)
     asynOctetGetInputEos(portName,addr,drvInfo)
     asynOctetSetOutputEos(portName,addr,eos,drvInfo)
-    asynOctetGetOutputEos(portName,addr,drvInfo)</pre>
+    asynOctetGetOutputEos(portName,addr,drvInfo)
+    asynRegisterTimeStampSource(portName,functionName);
+    asynUnregisterTimeStampSource(portName)    
+    </pre>
   <p>
     <code>asynReport</code> calls <code>asynCommon:report</code> for a specific port
     if portName is specified, or for all registered drivers and interposeInterface if
@@ -5630,6 +5804,10 @@ gsIP488Configure("L0",0,0,0x61,0,0)</pre>
     the specified port and address. If portName is zero length then the global traceIO
     mask is set.</p>
   <p>
+    <code>asynSetTraceInfoMask</code> calls <code>asynTrace:setTraceInfoMask</code>
+    for the specified port and address. If portName is zero length then the global traceInfo
+    mask is set.</p>
+  <p>
     <code>asynSetTraceFile</code> calls <code>asynTrace:setTraceFile</code>. The filename
     is handled as follows:</p>
   <ul>
@@ -5646,8 +5824,8 @@ gsIP488Configure("L0",0,0,0x61,0,0)</pre>
     <code>asynSetOption</code> calls <code>asynCommon:setOption</code>. <code>asynShowOption</code>
     calls <code>asynCommon:getOption</code>.</p>
   <p>
-    asynOctetConnect, ...asynOctetFlush provide shell access to asynOctetSyncIO methods.
-    The entry is a character string constant that identifys the port,addr.</p>
+    Thw asynOctetXXX commands provide shell access to asynOctetSyncIO methods. The entry
+    is a character string constant that identifys the port,addr.</p>
   <p>
     where</p>
   <ul>
@@ -5684,6 +5862,14 @@ testnew\n
 asynOctetWriteRead("myid","this is test")
 this is test\n
 asynOctetDisconnect("myid")</pre>
+  <p>
+    <code>asynRegisterTimeStampSource</code> calls <code>pasynManager->registerTimeStampSource</code>
+    for the specified port. The time stamp source function must be defined as a "function"
+    in the application dbd file.</p>
+  <p>
+    <code>asynUnregisterTimeStampSource</code> calls <code>pasynManager->runegisterTimeStampSource</code>
+    for the specified port. This reverts to the default timestamp source function in
+    asynManager.</p>
   <hr />
   <div style="text-align: center">
     <h2 id="InstallBuild">

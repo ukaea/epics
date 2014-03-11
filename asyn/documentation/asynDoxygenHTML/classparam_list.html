@@ -14,7 +14,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
-   <div id="projectname">asyn&#160;<span id="projectnumber">4-21</span></div>
+   <div id="projectname">asyn&#160;<span id="projectnumber">4-22</span></div>
   </td>
  </tr>
  </tbody>
@@ -52,8 +52,8 @@
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classparam_list.html#a7863e2ccecfc3b6a31c9ffbf5e21ff83">paramList</a> (int nVals, asynStandardInterfaces *pasynInterfaces)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for <a class="el" href="classparam_list.html" title="Class to support parameter library (also called parameter list); set and get values indexed by parame...">paramList</a> class.  <a href="#a7863e2ccecfc3b6a31c9ffbf5e21ff83"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classparam_list.html#adcb2f0e06dafcc6bf62620878d5803e2">paramList</a> (int nVals, <a class="el" href="classasyn_port_driver.html">asynPortDriver</a> *pPort)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for <a class="el" href="classparam_list.html" title="Class to support parameter library (also called parameter list); set and get values indexed by parame...">paramList</a> class.  <a href="#adcb2f0e06dafcc6bf62620878d5803e2"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classparam_list.html#a43ec329eabb09ea72ba67951f228f151">~paramList</a> ()</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor for <a class="el" href="classparam_list.html" title="Class to support parameter library (also called parameter list); set and get values indexed by parame...">paramList</a> class; frees resources allocated in constructor.  <a href="#a43ec329eabb09ea72ba67951f228f151"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="classparam_val.html">paramVal</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classparam_list.html#a95ab0694f15f5a61cab8d2240e7fa482">getParameter</a> (int index)</td></tr>
@@ -100,7 +100,7 @@ Public Member Functions</h2></td></tr>
 <div class="textblock"><p>Class to support parameter library (also called parameter list); set and get values indexed by parameter number (pasynUser-&gt;reason) and do asyn callbacks when parameters change. </p>
 <p>The parameter class supports 3 types of parameters: int, double and dynamic-length strings. </p>
 </div><hr/><h2>Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a7863e2ccecfc3b6a31c9ffbf5e21ff83"></a><!-- doxytag: member="paramList::paramList" ref="a7863e2ccecfc3b6a31c9ffbf5e21ff83" args="(int nVals, asynStandardInterfaces *pasynInterfaces)" -->
+<a class="anchor" id="adcb2f0e06dafcc6bf62620878d5803e2"></a><!-- doxytag: member="paramList::paramList" ref="adcb2f0e06dafcc6bf62620878d5803e2" args="(int nVals, asynPortDriver *pPort)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -113,8 +113,8 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">asynStandardInterfaces *&#160;</td>
-          <td class="paramname"><em>pasynInterfaces</em>&#160;</td>
+          <td class="paramtype"><a class="el" href="classasyn_port_driver.html">asynPortDriver</a> *&#160;</td>
+          <td class="paramname"><em>pPort</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -129,7 +129,7 @@ Public Member Functions</h2></td></tr>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">nValues</td><td>Number of parameters in the list. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">pasynInterfaces</td><td>Pointer to asynStandardInterfaces structure, used for callbacks </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">pPort</td><td>Pointer to <a class="el" href="classasyn_port_driver.html" title="Base class for asyn port drivers; handles most of the bookkeeping for writing an asyn port driver wit...">asynPortDriver</a> port for this <a class="el" href="classparam_list.html" title="Class to support parameter library (also called parameter list); set and get values indexed by parame...">paramList</a>. </td></tr>
   </table>
   </dd>
 </dl>
@@ -927,12 +927,12 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>/home/epics/devel/asynR4-21/asyn/asynPortDriver/<a class="el" href="param_list_8h_source.html">paramList.h</a></li>
-<li>/home/epics/devel/asynR4-21/asyn/asynPortDriver/<a class="el" href="param_list_8cpp.html">paramList.cpp</a></li>
-<li>/home/epics/devel/asynR4-21/asyn/asynPortDriver/<a class="el" href="param_val_8cpp.html">paramVal.cpp</a></li>
+<li>/home/epics/devel/asynR4-22/asyn/asynPortDriver/<a class="el" href="param_list_8h_source.html">paramList.h</a></li>
+<li>/home/epics/devel/asynR4-22/asyn/asynPortDriver/<a class="el" href="param_list_8cpp.html">paramList.cpp</a></li>
+<li>/home/epics/devel/asynR4-22/asyn/asynPortDriver/<a class="el" href="param_val_8cpp.html">paramVal.cpp</a></li>
 </ul>
 </div>
-<hr class="footer"/><address class="footer"><small>Generated on Mon Feb 18 2013 for asyn by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Wed Oct 30 2013 for asyn by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>
