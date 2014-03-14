@@ -5,6 +5,10 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="src\O.Common">
+      <UniqueIdentifier>{d0104fb1-fae6-467d-b202-b534bd676d23}</UniqueIdentifier>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\devTestGpibSerial.c">
@@ -13,16 +17,24 @@
     <ClCompile Include="src\testGpibSerialMain.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\O.Common\testGpibSerial_registerRecordDeviceDriver.cpp">
+      <Filter>src\O.Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\devTestGpibSerial.dbd">
-      <Filter>src</Filter>
-    </None>
     <None Include="src\ipacInclude.dbd">
       <Filter>src</Filter>
     </None>
     <None Include="src\testGpibSerialSupport.dbd">
       <Filter>src</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="src\devTestGpibSerial.dbd">
+      <Filter>src</Filter>
+    </CustomBuild>
+    <CustomBuild Include="src\O.Common\testGpibSerial.dbd">
+      <Filter>src\O.Common</Filter>
+    </CustomBuild>
   </ItemGroup>
 </Project>

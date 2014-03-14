@@ -34,14 +34,13 @@ extern "C" {
 #   define assert(ignore) ((void) 0)
 #else /* NDEBUG */
 
-epicsShareFunc void epicsAssert (const char *pFile, const unsigned line,
-    const char *pExp, const char *pAuthorName);
-
 #   define assert(exp) ((exp) ? (void)0 : \
         epicsAssert(__FILE__, __LINE__, #exp, epicsAssertAuthor))
 
 #endif  /* NDEBUG */
 
+epicsShareFunc void epicsAssert (const char *pFile, const unsigned line,
+    const char *pExp, const char *pAuthorName);
 
 /* Compile-time checks */
 #define STATIC_JOIN(x, y) STATIC_JOIN2(x, y)
