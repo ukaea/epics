@@ -258,7 +258,7 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I./O.Common -I$(SolutionDir)/
     </Link>
     <PreBuildEvent>
       <Command>if not exist src\O.Common md .\src\O.Common
-perl -CSD  $(OutDir)dbdExpand.pl  -I.\src\O.Common -I$(SolutionDir)/dbd -o src\O.Common\motorIms.dbd base.dbd motorSupport.dbd devImsMotor.dbd drvAsynSerialPort.dbd
+perl -CSD  $(OutDir)dbdExpand.pl  -I.\src\O.Common -I$(SolutionDir)/dbd -o src\O.Common\motorIms.dbd base.dbd motorSupport.dbd devImsMotor.dbd asyn.dbd drvAsynSerialPort.dbd
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I./O.Common -I$(SolutionDir)/dbd  -o  src\O.Common\motorIms_registerRecordDeviceDriver.cpp .\src\O.Common\motorIms.dbd motorIms_registerRecordDeviceDriver ..\..\
 </Command>
     </PreBuildEvent>
