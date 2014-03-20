@@ -442,6 +442,9 @@ cd $(ProjectDir)
     <ProjectReference Include="..\lemon\lemon.vcxproj">
       <Project>{91cdf9cd-71fd-4afe-a824-fb868bf15978}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\seq\seq.vcxproj">
+      <Project>{ae5791bc-9233-4f7a-8deb-a14e4d969c05}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
