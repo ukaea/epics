@@ -1,11 +1,11 @@
-#!../../bin/win32-x86/motorIms
+#!../../bin/win32-x86/withAsyn
 
-# Gives path to the motor project root.
+# Gives (relative) path to the motor project root.
 epicsEnvSet MOTOR ../../motorApp
 
 # Register all support components
-dbLoadDatabase("../../dbd/motorIms.dbd")
-motorIms_registerRecordDeviceDriver pdbbase
+dbLoadDatabase("../../../dbd/WithAsyn.dbd")
+WithAsyn_registerRecordDeviceDriver pdbbase
 
 # Motors substitutions, customize this for your motor
 dbLoadTemplate (motor.substitutions.$(ENCODERENABLED).ims)
