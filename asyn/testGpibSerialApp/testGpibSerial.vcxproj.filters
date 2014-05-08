@@ -9,6 +9,9 @@
       <UniqueIdentifier>{d0104fb1-fae6-467d-b202-b534bd676d23}</UniqueIdentifier>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
+    <Filter Include="testApp">
+      <UniqueIdentifier>{888eb747-ba97-4276-9c33-6125426e0a22}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\devTestGpibSerial.c">
@@ -19,6 +22,9 @@
     </ClCompile>
     <ClCompile Include="src\O.Common\testGpibSerial_registerRecordDeviceDriver.cpp">
       <Filter>src\O.Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\testApp\src\echoDriver.c">
+      <Filter>testApp</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

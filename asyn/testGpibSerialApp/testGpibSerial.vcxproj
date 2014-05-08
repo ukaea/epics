@@ -49,6 +49,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\testApp\src\echoDriver.c" />
     <ClCompile Include="src\devTestGpibSerial.c" />
     <ClCompile Include="src\O.Common\testGpibSerial_registerRecordDeviceDriver.cpp" />
     <ClCompile Include="src\testGpibSerialMain.cpp" />
