@@ -468,7 +468,6 @@ xcopy /Y /Q /D /R .\devEpics\*.dbd   $(SolutionDir)dbd &gt; NUL
     <ClInclude Include="asynPortDriver\exceptions\ParamValValueNotChanged.h" />
     <ClInclude Include="asynPortDriver\exceptions\ParamValWrongType.h" />
     <ClInclude Include="asynPortDriver\paramErrors.h" />
-    <ClInclude Include="asynPortDriver\paramList.h" />
     <ClInclude Include="asynPortDriver\paramVal.h" />
     <ClInclude Include="devEpics\asynEpicsUtils.h" />
     <ClInclude Include="devEpics\devAsynXXXArray.h" />
@@ -532,7 +531,6 @@ xcopy /Y /Q /D /R .\devEpics\*.dbd   $(SolutionDir)dbd &gt; NUL
     <ClCompile Include="asynPortDriver\exceptions\ParamValStringSizeRequestTooBig.cpp" />
     <ClCompile Include="asynPortDriver\exceptions\ParamValValueNotChanged.cpp" />
     <ClCompile Include="asynPortDriver\exceptions\ParamValWrongType.cpp" />
-    <ClCompile Include="asynPortDriver\paramList.cpp" />
     <ClCompile Include="asynPortDriver\paramVal.cpp" />
     <ClCompile Include="asynRecord\asynRecord.c" />
     <ClCompile Include="asynRecord\drvAsyn.c" />

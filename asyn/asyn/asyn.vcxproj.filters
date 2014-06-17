@@ -58,9 +58,6 @@
     <ClInclude Include="asynPortDriver\paramErrors.h">
       <Filter>asynPortDriver</Filter>
     </ClInclude>
-    <ClInclude Include="asynPortDriver\paramList.h">
-      <Filter>asynPortDriver</Filter>
-    </ClInclude>
     <ClInclude Include="asynPortDriver\paramVal.h">
       <Filter>asynPortDriver</Filter>
     </ClInclude>
@@ -217,9 +214,6 @@
       <Filter>asynGpib</Filter>
     </ClCompile>
     <ClCompile Include="asynPortDriver\asynPortDriver.cpp">
-      <Filter>asynPortDriver</Filter>
-    </ClCompile>
-    <ClCompile Include="asynPortDriver\paramList.cpp">
       <Filter>asynPortDriver</Filter>
     </ClCompile>
     <ClCompile Include="asynPortDriver\paramVal.cpp">
