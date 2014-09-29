@@ -88,6 +88,11 @@ typedef struct memNode {
     ELLNODE node;
     void    *memory;
 }memNode;
+
+/*
+ * Ensure adequate alignment
+ */
+#define NODESIZE (((sizeof(memNode)+15)/16)*16)
 
 typedef struct asynBase {
     ELLLIST           asynPortList;
@@ -1186,20 +1191,21 @@ static void *memMalloc(size_t size)
         if(size<=memListSize[ind]) break;
     }
     if(ind>=nMemList) {
-        return mallocMustSucceed(size,"asynManager::memCalloc");
+        return mallocMustSucceed(size,"asynManager::memMalloc");
     }
     pmemList = &pasynBase->memList[ind];
     epicsMutexMustLock(pasynBase->lock);
     pmemNode = (memNode *)ellFirst(pmemList);
     if(pmemNode) {
-        ellDelete(pmemList,&pmemNode->node);
-    } else {
-        pmemNode = mallocMustSucceed(sizeof(memNode)+memListSize[ind],
-            "asynManager::memCalloc");
-        pmemNode->memory = pmemNode + 1;
-    }
-    epicsMutexUnlock(pasynBase->lock);
-    return pmemNode->memory;
+         ellDelete(pmemList,&pmemNode->node);
+     } else {
+        /* Note: pmemNode->memory must be multiple of 16 in order to hold any data type */
+        pmemNode = mallocMustSucceed(NODESIZE + memListSize[ind],
+             "asynManager::memMalloc");
+        pmemNode->memory = (char *)pmemNode + NODESIZE;
+     }
+     epicsMutexUnlock(pasynBase->lock);
+     return pmemNode->memory;
 }
 
 static void memFree(void *pmem,size_t size)
@@ -1219,8 +1225,7 @@ static void memFree(void *pmem,size_t size)
     }
     assert(ind<nMemList);
     pmemList = &pasynBase->memList[ind];
-    pmemNode = pmem;
-    pmemNode--;
+    pmemNode = (memNode *)((char *)pmem - NODESIZE);
     assert(pmemNode->memory==pmem);
     epicsMutexMustLock(pasynBase->lock);
     ellAdd(pmemList,&pmemNode->node);

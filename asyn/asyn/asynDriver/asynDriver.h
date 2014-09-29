@@ -28,12 +28,13 @@
 #   define epicsExportSharedSymbols
 #	undef asynDriver_epicsExportSharedSymbols
 #endif
+
 #include <shareLib.h>
 
 /* Version number names similar to those provide by base
  * These macros are always numeric */
 #define ASYN_VERSION       4
-#define ASYN_REVISION     22
+#define ASYN_REVISION     23
 #define ASYN_MODIFICATION  0
 
 #ifdef __cplusplus

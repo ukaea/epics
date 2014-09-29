@@ -24,7 +24,7 @@
 #include "asynOctet.h"
 #include "asynOption.h"
 
-#define epicsExportSharedSymbols
+#include <epicsExport.h>
 #include "asynInterposeCom.h"
 
 /*
