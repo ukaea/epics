@@ -109,10 +109,8 @@ asyn_SRCS += ParamValValueNotChanged.cpp
 SRC_DIRS += $(ASYN)/asynPortDriver
 INC += asynParamType.h
 INC += paramVal.h
-INC += paramList.h
 INC += asynPortDriver.h
 asyn_SRCS += paramVal.cpp
-asyn_SRCS += paramList.cpp
 asyn_SRCS += asynPortDriver.cpp
 
 
@@ -173,6 +171,19 @@ asyn_LIBS_vxWorks += Ipac
 asyn_LIBS_RTEMS += Ipac
 endif
 
+ifneq (, $(findstring RTEMS, $(T_A)))
+DRV_USBTMC = NO
+endif
+ifneq (, $(findstring vxWorks, $(T_A)))
+DRV_USBTMC = NO
+endif
+ifeq ($(DRV_USBTMC),YES)
+SRC_DIRS += $(ASYN)/drvAsynUSBTMC
+asyn_SRCS += drvAsynUSBTMC.c
+asyn_SYS_LIBS += usb-1.0
+DBD += drvAsynUSBTMC.dbd
+endif
+
 SRC_DIRS += $(ASYN)/ni1014
 asyn_SRCS_vxWorks += drvNi1014.c
 asyn_SRCS_RTEMS += drvNi1014.c
@@ -182,7 +193,7 @@ ifeq ($(LINUX_GPIB),YES)
 SRC_DIRS += $(ASYN)/linuxGpib
 asyn_SRCS_Linux += drvLinuxGpib.c
 DBD += drvLinuxGpib.dbd
-asyn_LIBS += gpib
+asyn_SYS_LIBS += gpib
 endif
 
 SRC_DIRS += $(ASYN)/devGpib

@@ -158,13 +158,13 @@ class Stream : protected StreamCore
     bool process();
 
 // device support functions
-    friend long streamInitRecord(dbCommon *record, const struct link *ioLink,
+    friend epicsShareExtern long streamInitRecord(dbCommon *record, const struct link *ioLink,
         streamIoFunction readData, streamIoFunction writeData);
-    friend long streamReadWrite(dbCommon *record);
-    friend long streamGetIointInfo(int cmd, dbCommon *record,
+    friend epicsShareExtern long streamReadWrite(dbCommon *record);
+    friend epicsShareExtern long streamGetIointInfo(int cmd, dbCommon *record,
         IOSCANPVT *ppvt);
-    friend long streamPrintf(dbCommon *record, format_t *format, ...);
-    friend long streamScanfN(dbCommon *record, format_t *format,
+    friend epicsShareExtern long streamPrintf(dbCommon *record, format_t *format, ...);
+    friend epicsShareExtern long streamScanfN(dbCommon *record, format_t *format,
         void*, size_t maxStringSize);
     friend long streamReload(char* recordname);
 
@@ -396,7 +396,7 @@ drvInit()
 
 // device support (C interface) //////////////////////////////////////////
 
-long streamInit(int after)
+epicsShareExtern long streamInit(int after)
 {
     if (after)
     {
