@@ -25,7 +25,7 @@ file "../../motorImsApp/Db/ims_motor.tss.db"
 {
 pattern
 {P,    N, M, DTYP,         PORT, UEIP, 	DESC,       ADDR, EGU, 	DIR,  VELO, VBAS,  ACCL, BDST, BVEL,  BACC, DHLM, DLLM, SREV, 	ERES, 		MRES,     		PREC, INIT}    
-{IMS:, 1, 1, "asynMotor",  IMS1, "Yes", "MDrive23", 0,    rot,  Pos,  3.0,  0.017, 2.0,  0,    0.017, 2.0,  100,  -100, 4000, 	0.00025, 	0.00001953125, 	4,    ""}
+{IMS:, 1, 1, "asynMotor",  IMS1, "Yes", "MDrive23", 0,    rot,  Pos,  3.0,  0.017, 2.0,  0,    0.017, 2.0,  100,  -100, 4000, 	0.00025, 	0.00025, 		4,    ""}
 }
 
 file "$(MOTOR)/db/IMS_extra.db"
