@@ -212,8 +212,7 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I./O.Common -I$(SolutionDir)/
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
-</Command>
+      <Command>xcopy /Y /Q  /D src\O.Common\*.dbd $(SolutionDir)dbd</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|x64'">
@@ -236,8 +235,7 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I./O.Common -I$(SolutionDir)/
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
-</Command>
+      <Command>xcopy /Y /Q  /D src\O.Common\*.dbd $(SolutionDir)dbd</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">
@@ -261,8 +259,7 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I./O.Common -I$(SolutionDir)/
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>xcopy /Y /Q  /D src\O.Common\*.dbd $(SolutionDir)dbd
-</Command>
+      <Command>xcopy /Y /Q  /D src\O.Common\*.dbd $(SolutionDir)dbd</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug LIB|x64'">
@@ -286,8 +283,7 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I./O.Common -I$(SolutionDir)/
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
-</Command>
+      <Command>xcopy /Y /Q  /D src\O.Common\*.dbd $(SolutionDir)dbd</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">
@@ -314,8 +310,7 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I./O.Common -I$(SolutionDir)/
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
-</Command>
+      <Command>xcopy /Y /Q  /D src\O.Common\*.dbd $(SolutionDir)dbd</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release DLL|x64'">
@@ -342,8 +337,7 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I./O.Common -I$(SolutionDir)/
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
-</Command>
+      <Command>xcopy /Y /Q  /D src\O.Common\*.dbd $(SolutionDir)dbd</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">
@@ -371,8 +365,7 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I./O.Common -I$(SolutionDir)/
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
-</Command>
+      <Command>xcopy /Y /Q  /D src\O.Common\*.dbd $(SolutionDir)dbd</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release LIB|x64'">
@@ -400,8 +393,7 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I./O.Common -I$(SolutionDir)/
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
-</Command>
+      <Command>xcopy /Y /Q  /D src\O.Common\*.dbd $(SolutionDir)dbd</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -413,7 +405,7 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I./O.Common -I$(SolutionDir)/
       <Command>if not exist O.Common md O.Common
 
 perl -CSD  $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I../../../dbd -I..\..\..\asyn/dbd -I..\..\..\seq/dbd -I..\..\..\busy/dbd -I..\..\..\base/dbd -I..\..\..\/ipac/dbd -o O.Common\motorIms.dbd base.dbd motorSupport.dbd devAcsMotor.dbd devImsMotor.dbd devMclennanMotor.dbd devMicos.dbd devMicroMo.dbd devNewport.dbd LdevNewportTS.dbd devPIMotor.dbd devOms.dbd devSoftMotor.dbd motorSimSupport.dbd devSmartMotorMotor.dbd devKohzuMotor.dbd devAttocube.dbd devAerotech.dbd ACRMotorSupport.dbd drvAsynSerialPort.dbd drvAsynIPPort.dbd busySupport.dbd devSequencer.dbd
-perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I. -I./O.Common -I../../../dbd -I..\..\..\asyn/dbd -I..\..\..\seq/dbd -I..\..\..\busy/dbd -ID:..\..\..\base/dbd -ID:\EPICS/ipac/dbd   -o  O.Common\motorIms_registerRecordDeviceDriver.cpp O.Common/motorIms.dbd motorIms_registerRecordDeviceDriver ..\..\..\
+perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I. -I./O.Common -I../../../dbd -I..\..\..\asyn/dbd -I..\..\..\seq/dbd -I..\..\..\busy/dbd -ID:..\..\..\base/dbd -IC:\EPICS/ipac/dbd   -o  O.Common\motorIms_registerRecordDeviceDriver.cpp O.Common/motorIms.dbd motorIms_registerRecordDeviceDriver ..\..\..\
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -426,7 +418,7 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I. -I./O.Common -I../../../db
       <Command>if not exist O.Common md O.Common
 
 perl -CSD  $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I../../../dbd -I..\..\..\asyn/dbd -I..\..\..\seq/dbd -I..\..\..\busy/dbd -I..\..\..\base/dbd -I..\..\..\/ipac/dbd -o O.Common\motorIms.dbd base.dbd motorSupport.dbd devAcsMotor.dbd devImsMotor.dbd devMclennanMotor.dbd devMicos.dbd devMicroMo.dbd devNewport.dbd LdevNewportTS.dbd devPIMotor.dbd devOms.dbd devSoftMotor.dbd motorSimSupport.dbd devSmartMotorMotor.dbd devKohzuMotor.dbd devAttocube.dbd devAerotech.dbd ACRMotorSupport.dbd drvAsynSerialPort.dbd drvAsynIPPort.dbd busySupport.dbd devSequencer.dbd
-perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I. -I./O.Common -I../../../dbd -I..\..\..\asyn/dbd -I..\..\..\seq/dbd -I..\..\..\busy/dbd -ID:..\..\..\base/dbd -ID:\EPICS/ipac/dbd   -o  O.Common\motorIms_registerRecordDeviceDriver.cpp O.Common/motorIms.dbd motorIms_registerRecordDeviceDriver ..\..\..\
+perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I. -I./O.Common -I../../../dbd -I..\..\..\asyn/dbd -I..\..\..\seq/dbd -I..\..\..\busy/dbd -ID:..\..\..\base/dbd -IC:\EPICS/ipac/dbd   -o  O.Common\motorIms_registerRecordDeviceDriver.cpp O.Common/motorIms.dbd motorIms_registerRecordDeviceDriver ..\..\..\
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>

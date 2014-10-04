@@ -317,14 +317,6 @@ cd $(ProjectDir)
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">O.Common\%(FileName).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">O.Common\%(FileName).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">O.Common\%(FileName).h</Outputs>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">true</ExcludedFromBuild>
     </CustomBuild>
     <CustomBuild Include="db\dbCommonRecord.dbd">
       <FileType>Document</FileType>

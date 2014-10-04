@@ -23,6 +23,8 @@
 #include "ImsMDrivePlusMotorController.h"
 #include <epicsExport.h>
 
+static bool EncoderEnabled;
+
 ////////////////////////////////////////////////////////
 //! ImsMDrivePlusMotorAxis()
 //  Constructor
@@ -84,17 +86,17 @@ asynStatus ImsMDrivePlusMotorAxis::configAxis()
 		}
 	}
 
-// How do I get at the MotorRecord structure to get the value of the ueip flag?
-//	sprintf(cmd, "EE=1");
-//	status = pController->writeController(cmd, IMS_TIMEOUT);
+	sprintf(cmd, "EE=1");
+	status = pController->writeController(cmd, IMS_TIMEOUT);
 
 	// set encoder flags
 	sprintf(cmd, "PR EE");
 	status = pController->writeReadController(cmd, resp, sizeof(resp), &nread, IMS_TIMEOUT);
 	if (status == asynSuccess) {
 		int val = atoi(resp);
-		setIntegerParam(pController->motorStatusHasEncoder_, val ? 1:0);
-		setIntegerParam(pController->motorStatusGainSupport_, val ? 1:0);
+		EncoderEnabled = val ? 1:0;
+		setIntegerParam(pController->motorStatusHasEncoder_, EncoderEnabled);
+		setIntegerParam(pController->motorStatusGainSupport_, EncoderEnabled);
 		asynPrint(pController->pasynUserSelf, ASYN_TRACEIO_DRIVER, "%s:%s: set motorStatusHasEncoder_=%d, motorStatusGainSupport_=%d.\n", DRIVER_NAME, functionName, val, val);
 	}
 
@@ -176,6 +178,13 @@ asynStatus ImsMDrivePlusMotorAxis::move(double position, int relative, double mi
 	// sent commands to motor to set velocities and acceleration
 	status = setAxisMoveParameters(minVelocity, maxVelocity, acceleration);
 	if (status) goto bail;
+
+	if ((!relative) && (EncoderEnabled))
+	{
+		EncoderEnabled = false;
+		sprintf(cmd, "EE=0");
+		status = pController->writeController(cmd, IMS_TIMEOUT);
+	}
 
 	// move
 	asynPrint(pController->pasynUserSelf, ASYN_TRACEIO_DRIVER, "%s:%s: VBASE=%f, VELO=%f, ACCL=%f, position=%f, relative=%d\n", DRIVER_NAME, functionName, minVelocity, maxVelocity, acceleration, position, relative);
