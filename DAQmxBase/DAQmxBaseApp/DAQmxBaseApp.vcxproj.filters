@@ -17,6 +17,15 @@
       <UniqueIdentifier>{9f9fe470-5d53-4b0a-9b5c-f59f102820bc}</UniqueIdentifier>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
+    <Filter Include="NiDaqMx">
+      <UniqueIdentifier>{40f64623-95c3-479c-856a-6d8649608029}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NiDaqMx\lib32">
+      <UniqueIdentifier>{65434625-f4be-4daf-af9c-4701e07af68f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NiDaqMx\lib64">
+      <UniqueIdentifier>{56a27ede-b66b-4ae6-8ab5-99817429eab2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\DAQmxBaseMain.cpp">
@@ -30,8 +39,11 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\NIDAQmxBase.h">
-      <Filter>src</Filter>
+    <ClInclude Include="NiDaqMx\NIDAQmx.h">
+      <Filter>NiDaqMx</Filter>
+    </ClInclude>
+    <ClInclude Include="NiDaqMx\NIDAQmxBase.h">
+      <Filter>NiDaqMx</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -41,5 +53,13 @@
     <None Include="src\DAQmxBaseSupport.dbd">
       <Filter>src</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="NiDaqMx\lib32\NIDAQmx.lib">
+      <Filter>NiDaqMx\lib32</Filter>
+    </Library>
+    <Library Include="NiDaqMx\lib64\NIDAQmx.lib">
+      <Filter>NiDaqMx\lib64</Filter>
+    </Library>
   </ItemGroup>
 </Project>
