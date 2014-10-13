@@ -127,6 +127,7 @@
     <ClCompile Include="osi\epicsMath.cpp" />
     <ClCompile Include="osi\epicsMessageQueue.cpp" />
     <ClCompile Include="osi\epicsMutex.cpp" />
+    <ClCompile Include="osi\epicsStackTrace.c" />
     <ClCompile Include="osi\epicsStdio.c" />
     <ClCompile Include="osi\epicsThread.cpp" />
     <ClCompile Include="osi\epicsTime.cpp" />
@@ -155,7 +156,9 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="osi\os\default\osdAssert.c" />
+    <ClCompile Include="osi\os\default\osdBackTrace.cpp" />
     <ClCompile Include="osi\os\default\osdEnv.c" />
+    <ClCompile Include="osi\os\default\osdFindAddr.c" />
     <ClCompile Include="osi\os\default\osdInterrupt.c" />
     <ClCompile Include="osi\os\default\osdMessageQueue.cpp" />
     <ClCompile Include="osi\os\default\osdNetIntf.c">
@@ -195,6 +198,7 @@
     <ClCompile Include="osi\os\WIN32\epicsSocketConvertErrnoToString.cpp" />
     <ClCompile Include="osi\os\WIN32\epicsTempFile.cpp" />
     <ClCompile Include="osi\os\WIN32\forceBadAllocException.cpp" />
+    <ClCompile Include="osi\os\WIN32\osdBackTrace.cpp" />
     <ClCompile Include="osi\os\WIN32\osdEvent.c" />
     <ClCompile Include="osi\os\WIN32\osdFindSymbol.c" />
     <ClCompile Include="osi\os\WIN32\osdMutex.c" />
@@ -210,6 +214,8 @@
     <ClCompile Include="osi\os\WIN32\osdTime.cpp" />
     <ClCompile Include="osi\os\WIN32\setThreadName.cpp" />
     <ClCompile Include="osi\os\WIN32\systemCallIntMech.cpp" />
+    <ClCompile Include="pool\poolJob.c" />
+    <ClCompile Include="pool\threadPool.c" />
     <ClCompile Include="ring\epicsRingBytes.c" />
     <ClCompile Include="ring\epicsRingPointer.cpp" />
     <ClCompile Include="taskwd\taskwd.c" />
@@ -266,7 +272,6 @@
     <ClInclude Include="macLib\macLib.h" />
     <ClInclude Include="misc\adjustment.h" />
     <ClInclude Include="misc\cantProceed.h" />
-    <ClInclude Include="misc\compilerDependencies.h" />
     <ClInclude Include="misc\dbDefs.h" />
     <ClInclude Include="misc\epicsConvert.h" />
     <ClInclude Include="misc\epicsExit.h" />
@@ -311,6 +316,8 @@
     <ClInclude Include="osi\osiSock.h" />
     <ClInclude Include="osi\osiWireFormat.h" />
     <ClInclude Include="osi\os\default\epicsGetopt.h" />
+    <ClInclude Include="osi\os\default\epicsMMIO.h" />
+    <ClInclude Include="osi\os\default\epicsMMIODef.h" />
     <ClInclude Include="osi\os\default\epicsReadline.h" />
     <ClInclude Include="osi\os\default\osdInterrupt.h" />
     <ClInclude Include="osi\os\default\osdMessageQueue.h" />
@@ -332,6 +339,8 @@
     <ClInclude Include="osi\os\WIN32\osdWireConfig.h" />
     <ClInclude Include="osi\os\WIN32\osiFileName.h" />
     <ClInclude Include="osi\os\WIN32\osiUnistd.h" />
+    <ClInclude Include="pool\epicsThreadPool.h" />
+    <ClInclude Include="pool\poolPriv.h" />
     <ClInclude Include="ring\epicsRingBytes.h" />
     <ClInclude Include="ring\epicsRingPointer.h" />
     <ClInclude Include="taskwd\taskwd.h" />
@@ -721,6 +730,7 @@ xcopy /Y /Q /D /R calc\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R ring\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R log\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R yajl\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R pool\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R osi\os\default\*.h $(SolutionDir)include\os\WIN32 &gt; NUL
 REM conflict with osi\os\WIN32 header file versions.
 del  $(SolutionDir)include\os\WIN32\osdWireConfig.h
@@ -781,6 +791,7 @@ xcopy /Y /Q /D /R calc\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R ring\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R log\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R yajl\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R pool\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R osi\os\default\*.h $(SolutionDir)include\os\WIN32 &gt; NUL
 REM conflict with osi\os\WIN32 header file versions.
 del  $(SolutionDir)include\os\WIN32\osdWireConfig.h
@@ -845,6 +856,7 @@ xcopy /Y /Q /D /R calc\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R ring\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R log\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R yajl\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R pool\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R osi\os\default\*.h $(SolutionDir)include\os\WIN32 &gt; NUL
 REM conflict with osi\os\WIN32 header file versions.
 del  $(SolutionDir)include\os\WIN32\osdWireConfig.h
@@ -905,6 +917,7 @@ xcopy /Y /Q /D /R calc\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R ring\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R log\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R yajl\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R pool\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R osi\os\default\*.h $(SolutionDir)include\os\WIN32 &gt; NUL
 REM conflict with osi\os\WIN32 header file versions.
 del  $(SolutionDir)include\os\WIN32\osdWireConfig.h
@@ -965,6 +978,7 @@ xcopy /Y /Q /D /R calc\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R ring\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R log\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R yajl\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R pool\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R osi\os\default\*.h $(SolutionDir)include\os\WIN32 &gt; NUL
 REM conflict with osi\os\WIN32 header file versions.
 del  $(SolutionDir)include\os\WIN32\osdWireConfig.h
@@ -1022,6 +1036,7 @@ xcopy /Y /Q /D /R calc\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R ring\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R log\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R yajl\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R pool\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R osi\os\default\*.h $(SolutionDir)include\os\WIN32 &gt; NUL
 REM conflict with osi\os\WIN32 header file versions.
 del  $(SolutionDir)include\os\WIN32\osdWireConfig.h
@@ -1082,6 +1097,7 @@ xcopy /Y /Q /D /R calc\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R ring\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R log\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R yajl\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R pool\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R osi\os\default\*.h $(SolutionDir)include\os\WIN32 &gt; NUL
 REM conflict with osi\os\WIN32 header file versions.
 del  $(SolutionDir)include\os\WIN32\osdWireConfig.h
@@ -1139,6 +1155,7 @@ xcopy /Y /Q /D /R calc\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R ring\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R log\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R yajl\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R pool\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R osi\os\default\*.h $(SolutionDir)include\os\WIN32 &gt; NUL
 REM conflict with osi\os\WIN32 header file versions.
 del  $(SolutionDir)include\os\WIN32\osdWireConfig.h

@@ -54,6 +54,7 @@
     <ClCompile Include="epicsAtomicTest.cpp" />
     <ClCompile Include="epicsCalcTest.cpp" />
     <ClCompile Include="epicsEllTest.c" />
+    <ClCompile Include="epicsEnvTest.c" />
     <ClCompile Include="epicsErrlogTest.c" />
     <ClCompile Include="epicsEventTest.cpp" />
     <ClCompile Include="epicsExceptionTest.cpp" />
@@ -61,16 +62,19 @@
     <ClCompile Include="epicsMathTest.c" />
     <ClCompile Include="epicsMaxThreads.c" />
     <ClCompile Include="epicsMessageQueueTest.cpp" />
+    <ClCompile Include="epicsMMIOTest.c" />
     <ClCompile Include="epicsMutexTest.cpp" />
     <ClCompile Include="epicsRunLibComTests.c" />
     <ClCompile Include="epicsSockResolveTest.c" />
     <ClCompile Include="epicsSpinTest.c" />
+    <ClCompile Include="epicsStackTraceTest.c" />
     <ClCompile Include="epicsStdioTest.c" />
     <ClCompile Include="epicsStdlibTest.c" />
     <ClCompile Include="epicsStringTest.c" />
     <ClCompile Include="epicsThreadHooksTest.c" />
     <ClCompile Include="epicsThreadOnceTest.c" />
     <ClCompile Include="epicsThreadPerform.cpp" />
+    <ClCompile Include="epicsThreadPoolTest.c" />
     <ClCompile Include="epicsThreadPriorityTest.cpp" />
     <ClCompile Include="epicsThreadPrivateTest.cpp" />
     <ClCompile Include="epicsThreadTest.cpp" />
@@ -88,7 +92,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="macEnvExpandTest.c" />
+    <ClCompile Include="macDefExpandTest.c" />
     <ClCompile Include="macLibTest.c" />
     <ClCompile Include="ringBytesTest.c" />
     <ClCompile Include="ringPointerTest.c" />

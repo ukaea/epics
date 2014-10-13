@@ -27,9 +27,6 @@
     <ClCompile Include="lr0.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="mkpar.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -52,6 +49,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\osi\os\WIN32\epicsTempFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="antelope.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -212,9 +212,6 @@
     <ClCompile Include="dev\devSoSoftCallback.c">
       <Filter>dev</Filter>
     </ClCompile>
-    <ClCompile Include="dev\devSoStdio.c">
-      <Filter>dev</Filter>
-    </ClCompile>
     <ClCompile Include="dev\devTimestamp.c">
       <Filter>dev</Filter>
     </ClCompile>
@@ -255,6 +252,24 @@
       <Filter>dev</Filter>
     </ClCompile>
     <ClCompile Include="dev\devSiSoftCallback.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devLsiSoft.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devLsoSoft.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devLsoSoftCallback.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devPrintfSoft.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devPrintfSoftCallback.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devStdio.c">
       <Filter>dev</Filter>
     </ClCompile>
   </ItemGroup>
@@ -348,9 +363,6 @@
     </CustomBuild>
     <CustomBuild Include="dev\devSoft.dbd">
       <Filter>dev\Database Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="filters\filters.dbd">
-      <Filter>filters</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

@@ -90,6 +90,9 @@
     <Filter Include="osi\os\compiler\msvc">
       <UniqueIdentifier>{83557579-b4f9-4648-a1bc-1c7d41e05d4b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="pool">
+      <UniqueIdentifier>{88eefa04-3af7-459c-afce-c205e1ec6a96}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="bucketLib\bucketLib.c">
@@ -398,6 +401,24 @@
     <ClCompile Include="O.Common\asLib.c">
       <Filter>O.Common</Filter>
     </ClCompile>
+    <ClCompile Include="osi\epicsStackTrace.c">
+      <Filter>osi</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\os\default\osdBackTrace.cpp">
+      <Filter>osi\os\default</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\os\default\osdFindAddr.c">
+      <Filter>osi\os\default</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\os\WIN32\osdBackTrace.cpp">
+      <Filter>osi\os\Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="pool\poolJob.c">
+      <Filter>pool</Filter>
+    </ClCompile>
+    <ClCompile Include="pool\threadPool.c">
+      <Filter>pool</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bucketLib\bucketLib.h">
@@ -500,9 +521,6 @@
       <Filter>misc</Filter>
     </ClInclude>
     <ClInclude Include="misc\cantProceed.h">
-      <Filter>misc</Filter>
-    </ClInclude>
-    <ClInclude Include="misc\compilerDependencies.h">
       <Filter>misc</Filter>
     </ClInclude>
     <ClInclude Include="misc\dbDefs.h">
@@ -753,6 +771,18 @@
     </ClInclude>
     <ClInclude Include="osi\compiler\msvc\epicsAtomicCD.h">
       <Filter>osi\os\compiler\msvc</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\os\default\epicsMMIO.h">
+      <Filter>osi\os\default</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\os\default\epicsMMIODef.h">
+      <Filter>osi\os\default</Filter>
+    </ClInclude>
+    <ClInclude Include="pool\epicsThreadPool.h">
+      <Filter>pool</Filter>
+    </ClInclude>
+    <ClInclude Include="pool\poolPriv.h">
+      <Filter>pool</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

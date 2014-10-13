@@ -39,11 +39,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\osi\os\WIN32\epicsTempFile.cpp" />
+    <ClCompile Include="antelope.c" />
     <ClCompile Include="closure.c" />
     <ClCompile Include="error.c" />
     <ClCompile Include="lalr.c" />
     <ClCompile Include="lr0.c" />
-    <ClCompile Include="main.c" />
     <ClCompile Include="mkpar.c" />
     <ClCompile Include="output.c" />
     <ClCompile Include="reader.c" />

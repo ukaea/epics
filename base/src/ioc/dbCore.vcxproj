@@ -88,9 +88,11 @@
     <ClCompile Include="db\dbNotify.c" />
     <ClCompile Include="db\dbPutNotifyBlocker.cpp" />
     <ClCompile Include="db\dbScan.c" />
+    <ClCompile Include="db\dbServer.c" />
     <ClCompile Include="db\dbState.c" />
     <ClCompile Include="db\dbSubscriptionIO.cpp" />
     <ClCompile Include="db\dbTest.c" />
+    <ClCompile Include="db\dbUnitTest.c" />
     <ClCompile Include="db\db_access.c" />
     <ClCompile Include="db\db_test.c" />
     <ClCompile Include="db\initHooks.c" />
@@ -165,8 +167,10 @@
     <ClInclude Include="db\dbNotify.h" />
     <ClInclude Include="db\dbPutNotifyBlocker.h" />
     <ClInclude Include="db\dbScan.h" />
+    <ClInclude Include="db\dbServer.h" />
     <ClInclude Include="db\dbState.h" />
     <ClInclude Include="db\dbTest.h" />
+    <ClInclude Include="db\dbUnitTest.h" />
     <ClInclude Include="db\db_access_routines.h" />
     <ClInclude Include="db\db_convert.h" />
     <ClInclude Include="db\db_field_log.h" />
@@ -1086,6 +1090,11 @@ perl -CSD $(OutDir)dbdToMenuH.pl  -I../O.Common -I$(SolutionDir)include -o ../O.
 cd $(ProjectDir)
 </Command>
     </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="db\menuAlarmSevr.dbd.pod" />
+    <None Include="db\menuPost.dbd" />
+    <None Include="db\menuSimm.dbd.pod" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{440C585D-AD66-4738-941C-A87A1817A9BE}</ProjectGuid>

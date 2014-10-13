@@ -218,6 +218,12 @@
     <ClCompile Include="O.Common\dbYacc.c">
       <Filter>O.Common</Filter>
     </ClCompile>
+    <ClCompile Include="db\dbServer.c">
+      <Filter>db</Filter>
+    </ClCompile>
+    <ClCompile Include="db\dbUnitTest.c">
+      <Filter>db</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="as\asDbLib.h">
@@ -400,6 +406,12 @@
     <ClInclude Include="rsrv\server.h">
       <Filter>rsrv</Filter>
     </ClInclude>
+    <ClInclude Include="db\dbServer.h">
+      <Filter>db</Filter>
+    </ClInclude>
+    <ClInclude Include="db\dbUnitTest.h">
+      <Filter>db</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="dbtemplate\dbLoadTemplate_lex.l">
@@ -465,5 +477,16 @@
     <CustomBuild Include="misc\system.dbd">
       <Filter>misc\DBD Files</Filter>
     </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="db\menuAlarmSevr.dbd.pod">
+      <Filter>db</Filter>
+    </None>
+    <None Include="db\menuPost.dbd">
+      <Filter>db</Filter>
+    </None>
+    <None Include="db\menuSimm.dbd.pod">
+      <Filter>db</Filter>
+    </None>
   </ItemGroup>
 </Project>

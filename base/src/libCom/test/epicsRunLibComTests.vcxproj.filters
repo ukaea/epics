@@ -82,9 +82,6 @@
     <ClCompile Include="epicsUnitTestTest.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="macEnvExpandTest.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="macLibTest.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -122,6 +119,21 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rtemsTestHarness.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="epicsEnvTest.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="epicsMMIOTest.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="epicsStackTraceTest.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="epicsThreadPoolTest.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="macDefExpandTest.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
