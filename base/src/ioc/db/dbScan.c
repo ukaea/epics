@@ -3,6 +3,8 @@
 *     National Laboratory.
 * Copyright (c) 2002 The Regents of the University of California, as
 *     Operator of Los Alamos National Laboratory.
+* Copyright (c) 2013 Helmholtz-Zentrum Berlin
+*     für Materialien und Energie GmbH.
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
@@ -19,34 +21,35 @@
 #include <math.h>
 #include <ctype.h>
 
-#include "epicsStdlib.h"
-#include "epicsStdio.h"
-#include "epicsString.h"
+#include "cantProceed.h"
 #include "dbDefs.h"
 #include "ellLib.h"
-#include "taskwd.h"
-#include "epicsMutex.h"
 #include "epicsEvent.h"
 #include "epicsExit.h"
 #include "epicsInterrupt.h"
+#include "epicsMutex.h"
+#include "epicsPrint.h"
+#include "epicsRingPointer.h"
+#include "epicsStdio.h"
+#include "epicsStdlib.h"
+#include "epicsString.h"
 #include "epicsThread.h"
 #include "epicsTime.h"
-#include "cantProceed.h"
-#include "epicsRingPointer.h"
-#include "epicsPrint.h"
+#include "taskwd.h"
+
 #define epicsExportSharedSymbols
-#include "dbBase.h"
-#include "dbStaticLib.h"
-#include "dbFldTypes.h"
-#include "link.h"
-#include "devSup.h"
-#include "dbCommon.h"
-#include "dbAddr.h"
 #include "callback.h"
 #include "dbAccessDefs.h"
+#include "dbAddr.h"
+#include "dbBase.h"
+#include "dbCommon.h"
+#include "dbFldTypes.h"
 #include "dbLock.h"
-#include "recGbl.h"
 #include "dbScan.h"
+#include "dbStaticLib.h"
+#include "devSup.h"
+#include "link.h"
+#include "recGbl.h"
 
 
 /* Task Control */
@@ -82,9 +85,12 @@ typedef struct scan_element{
 
 /* PERIODIC */
 
+#define OVERRUN_REPORT_DELAY 10.0   /* Time between initial reports */
+#define OVERRUN_REPORT_MAX 3600.0   /* Maximum time between reports */
 typedef struct periodic_scan_list {
     scan_list           scan_list;
     double              period;
+    const char          *name;
     unsigned long       overruns;
     volatile enum ctl   scanCtl;
     epicsEventId        loopEvent;
@@ -109,39 +115,48 @@ typedef struct event_list {
     char                event_name[MAX_STRING_SIZE];
 } event_list;
 static event_list * volatile pevent_list[256];
-
+static epicsMutexId event_lock;
 
 /* IO_EVENT*/
 
 typedef struct io_scan_list {
-    CALLBACK            callback;
-    scan_list           scan_list;
-    struct io_scan_list *next;
+    CALLBACK callback;
+    scan_list scan_list;
 } io_scan_list;
 
-static io_scan_list *iosl_head[NUM_CALLBACK_PRIORITIES] = {
-    NULL, NULL, NULL
-};
+typedef struct ioscan_head {
+    struct ioscan_head *next;
+    struct io_scan_list iosl[NUM_CALLBACK_PRIORITIES];
+    io_scan_complete cb;
+    void *arg;
+} ioscan_head;
 
+static ioscan_head *pioscan_list = NULL;
+static epicsMutexId ioscan_lock;
 
 /* Private routines */
 static void onceTask(void *);
 static void initOnce(void);
 static void periodicTask(void *arg);
 static void initPeriodic(void);
+static void deletePeriodic(void);
 static void spawnPeriodic(int ind);
-static void initEvent(void);
 static void eventCallback(CALLBACK *pcallback);
-static void ioeventCallback(CALLBACK *pcallback);
+static void ioscanInit(void);
+static void ioscanCallback(CALLBACK *pcallback);
+static void ioscanDestroy(void);
 static void printList(scan_list *psl, char *message);
 static void scanList(scan_list *psl);
 static void buildScanLists(void);
 static void addToList(struct dbCommon *precord, scan_list *psl);
 static void deleteFromList(struct dbCommon *precord, scan_list *psl);
 
-static void scanShutdown(void *arg)
+void scanShutdown(void)
 {
     int i;
+
+    if (scanCtl == ctlExit) return;
+    scanCtl = ctlExit;
 
     interruptAccept = FALSE;
 
@@ -153,6 +168,19 @@ static void scanShutdown(void *arg)
 
     scanOnce((dbCommon *)&exitOnce);
     epicsEventWait(startStopEvent);
+
+    deletePeriodic();
+    ioscanDestroy();
+
+    epicsRingPointerDelete(onceQ);
+
+    epicsEventDestroy(startStopEvent);
+    epicsEventDestroy(onceSem);
+    onceSem = startStopEvent = NULL;
+
+    free(periodicTaskId);
+    papPeriodic = NULL;
+    periodicTaskId = NULL;
 }
 
 long scanInit(void)
@@ -164,12 +192,10 @@ long scanInit(void)
 
     initPeriodic();
     initOnce();
-    initEvent();
     buildScanLists();
     for (i = 0; i < nPeriodic; i++)
         spawnPeriodic(i);
 
-    epicsAtExit(scanShutdown, NULL);
     return 0;
 }
 
@@ -225,7 +251,7 @@ void scanAdd(struct dbCommon *precord)
         pel = eventNameToHandle(eventname);
         if (pel) addToList(precord, &pel->scan_list[prio]);
     } else if (scan == menuScanI_O_Intr) {
-        io_scan_list *piosl = NULL;
+        ioscan_head *piosh = NULL;
         int prio;
         DEVSUPFUN get_ioint_info;
 
@@ -242,11 +268,11 @@ void scanAdd(struct dbCommon *precord)
             precord->scan = menuScanPassive;
             return;
         }
-        if (get_ioint_info(0, precord, &piosl)) {
+        if (get_ioint_info(0, precord, &piosh)) {
             precord->scan = menuScanPassive;
             return;
         }
-        if (piosl == NULL) {
+        if (piosh == NULL) {
             recGblRecordError(-1, (void *)precord,
                 "scanAdd: I/O Intr not valid");
             precord->scan = menuScanPassive;
@@ -259,8 +285,7 @@ void scanAdd(struct dbCommon *precord)
             precord->scan = menuScanPassive;
             return;
         }
-        piosl += prio; /* get piosl for correct priority*/
-        addToList(precord, &piosl->scan_list);
+        addToList(precord, &piosh->iosl[prio].scan_list);
     } else if (scan >= SCAN_1ST_PERIODIC) {
         addToList(precord, &papPeriodic[scan - SCAN_1ST_PERIODIC]->scan_list);
     }
@@ -299,7 +324,7 @@ void scanDelete(struct dbCommon *precord)
         if (pel && (psl = &pel->scan_list[prio]))
             deleteFromList(precord, psl);
     } else if (scan == menuScanI_O_Intr) {
-        io_scan_list *piosl=NULL;
+        ioscan_head *piosh = NULL;
         int prio;
         DEVSUPFUN get_ioint_info;
 
@@ -314,8 +339,8 @@ void scanDelete(struct dbCommon *precord)
                 "scanDelete: I/O Intr not valid (no get_ioint_info)");
             return;
         }
-        if (get_ioint_info(1, precord, &piosl)) return;
-        if (piosl == NULL) {
+        if (get_ioint_info(1, precord, &piosh)) return;
+        if (piosh == NULL) {
             recGblRecordError(-1, (void *)precord,
                 "scanDelete: I/O Intr not valid");
             return;
@@ -326,8 +351,7 @@ void scanDelete(struct dbCommon *precord)
                 "scanDelete: get_ioint_info returned illegal priority");
             return;
         }
-        piosl += prio; /*get piosl for correct priority*/
-        deleteFromList(precord, &piosl->scan_list);
+        deleteFromList(precord, &piosh->iosl[prio].scan_list);
     } else if (scan >= SCAN_1ST_PERIODIC) {
         deleteFromList(precord, &papPeriodic[scan - SCAN_1ST_PERIODIC]->scan_list);
     }
@@ -351,8 +375,8 @@ int scanppl(double period)      /* print periodic list */
         ppsl = papPeriodic[i];
         if (ppsl == NULL) continue;
         if (period > 0.0 && (fabs(period - ppsl->period) >.05)) continue;
-        sprintf(message, "Scan Period = %g seconds (%lu over-runs)",
-            ppsl->period, ppsl->overruns);
+        sprintf(message, "Records with SCAN = '%s' (%lu over-runs):",
+            ppsl->name, ppsl->overruns);
         printList(&ppsl->scan_list, message);
     }
     return 0;
@@ -379,21 +403,28 @@ int scanpel(const char* eventname)   /* print event list */
     return 0;
 }
 
-int scanpiol(void)                  /* print io_event list */
+int scanpiol(void)                  /* print pioscan_list */
 {
-    io_scan_list *piosl;
-    int prio;
-    char message[80];
+    ioscan_head *piosh;
 
-    for(prio = 0; prio < NUM_CALLBACK_PRIORITIES; prio++) {
-        piosl = iosl_head[prio];
-        if (piosl == NULL) continue;
-        sprintf(message, "IO Event: Priority %s", priorityName[prio]);
-        while(piosl != NULL) {
+    ioscanInit();
+    epicsMutexMustLock(ioscan_lock);
+    piosh = pioscan_list;
+
+    while (piosh) {
+        int prio;
+
+        for (prio = 0; prio < NUM_CALLBACK_PRIORITIES; prio++) {
+            io_scan_list *piosl = &piosh->iosl[prio];
+            char message[80];
+
+            sprintf(message, "IO Event %p: Priority %s",
+                piosh, priorityName[prio]);
             printList(&piosl->scan_list, message);
-            piosl = piosl->next;
         }
+        piosh = piosh->next;
     }
+    epicsMutexUnlock(ioscan_lock);
     return 0;
 }
 
@@ -405,19 +436,22 @@ static void eventCallback(CALLBACK *pcallback)
     scanList(psl);
 }
 
-static void initEvent(void)
+static void eventOnce(void *arg)
 {
+    event_lock = epicsMutexMustCreate();
 }
 
 event_list *eventNameToHandle(const char *eventname)
 {
     int prio;
     event_list *pel;
-    static epicsMutexId lock = NULL;
+    static epicsThreadOnceId onceId = EPICS_THREAD_ONCE_INIT;
 
-    if (!lock) lock = epicsMutexMustCreate();
-    if (!eventname || eventname[0] == 0) return NULL;
-    epicsMutexMustLock(lock);
+    if (!eventname || eventname[0] == 0)
+        return NULL;
+
+    epicsThreadOnce(&onceId, eventOnce, NULL);
+    epicsMutexMustLock(event_lock);
     for (pel = pevent_list[0]; pel; pel=pel->next) {
         if (strcmp(pel->event_name, eventname) == 0) break;
     }
@@ -440,7 +474,7 @@ event_list *eventNameToHandle(const char *eventname)
                 pevent_list[e] = pel;
         }
     }
-    epicsMutexUnlock(lock);
+    epicsMutexUnlock(event_lock);
     return pel;
 }
 
@@ -468,38 +502,91 @@ void post_event(int event)
     postEvent(pel);
 }
 
-void scanIoInit(IOSCANPVT *ppioscanpvt)
+static void ioscanOnce(void *arg)
 {
+    ioscan_lock = epicsMutexMustCreate();
+}
+
+static void ioscanInit(void)
+{
+    static epicsThreadOnceId onceId = EPICS_THREAD_ONCE_INIT;
+
+    epicsThreadOnce(&onceId, ioscanOnce, NULL);
+}
+
+static void ioscanDestroy(void)
+{
+    ioscan_head *piosh;
+
+    ioscanInit();
+    epicsMutexMustLock(ioscan_lock);
+    piosh = pioscan_list;
+    pioscan_list = NULL;
+    epicsMutexUnlock(ioscan_lock);
+    while (piosh) {
+        ioscan_head *pnext = piosh->next;
+        int prio;
+
+        for (prio = 0; prio < NUM_CALLBACK_PRIORITIES; prio++) {
+            epicsMutexDestroy(piosh->iosl[prio].scan_list.lock);
+            ellFree(&piosh->iosl[prio].scan_list.list);
+        }
+        free(piosh);
+        piosh = pnext;
+    }
+}
+
+void scanIoInit(IOSCANPVT *pioscanpvt)
+{
+    ioscan_head *piosh = dbCalloc(1, sizeof(ioscan_head));
     int prio;
 
-    /* Allocate an array of io_scan_lists, one for each priority. */
-    /* IOSCANPVT will hold the address of this array of structures */
-    *ppioscanpvt = dbCalloc(NUM_CALLBACK_PRIORITIES, sizeof(io_scan_list));
+    ioscanInit();
     for (prio = 0; prio < NUM_CALLBACK_PRIORITIES; prio++) {
-        io_scan_list *piosl = &(*ppioscanpvt)[prio];
-        callbackSetCallback(ioeventCallback, &piosl->callback);
+        io_scan_list *piosl = &piosh->iosl[prio];
+
+        callbackSetCallback(ioscanCallback, &piosl->callback);
         callbackSetPriority(prio, &piosl->callback);
-        callbackSetUser(piosl, &piosl->callback);
+        callbackSetUser(piosh, &piosl->callback);
         ellInit(&piosl->scan_list.list);
         piosl->scan_list.lock = epicsMutexMustCreate();
-        piosl->next = iosl_head[prio];
-        iosl_head[prio] = piosl;
     }
+    epicsMutexMustLock(ioscan_lock);
+    piosh->next = pioscan_list;
+    pioscan_list = piosh;
+    epicsMutexUnlock(ioscan_lock);
+    *pioscanpvt = piosh;
 }
 
-
-void scanIoRequest(IOSCANPVT pioscanpvt)
+/* Return a bit mask indicating each priority level
+ * in which a callback request was successfully queued.
+ */
+unsigned int scanIoRequest(IOSCANPVT piosh)
 {
     int prio;
+    unsigned int queued = 0;
 
-    if (scanCtl != ctlRun) return;
+    if (scanCtl != ctlRun)
+        return 0;
+
     for (prio = 0; prio < NUM_CALLBACK_PRIORITIES; prio++) {
-        io_scan_list *piosl = &pioscanpvt[prio];
+        io_scan_list *piosl = &piosh->iosl[prio];
+
         if (ellCount(&piosl->scan_list.list) > 0)
-            callbackRequest(&piosl->callback);
+            if (!callbackRequest(&piosl->callback))
+                queued |= 1 << prio;
     }
+
+    return queued;
 }
-
+
+/* May not be called while a scan request is queued or running */
+void scanIoSetComplete(IOSCANPVT piosh, io_scan_complete cb, void *arg)
+{
+    piosh->cb = cb;
+    piosh->arg = arg;
+}
+
 void scanOnce(struct dbCommon *precord)
 {
     static int newOverflow = TRUE;
@@ -565,7 +652,11 @@ static void periodicTask(void *arg)
     periodic_scan_list *ppsl = (periodic_scan_list *)arg;
     epicsTimeStamp next, reported;
     unsigned int overruns = 0;
-    double report_delay = 10.0;
+    double report_delay = OVERRUN_REPORT_DELAY;
+    double overtime = 0.0;
+    double over_min = 0.0;
+    double over_max = 0.0;
+    const double penalty = (ppsl->period >= 2) ? 1 : (ppsl->period / 2);
 
     taskwdInsert(0, NULL, NULL);
     epicsEventSignal(startStopEvent);
@@ -584,24 +675,40 @@ static void periodicTask(void *arg)
         epicsTimeGetCurrent(&now);
         delay = epicsTimeDiffInSeconds(&next, &now);
         if (delay <= 0.0) {
-            delay = 0.1;
+            if (overtime == 0.0) {
+                overtime = over_min = over_max = -delay;
+            }
+            else {
+                overtime -= delay;
+                if (over_min + delay > 0)
+                    over_min = -delay;
+                if (over_max + delay < 0)
+                    over_max = -delay;
+            }
+            delay = penalty;
             ppsl->overruns++;
             next = now;
+            epicsTimeAddSeconds(&next, delay);
             if (++overruns >= 10 &&
                 epicsTimeDiffInSeconds(&now, &reported) > report_delay) {
-                errlogPrintf("dbScan warning: %g second scan over-ran %u times\n",
-                    ppsl->period, overruns);
+                errlogPrintf("\ndbScan warning from '%s' scan thread:\n"
+                    "\tScan processing averages %.2f seconds (%.2f .. %.2f).\n"
+                    "\tOver-runs have now happened %u times in a row.\n"
+                    "\tTo fix this, move some records to a slower scan rate.\n",
+                    ppsl->name, ppsl->period + overtime / overruns,
+                    ppsl->period + over_min, ppsl->period + over_max, overruns);
 
                 reported = now;
-                if (report_delay < 1800.0)
+                if (report_delay < (OVERRUN_REPORT_MAX / 2))
                     report_delay *= 2;
                 else
-                    report_delay = 3600.0;  /* At most hourly */
+                    report_delay = OVERRUN_REPORT_MAX;
             }
         }
         else {
             overruns = 0;
-            report_delay = 10.0;
+            report_delay = OVERRUN_REPORT_DELAY;
+            overtime = 0.0;
         }
 
         epicsEventWaitWithTimeout(ppsl->loopEvent, delay);
@@ -634,6 +741,7 @@ static void initPeriodic(void)
 
         ppsl->scan_list.lock = epicsMutexMustCreate();
         ellInit(&ppsl->scan_list.list);
+        ppsl->name = choice;
         if (status || number == 0) {
             errlogPrintf("initPeriodic: Bad menuScan choice '%s'\n", choice);
             ppsl->period = i;
@@ -672,6 +780,22 @@ static void initPeriodic(void)
     }
 }
 
+static void deletePeriodic(void)
+{
+    int i;
+
+    for (i = 0; i < nPeriodic; i++) {
+        periodic_scan_list *ppsl = papPeriodic[i];
+        ellFree(&ppsl->scan_list.list);
+        epicsEventDestroy(ppsl->loopEvent);
+        epicsMutexDestroy(ppsl->scan_list.lock);
+        free(ppsl);
+    }
+
+    free(papPeriodic);
+    papPeriodic = NULL;
+}
+
 static void spawnPeriodic(int ind)
 {
     periodic_scan_list *ppsl;
@@ -687,12 +811,14 @@ static void spawnPeriodic(int ind)
     epicsEventWait(startStopEvent);
 }
 
-static void ioeventCallback(CALLBACK *pcallback)
+static void ioscanCallback(CALLBACK *pcallback)
 {
-    io_scan_list *piosl;
+    ioscan_head *piosh = (ioscan_head *) pcallback->user;
+    int prio = pcallback->priority;
 
-    callbackGetUser(piosl, pcallback);
-    scanList(&piosl->scan_list);
+    scanList(&piosh->iosl[prio].scan_list);
+    if (piosh->cb)
+        piosh->cb(piosh->arg, piosh, prio);
 }
 
 static void printList(scan_list *psl, char *message)
@@ -702,14 +828,17 @@ static void printList(scan_list *psl, char *message)
     epicsMutexMustLock(psl->lock);
     pse = (scan_element *)ellFirst(&psl->list);
     epicsMutexUnlock(psl->lock);
-    if (pse == NULL) return;
+
+    if (!pse)
+        return;
+
     printf("%s\n", message);
-    while (pse != NULL) {
+    while (pse) {
         printf("    %-28s\n", pse->precord->name);
         epicsMutexMustLock(psl->lock);
         if (pse->pscan_list != psl) {
             epicsMutexUnlock(psl->lock);
-            printf("Scan list changed while processing.");
+            printf("    Scan list changed while printing, try again.\n");
             return;
         }
         pse = (scan_element *)ellNext(&pse->node);
@@ -778,23 +907,25 @@ static void buildScanLists(void)
 {
     dbRecordType *pdbRecordType;
 
-    /*Look for first record*/
     for (pdbRecordType = (dbRecordType *)ellFirst(&pdbbase->recordTypeList);
          pdbRecordType;
          pdbRecordType = (dbRecordType *)ellNext(&pdbRecordType->node)) {
         dbRecordNode *pdbRecordNode;
+
         for (pdbRecordNode = (dbRecordNode *)ellFirst(&pdbRecordType->recList);
              pdbRecordNode;
              pdbRecordNode = (dbRecordNode *)ellNext(&pdbRecordNode->node)) {
             dbCommon *precord = pdbRecordNode->precord;
+
             if (!precord->name[0] ||
                 pdbRecordNode->flags & DBRN_FLAGS_ISALIAS)
                 continue;
+
             scanAdd(precord);
         }
     }
 }
-
+
 static void addToList(struct dbCommon *precord, scan_list *psl)
 {
     scan_element *pse, *ptemp;

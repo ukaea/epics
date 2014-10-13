@@ -6,7 +6,7 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/* $Revision-Id$
+/* Revision-Id: anj@aps.anl.gov-20140930212203-3q5kofhrtnxjp1pe
  *
  *      Author:         Marty Kraimer
  *      Date:           07-17-91
@@ -34,16 +34,19 @@ extern "C" {
 #define MIN_PHASE           SHRT_MIN
 
 /*definitions for I/O Interrupt Scanning */
-struct io_scan_list;
+struct ioscan_head;
 
-typedef struct io_scan_list *IOSCANPVT;
+typedef struct ioscan_head *IOSCANPVT;
 typedef struct event_list *EVENTPVT;
+
+typedef void (*io_scan_complete)(void *usr, IOSCANPVT, int prio);
 
 struct dbCommon;
 
 epicsShareFunc long scanInit(void);
 epicsShareFunc void scanRun(void);
 epicsShareFunc void scanPause(void);
+epicsShareFunc void scanShutdown(void);
 
 epicsShareFunc EVENTPVT eventNameToHandle(const char* event);
 epicsShareFunc void postEvent(EVENTPVT epvt);
@@ -63,8 +66,9 @@ epicsShareFunc int scanpel(const char *event_name);
 /*print io_event list*/
 epicsShareFunc int scanpiol(void);
 
-epicsShareFunc void scanIoInit(IOSCANPVT *);
-epicsShareFunc void scanIoRequest(IOSCANPVT);
+epicsShareFunc void scanIoInit(IOSCANPVT *ppios);
+epicsShareFunc unsigned int scanIoRequest(IOSCANPVT pios);
+epicsShareFunc void scanIoSetComplete(IOSCANPVT, io_scan_complete, void *usr);
 
 #ifdef __cplusplus
 }

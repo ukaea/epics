@@ -8,7 +8,7 @@
 \*************************************************************************/
 
 /*
- *  $Revision-Id$
+ *  Revision-Id: ralph.lange@gmx.de-20140604135651-ubc119z6dvnv04ef
  *
  *
  *                    L O S  A L A M O S
@@ -197,7 +197,7 @@ unsigned dbChannelIO::getName (
     size_t len = strlen ( name );
     strncpy ( pBuf, name, bufLen );
     if (len < bufLen)
-        return len;
+        return (unsigned) len;
     pBuf[--bufLen] = '\0';
     return bufLen;
 }

@@ -10,51 +10,102 @@ TOP=../../../..
 
 include $(TOP)/configure/CONFIG
 
-TESTLIBRARY = xRec
+TESTLIBRARY = dbTestIoc
 
-xRec_SRCS = xRecord.c
+dbTestIoc_SRCS += xRecord.c
+dbTestIoc_SRCS += dbLinkdset.c
+dbTestIoc_LIBS = dbCore
 
-PROD_LIBS = xRec dbCore ca Com
+TARGETS += $(COMMON_DIR)/dbTestIoc.dbd
+dbTestIoc_DBD += menuGlobal.dbd
+dbTestIoc_DBD += menuConvert.dbd
+dbTestIoc_DBD += xRecord.dbd
+dbTestIoc_DBD += dbLinkdset.dbd
+TESTFILES += $(COMMON_DIR)/dbTestIoc.dbd ../xRecord.db
+
+testHarness_SRCS += dbTestIoc_registerRecordDeviceDriver.cpp
+
+PROD_LIBS = dbTestIoc dbCore ca Com
+
+TESTPROD_HOST += dbShutdownTest
+dbShutdownTest_SRCS += dbShutdownTest.c
+dbShutdownTest_SRCS += dbTestIoc_registerRecordDeviceDriver.cpp
+testHarness_SRCS += dbShutdownTest.c
+TESTS += dbShutdownTest
+
+TESTPROD_HOST += dbPutLinkTest
+dbPutLinkTest_SRCS += dbPutLinkTest.c
+dbPutLinkTest_SRCS += dbTestIoc_registerRecordDeviceDriver.cpp
+testHarness_SRCS += dbPutLinkTest.c
+TESTS += dbPutLinkTest
+TESTFILES += ../dbPutLinkTest.db
+
+TESTPROD_HOST += dbLockTest
+dbLockTest_SRCS += dbLockTest.c
+dbLockTest_SRCS += dbTestIoc_registerRecordDeviceDriver.cpp
+testHarness_SRCS += dbLockTest.c
+TESTS += dbLockTest
+TESTFILES += ../dbLockTest.db
+
+TESTPROD_HOST += testdbConvert
+testdbConvert_SRCS += testdbConvert.c
+testHarness_SRCS += testdbConvert.c
+TESTS += testdbConvert
 
 TESTPROD_HOST += callbackTest
 callbackTest_SRCS += callbackTest.c
 testHarness_SRCS += callbackTest.c
 TESTS += callbackTest
 
+TESTPROD_HOST += callbackParallelTest
+callbackParallelTest_SRCS += callbackParallelTest.c
+testHarness_SRCS += callbackParallelTest.c
+TESTS += callbackParallelTest
+
 TESTPROD_HOST += dbStateTest
 dbStateTest_SRCS += dbStateTest.c
 testHarness_SRCS += dbStateTest.c
 TESTS += dbStateTest
 
-TARGETS += $(COMMON_DIR)/dbChannelTest.dbd
-dbChannelTest_DBD += xRecord.dbd
+TARGETS += $(COMMON_DIR)/scanIoTest.dbd
+scanIoTest_DBD += menuGlobal.dbd
+scanIoTest_DBD += menuConvert.dbd
+scanIoTest_DBD += yRecord.dbd
+TESTPROD_HOST += scanIoTest
+scanIoTest_SRCS += scanIoTest.c
+scanIoTest_REGRDDFLAGS = -l
+scanIoTest_SRCS += scanIoTest_registerRecordDeviceDriver.cpp
+testHarness_SRCS += scanIoTest.c
+testHarness_SRCS += scanIoTest_registerRecordDeviceDriver.cpp
+TESTFILES += $(COMMON_DIR)/scanIoTest.dbd ../scanIoTest.db
+TESTS += scanIoTest
+
 TESTPROD_HOST += dbChannelTest
 dbChannelTest_SRCS += dbChannelTest.c
-dbChannelTest_SRCS += dbChannelTest_registerRecordDeviceDriver.cpp
+dbChannelTest_SRCS += dbTestIoc_registerRecordDeviceDriver.cpp
 testHarness_SRCS += dbChannelTest.c
-testHarness_SRCS += dbChannelTest_registerRecordDeviceDriver.cpp
-TESTFILES += $(COMMON_DIR)/dbChannelTest.dbd ../xRecord.db
 TESTS += dbChannelTest
 
-TARGETS += $(COMMON_DIR)/chfPluginTest.dbd
-chfPluginTest_DBD += xRecord.dbd
 TESTPROD_HOST += chfPluginTest
 chfPluginTest_SRCS += chfPluginTest.c
-chfPluginTest_SRCS += chfPluginTest_registerRecordDeviceDriver.cpp
+chfPluginTest_SRCS += dbTestIoc_registerRecordDeviceDriver.cpp
 testHarness_SRCS += chfPluginTest.c
-testHarness_SRCS += chfPluginTest_registerRecordDeviceDriver.cpp
-TESTFILES += $(COMMON_DIR)/chfPluginTest.dbd
 TESTS += chfPluginTest
 
-TARGETS += $(COMMON_DIR)/arrShorthandTest.dbd
-arrShorthandTest_DBD += xRecord.dbd
 TESTPROD_HOST += arrShorthandTest
 arrShorthandTest_SRCS += arrShorthandTest.c
-arrShorthandTest_SRCS += arrShorthandTest_registerRecordDeviceDriver.cpp
+arrShorthandTest_SRCS += dbTestIoc_registerRecordDeviceDriver.cpp
 testHarness_SRCS += arrShorthandTest.c
-testHarness_SRCS += arrShorthandTest_registerRecordDeviceDriver.cpp
-TESTFILES += $(COMMON_DIR)/arrShorthandTest.dbd
 TESTS += arrShorthandTest
+
+TESTPROD_HOST += benchdbConvert
+benchdbConvert_SRCS += benchdbConvert.c
+
+TESTPROD_HOST += recGblCheckDeadbandTest
+recGblCheckDeadbandTest_SRCS += recGblCheckDeadbandTest.c
+recGblCheckDeadbandTest_SRCS += dbTestIoc_registerRecordDeviceDriver.cpp
+testHarness_SRCS += recGblCheckDeadbandTest.c
+TESTS += recGblCheckDeadbandTest
 
 # The testHarness runs all the test programs in a known working order.
 testHarness_SRCS += epicsRunDbTests.c
@@ -73,3 +124,6 @@ TESTSCRIPTS_HOST += $(TESTS:%=%.t)
 include $(TOP)/configure/RULES
 
 xRecord$(DEP): $(COMMON_DIR)/xRecord.h
+dbPutLinkTest$(DEP): $(COMMON_DIR)/xRecord.h
+scanIoTest$(DEP): $(COMMON_DIR)/yRecord.h
+

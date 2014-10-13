@@ -8,7 +8,7 @@
 
 /*
  * Hooks into RTEMS startup code
- *  $Revision-Id$
+ *  Revision-Id: anj@aps.anl.gov-20101117225522-aecw6pd4fvylkauk
  */
 #include <bsp.h>
 #include <rtems/rtems_bsdnet.h>

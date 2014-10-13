@@ -7,13 +7,242 @@
 </head>
 
 <body lang="en">
-<h1 align="center">EPICS Base Release 3.15.0.1</h1>
+<h1 align="center">EPICS Base Release 3.15.0.2</h1>
 
 <p>
 EPICS Base 3.15.0.x releases are not intended for use in production systems.</p>
 
 <h2 align="center">Changes between 3.15.0.1 and 3.15.0.2</h2>
 <!-- Insert new items immediately below here ... -->
+
+<h3>New iocshLoad command</h3>
+
+<p>A new command <tt>iocshLoad</tt> has been added to iocsh which executes a
+named iocsh script and can also set one or more shell macro variables at the
+same time, the values of which will be forgotten immediately after the named
+script finishes executing. The following example shows the syntax:</p>
+
+<blockquote><pre>
+iocshLoad "serial.cmd", "DEV=/dev/ttyS0,PORT=com1,TYPE=RS485"
+iocshLoad "radmon.cmd", "PORT=com1,ADDR=0"
+</pre></blockquote>
+
+<h3>Support routines for 64-bit integers</h3>
+
+<p>The libCom library now provides support for 64-bit integer types on all
+supported architectures. The epicsTypes.h header file defines epicsInt64 and
+epicsUInt64 type definitions for both C and C++ code. The epicsStdlib.h header
+also declares the following for parsing strings into the relevent sized integer
+variables: Functions epicsParseLLong(), epicsParseULLong() with related macros
+epicsScanLLong() and epicsScanULLong(), and the functions epicsParseInt64()
+and epicsParseUInt64(). Use the first two functions and the macros for long long
+and unsigned long long integer types, and the last two functions for the
+epicsInt64 and epicsUInt64 types. Note that the latter can map to the types long
+and unsigned long on some 64-bit architectures such as linux-x86_64, not to the
+two long long types.</p>
+
+<p>This version does not provide the ability to define 64-bit record fields, the
+use of the 64-bit types in the IOC database will come in a later release of
+EPICS Base.</p>
+
+<h3>Full support for loadable support modules</h3>
+
+<p>Apparently later versions of Base 3.14 permitted support modules to be loaded
+from a shared library at runtime without the IOC having been linked against that
+shared library; the registerRecordDeviceDriver.pl program would accept a partial
+DBD file containing just the entries needed for the library and generate the
+appropriate registration code. In 3.15 however the registerRecordDeviceDriver.pl
+program was replaced by one using the new DBD file parser, and in this a device
+support entry would only be accepted after first loading the record type that it
+depended on.</p>
+
+<p>The parser has been modified to accept device entries without having seen the
+record type first, although a warning is given when that happens. To remove the
+warning the DBD file can provide a record type declaration instead (no fields
+can be defined, so the braces must be empty), before the device() entry. The
+result will generate the correct registration code for the device entry without
+including anything for any merely declared record types. The generated code can
+be linked into a shared library and loaded by an IOC at runtime using dlload.
+</p>
+
+<h3>Parallel callback threads</h3>
+
+<p>The general purpose callback facility can run multiple parallel callback
+threads per priority level. This makes better use of SMP architectures (e.g.
+processors with multiple cores), as callback work - which includes second
+stage processing of records with asynchronuous device support and I/O
+scanned processing - can be distributed over the available CPUs.</p>
+
+<p>Note that by using parallel callback threads the order of scan callback
+requests in the queue is not retained. If a device support needs to be
+informed when scanIoRequest processing has finished, it should use the new
+scanIoSetComplete() feature to add a user function that will be called after
+the scanIoRequest record processing has finished.</p>
+
+<p>Parallel callback threads have to be explicitly configured, by default
+the IOC keeps the old behavior of running one callback thread per priority.</p>
+
+<h3>Merge MMIO API from devLib2</h3>
+
+<p>Added calls to handle 8, 16, and 32 bit Memory Mapped I/O reads and writes.
+The calls added include <tt><i>X</i>_iowrite<i>Y</i>()</tt> and
+<tt><i>X</i>_ioread<i>Y</i>()</tt>
+where <tt><i>X</i></tt> is <tt>nat</tt> (native), <tt>be</tt> or <tt>le</tt>,
+and <tt><i>Y</i></tt> is <tt>16</tt> or <tt>32</tt>.
+Also added are <tt>ioread8()</tt> and <tt>iowrite8()</tt>.</p>
+
+<h3>Added optional dbServer API to database</h3>
+
+<p>A server layer that sits on top of the IOC database may now register itself
+as such by calling <tt>dbRegisterServer()</tt> and providing optional routines
+that other components can use. The initial purpose of this API allows the Trace
+Processing implementation in <tt>dbProcess()</tt> to identify a client that
+causes a record to process when TPRO is set.</p>
+
+<p>To support the client idenfication, the server provides a routine that
+returns that identity string when called by one of its own processing
+threads.</p>
+
+<h3>Concatenated database definition files</h3>
+
+<p>A series of database definition (dbd) files can now be concatenated during
+the build process into a newly-created dbd file with result being installed into
+$(INSTALL_LOCATION)/dbd without expanding it.</p>
+
+<p>The following lines in an EPICS Makefile will create a file name.dbd in the
+O.Common build directory containing the contents of file1.dbd followed by
+file2.dbd then file3.dbd. The new file will then be installed into
+$(INSTALL_LOCATION)/dbd without expanding any of its include statements.</p>
+
+<blockquote><pre>
+DBDCAT += name.dbd
+name_DBD += file1.dbd file2.dbd file3.dbd
+</pre></blockquote>
+
+<p>The source files file1.dbd, file2.dbd and file3.dbd may be created by the
+current Makefile, be located in the parent directory or any other directory in
+the SRC_DIRS list, be specified by their full pathname, exist in the install dbd
+directory, or be found in any dbd directory linked from the application's
+RELEASE files.</p>
+
+<h3>Posix: Drop SCHED_FIFO before exec() in child process</h3>
+
+<p>If Base is compiled with <tt>USE_POSIX_THREAD_PRIORITY_SCHEDULING = YES</tt>
+in configure/CONFIG_SITE or related files, the Posix implementation of the
+libCom <tt>osiSpawnDetachedProcess()</tt> routine will switch the child process
+to use the normal SCHED_OTHER (non real-time) scheduler before executing the
+named executable program. If it needs to use the real-time scheduler the new
+program can request that for itself.</p>
+
+<h3>Posix: Lock all memory when running with FIFO scheduler</h3>
+
+<p>On Posix systems, an IOC application's ability to meet timing deadlines is
+often dependent on its ability to lock part or all of the process's virtual
+address space into RAM, preventing that memory from being paged to the swap
+area. This change will attempt to lock the process's virtual address space into
+RAM if the process has the ability to run threads with different priorities. If
+unsuccessful, it prints an message to stderr and continues.</p>
+
+<p>On Linux, one can grant a process the ability to run threads with different
+priorities by using the command <code>ulimit -r unlimited</code>. To use the
+FIFO scheduler for an IOC, use a command like this:</p>
+
+<blockquote><pre>chrt -f 1 softIoc -d test.db</pre></blockquote>
+
+<p>On Linux, one can grant a process the ability to lock itself into memory
+using the command <code>ulimit -l unlimited</code>. These limits can also be
+configured on a per user/per group basis by changing /etc/security/limits.conf
+or its equivalent.</p>
+
+<p>A child process created via fork() normally inherits its parent's resource
+limits, so a child of a real-time soft-IOC will get its parent's real-time
+priority and memlock limits. The memory locks themselves however are not
+inherited by child processes.</p>
+
+<h3>Implement EPICS_CAS_INTF_ADDR_LIST in rsrv</h3>
+
+<p>The IOC server can now bind to a single IP address (and optional port number)
+read from the standard environment parameter EPICS_CAS_INTF_ADDR_LIST.
+Additional addresses included in that parameter after the first will be ignored
+and a warning message displayed at iocInit time.</p>
+
+<h3>alarmString.h deprecated again</h3>
+
+<p>The string arrays that provide string versions of the alarm status and
+severity values have been moved into libCom and the header file that used to
+instanciate them is no longer required, although a copy is still provided for
+backwards compatibility reasons. Only the alarm.h header needs to be included
+now to declare the epicsAlarmSeverityStrings and epicsAlarmConditionStrings
+arrays.</p>
+
+<h3>General purpose thread pool</h3>
+
+<p>
+A general purpose threaded work queue API epicsThreadPool is added.
+Multiple pools can be created with controlable priority and number
+of worker threads.  Lazy worker startup is supported.</p>
+
+<h3>Database field setting updates</h3>
+
+<p>A database (.db) file loaded by an IOC does not have to repeat the record
+type of a record that has already been loaded. It may replace the first
+parameter of the <tt>record(type, name)</tt> statement with an asterisk
+character inside double-quotes, <tt>"*"</tt> instead. Thus the following is a
+legal database file:</p>
+
+<blockquote><pre>record(ao, "ao1") {}
+record("*", "ao1") {
+    field(VAL, 10)
+}</pre></blockquote>
+
+<p>Note that database configuration tools will not be expected to have to
+understand this syntax, which is provided for scripted and hand-coded database
+and template instantiation only. Setting the IOC's <tt>dbRecordsOnceOnly</tt>
+flag also makes this syntax illegal, since its purpose is to prevent
+multiply-defined records from being collapsed into a single instance.</p>
+
+<h3>Added echo command to iocsh</h3>
+
+<p>The single argument string may contain escaped characters, which will be
+translated to their raw form before being printed (enclose the string in quotes
+to avoid double-translation). A newline is always appended to the output, and
+output stream redirection is supported.</p>
+
+<h3>Added macro EPICS_UNUSED to compilerDependencies.h</h3>
+
+<p>To prevent the compiler from warning about a known-unused variable, mark it
+with the macro EPICS_UNUSED. On gcc and clang this will expand to
+<tt>__attribute__((unused))</tt> to prevent the warning.</p>
+
+<h3>User specified db substitution file suffix</h3>
+
+<p>Per Dirk Zimoch's suggestion, a user specified db substitution file suffix is
+now allowed by setting the variable SUBST_SUFFIX in a configuration directory
+CONFIG_SITE file or in a Makefile before the include $(TOP)/configure/RULES
+line. The default for SUBST_SUFFIX is <tt>.substitutions</tt></p>
+
+<h3>NTP Time Provider adjusts to OS tick rate changes</h3>
+
+<p>Dirk Zimoch provided code that allows the NTP Time provider (used on VxWorks
+and RTEMS only) to adapt to changes in the OS clock tick rate after the provider
+has been initialized. Note that changing the tick rate after iocInit() is not
+advisable, and that other software might still misbehave if initialized before
+an OS tick rate change.</p>
+
+<h3>Added newEpicsMutex macro</h3>
+
+<p>Internal C++ uses of <tt>new epicsMutex()</tt> have been replaced with a new
+macro which calls a new constructor, passing it the file name and line number of
+the mutex creation code. C code that creates mutexes has been using a similar
+macro for a long time, but there was no equivalent constructor for the C++
+wrapper class, so identifying a specific mutex was much harder to do.</p>
+
+<h3>Post DBE_PROPERTY events automatically</h3>
+
+<p>A new record field attribute "prop(YES)" has been added to identify fields
+holding meta-data. External changes to these fields will cause a CA monitor
+event to be sent to all record subscribers who have asked for DBE_PROPERTY
+updates. Meta-data fields have been marked for all Base record types.</p>
 
 <h3>errlogRemoveListener() routine changed</h3>
 
@@ -74,12 +303,13 @@ The basic rules which device support must follow are:</p>
 <p>The new header file epicsSpin.h adds a portable spin-locks API which is
 intended for locking very short sections of code (typically one or two lines of
 C or C++) to provide a critical section that protects against race conditions.
-On Posix platforms this uses the pthread_spinlock_t type if it's available but
-falls back to a pthread_mutex_t if not; on the UP VxWorks and RTEMS platforms
-the implementations lock out the CPU interrupts; the default implementation
-(used where no better implementation is available for the platform) uses an
-epicsMutex. Spin-locks may not be taken recursively, and the code inside the
-critical section should always be short and deterministic.</p>
+On Posix platforms this uses the pthread_spinlock_t type if it's available and
+the build is not configured to use Posix thread priorities, but otherwise it
+falls back to a pthread_mutex_t. On the UP VxWorks and RTEMS platforms the
+implementations lock out CPU interrupts and disable task preemption while a
+spin-lock is held. The default implementation (used when no other implementation
+is provided) uses an epicsMutex. Spin-locks may not be taken recursively, and
+the code inside the critical section should be short and deterministic.</p>
 
 <h3>Improvements to aToIPAddr()</h3>
 
@@ -440,7 +670,7 @@ Code that will not work with a version of Base before 3.15.0 can now be
 written like this to prevent it from compiling:</p>
 
 <pre style="margin: 0 2em;">
-#if defined(VERSION_INT) && EPICS_VERSION_INT < VERSION_INT(3,15,0,0)
+#if defined(VERSION_INT) &amp;&amp; EPICS_VERSION_INT &lt; VERSION_INT(3,15,0,0)
 #  error EPICS Base R3.15.0 or later is required
 #endif
 </pre>

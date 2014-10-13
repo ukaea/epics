@@ -26,6 +26,7 @@ INC += dbLink.h
 INC += dbLock.h
 INC += dbNotify.h
 INC += dbScan.h
+INC += dbServer.h
 INC += dbTest.h
 INC += dbCaTest.h
 INC += db_test.h
@@ -37,6 +38,7 @@ INC += chfPlugin.h
 INC += dbState.h
 INC += db_access_routines.h
 INC += db_convert.h
+INC += dbUnitTest.h
 
 # Generate menuGlobal.dbd automatically
 DBD += menuGlobal.dbd
@@ -47,6 +49,7 @@ menuGlobal_DBD += menuFtype.dbd
 menuGlobal_DBD += menuIvoa.dbd
 menuGlobal_DBD += menuOmsl.dbd
 menuGlobal_DBD += menuPini.dbd
+menuGlobal_DBD += menuPost.dbd
 menuGlobal_DBD += menuPriority.dbd
 menuGlobal_DBD += menuScan.dbd
 menuGlobal_DBD += menuYesNo.dbd
@@ -55,6 +58,7 @@ menuGlobal_DBD += menuSimm.dbd
 DBDINC += $(basename $(menuGlobal_DBD))
 DBDINC += dbCommon
 
+HTMLS += $(patsubst %.dbd.pod,%.html,$(notdir $(wildcard ../db/menu*.dbd.pod)))
 
 dbCore_SRCS += dbLock.c
 dbCore_SRCS += dbAccess.c
@@ -85,4 +89,6 @@ dbCore_SRCS += templateInstances.cpp
 dbCore_SRCS += dbIocRegister.c
 dbCore_SRCS += chfPlugin.c
 dbCore_SRCS += dbState.c
+dbCore_SRCS += dbUnitTest.c
+dbCore_SRCS += dbServer.c
 

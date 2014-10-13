@@ -20,27 +20,28 @@
 #include <math.h>
 #include <float.h>
 
-#include "epicsConvert.h"
-#include "dbDefs.h"
-#include "errlog.h"
-#include "ellLib.h"
-#include "epicsTime.h"
-#include "errMdef.h"
 #include "alarm.h"
+#include "dbDefs.h"
+#include "ellLib.h"
+#include "epicsConvert.h"
+#include "epicsTime.h"
+#include "errlog.h"
+#include "errMdef.h"
+
 #define db_accessHFORdb_accessC
 #include "db_access.h"
 #undef db_accessHFORdb_accessC
 
 #define epicsExportSharedSymbols
-#include "dbStaticLib.h"
+#include "dbAccessDefs.h"
+#include "db_access_routines.h"
 #include "dbBase.h"
 #include "dbChannel.h"
 #include "dbCommon.h"
-#include "recSup.h"
-#include "dbNotify.h"
-#include "dbAccessDefs.h"
 #include "dbEvent.h"
-#include "db_access_routines.h"
+#include "dbNotify.h"
+#include "dbStaticLib.h"
+#include "recSup.h"
 
 
 #define oldDBF_STRING      0
@@ -471,7 +472,7 @@ int dbChannel_get_count(
             status = dbChannelGetField(chan, DBR_FLOAT, &newSt, &options, &zero, pfl);
             pold->status = newSt.status;
             pold->severity = newSt.severity;
-            pold->precision = newSt.precision.dp;
+            pold->precision = (dbr_short_t) newSt.precision.dp;
             strncpy(pold->units, newSt.units, MAX_UNITS_SIZE);
             pold->units[MAX_UNITS_SIZE-1] = '\0';
             pold->upper_disp_limit = epicsConvertDoubleToFloat(newSt.upper_disp_limit);
@@ -556,7 +557,7 @@ int dbChannel_get_count(
             status = dbChannelGetField(chan, DBR_DOUBLE, &newSt, &options, &zero, pfl);
             pold->status = newSt.status;
             pold->severity = newSt.severity;
-            pold->precision = newSt.precision.dp;
+            pold->precision = (dbr_short_t) newSt.precision.dp;
             strncpy(pold->units, newSt.units, MAX_UNITS_SIZE);
             pold->units[MAX_UNITS_SIZE-1] = '\0';
             pold->upper_disp_limit = newSt.upper_disp_limit;
@@ -620,7 +621,7 @@ int dbChannel_get_count(
             status = dbChannelGetField(chan, DBR_FLOAT, &newSt, &options, &zero, pfl);
             pold->status = newSt.status;
             pold->severity = newSt.severity;
-            pold->precision = newSt.precision.dp;
+            pold->precision = (dbr_short_t) newSt.precision.dp;
             strncpy(pold->units, newSt.units, MAX_UNITS_SIZE);
             pold->units[MAX_UNITS_SIZE-1] = '\0';
             pold->upper_disp_limit = epicsConvertDoubleToFloat(newSt.upper_disp_limit);
@@ -742,7 +743,7 @@ int dbChannel_get_count(
             status = dbChannelGetField(chan, DBR_DOUBLE, &newSt, &options, &zero, pfl);
             pold->status = newSt.status;
             pold->severity = newSt.severity;
-            pold->precision = newSt.precision.dp;
+            pold->precision = (dbr_short_t) newSt.precision.dp;
             strncpy(pold->units, newSt.units, MAX_UNITS_SIZE);
             pold->units[MAX_UNITS_SIZE-1] = '\0';
             pold->upper_disp_limit = newSt.upper_disp_limit;

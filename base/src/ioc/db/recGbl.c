@@ -13,31 +13,33 @@
  */
 
 #include <stddef.h>
-#include <epicsStdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <limits.h>
 
 #include "dbDefs.h"
 #include "epicsMath.h"
-#include "epicsTime.h"
 #include "epicsPrint.h"
-#include "dbBase.h"
-#include "dbFldTypes.h"
-#include "link.h"
-#include "dbAddr.h"
-#include "db_field_log.h"
+#include "epicsStdlib.h"
+#include "epicsTime.h"
 #include "errlog.h"
-#include "devSup.h"
-#include "dbCommon.h"
+
 #include "caeventmask.h"
+
 #define epicsExportSharedSymbols
 #include "dbAccessDefs.h"
+#include "dbAddr.h"
+#include "dbBase.h"
+#include "dbCa.h"
+#include "dbCommon.h"
+#include "dbEvent.h"
+#include "db_field_log.h"
+#include "dbFldTypes.h"
 #include "dbLink.h"
 #include "dbNotify.h"
-#include "dbCa.h"
-#include "dbEvent.h"
 #include "dbScan.h"
+#include "devSup.h"
+#include "link.h"
 #include "recGbl.h"
 
 
@@ -270,11 +272,38 @@ void recGblTSELwasModified(struct link *plink)
     /*Note that the VAL value will not be used*/
     pfieldname = strstr(ppv_link->pvname, ".TIME");
     if (pfieldname) {
-        strcpy(pfieldname, ".VAL");
+        *pfieldname = 0;
         ppv_link->pvlMask |= pvlOptTSELisTime;
     }
 }
-
+
+void recGblCheckDeadband(epicsFloat64 *poldval, const epicsFloat64 newval,
+    const epicsFloat64 deadband, unsigned *monitor_mask, const unsigned add_mask)
+{
+    double delta = 0;
+
+    if (finite(newval) && finite(*poldval)) {
+        /* both are finite -> compare delta with deadband */
+        delta = *poldval - newval;
+        if (delta < 0.0) delta = -delta;
+    }
+    else if (!isnan(newval) != !isnan(*poldval) ||
+             !isinf(newval) != !isinf(*poldval)) {
+        /* one is NaN or +-inf, the other not -> send update */
+        delta = epicsINF;
+    }
+    else if (isinf(newval) && newval != *poldval) {
+        /* one is +inf, the other -inf -> send update */
+        delta = epicsINF;
+    }
+    if (delta > deadband) {
+        /* add bits to monitor mask */
+        *monitor_mask |= add_mask;
+        /* update last value monitored */
+        *poldval = newval;
+    }
+}
+
 static void getMaxRangeValues(short field_type, double *pupper_limit,
     double *plower_limit)
 {

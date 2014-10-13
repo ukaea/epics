@@ -13,6 +13,7 @@
 #include <stdlib.h>
 
 #define epicsExportSharedSymbols
+#include "cantProceed.h"
 #include "errlog.h"
 #include "epicsMutex.h"
 #include "epicsSpin.h"
@@ -25,7 +26,7 @@ typedef struct epicsSpin {
     epicsMutexId lock;
 } epicsSpin;
 
-epicsSpinId epicsSpinCreate() {
+epicsSpinId epicsSpinCreate(void) {
     epicsSpin *spin;
 
     spin = calloc(1, sizeof(*spin));
@@ -43,6 +44,14 @@ fail:
     return NULL;
 }
 
+epicsSpinId epicsSpinMustCreate(void)
+{
+    epicsSpinId ret = epicsSpinCreate();
+    if(!ret)
+        cantProceed("epicsSpinMustCreate: epicsSpinCreate failed.");
+    return ret;
+}
+
 void epicsSpinDestroy(epicsSpinId spin) {
     epicsMutexDestroy(spin->lock);
     free(spin);
@@ -53,8 +62,9 @@ void epicsSpinLock(epicsSpinId spin) {
 
     status = epicsMutexLock(spin->lock);
     if (status != epicsMutexLockOK) {
-        errlogPrintf("epicsSpin epicsMutexLock failed: error %s\n",
-                     status == epicsMutexLockTimeout ? "epicsMutexLockTimeout" : "epicsMutexLockError");
+        errlogPrintf("epicsSpinLock(%p): epicsMutexLock returned %s\n", spin, 
+                     status == epicsMutexLockTimeout ?
+                         "epicsMutexLockTimeout" : "epicsMutexLockError");
     }
 }
 
@@ -65,7 +75,7 @@ int epicsSpinTryLock(epicsSpinId spin) {
     if (status == epicsMutexLockOK) return 0;
     if (status == epicsMutexLockTimeout) return 1;
 
-    errlogPrintf("epicsSpin epicsMutexTryLock failed: error epicsMutexLockError\n");
+    errlogPrintf("epicsSpinTryLock(%p): epicsMutexTryLock returned epicsMutexLockError\n", spin);
     return 2;
 }
 

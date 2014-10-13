@@ -1,4 +1,4 @@
-# $Revision-Id$
+# Revision-Id: jba@aps.anl.gov-20120831185254-irpn190wepwlu5tj
 
 include $(CONFIG)/RULES
 include $(TOP)/configure/RULES_PYTHON

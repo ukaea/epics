@@ -7,7 +7,7 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 
-/* $Revision-Id$
+/* Revision-Id: anj@aps.anl.gov-20141006230433-lbbjjxwesp6pkgfw
  *
  *    Original Authors: Bob Dalesio and Marty Kraimer
  *    Date:             26MAR96
@@ -20,34 +20,35 @@
 #include <string.h>
 #include <errno.h>
 
+#include "alarm.h"
+#include "cantProceed.h"
 #include "dbDefs.h"
-#include "epicsMutex.h"
+#include "epicsAssert.h"
 #include "epicsEvent.h"
+#include "epicsExit.h"
+#include "epicsMutex.h"
+#include "epicsPrint.h"
+#include "epicsString.h"
 #include "epicsThread.h"
 #include "epicsTime.h"
-#include "epicsString.h"
 #include "errlog.h"
-#include "taskwd.h"
-#include "alarm.h"
-#include "link.h"
 #include "errMdef.h"
-#include "epicsPrint.h"
-#include "dbCommon.h"
+#include "taskwd.h"
+
 #include "cadef.h"
-#include "epicsAssert.h"
-#include "epicsExit.h"
-#include "cantProceed.h"
 
 /* We can't include dbStaticLib.h here */
 #define dbCalloc(nobj,size) callocMustSucceed(nobj,size,"dbCalloc")
 
 #define epicsExportSharedSymbols
 #include "db_access_routines.h"
-#include "db_convert.h"
-#include "dbScan.h"
-#include "dbLock.h"
 #include "dbCa.h"
 #include "dbCaPvt.h"
+#include "dbCommon.h"
+#include "db_convert.h"
+#include "dbLock.h"
+#include "dbScan.h"
+#include "link.h"
 #include "recSup.h"
 
 extern void dbServiceIOInit();
@@ -73,6 +74,7 @@ static void dbCaTask(void *);
     errlogPrintf("%s has DB CA link to %s\n",\
         pcaLink->plink->value.pv_link.precord->name, pcaLink->pvname)
 
+static int dbca_chan_count;
 
 /* caLink locking
  *
@@ -163,6 +165,32 @@ static void addAction(caLink *pca, short link_action)
         epicsEventSignal(workListEvent);
 }
 
+static void dbCaLinkFree(caLink *pca)
+{
+    dbCaCallback callback;
+    struct link *plinkPutCallback = 0;
+
+    if (pca->chid) {
+        ca_clear_channel(pca->chid);
+        --dbca_chan_count;
+    }
+    callback = pca->putCallback;
+    if (callback) {
+        plinkPutCallback = pca->plinkPutCallback;
+        pca->plinkPutCallback = 0;
+        pca->putCallback = 0;
+        pca->putType = 0;
+    }
+    free(pca->pgetNative);
+    free(pca->pputNative);
+    free(pca->pgetString);
+    free(pca->pputString);
+    free(pca->pvname);
+    epicsMutexDestroy(pca->lock);
+    free(pca);
+    if (callback) callback(plinkPutCallback);
+}
+
 void dbCaCallbackProcess(void *usrPvt)
 {
     struct link *plink = (struct link *)usrPvt;
@@ -173,20 +201,47 @@ void dbCaCallbackProcess(void *usrPvt)
     dbScanUnlock(pdbCommon);
 }
 
-static void dbCaShutdown(void *arg)
+void dbCaShutdown(void)
 {
-    if (dbCaCtl == ctlRun) {
+    if (dbCaCtl == ctlRun || dbCaCtl == ctlPause) {
         dbCaCtl = ctlExit;
         epicsEventSignal(workListEvent);
         epicsEventMustWait(startStopEvent);
+        epicsEventDestroy(startStopEvent);
+    } else {
+        /* manually cleanup queue since dbCa thread isn't running
+         * which only happens in unit tests
+         */
+        caLink *pca;
+        epicsMutexMustLock(workListLock);
+        while((pca=(caLink*)ellGet(&workList))!=NULL) {
+            if(pca->link_action&CA_CLEAR_CHANNEL) {
+                dbCaLinkFree(pca);
+            }
+        }
+        epicsMutexUnlock(workListLock);
     }
+}
+
+static void dbCaExit(void *arg)
+{
+    dbCaShutdown();
+}
+
+void dbCaLinkInitIsolated(void)
+{
+    if (!workListLock)
+        workListLock = epicsMutexMustCreate();
+    if (!workListEvent)
+        workListEvent = epicsEventMustCreate(epicsEventEmpty);
+    dbCaCtl = ctlExit;
+    epicsAtExit(dbCaExit, NULL);
 }
 
 void dbCaLinkInit(void)
 {
     dbServiceIOInit();
-    workListLock = epicsMutexMustCreate();
-    workListEvent = epicsEventMustCreate(epicsEventEmpty);
+    dbCaLinkInitIsolated();
     startStopEvent = epicsEventMustCreate(epicsEventEmpty);
     dbCaCtl = ctlPause;
 
@@ -194,19 +249,22 @@ void dbCaLinkInit(void)
         epicsThreadGetStackSize(epicsThreadStackBig),
         dbCaTask, NULL);
     epicsEventMustWait(startStopEvent);
-    epicsAtExit(dbCaShutdown, NULL);
 }
 
 void dbCaRun(void)
 {
-    dbCaCtl = ctlRun;
-    epicsEventSignal(workListEvent);
+    if (dbCaCtl == ctlPause) {
+        dbCaCtl = ctlRun;
+        epicsEventSignal(workListEvent);
+    }
 }
 
 void dbCaPause(void)
 {
-    dbCaCtl = ctlPause;
-    epicsEventSignal(workListEvent);
+    if (dbCaCtl == ctlRun) {
+        dbCaCtl = ctlPause;
+        epicsEventSignal(workListEvent);
+    }
 }
 
 void dbCaAddLinkCallback(struct link *plink,
@@ -300,7 +358,7 @@ long dbCaGetLink(struct link *plink,short dbrType, void *pdest,
         assert(pca->pgetNative);
         status = fConvert(pca->pgetNative, pdest, 0);
     } else {
-        unsigned long ntoget = *nelements;
+        long ntoget = *nelements;
         struct dbAddr dbAddr;
         long (*aConvert)(struct dbAddr *paddr, void *to, long nreq, long nto, long off);
 
@@ -835,8 +893,6 @@ static void getAttribEventCallback(struct event_handler_args arg)
 
 static void dbCaTask(void *arg)
 {
-    int chan_count = 0;
-
     taskwdInsert(0, NULL, NULL);
     SEVCHK(ca_context_create(ca_enable_preemptive_callback),
         "dbCaTask calling ca_context_create");
@@ -866,29 +922,8 @@ static void dbCaTask(void *arg)
             if (link_action & CA_CLEAR_CHANNEL) --removesOutstanding;
             epicsMutexUnlock(workListLock);         /* Give back immediately */
             if (link_action & CA_CLEAR_CHANNEL) {   /* This must be first */
-                dbCaCallback callback;
-                struct link *plinkPutCallback = 0;
-
-                if (pca->chid) {
-                    ca_clear_channel(pca->chid);
-                    --chan_count;
-                }
-                callback = pca->putCallback;
-                if (callback) {
-                    plinkPutCallback = pca->plinkPutCallback;
-                    pca->plinkPutCallback = 0;
-                    pca->putCallback = 0;
-                    pca->putType = 0;
-                }
-                free(pca->pgetNative);
-                free(pca->pputNative);
-                free(pca->pgetString);
-                free(pca->pputString);
-                free(pca->pvname);
-                epicsMutexDestroy(pca->lock);
-                free(pca);
+                dbCaLinkFree(pca);
                 /* No alarm is raised. Since link is changing so what? */
-                if (callback) callback(plinkPutCallback);
                 continue; /* No other link_action makes sense */
             }
             if (link_action & CA_CONNECT) {
@@ -901,7 +936,7 @@ static void dbCaTask(void *arg)
                     printLinks(pca);
                     continue;
                 }
-                chan_count++;
+                dbca_chan_count++;
                 status = ca_replace_access_rights_event(pca->chid,
                     accessRightsCallback);
                 if (status != ECA_NORMAL) {
@@ -1003,9 +1038,9 @@ static void dbCaTask(void *arg)
     }
 shutdown:
     taskwdRemove(0);
-    if (chan_count == 0)
+    if (dbca_chan_count == 0)
         ca_context_destroy();
     else
-        fprintf(stderr, "dbCa: chan_count = %d at shutdown\n", chan_count);
+        fprintf(stderr, "dbCa: chan_count = %d at shutdown\n", dbca_chan_count);
     epicsEventSignal(startStopEvent);
 }

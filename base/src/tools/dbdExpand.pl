@@ -26,17 +26,44 @@ my @path = map { split /[:;]/ } @opt_I; # FIXME: Broken on Win32?
 my $macros = EPICS::macLib->new(@opt_S);
 my $dbd = DBD->new();
 
-while (@ARGV) {
-    &ParseDBD($dbd, &Readfile(shift @ARGV, $macros, \@opt_I));
+# Calculate filename for the dependency warning message below
+my $dep = $opt_o;
+my $dot_d = '';
+if ($opt_D) {
+    $dep =~ s{\.\./O\.Common/(.*)}{\1\$\(DEP\)};
+    $dot_d = '.d';
+} else {
+    $dep = "\$(COMMON_DIR)/$dep";
 }
 
-if ($opt_D) {   # Output dependencies only
+die "dbdExpand.pl: No input files for $opt_o\n" if !@ARGV;
+
+my $errors = 0;
+
+while (@ARGV) {
+    my $file = shift @ARGV;
+    eval {
+        &ParseDBD($dbd, &Readfile($file, $macros, \@opt_I));
+    };
+    if ($@) {
+        warn "dbdExpand.pl: $@";
+        warn "  while reading '$file' to create '$opt_o$dot_d'\n";
+        warn "  Your Makefile may need this dependency rule:\n",
+            "    $dep: \$(COMMON_DIR)/$file\n"
+            if $@ =~ m/Can't find file '$file'/;
+        ++$errors;
+    }
+}
+
+if ($opt_D) {   # Output dependencies only, ignore errors
     my %filecount;
     my @uniqfiles = grep { not $filecount{$_}++ } @inputfiles;
     print "$opt_o: ", join(" \\\n    ", @uniqfiles), "\n\n";
     print map { "$_:\n" } @uniqfiles;
     exit 0;
 }
+
+die "dbdExpand.pl: Exiting due to errors\n" if $errors;
 
 my $out;
 if ($opt_o) {

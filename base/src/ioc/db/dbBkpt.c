@@ -8,7 +8,7 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 /* dbBkpt.c */
-/* base/src/db $Revision-Id$ */
+/* base/src/db Revision-Id: anj@aps.anl.gov-20141006055702-6sznplbat5czjlgi */
 /*
  *      Author:          Matthew Needes
  *      Date:            8-30-93
@@ -44,32 +44,34 @@
 #include <stdarg.h>
 #include <string.h>
 
-#include "dbDefs.h"
-#include "epicsThread.h"
-#include "epicsMutex.h"
-#include "epicsEvent.h"
-#include "epicsTime.h"
-#include "ellLib.h"
-#include "errlog.h"
 #include "alarm.h"
-#include "dbBase.h"
-#include "dbFldTypes.h"
-#include "link.h"
-#include "dbCommon.h"
-#include "dbFldTypes.h"
-#include "db_field_log.h"
+#include "dbDefs.h"
+#include "ellLib.h"
+#include "epicsEvent.h"
+#include "epicsExit.h"
+#include "epicsMutex.h"
+#include "epicsThread.h"
+#include "epicsTime.h"
+#include "errlog.h"
 #include "errMdef.h"
-#include "recSup.h"
-#include "special.h"
+
 #define epicsExportSharedSymbols
-#include "dbAddr.h"
 #include "dbAccessDefs.h"
-#include "dbScan.h"
+#include "dbAddr.h"
+#include "dbBase.h"
+#include "dbBkpt.h"
+#include "dbCommon.h"
+#include "db_field_log.h"
+#include "dbFldTypes.h"
+#include "dbFldTypes.h"
 #include "dbLink.h"
 #include "dbLock.h"
-#include "recGbl.h"
+#include "dbScan.h"
 #include "dbTest.h"
-#include "dbBkpt.h"
+#include "link.h"
+#include "recGbl.h"
+#include "recSup.h"
+#include "special.h"
 
 /* private routines */
 static void dbBkptCont(dbCommon *precord);
@@ -250,7 +252,11 @@ static long FIND_CONT_NODE(
   return(0);
 }
 
-
+static void dbBkptExit(void *junk) {
+    epicsMutexDestroy(bkpt_stack_sem);
+    bkpt_stack_sem = NULL;
+}
+
 /*
  *  Initialise the breakpoint stack
  */
@@ -259,6 +265,7 @@ void dbBkptInit(void)
     if (! bkpt_stack_sem) {
         bkpt_stack_sem = epicsMutexMustCreate();
         lset_stack_count = 0;
+        epicsAtExit(dbBkptExit, NULL);
     }
 }
 
@@ -818,7 +825,7 @@ void dbPrint(dbCommon *precord )
 long dbp(const char *record_name, int interest_level)
 {
   struct LS_LIST *pnode;
-  struct dbCommon *precord;
+  struct dbCommon *precord = NULL;
   int status;
 
   epicsMutexMustLock(bkpt_stack_sem);

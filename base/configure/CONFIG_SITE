@@ -7,7 +7,7 @@
 # in the file LICENSE that is included with this distribution.
 #*************************************************************************
 #
-#  $Revision-Id$
+#  Revision-Id: anj@aps.anl.gov-20131217185404-wng3r3ldfeefnu61
 #
 #  CONFIG_SITE  - Global site configuration file
 #
@@ -17,6 +17,7 @@
 #
 #  Currently Supporting:
 #	cygwin-x86             (cygwin compiler used for host builds)
+#	cygwin-x86_64          (cygwin compiler used for host builds)
 #	darwin-ppc             (PowerPC based Apple running OSX)
 #	darwin-ppcx86          (Universal binaries for both CPUs)
 #	darwin-x86             (Intel based Apple running OSX)
@@ -37,6 +38,7 @@
 #	win32-x86              (MS Visual C++ compiler used for host builds)
 #	win32-x86-mingw        (MinGW compiler used for host builds)
 #	windows-x64            (MS Visual C++ compiler used for host builds)
+#	windows-x64-mingw      (MinGW compiler used for host builds)
 
 #  Debugging builds:
 #	linux-x86-debug        (GNU compiler with -g option for host builds)
@@ -141,7 +143,7 @@ CROSS_WARN=YES
 
 # Installation directory, if you want Base to be installed into a
 #  different location then uncomment and set this.
-INSTALL_LOCATION=D:\EPICS\base
+#INSTALL_LOCATION=<fullpathname>
 
 # Use POSIX thread priority scheduling (if available).
 #  Must be either YES or NO

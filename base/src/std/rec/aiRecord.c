@@ -6,7 +6,7 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/* $Revision-Id$ */
+/* Revision-Id: anj@aps.anl.gov-20140925213412-lo1rca0dx74lzif7 */
 
 /* aiRecord.c - Record Support Routines for Analog Input records */
 /*
@@ -36,6 +36,7 @@
 #include "recGbl.h"
 #include "special.h"
 #include "menuConvert.h"
+
 #define GEN_SIZE_OFFSET
 #include "aiRecord.h"
 #undef  GEN_SIZE_OFFSET
@@ -443,7 +444,7 @@ static void convert(aiRecord *prec)
 	}
 
 	/* apply smoothing algorithm */
-	if (prec->smoo != 0.0){
+    if (prec->smoo != 0.0 && finite(prec->val)){
 	    if (prec->init) prec->val = val;	/* initial condition */
 	    prec->val = val * (1.00 - prec->smoo) + (prec->val * prec->smoo);
 	}else{
@@ -455,29 +456,13 @@ static void convert(aiRecord *prec)
 
 static void monitor(aiRecord *prec)
 {
-	unsigned short	monitor_mask;
-	double		delta;
+    unsigned monitor_mask = recGblResetAlarms(prec);
 
-        monitor_mask = recGblResetAlarms(prec);
-	/* check for value change */
-	delta = prec->mlst - prec->val;
-	if(delta<0.0) delta = -delta;
-	if (!(delta <= prec->mdel)) { /* Handles MDEL == NAN */
-		/* post events for value change */
-		monitor_mask |= DBE_VALUE;
-		/* update last value monitored */
-		prec->mlst = prec->val;
-	}
+    /* check for value change */
+    recGblCheckDeadband(&prec->mlst, prec->val, prec->mdel, &monitor_mask, DBE_VALUE);
 
-	/* check for archive change */
-	delta = prec->alst - prec->val;
-	if(delta<0.0) delta = -delta;
-	if (!(delta <= prec->adel)) { /* Handles ADEL == NAN */
-		/* post events on value field for archive change */
-		monitor_mask |= DBE_LOG;
-		/* update last archive value monitored */
-		prec->alst = prec->val;
-	}
+    /* check for archive change */
+    recGblCheckDeadband(&prec->alst, prec->val, prec->adel, &monitor_mask, DBE_ARCHIVE);
 
 	/* send out monitors connected to the value field */
 	if (monitor_mask){

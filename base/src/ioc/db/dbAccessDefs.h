@@ -7,7 +7,7 @@
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
 /* dbAccessDefs.h	*/
-/* $Revision-Id$ */
+/* Revision-Id: ralph.lange@gmx.de-20140825214037-93vz1exht9d7b50x */
 
 #ifndef INCdbAccessDefsh
 #define INCdbAccessDefsh
@@ -199,6 +199,8 @@ struct dbr_alDouble     {DBRalDouble};
 #define S_db_cntSpwn    (M_dbAccess|63) /*Cannot spawn dbContTask*/
 #define S_db_cntCont    (M_dbAccess|65) /*Cannot resume dbContTask*/
 #define S_db_noMemory   (M_dbAccess|66) /*unable to allocate data structure from pool*/
+#define S_db_notInit    (M_dbAccess|67) /*Not initialized*/
+#define S_db_bufFull    (M_dbAccess|68) /*Buffer full*/
 
 epicsShareFunc long dbPutSpecial(struct dbAddr *paddr,int pass);
 epicsShareFunc struct rset * dbGetRset(const struct dbAddr *paddr);

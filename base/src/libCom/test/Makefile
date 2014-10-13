@@ -37,10 +37,22 @@ epicsMathTest_SRCS += epicsMathTest.c
 testHarness_SRCS += epicsMathTest.c
 TESTS += epicsMathTest
 
+TESTPROD_HOST += epicsMMIOTest
+epicsMMIOTest_SRCS += epicsMMIOTest.c
+epicsMMIOTest_SYS_LIBS_solaris = socket
+epicsMMIOTest_SYS_LIBS_WIN32 = ws2_32 user32
+testHarness_SRCS += epicsMMIOTest.c
+TESTS += epicsMMIOTest
+
 TESTPROD_HOST += epicsEllTest
 epicsEllTest_SRCS += epicsEllTest.c
 testHarness_SRCS += epicsEllTest.c
 TESTS += epicsEllTest
+
+TESTPROD_HOST += epicsEnvTest
+epicsEnvTest_SRCS += epicsEnvTest.c
+testHarness_SRCS += epicsEnvTest.c
+TESTS += epicsEnvTest
 
 TESTPROD_HOST += epicsErrlogTest
 epicsErrlogTest_SRCS += epicsErrlogTest.c
@@ -101,6 +113,11 @@ epicsThreadHooksTest_SRCS += epicsThreadHooksTest.c
 testHarness_SRCS += epicsThreadHooksTest.c
 TESTS += epicsThreadHooksTest
 
+TESTPROD_HOST += epicsThreadPoolTest
+epicsThreadPoolTest_SRCS += epicsThreadPoolTest.c
+testHarness_SRCS += epicsThreadPoolTest.c
+TESTS += epicsThreadPoolTest
+
 TESTPROD_HOST += epicsExitTest
 epicsExitTest_SRCS += epicsExitTest.c
 testHarness_SRCS += epicsExitTest.c
@@ -146,10 +163,10 @@ epicsExceptionTest_SRCS += epicsExceptionTest.cpp
 testHarness_SRCS += epicsExceptionTest.cpp
 TESTS += epicsExceptionTest
 
-TESTPROD_HOST += macEnvExpandTest
-macEnvExpandTest_SRCS += macEnvExpandTest.c
-testHarness_SRCS += macEnvExpandTest.c
-TESTS += macEnvExpandTest
+TESTPROD_HOST += macDefExpandTest
+macDefExpandTest_SRCS += macDefExpandTest.c
+testHarness_SRCS += macDefExpandTest.c
+TESTS += macDefExpandTest
 
 TESTPROD_HOST += macLibTest
 macLibTest_SRCS += macLibTest.c
@@ -173,6 +190,11 @@ TESTPROD_HOST += epicsMessageQueueTest
 epicsMessageQueueTest_SRCS += epicsMessageQueueTest.cpp
 testHarness_SRCS += epicsMessageQueueTest.cpp
 TESTS += epicsMessageQueueTest
+
+TESTPROD_HOST += epicsStackTraceTest
+epicsStackTraceTest_SRCS += epicsStackTraceTest.c
+testHarness_SRCS += epicsStackTraceTest.c
+TESTS += epicsStackTraceTest
 
 
 # The testHarness runs all the test programs in a known working order.

@@ -6,7 +6,7 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
-/* $Revision-Id$
+/* Revision-Id: anj@aps.anl.gov-20140313200431-4d48kjtq8tzh11xi
  *
  *      Author  Marty Kraimer
  */
@@ -19,6 +19,7 @@
 #include "epicsString.h"
 #include "testMain.h"
 
+static
 void testChars(void) {
     int i;
     char input[2] = {0, 0};
@@ -38,6 +39,41 @@ void testChars(void) {
     }
 }
 
+static
+void testGlob(void) {
+    testOk1(epicsStrGlobMatch("xyz","xyz"));
+    testOk1(!epicsStrGlobMatch("xyz","xyzm"));
+    testOk1(!epicsStrGlobMatch("xyzm","xyz"));
+    testOk1(!epicsStrGlobMatch("","xyzm"));
+    testOk1(!epicsStrGlobMatch("xyz",""));
+    testOk1(epicsStrGlobMatch("",""));
+
+    testOk1(epicsStrGlobMatch("","*"));
+    testOk1(!epicsStrGlobMatch("","?"));
+    testOk1(!epicsStrGlobMatch("","?*"));
+
+    testOk1(epicsStrGlobMatch("hello","h*o"));
+    testOk1(!epicsStrGlobMatch("hello","h*x"));
+    testOk1(!epicsStrGlobMatch("hellx","h*o"));
+
+    testOk1(epicsStrGlobMatch("hello","he?lo"));
+    testOk1(!epicsStrGlobMatch("hello","he?xo"));
+    testOk1(epicsStrGlobMatch("hello","he??o"));
+    testOk1(!epicsStrGlobMatch("helllo","he?lo"));
+
+    testOk1(epicsStrGlobMatch("hello world","he*o w*d"));
+    testOk1(!epicsStrGlobMatch("hello_world","he*o w*d"));
+    testOk1(epicsStrGlobMatch("hello world","he**d"));
+
+    testOk1(epicsStrGlobMatch("hello hello world","he*o w*d"));
+
+    testOk1(!epicsStrGlobMatch("hello hello xorld","he*o w*d"));
+
+    testOk1(epicsStrGlobMatch("hello","he*"));
+    testOk1(epicsStrGlobMatch("hello","*lo"));
+    testOk1(epicsStrGlobMatch("hello","*"));
+}
+
 MAIN(epicsStringTest)
 {
     const char * const empty = "";
@@ -50,14 +86,14 @@ MAIN(epicsStringTest)
     const char * const abcde = "abcde";
     char *s;
 
-    testPlan(281);
+    testPlan(305);
 
     testChars();
 
     testOk1(epicsStrnCaseCmp(empty, "", 0) == 0);
     testOk1(epicsStrnCaseCmp(empty, "", 1) == 0);
-    testOk1(epicsStrnCaseCmp(space, empty, 1) < 0);
-    testOk1(epicsStrnCaseCmp(empty, space, 1) > 0);
+    testOk1(epicsStrnCaseCmp(space, empty, 1) > 0);
+    testOk1(epicsStrnCaseCmp(empty, space, 1) < 0);
     testOk1(epicsStrnCaseCmp(a, A, 1) == 0);
     testOk1(epicsStrnCaseCmp(a, A, 2) == 0);
     testOk1(epicsStrnCaseCmp(abcd, ABCD, 2) == 0);
@@ -65,17 +101,17 @@ MAIN(epicsStringTest)
     testOk1(epicsStrnCaseCmp(abcd, ABCD, 1000) == 0);
     testOk1(epicsStrnCaseCmp(abcd, ABCDE, 2) == 0);
     testOk1(epicsStrnCaseCmp(abcd, ABCDE, 4) == 0);
-    testOk1(epicsStrnCaseCmp(abcd, ABCDE, 1000)> 0);
+    testOk1(epicsStrnCaseCmp(abcd, ABCDE, 1000) < 0);
     testOk1(epicsStrnCaseCmp(abcde, ABCD, 2) == 0);
     testOk1(epicsStrnCaseCmp(abcde, ABCD, 4) == 0);
-    testOk1(epicsStrnCaseCmp(abcde, ABCD, 1000) < 0);
+    testOk1(epicsStrnCaseCmp(abcde, ABCD, 1000) > 0);
 
     testOk1(epicsStrCaseCmp(empty, "") == 0);
     testOk1(epicsStrCaseCmp(a, A) == 0);
     testOk1(epicsStrCaseCmp(abcd, ABCD) == 0);
-    testOk1(epicsStrCaseCmp(abcd, ABCDE) != 0);
-    testOk1(epicsStrCaseCmp(abcde, ABCD) != 0);
-    testOk1(epicsStrCaseCmp(abcde, "ABCDF") != 0);
+    testOk1(epicsStrCaseCmp(abcd, ABCDE) < 0);
+    testOk1(epicsStrCaseCmp(abcde, ABCD) > 0);
+    testOk1(epicsStrCaseCmp(abcde, "ABCDF") < 0);
 
     s = epicsStrDup(abcd);
     testOk(strcmp(s, abcd) == 0 && s != abcd, "epicsStrDup");
@@ -84,6 +120,8 @@ MAIN(epicsStringTest)
     testOk1(epicsStrHash(abcd, 0) != epicsStrHash("bacd", 0));
     testOk1(epicsStrHash(abcd, 0) == epicsMemHash(abcde, 4, 0));
     testOk1(epicsStrHash(abcd, 0) != epicsMemHash("abcd\0", 5, 0));
+
+    testGlob();
 
     return testDone();
 }

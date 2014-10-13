@@ -20,31 +20,32 @@
 #include <string.h>
 #include <limits.h>
 
+#include "cantProceed.h"
 #include "dbDefs.h"
 #include "ellLib.h"
 #include "epicsAssert.h"
 #include "epicsEvent.h"
+#include "epicsExit.h"
 #include "epicsMutex.h"
 #include "epicsString.h"
 #include "epicsThread.h"
+#include "epicsTime.h"
 #include "errlog.h"
 #include "errMdef.h"
-#include "dbBase.h"
-#include "dbStaticLib.h"
-#include "dbFldTypes.h"
-#include "link.h"
-#include "dbCommon.h"
+
 #define epicsExportSharedSymbols
 #include "callback.h"
-#include "dbChannel.h"
-#include "dbScan.h"
-#include "dbLock.h"
-#include "callback.h"
 #include "dbAccessDefs.h"
-#include "recGbl.h"
+#include "dbBase.h"
+#include "dbChannel.h"
+#include "dbCommon.h"
+#include "dbFldTypes.h"
+#include "dbLock.h"
 #include "dbNotify.h"
-#include "epicsTime.h"
-#include "cantProceed.h"
+#include "dbScan.h"
+#include "dbStaticLib.h"
+#include "link.h"
+#include "recGbl.h"
 
 /*notify state values */
 typedef enum {
@@ -298,6 +299,14 @@ static void notifyCallback(CALLBACK *pcallback)
     callDone(precord, ppn);
 }
 
+static void dbProcessNotifyExit(void* junk)
+{
+    assert(ellCount(&pnotifyGlobal->freeList)==0);
+    epicsMutexDestroy(pnotifyGlobal->lock);
+    free(pnotifyGlobal);
+    pnotifyGlobal = NULL;
+}
+
 void dbProcessNotifyInit(void)
 {
     if (pnotifyGlobal)
@@ -305,6 +314,7 @@ void dbProcessNotifyInit(void)
     pnotifyGlobal = dbCalloc(1,sizeof(notifyGlobal));
     pnotifyGlobal->lock = epicsMutexMustCreate();
     ellInit(&pnotifyGlobal->freeList);
+    epicsAtExit(dbProcessNotifyExit, NULL);
 }
 
 void dbProcessNotify(processNotify *ppn)

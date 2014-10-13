@@ -23,42 +23,44 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "dbDefs.h"
-#include "epicsThread.h"
-#include "errlog.h"
+#include "alarm.h"
 #include "cantProceed.h"
 #include "cvtFast.h"
-#include "epicsMath.h"
-#include "epicsTime.h"
-#include "alarm.h"
+#include "dbDefs.h"
 #include "ellLib.h"
+#include "epicsMath.h"
+#include "epicsThread.h"
+#include "epicsTime.h"
+#include "errlog.h"
 #include "errMdef.h"
+
 #define epicsExportSharedSymbols
-#include "dbStaticLib.h"
-#include "dbBase.h"
-#include "link.h"
-#include "dbFldTypes.h"
-#include "recSup.h"
-#include "devSup.h"
 #include "caeventmask.h"
-#include "db_field_log.h"
-#include "dbCommon.h"
-#include "dbFldTypes.h"
-#include "special.h"
-#include "dbAddr.h"
 #include "callback.h"
-#include "dbScan.h"
+#include "dbAccessDefs.h"
+#include "dbAddr.h"
+#include "dbBase.h"
+#include "dbBkpt.h"
+#include "dbCa.h"
+#include "dbCommon.h"
+#include "dbConvertFast.h"
+#include "dbConvert.h"
+#include "dbEvent.h"
+#include "db_field_log.h"
+#include "dbFldTypes.h"
+#include "dbFldTypes.h"
 #include "dbLink.h"
 #include "dbLock.h"
-#include "dbEvent.h"
-#include "dbConvert.h"
-#include "dbConvertFast.h"
-#include "epicsEvent.h"
-#include "dbCa.h"
-#include "dbBkpt.h"
 #include "dbNotify.h"
-#include "dbAccessDefs.h"
+#include "dbScan.h"
+#include "dbServer.h"
+#include "dbStaticLib.h"
+#include "devSup.h"
+#include "epicsEvent.h"
+#include "link.h"
 #include "recGbl.h"
+#include "recSup.h"
+#include "special.h"
 
 epicsShareDef struct dbBase *pdbbase = 0;
 epicsShareDef volatile int interruptAccept=FALSE;
@@ -143,7 +145,7 @@ static void get_enum_strs(DBADDR *paddr, char **ppbuffer,
 	unsigned long	no_str;
 	char		*ptemp;
 	struct dbr_enumStrs *pdbr_enumStrs=(struct dbr_enumStrs*)(*ppbuffer);
-	int			i;
+    unsigned int i;
 
 	memset(pdbr_enumStrs,'\0',dbr_enumStrs_size);
 	switch(field_type) {
@@ -454,6 +456,7 @@ long dbProcess(dbCommon *precord)
     struct rset *prset = precord->rset;
     dbRecordType *pdbRecordType = precord->rdes;
     unsigned char tpro = precord->tpro;
+    char context[40] = "";
     long status = 0;
     int *ptrace;
     int	set_trace = FALSE;
@@ -484,23 +487,33 @@ long dbProcess(dbCommon *precord)
 
     /* check for trace processing*/
     if (tpro) {
-        if(*ptrace==0) {
+        if (!*ptrace) {
             *ptrace = 1;
             set_trace = TRUE;
         }
     }
 
+    if (*ptrace) {
+        /* Identify this thread's client from server layer */
+        if (dbServerClient(context, sizeof(context))) {
+            /* No client, use thread name */
+            strncpy(context, epicsThreadGetNameSelf(), sizeof(context));
+            context[sizeof(context) - 1] = 0;
+        }
+    }
+
     /* If already active dont process */
     if (precord->pact) {
-        unsigned short	monitor_mask;
+        unsigned short monitor_mask;
 
         if (*ptrace)
-            printf("%s: Active %s\n",
-                    epicsThreadGetNameSelf(), precord->name);
+            printf("%s: Active %s\n", context, precord->name);
+
         /* raise scan alarm after MAX_LOCK times */
-        if (precord->stat==SCAN_ALARM) goto all_done;
-        if (precord->lcnt++ !=MAX_LOCK) goto all_done;
-        if (precord->sevr>=INVALID_ALARM) goto all_done;
+        if ((precord->stat == SCAN_ALARM) ||
+            (precord->lcnt++ < MAX_LOCK) ||
+            (precord->sevr >= INVALID_ALARM)) goto all_done;
+
         recGblSetSevr(precord, SCAN_ALARM, INVALID_ALARM);
         monitor_mask = recGblResetAlarms(precord);
         monitor_mask |= DBE_VALUE|DBE_LOG;
@@ -510,7 +523,8 @@ long dbProcess(dbCommon *precord)
                 monitor_mask);
         goto all_done;
     }
-    else precord->lcnt = 0;
+    else
+        precord->lcnt = 0;
 
     /*
      *  Check the record disable link.  A record will not be
@@ -521,9 +535,8 @@ long dbProcess(dbCommon *precord)
 
     /* if disabled check disable alarm severity and return success */
     if (precord->disa == precord->disv) {
-        if(*ptrace)
-            printf("%s: Disabled %s\n",
-                    epicsThreadGetNameSelf(), precord->name);
+        if (*ptrace)
+            printf("%s: Disabled %s\n", context, precord->name);
 
         /*take care of caching and notifyCompletion*/
         precord->rpro = FALSE;
@@ -531,7 +544,9 @@ long dbProcess(dbCommon *precord)
         callNotifyCompletion = TRUE;
 
         /* raise disable alarm */
-        if (precord->stat==DISABLE_ALARM) goto all_done;
+        if (precord->stat == DISABLE_ALARM)
+            goto all_done;
+
         precord->sevr = precord->diss;
         precord->stat = DISABLE_ALARM;
         precord->nsev = 0;
@@ -547,29 +562,34 @@ long dbProcess(dbCommon *precord)
 
     /* locate record processing routine */
     /* FIXME: put this in iocInit() !!! */
-    if (!(prset=precord->rset) || !(prset->process)) {
+    if (!prset || !prset->process) {
         callNotifyCompletion = TRUE;
-        precord->pact=1;/*set pact TRUE so error is issued only once*/
+        precord->pact = 1;/*set pact so error is issued only once*/
         recGblRecordError(S_db_noRSET, (void *)precord, "dbProcess");
         status = S_db_noRSET;
         if (*ptrace)
-            printf("%s: No RSET for %s\n",
-                    epicsThreadGetNameSelf(), precord->name);
+            printf("%s: No RSET for %s\n", context, precord->name);
         goto all_done;
     }
-    if(*ptrace)
-        printf("%s: Process %s\n",
-                epicsThreadGetNameSelf(), precord->name);
+
+    if (*ptrace)
+        printf("%s: Process %s\n", context, precord->name);
+
     /* process record */
-    status = (*prset->process)(precord);
+    status = prset->process(precord);
+
     /* Print record's fields if PRINT_MASK set in breakpoint field */
     if (lset_stack_count != 0) {
         dbPrint(precord);
     }
+
 all_done:
-    if (set_trace) *ptrace = 0;
-    if(callNotifyCompletion && precord->ppn) dbNotifyCompletion(precord);
-    return(status);
+    if (set_trace)
+        *ptrace = 0;
+    if (callNotifyCompletion && precord->ppn)
+        dbNotifyCompletion(precord);
+
+    return status;
 }
 
 /*
@@ -583,10 +603,8 @@ long dbNameToAddr(const char *pname, DBADDR *paddr)
 {
     DBENTRY dbEntry;
     dbFldDes *pflddes;
-    struct rset *prset;
     long status = 0;
-    long no_elements = 1;
-    short dbfType, dbrType, field_size;
+    short dbfType;
 
     if (!pname || !*pname || !pdbbase)
         return S_db_notFound;
@@ -601,47 +619,48 @@ long dbNameToAddr(const char *pname, DBADDR *paddr)
         status = dbGetAttributePart(&dbEntry, &pname);
     if (status) goto finish;
 
+    pflddes = dbEntry.pflddes;
+    dbfType = pflddes->field_type;
+
     paddr->precord = dbEntry.precnode->precord;
     paddr->pfield = dbEntry.pfield;
-    pflddes = dbEntry.pflddes;
+    paddr->pfldDes = pflddes;
+    paddr->no_elements = 1;
+    paddr->field_type  = dbfType;
+    paddr->field_size  = pflddes->size;
+    paddr->special     = pflddes->special;
+    paddr->dbr_field_type = mapDBFToDBR[dbfType];
 
-    dbfType = pflddes->field_type;
-    dbrType = mapDBFToDBR[dbfType];
-    field_size = pflddes->size;
+    if (paddr->special == SPC_DBADDR) {
+        struct rset *prset = dbGetRset(paddr);
 
+        /* Let record type modify paddr */
+        if (prset && prset->cvt_dbaddr) {
+            status = prset->cvt_dbaddr(paddr);
+            if (status)
+                goto finish;
+            dbfType = paddr->field_type;
+        }
+    }
+
+    /* Handle field modifiers */
     if (*pname++ == '$') {
         /* Some field types can be accessed as char arrays */
         if (dbfType == DBF_STRING) {
-            dbfType     = DBF_CHAR;
-            dbrType     = DBR_CHAR;
-            no_elements = field_size;
-            field_size  = 1;
+            paddr->no_elements = paddr->field_size;
+            paddr->field_type = DBF_CHAR;
+            paddr->field_size = 1;
+            paddr->dbr_field_type = DBR_CHAR;
         } else if (dbfType >= DBF_INLINK && dbfType <= DBF_FWDLINK) {
             /* Clients see a char array, but keep original dbfType */
-            dbrType     = DBR_CHAR;
-            no_elements = PVNAME_STRINGSZ + 12;
-            field_size = 1;
+            paddr->no_elements = PVNAME_STRINGSZ + 12;
+            paddr->field_size = 1;
+            paddr->dbr_field_type = DBR_CHAR;
         } else {
             status = S_dbLib_fieldNotFound;
             goto finish;
         }
     }
-
-    paddr->pfldDes     = pflddes;
-    paddr->field_type  = dbfType;
-    paddr->dbr_field_type = dbrType;
-    paddr->field_size  = field_size;
-    paddr->special     = pflddes->special;
-    paddr->no_elements = no_elements;
-
-    if ((paddr->special == SPC_DBADDR) &&
-        (prset = dbGetRset(paddr)) &&
-        prset->cvt_dbaddr)
-        /* cvt_dbaddr routine may change any of these elements of paddr:
-         *     pfield, no_elements, element_offset, field_type,
-         *     dbr_field_type, field_size, and/or special.
-         */
-        status = prset->cvt_dbaddr(paddr);
 
 finish:
     dbFinishEntry(&dbEntry);
@@ -825,7 +844,7 @@ long dbGet(DBADDR *paddr, short dbrType,
 
     /* check for array */
     if ((!pfl || pfl->type == dbfl_type_rec) &&
-        paddr->special == SPC_DBADDR &&
+        paddr->pfldDes->special == SPC_DBADDR &&
         no_elements > 1 &&
         (prset = dbGetRset(paddr)) &&
         prset->get_array_info) {
@@ -1151,6 +1170,7 @@ long dbPut(DBADDR *paddr, short dbrType,
     short field_type  = paddr->field_type;
     long no_elements  = paddr->no_elements;
     long special      = paddr->special;
+    void *pfieldsave  = paddr->pfield;
     long status = 0;
     dbFldDes *pfldDes;
     int isValueField;
@@ -1182,11 +1202,12 @@ long dbPut(DBADDR *paddr, short dbrType,
         struct rset *prset = dbGetRset(paddr);
         long offset = 0;
 
-        if (paddr->special == SPC_DBADDR &&
+        if (paddr->pfldDes->special == SPC_DBADDR &&
             prset && prset->get_array_info) {
             long dummy;
 
             status = prset->get_array_info(paddr, &dummy, &offset);
+            /* paddr->pfield may be modified */
         }
         if (no_elements < nRequest) nRequest = no_elements;
         if (!status)
@@ -1195,28 +1216,35 @@ long dbPut(DBADDR *paddr, short dbrType,
 
         /* update array info */
         if (!status &&
-            paddr->special == SPC_DBADDR &&
+            paddr->pfldDes->special == SPC_DBADDR &&
             prset && prset->put_array_info) {
             status = prset->put_array_info(paddr, nRequest);
         }
     }
-    if (status) return status;
+    if (status) goto done;
 
     /* check if special processing is required */
     if (special) {
         status = dbPutSpecial(paddr,1);
-        if (status) return status;
+        if (status) goto done;
     }
 
     /* Propagate monitor events for this field, */
-    /* unless the field field is VAL and PP is true. */
+    /* unless the field is VAL and PP is true. */
     pfldDes = paddr->pfldDes;
     isValueField = dbIsValueField(pfldDes);
     if (isValueField) precord->udf = FALSE;
     if (precord->mlis.count &&
         !(isValueField && pfldDes->process_passive))
-        db_post_events(precord, paddr->pfield, DBE_VALUE | DBE_LOG);
-
+        db_post_events(precord, pfieldsave, DBE_VALUE | DBE_LOG);
+    /* If this field is a property (metadata) field,
+     * then post a property change event (even if the field
+     * didn't change).
+     */
+    if (precord->mlis.count && pfldDes->prop)
+        db_post_events(precord, NULL, DBE_PROPERTY);
+done:
+    paddr->pfield = pfieldsave;
     return status;
 }
 

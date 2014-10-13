@@ -23,9 +23,11 @@ extern "C" {
 typedef void (*dbCaCallback)(void *userPvt);
 epicsShareFunc void dbCaCallbackProcess(void *usrPvt);
 
-epicsShareFunc void dbCaLinkInit(void);
+epicsShareFunc void dbCaLinkInit(void); /* internal initialization for iocBuild()  */
+epicsShareFunc void dbCaLinkInitIsolated(void); /* internal initialization for iocBuildIsolated()  */
 epicsShareFunc void dbCaRun(void);
 epicsShareFunc void dbCaPause(void);
+epicsShareFunc void dbCaShutdown(void);
 
 epicsShareFunc void dbCaAddLinkCallback(struct link *plink,
     dbCaCallback connect, dbCaCallback monitor, void *userPvt);

@@ -19,41 +19,43 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "dbDefs.h"
-#include "epicsThread.h"
-#include "errlog.h"
+#include "alarm.h"
 #include "cantProceed.h"
 #include "cvtFast.h"
-#include "epicsTime.h"
-#include "alarm.h"
+#include "dbDefs.h"
 #include "ellLib.h"
-#include "dbStaticLib.h"
-#include "dbBase.h"
-#include "link.h"
-#include "dbFldTypes.h"
-#include "recSup.h"
-#include "devSup.h"
+#include "epicsThread.h"
+#include "epicsTime.h"
+#include "errlog.h"
+
 #include "caeventmask.h"
-#include "db_field_log.h"
-#include "dbCommon.h"
-#include "dbFldTypes.h"
-#include "special.h"
-#include "errMdef.h"
+
 #define epicsExportSharedSymbols
-#include "dbAddr.h"
-#include "dbLink.h"
 #include "callback.h"
-#include "dbScan.h"
-#include "dbLock.h"
-#include "dbEvent.h"
-#include "dbConvert.h"
-#include "dbConvertFast.h"
-#include "epicsEvent.h"
-#include "dbCa.h"
-#include "dbBkpt.h"
-#include "dbNotify.h"
 #include "dbAccessDefs.h"
+#include "dbAddr.h"
+#include "dbBase.h"
+#include "dbBkpt.h"
+#include "dbCa.h"
+#include "dbCommon.h"
+#include "dbConvertFast.h"
+#include "dbConvert.h"
+#include "dbEvent.h"
+#include "db_field_log.h"
+#include "dbFldTypes.h"
+#include "dbFldTypes.h"
+#include "dbLink.h"
+#include "dbLock.h"
+#include "dbNotify.h"
+#include "dbScan.h"
+#include "dbStaticLib.h"
+#include "devSup.h"
+#include "epicsEvent.h"
+#include "errMdef.h"
+#include "link.h"
 #include "recGbl.h"
+#include "recSup.h"
+#include "special.h"
 
 static void inherit_severity(const struct pv_link *ppv_link, dbCommon *pdest,
         epicsEnum16 stat, epicsEnum16 sevr)
@@ -119,21 +121,28 @@ static long dbDbInitLink(struct link *plink, short dbfType)
     pdbAddr = dbCalloc(1, sizeof(struct dbAddr));
     *pdbAddr = dbaddr; /* structure copy */
     plink->value.pv_link.pvt = pdbAddr;
+    dbLockSetMerge(plink->value.pv_link.precord, pdbAddr->precord);
     return 0;
 }
 
 static long dbDbAddLink(struct link *plink, short dbfType)
 {
-    long status = dbDbInitLink(plink, dbfType);
+    DBADDR dbaddr;
+    long status;
+    DBADDR *pdbAddr;
 
-    if (!status) {
-        DBADDR *pdbAddr = (DBADDR *) plink->value.pv_link.pvt;
-        dbCommon *precord = plink->value.pv_link.precord;
+    status = dbNameToAddr(plink->value.pv_link.pvname, &dbaddr);
+    if (status)
+        return status;
 
-        dbLockSetRecordLock(pdbAddr->precord);
-        dbLockSetMerge(precord, pdbAddr->precord);
-    }
-    return status;
+    plink->type = DB_LINK;
+    pdbAddr = dbCalloc(1, sizeof(struct dbAddr));
+    *pdbAddr = dbaddr; /* structure copy */
+    plink->value.pv_link.pvt = pdbAddr;
+
+    dbLockSetRecordLock(pdbAddr->precord);
+    dbLockSetMerge(plink->value.pv_link.precord, pdbAddr->precord);
+    return 0;
 }
 
 static void dbDbRemoveLink(struct link *plink)
@@ -288,7 +297,7 @@ static long dbDbGetPrecision(const struct link *plink, short *precision)
     if (status)
         return status;
 
-    *precision = buffer.precision.dp;
+    *precision = (short) buffer.precision.dp;
     return 0;
 }
 
@@ -647,5 +656,64 @@ void dbScanFwdLink(struct link *plink)
         dbCaScanFwdLink(plink);
         break;
     }
+}
+
+/* Helper functions for long string support */
+
+long dbLoadLinkLS(struct link *plink, char *pbuffer, epicsUInt32 size,
+    epicsUInt32 *plen)
+{
+    if (plink->type == CONSTANT &&
+        plink->value.constantStr) {
+        strncpy(pbuffer, plink->value.constantStr, --size);
+        pbuffer[size] = 0;
+        *plen = (epicsUInt32) strlen(pbuffer) + 1;
+        return 0;
+    }
+
+    return S_db_notFound;
+}
+
+long dbGetLinkLS(struct link *plink, char *pbuffer, epicsUInt32 size,
+    epicsUInt32 *plen)
+{
+    int dtyp = dbGetLinkDBFtype(plink);
+    long len = size;
+    long status;
+
+    if (dtyp < 0)   /* Not connected */
+        return 0;
+
+    if (dtyp == DBR_CHAR || dtyp == DBF_UCHAR) {
+        status = dbGetLink(plink, dtyp, pbuffer, 0, &len);
+    }
+    else if (size >= MAX_STRING_SIZE)
+        status = dbGetLink(plink, DBR_STRING, pbuffer, 0, 0);
+    else {
+        /* pbuffer is too small to fetch using DBR_STRING */
+        char tmp[MAX_STRING_SIZE];
+
+        status = dbGetLink(plink, DBR_STRING, tmp, 0, 0);
+        if (!status)
+            strncpy(pbuffer, tmp, len - 1);
+    }
+    if (!status) {
+        pbuffer[--len] = 0;
+        *plen = (epicsUInt32) strlen(pbuffer) + 1;
+    }
+    return status;
+}
+
+long dbPutLinkLS(struct link *plink, char *pbuffer, epicsUInt32 len)
+{
+    int dtyp = dbGetLinkDBFtype(plink);
+
+    if (dtyp < 0)
+        return 0;   /* Not connected */
+
+    if (dtyp == DBR_CHAR || dtyp == DBF_UCHAR)
+        return dbPutLink(plink, dtyp, pbuffer, len);
+
+    return dbPutLink(plink, DBR_STRING, pbuffer, 1);
 }
 

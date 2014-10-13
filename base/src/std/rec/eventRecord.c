@@ -7,7 +7,7 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 
-/* $Revision-Id$ */
+/* Revision-Id: anj@aps.anl.gov-20131217185404-wng3r3ldfeefnu61 */
 
 /* recEvent.c - Record Support Routines for Event records */
 /*
@@ -34,6 +34,7 @@
 #include "recGbl.h"
 #include "special.h"
 #include "menuYesNo.h"
+
 #define GEN_SIZE_OFFSET
 #include "eventRecord.h"
 #undef  GEN_SIZE_OFFSET

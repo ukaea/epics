@@ -3,10 +3,12 @@
 *     National Laboratory.
 * Copyright (c) 2002 The Regents of the University of California, as
 *     Operator of Los Alamos National Laboratory.
+* Copyright (c) 2013 Helmholtz-Zentrum Berlin
+*     für Materialien und Energie GmbH.
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/* $Revision-Id$ */
+/* Revision-Id: anj@aps.anl.gov-20141006230433-lbbjjxwesp6pkgfw */
 /*
  *      Original Author: Marty Kraimer
  *      Date:            06-01-91
@@ -22,48 +24,50 @@
 #include <limits.h>
 
 #include "dbDefs.h"
-#include "epicsThread.h"
-#include "epicsPrint.h"
-#include "epicsExit.h"
-#include "epicsSignal.h"
 #include "ellLib.h"
 #include "envDefs.h"
+#include "epicsExit.h"
+#include "epicsPrint.h"
+#include "epicsSignal.h"
+#include "epicsThread.h"
 #include "errMdef.h"
+#include "iocsh.h"
 #include "taskwd.h"
+
 #include "caeventmask.h"
 
 #define epicsExportSharedSymbols
 #include "alarm.h"
+#include "asDbLib.h"
+#include "callback.h"
+#include "dbAccess.h"
+#include "db_access_routines.h"
+#include "dbAddr.h"
 #include "dbBase.h"
+#include "dbBkpt.h"
+#include "dbCa.h"
+#include "dbChannel.h"
+#include "dbCommon.h"
 #include "dbFldTypes.h"
+#include "dbLock.h"
+#include "dbNotify.h"
+#include "dbScan.h"
+#include "dbStaticLib.h"
+#include "dbStaticPvt.h"
+#include "devSup.h"
+#include "drvSup.h"
+#include "epicsRelease.h"
+#include "initHooks.h"
+#include "iocInit.h"
 #include "link.h"
 #include "menuConvert.h"
 #include "menuPini.h"
-#include "registryRecordType.h"
+#include "recGbl.h"
+#include "recSup.h"
 #include "registryDeviceSupport.h"
 #include "registryDriverSupport.h"
-#include "devSup.h"
-#include "drvSup.h"
-#include "recSup.h"
-#include "dbStaticLib.h"
-
-#include "callback.h"
-#include "dbAddr.h"
-#include "dbBkpt.h"
-#include "dbCommon.h"
-#include "dbLock.h"
-#include "dbAccess.h"
-#include "recGbl.h"
-#include "dbNotify.h"
-#include "dbCa.h"
-#include "dbScan.h"
-#include "db_access_routines.h"
-#include "initHooks.h"
-#include "dbChannel.h"
-#include "epicsRelease.h"
+#include "registryRecordType.h"
 #include "rsrv.h"
-#include "asDbLib.h"
-#include "iocInit.h"
 
 static enum {
     iocVirgin, iocBuilding, iocBuilt, iocRunning, iocPaused, iocStopped
@@ -88,12 +92,13 @@ int iocInit(void)
     return iocBuild() || iocRun();
 }
 
-int iocBuild(void)
+static int iocBuild_1(void)
 {
-    if (iocState != iocVirgin) {
-        errlogPrintf("iocBuild: IOC can only be initialized once\n");
+    if (iocState != iocVirgin && iocState != iocStopped) {
+        errlogPrintf("iocBuild: IOC can only be initialized from uninitialized or stopped state\n");
         return -1;
     }
+    errlogInit(0);
     initHookAnnounce(initHookAtIocBuild);
 
     if (!epicsThreadIsOkToBlock()) {
@@ -109,14 +114,17 @@ int iocBuild(void)
     initHookAnnounce(initHookAtBeginning);
 
     coreRelease();
-    /* After this point, further calls to iocInit() are disallowed.  */
     iocState = iocBuilding;
 
     taskwdInit();
     callbackInit();
     initHookAnnounce(initHookAfterCallbackInit);
 
-    dbCaLinkInit();
+    return 0;
+}
+
+static int iocBuild_2(void)
+{
     initHookAnnounce(initHookAfterCaLinkInit);
 
     initDrvSup();
@@ -128,8 +136,8 @@ int iocBuild(void)
     initDevSup();
     initHookAnnounce(initHookAfterInitDevSup);
 
-    initDatabase();
     dbLockInitRecords(pdbbase);
+    initDatabase();
     dbBkptInit();
     initHookAnnounce(initHookAfterInitDatabase);
 
@@ -147,14 +155,51 @@ int iocBuild(void)
 
     initialProcess();
     initHookAnnounce(initHookAfterInitialProcess);
+    return 0;
+}
 
-    /* Start CA server threads */
-    rsrv_init();
+static int iocBuild_3(void)
+{
     initHookAnnounce(initHookAfterCaServerInit);
 
     iocState = iocBuilt;
     initHookAnnounce(initHookAfterIocBuilt);
     return 0;
+}
+
+int iocBuild(void)
+{
+    int status;
+
+    status = iocBuild_1();
+    if (status) return status;
+
+    dbCaLinkInit();
+
+    status = iocBuild_2();
+    if (status) return status;
+
+    /* Start CA server threads */
+    rsrv_init();
+
+    status = iocBuild_3();
+    return status;
+}
+
+int iocBuildIsolated(void)
+{
+    int status;
+
+    status = iocBuild_1();
+    if (status) return status;
+
+    dbCaLinkInitIsolated();
+
+    status = iocBuild_2();
+    if (status) return status;
+
+    status = iocBuild_3();
+    return status;
 }
 
 int iocRun(void)
@@ -579,6 +624,11 @@ static void doCloseLinks(dbRecordType *pdbRecordType, dbCommon *precord,
             }
             dbCaRemoveLink(plink);
             plink->type = CONSTANT;
+
+        } else if (plink->type == DB_LINK) {
+            /* free link, but don't split lockset like dbDbRemoveLink() */
+            free(plink->value.pv_link.pvt);
+            plink->type = CONSTANT;
         }
     }
 
@@ -599,8 +649,40 @@ static void doCloseLinks(dbRecordType *pdbRecordType, dbCommon *precord,
     }
 }
 
+static void doFreeRecord(dbRecordType *pdbRecordType, dbCommon *precord,
+    void *user)
+{
+    int j;
+    struct rset *prset = pdbRecordType->prset;
+
+    if (!prset) return;         /* unlikely */
+
+    epicsMutexDestroy(precord->mlok);
+
+    for (j = 0; j < pdbRecordType->no_links; j++) {
+        dbFldDes *pdbFldDes =
+            pdbRecordType->papFldDes[pdbRecordType->link_ind[j]];
+        DBLINK *plink = (DBLINK *)((char *)precord + pdbFldDes->offset);
+
+        dbFreeLinkContents(plink);
+    }
+}
+
+int iocShutdown(void)
+{
+    if (iocState == iocVirgin || iocState == iocStopped) return 0;
+    iterateRecords(doCloseLinks, NULL);
+    scanShutdown();
+    callbackShutdown();
+    iterateRecords(doFreeRecord, NULL);
+    dbLockCleanupRecords(pdbbase);
+    asShutdown();
+    iocshFree();
+    iocState = iocStopped;
+    return 0;
+}
+
 static void exitDatabase(void *dummy)
 {
-    iterateRecords(doCloseLinks, NULL);
-    iocState = iocStopped;
+    iocShutdown();
 }

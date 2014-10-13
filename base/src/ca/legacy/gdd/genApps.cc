@@ -10,7 +10,7 @@
 // Author: Jim Kowalkowski
 // Date: 2/96
 // 
-// $Revision-Id$
+// Revision-Id: anj@aps.anl.gov-20101005214806-11v23zjlhk2pxaal
 // 
 
 #define epicsExportSharedSymbols

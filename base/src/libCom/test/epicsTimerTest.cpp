@@ -7,7 +7,7 @@
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
 /*
- *      $Revision-Id$
+ *      Revision-Id: anj@aps.anl.gov-20131217231327-1a4o18lg6ngu531e
  *
  *      Author  Jeffrey O. Hill
  *              johill@lanl.gov
@@ -75,7 +75,7 @@ inline double delayVerify::delay () const
 
 double delayVerify::checkError () const
 {
-    const double messageThresh = 1.0; // percent 
+    const double messageThresh = 2.0; // percent 
     double actualDelay =  this->expireStamp - this->beginStamp;
     double measuredError = actualDelay - this->expectedDelay;
     double percentError = 100.0 * fabs ( measuredError ) / this->expectedDelay;

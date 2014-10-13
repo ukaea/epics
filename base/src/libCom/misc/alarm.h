@@ -7,7 +7,7 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 /* Alarm definitions, must match menuAlarmSevr.dbd and menuAlarmStat.dbd */
-/* $Revision-Id$ */
+/* Revision-Id: anj@aps.anl.gov-20131112221817-0g4gphrvwgztwsca */
 
 /*
  *      Authors: Bob Dalesio and Marty Kraimer
@@ -95,9 +95,15 @@ typedef enum {
 #define WRITE_ACCESS_ALARM  epicsAlarmWriteAccess
 #define lastEpicsAlarmCond  epicsAlarmWriteAccess
 
+
+/* Name string arrays */
+
+epicsShareExtern const char *epicsAlarmSeverityStrings [ALARM_NSEV];
+epicsShareExtern const char *epicsAlarmConditionStrings [ALARM_NSTATUS];
+
+
 #ifdef __cplusplus
 }
 #endif
-
 
 #endif /* INC_alarm_H */

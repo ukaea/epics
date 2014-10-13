@@ -5,9 +5,12 @@
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
 
-/* $Revision-Id$
+/* Revision-Id: anj@aps.anl.gov-20140710192744-kput2tqia2m74v63
  * Author: Andrew Johnson
  */
+
+#ifndef INC_epicsUnitTest_H
+#define INC_epicsUnitTest_H
 
 #include <stdarg.h>
 
@@ -47,3 +50,5 @@ epicsShareFunc void runTestFunc(const char *name, TESTFUNC func);
 #ifdef __cplusplus
 }
 #endif
+
+#endif /* INC_epicsUnitTest_H */

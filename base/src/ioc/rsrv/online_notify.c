@@ -8,7 +8,7 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 /*
- *  $Revision-Id$
+ *  Revision-Id: anj@aps.anl.gov-20141006055702-6sznplbat5czjlgi
  *
  *  tell CA clients this a server has joined the network
  *
@@ -25,14 +25,11 @@
 #include <string.h>
 #include <errno.h>
 
-/*
- *  EPICS includes
- */
-#include "dbDefs.h"
-#include "osiSock.h"
-#include "errlog.h"
-#include "envDefs.h"
 #include "addrList.h"
+#include "dbDefs.h"
+#include "envDefs.h"
+#include "errlog.h"
+#include "osiSock.h"
 #include "taskwd.h"
 
 #define epicsExportSharedSymbols

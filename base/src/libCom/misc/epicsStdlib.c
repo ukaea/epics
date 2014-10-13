@@ -6,7 +6,7 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/* $Revision-Id$ */
+/* Revision-Id: anj@aps.anl.gov-20141007012835-uhcvzfpszl8yaxmb */
 /* Authors: Eric Norum & Andrew Johnson */
 
 #include <ctype.h>
@@ -86,6 +86,68 @@ epicsParseULong(const char *str, unsigned long *to, int base, char **units)
 }
 
 epicsShareFunc int
+epicsParseLLong(const char *str, long long *to, int base, char **units)
+{
+    int c;
+    char *endp;
+    long long value;
+
+    while ((c = *str) && isspace(c))
+        ++str;
+
+    errno = 0;
+    value = strtoll(str, &endp, base);
+
+    if (endp == str)
+        return S_stdlib_noConversion;
+    if (errno == EINVAL)    /* Not universally supported */
+        return S_stdlib_badBase;
+    if (errno == ERANGE)
+        return S_stdlib_overflow;
+
+    while ((c = *endp) && isspace(c))
+        ++endp;
+    if (c && !units)
+        return S_stdlib_extraneous;
+
+    *to = value;
+    if (units)
+        *units = endp;
+    return 0;
+}
+
+epicsShareFunc int
+epicsParseULLong(const char *str, unsigned long long *to, int base, char **units)
+{
+    int c;
+    char *endp;
+    unsigned long long value;
+
+    while ((c = *str) && isspace(c))
+        ++str;
+
+    errno = 0;
+    value = strtoull(str, &endp, base);
+
+    if (endp == str)
+        return S_stdlib_noConversion;
+    if (errno == EINVAL)    /* Not universally supported */
+        return S_stdlib_badBase;
+    if (errno == ERANGE)
+        return S_stdlib_overflow;
+
+    while ((c = *endp) && isspace(c))
+        ++endp;
+    if (c && !units)
+        return S_stdlib_extraneous;
+
+    *to = value;
+    if (units)
+        *units = endp;
+    return 0;
+}
+
+epicsShareFunc int
 epicsParseDouble(const char *str, double *to, char **units)
 {
     int c;
@@ -129,7 +191,7 @@ epicsParseInt8(const char *str, epicsInt8 *to, int base, char **units)
     if (value < -0x80 || value > 0x7f)
         return S_stdlib_overflow;
 
-    *to = value;
+    *to = (epicsInt8) value;
     return 0;
 }
 
@@ -145,7 +207,7 @@ epicsParseUInt8(const char *str, epicsUInt8 *to, int base, char **units)
     if (value > 0xff && value <= ~0xffUL)
         return S_stdlib_overflow;
 
-    *to = value;
+    *to = (epicsUInt8) value;
     return 0;
 }
 
@@ -161,7 +223,7 @@ epicsParseInt16(const char *str, epicsInt16 *to, int base, char **units)
     if (value < -0x8000 || value > 0x7fff)
         return S_stdlib_overflow;
 
-    *to = value;
+    *to = (epicsInt16) value;
     return 0;
 }
 
@@ -177,7 +239,7 @@ epicsParseUInt16(const char *str, epicsUInt16 *to, int base, char **units)
     if (value > 0xffff && value <= ~0xffffUL)
         return S_stdlib_overflow;
 
-    *to = value;
+    *to = (epicsUInt16) value;
     return 0;
 }
 
@@ -190,7 +252,7 @@ epicsParseInt32(const char *str, epicsInt32 *to, int base, char **units)
     if (status)
         return status;
 
-#if (LONG_MAX > 0x7fffffff)
+#if (LONG_MAX > 0x7fffffffLL)
     if (value < -0x80000000L || value > 0x7fffffffL)
         return S_stdlib_overflow;
 #endif
@@ -208,7 +270,7 @@ epicsParseUInt32(const char *str, epicsUInt32 *to, int base, char **units)
     if (status)
         return status;
 
-#if (ULONG_MAX > 0xffffffff)
+#if (ULONG_MAX > 0xffffffffULL)
     if (value > 0xffffffffUL && value <= ~0xffffffffUL)
         return S_stdlib_overflow;
 #endif
@@ -216,6 +278,43 @@ epicsParseUInt32(const char *str, epicsUInt32 *to, int base, char **units)
     *to = value;
     return 0;
 }
+
+epicsShareFunc int
+epicsParseInt64(const char *str, epicsInt64 *to, int base, char **units)
+{
+#if (LONG_MAX == 0x7fffffffffffffffLL)
+    long value;
+    int status = epicsParseLong(str, &value, base, units);
+#else
+    long long value;
+    int status = epicsParseLLong(str, &value, base, units);
+#endif
+
+    if (status)
+        return status;
+
+    *to = value;
+    return 0;
+}
+
+epicsShareFunc int
+epicsParseUInt64(const char *str, epicsUInt64 *to, int base, char **units)
+{
+#if (ULONG_MAX == 0xffffffffffffffffULL)
+    unsigned long value;
+    int status = epicsParseULong(str, &value, base, units);
+#else
+    unsigned long long value;
+    int status = epicsParseULLong(str, &value, base, units);
+#endif
+
+    if (status)
+        return status;
+
+    *to = value;
+    return 0;
+}
+
 
 epicsShareFunc int
 epicsParseFloat(const char *str, float *to, char **units)
@@ -232,12 +331,12 @@ epicsParseFloat(const char *str, float *to, char **units)
     if (finite(value) && abs >= FLT_MAX)
         return S_stdlib_overflow;
 
-    *to = value;
+    *to = (float) value;
     return 0;
 }
 
 
-/* If strtod() works properly, osdStrtod.h defines this macro:
+/* If strtod() works properly, the OS-specific osdStrtod.h does:
  *   #define epicsStrtod strtod
  *
  * If strtod() is broken, osdStrtod.h defines this prototype:

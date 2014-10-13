@@ -14,10 +14,12 @@
  */
 
 #include <stdio.h>
+#include <stddef.h>
 #include <string.h>
 
 #include "cantProceed.h"
 #include "epicsAssert.h"
+#include "epicsExit.h"
 #include "epicsString.h"
 #include "errlog.h"
 #include "freeList.h"
@@ -25,16 +27,16 @@
 #include "yajl_parse.h"
 
 #define epicsExportSharedSymbols
+#include "dbAccessDefs.h"
 #include "dbBase.h"
+#include "dbChannel.h"
+#include "dbCommon.h"
+#include "dbEvent.h"
+#include "dbLock.h"
 #include "dbStaticLib.h"
 #include "link.h"
 #include "recSup.h"
 #include "special.h"
-#include "dbChannel.h"
-#include "dbCommon.h"
-#include "dbEvent.h"
-#include "dbAccessDefs.h"
-#include "dbLock.h"
 
 /* The following is defined in db_convert.h */
 extern unsigned short dbDBRnewToDBRold[DBR_ENUM+1];
@@ -51,16 +53,23 @@ static void *dbChannelFreeList;
 static void *chFilterFreeList;
 static void *dbchStringFreeList;
 
+static void dbChannelExit(void* junk)
+{
+    freeListCleanup(dbChannelFreeList);
+    freeListCleanup(chFilterFreeList);
+    freeListCleanup(dbchStringFreeList);
+    dbChannelFreeList = chFilterFreeList = dbchStringFreeList = NULL;
+}
+
 void dbChannelInit (void)
 {
-    static int done = 0;
+    if(dbChannelFreeList)
+        return;
 
-    if (!done) {
-        done = 1;
-        freeListInitPvt(&dbChannelFreeList,  sizeof(dbChannel), 128);
-        freeListInitPvt(&chFilterFreeList,  sizeof(chFilter), 64);
-        freeListInitPvt(&dbchStringFreeList, sizeof(epicsOldString), 128);
-    }
+    freeListInitPvt(&dbChannelFreeList,  sizeof(dbChannel), 128);
+    freeListInitPvt(&chFilterFreeList,  sizeof(chFilter), 64);
+    freeListInitPvt(&dbchStringFreeList, sizeof(epicsOldString), 128);
+    epicsAtExit(dbChannelExit, NULL);
 }
 
 static void chf_value(parseContext *parser, parse_result *presult)
@@ -273,7 +282,7 @@ static long chf_parse(dbChannel *chan, const char **pjson)
     if (!yh)
         return S_db_noMemory;
 
-    ys = yajl_parse(yh, (const unsigned char *) json, jlen);
+    ys = yajl_parse(yh, (const unsigned char *) json, (unsigned int) jlen);
     if (ys == yajl_status_insufficient_data)
         ys = yajl_parse_complete(yh);
 
@@ -286,7 +295,7 @@ static long chf_parse(dbChannel *chan, const char **pjson)
     case yajl_status_error: {
         unsigned char *err;
 
-        err = yajl_get_error(yh, 1, (const unsigned char *) json, jlen);
+        err = yajl_get_error(yh, 1, (const unsigned char *) json, (unsigned int) jlen);
         printf("dbChannelCreate: %s\n", err);
         yajl_free_error(yh, err);
     } /* fall through */
@@ -349,7 +358,7 @@ static long parseArrayRange(dbChannel* chan, const char *pname, const char **ppn
     epicsInt32 incr = 1;
     epicsInt32 l;
     char *pnext;
-    short exist;
+    ptrdiff_t exist;
     chFilter *filter;
     const chFilterPlugin *plug;
     parse_result result;
@@ -465,6 +474,7 @@ dbChannel * dbChannelCreate(const char *name)
     const char *pname = name;
     DBENTRY dbEntry;
     dbChannel *chan = NULL;
+    char *cname;
     dbAddr *paddr;
     dbFldDes *pflddes;
     long status;
@@ -478,7 +488,14 @@ dbChannel * dbChannelCreate(const char *name)
         goto finish;
 
     chan = freeListCalloc(dbChannelFreeList);
-    chan->name = epicsStrDup(name);
+    if (!chan)
+        goto finish;
+    cname = malloc(strlen(name) + 1);
+    if (!cname)
+        goto finish;
+
+    strcpy(cname, name);
+    chan->name = cname;
     ellInit(&chan->filters);
     ellInit(&chan->pre_chain);
     ellInit(&chan->post_chain);
@@ -644,7 +661,7 @@ long dbChannelOpen(dbChannel *chan)
     chan->final_no_elements  = probe.no_elements;
     chan->final_field_size   = probe.field_size;
     chan->final_type         = probe.field_type;
-    chan->dbr_final_type     = dbDBRnewToDBRold[mapDBFToDBR[probe.field_type]];
+    chan->final_dbr_type     = dbDBRnewToDBRold[mapDBFToDBR[probe.field_type]];
 
     return 0;
 }

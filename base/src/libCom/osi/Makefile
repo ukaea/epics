@@ -56,11 +56,14 @@ INC += epicsStdio.h
 INC += epicsStdioRedirect.h
 INC += epicsTempFile.h
 INC += epicsGetopt.h
+INC += epicsStackTrace.h
 
 INC += devLib.h
 INC += devLibVME.h
 INC += devLibVMEImpl.h
 INC += osdVME.h
+INC += epicsMMIO.h
+INC += epicsMMIODef.h
 
 Com_SRCS += epicsThread.cpp
 Com_SRCS += epicsMutex.cpp
@@ -103,6 +106,7 @@ Com_SRCS += osdStdio.c
 #POSIX thread priority scheduling flag
 THREAD_CPPFLAGS_NO += -DDONT_USE_POSIX_THREAD_PRIORITY_SCHEDULING
 osdThread_CPPFLAGS += $(THREAD_CPPFLAGS_$(USE_POSIX_THREAD_PRIORITY_SCHEDULING))
+osdSpin_CPPFLAGS += $(THREAD_CPPFLAGS_$(USE_POSIX_THREAD_PRIORITY_SCHEDULING))
 
 Com_SRCS += osdThread.c
 Com_SRCS += osdThreadExtra.c
@@ -129,6 +133,8 @@ INC_vxWorks += task_params.h
 Com_SRCS_vxWorks += epicsDynLink.c
 Com_SRCS_vxWorks += veclist.c
 Com_SRCS_vxWorks += logMsgToErrlog.cpp
+Com_SRCS_vxWorks += strtoll.c
+Com_SRCS_vxWorks += strtoull.c
 
 #This forces the vxWorks compatibility stuff to be loaded
 OBJS_vxWorks = vxComLibrary
@@ -139,3 +145,8 @@ Com_SRCS_WIN32 += epicsGetopt.c
 Com_SRCS_WIN32 += setThreadName.cpp
 #Com_SRCS_WIN32 += dllmain.cpp
 Com_SRCS_WIN32 += forceBadAllocException.cpp
+
+#Stack trace support
+Com_SRCS += epicsStackTrace.c
+Com_SRCS += osdBackTrace.cpp
+Com_SRCS += osdFindAddr.c

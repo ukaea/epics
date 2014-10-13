@@ -6,7 +6,7 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/* $Revision-Id$
+/* Revision-Id: anj@aps.anl.gov-20131217185404-wng3r3ldfeefnu61
  *
  * Subroutines used to convert an infix expression to a postfix expression
  *
@@ -207,7 +207,7 @@ static int
  * convert an infix expression to a postfix expression
  */
 epicsShareFunc long
-    postfix(const char *psrc, char * const ppostfix, short *perror)
+    postfix(const char *psrc, char *pout, short *perror)
 {
     ELEMENT stack[80];
     ELEMENT *pstacktop = stack;
@@ -215,7 +215,7 @@ epicsShareFunc long
     int operand_needed = TRUE;
     int runtime_depth = 0;
     int cond_count = 0;
-    char *pout = ppostfix;
+    char * const pdest = pout;
     char *pnext;
 
     if (psrc == NULL || *psrc == '\0' ||
@@ -251,7 +251,7 @@ epicsShareFunc long
                     goto bad;
                 }
                 psrc = pnext;
-                lit_i = lit_d;
+                lit_i = (int) lit_d;
                 if (lit_d != (double) lit_i) {
                     *pout++ = pel->code;
                     memcpy(pout, &lit_d, sizeof(double));
@@ -280,7 +280,7 @@ epicsShareFunc long
             break;
 
 	case STORE_OPERATOR:
-	    if (pout == ppostfix || pstacktop > stack ||
+	    if (pout == pdest || pstacktop > stack ||
 		*--pout < FETCH_A || *pout > FETCH_L) {
 		*perror = CALC_ERR_BAD_ASSIGNMENT;
 		goto bad;
@@ -481,7 +481,7 @@ epicsShareFunc long
     return 0;
 
 bad:
-    *ppostfix = END_EXPRESSION;
+    *pdest = END_EXPRESSION;
     return -1;
 }
 

@@ -7,7 +7,7 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 
-/* $Revision-Id$ */
+/* Revision-Id: anj@aps.anl.gov-20131120222110-3o0wgh76u652ad4e */
 
 /* recPermissive.c - Record Support Routines for Permissive records */
 /*
@@ -29,6 +29,7 @@
 #include "errMdef.h"
 #include "recSup.h"
 #include "recGbl.h"
+
 #define GEN_SIZE_OFFSET
 #include "permissiveRecord.h"
 #undef  GEN_SIZE_OFFSET

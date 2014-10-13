@@ -6,13 +6,12 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/* $Revision-Id$ */
+/* Revision-Id: anj@aps.anl.gov-20131112221817-0g4gphrvwgztwsca */
 
 /* String names for alarm status and severity values */
 
 #define epicsExportSharedSymbols
 #include "alarm.h"
-#include "alarmString.h"
 
 /* ALARM SEVERITIES - must match menuAlarmSevr.dbd and alarm.h */
 

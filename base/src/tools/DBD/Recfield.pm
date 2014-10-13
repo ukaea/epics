@@ -35,7 +35,8 @@ our %field_attrs = (
     base        => qr/^(?:DECIMAL|HEX)$/,
     size        => qr/^\d+$/,
     extra       => qr/^.*$/,
-    menu        => qr/^$RXident$/o
+    menu        => qr/^$RXident$/o,
+    prop        => qr/^(?:YES|NO)$/
 );
 
 sub new {
@@ -55,6 +56,7 @@ sub init {
         sort keys %field_types) unless exists $field_types{$type};
     $this->{DBF_TYPE} = $type;
     $this->{ATTR_INDEX} = {};
+    $this->{COMMENTS} = [];
     return $this;
 }
 
@@ -75,11 +77,15 @@ sub add_attribute {
     my ($this, $attr, $value) = @_;
     unquote $value;
     my $match = $field_attrs{$attr};
-    dieContext("Unknown field attribute '$1', valid attributes are:",
-           sort keys %field_attrs)
-        unless defined $match;
-    dieContext("Bad value '$value' for field '$attr' attribute")
-        unless $value =~ m/$match/;
+    if (defined $match) {
+        dieContext("Bad value '$value' for field attribute '$attr'")
+            unless $value =~ m/$match/;
+    }
+    else {
+        warnContext("Unknown field attribute '$attr' with value '$value'; " .
+            "known attributes are:",
+            join(", ", sort keys %field_attrs));
+    }
     $this->{ATTR_INDEX}->{$attr} = $value;
 }
 
@@ -103,6 +109,16 @@ sub check_valid {
     dieContext("Default value '$default' is invalid for field '$name'")
         if (defined($default) and !$this->legal_value($default));
 }
+
+sub add_comment {
+    my $this = shift;
+    push @{$this->{COMMENTS}}, @_;
+}
+
+sub comments {
+    return @{shift->{COMMENTS}};
+}
+
 
 # The C structure member name is usually the field name converted to
 # lower-case.  However if that is a reserved word, use the original.

@@ -7,7 +7,7 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 
-/* $Revision-Id$ */
+/* Revision-Id: anj@aps.anl.gov-20131217185404-wng3r3ldfeefnu61 */
 
 /* recStringout.c - Record Support Routines for Stringout records */
 /*
@@ -32,14 +32,15 @@
 #include "errMdef.h"
 #include "recSup.h"
 #include "recGbl.h"
-#define GEN_SIZE_OFFSET
-#include "stringoutRecord.h"
-#undef  GEN_SIZE_OFFSET
 #include "menuOmsl.h"
 #include "menuIvoa.h"
 #include "menuYesNo.h"
+
+#define GEN_SIZE_OFFSET
+#include "stringoutRecord.h"
+#undef  GEN_SIZE_OFFSET
 #include "epicsExport.h"
-
+
 /* Create RSET - Record Support Entry Table*/
 #define report NULL
 #define initialize NULL

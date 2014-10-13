@@ -7,9 +7,13 @@
 
 # This is a Makefile fragment, see src/ioc/Makefile.
 
-$(COMMON_DIR)/softIoc.dbd: $(INSTALL_DBD)/stdRecords.dbd
+softIoc.dbd$(DEP): $(COMMON_DIR)/stdRecords.dbd
+softIoc.dbd$(DEP): $(COMMON_DIR)/filters.dbd
+$(COMMON_DIR)/softIoc.dbd: $(COMMON_DIR)/stdRecords.dbd
+$(COMMON_DIR)/softIoc.dbd: $(COMMON_DIR)/filters.dbd
+$(COMMON_DIR)/softIoc.dbd: $(STDDIR)/softIoc/Makefile
 
-softMain$(OBJ): epicsInstallDir.h
+softMain$(DEP): epicsInstallDir.h
 
 epicsInstallDir.h:
 	$(ECHO) "FINAL_LOCATION=$(FINAL_LOCATION)"

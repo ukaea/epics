@@ -5,7 +5,7 @@
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
 
-/* $Revision-Id$
+/* Revision-Id: anj@aps.anl.gov-20120706224756-4o1gn2rb0wh1guhj
  * Author: Andrew Johnson
  *
  * Unit test module which generates output in the Test Anything Protocol

@@ -1,6 +1,6 @@
 #  CONFIG_SITE.linux-x86.linux-arm
 #
-# $Revision-Id$
+# Revision-Id: anj@aps.anl.gov-20120730225030-kxdpux061bt13ng1
 #
 # Site specific definitions for linux-x86 host - linux-arm target builds
 #-------------------------------------------------------

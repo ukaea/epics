@@ -10,8 +10,8 @@
 
 #include "cadef.h"
 #include "db_access.h"
+#include "epicsVersion.h"
 #include "alarm.h"
-#include "alarmString.h"
 
 typedef union {
     dbr_long_t iv;
@@ -1010,6 +1010,12 @@ void CA_flush_io(const char *class) {
 }
 
 
+/* CA::version($class) */
+
+const char * CA_version(const char *class) {
+    return EPICS_VERSION_STRING;
+}
+
 /* CA::add_exception_event($class, \&sub) */
 
 static
@@ -1214,6 +1220,15 @@ int CA_write_access(SV *ca_ref) {
 
 /******************************************************************************/
 
+/* Ensure that the generated boot_Cap5 function is visible
+ * outside of the libCap5.so shared library when compiling
+ * with GCC4+ and -fvisibility=hidden is used.
+ */
+#if __GNUC__ >= 4
+XS(boot_Cap5) __attribute__ ((visibility ("default")));
+#endif
+
+
 MODULE = Cap5	PACKAGE = Cap5
 
 MODULE = Cap5	PACKAGE = CA	PREFIX = CA_
@@ -1222,13 +1237,6 @@ PROTOTYPES: DISABLE
 
 BOOT:
     p5_ctx = Perl_get_context();
-    /* Ensure that the generated boot_Cap5 function is visible
-     * outside of the libCap5.so shared library when compiling
-     * with GCC4+ and -fvisibility=hidden is used.
-     */
-    #if __GNUC__ >= 4
-    #pragma GCC visibility push(default)
-    #endif
 
 
 SV *
@@ -1390,6 +1398,10 @@ CA_poll (class)
 
 void
 CA_flush_io (class)
+	const char *	class
+
+const char *
+CA_version (class)
 	const char *	class
 
 void

@@ -6,7 +6,7 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/* $Revision-Id$ */
+/* Revision-Id: anj@aps.anl.gov-20141007043923-zjae64um80bas2df */
 
 /* Author:  Marty Kraimer Date:    13JUL95*/
 
@@ -17,25 +17,25 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "dbmf.h"
-
 #include "dbDefs.h"
-#include "epicsPrint.h"
-#include "errMdef.h"
+#include "dbmf.h"
 #include "ellLib.h"
-#include "gpHash.h"
-#include "freeList.h"
-#include "guigroup.h"
-#include "special.h"
-#include "macLib.h"
+#include "epicsPrint.h"
 #include "epicsString.h"
-#include "epicsExport.h"
+#include "errMdef.h"
+#include "freeList.h"
+#include "gpHash.h"
+#include "macLib.h"
 
 #define epicsExportSharedSymbols
+#include "dbBase.h"
 #include "dbFldTypes.h"
-#include "link.h"
 #include "dbStaticLib.h"
 #include "dbStaticPvt.h"
+#include "epicsExport.h"
+#include "guigroup.h"
+#include "link.h"
+#include "special.h"
 
 
 
@@ -63,6 +63,7 @@ static void dbMenuChoice(char *name,char *value);
 static void dbMenuBody(void);
 
 static void dbRecordtypeHead(char *name);
+static void dbRecordtypeEmpty(void);
 static void dbRecordtypeBody(void);
 static void dbRecordtypeFieldHead(char *name,char *type);
 static void dbRecordtypeFieldItem(char *name,char *value);
@@ -113,8 +114,6 @@ static void yyerrorAbort(char *str)
 {
     yyerror(str);
     yyAbort = TRUE;
-    while (ellCount(&tempList))
-        popFirstTemp();
 }
 
 static void allocTemp(void *pvoid)
@@ -257,6 +256,11 @@ static long dbReadCOM(DBBASE **ppdbbase,const char *filename, FILE *fp,
     my_buffer_ptr = my_buffer;
     ellAdd(&inputFileList,&pinputFile->node);
     status = pvt_yy_parse();
+
+    if (yyAbort)
+        while (ellCount(&tempList))
+            popFirstTemp();
+
     dbFreePath(pdbbase);
     if(!status) { /*add RTYP and VERS as an attribute */
 	DBENTRY	dbEntry;
@@ -303,7 +307,7 @@ long dbReadDatabaseFP(DBBASE **ppdbbase,FILE *fp,
 
 static int db_yyinput(char *buf, int max_size)
 {
-    int		l,n;
+    size_t  l,n;
     char	*fgetsRtn;
     
     if(yyAbort) return(0);
@@ -313,9 +317,9 @@ static int db_yyinput(char *buf, int max_size)
 		fgetsRtn = fgets(mac_input_buffer,MY_BUFFER_SIZE,
 			pinputFileNow->fp);
 		if(fgetsRtn) {
-		    n = macExpandString(macHandle,mac_input_buffer,
+		    int exp = macExpandString(macHandle,mac_input_buffer,
 			my_buffer,MY_BUFFER_SIZE);
-		    if(n<0) {
+		    if(exp < 0) {
 			errPrintf(0,__FILE__, __LINE__,
 			"macExpandString failed for file %s",
 			pinputFileNow->filename);
@@ -342,7 +346,7 @@ static int db_yyinput(char *buf, int max_size)
     n = (l<=max_size ? l : max_size);
     memcpy(buf,my_buffer_ptr,n);
     my_buffer_ptr += n;
-    return(n);
+    return (int)n;
 }
 
 static void dbIncludePrint(void)
@@ -498,87 +502,94 @@ static void dbRecordtypeFieldItem(char *name,char *value)
     if(duplicate) return;
     pdbFldDes = (dbFldDes *)getLastTemp();
     if(strcmp(name,"asl")==0) {
-	if(strcmp(value,"ASL0")==0) {
-	    pdbFldDes->as_level = ASL0;
-	} else if(strcmp(value,"ASL1")==0) {
-	    pdbFldDes->as_level = ASL1;
-	} else {
-	    yyerror("Illegal Access Security value: Must be ASL0 or ASL1");
-	}
-	return;
+        if(strcmp(value,"ASL0")==0) {
+            pdbFldDes->as_level = ASL0;
+        } else if(strcmp(value,"ASL1")==0) {
+            pdbFldDes->as_level = ASL1;
+        } else {
+            yyerror("Illegal Access Security value: Must be ASL0 or ASL1");
+        }
+        return;
     }
     if(strcmp(name,"initial")==0) {
-	pdbFldDes->initial = epicsStrDup(value);
-	return;
+        pdbFldDes->initial = epicsStrDup(value);
+        return;
     }
     if(strcmp(name,"promptgroup")==0) {
-	int	i;
-	for(i=0; i<GUI_NTYPES; i++) {
-	    if(strcmp(value,pamapguiGroup[i].strvalue)==0) {
-		pdbFldDes->promptgroup = pamapguiGroup[i].value;
-		return;
-	    }
-	}
-	yyerror("Illegal promptgroup. See guigroup.h for legal values");
-	return;
+        int	i;
+        for(i=0; i<GUI_NTYPES; i++) {
+            if(strcmp(value,pamapguiGroup[i].strvalue)==0) {
+                pdbFldDes->promptgroup = pamapguiGroup[i].value;
+                return;
+            }
+        }
+        yyerror("Illegal promptgroup. See guigroup.h for legal values");
+        return;
     }
     if(strcmp(name,"prompt")==0) {
-	pdbFldDes->prompt = epicsStrDup(value);
-	return;
+        pdbFldDes->prompt = epicsStrDup(value);
+        return;
     }
     if(strcmp(name,"special")==0) {
-	int	i;
-	for(i=0; i<SPC_NTYPES; i++) {
-	    if(strcmp(value,pamapspcType[i].strvalue)==0) {
-		pdbFldDes->special = pamapspcType[i].value;
-		return;
-	    }
-	}
-	if(sscanf(value,"%hd",&pdbFldDes->special)==1) {
-	    return;
-	}
-	yyerror("Illegal special value.");
-	return;
+        int	i;
+        for(i=0; i<SPC_NTYPES; i++) {
+            if(strcmp(value,pamapspcType[i].strvalue)==0) {
+                pdbFldDes->special = pamapspcType[i].value;
+                return;
+            }
+        }
+        if(sscanf(value,"%hd",&pdbFldDes->special)==1) {
+            return;
+        }
+        yyerror("Illegal special value.");
+        return;
     }
     if(strcmp(name,"pp")==0) {
-	if((strcmp(value,"YES")==0) || (strcmp(value,"TRUE")==0)) {
-	    pdbFldDes->process_passive = TRUE;
-	} else if((strcmp(value,"NO")==0) || (strcmp(value,"FALSE")==0)) {
-	    pdbFldDes->process_passive = FALSE;
-	} else {
-	    yyerror("Illegal value. Must be NO or YES");
-	}
-	return;
+        if((strcmp(value,"YES")==0) || (strcmp(value,"TRUE")==0)) {
+            pdbFldDes->process_passive = TRUE;
+        } else if((strcmp(value,"NO")==0) || (strcmp(value,"FALSE")==0)) {
+            pdbFldDes->process_passive = FALSE;
+        } else {
+            yyerror("Illegal value. Must be NO or YES");
+        }
+        return;
     }
     if(strcmp(name,"interest")==0) {
-	if(sscanf(value,"%hd",&pdbFldDes->interest)!=1) 
-	    yyerror("Illegal value. Must be integer");
-	return;
+        if(sscanf(value,"%hd",&pdbFldDes->interest)!=1)
+            yyerror("Illegal value. Must be integer");
+        return;
     }
     if(strcmp(name,"base")==0) {
-	if(strcmp(value,"DECIMAL")==0) {
-	    pdbFldDes->base = CT_DECIMAL;
-	} else if(strcmp(value,"HEX")==0) {
-	    pdbFldDes->base = CT_HEX;
-	} else {
-	    yyerror("Illegal value. Must be CT_DECIMAL or CT_HEX");
-	}
-	return;
+        if(strcmp(value,"DECIMAL")==0) {
+            pdbFldDes->base = CT_DECIMAL;
+        } else if(strcmp(value,"HEX")==0) {
+            pdbFldDes->base = CT_HEX;
+        } else {
+            yyerror("Illegal value. Must be CT_DECIMAL or CT_HEX");
+        }
+        return;
     }
     if(strcmp(name,"size")==0) {
-	if(sscanf(value,"%hd",&pdbFldDes->size)!=1) 
-	    yyerror("Illegal value. Must be integer");
-	return;
+        if(sscanf(value,"%hd",&pdbFldDes->size)!=1)
+            yyerror("Illegal value. Must be integer");
+        return;
     }
     if(strcmp(name,"extra")==0) {
-	pdbFldDes->extra = epicsStrDup(value);
-	return;
+        pdbFldDes->extra = epicsStrDup(value);
+        return;
     }
     if(strcmp(name,"menu")==0) {
-	pdbFldDes->ftPvt = (dbMenu *)dbFindMenu(pdbbase,value);
-	if(!pdbbase->ignoreMissingMenus && !pdbFldDes->ftPvt)
-	    yyerrorAbort("menu not found");
-	return;
+        pdbFldDes->ftPvt = (dbMenu *)dbFindMenu(pdbbase,value);
+        if(!pdbbase->ignoreMissingMenus && !pdbFldDes->ftPvt)
+            yyerrorAbort("menu not found");
+        return;
+    }
+    if(strcmp(name,"prop")==0) {
+        if(strcmp(value, "YES")==0)
+            pdbFldDes->prop = 1;
+        else
+            pdbFldDes->prop = 0;
+        return;
     }
 }
 
@@ -598,6 +609,23 @@ static void dbRecordtypeCdef(char *text) {
     return;
 }
 
+static void dbRecordtypeEmpty(void)
+{
+    tempListNode *ptempListNode;
+    dbRecordType *pdbRecordType;
+
+    if (duplicate) {
+        duplicate = FALSE;
+	return;
+    }
+
+    ptempListNode = (tempListNode *)ellFirst(&tempList);
+    pdbRecordType = ptempListNode->item;
+    epicsPrintf("Declaration of recordtype(%s) preceeded full definition.\n",
+        pdbRecordType->name);
+    yyerrorAbort(NULL);
+}
+
 static void dbRecordtypeBody(void)
 {
     dbRecordType		*pdbRecordType;
@@ -636,7 +664,8 @@ static void dbRecordtypeBody(void)
 	    fprintf(stderr,"recordtype(%s).%s extra not specified\n",
 		pdbRecordType->name,pdbFldDes->name);
     }
-    if(ellCount(&tempList)) yyerrorAbort("dbMenuBody: tempList not empty");
+    if (ellCount(&tempList))
+        yyerrorAbort("dbRecordtypeBody: tempList not empty");
     pdbRecordType->no_prompt = no_prompt;
     pdbRecordType->no_links = no_links;
     pdbRecordType->link_ind = dbCalloc(no_links,sizeof(short));
@@ -918,23 +947,41 @@ static void dbRecordHead(char *recordType, char *name, int visible)
         epicsPrintf("Bad character '%c' in record name \"%s\"\n",
             *badch, name);
     }
+
     pdbentry = dbAllocEntry(pdbbase);
     if (ellCount(&tempList))
         yyerrorAbort("dbRecordHead: tempList not empty");
     allocTemp(pdbentry);
+
+    if (recordType[0] == '*' && recordType[1] == 0) {
+        if (dbRecordsOnceOnly)
+            epicsPrintf("Record-type \"*\" not valid with dbRecordsOnceOnly\n");
+        else {
+            status = dbFindRecord(pdbentry, name);
+            if (status == 0)
+                return; /* done */
+            epicsPrintf("Record \"%s\" not found\n", name);
+        }
+        yyerror(NULL);
+        duplicate = TRUE;
+        return;
+    }
+
     status = dbFindRecordType(pdbentry, recordType);
     if (status) {
-        epicsPrintf("Record \"%s\" is of unknown type \"%s\" - ",
+        epicsPrintf("Record \"%s\" is of unknown type \"%s\"\n",
                     name, recordType);
         yyerrorAbort(NULL);
         return;
     }
-    /*Duplicate records ok if the same type */
+
+    /*Duplicate records are ok if the same type */
+
     status = dbCreateRecord(pdbentry,name);
-    if (status==S_dbLib_recExists) {
-        if (strcmp(recordType, dbGetRecordTypeName(pdbentry))!=0) {
-            epicsPrintf("Record \"%s\" already defined with different type "
-                "\"%s\"\n", name, dbGetRecordTypeName(pdbentry));
+    if (status == S_dbLib_recExists) {
+        if (strcmp(recordType, dbGetRecordTypeName(pdbentry)) != 0) {
+            epicsPrintf("Record \"%s\" of type \"%s\" redefined with new type "
+                "\"%s\"\n", name, dbGetRecordTypeName(pdbentry), recordType);
             yyerror(NULL);
             duplicate = TRUE;
             return;
@@ -951,6 +998,7 @@ static void dbRecordHead(char *recordType, char *name, int visible)
                      name, recordType);
         yyerrorAbort(NULL);
     }
+
     if (visible)
         dbVisibleRecord(pdbentry);
 }

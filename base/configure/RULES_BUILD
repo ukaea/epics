@@ -6,7 +6,7 @@
 # EPICS BASE is distributed subject to a Software License Agreement found
 # in the file LICENSE that is included with this distribution. 
 #*************************************************************************
-# $Revision-Id$
+# Revision-Id: anj@aps.anl.gov-20141003192304-93okwfqwgx3id6bk
 #
 #	Rules for making things specified in Makefile
 #
@@ -21,6 +21,7 @@ vpath %.cc $(USR_VPATH) $(ALL_SRC_DIRS)
 vpath %.cpp $(USR_VPATH) $(ALL_SRC_DIRS)
 vpath %.rc $(USR_VPATH) $(ALL_SRC_DIRS)
 vpath %.h $(USR_VPATH) $(ALL_SRC_DIRS)
+vpath %.hpp $(USR_VPATH) $(ALL_SRC_DIRS)
 vpath %.html $(USR_VPATH) $(ALL_SRC_DIRS)
 vpath %.skel.static $(USR_VPATH) $(ALL_SRC_DIRS)
 vpath %.y $(USR_VPATH) $(ALL_SRC_DIRS)
@@ -67,24 +68,35 @@ else
 INSTALL_TEMPLATES_SUBDIR = $(INSTALL_TEMPLATES)
 endif
 
+HTMLS_DIR ?= .
+
 #---------------------------------------------------------------
 #	First target
 
-all:	install
+all: install
+ifeq ($(EPICS_HOST_ARCH),$T_A)
+host: install
+else
+# Do nothing
+host:
+endif
 
 -include $(CONFIG)/RULES.Db
+
+#---------------------------------------------------------------
+# Include defines and rules for prod, library and test* targets
+
+#ifneq (,$(strip $(PROD) $(TESTPROD) $(LIBRARY) $(TESTLIBRARY) $(LOADABLE_LIBRARY) ))
+include $(CONFIG)/RULES_TARGET
+#endif
+
+#---------------------------------------------------------------
+# Read dependency files
 
 ifneq (,$(strip $(HDEPENDS_FILES)))
 $(filter-out $(wildcard *$(DEP)), $(HDEPENDS_FILES)): $(COMMON_INC)
 -include $(HDEPENDS_FILES)
 endif
-
-#---------------------------------------------------------------
-# Included defines and rules for prod,testprod, and library targets
-
-#ifneq (,$(strip $(PROD) $(TESTPROD) $(LIBRARY) $(TESTLIBRARY) $(LOADABLE_LIBRARY) ))
-include $(CONFIG)/RULES_TARGET
-#endif
 
 #---------------------------------------------------------------
 #   Products and Object libraries
@@ -187,7 +199,7 @@ endif
 
 $(TESTPRODNAME) $(PRODNAME): $(PRODUCT_OBJS) $(PROD_RESS) $(PROD_DEPLIBS)
 
-$(TESTPRODNAME) $(PRODNAME):%$(EXE):
+$(TESTPRODNAME) $(PRODNAME): %$(EXE):
 	@$(RM) $@
 	$(DEBUGCMD) $(LINK.cpp)
 	$(MT_EXE_COMMAND)
@@ -208,15 +220,21 @@ $(TESTPRODNAME) $(PRODNAME):%$(EXE):
 	@$(RM) $@
 	$(HDEPENDS.cpp) $<
 
-%$(OBJ): %.c
+# Cancel GNUMake's built-in rules, which don't have our _INC
+# dependencies so could get used in some circumstances (gdd)
+%.o : %.c
+%.o : %.cc
+%.o : %.cpp
+
+%$(OBJ): %.c $(COMMON_INC) $(INSTALL_INC)
 	@$(RM) $@
 	$(COMPILE.c) -c $<
 
-%$(OBJ): %.cc
+%$(OBJ): %.cc $(COMMON_INC) $(INSTALL_INC)
 	@$(RM) $@
 	$(COMPILE.cpp) -c $<
 
-%$(OBJ): %.cpp
+%$(OBJ): %.cpp $(COMMON_INC) $(INSTALL_INC)
 	@$(RM) $@
 	$(COMPILE.cpp) -c $<
 
@@ -283,7 +301,7 @@ $(SHRLIBNAME): $(SHRLIB_PREFIX)%$(SHRLIB_SUFFIX):
 	$(LINK.shrlib)
 	$(MT_DLL_COMMAND)
 
-$(TESTSHRLIBNAME): $(SHRLIB_PREFIX)%$(SHRLIB_SUFFIX_BASE):
+$(TESTSHRLIBNAME): $(SHRLIB_PREFIX)%$(SHRLIB_SUFFIX):
 	@$(RM) $@
 	$(LINK.shrlib)
 	$(MT_DLL_COMMAND)
@@ -464,6 +482,10 @@ $(INSTALL_HTML)/$(HTMLS_DIR)/%: ../%
 	$(ECHO) "Installing html $@"
 	@$(INSTALL) -d -m $(INSTALL_PERMISSIONS) $< $(@D)
 
+$(INSTALL_HTML)/$(HTMLS_DIR)/%: $(COMMON_DIR)/%
+	$(ECHO) "Installing generated html $@"
+	@$(INSTALL) -d -m $(INSTALL_PERMISSIONS) $< $(@D)
+
 $(INSTALL_TEMPLATES_SUBDIR)/%: ../%
 	$(ECHO) "Installing $@"
 	@$(INSTALL) -d -m $(INSTALL_PERMISSIONS) $< $(@D)
@@ -477,7 +499,7 @@ $(INSTALL_TEMPLATES_SUBDIR)/%: %
 .PRECIOUS: %.i %.o %.c %.nm %.cpp %.cc
 .PRECIOUS: $(COMMON_INC)
 
-.PHONY: all inc build install clean rebuild buildInstall build_clean
+.PHONY: all host inc build install clean rebuild buildInstall build_clean
 .PHONY: runtests tapfiles checkRelease warnRelease noCheckRelease
 
 endif # BASE_RULES_BUILD

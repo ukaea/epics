@@ -8,7 +8,7 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 /* devBoSoftRaw.c */
-/* base/src/dev $Revision-Id$ */
+/* base/src/dev Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd */
 
 /* devBoSoftRaw.c - Device Support Routines for  SoftRaw Binary Output*/
 /*

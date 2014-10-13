@@ -8,7 +8,7 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 /*
- *      $Revision-Id$
+ *      Revision-Id: anj@aps.anl.gov-20120706213310-ei6ws1bk7c1864y3
  *
  *      Author  W. Eric Norum
  *              norume@aps.anl.gov

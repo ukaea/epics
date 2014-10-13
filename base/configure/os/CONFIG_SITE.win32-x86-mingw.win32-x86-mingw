@@ -1,6 +1,6 @@
 # CONFIG_SITE.win32-x86-mingw.win32-x86-mingw
 #
-# $Revision-Id$
+# Revision-Id: johill@lanl.gov-20110819204100-oi6yylu9voatpdb3
 #
 # Site Specific definitions for win32-x86-mingw target
 # Only the local epics system manager should modify this file

@@ -10,18 +10,21 @@
 #include "iocsh.h"
 
 #define epicsExportSharedSymbols
-#include "dbBkpt.h"
+#include "callback.h"
 #include "dbAccess.h"
+#include "dbBkpt.h"
 #include "dbCaTest.h"
 #include "dbEvent.h"
-#include "dbTest.h"
-#include "db_test.h"
-#include "dbLock.h"
-#include "dbScan.h"
-#include "dbNotify.h"
-#include "callback.h"
 #include "dbIocRegister.h"
+#include "dbLock.h"
+#include "dbNotify.h"
+#include "dbScan.h"
+#include "dbServer.h"
 #include "dbState.h"
+#include "db_test.h"
+#include "dbTest.h"
+
+epicsShareExtern int callbackParallelThreadsDefault;
 
 /* dbLoadDatabase */
 static const iocshArg dbLoadDatabaseArg0 = { "file name",iocshArgString};
@@ -89,6 +92,12 @@ static const iocshArg dbapArg0 = { "record name",iocshArgString};
 static const iocshArg * const dbapArgs[1] = {&dbapArg0};
 static const iocshFuncDef dbapFuncDef = {"dbap",1,dbapArgs};
 static void dbapCallFunc(const iocshArgBuf *args) { dbap(args[0].sval);}
+
+/* dbsr */
+static const iocshArg dbsrArg0 = { "interest level",iocshArgInt};
+static const iocshArg * const dbsrArgs[1] = {&dbsrArg0};
+static const iocshFuncDef dbsrFuncDef = {"dbsr",1,dbsrArgs};
+static void dbsrCallFunc(const iocshArgBuf *args) { dbsr(args[0].ival);}
 
 /* dbcar */
 static const iocshArg dbcarArg0 = { "record name",iocshArgString};
@@ -298,6 +307,18 @@ static void callbackSetQueueSizeCallFunc(const iocshArgBuf *args)
     callbackSetQueueSize(args[0].ival);
 }
 
+/* callbackParallelThreads */
+static const iocshArg callbackParallelThreadsArg0 = { "no of threads", iocshArgInt};
+static const iocshArg callbackParallelThreadsArg1 = { "priority", iocshArgString};
+static const iocshArg * const callbackParallelThreadsArgs[2] =
+    {&callbackParallelThreadsArg0,&callbackParallelThreadsArg1};
+static const iocshFuncDef callbackParallelThreadsFuncDef =
+    {"callbackParallelThreads",2,callbackParallelThreadsArgs};
+static void callbackParallelThreadsCallFunc(const iocshArgBuf *args)
+{
+    callbackParallelThreads(args[0].ival, args[1].sval);
+}
+
 /* dbStateCreate */
 static const iocshArg dbStateArgName = { "name", iocshArgString };
 static const iocshArg * const dbStateCreateArgs[] = { &dbStateArgName };
@@ -360,6 +381,7 @@ void dbIocRegister(void)
     iocshRegister(&dbpFuncDef,dbpCallFunc);
     iocshRegister(&dbapFuncDef,dbapCallFunc);
 
+    iocshRegister(&dbsrFuncDef,dbsrCallFunc);
     iocshRegister(&dbcarFuncDef,dbcarCallFunc);
     iocshRegister(&dbelFuncDef,dbelCallFunc);
 
@@ -394,6 +416,10 @@ void dbIocRegister(void)
     iocshRegister(&scanpiolFuncDef,scanpiolCallFunc);
 
     iocshRegister(&callbackSetQueueSizeFuncDef,callbackSetQueueSizeCallFunc);
+    iocshRegister(&callbackParallelThreadsFuncDef,callbackParallelThreadsCallFunc);
+
+    /* Needed before callback system is initialized */
+    callbackParallelThreadsDefault = epicsThreadGetCPUs();
 
     iocshRegister(&dbStateCreateFuncDef, dbStateCreateCallFunc);
     iocshRegister(&dbStateSetFuncDef, dbStateSetCallFunc);

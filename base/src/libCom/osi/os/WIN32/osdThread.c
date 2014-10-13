@@ -8,7 +8,7 @@
 \*************************************************************************/
 
 /*
- * $Revision-Id$
+ * Revision-Id: ralph.lange@gmx.de-20140827001435-ydepk096eb5c3k3s
  *
  * Author: Jeff Hill
  * 
@@ -22,8 +22,8 @@
 
 #define VC_EXTRALEAN
 #define STRICT
-#if _WIN64
-#   define _WIN32_WINNT 0x400 /* defining this drops support for W95 */
+#ifndef _WIN32_WINNT
+#   define _WIN32_WINNT 0x400 /* No support for W95 */
 #endif
 #include <windows.h>
 #include <process.h> /* for _endthread() etc */
@@ -98,7 +98,7 @@ static const int osdRealtimePriorityList [osdRealtimePriorityStateCount] =
 
 #if defined(EPICS_BUILD_DLL)
 BOOL WINAPI DllMain (
-    HANDLE hModule, DWORD dwReason, LPVOID lpReserved )
+    HINSTANCE hModule, DWORD dwReason, LPVOID lpReserved )
 {
     static DWORD dllHandleIndex;
     HMODULE dllHandle = 0;
@@ -1099,6 +1099,18 @@ epicsShareFunc void epicsShareAPI epicsThreadPrivateSet ( epicsThreadPrivateId p
 epicsShareFunc void * epicsShareAPI epicsThreadPrivateGet ( epicsThreadPrivateId pPvt )
 {
     return ( void * ) TlsGetValue ( pPvt->key );
+}
+
+/*
+ * epicsThreadGetCPUs ()
+ */
+epicsShareFunc int epicsThreadGetCPUs ( void )
+{
+    SYSTEM_INFO sysinfo;
+    GetSystemInfo(&sysinfo);
+    if (sysinfo.dwNumberOfProcessors > 0)
+        return sysinfo.dwNumberOfProcessors;
+    return 1;
 }
 
 #ifdef TEST_CODES

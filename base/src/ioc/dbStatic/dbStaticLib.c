@@ -6,9 +6,10 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
-/* $Revision-Id$ */
+/* Revision-Id: anj@aps.anl.gov-20141006230433-lbbjjxwesp6pkgfw */
 
 #include <stdio.h>
+#include <stddef.h>
 #include <errno.h>
 #include <limits.h>
 #include <string.h>
@@ -16,32 +17,33 @@
 #include <ctype.h>
 
 #include "cantProceed.h"
+#include "cvtFast.h"
+#include "dbDefs.h"
+#include "dbmf.h"
+#include "ellLib.h"
+#include "epicsPrint.h"
+#include "epicsStdio.h"
+#include "epicsStdlib.h"
+#include "epicsString.h"
+#include "errlog.h"
+#include "gpHash.h"
+#include "osiFileName.h"
+#include "postfix.h"
+
 #define DBFLDTYPES_GBLSOURCE
 #define GUIGROUPS_GBLSOURCE
 #define SPECIAL_GBLSOURCE
-#include "dbDefs.h"
-#include "epicsPrint.h"
-#include "errlog.h"
-#include "ellLib.h"
-#include "cvtFast.h"
-#include "gpHash.h"
-#include "dbmf.h"
-#include "postfix.h"
-#include "osiFileName.h"
-#include "epicsStdlib.h"
-#include "epicsString.h"
-#include "epicsStdio.h"
 
 #define epicsExportSharedSymbols
-#include "link.h"
 #include "dbChannel.h"
 #include "dbFldTypes.h"
-#include "devSup.h"
-#include "drvSup.h"
-#include "special.h"
-#include "guigroup.h"
 #include "dbStaticLib.h"
 #include "dbStaticPvt.h"
+#include "devSup.h"
+#include "drvSup.h"
+#include "guigroup.h"
+#include "link.h"
+#include "special.h"
 
 int dbStaticDebug = 0;
 static char *pNullString = "";
@@ -225,9 +227,10 @@ void dbFreeLinkContents(struct link *plink)
 	case BITBUS_IO: parm = plink->value.bitbusio.parm;break;
 	case INST_IO: parm = plink->value.instio.string; break;
 	case BBGPIB_IO: parm = plink->value.bbgpibio.parm;break;
+	case RF_IO: break;
 	case VXI_IO: parm = plink->value.vxiio.parm; break;
 	default:
-	     epicsPrintf("dbFreeLink called but link type unknown\n");
+         epicsPrintf("dbFreeLink called but link type %d unknown\n", plink->type);
     }
     if(parm && (parm != pNullString)) free((void *)parm);
     if(plink->text) free(plink->text);
@@ -395,10 +398,10 @@ void dbCatString(char **string,int *stringLength,char *src,char *separator)
     }
     if(*stringLength>0) {
 	strcat(*string,separator);
-	*stringLength += strlen(separator);
+    *stringLength += (int) strlen(separator);
     }
     strcat(*string,src);
-    *stringLength += strlen(src);
+    *stringLength += (int) strlen(src);
 }
 
 dbBase * dbAllocBase(void)
@@ -698,7 +701,7 @@ long dbAddPath(DBBASE *pdbbase,const char *path)
 	 * 2) isnt a path separator
 	 */
 	len = (plast - path) + 1;
-	if (dbAddOnePath (pdbbase, path, len)) return (-1);
+    if (dbAddOnePath (pdbbase, path, (unsigned) len)) return (-1);
 	path += len;
 	if (pcolon) {
 	    path += strlen(OSI_PATH_LIST_SEPARATOR);
@@ -971,6 +974,7 @@ long dbWriteRecordTypeFP(
 		    pdbFldDes->size);
 	    }
 	    if(pdbFldDes->process_passive) fprintf(fp,"\t\tpp(TRUE)\n");
+	    if(pdbFldDes->prop) fprintf(fp,"\t\tprop(YES)\n");
 	    if(pdbFldDes->base) fprintf(fp,"\t\tbase(HEX)\n");
 	    if(pdbFldDes->interest)
 		fprintf(fp,"\t\tinterest(%d)\n",pdbFldDes->interest);
@@ -1231,7 +1235,7 @@ long dbGetAttributePart(DBENTRY *pdbentry, const char **ppname)
     if (!precordType) return S_dbLib_recordTypeNotFound;
     pattribute = (dbRecordAttribute *)ellFirst(&precordType->attributeList);
     while (pattribute) {
-        int nameLen = strlen(pattribute->name);
+        size_t nameLen = strlen(pattribute->name);
         int compare = strncmp(pattribute->name, pname, nameLen);
         int ch = pname[nameLen];
         if (compare == 0 && !(ch == '_' || isalnum(ch))) {
@@ -1490,13 +1494,13 @@ long dbFindRecordPart(DBENTRY *pdbentry, const char **ppname)
     dbBase      *pdbbase = pdbentry->pdbbase;
     const char  *pname = *ppname;
     const char  *pfn;
-    int         lenName;
+    size_t      lenName;
     PVDENTRY    *ppvdNode;
 
     zeroDbentry(pdbentry);
     pfn = strchr(pname, '.');
     if (pfn) {
-        lenName = pfn - pname;
+        lenName = (size_t) (pfn - pname);
     } else {
         lenName = strlen(pname);
     }
@@ -1759,7 +1763,7 @@ long dbFindFieldPart(DBENTRY *pdbentry,const char **ppname)
     char         **papsortFldName;
     short        *sortFldInd;
     int          ch;
-    int          nameLen;
+    size_t       nameLen;
 
     if (!precordType) return S_dbLib_recordTypeNotFound;
     if (!precnode) return S_dbLib_recNotFound;
@@ -1793,7 +1797,7 @@ long dbFindFieldPart(DBENTRY *pdbentry,const char **ppname)
     while (1) {
         int compare = strncmp(papsortFldName[test], pname, nameLen);
         if (compare == 0)
-            compare = strlen(papsortFldName[test]) - nameLen;
+            compare = (int) (strlen(papsortFldName[test]) - nameLen);
         if (compare == 0) {
             dbFldDes *pflddes = precordType->papFldDes[sortFldInd[test]];
 
@@ -1898,9 +1902,11 @@ char * dbGetString(DBENTRY *pdbentry)
 		else if(pvlMask&pvlOptCP) ppind=3;
 		else if(pvlMask&pvlOptCPP) ppind=4;
 		else ppind=0;
-		if(plink->value.pv_link.pvname)
-		    strcpy(message,plink->value.pv_link.pvname);
-		else
+		if (plink->value.pv_link.pvname) {
+		    strcpy(message, plink->value.pv_link.pvname);
+		    if (pvlMask & pvlOptTSELisTime)
+			strcat(message, ".TIME");
+		} else
 		    strcpy(message,"");
 		strcat(message," ");
 		strcat(message,ppstring[ppind]);
@@ -2089,7 +2095,6 @@ long dbPutString(DBENTRY *pdbentry,const char *pstring)
 	    DBLINK	*plink;
 	    char	string[80];
 	    char	*pstr = string;
-	    int		ind;
 
 	    if (!pfield)
 	        return S_dbLib_fieldNotFound;
@@ -2110,7 +2115,9 @@ long dbPutString(DBENTRY *pdbentry,const char *pstring)
 		    return status;
 		}
                 /* store link text in case DTYP changes later */
-                plink->text = epicsStrDup(pstring);
+                plink->text = malloc(strlen(pstring) + 1);
+                if (plink->text)
+                    strcpy(plink->text, pstring);
 	    }
 	    if (strlen(pstring) >= sizeof(string)) {
 	        status = S_dbLib_badField;
@@ -2122,11 +2129,14 @@ long dbPutString(DBENTRY *pdbentry,const char *pstring)
 	    /* Strip leading blanks and tabs */
 	    while (*pstr && (*pstr == ' ' || *pstr == '\t')) pstr++;
 	    /* Strip trailing blanks and tabs */
-	    if (pstr)
-	        for (ind = strlen(pstr) - 1; ind >= 0; ind--) {
+	    if (pstr) {
+		int ind;
+
+	        for (ind = (int) strlen(pstr) - 1; ind >= 0; ind--) {
 		    if (pstr[ind] != ' ' && pstr[ind] != '\t') break;
 		    pstr[ind] = '\0';
 		}
+	    }
 	    if (!pstr || !*pstr) {
 		if (plink->type == PV_LINK) dbCvtLinkToConstant(pdbentry);
 		if (plink->type != CONSTANT) return S_dbLib_badField;
@@ -2358,7 +2368,7 @@ long dbPutString(DBENTRY *pdbentry,const char *pstring)
 		    if(!(end = strchr(pstr,'G'))) return (S_dbLib_badField);
 		    pstr = end + 1;
                     cvtDecimalOrHexToShort(pstr,&tmp_val);
-		    plink->value.bbgpibio.gpibaddr=tmp_val;
+            plink->value.bbgpibio.gpibaddr=(unsigned char)tmp_val;
 		    status = putParmString(&plink->value.bbgpibio.parm,pstr);
 		}
 		break;
@@ -3139,7 +3149,8 @@ void  dbDumpField(
 		printf("\t     field_type: %d\n", pdbFldDes->field_type);
 	    else
 		printf("\t     field_type: %s\n", pamapdbfType[j].strvalue);
-	    printf("\tprocess_passive: %hd\n",pdbFldDes->process_passive);
+	    printf("\tprocess_passive: %u\n",pdbFldDes->process_passive);
+	    printf("\t       property: %u\n",pdbFldDes->prop);
 	    printf("\t           base: %d\n",pdbFldDes->base);
 	    if(!pdbFldDes->promptgroup) {
 		printf("\t    promptgroup: %d\n",pdbFldDes->promptgroup);

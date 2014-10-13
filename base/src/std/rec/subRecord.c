@@ -7,7 +7,7 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 
-/* $Revision-Id$ */
+/* Revision-Id: ralph.lange@gmx.de-20140730083624-ms46zlp6umx3vhg8 */
 
 /* Record Support Routines for Subroutine records */
 /*
@@ -35,6 +35,7 @@
 #include "recSup.h"
 #include "recGbl.h"
 #include "special.h"
+
 #define GEN_SIZE_OFFSET
 #include "subRecord.h"
 #undef  GEN_SIZE_OFFSET
@@ -109,7 +110,7 @@ static long init_record(subRecord *prec, int pass)
         /* convert the initialization subroutine name  */
         psubroutine = (SUBFUNCPTR)registryFunctionFind(prec->inam);
         if (psubroutine == 0) {
-            recGblRecordError(S_db_BadSub, (void *)prec, "recSub(init_record)");
+            recGblRecordError(S_db_BadSub, (void *)prec, "Init subroutine (INAM)");
             return S_db_BadSub;
         }
         /* invoke the initialization subroutine */
@@ -123,7 +124,7 @@ static long init_record(subRecord *prec, int pass)
     }
     prec->sadr = (SUBFUNCPTR)registryFunctionFind(prec->snam);
     if (prec->sadr == NULL) {
-        recGblRecordError(S_db_BadSub, (void *)prec, "recSub(init_record)");
+        recGblRecordError(S_db_BadSub, (void *)prec, "Proc subroutine (SNAM)");
         return S_db_BadSub;
     }
     prec->mlst = prec->val;
@@ -372,35 +373,24 @@ static void checkAlarms(subRecord *prec)
 static void monitor(subRecord *prec)
 {
     unsigned monitor_mask;
-    double delta;
     double *pnew;
     double *pold;
     int i;
 
     /* get alarm mask */
     monitor_mask = recGblResetAlarms(prec);
+
     /* check for value change */
-    delta = prec->val - prec->mlst;
-    if (delta < 0.0) delta = -delta;
-    if (!(delta <= prec->mdel)) { /* Handles MDEL == NAN */
-        /* post events for value change */
-        monitor_mask |= DBE_VALUE;
-        /* update last value monitored */
-        prec->mlst = prec->val;
-    }
+    recGblCheckDeadband(&prec->mlst, prec->val, prec->mdel, &monitor_mask, DBE_VALUE);
+
     /* check for archive change */
-    delta = prec->val - prec->alst;
-    if (delta < 0.0) delta = -delta;
-    if (!(delta <= prec->adel)) { /* Handles ADEL == NAN */
-        /* post events on value field for archive change */
-        monitor_mask |= DBE_LOG;
-        /* update last archive value monitored */
-        prec->alst = prec->val;
-    }
+    recGblCheckDeadband(&prec->alst, prec->val, prec->adel, &monitor_mask, DBE_ARCHIVE);
+
     /* send out monitors connected to the value field */
     if (monitor_mask) {
         db_post_events(prec, &prec->val, monitor_mask);
     }
+
     /* check all input fields for changes */
     for (i = 0, pnew = &prec->a, pold = &prec->la;
          i < INP_ARG_MAX; i++, pnew++, pold++) {

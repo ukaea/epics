@@ -8,7 +8,7 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 /*
- *      $Revision-Id$
+ *      Revision-Id: johill@lanl.gov-20131107172603-vkmh5jo4no0nxjhp
  *
  *      File descriptor management C++ class library
  *      (for multiplexing IO in a single threaded environment)
@@ -104,8 +104,8 @@ private:
     fdReg * pCBReg; 
     void reschedule ();
     double quantum ();
-    epicsShareFunc void installReg (fdReg &reg);
-    epicsShareFunc void removeReg (fdReg &reg);
+    void installReg (fdReg &reg);
+    void removeReg (fdReg &reg);
     void lazyInitTimerQueue ();
     fdManager ( const fdManager & );
     fdManager & operator = ( const fdManager & );

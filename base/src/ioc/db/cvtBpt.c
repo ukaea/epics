@@ -7,7 +7,7 @@
 * and higher are distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/* $Revision-Id$ */
+/* Revision-Id: anj@aps.anl.gov-20141006055702-6sznplbat5czjlgi */
   
 /* cvtBpt.c - Convert using breakpoint table
  *
@@ -19,10 +19,10 @@
 #include "epicsPrint.h"
 
 #define epicsExportSharedSymbols
+#include "cvtTable.h"
+#include "dbAccess.h"
 #include "dbBase.h"
 #include "dbStaticLib.h"
-#include "dbAccess.h"
-#include "cvtTable.h"
 
 static brkTable *findBrkTable(short linr)
 { 

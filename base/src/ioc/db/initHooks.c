@@ -6,7 +6,7 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/* $Revision-Id$ */
+/* Revision-Id: anj@aps.anl.gov-20141006055702-6sznplbat5czjlgi */
 /*
  *      Authors:        Benjamin Franksen (BESY) and Marty Kraimer
  *      Date:           06-01-91
@@ -19,8 +19,9 @@
 
 #include "dbDefs.h"
 #include "ellLib.h"
-#include "epicsThread.h"
 #include "epicsMutex.h"
+#include "epicsThread.h"
+
 #define epicsExportSharedSymbols
 #include "initHooks.h"
 
@@ -91,6 +92,14 @@ void initHookAnnounce(initHookState state)
         hook = (initHookLink *)ellNext(&hook->node);
         epicsMutexUnlock(listLock);
     }
+}
+
+void initHookFree(void)
+{
+    initHookInit();
+    epicsMutexMustLock(listLock);
+    ellFree(&functionList);
+    epicsMutexUnlock(listLock);
 }
 
 /*

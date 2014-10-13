@@ -7,7 +7,7 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 
-/* $Revision-Id$ */
+/* Revision-Id: anj@aps.anl.gov-20131120222110-3o0wgh76u652ad4e */
 
 /* recStringin.c - Record Support Routines for Stringin records */
 /*
@@ -33,11 +33,12 @@
 #include "recSup.h"
 #include "recGbl.h"
 #include "menuYesNo.h"
+
 #define GEN_SIZE_OFFSET
 #include "stringinRecord.h"
 #undef  GEN_SIZE_OFFSET
 #include "epicsExport.h"
-
+
 /* Create RSET - Record Support Entry Table*/
 #define report NULL
 #define initialize NULL

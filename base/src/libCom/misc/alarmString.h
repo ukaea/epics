@@ -6,29 +6,27 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/* $Revision-Id$ */
+/* Revision-Id: anj@aps.anl.gov-20131112221817-0g4gphrvwgztwsca */
 
-/* String names for alarm status and severity values */
+/*
+ * This file is deprecated, use alarm.h instead.
+ *
+ * Old string names for alarm status and severity values
+ */
 
 #ifndef INC_alarmString_H
 #define INC_alarmString_H
 
-#include "shareLib.h"
+#include "alarm.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-/* An older version of alarmString.h used these names: */
+/* Old versions of alarmString.h defined these names: */
 
 #define alarmSeverityString epicsAlarmSeverityStrings
 #define alarmStatusString epicsAlarmConditionStrings
-
-
-/* Name string arrays */
-
-epicsShareExtern const char *epicsAlarmSeverityStrings [ALARM_NSEV];
-epicsShareExtern const char *epicsAlarmConditionStrings [ALARM_NSTATUS];
 
 
 #ifdef __cplusplus

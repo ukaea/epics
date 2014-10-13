@@ -1,4 +1,4 @@
-# $Revision-Id$
+# Revision-Id: jba@aps.anl.gov-20101109205513-6qg5s6cvmoy9oysd
 
 # You might want to change this to some shared set of rules, e.g.
 # RULES=/path/to/epics/support/modules/rules/x-y

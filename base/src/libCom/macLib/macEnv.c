@@ -4,7 +4,7 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/* $Revision-Id$
+/* Revision-Id: anj@aps.anl.gov-20141007043923-zjae64um80bas2df
  *
  * Macro expansion of environment variables
  */
@@ -21,15 +21,25 @@
 char * epicsShareAPI
 macEnvExpand(const char *str)
 {
+    return macDefExpand(str, NULL);
+}
+
+char * epicsShareAPI
+macDefExpand(const char *str, MAC_HANDLE *macros)
+{
     MAC_HANDLE *handle;
-    static char *pairs[] = { "", "environ", NULL, NULL };
+    static const char * pairs[] = { "", "environ", NULL, NULL };
     long destCapacity = 128;
     char *dest = NULL;
     int n;
-
-    if (macCreateHandle(&handle, pairs)){
-        errlogMessage("macEnvExpand: macCreateHandle failed.");
-        return NULL;
+    
+    if (macros) {
+        handle = macros;
+    } else {
+        if (macCreateHandle(&handle, pairs)){
+            errlogMessage("macDefExpand: macCreateHandle failed.");
+            return NULL;
+        }
     }
 
     do {
@@ -57,7 +67,10 @@ macEnvExpand(const char *str)
     }
 
 done:
-    if (macDeleteHandle(handle))
-        errlogMessage("macEnvExpand: macDeleteHandle failed.");
+    if (macros == NULL) {
+        if (macDeleteHandle(handle)) {
+            errlogMessage("macDefExpand: macDeleteHandle failed.");
+        }
+    }
     return dest;
 }

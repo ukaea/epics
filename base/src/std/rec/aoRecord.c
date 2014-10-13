@@ -6,7 +6,7 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/* $Revision-Id$ */
+/* Revision-Id: ralph.lange@gmx.de-20140730083624-ms46zlp6umx3vhg8 */
 
 /* aoRecord.c - Record Support Routines for Analog Output records */
 /*
@@ -37,10 +37,11 @@
 #include "menuConvert.h"
 #include "menuOmsl.h"
 #include "menuYesNo.h"
+#include "menuIvoa.h"
+
 #define GEN_SIZE_OFFSET
 #include "aoRecord.h"
 #undef  GEN_SIZE_OFFSET
-#include "menuIvoa.h"
 #include "epicsExport.h"
 
 /* Create RSET - Record Support Entry Table*/
@@ -506,34 +507,19 @@ static void convert(aoRecord *prec, double value)
 
 static void monitor(aoRecord *prec)
 {
-	unsigned short	monitor_mask;
-	double		delta;
+    unsigned monitor_mask = recGblResetAlarms(prec);
 
-        monitor_mask = recGblResetAlarms(prec);
-        /* check for value change */
-        delta = prec->mlst - prec->val;
-        if(delta<0.0) delta = -delta;
-        if (!(delta <= prec->mdel)) { /* Handles MDEL == NAN */
-                /* post events for value change */
-                monitor_mask |= DBE_VALUE;
-                /* update last value monitored */
-                prec->mlst = prec->val;
-        }
-        /* check for archive change */
-        delta = prec->alst - prec->val;
-        if(delta<0.0) delta = -delta;
-        if (!(delta <= prec->adel)) { /* Handles ADEL == NAN */
-                /* post events on value field for archive change */
-                monitor_mask |= DBE_LOG;
-                /* update last archive value monitored */
-                prec->alst = prec->val;
-        }
+    /* check for value change */
+    recGblCheckDeadband(&prec->mlst, prec->val, prec->mdel, &monitor_mask, DBE_VALUE);
 
+    /* check for archive change */
+    recGblCheckDeadband(&prec->alst, prec->val, prec->adel, &monitor_mask, DBE_ARCHIVE);
 
-        /* send out monitors connected to the value field */
-        if (monitor_mask){
-                db_post_events(prec,&prec->val,monitor_mask);
-	}
+    /* send out monitors connected to the value field */
+    if (monitor_mask){
+        db_post_events(prec,&prec->val,monitor_mask);
+    }
+
 	if(prec->omod) monitor_mask |= (DBE_VALUE|DBE_LOG);
 	if(monitor_mask) {
 		prec->omod = FALSE;

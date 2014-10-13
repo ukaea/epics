@@ -1,6 +1,6 @@
 # CONFIG.Common.vxWorks-ppc32-debug
 #
-# $Revision-Id$
+# Revision-Id: anj@aps.anl.gov-20110419200247-bcf7nlxmkwugf0g6
 # This file is maintained by the build community.
 #
 # Definitions for vxWorks-ppc32-debug target archs

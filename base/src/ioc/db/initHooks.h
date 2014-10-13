@@ -6,7 +6,7 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/* $Revision-Id$ */
+/* Revision-Id: mdavidsaver@mddesk.nsls2.bnl.gov-20140623202823-xixy078rlml5d5wx */
 /*
  *      Authors:        Benjamin Franksen (BESY) and Marty Kraimer
  *      Date:           06-01-91
@@ -60,6 +60,7 @@ typedef void (*initHookFunction)(initHookState state);
 epicsShareFunc int initHookRegister(initHookFunction func);
 epicsShareFunc void initHookAnnounce(initHookState state);
 epicsShareFunc const char *initHookName(int state);
+epicsShareFunc void initHookFree(void);
 
 #ifdef __cplusplus
 }

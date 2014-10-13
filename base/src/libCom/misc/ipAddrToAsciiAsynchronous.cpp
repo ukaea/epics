@@ -25,7 +25,7 @@
 #include <string>
 #include <climits>
 #include <stdexcept>
-#include <stdio.h>
+#include <cstdio>
 
 #define epicsExportSharedSymbols
 #include "ipAddrToAsciiAsynchronous.h"
@@ -155,7 +155,7 @@ static void ipAddrToAsciiEngineShutdownRequest ( void * )
 
 static void ipAddrToAsciiEngineGlobalMutexConstruct ( void * )
 {
-    ipAddrToAsciiEnginePrivate :: pGlobalMutex = new epicsMutex ();
+    ipAddrToAsciiEnginePrivate :: pGlobalMutex = newEpicsMutex;
     epicsAtExit ( ipAddrToAsciiEngineShutdownRequest, 0 );
 }
 
@@ -206,7 +206,7 @@ ipAddrToAsciiEnginePrivate::~ipAddrToAsciiEnginePrivate ()
     this->thread.exitWait ();
 }
 
-// for now its probably sufficent to allocate one 
+// for now its probably sufficient to allocate one
 // DNS transaction thread for all codes sharing
 // the same process that need DNS services but we 
 // leave our options open for the future

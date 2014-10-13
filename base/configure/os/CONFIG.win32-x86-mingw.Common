@@ -1,10 +1,10 @@
 # CONFIG.win32-x86-mingw.Common
 #
-# $Revision-Id$
+# Revision-Id: jba@aps.anl.gov-20140909205804-ge6vbf650bylvqc8
 # This file is maintained by the build community.
 #
-# Definitions for win32-x86-cygwin host archs
-# Sites may override these definitions in CONFIG_SITE.win32-x86-cygwin.Common
+# Definitions for win32-x86-mingw host archs
+# Sites may override these definitions in CONFIG_SITE.win32-x86-mingw.Common
 #-------------------------------------------------------
 
 #Include definitions common to unix hosts
@@ -19,6 +19,7 @@ RM = $(PERL) -MExtUtils::Command -e rm_f
 MKDIR = $(PERL) -MExtUtils::Command -e mkpath
 RMDIR = $(PERL) -MExtUtils::Command -e rm_rf
 NOP = $(PERL) -e ''
+CAT = $(PERL) -MExtUtils::Command -e cat
 
 WIND_HOST_TYPE = x86-win32
 OSITHREAD_USE_DEFAULT_STACK = NO

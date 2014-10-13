@@ -6,7 +6,7 @@
 \*************************************************************************/
 /*
  * RTEMS osdThread.c
- *      $Revision-Id$
+ *      Revision-Id: ralph.lange@gmx.de-20130328140329-46sjs0lyfs3h3un4
  *      Author: W. Eric Norum
  *              eric@cls.usask.ca
  *              (306) 966-6055
@@ -717,4 +717,13 @@ double epicsThreadSleepQuantum ( void )
     extern double rtemsTicksPerSecond_double;
 
     return 1.0 / rtemsTicksPerSecond_double;
+}
+
+epicsShareFunc int epicsThreadGetCPUs(void)
+{
+#if defined(RTEMS_SMP)
+    return rtems_smp_get_number_of_processors();
+#else
+    return 1;
+#endif
 }

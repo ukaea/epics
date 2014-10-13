@@ -1,13 +1,14 @@
 /*************************************************************************\
 * Copyright (c) 2010 Brookhaven National Laboratory.
 * Copyright (c) 2010 Helmholtz-Zentrum Berlin
-*     fuer Materialien und Energie GmbH.
+*     für Materialien und Energie GmbH.
+* Copyright (c) 2014 ITER Organization.
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
 
 /*
- *  Author: Ralph Lange <Ralph.Lange@bessy.de>
+ *  Author: Ralph Lange <Ralph.Lange@gmx.de>
  */
 
 #include <stdio.h>
@@ -16,6 +17,7 @@
 #include <freeList.h>
 #include <dbConvertFast.h>
 #include <chfPlugin.h>
+#include <recGbl.h>
 #include <db_field_log.h>
 #include <epicsExport.h>
 
@@ -33,8 +35,10 @@ chfPluginEnumType modeEnum[] = { {"abs", 0}, {"rel", 1}, {NULL,0} };
 
 static const
 chfPluginArgDef opts[] = {
-    chfDouble (myStruct, cval, "d", 0, 1),
-    chfEnum   (myStruct, mode, "m", 0, 1, modeEnum),
+    chfDouble    (myStruct, cval, "d", 0, 1),
+    chfEnum      (myStruct, mode, "m", 0, 1, modeEnum),
+    chfTagDouble (myStruct, cval, "abs", mode, 0, 0, 1),
+    chfTagDouble (myStruct, cval, "rel", mode, 1, 0, 1),
     chfPluginArgEnd
 };
 
@@ -56,17 +60,11 @@ static int parse_ok(void *pvt)
     return 0;
 }
 
-static void shiftval (myStruct *my, double val) {
-    my->last = val;
-    if (my->mode == 1)
-        my->hyst = val * my->cval/100.;
-}
-
 static db_field_log* filter(void* pvt, dbChannel *chan, db_field_log *pfl) {
     myStruct *my = (myStruct*) pvt;
     long status;
-    double val, delta;
-    short drop = 0;
+    double val;
+    unsigned send = 1;
 
     /*
      * Only scalar values supported - strings, arrays, and conversion errors
@@ -81,19 +79,14 @@ static db_field_log* filter(void* pvt, dbChannel *chan, db_field_log *pfl) {
         status = dbFastGetConvertRoutine[pfl->field_type][DBR_DOUBLE]
                  (localAddr.pfield, (void*) &val, &localAddr);
         if (!status) {
-            if (isnan(my->last)) {
-                shiftval(my, val);
-            } else {
-                delta = fabs(my->last - val);
-                if (delta <= my->hyst) {
-                    drop = 1;
-                } else {
-                    shiftval(my, val);
-                }
+            send = 0;
+            recGblCheckDeadband(&my->last, val, my->hyst, &send, 1);
+            if (send && my->mode == 1) {
+                my->hyst = val * my->cval/100.;
             }
         }
     }
-    if (drop) {
+    if (!send) {
         db_delete_field_log(pfl);
         return NULL;
     } else return pfl;

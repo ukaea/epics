@@ -6,7 +6,7 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/* $Revision-Id$ */
+/* Revision-Id: anj@aps.anl.gov-20140221000542-i1uayq4splbcpig8 */
 /*
  * EPICS assert
  *
@@ -18,6 +18,7 @@
 #define INC_epicsAssert_H
 
 #include "shareLib.h"
+#include "compilerDependencies.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -34,20 +35,21 @@ extern "C" {
 #   define assert(ignore) ((void) 0)
 #else /* NDEBUG */
 
+epicsShareFunc void epicsAssert (const char *pFile, const unsigned line,
+    const char *pExp, const char *pAuthorName);
+
 #   define assert(exp) ((exp) ? (void)0 : \
         epicsAssert(__FILE__, __LINE__, #exp, epicsAssertAuthor))
 
 #endif  /* NDEBUG */
 
-epicsShareFunc void epicsAssert (const char *pFile, const unsigned line,
-    const char *pExp, const char *pAuthorName);
 
 /* Compile-time checks */
 #define STATIC_JOIN(x, y) STATIC_JOIN2(x, y)
 #define STATIC_JOIN2(x, y) x ## y
 #define STATIC_ASSERT(expr) \
     typedef int STATIC_JOIN(static_assert_failed_at_line_, __LINE__) \
-    [ (expr) ? 1 : -1 ]
+    [ (expr) ? 1 : -1 ] EPICS_UNUSED
 
 
 #ifdef __cplusplus

@@ -6,7 +6,7 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/* $Revision-Id$
+/* Revision-Id: anj@aps.anl.gov-20120718050742-dxsk1au1418o7pl5
  *
  *      Author: Marty Kraimer
  *      Date:   06-08-93

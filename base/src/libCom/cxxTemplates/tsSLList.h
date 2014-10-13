@@ -8,7 +8,7 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 /*
- *      $Revision-Id$
+ *      Revision-Id: anj@aps.anl.gov-20120719195955-plqrewhxw27vjo84
  *
  *      type safe singly linked list templates
  *

@@ -7,7 +7,7 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/* $Revision-Id$ */
+/* Revision-Id: anj@aps.anl.gov-20140904160759-9keqk9t20ecu8sy0 */
 
 /* Authors: Jun-ichi Odagiri, Marty Kraimer, Eric Norum,
  *          Mark Rivers, Andrew Johnson, Ralph Lange
@@ -41,7 +41,7 @@ int epicsStrnRawFromEscaped(char *to, size_t outsize, const char *from,
     const char *pfrom  = from;
     char       *pto = to;
     char        c;
-    int         nto = 0, nfrom = 0;
+    size_t      nto = 0, nfrom = 0;
 
     while ((c = *pfrom++) && nto < outsize && nfrom < inlen) {
         nfrom++;
@@ -174,8 +174,8 @@ int epicsStrCaseCmp(const char *s1, const char *s2)
         int ch1 = toupper((int) *s1);
         int ch2 = toupper((int) *s2);
 
-        if (ch1 == 0) return (ch2 != 0);
-        if (ch2 == 0) return -1;
+        if (ch2 == 0) return (ch1 != 0);
+        if (ch1 == 0) return -1;
         if (ch1 < ch2) return -1;
         if (ch1 > ch2) return 1;
         s1++;
@@ -191,8 +191,8 @@ int epicsStrnCaseCmp(const char *s1, const char *s2, size_t len)
         int ch1 = toupper((int) *s1);
         int ch2 = toupper((int) *s2);
 
-        if (ch1 == 0) return (ch2 != 0);
-        if (ch2 == 0) return -1;
+        if (ch2 == 0) return (ch1 != 0);
+        if (ch1 == 0) return -1;
         if (ch1 < ch2) return -1;
         if (ch1 > ch2) return 1;
         s1++;

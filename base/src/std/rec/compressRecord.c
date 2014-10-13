@@ -7,7 +7,7 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 
-/* $Revision-Id$ */
+/* Revision-Id: anj@aps.anl.gov-20131217185404-wng3r3ldfeefnu61 */
 /*
  *      Original Author: Bob Dalesio
  *      Date:            7-14-89 
@@ -31,6 +31,7 @@
 #include "special.h"
 #include "recSup.h"
 #include "recGbl.h"
+
 #define GEN_SIZE_OFFSET
 #include "compressRecord.h"
 #undef  GEN_SIZE_OFFSET

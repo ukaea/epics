@@ -7,7 +7,7 @@
 # in the file LICENSE that is included with this distribution. 
 #*************************************************************************
 #
-# $Revision-Id$
+# Revision-Id: mdavidsaver@bnl.gov-20140804162631-m75z668ravudz57u
 #
 
 TOP = ..
@@ -75,6 +75,8 @@ std_DEPEND_DIRS = ioc libCom/RTEMS
 DIRS += std/filters/test
 std/filters/test_DEPEND_DIRS = std
 
+DIRS += std/rec/test
+std/rec/test_DEPEND_DIRS = std
 
 
 include $(TOP)/configure/RULES_DIRS

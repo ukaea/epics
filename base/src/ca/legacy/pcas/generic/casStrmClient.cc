@@ -34,8 +34,6 @@ const nothrow_t  nothrow ;
 }
 #endif
 
-static const caHdr nill_msg = { 0u, 0u, 0u, 0u, 0u, 0u };
-
 casStrmClient::pCASMsgHandler const casStrmClient::msgHandlers[] =
 {
     & casStrmClient::versionAction,
@@ -884,7 +882,7 @@ caStatus casStrmClient::monitorResponse (
             }
             else {
                 ecaStatus = ECA_GETFAIL;
-            }                
+            }               
             return monitorFailureResponse ( guard, msg, ecaStatus );
         }
         else {
@@ -926,6 +924,7 @@ caStatus casStrmClient::monitorResponse (
     int cacStatus = caNetConvert ( 
         msg.m_dataType, pPayload, pPayload, true, msg.m_count );
     if ( cacStatus != ECA_NORMAL ) {
+        pDBRDD->unreference ();
         return this->sendErrWithEpicsStatus ( 
             guard, & msg, chan.getCID(), S_cas_internal, cacStatus );
     }

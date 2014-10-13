@@ -16,11 +16,12 @@
 
 #include "dbDefs.h"
 #include "ellLib.h"
-#include "dbBase.h"
+#include "epicsMutex.h"
 #include "epicsStdio.h"
 #include "epicsString.h"
-#include "epicsMutex.h"
+
 #define epicsExportSharedSymbols
+#include "dbBase.h"
 #include "dbStaticLib.h"
 #include "dbStaticPvt.h"
 
@@ -78,7 +79,7 @@ void dbPvdInitPvt(dbBase *pdbbase)
     return;
 }
 
-PVDENTRY *dbPvdFind(dbBase *pdbbase, const char *name, int lenName)
+PVDENTRY *dbPvdFind(dbBase *pdbbase, const char *name, size_t lenName)
 {
     dbPvd *ppvd = pdbbase->ppvd;
     dbPvdBucket *pbucket;

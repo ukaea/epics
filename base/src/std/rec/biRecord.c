@@ -7,7 +7,7 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 
-/* $Revision-Id$ */
+/* Revision-Id: anj@aps.anl.gov-20131217185404-wng3r3ldfeefnu61 */
 
 /* recBi.c - Record Support Routines for Binary Input records */
 /*
@@ -34,10 +34,12 @@
 #include "recSup.h"
 #include "recGbl.h"
 #include "special.h"
+
 #define GEN_SIZE_OFFSET
 #include "biRecord.h"
 #undef  GEN_SIZE_OFFSET
 #include "epicsExport.h"
+
 /* Create RSET - Record Support Entry Table*/
 #define report NULL
 #define initialize NULL

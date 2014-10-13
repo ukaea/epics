@@ -7,7 +7,7 @@
 * and higher are distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/*  $Revision-Id$
+/*  Revision-Id: ralph.lange@gmx.de-20140604191843-x2hoeh8pzkvbnkrv
  *	Author: Marty Kraimer
  *	Date:	9/28/95
  *	Replacement for old bldCvtTable
@@ -87,7 +87,8 @@ int main(int argc, char **argv)
     dataList	*pnext;
     double	*pdata;
     long	ndata;
-    int		nBreak,len,n;
+    int		nBreak,n;
+    size_t  len;
     char	*outFilename;
     char	*pext;
     FILE	*outFile;

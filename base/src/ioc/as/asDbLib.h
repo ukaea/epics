@@ -8,7 +8,7 @@
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
 /* share/epicsH/dbAsLib.h	*/
-/*  $Revision-Id$ */
+/*  Revision-Id: mdavidsaver@mddesk.nsls2.bnl.gov-20140623202822-3v4qufgmn6t05atp */
 /* Author:  Marty Kraimer Date:    02-23-94*/
 
 #ifndef INCdbAsLibh
@@ -32,6 +32,7 @@ epicsShareFunc int asSetFilename(const char *acf);
 epicsShareFunc int asSetSubstitutions(const char *substitutions);
 epicsShareFunc int asInit(void);
 epicsShareFunc int asInitAsyn(ASDBCALLBACK *pcallback);
+epicsShareFunc int asShutdown(void);
 epicsShareFunc int asDbGetAsl(struct dbChannel *chan);
 epicsShareFunc void * asDbGetMemberPvt(struct dbChannel *chan);
 epicsShareFunc int asdbdump(void);

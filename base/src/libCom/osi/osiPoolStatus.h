@@ -11,7 +11,7 @@
 #define INC_osiPoolStatus_H
 
 /*
- * $Revision-Id$
+ * Revision-Id: anj@aps.anl.gov-20130411175656-dor1h3zt7zo46epw
  *
  * Author: Jeff Hill
  *
