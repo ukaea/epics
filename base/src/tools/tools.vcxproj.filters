@@ -25,7 +25,6 @@
     <None Include="dbdToRecordtypeH.pl" />
     <None Include="dbdToMenuH.pl" />
     <None Include="DBD.pm" />
-    <None Include="makeIncludeDbd.pl" />
     <None Include="DBD\Base.pm">
       <Filter>DBD</Filter>
     </None>

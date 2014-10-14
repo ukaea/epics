@@ -353,25 +353,6 @@ xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
     <None Include="DBD\Variable.pm" />
     <None Include="EPICS\Path.pm" />
     <None Include="EPICS\Release.pm" />
-    <None Include="makeIncludeDbd.pl">
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">
-      </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">
-      </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">
-      </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">
-      </Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">
-      </Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">
-      </Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">
-      </Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">
-      </Outputs>
-      <FileType>Document</FileType>
-    </None>
     <None Include="registerRecordDeviceDriver.pl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

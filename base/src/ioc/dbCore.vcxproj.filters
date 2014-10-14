@@ -15,9 +15,6 @@
     <Filter Include="dbStatic">
       <UniqueIdentifier>{365c14a7-c4e1-4e73-9122-aab6c10467a4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="db\dbd Files">
-      <UniqueIdentifier>{a86ca8b6-365c-4011-8513-063fef86cf11}</UniqueIdentifier>
-    </Filter>
     <Filter Include="dbtemplate">
       <UniqueIdentifier>{79e5f551-0fad-498d-8e9e-9cd04c7fd059}</UniqueIdentifier>
     </Filter>
@@ -33,9 +30,6 @@
     </Filter>
     <Filter Include="registry">
       <UniqueIdentifier>{f9eef5c6-5478-4121-971b-d26339e2fba1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="misc\DBD Files">
-      <UniqueIdentifier>{d5d78b25-c748-4cb1-a3fb-97444f0b32ed}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -322,9 +316,6 @@
     <ClInclude Include="db\initHooks.h">
       <Filter>db</Filter>
     </ClInclude>
-    <ClInclude Include="db\menuAlarmSevr.h">
-      <Filter>db</Filter>
-    </ClInclude>
     <ClInclude Include="db\recGbl.h">
       <Filter>db</Filter>
     </ClInclude>
@@ -420,63 +411,66 @@
     <CustomBuild Include="dbtemplate\dbLoadTemplate.y">
       <Filter>dbtemplate</Filter>
     </CustomBuild>
-    <CustomBuild Include="db\menuYesNo.dbd">
-      <Filter>db\dbd Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="db\menuScan.dbd">
-      <Filter>db\dbd Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="db\menuPriority.dbd">
-      <Filter>db\dbd Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="db\menuPini.dbd">
-      <Filter>db\dbd Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="db\menuOmsl.dbd">
-      <Filter>db\dbd Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="db\menuIvoa.dbd">
-      <Filter>db\dbd Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="db\menuFtype.dbd">
-      <Filter>db\dbd Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="db\menuCompress.dbd">
-      <Filter>db\dbd Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="db\menuAlarmStat.dbd">
-      <Filter>db\dbd Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="db\dbCommonRecord.dbd">
-      <Filter>db\dbd Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="db\dbCommon.dbd">
-      <Filter>db\dbd Files</Filter>
-    </CustomBuild>
     <CustomBuild Include="dbStatic\dbYacc.y">
       <Filter>dbStatic</Filter>
     </CustomBuild>
     <CustomBuild Include="dbStatic\dbLex.l">
       <Filter>dbStatic</Filter>
     </CustomBuild>
-    <CustomBuild Include="misc\dbCore.dbd">
-      <Filter>misc\DBD Files</Filter>
+    <CustomBuild Include="db\dbCommon.dbd">
+      <Filter>db</Filter>
     </CustomBuild>
-    <CustomBuild Include="misc\dlload.dbd">
-      <Filter>misc\DBD Files</Filter>
+    <CustomBuild Include="db\menuYesNo.dbd">
+      <Filter>db</Filter>
+    </CustomBuild>
+    <CustomBuild Include="db\dbCommonRecord.dbd">
+      <Filter>db</Filter>
+    </CustomBuild>
+    <CustomBuild Include="db\menuAlarmStat.dbd">
+      <Filter>db</Filter>
+    </CustomBuild>
+    <CustomBuild Include="db\menuCompress.dbd">
+      <Filter>db</Filter>
+    </CustomBuild>
+    <CustomBuild Include="db\menuFtype.dbd">
+      <Filter>db</Filter>
+    </CustomBuild>
+    <CustomBuild Include="db\menuIvoa.dbd">
+      <Filter>db</Filter>
+    </CustomBuild>
+    <CustomBuild Include="db\menuOmsl.dbd">
+      <Filter>db</Filter>
+    </CustomBuild>
+    <CustomBuild Include="db\menuPini.dbd">
+      <Filter>db</Filter>
+    </CustomBuild>
+    <CustomBuild Include="db\menuPriority.dbd">
+      <Filter>db</Filter>
+    </CustomBuild>
+    <CustomBuild Include="db\menuScan.dbd">
+      <Filter>db</Filter>
+    </CustomBuild>
+    <CustomBuild Include="db\menuSimm.dbd.pod">
+      <Filter>db</Filter>
+    </CustomBuild>
+    <CustomBuild Include="db\menuAlarmSevr.dbd.pod">
+      <Filter>db</Filter>
+    </CustomBuild>
+    <CustomBuild Include="O.Common\menuSimm.dbd">
+      <Filter>O.Common</Filter>
+    </CustomBuild>
+    <CustomBuild Include="misc\dbCore.dbd">
+      <Filter>misc</Filter>
     </CustomBuild>
     <CustomBuild Include="misc\system.dbd">
-      <Filter>misc\DBD Files</Filter>
+      <Filter>misc</Filter>
+    </CustomBuild>
+    <CustomBuild Include="misc\dlload.dbd">
+      <Filter>misc</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <None Include="db\menuAlarmSevr.dbd.pod">
-      <Filter>db</Filter>
-    </None>
     <None Include="db\menuPost.dbd">
-      <Filter>db</Filter>
-    </None>
-    <None Include="db\menuSimm.dbd.pod">
       <Filter>db</Filter>
     </None>
   </ItemGroup>

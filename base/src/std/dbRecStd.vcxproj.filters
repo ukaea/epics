@@ -5,18 +5,15 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="rec\Database Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="dev">
       <UniqueIdentifier>{a1e657c0-25e9-4bb0-8d85-1923c7bd45dd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="dev\Database Files">
-      <UniqueIdentifier>{ba33d1e5-14ae-426c-8649-9ff5d3c32e97}</UniqueIdentifier>
-    </Filter>
     <Filter Include="filters">
       <UniqueIdentifier>{581a52b7-ad63-4619-a6d0-07658c191406}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="O.Common">
+      <UniqueIdentifier>{da2481dd-3f26-49e2-8daa-9ea910fe8dfe}</UniqueIdentifier>
+      <SourceControlFiles>False</SourceControlFiles>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -272,97 +269,130 @@
     <ClCompile Include="dev\devStdio.c">
       <Filter>dev</Filter>
     </ClCompile>
+    <ClCompile Include="rec\lsiRecord.c">
+      <Filter>rec</Filter>
+    </ClCompile>
+    <ClCompile Include="rec\lsoRecord.c">
+      <Filter>rec</Filter>
+    </ClCompile>
+    <ClCompile Include="rec\printfRecord.c">
+      <Filter>rec</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="rec\aaiRecord.dbd">
-      <Filter>rec\Database Files</Filter>
+    <CustomBuild Include="O.Common\aiRecord.dbd">
+      <Filter>O.Common</Filter>
     </CustomBuild>
-    <CustomBuild Include="rec\subRecord.dbd">
-      <Filter>rec\Database Files</Filter>
+    <CustomBuild Include="O.Common\aoRecord.dbd">
+      <Filter>O.Common</Filter>
+    </CustomBuild>
+    <CustomBuild Include="O.Common\compressRecord.dbd">
+      <Filter>O.Common</Filter>
+    </CustomBuild>
+    <CustomBuild Include="O.Common\waveformRecord.dbd">
+      <Filter>O.Common</Filter>
+    </CustomBuild>
+    <CustomBuild Include="rec\aaiRecord.dbd">
+      <Filter>rec</Filter>
+    </CustomBuild>
+    <CustomBuild Include="rec\waveformRecord.dbd.pod">
+      <Filter>rec</Filter>
     </CustomBuild>
     <CustomBuild Include="rec\aaoRecord.dbd">
-      <Filter>rec\Database Files</Filter>
+      <Filter>rec</Filter>
     </CustomBuild>
-    <CustomBuild Include="rec\aiRecord.dbd">
-      <Filter>rec\Database Files</Filter>
+    <CustomBuild Include="rec\aiRecord.dbd.pod">
+      <Filter>rec</Filter>
     </CustomBuild>
-    <CustomBuild Include="rec\aoRecord.dbd">
-      <Filter>rec\Database Files</Filter>
+    <CustomBuild Include="rec\aoRecord.dbd.pod">
+      <Filter>rec</Filter>
     </CustomBuild>
-    <CustomBuild Include="rec\aSubRecord.dbd">
-      <Filter>rec\Database Files</Filter>
+    <CustomBuild Include="rec\aSubRecord.dbd.pod">
+      <Filter>rec</Filter>
     </CustomBuild>
     <CustomBuild Include="rec\biRecord.dbd">
-      <Filter>rec\Database Files</Filter>
+      <Filter>rec</Filter>
     </CustomBuild>
     <CustomBuild Include="rec\boRecord.dbd">
-      <Filter>rec\Database Files</Filter>
+      <Filter>rec</Filter>
     </CustomBuild>
     <CustomBuild Include="rec\calcoutRecord.dbd">
-      <Filter>rec\Database Files</Filter>
+      <Filter>rec</Filter>
     </CustomBuild>
     <CustomBuild Include="rec\calcRecord.dbd">
-      <Filter>rec\Database Files</Filter>
+      <Filter>rec</Filter>
     </CustomBuild>
-    <CustomBuild Include="rec\compressRecord.dbd">
-      <Filter>rec\Database Files</Filter>
+    <CustomBuild Include="rec\compressRecord.dbd.pod">
+      <Filter>rec</Filter>
     </CustomBuild>
     <CustomBuild Include="rec\dfanoutRecord.dbd">
-      <Filter>rec\Database Files</Filter>
+      <Filter>rec</Filter>
     </CustomBuild>
     <CustomBuild Include="rec\eventRecord.dbd">
-      <Filter>rec\Database Files</Filter>
+      <Filter>rec</Filter>
     </CustomBuild>
     <CustomBuild Include="rec\fanoutRecord.dbd">
-      <Filter>rec\Database Files</Filter>
+      <Filter>rec</Filter>
     </CustomBuild>
     <CustomBuild Include="rec\histogramRecord.dbd">
-      <Filter>rec\Database Files</Filter>
+      <Filter>rec</Filter>
     </CustomBuild>
     <CustomBuild Include="rec\longinRecord.dbd">
-      <Filter>rec\Database Files</Filter>
+      <Filter>rec</Filter>
     </CustomBuild>
     <CustomBuild Include="rec\longoutRecord.dbd">
-      <Filter>rec\Database Files</Filter>
+      <Filter>rec</Filter>
     </CustomBuild>
     <CustomBuild Include="rec\mbbiDirectRecord.dbd">
-      <Filter>rec\Database Files</Filter>
+      <Filter>rec</Filter>
     </CustomBuild>
     <CustomBuild Include="rec\mbbiRecord.dbd">
-      <Filter>rec\Database Files</Filter>
+      <Filter>rec</Filter>
     </CustomBuild>
     <CustomBuild Include="rec\mbboDirectRecord.dbd">
-      <Filter>rec\Database Files</Filter>
+      <Filter>rec</Filter>
     </CustomBuild>
     <CustomBuild Include="rec\mbboRecord.dbd">
-      <Filter>rec\Database Files</Filter>
+      <Filter>rec</Filter>
     </CustomBuild>
     <CustomBuild Include="rec\permissiveRecord.dbd">
-      <Filter>rec\Database Files</Filter>
+      <Filter>rec</Filter>
     </CustomBuild>
     <CustomBuild Include="rec\selRecord.dbd">
-      <Filter>rec\Database Files</Filter>
+      <Filter>rec</Filter>
     </CustomBuild>
     <CustomBuild Include="rec\seqRecord.dbd">
-      <Filter>rec\Database Files</Filter>
+      <Filter>rec</Filter>
     </CustomBuild>
     <CustomBuild Include="rec\stateRecord.dbd">
-      <Filter>rec\Database Files</Filter>
+      <Filter>rec</Filter>
     </CustomBuild>
     <CustomBuild Include="rec\stringinRecord.dbd">
-      <Filter>rec\Database Files</Filter>
+      <Filter>rec</Filter>
     </CustomBuild>
     <CustomBuild Include="rec\stringoutRecord.dbd">
-      <Filter>rec\Database Files</Filter>
+      <Filter>rec</Filter>
     </CustomBuild>
     <CustomBuild Include="rec\subArrayRecord.dbd">
-      <Filter>rec\Database Files</Filter>
+      <Filter>rec</Filter>
     </CustomBuild>
-    <CustomBuild Include="rec\waveformRecord.dbd">
-      <Filter>rec\Database Files</Filter>
+    <CustomBuild Include="rec\subRecord.dbd">
+      <Filter>rec</Filter>
+    </CustomBuild>
+    <CustomBuild Include="O.Common\aSubRecord.dbd">
+      <Filter>O.Common</Filter>
+    </CustomBuild>
+    <CustomBuild Include="rec\lsiRecord.dbd">
+      <Filter>rec</Filter>
+    </CustomBuild>
+    <CustomBuild Include="rec\lsoRecord.dbd">
+      <Filter>rec</Filter>
+    </CustomBuild>
+    <CustomBuild Include="rec\printfRecord.dbd">
+      <Filter>rec</Filter>
     </CustomBuild>
     <CustomBuild Include="dev\devSoft.dbd">
-      <Filter>dev\Database Files</Filter>
+      <Filter>dev</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>
