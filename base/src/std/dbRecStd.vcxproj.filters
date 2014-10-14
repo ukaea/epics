@@ -394,5 +394,13 @@
     <CustomBuild Include="dev\devSoft.dbd">
       <Filter>dev</Filter>
     </CustomBuild>
+    <CustomBuild Include="filters\filters.dbd.pod">
+      <Filter>filters</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="O.Common\filters.dbd">
+      <Filter>O.Common</Filter>
+    </None>
   </ItemGroup>
 </Project>

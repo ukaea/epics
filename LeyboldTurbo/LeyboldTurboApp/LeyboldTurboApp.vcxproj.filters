@@ -13,10 +13,30 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="O.Common">
+      <UniqueIdentifier>{f19b6948-4535-47d5-a8c3-1f537ec15532}</UniqueIdentifier>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Protocol">
+      <UniqueIdentifier>{61a31272-ca42-4a63-9572-b6b8c85fd699}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\LeyboldTurboMain.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="O.Common\LeyboldTurbo_registerRecordDeviceDriver.cpp">
+      <Filter>O.Common</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="src\LeyboldTurbo.dbd">
+      <Filter>src</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="O.Common\LeyboldTurbo.dbd">
+      <Filter>O.Common</Filter>
+    </None>
   </ItemGroup>
 </Project>

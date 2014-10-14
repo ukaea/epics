@@ -35,18 +35,73 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="O.Common\LeyboldTurbo_registerRecordDeviceDriver.cpp" />
     <ClCompile Include="src\LeyboldTurboMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\asyn\asyn\asyn.vcxproj">
       <Project>{c3ea0ff7-6039-4884-ba91-7b4619befea5}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\base\src\ioc\dbCore.vcxproj">
+      <Project>{440c585d-ad66-4738-941c-a87a1817a9be}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\base\src\libCom\Com.vcxproj">
       <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\base\src\std\dbRecStd.vcxproj">
+      <Project>{3b0e3542-cb89-4ffa-b004-eac882b3f277}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\StreamDevice\src\StreamDevice.vcxproj">
       <Project>{2168adf1-2c87-4877-889d-df444e180d5b}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="src\LeyboldTurbo.dbd">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">cd src
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).dbd %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">cd src
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).dbd %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">cd src
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).dbd %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">cd src
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).dbd %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|x64'">cd src
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).dbd %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|x64'">cd src
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).dbd %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|x64'">cd src
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).dbd %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|x64'">cd src
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).dbd %(FileName).dbd
+cd $(ProjectDir)
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">O.Common/%(FileName).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">O.Common/%(FileName).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">O.Common/%(FileName).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">O.Common/%(FileName).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|x64'">O.Common/%(FileName).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|x64'">O.Common/%(FileName).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|x64'">O.Common/%(FileName).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|x64'">O.Common/%(FileName).dbd</Outputs>
+      <FileType>Document</FileType>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="O.Common\LeyboldTurbo.dbd" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{1CB7E5D9-9DF6-4359-B6D4-5CFF4D48A769}</ProjectGuid>
@@ -184,12 +239,15 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist src\O.Common md .\src\O.Common
-REM perl -CSD  $(OutDir)dbdExpand.pl  -I.\src\O.Common -I$(SolutionDir)/dbd -o src\O.Common\motorIms.dbd base.dbd asyn.dbd drvAsynSerialPort.dbd
-REM perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I./O.Common -I$(SolutionDir)/dbd  -o  src\O.Common\LeyboldTurboApp_registerRecordDeviceDriver.cpp .\src\O.Common\LeyboldTurboApp.dbd LeyboldTurboApp_registerRecordDeviceDriver
+      <Command>if not exist O.Common md O.Common
+if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
+perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\LeyboldTurbo_registerRecordDeviceDriver.cpp src\LeyboldTurbo.dbd  LeyboldTurbo_registerRecordDeviceDriver  $(SolutionDir)
 </Command>
     </PreBuildEvent>
     <PostBuildEvent />
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|x64'">
     <ClCompile>
@@ -205,12 +263,15 @@ REM perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I./O.Common -I$(SolutionD
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist src\O.Common md .\src\O.Common
-REM perl -CSD  $(OutDir)dbdExpand.pl  -I.\src\O.Common -I$(SolutionDir)/dbd -o src\O.Common\motorIms.dbd base.dbd asyn.dbd drvAsynSerialPort.dbd
-REM perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I./O.Common -I$(SolutionDir)/dbd  -o  src\O.Common\LeyboldTurboApp_registerRecordDeviceDriver.cpp .\src\O.Common\LeyboldTurboApp.dbd LeyboldTurboApp_registerRecordDeviceDriver
+      <Command>if not exist O.Common md O.Common
+if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
+perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\LeyboldTurbo_registerRecordDeviceDriver.cpp src\LeyboldTurbo.dbd  LeyboldTurbo_registerRecordDeviceDriver  $(SolutionDir)
 </Command>
     </PreBuildEvent>
     <PostBuildEvent />
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">
     <ClCompile>
@@ -227,12 +288,15 @@ REM perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I./O.Common -I$(SolutionD
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist src\O.Common md .\src\O.Common
-REM perl -CSD  $(OutDir)dbdExpand.pl  -I.\src\O.Common -I$(SolutionDir)/dbd -o src\O.Common\motorIms.dbd base.dbd asyn.dbd drvAsynSerialPort.dbd
-REM perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I./O.Common -I$(SolutionDir)/dbd  -o  src\O.Common\LeyboldTurboApp_registerRecordDeviceDriver.cpp .\src\O.Common\LeyboldTurboApp.dbd LeyboldTurboApp_registerRecordDeviceDriver
+      <Command>if not exist O.Common md O.Common
+if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
+perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\LeyboldTurbo_registerRecordDeviceDriver.cpp src\LeyboldTurbo.dbd  LeyboldTurbo_registerRecordDeviceDriver  $(SolutionDir)
 </Command>
     </PreBuildEvent>
     <PostBuildEvent />
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug LIB|x64'">
     <ClCompile>
@@ -249,12 +313,15 @@ REM perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I./O.Common -I$(SolutionD
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist src\O.Common md .\src\O.Common
-REM perl -CSD  $(OutDir)dbdExpand.pl  -I.\src\O.Common -I$(SolutionDir)/dbd -o src\O.Common\motorIms.dbd base.dbd asyn.dbd drvAsynSerialPort.dbd
-REM perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I./O.Common -I$(SolutionDir)/dbd  -o  src\O.Common\LeyboldTurboApp_registerRecordDeviceDriver.cpp .\src\O.Common\LeyboldTurboApp.dbd LeyboldTurboApp_registerRecordDeviceDriver
+      <Command>if not exist O.Common md O.Common
+if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
+perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\LeyboldTurbo_registerRecordDeviceDriver.cpp src\LeyboldTurbo.dbd  LeyboldTurbo_registerRecordDeviceDriver  $(SolutionDir)
 </Command>
     </PreBuildEvent>
     <PostBuildEvent />
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">
     <ClCompile>
@@ -274,12 +341,15 @@ REM perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I./O.Common -I$(SolutionD
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist src\O.Common md .\src\O.Common
-REM perl -CSD  $(OutDir)dbdExpand.pl  -I.\src\O.Common -I$(SolutionDir)/dbd -o src\O.Common\motorIms.dbd base.dbd asyn.dbd drvAsynSerialPort.dbd
-REM perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I./O.Common -I$(SolutionDir)/dbd  -o  src\O.Common\LeyboldTurboApp_registerRecordDeviceDriver.cpp .\src\O.Common\LeyboldTurboApp.dbd LeyboldTurboApp_registerRecordDeviceDriver
+      <Command>if not exist O.Common md O.Common
+if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
+perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\LeyboldTurbo_registerRecordDeviceDriver.cpp src\LeyboldTurbo.dbd  LeyboldTurbo_registerRecordDeviceDriver  $(SolutionDir)
 </Command>
     </PreBuildEvent>
     <PostBuildEvent />
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release DLL|x64'">
     <ClCompile>
@@ -299,12 +369,15 @@ REM perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I./O.Common -I$(SolutionD
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist src\O.Common md .\src\O.Common
-REM perl -CSD  $(OutDir)dbdExpand.pl  -I.\src\O.Common -I$(SolutionDir)/dbd -o src\O.Common\motorIms.dbd base.dbd asyn.dbd drvAsynSerialPort.dbd
-REM perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I./O.Common -I$(SolutionDir)/dbd  -o  src\O.Common\LeyboldTurboApp_registerRecordDeviceDriver.cpp .\src\O.Common\LeyboldTurboApp.dbd LeyboldTurboApp_registerRecordDeviceDriver
+      <Command>if not exist O.Common md O.Common
+if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
+perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\LeyboldTurbo_registerRecordDeviceDriver.cpp src\LeyboldTurbo.dbd  LeyboldTurbo_registerRecordDeviceDriver  $(SolutionDir)
 </Command>
     </PreBuildEvent>
     <PostBuildEvent />
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">
     <ClCompile>
@@ -325,12 +398,15 @@ REM perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I./O.Common -I$(SolutionD
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist src\O.Common md .\src\O.Common
-REM perl -CSD  $(OutDir)dbdExpand.pl  -I.\src\O.Common -I$(SolutionDir)/dbd -o src\O.Common\motorIms.dbd base.dbd asyn.dbd drvAsynSerialPort.dbd
-REM perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I./O.Common -I$(SolutionDir)/dbd  -o  src\O.Common\LeyboldTurboApp_registerRecordDeviceDriver.cpp .\src\O.Common\LeyboldTurboApp.dbd LeyboldTurboApp_registerRecordDeviceDriver
+      <Command>if not exist O.Common md O.Common
+if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
+perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\LeyboldTurbo_registerRecordDeviceDriver.cpp src\LeyboldTurbo.dbd  LeyboldTurbo_registerRecordDeviceDriver  $(SolutionDir)
 </Command>
     </PreBuildEvent>
     <PostBuildEvent />
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release LIB|x64'">
     <ClCompile>
@@ -351,12 +427,15 @@ REM perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I./O.Common -I$(SolutionD
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist src\O.Common md .\src\O.Common
-REM perl -CSD  $(OutDir)dbdExpand.pl  -I.\src\O.Common -I$(SolutionDir)/dbd -o src\O.Common\motorIms.dbd base.dbd asyn.dbd drvAsynSerialPort.dbd
-REM perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I./O.Common -I$(SolutionDir)/dbd  -o  src\O.Common\LeyboldTurboApp_registerRecordDeviceDriver.cpp .\src\O.Common\LeyboldTurboApp.dbd LeyboldTurboApp_registerRecordDeviceDriver
+      <Command>if not exist O.Common md O.Common
+if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
+perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\LeyboldTurbo_registerRecordDeviceDriver.cpp src\LeyboldTurbo.dbd  LeyboldTurbo_registerRecordDeviceDriver  $(SolutionDir)
 </Command>
     </PreBuildEvent>
     <PostBuildEvent />
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
