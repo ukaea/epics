@@ -468,10 +468,8 @@
     <CustomBuild Include="misc\dlload.dbd">
       <Filter>misc</Filter>
     </CustomBuild>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="db\menuPost.dbd">
+    <CustomBuild Include="db\menuPost.dbd">
       <Filter>db</Filter>
-    </None>
+    </CustomBuild>
   </ItemGroup>
 </Project>
