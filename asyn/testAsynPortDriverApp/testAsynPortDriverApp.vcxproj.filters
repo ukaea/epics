@@ -5,6 +5,10 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="O.Common">
+      <UniqueIdentifier>{72689884-7b45-42c9-8bbf-a6d0f3550dc5}</UniqueIdentifier>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\testAsynPortDriver.cpp">
@@ -13,6 +17,9 @@
     <ClCompile Include="src\testAsynPortDriverMain.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="O.Common\testAsynPortDriver_registerRecordDeviceDriver.cpp">
+      <Filter>O.Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\testAsynPortDriver.h">
@@ -20,8 +27,13 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\testAsynPortDriverInclude.dbd">
+    <CustomBuild Include="src\testAsynPortDriverInclude.dbd">
       <Filter>src</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="O.Common\testAsynPortDriverInclude.dbd">
+      <Filter>O.Common</Filter>
     </None>
   </ItemGroup>
 </Project>
