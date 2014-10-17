@@ -1,0 +1,7 @@
+record(ai, "$(P)STATORFREQUENCY")
+{
+    field(DTYP, "asynFloat64")
+	field(INP,  "@asyn($(P),0,1)STATORFREQUENCY")
+	field(SCAN, "5 second")
+	field(PINI, "0")
+}

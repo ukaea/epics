@@ -250,6 +250,7 @@ static asynStatus writeRead(asynUser *pasynUser,
     if(status!=asynSuccess) {
         return status;
     }
+	asynOctet* Octet = pioPvt->pasynOctet;
     status = pioPvt->pasynOctet->flush(pioPvt->octetPvt,pasynUser);
     if(status!=asynSuccess) {
         goto bad;

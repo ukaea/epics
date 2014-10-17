@@ -1,10 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
@@ -17,8 +13,8 @@
       <UniqueIdentifier>{f19b6948-4535-47d5-a8c3-1f537ec15532}</UniqueIdentifier>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
-    <Filter Include="Protocol">
-      <UniqueIdentifier>{61a31272-ca42-4a63-9572-b6b8c85fd699}</UniqueIdentifier>
+    <Filter Include="db">
+      <UniqueIdentifier>{fef0bd38-19ac-4984-803b-3bf69909b6aa}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -27,6 +23,9 @@
     </ClCompile>
     <ClCompile Include="O.Common\LeyboldTurbo_registerRecordDeviceDriver.cpp">
       <Filter>O.Common</Filter>
+    </ClCompile>
+    <ClCompile Include="LeyboldTurboPortDriver.cpp">
+      <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -38,5 +37,13 @@
     <None Include="O.Common\LeyboldTurbo.dbd">
       <Filter>O.Common</Filter>
     </None>
+    <None Include="Db\LeyboldTurbo.db">
+      <Filter>db</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="LeyboldTurboPortDriver.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
