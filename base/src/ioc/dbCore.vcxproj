@@ -47,6 +47,9 @@
     <ProjectReference Include="..\libCom\Com.vcxproj">
       <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
     </ProjectReference>
+    <ProjectReference Include="bpt\makeBpt.vcxproj">
+      <Project>{3d039c8a-8b8d-4408-b1f7-bf1878d50315}</Project>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="as\asCa.c" />
