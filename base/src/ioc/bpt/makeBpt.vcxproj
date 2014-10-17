@@ -263,7 +263,6 @@ cd $(ProjectDir)
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
 xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
 if not exist O.Common md O.Common
 </Command>
     </PreBuildEvent>
@@ -297,7 +296,6 @@ xcopy /Y /Q  /D ..\O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
 xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
 if not exist O.Common md O.Common
 </Command>
     </PreBuildEvent>
@@ -331,7 +329,6 @@ xcopy /Y /Q  /D ..\O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
 xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
 if not exist O.Common md O.Common
 </Command>
     </PreBuildEvent>
@@ -366,7 +363,6 @@ xcopy /Y /Q  /D ..\O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
 xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
 if not exist O.Common md O.Common
 </Command>
     </PreBuildEvent>
@@ -400,7 +396,6 @@ xcopy /Y /Q  /D ..\O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
 xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
 if not exist O.Common md O.Common
 </Command>
     </PreBuildEvent>
@@ -435,7 +430,6 @@ xcopy /Y /Q  /D ..\O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
 xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
 if not exist O.Common md O.Common
 </Command>
     </PreBuildEvent>
@@ -470,7 +464,6 @@ xcopy /Y /Q  /D ..\O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
 xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
 if not exist O.Common md O.Common
 </Command>
     </PreBuildEvent>
@@ -506,7 +499,6 @@ xcopy /Y /Q  /D ..\O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
 xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
 if not exist O.Common md O.Common
 </Command>
     </PreBuildEvent>
