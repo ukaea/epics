@@ -22,7 +22,8 @@
 #include <epicsString.h>
 #include <cantProceed.h>
 
-#include <epicsExport.h>
+#define epicsExportSharedSymbols
+#include <shareLib.h>
 #include "asynEpicsUtils.h"
 
 static asynStatus parseLink(asynUser *pasynUser, DBLINK *plink, 
@@ -86,7 +87,7 @@ static asynStatus parseLink(asynUser *pasynUser, DBLINK *plink,
             p = skipWhite(p,0);
             if(*p) {
                 len = strlen(p);
-                *userParam = mallocMustSucceed(len+1,"asynEpicsUtils:parseLink");	
+                *userParam = mallocMustSucceed(len+1,"asynEpicsUtils:parseLink");
                 strncpy(*userParam,p,len);
                 (*userParam)[len] = 0;
             }
@@ -139,7 +140,7 @@ userParams:
             p = skipWhite(p,0);
             if(userParam&& *p) {
                 len = strlen(p);
-                *userParam = mallocMustSucceed(len+1,"asynEpicsUtils:parseLink");	
+                *userParam = mallocMustSucceed(len+1,"asynEpicsUtils:parseLink");
                 strncpy(*userParam,p,len);
                 (*userParam)[len] = 0;
             }
@@ -221,7 +222,7 @@ userParams:
         p = skipWhite(p,0);
         if(userParam&& *p) {
             len = strlen(p);
-            *userParam = mallocMustSucceed(len+1,"asynEpicsUtils:parseLink");	
+            *userParam = mallocMustSucceed(len+1,"asynEpicsUtils:parseLink");
             strncpy(*userParam,p,len);
             (*userParam)[len] = 0;
         }

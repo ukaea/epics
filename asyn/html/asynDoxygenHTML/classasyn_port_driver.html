@@ -14,7 +14,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
-   <div id="projectname">asyn&#160;<span id="projectnumber">4-22</span></div>
+   <div id="projectname">asyn&#160;<span id="projectnumber">4-24</span></div>
   </td>
  </tr>
  </tbody>
@@ -266,6 +266,8 @@ Public Attributes</h2></td></tr>
 Protected Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">asynUser *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classasyn_port_driver.html#a3d701fd7f49ab07da6c5edf3429cdfe5">pasynUserSelf</a></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">asynUser connected to ourselves for asynTrace  <a href="#a3d701fd7f49ab07da6c5edf3429cdfe5"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">asynStandardInterfaces&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classasyn_port_driver.html#a0acc0a49b9d762bdbd7d42af5dbea5ef">asynStdInterfaces</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">The asyn interfaces this driver implements.  <a href="#a0acc0a49b9d762bdbd7d42af5dbea5ef"></a><br/></td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>Base class for asyn port drivers; handles most of the bookkeeping for writing an asyn port driver with standard asyn interfaces and a parameter library. </p>
@@ -3035,7 +3037,7 @@ Protected Attributes</h2></td></tr>
 <div class="memdoc">
 
 <p>Sets the value for a double in the parameter library. </p>
-<p>Calls <a class="el" href="classparam_list.html#aed59a600ba343770822085fb3de600e7" title="Sets the value for a double in the parameter library.">paramList::setDouble</a> (index, value) for the parameter list indexed by list. </p>
+<p>Calls <a class="el" href="classparam_list.html#afefeefad32cbcb03592d3531be974d29" title="Sets the value for a double in the parameter library.">paramList::setDouble</a> (index, value) for the parameter list indexed by list. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The parameter list number. Must be &lt; maxAddr passed to <a class="el" href="classasyn_port_driver.html#acf77e873fc4fdbd8d07154ef80dc38b8" title="Constructor for the asynPortDriver class.">asynPortDriver::asynPortDriver</a>. </td></tr>
@@ -3123,7 +3125,7 @@ Protected Attributes</h2></td></tr>
 <div class="memdoc">
 
 <p>Sets the value for an integer in the parameter library. </p>
-<p>Calls <a class="el" href="classparam_list.html#aa3ab7a939102b185816f95711cfb55f6" title="Sets the value for an integer in the parameter library.">paramList::setInteger</a> (index, value) for the parameter list indexed by list. </p>
+<p>Calls <a class="el" href="classparam_list.html#ac9b677e6f1c3f74e83fb76ffc70b3be3" title="Sets the value for an integer in the parameter library.">paramList::setInteger</a> (index, value) for the parameter list indexed by list. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The parameter list number. Must be &lt; maxAddr passed to <a class="el" href="classasyn_port_driver.html#acf77e873fc4fdbd8d07154ef80dc38b8" title="Constructor for the asynPortDriver class.">asynPortDriver::asynPortDriver</a>. </td></tr>
@@ -3680,7 +3682,7 @@ Protected Attributes</h2></td></tr>
 <div class="memdoc">
 
 <p>Sets the value for a UInt32Digital in the parameter library. </p>
-<p>Calls <a class="el" href="classparam_list.html#aa3ab7a939102b185816f95711cfb55f6" title="Sets the value for an integer in the parameter library.">paramList::setInteger</a> (index, value) for the parameter list indexed by list. </p>
+<p>Calls <a class="el" href="classparam_list.html#ac9b677e6f1c3f74e83fb76ffc70b3be3" title="Sets the value for an integer in the parameter library.">paramList::setInteger</a> (index, value) for the parameter list indexed by list. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The parameter list number. Must be &lt; maxAddr passed to <a class="el" href="classasyn_port_driver.html#acf77e873fc4fdbd8d07154ef80dc38b8" title="Constructor for the asynPortDriver class.">asynPortDriver::asynPortDriver</a>. </td></tr>
@@ -4341,6 +4343,21 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <hr/><h2>Member Data Documentation</h2>
+<a class="anchor" id="a0acc0a49b9d762bdbd7d42af5dbea5ef"></a><!-- doxytag: member="asynPortDriver::asynStdInterfaces" ref="a0acc0a49b9d762bdbd7d42af5dbea5ef" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">asynStandardInterfaces <a class="el" href="classasyn_port_driver.html#a0acc0a49b9d762bdbd7d42af5dbea5ef">asynPortDriver::asynStdInterfaces</a><code> [protected]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>The asyn interfaces this driver implements. </p>
+
+</div>
+</div>
 <a class="anchor" id="a0d13d8094512a71769a7d71b83d324cc"></a><!-- doxytag: member="asynPortDriver::maxAddr" ref="a0d13d8094512a71769a7d71b83d324cc" args="" -->
 <div class="memitem">
 <div class="memproto">
@@ -4387,11 +4404,11 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>/home/epics/devel/asynR4-22/asyn/asynPortDriver/<a class="el" href="asyn_port_driver_8h_source.html">asynPortDriver.h</a></li>
-<li>/home/epics/devel/asynR4-22/asyn/asynPortDriver/<a class="el" href="asyn_port_driver_8cpp.html">asynPortDriver.cpp</a></li>
+<li>/home/epics/devel/asynR4-24/asyn/asynPortDriver/<a class="el" href="asyn_port_driver_8h_source.html">asynPortDriver.h</a></li>
+<li>/home/epics/devel/asynR4-24/asyn/asynPortDriver/<a class="el" href="asyn_port_driver_8cpp.html">asynPortDriver.cpp</a></li>
 </ul>
 </div>
-<hr class="footer"/><address class="footer"><small>Generated on Wed Oct 30 2013 for asyn by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Tue Oct 14 2014 for asyn by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>

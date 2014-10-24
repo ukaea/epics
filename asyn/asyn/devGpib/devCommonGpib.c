@@ -32,7 +32,6 @@
 #include <link.h>
 #include <errlog.h>
 #include <menuFtype.h>
-#include <shareLib.h>
 
 #define epicsExportSharedSymbols
 #include <shareLib.h>

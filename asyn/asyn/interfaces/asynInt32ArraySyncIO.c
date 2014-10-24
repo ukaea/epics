@@ -24,7 +24,6 @@
 #include "asynDriver.h"
 #include "asynInt32Array.h"
 #include "asynDrvUser.h"
-#include "drvAsynIPPort.h"
 #include "asynInt32ArraySyncIO.h"
 
 typedef struct ioPvt{

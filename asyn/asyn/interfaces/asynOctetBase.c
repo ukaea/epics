@@ -19,7 +19,6 @@
 #include <epicsAssert.h>
 #include <epicsStdio.h>
 #include <epicsString.h>
-
 #include <epicsTypes.h>
 
 #define epicsExportSharedSymbols
