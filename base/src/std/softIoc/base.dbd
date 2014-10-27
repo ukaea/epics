@@ -4,7 +4,6 @@
 # provided by Base and (usually) loaded into all IOCs.
 
 # Menus
-include "menuGlobal.dbd"
 include "menuConvert.dbd"
 
 # Record types
