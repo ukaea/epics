@@ -9,11 +9,20 @@
     <CustomBuild Include="bptTypeKdegC.data" />
     <CustomBuild Include="bptTypeKdegF.data" />
     <CustomBuild Include="menuConvert.dbd.pod" />
+    <CustomBuild Include="O.Common\menuConvert.dbd">
+      <Filter>O.Common</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cvtTable.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="makeBpt.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="O.Common">
+      <UniqueIdentifier>{61719ff0-5b83-48b1-a92e-46fd8ae5afee}</UniqueIdentifier>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
   </ItemGroup>
 </Project>

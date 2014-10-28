@@ -156,7 +156,16 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="osi\os\default\osdAssert.c" />
-    <ClCompile Include="osi\os\default\osdBackTrace.cpp" />
+    <ClCompile Include="osi\os\default\osdBackTrace.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="osi\os\default\osdEnv.c" />
     <ClCompile Include="osi\os\default\osdFindAddr.c" />
     <ClCompile Include="osi\os\default\osdInterrupt.c" />
@@ -732,9 +741,17 @@ xcopy /Y /Q /D /R log\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R yajl\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R pool\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R osi\os\default\*.h $(SolutionDir)include\os\WIN32 &gt; NUL
+
+REM required by bldEnvData.pl
+xcopy /Y /Q /D /R ..\ca\legacy\gdd\*.h $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R ..\ca\legacy\pcas\generic\*.h $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R ..\ioc\db\*.h $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R ..\ioc\dbStatic\*.h $(SolutionDir)include &gt; NUL
+
 REM conflict with osi\os\WIN32 header file versions.
 del  $(SolutionDir)include\os\WIN32\osdWireConfig.h
 del  $(SolutionDir)include\os\WIN32\epicsGetopt.h
+
 xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
 xcopy /Y /Q /D /R osi\compiler\msvc\*.h  $(SolutionDir)include\compiler\msvc\ &gt; NUL
 </Command>
@@ -793,9 +810,17 @@ xcopy /Y /Q /D /R log\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R yajl\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R pool\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R osi\os\default\*.h $(SolutionDir)include\os\WIN32 &gt; NUL
+
+REM required by bldEnvData.pl
+xcopy /Y /Q /D /R ..\ca\legacy\gdd\*.h $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R ..\ca\legacy\pcas\generic\*.h $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R ..\ioc\db\*.h $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R ..\ioc\dbStatic\*.h $(SolutionDir)include &gt; NUL
+
 REM conflict with osi\os\WIN32 header file versions.
 del  $(SolutionDir)include\os\WIN32\osdWireConfig.h
 del  $(SolutionDir)include\os\WIN32\epicsGetopt.h
+
 xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
 xcopy /Y /Q /D /R osi\compiler\msvc\*.h  $(SolutionDir)include\compiler\msvc\ &gt; NUL
 </Command>
@@ -858,9 +883,17 @@ xcopy /Y /Q /D /R log\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R yajl\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R pool\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R osi\os\default\*.h $(SolutionDir)include\os\WIN32 &gt; NUL
+
+REM required by bldEnvData.pl
+xcopy /Y /Q /D /R ..\ca\legacy\gdd\*.h $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R ..\ca\legacy\pcas\generic\*.h $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R ..\ioc\db\*.h $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R ..\ioc\dbStatic\*.h $(SolutionDir)include &gt; NUL
+
 REM conflict with osi\os\WIN32 header file versions.
 del  $(SolutionDir)include\os\WIN32\osdWireConfig.h
 del  $(SolutionDir)include\os\WIN32\epicsGetopt.h
+
 xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
 xcopy /Y /Q /D /R osi\compiler\msvc\*.h  $(SolutionDir)include\compiler\msvc\ &gt; NUL
 </Command>
@@ -919,9 +952,17 @@ xcopy /Y /Q /D /R log\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R yajl\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R pool\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R osi\os\default\*.h $(SolutionDir)include\os\WIN32 &gt; NUL
+
+REM required by bldEnvData.pl
+xcopy /Y /Q /D /R ..\ca\legacy\gdd\*.h $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R ..\ca\legacy\pcas\generic\*.h $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R ..\ioc\db\*.h $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R ..\ioc\dbStatic\*.h $(SolutionDir)include &gt; NUL
+
 REM conflict with osi\os\WIN32 header file versions.
 del  $(SolutionDir)include\os\WIN32\osdWireConfig.h
 del  $(SolutionDir)include\os\WIN32\epicsGetopt.h
+
 xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
 xcopy /Y /Q /D /R osi\compiler\msvc\*.h  $(SolutionDir)include\compiler\msvc\ &gt; NUL
 </Command>
@@ -980,9 +1021,17 @@ xcopy /Y /Q /D /R log\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R yajl\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R pool\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R osi\os\default\*.h $(SolutionDir)include\os\WIN32 &gt; NUL
+
+REM required by bldEnvData.pl
+xcopy /Y /Q /D /R ..\ca\legacy\gdd\*.h $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R ..\ca\legacy\pcas\generic\*.h $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R ..\ioc\db\*.h $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R ..\ioc\dbStatic\*.h $(SolutionDir)include &gt; NUL
+
 REM conflict with osi\os\WIN32 header file versions.
 del  $(SolutionDir)include\os\WIN32\osdWireConfig.h
 del  $(SolutionDir)include\os\WIN32\epicsGetopt.h
+
 xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
 xcopy /Y /Q /D /R osi\compiler\msvc\*.h  $(SolutionDir)include\compiler\msvc\ &gt; NUL
 </Command>
@@ -1038,9 +1087,17 @@ xcopy /Y /Q /D /R log\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R yajl\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R pool\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R osi\os\default\*.h $(SolutionDir)include\os\WIN32 &gt; NUL
+
+REM required by bldEnvData.pl
+xcopy /Y /Q /D /R ..\ca\legacy\gdd\*.h $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R ..\ca\legacy\pcas\generic\*.h $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R ..\ioc\db\*.h $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R ..\ioc\dbStatic\*.h $(SolutionDir)include &gt; NUL
+
 REM conflict with osi\os\WIN32 header file versions.
 del  $(SolutionDir)include\os\WIN32\osdWireConfig.h
 del  $(SolutionDir)include\os\WIN32\epicsGetopt.h
+
 xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
 xcopy /Y /Q /D /R osi\compiler\msvc\*.h  $(SolutionDir)include\compiler\msvc\ &gt; NUL
 </Command>
@@ -1099,9 +1156,17 @@ xcopy /Y /Q /D /R log\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R yajl\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R pool\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R osi\os\default\*.h $(SolutionDir)include\os\WIN32 &gt; NUL
+
+REM required by bldEnvData.pl
+xcopy /Y /Q /D /R ..\ca\legacy\gdd\*.h $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R ..\ca\legacy\pcas\generic\*.h $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R ..\ioc\db\*.h $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R ..\ioc\dbStatic\*.h $(SolutionDir)include &gt; NUL
+
 REM conflict with osi\os\WIN32 header file versions.
 del  $(SolutionDir)include\os\WIN32\osdWireConfig.h
 del  $(SolutionDir)include\os\WIN32\epicsGetopt.h
+
 xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
 xcopy /Y /Q /D /R osi\compiler\msvc\*.h  $(SolutionDir)include\compiler\msvc\ &gt; NUL
 </Command>
@@ -1157,9 +1222,17 @@ xcopy /Y /Q /D /R log\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R yajl\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R pool\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R osi\os\default\*.h $(SolutionDir)include\os\WIN32 &gt; NUL
+
+REM required by bldEnvData.pl
+xcopy /Y /Q /D /R ..\ca\legacy\gdd\*.h $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R ..\ca\legacy\pcas\generic\*.h $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R ..\ioc\db\*.h $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R ..\ioc\dbStatic\*.h $(SolutionDir)include &gt; NUL
+
 REM conflict with osi\os\WIN32 header file versions.
 del  $(SolutionDir)include\os\WIN32\osdWireConfig.h
 del  $(SolutionDir)include\os\WIN32\epicsGetopt.h
+
 xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
 xcopy /Y /Q /D /R osi\compiler\msvc\*.h  $(SolutionDir)include\compiler\msvc\ &gt; NUL
 </Command>

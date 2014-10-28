@@ -275,8 +275,15 @@
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
 xcopy /Y /Q  /D /R *.h $(SolutionDir)include &gt; NUL
+attrib -r $(OutDir)ca.lib
+attrib -r $(OutDir)ca.exp
 </Command>
     </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>attrib +r $(OutDir)ca.lib
+attrib +r $(OutDir)ca.exp
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">
     <ClCompile>
