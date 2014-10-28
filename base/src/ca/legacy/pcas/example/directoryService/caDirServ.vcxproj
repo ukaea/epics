@@ -42,7 +42,7 @@
     <ClCompile Include="main.cc" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\client\ca.vcxproj">
+    <ProjectReference Include="..\..\..\..\client\ca.vcxproj">
       <Project>{02caf068-a7fc-463e-aa7e-72eeaf665826}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\gdd\gdd.vcxproj">
