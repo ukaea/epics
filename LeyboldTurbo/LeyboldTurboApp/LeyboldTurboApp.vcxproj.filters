@@ -24,7 +24,7 @@
     <ClCompile Include="O.Common\LeyboldTurbo_registerRecordDeviceDriver.cpp">
       <Filter>O.Common</Filter>
     </ClCompile>
-    <ClCompile Include="LeyboldTurboPortDriver.cpp">
+    <ClCompile Include="src\LeyboldTurboPortDriver.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -42,7 +42,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="LeyboldTurboPortDriver.h">
+    <ClInclude Include="src\LeyboldTurboPortDriver.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
