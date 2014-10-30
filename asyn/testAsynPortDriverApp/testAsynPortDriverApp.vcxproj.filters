@@ -32,7 +32,7 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <None Include="O.Common\testAsynPortDriverInclude.dbd">
+    <None Include="O.Common\TestAsynPortDriver.dbd">
       <Filter>O.Common</Filter>
     </None>
   </ItemGroup>

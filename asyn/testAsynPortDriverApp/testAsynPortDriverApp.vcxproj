@@ -60,49 +60,49 @@
     <CustomBuild Include="src\testAsynPortDriverInclude.dbd">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">cd src
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).dbd %(FileName).dbd
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/TestAsynPortDriver.dbd %(FileName).dbd
 cd $(ProjectDir)
 </Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">O.Common/%(FileName).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">../O.Common/testAsynPortDriver.dbd</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">cd src
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).dbd %(FileName).dbd
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/TestAsynPortDriver.dbd %(FileName).dbd
 cd $(ProjectDir)
 </Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">O.Common/%(FileName).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">../O.Common/testAsynPortDriver.dbd</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">cd src
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).dbd %(FileName).dbd
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/TestAsynPortDriver.dbd %(FileName).dbd
 cd $(ProjectDir)
 </Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">O.Common/%(FileName).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">../O.Common/testAsynPortDriver.dbd</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">cd src
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).dbd %(FileName).dbd
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/TestAsynPortDriver.dbd %(FileName).dbd
 cd $(ProjectDir)
 </Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">O.Common/%(FileName).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">../O.Common/testAsynPortDriver.dbd</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|x64'">cd src
 perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).dbd %(FileName).dbd
 cd $(ProjectDir)
 </Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|x64'">O.Common/%(FileName).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|x64'">../O.Common/testAsynPortDriver.dbd</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|x64'">cd src
 perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).dbd %(FileName).dbd
 cd $(ProjectDir)
 </Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|x64'">O.Common/%(FileName).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|x64'">../O.Common/testAsynPortDriver.dbd</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|x64'">cd src
 perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).dbd %(FileName).dbd
 cd $(ProjectDir)
 </Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|x64'">O.Common/%(FileName).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|x64'">../O.Common/testAsynPortDriver.dbd</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|x64'">cd src
 perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).dbd %(FileName).dbd
 cd $(ProjectDir)
 </Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|x64'">O.Common/%(FileName).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|x64'">../O.Common/testAsynPortDriver.dbd</Outputs>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <None Include="O.Common\testAsynPortDriverInclude.dbd" />
+    <None Include="O.Common\TestAsynPortDriver.dbd" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{D3D208B5-C4FB-45BB-9144-8CE0B372C788}</ProjectGuid>
@@ -257,6 +257,7 @@ cd $(ProjectDir)
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd   -o O.Common\testAsynPortDriver_registerRecordDeviceDriver.cpp src\testAsynPortDriverInclude.dbd testAsynPortDriver_registerRecordDeviceDriver  $(SolutionDir)
+xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -277,6 +278,7 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd   -o O.Com
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd   -o O.Common\testAsynPortDriver_registerRecordDeviceDriver.cpp src\testAsynPortDriverInclude.dbd testAsynPortDriver_registerRecordDeviceDriver  $(SolutionDir)
+xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -297,6 +299,7 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd   -o O.Com
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd   -o O.Common\testAsynPortDriver_registerRecordDeviceDriver.cpp src\testAsynPortDriverInclude.dbd testAsynPortDriver_registerRecordDeviceDriver  $(SolutionDir)
+xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -317,6 +320,7 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd   -o O.Com
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd   -o O.Common\testAsynPortDriver_registerRecordDeviceDriver.cpp src\testAsynPortDriverInclude.dbd testAsynPortDriver_registerRecordDeviceDriver  $(SolutionDir)
+xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -340,6 +344,7 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd   -o O.Com
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd   -o O.Common\testAsynPortDriver_registerRecordDeviceDriver.cpp src\testAsynPortDriverInclude.dbd testAsynPortDriver_registerRecordDeviceDriver  $(SolutionDir)
+xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -363,6 +368,7 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd   -o O.Com
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd   -o O.Common\testAsynPortDriver_registerRecordDeviceDriver.cpp src\testAsynPortDriverInclude.dbd testAsynPortDriver_registerRecordDeviceDriver  $(SolutionDir)
+xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -387,6 +393,7 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd   -o O.Com
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd   -o O.Common\testAsynPortDriver_registerRecordDeviceDriver.cpp src\testAsynPortDriverInclude.dbd testAsynPortDriver_registerRecordDeviceDriver  $(SolutionDir)
+xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -411,6 +418,7 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd   -o O.Com
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd   -o O.Common\testAsynPortDriver_registerRecordDeviceDriver.cpp src\testAsynPortDriverInclude.dbd testAsynPortDriver_registerRecordDeviceDriver  $(SolutionDir)
+xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
