@@ -11,8 +11,8 @@ epicsEnvSet ASYNPORT TURBO:$(INDEX)
 epicsEnvSet IOPORT PUMP:$(INDEX)
 
 # Configure asyn communication port, first
-LeyboldTurboPortDriverConfigure($(ASYNPORT))
 drvAsynSerialPortConfigure($(IOPORT), $(COMPORT), 0, 0, 0)
+LeyboldTurboPortDriverConfigure($(ASYNPORT), $(IOPORT))
 
 ## Load record instances
 dbLoadRecords("db/LeyboldTurbo.db", "P=$(ASYNPORT):,PORT=$(ASYNPORT)")
