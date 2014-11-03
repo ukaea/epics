@@ -11,11 +11,12 @@ epicsEnvSet ASYNPORT TURBO:$(INDEX)
 epicsEnvSet IOPORT PUMP:$(INDEX)
 
 # Configure asyn communication port, first
+LeyboldTurboPortDriverConfigure($(ASYNPORT))
 drvAsynSerialPortConfigure($(IOPORT), $(COMPORT), 0, 0, 0)
 
 ## Load record instances
-dbLoadRecords("db/LeyboldTurbo.db", "P=$(IOPORT):,PORT=$(IOPORT)")
-dbLoadRecords("../../asyn/db/asynRecord.db","P=$(IOPORT):,R=asyn1,PORT=$(IOPORT),ADDR=0,OMAX=80,IMAX=80")
+dbLoadRecords("db/LeyboldTurbo.db", "P=$(ASYNPORT):,PORT=$(ASYNPORT)")
+dbLoadRecords("../../asyn/asyn/asynRecord/asynRecord.db","P=$(ASYNPORT):,R=asyn,PORT=$(ASYNPORT),ADDR=0,OMAX=80,IMAX=80")
 
 asynSetOption ($(IOPORT), 0, "baud", "19200")
 asynSetOption ($(IOPORT), 0, "bits", "8")
@@ -23,8 +24,6 @@ asynSetOption ($(IOPORT), 0, "parity", "even")
 asynSetOption ($(IOPORT), 0, "stop", "1")
 asynSetOption($(IOPORT), -1, "clocal", "Y")
 asynSetOption($(IOPORT), -1, "crtscts", "N")
-
-LeyboldTurboPortDriverConfigure($(ASYNPORT), $(IOPORT))
 
 iocInit
 
