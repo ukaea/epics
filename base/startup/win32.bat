@@ -116,7 +116,6 @@ set PATH=%PATH%;%~dp0..\..\seq\bin\%EPICS_HOST_ARCH%
 set PATH=%PATH%;%~dp0..\..\busy\bin\%EPICS_HOST_ARCH%
 set PATH=%PATH%;%~dp0..\..\motor\bin\%EPICS_HOST_ARCH%
 set PATH=%PATH%;%~dp0..\..\LeyboldTurbo\bin\%EPICS_HOST_ARCH%
-set EPICS_ROOT=C:\EPICS
 
 REM ======================================================
 REM ------- OPTIONAL ENVIRONMENT VARIABLES FOLLOW --------
