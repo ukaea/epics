@@ -78,7 +78,7 @@ static const int NUM_PARAMS = sizeof(ParameterDefns) / sizeof(ParameterDefn);
   * Calls constructor for the asynPortDriver base class.
   * \param[in] portName The name of the asyn port driver to be created.
   * \param[in] maxPoints The maximum  number of points in the volt and time arrays */
-CLeyboldTurboPortDriver::CLeyboldTurboPortDriver(const char *AsynPortName) 
+CLeyboldTurboPortDriver::CLeyboldTurboPortDriver(const char *AsynPortName, const char* IOPortName) 
    : asynPortDriver(AsynPortName, 
                     1, /* maxAddr */ 
                     NUM_PARAMS,
@@ -89,10 +89,17 @@ CLeyboldTurboPortDriver::CLeyboldTurboPortDriver(const char *AsynPortName)
                     0, /* Default priority */
                     0) /* Default stack size*/    
 {
+    static const char *functionName = "CLeyboldTurboPortDriver";
+	asynStatus status = pasynOctetSyncIO->connect(IOPortName, 0, &m_AsynUser, NULL);
+	if (status != asynSuccess) {
+		printf("\n\n%s:%s: connecting to IO port=%s\n\n", driverName, functionName, IOPortName);
+		// TODO would be good to implement exceptions
+		// TODO THROW_(SmarActMCSException(MCSConnectionError, "SmarActMCSController: unable to connect serial channel"));
+	}
 	for (size_t ParamIndex = 0; ParamIndex < NUM_PARAMS; ParamIndex++)
 	{
 		int Index;
-		asynStatus status = createParam(ParameterDefns[ParamIndex].ParamName, ParameterDefns[ParamIndex].ParamType, &Index);
+		status = createParam(ParameterDefns[ParamIndex].ParamName, ParameterDefns[ParamIndex].ParamType, &Index);
 		m_Parameters[ParameterDefns[ParamIndex].ParamName] = Index;
 		switch(ParameterDefns[ParamIndex].ParamType)
 		{
@@ -116,14 +123,14 @@ asynStatus CLeyboldTurboPortDriver::readFloat64(asynUser *pasynUser, epicsFloat6
     getParamName(function, &paramName);
 
 	USSPacket USSWritePacket, USSReadPacket;
-	assert(sizeof(USSPacket)==24);
+	STATIC_ASSERT(sizeof(USSPacket)==24);
 	size_t nbytesOut, nbytesIn;
 	int eomReason;
 	asynStatus status = asynSuccess;
 
 	if (strcmp(paramName, STATORFREQUENCY)==0)
 	{
-		status = pasynOctetSyncIO->writeRead(pasynUser,
+		status = pasynOctetSyncIO->writeRead(m_AsynUser,
 			reinterpret_cast<const char*>(&USSWritePacket), sizeof(USSPacket), 
 			reinterpret_cast<char*>(&USSReadPacket), sizeof(USSPacket),
 			2, &nbytesOut, &nbytesIn, &eomReason);
@@ -135,8 +142,9 @@ asynStatus CLeyboldTurboPortDriver::readFloat64(asynUser *pasynUser, epicsFloat6
 }
 
 static const iocshArg initArg0 = { "asynPortName", iocshArgString};
-static const iocshArg * const initArgs[] = {&initArg0};
-static const iocshFuncDef initFuncDef = {"LeyboldTurboPortDriverConfigure",1,initArgs};
+static const iocshArg initArg1 = { "IOPortName", iocshArgString};
+static const iocshArg * const initArgs[] = {&initArg0, &initArg1};
+static const iocshFuncDef initFuncDef = {"LeyboldTurboPortDriverConfigure",2,initArgs};
 
 void LeyboldTurboExitFunc(void * param)
 {
@@ -146,9 +154,9 @@ void LeyboldTurboExitFunc(void * param)
 
 /** EPICS iocsh callable function to call constructor for the testAsynPortDriver class.
   * \param[in] portName The name of the asyn port driver to be created.*/
-int LeyboldTurboPortDriverConfigure(const char *asynPortName)
+int LeyboldTurboPortDriverConfigure(const char *asynPortName, const char* IOPortName)
 {
-	CLeyboldTurboPortDriver* LeyboldTurboPortDriver = new CLeyboldTurboPortDriver(asynPortName);
+	CLeyboldTurboPortDriver* LeyboldTurboPortDriver = new CLeyboldTurboPortDriver(asynPortName, IOPortName);
 	epicsAtExit(LeyboldTurboExitFunc, LeyboldTurboPortDriver);
     return(asynSuccess);
 }
@@ -156,7 +164,8 @@ int LeyboldTurboPortDriverConfigure(const char *asynPortName)
 static void initCallFunc(const iocshArgBuf *args)
 {
 	const char* asynPortName = args[0].sval;
-	LeyboldTurboPortDriverConfigure(asynPortName);
+	const char* IOPortName = args[1].sval;
+	LeyboldTurboPortDriverConfigure(asynPortName, IOPortName);
 }
 
 static void LeyboldTurboRegistrar(void)
