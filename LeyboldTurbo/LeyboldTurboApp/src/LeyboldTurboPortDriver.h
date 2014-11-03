@@ -8,7 +8,7 @@
 
 class CLeyboldTurboPortDriver : public asynPortDriver {
 public:
-    CLeyboldTurboPortDriver(const char *AsynPortName, const char *IOPortName);
+    CLeyboldTurboPortDriver(const char *AsynPortName);
     ~CLeyboldTurboPortDriver();
     virtual asynStatus readFloat64(asynUser *pasynUser, epicsFloat64 *value);
                  
@@ -21,7 +21,6 @@ public:
 protected:
     /** Values used for pasynUser->reason, and indexes into the parameter library. */
 	std::map<std::string, int> m_Parameters;
-    asynUser* m_asynUser; 
 
 private:
     /* Our data */

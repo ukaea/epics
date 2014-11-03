@@ -66,29 +66,30 @@ struct ParameterDefn
 	asynParamType ParamType;
 };
 
-const char* StatorFrequency = "StatorFrequency";
+const char* STATORFREQUENCY = "STATORFREQUENCY";
 ParameterDefn ParameterDefns[] =
 {
-	{StatorFrequency, asynParamFloat64}
+	{STATORFREQUENCY, asynParamFloat64}
 };
 
+static const int NUM_PARAMS = sizeof(ParameterDefns) / sizeof(ParameterDefn);
 
 /** Constructor for the testAsynPortDriver class.
   * Calls constructor for the asynPortDriver base class.
   * \param[in] portName The name of the asyn port driver to be created.
   * \param[in] maxPoints The maximum  number of points in the volt and time arrays */
-CLeyboldTurboPortDriver::CLeyboldTurboPortDriver(const char *AsynPortName, const char *IOPortName) 
+CLeyboldTurboPortDriver::CLeyboldTurboPortDriver(const char *AsynPortName) 
    : asynPortDriver(AsynPortName, 
                     1, /* maxAddr */ 
-                    sizeof(ParameterDefns) / sizeof(ParameterDefn),
+                    NUM_PARAMS,
                     asynInt8ArrayMask | asynInt32Mask | asynFloat64Mask | asynFloat64ArrayMask | asynEnumMask | asynDrvUserMask, /* Interface mask */
                     asynInt8ArrayMask | asynInt32Mask | asynFloat64Mask | asynFloat64ArrayMask | asynEnumMask,  /* Interrupt mask */
-                    ASYN_CANBLOCK, /* asynFlags.  This driver does not block and it is not multi-device, so flag is 0 */
+                    0, /* asynFlags.  This driver does not block and it is not multi-device, so flag is 0 */
                     1, /* Autoconnect */
                     0, /* Default priority */
                     0) /* Default stack size*/    
 {
-	for (size_t ParamIndex = 0; ParamIndex < sizeof(ParameterDefns) / sizeof(ParameterDefn); ParamIndex++)
+	for (size_t ParamIndex = 0; ParamIndex < NUM_PARAMS; ParamIndex++)
 	{
 		int Index;
 		asynStatus status = createParam(ParameterDefns[ParamIndex].ParamName, ParameterDefns[ParamIndex].ParamType, &Index);
@@ -99,13 +100,10 @@ CLeyboldTurboPortDriver::CLeyboldTurboPortDriver(const char *AsynPortName, const
 			default: assert(false);
 		}
 	}
-	m_asynUser = NULL;
-	asynStatus status = pasynOctetSyncIO->connect(IOPortName, 0, &m_asynUser, NULL);
 }
 
 CLeyboldTurboPortDriver::~CLeyboldTurboPortDriver()
 {
-    asynStatus status = pasynManager->freeAsynUser(m_asynUser);
 }
 
 asynStatus CLeyboldTurboPortDriver::readFloat64(asynUser *pasynUser, epicsFloat64 *value)
@@ -123,7 +121,7 @@ asynStatus CLeyboldTurboPortDriver::readFloat64(asynUser *pasynUser, epicsFloat6
 	int eomReason;
 	asynStatus status = asynSuccess;
 
-	if (strcmp(paramName, StatorFrequency)==0)
+	if (strcmp(paramName, STATORFREQUENCY)==0)
 	{
 		status = pasynOctetSyncIO->writeRead(pasynUser,
 			reinterpret_cast<const char*>(&USSWritePacket), sizeof(USSPacket), 
@@ -137,9 +135,8 @@ asynStatus CLeyboldTurboPortDriver::readFloat64(asynUser *pasynUser, epicsFloat6
 }
 
 static const iocshArg initArg0 = { "asynPortName", iocshArgString};
-static const iocshArg initArg1 = { "IOPortName", iocshArgString};
-static const iocshArg * const initArgs[] = {&initArg0, &initArg1};
-static const iocshFuncDef initFuncDef = {"LeyboldTurboPortDriverConfigure",2,initArgs};
+static const iocshArg * const initArgs[] = {&initArg0};
+static const iocshFuncDef initFuncDef = {"LeyboldTurboPortDriverConfigure",1,initArgs};
 
 void LeyboldTurboExitFunc(void * param)
 {
@@ -149,9 +146,9 @@ void LeyboldTurboExitFunc(void * param)
 
 /** EPICS iocsh callable function to call constructor for the testAsynPortDriver class.
   * \param[in] portName The name of the asyn port driver to be created.*/
-int LeyboldTurboPortDriverConfigure(const char *asynPortName, const char* IOPortName)
+int LeyboldTurboPortDriverConfigure(const char *asynPortName)
 {
-	CLeyboldTurboPortDriver* LeyboldTurboPortDriver = new CLeyboldTurboPortDriver(asynPortName, IOPortName);
+	CLeyboldTurboPortDriver* LeyboldTurboPortDriver = new CLeyboldTurboPortDriver(asynPortName);
 	epicsAtExit(LeyboldTurboExitFunc, LeyboldTurboPortDriver);
     return(asynSuccess);
 }
@@ -159,8 +156,7 @@ int LeyboldTurboPortDriverConfigure(const char *asynPortName, const char* IOPort
 static void initCallFunc(const iocshArgBuf *args)
 {
 	const char* asynPortName = args[0].sval;
-	const char* IOPortName = args[1].sval;
-	LeyboldTurboPortDriverConfigure(asynPortName, IOPortName);
+	LeyboldTurboPortDriverConfigure(asynPortName);
 }
 
 static void LeyboldTurboRegistrar(void)

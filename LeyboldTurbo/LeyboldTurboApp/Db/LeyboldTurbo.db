@@ -3,5 +3,5 @@ record(ai, "$(P)StatorFrequency")
     field(DTYP, "asynFloat64")
 	field(INP,  "@asyn($(PORT),0,1)STATORFREQUENCY")
 	field(SCAN, "5 second")
-	field(PINI, "0")
+	field(PINI, "1")
 }
