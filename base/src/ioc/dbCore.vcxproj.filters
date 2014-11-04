@@ -471,8 +471,5 @@
     <CustomBuild Include="db\menuPost.dbd">
       <Filter>db</Filter>
     </CustomBuild>
-    <CustomBuild Include="O.Common\menuConvert.dbd">
-      <Filter>O.Common</Filter>
-    </CustomBuild>
   </ItemGroup>
 </Project>
