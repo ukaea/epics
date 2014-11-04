@@ -12,6 +12,7 @@ public:
     CLeyboldTurboPortDriver(const char *AsynPortName, const char* IOPortName);
     ~CLeyboldTurboPortDriver();
     virtual asynStatus readFloat64(asynUser *pasynUser, epicsFloat64 *value);
+    virtual asynStatus writeUInt32Digital(asynUser *pasynUser, epicsUInt32 value, epicsUInt32 mask);
                  
     /* These are the methods that we override from asynPortDriver
     virtual asynStatus writeInt8Array(asynUser *pasynUser, epicsInt8 *value,

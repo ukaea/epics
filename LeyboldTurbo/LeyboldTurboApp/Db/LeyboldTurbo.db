@@ -1,8 +1,26 @@
+record(bi, "$(P)Fault")
+{
+	field(DTYP, "asynUInt32Digital")
+	field(INP,  "@asynMask($(PORT),0,1,1)FAULT")
+}
+
+record(bi, "$(P)WarningTemperature")
+{
+    field(DTYP, "asynUInt32Digital")
+	field(INP,  "@asynMask($(PORT),0,1,1)WARNINGTEMPERATURE")
+}
+
+record(bi, "$(P)WarningHighLoad")
+{
+    field(DTYP, "asynUInt32Digital")
+	field(INP,  "@asynMask($(PORT),0,1,1)WARNINGHIGHLOAD")
+}
+
 record(ai, "$(P)StatorFrequency")
 {
     field(DTYP, "asynFloat64")
 	field(INP,  "@asyn($(PORT),0,1)STATORFREQUENCY")
-#	field(SCAN, "5 second")
+	field(SCAN, "5 second")
 	field(PINI, "1")
 }
 
@@ -28,10 +46,4 @@ record(ai, "$(P)CircuitVoltage")
 {
     field(DTYP, "asynFloat64")
 	field(INP,  "@asyn($(PORT),0,1)CIRCUITVOLTAGE")
-}
-
-record(bi, "$(P)Fault")
-{
-    field(DTYP, "asynBiUInt32Digital")
-	field(INP,  "@asyn($(PORT),0,1)FAULT")
 }

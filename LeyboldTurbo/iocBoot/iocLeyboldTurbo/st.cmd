@@ -22,8 +22,8 @@ asynSetOption ($(IOPORT), 0, "baud", "19200")
 asynSetOption ($(IOPORT), 0, "bits", "8")
 asynSetOption ($(IOPORT), 0, "parity", "even")
 asynSetOption ($(IOPORT), 0, "stop", "1")
-asynSetOption($(IOPORT), -1, "clocal", "Y")
-asynSetOption($(IOPORT), -1, "crtscts", "N")
+asynSetOption ($(IOPORT), -1, "clocal", "Y")
+asynSetOption ($(IOPORT), -1, "crtscts", "N")
 
 iocInit
 

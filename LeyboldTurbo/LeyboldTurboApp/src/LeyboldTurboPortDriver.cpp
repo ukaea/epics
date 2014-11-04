@@ -3,6 +3,7 @@
 #include <iocsh.h>
 #include <epicsExit.h>
 #include <epicsAssert.h>
+#include <epicsThread.h>
 #include <asynOctetSyncIO.h>
 
 #define epicsExportSharedSymbols
@@ -70,8 +71,14 @@ struct ParameterDefn
 {
 	const char* ParamName;
 	asynParamType ParamType;
+	bool InParamerter;
 };
 
+const char* STARTSTOP = "STARTSTOP"; 
+const char* RESET = "RESET";
+const char* FAULT = "FAULT";
+const char* WARNINGTEMPERATURE = "WARNINGTEMPERATURE";
+const char* WARNINGHIGHLOAD = "WARNINGHIGHLOAD";
 const char* STATORFREQUENCY = "STATORFREQUENCY";
 const char* CONVERTERTEMPERATURE = "CONVERTERTEMPERATURE";
 const char* MOTORCURRENT = "MOTORCURRENT";
@@ -80,12 +87,16 @@ const char* CIRCUITVOLTAGE = "CIRCUITVOLTAGE";
 
 ParameterDefn ParameterDefns[] =
 {
-	{STATORFREQUENCY, asynParamFloat64},
-	{CONVERTERTEMPERATURE, asynParamFloat64},
-	{MOTORCURRENT, asynParamFloat64},
-	{PUMPTEMPERATURE, asynParamFloat64},
-	{CIRCUITVOLTAGE, asynParamFloat64},
-	{FAULT, asynParamUInt32Digital},
+	{STARTSTOP, asynParamUInt32Digital, false},
+	{RESET, asynParamUInt32Digital, false},
+	{FAULT, asynParamUInt32Digital, false},
+	{WARNINGTEMPERATURE, asynParamUInt32Digital, true},
+	{WARNINGHIGHLOAD, asynParamUInt32Digital, true},
+	{STATORFREQUENCY, asynParamFloat64, true},
+	{CONVERTERTEMPERATURE, asynParamFloat64, true},
+	{MOTORCURRENT, asynParamFloat64, true},
+	{PUMPTEMPERATURE, asynParamFloat64, true},
+	{CIRCUITVOLTAGE, asynParamFloat64, true},
 };
 
 static const int NUM_PARAMS = sizeof(ParameterDefns) / sizeof(ParameterDefn);
@@ -98,7 +109,7 @@ CLeyboldTurboPortDriver::CLeyboldTurboPortDriver(const char *AsynPortName, const
    : asynPortDriver(AsynPortName, 
                     1, /* maxAddr */ 
                     NUM_PARAMS,
-                    asynInt8ArrayMask | asynInt32Mask | asynFloat64Mask | asynFloat64ArrayMask | asynEnumMask | asynDrvUserMask, /* Interface mask */
+                    asynUInt32DigitalMask | asynInt8ArrayMask | asynInt32Mask | asynFloat64Mask | asynFloat64ArrayMask | asynEnumMask | asynDrvUserMask, /* Interface mask */
                     asynInt8ArrayMask | asynInt32Mask | asynFloat64Mask | asynFloat64ArrayMask | asynEnumMask,  /* Interrupt mask */
                     0, /* asynFlags.  This driver does not block and it is not multi-device, so flag is 0 */
                     1, /* Autoconnect */
@@ -107,17 +118,24 @@ CLeyboldTurboPortDriver::CLeyboldTurboPortDriver(const char *AsynPortName, const
 {
     static const char *functionName = "CLeyboldTurboPortDriver";
 	m_AsynUser = NULL;
-	asynStatus status = pasynOctetSyncIO->connect(IOPortName, 0, &m_AsynUser, NULL);
-	if (status != asynSuccess)
+	if (pasynOctetSyncIO->connect(IOPortName, 0, &m_AsynUser, NULL) != asynSuccess)
 		throw CException(m_AsynUser, functionName, "connecting to IO port=" + std::string(IOPortName));
 	for (size_t ParamIndex = 0; ParamIndex < NUM_PARAMS; ParamIndex++)
 	{
 		int Index;
-		status = createParam(ParameterDefns[ParamIndex].ParamName, ParameterDefns[ParamIndex].ParamType, &Index);
+		if (createParam(ParameterDefns[ParamIndex].ParamName, ParameterDefns[ParamIndex].ParamType, &Index) != asynSuccess)
+			throw CException(m_AsynUser, functionName, "createParam" + std::string(ParameterDefns[ParamIndex].ParamName));
 		m_Parameters[ParameterDefns[ParamIndex].ParamName] = Index;
 		switch(ParameterDefns[ParamIndex].ParamType)
 		{
-			case asynParamFloat64: setDoubleParam (Index, 0); break;
+			case asynParamFloat64: 
+				if (setDoubleParam (Index, 0) != asynSuccess)
+					throw CException(m_AsynUser, functionName, "setDoubleParam" + std::string(ParameterDefns[ParamIndex].ParamName));
+				break;
+			case asynParamUInt32Digital: 
+				if (setUIntDigitalParam(Index, 0, 1) != asynSuccess)
+					throw CException(m_AsynUser, functionName, "setUIntDigitalParam" + std::string(ParameterDefns[ParamIndex].ParamName));
+				break;
 			default: assert(false);
 		}
 	}
@@ -132,42 +150,111 @@ CLeyboldTurboPortDriver::~CLeyboldTurboPortDriver()
 asynStatus CLeyboldTurboPortDriver::readFloat64(asynUser* pasynUser, epicsFloat64* value)
 {
 	asynStatus status = asynSuccess;
+	int function = pasynUser->reason;
+	static const char *functionName = "readFloat64";
 	try {
-		int function = pasynUser->reason;
-		static const char *functionName = "readFloat64";
+		USSPacket USSWritePacket, USSReadPacket;
+		STATIC_ASSERT(sizeof(USSPacket)==USSPacketSize);
+		size_t nbytesOut, nbytesIn;
+		int eomReason;
+
+		// NB, *don't* pass pasynUser to this function - it has the wrong type and will cause an access violation.
+		status = pasynOctetSyncIO->writeRead(m_AsynUser,
+			reinterpret_cast<const char*>(&USSWritePacket), sizeof(USSPacket), 
+			reinterpret_cast<char*>(&USSReadPacket), sizeof(USSPacket),
+			1, &nbytesOut, &nbytesIn, &eomReason);
+		if (status != asynSuccess)
+			throw CException(m_AsynUser, functionName, "Can't write/read:");
+
+		setUIntDigitalParam(m_Parameters[FAULT], USSReadPacket.m_USSPacketStruct.m_PZD1 & (1 << 3) ? 1 : 0, 1);
+		setUIntDigitalParam(m_Parameters[WARNINGTEMPERATURE], USSReadPacket.m_USSPacketStruct.m_PZD1 & (1 << 2) ? 1 : 0, 1);
+		setUIntDigitalParam(m_Parameters[WARNINGHIGHLOAD], USSReadPacket.m_USSPacketStruct.m_PZD1 & (1 << 13) ? 1 : 0, 1);
+		setDoubleParam (m_Parameters[STATORFREQUENCY], USSReadPacket.m_USSPacketStruct.m_PZD2);
+		setDoubleParam (m_Parameters[CONVERTERTEMPERATURE], USSReadPacket.m_USSPacketStruct.m_PZD3);
+		setDoubleParam (m_Parameters[MOTORCURRENT], 0.1 * USSReadPacket.m_USSPacketStruct.m_PZD4);
+		setDoubleParam (m_Parameters[PUMPTEMPERATURE], USSReadPacket.m_USSPacketStruct.m_PZD5);
+		setDoubleParam (m_Parameters[CIRCUITVOLTAGE], 0.1 * USSReadPacket.m_USSPacketStruct.m_PZD6);
+	}
+	catch(CException const&) {
+		setUIntDigitalParam(m_Parameters[FAULT], 1, 1);
+	}
+
+	return status;
+}
+
+asynStatus CLeyboldTurboPortDriver::writeUInt32Digital(asynUser *pasynUser, epicsUInt32 value, epicsUInt32 mask)
+{
+	asynStatus status = asynSuccess;
+	int function = pasynUser->reason;
+	static const char *functionName = "writeUInt32Digital";
+	try {
 		const char *paramName;
+		USSPacket USSWritePacket, USSReadPacket;
+		STATIC_ASSERT(sizeof(USSPacket)==USSPacketSize);
+		size_t nbytesOut, nbytesIn;
+		int eomReason;
 
 		/* Fetch the parameter string name for possible use in debugging */
 		status = getParamName(function, &paramName);
 		if (status != asynSuccess)
 			throw CException(m_AsynUser, functionName, "Can't get parameter name:");
 
-		USSPacket USSWritePacket, USSReadPacket;
-		STATIC_ASSERT(sizeof(USSPacket)==24);
-		size_t nbytesOut, nbytesIn;
-		int eomReason;
-
-		if (strcmp(paramName, STATORFREQUENCY)==0)
+		if (strcmp(paramName, STARTSTOP)==0)
 		{
-			// NB, *don't* pass pasynUser to this function - it has the wrong type and will cause an access violation.
+			// 1 = Start; 0 = Stop
+			// Is only run provided if
+			//		no error is present and
+			//		control bit 10 = 1
+			epicsUInt32 value;
+			status = getUIntDigitalParam(m_Parameters[STARTSTOP], &value, 1);
+			if (status != asynSuccess)
+				throw CException(m_AsynUser, functionName, "getUIntDigitalParam");
+			USSWritePacket.m_USSPacketStruct.m_PZD1 |= 1 << 10;
+			USSWritePacket.m_USSPacketStruct.m_PZD1 |= value ? 1 : 0; // Set StartStop bit.
+			USSWritePacket.Checksum();
 			status = pasynOctetSyncIO->writeRead(m_AsynUser,
 				reinterpret_cast<const char*>(&USSWritePacket), sizeof(USSPacket), 
 				reinterpret_cast<char*>(&USSReadPacket), sizeof(USSPacket),
 				1, &nbytesOut, &nbytesIn, &eomReason);
 			if (status != asynSuccess)
 				throw CException(m_AsynUser, functionName, "Can't write/read:");
+		}
 
-			setUIntDigitalParam(m_Parameters[FAULT], USSReadPacket.m_PZD1 & (1 << 3) ? 1 : 0, 1);
-			setDoubleParam (m_Parameters[STATORFREQUENCY], USSReadPacket.m_USSPacketStruct.m_PZD2);
-			setDoubleParam (m_Parameters[CONVERTERTEMPERATURE], USSReadPacket.m_USSPacketStruct.m_PZD3);
-			setDoubleParam (m_Parameters[MOTORCURRENT], 0.1 * USSReadPacket.m_USSPacketStruct.m_PZD4);
-			setDoubleParam (m_Parameters[PUMPTEMPERATURE], USSReadPacket.m_USSPacketStruct.m_PZD5);
-			setDoubleParam (m_Parameters[CIRCUITVOLTAGE], 0.1 * USSReadPacket.m_USSPacketStruct.m_PZD6);
+		if (strcmp(paramName, RESET)==0)
+		{
+			// 0 to 1 transition = Error reset
+			//
+			// Is only run provided if 
+			//		the cause for the error has been removed and
+			//		control bit 0 = 0 and
+			//		control bit 10 = 1
+			USSWritePacket.m_USSPacketStruct.m_PZD1 |= 1 << 10;
+			USSWritePacket.m_USSPacketStruct.m_PZD1 |= 1 << 7; // High
+			USSWritePacket.Checksum();
+			status = pasynOctetSyncIO->writeRead(m_AsynUser,
+				reinterpret_cast<const char*>(&USSWritePacket), sizeof(USSPacket), 
+				reinterpret_cast<char*>(&USSReadPacket), sizeof(USSPacket),
+				1, &nbytesOut, &nbytesIn, &eomReason);
+			if (status != asynSuccess)
+				throw CException(m_AsynUser, functionName, "Can't write/read:");
+			epicsThreadSleep(.1);
+			USSWritePacket.m_USSPacketStruct.m_PZD1 &= ~(1 << 7);	// Low
+			USSWritePacket.Checksum();
+			status = pasynOctetSyncIO->writeRead(m_AsynUser,
+				reinterpret_cast<const char*>(&USSWritePacket), sizeof(USSPacket), 
+				reinterpret_cast<char*>(&USSReadPacket), sizeof(USSPacket),
+				1, &nbytesOut, &nbytesIn, &eomReason);
+			if (status != asynSuccess)
+				throw CException(m_AsynUser, functionName, "Can't write/read:");
+			// Reset the variable to 0.
+			setUIntDigitalParam(m_Parameters[RESET], 0, 1);
+			if (status != asynSuccess)
+				throw CException(m_AsynUser, functionName, "setUIntDigitalParam");
 		}
 	}
 	catch(CException const&) {
+		setUIntDigitalParam(m_Parameters[FAULT], 1, 1);
 	}
-
 	return status;
 }
 

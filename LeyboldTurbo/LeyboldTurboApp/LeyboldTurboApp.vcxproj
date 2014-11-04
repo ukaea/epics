@@ -87,14 +87,14 @@ cd $(ProjectDir)
 perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).dbd %(FileName).dbd
 cd $(ProjectDir)
 </Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">../O.Common/%(FileName).dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">../O.Common/%(FileName).dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">../O.Common/%(FileName).dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">../O.Common/%(FileName).dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|x64'">../O.Common/%(FileName).dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|x64'">../O.Common/%(FileName).dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|x64'">../O.Common/%(FileName).dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|x64'">../O.Common/%(FileName).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">O.Common/%(FileName).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">O.Common/%(FileName).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">O.Common/%(FileName).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">O.Common/%(FileName).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|x64'">O.Common/%(FileName).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|x64'">O.Common/%(FileName).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|x64'">O.Common/%(FileName).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|x64'">O.Common/%(FileName).dbd</Outputs>
       <FileType>Document</FileType>
     </CustomBuild>
   </ItemGroup>
