@@ -8,31 +8,37 @@
 #define epicsExportSharedSymbols
 #include <epicsExport.h>
 
+#include <exception>
+
 static const char *driverName = "LeyboldTurboPortDriver";
+
+class CLeyboldTurboPortDriver::CException : public std::runtime_error
+{
+public:
+	CException(asynUser* AsynUser, const char* functionName, std::string const& what) : std::runtime_error(what) {
+		std::string message = "%s:%s ERROR: " + what + "\n";
+		asynPrint(AsynUser, ASYN_TRACE_ERROR, message.c_str(), driverName, functionName, AsynUser->errorMessage);
+	}
+};
 
 #pragma pack(push, 1)
 struct USSPacketStruct
 {
 	void SetDefault() {
 		m_STX = 2;			// Start byte 2
-		m_LGE = 22;			// LGE Length of the payload data block in bytes (bytes 3 to 22) + 2: 22 22
+		m_LGE = 22;			// LGE Length of the payload data block in bytes (bytes 3 to 22) + 2: 22
 		m_ADR = m_Reserved = m_IND = m_BCC = 0;
 		m_PKE = m_PZD1 = m_PZD2 = m_PZD3 = m_PZD4 = m_PZD5 = m_PZD6 = 0;
 		m_PWE = 0;
 	}
 	epicsUInt8  m_STX;		// Start byte 2
-	epicsUInt8  m_LGE;		// LGE Length of the payload data block in bytes (bytes 3 to 22) + 2: 22 22
+	epicsUInt8  m_LGE;		// LGE Length of the payload data block in bytes (bytes 3 to 22) + 2: 22
 	epicsUInt8  m_ADR;		// Frequency converter address RS232: 0. RS485: 0...15
 	epicsUInt16 m_PKE;		// Parameter number and type of access Value (s. 2.1)
 	epicsUInt8  m_Reserved;	// 0
 	epicsUInt8	m_IND;		// Parameter index Value (s. 2.1)
 	epicsUInt32 m_PWE;		// Parameter value Value
-	union {
-		//Status and control bits Value (see 2.2)
-		epicsUInt16	m_PZD1;
-		epicsUInt16	m_STW;
-		epicsUInt16	m_ZSW;
-	};
+	epicsUInt16	m_PZD1;		// Status and control bits Value (see 2.2)
 	epicsUInt16	m_PZD2;		// Current stator frequency (= P3) Value (Hz)
 	epicsUInt16 m_PZD3;		// Current frequency converter temperature (= P11) Value (°C)
 	epicsUInt16 m_PZD4;		// Current motor current (= P5) Value (0.1 A)
@@ -67,9 +73,19 @@ struct ParameterDefn
 };
 
 const char* STATORFREQUENCY = "STATORFREQUENCY";
+const char* CONVERTERTEMPERATURE = "CONVERTERTEMPERATURE";
+const char* MOTORCURRENT = "MOTORCURRENT";
+const char* PUMPTEMPERATURE = "PUMPTEMPERATURE";
+const char* CIRCUITVOLTAGE = "CIRCUITVOLTAGE";
+
 ParameterDefn ParameterDefns[] =
 {
-	{STATORFREQUENCY, asynParamFloat64}
+	{STATORFREQUENCY, asynParamFloat64},
+	{CONVERTERTEMPERATURE, asynParamFloat64},
+	{MOTORCURRENT, asynParamFloat64},
+	{PUMPTEMPERATURE, asynParamFloat64},
+	{CIRCUITVOLTAGE, asynParamFloat64},
+	{FAULT, asynParamUInt32Digital},
 };
 
 static const int NUM_PARAMS = sizeof(ParameterDefns) / sizeof(ParameterDefn);
@@ -78,7 +94,7 @@ static const int NUM_PARAMS = sizeof(ParameterDefns) / sizeof(ParameterDefn);
   * Calls constructor for the asynPortDriver base class.
   * \param[in] portName The name of the asyn port driver to be created.
   * \param[in] maxPoints The maximum  number of points in the volt and time arrays */
-CLeyboldTurboPortDriver::CLeyboldTurboPortDriver(const char *AsynPortName, const char* IOPortName) 
+CLeyboldTurboPortDriver::CLeyboldTurboPortDriver(const char *AsynPortName, const char* IOPortName)
    : asynPortDriver(AsynPortName, 
                     1, /* maxAddr */ 
                     NUM_PARAMS,
@@ -90,12 +106,10 @@ CLeyboldTurboPortDriver::CLeyboldTurboPortDriver(const char *AsynPortName, const
                     0) /* Default stack size*/    
 {
     static const char *functionName = "CLeyboldTurboPortDriver";
+	m_AsynUser = NULL;
 	asynStatus status = pasynOctetSyncIO->connect(IOPortName, 0, &m_AsynUser, NULL);
-	if (status != asynSuccess) {
-		printf("\n\n%s:%s: connecting to IO port=%s\n\n", driverName, functionName, IOPortName);
-		// TODO would be good to implement exceptions
-		// TODO THROW_(SmarActMCSException(MCSConnectionError, "SmarActMCSController: unable to connect serial channel"));
-	}
+	if (status != asynSuccess)
+		throw CException(m_AsynUser, functionName, "connecting to IO port=" + std::string(IOPortName));
 	for (size_t ParamIndex = 0; ParamIndex < NUM_PARAMS; ParamIndex++)
 	{
 		int Index;
@@ -111,32 +125,48 @@ CLeyboldTurboPortDriver::CLeyboldTurboPortDriver(const char *AsynPortName, const
 
 CLeyboldTurboPortDriver::~CLeyboldTurboPortDriver()
 {
+	if (m_AsynUser)
+		asynStatus status = pasynOctetSyncIO->disconnect(m_AsynUser);
 }
 
-asynStatus CLeyboldTurboPortDriver::readFloat64(asynUser *pasynUser, epicsFloat64 *value)
+asynStatus CLeyboldTurboPortDriver::readFloat64(asynUser* pasynUser, epicsFloat64* value)
 {
-    int function = pasynUser->reason;
-    static const char *functionName = "readFloat64";
-    const char *paramName;
-
-    /* Fetch the parameter string name for possible use in debugging */
-    getParamName(function, &paramName);
-
-	USSPacket USSWritePacket, USSReadPacket;
-	STATIC_ASSERT(sizeof(USSPacket)==24);
-	size_t nbytesOut, nbytesIn;
-	int eomReason;
 	asynStatus status = asynSuccess;
+	try {
+		int function = pasynUser->reason;
+		static const char *functionName = "readFloat64";
+		const char *paramName;
 
-	if (strcmp(paramName, STATORFREQUENCY)==0)
-	{
-		status = pasynOctetSyncIO->writeRead(m_AsynUser,
-			reinterpret_cast<const char*>(&USSWritePacket), sizeof(USSPacket), 
-			reinterpret_cast<char*>(&USSReadPacket), sizeof(USSPacket),
-			2, &nbytesOut, &nbytesIn, &eomReason);
+		/* Fetch the parameter string name for possible use in debugging */
+		status = getParamName(function, &paramName);
 		if (status != asynSuccess)
-			asynPrint(pasynUser, ASYN_TRACE_ERROR, "%s:%s ERROR: Can't write/read: %s.\n", driverName, functionName, pasynUser->errorMessage);
-    }
+			throw CException(m_AsynUser, functionName, "Can't get parameter name:");
+
+		USSPacket USSWritePacket, USSReadPacket;
+		STATIC_ASSERT(sizeof(USSPacket)==24);
+		size_t nbytesOut, nbytesIn;
+		int eomReason;
+
+		if (strcmp(paramName, STATORFREQUENCY)==0)
+		{
+			// NB, *don't* pass pasynUser to this function - it has the wrong type and will cause an access violation.
+			status = pasynOctetSyncIO->writeRead(m_AsynUser,
+				reinterpret_cast<const char*>(&USSWritePacket), sizeof(USSPacket), 
+				reinterpret_cast<char*>(&USSReadPacket), sizeof(USSPacket),
+				1, &nbytesOut, &nbytesIn, &eomReason);
+			if (status != asynSuccess)
+				throw CException(m_AsynUser, functionName, "Can't write/read:");
+
+			setUIntDigitalParam(m_Parameters[FAULT], USSReadPacket.m_PZD1 & (1 << 3) ? 1 : 0, 1);
+			setDoubleParam (m_Parameters[STATORFREQUENCY], USSReadPacket.m_USSPacketStruct.m_PZD2);
+			setDoubleParam (m_Parameters[CONVERTERTEMPERATURE], USSReadPacket.m_USSPacketStruct.m_PZD3);
+			setDoubleParam (m_Parameters[MOTORCURRENT], 0.1 * USSReadPacket.m_USSPacketStruct.m_PZD4);
+			setDoubleParam (m_Parameters[PUMPTEMPERATURE], USSReadPacket.m_USSPacketStruct.m_PZD5);
+			setDoubleParam (m_Parameters[CIRCUITVOLTAGE], 0.1 * USSReadPacket.m_USSPacketStruct.m_PZD6);
+		}
+	}
+	catch(CException const&) {
+	}
 
 	return status;
 }
@@ -156,8 +186,12 @@ void LeyboldTurboExitFunc(void * param)
   * \param[in] portName The name of the asyn port driver to be created.*/
 int LeyboldTurboPortDriverConfigure(const char *asynPortName, const char* IOPortName)
 {
-	CLeyboldTurboPortDriver* LeyboldTurboPortDriver = new CLeyboldTurboPortDriver(asynPortName, IOPortName);
-	epicsAtExit(LeyboldTurboExitFunc, LeyboldTurboPortDriver);
+	try {
+		CLeyboldTurboPortDriver* LeyboldTurboPortDriver = new CLeyboldTurboPortDriver(asynPortName, IOPortName);
+		epicsAtExit(LeyboldTurboExitFunc, LeyboldTurboPortDriver);
+	}
+	catch(CLeyboldTurboPortDriver::CException const&) {
+	}
     return(asynSuccess);
 }
 
@@ -170,7 +204,7 @@ static void initCallFunc(const iocshArgBuf *args)
 
 static void LeyboldTurboRegistrar(void)
 {
-    iocshRegister(&initFuncDef,initCallFunc);
+    iocshRegister(&initFuncDef, initCallFunc);
 }
 
 extern "C" {

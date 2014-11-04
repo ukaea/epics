@@ -2,6 +2,36 @@ record(ai, "$(P)StatorFrequency")
 {
     field(DTYP, "asynFloat64")
 	field(INP,  "@asyn($(PORT),0,1)STATORFREQUENCY")
-	field(SCAN, "5 second")
+#	field(SCAN, "5 second")
 	field(PINI, "1")
+}
+
+record(ai, "$(P)ConverterTemperature")
+{
+    field(DTYP, "asynFloat64")
+	field(INP,  "@asyn($(PORT),0,1)CONVERTERTEMPERATURE")
+}
+
+record(ai, "$(P)MotorCurrent")
+{
+    field(DTYP, "asynFloat64")
+	field(INP,  "@asyn($(PORT),0,1)MOTORCURRENT")
+}
+
+record(ai, "$(P)PumpTemperature")
+{
+    field(DTYP, "asynFloat64")
+	field(INP,  "@asyn($(PORT),0,1)PUMPTEMPERATURE")
+}
+
+record(ai, "$(P)CircuitVoltage")
+{
+    field(DTYP, "asynFloat64")
+	field(INP,  "@asyn($(PORT),0,1)CIRCUITVOLTAGE")
+}
+
+record(bi, "$(P)Fault")
+{
+    field(DTYP, "asynBiUInt32Digital")
+	field(INP,  "@asyn($(PORT),0,1)FAULT")
 }

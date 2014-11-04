@@ -8,6 +8,7 @@
 
 class CLeyboldTurboPortDriver : public asynPortDriver {
 public:
+	class CException;
     CLeyboldTurboPortDriver(const char *AsynPortName, const char* IOPortName);
     ~CLeyboldTurboPortDriver();
     virtual asynStatus readFloat64(asynUser *pasynUser, epicsFloat64 *value);
