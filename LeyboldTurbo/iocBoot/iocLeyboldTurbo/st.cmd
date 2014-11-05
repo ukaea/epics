@@ -7,23 +7,24 @@
 dbLoadDatabase ("../dbd/LeyboldTurbo.dbd")
 LeyboldTurbo_registerRecordDeviceDriver pdbbase
 
-epicsEnvSet ASYNPORT TURBO:$(INDEX)
-epicsEnvSet IOPORT PUMP:$(INDEX)
+epicsEnvSet ASYNPORT TURBO
+epicsEnvSet IOPORT PUMP
 
 # Configure asyn communication port, first
-drvAsynSerialPortConfigure($(IOPORT), $(COMPORT), 0, 0, 0)
-LeyboldTurboPortDriverConfigure($(ASYNPORT), $(IOPORT))
+LeyboldTurboPortDriverConfigure($(ASYNPORT), 1)
+drvAsynSerialPortConfigure($(IOPORT):1, $(COMPORT), 0, 0, 0)
+LeyboldTurboAddIOPort($(IOPORT):1)
 
 ## Load record instances
-dbLoadRecords("db/LeyboldTurbo.db", "P=$(ASYNPORT):,PORT=$(ASYNPORT)")
-dbLoadRecords("../../asyn/asyn/asynRecord/asynRecord.db","P=$(ASYNPORT):,R=asyn,PORT=$(ASYNPORT),ADDR=0,OMAX=80,IMAX=80")
+dbLoadRecords("db/LeyboldTurbo.db", "P=$(ASYNPORT):1:,PORT=$(ASYNPORT)")
+dbLoadRecords("../../asyn/asyn/asynRecord/asynRecord.db","P=$(ASYNPORT):1:,R=asyn,PORT=$(ASYNPORT),ADDR=0,OMAX=80,IMAX=80")
 
-asynSetOption ($(IOPORT), 0, "baud", "19200")
-asynSetOption ($(IOPORT), 0, "bits", "8")
-asynSetOption ($(IOPORT), 0, "parity", "even")
-asynSetOption ($(IOPORT), 0, "stop", "1")
-asynSetOption ($(IOPORT), -1, "clocal", "Y")
-asynSetOption ($(IOPORT), -1, "crtscts", "N")
+asynSetOption ($(IOPORT):1, 0, "baud", "19200")
+asynSetOption ($(IOPORT):1, 0, "bits", "8")
+asynSetOption ($(IOPORT):1, 0, "parity", "even")
+asynSetOption ($(IOPORT):1, 0, "stop", "1")
+asynSetOption ($(IOPORT):1, -1, "clocal", "Y")
+asynSetOption ($(IOPORT):1, -1, "crtscts", "N")
 
 iocInit
 

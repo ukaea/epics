@@ -2,6 +2,8 @@ record(bi, "$(P)Fault")
 {
 	field(DTYP, "asynUInt32Digital")
 	field(INP,  "@asynMask($(PORT),0,1,1)FAULT")
+#	field(SCAN, "5 second")
+	field(PINI, "1")
 }
 
 record(bi, "$(P)WarningTemperature")
@@ -20,8 +22,6 @@ record(ai, "$(P)StatorFrequency")
 {
     field(DTYP, "asynFloat64")
 	field(INP,  "@asyn($(PORT),0,1)STATORFREQUENCY")
-	field(SCAN, "5 second")
-	field(PINI, "1")
 }
 
 record(ai, "$(P)ConverterTemperature")

@@ -5,28 +5,22 @@
 
 #include <map>
 #include <string>
+#include <vector>
 
 class CLeyboldTurboPortDriver : public asynPortDriver {
 public:
 	class CException;
-    CLeyboldTurboPortDriver(const char *AsynPortName, const char* IOPortName);
+    CLeyboldTurboPortDriver(const char *AsynPortName, int NumPumps);
     ~CLeyboldTurboPortDriver();
     virtual asynStatus readFloat64(asynUser *pasynUser, epicsFloat64 *value);
     virtual asynStatus writeUInt32Digital(asynUser *pasynUser, epicsUInt32 value, epicsUInt32 mask);
+	void addIOPort(const char* IOPortName);
                  
-    /* These are the methods that we override from asynPortDriver
-    virtual asynStatus writeInt8Array(asynUser *pasynUser, epicsInt8 *value,
-                                        size_t nElements);
-    virtual asynStatus readInt8Array(asynUser *pasynUser, epicsInt8 *value, 
-                                        size_t nElements, size_t *nIn);
-*/
 protected:
-    /** Values used for pasynUser->reason, and indexes into the parameter library. */
-	std::map<std::string, int> m_Parameters;
-	asynUser* m_AsynUser;
 
 private:
-    /* Our data */
+	std::map<std::string, int> m_Parameters;
+	std::vector<asynUser*> m_AsynUsers;
 };
 
 #endif // LEYBOLD_TURBO_PORT_DRIVER_H

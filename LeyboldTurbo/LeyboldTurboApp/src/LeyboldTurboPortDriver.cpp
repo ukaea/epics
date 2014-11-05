@@ -4,6 +4,7 @@
 #include <epicsExit.h>
 #include <epicsAssert.h>
 #include <epicsThread.h>
+#include <asynCommonSyncIO.h>
 #include <asynOctetSyncIO.h>
 
 #define epicsExportSharedSymbols
@@ -12,6 +13,8 @@
 #include <exception>
 
 static const char *driverName = "LeyboldTurboPortDriver";
+
+static CLeyboldTurboPortDriver* g_LeyboldTurboPortDriver;
 
 class CLeyboldTurboPortDriver::CException : public std::runtime_error
 {
@@ -105,46 +108,55 @@ static const int NUM_PARAMS = sizeof(ParameterDefns) / sizeof(ParameterDefn);
   * Calls constructor for the asynPortDriver base class.
   * \param[in] portName The name of the asyn port driver to be created.
   * \param[in] maxPoints The maximum  number of points in the volt and time arrays */
-CLeyboldTurboPortDriver::CLeyboldTurboPortDriver(const char *AsynPortName, const char* IOPortName)
-   : asynPortDriver(AsynPortName, 
+CLeyboldTurboPortDriver::CLeyboldTurboPortDriver(const char *asynPortName, int numPumps)
+   : asynPortDriver(asynPortName, 
                     1, /* maxAddr */ 
-                    NUM_PARAMS,
+                    NUM_PARAMS * numPumps,
                     asynUInt32DigitalMask | asynInt8ArrayMask | asynInt32Mask | asynFloat64Mask | asynFloat64ArrayMask | asynEnumMask | asynDrvUserMask, /* Interface mask */
                     asynInt8ArrayMask | asynInt32Mask | asynFloat64Mask | asynFloat64ArrayMask | asynEnumMask,  /* Interrupt mask */
-                    0, /* asynFlags.  This driver does not block and it is not multi-device, so flag is 0 */
+					ASYN_MULTIDEVICE,
                     1, /* Autoconnect */
                     0, /* Default priority */
                     0) /* Default stack size*/    
 {
-    static const char *functionName = "CLeyboldTurboPortDriver";
-	m_AsynUser = NULL;
-	if (pasynOctetSyncIO->connect(IOPortName, 0, &m_AsynUser, NULL) != asynSuccess)
-		throw CException(m_AsynUser, functionName, "connecting to IO port=" + std::string(IOPortName));
+}
+
+void CLeyboldTurboPortDriver::addIOPort(const char* IOPortName)
+{
+    static const char *functionName = "addIOPort";
 	for (size_t ParamIndex = 0; ParamIndex < NUM_PARAMS; ParamIndex++)
 	{
 		int Index;
-		if (createParam(ParameterDefns[ParamIndex].ParamName, ParameterDefns[ParamIndex].ParamType, &Index) != asynSuccess)
-			throw CException(m_AsynUser, functionName, "createParam" + std::string(ParameterDefns[ParamIndex].ParamName));
-		m_Parameters[ParameterDefns[ParamIndex].ParamName] = Index;
+//		char Buf[10];
+//		std::string ParamName =  std::string(":") + _itoa(m_AsynUsers.size() + 1, Buf, 10) + ParameterDefns[ParamIndex].ParamName;
+		std::string ParamName =  ParameterDefns[ParamIndex].ParamName;
+		if (createParam(m_AsynUsers.size(), ParamName.c_str(), ParameterDefns[ParamIndex].ParamType, &Index) != asynSuccess)
+			throw CException(pasynUserSelf, functionName, "createParam" + std::string(ParameterDefns[ParamIndex].ParamName));
+		m_Parameters[ParamName] = Index;
 		switch(ParameterDefns[ParamIndex].ParamType)
 		{
 			case asynParamFloat64: 
 				if (setDoubleParam (Index, 0) != asynSuccess)
-					throw CException(m_AsynUser, functionName, "setDoubleParam" + std::string(ParameterDefns[ParamIndex].ParamName));
+					throw CException(pasynUserSelf, functionName, "setDoubleParam" + std::string(ParameterDefns[ParamIndex].ParamName));
 				break;
 			case asynParamUInt32Digital: 
 				if (setUIntDigitalParam(Index, 0, 1) != asynSuccess)
-					throw CException(m_AsynUser, functionName, "setUIntDigitalParam" + std::string(ParameterDefns[ParamIndex].ParamName));
+					throw CException(pasynUserSelf, functionName, "setUIntDigitalParam" + std::string(ParameterDefns[ParamIndex].ParamName));
 				break;
 			default: assert(false);
 		}
 	}
+	asynUser* AsynUser;
+	if (pasynOctetSyncIO->connect(IOPortName, 0, &AsynUser, NULL) != asynSuccess)
+		throw CException(pasynUserSelf, functionName, "connecting to IO port=" + std::string(IOPortName));
+	connect(AsynUser);
+	m_AsynUsers.push_back(AsynUser);
 }
 
 CLeyboldTurboPortDriver::~CLeyboldTurboPortDriver()
 {
-	if (m_AsynUser)
-		asynStatus status = pasynOctetSyncIO->disconnect(m_AsynUser);
+	for(size_t Index = 0; Index < m_AsynUsers.size(); Index++)
+		asynStatus status = pasynOctetSyncIO->disconnect(m_AsynUsers[Index]);
 }
 
 asynStatus CLeyboldTurboPortDriver::readFloat64(asynUser* pasynUser, epicsFloat64* value)
@@ -157,14 +169,15 @@ asynStatus CLeyboldTurboPortDriver::readFloat64(asynUser* pasynUser, epicsFloat6
 		STATIC_ASSERT(sizeof(USSPacket)==USSPacketSize);
 		size_t nbytesOut, nbytesIn;
 		int eomReason;
+		pasynUser = m_AsynUsers[function / NUM_PARAMS];
 
 		// NB, *don't* pass pasynUser to this function - it has the wrong type and will cause an access violation.
-		status = pasynOctetSyncIO->writeRead(m_AsynUser,
+		status = pasynOctetSyncIO->writeRead(pasynUser,
 			reinterpret_cast<const char*>(&USSWritePacket), sizeof(USSPacket), 
 			reinterpret_cast<char*>(&USSReadPacket), sizeof(USSPacket),
 			1, &nbytesOut, &nbytesIn, &eomReason);
 		if (status != asynSuccess)
-			throw CException(m_AsynUser, functionName, "Can't write/read:");
+			throw CException(pasynUser, functionName, "Can't write/read:");
 
 		setUIntDigitalParam(m_Parameters[FAULT], USSReadPacket.m_USSPacketStruct.m_PZD1 & (1 << 3) ? 1 : 0, 1);
 		setUIntDigitalParam(m_Parameters[WARNINGTEMPERATURE], USSReadPacket.m_USSPacketStruct.m_PZD1 & (1 << 2) ? 1 : 0, 1);
@@ -197,8 +210,9 @@ asynStatus CLeyboldTurboPortDriver::writeUInt32Digital(asynUser *pasynUser, epic
 		/* Fetch the parameter string name for possible use in debugging */
 		status = getParamName(function, &paramName);
 		if (status != asynSuccess)
-			throw CException(m_AsynUser, functionName, "Can't get parameter name:");
+			throw CException(pasynUser, functionName, "Can't get parameter name:");
 
+		pasynUser = m_AsynUsers[function / NUM_PARAMS];
 		if (strcmp(paramName, STARTSTOP)==0)
 		{
 			// 1 = Start; 0 = Stop
@@ -208,16 +222,16 @@ asynStatus CLeyboldTurboPortDriver::writeUInt32Digital(asynUser *pasynUser, epic
 			epicsUInt32 value;
 			status = getUIntDigitalParam(m_Parameters[STARTSTOP], &value, 1);
 			if (status != asynSuccess)
-				throw CException(m_AsynUser, functionName, "getUIntDigitalParam");
+				throw CException(pasynUser, functionName, "getUIntDigitalParam");
 			USSWritePacket.m_USSPacketStruct.m_PZD1 |= 1 << 10;
 			USSWritePacket.m_USSPacketStruct.m_PZD1 |= value ? 1 : 0; // Set StartStop bit.
 			USSWritePacket.Checksum();
-			status = pasynOctetSyncIO->writeRead(m_AsynUser,
+			status = pasynOctetSyncIO->writeRead(pasynUser,
 				reinterpret_cast<const char*>(&USSWritePacket), sizeof(USSPacket), 
 				reinterpret_cast<char*>(&USSReadPacket), sizeof(USSPacket),
 				1, &nbytesOut, &nbytesIn, &eomReason);
 			if (status != asynSuccess)
-				throw CException(m_AsynUser, functionName, "Can't write/read:");
+				throw CException(pasynUser, functionName, "Can't write/read:");
 		}
 
 		if (strcmp(paramName, RESET)==0)
@@ -231,25 +245,25 @@ asynStatus CLeyboldTurboPortDriver::writeUInt32Digital(asynUser *pasynUser, epic
 			USSWritePacket.m_USSPacketStruct.m_PZD1 |= 1 << 10;
 			USSWritePacket.m_USSPacketStruct.m_PZD1 |= 1 << 7; // High
 			USSWritePacket.Checksum();
-			status = pasynOctetSyncIO->writeRead(m_AsynUser,
+			status = pasynOctetSyncIO->writeRead(pasynUser,
 				reinterpret_cast<const char*>(&USSWritePacket), sizeof(USSPacket), 
 				reinterpret_cast<char*>(&USSReadPacket), sizeof(USSPacket),
 				1, &nbytesOut, &nbytesIn, &eomReason);
 			if (status != asynSuccess)
-				throw CException(m_AsynUser, functionName, "Can't write/read:");
+				throw CException(pasynUser, functionName, "Can't write/read:");
 			epicsThreadSleep(.1);
 			USSWritePacket.m_USSPacketStruct.m_PZD1 &= ~(1 << 7);	// Low
 			USSWritePacket.Checksum();
-			status = pasynOctetSyncIO->writeRead(m_AsynUser,
+			status = pasynOctetSyncIO->writeRead(pasynUser,
 				reinterpret_cast<const char*>(&USSWritePacket), sizeof(USSPacket), 
 				reinterpret_cast<char*>(&USSReadPacket), sizeof(USSPacket),
 				1, &nbytesOut, &nbytesIn, &eomReason);
 			if (status != asynSuccess)
-				throw CException(m_AsynUser, functionName, "Can't write/read:");
+				throw CException(pasynUser, functionName, "Can't write/read:");
 			// Reset the variable to 0.
 			setUIntDigitalParam(m_Parameters[RESET], 0, 1);
 			if (status != asynSuccess)
-				throw CException(m_AsynUser, functionName, "setUIntDigitalParam");
+				throw CException(pasynUser, functionName, "setUIntDigitalParam");
 		}
 	}
 	catch(CException const&) {
@@ -259,23 +273,22 @@ asynStatus CLeyboldTurboPortDriver::writeUInt32Digital(asynUser *pasynUser, epic
 }
 
 static const iocshArg initArg0 = { "asynPortName", iocshArgString};
-static const iocshArg initArg1 = { "IOPortName", iocshArgString};
+static const iocshArg initArg1 = { "numPumps", iocshArgString};
 static const iocshArg * const initArgs[] = {&initArg0, &initArg1};
 static const iocshFuncDef initFuncDef = {"LeyboldTurboPortDriverConfigure",2,initArgs};
 
 void LeyboldTurboExitFunc(void * param)
 {
-	CLeyboldTurboPortDriver* LeyboldTurboPortDriver = static_cast<CLeyboldTurboPortDriver*>(param);
-	delete LeyboldTurboPortDriver;
+	delete g_LeyboldTurboPortDriver;
 }
 
 /** EPICS iocsh callable function to call constructor for the testAsynPortDriver class.
   * \param[in] portName The name of the asyn port driver to be created.*/
-int LeyboldTurboPortDriverConfigure(const char *asynPortName, const char* IOPortName)
+int LeyboldTurboPortDriverConfigure(const char *asynPortName, int numPumps)
 {
 	try {
-		CLeyboldTurboPortDriver* LeyboldTurboPortDriver = new CLeyboldTurboPortDriver(asynPortName, IOPortName);
-		epicsAtExit(LeyboldTurboExitFunc, LeyboldTurboPortDriver);
+		g_LeyboldTurboPortDriver = new CLeyboldTurboPortDriver(asynPortName, numPumps);
+		epicsAtExit(LeyboldTurboExitFunc, NULL);
 	}
 	catch(CLeyboldTurboPortDriver::CException const&) {
 	}
@@ -285,13 +298,34 @@ int LeyboldTurboPortDriverConfigure(const char *asynPortName, const char* IOPort
 static void initCallFunc(const iocshArgBuf *args)
 {
 	const char* asynPortName = args[0].sval;
-	const char* IOPortName = args[1].sval;
-	LeyboldTurboPortDriverConfigure(asynPortName, IOPortName);
+	int numPumps = atoi(args[1].sval);
+	LeyboldTurboPortDriverConfigure(asynPortName, numPumps);
+}
+
+static const iocshArg addArg0 = { "IOPortName", iocshArgString};
+static const iocshArg * const addArgs[] = {&addArg0};
+static const iocshFuncDef addFuncDef = {"LeyboldTurboAddIOPort",1,addArgs};
+
+int LeyboldTurboAddIOPort(const char *IOPortName)
+{
+	try {
+		g_LeyboldTurboPortDriver->addIOPort(IOPortName);
+	}
+	catch(CLeyboldTurboPortDriver::CException const&) {
+	}
+    return(asynSuccess);
+}
+
+static void addPumpFunc(const iocshArgBuf *args)
+{
+	const char* IOPortName = args[0].sval;
+	LeyboldTurboAddIOPort(IOPortName);
 }
 
 static void LeyboldTurboRegistrar(void)
 {
     iocshRegister(&initFuncDef, initCallFunc);
+    iocshRegister(&addFuncDef, addPumpFunc);
 }
 
 extern "C" {
