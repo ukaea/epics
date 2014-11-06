@@ -110,8 +110,8 @@ static const int NUM_PARAMS = sizeof(ParameterDefns) / sizeof(ParameterDefn);
   * \param[in] maxPoints The maximum  number of points in the volt and time arrays */
 CLeyboldTurboPortDriver::CLeyboldTurboPortDriver(const char *asynPortName, int numPumps)
    : asynPortDriver(asynPortName, 
-                    1, /* maxAddr */ 
-                    NUM_PARAMS * numPumps,
+                    numPumps, /* maxAddr */ 
+                    NUM_PARAMS,
                     asynUInt32DigitalMask | asynInt8ArrayMask | asynInt32Mask | asynFloat64Mask | asynFloat64ArrayMask | asynEnumMask | asynDrvUserMask, /* Interface mask */
                     asynInt8ArrayMask | asynInt32Mask | asynFloat64Mask | asynFloat64ArrayMask | asynEnumMask,  /* Interrupt mask */
 					ASYN_MULTIDEVICE,
@@ -159,7 +159,7 @@ CLeyboldTurboPortDriver::~CLeyboldTurboPortDriver()
 		asynStatus status = pasynOctetSyncIO->disconnect(m_AsynUsers[Index]);
 }
 
-asynStatus CLeyboldTurboPortDriver::readFloat64(asynUser* pasynUser, epicsFloat64* value)
+asynStatus CLeyboldTurboPortDriver::readUInt32Digital(asynUser *pasynUser, epicsUInt32 *value, epicsUInt32 mask)
 {
 	asynStatus status = asynSuccess;
 	int function = pasynUser->reason;

@@ -12,7 +12,7 @@ public:
 	class CException;
     CLeyboldTurboPortDriver(const char *AsynPortName, int NumPumps);
     ~CLeyboldTurboPortDriver();
-    virtual asynStatus readFloat64(asynUser *pasynUser, epicsFloat64 *value);
+    virtual asynStatus readUInt32Digital(asynUser *pasynUser, epicsUInt32 *value, epicsUInt32 mask);
     virtual asynStatus writeUInt32Digital(asynUser *pasynUser, epicsUInt32 value, epicsUInt32 mask);
 	void addIOPort(const char* IOPortName);
                  
