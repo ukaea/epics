@@ -169,7 +169,12 @@ asynStatus CLeyboldTurboPortDriver::readUInt32Digital(asynUser *pasynUser, epics
 		STATIC_ASSERT(sizeof(USSPacket)==USSPacketSize);
 		size_t nbytesOut, nbytesIn;
 		int eomReason;
-		pasynUser = m_AsynUsers[function / NUM_PARAMS];
+
+		size_t TableIndex = function / NUM_PARAMS;
+		if (TableIndex >= m_AsynUsers.size())
+			throw CException(pasynUser, functionName, "User / pump not configured");
+
+		pasynUser = m_AsynUsers[TableIndex];
 
 		// NB, *don't* pass pasynUser to this function - it has the wrong type and will cause an access violation.
 		status = pasynOctetSyncIO->writeRead(pasynUser,

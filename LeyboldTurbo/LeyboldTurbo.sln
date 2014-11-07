@@ -93,7 +93,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "iocLeyboldTurbo", "iocLeybo
 		iocBoot\iocLeyboldTurbo\dllPath.bat = iocBoot\iocLeyboldTurbo\dllPath.bat
 		iocBoot\iocLeyboldTurbo\envPaths = iocBoot\iocLeyboldTurbo\envPaths
 		iocBoot\iocLeyboldTurbo\Makefile = iocBoot\iocLeyboldTurbo\Makefile
-		iocBoot\iocLeyboldTurbo\st.cmd = iocBoot\iocLeyboldTurbo\st.cmd
+		iocBoot\iocLeyboldTurbo\st1.sim.cmd = iocBoot\iocLeyboldTurbo\st1.sim.cmd
+		iocBoot\iocLeyboldTurbo\st5.sim.cmd = iocBoot\iocLeyboldTurbo\st5.sim.cmd
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "caRepeater", "..\base\src\ca\client\caRepeater.vcxproj", "{5BCFEACD-AF21-4BF0-B130-14C814453F07}"
