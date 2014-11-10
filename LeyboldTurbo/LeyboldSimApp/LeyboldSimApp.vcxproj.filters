@@ -18,35 +18,35 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\LeyboldTurboMain.cpp">
+    <ClCompile Include="src\LeyboldSimMain.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="O.Common\LeyboldTurbo_registerRecordDeviceDriver.cpp">
+    <ClCompile Include="src\LeyboldSimPortDriver.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="O.Common\LeyboldSim_registerRecordDeviceDriver.cpp">
       <Filter>O.Common</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LeyboldTurboPortDriver.cpp">
-      <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="src\LeyboldTurbo.dbd">
-      <Filter>src</Filter>
-    </CustomBuild>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="O.Common\LeyboldTurbo.dbd">
-      <Filter>O.Common</Filter>
-    </None>
-    <None Include="Db\LeyboldTurbo.db">
-      <Filter>db</Filter>
-    </None>
     <None Include="src\Makefile">
       <Filter>src</Filter>
     </None>
+    <None Include="O.Common\LeyboldSim.dbd">
+      <Filter>O.Common</Filter>
+    </None>
+    <None Include="Db\LeyboldSim.db">
+      <Filter>db</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\LeyboldTurboPortDriver.h">
+    <ClInclude Include="src\LeyboldSimPortDriver.h">
       <Filter>src</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="src\LeyboldSim.dbd">
+      <Filter>src</Filter>
+    </CustomBuild>
   </ItemGroup>
 </Project>

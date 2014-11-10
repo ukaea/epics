@@ -93,11 +93,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "iocLeyboldTurbo", "iocLeybo
 		iocBoot\iocLeyboldTurbo\dllPath.bat = iocBoot\iocLeyboldTurbo\dllPath.bat
 		iocBoot\iocLeyboldTurbo\envPaths = iocBoot\iocLeyboldTurbo\envPaths
 		iocBoot\iocLeyboldTurbo\Makefile = iocBoot\iocLeyboldTurbo\Makefile
-		iocBoot\iocLeyboldTurbo\st1.sim.cmd = iocBoot\iocLeyboldTurbo\st1.sim.cmd
-		iocBoot\iocLeyboldTurbo\st5.sim.cmd = iocBoot\iocLeyboldTurbo\st5.sim.cmd
+		iocBoot\iocLeyboldTurbo\st1.cmd = iocBoot\iocLeyboldTurbo\st1.cmd
+		iocBoot\iocLeyboldTurbo\st1.simulated.cmd = iocBoot\iocLeyboldTurbo\st1.simulated.cmd
+		iocBoot\iocLeyboldTurbo\st1.simulator.cmd = iocBoot\iocLeyboldTurbo\st1.simulator.cmd
+		iocBoot\iocLeyboldTurbo\st5.cmd = iocBoot\iocLeyboldTurbo\st5.cmd
+		iocBoot\iocLeyboldTurbo\st5.simulated.cmd = iocBoot\iocLeyboldTurbo\st5.simulated.cmd
+		iocBoot\iocLeyboldTurbo\st5.simulator.cmd = iocBoot\iocLeyboldTurbo\st5.simulator.cmd
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "caRepeater", "..\base\src\ca\client\caRepeater.vcxproj", "{5BCFEACD-AF21-4BF0-B130-14C814453F07}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LeyboldSimApp", "LeyboldSimApp", "{36E5CD3A-D134-4077-841A-A26AC2FAAFC0}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LeyboldSimApp", "LeyboldSimApp\LeyboldSimApp.vcxproj", "{4FBF939A-460F-4ADC-822E-9049AB4DA174}"
 EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
@@ -387,6 +395,22 @@ Global
 		{5BCFEACD-AF21-4BF0-B130-14C814453F07}.Release LIB|Win32.Build.0 = Release LIB|Win32
 		{5BCFEACD-AF21-4BF0-B130-14C814453F07}.Release LIB|x64.ActiveCfg = Release LIB|X64
 		{5BCFEACD-AF21-4BF0-B130-14C814453F07}.Release LIB|x64.Build.0 = Release LIB|X64
+		{4FBF939A-460F-4ADC-822E-9049AB4DA174}.Debug DLL|Win32.ActiveCfg = Debug DLL|Win32
+		{4FBF939A-460F-4ADC-822E-9049AB4DA174}.Debug DLL|Win32.Build.0 = Debug DLL|Win32
+		{4FBF939A-460F-4ADC-822E-9049AB4DA174}.Debug DLL|x64.ActiveCfg = Debug DLL|x64
+		{4FBF939A-460F-4ADC-822E-9049AB4DA174}.Debug DLL|x64.Build.0 = Debug DLL|x64
+		{4FBF939A-460F-4ADC-822E-9049AB4DA174}.Debug LIB|Win32.ActiveCfg = Debug LIB|Win32
+		{4FBF939A-460F-4ADC-822E-9049AB4DA174}.Debug LIB|Win32.Build.0 = Debug LIB|Win32
+		{4FBF939A-460F-4ADC-822E-9049AB4DA174}.Debug LIB|x64.ActiveCfg = Debug LIB|x64
+		{4FBF939A-460F-4ADC-822E-9049AB4DA174}.Debug LIB|x64.Build.0 = Debug LIB|x64
+		{4FBF939A-460F-4ADC-822E-9049AB4DA174}.Release DLL|Win32.ActiveCfg = Release DLL|Win32
+		{4FBF939A-460F-4ADC-822E-9049AB4DA174}.Release DLL|Win32.Build.0 = Release DLL|Win32
+		{4FBF939A-460F-4ADC-822E-9049AB4DA174}.Release DLL|x64.ActiveCfg = Release DLL|x64
+		{4FBF939A-460F-4ADC-822E-9049AB4DA174}.Release DLL|x64.Build.0 = Release DLL|x64
+		{4FBF939A-460F-4ADC-822E-9049AB4DA174}.Release LIB|Win32.ActiveCfg = Release LIB|Win32
+		{4FBF939A-460F-4ADC-822E-9049AB4DA174}.Release LIB|Win32.Build.0 = Release LIB|Win32
+		{4FBF939A-460F-4ADC-822E-9049AB4DA174}.Release LIB|x64.ActiveCfg = Release LIB|x64
+		{4FBF939A-460F-4ADC-822E-9049AB4DA174}.Release LIB|x64.Build.0 = Release LIB|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -395,6 +419,7 @@ Global
 		{C2A4C477-2BE6-494C-89F3-B51BA1376EBD} = {D04ACFD8-B76B-4D6C-BF02-F280CF75ABAA}
 		{18C9AB30-1CAF-4A41-95A2-0CA2D3E19854} = {D04ACFD8-B76B-4D6C-BF02-F280CF75ABAA}
 		{73322DE2-4EF3-41A8-86BE-BB9C2EEFDE68} = {D04ACFD8-B76B-4D6C-BF02-F280CF75ABAA}
+		{36E5CD3A-D134-4077-841A-A26AC2FAAFC0} = {D04ACFD8-B76B-4D6C-BF02-F280CF75ABAA}
 		{5F8962DB-830E-42EA-8DEC-E87B958D532B} = {F96E9D8C-5CA4-42F4-A6B0-A1E28779DE50}
 		{AF70446C-3E93-42DF-9943-18DDCFA4991A} = {D772CB17-6D38-48F4-958E-6A721026C056}
 		{40388928-DF89-4B74-ABD0-440569C51A20} = {AF70446C-3E93-42DF-9943-18DDCFA4991A}
@@ -428,5 +453,6 @@ Global
 		{3D039C8A-8B8D-4408-B1F7-BF1878D50315} = {3BE95765-EB5A-44D6-9369-A8759A2FAFDE}
 		{1CB7E5D9-9DF6-4359-B6D4-5CFF4D48A769} = {C2A4C477-2BE6-494C-89F3-B51BA1376EBD}
 		{13E0B500-742B-401B-AF78-3F6A0201436D} = {73322DE2-4EF3-41A8-86BE-BB9C2EEFDE68}
+		{4FBF939A-460F-4ADC-822E-9049AB4DA174} = {36E5CD3A-D134-4077-841A-A26AC2FAAFC0}
 	EndGlobalSection
 EndGlobal

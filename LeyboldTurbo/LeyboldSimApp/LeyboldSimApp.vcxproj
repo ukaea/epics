@@ -35,9 +35,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="O.Common\LeyboldTurbo_registerRecordDeviceDriver.cpp" />
-    <ClCompile Include="src\LeyboldTurboMain.cpp" />
-    <ClCompile Include="src\LeyboldTurboPortDriver.cpp" />
+    <ClCompile Include="O.Common\LeyboldSim_registerRecordDeviceDriver.cpp" />
+    <ClCompile Include="src\LeyboldSimMain.cpp" />
+    <ClCompile Include="src\LeyboldSimPortDriver.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\asyn\asyn\asyn.vcxproj">
@@ -54,7 +54,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="src\LeyboldTurbo.dbd">
+    <CustomBuild Include="src\LeyboldSim.dbd">
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">cd src
 perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).dbd %(FileName).dbd
 cd $(ProjectDir)
@@ -97,17 +97,17 @@ cd $(ProjectDir)
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|x64'">O.Common/%(FileName).dbd</Outputs>
       <FileType>Document</FileType>
     </CustomBuild>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Db\LeyboldTurbo.db" />
-    <None Include="O.Common\LeyboldTurbo.dbd" />
+    <None Include="Db\LeyboldSim.db" />
+    <None Include="O.Common\LeyboldSim.dbd">
+      <FileType>Document</FileType>
+    </None>
     <None Include="src\Makefile" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\LeyboldTurboPortDriver.h" />
+    <ClInclude Include="src\LeyboldSimPortDriver.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{1CB7E5D9-9DF6-4359-B6D4-5CFF4D48A769}</ProjectGuid>
+    <ProjectGuid>{4FBF939A-460F-4ADC-822E-9049AB4DA174}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>WithAsyn</RootNamespace>
     <SccProjectName>Svn</SccProjectName>
@@ -245,7 +245,7 @@ cd $(ProjectDir)
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\LeyboldTurbo_registerRecordDeviceDriver.cpp src\LeyboldTurbo.dbd  LeyboldTurbo_registerRecordDeviceDriver  $(SolutionDir)
+perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\LeyboldSim_registerRecordDeviceDriver.cpp src\LeyboldSim.dbd  LeyboldSim_registerRecordDeviceDriver  $(SolutionDir)
 </Command>
     </PreBuildEvent>
     <PostBuildEvent />
@@ -270,7 +270,7 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Com
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\LeyboldTurbo_registerRecordDeviceDriver.cpp src\LeyboldTurbo.dbd  LeyboldTurbo_registerRecordDeviceDriver  $(SolutionDir)
+perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\LeyboldSim_registerRecordDeviceDriver.cpp src\LeyboldSim.dbd  LeyboldSim_registerRecordDeviceDriver  $(SolutionDir)
 </Command>
     </PreBuildEvent>
     <PostBuildEvent />
@@ -296,7 +296,7 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Com
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\LeyboldTurbo_registerRecordDeviceDriver.cpp src\LeyboldTurbo.dbd  LeyboldTurbo_registerRecordDeviceDriver  $(SolutionDir)
+perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\LeyboldSim_registerRecordDeviceDriver.cpp src\LeyboldSim.dbd  LeyboldSim_registerRecordDeviceDriver  $(SolutionDir)
 </Command>
     </PreBuildEvent>
     <PostBuildEvent />
@@ -322,7 +322,7 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Com
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\LeyboldTurbo_registerRecordDeviceDriver.cpp src\LeyboldTurbo.dbd  LeyboldTurbo_registerRecordDeviceDriver  $(SolutionDir)
+perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\LeyboldSim_registerRecordDeviceDriver.cpp src\LeyboldSim.dbd  LeyboldSim_registerRecordDeviceDriver  $(SolutionDir)
 </Command>
     </PreBuildEvent>
     <PostBuildEvent />
@@ -351,7 +351,7 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Com
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\LeyboldTurbo_registerRecordDeviceDriver.cpp src\LeyboldTurbo.dbd  LeyboldTurbo_registerRecordDeviceDriver  $(SolutionDir)
+perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\LeyboldSim_registerRecordDeviceDriver.cpp src\LeyboldSim.dbd  LeyboldSim_registerRecordDeviceDriver  $(SolutionDir)
 </Command>
     </PreBuildEvent>
     <PostBuildEvent />
@@ -380,7 +380,7 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Com
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\LeyboldTurbo_registerRecordDeviceDriver.cpp src\LeyboldTurbo.dbd  LeyboldTurbo_registerRecordDeviceDriver  $(SolutionDir)
+perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\LeyboldSim_registerRecordDeviceDriver.cpp src\LeyboldSim.dbd  LeyboldSim_registerRecordDeviceDriver  $(SolutionDir)
 </Command>
     </PreBuildEvent>
     <PostBuildEvent />
@@ -410,7 +410,7 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Com
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\LeyboldTurbo_registerRecordDeviceDriver.cpp src\LeyboldTurbo.dbd  LeyboldTurbo_registerRecordDeviceDriver  $(SolutionDir)
+perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\LeyboldSim_registerRecordDeviceDriver.cpp src\LeyboldSim.dbd  LeyboldSim_registerRecordDeviceDriver  $(SolutionDir)
 </Command>
     </PreBuildEvent>
     <PostBuildEvent />
@@ -440,7 +440,7 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Com
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\LeyboldTurbo_registerRecordDeviceDriver.cpp src\LeyboldTurbo.dbd  LeyboldTurbo_registerRecordDeviceDriver  $(SolutionDir)
+perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\LeyboldSim_registerRecordDeviceDriver.cpp src\LeyboldSim.dbd  LeyboldSim_registerRecordDeviceDriver  $(SolutionDir)
 </Command>
     </PreBuildEvent>
     <PostBuildEvent />
