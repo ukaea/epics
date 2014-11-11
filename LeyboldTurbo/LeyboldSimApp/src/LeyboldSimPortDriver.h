@@ -12,14 +12,19 @@ public:
 	class CException;
     CLeyboldSimPortDriver(const char *AsynPortName, int NumPumps);
     ~CLeyboldSimPortDriver();
-    virtual asynStatus readUInt32Digital(asynUser *pasynUser, epicsUInt32 *value, epicsUInt32 mask);
 	void addIOPort(const char* IOPortName);
                  
 protected:
+    bool process(asynUser *pasynUser);
+	static void octetConnectionCallback(void *drvPvt, asynUser *pasynUser, char *portName, 
+                  size_t len, int eomReason);
+	static void CLeyboldSimPortDriver::ListenerThread(void* parm);
 
 private:
 	std::map<std::string, int> m_Parameters;
-	std::vector<asynUser*> m_AsynUsers;
+	epicsMutexId m_mutexId;
+	size_t m_NumConnected;
+	volatile bool m_Exiting;
 };
 
 #endif // LEYBOLD_TURBO_PORT_DRIVER_H

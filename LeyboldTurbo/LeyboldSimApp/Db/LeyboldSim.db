@@ -20,13 +20,13 @@ record(bi, "$(P)WarningHighLoad")
 
 record(ai, "$(P)StatorFrequency")
 {
-    field(DTYP, "asynFloat64")
+    field(DTYP, "asynInt32")
 	field(INP,  "@asyn($(PORT),0,1)STATORFREQUENCY")
 }
 
 record(ai, "$(P)ConverterTemperature")
 {
-    field(DTYP, "asynFloat64")
+    field(DTYP, "asynInt32")
 	field(INP,  "@asyn($(PORT),0,1)CONVERTERTEMPERATURE")
 }
 
@@ -38,7 +38,7 @@ record(ai, "$(P)MotorCurrent")
 
 record(ai, "$(P)PumpTemperature")
 {
-    field(DTYP, "asynFloat64")
+    field(DTYP, "asynInt32")
 	field(INP,  "@asyn($(PORT),0,1)PUMPTEMPERATURE")
 }
 

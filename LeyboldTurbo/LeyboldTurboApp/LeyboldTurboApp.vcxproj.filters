@@ -48,5 +48,11 @@
     <ClInclude Include="src\LeyboldTurboPortDriver.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="src\ParameterDefns.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\USSPacket.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

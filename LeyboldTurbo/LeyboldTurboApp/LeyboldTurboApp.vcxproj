@@ -105,6 +105,8 @@ cd $(ProjectDir)
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\LeyboldTurboPortDriver.h" />
+    <ClInclude Include="src\ParameterDefns.h" />
+    <ClInclude Include="src\USSPacket.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{1CB7E5D9-9DF6-4359-B6D4-5CFF4D48A769}</ProjectGuid>
