@@ -1,21 +1,42 @@
+record(bo, "$(P)StartStop")
+{
+	field(DESC, "StartStop")
+	field(DTYP, "asynInt32")
+	field(OUT,  "@asyn($(PORT),0,1)STARTSTOP")
+	field(ZNAM,  "OFF")
+	field(ONAM,  "ON")
+}
+
+record(bo, "$(P)Reset")
+{
+	field(DESC, "Reset")
+	field(DTYP, "asynInt32")
+	field(OUT,  "@asyn($(PORT),0,1)RESET")
+	field(ZNAM,  "NORMAL")
+	field(ONAM,  "RESET IN PROGRESS")
+}
+
 record(bi, "$(P)Fault")
 {
-	field(DTYP, "asynUInt32Digital")
-	field(INP,  "@asynMask($(PORT),0,1,1)FAULT")
-#	field(SCAN, "5 second")
+	field(DESC, "Fault")
+	field(DTYP, "asynInt32")
+	field(INP,  "@asyn($(PORT),0,1)FAULT")
+	field(SCAN, "5 second")
 	field(PINI, "1")
+	field(ZNAM,  "NORMAL")
+	field(ONAM,  "FAULT")
 }
 
 record(bi, "$(P)WarningTemperature")
 {
-    field(DTYP, "asynUInt32Digital")
-	field(INP,  "@asynMask($(PORT),0,1,1)WARNINGTEMPERATURE")
+    field(DTYP, "asynInt32")
+	field(INP,  "@asyn($(PORT),0,1)WARNINGTEMPERATURE")
 }
 
 record(bi, "$(P)WarningHighLoad")
 {
-    field(DTYP, "asynUInt32Digital")
-	field(INP,  "@asynMask($(PORT),0,1,1)WARNINGHIGHLOAD")
+    field(DTYP, "asynInt32")
+	field(INP,  "@asyn($(PORT),0,1)WARNINGHIGHLOAD")
 }
 
 record(ai, "$(P)StatorFrequency")

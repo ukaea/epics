@@ -12,8 +12,8 @@ public:
 	class CException;
     CLeyboldTurboPortDriver(const char *AsynPortName, int NumPumps);
     ~CLeyboldTurboPortDriver();
-    virtual asynStatus readUInt32Digital(asynUser *pasynUser, epicsUInt32 *value, epicsUInt32 mask);
-    virtual asynStatus writeUInt32Digital(asynUser *pasynUser, epicsUInt32 value, epicsUInt32 mask);
+    virtual asynStatus readInt32(asynUser *pasynUser, epicsInt32 *value);
+    virtual asynStatus writeInt32(asynUser *pasynUser, epicsInt32 value);
 	void addIOPort(const char* IOPortName);
                  
 protected:

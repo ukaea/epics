@@ -18,6 +18,7 @@ LeyboldTurboAddIOPort($(IOPORT):1)
 ## Load record instances
 dbLoadRecords("db/LeyboldTurbo.db", "P=$(ASYNPORT):1:,PORT=$(ASYNPORT)")
 dbLoadRecords("../../asyn/asyn/asynRecord/asynRecord.db","P=$(ASYNPORT):1:,R=asyn,PORT=$(ASYNPORT),ADDR=0,OMAX=80,IMAX=80")
+asynSetTraceIOMask($(ASYNPORT),0,0x2)
 
 iocInit
 

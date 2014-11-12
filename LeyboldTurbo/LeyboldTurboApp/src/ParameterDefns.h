@@ -4,6 +4,7 @@ struct ParameterDefn
 {
 	const char* ParamName;
 	asynParamType ParamType;
+	int DefaultValue;
 };
 
 static const char* STARTSTOP = "STARTSTOP"; 
@@ -19,16 +20,16 @@ static const char* CIRCUITVOLTAGE = "CIRCUITVOLTAGE";
 
 ParameterDefn ParameterDefns[] =
 {
-	{STARTSTOP, asynParamUInt32Digital},
-	{RESET, asynParamUInt32Digital},
-	{FAULT, asynParamUInt32Digital},
-	{WARNINGTEMPERATURE, asynParamUInt32Digital},
-	{WARNINGHIGHLOAD, asynParamUInt32Digital},
-	{STATORFREQUENCY, asynParamInt32},
-	{CONVERTERTEMPERATURE, asynParamInt32},
-	{MOTORCURRENT, asynParamFloat64},
-	{PUMPTEMPERATURE, asynParamInt32},
-	{CIRCUITVOLTAGE, asynParamFloat64}
+	{STARTSTOP, asynParamInt32, 1},
+	{RESET, asynParamInt32, 0},
+	{FAULT, asynParamInt32, 0},
+	{WARNINGTEMPERATURE, asynParamInt32, 0},
+	{WARNINGHIGHLOAD, asynParamInt32, 0},
+	{STATORFREQUENCY, asynParamInt32, 0},
+	{CONVERTERTEMPERATURE, asynParamInt32, 0},
+	{MOTORCURRENT, asynParamFloat64, 0},
+	{PUMPTEMPERATURE, asynParamInt32, 0},
+	{CIRCUITVOLTAGE, asynParamFloat64, 0}
 };
 
 static const int NUM_PARAMS = sizeof(ParameterDefns) / sizeof(ParameterDefn);

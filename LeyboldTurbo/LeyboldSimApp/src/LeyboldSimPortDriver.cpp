@@ -4,9 +4,7 @@
 #include <epicsExit.h>
 #include <epicsAssert.h>
 #include <epicsThread.h>
-#include <asynCommonSyncIO.h>
 #include <asynOctetSyncIO.h>
-#include <asynUInt32Digital.h>
 #include <asynStandardInterfaces.h>
 
 #include <USSPacket.h>
@@ -14,9 +12,6 @@
 
 #define epicsExportSharedSymbols
 #include <epicsExport.h>
-
-#include <exception>
-#include <algorithm>
 
 static const char *driverName = "LeyboldSimPortDriver";
 
@@ -31,7 +26,13 @@ public:
 	}
 };
 
-
+//////////////////////////////////////////////////////////////////////////////////////////////////
+//																								//
+//	CLeyboldSimPortDriver::CLeyboldSimPortDriver(const char *asynPortName, int numPumps)		//
+//																								//
+//	Description:
+//		Class constructor.
+//		
 /** Constructor for the testAsynPortDriver class.
   * Calls constructor for the asynPortDriver base class.
   * \param[in] portName The name of the asyn port driver to be created.
@@ -40,8 +41,8 @@ CLeyboldSimPortDriver::CLeyboldSimPortDriver(const char *asynPortName, int numPu
    : asynPortDriver(asynPortName, 
                     numPumps, /* maxAddr */ 
                     NUM_PARAMS,
-					asynCommonMask | asynDrvUserMask |asynOptionMask | asynInt32Mask |asynUInt32DigitalMask | asynFloat64Mask | asynOctetMask | asynGenericPointerMask | asynEnumMask,
-					asynCommonMask | asynDrvUserMask |asynOptionMask | asynInt32Mask |asynUInt32DigitalMask | asynFloat64Mask | asynOctetMask | asynGenericPointerMask | asynEnumMask,
+                    asynDrvUserMask | asynInt32Mask | asynFloat64Mask | asynOctetMask, /* Interface mask */
+                    asynDrvUserMask | asynInt32Mask | asynFloat64Mask | asynOctetMask, /* Interrupt mask */
 					ASYN_MULTIDEVICE | ASYN_CANBLOCK,
                     1, /* Autoconnect */
                     0, /* Default priority */
@@ -81,11 +82,10 @@ void CLeyboldSimPortDriver::ListenerThread(void* parm)
                                                                IOPortName);
     }
     status = pasynManager->freeAsynUser(AsynUser);
-    if (status != asynSuccess) {
+    if (status != asynSuccess)
         asynPrint(AsynUser, ASYN_TRACE_ERROR,
                               "echoListener: Can't free port %s asynUser\n",
                                                                IOPortName);
-    }
 }
 
 void CLeyboldSimPortDriver::octetConnectionCallback(void *drvPvt, asynUser *pasynUser, char *portName, 
@@ -98,6 +98,10 @@ void CLeyboldSimPortDriver::octetConnectionCallback(void *drvPvt, asynUser *pasy
                       epicsThreadPriorityLow,
                       epicsThreadGetStackSize(epicsThreadStackSmall),
                       ListenerThread, drvPvt);
+	asynStatus status = pasynManager->freeAsynUser(pasynUser);
+    if (status != asynSuccess)
+        asynPrint(pasynUser, ASYN_TRACE_ERROR,
+                              "octetConnectionCallback: Can't free port %s asynUser\n", portName);
 }
 
 void CLeyboldSimPortDriver::addIOPort(const char* IOPortName)
@@ -106,8 +110,6 @@ void CLeyboldSimPortDriver::addIOPort(const char* IOPortName)
 	for (size_t ParamIndex = 0; ParamIndex < NUM_PARAMS; ParamIndex++)
 	{
 		int Index;
-//		char Buf[10];
-//		std::string ParamName =  std::string(":") + _itoa(m_AsynUsers.size() + 1, Buf, 10) + ParameterDefns[ParamIndex].ParamName;
 		std::string ParamName =  ParameterDefns[ParamIndex].ParamName;
 		if (createParam(m_NumConnected, ParamName.c_str(), ParameterDefns[ParamIndex].ParamType, &Index) != asynSuccess)
 			throw CException(pasynUserSelf, functionName, "createParam" + std::string(ParameterDefns[ParamIndex].ParamName));
@@ -115,15 +117,15 @@ void CLeyboldSimPortDriver::addIOPort(const char* IOPortName)
 		switch(ParameterDefns[ParamIndex].ParamType)
 		{
 			case asynParamUInt32Digital: 
-				if (setUIntDigitalParam(m_NumConnected, Index, 0, 1) != asynSuccess)
+				if (setUIntDigitalParam(m_NumConnected, Index, ParameterDefns[ParamIndex].DefaultValue, 1) != asynSuccess)
 					throw CException(pasynUserSelf, functionName, "setUIntDigitalParam" + std::string(ParameterDefns[ParamIndex].ParamName));
 				break;
 			case asynParamInt32: 
-				if (setIntegerParam(m_NumConnected, Index, 0) != asynSuccess)
+				if (setIntegerParam(m_NumConnected, Index, ParameterDefns[ParamIndex].DefaultValue) != asynSuccess)
 					throw CException(pasynUserSelf, functionName, "setUIntDigitalParam" + std::string(ParameterDefns[ParamIndex].ParamName));
 				break;
 			case asynParamFloat64: 
-				if (setDoubleParam (m_NumConnected, Index, 0) != asynSuccess)
+				if (setDoubleParam (m_NumConnected, Index, ParameterDefns[ParamIndex].DefaultValue) != asynSuccess)
 					throw CException(pasynUserSelf, functionName, "setDoubleParam" + std::string(ParameterDefns[ParamIndex].ParamName));
 				break;
 			default: assert(false);
@@ -177,37 +179,36 @@ bool CLeyboldSimPortDriver::process(asynUser *pasynUser)
 	}
 
 	bool StartStop = true;
-	bool Reset = false;
-	if (USSWritePacket.m_USSPacketStruct.m_PZD1 & (1 << 10))
+	if (USSReadPacket.m_USSPacketStruct.m_PZD1 & (1 << 10))
 	{
 		//		control bit 10 = 1
-		StartStop = (USSWritePacket.m_USSPacketStruct.m_PZD1 && (1 << 0) != 0);
+		StartStop = ((USSReadPacket.m_USSPacketStruct.m_PZD1 & (1 << 0)) != 0);
 
 		// 0 to 1 transition = Error reset Is only run provided if:
 		//		the cause for the error has been removed
 		//		and control bit 0 = 0 and control bit 10 = 1
-		if ((USSWritePacket.m_USSPacketStruct.m_PZD1 && (1 << 7)) && (!StartStop))
-			Reset = true;
+		if ((USSReadPacket.m_USSPacketStruct.m_PZD1 & (1 << 7)) && (!StartStop))
+			// Clear the fault condition.
+			setIntegerParam(TableIndex, m_Parameters[FAULT], 0);
 	}
 
-	epicsUInt32 UBuf;
 	epicsInt32 IBuf;
 	epicsFloat64 DBuf;
 
-	setUIntDigitalParam(TableIndex, m_Parameters[STARTSTOP], StartStop ? 1 : 0, 1);
+	setIntegerParam(TableIndex, m_Parameters[STARTSTOP], StartStop ? 1 : 0);
 
 	USSWritePacket.m_USSPacketStruct.m_PZD1 = 0;
 
 	// Normal operation 1 = the pump is running in the normal operation mode
-	getUIntDigitalParam(TableIndex, m_Parameters[STARTSTOP], &UBuf, 1); USSReadPacket.m_USSPacketStruct.m_PZD1 |= (UBuf << 10);
+	getIntegerParam(TableIndex, m_Parameters[STARTSTOP], &IBuf); USSWritePacket.m_USSPacketStruct.m_PZD1 |= (IBuf << 10);
 
 	// Remote has been activated 1 = start/stop (control bit 0) and reset(control bit 7) through serial interface is possible.
-	getUIntDigitalParam(TableIndex, m_Parameters[RESET], &UBuf, 1); USSReadPacket.m_USSPacketStruct.m_PZD1 |= (UBuf << 15);
+	getIntegerParam(TableIndex, m_Parameters[RESET], &IBuf); USSWritePacket.m_USSPacketStruct.m_PZD1 |= (IBuf << 15);
 
 
-	getUIntDigitalParam(TableIndex, m_Parameters[FAULT], &UBuf, 1); USSWritePacket.m_USSPacketStruct.m_PZD1 |= (UBuf << 3);
-	getUIntDigitalParam(TableIndex, m_Parameters[WARNINGTEMPERATURE], &UBuf, 1); USSWritePacket.m_USSPacketStruct.m_PZD1 |= (UBuf << 2);
-	getUIntDigitalParam(TableIndex, m_Parameters[WARNINGHIGHLOAD], &UBuf, 1); USSWritePacket.m_USSPacketStruct.m_PZD1 |= (UBuf << 13);
+	getIntegerParam(TableIndex, m_Parameters[FAULT], &IBuf); USSWritePacket.m_USSPacketStruct.m_PZD1 |= (IBuf << 3);
+	getIntegerParam(TableIndex, m_Parameters[WARNINGTEMPERATURE], &IBuf); USSWritePacket.m_USSPacketStruct.m_PZD1 |= (IBuf << 2);
+	getIntegerParam(TableIndex, m_Parameters[WARNINGHIGHLOAD], &IBuf); USSWritePacket.m_USSPacketStruct.m_PZD1 |= (IBuf << 13);
 
 	getIntegerParam(TableIndex, m_Parameters[STATORFREQUENCY], &IBuf); USSWritePacket.m_USSPacketStruct.m_PZD2 = IBuf;
 	getIntegerParam(TableIndex, m_Parameters[CONVERTERTEMPERATURE], &IBuf); USSWritePacket.m_USSPacketStruct.m_PZD3 = IBuf;
@@ -220,6 +221,8 @@ bool CLeyboldSimPortDriver::process(asynUser *pasynUser)
 	status = pasynOctetSyncIO->write(pasynUser,
 		reinterpret_cast<char*>(&USSWritePacket), sizeof(USSPacket),
 		1, &nbytesOut);
+	if (status == asynDisconnected)
+		return false;
 	if (status != asynSuccess)
 		throw CException(pasynUser, functionName, "Can't write/read:");
 

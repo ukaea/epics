@@ -1,49 +1,60 @@
-record(bi, "$(P)Fault")
+record(bi, "$(P)StartStop")
 {
-	field(DTYP, "asynUInt32Digital")
-	field(INP,  "@asynMask($(PORT),0,1,1)FAULT")
+	field(DTYP, "asynInt32")
+	field(INP,  "@asyn($(PORT),0,1)STARTSTOP")
+}
+
+record(bi, "$(P)Reset")
+{
+	field(DTYP, "asynInt32")
+	field(INP,  "@asyn($(PORT),0,1)RESET")
+}
+
+record(bo, "$(P)Fault")
+{
+	field(DTYP, "asynInt32")
+	field(OUT,  "@asyn($(PORT),0,1)FAULT")
 	field(SCAN, "I/O Intr")
-#	field(PINI, "1")
 }
 
-record(bi, "$(P)WarningTemperature")
-{
-    field(DTYP, "asynUInt32Digital")
-	field(INP,  "@asynMask($(PORT),0,1,1)WARNINGTEMPERATURE")
-}
-
-record(bi, "$(P)WarningHighLoad")
-{
-    field(DTYP, "asynUInt32Digital")
-	field(INP,  "@asynMask($(PORT),0,1,1)WARNINGHIGHLOAD")
-}
-
-record(ai, "$(P)StatorFrequency")
+record(bo, "$(P)WarningTemperature")
 {
     field(DTYP, "asynInt32")
-	field(INP,  "@asyn($(PORT),0,1)STATORFREQUENCY")
+	field(OUT,  "@asyn($(PORT),0,1)WARNINGTEMPERATURE")
 }
 
-record(ai, "$(P)ConverterTemperature")
+record(bo, "$(P)WarningHighLoad")
 {
     field(DTYP, "asynInt32")
-	field(INP,  "@asyn($(PORT),0,1)CONVERTERTEMPERATURE")
+	field(OUT,  "@asyn($(PORT),0,1)WARNINGHIGHLOAD")
 }
 
-record(ai, "$(P)MotorCurrent")
+record(ao, "$(P)StatorFrequency")
+{
+    field(DTYP, "asynInt32")
+	field(OUT,  "@asyn($(PORT),0,1)STATORFREQUENCY")
+}
+
+record(ao, "$(P)ConverterTemperature")
+{
+    field(DTYP, "asynInt32")
+	field(OUT,  "@asyn($(PORT),0,1)CONVERTERTEMPERATURE")
+}
+
+record(ao, "$(P)MotorCurrent")
 {
     field(DTYP, "asynFloat64")
-	field(INP,  "@asyn($(PORT),0,1)MOTORCURRENT")
+	field(OUT,  "@asyn($(PORT),0,1)MOTORCURRENT")
 }
 
-record(ai, "$(P)PumpTemperature")
+record(ao, "$(P)PumpTemperature")
 {
     field(DTYP, "asynInt32")
-	field(INP,  "@asyn($(PORT),0,1)PUMPTEMPERATURE")
+	field(OUT,  "@asyn($(PORT),0,1)PUMPTEMPERATURE")
 }
 
-record(ai, "$(P)CircuitVoltage")
+record(ao, "$(P)CircuitVoltage")
 {
     field(DTYP, "asynFloat64")
-	field(INP,  "@asyn($(PORT),0,1)CIRCUITVOLTAGE")
+	field(OUT,  "@asyn($(PORT),0,1)CIRCUITVOLTAGE")
 }
