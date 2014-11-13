@@ -2,6 +2,7 @@
 #define USSPacketStruct_H
 
 #include <epicsTypes.h>
+#include <osiSock.h>
 
 #pragma pack(push, 1)
 struct USSPacketStruct
@@ -27,6 +28,28 @@ struct USSPacketStruct
 	epicsUInt16 m_PZD5;		// Current pump temperature (= P127) Value (°C)
 	epicsUInt16 m_PZD6;		// Current intermediate circuit voltage (=P4) Value (0.1 V)
 	epicsUInt8	m_BCC;		// Recursive calculation:
+	void HToN() {
+		// In the case of word data (16 or 32 bits long) the high byte is transferred first (Motorola standard).
+		m_PKE = htons(m_PKE);
+		m_PWE = htonl(m_PWE);
+		m_PZD1 = htons(m_PZD1);
+		m_PZD2 = htons(m_PZD2);
+		m_PZD3 = htons(m_PZD3);
+		m_PZD4 = htons(m_PZD4);
+		m_PZD5 = htons(m_PZD5);
+		m_PZD6 = htons(m_PZD6);
+	}
+	void NToH() {
+		// In the case of word data (16 or 32 bits long) the high byte is transferred first (Motorola standard).
+		m_PKE = ntohs(m_PKE);
+		m_PWE = ntohl(m_PWE);
+		m_PZD1 = ntohs(m_PZD1);
+		m_PZD2 = ntohs(m_PZD2);
+		m_PZD3 = ntohs(m_PZD3);
+		m_PZD4 = ntohs(m_PZD4);
+		m_PZD5 = ntohs(m_PZD5);
+		m_PZD6 = ntohs(m_PZD6);
+	}
 };
 #pragma pack(pop)
 

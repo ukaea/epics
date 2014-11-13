@@ -13,8 +13,6 @@
 #define epicsExportSharedSymbols
 #include <epicsExport.h>
 
-static const char *driverName = "LeyboldSimPortDriver";
-
 static CLeyboldSimPortDriver* g_LeyboldSimPortDriver;
 
 class CLeyboldSimPortDriver::CException : public std::runtime_error
@@ -22,7 +20,7 @@ class CLeyboldSimPortDriver::CException : public std::runtime_error
 public:
 	CException(asynUser* AsynUser, const char* functionName, std::string const& what) : std::runtime_error(what) {
 		std::string message = "%s:%s ERROR: " + what + "\n";
-		asynPrint(AsynUser, ASYN_TRACE_ERROR, message.c_str(), driverName, functionName, AsynUser->errorMessage);
+		asynPrint(AsynUser, ASYN_TRACE_ERROR, message.c_str(), __FILE__, functionName, AsynUser->errorMessage);
 	}
 };
 
@@ -64,10 +62,9 @@ void CLeyboldSimPortDriver::ListenerThread(void* parm)
 	CLeyboldSimPortDriver* This = static_cast<CLeyboldSimPortDriver*>(parm);
 	asynUser* AsynUser;
 	const char* IOPortName = epicsThreadGetNameSelf();
-	const char* functionName = "ListenerThread";
 	try {
 		if (pasynOctetSyncIO->connect(IOPortName, This->m_NumConnected, &AsynUser, NULL) != asynSuccess)
-			throw CException(This->pasynUserSelf, functionName, "connecting to IO port=" + std::string(IOPortName));
+			throw CException(This->pasynUserSelf, __FUNCTION__, "connecting to IO port=" + std::string(IOPortName));
 		This->m_NumConnected++;
 
 		while ((!This->m_Exiting) && 
@@ -106,27 +103,22 @@ void CLeyboldSimPortDriver::octetConnectionCallback(void *drvPvt, asynUser *pasy
 
 void CLeyboldSimPortDriver::addIOPort(const char* IOPortName)
 {
-    static const char *functionName = "addIOPort";
 	for (size_t ParamIndex = 0; ParamIndex < NUM_PARAMS; ParamIndex++)
 	{
 		int Index;
 		std::string ParamName =  ParameterDefns[ParamIndex].ParamName;
 		if (createParam(m_NumConnected, ParamName.c_str(), ParameterDefns[ParamIndex].ParamType, &Index) != asynSuccess)
-			throw CException(pasynUserSelf, functionName, "createParam" + std::string(ParameterDefns[ParamIndex].ParamName));
+			throw CException(pasynUserSelf, __FUNCTION__, "createParam" + std::string(ParameterDefns[ParamIndex].ParamName));
 		m_Parameters[ParamName] = Index;
 		switch(ParameterDefns[ParamIndex].ParamType)
 		{
-			case asynParamUInt32Digital: 
-				if (setUIntDigitalParam(m_NumConnected, Index, ParameterDefns[ParamIndex].DefaultValue, 1) != asynSuccess)
-					throw CException(pasynUserSelf, functionName, "setUIntDigitalParam" + std::string(ParameterDefns[ParamIndex].ParamName));
-				break;
 			case asynParamInt32: 
 				if (setIntegerParam(m_NumConnected, Index, ParameterDefns[ParamIndex].DefaultValue) != asynSuccess)
-					throw CException(pasynUserSelf, functionName, "setUIntDigitalParam" + std::string(ParameterDefns[ParamIndex].ParamName));
+					throw CException(pasynUserSelf, __FUNCTION__, "setUIntDigitalParam" + std::string(ParameterDefns[ParamIndex].ParamName));
 				break;
 			case asynParamFloat64: 
 				if (setDoubleParam (m_NumConnected, Index, ParameterDefns[ParamIndex].DefaultValue) != asynSuccess)
-					throw CException(pasynUserSelf, functionName, "setDoubleParam" + std::string(ParameterDefns[ParamIndex].ParamName));
+					throw CException(pasynUserSelf, __FUNCTION__, "setDoubleParam" + std::string(ParameterDefns[ParamIndex].ParamName));
 				break;
 			default: assert(false);
 		}
@@ -135,7 +127,7 @@ void CLeyboldSimPortDriver::addIOPort(const char* IOPortName)
     asynUser *AsynUser = pasynManager->createAsynUser(0,0);
 
     if (pasynManager->connectDevice(AsynUser, IOPortName, m_NumConnected) != asynSuccess)
-		throw CException(AsynUser, functionName, "connectDevice" + std::string(IOPortName));
+		throw CException(AsynUser, __FUNCTION__, "connectDevice" + std::string(IOPortName));
 
     asynInterface* pasynOctetInterface = pasynManager->findInterface(AsynUser, asynOctetType, 1);
 
@@ -149,7 +141,6 @@ bool CLeyboldSimPortDriver::process(asynUser *pasynUser)
 {
 	asynStatus status = asynSuccess;
 	int function = pasynUser->reason;
-	static const char *functionName = "readUInt32Digital";
 	USSPacket USSWritePacket, USSReadPacket;
 	STATIC_ASSERT(sizeof(USSPacket)==USSPacketSize);
 	size_t nbytesOut, nbytesIn;
@@ -157,7 +148,7 @@ bool CLeyboldSimPortDriver::process(asynUser *pasynUser)
 
 	size_t TableIndex = function / NUM_PARAMS;
 	if (TableIndex >= m_NumConnected)
-		throw CException(pasynUser, functionName, "User / pump not configured");
+		throw CException(pasynUser, __FUNCTION__, "User / pump not configured");
 
 	asynInterface* pasynOctetInterface = pasynManager->findInterface(pasynUser, asynOctetType, 1);
 
@@ -170,15 +161,18 @@ bool CLeyboldSimPortDriver::process(asynUser *pasynUser)
 	if (status == asynDisconnected)
 		return false;
 	if (status != asynSuccess)
-		throw CException(pasynUser, functionName, "Can't read:");
+		throw CException(pasynUser, __FUNCTION__, "Can't read:");
 
+
+	USSReadPacket.m_USSPacketStruct.NToH();
 	if (!USSReadPacket.ValidateChecksum())
 	{
-		asynPrint(pasynUser, ASYN_TRACE_WARNING, "Packet validation failed", driverName, functionName);
+		asynPrint(pasynUser, ASYN_TRACE_WARNING, "Packet validation failed", __FILE__, __FUNCTION__);
 		return true;
 	}
 
 	bool StartStop = true;
+	bool Reset = false;
 	if (USSReadPacket.m_USSPacketStruct.m_PZD1 & (1 << 10))
 	{
 		//		control bit 10 = 1
@@ -188,12 +182,34 @@ bool CLeyboldSimPortDriver::process(asynUser *pasynUser)
 		//		the cause for the error has been removed
 		//		and control bit 0 = 0 and control bit 10 = 1
 		if ((USSReadPacket.m_USSPacketStruct.m_PZD1 & (1 << 7)) && (!StartStop))
+		{
 			// Clear the fault condition.
+			Reset = true;
 			setIntegerParam(TableIndex, m_Parameters[FAULT], 0);
+		}
 	}
 
 	epicsInt32 IBuf;
 	epicsFloat64 DBuf;
+
+	// Normal operation 1 = the pump is running in the normal operation mode
+	getIntegerParam(TableIndex, m_Parameters[STARTSTOP], &IBuf);
+	bool WasStartStop = (IBuf != 0);
+
+	if ((StartStop && !WasStartStop) || (Reset))
+	{
+		setIntegerParam(TableIndex, m_Parameters[STATORFREQUENCY], ParameterDefns[m_Parameters[STATORFREQUENCY]].DefaultValue);
+		setIntegerParam(TableIndex, m_Parameters[CONVERTERTEMPERATURE], ParameterDefns[m_Parameters[CONVERTERTEMPERATURE]].DefaultValue);
+		setDoubleParam(TableIndex, m_Parameters[MOTORCURRENT], ParameterDefns[m_Parameters[MOTORCURRENT]].DefaultValue);
+		setIntegerParam(TableIndex, m_Parameters[PUMPTEMPERATURE], ParameterDefns[m_Parameters[PUMPTEMPERATURE]].DefaultValue);
+		setDoubleParam(TableIndex, m_Parameters[CIRCUITVOLTAGE], ParameterDefns[m_Parameters[CIRCUITVOLTAGE]].DefaultValue);
+		setIntegerParam(TableIndex, m_Parameters[WARNINGTEMPERATURE], 0);
+		setIntegerParam(TableIndex, m_Parameters[WARNINGHIGHLOAD], 0);
+	}
+	if (!StartStop && WasStartStop)
+	{
+		setIntegerParam(TableIndex, m_Parameters[STATORFREQUENCY], 0);
+	}
 
 	setIntegerParam(TableIndex, m_Parameters[STARTSTOP], StartStop ? 1 : 0);
 
@@ -216,6 +232,7 @@ bool CLeyboldSimPortDriver::process(asynUser *pasynUser)
 	getIntegerParam(TableIndex, m_Parameters[PUMPTEMPERATURE], &IBuf); USSWritePacket.m_USSPacketStruct.m_PZD5 = IBuf;
 	getDoubleParam(TableIndex, m_Parameters[CIRCUITVOLTAGE], &DBuf); USSWritePacket.m_USSPacketStruct.m_PZD6 = epicsUInt32(10.0 * DBuf + 0.5);
 	USSWritePacket.GenerateChecksum();
+	USSWritePacket.m_USSPacketStruct.HToN();
 
 	// NB, *don't* pass pasynUser to this function - it has the wrong type and will cause an access violation.
 	status = pasynOctetSyncIO->write(pasynUser,
@@ -224,9 +241,9 @@ bool CLeyboldSimPortDriver::process(asynUser *pasynUser)
 	if (status == asynDisconnected)
 		return false;
 	if (status != asynSuccess)
-		throw CException(pasynUser, functionName, "Can't write/read:");
+		throw CException(pasynUser, __FUNCTION__, "Can't write/read:");
 
-	asynPrint(pasynUser, ASYN_TRACE_FLOW, "Packet success", driverName, functionName);
+	asynPrint(pasynUser, ASYN_TRACE_FLOW, "Packet success", __FILE__, __FUNCTION__);
 
 	return true;
 

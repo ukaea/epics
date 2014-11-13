@@ -25,11 +25,11 @@ ParameterDefn ParameterDefns[] =
 	{FAULT, asynParamInt32, 0},
 	{WARNINGTEMPERATURE, asynParamInt32, 0},
 	{WARNINGHIGHLOAD, asynParamInt32, 0},
-	{STATORFREQUENCY, asynParamInt32, 0},
-	{CONVERTERTEMPERATURE, asynParamInt32, 0},
-	{MOTORCURRENT, asynParamFloat64, 0},
-	{PUMPTEMPERATURE, asynParamInt32, 0},
-	{CIRCUITVOLTAGE, asynParamFloat64, 0}
+	{STATORFREQUENCY, asynParamInt32, 500},
+	{CONVERTERTEMPERATURE, asynParamInt32, 50},
+	{MOTORCURRENT, asynParamFloat64, 10},
+	{PUMPTEMPERATURE, asynParamInt32, 40},
+	{CIRCUITVOLTAGE, asynParamFloat64, 30}
 };
 
 static const int NUM_PARAMS = sizeof(ParameterDefns) / sizeof(ParameterDefn);

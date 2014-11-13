@@ -14,18 +14,14 @@
 
 #include <exception>
 
-static const char *driverName = "LeyboldTurboPortDriver";
-
 static CLeyboldTurboPortDriver* g_LeyboldTurboPortDriver;
 
 class CLeyboldTurboPortDriver::CException : public std::runtime_error
 {
-	std::string m_functionName;
-
 public:
 	CException(asynUser* AsynUser, const char* functionName, std::string const& what) : std::runtime_error(what) {
 		std::string message = "%s:%s ERROR: " + what + "\n";
-		asynPrint(AsynUser, ASYN_TRACE_ERROR, message.c_str(), driverName, functionName, AsynUser->errorMessage);
+		asynPrint(AsynUser, ASYN_TRACE_ERROR, message.c_str(), __FILE__, functionName, AsynUser->errorMessage);
 	}
 };
 
@@ -48,30 +44,29 @@ CLeyboldTurboPortDriver::CLeyboldTurboPortDriver(const char *asynPortName, int n
 
 void CLeyboldTurboPortDriver::addIOPort(const char* IOPortName)
 {
-    static const char *functionName = "addIOPort";
 	for (size_t ParamIndex = 0; ParamIndex < NUM_PARAMS; ParamIndex++)
 	{
 		int Index;
 		std::string ParamName =  ParameterDefns[ParamIndex].ParamName;
 		if (createParam(m_AsynUsers.size(), ParamName.c_str(), ParameterDefns[ParamIndex].ParamType, &Index) != asynSuccess)
-			throw CException(pasynUserSelf, functionName, "createParam" + std::string(ParameterDefns[ParamIndex].ParamName));
+			throw CException(pasynUserSelf, __FUNCTION__, "createParam" + std::string(ParameterDefns[ParamIndex].ParamName));
 		m_Parameters[ParamName] = Index;
 		switch(ParameterDefns[ParamIndex].ParamType)
 		{
 			case asynParamInt32: 
 				if (setIntegerParam(m_AsynUsers.size(), Index, ParameterDefns[ParamIndex].DefaultValue) != asynSuccess)
-					throw CException(pasynUserSelf, functionName, "setIntegerParam" + std::string(ParameterDefns[ParamIndex].ParamName));
+					throw CException(pasynUserSelf, __FUNCTION__, "setIntegerParam" + std::string(ParameterDefns[ParamIndex].ParamName));
 				break;
 			case asynParamFloat64: 
 				if (setDoubleParam (m_AsynUsers.size(), Index, ParameterDefns[ParamIndex].DefaultValue) != asynSuccess)
-					throw CException(pasynUserSelf, functionName, "setDoubleParam" + std::string(ParameterDefns[ParamIndex].ParamName));
+					throw CException(pasynUserSelf, __FUNCTION__, "setDoubleParam" + std::string(ParameterDefns[ParamIndex].ParamName));
 				break;
 			default: assert(false);
 		}
 	}
 	asynUser* IOUser;
 	if (pasynOctetSyncIO->connect(IOPortName, m_AsynUsers.size(), &IOUser, NULL) != asynSuccess)
-		throw CException(pasynUserSelf, functionName, "connecting to IO port=" + std::string(IOPortName));
+		throw CException(pasynUserSelf, __FUNCTION__, "connecting to IO port=" + std::string(IOPortName));
 //	connect(AsynUser);
 	m_AsynUsers.push_back(IOUser);
 }
@@ -84,11 +79,10 @@ CLeyboldTurboPortDriver::~CLeyboldTurboPortDriver()
 
 asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *value)
 {
-	static const char *functionName = "readInt32";
 	int function = pasynUser->reason;
 	size_t TableIndex = function / NUM_PARAMS;
 	if (TableIndex >= m_AsynUsers.size())
-		throw CException(pasynUser, functionName, "User / pump not configured");
+		throw CException(pasynUser, __FUNCTION__, "User / pump not configured");
 
 	try {
 		USSPacket USSWritePacket, USSReadPacket;
@@ -98,43 +92,49 @@ asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *v
 
 		asynUser* IOUser = m_AsynUsers[TableIndex];
 
+
+		USSWritePacket.GenerateChecksum();
+		USSWritePacket.m_USSPacketStruct.HToN();
 		// NB, *don't* pass pasynUser to this function - it has the wrong type and will cause an access violation.
 		if (pasynOctetSyncIO->writeRead(IOUser,
 			reinterpret_cast<const char*>(&USSWritePacket), sizeof(USSPacket), 
 			reinterpret_cast<char*>(&USSReadPacket), sizeof(USSPacket),
 			1, &nbytesOut, &nbytesIn, &eomReason) != asynSuccess)
-			throw CException(pasynUser, functionName, "Can't write/read:");
+			throw CException(pasynUser, __FUNCTION__, "Can't write/read:");
+		USSReadPacket.m_USSPacketStruct.NToH();
 
 		if (!USSReadPacket.ValidateChecksum())
 		{
-			asynPrint(pasynUser, ASYN_TRACE_WARNING, "Packet validation failed", driverName, functionName);
+			asynPrint(pasynUser, ASYN_TRACE_WARNING, "Packet validation failed", __FILE__, __FUNCTION__);
 			return asynError;
 		}
 		// Normal operation 1 = the pump is running in the normal operation mode
 		if (setIntegerParam (TableIndex, m_Parameters[STARTSTOP], USSReadPacket.m_USSPacketStruct.m_PZD1 & (1 << 10) ? 1 : 0) != asynSuccess)
-			throw CException(pasynUser, functionName, "Can't set parameter");
+			throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
 
 		// Remote has been activated 1 = start/stop (control bit 0) and reset(control bit 7) through serial interface is possible.
 		if (setIntegerParam (TableIndex, m_Parameters[RESET], USSReadPacket.m_USSPacketStruct.m_PZD1 & (1 << 15) ? 1 : 0) != asynSuccess)
-			throw CException(pasynUser, functionName, "Can't set parameter");
+			throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
 
 		if (setIntegerParam (TableIndex, m_Parameters[FAULT], USSReadPacket.m_USSPacketStruct.m_PZD1 & (1 << 3) ? 1 : 0) != asynSuccess)
-			throw CException(pasynUser, functionName, "Can't set parameter");
+			throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
 		if (setIntegerParam (TableIndex, m_Parameters[WARNINGTEMPERATURE], USSReadPacket.m_USSPacketStruct.m_PZD1 & (1 << 2) ? 1 : 0) != asynSuccess)
-			throw CException(pasynUser, functionName, "Can't set parameter");
+			throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
 		if (setIntegerParam (TableIndex, m_Parameters[WARNINGHIGHLOAD], USSReadPacket.m_USSPacketStruct.m_PZD1 & (1 << 13) ? 1 : 0) != asynSuccess)
-			throw CException(pasynUser, functionName, "Can't set parameter");
+			throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
 		if (setIntegerParam (TableIndex, m_Parameters[STATORFREQUENCY], USSReadPacket.m_USSPacketStruct.m_PZD2) != asynSuccess)
-			throw CException(pasynUser, functionName, "Can't set parameter");
+			throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
 		if (setIntegerParam (TableIndex, m_Parameters[CONVERTERTEMPERATURE], USSReadPacket.m_USSPacketStruct.m_PZD3) != asynSuccess)
-			throw CException(pasynUser, functionName, "Can't set parameter");
+			throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
 		if (setDoubleParam  (TableIndex, m_Parameters[MOTORCURRENT], 0.1 * USSReadPacket.m_USSPacketStruct.m_PZD4) != asynSuccess)
-			throw CException(pasynUser, functionName, "Can't set parameter");
+			throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
 		if (setIntegerParam (TableIndex, m_Parameters[PUMPTEMPERATURE], USSReadPacket.m_USSPacketStruct.m_PZD5) != asynSuccess)
-			throw CException(pasynUser, functionName, "Can't set parameter");
+			throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
 		if (setDoubleParam  (TableIndex, m_Parameters[CIRCUITVOLTAGE], 0.1 * USSReadPacket.m_USSPacketStruct.m_PZD6) != asynSuccess)
-			throw CException(pasynUser, functionName, "Can't set parameter");
-		asynPrint(pasynUser, ASYN_TRACE_FLOW, "Packet success", driverName, functionName);
+			throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
+		if (callParamCallbacks() != asynSuccess)
+			throw CException(pasynUser, __FUNCTION__, "callParamCallbacks");
+		asynPrint(pasynUser, ASYN_TRACE_FLOW, "Packet success", __FILE__, __FUNCTION__);
 	}
 	catch(CException const&) {
 		setIntegerParam(TableIndex, m_Parameters[FAULT], 1);
@@ -144,12 +144,11 @@ asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *v
 
 asynStatus CLeyboldTurboPortDriver::writeInt32(asynUser *pasynUser, epicsInt32 value)
 {
-	static const char *functionName = "writeInt32";
 	asynStatus status = asynPortDriver::writeInt32(pasynUser, value);
 	int function = pasynUser->reason;
 	size_t TableIndex = function / NUM_PARAMS;
 	if (TableIndex >= m_AsynUsers.size())
-		throw CException(pasynUser, functionName, "User / pump not configured");
+		throw CException(pasynUser, __FUNCTION__, "User / pump not configured");
 	try {
 		const char *paramName;
 		USSPacket USSWritePacket, USSReadPacket;
@@ -160,7 +159,7 @@ asynStatus CLeyboldTurboPortDriver::writeInt32(asynUser *pasynUser, epicsInt32 v
 		/* Fetch the parameter string name for possible use in debugging */
 		status = getParamName(function, &paramName);
 		if (status != asynSuccess)
-			throw CException(pasynUser, functionName, "Can't get parameter name:");
+			throw CException(pasynUser, __FUNCTION__, "Can't get parameter name:");
 
 		asynUser* IOUser = m_AsynUsers[TableIndex];
 
@@ -172,12 +171,6 @@ asynStatus CLeyboldTurboPortDriver::writeInt32(asynUser *pasynUser, epicsInt32 v
 			//		control bit 10 = 1
 			USSWritePacket.m_USSPacketStruct.m_PZD1 |= 1 << 10;
 			USSWritePacket.m_USSPacketStruct.m_PZD1 |= (value ? 1 : 0) << 0; // Set StartStop bit.
-			USSWritePacket.GenerateChecksum();
-			if (pasynOctetSyncIO->writeRead(IOUser,
-				reinterpret_cast<const char*>(&USSWritePacket), sizeof(USSPacket), 
-				reinterpret_cast<char*>(&USSReadPacket), sizeof(USSPacket),
-				1, &nbytesOut, &nbytesIn, &eomReason) != asynSuccess)
-				throw CException(pasynUser, functionName, "Can't write/read:");
 		}
 
 		if (strcmp(paramName, RESET)==0)
@@ -190,12 +183,18 @@ asynStatus CLeyboldTurboPortDriver::writeInt32(asynUser *pasynUser, epicsInt32 v
 			//		control bit 10 = 1
 			USSWritePacket.m_USSPacketStruct.m_PZD1 |= 1 << 10;
 			USSWritePacket.m_USSPacketStruct.m_PZD1 |= (value ? 1 : 0) << 7; // High
-			USSWritePacket.GenerateChecksum();
-			if (pasynOctetSyncIO->writeRead(IOUser,
+		}
+		USSWritePacket.GenerateChecksum();
+		USSWritePacket.m_USSPacketStruct.HToN();
+		if (pasynOctetSyncIO->writeRead(IOUser,
 				reinterpret_cast<const char*>(&USSWritePacket), sizeof(USSPacket), 
 				reinterpret_cast<char*>(&USSReadPacket), sizeof(USSPacket),
 				1, &nbytesOut, &nbytesIn, &eomReason) != asynSuccess)
-				throw CException(pasynUser, functionName, "Can't write/read:");
+				throw CException(pasynUser, __FUNCTION__, "Can't write/read:");
+		if (!USSReadPacket.ValidateChecksum())
+		{
+			asynPrint(pasynUser, ASYN_TRACE_WARNING, "Packet validation failed", __FILE__, __FUNCTION__);
+			return asynError;
 		}
 	}
 	catch(CException const&) {

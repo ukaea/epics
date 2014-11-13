@@ -18,7 +18,7 @@ protected:
     bool process(asynUser *pasynUser);
 	static void octetConnectionCallback(void *drvPvt, asynUser *pasynUser, char *portName, 
                   size_t len, int eomReason);
-	static void CLeyboldSimPortDriver::ListenerThread(void* parm);
+	static void ListenerThread(void* parm);
 
 private:
 	std::map<std::string, int> m_Parameters;
