@@ -21,6 +21,7 @@ LeyboldTurbo_DBD += base.dbd
 # Add all the support libraries needed by this IOC
 LeyboldTurbo_LIBS += asyn
 LeyboldTurbo_LIBS += $(EPICS_BASE_IOC_LIBS)
+LeyboldTurbo_SYS_LIBS_WIN32 += ws2_32
 
 # LeyboldTurbo_registerRecordDeviceDriver.cpp derives from LeyboldTurbo.dbd
 LeyboldTurbo_SRCS += LeyboldTurbo_registerRecordDeviceDriver.cpp

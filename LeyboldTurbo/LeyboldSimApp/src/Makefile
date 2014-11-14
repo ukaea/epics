@@ -17,10 +17,12 @@ LeyboldSim_DBD += base.dbd
 
 # Include dbd files from all support applications:
 #LeyboldSim_DBD += xxx.dbd
+USR_INCLUDES += -I../LeyboldTurboApp/src
 
 # Add all the support libraries needed by this IOC
 LeyboldSim_LIBS += asyn
 LeyboldSim_LIBS += $(EPICS_BASE_IOC_LIBS)
+LeyboldSim_SYS_LIBS_WIN32 += ws2_32
 
 # LeyboldSim_registerRecordDeviceDriver.cpp derives from LeyboldSim.dbd
 LeyboldSim_SRCS += LeyboldSim_registerRecordDeviceDriver.cpp

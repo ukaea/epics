@@ -2,31 +2,42 @@ record(bi, "$(P)StartStop")
 {
 	field(DTYP, "asynInt32")
 	field(INP,  "@asyn($(PORT),0,1)STARTSTOP")
+	field(SCAN, "I/O Intr")
+	field(ZNAM,  "OFF")
+	field(ONAM,  "ON")
 }
 
 record(bi, "$(P)Reset")
 {
 	field(DTYP, "asynInt32")
 	field(INP,  "@asyn($(PORT),0,1)RESET")
+	field(SCAN, "I/O Intr")
+	field(ZNAM,  "NORMAL")
+	field(ONAM,  "RESET IN PROGRESS")
 }
 
 record(bo, "$(P)Fault")
 {
 	field(DTYP, "asynInt32")
 	field(OUT,  "@asyn($(PORT),0,1)FAULT")
-	field(SCAN, "I/O Intr")
+	field(ZNAM,  "NORMAL")
+	field(ONAM,  "FAULT")
 }
 
 record(bo, "$(P)WarningTemperature")
 {
     field(DTYP, "asynInt32")
 	field(OUT,  "@asyn($(PORT),0,1)WARNINGTEMPERATURE")
+	field(ZNAM,  "NORMAL")
+	field(ONAM,  "WARNING TEMPERATURE")
 }
 
 record(bo, "$(P)WarningHighLoad")
 {
     field(DTYP, "asynInt32")
 	field(OUT,  "@asyn($(PORT),0,1)WARNINGHIGHLOAD")
+	field(ZNAM,  "NORMAL")
+	field(ONAM,  "WARNING HIGH LOAD")
 }
 
 record(ao, "$(P)StatorFrequency")

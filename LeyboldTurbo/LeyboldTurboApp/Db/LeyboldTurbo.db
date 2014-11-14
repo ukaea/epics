@@ -13,6 +13,7 @@ record(bo, "$(P)Reset")
 	field(DTYP, "asynInt32")
 	field(OUT,  "@asyn($(PORT),0,1)RESET")
 	field(HIGH, "1.0")
+	field(PINI, "1")
 	field(ZNAM,  "NORMAL")
 	field(ONAM,  "RESET IN PROGRESS")
 }

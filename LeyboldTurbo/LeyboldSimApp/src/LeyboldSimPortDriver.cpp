@@ -196,8 +196,9 @@ bool CLeyboldSimPortDriver::process(asynUser *pasynUser)
 	getIntegerParam(TableIndex, m_Parameters[STARTSTOP], &IBuf);
 	bool WasStartStop = (IBuf != 0);
 
-	if ((StartStop && !WasStartStop) || (Reset))
+	if (StartStop && !WasStartStop)
 	{
+		setIntegerParam(TableIndex, m_Parameters[STARTSTOP], StartStop ? 1 : 0);
 		setIntegerParam(TableIndex, m_Parameters[STATORFREQUENCY], ParameterDefns[m_Parameters[STATORFREQUENCY]].DefaultValue);
 		setIntegerParam(TableIndex, m_Parameters[CONVERTERTEMPERATURE], ParameterDefns[m_Parameters[CONVERTERTEMPERATURE]].DefaultValue);
 		setDoubleParam(TableIndex, m_Parameters[MOTORCURRENT], ParameterDefns[m_Parameters[MOTORCURRENT]].DefaultValue);
@@ -208,10 +209,9 @@ bool CLeyboldSimPortDriver::process(asynUser *pasynUser)
 	}
 	if (!StartStop && WasStartStop)
 	{
+		setIntegerParam(TableIndex, m_Parameters[STARTSTOP], StartStop ? 1 : 0);
 		setIntegerParam(TableIndex, m_Parameters[STATORFREQUENCY], 0);
 	}
-
-	setIntegerParam(TableIndex, m_Parameters[STARTSTOP], StartStop ? 1 : 0);
 
 	USSWritePacket.m_USSPacketStruct.m_PZD1 = 0;
 
@@ -220,7 +220,11 @@ bool CLeyboldSimPortDriver::process(asynUser *pasynUser)
 
 	// Remote has been activated 1 = start/stop (control bit 0) and reset(control bit 7) through serial interface is possible.
 	getIntegerParam(TableIndex, m_Parameters[RESET], &IBuf); USSWritePacket.m_USSPacketStruct.m_PZD1 |= (IBuf << 15);
-
+	bool Fault = (IBuf != 0);
+	if (Fault)
+	{
+		setIntegerParam(TableIndex, m_Parameters[STATORFREQUENCY], 0);
+	}
 
 	getIntegerParam(TableIndex, m_Parameters[FAULT], &IBuf); USSWritePacket.m_USSPacketStruct.m_PZD1 |= (IBuf << 3);
 	getIntegerParam(TableIndex, m_Parameters[WARNINGTEMPERATURE], &IBuf); USSWritePacket.m_USSPacketStruct.m_PZD1 |= (IBuf << 2);
@@ -243,6 +247,8 @@ bool CLeyboldSimPortDriver::process(asynUser *pasynUser)
 	if (status != asynSuccess)
 		throw CException(pasynUser, __FUNCTION__, "Can't write/read:");
 
+	if (callParamCallbacks() != asynSuccess)
+		throw CException(pasynUser, __FUNCTION__, "callParamCallbacks");
 	asynPrint(pasynUser, ASYN_TRACE_FLOW, "Packet success", __FILE__, __FUNCTION__);
 
 	return true;

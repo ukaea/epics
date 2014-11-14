@@ -89,9 +89,15 @@ asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *v
 		STATIC_ASSERT(sizeof(USSPacket)==USSPacketSize);
 		size_t nbytesOut, nbytesIn;
 		int eomReason;
+		const char *paramName;
+
+		if (getParamName(function, &paramName) != asynSuccess)
+			throw CException(pasynUser, __FUNCTION__, "Can't get parameter name:");
+
+		if (std::string(paramName) != FAULT)
+			return asynPortDriver::readInt32(pasynUser, value);
 
 		asynUser* IOUser = m_AsynUsers[TableIndex];
-
 
 		USSWritePacket.GenerateChecksum();
 		USSWritePacket.m_USSPacketStruct.HToN();
@@ -108,13 +114,13 @@ asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *v
 			asynPrint(pasynUser, ASYN_TRACE_WARNING, "Packet validation failed", __FILE__, __FUNCTION__);
 			return asynError;
 		}
-		// Normal operation 1 = the pump is running in the normal operation mode
+/*		// Normal operation 1 = the pump is running in the normal operation mode
 		if (setIntegerParam (TableIndex, m_Parameters[STARTSTOP], USSReadPacket.m_USSPacketStruct.m_PZD1 & (1 << 10) ? 1 : 0) != asynSuccess)
 			throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
 
 		// Remote has been activated 1 = start/stop (control bit 0) and reset(control bit 7) through serial interface is possible.
 		if (setIntegerParam (TableIndex, m_Parameters[RESET], USSReadPacket.m_USSPacketStruct.m_PZD1 & (1 << 15) ? 1 : 0) != asynSuccess)
-			throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
+			throw CException(pasynUser, __FUNCTION__, "Can't set parameter");*/
 
 		if (setIntegerParam (TableIndex, m_Parameters[FAULT], USSReadPacket.m_USSPacketStruct.m_PZD1 & (1 << 3) ? 1 : 0) != asynSuccess)
 			throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
@@ -191,6 +197,7 @@ asynStatus CLeyboldTurboPortDriver::writeInt32(asynUser *pasynUser, epicsInt32 v
 				reinterpret_cast<char*>(&USSReadPacket), sizeof(USSPacket),
 				1, &nbytesOut, &nbytesIn, &eomReason) != asynSuccess)
 				throw CException(pasynUser, __FUNCTION__, "Can't write/read:");
+		USSReadPacket.m_USSPacketStruct.NToH();
 		if (!USSReadPacket.ValidateChecksum())
 		{
 			asynPrint(pasynUser, ASYN_TRACE_WARNING, "Packet validation failed", __FILE__, __FUNCTION__);
