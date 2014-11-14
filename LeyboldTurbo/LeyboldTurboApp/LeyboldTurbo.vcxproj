@@ -109,7 +109,7 @@ cd $(ProjectDir)
     <ClInclude Include="src\USSPacket.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{1CB7E5D9-9DF6-4359-B6D4-5CFF4D48A769}</ProjectGuid>
+    <ProjectGuid>{BAE6CE99-140A-4018-8BCB-9D63F54D6F07}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>WithAsyn</RootNamespace>
     <SccProjectName>Svn</SccProjectName>
