@@ -2,11 +2,12 @@ TOP=../..
 
 include $(TOP)/configure/CONFIG
 
-PROD_HOST += testBoost 
-#test_CXXFLAGS += -DPV_MB
-testBoost_SRCS += testBoost.cpp
-USR_LDFLAGS += -LIBPATH:../../../boostApp/boost/stage/lib/
-#testBoost_LIBS +=
+USR_CXXFLAGS_WIN32 += -DBOOST_ALL_NO_LIB
+
+ifdef WITH_MICROBENCH
+    PROD_HOST += testBoost
+    testBoost_SRCS += testBoost.cpp
+endif
 
 include $(TOP)/configure/RULES
 #----------------------------------------

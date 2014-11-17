@@ -36,6 +36,11 @@ cat > configure/RELEASE.local << EOF
 EPICS_BASE=${EPICS_BASE}
 EOF
 
+# Set WITH_MICROBENCH so the testBoost program is built
+cat > configure/CONFIG_SITE.local << EOF
+WITH_MICROBENCH=1
+EOF
+
 make distclean all
 doxygen
 
