@@ -1,0 +1,102 @@
+﻿Build started 04/11/2014 13:25:45.
+     1>Project "D:\EPICS\pcDataCPP\pvDataApp\pvData.vcxproj" on node 5 (rebuild target(s)).
+     1>InitializeBuildStatus:
+         Creating "O.win32-x86-debug\pvData.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       PreBuildEvent:
+         if not exist D:\EPICS\include md D:\EPICS\include
+         if not exist D:\EPICS\include\pv md D:\EPICS\include\pv
+         xcopy /Y /Q /D /R pv\*.h D:\EPICS\include\pv > NUL
+         xcopy /Y /Q /D /R misc\*.h D:\EPICS\include\pv > NUL
+         xcopy /Y /Q /D /R pvMisc\*.h D:\EPICS\include\pv > NUL
+         xcopy /Y /Q /D /R property\*.h D:\EPICS\include\pv > NUL
+         xcopy /Y /Q /D /R factory\*.h D:\EPICS\include\pv > NUL
+         xcopy /Y /Q /D /R monitor\*.h D:\EPICS\include\pv > NUL
+         
+         :VCEnd
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ID:\EPICS\include /ID:\EPICS\include\os\win32 /ID:\EPICS\include\compiler\msvc /ID:\EPICS\include\pv /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D EPICS_CALL_DLL /D EPICS_BUILD_DLL /D _CRT_SECURE_NO_WARNINGS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"O.win32-x86-debug\\" /Fd"D:\EPICS\Bin\win32-x86-debug\pvData.pdb" /Gd /TP /wd4251 /wd4275 /wd4309 /wd4800 /wd4244 /wd4355 /analyze- /errorReport:prompt factory\Compare.cpp factory\Convert.cpp factory\FieldCreateFactory.cpp factory\PVArray.cpp factory\PVAuxInfoImpl.cpp factory\PVDataCreateFactory.cpp factory\PVField.cpp factory\PVScalar.cpp factory\PVScalarArray.cpp factory\PVStructure.cpp factory\PVStructureArray.cpp factory\StandardField.cpp factory\StandardPVField.cpp factory\TypeFunc.cpp misc\bitSet.cpp misc\byteBuffer.cpp misc\epicsException.cpp misc\event.cpp misc\executor.cpp misc\localStaticLock.cpp misc\messageQueue.cpp misc\requester.cpp misc\serializeHelper.cpp misc\status.cpp misc\timeFunction.cpp misc\timer.cpp property\alarm.cpp property\pvAlarm.cpp property\pvControl.cpp property\pvDisplay.cpp property\pvEnumerated.cpp property\pvTimeStamp.cpp property\timeStamp.cpp pvMisc\bitSetUtil.cpp
+         bitSetUtil.cpp
+         timeStamp.cpp
+         pvTimeStamp.cpp
+         pvEnumerated.cpp
+         pvDisplay.cpp
+         pvControl.cpp
+         pvAlarm.cpp
+         alarm.cpp
+         timer.cpp
+         timeFunction.cpp
+         status.cpp
+         serializeHelper.cpp
+         requester.cpp
+         messageQueue.cpp
+         localStaticLock.cpp
+         executor.cpp
+         event.cpp
+         epicsException.cpp
+         byteBuffer.cpp
+         bitSet.cpp
+         Generating Code...
+         Compiling...
+         TypeFunc.cpp
+         StandardPVField.cpp
+         StandardField.cpp
+         PVStructureArray.cpp
+         PVStructure.cpp
+         PVScalarArray.cpp
+         PVScalar.cpp
+         PVField.cpp
+         PVDataCreateFactory.cpp
+         PVAuxInfoImpl.cpp
+         PVArray.cpp
+         FieldCreateFactory.cpp
+         Convert.cpp
+         Compare.cpp
+         Generating Code...
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\EPICS\Bin\win32-x86-debug\pvData.dll" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"O.win32-x86-debug\pvData.dll.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"D:\EPICS\Bin\win32-x86-debug\pvData.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\EPICS\Bin\win32-x86-debug\pvData.lib" /MACHINE:X86 /DLL "O.win32-x86-debug\Compare.obj"
+         "O.win32-x86-debug\Convert.obj"
+         "O.win32-x86-debug\FieldCreateFactory.obj"
+         "O.win32-x86-debug\PVArray.obj"
+         "O.win32-x86-debug\PVAuxInfoImpl.obj"
+         "O.win32-x86-debug\PVDataCreateFactory.obj"
+         "O.win32-x86-debug\PVField.obj"
+         "O.win32-x86-debug\PVScalar.obj"
+         "O.win32-x86-debug\PVScalarArray.obj"
+         "O.win32-x86-debug\PVStructure.obj"
+         "O.win32-x86-debug\PVStructureArray.obj"
+         "O.win32-x86-debug\StandardField.obj"
+         "O.win32-x86-debug\StandardPVField.obj"
+         "O.win32-x86-debug\TypeFunc.obj"
+         "O.win32-x86-debug\bitSet.obj"
+         "O.win32-x86-debug\byteBuffer.obj"
+         "O.win32-x86-debug\epicsException.obj"
+         "O.win32-x86-debug\event.obj"
+         "O.win32-x86-debug\executor.obj"
+         "O.win32-x86-debug\localStaticLock.obj"
+         "O.win32-x86-debug\messageQueue.obj"
+         "O.win32-x86-debug\requester.obj"
+         "O.win32-x86-debug\serializeHelper.obj"
+         "O.win32-x86-debug\status.obj"
+         "O.win32-x86-debug\timeFunction.obj"
+         "O.win32-x86-debug\timer.obj"
+         "O.win32-x86-debug\alarm.obj"
+         "O.win32-x86-debug\pvAlarm.obj"
+         "O.win32-x86-debug\pvControl.obj"
+         "O.win32-x86-debug\pvDisplay.obj"
+         "O.win32-x86-debug\pvEnumerated.obj"
+         "O.win32-x86-debug\pvTimeStamp.obj"
+         "O.win32-x86-debug\timeStamp.obj"
+         "O.win32-x86-debug\bitSetUtil.obj"
+         "D:\EPICS\Bin\win32-x86-debug\Com.lib"
+            Creating library D:\EPICS\Bin\win32-x86-debug\pvData.lib and object D:\EPICS\Bin\win32-x86-debug\pvData.exp
+         pvData.vcxproj -> D:\EPICS\Bin\win32-x86-debug\pvData.dll
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"D:\EPICS\Bin\win32-x86-debug\pvData.dll;#2" /manifest "O.win32-x86-debug\pvData.dll.intermediate.manifest"
+       FinalizeBuildStatus:
+         Deleting file "O.win32-x86-debug\pvData.unsuccessfulbuild".
+         Touching "O.win32-x86-debug\pvData.lastbuildstate".
+     1>Done Building Project "D:\EPICS\pcDataCPP\pvDataApp\pvData.vcxproj" (rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:40.04
