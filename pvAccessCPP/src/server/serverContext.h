@@ -17,13 +17,15 @@
 #include <pv/beaconEmitter.h>
 #include <pv/logger.h>
 
+#include <shareLib.h>
+
 namespace epics {
 namespace pvAccess {
 
 /**
  * The class representing a PVA Server context.
  */
-class ServerContext
+class epicsShareClass ServerContext
 {
 public:
     typedef std::tr1::shared_ptr<ServerContext> shared_pointer;
@@ -33,6 +35,13 @@ public:
 	 * Destructor
 	 */
 	virtual ~ServerContext() {};
+	
+	/**
+	 * Returns GUID (12-byte array).
+	 * @return GUID.
+	 */
+	virtual const GUID& getGUID() = 0;
+	
 	/**
 	 * Get context implementation version.
 	 * @return version of the context implementation.
@@ -40,10 +49,10 @@ public:
 	virtual const Version& getVersion() = 0;
 
     /**
-	 * Set <code>ChannelAccess</code> implementation and initialize server.
-	 * @param channelAccess implementation of channel access to be served.
+	 * Set <code>ChannelProviderRegistry</code> implementation and initialize server.
+	 * @param channelProviderRegistry channel providers registry to be used.
 	 */
-	virtual void initialize(ChannelAccess::shared_pointer const & channelAccess) = 0;
+	virtual void initialize(ChannelProviderRegistry::shared_pointer const & channelProviderRegistry) = 0;
 
 	/**
 	 * Run server (process events).
@@ -83,6 +92,8 @@ public:
 	 */
 	virtual void dispose() = 0;
 
+    virtual epicsTimeStamp& getStartTime() = 0;
+
 	// ************************************************************************** //
 	// **************************** [ Plugins ] ********************************* //
 	// ************************************************************************** //
@@ -113,8 +124,9 @@ public:
 	virtual ~ServerContextImpl();
 
 	//**************** derived from ServerContext ****************//
+	const GUID& getGUID();	
 	const Version& getVersion();
-    void initialize(ChannelAccess::shared_pointer const & channelAccess);
+    void initialize(ChannelProviderRegistry::shared_pointer const & channelProviderRegistry);
 	void run(epics::pvData::int32 seconds);
 	void shutdown();
 	void destroy();
@@ -128,9 +140,16 @@ public:
 	Transport::shared_pointer getSearchTransport();
 	Configuration::shared_pointer getConfiguration();
 	TransportRegistry::shared_pointer getTransportRegistry();
+    std::map<std::string, std::tr1::shared_ptr<SecurityPlugin> >& getSecurityPlugins();
 
     std::auto_ptr<ResponseHandler> createResponseHandler();
     virtual void newServerDetected();
+
+
+    BlockingUDPTransport::shared_pointer getLocalMulticastTransport();
+
+    epicsTimeStamp& getStartTime();
+
 
     /**
      * Version.
@@ -251,10 +270,10 @@ public:
 	BlockingUDPTransport::shared_pointer getBroadcastTransport();
 
 	/**
-	 * Get channel access implementation.
-	 * @return channel access implementation.
+	 * Get channel provider registry implementation used by this instance.
+	 * @return channel provider registry used by this instance.
 	 */
-	ChannelAccess::shared_pointer getChannelAccess();
+	ChannelProviderRegistry::shared_pointer getChannelProviderRegistry();
 
 	/**
 	 * Get channel provider name.
@@ -272,7 +291,7 @@ public:
 	 * Get channel providers.
 	 * @return channel providers.
 	 */
-	std::vector<ChannelProvider::shared_pointer> getChannelProviders();
+    std::vector<ChannelProvider::shared_pointer>& getChannelProviders();
 
     /**
      * Return <code>true</code> if channel provider name is provided by configuration (e.g. system env. var.).
@@ -281,6 +300,12 @@ public:
     bool isChannelProviderNamePreconfigured();
 
 private:
+
+    /**
+     * Server GUID.
+     */
+    GUID _guid;
+     
 	/**
 	 * Initialization status.
 	 */
@@ -333,7 +358,12 @@ private:
 	 */
 	BlockingUDPTransport::shared_pointer _broadcastTransport;
 
-	/**
+    /**
+     * Local broadcast transport needed for local fan-out.
+     */
+    BlockingUDPTransport::shared_pointer _localMulticastTransport;
+
+    /**
 	 * Beacon emitter.
 	 */
 	BeaconEmitter::shared_pointer _beaconEmitter;
@@ -352,7 +382,7 @@ private:
 	/**
 	 * Channel access.
 	 */
-	ChannelAccess::shared_pointer _channelAccess;
+	ChannelProviderRegistry::shared_pointer _channelProviderRegistry;
 
 	/**
 	 * Channel provider name.
@@ -379,6 +409,11 @@ private:
 	 */
 	BeaconServerStatusProvider::shared_pointer _beaconServerStatusProvider;
 
+    /**
+     * Generate GUID.
+     */
+    void generateGUID();
+    
 	/**
 	 * Initialize logger.
 	 */
@@ -410,10 +445,13 @@ private:
 	void destroyAllTransports();
 
 	Configuration::shared_pointer configuration;
+
+    epicsTimeStamp _startTime;
+
 };
 
 epicsShareExtern ServerContext::shared_pointer startPVAServer(
-        epics::pvData::String const & providerNames = PVACCESS_ALL_PROVIDERS,
+        std::string const & providerNames = PVACCESS_ALL_PROVIDERS,
         int timeToRun = 0,
         bool runInSeparateThread = false,
         bool printInfo = false);

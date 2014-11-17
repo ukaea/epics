@@ -4,11 +4,9 @@
  * in file LICENSE that is included with this distribution.
  */
 
-#include <pv/convert.h>
-
-#define epicsExportSharedSymbols
-#include <pv/serializationHelper.h>
 #include <pv/introspectionRegistry.h>
+#include <pv/convert.h>
+#include <pv/serializationHelper.h>
 
 using namespace epics::pvData;
 using namespace std;
@@ -70,23 +68,6 @@ int16 IntrospectionRegistry::registerIntrospectionInterface(FieldConstPtr const 
 	return key;
 }
 
-void IntrospectionRegistry::printKeysAndValues(string name)
-{
-	string buffer;
-	cout << "############## print of all key/values of " << name.c_str() << " registry : ###################" << endl;
-	for(registryMap_t::iterator registryIter = _registry.begin(); registryIter != _registry.end(); registryIter++)
-	{
-		buffer.erase();
-		cout << "\t" << "Key: "<< registryIter->first << endl;
-		cout << "\t" << "Value: " << registryIter->second << endl;
-
-		cout << "\t" << "References: " << buffer.c_str() << endl;
-		buffer.erase();
-		registryIter->second->toString(&buffer);
-		cout << "\t" << "Value toString: " << buffer.c_str() << endl;
-	}
-}
-
 // TODO slow !!!!
 bool IntrospectionRegistry::registryContainsValue(FieldConstPtr const & field, int16& key)
 {
@@ -109,8 +90,11 @@ void IntrospectionRegistry::serialize(FieldConstPtr const & field, ByteBuffer* b
 	}
 	else
 	{
-		// only structures registry check
-		if (field->getType() == structure)
+        // do not cache scalars, scalarArrays
+        // ... and (array of) variant unions - not worth the complex condition,
+        // unless bool Field.cache() would exist
+        if (field->getType() != scalar &&
+            field->getType() != scalarArray)
 		{
 			bool existing;
 			const int16 key = registerIntrospectionInterface(field, existing);

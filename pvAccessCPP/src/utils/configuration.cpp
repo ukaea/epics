@@ -4,12 +4,12 @@
  * in file LICENSE that is included with this distribution.
  */
 
+#include <algorithm>
+
 #include <pv/epicsException.h>
 
 #define epicsExportSharedSymbols
 #include <pv/configuration.h>
-
-#include <algorithm>
 
 #if defined(__GNUC__) && __GNUC__ < 3
 #define OLDGCC
@@ -78,7 +78,6 @@ string Properties::getProperty(const string &key, const string &defaultValue)
 		return string(propertiesIterator->second);
 	}
 
-	_properties[key] = defaultValue;
 	return defaultValue;
 }
 
@@ -275,13 +274,15 @@ bool SystemConfigurationImpl::getPropertyAsBoolean(const string &name, const boo
 	std::transform(value.begin(), value.end(), value.begin(), ::tolower);
 
 	bool isTrue = (value == "1") || (value == "true") || (value == "yes");
+    if (isTrue)
+        return true;
+
 	bool isFalse = (value == "0") || (value == "false") || (value == "no");
+    if (isFalse)
+        return false;
 
 	// invalid value
-	if (!(isTrue || isFalse))
-		return defaultValue;
-	else
-		return isTrue == true;
+    return defaultValue;
 }
 
 int32 SystemConfigurationImpl::getPropertyAsInteger(const string &name, const int32 defaultValue)
@@ -337,12 +338,14 @@ string SystemConfigurationImpl::getPropertyAsString(const string &name, const st
 	{
 		return _properties->getProperty(name, string(val));
 	}
-	return _properties->getProperty(name,defaultValue);
+	return _properties->getProperty(name, defaultValue);
 }
 
 bool SystemConfigurationImpl::hasProperty(const string &key)
 {
-    return _properties->hasProperty(key);
+	strncpy(_envParam.name,key.c_str(),key.length() + 1);
+	const char* val = envGetConfigParamPtr(&_envParam);
+    return (val != NULL) || _properties->hasProperty(key);
 }
 
 ConfigurationProviderImpl::ConfigurationProviderImpl()

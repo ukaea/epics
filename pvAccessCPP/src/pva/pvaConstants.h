@@ -7,16 +7,26 @@
 #ifndef PVACONSTANTS_H_
 #define PVACONSTANTS_H_
 
+#ifdef epicsExportSharedSymbols
+#   define pvaConstantsepicsExportSharedSymbols
+#   undef epicsExportSharedSymbols
+#endif
+
 #include <pv/pvType.h>
+
+#ifdef pvaConstantsepicsExportSharedSymbols
+#   define epicsExportSharedSymbols
+#	undef pvaConstantsepicsExportSharedSymbols
+#endif
 
 namespace epics {
 namespace pvAccess {
 
     /** PVA protocol magic number */
-    const epics::pvData::int8 PVA_MAGIC = 0xCA;
+    const epics::pvData::int8 PVA_MAGIC = static_cast<epics::pvData::int8>(0xCA);
     
     /** PVA protocol revision (implemented by this library). */
-    const epics::pvData::int8 PVA_PROTOCOL_REVISION = 0;
+    const epics::pvData::int8 PVA_PROTOCOL_REVISION = 1;
     
     /** PVA version signature used to report this implementation version in header. */
     const epics::pvData::int8 PVA_VERSION = PVA_PROTOCOL_REVISION;
@@ -30,8 +40,12 @@ namespace pvAccess {
     /** PVA protocol message header size. */
     const epics::pvData::int16 PVA_MESSAGE_HEADER_SIZE = 8;
     
-    /** All messages must be aligned to 8-bytes (64-bit). */
-    const epics::pvData::int32 PVA_ALIGNMENT = 1;	// TODO
+    /**
+     * All messages must be aligned to 8-bytes (64-bit).
+     * MUST be 1. Code does not handle well alignment in some situations (e.g. direct deserialize).
+     * Alignment is not worth additional code complexity.
+     */
+    const epics::pvData::int32 PVA_ALIGNMENT = 1;
 
     /**
      * UDP maximum send message size.
@@ -60,19 +74,19 @@ namespace pvAccess {
     const epics::pvData::uint32 MAX_CHANNEL_NAME_LENGTH = 500;
     
     /** Invalid data type. */
-    const epics::pvData::int16 INVALID_DATA_TYPE = 0xFFFF;
+    const epics::pvData::int16 INVALID_DATA_TYPE = static_cast<epics::pvData::int16>(0xFFFF);
     
     /** Invalid IOID. */
     const epics::pvData::int32 INVALID_IOID = 0;
     
     /** Default PVA provider name. */
-    const epics::pvData::String PVACCESS_DEFAULT_PROVIDER = "local";
+    const std::string PVACCESS_DEFAULT_PROVIDER = "local";
 
     /** "All-providers registered" PVA provider name. */
-    const epics::pvData::String PVACCESS_ALL_PROVIDERS = "<all>";
+    const std::string PVACCESS_ALL_PROVIDERS = "<all>";
 
     /** Name of the system env. variable to turn on debugging. */
-    const epics::pvData::String PVACCESS_DEBUG = "EPICS_PVA_DEBUG";
+    const std::string PVACCESS_DEBUG = "EPICS_PVA_DEBUG";
 }
 }
 

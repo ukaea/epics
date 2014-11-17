@@ -7,20 +7,23 @@
 #ifndef CLIENTCONTEXTIMPL_H_
 #define CLIENTCONTEXTIMPL_H_
 
+#ifdef epicsExportSharedSymbols
+#   define clientContextImplEpicsExportSharedSymbols
+#   undef epicsExportSharedSymbols
+#endif
+
+#include <pv/sharedPtr.h>
+
+#ifdef clientContextImplEpicsExportSharedSymbols
+#   define epicsExportSharedSymbols
+#	undef clientContextImplEpicsExportSharedSymbols
+#endif
+
 #include <pv/pvAccess.h>
 #include <pv/remote.h>
 #include <pv/channelSearchManager.h>
 #include <pv/inetAddressUtil.h>
 
-#ifdef epicsExportSharedSymbols
-#   define	clientContextImplEpicsExportSharedSymbols
-#   undef epicsExportSharedSymbols
-#endif
-#include <pv/sharedPtr.h>
-#ifdef	clientContextImplEpicsExportSharedSymbols
-#   define epicsExportSharedSymbols
-#	undef	clientContextImplEpicsExportSharedSymbols
-#endif
 #include <shareLib.h>
 
 class ChannelSearchManager;
@@ -31,7 +34,7 @@ namespace epics {
         class BeaconHandler;
         class ClientContextImpl;
         
-        class epicsShareClass ChannelImpl :
+        class ChannelImpl :
                 public Channel,
                 public TransportClient,
                 public TransportSender,
@@ -58,12 +61,12 @@ namespace epics {
 
         };
         
-        class epicsShareClass ClientContextImpl : public Context
+        class ClientContextImpl : public Context
         {
         public:
             POINTER_DEFINITIONS(ClientContextImpl);
 
-            static epics::pvData::String PROVIDER_NAME;
+            static std::string PROVIDER_NAME;
 
             /**
              * Get context implementation version.
@@ -91,7 +94,7 @@ namespace epics {
              * Prints detailed information about the context to the specified output stream.
              * @param out the output stream.
              */
-            virtual void printInfo(epics::pvData::StringBuilder out) = 0;
+            virtual void printInfo(std::ostream& out) = 0;
 
             /**
              * Dispose (destroy) server context.
@@ -101,13 +104,13 @@ namespace epics {
             
             
             virtual ChannelSearchManager::shared_pointer getChannelSearchManager() = 0;
-            virtual void checkChannelName(epics::pvData::String const & name) = 0;
+            virtual void checkChannelName(std::string const & name) = 0;
 
             virtual void registerChannel(ChannelImpl::shared_pointer const & channel) = 0;
             virtual void unregisterChannel(ChannelImpl::shared_pointer const & channel) = 0;
 
             virtual void destroyChannel(ChannelImpl::shared_pointer const & channel, bool force) = 0;
-            virtual ChannelImpl::shared_pointer createChannelInternal(epics::pvData::String const &name, ChannelRequester::shared_pointer const & requester, short priority, std::auto_ptr<InetAddrVector>& addresses) = 0;
+            virtual ChannelImpl::shared_pointer createChannelInternal(std::string const &name, ChannelRequester::shared_pointer const & requester, short priority, std::auto_ptr<InetAddrVector>& addresses) = 0;
 
             virtual ResponseRequest::shared_pointer getResponseRequest(pvAccessID ioid) = 0;
             virtual pvAccessID registerResponseRequest(ResponseRequest::shared_pointer const & request) = 0;
@@ -118,14 +121,16 @@ namespace epics {
 
             virtual void newServerDetected() = 0;
 
-            virtual std::tr1::shared_ptr<BeaconHandler> getBeaconHandler(osiSockAddr* responseFrom) = 0;
+            virtual std::tr1::shared_ptr<BeaconHandler> getBeaconHandler(std::string const & protocol, osiSockAddr* responseFrom) = 0;
 
             virtual void configure(epics::pvData::PVStructure::shared_pointer configuration) = 0;
             virtual void flush() = 0;
             virtual void poll() = 0;
+
+            virtual void destroy() = 0;
         };
 
-        extern ClientContextImpl::shared_pointer createClientContextImpl();
+        epicsShareExtern ClientContextImpl::shared_pointer createClientContextImpl();
 
     }
 }

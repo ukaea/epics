@@ -4,21 +4,22 @@
  * in file LICENSE that is included with this distribution.
  */
 
-#define epicsExportSharedSymbols
 #include <pv/baseChannelRequester.h>
 
 using namespace epics::pvData;
+using std::string;
 
 namespace epics {
 namespace pvAccess {
 
 const Status BaseChannelRequester::okStatus = Status();
-const Status BaseChannelRequester::badCIDStatus = Status(Status::STATUSTYPE_ERROR, "bad channel id");
-const Status BaseChannelRequester::badIOIDStatus = Status(Status::STATUSTYPE_ERROR, "bad request id");
-const Status BaseChannelRequester::noReadACLStatus = Status(Status::STATUSTYPE_ERROR, "no read access");
-const Status BaseChannelRequester::noWriteACLStatus = Status(Status::STATUSTYPE_ERROR, "no write access");
-const Status BaseChannelRequester::noProcessACLStatus = Status(Status::STATUSTYPE_ERROR, "no process access");
-const Status BaseChannelRequester::otherRequestPendingStatus = Status(Status::STATUSTYPE_ERROR, "other request pending");
+const Status BaseChannelRequester::badCIDStatus(Status::STATUSTYPE_ERROR, "bad channel id");
+const Status BaseChannelRequester::badIOIDStatus(Status::STATUSTYPE_ERROR, "bad request id");
+const Status BaseChannelRequester::noReadACLStatus(Status::STATUSTYPE_ERROR, "no read access");
+const Status BaseChannelRequester::noWriteACLStatus(Status::STATUSTYPE_ERROR, "no write access");
+const Status BaseChannelRequester::noProcessACLStatus(Status::STATUSTYPE_ERROR, "no process access");
+const Status BaseChannelRequester::otherRequestPendingStatus(Status::STATUSTYPE_ERROR, "other request pending");
+const Status BaseChannelRequester::notAChannelRequestStatus(Status::STATUSTYPE_ERROR, "not a channel request");
 
 const int32 BaseChannelRequester::NULL_REQUEST = -1;
 
@@ -59,19 +60,19 @@ int32 BaseChannelRequester::getPendingRequest()
 	return _pendingRequest;
 }
 
-String BaseChannelRequester::getRequesterName()
+string BaseChannelRequester::getRequesterName()
 {
 	std::stringstream name;
 	name << typeid(*_transport).name() << "/" << _ioid;
 	return name.str();
 }
 
-void BaseChannelRequester::message(String const & message, epics::pvData::MessageType messageType)
+void BaseChannelRequester::message(std::string const & message, epics::pvData::MessageType messageType)
 {
 	BaseChannelRequester::message(_transport, _ioid, message, messageType);
 }
 
-void BaseChannelRequester::message(Transport::shared_pointer const & transport, const pvAccessID ioid, const String message, const MessageType messageType)
+void BaseChannelRequester::message(Transport::shared_pointer const & transport, const pvAccessID ioid, const string message, const MessageType messageType)
 {
     TransportSender::shared_pointer sender(new BaseChannelRequesterMessageTransportSender(ioid, message, messageType));
 	transport->enqueueSendRequest(sender);
@@ -83,7 +84,7 @@ void BaseChannelRequester::sendFailureMessage(const int8 command, Transport::sha
 	transport->enqueueSendRequest(sender);
 }
 
-BaseChannelRequesterMessageTransportSender::BaseChannelRequesterMessageTransportSender(const pvAccessID ioid, const String message,const epics::pvData::MessageType messageType):
+BaseChannelRequesterMessageTransportSender::BaseChannelRequesterMessageTransportSender(const pvAccessID ioid, const string message,const epics::pvData::MessageType messageType):
 		_ioid(ioid),
 		_message(message),
 		_messageType(messageType)

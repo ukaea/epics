@@ -7,20 +7,27 @@
 #ifndef VERSION_H_
 #define VERSION_H_
 
-#include <pv/pvType.h>
-
 #ifdef epicsExportSharedSymbols
 #   define pvaVersionEpicsExportSharedSymbols
 #   undef epicsExportSharedSymbols
 #endif
 
+#include <pv/pvType.h>
 #include <pv/noDefaultMethods.h>
 
 #ifdef pvaVersionEpicsExportSharedSymbols
 #   define epicsExportSharedSymbols
 #	undef pvaVersionEpicsExportSharedSymbols
 #endif
+
 #include <shareLib.h>
+
+// module version
+// TODO to be generated, etc.
+#define EPICS_PVA_MAJOR_VERSION 4
+#define EPICS_PVA_MINOR_VERSION 0
+#define EPICS_PVA_MAINTENANCE_VERSION 0
+#define EPICS_PVA_DEVELOPMENT_FLAG 1
 
 namespace epics {
 namespace pvAccess {
@@ -36,17 +43,17 @@ namespace pvAccess {
              * @param maintenanceVersion	maintenance version.
              * @param developmentFlag	development indicator flag.
              */
-            Version(epics::pvData::String const & productName,
-            		epics::pvData::String const & implementationLangugage,
+            Version(std::string const & productName,
+            		std::string const & implementationLangugage,
                     int majorVersion, int minorVersion,
                     int maintenanceVersion, bool developmentFlag);
 
             /** The name of the product */
-            const epics::pvData::String getProductName() const;
+            const std::string getProductName() const;
 
             /** Implementation Language: C++
              */
-            const epics::pvData::String getImplementationLanguage() const;
+            const std::string getImplementationLanguage() const;
 
             /**
              * Major version number. This changes only when there is a
@@ -90,26 +97,26 @@ namespace pvAccess {
 
             /**
              * Get the long version string.
-             * @return epics::pvData::String denoting current version
+             * @return std::string denoting current version
              */
-            const epics::pvData::String getLongVersionString() const;
+            const std::string getLongVersionString() const;
 
             /**
              * Get the basic version string.
-             * @return epics::pvData::String denoting current version
+             * @return std::string denoting current version
              */
-            const epics::pvData::String getVersionString() const;
+            const std::string getVersionString() const;
 
         private:
-            epics::pvData::String _productName;
-            epics::pvData::String _implementationLanguage;
+            std::string _productName;
+            std::string _implementationLanguage;
             int _majorVersion;
             int _minorVersion;
             int _maintenanceVersion;
             bool _developmentFlag;
         };
 
-        std::ostream& operator<<(std::ostream& o, const Version& v);
+        epicsShareExtern std::ostream& operator<<(std::ostream& o, const Version& v);
 }
 }
 

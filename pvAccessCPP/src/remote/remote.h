@@ -7,13 +7,16 @@
 #ifndef REMOTE_H_
 #define REMOTE_H_
 
-#include <pv/pvaConstants.h>
-#include <pv/configuration.h>
-
 #ifdef epicsExportSharedSymbols
 #   define remoteEpicsExportSharedSymbols
 #   undef epicsExportSharedSymbols
 #endif
+
+#include <map>
+#include <string>
+
+#include <osiSock.h>
+#include <osdSock.h>
 
 #include <pv/serialize.h>
 #include <pv/pvType.h>
@@ -26,10 +29,9 @@
 #   define epicsExportSharedSymbols
 #	undef remoteEpicsExportSharedSymbols
 #endif
-#include <sharelib.h>
 
-#include <osiSock.h>
-#include <osdSock.h>
+#include <pv/pvaConstants.h>
+#include <pv/configuration.h>
 
 /// TODO only here because of the Lockable
 #include <pv/pvAccess.h>
@@ -42,6 +44,11 @@ namespace epics {
 #define PVACCESS_REFCOUNT_MONITOR_DESTRUCT(name)
 
         class TransportRegistry;
+        
+        /**
+         * Globally unique ID.
+         */
+        typedef struct { char value[12]; } GUID;
 
         enum QoS {
             /**
@@ -90,22 +97,23 @@ namespace epics {
             CMD_ECHO = 2,
             CMD_SEARCH = 3,
             CMD_SEARCH_RESPONSE = 4,
-            CMD_INTROSPECTION_SEARCH = 5,
-            CMD_INTROSPECTION_SEARCH_RESPONSE = 6,
+            CMD_AUTHNZ = 5,
+            CMD_ACL_CHANGE = 6,
             CMD_CREATE_CHANNEL = 7,
             CMD_DESTROY_CHANNEL = 8,
-            CMD_RESERVED0 = 9,
+            CMD_CONNECTION_VALIDATED = 9,
             CMD_GET = 10,
             CMD_PUT = 11,
             CMD_PUT_GET = 12,
             CMD_MONITOR = 13, 
             CMD_ARRAY = 14,
-            CMD_CANCEL_REQUEST = 15,
+            CMD_DESTROY_REQUEST = 15,
             CMD_PROCESS = 16,
             CMD_GET_FIELD = 17,
             CMD_MESSAGE = 18,
             CMD_MULTIPLE_DATA = 19,
-            CMD_RPC = 20
+            CMD_RPC = 20,
+            CMD_CANCEL_REQUEST = 21
         };
 
 		enum ControlCommands {
@@ -123,7 +131,7 @@ namespace epics {
             
             virtual ~TransportSendControl() {}
 
-            virtual void startMessage(epics::pvData::int8 command, std::size_t ensureCapacity) = 0;
+            virtual void startMessage(epics::pvData::int8 command, std::size_t ensureCapacity, epics::pvData::int32 payloadSize = 0) = 0;
             virtual void endMessage() = 0;
 
             virtual void flush(bool lastMessageCompleted) = 0;
@@ -152,6 +160,7 @@ namespace epics {
         };
 
         class TransportClient;
+        class SecuritySession;
 
         /**
          * Interface defining transport (connection).
@@ -181,7 +190,7 @@ namespace epics {
              * Get protocol type (tcp, udp, ssl, etc.).
              * @return protocol type.
              */
-            virtual epics::pvData::String getType() const = 0;
+            virtual std::string getType() const = 0;
 
             /**
              * Get remote address.
@@ -258,8 +267,9 @@ namespace epics {
 
             /**
              * Notify transport that it is has been verified.
+             * @param status vefification status;
              */
-            virtual void verified() = 0;
+            virtual void verified(epics::pvData::Status const & status) = 0;
 
         	/**
         	 * Waits (if needed) until transport is verified, i.e. verified() method is being called.
@@ -282,9 +292,24 @@ namespace epics {
              * @return <code>true</code> if connected.
              */
             virtual bool isClosed() = 0;
+
+            /**
+             * Used to initialize authNZ (select security plug-in).
+             * @param data
+             */
+            virtual void authNZInitialize(void*) = 0;
+
+            /**
+             * Pass data to the active security plug-in session.
+             * @param data the data (any data), can be <code>null</code>.
+             */
+            virtual void authNZMessage(epics::pvData::PVField::shared_pointer const & data) = 0;
+
+            virtual std::tr1::shared_ptr<SecuritySession> getSecuritySession() const = 0;
         };
 
         class Channel;
+        class SecurityPlugin;
 
         /**
          * Not public IF, used by Transports, etc.
@@ -305,6 +330,11 @@ namespace epics {
 
             virtual Configuration::shared_pointer getConfiguration() = 0;
 
+            /**
+             * Get map of available security plug-ins.
+             * @return the map of available security plug-ins
+             */
+            virtual std::map<std::string, std::tr1::shared_ptr<SecurityPlugin> >& getSecurityPlugins() = 0;
 
 
             ///
@@ -350,9 +380,9 @@ namespace epics {
             /**
              * @param description
              */
-            AbstractResponseHandler(Context* context, epics::pvData::String description) :
+            AbstractResponseHandler(Context* context, std::string description) :
                 _description(description), 
-                _debug(context->getConfiguration()->getPropertyAsBoolean(PVACCESS_DEBUG, false)) {
+                _debugLevel(context->getConfiguration()->getPropertyAsInteger(PVACCESS_DEBUG, 0)) {
             }
 
             virtual ~AbstractResponseHandler() {}
@@ -365,12 +395,12 @@ namespace epics {
             /**
              * Response hanlder description.
              */
-            epics::pvData::String _description;
+            std::string _description;
 
             /**
              * Debug flag.
              */
-            bool _debug;
+            epics::pvData::int32 _debugLevel;
         };
 
         /**
@@ -458,12 +488,6 @@ namespace epics {
         	POINTER_DEFINITIONS(ChannelHostingTransport);
 
             virtual ~ChannelHostingTransport() {}
-
-            /**
-             * Get security token.
-             * @return security token, can be <code>null</code>.
-             */
-            virtual epics::pvData::PVField::shared_pointer getSecurityToken() = 0;
 
             /**
              * Preallocate new channel SID.

@@ -4,15 +4,14 @@
  * in file LICENSE that is included with this distribution.
  */
  
-
 #include <pv/lock.h>
+#include <pv/logger.h>
+
+#include <epicsSignal.h>
 
 #define epicsExportSharedSymbols
 #include <pv/clientFactory.h>
 #include <pv/clientContextImpl.h>
-#include <pv/logger.h>
-
-#include <epicsSignal.h>
 
 using namespace epics::pvData;
 using namespace epics::pvAccess;
@@ -26,7 +25,7 @@ class ChannelProviderFactoryImpl : public ChannelProviderFactory
 public:
     POINTER_DEFINITIONS(ChannelProviderFactoryImpl);
 
-    virtual epics::pvData::String getFactoryName()
+    virtual std::string getFactoryName()
     {
         return ClientContextImpl::PROVIDER_NAME;
     }

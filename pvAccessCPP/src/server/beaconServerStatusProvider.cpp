@@ -5,8 +5,8 @@
  */
 
 #define epicsExportSharedSymbols
-#include <pv/beaconServerStatusProvider.h>
 #include <pv/serverContext.h>
+#include <pv/beaconServerStatusProvider.h>
 
 using namespace epics::pvData;
 

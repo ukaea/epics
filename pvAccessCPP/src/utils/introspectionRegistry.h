@@ -7,7 +7,8 @@
 #ifndef INTROSPECTIONREGISTRY_H
 #define INTROSPECTIONREGISTRY_H
 
-#include <pv/pvIntrospect.h>
+#include <map>
+#include <iostream>
 
 #ifdef epicsExportSharedSymbols
 #   define introspectionRegistryEpicsExportSharedSymbols
@@ -15,6 +16,7 @@
 #endif
 
 #include <pv/lock.h>
+#include <pv/pvIntrospect.h>
 #include <pv/pvData.h>
 #include <pv/byteBuffer.h>
 #include <pv/serialize.h>
@@ -24,13 +26,8 @@
 
 #ifdef introspectionRegistryEpicsExportSharedSymbols
 #   define epicsExportSharedSymbols
-#undef introspectionRegistryEpicsExportSharedSymbols
+#	undef introspectionRegistryEpicsExportSharedSymbols
 #endif
-
-#include <sharelib.h>
-
-#include <map>
-#include <iostream>
 
 // TODO check for memory leaks
 
@@ -45,12 +42,11 @@ typedef std::map<const short,epics::pvData::FieldConstPtr> registryMap_t;
 	 * Registry is used to cache introspection interfaces to minimize network traffic.
 	 * @author gjansa
 	 */
-	class epicsShareClass IntrospectionRegistry : public epics::pvData::NoDefaultMethods {
+	class IntrospectionRegistry : public epics::pvData::NoDefaultMethods {
 	public:
 		IntrospectionRegistry();
 		virtual ~IntrospectionRegistry();
 
-		void printKeysAndValues(std::string name);
 		/**
 		 * Resets registry, i.e. must be done when transport is changed (server restarted).
 		 */

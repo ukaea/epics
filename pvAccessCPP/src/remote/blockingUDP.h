@@ -7,36 +7,37 @@
 #ifndef BLOCKINGUDP_H_
 #define BLOCKINGUDP_H_
 
-#include <pv/remote.h>
-#include <pv/pvaConstants.h>
-#include <pv/inetAddressUtil.h>
-
-#include <pv/noDefaultMethods.h>
-#include <pv/byteBuffer.h>
-#include <pv/lock.h>
-#include <pv/event.h>
-
-#include <pv/pvIntrospect.h>
-
 #ifdef epicsExportSharedSymbols
 #   define blockingUDPEpicsExportSharedSymbols
 #   undef epicsExportSharedSymbols
 #endif
 
+#include <shareLib.h>
 #include <osdSock.h>
 #include <osiSock.h>
 #include <epicsThread.h>
+
+#include <pv/noDefaultMethods.h>
+#include <pv/byteBuffer.h>
+#include <pv/lock.h>
+#include <pv/event.h>
+#include <pv/pvIntrospect.h>
 
 #ifdef blockingUDPEpicsExportSharedSymbols
 #   define epicsExportSharedSymbols
 #	undef blockingUDPEpicsExportSharedSymbols
 #endif
-#include <shareLib.h>
+
+#include <pv/remote.h>
+#include <pv/pvaConstants.h>
+#include <pv/inetAddressUtil.h>
 
 namespace epics {
     namespace pvAccess {
 
-        class epicsShareClass BlockingUDPTransport : public epics::pvData::NoDefaultMethods,
+        enum InetAddressType { inetAddressType_all, inetAddressType_unicast, inetAddressType_broadcast_multicast };
+
+        class BlockingUDPTransport : public epics::pvData::NoDefaultMethods,
                 public Transport,
                 public TransportSendControl,
                 public std::tr1::enable_shared_from_this<BlockingUDPTransport>
@@ -45,16 +46,18 @@ namespace epics {
         	POINTER_DEFINITIONS(BlockingUDPTransport);
 
         private:
-            BlockingUDPTransport(std::auto_ptr<ResponseHandler>& responseHandler,
-                                 SOCKET channel, osiSockAddr& bindAddress,
+            BlockingUDPTransport(bool serverFlag,
+                                 std::auto_ptr<ResponseHandler> &responseHandler,
+                                 SOCKET channel, osiSockAddr &bindAddress,
                                  short remoteTransportRevision);
         public:
-            static shared_pointer create(std::auto_ptr<ResponseHandler>& responseHandler,
+            static shared_pointer create(bool serverFlag,
+                    std::auto_ptr<ResponseHandler>& responseHandler,
                     SOCKET channel, osiSockAddr& bindAddress,
                     short remoteTransportRevision)
             {
                 shared_pointer thisPointer(
-                            new BlockingUDPTransport(responseHandler, channel, bindAddress, remoteTransportRevision)
+                            new BlockingUDPTransport(serverFlag, responseHandler, channel, bindAddress, remoteTransportRevision)
                 );
                 return thisPointer;
             }
@@ -66,12 +69,11 @@ namespace epics {
             }
 
             virtual const osiSockAddr* getRemoteAddress() const {
-                // always connected
-                return &_bindAddress;
+                return &_remoteAddress;
             }
 
-            virtual epics::pvData::String getType() const {
-                return epics::pvData::String("UDP");
+            virtual std::string getType() const {
+                return std::string("udp");
             }
 
             virtual std::size_t getReceiveBufferSize() const {
@@ -115,8 +117,20 @@ namespace epics {
                 return true;
             }
 
-            virtual void verified() {
+            virtual void verified(epics::pvData::Status const & /*status*/) {
                 // noop
+            }
+
+            virtual void authNZInitialize(void*) {
+                // noop
+            }
+
+            virtual void authNZMessage(epics::pvData::PVField::shared_pointer const & data) {
+                // noop
+            }
+
+            virtual std::tr1::shared_ptr<SecuritySession> getSecuritySession() const {
+                return std::tr1::shared_ptr<SecuritySession>();
             }
 
             // NOTE: this is not yet used for UDP
@@ -136,8 +150,9 @@ namespace epics {
 
             virtual void close();
 
-            virtual void ensureData(std::size_t /*size*/) {
-                // noop
+            virtual void ensureData(std::size_t size) {
+                if (_receiveBuffer->getRemaining() < size)
+                    throw std::underflow_error("no more data in UDP packet");
             }
 
             virtual void alignData(std::size_t alignment) {
@@ -156,7 +171,7 @@ namespace epics {
                 return false;
             }
 
-            virtual void startMessage(epics::pvData::int8 command, std::size_t ensureCapacity);
+            virtual void startMessage(epics::pvData::int8 command, std::size_t ensureCapacity, epics::pvData::int32 payloadSize = 0);
             virtual void endMessage();
 
             virtual void flush(bool /*lastMessageCompleted*/) {
@@ -228,7 +243,7 @@ namespace epics {
 
             bool send(epics::pvData::ByteBuffer* buffer, const osiSockAddr& address);
 
-            bool send(epics::pvData::ByteBuffer* buffer);
+            bool send(epics::pvData::ByteBuffer* buffer, InetAddressType target = inetAddressType_all);
 
             /**
              * Get list of send addresses.
@@ -246,21 +261,41 @@ namespace epics {
                 return &_bindAddress;
             }
 
+            bool isBroadcastAddress(const osiSockAddr* address, InetAddrVector *broadcastAddresses)
+            {
+                if (broadcastAddresses)
+                    for (size_t i = 0; i < broadcastAddresses->size(); i++)
+                        if ((*broadcastAddresses)[i].ia.sin_addr.s_addr == address->ia.sin_addr.s_addr)
+                            return true;
+                return false;
+            }
+
             /**
              * Set list of send addresses.
              * @param addresses list of send addresses, non-<code>null</code>.
              */
-            void setBroadcastAddresses(InetAddrVector* addresses) {
+            void setSendAddresses(InetAddrVector* addresses) {
                 if (addresses)
                 {
                     if (!_sendAddresses) _sendAddresses = new InetAddrVector;
                     *_sendAddresses = *addresses;
+
+                    std::auto_ptr<InetAddrVector> broadcastAddresses(getBroadcastAddresses(_channel, 0));
+                    _isSendAddressUnicast.resize(_sendAddresses->size());
+                    for (std::size_t i = 0; i < _sendAddresses->size(); i++)
+                        _isSendAddressUnicast[i] =
+                                !isBroadcastAddress(&(*_sendAddresses)[i], broadcastAddresses.get()) &&
+                                !isMulticastAddress(&(*_sendAddresses)[i]);
                 }
                 else
                 {
                     if (_sendAddresses) { delete _sendAddresses; _sendAddresses = 0; }
                 }
             }
+
+            void join(const osiSockAddr & mcastAddr, const osiSockAddr & nifAddr);
+
+            void setMutlicastNIF(const osiSockAddr & nifAddr, bool loopback);
 
         protected:
             AtomicBoolean _closed;
@@ -292,9 +327,16 @@ namespace epics {
             osiSockAddr _bindAddress;
 
             /**
+             * Remote address.
+             */
+            osiSockAddr _remoteAddress;
+
+            /**
              * Send addresses.
              */
             InetAddrVector* _sendAddresses;
+
+            std::vector<bool> _isSendAddressUnicast;
 
             /**
              * Ignore addresses.
@@ -334,17 +376,21 @@ namespace epics {
              */
             epicsThreadId _threadId;
 
+            epics::pvData::int8 _clientServerWithEndianFlag;
+
         };
 
-        class epicsShareClass BlockingUDPConnector :
+        class BlockingUDPConnector :
                 public Connector,
                 private epics::pvData::NoDefaultMethods {
         public:
             POINTER_DEFINITIONS(BlockingUDPConnector);
 
             BlockingUDPConnector(
+                    bool serverFlag,
                     bool reuseSocket,
                     bool broadcast) :
+                _serverFlag(serverFlag),
                 _reuseSocket(reuseSocket),
                 _broadcast(broadcast) {
             }
@@ -360,6 +406,11 @@ namespace epics {
                     epics::pvData::int8 transportRevision, epics::pvData::int16 priority);
 
         private:
+
+            /**
+             * Client/server flag.
+             */
+            bool _serverFlag;
 
             /**
              * Reuse socket flag.

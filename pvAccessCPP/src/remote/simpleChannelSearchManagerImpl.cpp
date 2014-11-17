@@ -4,16 +4,14 @@
  * in file LICENSE that is included with this distribution.
  */
 
-#include <pv/serializeHelper.h>
-#include <pv/timeStamp.h>
-
-#define epicsExportSharedSymbols
 #include <pv/simpleChannelSearchManagerImpl.h>
 #include <pv/pvaConstants.h>
 #include <pv/blockingUDP.h>
+#include <pv/serializeHelper.h>
 
 #include <stdlib.h>
 #include <time.h>
+#include <pv/timeStamp.h>
 #include <vector>
 
 using namespace std;
@@ -22,8 +20,9 @@ using namespace epics::pvData;
 namespace epics {
 namespace pvAccess {
 
-const int SimpleChannelSearchManagerImpl::DATA_COUNT_POSITION = PVA_MESSAGE_HEADER_SIZE + sizeof(int32)/sizeof(int8) + 1;
-const int SimpleChannelSearchManagerImpl::PAYLOAD_POSITION = sizeof(int16)/sizeof(int8) + 2;
+const int SimpleChannelSearchManagerImpl::DATA_COUNT_POSITION = PVA_MESSAGE_HEADER_SIZE + 4+1+3+16+2+1+4;
+const int SimpleChannelSearchManagerImpl::CAST_POSITION = PVA_MESSAGE_HEADER_SIZE + 4;
+const int SimpleChannelSearchManagerImpl::PAYLOAD_POSITION = 4;
 
 // 225ms +/- 25ms random
 const double SimpleChannelSearchManagerImpl::ATOMIC_PERIOD = 0.225;
@@ -48,6 +47,7 @@ SimpleChannelSearchManagerImpl::create(Context::shared_pointer const & context)
 
 SimpleChannelSearchManagerImpl::SimpleChannelSearchManagerImpl(Context::shared_pointer const & context) :
     m_context(context),
+    m_responseAddress(*context->getSearchTransport()->getRemoteAddress()),
 	m_canceled(),
 	m_sequenceNumber(0),
 	m_sendBuffer(MAX_UDP_UNFRAGMENTED_SEND),
@@ -58,6 +58,7 @@ SimpleChannelSearchManagerImpl::SimpleChannelSearchManagerImpl(Context::shared_p
     m_userValueMutex(),
     m_mutex()
 {
+
 	// initialize send buffer
 	initializeSendBuffer();
 		
@@ -101,7 +102,7 @@ void SimpleChannelSearchManagerImpl::cancel()
 int32_t SimpleChannelSearchManagerImpl::registeredCount()
 {
 	Lock guard(m_channelMutex);
-	return m_channels.size();
+	return static_cast<int32_t>(m_channels.size());
 }
 
 void SimpleChannelSearchManagerImpl::registerSearchInstance(SearchInstance::shared_pointer const & channel)
@@ -109,13 +110,20 @@ void SimpleChannelSearchManagerImpl::registerSearchInstance(SearchInstance::shar
 	if (m_canceled.get())
 		return;
 
-	Lock guard(m_channelMutex);
-	//overrides if already registered
-	m_channels[channel->getSearchInstanceID()] = channel;
-	
-	Lock guard2(m_userValueMutex);
-	int32_t& userValue = channel->getUserValue();
-	userValue = 1;
+        bool immediateTrigger;
+        { 
+	    Lock guard(m_channelMutex);
+	    //overrides if already registered
+	    m_channels[channel->getSearchInstanceID()] = channel;
+	    immediateTrigger = m_channels.size() == 1;
+
+	    Lock guard2(m_userValueMutex);
+	    int32_t& userValue = channel->getUserValue();
+	    userValue = 1;
+        }
+
+       if (immediateTrigger)
+           callback(); 
 }
 
 void SimpleChannelSearchManagerImpl::unregisterSearchInstance(SearchInstance::shared_pointer const & channel)
@@ -172,15 +180,25 @@ void SimpleChannelSearchManagerImpl::initializeSendBuffer()
     m_sendBuffer.putByte(PVA_VERSION);
     m_sendBuffer.putByte((EPICS_BYTE_ORDER == EPICS_ENDIAN_BIG) ? 0x80 : 0x00); // data + 7-bit endianess
 	m_sendBuffer.putByte((int8_t)3);	// search
-	m_sendBuffer.putInt(sizeof(int32_t)/sizeof(int8_t) + 1);		// "zero" payload
+    m_sendBuffer.putInt(4+1+3+16+2+1);		// "zero" payload
 	m_sendBuffer.putInt(m_sequenceNumber);
 
-	/*
-	final boolean REQUIRE_REPLY = false;
-	sendBuffer.put(REQUIRE_REPLY ? (byte)QoS.REPLY_REQUIRED.getMaskValue() : (byte)QoS.DEFAULT.getMaskValue());
-	*/
+    // multicast vs unicast mask
+    m_sendBuffer.putByte((int8_t)0);
 
-	m_sendBuffer.putByte((int8_t)QOS_DEFAULT);
+    // reserved part
+    m_sendBuffer.putByte((int8_t)0);
+    m_sendBuffer.putShort((int16_t)0);
+
+    // NOTE: is it possible (very likely) that address is any local address ::ffff:0.0.0.0
+    encodeAsIPv6Address(&m_sendBuffer, &m_responseAddress);
+    m_sendBuffer.putShort((int16_t)ntohs(m_responseAddress.ia.sin_port));
+
+    // TODO now only TCP is supported
+    // note: this affects DATA_COUNT_POSITION
+    m_sendBuffer.putByte((int8_t)1);
+    // TODO "tcp" constant
+    SerializeHelper::serializeString("tcp", &m_sendBuffer, &m_mockTransportSendControl);
 	m_sendBuffer.putShort((int16_t)0);	// count
 }
 
@@ -190,8 +208,14 @@ void SimpleChannelSearchManagerImpl::flushSendBuffer()
     
     Transport::shared_pointer tt = m_context.lock()->getSearchTransport();
     BlockingUDPTransport::shared_pointer ut = std::tr1::static_pointer_cast<BlockingUDPTransport>(tt); 
-	ut->send(&m_sendBuffer); // TODO
-	initializeSendBuffer();
+
+    m_sendBuffer.putByte(CAST_POSITION, (int8_t)0x80);  // unicast, no reply required
+    ut->send(&m_sendBuffer, inetAddressType_unicast);
+
+    m_sendBuffer.putByte(CAST_POSITION, (int8_t)0x00);  // b/m-cast, no reply required
+    ut->send(&m_sendBuffer, inetAddressType_broadcast_multicast);
+
+    initializeSendBuffer();
 }
 
 
@@ -207,7 +231,7 @@ bool SimpleChannelSearchManagerImpl::generateSearchRequestMessage(SearchInstance
         return false;
     */
 
-    const epics::pvData::String name = channel->getSearchInstanceName();
+    const std::string name = channel->getSearchInstanceName();
     // not nice...
     const int addedPayloadSize = sizeof(int32)/sizeof(int8) + (1 + sizeof(int32)/sizeof(int8) + name.length());
     if(((int)requestMessage->getRemaining()) < addedPayloadSize)

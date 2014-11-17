@@ -4,15 +4,15 @@
  * in file LICENSE that is included with this distribution.
  */
 
+#include <pv/blockingTCP.h>
+#include "codec.h"
+#include <pv/remote.h>
+#include <pv/logger.h>
+
 #include <pv/epicsException.h>
 
 #include <osiSock.h>
 #include <epicsThread.h>
-
-#define epicsExportSharedSymbols
-#include <pv/blockingTCP.h>
-#include <pv/remote.h>
-#include <pv/logger.h>
 
 #include <sstream>
 
@@ -73,7 +73,7 @@ namespace pvAccess {
                     int retval = ::bind(_serverSocketChannel, &_bindAddress.sa, sizeof(sockaddr));
                     if(retval<0) {
                         epicsSocketConvertErrnoToString(strBuffer, sizeof(strBuffer));
-                        LOG(logLevelDebug, "Socket bind error: %s", strBuffer);
+                        LOG(logLevelDebug, "Socket bind error: %s.", strBuffer);
                         if(_bindAddress.ia.sin_port!=0) {
                             // failed to bind to specified bind address,
                             // try to get port dynamically, but only once
@@ -163,48 +163,62 @@ namespace pvAccess {
                 if(newClient!=INVALID_SOCKET) {
                     // accept succeeded
                     ipAddrToDottedIP(&address.ia, ipAddrStr, sizeof(ipAddrStr));
-                    LOG(logLevelDebug, "Accepted connection from PVA client: %s", ipAddrStr);
+                    LOG(logLevelDebug, "Accepted connection from PVA client: %s.", ipAddrStr);
 
                     // enable TCP_NODELAY (disable Nagle's algorithm)
                     int optval = 1; // true
                     int retval = ::setsockopt(newClient, IPPROTO_TCP, TCP_NODELAY, (char *)&optval, sizeof(int));
                     if(retval<0) {
                         epicsSocketConvertErrnoToString(strBuffer, sizeof(strBuffer));
-                        LOG(logLevelDebug, "Error setting TCP_NODELAY: %s", strBuffer);
+                        LOG(logLevelDebug, "Error setting TCP_NODELAY: %s.", strBuffer);
                     }
 
                     // enable TCP_KEEPALIVE
                     retval = ::setsockopt(newClient, SOL_SOCKET, SO_KEEPALIVE, (char *)&optval, sizeof(int));
                     if(retval<0) {
                         epicsSocketConvertErrnoToString(strBuffer, sizeof(strBuffer));
-                        LOG(logLevelDebug, "Error setting SO_KEEPALIVE: %s", strBuffer);
+                        LOG(logLevelDebug, "Error setting SO_KEEPALIVE: %s.", strBuffer);
                     }
 
-                    // TODO tune buffer sizes?!
+                    // do NOT tune socket buffer sizes, this will disable auto-tunning
+                      
+                    // get TCP send buffer size
+                    osiSocklen_t intLen = sizeof(int);
+                    int _socketSendBufferSize;
+                    retval = getsockopt(newClient, SOL_SOCKET, SO_SNDBUF, (char *)&_socketSendBufferSize, &intLen);
+                    if(retval<0) {
+                        epicsSocketConvertErrnoToString(strBuffer, sizeof(strBuffer));
+                        LOG(logLevelDebug, "Error getting SO_SNDBUF: %s.", strBuffer);
+                    }
 
                     /**
                      * Create transport, it registers itself to the registry.
-                     * Each transport should have its own response handler since it is not "shareable"
                      */
                     std::auto_ptr<ResponseHandler> responseHandler = _responseHandlerFactory->createResponseHandler();
-                    BlockingServerTCPTransport::shared_pointer transport = 
-                                    BlockingServerTCPTransport::create(
+                    detail::BlockingServerTCPTransportCodec::shared_pointer transport =
+                                    detail::BlockingServerTCPTransportCodec::create(
                                             _context,
                                             newClient,
                                             responseHandler,
+                                            _socketSendBufferSize,
                                             _receiveBufferSize);
 
                     // validate connection
                     if(!validateConnection(transport, ipAddrStr)) {
+                        // TODO
+                        // wait for negative response to be sent back and
+                        // hold off the client for retrying at very high rate
+                        epicsThreadSleep(1.0);
+
                         transport->close();
                         LOG(
                                 logLevelDebug,
                                 "Connection to PVA client %s failed to be validated, closing it.",
                                 ipAddrStr);
-                        return;
+                        continue;
                     }
 
-                    LOG(logLevelDebug, "Serving to PVA client: %s", ipAddrStr);
+                    LOG(logLevelDebug, "Serving to PVA client: %s.", ipAddrStr);
 
                 }// accept succeeded
                 else
@@ -214,8 +228,7 @@ namespace pvAccess {
 
         bool BlockingTCPAcceptor::validateConnection(Transport::shared_pointer const & transport, const char* address) {
             try {
-                transport->verify(0);
-                return true;
+                return transport->verify(5000);
             } catch(...) {
                 LOG(logLevelDebug, "Validation of %s failed.", address);
                 return false;

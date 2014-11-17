@@ -4,29 +4,28 @@
  * in file LICENSE that is included with this distribution.
  */
 
-#include <pv/noDefaultMethods.h>
-#include <pv/lock.h>
-#include <pv/pvType.h>
-
-#include <epicsExit.h>
-
-#define epicsExportSharedSymbols
-#include <pv/logger.h>
-
 #include <fstream>
 #include <iostream>
 #include <time.h>
 #include <cstring>
 #include <stdio.h>
 
+#include <pv/noDefaultMethods.h>
+#include <pv/lock.h>
+#include <pv/pvType.h>
+
+#include <epicsExit.h>
+#include <errlog.h>
+
+#include <epicsTime.h>
+
+#define epicsExportSharedSymbols
+#include <pv/logger.h>
+
 using namespace epics::pvData;
 using std::ofstream;
 using std::ios;
 using std::endl;
-
-#include <errlog.h>
-
-#include <epicsTime.h>
 
 namespace epics {
     namespace pvAccess {
@@ -69,7 +68,7 @@ namespace epics {
 
         class FileLogger : public NoDefaultMethods {
         public:
-            FileLogger(String const & name) {
+            FileLogger(std::string const & name) {
                 logFile.open(name.data(), ios::app);
             }
 
@@ -101,7 +100,7 @@ namespace epics {
             delete fileLogger;
         }
 
-        void createFileLogger(String const & fname) {
+        void createFileLogger(std::string const & fname) {
             static Mutex mutex;
             Lock xx(mutex);
 

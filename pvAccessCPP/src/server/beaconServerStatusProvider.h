@@ -11,14 +11,14 @@
 #   define beaconServerStatusProviderEpicsExportSharedSymbols
 #   undef epicsExportSharedSymbols
 #endif
+
 #include <pv/pvData.h>
 #include <pv/sharedPtr.h>
 
 #ifdef beaconServerStatusProviderEpicsExportSharedSymbols
 #   define epicsExportSharedSymbols
-#	undef beaconServerStatusProviderEpicsExportSharedSymbols
+#   undef beaconServerStatusProviderEpicsExportSharedSymbols
 #endif
-#include <sharelib.h>
 
 namespace epics {
 namespace pvAccess {
@@ -28,7 +28,7 @@ namespace pvAccess {
 	/**
 	 * BeaconServerStatusProvider
 	 */
-	class BeaconServerStatusProvider
+	class epicsShareClass BeaconServerStatusProvider
 	{
 	public:
         typedef std::tr1::shared_ptr<BeaconServerStatusProvider> shared_pointer;

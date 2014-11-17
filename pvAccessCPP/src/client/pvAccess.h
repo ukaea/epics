@@ -7,22 +7,27 @@
 #ifndef PVACCESS_H
 #define PVACCESS_H
 
-#include <pv/pvaVersion.h>
+#include <vector>
 
 #ifdef epicsExportSharedSymbols
 #   define pvAccessEpicsExportSharedSymbols
 #   undef epicsExportSharedSymbols
 #endif
+
+#include <pv/pvData.h>
+#include <pv/createRequest.h>
 #include <pv/status.h>
 #include <pv/destroyable.h>
 #include <pv/monitor.h>
-#include <vector>
 #include <pv/bitSet.h>
-#include <pv/pvData.h>
+
 #ifdef pvAccessEpicsExportSharedSymbols
 #   define epicsExportSharedSymbols
 #	undef pvAccessEpicsExportSharedSymbols
 #endif
+
+#include <pv/pvaVersion.h>
+
 #include <shareLib.h>
 
 namespace epics {
@@ -49,7 +54,7 @@ namespace pvAccess {
         /**
          * 
          */
-        class Lockable
+        class epicsShareClass Lockable
         {
             public:
             POINTER_DEFINITIONS(Lockable);
@@ -63,7 +68,7 @@ namespace pvAccess {
         /**
          * Scope lock.
          */
-        class ScopedLock : private epics::pvData::NoDefaultMethods {
+        class epicsShareClass ScopedLock : private epics::pvData::NoDefaultMethods {
             public:
             
             explicit ScopedLock(Lockable::shared_pointer const & li)
@@ -100,64 +105,112 @@ namespace pvAccess {
         };
         
 
-        class epicsShareClass Channel;
+        class Channel;
         class ChannelProvider;
 
         /**
          * Base interface for all channel requests.
          */
-        class ChannelRequest : public epics::pvData::Destroyable, public Lockable, private epics::pvData::NoDefaultMethods {
+        class epicsShareClass ChannelRequest : public epics::pvData::Destroyable, public Lockable, private epics::pvData::NoDefaultMethods {
             public:
             POINTER_DEFINITIONS(ChannelRequest);
+
+            /**
+             * Get a channel instance this request belongs to.
+             * @return the channel instance.
+             */
+            virtual std::tr1::shared_ptr<Channel> getChannel() = 0;
+            
+            /**
+             * Cancel any pending request.
+             * Completion will be reported via request's response callback:
+             * <ul>
+             *   <li>if cancel() request is issued after the request was already complete, request success/failure completion will be reported and cancel() request ignored.</li>
+	         *   <li>if the request was actually canceled, cancellation completion is reported.</li>
+             * </ul>
+             */
+            virtual void cancel() = 0;
+            
+            /**
+             * Announce next request as last request.
+             * When last request will be completed (regardless of completion status) the remote and local instance will be destroyed.
+             */
+             virtual void lastRequest() = 0;
         };
 
         /**
          * Request to put and get Array Data.
          * The data is either taken from or put in the PVArray returned by ChannelArrayRequester.channelArrayConnect.
          */
-        class ChannelArray : public ChannelRequest{
+        class epicsShareClass ChannelArray : public ChannelRequest{
             public:
             POINTER_DEFINITIONS(ChannelArray);
 
             /**
              * put to the remote array.
-             * @param lastRequest Is this the last request.
+             * @param putArray array to put.
              * @param offset The offset in the remote array, i.e. the PVArray returned by ChannelArrayRequester.channelArrayConnect.
-             * @param count The number of elements to put.
+             * @param count The number of elements to put, 0 means "entire array".
+             * @param stride 1 means all the elements from offset to count, 2 means every other, 3 means every third, etc.
              */
-            virtual void putArray(bool lastRequest, int offset, int count) = 0;
+            virtual void putArray(
+                    epics::pvData::PVArray::shared_pointer const & putArray,
+                    size_t offset = 0, size_t count = 0, size_t stride = 1) = 0;
 
             /**
              * get from the remote array.
-             * @param lastRequest Is this the last request.
              * @param offset The offset in the remote array, i.e. the PVArray returned by ChannelArrayRequester.channelArrayConnect.
-             * @param count The number of elements to get.
+             * @param count The number of elements to get, 0 means "till the end of an array".
+             * @param stride 1 means all the elements from offset to count, 2 means every other, 3 means every third, etc.
              */
-            virtual void getArray(bool lastRequest, int offset, int count) = 0;
+            virtual void getArray(size_t offset = 0, size_t count = 0, size_t stride = 1) = 0;
+
+            /**
+             * Get the length.
+             */
+            virtual void getLength() = 0;
 
             /**
              * Set the length and/or the capacity.
-             * @param lastRequest Is this the last request.
-             * @param length The new length. -1 means do not change.
-             * @param capacity The new capacity. -1 means do not change.
+             * @param length The new length.
              */
-            virtual void setLength(bool lastRequest, int length, int capacity) = 0;
+            virtual void setLength(size_t length) = 0;
         };
 
         /**
          * The epics::pvData::Requester for a ChannelArray.
          */
-        class ChannelArrayRequester : virtual public epics::pvData::Requester {
+        class epicsShareClass ChannelArrayRequester : virtual public epics::pvData::Requester {
             public:
             POINTER_DEFINITIONS(ChannelArrayRequester);
 
             /**
              * The client and server have both completed the createChannelArray request.
              * @param status Completion status.
-             * @param channelArray The channelArray interface or null if the request failed.
-             * @param pvArray The PVArray that holds the data.
+             * @param channelArray The channelArray interface or <code>null</code> if the request failed.
+             * @param pvArray The PVArray that holds the data or <code>null</code> if the request failed.
              */
             virtual void channelArrayConnect(
+                    const epics::pvData::Status& status,
+                    ChannelArray::shared_pointer const & channelArray,
+                    epics::pvData::Array::const_shared_pointer const & array) = 0;
+
+            /**
+             * The request is done. This is always called with no locks held.
+             * @param status Completion status.
+             * @param channelArray The channelArray interface.
+             */
+            virtual void putArrayDone(
+                    const epics::pvData::Status& status,
+                    ChannelArray::shared_pointer const & channelArray) = 0;
+
+            /**
+             * The request is done. This is always called with no locks held.
+             * @param status Completion status.
+             * @param channelArray The channelArray interface.
+             * @param pvArray The PVArray that holds the data or <code>null</code> if the request failed.
+             */
+            virtual void getArrayDone(
                     const epics::pvData::Status& status,
                     ChannelArray::shared_pointer const & channelArray,
                     epics::pvData::PVArray::shared_pointer const & pvArray) = 0;
@@ -165,145 +218,180 @@ namespace pvAccess {
             /**
              * The request is done. This is always called with no locks held.
              * @param status Completion status.
+             * @param channelArray The channelArray interface.
+             * @param length The length of the array, 0 if the request failed. 
              */
-            virtual void putArrayDone(const epics::pvData::Status& status) = 0;
+            virtual void getLengthDone(
+                    const epics::pvData::Status& status,
+                    ChannelArray::shared_pointer const & channelArray,
+                    size_t length) = 0;
 
             /**
              * The request is done. This is always called with no locks held.
              * @param status Completion status.
+             * @param channelArray The channelArray interface.
              */
-            virtual void getArrayDone(const epics::pvData::Status& status) = 0;
-
-            /**
-             * The request is done. This is always called with no locks held.
-             * @param status Completion status.
-             */
-            virtual void setLengthDone(const epics::pvData::Status& status) = 0;
+            virtual void setLengthDone(
+                    const epics::pvData::Status& status,
+                    ChannelArray::shared_pointer const & channelArray) = 0;
         };
 
 
         /**
          *
          */
-        class ChannelFind : public epics::pvData::Destroyable, private epics::pvData::NoDefaultMethods {
+        class epicsShareClass ChannelFind : public epics::pvData::Destroyable, private epics::pvData::NoDefaultMethods {
             public:
             POINTER_DEFINITIONS(ChannelFind);
 
             virtual std::tr1::shared_ptr<ChannelProvider> getChannelProvider() = 0;
-            virtual void cancelChannelFind() = 0;
+            virtual void cancel() = 0;
         };
 
         /**
          *
          */
-        class ChannelFindRequester {
+        class epicsShareClass ChannelFindRequester {
             public:
             POINTER_DEFINITIONS(ChannelFindRequester);
 
             virtual ~ChannelFindRequester() {};
+            
             /**
              * @param status Completion status.
              */
-            virtual void channelFindResult(const epics::pvData::Status& status,ChannelFind::shared_pointer const & channelFind,bool wasFound) = 0;
+            virtual void channelFindResult(
+                    const epics::pvData::Status& status,
+                    ChannelFind::shared_pointer const & channelFind,
+                    bool wasFound) = 0;
         };
 
+        /**
+         *
+         */
+        class epicsShareClass ChannelListRequester {
+            public:
+            POINTER_DEFINITIONS(ChannelListRequester);
+
+            virtual ~ChannelListRequester() {};
+
+            /**
+             * @param status Completion status.
+             */
+            virtual void channelListResult(
+                    const epics::pvData::Status& status,
+                    ChannelFind::shared_pointer const & channelFind,
+                    epics::pvData::PVStringArray::const_svector const & channelNames,
+                    bool hasDynamic) = 0;
+        };
 
         /**
          * Request to get data from a channel.
          */
-        class ChannelGet : public ChannelRequest {
+        class epicsShareClass ChannelGet : public ChannelRequest {
             public:
             POINTER_DEFINITIONS(ChannelGet);
 
             /**
              * Get data from the channel.
-             * This fails if the request can not be satisfied.
-             * If it fails ChannelGetRequester.getDone is called before get returns.
-             * @param lastRequest Is this the last request?
+             * Completion status is reported by calling ChannelGetRequester.getDone() callback.
              */
-            virtual void get(bool lastRequest) = 0;
+            virtual void get() = 0;
         };
 
 
         /**
          * epics::pvData::Requester for channelGet.
          */
-        class ChannelGetRequester : virtual public epics::pvData::Requester {
+        class epicsShareClass ChannelGetRequester : virtual public epics::pvData::Requester {
             public:
             POINTER_DEFINITIONS(ChannelGetRequester);
 
             /**
              * The client and server have both completed the createChannelGet request.
              * @param status Completion status.
-             * @param channelGet The channelGet interface or null if the request failed.
-             * @param pvStructure The PVStructure that holds the data.
-             * @param bitSet The bitSet for that shows what data has changed.
+             * @param channelGet The channelGet interface or <code>null</code> if the request failed.
+             * @param structure The introspection interface of requested get structure or <code>null</code> if the request failed.
              */
-            virtual void channelGetConnect(const epics::pvData::Status& status,ChannelGet::shared_pointer const & channelGet,
-                    epics::pvData::PVStructure::shared_pointer const & pvStructure,epics::pvData::BitSet::shared_pointer const & bitSet) = 0;
+            virtual void channelGetConnect(
+                    const epics::pvData::Status& status,
+                    ChannelGet::shared_pointer const & channelGet,
+                    epics::pvData::Structure::const_shared_pointer const & structure) = 0;
 
             /**
              * The request is done. This is always called with no locks held.
              * @param status Completion status.
+             * @param channelGet The channelGet interface.
+             * @param pvStructure The PVStructure that holds the data or <code>null</code> if the request failed.
+             * @param bitSet The bitSet for that shows what data has changed or <code>null</code> if the request failed.
              */
-            virtual void getDone(const epics::pvData::Status& status) = 0;
+            virtual void getDone(
+                    const epics::pvData::Status& status,
+                    ChannelGet::shared_pointer const & channelGet,
+                    epics::pvData::PVStructure::shared_pointer const & pvStructure,
+                    epics::pvData::BitSet::shared_pointer const & bitSet) = 0;
         };
 
 
         /**
          * ChannelProcess - request that a channel be processed..
          */
-        class ChannelProcess : public ChannelRequest {
+        class epicsShareClass ChannelProcess : public ChannelRequest {
             public:
             POINTER_DEFINITIONS(ChannelProcess);
 
             /**
              * Issue a process request.
-             * This fails if the request can not be satisfied.
-             * If it fails the channelProcessRequester.processDone is called before process returns.
-             * @param lastRequest Is this the last request?
+             * Completion status is reported by calling ChannelProcessRequester.processDone() callback.
              */
-            virtual void process(bool lastRequest) = 0;
+            virtual void process() = 0;
         };
 
 
         /**
          * epics::pvData::Requester for channelProcess.
          */
-        class ChannelProcessRequester : virtual public epics::pvData::Requester {
+        class epicsShareClass ChannelProcessRequester : virtual public epics::pvData::Requester {
             public:
             POINTER_DEFINITIONS(ChannelProcessRequester);
 
             /**
              * The client and server have both completed the createChannelProcess request.
              * @param status Completion status.
-             * @param channelProcess The channelProcess interface or null if the client could not become
+             * @param channelProcess The channelProcess interface or <code>null</code> if the client could not become
              * the record processor.
              */
-            virtual void channelProcessConnect(const epics::pvData::Status& status,ChannelProcess::shared_pointer const & channelProcess) = 0;
+            virtual void channelProcessConnect(
+                    const epics::pvData::Status& status,
+                    ChannelProcess::shared_pointer const & channelProcess) = 0;
 
             /**
              * The process request is done. This is always called with no locks held.
              * @param status Completion status.
+             * @param channelProcess The channelProcess interface.
              */
-            virtual void processDone(const epics::pvData::Status& status) = 0;
+            virtual void processDone(
+                    const epics::pvData::Status& status,
+                    ChannelProcess::shared_pointer const & channelProcess) = 0;
         };
 
 
         /**
          * Interface for a channel access put request.
          */
-        class ChannelPut  : public ChannelRequest {
+        class epicsShareClass ChannelPut : public ChannelRequest {
             public:
             POINTER_DEFINITIONS(ChannelPut);
 
             /**
              * Put data to a channel.
-             * This fails if the request can not be satisfied.
-             * If it fails ChannelPutRequester.putDone is called before put returns.
-             * @param lastRequest Is this the last request?
+             * Completion status is reported by calling ChannelPutRequester.putDone() callback.
+             * @param pvPutStructure The PVStructure that holds the putData.
+             * @param putBitSet putPVStructure bit-set (selects what fields to put).
              */
-            virtual void put(bool lastRequest) = 0;
+            virtual void put(
+                    epics::pvData::PVStructure::shared_pointer const & pvPutStructure,
+                    epics::pvData::BitSet::shared_pointer const & putBitSet) = 0;
 
             /**
              * Get the current data.
@@ -315,7 +403,7 @@ namespace pvAccess {
         /**
          * epics::pvData::Requester for ChannelPut.
          */
-        class ChannelPutRequester : virtual public epics::pvData::Requester {
+        class epicsShareClass ChannelPutRequester : virtual public epics::pvData::Requester {
             public:
             POINTER_DEFINITIONS(ChannelPutRequester);
 
@@ -323,23 +411,34 @@ namespace pvAccess {
              * The client and server have both processed the createChannelPut request.
              * @param status Completion status.
              * @param channelPut The channelPut interface or null if the request failed.
-             * @param pvStructure The PVStructure that holds the data.
-             * @param bitSet The bitSet for that shows what data has changed.
+             * @param structure The introspection interface of requested put/get structure or <code>null</code> if the request failed.
              */
-            virtual void channelPutConnect(const epics::pvData::Status& status,ChannelPut::shared_pointer const & channelPut,
-                    epics::pvData::PVStructure::shared_pointer const & pvStructure,epics::pvData::BitSet::shared_pointer const & bitSet) = 0;
+            virtual void channelPutConnect(
+                    const epics::pvData::Status& status,
+                    ChannelPut::shared_pointer const & channelPut,
+                    epics::pvData::Structure::const_shared_pointer const & structure) = 0;
 
             /**
              * The request is done. This is always called with no locks held.
              * @param status Completion status.
+             * @param channelPut The channelPut interface.
              */
-            virtual void putDone(const epics::pvData::Status& status) = 0;
+            virtual void putDone(
+                    const epics::pvData::Status& status,
+                    ChannelPut::shared_pointer const & channelPut) = 0;
 
             /**
              * The get request is done. This is always called with no locks held.
              * @param status Completion status.
+             * @param channelPut The channelPut interface.
+             * @param pvStructure The PVStructure that holds the data or <code>null</code> if the request failed.
+             * @param bitSet The bitSet for that shows what data has changed or <code>null</code> if the request failed.
              */
-            virtual void getDone(const epics::pvData::Status& status) = 0;
+            virtual void getDone(
+                    const epics::pvData::Status& status,
+                    ChannelPut::shared_pointer const & channelPut,
+                    epics::pvData::PVStructure::shared_pointer const & pvStructure,
+                    epics::pvData::BitSet::shared_pointer const & bitSet) = 0;
         };
 
 
@@ -347,25 +446,29 @@ namespace pvAccess {
          * Channel access put/get request.
          * The put is performed first, followed optionally by a process request, and then by a get request.
          */
-        class ChannelPutGet : public ChannelRequest {
+        class epicsShareClass ChannelPutGet : public ChannelRequest {
             public:
             POINTER_DEFINITIONS(ChannelPutGet);
 
             /**
              * Issue a put/get request. If process was requested when the ChannelPutGet was created this is a put, process, get.
-             * This fails if the request can not be satisfied.
-             * If it fails ChannelPutGetRequester.putDone is called before putGet returns.
-             * @param lastRequest Is this the last request?
+             * Completion status is reported by calling ChannelPutGetRequester.putGetDone() callback.
+             * @param pvPutStructure The PVStructure that holds the putData.
+             * @param putBitSet putPVStructure bit-set (selects what fields to put).
              */
-            virtual void putGet(bool lastRequest) = 0;
+            virtual void putGet(
+                    epics::pvData::PVStructure::shared_pointer const & pvPutStructure,
+                    epics::pvData::BitSet::shared_pointer const & putBitSet) = 0;
 
             /**
              * Get the put PVStructure. The record will not be processed.
+             * Completion status is reported by calling ChannelPutGetRequester.getPutDone() callback.
              */
             virtual void getPut() = 0;
 
             /**
              * Get the get PVStructure. The record will not be processed.
+             * Completion status is reported by calling ChannelPutGetRequester.getGetDone() callback.
              */
             virtual void getGet() = 0;
         };
@@ -374,7 +477,7 @@ namespace pvAccess {
         /**
          * epics::pvData::Requester for ChannelPutGet.
          */
-        class ChannelPutGetRequester : virtual public epics::pvData::Requester
+        class epicsShareClass ChannelPutGetRequester : virtual public epics::pvData::Requester
         {
             public:
             POINTER_DEFINITIONS(ChannelPutGetRequester);
@@ -383,75 +486,105 @@ namespace pvAccess {
              * The client and server have both completed the createChannelPutGet request.
              * @param status Completion status.
              * @param channelPutGet The channelPutGet interface or null if the request failed.
-             * @param pvPutStructure The PVStructure that holds the putData.
-             * @param pvGetStructure The PVStructure that holds the getData.
+             * @param putStructure The put structure introspection data or <code>null</code> if the request failed.
+             * @param getStructure The get structure introspection data or <code>null</code> if the request failed.
              */
-            virtual void channelPutGetConnect(const epics::pvData::Status& status,ChannelPutGet::shared_pointer const & channelPutGet,
-                        epics::pvData::PVStructure::shared_pointer const & pvPutStructure,epics::pvData::PVStructure::shared_pointer const & pvGetStructure) = 0;
+            virtual void channelPutGetConnect(
+                    const epics::pvData::Status& status,
+                    ChannelPutGet::shared_pointer const & channelPutGet,
+                    epics::pvData::Structure::const_shared_pointer const & putStructure,
+                    epics::pvData::Structure::const_shared_pointer const & getStructure) = 0;
+                    
             /**
              * The putGet request is done. This is always called with no locks held.
              * @param status Completion status.
+             * @param channelPutGet The channelPutGet interface.
+             * @param pvGetStructure The PVStructure that holds the getData or <code>null</code> if the request failed.
+             * @param getBitSet getPVStructure changed bit-set or <code>null</code> if the request failed.
              */
-            virtual void putGetDone(const epics::pvData::Status& status) = 0;
+            virtual void putGetDone(
+                    const epics::pvData::Status& status,
+                    ChannelPutGet::shared_pointer const & channelPutGet,
+                    epics::pvData::PVStructure::shared_pointer const & pvGetStructure,
+                    epics::pvData::BitSet::shared_pointer const & getBitSet) = 0;
 
             /**
              * The getPut request is done. This is always called with no locks held.
              * @param status Completion status.
+             * @param channelPutGet The channelPutGet interface.
+             * @param pvPutStructure The PVStructure that holds the putData or <code>null</code> if the request failed.
+             * @param putBitSet putPVStructure changed bit-set or <code>null</code> if the request failed.
              */
-            virtual void getPutDone(const epics::pvData::Status& status) = 0;
+            virtual void getPutDone(
+                    const epics::pvData::Status& status,
+                    ChannelPutGet::shared_pointer const & channelPutGet,
+                    epics::pvData::PVStructure::shared_pointer const & pvPutStructure,
+                    epics::pvData::BitSet::shared_pointer const & putBitSet) = 0;
 
             /**
              * The getGet request is done. This is always called with no locks held.
              * @param status Completion status.
+             * @param channelPutGet The channelPutGet interface.
+             * @param pvGetStructure The PVStructure that holds the getData or <code>null</code> if the request failed.
+             * @param getBitSet getPVStructure changed bit-set or <code>null</code> if the request failed.
              */
-            virtual void getGetDone(const epics::pvData::Status& status) = 0;
+            virtual void getGetDone(
+                    const epics::pvData::Status& status,
+                    ChannelPutGet::shared_pointer const & channelPutGet,
+                    epics::pvData::PVStructure::shared_pointer const & pvGetStructure,
+                    epics::pvData::BitSet::shared_pointer const & getBitSet) = 0;
         };
 
 
         /**
          * epics::pvData::Requester for channelGet.
          */
-        class ChannelRPC : public ChannelRequest {
+        class epicsShareClass ChannelRPC : public ChannelRequest {
             public:
             POINTER_DEFINITIONS(ChannelRPC);
 
             /**
              * Issue an RPC request to the channel.
-             * This fails if the request can not be satisfied.
+             * Completion status is reported by calling ChannelRPCRequester.requestDone() callback.
              * @param pvArgument The argument structure for an RPC request.
-             * @param lastRequest Is this the last request?
              */
-            virtual void request(epics::pvData::PVStructure::shared_pointer const & pvArgument, bool lastRequest) = 0;
+            virtual void request(epics::pvData::PVStructure::shared_pointer const & pvArgument) = 0;
         };
 
 
         /**
          * epics::pvData::Requester for channelGet.
          */
-        class ChannelRPCRequester : virtual public epics::pvData::Requester {
+        class epicsShareClass ChannelRPCRequester : virtual public epics::pvData::Requester {
             public:
             POINTER_DEFINITIONS(ChannelRPCRequester);
 
             /**
              * The client and server have both completed the createChannelGet request.
              * @param status Completion status.
-             * @param channelRPC The channelRPC interface or null if the request failed.
+             * @param channelRPC The channelRPC interface or <code>null</code> if the request failed.
              */
-            virtual void channelRPCConnect(const epics::pvData::Status& status,ChannelRPC::shared_pointer const & channelRPC) = 0;
+            virtual void channelRPCConnect(
+                    const epics::pvData::Status& status,
+                    ChannelRPC::shared_pointer const & channelRPC) = 0;
 
             /**
              * The request is done. This is always called with no locks held.
              * @param status Completion status.
-             * @param pvResponse The response data for the RPC request.
+             * @param channelRPC The channelRPC interface.
+             * @param pvResponse The response data for the RPC request or <code>null</code> if the request failed.
              */
-            virtual void requestDone(const epics::pvData::Status& status,epics::pvData::PVStructure::shared_pointer const & pvResponse) = 0;
+            virtual void requestDone(
+                    const epics::pvData::Status& status,
+                    ChannelRPC::shared_pointer const & channelRPC,
+                    epics::pvData::PVStructure::shared_pointer const & pvResponse) = 0;
         };
 
 
         /**
          * epics::pvData::Requester for a getStructure request.
          */
-        class GetFieldRequester : virtual public epics::pvData::Requester {
+        class epicsShareClass GetFieldRequester : virtual public epics::pvData::Requester {
             public:
             POINTER_DEFINITIONS(GetFieldRequester);
 
@@ -460,8 +593,10 @@ namespace pvAccess {
              * @param status Completion status.
              * @param field The Structure for the request.
              */
-             // TODO naming convention
-            virtual void getDone(const epics::pvData::Status& status,epics::pvData::FieldConstPtr const & field) = 0;
+             virtual void getDone(
+                    const epics::pvData::Status& status,
+                    epics::pvData::FieldConstPtr const & field) = 0;     // TODO naming convention
+
         };
 
 
@@ -469,7 +604,7 @@ namespace pvAccess {
         
         /**
          * Interface for accessing a channel.
-         * A channel is created via a call to ChannelAccess.createChannel(String channelName).
+         * A channel is created via a call to ChannelAccess.createChannel(std::string channelName).
          */
         class epicsShareClass Channel : 
                 public epics::pvData::Requester,
@@ -498,7 +633,7 @@ namespace pvAccess {
              * Returns the channel's remote address, e.g. "/192.168.1.101:5064" or "#C0 S1".
              * @return the channel's remote address.
              **/
-            virtual epics::pvData::String getRemoteAddress() = 0;
+            virtual std::string getRemoteAddress() = 0;
 
             /**
              * Returns the connection state of this channel.
@@ -510,7 +645,7 @@ namespace pvAccess {
              * Get the channel name.
              * @return The name.
              */
-            virtual epics::pvData::String getChannelName() = 0;
+            virtual std::string getChannelName() = 0;
 
             /**
              * Get the channel epics::pvData::Requester.
@@ -531,9 +666,9 @@ namespace pvAccess {
              * This is for clients that want to introspect a PVRecord via channel access.
              * @param epics::pvData::Requester The epics::pvData::Requester.
              * @param subField The name of the subField.
-             * If this is null or an empty epics::pvData::String the returned Field is for the entire record.
+             * If this is null or an empty std::string the returned Field is for the entire record.
              */
-            virtual void getField(GetFieldRequester::shared_pointer const & requester,epics::pvData::String const & subField) = 0;
+            virtual void getField(GetFieldRequester::shared_pointer const & requester,std::string const & subField) = 0;
 
             /**
              * Get the access rights for a field of a PVStructure created via a call to createPVStructure.
@@ -638,14 +773,14 @@ namespace pvAccess {
              * Prints detailed information about the context to the specified output stream.
              * @param out the output stream.
              */
-            virtual void printInfo(epics::pvData::StringBuilder out) = 0;
+            virtual void printInfo(std::ostream& out) = 0;
         };
 
 
         /**
          * Listener for connect state changes.
          */
-        class ChannelRequester : public virtual epics::pvData::Requester {
+        class epicsShareClass ChannelRequester : public virtual epics::pvData::Requester {
             public:
             POINTER_DEFINITIONS(ChannelRequester);
 
@@ -675,7 +810,7 @@ namespace pvAccess {
          * Interface implemented by code that can provide access to the record
          * to which a channel connects.
          */
-        class ChannelProvider : public epics::pvData::Destroyable, private epics::pvData::NoDefaultMethods {
+        class epicsShareClass ChannelProvider : public epics::pvData::Destroyable, private epics::pvData::NoDefaultMethods {
         public:
             POINTER_DEFINITIONS(ChannelProvider);
 
@@ -696,7 +831,7 @@ namespace pvAccess {
              * Get the provider name.
              * @return The name.
              */
-            virtual epics::pvData::String getProviderName() = 0;
+            virtual std::string getProviderName() = 0;
 
             /**
              * Find a channel.
@@ -704,8 +839,15 @@ namespace pvAccess {
              * @param channelFindRequester The epics::pvData::Requester.
              * @return An interface for the find.
              */
-            virtual ChannelFind::shared_pointer channelFind(epics::pvData::String const & channelName,
+            virtual ChannelFind::shared_pointer channelFind(std::string const & channelName,
                                                      ChannelFindRequester::shared_pointer const & channelFindRequester) = 0;
+
+            /**
+             * Find channels.
+             * @param channelFindRequester The epics::pvData::Requester.
+             * @return An interface for the find.
+             */
+            virtual ChannelFind::shared_pointer channelList(ChannelListRequester::shared_pointer const & channelListRequester) = 0;
 
             /**
              * Create a channel.
@@ -714,7 +856,7 @@ namespace pvAccess {
              * @param priority channel priority, must be <code>PRIORITY_MIN</code> <= priority <= <code>PRIORITY_MAX</code>.
              * @return <code>Channel</code> instance. If channel does not exist <code>null</code> is returned and <code>channelRequester</code> notified.
              */
-            virtual Channel::shared_pointer createChannel(epics::pvData::String const & channelName,ChannelRequester::shared_pointer const & channelRequester,
+            virtual Channel::shared_pointer createChannel(std::string const & channelName,ChannelRequester::shared_pointer const & channelRequester,
                                                    short priority = PRIORITY_DEFAULT) = 0;
 
             /**
@@ -722,11 +864,11 @@ namespace pvAccess {
              * @param channelName The name of the channel.
              * @param channelRequester The epics::pvData::Requester.
              * @param priority channel priority, must be <code>PRIORITY_MIN</code> <= priority <= <code>PRIORITY_MAX</code>.
-             * @param address address (or list of addresses) where to look for a channel. Implementation independed epics::pvData::String.
+             * @param address address (or list of addresses) where to look for a channel. Implementation independed std::string.
              * @return <code>Channel</code> instance. If channel does not exist <code>null</code> is returned and <code>channelRequester</code> notified.
              */
-            virtual Channel::shared_pointer createChannel(epics::pvData::String const & channelName,ChannelRequester::shared_pointer const & channelRequester,
-                                                   short priority, epics::pvData::String const & address) = 0;
+            virtual Channel::shared_pointer createChannel(std::string const & channelName,ChannelRequester::shared_pointer const & channelRequester,
+                                                   short priority, std::string const & address) = 0;
 
             virtual void configure(epics::pvData::PVStructure::shared_pointer /*configuration*/) {};
             virtual void flush() {};
@@ -737,15 +879,17 @@ namespace pvAccess {
         /**
          * <code>ChanneProvider</code> factory interface.
          */
-        class ChannelProviderFactory : private epics::pvData::NoDefaultMethods {
+        class epicsShareClass ChannelProviderFactory : private epics::pvData::NoDefaultMethods {
         public:
             POINTER_DEFINITIONS(ChannelProviderFactory);
+
+            virtual ~ChannelProviderFactory() {};
 
             /**
              * Get factory name (i.e. name of the provider).
              * @return the factory name.
              */
-            virtual epics::pvData::String getFactoryName() = 0;
+            virtual std::string getFactoryName() = 0;
 
             /**
              * Get a shared instance.
@@ -763,27 +907,27 @@ namespace pvAccess {
         /**
          * Interface for locating channel providers.
          */
-        class ChannelAccess : private epics::pvData::NoDefaultMethods {
+        class epicsShareClass ChannelProviderRegistry : private epics::pvData::NoDefaultMethods {
         public:
-            POINTER_DEFINITIONS(ChannelAccess);
+            POINTER_DEFINITIONS(ChannelProviderRegistry);
 
-            typedef std::vector<epics::pvData::String> stringVector_t;
+            typedef std::vector<std::string> stringVector_t;
             
-            virtual ~ChannelAccess() {};
+            virtual ~ChannelProviderRegistry() {};
             
             /**
              * Get a shared instance of the provider with the specified name.
              * @param providerName The name of the provider.
              * @return The interface for the provider or null if the provider is not known.
              */
-            virtual ChannelProvider::shared_pointer getProvider(epics::pvData::String const & providerName) = 0;
+            virtual ChannelProvider::shared_pointer getProvider(std::string const & providerName) = 0;
             
             /**
              * Creates a new instanceof the provider with the specified name.
              * @param providerName The name of the provider.
              * @return The interface for the provider or null if the provider is not known.
              */
-            virtual ChannelProvider::shared_pointer createProvider(epics::pvData::String const & providerName) = 0;
+            virtual ChannelProvider::shared_pointer createProvider(std::string const & providerName) = 0;
 
             /**
              * Get a array of the names of all the known providers.
@@ -792,32 +936,9 @@ namespace pvAccess {
             virtual std::auto_ptr<stringVector_t> getProviderNames() = 0;
         };
     
-        epicsShareExtern ChannelAccess::shared_pointer getChannelAccess();
+        epicsShareExtern ChannelProviderRegistry::shared_pointer getChannelProviderRegistry();
         epicsShareExtern void registerChannelProviderFactory(ChannelProviderFactory::shared_pointer const & channelProviderFactory);
         epicsShareExtern void unregisterChannelProviderFactory(ChannelProviderFactory::shared_pointer const & channelProviderFactory);
-
-        /**
-         * Interface for creating request structure.
-         */
-        class CreateRequest {
-            public:
-            POINTER_DEFINITIONS(CreateRequest);
-
-            virtual ~CreateRequest() {};
-
-            /**
-             * Create a request structure for the create calls in Channel.
-             * See the package overview documentation for details.
-             * @param request The field request. See the package overview documentation for details.
-             * @param requester The requester;
-             * @return The request structure if an invalid request was given. 
-             */
-             virtual epics::pvData::PVStructure::shared_pointer createRequest(
-                 epics::pvData::String const & request,
-                 epics::pvData::Requester::shared_pointer const & requester) = 0;
-        };
-
-        epicsShareExtern CreateRequest::shared_pointer getCreateRequest();
 
 
     }}

@@ -8,17 +8,18 @@
 #define REFERENCECOUNTINGLOCK_H
 
 #ifdef epicsExportSharedSymbols
-#   define beaconServerStatusProviderEpicsExportSharedSymbols
+#   define referenceCountingLockEpicsExportSharedSymbols
 #   undef epicsExportSharedSymbols
 #endif
+
 #include <pv/lock.h>
 #include <pv/pvType.h>
 #include <pv/sharedPtr.h>
-#ifdef beaconServerStatusProviderEpicsExportSharedSymbols
+
+#ifdef referenceCountingLockEpicsExportSharedSymbols
 #   define epicsExportSharedSymbols
-#	undef beaconServerStatusProviderEpicsExportSharedSymbols
+#	undef referenceCountingLockEpicsExportSharedSymbols
 #endif
-#include <sharelib.h>
 
 namespace epics {
 namespace pvAccess {
@@ -31,7 +32,7 @@ namespace pvAccess {
  * (NOTE: automatic lock counting was not implemented due to imperfect usage.)
  *
  */
-class epicsShareClass ReferenceCountingLock
+class ReferenceCountingLock
 {
 public:
     POINTER_DEFINITIONS(ReferenceCountingLock);

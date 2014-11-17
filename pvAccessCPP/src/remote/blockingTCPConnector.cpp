@@ -4,14 +4,14 @@
  * in file LICENSE that is included with this distribution.
  */
 
-#include <epicsThread.h>
-#include <osiSock.h>
-
-#define epicsExportSharedSymbols
 #include <pv/blockingTCP.h>
 #include <pv/remote.h>
 #include <pv/namedLockPattern.h>
 #include <pv/logger.h>
+#include <pv/codec.h>
+
+#include <epicsThread.h>
+#include <osiSock.h>
 
 #include <sys/types.h>
 #include <sstream>
@@ -24,11 +24,11 @@ namespace epics {
         BlockingTCPConnector::BlockingTCPConnector(
                 Context::shared_pointer const & context,
                 int receiveBufferSize,
-                float beaconInterval) :
+                float heartbeatInterval) :
             _context(context),
             _namedLocker(),
             _receiveBufferSize(receiveBufferSize),
-            _beaconInterval(beaconInterval)
+            _heartbeatInterval(heartbeatInterval)
         {
         }
 
@@ -50,7 +50,7 @@ namespace epics {
                 if (socket == INVALID_SOCKET)
                 {
                     epicsSocketConvertErrnoToString(strBuffer, sizeof(strBuffer));
-                    LOG(logLevelWarn, "Socket create error: %s", strBuffer);
+                    LOG(logLevelWarn, "Socket create error: %s.", strBuffer);
                     return INVALID_SOCKET;
                 }
                 else {
@@ -60,7 +60,7 @@ namespace epics {
                     else {
                         epicsSocketDestroy (socket);
                         epicsSocketConvertErrnoToString(strBuffer, sizeof(strBuffer));
-                        LOG(logLevelDebug, "Socket connect error: %s", strBuffer);
+                        LOG(logLevelDebug, "Socket connect error: %s.", strBuffer);
                     }
                 }
             }
@@ -79,11 +79,10 @@ namespace epics {
             Context::shared_pointer context = _context.lock();
 
             // first try to check cache w/o named lock...
-            Transport::shared_pointer tt = context->getTransportRegistry()->get("TCP", &address, priority);
-            BlockingClientTCPTransport::shared_pointer transport = std::tr1::static_pointer_cast<BlockingClientTCPTransport>(tt);
+            Transport::shared_pointer transport = context->getTransportRegistry()->get("TCP", &address, priority);
             if(transport.get()) {
                 LOG(logLevelDebug,
-                    "Reusing existing connection to PVA server: %s",
+                    "Reusing existing connection to PVA server: %s.",
                     ipAddrStr);
                 if (transport->acquire(client))
                     return transport;
@@ -93,17 +92,16 @@ namespace epics {
             if(lockAcquired) {
                 try {
                     // ... transport created during waiting in lock
-                    tt = context->getTransportRegistry()->get("TCP", &address, priority);
-                    transport = std::tr1::static_pointer_cast<BlockingClientTCPTransport>(tt);
+                    transport = context->getTransportRegistry()->get("TCP", &address, priority);
                     if(transport.get()) {
                         LOG(logLevelDebug,
-                            "Reusing existing connection to PVA server: %s",
+                            "Reusing existing connection to PVA server: %s.",
                             ipAddrStr);
                         if (transport->acquire(client))
                             return transport;
                     }
 
-                    LOG(logLevelDebug, "Connecting to PVA server: %s", ipAddrStr);
+                    LOG(logLevelDebug, "Connecting to PVA server: %s.", ipAddrStr);
 
                     socket = tryConnect(address, 3);
                     
@@ -125,7 +123,7 @@ namespace epics {
                     if(retval<0) {
                         char errStr[64];
                         epicsSocketConvertErrnoToString(errStr, sizeof(errStr));
-                        LOG(logLevelWarn, "Error setting TCP_NODELAY: %s", errStr);
+                        LOG(logLevelWarn, "Error setting TCP_NODELAY: %s.", errStr);
                     }
                     
                     // enable TCP_KEEPALIVE
@@ -135,19 +133,29 @@ namespace epics {
                     {
                         char errStr[64];
                         epicsSocketConvertErrnoToString(errStr, sizeof(errStr));
-                        LOG(logLevelWarn, "Error setting SO_KEEPALIVE: %s", errStr);
+                        LOG(logLevelWarn, "Error setting SO_KEEPALIVE: %s.", errStr);
                     }
                     
                     // TODO tune buffer sizes?! Win32 defaults are 8k, which is OK
 
                     // create transport
                     // TODO introduce factory
-                    transport = BlockingClientTCPTransport::create(
-                                            context, socket, responseHandler, _receiveBufferSize,
-                                            client, transportRevision, _beaconInterval, priority);
+                    // get TCP send buffer size
+                    osiSocklen_t intLen = sizeof(int);
+                    int _socketSendBufferSize;
+                    retval = getsockopt(socket, SOL_SOCKET, SO_SNDBUF, (char *)&_socketSendBufferSize, &intLen);
+                    if(retval<0) {
+                        char strBuffer[64];
+                        epicsSocketConvertErrnoToString(strBuffer, sizeof(strBuffer));
+                        LOG(logLevelDebug, "Error getting SO_SNDBUF: %s.", strBuffer);
+                    }
+
+                    transport = detail::BlockingClientTCPTransportCodec::create(
+                                            context, socket, responseHandler, _receiveBufferSize, _socketSendBufferSize,
+                                            client, transportRevision, _heartbeatInterval, priority);
 
                     // verify
-                    if(!transport->verify(3000)) {
+                    if(!transport->verify(5000)) {
                         LOG(
                                 logLevelDebug,
                                 "Connection to PVA server %s failed to be validated, closing it.",
@@ -158,13 +166,11 @@ namespace epics {
                         THROW_BASE_EXCEPTION(temp.str().c_str());
                     }
 
-                    // TODO send security token
-
-                    LOG(logLevelDebug, "Connected to PVA server: %s", ipAddrStr);
+                    LOG(logLevelDebug, "Connected to PVA server: %s.", ipAddrStr);
 
                     _namedLocker.releaseSynchronizationObject(&address);
                     return transport;
-                } catch(std::exception& ex) {
+                } catch(std::exception&) {
                     if(transport.get())
                         transport->close();
                     else if(socket!=INVALID_SOCKET) epicsSocketDestroy(socket);

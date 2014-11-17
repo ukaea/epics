@@ -7,23 +7,24 @@
 #ifndef NAMEDLOCKPATTERN_H
 #define NAMEDLOCKPATTERN_H
 
-#include <pv/referenceCountingLock.h>
+#include <map>
+#include <iostream>
 
 #ifdef epicsExportSharedSymbols
-#   define	namedLockPatternEpicsExportSharedSymbols
+#   define namedLockPatternEpicsExportSharedSymbols
 #   undef epicsExportSharedSymbols
 #endif
+
 #include <pv/lock.h>
 #include <pv/pvType.h>
 #include <pv/sharedPtr.h>
-#ifdef	namedLockPatternEpicsExportSharedSymbols
-#   define epicsExportSharedSymbols
-#	undef	namedLockPatternEpicsExportSharedSymbols
-#endif
-#include <shareLib.h>
 
-#include <map>
-#include <iostream>
+#ifdef namedLockPatternEpicsExportSharedSymbols
+#   define epicsExportSharedSymbols
+#	undef namedLockPatternEpicsExportSharedSymbols
+#endif
+
+#include <pv/referenceCountingLock.h>
 
 // TODO implement using smart pointers
 

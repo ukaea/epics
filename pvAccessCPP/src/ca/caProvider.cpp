@@ -4,16 +4,18 @@
  * in file LICENSE that is included with this distribution.
  */
 
-#define epicsExportSharedSymbols
-#include <pv/logger.h>
-#include <pv/caProvider.h>
-#include <pv/caChannel.h>
-
 #include <algorithm>
 
 /* for CA */
 #include <cadef.h>
 #include <epicsSignal.h>
+
+#include <pv/logger.h>
+
+#define epicsExportSharedSymbols
+
+#include <pv/caProvider.h>
+#include <pv/caChannel.h>
 
 using namespace epics::pvData;
 using namespace epics::pvAccess;
@@ -23,7 +25,7 @@ using namespace epics::pvAccess::ca;
         catch (std::exception &e) { LOG(logLevelError, "Unhandled exception caught from client code at %s:%d: %s", __FILE__, __LINE__, e.what()); } \
                 catch (...) { LOG(logLevelError, "Unhandled exception caught from client code at %s:%d.", __FILE__, __LINE__); }
 
-String CAChannelProvider::PROVIDER_NAME = "ca";
+std::string CAChannelProvider::PROVIDER_NAME = "ca";
 
 CAChannelProvider::CAChannelProvider()
 {
@@ -34,13 +36,13 @@ CAChannelProvider::~CAChannelProvider()
 {
 }
 
-epics::pvData::String CAChannelProvider::getProviderName()
+std::string CAChannelProvider::getProviderName()
 {
     return PROVIDER_NAME;
 }
 
 ChannelFind::shared_pointer CAChannelProvider::channelFind(
-        epics::pvData::String const & channelName,
+        std::string const & channelName,
         ChannelFindRequester::shared_pointer const & channelFindRequester)
 {
     if (channelName.empty())
@@ -55,20 +57,33 @@ ChannelFind::shared_pointer CAChannelProvider::channelFind(
     return nullChannelFind;
 }
 
+ChannelFind::shared_pointer CAChannelProvider::channelList(
+        ChannelListRequester::shared_pointer const & channelListRequester)
+{
+    if (!channelListRequester.get())
+        throw std::runtime_error("null requester");
+
+    Status errorStatus(Status::STATUSTYPE_ERROR, "not implemented");
+    ChannelFind::shared_pointer nullChannelFind;
+    PVStringArray::const_svector none;
+    EXCEPTION_GUARD(channelListRequester->channelListResult(errorStatus, nullChannelFind, none, false));
+    return nullChannelFind;
+}
+
 Channel::shared_pointer CAChannelProvider::createChannel(
-        epics::pvData::String const & channelName,
+        std::string const & channelName,
         ChannelRequester::shared_pointer const & channelRequester,
         short priority)
 {
-    static String emptyString;
+    static std::string emptyString;
     return createChannel(channelName, channelRequester, priority, emptyString);
 }
 
 Channel::shared_pointer CAChannelProvider::createChannel(
-        epics::pvData::String const & channelName,
+        std::string const & channelName,
         ChannelRequester::shared_pointer const & channelRequester,
         short priority,
-        epics::pvData::String const & address)
+        std::string const & address)
 {
     if (!address.empty())
         throw std::invalid_argument("CA does not support 'address' parameter");
@@ -147,7 +162,7 @@ class CAChannelProviderFactoryImpl : public ChannelProviderFactory
 public:
     POINTER_DEFINITIONS(CAChannelProviderFactoryImpl);
 
-    virtual epics::pvData::String getFactoryName()
+    virtual std::string getFactoryName()
     {
         return CAChannelProvider::PROVIDER_NAME;
     }
@@ -158,7 +173,9 @@ public:
         if (!sharedProvider.get())
         {
             try {
-                sharedProvider.reset(new CAChannelProvider());
+                // TODO use std::make_shared
+                std::tr1::shared_ptr<CAChannelProvider> tp(new CAChannelProvider());
+                sharedProvider = tp;
             } catch (std::exception &e) {
                 LOG(logLevelError, "Unhandled exception caught at %s:%d: %s", __FILE__, __LINE__, e.what());
             } catch (...) {
@@ -171,7 +188,10 @@ public:
     virtual ChannelProvider::shared_pointer newInstance()
     {
         try {
-            return ChannelProvider::shared_pointer(new CAChannelProvider());
+            // TODO use std::make_shared
+            std::tr1::shared_ptr<CAChannelProvider> tp(new CAChannelProvider());
+            ChannelProvider::shared_pointer ni = tp;
+            return ni;
         } catch (std::exception &e) {
             LOG(logLevelError, "Unhandled exception caught at %s:%d: %s", __FILE__, __LINE__, e.what());
             return ChannelProvider::shared_pointer();

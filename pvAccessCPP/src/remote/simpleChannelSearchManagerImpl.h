@@ -7,10 +7,8 @@
 #ifndef SIMPLECHANNELSEARCHMANAGERIMPL_H
 #define SIMPLECHANNELSEARCHMANAGERIMPL_H
 
-#include <pv/channelSearchManager.h>
-
 #ifdef epicsExportSharedSymbols
-#   define simpleChannelSearchManagerImplEpicsExportSharedSymbols
+#   define simpleChannelSearchManagerEpicsExportSharedSymbols
 #   undef epicsExportSharedSymbols
 #endif
 
@@ -18,14 +16,16 @@
 #include <pv/byteBuffer.h>
 #include <pv/timer.h>
 
-#ifdef simpleChannelSearchManagerImplEpicsExportSharedSymbols
+#ifdef simpleChannelSearchManagerEpicsExportSharedSymbols
 #   define epicsExportSharedSymbols
-#	undef simpleChannelSearchManagerImplEpicsExportSharedSymbols
+#	undef simpleChannelSearchManagerEpicsExportSharedSymbols
 #endif
-#include <shareLib.h>
+
+#include <pv/channelSearchManager.h>
 
 namespace epics {
 namespace pvAccess {
+
 
 class MockTransportSendControl: public TransportSendControl
 {
@@ -33,7 +33,7 @@ public:
 	void endMessage() {}
 	void flush(bool /*lastMessageCompleted*/) {}
 	void setRecipient(const osiSockAddr& /*sendTo*/) {}
-	void startMessage(epics::pvData::int8 /*command*/, std::size_t /*ensureCapacity*/) {}
+    void startMessage(epics::pvData::int8 /*command*/, std::size_t /*ensureCapacity*/, epics::pvData::int32 /*payloadSize*/) {}
 	void ensureBuffer(std::size_t /*size*/) {}
 	void alignBuffer(std::size_t /*alignment*/) {}
 	void flushSerializeBuffer() {}
@@ -50,7 +50,7 @@ public:
 };
 
 
-class epicsShareClass SimpleChannelSearchManagerImpl :
+class SimpleChannelSearchManagerImpl :
     public ChannelSearchManager,
     public epics::pvData::TimerCallback,
 	public std::tr1::enable_shared_from_this<SimpleChannelSearchManagerImpl>
@@ -133,6 +133,11 @@ class epicsShareClass SimpleChannelSearchManagerImpl :
 	 */
 	Context::weak_pointer m_context;
 
+    /**
+     * Response address.
+     */
+    osiSockAddr m_responseAddress;
+
 	/**
 	 * Canceled flag.
 	 */
@@ -179,6 +184,7 @@ class epicsShareClass SimpleChannelSearchManagerImpl :
 	epics::pvData::Mutex m_mutex;
 
     static const int DATA_COUNT_POSITION;
+    static const int CAST_POSITION;
     static const int PAYLOAD_POSITION;
 
     static const double ATOMIC_PERIOD;

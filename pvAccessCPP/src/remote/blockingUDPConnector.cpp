@@ -4,12 +4,11 @@
  * in file LICENSE that is included with this distribution.
  */
 
-#include <osiSock.h>
-
-#define epicsExportSharedSymbols
 #include <pv/blockingUDP.h>
 #include <pv/remote.h>
 #include <pv/logger.h>
+
+#include <osiSock.h>
 
 #include <sys/types.h>
 
@@ -23,14 +22,14 @@ namespace epics {
                 auto_ptr<ResponseHandler>& responseHandler, osiSockAddr& bindAddress,
                 int8 transportRevision, int16 /*priority*/) {
                     
-            LOG(logLevelDebug, "Creating datagram socket to: %s",
+            LOG(logLevelDebug, "Creating datagram socket to: %s.",
                     inetAddressToString(bindAddress).c_str());
 
             SOCKET socket = epicsSocketCreate(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
             if(socket==INVALID_SOCKET) {
                 char errStr[64];
                 epicsSocketConvertErrnoToString(errStr, sizeof(errStr));
-                LOG(logLevelError, "Error creating socket: %s", errStr);
+                LOG(logLevelError, "Error creating socket: %s.", errStr);
                 return Transport::shared_pointer();
             }
 
@@ -40,13 +39,19 @@ namespace epics {
             {
                 char errStr[64];
                 epicsSocketConvertErrnoToString(errStr, sizeof(errStr));
-                LOG(logLevelError, "Error setting SO_BROADCAST: %s", errStr);
+                LOG(logLevelError, "Error setting SO_BROADCAST: %s.", errStr);
                 epicsSocketDestroy (socket);
                 return Transport::shared_pointer();
             }
             
             /*
-            IPv4 multicast addresses are defined by the leading address bits of 1110, originating from the classful network design of the early Internet when this group of addresses was designated as Class D. The Classless Inter-Domain Routing (CIDR) prefix of this group is 224.0.0.0/4. The group includes the addresses from 224.0.0.0 to 239.255.255.255. Address assignments from within this range are specified in RFC 5771, an Internet Engineering Task Force (IETF) Best Current Practice document (BCP 51).*/
+            IPv4 multicast addresses are defined by the leading address bits of 1110,
+            originating from the classful network design of the early Internet when this
+            group of addresses was designated as Class D. The Classless Inter-Domain Routing (CIDR)
+            prefix of this group is 224.0.0.0/4.
+            The group includes the addresses from 224.0.0.0 to 239.255.255.255.
+            Address assignments from within this range are specified in RFC 5771,
+            an Internet Engineering Task Force (IETF) Best Current Practice document (BCP 51).*/
             
             
             // set SO_REUSEADDR or SO_REUSEPORT, OS dependant
@@ -57,13 +62,14 @@ namespace epics {
             if(retval<0) {
                 char errStr[64];
                 epicsSocketConvertErrnoToString(errStr, sizeof(errStr));
-                LOG(logLevelError, "Error binding socket: %s", errStr);
+                LOG(logLevelError, "Error binding socket: %s.", errStr);
                 epicsSocketDestroy (socket);
                 return Transport::shared_pointer();
             }
 
             // sockets are blocking by default
-            Transport::shared_pointer transport = BlockingUDPTransport::create(responseHandler, socket, bindAddress, transportRevision);
+            Transport::shared_pointer transport = BlockingUDPTransport::create(_serverFlag,
+                                                                               responseHandler, socket, bindAddress, transportRevision);
             return transport;
         }
 

@@ -10,22 +10,13 @@
 #include <pv/pvAccess.h>
 
 /* for CA */
-#ifdef epicsExportSharedSymbols
-#   define caChannelEpicsExportSharedSymbols
-#   undef epicsExportSharedSymbols
-#endif
 #include <cadef.h>
-#ifdef caChannelEpicsExportSharedSymbols
-#   define epicsExportSharedSymbols
-#	undef caChannelEpicsExportSharedSymbols
-#endif
-#include <shareLib.h>
 
 namespace epics {
 namespace pvAccess {
 namespace ca {
 
-class epicsShareClass CAChannel :
+class CAChannel :
         public Channel,
         public std::tr1::enable_shared_from_this<CAChannel>
 {
@@ -33,8 +24,8 @@ class epicsShareClass CAChannel :
 public:
     POINTER_DEFINITIONS(CAChannel);
 
-    static CAChannel::shared_pointer create(ChannelProvider::shared_pointer const & channelProvider,
-                                            epics::pvData::String const & channelName,
+    static shared_pointer create(ChannelProvider::shared_pointer const & channelProvider,
+                                            std::string const & channelName,
                                             short priority,
                                             ChannelRequester::shared_pointer const & channelRequester);
 
@@ -50,13 +41,13 @@ public:
     /* --------------- epics::pvAccess::Channel --------------- */
 
     virtual std::tr1::shared_ptr<ChannelProvider> getProvider();
-    virtual epics::pvData::String getRemoteAddress();
+    virtual std::string getRemoteAddress();
     virtual ConnectionState getConnectionState();
-    virtual epics::pvData::String getChannelName();
+    virtual std::string getChannelName();
     virtual std::tr1::shared_ptr<ChannelRequester> getChannelRequester();
     virtual bool isConnected();
 
-    virtual void getField(GetFieldRequester::shared_pointer const & requester,epics::pvData::String const & subField);
+    virtual void getField(GetFieldRequester::shared_pointer const & requester,std::string const & subField);
 
     virtual AccessRights getAccessRights(epics::pvData::PVField::shared_pointer const & pvField);
 
@@ -90,13 +81,13 @@ public:
 
     virtual void printInfo();
 
-    virtual void printInfo(epics::pvData::StringBuilder out);
+    virtual void printInfo(std::ostream& out);
 
     /* --------------- epics::pvData::Requester --------------- */
 
-    virtual epics::pvData::String getRequesterName();
+    virtual std::string getRequesterName();
 
-    virtual void message(epics::pvData::String const & message, epics::pvData::MessageType messageType);
+    virtual void message(std::string const & message, epics::pvData::MessageType messageType);
 
     /* --------------- epics::pvData::Destroyable --------------- */
 
@@ -109,12 +100,12 @@ public:
 
 private:
 
-    CAChannel(epics::pvData::String const & channelName,
+    CAChannel(std::string const & channelName,
               ChannelProvider::shared_pointer const & channelProvider,
               ChannelRequester::shared_pointer const & channelRequester);
     void activate(short priority);
 
-    epics::pvData::String channelName;
+    std::string channelName;
     
     ChannelProvider::shared_pointer channelProvider;
     ChannelRequester::shared_pointer channelRequester;
@@ -151,7 +142,13 @@ public:
 
     /* --------------- epics::pvAccess::ChannelGet --------------- */
 
-    virtual void get(bool lastRequest);
+    virtual void get();
+
+    /* --------------- epics::pvData::ChannelRequest --------------- */
+
+    virtual Channel::shared_pointer getChannel();
+    virtual void cancel();
+    virtual void lastRequest();
 
     /* --------------- epics::pvData::Destroyable --------------- */
 
@@ -175,6 +172,9 @@ private:
 
     epics::pvData::PVStructure::shared_pointer pvStructure;
     epics::pvData::BitSet::shared_pointer bitSet;
+    
+    // TODO AtomicBoolean !!!
+    bool lastRequestFlag;
 };
 
 
@@ -198,8 +198,17 @@ public:
 
     /* --------------- epics::pvAccess::ChannelPut --------------- */
 
-    virtual void put(bool lastRequest);
+    virtual void put(
+            epics::pvData::PVStructure::shared_pointer const & pvPutStructure,
+            epics::pvData::BitSet::shared_pointer const & putBitSet
+            );
     virtual void get();
+
+    /* --------------- epics::pvData::ChannelRequest --------------- */
+
+    virtual Channel::shared_pointer getChannel();
+    virtual void cancel();
+    virtual void lastRequest();
 
     /* --------------- epics::pvData::Destroyable --------------- */
 
@@ -223,10 +232,13 @@ private:
 
     epics::pvData::PVStructure::shared_pointer pvStructure;
     epics::pvData::BitSet::shared_pointer bitSet;
+
+    // TODO AtomicBoolean !!!
+    bool lastRequestFlag;
 };
 
 
-class epicsShareClass CAChannelMonitor :
+class CAChannelMonitor :
         public epics::pvData::Monitor,
         public std::tr1::enable_shared_from_this<CAChannelMonitor>
 {
@@ -248,6 +260,10 @@ public:
     virtual epics::pvData::Status stop();
     virtual epics::pvData::MonitorElementPtr poll();
     virtual void release(epics::pvData::MonitorElementPtr const & monitorElement);
+
+    /* --------------- epics::pvData::ChannelRequest --------------- */
+
+    virtual void cancel();
 
     /* --------------- epics::pvData::Destroyable --------------- */
 

@@ -4,19 +4,23 @@
  * in file LICENSE that is included with this distribution.
  */
 
+#ifdef _WIN32
+// needed for ip_mreq
+#include <Ws2tcpip.h>
+#endif
+
+#include <pv/blockingUDP.h>
+#include <pv/pvaConstants.h>
+#include <pv/inetAddressUtil.h>
+#include <pv/logger.h>
+#include <pv/likely.h>
+
 #include <pv/byteBuffer.h>
 #include <pv/lock.h>
 
 #include <osdSock.h>
 #include <osiSock.h>
 #include <epicsThread.h>
-
-#define epicsExportSharedSymbols
-#include <pv/blockingUDP.h>
-#include <pv/pvaConstants.h>
-#include <pv/inetAddressUtil.h>
-#include <pv/logger.h>
-#include <pv/likely.h>
 
 #include <cstdio>
 #include <sys/types.h>
@@ -37,6 +41,7 @@ inline int sendto(int s, const char *buf, size_t len, int flags, const struct so
         PVACCESS_REFCOUNT_MONITOR_DEFINE(blockingUDPTransport);
 
         BlockingUDPTransport::BlockingUDPTransport(
+                bool serverFlag,
                 auto_ptr<ResponseHandler>& responseHandler, SOCKET channel,
                 osiSockAddr& bindAddress,
                 short /*remoteTransportRevision*/) :
@@ -50,26 +55,23 @@ inline int sendto(int s, const char *buf, size_t len, int flags, const struct so
                     _receiveBuffer(new ByteBuffer(MAX_UDP_RECV)),
                     _sendBuffer(new ByteBuffer(MAX_UDP_RECV)),
                     _lastMessageStartPosition(0),
-                    _threadId(0)
+                    _threadId(0),
+                    _clientServerWithEndianFlag(
+                        (serverFlag ? 0x40 : 0x00) | ((EPICS_BYTE_ORDER == EPICS_ENDIAN_BIG) ? 0x80 : 0x00))
         {
             PVACCESS_REFCOUNT_MONITOR_CONSTRUCT(blockingUDPTransport);
 
-            // set receive timeout so that we do not have problems at shutdown (recvfrom would block)
-            struct timeval timeout;
-            memset(&timeout, 0, sizeof(struct timeval));
-            timeout.tv_sec = 0;
-            timeout.tv_usec = 100000; // 100ms TODO tune this
+            osiSocklen_t sockLen = sizeof(sockaddr);
+            // read the actual socket info
+            int retval = ::getsockname(_channel, &_remoteAddress.sa, &sockLen);
+            if(retval<0) {
+                // error obtaining remote address, fallback to bindAddress
+                _remoteAddress = _bindAddress;
 
-            if (unlikely(::setsockopt (_channel, SOL_SOCKET, SO_RCVTIMEO, (char*)&timeout, sizeof(timeout)) < 0))
-            {
-                char errStr[64];
-                epicsSocketConvertErrnoToString(errStr, sizeof(errStr));
-                LOG(logLevelError,
-                    "Failed to set SO_RCVTIMEO for UDP socket %s: %s.",
-                    inetAddressToString(_bindAddress).c_str(), errStr);
+                char strBuffer[64];
+                epicsSocketConvertErrnoToString(strBuffer, sizeof(strBuffer));
+                LOG(logLevelDebug, "getsockname error: %s.", strBuffer);
             }
-
-
         }
 
         BlockingUDPTransport::~BlockingUDPTransport() {
@@ -85,9 +87,13 @@ inline int sendto(int s, const char *buf, size_t len, int flags, const struct so
 
         void BlockingUDPTransport::start() {
 
-            String threadName = "UDP-receive "+inetAddressToString(_bindAddress);
-            LOG(logLevelDebug, "Starting thread: %s",threadName.c_str());
-
+            string threadName = "UDP-receive " + inetAddressToString(_bindAddress);
+            
+            if (IS_LOGGABLE(logLevelTrace))
+            {
+                LOG(logLevelTrace, "Starting thread: %s.", threadName.c_str());
+            }
+            
             _threadId = epicsThreadCreate(threadName.c_str(),
                     epicsThreadPriorityMedium,
                     epicsThreadGetStackSize(epicsThreadStackSmall),
@@ -103,17 +109,44 @@ inline int sendto(int s, const char *buf, size_t len, int flags, const struct so
                 Lock guard(_mutex);
                 if(_closed.get()) return;
                 _closed.set();
-    
+            }
+
+            if (IS_LOGGABLE(logLevelDebug))
+            {
                 LOG(logLevelDebug,
                     "UDP socket %s closed.",
                     inetAddressToString(_bindAddress).c_str());
-    
-                // TODO should I wait thread to complete first and then destroy
-                // on some OSes (Darwin) this also exits rcvfrom() and speeds up shutdown
-                epicsSocketDestroy(_channel);
             }
             
-            // TODO send yourself a packet
+            epicsSocketSystemCallInterruptMechanismQueryInfo info  =
+                epicsSocketSystemCallInterruptMechanismQuery ();
+            switch ( info )
+            {
+                case esscimqi_socketCloseRequired:
+                    epicsSocketDestroy ( _channel );
+                    break;
+                case esscimqi_socketBothShutdownRequired:
+                    {
+                        /*int status =*/ ::shutdown ( _channel, SHUT_RDWR );
+                        /*
+                        if ( status ) {
+                            char sockErrBuf[64];
+                            epicsSocketConvertErrnoToString (
+                                sockErrBuf, sizeof ( sockErrBuf ) );
+                        LOG(logLevelDebug,
+                            "UDP socket %s failed to shutdown: %s.",
+                            inetAddressToString(_bindAddress).c_str(), sockErrBuf);
+                        }
+                        */
+                        epicsSocketDestroy ( _channel );
+                    }
+                    break;
+                case esscimqi_socketSigAlarmRequired:
+                    // not supported anymore anyway
+                default:
+                    epicsSocketDestroy(_channel);
+            }
+            
             
             // wait for send thread to exit cleanly            
             if (waitForThreadToComplete)
@@ -152,13 +185,13 @@ inline int sendto(int s, const char *buf, size_t len, int flags, const struct so
             // noop (note different sent addresses are possible)
         }
 
-        void BlockingUDPTransport::startMessage(int8 command, size_t /*ensureCapacity*/) {
+        void BlockingUDPTransport::startMessage(int8 command, size_t /*ensureCapacity*/, int32 payloadSize) {
             _lastMessageStartPosition = _sendBuffer->getPosition();
             _sendBuffer->putByte(PVA_MAGIC);
             _sendBuffer->putByte(PVA_VERSION);
-            _sendBuffer->putByte((EPICS_BYTE_ORDER == EPICS_ENDIAN_BIG) ? 0x80 : 0x00); // data + 7-bit endianess
+            _sendBuffer->putByte(_clientServerWithEndianFlag);
             _sendBuffer->putByte(command); // command
-            _sendBuffer->putInt(0); // temporary zero payload
+            _sendBuffer->putInt(payloadSize);
         }
 
         void BlockingUDPTransport::endMessage() {
@@ -234,7 +267,7 @@ inline int sendto(int s, const char *buf, size_t len, int flags, const struct so
                         {
                             char errStr[64];
                             epicsSocketConvertErrnoToString(errStr, sizeof(errStr));
-                            LOG(logLevelError, "Socket recvfrom error: %s", errStr);
+                            LOG(logLevelError, "Socket recvfrom error: %s.", errStr);
                         }
                                
                         close(false);
@@ -247,12 +280,11 @@ inline int sendto(int s, const char *buf, size_t len, int flags, const struct so
                 close(false);
             }
 
-            String threadName = "UDP-receive "+inetAddressToString(_bindAddress);
-            /*
-            char threadName[40];
-            epicsThreadGetName(_threadId, threadName, 40);
-            */
-            LOG(logLevelDebug, "Thread '%s' exiting", threadName.c_str());
+            if (IS_LOGGABLE(logLevelTrace))
+            {
+                string threadName = "UDP-receive "+inetAddressToString(_bindAddress);
+                LOG(logLevelTrace, "Thread '%s' exiting.", threadName.c_str());
+            }
             
             _shutdownEvent.signal();
         }
@@ -316,20 +348,30 @@ inline int sendto(int s, const char *buf, size_t len, int flags, const struct so
             {
                 char errStr[64];
                 epicsSocketConvertErrnoToString(errStr, sizeof(errStr));
-                LOG(logLevelDebug, "Socket sendto error: %s", errStr);
+                LOG(logLevelDebug, "Socket sendto error: %s.", errStr);
                 return false;
             }
+
+            // all sent
+            buffer->setPosition(buffer->getLimit());
 
             return true;
         }
         
-        bool BlockingUDPTransport::send(ByteBuffer* buffer) {
+        bool BlockingUDPTransport::send(ByteBuffer* buffer, InetAddressType target) {
             if(!_sendAddresses) return false;
 
             buffer->flip();
 
             bool allOK = true;
             for(size_t i = 0; i<_sendAddresses->size(); i++) {
+
+                // filter
+                if (target != inetAddressType_all)
+                    if ((target == inetAddressType_unicast && !_isSendAddressUnicast[i]) ||
+                        (target == inetAddressType_broadcast_multicast && _isSendAddressUnicast[i]))
+                        continue;
+
                 int retval = sendto(_channel, buffer->getArray(),
                         buffer->getLimit(), 0, &((*_sendAddresses)[i].sa),
                         sizeof(sockaddr));
@@ -337,10 +379,13 @@ inline int sendto(int s, const char *buf, size_t len, int flags, const struct so
                 {
                     char errStr[64];
                     epicsSocketConvertErrnoToString(errStr, sizeof(errStr));
-                    LOG(logLevelDebug, "Socket sendto error: %s", errStr);
+                    LOG(logLevelDebug, "Socket sendto error: %s.", errStr);
                     allOK = false;
                 }
             }
+
+            // all sent
+            buffer->setPosition(buffer->getLimit());
 
             return allOK;
         }
@@ -358,7 +403,7 @@ inline int sendto(int s, const char *buf, size_t len, int flags, const struct so
             {
                 char errStr[64];
                 epicsSocketConvertErrnoToString(errStr, sizeof(errStr));
-                LOG(logLevelError, "Socket getsockopt SO_RCVBUF error: %s", errStr);
+                LOG(logLevelError, "Socket getsockopt SO_RCVBUF error: %s.", errStr);
             }
 
             return (size_t)sockBufSize;
@@ -367,6 +412,59 @@ inline int sendto(int s, const char *buf, size_t len, int flags, const struct so
         void BlockingUDPTransport::threadRunner(void* param) {
             ((BlockingUDPTransport*)param)->processRead();
         }
+
+
+        void BlockingUDPTransport::join(const osiSockAddr & mcastAddr, const osiSockAddr & nifAddr)
+        {
+            struct ip_mreq imreq;
+            memset(&imreq, 0, sizeof(struct ip_mreq));
+
+            imreq.imr_multiaddr.s_addr = mcastAddr.ia.sin_addr.s_addr;
+            imreq.imr_interface.s_addr = nifAddr.ia.sin_addr.s_addr;
+
+            // join multicast group on default interface
+            int status = ::setsockopt(_channel, IPPROTO_IP, IP_ADD_MEMBERSHIP,
+                            (char*)&imreq, sizeof(struct ip_mreq));
+            if (status)
+            {
+                char errStr[64];
+                epicsSocketConvertErrnoToString(errStr, sizeof(errStr));
+                throw std::runtime_error(
+                            string("Failed to join to the multicast group '") +
+                            inetAddressToString(mcastAddr) + "' on network interface '" +
+                            inetAddressToString(nifAddr, false) + "': " + errStr);
+            }
+        }
+
+        void BlockingUDPTransport::setMutlicastNIF(const osiSockAddr & nifAddr, bool loopback)
+        {
+            // set the multicast outgoing interface
+            int status = ::setsockopt(_channel, IPPROTO_IP, IP_MULTICAST_IF,
+                                  (char*)&nifAddr.ia.sin_addr, sizeof(struct in_addr));
+            if (status)
+            {
+                char errStr[64];
+                epicsSocketConvertErrnoToString(errStr, sizeof(errStr));
+                throw std::runtime_error(
+                            string("Failed to set multicast network inteface '") +
+                            inetAddressToString(nifAddr, false) + "': " + errStr);
+            }
+
+            // send multicast traffic to myself too
+            unsigned char mcast_loop = (loopback ? 1 : 0);
+            status = ::setsockopt(_channel, IPPROTO_IP, IP_MULTICAST_LOOP,
+                                (char*)&mcast_loop, sizeof(unsigned char));
+            if (status)
+            {
+                char errStr[64];
+                epicsSocketConvertErrnoToString(errStr, sizeof(errStr));
+                throw std::runtime_error(
+                            string("Failed to enable multicast loopback on network inteface '") +
+                            inetAddressToString(nifAddr, false) + "': " + errStr);
+            }
+
+        }
+
 
     }
 }

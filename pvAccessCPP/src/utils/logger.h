@@ -7,19 +7,21 @@
 #ifndef LOGGER_H_
 #define LOGGER_H_
 
-#include <pv/pvType.h>
-
 #ifdef epicsExportSharedSymbols
 #   define loggerEpicsExportSharedSymbols
 #   undef epicsExportSharedSymbols
 #endif
+
+#include <pv/pvType.h>
 #include <errlog.h>
+
 #ifdef loggerEpicsExportSharedSymbols
 #   define epicsExportSharedSymbols
 #undef loggerEpicsExportSharedSymbols
 #endif
-#include <sharelib.h>
- 
+
+#include <shareLib.h>
+
 namespace epics {
 namespace pvAccess {
         
@@ -73,7 +75,7 @@ namespace pvAccess {
         * @param[in] fname The file to write to. If the file exists, it
         * is opened for append.
         */
-    epicsShareExtern void createFileLogger( epics::pvData::String const & fname );
+    epicsShareExtern void createFileLogger( std::string const & fname );
 
 }
 }
