@@ -7,16 +7,19 @@
 /**
  *  @author mrk
  */
-#include <stddef.h>
-#include <stdlib.h>
-#include <stddef.h>
-#include <string.h>
-#include <stdio.h>
+ 
+#ifdef _WIN32
+#define NOMINMAX
+#endif
+
 #include <stdexcept>
+#include <string>
 
 #define epicsExportSharedSymbols
 #include <pv/convert.h>
 #include <pv/timer.h>
+
+using std::string;
 
 namespace epics { namespace pvData { 
 
@@ -26,7 +29,7 @@ TimerCallback::TimerCallback()
 {
 }
 
-Timer::Timer(String threadName,ThreadPriority priority)
+Timer::Timer(string threadName,ThreadPriority priority)
 : waitForWork(false),
   waitForDone(false),
   alive(true),
@@ -84,7 +87,7 @@ void Timer::cancel(TimerCallbackPtr const &timerCallback)
         prevNode = nextNode;
         nextNode = nextNode->next;
     }
-    throw std::logic_error(String(""));
+    throw std::logic_error(string(""));
 }
 
 bool Timer::isScheduled(TimerCallbackPtr const &timerCallback)
@@ -169,7 +172,7 @@ void Timer::schedulePeriodic(
     double period)
 {
     if(isScheduled(timerCallback)) {
-        throw std::logic_error(String("already queued"));
+        throw std::logic_error(string("already queued"));
     }
     {
         Lock xx(mutex);
@@ -193,7 +196,7 @@ void Timer::schedulePeriodic(
     if(isFirst) waitForWork.signal();
 }
 
-void Timer::toString(StringBuilder builder)
+void Timer::dump(std::ostream& o)
 {
     Lock xx(mutex);
     if(!alive) return;
@@ -205,11 +208,15 @@ void Timer::toString(StringBuilder builder)
          TimeStamp timeToRun = nodeToCall->timeToRun;
          double period = nodeToCall->period;
          double diff = TimeStamp::diff(timeToRun,currentTime);
-         char buffer[50];
-         sprintf(buffer,"timeToRun %f period %f\n",diff,period);
-         *builder += buffer;
+         o << "timeToRun " << diff << " period " << period << std::endl;
          nodeToCall = nodeToCall->next;
      }
+}
+
+std::ostream& operator<<(std::ostream& o, Timer& timer)
+{
+    timer.dump(o);
+    return o;
 }
 
 }}

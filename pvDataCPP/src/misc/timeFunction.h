@@ -11,7 +11,8 @@
 #define TIMEFUNCTION_H
 
 #include <pv/sharedPtr.h>
-#include <sharelib.h>
+
+#include <shareLib.h>
 
 namespace epics { namespace pvData { 
 

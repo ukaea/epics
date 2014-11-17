@@ -9,13 +9,14 @@
  */
 #ifndef PVALARM_H
 #define PVALARM_H
+
 #include <string>
 
 #include <pv/pvType.h>
 #include <pv/alarm.h>
 #include <pv/pvData.h>
 
-#include <sharelib.h>
+#include <shareLib.h>
 
 namespace epics { namespace pvData {
 
@@ -36,8 +37,8 @@ private:
     PVIntPtr pvSeverity;
     PVIntPtr pvStatus;
     PVStringPtr pvMessage;
-    static String noAlarmFound;
-    static String notAttached;
+    static std::string noAlarmFound;
+    static std::string notAttached;
 };
     
 }}

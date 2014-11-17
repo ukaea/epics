@@ -15,24 +15,29 @@
 #define epicsExportSharedSymbols
 #include <pv/pvIntrospect.h>
 #include <pv/epicsException.h>
+#include <pv/sharedVector.h>
 
 #include "dbDefs.h" // for NELEMENTS
+
+using std::string;
 
 namespace epics { namespace pvData {
 
 namespace TypeFunc {
     static const char* names[] = {
-        "scalar", "scalarArray", "structure", "structureArray",
+        "scalar", "scalarArray", "structure", "structureArray", "union", "unionArray"
     };
     const char* name(Type t) {
-        if (t<int(pvBoolean) || t>int(pvString))
+        if (t<int(scalar) || t>int(unionArray))
             THROW_EXCEPTION2(std::invalid_argument, "logic error unknown Type");
         return names[t];
     }
-    void toString(StringBuilder buf,const Type type) {
-        *buf += name(type);
-    }
 } // namespace TypeFunc
+
+std::ostream& operator<<(std::ostream& o, const Type& type)
+{
+    return o << TypeFunc::name(type);
+}
 
 
 namespace ScalarTypeFunc {
@@ -62,7 +67,7 @@ namespace ScalarTypeFunc {
         "ubyte", "ushort", "uint", "ulong",
         "float", "double", "string",
     };
-    ScalarType getScalarType(String pvalue) {
+    ScalarType getScalarType(const string& pvalue) {
         for(size_t i=0; i<NELEMENTS(names); i++)
             if(pvalue==names[i])
                 return ScalarType(i);
@@ -75,10 +80,55 @@ namespace ScalarTypeFunc {
         return names[t];
     }
 
-    void toString(StringBuilder buf,const ScalarType scalarType) {
-        *buf += name(scalarType);
+    size_t elementSize(ScalarType id)
+    {
+        switch(id) {
+#define OP(ENUM, TYPE) case ENUM: return sizeof(TYPE)
+            OP(pvBoolean, boolean);
+            OP(pvUByte, uint8);
+            OP(pvByte, int8);
+            OP(pvUShort, uint16);
+            OP(pvShort, int16);
+            OP(pvUInt, uint32);
+            OP(pvInt, int32);
+            OP(pvULong, uint64);
+            OP(pvLong, int64);
+            OP(pvFloat, float);
+            OP(pvDouble, double);
+            OP(pvString, string);
+#undef OP
+        default:
+            THROW_EXCEPTION2(std::invalid_argument, "error unknown ScalarType");
+        }
+    }
+
+    shared_vector<void> allocArray(ScalarType id, size_t len)
+    {
+        switch(id) {
+#define OP(ENUM, TYPE) case ENUM: return static_shared_vector_cast<void>(shared_vector<TYPE>(len))
+        OP(pvBoolean, boolean);
+        OP(pvUByte, uint8);
+        OP(pvByte, int8);
+        OP(pvUShort, uint16);
+        OP(pvShort, int16);
+        OP(pvUInt, uint32);
+        OP(pvInt, int32);
+        OP(pvULong, uint64);
+        OP(pvLong, int64);
+        OP(pvFloat, float);
+        OP(pvDouble, double);
+        OP(pvString, string);
+#undef OP
+        default:
+            throw std::bad_alloc();
+        }
     }
 
 } // namespace ScalarTypeFunc
+
+std::ostream& operator<<(std::ostream& o, const ScalarType& scalarType)
+{
+    return o << ScalarTypeFunc::name(scalarType);
+}
 
 }}

@@ -9,13 +9,26 @@
  */
 #ifndef EVENT_H
 #define EVENT_H
+
 #include <memory>
 #include <vector>
+
+#ifdef epicsExportSharedSymbols
+#define eventepicsExportSharedSymbols
+#undef epicsExportSharedSymbols
+#endif
+
 #include <epicsEvent.h>
+
+#ifdef eventepicsExportSharedSymbols
+#define epicsExportSharedSymbols
+#undef eventepicsExportSharedSymbols
+#endif
 
 #include <pv/pvType.h>
 #include <pv/sharedPtr.h>
-#include <sharelib.h>
+
+#include <shareLib.h>
 
 namespace epics { namespace pvData { 
 
@@ -33,7 +46,7 @@ public:
     bool tryWait (); /* false if empty */
 private:
     epicsEventId id;
-    String alreadyOn;
+    std::string alreadyOn;
 };
 
 }}

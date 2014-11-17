@@ -9,12 +9,24 @@
  */
 #ifndef TIMESTAMP_H
 #define TIMESTAMP_H
+
 #include <ctime>
+
+#ifdef epicsExportSharedSymbols
+#define timeStampepicsExportSharedSymbols
+#undef epicsExportSharedSymbols
+#endif
 
 #include <epicsTime.h>
 
+#ifdef timeStampepicsExportSharedSymbols
+#define epicsExportSharedSymbols
+#undef timeStampepicsExportSharedSymbols
+#endif
+
 #include <pv/pvType.h>
-#include <sharelib.h>
+
+#include <shareLib.h>
 
 namespace epics { namespace pvData { 
 
@@ -26,8 +38,8 @@ epicsShareExtern int64 posixEpochAtEpicsEpoch;
 class epicsShareClass TimeStamp {
 public:
     TimeStamp() 
-    :secondsPastEpoch(0), nanoSeconds(0), userTag(0) {}
-    TimeStamp(int64 secondsPastEpoch,int32 nanoSeconds = 0,int32 userTag = 0);
+    :secondsPastEpoch(0), nanoseconds(0), userTag(0) {}
+    TimeStamp(int64 secondsPastEpoch,int32 nanoseconds = 0,int32 userTag = 0);
     //default constructors and destructor are OK
     //This class should not be extended
     void normalize();
@@ -37,12 +49,12 @@ public:
     int64 getEpicsSecondsPastEpoch() const {
         return secondsPastEpoch - posixEpochAtEpicsEpoch;
     }
-    int32 getNanoSeconds() const  {return nanoSeconds;}
+    int32 getNanoseconds() const  {return nanoseconds;}
     int32 getUserTag() const {return userTag;}
     void setUserTag(int userTag) {this->userTag = userTag;}
-    void put(int64 secondsPastEpoch,int32 nanoSeconds = 0) {
+    void put(int64 secondsPastEpoch,int32 nanoseconds = 0) {
         this->secondsPastEpoch = secondsPastEpoch;
-        this->nanoSeconds = nanoSeconds;
+        this->nanoseconds = nanoseconds;
         normalize();
     }
     void put(int64 milliseconds);
@@ -63,7 +75,7 @@ public:
 private:
     static int64 diffInt(TimeStamp const &left,TimeStamp const  &right );
     int64 secondsPastEpoch;
-    int32 nanoSeconds;
+    int32 nanoseconds;
     int32 userTag;
 };
   

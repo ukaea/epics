@@ -14,7 +14,8 @@
 
 #include <pv/pvType.h>
 #include <pv/pvData.h>
-#include <sharelib.h>
+
+#include <shareLib.h>
 
 namespace epics { namespace pvData { 
 
@@ -32,14 +33,14 @@ public:
     // a set returns false if field is immutable
     bool setIndex(int32 index);
     int32 getIndex();
-    String getChoice();
+    std::string getChoice();
     bool choicesMutable();
-    StringArrayPtr const & getChoices();
+    inline PVStringArray::const_svector getChoices(){return pvChoices->view();}
     int32 getNumberChoices();
-    bool setChoices(StringArray & choices);
+    bool setChoices(const StringArray & choices);
 private:
-    static String notFound;
-    static String notAttached;
+    static std::string notFound;
+    static std::string notAttached;
     PVIntPtr pvIndex;
     PVStringArrayPtr pvChoices;
 };

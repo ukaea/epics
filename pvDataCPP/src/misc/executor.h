@@ -9,6 +9,7 @@
  */
 #ifndef EXECUTOR_H
 #define EXECUTOR_H
+
 #include <memory>
 
 #include <pv/pvType.h>
@@ -16,7 +17,8 @@
 #include <pv/event.h>
 #include <pv/thread.h>
 #include <pv/sharedPtr.h>
-#include <sharelib.h>
+
+#include <shareLib.h>
 
 namespace epics { namespace pvData { 
 
@@ -35,10 +37,10 @@ private:
     friend class Executor;
 };
 
-class epicsShareClass Executor :  public Runnable{
+class epicsShareClass Executor : public Runnable{
 public:
     POINTER_DEFINITIONS(Executor);
-    Executor(String threadName,ThreadPriority priority);
+    Executor(std::string const & threadName,ThreadPriority priority);
     ~Executor();
     void execute(CommandPtr const &node);
     virtual void run();

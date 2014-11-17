@@ -9,9 +9,25 @@
  */
 #ifndef LOCK_H
 #define LOCK_H
+
 #include <stdexcept>
+
+#ifdef epicsExportSharedSymbols
+#define lockepicsExportSharedSymbols
+#undef epicsExportSharedSymbols
+#endif
+
 #include <epicsMutex.h>
+
+#ifdef lockepicsExportSharedSymbols
+#define epicsExportSharedSymbols
+#undef lockepicsExportSharedSymbols
+#endif
+
 #include <pv/noDefaultMethods.h>
+
+#include <shareLib.h>
+
 /* This is based on item 14 of 
  * Effective C++, Third Edition, Scott Meyers
  */
@@ -22,7 +38,7 @@ namespace epics { namespace pvData {
 
 typedef epicsMutex Mutex;
 
-class Lock : private NoDefaultMethods {
+class epicsShareClass Lock : private NoDefaultMethods {
 public:
     explicit Lock(Mutex &m)
     : mutexPtr(m), locked(true)

@@ -7,15 +7,17 @@
  *  @author mes
  */
 
+#include <sstream>
+#include <cstdio>
+#include <cstring>
+#include <string>
+
 #define epicsExportSharedSymbols
 #include <pv/epicsException.h>
 
-#include <sstream>
+using std::string;
 
-#include <cstdio>
-#include <cstring>
-
-namespace epics{namespace pvData{
+namespace epics{ namespace pvData {
 
 void
 ExceptionMixin::print(FILE *fp) const
@@ -32,7 +34,7 @@ ExceptionMixin::print(FILE *fp) const
 #endif
 }
 
-std::string
+string
 ExceptionMixin::show() const
 {
     std::ostringstream out;
@@ -62,7 +64,7 @@ BaseException::what() const throw()
     try{
         if (base_msg.size()==0) {
             const char *base=std::logic_error::what();
-            std::string out, stack;
+            string out, stack;
 
             const ExceptionMixin *info=dynamic_cast<const ExceptionMixin*>(this);
             if(info) {

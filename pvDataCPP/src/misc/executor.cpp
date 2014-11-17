@@ -16,6 +16,8 @@
 #define epicsExportSharedSymbols
 #include <pv/executor.h>
 
+using std::string;
+
 namespace epics { namespace pvData {
 
 // special instance to stop the executor thread
@@ -31,7 +33,7 @@ static
 std::tr1::shared_ptr<Command> shutdown(new ExecutorShutdown());
 
 
-Executor::Executor(String threadName,ThreadPriority priority)
+Executor::Executor(string const & threadName,ThreadPriority priority)
 :  thread(threadName,priority,this)
 {
 } 
@@ -52,13 +54,14 @@ void Executor::run()
 {
     Lock xx(mutex);
     while(true) {
-        while(head.get()==NULL) {
+        while(!head.get()) {
             xx.unlock();
             moreWork.wait();
             xx.lock();
         }
         CommandPtr command = head;
-        if(command.get()==NULL) continue;
+        head = command->next;
+        if(!command.get()) continue;
         if(command.get()==shutdown.get()) break;
         xx.unlock();
         try {
@@ -79,12 +82,13 @@ void Executor::execute(CommandPtr const & command)
 {
     Lock xx(mutex);
     command->next.reset();
-    if(head.get()==NULL) {
+    if(!head.get()) {
         head = command;
         moreWork.signal();
         return;
     }
-    if(tail.get()==NULL) return;
+    CommandPtr tail = head;
+    while(tail->next) tail = tail->next;
     tail->next = command;   
 }
 

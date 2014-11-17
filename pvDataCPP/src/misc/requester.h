@@ -13,7 +13,8 @@
 
 #include <pv/pvType.h>
 #include <pv/sharedPtr.h>
-#include <sharelib.h>
+
+#include <shareLib.h>
 
 namespace epics { namespace pvData { 
 
@@ -23,16 +24,16 @@ typedef std::tr1::shared_ptr<Requester> RequesterPtr;
 enum MessageType {
    infoMessage,warningMessage,errorMessage,fatalErrorMessage
 };
+#define MESSAGE_TYPE_COUNT 4
 
-epicsShareExtern String getMessageTypeName(MessageType messageType);
+epicsShareExtern std::string getMessageTypeName(MessageType messageType);
 
-extern const size_t messageTypeCount;
-class Requester {
+class epicsShareClass Requester {
 public:
     POINTER_DEFINITIONS(Requester);
     virtual ~Requester(){}
-    virtual String getRequesterName() = 0;
-    virtual void message(String const & message,MessageType messageType) = 0;
+    virtual std::string getRequesterName() = 0;
+    virtual void message(std::string const & message,MessageType messageType) = 0;
 };
 
 }}

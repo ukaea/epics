@@ -7,12 +7,15 @@
 /**
  *  @author mrk
  */
+#ifndef QUEUE_H
+#define QUEUE_H
+
 #include <vector>
 #include <cstddef>
 #include <stdexcept>
+
 #include <pv/sharedPtr.h>
-#ifndef QUEUE_H
-#define QUEUE_H
+
 namespace epics { namespace pvData { 
 
 template <typename T>
@@ -35,6 +38,7 @@ public:
 private:
     queueElementPtr nullElement;
     queueElementPtrArray elements;
+    // TODO use size_t instead
     int size;
     int numberFree;
     int numberUsed;
@@ -46,7 +50,7 @@ private:
 
 template <typename T>
 Queue<T>::Queue(std::vector<queueElementPtr> &xxx)
-: size(xxx.size()),
+: size(static_cast<int>(xxx.size())),
   numberFree(size),
   numberUsed(0),
   nextGetFree(0),

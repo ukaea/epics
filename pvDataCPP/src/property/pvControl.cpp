@@ -19,26 +19,26 @@
 namespace epics { namespace pvData { 
 
 using std::tr1::static_pointer_cast;
+using std::string;
 
-String PVControl::noControlFound("No control structure found");
-String PVControl::notAttached("Not attached to an control structure");
+string PVControl::noControlFound("No control structure found");
+string PVControl::notAttached("Not attached to an control structure");
 
 bool PVControl::attach(PVFieldPtr const & pvField)
 {
-    if(pvField->getField()->getType()!=structure) {
-            pvField->message(noControlFound,errorMessage);
-            return false;
-    }
+    if(pvField->getField()->getType()!=structure) return false;
     PVStructurePtr pvStructure = static_pointer_cast<PVStructure>(pvField);
     pvLow = pvStructure->getDoubleField("limitLow");
-    if(pvLow.get()==NULL) {
-        pvField->message(noControlFound,errorMessage);
-        return false;
-    }
-    pvHigh = pvStructure->getDoubleField(String("limitHigh"));
+    if(pvLow.get()==NULL) return false;
+    pvHigh = pvStructure->getDoubleField("limitHigh");
     if(pvHigh.get()==NULL) {
         pvLow.reset();
-        pvField->message(noControlFound,errorMessage);
+        return false;
+    }
+    pvMinStep = pvStructure->getDoubleField("minStep");
+    if(pvMinStep.get()==NULL) {
+        pvLow.reset();
+        pvHigh.reset();
         return false;
     }
     return true;
@@ -62,6 +62,7 @@ void PVControl::get(Control &control) const
     }
     control.setLow(pvLow->get());
     control.setHigh(pvHigh->get());
+    control.setMinStep(pvMinStep->get());
 }
 
 bool PVControl::set(Control const & control)
@@ -69,9 +70,10 @@ bool PVControl::set(Control const & control)
     if(pvLow.get()==NULL) {
         throw std::logic_error(notAttached);
     }
-    if(pvLow->isImmutable() || pvHigh->isImmutable()) return false;
+    if(pvLow->isImmutable() || pvHigh->isImmutable() || pvMinStep->isImmutable()) return false;
     pvLow->put(control.getLow());
     pvHigh->put(control.getHigh());
+    pvMinStep->put(control.getMinStep());
     return true;
 }
 

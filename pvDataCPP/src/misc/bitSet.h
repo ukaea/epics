@@ -9,13 +9,14 @@
  */
 #ifndef BITSET_H
 #define BITSET_H
+
 #include <stdexcept>
 
 #include <pv/pvType.h>
 #include <pv/serialize.h>
 #include <pv/sharedPtr.h>
 
-#include <sharelib.h>
+#include <shareLib.h>
 
 namespace epics { namespace pvData { 
 
@@ -48,7 +49,7 @@ namespace epics { namespace pvData {
     class epicsShareClass BitSet : public Serializable {
     public:
         POINTER_DEFINITIONS(BitSet);
-        static BitSet::shared_pointer create(uint32 nbits);
+        static BitSetPtr create(uint32 nbits);
         /**
          * Creates a new bit set. All bits are initially {@code false}.
          */
@@ -205,15 +206,6 @@ namespace epics { namespace pvData {
         BitSet& operator^=(const BitSet& set);
 
         /**
-         * Clears all of the bits in this {@code BitSet} whose corresponding
-         * bit is set in the specified {@code BitSet}.
-         *
-         * @param  set the {@code BitSet} with which to mask this
-         *         {@code BitSet}
-         */
-        BitSet& operator-=(const BitSet& set);
-
-        /**
           * Assigment operator.
           */
         BitSet& operator=(const BitSet &set);
@@ -232,8 +224,6 @@ namespace epics { namespace pvData {
         bool operator==(const BitSet &set) const;
 
         bool operator!=(const BitSet &set) const;
-
-        void toString(StringBuilder buffer, int indentLevel = 0) const;
 
         virtual void serialize(ByteBuffer *buffer,
             SerializableControl *flusher) const;
@@ -325,6 +315,8 @@ namespace epics { namespace pvData {
          static uint32 bitCount(uint64 i);
 
     };
+    
+    epicsShareExtern std::ostream& operator<<(std::ostream& o, const BitSet& b);
 
 }}
 #endif  /* BITSET_H */

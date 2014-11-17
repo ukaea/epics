@@ -22,7 +22,8 @@
 #include <pv/event.h>
 #include <pv/lock.h>
 #include <pv/sharedPtr.h>
-#include <sharelib.h>
+
+#include <shareLib.h>
 
 namespace epics { namespace pvData { 
 
@@ -49,7 +50,7 @@ private:
 class epicsShareClass Timer : public Runnable {
 public:
     POINTER_DEFINITIONS(Timer);
-    Timer(String threadName, ThreadPriority priority);
+    Timer(std::string threadName, ThreadPriority priority);
     virtual ~Timer();
     virtual void run();
     void scheduleAfterDelay(
@@ -61,7 +62,9 @@ public:
         double period);
     void cancel(TimerCallbackPtr const &timerCallback);
     bool isScheduled(TimerCallbackPtr const &timerCallback);
-    void toString(StringBuilder builder);
+
+    void dump(std::ostream& o);
+
 private:
     void addElement(TimerCallbackPtr const &timerCallback);
     TimerCallbackPtr head;
@@ -71,6 +74,8 @@ private:
     bool alive;
     Thread thread;
 };
+
+epicsShareExtern std::ostream& operator<<(std::ostream& o, Timer& timer);
 
 }}
 #endif  /* TIMER_H */

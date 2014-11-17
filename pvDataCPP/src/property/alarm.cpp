@@ -17,13 +17,14 @@
 #include <pv/pvData.h>
 #include <pv/alarm.h>
 
-namespace epics { namespace pvData { 
+using std::string;
 
+namespace epics { namespace pvData { 
 
 AlarmSeverity AlarmSeverityFunc::getSeverity(int value)
 {
     if(value<0 || value>4) {
-         throw std::logic_error(String("getSeverity value is illegal"));
+         throw std::logic_error(string("getSeverity value is illegal"));
     }
     switch (value) {
     case 0: return noAlarm;
@@ -32,12 +33,12 @@ AlarmSeverity AlarmSeverityFunc::getSeverity(int value)
     case 3: return invalidAlarm;
     case 4: return undefinedAlarm;
     }
-    throw std::logic_error(String("should never get here"));
+    throw std::logic_error(string("should never get here"));
 }
 
 StringArrayPtr AlarmSeverityFunc::getSeverityNames()
 {
-    static  size_t severityCount = 5;
+    static size_t severityCount = 5;
     static StringArrayPtr severityNames;
     static Mutex mutex;
     Lock xx(mutex);
@@ -62,13 +63,13 @@ AlarmSeverity Alarm::getSeverity() const
     case 3: return invalidAlarm;
     case 4: return undefinedAlarm;
     }
-    throw std::logic_error(String("should never get here"));
+    throw std::logic_error(string("should never get here"));
 }
 
 AlarmStatus AlarmStatusFunc::getStatus(int value)
 {
     if(value<0 || value>7) {
-         throw std::logic_error(String("getStatus value is illegal"));
+         throw std::logic_error(string("getStatus value is illegal"));
     }
     switch (value) {
     case 0: return noStatus;
@@ -80,12 +81,12 @@ AlarmStatus AlarmStatusFunc::getStatus(int value)
     case 6: return undefinedStatus;
     case 7: return clientStatus;
     }
-    throw std::logic_error(String("should never get here"));
+    throw std::logic_error(string("should never get here"));
 }
 
 StringArrayPtr AlarmStatusFunc::getStatusNames()
 {
-    static  size_t statusCount = 8;
+    static size_t statusCount = 8;
     static StringArrayPtr statusNames;
     static Mutex mutex;
     Lock xx(mutex);
@@ -116,7 +117,7 @@ AlarmStatus Alarm::getStatus() const
     case 6: return undefinedStatus;
     case 7: return clientStatus;
     }
-    throw std::logic_error(String("should never get here"));
+    throw std::logic_error(string("should never get here"));
 }
 
 }}

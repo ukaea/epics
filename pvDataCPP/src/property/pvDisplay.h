@@ -15,7 +15,8 @@
 #include <pv/pvType.h>
 #include <pv/pvData.h>
 #include <pv/display.h>
-#include <sharelib.h>
+
+#include <shareLib.h>
 
 namespace epics { namespace pvData { 
 
@@ -32,8 +33,8 @@ public:
     void get(Display &) const;
     bool set(Display const & display);
 private:
-    static String noDisplayFound;
-    static String notAttached;
+    static std::string noDisplayFound;
+    static std::string notAttached;
     PVStringPtr pvDescription;
     PVStringPtr pvFormat;
     PVStringPtr pvUnits;

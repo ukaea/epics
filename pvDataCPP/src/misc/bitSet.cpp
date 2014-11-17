@@ -7,8 +7,9 @@
 /**
  *  @author mes
  */
-#include "string.h"
-#include "stdio.h"
+#include <string.h>
+#include <stdio.h>
+#include <iostream>
 
 #define epicsExportSharedSymbols
 #include <pv/lock.h>
@@ -201,6 +202,8 @@ namespace epics { namespace pvData {
     }
 
     BitSet& BitSet::operator&=(const BitSet& set) {
+        // Check for self-assignment!
+        if (this == &set) return *this;
 
         while (wordsInUse > set.wordsInUse)
             words[--wordsInUse] = 0;
@@ -215,76 +218,49 @@ namespace epics { namespace pvData {
     }
 
     BitSet& BitSet::operator|=(const BitSet& set) {
-
-        uint32 wordsInCommon;
+        // Check for self-assignment!
+        if (this == &set) return *this;
+        uint32 wordsInCommon = wordsInUse;
+        if(wordsInUse>set.wordsInUse) wordsInCommon = set.wordsInUse;
         if (wordsInUse < set.wordsInUse) {
-            wordsInCommon = wordsInUse;
-            //ensureCapacity(set.wordsInUse);
-            //wordsInUse = set.wordsInUse;
+            ensureCapacity(set.wordsInUse);
+            wordsInUse = set.wordsInUse;
         }
-        else
-            wordsInCommon = set.wordsInUse;
-
         // Perform logical OR on words in common
-        uint32 i = 0;
-        for (; i < wordsInCommon; i++)
+        for (uint32 i =0; i < wordsInCommon; i++) {
             words[i] |= set.words[i];
-
-        // TODO what to do if BitSets are not the same size !!!
-
+         }
+        // Copy any remaining words
+        for(uint32 i=wordsInCommon; i<set.wordsInUse; ++i) {
+            words[i] = set.words[i];
+        }
         // recalculateWordsInUse() is not needed
-
         return *this;
     }
 
     BitSet& BitSet::operator^=(const BitSet& set) {
-
-        uint32 wordsInCommon;
+        uint32 wordsInCommon = wordsInUse;
+        if(wordsInUse>set.wordsInUse) wordsInCommon = set.wordsInUse;
         if (wordsInUse < set.wordsInUse) {
-            wordsInCommon = wordsInUse;
-            //ensureCapacity(set.wordsInUse);
-            //wordsInUse = set.wordsInUse;
+            ensureCapacity(set.wordsInUse);
+            wordsInUse = set.wordsInUse;
         }
-        else
-            wordsInCommon = set.wordsInUse;
-
-        // Perform logical XOR on words in common
-        uint32 i = 0;
-        for (; i < wordsInCommon; i++)
+        // Perform logical OR on words in common
+        for (uint32 i =0; i < wordsInCommon; i++) {
             words[i] ^= set.words[i];
-
-        // TODO what to do if BitSets are not the same size !!!
-
-        recalculateWordsInUse();
-
-        return *this;
-    }
-
-    BitSet& BitSet::operator-=(const BitSet& set) {
-
-        uint32 wordsInCommon;
-        if (wordsInUse < set.wordsInUse) {
-            wordsInCommon = wordsInUse;
-            //ensureCapacity(set.wordsInUse);
-            //wordsInUse = set.wordsInUse;
+         }
+        // Copy any remaining words
+        for(uint32 i=wordsInCommon; i<set.wordsInUse; ++i) {
+            words[i] = set.words[i];
         }
-        else
-            wordsInCommon = set.wordsInUse;
-
-        // Perform logical (a & !b) on words in common
-        uint32 i = 0;
-        for (; i < wordsInCommon; i++)
-            words[i] &= ~set.words[i];
-
         recalculateWordsInUse();
-
         return *this;
     }
+
 
     BitSet& BitSet::operator=(const BitSet &set) {
         // Check for self-assignment!
-        if (this == &set)
-            return *this;
+        if (this == &set) return *this;
 
         // we ensure that words array size is adequate (and not wordsInUse to ensure capacity to the future)
         if (wordsLength < set.wordsLength)
@@ -333,21 +309,6 @@ namespace epics { namespace pvData {
         return !(*this == set);
     }
 
-    void BitSet::toString(StringBuilder buffer, int /*indentLevel*/) const
-    {
-        *buffer += '{';
-        int32 i = nextSetBit(0);
-        char tmp[30];
-        if (i != -1) {
-            sprintf(tmp,"%d",(int)i); *buffer += tmp;
-            for (i = nextSetBit(i+1); i >= 0; i = nextSetBit(i+1)) {
-                int32 endOfRun = nextClearBit(i);
-                do { *buffer += ", "; sprintf(tmp,"%d",(int)i); *buffer += tmp; } while (++i < endOfRun);
-            }
-        }
-        *buffer += '}';
-    }
-
     void BitSet::serialize(ByteBuffer* buffer, SerializableControl* flusher) const {
     
         uint32 n = wordsInUse;
@@ -371,7 +332,7 @@ namespace epics { namespace pvData {
     
     void BitSet::deserialize(ByteBuffer* buffer, DeserializableControl* control) {
     
-        uint32 bytes = SerializeHelper::readSize(buffer, control);	// in bytes
+        uint32 bytes = static_cast<uint32>(SerializeHelper::readSize(buffer, control));	// in bytes
     
         wordsInUse = (bytes + 7) / 8;
         if (wordsInUse > wordsLength)
@@ -397,6 +358,21 @@ namespace epics { namespace pvData {
         for (uint32 remaining = (bytes - longs * 8), j = 0; j < remaining; j++)
             words[i] |= (buffer->getByte() & 0xffL) << (8 * j);
     
+    }
+    
+    epicsShareExtern std::ostream& operator<<(std::ostream& o, const BitSet& b)
+    {
+        o << '{';
+        int32 i = b.nextSetBit(0);
+        if (i != -1) {
+            o << i;
+            for (i = b.nextSetBit(i+1); i >= 0; i = b.nextSetBit(i+1)) {
+                int32 endOfRun = b.nextClearBit(i);
+                do { o << ", " << i; } while (++i < endOfRun);
+            }
+        }
+        o << '}';
+        return o;
     }
 
 }};

@@ -16,34 +16,27 @@
 #include <pv/pvData.h>
 #include <pv/pvAlarm.h>
 
+using std::tr1::static_pointer_cast;
+using std::string;
+
 namespace epics { namespace pvData { 
 
-using std::tr1::static_pointer_cast;
-
-String PVAlarm::noAlarmFound("No alarm structure found");
-String PVAlarm::notAttached("Not attached to an alarm structure");
+string PVAlarm::noAlarmFound("No alarm structure found");
+string PVAlarm::notAttached("Not attached to an alarm structure");
 
 bool PVAlarm::attach(PVFieldPtr const & pvField)
 {
-    if(pvField->getField()->getType()!=structure) {
-        pvField->message(noAlarmFound,errorMessage);
-        return false;
-    }
+    if(pvField->getField()->getType()!=structure) return false;
     PVStructurePtr pvStructure = static_pointer_cast<PVStructure>(pvField);
     pvSeverity = pvStructure->getIntField("severity");
-    if(pvSeverity.get()==NULL) {
-        pvField->message(noAlarmFound,errorMessage);
-        return false;
-    }
+    if(pvSeverity.get()==NULL) return false;
     pvStatus = pvStructure->getIntField("status");
     if(pvStatus.get()==NULL) {
-        pvField->message(noAlarmFound,errorMessage);
         pvSeverity.reset();
         return false;
     }
     pvMessage = pvStructure->getStringField("message");
     if(pvMessage.get()==NULL) {
-        pvField->message(noAlarmFound,errorMessage);
         pvSeverity.reset();
         pvStatus.reset();
         return false;

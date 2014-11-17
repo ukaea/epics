@@ -9,8 +9,6 @@
  */
 #include <string>
 #include <stdexcept>
-#include <epicsThread.h>
-#include <epicsExit.h>
 
 #define epicsExportSharedSymbols
 #include <pv/lock.h>
@@ -19,6 +17,8 @@
 #include <pv/convert.h>
 #include <pv/standardField.h>
 #include <pv/standardPVField.h>
+
+using std::string;
 
 namespace epics { namespace pvData { 
 
@@ -32,7 +32,7 @@ StandardPVField::StandardPVField()
 StandardPVField::~StandardPVField(){}
 
 PVStructurePtr StandardPVField::scalar(
-    ScalarType type,String const & properties)
+    ScalarType type,string const & properties)
 {
     StructureConstPtr field = standardField->scalar(type,properties);
     PVStructurePtr pvStructure = pvDataCreate->createPVStructure(field);
@@ -40,7 +40,7 @@ PVStructurePtr StandardPVField::scalar(
 }
 
 PVStructurePtr StandardPVField::scalarArray(
-    ScalarType elementType, String const & properties)
+    ScalarType elementType, string const & properties)
 {
     StructureConstPtr field = standardField->scalarArray(elementType,properties);
     PVStructurePtr pvStructure = pvDataCreate->createPVStructure(field);
@@ -48,9 +48,17 @@ PVStructurePtr StandardPVField::scalarArray(
 }
 
 PVStructurePtr StandardPVField::structureArray(
-    StructureConstPtr const & structure,String const & properties)
+    StructureConstPtr const & structure,string const & properties)
 {
     StructureConstPtr field = standardField->structureArray(structure,properties);
+    PVStructurePtr pvStructure = pvDataCreate->createPVStructure(field);
+    return pvStructure;
+}
+
+PVStructurePtr StandardPVField::unionArray(
+    UnionConstPtr const & punion,string const & properties)
+{
+    StructureConstPtr field = standardField->unionArray(punion,properties);
     PVStructurePtr pvStructure = pvDataCreate->createPVStructure(field);
     return pvStructure;
 }
@@ -61,26 +69,22 @@ PVStructurePtr StandardPVField::enumerated(StringArray const &choices)
     PVStructurePtr pvStructure = pvDataCreate->createPVStructure(field);
     PVScalarArrayPtr pvScalarArray = pvStructure->getScalarArrayField(
         "choices",pvString);
-    if(pvScalarArray.get()==NULL) {
-        throw std::logic_error(String("StandardPVField::enumerated"));
-    }
-    PVStringArray * pvChoices = static_cast<PVStringArray *>(pvScalarArray.get());
-    pvChoices->put(0,choices.size(),get(choices),0);
+    PVStringArray::svector cdata(choices.size());
+    std::copy(choices.begin(), choices.end(), cdata.begin());
+    static_cast<PVStringArray&>(*pvScalarArray).replace(freeze(cdata));
     return pvStructure;
 }
 
 PVStructurePtr StandardPVField::enumerated(
-    StringArray const &choices,String const & properties)
+    StringArray const &choices,string const & properties)
 {
     StructureConstPtr field = standardField->enumerated(properties);
     PVStructurePtr pvStructure =  pvDataCreate->createPVStructure(field);
     PVScalarArrayPtr pvScalarArray = pvStructure->getScalarArrayField(
         "value.choices",pvString);
-    if(pvScalarArray.get()==NULL) {
-        throw std::logic_error(String("StandardPVField::enumerated"));
-    }
-    PVStringArray * pvChoices = static_cast<PVStringArray *>(pvScalarArray.get());
-    pvChoices->put(0,choices.size(),get(choices),0);
+    PVStringArray::svector cdata(choices.size());
+    std::copy(choices.begin(), choices.end(), cdata.begin());
+    static_cast<PVStringArray&>(*pvScalarArray).replace(freeze(cdata));
     return pvStructure;
 }
 

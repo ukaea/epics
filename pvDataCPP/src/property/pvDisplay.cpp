@@ -16,46 +16,37 @@
 #include <pv/pvData.h>
 #include <pv/pvDisplay.h>
 
+using std::tr1::static_pointer_cast;
+using std::string;
+
 namespace epics { namespace pvData { 
 
-using std::tr1::static_pointer_cast;
-
-String PVDisplay::noDisplayFound("No display structure found");
-String PVDisplay::notAttached("Not attached to an display structure");
+string PVDisplay::noDisplayFound("No display structure found");
+string PVDisplay::notAttached("Not attached to an display structure");
 
 bool PVDisplay::attach(PVFieldPtr const & pvField)
 {
-    if(pvField->getField()->getType()!=structure) {
-            pvField->message(noDisplayFound,errorMessage);
-            return false;
-    }
+    if(pvField->getField()->getType()!=structure) return false;
     PVStructurePtr pvStructure = static_pointer_cast<PVStructure>(pvField);
     pvDescription = pvStructure->getStringField("description");
-    if(pvDescription.get()==NULL) {
-        pvField->message(noDisplayFound,errorMessage);
-        return false;
-    }
+    if(pvDescription.get()==NULL) return false;
     pvFormat = pvStructure->getStringField("format");
     if(pvFormat.get()==NULL) {
-        pvField->message(noDisplayFound,errorMessage);
         detach();
         return false;
     }
     pvUnits = pvStructure->getStringField("units");
     if(pvUnits.get()==NULL) {
-        pvField->message(noDisplayFound,errorMessage);
         detach();
         return false;
     }
-    pvLow = pvStructure->getDoubleField(String("limitLow"));
+    pvLow = pvStructure->getDoubleField(string("limitLow"));
     if(pvLow.get()==NULL) {
-        pvField->message(noDisplayFound,errorMessage);
         detach();
         return false;
     }
-    pvHigh = pvStructure->getDoubleField(String("limitHigh"));
+    pvHigh = pvStructure->getDoubleField(string("limitHigh"));
     if(pvHigh.get()==NULL) {
-        pvField->message(noDisplayFound,errorMessage);
         detach();
         return false;
     }

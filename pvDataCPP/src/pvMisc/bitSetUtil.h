@@ -13,7 +13,8 @@
 #include <pv/noDefaultMethods.h>
 #include <pv/pvData.h>
 #include <pv/bitSet.h>
-#include <sharelib.h>
+
+#include <shareLib.h>
 
 namespace epics { namespace pvData {
 

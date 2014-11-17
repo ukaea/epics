@@ -34,6 +34,10 @@
 #ifndef EPICSEXCEPTION_H_
 #define EPICSEXCEPTION_H_
 
+#ifdef _WIN32
+#pragma warning( push )
+#pragma warning(disable: 4275) // warning C4275: non dll-interface class used as base for dll-interface class (std::logic_error)
+#endif
 
 #include <stdexcept>
 #include <string>
@@ -43,7 +47,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <sharelib.h>
+#include <shareLib.h>
 
 // Users may redefine this for a large size if desired
 #ifndef EXCEPT_DEPTH
@@ -105,7 +109,7 @@ namespace detail {
      *
      * Takes advantage of the requirement that all exception classes
      * must be copy constructable.  Of course this also requires
-     * the and extra copy be constructed...
+     * that an extra copy be constructed...
      */
     template<typename E>
     class ExceptionMixed : public E, public ExceptionMixin {
@@ -210,6 +214,10 @@ public:
 private:
     mutable std::string base_msg;
 };
+
+#ifdef _WIN32
+#pragma warning( pop )
+#endif
 
 #define THROW_BASE_EXCEPTION(msg) THROW_EXCEPTION2(::epics::pvData::BaseException, msg)
 #define THROW_BASE_EXCEPTION_CAUSE(msg, cause) THROW_EXCEPTION2(::epics::pvData::BaseException, msg)

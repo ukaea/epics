@@ -7,10 +7,17 @@
 /**
  *  @author mrk
  */
+
+#ifdef _WIN32
+#define NOMINMAX
+#endif
+
 #include <cstddef>
 #include <cstdlib>
 #include <string>
 #include <cstdio>
+#include <stdexcept>
+#include <sstream>
 
 #define epicsExportSharedSymbols
 #include <pv/lock.h>
@@ -21,16 +28,11 @@
 
 using std::tr1::static_pointer_cast;
 using std::size_t;
+using std::string;
 
 namespace epics { namespace pvData {
 
 static DebugLevel debugLevel = lowDebug;
-
-static void newLine(StringBuilder buffer, int indentLevel)
-{
-    *buffer += "\n";
-    for(int i=0; i<indentLevel; i++) *buffer += "    ";
-}
 
 Field::Field(Type type)
     : m_fieldType(type)
@@ -41,45 +43,28 @@ Field::~Field() {
 }
 
 
-void Field::toString(StringBuilder /*buffer*/,int /*indentLevel*/) const{
-}
-
-
-// TODO move all these to a header file
-
-struct ScalarHashFunction {
-    size_t operator() (const Scalar& scalar) const { return scalar.getScalarType(); }
+std::ostream& operator<<(std::ostream& o, const Field& f)
+{
+	return f.dump(o);
 };
-
-struct ScalarArrayHashFunction {
-    size_t operator() (const ScalarArray& scalarArray) const { return 0x10 | scalarArray.getElementType(); }
-};
-
-struct StructureHashFunction {
-    size_t operator() (const Structure& /*structure*/) const { return 0; }
-    // TODO
-//        final int PRIME = 31;
-//        return PRIME * Arrays.hashCode(fieldNames) + Arrays.hashCode(fields);
-};
-
-struct StructureArrayHashFunction {
-    size_t operator() (const StructureArray& structureArray) const { StructureHashFunction shf; return (0x10 | shf(*(structureArray.getStructure()))); }
-};
-
 
 Scalar::Scalar(ScalarType scalarType)
-       : Field(scalar),scalarType(scalarType){}
+       : Field(scalar),scalarType(scalarType)
+{
+    if(scalarType<0 || scalarType>MAX_SCALAR_TYPE)
+        throw std::invalid_argument("Can't construct Scalar from invalid ScalarType");
+}
 
 Scalar::~Scalar(){}
 
-void Scalar::toString(StringBuilder buffer,int /*indentLevel*/) const{
-    *buffer += getID();
+std::ostream& Scalar::dump(std::ostream& o) const
+{
+    return o << format::indent() << getID();
 }
 
-
-String Scalar::getID() const
+string Scalar::getID() const
 {
-    static const String idScalarLUT[] = {
+    static const string idScalarLUT[] = {
 	"boolean", // pvBoolean
 	"byte",    // pvByte
 	"short",   // pvShort
@@ -96,7 +81,7 @@ String Scalar::getID() const
     return idScalarLUT[scalarType];
 }
 
-int8 Scalar::getTypeCodeLUT() const
+int8 Scalar::getTypeCodeLUT(ScalarType scalarType)
 {
     static const int8 typeCodeLUT[] = {
         0x00, // pvBoolean
@@ -104,10 +89,10 @@ int8 Scalar::getTypeCodeLUT() const
         0x21, // pvShort
         0x22, // pvInt
         0x23, // pvLong
-        0x28, // pvUByte
-        0x29, // pvUShort
-        0x2A, // pvUInt
-        0x2B, // pvULong
+        0x24, // pvUByte
+        0x25, // pvUShort
+        0x26, // pvUInt
+        0x27, // pvULong
         0x42, // pvFloat
         0x43, // pvDouble
         0x60  // pvString
@@ -118,7 +103,7 @@ int8 Scalar::getTypeCodeLUT() const
 
 void Scalar::serialize(ByteBuffer *buffer, SerializableControl *control) const {
     control->ensureBuffer(1);
-    buffer->putByte(getTypeCodeLUT());
+    buffer->putByte(getTypeCodeLUT(scalarType));
 }
 
 void Scalar::deserialize(ByteBuffer* /*buffer*/, DeserializableControl* /*control*/) {
@@ -126,15 +111,47 @@ void Scalar::deserialize(ByteBuffer* /*buffer*/, DeserializableControl* /*contro
     throw std::runtime_error("not valid operation, use FieldCreate::deserialize instead");
 }
 
-static String emptyString;
+
+
+
+std::string BoundedString::getID() const
+{
+    std::ostringstream id;
+    id << Scalar::getID() << '(' << maxLength << ')';
+    return id.str();
+}
+
+void BoundedString::serialize(ByteBuffer *buffer, SerializableControl *control) const
+{
+    control->ensureBuffer(1);
+    buffer->putByte(0x83);
+    SerializeHelper::writeSize(maxLength, buffer, control);
+}
+
+std::size_t BoundedString::getMaximumLength() const
+{
+    return maxLength;
+}
+
+BoundedString::BoundedString(std::size_t maxStringLength) :
+    Scalar(pvString), maxLength(maxStringLength)
+{
+    if (maxLength == 0)
+        throw std::invalid_argument("maxLength == 0");
+}
+
+BoundedString::~BoundedString() {}
+
+
+static string emptyStringtring;
 
 static void serializeStructureField(const Structure* structure, ByteBuffer* buffer, SerializableControl* control)
 {
 	// to optimize default (non-empty) IDs optimization
 	// empty IDs are not allowed
-	String id = structure->getID();
+	string id = structure->getID();
 	if (id == Structure::DEFAULT_ID)	// TODO slow comparison
-		SerializeHelper::serializeString(emptyString, buffer, control);
+		SerializeHelper::serializeString(emptyStringtring, buffer, control);
 	else
 	    SerializeHelper::serializeString(id, buffer, control);
 
@@ -151,7 +168,7 @@ static void serializeStructureField(const Structure* structure, ByteBuffer* buff
 
 static StructureConstPtr deserializeStructureField(const FieldCreate* fieldCreate, ByteBuffer* buffer, DeserializableControl* control)
 {
-    String id = SerializeHelper::deserializeString(buffer, control);
+    string id = SerializeHelper::deserializeString(buffer, control);
     const std::size_t size = SerializeHelper::readSize(buffer, control);
     FieldConstPtrArray fields; fields.reserve(size);
     StringArray fieldNames; fieldNames.reserve(size);
@@ -167,36 +184,68 @@ static StructureConstPtr deserializeStructureField(const FieldCreate* fieldCreat
     	return fieldCreate->createStructure(id, fieldNames, fields);
 }
 
+static void serializeUnionField(const Union* punion, ByteBuffer* buffer, SerializableControl* control)
+{
+	// to optimize default (non-empty) IDs optimization
+	// empty IDs are not allowed
+	string id = punion->getID();
+	if (id == Union::DEFAULT_ID)	// TODO slow comparison
+		SerializeHelper::serializeString(emptyStringtring, buffer, control);
+	else
+	    SerializeHelper::serializeString(id, buffer, control);
+
+    FieldConstPtrArray const & fields = punion->getFields();
+    StringArray const & fieldNames = punion->getFieldNames();
+    std::size_t len = fields.size();
+    SerializeHelper::writeSize(len, buffer, control);
+    for (std::size_t i = 0; i < len; i++)
+    {
+        SerializeHelper::serializeString(fieldNames[i], buffer, control);
+        control->cachedSerialize(fields[i], buffer);
+    }
+}
+
+static UnionConstPtr deserializeUnionField(const FieldCreate* fieldCreate, ByteBuffer* buffer, DeserializableControl* control)
+{
+    string id = SerializeHelper::deserializeString(buffer, control);
+    const std::size_t size = SerializeHelper::readSize(buffer, control);
+    FieldConstPtrArray fields; fields.reserve(size);
+    StringArray fieldNames; fieldNames.reserve(size);
+    for (std::size_t i = 0; i < size; i++)
+    {
+        fieldNames.push_back(SerializeHelper::deserializeString(buffer, control));
+        fields.push_back(control->cachedDeserialize(buffer));
+    }
+
+    if (id.empty())
+        return fieldCreate->createUnion(fieldNames, fields);
+    else
+    	return fieldCreate->createUnion(id, fieldNames, fields);
+}
+
+Array::Array(Type type)
+    : Field(type)
+{
+}
+
+Array::~Array() {}
+
 ScalarArray::ScalarArray(ScalarType elementType)
-: Field(scalarArray),elementType(elementType){}
+    : Array(scalarArray),
+      elementType(elementType)
+{
+    if(elementType<0 || elementType>MAX_SCALAR_TYPE)
+        throw std::invalid_argument("Can't construct ScalarArray from invalid ScalarType");
+}
 
 ScalarArray::~ScalarArray() {}
 
-int8 ScalarArray::getTypeCodeLUT() const
+const string ScalarArray::getIDScalarArrayLUT() const
 {
-    static const int8 typeCodeLUT[] = {
-        0x00, // pvBoolean
-        0x20, // pvByte
-        0x21, // pvShort
-        0x22, // pvInt
-        0x23, // pvLong
-        0x28, // pvUByte
-        0x29, // pvUShort
-        0x2A, // pvUInt
-        0x2B, // pvULong
-        0x42, // pvFloat
-        0x43, // pvDouble
-        0x60  // pvString
-    };
-   return typeCodeLUT[elementType];
-}
-
-const String ScalarArray::getIDScalarArrayLUT() const
-{
-    static const String idScalarArrayLUT[] = {
-	"boolean[]", // pvBoolean
-	"byte[]",    // pvByte
-	"short[]",   // pvShort
+    static const string idScalarArrayLUT[] = {
+    "boolean[]", // pvBoolean
+    "byte[]",    // pvByte
+    "short[]",   // pvShort
 	"int[]",     // pvInt
 	"long[]",    // pvLong
 	"ubyte[]",   // pvUByte
@@ -210,26 +259,73 @@ const String ScalarArray::getIDScalarArrayLUT() const
     return idScalarArrayLUT[elementType];
 }
 
-String ScalarArray::getID() const
+string ScalarArray::getID() const
 {
     return getIDScalarArrayLUT();
 }
 
-void ScalarArray::toString(StringBuilder buffer,int /*indentLevel*/) const{
-    *buffer += getID();
+std::ostream& ScalarArray::dump(std::ostream& o) const
+{
+    return o << format::indent() << getID();
 }
 
 void ScalarArray::serialize(ByteBuffer *buffer, SerializableControl *control) const {
     control->ensureBuffer(1);
-    buffer->putByte(0x10 | getTypeCodeLUT());
+    buffer->putByte((int8)0x08 | Scalar::getTypeCodeLUT(elementType));
 }
 
 void ScalarArray::deserialize(ByteBuffer* /*buffer*/, DeserializableControl* /*control*/) {
     throw std::runtime_error("not valid operation, use FieldCreate::deserialize instead");
 }
 
+
+BoundedScalarArray::~BoundedScalarArray() {}
+
+BoundedScalarArray::BoundedScalarArray(ScalarType elementType, size_t size)
+    : ScalarArray(elementType),
+      size(size)
+{
+}
+
+string BoundedScalarArray::getID() const
+{
+    char buffer[32];
+    sprintf(buffer, "%s<%zu>", ScalarTypeFunc::name(getElementType()), size);
+    return string(buffer);
+}
+
+void BoundedScalarArray::serialize(ByteBuffer *buffer, SerializableControl *control) const {
+    control->ensureBuffer(1);
+    buffer->putByte((int8)0x10 | Scalar::getTypeCodeLUT(getElementType()));
+    SerializeHelper::writeSize(size, buffer, control);
+}
+
+
+FixedScalarArray::~FixedScalarArray() {}
+
+FixedScalarArray::FixedScalarArray(ScalarType elementType, size_t size)
+    : ScalarArray(elementType),
+      size(size)
+{
+}
+
+string FixedScalarArray::getID() const
+{
+    char buffer[32];
+    sprintf(buffer, "%s[%zu]", ScalarTypeFunc::name(getElementType()), size);
+    return string(buffer);
+}
+
+void FixedScalarArray::serialize(ByteBuffer *buffer, SerializableControl *control) const {
+    control->ensureBuffer(1);
+    buffer->putByte((int8)0x18 | Scalar::getTypeCodeLUT(getElementType()));
+    SerializeHelper::writeSize(size, buffer, control);
+}
+
+
+
 StructureArray::StructureArray(StructureConstPtr const & structure)
-: Field(structureArray),pstructure(structure)
+: Array(structureArray),pstructure(structure)
 {
 }
 
@@ -237,20 +333,24 @@ StructureArray::~StructureArray() {
     if(debugLevel==highDebug) printf("~StructureArray\n");
 }
 
-String StructureArray::getID() const
+string StructureArray::getID() const
 {
 	return pstructure->getID() + "[]";
 }
 
-void StructureArray::toString(StringBuilder buffer,int indentLevel) const {
-    *buffer +=  getID();
-    newLine(buffer,indentLevel + 1);
-    pstructure->toString(buffer,indentLevel + 1);
+std::ostream& StructureArray::dump(std::ostream& o) const
+{
+    o << format::indent() << getID() << std::endl;
+    {
+        format::indent_scope s(o);
+        o << *pstructure;
+    }
+    return o;
 }
 
-void StructureArray::serialize(ByteBuffer* buffer, SerializableControl *control) const {
+void StructureArray::serialize(ByteBuffer *buffer, SerializableControl *control) const {
     control->ensureBuffer(1);
-    buffer->putByte(0x90);
+    buffer->putByte((int8)0x88);
     control->cachedSerialize(pstructure, buffer);
 }
 
@@ -258,12 +358,54 @@ void StructureArray::deserialize(ByteBuffer* /*buffer*/, DeserializableControl* 
     throw std::runtime_error("not valid operation, use FieldCreate::deserialize instead");
 }
 
-String Structure::DEFAULT_ID = "structure";
+UnionArray::UnionArray(UnionConstPtr const & _punion)
+: Array(unionArray),punion(_punion)
+{
+}
+
+UnionArray::~UnionArray() {
+    if(debugLevel==highDebug) printf("~UnionArray\n");
+}
+
+string UnionArray::getID() const
+{
+	return punion->getID() + "[]";
+}
+
+std::ostream& UnionArray::dump(std::ostream& o) const
+{
+    o << format::indent() << getID() << std::endl;
+    {
+        format::indent_scope s(o);
+        o << *punion;
+    }
+    return o;
+}
+
+void UnionArray::serialize(ByteBuffer *buffer, SerializableControl *control) const {
+    control->ensureBuffer(1);
+    if (punion->isVariant())
+    {
+        // unrestricted/variant union
+        buffer->putByte((int8)0x8A);
+    }
+    else
+    {
+        buffer->putByte((int8)0x89);
+        control->cachedSerialize(punion, buffer);
+    }
+}
+
+void UnionArray::deserialize(ByteBuffer* /*buffer*/, DeserializableControl* /*control*/) {
+    throw std::runtime_error("not valid operation, use FieldCreate::deserialize instead");
+}
+
+string Structure::DEFAULT_ID = "structure";
 
 Structure::Structure (
     StringArray const & fieldNames,
     FieldConstPtrArray const & infields,
-    String const & inid)
+    string const & inid)
 : Field(structure),
       fieldNames(fieldNames),
       fields(infields),
@@ -277,16 +419,18 @@ Structure::Structure (
     }
     size_t number = fields.size();
     for(size_t i=0; i<number; i++) {
-        String name = fieldNames[i];
-        if(name.size()<1) {
+        const string& name = fieldNames[i];
+        if(name.empty()) {
             throw std::invalid_argument("fieldNames has a zero length string");
         }
+        if(fields[i].get()==NULL)
+            throw std::invalid_argument("Can't construct Structure with NULL Field");
         // look for duplicates
         for(size_t j=i+1; j<number; j++) {
-            String otherName = fieldNames[j];
+            string otherName = fieldNames[j];
             int result = name.compare(otherName);
             if(result==0) {
-                String  message("duplicate fieldName ");
+                string  message("duplicate fieldName ");
                 message += name;
                 throw std::invalid_argument(message);
             }
@@ -297,12 +441,12 @@ Structure::Structure (
 Structure::~Structure() { }
 
 
-String Structure::getID() const
+string Structure::getID() const
 {
 	return id;
 }
 
-FieldConstPtr  Structure::getField(String const & fieldName) const {
+FieldConstPtr  Structure::getField(string const & fieldName) const {
     size_t numberFields = fields.size();
     for(size_t i=0; i<numberFields; i++) {
         FieldConstPtr pfield = fields[i];
@@ -312,7 +456,7 @@ FieldConstPtr  Structure::getField(String const & fieldName) const {
     return FieldConstPtr();
 }
 
-size_t Structure::getFieldIndex(String const &fieldName) const {
+size_t Structure::getFieldIndex(string const &fieldName) const {
     size_t numberFields = fields.size();
     for(size_t i=0; i<numberFields; i++) {
         FieldConstPtr pfield = fields[i];
@@ -322,17 +466,22 @@ size_t Structure::getFieldIndex(String const &fieldName) const {
     return -1;
 }
 
-void Structure::toString(StringBuilder buffer,int indentLevel) const{
-    *buffer += getID();
-    toStringCommon(buffer,indentLevel+1);
+std::ostream& Structure::dump(std::ostream& o) const
+{
+    o << format::indent() << getID() << std::endl;
+    {
+        format::indent_scope s(o);
+        dumpFields(o);
+    }
+    return o;
 }
-    
-void Structure::toStringCommon(StringBuilder buffer,int indentLevel) const{
-    newLine(buffer,indentLevel);
+
+void Structure::dumpFields(std::ostream& o) const
+{
     size_t numberFields = fields.size();
     for(size_t i=0; i<numberFields; i++) {
         FieldConstPtr pfield = fields[i];
-        *buffer += pfield->getID() + " " + fieldNames[i];
+        o << format::indent() << pfield->getID() << ' ' << fieldNames[i] << std::endl;
         switch(pfield->getType()) {
             case scalar:
             case scalarArray:
@@ -341,21 +490,37 @@ void Structure::toStringCommon(StringBuilder buffer,int indentLevel) const{
             {
                 Field const *xxx = pfield.get();
                 Structure const *pstruct = static_cast<Structure const*>(xxx);
-                pstruct->toStringCommon(buffer,indentLevel + 1);
+                format::indent_scope s(o);
+                pstruct->dumpFields(o);
                 break;
             }
             case structureArray:
-                newLine(buffer,indentLevel +1);
-                pfield->toString(buffer,indentLevel +1);
+            {
+                format::indent_scope s(o);
+                o << *pfield;
                 break;
+            }
+            case union_:
+            {
+                Field const *xxx = pfield.get();
+                Union const *punion = static_cast<Union const*>(xxx);
+                format::indent_scope s(o);
+                punion->dumpFields(o);
+                break;
+            }
+            case unionArray:
+            {
+                format::indent_scope s(o);
+                o << *pfield;
+                break;
+            }
         }
-        if(i<numberFields-1) newLine(buffer,indentLevel);
     }
 }
 
 void Structure::serialize(ByteBuffer *buffer, SerializableControl *control) const {
     control->ensureBuffer(1);
-    buffer->putByte(0x80);
+    buffer->putByte((int8)0x80);
     serializeStructureField(this, buffer, control);
 }
 
@@ -363,49 +528,465 @@ void Structure::deserialize(ByteBuffer* /*buffer*/, DeserializableControl* /*con
     throw std::runtime_error("not valid operation, use FieldCreate::deserialize instead");
 }
 
+string Union::DEFAULT_ID = "union";
+
+#define UNION_ANY_ID "any"
+string Union::ANY_ID = UNION_ANY_ID;
+
+Union::Union ()
+: Field(union_),
+      fieldNames(),
+      fields(),
+      id(UNION_ANY_ID)
+{
+}
+
+#undef UNION_ANY_ID
+
+Union::Union (
+    StringArray const & fieldNames,
+    FieldConstPtrArray const & infields,
+    string const & inid)
+: Field(union_),
+      fieldNames(fieldNames),
+      fields(infields),
+      id(inid)
+{
+    if(inid.empty()) {
+        throw std::invalid_argument("id is empty");
+    }
+    if(fieldNames.size()!=fields.size()) {
+        throw std::invalid_argument("fieldNames.size()!=fields.size()");
+    }
+    if(fields.size()==0 && inid!=ANY_ID) {
+        throw std::invalid_argument("no fields but id is different than " + ANY_ID);
+    }
+
+    size_t number = fields.size();
+    for(size_t i=0; i<number; i++) {
+        const string& name = fieldNames[i];
+        if(name.empty()) {
+            throw std::invalid_argument("fieldNames has a zero length string");
+        }
+        if(fields[i].get()==NULL)
+            throw std::invalid_argument("Can't construct Union with NULL Field");
+        // look for duplicates
+        for(size_t j=i+1; j<number; j++) {
+            string otherName = fieldNames[j];
+            int result = name.compare(otherName);
+            if(result==0) {
+                string  message("duplicate fieldName ");
+                message += name;
+                throw std::invalid_argument(message);
+            }
+        }
+    }
+}
+
+Union::~Union() { }
+
+
+string Union::getID() const
+{
+	return id;
+}
+
+FieldConstPtr  Union::getField(string const & fieldName) const {
+    size_t numberFields = fields.size();
+    for(size_t i=0; i<numberFields; i++) {
+        FieldConstPtr pfield = fields[i];
+        int result = fieldName.compare(fieldNames[i]);
+        if(result==0) return pfield;
+    }
+    return FieldConstPtr();
+}
+
+size_t Union::getFieldIndex(string const &fieldName) const {
+    size_t numberFields = fields.size();
+    for(size_t i=0; i<numberFields; i++) {
+        FieldConstPtr pfield = fields[i];
+        int result = fieldName.compare(fieldNames[i]);
+        if(result==0) return i;
+    }
+    return -1;
+}
+
+std::ostream& Union::dump(std::ostream& o) const
+{
+    o << format::indent() << getID() << std::endl;
+    {
+        format::indent_scope s(o);
+        dumpFields(o);
+    }
+    return o;
+}
+
+void Union::dumpFields(std::ostream& o) const
+{
+    size_t numberFields = fields.size();
+    for(size_t i=0; i<numberFields; i++) {
+        FieldConstPtr pfield = fields[i];
+        o << format::indent() << pfield->getID() << ' ' << fieldNames[i] << std::endl;
+        switch(pfield->getType()) {
+            case scalar:
+            case scalarArray:
+                break;
+            case structure:
+            {
+                Field const *xxx = pfield.get();
+                Structure const *pstruct = static_cast<Structure const*>(xxx);
+                format::indent_scope s(o);
+                pstruct->dumpFields(o);
+                break;
+            }
+            case structureArray:
+            {
+                format::indent_scope s(o);
+                o << *pfield;
+                break;
+            }
+            case union_:
+            {
+                Field const *xxx = pfield.get();
+                Union const *punion = static_cast<Union const*>(xxx);
+                format::indent_scope s(o);
+                punion->dumpFields(o);
+                break;
+            }
+            case unionArray:
+            {
+                format::indent_scope s(o);
+                o << *pfield;
+                break;
+            }
+        }
+    }
+}
+
+void Union::serialize(ByteBuffer *buffer, SerializableControl *control) const {
+    control->ensureBuffer(1);
+    if (fields.size() == 0)
+    {
+        // unrestricted/variant union
+        buffer->putByte((int8)0x82);
+    }
+    else
+    {
+        buffer->putByte((int8)0x81);
+        serializeUnionField(this, buffer, control);
+    }
+}
+
+void Union::deserialize(ByteBuffer* /*buffer*/, DeserializableControl* /*control*/) {
+    throw std::runtime_error("not valid operation, use FieldCreate::deserialize instead");
+}
+
+
+FieldBuilder::FieldBuilder() : fieldCreate(getFieldCreate()), idSet(false) {}
+
+FieldBuilder::FieldBuilder(FieldBuilderPtr const & _parentBuilder,
+			string const & _nestedName,
+			Type _nestedClassToBuild, bool _nestedArray) :
+		fieldCreate(getFieldCreate()),
+		idSet(false),
+		parentBuilder(_parentBuilder),
+		nestedClassToBuild(_nestedClassToBuild),
+		nestedName(_nestedName),
+		nestedArray(_nestedArray)
+{}
+
+void FieldBuilder::reset()
+{
+	id.erase();
+    idSet = false;
+	fieldNames.clear();
+	fields.clear();
+}
+
+FieldBuilderPtr FieldBuilder::setId(string const & id)
+{
+    this->id = id;
+    idSet = true; 
+    return shared_from_this();
+}
+
+FieldBuilderPtr FieldBuilder::add(string const & name, ScalarType scalarType)
+{
+    fields.push_back(fieldCreate->createScalar(scalarType)); fieldNames.push_back(name); 
+	return shared_from_this();
+}
+
+FieldBuilderPtr FieldBuilder::addBoundedString(std::string const & name, std::size_t maxLength)
+{
+    fields.push_back(fieldCreate->createBoundedString(maxLength)); fieldNames.push_back(name);
+    return shared_from_this();
+}
+
+FieldBuilderPtr FieldBuilder::add(string const & name, FieldConstPtr const & field)
+{
+    fields.push_back(field); fieldNames.push_back(name);
+	return shared_from_this();
+}
+
+FieldBuilderPtr FieldBuilder::addArray(string const & name, ScalarType scalarType)
+{
+    fields.push_back(fieldCreate->createScalarArray(scalarType)); fieldNames.push_back(name);
+	return shared_from_this();
+}
+
+FieldBuilderPtr FieldBuilder::addFixedArray(string const & name, ScalarType scalarType, size_t size)
+{
+    fields.push_back(fieldCreate->createFixedScalarArray(scalarType, size)); fieldNames.push_back(name);
+    return shared_from_this();
+}
+
+FieldBuilderPtr FieldBuilder::addBoundedArray(string const & name, ScalarType scalarType, size_t size)
+{
+    fields.push_back(fieldCreate->createBoundedScalarArray(scalarType, size)); fieldNames.push_back(name);
+    return shared_from_this();
+}
+
+FieldBuilderPtr FieldBuilder::addArray(string const & name, FieldConstPtr const & element)
+{
+    switch (element->getType())
+    {
+        case structure:
+            fields.push_back(fieldCreate->createStructureArray(static_pointer_cast<const Structure>(element)));
+            break;
+        case union_:
+            fields.push_back(fieldCreate->createUnionArray(static_pointer_cast<const Union>(element)));
+            break;
+        case scalar:
+
+            if (std::tr1::dynamic_pointer_cast<const BoundedString>(element).get())
+                throw std::invalid_argument("bounded string arrays are not supported");
+
+            fields.push_back(fieldCreate->createScalarArray(static_pointer_cast<const Scalar>(element)->getScalarType()));
+            break;
+        // scalarArray?
+        default:
+            std::ostringstream msg("unsupported array element type: ");
+            msg << element->getType();
+            throw std::invalid_argument(msg.str());
+    }
+    
+    fieldNames.push_back(name);
+	return shared_from_this();
+}
+
+FieldConstPtr FieldBuilder::createFieldInternal(Type type)
+{
+    // minor optimization
+    if (fieldNames.size() == 0 && type == union_)
+        return fieldCreate->createVariantUnion();
+
+    if (type == structure)
+    {
+        return (idSet) ?
+            fieldCreate->createStructure(id, fieldNames, fields) :
+            fieldCreate->createStructure(fieldNames, fields);
+    }
+    else if (type == union_)
+    {
+        return (idSet) ?
+            fieldCreate->createUnion(id, fieldNames, fields) :
+            fieldCreate->createUnion(fieldNames, fields);
+    }
+    else
+    {
+        std::ostringstream msg("unsupported type: ");
+        msg << type;
+        throw std::invalid_argument(msg.str());
+    }
+}
+
+
+StructureConstPtr FieldBuilder::createStructure()
+{
+    if (parentBuilder.get())
+        throw std::runtime_error("createStructure() called in nested FieldBuilder");
+	
+    StructureConstPtr field(static_pointer_cast<const Structure>(createFieldInternal(structure)));
+    reset();
+    return field;
+}
+
+UnionConstPtr FieldBuilder::createUnion()
+{
+    if (parentBuilder.get())
+        throw std::runtime_error("createUnion() called in nested FieldBuilder");
+	
+    UnionConstPtr field(static_pointer_cast<const Union>(createFieldInternal(union_)));
+    reset();
+    return field;
+}
+
+FieldBuilderPtr FieldBuilder::addNestedStructure(string const & name)
+{
+    return FieldBuilderPtr(new FieldBuilder(shared_from_this(), name, structure, false));
+}
+
+
+FieldBuilderPtr FieldBuilder::addNestedUnion(string const & name)
+{
+    return FieldBuilderPtr(new FieldBuilder(shared_from_this(), name, union_, false));
+}
+
+
+FieldBuilderPtr FieldBuilder::addNestedStructureArray(string const & name)
+{
+    return FieldBuilderPtr(new FieldBuilder(shared_from_this(), name, structure, true));
+}
+
+FieldBuilderPtr FieldBuilder::addNestedUnionArray(string const & name)
+{
+    return FieldBuilderPtr(new FieldBuilder(shared_from_this(), name, union_, true));
+}
+
+FieldBuilderPtr FieldBuilder::endNested()
+{
+    if (!parentBuilder.get())
+        throw std::runtime_error("this method can only be called to create nested fields");
+        
+    FieldConstPtr nestedField = createFieldInternal(nestedClassToBuild);
+    if (nestedArray)
+        parentBuilder->addArray(nestedName, nestedField);
+    else
+        parentBuilder->add(nestedName, nestedField);
+        
+    return parentBuilder;
+}
+
+
+FieldBuilderPtr FieldCreate::createFieldBuilder() const
+{
+    return FieldBuilderPtr(new FieldBuilder());
+}
+
 ScalarConstPtr FieldCreate::createScalar(ScalarType scalarType) const
 {
-    // TODO use singleton instance
-    ScalarConstPtr scalar(new Scalar(scalarType), Field::Deleter());
-    return scalar;
+    if(scalarType<0 || scalarType>MAX_SCALAR_TYPE)
+        throw std::invalid_argument("Can't construct Scalar from invalid ScalarType");
+
+    return scalars[scalarType];
 }
- 
+
+BoundedStringConstPtr FieldCreate::createBoundedString(std::size_t maxLength) const
+{
+    // TODO use std::make_shared
+    std::tr1::shared_ptr<BoundedString> s(new BoundedString(maxLength), Field::Deleter());
+    BoundedStringConstPtr sa = s;
+    return sa;
+}
+
 ScalarArrayConstPtr FieldCreate::createScalarArray(ScalarType elementType) const
 {
-    // TODO use singleton instance
-    ScalarArrayConstPtr scalarArray(new ScalarArray(elementType), Field::Deleter());
-    return scalarArray;
+    if(elementType<0 || elementType>MAX_SCALAR_TYPE)
+        throw std::invalid_argument("Can't construct ScalarArray from invalid ScalarType");
+        
+    return scalarArrays[elementType];
+}
+
+ScalarArrayConstPtr FieldCreate::createFixedScalarArray(ScalarType elementType, size_t size) const
+{
+    if(elementType<0 || elementType>MAX_SCALAR_TYPE)
+        throw std::invalid_argument("Can't construct ScalarArray from invalid ScalarType");
+
+    // TODO use std::make_shared
+    std::tr1::shared_ptr<ScalarArray> s(new FixedScalarArray(elementType, size), Field::Deleter());
+    ScalarArrayConstPtr sa = s;
+    return sa;
+}
+
+ScalarArrayConstPtr FieldCreate::createBoundedScalarArray(ScalarType elementType, size_t size) const
+{
+    if(elementType<0 || elementType>MAX_SCALAR_TYPE)
+        throw std::invalid_argument("Can't construct ScalarArray from invalid ScalarType");
+
+    // TODO use std::make_shared
+    std::tr1::shared_ptr<ScalarArray> s(new BoundedScalarArray(elementType, size), Field::Deleter());
+    ScalarArrayConstPtr sa = s;
+    return sa;
+}
+
+StructureConstPtr FieldCreate::createStructure () const
+{
+      StringArray fieldNames;
+      FieldConstPtrArray fields;
+      return createStructure(fieldNames,fields);
 }
 
 StructureConstPtr FieldCreate::createStructure (
     StringArray const & fieldNames,FieldConstPtrArray const & fields) const
 {
-      StructureConstPtr structure(
-         new Structure(fieldNames,fields), Field::Deleter());
+      // TODO use std::make_shared
+      std::tr1::shared_ptr<Structure> sp(new Structure(fieldNames,fields), Field::Deleter());
+      StructureConstPtr structure = sp;
       return structure;
 }
 
 StructureConstPtr FieldCreate::createStructure (
-    String const & id,
+    string const & id,
     StringArray const & fieldNames,
     FieldConstPtrArray const & fields) const
 {
-      StructureConstPtr structure(
-         new Structure(fieldNames,fields,id), Field::Deleter());
+      // TODO use std::make_shared
+      std::tr1::shared_ptr<Structure> sp(new Structure(fieldNames,fields,id), Field::Deleter());
+      StructureConstPtr structure = sp;
       return structure;
 }
 
 StructureArrayConstPtr FieldCreate::createStructureArray(
     StructureConstPtr const & structure) const
 {
-     StructureArrayConstPtr structureArray(
-        new StructureArray(structure), Field::Deleter());
+     // TODO use std::make_shared
+     std::tr1::shared_ptr<StructureArray> sp(new StructureArray(structure), Field::Deleter());
+     StructureArrayConstPtr structureArray = sp;
      return structureArray;
+}
+
+UnionConstPtr FieldCreate::createUnion (
+    StringArray const & fieldNames,FieldConstPtrArray const & fields) const
+{
+      // TODO use std::make_shared
+      std::tr1::shared_ptr<Union> sp(new Union(fieldNames,fields), Field::Deleter());
+      UnionConstPtr punion = sp;
+      return punion;
+}
+
+UnionConstPtr FieldCreate::createUnion (
+    string const & id,
+    StringArray const & fieldNames,
+    FieldConstPtrArray const & fields) const
+{
+      // TODO use std::make_shared
+      std::tr1::shared_ptr<Union> sp(new Union(fieldNames,fields,id), Field::Deleter());
+      UnionConstPtr punion = sp;
+      return punion;
+}
+
+UnionConstPtr FieldCreate::createVariantUnion () const
+{
+    return variantUnion;
+}
+
+UnionArrayConstPtr FieldCreate::createUnionArray(
+    UnionConstPtr const & punion) const
+{
+     // TODO use std::make_shared 
+     std::tr1::shared_ptr<UnionArray> sp(new UnionArray(punion), Field::Deleter());
+     UnionArrayConstPtr unionArray = sp;
+     return unionArray;
+}
+
+UnionArrayConstPtr FieldCreate::createVariantUnionArray () const
+{
+    return variantUnionArray;
 }
 
 StructureConstPtr FieldCreate::appendField(
     StructureConstPtr const & structure,
-    String const & fieldName,
+    string const & fieldName,
     FieldConstPtr const & field) const
 {
     StringArray oldNames = structure->getFieldNames();
@@ -449,22 +1030,14 @@ static int decodeScalar(int8 code)
 {
     static const int integerLUT[] =
     {
-        pvByte,  // 8-bits
-        pvShort, // 16-bits
-        pvInt,   // 32-bits
-        pvLong,  // 64-bits
-        -1,
-        -1,
-        -1,
-        -1,
+        pvByte,   // 8-bits
+        pvShort,  // 16-bits
+        pvInt,    // 32-bits
+        pvLong,   // 64-bits
         pvUByte,  // unsigned 8-bits
         pvUShort, // unsigned 16-bits
         pvUInt,   // unsigned 32-bits
-        pvULong,  // unsigned 64-bits
-        -1,
-        -1,
-        -1,
-        -1
+        pvULong   // unsigned 64-bits
     };
     
     static const int floatLUT[] =
@@ -476,22 +1049,14 @@ static int decodeScalar(int8 code)
         -1,
         -1,
         -1,
-        -1,
-        -1,
-        -1,
-        -1,
-        -1,
-        -1,
-        -1,
-        -1,
         -1
     };
     // bits 7-5
     switch (code >> 5)
     {
     case 0: return pvBoolean;
-    case 1: return integerLUT[code & 0x0F];
-    case 2: return floatLUT[code & 0x0F];
+    case 1: return integerLUT[code & 0x07];
+    case 2: return floatLUT[code & 0x07];
     case 3: return pvString;
     default: return -1;
     }
@@ -504,8 +1069,9 @@ FieldConstPtr FieldCreate::deserialize(ByteBuffer* buffer, DeserializableControl
     if (code == -1)
         return FieldConstPtr();
 
-    int typeCode = code & 0xE0;
-    bool notArray = ((code & 0x10) == 0);
+    int typeCode = code & 0xE7;
+    int scalarOrArray = code & 0x18;
+    bool notArray = (scalarOrArray == 0);
     if (notArray)
     {
         if (typeCode < 0x80)
@@ -514,37 +1080,116 @@ FieldConstPtr FieldCreate::deserialize(ByteBuffer* buffer, DeserializableControl
             int scalarType = decodeScalar(code);
             if (scalarType == -1)
                 throw std::invalid_argument("invalid scalar type encoding");
-            return FieldConstPtr(new Scalar(static_cast<ScalarType>(scalarType)), Field::Deleter());
+            return scalars[scalarType];
         }
         else if (typeCode == 0x80)
         {
             // Type type = Type.structure;
             return deserializeStructureField(this, buffer, control);
         }
+        else if (typeCode == 0x81)
+        {
+            // Type type = Type.union;
+            return deserializeUnionField(this, buffer, control);
+        }
+        else if (typeCode == 0x82)
+        {
+            // Type type = Type.union; variant union (aka any type)
+            return variantUnion;
+        }
+        else if (typeCode == 0x83)
+        {
+            // TODO cache?
+            // bounded string
+
+            size_t size = SerializeHelper::readSize(buffer, control);
+
+            // TODO use std::make_shared
+            std::tr1::shared_ptr<Field> sp(
+                        new BoundedString(size),
+                        Field::Deleter());
+            FieldConstPtr p = sp;
+            return p;
+        }
         else
             throw std::invalid_argument("invalid type encoding");
     }
     else // array
     {
+        bool isVariable = (scalarOrArray == 0x08);
+        // bounded == 0x10;
+        bool isFixed = (scalarOrArray == 0x18);
+
+        size_t size = (isVariable ? 0 : SerializeHelper::readSize(buffer, control));
+
         if (typeCode < 0x80)
         {
             // Type type = Type.scalarArray;
             int scalarType = decodeScalar(code);
             if (scalarType == -1)
                 throw std::invalid_argument("invalid scalarArray type encoding");
-            return FieldConstPtr(new ScalarArray(static_cast<ScalarType>(scalarType)), Field::Deleter());
+            if (isVariable)
+                return scalarArrays[scalarType];
+            else if (isFixed)
+            {
+                // TODO use std::make_shared
+                std::tr1::shared_ptr<Field> sp(
+                            new FixedScalarArray(static_cast<epics::pvData::ScalarType>(scalarType), size),
+                            Field::Deleter());
+                FieldConstPtr p = sp;
+                return p;
+            }
+            else
+            {
+                // TODO use std::make_shared
+                std::tr1::shared_ptr<Field> sp(
+                            new BoundedScalarArray(static_cast<epics::pvData::ScalarType>(scalarType), size),
+                            Field::Deleter());
+                FieldConstPtr p = sp;
+                return p;
+            }
         }
         else if (typeCode == 0x80)
         {
+            // TODO fixed and bounded array support
+            if (!isVariable)
+                throw std::invalid_argument("fixed and bounded structure array not supported");
+
             // Type type = Type.structureArray;
             StructureConstPtr elementStructure = std::tr1::static_pointer_cast<const Structure>(control->cachedDeserialize(buffer));
-            return FieldConstPtr(new StructureArray(elementStructure), Field::Deleter());
+            // TODO use std::make_shared
+            std::tr1::shared_ptr<Field> sp(new StructureArray(elementStructure), Field::Deleter());
+            FieldConstPtr p = sp;
+            return p;
+        }
+        else if (typeCode == 0x81)
+        {
+            // TODO fixed and bounded array support
+            if (!isVariable)
+                throw std::invalid_argument("fixed and bounded structure array not supported");
+
+            // Type type = Type.unionArray;
+            UnionConstPtr elementUnion = std::tr1::static_pointer_cast<const Union>(control->cachedDeserialize(buffer));
+            // TODO use std::make_shared
+            std::tr1::shared_ptr<Field> sp(new UnionArray(elementUnion), Field::Deleter());
+            FieldConstPtr p = sp;
+            return p;
+        }
+        else if (typeCode == 0x82)
+        {
+            // TODO fixed and bounded array support
+            if (!isVariable)
+                throw std::invalid_argument("fixed and bounded structure array not supported");
+
+            // Type type = Type.unionArray; variant union (aka any type)
+            return variantUnionArray;
         }
         else
             throw std::invalid_argument("invalid type encoding");
     }
 }
 
+// TODO replace with non-locking singleton pattern
 FieldCreatePtr FieldCreate::getFieldCreate()
 {
 	LOCAL_STATIC_LOCK;
@@ -556,7 +1201,29 @@ FieldCreatePtr FieldCreate::getFieldCreate()
     return fieldCreate;
 }
 
-FieldCreate::FieldCreate(){}
+FieldCreate::FieldCreate()
+{
+    for (int i = 0; i <= MAX_SCALAR_TYPE; i++)
+    {
+        // TODO use std::make_shared
+        std::tr1::shared_ptr<Scalar> sp(new Scalar(static_cast<ScalarType>(i)), Field::Deleter());
+        ScalarConstPtr p = sp;
+        scalars.push_back(p);
+
+        // TODO use std::make_shared
+        std::tr1::shared_ptr<ScalarArray> spa(new ScalarArray(static_cast<ScalarType>(i)), Field::Deleter());
+        ScalarArrayConstPtr pa = spa;
+        scalarArrays.push_back(spa);
+    }
+
+    // TODO use std::make_shared
+    std::tr1::shared_ptr<Union> su(new Union(), Field::Deleter());
+    variantUnion = su;
+
+    // TODO use std::make_shared
+    std::tr1::shared_ptr<UnionArray> sua(new UnionArray(variantUnion), Field::Deleter());
+    variantUnionArray = sua;
+}
 
 FieldCreatePtr getFieldCreate() {
     return FieldCreate::getFieldCreate();

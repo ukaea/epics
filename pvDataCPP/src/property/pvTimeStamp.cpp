@@ -16,26 +16,24 @@
 #include <pv/pvData.h>
 #include <pv/pvTimeStamp.h>
 
+using std::tr1::static_pointer_cast;
+using std::string;
+
 namespace epics { namespace pvData { 
 
-using std::tr1::static_pointer_cast;
-
-String PVTimeStamp::noTimeStamp("No timeStamp structure found");
-String PVTimeStamp::notAttached("Not attached to a timeStamp structure");
+string PVTimeStamp::noTimeStamp("No timeStamp structure found");
+string PVTimeStamp::notAttached("Not attached to a timeStamp structure");
 
 bool PVTimeStamp::attach(PVFieldPtr const & pvField)
 {
-    if(pvField->getField()->getType()!=structure) {
-            pvField->message(noTimeStamp,errorMessage);
-            return false;
-    }
+    if(pvField->getField()->getType()!=structure) return false;
     PVStructurePtr xxx = static_pointer_cast<PVStructure>(pvField);
     PVStructure* pvStructure = xxx.get();
     while(true) {
         PVLongPtr pvLong = pvStructure->getLongField("secondsPastEpoch");
         if(pvLong.get()!=NULL) {
             pvSecs = pvLong;
-            pvNano = pvStructure->getIntField("nanoSeconds");
+            pvNano = pvStructure->getIntField("nanoseconds");
             pvUserTag = pvStructure->getIntField("userTag");
         }
         if(pvSecs.get()!=NULL
@@ -78,7 +76,7 @@ bool PVTimeStamp::set(TimeStamp const & timeStamp)
     if(pvSecs->isImmutable() || pvNano->isImmutable()) return false;
     pvSecs->put(timeStamp.getSecondsPastEpoch());
     pvUserTag->put(timeStamp.getUserTag());
-    pvNano->put(timeStamp.getNanoSeconds());
+    pvNano->put(timeStamp.getNanoseconds());
     return true;
 }
     

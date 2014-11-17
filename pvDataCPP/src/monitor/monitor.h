@@ -15,8 +15,9 @@
 #include <pv/pvData.h>
 #include <pv/sharedPtr.h>
 #include <pv/bitSet.h>
+#include <pv/requester.h>
 
-#include <sharelib.h>
+#include <shareLib.h>
 
 namespace epics { namespace pvData { 
 
@@ -32,14 +33,14 @@ typedef std::tr1::shared_ptr<Monitor> MonitorPtr;
  * Class instance representing monitor element.
  * @author mrk
  */
-class MonitorElement {
+class epicsShareClass MonitorElement {
     public:
     POINTER_DEFINITIONS(MonitorElement);
     MonitorElement(){}
     MonitorElement(PVStructurePtr const & pvStructurePtr)
     : pvStructurePtr(pvStructurePtr),
-      changedBitSet(BitSet::create(pvStructurePtr->getNumberFields())),
-      overrunBitSet(BitSet::create(pvStructurePtr->getNumberFields()))
+      changedBitSet(BitSet::create(static_cast<uint32>(pvStructurePtr->getNumberFields()))),
+      overrunBitSet(BitSet::create(static_cast<uint32>(pvStructurePtr->getNumberFields())))
     {}
     PVStructurePtr pvStructurePtr;
     BitSet::shared_pointer changedBitSet;
@@ -50,7 +51,7 @@ class MonitorElement {
  * Interface for Monitor.
  * @author mrk
  */
-class Monitor : public Destroyable{
+class epicsShareClass Monitor : public Destroyable{
     public:
     POINTER_DEFINITIONS(Monitor);
     virtual ~Monitor(){}
@@ -82,7 +83,7 @@ class Monitor : public Destroyable{
  * Requester for ChannelMonitor.
  * @author mrk
  */
-class MonitorRequester : public virtual Requester {
+class epicsShareClass MonitorRequester : public virtual Requester {
     public:
     POINTER_DEFINITIONS(MonitorRequester);
     virtual ~MonitorRequester(){}

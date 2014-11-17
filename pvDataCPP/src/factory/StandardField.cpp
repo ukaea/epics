@@ -10,8 +10,6 @@
 #include <string>
 #include <cstdio>
 #include <stdexcept>
-#include <epicsThread.h>
-#include <epicsExit.h>
 
 #define epicsExportSharedSymbols
 #include <pv/lock.h>
@@ -19,6 +17,7 @@
 #include <pv/standardField.h>
 
 using std::tr1::static_pointer_cast;
+using std::string;
 
 namespace epics { namespace pvData { 
 
@@ -51,7 +50,7 @@ void StandardField::init()
 
 StandardField::~StandardField(){}
 
-StructureConstPtr StandardField::createProperties(String id,FieldConstPtr field,String properties)
+StructureConstPtr StandardField::createProperties(string id,FieldConstPtr field,string properties)
 {
     bool gotAlarm = false;
     bool gotTimeStamp = false;
@@ -59,11 +58,11 @@ StructureConstPtr StandardField::createProperties(String id,FieldConstPtr field,
     bool gotControl = false;
     bool gotValueAlarm = false;
     int numProp = 0;
-    if(properties.find("alarm")!=String::npos) { gotAlarm = true; numProp++; }
-    if(properties.find("timeStamp")!=String::npos) { gotTimeStamp = true; numProp++; }
-    if(properties.find("display")!=String::npos) { gotDisplay = true; numProp++; }
-    if(properties.find("control")!=String::npos) { gotControl = true; numProp++; }
-    if(properties.find("valueAlarm")!=String::npos) { gotValueAlarm = true; numProp++; }
+    if(properties.find("alarm")!=string::npos) { gotAlarm = true; numProp++; }
+    if(properties.find("timeStamp")!=string::npos) { gotTimeStamp = true; numProp++; }
+    if(properties.find("display")!=string::npos) { gotDisplay = true; numProp++; }
+    if(properties.find("control")!=string::npos) { gotControl = true; numProp++; }
+    if(properties.find("valueAlarm")!=string::npos) { gotValueAlarm = true; numProp++; }
     StructureConstPtr valueAlarm;
     Type type= field->getType();
     while(gotValueAlarm) {
@@ -84,7 +83,7 @@ StructureConstPtr StandardField::createProperties(String id,FieldConstPtr field,
                case pvFloat: valueAlarm = floatAlarmField; break;
                case pvDouble: valueAlarm = doubleAlarmField; break;
                case pvString:
-                throw std::logic_error(String("valueAlarm property not supported for pvString"));
+                throw std::logic_error(string("valueAlarm property not supported for pvString"));
            }
            break;
         }
@@ -95,8 +94,8 @@ StructureConstPtr StandardField::createProperties(String id,FieldConstPtr field,
                 FieldConstPtrArray fields = structurePtr->getFields();
                 FieldConstPtr first = fields[0];
                 FieldConstPtr second = fields[1];
-                String nameFirst = names[0];
-                String nameSecond = names[1];
+                string nameFirst = names[0];
+                string nameSecond = names[1];
                 int compareFirst = nameFirst.compare("index");
                 int compareSecond = nameSecond.compare("choices");
                 if(compareFirst==0 && compareSecond==0) {
@@ -114,7 +113,7 @@ StructureConstPtr StandardField::createProperties(String id,FieldConstPtr field,
                 }
             }
         }
-        throw std::logic_error(String("valueAlarm property for illegal type"));
+        throw std::logic_error(string("valueAlarm property for illegal type"));
     }
     size_t numFields = numProp+1;
     FieldConstPtrArray fields(numFields);
@@ -163,7 +162,7 @@ void StandardField::createTimeStamp() {
     FieldConstPtrArray fields(num);
     StringArray names(num);
     names[0] = "secondsPastEpoch";
-    names[1] = "nanoSeconds";
+    names[1] = "nanoseconds";
     names[2] = "userTag";
     fields[0] = fieldCreate->createScalar(pvLong);
     fields[1] = fieldCreate->createScalar(pvInt);
@@ -229,7 +228,7 @@ void StandardField::createByteAlarm() {
     names[6] = "lowWarningSeverity";
     names[7] = "highWarningSeverity";
     names[8] = "highAlarmSeverity";
-    names[9] =  "hystersis";
+    names[9] =  "hysteresis";
     fields[0] = fieldCreate->createScalar(pvBoolean);
     fields[1] = fieldCreate->createScalar(pvByte);
     fields[2] = fieldCreate->createScalar(pvByte);
@@ -256,7 +255,7 @@ void StandardField::createShortAlarm() {
     names[6] = "lowWarningSeverity";
     names[7] = "highWarningSeverity";
     names[8] = "highAlarmSeverity";
-    names[9] =  "hystersis";
+    names[9] =  "hysteresis";
     fields[0] = fieldCreate->createScalar(pvBoolean);
     fields[1] = fieldCreate->createScalar(pvShort);
     fields[2] = fieldCreate->createScalar(pvShort);
@@ -283,7 +282,7 @@ void StandardField::createIntAlarm() {
     names[6] = "lowWarningSeverity";
     names[7] = "highWarningSeverity";
     names[8] = "highAlarmSeverity";
-    names[9] =  "hystersis";
+    names[9] =  "hysteresis";
     fields[0] = fieldCreate->createScalar(pvBoolean);
     fields[1] = fieldCreate->createScalar(pvInt);
     fields[2] = fieldCreate->createScalar(pvInt);
@@ -310,7 +309,7 @@ void StandardField::createLongAlarm() {
     names[6] = "lowWarningSeverity";
     names[7] = "highWarningSeverity";
     names[8] = "highAlarmSeverity";
-    names[9] =  "hystersis";
+    names[9] =  "hysteresis";
     fields[0] = fieldCreate->createScalar(pvBoolean);
     fields[1] = fieldCreate->createScalar(pvLong);
     fields[2] = fieldCreate->createScalar(pvLong);
@@ -337,7 +336,7 @@ void StandardField::createUByteAlarm() {
     names[6] = "lowWarningSeverity";
     names[7] = "highWarningSeverity";
     names[8] = "highAlarmSeverity";
-    names[9] =  "hystersis";
+    names[9] =  "hysteresis";
     fields[0] = fieldCreate->createScalar(pvBoolean);
     fields[1] = fieldCreate->createScalar(pvUByte);
     fields[2] = fieldCreate->createScalar(pvUByte);
@@ -364,7 +363,7 @@ void StandardField::createUShortAlarm() {
     names[6] = "lowWarningSeverity";
     names[7] = "highWarningSeverity";
     names[8] = "highAlarmSeverity";
-    names[9] =  "hystersis";
+    names[9] =  "hysteresis";
     fields[0] = fieldCreate->createScalar(pvBoolean);
     fields[1] = fieldCreate->createScalar(pvUShort);
     fields[2] = fieldCreate->createScalar(pvUShort);
@@ -391,7 +390,7 @@ void StandardField::createUIntAlarm() {
     names[6] = "lowWarningSeverity";
     names[7] = "highWarningSeverity";
     names[8] = "highAlarmSeverity";
-    names[9] =  "hystersis";
+    names[9] =  "hysteresis";
     fields[0] = fieldCreate->createScalar(pvBoolean);
     fields[1] = fieldCreate->createScalar(pvUInt);
     fields[2] = fieldCreate->createScalar(pvUInt);
@@ -418,7 +417,7 @@ void StandardField::createULongAlarm() {
     names[6] = "lowWarningSeverity";
     names[7] = "highWarningSeverity";
     names[8] = "highAlarmSeverity";
-    names[9] =  "hystersis";
+    names[9] =  "hysteresis";
     fields[0] = fieldCreate->createScalar(pvBoolean);
     fields[1] = fieldCreate->createScalar(pvULong);
     fields[2] = fieldCreate->createScalar(pvULong);
@@ -445,7 +444,7 @@ void StandardField::createFloatAlarm() {
     names[6] = "lowWarningSeverity";
     names[7] = "highWarningSeverity";
     names[8] = "highAlarmSeverity";
-    names[9] =  "hystersis";
+    names[9] =  "hysteresis";
     fields[0] = fieldCreate->createScalar(pvBoolean);
     fields[1] = fieldCreate->createScalar(pvFloat);
     fields[2] = fieldCreate->createScalar(pvFloat);
@@ -472,7 +471,7 @@ void StandardField::createDoubleAlarm() {
     names[6] = "lowWarningSeverity";
     names[7] = "highWarningSeverity";
     names[8] = "highAlarmSeverity";
-    names[9] =  "hystersis";
+    names[9] =  "hysteresis";
     fields[0] = fieldCreate->createScalar(pvBoolean);
     fields[1] = fieldCreate->createScalar(pvDouble);
     fields[2] = fieldCreate->createScalar(pvDouble);
@@ -501,26 +500,48 @@ void StandardField::createEnumeratedAlarm() {
 
 
 StructureConstPtr StandardField::scalar(
-    ScalarType type,String  const &properties)
+    ScalarType type,string  const &properties)
 {
     ScalarConstPtr field = fieldCreate->createScalar(type); // scalar_t
-    return createProperties("uri:ev4:nt/2012/pwd:NTScalar",field,properties);
+    return createProperties("epics:nt/NTScalar:1.0",field,properties);
+}
+
+StructureConstPtr StandardField::regUnion(
+    UnionConstPtr const &field,
+        string const & properties)
+{
+   return createProperties("epics:nt/NTUnion:1.0",field,properties);
+}
+
+StructureConstPtr StandardField::variantUnion(
+    string const & properties)
+{
+    UnionConstPtr field =  fieldCreate->createVariantUnion();
+    return createProperties("epics:nt/NTUnion:1.0",field,properties);
 }
 
 StructureConstPtr StandardField::scalarArray(
-    ScalarType elementType, String  const &properties)
+    ScalarType elementType, string  const &properties)
 {
     ScalarArrayConstPtr field = fieldCreate->createScalarArray(elementType); // scalar_t[]
-    return createProperties("uri:ev4:nt/2012/pwd:NTScalarArray",field,properties);
+    return createProperties("epics:nt/NTScalarArray:1.0",field,properties);
 }
 
 
 StructureConstPtr StandardField::structureArray(
-    StructureConstPtr const & structure,String  const &properties)
+    StructureConstPtr const & structure,string  const &properties)
 {
     StructureArrayConstPtr field = fieldCreate->createStructureArray(
         structure);
-    return createProperties("uri:ev4:nt/2012/pwd:NTAny",field,properties);
+    return createProperties("epics:nt/NTStructureArray:1.0",field,properties);
+}
+
+StructureConstPtr StandardField::unionArray(
+    UnionConstPtr const & punion,string  const &properties)
+{
+    UnionArrayConstPtr field = fieldCreate->createUnionArray(
+        punion);
+    return createProperties("epics:nt/NTUnionArray:1.0",field,properties);
 }
 
 StructureConstPtr StandardField::enumerated()
@@ -536,10 +557,10 @@ StructureConstPtr StandardField::enumerated()
     // NOTE: if this method is used to get NTEnum wihtout properties the ID will be wrong!
 }
 
-StructureConstPtr StandardField::enumerated(String  const &properties)
+StructureConstPtr StandardField::enumerated(string  const &properties)
 {
     StructureConstPtr field = enumerated(); // enum_t
-    return createProperties("uri:ev4:nt/2012/pwd:NTEnum",field,properties);
+    return createProperties("epics:nt/NTEnum:1.0",field,properties);
 }
 
 StructureConstPtr StandardField::alarm()

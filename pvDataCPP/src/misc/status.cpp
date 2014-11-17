@@ -7,16 +7,17 @@
 /**
  *  @author mrk
  */
-
 #define epicsExportSharedSymbols
 #include <pv/epicsException.h>
 #include <pv/serializeHelper.h>
 #include <pv/status.h>
 
+using std::string;
+
 namespace epics { namespace pvData {
 
 const char* Status::StatusTypeName[] = { "OK", "WARNING", "ERROR", "FATAL" };
-epics::pvData::String Status::m_emptyString;
+string Status::m_emptyStringtring;
 
 Status Status::Ok;
 
@@ -27,7 +28,7 @@ Status::Status() :
 {
 }
 
-Status::Status(StatusType type, String const & message) :
+Status::Status(StatusType type, string const & message) :
     m_statusType(type), m_message(message)
 {
     if (type == STATUSTYPE_OK)
@@ -36,7 +37,7 @@ Status::Status(StatusType type, String const & message) :
     //PVDATA_REFCOUNT_MONITOR_CONSTRUCT(status);
 }
 
-Status::Status(StatusType type, String const & message, String const & stackDump) :
+Status::Status(StatusType type, string const & message, string const & stackDump) :
     m_statusType(type), m_message(message), m_stackDump(stackDump)
 {
     if (type == STATUSTYPE_OK)
@@ -55,12 +56,12 @@ Status::StatusType Status::getType() const
 }
     
 
-epics::pvData::String Status::getMessage() const
+string Status::getMessage() const
 {
     return m_message;
 }
     
-epics::pvData::String Status::getStackDump() const
+string Status::getStackDump() const
 {
     return m_stackDump;
 }
@@ -101,7 +102,7 @@ void Status::deserialize(ByteBuffer *buffer, DeserializableControl *flusher)
 	   if (m_statusType != STATUSTYPE_OK)
 	   {
 	       m_statusType = STATUSTYPE_OK;
-	       m_message = m_stackDump = m_emptyString;
+	       m_message = m_stackDump = m_emptyStringtring;
 	   }
 	}
 	else
@@ -112,29 +113,26 @@ void Status::deserialize(ByteBuffer *buffer, DeserializableControl *flusher)
 	}
 }
 
-String Status::toString() const
+void Status::dump(std::ostream& o) const
 {
-    String str;
-    toString(&str, 0);
-    return str;
+    o << "Status [type=" << Status::StatusTypeName[m_statusType];
+    if (!m_message.empty())
+        o << ", message=" << m_message;
+    if (!m_stackDump.empty())
+        o << ", stackDump=" << std::endl << m_stackDump;
+    o << ']';
+}    
+
+std::ostream& operator<<(std::ostream& o, const Status& status)
+{
+    status.dump(o);
+    return o;
 }
 
-void Status::toString(StringBuilder buffer, int /*indentLevel*/) const
+std::ostream& operator<<(std::ostream& o, const Status::StatusType& statusType)
 {
-    *buffer += "Status [type=";
-    *buffer += StatusTypeName[m_statusType];
-    if (!m_message.empty())
-    {
-        *buffer += ", message=";
-        *buffer += m_message;
-    }
-    if (!m_stackDump.empty())
-    {
-        *buffer += ", stackDump=";
-        *buffer += '\n';
-        *buffer += m_stackDump;
-    }
-    *buffer += ']';
+    o << Status::StatusTypeName[statusType];
+    return o;
 }
 
 }}

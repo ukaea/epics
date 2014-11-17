@@ -9,13 +9,25 @@
  */
 #ifndef THREAD_H
 #define THREAD_H
+
 #include <memory>
+
+#ifdef epicsExportSharedSymbols
+#define threadepicsExportSharedSymbols
+#undef epicsExportSharedSymbols
+#endif
+
+#include <epicsThread.h>
+
+#ifdef threadepicsExportSharedSymbols
+#define epicsExportSharedSymbols
+#undef threadepicsExportSharedSymbols
+#endif
 
 #include <pv/noDefaultMethods.h>
 #include <pv/pvType.h>
-#include <sharelib.h>
 
-#include <epicsThread.h>
+#include <shareLib.h>
 
 namespace epics { namespace pvData {
 
@@ -29,12 +41,16 @@ enum ThreadPriority {
     highestPriority =epicsThreadPriorityHigh
 };
 
+class Thread;
+typedef std::tr1::shared_ptr<Thread> ThreadPtr;
+typedef std::tr1::shared_ptr<epicsThread> EpicsThreadPtr;
+
 typedef epicsThreadRunable Runnable;
 
 class epicsShareClass Thread : public epicsThread, private NoDefaultMethods {
 public:
 
-    Thread(String name,
+    Thread(std::string name,
            ThreadPriority priority,
            Runnable *runnable,
            epicsThreadStackSizeClass stkcls=epicsThreadStackSmall)
@@ -47,7 +63,7 @@ public:
     }
 
     Thread(Runnable &runnable,
-           String name,
+           std::string name,
            unsigned int stksize,
            unsigned int priority=lowestPriority)
         :epicsThread(runnable,
@@ -63,6 +79,7 @@ public:
         this->exitWait();
     }
 };
+
 
 }}
 #endif  /* THREAD_H */

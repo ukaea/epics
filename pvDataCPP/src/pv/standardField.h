@@ -10,13 +10,19 @@
  */
 #ifndef STANDARDFIELD_H
 #define STANDARDFIELD_H
+
 #include <string>
 #include <stdexcept>
 
 #include <pv/pvIntrospect.h>
-#include <sharelib.h>
+
+#include <shareLib.h>
 
 namespace epics { namespace pvData { 
+
+
+class StandardField;
+typedef std::tr1::shared_ptr<StandardField> StandardFieldPtr;
 
 /**
  * Standard Fields is a class or creating or sharing Field objects for standard fields.
@@ -32,9 +38,9 @@ namespace epics { namespace pvData {
  * For example the call:
  * {@code
    StructureConstPtr example = standardField->scalar(
-        String("value"),
+        std::string("value"),
         pvDouble,
-        String("value,alarm,timeStamp")); 
+        std::string("value,alarm,timeStamp")); 
  * }
  * Will result in a Field definition that has the form: {@code
   structure example
@@ -45,7 +51,7 @@ namespace epics { namespace pvData {
         string message
    structure timeStamp
         long secondsPastEpoch
-        int  nanoSeconds
+        int  nanoseconds
         int userTag
  * }
  * In addition there are methods that create each of the property structures,
@@ -55,42 +61,161 @@ namespace epics { namespace pvData {
     StandardField *standardField = getStandardField();
  * }
  */
-
-class StandardField;
-typedef std::tr1::shared_ptr<StandardField> StandardFieldPtr;
-
 class epicsShareClass StandardField {
 public:
+    /** 
+     * getStandardField returns the singleton.
+     * @return Shared pointer to StandardField.
+     */
     static StandardFieldPtr getStandardField();
     ~StandardField();
-    StructureConstPtr scalar(ScalarType type,String const & properties);
-    StructureConstPtr scalarArray(ScalarType elementType, String const & properties);
-    StructureConstPtr structureArray(StructureConstPtr const & structure,String const & properties);
+    /** Create a structure that has a scalar value field.
+     * @param type The type.
+     * @param properties A comma separated list of properties.
+     * This is some combination of "alarm,timeStamp,display,control,valueAlarm".
+     * @return The const shared pointer to the structure.
+     */
+    StructureConstPtr scalar(ScalarType type,std::string const & properties);
+    /** Create a structure that has a union value field.
+     * @param punion The interface for value field.
+     * @param properties A comma separated list of properties.
+     * This is some combination of "alarm,timeStamp,display,control,valueAlarm".
+     * @return The const shared pointer to the structure.
+     */
+    StructureConstPtr regUnion(
+        UnionConstPtr const & punion,
+        std::string const & properties);
+    /** Create a structure that has a varient union value field.
+     * @param properties A comma separated list of properties.
+     * This is some combination of "alarm,timeStamp,display,control,valueAlarm".
+     * @return The const shared pointer to the structure.
+     */
+    StructureConstPtr variantUnion(std::string const & properties);
+    /** Create a structure that has a scalarArray value field.
+     * @param type The type.
+     * @param properties A comma separated list of properties.
+     * This is some combination of "alarm,timeStamp,display,control,valueAlarm".
+     * @return The const shared pointer to the structure.
+     */
+    StructureConstPtr scalarArray(ScalarType elementType, std::string const & properties);
+    /** Create a structure that has a structureArray value field.
+     * @param type The type.
+     * @param properties A comma separated list of properties.
+     * This is some combination of "alarm,timeStamp,display,control,valueAlarm".
+     * @return The const shared pointer to the structure.
+     */
+    StructureConstPtr structureArray(
+        StructureConstPtr const & structure,
+        std::string const & properties);
+    /** Create a structure that has a unionArray value field.
+     * @param type The type.
+     * @param properties A comma separated list of properties.
+     * This is some combination of "alarm,timeStamp,display,control".
+     * @return The const shared pointer to the structure.
+     */
+    StructureConstPtr unionArray(
+        UnionConstPtr const & punion,
+        std::string const & properties);
+    /** Create a structure that has an enumerated structure value field.
+     *  The id for the structure is "enum-t".
+     * @return The const shared pointer to the structure.
+     */
     StructureConstPtr enumerated();
-    StructureConstPtr enumerated(String const & properties);
+    /** Create a structure that has an enumerated structure value field
+     * The id for the structure is "epics:nt/NTEnum:1.0".
+     * @param properties A comma separated list of properties.
+     * This is some combination of "alarm,timeStamp,display,control,valueAlarm".
+     * @return The const shared pointer to the structure.
+     */
+    StructureConstPtr enumerated(std::string const & properties);
+    /**
+     * create an alarm structure
+     * @return The const shared pointer to the structure.
+     */
     StructureConstPtr alarm();
+    /**
+     * create a timeStamp structure
+     * @return The const shared pointer to the structure.
+     */
     StructureConstPtr timeStamp();
+    /**
+     * create a display structure
+     * @return The const shared pointer to the structure.
+     */
     StructureConstPtr display();
+    /**
+     * create a control structure
+     * @return The const shared pointer to the structure.
+     */
     StructureConstPtr control();
+    /**
+     * create a boolean alarm structure
+     * @return The const shared pointer to the structure.
+     */
     StructureConstPtr booleanAlarm();
+    /**
+     * create a byte alarm structure
+     * @return The const shared pointer to the structure.
+     */
     StructureConstPtr byteAlarm();
+    /**
+     * create a unsigned byte alarm structure
+     * @return The const shared pointer to the structure.
+     */
     StructureConstPtr ubyteAlarm();
+    /**
+     * create a short alarm structure
+     * @return The const shared pointer to the structure.
+     */
     StructureConstPtr shortAlarm();
+    /**
+     * create a unsigned short alarm structure
+     * @return The const shared pointer to the structure.
+     */
     StructureConstPtr ushortAlarm();
+    /**
+     * create an int alarm structure
+     * @return The const shared pointer to the structure.
+     */
     StructureConstPtr intAlarm();
+    /**
+     * create a unsigned int alarm structure
+     * @return The const shared pointer to the structure.
+     */
     StructureConstPtr uintAlarm();
+    /**
+     * create a long alarm structure
+     * @return The const shared pointer to the structure.
+     */
     StructureConstPtr longAlarm();
+    /**
+     * create a unsigned long alarm structure
+     * @return The const shared pointer to the structure.
+     */
     StructureConstPtr ulongAlarm();
+    /**
+     * create a float alarm structure
+     * @return The const shared pointer to the structure.
+     */
     StructureConstPtr floatAlarm();
+    /**
+     * create a double alarm structure
+     * @return The const shared pointer to the structure.
+     */
     StructureConstPtr doubleAlarm();
+    /**
+     * create an enumerated alarm structure
+     * @return The const shared pointer to the structure.
+     */
     StructureConstPtr enumeratedAlarm();
 private:
     StandardField();
     void init();
-    StructureConstPtr createProperties(String id,FieldConstPtr field,String properties);
+    StructureConstPtr createProperties(
+        std::string id,FieldConstPtr field,std::string properties);
     FieldCreatePtr fieldCreate;
-    String notImplemented;
-    String valueFieldName;
+    std::string notImplemented;
+    std::string valueFieldName;
     StructureConstPtr alarmField;
     StructureConstPtr timeStampField;
     StructureConstPtr displayField;
@@ -123,7 +248,7 @@ private:
     void createFloatAlarm();
     void createDoubleAlarm();
     void createEnumeratedAlarm();
-    friend epicsShareExtern StandardFieldPtr getStandardField();
+    //friend StandardFieldPtr getStandardField();
 };
 
 epicsShareExtern StandardFieldPtr getStandardField();
