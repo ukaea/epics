@@ -51,7 +51,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{18211C01-4D86-4373-B4F1-6329318CE088}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>mb_test</RootNamespace>
+    <RootNamespace>mb</RootNamespace>
     <SccProjectName>Svn</SccProjectName>
     <SccLocalPath>Svn</SccLocalPath>
     <SccProvider>SubversionScc</SccProvider>

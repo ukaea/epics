@@ -39,7 +39,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{F4A51415-2981-42EE-87C7-F29D5805583E}</ProjectGuid>
-    <RootNamespace>pvDataApp</RootNamespace>
+    <RootNamespace>src</RootNamespace>
     <SccProjectName>Svn</SccProjectName>
     <SccLocalPath>Svn</SccLocalPath>
     <SccProvider>SubversionScc</SccProvider>

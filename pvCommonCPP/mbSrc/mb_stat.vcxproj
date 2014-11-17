@@ -41,20 +41,20 @@
     <ClCompile Include="mb_stat.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\base\src\libCom\Com.vcxproj">
+    <ClInclude Include="mb.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\base\src\libCom\Com.vcxproj">
       <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
     </ProjectReference>
     <ProjectReference Include="pvMB.vcxproj">
-      <Project>{5c5be6f0-e25f-49b8-8718-d2f7e7a79369}</Project>
+      <Project>{aa7645c9-77df-4898-b241-9000c389f23f}</Project>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="mb.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{3B4FB919-CC65-4780-8B45-BFE42896B914}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>mp</RootNamespace>
+    <RootNamespace>mbSrc</RootNamespace>
     <SccProjectName>Svn</SccProjectName>
     <SccLocalPath>Svn</SccLocalPath>
     <SccProvider>SubversionScc</SccProvider>
