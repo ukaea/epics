@@ -1,0 +1,8 @@
+
+TEMPLATE_TOP=$(EPICS_BASE)/templates/makeBaseApp/top
+
+EPICS_BASE=/home/install/epics/base
+PVCOMMON=/home/hg/pvCommonCPP
+PVDATA=/home/hg/pvDataCPP
+PVACCESS=/home/hg/pvAccessCPP
+PVASRV=/home/hg/pvaSrv

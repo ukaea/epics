@@ -1,0 +1,2 @@
+registrar("exampleDatabaseRegister")
+registrar("exampleMonitorPluginRegister")

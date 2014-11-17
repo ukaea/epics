@@ -1,0 +1,16 @@
+< envPaths
+
+cd ${TOP}
+
+## Register all support components
+dbLoadDatabase("dbd/exampleLink.dbd")
+exampleLink_registerRecordDeviceDriver(pdbbase)
+
+## Load record instances
+dbLoadRecords("db/dbArray.db","name=double01,type=DOUBLE")
+
+cd ${TOP}/iocBoot/${IOC}
+iocInit()
+startPVAClient
+startPVAServer
+exampleLinkCreateRecord exampleLink pvAccess doubleArray

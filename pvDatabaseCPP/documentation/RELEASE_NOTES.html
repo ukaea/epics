@@ -1,0 +1,25 @@
+<h1>Release 4.0 IN DEVELOPMENT</h1>
+<p>The main changes since release 3.0.2 are:</p>
+<ul>
+<li>array semantics now enforce Copy On Write.</li>
+<li>String no longer defined.</li>
+<li>toString replaced by stream I/O </li>
+<li>union is new type.</li>
+<li>copy and monitor use new code in pvDataCPP</li>
+</ul>
+<h2>New Semantics for Arrays</h2>
+<p>pvDatabaseCPP has been changed to use the new array implementation from pvDataCPP.</p>
+<h2>String no longer defined</h2>
+<p>String is replaced by std::string.</p>
+<h2>toString replaced by stream I/O</h2>
+<p>All uses of toString have been changed to use the steam I/O that pvDataCPP implements.</p>
+<h2>union is a new basic type.</h2>
+<p>exampleDatabase now has example records for union and union array.
+There are records for regular union and for variant union.</p>
+<h2>copy</h2>
+<p>The implementation of copy and monitor for pvAccess has been changed
+to use the new monitor and copy support from pvDataCPP.</p>
+<h2>monitorPlugin</h2>
+<p>exampleDatabase now has a example plugin that implements onChange.</p>
+<h1>Release 0.9.2</h1>
+<p>This was the starting point for RELEASE_NOTES</p>
