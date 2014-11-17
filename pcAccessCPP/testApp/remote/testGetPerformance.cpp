@@ -30,7 +30,7 @@ using namespace epics::pvData;
 using namespace epics::pvAccess;
 
 #define DEFAULT_TIMEOUT 600.0
-#define DEFAULT_REQUEST "field(value)"
+#define DEFAULT_REQUEST "record[alwaysSendAll=true]field(value)"
 #define DEFAULT_ITERATIONS 10000
 #define DEFAULT_CHANNELS 1
 #define DEFAULT_ARRAY_SIZE 0
@@ -47,9 +47,6 @@ int arraySize = DEFAULT_ARRAY_SIZE;          // 0 means scalar
 Mutex waitLoopPtrMutex;
 std::tr1::shared_ptr<Event> waitLoopEvent;
 
-#define DEFAULT_TIMEOUT 600.0
-#define DEFAULT_REQUEST "field(value)"
-
 double timeOut = DEFAULT_TIMEOUT;
 string request(DEFAULT_REQUEST);
 
@@ -60,12 +57,12 @@ class RequesterImpl : public Requester,
 {
 public:
 
-    virtual String getRequesterName()
+    virtual string getRequesterName()
     {
         return "RequesterImpl";
     };
 
-    virtual void message(String const & message,MessageType messageType)
+    virtual void message(std::string const & message,MessageType messageType)
     {
         std::cout << "[" << getRequesterName() << "] message(" << message << ", " << getMessageTypeName(messageType) << ")" << std::endl;
     }
@@ -114,7 +111,7 @@ void get_all()
     for (vector<ChannelGet::shared_pointer>::const_iterator i = channelGetList.begin();
          i != channelGetList.end();
          i++)
-        (*i)->get(false);
+        (*i)->get();
 
     // we assume all channels are from the same provider
     if (bulkMode) provider->flush();
@@ -125,66 +122,58 @@ void get_all()
 class ChannelGetRequesterImpl : public ChannelGetRequester
 {
 private:
-    ChannelGet::shared_pointer m_channelGet;
-    PVStructure::shared_pointer m_pvStructure;
-    BitSet::shared_pointer m_bitSet;
     Event m_event;
     Event m_connectionEvent;
-    String m_channelName;
-    int m_count;
-
-    timeval m_startTime;
+    string m_channelName;
 
 public:
 
-    ChannelGetRequesterImpl(String channelName) :
+    ChannelGetRequesterImpl(std::string channelName) :
         m_channelName(channelName)
     {
     }
 
-    virtual String getRequesterName()
+    virtual string getRequesterName()
     {
         return "ChannelGetRequesterImpl";
     }
 
-    virtual void message(String const & message,MessageType messageType)
+    virtual void message(std::string const & message,MessageType messageType)
     {
         std::cout << "[" << getRequesterName() << "] message(" << message << ", " << getMessageTypeName(messageType) << ")" << std::endl;
     }
 
     virtual void channelGetConnect(const epics::pvData::Status& status,
-                                   ChannelGet::shared_pointer const & channelGet,
-                                   epics::pvData::PVStructure::shared_pointer const & pvStructure,
-                                   epics::pvData::BitSet::shared_pointer const & bitSet)
+                                   ChannelGet::shared_pointer const & /*channelGet*/,
+                                   epics::pvData::Structure::const_shared_pointer const & /*structure*/)
     {
         if (status.isSuccess())
         {
             // show warning
             if (!status.isOK())
             {
-                std::cout << "[" << m_channelName << "] channel get create: " << status.toString() << std::endl;
+                std::cout << "[" << m_channelName << "] channel get create: " << status << std::endl;
             }
-
-            m_channelGet = channelGet;
-            m_pvStructure = pvStructure;
-            m_bitSet = bitSet;
 
             m_connectionEvent.signal();
         }
         else
         {
-            std::cout << "[" << m_channelName << "] failed to create channel get: " << status.toString() << std::endl;
+            std::cout << "[" << m_channelName << "] failed to create channel get: " << status << std::endl;
         }
     }
 
-    virtual void getDone(const epics::pvData::Status& status)
+    virtual void getDone(const epics::pvData::Status& status,
+                         ChannelGet::shared_pointer const & /*channelGet*/,
+                         epics::pvData::PVStructure::shared_pointer const & /*pvStructure*/,
+                         epics::pvData::BitSet::shared_pointer const & /*bitSet*/)
     {
         if (status.isSuccess())
         {
             // show warning
             if (!status.isOK())
             {
-                std::cout << "[" << m_channelName << "] channel get: " << status.toString() << std::endl;
+                std::cout << "[" << m_channelName << "] channel get: " << status << std::endl;
             }
 
             channelCount++;
@@ -199,16 +188,9 @@ public:
                 epicsTimeStamp endTime;
                 epicsTimeGetCurrent(&endTime);
 
-
-                long seconds, nseconds;
-                double duration;
-				seconds  = endTime.secPastEpoch  - startTime.secPastEpoch;
-				nseconds = endTime.nsec - startTime.nsec;
-
-                duration = seconds + nseconds/10000000.0;
-
+                double duration = epicsTime(endTime) - epicsTime(startTime);
                 double getPerSec = iterations*channels/duration;
-                double gbit = getPerSec*arraySize*sizeof(double)*8/(1000*1000*1000); // * bits / giga; NO, it's really 1000 and not 102:
+                double gbit = getPerSec*arraySize*sizeof(double)*8/(1000*1000*1000); // * bits / giga; NO, it's really 1000 and not 1024
                 if (verbose)
                     printf("%5.6f seconds, %.3f (x %d = %.3f) gets/s, data throughput %5.3f Gbits/s\n",
                            duration, iterations/duration, channels, getPerSec, gbit);
@@ -235,7 +217,7 @@ public:
         }
         else
         {
-            std::cout << "[" << m_channelName << "] failed to get: " << status.toString() << std::endl;
+            std::cout << "[" << m_channelName << "] failed to get: " << status << std::endl;
         }
     }
 
@@ -252,12 +234,12 @@ private:
 
 public:
 
-    virtual String getRequesterName()
+    virtual string getRequesterName()
     {
         return "ChannelRequesterImpl";
     };
 
-    virtual void message(String const & message,MessageType messageType)
+    virtual void message(std::string const & message,MessageType messageType)
     {
         std::cout << "[" << getRequesterName() << "] message(" << message << ", " << getMessageTypeName(messageType) << ")" << std::endl;
     }
@@ -270,12 +252,12 @@ public:
             // show warning
             if (!status.isOK())
             {
-                std::cout << "[" << channel->getChannelName() << "] channel create: " << status.toString() << std::endl;
+                std::cout << "[" << channel->getChannelName() << "] channel create: " << status << std::endl;
             }
         }
         else
         {
-            std::cout << "[" << channel->getChannelName() << "] failed to create a channel: " << status.toString() << std::endl;
+            std::cout << "[" << channel->getChannelName() << "] failed to create a channel: " << status << std::endl;
         }
     }
 
@@ -342,7 +324,7 @@ void runTest()
     if (bulkMode) provider->flush();
 
     bool differentConnectionsWarningIssued = false;
-    String theRemoteAddress;
+    string theRemoteAddress;
     for (vector<Channel::shared_pointer>::iterator i = channels.begin();
          i != channels.end();
          i++)
@@ -352,7 +334,7 @@ void runTest()
                 dynamic_pointer_cast<ChannelRequesterImpl>(channel->getChannelRequester());
         if (channelRequesterImpl->waitUntilConnected(5.0))
         {
-            String remoteAddress = channel->getRemoteAddress();
+            string remoteAddress = channel->getRemoteAddress();
             if (theRemoteAddress.empty())
             {
                 theRemoteAddress = remoteAddress;
@@ -364,7 +346,7 @@ void runTest()
                     std::cout << "not all channels are hosted by the same connection: " <<
                                  theRemoteAddress << " != " << remoteAddress << std::endl;
                     differentConnectionsWarningIssued = true;
-                    // the assumes same connection (thread-safety)
+                    // we assumes same connection (thread-safety)
                     exit(2);
                 }
             }
@@ -409,8 +391,6 @@ int main (int argc, char *argv[])
 {
     int opt;                    // getopt() current option
     std::string testFile;
-
-    Requester::shared_pointer requester(new RequesterImpl());
 
     setvbuf(stdout,NULL,_IOLBF,BUFSIZ);    // Set stdout to line buffering
 
@@ -470,14 +450,14 @@ int main (int argc, char *argv[])
     // typedef enum {logLevelInfo, logLevelDebug, logLevelError, errlogFatal} errlogSevEnum;
     SET_LOG_LEVEL(logLevelError);
 
-    pvRequest = getCreateRequest()->createRequest(request,requester);
+    pvRequest = CreateRequest::create()->createRequest(request);
     if (pvRequest.get() == 0) {
         printf("failed to parse request string\n");
         return 1;
     }
 
     ClientFactory::start();
-    provider = getChannelAccess()->getProvider("pvAccess");
+    provider = getChannelProviderRegistry()->getProvider("pva");
 
     if (!testFile.empty())
     {

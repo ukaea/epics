@@ -7,7 +7,7 @@
 #include <string>
 #include <vector>
 #include <typeinfo>
-#include <memory>
+#include <pv/sharedPtr.h>
 
 struct baseValue {
     bool remoteWritable;
@@ -114,7 +114,7 @@ baseValue::baseValue()
 #ifndef SIM_H
 #define SIM_H
 
-#include <functional>
+//#include <tr1/functional>
 
 #include <epicsThread.h>
 #include <epicsEvent.h>
@@ -318,7 +318,7 @@ void SimADC::run()
 
         cycle();
     }
-    printf("SimADC shutdown\n");
+    //printf("SimADC shutdown\n");
 }
 
 SimADC::smart_pointer_type createSimADC(const std::string& name)

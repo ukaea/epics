@@ -2,18 +2,25 @@
  * testServer.cpp
  */
 
+#ifdef _WIN32
+#define NOMINMAX
+#endif
+
 #include <pv/serverContext.h>
 #include <pv/clientContextImpl.h>
 #include <epicsExit.h>
 #include <pv/standardPVField.h>
 #include <pv/pvTimeStamp.h>
+#include <pv/convert.h>
 
 #include <stdlib.h>
 #include <time.h>
 #include <vector>
 #include <map>
+#include <cmath>
 
 #include <pv/logger.h>
+#include <pv/convert.h>
 
 // TODO temp
 #include "testADCSim.cpp"
@@ -31,7 +38,14 @@ void testServerShutdown();
 // TODO temp
 #include "testNTImage.cpp"
 
-map<String, PVStructure::shared_pointer> structureStore;
+// s1 starts with s2 check
+bool starts_with(const string& s1, const string& s2) {
+    return s2.size() <= s1.size() && s1.compare(0, s2.size(), s2) == 0;
+}
+
+
+Mutex structureStoreMutex;
+map<string, PVStructure::shared_pointer> structureStore;
 
 class StructureChangedCallback {
 public:
@@ -40,9 +54,10 @@ public:
     virtual void structureChanged() = 0;
 };
 
-map<String, vector<StructureChangedCallback::shared_pointer> > structureChangedListeners;
+typedef map<string, vector<StructureChangedCallback::shared_pointer> > StructureChangedListenersMap;
+StructureChangedListenersMap structureChangedListeners;
 
-static void notifyStructureChanged(String const & name)
+static void notifyStructureChanged(std::string const & name)
 {
     // NOTE: not thread-safe
     if (structureChangedListeners.find(name) != structureChangedListeners.end())
@@ -60,7 +75,7 @@ static void notifyStructureChanged(String const & name)
 static PVStructure::shared_pointer getRequestedStructure(
         PVStructure::shared_pointer const & pvStructure,
         PVStructure::shared_pointer const & pvRequest,
-        String subfieldName = "field")
+        string subfieldName = "field")
 {
     // if pvRequest is empty, just use pvStructure
     if (pvRequest.get() && pvRequest->getPVFields().size() > 0)
@@ -131,15 +146,15 @@ public:
                  iter++)
             {
                 try {
-                    (*iter)->process(false);
+                    (*iter)->process();
                 } catch (std::exception &ex) {
                     std::cerr << "Unhandled exception caught in ProcessAction::run(): " << ex.what() << std::endl;
                 } catch (...) {
                     std::cerr << "Unhandled exception caught in ProcessAction::run()" << std::endl;
                 }
-
-                epicsThreadSleep(period);
             }
+            
+            epicsThreadSleep(period);
         }
     }
 };
@@ -147,7 +162,7 @@ public:
 // ADC
 class ADCAction : public Runnable {
 public:
-    String name;
+    string name;
     epics::pvData::PVStructure::shared_pointer adcMatrix;
     SimADC::smart_pointer_type adcSim;
 
@@ -164,18 +179,25 @@ public:
 
                 try {
 
+                    // TODO lock structureStoreMutex
                     epicsGuard<epicsMutex> guard(adcSim->mutex);
 
                     epicsUInt32 len = adcSim->prev_nSamples;
                     double *val = adcSim->data.value.get();
-                    static_pointer_cast<PVDoubleArray>(adcMatrix->getScalarArrayField("value", pvDouble))->put(0, len, val, 0);
+                    PVDoubleArrayPtr adcSimArray = adcMatrix->getSubField<PVDoubleArray>("value");
+                    PVDoubleArray::svector temp(adcSimArray->reuse());
+                    temp.resize(len);
+                    std::copy(val, val + len, temp.begin());
+                    adcSimArray->replace(freeze(temp));
 
                     baseValue::shape_t* shape = &adcSim->data.shape;
                     size_t shapeLen = shape->size();
-                    vector<int> intVal(shapeLen);
-                    for (size_t i = 0; i < shapeLen; i++)
-                        intVal[i] = (*shape)[i];
-                    static_pointer_cast<PVIntArray>(adcMatrix->getScalarArrayField("dim", pvInt))->put(0, shapeLen, &intVal[0], 0);
+
+                    PVIntArrayPtr adcSimShape = adcMatrix->getSubField<PVIntArray>("dim");
+                    PVIntArray::svector temp2(adcSimShape->reuse());
+                    temp2.resize(shapeLen);
+                    std::copy(shape->begin(), shape->end(), temp2.begin());
+                    adcSimShape->replace(freeze(temp2));
 
                     PVStructure::shared_pointer ts = adcMatrix->getStructureField("timeStamp");
 
@@ -199,17 +221,17 @@ public:
 };
 
 
-// testNTImage
-class NTImageAction : public Runnable {
+// testNTNDArray
+class NTNDArrayAction : public Runnable {
 public:
-    String name;
+    string name;
     PVStructure::shared_pointer pvImage;
     float angle;
     double period;
 
     AtomicBoolean stopped;
 
-    NTImageAction(double periodHz) :
+    NTNDArrayAction(double periodHz) :
         angle(0),
         period(periodHz)
     {
@@ -222,14 +244,15 @@ public:
 
             {
                 try {
+                    // TODO lock structureStoreMutex
                     // TODO not nice, since we supply original here
                     rotateImage(pvImage, epicsv4_raw, angle);
                     angle += 1;
                     notifyStructureChanged(name);
                 } catch (std::exception &ex) {
-                    std::cerr << "Unhandled exception caught in NTImageAction::run(): " << ex.what() << std::endl;
+                    std::cerr << "Unhandled exception caught in NTNDArrayAction::run(): " << ex.what() << std::endl;
                 } catch (...) {
-                    std::cerr << "Unhandled exception caught in NTImageAction::run()" << std::endl;
+                    std::cerr << "Unhandled exception caught in NTNDArrayAction::run()" << std::endl;
                 }
 
                 epicsThreadSleep(period);
@@ -240,48 +263,122 @@ public:
 
 
 
-static epics::pvData::PVStructure::shared_pointer createNTTable(int columnsCount)
+static epics::pvData::PVStructure::shared_pointer createNTTable(int columnsCount, bool timeStamp = false)
 {
     StringArray fieldNames(columnsCount);
     FieldConstPtrArray fields(columnsCount);
     char sbuf[16];
-    vector<String> labels;
+    PVStringArray::svector labels(columnsCount);
     for (int i = 0; i < columnsCount; i++)
     {
         sprintf(sbuf, "column%d", i);
         fieldNames[i] = sbuf;
         fields[i] = getFieldCreate()->createScalarArray(pvDouble);
-        labels.push_back(sbuf);
+        labels[i] = sbuf;
     }
 
     Structure::const_shared_pointer valueStructure(
                 getFieldCreate()->createStructure(fieldNames, fields)
                 );
 
-    StringArray tableFieldNames(2);
-    FieldConstPtrArray tableFields(2);
+    size_t nfields = timeStamp ? 3 : 2;
+    StringArray tableFieldNames(nfields);
+    FieldConstPtrArray tableFields(nfields);
     tableFieldNames[0] = "labels";
     tableFields[0] = getFieldCreate()->createScalarArray(pvString);
     tableFieldNames[1] = "value";
     tableFields[1] = valueStructure;
+    if (timeStamp)
+    {
+        tableFieldNames[2] = "timeStamp";
+        tableFields[2] = getStandardField()->timeStamp();
+    }
 
     PVStructure::shared_pointer result(
                 getPVDataCreate()->createPVStructure(
                     getFieldCreate()->createStructure(
-                        "uri:ev4:nt/2012/pwd:NTTable", tableFieldNames, tableFields)
+                        "epics:nt/NTTable:1.0", tableFieldNames, tableFields)
                     )
                 );
-    static_pointer_cast<PVStringArray>(result->getScalarArrayField("labels", pvString))->put(0, labels.size(), &labels[0], 0);
+    result->getSubField<PVStringArray>("labels")->replace(freeze(labels));
 
     return result;
 }
 
+static epics::pvData::PVStructure::shared_pointer createNTNameValue(int columnsCount, bool timeStamp = false)
+{
+    StringArray fieldNames(columnsCount);
+    FieldConstPtrArray fields(columnsCount);
+    char sbuf[16];
+    PVStringArray::svector labels(columnsCount);
+    for (int i = 0; i < columnsCount; i++)
+    {
+        sprintf(sbuf, "name%d", i);
+        fieldNames[i] = sbuf;
+        fields[i] = getFieldCreate()->createScalarArray(pvDouble);
+        labels[i] = sbuf;
+    }
+
+    size_t nfields = timeStamp ? 3 : 2;
+    StringArray tableFieldNames(nfields);
+    FieldConstPtrArray tableFields(nfields);
+    tableFieldNames[0] = "name";
+    tableFields[0] = getFieldCreate()->createScalarArray(pvString);
+    tableFieldNames[1] = "value";
+    tableFields[1] = getFieldCreate()->createScalarArray(pvDouble);
+    if (timeStamp)
+    {
+        tableFieldNames[2] = "timeStamp";
+        tableFields[2] = getStandardField()->timeStamp();
+    }
+
+    PVStructure::shared_pointer result(
+                getPVDataCreate()->createPVStructure(
+                    getFieldCreate()->createStructure(
+                        "epics:nt/NTNameValue:1.0", tableFieldNames, tableFields)
+                    )
+                );
+    result->getSubField<PVStringArray>("name")->replace(freeze(labels));
+
+    return result;
+}
+
+static epics::pvData::PVStructure::shared_pointer createNTAggregate()
+{
+    epics::pvData::StructureConstPtr s =
+        getFieldCreate()->createFieldBuilder()->
+            setId("epics:nt/NTAggregate:1.0")->
+            add("value", pvDouble)->
+            add("N", pvLong)->
+            add("dispersion", pvDouble)->
+            add("first", pvDouble)->
+            add("firstTimeStamp", getStandardField()->timeStamp())->
+            add("last", pvDouble)->
+            add("lastTimeStamp", getStandardField()->timeStamp())->
+            add("max", pvDouble)->
+            add("min", pvDouble)->
+            createStructure();
+
+    return getPVDataCreate()->createPVStructure(s);
+}
+
+static epics::pvData::PVStructure::shared_pointer createNTHistogram()
+{
+    epics::pvData::StructureConstPtr s =
+        getFieldCreate()->createFieldBuilder()->
+            setId("epics:nt/NTHistogram:1.0")->
+            addArray("ranges", pvDouble)->
+            addArray("value", pvInt)->
+            add("timeStamp", getStandardField()->timeStamp())->
+            createStructure();
+
+    return getPVDataCreate()->createPVStructure(s);
+}
+
 static void generateNTTableDoubleValues(epics::pvData::PVStructure::shared_pointer result)
 {
-    PVStringArray::shared_pointer pvLabels(static_pointer_cast<PVStringArray>(result->getScalarArrayField("labels", pvString)));
-    StringArrayData ld;
-    pvLabels->get(0, pvLabels->getLength(), ld);
-
+    PVStringArray::shared_pointer pvLabels = (static_pointer_cast<PVStringArray>(result->getScalarArrayField("labels", pvString)));
+    PVStringArray::const_svector ld(pvLabels->view());
 
     PVStructure::shared_pointer resultValue = result->getStructureField("value");
 
@@ -292,15 +389,106 @@ static void generateNTTableDoubleValues(epics::pvData::PVStructure::shared_point
     values[r] = rand()/((double)RAND_MAX+1) + OFFSET;
 
     int offset = 0;
-    for (vector<String>::iterator iter = ld.data.begin();
-         iter != ld.data.end();
+    for (PVStringArray::const_svector::const_iterator iter = ld.begin();
+         iter != ld.end();
          iter++, offset++)
     {
         FILL_VALUES(offset);
-        static_pointer_cast<PVDoubleArray>(resultValue->getScalarArrayField(*iter, pvDouble))->put(0, ROWS, values, 0);
+        PVDoubleArray::shared_pointer arr = resultValue->getSubField<PVDoubleArray>(*iter);
+        PVDoubleArray::svector temp(arr->reuse());
+        temp.resize(ROWS);
+        std::copy(values, values + ROWS, temp.begin());
+        arr->replace(freeze(temp));
     }
 }
 
+static void generateNTNameValueDoubleValues(epics::pvData::PVStructure::shared_pointer result)
+{
+    size_t len = result->getSubField<PVArray>("name")->getLength();
+
+    PVDoubleArray::shared_pointer arr = result->getSubField<PVDoubleArray>("value");
+    PVDoubleArray::svector temp(arr->reuse());
+    temp.resize(len);
+    for (size_t i = 0; i < len; i++)
+        temp[i] = rand()/((double)RAND_MAX+1) + i;
+    arr->replace(freeze(temp));
+}
+
+static void setTimeStamp(PVStructure::shared_pointer const & ts)
+{
+    PVTimeStamp timeStamp;
+    timeStamp.attach(ts);
+    TimeStamp current;
+    current.getCurrent();
+    timeStamp.set(current);
+}
+
+static void generateNTAggregateValues(epics::pvData::PVStructure::shared_pointer result)
+{
+    setTimeStamp(result->getStructureField("firstTimeStamp"));
+
+#define N 1024
+    double values[N];
+    for (int r = 0; r < N; r++)
+       values[r] = rand()/((double)RAND_MAX+1);
+    double sum = 0;
+    double min = 1;
+    double max = -1;
+    for (int r = 0; r < N; r++)
+    {
+        sum += values[r];
+        if (values[r] < min) min = values[r];
+        if (values[r] > max) max = values[r];
+    }
+    double avg = sum/N;
+
+    sum = 0.0;
+    for (int r = 0; r < N; r++)
+    {
+        double t = (values[r] - avg);
+        sum += t*t;
+    }
+    double stddev = sqrt(sum/N);
+    
+
+    result->getSubField<PVDouble>("value")->put(avg);
+    result->getSubField<PVDouble>("min")->put(min);
+    result->getSubField<PVDouble>("max")->put(max);
+    result->getSubField<PVDouble>("first")->put(values[0]);
+    result->getSubField<PVDouble>("last")->put(values[N-1]);
+    result->getSubField<PVDouble>("dispersion")->put(stddev);
+    result->getSubField<PVLong>("N")->put(N);
+#undef N
+
+    setTimeStamp(result->getStructureField("lastTimeStamp"));
+}
+
+
+static void generateNTHistogramValues(epics::pvData::PVStructure::shared_pointer result)
+{
+
+#define N 100
+    {
+        PVDoubleArray::shared_pointer arr = result->getSubField<PVDoubleArray>("ranges");
+        PVDoubleArray::svector temp(arr->reuse());
+        temp.resize(N+1);
+        for (size_t i = 0; i < (N+1); i++)
+            temp[i] = i*10;
+        arr->replace(freeze(temp));
+    }
+    
+    {
+        PVIntArray::shared_pointer arr = result->getSubField<PVIntArray>("value");
+        PVIntArray::svector temp(arr->reuse());
+        temp.resize(N);
+        for (size_t i = 0; i < N; i++)
+            temp[i] = (int32)((rand()/((double)RAND_MAX+1))*1000);
+        arr->replace(freeze(temp));
+    }
+#undef N
+
+    setTimeStamp(result->getStructureField("timeStamp"));
+}
 
 class ChannelFindRequesterImpl : public ChannelFindRequester
 {
@@ -308,25 +496,25 @@ class ChannelFindRequesterImpl : public ChannelFindRequester
                                    ChannelFind::shared_pointer const & /*channelFind*/, bool wasFound)
     {
         std::cout << "[ChannelFindRequesterImpl] channelFindResult("
-                  << status.toString() << ", ..., " << wasFound << ")" << std::endl;
+                  << status << ", ..., " << wasFound << ")" << std::endl;
     }
 };
 
 class ChannelRequesterImpl : public ChannelRequester
 {
-    virtual String getRequesterName()
+    virtual string getRequesterName()
     {
         return "ChannelRequesterImpl";
     };
 
-    virtual void message(String const & message,MessageType messageType)
+    virtual void message(std::string const & message,MessageType messageType)
     {
         std::cout << "[" << getRequesterName() << "] message(" << message << ", " << getMessageTypeName(messageType) << ")" << std::endl;
     }
 
     virtual void channelCreated(epics::pvData::Status const & /*status*/, Channel::shared_pointer const & /*channel*/)
     {
-        //std::cout << "channelCreated(" << status.toString() << ", "
+        //std::cout << "channelCreated(" << status << ", "
         //          << (channel ? channel->getChannelName() : "(null)") << ")" << std::endl;
     }
 
@@ -336,178 +524,16 @@ class ChannelRequesterImpl : public ChannelRequester
     }
 };
 
-class GetFieldRequesterImpl : public GetFieldRequester
-{
-    virtual String getRequesterName()
-    {
-        return "GetFieldRequesterImpl";
-    };
-
-    virtual void message(String const & message,MessageType messageType)
-    {
-        std::cout << "[" << getRequesterName() << "] message(" << message << ", " << getMessageTypeName(messageType) << ")" << std::endl;
-    }
-
-    virtual void getDone(const epics::pvData::Status& status,epics::pvData::FieldConstPtr field)
-    {
-        std::cout << "getDone(" << status.toString() << ", ";
-        if (field)
-        {
-            String str;
-            field->toString(&str);
-            std::cout << str;
-        }
-        else
-            std::cout << "(null)";
-        std::cout << ")" << std::endl;
-    }
-};
-
-class ChannelGetRequesterImpl : public ChannelGetRequester
-{
-    //TODO weak ChannelGet::shared_pointer m_channelGet;
-    epics::pvData::PVStructure::shared_pointer m_pvStructure;
-    epics::pvData::BitSet::shared_pointer m_bitSet;
-
-    virtual String getRequesterName()
-    {
-        return "ChannelGetRequesterImpl";
-    };
-
-    virtual void message(String const & message,MessageType messageType)
-    {
-        std::cout << "[" << getRequesterName() << "] message(" << message << ", " << getMessageTypeName(messageType) << ")" << std::endl;
-    }
-
-    virtual void channelGetConnect(const epics::pvData::Status& status,
-                                   ChannelGet::shared_pointer const & /*channelGet*/,
-                                   epics::pvData::PVStructure::shared_pointer const & pvStructure,
-                                   epics::pvData::BitSet::shared_pointer const & bitSet)
-    {
-        std::cout << "channelGetConnect(" << status.toString() << ")" << std::endl;
-
-        //m_channelGet = channelGet;
-        m_pvStructure = pvStructure;
-        m_bitSet = bitSet;
-    }
-
-    virtual void getDone(const epics::pvData::Status& status)
-    {
-        std::cout << "getDone(" << status.toString() << ")" << std::endl;
-        String str;
-        m_pvStructure->toString(&str);
-        std::cout << str;
-        std::cout << std::endl;
-    }
-};
-
-class ChannelPutRequesterImpl : public ChannelPutRequester
-{
-    //TODO weak ChannelPut::shared_pointer m_channelPut;
-    epics::pvData::PVStructure::shared_pointer m_pvStructure;
-    epics::pvData::BitSet::shared_pointer m_bitSet;
-
-    virtual String getRequesterName()
-    {
-        return "ChannelPutRequesterImpl";
-    };
-
-    virtual void message(String const & message,MessageType messageType)
-    {
-        std::cout << "[" << getRequesterName() << "] message(" << message << ", " << getMessageTypeName(messageType) << ")" << std::endl;
-    }
-
-    virtual void channelPutConnect(const epics::pvData::Status& status,
-                                   ChannelPut::shared_pointer const & /*channelPut*/,
-                                   epics::pvData::PVStructure::shared_pointer const & pvStructure,
-                                   epics::pvData::BitSet::shared_pointer const & bitSet)
-    {
-        std::cout << "channelPutConnect(" << status.toString() << ")" << std::endl;
-
-        //m_channelPut = channelPut;
-        m_pvStructure = pvStructure;
-        m_bitSet = bitSet;
-    }
-
-    virtual void getDone(const epics::pvData::Status& status)
-    {
-        std::cout << "getDone(" << status.toString() << ")" << std::endl;
-        String str;
-        m_pvStructure->toString(&str);
-        std::cout << str;
-        std::cout << std::endl;
-    }
-
-    virtual void putDone(const epics::pvData::Status& status)
-    {
-        std::cout << "putDone(" << status.toString() << ")" << std::endl;
-        String str;
-        m_pvStructure->toString(&str);
-        std::cout << str;
-        std::cout << std::endl;
-    }
-
-};
-
-
-class MonitorRequesterImpl : public MonitorRequester
-{
-    virtual String getRequesterName()
-    {
-        return "MonitorRequesterImpl";
-    };
-
-    virtual void message(String const & message,MessageType messageType)
-    {
-        std::cout << "[" << getRequesterName() << "] message(" << message << ", " << getMessageTypeName(messageType) << ")" << std::endl;
-    }
-
-    virtual void monitorConnect(const Status& status, Monitor::shared_pointer const & /*monitor*/,
-                                StructureConstPtr& structure)
-    {
-        std::cout << "monitorConnect(" << status.toString() << ")" << std::endl;
-        if (structure)
-        {
-            String str;
-            structure->toString(&str);
-            std::cout << str << std::endl;
-        }
-    }
-
-    virtual void monitorEvent(Monitor::shared_pointer const & monitor)
-    {
-        std::cout << "monitorEvent" << std::endl;
-
-        MonitorElement::shared_pointer  element = monitor->poll();
-
-        String str("changed/overrun ");
-        element->changedBitSet->toString(&str);
-        str += '/';
-        element->overrunBitSet->toString(&str);
-        str += '\n';
-        element->pvStructurePtr->toString(&str);
-        std::cout << str << std::endl;
-
-        monitor->release(element);
-    }
-
-    virtual void unlisten(Monitor::shared_pointer const & /*monitor*/)
-    {
-        std::cout << "unlisten" << std::endl;
-    }
-};
-
-
 class ChannelProcessRequesterImpl : public ChannelProcessRequester
 {
     //TODO weak ChannelProcess::shared_pointer m_channelProcess;
 
-    virtual String getRequesterName()
+    virtual string getRequesterName()
     {
         return "ProcessRequesterImpl";
     };
 
-    virtual void message(String const & message,MessageType messageType)
+    virtual void message(std::string const & message,MessageType messageType)
     {
         std::cout << "[" << getRequesterName() << "] message(" << message << ", " << getMessageTypeName(messageType) << ")" << std::endl;
     }
@@ -515,14 +541,15 @@ class ChannelProcessRequesterImpl : public ChannelProcessRequester
     virtual void channelProcessConnect(const epics::pvData::Status& /*status*/,
                                        ChannelProcess::shared_pointer const & /*channelProcess*/)
     {
-        //std::cout << "channelProcessConnect(" << status.toString() << ")" << std::endl;
+        //std::cout << "channelProcessConnect(" << status << ")" << std::endl;
 
         //m_channelProcess = channelProcess;
     }
 
-    virtual void processDone(const epics::pvData::Status& /*status*/)
+    virtual void processDone(const epics::pvData::Status& /*status*/,
+                             ChannelProcess::shared_pointer const &)
     {
-        //std::cout << "processDone(" << status.toString() << ")" << std::endl;
+        //std::cout << "processDone(" << status << ")" << std::endl;
     }
 
 };
@@ -534,18 +561,22 @@ class MockChannelProcess :
         public std::tr1::enable_shared_from_this<MockChannelProcess>
 {
 private:
-    String m_channelName;
+    Channel::shared_pointer m_channel;
     ChannelProcessRequester::shared_pointer m_channelProcessRequester;
     PVStructure::shared_pointer m_pvStructure;
     PVScalarPtr m_valueField;
     PVTimeStamp m_timeStamp;
+    AtomicBoolean m_lastRequest;
 
 protected:
-    MockChannelProcess(String const & channelName, ChannelProcessRequester::shared_pointer const & channelProcessRequester,
+    MockChannelProcess(Channel::shared_pointer const & channel, ChannelProcessRequester::shared_pointer const & channelProcessRequester,
                        PVStructure::shared_pointer const & pvStructure, PVStructure::shared_pointer const & /*pvRequest*/) :
-        m_channelName(channelName), m_channelProcessRequester(channelProcessRequester), m_pvStructure(pvStructure)
+        m_channel(channel), m_channelProcessRequester(channelProcessRequester), m_pvStructure(pvStructure)
     {
         PVACCESS_REFCOUNT_MONITOR_CONSTRUCT(mockChannelProcess);
+
+        PVFieldPtr ts = pvStructure->getSubField("timeStamp");
+        if (ts) m_timeStamp.attach(ts);
 
         ChannelProcess::shared_pointer thisPtr; // we return null  = static_pointer_cast<ChannelProcess>(shared_from_this());
         PVFieldPtr field = pvStructure->getSubField("value");
@@ -568,19 +599,19 @@ protected:
         }
 
         m_valueField = dynamic_pointer_cast<PVScalar>(field);
-
-        PVFieldPtr ts = pvStructure->getSubField("timeStamp");
-        if (ts) m_timeStamp.attach(ts);
     }
 
 public:
     static ChannelProcess::shared_pointer create(
-            String const & channelName,
+            Channel::shared_pointer const & channel,
             ChannelProcessRequester::shared_pointer const & channelProcessRequester,
             PVStructure::shared_pointer const & pvStructure, PVStructure::shared_pointer const & pvRequest)
     {
-        ChannelProcess::shared_pointer thisPtr(new MockChannelProcess(channelName, channelProcessRequester, pvStructure, pvRequest));
-
+        // TODO use std::make_shared
+        std::tr1::shared_ptr<MockChannelProcess> tp(
+                        new MockChannelProcess(channel, channelProcessRequester, pvStructure, pvRequest)
+                    );
+        ChannelProcess::shared_pointer thisPtr = tp;
         // TODO pvRequest
         channelProcessRequester->channelProcessConnect(Status::Ok, thisPtr);
 
@@ -593,100 +624,145 @@ public:
     }
 
 
-    virtual void process(bool lastRequest)
+    virtual void process()
     {
-        if (m_pvStructure->getStructure()->getID() == "uri:ev4:nt/2012/pwd:NTTable")
         {
-            generateNTTableDoubleValues(m_pvStructure);
-        }
-        else if (m_valueField.get())
-        {
-            switch (m_valueField->getScalar()->getScalarType())
+            ScopedLock lock(shared_from_this());
+                
+            if (starts_with(m_pvStructure->getStructure()->getID(), "epics:nt/NTTable:1."))
             {
-            case pvBoolean:
-            {
-                // negate
-                PVBooleanPtr pvBoolean = static_pointer_cast<PVBoolean>(m_valueField);
-                pvBoolean->put(!pvBoolean->get());
-                break;
+                generateNTTableDoubleValues(m_pvStructure);
             }
-            case pvByte:
+            else if (starts_with(m_pvStructure->getStructure()->getID(), "epics:nt/NTNameValue:1."))
             {
-                // increment by one
+                generateNTNameValueDoubleValues(m_pvStructure);
+            }
+            else if (starts_with(m_pvStructure->getStructure()->getID(), "epics:nt/NTAggregate:1."))
+            {
+                generateNTAggregateValues(m_pvStructure);
+            }
+            else if (starts_with(m_pvStructure->getStructure()->getID(), "epics:nt/NTHistogram:1."))
+            {
+                generateNTHistogramValues(m_pvStructure);
+            }
+            else if (starts_with(m_pvStructure->getStructure()->getID(), "epics:test/binaryCounter:1."))
+            {
                 PVBytePtr pvByte = static_pointer_cast<PVByte>(m_valueField);
-                pvByte->put(pvByte->get() + 1);
-                break;
-            }
-            case pvShort:
-            {
-                // increment by one
-                PVShortPtr pvShort = static_pointer_cast<PVShort>(m_valueField);
-                pvShort->put(pvShort->get() + 1);
-                break;
-            }
-            case pvInt:
-            {
-                // increment by one
-                PVIntPtr pvInt = static_pointer_cast<PVInt>(m_valueField);
-                pvInt->put(pvInt->get() + 1);
-                break;
-            }
-            case pvLong:
-            {
-                // increment by one
-                PVLongPtr pvLong = static_pointer_cast<PVLong>(m_valueField);
-                pvLong->put(pvLong->get() + 1);
-                break;
-            }
-            case pvFloat:
-            {
-                // increment by one
-                PVFloatPtr pvFloat = static_pointer_cast<PVFloat>(m_valueField);
-                pvFloat->put(pvFloat->get() + 1.0f);
-                break;
-            }
-            case pvDouble:
-            {
-                double noise = ((rand()/(double)RAND_MAX)-0.5)*2;
-                // increment by one
-                PVDoublePtr pvDouble = static_pointer_cast<PVDouble>(m_valueField);
-                pvDouble->put(pvDouble->get() + noise /*1.0*/);
-                break;
-            }
-            case pvString:
-            {
-                // increment by one
-                PVStringPtr pvString = static_pointer_cast<PVString>(m_valueField);
-                String val = pvString->get();
-                if (val.empty())
-                    pvString->put("gen0");
-                else
-                {
-                    char c = val[3];
-                    c++;
-                    pvString->put("gen" + c);
-                }
-                break;
-            }
-            default:
-                // noop
-                break;
-            }
-        }
+                int8 val = pvByte->get() + 1;
+                pvByte->put(val);
 
+                m_pvStructure->getSubField<PVBoolean>("bit0")->put(val & (1 << 0));
+                m_pvStructure->getSubField<PVBoolean>("bit1")->put(val & (1 << 1));
+                m_pvStructure->getSubField<PVBoolean>("bit2")->put(val & (1 << 2));
+                m_pvStructure->getSubField<PVBoolean>("bit3")->put(val & (1 << 3));
+                m_pvStructure->getSubField<PVBoolean>("bit4")->put(val & (1 << 4));
+                m_pvStructure->getSubField<PVBoolean>("bit5")->put(val & (1 << 5));
+                m_pvStructure->getSubField<PVBoolean>("bit6")->put(val & (1 << 6));
+                m_pvStructure->getSubField<PVBoolean>("bit7")->put(val & (1 << 7));
+            }
+            else if (m_valueField.get())
+            {
+                switch (m_valueField->getScalar()->getScalarType())
+                {
+                case pvBoolean:
+                {
+                    // negate
+                    PVBooleanPtr pvBoolean = static_pointer_cast<PVBoolean>(m_valueField);
+                    pvBoolean->put(!pvBoolean->get());
+                    break;
+                }
+                case pvByte:
+                {
+                    // increment by one
+                    PVBytePtr pvByte = static_pointer_cast<PVByte>(m_valueField);
+                    pvByte->put(pvByte->get() + 1);
+                    break;
+                }
+                case pvShort:
+                {
+                    // increment by one
+                    PVShortPtr pvShort = static_pointer_cast<PVShort>(m_valueField);
+                    pvShort->put(pvShort->get() + 1);
+                    break;
+                }
+                case pvInt:
+                {
+                    // increment by one
+                    PVIntPtr pvInt = static_pointer_cast<PVInt>(m_valueField);
+                    pvInt->put(pvInt->get() + 1);
+                    break;
+                }
+                case pvLong:
+                {
+                    // increment by one
+                    PVLongPtr pvLong = static_pointer_cast<PVLong>(m_valueField);
+                    pvLong->put(pvLong->get() + 1);
+                    break;
+                }
+                case pvFloat:
+                {
+                    // increment by one
+                    PVFloatPtr pvFloat = static_pointer_cast<PVFloat>(m_valueField);
+                    pvFloat->put(pvFloat->get() + 1.0f);
+                    break;
+                }
+                case pvDouble:
+                {
+                    double noise = ((rand()/(double)RAND_MAX)-0.5)*2;
+                    // increment by one
+                    PVDoublePtr pvDouble = static_pointer_cast<PVDouble>(m_valueField);
+                    pvDouble->put(pvDouble->get() + noise /*1.0*/);
+                    break;
+                }
+                case pvString:
+                {
+                    // increment by one
+                    PVStringPtr pvString = static_pointer_cast<PVString>(m_valueField);
+                    string val = pvString->get();
+                    if (val.empty())
+                        pvString->put("gen0");
+                    else
+                    {
+                        char c = val[3];
+                        c++;
+                        pvString->put("gen" + string(1, c));
+                    }
+                    break;
+                }
+                default:
+                    // noop
+                    break;
+                }
+            }
+   	}
+ 
         if (m_timeStamp.isAttached())
         {
             TimeStamp current;
             current.getCurrent();
             m_timeStamp.set(current);
         }
+        
+        m_channelProcessRequester->processDone(Status::Ok, shared_from_this());
 
-        m_channelProcessRequester->processDone(Status::Ok);
+        notifyStructureChanged(m_channel->getChannelName());
 
-        notifyStructureChanged(m_channelName);
-
-        if (lastRequest)
+        if (m_lastRequest.get())
             destroy();
+    }
+
+    virtual void lastRequest()
+    {
+        m_lastRequest.set();
+    }
+    
+    virtual Channel::shared_pointer getChannel()
+    {
+        return m_channel;
+    }
+    
+    virtual void cancel()
+    {
     }
 
     virtual void destroy()
@@ -695,14 +771,29 @@ public:
     
     virtual void lock()
     {
-        // TODO !!!
+        structureStoreMutex.lock();
     }
 
     virtual void unlock()
     {
-        // TODO !!!
+        structureStoreMutex.unlock();
     }
 };
+
+
+static ChannelProcess::shared_pointer getChannelProcess(
+    Channel::shared_pointer const & channel,
+    PVStructure::shared_pointer const & pvRequest)
+{
+    PVScalar::shared_pointer pvScalar = pvRequest->getSubField<PVScalar>("record._options.process");
+    if (pvScalar && pvScalar->getAs<epics::pvData::boolean>())
+    {
+        std::tr1::shared_ptr<ChannelProcessRequesterImpl> cpr(new ChannelProcessRequesterImpl());
+        return channel->createChannelProcess(cpr, PVStructure::shared_pointer());
+    }
+    else
+        return ChannelProcess::shared_pointer(); 
+}
 
 
 
@@ -711,30 +802,60 @@ public:
 
 PVACCESS_REFCOUNT_MONITOR_DEFINE(mockChannelGet);
 
-class MockChannelGet : public ChannelGet
+class MockChannelGet :
+    public ChannelGet,
+    public StructureChangedCallback,
+    public std::tr1::enable_shared_from_this<MockChannelGet>
 {
 private:
+    Channel::shared_pointer m_channel;
     ChannelGetRequester::shared_pointer m_channelGetRequester;
+    bool m_alwaysSendAll;
     PVStructure::shared_pointer m_pvStructure;
     BitSet::shared_pointer m_bitSet;
-    bool m_first;
+    ChannelProcess::shared_pointer m_channelProcess;
+    AtomicBoolean m_changed;
+    AtomicBoolean m_lastRequest;
 
 protected:
-    MockChannelGet(ChannelGetRequester::shared_pointer const & channelGetRequester,
-                   PVStructure::shared_pointer const & pvStructure, PVStructure::shared_pointer const & pvRequest) :
-        m_channelGetRequester(channelGetRequester), m_pvStructure(getRequestedStructure(pvStructure, pvRequest)),
-        m_bitSet(new BitSet(m_pvStructure->getNumberFields())), m_first(true)
+    MockChannelGet(Channel::shared_pointer const & channel,
+                   ChannelGetRequester::shared_pointer const & channelGetRequester,
+                   PVStructure::shared_pointer const & pvStructure,
+                   PVStructure::shared_pointer const & pvRequest) :
+        m_channel(channel),
+        m_channelGetRequester(channelGetRequester),
+        m_alwaysSendAll(false),
+        m_pvStructure(getRequestedStructure(pvStructure, pvRequest)),
+        m_bitSet(new BitSet(m_pvStructure->getNumberFields())),
+        m_channelProcess(getChannelProcess(channel, pvRequest))
     {
         PVACCESS_REFCOUNT_MONITOR_CONSTRUCT(mockChannelGet);
+
+        PVScalar::shared_pointer pvScalar = pvRequest->getSubField<PVScalar>("record._options.alwaysSendAll");
+        if (pvScalar)
+            m_alwaysSendAll = pvScalar->getAs<epics::pvData::boolean>();
+
+        m_changed.set();    // initial value
     }
 
 public:
-    static ChannelGet::shared_pointer create(ChannelGetRequester::shared_pointer const & channelGetRequester, PVStructure::shared_pointer const & pvStructure, PVStructure::shared_pointer const & pvRequest)
+    static ChannelGet::shared_pointer create(
+                Channel::shared_pointer const & channel,
+                ChannelGetRequester::shared_pointer const & channelGetRequester,
+                PVStructure::shared_pointer const & pvStructure,
+                PVStructure::shared_pointer const & pvRequest)
     {
-        ChannelGet::shared_pointer thisPtr(new MockChannelGet(channelGetRequester, pvStructure, pvRequest));
+        // TODO use std::make_shared
+        std::tr1::shared_ptr<MockChannelGet> tp(
+                        new MockChannelGet(channel, channelGetRequester, pvStructure, pvRequest)
+                    );
+        ChannelGet::shared_pointer thisPtr = tp;
+
+        // register
+        structureChangedListeners[channel->getChannelName()].push_back(std::tr1::dynamic_pointer_cast<StructureChangedCallback>(thisPtr));
+
         channelGetRequester->channelGetConnect(Status::Ok, thisPtr,
-                                               static_cast<MockChannelGet*>(thisPtr.get())->m_pvStructure,
-                                               static_cast<MockChannelGet*>(thisPtr.get())->m_bitSet);
+                                               static_cast<MockChannelGet*>(thisPtr.get())->m_pvStructure->getStructure());
         return thisPtr;
     }
 
@@ -743,31 +864,74 @@ public:
         PVACCESS_REFCOUNT_MONITOR_DESTRUCT(mockChannelGet);
     }
 
-    virtual void get(bool lastRequest)
+    virtual void get()
     {
-        m_channelGetRequester->getDone(Status::Ok);
-        if (m_first)
-        {
-            m_first = false;
-            m_bitSet->set(0);  // TODO
-        }
+        if (m_channelProcess)
+            m_channelProcess->process();
 
-        if (lastRequest)
+        // TODO far from being thread-safe
+        if (m_alwaysSendAll || m_changed.get())
+        {
+            m_bitSet->set(0);
+            m_changed.clear();
+        }
+        else
+            m_bitSet->clear(0);
+            
+        m_channelGetRequester->getDone(Status::Ok, shared_from_this(), m_pvStructure, m_bitSet);
+
+        if (m_lastRequest.get())
             destroy();
+    }
+
+    virtual void structureChanged()
+    {
+        m_changed.set();
+    }
+
+    virtual void lastRequest()
+    {
+        m_lastRequest.set();
+    }
+    
+    virtual Channel::shared_pointer getChannel()
+    {
+        return m_channel;
+    }
+
+    virtual void cancel()
+    {
     }
 
     virtual void destroy()
     {
+        if (m_channelProcess)
+            m_channelProcess->destroy();
+
+        // remove itself from listeners table
+        if (structureChangedListeners.count(m_channel->getChannelName()))
+        {
+            vector<StructureChangedCallback::shared_pointer> &vec = structureChangedListeners[m_channel->getChannelName()];
+            for (vector<StructureChangedCallback::shared_pointer>::iterator i = vec.begin();
+                 i != vec.end(); i++)
+            {
+                if (i->get() == this)
+                {
+                    vec.erase(i);
+                    break;
+                }
+            }
+        }        
     }
 
     virtual void lock()
     {
-        // TODO !!!
+        structureStoreMutex.lock();
     }
 
     virtual void unlock()
     {
-        // TODO !!!
+        structureStoreMutex.unlock();
     }
 };
 
@@ -776,36 +940,47 @@ public:
 
 PVACCESS_REFCOUNT_MONITOR_DEFINE(mockChannelPut);
 
-class MockChannelPut : public ChannelPut
+class MockChannelPut :
+    public ChannelPut,
+    public std::tr1::enable_shared_from_this<MockChannelPut>
 {
 private:
-    String m_channelName;
+    Channel::shared_pointer m_channel;
     ChannelPutRequester::shared_pointer m_channelPutRequester;
     PVStructure::shared_pointer m_pvStructure;
     BitSet::shared_pointer m_bitSet;
-
+    ChannelProcess::shared_pointer m_channelProcess;
+    AtomicBoolean m_lastRequest;
+    
 protected:
-    MockChannelPut(String const & channelName, ChannelPutRequester::shared_pointer const & channelPutRequester,
-                   PVStructure::shared_pointer const & pvStructure, PVStructure::shared_pointer const & pvRequest) :
-        m_channelName(channelName),
-        m_channelPutRequester(channelPutRequester), m_pvStructure(getRequestedStructure(pvStructure, pvRequest)),
-        m_bitSet(new BitSet(m_pvStructure->getNumberFields()))
+    MockChannelPut(Channel::shared_pointer const & channel,
+                   ChannelPutRequester::shared_pointer const & channelPutRequester,
+                   PVStructure::shared_pointer const & pvStructure,
+                   PVStructure::shared_pointer const & pvRequest) :
+        m_channel(channel),
+        m_channelPutRequester(channelPutRequester),
+        m_pvStructure(getRequestedStructure(pvStructure, pvRequest)),
+        m_bitSet(new BitSet(m_pvStructure->getNumberFields())),
+        m_channelProcess(getChannelProcess(channel, pvRequest))
     {
         PVACCESS_REFCOUNT_MONITOR_CONSTRUCT(mockChannelPut);
+        m_bitSet->set(0); // TODO
     }
 
 public:
     static ChannelPut::shared_pointer create(
-            String const & channelName,
+            Channel::shared_pointer const & channel,
             ChannelPutRequester::shared_pointer const & channelPutRequester,
             PVStructure::shared_pointer const & pvStructure,
             PVStructure::shared_pointer const & pvRequest)
     {
-        ChannelPut::shared_pointer thisPtr(new MockChannelPut(channelName, channelPutRequester, pvStructure, pvRequest));
+        // TODO use std::make_shared
+        std::tr1::shared_ptr<MockChannelPut> tp(
+                        new MockChannelPut(channel, channelPutRequester, pvStructure, pvRequest)
+                    );
+        ChannelPut::shared_pointer thisPtr = tp;
         channelPutRequester->channelPutConnect(Status::Ok, thisPtr,
-                                               static_cast<MockChannelPut*>(thisPtr.get())->m_pvStructure,
-                                               static_cast<MockChannelPut*>(thisPtr.get())->m_bitSet);
-
+                                               static_cast<MockChannelPut*>(thisPtr.get())->m_pvStructure->getStructure());
         return thisPtr;
     }
 
@@ -815,33 +990,65 @@ public:
     }
 
 
-    virtual void put(bool lastRequest)
+    virtual void put(PVStructure::shared_pointer const & pvPutStructure, BitSet::shared_pointer const & putBitSet)
     {
-        m_channelPutRequester->putDone(Status::Ok);
+        // TODO use putBitSet and do not copy all
+        // (note that server code has already not deserialized fields whose bits are not set)
+        if (putBitSet->cardinality())
+        {
+            lock();
+            getConvert()->copy(pvPutStructure, m_pvStructure);
+            unlock();
+        }
+        
+        if (m_channelProcess)
+            m_channelProcess->process();
 
-        notifyStructureChanged(m_channelName);
+        m_channelPutRequester->putDone(Status::Ok, shared_from_this());
 
-        if (lastRequest)
+        notifyStructureChanged(m_channel->getChannelName());
+
+        if (m_lastRequest.get())
             destroy();
     }
 
     virtual void get()
     {
-        m_channelPutRequester->getDone(Status::Ok);
+        // NOTE: alwasy returns entire m_bitSet
+        m_channelPutRequester->getDone(Status::Ok, shared_from_this(), m_pvStructure, m_bitSet);
+
+        if (m_lastRequest.get())
+            destroy();
+    }
+
+    virtual void cancel()
+    {
+    }
+
+    virtual void lastRequest()
+    {
+        m_lastRequest.set();
+    }
+    
+    virtual Channel::shared_pointer getChannel()
+    {
+        return m_channel;
     }
 
     virtual void destroy()
     {
+        if (m_channelProcess)
+            m_channelProcess->destroy();
     }
 
     virtual void lock()
     {
-        // TODO !!!
+        structureStoreMutex.lock();
     }
 
     virtual void unlock()
     {
-        // TODO !!!
+        structureStoreMutex.unlock();
     }
 };
 
@@ -850,37 +1057,52 @@ public:
 
 PVACCESS_REFCOUNT_MONITOR_DEFINE(mockChannelPutGet);
 
-class MockChannelPutGet : public ChannelPutGet
+class MockChannelPutGet :
+    public ChannelPutGet,
+    public std::tr1::enable_shared_from_this<ChannelPutGet>
 {
 private:
-    String m_channelName;
+    Channel::shared_pointer m_channel;
     ChannelPutGetRequester::shared_pointer m_channelPutGetRequester;
     PVStructure::shared_pointer m_getStructure;
+    BitSet::shared_pointer m_getBitSet;
     PVStructure::shared_pointer m_putStructure;
+    BitSet::shared_pointer m_putBitSet;
+    ChannelProcess::shared_pointer m_channelProcess;
+    AtomicBoolean m_lastRequest;
 
 protected:
-    MockChannelPutGet(String const & channelName, ChannelPutGetRequester::shared_pointer const & channelPutGetRequester,
-                      PVStructure::shared_pointer const & pvStructure, PVStructure::shared_pointer const & pvRequest) :
-        m_channelName(channelName),
+    MockChannelPutGet(Channel::shared_pointer const & channel,
+                      ChannelPutGetRequester::shared_pointer const & channelPutGetRequester,
+                      PVStructure::shared_pointer const & pvStructure,
+                      PVStructure::shared_pointer const & pvRequest) :
+        m_channel(channel),
         m_channelPutGetRequester(channelPutGetRequester),
         m_getStructure(getRequestedStructure(pvStructure, pvRequest, "getField")),
-        m_putStructure(getRequestedStructure(pvStructure, pvRequest, "putField"))
+        m_getBitSet(new BitSet(m_getStructure->getNumberFields())),
+        m_putStructure(getRequestedStructure(pvStructure, pvRequest, "putField")),
+        m_putBitSet(new BitSet(m_putStructure->getNumberFields())),
+        m_channelProcess(getChannelProcess(channel, pvRequest))
+
     {
         PVACCESS_REFCOUNT_MONITOR_CONSTRUCT(mockChannelPutGet);
+
+        // always all
+        m_getBitSet->set(0);
     }
 
 public:
     static ChannelPutGet::shared_pointer create(
-            String const & channelName,
+            Channel::shared_pointer const & channel,
             ChannelPutGetRequester::shared_pointer const & channelPutGetRequester,
             PVStructure::shared_pointer const & pvStructure,
             PVStructure::shared_pointer const & pvRequest)
     {
-        ChannelPutGet::shared_pointer thisPtr(new MockChannelPutGet(channelName, channelPutGetRequester, pvStructure, pvRequest));
+        ChannelPutGet::shared_pointer thisPtr(new MockChannelPutGet(channel, channelPutGetRequester, pvStructure, pvRequest));
 
         channelPutGetRequester->channelPutGetConnect(Status::Ok, thisPtr,
-                                                     static_cast<MockChannelPutGet*>(thisPtr.get())->m_putStructure,
-                                                     static_cast<MockChannelPutGet*>(thisPtr.get())->m_getStructure);
+                                                     static_cast<MockChannelPutGet*>(thisPtr.get())->m_putStructure->getStructure(),
+                                                     static_cast<MockChannelPutGet*>(thisPtr.get())->m_getStructure->getStructure());
 
         return thisPtr;
     }
@@ -890,38 +1112,76 @@ public:
         PVACCESS_REFCOUNT_MONITOR_DESTRUCT(mockChannelPutGet);
     }
 
-    virtual void putGet(bool lastRequest)
+    virtual void putGet(PVStructure::shared_pointer const & pvPutStructure, BitSet::shared_pointer const & putBitSet)
     {
-        m_channelPutGetRequester->putGetDone(Status::Ok);
+        // TODO use putBitSet and do not copy all
+        // (note that server code has already not deserialized fields whose bits are not set)
+        if (putBitSet->cardinality())
+        {
+            lock();
+            getConvert()->copy(pvPutStructure, m_putStructure);
+            unlock();
+        }
+        
+        if (m_channelProcess)
+            m_channelProcess->process();
 
-        notifyStructureChanged(m_channelName);
+        m_channelPutGetRequester->putGetDone(Status::Ok, shared_from_this(), m_getStructure, m_getBitSet);
 
-        if (lastRequest)
+        notifyStructureChanged(m_channel->getChannelName());
+
+        if (m_lastRequest.get())
             destroy();
     }
 
     virtual void getGet()
     {
-        m_channelPutGetRequester->getGetDone(Status::Ok);
+        m_channelPutGetRequester->getGetDone(Status::Ok, shared_from_this(), m_getStructure, m_getBitSet);
+
+        if (m_lastRequest.get())
+            destroy();
     }
 
     virtual void getPut()
     {
-        m_channelPutGetRequester->getPutDone(Status::Ok);
+        // putGet might mess with bitSet
+        m_putBitSet->clear();
+        m_putBitSet->set(0);
+        
+        m_channelPutGetRequester->getPutDone(Status::Ok, shared_from_this(), m_putStructure, m_putBitSet);
+
+        if (m_lastRequest.get())
+            destroy();
+    }
+
+    virtual void lastRequest()
+    {
+        m_lastRequest.set();
+    }
+    
+    virtual Channel::shared_pointer getChannel()
+    {
+        return m_channel;
+    }
+
+    virtual void cancel()
+    {
     }
 
     virtual void destroy()
     {
+        if (m_channelProcess)
+            m_channelProcess->destroy();
     }
 
     virtual void lock()
     {
-        // TODO !!!
+        structureStoreMutex.lock();
     }
 
     virtual void unlock()
     {
-        // TODO !!!
+        structureStoreMutex.unlock();
     }
 };
 
@@ -929,8 +1189,9 @@ public:
 
 static bool handleHelp(
         epics::pvData::PVStructure::shared_pointer const & args,
+        ChannelRPC::shared_pointer const & channelRPC,
         ChannelRPCRequester::shared_pointer const & channelRPCRequester,
-        String const & helpText
+        string const & helpText
         )
 {
     if (args->getSubField("help"))
@@ -944,12 +1205,12 @@ static bool handleHelp(
         PVStructure::shared_pointer result(
                     getPVDataCreate()->createPVStructure(
                         getFieldCreate()->createStructure(
-                            "uri:ev4:nt/2012/pwd:NTScalar", fieldNames, fields)
+                            "epics:nt/NTScalar:1.0", fieldNames, fields)
                         )
                     );
 
         static_pointer_cast<PVString>(result->getStringField("value"))->put(helpText);
-        channelRPCRequester->requestDone(Status::Ok, result);
+        channelRPCRequester->requestDone(Status::Ok, channelRPC, result);
         return true;
     }
     else
@@ -961,26 +1222,31 @@ static bool handleHelp(
 
 PVACCESS_REFCOUNT_MONITOR_DEFINE(mockChannelRPC);
 
-class MockChannelRPC : public ChannelRPC
+class MockChannelRPC :
+    public ChannelRPC,
+    public std::tr1::enable_shared_from_this<ChannelRPC>
 {
 private:
     ChannelRPCRequester::shared_pointer m_channelRPCRequester;
-    String m_channelName;
+    Channel::shared_pointer m_channel;
     PVStructure::shared_pointer m_pvStructure;
+    AtomicBoolean m_lastRequest;
 
 protected:
     MockChannelRPC(ChannelRPCRequester::shared_pointer const & channelRPCRequester,
-                   String const & channelName, PVStructure::shared_pointer const & pvStructure,
+                   Channel::shared_pointer const & channel, PVStructure::shared_pointer const & pvStructure,
                    PVStructure::shared_pointer const & /*pvRequest*/) :
-        m_channelRPCRequester(channelRPCRequester), m_channelName(channelName), m_pvStructure(pvStructure)
+        m_channelRPCRequester(channelRPCRequester), m_channel(channel), m_pvStructure(pvStructure)
     {
         PVACCESS_REFCOUNT_MONITOR_CONSTRUCT(mockChannelRPC);
     }
 
 public:
-    static ChannelRPC::shared_pointer create(ChannelRPCRequester::shared_pointer const & channelRPCRequester, String const & channelName, PVStructure::shared_pointer const & pvStructure, PVStructure::shared_pointer const & pvRequest)
+    static ChannelRPC::shared_pointer create(ChannelRPCRequester::shared_pointer const & channelRPCRequester,
+        Channel::shared_pointer const & channel,
+        PVStructure::shared_pointer const & pvStructure, PVStructure::shared_pointer const & pvRequest)
     {
-        ChannelRPC::shared_pointer thisPtr(new MockChannelRPC(channelRPCRequester, channelName, pvStructure, pvRequest));
+        ChannelRPC::shared_pointer thisPtr(new MockChannelRPC(channelRPCRequester, channel, pvStructure, pvRequest));
         // TODO pvRequest
         channelRPCRequester->channelRPCConnect(Status::Ok, thisPtr);
         return thisPtr;
@@ -991,21 +1257,45 @@ public:
         PVACCESS_REFCOUNT_MONITOR_DESTRUCT(mockChannelRPC);
     }
 
-    virtual void request(epics::pvData::PVStructure::shared_pointer const & pvArgument, bool lastRequest)
+    virtual void request(epics::pvData::PVStructure::shared_pointer const & pvArgument)
     {
-        if (m_channelName == "testNTTable")
-        {
-            PVStructure::shared_pointer args(
-                        (pvArgument->getStructure()->getID() == "uri:ev4:nt/2012/pwd:NTURI") ?
-                            pvArgument->getStructureField("query") :
-                            pvArgument
-                            );
+        string channelName = m_channel->getChannelName();
 
-            const String helpText =
+        if (channelName == "testNTURI")
+        {
+            const string helpText =
+                    "Returns the NTURI structure response identical the NTURI request.\n"
+                    "Arguments: (none)\n";
+            if (handleHelp(pvArgument, shared_from_this(), m_channelRPCRequester, helpText))
+                return;
+
+            if (!starts_with(pvArgument->getStructure()->getID(), "epics:nt/NTURI:1."))
+            {
+                PVStructure::shared_pointer nullPtr;
+                Status errorStatus(Status::STATUSTYPE_ERROR, "argument is not a NTURI structure");
+                m_channelRPCRequester->requestDone(errorStatus, shared_from_this(), nullPtr);
+            }
+            else
+            {
+                // return argument as result
+                m_channelRPCRequester->requestDone(Status::Ok, shared_from_this(), pvArgument);
+            }
+        }
+
+        // handle NTURI request
+        PVStructure::shared_pointer args(
+                    (starts_with(pvArgument->getStructure()->getID(), "epics:nt/NTURI:1.")) ?
+                        pvArgument->getStructureField("query") :
+                        pvArgument
+                        );
+
+        if (channelName == "testNTTable")
+        {
+            const string helpText =
                     "Generates a NTTable structure response with 10 rows and a specified number of columns.\n"
                     "Columns are labeled 'column<num>' and values are '<num> + random [0..1)'.\n"
                     "Arguments:\n\tstring columns\tnumber of table columns\n";
-            if (handleHelp(args, m_channelRPCRequester, helpText))
+            if (handleHelp(args, shared_from_this(), m_channelRPCRequester, helpText))
                 return;
 
             PVStringPtr columns = dynamic_pointer_cast<PVString>(args->getSubField("columns"));
@@ -1013,29 +1303,23 @@ public:
             {
                 PVStructure::shared_pointer nullPtr;
                 Status errorStatus(Status::STATUSTYPE_ERROR, "no string 'columns' argument specified");
-                m_channelRPCRequester->requestDone(errorStatus, nullPtr);
+                m_channelRPCRequester->requestDone(errorStatus, shared_from_this(), nullPtr);
             }
             else
             {
                 int columnsCount = atoi(columns->get().c_str());
                 PVStructure::shared_pointer result = createNTTable(columnsCount);
                 generateNTTableDoubleValues(result);
-                m_channelRPCRequester->requestDone(Status::Ok, result);
+                m_channelRPCRequester->requestDone(Status::Ok, shared_from_this(), result);
             }
         }
-        else if (m_channelName == "testNTNameValue")
+        else if (channelName == "testNTNameValue")
         {
-            PVStructure::shared_pointer args(
-                        (pvArgument->getStructure()->getID() == "uri:ev4:nt/2012/pwd:NTURI") ?
-                            pvArgument->getStructureField("query") :
-                            pvArgument
-                            );
-
-            const String helpText =
+            const string helpText =
                     "Generates a NTNameValue structure response with a specified number of columns.\n"
                     "Columns are labeled 'name<num>' and values are '<num> + random [0..1)'.\n"
                     "Arguments:\n\tstring columns\tnumber of columns\n";
-            if (handleHelp(args, m_channelRPCRequester, helpText))
+            if (handleHelp(args, shared_from_this(), m_channelRPCRequester, helpText))
                 return;
 
             PVStringPtr columns = dynamic_pointer_cast<PVString>(args->getSubField("columns"));
@@ -1043,7 +1327,7 @@ public:
             {
                 PVStructure::shared_pointer nullPtr;
                 Status errorStatus(Status::STATUSTYPE_ERROR, "no string 'columns' argument specified");
-                m_channelRPCRequester->requestDone(errorStatus, nullPtr);
+                m_channelRPCRequester->requestDone(errorStatus, shared_from_this(), nullPtr);
             }
             else
             {
@@ -1051,11 +1335,11 @@ public:
                 int columnsCount = atoi(columns->get().c_str());
 
                 char sbuf[16];
-                vector<String> labels;
+                PVStringArray::svector labels(columnsCount);
                 for (int i = 0; i < columnsCount; i++)
                 {
                     sprintf(sbuf, "name%d", i);
-                    labels.push_back(sbuf);
+                    labels[i] = sbuf;
                 }
 
                 StringArray tableFieldNames(2);
@@ -1068,36 +1352,30 @@ public:
                 PVStructure::shared_pointer result(
                             getPVDataCreate()->createPVStructure(
                                 getFieldCreate()->createStructure(
-                                    "uri:ev4:nt/2012/pwd:NTNameValue", tableFieldNames, tableFields)
+                                    "epics:nt/NTNameValue:1.0", tableFieldNames, tableFields)
                                 )
                             );
-                static_pointer_cast<PVStringArray>(result->getScalarArrayField("name", pvString))->put(0, labels.size(), &labels[0], 0);
+                result->getSubField<PVStringArray>("name")->replace(freeze(labels));
 
                 int32 len = columnsCount;
-                vector<double> mv(len);
+                PVDoubleArray::svector mv(len);
                 for (int r = 0; r < len; r++)
                     mv[r] = rand()/((double)RAND_MAX+1) + (int)(r);
-                static_pointer_cast<PVDoubleArray>(result->getScalarArrayField("value", pvDouble))->put(0, len, &mv[0], 0);
+                result->getSubField<PVDoubleArray>("value")->replace(freeze(mv));
 
-                m_channelRPCRequester->requestDone(Status::Ok, result);
+                m_channelRPCRequester->requestDone(Status::Ok, shared_from_this(), result);
             }
         }
-        else if (m_channelName == "testNTMatrix")
+        else if (channelName == "testNTMatrix")
         {
-            PVStructure::shared_pointer args(
-                        (pvArgument->getStructure()->getID() == "uri:ev4:nt/2012/pwd:NTURI") ?
-                            pvArgument->getStructureField("query") :
-                            pvArgument
-                            );
-
-            const String helpText =
+            const string helpText =
                     "Generates a NTMatrix structure response with a specified number of rows and columns.\n"
                     "Matrix values are '<row> + random [0..1)'.\n"
                     "Arguments:\n"
                     "\tstring rows\tnumber of matrix rows\n"
                     "\tstring columns\tnumber of matrix columns\n"
                     "\t[string bycolumns\torder matrix values in a column-major order]\n";
-            if (handleHelp(args, m_channelRPCRequester, helpText))
+            if (handleHelp(args, shared_from_this(), m_channelRPCRequester, helpText))
                 return;
 
             PVStringPtr rows = dynamic_pointer_cast<PVString>(args->getSubField("rows"));
@@ -1106,7 +1384,7 @@ public:
             {
                 PVStructure::shared_pointer nullPtr;
                 Status errorStatus(Status::STATUSTYPE_ERROR, "no string 'rows' and 'columns' arguments specified");
-                m_channelRPCRequester->requestDone(errorStatus, nullPtr);
+                m_channelRPCRequester->requestDone(errorStatus, shared_from_this(), nullPtr);
             }
             else
             {
@@ -1121,40 +1399,36 @@ public:
 
                 PVStructure::shared_pointer result(
                             getPVDataCreate()->createPVStructure(
-                                getFieldCreate()->createStructure("uri:ev4:nt/2012/pwd:NTMatrix", fieldNames, fields)
+                                getFieldCreate()->createStructure("epics:nt/NTMatrix:1.0", fieldNames, fields)
                                 )
                             );
 
                 int32 rowsVal = atoi(rows->get().c_str());
                 int32 colsVal = atoi(columns->get().c_str());
-                int32 dimValues[] = { rowsVal, colsVal };
-                static_pointer_cast<PVIntArray>(result->getScalarArrayField("dim", pvInt))->put(0, 2, &dimValues[0], 0);
+                PVIntArray::svector dimValues(2);
+                dimValues[0] = rowsVal;
+                dimValues[1] = colsVal;
+                result->getSubField<PVIntArray>("dim")->replace(freeze(dimValues));
 
                 PVStringPtr byColumns = static_pointer_cast<PVString>(args->getSubField("bycolumns"));
                 bool bycolumns = (byColumns.get() && byColumns->get() == "1");
 
                 int32 len = rowsVal * colsVal;
-                vector<double> mv(len);
+                PVDoubleArray::svector mv(len);
                 for (int r = 0; r < len; r++)
                     if (bycolumns)
                         mv[r] = rand()/((double)RAND_MAX+1) + (int)(r%rowsVal);
                     else
                         mv[r] = rand()/((double)RAND_MAX+1) + (int)(r/colsVal);
-                static_pointer_cast<PVDoubleArray>(result->getScalarArrayField("value", pvDouble))->put(0, len, &mv[0], 0);
+                result->getSubField<PVDoubleArray>("value")->replace(freeze(mv));
 
-                m_channelRPCRequester->requestDone(Status::Ok, result);
+                m_channelRPCRequester->requestDone(Status::Ok, shared_from_this(), result);
             }
         }
-        else if (m_channelName.find("testImage") == 0)
+        else if (channelName.find("testImage") == 0)
         {
-            PVStructure::shared_pointer args(
-                        (pvArgument->getStructure()->getID() == "uri:ev4:nt/2012/pwd:NTURI") ?
-                            pvArgument->getStructureField("query") :
-                            pvArgument
-                            );
-
-            const String helpText =
-                    "Generates a NTImage structure response that has encoded a specified image.\n"
+            const string helpText =
+                    "Generates a NTNDArray structure response that has encoded a specified image.\n"
                     "Arguments:\n"
                     "\tstring file\tfile path (relative to a location where the server was started) of a raw encoded image.\n"
                     "\t\t\tTwo image types are supported:\n"
@@ -1164,7 +1438,7 @@ public:
                     "\t\t\t\tconvert my_image.png my_image.rgb\n"
                     "\tstring w\timage width\n"
                     "\tstring h\timage height\n";
-            if (handleHelp(args, m_channelRPCRequester, helpText))
+            if (handleHelp(args, shared_from_this(), m_channelRPCRequester, helpText))
                 return;
 
             PVStringPtr file = dynamic_pointer_cast<PVString>(args->getSubField("file"));
@@ -1174,13 +1448,13 @@ public:
             {
                 PVStructure::shared_pointer nullPtr;
                 Status errorStatus(Status::STATUSTYPE_ERROR, "not all 'file', 'w' and 'h' arguments specified");
-                m_channelRPCRequester->requestDone(errorStatus, nullPtr);
+                m_channelRPCRequester->requestDone(errorStatus, shared_from_this(), nullPtr);
             }
             else
             {
                 int32 wv = atoi(w->get().c_str());
                 int32 hv = atoi(h->get().c_str());
-                String filev = file->get();
+                string filev = file->get();
 
                 // ImageMagick conversion
                 // RGB888:    convert img.png img.rgb
@@ -1204,64 +1478,82 @@ public:
                         if (isRGB)
                         {
                             const int32_t dim[] = { 3, wv, hv };
-                            initImage(m_pvStructure, 2 /* RGB */, 3, dim, fileSize, 0);
+                            initImage(m_pvStructure, "", 2 /* NDColorModeRGB1=2 */, 3, dim, fileSize, 0);
                         }
                         else
                         {
                             const int32_t dim[] = { wv, hv };
-                            initImage(m_pvStructure, 0 /* grayscale */, 2, dim, fileSize, 0);
+                            initImage(m_pvStructure, "", 0 /* NDColorModeMono=0 */, 2, dim, fileSize, 0);
                         }
 
-                        PVByteArrayPtr value = std::tr1::dynamic_pointer_cast<PVByteArray>(m_pvStructure->getSubField("value"));
-                        value->setCapacity(fileSize);
+                        PVUnionPtr unionValue = m_pvStructure->getSubField<PVUnion>("value");
+                        PVByteArrayPtr value = unionValue->select<PVByteArray>("byteValue");
+                        PVByteArray::svector temp(value->reuse());
+                        temp.resize(fileSize);
+                        in.readsome((char*)temp.data(), fileSize);
+                        value->replace(freeze(temp));
 
-                        value->setLength(fileSize);
-                        in.readsome((char*)value->get(), fileSize);
-
-                        m_channelRPCRequester->requestDone(Status::Ok, m_pvStructure);
+                        m_channelRPCRequester->requestDone(Status::Ok, shared_from_this(), m_pvStructure);
 
                         // for monitors
-                        notifyStructureChanged(m_channelName);
+                        notifyStructureChanged(channelName);
                     }
                     else
                     {
                         PVStructure::shared_pointer nullPtr;
                         Status errorStatus(Status::STATUSTYPE_ERROR, "file size does not match given 'w' and 'h'");
-                        m_channelRPCRequester->requestDone(errorStatus, nullPtr);
+                        m_channelRPCRequester->requestDone(errorStatus, shared_from_this(), nullPtr);
                     }
                 }
                 else
                 {
                     PVStructure::shared_pointer nullPtr;
                     Status errorStatus(Status::STATUSTYPE_ERROR, "failed to open image file specified");
-                    m_channelRPCRequester->requestDone(errorStatus, nullPtr);
+                    m_channelRPCRequester->requestDone(errorStatus, shared_from_this(), nullPtr);
                 }
             }
         }
-        else if (m_channelName == "testNTURI")
-        {
-            const String helpText =
-                    "Returns the NTURI structure response identical the NTURI request.\n"
-                    "Arguments: (none)\n";
-            if (handleHelp(pvArgument, m_channelRPCRequester, helpText))
+        else if (channelName == "testSum") {
+
+            const string helpText =
+                    "Calculates a sum of two integer values.\n"
+                    "Arguments:\n"
+                    "\tint a\tfirst integer number\n"
+                    "\tint b\tsecond integer number\n";
+            if (handleHelp(args, shared_from_this(), m_channelRPCRequester, helpText))
                 return;
 
-            if (pvArgument->getStructure()->getID() != "uri:ev4:nt/2012/pwd:NTURI")
+            PVInt::shared_pointer pa = args->getSubField<PVInt>("a");
+            PVInt::shared_pointer pb = args->getSubField<PVInt>("b");
+            if (!pa || !pb)
             {
                 PVStructure::shared_pointer nullPtr;
-                Status errorStatus(Status::STATUSTYPE_ERROR, "argument is not a NTURI structure");
-                m_channelRPCRequester->requestDone(errorStatus, nullPtr);
+                Status errorStatus(Status::STATUSTYPE_ERROR, "int a and int b arguments are required");
+                m_channelRPCRequester->requestDone(errorStatus, shared_from_this(), nullPtr);
+                return;
             }
-            else
-            {
-                // return argument as result
-                m_channelRPCRequester->requestDone(Status::Ok, pvArgument);
-            }
+
+            int a = pa->get();
+            int b = pb->get();
+
+            FieldCreatePtr fieldCreate = getFieldCreate();
+
+            StringArray fieldNames;
+            fieldNames.push_back("c");
+            FieldConstPtrArray fields;
+            fields.push_back(fieldCreate->createScalar(pvInt));
+            StructureConstPtr resultStructure = fieldCreate->createStructure(fieldNames, fields);
+
+            PVStructure::shared_pointer result = getPVDataCreate()->createPVStructure(resultStructure);
+            result->getIntField("c")->put(a+b);
+
+            m_channelRPCRequester->requestDone(Status::Ok, shared_from_this(), result);
+
         }
-        else if (m_channelName.find("testServerShutdown") == 0)
+        else if (channelName.find("testServerShutdown") == 0)
         {
             PVStructure::shared_pointer nullPtr;
-            m_channelRPCRequester->requestDone(Status::Ok, nullPtr);
+            m_channelRPCRequester->requestDone(Status::Ok, shared_from_this(), nullPtr);
             testServerShutdown();
         }
         else
@@ -1271,11 +1563,25 @@ public:
             pvArgument->toString(&s);
             std::cout << "RPC" << std::endl << s << std::endl;
             */
-            m_channelRPCRequester->requestDone(Status::Ok, m_pvStructure);
+            m_channelRPCRequester->requestDone(Status::Ok, shared_from_this(), m_pvStructure);
         }
 
-        if (lastRequest)
+        if (m_lastRequest.get())
             destroy();
+    }
+
+    virtual void lastRequest()
+    {
+        m_lastRequest.set();
+    }
+    
+    virtual Channel::shared_pointer getChannel()
+    {
+        return m_channel;
+    }
+
+    virtual void cancel()
+    {
     }
 
     virtual void destroy()
@@ -1284,17 +1590,14 @@ public:
 
     virtual void lock()
     {
-        // TODO !!!
+        structureStoreMutex.lock();
     }
 
     virtual void unlock()
     {
-        // TODO !!!
+        structureStoreMutex.unlock();
     }
 };
-
-
-
 
 
 
@@ -1304,29 +1607,47 @@ public:
 
 PVACCESS_REFCOUNT_MONITOR_DEFINE(mockChannelArray);
 
-class MockChannelArray : public ChannelArray
+class MockChannelArray :
+    public ChannelArray,
+    public std::tr1::enable_shared_from_this<ChannelArray>
 {
 private:
+    Channel::shared_pointer m_channel;
     ChannelArrayRequester::shared_pointer m_channelArrayRequester;
     PVArray::shared_pointer m_pvArray;
+    PVArray::shared_pointer m_pvStructureArray;
+    AtomicBoolean m_lastRequest;
 
 protected:
-    MockChannelArray(ChannelArrayRequester::shared_pointer const & channelArrayRequester,
-                     PVStructure::shared_pointer const & /*pvStructure*/, PVStructure::shared_pointer const & /*pvRequest*/) :
-        m_channelArrayRequester(channelArrayRequester),
-        m_pvArray(getPVDataCreate()->createPVScalarArray(pvDouble))
+    MockChannelArray(Channel::shared_pointer const & channel,
+                     ChannelArrayRequester::shared_pointer const & channelArrayRequester,
+                     PVStructure::shared_pointer const & pvStructure, PVStructure::shared_pointer const & /*pvRequest*/) :
+        m_channel(channel), m_channelArrayRequester(channelArrayRequester)
     {
         PVACCESS_REFCOUNT_MONITOR_CONSTRUCT(mockChannelArray);
+
+        m_pvStructureArray = pvStructure->getSubField<PVArray>("value");
+        if (m_pvStructureArray.get())
+            m_pvArray = std::tr1::dynamic_pointer_cast<PVArray>(
+                getPVDataCreate()->createPVField(m_pvStructureArray->getField()));
     }
 
 public:
-    static ChannelArray::shared_pointer create(ChannelArrayRequester::shared_pointer const & channelArrayRequester, PVStructure::shared_pointer const & pvStructure, PVStructure::shared_pointer const & pvRequest)
+    static ChannelArray::shared_pointer create(Channel::shared_pointer const & channel, 
+            ChannelArrayRequester::shared_pointer const & channelArrayRequester, 
+            PVStructure::shared_pointer const & pvStructure, PVStructure::shared_pointer const & pvRequest)
     {
-        ChannelArray::shared_pointer thisPtr(new MockChannelArray(channelArrayRequester, pvStructure, pvRequest));
+        ChannelArray::shared_pointer thisPtr(new MockChannelArray(channel, channelArrayRequester, pvStructure, pvRequest));
 
-        // TODO pvRequest
-        channelArrayRequester->channelArrayConnect(Status::Ok, thisPtr, static_cast<MockChannelArray*>(thisPtr.get())->m_pvArray);
-
+        PVArray::shared_pointer array(static_cast<MockChannelArray*>(thisPtr.get())->m_pvArray);
+        if (array.get())
+            channelArrayRequester->channelArrayConnect(Status::Ok, thisPtr, array->getArray());
+        else
+        {
+            Status errorStatus(Status::STATUSTYPE_ERROR, "no 'value' subfield of array type");
+            channelArrayRequester->channelArrayConnect(errorStatus, thisPtr, Array::const_shared_pointer());
+        }
+        
         return thisPtr;
     }
 
@@ -1335,28 +1656,172 @@ public:
         PVACCESS_REFCOUNT_MONITOR_DESTRUCT(mockChannelArray);
     }
 
-    virtual void putArray(bool lastRequest, int /*offset*/, int /*count*/)
+    template<typename APVF>
+    void put(PVArray::shared_pointer const & pvfrom,
+             PVArray::shared_pointer const & pvto,
+             size_t offset, size_t count)
     {
-        // TODO offset, count
-        m_channelArrayRequester->putArrayDone(Status::Ok);
-        if (lastRequest)
+        typename APVF::shared_pointer from = std::tr1::static_pointer_cast<APVF>(pvfrom);
+        typename APVF::shared_pointer to = std::tr1::static_pointer_cast<APVF>(pvto);
+       
+        typename APVF::const_svector ref(from->view());
+        if (offset > ref.size())
+	       offset = ref.size();
+        if (count + offset > ref.size())
+	       count = ref.size() - offset;
+	 
+        typename APVF::svector temp(to->reuse());
+        if (offset + count > temp.size())
+            temp.resize(offset + count);
+ 
+        std::copy(ref.begin(), ref.begin() + count, temp.begin() + offset);
+
+        to->replace(freeze(temp));
+    }
+
+    virtual void putArray(PVArray::shared_pointer const & pvArray, size_t offset, size_t count, size_t stride)
+    {
+        // TODO stride support
+        if (stride == 1)
+        {
+
+            size_t len = pvArray->getLength();
+
+            size_t o = offset < len ? offset : len;
+            size_t c = count;
+            if (c == 0 || ((o + c) > len)) c = len - o;
+    
+            Field::const_shared_pointer field = pvArray->getField();
+            Type type = field->getType();
+            if (type == scalarArray)
+            {
+                switch (std::tr1::static_pointer_cast<const ScalarArray>(field)->getElementType())
+                {
+                    case pvBoolean: put<PVBooleanArray>(pvArray, m_pvStructureArray, o, c); break;
+                    case pvByte: put<PVByteArray>(pvArray, m_pvStructureArray, o, c); break;
+                    case pvShort: put<PVShortArray>(pvArray, m_pvStructureArray, o, c); break;
+                    case pvInt: put<PVIntArray>(pvArray, m_pvStructureArray, o, c); break;
+                    case pvLong: put<PVLongArray>(pvArray, m_pvStructureArray, o, c); break;
+                    case pvUByte: put<PVUByteArray>(pvArray, m_pvStructureArray, o, c); break;
+                    case pvUShort: put<PVUShortArray>(pvArray, m_pvStructureArray, o, c); break;
+                    case pvUInt: put<PVUIntArray>(pvArray, m_pvStructureArray, o, c); break;
+                    case pvULong: put<PVULongArray>(pvArray, m_pvStructureArray, o, c); break;
+                    case pvFloat: put<PVFloatArray>(pvArray, m_pvStructureArray, o, c); break;
+                    case pvDouble: put<PVDoubleArray>(pvArray, m_pvStructureArray, o, c); break;
+                    case pvString: put<PVStringArray>(pvArray, m_pvStructureArray, o, c); break;
+                }
+            }
+            else if (type == structureArray)
+                put<PVStructureArray>(pvArray, m_pvStructureArray, o, c);
+            else if (type == unionArray)
+                put<PVUnionArray>(pvArray, m_pvStructureArray, o, c);
+    
+            m_channelArrayRequester->putArrayDone(Status::Ok, shared_from_this());
+        }
+        else
+        {
+            Status notSupported(Status::STATUSTYPE_ERROR, "stride != 1 is not supported"); 
+            m_channelArrayRequester->putArrayDone(notSupported, shared_from_this());
+        }
+        
+        if (m_lastRequest.get())
             destroy();
     }
 
-    virtual void getArray(bool lastRequest, int /*offset*/, int /*count*/)
+    template<typename APVF>
+    void get(PVArray::shared_pointer const & pvfrom,
+             PVArray::shared_pointer const & pvto,
+             size_t offset, size_t count)
     {
-        // TODO offset, count
-        m_channelArrayRequester->getArrayDone(Status::Ok);
-        if (lastRequest)
+        typename APVF::shared_pointer from = std::tr1::static_pointer_cast<APVF>(pvfrom);
+        typename APVF::shared_pointer to = std::tr1::static_pointer_cast<APVF>(pvto);
+        
+        // TODO range check
+
+        typename APVF::const_svector temp(from->view());
+        temp.slice(offset, count);
+        to->replace(temp);
+    }
+    
+
+    virtual void getArray(size_t offset, size_t count, size_t stride)
+    {
+        // TODO stride support
+        if (stride == 1)
+        {
+            size_t o = offset;
+            if (count == 0) count = m_pvStructureArray->getLength();
+            size_t c = count;
+    
+            Field::const_shared_pointer field = m_pvArray->getField();
+            Type type = field->getType();
+            if (type == scalarArray)
+            {
+                switch (std::tr1::static_pointer_cast<const ScalarArray>(field)->getElementType())
+                {
+                    case pvBoolean: get<PVBooleanArray>(m_pvStructureArray, m_pvArray, o, c); break;
+                    case pvByte: get<PVByteArray>(m_pvStructureArray, m_pvArray, o, c); break;
+                    case pvShort: get<PVShortArray>(m_pvStructureArray, m_pvArray, o, c); break;
+                    case pvInt: get<PVIntArray>(m_pvStructureArray, m_pvArray, o, c); break;
+                    case pvLong: get<PVLongArray>(m_pvStructureArray, m_pvArray, o, c); break;
+                    case pvUByte: get<PVUByteArray>(m_pvStructureArray, m_pvArray, o, c); break;
+                    case pvUShort: get<PVUShortArray>(m_pvStructureArray, m_pvArray, o, c); break;
+                    case pvUInt: get<PVUIntArray>(m_pvStructureArray, m_pvArray, o, c); break;
+                    case pvULong: get<PVULongArray>(m_pvStructureArray, m_pvArray, o, c); break;
+                    case pvFloat: get<PVFloatArray>(m_pvStructureArray, m_pvArray, o, c); break;
+                    case pvDouble: get<PVDoubleArray>(m_pvStructureArray, m_pvArray, o, c); break;
+                    case pvString: get<PVStringArray>(m_pvStructureArray, m_pvArray, o, c); break;
+                }
+            }
+            else if (type == structureArray)
+                get<PVStructureArray>(m_pvStructureArray, m_pvArray, o, c);
+            else if (type == unionArray)
+                get<PVUnionArray>(m_pvStructureArray, m_pvArray, o, c);
+            
+            m_channelArrayRequester->getArrayDone(Status::Ok, shared_from_this(), m_pvArray);
+        }
+        else
+        {
+            Status notSupported(Status::STATUSTYPE_ERROR, "stride != 1 is not supported"); 
+            m_channelArrayRequester->putArrayDone(notSupported, shared_from_this());
+        }
+
+        if (m_lastRequest.get())
             destroy();
     }
 
-    virtual void setLength(bool lastRequest, int /*length*/, int /*capacity*/)
+    virtual void setLength(size_t length)
     {
-        // TODO offset, capacity
-        m_channelArrayRequester->setLengthDone(Status::Ok);
-        if (lastRequest)
+        m_pvStructureArray->setLength(length);
+        
+        m_channelArrayRequester->setLengthDone(Status::Ok, shared_from_this());
+
+        if (m_lastRequest.get())
             destroy();
+    }
+
+    virtual void getLength()
+    {
+        
+        m_channelArrayRequester->getLengthDone(Status::Ok, shared_from_this(), 
+                m_pvStructureArray->getLength());
+                
+        if (m_lastRequest.get())
+            destroy();
+    }
+
+    virtual void lastRequest()
+    {
+        m_lastRequest.set();
+    }
+    
+    virtual Channel::shared_pointer getChannel()
+    {
+        return m_channel;
+    }
+
+    virtual void cancel()
+    {
     }
 
     virtual void destroy()
@@ -1365,68 +1830,105 @@ public:
 
     virtual void lock()
     {
-        // TODO !!!
+        structureStoreMutex.lock();
     }
 
     virtual void unlock()
     {
-        // TODO !!!
+        structureStoreMutex.unlock();
     }
 };
 
+#include <pv/current_function.h>
 
+class TraceLog {
+    public:
+    
+    TraceLog(const std::string &method) : m_method(method) {
+        std::cout << "--> " << m_method << std::endl;
+    }
 
+    ~TraceLog() {
+        std::cout << "<-- " << m_method << std::endl;
+    }
+    
+    private:
+    std::string m_method;
+}
+
+#define TRACE_METHOD() TraceLog trace(CURRENT_FUNCTION);
 
 
 
 PVACCESS_REFCOUNT_MONITOR_DEFINE(mockMonitor);
 
-class MockMonitor : public Monitor, public StructureChangedCallback, public std::tr1::enable_shared_from_this<MockMonitor>
+class MockMonitor :
+    public Monitor,
+    public StructureChangedCallback,
+    public std::tr1::enable_shared_from_this<MockMonitor>
 {
 private:
-    String m_channelName;
+    string m_channelName;
     MonitorRequester::shared_pointer m_monitorRequester;
+    bool m_continuous;
     PVStructure::shared_pointer m_pvStructure;
+    PVStructure::shared_pointer m_copy;
     BitSet::shared_pointer m_changedBitSet;
     BitSet::shared_pointer m_overrunBitSet;
-    bool m_first;
     Mutex m_lock;
-    int m_count;
+    enum QueueState { MM_STATE_FULL, MM_STATE_TAKEN, MM_STATE_FREE };
+    QueueState m_state ;
+    AtomicBoolean m_active;
+
 
     MonitorElement::shared_pointer m_thisPtr;
     MonitorElement::shared_pointer m_nullMonitor;
 
 protected:
-    MockMonitor(String const & channelName, MonitorRequester::shared_pointer const & monitorRequester,
+    MockMonitor(std::string const & channelName, MonitorRequester::shared_pointer const & monitorRequester,
                 PVStructure::shared_pointer const & pvStructure, PVStructure::shared_pointer const & pvRequest) :
         m_channelName(channelName),
-        m_monitorRequester(monitorRequester), m_pvStructure(getRequestedStructure(pvStructure, pvRequest)),
+        m_monitorRequester(monitorRequester),
+        m_continuous(false),
+        m_pvStructure(getRequestedStructure(pvStructure, pvRequest)),
+        m_copy(getPVDataCreate()->createPVStructure(m_pvStructure->getStructure())),
         m_changedBitSet(new BitSet(m_pvStructure->getNumberFields())),
         m_overrunBitSet(new BitSet(m_pvStructure->getNumberFields())),
-        m_first(true),
         m_lock(),
-        m_count(0),
+        m_state(MM_STATE_FREE),
         m_thisPtr(new MonitorElement())
     {
         PVACCESS_REFCOUNT_MONITOR_CONSTRUCT(mockMonitor);
 
+        PVScalar::shared_pointer pvScalar = pvRequest->getSubField<PVScalar>("record._options.velocious");
+        if (pvScalar)
+            m_continuous = pvScalar->getAs<epics::pvData::boolean>();
+
+        // we always send all
         m_changedBitSet->set(0);
 
-        m_thisPtr->pvStructurePtr = m_pvStructure;
+        m_thisPtr->pvStructurePtr = m_copy;
         m_thisPtr->changedBitSet = m_changedBitSet;
         m_thisPtr->overrunBitSet = m_overrunBitSet;
     }
 
 public:
-    static Monitor::shared_pointer create(String const & channelName,
+    static Monitor::shared_pointer create(std::string const & channelName,
                                           MonitorRequester::shared_pointer const & monitorRequester,
                                           PVStructure::shared_pointer const & pvStructure, PVStructure::shared_pointer const & pvRequest)
     {
-        Monitor::shared_pointer thisPtr(new MockMonitor(channelName, monitorRequester, pvStructure, pvRequest));
+        // TODO use std::make_shared
+        std::tr1::shared_ptr<MockMonitor> tp(
+                        new MockMonitor(channelName, monitorRequester, pvStructure, pvRequest)
+                    );
+        Monitor::shared_pointer thisPtr = tp;
+
+        // register
+        structureChangedListeners[channelName].push_back(std::tr1::dynamic_pointer_cast<StructureChangedCallback>(thisPtr));
+
         StructureConstPtr structurePtr = static_cast<MockMonitor*>(thisPtr.get())->m_pvStructure->getStructure();
         monitorRequester->monitorConnect(Status::Ok, thisPtr, structurePtr);
 
-        structureChangedListeners[channelName].push_back(std::tr1::dynamic_pointer_cast<StructureChangedCallback>(thisPtr));
         return thisPtr;
     }
 
@@ -1435,48 +1937,99 @@ public:
         PVACCESS_REFCOUNT_MONITOR_DESTRUCT(mockMonitor);
     }
 
-    virtual Status start()
+    void copy()
     {
+        {
+            lock();
+            getConvert()->copyStructure(m_pvStructure, m_copy);
+            unlock();
+        }
+    }
+    virtual Status start()
+    {   
+        //TRACE_METHOD();
+        
+        {
+            Lock xx(m_lock);
+            m_state = MM_STATE_FULL;
+            copy();
+        }
+
         // first monitor
         Monitor::shared_pointer thisPtr = shared_from_this();
         m_monitorRequester->monitorEvent(thisPtr);
+
+        m_active.set();   // set here not to have race condition on first monitor
 
         return Status::Ok;
     }
 
     virtual Status stop()
     {
+        m_active.clear();
         return Status::Ok;
     }
 
     virtual void structureChanged()
     {
-        m_count = 0;
-        Monitor::shared_pointer thisPtr = shared_from_this();
-        m_monitorRequester->monitorEvent(thisPtr);
+        //TRACE_METHOD();
+
+        if (m_active.get())
+        {   
+            {
+	            Lock xx(m_lock);
+	            
+	            if (m_state == MM_STATE_FULL || m_state == MM_STATE_TAKEN)      // "queue" full
+	            {
+	               m_overrunBitSet->set(0);
+	               copy();
+	               return;
+	            }
+	            else
+	            {
+	               m_overrunBitSet->clear(0);
+                   m_state = MM_STATE_FULL;
+                   copy();
+	            }
+            }
+ 
+            Monitor::shared_pointer thisPtr = shared_from_this();
+            m_monitorRequester->monitorEvent(thisPtr);
+        }
     }
 
     virtual MonitorElement::shared_pointer poll()
     {
+        //TRACE_METHOD();
+
         Lock xx(m_lock);
-        if (m_count)
+        if (m_state != MM_STATE_FULL)
         {
             return m_nullMonitor;
         }
         else
         {
-            m_count++;
+            m_state = MM_STATE_TAKEN;
             return m_thisPtr;
         }
     }
 
     virtual void release(MonitorElement::shared_pointer const & /*monitorElement*/)
     {
+        //TRACE_METHOD();
+
         Lock xx(m_lock);
-        if (m_count)
+        if (m_state == MM_STATE_TAKEN)
         {
-            m_count--;
+            if (m_continuous)
+                m_state = MM_STATE_FULL;
+            else
+                m_state = MM_STATE_FREE;
         }
+    }
+
+    virtual void cancel()
+    {
     }
 
     virtual void destroy()
@@ -1484,18 +2037,29 @@ public:
         stop();
 
         // remove itself from listeners table
-        vector<StructureChangedCallback::shared_pointer> &vec = structureChangedListeners[m_channelName];
-        vec.erase(find(vec.begin(), vec.end(), std::tr1::dynamic_pointer_cast<StructureChangedCallback>(shared_from_this())));
+        if (structureChangedListeners.count(m_channelName))
+        {
+            vector<StructureChangedCallback::shared_pointer> &vec = structureChangedListeners[m_channelName];
+            for (vector<StructureChangedCallback::shared_pointer>::iterator i = vec.begin();
+                 i != vec.end(); i++)
+            {
+                if (i->get() == this)
+                {
+                    vec.erase(i);
+                    break;
+                }
+            }
+        }        
     }
 
     virtual void lock()
     {
-        // TODO !!!
+        structureStoreMutex.lock();
     }
 
     virtual void unlock()
     {
-        // TODO !!!
+        structureStoreMutex.unlock();
     }
 
 };
@@ -1503,12 +2067,15 @@ public:
 
 PVACCESS_REFCOUNT_MONITOR_DEFINE(mockChannel);
 
-class MockChannel : public Channel {
+class MockChannel :
+    public Channel,
+    public std::tr1::enable_shared_from_this<MockChannel>
+{
 private:
     ChannelProvider::weak_pointer  m_provider;
     ChannelRequester::shared_pointer m_requester;
-    String m_name;
-    String m_remoteAddress;
+    string m_name;
+    string m_remoteAddress;
 public: // TODO
     PVStructure::shared_pointer m_pvStructure;
 
@@ -1517,8 +2084,8 @@ protected:
     MockChannel(
             ChannelProvider::shared_pointer provider,
             ChannelRequester::shared_pointer requester,
-            String name,
-            String remoteAddress) :
+            string name,
+            string remoteAddress) :
         m_provider(provider),
         m_requester(requester),
         m_name(name),
@@ -1536,59 +2103,42 @@ protected:
 
             if (m_name.find("testArray") == 0)
             {
-                String allProperties("");
-                //            String allProperties("alarm,timeStamp,display,control");
+                string allProperties("");
+                //            string allProperties("alarm,timeStamp,display,control");
                 m_pvStructure = getStandardPVField()->scalarArray(pvDouble,allProperties);
-                PVDoubleArrayPtr pvField = static_pointer_cast<PVDoubleArray>(m_pvStructure->getScalarArrayField(String("value"), pvDouble));
+                PVDoubleArrayPtr pvField = static_pointer_cast<PVDoubleArray>(m_pvStructure->getScalarArrayField(std::string("value"), pvDouble));
 
                 int specCount = 0; char postfix[64];
                 int done = sscanf(m_name.c_str(), "testArray%d%s", &specCount, postfix);
 
                 if (done && specCount > 0)
                 {
-                    pvField->setCapacity(specCount);
-                    pvField->setLength(specCount);
+                    PVDoubleArray::svector temp(pvField->reuse());
+                    temp.resize(specCount);
 
                     double v = 0;
-                    int ix = 0;
-                    const int COUNT = 1024;
-
-                    int n = 0;
-                    while (n < specCount)
+                    for (int n = 0; n < specCount; n++)
                     {
-
-                        double array[COUNT];
-                        int i = 0;
-                        for (; i < COUNT && n < specCount; i++)
-                        {
-                            array[i] = v; v+=1; n++;
-                        }
-                        pvField->put(ix, i, array, 0);
-                        ix += i;
+                        temp[n] = v; v+=1;
                     }
+                    pvField->replace(freeze(temp));
                 }
                 else
                 {
+                    PVDoubleArray::svector temp(pvField->reuse());
+                    specCount = 1024*1024;
+                    temp.resize(specCount);
+
                     double v = 0;
-                    int ix = 0;
-                    const int COUNT = 1024;
-
-                    pvField->setCapacity(1024*COUNT);
-                    for (int n = 0; n < 1024; n++)
+                    for (int n = 0; n < specCount; n++)
                     {
-
-                        double array[COUNT];
-                        for (int i = 0; i < COUNT; i++)
-                        {
-                            array[i] = v; v+=1.1;
-                        }
-                        pvField->put(ix, COUNT, array, 0);
-                        ix += COUNT;
+                        temp[n] = v; v+=1.1;
                     }
+                    pvField->replace(freeze(temp));
                 }
                 /*
                 printf("array prepared------------------------------------!!!\n");
-                String str;
+                string str;
                 pvField->toString(&str);
                 printf("%s\n", str.c_str());
                 printf("=============------------------------------------!!!\n");
@@ -1597,13 +2147,28 @@ protected:
             else if (m_name.find("testMP") == 0
                      || m_name.find("testImage") == 0)
             {
-                m_pvStructure = getPVDataCreate()->createPVStructure(makeImageStruc());
+                m_pvStructure = getPVDataCreate()->createPVStructure(createNTNDArrayStructure());
                 initImageEPICSv4GrayscaleLogo(m_pvStructure);
             }
             else if (m_name.find("testTable") == 0)
             {
-                m_pvStructure = createNTTable(5);   // 5 columns
+                m_pvStructure = createNTTable(5, true);   // 5 columns w/ timeStamp
                 generateNTTableDoubleValues(m_pvStructure);
+            }
+            else if (m_name.find("testNameValue") == 0)
+            {
+                m_pvStructure = createNTNameValue(5, true);   // 5 columns w/ timeStamp
+                generateNTNameValueDoubleValues(m_pvStructure);
+            }
+            else if (m_name.find("testAggregate") == 0)
+            {
+                m_pvStructure = createNTAggregate();
+                generateNTAggregateValues(m_pvStructure);
+            }
+            else if (m_name.find("testHistogram") == 0)
+            {
+                m_pvStructure = createNTHistogram();
+                generateNTHistogramValues(m_pvStructure);
             }
             else if (m_name.find("testADC") == 0)
             {
@@ -1626,12 +2191,13 @@ protected:
 
                 m_pvStructure =
                         getPVDataCreate()->createPVStructure(
-                            getFieldCreate()->createStructure("uri:ev4:nt/2012/pwd:NTMatrix", fieldNames, fields)
+                            getFieldCreate()->createStructure("epics:nt/NTMatrix:1.0", fieldNames, fields)
                             );
 
                 // fill with default values
-                int dimValue = 0;
-                static_pointer_cast<PVIntArray>(m_pvStructure->getScalarArrayField("dim", pvInt))->put(0, 1, &dimValue, 0);
+                PVIntArray::svector dimValue(1);
+                dimValue[0] = 0;
+                m_pvStructure->getSubField<PVIntArray>("dim")->replace(freeze(dimValue));
 
                 m_pvStructure->getStringField("descriptor")->put("Simulated ADC that provides NTMatrix value");
                 PVStructurePtr displayStructure = m_pvStructure->getStructureField("display");
@@ -1649,19 +2215,79 @@ protected:
             }
             else if (m_name.find("testValueOnly") == 0)
             {
-                String allProperties("");
+                string allProperties("");
                 m_pvStructure = getStandardPVField()->scalar(pvDouble,allProperties);
             }
-            else if (m_name == "testCounter")
+            else if (m_name == "testCounter" || m_name == "testSimpleCounter")
             {
-                String allProperties("timeStamp");
+                string allProperties("timeStamp");
                 m_pvStructure = getStandardPVField()->scalar(pvInt,allProperties);
+            }
+            else if (m_name == "testBinaryCounter" )
+            {
+                epics::pvData::StructureConstPtr s =
+                    getFieldCreate()->createFieldBuilder()->
+                        setId("epics:test/binaryCounter:1.0")->
+                        add("value", pvByte)->
+                        add("bit0", pvBoolean)->
+                        add("bit1", pvBoolean)->
+                        add("bit2", pvBoolean)->
+                        add("bit3", pvBoolean)->
+                        add("bit4", pvBoolean)->
+                        add("bit5", pvBoolean)->
+                        add("bit6", pvBoolean)->
+                        add("bit7", pvBoolean)->
+                        add("timeStamp", getStandardField()->timeStamp())->
+                        createStructure();
+                m_pvStructure = getPVDataCreate()->createPVStructure(s);
+            }
+            else if (m_name == "testEnum")
+            {
+                StringArray choices;
+                choices.push_back("zeroValue");
+                choices.push_back("oneValue");
+                choices.push_back("twoValue");
+                choices.push_back("threeValue");
+                choices.push_back("fourValue");
+                choices.push_back("fiveValue");
+                choices.push_back("sixValue");
+                choices.push_back("sevenValue");
+                string allProperties("timeStamp");
+                m_pvStructure = getStandardPVField()->enumerated(choices,allProperties);
+            }
+            else if (m_name == "testBoundedString" )
+            {
+                epics::pvData::StructureConstPtr s =
+                    getFieldCreate()->createFieldBuilder()->
+                        addBoundedString("value", 8)->
+                        add("timeStamp", getStandardField()->timeStamp())->
+                        createStructure();
+                m_pvStructure = getPVDataCreate()->createPVStructure(s);
+            }
+            else if (m_name == "testBoundedArray" )
+            {
+                epics::pvData::StructureConstPtr s =
+                    getFieldCreate()->createFieldBuilder()->
+                        addBoundedArray("value", pvDouble, 8)->
+                        add("timeStamp", getStandardField()->timeStamp())->
+                        createStructure();
+                m_pvStructure = getPVDataCreate()->createPVStructure(s);
+            }
+            else if (m_name == "testFixedArray" )
+            {
+                epics::pvData::StructureConstPtr s =
+                    getFieldCreate()->createFieldBuilder()->
+                        addFixedArray("value", pvDouble, 8)->
+                        add("timeStamp", getStandardField()->timeStamp())->
+                        createStructure();
+                m_pvStructure = getPVDataCreate()->createPVStructure(s);
+                m_pvStructure->getSubField<PVArray>("value")->setLength(8);
             }
             else
             {
-                String allProperties("alarm,timeStamp,display,control,valueAlarm");
+                string allProperties("alarm,timeStamp,display,control,valueAlarm");
                 m_pvStructure = getStandardPVField()->scalar(pvDouble,allProperties);
-                //PVDoublePtr pvField = m_pvStructure->getDoubleField(String("value"));
+                //PVDoublePtr pvField = m_pvStructure->getDoubleField(std::string("value"));
                 //pvField->put(1.123);
             }
 
@@ -1674,11 +2300,14 @@ public:
     static Channel::shared_pointer create(
             ChannelProvider::shared_pointer provider,
             ChannelRequester::shared_pointer requester,
-            String name,
-            String remoteAddress)
+            string name,
+            string remoteAddress)
     {
-        Channel::shared_pointer channelPtr(new MockChannel(provider, requester, name, remoteAddress));
-
+        // TODO use std::make_shared
+        std::tr1::shared_ptr<MockChannel> tp(
+                        new MockChannel(provider, requester, name, remoteAddress)
+                    );
+        Channel::shared_pointer channelPtr = tp;
         // already connected, report state
         requester->channelStateChange(channelPtr, CONNECTED);
         
@@ -1694,12 +2323,12 @@ public:
     {
     };
 
-    virtual String getRequesterName()
+    virtual string getRequesterName()
     {
         return getChannelName();
     };
 
-    virtual void message(String const & message,MessageType messageType)
+    virtual void message(std::string const & message,MessageType messageType)
     {
         std::cout << "[" << getRequesterName() << "] message(" << message << ", " << getMessageTypeName(messageType) << ")" << std::endl;
     }
@@ -1709,12 +2338,12 @@ public:
         return m_provider.lock();
     }
 
-    virtual epics::pvData::String getRemoteAddress()
+    virtual std::string getRemoteAddress()
     {
         return m_remoteAddress;
     }
 
-    virtual epics::pvData::String getChannelName()
+    virtual std::string getChannelName()
     {
         return m_name;
     }
@@ -1739,7 +2368,7 @@ public:
         return readWrite;
     }
 
-    virtual void getField(GetFieldRequester::shared_pointer const & requester,epics::pvData::String const & subField)
+    virtual void getField(GetFieldRequester::shared_pointer const & requester,std::string const & subField)
     {
         PVFieldPtr pvField;
         if(subField == "")
@@ -1751,7 +2380,7 @@ public:
             pvField = m_pvStructure->getSubField(subField);
         }
 
-        if(pvField == NULL)
+        if(!pvField.get())
         {
             string errMsg = "field '" + subField + "' not found";
             FieldConstPtr nullPtr;
@@ -1767,34 +2396,34 @@ public:
             ChannelProcessRequester::shared_pointer const & channelProcessRequester,
             epics::pvData::PVStructure::shared_pointer const & pvRequest)
     {
-        return MockChannelProcess::create(m_name, channelProcessRequester, m_pvStructure, pvRequest);
+        return MockChannelProcess::create(shared_from_this(), channelProcessRequester, m_pvStructure, pvRequest);
     }
 
     virtual ChannelGet::shared_pointer createChannelGet(
             ChannelGetRequester::shared_pointer const & channelGetRequester,
             epics::pvData::PVStructure::shared_pointer const & pvRequest)
     {
-        return MockChannelGet::create(channelGetRequester, m_pvStructure, pvRequest);
+        return MockChannelGet::create(shared_from_this(), channelGetRequester, m_pvStructure, pvRequest);
     }
 
     virtual ChannelPut::shared_pointer createChannelPut(
             ChannelPutRequester::shared_pointer const & channelPutRequester,
             epics::pvData::PVStructure::shared_pointer const & pvRequest)
     {
-        return MockChannelPut::create(m_name, channelPutRequester, m_pvStructure, pvRequest);
+        return MockChannelPut::create(shared_from_this(), channelPutRequester, m_pvStructure, pvRequest);
     }
 
     virtual ChannelPutGet::shared_pointer createChannelPutGet(
             ChannelPutGetRequester::shared_pointer const & channelPutGetRequester,
             epics::pvData::PVStructure::shared_pointer const & pvRequest)
     {
-        return MockChannelPutGet::create(m_name, channelPutGetRequester, m_pvStructure, pvRequest);
+        return MockChannelPutGet::create(shared_from_this(), channelPutGetRequester, m_pvStructure, pvRequest);
     }
 
     virtual ChannelRPC::shared_pointer createChannelRPC(ChannelRPCRequester::shared_pointer const & channelRPCRequester,
                                                         epics::pvData::PVStructure::shared_pointer const & pvRequest)
     {
-        return MockChannelRPC::create(channelRPCRequester, m_name, m_pvStructure, pvRequest);
+        return MockChannelRPC::create(channelRPCRequester, shared_from_this(), m_pvStructure, pvRequest);
     }
 
     virtual epics::pvData::Monitor::shared_pointer createMonitor(
@@ -1808,27 +2437,23 @@ public:
             ChannelArrayRequester::shared_pointer const & channelArrayRequester,
             epics::pvData::PVStructure::shared_pointer const & pvRequest)
     {
-        return MockChannelArray::create(channelArrayRequester, m_pvStructure, pvRequest);
+        return MockChannelArray::create(shared_from_this(), channelArrayRequester, m_pvStructure, pvRequest);
     }
 
     virtual void printInfo() {
-        String info;
-        printInfo(&info);
-        std::cout << info.c_str() << std::endl;
+        printInfo(std::cout);
     }
 
-    virtual void printInfo(epics::pvData::StringBuilder out) {
-        //std::ostringstream ostr;
-        //static String emptyString;
-
-        out->append(  "CHANNEL  : "); out->append(m_name);
-        out->append("\nSTATE    : "); out->append(ConnectionStateNames[getConnectionState()]);
-        if (isConnected())
+    virtual void printInfo(std::ostream& out) {
+        out << "CHANNEL  : " << getChannelName() << std::endl;
+        
+        ConnectionState state = getConnectionState();
+        out << "STATE    : " << ConnectionStateNames[state] << std::endl;
+        if (state == CONNECTED)
         {
-            out->append("\nADDRESS  : "); out->append(getRemoteAddress());
-            //out->append("\nRIGHTS   : "); out->append(getAccessRights());
+            out << "ADDRESS  : " << getRemoteAddress() << std::endl;
+            //out << "RIGHTS   : " << getAccessRights() << std::endl;
         }
-        out->append("\n");
     }
 };
 
@@ -1857,7 +2482,7 @@ public:
         return m_provider.lock();
     };
 
-    virtual void cancelChannelFind()
+    virtual void cancel()
     {
         throw std::runtime_error("not supported");
     }
@@ -1874,7 +2499,7 @@ public:
     typedef std::tr1::shared_ptr<MockServerChannelProvider> shared_pointer;
     typedef std::tr1::shared_ptr<const MockServerChannelProvider> const_shared_pointer;
 
-    static String PROVIDER_NAME;
+    static string PROVIDER_NAME;
 
     MockServerChannelProvider() :
         m_mockChannelFind(),
@@ -1920,22 +2545,38 @@ public:
         process = c->createChannelProcess(cpr, PVStructure::shared_pointer());
         m_scan1Hz.toProcess.push_back(process);
 
-        m_scan1HzThread.reset(new Thread("process1hz", highPriority, &m_scan1Hz));
-        m_scan10HzThread.reset(new Thread("process10hz", highPriority, &m_scan10Hz));
+        c = MockChannel::create(chProviderPtr, cr, "testNameValue", "local");
+        process = c->createChannelProcess(cpr, PVStructure::shared_pointer());
+        m_scan1Hz.toProcess.push_back(process);
+
+        c = MockChannel::create(chProviderPtr, cr, "testAggregate", "local");
+        process = c->createChannelProcess(cpr, PVStructure::shared_pointer());
+        m_scan1Hz.toProcess.push_back(process);
+
+        c = MockChannel::create(chProviderPtr, cr, "testHistogram", "local");
+        process = c->createChannelProcess(cpr, PVStructure::shared_pointer());
+        m_scan1Hz.toProcess.push_back(process);
+
+        c = MockChannel::create(chProviderPtr, cr, "testBinaryCounter", "local");
+        process = c->createChannelProcess(cpr, PVStructure::shared_pointer());
+        m_scan1Hz.toProcess.push_back(process);
+
+        m_scan1HzThread.reset(new epics::pvData::Thread("process1hz", highPriority, &m_scan1Hz));
+        m_scan10HzThread.reset(new epics::pvData::Thread("process10hz", highPriority, &m_scan10Hz));
 
         m_adcChannel = MockChannel::create(chProviderPtr, cr, "testADC", "local");
         m_adcAction.name = "testADC";
         m_adcAction.adcMatrix = static_pointer_cast<MockChannel>(m_adcChannel)->m_pvStructure;
         m_adcAction.adcSim = createSimADC("testADC");
-        m_adcThread.reset(new Thread("adcThread", highPriority, &m_adcAction));
+        m_adcThread.reset(new epics::pvData::Thread("adcThread", highPriority, &m_adcAction));
 
         m_mpChannel = MockChannel::create(chProviderPtr, cr, "testMP", "local");
         m_imgAction.name = "testMP";
         m_imgAction.pvImage = static_pointer_cast<MockChannel>(m_mpChannel)->m_pvStructure;
-        m_imgThread.reset(new Thread("imgThread", highPriority, &m_imgAction));
+        m_imgThread.reset(new epics::pvData::Thread("imgThread", highPriority, &m_imgAction));
     }
 
-    virtual epics::pvData::String getProviderName()
+    virtual std::string getProviderName()
     {
         return PROVIDER_NAME;
     }
@@ -1945,7 +2586,7 @@ public:
     }
 
     virtual ChannelFind::shared_pointer channelFind(
-            epics::pvData::String const & channelName,
+            std::string const & channelName,
             ChannelFindRequester::shared_pointer const & channelFindRequester)
     {
         // channel that starts with "test" always exists
@@ -1954,8 +2595,28 @@ public:
         return m_mockChannelFind;
     }
 
+    virtual ChannelFind::shared_pointer channelList(
+            ChannelListRequester::shared_pointer const & channelListRequester)
+    {
+        if (!channelListRequester.get())
+            throw std::runtime_error("null requester");
+
+        // NOTE: this adds only active channels, not all (especially RPC ones)
+        PVStringArray::svector channelNames;
+        {
+            Lock guard(structureStoreMutex);
+            channelNames.reserve(structureStore.size());
+            for (map<string, PVStructure::shared_pointer>::const_iterator iter = structureStore.begin();
+                 iter != structureStore.end();
+                 iter++)
+                channelNames.push_back(iter->first);
+        }
+        channelListRequester->channelListResult(Status::Ok, m_mockChannelFind, freeze(channelNames), true);
+        return m_mockChannelFind;
+    }
+
     virtual Channel::shared_pointer createChannel(
-            epics::pvData::String const & channelName,
+            std::string const & channelName,
             ChannelRequester::shared_pointer const & channelRequester,
             short priority)
     {
@@ -1963,10 +2624,10 @@ public:
     }
 
     virtual Channel::shared_pointer createChannel(
-            epics::pvData::String const & channelName,
+            std::string const & channelName,
             ChannelRequester::shared_pointer const & channelRequester,
             short /*priority*/,
-            epics::pvData::String const & address)
+            std::string const & address)
     {
         if (address == "local")
         {
@@ -2009,26 +2670,26 @@ private:
     Channel::shared_pointer m_mpChannel;
 
     ProcessAction m_scan1Hz;
-    auto_ptr<Thread> m_scan1HzThread;
+    auto_ptr<epics::pvData::Thread> m_scan1HzThread;
 
     ProcessAction m_scan10Hz;
-    auto_ptr<Thread> m_scan10HzThread;
+    auto_ptr<epics::pvData::Thread> m_scan10HzThread;
 
     ADCAction m_adcAction;
-    auto_ptr<Thread> m_adcThread;
+    auto_ptr<epics::pvData::Thread> m_adcThread;
 
-    NTImageAction m_imgAction;
-    auto_ptr<Thread> m_imgThread;
+    NTNDArrayAction m_imgAction;
+    auto_ptr<epics::pvData::Thread> m_imgThread;
 };
 
-String MockServerChannelProvider::PROVIDER_NAME = "local";
+string MockServerChannelProvider::PROVIDER_NAME = "local";
 
 class MockChannelProviderFactory : public ChannelProviderFactory
 {
 public:
     POINTER_DEFINITIONS(MockChannelProviderFactory);
 
-    virtual epics::pvData::String getFactoryName()
+    virtual std::string getFactoryName()
     {
         return MockServerChannelProvider::PROVIDER_NAME;
     }
@@ -2059,8 +2720,7 @@ void testServer(int timeToRun)
 
     //ServerContextImpl::shared_pointer ctx = ServerContextImpl::create();
     ctx = ServerContextImpl::create();
-    ChannelAccess::shared_pointer channelAccess = getChannelAccess();
-    ctx->initialize(channelAccess);
+    ctx->initialize(getChannelProviderRegistry());
 
     ctx->printInfo();
 
@@ -2071,9 +2731,16 @@ void testServer(int timeToRun)
     unregisterChannelProviderFactory(factory);
 
     structureChangedListeners.clear();
-    structureStore.clear();
-
+    {
+       Lock guard(structureStoreMutex);
+       structureStore.clear();
+    }
     ctx.reset();
+
+    unregisterChannelProviderFactory(factory);
+
+
+    shutdownSimADCs();
 }
 
 void testServerShutdown()
@@ -2097,6 +2764,7 @@ void usage (char *argv[])
 }
 
 
+#ifndef TESTSERVERNOMAIN 
 
 int main(int argc, char *argv[])
 {
@@ -2143,8 +2811,6 @@ int main(int argc, char *argv[])
 
     testServer(timeToRun);
 
-    shutdownSimADCs();
-
     cout << "Done" << endl;
 
     if (cleanupAndReport)
@@ -2157,3 +2823,4 @@ int main(int argc, char *argv[])
 
     return (0);
 }
+#endif

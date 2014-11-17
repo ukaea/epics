@@ -38,7 +38,6 @@ export PATH=${STUFF}/bin:${PATH}
 
 cat > configure/RELEASE.local << EOF
 EPICS_BASE=${EPICS_BASE}
-GTEST=${STUFF}/gtest
 EOF
 
 make distclean all
@@ -58,7 +57,7 @@ kill $!
 ###########################################
 # Create distribution
 
-tar --exclude=test* -czf pvAccess.CB-dist.tar.gz bin lib include
+tar --exclude=test* -czf pvAccess.CB-dist.tar.gz bin lib include dbd
 
 ###########################################
 # Publish documentation

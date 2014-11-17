@@ -34,7 +34,7 @@ New : testArray10_1 3 11 22 33
 --------------------------------------------------------------------------------
 > pvget -r 'field()' testValue
 testValue
-uri:ev4:nt/2012/pwd:NTScalar 
+epics:nt/NTScalar:1.0
     double value 1.23
     alarm_t alarm
         int severity 0
@@ -42,7 +42,7 @@ uri:ev4:nt/2012/pwd:NTScalar
         string message 
     time_t timeStamp
         long secondsPastEpoch 0
-        int nanoSeconds 0
+        int nanoseconds 0
         int userTag 0
     display_t display
         double limitLow 0
@@ -64,7 +64,7 @@ uri:ev4:nt/2012/pwd:NTScalar
         int lowWarningSeverity 0
         int highWarningSeverity 0
         int highAlarmSeverity 0
-        double hystersis 0
+        double hysteresis 0
 
 
 6. Get the values of some fields of V4 record (-r is pvAccess request string)
@@ -75,7 +75,7 @@ structure
     double value 1.23
     time_t timeStamp
         long secondsPastEpoch 0
-        int nanoSeconds 0
+        int nanoseconds 0
         int userTag 0
     alarm_t alarm
         int severity 0
@@ -105,7 +105,7 @@ testCounter                    409
 
 8. Get a NTMatrix and print its transponse matrix
 -------------------------------------------------
-> eget -a columns=3 -a rows=5 -t -s testNTMatrix
+> eget -a columns=3 -a rows=5 -T -s testNTMatrix
   0.677924   1.66402   2.42248    3.8881   4.22758
   0.874961   1.20251   2.56682   3.21442   4.92651
    0.47145   1.65475    2.4864   3.79319   4.80394

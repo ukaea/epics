@@ -13,10 +13,10 @@ class TestChannelProvider : public ChannelProvider
 {
 public:
        
-    epics::pvData::String getProviderName() { return "local"; };
+    std::string getProviderName() { return "local"; };
     
 
-    ChannelFind::shared_pointer channelFind(epics::pvData::String const & /*channelName*/,
+    ChannelFind::shared_pointer channelFind(std::string const & /*channelName*/,
                                             ChannelFindRequester::shared_pointer const & channelFindRequester)
     {
         ChannelFind::shared_pointer nullCF;
@@ -24,8 +24,16 @@ public:
         return nullCF;  
     }
 
+    ChannelFind::shared_pointer channelList(ChannelListRequester::shared_pointer const & channelListRequester)
+    {
+        ChannelFind::shared_pointer nullCF;
+        PVStringArray::const_svector none;
+        channelListRequester->channelListResult(Status::Ok, nullCF, none, false);
+        return nullCF;
+    }
+
     Channel::shared_pointer createChannel(
-                epics::pvData::String const & channelName,
+                std::string const & channelName,
                 ChannelRequester::shared_pointer const & channelRequester,
                 short priority = PRIORITY_DEFAULT)  
     {
@@ -33,9 +41,9 @@ public:
     }
 
     Channel::shared_pointer createChannel(
-                epics::pvData::String const & /*channelName*/,
+                std::string const & /*channelName*/,
                 ChannelRequester::shared_pointer const & channelRequester,
-                short /*priority*/, epics::pvData::String const & /*address*/)
+                short /*priority*/, std::string const & /*address*/)
     {
         Channel::shared_pointer nullC;
         channelRequester->channelCreated(Status::Ok, nullC);
@@ -48,12 +56,12 @@ public:
 };
 
 
-class TestChannelAccess : public ChannelAccess {
+class TestChannelProviderRegistry : public ChannelProviderRegistry {
 public:
                 
-    virtual ~TestChannelAccess() {};
+    virtual ~TestChannelProviderRegistry() {};
             
-    ChannelProvider::shared_pointer getProvider(epics::pvData::String const & providerName)
+    ChannelProvider::shared_pointer getProvider(std::string const & providerName)
     {
         if (providerName == "local")
         {
@@ -63,7 +71,7 @@ public:
             return ChannelProvider::shared_pointer(); 
     }
             
-    ChannelProvider::shared_pointer createProvider(epics::pvData::String const & providerName)
+    ChannelProvider::shared_pointer createProvider(std::string const & providerName)
     {
         return getProvider(providerName);
     }
@@ -81,7 +89,7 @@ void testServerContext()
 
 	ServerContextImpl::shared_pointer ctx = ServerContextImpl::create();
 
-	ChannelAccess::shared_pointer ca(new TestChannelAccess());
+	ChannelProviderRegistry::shared_pointer ca(new TestChannelProviderRegistry());
 	ctx->initialize(ca);
 
 	ctx->printInfo();
