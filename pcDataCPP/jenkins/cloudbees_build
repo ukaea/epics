@@ -42,9 +42,8 @@ doxygen
 ###########################################
 # Test
 
-for t in bin/linux-x86_64/test*; do
-$t
-done
+# EPICS Test Harness tests
+make runtests
 
 ###########################################
 # Create distribution

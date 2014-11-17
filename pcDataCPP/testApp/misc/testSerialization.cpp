@@ -9,6 +9,7 @@
  *  Created on: Oct 25, 2010
  *      Author: Miha Vitorovic
  */
+
 #ifdef _WIN32
 #define NOMINMAX
 #endif
@@ -16,7 +17,9 @@
 #include <iostream>
 #include <fstream>
 
-#include <epicsAssert.h>
+#include <epicsUnitTest.h>
+#include <testMain.h>
+#include <dbDefs.h> // for NELEMENTS
 
 #include <epicsExit.h>
 #include <pv/pvIntrospect.h>
@@ -48,6 +51,9 @@
 #define DOUBLE_MIN_VALUE std::numeric_limits<double>::min()
 
 using namespace epics::pvData;
+using std::string;
+
+namespace {
 
 static SerializableControl* flusher;
 static DeserializableControl* control;
@@ -126,14 +132,21 @@ void serializationTest(PVFieldPtr const & field) {
     deserializedField->deserialize(buffer, control);
 
     // must equal
-    bool isEqual = getConvert()->equals(*field,*deserializedField);
-    assert(isEqual);
+    if(*field==*deserializedField)
+        testPass("Serialization round trip OK");
+    else {
+        testFail("Serialization round trip did not match!");
+        std::ostringstream oss;
+        oss << "Expected: " << *field << std::endl;
+        oss << "Found   : " << *deserializedField << std::endl;
+        testDiag("Found: %s", oss.str().c_str());
+    }
 }
 
-void testEquals(std::ostream& ofile) {
-    ofile<<"Testing equals...\n";
+void testEquals() {
+    testDiag("Testing equals...");  // and non-initialized
     PVDataCreatePtr factory = getPVDataCreate();
-    assert(factory.get()!=NULL);
+    testOk1(factory.get()!=NULL);
 
 	 // be sure all is covered
 	 for (int i = pvBoolean; i < pvString; i++)
@@ -142,32 +155,116 @@ void testEquals(std::ostream& ofile) {
 
 		 PVScalarPtr scalar1 = factory->createPVScalar(scalarType);
 		 PVScalarPtr scalar2 = factory->createPVScalar(scalarType);
-		 assert((*scalar1)==(*scalar2));
+		 testOk1((*scalar1)==(*scalar2));
 
 		 PVScalarArrayPtr array1 = factory->createPVScalarArray(scalarType);
 		 PVScalarArrayPtr array2 = factory->createPVScalarArray(scalarType);
-		 assert((*array1)==(*array2));
+		 testOk1((*array1)==(*array2));
 	}
 
 	// and a structure
     PVStructurePtr structure1 = factory->createPVStructure(getStandardField()->timeStamp());
     PVStructurePtr structure2 = factory->createPVStructure(getStandardField()->timeStamp());
-	assert((*structure1)==(*structure2));
+	testOk1((*structure1)==(*structure2));
 
     // and a structure array
     PVStructureArrayPtr structureArray1 = factory->createPVStructureArray(getFieldCreate()->createStructureArray(structure1->getStructure()));
     PVStructureArrayPtr structureArray2 = factory->createPVStructureArray(getFieldCreate()->createStructureArray(structure2->getStructure()));
-	assert((*structureArray1)==(*structureArray2));
+	testOk1((*structureArray1)==(*structureArray2));
+	
+	// variant union
+	PVUnionPtr variantUnion1 = factory->createPVVariantUnion();
+	PVUnionPtr variantUnion2 = factory->createPVVariantUnion();
+	testOk1((*variantUnion1)==(*variantUnion2));
+	
+	variantUnion1->set(structure1);
+	variantUnion2->set(structure1);
+	testOk1((*variantUnion1)==(*variantUnion2));
 
-    ofile<<"!!!  PASSED\n\n";
+	variantUnion2->set(structureArray1);
+	testOk1((*variantUnion1)!=(*variantUnion2));
+	
+	// variant union array
+	PVUnionArrayPtr variantUnionArray1 = factory->createPVVariantUnionArray();
+	PVUnionArrayPtr variantUnionArray2 = factory->createPVVariantUnionArray();
+	testOk1((*variantUnionArray1)==(*variantUnionArray2));
+
+    // union	
+    UnionConstPtr punion = getFieldCreate()->createFieldBuilder()->
+                            add("double", pvDouble)->
+                            add("double2", pvDouble)->
+                            addNestedStructureArray("nested")->
+                                setId("nestedId")->
+                                add("short", pvShort)->
+                                add("long", pvLong)->
+                                endNested()->
+                            addArray("intArray", pvInt)->
+                            createUnion();
+	PVUnionPtr union1 = factory->createPVUnion(punion);
+	PVUnionPtr union2 = factory->createPVUnion(punion);
+	testOk1((*union1)==(*union2));
+	
+	union1->select<PVDouble>("double")->put(1.2);
+	union2->select<PVDouble>("double")->put(1.2);
+	testOk1((*union1)==(*union2));
+	
+	union2->select<PVDouble>("double")->put(2.2);
+	testOk1((*union1)!=(*union2));
+
+	union2->select<PVDouble>("double2")->put(1.2);
+	testOk1((*union1)!=(*union2));
+
+	union2->select("nested");
+	testOk1((*union1)!=(*union2));
+
+	testOk1((*union1)!=(*variantUnion2));
+	
+	PVUnionArrayPtr unionArray1 = factory->createPVUnionArray(getFieldCreate()->createUnionArray(punion));
+	PVUnionArrayPtr unionArray2 = factory->createPVUnionArray(getFieldCreate()->createUnionArray(punion));
+	testOk1((*unionArray1)==(*unionArray2));
+
+	testOk1((*variantUnionArray1)!=(*unionArray2));
 }
 
-void testScalar(std::ostream& ofile) {
-    ofile<<"Testing scalars...\n";
-    PVDataCreatePtr factory = getPVDataCreate();
-    assert(factory.get()!=NULL);
+template<typename PVT>
+void testScalarType()
+{
+    typedef typename PVT::value_type value_type;
 
-    ofile<<"\tPVBoolean\n";
+    testDiag("type %s", ScalarTypeFunc::name(PVT::typeCode));
+
+    typename PVT::shared_pointer pv = std::tr1::static_pointer_cast<PVT>(getPVDataCreate()->createPVScalar(PVT::typeCode));
+
+    pv->put(0);
+    serializationTest(pv);
+    pv->put(42);
+    serializationTest(pv);
+    pv->put(std::numeric_limits<value_type>::max()-1);
+    serializationTest(pv);
+    pv->put(std::numeric_limits<value_type>::max());
+    serializationTest(pv);
+
+    if(std::numeric_limits<value_type>::min()!=0) {
+        pv->put(-42);
+        serializationTest(pv);
+        pv->put(std::numeric_limits<value_type>::min()+1);
+        serializationTest(pv);
+        pv->put(std::numeric_limits<value_type>::min());
+        serializationTest(pv);
+    }
+
+    if(std::numeric_limits<value_type>::has_infinity) {
+        pv->put(std::numeric_limits<value_type>::infinity());
+        serializationTest(pv);
+    }
+}
+
+void testScalar() {
+    testDiag("Testing scalars...");
+    PVDataCreatePtr factory = getPVDataCreate();
+    testOk1(factory.get()!=NULL);
+
+    testDiag("type %s", ScalarTypeFunc::name(pvBoolean));
     PVBooleanPtr pvBoolean =
     		std::tr1::static_pointer_cast<PVBoolean>(factory->createPVScalar(epics::pvData::pvBoolean));
     pvBoolean->put(false);
@@ -175,196 +272,19 @@ void testScalar(std::ostream& ofile) {
     pvBoolean->put(true);
     serializationTest(pvBoolean);
 
-    ofile<<"\tPVByte\n";
-    PVBytePtr pvByte =
-    		std::tr1::static_pointer_cast<PVByte>(factory->createPVScalar(epics::pvData::pvByte));
-    pvByte->put(0);
-    serializationTest(pvByte);
-    pvByte->put(12);
-    serializationTest(pvByte);
-    pvByte->put(BYTE_MAX_VALUE);
-    serializationTest(pvByte);
-    pvByte->put(BYTE_MIN_VALUE);
-    serializationTest(pvByte);
-
-    ofile<<"\tPVShort\n";
-    PVShortPtr pvShort =
-    		std::tr1::static_pointer_cast<PVShort>(factory->createPVScalar(epics::pvData::pvShort));
-    pvShort->put(0);
-    serializationTest(pvShort);
-    pvShort->put(123);
-    serializationTest(pvShort);
-    pvShort->put(BYTE_MAX_VALUE);
-    serializationTest(pvShort);
-    pvShort->put(BYTE_MIN_VALUE);
-    serializationTest(pvShort);
-    pvShort->put(SHORT_MAX_VALUE);
-    serializationTest(pvShort);
-    pvShort->put(SHORT_MIN_VALUE);
-    serializationTest(pvShort);
-
-    ofile<<"\tPVInt\n";
-    PVIntPtr pvInt =
-    		std::tr1::static_pointer_cast<PVInt>(factory->createPVScalar(epics::pvData::pvInt));
-    pvInt->put(0);
-    serializationTest(pvInt);
-    pvInt->put(123456);
-    serializationTest(pvInt);
-    pvInt->put(BYTE_MAX_VALUE);
-    serializationTest(pvInt);
-    pvInt->put(BYTE_MIN_VALUE);
-    serializationTest(pvInt);
-    pvInt->put(SHORT_MAX_VALUE);
-    serializationTest(pvInt);
-    pvInt->put(SHORT_MIN_VALUE);
-    serializationTest(pvInt);
-    pvInt->put(INT_MAX_VALUE);
-    serializationTest(pvInt);
-    pvInt->put(INT_MIN_VALUE);
-    serializationTest(pvInt);
-
-    ofile<<"\tPVLong\n";
-    PVLongPtr pvLong =
-    		std::tr1::static_pointer_cast<PVLong>(factory->createPVScalar(epics::pvData::pvLong));
-    pvLong->put(0);
-    serializationTest(pvLong);
-    pvLong->put(12345678901LL);
-    serializationTest(pvLong);
-    pvLong->put(BYTE_MAX_VALUE);
-    serializationTest(pvLong);
-    pvLong->put(BYTE_MIN_VALUE);
-    serializationTest(pvLong);
-    pvLong->put(SHORT_MAX_VALUE);
-    serializationTest(pvLong);
-    pvLong->put(SHORT_MIN_VALUE);
-    serializationTest(pvLong);
-    pvLong->put(INT_MAX_VALUE);
-    serializationTest(pvLong);
-    pvLong->put(INT_MIN_VALUE);
-    serializationTest(pvLong);
-    pvLong->put(LONG_MAX_VALUE);
-    serializationTest(pvLong);
-    pvLong->put(LONG_MIN_VALUE);
-    serializationTest(pvLong);
+    testScalarType<PVByte>();
+    testScalarType<PVUByte>();
+    testScalarType<PVShort>();
+    testScalarType<PVUShort>();
+    testScalarType<PVInt>();
+    testScalarType<PVUInt>();
+    testScalarType<PVLong>();
+    testScalarType<PVULong>();
+    testScalarType<PVFloat>();
+    testScalarType<PVDouble>();
 
 
-    ofile<<"\tPVUByte\n";
-    PVUBytePtr pvUByte =
-    		std::tr1::static_pointer_cast<PVUByte>(factory->createPVScalar(epics::pvData::pvUByte));
-    pvUByte->put(0);
-    serializationTest(pvUByte);
-    pvUByte->put(12);
-    serializationTest(pvUByte);
-    pvUByte->put(UBYTE_MAX_VALUE);
-    serializationTest(pvUByte);
-    pvUByte->put(BYTE_MAX_VALUE);
-    serializationTest(pvUByte);
-    pvUByte->put(BYTE_MIN_VALUE);
-    serializationTest(pvUByte);
-
-    ofile<<"\tPVUShort\n";
-    PVUShortPtr pvUShort =
-    		std::tr1::static_pointer_cast<PVUShort>(factory->createPVScalar(epics::pvData::pvUShort));
-    pvUShort->put(0);
-    serializationTest(pvUShort);
-    pvUShort->put(1234);
-    serializationTest(pvUShort);
-    pvUShort->put(BYTE_MAX_VALUE);
-    serializationTest(pvUShort);
-    pvUShort->put(BYTE_MIN_VALUE);
-    serializationTest(pvUShort);
-    pvUShort->put(UBYTE_MAX_VALUE);
-    serializationTest(pvUShort);
-    pvUShort->put(SHORT_MAX_VALUE);
-    serializationTest(pvUShort);
-    pvUShort->put(SHORT_MIN_VALUE);
-    serializationTest(pvUShort);
-    pvUShort->put(USHORT_MAX_VALUE);
-    serializationTest(pvUShort);
-
-    ofile<<"\tPVInt\n";
-    PVIntPtr pvUInt =
-    		std::tr1::static_pointer_cast<PVInt>(factory->createPVScalar(epics::pvData::pvUInt));
-    pvUInt->put(0);
-    serializationTest(pvUInt);
-    pvUInt->put(123456);
-    serializationTest(pvUInt);
-    pvUInt->put(BYTE_MAX_VALUE);
-    serializationTest(pvUInt);
-    pvUInt->put(BYTE_MIN_VALUE);
-    serializationTest(pvUInt);
-    pvUInt->put(UBYTE_MAX_VALUE);
-    serializationTest(pvUInt);
-    pvUInt->put(SHORT_MAX_VALUE);
-    serializationTest(pvUInt);
-    pvUInt->put(SHORT_MIN_VALUE);
-    serializationTest(pvUInt);
-    pvUInt->put(USHORT_MAX_VALUE);
-    serializationTest(pvUInt);
-    pvUInt->put(INT_MAX_VALUE);
-    serializationTest(pvUInt);
-    pvUInt->put(INT_MIN_VALUE);
-    serializationTest(pvUInt);
-    pvUInt->put(UINT_MAX_VALUE);
-    serializationTest(pvUInt);
-
-    ofile<<"\tPVLong\n";
-    PVLongPtr pvULong =
-    		std::tr1::static_pointer_cast<PVLong>(factory->createPVScalar(epics::pvData::pvULong));
-    pvULong->put(0);
-    serializationTest(pvULong);
-    pvULong->put(12345678901LL);
-    serializationTest(pvULong);
-    pvULong->put(BYTE_MAX_VALUE);
-    serializationTest(pvULong);
-    pvULong->put(BYTE_MIN_VALUE);
-    serializationTest(pvULong);
-    pvULong->put(UBYTE_MAX_VALUE);
-    serializationTest(pvULong);
-    pvULong->put(SHORT_MAX_VALUE);
-    serializationTest(pvULong);
-    pvULong->put(SHORT_MIN_VALUE);
-    serializationTest(pvULong);
-    pvULong->put(USHORT_MAX_VALUE);
-    serializationTest(pvULong);
-    pvULong->put(INT_MAX_VALUE);
-    serializationTest(pvULong);
-    pvULong->put(INT_MIN_VALUE);
-    serializationTest(pvULong);
-    pvULong->put(UINT_MAX_VALUE);
-    serializationTest(pvULong);
-    pvULong->put(LONG_MAX_VALUE);
-    serializationTest(pvULong);
-    pvULong->put(LONG_MIN_VALUE);
-    serializationTest(pvULong);
-    pvULong->put(ULONG_MAX_VALUE);
-    serializationTest(pvULong);
-
-    ofile<<"\tPVFloat\n";
-    PVFloatPtr pvFloat =
-    		std::tr1::static_pointer_cast<PVFloat>(factory->createPVScalar(epics::pvData::pvFloat));
-    pvFloat->put(0);
-    serializationTest(pvFloat);
-    pvFloat->put(12.345f);
-    serializationTest(pvFloat);
-    pvFloat->put(FLOAT_MAX_VALUE);
-    serializationTest(pvFloat);
-    pvFloat->put(FLOAT_MIN_VALUE);
-    serializationTest(pvFloat);
-
-    ofile<<"\tPVDouble\n";
-    PVDoublePtr pvDouble =
-    		std::tr1::static_pointer_cast<PVDouble>(factory->createPVScalar(epics::pvData::pvDouble));
-    pvDouble->put(0);
-    serializationTest(pvDouble);
-    pvDouble->put(12.345);
-    serializationTest(pvDouble);
-    pvDouble->put(DOUBLE_MAX_VALUE);
-    serializationTest(pvDouble);
-    pvDouble->put(DOUBLE_MIN_VALUE);
-    serializationTest(pvDouble);
-
-    ofile<<"\tPVString\n";
+    testDiag("type %s", ScalarTypeFunc::name(pvString));
     PVStringPtr pvString =
     		std::tr1::static_pointer_cast<PVString>(factory->createPVScalar(epics::pvData::pvString));
     pvString->put("");
@@ -379,222 +299,313 @@ void testScalar(std::ostream& ofile) {
     serializationTest(pvString);
 
     // huge string test
-    pvString->put(String(10000, 'a'));
+    pvString->put(string(10000, 'a'));
     serializationTest(pvString);
-
-    // TODO unsigned test
-
-    ofile<<"!!!  PASSED\n\n";
 }
 
-void testArray(std::ostream& ofile) {
-    ofile<<"Testing arrays...\n";
+template<typename PVT>
+void testArrayType(const typename PVT::value_type* rdata, size_t len)
+{
+    typename PVT::svector empty(0), data(len);
 
-    PVDataCreatePtr factory = getPVDataCreate();
-    assert(factory.get()!=NULL);
+    std::copy(rdata, rdata+len, data.begin());
 
-    ofile<<"\tPVBooleanArray\n";
-    //bool boolEmpty[] = { false };
-    //bool bv[] = { false, true, false, true, true };
-    PVBooleanArrayPtr pvBoolean =
-    		std::tr1::static_pointer_cast<PVBooleanArray>(factory->createPVScalarArray(epics::pvData::pvBoolean));
-    //pvBoolean->put(0, 0, boolEmpty, 0);
-    serializationTest(pvBoolean);
-    //pvBoolean->put(0, 5, bv, 0);
-    serializationTest(pvBoolean);
+    testDiag("type %s", ScalarTypeFunc::name(PVT::typeCode));
 
-    ofile<<"\tPVByteArray\n";
-    int8 byteEmpty[] = { 0 };
-    int8 byv[] = { 0, 1, 2, -1, BYTE_MAX_VALUE, BYTE_MAX_VALUE-1,
-            BYTE_MIN_VALUE+1, BYTE_MIN_VALUE };
-    PVByteArrayPtr pvByte =
-    		std::tr1::static_pointer_cast<PVByteArray>(factory->createPVScalarArray(epics::pvData::pvByte));
-    pvByte->put(0, 0, byteEmpty, 0);
-    serializationTest(pvByte);
-    pvByte->put(0, 8, byv, 0);
-    serializationTest(pvByte);
+    typename PVT::shared_pointer pv = std::tr1::static_pointer_cast<PVT>(getPVDataCreate()->createPVScalarArray(PVT::typeCode));
 
-    ofile<<"\tPVShortArray\n";
-    int16 shortEmpty[] = { 0 };
-    int16 sv[] = { 0, 1, 2, -1, SHORT_MAX_VALUE, SHORT_MAX_VALUE-1,
-            SHORT_MIN_VALUE+1, SHORT_MIN_VALUE };
-    PVShortArrayPtr pvShort =
-    		std::tr1::static_pointer_cast<PVShortArray>(factory->createPVScalarArray(epics::pvData::pvShort));
-    pvShort->put(0, 0, shortEmpty, 0);
-    serializationTest(pvShort);
-    pvShort->put(0, 8, sv, 0);
-    serializationTest(pvShort);
-
-    ofile<<"\tPVIntArray\n";
-    int32 intEmpty[] = { 0 };
-    int32 iv[] = { 0, 1, 2, -1, INT_MAX_VALUE, INT_MAX_VALUE-1,
-            INT_MIN_VALUE+1, INT_MIN_VALUE };
-    PVIntArrayPtr pvInt =
-    		std::tr1::static_pointer_cast<PVIntArray>(factory->createPVScalarArray(epics::pvData::pvInt));
-    pvInt->put(0, 0, intEmpty, 0);
-    serializationTest(pvInt);
-    pvInt->put(0, 8, iv, 0);
-    serializationTest(pvInt);
-
-    ofile<<"\tPVLongArray\n";
-    int64 longEmpty[] = { 0 };
-    int64 lv[] = { 0, 1, 2, -1, LONG_MAX_VALUE, LONG_MAX_VALUE-1,
-            LONG_MIN_VALUE+1, LONG_MIN_VALUE };
-    PVLongArrayPtr pvLong =
-    		std::tr1::static_pointer_cast<PVLongArray>(factory->createPVScalarArray(epics::pvData::pvLong));
-    pvLong->put(0, 0, longEmpty, 0);
-    serializationTest(pvLong);
-    pvLong->put(0, 8, lv, 0);
-    serializationTest(pvLong);
-
-    ofile<<"\tPVUByteArray\n";
-    uint8 ubyteEmpty[] = { 0 };
-    uint8 ubyv[] = { 0, 1, 2, -1, BYTE_MAX_VALUE, BYTE_MAX_VALUE-1,
-            BYTE_MIN_VALUE+1, BYTE_MIN_VALUE, UBYTE_MAX_VALUE };
-    PVUByteArrayPtr pvUByte =
-    		std::tr1::static_pointer_cast<PVUByteArray>(factory->createPVScalarArray(epics::pvData::pvUByte));
-    pvUByte->put(0, 0, ubyteEmpty, 0);
-    serializationTest(pvUByte);
-    pvUByte->put(0, 9, ubyv, 0);
-    serializationTest(pvUByte);
-
-    ofile<<"\tPVUShortArray\n";
-    uint16 ushortEmpty[] = { 0 };
-    uint16 usv[] = { 0, 1, 2, -1, SHORT_MAX_VALUE, SHORT_MAX_VALUE-1,
-            SHORT_MIN_VALUE+1, SHORT_MIN_VALUE, USHORT_MAX_VALUE };
-    PVUShortArrayPtr pvUShort =
-    		std::tr1::static_pointer_cast<PVUShortArray>(factory->createPVScalarArray(epics::pvData::pvUShort));
-    pvUShort->put(0, 0, ushortEmpty, 0);
-    serializationTest(pvUShort);
-    pvUShort->put(0, 8, usv, 0);
-    serializationTest(pvUShort);
-
-    ofile<<"\tPVUIntArray\n";
-    uint32 uintEmpty[] = { 0 };
-    uint32 uiv[] = { 0, 1, 2, -1, INT_MAX_VALUE, INT_MAX_VALUE-1,
-            INT_MIN_VALUE+1, INT_MIN_VALUE, UINT_MAX_VALUE };
-    PVUIntArrayPtr pvUInt =
-    		std::tr1::static_pointer_cast<PVUIntArray>(factory->createPVScalarArray(epics::pvData::pvUInt));
-    pvUInt->put(0, 0, uintEmpty, 0);
-    serializationTest(pvUInt);
-    pvUInt->put(0, 9, uiv, 0);
-    serializationTest(pvUInt);
-
-    ofile<<"\tPVULongArray\n";
-    uint64 ulongEmpty[] = { 0 };
-    uint64 ulv[] = { 0, 1, 2, -1, LONG_MAX_VALUE, LONG_MAX_VALUE-1,
-            LONG_MIN_VALUE+1, LONG_MIN_VALUE, ULONG_MAX_VALUE };
-    PVULongArrayPtr pvULong =
-    		std::tr1::static_pointer_cast<PVULongArray>(factory->createPVScalarArray(epics::pvData::pvULong));
-    pvULong->put(0, 0, ulongEmpty, 0);
-    serializationTest(pvULong);
-    pvULong->put(0, 9, ulv, 0);
-    serializationTest(pvULong);
-
-    ofile<<"\tPVFloatArray\n";
-    float floatEmpty[] = { (float)0.0 };
-    float fv[] = { (float)0.0, (float)1.1, (float)2.3, (float)-1.4,
-            FLOAT_MAX_VALUE, FLOAT_MAX_VALUE-(float)123456.789, FLOAT_MIN_VALUE
-                    +(float)1.1, FLOAT_MIN_VALUE };
-    PVFloatArrayPtr pvFloat =
-    		std::tr1::static_pointer_cast<PVFloatArray>(factory->createPVScalarArray(epics::pvData::pvFloat));
-    pvFloat->put(0, 0, floatEmpty, 0);
-    serializationTest(pvFloat);
-    pvFloat->put(0, 8, fv, 0);
-    serializationTest(pvFloat);
-
-    ofile<<"\tPVDoubleArray\n";
-    double doubleEmpty[] = { (double)0.0 };
-    double dv[] = { (double)0.0, (double)1.1, (double)2.3, (double)-1.4,
-            DOUBLE_MAX_VALUE, DOUBLE_MAX_VALUE-(double)123456.789,
-            DOUBLE_MIN_VALUE+(double)1.1, DOUBLE_MIN_VALUE };
-    PVDoubleArrayPtr pvDouble =
-    		std::tr1::static_pointer_cast<PVDoubleArray>(factory->createPVScalarArray(epics::pvData::pvDouble));
-    pvDouble->put(0, 0, doubleEmpty, 0);
-    serializationTest(pvDouble);
-    pvDouble->put(0, 8, dv, 0);
-    serializationTest(pvDouble);
-
-    ofile<<"\tPVStringArray\n";
-    String stringEmpty[] = { "" };
-    String
-            strv[] =
-                    {
-                            "",
-                            "a",
-                            "a b",
-                            " ",
-                            "test",
-                            "smile",
-                            "this is a little longer string... maybe a little but longer... this makes test better",
-                            String(10000, 'b') };
-    PVStringArrayPtr pvString =
-    		std::tr1::static_pointer_cast<PVStringArray>(factory->createPVScalarArray(epics::pvData::pvString));
-    pvString->put(0, 0, stringEmpty, 0);
-    serializationTest(pvString);
-    pvString->put(0, 8, strv, 0);
-    serializationTest(pvString);
-
-    ofile<<"!!!  PASSED\n\n";
+    pv->replace(freeze(empty));
+    serializationTest(pv);
+    pv->replace(freeze(data));
+    serializationTest(pv);
 }
 
-void testNonInitialized(std::ostream& ofile) {
-    ofile<<"Testing non-initialized...\n";
-    PVDataCreatePtr factory = getPVDataCreate();
-    assert(factory.get()!=NULL);
+static const epics::pvData::boolean bdata[] = {0, 1, 0, 1, 1};
 
-	 // be sure all is covered
-	 for (int i = pvBoolean; i < pvString; i++)
-	 {
-		 ScalarType scalarType = static_cast<ScalarType>(i);
+static const int8 i8data[] = { 0, 1, 2, -1, BYTE_MAX_VALUE, static_cast<int8>(BYTE_MAX_VALUE-1),
+                               static_cast<int8>(BYTE_MIN_VALUE+1), BYTE_MIN_VALUE };
+static const uint8 u8data[] = { 0, 1, 2, static_cast<uint8>(-1), UBYTE_MAX_VALUE, static_cast<uint8>(UBYTE_MAX_VALUE-1) };
 
-		 PVScalarPtr scalar = factory->createPVScalar(scalarType);
-		 serializationTest(scalar);
+static const int16 i16data[] = { 0, 1, 2, -1, SHORT_MAX_VALUE, static_cast<int16>(SHORT_MAX_VALUE-1),
+                               static_cast<int16>(SHORT_MIN_VALUE+1), SHORT_MIN_VALUE };
+static const uint16 u16data[] = { 0, 1, 2, static_cast<uint16>(-1), USHORT_MAX_VALUE, static_cast<uint16>(USHORT_MAX_VALUE-1) };
 
-		 PVScalarArrayPtr array = factory->createPVScalarArray(scalarType);
-		 serializationTest(array);
-	}
+static const int32 i32data[] = { 0, 1, 2, -1, INT_MAX_VALUE, INT_MAX_VALUE-1,
+                               INT_MIN_VALUE+1, INT_MIN_VALUE };
+static const uint32 u32data[] = { 0, 1, 2, static_cast<uint32>(-1), UINT_MAX_VALUE, UINT_MAX_VALUE-1 };
 
-	// and a structure
-	PVStructurePtr structure = factory->createPVStructure(getStandardField()->timeStamp());
-	serializationTest(structure);
+static const int64 i64data[] = { 0, 1, 2, -1, LONG_MAX_VALUE, static_cast<int64>(LONG_MAX_VALUE-1),
+                               static_cast<int64>(LONG_MIN_VALUE+1), LONG_MIN_VALUE };
+static const uint64 u64data[] = { 0, 1, 2, static_cast<uint64>(-1), ULONG_MAX_VALUE, static_cast<uint64>(ULONG_MAX_VALUE-1) };
 
-	// and a structure array
-	PVStructureArrayPtr structureArray = factory->createPVStructureArray(getFieldCreate()->createStructureArray(structure->getStructure()));
-	serializationTest(structureArray);
+static const double ddata[] = { (double)0.0, (double)1.1, (double)2.3, (double)-1.4,
+                                DOUBLE_MAX_VALUE, DOUBLE_MAX_VALUE-(double)123456.789,
+                                DOUBLE_MIN_VALUE+(double)1.1, DOUBLE_MIN_VALUE };
 
-	ofile<<"!!!  PASSED\n\n";
+static const float fdata[] = { (float)0.0, (float)1.1, (float)2.3, (float)-1.4,
+                               FLOAT_MAX_VALUE, FLOAT_MAX_VALUE-(float)123456.789,
+                               FLOAT_MIN_VALUE+(float)1.1, FLOAT_MIN_VALUE };
+
+static const string sdata[] = {
+    "",
+    "a",
+    "a b",
+    " ",
+    "test",
+    "smile",
+    "this is a little longer string... maybe a little but longer... this makes test better",
+    string(10000, 'b')
+};
+
+void testArray() {
+    testDiag("Testing arrays...");
+
+    testArrayType<PVBooleanArray>(bdata, NELEMENTS(bdata));
+
+    testArrayType<PVByteArray>(i8data, NELEMENTS(i8data));
+    testArrayType<PVUByteArray>(u8data, NELEMENTS(u8data));
+    testArrayType<PVShortArray>(i16data, NELEMENTS(i16data));
+    testArrayType<PVUShortArray>(u16data, NELEMENTS(u16data));
+    testArrayType<PVIntArray>(i32data, NELEMENTS(i32data));
+    testArrayType<PVUIntArray>(u32data, NELEMENTS(u32data));
+    testArrayType<PVLongArray>(i64data, NELEMENTS(i64data));
+    testArrayType<PVULongArray>(u64data, NELEMENTS(u64data));
+
+    testArrayType<PVDoubleArray>(ddata, NELEMENTS(ddata));
+    testArrayType<PVFloatArray>(fdata, NELEMENTS(fdata));
+
+    testArrayType<PVStringArray>(sdata, NELEMENTS(sdata));
 }
 
-void testStructure(std::ostream& ofile) {
-    ofile<<"Testing structure...\n";
+void testStructure() {
+    testDiag("Testing structure...");
 
     PVDataCreatePtr factory = getPVDataCreate();
-    assert(factory.get()!=NULL);
+    testOk1(factory.get()!=NULL);
 
-    ofile<<"\tSimple structure serialization\n";
+    testDiag("\tSimple structure serialization");
 	PVStructurePtr pvStructure = factory->createPVStructure(getStandardField()->timeStamp());
     pvStructure->getLongField("secondsPastEpoch")->put(123);
-    pvStructure->getIntField("nanoSeconds")->put(456);
+    pvStructure->getIntField("nanoseconds")->put(456);
     pvStructure->getIntField("userTag")->put(789);
 
     serializationTest(pvStructure);
 
-    ofile<<"\tComplex structure serialization\n";
+    testDiag("\tComplex structure serialization");
 	pvStructure = factory->createPVStructure(
 			getStandardField()->structureArray(
 					getStandardField()->timeStamp(), "alarm,control,display,timeStamp")
 			);
 	// TODO fill with data
     serializationTest(pvStructure);
+}
 
-    ofile<<"!!!  PASSED\n\n";
+void testUnion() {
+    testDiag("Testing union...");
+
+    PVDataCreatePtr factory = getPVDataCreate();
+    testOk1(factory.get()!=NULL);
+
+
+    PVDoublePtr doubleValue = factory->createPVScalar<PVDouble>();
+    PVIntPtr intValue = factory->createPVScalar<PVInt>();
+
+    testDiag("\tVariant union test");
+
+    PVUnionPtr variant = factory->createPVVariantUnion();
+    testOk1(variant.get()!=NULL);
+    testOk1(PVUnion::UNDEFINED_INDEX == variant->getSelectedIndex());
+    testOk1("" == variant->getSelectedFieldName());
+    serializationTest(variant);
+
+    variant->set(doubleValue);
+    testOk1(doubleValue.get() == variant->get().get());
+    testOk1(PVUnion::UNDEFINED_INDEX == variant->getSelectedIndex());
+    testOk1("" == variant->getSelectedFieldName());
+    serializationTest(variant);
+
+    variant->set(intValue);
+    testOk1(intValue.get() == variant->get().get());
+    testOk1(PVUnion::UNDEFINED_INDEX == variant->getSelectedIndex());
+    testOk1("" == variant->getSelectedFieldName());
+    serializationTest(variant);
+
+    variant->set(PVUnion::UNDEFINED_INDEX, doubleValue);
+    testOk1(doubleValue.get() == variant->get().get());
+    testOk1(PVUnion::UNDEFINED_INDEX == variant->getSelectedIndex());
+
+    variant->set(PVFieldPtr());
+    testOk1(NULL == variant->get().get());
+
+    testDiag("\tVariant union array test");
+
+    PVUnionArrayPtr variantArray = factory->createPVVariantUnionArray();
+    testOk1(variantArray.get()!=NULL);
+    
+    variantArray->setLength(6);
+    PVUnionArray::svector data;
+
+    PVUnionPtr u = factory->createPVVariantUnion();
+    data.push_back(u);
+  
+    u = factory->createPVVariantUnion();
+    u->set(factory->createPVStructure(getStandardField()->timeStamp()));
+    data.push_back(u);
+    
+    u = factory->createPVVariantUnion();
+    u->set(factory->createPVStructure(getStandardField()->control()));
+    data.push_back(u);
+
+    data.push_back(PVUnionPtr());
+
+    variantArray->replace(freeze(data));
+    serializationTest(variantArray);
+    
+    testDiag("\tVariant union test");
+    
+    UnionConstPtr punion = getFieldCreate()->createFieldBuilder()->
+                            add("doubleValue", pvDouble)->
+                            add("intValue", pvInt)->
+                            createUnion();
+                            
+    u = factory->createPVUnion(punion);
+    testOk1(NULL!=u.get());       
+
+	// null union test
+    testOk1(NULL==u->get().get());
+    testOk1(PVUnion::UNDEFINED_INDEX == u->getSelectedIndex());
+    testOk1("" == u->getSelectedFieldName());
+    serializationTest(u);
+
+    u->select<PVDouble>("doubleValue")->put(12);
+    testOk1(12 == u->get<PVDouble>()->get());
+    testOk1(0 == u->getSelectedIndex());
+    testOk1("doubleValue" == u->getSelectedFieldName());
+    serializationTest(u);
+    
+    u->select<PVInt>("intValue")->put(543);
+    testOk1(543 == u->get<PVInt>()->get());
+    testOk1(1 == u->getSelectedIndex());
+    testOk1("intValue" == u->getSelectedFieldName());
+    serializationTest(u);
+    
+    u->select<PVInt>(1)->put(5432);
+    testOk1(5432 == u->get<PVInt>()->get());
+    serializationTest(u);
+
+    testOk1(NULL==u->select(PVUnion::UNDEFINED_INDEX).get());
+    testOk1(NULL==u->get().get());
+    testOk1(PVUnion::UNDEFINED_INDEX == u->getSelectedIndex());
+    testOk1("" == u->getSelectedFieldName());
+    serializationTest(u);
+        
+    u->set("doubleValue", doubleValue);
+    testOk1(doubleValue.get() == u->get().get());
+    testOk1(0 == u->getSelectedIndex());
+    serializationTest(u);
+    
+    try
+    {
+        u->set(1, doubleValue);
+        testFail("field type does not match, but set allowed");
+    }
+    catch (std::invalid_argument& ia)
+    {
+        // expected
+        testPass("PVUnion.set(int32, PVFieldPtr const&) field type does not match test");
+    }
+
+    try
+    {
+        u->select(120);
+        testFail("index out of bounds allowed");
+    }
+    catch (std::invalid_argument& ia)
+    {
+        // expected
+        testPass("PVUnion.select(int32) index out of bounds test");
+    }
+    
+    try
+    {
+        u->select(-2);
+        testFail("index out of bounds allowed");
+    }
+    catch (std::invalid_argument& ia)
+    {
+        // expected
+        testPass("PVUnion.select(int32) index out of bounds test");
+    }
+
+    try
+    {
+        u->set(120, doubleValue);
+        testFail("index out of bounds allowed");
+    }
+    catch (std::invalid_argument& ia)
+    {
+        // expected
+        testPass("PVUnion.set(int32, PVFieldPtr const&) index out of bounds test");
+    }
+    
+    testDiag("\tUnion array test");
+
+    PVUnionArrayPtr unionArray = factory->createPVUnionArray(getFieldCreate()->createUnionArray(punion));
+    testOk1(unionArray.get()!=NULL);
+    
+    unionArray->setLength(6);
+    data.clear();
+
+    u = factory->createPVUnion(punion);
+    data.push_back(u);
+  
+    u = factory->createPVUnion(punion);
+    u->select<PVDouble>(0)->put(12);
+    data.push_back(u);
+    
+    u = factory->createPVUnion(punion);
+    u->select<PVInt>(1)->put(421);
+    data.push_back(u);
+
+    data.push_back(PVUnionPtr());
+
+    unionArray->replace(freeze(data));
+    serializationTest(unionArray);
+    
+}
+
+void testStructureArray() {
+    testDiag("Testing structure array...");
+
+    PVDataCreatePtr factory = getPVDataCreate();
+    testOk1(factory.get()!=NULL);
+
+    StructureArrayConstPtr tstype(
+            getFieldCreate()->createStructureArray(getStandardField()->alarm()));
+    PVStructureArrayPtr pvArr = getPVDataCreate()->createPVStructureArray(tstype);
+
+    testDiag("empty array");
+    serializationTest(pvArr);
+
+    pvArr->setLength(10);
+
+    testDiag("All NULLs");
+    serializationTest(pvArr);
+
+    PVStructureArray::svector data(5);
+
+    data[1] = getPVDataCreate()->createPVStructure(getStandardField()->alarm());
+    data[4] = getPVDataCreate()->createPVStructure(getStandardField()->alarm());
+
+    pvArr->replace(freeze(data));
+
+    testDiag("Some NULLs");
+    serializationTest(pvArr);
 }
 
 
-
-void testStructureId(std::ostream& ofile) {
-    ofile<<"Testing structureID...\n";
+void testStructureId() {
+    testDiag("Testing structureID...");
 
     FieldCreatePtr fieldCreate = getFieldCreate();
 
@@ -611,18 +622,16 @@ void testStructureId(std::ostream& ofile) {
     StructureConstPtr structure2 = fieldCreate->createStructure("id2", fieldNames, fields);
 
 
-    assert(structureWithNoId!=structure1);
-    assert(structure1!=structure2);
+    testOk1(structureWithNoId!=structure1);
+    testOk1(structure1!=structure2);
 
-    //serializationTest(structure1);
+    //serializationFieldTest(structure1);
 
     PVStructurePtr pvStructure = getPVDataCreate()->createPVStructure(structure1);
     serializationTest(pvStructure);
-
-    ofile<<"!!!  PASSED\n\n";
 }
 
-void serializatioTest(FieldConstPtr const & field)
+void serializationFieldTest(FieldConstPtr const & field)
 {
 	buffer->clear();
 
@@ -635,17 +644,15 @@ void serializatioTest(FieldConstPtr const & field)
 	FieldConstPtr deserializedField = getFieldCreate()->deserialize(buffer, control);
 
 	// must equal
-	bool isEqual = *field == *deserializedField;
-	assert(isEqual);
-	//assertEquals("field " + field.toString() + " serialization broken", field, deserializedField);
+	testOk1(*field == *deserializedField);
 }
 
-void testIntrospectionSerialization(std::ostream& ofile)
+void testIntrospectionSerialization()
 {
-	 ofile<<"Testing introspection serialization...\n";
+	 testDiag("Testing introspection serialization...");
 
 	 FieldCreatePtr factory = getFieldCreate();
-	 assert(factory.get()!=NULL);
+	 testOk1(factory.get()!=NULL);
 
 	 // be sure all is covered
 	 for (int i = pvBoolean; i < pvString; i++)
@@ -653,55 +660,130 @@ void testIntrospectionSerialization(std::ostream& ofile)
 		 ScalarType scalarType = static_cast<ScalarType>(i);
 
 		 ScalarConstPtr scalar = factory->createScalar(scalarType);
-		 serializatioTest(scalar);
+         serializationFieldTest(scalar);
 
 		 ScalarArrayConstPtr array = factory->createScalarArray(scalarType);
-		 serializatioTest(array);
-	}
+         serializationFieldTest(array);
+	 }
 
      // and a structure
      StructureConstPtr structure = getStandardField()->timeStamp();
-     serializatioTest(structure);
+     serializationFieldTest(structure);
 
      // and a structure array
      StructureArrayConstPtr structureArray = factory->createStructureArray(structure);
-     serializatioTest(structureArray);
+     serializationFieldTest(structureArray);
 
-	 ofile<<"!!!  PASSED\n\n";
- }
-
-void testStringCopy(std::ostream& ofile) {
-    String s1 = "abc";
-    String s2 = s1;
-    if (s1.c_str() != s2.c_str())
-        ofile << "\n!!! implementation of epics::pvData::String assignment operator does not share content !!!\n\n";
+     // variant union
+     UnionConstPtr variant = factory->createVariantUnion();
+     serializationFieldTest(variant);
+     
+     // variant array union
+     UnionArrayConstPtr variantArray = factory->createVariantUnionArray();
+     serializationFieldTest(variantArray);
+     
+     // union
+     UnionConstPtr punion = factory->createFieldBuilder()->
+                            add("double", pvDouble)->
+                            addNestedStructureArray("nested")->
+                                setId("nestedId")->
+                                add("short", pvShort)->
+                                add("long", pvLong)->
+                                endNested()->
+                            addArray("intArray", pvInt)->
+                            createUnion();
+     serializationFieldTest(punion);
+     
+     // union array
+     UnionArrayConstPtr punionArray = factory->createUnionArray(punion);
+     serializationFieldTest(punionArray);
 }
 
-int main(int argc, char *argv[]) {
-    std::ofstream outfile;
-    std::ostream *out=NULL;
-    if(argc>1) {
-        outfile.open(argv[1]);
-        if(outfile.is_open()){
-            out=&outfile;
-        }else{
-            fprintf(stderr, "Failed to open test output file\n");
-        }
+void testArraySizeType() {
+    testDiag("Testing array size types...");
+
+    FieldCreatePtr fieldCreate = getFieldCreate();
+
+    StructureConstPtr s = fieldCreate->createFieldBuilder()->
+                            addArray("variableArray", pvDouble)->
+                            addFixedArray("fixedArray", pvDouble, 10)->
+                            addBoundedArray("boundedArray", pvDouble, 1024)->
+                            createStructure();
+    testOk1(s.get() != 0);
+    testOk1(Structure::DEFAULT_ID == s->getID());
+    testOk1(3 == s->getFields().size());
+
+    serializationFieldTest(s);
+
+    PVStructurePtr pvs = getPVDataCreate()->createPVStructure(s);
+    pvs->getSubField<PVArray>("fixedArray")->setLength(10);
+    serializationTest(pvs);
+}
+
+void testBoundedString() {
+    testDiag("Testing bounded string...");
+
+    FieldCreatePtr fieldCreate = getFieldCreate();
+
+    StructureConstPtr s = fieldCreate->createFieldBuilder()->
+                            add("str", pvString)->
+                            addBoundedString("boundedStr", 8)->
+                            add("scalar", pvDouble)->
+                            createStructure();
+    testOk1(s.get() != 0);
+    testOk1(Structure::DEFAULT_ID == s->getID());
+    testOk1(3 == s->getFields().size());
+
+    serializationFieldTest(s);
+    PVStructurePtr pvs = getPVDataCreate()->createPVStructure(s);
+    serializationTest(pvs);
+
+    PVStringPtr pvStr = pvs->getSubField<PVString>("boundedStr");
+    pvStr->put("");
+    pvStr->put("small");
+    pvStr->put("exact123");
+
+    try {
+        pvStr->put("tooLargeString");
+        testFail("too large string accepted");
+    } catch (std::overflow_error oe) {
+        // OK
     }
-    if(!out) out=&std::cout;
+
+}
+
+void testStringCopy() {
+    string s1 = "abc";
+    string s2 = s1;
+    if (s1.c_str() != s2.c_str())
+        testDiag("implementation of string assignment operator does not share content");
+}
+
+} // end namespace
+
+MAIN(testSerialization) {
+
+    testPlan(226);
+
     flusher = new SerializableControlImpl();
     control = new DeserializableControlImpl();
     buffer = new ByteBuffer(1<<16);
 
-    testStringCopy(*out);
+    testStringCopy();
 
-    testIntrospectionSerialization(*out);
-    testEquals(*out);
-    testNonInitialized(*out);
+    testIntrospectionSerialization();
+    testEquals();
 
-    testScalar(*out);
-    testArray(*out);
-    testStructure(*out);
+    testScalar();
+    testArray();
+    testStructure();
+    testStructureId();
+    testStructureArray();
+    
+    testUnion();
+
+    testArraySizeType();
+    testBoundedString();
 
 
     delete buffer;
@@ -709,6 +791,6 @@ int main(int argc, char *argv[]) {
     delete flusher;
 
     epicsExitCallAtExits();
-    return 0;
+    return testDone();
 }
 

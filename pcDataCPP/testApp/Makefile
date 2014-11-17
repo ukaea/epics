@@ -3,7 +3,6 @@ include $(TOP)/configure/CONFIG
 DIRS += misc
 DIRS += pv
 DIRS += property
-DIRS += monitor
-DIRS += capi
+DIRS += copy
 include $(TOP)/configure/RULES_DIRS
 

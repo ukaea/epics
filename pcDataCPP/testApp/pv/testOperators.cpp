@@ -11,17 +11,21 @@
 #include <pv/pvData.h>
 #include <pv/standardField.h>
 #include <pv/standardPVField.h>
+#include <pv/status.h>
 
-#include <epicsAssert.h>
+#include <epicsUnitTest.h>
+#include <testMain.h>
 
 using namespace epics::pvData;
+using std::string;
 
 static PVDataCreatePtr pvDataCreate = getPVDataCreate();
 static StandardFieldPtr standardField = getStandardField();
 static StandardPVFieldPtr standardPVField = getStandardPVField();
 
-int main(int, char*)
+MAIN(testOperators)
 {
+    testPlan(2);
     PVStructurePtr pvStructure = standardPVField->scalar(pvDouble,
         "alarm,timeStamp,display,control,valueAlarm");
 
@@ -32,17 +36,17 @@ int main(int, char*)
 
     double dv;
     *pvValue >>= dv;
-    assert(testDV == dv);
+    testOk1(testDV == dv);
 
 
-    const std::string testSV = "test message";
+    const string testSV = "test message";
 
     PVStringPtr pvMessage = pvStructure->getStringField("alarm.message");
     *pvMessage <<= testSV;
 
-    std::string sv;
+    string sv;
     *pvMessage >>= sv;
-    assert(testSV == sv);
+    testOk1(testSV == sv);
 
     //
     // to stream tests
@@ -52,6 +56,10 @@ int main(int, char*)
     std::cout << *pvMessage << std::endl;
     std::cout << *pvStructure << std::endl;
 
+    std::cout << *pvStructure->getStructure() << std::endl;
+
+    std::cout << Status::Ok << std::endl;
+    std::cout << Status::STATUSTYPE_OK << std::endl;
 
     StringArray choices;
     choices.reserve(3);
@@ -66,9 +74,10 @@ int main(int, char*)
     pvStructure = standardPVField->scalarArray(pvDouble,"alarm,timeStamp");
     std::cout << *pvStructure << std::endl;
     
-    double values[] = { 1.1, 2.2, 3.3 };
+    PVDoubleArray::svector values(3);
+    values[0] = 1.1; values[1] = 2.2; values[2] = 3.3;
     PVDoubleArrayPtr darray = std::tr1::dynamic_pointer_cast<PVDoubleArray>(pvStructure->getScalarArrayField("value", pvDouble));
-    darray->put(0, 3, values, 0);
+    darray->replace(freeze(values));
     std::cout << *darray << std::endl;
     std::cout << format::array_at(1) << *darray << std::endl;
 
@@ -76,16 +85,15 @@ int main(int, char*)
     StructureConstPtr structure = standardField->scalar(pvDouble, "alarm,timeStamp");
     pvStructure = standardPVField->structureArray(structure,"alarm,timeStamp");
     size_t num = 2;
-    PVStructurePtrArray pvStructures;
-    pvStructures.reserve(num);
+    PVStructureArray::svector pvStructures(num);
     for(size_t i=0; i<num; i++) {
-        pvStructures.push_back(
-            pvDataCreate->createPVStructure(structure));
+        pvStructures[i]=
+            pvDataCreate->createPVStructure(structure);
     }
     PVStructureArrayPtr pvStructureArray = pvStructure->getStructureArrayField("value");
-    pvStructureArray->put(0, num, pvStructures, 0);
+    pvStructureArray->replace(freeze(pvStructures));
     std::cout << *pvStructure << std::endl;
 
-    return 0;
+   return testDone();
 }
 
