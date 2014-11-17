@@ -55,7 +55,7 @@
     <ClCompile Include="eget.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{B9CA7E58-2AD1-4293-9615-782F484E6E68}</ProjectGuid>
+    <ProjectGuid>{41F513B4-4C29-41FF-904B-C4BCB29F3267}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>testBitSetUtil</RootNamespace>
     <SccProjectName>Svn</SccProjectName>

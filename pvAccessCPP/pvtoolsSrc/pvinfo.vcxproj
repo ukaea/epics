@@ -52,7 +52,7 @@
     <ClCompile Include="pvinfo.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{99956D71-CCD7-4EC8-B4B8-21862D92A430}</ProjectGuid>
+    <ProjectGuid>{B6A774DA-7ADE-4D12-BF6E-4774266DC065}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>testBitSetUtil</RootNamespace>
     <SccProjectName>Svn</SccProjectName>
