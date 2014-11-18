@@ -396,18 +396,14 @@ xcopy /Y /Q /D /R mb\*.h $(SolutionDir)include\pv &gt; NUL
     <ClCompile Include="ca\caProvider.cpp" />
     <ClCompile Include="client\pvAccess.cpp" />
     <ClCompile Include="factory\ChannelAccessFactory.cpp" />
-    <ClCompile Include="factory\CreateRequestFactory.cpp" />
     <ClCompile Include="mb\pvAccessMB.cpp" />
     <ClCompile Include="pva\clientFactory.cpp" />
     <ClCompile Include="pva\pvaVersion.cpp" />
     <ClCompile Include="remoteClient\clientContextImpl.cpp" />
     <ClCompile Include="remote\abstractResponseHandler.cpp" />
     <ClCompile Include="remote\beaconHandler.cpp" />
-    <ClCompile Include="remote\blockingClientTCPTransport.cpp" />
-    <ClCompile Include="remote\blockingServerTCPTransport.cpp" />
     <ClCompile Include="remote\blockingTCPAcceptor.cpp" />
     <ClCompile Include="remote\blockingTCPConnector.cpp" />
-    <ClCompile Include="remote\blockingTCPTransport.cpp" />
     <ClCompile Include="remote\blockingUDPConnector.cpp" />
     <ClCompile Include="remote\blockingUDPTransport.cpp" />
     <ClCompile Include="remote\serializationHelper.cpp" />
@@ -470,11 +466,8 @@ xcopy /Y /Q /D /R mb\*.h $(SolutionDir)include\pv &gt; NUL
     <ProjectReference Include="..\..\base\src\libCom\Com.vcxproj">
       <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\pcDataCPP\pvDataApp\pvData.vcxproj">
+    <ProjectReference Include="..\..\pvDataCPP\src\pvData.vcxproj">
       <Project>{f4a51415-2981-42ee-87c7-f29d5805583e}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\pvCommonCPP\mbApp\mb\pvMB.vcxproj">
-      <Project>{5c5be6f0-e25f-49b8-8718-d2f7e7a79369}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

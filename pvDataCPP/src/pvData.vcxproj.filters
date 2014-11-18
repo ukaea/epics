@@ -33,9 +33,6 @@
     <ClCompile Include="factory\PVArray.cpp">
       <Filter>factory</Filter>
     </ClCompile>
-    <ClCompile Include="factory\PVAuxInfoImpl.cpp">
-      <Filter>factory</Filter>
-    </ClCompile>
     <ClCompile Include="factory\PVDataCreateFactory.cpp">
       <Filter>factory</Filter>
     </ClCompile>

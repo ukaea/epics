@@ -48,9 +48,6 @@
     <ClCompile Include="factory\ChannelAccessFactory.cpp">
       <Filter>factory</Filter>
     </ClCompile>
-    <ClCompile Include="factory\CreateRequestFactory.cpp">
-      <Filter>factory</Filter>
-    </ClCompile>
     <ClCompile Include="mb\pvAccessMB.cpp">
       <Filter>mb</Filter>
     </ClCompile>
@@ -105,19 +102,10 @@
     <ClCompile Include="remote\beaconHandler.cpp">
       <Filter>remote</Filter>
     </ClCompile>
-    <ClCompile Include="remote\blockingClientTCPTransport.cpp">
-      <Filter>remote</Filter>
-    </ClCompile>
-    <ClCompile Include="remote\blockingServerTCPTransport.cpp">
-      <Filter>remote</Filter>
-    </ClCompile>
     <ClCompile Include="remote\blockingTCPAcceptor.cpp">
       <Filter>remote</Filter>
     </ClCompile>
     <ClCompile Include="remote\blockingTCPConnector.cpp">
-      <Filter>remote</Filter>
-    </ClCompile>
-    <ClCompile Include="remote\blockingTCPTransport.cpp">
       <Filter>remote</Filter>
     </ClCompile>
     <ClCompile Include="remote\blockingUDPConnector.cpp">
