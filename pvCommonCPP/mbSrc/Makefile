@@ -6,6 +6,7 @@ ifdef WITH_MICROBENCH
 endif
 
 INSTALL_INCLUDE = $(INSTALL_LOCATION)/include/pv
+USR_LDFLAGS += /libpath:../../boostApp/boost/stage/lib/
 
 INC += mb.h
 
