@@ -19,6 +19,9 @@
     <Filter Include="pvMisc">
       <UniqueIdentifier>{13670785-559f-427f-9308-b653a7def888}</UniqueIdentifier>
     </Filter>
+    <Filter Include="copy">
+      <UniqueIdentifier>{5e2a87c6-4184-48f5-a539-ea1f827373d8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="factory\Compare.cpp">
@@ -119,6 +122,36 @@
     </ClCompile>
     <ClCompile Include="pvMisc\bitSetUtil.cpp">
       <Filter>pvMisc</Filter>
+    </ClCompile>
+    <ClCompile Include="copy\createRequest.cpp">
+      <Filter>copy</Filter>
+    </ClCompile>
+    <ClCompile Include="copy\pvCopy.cpp">
+      <Filter>copy</Filter>
+    </ClCompile>
+    <ClCompile Include="factory\printer.cpp">
+      <Filter>factory</Filter>
+    </ClCompile>
+    <ClCompile Include="factory\pvSubArrayCopy.cpp">
+      <Filter>factory</Filter>
+    </ClCompile>
+    <ClCompile Include="factory\PVUnion.cpp">
+      <Filter>factory</Filter>
+    </ClCompile>
+    <ClCompile Include="factory\PVUnionArray.cpp">
+      <Filter>factory</Filter>
+    </ClCompile>
+    <ClCompile Include="misc\parseToPOD.cpp">
+      <Filter>misc</Filter>
+    </ClCompile>
+    <ClCompile Include="misc\typeCast.cpp">
+      <Filter>misc</Filter>
+    </ClCompile>
+    <ClCompile Include="monitor\monitor.cpp">
+      <Filter>monitor</Filter>
+    </ClCompile>
+    <ClCompile Include="monitor\monitorPlugin.cpp">
+      <Filter>monitor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -233,5 +266,55 @@
     <ClInclude Include="pvMisc\bitSetUtil.h">
       <Filter>pvMisc</Filter>
     </ClInclude>
+    <ClInclude Include="copy\createRequest.h">
+      <Filter>copy</Filter>
+    </ClInclude>
+    <ClInclude Include="copy\pvCopy.h">
+      <Filter>copy</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\current_function.h">
+      <Filter>misc</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\sharedVector.h">
+      <Filter>misc</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\templateMeta.h">
+      <Filter>misc</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\typeCast.h">
+      <Filter>misc</Filter>
+    </ClInclude>
+    <ClInclude Include="monitor\monitorPlugin.h">
+      <Filter>monitor</Filter>
+    </ClInclude>
+    <ClInclude Include="pv\printer.h">
+      <Filter>pv</Filter>
+    </ClInclude>
+    <ClInclude Include="pv\pvSubArrayCopy.h">
+      <Filter>pv</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="factory\Makefile">
+      <Filter>factory</Filter>
+    </None>
+    <None Include="misc\Makefile">
+      <Filter>misc</Filter>
+    </None>
+    <None Include="monitor\Makefile">
+      <Filter>monitor</Filter>
+    </None>
+    <None Include="copy\Makefile">
+      <Filter>copy</Filter>
+    </None>
+    <None Include="property\Makefile">
+      <Filter>property</Filter>
+    </None>
+    <None Include="pv\Makefile">
+      <Filter>pv</Filter>
+    </None>
+    <None Include="pvMisc\Makefile">
+      <Filter>pvMisc</Filter>
+    </None>
   </ItemGroup>
 </Project>

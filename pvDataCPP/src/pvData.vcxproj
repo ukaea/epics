@@ -371,9 +371,12 @@ xcopy /Y /Q /D /R pvMisc\*.h $(SolutionDir)include\pv &gt; NUL
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="copy\createRequest.cpp" />
+    <ClCompile Include="copy\pvCopy.cpp" />
     <ClCompile Include="factory\Compare.cpp" />
     <ClCompile Include="factory\Convert.cpp" />
     <ClCompile Include="factory\FieldCreateFactory.cpp" />
+    <ClCompile Include="factory\printer.cpp" />
     <ClCompile Include="factory\PVArray.cpp" />
     <ClCompile Include="factory\PVDataCreateFactory.cpp" />
     <ClCompile Include="factory\PVField.cpp" />
@@ -381,6 +384,9 @@ xcopy /Y /Q /D /R pvMisc\*.h $(SolutionDir)include\pv &gt; NUL
     <ClCompile Include="factory\PVScalarArray.cpp" />
     <ClCompile Include="factory\PVStructure.cpp" />
     <ClCompile Include="factory\PVStructureArray.cpp" />
+    <ClCompile Include="factory\pvSubArrayCopy.cpp" />
+    <ClCompile Include="factory\PVUnion.cpp" />
+    <ClCompile Include="factory\PVUnionArray.cpp" />
     <ClCompile Include="factory\StandardField.cpp" />
     <ClCompile Include="factory\StandardPVField.cpp" />
     <ClCompile Include="factory\TypeFunc.cpp" />
@@ -391,11 +397,15 @@ xcopy /Y /Q /D /R pvMisc\*.h $(SolutionDir)include\pv &gt; NUL
     <ClCompile Include="misc\executor.cpp" />
     <ClCompile Include="misc\localStaticLock.cpp" />
     <ClCompile Include="misc\messageQueue.cpp" />
+    <ClCompile Include="misc\parseToPOD.cpp" />
     <ClCompile Include="misc\requester.cpp" />
     <ClCompile Include="misc\serializeHelper.cpp" />
     <ClCompile Include="misc\status.cpp" />
     <ClCompile Include="misc\timeFunction.cpp" />
     <ClCompile Include="misc\timer.cpp" />
+    <ClCompile Include="misc\typeCast.cpp" />
+    <ClCompile Include="monitor\monitor.cpp" />
+    <ClCompile Include="monitor\monitorPlugin.cpp" />
     <ClCompile Include="property\alarm.cpp" />
     <ClCompile Include="property\pvAlarm.cpp" />
     <ClCompile Include="property\pvControl.cpp" />
@@ -406,9 +416,12 @@ xcopy /Y /Q /D /R pvMisc\*.h $(SolutionDir)include\pv &gt; NUL
     <ClCompile Include="pvMisc\bitSetUtil.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="copy\createRequest.h" />
+    <ClInclude Include="copy\pvCopy.h" />
     <ClInclude Include="factory\factory.h" />
     <ClInclude Include="misc\bitSet.h" />
     <ClInclude Include="misc\byteBuffer.h" />
+    <ClInclude Include="misc\current_function.h" />
     <ClInclude Include="misc\destroyable.h" />
     <ClInclude Include="misc\epicsException.h" />
     <ClInclude Include="misc\event.h" />
@@ -422,11 +435,15 @@ xcopy /Y /Q /D /R pvMisc\*.h $(SolutionDir)include\pv &gt; NUL
     <ClInclude Include="misc\serialize.h" />
     <ClInclude Include="misc\serializeHelper.h" />
     <ClInclude Include="misc\sharedPtr.h" />
+    <ClInclude Include="misc\sharedVector.h" />
     <ClInclude Include="misc\status.h" />
+    <ClInclude Include="misc\templateMeta.h" />
     <ClInclude Include="misc\thread.h" />
     <ClInclude Include="misc\timeFunction.h" />
     <ClInclude Include="misc\timer.h" />
+    <ClInclude Include="misc\typeCast.h" />
     <ClInclude Include="monitor\monitor.h" />
+    <ClInclude Include="monitor\monitorPlugin.h" />
     <ClInclude Include="property\alarm.h" />
     <ClInclude Include="property\control.h" />
     <ClInclude Include="property\display.h" />
@@ -438,8 +455,10 @@ xcopy /Y /Q /D /R pvMisc\*.h $(SolutionDir)include\pv &gt; NUL
     <ClInclude Include="property\timeStamp.h" />
     <ClInclude Include="pvMisc\bitSetUtil.h" />
     <ClInclude Include="pv\convert.h" />
+    <ClInclude Include="pv\printer.h" />
     <ClInclude Include="pv\pvData.h" />
     <ClInclude Include="pv\pvIntrospect.h" />
+    <ClInclude Include="pv\pvSubArrayCopy.h" />
     <ClInclude Include="pv\pvType.h" />
     <ClInclude Include="pv\standardField.h" />
     <ClInclude Include="pv\standardPVField.h" />
@@ -448,6 +467,15 @@ xcopy /Y /Q /D /R pvMisc\*.h $(SolutionDir)include\pv &gt; NUL
     <ProjectReference Include="..\..\base\src\libCom\Com.vcxproj">
       <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="copy\Makefile" />
+    <None Include="factory\Makefile" />
+    <None Include="misc\Makefile" />
+    <None Include="monitor\Makefile" />
+    <None Include="property\Makefile" />
+    <None Include="pvMisc\Makefile" />
+    <None Include="pv\Makefile" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
