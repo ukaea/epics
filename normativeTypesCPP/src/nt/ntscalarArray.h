@@ -7,9 +7,23 @@
 #ifndef NTSCALARARRAY_H
 #define NTSCALARARRAY_H
 
-#include <pv/ntfield.h>
+#ifdef epicsExportSharedSymbols
+#   define ntscalarArrayEpicsExportSharedSymbols
+#   undef epicsExportSharedSymbols
+#endif
+
 #include <pv/pvDisplay.h>
 #include <pv/pvControl.h>
+
+#ifdef ntscalarArrayEpicsExportSharedSymbols
+#   define epicsExportSharedSymbols
+#	undef ntscalarArrayEpicsExportSharedSymbols
+#endif
+
+#include <pv/ntfield.h>
+
+#include <shareLib.h>
+
 
 namespace epics { namespace nt {
 
@@ -126,7 +140,7 @@ typedef std::tr1::shared_ptr<detail::NTScalarArrayBuilder> NTScalarArrayBuilderP
  * Convenience Class for NTScalarArray
  * @author mrk
  */
-class NTScalarArray
+class epicsShareClass NTScalarArray
 {
 public:
     POINTER_DEFINITIONS(NTScalarArray);

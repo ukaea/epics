@@ -9,6 +9,11 @@
 
 #include <cstdarg>
 
+#ifdef epicsExportSharedSymbols
+#   define ntfieldEpicsExportSharedSymbols
+#   undef epicsExportSharedSymbols
+#endif
+
 #include <pv/standardField.h>
 #include <pv/standardPVField.h>
 #include <pv/alarm.h>
@@ -17,7 +22,14 @@
 #include <pv/pvTimeStamp.h>
 #include <pv/sharedVector.h>
 
-namespace epics { namespace pvData { 
+#ifdef ntfieldEpicsExportSharedSymbols
+#   define epicsExportSharedSymbols
+#	undef ntfieldEpicsExportSharedSymbols
+#endif
+
+#include <shareLib.h>
+
+namespace epics { namespace nt {
 /**
  * Convenience Class for introspection fields of a Normative Type
  * @author mrk
@@ -30,7 +42,7 @@ typedef std::tr1::shared_ptr<NTField> NTFieldPtr;
 class PVNTField;
 typedef std::tr1::shared_ptr<PVNTField> PVNTFieldPtr;
 
-class NTField {
+class epicsShareClass NTField {
 public:
     POINTER_DEFINITIONS(NTField);
     /**
@@ -47,83 +59,83 @@ public:
      * @param field The field to test.
      * @return (false,true) if field (is not,is) an enumerated structure.
      */
-    bool isEnumerated(FieldConstPtr const & field);
+    bool isEnumerated(epics::pvData::FieldConstPtr const & field);
     /**
      * Is field a timeStamp structure.
      * @param field The field to test.
      * @return (false,true) if field (is not,is) a timeStamp structure.
      */
-    bool isTimeStamp(FieldConstPtr const & field);
+    bool isTimeStamp(epics::pvData::FieldConstPtr const & field);
     /**
      * Is field an alarm structure.
      * @param field The field to test.
      * @return (false,true) if field (is not,is) an alarm structure.
      */
-    bool isAlarm(FieldConstPtr const & field);
+    bool isAlarm(epics::pvData::FieldConstPtr const & field);
     /**
      * Is field a display structure.
      * @param field The field to test.
      * @return (false,true) if field (is not,is) a display structure.
      */
-    bool isDisplay(FieldConstPtr const & field);
+    bool isDisplay(epics::pvData::FieldConstPtr const & field);
     /**
      * Is field an alarmLimit structure.
      * @param field The field to test.
      * @return (false,true) if field (is not,is) an alarmLimit structure.
      */
-    bool isAlarmLimit(FieldConstPtr const & field);
+    bool isAlarmLimit(epics::pvData::FieldConstPtr const & field);
     /**
      * Is field a control structure.
      * @param field The field to test.
      * @return (false,true) if field (is not,is) a control structure.
      */
-    bool isControl(FieldConstPtr const & field);
+    bool isControl(epics::pvData::FieldConstPtr const & field);
 
     /**
      * Create an enumerated structure.
      * @return an enumerated structure.
      */
-    StructureConstPtr createEnumerated();
+    epics::pvData::StructureConstPtr createEnumerated();
     /**
      * Create a timeStamp structure.
      * @return a timeStamp structure.
      */
-    StructureConstPtr createTimeStamp();
+    epics::pvData::StructureConstPtr createTimeStamp();
     /**
      * Create an alarm structure.
      * @return an alarm structure.
      */
-    StructureConstPtr createAlarm();
+    epics::pvData::StructureConstPtr createAlarm();
     /**
      * Create a display structure.
      * @return a displayalarm structure.
      */
-    StructureConstPtr createDisplay();
+    epics::pvData::StructureConstPtr createDisplay();
     /**
      * Create a control structure.
      * @return a control structure.
      */
-    StructureConstPtr createControl();
+    epics::pvData::StructureConstPtr createControl();
 
     /**
      * Create an array of enumerated structures.
      * @return an array of enumerated structures.
      */
-    StructureArrayConstPtr createEnumeratedArray();
+    epics::pvData::StructureArrayConstPtr createEnumeratedArray();
     /**
      * Create an array of timeStamp structures.
      * @return an array of timeStamp structures.
      */
-    StructureArrayConstPtr createTimeStampArray();
+    epics::pvData::StructureArrayConstPtr createTimeStampArray();
     /**
      * Create an array of alarm structures.
      * @return an array of alarm structures.
      */
-    StructureArrayConstPtr createAlarmArray();
+    epics::pvData::StructureArrayConstPtr createAlarmArray();
 private:
     NTField();
-    FieldCreatePtr fieldCreate;
-    StandardFieldPtr standardField;
+    epics::pvData::FieldCreatePtr fieldCreate;
+    epics::pvData::StandardFieldPtr standardField;
 };
 
 /**
@@ -131,7 +143,7 @@ private:
  * @author mrk
  * 
  */
-class PVNTField {
+class epicsShareClass PVNTField {
 public:
     POINTER_DEFINITIONS(PVNTField);
     /**
@@ -148,54 +160,54 @@ public:
      * @param choices The array of choices.
      * @return an enumerated PVStructure..
      */
-    PVStructurePtr createEnumerated(
-        StringArray const & choices);
+    epics::pvData::PVStructurePtr createEnumerated(
+        epics::pvData::StringArray const & choices);
     /**
      * Create a timeStamp PVStructure.
      * @return a timeStamp PVStructure..
      */
-    PVStructurePtr createTimeStamp();
+    epics::pvData::PVStructurePtr createTimeStamp();
     /**
      * Create an alarm PVStructure.
      * @return an alarm PVStructure..
      */
-    PVStructurePtr createAlarm();
+    epics::pvData::PVStructurePtr createAlarm();
     /**
      * Create a display PVStructure.
      * @return a display PVStructure..
      */
-    PVStructurePtr createDisplay();
+    epics::pvData::PVStructurePtr createDisplay();
     /**
      * Create an alarmLimit PVStructure.
      * @return an alarmLimit PVStructure..
      */
-    PVStructurePtr createAlarmLimit();
+    epics::pvData::PVStructurePtr createAlarmLimit();
     /**
      * Create a control PVStructure.
      * @return a control PVStructure..
      */
-    PVStructurePtr createControl();
+    epics::pvData::PVStructurePtr createControl();
 
     /**
      * Create an enumerated PVStructureArray.
      * @return an enumerated PVStructureArray..
      */
-    PVStructureArrayPtr createEnumeratedArray();
+    epics::pvData::PVStructureArrayPtr createEnumeratedArray();
     /**
      * Create a timeStamp PVStructureArray.
      * @return a timeStamp PVStructureArray
      */
-    PVStructureArrayPtr createTimeStampArray();
+    epics::pvData::PVStructureArrayPtr createTimeStampArray();
     /**
      * Create an alarm PVStructureArray.
      * @return an alarm PVStructureArray..
      */
-    PVStructureArrayPtr createAlarmArray();
+    epics::pvData::PVStructureArrayPtr createAlarmArray();
 private:
     PVNTField();
-    PVDataCreatePtr pvDataCreate;
-    StandardFieldPtr standardField;
-    StandardPVFieldPtr standardPVField;
+    epics::pvData::PVDataCreatePtr pvDataCreate;
+    epics::pvData::StandardFieldPtr standardField;
+    epics::pvData::StandardPVFieldPtr standardPVField;
     NTFieldPtr ntstructureField;
 };
 

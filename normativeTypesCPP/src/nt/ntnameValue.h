@@ -7,7 +7,22 @@
 #ifndef NTNAMEVALUE_H
 #define NTNAMEVALUE_H
 
+#ifdef epicsExportSharedSymbols
+#   define ntnameValueEpicsExportSharedSymbols
+#   undef epicsExportSharedSymbols
+#endif
+
+#include <pv/pvDisplay.h>
+#include <pv/pvControl.h>
+
+#ifdef ntnameValueEpicsExportSharedSymbols
+#   define epicsExportSharedSymbols
+#	undef ntnameValueEpicsExportSharedSymbols
+#endif
+
 #include <pv/ntfield.h>
+
+#include <shareLib.h>
 
 namespace epics { namespace nt {
 
@@ -111,7 +126,7 @@ typedef std::tr1::shared_ptr<detail::NTNameValueBuilder> NTNameValueBuilderPtr;
  * Convenience Class for NTNameValue
  * @author mrk
  */
-class NTNameValue
+class epicsShareClass NTNameValue
 {
 public:
     POINTER_DEFINITIONS(NTNameValue);

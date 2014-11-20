@@ -351,6 +351,7 @@ private:
     DbAddr &dbAddr;
     int propertyMask;
     bool process;
+    bool block;
     bool firstTime;
     std::tr1::shared_ptr<struct putNotify> pNotify;
     std::tr1::shared_ptr<DbAddr> notifyAddr;

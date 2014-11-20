@@ -174,9 +174,6 @@ ArchiverClient.cpp                    C++ source code of the client application
 ArchiverClientResponseHandler.cpp     C++ source code for the client handling
 ArchiverClientResponseHandler.h       of the response from the server
  
-ServiceClient.cpp                     C++ source code for the client sending
-ServiceClient.h                       the query and receiving the response
-
 common.cpp                            C++ source code of types and utilities
 common.h                              common to client and server
 
@@ -231,17 +228,20 @@ For example if your EPICS V3 Base and Extensions code is in /epics and the
 directories of the EPICS V4 prerequisites you wish to link to are in /epics4
 then it could be of the form
 
-EPICS_BASE=/epics/base
-PVDATA=/epics4/pvDataCPP
 PVACCESS=/epics4/pvAccessCPP
+PVDATA=/epics4/pvDataCPP
+PVCOMMON=/epics4/pvCommonCPP
 ARCHIVER=/epics/extensions
+EPICS_BASE=/epics/base
+
+(PVCOMMON may not be needed depending on your target/compiler.)
 
 ARCHIVER should point to the directory containing src/ChannelArchiver. This
 will depend on the layout of your EPICS installation.
 
-If you need pvCommonCPP you will also need include its location:
-
-PVCOMMON=/epics4/pvCommonCPP
+RELEASE.local will also be looked for in the two parent directories above
+ChannelArchiverService. So instead a RELEASE.local, which should include the
+above definitions, can be placed in either of those locations.
 
 3. The Archiver server and client are built by the command "make" issued from
 the ChannelArchiverService directory.
@@ -294,7 +294,7 @@ To run a Channel Archiver Service Client using gethist
 With the server started, 
 
  * In another window from the server cd to the directory containing gethist
-   (both client and server are in the same dir for demo purposes)
+   (both client and server are in the same directory for demo purposes)
    
    E.g. % cd ~/Development/epicsV4/exampleCPP/ChannelArchiverService
  
@@ -315,4 +315,6 @@ With the server started, assuming eget is in your path:
 
    eget -s archiveService -a "starttime=600825600" -a "endtime=600912000"
         -a "entity=SR-DI-DCCT-01:SIGNAL"
+
+(For help with eget type "eget -h".)
 

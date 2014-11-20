@@ -106,7 +106,7 @@ static void test()
     pvSeverity->replace(freeze(severities));
     if(debug) {cout << *pvStructure << endl;}
     PVBooleanArrayPtr pvIsConnected = multiChannel->getIsConnected();
-    shared_vector<const boolean> isConnected = pvIsConnected->view();
+    shared_vector<const epics::pvData::boolean> isConnected = pvIsConnected->view();
     multiChannel = builder->
             value(unionPtr) ->
             addDescriptor()->

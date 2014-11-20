@@ -7,6 +7,9 @@
 #ifndef NT_H
 #define NT_H
 
+/*
+ * Include all the normative types here.
+ */
 #include <pv/ntfield.h>
 #include <pv/ntscalar.h>
 #include <pv/ntscalarArray.h>

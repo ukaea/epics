@@ -121,7 +121,7 @@ public:
         bitSetPtr = bitSet;
         printf("getDone statusOK %s\n",
             (status.isOK() ? "true" : "false"));
-        std::cout << pvStructure->dumpValue(std::cout) << std::endl;
+        std::cout << *pvStructure << std::endl;
     }
 private:
     string name;

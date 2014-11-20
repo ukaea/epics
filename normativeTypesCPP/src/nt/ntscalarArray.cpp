@@ -5,7 +5,9 @@
  * in file LICENSE that is included with this distribution.
  */
 
+#define epicsExportSharedSymbols
 #include <pv/ntscalarArray.h>
+#include <pv/ntutils.h>
 
 using namespace std;
 using namespace epics::pvData;
@@ -140,7 +142,7 @@ NTScalarArray::shared_pointer NTScalarArray::wrapUnsafe(PVStructurePtr const & s
 
 bool NTScalarArray::is_a(StructureConstPtr const & structure)
 {
-    return structure->getID() == URI;
+    return NTUtils::is_a(structure->getID(), URI);
 }
 
 bool NTScalarArray::isCompatible(PVStructurePtr const & pvStructure)

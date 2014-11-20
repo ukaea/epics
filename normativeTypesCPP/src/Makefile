@@ -6,6 +6,7 @@ SRC = $(TOP)/src/
 SRC_DIRS += $(SRC)/nt
 
 INC += nt.h
+INC += ntutils.h
 INC += ntfield.h
 INC += ntscalar.h
 INC += ntscalarArray.h
@@ -14,6 +15,7 @@ INC += nttable.h
 INC += ntmultiChannel.h
 INC += ntndarray.h
 
+LIBSRCS += ntutils.cpp
 LIBSRCS += ntfield.cpp
 LIBSRCS += ntscalar.cpp
 LIBSRCS += ntscalarArray.cpp

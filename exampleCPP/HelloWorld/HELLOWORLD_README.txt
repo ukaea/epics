@@ -55,13 +55,16 @@ For example if your EPICS V3 Base code is in /epics and the directories of the
 EPICS V4 prerequisites you wish to link to are in /epics4 then it could be of
 the form 
 
-EPICS_BASE=/epics/base
-PVDATA=/epics4/pvDataCPP
 PVACCESS=/epics4/pvAccessCPP
-
-If you need pvCommonCPP you will also need include its location:
-
+PVDATA=/epics4/pvDataCPP
 PVCOMMON=/epics4/pvCommonCPP
+EPICS_BASE=/epics/base
+
+(PVCOMMON may not be needed depending on your target/compiler.)
+
+RELEASE.local will also be looked for in the two parent directories above
+HelloWorld. So instead a RELEASE.local, which should include the above
+definitions, can be placed in either of those locations.
 
 3. The HelloWorld server and client are built by the command "make" issued from
 the HelloWorld directory.
@@ -103,13 +106,19 @@ To run a HelloWorld Client
 
 Querying the service using eget
 -------------------------------
-The service can be queried using the eget utility with the -q flag.
+The service can be queried using the eget utility with the -z flag.
 With the server started, assuming eget is in your path:
 
  * Execute the eget utility:
 
-   eget -q -s helloService -a "personsname=Dave"
+   eget -z -N -s helloService -a "personsname=Dave"
 
+This should output:
+
+structure 
+    string greeting Hello Dave
+
+(For help with eget type "eget -h".)
 
 Remark
 ------

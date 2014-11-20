@@ -7,10 +7,25 @@
 #ifndef NTTABLE_H
 #define NTTABLE_H
 
-#include <pv/ntfield.h>
-
 #include <vector>
 #include <string>
+
+#ifdef epicsExportSharedSymbols
+#   define nttableEpicsExportSharedSymbols
+#   undef epicsExportSharedSymbols
+#endif
+
+#include <pv/pvDisplay.h>
+#include <pv/pvControl.h>
+
+#ifdef nttableEpicsExportSharedSymbols
+#   define epicsExportSharedSymbols
+#	undef nttableEpicsExportSharedSymbols
+#endif
+
+#include <pv/ntfield.h>
+
+#include <shareLib.h>
 
 namespace epics { namespace nt {
 
@@ -114,7 +129,7 @@ typedef std::tr1::shared_ptr<detail::NTTableBuilder> NTTableBuilderPtr;
  * Convenience Class for NTTable
  * @author mrk
  */
-class NTTable
+class epicsShareClass NTTable
 {
 public:
     POINTER_DEFINITIONS(NTTable);

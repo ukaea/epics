@@ -16,6 +16,7 @@ DBDINC += ubyteRecord
 DBDINC += ushortRecord
 DBDINC += ulongRecord
 DBDINC += bigstringinRecord
+DBDINC += waitRecord
 
 DBD += testDbPv.dbd
 
@@ -28,6 +29,7 @@ testDbPvSupport_SRCS += ubyteRecord.c
 testDbPvSupport_SRCS += ushortRecord.c
 testDbPvSupport_SRCS += ulongRecord.c
 testDbPvSupport_SRCS += bigstringinRecord.c
+testDbPvSupport_SRCS += waitRecord.c
 testDbPvSupport_SRCS += testDbPv.cpp
 testDbPvSupport_LIBS_WIN32 += pvAccess pvData dbIoc Com
 

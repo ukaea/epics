@@ -7,9 +7,22 @@
 #ifndef NTSCALAR_H
 #define NTSCALAR_H
 
-#include <pv/ntfield.h>
+#ifdef epicsExportSharedSymbols
+#   define ntscalarEpicsExportSharedSymbols
+#   undef epicsExportSharedSymbols
+#endif
+
 #include <pv/pvDisplay.h>
 #include <pv/pvControl.h>
+
+#ifdef ntscalarEpicsExportSharedSymbols
+#   define epicsExportSharedSymbols
+#	undef ntscalarEpicsExportSharedSymbols
+#endif
+
+#include <pv/ntfield.h>
+
+#include <shareLib.h>
 
 namespace epics { namespace nt {
 
@@ -126,7 +139,7 @@ typedef std::tr1::shared_ptr<detail::NTScalarBuilder> NTScalarBuilderPtr;
  * Convenience Class for NTScalar
  * @author mrk
  */
-class NTScalar
+class epicsShareClass NTScalar
 {
 public:
     POINTER_DEFINITIONS(NTScalar);

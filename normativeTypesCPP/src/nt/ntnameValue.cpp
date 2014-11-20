@@ -5,7 +5,9 @@
  * in file LICENSE that is included with this distribution.
  */
 
+#define epicsExportSharedSymbols
 #include <pv/ntnameValue.h>
+#include <pv/ntutils.h>
 
 using namespace std;
 using namespace epics::pvData;
@@ -123,7 +125,7 @@ NTNameValue::shared_pointer NTNameValue::wrapUnsafe(PVStructurePtr const & struc
 
 bool NTNameValue::is_a(StructureConstPtr const & structure)
 {
-    return structure->getID() == URI;
+    return NTUtils::is_a(structure->getID(), URI);
 }
 
 bool NTNameValue::isCompatible(PVStructurePtr const & pvStructure)

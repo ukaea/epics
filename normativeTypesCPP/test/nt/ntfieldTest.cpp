@@ -15,6 +15,7 @@
 
 #include <pv/nt.h>
 
+using namespace epics::nt;
 using namespace epics::pvData;
 using std::string;
 using std::cout;

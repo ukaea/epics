@@ -49,6 +49,7 @@ public:
     static DbUtilPtr getDbUtil();
     // client request bits
     int processBit;       // is processing requested
+    int blockBit;         // is blocking requested
     int timeStampBit;     // get timeStamp;
     int alarmBit;         // get alarm
     int displayBit;       // get display info
@@ -99,6 +100,7 @@ private:
     epics::pvData::PVStructurePtr  nullPVStructure;
     std::string recordString;
     std::string processString;
+    std::string blockString;
     std::string queueSizeString;
     std::string fieldString;
     std::string valueString;

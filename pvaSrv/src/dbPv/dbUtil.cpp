@@ -56,6 +56,7 @@ DbUtilPtr DbUtil::getDbUtil()
 DbUtil::DbUtil()
 : 
   processBit(    0x0001),
+  blockBit(      0x0002),
   timeStampBit(  0x0004),
   alarmBit(      0x0008),
   displayBit(    0x0010),
@@ -73,6 +74,7 @@ DbUtil::DbUtil()
   isLinkBit(     0x8000),
   recordString("record"),
   processString("record._options.process"),
+  blockString("record._options.block"),
   queueSizeString("record._options.queueSize"),
   fieldString("field"),
   valueString("value"),
@@ -107,6 +109,16 @@ int DbUtil::getProperties(
         }
     } else {
         if(processDefault) propertyMask |= processBit;
+    }
+    pvField = pvRequest->getSubField(blockString);
+    if (pvField.get()) {
+        PVStringPtr pvString = pvRequest->getStringField(blockString);
+        if (pvString.get()) {
+            string value = pvString->get();
+            if (value.compare("true") == 0) propertyMask |= blockBit;
+        }
+    } else {
+        if (propertyMask & processBit) propertyMask |= blockBit;
     }
     bool getValue = false;
     string fieldList;
@@ -153,6 +165,10 @@ int DbUtil::getProperties(
                 fieldList += valueAlarmString;
             }
         }
+    }
+    if (!fieldList.size()) {
+        requester->message("no valid field name specified", errorMessage);
+        propertyMask = noAccessBit; return propertyMask;
     }
     if(getValue) {
         propertyMask |= getValueBit;

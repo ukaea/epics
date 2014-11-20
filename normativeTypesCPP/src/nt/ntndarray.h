@@ -7,10 +7,25 @@
 #ifndef NTNDARRAY_H
 #define NTNDARRAY_H
 
-#include <pv/ntfield.h>
-
 #include <vector>
 #include <string>
+
+#ifdef epicsExportSharedSymbols
+#   define ntscalarArrayEpicsExportSharedSymbols
+#   undef epicsExportSharedSymbols
+#endif
+
+#include <pv/pvDisplay.h>
+#include <pv/pvControl.h>
+
+#ifdef ntscalarArrayEpicsExportSharedSymbols
+#   define epicsExportSharedSymbols
+#	undef ntscalarArrayEpicsExportSharedSymbols
+#endif
+
+#include <pv/ntfield.h>
+
+#include <shareLib.h>
 
 namespace epics { namespace nt {
 
@@ -108,7 +123,7 @@ typedef std::tr1::shared_ptr<detail::NTNDArrayBuilder> NTNDArrayBuilderPtr;
  * Convenience Class for NTNDArray
  * @author dgh
  */
-class NTNDArray
+class epicsShareClass NTNDArray
 {
 public:
     POINTER_DEFINITIONS(NTNDArray);

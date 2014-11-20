@@ -5,8 +5,11 @@
  * in file LICENSE that is included with this distribution.
  */
 
-#include <pv/ntmultiChannel.h>
 #include <algorithm>
+
+#define epicsExportSharedSymbols
+#include <pv/ntmultiChannel.h>
+#include <pv/ntutils.h>
 
 using namespace std;
 using namespace epics::pvData;
@@ -155,7 +158,7 @@ StructureConstPtr NTMultiChannelBuilder::createStructure()
     return st;
 }
 
-PVStructurePtr NTMultiChannelBuilder::NTMultiChannelBuilder::createPVStructure()
+PVStructurePtr NTMultiChannelBuilder::createPVStructure()
 {
     return pvDataCreate->createPVStructure(createStructure());
 }
@@ -210,7 +213,7 @@ NTMultiChannel::shared_pointer NTMultiChannel::wrapUnsafe(PVStructurePtr const &
 
 bool NTMultiChannel::is_a(StructureConstPtr const &structure)
 {
-    return structure->getID() == URI;
+    return NTUtils::is_a(structure->getID(), URI);
 }
 
 bool NTMultiChannel::isCompatible(PVStructurePtr const &pvStructure)

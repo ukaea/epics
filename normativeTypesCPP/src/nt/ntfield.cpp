@@ -6,11 +6,14 @@
  */
 
 #include <pv/lock.h>
+
+#define epicsExportSharedSymbols
 #include <pv/ntfield.h>
 
+using namespace epics::pvData;
 using std::tr1::static_pointer_cast;
 
-namespace epics { namespace pvData { 
+namespace epics { namespace nt {
 
 NTFieldPtr NTField::get()
 {

@@ -7,9 +7,25 @@
 #ifndef NTMULTICHANNEL_H
 #define NTMULTICHANNEL_H
 
-#include <pv/ntfield.h>
 #include <vector>
 #include <string>
+
+#ifdef epicsExportSharedSymbols
+#   define ntmultiChannelEpicsExportSharedSymbols
+#   undef epicsExportSharedSymbols
+#endif
+
+#include <pv/pvDisplay.h>
+#include <pv/pvControl.h>
+
+#ifdef ntmultiChannelEpicsExportSharedSymbols
+#   define epicsExportSharedSymbols
+#	undef ntmultiChannelEpicsExportSharedSymbols
+#endif
+
+#include <pv/ntfield.h>
+
+#include <shareLib.h>
 
 
 namespace epics { namespace nt { 
@@ -140,7 +156,7 @@ namespace detail {
 typedef std::tr1::shared_ptr<detail::NTMultiChannelBuilder> NTMultiChannelBuilderPtr;
 
 
-class NTMultiChannel
+class epicsShareClass NTMultiChannel
 {
 public:
     POINTER_DEFINITIONS(NTMultiChannel);

@@ -47,6 +47,7 @@ DbPvPut::DbPvPut(
   dbAddr(dbAddr),
   propertyMask(0),
   process(false),
+  block(false),
   firstTime(true),
   beingDestroyed(false)
 {
@@ -76,31 +77,32 @@ bool DbPvPut::init(PVStructure::shared_pointer const &pvRequest)
             channelPutRequester,
             propertyMask,
             dbAddr));
-    if(pvStructure.get()==0) return 0;
-    if((propertyMask&dbUtil->dbPutBit)!=0) {
-        if((propertyMask&dbUtil->processBit)!=0) {
+    if (!pvStructure.get()) return 0;
+    if (propertyMask & dbUtil->dbPutBit) {
+        if (propertyMask & dbUtil->processBit) {
             channelPutRequester->message(
-             "process determined by dbPutField",errorMessage);
+                        "process determined by dbPutField", errorMessage);
         }
-    } else if((propertyMask&dbUtil->processBit)!=0) {
-       process = true;
-       pNotify.reset(new (struct putNotify)());
-       notifyAddr.reset(new DbAddr());
-       memcpy(notifyAddr.get(),&dbAddr,sizeof(DbAddr));
-       DbAddr *paddr = notifyAddr.get();
-       struct dbCommon *precord = paddr->precord;
-       char buffer[sizeof(precord->name) + 10];
-       strcpy(buffer,precord->name);
-       strcat(buffer,".PROC");
-       if(dbNameToAddr(buffer,paddr)!=0) {
+    } else if (propertyMask&dbUtil->processBit) {
+        process = true;
+        pNotify.reset(new (struct putNotify)());
+        notifyAddr.reset(new DbAddr());
+        memcpy(notifyAddr.get(), &dbAddr, sizeof(DbAddr));
+        DbAddr *paddr = notifyAddr.get();
+        struct dbCommon *precord = paddr->precord;
+        char buffer[sizeof(precord->name) + 10];
+        strcpy(buffer, precord->name);
+        strcat(buffer, ".PROC");
+        if (dbNameToAddr(buffer, paddr)) {
             throw std::logic_error("dbNameToAddr failed");
-       }
-       struct putNotify *pn = pNotify.get();
-       pn->userCallback = this->notifyCallback;
-       pn->paddr = paddr;
-       pn->nRequest = 1;
-       pn->dbrType = DBR_CHAR;
-       pn->usrPvt = this;
+        }
+        struct putNotify *pn = pNotify.get();
+        pn->userCallback = this->notifyCallback;
+        pn->paddr        = paddr;
+        pn->nRequest     = 1;
+        pn->dbrType      = DBR_CHAR;
+        pn->usrPvt       = this;
+        if (propertyMask & dbUtil->blockBit) block = true;
     }
     int numFields = pvStructure->getNumberFields();
     bitSet.reset(new BitSet(numFields));
@@ -127,6 +129,7 @@ void DbPvPut::destroy() {
         Lock xx(mutex);
         if(beingDestroyed) return;
         beingDestroyed = true;
+        if (pNotify) dbNotifyCancel(pNotify.get());
     }
 }
 
@@ -147,9 +150,10 @@ void DbPvPut::put(PVStructurePtr const &pvStructure, BitSetPtr const & bitSet)
     dbScanLock(dbAddr.precord);
     Status status = dbUtil->put(
         channelPutRequester,propertyMask,dbAddr,pvField);
+    if (process && !block) dbProcess(dbAddr.precord);
     dbScanUnlock(dbAddr.precord);
     lock.unlock();
-    if(process) {
+    if (process && block) {
         epicsUInt8 value = 1;
         pNotify.get()->pbuffer = &value;
         dbPutNotify(pNotify.get());
@@ -161,7 +165,7 @@ void DbPvPut::put(PVStructurePtr const &pvStructure, BitSetPtr const & bitSet)
 void DbPvPut::notifyCallback(struct putNotify *pn)
 {
     DbPvPut * cput = static_cast<DbPvPut *>(pn->usrPvt);
-    cput->event.signal();
+    if (cput->block) cput->event.signal();
 }
 
 void DbPvPut::get()
