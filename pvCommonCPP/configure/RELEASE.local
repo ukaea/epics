@@ -1,5 +1,0 @@
-# pvCommonCPP RELEASE - Location of external support modules
-#
-# Create a file RELEASE.local pointing to your EPICS_BASE
-# build directory, e.g.
-EPICS_BASE = D:/EPICS/base
