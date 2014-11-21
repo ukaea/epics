@@ -1,0 +1,390 @@
+EPICS V4 README
+
+This README file describes the download files available for EPICS V4, and
+includes all versions. 
+
+EPICS V4 [1] is a software toolkit for developing advanced control
+systems on top of EPICS [2], and fast service oriented architectures.
+
+epics-pvdata is a SourceForge project for managing the development of
+EPICS version 4. 
+
+-----------------------------------------------------------------------------
+
+Status: This is the 16-Oct-2014 version of the README.
+-----------------------------------------------------------------------------
+Author: 28-Nov-2011 Greg White (GREG@SLAC.STANFORD.EDU) for EPICS V4 team [1]
+Mod:
+     16-Oct-2014, Dave Hickin, Added 4.4.0.
+     22-Aug-2013, Greg White, Added 4.3.0.
+     22-Jan-2013, Ralph Lange, moved pvaSrv out of pvIOCCPP.
+     11-Jan-2013, Greg White, edited for BETA 2.
+     13-Mar-2012, James Rowland, Added C++ release "Marchtest" for 
+                  internal review only.
+     20-Dec-2011, Greg White, for 1.0-BETA, Java and C++.
+     11-Jan-2012, Greg White, for EPICSv4-Java-1.0-BETA.tar.gz
+     08-Feb-2012, Greg White, for EPICSv4-Java-1.0-1-BETA.tar.gz
+-----------------------------------------------------------------------------
+
+VERSION 4.4.0
+=============
+
+As of 16-Oct-2014, the latest version of EPICS V4 is 4.4.0. 
+
+SUMMARY
+-------
+
+4.4.0 brings simplicity, elegance and performance to many facets of EPICS. It
+improves and extends the EPICS V4 communication protocol, pvAccess, and adds
+dynamic data typing through union types. The C++ API and implementation has
+been greatly improved, allowing the creation of high performance applications.
+Three new alpha libraries are included. pvDatabase is C++ framework for
+creating services accessible via pvAccess. pvaPy is a Python pvAccess API.
+normativeTypeCPP provides support for normative types. Windows has been added
+to the list of supported platforms.
+
+For more information see FEATURE ADDITIONS AND MAJOR CHANGES SINCE LAST
+RELEASE below.
+
+See the document "Getting Started with EPICS V4,
+http://epics-pvdata.sourceforge.net/gettingStarted.html
+
+DISTRIBUTION FILES FOR THIS VERSION 
+-----------------------------------
+
+The file EPICS-Java-4.4.0.tar.gz [possibly suffixed -pre or rc] includes all
+(and only) the Java implementation of EPICS V4.4.0. On Unix systems, the tar
+file might be unpacked with the command:
+
+  % tar xvfz EPICS-Java-4.4.0.tar.gz
+
+The file EPICS-CPP-4.4.0.tar.gz [possibly suffixed -pre or rc] includes all
+(and only) the C++ implementation of EPICS V4.4.0. On Unix systems, the tar
+file might be unpacked with the command:
+
+  % tar xvfz EPICS-CPP-4.4.0.tar.gz
+
+You may also clone the Mercurial repos directly [22], using the tags for
+4.4.0 as specified in RELEASE_VERSIONS [19].
+
+MODULES COMPRISING VERSION
+--------------------------
+
+The exact modules and their versions, that comprise the EPICS V4.4.0
+release, are defined in RELEASE_VERSIONS [19]. This includes the versions of
+both the C++ and Java implementation. The distribution tars are in fact
+generated automatically from the contents of [19].
+
+C++ Module Summary:
+
+pvAccessCPP        The EPICS V4 "wire protocol". Supports pvData [6] [7].
+pvDataCPP          Support for high performance data interchange [8].
+pvCommonCPP        Utility libraries.
+exampleCPP         Code examples, including use of pvData containers, RPC, 
+                   demo servers. 
+pvaSrv             An EPICS Base IOC plugin interfacing CA data to pvAccess.
+pvDatabaseCPP      EPICS V4 record/database framework for providing services
+                   over pvAccess.
+normativeTypesCPP  Support for EPICS V4 normative types.
+pvaPy              Python API for pvAccess.
+
+Java Module Summary:
+
+pvAccessJava       The EPICS V4 "wire protocol". Supports pvData [6][7]. 
+pvDataJava         Support for high performance data interchange [8].
+easyPVA            A somewhat easier to use Java API for pvAccess. 
+exampleJava        Code examples, including use of pvData containers, RPC, 
+                   demo servers. 
+directoryService   EPICS V4 interface to classic EPICS Channel Finder [20].
+caj                An all Java implementation of the Channel Access protocol.
+jca                A Java API and wrapper interface to the C++ implementation
+                   of the Channel Access protocol.
+
+
+FEATURE ADDITIONS AND MAJOR CHANGES SINCE LAST RELEASE
+------------------------------------------------------
+
+1. The C++ pvData array data types now allow read-only array data to be
+swapped in and shared using a new reference-counted shared_vector facility,
+minimizing computationally expensive copy operations, and enforce
+Copy-On-Write (COW) semantics, helping prevent thread conflicts.
+
+2. Dynamic data typing is provided by two new union data types (and the two
+corresponding array types). In a "regular" union the dynamic type must be one
+of a fixed set of types, determined by the introspection interface. In a
+variant union it can be any pvData type.
+
+3. Fixed and bounded scalar arrays have been provided in addition to the
+unbounded arrays implemented previously.
+
+4. Windows has been added to list of supported platforms.
+
+5. pvAccess has a new API and implementation, which reflects changes in the
+pvAccess protocol, giving greater flexibility and more informative channel
+data through channel method callbacks. The pvAccess API for channelGet,
+channelPut, channelPutGet, and monitor has been upgraded. The connect
+callbacks of these services offered by a channel now provide the introspection
+interface instead of the data interface. The data interface and changed bitset
+are now provided in the callbacks for the completion of a data request, not
+the connection. Similar changes have been made to channelArray, which also
+now allows a stride to be specified in puts and gets and removes the ability
+to set the capacity in the setLength request.
+
+6. A new codec based implementation of pvAccess decouples the pvAccess
+communication layer from the transport layer, allowing alternative transport
+layer protocols such as one using zeroMQ. A codec for the former transport
+layer of pvAccess is provided.
+
+7. A security plugin API that allows pluggable implementations of
+specific security schemes for pvAccess or Channel Access has been added to
+pvAccess together with one such plugin for Channel Access security. 
+
+8. 4.4 is up-to-date with the latest normative types specification, including
+using the new naming scheme for their type IDs. In particular the tools and
+examples using normative types follow the current normative type definitions. 
+
+9. In the C++ implementation, Convert, a facility for converting between two
+different pvData objects, has been greatly simplified, and a new facility,
+pvSubArray, can copy a subarray from one PVArray to another of the same
+element type.
+
+The following new alpha software is also bundled:
+
+10. A new framework [pvDatabaseCPP], implemented in C++, provides V4 records
+and databases analogous to the records and databases of version 3. These can
+be used to provide V4 services over pvAccess.
+
+11. A new library [normativeTypesCPP] provides C++ support for the following
+normative types: NTScalar, NTScalarArray, NTTable, NTNameValue, NTMultiChannel
+and NTNDArray.
+
+12. A new library [pvaPy] provides a Python API for pvAccess and for pvData
+types including support for implementing RPC servers and clients. 
+
+
+Non-Functional changes for V4.4
+-------------------------------
+
+1. pvIOCCPP is no longer distributed. Any functionality needed from it has
+moved to other modules. In particular pvaSrv no longer has a dependency on
+pvIOCCPP.
+
+2 pvCopy, together with pvRequest, allows a client to access to an arbitrary
+subset of the data in the structure associated with a pvAccess channel. It was
+in pvIOCJava and pvDatabaseCPP but has been moved to pvDataJava and pvDataCPP.
+The dependency on pvRecord has been removed.
+
+3. CreateRequest, which is used by clients to create a pvRequest,
+has been moved from pvAccess to pvData.
+
+
+VERSION V4.3.0
+==============
+
+[** NOTE: V4.3.0 has been superseded by versions above **]
+
+SUMMARY
+-------
+
+4.3.0 concentrates on making it easy to work with the existing features of
+EPICS V4, while using EPICS Base V3.14/15 IOCs as the control system
+foundation. These include two new interfaces to Base IOC data, including
+over Channel Access, enabling many options for configuring a high
+performance and highly functional scientific instrument control environment.
+Other features include an easy to use API, improved command line, examples,
+and directory service.
+
+For more information see FEATURE ADDITIONS AND MAJOR CHANGES SINCE LAST
+RELEASE below.
+
+See the document "Getting Started with EPICS V4,
+http://epics-pvdata.sourceforge.net/gettingStarted.html
+
+Feature additions and major changes for V4.3
+--------------------------------------------
+
+1. You can access Base IOC PV data over pvAccess. This gives the speed and
+facilities of pvAccess to accesses of Base IOCs, and provides the basis for
+coming work to allow data of a group of IOC channels to be get or set as a
+single call through pvAccess. See pvaSrv.
+   
+2. PV value I/O can now be done over the Channel Access protocol using only
+the pvAccess client. pvAccess contains Channel Access, as a "provider". This
+is now available in both C++ and Java implementations of pvAccess. This is
+useful if you want to do all your client side PV access (both Base IOC and
+services, through a single client side, pvAccess). See pvAccess.
+
+3. vxWorks is directly supported. That is, a pvaSrv module may be loaded
+into a vxWorks IOC.
+  
+4. An easy to use API, "easyPVA", has been added.
+
+5. The support for RPC PVs (PV value subject to arguments) has been much
+simplified and extended. There is now a client side library for RPC as well
+as the server side framework, and the server side is now very easy indeed.
+These extensions have been made in both, C++ and Java.
+
+6. C++ Examples. exampleCPP contains examples of coding both simple
+(helloWorld) and more complex services (EPICS Archiver access).
+ 
+7. Get lists of PVs in an IOC, or many other kinds of other system-wide
+meta-data, all within the pvAccess protocol. This is provided by a new
+simple pvAccess server instance called directoryService [20], that
+interfaces to the EPICS Channel Finder [21].
+
+Non-Functional changes for V4.3
+-------------------------------
+1. pvIOCjava is no longer distributed. It is intended that as of EPICS
+4.3.0, control is done by IOCs running EPICS Base v3.14 or 15. pvIOCJava
+is being re-worked to support host level high performance data
+processing using the data flow model, for such applications as high
+throughput image processing. It may re-emerge in the next release,
+probably renamed pvProcessor.
+
+2. The version numbering of the EPICS suite (now 4.3) has been separated
+from the version numbering of its composite modules. This allows for far
+improved specificity for indicating backward and forward compatibility
+through version numbers, and makes for far more streamlined packaging and
+distribution. The packaging process is in fact now completely file driven,
+so we could in theory package and distribute a new version of the suite in
+minutes.
+  
+See instructions in "Getting Started with EPICS V4" [16]. This includes both
+how to build the Java distribution from sources downloaded from the
+Mercurial repositories at SourceForge, and the alternative of downloading
+the tar.gz.
+
+------------------------------------------------------------------------
+
+VERSION 2.0-BETA  (aka V4.2) 
+============================
+
+[** NOTE: Version 2.0-BETA has been superseded by versions above **]
+
+SUMMARY
+-------
+The latest tagged release of both C++ and Java implementations of EPICS V4 are
+in directories and tags named 2.0-BETA.
+
+The C++ implementation of EPICS V4 is in 2.0-BETA/EPICSv4-2.0-BETA.tar.gz
+The Java implementation of EPICS V4 is in
+2.0-BETA/EPICSv4-Java-2.0-BETA.tar.gz "Marchtest" for internal review only.
+
+See the document "Getting Started with EPICS V4," 
+http://epics-pvdata.sourceforge.net/gettingStarted.html
+
+FILES FOR EPICS V4 C++ IMPLEMENTATION 
+-------------------------------------
+The file EPICSv4-2.0-BETA.tar.gz includes all (and only) the C++
+implementation of EPICS V4, plus a make system based on EPICS V3's
+makefiles. This is available under folder 2.0-BETA/. Build instructions
+and example usage are given in [16].
+
+
+MINIMUM FILES FOR EPICS V4 JAVA IMPLEMENTATION 
+----------------------------------------------
+The file EPICSv4-Java-2.0-BETA.tar.gz includes all (and only) the Java
+implementation of EPICS V4. On Unix systems, the tar file might be 
+unpacked with the command:
+  % tar xvfz EPICSv4-Java-2.0-BETA.tar.gz
+
+Specifically the tar includes the following JAR files, plus the source 
+for some examples (in examplesJava/) plus necessary XML files and scripts.
+
+pvAccess-2.0-BETA.jar *    The EPICS V4 "wire protocol" [6] [7]
+pvData-2.0-BETA.jar *      The EPICS V4 support for high 
+                               performance data interchange [8]
+pvIOC-2.0-BETA.jar *       The EPICS V4 Input/Output Processor 
+                               (IOC). I.e. the server side [9] 
+exampleJava/               Examples of use of EPICS V4 Remote Procedure Calling
+                           (a PV that takes arguments). 
+
+Note that, for the beta 2 distribution, pvService is not longer distributed
+and is deprecated. It is not included in the beta 2 jars or tar file.
+
+(*) The specific version number may change following modification of
+this README. 
+
+See instructions in "Getting Started with EPICS V4" [16]. This 
+includes both how to build the Java distribution from sources downloaded
+from the Mercurial repositories at SourceForge, and the alternative of 
+downloading the tar.gz.
+
+EXAMPLES
+--------
+You can find examples in the various test/ subdirectories, and in
+exampleJava [14] and exampleCPP directories.
+
+FOR CONNECTING EPICS V4 to EPICS V3 IN C++
+-------------------------------------------
+See pvaSrv documentation [17], v3Channel section, for help
+on connecting EPICS V3 records to EPICS V4.
+ 
+FOR CONNECTING EPICS V4 to EPICS V3 IN JAVA
+--------------------------------------------
+The pvAccess server (part of pvAccess, above) allows an existing
+Channel Access client to access a javaIOC database. The client allows
+the javaIOC to communicate with a Version 3 server, i.e. a javaIOC
+database can have links to records in a V3 IOC database. For these
+functions you will need the following files:
+
+These are available from the epics-pvdata SourceForge download site,
+or you can get them from the references provided.
+
+caj-1.1.8.jar        The native Java Channel Access [5] library [3] 
+jca-2.3.5.jar        The API for the Java code interaction with 
+                     EPICS Channel Access [4]
+
+
+USEFUL EXTERNAL SOFTWARE
+------------------------
+These are NOT available from the epics-pvdata SourceForge download
+site.
+
+1. oncrpc is an implementation of sun rpc which is required for VXI11
+support. Find a JAR for it at
+https://sourceforge.net/apps/trac/remotetea/wiki/WikiStart [10]. Our
+pvIOC SNAPSHOT uses version 1.0.7.
+
+2. For testing EPICS V4 it is very useful use the "SWTshell" GUI
+application [11] that helps you interactively configure the EPICS V4
+interface. For this you need to the swt.jar. To get it, you can either
+install Eclipse and find swt*.jar in your eclipse install around
+.../eclipse/plugins/org.eclipse.swt**.jar, or download it from
+http://www.eclipse.org/swt/ [12].  See the EPICS V4 helloWorld example
+service's runner script [13] for an example of including swt for Mac
+OS Cocoa at runtime.
+
+References
+----------
+[1] The EPICS V4 homepage, http://epics-pvdata.sourceforge.net
+[2] EPICS homepage, http://www.aps.anl.gov/epics
+[3] CAJ homepage, such as it is, http://epics-jca.sourceforge.net/caj/
+[4] JCA homepage, http://epics-jca.sourceforge.net/jca/
+[5] Channel Access Reference, 
+http://www.aps.anl.gov/epics/base/R3-14/8-docs/CAref.html
+[6] pvAccess Specification, 
+http://epics-pvdata.sourceforge.net/pvAccess_Protocol_Specification.html
+[7] pvAccess Java documentation,
+ http://epics-pvdata.sourceforge.net/hgweb/pvAccessJava/raw-file/tip/documentation/pvAccessJava.html
+[8] pvData Java documentation,
+http://epics-pvdata.sourceforge.net/hgweb/pvDataJava/raw-file/tip/documentation/pvDataJava.html
+[9] pvIOC Java documentation, 
+http://epics-pvdata.sourceforge.net/hgweb/pvIOCJava/raw-file/tip/documentation/pvIOCJava.html
+[10] RemoteTeo implementation of ONC/RPC, 
+https://sourceforge.net/apps/trac/remotetea/wiki/WikiStart
+[11] SWTShell for pvIOC, 
+http://epics-pvdata.sourceforge.net/doc/pvIOCJava/swtshell.html
+[12] SWT: Standard Widget Toolkit, http://www.eclipse.org/swt/
+[13] helloWorld runtime setup script, 
+http://epics-pvdata.sourceforge.net/hgweb/exampleJava/file/576e59c105e9/src/helloWorld/helloWorld_setup.bash
+[14] exampleJava, examples of use of EPICS V4 Java binding, 
+http://epics-pvdata.sourceforge.net/hgweb/exampleJava/file/tip/src
+[15] ChannelRPC facility javadoc in pvIOC, http://epics-pvdata.sourceforge.net/doc/pvIOCJava/rpcSupport.html
+[16] Getting Started with EPICS V4, http://epics-pvdata.sourceforge.net/gettingStarted.html
+[17] pvaSrv documentation, http://epics-pvdata.sourceforge.net/docbuild/pvaSrv/tip/documentation/pvaSrv.html
+[18] exampleCPP, examples of use of EPICS V4 C++ binding, http://epics-pvdata.sourceforge.net/hgweb/exampleCPP/
+[19] RELEASE_VERSIONS, http://sourceforge.net/p/epics-pvdata/pvDataWWW/ci/default/tree/scripts/RELEASE_VERSIONS
+[20] EPICS V4 directoryService, http://www.epics2013.org/dms/EPICS2013/presentations/wednesday/Session_3/V4_Lange_ChannelFinder.pdf
+[21] EPICS Channel Finder, http://channelfinder.sourceforge.net
+[22] Mercurial repos of EPICS V4, https://sourceforge.net/p/epics-pvdata/_list/hg
