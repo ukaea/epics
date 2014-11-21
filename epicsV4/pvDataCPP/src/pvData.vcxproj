@@ -464,7 +464,7 @@ xcopy /Y /Q /D /R pvMisc\*.h $(SolutionDir)include\pv &gt; NUL
     <ClInclude Include="pv\standardPVField.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\base\src\libCom\Com.vcxproj">
+    <ProjectReference Include="..\..\..\base\src\libCom\Com.vcxproj">
       <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
     </ProjectReference>
   </ItemGroup>
