@@ -1,36 +1,36 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="Debug DLL|Win32">
-      <Configuration>Debug DLL</Configuration>
+    <ProjectConfiguration Include="Debug_DLL|Win32">
+      <Configuration>Debug_DLL</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Debug DLL|x64">
-      <Configuration>Debug DLL</Configuration>
+    <ProjectConfiguration Include="Debug_DLL|x64">
+      <Configuration>Debug_DLL</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Debug LIB|Win32">
-      <Configuration>Debug LIB</Configuration>
+    <ProjectConfiguration Include="Debug_LIB|Win32">
+      <Configuration>Debug_LIB</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Debug LIB|x64">
-      <Configuration>Debug LIB</Configuration>
+    <ProjectConfiguration Include="Debug_LIB|x64">
+      <Configuration>Debug_LIB</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Release DLL|Win32">
-      <Configuration>Release DLL</Configuration>
+    <ProjectConfiguration Include="Release_DLL|Win32">
+      <Configuration>Release_DLL</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Release DLL|x64">
-      <Configuration>Release DLL</Configuration>
+    <ProjectConfiguration Include="Release_DLL|x64">
+      <Configuration>Release_DLL</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Release LIB|Win32">
-      <Configuration>Release LIB</Configuration>
+    <ProjectConfiguration Include="Release_LIB|Win32">
+      <Configuration>Release_LIB</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Release LIB|x64">
-      <Configuration>Release LIB</Configuration>
+    <ProjectConfiguration Include="Release_LIB|x64">
+      <Configuration>Release_LIB</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
@@ -57,24 +57,24 @@
     <ClCompile Include="O.Common\XPS_trajectoryScan.c" />
     <ClCompile Include="SMC100Driver.cpp" />
     <ClCompile Include="SMC100Register.cc">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug DLL|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug LIB|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release DLL|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release LIB|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Socket.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug DLL|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug LIB|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release DLL|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release LIB|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="strtok_r.c" />
     <ClCompile Include="tclCall.cc" />
@@ -116,108 +116,108 @@
     <None Include="devNewport.dbd" />
     <CustomBuild Include="XPS_trajectoryScan.st">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
 $(OutDir)snc.exe     O.Common\%(Filename).i -o O.Common\%(Filename).c
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
 $(OutDir)snc.exe     O.Common\%(Filename).i -o O.Common\%(Filename).c
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
 $(OutDir)snc.exe     O.Common\%(Filename).i -o O.Common\%(Filename).c
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
 $(OutDir)snc.exe     O.Common\%(Filename).i -o O.Common\%(Filename).c
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|x64'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
 $(OutDir)snc.exe     O.Common\%(Filename).i -o O.Common\%(Filename).c
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|x64'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
 $(OutDir)snc.exe     O.Common\%(Filename).i -o O.Common\%(Filename).c
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|x64'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
 $(OutDir)snc.exe     O.Common\%(Filename).i -o O.Common\%(Filename).c
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|x64'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
 $(OutDir)snc.exe     O.Common\%(Filename).i -o O.Common\%(Filename).c
 </Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">O.Common\%(Filename).c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">O.Common\%(Filename).c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">O.Common\%(Filename).c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">O.Common\%(Filename).c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|x64'">O.Common\%(Filename).c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|x64'">O.Common\%(Filename).c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|x64'">O.Common\%(Filename).c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|x64'">O.Common\%(Filename).c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common\%(Filename).c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">O.Common\%(Filename).c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common\%(Filename).c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">O.Common\%(Filename).c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">O.Common\%(Filename).c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">O.Common\%(Filename).c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">O.Common\%(Filename).c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">O.Common\%(Filename).c</Outputs>
     </CustomBuild>
     <CustomBuild Include="MM4005_trajectoryScan.st">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
 $(OutDir)snc.exe     O.Common\%(Filename).i -o O.Common\%(Filename).c
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
 $(OutDir)snc.exe     O.Common\%(Filename).i -o O.Common\%(Filename).c
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
 $(OutDir)snc.exe     O.Common\%(Filename).i -o O.Common\%(Filename).c
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
 $(OutDir)snc.exe     O.Common\%(Filename).i -o O.Common\%(Filename).c
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|x64'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
 $(OutDir)snc.exe     O.Common\%(Filename).i -o O.Common\%(Filename).c
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|x64'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
 $(OutDir)snc.exe     O.Common\%(Filename).i -o O.Common\%(Filename).c
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|x64'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
 $(OutDir)snc.exe     O.Common\%(Filename).i -o O.Common\%(Filename).c
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|x64'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
 $(OutDir)snc.exe     O.Common\%(Filename).i -o O.Common\%(Filename).c
 </Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">O.Common\%(Filename).c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">O.Common\%(Filename).c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">O.Common\%(Filename).c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">O.Common\%(Filename).c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|x64'">O.Common\%(Filename).c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|x64'">O.Common\%(Filename).c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|x64'">O.Common\%(Filename).c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|x64'">O.Common\%(Filename).c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common\%(Filename).c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">O.Common\%(Filename).c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common\%(Filename).c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">O.Common\%(Filename).c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">O.Common\%(Filename).c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">O.Common\%(Filename).c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">O.Common\%(Filename).c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">O.Common\%(Filename).c</Outputs>
     </CustomBuild>
     <CustomBuild Include="xpsSlave.st">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
 $(OutDir)snc.exe     O.Common\%(Filename).i -o O.Common\%(Filename).c
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
 $(OutDir)snc.exe     O.Common\%(Filename).i -o O.Common\%(Filename).c
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
 $(OutDir)snc.exe     O.Common\%(Filename).i -o O.Common\%(Filename).c
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
 $(OutDir)snc.exe     O.Common\%(Filename).i -o O.Common\%(Filename).c
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|x64'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
 $(OutDir)snc.exe     O.Common\%(Filename).i -o O.Common\%(Filename).c
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|x64'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
 $(OutDir)snc.exe     O.Common\%(Filename).i -o O.Common\%(Filename).c
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|x64'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
 $(OutDir)snc.exe     O.Common\%(Filename).i -o O.Common\%(Filename).c
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|x64'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
 $(OutDir)snc.exe     O.Common\%(Filename).i -o O.Common\%(Filename).c
 </Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">O.Common\%(Filename).c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">O.Common\%(Filename).c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">O.Common\%(Filename).c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">O.Common\%(Filename).c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|x64'">O.Common\%(Filename).c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|x64'">O.Common\%(Filename).c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|x64'">O.Common\%(Filename).c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|x64'">O.Common\%(Filename).c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common\%(Filename).c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">O.Common\%(Filename).c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common\%(Filename).c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">O.Common\%(Filename).c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">O.Common\%(Filename).c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">O.Common\%(Filename).c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">O.Common\%(Filename).c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">O.Common\%(Filename).c</Outputs>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
@@ -253,45 +253,45 @@ $(OutDir)snc.exe     O.Common\%(Filename).i -o O.Common\%(Filename).c
     <SccAuxPath>Svn</SccAuxPath>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>NotSet</CharacterSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>NotSet</CharacterSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|x64'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>NotSet</CharacterSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug LIB|x64'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>NotSet</CharacterSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>NotSet</CharacterSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>NotSet</CharacterSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release DLL|x64'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>NotSet</CharacterSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release LIB|x64'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -300,72 +300,56 @@ $(OutDir)snc.exe     O.Common\%(Filename).i -o O.Common\%(Filename).c
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'" Label="PropertySheets">
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|x64'" Label="PropertySheets">
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug LIB|x64'" Label="PropertySheets">
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'" Label="PropertySheets">
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release DLL|x64'" Label="PropertySheets">
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release LIB|x64'" Label="PropertySheets">
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)Bin\win32-x86-debug\</OutDir>
-    <IntDir>O.win32-x86-debug\</IntDir>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)Bin\win32-x86-debug-lib\</OutDir>
-    <IntDir>O.win32-x86-debug-lib\</IntDir>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|x64'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)Bin\windows-x64-debug\</OutDir>
-    <IntDir>O.windows-x64-debug\</IntDir>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug LIB|x64'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)Bin\windows-x64-debug-lib\</OutDir>
-    <IntDir>O.windows-x64-debug-lib\</IntDir>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)Bin\win32-x86\</OutDir>
-    <IntDir>O.win32-x86\</IntDir>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)Bin\win32-x86-lib\</OutDir>
-    <IntDir>O.win32-x86-lib\</IntDir>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release DLL|x64'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)Bin\windows-x64\</OutDir>
-    <IntDir>O.windows-x64\</IntDir>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release LIB|x64'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)Bin\windows-x64-lib\</OutDir>
-    <IntDir>O.windows-x64-lib\</IntDir>
   </PropertyGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
@@ -385,7 +369,7 @@ xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
@@ -407,7 +391,7 @@ xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
       <AdditionalDependencies>ws2_32.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|x64'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
@@ -427,7 +411,7 @@ xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug LIB|x64'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
@@ -449,7 +433,7 @@ xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
       <AdditionalDependencies>ws2_32.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
@@ -471,7 +455,7 @@ xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
@@ -497,7 +481,7 @@ xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
       <AdditionalDependencies>ws2_32.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release DLL|x64'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
@@ -520,7 +504,7 @@ xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release LIB|x64'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>

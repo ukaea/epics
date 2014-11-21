@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="database">
+      <UniqueIdentifier>{e05b20a8-47e1-41fc-8d5c-cee664d2c37c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="special">
+      <UniqueIdentifier>{8d604ae7-4519-4eff-a617-9c1a3024823b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="pvAccess">
+      <UniqueIdentifier>{3f3fa801-e1f4-4d19-bd9f-331389f07e21}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="database\Makefile">
+      <Filter>database</Filter>
+    </None>
+    <None Include="pvAccess\Makefile">
+      <Filter>pvAccess</Filter>
+    </None>
+    <None Include="pvAccess\registerChannelProviderLocal.dbd">
+      <Filter>pvAccess</Filter>
+    </None>
+    <None Include="special\Makefile">
+      <Filter>special</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="database\pvDatabase.cpp">
+      <Filter>database</Filter>
+    </ClCompile>
+    <ClCompile Include="database\pvRecord.cpp">
+      <Filter>database</Filter>
+    </ClCompile>
+    <ClCompile Include="pvAccess\channelLocal.cpp">
+      <Filter>pvAccess</Filter>
+    </ClCompile>
+    <ClCompile Include="pvAccess\channelProviderLocal.cpp">
+      <Filter>pvAccess</Filter>
+    </ClCompile>
+    <ClCompile Include="pvAccess\monitorFactory.cpp">
+      <Filter>pvAccess</Filter>
+    </ClCompile>
+    <ClCompile Include="pvAccess\pvCopyMonitor.cpp">
+      <Filter>pvAccess</Filter>
+    </ClCompile>
+    <ClCompile Include="pvAccess\registerChannelProviderLocal.cpp">
+      <Filter>pvAccess</Filter>
+    </ClCompile>
+    <ClCompile Include="special\recordList.cpp">
+      <Filter>special</Filter>
+    </ClCompile>
+    <ClCompile Include="special\traceRecord.cpp">
+      <Filter>special</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="database\pvDatabase.h">
+      <Filter>database</Filter>
+    </ClInclude>
+    <ClInclude Include="pvAccess\channelProviderLocal.h">
+      <Filter>pvAccess</Filter>
+    </ClInclude>
+    <ClInclude Include="pvAccess\pvCopyMonitor.h">
+      <Filter>pvAccess</Filter>
+    </ClInclude>
+    <ClInclude Include="special\recordList.h">
+      <Filter>special</Filter>
+    </ClInclude>
+    <ClInclude Include="special\traceRecord.h">
+      <Filter>special</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

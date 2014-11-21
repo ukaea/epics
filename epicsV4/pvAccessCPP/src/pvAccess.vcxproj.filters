@@ -34,6 +34,9 @@
     <Filter Include="utils">
       <UniqueIdentifier>{44cbcaa9-8c95-45ab-93d2-3427a4011a75}</UniqueIdentifier>
     </Filter>
+    <Filter Include="v3ioc">
+      <UniqueIdentifier>{d6554ddd-2af6-47b7-a4d6-50e8e49c2955}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ca\caChannel.cpp">
@@ -128,6 +131,24 @@
     </ClCompile>
     <ClCompile Include="pva\pvaVersion.cpp">
       <Filter>pva</Filter>
+    </ClCompile>
+    <ClCompile Include="remote\codec.cpp">
+      <Filter>remote</Filter>
+    </ClCompile>
+    <ClCompile Include="remote\security.cpp">
+      <Filter>remote</Filter>
+    </ClCompile>
+    <ClCompile Include="rpcService\rpcService.cpp">
+      <Filter>rpcService</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\wildcard.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="v3ioc\PVAClientRegister.cpp">
+      <Filter>v3ioc</Filter>
+    </ClCompile>
+    <ClCompile Include="v3ioc\PVAServerRegister.cpp">
+      <Filter>v3ioc</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -230,5 +251,61 @@
     <ClInclude Include="pva\pvaConstants.h">
       <Filter>pva</Filter>
     </ClInclude>
+    <ClInclude Include="remote\codec.h">
+      <Filter>remote</Filter>
+    </ClInclude>
+    <ClInclude Include="remote\security.h">
+      <Filter>remote</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\wildcard.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="v3ioc\syncChannelFind.h">
+      <Filter>v3ioc</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ca\Makefile">
+      <Filter>ca</Filter>
+    </None>
+    <None Include="client\Makefile">
+      <Filter>client</Filter>
+    </None>
+    <None Include="factory\Makefile">
+      <Filter>factory</Filter>
+    </None>
+    <None Include="mb\Makefile">
+      <Filter>mb</Filter>
+    </None>
+    <None Include="pva\Makefile">
+      <Filter>pva</Filter>
+    </None>
+    <None Include="remote\Makefile">
+      <Filter>remote</Filter>
+    </None>
+    <None Include="remoteClient\Makefile">
+      <Filter>remoteclient</Filter>
+    </None>
+    <None Include="rpcClient\Makefile">
+      <Filter>rpcClient</Filter>
+    </None>
+    <None Include="rpcService\Makefile">
+      <Filter>rpcService</Filter>
+    </None>
+    <None Include="server\Makefile">
+      <Filter>server</Filter>
+    </None>
+    <None Include="utils\Makefile">
+      <Filter>utils</Filter>
+    </None>
+    <None Include="v3ioc\Makefile">
+      <Filter>v3ioc</Filter>
+    </None>
+    <None Include="v3ioc\PVAClientRegister.dbd">
+      <Filter>v3ioc</Filter>
+    </None>
+    <None Include="v3ioc\PVAServerRegister.dbd">
+      <Filter>v3ioc</Filter>
+    </None>
   </ItemGroup>
 </Project>

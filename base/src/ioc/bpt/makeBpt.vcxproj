@@ -4,36 +4,36 @@
     <TrackFileAccess>false</TrackFileAccess>
   </PropertyGroup>
   <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="Debug DLL|Win32">
-      <Configuration>Debug DLL</Configuration>
+    <ProjectConfiguration Include="Debug_DLL|Win32">
+      <Configuration>Debug_DLL</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Debug DLL|X64">
-      <Configuration>Debug DLL</Configuration>
+    <ProjectConfiguration Include="Debug_DLL|X64">
+      <Configuration>Debug_DLL</Configuration>
       <Platform>X64</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Debug LIB|Win32">
-      <Configuration>Debug LIB</Configuration>
+    <ProjectConfiguration Include="Debug_LIB|Win32">
+      <Configuration>Debug_LIB</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Debug LIB|X64">
-      <Configuration>Debug LIB</Configuration>
+    <ProjectConfiguration Include="Debug_LIB|X64">
+      <Configuration>Debug_LIB</Configuration>
       <Platform>X64</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Release DLL|Win32">
-      <Configuration>Release DLL</Configuration>
+    <ProjectConfiguration Include="Release_DLL|Win32">
+      <Configuration>Release_DLL</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Release DLL|X64">
-      <Configuration>Release DLL</Configuration>
+    <ProjectConfiguration Include="Release_DLL|X64">
+      <Configuration>Release_DLL</Configuration>
       <Platform>X64</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Release LIB|Win32">
-      <Configuration>Release LIB</Configuration>
+    <ProjectConfiguration Include="Release_LIB|Win32">
+      <Configuration>Release_LIB</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Release LIB|X64">
-      <Configuration>Release LIB</Configuration>
+    <ProjectConfiguration Include="Release_LIB|X64">
+      <Configuration>Release_LIB</Configuration>
       <Platform>X64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
@@ -46,118 +46,118 @@
   <ItemGroup>
     <CustomBuild Include="bptTypeJdegC.data">
       <FileType>Document</FileType>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">true</ExcludedFromBuild>
     </CustomBuild>
     <CustomBuild Include="bptTypeJdegF.data">
       <FileType>Document</FileType>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">true</ExcludedFromBuild>
     </CustomBuild>
     <CustomBuild Include="bptTypeKdegC.data">
       <FileType>Document</FileType>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">true</ExcludedFromBuild>
     </CustomBuild>
     <CustomBuild Include="bptTypeKdegF.data">
       <FileType>Document</FileType>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">true</ExcludedFromBuild>
     </CustomBuild>
     <None Include="Makefile" />
     <CustomBuild Include="menuConvert.dbd.pod">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o O.Common/%(FileName) %(FileName).pod
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o O.Common/%(FileName) %(FileName).pod
 </Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">O.Common\%(FileName)</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">O.Common\%(FileName)</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">O.Common\%(FileName)</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">O.Common\%(FileName)</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">O.Common\%(FileName)</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">O.Common\%(FileName)</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">O.Common\%(FileName)</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">O.Common\%(FileName)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o O.Common/%(FileName) %(FileName).pod
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common\%(FileName)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">O.Common\%(FileName)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common\%(FileName)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">O.Common\%(FileName)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">O.Common\%(FileName)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">O.Common\%(FileName)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'">O.Common\%(FileName)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">O.Common\%(FileName)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o O.Common/%(FileName) %(FileName).pod
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o O.Common/%(FileName) %(FileName).pod
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o O.Common/%(FileName) %(FileName).pod
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o O.Common/%(FileName) %(FileName).pod
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o O.Common/%(FileName) %(FileName).pod
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o O.Common/%(FileName) %(FileName).pod
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o O.Common/%(FileName) %(FileName).pod
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o O.Common/%(FileName) %(FileName).pod
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o O.Common/%(FileName) %(FileName).pod
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o O.Common/%(FileName) %(FileName).pod
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'">perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o O.Common/%(FileName) %(FileName).pod
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o O.Common/%(FileName) %(FileName).pod
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o O.Common/%(FileName) %(FileName).pod
 </Command>
     </CustomBuild>
     <CustomBuild Include="O.Common\menuConvert.dbd">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">cd O.Common
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">cd O.Common
 perl -CSD $(OutDir)dbdToMenuH.pl -o %(FileName).h %(FileName).dbd
 cd $(ProjectDir)
 </Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">O.Common/%(FileName).h</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">cd O.Common
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common/%(FileName).h</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">cd O.Common
 perl -CSD $(OutDir)dbdToMenuH.pl -o %(FileName).h %(FileName).dbd
 cd $(ProjectDir)
 </Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">O.Common/%(FileName).h</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">cd O.Common
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">O.Common/%(FileName).h</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">cd O.Common
 perl -CSD $(OutDir)dbdToMenuH.pl -o %(FileName).h %(FileName).dbd
 cd $(ProjectDir)
 </Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">O.Common/%(FileName).h</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">cd O.Common
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common/%(FileName).h</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">cd O.Common
 perl -CSD $(OutDir)dbdToMenuH.pl -o %(FileName).h %(FileName).dbd
 cd $(ProjectDir)
 </Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">O.Common/%(FileName).h</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">cd O.Common
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">O.Common/%(FileName).h</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">cd O.Common
 perl -CSD $(OutDir)dbdToMenuH.pl -o %(FileName).h %(FileName).dbd
 cd $(ProjectDir)
 </Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">O.Common/%(FileName).h</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">cd O.Common
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">O.Common/%(FileName).h</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">cd O.Common
 perl -CSD $(OutDir)dbdToMenuH.pl -o %(FileName).h %(FileName).dbd
 cd $(ProjectDir)
 </Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">O.Common/%(FileName).h</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">cd O.Common
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">O.Common/%(FileName).h</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'">cd O.Common
 perl -CSD $(OutDir)dbdToMenuH.pl -o %(FileName).h %(FileName).dbd
 cd $(ProjectDir)
 </Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">O.Common/%(FileName).h</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">cd O.Common
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'">O.Common/%(FileName).h</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">cd O.Common
 perl -CSD $(OutDir)dbdToMenuH.pl -o %(FileName).h %(FileName).dbd
 cd $(ProjectDir)
 </Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">O.Common/%(FileName).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">O.Common/%(FileName).h</Outputs>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
@@ -175,38 +175,38 @@ cd $(ProjectDir)
     <SccAuxPath>Svn</SccAuxPath>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -214,64 +214,40 @@ cd $(ProjectDir)
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'" Label="PropertySheets">
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'" Label="PropertySheets">
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'" Label="PropertySheets">
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'" Label="PropertySheets">
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'" Label="PropertySheets">
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'" Label="PropertySheets">
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">
-    <OutDir>$(SolutionDir)Bin\win32-x86-debug\</OutDir>
-    <IntDir>O.win32-x86-debug\</IntDir>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">
-    <OutDir>$(SolutionDir)Bin\win32-x86-debug-lib\</OutDir>
-    <IntDir>O.win32-x86-debug-lib\</IntDir>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">
-    <OutDir>$(SolutionDir)Bin\windows-x64-debug\</OutDir>
-    <IntDir>O.windows-x64-debug\</IntDir>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">
-    <OutDir>$(SolutionDir)Bin\windows-x64-debug-lib\</OutDir>
-    <IntDir>O.windows-x64-debug-lib\</IntDir>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">
-    <OutDir>$(SolutionDir)Bin\win32-x86\</OutDir>
-    <IntDir>O.win32-x86\</IntDir>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">
-    <OutDir>$(SolutionDir)Bin\win32-x86-lib\</OutDir>
-    <IntDir>O.win32-x86-lib\</IntDir>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">
-    <OutDir>$(SolutionDir)Bin\windows-x64\</OutDir>
-    <IntDir>O.windows-x64\</IntDir>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">
-    <OutDir>$(SolutionDir)Bin\windows-x64-lib\</OutDir>
-    <IntDir>O.windows-x64-lib\</IntDir>
-  </PropertyGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
@@ -303,7 +279,7 @@ xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug LIB|Win32'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
@@ -336,7 +312,7 @@ xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|X64'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
@@ -369,7 +345,7 @@ xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug LIB|X64'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
@@ -403,7 +379,7 @@ xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -436,7 +412,7 @@ xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -470,7 +446,7 @@ xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release DLL|X64'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -504,7 +480,7 @@ xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release LIB|X64'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
