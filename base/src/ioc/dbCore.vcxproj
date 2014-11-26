@@ -1057,10 +1057,10 @@ cd $(ProjectDir)
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">O.Common\%(FileName)</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common\%(FileName)</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">O.Common\%(FileName)</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">..\O.Common\%(FileName)</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">..\O.Common\%(FileName)</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'">..\O.Common\%(FileName)</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">..\O.Common\%(FileName)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">O.Common\%(FileName)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">O.Common\%(FileName)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'">O.Common\%(FileName)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">O.Common\%(FileName)</Outputs>
     </CustomBuild>
     <CustomBuild Include="O.Common\menuSimm.dbd">
       <FileType>Document</FileType>
