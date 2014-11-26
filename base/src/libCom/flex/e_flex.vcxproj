@@ -152,6 +152,9 @@ move /Y y.tab.h O.Common\parse.h
     <ProjectReference Include="..\..\tools\tools.vcxproj">
       <Project>{5cce1c6a-2bd5-48bf-99e2-d29b58f91991}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\yacc\antelope.vcxproj">
+      <Project>{5f6323ff-ceeb-4ad8-bed3-a443e6f75546}</Project>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="flex.skel.static">
