@@ -1,6 +1,6 @@
 # CONFIG.win32-x86.win32-x86
 #
-# Revision-Id: anj@aps.anl.gov-20140926174616-129nqa411elhow55
+# Revision-Id: anj@aps.anl.gov-20141112223639-qd9nhvth6p0r5846
 # This file is maintained by the build community.
 #
 # Definitions for win32-x86 target archs when host arch is win32-x86
@@ -20,8 +20,6 @@ WINLINK = link
 RCCMD = rc -l 0x409 $(INCLUDES) -fo $@ $<
 
 ARCMD = lib -nologo -verbose -out:$@ $(LIB_OPT_LDFLAGS) $(LIBRARY_LD_OBJS)
-
-BAFCMD = bscmake -nologo -o $@
 
 #
 # Configure OS vendor C compiler
@@ -130,6 +128,7 @@ RANLIB=
 # -LTCG whole program optimization
 # -incremental:no full linking
 # -fixed:no generate relocatable code
+# -version:<major>.<minor> - only 2 components allowed, 0-65535 each
 # -debug generate debugging info
 LINK_OPT_FLAGS_YES = -LTCG -incremental:no -opt:ref \
     -release $(PROD_VERSION:%=-version:%)
@@ -150,8 +149,6 @@ WIN32=1
 EXE=.exe
 OBJ=.obj
 RES=.res
-BAF=.bsc
-BOF=.sbr
 
 #       Problem: MS Visual C++ does not recognize  *.cc as C++ source,
 #       so we do C++ compiles using the global flag -TP 

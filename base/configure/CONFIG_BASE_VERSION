@@ -7,7 +7,7 @@
 # in the file LICENSE that is included with this distribution. 
 #*************************************************************************
 #
-#  Revision-Id: anj@aps.anl.gov-20141007063133-07kx3ouwkn5sgb0c
+#  Revision-Id: anj@aps.anl.gov-20141119213402-11kmcnod71ec9lm2
 #
 #  EPICS Version information
 #
@@ -29,11 +29,11 @@ EPICS_VERSION = 3
 EPICS_REVISION = 15
 
 # EPICS_MODIFICATION must be a number >=0 and <256 
-EPICS_MODIFICATION = 0
+EPICS_MODIFICATION = 1
 
-# EPICS_PATCH_LEVEL must be a number  (win32 resource file requirement)
+# EPICS_PATCH_LEVEL must be a number (win32 resource file requirement)
 # Not included if zero
-EPICS_PATCH_LEVEL = 2
+EPICS_PATCH_LEVEL = 0
 
 # This will end in -DEV between official releases
 #EPICS_DEV_SNAPSHOT=-DEV
@@ -41,11 +41,11 @@ EPICS_PATCH_LEVEL = 2
 #EPICS_DEV_SNAPSHOT=-pre1-DEV
 #EPICS_DEV_SNAPSHOT=-pre2
 #EPICS_DEV_SNAPSHOT=-pre2-DEV
-#EPICS_DEV_SNAPSHOT=-rc1
+EPICS_DEV_SNAPSHOT=-rc1
 #EPICS_DEV_SNAPSHOT=-rc1-DEV
 #EPICS_DEV_SNAPSHOT=-rc2
 #EPICS_DEV_SNAPSHOT=-rc2-DEV
-EPICS_DEV_SNAPSHOT=
+#EPICS_DEV_SNAPSHOT=
 
 # No changes should be needed below here
 
@@ -61,4 +61,4 @@ EPICS_SHORT_VERSION=$(EPICS_VERSION).$(EPICS_REVISION).$(EPICS_MODIFICATION)$(EP
 EPICS_VERSION_NUMBER=$(EPICS_SHORT_VERSION)$(EPICS_DEV_SNAPSHOT)$(EPICS_SITE_VSTRING)
 EPICS_VERSION_STRING="EPICS Version $(EPICS_VERSION_NUMBER)"
 
-COMMIT_DATE="\$Date: Tue 2014-10-07 01:31:33 -0500$"
+COMMIT_DATE="\$Date: Wed 2014-11-19 15:34:02 -0600$"

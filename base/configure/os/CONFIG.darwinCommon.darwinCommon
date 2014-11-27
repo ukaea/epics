@@ -1,6 +1,6 @@
 # CONFIG.darwinCommon.darwinCommon
 #
-# Revision-Id: anj@aps.anl.gov-20131220155739-s9ka9eqfmfnu47nb
+# Revision-Id: anj@aps.anl.gov-20141111185700-uiw6sn521w3lgmmr
 # This file is maintained by the build community.
 #
 # Common definitions for darwin builds
@@ -68,13 +68,12 @@ GNU = NO
 #
 # Darwin shared libraries
 #
-SHRLIB_VERSION = $(EPICS_VERSION).$(EPICS_REVISION).$(EPICS_MODIFICATION)
 SHRLIB_LDFLAGS = -dynamiclib -flat_namespace -undefined suppress \
-       -install_name $(shell $(FULLPATHNAME) $(INSTALL_LIB))/$@ \
-       -compatibility_version $(EPICS_VERSION).$(EPICS_REVISION) \
-       -current_version $(SHRLIB_VERSION)
+    -install_name $(shell $(FULLPATHNAME) $(INSTALL_LIB))/$@ \
+    $(addprefix -compatibility_version , $(SHRLIB_VERSION)) \
+    $(addprefix -current_version , $(SHRLIB_VERSION))
 SHRLIB_SUFFIX_BASE = .dylib
-SHRLIB_SUFFIX = .$(SHRLIB_VERSION)$(SHRLIB_SUFFIX_BASE)
+SHRLIB_SUFFIX = $(addprefix ., $(SHRLIB_VERSION))$(SHRLIB_SUFFIX_BASE)
 
 LOADABLE_SHRLIB_LDFLAGS = -bundle -flat_namespace -undefined suppress
 

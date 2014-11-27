@@ -19,6 +19,7 @@ dbTestIoc_LIBS = dbCore
 TARGETS += $(COMMON_DIR)/dbTestIoc.dbd
 dbTestIoc_DBD += menuGlobal.dbd
 dbTestIoc_DBD += menuConvert.dbd
+dbTestIoc_DBD += menuScan.dbd
 dbTestIoc_DBD += xRecord.dbd
 dbTestIoc_DBD += dbLinkdset.dbd
 TESTFILES += $(COMMON_DIR)/dbTestIoc.dbd ../xRecord.db
@@ -67,9 +68,17 @@ dbStateTest_SRCS += dbStateTest.c
 testHarness_SRCS += dbStateTest.c
 TESTS += dbStateTest
 
+TESTPROD_HOST += dbCaStatsTest
+dbCaStatsTest_SRCS += dbCaStatsTest.c
+dbCaStatsTest_SRCS += dbTestIoc_registerRecordDeviceDriver.cpp
+testHarness_SRCS += dbCaStatsTest.c
+TESTS += dbCaStatsTest
+TESTFILES += ../dbCaStatsTest.db
+
 TARGETS += $(COMMON_DIR)/scanIoTest.dbd
 scanIoTest_DBD += menuGlobal.dbd
 scanIoTest_DBD += menuConvert.dbd
+scanIoTest_DBD += menuScan.dbd
 scanIoTest_DBD += yRecord.dbd
 TESTPROD_HOST += scanIoTest
 scanIoTest_SRCS += scanIoTest.c

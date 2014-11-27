@@ -151,7 +151,6 @@ ACTIONS = inc
 ACTIONS += build
 ACTIONS += install
 ACTIONS += buildInstall
-ACTIONS += browse
 ACTIONS += runtests tapfiles
 
 actionArchTargets = $(foreach x, $(ACTIONS),\ $(foreach arch,$(BUILD_ARCHS), $(x)$(DIVIDER)$(arch)))
@@ -229,6 +228,11 @@ menu%.h$(DEP): $(COMMON_DIR)/menu%.dbd
 	@echo "$(COMMONDEP_TARGET): ../Makefile" >> $@
 
 menu%.h$(DEP): menu%.dbd
+	@$(RM) $@
+	@$(DBTOMENUH) -D $(DBDFLAGS) -o $(COMMONDEP_TARGET) $< > $@
+	@echo "$(COMMONDEP_TARGET): ../Makefile" >> $@
+
+menu%.h$(DEP): ../menu%.dbd
 	@$(RM) $@
 	@$(DBTOMENUH) -D $(DBDFLAGS) -o $(COMMONDEP_TARGET) $< > $@
 	@echo "$(COMMONDEP_TARGET): ../Makefile" >> $@
