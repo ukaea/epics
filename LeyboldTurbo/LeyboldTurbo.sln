@@ -88,8 +88,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "iocBoot", "iocBoot", "{7332
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "iocLeyboldTurbo", "iocLeyboldTurbo", "{13E0B500-742B-401B-AF78-3F6A0201436D}"
 	ProjectSection(SolutionItems) = preProject
-		iocBoot\iocLeyboldTurbo\dllPath.bat = iocBoot\iocLeyboldTurbo\dllPath.bat
-		iocBoot\iocLeyboldTurbo\envPaths = iocBoot\iocLeyboldTurbo\envPaths
 		iocBoot\iocLeyboldTurbo\Makefile = iocBoot\iocLeyboldTurbo\Makefile
 		iocBoot\iocLeyboldTurbo\st1.cmd = iocBoot\iocLeyboldTurbo\st1.cmd
 		iocBoot\iocLeyboldTurbo\st1.simulated.cmd = iocBoot\iocLeyboldTurbo\st1.simulated.cmd
