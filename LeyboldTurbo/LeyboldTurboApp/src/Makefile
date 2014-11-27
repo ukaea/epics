@@ -26,6 +26,9 @@ LeyboldTurbo_SYS_LIBS_WIN32 += ws2_32
 # LeyboldTurbo_registerRecordDeviceDriver.cpp derives from LeyboldTurbo.dbd
 LeyboldTurbo_SRCS += LeyboldTurbo_registerRecordDeviceDriver.cpp
 LeyboldTurbo_SRCS += LeyboldTurboPortDriver.cpp
+INC += USSPacket.h
+INC += ParameterDefns.h
+INC += LeyboldTurboPortDriver.h
 
 # Build the main IOC entry point on workstation OSs.
 LeyboldTurbo_SRCS_DEFAULT += LeyboldTurboMain.cpp
