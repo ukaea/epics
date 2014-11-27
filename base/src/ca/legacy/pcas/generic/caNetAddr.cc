@@ -10,7 +10,7 @@
 \*************************************************************************/
 
 //
-//	Revision-Id: anj@aps.anl.gov-20120412161350-htfzcjp2537pk1ip
+//	Revision-Id: mdavidsaver@bnl.gov-20141118164853-jfi55hsxd2ydqckb
 //
 //      Author: Jeffrey O. Hill
 //              johill@lanl.gov
@@ -164,10 +164,9 @@ struct sockaddr caNetAddr::getSock() const
         throw std::logic_error ( "caNetAddr::getSock (): address wasnt IP" );
     }
 
-    struct sockaddr sa;
-    struct sockaddr_in *psain = reinterpret_cast <struct sockaddr_in*> ( & sa );
-    *psain = this->addr.ip;
-    return sa;
+    osiSockAddr addr;
+    addr.ia = this->addr.ip;
+    return addr.sa;
 }
 
 caNetAddr::operator sockaddr_in () const

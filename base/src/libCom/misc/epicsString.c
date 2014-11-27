@@ -7,7 +7,7 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/* Revision-Id: anj@aps.anl.gov-20140904160759-9keqk9t20ecu8sy0 */
+/* Revision-Id: anj@aps.anl.gov-20141107215713-2u67i0p5vriy4vj6 */
 
 /* Authors: Jun-ichi Odagiri, Marty Kraimer, Eric Norum,
  *          Mark Rivers, Andrew Johnson, Ralph Lange
@@ -42,6 +42,9 @@ int epicsStrnRawFromEscaped(char *to, size_t outsize, const char *from,
     char       *pto = to;
     char        c;
     size_t      nto = 0, nfrom = 0;
+
+    if (outsize == 0)
+        return 0;
 
     while ((c = *pfrom++) && nto < outsize && nfrom < inlen) {
         nfrom++;
@@ -100,7 +103,9 @@ int epicsStrnRawFromEscaped(char *to, size_t outsize, const char *from,
             *pto++ = c; nto++;
         }
     }
-    *pto = '\0'; /* NOTE that nto does not have to be incremented */
+    if (nto == outsize)
+        pto--;
+    *pto = '\0';
     return nto;
 }
 

@@ -124,6 +124,9 @@ void CLeyboldSimPortDriver::addIOPort(const char* IOPortName)
 		}
 	}
 
+	if (callParamCallbacks() != asynSuccess)
+		throw CException(pasynUserSelf, __FUNCTION__, "callParamCallbacks");
+
     asynUser *AsynUser = pasynManager->createAsynUser(0,0);
 
     if (pasynManager->connectDevice(AsynUser, IOPortName, m_NumConnected) != asynSuccess)
@@ -146,7 +149,7 @@ bool CLeyboldSimPortDriver::process(asynUser *pasynUser)
 	size_t nbytesOut, nbytesIn;
 	int eomReason;
 
-	size_t TableIndex = function / NUM_PARAMS;
+	int TableIndex = function / NUM_PARAMS;
 	if (TableIndex >= m_NumConnected)
 		throw CException(pasynUser, __FUNCTION__, "User / pump not configured");
 

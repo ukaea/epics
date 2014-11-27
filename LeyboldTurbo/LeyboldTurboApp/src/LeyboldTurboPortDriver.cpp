@@ -48,26 +48,28 @@ void CLeyboldTurboPortDriver::addIOPort(const char* IOPortName)
 	{
 		int Index;
 		std::string ParamName =  ParameterDefns[ParamIndex].ParamName;
-		if (createParam(m_AsynUsers.size(), ParamName.c_str(), ParameterDefns[ParamIndex].ParamType, &Index) != asynSuccess)
+		if (createParam(int(m_AsynUsers.size()), ParamName.c_str(), ParameterDefns[ParamIndex].ParamType, &Index) != asynSuccess)
 			throw CException(pasynUserSelf, __FUNCTION__, "createParam" + std::string(ParameterDefns[ParamIndex].ParamName));
 		m_Parameters[ParamName] = Index;
 		switch(ParameterDefns[ParamIndex].ParamType)
 		{
 			case asynParamInt32: 
-				if (setIntegerParam(m_AsynUsers.size(), Index, ParameterDefns[ParamIndex].DefaultValue) != asynSuccess)
+				if (setIntegerParam(int(m_AsynUsers.size()), Index, ParameterDefns[ParamIndex].DefaultValue) != asynSuccess)
 					throw CException(pasynUserSelf, __FUNCTION__, "setIntegerParam" + std::string(ParameterDefns[ParamIndex].ParamName));
 				break;
 			case asynParamFloat64: 
-				if (setDoubleParam (m_AsynUsers.size(), Index, ParameterDefns[ParamIndex].DefaultValue) != asynSuccess)
+				if (setDoubleParam (int(m_AsynUsers.size()), Index, ParameterDefns[ParamIndex].DefaultValue) != asynSuccess)
 					throw CException(pasynUserSelf, __FUNCTION__, "setDoubleParam" + std::string(ParameterDefns[ParamIndex].ParamName));
 				break;
 			default: assert(false);
 		}
 	}
 	asynUser* IOUser;
-	if (pasynOctetSyncIO->connect(IOPortName, m_AsynUsers.size(), &IOUser, NULL) != asynSuccess)
+	if (pasynOctetSyncIO->connect(IOPortName, int(m_AsynUsers.size()), &IOUser, NULL) != asynSuccess)
 		throw CException(pasynUserSelf, __FUNCTION__, "connecting to IO port=" + std::string(IOPortName));
 //	connect(AsynUser);
+	if (callParamCallbacks() != asynSuccess)
+		throw CException(pasynUserSelf, __FUNCTION__, "callParamCallbacks");
 	m_AsynUsers.push_back(IOUser);
 }
 
@@ -80,11 +82,12 @@ CLeyboldTurboPortDriver::~CLeyboldTurboPortDriver()
 asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *value)
 {
 	int function = pasynUser->reason;
-	size_t TableIndex = function / NUM_PARAMS;
-	if (TableIndex >= m_AsynUsers.size())
-		throw CException(pasynUser, __FUNCTION__, "User / pump not configured");
+	int TableIndex = function / NUM_PARAMS;
 
 	try {
+		if (TableIndex >= int(m_AsynUsers.size()))
+			throw CException(pasynUser, __FUNCTION__, "User / pump not configured");
+
 		USSPacket USSWritePacket, USSReadPacket;
 		STATIC_ASSERT(sizeof(USSPacket)==USSPacketSize);
 		size_t nbytesOut, nbytesIn;
@@ -152,10 +155,11 @@ asynStatus CLeyboldTurboPortDriver::writeInt32(asynUser *pasynUser, epicsInt32 v
 {
 	asynStatus status = asynPortDriver::writeInt32(pasynUser, value);
 	int function = pasynUser->reason;
-	size_t TableIndex = function / NUM_PARAMS;
-	if (TableIndex >= m_AsynUsers.size())
-		throw CException(pasynUser, __FUNCTION__, "User / pump not configured");
+	int TableIndex = function / NUM_PARAMS;
 	try {
+		if (TableIndex >= int(m_AsynUsers.size()))
+			throw CException(pasynUser, __FUNCTION__, "User / pump not configured");
+
 		const char *paramName;
 		USSPacket USSWritePacket, USSReadPacket;
 		STATIC_ASSERT(sizeof(USSPacket)==USSPacketSize);

@@ -23,7 +23,7 @@ protected:
 private:
 	std::map<std::string, int> m_Parameters;
 	epicsMutexId m_mutexId;
-	size_t m_NumConnected;
+	int m_NumConnected;
 	volatile bool m_Exiting;
 };
 

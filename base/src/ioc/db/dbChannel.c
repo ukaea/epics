@@ -53,7 +53,7 @@ static void *dbChannelFreeList;
 static void *chFilterFreeList;
 static void *dbchStringFreeList;
 
-static void dbChannelExit(void* junk)
+void dbChannelExit(void)
 {
     freeListCleanup(dbChannelFreeList);
     freeListCleanup(chFilterFreeList);
@@ -69,7 +69,6 @@ void dbChannelInit (void)
     freeListInitPvt(&dbChannelFreeList,  sizeof(dbChannel), 128);
     freeListInitPvt(&chFilterFreeList,  sizeof(chFilter), 64);
     freeListInitPvt(&dbchStringFreeList, sizeof(epicsOldString), 128);
-    epicsAtExit(dbChannelExit, NULL);
 }
 
 static void chf_value(parseContext *parser, parse_result *presult)
@@ -762,7 +761,7 @@ void dbChannelMakeArrayCopy(void *pvt, db_field_log *pfl, dbChannel *chan)
     void *p;
     struct dbCommon *prec = dbChannelRecord(chan);
 
-    if (!pfl->type == dbfl_type_rec) return;
+    if (pfl->type != dbfl_type_rec) return;
 
     pfl->type = dbfl_type_ref;
     pfl->stat = prec->stat;
