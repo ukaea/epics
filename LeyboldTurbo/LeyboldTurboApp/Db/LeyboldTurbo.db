@@ -3,6 +3,7 @@ record(bo, "$(P)StartStop")
 	field(DESC, "StartStop")
 	field(DTYP, "asynInt32")
 	field(OUT,  "@asyn($(PORT),0,1)STARTSTOP")
+	field(SCAN, "I/O Intr")
 	field(ZNAM,  "OFF")
 	field(ONAM,  "ON")
 }

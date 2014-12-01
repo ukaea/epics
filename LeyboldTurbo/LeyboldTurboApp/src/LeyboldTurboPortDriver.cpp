@@ -117,13 +117,13 @@ asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *v
 			asynPrint(pasynUser, ASYN_TRACE_WARNING, "Packet validation failed", __FILE__, __FUNCTION__);
 			return asynError;
 		}
-/*		// Normal operation 1 = the pump is running in the normal operation mode
+		// Normal operation 1 = the pump is running in the normal operation mode
 		if (setIntegerParam (TableIndex, m_Parameters[STARTSTOP], USSReadPacket.m_USSPacketStruct.m_PZD1 & (1 << 10) ? 1 : 0) != asynSuccess)
 			throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
 
 		// Remote has been activated 1 = start/stop (control bit 0) and reset(control bit 7) through serial interface is possible.
 		if (setIntegerParam (TableIndex, m_Parameters[RESET], USSReadPacket.m_USSPacketStruct.m_PZD1 & (1 << 15) ? 1 : 0) != asynSuccess)
-			throw CException(pasynUser, __FUNCTION__, "Can't set parameter");*/
+			throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
 
 		if (setIntegerParam (TableIndex, m_Parameters[FAULT], USSReadPacket.m_USSPacketStruct.m_PZD1 & (1 << 3) ? 1 : 0) != asynSuccess)
 			throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
@@ -185,6 +185,11 @@ asynStatus CLeyboldTurboPortDriver::writeInt32(asynUser *pasynUser, epicsInt32 v
 
 		if (strcmp(paramName, RESET)==0)
 		{
+			int IBuf;
+			// Normal operation 1 = the pump is running in the normal operation mode
+			if (getIntegerParam(TableIndex, m_Parameters[STARTSTOP], &IBuf) != asynSuccess)
+				throw CException(pasynUser, __FUNCTION__, "Can't get parameter");
+			bool StartStop = (IBuf != 0);
 			// 0 to 1 transition = Error reset
 			//
 			// Is only run provided if 
@@ -192,6 +197,7 @@ asynStatus CLeyboldTurboPortDriver::writeInt32(asynUser *pasynUser, epicsInt32 v
 			//		control bit 0 = 0 and
 			//		control bit 10 = 1
 			USSWritePacket.m_USSPacketStruct.m_PZD1 |= 1 << 10;
+			USSWritePacket.m_USSPacketStruct.m_PZD1 |= (StartStop ? 1 : 0) << 0; // Set StartStop bit.
 			USSWritePacket.m_USSPacketStruct.m_PZD1 |= (value ? 1 : 0) << 7; // High
 		}
 		USSWritePacket.GenerateChecksum();
