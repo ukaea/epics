@@ -138,6 +138,7 @@ void CLeyboldSimPortDriver::addIOPort(const char* IOPortName)
 	void      *pinterruptNode;
 
 	Octet->registerInterruptUser(pasynOctetInterface->drvPvt, AsynUser, octetConnectionCallback, this, &pinterruptNode);
+	m_NumConnected++;
 }
 
 bool CLeyboldSimPortDriver::process(asynUser *pasynUser)
@@ -166,7 +167,6 @@ bool CLeyboldSimPortDriver::process(asynUser *pasynUser)
 	if (status != asynSuccess)
 		throw CException(pasynUser, __FUNCTION__, "Can't read:");
 
-
 	USSReadPacket.m_USSPacketStruct.NToH();
 	if (!USSReadPacket.ValidateChecksum())
 	{
@@ -174,7 +174,13 @@ bool CLeyboldSimPortDriver::process(asynUser *pasynUser)
 		return true;
 	}
 
-	bool StartStop = true;
+	epicsInt32 IBuf;
+	epicsFloat64 DBuf;
+	// Normal operation 1 = the pump is running in the normal operation mode
+	getIntegerParam(TableIndex, m_Parameters[STARTSTOP], &IBuf);
+	bool WasStartStop = (IBuf != 0);
+
+	bool StartStop = WasStartStop;
 	bool Reset = false;
 	if (USSReadPacket.m_USSPacketStruct.m_PZD1 & (1 << 10))
 	{
@@ -192,13 +198,6 @@ bool CLeyboldSimPortDriver::process(asynUser *pasynUser)
 		}
 	}
 
-	epicsInt32 IBuf;
-	epicsFloat64 DBuf;
-
-	// Normal operation 1 = the pump is running in the normal operation mode
-	getIntegerParam(TableIndex, m_Parameters[STARTSTOP], &IBuf);
-	bool WasStartStop = (IBuf != 0);
-
 	if (StartStop && !WasStartStop)
 	{
 		setIntegerParam(TableIndex, m_Parameters[STARTSTOP], StartStop ? 1 : 0);
@@ -209,11 +208,15 @@ bool CLeyboldSimPortDriver::process(asynUser *pasynUser)
 		setDoubleParam(TableIndex, m_Parameters[CIRCUITVOLTAGE], ParameterDefns[m_Parameters[CIRCUITVOLTAGE]].DefaultValue);
 		setIntegerParam(TableIndex, m_Parameters[WARNINGTEMPERATURE], 0);
 		setIntegerParam(TableIndex, m_Parameters[WARNINGHIGHLOAD], 0);
+		if (callParamCallbacks() != asynSuccess)
+			throw CException(pasynUser, __FUNCTION__, "callParamCallbacks");
 	}
 	if (!StartStop && WasStartStop)
 	{
 		setIntegerParam(TableIndex, m_Parameters[STARTSTOP], StartStop ? 1 : 0);
 		setIntegerParam(TableIndex, m_Parameters[STATORFREQUENCY], 0);
+		if (callParamCallbacks() != asynSuccess)
+			throw CException(pasynUser, __FUNCTION__, "callParamCallbacks");
 	}
 
 	USSWritePacket.m_USSPacketStruct.m_PZD1 = 0;
