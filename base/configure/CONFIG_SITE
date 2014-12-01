@@ -143,7 +143,7 @@ CROSS_WARN=YES
 
 # Installation directory, if you want Base to be installed into a
 #  different location then uncomment and set this.
-#INSTALL_LOCATION=<fullpathname>
+INSTALL_LOCATION=D:\EPICS\base
 
 # Use POSIX thread priority scheduling (if available).
 #  Must be either YES or NO
