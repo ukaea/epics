@@ -1,0 +1,4 @@
+PVACCESS = D:/EPICS/epicsV4/pvAccessCPP
+PVDATA = D:/EPICS/epicsV4/pvDataCPP
+PVCOMMON = D:/EPICS/epicsV4/pvCommonCPP
+EPICS_BASE = D:/EPICS/base-3.14.12.4
