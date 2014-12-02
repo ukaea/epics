@@ -429,9 +429,6 @@
     <CustomBuild Include="db\menuAlarmStat.dbd">
       <Filter>db</Filter>
     </CustomBuild>
-    <CustomBuild Include="db\menuCompress.dbd">
-      <Filter>db</Filter>
-    </CustomBuild>
     <CustomBuild Include="db\menuFtype.dbd">
       <Filter>db</Filter>
     </CustomBuild>
