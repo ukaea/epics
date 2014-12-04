@@ -1,8 +1,8 @@
-record(bo, "$(P)StartStop")
+record(bo, "$(P)Running")
 {
-	field(DESC, "StartStop")
+	field(DESC, "Running")
 	field(DTYP, "asynInt32")
-	field(OUT,  "@asyn($(PORT),0,1)STARTSTOP")
+	field(OUT,  "@asyn($(PORT),0,1)RUNNING")
 	field(SCAN, "I/O Intr")
 	field(ZNAM,  "OFF")
 	field(ONAM,  "ON")

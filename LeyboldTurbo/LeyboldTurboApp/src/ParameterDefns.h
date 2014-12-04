@@ -7,7 +7,7 @@ struct ParameterDefn
 	int DefaultValue;
 };
 
-static const char* STARTSTOP = "STARTSTOP"; 
+static const char* RUNNING = "RUNNING"; 
 static const char* RESET = "RESET";
 static const char* FAULT = "FAULT";
 static const char* WARNINGTEMPERATURE = "WARNINGTEMPERATURE";
@@ -20,7 +20,7 @@ static const char* CIRCUITVOLTAGE = "CIRCUITVOLTAGE";
 
 ParameterDefn ParameterDefns[] =
 {
-	{STARTSTOP, asynParamInt32, 1},
+	{RUNNING, asynParamInt32, 1},
 	{RESET, asynParamInt32, 0},
 	{FAULT, asynParamInt32, 0},
 	{WARNINGTEMPERATURE, asynParamInt32, 0},

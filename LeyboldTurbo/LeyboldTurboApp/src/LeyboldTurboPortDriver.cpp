@@ -118,7 +118,7 @@ asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *v
 			return asynError;
 		}
 		// Normal operation 1 = the pump is running in the normal operation mode
-		if (setIntegerParam (TableIndex, m_Parameters[STARTSTOP], USSReadPacket.m_USSPacketStruct.m_PZD1 & (1 << 10) ? 1 : 0) != asynSuccess)
+		if (setIntegerParam (TableIndex, m_Parameters[RUNNING], USSReadPacket.m_USSPacketStruct.m_PZD1 & (1 << 10) ? 1 : 0) != asynSuccess)
 			throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
 
 		// Remote has been activated 1 = start/stop (control bit 0) and reset(control bit 7) through serial interface is possible.
@@ -173,23 +173,23 @@ asynStatus CLeyboldTurboPortDriver::writeInt32(asynUser *pasynUser, epicsInt32 v
 
 		asynUser* IOUser = m_AsynUsers[TableIndex];
 
-		if (strcmp(paramName, STARTSTOP)==0)
+		if (strcmp(paramName, RUNNING)==0)
 		{
 			// 1 = Start; 0 = Stop
 			// Is only run provided if
 			//		no error is present and
 			//		control bit 10 = 1
 			USSWritePacket.m_USSPacketStruct.m_PZD1 |= 1 << 10;
-			USSWritePacket.m_USSPacketStruct.m_PZD1 |= (value ? 1 : 0) << 0; // Set StartStop bit.
+			USSWritePacket.m_USSPacketStruct.m_PZD1 |= (value ? 1 : 0) << 0; // Set Running bit.
 		}
 
 		if (strcmp(paramName, RESET)==0)
 		{
 			int IBuf;
 			// Normal operation 1 = the pump is running in the normal operation mode
-			if (getIntegerParam(TableIndex, m_Parameters[STARTSTOP], &IBuf) != asynSuccess)
+			if (getIntegerParam(TableIndex, m_Parameters[RUNNING], &IBuf) != asynSuccess)
 				throw CException(pasynUser, __FUNCTION__, "Can't get parameter");
-			bool StartStop = (IBuf != 0);
+			bool Running = (IBuf != 0);
 			// 0 to 1 transition = Error reset
 			//
 			// Is only run provided if 
@@ -197,7 +197,7 @@ asynStatus CLeyboldTurboPortDriver::writeInt32(asynUser *pasynUser, epicsInt32 v
 			//		control bit 0 = 0 and
 			//		control bit 10 = 1
 			USSWritePacket.m_USSPacketStruct.m_PZD1 |= 1 << 10;
-			USSWritePacket.m_USSPacketStruct.m_PZD1 |= (StartStop ? 1 : 0) << 0; // Set StartStop bit.
+			USSWritePacket.m_USSPacketStruct.m_PZD1 |= (Running ? 1 : 0) << 0; // Set Running bit.
 			USSWritePacket.m_USSPacketStruct.m_PZD1 |= (value ? 1 : 0) << 7; // High
 		}
 		USSWritePacket.GenerateChecksum();

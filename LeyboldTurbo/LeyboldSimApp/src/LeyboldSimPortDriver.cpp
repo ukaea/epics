@@ -46,7 +46,6 @@ CLeyboldSimPortDriver::CLeyboldSimPortDriver(const char *asynPortName, int numPu
                     0, /* Default priority */
                     0) /* Default stack size*/    
 {
-	m_mutexId = epicsMutexCreate();
 	m_NumConnected = 0;
 	m_Exiting = false;
 }
@@ -54,7 +53,6 @@ CLeyboldSimPortDriver::CLeyboldSimPortDriver(const char *asynPortName, int numPu
 CLeyboldSimPortDriver::~CLeyboldSimPortDriver()
 {
 	m_Exiting = true;
-	epicsMutexDestroy(m_mutexId);
 }
 
 void CLeyboldSimPortDriver::ListenerThread(void* parm)
@@ -177,20 +175,20 @@ bool CLeyboldSimPortDriver::process(asynUser *pasynUser)
 	epicsInt32 IBuf;
 	epicsFloat64 DBuf;
 	// Normal operation 1 = the pump is running in the normal operation mode
-	getIntegerParam(TableIndex, m_Parameters[STARTSTOP], &IBuf);
-	bool WasStartStop = (IBuf != 0);
+	getIntegerParam(TableIndex, m_Parameters[RUNNING], &IBuf);
+	bool WasRunning = (IBuf != 0);
 
-	bool StartStop = WasStartStop;
+	bool Running = WasRunning;
 	bool Reset = false;
 	if (USSReadPacket.m_USSPacketStruct.m_PZD1 & (1 << 10))
 	{
 		//		control bit 10 = 1
-		StartStop = ((USSReadPacket.m_USSPacketStruct.m_PZD1 & (1 << 0)) != 0);
+		Running = ((USSReadPacket.m_USSPacketStruct.m_PZD1 & (1 << 0)) != 0);
 
 		// 0 to 1 transition = Error reset Is only run provided if:
 		//		the cause for the error has been removed
 		//		and control bit 0 = 0 and control bit 10 = 1
-		if ((USSReadPacket.m_USSPacketStruct.m_PZD1 & (1 << 7)) && (!StartStop))
+		if ((USSReadPacket.m_USSPacketStruct.m_PZD1 & (1 << 7)) && (!Running))
 		{
 			// Clear the fault condition.
 			Reset = true;
@@ -198,9 +196,9 @@ bool CLeyboldSimPortDriver::process(asynUser *pasynUser)
 		}
 	}
 
-	if (StartStop && !WasStartStop)
+	if (Running && !WasRunning)
 	{
-		setIntegerParam(TableIndex, m_Parameters[STARTSTOP], StartStop ? 1 : 0);
+		setIntegerParam(TableIndex, m_Parameters[RUNNING], Running ? 1 : 0);
 		setIntegerParam(TableIndex, m_Parameters[STATORFREQUENCY], ParameterDefns[m_Parameters[STATORFREQUENCY]].DefaultValue);
 		setIntegerParam(TableIndex, m_Parameters[CONVERTERTEMPERATURE], ParameterDefns[m_Parameters[CONVERTERTEMPERATURE]].DefaultValue);
 		setDoubleParam(TableIndex, m_Parameters[MOTORCURRENT], ParameterDefns[m_Parameters[MOTORCURRENT]].DefaultValue);
@@ -211,9 +209,9 @@ bool CLeyboldSimPortDriver::process(asynUser *pasynUser)
 		if (callParamCallbacks() != asynSuccess)
 			throw CException(pasynUser, __FUNCTION__, "callParamCallbacks");
 	}
-	if (!StartStop && WasStartStop)
+	if (!Running && WasRunning)
 	{
-		setIntegerParam(TableIndex, m_Parameters[STARTSTOP], StartStop ? 1 : 0);
+		setIntegerParam(TableIndex, m_Parameters[RUNNING], Running ? 1 : 0);
 		setIntegerParam(TableIndex, m_Parameters[STATORFREQUENCY], 0);
 		if (callParamCallbacks() != asynSuccess)
 			throw CException(pasynUser, __FUNCTION__, "callParamCallbacks");
@@ -222,7 +220,7 @@ bool CLeyboldSimPortDriver::process(asynUser *pasynUser)
 	USSWritePacket.m_USSPacketStruct.m_PZD1 = 0;
 
 	// Normal operation 1 = the pump is running in the normal operation mode
-	getIntegerParam(TableIndex, m_Parameters[STARTSTOP], &IBuf); USSWritePacket.m_USSPacketStruct.m_PZD1 |= (IBuf << 10);
+	getIntegerParam(TableIndex, m_Parameters[RUNNING], &IBuf); USSWritePacket.m_USSPacketStruct.m_PZD1 |= (IBuf << 10);
 
 	// Remote has been activated 1 = start/stop (control bit 0) and reset(control bit 7) through serial interface is possible.
 	getIntegerParam(TableIndex, m_Parameters[RESET], &IBuf); USSWritePacket.m_USSPacketStruct.m_PZD1 |= (IBuf << 15);
