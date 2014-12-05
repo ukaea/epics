@@ -13,6 +13,8 @@
 #define epicsExportSharedSymbols
 #include <epicsExport.h>
 
+#include <exception>
+
 static CLeyboldSimPortDriver* g_LeyboldSimPortDriver;
 
 class CLeyboldSimPortDriver::CException : public std::runtime_error
