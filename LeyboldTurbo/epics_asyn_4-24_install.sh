@@ -4,7 +4,7 @@
 
 # This script install asyn 4.23
 # It assumes EPICS base is already installed and that
-# the environment variable EPICS_ROOT is set and points to the installation directory.
+# the environment variable INSTALL_PATH is set and points to the installation directory.
 #
 # Usage:
 # sudo -s

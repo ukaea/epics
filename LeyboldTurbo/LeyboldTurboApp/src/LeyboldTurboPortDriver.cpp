@@ -12,6 +12,7 @@
 #define epicsExportSharedSymbols
 #include <epicsExport.h>
 
+#include <stdlib.h>
 #include <stdexcept>
 
 static CLeyboldTurboPortDriver* g_LeyboldTurboPortDriver;

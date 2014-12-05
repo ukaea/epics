@@ -52,9 +52,9 @@ ln -s $INSTALL_PATH/$BASE_DIRECTORY $INSTALL_PATH/base
 touch $INSTALL_PATH/siteEnv
 echo \# main EPICS env var >> $INSTALL_PATH/siteEnv
 echo export EPICS_HOST_ARCH=$EPICS_ARCH >> $INSTALL_PATH/siteEnv
-echo export EPICS_ROOT=$INSTALL_PATH >> $INSTALL_PATH/siteEnv
+echo export INSTALL_PATH=$INSTALL_PATH >> $INSTALL_PATH/siteEnv
 echo export EPICS_BASE=$INSTALL_PATH/base >> $INSTALL_PATH/siteEnv
-echo export PATH=\${PATH}:\${EPICS_ROOT}/base/bin/\${EPICS_HOST_ARCH}:\${EPICS_ROOT}/extensions/bin/\${EPICS_HOST_ARCH} >> $INSTALL_PATH/siteEnv
+echo export PATH=\${PATH}:\${INSTALL_PATH}/base/bin/\${EPICS_HOST_ARCH}:\${EPICS_HOST_ARCH} >> $INSTALL_PATH/siteEnv
 echo "" >> $INSTALL_PATH/siteEnv
 echo \# channel access >> $INSTALL_PATH/siteEnv
 echo export EPICS_CA_MAX_ARRAY_BYTES=100000000 >> $INSTALL_PATH/siteEnv
@@ -65,18 +65,3 @@ echo export EPICS_CA_ADDR_LIST= >> $INSTALL_PATH/siteEnv
 echo "" >> ~/.bashrc
 echo \#EPICS >> ~/.bashrc
 echo . $INSTALL_PATH/siteEnv >> ~/.bashrc
-
-# extensions top
-EXTENSION_TOP_DOWNLOAD="extensionsTop_20120904.tar.gz"
-EXTENSION_CONFIG_DOWNLOAD="extensionsConfig_20040406.tar.gz"
-EXTENSION_DIRECTORY="extensions"
-wget --tries=3 --timeout=10 http://www.aps.anl.gov/epics/download/extensions/$EXTENSION_CONFIG_DOWNLOAD
-tar xzvf $EXTENSION_CONFIG_DOWNLOAD -C $INSTALL_PATH 
-rm -f $EXTENSION_CONFIG_DOWNLOAD
-wget --tries=3 --timeout=10 http://www.aps.anl.gov/epics/download/extensions/$EXTENSION_TOP_DOWNLOAD
-tar xzvf $EXTENSION_TOP_DOWNLOAD -C $INSTALL_PATH 
-rm -f $EXTENSION_TOP_DOWNLOAD
-make -C $INSTALL_PATH/$EXTENSION_DIRECTORY install
-
-# support top
-mkdir -p $INSTALL_PATH/support
