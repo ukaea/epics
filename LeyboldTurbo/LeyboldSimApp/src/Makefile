@@ -17,7 +17,7 @@ LeyboldSim_DBD += base.dbd
 
 # Include dbd files from all support applications:
 #LeyboldSim_DBD += xxx.dbd
-USR_INCLUDES += -I../LeyboldTurboApp/src
+USR_INCLUDES += -I../../../LeyboldTurboApp/src
 
 # Add all the support libraries needed by this IOC
 LeyboldSim_LIBS += asyn
