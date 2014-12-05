@@ -12,7 +12,7 @@
 #define epicsExportSharedSymbols
 #include <epicsExport.h>
 
-#include <exception>
+#include <stdexcept>
 
 static CLeyboldTurboPortDriver* g_LeyboldTurboPortDriver;
 
@@ -75,8 +75,13 @@ void CLeyboldTurboPortDriver::addIOPort(const char* IOPortName)
 
 CLeyboldTurboPortDriver::~CLeyboldTurboPortDriver()
 {
+	asynStatus overallstatus = asynSuccess;
 	for(size_t Index = 0; Index < m_AsynUsers.size(); Index++)
+	{
 		asynStatus status = pasynOctetSyncIO->disconnect(m_AsynUsers[Index]);
+		if (overallstatus == asynSuccess)
+			overallstatus = status;
+	}
 }
 
 asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *value)
@@ -114,7 +119,7 @@ asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *v
 
 		if (!USSReadPacket.ValidateChecksum())
 		{
-			asynPrint(pasynUser, ASYN_TRACE_WARNING, "Packet validation failed", __FILE__, __FUNCTION__);
+			asynPrint(pasynUser, ASYN_TRACE_WARNING, "Packet validation failed %s %s\n", __FILE__, __FUNCTION__);
 			return asynError;
 		}
 		// Normal operation 1 = the pump is running in the normal operation mode
@@ -143,7 +148,7 @@ asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *v
 			throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
 		if (callParamCallbacks() != asynSuccess)
 			throw CException(pasynUser, __FUNCTION__, "callParamCallbacks");
-		asynPrint(pasynUser, ASYN_TRACE_FLOW, "Packet success", __FILE__, __FUNCTION__);
+		asynPrint(pasynUser, ASYN_TRACE_FLOW, "Packet success %s %s\n", __FILE__, __FUNCTION__);
 	}
 	catch(CException const&) {
 		setIntegerParam(TableIndex, m_Parameters[FAULT], 1);
@@ -154,26 +159,20 @@ asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *v
 asynStatus CLeyboldTurboPortDriver::writeInt32(asynUser *pasynUser, epicsInt32 value)
 {
 	asynStatus status = asynPortDriver::writeInt32(pasynUser, value);
-	int function = pasynUser->reason;
+	int function = pasynUser->reason % NUM_PARAMS;
 	int TableIndex = function / NUM_PARAMS;
 	try {
 		if (TableIndex >= int(m_AsynUsers.size()))
 			throw CException(pasynUser, __FUNCTION__, "User / pump not configured");
 
-		const char *paramName;
 		USSPacket USSWritePacket, USSReadPacket;
 		STATIC_ASSERT(sizeof(USSPacket)==USSPacketSize);
 		size_t nbytesOut, nbytesIn;
 		int eomReason;
 
-		/* Fetch the parameter string name for possible use in debugging */
-		status = getParamName(function, &paramName);
-		if (status != asynSuccess)
-			throw CException(pasynUser, __FUNCTION__, "Can't get parameter name:");
-
 		asynUser* IOUser = m_AsynUsers[TableIndex];
 
-		if (strcmp(paramName, RUNNING)==0)
+		if (function == m_Parameters[RUNNING])
 		{
 			// 1 = Start; 0 = Stop
 			// Is only run provided if
@@ -183,7 +182,7 @@ asynStatus CLeyboldTurboPortDriver::writeInt32(asynUser *pasynUser, epicsInt32 v
 			USSWritePacket.m_USSPacketStruct.m_PZD1 |= (value ? 1 : 0) << 0; // Set Running bit.
 		}
 
-		if (strcmp(paramName, RESET)==0)
+		if (function == m_Parameters[RUNNING])
 		{
 			int IBuf;
 			// Normal operation 1 = the pump is running in the normal operation mode
@@ -210,7 +209,7 @@ asynStatus CLeyboldTurboPortDriver::writeInt32(asynUser *pasynUser, epicsInt32 v
 		USSReadPacket.m_USSPacketStruct.NToH();
 		if (!USSReadPacket.ValidateChecksum())
 		{
-			asynPrint(pasynUser, ASYN_TRACE_WARNING, "Packet validation failed", __FILE__, __FUNCTION__);
+			asynPrint(pasynUser, ASYN_TRACE_WARNING, "Packet validation failed %s %s\n", __FILE__, __FUNCTION__);
 			return asynError;
 		}
 	}

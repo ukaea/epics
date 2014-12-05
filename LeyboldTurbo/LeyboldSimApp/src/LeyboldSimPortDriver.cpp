@@ -13,7 +13,8 @@
 #define epicsExportSharedSymbols
 #include <epicsExport.h>
 
-#include <exception>
+#include <stdlib.h>
+#include <stdexcept>
 
 static CLeyboldSimPortDriver* g_LeyboldSimPortDriver;
 
@@ -154,10 +155,6 @@ bool CLeyboldSimPortDriver::process(asynUser *pasynUser)
 	if (TableIndex >= m_NumConnected)
 		throw CException(pasynUser, __FUNCTION__, "User / pump not configured");
 
-	asynInterface* pasynOctetInterface = pasynManager->findInterface(pasynUser, asynOctetType, 1);
-
-	asynOctet* Octet = (asynOctet*)pasynOctetInterface->pinterface;
-
 	// NB, *don't* pass pasynUser to this function - it has the wrong type and will cause an access violation.
 	status = pasynOctetSyncIO->read(pasynUser, reinterpret_cast<char*>(&USSReadPacket), sizeof(USSPacket), 10, &nbytesIn, &eomReason);
 	if (status == asynTimeout)
@@ -170,7 +167,7 @@ bool CLeyboldSimPortDriver::process(asynUser *pasynUser)
 	USSReadPacket.m_USSPacketStruct.NToH();
 	if (!USSReadPacket.ValidateChecksum())
 	{
-		asynPrint(pasynUser, ASYN_TRACE_WARNING, "Packet validation failed", __FILE__, __FUNCTION__);
+		asynPrint(pasynUser, ASYN_TRACE_WARNING, "Packet validation failed %s %s\n", __FILE__, __FUNCTION__);
 		return true;
 	}
 
@@ -181,7 +178,6 @@ bool CLeyboldSimPortDriver::process(asynUser *pasynUser)
 	bool WasRunning = (IBuf != 0);
 
 	bool Running = WasRunning;
-	bool Reset = false;
 	if (USSReadPacket.m_USSPacketStruct.m_PZD1 & (1 << 10))
 	{
 		//		control bit 10 = 1
@@ -193,7 +189,6 @@ bool CLeyboldSimPortDriver::process(asynUser *pasynUser)
 		if ((USSReadPacket.m_USSPacketStruct.m_PZD1 & (1 << 7)) && (!Running))
 		{
 			// Clear the fault condition.
-			Reset = true;
 			setIntegerParam(TableIndex, m_Parameters[FAULT], 0);
 		}
 	}
@@ -255,7 +250,7 @@ bool CLeyboldSimPortDriver::process(asynUser *pasynUser)
 
 	if (callParamCallbacks() != asynSuccess)
 		throw CException(pasynUser, __FUNCTION__, "callParamCallbacks");
-	asynPrint(pasynUser, ASYN_TRACE_FLOW, "Packet success", __FILE__, __FUNCTION__);
+	asynPrint(pasynUser, ASYN_TRACE_FLOW, "Packet success %s %s\n", __FILE__, __FUNCTION__);
 
 	return true;
 
