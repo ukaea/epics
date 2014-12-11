@@ -54,7 +54,6 @@ chmod 666 $SUPPORT_PATH/current/configure/RELEASE
 sed -i -e "/^SUPPORT\s*=/ s,=.*,=$INSTALL_PATH/support," $SUPPORT_PATH/current/configure/RELEASE
 sed -i -e "/^EPICS_BASE\s*=/ s,=.*,=$INSTALL_PATH/base," $SUPPORT_PATH/current/configure/RELEASE
 sed -i -e "/^SNCSEQ\s*=/ s,=.*,=$INSTALL_PATH/support/seq/current," $SUPPORT_PATH/current/configure/RELEASE
-sed -i -e "/^IPAC\s*=/ s,=.*,=$INSTALL_PATH/support/ipac/current," $SUPPORT_PATH/current/configure/RELEASE
 
 make -C $SUPPORT_PATH/current install
 

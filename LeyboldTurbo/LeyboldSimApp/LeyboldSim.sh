@@ -5,4 +5,4 @@ IPPORT3=localhost:5068
 IPPORT4=localhost:5069
 IPPORT5=localhost:5070
 
-../bin/linux-x86_64/LeyboldSim.exe ../iocBoot/iocLeyboldTurbo/st1.simulator.cmd
+../bin/linux-x86_64/LeyboldSim ../iocBoot/iocLeyboldTurbo/st1.simulator.cmd

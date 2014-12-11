@@ -62,73 +62,53 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="src\LeyboldSim.dbd">
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">cd src
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).dbd %(FileName).dbd
-cd $(ProjectDir)
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">cd src
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).dbd %(FileName).dbd
-cd $(ProjectDir)
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">cd src
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).dbd %(FileName).dbd
-cd $(ProjectDir)
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">cd src
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).dbd %(FileName).dbd
-cd $(ProjectDir)
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">cd src
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).dbd %(FileName).dbd
-cd $(ProjectDir)
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">cd src
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).dbd %(FileName).dbd
-cd $(ProjectDir)
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">cd src
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).dbd %(FileName).dbd
-cd $(ProjectDir)
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">cd src
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).dbd %(FileName).dbd
-cd $(ProjectDir)
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">cd src
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).dbd %(FileName).dbd
-cd $(ProjectDir)
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">cd src
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).dbd %(FileName).dbd
-cd $(ProjectDir)
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">cd src
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).dbd %(FileName).dbd
-cd $(ProjectDir)
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">cd src
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).dbd %(FileName).dbd
-cd $(ProjectDir)
-</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common/%(FileName).dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">O.Common/%(FileName).dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">O.Common/%(FileName).dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common/%(FileName).dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">O.Common/%(FileName).dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common/%(FileName).dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">O.Common/%(FileName).dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">O.Common/%(FileName).dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">O.Common/%(FileName).dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">O.Common/%(FileName).dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">O.Common/%(FileName).dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">O.Common/%(FileName).dbd</Outputs>
-      <FileType>Document</FileType>
-    </CustomBuild>
     <None Include="Db\LeyboldSim.db" />
     <None Include="O.Common\LeyboldSim.dbd">
       <FileType>Document</FileType>
     </None>
+    <CustomBuild Include="src\LeyboldSimInclude.dbd">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">cd src
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/LeyboldSim.dbd LeyboldSimInclude.dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">cd src
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/LeyboldSim.dbd LeyboldSimInclude.dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">cd src
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/LeyboldSim.dbd LeyboldSimInclude.dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">cd src
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/LeyboldSim.dbd LeyboldSimInclude.dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">cd src
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/LeyboldSim.dbd LeyboldSimInclude.dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">cd src
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/LeyboldSim.dbd LeyboldSimInclude.dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">cd src
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/LeyboldSim.dbd LeyboldSimInclude.dbd
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">cd src
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/LeyboldSim.dbd LeyboldSimInclude.dbd
+cd $(ProjectDir)
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">../O.Common/LeyboldSim.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">../O.Common/LeyboldSim.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">../O.Common/LeyboldSim.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">../O.Common/LeyboldSim.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">../O.Common/LeyboldSim.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">../O.Common/LeyboldSim.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">../O.Common/LeyboldSim.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">../O.Common/LeyboldSim.dbd</Outputs>
+    </CustomBuild>
     <None Include="src\Makefile" />
   </ItemGroup>
   <ItemGroup>
@@ -311,7 +291,7 @@ cd $(ProjectDir)
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\LeyboldSim_registerRecordDeviceDriver.cpp src\LeyboldSim.dbd  LeyboldSim_registerRecordDeviceDriver  $(SolutionDir)
+perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\LeyboldSim_registerRecordDeviceDriver.cpp src\LeyboldSimInclude.dbd  LeyboldSim_registerRecordDeviceDriver  $(SolutionDir)
 </Command>
     </PreBuildEvent>
     <PostBuildEvent />
@@ -337,7 +317,7 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Com
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\LeyboldSim_registerRecordDeviceDriver.cpp src\LeyboldSim.dbd  LeyboldSim_registerRecordDeviceDriver  $(SolutionDir)
+perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\LeyboldSim_registerRecordDeviceDriver.cpp src\LeyboldSimInclude.dbd  LeyboldSim_registerRecordDeviceDriver  $(SolutionDir)
 </Command>
     </PreBuildEvent>
     <PostBuildEvent />
@@ -364,7 +344,7 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Com
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\LeyboldSim_registerRecordDeviceDriver.cpp src\LeyboldSim.dbd  LeyboldSim_registerRecordDeviceDriver  $(SolutionDir)
+perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\LeyboldSim_registerRecordDeviceDriver.cpp src\LeyboldSimInclude.dbd  LeyboldSim_registerRecordDeviceDriver  $(SolutionDir)
 </Command>
     </PreBuildEvent>
     <PostBuildEvent />
@@ -391,7 +371,7 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Com
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\LeyboldSim_registerRecordDeviceDriver.cpp src\LeyboldSim.dbd  LeyboldSim_registerRecordDeviceDriver  $(SolutionDir)
+perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\LeyboldSim_registerRecordDeviceDriver.cpp src\LeyboldSimInclude.dbd  LeyboldSim_registerRecordDeviceDriver  $(SolutionDir)
 </Command>
     </PreBuildEvent>
     <PostBuildEvent />
@@ -542,7 +522,7 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Com
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\LeyboldSim_registerRecordDeviceDriver.cpp src\LeyboldSim.dbd  LeyboldSim_registerRecordDeviceDriver  $(SolutionDir)
+perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\LeyboldSim_registerRecordDeviceDriver.cpp src\LeyboldSimInclude.dbd  LeyboldSim_registerRecordDeviceDriver  $(SolutionDir)
 </Command>
     </PreBuildEvent>
     <PostBuildEvent />
@@ -573,7 +553,7 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Com
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\LeyboldSim_registerRecordDeviceDriver.cpp src\LeyboldSim.dbd  LeyboldSim_registerRecordDeviceDriver  $(SolutionDir)
+perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\LeyboldSim_registerRecordDeviceDriver.cpp src\LeyboldSimInclude.dbd  LeyboldSim_registerRecordDeviceDriver  $(SolutionDir)
 </Command>
     </PreBuildEvent>
     <PostBuildEvent />
@@ -604,7 +584,7 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Com
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\LeyboldSim_registerRecordDeviceDriver.cpp src\LeyboldSim.dbd  LeyboldSim_registerRecordDeviceDriver  $(SolutionDir)
+perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\LeyboldSim_registerRecordDeviceDriver.cpp src\LeyboldSimInclude.dbd  LeyboldSim_registerRecordDeviceDriver  $(SolutionDir)
 </Command>
     </PreBuildEvent>
     <PostBuildEvent />
@@ -635,7 +615,7 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Com
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\LeyboldSim_registerRecordDeviceDriver.cpp src\LeyboldSim.dbd  LeyboldSim_registerRecordDeviceDriver  $(SolutionDir)
+perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\LeyboldSim_registerRecordDeviceDriver.cpp src\LeyboldSimInclude.dbd  LeyboldSim_registerRecordDeviceDriver  $(SolutionDir)
 </Command>
     </PreBuildEvent>
     <PostBuildEvent />

@@ -54,47 +54,47 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="src\LeyboldTurbo.dbd">
+    <CustomBuild Include="src\LeyboldTurboInclude.dbd">
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">cd src
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).dbd %(FileName).dbd
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/LeyboldTurbo.dbd LeyboldTurboInclude.dbd
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">cd src
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).dbd %(FileName).dbd
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/LeyboldTurbo.dbd LeyboldTurboInclude.dbd
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">cd src
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).dbd %(FileName).dbd
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/LeyboldTurbo.dbd LeyboldTurboInclude.dbd
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">cd src
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).dbd %(FileName).dbd
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/LeyboldTurbo.dbd LeyboldTurboInclude.dbd
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">cd src
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).dbd %(FileName).dbd
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/LeyboldTurbo.dbd LeyboldTurboInclude.dbd
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">cd src
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).dbd %(FileName).dbd
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/LeyboldTurbo.dbd LeyboldTurboInclude.dbd
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">cd src
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).dbd %(FileName).dbd
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/LeyboldTurbo.dbd LeyboldTurboInclude.dbd
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">cd src
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/%(FileName).dbd %(FileName).dbd
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/LeyboldTurbo.dbd LeyboldTurboInclude.dbd
 cd $(ProjectDir)
 </Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common/%(FileName).dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">O.Common/%(FileName).dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common/%(FileName).dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">O.Common/%(FileName).dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">O.Common/%(FileName).dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">O.Common/%(FileName).dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">O.Common/%(FileName).dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">O.Common/%(FileName).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common/LeyboldTurbo.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">O.Common/LeyboldTurbo.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common/LeyboldTurbo.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">O.Common/LeyboldTurbo.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">O.Common/LeyboldTurbo.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">O.Common/LeyboldTurbo.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">O.Common/LeyboldTurbo.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">O.Common/LeyboldTurbo.dbd</Outputs>
       <FileType>Document</FileType>
     </CustomBuild>
   </ItemGroup>

@@ -1,7 +1,7 @@
-record(bo, "$(P)StartStop")
+record(bo, "$(P)Running")
 {
 	field(DTYP, "asynInt32")
-	field(OUT,  "@asyn($(PORT),0,1)STARTSTOP")
+	field(OUT,  "@asyn($(PORT),0,1)RUNNING")
 	field(SCAN, "I/O Intr")
 	field(ZNAM,  "OFF")
 	field(ONAM,  "ON")
@@ -68,5 +68,4 @@ record(ao, "$(P)CircuitVoltage")
 {
     field(DTYP, "asynFloat64")
 	field(OUT,  "@asyn($(PORT),0,1)CIRCUITVOLTAGE")
-#	field(FLNK,  "$(P)StartStop.PROC")
 }

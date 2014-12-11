@@ -45,7 +45,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="src\LeyboldSim.dbd">
+    <CustomBuild Include="src\LeyboldSimInclude.dbd">
       <Filter>src</Filter>
     </CustomBuild>
   </ItemGroup>

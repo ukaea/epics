@@ -29,11 +29,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="src\LeyboldTurbo.dbd">
-      <Filter>src</Filter>
-    </CustomBuild>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="O.Common\LeyboldTurbo.dbd">
       <Filter>O.Common</Filter>
     </None>
@@ -54,5 +49,10 @@
     <ClInclude Include="src\USSPacket.h">
       <Filter>src</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="src\LeyboldTurboInclude.dbd">
+      <Filter>src</Filter>
+    </CustomBuild>
   </ItemGroup>
 </Project>
