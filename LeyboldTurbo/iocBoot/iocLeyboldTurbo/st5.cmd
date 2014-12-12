@@ -24,19 +24,19 @@ drvAsynSerialPortConfigure($(IOPORT):5, $(COMPORT5), 0, 0, 0)
 LeyboldTurboAddIOPort($(IOPORT):5)
 
 ## Load record instances
-dbLoadRecords("db/LeyboldTurbo.db", "P=$(ASYNPORT):1:,PORT=$(ASYNPORT)")
+dbLoadRecords("Db/LeyboldTurbo.db", "P=$(ASYNPORT):1:,PORT=$(ASYNPORT)")
 dbLoadRecords("../../asyn/asyn/asynRecord/asynRecord.db","P=$(ASYNPORT):1:,R=asyn,PORT=$(ASYNPORT),ADDR=0,OMAX=80,IMAX=80")
 
-dbLoadRecords("db/LeyboldTurbo.db", "P=$(ASYNPORT):2:,PORT=$(ASYNPORT)")
+dbLoadRecords("Db/LeyboldTurbo.db", "P=$(ASYNPORT):2:,PORT=$(ASYNPORT)")
 dbLoadRecords("../../asyn/asyn/asynRecord/asynRecord.db","P=$(ASYNPORT):2:,R=asyn,PORT=$(ASYNPORT),ADDR=0,OMAX=80,IMAX=80")
 
-dbLoadRecords("db/LeyboldTurbo.db", "P=$(ASYNPORT):3:,PORT=$(ASYNPORT)")
+dbLoadRecords("Db/LeyboldTurbo.db", "P=$(ASYNPORT):3:,PORT=$(ASYNPORT)")
 dbLoadRecords("../../asyn/asyn/asynRecord/asynRecord.db","P=$(ASYNPORT):3:,R=asyn,PORT=$(ASYNPORT),ADDR=0,OMAX=80,IMAX=80")
 
-dbLoadRecords("db/LeyboldTurbo.db", "P=$(ASYNPORT):4:,PORT=$(ASYNPORT)")
+dbLoadRecords("Db/LeyboldTurbo.db", "P=$(ASYNPORT):4:,PORT=$(ASYNPORT)")
 dbLoadRecords("../../asyn/asyn/asynRecord/asynRecord.db","P=$(ASYNPORT):4:,R=asyn,PORT=$(ASYNPORT),ADDR=0,OMAX=80,IMAX=80")
 
-dbLoadRecords("db/LeyboldTurbo.db", "P=$(ASYNPORT):5:,PORT=$(ASYNPORT)")
+dbLoadRecords("Db/LeyboldTurbo.db", "P=$(ASYNPORT):5:,PORT=$(ASYNPORT)")
 dbLoadRecords("../../asyn/asyn/asynRecord/asynRecord.db","P=$(ASYNPORT):5:,R=asyn,PORT=$(ASYNPORT),ADDR=0,OMAX=80,IMAX=80")
 
 asynSetOption ($(IOPORT):1, 0, "baud", "19200")
