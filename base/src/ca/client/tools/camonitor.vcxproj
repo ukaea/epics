@@ -55,10 +55,14 @@
     <ProjectGuid>{DE8E365E-BBA3-40F4-B8DE-2FCB7868842F}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>camonitor</RootNamespace>
-    <SccProjectName>Svn</SccProjectName>
-    <SccLocalPath>Svn</SccLocalPath>
-    <SccProvider>SubversionScc</SccProvider>
-    <SccAuxPath>Svn</SccAuxPath>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
+    <SccAuxPath>
+    </SccAuxPath>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'" Label="Configuration">

@@ -52,10 +52,14 @@
     <ProjectGuid>{D82348A9-1F76-4A0E-81A9-DD075104645D}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>testBitSetUtil</RootNamespace>
-    <SccProjectName>Svn</SccProjectName>
-    <SccLocalPath>Svn</SccLocalPath>
-    <SccProvider>SubversionScc</SccProvider>
-    <SccAuxPath>Svn</SccAuxPath>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
+    <SccAuxPath>
+    </SccAuxPath>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'" Label="Configuration">

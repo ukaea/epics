@@ -132,10 +132,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cap5", "src\ca\client\perl\cap5.vcxproj", "{D7A66F7D-B06E-4502-B51A-D1E888B9F130}"
 EndProject
 Global
-	GlobalSection(SubversionScc) = preSolution
-		Svn-Managed = True
-		Manager = AnkhSVN - Subversion Support for Visual Studio
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug DLL|Win32 = Debug DLL|Win32
 		Debug DLL|X64 = Debug DLL|X64

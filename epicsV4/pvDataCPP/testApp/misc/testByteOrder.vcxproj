@@ -52,10 +52,14 @@
     <ProjectGuid>{D7E8BBC4-AB16-441D-9245-3DA3E8FD5CFC}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>testBaseException</RootNamespace>
-    <SccProjectName>Svn</SccProjectName>
-    <SccLocalPath>Svn</SccLocalPath>
-    <SccProvider>SubversionScc</SccProvider>
-    <SccAuxPath>Svn</SccAuxPath>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
+    <SccAuxPath>
+    </SccAuxPath>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'" Label="Configuration">

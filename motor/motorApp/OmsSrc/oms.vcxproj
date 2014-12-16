@@ -127,10 +127,14 @@ $(OutDir)snc.exe     O.Common\%(Filename).i -o O.Common\%(Filename).c
     <ProjectGuid>{9C63C890-BBE4-4891-BB8E-CA91374D770D}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>oms</RootNamespace>
-    <SccProjectName>Svn</SccProjectName>
-    <SccLocalPath>Svn</SccLocalPath>
-    <SccProvider>SubversionScc</SccProvider>
-    <SccAuxPath>Svn</SccAuxPath>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
+    <SccAuxPath>
+    </SccAuxPath>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'" Label="Configuration">

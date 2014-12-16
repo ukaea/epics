@@ -102,10 +102,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "makeBpt", "..\base\src\ioc\bpt\makeBpt.vcxproj", "{3D039C8A-8B8D-4408-B1F7-BF1878D50315}"
 EndProject
 Global
-	GlobalSection(SubversionScc) = preSolution
-		Svn-Managed = True
-		Manager = AnkhSVN - Subversion Support for Visual Studio
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug DLL|Win32 = Debug DLL|Win32
 		Debug DLL|X64 = Debug DLL|X64

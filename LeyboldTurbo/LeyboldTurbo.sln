@@ -106,10 +106,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LeyboldSim", "LeyboldSimApp\LeyboldSim.vcxproj", "{4FBF939A-460F-4ADC-822E-9049AB4DA174}"
 EndProject
 Global
-	GlobalSection(SubversionScc) = preSolution
-		Svn-Managed = True
-		Manager = AnkhSVN - Subversion Support for Visual Studio
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug_DLL|Win32 = Debug_DLL|Win32
 		Debug_DLL|x64 = Debug_DLL|x64

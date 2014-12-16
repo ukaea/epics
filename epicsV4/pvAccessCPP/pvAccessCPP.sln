@@ -114,10 +114,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mb_test", "..\pvCommonCPP\testApp\mb\mb_test.vcxproj", "{18211C01-4D86-4373-B4F1-6329318CE088}"
 EndProject
 Global
-	GlobalSection(SubversionScc) = preSolution
-		Svn-Managed = True
-		Manager = AnkhSVN - Subversion Support for Visual Studio
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug DLL|Win32 = Debug DLL|Win32
 		Debug DLL|X64 = Debug DLL|X64

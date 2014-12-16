@@ -64,10 +64,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "genapps", "..\base\src\ca\legacy\gdd\genapps.vcxproj", "{8CC25EE1-944A-4AA0-9A58-BEDE2BB3C86C}"
 EndProject
 Global
-	GlobalSection(SubversionScc) = preSolution
-		Svn-Managed = True
-		Manager = AnkhSVN - Subversion Support for Visual Studio
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug DLL|Win32 = Debug DLL|Win32
 		Debug DLL|X64 = Debug DLL|X64
