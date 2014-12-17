@@ -56,7 +56,7 @@ typedef struct gsport {
     CALLBACK    callback;
     epicsUInt8  isr0; 
     epicsUInt8  isr1;
-    epicsBoolean srqEnabled;
+    int         srqEnabled;
     transferState_t transferState;
     transferState_t nextTransferState;
     /*bytesRemaining and nextByte are used by interruptHandler*/
@@ -672,11 +672,16 @@ static asynStatus gpibPortGetEos(void *pdrvPvt,asynUser *pasynUser,
     char *eos, int eossize, int *eoslen)
 {
     gsport *pgsport = (gsport *)pdrvPvt;
+    int        addr = 0;
+    asynStatus status;
+
+    status = pasynManager->getAddr(pasynUser,&addr);
+    if(status!=asynSuccess) return status;
 
     if(eossize<1) {
         asynPrint(pasynUser,ASYN_TRACE_ERROR,
             "%s addr %d gpibPortGetEos eossize %d too small\n",
-            pgsport->portName,eossize);
+            pgsport->portName,addr,eossize);
         *eoslen = 0;
         return asynError;
     }
@@ -687,7 +692,7 @@ static asynStatus gpibPortGetEos(void *pdrvPvt,asynUser *pasynUser,
         *eoslen = 1;
     }
     asynPrintIO(pasynUser, ASYN_TRACE_FLOW, eos, *eoslen,
-            "%s gpibPortGetEos eoslen %d\n",pgsport->portName,eoslen);
+            "%s gpibPortGetEos eoslen %d\n",pgsport->portName,*eoslen);
     return asynSuccess;
 }
 
@@ -777,7 +782,7 @@ static asynStatus gpibPortSrqEnable(void *pdrvPvt, int onOff)
 {
     gsport *pgsport = (gsport *)pdrvPvt;
 
-    pgsport->srqEnabled = (onOff ? epicsTrue : epicsFalse);
+    pgsport->srqEnabled = (onOff != 0);
     writeRegister(pgsport,IMR1,ERR|MA|(pgsport->srqEnabled ? SRQ : 0));
     return asynSuccess;
 }

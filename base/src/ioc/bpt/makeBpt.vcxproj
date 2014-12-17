@@ -91,7 +91,8 @@
     <None Include="Makefile" />
     <CustomBuild Include="menuConvert.dbd.pod">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o O.Common/%(FileName) %(FileName).pod
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">SET PERL5LIB=$(SolutionDir)lib/perl
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -IDBD -o O.Common/%(FileName) %(FileName).pod
 </Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common\%(FileName)</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">O.Common\%(FileName)</Outputs>
@@ -101,19 +102,26 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">O.Common\%(FileName)</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'">O.Common\%(FileName)</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">O.Common\%(FileName)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o O.Common/%(FileName) %(FileName).pod
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">SET PERL5LIB=$(SolutionDir)lib/perl
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -IDBD -o O.Common/%(FileName) %(FileName).pod
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o O.Common/%(FileName) %(FileName).pod
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">SET PERL5LIB=$(SolutionDir)lib/perl
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -IDBD -o O.Common/%(FileName) %(FileName).pod
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o O.Common/%(FileName) %(FileName).pod
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">SET PERL5LIB=$(SolutionDir)lib/perl
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -IDBD -o O.Common/%(FileName) %(FileName).pod
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o O.Common/%(FileName) %(FileName).pod
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">SET PERL5LIB=$(SolutionDir)lib/perl
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -IDBD -o O.Common/%(FileName) %(FileName).pod
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o O.Common/%(FileName) %(FileName).pod
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">SET PERL5LIB=$(SolutionDir)lib/perl
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -IDBD -o O.Common/%(FileName) %(FileName).pod
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'">perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o O.Common/%(FileName) %(FileName).pod
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'">SET PERL5LIB=$(SolutionDir)lib/perl
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -IDBD -o O.Common/%(FileName) %(FileName).pod
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o O.Common/%(FileName) %(FileName).pod
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">SET PERL5LIB=$(SolutionDir)lib/perl
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -IDBD -o O.Common/%(FileName) %(FileName).pod
 </Command>
     </CustomBuild>
     <CustomBuild Include="O.Common\menuConvert.dbd">

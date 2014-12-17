@@ -43,15 +43,23 @@
   <ItemGroup>
     <CustomBuild Include="busyRecord.dbd">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I. -I.. -I../O.Common -I../../../dbd -I$(SolutionDir)dbd -o O.Common/%(FileName).h %(FileName).dbd</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I. -I.. -I../O.Common -I../../../dbd -I$(SolutionDir)dbd -o O.Common/%(FileName).h %(FileName).dbd</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common/%(FileName).h</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I. -I.. -I../O.Common -I../../../dbd -I$(SolutionDir)dbd -o O.Common/%(FileName).h %(FileName).dbd</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I. -I.. -I../O.Common -I../../../dbd -I$(SolutionDir)dbd -o O.Common/%(FileName).h %(FileName).dbd</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I. -I.. -I../O.Common -I../../../dbd -I$(SolutionDir)dbd -o O.Common/%(FileName).h %(FileName).dbd</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I. -I.. -I../O.Common -I../../../dbd -I$(SolutionDir)dbd -o O.Common/%(FileName).h %(FileName).dbd</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I. -I.. -I../O.Common -I../../../dbd -I$(SolutionDir)dbd -o O.Common/%(FileName).h %(FileName).dbd</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I. -I.. -I../O.Common -I../../../dbd -I$(SolutionDir)dbd -o O.Common/%(FileName).h %(FileName).dbd</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I. -I.. -I../O.Common -I../../../dbd -I$(SolutionDir)dbd -o O.Common/%(FileName).h %(FileName).dbd</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I. -I.. -I../O.Common -I../../../dbd -I$(SolutionDir)dbd -o O.Common/%(FileName).h %(FileName).dbd</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I. -I.. -I../O.Common -I../../../dbd -I$(SolutionDir)dbd -o O.Common/%(FileName).h %(FileName).dbd</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I. -I.. -I../O.Common -I../../../dbd -I$(SolutionDir)dbd -o O.Common/%(FileName).h %(FileName).dbd</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I. -I.. -I../O.Common -I../../../dbd -I$(SolutionDir)dbd -o O.Common/%(FileName).h %(FileName).dbd</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I. -I.. -I../O.Common -I../../../dbd -I$(SolutionDir)dbd -o O.Common/%(FileName).h %(FileName).dbd</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I. -I.. -I../O.Common -I../../../dbd -I$(SolutionDir)dbd -o O.Common/%(FileName).h %(FileName).dbd</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I. -I.. -I../O.Common -I../../../dbd -I$(SolutionDir)dbd -o O.Common/%(FileName).h %(FileName).dbd</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">O.Common/%(FileName).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common/%(FileName).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">O.Common/%(FileName).h</Outputs>
@@ -194,6 +202,7 @@ if not exist $(SolutionDir)dbd md exist $(SolutionDir)dbd
 
 xcopy /Y /Q /D /R  *.dbd  $(SolutionDir)dbd &gt; NUL
 
+SET PERL5LIB=$(SolutionDir)lib\perl
 perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I. -I.. -I../O.Common -I..\..\../dbd -I..\..\../asyn/dbd -I..\..\../base/dbd -o  O.Common/busyRecord.h busyRecord.dbd
 xcopy /Y /Q /D /R  O.Common\*.h  $(SolutionDir)include &gt; NUL
 
@@ -220,6 +229,7 @@ if not exist $(SolutionDir)dbd md exist $(SolutionDir)dbd
 
 xcopy /Y /Q /D /R  *.dbd  $(SolutionDir)dbd &gt; NUL
 
+SET PERL5LIB=$(SolutionDir)lib\perl
 perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I. -I.. -I../O.Common -I..\..\../dbd -I..\..\../asyn/dbd -I..\..\../base/dbd -o  O.Common/busyRecord.h busyRecord.dbd
 xcopy /Y /Q /D /R  O.Common\*.h  $(SolutionDir)include &gt; NUL
 
@@ -247,6 +257,7 @@ if not exist $(SolutionDir)dbd md exist $(SolutionDir)dbd
 
 xcopy /Y /Q /D /R  *.dbd  $(SolutionDir)dbd &gt; NUL
 
+SET PERL5LIB=$(SolutionDir)lib\perl
 perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I. -I.. -I../O.Common -I..\..\../dbd -I..\..\../asyn/dbd -I..\..\../base/dbd -o  O.Common/busyRecord.h busyRecord.dbd
 xcopy /Y /Q /D /R  O.Common\*.h  $(SolutionDir)include &gt; NUL
 
@@ -273,6 +284,7 @@ if not exist $(SolutionDir)dbd md exist $(SolutionDir)dbd
 
 xcopy /Y /Q /D /R  *.dbd  $(SolutionDir)dbd &gt; NUL
 
+SET PERL5LIB=$(SolutionDir)lib\perl
 perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I. -I.. -I../O.Common -I..\..\../dbd -I..\..\../asyn/dbd -I..\..\../base/dbd -o  O.Common/busyRecord.h busyRecord.dbd
 xcopy /Y /Q /D /R  O.Common\*.h  $(SolutionDir)include &gt; NUL
 
@@ -303,6 +315,7 @@ if not exist $(SolutionDir)dbd md exist $(SolutionDir)dbd
 
 xcopy /Y /Q /D /R  *.dbd  $(SolutionDir)dbd &gt; NUL
 
+SET PERL5LIB=$(SolutionDir)lib\perl
 perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I. -I.. -I../O.Common -I..\..\../dbd -I..\..\../asyn/dbd -I..\..\../base/dbd -o  O.Common/busyRecord.h busyRecord.dbd
 xcopy /Y /Q /D /R  O.Common\*.h  $(SolutionDir)include &gt; NUL
 
@@ -333,6 +346,7 @@ if not exist $(SolutionDir)dbd md exist $(SolutionDir)dbd
 
 xcopy /Y /Q /D /R  *.dbd  $(SolutionDir)dbd &gt; NUL
 
+SET PERL5LIB=$(SolutionDir)lib\perl
 perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I. -I.. -I../O.Common -I..\..\../dbd -I..\..\../asyn/dbd -I..\..\../base/dbd -o  O.Common/busyRecord.h busyRecord.dbd
 xcopy /Y /Q /D /R  O.Common\*.h  $(SolutionDir)include &gt; NUL
 
@@ -364,6 +378,7 @@ if not exist $(SolutionDir)dbd md exist $(SolutionDir)dbd
 
 xcopy /Y /Q /D /R  *.dbd  $(SolutionDir)dbd &gt; NUL
 
+SET PERL5LIB=$(SolutionDir)lib\perl
 perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I. -I.. -I../O.Common -I..\..\../dbd -I..\..\../asyn/dbd -I..\..\../base/dbd -o  O.Common/busyRecord.h busyRecord.dbd
 xcopy /Y /Q /D /R  O.Common\*.h  $(SolutionDir)include &gt; NUL
 
@@ -394,6 +409,7 @@ if not exist $(SolutionDir)dbd md exist $(SolutionDir)dbd
 
 xcopy /Y /Q /D /R  *.dbd  $(SolutionDir)dbd &gt; NUL
 
+SET PERL5LIB=$(SolutionDir)lib\perl
 perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I. -I.. -I../O.Common -I..\..\../dbd -I..\..\../asyn/dbd -I..\..\../base/dbd -o  O.Common/busyRecord.h busyRecord.dbd
 xcopy /Y /Q /D /R  O.Common\*.h  $(SolutionDir)include &gt; NUL
 

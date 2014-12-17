@@ -18,6 +18,7 @@
 
 #define epicsExportSharedSymbols
 #include "envDefs.h"
+#include "errlog.h"
 #include "logClient.h"
 #include "iocLog.h"
 
@@ -89,6 +90,9 @@ static logClientId iocLogClientInit (void)
         return NULL;
     }
     id = logClientCreate (addr, port);
+    if (id != NULL) {
+        errlogAddListener ( logClientSendMessage, id );
+    }
     return id;
 }
 
@@ -134,4 +138,14 @@ void epicsShareAPI iocLogShow (unsigned level)
 logClientId epicsShareAPI logClientInit (void)
 {
     return iocLogClientInit ();
+}
+
+/* 
+ * logClientSendMessage (); deprecated
+ */
+void logClientSendMessage ( logClientId id, const char * message )
+{
+    if ( !iocLogDisable ) {
+        logClientSend (id, message);
+    }
 }

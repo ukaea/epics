@@ -76,7 +76,6 @@ epicsShareFunc void dbNotifyCancel(processNotify *pprocessNotify);
 
 /* dbProcessNotifyInit called by iocInit */
 epicsShareFunc void dbProcessNotifyInit(void);
-epicsShareFunc void dbProcessNotifyExit(void);
 
 /*dbNotifyAdd called by dbScanPassive and dbScanLink*/
 epicsShareFunc void dbNotifyAdd(

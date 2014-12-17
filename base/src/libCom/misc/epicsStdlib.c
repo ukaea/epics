@@ -6,7 +6,7 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/* Revision-Id: anj@aps.anl.gov-20141107192516-kjnkvybfq5cazu3u */
+/* Revision-Id: anj@aps.anl.gov-20141007012835-uhcvzfpszl8yaxmb */
 /* Authors: Eric Norum & Andrew Johnson */
 
 #include <ctype.h>
@@ -367,12 +367,8 @@ epicsStrtod(const char *str, char **endp)
         else
             return strtoul(str, endp, 16);
     }
-    if (!isalpha((int)*cp)) {
-        res = strtod(str, endp);
-        if (isinf(res))
-            errno = ERANGE;
-        return res;
-    }
+    if (!isalpha((int)*cp))
+        return strtod(str, endp);
 
     if (epicsStrnCaseCmp("NAN", cp, 3) == 0) {
         res = epicsNAN;

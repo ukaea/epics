@@ -36,7 +36,7 @@ struct dbCommon;
 
 typedef void (*RECGBL_ALARM_HOOK_ROUTINE)(struct dbCommon *prec,
     epicsEnum16 prev_sevr, epicsEnum16 prev_stat);
-epicsShareExtern RECGBL_ALARM_HOOK_ROUTINE recGblAlarmHook;
+extern RECGBL_ALARM_HOOK_ROUTINE recGblAlarmHook;
 
 /* Global Record Support Routines */
 

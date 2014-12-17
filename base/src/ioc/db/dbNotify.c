@@ -299,7 +299,7 @@ static void notifyCallback(CALLBACK *pcallback)
     callDone(precord, ppn);
 }
 
-void dbProcessNotifyExit(void)
+static void dbProcessNotifyExit(void* junk)
 {
     assert(ellCount(&pnotifyGlobal->freeList)==0);
     epicsMutexDestroy(pnotifyGlobal->lock);
@@ -314,6 +314,7 @@ void dbProcessNotifyInit(void)
     pnotifyGlobal = dbCalloc(1,sizeof(notifyGlobal));
     pnotifyGlobal->lock = epicsMutexMustCreate();
     ellInit(&pnotifyGlobal->freeList);
+    epicsAtExit(dbProcessNotifyExit, NULL);
 }
 
 void dbProcessNotify(processNotify *ppn)

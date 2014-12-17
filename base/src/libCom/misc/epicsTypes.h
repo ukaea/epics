@@ -6,7 +6,7 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
-/* Revision-Id: anj@aps.anl.gov-20141031222648-91qr9d8ibdqn4wvl  */
+/* Revision-Id: anj@aps.anl.gov-20140815172431-d7gyf3uwqg4cgvh9  */
 
 /*
  *      Author:     Jeff Hill
@@ -17,7 +17,6 @@
 #define INC_epicsTypes_H
 
 #include "shareLib.h"
-#include "compilerDependencies.h"
 
 #ifndef stringOf
 #   if defined (__STDC__ ) || defined (__cplusplus)
@@ -30,7 +29,8 @@
 typedef enum {
     epicsFalse = 0,
     epicsTrue  = 1
-} epicsBoolean EPICS_DEPRECATED;
+} epicsBoolean;
+
 
 /*
  * Architecture Independent Data Types

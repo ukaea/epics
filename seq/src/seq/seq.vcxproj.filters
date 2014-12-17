@@ -46,6 +46,9 @@
     <ClCompile Include="seq_task.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="O.Common\seqSoftIoc_registerRecordDeviceDriver.cpp">
+      <Filter>O.Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="seq.h">
@@ -71,5 +74,10 @@
     <CustomBuild Include="seq_release.pl">
       <Filter>Source Files</Filter>
     </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="O.Common\seqSoftIoc.dbd">
+      <Filter>O.Common</Filter>
+    </None>
   </ItemGroup>
 </Project>

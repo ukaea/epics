@@ -139,43 +139,27 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IntDir>O.win32-x86-debug\</IntDir>
-    <OutDir>$(SolutionDir)Bin\win32-x86-debug\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IntDir>O.win32-x86-debug-lib\</IntDir>
-    <OutDir>$(SolutionDir)Bin\win32-x86-debug-lib\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">
     <LinkIncremental>true</LinkIncremental>
-    <IntDir>O.windows-x64-debug\</IntDir>
-    <OutDir>$(SolutionDir)Bin\windows-x64-debug\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">
     <LinkIncremental>true</LinkIncremental>
-    <IntDir>O.windows-x64-debug-lib\</IntDir>
-    <OutDir>$(SolutionDir)Bin\windows-x64-debug-lib\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)Bin\win32-x86\</OutDir>
-    <IntDir>O.win32-x86\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)Bin\win32-x86-lib\</OutDir>
-    <IntDir>O.win32-x86-lib\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)Bin\windows-x64\</OutDir>
-    <IntDir>O.windows-x64\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)Bin\windows-x64-lib\</OutDir>
-    <IntDir>O.windows-x64-lib\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
     <ClCompile>

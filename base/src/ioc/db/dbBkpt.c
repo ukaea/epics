@@ -8,7 +8,7 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 /* dbBkpt.c */
-/* base/src/db Revision-Id: mdavidsaver@bnl.gov-20141118195645-2towa94rpw3h32t1 */
+/* base/src/db Revision-Id: anj@aps.anl.gov-20141006055702-6sznplbat5czjlgi */
 /*
  *      Author:          Matthew Needes
  *      Date:            8-30-93
@@ -48,6 +48,7 @@
 #include "dbDefs.h"
 #include "ellLib.h"
 #include "epicsEvent.h"
+#include "epicsExit.h"
 #include "epicsMutex.h"
 #include "epicsThread.h"
 #include "epicsTime.h"
@@ -251,6 +252,11 @@ static long FIND_CONT_NODE(
   return(0);
 }
 
+static void dbBkptExit(void *junk) {
+    epicsMutexDestroy(bkpt_stack_sem);
+    bkpt_stack_sem = NULL;
+}
+
 /*
  *  Initialise the breakpoint stack
  */
@@ -259,6 +265,7 @@ void dbBkptInit(void)
     if (! bkpt_stack_sem) {
         bkpt_stack_sem = epicsMutexMustCreate();
         lset_stack_count = 0;
+        epicsAtExit(dbBkptExit, NULL);
     }
 }
 

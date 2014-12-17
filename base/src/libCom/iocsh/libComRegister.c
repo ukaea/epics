@@ -59,10 +59,7 @@ static void echoCallFunc(const iocshArgBuf *args)
 {
     char *str = args[0].sval;
 
-    if (str)
-        dbTranslateEscape(str, str); /* in-place is safe */
-    else
-        str = "";
+    dbTranslateEscape(str, str); /* in-place is safe */
     printf("%s\n", str);
 }
 
@@ -72,8 +69,9 @@ static const iocshArg * const chdirArgs[1] = {&chdirArg0};
 static const iocshFuncDef chdirFuncDef = {"cd",1,chdirArgs};
 static void chdirCallFunc(const iocshArgBuf *args)
 {
-    if (args[0].sval == NULL ||
-        chdir(args[0].sval)) {
+    int status;
+    status = chdir(args[0].sval);
+    if (status) {
         fprintf(stderr, "Invalid directory path, ignored\n");
     }
 }

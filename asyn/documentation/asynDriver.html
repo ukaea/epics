@@ -10,12 +10,12 @@
     <h1>
       asynDriver: Asynchronous Driver Support</h1>
     <p>
-      <span style="font-weight: bold; font-size: 14pt">Release 4-24</span></p>
+      <span style="font-weight: bold; font-size: 14pt">Release 4-25</span></p>
     <p>
       <span style="font-weight: bold; font-size: 14pt">Mark Rivers, Eric Norum, and Marty
         Kraimer</span></p>
     <p>
-      <span style="font-weight: bold; font-size: 14pt">October 14, 2014</span></p>
+      <span style="font-weight: bold; font-size: 14pt">December 10, 2014</span></p>
     <h3>
       Other Contributers</h3>
     <p>
@@ -75,6 +75,8 @@
       <li><a href="#Additional_Drivers">Additonal Drivers</a></li>
     </ul>
     <a href="#asynPortDriver">asynPortDriver C++ base class</a>
+    <br />
+    <a href="#asynPortClient">asynPortClient C++ classes</a>
     <br />
     <a href="#DiagnosticAids">Diagnostic Aids</a>
     <br />
@@ -168,6 +170,8 @@
       asynCommon, asynOctet, asynGpib, and other interfaces.</li>
     <li>asynPortDriver: a C++ base class that makes it easy to write asyn drivers, with
       much of the boilerplate asyn code handled in the base class methods.</li>
+    <li>asynPortClient: C++ classes that makes it easy to write C++ asyn clients that
+      communicate directly with asyn port drivers without running an EPICS IOC.</li>
     <li>standard interfaces: Standard message and register based interfaces are defined.
       Low Level Drivers implement standard interfaces. Device support communicates with
       low level drivers via standard interfaces.</li>
@@ -2436,7 +2440,6 @@ epicsShareExtern asynOctetBase *pasynOctetBase;</pre>
    asynStatus (*connect)(const char *port, int addr,
                          asynUser **ppasynUser, const char *drvInfo);
    asynStatus (*disconnect)(asynUser *pasynUser);
-   asynStatus (*openSocket)(const char *server, int port, char **portName);
    asynStatus (*write)(asynUser *pasynUser,
                   char const *buffer, size_t buffer_len,
                   double timeout,size_t *nbytesTransfered);
@@ -2495,14 +2498,6 @@ epicsShareExtern asynOctetSyncIO *pasynOctetSyncIO;</pre>
           disconnect</td>
         <td>
           Disconnect. This frees all resources allocated by connect.</td>
-      </tr>
-      <tr>
-        <td>
-          openSocket</td>
-        <td>
-          Opens a new connection to a TCP/IP or UDP/IP socket, returning the name of a newly
-          created asyn port. The name of the port created is of the form "server:port [protocol]",
-          i.e. "corvette:21" or "164.54.160.50:21" or "corvette:21 UDP".</td>
       </tr>
       <tr>
         <td>
@@ -5419,12 +5414,24 @@ struct asynGpibPort {
     can be issued. For example, the following example shows the configuration procedure
     for a port on a GreenSprings octal UART Industry-Pack module on a GreenSprings VIP616-01
     carrier.</p>
-  <pre>ipacAddVIPC616_01("0x6000,B0000000")
+  <pre>
+ipacAddVIPC616_01("0x6000,B0000000")
 tyGSOctalDrv(1)
-tyGSOctalModuleInit("RS232", 0x80, 0, 0)
-tyGSOctalDevCreate("/tyGS/0/0",0,0,1000,1000)
-drvAsynSerialPortConfigure("L0","/tyGS/0/0",0,0,0)
-asynSetOption("L0",0,"baud","9600")</pre>
+tyGSOctalModuleInit("Mod0","232", 0x80, 0, 0)
+tyGSOctalDevCreate("/tyGS/0/0","Mod0",0,0,1000,1000)
+drvAsynSerialPortConfigure("/tyGS/0/0","/tyGS/0/0",0,0,0)
+asynSetOption("/tyGS/0/0",0,"baud","9600")
+
+For the IP520:
+
+IP520Drv(1)
+IP520ModuleInit("UART_0", "232", 0xC2, 0, 0)
+IP520DevCreate("A1", "UART_0", 0, 0, 1000, 1000)
+drvAsynSerialPortConfigure("A1","A1",0,0,0)
+asynSetOption("A1",0,"baud",9600)
+asynOctetSetInputEos( "A1",0,"\r")
+asynOctetSetOutputEos("A1",0,"\r")
+</pre>
   <h3 id="drvAsynIPPort">
     TCP/IP or UDP/IP Port</h3>
   <p>
@@ -5846,6 +5853,19 @@ SUBSYSTEM=="usb", ATTRS{idVendor}=="1BFA", ATTRS{idProduct}=="0498", MODE="0666"
     an asyn port driver, because it takes care of all of the tasks like registering
     the port, registering the interfaces, and calling interrupt clients. It is documented
     separately in <a href="asynPortDriver.html">asynPortDriver.html</a>.</p>
+  <hr />
+  <div style="text-align: center">
+    <h2 id="asynPortClient">
+      asynPortClient C++ classes</h2>
+  </div>
+  <p>
+    asynPortClient is a set of C++ classes that are designed to simplify the task of
+    writing a client that directly communicates with an asyn port driver, without running
+    an EPICS IOC. They handle the details of connecting to the driver, finding the required
+    interfaces, etc. They only uses the synchronous interfaces, so all calls are blocking.
+    If clients need asynchronous operation then they can use the normal C interface
+    with pasynManager->queueRequest. It is documented separately in <a href="asynPortClient.html">
+      asynPortClient.html</a>.</p>
   <hr />
   <div style="text-align: center">
     <h2 id="DiagnosticAids">

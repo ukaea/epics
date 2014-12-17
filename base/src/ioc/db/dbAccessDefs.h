@@ -7,7 +7,7 @@
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
 /* dbAccessDefs.h	*/
-/* Revision-Id: anj@aps.anl.gov-20141031211825-kqkm096fp6dqhwhc */
+/* Revision-Id: ralph.lange@gmx.de-20140825214037-93vz1exht9d7b50x */
 
 #ifndef INCdbAccessDefsh
 #define INCdbAccessDefsh
@@ -233,14 +233,9 @@ epicsShareFunc long dbBufferSize(
     short dbrType,long options,long nRequest);
 epicsShareFunc long dbValueSize(short dbrType);
 
-/* Hook Routine */
-
-typedef void (*DB_LOAD_RECORDS_HOOK_ROUTINE)(const char* filename,
-    const char* substitutions);
-epicsShareExtern DB_LOAD_RECORDS_HOOK_ROUTINE dbLoadRecordsHook;
-
 epicsShareFunc int  dbLoadDatabase(
     const char *filename, const char *path, const char *substitutions);
+
 epicsShareFunc int dbLoadRecords(
     const char* filename, const char* substitutions);
 

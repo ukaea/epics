@@ -204,10 +204,6 @@
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
 if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
 if not exist O.Common md O.Common
-
-perl -CSD makeref.pl Interface Debug Dummy &gt;  O.Common\streamReferences
-perl -CSD makeref.pl Converter Enum BCD Raw RawFloat Binary Checksum MantissaExponent Timestamp &gt;&gt; O.Common\treamReferences
-
 xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -233,10 +229,6 @@ xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
 if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
 if not exist O.Common md O.Common
-
-perl -CSD makeref.pl Interface Debug Dummy &gt;  O.Common\streamReferences
-perl -CSD makeref.pl Converter Enum BCD Raw RawFloat Binary Checksum MantissaExponent Timestamp &gt;&gt; O.Common\treamReferences
-
 xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -262,10 +254,6 @@ xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
 if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
 if not exist O.Common md O.Common
-
-perl -CSD makeref.pl Interface Debug Dummy &gt;  O.Common\streamReferences
-perl -CSD makeref.pl Converter Enum BCD Raw RawFloat Binary Checksum MantissaExponent Timestamp &gt;&gt; O.Common\treamReferences
-
 xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -291,10 +279,6 @@ xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
 if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
 if not exist O.Common md O.Common
-
-perl -CSD makeref.pl Interface Debug Dummy &gt;  O.Common\streamReferences
-perl -CSD makeref.pl Converter Enum BCD Raw RawFloat Binary Checksum MantissaExponent Timestamp &gt;&gt; O.Common\treamReferences
-
 xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -328,10 +312,6 @@ xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
 if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
 if not exist O.Common md O.Common
-
-perl -CSD makeref.pl Interface Debug Dummy &gt;  O.Common\streamReferences
-perl -CSD makeref.pl Converter Enum BCD Raw RawFloat Binary Checksum MantissaExponent Timestamp &gt;&gt; O.Common\treamReferences
-
 xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -361,10 +341,6 @@ xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
 if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
 if not exist O.Common md O.Common
-
-perl -CSD makeref.pl Interface Debug Dummy &gt;  O.Common\streamReferences
-perl -CSD makeref.pl Converter Enum BCD Raw RawFloat Binary Checksum MantissaExponent Timestamp &gt;&gt; O.Common\treamReferences
-
 xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -394,10 +370,6 @@ xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
 if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
 if not exist O.Common md O.Common
-
-perl -CSD makeref.pl Interface Debug Dummy &gt;  O.Common\streamReferences
-perl -CSD makeref.pl Converter Enum BCD Raw RawFloat Binary Checksum MantissaExponent Timestamp &gt;&gt; O.Common\treamReferences
-
 xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -427,10 +399,6 @@ xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
 if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
 if not exist O.Common md O.Common
-
-perl -CSD makeref.pl Interface Debug Dummy &gt;  O.Common\streamReferences
-perl -CSD makeref.pl Converter Enum BCD Raw RawFloat Binary Checksum MantissaExponent Timestamp &gt;&gt; O.Common\treamReferences
-
 xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
 </Command>
     </PreBuildEvent>
