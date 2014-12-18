@@ -1,4 +1,5 @@
 include "base.dbd"
+include "menuscan.dbd"
 include "asyn.dbd"
 registrar(drvAsynIPServerPortRegisterCommands)
 registrar(LeyboldSimRegistrar)
