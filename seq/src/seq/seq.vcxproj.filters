@@ -17,6 +17,12 @@
       <UniqueIdentifier>{11817a3d-3377-4bae-91ff-57b1627b0229}</UniqueIdentifier>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
+    <Filter Include="test">
+      <UniqueIdentifier>{c291a236-cbdb-4591-a32c-b6819dda08ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="test\validate">
+      <UniqueIdentifier>{bd37e21d-fefe-4640-8b04-54d6524fe16d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="seq_ca.c">
@@ -48,6 +54,9 @@
     </ClCompile>
     <ClCompile Include="O.Common\seqSoftIoc_registerRecordDeviceDriver.cpp">
       <Filter>O.Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\test\validate\subThreadSleep.c">
+      <Filter>test\validate</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
