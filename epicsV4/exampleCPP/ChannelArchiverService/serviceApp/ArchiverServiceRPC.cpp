@@ -239,7 +239,7 @@ PVStructurePtr ArchiverServiceRPC::request(PVStructurePtr const & pvArgument)
 
     PVStructurePtr query = pvArgument;
 
-    if (id != "")
+    if (id != Structure::DEFAULT_ID)
     {
         // Check type id is NTURI and major version is correct
         if (getTypeIdBasePlusMajor(id) != getTypeIdBasePlusMajor(ntURIStr))

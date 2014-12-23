@@ -7,6 +7,18 @@
 #ifndef RESPONSEHANDLERS_H_
 #define RESPONSEHANDLERS_H_
 
+#ifdef epicsExportSharedSymbols
+#   define responseHandlersEpicsExportSharedSymbols
+#   undef epicsExportSharedSymbols
+#endif
+
+#include <pv/timer.h>
+
+#ifdef responseHandlersEpicsExportSharedSymbols
+#   define epicsExportSharedSymbols
+#	undef responseHandlersEpicsExportSharedSymbols
+#endif
+
 #include <pv/serverContext.h>
 #include <pv/remote.h>
 #include <pv/serverChannelImpl.h>
@@ -161,6 +173,7 @@ namespace pvAccess {
         class ServerChannelFindRequesterImpl:
             public ChannelFindRequester,
             public TransportSender,
+            public epics::pvData::TimerCallback,
             public std::tr1::enable_shared_from_this<ServerChannelFindRequesterImpl>
         {
         public:
@@ -170,9 +183,14 @@ namespace pvAccess {
             ServerChannelFindRequesterImpl* set(std::string _name, epics::pvData::int32 searchSequenceId,
                                                 epics::pvData::int32 cid, osiSockAddr const & sendTo, bool responseRequired, bool serverSearch);
         	void channelFindResult(const epics::pvData::Status& status, ChannelFind::shared_pointer const & channelFind, bool wasFound);
-        	void lock();
+
+            void lock();
         	void unlock();
         	void send(epics::pvData::ByteBuffer* buffer, TransportSendControl* control);
+
+            void callback();
+            void timerStopped();
+
         private:
             GUID _guid;
             std::string _name;

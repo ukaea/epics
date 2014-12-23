@@ -46,11 +46,11 @@
     </dd>
     <dt>This version:</dt>
     <dd><a
-       href= "pvDatabaseCPP_20140811.html">pvDatabaseCPP20140811.html
+       href= "pvDatabaseCPP_20141009.html">pvDatabaseCPP_20141009.html
     </a> </dd>
     <dt>Previous version:</dt>
     <dd><a
-       href= "pvDatabaseCPP_20140710.html">pvDatabaseCPP20140710.html
+       href= "pvDatabaseCPP_20140811.html">pvDatabaseCPP_20140811.html
     </a> </dd>
   <dt>Editors:</dt>
     <dd>Marty Kraimer, BNL</dd>
@@ -243,7 +243,7 @@ epics&gt;
 </pre>
 <p>Just like previously you can then execute a pvput and pvget and see Hello World.
 </p>
-<p>The examples, i. e. exampleServer, exampleLink, examplePowerSupply,
+<p>The examples, i.e. exampleServer, exampleLink, examplePowerSupply,
 and exampleDatabase, are described in separate sections below.
 In addition arrayPerformance can be used to measure that performance of big
 arrays. It is also described in a later section.</p>
@@ -320,7 +320,7 @@ The rest of this  document discusses only the first phase.</p>
      </dd>
 </dl>
 <h3>Minimum Features Required for pvRecord</h3>
-<p>The first phase will only implement record processing, i. e.
+<p>The first phase will only implement record processing, i.e.
 the process method has to do everything itself without any generic field support.
 This will be sufficient for implementing many services.
 The following are the minimum features required</p>
@@ -545,7 +545,7 @@ typedef std::tr1::shared_ptr&lt;PVDatabase&gt; PVDatabasePtr;
 <ul>
     <li>This section uses the name record instead of "an instance of PVRecord".</li>
     <li>Most clients will access a record via the local channel provider,
-       i. e. via pvAccess.
+        i.e. via pvAccess.
         Thus this section is mainly of interest to 
       the local channel provider and record implementers.</li>
     <li>Most readers will not care about most of the PVRecord methods.
@@ -1549,11 +1549,11 @@ raw data is NOT copied for gets.
 This is because pvData uses shared_vector to hold the raw data.
 Instead of copying the raw data the reference count is incremented.</p>
 <p>For puts the linked array will force a new allocation of the raw data in the linked record,
-i. e. copy on write semantics are enforced. This is done automatically
+i.e. copy on write semantics are enforced. This is done automatically
 by pvData and not by pvDatabase.</p>
 <h4>Some details</h4>
 <p>As mentioned before a pvDatabase server can be either a separate process,
-i. e. a main program, or can be part of a V3IOC.</p>
+i.e. a main program, or can be part of a V3IOC.</p>
 <p>A main pvDatabase server issues the following calls:</p>
 <pre>
  ClientFactory::start();
@@ -2005,7 +2005,7 @@ mrk&gt; bin/linux-x86_64/arrayPerformanceMain
 <p>This means that the array will hold 10 million elements.
 The delay will be a millisecond.
 There will be a single monitor and it will connect directly
-to the local channelProvider, i. e. it will not use any network
+to the local channelProvider, i.e. it will not use any network
 connection.</p>
 <p>The report shows that arrayPerformance can perform about 50 iterations per second
 and is putting about 500million elements per second.

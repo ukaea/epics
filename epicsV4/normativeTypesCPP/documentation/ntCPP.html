@@ -46,16 +46,16 @@
     </dd>
     <dt>This version:</dt>
     <dd><a
-      href="ntCPP_20140919.html">ntCPP_20140919.html</a>
+      href="ntCPP_20141009.html">ntCPP_20141009.html</a>
     </dd>
     <dt>Previous version:</dt>
     <dd><a
-      href="ntCPP_20140723.html">ntCPP_20140723.html</a>
+      href="ntCPP_20140919.html">ntCPP_20140919.html</a>
     </dd>
     <dt>Editors:</dt>
    <dd> Marty Kraimer, BNL<br />
       Matej Sekoranja, CosyLab<br />
-      David Hicken, Diamond Light Source
+      David Hickin, Diamond Light Source
       </dd>
   </dl>
 
@@ -125,7 +125,7 @@ pvDataCPP.html
       A primary use of this type is to access data from a set of pvAccess channels.
       Each element of value holds data from a channel.</dd>
   <dt>NTNDArray</dt>
-     <dd>This type holds NDArray data as defined by the areaDetector facilility.
+     <dd>This type holds NDArray data as defined by the areaDetector facility.
      </dd>
 </dl>
 <p>Each normative type consists of a set of mandatory fields, a set of optional fields,
@@ -243,7 +243,7 @@ An alarm field attached to the top level structure can be used for either:
 <p>If alarms do appear at multiple levels then an alarm is always
 provided at the top level.
 It uses "maximize severity" to report the highest level severity
-of all alarms, i. e. the top level severity is the maximum severity
+of all alarms, i.e. the top level severity is the maximum severity
 of all the alarms.</p>
 <p>An example is:</p>
 <pre>
@@ -343,8 +343,8 @@ structure display
     string format
     string units
 </pre>
-<p>Note that the format should be a simplifed version of the standard
-C formattimg conventions.</p>
+<p>Note that the format should be a simplified version of the standard
+C formatting conventions.</p>
 <h3>enumerated</h3>
 <p>This is used to specify a set of choices and an index that selects one
 of the choices.
@@ -403,7 +403,7 @@ PVData can be used to generate a valueAlarm field as an extra field.
         For example <b>NTScalar</b>
       </dd>
 </dl>
-<p>Each bulder also has a number of additional methods for optional fields
+<p>Each builder also has a number of additional methods for optional fields
 and a method to add extra fields.</p>
 <h3>Normative Type Class</h3>
 <p>
@@ -840,9 +840,9 @@ where
 <pre>
 epics:nt/NTNameValue:1.0
     string[] name                 // mandatory
-    double[] value                // madatory, can be any type, must be same length as name
-    string descriptor              // optional
-    alarm_t alarm                  // optional
+    double[] value                // mandatory, can be any type, must be same length as name
+    string descriptor             // optional
+    alarm_t alarm                 // optional
         int severity
         int status
         string message
@@ -980,7 +980,7 @@ where
 <pre>
 epics:nt/NTTable:1.0 
     string[] labels [column0,column1,column2]    // mandatory
-    structure value                              // mandatory; 
+    structure value                              // mandatory
         double[] column0 []                      // name=labels[0]; can be any scalar type
         string[] column1 []                      // name=labels[1]; can be any scalar type
         int[] column2 []                         // name=labels[2]; can be any scalar type
@@ -1121,14 +1121,14 @@ where
 structure NTMultiChannel
   union_t[] value            // mandatory
   string[]  channelName      // mandatory; must be same length as value
-  time_t    timeStamp        //optional; time when data collected
-  alarm_t   alarm            //optional; alarm associated with data collection
-  int[]     severity         //optional; alarm severity for each value
-  int[]     status           //optional; alarm status for each value
-  string[]  message          //optional; alarm message for each value
-  long[]    secondsPastEpoch //optional; seconds for each value.
-  int[]     nanoseconds      //optional; nanoseconds for each value
-  string    descriptor       //optional; descriptor data
+  time_t    timeStamp        // optional; time when data collected
+  alarm_t   alarm            // optional; alarm associated with data collection
+  int[]     severity         // optional; alarm severity for each value
+  int[]     status           // optional; alarm status for each value
+  string[]  message          // optional; alarm message for each value
+  long[]    secondsPastEpoch // optional; seconds for each value.
+  int[]     nanoseconds      // optional; nanoseconds for each value
+  string    descriptor       // optional; descriptor data
 </pre>
 <h3>NTMultiChannelBuilder</h3>
 <p><b>ntmultiChannel.h</b> defines the following:</p>
@@ -1292,13 +1292,13 @@ where
 <h2>Normative Type NTNDArray</h2> 
 <pre>
 epics:nt/NTNDArray:1.0 
-    union value                                 //mandatory
-    codec_t codec                               //mandatory
+    union value                                 // mandatory
+    codec_t codec                               // mandatory
         string name 
         any parameters
-    long compressedSize                         //mandatory
-    long uncompressedSize                       //mandatory
-    dimension_t[] dimension                     //mandatory
+    long compressedSize                         // mandatory
+    long uncompressedSize                       // mandatory
+    dimension_t[] dimension                     // mandatory
         dimension_t[]
             dimension_t
                 int size
@@ -1306,12 +1306,12 @@ epics:nt/NTNDArray:1.0
                 int fullSize
                 int binning
                 boolean reverse
-    int uniqueId                                //mandatory
-    time_t dataTimeStamp                        //mandatory
+    int uniqueId                                // mandatory
+    time_t dataTimeStamp                        // mandatory
         long secondsPastEpoch
         int nanoseconds
         int userTag
-    epics:nt/NTAttribute:1.0[] attribute //mandatory
+    epics:nt/NTAttribute:1.0[] attribute        // mandatory
         epics:nt/NTAttribute:1.0[]
             epics:nt/NTAttribute:1.0
                 string name
@@ -1334,7 +1334,7 @@ epics:nt/NTNDArray:1.0
         string description 
         string format 
         string units 
-    string extra1                               //extra
+    string extra1                               // extra
 </pre>
 <h3>NTNDArrayBuilder</h3>
 <p><b>ntndArray.h</b> defines the following:</p>

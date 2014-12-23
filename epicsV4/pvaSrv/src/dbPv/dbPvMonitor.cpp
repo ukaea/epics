@@ -203,24 +203,28 @@ Status DbPvMonitor::stop()
     return Status::Ok;
 }
 
-MonitorElementPtr  DbPvMonitor::poll()
+MonitorElementPtr DbPvMonitor::poll()
 {
-    if(DbPvDebug::getLevel()>0) printf("dbPvMonitor::poll\n");
-    if(numberUsed==0) return nullElement;
+    if (DbPvDebug::getLevel() > 0) printf("dbPvMonitor::poll\n");
+    if (beingDestroyed) return nullElement;
+    Lock xx(mutex);
+    if (numberUsed == 0) return nullElement;
     int ind = nextGetUsed;
     nextGetUsed++;
-    if(nextGetUsed>=queueSize) nextGetUsed = 0;
+    if (nextGetUsed >= queueSize) nextGetUsed = 0;
     return elements[ind];
 }
 
 void DbPvMonitor::release(MonitorElementPtr const & element)
 {
-    if(DbPvDebug::getLevel()>0) printf("dbPvMonitor::release\n");
-   if(element!=elements[nextReleaseUsed++]) {
+    if (DbPvDebug::getLevel() > 0) printf("dbPvMonitor::release\n");
+    if (beingDestroyed) return;
+    Lock xx(mutex);
+    if (element != elements[nextReleaseUsed++]) {
         throw std::logic_error(
-           "not queueElement returned by last call to getUsed");
+                    "not queueElement returned by last call to getUsed");
     }
-    if(nextReleaseUsed>=queueSize) nextReleaseUsed = 0;
+    if (nextReleaseUsed >= queueSize) nextReleaseUsed = 0;
     numberUsed--;
     numberFree++;
 }

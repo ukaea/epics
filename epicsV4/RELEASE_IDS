@@ -1,10 +1,10 @@
-# Module IDs for release EPICS-CPP-4.4.0-pre2
+# Module IDs for release EPICS-CPP-4.4.0
 # module global_rev local_rev branch tag
-pvCommonCPP  972b2425ec16 58 release/4.0 4.0.0
-pvDataCPP  b0d39d12d743 611 release/4.0 4.0.1
-pvAccessCPP  70bc28ce0d9c 811 release/4.0 4.0.1
-pvDatabaseCPP  541b0a7a645c 128 release/4.0 4.0.1
-exampleCPP  0533eae9a97a 129 release/4.0 4.0.1
-pvaSrv  d7410fcfa0d4 253 release/0.10 0.10.3
-pvaPy  49875f83a1f4 78 release/0.4 0.4.5
-normativeTypesCPP  1c140dd0e199 62 release/4.0 4.0.1
+pvCommonCPP  81e0536cafe2 64 release/4.0 4.0.2
+pvDataCPP  8543734dbf6e 619 release/4.0 4.0.3
+pvAccessCPP  b5cb51859dcc 845 release/4.0 4.0.4
+pvDatabaseCPP  80ee99ab2856 134 release/4.0 4.0.2
+exampleCPP  18294574af27 135 release/4.0 4.0.3
+pvaSrv  c190a8595fc9 263 release/0.10 0.10.5
+pvaPy  1b9053c11e51 82 release/0.4 0.4.6
+normativeTypesCPP  e4b8d66cee36 67 release/4.0 4.0.2

@@ -125,7 +125,7 @@ ChannelProcess::shared_pointer DbPv::createChannelProcess(
 {
     DbPvProcess::shared_pointer dbPvProcess(
           new DbPvProcess(getPtrSelf(),channelProcessRequester,*(dbAddr.get())));
-    dbPvProcess->init();
+    dbPvProcess->init(pvRequest);
     return dbPvProcess;
 }
 

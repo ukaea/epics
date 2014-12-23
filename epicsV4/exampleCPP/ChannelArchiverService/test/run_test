@@ -56,6 +56,7 @@ Options
     -v                     verbose.    
     -n=NUM_LINES           show first NUM_LINES lines. 
     -e=EGET                run eget tests using EGET. 
+    -z                     use eget with -z option.
 
 Description
     run_test tests the Channel Archiver Service by starting a server and
@@ -76,7 +77,7 @@ OPTIONS="-q"
 EGET_OPTIONS=
 DIFF_OPTIONS="-b"
 
-while getopts :hvn:e: OPTION
+while getopts :hvzn:e: OPTION
 do
     case $OPTION in
     h) showhelp
@@ -92,6 +93,9 @@ do
        ;;
 
     e) EGET="$OPTARG"
+       ;;
+
+    z) EGET_OPTIONS="-z"
        ;;
 
     ?) echo "Invalid option or missing argument."

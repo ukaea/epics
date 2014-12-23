@@ -182,7 +182,7 @@ public:
         epics::pvAccess::ChannelProcessRequester::shared_pointer const & channelProcessRequester,
         DbAddr &dbAddr);
     virtual ~DbPvProcess();
-    bool init();
+    bool init(epics::pvData::PVStructurePtr const & pvRequest);
     virtual std::string getRequesterName();
     virtual void message(
         std::string const &message,
@@ -201,9 +201,12 @@ private:
         return shared_from_this();
     }
     static void notifyCallback(struct putNotify *);
+    DbUtilPtr dbUtil;
     DbPvPtr dbPv;
     epics::pvAccess::ChannelProcessRequester::shared_pointer channelProcessRequester;
     DbAddr &dbAddr;
+    int propertyMask;
+    bool block;
     std::string recordString;
     std::string processString;
     std::string fieldString;
@@ -211,7 +214,6 @@ private:
     std::string valueString;
     std::tr1::shared_ptr<struct putNotify> pNotify;
     std::tr1::shared_ptr<DbAddr> notifyAddr;
-    epics::pvData::Event event;
     epics::pvData::Mutex mutex;
     bool beingDestroyed;
 };
@@ -253,6 +255,7 @@ private:
     epics::pvData::BitSet::shared_pointer bitSet;
     DbAddr &dbAddr;
     bool process;
+    bool block;
     bool firstTime;
     int propertyMask;
     std::tr1::shared_ptr<struct putNotify> pNotify;
@@ -356,7 +359,6 @@ private:
     std::tr1::shared_ptr<struct putNotify> pNotify;
     std::tr1::shared_ptr<DbAddr> notifyAddr;
     epics::pvData::Mutex dataMutex;
-    epics::pvData::Event event;
     epics::pvData::Mutex mutex;
     bool beingDestroyed;
 };

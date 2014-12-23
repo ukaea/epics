@@ -60,37 +60,40 @@ bool DbPvGet::init(PVStructure::shared_pointer const &pvRequest)
         dbAddr,
         false);
     if(propertyMask==dbUtil->noAccessBit) return false;
-    pvStructure =  PVStructure::shared_pointer(
-        dbUtil->createPVStructure(
-             channelGetRequester, propertyMask, dbAddr));
-    if(pvStructure.get()==0) return false;
+    pvStructure = PVStructure::shared_pointer(
+                dbUtil->createPVStructure(
+                    channelGetRequester,
+                    propertyMask,
+                    dbAddr));
+    if (!pvStructure.get()) return false;
     dbUtil->getPropertyData(channelGetRequester,propertyMask,dbAddr,pvStructure);
     int numFields = pvStructure->getNumberFields();
     bitSet.reset(new BitSet(numFields));
-    if((propertyMask&dbUtil->processBit)!=0) {
-       process = true;
-       pNotify.reset(new (struct putNotify)());
-       notifyAddr.reset(new DbAddr());
-       memcpy(notifyAddr.get(),&dbAddr,sizeof(DbAddr));
-       DbAddr *paddr = notifyAddr.get();
-       struct dbCommon *precord = paddr->precord;
-       char buffer[sizeof(precord->name) + 10];
-       strcpy(buffer,precord->name);
-       strcat(buffer,".PROC");
-       if(dbNameToAddr(buffer,paddr)!=0) {
+    if (propertyMask&dbUtil->processBit) {
+        process = true;
+        pNotify.reset(new (struct putNotify)());
+        notifyAddr.reset(new DbAddr());
+        memcpy(notifyAddr.get(), &dbAddr, sizeof(DbAddr));
+        DbAddr *paddr = notifyAddr.get();
+        struct dbCommon *precord = paddr->precord;
+        char buffer[sizeof(precord->name) + 10];
+        strcpy(buffer,precord->name);
+        strcat(buffer,".PROC");
+        if (dbNameToAddr(buffer, paddr)) {
             throw std::logic_error("dbNameToAddr failed");
-       }
-       struct putNotify *pn = pNotify.get();
-       pn->userCallback = this->notifyCallback;
-       pn->paddr = paddr;
-       pn->nRequest = 1;
-       pn->dbrType = DBR_CHAR;
-       pn->usrPvt = this;
+        }
+        struct putNotify *pn = pNotify.get();
+        pn->userCallback = this->notifyCallback;
+        pn->paddr = paddr;
+        pn->nRequest = 1;
+        pn->dbrType = DBR_CHAR;
+        pn->usrPvt = this;
+        if (propertyMask & dbUtil->blockBit) block = true;
     }
     channelGetRequester->channelGetConnect(
-       Status::Ok,
-       getPtrSelf(),
-       pvStructure->getStructure());
+                Status::Ok,
+                getPtrSelf(),
+                pvStructure->getStructure());
     return true;
 }
 
@@ -110,47 +113,70 @@ void DbPvGet::destroy() {
         Lock xx(mutex);
         if(beingDestroyed) return;
         beingDestroyed = true;
+        if (pNotify) dbNotifyCancel(pNotify.get());
     }
 }
 
 void DbPvGet::get()
 {
-    if(process) {
+    if (block && process) {
         epicsUInt8 value = 1;
         pNotify.get()->pbuffer = &value;
         dbPutNotify(pNotify.get());
-        event.wait();
-    }
+    } else {
+        dbScanLock(dbAddr.precord);
+        if (process) dbProcess(dbAddr.precord);
 
-    Lock lock(dataMutex);
-
-    bitSet->clear();
-    dbScanLock(dbAddr.precord);
-    Status status = dbUtil->get(
-        channelGetRequester,
-        propertyMask,dbAddr,
-        pvStructure,
-        bitSet,
-        0);
-    dbScanUnlock(dbAddr.precord);
-    if(firstTime) {
-        firstTime = false;
+        Lock lock(dataMutex);
         bitSet->clear();
-        bitSet->set(0);
+        Status status = dbUtil->get(
+                    channelGetRequester,
+                    propertyMask,
+                    dbAddr,
+                    pvStructure,
+                    bitSet,
+                    0);
+        dbScanUnlock(dbAddr.precord);
+        if (firstTime) {
+            firstTime = false;
+            bitSet->clear();
+            bitSet->set(0);
+        }
+        lock.unlock();
+        channelGetRequester->getDone(
+            status,
+            getPtrSelf(),
+            pvStructure,
+            bitSet);
     }
-    
-    lock.unlock();
-    channelGetRequester->getDone(
-        status,
-        getPtrSelf(),
-        pvStructure,
-        bitSet);
 }
 
 void DbPvGet::notifyCallback(struct putNotify *pn)
 {
-    DbPvGet * cget = static_cast<DbPvGet *>(pn->usrPvt);
-    cget->event.signal();
+    DbPvGet * pdp = static_cast<DbPvGet *>(pn->usrPvt);
+
+    dbScanLock(pdp->dbAddr.precord);
+    Lock lock(pdp->dataMutex);
+    pdp->bitSet->clear();
+    Status status = pdp->dbUtil->get(
+                pdp->channelGetRequester,
+                pdp->propertyMask,
+                pdp->dbAddr,
+                pdp->pvStructure,
+                pdp->bitSet,
+                0);
+    dbScanUnlock(pdp->dbAddr.precord);
+    if (pdp->firstTime) {
+        pdp->firstTime = false;
+        pdp->bitSet->clear();
+        pdp->bitSet->set(0);
+    }
+    lock.unlock();
+    pdp->channelGetRequester->getDone(
+                status,
+                pdp->getPtrSelf(),
+                pdp->pvStructure,
+                pdp->bitSet);
 }
 
 void DbPvGet::lock()
