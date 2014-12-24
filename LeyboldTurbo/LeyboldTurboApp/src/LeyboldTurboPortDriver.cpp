@@ -88,10 +88,12 @@ CLeyboldTurboPortDriver::~CLeyboldTurboPortDriver()
 asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *value)
 {
 	int function = pasynUser->reason;
-	int TableIndex = function / NUM_PARAMS;
+	int TableIndex;
 
 	try {
-		if (TableIndex >= int(m_AsynUsers.size()))
+		if (getAddress(pasynUser, &TableIndex) != asynSuccess)
+			throw CException(pasynUser, __FUNCTION__, "Could not get address");
+		if ((TableIndex < 0) || (TableIndex >= int(m_AsynUsers.size())))
 			throw CException(pasynUser, __FUNCTION__, "User / pump not configured");
 
 		USSPacket USSWritePacket, USSReadPacket;
@@ -154,16 +156,19 @@ asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *v
 	catch(CException const&) {
 		setIntegerParam(TableIndex, m_Parameters[FAULT], 1);
 	}
+	callParamCallbacks(TableIndex);
 	return asynPortDriver::readInt32(pasynUser, value);
 }
 
 asynStatus CLeyboldTurboPortDriver::writeInt32(asynUser *pasynUser, epicsInt32 value)
 {
 	asynStatus status = asynPortDriver::writeInt32(pasynUser, value);
-	int function = pasynUser->reason % NUM_PARAMS;
-	int TableIndex = function / NUM_PARAMS;
+	int function = pasynUser->reason;
+	int TableIndex = 0;
 	try {
-		if (TableIndex >= int(m_AsynUsers.size()))
+		if (getAddress(pasynUser, &TableIndex) != asynSuccess)
+			throw CException(pasynUser, __FUNCTION__, "Could not get address");
+		if ((TableIndex < 0) || (TableIndex >= int(m_AsynUsers.size())))
 			throw CException(pasynUser, __FUNCTION__, "User / pump not configured");
 
 		USSPacket USSWritePacket, USSReadPacket;

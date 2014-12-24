@@ -4,8 +4,8 @@
 #include <asynPortDriver.h>
 
 #include <map>
-#include <string>
 #include <vector>
+#include <string>
 
 class CLeyboldSimPortDriver : public asynPortDriver {
 public:
@@ -15,15 +15,17 @@ public:
 	void addIOPort(const char* IOPortName);
                  
 protected:
-    bool process(asynUser *pasynUser);
-	static void octetConnectionCallback(void *drvPvt, asynUser *pasynUser, char *portName, 
-                  size_t len, int eomReason);
+    bool process(asynUser *pasynUser, int TableIndex);
+	static void octetConnectionCallback(void *userPvt, asynUser *pasynUser,
+                      char *data,size_t numchars, int eomReason);
 	static void ListenerThread(void* parm);
 
 private:
 	std::map<std::string, int> m_Parameters;
+
 	int m_NumConnected;
 	volatile bool m_Exiting;
+	std::vector<bool> m_WasRunning;
 };
 
 #endif // LEYBOLD_TURBO_PORT_DRIVER_H

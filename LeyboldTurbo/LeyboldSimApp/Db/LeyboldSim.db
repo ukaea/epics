@@ -1,7 +1,7 @@
 record(bo, "$(P)Running")
 {
 	field(DTYP, "asynInt32")
-	field(OUT,  "@asyn($(PORT),0,1)RUNNING")
+	field(OUT,  "@asyn($(PORT),$(ADDR),1)RUNNING")
 	field(SCAN, "I/O Intr")
 	field(ZNAM,  "OFF")
 	field(ONAM,  "ON")
@@ -10,7 +10,7 @@ record(bo, "$(P)Running")
 record(bi, "$(P)Reset")
 {
 	field(DTYP, "asynInt32")
-	field(INP,  "@asyn($(PORT),0,1)RESET")
+	field(INP,  "@asyn($(PORT),$(ADDR),1)RESET")
 	field(SCAN, "I/O Intr")
 	field(ZNAM,  "NORMAL")
 	field(ONAM,  "RESET IN PROGRESS")
@@ -19,7 +19,7 @@ record(bi, "$(P)Reset")
 record(bo, "$(P)Fault")
 {
 	field(DTYP, "asynInt32")
-	field(OUT,  "@asyn($(PORT),0,1)FAULT")
+	field(OUT,  "@asyn($(PORT),$(ADDR),1)FAULT")
 	field(ZNAM,  "NORMAL")
 	field(ONAM,  "FAULT")
 }
@@ -27,7 +27,7 @@ record(bo, "$(P)Fault")
 record(bo, "$(P)WarningTemperature")
 {
     field(DTYP, "asynInt32")
-	field(OUT,  "@asyn($(PORT),0,1)WARNINGTEMPERATURE")
+	field(OUT,  "@asyn($(PORT),$(ADDR),1)WARNINGTEMPERATURE")
 	field(ZNAM,  "NORMAL")
 	field(ONAM,  "WARNING TEMPERATURE")
 }
@@ -35,7 +35,7 @@ record(bo, "$(P)WarningTemperature")
 record(bo, "$(P)WarningHighLoad")
 {
     field(DTYP, "asynInt32")
-	field(OUT,  "@asyn($(PORT),0,1)WARNINGHIGHLOAD")
+	field(OUT,  "@asyn($(PORT),$(ADDR),1)WARNINGHIGHLOAD")
 	field(ZNAM,  "NORMAL")
 	field(ONAM,  "WARNING HIGH LOAD")
 }
@@ -43,29 +43,29 @@ record(bo, "$(P)WarningHighLoad")
 record(ao, "$(P)StatorFrequency")
 {
     field(DTYP, "asynInt32")
-	field(OUT,  "@asyn($(PORT),0,1)STATORFREQUENCY")
+	field(OUT,  "@asyn($(PORT),$(ADDR),1)STATORFREQUENCY")
 }
 
 record(ao, "$(P)ConverterTemperature")
 {
     field(DTYP, "asynInt32")
-	field(OUT,  "@asyn($(PORT),0,1)CONVERTERTEMPERATURE")
+	field(OUT,  "@asyn($(PORT),$(ADDR),1)CONVERTERTEMPERATURE")
 }
 
 record(ao, "$(P)MotorCurrent")
 {
     field(DTYP, "asynFloat64")
-	field(OUT,  "@asyn($(PORT),0,1)MOTORCURRENT")
+	field(OUT,  "@asyn($(PORT),$(ADDR),1)MOTORCURRENT")
 }
 
 record(ao, "$(P)PumpTemperature")
 {
     field(DTYP, "asynInt32")
-	field(OUT,  "@asyn($(PORT),0,1)PUMPTEMPERATURE")
+	field(OUT,  "@asyn($(PORT),$(ADDR),1)PUMPTEMPERATURE")
 }
 
 record(ao, "$(P)CircuitVoltage")
 {
     field(DTYP, "asynFloat64")
-	field(OUT,  "@asyn($(PORT),0,1)CIRCUITVOLTAGE")
+	field(OUT,  "@asyn($(PORT),$(ADDR),1)CIRCUITVOLTAGE")
 }

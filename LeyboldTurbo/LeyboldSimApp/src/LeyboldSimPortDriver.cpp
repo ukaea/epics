@@ -64,12 +64,12 @@ void CLeyboldSimPortDriver::ListenerThread(void* parm)
 	asynUser* AsynUser;
 	const char* IOPortName = epicsThreadGetNameSelf();
 	try {
-		if (pasynOctetSyncIO->connect(IOPortName, This->m_NumConnected, &AsynUser, NULL) != asynSuccess)
+		int TableIndex = This->m_NumConnected;
+		if (pasynOctetSyncIO->connect(IOPortName, TableIndex, &AsynUser, NULL) != asynSuccess)
 			throw CException(This->pasynUserSelf, __FUNCTION__, "connecting to IO port=" + std::string(IOPortName));
 		This->m_NumConnected++;
-
 		while ((!This->m_Exiting) && 
-			   (This->process(AsynUser)));
+			   (This->process(AsynUser, TableIndex)));
 	} catch(CException const&) {
 	}
 	This->m_NumConnected--;
@@ -108,25 +108,22 @@ void CLeyboldSimPortDriver::addIOPort(const char* IOPortName)
 	{
 		int Index;
 		std::string ParamName =  ParameterDefns[ParamIndex].ParamName;
-		if (createParam(m_NumConnected, ParamName.c_str(), ParameterDefns[ParamIndex].ParamType, &Index) != asynSuccess)
+		if (createParam(m_WasRunning.size(), ParamName.c_str(), ParameterDefns[ParamIndex].ParamType, &Index) != asynSuccess)
 			throw CException(pasynUserSelf, __FUNCTION__, "createParam" + std::string(ParameterDefns[ParamIndex].ParamName));
 		m_Parameters[ParamName] = Index;
 		switch(ParameterDefns[ParamIndex].ParamType)
 		{
 			case asynParamInt32: 
-				if (setIntegerParam(m_NumConnected, Index, ParameterDefns[ParamIndex].DefaultValue) != asynSuccess)
+				if (setIntegerParam(m_WasRunning.size(), Index, ParameterDefns[ParamIndex].DefaultValue) != asynSuccess)
 					throw CException(pasynUserSelf, __FUNCTION__, "setUIntDigitalParam" + std::string(ParameterDefns[ParamIndex].ParamName));
 				break;
 			case asynParamFloat64: 
-				if (setDoubleParam (m_NumConnected, Index, ParameterDefns[ParamIndex].DefaultValue) != asynSuccess)
+				if (setDoubleParam (m_WasRunning.size(), Index, ParameterDefns[ParamIndex].DefaultValue) != asynSuccess)
 					throw CException(pasynUserSelf, __FUNCTION__, "setDoubleParam" + std::string(ParameterDefns[ParamIndex].ParamName));
 				break;
 			default: assert(false);
 		}
 	}
-
-	if (callParamCallbacks() != asynSuccess)
-		throw CException(pasynUserSelf, __FUNCTION__, "callParamCallbacks");
 
     asynUser *AsynUser = pasynManager->createAsynUser(0,0);
 
@@ -139,23 +136,21 @@ void CLeyboldSimPortDriver::addIOPort(const char* IOPortName)
 	void      *pinterruptNode;
 
 	Octet->registerInterruptUser(pasynOctetInterface->drvPvt, AsynUser, octetConnectionCallback, this, &pinterruptNode);
-	m_NumConnected++;
+	m_WasRunning.push_back(true);
 }
 
-bool CLeyboldSimPortDriver::process(asynUser *pasynUser)
+bool CLeyboldSimPortDriver::process(asynUser *pasynUser, int TableIndex)
 {
 	asynStatus status = asynSuccess;
-	int function = pasynUser->reason;
 	USSPacket USSWritePacket, USSReadPacket;
 	STATIC_ASSERT(sizeof(USSPacket)==USSPacketSize);
 	size_t nbytesOut, nbytesIn;
 	int eomReason;
 
-	int TableIndex = function / NUM_PARAMS;
-	if (TableIndex >= m_NumConnected)
+	if ((TableIndex < 0) || (TableIndex >= m_NumConnected))
 		throw CException(pasynUser, __FUNCTION__, "User / pump not configured");
 
-	// NB, *don't* pass pasynUser to this function - it has the wrong type and will cause an access violation.
+	// NB, This pasynUser is OK because it emitted by pasynOctetSyncIO->connect().
 	status = pasynOctetSyncIO->read(pasynUser, reinterpret_cast<char*>(&USSReadPacket), sizeof(USSPacket), 10, &nbytesIn, &eomReason);
 	if (status == asynTimeout)
 		return true;
@@ -175,9 +170,8 @@ bool CLeyboldSimPortDriver::process(asynUser *pasynUser)
 	epicsFloat64 DBuf;
 	// Normal operation 1 = the pump is running in the normal operation mode
 	getIntegerParam(TableIndex, m_Parameters[RUNNING], &IBuf);
-	bool WasRunning = (IBuf != 0);
+	bool Running = (IBuf != 0);
 
-	bool Running = WasRunning;
 	if (USSReadPacket.m_USSPacketStruct.m_PZD1 & (1 << 10))
 	{
 		//		control bit 10 = 1
@@ -193,7 +187,7 @@ bool CLeyboldSimPortDriver::process(asynUser *pasynUser)
 		}
 	}
 
-	if (Running && !WasRunning)
+	if (Running && !m_WasRunning[TableIndex])
 	{
 		setIntegerParam(TableIndex, m_Parameters[RUNNING], Running ? 1 : 0);
 		setIntegerParam(TableIndex, m_Parameters[STATORFREQUENCY], ParameterDefns[m_Parameters[STATORFREQUENCY]].DefaultValue);
@@ -203,16 +197,14 @@ bool CLeyboldSimPortDriver::process(asynUser *pasynUser)
 		setDoubleParam(TableIndex, m_Parameters[CIRCUITVOLTAGE], ParameterDefns[m_Parameters[CIRCUITVOLTAGE]].DefaultValue);
 		setIntegerParam(TableIndex, m_Parameters[WARNINGTEMPERATURE], 0);
 		setIntegerParam(TableIndex, m_Parameters[WARNINGHIGHLOAD], 0);
-		if (callParamCallbacks() != asynSuccess)
-			throw CException(pasynUser, __FUNCTION__, "callParamCallbacks");
 	}
-	if (!Running && WasRunning)
+	if (!Running && m_WasRunning[TableIndex])
 	{
 		setIntegerParam(TableIndex, m_Parameters[RUNNING], Running ? 1 : 0);
 		setIntegerParam(TableIndex, m_Parameters[STATORFREQUENCY], 0);
-		if (callParamCallbacks() != asynSuccess)
-			throw CException(pasynUser, __FUNCTION__, "callParamCallbacks");
 	}
+
+	m_WasRunning[TableIndex] = Running;
 
 	USSWritePacket.m_USSPacketStruct.m_PZD1 = 0;
 
@@ -248,8 +240,7 @@ bool CLeyboldSimPortDriver::process(asynUser *pasynUser)
 	if (status != asynSuccess)
 		throw CException(pasynUser, __FUNCTION__, "Can't write/read:");
 
-	if (callParamCallbacks() != asynSuccess)
-		throw CException(pasynUser, __FUNCTION__, "callParamCallbacks");
+	callParamCallbacks(TableIndex);
 	asynPrint(pasynUser, ASYN_TRACE_FLOW, "Packet success %s %s\n", __FILE__, __FUNCTION__);
 
 	return true;
