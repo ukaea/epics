@@ -298,6 +298,7 @@ bool CLeyboldSimPortDriver::process(asynUser *pasynUser, int TableIndex)
 	if (Fault)
 	{
 		setIntegerParam(TableIndex, m_Parameters[STATORFREQUENCY], 0);
+		setIntegerParam(TableIndex, m_Parameters[RUNNING], 0);
 	}
 	getIntegerParam(TableIndex, m_Parameters[WARNINGTEMPERATURE], &IBuf); USSWritePacket.m_USSPacketStruct.m_PZD1 |= (IBuf << 2);
 	getIntegerParam(TableIndex, m_Parameters[WARNINGHIGHLOAD], &IBuf); USSWritePacket.m_USSPacketStruct.m_PZD1 |= (IBuf << 13);
