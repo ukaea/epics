@@ -1,3 +1,22 @@
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+//																									//
+//	Module:																							//
+//		USSPacket.h																					//
+//																									//
+//	Description:																					//
+//		Declares the USSPacket union and USSPacketStruct struct.									//
+//		The structure is used by both the 'real' IOC and the simulator.								//
+//		Defines the content of the packet.															//
+//		The union is used because the content is accessed both as individual structured fields,		//
+//		and as a byte array.																		//
+//																									//
+//	Author:  Peter Heesterman (Tessella plc). Date: 05 Jan 2015.									//
+//																									//
+//	LeyboldTurbo is distributed subject to a Software License Agreement								//
+//	found in file LICENSE that is included with this distribution.									//
+//																									//
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #ifndef USSPacketStruct_H
 #define USSPacketStruct_H
 
@@ -70,6 +89,10 @@ union USSPacket
 	}
 private:
 	epicsUInt8 Checksum() const {
+		// Recursive calculation:
+		//	Checksum (I = 0) = byte (I = 0)
+		//	Checksum (i) = checksum (i-1) XOR byte (i);
+		//	i from 1 to 22, i = byte No.
 		epicsUInt8 Checksum = 0;
 		for (size_t i = 1; i < 22; i++)
 			Checksum = Checksum ^ m_Bytes[i];

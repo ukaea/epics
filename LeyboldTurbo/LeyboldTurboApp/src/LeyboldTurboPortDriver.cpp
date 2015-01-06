@@ -1,3 +1,23 @@
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+//																									//
+//	Module:																							//
+//		LeyboldTurboPortDriver.cpp																	//
+//																									//
+//	Description:																					//
+//		Implements the CLeyboldTurboPortDriver class.												//
+//		This uses AsynPortDriver and asynOctetSyncIO to connect with either:						//
+//			a. One or more serial-connected Leybold turbo pump controllers.							//
+//			b. One or more TCP-connected simulatied controllers.									//
+//		The class communicates by means of the Universal Serial Interface (USS)						//
+//		protocol (http://www.automation.siemens.com/WW/forum/guests/PostShow.aspx?PostID=104133).	//
+//																									//
+//	Author:  Peter Heesterman (Tessella plc). Date: 05 Jan 2015.									//
+//																									//
+//	LeyboldTurbo is distributed subject to a Software License Agreement								//
+//	found in file LICENSE that is included with this distribution.									//
+//																									//
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #include "LeyboldTurboPortDriver.h"
 
 #include <iocsh.h>
@@ -17,6 +37,13 @@
 
 static CLeyboldTurboPortDriver* g_LeyboldTurboPortDriver;
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+//																								//
+//	class CLeyboldTurboPortDriver::CException : public std::runtime_error						//
+//	Description:																				//
+//		If an error ocurrs, an object of this type is thrown.									//
+//																								//
+//////////////////////////////////////////////////////////////////////////////////////////////////
 class CLeyboldTurboPortDriver::CException : public std::runtime_error
 {
 public:
@@ -26,52 +53,31 @@ public:
 	}
 };
 
-/** Constructor for the testAsynPortDriver class.
-  * Calls constructor for the asynPortDriver base class.
-  * \param[in] portName The name of the asyn port driver to be created.
-  * \param[in] maxPoints The maximum  number of points in the volt and time arrays */
+//////////////////////////////////////////////////////////////////////////////////////////////////
+//																								//
+//	CLeyboldTurboPortDriver::CLeyboldTurboPortDriver(const char *asynPortName, int numPumps)	//
+//	CLeyboldTurboPortDriver::~CLeyboldTurboPortDriver()											//
+//																								//
+//	Description:																				//
+//		Class constructor & destructor.															//
+//	Parameters:																					//
+//		asynPortName - the IOC port name to be used (e.g. TURBO).								//
+//		numPumps - how many pumps will be attached?												//
+//				 - The expectation is that addIOPort will be called this many times				//
+//				 - from the st.cmd script.														//
+//																								//
+//////////////////////////////////////////////////////////////////////////////////////////////////
 CLeyboldTurboPortDriver::CLeyboldTurboPortDriver(const char *asynPortName, int numPumps)
    : asynPortDriver(asynPortName, 
-                    numPumps, /* maxAddr */ 
+                    numPumps, // maxAddr
                     NUM_PARAMS,
-                    asynDrvUserMask | asynInt32Mask | asynFloat64Mask | asynOctetMask, /* Interface mask */
-                    asynDrvUserMask | asynInt32Mask | asynFloat64Mask | asynOctetMask, /* Interrupt mask */
+                    asynDrvUserMask | asynInt32Mask | asynFloat64Mask | asynOctetMask, // Interface mask
+                    asynDrvUserMask | asynInt32Mask | asynFloat64Mask | asynOctetMask, // Interrupt mask
 					ASYN_MULTIDEVICE,
-                    1, /* Autoconnect */
-                    0, /* Default priority */
-                    0) /* Default stack size*/    
+                    1, // Autoconnect
+                    0, // Default priority
+                    0) // Default stack size
 {
-}
-
-void CLeyboldTurboPortDriver::addIOPort(const char* IOPortName)
-{
-	for (size_t ParamIndex = 0; ParamIndex < NUM_PARAMS; ParamIndex++)
-	{
-		int Index;
-		std::string ParamName =  ParameterDefns[ParamIndex].ParamName;
-		if (createParam(int(m_AsynUsers.size()), ParamName.c_str(), ParameterDefns[ParamIndex].ParamType, &Index) != asynSuccess)
-			throw CException(pasynUserSelf, __FUNCTION__, "createParam" + std::string(ParameterDefns[ParamIndex].ParamName));
-		m_Parameters[ParamName] = Index;
-		switch(ParameterDefns[ParamIndex].ParamType)
-		{
-			case asynParamInt32: 
-				if (setIntegerParam(int(m_AsynUsers.size()), Index, ParameterDefns[ParamIndex].DefaultValue) != asynSuccess)
-					throw CException(pasynUserSelf, __FUNCTION__, "setIntegerParam" + std::string(ParameterDefns[ParamIndex].ParamName));
-				break;
-			case asynParamFloat64: 
-				if (setDoubleParam (int(m_AsynUsers.size()), Index, ParameterDefns[ParamIndex].DefaultValue) != asynSuccess)
-					throw CException(pasynUserSelf, __FUNCTION__, "setDoubleParam" + std::string(ParameterDefns[ParamIndex].ParamName));
-				break;
-			default: assert(false);
-		}
-	}
-	asynUser* IOUser;
-	if (pasynOctetSyncIO->connect(IOPortName, int(m_AsynUsers.size()), &IOUser, NULL) != asynSuccess)
-		throw CException(pasynUserSelf, __FUNCTION__, "connecting to IO port=" + std::string(IOPortName));
-//	connect(AsynUser);
-	if (callParamCallbacks() != asynSuccess)
-		throw CException(pasynUserSelf, __FUNCTION__, "callParamCallbacks");
-	m_AsynUsers.push_back(IOUser);
 }
 
 CLeyboldTurboPortDriver::~CLeyboldTurboPortDriver()
@@ -85,6 +91,71 @@ CLeyboldTurboPortDriver::~CLeyboldTurboPortDriver()
 	}
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+//																								//
+//	void CLeyboldTurboPortDriver::addIOPort(const char* IOPortName)								//
+//																								//
+//	Description:																				//
+//		Called once (from LeyboldTurboAddIOPort) for each pump,									//
+//		in response to the st.cmd startup script.												//
+//		Adds a pump, and the parameters to support it, to the configuration.					//
+//																								//
+//	Parameters:																					//
+//		IOPortName. This is the I/O port name (e.g. PUMP:1).									//
+//					This will have been mapped by drvAsynIPPortConfigure to a physical port,	//
+//					e.g. COM1: (or /dev/ttyS0).													//
+//																								//
+//////////////////////////////////////////////////////////////////////////////////////////////////
+void CLeyboldTurboPortDriver::addIOPort(const char* IOPortName)
+{
+	for (size_t ParamIndex = 0; ParamIndex < NUM_PARAMS; ParamIndex++)
+	{
+		// Create parameters from the definitions.
+		// These variables end up being addressed as e.g. TURBO:1:RUNNING.
+		int Index;
+		std::string const& ParamName =  ParameterDefns[ParamIndex].ParamName;
+		if (createParam(int(m_AsynUsers.size()), ParamName.c_str(), ParameterDefns[ParamIndex].ParamType, &Index) != asynSuccess)
+			throw CException(pasynUserSelf, __FUNCTION__, "createParam" + std::string(ParameterDefns[ParamIndex].ParamName));
+		m_Parameters[ParamName] = Index;
+		switch(ParameterDefns[ParamIndex].ParamType)
+		{
+			// Set default values.
+			case asynParamInt32: 
+				if (setIntegerParam(int(m_AsynUsers.size()), Index, ParameterDefns[ParamIndex].DefaultValue) != asynSuccess)
+					throw CException(pasynUserSelf, __FUNCTION__, "setIntegerParam" + std::string(ParameterDefns[ParamIndex].ParamName));
+				break;
+			case asynParamFloat64: 
+				if (setDoubleParam (int(m_AsynUsers.size()), Index, ParameterDefns[ParamIndex].DefaultValue) != asynSuccess)
+					throw CException(pasynUserSelf, __FUNCTION__, "setDoubleParam" + std::string(ParameterDefns[ParamIndex].ParamName));
+				break;
+			default: assert(false);
+		}
+	}
+
+	asynUser* IOUser;
+	// Connect to the I/O port.
+	if (pasynOctetSyncIO->connect(IOPortName, int(m_AsynUsers.size()), &IOUser, NULL) != asynSuccess)
+		throw CException(pasynUserSelf, __FUNCTION__, "connecting to IO port=" + std::string(IOPortName));
+
+	if (callParamCallbacks() != asynSuccess)
+		// Make sure the (just set) default values are available to read.
+		throw CException(pasynUserSelf, __FUNCTION__, "callParamCallbacks");
+	m_AsynUsers.push_back(IOUser);
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+//																								//
+//	asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *value)		//
+//																								//
+//	Description:																				//
+//		This method is invoked by the Asyn framework to read values from the hardware.			//
+//		It will normally be called for the FAULT variable which is set to poll once every		//
+//		5 seconds.																				//
+//																								//
+//		However, all the variables are read back from the I/O port in one go because			//
+//		that's how the pump controller interface works.											//
+//																								//
+//////////////////////////////////////////////////////////////////////////////////////////////////
 asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *value)
 {
 	int function = pasynUser->reason;
@@ -106,6 +177,8 @@ asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *v
 			throw CException(pasynUser, __FUNCTION__, "Can't get parameter name:");
 
 		if (std::string(paramName) != FAULT)
+			// Other variables will be returned passively on request,
+			// but won't be updated by a hardware access.
 			return asynPortDriver::readInt32(pasynUser, value);
 
 		asynUser* IOUser = m_AsynUsers[TableIndex];
@@ -160,6 +233,16 @@ asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *v
 	return asynPortDriver::readInt32(pasynUser, value);
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+//																								//
+//	asynStatus CLeyboldTurboPortDriver::writeInt32(asynUser *pasynUser, epicsInt32 value)		//
+//																								//
+//	Description:																				//
+//		This method is invoked by the Asyn framework to write values to the hardware.			//
+//		There are only 2 parameters that have write behaviour, RUNNING and RESET.				//
+//		NB, RUNNING *also* has read-back behaviour.												//
+//																								//
+//////////////////////////////////////////////////////////////////////////////////////////////////
 asynStatus CLeyboldTurboPortDriver::writeInt32(asynUser *pasynUser, epicsInt32 value)
 {
 	asynStatus status = asynPortDriver::writeInt32(pasynUser, value);
@@ -188,7 +271,7 @@ asynStatus CLeyboldTurboPortDriver::writeInt32(asynUser *pasynUser, epicsInt32 v
 			USSWritePacket.m_USSPacketStruct.m_PZD1 |= (value ? 1 : 0) << 0; // Set Running bit.
 		}
 
-		if (function == m_Parameters[RUNNING])
+		if (function == m_Parameters[RESET])
 		{
 			int IBuf;
 			// Normal operation 1 = the pump is running in the normal operation mode
@@ -230,13 +313,35 @@ static const iocshArg initArg1 = { "numPumps", iocshArgString};
 static const iocshArg * const initArgs[] = {&initArg0, &initArg1};
 static const iocshFuncDef initFuncDef = {"LeyboldTurboPortDriverConfigure",2,initArgs};
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+//																								//
+//	void LeyboldTurboExitFunc(void * param)														//
+//																								//
+//	Description:																				//
+//		This function will be invoked when the IOC exits.										//
+//		In order to not leak resources, it destroys the object that's been created.				//
+//																								//
+//////////////////////////////////////////////////////////////////////////////////////////////////
 void LeyboldTurboExitFunc(void * param)
 {
 	delete g_LeyboldTurboPortDriver;
 }
 
-/** EPICS iocsh callable function to call constructor for the testAsynPortDriver class.
-  * \param[in] portName The name of the asyn port driver to be created.*/
+//////////////////////////////////////////////////////////////////////////////////////////////////
+//																								//
+//	int LeyboldTurboPortDriverConfigure(const char *asynPortName, int numPumps)					//
+//																								//
+//	Description:																				//
+//		This function will be invoked when from the st.cmd starup script.						//
+//		It creates the object and also schedules the exit event.								//
+//																								//
+//	Parameters:																					//
+//		asynPortName. This is the Asyn port name (e.g. TURBO).									//
+//					This will have been mapped by drvAsynIPPortConfigure to a physical port,	//
+//					e.g. COM1: (or /dev/ttyS0).													//
+//		numPumps - how many pumps will be attached?												//
+//																								//
+//////////////////////////////////////////////////////////////////////////////////////////////////
 int LeyboldTurboPortDriverConfigure(const char *asynPortName, int numPumps)
 {
 	try {
@@ -248,6 +353,14 @@ int LeyboldTurboPortDriverConfigure(const char *asynPortName, int numPumps)
     return(asynSuccess);
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+//																								//
+//	static void initCallFunc(const iocshArgBuf *args)											//
+//																								//
+//	Description:																				//
+//		Registered function that configures the IOC.											//
+//																								//
+//////////////////////////////////////////////////////////////////////////////////////////////////
 static void initCallFunc(const iocshArgBuf *args)
 {
 	const char* asynPortName = args[0].sval;
@@ -259,6 +372,16 @@ static const iocshArg addArg0 = { "IOPortName", iocshArgString};
 static const iocshArg * const addArgs[] = {&addArg0};
 static const iocshFuncDef addFuncDef = {"LeyboldTurboAddIOPort",1,addArgs};
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+//																								//
+//	int LeyboldTurboAddIOPort(const char *IOPortName)											//
+//	Description:																				//
+//		EPICS iocsh callable function to add a (simulated or real) pump to the IOC.				//
+//																								//
+//	Parameters:																					//
+//		IOPortName - the IOC port name (e.g. PUMP:1) to be used.								//
+//																								//
+//////////////////////////////////////////////////////////////////////////////////////////////////
 int LeyboldTurboAddIOPort(const char *IOPortName)
 {
 	try {
@@ -269,12 +392,28 @@ int LeyboldTurboAddIOPort(const char *IOPortName)
     return(asynSuccess);
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+//																								//
+//	static void addPumpFunc(const iocshArgBuf *args)											//
+//																								//
+//	Description:																				//
+//		Registered function that adds a (simulated or real) pump to the IOC.					//
+//																								//
+//////////////////////////////////////////////////////////////////////////////////////////////////
 static void addPumpFunc(const iocshArgBuf *args)
 {
 	const char* IOPortName = args[0].sval;
 	LeyboldTurboAddIOPort(IOPortName);
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+//																								//
+//	static void LeyboldTurboRegistrar(void)														//
+//																								//
+//	Description:																				//
+//		Registers the functions to be called within the IOC.									//
+//																								//
+//////////////////////////////////////////////////////////////////////////////////////////////////
 static void LeyboldTurboRegistrar(void)
 {
     iocshRegister(&initFuncDef, initCallFunc);

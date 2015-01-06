@@ -1,3 +1,33 @@
+#####################################################################################################
+#																									#
+#	Module:																							#
+#		LeyboldTurbo.db																				#
+#																									#
+#	Description:																					#
+#		Defines the IOC records that are used by the LeyboldSimApp.									#
+#		These are, generally, a mirror-image of the fields that are used by the LeyboldTurboApp		#
+#		(i.e. outputs in one are inputs in the other).												#
+#																									#
+#	Author:  Peter Heesterman (Tessella plc). Date: 05 Jan 2015.									#
+#																									#
+#	LeyboldTurbo is distributed subject to a Software License Agreement								#
+#	found in file LICENSE that is included with this distribution.									#
+#																									#
+#####################################################################################################
+
+#####################################################################################################
+#																									#
+#	Field: Running.																					#
+#	Description:																					#
+#		true(1), if the pump is operating, false(0), if it is stopped.								#
+#																									#
+#		This field is unique in that it is both an input and an output (for both apps).				#
+#		This is the case because it provides both setting capability and readback.					#
+#		It is possible for the 'Running' state to be set either by:									#
+#			a. the software user through the IOC, or:												#
+#			b. the equipment user, by means of switching the pump off.								#
+#																									#
+#####################################################################################################
 record(bo, "$(P)Running")
 {
 	field(DESC, "Running")
@@ -7,6 +37,21 @@ record(bo, "$(P)Running")
 	field(ZNAM,  "OFF")
 	field(ONAM,  "ON")
 }
+
+#####################################################################################################
+#																									#
+#	Field(s)																						#
+#		Reset:					Set to true for a pump reset (rising edge). Returns to the false.	#
+#		Fault:					The pump has a fault.												#
+#		WarningTemperature:		The pump has a high temperature warning.							#
+#		WarningHighLoad:		The pump has a high load warning.									#
+#		StatorFrequency:		The pump's stator frequency value.									#
+#		ConverterTemperature:	The pump's converter temperature value.								#
+#		MotorCurrent:			The pump's motor current value.										#
+#		PumpTemperature:		The pump's temperaure value.										#
+#		CircuitVoltage:			The pump's circuit voltage value.									#
+#																									#
+#####################################################################################################
 
 record(bo, "$(P)Reset")
 {

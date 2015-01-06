@@ -1,3 +1,22 @@
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+//																									//
+//	Module:																							//
+//		ParameterDefns.h																			//
+//																									//
+//	Description:																					//
+//		Declares the ParameterDefn struct.															//
+//		The structure is used by both the 'real' IOC and the simulator.								//
+//		Defines the strings and usage of parameters.												// 
+//																									//
+//	Author:  Peter Heesterman (Tessella plc). Date: 05 Jan 2015.									//
+//																									//
+//	LeyboldTurbo is distributed subject to a Software License Agreement								//
+//	found in file LICENSE that is included with this distribution.									//
+//																									//
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+#ifndef ParameterDefns_H
+#define ParameterDefns_H
+
 #include <asynParamType.h>
 
 struct ParameterDefn
@@ -33,3 +52,5 @@ ParameterDefn ParameterDefns[] =
 };
 
 static const int NUM_PARAMS = sizeof(ParameterDefns) / sizeof(ParameterDefn);
+
+#endif // ParameterDefns_H
