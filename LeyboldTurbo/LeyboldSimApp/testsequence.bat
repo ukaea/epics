@@ -12,8 +12,8 @@ set IPPORT4=localhost:5069
 set IPPORT5=localhost:5070
 
 caput TURBOSIM:1:WarningHighLoad 1
-Wait 10000
+timeout 10
 caput TURBOSIM:1:WarningTemperature 1
-wait 10000
+timeout 10
 caput TURBOSIM:1:Fault 1
 
