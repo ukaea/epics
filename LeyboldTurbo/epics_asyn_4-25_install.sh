@@ -2,9 +2,7 @@
 
 # Copyright (c) Tessella 2014
 
-# This script install asyn 4.23
-# It assumes EPICS base is already installed and that
-# the environment variable INSTALL_PATH is set and points to the installation directory.
+# This script install asyn 4.25
 #
 # Usage:
 # sudo -s
@@ -38,8 +36,8 @@ then
 fi
 
 # asyn
-ASYN_DOWNLOAD="asyn4-24.tar.gz"
-ASYN_DIRECTORY="asyn4-24"
+ASYN_DOWNLOAD="asyn4-25.tar.gz"
+ASYN_DIRECTORY="asyn4-25"
 wget --tries=3 --timeout=10  http://www.aps.anl.gov/epics/download/modules/$ASYN_DOWNLOAD
 SUPPORT_PATH=$INSTALL_PATH/support/asyn
 mkdir -p $SUPPORT_PATH
