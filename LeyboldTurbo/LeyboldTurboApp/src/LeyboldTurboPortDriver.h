@@ -27,6 +27,8 @@
 #include <string>
 #include <vector>
 
+union USSPacket;
+
 class CLeyboldTurboPortDriver : public asynPortDriver {
 public:
 	class CException;
@@ -37,6 +39,7 @@ public:
 	void addIOPort(const char* IOPortName);
                  
 protected:
+	void process(int TableIndex, asynUser *pasynUser, USSPacket const& USSWritePacket);
 
 private:
 	// Each parameter is associated with an int handle.

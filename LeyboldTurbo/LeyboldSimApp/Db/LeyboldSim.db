@@ -21,7 +21,7 @@
 #	Description:																					#
 #		true(1), if the pump is operating, false(0), if it is stopped.								#
 #																									#
-#		This field is unique in that it is both an input and an output (for both apps).				#
+#		This field is both an input and an output (for both apps).									#
 #		This is the case because it provides both setting capability and readback.					#
 #		It is possible for the 'Running' state to be set either by:									#
 #			a. the software user through the IOC, or:												#
@@ -39,9 +39,30 @@ record(bo, "$(P)Running")
 
 #####################################################################################################
 #																									#
+#	Field: Fault.																					#
+#	Description:																					#
+#		true(1), if the pump has a fault condition, otherwise false(0)								#
+#																									#
+#		This is both an input and an output (for this app only).									#
+#		This is the case because it provides both setting capability and readback.					#
+#		It is possible for the 'Fault' state to be set either by:									#
+#			a. the software user through the IOC, or:												#
+#			b. Internally, will be (re)set in response to a RESET command from the 'real' app.		#
+#																									#
+#####################################################################################################
+record(bo, "$(P)Fault")
+{
+	field(DTYP, "asynInt32")
+	field(OUT,  "@asyn($(PORT),$(ADDR),1)FAULT")
+	field(SCAN, "I/O Intr")
+	field(ZNAM,  "NORMAL")
+	field(ONAM,  "FAULT")
+}
+
+#####################################################################################################
+#																									#
 #	Field(s)																						#
 #		Reset:					Not implemented, because not meaningful for the simulater.			#
-#		Fault:					The pump has a (simulated) fault.									#
 #		WarningTemperature:		The pump has a (silulated) high temperature warning.				#
 #		WarningHighLoad:		The pump has a (simulated) high load warning.						#
 #		StatorFrequency:		The pump's stator frequency value.									#
@@ -51,14 +72,6 @@ record(bo, "$(P)Running")
 #		CircuitVoltage:			The pump's circuit voltage value.									#
 #																									#
 #####################################################################################################
-record(bo, "$(P)Fault")
-{
-	field(DTYP, "asynInt32")
-	field(OUT,  "@asyn($(PORT),$(ADDR),1)FAULT")
-	field(ZNAM,  "NORMAL")
-	field(ONAM,  "FAULT")
-}
-
 record(bo, "$(P)WarningTemperature")
 {
     field(DTYP, "asynInt32")

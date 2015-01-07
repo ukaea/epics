@@ -1,6 +1,8 @@
 echo off
 set EPICS_CA_SERVER_PORT=5071
 
+start camonitor5.bat
+
 set IPPORT1=localhost:5066
 
 set IPPORT2=localhost:5067
