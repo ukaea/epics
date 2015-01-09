@@ -44,6 +44,7 @@ private:
 	// Each parameter is associated with an int handle.
 	// This structure is used in order to address them by name, which is more convenient.
 	std::map<std::string, int> m_Parameters;
+	void setDefaultValues(int TableIndex);
 
 	int m_NumConnected;				// how many sockets have actually connected?
 	volatile bool m_Exiting;		// Signals the listening thread to exit.

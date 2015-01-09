@@ -36,6 +36,7 @@ record(bo, "$(P)Running")
 	field(SCAN, "I/O Intr")
 	field(ZNAM,  "OFF")
 	field(ONAM,  "ON")
+	field(VAL, 1)
 }
 
 #####################################################################################################
@@ -59,9 +60,9 @@ record(bo, "$(P)Reset")
 	field(DTYP, "asynInt32")
 	field(OUT,  "@asyn($(PORT),$(ADDR),1)RESET")
 	field(HIGH, "1.0")
-	field(PINI, "1")
 	field(ZNAM,  "NORMAL")
 	field(ONAM,  "RESET IN PROGRESS")
+	field(VAL, 0)
 }
 
 record(bi, "$(P)Fault")
@@ -73,6 +74,7 @@ record(bi, "$(P)Fault")
 	field(PINI, "1")
 	field(ZNAM,  "NORMAL")
 	field(ONAM,  "FAULT")
+	field(VAL, 0)
 }
 
 record(bi, "$(P)WarningTemperature")
@@ -82,6 +84,7 @@ record(bi, "$(P)WarningTemperature")
 	field(SCAN, "I/O Intr")
 	field(ZNAM,  "NORMAL")
 	field(ONAM,  "WARNING TEMPERATURE")
+	field(VAL, 0)
 }
 
 record(bi, "$(P)WarningHighLoad")
@@ -91,6 +94,7 @@ record(bi, "$(P)WarningHighLoad")
 	field(SCAN, "I/O Intr")
 	field(ZNAM,  "NORMAL")
 	field(ONAM,  "WARNING HIGH LOAD")
+	field(VAL, 0)
 }
 
 record(ai, "$(P)StatorFrequency")
@@ -98,6 +102,7 @@ record(ai, "$(P)StatorFrequency")
     field(DTYP, "asynInt32")
 	field(INP,  "@asyn($(PORT),$(ADDR),1)STATORFREQUENCY")
 	field(SCAN, "I/O Intr")
+	field(VAL, 500)
 }
 
 record(ai, "$(P)ConverterTemperature")
@@ -105,6 +110,7 @@ record(ai, "$(P)ConverterTemperature")
     field(DTYP, "asynInt32")
 	field(INP,  "@asyn($(PORT),$(ADDR),1)CONVERTERTEMPERATURE")
 	field(SCAN, "I/O Intr")
+	field(VAL, 40)
 }
 
 record(ai, "$(P)MotorCurrent")
@@ -112,6 +118,7 @@ record(ai, "$(P)MotorCurrent")
     field(DTYP, "asynFloat64")
 	field(INP,  "@asyn($(PORT),$(ADDR),1)MOTORCURRENT")
 	field(SCAN, "I/O Intr")
+	field(VAL, 30)
 }
 
 record(ai, "$(P)PumpTemperature")

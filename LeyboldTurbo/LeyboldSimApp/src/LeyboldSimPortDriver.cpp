@@ -71,7 +71,7 @@ public:
 CLeyboldSimPortDriver::CLeyboldSimPortDriver(const char *asynPortName, int numPumps)
    : asynPortDriver(asynPortName, 
                     numPumps, // maxAddr
-                    NUM_PARAMS,
+                    NUM_PARAMS-1, // -1 because Reset is not used.
                     asynDrvUserMask | asynInt32Mask | asynFloat64Mask | asynOctetMask, // Interface mask
                     asynDrvUserMask | asynInt32Mask | asynFloat64Mask | asynOctetMask, // Interrupt mask
 					ASYN_MULTIDEVICE | ASYN_CANBLOCK,
@@ -123,6 +123,8 @@ void CLeyboldSimPortDriver::ListenerThread(void* parm)
         asynPrint(AsynUser, ASYN_TRACE_ERROR,
                               "echoListener: Can't free port %s asynUser\n",
                                                                IOPortName);
+	if (This->m_NumConnected == 0)
+		epicsExit(0);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -175,19 +177,9 @@ void CLeyboldSimPortDriver::addIOPort(const char* IOPortName)
 		if (createParam(m_WasRunning.size(), ParamName.c_str(), ParameterDefns[ParamIndex].ParamType, &Index) != asynSuccess)
 			throw CException(pasynUserSelf, __FUNCTION__, "createParam" + std::string(ParameterDefns[ParamIndex].ParamName));
 		m_Parameters[ParamName] = Index;
-		switch(ParameterDefns[ParamIndex].ParamType)
-		{
-			case asynParamInt32: 
-				if (setIntegerParam(m_WasRunning.size(), Index, ParameterDefns[ParamIndex].DefaultValue) != asynSuccess)
-					throw CException(pasynUserSelf, __FUNCTION__, "setUIntDigitalParam" + std::string(ParameterDefns[ParamIndex].ParamName));
-				break;
-			case asynParamFloat64: 
-				if (setDoubleParam (m_WasRunning.size(), Index, ParameterDefns[ParamIndex].DefaultValue) != asynSuccess)
-					throw CException(pasynUserSelf, __FUNCTION__, "setDoubleParam" + std::string(ParameterDefns[ParamIndex].ParamName));
-				break;
-			default: assert(false);
-		}
 	}
+	setDefaultValues(m_WasRunning.size());
+	setIntegerParam(m_WasRunning.size(), m_Parameters[FAULT], 0);
 
     asynUser *AsynUser = pasynManager->createAsynUser(0,0);
 
@@ -201,6 +193,19 @@ void CLeyboldSimPortDriver::addIOPort(const char* IOPortName)
 
 	Octet->registerInterruptUser(pasynOctetInterface->drvPvt, AsynUser, octetConnectionCallback, this, &pinterruptNode);
 	m_WasRunning.push_back(true);
+}
+
+void CLeyboldSimPortDriver::setDefaultValues(int TableIndex)
+{
+	// The running state has just been enabled.
+	setIntegerParam(TableIndex, m_Parameters[RUNNING], 1);
+	setIntegerParam(TableIndex, m_Parameters[STATORFREQUENCY], 500);
+	setIntegerParam(TableIndex, m_Parameters[CONVERTERTEMPERATURE], 50);
+	setDoubleParam(TableIndex, m_Parameters[MOTORCURRENT], 10);
+	setIntegerParam(TableIndex, m_Parameters[PUMPTEMPERATURE], 40);
+	setDoubleParam(TableIndex, m_Parameters[CIRCUITVOLTAGE], 30);
+	setIntegerParam(TableIndex, m_Parameters[WARNINGTEMPERATURE], 0);
+	setIntegerParam(TableIndex, m_Parameters[WARNINGHIGHLOAD], 0);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -267,14 +272,7 @@ bool CLeyboldSimPortDriver::process(asynUser *pasynUser, int TableIndex)
 	if (Running && !m_WasRunning[TableIndex])
 	{
 		// The running state has just been enabled.
-		setIntegerParam(TableIndex, m_Parameters[RUNNING], Running ? 1 : 0);
-		setIntegerParam(TableIndex, m_Parameters[STATORFREQUENCY], ParameterDefns[m_Parameters[STATORFREQUENCY]].DefaultValue);
-		setIntegerParam(TableIndex, m_Parameters[CONVERTERTEMPERATURE], ParameterDefns[m_Parameters[CONVERTERTEMPERATURE]].DefaultValue);
-		setDoubleParam(TableIndex, m_Parameters[MOTORCURRENT], ParameterDefns[m_Parameters[MOTORCURRENT]].DefaultValue);
-		setIntegerParam(TableIndex, m_Parameters[PUMPTEMPERATURE], ParameterDefns[m_Parameters[PUMPTEMPERATURE]].DefaultValue);
-		setDoubleParam(TableIndex, m_Parameters[CIRCUITVOLTAGE], ParameterDefns[m_Parameters[CIRCUITVOLTAGE]].DefaultValue);
-		setIntegerParam(TableIndex, m_Parameters[WARNINGTEMPERATURE], 0);
-		setIntegerParam(TableIndex, m_Parameters[WARNINGHIGHLOAD], 0);
+		setDefaultValues(TableIndex);
 	}
 	if (!Running && m_WasRunning[TableIndex])
 	{
@@ -314,7 +312,7 @@ bool CLeyboldSimPortDriver::process(asynUser *pasynUser, int TableIndex)
 	// NB, *don't* pass pasynUser to this function - it has the wrong type and will cause an access violation.
 	status = pasynOctetSyncIO->write(pasynUser,
 		reinterpret_cast<char*>(&USSWritePacket), sizeof(USSPacket),
-		1, &nbytesOut);
+		-1, &nbytesOut);
 	if (status == asynDisconnected)
 		return false;
 	if (status != asynSuccess)

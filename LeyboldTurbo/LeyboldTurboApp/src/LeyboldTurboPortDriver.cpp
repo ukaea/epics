@@ -121,11 +121,11 @@ void CLeyboldTurboPortDriver::addIOPort(const char* IOPortName)
 		{
 			// Set default values.
 			case asynParamInt32: 
-				if (setIntegerParam(int(m_AsynUsers.size()), Index, ParameterDefns[ParamIndex].DefaultValue) != asynSuccess)
+				if (setIntegerParam(int(m_AsynUsers.size()), Index, 0) != asynSuccess)
 					throw CException(pasynUserSelf, __FUNCTION__, "setIntegerParam" + std::string(ParameterDefns[ParamIndex].ParamName));
 				break;
 			case asynParamFloat64: 
-				if (setDoubleParam (int(m_AsynUsers.size()), Index, ParameterDefns[ParamIndex].DefaultValue) != asynSuccess)
+				if (setDoubleParam (int(m_AsynUsers.size()), Index, 0) != asynSuccess)
 					throw CException(pasynUserSelf, __FUNCTION__, "setDoubleParam" + std::string(ParameterDefns[ParamIndex].ParamName));
 				break;
 			default: assert(false);
@@ -196,10 +196,16 @@ void CLeyboldTurboPortDriver::process(int TableIndex, asynUser *pasynUser, USSPa
 	USSPacket USSReadPacket;
 	asynUser* IOUser = m_AsynUsers[TableIndex];
 	// NB, *don't* pass pasynUser to this function - it has the wrong type and will cause an access violation.
+#ifdef _DEBUG
+	// Infinite timeout, convenient for degugging.
+	const double TimeOut = -1;
+#else
+	const double TimeOut = 1;
+#endif
 	if (pasynOctetSyncIO->writeRead(IOUser,
 		reinterpret_cast<const char*>(&USSWritePacket), sizeof(USSPacket), 
 		reinterpret_cast<char*>(&USSReadPacket), sizeof(USSPacket),
-		1, &nbytesOut, &nbytesIn, &eomReason) != asynSuccess)
+		TimeOut, &nbytesOut, &nbytesIn, &eomReason) != asynSuccess)
 		throw CException(IOUser, __FUNCTION__, "Can't write/read:");
 	USSReadPacket.m_USSPacketStruct.NToH();
 

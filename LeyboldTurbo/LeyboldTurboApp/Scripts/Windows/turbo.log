@@ -1,0 +1,53 @@
+
+D:\EPICS\LeyboldTurbo\LeyboldTurboApp\Scripts\Windows>camonitor.exe 	TURBO:1:Running TURBO:2:Running TURBO:3:Running TURBO:4:Running TURBO:5:Running 	TURBO:1:Reset TURBO:2:Reset TURBO:3:Reset TURBO:4:Reset TURBO:5:Reset 	TURBO:1:Fault TURBO:2:Fault TURBO:3:Fault TURBO:4:Fault TURBO:5:Fault 	TURBO:1:WarningTemperature TURBO:2:WarningTemperature TURBO:3:WarningTemperature TURBO:4:WarningTemperature TURBO:5:WarningTemperature 	TURBO:1:WarningHighLoad TURBO:2:WarningHighLoad TURBO:3:WarningHighLoad TURBO:4:WarningHighLoad TURBO:5:WarningHighLoad 	TURBO:1:StatorFrequency TURBO:2:StatorFrequency TURBO:3:StatorFrequency TURBO:4:StatorFrequency TURBO:5:StatorFrequency 	TURBO:1:ConverterTemperature TURBO:2:ConverterTemperature TURBO:3:ConverterTemperature TURBO:4:ConverterTemperature TURBO:5:ConverterTemperature 	TURBO:1:MotorCurrent TURBO:2:MotorCurrent TURBO:3:MotorCurrent TURBO:4:MotorCurrent TURBO:5:MotorCurrent 	TURBO:1:PumpTemperature TURBO:2:PumpTemperature TURBO:3:PumpTemperature TURBO:4:PumpTemperature TURBO:5:PumpTemperature 	TURBO:1:CircuitVoltage TURBO:2:CircuitVoltage TURBO:3:CircuitVoltage TURBO:4:CircuitVoltage TURBO:5:CircuitVoltage 
+TURBO:1:Running                2015-01-08 12:00:43.730997 OFF  
+TURBO:2:Running                2015-01-08 12:00:43.731148 OFF  
+TURBO:3:Running                2015-01-08 12:00:43.731246 OFF  
+TURBO:4:Running                2015-01-08 12:00:43.731363 OFF  
+TURBO:5:Running                2015-01-08 12:00:43.731485 OFF  
+TURBO:1:Reset                  <undefined> NORMAL UDF NO_ALARM
+TURBO:2:Reset                  <undefined> NORMAL UDF NO_ALARM
+TURBO:3:Reset                  <undefined> NORMAL UDF NO_ALARM
+TURBO:4:Reset                  <undefined> NORMAL UDF NO_ALARM
+TURBO:5:Reset                  <undefined> NORMAL UDF NO_ALARM
+TURBO:1:Fault                  2015-01-08 12:11:23.099862 NORMAL  
+TURBO:2:Fault                  2015-01-08 12:11:23.113525 NORMAL  
+TURBO:3:Fault                  2015-01-08 12:11:23.125179 NORMAL  
+TURBO:4:Fault                  2015-01-08 12:11:23.137723 NORMAL  
+TURBO:5:Fault                  2015-01-08 12:11:23.151291 NORMAL  
+TURBO:1:WarningTemperature     2015-01-08 12:00:43.731038 NORMAL  
+TURBO:2:WarningTemperature     2015-01-08 12:00:43.731177 NORMAL  
+TURBO:3:WarningTemperature     2015-01-08 12:00:43.731300 NORMAL  
+TURBO:4:WarningTemperature     2015-01-08 12:00:43.731435 NORMAL  
+TURBO:5:WarningTemperature     2015-01-08 12:00:43.731572 NORMAL  
+TURBO:1:WarningHighLoad        2015-01-08 12:00:43.731058 NORMAL  
+TURBO:2:WarningHighLoad        2015-01-08 12:00:43.731196 NORMAL  
+TURBO:3:WarningHighLoad        2015-01-08 12:00:43.731316 NORMAL  
+TURBO:4:WarningHighLoad        2015-01-08 12:00:43.731452 NORMAL  
+TURBO:5:WarningHighLoad        2015-01-08 12:00:43.731588 NORMAL  
+TURBO:1:StatorFrequency        2015-01-08 12:00:43.731076 0  
+TURBO:2:StatorFrequency        2015-01-08 12:00:43.731213 0  
+TURBO:3:StatorFrequency        2015-01-08 12:00:43.731334 0  
+TURBO:4:StatorFrequency        2015-01-08 12:00:43.731468 0  
+TURBO:5:StatorFrequency        2015-01-08 12:00:43.731604 0  
+TURBO:1:ConverterTemperature   2015-01-08 12:00:43.731097 0  
+TURBO:2:ConverterTemperature   2015-01-08 12:00:43.731231 0  
+TURBO:3:ConverterTemperature   2015-01-08 12:00:43.731351 0  
+TURBO:4:ConverterTemperature   2015-01-08 12:00:43.731497 0  
+TURBO:5:ConverterTemperature   2015-01-08 12:00:43.731621 0  
+TURBO:1:MotorCurrent           2015-01-08 12:00:43.731115 0  
+TURBO:2:MotorCurrent           2015-01-08 12:00:43.731249 0  
+TURBO:3:MotorCurrent           2015-01-08 12:00:43.731368 0  
+TURBO:4:MotorCurrent           2015-01-08 12:00:43.731519 0  
+TURBO:5:MotorCurrent           2015-01-08 12:00:43.731637 0  
+TURBO:1:PumpTemperature        2015-01-08 12:00:43.731132 0  
+TURBO:2:PumpTemperature        2015-01-08 12:00:43.731265 0  
+TURBO:3:PumpTemperature        2015-01-08 12:00:43.731399 0  
+TURBO:4:PumpTemperature        2015-01-08 12:00:43.731537 0  
+TURBO:5:PumpTemperature        2015-01-08 12:00:43.731653 0  
+TURBO:1:CircuitVoltage         2015-01-08 12:00:43.731158 0  
+TURBO:2:CircuitVoltage         2015-01-08 12:00:43.731283 0  
+TURBO:3:CircuitVoltage         2015-01-08 12:02:48.134447 25  
+TURBO:4:CircuitVoltage         2015-01-08 12:00:43.731554 0  
+TURBO:5:CircuitVoltage         2015-01-08 12:00:43.731668 0  
+Terminate batch job (Y/N)? Terminate batch job (Y/N)? 
