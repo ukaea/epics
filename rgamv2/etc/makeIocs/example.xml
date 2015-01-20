@@ -1,0 +1,5 @@
+<?xml version="1.0" ?>
+<components arch="linux-x86">
+    <asyn.AsynIP name="mv2_port1" port="172.23.243.121:10014"/>
+    <rgamv2.rgamv2 device="DHG01-VA-RGA-01" ipPort="mv2_port1" name="mv2_1"/>
+</components>

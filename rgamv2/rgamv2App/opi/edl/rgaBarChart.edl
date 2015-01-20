@@ -1,0 +1,13375 @@
+4 0 1
+beginScreenProperties
+major 4
+minor 0
+release 1
+x 52
+y 92
+w 1213
+h 335
+font "arial-medium-r-14.0"
+ctlFont "arial-bold-r-14.0"
+btnFont "arial-medium-r-14.0"
+fgColor index 14
+bgColor index 10
+textColor index 14
+ctlFgColor1 index 25
+ctlFgColor2 index 18
+ctlBgColor1 index 3
+ctlBgColor2 index 5
+topShadowColor index 1
+botShadowColor index 11
+title "MKS RGA - $(device)"
+endScreenProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 1086
+y 60
+w 120
+h 220
+
+beginGroup
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 1146
+y 60
+w 60
+h 220
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 1200
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=200"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 1194
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=199"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 1188
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=198"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 1182
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=197"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 1176
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=196"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 1170
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=195"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 1164
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=194"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 1158
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=193"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 1152
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=192"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 1146
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=191"
+}
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 1086
+y 60
+w 60
+h 220
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 1140
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=190"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 1134
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=189"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 1128
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=188"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 1122
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=187"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 1116
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=186"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 1110
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=185"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 1104
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=184"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 1098
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=183"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 1092
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=182"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 1086
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=181"
+}
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 966
+y 60
+w 120
+h 220
+
+beginGroup
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 1026
+y 60
+w 60
+h 220
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 1080
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=180"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 1074
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=179"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 1068
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=178"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 1062
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=177"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 1056
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=176"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 1050
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=175"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 1044
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=174"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 1038
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=173"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 1032
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=172"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 1026
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=171"
+}
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 966
+y 60
+w 60
+h 220
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 1020
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=170"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 1014
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=169"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 1008
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=168"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 1002
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=167"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 996
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=166"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 990
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=165"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 984
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=164"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 978
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=163"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 972
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=162"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 966
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=161"
+}
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 846
+y 60
+w 120
+h 220
+
+beginGroup
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 906
+y 60
+w 60
+h 220
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 960
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=160"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 954
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=159"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 948
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=158"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 942
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=157"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 936
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=156"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 930
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=155"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 924
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=154"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 918
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=153"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 912
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=152"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 906
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=151"
+}
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 846
+y 60
+w 60
+h 220
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 900
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=150"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 894
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=149"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 888
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=148"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 882
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=147"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 876
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=146"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 870
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=145"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 864
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=144"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 858
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=143"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 852
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=142"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 846
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=141"
+}
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 726
+y 60
+w 120
+h 220
+
+beginGroup
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 786
+y 60
+w 60
+h 220
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 840
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=140"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 834
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=139"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 828
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=138"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 822
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=137"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 816
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=136"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 810
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=135"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 804
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=134"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 798
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=133"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 792
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=132"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 786
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=131"
+}
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 726
+y 60
+w 60
+h 220
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 780
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=130"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 774
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=129"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 768
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=128"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 762
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=127"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 756
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=126"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 750
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=125"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 744
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=124"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 738
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=123"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 732
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=122"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 726
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=121"
+}
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 606
+y 60
+w 120
+h 220
+
+beginGroup
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 666
+y 60
+w 60
+h 220
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 720
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=120"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 714
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=119"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 708
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=118"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 702
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=117"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 696
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=116"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 690
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=115"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 684
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=114"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 678
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=113"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 672
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=112"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 666
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=111"
+}
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 606
+y 60
+w 60
+h 220
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 660
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=110"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 654
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=109"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 648
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=108"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 642
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=107"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 636
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=106"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 630
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=105"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 624
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=104"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 618
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=103"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 612
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=102"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 606
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=101"
+}
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 486
+y 60
+w 120
+h 220
+
+beginGroup
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 546
+y 60
+w 60
+h 220
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 600
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=100"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 594
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=99"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 588
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=98"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 582
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=97"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 576
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=96"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 570
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=95"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 564
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=94"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 558
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=93"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 552
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=92"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 546
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=91"
+}
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 486
+y 60
+w 60
+h 220
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 540
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=90"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 534
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=89"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 528
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=88"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 522
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=87"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 516
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=86"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 510
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=85"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 504
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=84"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 498
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=83"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 492
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=82"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 486
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=81"
+}
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 366
+y 60
+w 120
+h 220
+
+beginGroup
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 426
+y 60
+w 60
+h 220
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 480
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=80"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 474
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=79"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 468
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=78"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 462
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=77"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 456
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=76"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 450
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=75"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 444
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=74"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 438
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=73"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 432
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=72"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 426
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=71"
+}
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 366
+y 60
+w 60
+h 220
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 420
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=70"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 414
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=69"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 408
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=68"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 402
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=67"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 396
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=66"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 390
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=65"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 384
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=64"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 378
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=63"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 372
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=62"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 366
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=61"
+}
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 246
+y 60
+w 120
+h 220
+
+beginGroup
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 306
+y 60
+w 60
+h 220
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 360
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=60"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 354
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=59"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 348
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=58"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 342
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=57"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 336
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=56"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 330
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=55"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 324
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=54"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 318
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=53"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 312
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=52"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 306
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=51"
+}
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 246
+y 60
+w 60
+h 220
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 300
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=50"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 294
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=49"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 288
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=48"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 282
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=47"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 276
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=46"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 270
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=45"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 264
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=44"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 258
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=43"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 252
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=42"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 246
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=41"
+}
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 126
+y 60
+w 120
+h 220
+
+beginGroup
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 186
+y 60
+w 60
+h 220
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 240
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=40"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 234
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=39"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 228
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=38"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 222
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=37"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 216
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=36"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 210
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=35"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 204
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=34"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 198
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=33"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 192
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=32"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 186
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=31"
+}
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 126
+y 60
+w 60
+h 220
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 180
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=30"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 174
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=29"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 168
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=28"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 162
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=27"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 156
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=26"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 150
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=25"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 144
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=24"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 138
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=23"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 132
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=22"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 126
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=21"
+}
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 6
+y 60
+w 120
+h 220
+
+beginGroup
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 66
+y 60
+w 60
+h 220
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 120
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=20"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 114
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=19"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 108
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=18"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 102
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=17"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 96
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=16"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 90
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=15"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 84
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=14"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 78
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=13"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 72
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=12"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 66
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=11"
+}
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 6
+y 60
+w 60
+h 220
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 60
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=10"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 54
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=9"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 48
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=8"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 42
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=7"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 36
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=6"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 30
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=5"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 24
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=4"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 18
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=3"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 12
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=2"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 6
+y 60
+w 6
+h 220
+fgColor index 44
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+yPosOffset 200
+invisible
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "rgaMass.edl"
+}
+setPosition {
+  0 "button"
+}
+symbols {
+  0 "mass=1"
+}
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 0
+y 0
+w 1213
+h 335
+lineColor index 3
+fill
+fillColor index 3
+lineWidth 0
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 1055
+y 36
+w 150
+h 16
+controlPv "$(device):ILK"
+fgColor index 18
+fgAlarm
+bgColor index 10
+font "arial-bold-r-14.0"
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 796
+y 36
+w 150
+h 16
+controlPv "$(device):DET"
+fgColor index 18
+fgAlarm
+bgColor index 10
+font "arial-bold-r-14.0"
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 109
+y 36
+w 150
+h 16
+controlPv "$(device):DATA"
+fgColor index 18
+fgAlarm
+bgColor index 10
+font "arial-bold-r-14.0"
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 0
+y 0
+w 1212
+h 27
+lineColor index 53
+fill
+fillColor index 53
+lineWidth 0
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 0
+y 0
+w 1212
+h 27
+font "arial-bold-r-18.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "$(device)"
+}
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 5
+y 60
+w 1200
+h 200
+lineColor index 10
+fill
+fillColor index 10
+lineWidth 0
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 1086
+y 60
+w 119
+h 200
+
+beginGroup
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 1200
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M200"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 1194
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M199"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 1188
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M198"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 1182
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M197"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 1176
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M196"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 1170
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M195"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 1164
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M194"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 1158
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M193"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 1152
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M192"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 1146
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M191"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 1140
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M190"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 1134
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M189"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 1128
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M188"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 1122
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M187"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 1116
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M186"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 1110
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M185"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 1104
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M184"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 1098
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M183"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 1092
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M182"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 1086
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M181"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Exit Button)
+object activeExitButtonClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 950
+y 285
+w 130
+h 25
+fgColor index 46
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+label "Exit"
+font "arial-medium-r-14.0"
+3d
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 5
+y 315
+w 130
+h 16
+font "arial-medium-r-14.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Head Status"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 950
+y 37
+w 86
+h 16
+font "arial-medium-r-14.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "IMG Interlock"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 410
+y 315
+w 130
+h 16
+font "arial-medium-r-14.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+visPv "$(device):MODE"
+visMin "0"
+visMax "1"
+value {
+  "Multiplier"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 545
+y 315
+w 130
+h 16
+font "arial-medium-r-14.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+visPv "$(device):MODE"
+visMin "0"
+visMax "1"
+value {
+  "Scan Mode"
+}
+endObjectProperties
+
+# (Menu Button)
+object activeMenuButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 5
+y 285
+w 130
+h 25
+fgColor index 25
+bgColor index 3
+inconsistentColor index 0
+topShadowColor index 1
+botShadowColor index 11
+controlPv "$(device):CON"
+indicatorPv "$(device):STA"
+font "arial-medium-r-14.0"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 140
+y 315
+w 265
+h 16
+font "arial-medium-r-14.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+visPv "$(device):MODE"
+visMin "0"
+visMax "1"
+value {
+  "Filament Status"
+}
+endObjectProperties
+
+# (Menu Button)
+object activeMenuButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 140
+y 285
+w 130
+h 25
+fgColor index 25
+bgColor index 3
+inconsistentColor index 0
+topShadowColor index 1
+botShadowColor index 11
+controlPv "$(device):SETFIL"
+indicatorPv "$(device):FIL"
+font "arial-medium-r-14.0"
+visPv "$(device):MODE"
+visMin "0"
+visMax "1"
+endObjectProperties
+
+# (Menu Button)
+object activeMenuButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 275
+y 285
+w 130
+h 25
+fgColor index 25
+bgColor index 3
+inconsistentColor index 0
+topShadowColor index 1
+botShadowColor index 11
+controlPv "$(device):FILCON"
+indicatorPv "$(device):FILSTA"
+font "arial-medium-r-14.0"
+visPv "$(device):MODE"
+visMin "0"
+visMax "1"
+endObjectProperties
+
+# (Menu Button)
+object activeMenuButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 410
+y 285
+w 130
+h 25
+fgColor index 25
+bgColor index 3
+inconsistentColor index 0
+topShadowColor index 1
+botShadowColor index 11
+controlPv "$(device):MLTCON"
+indicatorPv "$(device):MLTSTA"
+font "arial-medium-r-14.0"
+visPv "$(device):MODE"
+visMin "0"
+visMax "1"
+endObjectProperties
+
+# (Menu Button)
+object activeMenuButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 545
+y 285
+w 130
+h 25
+fgColor index 25
+bgColor index 3
+inconsistentColor index 0
+topShadowColor index 1
+botShadowColor index 11
+controlPv "$(device):SETSCAN"
+indicatorPv "$(device):SCAN"
+font "arial-medium-r-14.0"
+visPv "$(device):MODE"
+visMin "0"
+visMax "1"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 10
+y 37
+w 82
+h 16
+font "arial-medium-r-14.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Current Data"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 671
+y 37
+w 104
+h 16
+font "arial-medium-r-14.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Detector Setting"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 4
+y 265
+w 8
+h 16
+font "arial-medium-r-14.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "1"
+}
+autoSize
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 6
+y 60
+w 119
+h 200
+
+beginGroup
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 120
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M20"
+nullPv "$(device):DIS50"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 114
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M19"
+nullPv "$(device):DIS50"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 108
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M18"
+nullPv "$(device):DIS50"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 102
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M17"
+nullPv "$(device):DIS50"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 96
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M16"
+nullPv "$(device):DIS50"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 90
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M15"
+nullPv "$(device):DIS50"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 84
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M14"
+nullPv "$(device):DIS50"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 78
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M13"
+nullPv "$(device):DIS50"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 72
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M12"
+nullPv "$(device):DIS50"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 66
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M11"
+nullPv "$(device):DIS50"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 60
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M10"
+nullPv "$(device):DIS50"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 54
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M9"
+nullPv "$(device):DIS50"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 48
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M8"
+nullPv "$(device):DIS50"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 42
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M7"
+nullPv "$(device):DIS50"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 36
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M6"
+nullPv "$(device):DIS50"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 30
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M5"
+nullPv "$(device):DIS50"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 24
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M4"
+nullPv "$(device):DIS50"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 18
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M3"
+nullPv "$(device):DIS50"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 12
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M2"
+nullPv "$(device):DIS50"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 6
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M1"
+nullPv "$(device):DIS50"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 6
+y 260
+w 5
+h 5
+lineColor index 14
+fill
+fillColor index 14
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 60
+y 260
+w 5
+h 5
+lineColor index 14
+fill
+fillColor index 14
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 120
+y 260
+w 5
+h 5
+lineColor index 14
+fill
+fillColor index 14
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 180
+y 260
+w 5
+h 5
+lineColor index 14
+fill
+fillColor index 14
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 480
+y 260
+w 5
+h 5
+lineColor index 14
+fill
+fillColor index 14
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 240
+y 260
+w 5
+h 5
+lineColor index 14
+fill
+fillColor index 14
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 360
+y 260
+w 5
+h 5
+lineColor index 14
+fill
+fillColor index 14
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 420
+y 260
+w 5
+h 5
+lineColor index 14
+fill
+fillColor index 14
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 540
+y 260
+w 5
+h 5
+lineColor index 14
+fill
+fillColor index 14
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 600
+y 260
+w 5
+h 5
+lineColor index 14
+fill
+fillColor index 14
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 660
+y 260
+w 5
+h 5
+lineColor index 14
+fill
+fillColor index 14
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 720
+y 260
+w 5
+h 5
+lineColor index 14
+fill
+fillColor index 14
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 780
+y 260
+w 5
+h 5
+lineColor index 14
+fill
+fillColor index 14
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 840
+y 260
+w 5
+h 5
+lineColor index 14
+fill
+fillColor index 14
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 900
+y 260
+w 5
+h 5
+lineColor index 14
+fill
+fillColor index 14
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 960
+y 260
+w 5
+h 5
+lineColor index 14
+fill
+fillColor index 14
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 1020
+y 260
+w 5
+h 5
+lineColor index 14
+fill
+fillColor index 14
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 1080
+y 260
+w 5
+h 5
+lineColor index 14
+fill
+fillColor index 14
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 1140
+y 260
+w 5
+h 5
+lineColor index 14
+fill
+fillColor index 14
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 1200
+y 260
+w 5
+h 5
+lineColor index 14
+fill
+fillColor index 14
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 54
+y 265
+w 16
+h 16
+font "arial-medium-r-14.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "10"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 114
+y 265
+w 16
+h 16
+font "arial-medium-r-14.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "20"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 174
+y 265
+w 16
+h 16
+font "arial-medium-r-14.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "30"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 234
+y 265
+w 16
+h 16
+font "arial-medium-r-14.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "40"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 354
+y 265
+w 17
+h 16
+font "arial-medium-r-14.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "60"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 414
+y 265
+w 17
+h 16
+font "arial-medium-r-14.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "70"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 474
+y 265
+w 17
+h 16
+font "arial-medium-r-14.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "80"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 534
+y 265
+w 17
+h 16
+font "arial-medium-r-14.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "90"
+}
+autoSize
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 649
+y 265
+w 498
+h 19
+
+beginGroup
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 650
+y 265
+w 24
+h 16
+font "arial-medium-r-14.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "110"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 710
+y 265
+w 24
+h 16
+font "arial-medium-r-14.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "120"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 770
+y 265
+w 24
+h 16
+font "arial-medium-r-14.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "130"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 830
+y 265
+w 24
+h 16
+font "arial-medium-r-14.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "140"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 890
+y 265
+w 24
+h 16
+font "arial-medium-r-14.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "150"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 950
+y 265
+w 25
+h 16
+font "arial-medium-r-14.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "160"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 1010
+y 265
+w 25
+h 16
+font "arial-medium-r-14.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "170"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 1070
+y 265
+w 25
+h 16
+font "arial-medium-r-14.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "180"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 1131
+y 265
+w 25
+h 16
+font "arial-medium-r-14.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "190"
+}
+autoSize
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 1183
+y 265
+w 24
+h 16
+font "arial-medium-r-14.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "200"
+}
+autoSize
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 246
+y 60
+w 119
+h 200
+
+beginGroup
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 360
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M60"
+nullPv "$(device):DIS100"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 354
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M59"
+nullPv "$(device):DIS100"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 348
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M58"
+nullPv "$(device):DIS100"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 342
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M57"
+nullPv "$(device):DIS100"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 336
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M56"
+nullPv "$(device):DIS100"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 330
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M55"
+nullPv "$(device):DIS100"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 324
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M54"
+nullPv "$(device):DIS100"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 318
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M53"
+nullPv "$(device):DIS100"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 312
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M52"
+nullPv "$(device):DIS100"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 306
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M51"
+nullPv "$(device):DIS100"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 300
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M50"
+nullPv "$(device):DIS50"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 294
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M49"
+nullPv "$(device):DIS50"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 288
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M48"
+nullPv "$(device):DIS50"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 282
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M47"
+nullPv "$(device):DIS50"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 276
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M46"
+nullPv "$(device):DIS50"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 270
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M45"
+nullPv "$(device):DIS50"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 264
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M44"
+nullPv "$(device):DIS50"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 258
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M43"
+nullPv "$(device):DIS50"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 252
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M42"
+nullPv "$(device):DIS50"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 246
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M41"
+nullPv "$(device):DIS50"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 366
+y 60
+w 119
+h 200
+
+beginGroup
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 480
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M80"
+nullPv "$(device):DIS100"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 474
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M79"
+nullPv "$(device):DIS100"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 468
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M78"
+nullPv "$(device):DIS100"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 462
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M77"
+nullPv "$(device):DIS100"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 456
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M76"
+nullPv "$(device):DIS100"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 450
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M75"
+nullPv "$(device):DIS100"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 444
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M74"
+nullPv "$(device):DIS100"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 438
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M73"
+nullPv "$(device):DIS100"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 432
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M72"
+nullPv "$(device):DIS100"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 426
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M71"
+nullPv "$(device):DIS100"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 420
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M70"
+nullPv "$(device):DIS100"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 414
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M69"
+nullPv "$(device):DIS100"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 408
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M68"
+nullPv "$(device):DIS100"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 402
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M67"
+nullPv "$(device):DIS100"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 396
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M66"
+nullPv "$(device):DIS100"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 390
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M65"
+nullPv "$(device):DIS100"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 384
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M64"
+nullPv "$(device):DIS100"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 378
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M63"
+nullPv "$(device):DIS100"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 372
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M62"
+nullPv "$(device):DIS100"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 366
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M61"
+nullPv "$(device):DIS100"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 486
+y 60
+w 119
+h 200
+
+beginGroup
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 600
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M100"
+nullPv "$(device):DIS100"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 594
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M99"
+nullPv "$(device):DIS100"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 588
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M98"
+nullPv "$(device):DIS100"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 582
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M97"
+nullPv "$(device):DIS100"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 576
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M96"
+nullPv "$(device):DIS100"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 570
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M95"
+nullPv "$(device):DIS100"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 564
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M94"
+nullPv "$(device):DIS100"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 558
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M93"
+nullPv "$(device):DIS100"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 552
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M92"
+nullPv "$(device):DIS100"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 546
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M91"
+nullPv "$(device):DIS100"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 540
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M90"
+nullPv "$(device):DIS100"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 534
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M89"
+nullPv "$(device):DIS100"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 528
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M88"
+nullPv "$(device):DIS100"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 522
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M87"
+nullPv "$(device):DIS100"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 516
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M86"
+nullPv "$(device):DIS100"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 510
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M85"
+nullPv "$(device):DIS100"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 504
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M84"
+nullPv "$(device):DIS100"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 498
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M83"
+nullPv "$(device):DIS100"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 492
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M82"
+nullPv "$(device):DIS100"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 486
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M81"
+nullPv "$(device):DIS100"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 726
+y 60
+w 119
+h 200
+
+beginGroup
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 840
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M140"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 834
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M139"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 828
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M138"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 822
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M137"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 816
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M136"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 810
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M135"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 804
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M134"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 798
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M133"
+nullPv "$(device):DIS200"
+font "arial-medium-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 792
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M132"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 786
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M131"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 780
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M130"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 774
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M129"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 768
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M128"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 762
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M127"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 756
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M126"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 750
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M125"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 744
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M124"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 738
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M123"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 732
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M122"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 726
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M121"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 846
+y 60
+w 119
+h 200
+
+beginGroup
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 960
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M160"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 954
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M159"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 948
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M158"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 942
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M157"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 936
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M156"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 930
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M155"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 924
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M154"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 918
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M153"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 912
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M152"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 906
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M151"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 900
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M140"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 894
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M139"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 888
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M138"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 882
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M137"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 876
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M136"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 870
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M135"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 864
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M134"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 858
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M133"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 852
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M132"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 846
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M131"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 966
+y 60
+w 119
+h 200
+
+beginGroup
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 1080
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M180"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 1074
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M179"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 1068
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M178"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 1062
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M177"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 1056
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M176"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 1050
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M175"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 1044
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M174"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 1038
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M173"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 1032
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M172"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 1026
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M171"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 1020
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M170"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 1014
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M169"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 1008
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M168"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 1002
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M167"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 996
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M166"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 990
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M165"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 984
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M164"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 978
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M163"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 972
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M162"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 966
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M161"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 714
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M119"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 708
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M118"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 702
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M117"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 696
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M116"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 690
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M115"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 684
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M114"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 678
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M113"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 672
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M112"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 666
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M111"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 660
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M110"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 654
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M109"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 648
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M108"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 642
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M107"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 636
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M106"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 630
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M105"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 624
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M104"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 618
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M103"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 612
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M102"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 606
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M101"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 720
+y 60
+w 5
+h 200
+indicatorColor index 16
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M120"
+nullPv "$(device):DIS200"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 126
+y 60
+w 119
+h 200
+
+beginGroup
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 240
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M40"
+nullPv "$(device):DIS50"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 234
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M39"
+nullPv "$(device):DIS50"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 228
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M38"
+nullPv "$(device):DIS50"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 222
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M37"
+nullPv "$(device):DIS50"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 216
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M36"
+nullPv "$(device):DIS50"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 210
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M35"
+nullPv "$(device):DIS50"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 204
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M34"
+nullPv "$(device):DIS50"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 198
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M33"
+nullPv "$(device):DIS50"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 192
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M32"
+nullPv "$(device):DIS50"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 186
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M31"
+nullPv "$(device):DIS50"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 180
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M30"
+nullPv "$(device):DIS50"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 174
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M29"
+nullPv "$(device):DIS50"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 168
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M28"
+nullPv "$(device):DIS50"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 162
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M27"
+nullPv "$(device):DIS50"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 156
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M26"
+nullPv "$(device):DIS50"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 150
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M25"
+nullPv "$(device):DIS50"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 144
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M24"
+nullPv "$(device):DIS50"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 138
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M23"
+nullPv "$(device):DIS50"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 132
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M22"
+nullPv "$(device):DIS50"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+# (Bar)
+object activeBarClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 126
+y 60
+w 5
+h 200
+indicatorColor index 16
+indicatorAlarm
+fgColor index 10
+bgColor index 10
+indicatorPv "$(device):LOG:M21"
+nullPv "$(device):DIS50"
+font "arial-bold-r-14.0"
+labelTicks "10"
+majorTicks "2"
+minorTicks "2"
+limitsFromDb
+precision "0"
+scaleFormat "FFloat"
+orientation "vertical"
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 606
+y 60
+w 601
+h 220
+lineColor index 3
+fill
+fillColor index 3
+lineWidth 0
+visPv "$(device):DIS200"
+visInvert
+visMin "0"
+visMax "1"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 590
+y 265
+w 24
+h 16
+font "arial-medium-r-14.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "100"
+}
+autoSize
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 306
+y 60
+w 601
+h 220
+lineColor index 3
+fill
+fillColor index 3
+lineWidth 0
+visPv "$(device):DIS100"
+visInvert
+visMin "0"
+visMax "1"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 294
+y 265
+w 16
+h 16
+font "arial-medium-r-14.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "50"
+}
+autoSize
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 300
+y 260
+w 5
+h 5
+lineColor index 14
+fill
+fillColor index 14
+endObjectProperties
+
+# (Shell Command)
+object shellCmdClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 815
+y 285
+w 130
+h 25
+fgColor index 43
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-14.0"
+buttonLabel "Graph"
+numCmds 1
+command {
+  0 "strip.sh $(device):LOG:M2 $(device):LOG:M4 $(device):LOG:M16 $(device):LOG:M17 $(device):LOG:M18 $(device):LOG:M28 $(device):LOG:M32 $(device):LOG:M44 log_mbar"
+}
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 10
+y 3
+w 188
+h 21
+
+beginGroup
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 128
+y 3
+w 70
+h 18
+
+beginGroup
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 174
+y 3
+w 20
+h 16
+controlPv "$(device):YEAR"
+fgColor index 18
+bgColor index 10
+font "arial-bold-r-14.0"
+fontAlign "center"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 170
+y 3
+w 5
+h 16
+font "arial-bold-r-14.0"
+fontAlign "center"
+fgColor index 18
+bgColor index 10
+useDisplayBg
+value {
+  "/"
+}
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 151
+y 3
+w 20
+h 16
+controlPv "$(device):MON"
+fgColor index 18
+bgColor index 10
+font "arial-bold-r-14.0"
+fontAlign "center"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 147
+y 3
+w 5
+h 16
+font "arial-bold-r-14.0"
+fontAlign "center"
+fgColor index 18
+bgColor index 10
+useDisplayBg
+value {
+  "/"
+}
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 128
+y 3
+w 20
+h 16
+controlPv "$(device):DAY"
+fgColor index 18
+bgColor index 10
+font "arial-bold-r-14.0"
+fontAlign "center"
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 49
+y 3
+w 70
+h 21
+
+beginGroup
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 95
+y 3
+w 20
+h 16
+controlPv "$(device):SEC"
+fgColor index 18
+bgColor index 10
+font "arial-bold-r-14.0"
+fontAlign "center"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 91
+y 3
+w 5
+h 16
+font "arial-bold-r-14.0"
+fontAlign "center"
+fgColor index 18
+bgColor index 10
+useDisplayBg
+value {
+  ":"
+}
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 72
+y 3
+w 20
+h 16
+controlPv "$(device):MIN"
+fgColor index 18
+bgColor index 10
+font "arial-bold-r-14.0"
+fontAlign "center"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 68
+y 3
+w 5
+h 16
+font "arial-bold-r-14.0"
+fontAlign "center"
+fgColor index 18
+bgColor index 10
+useDisplayBg
+value {
+  ":"
+}
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 49
+y 3
+w 20
+h 16
+controlPv "$(device):HOUR"
+fgColor index 18
+bgColor index 10
+font "arial-bold-r-14.0"
+fontAlign "center"
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 10
+y 4
+w 30
+h 16
+font "arial-medium-r-14.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Time"
+}
+autoSize
+endObjectProperties
+
+endGroup
+
+visPv "$(device):DATA"
+visMin "0"
+visMax "0"
+endObjectProperties
+
+# (Menu Button)
+object activeMenuButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 680
+y 285
+w 130
+h 25
+fgColor index 25
+bgColor index 3
+inconsistentColor index 0
+topShadowColor index 1
+botShadowColor index 11
+controlPv "$(device):SEL"
+indicatorPv "$(device):SEL"
+font "arial-medium-r-14.0"
+visPv "$(device):MODE"
+visMin "0"
+visMax "1"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 680
+y 315
+w 130
+h 16
+font "arial-medium-r-14.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+visPv "$(device):MODE"
+visMin "0"
+visMax "1"
+value {
+  "Select Peaks"
+}
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 561
+y 33
+w 80
+h 22
+controlPv "$(device):SUMP"
+displayMode "exp"
+precision 3
+fgColor index 16
+fgAlarm
+bgColor index 10
+fill
+font "arial-bold-r-14.0"
+fontAlign "center"
+lineWidth 2
+lineAlarm
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 463
+y 37
+w 91
+h 16
+font "arial-medium-r-14.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Sum of Peaks"
+}
+autoSize
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 354
+y 33
+w 80
+h 22
+controlPv "$(device):TOTP"
+displayMode "exp"
+precision 3
+fgColor index 16
+fgAlarm
+bgColor index 10
+fill
+font "arial-bold-r-14.0"
+fontAlign "center"
+lineWidth 2
+lineAlarm
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 245
+y 37
+w 96
+h 16
+font "arial-medium-r-14.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Total Pressure"
+}
+autoSize
+endObjectProperties
+

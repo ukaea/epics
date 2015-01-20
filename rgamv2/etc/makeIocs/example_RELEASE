@@ -1,0 +1,5 @@
+SUPPORT=/dls_sw/prod/R3.14.11/support
+WORK=/dls_sw/work/R3.14.11/support
+
+# Place any example specific dependencies here
+PYDRV=          $(SUPPORT)/pyDrv/1-2
