@@ -1,3 +1,0 @@
-# this record's VAL field should be of type DBF_USHORT
-record(permissive,"ushort") {
-}

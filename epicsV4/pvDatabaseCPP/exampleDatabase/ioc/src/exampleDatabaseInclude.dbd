@@ -1,7 +1,0 @@
-include "base.dbd"
-include "PVAServerRegister.dbd"
-include "registerChannelProviderLocal.dbd"
-include "dbPv.dbd"
-include "powerSupplyRegister.dbd"
-registrar("exampleDatabaseRegister")
-registrar("exampleMonitorPluginRegister")

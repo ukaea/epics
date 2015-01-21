@@ -1,25 +1,51 @@
+#####################################################################################################
+#																									#
+#	Module:																							#
+#		LeyboldSim.db																				#
+#																									#
+#	Description:																					#
+#		Defines the IOC records that are used by the LeyboldSimApp.									#
+#		These are, generally, a mirror-image of the fields that are used by the LeyboldTurboApp		#
+#		(i.e. outputs in one are inputs in the other).												#
+#																									#
+#	Author:  Peter Heesterman (Tessella plc). Date: 05 Jan 2015.									#
+#																									#
+#	LeyboldTurbo is distributed subject to a Software License Agreement								#
+#	found in file LICENSE that is included with this distribution.									#
+#																									#
+#####################################################################################################
+
+#####################################################################################################
+#																									#
+#	All fields have both output and input behaviour 												#
+#																									#
+#	Field(s)																						#
+#		Running					true(1), if the pump is operating, false(0), if it is stopped.		#
+#		Reset:					Not implemented, because not meaningful for the simulater.			#
+#		Fault					true(1), if the pump has a fault condition, otherwise false(0)		#
+#		WarningTemperature:		The pump has a (silulated) high temperature warning.				#
+#		WarningHighLoad:		The pump has a (simulated) high load warning.						#
+#		StatorFrequency:		The pump's stator frequency value.									#
+#		ConverterTemperature:	The pump's converter temperature value.								#
+#		MotorCurrent:			The pump's motor current value.										#
+#		PumpTemperature:		The pump's temperaure value.										#
+#		CircuitVoltage:			The pump's circuit voltage value.									#
+#																									#
+#####################################################################################################
 record(bo, "$(P)Running")
 {
 	field(DTYP, "asynInt32")
-	field(OUT,  "@asyn($(PORT),0,1)RUNNING")
+	field(OUT,  "@asyn($(PORT),$(ADDR),1)RUNNING")
 	field(SCAN, "I/O Intr")
 	field(ZNAM,  "OFF")
 	field(ONAM,  "ON")
 }
 
-record(bi, "$(P)Reset")
-{
-	field(DTYP, "asynInt32")
-	field(INP,  "@asyn($(PORT),0,1)RESET")
-	field(SCAN, "I/O Intr")
-	field(ZNAM,  "NORMAL")
-	field(ONAM,  "RESET IN PROGRESS")
-}
-
 record(bo, "$(P)Fault")
 {
 	field(DTYP, "asynInt32")
-	field(OUT,  "@asyn($(PORT),0,1)FAULT")
+	field(OUT,  "@asyn($(PORT),$(ADDR),1)FAULT")
+	field(SCAN, "I/O Intr")
 	field(ZNAM,  "NORMAL")
 	field(ONAM,  "FAULT")
 }
@@ -27,7 +53,8 @@ record(bo, "$(P)Fault")
 record(bo, "$(P)WarningTemperature")
 {
     field(DTYP, "asynInt32")
-	field(OUT,  "@asyn($(PORT),0,1)WARNINGTEMPERATURE")
+	field(OUT,  "@asyn($(PORT),$(ADDR),1)WARNINGTEMPERATURE")
+	field(SCAN, "I/O Intr")
 	field(ZNAM,  "NORMAL")
 	field(ONAM,  "WARNING TEMPERATURE")
 }
@@ -35,7 +62,8 @@ record(bo, "$(P)WarningTemperature")
 record(bo, "$(P)WarningHighLoad")
 {
     field(DTYP, "asynInt32")
-	field(OUT,  "@asyn($(PORT),0,1)WARNINGHIGHLOAD")
+	field(OUT,  "@asyn($(PORT),$(ADDR),1)WARNINGHIGHLOAD")
+	field(SCAN, "I/O Intr")
 	field(ZNAM,  "NORMAL")
 	field(ONAM,  "WARNING HIGH LOAD")
 }
@@ -43,29 +71,34 @@ record(bo, "$(P)WarningHighLoad")
 record(ao, "$(P)StatorFrequency")
 {
     field(DTYP, "asynInt32")
-	field(OUT,  "@asyn($(PORT),0,1)STATORFREQUENCY")
+	field(OUT,  "@asyn($(PORT),$(ADDR),1)STATORFREQUENCY")
+	field(SCAN, "I/O Intr")
 }
 
 record(ao, "$(P)ConverterTemperature")
 {
     field(DTYP, "asynInt32")
-	field(OUT,  "@asyn($(PORT),0,1)CONVERTERTEMPERATURE")
+	field(OUT,  "@asyn($(PORT),$(ADDR),1)CONVERTERTEMPERATURE")
+	field(SCAN, "I/O Intr")
 }
 
 record(ao, "$(P)MotorCurrent")
 {
     field(DTYP, "asynFloat64")
-	field(OUT,  "@asyn($(PORT),0,1)MOTORCURRENT")
+	field(OUT,  "@asyn($(PORT),$(ADDR),1)MOTORCURRENT")
+	field(SCAN, "I/O Intr")
 }
 
 record(ao, "$(P)PumpTemperature")
 {
     field(DTYP, "asynInt32")
-	field(OUT,  "@asyn($(PORT),0,1)PUMPTEMPERATURE")
+	field(OUT,  "@asyn($(PORT),$(ADDR),1)PUMPTEMPERATURE")
+	field(SCAN, "I/O Intr")
 }
 
 record(ao, "$(P)CircuitVoltage")
 {
     field(DTYP, "asynFloat64")
-	field(OUT,  "@asyn($(PORT),0,1)CIRCUITVOLTAGE")
+	field(OUT,  "@asyn($(PORT),$(ADDR),1)CIRCUITVOLTAGE")
+	field(SCAN, "I/O Intr")
 }

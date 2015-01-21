@@ -1,5 +1,14 @@
-/* LeyboldTurboMain.cpp */
-/* Author:  Marty Kraimer Date:    17MAR2000 */
+//////////////////////////////////////////////////////////////////////////////////
+//																				//
+//	Module: LeyboldTurboMain.cpp												//
+//																				//
+//	Description: IOC Application startup.										//
+//	Author:  Peter Heesterman (Tessella plc). Date: 05 Jan 2015.				//
+//																				//
+//	LeyboldTurbo is distributed subject to a Software License Agreement			//
+//	found in file LICENSE that is included with this distribution.				//
+//																				//
+//////////////////////////////////////////////////////////////////////////////////
 
 #include <stddef.h>
 #include <stdlib.h>

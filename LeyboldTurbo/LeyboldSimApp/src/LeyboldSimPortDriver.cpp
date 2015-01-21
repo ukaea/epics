@@ -1,3 +1,23 @@
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+//																									//
+//	Module:																							//
+//		LeyboldSimDriver.cpp																		//
+//																									//
+//	Description:																					//
+//		Implements the CLeyboldSimDriver class.														//
+//		This uses AsynPortDriver and asynOctetSyncIO to provide a simulated connection with			//
+//		the CLeyboldTurboPortDriver class instance.													//
+//																									//
+//		The class communicates by means of the Universal Serial Interface (USS)						//
+//		protocol (http://www.automation.siemens.com/WW/forum/guests/PostShow.aspx?PostID=104133).	//
+//																									//
+//	Author:  Peter Heesterman (Tessella plc). Date: 05 Jan 2015.									//
+//																									//
+//	LeyboldTurbo is distributed subject to a Software License Agreement								//
+//	found in file LICENSE that is included with this distribution.									//
+//																									//
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #include "LeyboldSimPortDriver.h"
 
 #include <iocsh.h>
@@ -18,6 +38,13 @@
 
 static CLeyboldSimPortDriver* g_LeyboldSimPortDriver;
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+//																								//
+//	class CLeyboldSimPortDriver::CException : public std::runtime_error							//
+//	Description:																				//
+//		If an error ocurrs, an object of this type is thrown.									//
+//																								//
+//////////////////////////////////////////////////////////////////////////////////////////////////
 class CLeyboldSimPortDriver::CException : public std::runtime_error
 {
 public:
@@ -30,24 +57,27 @@ public:
 //////////////////////////////////////////////////////////////////////////////////////////////////
 //																								//
 //	CLeyboldSimPortDriver::CLeyboldSimPortDriver(const char *asynPortName, int numPumps)		//
+//	CLeyboldSimPortDriver::~CLeyboldSimPortDriver()												//
 //																								//
-//	Description:
-//		Class constructor.
-//		
-/** Constructor for the testAsynPortDriver class.
-  * Calls constructor for the asynPortDriver base class.
-  * \param[in] portName The name of the asyn port driver to be created.
-  * \param[in] maxPoints The maximum  number of points in the volt and time arrays */
+//	Description:																				//
+//		Class constructor & destructor.															//
+//	Parameters:																					//
+//		asynPortName - the IOC port name to be used.											//
+//		numPumps - how many pumps will be attached?												//
+//				 - The expectation is that addIOPort will be called this many times				//
+//				 - from the st.cmd script.														//
+//																								//
+//////////////////////////////////////////////////////////////////////////////////////////////////
 CLeyboldSimPortDriver::CLeyboldSimPortDriver(const char *asynPortName, int numPumps)
    : asynPortDriver(asynPortName, 
-                    numPumps, /* maxAddr */ 
-                    NUM_PARAMS,
-                    asynDrvUserMask | asynInt32Mask | asynFloat64Mask | asynOctetMask, /* Interface mask */
-                    asynDrvUserMask | asynInt32Mask | asynFloat64Mask | asynOctetMask, /* Interrupt mask */
+                    numPumps, // maxAddr
+                    NUM_PARAMS-1, // -1 because Reset is not used.
+                    asynDrvUserMask | asynInt32Mask | asynFloat64Mask | asynOctetMask, // Interface mask
+                    asynDrvUserMask | asynInt32Mask | asynFloat64Mask | asynOctetMask, // Interrupt mask
 					ASYN_MULTIDEVICE | ASYN_CANBLOCK,
-                    1, /* Autoconnect */
-                    0, /* Default priority */
-                    0) /* Default stack size*/    
+                    1, // Autoconnect
+                    0, // Default priority
+                    0) // Default stack size
 {
 	m_NumConnected = 0;
 	m_Exiting = false;
@@ -58,18 +88,27 @@ CLeyboldSimPortDriver::~CLeyboldSimPortDriver()
 	m_Exiting = true;
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+//																								//
+//	void CLeyboldSimPortDriver::ListenerThread(void* parm)										//
+//																								//
+//	Description:																				//
+//		static method, implements a thread that waits for connecting sockets and responds		//
+///		to packet requests.																		//
+//																								//
+//////////////////////////////////////////////////////////////////////////////////////////////////
 void CLeyboldSimPortDriver::ListenerThread(void* parm)
 {
 	CLeyboldSimPortDriver* This = static_cast<CLeyboldSimPortDriver*>(parm);
 	asynUser* AsynUser;
 	const char* IOPortName = epicsThreadGetNameSelf();
 	try {
-		if (pasynOctetSyncIO->connect(IOPortName, This->m_NumConnected, &AsynUser, NULL) != asynSuccess)
+		int TableIndex = This->m_NumConnected;
+		if (pasynOctetSyncIO->connect(IOPortName, TableIndex, &AsynUser, NULL) != asynSuccess)
 			throw CException(This->pasynUserSelf, __FUNCTION__, "connecting to IO port=" + std::string(IOPortName));
 		This->m_NumConnected++;
-
 		while ((!This->m_Exiting) && 
-			   (This->process(AsynUser)));
+			   (This->process(AsynUser, TableIndex)));
 	} catch(CException const&) {
 	}
 	This->m_NumConnected--;
@@ -84,49 +123,63 @@ void CLeyboldSimPortDriver::ListenerThread(void* parm)
         asynPrint(AsynUser, ASYN_TRACE_ERROR,
                               "echoListener: Can't free port %s asynUser\n",
                                                                IOPortName);
+	if (This->m_NumConnected == 0)
+		epicsExit(0);
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+//																								//
+//	void CLeyboldSimPortDriver::octetConnectionCallback(										//
+//		void *drvPvt, asynUser *pasynUser, char *portName, size_t len, int eomReason)			//
+//																								//
+//	Description:																				//
+//		static method, callback is invoked when a client connects.								//
+//		NB, one thread for each simulated pump connection.										//
+//																								//
+//////////////////////////////////////////////////////////////////////////////////////////////////
 void CLeyboldSimPortDriver::octetConnectionCallback(void *drvPvt, asynUser *pasynUser, char *portName, 
                                size_t len, int eomReason)
 {
     asynPrint(pasynUser, ASYN_TRACE_FLOW, 
               "octetConnectionCallback, portName=%s\n", portName);
-    /* Create a new thread to communicate with this port */
+    // Create a new thread to communicate with this port
     epicsThreadCreate(portName,
                       epicsThreadPriorityLow,
                       epicsThreadGetStackSize(epicsThreadStackSmall),
                       ListenerThread, drvPvt);
+	// This user isn't needed any more 
 	asynStatus status = pasynManager->freeAsynUser(pasynUser);
     if (status != asynSuccess)
         asynPrint(pasynUser, ASYN_TRACE_ERROR,
                               "octetConnectionCallback: Can't free port %s asynUser\n", portName);
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+//																								//
+//	void CLeyboldSimPortDriver::addIOPort(const char* IOPortName)								//
+//																								//
+//	Description:																				//
+//		Called once (from LeyboldSimAddIOPort) for each pump,									//
+//		in response to the st.cmd startup script.												//
+//		Adds a pump, and the parameters to support it, to the configuration.					//
+//																								//
+//////////////////////////////////////////////////////////////////////////////////////////////////
 void CLeyboldSimPortDriver::addIOPort(const char* IOPortName)
 {
 	for (size_t ParamIndex = 0; ParamIndex < NUM_PARAMS; ParamIndex++)
 	{
 		int Index;
-		std::string ParamName =  ParameterDefns[ParamIndex].ParamName;
-		if (createParam(m_NumConnected, ParamName.c_str(), ParameterDefns[ParamIndex].ParamType, &Index) != asynSuccess)
+		std::string const& ParamName =  ParameterDefns[ParamIndex].ParamName;
+		if (ParamName == "RESET")
+			// Not implemented, because not meaningful for the simulater.
+			continue;
+
+		if (createParam(m_WasRunning.size(), ParamName.c_str(), ParameterDefns[ParamIndex].ParamType, &Index) != asynSuccess)
 			throw CException(pasynUserSelf, __FUNCTION__, "createParam" + std::string(ParameterDefns[ParamIndex].ParamName));
 		m_Parameters[ParamName] = Index;
-		switch(ParameterDefns[ParamIndex].ParamType)
-		{
-			case asynParamInt32: 
-				if (setIntegerParam(m_NumConnected, Index, ParameterDefns[ParamIndex].DefaultValue) != asynSuccess)
-					throw CException(pasynUserSelf, __FUNCTION__, "setUIntDigitalParam" + std::string(ParameterDefns[ParamIndex].ParamName));
-				break;
-			case asynParamFloat64: 
-				if (setDoubleParam (m_NumConnected, Index, ParameterDefns[ParamIndex].DefaultValue) != asynSuccess)
-					throw CException(pasynUserSelf, __FUNCTION__, "setDoubleParam" + std::string(ParameterDefns[ParamIndex].ParamName));
-				break;
-			default: assert(false);
-		}
 	}
-
-	if (callParamCallbacks() != asynSuccess)
-		throw CException(pasynUserSelf, __FUNCTION__, "callParamCallbacks");
+	setDefaultValues(m_WasRunning.size());
+	setIntegerParam(m_WasRunning.size(), m_Parameters[FAULT], 0);
 
     asynUser *AsynUser = pasynManager->createAsynUser(0,0);
 
@@ -139,23 +192,45 @@ void CLeyboldSimPortDriver::addIOPort(const char* IOPortName)
 	void      *pinterruptNode;
 
 	Octet->registerInterruptUser(pasynOctetInterface->drvPvt, AsynUser, octetConnectionCallback, this, &pinterruptNode);
-	m_NumConnected++;
+	m_WasRunning.push_back(true);
 }
 
-bool CLeyboldSimPortDriver::process(asynUser *pasynUser)
+void CLeyboldSimPortDriver::setDefaultValues(int TableIndex)
+{
+	// The running state has just been enabled.
+	setIntegerParam(TableIndex, m_Parameters[RUNNING], 1);
+	setIntegerParam(TableIndex, m_Parameters[STATORFREQUENCY], 500);
+	setIntegerParam(TableIndex, m_Parameters[CONVERTERTEMPERATURE], 50);
+	setDoubleParam(TableIndex, m_Parameters[MOTORCURRENT], 10);
+	setIntegerParam(TableIndex, m_Parameters[PUMPTEMPERATURE], 40);
+	setDoubleParam(TableIndex, m_Parameters[CIRCUITVOLTAGE], 30);
+	setIntegerParam(TableIndex, m_Parameters[WARNINGTEMPERATURE], 0);
+	setIntegerParam(TableIndex, m_Parameters[WARNINGHIGHLOAD], 0);
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+//																								//
+//	bool CLeyboldSimPortDriver::process(asynUser *pasynUser, int TableIndex)					//
+//																								//
+//	Description:																				//
+//		Called from the listening thread to process a packet request.							//
+//																								//
+//	Parameters:																					//
+//		pasynUser - the user associated with the TCP link (*not* the device connection user).	//
+//																								//
+//////////////////////////////////////////////////////////////////////////////////////////////////
+bool CLeyboldSimPortDriver::process(asynUser *pasynUser, int TableIndex)
 {
 	asynStatus status = asynSuccess;
-	int function = pasynUser->reason;
 	USSPacket USSWritePacket, USSReadPacket;
 	STATIC_ASSERT(sizeof(USSPacket)==USSPacketSize);
 	size_t nbytesOut, nbytesIn;
 	int eomReason;
 
-	int TableIndex = function / NUM_PARAMS;
-	if (TableIndex >= m_NumConnected)
+	if ((TableIndex < 0) || (TableIndex >= m_NumConnected))
 		throw CException(pasynUser, __FUNCTION__, "User / pump not configured");
 
-	// NB, *don't* pass pasynUser to this function - it has the wrong type and will cause an access violation.
+	// NB, This pasynUser is OK because it emitted by pasynOctetSyncIO->connect().
 	status = pasynOctetSyncIO->read(pasynUser, reinterpret_cast<char*>(&USSReadPacket), sizeof(USSPacket), 10, &nbytesIn, &eomReason);
 	if (status == asynTimeout)
 		return true;
@@ -175,12 +250,13 @@ bool CLeyboldSimPortDriver::process(asynUser *pasynUser)
 	epicsFloat64 DBuf;
 	// Normal operation 1 = the pump is running in the normal operation mode
 	getIntegerParam(TableIndex, m_Parameters[RUNNING], &IBuf);
-	bool WasRunning = (IBuf != 0);
+	bool Running = (IBuf != 0);
 
-	bool Running = WasRunning;
-	if (USSReadPacket.m_USSPacketStruct.m_PZD1 & (1 << 10))
+	//	control bit 10 = 1
+	bool RemoteActivated = ((USSReadPacket.m_USSPacketStruct.m_PZD1 & (1 << 10)) != 0);
+
+	if (RemoteActivated)
 	{
-		//		control bit 10 = 1
 		Running = ((USSReadPacket.m_USSPacketStruct.m_PZD1 & (1 << 0)) != 0);
 
 		// 0 to 1 transition = Error reset Is only run provided if:
@@ -193,26 +269,19 @@ bool CLeyboldSimPortDriver::process(asynUser *pasynUser)
 		}
 	}
 
-	if (Running && !WasRunning)
+	if (Running && !m_WasRunning[TableIndex])
 	{
-		setIntegerParam(TableIndex, m_Parameters[RUNNING], Running ? 1 : 0);
-		setIntegerParam(TableIndex, m_Parameters[STATORFREQUENCY], ParameterDefns[m_Parameters[STATORFREQUENCY]].DefaultValue);
-		setIntegerParam(TableIndex, m_Parameters[CONVERTERTEMPERATURE], ParameterDefns[m_Parameters[CONVERTERTEMPERATURE]].DefaultValue);
-		setDoubleParam(TableIndex, m_Parameters[MOTORCURRENT], ParameterDefns[m_Parameters[MOTORCURRENT]].DefaultValue);
-		setIntegerParam(TableIndex, m_Parameters[PUMPTEMPERATURE], ParameterDefns[m_Parameters[PUMPTEMPERATURE]].DefaultValue);
-		setDoubleParam(TableIndex, m_Parameters[CIRCUITVOLTAGE], ParameterDefns[m_Parameters[CIRCUITVOLTAGE]].DefaultValue);
-		setIntegerParam(TableIndex, m_Parameters[WARNINGTEMPERATURE], 0);
-		setIntegerParam(TableIndex, m_Parameters[WARNINGHIGHLOAD], 0);
-		if (callParamCallbacks() != asynSuccess)
-			throw CException(pasynUser, __FUNCTION__, "callParamCallbacks");
+		// The running state has just been enabled.
+		setDefaultValues(TableIndex);
 	}
-	if (!Running && WasRunning)
+	if (!Running && m_WasRunning[TableIndex])
 	{
+		// The running state has just been disabled.
 		setIntegerParam(TableIndex, m_Parameters[RUNNING], Running ? 1 : 0);
 		setIntegerParam(TableIndex, m_Parameters[STATORFREQUENCY], 0);
-		if (callParamCallbacks() != asynSuccess)
-			throw CException(pasynUser, __FUNCTION__, "callParamCallbacks");
 	}
+
+	m_WasRunning[TableIndex] = Running;
 
 	USSWritePacket.m_USSPacketStruct.m_PZD1 = 0;
 
@@ -220,14 +289,15 @@ bool CLeyboldSimPortDriver::process(asynUser *pasynUser)
 	getIntegerParam(TableIndex, m_Parameters[RUNNING], &IBuf); USSWritePacket.m_USSPacketStruct.m_PZD1 |= (IBuf << 10);
 
 	// Remote has been activated 1 = start/stop (control bit 0) and reset(control bit 7) through serial interface is possible.
-	getIntegerParam(TableIndex, m_Parameters[RESET], &IBuf); USSWritePacket.m_USSPacketStruct.m_PZD1 |= (IBuf << 15);
+	USSWritePacket.m_USSPacketStruct.m_PZD1 |= ((RemoteActivated ? 1 : 0) << 15);
+
+	getIntegerParam(TableIndex, m_Parameters[FAULT], &IBuf); USSWritePacket.m_USSPacketStruct.m_PZD1 |= (IBuf << 3);
 	bool Fault = (IBuf != 0);
 	if (Fault)
 	{
 		setIntegerParam(TableIndex, m_Parameters[STATORFREQUENCY], 0);
+		setIntegerParam(TableIndex, m_Parameters[RUNNING], 0);
 	}
-
-	getIntegerParam(TableIndex, m_Parameters[FAULT], &IBuf); USSWritePacket.m_USSPacketStruct.m_PZD1 |= (IBuf << 3);
 	getIntegerParam(TableIndex, m_Parameters[WARNINGTEMPERATURE], &IBuf); USSWritePacket.m_USSPacketStruct.m_PZD1 |= (IBuf << 2);
 	getIntegerParam(TableIndex, m_Parameters[WARNINGHIGHLOAD], &IBuf); USSWritePacket.m_USSPacketStruct.m_PZD1 |= (IBuf << 13);
 
@@ -242,14 +312,13 @@ bool CLeyboldSimPortDriver::process(asynUser *pasynUser)
 	// NB, *don't* pass pasynUser to this function - it has the wrong type and will cause an access violation.
 	status = pasynOctetSyncIO->write(pasynUser,
 		reinterpret_cast<char*>(&USSWritePacket), sizeof(USSPacket),
-		1, &nbytesOut);
+		-1, &nbytesOut);
 	if (status == asynDisconnected)
 		return false;
 	if (status != asynSuccess)
 		throw CException(pasynUser, __FUNCTION__, "Can't write/read:");
 
-	if (callParamCallbacks() != asynSuccess)
-		throw CException(pasynUser, __FUNCTION__, "callParamCallbacks");
+	callParamCallbacks(TableIndex);
 	asynPrint(pasynUser, ASYN_TRACE_FLOW, "Packet success %s %s\n", __FILE__, __FUNCTION__);
 
 	return true;
@@ -261,13 +330,32 @@ static const iocshArg initArg1 = { "numPumps", iocshArgString};
 static const iocshArg * const initArgs[] = {&initArg0, &initArg1};
 static const iocshFuncDef initFuncDef = {"LeyboldSimPortDriverConfigure",2,initArgs};
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+//																								//
+//	void LeyboldSimExitFunc(void * param)														//
+//																								//
+//	Description:																				//
+//		This function will be invoked when the IOC exits.										//
+//		In order to not leak resources, it destroys the object that's been created.				//
+//																								//
+//////////////////////////////////////////////////////////////////////////////////////////////////
 void LeyboldSimExitFunc(void * param)
 {
 	delete g_LeyboldSimPortDriver;
 }
 
-/** EPICS iocsh callable function to call constructor for the testAsynPortDriver class.
-  * \param[in] portName The name of the asyn port driver to be created.*/
+//////////////////////////////////////////////////////////////////////////////////////////////////
+//																								//
+//	int LeyboldSimPortDriverConfigure(const char *asynPortName, int numPumps)					//
+//																								//
+//	Description:																				//
+//		EPICS iocsh callable function to call constructor for the CLeyboldSimPortDriver class.	//
+//																								//
+//	Parameters:																					//
+//		asynPortName - the Asyn port name (e.g. TURBOSIM) to be used.							//
+//		numPumps - how many pumps will be attached?												//
+//																								//
+//////////////////////////////////////////////////////////////////////////////////////////////////
 int LeyboldSimPortDriverConfigure(const char *asynPortName, int numPumps)
 {
 	try {
@@ -279,6 +367,14 @@ int LeyboldSimPortDriverConfigure(const char *asynPortName, int numPumps)
     return(asynSuccess);
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+//																								//
+//	static void initCallFunc(const iocshArgBuf *args)											//
+//																								//
+//	Description:																				//
+//		Registered function that configures the IOC.											//
+//																								//
+//////////////////////////////////////////////////////////////////////////////////////////////////
 static void initCallFunc(const iocshArgBuf *args)
 {
 	const char* asynPortName = args[0].sval;
@@ -290,6 +386,17 @@ static const iocshArg addArg0 = { "IOPortName", iocshArgString};
 static const iocshArg * const addArgs[] = {&addArg0};
 static const iocshFuncDef addFuncDef = {"LeyboldSimAddIOPort",1,addArgs};
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+//																								//
+//	int LeyboldSimAddIOPort(const char *IOPortName)												//
+//																								//
+//	Description:																				//
+//		EPICS iocsh callable function to add a (simulated) pump to the IOC.						//
+//																								//
+//	Parameters:																					//
+//		IOPortName - the IOC port name (e.g. PUMP:1) to be used.								//
+//																								//
+//////////////////////////////////////////////////////////////////////////////////////////////////
 int LeyboldSimAddIOPort(const char *IOPortName)
 {
 	try {
@@ -300,12 +407,28 @@ int LeyboldSimAddIOPort(const char *IOPortName)
     return(asynSuccess);
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+//																								//
+//	static void addPumpFunc(const iocshArgBuf *args)											//
+//																								//
+//	Description:																				//
+//		Registered function that adds a (simulated) pump to the IOC.							//
+//																								//
+//////////////////////////////////////////////////////////////////////////////////////////////////
 static void addPumpFunc(const iocshArgBuf *args)
 {
 	const char* IOPortName = args[0].sval;
 	LeyboldSimAddIOPort(IOPortName);
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+//																								//
+//	static void LeyboldSimRegistrar(void)														//
+//																								//
+//	Description:																				//
+//		Registers the functions to be called within the IOC.									//
+//																								//
+//////////////////////////////////////////////////////////////////////////////////////////////////
 static void LeyboldSimRegistrar(void)
 {
     iocshRegister(&initFuncDef, initCallFunc);

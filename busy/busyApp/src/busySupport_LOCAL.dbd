@@ -1,3 +1,0 @@
-include "busyRecord.dbd"
-device(busy,CONSTANT,devBusySoft,"Soft Channel")
-device(busy,CONSTANT,devBusySoftRaw,"Raw Soft Channel")

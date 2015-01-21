@@ -1,4 +1,0 @@
-record(waveform,"syncq") {
-	field(FTVL,"STRING")
-    field(NELM,"2")
-}

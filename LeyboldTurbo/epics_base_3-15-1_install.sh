@@ -41,7 +41,7 @@ apt-get -y install build-essential g++ libreadline-dev
 # base
 BASE_DOWNLOAD="base-3.15.1.tar.gz"
 BASE_DIRECTORY="base-3.15.1"
-wget --tries=3 --timeout=10 http://www.aps.anl.gov/epics/download/base/$BASE_DOWNLOAD
+wget --tries=3 --timeout=10 http://aps.anl.gov/epics/download/base/$BASE_DOWNLOAD
 mkdir -p $INSTALL_PATH
 tar xzvf $BASE_DOWNLOAD -C $INSTALL_PATH
 rm -f $BASE_DOWNLOAD

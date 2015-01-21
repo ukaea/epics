@@ -24,6 +24,7 @@ drvAsynSerialPortConfigure($(IOPORT):5, $(COMPORT5), 0, 0, 0)
 LeyboldTurboAddIOPort($(IOPORT):5)
 
 ## Load record instances
+<<<<<<< HEAD
 dbLoadRecords("Db/LeyboldTurbo.db", "P=$(ASYNPORT):1:,PORT=$(ASYNPORT)")
 
 dbLoadRecords("Db/LeyboldTurbo.db", "P=$(ASYNPORT):2:,PORT=$(ASYNPORT)")
@@ -33,6 +34,17 @@ dbLoadRecords("Db/LeyboldTurbo.db", "P=$(ASYNPORT):3:,PORT=$(ASYNPORT)")
 dbLoadRecords("Db/LeyboldTurbo.db", "P=$(ASYNPORT):4:,PORT=$(ASYNPORT)")
 
 dbLoadRecords("Db/LeyboldTurbo.db", "P=$(ASYNPORT):5:,PORT=$(ASYNPORT)")
+=======
+dbLoadRecords("Db/LeyboldTurbo.db", "P=$(ASYNPORT):1:,PORT=$(ASYNPORT),ADDR=0")
+
+dbLoadRecords("Db/LeyboldTurbo.db", "P=$(ASYNPORT):2:,PORT=$(ASYNPORT),ADDR=1")
+
+dbLoadRecords("Db/LeyboldTurbo.db", "P=$(ASYNPORT):3:,PORT=$(ASYNPORT),ADDR=2")
+
+dbLoadRecords("Db/LeyboldTurbo.db", "P=$(ASYNPORT):4:,PORT=$(ASYNPORT),ADDR=3")
+
+dbLoadRecords("Db/LeyboldTurbo.db", "P=$(ASYNPORT):5:,PORT=$(ASYNPORT),ADDR=4")
+>>>>>>> 9f0f9076504863821233a7e4d407c3f5844835a0
 
 asynSetOption ($(IOPORT):1, 0, "baud", "19200")
 asynSetOption ($(IOPORT):1, 0, "bits", "8")
