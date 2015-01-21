@@ -34,7 +34,7 @@ fi
 # asyn
 if [ ! -d $INSTALL_PATH/support/asyn ]; 
 then
-    ./epics_asyn_4-24_install.sh $INSTALL_PATH
+    ./epics_asyn_4-25_install.sh $INSTALL_PATH
 fi
 
 # asyn
