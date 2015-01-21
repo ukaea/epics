@@ -1,4 +1,4 @@
-EPICS_CA_SERVER_PORT=5071
+export EPICS_CA_SERVER_PORT=5071
 export IPPORT1=localhost:5066
 export IPPORT2=localhost:5067
 export IPPORT3=localhost:5068
