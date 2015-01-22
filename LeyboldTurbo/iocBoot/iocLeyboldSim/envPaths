@@ -1,0 +1,5 @@
+epicsEnvSet("ARCH","win32-x86")
+epicsEnvSet("IOC","iocLeyboldTurbo")
+epicsEnvSet("TOP","D:/EPICS/LeyboldTurbo")
+epicsEnvSet("ASYN","D:/EPICS/asyn")
+epicsEnvSet("EPICS_BASE","D:/EPICS/base")

@@ -1,3 +1,5 @@
+call %~dp0..\..\..\iocBoot\iocLeyboldTurbo\dllPath.bat
+
 start cmd /C camonitor5.bat
 
 call setrunning1 1 %1

@@ -1,4 +1,8 @@
-echo off
+cd /d %~dp0%
+
+call ..\iocBoot\iocLeyboldTurbo\dllPath.bat
+
+echo on
 
 set NumPumps=%1
 if "%NumPumps%"=="" set NumPumps=1
@@ -15,4 +19,4 @@ set IPPORT4=localhost:5069
 
 set IPPORT5=localhost:5070
 
-LeyboldSim.exe ..\iocBoot\iocLeyboldTurbo\st%NumPumps%.simulator.cmd
+LeyboldSim.exe ..\iocBoot\iocLeyboldSim\st%NumPumps%.simulator.cmd

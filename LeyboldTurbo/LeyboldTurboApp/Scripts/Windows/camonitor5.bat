@@ -1,3 +1,5 @@
+call %~dp0..\..\..\iocBoot\iocLeyboldTurbo\dllPath.bat
+
 camonitor.exe ^
 	TURBO:1:Running TURBO:2:Running TURBO:3:Running TURBO:4:Running TURBO:5:Running ^
 	TURBO:1:Reset TURBO:2:Reset TURBO:3:Reset TURBO:4:Reset TURBO:5:Reset ^
@@ -9,6 +11,6 @@ camonitor.exe ^
 	TURBO:1:MotorCurrent TURBO:2:MotorCurrent TURBO:3:MotorCurrent TURBO:4:MotorCurrent TURBO:5:MotorCurrent ^
 	TURBO:1:PumpTemperature TURBO:2:PumpTemperature TURBO:3:PumpTemperature TURBO:4:PumpTemperature TURBO:5:PumpTemperature ^
 	TURBO:1:CircuitVoltage TURBO:2:CircuitVoltage TURBO:3:CircuitVoltage TURBO:4:CircuitVoltage TURBO:5:CircuitVoltage ^
-	2>turbo.err
+	2>camonitor.err
 
 

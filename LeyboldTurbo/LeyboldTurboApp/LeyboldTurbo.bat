@@ -1,3 +1,7 @@
+cd /d %~dp0%
+
+call ..\iocBoot\iocLeyboldTurbo\dllPath.bat
+
 echo off
 
 set NumPumps=%1

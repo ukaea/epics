@@ -1,3 +1,5 @@
+call %~dp0..\..\..\iocBoot\iocLeyboldTurbo\dllPath.bat
+
 set Pump=%1
 set Run=%2
 

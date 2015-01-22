@@ -1,3 +1,5 @@
+call %~dp0..\..\..\iocBoot\iocLeyboldTurbo\dllPath.bat
+
 set EPICS_CA_SERVER_PORT=5071
 
 camonitor.exe ^
@@ -10,7 +12,7 @@ camonitor.exe ^
 	TURBOSIM:1:MotorCurrent TURBOSIM:2:MotorCurrent TURBOSIM:3:MotorCurrent TURBOSIM:4:MotorCurrent TURBOSIM:5:MotorCurrent ^
 	TURBOSIM:1:PumpTemperature TURBOSIM:2:PumpTemperature TURBOSIM:3:PumpTemperature TURBOSIM:4:PumpTemperature TURBOSIM:5:PumpTemperature ^
 	TURBOSIM:1:CircuitVoltage TURBOSIM:2:CircuitVoltage TURBOSIM:3:CircuitVoltage TURBOSIM:4:CircuitVoltage TURBOSIM:5:CircuitVoltage ^
-	2>turbosim.err
+	2>camonitor5.err
 
 
 

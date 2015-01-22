@@ -1,3 +1,5 @@
+call %~dp0..\..\..\iocBoot\iocLeyboldTurbo\dllPath.bat
+
 set EPICS_CA_SERVER_PORT=5071
 
 set Pump=%1
