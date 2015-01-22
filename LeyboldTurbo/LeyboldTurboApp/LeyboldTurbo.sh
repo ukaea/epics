@@ -1,3 +1,5 @@
+if [ $# -eq 0 ]; then NumPumps=1; else NumPumps=$1;fi
+
 export COMPORT1=/dev/ttyS0
 export COMPORT2=/dev/ttyS1
 export COMPORT3=/dev/ttyS2
@@ -8,4 +10,4 @@ export IPPORT2=localhost:5067
 export IPPORT3=localhost:5068
 export IPPORT4=localhost:5069
 export IPPORT5=localhost:5070
-../bin/linux-x86_64/LeyboldTurbo ../iocBoot/iocLeyboldTurbo/st1.simulated.cmd
+../bin/linux-x86_64/LeyboldTurbo ../iocBoot/iocLeyboldTurbo/st$NumPumps.simulated.cmd
