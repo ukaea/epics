@@ -470,7 +470,7 @@ MV2::MV2(char * name, char *address)
     for (int i = 0; i < NUM_MASSES; ++i)
     {
         char paramName[SMALL_BUFFER_SIZE];
-        snprintf(paramName, SMALL_BUFFER_SIZE, "BARM%d", i+1);
+        _snprintf(paramName, SMALL_BUFFER_SIZE, "BARM%d", i+1);
         asynPrint(this->pasynUserSelf, ASYN_TRACE_FLOW,
             "(%s) Create param %s\n", portName, paramName); 
         createParam(paramName, asynParamFloat64, &P_BARM[i]);
@@ -1010,7 +1010,7 @@ void MV2::resumeScan()
 std::string MV2::makeAddBarChartCommand(const std::string & name)
 {
     char buffer[SMALL_BUFFER_SIZE];
-    snprintf(buffer, SMALL_BUFFER_SIZE, "AddBarchart %s 1 %u PeakCenter %u %u %u %d",
+    _snprintf(buffer, SMALL_BUFFER_SIZE, "AddBarchart %s 1 %u PeakCenter %u %u %u %d",
         name.c_str(), lastMass(headState_.target()), accuracy_,
         egain_, source_, detector_.target());
 
@@ -1020,7 +1020,7 @@ std::string MV2::makeAddBarChartCommand(const std::string & name)
 std::string MV2::makeAddAnalogCommand(const std::string & name)
 {
     char buffer[SMALL_BUFFER_SIZE];
-    snprintf(buffer, SMALL_BUFFER_SIZE, "AddAnalog %s 1 %u %u %u %u %u %d",
+    _snprintf(buffer, SMALL_BUFFER_SIZE, "AddAnalog %s 1 %u %u %u %u %u %d",
         name.c_str(), lastMass(headState_.target()), pointsPerPeak_,
         accuracy_, egain_, source_, detector_.target());
     return buffer;
@@ -1029,7 +1029,7 @@ std::string MV2::makeAddAnalogCommand(const std::string & name)
 std::string MV2::makePeakJumpCommand(const std::string & name)
 {
     char buffer[SMALL_BUFFER_SIZE];
-    snprintf(buffer, SMALL_BUFFER_SIZE, "AddPeakJump %s PeakCenter %u %u %u %d",
+    _snprintf(buffer, SMALL_BUFFER_SIZE, "AddPeakJump %s PeakCenter %u %u %u %d",
         name.c_str(), accuracy_, egain_, source_, detector_.target());
     return buffer;
 }
@@ -2079,10 +2079,12 @@ bool MV2::AnalogInput::setValue(unsigned input, double value)
 std::string escapedFromRaw(const char * buffer, size_t length)
 {
     const size_t OUT_LENGTH = 2*length+1;
-    char outBuffer[OUT_LENGTH];
+    char* outBuffer = new char[OUT_LENGTH];
     outBuffer[OUT_LENGTH-1] = '\0';
     epicsStrnEscapedFromRaw(outBuffer, OUT_LENGTH-1, buffer, length);
-    return outBuffer;
+	std::string ret = outBuffer;
+	delete[] outBuffer;
+    return ret;
 }
 
 std::string escapedFromRaw(const std::string & str)
