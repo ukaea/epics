@@ -1,8 +1,0 @@
-K 10
-svn:ignore
-V 43
-O.linux-x86
-O.Common
-O.vxWorks-ppc604_long
-
-END
