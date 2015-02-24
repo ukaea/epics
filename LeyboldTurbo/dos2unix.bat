@@ -15,12 +15,12 @@ dos2unix.exe .\LeyboldSimApp\MakeFile
 dos2unix.exe .\LeyboldSimApp\*.sh
 dos2unix.exe .\LeyboldSimApp\Db\*
 dos2unix.exe .\LeyboldSimApp\src\*
-dos2unix.exe .\LeyboldSimApp\TestScripts\Linux\*
+dos2unix.exe .\LeyboldSimApp\TestScripts\*
 dos2unix.exe .\LeyboldTurboApp\MakeFile
 dos2unix.exe .\LeyboldTurboApp\*.sh
 dos2unix.exe .\LeyboldTurboApp\Db\*
 dos2unix.exe .\LeyboldTurboApp\src\*
-dos2unix.exe .\LeyboldTurboApp\Scripts\Linux\*
+dos2unix.exe .\LeyboldTurboApp\Scripts\*
 
 
 
