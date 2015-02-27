@@ -368,19 +368,19 @@
   <ItemGroup>
     <CustomBuild Include="env\bldEnvData.pl">
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">cd O.Common
-perl ..\env\bldEnvData.pl ..\..\..\configure
+perl ../env/%(FileName).pl ..\..\..\configure
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">cd O.Common
-perl ..\env\bldEnvData.pl ..\..\..\configure
+perl ../env/%(FileName).pl ..\..\..\configure
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">cd O.Common
-perl ..\env\bldEnvData.pl ..\..\..\configure
+perl ../env/%(FileName).pl ..\..\..\configure
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">cd O.Common
-perl ..\env\bldEnvData.pl ..\..\..\configure
+perl ../env/%(FileName).pl ..\..\..\configure
 cd $(ProjectDir)
 </Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common\envdata.c</Outputs>
@@ -389,19 +389,19 @@ cd $(ProjectDir)
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">O.Common\envdata.c</Outputs>
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">cd O.Common
-perl ..\env\bldEnvData.pl ..\..\..\configure
+perl ../env/%(FileName).pl ..\..\..\configure
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">cd O.Common
-perl ..\env\bldEnvData.pl ..\..\..\configure
+perl ../env/%(FileName).pl ..\..\..\configure
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'">cd O.Common
-perl ..\env\bldEnvData.pl ..\..\..\configure
+perl ../env/%(FileName).pl ..\..\..\configure
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">cd O.Common
-perl ..\env\bldEnvData.pl ..\..\..\configure
+perl ../env/%(FileName).pl ..\..\..\configure
 cd $(ProjectDir)
 </Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common\envdata.c</Outputs>
@@ -542,25 +542,25 @@ move /Y lex.yy.c O.Common\asLib_lex.c
     <None Include="gpHash\gpHash.html" />
     <CustomBuild Include="misc\makeEpicsVersion.pl">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">perl misc\makeEpicsVersion.pl -o  $(SolutionDir)include\epicsVersion.h ..\..\configure\CONFIG_BASE_VERSION
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">perl misc/%(FileName).pl -o  $(SolutionDir)include/epicsVersion.h ../../configure/CONFIG_BASE_VERSION
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">perl misc\makeEpicsVersion.pl -o  $(SolutionDir)include\epicsVersion.h ..\..\configure\CONFIG_BASE_VERSION
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">perl misc/%(FileName).pl -o  $(SolutionDir)include/epicsVersion.h ../../configure/CONFIG_BASE_VERSION
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">perl misc\makeEpicsVersion.pl -o  $(SolutionDir)include\epicsVersion.h ..\..\configure\CONFIG_BASE_VERSION
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">perl misc/%(FileName).pl -o  $(SolutionDir)include/epicsVersion.h ../../configure/CONFIG_BASE_VERSION
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">perl misc\makeEpicsVersion.pl -o  $(SolutionDir)include\epicsVersion.h ..\..\configure\CONFIG_BASE_VERSION
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">perl misc/%(FileName).pl -o  $(SolutionDir)include/epicsVersion.h ../../configure/CONFIG_BASE_VERSION
 </Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">$(SolutionDir)include\epicsVersion.h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">$(SolutionDir)include\epicsVersion.h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">$(SolutionDir)include\epicsVersion.h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">$(SolutionDir)include\epicsVersion.h</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">perl misc\makeEpicsVersion.pl -o  $(SolutionDir)include\epicsVersion.h ..\..\configure\CONFIG_BASE_VERSION
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">perl misc/%(FileName).pl -o  $(SolutionDir)include/epicsVersion.h ../../configure/CONFIG_BASE_VERSION
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">perl misc\makeEpicsVersion.pl -o  $(SolutionDir)include\epicsVersion.h ..\..\configure\CONFIG_BASE_VERSION
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">perl misc/%(FileName).pl -o  $(SolutionDir)include/epicsVersion.h ../../configure/CONFIG_BASE_VERSION
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'">perl misc\makeEpicsVersion.pl -o  $(SolutionDir)include\epicsVersion.h ..\..\configure\CONFIG_BASE_VERSION
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'">perl misc/%(FileName).pl -o  $(SolutionDir)include/epicsVersion.h ../../configure/CONFIG_BASE_VERSION
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">perl misc\makeEpicsVersion.pl -o  $(SolutionDir)include\epicsVersion.h ..\..\configure\CONFIG_BASE_VERSION
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">perl misc/%(FileName).pl -o  $(SolutionDir)include/epicsVersion.h ../../configure/CONFIG_BASE_VERSION
 </Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">$(SolutionDir)include\epicsVersion.h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">$(SolutionDir)include\epicsVersion.h</Outputs>
