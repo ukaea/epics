@@ -1,0 +1,30 @@
+#  CONFIG.win32-x86-mingw.win32-x86-mingw
+#
+# Revision-Id: anj@aps.anl.gov-20131120005049-xcx9o8ohtimzbib1
+#
+# Definitions for win32-x86-mingw host - win32-x86-mingw target builds
+# Sites may override these definitions in CONFIG_SITE.win32-x86-mingw.win32-x86-mingw
+#-------------------------------------------------------
+
+# Include common gnu compiler definitions
+include $(CONFIG)/CONFIG.gnuCommon
+
+CMPLR_PREFIX =
+
+CC  = $(CMPLR_PREFIX)gcc
+CCC = $(CMPLR_PREFIX)g++
+AR  = $(CMPLR_PREFIX)ar -rc
+LD  = $(CMPLR_PREFIX)ld -r
+RANLIB = $(CMPLR_PREFIX)ranlib
+RES = .coff
+RCCMD = $(CMPLR_PREFIX)windres $(INCLUDES) $< $@
+
+# No -fPIC avoids "-fPIC ignored for target (all code is position independent)"
+SHRLIB_CFLAGS =
+SHRLIB_LDFLAGS = -shared -Wl,--out-implib,$(LIB_PREFIX)$*$(LIB_SUFFIX)
+LOADABLE_SHRLIB_LDFLAGS = -shared -Wl,--out-implib,$(LIB_PREFIX)$*$(LIB_SUFFIX)
+
+# Override linking with gcc library from CONFIG.gnuCommon
+GNU_LDLIBS_YES =
+
+OP_SYS_LDLIBS = -lws2_32

@@ -1,0 +1,19 @@
+#!$(INSTALL)/bin/$(ARCH)/RGA-TS-IOC-01
+
+## You may have to change RGA-TS-IOC-01 to something else
+## everywhere it appears in this file
+
+cd "$(INSTALL)"
+
+# Register all support components
+dbLoadDatabase("dbd/RGA-TS-IOC-01.dbd")
+RGA_TS_IOC_01_registerRecordDeviceDriver(pdbbase)
+
+## Assign an asyn port to the terminal server port14
+drvAsynIPPortConfigure("mv2_port","diamrd2425.diamond.ac.uk:10014",0,0,0)
+
+## Load record instances
+dbLoadRecords ("db/RGA-TS-IOC-01.db")
+
+
+iocInit()

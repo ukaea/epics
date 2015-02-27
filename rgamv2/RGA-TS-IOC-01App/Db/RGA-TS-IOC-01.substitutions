@@ -1,0 +1,17 @@
+#############################################################################
+# RGAs 
+#
+# substitutions:
+# device  - device name
+# port    - serial port (steam device code ie /ty/0/1 => ty_0_1)
+# channel - RGA channel number (port number of PC comm port 1-4)
+# Controller
+#
+
+file rga.template
+{
+pattern { device       ,   port  ,   channel }
+        { RGA-TS-RGA-01,  ty_41_1,   1       }
+       
+}
+

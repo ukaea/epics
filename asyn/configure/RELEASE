@@ -1,16 +1,16 @@
 #RELEASE Location of external products
 
-SUPPORT=D:\EPICS
+# SUPPORT=D:/EPICS
 -include $(TOP)/../configure/SUPPORT.$(EPICS_HOST_ARCH)
 
 #  IPAC is only necessary if support for Greensprings IP488 is required
 #  IPAC release V2-7 or later is required.
-IPAC=D:\EPICS\ipac
+IPAC=D:/EPICS/ipac
 
 # SEQ is required for testIPServer
-SNCSEQ=D:\EPICS/seq
+SNCSEQ=D:/EPICS/seq
 
 #  EPICS_BASE 3.14.6 or later is required
 LINUX_GPIB=NO
-EPICS_BASE=D:\EPICS\base
+EPICS_BASE=D:/EPICS/base
 -include $(TOP)/../configure/EPICS_BASE.$(EPICS_HOST_ARCH)
