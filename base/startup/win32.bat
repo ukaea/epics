@@ -35,8 +35,15 @@ REM    --------------- mingw make ------------------------
 REM set PATH=C:\mingw-make\bin;%PATH%
 REM set PATH=C:\mingw-make82-3\bin;%PATH%
 
+if %PROCESSOR_ARCHITECTURE%==AMD64 goto 64BIT
+set PROGRAM_FILES=C:\Program Files
+goto continue
+:64BIT
+set PROGRAM_FILES=C:\Program Files (x86)
+:continue
+
 REM   --------------- gnuwin32 make ----------------------
-set PATH=C:\Program Files (x86)\gnuwin32\bin;%PATH%
+set PATH=%PROGRAM_FILES%\gnuwin32\bin;%PATH%
 
 REM ======================================================
 REM ---------------- cygwin tools ------------------------
@@ -81,7 +88,7 @@ goto ERREXIT
 
 :X64
 
-call "C:\Program files (x86)\Microsoft Visual Studio 10.0\VC\vcvarsall.bat" amd64
+call "%PROGRAM_FILES%\Microsoft Visual Studio 10.0\VC\vcvarsall.bat" amd64
 if "%1"=="x64-debug" goto X64DEBUG
 set EPICS_HOST_ARCH=windows-x64
 goto CONTINUE
@@ -92,7 +99,7 @@ goto CONTINUE
 
 REM --  win32-x86 ---
 :X86
-call "C:\Program files (x86)\Microsoft Visual Studio 10.0\VC\vcvarsall.bat" x86
+call "%PROGRAM_FILES%\Microsoft Visual Studio 10.0\VC\vcvarsall.bat" x86
 if "%1"=="x86-debug" goto X86DEBUG
 set EPICS_HOST_ARCH=win32-x86
 goto CONTINUE
