@@ -18,14 +18,13 @@ USR_CXXFLAGS_DEFAULT += -fno-operator-names
 # -------------------------------
 # Build an Diamond Support Module
 # -------------------------------
-PROD_IOC += rgamv2
+LIBRARY_IOC += rgamv2
 
 # xxxRecord.dbd will be installed into <top>/dbd
 DBD += rgamv2Include.dbd
 DBD += rgaInclude.dbd
 
 # The following are compiled and added to the support library
-rgamv2_SRCS   +=rgamv2Main.cpp
 rgamv2_SRCS   +=rgamv2.cpp
 
 # We need to link against the EPICS Base libraries

@@ -19,12 +19,10 @@ DBD += RGA-TS-IOC-01.dbd
 
 # RGA-TS-IOC-01.dbd will be created from these files
 RGA-TS-IOC-01_DBD += base.dbd
-RGA-TS-IOC-01_DBD += genSubRecord.dbd
 RGA-TS-IOC-01_DBD += calcSupport.dbd
 RGA-TS-IOC-01_DBD += asyn.dbd
 RGA-TS-IOC-01_DBD += drvAsynSerialPort.dbd
-RGA-TS-IOC-01_DBD += stream.dbd
-RGA-TS-IOC-01_DBD += rgamvplusInclude.dbd
+RGA-TS-IOC-01_DBD += rgamv2Include.dbd
 
 
 
@@ -40,17 +38,15 @@ RGA-TS-IOC-01_SRCS_DEFAULT += RGA-TS-IOC-01Main.cpp
 ################################################################
 # This IOC Application depends on the following support modules
 #
-RGA-TS-IOC-01_LIBS += genSub
 RGA-TS-IOC-01_LIBS += calc
 RGA-TS-IOC-01_LIBS += sscan
-RGA-TS-IOC-01_LIBS += stream
 RGA-TS-IOC-01_LIBS += pcre
 RGA-TS-IOC-01_LIBS += asyn
 RGA-TS-IOC-01_LIBS += seq
 RGA-TS-IOC-01_LIBS += pv
 RGA-TS-IOC-01_LIBS += $(EPICS_BASE_IOC_LIBS)
 
-RGA-TS-IOC-01_LIBS += rgamvplus
+RGA-TS-IOC-01_LIBS += rgamv2
 
 ################################################################
 

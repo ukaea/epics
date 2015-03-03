@@ -12,6 +12,8 @@ RGA_TS_IOC_01_registerRecordDeviceDriver(pdbbase)
 ## Assign an asyn port to the terminal server port14
 drvAsynIPPortConfigure("mv2_port","diamrd2425.diamond.ac.uk:10014",0,0,0)
 
+mv2init("RGA-TS-RGA-01", "mv2_port")
+
 ## Load record instances
 dbLoadRecords ("db/RGA-TS-IOC-01.db")
 

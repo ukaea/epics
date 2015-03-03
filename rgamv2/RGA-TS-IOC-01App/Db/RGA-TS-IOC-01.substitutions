@@ -8,10 +8,10 @@
 # Controller
 #
 
-file rga.template
+file rgamv2.template
 {
-pattern { device       ,   port  ,   channel }
-        { RGA-TS-RGA-01,  ty_41_1,   1       }
+pattern { device       ,   port   }
+        { RGA-TS-RGA-01,  ty_41_1 }
        
 }
 
