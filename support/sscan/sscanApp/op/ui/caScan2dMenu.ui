@@ -1,0 +1,2804 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>300</width>
+    <height>160</height>
+   </rect>
+  </property>
+  <property name="styleSheet">
+   <string>
+
+QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
+
+</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_49">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D01</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D01,SAVEDATAPATH=$(SAVEDATAPATH) </string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_50">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>0</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D02</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D02,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_51">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>0</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D03</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D03,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_52">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>0</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D04</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D04,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_53">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>0</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D05</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D05,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_54">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>0</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D06</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D06,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_55">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>0</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D07</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D07,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_56">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>0</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D08</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D08,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_57">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>0</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D09</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D09,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_58">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>0</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D10</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D10,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_59">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>20</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D18</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D18,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_60">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>20</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D16</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D16,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_61">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>20</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D11</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D11,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_62">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>20</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D20</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D20,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_63">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>20</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D14</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D14,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_64">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>20</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D19</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D19,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_65">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>20</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D15</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D15,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_66">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>20</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D17</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D17,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_67">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>20</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D13</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D13,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_68">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>20</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D12</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D12,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_69">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>40</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D28</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D28,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_70">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>40</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D26</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D26,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_71">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>40</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D21</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D21,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_72">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>40</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D30</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D30,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_73">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>40</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D24</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D24,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_74">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>40</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D29</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D29,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_75">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>40</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D25</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D25,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_76">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>40</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D27</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D27,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_77">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>40</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D23</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D23,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_78">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>40</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D22</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D22,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_79">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>60</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D38</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D38,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_80">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>60</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D36</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D36,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_81">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>60</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D31</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D31,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_82">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>60</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D40</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D40,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_83">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>60</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D34</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D34,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_84">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>60</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D39</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D39,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_85">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>60</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D35</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D35,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_86">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>60</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D37</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D37,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_87">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>60</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D33</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D33,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_88">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>60</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D32</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D32,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_89">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>80</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D48</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D48,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_90">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>80</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D46</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D46,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_91">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>80</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D41</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D41,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_92">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>80</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D50</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D50,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_93">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>80</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D44</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D44,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_94">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>80</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D49</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D49,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_95">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>80</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D45</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D45,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_96">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>80</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D47</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D47,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_97">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>80</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D43</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D43,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_98">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>80</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D42</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D42,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_99">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>100</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D58</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D58,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_100">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>100</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D56</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D56,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_101">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>100</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D51</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D51,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_102">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>100</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D60</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D60,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_103">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>100</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D54</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D54,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_104">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>100</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D59</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D59,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_105">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>100</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D55</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D55,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_106">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>100</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D57</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D57,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_107">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>100</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D53</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D53,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_108">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>100</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D52</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D52,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_109">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>120</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D68</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D68,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_110">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>120</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D66</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D66,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_111">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>120</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D61</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D61,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_112">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>120</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D70</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D70,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_113">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>120</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D64</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D64,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_114">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>120</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D69</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D69,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_115">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>120</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D65</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D65,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_116">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>120</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D67</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D67,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_117">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>120</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D63</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D63,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_118">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>120</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">D62</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2D</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2D.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),DET=D62,SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_119">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>140</y>
+      <width>70</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string notr="true">More</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">caScan2dMenu_more</string>
+    </property>
+    <property name="files">
+     <string notr="true">caScan2dMenu_more.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">P=$(P),XSCAN=$(XSCAN),YSCAN=$(YSCAN),SAVEDATAPATH=$(SAVEDATAPATH)	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+    <property name="removeParent" stdset="0">
+     <string>true</string>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>caRelatedDisplay</class>
+   <extends>QWidget</extends>
+   <header>caRelatedDisplay</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

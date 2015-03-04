@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>126</width>
+    <height>47</height>
+   </rect>
+  </property>
+  <property name="styleSheet">
+   <string>
+
+QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
+
+</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <widget class="caRelatedDisplay" name="caRelatedDisplay_tmm">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>10</y>
+      <width>70</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="label">
+     <string>scan2D</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>51</red>
+      <green>153</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string>caScan2D_01_10;caScan2D_11_20;caScan2D_21_30;caScan2D_31_40;caScan2D_41_50;caScan2D_51_60;caScan2D_61_70;caScan2dMenu</string>
+    </property>
+    <property name="files">
+     <string>caScan2D_10.ui;caScan2D_10.ui;caScan2D_10.ui;caScan2D_10.ui;caScan2D_10.ui;caScan2D_10.ui;caScan2D_10.ui;caScan2dMenu.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">
+				P=xxx:,XSCAN=scan1,YSCAN=scan2,DET1=D01,DET2=D02,DET3=D03,DET4=D04,DET5=D05,DET6=D06,DET7=D07,DET8=D08,DET9=D09,DET10=D10,SAVEDATAPATH=$(P)saveData_fileSystem;
+				P=xxx:,XSCAN=scan1,YSCAN=scan2,DET1=D11,DET2=D12,DET3=D13,DET4=D14,DET5=D15,DET6=D16,DET7=D17,DET8=D18,DET9=D19,DET10=D20,SAVEDATAPATH=$(P)saveData_fileSystem;
+				P=xxx:,XSCAN=scan1,YSCAN=scan2,DET1=D21,DET2=D22,DET3=D23,DET4=D24,DET5=D25,DET6=D26,DET7=D27,DET8=D28,DET9=D29,DET10=D30,SAVEDATAPATH=$(P)saveData_fileSystem;
+				P=xxx:,XSCAN=scan1,YSCAN=scan2,DET1=D31,DET2=D32,DET3=D33,DET4=D34,DET5=D35,DET6=D36,DET7=D37,DET8=D38,DET9=D39,DET10=D40,SAVEDATAPATH=$(P)saveData_fileSystem;
+				P=xxx:,XSCAN=scan1,YSCAN=scan2,DET1=D41,DET2=D42,DET3=D43,DET4=D44,DET5=D45,DET6=D46,DET7=D47,DET8=D48,DET9=D49,DET10=D50,SAVEDATAPATH=$(P)saveData_fileSystem;
+				P=xxx:,XSCAN=scan1,YSCAN=scan2,DET1=D51,DET2=D52,DET3=D53,DET4=D54,DET5=D55,DET6=D56,DET7=D57,DET8=D58,DET9=D59,DET10=D60,SAVEDATAPATH=$(P)saveData_fileSystem;
+				P=xxx:,XSCAN=scan1,YSCAN=scan2,DET1=D61,DET2=D62,DET3=D63,DET4=D64,DET5=D65,DET6=D66,DET7=D67,DET8=D68,DET9=D69,DET10=D70,SAVEDATAPATH=$(P)saveData_fileSystem;
+			P=xxx:,XSCAN=scan1,YSCAN=scan2,SAVEDATAPATH=$(P)saveData_fileSystem	</string>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caRowColMenu::Menu</enum>
+    </property>
+    <property name="removeParent" stdset="0">
+     <string>false;false;false;false;false;false;false;false</string>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>caRelatedDisplay</class>
+   <extends>QWidget</extends>
+   <header>caRelatedDisplay</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
