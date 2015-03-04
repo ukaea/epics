@@ -114,14 +114,6 @@ REM --------------- EPICS --------------------------------
 REM ======================================================
 echo setting EPICS paths.
 set PATH=%PATH%;%~dp0..\bin\%EPICS_HOST_ARCH%
-set PATH=%PATH%;%~dp0..\..\epicsV4\pcDataCPP\Bin\%EPICS_HOST_ARCH%
-set PATH=%PATH%;%~dp0..\..\epicsV4\pcAccessCPP\bin\%EPICS_HOST_ARCH%
-set PATH=%PATH%;%~dp0..\..\epicsV4\pvCommonCPP\bin\%EPICS_HOST_ARCH%
-set PATH=%PATH%;%~dp0..\..\asyn\bin\%EPICS_HOST_ARCH%
-set PATH=%PATH%;%~dp0..\..\seq\bin\%EPICS_HOST_ARCH%
-set PATH=%PATH%;%~dp0..\..\busy\bin\%EPICS_HOST_ARCH%
-set PATH=%PATH%;%~dp0..\..\motor\bin\%EPICS_HOST_ARCH%
-set PATH=%PATH%;%~dp0..\..\LeyboldTurbo\bin\%EPICS_HOST_ARCH%
 
 REM ======================================================
 REM ------- OPTIONAL ENVIRONMENT VARIABLES FOLLOW --------
