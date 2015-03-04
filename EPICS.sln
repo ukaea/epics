@@ -120,7 +120,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "asyn", "asyn", "{1E22D567-D
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "asyn", "asyn", "{8A7D1AB4-35D8-4DA4-9C70-7BDDD49D7C47}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "asyn", "asyn\asyn\asyn.vcxproj", "{C3EA0FF7-6039-4884-BA91-7B4619BEFEA5}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "asyn", "support\asyn\asyn\asyn.vcxproj", "{C3EA0FF7-6039-4884-BA91-7B4619BEFEA5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{5F1CBA8F-815A-421A-B0FE-9DDA74CB0994}"
 EndProject
@@ -248,7 +248,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ipac", "ipac", "{70135EE7-3
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "drvIpac", "drvIpac", "{ECD6A72E-9FA1-47A3-9A7B-D6F2DD07FB5B}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Ipac", "ipac\drvIpac\Ipac.vcxproj", "{AE0A5905-CC7D-427B-A385-BCC5253C98C0}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Ipac", "support\ipac\drvIpac\Ipac.vcxproj", "{AE0A5905-CC7D-427B-A385-BCC5253C98C0}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XPSGatheringMain", "motor\motorApp\NewportSrc\XPSGatheringMain.vcxproj", "{74AFCD40-1D6E-432B-9CB5-9524DE681EE4}"
 EndProject
@@ -258,7 +258,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "busy", "busy", "{9AD55F33-4
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "busyApp", "busyApp", "{01F904B1-DFDC-4AC7-B6E9-09B7BE630440}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "busy", "busy\busyApp\src\busy.vcxproj", "{A1C1777E-50D2-47DC-91BB-3B328362214A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "busy", "support\busy\busyApp\src\busy.vcxproj", "{A1C1777E-50D2-47DC-91BB-3B328362214A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "seq", "seq", "{901EA028-CD51-4C71-89BF-6E12C245B2CD}"
 EndProject
@@ -266,23 +266,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A8E4B967-17F
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "snc", "snc", "{7C0516F4-CDCB-490D-9DA3-F4F3B3B715EB}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "snc", "seq\src\snc\snc.vcxproj", "{71608FB9-8DBE-42AD-93A1-0B521A6FB6AA}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "snc", "support\seq\src\snc\snc.vcxproj", "{71608FB9-8DBE-42AD-93A1-0B521A6FB6AA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lemon", "lemon", "{726916B4-C17D-489E-BD63-0C8735EE01AB}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lemon", "seq\src\lemon\lemon.vcxproj", "{91CDF9CD-71FD-4AFE-A824-FB868BF15978}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lemon", "support\seq\src\lemon\lemon.vcxproj", "{91CDF9CD-71FD-4AFE-A824-FB868BF15978}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "seq", "seq", "{15059AFC-D67B-40FD-93B1-28744CC7CD98}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "seq", "seq\src\seq\seq.vcxproj", "{AE5791BC-9233-4F7A-8DEB-A14E4D969C05}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "seq", "support\seq\src\seq\seq.vcxproj", "{AE5791BC-9233-4F7A-8DEB-A14E4D969C05}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "pv", "pv", "{C0D982F4-73E1-4EB3-9F0B-2A263078A96C}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pv", "seq\src\pv\pv.vcxproj", "{A463E1AA-5C19-4964-8851-C4070A07AEB7}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pv", "support\seq\src\pv\pv.vcxproj", "{A463E1AA-5C19-4964-8851-C4070A07AEB7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dev", "dev", "{B801B831-827C-47EC-851B-314C114F5321}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "seqDev", "seq\src\dev\seqDev.vcxproj", "{DAAD10B4-E168-4A09-B4EB-BFF1C6922451}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "seqDev", "support\seq\src\dev\seqDev.vcxproj", "{DAAD10B4-E168-4A09-B4EB-BFF1C6922451}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "StreamDevice", "StreamDevice", "{0D63DA3E-697F-4E7C-8EFA-4D06DB40D442}"
 EndProject
@@ -290,9 +290,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "StreamApp", "StreamApp", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6A4869D5-C1DE-4552-81DA-DE3FDE27BE3C}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StreamDevice", "StreamDevice\src\StreamDevice.vcxproj", "{2168ADF1-2C87-4877-889D-DF444E180D5B}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StreamDevice", "support\StreamDevice\src\StreamDevice.vcxproj", "{2168ADF1-2C87-4877-889D-DF444E180D5B}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "streamApp", "StreamDevice\streamApp\streamApp.vcxproj", "{77DB8482-7396-4197-B74F-153BFB00AE3F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "streamApp", "support\StreamDevice\streamApp\streamApp.vcxproj", "{77DB8482-7396-4197-B74F-153BFB00AE3F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "msvc", "msvc", "{B8D7709B-A592-4472-B580-C9B00CE59AC4}"
 EndProject

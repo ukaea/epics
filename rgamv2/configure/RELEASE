@@ -24,14 +24,14 @@ TEMPLATE_TOP=$(EPICS_BASE)/templates/makeBaseApp/top
 # If using the sequencer, point SNCSEQ at its top directory:
 #SNCSEQ=$(EPICS_BASE)/../modules/soft/seq
 
-SUPPORT = D:/EPICS
+SUPPORT = /EPICS/support
 ASYN = $(SUPPORT)/asyn
 CALC = $(SUPPORT)/calc
 SSCAN= $(SUPPORT)/sscan
 SEQ=$(SUPPORT)/seq
 
 # EPICS_BASE usually appears last so other apps can override stuff:
-EPICS_BASE=D:/EPICS/base
+EPICS_BASE=/EPICS/base
 
 # Set RULES here if you want to take build rules from somewhere
 # other than EPICS_BASE:
