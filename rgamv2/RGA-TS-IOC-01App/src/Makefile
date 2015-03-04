@@ -21,7 +21,7 @@ DBD += RGA-TS-IOC-01.dbd
 RGA-TS-IOC-01_DBD += base.dbd
 RGA-TS-IOC-01_DBD += calcSupport.dbd
 RGA-TS-IOC-01_DBD += asyn.dbd
-RGA-TS-IOC-01_DBD += drvAsynSerialPort.dbd
+RGA-TS-IOC-01_DBD += drvAsynIPPort.dbd
 RGA-TS-IOC-01_DBD += rgamv2Include.dbd
 
 

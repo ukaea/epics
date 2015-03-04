@@ -3,14 +3,12 @@
 ## You may have to change RGA-TS-IOC-01 to something else
 ## everywhere it appears in this file
 
-cd "$(INSTALL)"
-
 # Register all support components
 dbLoadDatabase("dbd/RGA-TS-IOC-01.dbd")
 RGA_TS_IOC_01_registerRecordDeviceDriver(pdbbase)
 
 ## Assign an asyn port to the terminal server port14
-drvAsynIPPortConfigure("mv2_port","diamrd2425.diamond.ac.uk:10014",0,0,0)
+drvAsynIPPortConfigure("mv2_port","10014",0,0,0)
 
 mv2init("RGA-TS-RGA-01", "mv2_port")
 
