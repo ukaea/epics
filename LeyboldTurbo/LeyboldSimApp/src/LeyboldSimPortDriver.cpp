@@ -38,6 +38,12 @@
 
 static CLeyboldSimPortDriver* g_LeyboldSimPortDriver;
 
+#ifndef ASYN_TRACE_WARNING
+// Added with asyn4-22
+static const int ASYN_TRACE_WARNING = ASYN_TRACE_ERROR;
+#endif
+
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 //																								//
 //	class CLeyboldSimPortDriver::CException : public std::runtime_error							//
