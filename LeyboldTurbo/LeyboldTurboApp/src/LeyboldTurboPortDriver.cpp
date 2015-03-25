@@ -142,7 +142,7 @@ void CLeyboldTurboPortDriver::addIOPort(const char* IOPortName)
 		throw CException(pasynUserSelf, __FUNCTION__, "callParamCallbacks");
 	m_AsynUsers.push_back(IOUser);
 }
-
+ 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 //																								//
 //	asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *value)		//
@@ -167,37 +167,83 @@ asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *v
 		if ((TableIndex < 0) || (TableIndex >= int(m_AsynUsers.size())))
 			throw CException(pasynUser, __FUNCTION__, "User / pump not configured");
 
-		USSPacket USSWritePacket;
+		USSPacket USSWritePacket, USSReadPacket;
 		STATIC_ASSERT(sizeof(USSPacket)==USSPacketSize);
 
-		const char *paramName;
-		if (getParamName(function, &paramName) != asynSuccess)
-			throw CException(pasynUser, __FUNCTION__, "Can't get parameter name:");
-
-		if (std::string(paramName) != FAULT)
+		if (function == m_Parameters[STATORFREQUENCY])
+			USSWritePacket.m_USSPacketStruct.m_IND = 3;	// Frequency - actual value
+		else if (function == m_Parameters[CONVERTERTEMPERATURE])
+			USSWritePacket.m_USSPacketStruct.m_IND = 11;// Converter temperature - actual value
+		else if (function == m_Parameters[PUMPTEMPERATURE])
+			USSWritePacket.m_USSPacketStruct.m_IND = 7; // Motor temperature - actual value
+		else
 			// Other variables will be returned passively on request,
 			// but won't be updated by a hardware access.
 			return asynPortDriver::readInt32(pasynUser, value);
 
 		USSWritePacket.GenerateChecksum();
+
 		USSWritePacket.m_USSPacketStruct.HToN();
-		process(TableIndex, pasynUser, USSWritePacket);
+
+		process(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
+
+		if (setIntegerParam (TableIndex, function, USSReadPacket.m_USSPacketStruct.m_PZD2) != asynSuccess)
+			throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
 	}
 	catch(CException const&) {
 		setIntegerParam(TableIndex, m_Parameters[FAULT], 1);
 	}
+	callParamCallbacks(TableIndex);
 	return asynPortDriver::readInt32(pasynUser, value);
 }
 
-void CLeyboldTurboPortDriver::process(int TableIndex, asynUser *pasynUser, USSPacket const& USSWritePacket)
+asynStatus CLeyboldTurboPortDriver::readFloat64(asynUser *pasynUser, epicsFloat64 *value)
+{
+	int function = pasynUser->reason;
+	int TableIndex;
+
+	try {
+		if (getAddress(pasynUser, &TableIndex) != asynSuccess)
+			throw CException(pasynUser, __FUNCTION__, "Could not get address");
+		if ((TableIndex < 0) || (TableIndex >= int(m_AsynUsers.size())))
+			throw CException(pasynUser, __FUNCTION__, "User / pump not configured");
+
+		USSPacket USSWritePacket, USSReadPacket;
+		STATIC_ASSERT(sizeof(USSPacket)==USSPacketSize);
+
+		if (function == m_Parameters[MOTORCURRENT])
+			USSWritePacket.m_USSPacketStruct.m_IND = 5; // Motor current - actual value
+		else if (function == m_Parameters[CIRCUITVOLTAGE])
+			USSWritePacket.m_USSPacketStruct.m_IND = 4; // Intermediate circuit voltage Uzk
+		else
+			// Other variables will be returned passively on request,
+			// but won't be updated by a hardware access.
+			return asynPortDriver::readFloat64(pasynUser, value);
+
+		USSWritePacket.GenerateChecksum();
+
+		USSWritePacket.m_USSPacketStruct.HToN();
+
+		process(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
+
+		if (setDoubleParam (TableIndex, function, 0.1 * USSReadPacket.m_USSPacketStruct.m_PZD2) != asynSuccess)
+			throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
+	}
+	catch(CException const&) {
+		setIntegerParam(TableIndex, m_Parameters[FAULT], 1);
+	}
+	callParamCallbacks(TableIndex);
+	return asynPortDriver::readFloat64(pasynUser, value);
+}
+
+void CLeyboldTurboPortDriver::process(int TableIndex, asynUser *pasynUser, USSPacket const& USSWritePacket, USSPacket& USSReadPacket)
 {
 	size_t nbytesOut, nbytesIn;
 	int eomReason;
-	USSPacket USSReadPacket;
 	asynUser* IOUser = m_AsynUsers[TableIndex];
 	// NB, *don't* pass pasynUser to this function - it has the wrong type and will cause an access violation.
 #ifdef _DEBUG
-	// Infinite timeout, convenient for degugging.
+	// Infinite timeout, convenient for debugging.
 	const double TimeOut = -1;
 #else
 	const double TimeOut = 1;
@@ -226,20 +272,7 @@ void CLeyboldTurboPortDriver::process(int TableIndex, asynUser *pasynUser, USSPa
 		throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
 	if (setIntegerParam (TableIndex, m_Parameters[WARNINGHIGHLOAD], USSReadPacket.m_USSPacketStruct.m_PZD1 & (1 << 13) ? 1 : 0) != asynSuccess)
 		throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
-	if (setIntegerParam (TableIndex, m_Parameters[STATORFREQUENCY], USSReadPacket.m_USSPacketStruct.m_PZD2) != asynSuccess)
-		throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
-	if (setIntegerParam (TableIndex, m_Parameters[CONVERTERTEMPERATURE], USSReadPacket.m_USSPacketStruct.m_PZD3) != asynSuccess)
-		throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
-	if (setDoubleParam  (TableIndex, m_Parameters[MOTORCURRENT], 0.1 * USSReadPacket.m_USSPacketStruct.m_PZD4) != asynSuccess)
-		throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
-	if (setIntegerParam (TableIndex, m_Parameters[PUMPTEMPERATURE], USSReadPacket.m_USSPacketStruct.m_PZD5) != asynSuccess)
-		throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
-	if (setDoubleParam  (TableIndex, m_Parameters[CIRCUITVOLTAGE], 0.1 * USSReadPacket.m_USSPacketStruct.m_PZD6) != asynSuccess)
-		throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
-	if (callParamCallbacks() != asynSuccess)
-		throw CException(pasynUser, __FUNCTION__, "callParamCallbacks");
 	asynPrint(pasynUser, ASYN_TRACE_FLOW, "Packet success %s %s\n", __FILE__, __FUNCTION__);
-	callParamCallbacks(TableIndex);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -263,7 +296,7 @@ asynStatus CLeyboldTurboPortDriver::writeInt32(asynUser *pasynUser, epicsInt32 v
 		if ((TableIndex < 0) || (TableIndex >= int(m_AsynUsers.size())))
 			throw CException(pasynUser, __FUNCTION__, "User / pump not configured");
 
-		USSPacket USSWritePacket;
+		USSPacket USSWritePacket, USSReadPacket;
 		STATIC_ASSERT(sizeof(USSPacket)==USSPacketSize);
 
 		asynUser* IOUser = m_AsynUsers[TableIndex];
@@ -297,11 +330,12 @@ asynStatus CLeyboldTurboPortDriver::writeInt32(asynUser *pasynUser, epicsInt32 v
 		}
 		USSWritePacket.GenerateChecksum();
 		USSWritePacket.m_USSPacketStruct.HToN();
-		process(TableIndex, pasynUser, USSWritePacket);
+		process(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
 	}
 	catch(CException const&) {
 		setIntegerParam(TableIndex, m_Parameters[FAULT], 1);
 	}
+	callParamCallbacks(TableIndex);
 	return status;
 }
 

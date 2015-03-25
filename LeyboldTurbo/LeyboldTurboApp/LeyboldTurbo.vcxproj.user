@@ -15,7 +15,7 @@ IPPORT4=localhost:5069
 IPPORT5=localhost:5070</LocalDebuggerEnvironment>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
-    <LocalDebuggerCommandArguments>..\iocBoot\iocLeyboldTurbo\st5.simulated.cmd</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>..\iocBoot\iocLeyboldTurbo\st1.simulated.cmd</LocalDebuggerCommandArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
     <LocalDebuggerEnvironment>COMPORT1=COM1:

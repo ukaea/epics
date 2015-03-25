@@ -35,11 +35,12 @@ public:
     CLeyboldTurboPortDriver(const char *AsynPortName, int NumPumps);
     ~CLeyboldTurboPortDriver();
     virtual asynStatus readInt32(asynUser *pasynUser, epicsInt32 *value);
+    virtual asynStatus readFloat64(asynUser *pasynUser, epicsFloat64 *value);
     virtual asynStatus writeInt32(asynUser *pasynUser, epicsInt32 value);
 	void addIOPort(const char* IOPortName);
                  
 protected:
-	void process(int TableIndex, asynUser *pasynUser, USSPacket const& USSWritePacket);
+	void process(int TableIndex, asynUser *pasynUser, USSPacket const& USSWritePacket, USSPacket& USSReadPacket);
 
 private:
 	// Each parameter is associated with an int handle.

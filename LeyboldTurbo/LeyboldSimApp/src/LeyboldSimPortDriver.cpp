@@ -237,7 +237,7 @@ bool CLeyboldSimPortDriver::process(asynUser *pasynUser, int TableIndex)
 		throw CException(pasynUser, __FUNCTION__, "User / pump not configured");
 
 	// NB, This pasynUser is OK because it emitted by pasynOctetSyncIO->connect().
-	status = pasynOctetSyncIO->read(pasynUser, reinterpret_cast<char*>(&USSReadPacket), sizeof(USSPacket), 10, &nbytesIn, &eomReason);
+	status = pasynOctetSyncIO->read(pasynUser, reinterpret_cast<char*>(&USSReadPacket), sizeof(USSPacket), -1, &nbytesIn, &eomReason);
 	if (status == asynTimeout)
 		return true;
 	if (status == asynDisconnected)
@@ -307,11 +307,38 @@ bool CLeyboldSimPortDriver::process(asynUser *pasynUser, int TableIndex)
 	getIntegerParam(TableIndex, m_Parameters[WARNINGTEMPERATURE], &IBuf); USSWritePacket.m_USSPacketStruct.m_PZD1 |= (IBuf << 2);
 	getIntegerParam(TableIndex, m_Parameters[WARNINGHIGHLOAD], &IBuf); USSWritePacket.m_USSPacketStruct.m_PZD1 |= (IBuf << 13);
 
-	getIntegerParam(TableIndex, m_Parameters[STATORFREQUENCY], &IBuf); USSWritePacket.m_USSPacketStruct.m_PZD2 = IBuf;
-	getIntegerParam(TableIndex, m_Parameters[CONVERTERTEMPERATURE], &IBuf); USSWritePacket.m_USSPacketStruct.m_PZD3 = IBuf;
-	getDoubleParam(TableIndex, m_Parameters[MOTORCURRENT], &DBuf); USSWritePacket.m_USSPacketStruct.m_PZD4 = epicsUInt32(10.0 * DBuf + 0.5);
-	getIntegerParam(TableIndex, m_Parameters[PUMPTEMPERATURE], &IBuf); USSWritePacket.m_USSPacketStruct.m_PZD5 = IBuf;
-	getDoubleParam(TableIndex, m_Parameters[CIRCUITVOLTAGE], &DBuf); USSWritePacket.m_USSPacketStruct.m_PZD6 = epicsUInt32(10.0 * DBuf + 0.5);
+	switch (USSReadPacket.m_USSPacketStruct.m_IND)
+	{
+	case 3 : 
+		// Frequency - actual value
+		getIntegerParam(TableIndex, m_Parameters[STATORFREQUENCY], &IBuf);
+		USSWritePacket.m_USSPacketStruct.m_PZD2 = IBuf;
+		break;
+	case 11:
+		// Converter temperature - actual value
+		getIntegerParam(TableIndex, m_Parameters[CONVERTERTEMPERATURE], &IBuf); 
+		USSWritePacket.m_USSPacketStruct.m_PZD2 = IBuf;
+		break;
+	case 5 :
+		// Motor current - actual value
+		getDoubleParam(TableIndex, m_Parameters[MOTORCURRENT], &DBuf); 
+		USSWritePacket.m_USSPacketStruct.m_PZD2 = epicsUInt32(10.0 * DBuf + 0.5);
+		break;
+	case 7 :
+		// Motor temperature - actual value
+		getIntegerParam(TableIndex, m_Parameters[PUMPTEMPERATURE], &IBuf); 
+		USSWritePacket.m_USSPacketStruct.m_PZD2 = IBuf;
+		break;
+	case 4 :
+		// Intermediate circuit voltage Uzk
+		getDoubleParam(TableIndex, m_Parameters[CIRCUITVOLTAGE], &DBuf);
+		USSWritePacket.m_USSPacketStruct.m_PZD2 = epicsUInt32(10.0 * DBuf + 0.5);
+		break;
+	default:
+		break;
+		// No action.
+	}
+
 	USSWritePacket.GenerateChecksum();
 	USSWritePacket.m_USSPacketStruct.HToN();
 

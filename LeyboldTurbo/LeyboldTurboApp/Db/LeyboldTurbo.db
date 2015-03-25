@@ -70,8 +70,7 @@ record(bi, "$(P)Fault")
 	field(DESC, "Fault")
 	field(DTYP, "asynInt32")
 	field(INP,  "@asyn($(PORT),$(ADDR),1)FAULT")
-	field(SCAN, "5 second")
-	field(PINI, "1")
+	field(SCAN, "I/O Intr")
 	field(ZNAM,  "NORMAL")
 	field(ONAM,  "FAULT")
 	field(VAL, 0)
@@ -101,36 +100,38 @@ record(ai, "$(P)StatorFrequency")
 {
     field(DTYP, "asynInt32")
 	field(INP,  "@asyn($(PORT),$(ADDR),1)STATORFREQUENCY")
-	field(SCAN, "I/O Intr")
-	field(VAL, 500)
+	field(PINI, "1")
+	field(SCAN, "5 second")
 }
 
 record(ai, "$(P)ConverterTemperature")
 {
     field(DTYP, "asynInt32")
 	field(INP,  "@asyn($(PORT),$(ADDR),1)CONVERTERTEMPERATURE")
-	field(SCAN, "I/O Intr")
-	field(VAL, 40)
+	field(PINI, "1")
+	field(SCAN, "5 second")
 }
 
 record(ai, "$(P)MotorCurrent")
 {
     field(DTYP, "asynFloat64")
 	field(INP,  "@asyn($(PORT),$(ADDR),1)MOTORCURRENT")
-	field(SCAN, "I/O Intr")
-	field(VAL, 30)
+	field(PINI, "1")
+	field(SCAN, "5 second")
 }
 
 record(ai, "$(P)PumpTemperature")
 {
     field(DTYP, "asynInt32")
 	field(INP,  "@asyn($(PORT),$(ADDR),1)PUMPTEMPERATURE")
-	field(SCAN, "I/O Intr")
+	field(PINI, "1")
+	field(SCAN, "5 second")
 }
 
 record(ai, "$(P)CircuitVoltage")
 {
     field(DTYP, "asynFloat64")
 	field(INP,  "@asyn($(PORT),$(ADDR),1)CIRCUITVOLTAGE")
-	field(SCAN, "I/O Intr")
+	field(PINI, "1")
+	field(SCAN, "5 second")
 }
