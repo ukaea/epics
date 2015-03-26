@@ -35,7 +35,8 @@ union USSPacket
 			m_STX = 2;			// Start byte 2
 			m_LGE = 14;			// TYPE 1: 4 / 2 words (12 Bytes) LGE = 14 Bytes
 			m_ADR = m_BCC = 0;
-			m_PKE = m_IND = m_PZD1 = m_PZD2 = 0;
+			m_PKE = m_IND = m_PZD2 = 0;
+			m_PZD1 = 1;
 			m_PWE = 0;
 		}
 		epicsUInt8  m_STX;		// Start byte 2
@@ -83,7 +84,7 @@ private:
 		//	Checksum (i) = checksum (i-1) XOR byte (i);
 		//	i from 1 to 22, i = byte No.
 		epicsUInt8 Checksum = 0;
-		for (size_t i = 1; i < USSPacketSize-2; i++)
+		for (size_t i = 0; i < USSPacketSize-1; i++)
 			Checksum = Checksum ^ m_Bytes[i];
 		return Checksum;
 	}

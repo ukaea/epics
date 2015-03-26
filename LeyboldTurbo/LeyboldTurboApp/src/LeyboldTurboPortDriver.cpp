@@ -170,12 +170,13 @@ asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *v
 		USSPacket USSWritePacket, USSReadPacket;
 		STATIC_ASSERT(sizeof(USSPacket)==USSPacketSize);
 
+		USSWritePacket.m_USSPacketStruct.m_PKE = 1 << 12;	// Request a parameter value
 		if (function == m_Parameters[STATORFREQUENCY])
-			USSWritePacket.m_USSPacketStruct.m_IND = 3;	// Frequency - actual value
+			USSWritePacket.m_USSPacketStruct.m_PKE |= 3;	// Frequency - actual value
 		else if (function == m_Parameters[CONVERTERTEMPERATURE])
-			USSWritePacket.m_USSPacketStruct.m_IND = 11;// Converter temperature - actual value
+			USSWritePacket.m_USSPacketStruct.m_PKE |= 11;	// Converter temperature - actual value
 		else if (function == m_Parameters[PUMPTEMPERATURE])
-			USSWritePacket.m_USSPacketStruct.m_IND = 7; // Motor temperature - actual value
+			USSWritePacket.m_USSPacketStruct.m_PKE |= 7;	// Motor temperature - actual value
 		else
 			// Other variables will be returned passively on request,
 			// but won't be updated by a hardware access.
@@ -211,13 +212,14 @@ asynStatus CLeyboldTurboPortDriver::readFloat64(asynUser *pasynUser, epicsFloat6
 		USSPacket USSWritePacket, USSReadPacket;
 		STATIC_ASSERT(sizeof(USSPacket)==USSPacketSize);
 
+		USSWritePacket.m_USSPacketStruct.m_PKE = 1 << 12;	// Request a parameter value
 		if (function == m_Parameters[MOTORCURRENT])
-			USSWritePacket.m_USSPacketStruct.m_IND = 5; // Motor current - actual value
+			USSWritePacket.m_USSPacketStruct.m_PKE |= 5;	// Motor current - actual value
 		else if (function == m_Parameters[CIRCUITVOLTAGE])
-			USSWritePacket.m_USSPacketStruct.m_IND = 4; // Intermediate circuit voltage Uzk
+			USSWritePacket.m_USSPacketStruct.m_PKE |= 4;	// Intermediate circuit voltage Uzk
 		else
 			// Other variables will be returned passively on request,
-			// but won't be updated by a hardware access.
+			// but won't be updated by a hardware access (there aren't any other double values).
 			return asynPortDriver::readFloat64(pasynUser, value);
 
 		USSWritePacket.GenerateChecksum();
@@ -244,13 +246,13 @@ void CLeyboldTurboPortDriver::process(int TableIndex, asynUser *pasynUser, USSPa
 	// NB, *don't* pass pasynUser to this function - it has the wrong type and will cause an access violation.
 #ifdef _DEBUG
 	// Infinite timeout, convenient for debugging.
-	const double TimeOut = -1;
+	const double TimeOut = 1;
 #else
 	const double TimeOut = 1;
 #endif
 	if (pasynOctetSyncIO->writeRead(IOUser,
-		reinterpret_cast<const char*>(&USSWritePacket), sizeof(USSPacket), 
-		reinterpret_cast<char*>(&USSReadPacket), sizeof(USSPacket),
+		reinterpret_cast<const char*>(USSWritePacket.m_Bytes), sizeof(USSPacket), 
+		reinterpret_cast<char*>(USSReadPacket.m_Bytes), sizeof(USSPacket),
 		TimeOut, &nbytesOut, &nbytesIn, &eomReason) != asynSuccess)
 		throw CException(IOUser, __FUNCTION__, "Can't write/read:");
 	USSReadPacket.m_USSPacketStruct.NToH();
