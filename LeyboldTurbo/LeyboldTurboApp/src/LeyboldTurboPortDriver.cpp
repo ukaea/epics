@@ -167,32 +167,28 @@ asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *v
 		if ((TableIndex < 0) || (TableIndex >= int(m_AsynUsers.size())))
 			throw CException(pasynUser, __FUNCTION__, "User / pump not configured");
 
-		USSPacket USSWritePacket, USSReadPacket;
-		STATIC_ASSERT(sizeof(USSPacket)==USSPacketSize);
-
-		USSWritePacket.m_USSPacketStruct.m_PKE = 1 << 12;	// Request a parameter value
+		int Parameter = 0;	// No Task
 		if (function == m_Parameters[STATORFREQUENCY])
-			USSWritePacket.m_USSPacketStruct.m_PKE |= 3;	// Frequency - actual value
+			Parameter = 3;	// Frequency - actual value
 		else if (function == m_Parameters[CONVERTERTEMPERATURE])
-			USSWritePacket.m_USSPacketStruct.m_PKE |= 11;	// Converter temperature - actual value
+			Parameter = 11;	// Converter temperature - actual value
 		else if (function == m_Parameters[PUMPTEMPERATURE])
-			USSWritePacket.m_USSPacketStruct.m_PKE |= 7;	// Motor temperature - actual value
+			Parameter = 7;	// Motor temperature - actual value
 		else
 			// Other variables will be returned passively on request,
 			// but won't be updated by a hardware access.
 			return asynPortDriver::readInt32(pasynUser, value);
 
-		USSWritePacket.GenerateChecksum();
-
-		USSWritePacket.m_USSPacketStruct.HToN();
+		USSPacket USSWritePacket(Parameter), USSReadPacket;
 
 		process(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
 
-		if (setIntegerParam (TableIndex, function, USSReadPacket.m_USSPacketStruct.m_PZD2) != asynSuccess)
+		if (setIntegerParam (TableIndex, function, USSReadPacket.m_USSPacketStruct.m_PWE) != asynSuccess)
 			throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
 	}
 	catch(CException const&) {
-		setIntegerParam(TableIndex, m_Parameters[FAULT], 1);
+		// Internal communication failure
+		setIntegerParam(TableIndex, m_Parameters[FAULT], 65);
 	}
 	callParamCallbacks(TableIndex);
 	return asynPortDriver::readInt32(pasynUser, value);
@@ -209,47 +205,40 @@ asynStatus CLeyboldTurboPortDriver::readFloat64(asynUser *pasynUser, epicsFloat6
 		if ((TableIndex < 0) || (TableIndex >= int(m_AsynUsers.size())))
 			throw CException(pasynUser, __FUNCTION__, "User / pump not configured");
 
-		USSPacket USSWritePacket, USSReadPacket;
-		STATIC_ASSERT(sizeof(USSPacket)==USSPacketSize);
-
-		USSWritePacket.m_USSPacketStruct.m_PKE = 1 << 12;	// Request a parameter value
+		int Parameter = 0;	// No Task
 		if (function == m_Parameters[MOTORCURRENT])
-			USSWritePacket.m_USSPacketStruct.m_PKE |= 5;	// Motor current - actual value
+			Parameter = 5;	// Motor current - actual value
 		else if (function == m_Parameters[CIRCUITVOLTAGE])
-			USSWritePacket.m_USSPacketStruct.m_PKE |= 4;	// Intermediate circuit voltage Uzk
-		else
-			// Other variables will be returned passively on request,
-			// but won't be updated by a hardware access (there aren't any other double values).
-			return asynPortDriver::readFloat64(pasynUser, value);
+			Parameter = 4;	// Intermediate circuit voltage Uzk
 
-		USSWritePacket.GenerateChecksum();
-
-		USSWritePacket.m_USSPacketStruct.HToN();
+		USSPacket USSWritePacket(Parameter), USSReadPacket;
 
 		process(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
 
-		if (setDoubleParam (TableIndex, function, 0.1 * USSReadPacket.m_USSPacketStruct.m_PZD2) != asynSuccess)
+		if (setDoubleParam (TableIndex, function, 0.1 * USSReadPacket.m_USSPacketStruct.m_PWE) != asynSuccess)
 			throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
 	}
 	catch(CException const&) {
-		setIntegerParam(TableIndex, m_Parameters[FAULT], 1);
+		// Internal communication failure
+		setIntegerParam(TableIndex, m_Parameters[FAULT], 65);
 	}
 	callParamCallbacks(TableIndex);
 	return asynPortDriver::readFloat64(pasynUser, value);
 }
 
-void CLeyboldTurboPortDriver::process(int TableIndex, asynUser *pasynUser, USSPacket const& USSWritePacket, USSPacket& USSReadPacket)
+void CLeyboldTurboPortDriver::writeRead(int TableIndex, asynUser *pasynUser, USSPacket USSWritePacket, USSPacket& USSReadPacket)
 {
-	size_t nbytesOut, nbytesIn;
 	int eomReason;
+	size_t nbytesOut, nbytesIn;
 	asynUser* IOUser = m_AsynUsers[TableIndex];
-	// NB, *don't* pass pasynUser to this function - it has the wrong type and will cause an access violation.
 #ifdef _DEBUG
 	// Infinite timeout, convenient for debugging.
-	const double TimeOut = 1;
+	const double TimeOut = -1;
 #else
 	const double TimeOut = 1;
 #endif
+	USSWritePacket.m_USSPacketStruct.HToN();
+	// NB, *don't* pass pasynUser to this function - it has the wrong type and will cause an access violation.
 	if (pasynOctetSyncIO->writeRead(IOUser,
 		reinterpret_cast<const char*>(USSWritePacket.m_Bytes), sizeof(USSPacket), 
 		reinterpret_cast<char*>(USSReadPacket.m_Bytes), sizeof(USSPacket),
@@ -259,6 +248,11 @@ void CLeyboldTurboPortDriver::process(int TableIndex, asynUser *pasynUser, USSPa
 
 	if (!USSReadPacket.ValidateChecksum())
 		throw CException(pasynUser, __FUNCTION__, "Packet validation failed");
+}
+
+void CLeyboldTurboPortDriver::process(int TableIndex, asynUser *pasynUser, USSPacket const& USSWritePacket, USSPacket& USSReadPacket)
+{
+	writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
 
 	// Normal operation 1 = the pump is running in the normal operation mode
 	if (setIntegerParam (TableIndex, m_Parameters[RUNNING], USSReadPacket.m_USSPacketStruct.m_PZD1 & (1 << 10) ? 1 : 0) != asynSuccess)
@@ -268,12 +262,39 @@ void CLeyboldTurboPortDriver::process(int TableIndex, asynUser *pasynUser, USSPa
 	if (setIntegerParam (TableIndex, m_Parameters[RESET], USSReadPacket.m_USSPacketStruct.m_PZD1 & (1 << 15) ? 1 : 0) != asynSuccess)
 		throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
 
-	if (setIntegerParam (TableIndex, m_Parameters[FAULT], USSReadPacket.m_USSPacketStruct.m_PZD1 & (1 << 3) ? 1 : 0) != asynSuccess)
-		throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
-	if (setIntegerParam (TableIndex, m_Parameters[WARNINGTEMPERATURE], USSReadPacket.m_USSPacketStruct.m_PZD1 & (1 << 2) ? 1 : 0) != asynSuccess)
-		throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
-	if (setIntegerParam (TableIndex, m_Parameters[WARNINGHIGHLOAD], USSReadPacket.m_USSPacketStruct.m_PZD1 & (1 << 13) ? 1 : 0) != asynSuccess)
-		throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
+	if (USSReadPacket.m_USSPacketStruct.m_PZD1 & (1 << 3))
+	{
+		// We have an error status. Request the error code
+		USSPacket USSWritePacket(171), USSReadPacket;
+
+		writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
+
+		if (setIntegerParam (TableIndex, m_Parameters[FAULT], USSReadPacket.m_USSPacketStruct.m_PWE) != asynSuccess)
+			throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
+	}
+
+	if (USSReadPacket.m_USSPacketStruct.m_PZD1 & (1 << 7))
+	{
+		// We have a temperature warning status. Request the warning bits.
+		USSPacket USSWritePacket(227), USSReadPacket;
+
+		writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
+
+		if (setIntegerParam (TableIndex, m_Parameters[WARNINGTEMPERATURE], USSReadPacket.m_USSPacketStruct.m_PWE) != asynSuccess)
+			throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
+	}
+
+	if (USSReadPacket.m_USSPacketStruct.m_PZD1 & (1 << 13))
+	{
+		// We have a high load warning status. Request the warning bits.
+		USSPacket USSWritePacket(230), USSReadPacket;
+
+		writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
+
+		if (setIntegerParam (TableIndex, m_Parameters[WARNINGHIGHLOAD], USSReadPacket.m_USSPacketStruct.m_PWE) != asynSuccess)
+			throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
+	}
+
 	asynPrint(pasynUser, ASYN_TRACE_FLOW, "Packet success %s %s\n", __FILE__, __FUNCTION__);
 }
 
@@ -299,7 +320,6 @@ asynStatus CLeyboldTurboPortDriver::writeInt32(asynUser *pasynUser, epicsInt32 v
 			throw CException(pasynUser, __FUNCTION__, "User / pump not configured");
 
 		USSPacket USSWritePacket, USSReadPacket;
-		STATIC_ASSERT(sizeof(USSPacket)==USSPacketSize);
 
 		asynUser* IOUser = m_AsynUsers[TableIndex];
 
@@ -331,7 +351,6 @@ asynStatus CLeyboldTurboPortDriver::writeInt32(asynUser *pasynUser, epicsInt32 v
 			USSWritePacket.m_USSPacketStruct.m_PZD1 |= (value ? 1 : 0) << 7; // High
 		}
 		USSWritePacket.GenerateChecksum();
-		USSWritePacket.m_USSPacketStruct.HToN();
 		process(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
 	}
 	catch(CException const&) {

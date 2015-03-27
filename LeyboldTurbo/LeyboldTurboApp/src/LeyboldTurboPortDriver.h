@@ -40,8 +40,8 @@ public:
 	void addIOPort(const char* IOPortName);
                  
 protected:
+	void writeRead(int TableIndex, asynUser *pasynUser, USSPacket USSWritePacket, USSPacket& USSReadPacket);
 	void process(int TableIndex, asynUser *pasynUser, USSPacket const& USSWritePacket, USSPacket& USSReadPacket);
-
 private:
 	// Each parameter is associated with an int handle.
 	// This structure is used in order to address them by name, which is more convenient.
