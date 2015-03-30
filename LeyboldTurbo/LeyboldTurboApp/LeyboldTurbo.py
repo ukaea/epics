@@ -7,10 +7,16 @@ NumPumps='1'
 if len(sys.argv) > 1:
 	NumPumps=sys.argv[1]
 
+NoOfPZD = 6
+if len(sys.argv) > 2:
+	NoOfPZD=sys.argv[2]
+	
+os.environ["NOOFPZD"]=NoOfPZD
+
 epics_host_arch = os.getenv('EPICS_HOST_ARCH', 'win32-x86')
 
 Simulated=''
-if len(sys.argv) > 2:
+if len(sys.argv) > 3:
 	Simulated='.simulated'
 	os.environ["IPPORT1"]="localhost:5066"
 	os.environ["IPPORT2"]="localhost:5067"

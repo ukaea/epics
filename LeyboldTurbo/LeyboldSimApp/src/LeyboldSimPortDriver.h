@@ -29,13 +29,15 @@
 
 class CLeyboldSimPortDriver : public asynPortDriver {
 public:
+	static const size_t NoOfPZD6 = 6;
+	static const size_t NoOfPZD2 = 2;
 	class CException;
-    CLeyboldSimPortDriver(const char *AsynPortName, int NumPumps);
+    CLeyboldSimPortDriver(const char *AsynPortName, int NumPumps, int NoOfPZD);
     ~CLeyboldSimPortDriver();
 	void addIOPort(const char* IOPortName);
                  
 protected:
-    bool process(asynUser *pasynUser, int TableIndex);
+    template<size_t NoOfPZD> bool process(asynUser *pasynUser, int TableIndex);
 	static void octetConnectionCallback(void *userPvt, asynUser *pasynUser,
                       char *data,size_t numchars, int eomReason);
 	static void ListenerThread(void* parm);
@@ -49,6 +51,7 @@ private:
 	int m_NumConnected;				// how many sockets have actually connected?
 	volatile bool m_Exiting;		// Signals the listening thread to exit.
 	std::vector<bool> m_WasRunning;	// For each simulated pump, was it in the Running state, on the previous iteration?
+	size_t m_NoOfPZD;
 };
 
 #endif // LEYBOLD_SIM_DRIVER_H

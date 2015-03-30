@@ -1,2 +1,3 @@
 call ..\iocBoot\iocLeyboldSim\dllPath.bat
-LeyboldSim.py
+REM NumPumps =1 NoOfPZD =6
+LeyboldSim.py %1 %2

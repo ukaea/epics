@@ -22,26 +22,30 @@
 #define LEYBOLD_TURBO_PORT_DRIVER_H
 
 #include <asynPortDriver.h>
+#include "USSPacket.h"
 
 #include <map>
 #include <string>
 #include <vector>
 
-union USSPacket;
-
 class CLeyboldTurboPortDriver : public asynPortDriver {
 public:
+	static const size_t NoOfPZD6 = 6;
+	static const size_t NoOfPZD2 = 2;
 	class CException;
-    CLeyboldTurboPortDriver(const char *AsynPortName, int NumPumps);
+    CLeyboldTurboPortDriver(const char *AsynPortName, int NumPumps, int NoOfPZD);
     ~CLeyboldTurboPortDriver();
     virtual asynStatus readInt32(asynUser *pasynUser, epicsInt32 *value);
-    virtual asynStatus readFloat64(asynUser *pasynUser, epicsFloat64 *value);
     virtual asynStatus writeInt32(asynUser *pasynUser, epicsInt32 value);
 	void addIOPort(const char* IOPortName);
                  
 protected:
-	void writeRead(int TableIndex, asynUser *pasynUser, USSPacket USSWritePacket, USSPacket& USSReadPacket);
-	void process(int TableIndex, asynUser *pasynUser, USSPacket const& USSWritePacket, USSPacket& USSReadPacket);
+	template<size_t NoOfPZD> void writeRead(int TableIndex, asynUser *pasynUser, USSPacket<NoOfPZD> USSWritePacket, USSPacket<NoOfPZD>& USSReadPacket);
+	template<size_t NoOfPZD> void processRead(int TableIndex, asynUser *pasynUser, USSPacket<NoOfPZD> const& USSReadPacket);
+	template<size_t NoOfPZD> void processWrite(int TableIndex, asynUser *pasynUser, epicsInt32 value);
+	void process(int TableIndex, asynUser *pasynUser, USSPacket<NoOfPZD2> const& USSWritePacket, USSPacket<NoOfPZD2>& USSReadPacket);
+	void process(int TableIndex, asynUser *pasynUser, USSPacket<NoOfPZD6> const& USSWritePacket, USSPacket<NoOfPZD6>& USSReadPacket);
+
 private:
 	// Each parameter is associated with an int handle.
 	// This structure is used in order to address them by name, which is more convenient.
@@ -49,6 +53,7 @@ private:
 
 	// Each of these is associated with an octet I/O connection (i.e. serial or TCP port).
 	std::vector<asynUser*> m_AsynUsers;
+	size_t m_NoOfPZD;
 };
 
 #endif // LEYBOLD_TURBO_PORT_DRIVER_H

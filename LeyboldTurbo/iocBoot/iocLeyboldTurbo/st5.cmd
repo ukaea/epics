@@ -11,7 +11,7 @@ epicsEnvSet ASYNPORT TURBO
 epicsEnvSet IOPORT PUMP
 
 # Configure asyn communication port, first
-LeyboldTurboPortDriverConfigure($(ASYNPORT), 5)
+LeyboldTurboPortDriverConfigure($(ASYNPORT), 5, $(NOOFPZD))
 drvAsynSerialPortConfigure($(IOPORT):1, $(COMPORT1), 0, 0, 0)
 LeyboldTurboAddIOPort($(IOPORT):1)
 drvAsynSerialPortConfigure($(IOPORT):2, $(COMPORT2), 0, 0, 0)

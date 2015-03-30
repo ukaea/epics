@@ -87,6 +87,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "iocBoot", "iocBoot", "{7332
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "iocLeyboldTurbo", "iocLeyboldTurbo", "{13E0B500-742B-401B-AF78-3F6A0201436D}"
 	ProjectSection(SolutionItems) = preProject
+		iocBoot\iocLeyboldTurbo\dllPath.bat = iocBoot\iocLeyboldTurbo\dllPath.bat
+		iocBoot\iocLeyboldTurbo\envPaths = iocBoot\iocLeyboldTurbo\envPaths
+		iocBoot\iocLeyboldTurbo\MakeFile = iocBoot\iocLeyboldTurbo\MakeFile
 		iocBoot\iocLeyboldTurbo\st1.cmd = iocBoot\iocLeyboldTurbo\st1.cmd
 		iocBoot\iocLeyboldTurbo\st1.simulated.cmd = iocBoot\iocLeyboldTurbo\st1.simulated.cmd
 		iocBoot\iocLeyboldTurbo\st1.simulator.cmd = iocBoot\iocLeyboldTurbo\st1.simulator.cmd
@@ -104,6 +107,15 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LeyboldSim", "LeyboldSimApp\LeyboldSim.vcxproj", "{4FBF939A-460F-4ADC-822E-9049AB4DA174}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "support", "support", "{0419E814-81A1-4054-B88C-0AACD53CAAAB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "iocLeyboldSim", "iocLeyboldSim", "{8687A51C-BA97-4FFE-9B0B-55DACE994618}"
+	ProjectSection(SolutionItems) = preProject
+		iocBoot\iocLeyboldSim\dllPath.bat = iocBoot\iocLeyboldSim\dllPath.bat
+		iocBoot\iocLeyboldSim\envPaths = iocBoot\iocLeyboldSim\envPaths
+		iocBoot\iocLeyboldSim\MakeFile = iocBoot\iocLeyboldSim\MakeFile
+		iocBoot\iocLeyboldSim\st1.simulator.cmd = iocBoot\iocLeyboldSim\st1.simulator.cmd
+		iocBoot\iocLeyboldSim\st5.simulator.cmd = iocBoot\iocLeyboldSim\st5.simulator.cmd
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -410,7 +422,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{5F8962DB-830E-42EA-8DEC-E87B958D532B} = {F96E9D8C-5CA4-42F4-A6B0-A1E28779DE50}
+		{F96E9D8C-5CA4-42F4-A6B0-A1E28779DE50} = {0419E814-81A1-4054-B88C-0AACD53CAAAB}
 		{AF70446C-3E93-42DF-9943-18DDCFA4991A} = {D772CB17-6D38-48F4-958E-6A721026C056}
 		{40388928-DF89-4B74-ABD0-440569C51A20} = {AF70446C-3E93-42DF-9943-18DDCFA4991A}
 		{665C7A29-60C1-447F-A897-42E68A96F6E3} = {AF70446C-3E93-42DF-9943-18DDCFA4991A}
@@ -432,6 +444,7 @@ Global
 		{3BE95765-EB5A-44D6-9369-A8759A2FAFDE} = {5499ACCB-903F-4F89-AAFA-C82E7AF7F132}
 		{3B0E3542-CB89-4FFA-B004-EAC882B3F277} = {06A4CD01-E81E-4372-A9D4-34C4F3C5ABEC}
 		{BA5F5A20-2C40-4066-AE19-9853DFF82EEE} = {06A4CD01-E81E-4372-A9D4-34C4F3C5ABEC}
+		{5F8962DB-830E-42EA-8DEC-E87B958D532B} = {F96E9D8C-5CA4-42F4-A6B0-A1E28779DE50}
 		{C3EA0FF7-6039-4884-BA91-7B4619BEFEA5} = {5F8962DB-830E-42EA-8DEC-E87B958D532B}
 		{0DF29C1B-6C17-4D60-8B78-27FE8714DC11} = {BA5F5A20-2C40-4066-AE19-9853DFF82EEE}
 		{08A4F5B9-442C-4AAC-9118-1163B28D0557} = {111D8975-EB90-4DBB-9639-0EA89A192999}
@@ -447,7 +460,7 @@ Global
 		{36E5CD3A-D134-4077-841A-A26AC2FAAFC0} = {D04ACFD8-B76B-4D6C-BF02-F280CF75ABAA}
 		{BAE6CE99-140A-4018-8BCB-9D63F54D6F07} = {C2A4C477-2BE6-494C-89F3-B51BA1376EBD}
 		{13E0B500-742B-401B-AF78-3F6A0201436D} = {73322DE2-4EF3-41A8-86BE-BB9C2EEFDE68}
+		{8687A51C-BA97-4FFE-9B0B-55DACE994618} = {73322DE2-4EF3-41A8-86BE-BB9C2EEFDE68}
 		{4FBF939A-460F-4ADC-822E-9049AB4DA174} = {36E5CD3A-D134-4077-841A-A26AC2FAAFC0}
-		{F96E9D8C-5CA4-42F4-A6B0-A1E28779DE50} = {0419E814-81A1-4054-B88C-0AACD53CAAAB}
 	EndGlobalSection
 EndGlobal

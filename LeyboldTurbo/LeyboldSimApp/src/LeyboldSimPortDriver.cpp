@@ -74,7 +74,7 @@ public:
 //				 - from the st.cmd script.														//
 //																								//
 //////////////////////////////////////////////////////////////////////////////////////////////////
-CLeyboldSimPortDriver::CLeyboldSimPortDriver(const char *asynPortName, int numPumps)
+CLeyboldSimPortDriver::CLeyboldSimPortDriver(const char *asynPortName, int numPumps, int NoOfPZD)
    : asynPortDriver(asynPortName, 
                     numPumps, // maxAddr
                     NUM_PARAMS-1, // -1 because Reset is not used.
@@ -87,6 +87,7 @@ CLeyboldSimPortDriver::CLeyboldSimPortDriver(const char *asynPortName, int numPu
 {
 	m_NumConnected = 0;
 	m_Exiting = false;
+	m_NoOfPZD = NoOfPZD;
 }
 
 CLeyboldSimPortDriver::~CLeyboldSimPortDriver()
@@ -113,8 +114,15 @@ void CLeyboldSimPortDriver::ListenerThread(void* parm)
 		if (pasynOctetSyncIO->connect(IOPortName, TableIndex, &AsynUser, NULL) != asynSuccess)
 			throw CException(This->pasynUserSelf, __FUNCTION__, "connecting to IO port=" + std::string(IOPortName));
 		This->m_NumConnected++;
-		while ((!This->m_Exiting) && 
-			   (This->process(AsynUser, TableIndex)));
+		while (!This->m_Exiting)
+		{
+			if (This->m_NoOfPZD == NoOfPZD2) 
+			   if (!This->process<NoOfPZD2>(AsynUser, TableIndex))
+				   break;
+			else
+			   if (!This->process<NoOfPZD6>(AsynUser, TableIndex))
+				   break;
+		}
 	} catch(CException const&) {
 	}
 	This->m_NumConnected--;
@@ -225,11 +233,10 @@ void CLeyboldSimPortDriver::setDefaultValues(int TableIndex)
 //		pasynUser - the user associated with the TCP link (*not* the device connection user).	//
 //																								//
 //////////////////////////////////////////////////////////////////////////////////////////////////
-bool CLeyboldSimPortDriver::process(asynUser *pasynUser, int TableIndex)
+template<size_t NoOfPZD> bool CLeyboldSimPortDriver::process(asynUser *pasynUser, int TableIndex)
 {
 	asynStatus status = asynSuccess;
-	USSPacket USSWritePacket, USSReadPacket;
-	STATIC_ASSERT(sizeof(USSPacket)==USSPacketSize);
+	USSPacket<NoOfPZD> USSWritePacket, USSReadPacket;
 	size_t nbytesOut, nbytesIn;
 	int eomReason;
 
@@ -237,7 +244,7 @@ bool CLeyboldSimPortDriver::process(asynUser *pasynUser, int TableIndex)
 		throw CException(pasynUser, __FUNCTION__, "User / pump not configured");
 
 	// NB, This pasynUser is OK because it emitted by pasynOctetSyncIO->connect().
-	status = pasynOctetSyncIO->read(pasynUser, reinterpret_cast<char*>(&USSReadPacket), sizeof(USSPacket), -1, &nbytesIn, &eomReason);
+	status = pasynOctetSyncIO->read(pasynUser, reinterpret_cast<char*>(USSReadPacket.m_Bytes), USSReadPacket.USSPacketSize, -1, &nbytesIn, &eomReason);
 	if (status == asynTimeout)
 		return true;
 	if (status == asynDisconnected)
@@ -259,16 +266,16 @@ bool CLeyboldSimPortDriver::process(asynUser *pasynUser, int TableIndex)
 	bool Running = (IBuf != 0);
 
 	//	control bit 10 = 1
-	bool RemoteActivated = ((USSReadPacket.m_USSPacketStruct.m_PZD1 & (1 << 10)) != 0);
+	bool RemoteActivated = ((USSReadPacket.m_USSPacketStruct.m_PZD[0] & (1 << 10)) != 0);
 
 	if (RemoteActivated)
 	{
-		Running = ((USSReadPacket.m_USSPacketStruct.m_PZD1 & (1 << 0)) != 0);
+		Running = ((USSReadPacket.m_USSPacketStruct.m_PZD[0] & (1 << 0)) != 0);
 
 		// 0 to 1 transition = Error reset Is only run provided if:
 		//		the cause for the error has been removed
 		//		and control bit 0 = 0 and control bit 10 = 1
-		if ((USSReadPacket.m_USSPacketStruct.m_PZD1 & (1 << 7)) && (!Running))
+		if ((USSReadPacket.m_USSPacketStruct.m_PZD[0] & (1 << 7)) && (!Running))
 		{
 			// Clear the fault condition.
 			setIntegerParam(TableIndex, m_Parameters[FAULT], 0);
@@ -289,50 +296,50 @@ bool CLeyboldSimPortDriver::process(asynUser *pasynUser, int TableIndex)
 
 	m_WasRunning[TableIndex] = Running;
 
-	USSWritePacket.m_USSPacketStruct.m_PZD1 = 0;
+	USSWritePacket.m_USSPacketStruct.m_PZD[0] = 0;
 
 	// Normal operation 1 = the pump is running in the normal operation mode
-	getIntegerParam(TableIndex, m_Parameters[RUNNING], &IBuf); USSWritePacket.m_USSPacketStruct.m_PZD1 |= (IBuf << 10);
+	getIntegerParam(TableIndex, m_Parameters[RUNNING], &IBuf); USSWritePacket.m_USSPacketStruct.m_PZD[0] |= (IBuf << 10);
 
 	// Remote has been activated 1 = start/stop (control bit 0) and reset(control bit 7) through serial interface is possible.
-	USSWritePacket.m_USSPacketStruct.m_PZD1 |= ((RemoteActivated ? 1 : 0) << 15);
+	USSWritePacket.m_USSPacketStruct.m_PZD[0] |= ((RemoteActivated ? 1 : 0) << 15);
 
-	getIntegerParam(TableIndex, m_Parameters[FAULT], &IBuf); USSWritePacket.m_USSPacketStruct.m_PZD1 |= (IBuf << 3);
+	getIntegerParam(TableIndex, m_Parameters[FAULT], &IBuf); USSWritePacket.m_USSPacketStruct.m_PZD[0] |= (IBuf << 3);
 	bool Fault = (IBuf != 0);
 	if (Fault)
 	{
 		setIntegerParam(TableIndex, m_Parameters[STATORFREQUENCY], 0);
 		setIntegerParam(TableIndex, m_Parameters[RUNNING], 0);
 	}
-	getIntegerParam(TableIndex, m_Parameters[WARNINGTEMPERATURE], &IBuf); USSWritePacket.m_USSPacketStruct.m_PZD1 |= (IBuf << 2);
-	getIntegerParam(TableIndex, m_Parameters[WARNINGHIGHLOAD], &IBuf); USSWritePacket.m_USSPacketStruct.m_PZD1 |= (IBuf << 13);
+	getIntegerParam(TableIndex, m_Parameters[WARNINGTEMPERATURE], &IBuf); USSWritePacket.m_USSPacketStruct.m_PZD[0] |= (IBuf << 2);
+	getIntegerParam(TableIndex, m_Parameters[WARNINGHIGHLOAD], &IBuf); USSWritePacket.m_USSPacketStruct.m_PZD[0] |= (IBuf << 13);
 
 	switch (USSReadPacket.m_USSPacketStruct.m_IND)
 	{
 	case 3 : 
 		// Frequency - actual value
 		getIntegerParam(TableIndex, m_Parameters[STATORFREQUENCY], &IBuf);
-		USSWritePacket.m_USSPacketStruct.m_PZD2 = IBuf;
+		USSWritePacket.m_USSPacketStruct.m_PWE = IBuf;
 		break;
 	case 11:
 		// Converter temperature - actual value
 		getIntegerParam(TableIndex, m_Parameters[CONVERTERTEMPERATURE], &IBuf); 
-		USSWritePacket.m_USSPacketStruct.m_PZD2 = IBuf;
+		USSWritePacket.m_USSPacketStruct.m_PWE = IBuf;
 		break;
 	case 5 :
 		// Motor current - actual value
 		getDoubleParam(TableIndex, m_Parameters[MOTORCURRENT], &DBuf); 
-		USSWritePacket.m_USSPacketStruct.m_PZD2 = epicsUInt32(10.0 * DBuf + 0.5);
+		USSWritePacket.m_USSPacketStruct.m_PWE = epicsUInt32(10.0 * DBuf + 0.5);
 		break;
 	case 7 :
 		// Motor temperature - actual value
 		getIntegerParam(TableIndex, m_Parameters[PUMPTEMPERATURE], &IBuf); 
-		USSWritePacket.m_USSPacketStruct.m_PZD2 = IBuf;
+		USSWritePacket.m_USSPacketStruct.m_PWE = IBuf;
 		break;
 	case 4 :
 		// Intermediate circuit voltage Uzk
 		getDoubleParam(TableIndex, m_Parameters[CIRCUITVOLTAGE], &DBuf);
-		USSWritePacket.m_USSPacketStruct.m_PZD2 = epicsUInt32(10.0 * DBuf + 0.5);
+		USSWritePacket.m_USSPacketStruct.m_PWE = epicsUInt32(10.0 * DBuf + 0.5);
 		break;
 	default:
 		break;
@@ -344,7 +351,7 @@ bool CLeyboldSimPortDriver::process(asynUser *pasynUser, int TableIndex)
 
 	// NB, *don't* pass pasynUser to this function - it has the wrong type and will cause an access violation.
 	status = pasynOctetSyncIO->write(pasynUser,
-		reinterpret_cast<char*>(&USSWritePacket), sizeof(USSPacket),
+		reinterpret_cast<char*>(&USSWritePacket), USSWritePacket.USSPacketSize,
 		-1, &nbytesOut);
 	if (status == asynDisconnected)
 		return false;
@@ -389,10 +396,10 @@ void LeyboldSimExitFunc(void * param)
 //		numPumps - how many pumps will be attached?												//
 //																								//
 //////////////////////////////////////////////////////////////////////////////////////////////////
-int LeyboldSimPortDriverConfigure(const char *asynPortName, int numPumps)
+int LeyboldSimPortDriverConfigure(const char *asynPortName, int numPumps, int NoOfPZD)
 {
 	try {
-		g_LeyboldSimPortDriver = new CLeyboldSimPortDriver(asynPortName, numPumps);
+		g_LeyboldSimPortDriver = new CLeyboldSimPortDriver(asynPortName, numPumps, NoOfPZD);
 		epicsAtExit(LeyboldSimExitFunc, NULL);
 	}
 	catch(CLeyboldSimPortDriver::CException const&) {
@@ -412,7 +419,8 @@ static void initCallFunc(const iocshArgBuf *args)
 {
 	const char* asynPortName = args[0].sval;
 	int numPumps = atoi(args[1].sval);
-	LeyboldSimPortDriverConfigure(asynPortName, numPumps);
+	int NoOfPZD = atoi(args[2].sval);
+	LeyboldSimPortDriverConfigure(asynPortName, numPumps, NoOfPZD);
 }
 
 static const iocshArg addArg0 = { "IOPortName", iocshArgString};

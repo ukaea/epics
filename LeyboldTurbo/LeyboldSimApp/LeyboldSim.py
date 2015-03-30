@@ -5,8 +5,14 @@ os.chdir(os.path.dirname(sys.argv[0]))
 NumPumps='1'
 if len(sys.argv) > 1:
 	NumPumps=sys.argv[1]
+	
+NoOfPZD = 6
+if len(sys.argv) > 2:
+	NoOfPZD=sys.argv[2]
 
 os.environ["EPICS_CA_SERVER_PORT"]="5071"
+
+os.environ["NOOFPZD"]=NoOfPZD
 
 os.environ["IPPORT1"]="localhost:5066"
 

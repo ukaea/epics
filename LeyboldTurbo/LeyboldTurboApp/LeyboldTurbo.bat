@@ -1,2 +1,3 @@
 call ..\iocBoot\iocLeyboldTurbo\dllPath.bat
-LeyboldTurbo.py 1 1
+REM NumPumps =1 NoOfPZD =6 Simulated = False
+LeyboldTurbo.py %1 %2 %3

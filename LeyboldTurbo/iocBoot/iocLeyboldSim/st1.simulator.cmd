@@ -11,7 +11,7 @@ epicsEnvSet ASYNPORT TURBOSIM
 epicsEnvSet IOPORT PUMP
 
 # Configure asyn communication port, first
-LeyboldSimPortDriverConfigure($(ASYNPORT), 1)
+LeyboldSimPortDriverConfigure($(ASYNPORT), 1, $(NOOFPZD))
 drvAsynIPServerPortConfigure($(IOPORT):1, $(IPPORT1), 1, 0, 0, 1)
 LeyboldSimAddIOPort($(IOPORT):1)
 

@@ -28,6 +28,7 @@ struct ParameterDefn
 static const char* RUNNING = "RUNNING"; 
 static const char* RESET = "RESET";
 static const char* FAULT = "FAULT";
+static const char* FIRMWAREVERSION = "FIRMWAREVERSION";
 static const char* WARNINGTEMPERATURE = "WARNINGTEMPERATURE";
 static const char* WARNINGHIGHLOAD = "WARNINGHIGHLOAD";
 static const char* STATORFREQUENCY = "STATORFREQUENCY";
@@ -41,6 +42,7 @@ ParameterDefn ParameterDefns[] =
 	{RUNNING, asynParamInt32},
 	{RESET, asynParamInt32},
 	{FAULT, asynParamInt32},
+	{FIRMWAREVERSION, asynParamInt32},
 	{WARNINGTEMPERATURE, asynParamInt32},
 	{WARNINGHIGHLOAD, asynParamInt32},
 	{STATORFREQUENCY, asynParamInt32},
