@@ -6,7 +6,7 @@ NumPumps='1'
 if len(sys.argv) > 1:
 	NumPumps=sys.argv[1]
 	
-NoOfPZD = 6
+NoOfPZD = '6'
 if len(sys.argv) > 2:
 	NoOfPZD=sys.argv[2]
 

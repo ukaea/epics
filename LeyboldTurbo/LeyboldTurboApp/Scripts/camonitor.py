@@ -8,7 +8,7 @@ if len(sys.argv) > 1:
 
 for Pump in range(1, int(NumPumps)+1):
 	epics.camonitor('TURBO:' + str(Pump) + ':Running')
-	epics.camonitor('TURBO:' + str(Pump) + ':Running')
+	epics.camonitor('TURBO:' + str(Pump) + ':FirmwareVersion')
 	epics.camonitor('TURBO:' + str(Pump) + ':Reset')
 	epics.camonitor('TURBO:' + str(Pump) + ':Fault')
 	epics.camonitor('TURBO:' + str(Pump) + ':WarningTemperature')

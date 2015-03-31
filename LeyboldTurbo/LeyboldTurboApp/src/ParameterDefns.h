@@ -42,7 +42,7 @@ ParameterDefn ParameterDefns[] =
 	{RUNNING, asynParamInt32},
 	{RESET, asynParamInt32},
 	{FAULT, asynParamInt32},
-	{FIRMWAREVERSION, asynParamInt32},
+	{FIRMWAREVERSION, asynParamOctet},
 	{WARNINGTEMPERATURE, asynParamInt32},
 	{WARNINGHIGHLOAD, asynParamInt32},
 	{STATORFREQUENCY, asynParamInt32},

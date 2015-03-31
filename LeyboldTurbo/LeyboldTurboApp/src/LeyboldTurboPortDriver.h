@@ -37,6 +37,8 @@ public:
     ~CLeyboldTurboPortDriver();
     virtual asynStatus readInt32(asynUser *pasynUser, epicsInt32 *value);
     virtual asynStatus writeInt32(asynUser *pasynUser, epicsInt32 value);
+    virtual asynStatus readOctet(asynUser *pasynUser, char *value, size_t maxChars,
+                                        size_t *nActual, int *eomReason);
 	void addIOPort(const char* IOPortName);
                  
 protected:

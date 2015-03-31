@@ -27,7 +27,6 @@
 #include <asynOctetSyncIO.h>
 #include <asynStandardInterfaces.h>
 
-#include <USSPacket.h>
 #include <ParameterDefns.h>
 
 #define epicsExportSharedSymbols
@@ -116,12 +115,23 @@ void CLeyboldSimPortDriver::ListenerThread(void* parm)
 		This->m_NumConnected++;
 		while (!This->m_Exiting)
 		{
-			if (This->m_NoOfPZD == NoOfPZD2) 
-			   if (!This->process<NoOfPZD2>(AsynUser, TableIndex))
+			if (This->m_NoOfPZD == NoOfPZD2)
+			{
+				USSPacket<NoOfPZD2> USSReadPacket, USSWritePacket;
+				if (!This->read<NoOfPZD2>(AsynUser, USSReadPacket))
 				   break;
+				if (!This->process<NoOfPZD2>(AsynUser, USSReadPacket, USSWritePacket, TableIndex))
+				   break;
+			}
 			else
-			   if (!This->process<NoOfPZD6>(AsynUser, TableIndex))
+			{
+				USSPacket<NoOfPZD6> USSReadPacket, USSWritePacket;
+				if (!This->read<NoOfPZD6>(AsynUser, USSReadPacket))
 				   break;
+				This->process(AsynUser, USSWritePacket, TableIndex);
+				if (!This->process<NoOfPZD6>(AsynUser, USSReadPacket, USSWritePacket, TableIndex))
+				   break;
+			}
 		}
 	} catch(CException const&) {
 	}
@@ -215,9 +225,9 @@ void CLeyboldSimPortDriver::setDefaultValues(int TableIndex)
 	setIntegerParam(TableIndex, m_Parameters[RUNNING], 1);
 	setIntegerParam(TableIndex, m_Parameters[STATORFREQUENCY], 500);
 	setIntegerParam(TableIndex, m_Parameters[CONVERTERTEMPERATURE], 50);
-	setDoubleParam(TableIndex, m_Parameters[MOTORCURRENT], 10);
+	setDoubleParam(TableIndex, m_Parameters[MOTORCURRENT], 10.0);
 	setIntegerParam(TableIndex, m_Parameters[PUMPTEMPERATURE], 40);
-	setDoubleParam(TableIndex, m_Parameters[CIRCUITVOLTAGE], 30);
+	setDoubleParam(TableIndex, m_Parameters[CIRCUITVOLTAGE], 30.0);
 	setIntegerParam(TableIndex, m_Parameters[WARNINGTEMPERATURE], 0);
 	setIntegerParam(TableIndex, m_Parameters[WARNINGHIGHLOAD], 0);
 }
@@ -233,18 +243,12 @@ void CLeyboldSimPortDriver::setDefaultValues(int TableIndex)
 //		pasynUser - the user associated with the TCP link (*not* the device connection user).	//
 //																								//
 //////////////////////////////////////////////////////////////////////////////////////////////////
-template<size_t NoOfPZD> bool CLeyboldSimPortDriver::process(asynUser *pasynUser, int TableIndex)
+template<size_t NoOfPZD> bool CLeyboldSimPortDriver::read(asynUser *pasynUser, USSPacket<NoOfPZD>& USSReadPacket)
 {
-	asynStatus status = asynSuccess;
-	USSPacket<NoOfPZD> USSWritePacket, USSReadPacket;
-	size_t nbytesOut, nbytesIn;
-	int eomReason;
-
-	if ((TableIndex < 0) || (TableIndex >= m_NumConnected))
-		throw CException(pasynUser, __FUNCTION__, "User / pump not configured");
-
 	// NB, This pasynUser is OK because it emitted by pasynOctetSyncIO->connect().
-	status = pasynOctetSyncIO->read(pasynUser, reinterpret_cast<char*>(USSReadPacket.m_Bytes), USSReadPacket.USSPacketSize, -1, &nbytesIn, &eomReason);
+	size_t nbytesIn;
+	int eomReason;
+	asynStatus status = pasynOctetSyncIO->read(pasynUser, reinterpret_cast<char*>(USSReadPacket.m_Bytes), USSReadPacket.USSPacketSize, -1, &nbytesIn, &eomReason);
 	if (status == asynTimeout)
 		return true;
 	if (status == asynDisconnected)
@@ -258,6 +262,38 @@ template<size_t NoOfPZD> bool CLeyboldSimPortDriver::process(asynUser *pasynUser
 		asynPrint(pasynUser, ASYN_TRACE_WARNING, "Packet validation failed %s %s\n", __FILE__, __FUNCTION__);
 		return true;
 	}
+	return true;
+}
+
+void CLeyboldSimPortDriver::process(asynUser *pasynUser, USSPacket<NoOfPZD6>& USSWritePacket, int TableIndex)
+{
+	epicsInt32 IBuf;
+	epicsFloat64 DBuf;
+	// Frequency - actual value. This is equivalent to parameter 3.
+	getIntegerParam(TableIndex, m_Parameters[STATORFREQUENCY], &IBuf);
+	USSWritePacket.m_USSPacketStruct.m_PZD[1] = IBuf;
+
+	// Converter temperature - actual value. This is equivalent to parameter 11.
+	getIntegerParam(TableIndex, m_Parameters[CONVERTERTEMPERATURE], &IBuf); 
+	USSWritePacket.m_USSPacketStruct.m_PZD[2] = IBuf;
+
+	// Motor current - actual value. This is equivalent to parameter 5.
+	getDoubleParam(TableIndex, m_Parameters[MOTORCURRENT], &DBuf); 
+	USSWritePacket.m_USSPacketStruct.m_PZD[3] = epicsUInt32(10.0 * DBuf + 0.5);
+
+	// Motor temperature - actual value. This is equivalent to parameter 7.
+	getIntegerParam(TableIndex, m_Parameters[PUMPTEMPERATURE], &IBuf); 
+	USSWritePacket.m_USSPacketStruct.m_PZD[4] = IBuf;
+
+	// Intermediate circuit voltage Uzk. This is equivalent to parameter 4.
+	getDoubleParam(TableIndex, m_Parameters[CIRCUITVOLTAGE], &DBuf);
+	USSWritePacket.m_USSPacketStruct.m_PZD[5] = epicsUInt32(10.0 * DBuf + 0.5);
+}
+
+template<size_t NoOfPZD> bool CLeyboldSimPortDriver::process(asynUser *pasynUser, USSPacket<NoOfPZD> const& USSReadPacket, USSPacket<NoOfPZD>& USSWritePacket, int TableIndex)
+{
+	if ((TableIndex < 0) || (TableIndex >= m_NumConnected))
+		throw CException(pasynUser, __FUNCTION__, "User / pump not configured");
 
 	epicsInt32 IBuf;
 	epicsFloat64 DBuf;
@@ -304,43 +340,77 @@ template<size_t NoOfPZD> bool CLeyboldSimPortDriver::process(asynUser *pasynUser
 	// Remote has been activated 1 = start/stop (control bit 0) and reset(control bit 7) through serial interface is possible.
 	USSWritePacket.m_USSPacketStruct.m_PZD[0] |= ((RemoteActivated ? 1 : 0) << 15);
 
-	getIntegerParam(TableIndex, m_Parameters[FAULT], &IBuf); USSWritePacket.m_USSPacketStruct.m_PZD[0] |= (IBuf << 3);
+	getIntegerParam(TableIndex, m_Parameters[FAULT], &IBuf);
 	bool Fault = (IBuf != 0);
 	if (Fault)
 	{
+		USSWritePacket.m_USSPacketStruct.m_PZD[0] |= (1 << 3);
 		setIntegerParam(TableIndex, m_Parameters[STATORFREQUENCY], 0);
 		setIntegerParam(TableIndex, m_Parameters[RUNNING], 0);
 	}
-	getIntegerParam(TableIndex, m_Parameters[WARNINGTEMPERATURE], &IBuf); USSWritePacket.m_USSPacketStruct.m_PZD[0] |= (IBuf << 2);
-	getIntegerParam(TableIndex, m_Parameters[WARNINGHIGHLOAD], &IBuf); USSWritePacket.m_USSPacketStruct.m_PZD[0] |= (IBuf << 13);
+	getIntegerParam(TableIndex, m_Parameters[WARNINGTEMPERATURE], &IBuf);
+	if (IBuf != 0)
+		USSWritePacket.m_USSPacketStruct.m_PZD[0] |= (1 << 2);
+	getIntegerParam(TableIndex, m_Parameters[WARNINGHIGHLOAD], &IBuf); 
+	if (IBuf != 0)
+		USSWritePacket.m_USSPacketStruct.m_PZD[0] |= (1 << 13);
 
-	switch (USSReadPacket.m_USSPacketStruct.m_IND)
+	epicsUInt16 PKE = 0;
+	if (USSReadPacket.m_USSPacketStruct.m_PKE & (1 << 12))
+		// The requested parameter is in the least 12 bits.
+		PKE = USSReadPacket.m_USSPacketStruct.m_PKE & 0X0FFF;
+
+	switch (PKE)
 	{
 	case 3 : 
-		// Frequency - actual value
+		// Frequency - actual value. This is equivalent to PZD[1].
 		getIntegerParam(TableIndex, m_Parameters[STATORFREQUENCY], &IBuf);
 		USSWritePacket.m_USSPacketStruct.m_PWE = IBuf;
 		break;
 	case 11:
-		// Converter temperature - actual value
+		// Converter temperature - actual value. This is equivalent to PZD[2].
 		getIntegerParam(TableIndex, m_Parameters[CONVERTERTEMPERATURE], &IBuf); 
 		USSWritePacket.m_USSPacketStruct.m_PWE = IBuf;
 		break;
 	case 5 :
-		// Motor current - actual value
+		// Motor current - actual value. This is equivalent to PZD[3].
 		getDoubleParam(TableIndex, m_Parameters[MOTORCURRENT], &DBuf); 
 		USSWritePacket.m_USSPacketStruct.m_PWE = epicsUInt32(10.0 * DBuf + 0.5);
 		break;
 	case 7 :
-		// Motor temperature - actual value
+		// Motor temperature - actual value. This is equivalent to PZD[4].
 		getIntegerParam(TableIndex, m_Parameters[PUMPTEMPERATURE], &IBuf); 
 		USSWritePacket.m_USSPacketStruct.m_PWE = IBuf;
 		break;
 	case 4 :
-		// Intermediate circuit voltage Uzk
+		// Intermediate circuit voltage Uzk. This is equivalent to PZD[5].
 		getDoubleParam(TableIndex, m_Parameters[CIRCUITVOLTAGE], &DBuf);
 		USSWritePacket.m_USSPacketStruct.m_PWE = epicsUInt32(10.0 * DBuf + 0.5);
 		break;
+	case 2 : 
+		// Software version (I assume this means firmware). e.g. 3.03.05
+		char CBuf[8]; // 7 chars plus null termination.
+		int Major, Minor1, Minor2;
+		getStringParam(TableIndex, m_Parameters[FIRMWAREVERSION], sizeof(CBuf), CBuf);
+		sscanf(CBuf, "%1d.%02d.%02d", &Major, &Minor1, &Minor2);
+		USSWritePacket.m_USSPacketStruct.m_PWE = Major * 10000 + Minor1 * 100 + Minor2;
+		break;
+	case 171:
+		// Error code
+		getIntegerParam(TableIndex, m_Parameters[FAULT], &IBuf); 
+		USSWritePacket.m_USSPacketStruct.m_PWE = IBuf;
+		break;
+	case 227:
+		// Temperature Warning code
+		getIntegerParam(TableIndex, m_Parameters[WARNINGTEMPERATURE], &IBuf); 
+		USSWritePacket.m_USSPacketStruct.m_PWE = IBuf;
+		break;
+	case 230:
+		// Load warning code.
+		getIntegerParam(TableIndex, m_Parameters[WARNINGHIGHLOAD], &IBuf); 
+		USSWritePacket.m_USSPacketStruct.m_PWE = IBuf;
+		break;
+
 	default:
 		break;
 		// No action.
@@ -350,8 +420,9 @@ template<size_t NoOfPZD> bool CLeyboldSimPortDriver::process(asynUser *pasynUser
 	USSWritePacket.m_USSPacketStruct.HToN();
 
 	// NB, *don't* pass pasynUser to this function - it has the wrong type and will cause an access violation.
-	status = pasynOctetSyncIO->write(pasynUser,
-		reinterpret_cast<char*>(&USSWritePacket), USSWritePacket.USSPacketSize,
+	size_t nbytesOut;
+	asynStatus status = pasynOctetSyncIO->write(pasynUser,
+		reinterpret_cast<char*>(&USSWritePacket.m_Bytes), USSWritePacket.USSPacketSize,
 		-1, &nbytesOut);
 	if (status == asynDisconnected)
 		return false;
@@ -365,10 +436,13 @@ template<size_t NoOfPZD> bool CLeyboldSimPortDriver::process(asynUser *pasynUser
 
 }
 
+bool process6ByteFields(asynUser *pasynUser, int TableIndex);
+
 static const iocshArg initArg0 = { "asynPortName", iocshArgString};
 static const iocshArg initArg1 = { "numPumps", iocshArgString};
-static const iocshArg * const initArgs[] = {&initArg0, &initArg1};
-static const iocshFuncDef initFuncDef = {"LeyboldSimPortDriverConfigure",2,initArgs};
+static const iocshArg initArg2 = { "NoOfPZD", iocshArgString};
+static const iocshArg * const initArgs[] = {&initArg0, &initArg1, &initArg2};
+static const iocshFuncDef initFuncDef = {"LeyboldSimPortDriverConfigure",3,initArgs};
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 //																								//
@@ -441,7 +515,9 @@ static const iocshFuncDef addFuncDef = {"LeyboldSimAddIOPort",1,addArgs};
 int LeyboldSimAddIOPort(const char *IOPortName)
 {
 	try {
-		g_LeyboldSimPortDriver->addIOPort(IOPortName);
+		// Test the driver has been configured
+		if (g_LeyboldSimPortDriver)
+			g_LeyboldSimPortDriver->addIOPort(IOPortName);
 	}
 	catch(CLeyboldSimPortDriver::CException const&) {
 	}

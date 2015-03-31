@@ -12,6 +12,7 @@ os.environ["EPICS_CA_ADDR_LIST"]="localhost"
 
 for Pump in range(1, int(NumPumps)+1):
 	epics.camonitor('TURBOSIM:' + str(Pump) + ':Running')
+	epics.camonitor('TURBOSIM:' + str(Pump) + ':FirmwareVersion')
 	epics.camonitor('TURBOSIM:' + str(Pump) + ':Fault')
 	epics.camonitor('TURBOSIM:' + str(Pump) + ':WarningTemperature')
 	epics.camonitor('TURBOSIM:' + str(Pump) + ':WarningHighLoad')

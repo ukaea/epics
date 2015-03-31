@@ -21,6 +21,8 @@
 #ifndef LEYBOLD_SIM_DRIVER_H
 #define LEYBOLD_SIM_DRIVER_H
 
+#include <USSPacket.h>
+
 #include <asynPortDriver.h>
 
 #include <map>
@@ -37,7 +39,9 @@ public:
 	void addIOPort(const char* IOPortName);
                  
 protected:
-    template<size_t NoOfPZD> bool process(asynUser *pasynUser, int TableIndex);
+    template<size_t NoOfPZD> bool read(asynUser *pasynUser, USSPacket<NoOfPZD>& USSReadPacket);
+    template<size_t NoOfPZD> bool process(asynUser *pasynUser, USSPacket<NoOfPZD> const& USSReadPacket, USSPacket<NoOfPZD>& USSWritePacket, int TableIndex);
+    void process(asynUser *pasynUser, USSPacket<NoOfPZD6>& USSWritePacket, int TableIndex);
 	static void octetConnectionCallback(void *userPvt, asynUser *pasynUser,
                       char *data,size_t numchars, int eomReason);
 	static void ListenerThread(void* parm);

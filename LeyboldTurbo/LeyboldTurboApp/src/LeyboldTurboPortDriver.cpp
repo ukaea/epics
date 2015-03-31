@@ -129,6 +129,10 @@ void CLeyboldTurboPortDriver::addIOPort(const char* IOPortName)
 				if (setDoubleParam (int(m_AsynUsers.size()), Index, 0) != asynSuccess)
 					throw CException(pasynUserSelf, __FUNCTION__, "setDoubleParam" + std::string(ParameterDefns[ParamIndex].ParamName));
 				break;
+			case asynParamOctet: 
+				if (setStringParam (int(m_AsynUsers.size()), Index, "") != asynSuccess)
+					throw CException(pasynUserSelf, __FUNCTION__, "setDoubleParam" + std::string(ParameterDefns[ParamIndex].ParamName));
+				break;
 			default: assert(false);
 		}
 	}
@@ -168,26 +172,6 @@ asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *v
 		if ((TableIndex < 0) || (TableIndex >= int(m_AsynUsers.size())))
 			throw CException(pasynUser, __FUNCTION__, "User / pump not configured");
 
-
-		if (function != m_Parameters[FIRMWAREVERSION])
-		{
-			if (m_NoOfPZD == NoOfPZD2)
-			{
-				USSPacket<NoOfPZD2> USSWritePacket(2), // Software version
-					USSReadPacket;
-				writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
-				if (setIntegerParam (TableIndex, m_Parameters[FIRMWAREVERSION], USSReadPacket.m_USSPacketStruct.m_PWE) != asynSuccess)
-					throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
-			}
-			else
-			{
-				USSPacket<NoOfPZD6> USSWritePacket(2), // Software version
-					USSReadPacket;
-				writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
-				if (setIntegerParam (TableIndex, m_Parameters[FIRMWAREVERSION], USSReadPacket.m_USSPacketStruct.m_PWE) != asynSuccess)
-					throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
-			}
-		}
 		else if (function == m_Parameters[FAULT])
 		{
 			if (m_NoOfPZD == NoOfPZD2)
@@ -203,17 +187,10 @@ asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *v
 						throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
 				}
 				{
-					USSPacket<NoOfPZD2> USSWritePacket(11), // Converter temperature - actual value
+					USSPacket<NoOfPZD2> USSWritePacket(4), // Intermediate circuit voltage Uzk
 						USSReadPacket;
 					writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
-					if (setIntegerParam (TableIndex, m_Parameters[CONVERTERTEMPERATURE], USSReadPacket.m_USSPacketStruct.m_PWE) != asynSuccess)
-						throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
-				}
-				{
-					USSPacket<NoOfPZD2> USSWritePacket(7), // Converter temperature - actual value
-						USSReadPacket;
-					writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
-					if (setIntegerParam (TableIndex, m_Parameters[PUMPTEMPERATURE], USSReadPacket.m_USSPacketStruct.m_PWE) != asynSuccess)
+					if (setIntegerParam (TableIndex, m_Parameters[CIRCUITVOLTAGE], USSReadPacket.m_USSPacketStruct.m_PWE) != asynSuccess)
 						throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
 				}
 				{
@@ -224,10 +201,17 @@ asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *v
 						throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
 				}
 				{
-					USSPacket<NoOfPZD2> USSWritePacket(4), // Intermediate circuit voltage Uzk
+					USSPacket<NoOfPZD2> USSWritePacket(7), // Converter temperature - actual value
 						USSReadPacket;
 					writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
-					if (setIntegerParam (TableIndex, m_Parameters[CIRCUITVOLTAGE], USSReadPacket.m_USSPacketStruct.m_PWE) != asynSuccess)
+					if (setIntegerParam (TableIndex, m_Parameters[PUMPTEMPERATURE], USSReadPacket.m_USSPacketStruct.m_PWE) != asynSuccess)
+						throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
+				}
+				{
+					USSPacket<NoOfPZD2> USSWritePacket(11), // Converter temperature - actual value
+						USSReadPacket;
+					writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
+					if (setIntegerParam (TableIndex, m_Parameters[CONVERTERTEMPERATURE], USSReadPacket.m_USSPacketStruct.m_PWE) != asynSuccess)
 						throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
 				}
 			}
@@ -245,6 +229,51 @@ asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *v
 	}
 	callParamCallbacks(TableIndex);
 	return asynPortDriver::readInt32(pasynUser, value);
+}
+
+asynStatus CLeyboldTurboPortDriver::readOctet(asynUser *pasynUser, char *value, size_t maxChars,
+                                        size_t *nActual, int *eomReason)
+{
+	int function = pasynUser->reason;
+	int TableIndex;
+	try {
+		if (getAddress(pasynUser, &TableIndex) != asynSuccess)
+			throw CException(pasynUser, __FUNCTION__, "Could not get address");
+		if ((TableIndex < 0) || (TableIndex >= int(m_AsynUsers.size())))
+			throw CException(pasynUser, __FUNCTION__, "User / pump not configured");
+		if (function == m_Parameters[FIRMWAREVERSION])
+		{
+			epicsUInt32 PWE;
+			// Software version (I assume this means firmware). e.g. 3.03.05
+			if (m_NoOfPZD == NoOfPZD2)
+			{
+				USSPacket<NoOfPZD2> USSWritePacket(2),
+					USSReadPacket;
+				writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
+				PWE = USSReadPacket.m_USSPacketStruct.m_PWE;
+			}
+			else
+			{
+				USSPacket<NoOfPZD6> USSWritePacket(2),
+					USSReadPacket;
+				writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
+				PWE = USSReadPacket.m_USSPacketStruct.m_PWE;
+			}
+			char CBuf[8]; // 7 chars plus null termination
+			int Major=PWE / 10000,
+				Minor1 = (PWE % 10000) / 100,
+				Minor2 = PWE %100;
+			_snprintf(CBuf, sizeof(CBuf), "%1d.%02d.%02d", Major, Minor1, Minor2);
+			if (setStringParam (TableIndex, m_Parameters[FIRMWAREVERSION], CBuf) != asynSuccess)
+				throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
+		}
+	}
+	catch(CException const&) {
+		// Internal communication failure
+		setIntegerParam(TableIndex, m_Parameters[FAULT], 65);
+	}
+	callParamCallbacks(TableIndex);
+	return asynPortDriver::readOctet(pasynUser, value, maxChars, nActual, eomReason);
 }
 
 template<size_t NoOfPZD> void CLeyboldTurboPortDriver::writeRead(int TableIndex, asynUser *pasynUser, USSPacket<NoOfPZD> USSWritePacket, USSPacket<NoOfPZD>& USSReadPacket)
@@ -494,7 +523,9 @@ static const iocshFuncDef addFuncDef = {"LeyboldTurboAddIOPort",1,addArgs};
 int LeyboldTurboAddIOPort(const char *IOPortName)
 {
 	try {
-		g_LeyboldTurboPortDriver->addIOPort(IOPortName);
+		// Test the driver has been configured
+		if (g_LeyboldTurboPortDriver)
+			g_LeyboldTurboPortDriver->addIOPort(IOPortName);
 	}
 	catch(CLeyboldTurboPortDriver::CException const&) {
 	}

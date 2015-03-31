@@ -56,7 +56,6 @@ record(bo, "$(P)Running")
 
 record(bo, "$(P)Reset")
 {
-	field(DESC, "Reset")
 	field(DTYP, "asynInt32")
 	field(OUT,  "@asyn($(PORT),$(ADDR),1)RESET")
 	field(HIGH, "1.0")
@@ -67,7 +66,6 @@ record(bo, "$(P)Reset")
 
 record(bi, "$(P)Fault")
 {
-	field(DESC, "Fault")
 	field(DTYP, "asynInt32")
 	field(INP,  "@asyn($(PORT),$(ADDR),1)FAULT")
 	field(SCAN, "5 second")
@@ -76,10 +74,9 @@ record(bi, "$(P)Fault")
 	field(ONAM,  "FAULT")
 }
 
-record(bi, "$(P)FirmwareVersion")
+record(stringin, "$(P)FirmwareVersion")
 {
-	field(DESC, "FirmwareVersion")
-	field(DTYP, "asynInt32")
+	field(DTYP, "asynOctetRead")
 	field(INP,  "@asyn($(PORT),$(ADDR),1)FIRMWAREVERSION")
 	field(PINI, "1")
 }
@@ -89,8 +86,6 @@ record(bi, "$(P)WarningTemperature")
     field(DTYP, "asynInt32")
 	field(INP,  "@asyn($(PORT),$(ADDR),1)WARNINGTEMPERATURE")
 	field(SCAN, "I/O Intr")
-	field(ZNAM,  "NORMAL")
-	field(ONAM,  "WARNING TEMPERATURE")
 }
 
 record(bi, "$(P)WarningHighLoad")
@@ -98,8 +93,6 @@ record(bi, "$(P)WarningHighLoad")
     field(DTYP, "asynInt32")
 	field(INP,  "@asyn($(PORT),$(ADDR),1)WARNINGHIGHLOAD")
 	field(SCAN, "I/O Intr")
-	field(ZNAM,  "NORMAL")
-	field(ONAM,  "WARNING HIGH LOAD")
 }
 
 record(ai, "$(P)StatorFrequency")
