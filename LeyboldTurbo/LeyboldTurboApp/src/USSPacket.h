@@ -9,8 +9,13 @@
 //		Defines the content of the packet.															//
 //		The union is used because the content is accessed both as individual structured fields,		//
 //		and as a byte array.																		//
+//		It is templated because there are two different packet sizes in use:						//
+//			The rear port of the MAG.DRIVE Digital controller uses a 16-byte packet (NoOfPZD == 2).	//
+//			The front port of the MAG.DRIVE Digital controller uses a 24-byte packet (NoOfPZD == 6).//
+//			Older controllers use a 24-byte packet (NoOfPZD == 6).									//
 //																									//
 //	Author:  Peter Heesterman (Tessella plc). Date: 05 Jan 2015.									//
+//	Written for CCFE (Culham Centre for Fusion Energy).												//
 //																									//
 //	LeyboldTurbo is distributed subject to a Software License Agreement								//
 //	found in file LICENSE that is included with this distribution.									//

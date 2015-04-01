@@ -112,6 +112,7 @@ cd $(ProjectDir)
     <None Include="src\Makefile" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\LeyboldBase.h" />
     <ClInclude Include="src\LeyboldTurboPortDriver.h" />
     <ClInclude Include="src\ParameterDefns.h" />
     <ClInclude Include="src\USSPacket.h" />

@@ -12,6 +12,7 @@
 //		protocol (http://www.automation.siemens.com/WW/forum/guests/PostShow.aspx?PostID=104133).	//
 //																									//
 //	Author:  Peter Heesterman (Tessella plc). Date: 05 Jan 2015.									//
+//	Written for CCFE (Culham Centre for Fusion Energy).												//
 //																									//
 //	LeyboldTurbo is distributed subject to a Software License Agreement								//
 //	found in file LICENSE that is included with this distribution.									//
@@ -33,7 +34,6 @@
 #include <epicsExport.h>
 
 #include <stdlib.h>
-#include <stdexcept>
 
 static CLeyboldSimPortDriver* g_LeyboldSimPortDriver;
 
@@ -42,22 +42,6 @@ static CLeyboldSimPortDriver* g_LeyboldSimPortDriver;
 static const int ASYN_TRACE_WARNING = ASYN_TRACE_ERROR;
 #endif
 
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-//																								//
-//	class CLeyboldSimPortDriver::CException : public std::runtime_error							//
-//	Description:																				//
-//		If an error ocurrs, an object of this type is thrown.									//
-//																								//
-//////////////////////////////////////////////////////////////////////////////////////////////////
-class CLeyboldSimPortDriver::CException : public std::runtime_error
-{
-public:
-	CException(asynUser* AsynUser, const char* functionName, std::string const& what) : std::runtime_error(what) {
-		std::string message = "%s:%s ERROR: " + what + "\n";
-		asynPrint(AsynUser, ASYN_TRACE_ERROR, message.c_str(), __FILE__, functionName, AsynUser->errorMessage);
-	}
-};
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 //																								//
@@ -74,19 +58,16 @@ public:
 //																								//
 //////////////////////////////////////////////////////////////////////////////////////////////////
 CLeyboldSimPortDriver::CLeyboldSimPortDriver(const char *asynPortName, int numPumps, int NoOfPZD)
-   : asynPortDriver(asynPortName, 
+   : CLeyboldBase(asynPortName, 
                     numPumps, // maxAddr
                     NUM_PARAMS-1, // -1 because Reset is not used.
+					NoOfPZD,
                     asynDrvUserMask | asynInt32Mask | asynFloat64Mask | asynOctetMask, // Interface mask
                     asynDrvUserMask | asynInt32Mask | asynFloat64Mask | asynOctetMask, // Interrupt mask
-					ASYN_MULTIDEVICE | ASYN_CANBLOCK,
-                    1, // Autoconnect
-                    0, // Default priority
-                    0) // Default stack size
+					ASYN_MULTIDEVICE | ASYN_CANBLOCK)
 {
 	m_NumConnected = 0;
 	m_Exiting = false;
-	m_NoOfPZD = NoOfPZD;
 }
 
 CLeyboldSimPortDriver::~CLeyboldSimPortDriver()
@@ -192,18 +173,15 @@ void CLeyboldSimPortDriver::addIOPort(const char* IOPortName)
 {
 	for (size_t ParamIndex = 0; ParamIndex < NUM_PARAMS; ParamIndex++)
 	{
-		int Index;
 		std::string const& ParamName =  ParameterDefns[ParamIndex].ParamName;
-		if (ParamName == "RESET")
+		if ((ParamName == "RESET") || (ParamName == "FAULTSTR"))
 			// Not implemented, because not meaningful for the simulater.
 			continue;
 
-		if (createParam(m_WasRunning.size(), ParamName.c_str(), ParameterDefns[ParamIndex].ParamType, &Index) != asynSuccess)
-			throw CException(pasynUserSelf, __FUNCTION__, "createParam" + std::string(ParameterDefns[ParamIndex].ParamName));
-		m_Parameters[ParamName] = Index;
+		createParam(m_WasRunning.size(), ParamIndex);
 	}
 	setDefaultValues(m_WasRunning.size());
-	setIntegerParam(m_WasRunning.size(), m_Parameters[FAULT], 0);
+	setIntegerParam(m_WasRunning.size(), FAULT, 0);
 
     asynUser *AsynUser = pasynManager->createAsynUser(0,0);
 
@@ -222,14 +200,14 @@ void CLeyboldSimPortDriver::addIOPort(const char* IOPortName)
 void CLeyboldSimPortDriver::setDefaultValues(int TableIndex)
 {
 	// The running state has just been enabled.
-	setIntegerParam(TableIndex, m_Parameters[RUNNING], 1);
-	setIntegerParam(TableIndex, m_Parameters[STATORFREQUENCY], 500);
-	setIntegerParam(TableIndex, m_Parameters[CONVERTERTEMPERATURE], 50);
-	setDoubleParam(TableIndex, m_Parameters[MOTORCURRENT], 10.0);
-	setIntegerParam(TableIndex, m_Parameters[PUMPTEMPERATURE], 40);
-	setDoubleParam(TableIndex, m_Parameters[CIRCUITVOLTAGE], 30.0);
-	setIntegerParam(TableIndex, m_Parameters[WARNINGTEMPERATURE], 0);
-	setIntegerParam(TableIndex, m_Parameters[WARNINGHIGHLOAD], 0);
+	setIntegerParam(TableIndex, RUNNING, 1);
+	setIntegerParam(TableIndex, STATORFREQUENCY, 500);
+	setIntegerParam(TableIndex, CONVERTERTEMPERATURE, 50);
+	setDoubleParam(TableIndex, MOTORCURRENT, 10.0);
+	setIntegerParam(TableIndex, PUMPTEMPERATURE, 40);
+	setDoubleParam(TableIndex, CIRCUITVOLTAGE, 30.0);
+	setIntegerParam(TableIndex, WARNINGTEMPERATURE, 0);
+	setIntegerParam(TableIndex, WARNINGHIGHLOAD, 0);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -270,23 +248,23 @@ void CLeyboldSimPortDriver::process(asynUser *pasynUser, USSPacket<NoOfPZD6>& US
 	epicsInt32 IBuf;
 	epicsFloat64 DBuf;
 	// Frequency - actual value. This is equivalent to parameter 3.
-	getIntegerParam(TableIndex, m_Parameters[STATORFREQUENCY], &IBuf);
+	IBuf = getIntegerParam(TableIndex, STATORFREQUENCY);
 	USSWritePacket.m_USSPacketStruct.m_PZD[1] = IBuf;
 
 	// Converter temperature - actual value. This is equivalent to parameter 11.
-	getIntegerParam(TableIndex, m_Parameters[CONVERTERTEMPERATURE], &IBuf); 
+	IBuf = getIntegerParam(TableIndex, CONVERTERTEMPERATURE); 
 	USSWritePacket.m_USSPacketStruct.m_PZD[2] = IBuf;
 
 	// Motor current - actual value. This is equivalent to parameter 5.
-	getDoubleParam(TableIndex, m_Parameters[MOTORCURRENT], &DBuf); 
+	DBuf = getDoubleParam(TableIndex, MOTORCURRENT); 
 	USSWritePacket.m_USSPacketStruct.m_PZD[3] = epicsUInt32(10.0 * DBuf + 0.5);
 
 	// Motor temperature - actual value. This is equivalent to parameter 7.
-	getIntegerParam(TableIndex, m_Parameters[PUMPTEMPERATURE], &IBuf); 
+	IBuf = getIntegerParam(TableIndex, PUMPTEMPERATURE); 
 	USSWritePacket.m_USSPacketStruct.m_PZD[4] = IBuf;
 
 	// Intermediate circuit voltage Uzk. This is equivalent to parameter 4.
-	getDoubleParam(TableIndex, m_Parameters[CIRCUITVOLTAGE], &DBuf);
+	DBuf = getDoubleParam(TableIndex, CIRCUITVOLTAGE);
 	USSWritePacket.m_USSPacketStruct.m_PZD[5] = epicsUInt32(10.0 * DBuf + 0.5);
 }
 
@@ -295,11 +273,8 @@ template<size_t NoOfPZD> bool CLeyboldSimPortDriver::process(asynUser *pasynUser
 	if ((TableIndex < 0) || (TableIndex >= m_NumConnected))
 		throw CException(pasynUser, __FUNCTION__, "User / pump not configured");
 
-	epicsInt32 IBuf;
-	epicsFloat64 DBuf;
 	// Normal operation 1 = the pump is running in the normal operation mode
-	getIntegerParam(TableIndex, m_Parameters[RUNNING], &IBuf);
-	bool Running = (IBuf != 0);
+	bool Running = (getIntegerParam(TableIndex, RUNNING) != 0);
 
 	//	control bit 10 = 1
 	bool RemoteActivated = ((USSReadPacket.m_USSPacketStruct.m_PZD[0] & (1 << 10)) != 0);
@@ -314,7 +289,7 @@ template<size_t NoOfPZD> bool CLeyboldSimPortDriver::process(asynUser *pasynUser
 		if ((USSReadPacket.m_USSPacketStruct.m_PZD[0] & (1 << 7)) && (!Running))
 		{
 			// Clear the fault condition.
-			setIntegerParam(TableIndex, m_Parameters[FAULT], 0);
+			setIntegerParam(TableIndex, FAULT, 0);
 		}
 	}
 
@@ -326,8 +301,8 @@ template<size_t NoOfPZD> bool CLeyboldSimPortDriver::process(asynUser *pasynUser
 	if (!Running && m_WasRunning[TableIndex])
 	{
 		// The running state has just been disabled.
-		setIntegerParam(TableIndex, m_Parameters[RUNNING], Running ? 1 : 0);
-		setIntegerParam(TableIndex, m_Parameters[STATORFREQUENCY], 0);
+		setIntegerParam(TableIndex, RUNNING, Running ? 1 : 0);
+		setIntegerParam(TableIndex, STATORFREQUENCY, 0);
 	}
 
 	m_WasRunning[TableIndex] = Running;
@@ -335,25 +310,24 @@ template<size_t NoOfPZD> bool CLeyboldSimPortDriver::process(asynUser *pasynUser
 	USSWritePacket.m_USSPacketStruct.m_PZD[0] = 0;
 
 	// Normal operation 1 = the pump is running in the normal operation mode
-	getIntegerParam(TableIndex, m_Parameters[RUNNING], &IBuf); USSWritePacket.m_USSPacketStruct.m_PZD[0] |= (IBuf << 10);
+	USSWritePacket.m_USSPacketStruct.m_PZD[0] |= (getIntegerParam(TableIndex, RUNNING) << 10);
 
 	// Remote has been activated 1 = start/stop (control bit 0) and reset(control bit 7) through serial interface is possible.
 	USSWritePacket.m_USSPacketStruct.m_PZD[0] |= ((RemoteActivated ? 1 : 0) << 15);
 
-	getIntegerParam(TableIndex, m_Parameters[FAULT], &IBuf);
-	bool Fault = (IBuf != 0);
+	bool Fault = (getIntegerParam(TableIndex, FAULT) != 0);
 	if (Fault)
 	{
 		USSWritePacket.m_USSPacketStruct.m_PZD[0] |= (1 << 3);
-		setIntegerParam(TableIndex, m_Parameters[STATORFREQUENCY], 0);
-		setIntegerParam(TableIndex, m_Parameters[RUNNING], 0);
+		setIntegerParam(TableIndex, STATORFREQUENCY, 0);
+		setIntegerParam(TableIndex, RUNNING, 0);
 	}
-	getIntegerParam(TableIndex, m_Parameters[WARNINGTEMPERATURE], &IBuf);
-	if (IBuf != 0)
+	if (getIntegerParam(TableIndex, WARNINGTEMPERATURE) != 0)
 		USSWritePacket.m_USSPacketStruct.m_PZD[0] |= (1 << 2);
-	getIntegerParam(TableIndex, m_Parameters[WARNINGHIGHLOAD], &IBuf); 
-	if (IBuf != 0)
+	if (getIntegerParam(TableIndex, WARNINGHIGHLOAD) != 0)
 		USSWritePacket.m_USSPacketStruct.m_PZD[0] |= (1 << 13);
+	if (getIntegerParam(TableIndex, WARNINGPURGE) != 0)
+		USSWritePacket.m_USSPacketStruct.m_PZD[0] |= (1 << 14);
 
 	epicsUInt16 PKE = 0;
 	if (USSReadPacket.m_USSPacketStruct.m_PKE & (1 << 12))
@@ -364,51 +338,43 @@ template<size_t NoOfPZD> bool CLeyboldSimPortDriver::process(asynUser *pasynUser
 	{
 	case 3 : 
 		// Frequency - actual value. This is equivalent to PZD[1].
-		getIntegerParam(TableIndex, m_Parameters[STATORFREQUENCY], &IBuf);
-		USSWritePacket.m_USSPacketStruct.m_PWE = IBuf;
+		USSWritePacket.m_USSPacketStruct.m_PWE = getIntegerParam(TableIndex, STATORFREQUENCY);
 		break;
 	case 11:
 		// Converter temperature - actual value. This is equivalent to PZD[2].
-		getIntegerParam(TableIndex, m_Parameters[CONVERTERTEMPERATURE], &IBuf); 
-		USSWritePacket.m_USSPacketStruct.m_PWE = IBuf;
+		USSWritePacket.m_USSPacketStruct.m_PWE = getIntegerParam(TableIndex, CONVERTERTEMPERATURE);
 		break;
 	case 5 :
 		// Motor current - actual value. This is equivalent to PZD[3].
-		getDoubleParam(TableIndex, m_Parameters[MOTORCURRENT], &DBuf); 
-		USSWritePacket.m_USSPacketStruct.m_PWE = epicsUInt32(10.0 * DBuf + 0.5);
+		USSWritePacket.m_USSPacketStruct.m_PWE = epicsUInt32(10.0 * getDoubleParam(TableIndex, MOTORCURRENT) + 0.5);
 		break;
 	case 7 :
 		// Motor temperature - actual value. This is equivalent to PZD[4].
-		getIntegerParam(TableIndex, m_Parameters[PUMPTEMPERATURE], &IBuf); 
-		USSWritePacket.m_USSPacketStruct.m_PWE = IBuf;
+		USSWritePacket.m_USSPacketStruct.m_PWE = getIntegerParam(TableIndex, PUMPTEMPERATURE);
 		break;
 	case 4 :
 		// Intermediate circuit voltage Uzk. This is equivalent to PZD[5].
-		getDoubleParam(TableIndex, m_Parameters[CIRCUITVOLTAGE], &DBuf);
-		USSWritePacket.m_USSPacketStruct.m_PWE = epicsUInt32(10.0 * DBuf + 0.5);
+		USSWritePacket.m_USSPacketStruct.m_PWE = epicsUInt32(10.0 * getDoubleParam(TableIndex, CIRCUITVOLTAGE) + 0.5);
 		break;
 	case 2 : 
 		// Software version (I assume this means firmware). e.g. 3.03.05
 		char CBuf[8]; // 7 chars plus null termination.
 		int Major, Minor1, Minor2;
-		getStringParam(TableIndex, m_Parameters[FIRMWAREVERSION], sizeof(CBuf), CBuf);
+		getStringParam(TableIndex, FIRMWAREVERSION, sizeof(CBuf), CBuf);
 		sscanf(CBuf, "%1d.%02d.%02d", &Major, &Minor1, &Minor2);
 		USSWritePacket.m_USSPacketStruct.m_PWE = Major * 10000 + Minor1 * 100 + Minor2;
 		break;
 	case 171:
 		// Error code
-		getIntegerParam(TableIndex, m_Parameters[FAULT], &IBuf); 
-		USSWritePacket.m_USSPacketStruct.m_PWE = IBuf;
+		USSWritePacket.m_USSPacketStruct.m_PWE = getIntegerParam(TableIndex, FAULT);
 		break;
 	case 227:
 		// Temperature Warning code
-		getIntegerParam(TableIndex, m_Parameters[WARNINGTEMPERATURE], &IBuf); 
-		USSWritePacket.m_USSPacketStruct.m_PWE = IBuf;
+		USSWritePacket.m_USSPacketStruct.m_PWE = getIntegerParam(TableIndex, WARNINGTEMPERATURE);
 		break;
 	case 230:
 		// Load warning code.
-		getIntegerParam(TableIndex, m_Parameters[WARNINGHIGHLOAD], &IBuf); 
-		USSWritePacket.m_USSPacketStruct.m_PWE = IBuf;
+		USSWritePacket.m_USSPacketStruct.m_PWE = getIntegerParam(TableIndex, WARNINGHIGHLOAD);
 		break;
 
 	default:

@@ -39,22 +39,6 @@ static CLeyboldTurboPortDriver* g_LeyboldTurboPortDriver;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 //																								//
-//	class CLeyboldTurboPortDriver::CException : public std::runtime_error						//
-//	Description:																				//
-//		If an error ocurrs, an object of this type is thrown.									//
-//																								//
-//////////////////////////////////////////////////////////////////////////////////////////////////
-class CLeyboldTurboPortDriver::CException : public std::runtime_error
-{
-public:
-	CException(asynUser* AsynUser, const char* functionName, std::string const& what) : std::runtime_error(what) {
-		std::string message = "%s:%s ERROR: " + what + "\n";
-		asynPrint(AsynUser, ASYN_TRACE_ERROR, message.c_str(), __FILE__, functionName, AsynUser->errorMessage);
-	}
-};
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-//																								//
 //	CLeyboldTurboPortDriver::CLeyboldTurboPortDriver(const char *asynPortName, int numPumps)	//
 //	CLeyboldTurboPortDriver::~CLeyboldTurboPortDriver()											//
 //																								//
@@ -68,17 +52,14 @@ public:
 //																								//
 //////////////////////////////////////////////////////////////////////////////////////////////////
 CLeyboldTurboPortDriver::CLeyboldTurboPortDriver(const char *asynPortName, int numPumps, int NoOfPZD)
-   : asynPortDriver(asynPortName, 
+   : CLeyboldBase(asynPortName, 
                     numPumps, // maxAddr
                     NUM_PARAMS,
+					NoOfPZD,
                     asynDrvUserMask | asynInt32Mask | asynFloat64Mask | asynOctetMask, // Interface mask
                     asynDrvUserMask | asynInt32Mask | asynFloat64Mask | asynOctetMask, // Interrupt mask
-					ASYN_MULTIDEVICE,
-                    1, // Autoconnect
-                    0, // Default priority
-                    0) // Default stack size
+					ASYN_MULTIDEVICE)
 {
-	m_NoOfPZD = NoOfPZD;
 }
 
 CLeyboldTurboPortDriver::~CLeyboldTurboPortDriver()
@@ -113,25 +94,19 @@ void CLeyboldTurboPortDriver::addIOPort(const char* IOPortName)
 	{
 		// Create parameters from the definitions.
 		// These variables end up being addressed as e.g. TURBO:1:RUNNING.
-		int Index;
 		std::string const& ParamName =  ParameterDefns[ParamIndex].ParamName;
-		if (createParam(int(m_AsynUsers.size()), ParamName.c_str(), ParameterDefns[ParamIndex].ParamType, &Index) != asynSuccess)
-			throw CException(pasynUserSelf, __FUNCTION__, "createParam" + std::string(ParameterDefns[ParamIndex].ParamName));
-		m_Parameters[ParamName] = Index;
+		createParam(int(m_AsynUsers.size()), ParamIndex);
 		switch(ParameterDefns[ParamIndex].ParamType)
 		{
 			// Set default values.
 			case asynParamInt32: 
-				if (setIntegerParam(int(m_AsynUsers.size()), Index, 0) != asynSuccess)
-					throw CException(pasynUserSelf, __FUNCTION__, "setIntegerParam" + std::string(ParameterDefns[ParamIndex].ParamName));
+				setIntegerParam(m_AsynUsers.size(), ParameterDefns[ParamIndex].ParamName, 0);
 				break;
 			case asynParamFloat64: 
-				if (setDoubleParam (int(m_AsynUsers.size()), Index, 0) != asynSuccess)
-					throw CException(pasynUserSelf, __FUNCTION__, "setDoubleParam" + std::string(ParameterDefns[ParamIndex].ParamName));
+				setDoubleParam (int(m_AsynUsers.size()), ParameterDefns[ParamIndex].ParamName, 0.0);
 				break;
 			case asynParamOctet: 
-				if (setStringParam (int(m_AsynUsers.size()), Index, "") != asynSuccess)
-					throw CException(pasynUserSelf, __FUNCTION__, "setDoubleParam" + std::string(ParameterDefns[ParamIndex].ParamName));
+				setStringParam (int(m_AsynUsers.size()), ParameterDefns[ParamIndex].ParamName, "");
 				break;
 			default: assert(false);
 		}
@@ -172,7 +147,7 @@ asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *v
 		if ((TableIndex < 0) || (TableIndex >= int(m_AsynUsers.size())))
 			throw CException(pasynUser, __FUNCTION__, "User / pump not configured");
 
-		else if (function == m_Parameters[FAULT])
+		if (function == Parameters(FAULT))
 		{
 			if (m_NoOfPZD == NoOfPZD2)
 			{
@@ -183,36 +158,31 @@ asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *v
 					USSPacket<NoOfPZD2> USSWritePacket(3), // Frequency - actual value
 						USSReadPacket;
 					writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
-					if (setIntegerParam (TableIndex, m_Parameters[STATORFREQUENCY], USSReadPacket.m_USSPacketStruct.m_PWE) != asynSuccess)
-						throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
+					setIntegerParam (TableIndex, STATORFREQUENCY, USSReadPacket.m_USSPacketStruct.m_PWE);
 				}
 				{
 					USSPacket<NoOfPZD2> USSWritePacket(4), // Intermediate circuit voltage Uzk
 						USSReadPacket;
 					writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
-					if (setIntegerParam (TableIndex, m_Parameters[CIRCUITVOLTAGE], USSReadPacket.m_USSPacketStruct.m_PWE) != asynSuccess)
-						throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
+					setIntegerParam (TableIndex, CIRCUITVOLTAGE, USSReadPacket.m_USSPacketStruct.m_PWE);
 				}
 				{
 					USSPacket<NoOfPZD2> USSWritePacket(5), // Motor current - actual value
 						USSReadPacket;
 					writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
-					if (setIntegerParam (TableIndex, m_Parameters[MOTORCURRENT], USSReadPacket.m_USSPacketStruct.m_PWE) != asynSuccess)
-						throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
+					setIntegerParam (TableIndex, MOTORCURRENT, USSReadPacket.m_USSPacketStruct.m_PWE);
 				}
 				{
 					USSPacket<NoOfPZD2> USSWritePacket(7), // Converter temperature - actual value
 						USSReadPacket;
 					writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
-					if (setIntegerParam (TableIndex, m_Parameters[PUMPTEMPERATURE], USSReadPacket.m_USSPacketStruct.m_PWE) != asynSuccess)
-						throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
+					setIntegerParam (TableIndex, PUMPTEMPERATURE, USSReadPacket.m_USSPacketStruct.m_PWE);
 				}
 				{
 					USSPacket<NoOfPZD2> USSWritePacket(11), // Converter temperature - actual value
 						USSReadPacket;
 					writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
-					if (setIntegerParam (TableIndex, m_Parameters[CONVERTERTEMPERATURE], USSReadPacket.m_USSPacketStruct.m_PWE) != asynSuccess)
-						throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
+					setIntegerParam (TableIndex, CONVERTERTEMPERATURE, USSReadPacket.m_USSPacketStruct.m_PWE);
 				}
 			}
 			else
@@ -225,7 +195,7 @@ asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *v
 	}
 	catch(CException const&) {
 		// Internal communication failure
-		setIntegerParam(TableIndex, m_Parameters[FAULT], 65);
+		setIntegerParam(TableIndex, FAULT, 65);
 	}
 	callParamCallbacks(TableIndex);
 	return asynPortDriver::readInt32(pasynUser, value);
@@ -241,7 +211,7 @@ asynStatus CLeyboldTurboPortDriver::readOctet(asynUser *pasynUser, char *value, 
 			throw CException(pasynUser, __FUNCTION__, "Could not get address");
 		if ((TableIndex < 0) || (TableIndex >= int(m_AsynUsers.size())))
 			throw CException(pasynUser, __FUNCTION__, "User / pump not configured");
-		if (function == m_Parameters[FIRMWAREVERSION])
+		if (function == Parameters(FIRMWAREVERSION))
 		{
 			epicsUInt32 PWE;
 			// Software version (I assume this means firmware). e.g. 3.03.05
@@ -264,13 +234,12 @@ asynStatus CLeyboldTurboPortDriver::readOctet(asynUser *pasynUser, char *value, 
 				Minor1 = (PWE % 10000) / 100,
 				Minor2 = PWE %100;
 			_snprintf(CBuf, sizeof(CBuf), "%1d.%02d.%02d", Major, Minor1, Minor2);
-			if (setStringParam (TableIndex, m_Parameters[FIRMWAREVERSION], CBuf) != asynSuccess)
-				throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
+			setStringParam (TableIndex, FIRMWAREVERSION, CBuf);
 		}
 	}
 	catch(CException const&) {
 		// Internal communication failure
-		setIntegerParam(TableIndex, m_Parameters[FAULT], 65);
+		setIntegerParam(TableIndex, FAULT, 65);
 	}
 	callParamCallbacks(TableIndex);
 	return asynPortDriver::readOctet(pasynUser, value, maxChars, nActual, eomReason);
@@ -303,12 +272,10 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::writeRead(int TableIndex,
 template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processRead(int TableIndex, asynUser *pasynUser, USSPacket<NoOfPZD> const& USSReadPacket)
 {
 	// Normal operation 1 = the pump is running in the normal operation mode
-	if (setIntegerParam (TableIndex, m_Parameters[RUNNING], USSReadPacket.m_USSPacketStruct.m_PZD[0] & (1 << 10) ? 1 : 0) != asynSuccess)
-		throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
+	setIntegerParam (TableIndex, RUNNING, USSReadPacket.m_USSPacketStruct.m_PZD[0] & (1 << 10) ? 1 : 0);
 
 	// Remote has been activated 1 = start/stop (control bit 0) and reset(control bit 7) through serial interface is possible.
-	if (setIntegerParam (TableIndex, m_Parameters[RESET], USSReadPacket.m_USSPacketStruct.m_PZD[0] & (1 << 15) ? 1 : 0) != asynSuccess)
-		throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
+	setIntegerParam (TableIndex, RESET, USSReadPacket.m_USSPacketStruct.m_PZD[0] & (1 << 15) ? 1 : 0);
 
 	if (USSReadPacket.m_USSPacketStruct.m_PZD[0] & (1 << 3))
 	{
@@ -317,8 +284,89 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processRead(int TableInde
 
 		writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
 
-		if (setIntegerParam (TableIndex, m_Parameters[FAULT], USSReadPacket.m_USSPacketStruct.m_PWE) != asynSuccess)
-			throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
+		setIntegerParam (TableIndex, FAULT, USSReadPacket.m_USSPacketStruct.m_PWE);
+
+		const char* ErrorStrings[77] =
+		{"",													// 0, No failure
+		"Overload (load limit exceeded)",						// 1
+		"Motor temperature too high",							// 2
+		"There has been a mains failure",						// 3
+		"Converter temperature too high",						// 4
+		"An overspeed has occurred",							// 5
+		"During overload the shutdown frequency has dropped below the limit", // 6
+		"Max. run-up time was exceeded",						// 7
+		"Pump identification communication failure",			// 8
+		"Bearing temperature too high",							// 9
+		"Cooling water temperature too high",					// 10
+		"Warning TMS failure",									// 11
+		"Warning Unbalance PVW13",								// 12
+		"Warning Unbalance PVW24",								// 13
+		"Warning Unbalance PZ12",								// 14
+		"Warning magnetic bearings",							// 15
+		"Max. overload time has been exceeded",					// 16
+		"No motor current",										// 17
+		"Pump connection converter failure",					// 18
+		"Run-up time has been exceeded",						// 19
+		"TMS failure",											// 20
+		"TMS failure",											// 21
+		"TMS failure",											// 22
+		"TMS failure",											// 23
+		"TMS failure",											// 24
+		"Unspecified",											// 25
+		"Bearing temperature sensor short-circuit failure",		// 26
+		"Cooling water temperature sensor short-circuit",		// 27
+		"Motor temperature sensor short-circuit",				// 28
+		"Bearing temperature sensor interruption failure",		// 29
+		"Cooling water temperature sensor interruption failure",// 30 yes yes yes
+		"Internal connection failure",							// 31
+		"Internal connection failure",							// 32
+		"Magnetic bearing overload PZ12",						// 33
+		"Magnetic bearing overload PV13",						// 34
+		"Magnetic bearing overload PW24",						// 35
+		"Unspecified",											// 36
+		"Flow warning",											// 37
+		"Warning operation without purge gas",					// 38
+		"Magnetic bearing failure",								// 39
+		"Magnetic bearing, purge gas OFF",						// 40
+		"Magnetic bearing, purge gas ON",						// 41
+		"Magnetic bearing code wrong",							// 42
+		"Internal failure",										// 43
+		"Internal failure",										// 44
+		"Internal failure",										// 45
+		"Internal failure",										// 46
+		"Internal failure",										// 47
+		"Internal failure",										// 48
+		"Internal failure",										// 49
+		"Internal failure",										// 50
+		"Internal failure",										// 51
+		"Internal failure",										// 52
+		"Internal failure",										// 53
+		"Internal failure",										// 54
+		"Internal failure",										// 55
+		"External shutdown for protection",						// 56
+		"Internal failure",										// 57
+		"Internal failure",										// 58
+		"Internal failure",										// 59
+		"Internal failure",										// 60
+		"Internal failure",										// 61
+		"Internal failure",										// 62
+		"Internal communication failure (SPI)",					// 63
+		"Magnetic bearing electronics not properly initialised (data set error)", // 64
+		"Internal communication timeout",						// 65
+		"Magnetic bearing overloaded",							// 66
+		"Internal overload",									// 67
+		"Rotor not lifted",										// 68
+		"ABS inactive warning",									// 69 
+		"ABS active warning",									// 70
+		"Failure during parameter download",					// 71
+		"Failure during firmware download",						// 72
+		"Operating cycles limit has been reached",				// 73
+		"Operating hours limit has been reached",				// 74
+		"Faulty configuration",									// 75
+		"Firmware update is required"							// 76
+		};
+
+		setStringParam (TableIndex, FAULTSTR, ErrorStrings[USSReadPacket.m_USSPacketStruct.m_PWE]);
 	}
 
 	if (USSReadPacket.m_USSPacketStruct.m_PZD[0] & (1 << 7))
@@ -328,24 +376,30 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processRead(int TableInde
 
 		writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
 
-		if (setIntegerParam (TableIndex, m_Parameters[WARNINGTEMPERATURE], USSReadPacket.m_USSPacketStruct.m_PWE) != asynSuccess)
-			throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
+		setIntegerParam (TableIndex, WARNINGTEMPERATURE, USSReadPacket.m_USSPacketStruct.m_PWE);
 	}
 
 	if (USSReadPacket.m_USSPacketStruct.m_PZD[0] & (1 << 13))
 	{
 		// We have a high load warning status. Request the warning bits.
+		USSPacket<NoOfPZD> USSWritePacket(228), USSReadPacket;
+
+		writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
+
+		setIntegerParam (TableIndex, WARNINGHIGHLOAD, USSReadPacket.m_USSPacketStruct.m_PWE);
+	}
+
+	if (USSReadPacket.m_USSPacketStruct.m_PZD[0] & (1 << 14))
+	{
+		// We have a purge not active warning status. Request the warning bits.
 		USSPacket<NoOfPZD> USSWritePacket(230), USSReadPacket;
 
 		writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
 
-		if (setIntegerParam (TableIndex, m_Parameters[WARNINGHIGHLOAD], USSReadPacket.m_USSPacketStruct.m_PWE) != asynSuccess)
-			throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
+		setIntegerParam (TableIndex, WARNINGHIGHLOAD, USSReadPacket.m_USSPacketStruct.m_PWE);
 	}
 
-	if (setIntegerParam (TableIndex, m_Parameters[STATORFREQUENCY], USSReadPacket.m_USSPacketStruct.m_PZD[1]) != asynSuccess)
-		throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
-
+	setIntegerParam (TableIndex, STATORFREQUENCY, USSReadPacket.m_USSPacketStruct.m_PZD[1]);
 }
 
 template void CLeyboldTurboPortDriver::processRead<CLeyboldTurboPortDriver::NoOfPZD2>(int TableIndex, asynUser *pasynUser, USSPacket<NoOfPZD2> const& USSReadPacket);
@@ -363,15 +417,10 @@ void CLeyboldTurboPortDriver::process(int TableIndex, asynUser *pasynUser, USSPa
 
 	processRead(TableIndex, pasynUser, USSReadPacket);
 
-	if (setIntegerParam (TableIndex, m_Parameters[CONVERTERTEMPERATURE], USSReadPacket.m_USSPacketStruct.m_PZD[2]) != asynSuccess)
-		throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
-	if (setDoubleParam  (TableIndex, m_Parameters[MOTORCURRENT], 0.1 * USSReadPacket.m_USSPacketStruct.m_PZD[3]) != asynSuccess)
-		throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
-	if (setIntegerParam (TableIndex, m_Parameters[PUMPTEMPERATURE], USSReadPacket.m_USSPacketStruct.m_PZD[4]) != asynSuccess)
-		throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
-	if (setDoubleParam  (TableIndex, m_Parameters[CIRCUITVOLTAGE], 0.1 * USSReadPacket.m_USSPacketStruct.m_PZD[5]) != asynSuccess)
-		throw CException(pasynUser, __FUNCTION__, "Can't set parameter");
-
+	setIntegerParam (TableIndex, CONVERTERTEMPERATURE, USSReadPacket.m_USSPacketStruct.m_PZD[2]);
+	setDoubleParam  (TableIndex, MOTORCURRENT, 0.1 * USSReadPacket.m_USSPacketStruct.m_PZD[3]);
+	setIntegerParam (TableIndex, PUMPTEMPERATURE, USSReadPacket.m_USSPacketStruct.m_PZD[4]);
+	setDoubleParam  (TableIndex, CIRCUITVOLTAGE, 0.1 * USSReadPacket.m_USSPacketStruct.m_PZD[5]);
 	asynPrint(pasynUser, ASYN_TRACE_FLOW, "Packet success %s %s\n", __FILE__, __FUNCTION__);
 }
 
@@ -382,7 +431,7 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processWrite(int TableInd
 	asynUser* IOUser = m_AsynUsers[TableIndex];
 	int function = pasynUser->reason;
 
-	if (function == m_Parameters[RUNNING])
+	if (function == Parameters(RUNNING))
 	{
 		// 1 = Start; 0 = Stop
 		// Is only run provided if
@@ -392,12 +441,10 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processWrite(int TableInd
 		USSWritePacket.m_USSPacketStruct.m_PZD[0] |= (value ? 1 : 0) << 0; // Set Running bit.
 	}
 
-	if (function == m_Parameters[RESET])
+	if (function == Parameters(RESET))
 	{
-		int IBuf;
 		// Normal operation 1 = the pump is running in the normal operation mode
-		if (getIntegerParam(TableIndex, m_Parameters[RUNNING], &IBuf) != asynSuccess)
-			throw CException(pasynUser, __FUNCTION__, "Can't get parameter");
+		int IBuf = getIntegerParam(TableIndex, RUNNING);
 		bool Running = (IBuf != 0);
 		// 0 to 1 transition = Error reset
 		//
@@ -438,7 +485,7 @@ asynStatus CLeyboldTurboPortDriver::writeInt32(asynUser *pasynUser, epicsInt32 v
 			processWrite<NoOfPZD6>(TableIndex, pasynUser, value);
 	}
 	catch(CException const&) {
-		setIntegerParam(TableIndex, m_Parameters[FAULT], 1);
+		setIntegerParam(TableIndex, FAULT, 65);
 	}
 	callParamCallbacks(TableIndex);
 	return status;

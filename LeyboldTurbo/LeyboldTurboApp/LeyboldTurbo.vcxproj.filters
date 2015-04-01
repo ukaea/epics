@@ -49,6 +49,9 @@
     <ClInclude Include="src\USSPacket.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="src\LeyboldBase.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="src\LeyboldTurboInclude.dbd">

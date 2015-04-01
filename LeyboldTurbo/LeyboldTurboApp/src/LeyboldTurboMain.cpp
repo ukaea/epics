@@ -4,6 +4,7 @@
 //																				//
 //	Description: IOC Application startup.										//
 //	Author:  Peter Heesterman (Tessella plc). Date: 05 Jan 2015.				//
+//	Written for CCFE (Culham Centre for Fusion Energy).							//
 //																				//
 //	LeyboldTurbo is distributed subject to a Software License Agreement			//
 //	found in file LICENSE that is included with this distribution.				//

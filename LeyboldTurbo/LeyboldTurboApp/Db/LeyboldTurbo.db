@@ -9,6 +9,7 @@
 #		(i.e. outputs in one are inputs in the other).												#
 #																									#
 #	Author:  Peter Heesterman (Tessella plc). Date: 05 Jan 2015.									#
+#	Written for CCFE (Culham Centre for Fusion Energy).												#
 #																									#
 #	LeyboldTurbo is distributed subject to a Software License Agreement								#
 #	found in file LICENSE that is included with this distribution.									#
@@ -44,8 +45,11 @@ record(bo, "$(P)Running")
 #	Field(s)																						#
 #		Reset:					Set to true for a pump reset (rising edge). Returns to the false.	#
 #		Fault:					The pump has a fault.												#
+#		FaultStr:				The pump's fault expressed as a string.								#
+#		FirmwareVersion:		The pumps firmware version string is read out (start-up only).		#
 #		WarningTemperature:		The pump has a high temperature warning.							#
 #		WarningHighLoad:		The pump has a high load warning.									#
+#		WarningPurge:			The pump has purge warning.											#
 #		StatorFrequency:		The pump's stator frequency value.									#
 #		ConverterTemperature:	The pump's converter temperature value.								#
 #		MotorCurrent:			The pump's motor current value.										#
@@ -64,14 +68,19 @@ record(bo, "$(P)Reset")
 	field(VAL, 0)
 }
 
-record(bi, "$(P)Fault")
+record(longin, "$(P)Fault")
 {
 	field(DTYP, "asynInt32")
 	field(INP,  "@asyn($(PORT),$(ADDR),1)FAULT")
 	field(SCAN, "5 second")
 	field(PINI, "1")
-	field(ZNAM,  "NORMAL")
-	field(ONAM,  "FAULT")
+}
+
+record(stringin, "$(P)FaultStr")
+{
+	field(DTYP, "asynOctetRead")
+	field(INP,  "@asyn($(PORT),$(ADDR),1)FIRMWAREVERSION")
+	field(SCAN, "I/O Intr")
 }
 
 record(stringin, "$(P)FirmwareVersion")
@@ -81,18 +90,73 @@ record(stringin, "$(P)FirmwareVersion")
 	field(PINI, "1")
 }
 
-record(bi, "$(P)WarningTemperature")
+record(mbbi, "$(P)WarningTemperature")
 {
     field(DTYP, "asynInt32")
 	field(INP,  "@asyn($(PORT),$(ADDR),1)WARNINGTEMPERATURE")
 	field(SCAN, "I/O Intr")
+	field(ZRST, "Motor temperature"
+	field(ONST, "Converter temperature"
+	field(TWST, "Bearing temperature"
+	field(THST, "Cooling water temperature"
+	field(FRST, "TCU temperature"
+	field(FVST, "Pump identifier communication"
+	field(SXST, "Overspeed"
+	field(SVST, "TCU collective warning"
+	field(EIST, "No flow"
+	field(NIST, "Magnetic bearing code"
+	field(TEST, "Imbalance PVW13 warning"
+	field(ELST, "Imbalance PVW24 warning"
+	field(TVST, "Imbalance PZ12 warning"
+	field(TTST, "No purge gas"
+	field(FTST, "Too much purge gas"
+	field(FFST, "Operation without purge gas"
 }
 
-record(bi, "$(P)WarningHighLoad")
+record(mbbi, "$(P)WarningHighLoad")
 {
     field(DTYP, "asynInt32")
 	field(INP,  "@asyn($(PORT),$(ADDR),1)WARNINGHIGHLOAD")
 	field(SCAN, "I/O Intr")
+	field(ZRST, "TMS heater failed")
+	field(ONST, "TMS time error")
+	field(TWST, "TMS Pt 100 defective")
+	field(THST, "TMS heating current too high")
+	field(FRST, "TMS fuse defective")
+	field(FVST, "Unassigned")
+	field(SXST, "Pump identifier read error")
+	field(SVST, "Pump identifier write error")
+	field(EIST, "Pump identifier without communication upon switch on")
+	field(NIST, "ABS inactive")
+	field(TEST, "ABS active")
+	field(ELST, "Magnetic bearing inactive")
+	field(TVST, "Magnetic bearing overloaded")
+	field(TTST, "Internal overload")
+	field(FTST, "SPI communication (AMB2SR)")
+	field(FFST, "SPI communication (SR2AMB)")
+}
+
+record(mbbi, "$(P)WarningPurge")
+{
+    field(DTYP, "asynInt32")
+	field(INP,  "@asyn($(PORT),$(ADDR),1)WARNINGPURGE")
+	field(SCAN, "I/O Intr")
+	field(ZRST, "Pump identifier CRC data error")
+	field(ONST, "Pump identifier CRC protocol error")
+	field(TWST, "Pump identifier timeout")
+	field(THST, "TMS temperature incorrect")
+	field(FRST, "Unassigned")
+	field(FVST, "Number of cycles")
+	field(SXST, "Number of hours")
+	field(SVST, "EEPROM contents")
+	field(EIST, "Unassigned")
+	field(NIST, "Unassigned")
+	field(TEST, "Unassigned")
+	field(ELST, "Unassigned")
+	field(TVST, "Unassigned")
+	field(TTST, "Unassigned")
+	field(FTST, "Unassigned")
+	field(FFST, "Unassigned")
 }
 
 record(ai, "$(P)StatorFrequency")
