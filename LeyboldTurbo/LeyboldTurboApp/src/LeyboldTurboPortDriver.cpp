@@ -53,12 +53,11 @@ static CLeyboldTurboPortDriver* g_LeyboldTurboPortDriver;
 //////////////////////////////////////////////////////////////////////////////////////////////////
 CLeyboldTurboPortDriver::CLeyboldTurboPortDriver(const char *asynPortName, int numPumps, int NoOfPZD)
    : CLeyboldBase(asynPortName, 
-                    numPumps, // maxAddr
+                    numPumps,	// maxAddr
                     NUM_PARAMS,
-					NoOfPZD,
-                    asynDrvUserMask | asynInt32Mask | asynFloat64Mask | asynOctetMask, // Interface mask
-                    asynDrvUserMask | asynInt32Mask | asynFloat64Mask | asynOctetMask, // Interrupt mask
-					ASYN_MULTIDEVICE)
+					NoOfPZD,	// Either 2 or 6, depending on the serial port and model
+                    asynDrvUserMask | asynInt32Mask | asynFloat64Mask | asynOctetMask // Interface and interrupt mask// Interface mask
+					)
 {
 }
 
@@ -95,7 +94,7 @@ void CLeyboldTurboPortDriver::addIOPort(const char* IOPortName)
 		// Create parameters from the definitions.
 		// These variables end up being addressed as e.g. TURBO:1:RUNNING.
 		std::string const& ParamName =  ParameterDefns[ParamIndex].ParamName;
-		createParam(int(m_AsynUsers.size()), ParamIndex);
+		createParam(m_AsynUsers.size(), ParamIndex);
 		switch(ParameterDefns[ParamIndex].ParamType)
 		{
 			// Set default values.
@@ -286,87 +285,94 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processRead(int TableInde
 
 		setIntegerParam (TableIndex, FAULT, USSReadPacket.m_USSPacketStruct.m_PWE);
 
-		const char* ErrorStrings[77] =
-		{"",													// 0, No failure
-		"Overload (load limit exceeded)",						// 1
-		"Motor temperature too high",							// 2
-		"There has been a mains failure",						// 3
-		"Converter temperature too high",						// 4
-		"An overspeed has occurred",							// 5
-		"During overload the shutdown frequency has dropped below the limit", // 6
-		"Max. run-up time was exceeded",						// 7
-		"Pump identification communication failure",			// 8
-		"Bearing temperature too high",							// 9
-		"Cooling water temperature too high",					// 10
-		"Warning TMS failure",									// 11
-		"Warning Unbalance PVW13",								// 12
-		"Warning Unbalance PVW24",								// 13
-		"Warning Unbalance PZ12",								// 14
-		"Warning magnetic bearings",							// 15
-		"Max. overload time has been exceeded",					// 16
-		"No motor current",										// 17
-		"Pump connection converter failure",					// 18
-		"Run-up time has been exceeded",						// 19
-		"TMS failure",											// 20
-		"TMS failure",											// 21
-		"TMS failure",											// 22
-		"TMS failure",											// 23
-		"TMS failure",											// 24
-		"Unspecified",											// 25
-		"Bearing temperature sensor short-circuit failure",		// 26
-		"Cooling water temperature sensor short-circuit",		// 27
-		"Motor temperature sensor short-circuit",				// 28
-		"Bearing temperature sensor interruption failure",		// 29
-		"Cooling water temperature sensor interruption failure",// 30 yes yes yes
-		"Internal connection failure",							// 31
-		"Internal connection failure",							// 32
-		"Magnetic bearing overload PZ12",						// 33
-		"Magnetic bearing overload PV13",						// 34
-		"Magnetic bearing overload PW24",						// 35
-		"Unspecified",											// 36
-		"Flow warning",											// 37
-		"Warning operation without purge gas",					// 38
-		"Magnetic bearing failure",								// 39
-		"Magnetic bearing, purge gas OFF",						// 40
-		"Magnetic bearing, purge gas ON",						// 41
-		"Magnetic bearing code wrong",							// 42
-		"Internal failure",										// 43
-		"Internal failure",										// 44
-		"Internal failure",										// 45
-		"Internal failure",										// 46
-		"Internal failure",										// 47
-		"Internal failure",										// 48
-		"Internal failure",										// 49
-		"Internal failure",										// 50
-		"Internal failure",										// 51
-		"Internal failure",										// 52
-		"Internal failure",										// 53
-		"Internal failure",										// 54
-		"Internal failure",										// 55
-		"External shutdown for protection",						// 56
-		"Internal failure",										// 57
-		"Internal failure",										// 58
-		"Internal failure",										// 59
-		"Internal failure",										// 60
-		"Internal failure",										// 61
-		"Internal failure",										// 62
-		"Internal communication failure (SPI)",					// 63
-		"Magnetic bearing electronics not properly initialised (data set error)", // 64
-		"Internal communication timeout",						// 65
-		"Magnetic bearing overloaded",							// 66
-		"Internal overload",									// 67
-		"Rotor not lifted",										// 68
-		"ABS inactive warning",									// 69 
-		"ABS active warning",									// 70
-		"Failure during parameter download",					// 71
-		"Failure during firmware download",						// 72
-		"Operating cycles limit has been reached",				// 73
-		"Operating hours limit has been reached",				// 74
-		"Faulty configuration",									// 75
-		"Firmware update is required"							// 76
+		const char ErrorStrings[77][MaxEPICSStrLen] =
+		{
+			"",											// 0, No failure
+			"Overload (load limit exceeded)",			// 1
+			"Motor temperature too high",				// 2
+			"There has been a mains failure",			// 3
+			"Converter temperature too high",			// 4
+			"An overspeed has occurred",				// 5
+			"During overload frequency dropped",		// 6
+			"Max. run-up time was exceeded",			// 7
+			"Pump identification comms fail",			// 8
+			"Bearing temperature too high",				// 9
+			"Cooling water temperature too high",		// 10
+			"Warning TMS failure",						// 11
+			"Warning Unbalance PVW13",					// 12
+			"Warning Unbalance PVW24",					// 13
+			"Warning Unbalance PZ12",					// 14
+			"Warning magnetic bearings",				// 15
+			"Max. overload time has been exceeded",		// 16
+			"No motor current",							// 17
+			"Pump connection converter failure",		// 18
+			"Run-up time has been exceeded",			// 19
+			"TMS failure",								// 20
+			"TMS failure",								// 21
+			"TMS failure",								// 22
+			"TMS failure",								// 23
+			"TMS failure",								// 24
+			"Unspecified",								// 25
+			"Bearing temp sensor short-circuit",		// 26
+			"Cooling water temp short-circuit",			// 27
+			"Motor temperature sensor short-circuit",	// 28
+			"Bearing temp sensor interrupt fail",		// 29
+			"Cooling water temp interrupt fail",		// 30
+			"Internal connection failure",				// 31
+			"Internal connection failure",				// 32
+			"Magnetic bearing overload PZ12",			// 33
+			"Magnetic bearing overload PV13",			// 34
+			"Magnetic bearing overload PW24",			// 35
+			"Unspecified",								// 36
+			"Flow warning",								// 37
+			"Warning operation without purge gas",		// 38
+			"Magnetic bearing failure",					// 39
+			"Magnetic bearing, purge gas OFF",			// 40
+			"Magnetic bearing, purge gas ON",			// 41
+			"Magnetic bearing code wrong",				// 42
+			"Internal failure",							// 43
+			"Internal failure",							// 44
+			"Internal failure",							// 45
+			"Internal failure",							// 46
+			"Internal failure",							// 47
+			"Internal failure",							// 48
+			"Internal failure",							// 49
+			"Internal failure",							// 50
+			"Internal failure",							// 51
+			"Internal failure",							// 52
+			"Internal failure",							// 53
+			"Internal failure",							// 54
+			"Internal failure",							// 55
+			"External shutdown for protection",			// 56
+			"Internal failure",							// 57
+			"Internal failure",							// 58
+			"Internal failure",							// 59
+			"Internal failure",							// 60
+			"Internal failure",							// 61
+			"Internal failure",							// 62
+			"Internal communication failure (SPI)",		// 63
+			"Mag bearing electronics not initialised",	// 64
+			"Internal communication timeout",			// 65
+			"Magnetic bearing overloaded",				// 66
+			"Internal overload",						// 67
+			"Rotor not lifted",							// 68
+			"ABS inactive warning",						// 69 
+			"ABS active warning",						// 70
+			"Failure during parameter download",		// 71
+			"Failure during firmware download",			// 72
+			"Operating cycles limit has been reached",	// 73
+			"Operating hours limit has been reached",	// 74
+			"Faulty configuration",						// 75
+			"Firmware update is required"				// 76
 		};
 
 		setStringParam (TableIndex, FAULTSTR, ErrorStrings[USSReadPacket.m_USSPacketStruct.m_PWE]);
+	}
+	else
+	{
+		// Clear error status
+		setIntegerParam (TableIndex, FAULT, 0);
+		setStringParam (TableIndex, FAULTSTR, "");
 	}
 
 	if (USSReadPacket.m_USSPacketStruct.m_PZD[0] & (1 << 7))
@@ -376,7 +382,44 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processRead(int TableInde
 
 		writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
 
+		// NB, 16 possible warning values here.
+		// This is not (now) using MBBI but keep it short.
+		const char WarningStrings[BitsPerUInt16][MaxEPICSMBBIStrLen] =
+		{
+			"Motor",
+			"Converter",
+			"Bearing",
+			"Cooling water",
+			"TCU temperature",
+			"Pump identifier",
+			"Overspeed",
+			"TCU collective",
+			"No flow",
+			"Mag bearing",
+			"Imbalance PVW13",
+			"Imbalance PVW24",
+			"Imbalance PZ12",
+			"No purge gas",
+			"Too much purge",
+			"without purge"
+		};
+
+		std::string WarningTemperatureStr;
+		for(size_t Bit = 0; Bit < BitsPerUInt16; Bit++)
+		{
+			if (!(USSReadPacket.m_USSPacketStruct.m_PWE & (1 << Bit)))
+				continue;
+			if (WarningTemperatureStr.size() > 0)
+				WarningTemperatureStr += "\n";
+			WarningTemperatureStr += WarningStrings[Bit];
+		}
 		setIntegerParam (TableIndex, WARNINGTEMPERATURE, USSReadPacket.m_USSPacketStruct.m_PWE);
+		setStringParam (TableIndex, WARNINGTEMPERATURESTR, WarningTemperatureStr.c_str());
+	}
+	else
+	{
+		setIntegerParam (TableIndex, WARNINGTEMPERATURE, 0);
+		setStringParam (TableIndex, WARNINGTEMPERATURESTR, "");
 	}
 
 	if (USSReadPacket.m_USSPacketStruct.m_PZD[0] & (1 << 13))
@@ -386,7 +429,40 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processRead(int TableInde
 
 		writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
 
+		const char WarningStrings[BitsPerUInt16][MaxEPICSMBBIStrLen] =
+		{
+			"TMS heater fail",
+			"TMS time error",
+			"TMS Pt 100 def",
+			"TMS current hi",
+			"TMS fuse def",
+			"Ident read",
+			"Ident write",
+			"Without comms",
+			"ABS inactive",
+			"ABS active",
+			"Bearing inact",
+			"Bearing overl",
+			"Internal overl",
+			"SPI (AMB2SR)",
+			"SPI (SR2AMB)"
+		};
+		std::string WarningHighLoadStr;
+		for(size_t Bit = 0; Bit < BitsPerUInt16; Bit++)
+		{
+			if (!(USSReadPacket.m_USSPacketStruct.m_PWE & (1 << Bit)))
+				continue;
+			if (WarningHighLoadStr.size() > 0)
+				WarningHighLoadStr += "\n";
+			WarningHighLoadStr += WarningStrings[Bit];
+		}
 		setIntegerParam (TableIndex, WARNINGHIGHLOAD, USSReadPacket.m_USSPacketStruct.m_PWE);
+		setStringParam (TableIndex, WARNINGHIGHLOADSTR, WarningHighLoadStr.c_str());
+	}
+	else
+	{
+		setIntegerParam (TableIndex, WARNINGHIGHLOAD, 0);
+		setStringParam (TableIndex, WARNINGHIGHLOADSTR, "");
 	}
 
 	if (USSReadPacket.m_USSPacketStruct.m_PZD[0] & (1 << 14))
@@ -395,8 +471,33 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processRead(int TableInde
 		USSPacket<NoOfPZD> USSWritePacket(230), USSReadPacket;
 
 		writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
-
-		setIntegerParam (TableIndex, WARNINGHIGHLOAD, USSReadPacket.m_USSPacketStruct.m_PWE);
+		const char WarningStrings[8][MaxEPICSMBBIStrLen] =
+		{
+			"Ident CRC data",
+			"Ident CRC proto",
+			"Ident timeout",
+			"TMS temp",
+			"Unassigned",
+			"Nr of cycles",
+			"Nr of hours",
+			"EEPROM contents"
+		};
+		std::string WarningPurgeStr;
+		for(size_t Bit = 0; Bit < 8; Bit++)
+		{
+			if (!(USSReadPacket.m_USSPacketStruct.m_PWE & (1 << Bit)))
+				continue;
+			if (WarningPurgeStr.size() > 0)
+				WarningPurgeStr += "\n";
+			WarningPurgeStr += WarningStrings[Bit];
+		}
+		setIntegerParam (TableIndex, WARNINGPURGE, USSReadPacket.m_USSPacketStruct.m_PWE);
+		setStringParam (TableIndex, WARNINGPURGESTR, WarningPurgeStr.c_str());
+	}
+	else
+	{
+		setIntegerParam (TableIndex, WARNINGPURGE, 0);
+		setStringParam (TableIndex, WARNINGPURGESTR, "");
 	}
 
 	setIntegerParam (TableIndex, STATORFREQUENCY, USSReadPacket.m_USSPacketStruct.m_PZD[1]);

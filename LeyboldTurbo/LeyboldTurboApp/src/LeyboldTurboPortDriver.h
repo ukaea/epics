@@ -31,6 +31,10 @@
 
 class CLeyboldTurboPortDriver : public CLeyboldBase {
 public:
+	// NB, an MBBI string is limited to 40 charachters in EPICS.
+	static const size_t MaxEPICSMBBIStrLen = 16;
+	static const size_t BitsPerUInt16 = 16;
+
     CLeyboldTurboPortDriver(const char *AsynPortName, int NumPumps, int NoOfPZD);
     ~CLeyboldTurboPortDriver();
     virtual asynStatus readInt32(asynUser *pasynUser, epicsInt32 *value);

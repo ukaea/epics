@@ -49,9 +49,11 @@ public:
 	static const size_t NoOfPZD6 = 6;
 	static const size_t NoOfPZD2 = 2;
 
-    CLeyboldBase(const char *portName, int maxAddr, int NoOfPZD, int paramTableSize, int interfaceMask, int interruptMask,
-                   int asynFlags) :
-		asynPortDriver(portName, maxAddr, paramTableSize, interfaceMask, interruptMask, asynFlags, 1, 0, 0) {
+	// NB, a string is limited to 40 charachters in EPICS.
+	static const size_t MaxEPICSStrLen = 40;
+
+    CLeyboldBase(const char *portName, int maxAddr, int paramTableSize, int NoOfPZD, int interfaceMask) :
+		asynPortDriver(portName, maxAddr, paramTableSize, interfaceMask, interfaceMask, ASYN_MULTIDEVICE, 1, 0, 0) {
 			m_NoOfPZD = NoOfPZD;
 	}
     void createParam(size_t list, int ParamIndex) {
@@ -69,8 +71,8 @@ public:
 		if (asynPortDriver::setDoubleParam(list, m_Parameters[ParamName], value) != asynSuccess)
 			throw CException(pasynUserSelf, __FUNCTION__, ParamName);
 	}
-	void setStringParam(size_t list, const char* ParamName, const char *value) {
-		if (asynPortDriver::setStringParam (list, m_Parameters[ParamName], value) != asynSuccess)
+	void setStringParam(size_t list, const char* ParamName, std::string const& value) {
+		if (asynPortDriver::setStringParam (list, m_Parameters[ParamName], value.substr(0, MaxEPICSStrLen).c_str()) != asynSuccess)
 			throw CException(pasynUserSelf, __FUNCTION__, ParamName);
 	}
     int getIntegerParam(int list, const char* ParamName) {

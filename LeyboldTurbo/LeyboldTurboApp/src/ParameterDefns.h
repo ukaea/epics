@@ -32,8 +32,11 @@ static const char* FAULT = "FAULT";
 static const char* FAULTSTR = "FAULTSTR";
 static const char* FIRMWAREVERSION = "FIRMWAREVERSION";
 static const char* WARNINGTEMPERATURE = "WARNINGTEMPERATURE";
+static const char* WARNINGTEMPERATURESTR = "WARNINGTEMPERATURESTR";
 static const char* WARNINGHIGHLOAD = "WARNINGHIGHLOAD";
+static const char* WARNINGHIGHLOADSTR = "WARNINGHIGHLOADSTR";
 static const char* WARNINGPURGE = "WARNINGPURGE";
+static const char* WARNINGPURGESTR = "WARNINGPURGESTR";
 static const char* STATORFREQUENCY = "STATORFREQUENCY";
 static const char* CONVERTERTEMPERATURE = "CONVERTERTEMPERATURE";
 static const char* MOTORCURRENT = "MOTORCURRENT";
@@ -48,8 +51,11 @@ ParameterDefn ParameterDefns[] =
 	{FAULTSTR, asynParamOctet},
 	{FIRMWAREVERSION, asynParamOctet},
 	{WARNINGTEMPERATURE, asynParamInt32},
+	{WARNINGTEMPERATURESTR, asynParamOctet},
 	{WARNINGHIGHLOAD, asynParamInt32},
+	{WARNINGHIGHLOADSTR, asynParamOctet},
 	{WARNINGPURGE, asynParamInt32},
+	{WARNINGPURGESTR, asynParamOctet},
 	{STATORFREQUENCY, asynParamInt32},
 	{CONVERTERTEMPERATURE, asynParamInt32},
 	{MOTORCURRENT, asynParamFloat64},

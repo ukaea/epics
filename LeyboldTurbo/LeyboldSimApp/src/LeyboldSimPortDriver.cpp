@@ -59,12 +59,11 @@ static const int ASYN_TRACE_WARNING = ASYN_TRACE_ERROR;
 //////////////////////////////////////////////////////////////////////////////////////////////////
 CLeyboldSimPortDriver::CLeyboldSimPortDriver(const char *asynPortName, int numPumps, int NoOfPZD)
    : CLeyboldBase(asynPortName, 
-                    numPumps, // maxAddr
-                    NUM_PARAMS-1, // -1 because Reset is not used.
-					NoOfPZD,
-                    asynDrvUserMask | asynInt32Mask | asynFloat64Mask | asynOctetMask, // Interface mask
-                    asynDrvUserMask | asynInt32Mask | asynFloat64Mask | asynOctetMask, // Interrupt mask
-					ASYN_MULTIDEVICE | ASYN_CANBLOCK)
+                    numPumps,		// maxAddr
+                    NUM_PARAMS-5,	// Because Reset, FaultStr, WarningTemperatureStr, WarningHighLoadStr and WarningPurgeStr are not used.
+					NoOfPZD,		// Either 2 or 6, depending on the serial port and model.
+                    asynDrvUserMask | asynInt32Mask | asynFloat64Mask | asynOctetMask // Interface and interrupt mask
+				)
 {
 	m_NumConnected = 0;
 	m_Exiting = false;

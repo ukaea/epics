@@ -65,6 +65,7 @@ record(bo, "$(P)Reset")
 	field(HIGH, "1.0")
 	field(ZNAM,  "NORMAL")
 	field(ONAM,  "RESET IN PROGRESS")
+	field(PINI, "1")
 	field(VAL, 0)
 }
 
@@ -79,7 +80,7 @@ record(longin, "$(P)Fault")
 record(stringin, "$(P)FaultStr")
 {
 	field(DTYP, "asynOctetRead")
-	field(INP,  "@asyn($(PORT),$(ADDR),1)FIRMWAREVERSION")
+	field(INP,  "@asyn($(PORT),$(ADDR),1)FAULTSTR")
 	field(SCAN, "I/O Intr")
 }
 
@@ -90,73 +91,46 @@ record(stringin, "$(P)FirmwareVersion")
 	field(PINI, "1")
 }
 
-record(mbbi, "$(P)WarningTemperature")
+record(longin, "$(P)WarningTemperature")
 {
     field(DTYP, "asynInt32")
 	field(INP,  "@asyn($(PORT),$(ADDR),1)WARNINGTEMPERATURE")
 	field(SCAN, "I/O Intr")
-	field(ZRST, "Motor temperature"
-	field(ONST, "Converter temperature"
-	field(TWST, "Bearing temperature"
-	field(THST, "Cooling water temperature"
-	field(FRST, "TCU temperature"
-	field(FVST, "Pump identifier communication"
-	field(SXST, "Overspeed"
-	field(SVST, "TCU collective warning"
-	field(EIST, "No flow"
-	field(NIST, "Magnetic bearing code"
-	field(TEST, "Imbalance PVW13 warning"
-	field(ELST, "Imbalance PVW24 warning"
-	field(TVST, "Imbalance PZ12 warning"
-	field(TTST, "No purge gas"
-	field(FTST, "Too much purge gas"
-	field(FFST, "Operation without purge gas"
 }
 
-record(mbbi, "$(P)WarningHighLoad")
+record(stringin, "$(P)WarningTemperatureStr")
+{
+    field(DTYP, "asynOctetRead")
+	field(INP,  "@asyn($(PORT),$(ADDR),1)WARNINGTEMPERATURESTR")
+	field(SCAN, "I/O Intr")
+}
+
+record(longin, "$(P)WarningHighLoad")
 {
     field(DTYP, "asynInt32")
 	field(INP,  "@asyn($(PORT),$(ADDR),1)WARNINGHIGHLOAD")
 	field(SCAN, "I/O Intr")
-	field(ZRST, "TMS heater failed")
-	field(ONST, "TMS time error")
-	field(TWST, "TMS Pt 100 defective")
-	field(THST, "TMS heating current too high")
-	field(FRST, "TMS fuse defective")
-	field(FVST, "Unassigned")
-	field(SXST, "Pump identifier read error")
-	field(SVST, "Pump identifier write error")
-	field(EIST, "Pump identifier without communication upon switch on")
-	field(NIST, "ABS inactive")
-	field(TEST, "ABS active")
-	field(ELST, "Magnetic bearing inactive")
-	field(TVST, "Magnetic bearing overloaded")
-	field(TTST, "Internal overload")
-	field(FTST, "SPI communication (AMB2SR)")
-	field(FFST, "SPI communication (SR2AMB)")
 }
 
-record(mbbi, "$(P)WarningPurge")
+record(stringin, "$(P)WarningHighLoadStr")
+{
+    field(DTYP, "asynOctetRead")
+	field(INP,  "@asyn($(PORT),$(ADDR),1)WARNINGHIGHLOADSTR")
+	field(SCAN, "I/O Intr")
+}
+
+record(longin, "$(P)WarningPurge")
 {
     field(DTYP, "asynInt32")
 	field(INP,  "@asyn($(PORT),$(ADDR),1)WARNINGPURGE")
 	field(SCAN, "I/O Intr")
-	field(ZRST, "Pump identifier CRC data error")
-	field(ONST, "Pump identifier CRC protocol error")
-	field(TWST, "Pump identifier timeout")
-	field(THST, "TMS temperature incorrect")
-	field(FRST, "Unassigned")
-	field(FVST, "Number of cycles")
-	field(SXST, "Number of hours")
-	field(SVST, "EEPROM contents")
-	field(EIST, "Unassigned")
-	field(NIST, "Unassigned")
-	field(TEST, "Unassigned")
-	field(ELST, "Unassigned")
-	field(TVST, "Unassigned")
-	field(TTST, "Unassigned")
-	field(FTST, "Unassigned")
-	field(FFST, "Unassigned")
+}
+
+record(stringin, "$(P)WarningPurgeStr")
+{
+    field(DTYP, "asynOctetRead")
+	field(INP,  "@asyn($(PORT),$(ADDR),1)WARNINGPURGESTR")
+	field(SCAN, "I/O Intr")
 }
 
 record(ai, "$(P)StatorFrequency")
