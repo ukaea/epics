@@ -85,7 +85,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LeyboldSimApp", "LeyboldSim
 	ProjectSection(SolutionItems) = preProject
 		LeyboldSimApp\LeyboldSim.bat = LeyboldSimApp\LeyboldSim.bat
 		LeyboldSimApp\LeyboldSim.py = LeyboldSimApp\LeyboldSim.py
-		LeyboldSimApp\MakeFile = LeyboldSimApp\MakeFile
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LeyboldTurbo", "LeyboldTurboApp\LeyboldTurbo.vcxproj", "{BAE6CE99-140A-4018-8BCB-9D63F54D6F07}"
@@ -105,7 +104,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestScripts", "TestScripts"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{4E2E628F-A8C1-488D-811D-964B40C89879}"
 	ProjectSection(SolutionItems) = preProject
-		LeyboldTurboApp\Scripts\camonitor.py = LeyboldTurboApp\Scripts\camonitor.py
 		LeyboldTurboApp\Scripts\Reset.py = LeyboldTurboApp\Scripts\Reset.py
 		LeyboldTurboApp\Scripts\SetRunning.py = LeyboldTurboApp\Scripts\SetRunning.py
 	EndProjectSection

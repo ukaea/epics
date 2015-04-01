@@ -414,7 +414,7 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processRead(int TableInde
 			WarningTemperatureStr += WarningStrings[Bit];
 		}
 		setIntegerParam (TableIndex, WARNINGTEMPERATURE, USSReadPacket.m_USSPacketStruct.m_PWE);
-		setStringParam (TableIndex, WARNINGTEMPERATURESTR, WarningTemperatureStr.c_str());
+		setStringParam (TableIndex, WARNINGTEMPERATURESTR, WarningTemperatureStr);
 	}
 	else
 	{
@@ -457,7 +457,7 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processRead(int TableInde
 			WarningHighLoadStr += WarningStrings[Bit];
 		}
 		setIntegerParam (TableIndex, WARNINGHIGHLOAD, USSReadPacket.m_USSPacketStruct.m_PWE);
-		setStringParam (TableIndex, WARNINGHIGHLOADSTR, WarningHighLoadStr.c_str());
+		setStringParam (TableIndex, WARNINGHIGHLOADSTR, WarningHighLoadStr);
 	}
 	else
 	{
@@ -492,7 +492,7 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processRead(int TableInde
 			WarningPurgeStr += WarningStrings[Bit];
 		}
 		setIntegerParam (TableIndex, WARNINGPURGE, USSReadPacket.m_USSPacketStruct.m_PWE);
-		setStringParam (TableIndex, WARNINGPURGESTR, WarningPurgeStr.c_str());
+		setStringParam (TableIndex, WARNINGPURGESTR, WarningPurgeStr);
 	}
 	else
 	{
