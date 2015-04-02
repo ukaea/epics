@@ -165,13 +165,13 @@ asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *v
 					USSPacket<NoOfPZD2> USSWritePacket(Running, 4), // Intermediate circuit voltage Uzk
 						USSReadPacket;
 					writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
-					setIntegerParam (TableIndex, CIRCUITVOLTAGE, USSReadPacket.m_USSPacketStruct.m_PWE);
+					setDoubleParam  (TableIndex, CIRCUITVOLTAGE, 0.1 * USSReadPacket.m_USSPacketStruct.m_PWE);
 				}
 				{
 					USSPacket<NoOfPZD2> USSWritePacket(Running, 5), // Motor current - actual value
 						USSReadPacket;
 					writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
-					setIntegerParam (TableIndex, MOTORCURRENT, USSReadPacket.m_USSPacketStruct.m_PWE);
+					setDoubleParam  (TableIndex, MOTORCURRENT, 0.1 * USSReadPacket.m_USSPacketStruct.m_PWE);
 				}
 				{
 					USSPacket<NoOfPZD2> USSWritePacket(Running, 7), // Converter temperature - actual value
@@ -290,7 +290,8 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processRead(int TableInde
 
 		setIntegerParam (TableIndex, FAULT, USSReadPacket.m_USSPacketStruct.m_PWE);
 
-		const char ErrorStrings[77][MaxEPICSStrLen] =
+		// Plus null termination.
+		const char ErrorStrings[77][MaxEPICSStrLen+1] =
 		{
 			"",											// 0, No failure
 			"Overload (load limit exceeded)",			// 1
