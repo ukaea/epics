@@ -36,7 +36,7 @@ template<size_t NoOfPZD> union USSPacket
 
 	template<size_t NoOfPZD> struct USSPacketStruct
 	{
-		void SetDefault(int Parameter = 0) {
+		void SetDefault(bool Running = true, int Parameter = 0) {
 			m_STX = 2;			// Start byte 2
 			m_ADR = 0;
 			m_PKE = 0;
@@ -46,7 +46,7 @@ template<size_t NoOfPZD> union USSPacket
 			m_PWE = 0;
 			m_LGE = USSPacketSize-2;			// TYPE 1: 4 / 2 words (12 Bytes) LGE = 14 Bytes
 			m_BCC = 0;
-			m_PZD[0] = 1;		// Pump is running by default.
+			m_PZD[0] = (Running) ? (1 << 0) : 0;// Pump is normally running.
 			for(size_t PZD = 1; PZD < NoOfPZD; PZD++)
 				m_PZD[PZD] = 0;
 		}
@@ -75,8 +75,14 @@ template<size_t NoOfPZD> union USSPacket
 				m_PZD[PZD] = ntohs(m_PZD[PZD]);
 		}
 	};
-	USSPacket(int Parameter = 0) {
-		m_USSPacketStruct.SetDefault(Parameter);
+	USSPacket(bool Running, int Parameter = 0) {
+		// Write packet constructor
+		m_USSPacketStruct.SetDefault(Running, Parameter);
+		GenerateChecksum();
+	}
+	USSPacket() {
+		// Default constructor, normally for a read packet.
+		m_USSPacketStruct.SetDefault();
 		GenerateChecksum();
 	}
 	USSPacketStruct<NoOfPZD> m_USSPacketStruct;

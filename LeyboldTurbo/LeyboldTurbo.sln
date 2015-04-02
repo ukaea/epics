@@ -104,7 +104,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestScripts", "TestScripts"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{4E2E628F-A8C1-488D-811D-964B40C89879}"
 	ProjectSection(SolutionItems) = preProject
-		LeyboldTurboApp\Scripts\Reset.py = LeyboldTurboApp\Scripts\Reset.py
 		LeyboldTurboApp\Scripts\SetRunning.py = LeyboldTurboApp\Scripts\SetRunning.py
 	EndProjectSection
 EndProject

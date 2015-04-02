@@ -146,39 +146,41 @@ asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *v
 		if ((TableIndex < 0) || (TableIndex >= int(m_AsynUsers.size())))
 			throw CException(pasynUser, __FUNCTION__, "User / pump not configured");
 
+		bool Running = (getIntegerParam(TableIndex, RUNNING) != 0);
+
 		if (function == Parameters(FAULT))
 		{
 			if (m_NoOfPZD == NoOfPZD2)
 			{
-				USSPacket<NoOfPZD2> USSWritePacket, USSReadPacket;
+				USSPacket<NoOfPZD2> USSWritePacket(Running), USSReadPacket;
 				process(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
 
 				{
-					USSPacket<NoOfPZD2> USSWritePacket(3), // Frequency - actual value
+					USSPacket<NoOfPZD2> USSWritePacket(Running, 3), // Frequency - actual value
 						USSReadPacket;
 					writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
 					setIntegerParam (TableIndex, STATORFREQUENCY, USSReadPacket.m_USSPacketStruct.m_PWE);
 				}
 				{
-					USSPacket<NoOfPZD2> USSWritePacket(4), // Intermediate circuit voltage Uzk
+					USSPacket<NoOfPZD2> USSWritePacket(Running, 4), // Intermediate circuit voltage Uzk
 						USSReadPacket;
 					writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
 					setIntegerParam (TableIndex, CIRCUITVOLTAGE, USSReadPacket.m_USSPacketStruct.m_PWE);
 				}
 				{
-					USSPacket<NoOfPZD2> USSWritePacket(5), // Motor current - actual value
+					USSPacket<NoOfPZD2> USSWritePacket(Running, 5), // Motor current - actual value
 						USSReadPacket;
 					writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
 					setIntegerParam (TableIndex, MOTORCURRENT, USSReadPacket.m_USSPacketStruct.m_PWE);
 				}
 				{
-					USSPacket<NoOfPZD2> USSWritePacket(7), // Converter temperature - actual value
+					USSPacket<NoOfPZD2> USSWritePacket(Running, 7), // Converter temperature - actual value
 						USSReadPacket;
 					writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
 					setIntegerParam (TableIndex, PUMPTEMPERATURE, USSReadPacket.m_USSPacketStruct.m_PWE);
 				}
 				{
-					USSPacket<NoOfPZD2> USSWritePacket(11), // Converter temperature - actual value
+					USSPacket<NoOfPZD2> USSWritePacket(Running, 11), // Converter temperature - actual value
 						USSReadPacket;
 					writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
 					setIntegerParam (TableIndex, CONVERTERTEMPERATURE, USSReadPacket.m_USSPacketStruct.m_PWE);
@@ -186,7 +188,7 @@ asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *v
 			}
 			else
 			{
-				USSPacket<NoOfPZD6> USSWritePacket, USSReadPacket;
+				USSPacket<NoOfPZD6> USSWritePacket(Running), USSReadPacket;
 				process(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
 			}
 		}
@@ -210,20 +212,21 @@ asynStatus CLeyboldTurboPortDriver::readOctet(asynUser *pasynUser, char *value, 
 			throw CException(pasynUser, __FUNCTION__, "Could not get address");
 		if ((TableIndex < 0) || (TableIndex >= int(m_AsynUsers.size())))
 			throw CException(pasynUser, __FUNCTION__, "User / pump not configured");
+		bool Running = (getIntegerParam(TableIndex, RUNNING) != 0);
 		if (function == Parameters(FIRMWAREVERSION))
 		{
 			epicsUInt32 PWE;
 			// Software version (I assume this means firmware). e.g. 3.03.05
 			if (m_NoOfPZD == NoOfPZD2)
 			{
-				USSPacket<NoOfPZD2> USSWritePacket(2),
+				USSPacket<NoOfPZD2> USSWritePacket(Running, 2),
 					USSReadPacket;
 				writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
 				PWE = USSReadPacket.m_USSPacketStruct.m_PWE;
 			}
 			else
 			{
-				USSPacket<NoOfPZD6> USSWritePacket(2),
+				USSPacket<NoOfPZD6> USSWritePacket(Running, 2),
 					USSReadPacket;
 				writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
 				PWE = USSReadPacket.m_USSPacketStruct.m_PWE;
@@ -270,6 +273,8 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::writeRead(int TableIndex,
 
 template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processRead(int TableIndex, asynUser *pasynUser, USSPacket<NoOfPZD> const& USSReadPacket)
 {
+	bool Running = (getIntegerParam(TableIndex, RUNNING) != 0);
+
 	// Normal operation 1 = the pump is running in the normal operation mode
 	setIntegerParam (TableIndex, RUNNING, USSReadPacket.m_USSPacketStruct.m_PZD[0] & (1 << 10) ? 1 : 0);
 
@@ -279,7 +284,7 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processRead(int TableInde
 	if (USSReadPacket.m_USSPacketStruct.m_PZD[0] & (1 << 3))
 	{
 		// We have an error status. Request the error code
-		USSPacket<NoOfPZD> USSWritePacket(171), USSReadPacket;
+		USSPacket<NoOfPZD> USSWritePacket(Running, 171), USSReadPacket;
 
 		writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
 
@@ -378,7 +383,7 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processRead(int TableInde
 	if (USSReadPacket.m_USSPacketStruct.m_PZD[0] & (1 << 7))
 	{
 		// We have a temperature warning status. Request the warning bits.
-		USSPacket<NoOfPZD> USSWritePacket(227), USSReadPacket;
+		USSPacket<NoOfPZD> USSWritePacket(Running, 227), USSReadPacket;
 
 		writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
 
@@ -425,7 +430,7 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processRead(int TableInde
 	if (USSReadPacket.m_USSPacketStruct.m_PZD[0] & (1 << 13))
 	{
 		// We have a high load warning status. Request the warning bits.
-		USSPacket<NoOfPZD> USSWritePacket(228), USSReadPacket;
+		USSPacket<NoOfPZD> USSWritePacket(Running, 228), USSReadPacket;
 
 		writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
 
@@ -468,7 +473,7 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processRead(int TableInde
 	if (USSReadPacket.m_USSPacketStruct.m_PZD[0] & (1 << 14))
 	{
 		// We have a purge not active warning status. Request the warning bits.
-		USSPacket<NoOfPZD> USSWritePacket(230), USSReadPacket;
+		USSPacket<NoOfPZD> USSWritePacket(Running, 230), USSReadPacket;
 
 		writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
 		const char WarningStrings[8][MaxEPICSMBBIStrLen] =
@@ -527,7 +532,9 @@ void CLeyboldTurboPortDriver::process(int TableIndex, asynUser *pasynUser, USSPa
 
 template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processWrite(int TableIndex, asynUser *pasynUser, epicsInt32 value)
 {
-	USSPacket<NoOfPZD> USSWritePacket, USSReadPacket;
+	// Normal operation 1 = the pump is running in the normal operation mode
+	bool Running = (getIntegerParam(TableIndex, RUNNING) != 0);
+	USSPacket<NoOfPZD> USSWritePacket(Running), USSReadPacket;
 
 	asynUser* IOUser = m_AsynUsers[TableIndex];
 	int function = pasynUser->reason;
@@ -539,23 +546,20 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processWrite(int TableInd
 		//		no error is present and
 		//		control bit 10 = 1
 		USSWritePacket.m_USSPacketStruct.m_PZD[0] |= 1 << 10;
-		USSWritePacket.m_USSPacketStruct.m_PZD[0] |= (value ? 1 : 0) << 0; // Set Running bit.
+		USSWritePacket.m_USSPacketStruct.m_PZD[0] |= (value ? 1 : 0) << 0;	// Set Running bit.
 	}
 
 	if (function == Parameters(RESET))
 	{
-		// Normal operation 1 = the pump is running in the normal operation mode
-		int IBuf = getIntegerParam(TableIndex, RUNNING);
-		bool Running = (IBuf != 0);
 		// 0 to 1 transition = Error reset
 		//
 		// Is only run provided if 
 		//		the cause for the error has been removed and
 		//		control bit 0 = 0 and
 		//		control bit 10 = 1
+		USSWritePacket.m_USSPacketStruct.m_PZD[0] |= 0;						// Clear Running bit.
 		USSWritePacket.m_USSPacketStruct.m_PZD[0] |= 1 << 10;
-		USSWritePacket.m_USSPacketStruct.m_PZD[0] |= (Running ? 1 : 0) << 0; // Set Running bit.
-		USSWritePacket.m_USSPacketStruct.m_PZD[0] |= (value ? 1 : 0) << 7; // High
+		USSWritePacket.m_USSPacketStruct.m_PZD[0] |= (value ? 1 : 0) << 7;	// High
 	}
 	USSWritePacket.GenerateChecksum();
 	process(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
