@@ -75,14 +75,8 @@ template<size_t NoOfPZD> union USSPacket
 				m_PZD[PZD] = ntohs(m_PZD[PZD]);
 		}
 	};
-	USSPacket(bool Running, int Parameter = 0) {
-		// Write packet constructor
+	USSPacket(bool Running = true, int Parameter = 0) {
 		m_USSPacketStruct.SetDefault(Running, Parameter);
-		GenerateChecksum();
-	}
-	USSPacket() {
-		// Default constructor, normally for a read packet.
-		m_USSPacketStruct.SetDefault();
 		GenerateChecksum();
 	}
 	USSPacketStruct<NoOfPZD> m_USSPacketStruct;
