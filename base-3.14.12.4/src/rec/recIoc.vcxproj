@@ -1128,6 +1128,37 @@ cd $(ProjectDir)
   <ItemGroup>
     <ResourceCompile Include="recIoc.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="O.Common\aaiRecord.h" />
+    <ClInclude Include="O.Common\aaoRecord.h" />
+    <ClInclude Include="O.Common\aiRecord.h" />
+    <ClInclude Include="O.Common\aoRecord.h" />
+    <ClInclude Include="O.Common\aSubRecord.h" />
+    <ClInclude Include="O.Common\biRecord.h" />
+    <ClInclude Include="O.Common\boRecord.h" />
+    <ClInclude Include="O.Common\calcoutRecord.h" />
+    <ClInclude Include="O.Common\calcRecord.h" />
+    <ClInclude Include="O.Common\compressRecord.h" />
+    <ClInclude Include="O.Common\dfanoutRecord.h" />
+    <ClInclude Include="O.Common\eventRecord.h" />
+    <ClInclude Include="O.Common\fanoutRecord.h" />
+    <ClInclude Include="O.Common\histogramRecord.h" />
+    <ClInclude Include="O.Common\longinRecord.h" />
+    <ClInclude Include="O.Common\longoutRecord.h" />
+    <ClInclude Include="O.Common\mbbiDirectRecord.h" />
+    <ClInclude Include="O.Common\mbbiRecord.h" />
+    <ClInclude Include="O.Common\mbboDirectRecord.h" />
+    <ClInclude Include="O.Common\mbboRecord.h" />
+    <ClInclude Include="O.Common\permissiveRecord.h" />
+    <ClInclude Include="O.Common\selRecord.h" />
+    <ClInclude Include="O.Common\seqRecord.h" />
+    <ClInclude Include="O.Common\stateRecord.h" />
+    <ClInclude Include="O.Common\stringinRecord.h" />
+    <ClInclude Include="O.Common\stringoutRecord.h" />
+    <ClInclude Include="O.Common\subArrayRecord.h" />
+    <ClInclude Include="O.Common\subRecord.h" />
+    <ClInclude Include="O.Common\waveformRecord.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{3B0E3542-CB89-4FFA-B004-EAC882B3F277}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>

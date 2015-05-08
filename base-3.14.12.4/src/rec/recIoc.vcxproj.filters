@@ -153,4 +153,93 @@
   <ItemGroup>
     <ResourceCompile Include="recIoc.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="O.Common\aaiRecord.h">
+      <Filter>O.Common</Filter>
+    </ClInclude>
+    <ClInclude Include="O.Common\aaoRecord.h">
+      <Filter>O.Common</Filter>
+    </ClInclude>
+    <ClInclude Include="O.Common\aiRecord.h">
+      <Filter>O.Common</Filter>
+    </ClInclude>
+    <ClInclude Include="O.Common\aoRecord.h">
+      <Filter>O.Common</Filter>
+    </ClInclude>
+    <ClInclude Include="O.Common\aSubRecord.h">
+      <Filter>O.Common</Filter>
+    </ClInclude>
+    <ClInclude Include="O.Common\biRecord.h">
+      <Filter>O.Common</Filter>
+    </ClInclude>
+    <ClInclude Include="O.Common\boRecord.h">
+      <Filter>O.Common</Filter>
+    </ClInclude>
+    <ClInclude Include="O.Common\calcoutRecord.h">
+      <Filter>O.Common</Filter>
+    </ClInclude>
+    <ClInclude Include="O.Common\calcRecord.h">
+      <Filter>O.Common</Filter>
+    </ClInclude>
+    <ClInclude Include="O.Common\compressRecord.h">
+      <Filter>O.Common</Filter>
+    </ClInclude>
+    <ClInclude Include="O.Common\dfanoutRecord.h">
+      <Filter>O.Common</Filter>
+    </ClInclude>
+    <ClInclude Include="O.Common\eventRecord.h">
+      <Filter>O.Common</Filter>
+    </ClInclude>
+    <ClInclude Include="O.Common\fanoutRecord.h">
+      <Filter>O.Common</Filter>
+    </ClInclude>
+    <ClInclude Include="O.Common\histogramRecord.h">
+      <Filter>O.Common</Filter>
+    </ClInclude>
+    <ClInclude Include="O.Common\longinRecord.h">
+      <Filter>O.Common</Filter>
+    </ClInclude>
+    <ClInclude Include="O.Common\longoutRecord.h">
+      <Filter>O.Common</Filter>
+    </ClInclude>
+    <ClInclude Include="O.Common\mbbiDirectRecord.h">
+      <Filter>O.Common</Filter>
+    </ClInclude>
+    <ClInclude Include="O.Common\mbbiRecord.h">
+      <Filter>O.Common</Filter>
+    </ClInclude>
+    <ClInclude Include="O.Common\mbboDirectRecord.h">
+      <Filter>O.Common</Filter>
+    </ClInclude>
+    <ClInclude Include="O.Common\mbboRecord.h">
+      <Filter>O.Common</Filter>
+    </ClInclude>
+    <ClInclude Include="O.Common\permissiveRecord.h">
+      <Filter>O.Common</Filter>
+    </ClInclude>
+    <ClInclude Include="O.Common\selRecord.h">
+      <Filter>O.Common</Filter>
+    </ClInclude>
+    <ClInclude Include="O.Common\seqRecord.h">
+      <Filter>O.Common</Filter>
+    </ClInclude>
+    <ClInclude Include="O.Common\stateRecord.h">
+      <Filter>O.Common</Filter>
+    </ClInclude>
+    <ClInclude Include="O.Common\stringinRecord.h">
+      <Filter>O.Common</Filter>
+    </ClInclude>
+    <ClInclude Include="O.Common\stringoutRecord.h">
+      <Filter>O.Common</Filter>
+    </ClInclude>
+    <ClInclude Include="O.Common\subArrayRecord.h">
+      <Filter>O.Common</Filter>
+    </ClInclude>
+    <ClInclude Include="O.Common\subRecord.h">
+      <Filter>O.Common</Filter>
+    </ClInclude>
+    <ClInclude Include="O.Common\waveformRecord.h">
+      <Filter>O.Common</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>
