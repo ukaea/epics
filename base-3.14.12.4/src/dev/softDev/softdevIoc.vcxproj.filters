@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Database Files">
+      <UniqueIdentifier>{516bcb27-88f4-4745-88c9-0780de710d49}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="softDevIoc.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="devAaiSoft.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devAaoSoft.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devAiSoft.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devAiSoftRaw.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devAoSoft.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devAoSoftCallback.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devAoSoftRaw.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devBiSoft.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devBiSoftRaw.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devBoSoft.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devBoSoftCallback.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devBoSoftRaw.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devCalcoutSoft.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devCalcoutSoftCallback.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devEventSoft.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devGeneralTime.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devHistogramSoft.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devLiSoft.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devLoSoft.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devLoSoftCallback.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devMbbiDirectSoft.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devMbbiDirectSoftRaw.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devMbbiSoft.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devMbbiSoftRaw.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devMbboDirectSoft.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devMbboDirectSoftCallback.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devMbboDirectSoftRaw.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devMbboSoft.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devMbboSoftCallback.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devMbboSoftRaw.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devSASoft.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devSiSoft.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devSoSoft.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devSoSoftCallback.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devSoStdio.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devTimestamp.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devWfSoft.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="devSoft.dbd">
+      <Filter>Database Files</Filter>
+    </None>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="O.Common">
+      <UniqueIdentifier>{da2481dd-3f26-49e2-8daa-9ea910fe8dfe}</UniqueIdentifier>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="O.Common\aiRecord.dbd">
+      <Filter>O.Common</Filter>
+    </CustomBuild>
+    <CustomBuild Include="O.Common\aoRecord.dbd">
+      <Filter>O.Common</Filter>
+    </CustomBuild>
+    <CustomBuild Include="O.Common\compressRecord.dbd">
+      <Filter>O.Common</Filter>
+    </CustomBuild>
+    <CustomBuild Include="O.Common\waveformRecord.dbd">
+      <Filter>O.Common</Filter>
+    </CustomBuild>
+    <CustomBuild Include="O.Common\aSubRecord.dbd">
+      <Filter>O.Common</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="O.Common\filters.dbd">
+      <Filter>O.Common</Filter>
+    </None>
+    <None Include="aaiRecord.dbd" />
+    <None Include="aaoRecord.dbd" />
+    <None Include="aiRecord.dbd" />
+    <None Include="aoRecord.dbd" />
+    <None Include="aSubRecord.dbd" />
+    <None Include="biRecord.dbd" />
+    <None Include="boRecord.dbd" />
+    <None Include="calcoutRecord.dbd" />
+    <None Include="calcRecord.dbd" />
+    <None Include="compressRecord.dbd" />
+    <None Include="dfanoutRecord.dbd" />
+    <None Include="eventRecord.dbd" />
+    <None Include="fanoutRecord.dbd" />
+    <None Include="histogramRecord.dbd" />
+    <None Include="longinRecord.dbd" />
+    <None Include="longoutRecord.dbd" />
+    <None Include="Makefile" />
+    <None Include="mbbiDirectRecord.dbd" />
+    <None Include="mbbiRecord.dbd" />
+    <None Include="mbboDirectRecord.dbd" />
+    <None Include="mbboRecord.dbd" />
+    <None Include="permissiveRecord.dbd" />
+    <None Include="selRecord.dbd" />
+    <None Include="seqRecord.dbd" />
+    <None Include="stateRecord.dbd" />
+    <None Include="stringinRecord.dbd" />
+    <None Include="stringoutRecord.dbd" />
+    <None Include="subArrayRecord.dbd" />
+    <None Include="subRecord.dbd" />
+    <None Include="waveformRecord.dbd" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="aaiRecord.c" />
+    <ClCompile Include="aaoRecord.c" />
+    <ClCompile Include="aiRecord.c" />
+    <ClCompile Include="aoRecord.c" />
+    <ClCompile Include="aSubRecord.c" />
+    <ClCompile Include="biRecord.c" />
+    <ClCompile Include="boRecord.c" />
+    <ClCompile Include="calcoutRecord.c" />
+    <ClCompile Include="calcRecord.c" />
+    <ClCompile Include="compressRecord.c" />
+    <ClCompile Include="dfanoutRecord.c" />
+    <ClCompile Include="eventRecord.c" />
+    <ClCompile Include="fanoutRecord.c" />
+    <ClCompile Include="histogramRecord.c" />
+    <ClCompile Include="longinRecord.c" />
+    <ClCompile Include="longoutRecord.c" />
+    <ClCompile Include="mbbiDirectRecord.c" />
+    <ClCompile Include="mbbiRecord.c" />
+    <ClCompile Include="mbboDirectRecord.c" />
+    <ClCompile Include="mbboRecord.c" />
+    <ClCompile Include="permissiveRecord.c" />
+    <ClCompile Include="selRecord.c" />
+    <ClCompile Include="seqRecord.c" />
+    <ClCompile Include="stateRecord.c" />
+    <ClCompile Include="stringinRecord.c" />
+    <ClCompile Include="stringoutRecord.c" />
+    <ClCompile Include="subArrayRecord.c" />
+    <ClCompile Include="subRecord.c" />
+    <ClCompile Include="waveformRecord.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="recIoc.rc" />
+  </ItemGroup>
+</Project>

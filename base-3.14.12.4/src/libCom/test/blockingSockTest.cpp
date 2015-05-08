@@ -15,6 +15,7 @@
 #include "osiWireFormat.h"
 #include "epicsThread.h"
 #include "epicsSignal.h"
+#include "epicsAssert.h"
 #include "epicsUnitTest.h"
 #include "testMain.h"
 

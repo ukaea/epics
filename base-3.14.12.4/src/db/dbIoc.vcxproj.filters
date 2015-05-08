@@ -1,0 +1,214 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Database Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="callback.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cvtBpt.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="db_access.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="db_test.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dbAccess.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dbBkpt.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dbCa.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dbCaTest.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dbChannelIO.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dbContext.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dbContextReadNotifyCache.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dbConvert.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dbEvent.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dbFastLinkConv.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dbIocRegister.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dbLock.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dbNotify.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dbPutNotifyBlocker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dbScan.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dbSubscriptionIO.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dbTest.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="initHooks.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="recGbl.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="templateInstances.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="callback.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="db_access_routines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="db_convert.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="db_field_log.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="db_test.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dbAccess.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dbAccessDefs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dbAddr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dbBkpt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dbCa.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dbCAC.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dbCaPvt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dbCaTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dbChannelIO.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dbConvert.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dbConvertFast.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dbEvent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dbIocRegister.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dbLock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dbNotify.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dbPutNotifyBlocker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dbScan.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dbTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="initHooks.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="recGbl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="dbCommonRecord.dbd">
+      <Filter>Database Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="menuScan.dbd">
+      <Filter>Database Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="menuYesNo.dbd">
+      <Filter>Database Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="menuPini.dbd">
+      <Filter>Database Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="menuOmsl.dbd">
+      <Filter>Database Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="menuSimm.dbd">
+      <Filter>Database Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="menuIvoa.dbd">
+      <Filter>Database Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="menuAlarmSevr.dbd">
+      <Filter>Database Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="menuAlarmStat.dbd">
+      <Filter>Database Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="menuCompress.dbd">
+      <Filter>Database Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="menuFtype.dbd">
+      <Filter>Database Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="menuGlobal.dbd">
+      <Filter>Database Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="menuPriority.dbd">
+      <Filter>Database Files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="dbCommon.dbd">
+      <Filter>Database Files</Filter>
+    </None>
+  </ItemGroup>
+</Project>

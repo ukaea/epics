@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="EPICS Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="DBD">
+      <UniqueIdentifier>{8d3dbda3-b9a1-484c-bd2c-6aae45d3c790}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="EPICS\Path.pm">
+      <Filter>EPICS Files</Filter>
+    </None>
+    <None Include="EPICS\Release.pm">
+      <Filter>EPICS Files</Filter>
+    </None>
+    <None Include="dbdExpand.pl" />
+    <None Include="registerRecordDeviceDriver.pl" />
+    <None Include="dbdToRecordtypeH.pl" />
+    <None Include="dbdToMenuH.pl" />
+    <None Include="DBD.pm" />
+    <None Include="makeIncludeDbd.pl" />
+    <None Include="DBD\Base.pm">
+      <Filter>DBD</Filter>
+    </None>
+    <None Include="DBD\Recordtype.pm">
+      <Filter>DBD</Filter>
+    </None>
+    <None Include="DBD\Breaktable.pm">
+      <Filter>DBD</Filter>
+    </None>
+    <None Include="DBD\Driver.pm">
+      <Filter>DBD</Filter>
+    </None>
+    <None Include="DBD\Menu.pm">
+      <Filter>DBD</Filter>
+    </None>
+    <None Include="DBD\Function.pm">
+      <Filter>DBD</Filter>
+    </None>
+    <None Include="DBD\Output.pm">
+      <Filter>DBD</Filter>
+    </None>
+    <None Include="DBD\Parser.pm">
+      <Filter>DBD</Filter>
+    </None>
+    <None Include="DBD\Recfield.pm">
+      <Filter>DBD</Filter>
+    </None>
+    <None Include="DBD\Registrar.pm">
+      <Filter>DBD</Filter>
+    </None>
+    <None Include="DBD\Variable.pm">
+      <Filter>DBD</Filter>
+    </None>
+    <None Include="DBD\Device.pm">
+      <Filter>DBD</Filter>
+    </None>
+  </ItemGroup>
+</Project>

@@ -8,8 +8,8 @@
 \*************************************************************************/
 
 #include "iocsh.h"
-#define epicsExportSharedSymbols
 #include "asLib.h"
+#define epicsExportSharedSymbols
 #include "asDbLib.h"
 #include "asCa.h"
 #include "asIocRegister.h"
@@ -112,7 +112,7 @@ static void asDumpHashCallFunc(const iocshArgBuf *args)
     asDumpHash();
 }
 
-void epicsShareAPI asIocRegister(void)
+void asIocRegister(void)
 {
     iocshRegister(&asSetFilenameFuncDef,asSetFilenameCallFunc);
     iocshRegister(&asSetSubstitutionsFuncDef,asSetSubstitutionsCallFunc);
