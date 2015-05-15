@@ -62,5 +62,11 @@
     <None Include="DBD\Device.pm">
       <Filter>DBD</Filter>
     </None>
+    <None Include="EPICS\Copy.pm">
+      <Filter>EPICS Files</Filter>
+    </None>
+    <None Include="EPICS\Getopts.pm">
+      <Filter>EPICS Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

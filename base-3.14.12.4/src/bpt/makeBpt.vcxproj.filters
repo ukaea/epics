@@ -2,16 +2,24 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <None Include="Makefile" />
+    <None Include="O.Common\bptTypeJdegC.dbd">
+      <Filter>O.Common</Filter>
+    </None>
+    <None Include="O.Common\bptTypeJdegF.dbd">
+      <Filter>O.Common</Filter>
+    </None>
+    <None Include="O.Common\bptTypeKdegC.dbd">
+      <Filter>O.Common</Filter>
+    </None>
+    <None Include="O.Common\bptTypeKdegF.dbd">
+      <Filter>O.Common</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="bptTypeJdegC.data" />
     <CustomBuild Include="bptTypeJdegF.data" />
     <CustomBuild Include="bptTypeKdegC.data" />
     <CustomBuild Include="bptTypeKdegF.data" />
-    <CustomBuild Include="menuConvert.dbd.pod" />
-    <CustomBuild Include="O.Common\menuConvert.dbd">
-      <Filter>O.Common</Filter>
-    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cvtTable.h" />

@@ -245,7 +245,6 @@
     <ClInclude Include="misc\shareLib.h" />
     <ClInclude Include="misc\testMain.h" />
     <ClInclude Include="misc\unixFileName.h" />
-    <ClInclude Include="osi\compilerDependencies.h" />
     <ClInclude Include="osi\devLib.h" />
     <ClInclude Include="osi\devLibVME.h" />
     <ClInclude Include="osi\devLibVMEImpl.h" />
@@ -386,40 +385,56 @@ cd $(ProjectDir)
     <None Include="gpHash\gpHash.html" />
     <CustomBuild Include="misc\makeEpicsVersion.pl">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">perl misc/%(FileName).pl  ../../configure/CONFIG_BASE_VERSION O.Common
-copy O.Common\epicsVersion.h $(SolutionDir)include
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">if exist $(SolutionDir)include\epicsVersion.h goto exit
+perl misc/%(FileName).pl  ../../configure/CONFIG_BASE_VERSION O.Common
+move O.Common\epicsVersion.h $(SolutionDir)include
+:exit
 
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">perl misc/%(FileName).pl  ../../configure/CONFIG_BASE_VERSION O.Common
-copy O.Common\epicsVersion.h $(SolutionDir)include
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">if exist $(SolutionDir)include\epicsVersion.h goto exit
+perl misc/%(FileName).pl  ../../configure/CONFIG_BASE_VERSION O.Common
+move O.Common\epicsVersion.h $(SolutionDir)include
+:exit
 
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">perl misc/%(FileName).pl  ../../configure/CONFIG_BASE_VERSION O.Common
-copy O.Common\epicsVersion.h $(SolutionDir)include
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">if exist $(SolutionDir)include\epicsVersion.h goto exit
+perl misc/%(FileName).pl  ../../configure/CONFIG_BASE_VERSION O.Common
+move O.Common\epicsVersion.h $(SolutionDir)include
+:exit
 
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">perl misc/%(FileName).pl  ../../configure/CONFIG_BASE_VERSION O.Common
-copy O.Common\epicsVersion.h $(SolutionDir)include
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">if exist $(SolutionDir)include\epicsVersion.h goto exit
+perl misc/%(FileName).pl  ../../configure/CONFIG_BASE_VERSION O.Common
+move O.Common\epicsVersion.h $(SolutionDir)include
+:exit
 
 </Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">$(SolutionDir)include\epicsVersion.h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">$(SolutionDir)include\epicsVersion.h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">$(SolutionDir)include\epicsVersion.h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">$(SolutionDir)include\epicsVersion.h</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">perl misc/%(FileName).pl  ../../configure/CONFIG_BASE_VERSION O.Common
-copy O.Common\epicsVersion.h $(SolutionDir)include
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">if exist $(SolutionDir)include\epicsVersion.h goto exit
+perl misc/%(FileName).pl  ../../configure/CONFIG_BASE_VERSION O.Common
+move O.Common\epicsVersion.h $(SolutionDir)include
+:exit
 
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">perl misc/%(FileName).pl  ../../configure/CONFIG_BASE_VERSION O.Common
-copy O.Common\epicsVersion.h $(SolutionDir)include
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">if exist $(SolutionDir)include\epicsVersion.h goto exit
+perl misc/%(FileName).pl  ../../configure/CONFIG_BASE_VERSION O.Common
+move O.Common\epicsVersion.h $(SolutionDir)include
+:exit
 
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'">perl misc/%(FileName).pl  ../../configure/CONFIG_BASE_VERSION O.Common
-copy O.Common\epicsVersion.h $(SolutionDir)include
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'">if exist $(SolutionDir)include\epicsVersion.h goto exit
+perl misc/%(FileName).pl  ../../configure/CONFIG_BASE_VERSION O.Common
+move O.Common\epicsVersion.h $(SolutionDir)include
+:exit
 
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">perl misc/%(FileName).pl  ../../configure/CONFIG_BASE_VERSION O.Common
-copy O.Common\epicsVersion.h $(SolutionDir)include
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">if exist $(SolutionDir)include\epicsVersion.h goto exit
+perl misc/%(FileName).pl  ../../configure/CONFIG_BASE_VERSION O.Common
+move O.Common\epicsVersion.h $(SolutionDir)include
+:exit
 
 </Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">$(SolutionDir)include\epicsVersion.h</Outputs>
@@ -565,6 +580,7 @@ xcopy /Y /Q /D /R fdmgr\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R freeList\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R gpHash\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R iocsh\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R logClient\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R macLib\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R misc\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R osi\*.h  $(SolutionDir)include &gt; NUL
@@ -624,6 +640,7 @@ xcopy /Y /Q /D /R fdmgr\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R freeList\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R gpHash\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R iocsh\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R logClient\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R macLib\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R misc\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R osi\*.h  $(SolutionDir)include &gt; NUL
@@ -687,6 +704,7 @@ xcopy /Y /Q /D /R fdmgr\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R freeList\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R gpHash\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R iocsh\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R logClient\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R macLib\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R misc\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R osi\*.h  $(SolutionDir)include &gt; NUL
@@ -746,6 +764,7 @@ xcopy /Y /Q /D /R fdmgr\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R freeList\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R gpHash\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R iocsh\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R logClient\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R macLib\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R misc\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R osi\*.h  $(SolutionDir)include &gt; NUL
@@ -805,6 +824,7 @@ xcopy /Y /Q /D /R fdmgr\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R freeList\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R gpHash\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R iocsh\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R logClient\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R macLib\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R misc\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R osi\*.h  $(SolutionDir)include &gt; NUL
@@ -861,6 +881,7 @@ xcopy /Y /Q /D /R fdmgr\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R freeList\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R gpHash\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R iocsh\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R logClient\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R macLib\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R misc\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R osi\*.h  $(SolutionDir)include &gt; NUL
@@ -920,6 +941,7 @@ xcopy /Y /Q /D /R fdmgr\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R freeList\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R gpHash\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R iocsh\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R logClient\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R macLib\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R misc\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R osi\*.h  $(SolutionDir)include &gt; NUL
@@ -976,6 +998,7 @@ xcopy /Y /Q /D /R fdmgr\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R freeList\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R gpHash\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R iocsh\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R logClient\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R macLib\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R misc\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R osi\*.h  $(SolutionDir)include &gt; NUL

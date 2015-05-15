@@ -22,7 +22,7 @@ typedef struct {
     long	status;
 } ASDBCALLBACK;
 
-struct dbChannel;
+struct dbAddr;
 
 #ifdef __cplusplus
 extern "C" {
@@ -33,7 +33,7 @@ epicsShareFunc int asSetSubstitutions(const char *substitutions);
 epicsShareFunc int asInit(void);
 epicsShareFunc int asInitAsyn(ASDBCALLBACK *pcallback);
 epicsShareFunc int asDbGetAsl(struct dbChannel *chan);
-epicsShareFunc void * asDbGetMemberPvt(struct dbChannel *chan);
+epicsShareFunc void * asDbGetMemberPvt(struct dbAddr *chan);
 epicsShareFunc int asdbdump(void);
 epicsShareFunc int asdbdumpFP(FILE *fp);
 epicsShareFunc int aspuag(const char *uagname);

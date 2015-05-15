@@ -273,9 +273,6 @@
     <ClInclude Include="misc\cantProceed.h">
       <Filter>misc</Filter>
     </ClInclude>
-    <ClInclude Include="osi\compilerDependencies.h">
-      <Filter>misc</Filter>
-    </ClInclude>
     <ClInclude Include="cvtFast\cvtFast.h">
       <Filter>cvtFast</Filter>
     </ClInclude>
