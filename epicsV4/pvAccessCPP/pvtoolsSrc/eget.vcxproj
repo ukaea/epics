@@ -38,10 +38,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\base\src\ca\client\ca.vcxproj">
-      <Project>{02caf068-a7fc-463e-aa7e-72eeaf665826}</Project>
+    <ProjectReference Include="..\..\..\base-3.14.12.5\src\ca\ca.vcxproj">
+      <Project>{3d9ea9e4-01a8-417d-a68d-84d4e801719e}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\base\src\libCom\Com.vcxproj">
+    <ProjectReference Include="..\..\..\base-3.14.12.5\src\libCom\Com.vcxproj">
       <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\pvDataCPP\src\pvData.vcxproj">

@@ -147,15 +147,15 @@
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q /D /R utils\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R remote\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R pva\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R client\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R server\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R remoteclient\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R ca\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R rpcService\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R client\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R mb\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R pva\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R remote\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R remoteClient\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R rpcClient\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R rpcService\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R server\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R v3ioc\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -177,15 +177,15 @@ xcopy /Y /Q /D /R v3ioc\*.h $(SolutionDir)include\pv &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q /D /R utils\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R remote\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R pva\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R client\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R server\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R remoteclient\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R ca\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R rpcService\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R client\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R mb\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R pva\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R remote\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R remoteClient\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R rpcClient\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R rpcService\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R server\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R v3ioc\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -206,15 +206,15 @@ xcopy /Y /Q /D /R v3ioc\*.h $(SolutionDir)include\pv &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q /D /R utils\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R remote\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R pva\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R client\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R server\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R remoteclient\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R ca\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R rpcService\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R client\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R mb\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R pva\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R remote\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R remoteClient\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R rpcClient\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R rpcService\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R server\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R v3ioc\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -236,15 +236,15 @@ xcopy /Y /Q /D /R v3ioc\*.h $(SolutionDir)include\pv &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q /D /R utils\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R remote\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R pva\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R client\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R server\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R remoteclient\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R ca\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R rpcService\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R client\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R mb\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R pva\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R remote\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R remoteClient\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R rpcClient\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R rpcService\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R server\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R v3ioc\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -268,15 +268,15 @@ xcopy /Y /Q /D /R v3ioc\*.h $(SolutionDir)include\pv &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q /D /R utils\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R remote\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R pva\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R client\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R server\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R remoteclient\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R ca\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R rpcService\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R client\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R mb\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R pva\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R remote\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R remoteClient\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R rpcClient\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R rpcService\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R server\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R v3ioc\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -301,15 +301,15 @@ xcopy /Y /Q /D /R v3ioc\*.h $(SolutionDir)include\pv &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q /D /R utils\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R remote\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R pva\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R client\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R server\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R remoteclient\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R ca\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R rpcService\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R client\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R mb\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R pva\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R remote\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R remoteClient\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R rpcClient\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R rpcService\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R server\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R v3ioc\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -333,15 +333,15 @@ xcopy /Y /Q /D /R v3ioc\*.h $(SolutionDir)include\pv &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q /D /R utils\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R remote\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R pva\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R client\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R server\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R remoteclient\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R ca\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R rpcService\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R client\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R mb\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R pva\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R remote\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R remoteClient\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R rpcClient\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R rpcService\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R server\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R v3ioc\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -366,15 +366,15 @@ xcopy /Y /Q /D /R v3ioc\*.h $(SolutionDir)include\pv &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q /D /R utils\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R remote\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R pva\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R client\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R server\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R remoteclient\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R ca\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R rpcService\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R client\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R mb\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R pva\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R remote\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R remoteClient\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R rpcClient\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R rpcService\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R server\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R v3ioc\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -458,10 +458,10 @@ xcopy /Y /Q /D /R v3ioc\*.h $(SolutionDir)include\pv &gt; NUL
     <ClInclude Include="v3ioc\syncChannelFind.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\base\src\ca\client\ca.vcxproj">
+    <ProjectReference Include="..\..\..\base-3.14.12.5\src\ca\ca.vcxproj">
       <Project>{02caf068-a7fc-463e-aa7e-72eeaf665826}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\base\src\libCom\Com.vcxproj">
+    <ProjectReference Include="..\..\..\base-3.14.12.5\src\libCom\Com.vcxproj">
       <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\pvDataCPP\src\pvData.vcxproj">

@@ -3,6 +3,7 @@
   <ItemGroup>
     <Filter Include="dbGroup">
       <UniqueIdentifier>{bb21eaa6-3439-4216-8cb1-295be61fb7ca}</UniqueIdentifier>
+      <ParseFiles>true</ParseFiles>
     </Filter>
     <Filter Include="dbPv">
       <UniqueIdentifier>{2ec4e012-1a5a-4bb3-97e5-43a84d55ad26}</UniqueIdentifier>

@@ -16,7 +16,6 @@
 #   undef epicsExportSharedSymbols
 #endif
 
-#include <shareLib.h>
 #include <osdSock.h>
 #include <osiSock.h>
 #include <epicsTime.h>
@@ -40,6 +39,8 @@
 #include <pv/namedLockPattern.h>
 #include <pv/inetAddressUtil.h>
 
+#include <shareLib.h>
+
 namespace epics {
     namespace pvAccess {
 
@@ -48,7 +49,7 @@ namespace epics {
          * @author <a href="mailto:matej.sekoranjaATcosylab.com">Matej Sekoranja</a>
          * @version $Id: BlockingTCPConnector.java,v 1.1 2010/05/03 14:45:47 mrkraimer Exp $
          */
-        class BlockingTCPConnector : public Connector {
+        class epicsShareClass BlockingTCPConnector : public Connector {
         public:
         	POINTER_DEFINITIONS(BlockingTCPConnector);
 
@@ -112,7 +113,7 @@ namespace epics {
          * @author <a href="mailto:matej.sekoranjaATcosylab.com">Matej Sekoranja</a>
          * @version $Id: BlockingTCPAcceptor.java,v 1.1 2010/05/03 14:45:42 mrkraimer Exp $
          */
-        class BlockingTCPAcceptor {
+        class epicsShareClass BlockingTCPAcceptor {
         public:
         	POINTER_DEFINITIONS(BlockingTCPAcceptor);
 

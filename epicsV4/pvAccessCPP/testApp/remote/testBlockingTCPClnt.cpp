@@ -14,6 +14,7 @@
 #include <pv/timer.h>
 #include <pv/epicsException.h>
 #include <pv/pvType.h>
+#include <pv/status.h>
 
 #include <osiSock.h>
 #include <epicsThread.h>
@@ -76,7 +77,7 @@ public:
     		Transport::shared_pointer const & transport, int8 /*version*/, int8 command, std::size_t /*payloadSize*/,
             ByteBuffer* /*payloadBuffer*/) {
 
-        if(command==CMD_CONNECTION_VALIDATION) transport->verified();
+        if(command==CMD_CONNECTION_VALIDATION) transport->verified(epics::pvData::Status(epics::pvData::Status::STATUSTYPE_OK, ""));
     }
 };
 

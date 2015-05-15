@@ -98,7 +98,7 @@ void DummyResponseHandler::handleResponse(osiSockAddr* responseFrom,
 }
 
 void testBlockingUDPConnector() {
-    BlockingUDPConnector connector(false, true);
+    BlockingUDPConnector connector(false, true, false);
     ContextImpl ctx;
 
     DummyResponseHandler* drh = new DummyResponseHandler(&ctx);

@@ -4,7 +4,6 @@
  * in file LICENSE that is included with this distribution.
  */
 
-#include <pv/blockingTCP.h>
 #include <pv/remote.h>
 #include <pv/namedLockPattern.h>
 #include <pv/logger.h>
@@ -15,6 +14,9 @@
 
 #include <sys/types.h>
 #include <sstream>
+
+#define epicsExportSharedSymbols
+#include <pv/blockingTCP.h>
 
 using namespace epics::pvData;
 

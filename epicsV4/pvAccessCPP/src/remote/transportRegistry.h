@@ -30,10 +30,12 @@
 #	undef transportRegistryEpicsExportSharedSymbols
 #endif
 
+#include "shareLib.h"
+
 namespace epics {
 namespace pvAccess {
 
-class TransportRegistry {
+class epicsShareClass TransportRegistry {
 public:
     typedef std::tr1::shared_ptr<TransportRegistry> shared_pointer;
     typedef std::tr1::shared_ptr<const TransportRegistry> const_shared_pointer;

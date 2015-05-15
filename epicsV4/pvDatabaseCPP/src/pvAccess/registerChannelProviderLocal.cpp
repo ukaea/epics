@@ -44,7 +44,7 @@ using namespace epics::pvDatabase;
 static const iocshFuncDef pvdblFuncDef = {
     "pvdbl", 0, 0
 };
-extern "C" void epicsShareAPI pvdbl(const iocshArgBuf *args)
+extern "C" void pvdbl(const iocshArgBuf *args)
 {
     PVDatabasePtr master = PVDatabase::getMaster();
     PVStringArrayPtr pvNames = master->getRecordNames();

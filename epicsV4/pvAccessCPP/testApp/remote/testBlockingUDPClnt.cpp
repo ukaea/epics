@@ -101,7 +101,7 @@ private:
 };
 
 void testBlockingUDPSender() {
-    BlockingUDPConnector connector(false, true);
+    BlockingUDPConnector connector(false, true, false);
     ContextImpl ctx;
 
 

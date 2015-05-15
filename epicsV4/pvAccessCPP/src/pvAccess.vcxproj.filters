@@ -164,30 +164,6 @@
     <ClInclude Include="mb\pvAccessMB.h">
       <Filter>mb</Filter>
     </ClInclude>
-    <ClInclude Include="utils\configuration.h">
-      <Filter>utils</Filter>
-    </ClInclude>
-    <ClInclude Include="utils\hexDump.h">
-      <Filter>utils</Filter>
-    </ClInclude>
-    <ClInclude Include="utils\inetAddressUtil.h">
-      <Filter>utils</Filter>
-    </ClInclude>
-    <ClInclude Include="utils\introspectionRegistry.h">
-      <Filter>utils</Filter>
-    </ClInclude>
-    <ClInclude Include="utils\likely.h">
-      <Filter>utils</Filter>
-    </ClInclude>
-    <ClInclude Include="utils\logger.h">
-      <Filter>utils</Filter>
-    </ClInclude>
-    <ClInclude Include="utils\namedLockPattern.h">
-      <Filter>utils</Filter>
-    </ClInclude>
-    <ClInclude Include="utils\referenceCountingLock.h">
-      <Filter>utils</Filter>
-    </ClInclude>
     <ClInclude Include="server\baseChannelRequester.h">
       <Filter>server</Filter>
     </ClInclude>
@@ -257,11 +233,35 @@
     <ClInclude Include="remote\security.h">
       <Filter>remote</Filter>
     </ClInclude>
-    <ClInclude Include="utils\wildcard.h">
-      <Filter>utils</Filter>
-    </ClInclude>
     <ClInclude Include="v3ioc\syncChannelFind.h">
       <Filter>v3ioc</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\configuration.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\hexDump.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\inetAddressUtil.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\introspectionRegistry.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\likely.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\logger.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\namedLockPattern.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\referenceCountingLock.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\wildcard.h">
+      <Filter>utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

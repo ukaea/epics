@@ -1,7 +1,7 @@
 
 TEMPLATE_TOP=$(EPICS_BASE)/templates/makeBaseApp/top
 
-EPICS_BASE=D:/EPICS/base-3.14.12.4
+EPICS_BASE=D:/EPICS/base-3.14.12.5
 PVCOMMON=D:/EPICS/epicsV4/pvCommonCPP
 PVDATA=D:/EPICS/epicsV4/pvDataCPP
 PVACCESS=D:/EPICS/epicsV4/pvAccessCPP
