@@ -7,7 +7,7 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 
-/* Revision-Id: anj@aps.anl.gov-20120504183859-1ye6uv4hf0pxrlp7
+/* Revision-Id: mdavidsaver@bnl.gov-20150220001827-mk2xs8m35uj29fbu
  *
  *    Original Authors: Bob Dalesio and Marty Kraimer
  *    Date:             26MAR96
@@ -367,7 +367,7 @@ long dbCaPutLinkCallback(struct link *plink,short dbrType,
             plink->value.pv_link.pvlMask |= pvlOptOutNative;
  */
         }
-        if (nRequest == 1){
+        if (nRequest == 1 && pca->nelements==1){
             long (*fConvert)(const void *from, void *to, struct dbAddr *paddr);
 
             fConvert = dbFastPutConvertRoutine[dbrType][newType];
@@ -381,7 +381,13 @@ long dbCaPutLinkCallback(struct link *plink,short dbrType,
             dbAddr.pfield = pca->pputNative;
             /*Following only used for DBF_STRING*/
             dbAddr.field_size = MAX_STRING_SIZE;
+            if(nRequest>pca->nelements)
+                nRequest = pca->nelements;
             status = aConvert(&dbAddr, pbuffer, nRequest, pca->nelements, 0);
+            if(nRequest<pca->nelements) {
+                long elemsize = dbr_value_size[ca_field_type(pca->chid)];
+                memset(nRequest*elemsize+(char*)pca->pputNative, 0, (pca->nelements-nRequest)*elemsize);
+            }
         }
         link_action |= CA_WRITE_NATIVE;
         pca->gotOutNative = TRUE;

@@ -6,7 +6,7 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/* Revision-Id: anj@aps.anl.gov-20130913165718-nz75kavfqj9pv93v */
+/* Revision-Id: anj@aps.anl.gov-20150218224407-faqpaedal8qo72s9 */
 
 #include <stdio.h>
 #include <errno.h>
@@ -45,7 +45,7 @@
 int dbStaticDebug = 0;
 static char *pNullString = "";
 #define messagesize	100
-#define RPCL_LEN 184
+#define RPCL_LEN INFIX_TO_POSTFIX_SIZE(80)
 
 static char *ppstring[5]={"NPP","PP","CA","CP","CPP"};
 static char *msstring[4]={"NMS","MS","MSI","MSS"};
@@ -727,6 +727,7 @@ void epicsShareAPI dbFreeBase(dbBase *pdbbase)
     dbPvdFreeMem(pdbbase);
     dbFreePath(pdbbase);
     free((void *)pdbbase);
+    pdbbase = NULL;
     return;
 }
 

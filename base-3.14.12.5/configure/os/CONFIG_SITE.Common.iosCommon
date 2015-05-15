@@ -1,21 +1,24 @@
 # CONFIG_SITE.Common.iosCommon
 #
-# Revision-Id: anj@aps.anl.gov-20130924203026-ds44hcsnrh82licl
+# Revision-Id: jba@aps.anl.gov-20150226192429-dou09yccy5vyzuhg
 #
 # Site-specific settings for Apple iOS builds
 #-------------------------------------------------------
 
-# iOS Version number
+# Minimum version of iOS the executables must run on.
+# Earlier versions may work, if XCode supports them.
 
-#IOS_VERSION = 3.2
-#IOS_VERSION = 4.1
-#IOS_VERSION = 4.2
-#IOS_VERSION = 4.3
-#IOS_VERSION = 5.0
-#IOS_VERSION = 5.1
-#IOS_VERSION = 6.0
-#IOS_VERSION = 6.1
-IOS_VERSION = 7.0
+#IOS_DEPLOYMENT_TARGET = 5.0
+#IOS_DEPLOYMENT_TARGET = 5.1
+#IOS_DEPLOYMENT_TARGET = 6.0
+#IOS_DEPLOYMENT_TARGET = 6.1
+#IOS_DEPLOYMENT_TARGET = 7.0
+#IOS_DEPLOYMENT_TARGET = 7.1
+IOS_DEPLOYMENT_TARGET = 8.0
+#IOS_DEPLOYMENT_TARGET = 8.1
+
+# Older versions of Xcode may require this SDK_DIR definition
+#SDK_DIR = $(PLATFORM_DIR)/Developer/SDKs/$(IOS_PLATFORM)$(IOS_DEPLOYMENT_TARGET).sdk
 
 
 # Which compiler to use:

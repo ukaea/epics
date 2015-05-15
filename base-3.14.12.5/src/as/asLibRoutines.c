@@ -16,8 +16,7 @@
 #include <string.h>
 #include <ctype.h>
 
-#define epicsExportSharedSymbols
-#include "epicsStdio.h"
+#include "epicsStdioRedirect.h"
 #include "dbDefs.h"
 #include "epicsThread.h"
 #include "cantProceed.h"
@@ -27,11 +26,13 @@
 #include "freeList.h"
 #include "macLib.h"
 #include "postfix.h"
-#include "asLib.h"
-
+ 
 static epicsMutexId asLock;
 #define LOCK epicsMutexMustLock(asLock)
 #define UNLOCK epicsMutexUnlock(asLock)
+
+#define epicsExportSharedSymbols
+#include "asLib.h"
 
 /*following must be global because asCa nneeds it*/
 epicsShareDef ASBASE volatile *pasbase=NULL;
@@ -607,7 +608,7 @@ int epicsShareAPI asDumpFP(
 			fprintf(fp," %s",asLevelName[pasgclient->level]);
 		else
 			fprintf(fp," Illegal Level %d",pasgclient->level);
-		if(pasgclient->access<=2)
+		if(pasgclient->access>=0 && pasgclient->access<=2)
 			fprintf(fp," %s %s",
                             asAccessName[pasgclient->access],
                             asTrapOption[pasgclient->trapMask]);
@@ -812,7 +813,7 @@ int epicsShareAPI asDumpMemFP(FILE *fp,const char *asgname,
 		    fprintf(fp," %s",asLevelName[pasgclient->level]);
 		else
 		    fprintf(fp," Illegal Level %d",pasgclient->level);
-		if(pasgclient->access<=2)
+		if(pasgclient->access>=0 && pasgclient->access<=2)
 		    fprintf(fp," %s %s",
                         asAccessName[pasgclient->access],
                         asTrapOption[pasgclient->trapMask]);
@@ -1271,6 +1272,7 @@ static long asAsgRuleUagAdd(ASGRULE *pasgrule,const char *name)
     ASGUAG	*pasguag;
     UAG		*puag;
     ASBASE	*pasbase = (ASBASE *)pasbasenew;
+    long	status;
 
     if(!pasgrule) return(0);
     puag = (UAG *)ellFirst(&pasbase->uagList);
@@ -1279,6 +1281,7 @@ static long asAsgRuleUagAdd(ASGRULE *pasgrule,const char *name)
 	puag = (UAG *)ellNext((ELLNODE *)puag);
     }
     if(!puag){
+	status = S_asLib_noUag;
 	errlogPrintf("No User Access Group named '%s' defined\n", name);
 	return(S_asLib_noUag);
     }
@@ -1293,6 +1296,7 @@ static long asAsgRuleHagAdd(ASGRULE *pasgrule,const char *name)
     ASGHAG	*pasghag;
     HAG		*phag;
     ASBASE	*pasbase = (ASBASE *)pasbasenew;
+    long	status;
 
     if(!pasgrule) return(0);
     phag = (HAG *)ellFirst(&pasbase->hagList);
@@ -1301,6 +1305,7 @@ static long asAsgRuleHagAdd(ASGRULE *pasgrule,const char *name)
 	phag = (HAG *)ellNext((ELLNODE *)phag);
     }
     if(!phag){
+	status = S_asLib_noHag;
 	errlogPrintf("No Host Access Group named '%s' defined\n", name);
         return(S_asLib_noHag);
     }

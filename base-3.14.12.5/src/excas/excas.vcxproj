@@ -39,7 +39,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\makeBaseApp\top\caServerApp\exServer.h" />
-    <ClInclude Include="exServer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\makeBaseApp\top\caServerApp\Makefile" />

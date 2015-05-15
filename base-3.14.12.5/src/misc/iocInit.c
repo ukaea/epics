@@ -6,7 +6,7 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/* Revision-Id: anj@aps.anl.gov-20110926214215-c1ma6lbqwz4dkeqx */
+/* Revision-Id: anj@aps.anl.gov-20141223163509-cl67x6jitmz57hu5 */
 /*
  *      Original Author: Marty Kraimer
  *      Date:            06-01-91
@@ -461,9 +461,11 @@ static void doResolveLinks(dbRecordType *pdbRecordType, dbCommon *precord,
                     if (pperiod && strstr(pperiod,"PROC")) {
                         plink->value.pv_link.pvlMask |= pvlOptFWD;
                     } else {
-                        errlogPrintf("%s.FLNK is a Channel Access Link "
-                            " but does not link to a PROC field\n",
-                                precord->name);
+                        errlogPrintf("Forward-link uses Channel Access "
+                            "without pointing to PROC field\n"
+                            "    %s.%s = %s\n",
+                            precord->name, pdbFldDes->name,
+                            plink->value.pv_link.pvname);
                     }
                 }
             }

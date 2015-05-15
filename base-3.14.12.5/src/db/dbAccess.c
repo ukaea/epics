@@ -8,7 +8,7 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 /* dbAccess.c */
-/* Revision-Id: anj@aps.anl.gov-20121017230839-u6ohpi6wehm44tqh */
+/* Revision-Id: anj@aps.anl.gov-20150219215548-e21gngzuekt2jnaf */
 /*
  *      Original Author: Bob Dalesio
  *      Current Author:  Marty Kraimer
@@ -60,6 +60,10 @@
 
 epicsShareDef struct dbBase *pdbbase = 0;
 epicsShareDef volatile int interruptAccept=FALSE;
+
+/* Hook Routines */
+
+epicsShareDef DB_LOAD_RECORDS_HOOK_ROUTINE dbLoadRecordsHook = NULL;
 
 static short mapDBFToDBR[DBF_NTYPES] = {
     /* DBF_STRING   => */    DBR_STRING,
@@ -817,7 +821,11 @@ int epicsShareAPI dbLoadDatabase(const char *file, const char *path, const char 
 
 int epicsShareAPI dbLoadRecords(const char* file, const char* subs)
 {
-    return dbReadDatabase(&pdbbase, file, 0, subs);
+    int status = dbReadDatabase(&pdbbase, file, 0, subs);
+
+    if (!status && dbLoadRecordsHook)
+        dbLoadRecordsHook(file, subs);
+    return status;
 }
 
 
@@ -960,6 +968,11 @@ long epicsShareAPI dbGetField(DBADDR *paddr,short dbrType,
             maxlen = MAX_STRING_SIZE - 1;
             if (nRequest && *nRequest > 1) *nRequest = 1;
             break;
+
+        case DBR_DOUBLE:    /* Needed for dbCa links */
+            if (nRequest && *nRequest) *nRequest = 1;
+            *(double *)pbuffer = epicsNAN;
+            goto done;
 
         case DBR_CHAR:
         case DBR_UCHAR:

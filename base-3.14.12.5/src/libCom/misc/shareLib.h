@@ -115,19 +115,25 @@
  */
 #if defined(_WIN32) || defined(__CYGWIN32__)
 
-#	if defined(EPICS_DLL_NO) /* this indicates that we are not building a DLL */
-#		define epicsShareExtern extern
-#		define epicsShareClass
-#		define epicsShareFunc
-#	else
-#		if defined(epicsExportSharedSymbols)
-#			define epicsShareExtern __declspec(dllexport) extern 
+#   if defined(epicsExportSharedSymbols)
+#       if defined(EPICS_DLL_NO) /* this indicates that we are not building a DLL */
+#           define epicsShareExtern extern 
+#           define epicsShareClass 
+#           define epicsShareFunc
+#       else
+#           define epicsShareExtern __declspec(dllexport) extern 
 #           define epicsShareClass  __declspec(dllexport) 
 #           define epicsShareFunc  __declspec(dllexport)
-#       else
+#       endif
+#   else
+#       if !defined(EPICS_DLL_NO) /* this indicates that we are being compiled to call DLLs */
 #           define epicsShareExtern __declspec(dllimport) extern 
 #           define epicsShareClass  __declspec(dllimport) 
 #           define epicsShareFunc  __declspec(dllimport)
+#       else
+#           define epicsShareExtern extern
+#           define epicsShareClass
+#           define epicsShareFunc
 #       endif
 #   endif
 #   define epicsShareDef 

@@ -3,15 +3,202 @@
 <html>
 <head>
   <meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
-  <title>EPICS Base R3.14.12.4 Release Notes</title>
+  <title>EPICS Base R3.14.12.5 Release Notes</title>
 </head>
 
 <body lang="en">
-<h1 align="center">EPICS Base Release 3.14.12.4</h1>
+<h1 align="center">EPICS Base Release 3.14.12.5</h1>
 
-<h2 align="center">Changes between 3.14.12.3 and 3.14.12.4</h2>
+<h2 align="center">Changes between 3.14.12.4 and 3.14.12.5</h2>
 
 <!-- Insert new items immediately below here ... -->
+
+<h3>aoRecord raw conversion overflows</h3>
+
+<p>The ao record type now checks converted raw values and limits them to the
+32-bit integer range before writing them to the RVAL field. Previously value
+overflows relied on Undefined Behaviour which could give different results on
+different platforms. The ROFF fields of the ao and ai record types are now
+DBF_ULONG to allow an ROFF setting of 0x80000000 to work properly.</p>
+
+<h3>Changes to &lt;top&gt;/cfg/* files</h3>
+
+<p>The order in which cfg/CONFIG* and cfg/RULES* files are included from support
+applications listed in the configure/RELEASE* files has been changed. Previously
+these files were included in the order in which the top areas are listed in the
+RELEASE file, but it makes more sense to load them in reverse order since later
+entries override earlier ones in Makefiles but the release file order is
+supposed to allow earlier entries to take precedence over later ones. The same
+change has been made to the inclusion of the &lt;top&gt;/configure/RULES_BUILD
+files.</p>
+
+<p>Two new file types can also be provided in a module's cfg directory. Files
+named TOP_RULES* will be included by the top-level Makefile of other modules
+that refer to this module; files name DIR_RULES* will be included by all
+Makefiles that merely descend into lower-level directories. The cfg/RULES* files
+are only included when make is building code inside the O.&lt;arch&gt;
+directories.</p>
+
+<p>The new cfg/DIR_RULES* file inclusion was designed to permit new recursive
+make actions to be implemented by appending the name of the new action to the
+ACTIONS variable. There must be a matching rule in one of the cfg/RULES* files
+when doing this. Similar rules may also be defined in the cfg/TOP_RULES* and/or
+cfg/DIR_RULES* files, but these should only state prerequisites and not directly
+provide commands to be executed.</p>
+
+<h3>MinGW Cross-builds from Linux</h3>
+
+<p>Build configuration files have been back-ported from the 3.15 branch that
+allows cross-building of the win32-x86-mingw target from either linux-x86 or
+linux-x86_64 hosts. Many Linux distributions now package the necessary MinGW
+cross-build tools and libraries to support this. Adjust the settings in
+configure/os/CONFIG_SITE.linux-x86.win32-x86-mingw and add win32-x86-mingw to
+the CROSS_COMPILER_TARGET_ARCHS variable in configure/CONFIG_SITE or in
+configure/os/CONFIG_SITE.linux-x86.Common.</p>
+
+<h3>Build rules for RTEMS GESYS modules</h3>
+
+<p>RTEMS target builds can now be configured to make GESYS modules by changing
+the <CODE>USE_GESYS=NO</code> setting in the file
+configure/os/CONFIG_SITE.Common.RTEMS to <code>YES</code>.</p>
+
+<h3>Added Make variables for command-line use</h3>
+
+<p>The following variables are now used during the build process, reserved for
+setting on the command-line only (Makefiles should continue to use the
+<code>USR_</code> equivalents):</p>
+
+<ul>
+<li>CMD_INCLUDES</li>
+<li>CMD_CPPFLAGS</li>
+<li>CMD_CFLAGS</li>
+<li>CMD_CXXFLAGS</li>
+<li>CMD_LDFLAGS</li>
+<li>CMD_DBFLAGS</li>
+<li>CMD_DBDFLAGS</li>
+<li>CMD_ARFLAGS</li>
+</ul>
+
+<p>For example:</p>
+
+<blockquote><pre>
+make CMD_INCLUDES=/opt/local/include CMD_LDFLAGS=-L/opt/local/lib
+</pre></blockquote>
+
+<h3>Back-ported dbLoadRecordsHook from the 3.15 branch</h3>
+
+<p>See the Release Notes from the Base 3.15.1 release for details.</p>
+
+<h3>Enhanced API for asTrapWrite listeners</h3>
+
+<p>External software such as the CA Put Logging module that registers a listener
+with the asTrapWrite subsystem was not previously given access to the actual
+data being sent by the CA client. In most cases this was not a problem as the
+listener can look at the field being modified both before and after the
+operation, but if the put processes the record which immediately overwrites the
+new value, the client's value cannot be observed.</p>
+
+<p>This release adds three fields to the asTrapWriteMessage structure that is
+passed to the listener routines. These new fields provide the CA data type, the
+number of array elements, and a pointer to the source data buffer. This change
+is completely backwards compatible with listener code written against the
+original API. The new API can be detected at compile-time as follows:</p>
+
+<blockquote><pre>
+#include "asLib.h"
+
+/* ... */
+
+#ifdef asTrapWriteWithData
+    /* Enhanced API */
+#endif
+</pre></blockquote>
+
+<h3>Back-ported the <q>tapfiles</q> build target from 3.15</h3>
+
+<p>This GNUmake target runs the same tests as the <q>runtests</q> target, but
+instead of summarizing or displaying the output for each test script it creates
+a <q>.tap</q> file inside the architecture build directory which contains the
+detailed test output. The output file can be parsed by continuous integration
+packages such as <a href="http://www.jenkins-ci.org/">Jenkins</a> to show the
+test results.</p>
+
+<h3>Fix buffer overflow in epicsStrnRawFromEscaped()</h3>
+
+<p>Launchpad <a href="https://bugs.launchpad.net/bugs/1388313">bug
+1388313</a> reported by Bruce Hill and Chris Ford.</p>
+
+<h3>Better Cygwin IOC Application Support</h3>
+
+<p>IOC applications built for Cygwin with shared libraries need to have PATH
+configured to include all of the bin directories for support modules listed in
+the RELEASE file. For applications run from the Windows cmd.exe shell the
+Makefile in the application's iocBoot/ioc directory can be set to build a file
+dllPath.bat which performs the appropriate changes to PATH, but this file uses
+syntax which is unique to the cmd.exe shell. Cygwin applications can now add a
+target relPaths.sh to this Makefile, which will generate a file appropriate for
+sourcing in the Bash shell instead.</p>
+
+<p>The makeBaseApp.pl templates now include this file in the list of targets to
+be built in the iocBoot/ioc/Makefile for Cygwin architectures.</p>
+
+<h3>Reject NULL callback functions in ca_array_*_callback</h3>
+
+<p>The two CA routines ca_array_get_callback() and ca_array_put_callback() were
+not checking the pfunc callback function argument for NULL. Passing in a NULL
+would cause the client library to segfault when the callback was called. Doing
+this will now result in the error status ECA_BADFUNCPTR being returned. This
+chage fixes <a href="https://bugs.launchpad.net/bugs/1369626">Launchpad bug
+1369626</a>.</p>
+
+<h3>Support for Solaris 11</h3>
+
+<p>The build rules have been updated to support Solaris 11. Note that APS staff
+may not be able to maintain EPICS on Solaris for much longer, so the existing
+support code is likely to bit-rot and future versions of the OS may not be able
+to build or run EPICS applications unless someone else picks up the maintenance
+tasks.</p>
+
+<h3>Generating OS-specific include files</h3>
+
+<p>A fix has been applied to the build rules to permit OS-specific header files
+to be generated by adding them to the appropriate INC_&lt;osclass&gt; variable.
+To avoid problems with parallel builds, the rule to generate a header file
+should look something like this:</p>
+
+<blockquote><pre>
+$(COMMON_DIR)/os/vxWorks/file.h:
+	$(MKDIR) -p $(dir $@)
+	<i>generate-file</i> -o $(notdir $@)
+	$(MV) $(notdir $@) $@
+</pre></blockquote>
+
+<h3>Added CA->version function to CA Perl Bindings</h3>
+
+<p>This new function returns the version string from Base. The ca*.pl tools have
+been updated to display this in their help output.</p>
+
+<h3>epicsString.h comparison functions fixed</h3>
+
+<p>The case-independent string comparison functions epicsStrCaseCmp() and
+epicsStrnCaseCmp() were returning incorrect results when the strings did not
+match; if the left-hand string is a shorter sub-set of the right-hand one the
+result should be -1. These functions now match their BSD equivalents.</p>
+
+<h3>Windows -static targets included</h3>
+
+<p>The win32-x86 and windows-x64 host target architectures can now cross-build
+the associated -static target, i.e. win32-x86-static or windows-x64-static
+(these targets can also be used as regular host architectures). Users could
+always have added configuration files themselves to build these, but we needed
+them for continuous integration testing of static builds.</p>
+
+<h3>iOS Build Rules fixed</h3>
+
+<p>The problem building for the ios-x86 simulator target architecture has been
+resolved.</p>
+
+<h2 align="center">Changes between 3.14.12.3 and 3.14.12.4</h2>
 
 <h3>New test for environment variables</h3>
 

@@ -6,7 +6,7 @@
 # EPICS BASE is distributed subject to a Software License Agreement found
 # in file LICENSE that is included with this distribution. 
 #*************************************************************************
-# Revision-Id: anj@aps.anl.gov-20111114183307-7ziopjkjj2k97la3
+# Revision-Id: jba@aps.anl.gov-20150226192656-o6l6f6v5eh870hjn
 #
 #	check for add-on CFLAGS and CXXFLAGS
 #
@@ -26,7 +26,6 @@
 #    USR_CFLAGS    C flags
 #    USR_CXXFLAGS  C++ flags
 #    USR_CPPFLAGS  c preprocesser flags
-#    INC           include-files to install
 #    SRCS          source files for building libraries and prods
 #    USR_SRCS      source files for building libraries and prods
 #    PROD_SRCS     source files for building prods
@@ -373,17 +372,6 @@ USR_LIBS += $(subst -nil-,,$(USR_LIBS_$(OS_CLASS)))
 else
 ifdef USR_LIBS_DEFAULT
 USR_LIBS += $(USR_LIBS_DEFAULT)
-endif
-endif
-
-#
-#	concat specific include files
-#
-ifneq ($(strip $(INC_$(OS_CLASS))),)
-INC += $(subst -nil-,,$(INC_$(OS_CLASS)))
-else
-ifdef INC_DEFAULT
-INC+=$(INC_DEFAULT)
 endif
 endif
 

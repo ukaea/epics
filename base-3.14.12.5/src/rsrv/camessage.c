@@ -274,21 +274,18 @@ static void log_header (
     pciu = MPTOPCIU(mp);
 
     if (pContext) {
-        epicsPrintf ("CAS: request from %s => \"%s\"\n",
+        epicsPrintf ("CAS: request from %s => %s\n",
             hostName, pContext);
     }
 
-    epicsPrintf (
-"CAS: Request from %s => cmmd=%d cid=0x%x type=%d count=%d postsize=%u\n",
+    epicsPrintf ( "CAS: Request from %s => cmmd=%d cid=0x%x type=%d count=%d postsize=%u\n",
         hostName, mp->m_cmmd, mp->m_cid, mp->m_dataType, mp->m_count, mp->m_postsize);
 
-    epicsPrintf (   
-"CAS: Request from %s =>  available=0x%x \tN=%u paddr=%p\n",
-        hostName, mp->m_available, mnum, (pciu?(void *)&pciu->addr:NULL));
+    epicsPrintf ( "CAS: Request from %s =>   available=0x%x \tN=%u paddr=%p\n",
+        hostName, mp->m_available, mnum, (pciu ? (void *)&pciu->addr : NULL));
 
     if (mp->m_cmmd==CA_PROTO_WRITE && mp->m_dataType==DBF_STRING && pPayLoad ) {
-        epicsPrintf (
-"CAS: Request from %s => \tThe string written: %s \n",
+        epicsPrintf ( "CAS: Request from %s =>   Wrote string \"%s\"\n",
         hostName, (char *)pPayLoad );
     }
 }
@@ -814,10 +811,10 @@ static int write_action ( caHdrLargeArray *mp,
         return RSRV_ERROR;
     }
 
-    asWritePvt = asTrapWriteBefore ( pciu->asClientPVT,
+    asWritePvt = asTrapWriteWithData ( pciu->asClientPVT,
         pciu->client->pUserName ? pciu->client->pUserName : "",
         pciu->client->pHostName ? pciu->client->pHostName : "",
-        (void *) &pciu->addr );
+        (void *) &pciu->addr, mp->m_dataType, mp->m_count, pPayload );
 
     dbStatus = db_put_field(
                   &pciu->addr,
@@ -1819,11 +1816,12 @@ static int write_notify_action ( caHdrLargeArray *mp, void *pPayload,
         return RSRV_OK;
     }
 
-    pciu->pPutNotify->asWritePvt = asTrapWriteBefore ( 
+    pciu->pPutNotify->asWritePvt = asTrapWriteWithData ( 
         pciu->asClientPVT,
         pciu->client->pUserName ? pciu->client->pUserName : "",
         pciu->client->pHostName ? pciu->client->pHostName : "",
-        (void *) &pciu->addr );
+        (void *) &pciu->addr, mp->m_dataType, mp->m_count,
+        pciu->pPutNotify->dbPutNotify.pbuffer );
 
     dbPutNotify(&pciu->pPutNotify->dbPutNotify);
 

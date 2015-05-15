@@ -7,7 +7,7 @@
 # in the file LICENSE that is included with this distribution. 
 #*************************************************************************
 #
-#  Revision-Id: jba@aps.anl.gov-20131216215145-azy56xyipcdi5ui1
+#  Revision-Id: anj@aps.anl.gov-20150324145735-1cxcmp8s9393xdjf
 #
 #  EPICS Version information
 #
@@ -30,7 +30,7 @@ EPICS_MODIFICATION = 12
 
 # EPICS_PATCH_LEVEL must be a number  (win32 resource file requirement)
 # Not included if zero
-EPICS_PATCH_LEVEL = 4
+EPICS_PATCH_LEVEL = 5
 
 # This will end in -DEV between official releases
 #EPICS_DEV_SNAPSHOT=-DEV
@@ -58,7 +58,7 @@ EPICS_SHORT_VERSION=$(EPICS_VERSION).$(EPICS_REVISION).$(EPICS_MODIFICATION)$(EP
 EPICS_VERSION_NUMBER=$(EPICS_SHORT_VERSION)$(EPICS_DEV_SNAPSHOT)$(EPICS_SITE_VSTRING)
 EPICS_VERSION_STRING="EPICS Version $(EPICS_VERSION_NUMBER)"
 
-COMMIT_DATE="\$Date: Mon 2013-12-16 15:51:45 -0600$"
+COMMIT_DATE="\$Date: Tue 2015-03-24 09:57:35 -0500$"
 
 # Provide these in case anyone is still using the old names
 EPICS_CVS_SNAPSHOT=$(EPICS_DEV_SNAPSHOT)

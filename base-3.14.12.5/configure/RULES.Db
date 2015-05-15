@@ -24,8 +24,8 @@ vpath %.acs $(USR_VPATH) $(GENERIC_SRC_DIRS) $(COMMON_DIR)
 DBD_SEARCH_DIRS = . .. $(COMMON_DIR) $(SRC_DIRS) $(INSTALL_DBD) $(RELEASE_DBD_DIRS)
 DB_SEARCH_DIRS = . .. $(COMMON_DIR) $(SRC_DIRS) $(INSTALL_DB) $(RELEASE_DB_DIRS)
 
-DBDFLAGS = $(USR_DBDFLAGS) $(addprefix -I,$(DBD_SEARCH_DIRS))
-DBFLAGS = $($*_DBFLAGS) $(USR_DBFLAGS) $(addprefix -I,$(DB_SEARCH_DIRS))
+DBDFLAGS = $(USR_DBDFLAGS) $(CMD_DBDFLAGS) $(addprefix -I,$(DBD_SEARCH_DIRS))
+DBFLAGS = $($*_DBFLAGS) $(USR_DBFLAGS) $(CMD_DBFLAGS) $(addprefix -I,$(DB_SEARCH_DIRS))
 
 #####################################################
 # To allow os specific dbd files AND have the -j option work properly,
@@ -119,6 +119,9 @@ DBDDEPENDS_CMD = -$(MKMF) -m $(notdir $@)$(DEP) $(DBDDEPENDS_FLAGS) $@ $<
 
 ifndef T_A
 
+DEP = .d
+TEMPLATE3+=$(addsuffix .template, $(TEMPLATE2))
+
 COMMON_DIR = .
 INSTALL_DBDS =
 INSTALL_DBS =
@@ -131,7 +134,7 @@ ACTIONS += build
 ACTIONS += install
 ACTIONS += buildInstall
 ACTIONS += browse
-ACTIONS += runtests
+ACTIONS += runtests tapfiles
 
 actionArchTargets = $(foreach x, $(ACTIONS),\ $(foreach arch,$(BUILD_ARCHS), $(x)$(DIVIDER)$(arch)))
 
@@ -196,7 +199,7 @@ $(COMMON_DIR)/%.substitutions:
 endif
 
 $(INSTALL_DB)/%.substitutions: %.substitutions
-	$(ECHO) "Installing db file $@"
+	$(ECHO) "Installing substitution file $@"
 	@$(INSTALL) -d -m $(INSTALL_PERMISSIONS) $< $(@D)
 
 .PRECIOUS: $(COMMON_DIR)/%.substitutions
@@ -210,7 +213,7 @@ $(COMMON_DIR)/%.template: $(COMMON_DIR)/%.edf
 	@$(RM) $@.VAR
 
 $(INSTALL_DB)/%.template: %.template
-	$(ECHO) "Installing db file $@"
+	$(ECHO) "Installing template file $@"
 	@$(INSTALL) -d -m $(INSTALL_PERMISSIONS) $< $(@D)
 
 .PRECIOUS: $(COMMON_DIR)/%.template
@@ -348,7 +351,7 @@ $(COMMON_DIR)/%.db: $(COMMON_DIR)/%.db$(RAW)
 else
 
 $(INSTALL_DB)/%: %
-	$(ECHO) "Installing db file $@"
+	$(ECHO) "Installing $@"
 	@$(INSTALL) -d -m $(INSTALL_PERMISSIONS) $< $(@D)
 endif
 

@@ -10,21 +10,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="O.Common\aiRecord.dbd">
-      <Filter>O.Common</Filter>
-    </CustomBuild>
-    <CustomBuild Include="O.Common\aoRecord.dbd">
-      <Filter>O.Common</Filter>
-    </CustomBuild>
-    <CustomBuild Include="O.Common\compressRecord.dbd">
-      <Filter>O.Common</Filter>
-    </CustomBuild>
-    <CustomBuild Include="O.Common\waveformRecord.dbd">
-      <Filter>O.Common</Filter>
-    </CustomBuild>
-    <CustomBuild Include="O.Common\aSubRecord.dbd">
-      <Filter>O.Common</Filter>
-    </CustomBuild>
     <CustomBuild Include="subRecord.dbd">
       <Filter>Database files</Filter>
     </CustomBuild>
@@ -114,9 +99,6 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <None Include="O.Common\filters.dbd">
-      <Filter>O.Common</Filter>
-    </None>
     <None Include="Makefile" />
   </ItemGroup>
   <ItemGroup>

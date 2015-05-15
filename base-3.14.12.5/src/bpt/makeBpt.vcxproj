@@ -44,114 +44,146 @@
     <ClInclude Include="cvtTable.h" />
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="bptTypeJdegC.data">
+    <None Include="bptTypeJdegC.data">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
+      </Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
+      </Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
+      </Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
+      </Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">
+      </Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">
+      </Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'">
+      </Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">
+      </Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
+      </Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
+      </Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
+      </Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
+      </Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">
+      </Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">
+      </Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'">
+      </Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">
+      </Outputs>
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">$(OutDir)makeBpt.exe %(FileName).data O.Common\%(FileName).dbd
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">$(OutDir)makeBpt.exe %(FileName).data O.Common\%(FileName).dbd
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">$(OutDir)makeBpt.exe %(FileName).data O.Common\%(FileName).dbd
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">$(OutDir)makeBpt.exe %(FileName).data O.Common\%(FileName).dbd
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">$(OutDir)makeBpt.exe %(FileName).data O.Common\%(FileName).dbd
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">$(OutDir)makeBpt.exe %(FileName).data O.Common\%(FileName).dbd
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'">$(OutDir)makeBpt.exe %(FileName).data O.Common\%(FileName).dbd
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">$(OutDir)makeBpt.exe %(FileName).data O.Common\%(FileName).dbd
-</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common\%(FileName).dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">O.Common\%(FileName).dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common\%(FileName).dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">O.Common\%(FileName).dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">O.Common\%(FileName).dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">O.Common\%(FileName).dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'">O.Common\%(FileName).dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">O.Common\%(FileName).dbd</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="bptTypeJdegF.data">
+    </None>
+    <None Include="bptTypeJdegF.data">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
+      </Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
+      </Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
+      </Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
+      </Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">
+      </Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">
+      </Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'">
+      </Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">
+      </Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
+      </Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
+      </Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
+      </Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
+      </Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">
+      </Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">
+      </Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'">
+      </Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">
+      </Outputs>
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">$(OutDir)makeBpt.exe %(FileName).data O.Common\%(FileName).dbd
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">$(OutDir)makeBpt.exe %(FileName).data O.Common\%(FileName).dbd
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">$(OutDir)makeBpt.exe %(FileName).data O.Common\%(FileName).dbd
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">$(OutDir)makeBpt.exe %(FileName).data O.Common\%(FileName).dbd
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">$(OutDir)makeBpt.exe %(FileName).data O.Common\%(FileName).dbd
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">$(OutDir)makeBpt.exe %(FileName).data O.Common\%(FileName).dbd
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'">$(OutDir)makeBpt.exe %(FileName).data O.Common\%(FileName).dbd
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">$(OutDir)makeBpt.exe %(FileName).data O.Common\%(FileName).dbd
-</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common\%(FileName).dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">O.Common\%(FileName).dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common\%(FileName).dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">O.Common\%(FileName).dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">O.Common\%(FileName).dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">O.Common\%(FileName).dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'">O.Common\%(FileName).dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">O.Common\%(FileName).dbd</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="bptTypeKdegC.data">
+    </None>
+    <None Include="bptTypeKdegC.data">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
+      </Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
+      </Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
+      </Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
+      </Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">
+      </Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">
+      </Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'">
+      </Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">
+      </Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
+      </Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
+      </Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
+      </Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
+      </Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">
+      </Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">
+      </Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'">
+      </Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">
+      </Outputs>
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">$(OutDir)makeBpt.exe %(FileName).data O.Common\%(FileName).dbd
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">$(OutDir)makeBpt.exe %(FileName).data O.Common\%(FileName).dbd
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">$(OutDir)makeBpt.exe %(FileName).data O.Common\%(FileName).dbd
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">$(OutDir)makeBpt.exe %(FileName).data O.Common\%(FileName).dbd
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">$(OutDir)makeBpt.exe %(FileName).data O.Common\%(FileName).dbd
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">$(OutDir)makeBpt.exe %(FileName).data O.Common\%(FileName).dbd
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'">$(OutDir)makeBpt.exe %(FileName).data O.Common\%(FileName).dbd
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">$(OutDir)makeBpt.exe %(FileName).data O.Common\%(FileName).dbd
-</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common\%(FileName).dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">O.Common\%(FileName).dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common\%(FileName).dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">O.Common\%(FileName).dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">O.Common\%(FileName).dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">O.Common\%(FileName).dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'">O.Common\%(FileName).dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">O.Common\%(FileName).dbd</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="bptTypeKdegF.data">
+    </None>
+    <None Include="bptTypeKdegF.data">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
+      </Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
+      </Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
+      </Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
+      </Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">
+      </Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">
+      </Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'">
+      </Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">
+      </Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
+      </Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
+      </Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
+      </Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
+      </Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">
+      </Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">
+      </Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'">
+      </Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">
+      </Outputs>
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">$(OutDir)makeBpt.exe %(FileName).data O.Common\%(FileName).dbd
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">$(OutDir)makeBpt.exe %(FileName).data O.Common\%(FileName).dbd
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">$(OutDir)makeBpt.exe %(FileName).data O.Common\%(FileName).dbd
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">$(OutDir)makeBpt.exe %(FileName).data O.Common\%(FileName).dbd
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">$(OutDir)makeBpt.exe %(FileName).data O.Common\%(FileName).dbd
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">$(OutDir)makeBpt.exe %(FileName).data O.Common\%(FileName).dbd
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'">$(OutDir)makeBpt.exe %(FileName).data O.Common\%(FileName).dbd
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">$(OutDir)makeBpt.exe %(FileName).data O.Common\%(FileName).dbd
-</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common\%(FileName).dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">O.Common\%(FileName).dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common\%(FileName).dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">O.Common\%(FileName).dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">O.Common\%(FileName).dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">O.Common\%(FileName).dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'">O.Common\%(FileName).dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">O.Common\%(FileName).dbd</Outputs>
-    </CustomBuild>
+    </None>
     <None Include="Makefile" />
     <None Include="O.Common\bptTypeJdegC.dbd" />
     <None Include="O.Common\bptTypeJdegF.dbd" />
@@ -278,7 +310,11 @@ if not exist O.Common md O.Common
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>xcopy /Y /Q  /D O.Common\menuConvert.h $(SolutionDir)include &gt; NUL
+      <Command>$(OutDir)makeBpt.exe bptTypeJdegC.data  O.Common\bptTypeJdegC.dbd
+$(OutDir)makeBpt.exe bptTypeJdegF.data  O.Common\bptTypeJdegF.dbd
+$(OutDir)makeBpt.exe bptTypeKdegC.data  O.Common\bptTypeKdegC.dbd
+$(OutDir)makeBpt.exe bptTypeKdegF.data  O.Common\bptTypeKdegF.dbd
+xcopy /Y /Q  /D O.Common\menuConvert.h $(SolutionDir)include &gt; NUL
 xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PostBuildEvent>
@@ -307,7 +343,11 @@ if not exist O.Common md O.Common
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>xcopy /Y /Q  /D O.Common\menuConvert.h $(SolutionDir)include &gt; NUL
+      <Command>$(OutDir)makeBpt.exe bptTypeJdegC.data  O.Common\bptTypeJdegC.dbd
+$(OutDir)makeBpt.exe bptTypeJdegF.data  O.Common\bptTypeJdegF.dbd
+$(OutDir)makeBpt.exe bptTypeKdegC.data  O.Common\bptTypeKdegC.dbd
+$(OutDir)makeBpt.exe bptTypeKdegF.data  O.Common\bptTypeKdegF.dbd
+xcopy /Y /Q  /D O.Common\menuConvert.h $(SolutionDir)include &gt; NUL
 xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PostBuildEvent>
@@ -336,7 +376,11 @@ if not exist O.Common md O.Common
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>xcopy /Y /Q  /D O.Common\menuConvert.h $(SolutionDir)include &gt; NUL
+      <Command>$(OutDir)makeBpt.exe bptTypeJdegC.data  O.Common\bptTypeJdegC.dbd
+$(OutDir)makeBpt.exe bptTypeJdegF.data  O.Common\bptTypeJdegF.dbd
+$(OutDir)makeBpt.exe bptTypeKdegC.data  O.Common\bptTypeKdegC.dbd
+$(OutDir)makeBpt.exe bptTypeKdegF.data  O.Common\bptTypeKdegF.dbd
+xcopy /Y /Q  /D O.Common\menuConvert.h $(SolutionDir)include &gt; NUL
 xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PostBuildEvent>
@@ -366,7 +410,11 @@ if not exist O.Common md O.Common
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>xcopy /Y /Q  /D O.Common\menuConvert.h $(SolutionDir)include &gt; NUL
+      <Command>$(OutDir)makeBpt.exe bptTypeJdegC.data  O.Common\bptTypeJdegC.dbd
+$(OutDir)makeBpt.exe bptTypeJdegF.data  O.Common\bptTypeJdegF.dbd
+$(OutDir)makeBpt.exe bptTypeKdegC.data  O.Common\bptTypeKdegC.dbd
+$(OutDir)makeBpt.exe bptTypeKdegF.data  O.Common\bptTypeKdegF.dbd
+xcopy /Y /Q  /D O.Common\menuConvert.h $(SolutionDir)include &gt; NUL
 xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PostBuildEvent>
@@ -395,7 +443,11 @@ if not exist O.Common md O.Common
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>xcopy /Y /Q  /D O.Common\menuConvert.h $(SolutionDir)include &gt; NUL
+      <Command>$(OutDir)makeBpt.exe bptTypeJdegC.data  O.Common\bptTypeJdegC.dbd
+$(OutDir)makeBpt.exe bptTypeJdegF.data  O.Common\bptTypeJdegF.dbd
+$(OutDir)makeBpt.exe bptTypeKdegC.data  O.Common\bptTypeKdegC.dbd
+$(OutDir)makeBpt.exe bptTypeKdegF.data  O.Common\bptTypeKdegF.dbd
+xcopy /Y /Q  /D O.Common\menuConvert.h $(SolutionDir)include &gt; NUL
 xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PostBuildEvent>
@@ -425,7 +477,11 @@ if not exist O.Common md O.Common
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>xcopy /Y /Q  /D O.Common\menuConvert.h $(SolutionDir)include &gt; NUL
+      <Command>$(OutDir)makeBpt.exe bptTypeJdegC.data  O.Common\bptTypeJdegC.dbd
+$(OutDir)makeBpt.exe bptTypeJdegF.data  O.Common\bptTypeJdegF.dbd
+$(OutDir)makeBpt.exe bptTypeKdegC.data  O.Common\bptTypeKdegC.dbd
+$(OutDir)makeBpt.exe bptTypeKdegF.data  O.Common\bptTypeKdegF.dbd
+xcopy /Y /Q  /D O.Common\menuConvert.h $(SolutionDir)include &gt; NUL
 xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PostBuildEvent>
@@ -455,7 +511,11 @@ if not exist O.Common md O.Common
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>xcopy /Y /Q  /D O.Common\menuConvert.h $(SolutionDir)include &gt; NUL
+      <Command>$(OutDir)makeBpt.exe bptTypeJdegC.data  O.Common\bptTypeJdegC.dbd
+$(OutDir)makeBpt.exe bptTypeJdegF.data  O.Common\bptTypeJdegF.dbd
+$(OutDir)makeBpt.exe bptTypeKdegC.data  O.Common\bptTypeKdegC.dbd
+$(OutDir)makeBpt.exe bptTypeKdegF.data  O.Common\bptTypeKdegF.dbd
+xcopy /Y /Q  /D O.Common\menuConvert.h $(SolutionDir)include &gt; NUL
 xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PostBuildEvent>
@@ -486,7 +546,11 @@ if not exist O.Common md O.Common
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>xcopy /Y /Q  /D O.Common\menuConvert.h $(SolutionDir)include &gt; NUL
+      <Command>$(OutDir)makeBpt.exe bptTypeJdegC.data  O.Common\bptTypeJdegC.dbd
+$(OutDir)makeBpt.exe bptTypeJdegF.data  O.Common\bptTypeJdegF.dbd
+$(OutDir)makeBpt.exe bptTypeKdegC.data  O.Common\bptTypeKdegC.dbd
+$(OutDir)makeBpt.exe bptTypeKdegF.data  O.Common\bptTypeKdegF.dbd
+xcopy /Y /Q  /D O.Common\menuConvert.h $(SolutionDir)include &gt; NUL
 xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PostBuildEvent>

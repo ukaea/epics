@@ -61,28 +61,34 @@ capri caPriority = DEFAULT_CA_PRIORITY;  /* CA Priority */
 
 
 
-void sprint_long (char *ret, long val, IntFormatT outType)
+static void sprint_long (char *ret, dbr_long_t val, IntFormatT outType)
 {
-    long i, bit, skip=-1L;   /* used only for printing bits */
-    switch (outType) {
-    case hex: sprintf(ret, "0x%lX", val); break;
-    case oct: sprintf(ret, "0o%lo", val); break;
-    case bin:
-        for (i=31; i>=0 ; i--)
-        {
-            bit = (val>>i) & 0x1L;
-            if (skip<0 && bit)
-            {
+    if (outType == bin && val != 0) {
+        /* sprintf doesn't do binary; this code doesn't handle 0 */
+        int i, skip = -1;
+
+        for (i = 31; i >= 0; i--) {
+            int bit = (val >> i) & 1;
+
+            if (skip < 0 && bit) {
                 skip = 31 - i;          /* skip leading 0's */
                 ret[i+1] = '\0';
             }
-            if (skip >= 0)
-            {
-                ret[31-i-skip] = (bit) ? '1' : '0';
+            if (skip >= 0) {
+                ret[31-i-skip] = '0' + bit;
             }
         }
-        break;
-    default:  sprintf(ret, "%ld", val); /* decimal */
+    }
+    else {
+        const char *fmt[4] = { /* Order must match the enum IntFormatT */
+            "%ld"   /* dec */,
+            "0"     /* bin, val is 0 */,
+            "0o%lo" /* oct */,
+            "0x%lX" /* hex */
+        };
+
+        /* Formats have long modifier, pass value as a long */
+        sprintf(ret, fmt[outType], (long) val);
     }
 }
 
@@ -115,6 +121,7 @@ char *val2str (const void *v, unsigned type, int index)
         strcpy (str, "*** invalid type");
         return str;
     }
+    strcpy (str, "!!!");
 
     base_type = type % (LAST_TYPE+1);
 
@@ -162,11 +169,21 @@ char *val2str (const void *v, unsigned type, int index)
     case DBR_ENUM:
         {
             dbr_enum_t *val = (dbr_enum_t *)val_ptr;
-            if (dbr_type_is_GR(type) && !enumAsNr)
-                sprintf(str, "%s", ((struct dbr_gr_enum *)v)->strs[val[index]]);
-            else if (dbr_type_is_CTRL(type) && !enumAsNr)
-                sprintf(str, "%s", ((struct dbr_ctrl_enum *)v)->strs[val[index]]);
-            else
+            if (dbr_type_is_GR(type) && !enumAsNr) {
+                if (val[index] >= MAX_ENUM_STATES)
+                    sprintf(str, "Illegal Value (%d)", val[index]);
+                else if (val[index] >= ((struct dbr_gr_enum *)v)->no_str)
+                    sprintf(str, "Enum Index Overflow (%d)", val[index]);
+                else
+                    sprintf(str, "%s", ((struct dbr_gr_enum *)v)->strs[val[index]]);
+            } else if (dbr_type_is_CTRL(type) && !enumAsNr) {
+                if (val[index] >= MAX_ENUM_STATES)
+                    sprintf(str, "Illegal Value (%d)", val[index]);
+                else if (val[index] >= ((struct dbr_ctrl_enum *)v)->no_str)
+                    sprintf(str, "Enum Index Overflow (%d)", val[index]);
+                else
+                    sprintf(str, "%s", ((struct dbr_ctrl_enum *)v)->strs[val[index]]);
+            } else
                 sprintf(str, "%d", val[index]);
         }
     }

@@ -312,26 +312,18 @@ xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="DBD.pm" />
-    <None Include="dbdExpand.pl" />
-    <None Include="dbdToMenuH.pl" />
-    <None Include="dbdToRecordtypeH.pl" />
-    <None Include="DBD\Base.pm" />
-    <None Include="DBD\Breaktable.pm" />
-    <None Include="DBD\Device.pm" />
-    <None Include="DBD\Driver.pm" />
-    <None Include="DBD\Function.pm" />
-    <None Include="DBD\Menu.pm" />
-    <None Include="DBD\Output.pm" />
-    <None Include="DBD\Parser.pm" />
-    <None Include="DBD\Recfield.pm" />
-    <None Include="DBD\Recordtype.pm" />
-    <None Include="DBD\Registrar.pm" />
-    <None Include="DBD\Variable.pm" />
+    <None Include="convertRelease.pl" />
+    <None Include="cvsclean.pl" />
+    <None Include="dos2unix.pl" />
     <None Include="EPICS\Copy.pm" />
     <None Include="EPICS\Getopts.pm" />
     <None Include="EPICS\Path.pm" />
     <None Include="EPICS\Release.pm" />
+    <None Include="expandVars.pl" />
+    <None Include="filterWarnings.pl" />
+    <None Include="fullPathName.pl" />
+    <None Include="installEpics.pl" />
+    <None Include="Makefile" />
     <None Include="makeIncludeDbd.pl">
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
       </Command>
@@ -351,7 +343,12 @@ xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
       </Outputs>
       <FileType>Document</FileType>
     </None>
-    <None Include="registerRecordDeviceDriver.pl" />
+    <None Include="makeMakefile.pl" />
+    <None Include="makeTestfile.pl" />
+    <None Include="mkmf.pl" />
+    <None Include="munch.pl" />
+    <None Include="replaceVAR.pl" />
+    <None Include="useManifestTool.pl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

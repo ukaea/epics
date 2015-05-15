@@ -6,7 +6,7 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/* Revision-Id: anj@aps.anl.gov-20131120222110-3o0wgh76u652ad4e */
+/* Revision-Id: anj@aps.anl.gov-20150320213414-o6xoyymx7xnhywo7 */
 
 /* aoRecord.c - Record Support Routines for Analog Output records */
 /*
@@ -469,10 +469,20 @@ static void convert(aoRecord *prec, double value)
     }
     value -= prec->aoff;
     if (prec->aslo != 0) value /= prec->aslo;
-    if (value >= 0.0)
-        prec->rval = (epicsInt32)(value + 0.5) - prec->roff;
-    else
-        prec->rval = (epicsInt32)(value - 0.5) - prec->roff;
+
+    /* Apply raw offset and limits, round to 32-bit integer */
+    value -= prec->roff;
+    if (value >= 0.0) {
+        if (value >= (0x7fffffff - 0.5))
+            prec->rval = 0x7fffffff;
+        else
+            prec->rval = (epicsInt32)(value + 0.5);
+    } else {
+        if (value > (0.5 - 0x80000000))
+            prec->rval = (epicsInt32)(value - 0.5);
+        else
+            prec->rval = 0x80000000;
+    }
 }
 
 

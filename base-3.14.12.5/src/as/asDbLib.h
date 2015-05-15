@@ -5,12 +5,12 @@
 *     Operator of Los Alamos National Laboratory.
 * EPICS BASE Versions 3.13.7
 * and higher are distributed subject to a Software License Agreement found
-* in file LICENSE that is included with this distribution.
+* in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 /* share/epicsH/dbAsLib.h	*/
-/*  $Revision-Id$ */
+/*  Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd */
 /* Author:  Marty Kraimer Date:    02-23-94*/
-
+
 #ifndef INCdbAsLibh
 #define INCdbAsLibh
 
@@ -22,30 +22,28 @@ typedef struct {
     long	status;
 } ASDBCALLBACK;
 
-struct dbAddr;
-
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-epicsShareFunc int asSetFilename(const char *acf);
-epicsShareFunc int asSetSubstitutions(const char *substitutions);
-epicsShareFunc int asInit(void);
-epicsShareFunc int asInitAsyn(ASDBCALLBACK *pcallback);
-epicsShareFunc int asDbGetAsl(struct dbChannel *chan);
-epicsShareFunc void * asDbGetMemberPvt(struct dbAddr *chan);
-epicsShareFunc int asdbdump(void);
-epicsShareFunc int asdbdumpFP(FILE *fp);
-epicsShareFunc int aspuag(const char *uagname);
-epicsShareFunc int aspuagFP(FILE *fp,const char *uagname);
-epicsShareFunc int asphag(const char *hagname);
-epicsShareFunc int asphagFP(FILE *fp,const char *hagname);
-epicsShareFunc int asprules(const char *asgname);
-epicsShareFunc int asprulesFP(FILE *fp,const char *asgname);
-epicsShareFunc int aspmem(const char *asgname,int clients);
-epicsShareFunc int aspmemFP(
+epicsShareFunc int epicsShareAPI asSetFilename(const char *acf);
+epicsShareFunc int epicsShareAPI asSetSubstitutions(const char *substitutions);
+epicsShareFunc int epicsShareAPI asInit(void);
+epicsShareFunc int epicsShareAPI asInitAsyn(ASDBCALLBACK *pcallback);
+epicsShareFunc int epicsShareAPI asDbGetAsl( void *paddr);
+epicsShareFunc void *  epicsShareAPI asDbGetMemberPvt( void *paddr);
+epicsShareFunc int epicsShareAPI asdbdump(void);
+epicsShareFunc int epicsShareAPI asdbdumpFP(FILE *fp);
+epicsShareFunc int epicsShareAPI aspuag(const char *uagname);
+epicsShareFunc int epicsShareAPI aspuagFP(FILE *fp,const char *uagname);
+epicsShareFunc int epicsShareAPI asphag(const char *hagname);
+epicsShareFunc int epicsShareAPI asphagFP(FILE *fp,const char *hagname);
+epicsShareFunc int epicsShareAPI asprules(const char *asgname);
+epicsShareFunc int epicsShareAPI asprulesFP(FILE *fp,const char *asgname);
+epicsShareFunc int epicsShareAPI aspmem(const char *asgname,int clients);
+epicsShareFunc int epicsShareAPI aspmemFP(
     FILE *fp,const char *asgname,int clients);
-epicsShareFunc int astac(
+epicsShareFunc int epicsShareAPI astac(
     const char *recordname,const char *user,const char *location);
 
 #ifdef __cplusplus

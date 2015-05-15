@@ -10,7 +10,7 @@
 // Author: Jim Kowalkowski
 // Date: 2/96
 // 
-// Revision-Id: anj@aps.anl.gov-20131120004245-drexj41vy3vynah9
+// Revision-Id: ralph.lange@gmx.de-20150129133655-cuvqtv7zvep87w5y
 // 
 
 #include <stdio.h>
@@ -1353,7 +1353,7 @@ gddStatus gdd::put ( const gdd * dd )
         // clip to upper limit of source
         aitUint32 srcCopySize;
         const aitUint32 unusedSrcBelow = srcCopyFirst - srcFirst;
-        if ( srcElemCount <= unusedSrcBelow ) {
+        if ( srcElemCount && srcElemCount <= unusedSrcBelow ) {
             return gddErrorOutOfBounds;
         }
 

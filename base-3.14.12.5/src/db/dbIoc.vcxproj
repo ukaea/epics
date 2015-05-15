@@ -139,14 +139,30 @@
     </CustomBuild>
     <CustomBuild Include="menuAlarmSevr.dbd">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">$(OutDir)dbToRecordtypeH.exe -I . menuAlarmSevr.dbd </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">$(OutDir)dbToRecordtypeH.exe -I . menuAlarmSevr.dbd </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">$(OutDir)dbToRecordtypeH.exe -I . menuAlarmSevr.dbd </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">$(OutDir)dbToRecordtypeH.exe -I . menuAlarmSevr.dbd </Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common\menuAlarmSevr.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">O.Common\menuAlarmSevr.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">O.Common\menuAlarmSevr.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">O.Common\menuAlarmSevr.h</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">$(OutDir)dbToRecordtypeH.exe -I . %(FileName).dbd O.Common\%(FileName).h
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">$(OutDir)dbToRecordtypeH.exe -I . %(FileName).dbd O.Common\%(FileName).h
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">$(OutDir)dbToRecordtypeH.exe -I . %(FileName).dbd O.Common\%(FileName).h
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">$(OutDir)dbToRecordtypeH.exe -I . %(FileName).dbd O.Common\%(FileName).h
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common\%(FileName).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">O.Common\%(FileName).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">O.Common\%(FileName).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">O.Common\%(FileName).h</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">$(OutDir)dbToRecordtypeH.exe -I . %(FileName).dbd O.Common\%(FileName).h
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">$(OutDir)dbToRecordtypeH.exe -I . %(FileName).dbd O.Common\%(FileName).h
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'">$(OutDir)dbToRecordtypeH.exe -I . %(FileName).dbd O.Common\%(FileName).h
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">$(OutDir)dbToRecordtypeH.exe -I . %(FileName).dbd O.Common\%(FileName).h
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common\%(FileName).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">O.Common\%(FileName).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'">O.Common\%(FileName).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">O.Common\%(FileName).h</Outputs>
     </CustomBuild>
     <CustomBuild Include="menuAlarmStat.dbd">
       <FileType>Document</FileType>

@@ -7,7 +7,7 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 /* Alarm definitions, must match menuAlarmSevr.dbd and menuAlarmStat.dbd */
-/* Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd */
+/* Revision-Id: anj@aps.anl.gov-20150313155603-b4r8acmq5zfku0pb */
 
 /*
  *      Authors: Bob Dalesio and Marty Kraimer
@@ -43,7 +43,7 @@ typedef enum {
 #define INVALID_ALARM       epicsSevInvalid
 #define lastEpicsAlarmSev   epicsSevInvalid
 
-epicsShareExtern const char *epicsAlarmSeverityStrings [ALARM_NSEV];
+extern const char *epicsAlarmSeverityStrings [ALARM_NSEV];
 
 
 /* ALARM STATUS - must match menuAlarmStat.dbd */
@@ -98,7 +98,7 @@ typedef enum {
 #define WRITE_ACCESS_ALARM  epicsAlarmWriteAccess
 #define lastEpicsAlarmCond  epicsAlarmWriteAccess
 
-epicsShareExtern const char *epicsAlarmConditionStrings [ALARM_NSTATUS];
+extern const char *epicsAlarmConditionStrings [ALARM_NSTATUS];
 
 #ifdef __cplusplus
 }

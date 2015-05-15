@@ -4,7 +4,7 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
-// Revision-Id: anj@aps.anl.gov-20121203185826-cd68u8o9fu5vbr7u
+// Revision-Id: anj@aps.anl.gov-20150217222113-i8ju023zo6syq0qk
 //	Author: Andrew Johnson
 
 #include "epicsUnitTest.h"
@@ -311,7 +311,7 @@ MAIN(epicsCalcTest)
     testExpr(exp(1.));
     testExpr(floor(1.5));
 
-    testExpr(finite(0));
+    testExpr(finite(0.));
     testExpr(finite(Inf));
     testExpr(finite(-Inf));
     testExpr(finite(NaN));
@@ -325,11 +325,11 @@ MAIN(epicsCalcTest)
     testCalc("finite(0,1,-Inf)", 0);
     testCalc("finite(0,-Inf,2)", 0);
     testCalc("finite(-Inf,1,2)", 0);
-    testExpr(isinf(0));
+    testExpr(isinf(0.));
     testExpr(isinf(Inf));
     testExpr(!!isinf(-Inf));    // Some GCCs return -1/0/+1 rather than 0/+1
     testExpr(isinf(NaN));
-    testExpr(isnan(0));
+    testExpr(isnan(0.));
     testExpr(isnan(Inf));
     testExpr(isnan(-Inf));
     testExpr(isnan(NaN));
@@ -553,10 +553,18 @@ MAIN(epicsCalcTest)
     testExpr(0.0 + NaN);
     testExpr(Inf + 0.0);
     testExpr(Inf + Inf);
+#if defined(_WIN64) && defined(_MSC_VER)
+    testCalc("Inf + -Inf", NaN);
+#else
     testExpr(Inf + -Inf);
+#endif
     testExpr(Inf + NaN);
     testExpr(-Inf + 0.0);
+#if defined(_WIN64) && defined(_MSC_VER)
+    testCalc("-Inf + Inf", NaN);
+#else
     testExpr(-Inf + Inf);
+#endif
     testExpr(-Inf + -Inf);
     testExpr(-Inf + NaN);
     testExpr(NaN + 0.0);

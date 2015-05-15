@@ -7,7 +7,7 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/* Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd */
+/* Revision-Id: anj@aps.anl.gov-20150218223642-jp1gyhj4xqpv84y5 */
 
 /* Authors: Jun-ichi Odagiri, Marty Kraimer, Eric Norum,
  *          Mark Rivers, Andrew Johnson, Ralph Lange
@@ -42,6 +42,9 @@ int epicsStrnRawFromEscaped(char *to, size_t outsize, const char *from,
     char       *pto = to;
     char        c;
     int         nto = 0, nfrom = 0;
+
+    if (outsize == 0)
+        return 0;
 
     while ((c = *pfrom++) && nto < outsize && nfrom < inlen) {
         nfrom++;
@@ -85,7 +88,7 @@ int epicsStrnRawFromEscaped(char *to, size_t outsize, const char *from,
 
                     pfrom++; /*skip the x*/
                     for (i=0; i<2; i++) {
-                        if (!isxdigit((int)*pfrom)) break;
+                        if (!isxdigit(0xff & (int)*pfrom)) break;
                         strval[i] = *pfrom++; nfrom++;
                     }
                     sscanf(strval,"%x",&ival);
@@ -100,7 +103,9 @@ int epicsStrnRawFromEscaped(char *to, size_t outsize, const char *from,
             *pto++ = c; nto++;
         }
     }
-    *pto = '\0'; /* NOTE that nto does not have to be incremented */
+    if (nto == outsize)
+        pto--;
+    *pto = '\0';
     return nto;
 }
 
@@ -126,7 +131,7 @@ int epicsStrnEscapedFromRaw(char *outbuf, size_t outsize, const char *inbuf,
             case '\'':  len = epicsSnprintf(outpos, maxout, "\\'"); break;
             case '\"':  len = epicsSnprintf(outpos, maxout, "\\\""); break;
             default:
-                if (isprint((int)c))
+                if (isprint(0xff & (int)c))
                     len = epicsSnprintf(outpos, maxout, "%c", c);
                 else
                     len = epicsSnprintf(outpos, maxout, "\\%03o",
@@ -161,7 +166,7 @@ size_t epicsStrnEscapedFromRawSize(const char *inbuf, size_t inlen)
             nout++;
             break;
         default:
-            if (!isprint((int)c))
+            if (!isprint(0xff & (int)c))
                 nout += 3;
         }
     }
@@ -171,11 +176,11 @@ size_t epicsStrnEscapedFromRawSize(const char *inbuf, size_t inlen)
 int epicsStrCaseCmp(const char *s1, const char *s2)
 {
     while (1) {
-        int ch1 = toupper(*s1);
-        int ch2 = toupper(*s2);
+        int ch1 = toupper((int) *s1);
+        int ch2 = toupper((int) *s2);
 
-        if (ch1 == 0) return (ch2 != 0);
-        if (ch2 == 0) return -1;
+        if (ch2 == 0) return (ch1 != 0);
+        if (ch1 == 0) return -1;
         if (ch1 < ch2) return -1;
         if (ch1 > ch2) return 1;
         s1++;
@@ -188,11 +193,11 @@ int epicsStrnCaseCmp(const char *s1, const char *s2, size_t len)
     size_t i = 0;
 
     while (i++ < len) {
-        int ch1 = toupper(*s1);
-        int ch2 = toupper(*s2);
+        int ch1 = toupper((int) *s1);
+        int ch2 = toupper((int) *s2);
 
-        if (ch1 == 0) return (ch2 != 0);
-        if (ch2 == 0) return -1;
+        if (ch2 == 0) return (ch1 != 0);
+        if (ch1 == 0) return -1;
         if (ch1 < ch2) return -1;
         if (ch1 > ch2) return 1;
         s1++;
@@ -225,7 +230,7 @@ int epicsStrPrintEscaped(FILE *fp, const char *s, size_t len)
        case '\'':  nout += fprintf(fp, "\\'");  break;
        case '\"':  nout += fprintf(fp, "\\\"");  break;
        default:
-           if (isprint((int)c))
+           if (isprint(0xff & (int)c))
                nout += fprintf(fp, "%c", c);
            else
                nout += fprintf(fp, "\\%03o", (unsigned char)c);

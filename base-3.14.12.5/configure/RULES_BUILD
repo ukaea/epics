@@ -6,7 +6,7 @@
 # EPICS BASE is distributed subject to a Software License Agreement found
 # in the file LICENSE that is included with this distribution. 
 #*************************************************************************
-# Revision-Id: jba@aps.anl.gov-20121205203418-15wux5bxnojrv6pn
+# Revision-Id: anj@aps.anl.gov-20150220213457-lwjg2sx5vf4bpfk1
 #
 #	Rules for making things specified in Makefile
 #
@@ -96,6 +96,8 @@ ifneq (,$(strip $(TESTS)))
 TARGETS += testspec
 endif
 
+TAPFILES += $(TESTSCRIPTS:.t=.tap)
+
 #---------------------------------------------------------------
 #   Libraries 
 #
@@ -142,7 +144,8 @@ clean::
 	@$(RM) *.i *$(OBJ) *.a $(TESTPRODNAME) $(LIBNAME) $(SHRLIBNAME) \
 	$(INC) $(TARGETS) $(DLL_LINK_LIBNAME) $(TDS) \
 	*.out MakefileInclude  $(LOADABLE_SHRLIBNAME) *.manifest *.exp \
-	$(COMMON_INC) $(HDEPENDS_FILES) $(PRODTARGETS) $(TESTSCRIPTS)
+	$(COMMON_INC) $(HDEPENDS_FILES) $(PRODTARGETS) \
+	$(TESTSCRIPTS) $(TAPFILES)
 ifdef RES
 	@$(RM) *$(RES)
 endif
@@ -195,17 +198,23 @@ $(OBJLIBNAME):%$(OBJ):
 	@$(RM) $@
 	$(COMPILE.ctdt) $<
 
-%$(OBJ): %.c
+# Cancel GNUMake's built-in rules, which don't have our _INC
+# dependencies so could get used in some circumstances (gdd)
+%.o : %.c
+%.o : %.cc
+%.o : %.cpp
+
+%$(OBJ): %.c $(COMMON_INC) $(INSTALL_INC)
 	@$(HDEPENDS_CMD)
 	@$(RM) $@
 	$(COMPILE.c) $(call PATH_FILTER,$<) $(COMPILE_FILTER.c)
 
-%$(OBJ): %.cc
+%$(OBJ): %.cc $(COMMON_INC) $(INSTALL_INC)
 	@$(HDEPENDS_CMD)
 	@$(RM) $@
 	$(COMPILE.cpp) $(call PATH_FILTER,$<) $(COMPILE_FILTER.cpp)
 
-%$(OBJ): %.cpp
+%$(OBJ): %.cpp $(COMMON_INC) $(INSTALL_INC)
 	@$(HDEPENDS_CMD)
 	@$(RM) $@
 	$(COMPILE.cpp) $(call PATH_FILTER,$<) $(COMPILE_FILTER.cpp)
@@ -322,6 +331,12 @@ $(OBJLIB_MUNCHNAME):%.munch : %_ctdt$(OBJ) %$(OBJ)
 	@$(RM) $@
 	$(MUNCH_CMD)
 
+# GeSys modules for RTEMS
+$(MODNAME): %$(MODEXT): %$(EXE)
+	@echo "Building module $@"
+	@$(RM) $@
+	$(LINK.mod)
+
 runtests: $(TESTSCRIPTS)
 	-$(PERL) -MTest::Harness -e 'runtests @ARGV if @ARGV;' $^
 
@@ -332,16 +347,22 @@ testspec: $(TESTSCRIPTS)
 	$(if $^, @echo Tests: $^ >> $@)
 	$(if $(TESTSPEC_$(OS_CLASS)), @echo "Harness: $(TESTSPEC_$(OS_CLASS))" >> $@)
 
+tapfiles: $(TESTSCRIPTS) $(TAPFILES)
+
+# A .tap file is the output from running the associated test script
+%.tap: %.t
+	-$(PERL) $< -tap > $@
+
 # If there's a perl test script (.plt) available, use it
 %.t: ../%.plt
 	@$(RM) $@
-	@$(CP) $< $@
+	$(CP) $< $@
 
-# Some versions of Test::Harness expect test programs in perl only.
+# Test programs (.t files) must be written in Perl.
 # Generate a perl program to exec the real test binary.
-%.t: %$(EXE)
+%.t: %$(EXE) $(TOOLS)/makeTestfile.pl
 	@$(RM) $@
-	@$(PERL) $(TOOLS)/makeTestfile.pl $@ $<
+	$(PERL) $(TOOLS)/makeTestfile.pl $@ $<
 
 #---------------------------------------------------------------
 ## Install rules for BIN_INSTALLS and LIB_INSTALLS

@@ -14,12 +14,10 @@
     <None Include="O.Common\bptTypeKdegF.dbd">
       <Filter>O.Common</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <CustomBuild Include="bptTypeJdegC.data" />
-    <CustomBuild Include="bptTypeJdegF.data" />
-    <CustomBuild Include="bptTypeKdegC.data" />
-    <CustomBuild Include="bptTypeKdegF.data" />
+    <None Include="bptTypeKdegC.data" />
+    <None Include="bptTypeJdegF.data" />
+    <None Include="bptTypeKdegF.data" />
+    <None Include="bptTypeJdegC.data" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cvtTable.h" />

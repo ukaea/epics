@@ -9,26 +9,24 @@ TOP=../..
 include $(TOP)/configure/CONFIG
 
 
-# Use hdepends command (not GNU compiler flags)
-# to generate header file dependancies for Darwin.
-# Darwin has multiple -arch compiler flags.
+# Special settings for Darwin:
 ifeq ($(OS_CLASS),Darwin)
-HDEPENDS_METHOD = CMD
-endif
+  # Use hdepends command (not GNU compiler flags)
+  # to generate header file dependancies for Darwin.
+  # Darwin has multiple -arch compiler flags.
+  HDEPENDS_METHOD = CMD
 
-ifneq ($(findstring darwin,$(T_A)),)
   # Perl loadable libraries on Darwin have funny names
   LOADABLE_SHRLIB_PREFIX =
-  LOADABLE_SHRLIB_SUFFIX = .bundle
+  LOADABLE_SHRLIB_SUFFIX = .$(shell $(PERL) ../perlConfig.pl dlext)
 endif
 
 PERL_VERSION = $(shell $(PERL) ../perlConfig.pl version)
 PERL_ARCHNAME = $(shell $(PERL) ../perlConfig.pl archname)
 PERL_ARCHPATH = $(PERL_VERSION)/$(PERL_ARCHNAME)
 
-ifeq ($(findstring Host,$(VALID_BUILDS)),Host)
-ifeq ($(findstring $(OS_CLASS),WIN32 cygwin32),)
-  # Doesn't build on WIN32
+ifeq ($(T_A),$(EPICS_HOST_ARCH))                 # No cross-builds (wrong Perl!)
+ifeq ($(findstring $(OS_CLASS),WIN32 cygwin32),) # Doesn't build on WIN32
   LOADABLE_LIBRARY_HOST = Cap5
 
   PERL_SCRIPTS += cainfo.pl
@@ -54,10 +52,12 @@ include $(TOP)/configure/RULES
 
 ifdef T_A
   EXTUTILS = $(shell $(PERL) ../perlConfig.pl privlib)/ExtUtils
+  PERLBIN = $(shell $(PERL) ../perlConfig.pl bin)
+  XSUBPP = $(firstword $(wildcard $(PERLBIN)/xsubpp $(EXTUTILS)/xsubpp))
 
   %.c: ../%.xs
 	$(RM) $@ $@_new
-	$(PERL) $(EXTUTILS)/xsubpp -typemap $(EXTUTILS)/typemap $< > $@_new && $(MV) $@_new $@
+	$(PERL) $(XSUBPP) -typemap $(EXTUTILS)/typemap $< > $@_new && $(MV) $@_new $@
 
   %.html: ../%.pm
 	$(RM) $@
