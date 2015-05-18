@@ -156,6 +156,7 @@ xcopy /Y /Q /D /R remoteClient\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R rpcClient\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R rpcService\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R server\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R utils\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R v3ioc\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -165,7 +166,7 @@ xcopy /Y /Q /D /R v3ioc\*.h $(SolutionDir)include\pv &gt; NUL
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;$(SolutionDir)include\pv</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>EPICS_DLL_NO;WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <DisableSpecificWarnings>4251;4275;4309;4290;4101;4244;4250;4996</DisableSpecificWarnings>
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -186,6 +187,7 @@ xcopy /Y /Q /D /R remoteClient\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R rpcClient\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R rpcService\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R server\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R utils\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R v3ioc\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -215,6 +217,7 @@ xcopy /Y /Q /D /R remoteClient\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R rpcClient\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R rpcService\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R server\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R utils\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R v3ioc\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -224,7 +227,7 @@ xcopy /Y /Q /D /R v3ioc\*.h $(SolutionDir)include\pv &gt; NUL
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;$(SolutionDir)include\pv</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>EPICS_DLL_NO;WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <DisableSpecificWarnings>4251;4275;4309;4290;4101;4244;4250;4996;4267</DisableSpecificWarnings>
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -245,6 +248,7 @@ xcopy /Y /Q /D /R remoteClient\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R rpcClient\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R rpcService\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R server\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R utils\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R v3ioc\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -277,6 +281,7 @@ xcopy /Y /Q /D /R remoteClient\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R rpcClient\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R rpcService\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R server\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R utils\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R v3ioc\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -288,7 +293,7 @@ xcopy /Y /Q /D /R v3ioc\*.h $(SolutionDir)include\pv &gt; NUL
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;$(SolutionDir)include\pv</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>EPICS_DLL_NO;WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <DisableSpecificWarnings>4251;4275;4309;4290;4101;4244;4250;4996</DisableSpecificWarnings>
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -310,6 +315,7 @@ xcopy /Y /Q /D /R remoteClient\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R rpcClient\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R rpcService\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R server\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R utils\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R v3ioc\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -342,6 +348,7 @@ xcopy /Y /Q /D /R remoteClient\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R rpcClient\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R rpcService\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R server\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R utils\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R v3ioc\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -353,7 +360,7 @@ xcopy /Y /Q /D /R v3ioc\*.h $(SolutionDir)include\pv &gt; NUL
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;$(SolutionDir)include\pv</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>EPICS_DLL_NO;WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <DisableSpecificWarnings>4251;4275;4309;4290;4101;4244;4250;4996;4267</DisableSpecificWarnings>
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -375,6 +382,7 @@ xcopy /Y /Q /D /R remoteClient\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R rpcClient\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R rpcService\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R server\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R utils\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R v3ioc\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -463,6 +471,9 @@ xcopy /Y /Q /D /R v3ioc\*.h $(SolutionDir)include\pv &gt; NUL
     </ProjectReference>
     <ProjectReference Include="..\..\..\base-3.14.12.5\src\libCom\Com.vcxproj">
       <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\pvCommonCPP\mbSrc\pvMB.vcxproj">
+      <Project>{aa7645c9-77df-4898-b241-9000c389f23f}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\pvDataCPP\src\pvData.vcxproj">
       <Project>{f4a51415-2981-42ee-87c7-f29d5805583e}</Project>

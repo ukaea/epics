@@ -15,6 +15,7 @@
 #include <pv/epicsException.h>
 #include <pv/pvType.h>
 #include <pv/status.h>
+#include <pv/security.h>
 
 #include <osiSock.h>
 #include <epicsThread.h>
@@ -57,6 +58,9 @@ public:
     virtual Configuration::shared_pointer getConfiguration() {
         return _conf;
     }
+    virtual std::map<std::string, std::tr1::shared_ptr<SecurityPlugin> >& getSecurityPlugins() {
+		return SecurityPluginRegistry::instance().getServerSecurityPlugins();
+	}
     virtual void acquire() {}
     virtual void release() {}
     virtual void newServerDetected() {}

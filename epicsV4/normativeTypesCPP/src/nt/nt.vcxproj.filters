@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="nt.h" />
+    <ClInclude Include="ntfield.h" />
+    <ClInclude Include="ntmultiChannel.h" />
+    <ClInclude Include="ntnameValue.h" />
+    <ClInclude Include="ntndarray.h" />
+    <ClInclude Include="ntscalar.h" />
+    <ClInclude Include="ntscalarArray.h" />
+    <ClInclude Include="nttable.h" />
+    <ClInclude Include="ntutils.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ntfield.cpp" />
+    <ClCompile Include="ntmultiChannel.cpp" />
+    <ClCompile Include="ntnameValue.cpp" />
+    <ClCompile Include="ntndarray.cpp" />
+    <ClCompile Include="ntscalar.cpp" />
+    <ClCompile Include="ntscalarArray.cpp" />
+    <ClCompile Include="nttable.cpp" />
+    <ClCompile Include="ntutils.cpp" />
+  </ItemGroup>
+</Project>

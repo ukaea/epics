@@ -9,6 +9,7 @@
 #include <pv/blockingUDP.h>
 #include <pv/logger.h>
 #include <pv/inetAddressUtil.h>
+#include <pv/security.h>
 
 //#include <pv/CDRMonitor.h>
 
@@ -48,6 +49,9 @@ public:
     virtual Configuration::shared_pointer getConfiguration() {
         return Configuration::shared_pointer();
     }
+    virtual std::map<std::string, std::tr1::shared_ptr<SecurityPlugin> >& getSecurityPlugins() {
+		return SecurityPluginRegistry::instance().getServerSecurityPlugins();
+	}
     virtual void acquire() {}
     virtual void release() {}
     virtual void newServerDetected() {}

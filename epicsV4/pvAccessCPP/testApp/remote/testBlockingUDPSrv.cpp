@@ -9,6 +9,7 @@
 #include <pv/blockingUDP.h>
 #include <pv/logger.h>
 #include <pv/hexDump.h>
+#include <pv/security.h>
 
 #include <osiSock.h>
 #include <epicsThread.h>
@@ -42,6 +43,9 @@ public:
     virtual Configuration::shared_pointer getConfiguration() {
         return Configuration::shared_pointer();
     }
+    virtual std::map<std::string, std::tr1::shared_ptr<SecurityPlugin> >& getSecurityPlugins() {
+		return SecurityPluginRegistry::instance().getServerSecurityPlugins();
+	}
     virtual void acquire() {}
     virtual void release() {}
     virtual void newServerDetected() {}
