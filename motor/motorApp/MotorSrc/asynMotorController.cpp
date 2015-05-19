@@ -14,8 +14,8 @@
 #include <asynPortDriver.h>
 #include <asynOctetSyncIO.h>
 #include <epicsExport.h>
+
 #define epicsExportSharedSymbols
-#include <shareLib.h>
 #include "asynMotorController.h"
 #include "asynMotorAxis.h"
 
@@ -95,6 +95,7 @@ asynMotorController::asynMotorController(const char *portName, int numAxes, int 
   createParam(profileFixedTimeString,          asynParamFloat64,      &profileFixedTime_);
   createParam(profileTimeArrayString,     asynParamFloat64Array,      &profileTimeArray_);
   createParam(profileAccelerationString,       asynParamFloat64,      &profileAcceleration_);
+  createParam(profileMoveModeString,             asynParamInt32,      &profileMoveMode_);
   createParam(profileBuildString,                asynParamInt32,      &profileBuild_);
   createParam(profileBuildStateString,           asynParamInt32,      &profileBuildState_);
   createParam(profileBuildStatusString,          asynParamInt32,      &profileBuildStatus_);
@@ -131,6 +132,10 @@ asynMotorController::asynMotorController(const char *portName, int numAxes, int 
   asynPrint(this->pasynUserSelf, ASYN_TRACE_FLOW,
     "%s:%s: constructor complete\n",
     driverName, functionName);
+}
+
+asynMotorController::~asynMotorController()
+{
 }
 
 /** Called when asyn clients call pasynManager->report().

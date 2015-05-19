@@ -3,10 +3,10 @@ FILENAME...	drvMAXv.h
 USAGE...	OMS driver level "include" information that is specific to OMS
 		model MAXv.
 
-Version:        $Revision: 16561 $
-Modified By:    $Author: mooney $
-Last Modified:  $Date: 2013-06-10 16:36:59 -0500 (Mon, 10 Jun 2013) $
-HeadURL:        $URL: https://subversion.xor.aps.anl.gov/synApps/motor/tags/R6-8/motorApp/OmsSrc/drvMAXv.h $
+Version:        $Revision: 17212 $
+Modified By:    $Author: sluiter $
+Last Modified:  $Date: 2014-02-06 15:16:54 -0600 (Thu, 06 Feb 2014) $
+HeadURL:        $URL: https://subversion.xray.aps.anl.gov/synApps/motor/tags/R6-9/motorApp/OmsSrc/drvMAXv.h $
 */
 
 /*
@@ -65,6 +65,7 @@ enum MotorTypes {PSO,  // Stepper; w/o  encoder
 struct MAXvController
 {
     MotorTypes typeID[8];
+    float fwver;                /* firmware version */
     epicsMutexId message_mutex;
 };
 

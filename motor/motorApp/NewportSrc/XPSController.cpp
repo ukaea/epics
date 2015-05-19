@@ -89,11 +89,16 @@ Versions: Release 4-5 and higher.
 #include <epicsThread.h>
 #include <epicsString.h>
 #include <iocsh.h>
+#include <asynDriver.h>
 
-#include "XPSController.h"
 #include "XPS_C8_drivers.h"
 #include "xps_ftp.h"
+#include "asynMotorController.h"
+#include "asynMotorAxis.h"
+
 #include <epicsExport.h>
+#include "XPSAxis.h"
+#include "XPSController.h"
 
 static const char *driverName = "XPSController";
 
@@ -115,12 +120,6 @@ const static CorrectorTypes_t CorrectorTypes = {
   "PositionerCorrectorPIDDualFFVoltage",
   "NoCorrector"
 };
-
-/* Constants used for FTP to the XPS */
-#define TRAJECTORY_DIRECTORY "/Admin/Public/Trajectories"
-#define MAX_FILENAME_LEN  256
-#define MAX_MESSAGE_LEN   256
-#define MAX_GROUPNAME_LEN  64
 
 /* The maximum size of the item names in gathering, e.g. "GROUP2.POSITIONER1.CurrentPosition" */
 #define MAX_GATHERING_AXIS_STRING 60
@@ -169,6 +168,9 @@ XPSController::XPSController(const char *portName, const char *IPAddress, int IP
   createParam(XPSProfileGroupNameString,         asynParamOctet, &XPSProfileGroupName_);
   createParam(XPSTrajectoryFileString,           asynParamOctet, &XPSTrajectoryFile_);
   createParam(XPSStatusString,                   asynParamInt32, &XPSStatus_);
+  createParam(XPSStatusStringString,             asynParamOctet, &XPSStatusString_);
+  createParam(XPSTclScriptString,                asynParamOctet, &XPSTclScript_);
+  createParam(XPSTclScriptExecuteString,         asynParamInt32, &XPSTclScriptExecute_);
 
   // This socket is used for polling by the controller and all axes
   pollSocket_ = TCP_ConnectToServer((char *)IPAddress, IPPort, XPS_POLL_TIMEOUT);
@@ -209,6 +211,10 @@ XPSController::XPSController(const char *portName, const char *IPAddress, int IP
   /* Flag used to turn off setting MSTA problem bit when the axis is disabled.*/
   noDisableError_ = 0;
 
+  /* Flag to disable a mode to change the moving state determination for an axis.*/
+  /* See function XPSController::enableMovingMode().*/
+  enableMovingMode_ = false;
+
 }
 
 void XPSController::report(FILE *fp, int level)
@@ -233,6 +239,51 @@ void XPSController::report(FILE *fp, int level)
 
   // Call the base class method
   asynMotorController::report(fp, level);
+}
+
+asynStatus XPSController::writeInt32(asynUser *pasynUser, epicsInt32 value)
+{
+  int function = pasynUser->reason;
+  int status = asynSuccess;
+  XPSAxis *pAxis;
+  //static const char *functionName = "writeInt32";
+
+  pAxis = this->getAxis(pasynUser);
+  if (!pAxis) return asynError;
+  
+  /* Set the parameter and readback in the parameter library.  This may be overwritten when we read back the
+   * status at the end, but that's OK */
+  status = pAxis->setIntegerParam(function, value);
+
+  if (function == XPSTclScriptExecute_) {
+    /* Execute the TCL script */
+    char fileName[MAX_FILENAME_LEN];
+    getStringParam(XPSTclScript_, (int)sizeof(fileName), fileName);
+    if (fileName != NULL) {
+      asynPrint(this->pasynUserSelf, ASYN_TRACE_FLOW, 
+		"Executing TCL script %s on XPS: %s\n", 
+		fileName, this->portName);
+      status = TCLScriptExecute(pAxis->moveSocket_,
+				fileName,"0","0");
+      if (status != 0) {
+	asynPrint(this->pasynUserSelf, ASYN_TRACE_ERROR, 
+		  "TCLScriptExecute returned error %d, on XPS: %s\n", 
+		  status, this->portName);
+	status = asynError;
+      }
+    } else {
+      asynPrint(this->pasynUserSelf, ASYN_TRACE_ERROR, 
+              "TCL script name has not been set on XPS: %s\n", 
+              this->portName);
+      status = asynError;
+    }
+  } else {
+    /* Call base class method */
+    status = asynMotorController::writeInt32(pasynUser, value);
+  }
+
+  return (asynStatus)status;
+
 }
 
 /**
@@ -402,15 +453,16 @@ XPSAxis* XPSController::getAxis(int axisNo)
 
 asynStatus XPSController::waitMotors()
 {
-  bool moving, anyMoving=true;
-  int j;
+  int groupStatus;
+  int status;
+  char groupName[MAX_GROUPNAME_LEN];
+  
+  getStringParam(XPSProfileGroupName_, (int)sizeof(groupName), groupName);
 
-  while (anyMoving) {
-    anyMoving = false;
-    for (j=0; j<numAxes_; j++) {
-      pAxes_[j]->poll(&moving);
-      if (moving) anyMoving = true;
-    }
+  while (1) {
+    status = GroupStatusGet(pollSocket_, groupName, &groupStatus);
+    if (status) return asynError;
+    if (groupStatus >= 10 && groupStatus <= 18) break;
     epicsThreadSleep(0.1);
   }
   return asynSuccess;
@@ -436,8 +488,8 @@ asynStatus XPSController::buildProfile()
   int status;
   bool buildOK=true;
   bool verifyOK=true;
-  int nPoints;
-  int nElements;
+  int numPoints;
+  int numElements;
   double trajVel;
   double D0, D1, T0, T1;
   SOCKET ftpSocket;
@@ -484,7 +536,7 @@ asynStatus XPSController::buildProfile()
 
   preTimeMax = 0.;
   postTimeMax = 0.;
-  getIntegerParam(profileNumPoints_, &nPoints);
+  getIntegerParam(profileNumPoints_, &numPoints);
   getStringParam(XPSTrajectoryFile_, (int)sizeof(fileName), fileName);
   getStringParam(XPSProfileGroupName_, (int)sizeof(groupName), groupName);
 
@@ -515,14 +567,14 @@ asynStatus XPSController::buildProfile()
     preVelocity[j] = distance/profileTimes_[0];
     time = fabs(preVelocity[j]) / maxAcceleration;
     preTimeMax = MAX(preTimeMax, time);
-    distance = pAxes_[j]->profilePositions_[nPoints-1] - 
-               pAxes_[j]->profilePositions_[nPoints-2];
-    postVelocity[j] = distance/profileTimes_[nPoints-1];
+    distance = pAxes_[j]->profilePositions_[numPoints-1] - 
+               pAxes_[j]->profilePositions_[numPoints-2];
+    postVelocity[j] = distance/profileTimes_[numPoints-1];
     time = fabs(postVelocity[j]) / maxAcceleration;
     postTimeMax = MAX(postTimeMax, time);
     asynPrint(this->pasynUserSelf, ASYN_TRACE_FLOW,
               "%s:%s: axis %d profilePositions[0]=%f, profilePositions[%d]=%f, maxAcceleration=%f, preTimeMax=%f, postTimeMax=%f\n",
-              driverName, functionName, j, pAxes_[j]->profilePositions_[0], nPoints-1, pAxes_[j]->profilePositions_[nPoints-1],
+              driverName, functionName, j, pAxes_[j]->profilePositions_[0], numPoints-1, pAxes_[j]->profilePositions_[numPoints-1],
               maxAcceleration, preTimeMax, postTimeMax);
   }
     
@@ -538,7 +590,13 @@ asynStatus XPSController::buildProfile()
   }
 
   /* Create the profile file */
-  trajFile =  fopen(fileName, "w");
+  trajFile =  fopen(fileName, "wb");
+  if (trajFile == 0) {
+    buildOK = false;
+    status = -1;
+    sprintf(message, "Error creating trajectory file %s, error=%s\n", fileName, strerror(errno));
+    goto done;
+  }
 
   /* Create the initial acceleration element */
   fprintf(trajFile,"%f", preTimeMax);
@@ -548,11 +606,11 @@ asynStatus XPSController::buildProfile()
   }
   fprintf(trajFile,"\n");
  
-  /* The number of profile elements in the file is nPoints-1 */
-  nElements = nPoints - 1;
-  for (i=0; i<nElements; i++) {
+  /* The number of profile elements in the file is numPoints-1 */
+  numElements = numPoints - 1;
+  for (i=0; i<numElements; i++) {
     T0 = profileTimes_[i];
-    if (i < nElements-1)
+    if (i < numElements-1)
       T1 = profileTimes_[i+1];
     else
       T1 = T0;
@@ -561,7 +619,7 @@ asynStatus XPSController::buildProfile()
       if (!inGroup[j]) continue;
       D0 = pAxes_[j]->profilePositions_[i+1] - 
            pAxes_[j]->profilePositions_[i];
-      if (i < nElements-1) 
+      if (i < numElements-1) 
         D1 = pAxes_[j]->profilePositions_[i+2] - 
              pAxes_[j]->profilePositions_[i+1];
       else
@@ -583,7 +641,6 @@ asynStatus XPSController::buildProfile()
     if (!inGroup[j]) continue;
     fprintf(trajFile,", %f, %f", pAxes_[j]->profilePostDistance_, 0.);
   }
-  fprintf(trajFile,"\n");
   fclose (trajFile);
   
   /* FTP the trajectory file from the local directory to the XPS */
@@ -608,7 +665,7 @@ asynStatus XPSController::buildProfile()
   status = ftpDisconnect(ftpSocket);
   if (status) {
     buildOK = false;
-     sprintf(message, "Error calling  ftpDisconnect, status=%d\n", status);
+    sprintf(message, "Error calling  ftpDisconnect, status=%d\n", status);
     goto done;
   }
 
@@ -638,6 +695,7 @@ asynStatus XPSController::buildProfile()
       sprintf(message, "Unknown trajectory verify error=%d", status);
       break;
   }
+  if (!verifyOK) goto done;
 
   /* Read dynamic parameters*/
   for (j=0; j<numAxes_; j++) {
@@ -656,6 +714,7 @@ asynStatus XPSController::buildProfile()
       verifyOK = false;
       sprintf(message, "MultipleAxesPVTVerificationResultGet error for axis %s, status=%d\n",
               pAxes_[j]->positionerName_, status);
+      goto done;
     }
     // Don't do the rest if the axis is not being used
     if (!useAxis[j]) continue;
@@ -671,12 +730,14 @@ asynStatus XPSController::buildProfile()
       verifyOK = false;
       sprintf(message, "Low soft limit violation for axis %s, position=%f, limit=%f\n",
               pAxes_[j]->positionerName_, minProfile, lowLimit);
+      goto done;
     }
     maxProfile = pAxes_[j]->profilePositions_[0] + maxPositionActual;
     if (maxProfile > highLimit) {
       verifyOK = false;
       sprintf(message, "High soft limit violation for axis %s, position=%f, limit=%f\n",
               pAxes_[j]->positionerName_, maxProfile, highLimit);
+      goto done;
     }
   }
   done:
@@ -728,12 +789,14 @@ asynStatus XPSController::runProfile()
   bool aborted=false;
   int j;
   int startPulses, endPulses;
-  int numPoints, numPulses;
+  int lastTime;
+  int numPoints, numElements, numPulses;
   int executeStatus;
   double pulsePeriod;
   double position;
   double time;
   int i;
+  int moveMode;
   char message[MAX_MESSAGE_LEN];
   char buffer[MAX_GATHERING_STRING];
   char fileName[MAX_FILENAME_LEN];
@@ -763,14 +826,24 @@ asynStatus XPSController::runProfile()
   unlock();
 
   // Move the motors to the start position
+  // This depends on whether we are in absolute or relative mode
+  getIntegerParam(profileMoveMode_, &moveMode);
   for (j=0; j<numAxes_; j++) {
     if (!useAxis[j] || !inGroup[j]) continue;
     pAxis = getAxis(j);
-    position = pAxis->profilePositions_[0] - pAxis->profilePreDistance_;
-    status = GroupMoveAbsolute(pAxis->moveSocket_,
-                               pAxis->positionerName_,
-                               1,
-                               &position);
+    if (moveMode == PROFILE_MOVE_MODE_ABSOLUTE) {
+      position = pAxis->profilePositions_[0] - pAxis->profilePreDistance_;
+      status = GroupMoveAbsolute(pAxis->moveSocket_,
+                                 pAxis->positionerName_,
+                                 1,
+                                 &position);
+    } else {
+      position = -pAxis->profilePreDistance_;
+      status = GroupMoveRelative(pAxis->moveSocket_,
+                                 pAxis->positionerName_,
+                                 1,
+                                 &position);
+    }
   }
 
   // Wait for the motors to get there
@@ -818,10 +891,15 @@ asynStatus XPSController::runProfile()
             status, buffer);
     goto done;
   }
+  
+  /* The number of trajectory elements for the user is numPoints-1 
+     The actual number is 2 greater because of the acceleration and decelleration */
+  numElements = numPoints - 1;
 
-  // Check valid range of start and end pulses;  these start at 1, not 0
-  if ((startPulses < 1)           || (startPulses > numPoints) ||
-      (endPulses   < startPulses) || (endPulses   > numPoints)) {
+  // Check valid range of start and end pulses;  these start at 1, not 0.
+  // numElements+1 is the decelleration element
+  if ((startPulses < 1)           || (startPulses > numElements+1) ||
+      (endPulses   < startPulses) || (endPulses   > numElements+1)) {
     executeOK = false;
     sprintf(message, "Error: start or end pulses outside valid range");
     goto done;
@@ -831,14 +909,15 @@ asynStatus XPSController::runProfile()
   // Compute the time between pulses as the total time over which pulses should be output divided 
   //  by the number of pulses to be output. */
   time = 0;
-  for (i=startPulses; i<endPulses; i++) {
+  lastTime = endPulses;
+  if (endPulses > numElements) lastTime = numElements;
+  for (i=startPulses; i<=lastTime; i++) {
     time += profileTimes_[i-1];
   }
-  // We put out pulses starting at the beginning of element startPulses and ending at the beginning of element
-  // endPulses.  To get exactly numPulses pulses we need to subtract 1 from numPulses when determining the
-  // pulsePeriod
+  // We put out pulses starting at the beginning of element startPulses and ending at the end of element
+  // endPulses.
   if (numPulses != 0)
-    pulsePeriod = time / (numPulses-1);
+    pulsePeriod = time / numPulses;
   else
     pulsePeriod = 0;
   
@@ -954,11 +1033,19 @@ asynStatus XPSController::runProfile()
   for (j=0; j<numAxes_; j++) {
     if (!useAxis[j] ||!inGroup[j]) continue;
     pAxis = getAxis(j);
-    position = pAxis->profilePositions_[numPoints-1] + pAxis->profilePostDistance_;
-    status = GroupMoveAbsolute(pAxis->moveSocket_,
-                               pAxis->positionerName_,
-                               1,
-                               &position); 
+    if (moveMode == PROFILE_MOVE_MODE_ABSOLUTE) {
+      position = pAxis->profilePositions_[numPoints-1];
+      status = GroupMoveAbsolute(pAxis->moveSocket_,
+                                 pAxis->positionerName_,
+                                 1,
+                                 &position); 
+    } else {
+      position = -pAxis->profilePostDistance_;
+      status = GroupMoveRelative(pAxis->moveSocket_,
+                                 pAxis->positionerName_,
+                                 1,
+                                 &position); 
+    }  
   }
   
   // Wait for the motors to get there
@@ -1075,8 +1162,9 @@ asynStatus XPSController::readbackProfile()
     readbackOK = false;
     sprintf(message, "Error, numPulses=%d, currentSamples=%d", numPulses, currentSamples);
     //goto done;
-  } else {
-    currentSamples = numPulses; // Only read as many as were asked for
+  } 
+  if (currentSamples > (int) maxProfilePoints_) {
+      currentSamples = maxProfilePoints_;
   }
   buffer = (char *)calloc(GATHERING_MAX_READ_LEN, sizeof(char));
   numInBuffer = 0;
@@ -1158,6 +1246,18 @@ asynStatus XPSController::noDisableError()
   return asynSuccess; 
 }
 
+/* Function to enable a mode where the XPSAxis poller will check the moveSocket response 
+   to determine motion done. It does not rely on the axis state in this case. This prevents
+   axes in multipleAxis groups being in 'moving state' when another axis in the same
+   group is moving. This allows the motor record to move the axis when another axis in the
+   same group is moving. However, this has the consequence that a moving state is not 
+   detected if the move is externally generated. So by default this mode is turned off. It
+   can be enabled by calling this function. */ 
+asynStatus XPSController::enableMovingMode()
+{
+  enableMovingMode_ = true;
+  return asynSuccess; 
+}
 
 
 
@@ -1257,6 +1357,22 @@ asynStatus XPSNoDisableError(const char *XPSName)
   return pC->noDisableError();
 }
 
+asynStatus XPSEnableMovingMode(const char *XPSName)
+{
+  XPSController *pC;
+  static const char *functionName = "XPSEnableMovingMode";
+
+  pC = (XPSController*) findAsynPortDriver(XPSName);
+  if (!pC) {
+    printf("%s:%s: Error port %s not found\n", driverName, functionName, XPSName);
+    return asynError;
+  }
+
+  return pC->enableMovingMode();
+}
+
+
+
 
 /* Code for iocsh registration */
 
@@ -1342,6 +1458,16 @@ static void noDisableErrorCallFunc(const iocshArgBuf *args)
   XPSNoDisableError(args[0].sval);
 }
 
+/* XPSEnableMovingMode */
+static const iocshArg XPSEnableMovingModeArg0 = {"Controller port name", iocshArgString};
+static const iocshArg * const XPSEnableMovingModeArgs[] = {&XPSEnableMovingModeArg0};
+static const iocshFuncDef enableMovingMode = {"XPSEnableMovingMode", 1, XPSEnableMovingModeArgs};
+
+static void enableMovingModeCallFunc(const iocshArgBuf *args)
+{
+  XPSEnableMovingMode(args[0].sval);
+}
+
 
 static void XPSRegister3(void)
 {
@@ -1350,6 +1476,7 @@ static void XPSRegister3(void)
   iocshRegister(&configXPSProfile,     configXPSProfileCallFunc);
   iocshRegister(&disableAutoEnable,    disableAutoEnableCallFunc);
   iocshRegister(&noDisableError,       noDisableErrorCallFunc);
+  iocshRegister(&enableMovingMode,     enableMovingModeCallFunc);
 }
 epicsExportRegistrar(XPSRegister3);
 

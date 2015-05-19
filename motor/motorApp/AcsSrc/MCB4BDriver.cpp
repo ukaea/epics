@@ -18,8 +18,8 @@ March 1, 2012
 
 #include <asynOctetSyncIO.h>
 
-#include "MCB4BDriver.h"
 #include <epicsExport.h>
+#include "MCB4BDriver.h"
 
 #define NINT(f) (int)((f)>0 ? (f)+0.5 : (f)-0.5)
 
@@ -296,7 +296,7 @@ asynStatus MCB4BAxis::poll(bool *moving)
   setIntegerParam(pC_->motorStatusAtHome_, limit);
 
   // Read the drive power on status
-  sprintf(pC_->outString_, "#%02dE", axisNo_);
+  sprintf(pC_->outString_, "#%02dW", axisNo_);
   comStatus = pC_->writeReadController();
   if (comStatus) goto skip;
   driveOn = (pC_->inString_[5] == '1') ? 1:0;

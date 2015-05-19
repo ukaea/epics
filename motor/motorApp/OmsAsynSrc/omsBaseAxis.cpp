@@ -31,6 +31,7 @@ omsBaseAxis::omsBaseAxis(omsBaseController *pController, int axis, char axisChar
     pC_ = pController;
     stepper = 1;
     invertLimit = 0;
+    lastminvelo = 0;
 }
 
 asynStatus omsBaseAxis::move(double position, int relative, double min_velocity, double max_velocity, double acceleration)
@@ -48,7 +49,11 @@ asynStatus omsBaseAxis::move(double position, int relative, double min_velocity,
     else
         rela = 0;
 
-    pos = (epicsInt32) (position + 0.5);
+    if ( position < 0.0)
+    	pos = (epicsInt32) (position - 0.5);
+    else
+    	pos = (epicsInt32) (position + 0.5);
+
     if (abs(pos) > 67000000){
         asynPrint(pasynUser_, ASYN_TRACE_ERROR,
               "%s:%s:%s axis %d position out of range %f\n",
@@ -71,7 +76,12 @@ asynStatus omsBaseAxis::move(double position, int relative, double min_velocity,
         acc = 1;
 
     /* move to the specified position */
-    sprintf(buff, "A%1c AC%d; VB%d; VL%d; %s%d; GO ID", axisChar, acc, minvelo, velo, relabs[rela], pos);
+    if (velo < lastminvelo)
+        sprintf(buff, "A%1c;AC%d;VB%d;VL%d;%s%d;GO;ID;", axisChar, acc, minvelo, velo, relabs[rela], pos);
+    else
+        sprintf(buff, "A%1c;AC%d;VL%d;VB%d;%s%d;GO;ID;", axisChar, acc, velo, minvelo, relabs[rela], pos);
+    lastminvelo = minvelo;
+
     status = pC_->sendOnlyLock(buff);
 
     asynPrint(pasynUser_, ASYN_TRACE_FLOW,
@@ -88,7 +98,7 @@ asynStatus omsBaseAxis::home(double min_velocity, double max_velocity, double ac
     asynStatus status = asynError;
     char buff[60];
     char *direction[2] = {(char*) "HR", (char*) "HM"};
-    epicsInt32 velo, acc, fw = 0;
+    epicsInt32 minvelo, velo, acc, fw = 0;
 
     if (forwards) fw = 1;
 
@@ -96,14 +106,23 @@ asynStatus omsBaseAxis::home(double min_velocity, double max_velocity, double ac
     if (velo < 1) velo = 1;
     else if (velo > 1000000) velo = 1000000;
 
-    acc = abs((epicsInt32) acceleration);
+    minvelo = (epicsInt32) (min_velocity + 0.5);
+    if (minvelo < 0) minvelo = 0;
+    else if (minvelo >= velo) minvelo = velo - 1;
+
+     acc = abs((epicsInt32) acceleration);
     if (acc > 8000000)
         acc = 8000000;
     else if (acc < 1)
         acc = 1;
 
     /* do a home run and move to the home position */
-    sprintf(buff, "A%1c AC%d; VL%d; %s; MA0 GO ID", axisChar, acc, velo, direction[forwards]);
+    if (velo < lastminvelo)
+        sprintf(buff, "A%1c;AC%d;VB%d;VL%d;%s;MA0;GO;ID;", axisChar, acc, minvelo, velo, direction[forwards]);
+    else
+        sprintf(buff, "A%1c;AC%d;VL%d;VB%d;%s;MA0;GO;ID;", axisChar, acc, velo, minvelo, direction[forwards]);
+    lastminvelo = minvelo;
+
     status = pC_->sendOnlyLock(buff);
 
     homing = 1;
@@ -167,7 +186,7 @@ asynStatus omsBaseAxis::stop(double acceleration )
 
     asynPrint(pasynUser_, ASYN_TRACE_FLOW,
         "%s:%s: port %s, set axis %d to stop with accel=%f\n",
-        driverName, functionName, pC_->portName, axisNo_, axisNo_, acceleration );
+        driverName, functionName, pC_->portName, axisNo_, acceleration );
 
     return status;
 }

@@ -44,19 +44,19 @@
     <ClInclude Include="HytecMotorDriver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\asyn\asyn\asyn.vcxproj">
-      <Project>{c3ea0ff7-6039-4884-ba91-7b4619befea5}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\base\src\ca\client\ca.vcxproj">
+    <ProjectReference Include="..\..\..\base-3.15.1\src\ca\client\ca.vcxproj">
       <Project>{02caf068-a7fc-463e-aa7e-72eeaf665826}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\base\src\ioc\dbCore.vcxproj">
+    <ProjectReference Include="..\..\..\base-3.15.1\src\ioc\dbCore.vcxproj">
       <Project>{440c585d-ad66-4738-941c-a87a1817a9be}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\base\src\libCom\Com.vcxproj">
       <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\ipac\drvIpac\Ipac.vcxproj">
+    <ProjectReference Include="..\..\..\support\asyn4-25\asyn\asyn.vcxproj">
+      <Project>{c3ea0ff7-6039-4884-ba91-7b4619befea5}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\support\ipac\drvIpac\Ipac.vcxproj">
       <Project>{ae0a5905-cc7d-427b-a385-bcc5253c98c0}</Project>
     </ProjectReference>
     <ProjectReference Include="..\MotorSrc\motor.vcxproj">

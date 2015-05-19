@@ -55,7 +55,6 @@ C300Controller::C300Controller(const char *portName, const char *C300PortName, i
 {
   int axis;
   asynStatus status;
-  C300Axis *pAxis;
   static const char *functionName = "C300Controller";
 
   /* Connect to C300 controller */
@@ -77,7 +76,7 @@ C300Controller::C300Controller(const char *portName, const char *C300PortName, i
 
   // Create the axis objects
   for (axis=0; axis<numAxes; axis++) {
-    pAxis = new C300Axis(this, axis);
+    new C300Axis(this, axis);
   }
 
   startPoller(movingPollPeriod, idlePollPeriod, 2);
@@ -95,9 +94,7 @@ C300Controller::C300Controller(const char *portName, const char *C300PortName, i
 extern "C" int C300CreateController(const char *portName, const char *C300PortName, int numAxes, 
                                    int movingPollPeriod, int idlePollPeriod)
 {
-  C300Controller *pC300Controller
-    = new C300Controller(portName, C300PortName, numAxes, movingPollPeriod/1000., idlePollPeriod/1000.);
-  pC300Controller = NULL;
+  new C300Controller(portName, C300PortName, numAxes, movingPollPeriod/1000., idlePollPeriod/1000.);
   return(asynSuccess);
 }
 
@@ -282,7 +279,6 @@ asynStatus C300Axis::move(double position, int relative, double minVelocity, dou
 asynStatus C300Axis::poll(bool *moving)
 { 
   int done;
-  int num;
   asynStatus comStatus;
 
   // Read the current encoder position
@@ -294,9 +290,9 @@ asynStatus C300Axis::poll(bool *moving)
   //printf("\naxisName_ = %s\n", axisName_);
   //printf("data string = %s\n", pC_->inString_);
 
-  num = sscanf(&pC_->inString_[C300_DATA_OFFSET], "%lG", &posMonCorrectedVal_); 
+  sscanf(&pC_->inString_[C300_DATA_OFFSET], "%lG", &posMonCorrectedVal_); 
   //printf("data string = %s\n", pC_->inString_);
-  num = sscanf(&pC_->inString_[C300_CORR_OFFSET], "%lG", &analogInScaledVal_);
+  sscanf(&pC_->inString_[C300_CORR_OFFSET], "%lG", &analogInScaledVal_);
   //printf("data string = %s\n", pC_->inString_);
   
   //printf("posMonCorrectedVal_ = %lG\n", posMonCorrectedVal_); 

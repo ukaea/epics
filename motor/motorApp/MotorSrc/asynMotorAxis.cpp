@@ -58,6 +58,9 @@ asynMotorAxis::asynMotorAxis(class asynMotorController *pC, int axisNo)
   pasynManager->connectDevice(pasynUser_, pC->portName, axisNo);
 }
 
+asynMotorAxis::~asynMotorAxis()
+{
+}
 
 /** Move the motor to an absolute location or by a relative amount.
   * \param[in] position  The absolute position to move to (if relative=0) or the relative distance to move 
@@ -281,6 +284,16 @@ asynStatus asynMotorAxis::setDoubleParam(int function, double value)
   // Call the base class method
   return pC_->setDoubleParam(axisNo_, function, value);
 }   
+
+/**
+  * Sets the value for a string for this axis in the parameter library.
+  * \param[in] function The function (parameter) number 
+  * \param[in] value Value to set */
+asynStatus asynMotorAxis::setStringParam(int function, const char *value)
+{
+  // Call the base class method
+  return pC_->setStringParam(axisNo_, function, value);
+}
 
 
 

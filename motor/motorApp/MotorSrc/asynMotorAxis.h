@@ -8,23 +8,40 @@
 #ifndef asynMotorAxis_H
 #define asynMotorAxis_H
 
+#ifdef epicsExportSharedSymbols
+#define asynMotorAxis_epicsExportSharedSymbols
+#undef epicsExportSharedSymbols
+#endif
+
 #include <epicsEvent.h>
 #include <epicsTypes.h>
 
 #ifdef __cplusplus
 #include <asynPortDriver.h>
+#endif
+
+#ifdef asynMotorAxis_epicsExportSharedSymbols
+#undef asynMotorAxis_epicsExportSharedSymbols
+#define epicsExportSharedSymbols
+#endif
+
+#include <shareLib.h>
+
+#ifdef __cplusplus
 
 #include "asynMotorController.h"
 
 /** Class from which motor axis objects are derived. */
-class epicsShareFunc asynMotorAxis {
+class epicsShareClass asynMotorAxis {
 
   public:
   /* This is the constructor for the class. */
   asynMotorAxis(class asynMotorController *pController, int axisNumber);
+  virtual ~asynMotorAxis();
 
   virtual asynStatus setIntegerParam(int index, int value);
   virtual asynStatus setDoubleParam(int index, double value);
+  virtual asynStatus setStringParam(int index, const char *value);
   virtual void report(FILE *fp, int details);
   virtual asynStatus callParamCallbacks();
 

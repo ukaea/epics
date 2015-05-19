@@ -9,16 +9,26 @@ March 1, 2012
 K. Goetze 2012-03-23
 
 */
+#ifdef epicsExportSharedSymbols
+#define SMC100Driver_epicsExportSharedSymbols
+#undef epicsExportSharedSymbols
+#endif
 
 #include "asynMotorController.h"
 #include "asynMotorAxis.h"
+
+#ifdef SMC100Driver_epicsExportSharedSymbols
+#undef SMC100Driver_epicsExportSharedSymbols
+#define epicsExportSharedSymbols
+#endif
+#include <shareLib.h>
 
 #define MAX_SMC100_AXES 1
 
 // No controller-specific parameters yet
 #define NUM_SMC100_PARAMS 0  
 
-class SMC100Axis : public asynMotorAxis
+class epicsShareClass SMC100Axis : public asynMotorAxis
 {
 public:
   /* These are the methods we override from the base class */

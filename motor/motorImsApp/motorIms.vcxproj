@@ -35,25 +35,25 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\asyn\asyn\asyn.vcxproj">
-      <Project>{c3ea0ff7-6039-4884-ba91-7b4619befea5}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\base\src\ca\client\ca.vcxproj">
+    <ProjectReference Include="..\..\base-3.15.1\src\ca\client\ca.vcxproj">
       <Project>{02caf068-a7fc-463e-aa7e-72eeaf665826}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\base\src\ioc\dbCore.vcxproj">
+    <ProjectReference Include="..\..\base-3.15.1\src\ioc\dbCore.vcxproj">
       <Project>{440c585d-ad66-4738-941c-a87a1817a9be}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\base-3.15.1\src\std\dbRecStd.vcxproj">
+      <Project>{3b0e3542-cb89-4ffa-b004-eac882b3f277}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\base-3.15.1\src\tools\tools.vcxproj">
+      <Project>{5cce1c6a-2bd5-48bf-99e2-d29b58f91991}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\base\src\libCom\Com.vcxproj">
       <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\base\src\std\dbRecStd.vcxproj">
-      <Project>{3b0e3542-cb89-4ffa-b004-eac882b3f277}</Project>
+    <ProjectReference Include="..\..\support\asyn4-25\asyn\asyn.vcxproj">
+      <Project>{c3ea0ff7-6039-4884-ba91-7b4619befea5}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\base\src\tools\tools.vcxproj">
-      <Project>{5cce1c6a-2bd5-48bf-99e2-d29b58f91991}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\seq\src\pv\pv.vcxproj">
+    <ProjectReference Include="..\..\support\seq\src\pv\pv.vcxproj">
       <Project>{a463e1aa-5c19-4964-8851-c4070a07aeb7}</Project>
     </ProjectReference>
     <ProjectReference Include="..\motorApp\ImsSrc\Ims.vcxproj">

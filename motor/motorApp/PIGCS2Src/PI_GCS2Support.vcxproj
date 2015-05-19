@@ -317,10 +317,12 @@ xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
     <ClInclude Include="picontrollererrors.h" />
     <ClInclude Include="PIE517Controller.h" />
     <ClInclude Include="PIE755Controller.h" />
+    <ClInclude Include="PIGCS2_HexapodController.h" />
     <ClInclude Include="PIGCSController.h" />
     <ClInclude Include="PIGCSMotorController.h" />
     <ClInclude Include="PIGCSPiezoController.h" />
     <ClInclude Include="PIHexapodController.h" />
+    <ClInclude Include="PIInterface.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PIasynAxis.cpp" />
@@ -328,18 +330,26 @@ xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
     <ClCompile Include="PIC702Controller.cpp" />
     <ClCompile Include="PIE517Controller.cpp" />
     <ClCompile Include="PIE755Controller.cpp" />
+    <ClCompile Include="PIGCS2_HexapodController.cpp" />
     <ClCompile Include="PIGCSController.cpp" />
     <ClCompile Include="PIGCSMotorController.cpp" />
     <ClCompile Include="PIGCSPiezoController.cpp" />
     <ClCompile Include="PIHexapodController.cpp" />
+    <ClCompile Include="PIInterface.cpp" />
     <ClCompile Include="translateerror.c" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\asyn\asyn\asyn.vcxproj">
-      <Project>{c3ea0ff7-6039-4884-ba91-7b4619befea5}</Project>
+    <ProjectReference Include="..\..\..\base-3.15.1\src\libCom\flex\e_flex.vcxproj">
+      <Project>{285b2dd5-b55e-4195-9b2d-f129cf54a2b4}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\base-3.15.1\src\tools\tools.vcxproj">
+      <Project>{5cce1c6a-2bd5-48bf-99e2-d29b58f91991}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\base\src\libCom\Com.vcxproj">
       <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\support\asyn4-25\asyn\asyn.vcxproj">
+      <Project>{c3ea0ff7-6039-4884-ba91-7b4619befea5}</Project>
     </ProjectReference>
     <ProjectReference Include="..\MotorSrc\motor.vcxproj">
       <Project>{9ea7bd8e-c551-4874-85ed-abbfcfe7a7d4}</Project>

@@ -3,10 +3,10 @@ FILENAME: motordevCom.cc
 USAGE... This file contains device functions that are common to all motor
     record device support modules.
 
-Version:        $Revision: 11146 $
+Version:        $Revision: 17842 $
 Modified By:    $Author: sluiter $
-Last Modified:  $Date: 2010-06-09 13:34:44 -0500 (Wed, 09 Jun 2010) $
-HeadURL:        $URL: https://subversion.xor.aps.anl.gov/synApps/motor/tags/R6-8/motorApp/MotorSrc/motordevCom.cc $
+Last Modified:  $Date: 2014-09-11 10:28:26 -0500 (Thu, 11 Sep 2014) $
+HeadURL:        $URL: https://subversion.xray.aps.anl.gov/synApps/motor/tags/R6-9/motorApp/MotorSrc/motordevCom.cc $
 */
 
 /*
@@ -58,6 +58,7 @@ HeadURL:        $URL: https://subversion.xor.aps.anl.gov/synApps/motor/tags/R6-8
  * .12  03/08/10 rls Always send positive encoder ratio values.
  * .13  06/09/10 rls Set RA_PROBLEM instead of CNTRL_COMM_ERR when a NULL
  *                   motor_state[] ptr is detected in motor_end_trans_com().
+ * .14  08/19/14 rls Moved RMP and REP posting from record to here.
  */
 
 
@@ -409,8 +410,16 @@ epicsShareFunc CALLBACK_VALUE motor_update_values(struct motorRecord * mr)
     /* raw motor pulse count */
     if (ptrans->callback_changed == YES)
     {
-        mr->rmp = ptrans->motor_pos;
-        mr->rep = ptrans->encoder_pos;
+        if (mr->rmp != ptrans->motor_pos)
+        {
+            mr->rmp = ptrans->motor_pos;
+            db_post_events(mr, &mr->rmp, DBE_VAL_LOG);
+        }
+        if (mr->rep != ptrans->encoder_pos)
+        {
+            mr->rep = ptrans->encoder_pos;
+            db_post_events(mr, &mr->rep, DBE_VAL_LOG);
+        }
         if (mr->rvel != ptrans->vel)
         {
             mr->rvel = ptrans->vel;

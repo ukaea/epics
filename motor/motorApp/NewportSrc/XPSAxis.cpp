@@ -94,10 +94,13 @@ using std::endl;
 #include <epicsString.h>
 #include <iocsh.h>
 
+#include "asynMotorController.h"
+#include "asynMotorAxis.h"
 #include "XPSController.h"
 #include "XPS_C8_drivers.h"
 #include "asynOctetSocket.h"
 #include <epicsExport.h>
+#include "XPSAxis.h"
 
 #define XPSC8_END_OF_RUN_MINUS  0x80000100
 #define XPSC8_END_OF_RUN_PLUS   0x80000200
@@ -126,7 +129,7 @@ const static CorrectorTypes_t CorrectorTypes = {
   "NoCorrector"
 };
 
-extern "C" void shutdownCallback(void *pPvt)
+static void shutdownCallback(void *pPvt)
 {
   XPSController *pC = static_cast<XPSController *>(pPvt);
 
@@ -556,11 +559,17 @@ asynStatus XPSAxis::poll(bool *moving)
 {
   int status;
   char readResponse[25];
+  char statusString[MAX_MESSAGE_LEN] = {0};
   static const char *functionName = "poll";
 
   status = GroupStatusGet(pollSocket_, 
                           groupName_, 
                           &axisStatus_);
+  if (!status) {
+    status = GroupStatusStringGet(pollSocket_,
+				  axisStatus_,
+				  statusString); 
+  }
   if (status) {
     asynPrint(pasynUser_, ASYN_TRACE_ERROR, 
               "%s:%s: [%s,%d]: error calling GroupStatusGet status=%d\n",
@@ -568,37 +577,47 @@ asynStatus XPSAxis::poll(bool *moving)
     goto done;
   }
   asynPrint(pasynUser_, ASYN_TRACE_FLOW, 
-            "%s:%s: [%s,%d]: %s axisStatus=%d\n",
-            driverName, functionName, pC_->portName, axisNo_, positionerName_, axisStatus_);
+            "%s:%s: [%s,%d]: %s axisStatus=%d, statusString=%s\n",
+            driverName, functionName, pC_->portName, axisNo_, positionerName_, axisStatus_, statusString);
   /* Set the status */
   setIntegerParam(pC_->XPSStatus_, axisStatus_);
-
+  setStringParam(pC_->XPSStatusString_, statusString);
+  
   /* Previously we set the motion done flag by seeing if axisStatus_ was >=43 && <= 48, which means moving,
    * homing, jogging, etc.  However, this information is about the group, not the axis, so if one
    * motor in the group was moving, then they all appeared to be moving.  This is not what we want, because
    * the EPICS motor record required the first motor to stop before the second motor could be moved. 
-   * Instead we look for a response on the moveSocket_ to see when the motor motion was complete */
+   * Instead we look for a response on the moveSocket_ to see when the motor motion was complete.
+     NOTE: by default this mode is disabled. To enable it use the XPSController::enableMovingMode() function.*/
    
   /* If the group is not moving then the axis is not moving */
-  if ((axisStatus_ < 43) || (axisStatus_ > 48)) moving_ = false;
+  if ((axisStatus_ < 43) || (axisStatus_ > 48)) {
+    moving_ = false;
+  } else {
+    if (!pC_->enableMovingMode_) {
+      moving_ = true;
+    }
+  }
   
   /* If the axis is moving then read from the moveSocket to see if it is done 
    * We currently assume the move is complete if we get any response, we don't
    * check the actual response. */
-  if (moving_) {
-    status = ReadXPSSocket(moveSocket_, readResponse, sizeof(readResponse), 0);
-    if (status < 0) {
-      asynPrint(pasynUser_, ASYN_TRACE_ERROR, 
-                "%s:%s: [%s,%d]: error calling ReadXPSSocket status=%d\n",
-                driverName, functionName, pC_->portName, axisNo_,  status);
-      goto done;
-    }
-    if (status > 0) {
-      asynPrint(pasynUser_, ASYN_TRACE_FLOW, 
-        "%s:%s: [%s,%d]: readXPSSocket returned nRead=%d, [%s]\n",
-        driverName, functionName, pC_->portName, axisNo_,  status, readResponse);
-      status = 0;
-      moving_ = false;
+  if (pC_->enableMovingMode_) {
+    if (moving_) {
+      status = ReadXPSSocket(moveSocket_, readResponse, sizeof(readResponse), 0);
+      if (status < 0) {
+	asynPrint(pasynUser_, ASYN_TRACE_ERROR, 
+		  "%s:%s: [%s,%d]: error calling ReadXPSSocket status=%d\n",
+		  driverName, functionName, pC_->portName, axisNo_,  status);
+	goto done;
+      }
+      if (status > 0) {
+	asynPrint(pasynUser_, ASYN_TRACE_FLOW, 
+		  "%s:%s: [%s,%d]: readXPSSocket returned nRead=%d, [%s]\n",
+		  driverName, functionName, pC_->portName, axisNo_,  status, readResponse);
+	status = 0;
+	moving_ = false;
+      }
     }
   }
 

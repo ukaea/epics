@@ -2,10 +2,10 @@
 FILENAME...     motorUtil.cc
 USAGE...        Motor Record Utility Support.
 
-Version:        $Revision: 15394 $
+Version:        $Revision: 17100 $
 Modified By:    $Author: kpetersn $
-Last Modified:  $Date: 2012-10-24 16:33:44 -0500 (Wed, 24 Oct 2012) $
-HeadURL:        $URL: https://subversion.xor.aps.anl.gov/synApps/motor/tags/R6-8/motorApp/MotorSrc/motorUtil.cc $
+Last Modified:  $Date: 2013-11-13 15:43:36 -0600 (Wed, 13 Nov 2013) $
+HeadURL:        $URL: https://subversion.xray.aps.anl.gov/synApps/motor/tags/R6-9/motorApp/MotorSrc/motorUtil.cc $
 */
 
 
@@ -63,7 +63,7 @@ static void moving(int, chid, short);
 
 typedef struct motor_pv_info
 {
-    char name[PVNAME_SZ];      /* pv names limited to 28 chars + term. in dbDefs.h */
+    char name[PVNAME_SZ];      /* pv names limited to 60 chars + term. in dbDefs.h */
     chid chid_dmov;     /* Channel id for <motor name>.DMOV */
     chid chid_stop;     /* Channel id for <motor name>.STOP */
     int in_motion;
@@ -80,9 +80,9 @@ int numMotors = 0;
 static Motor_pv_info *motorArray;
 static char **motorlist = 0;
 static char *vme;
-static int old_numMotorsMoving = -1;
-static short old_alldone_value = -1;
-static chid chid_allstop, chid_moving, chid_alldone;
+static int old_numMotorsMoving = 0;
+static short old_alldone_value = 1;
+static chid chid_allstop, chid_moving, chid_alldone, chid_movingdiff;
 /* ----- ---------------- ----- */
 
 
@@ -142,9 +142,14 @@ static int motorUtil_task(void *arg)
         strcat(temp, "alldone.VAL");
         chid_alldone = getChID(temp);
 
-	if (!chid_moving || !chid_alldone) {
-	    errlogPrintf("Failed to connect to %smoving or %salldone.\n"
-			 "Check prefix matches Db\n", vme, vme);
+        /* setup $(P)movingDiff */
+        strcpy(temp, vme);
+        strcat(temp, "movingDiff.VAL");
+        chid_movingdiff = getChID(temp);
+
+	if (!chid_moving || !chid_alldone || !chid_movingdiff) {
+	    errlogPrintf("Failed to connect to %smoving or %salldone or %smovingDiff.\n"
+			 "Check prefix matches Db\n", vme, vme, vme);
 	    ca_task_exit();
 	    return ERROR;
 	}
@@ -287,15 +292,23 @@ static void moving(int callback_motor_index, chid callback_chid,
 {
     short new_alldone_value, done = 1, not_done = 0;
     int numMotorsMoving, status;
+    char diffChar;
+    char diffStr[PVNAME_STRINGSZ+1];
 
     if (motorUtil_debug)            
         errlogPrintf("%s is %s\n", motorArray[callback_motor_index].name,
                (callback_dmov) ? "STOPPED" : "MOVING");
 
-    if (callback_dmov)                      
+    if (callback_dmov)
+    {                      
         motorArray[callback_motor_index].in_motion = 0;
+        diffChar = '-';
+    }
     else
+    {
         motorArray[callback_motor_index].in_motion = 1;
+        diffChar = '+';
+    }
     
     numMotorsMoving = motorMovingCount();
 
@@ -333,6 +346,10 @@ static void moving(int callback_motor_index, chid callback_chid,
 
         /* give $(P)moving the appropriate value */
         ca_put(DBR_LONG, chid_moving, &numMotorsMoving);
+	
+	/* Tell which motor's dmov changed */
+	sprintf(diffStr, "%c%s", diffChar, motorArray[callback_motor_index].name);
+	ca_array_put(DBR_CHAR, strlen(diffStr)+1, chid_movingdiff, diffStr); 
 
         old_numMotorsMoving = numMotorsMoving;
     }
@@ -408,10 +425,20 @@ static void printChIDCallFunc(const iocshArgBuf *args)
     printChIDlist();
 }
 
+static const iocshArg ArgL = {"List moving motors", iocshArgString};
+static const iocshArg * const listMovingMotorsArg[1]  = {&ArgL};
+static const iocshFuncDef listMovingMotorsDef  = {"listMovingMotors", 1, listMovingMotorsArg};
+
+static void listMovingMotorsCallFunc(const iocshArgBuf *args)
+{
+    listMovingMotors();
+}
+
 static void motorUtilRegister(void)
 {
     iocshRegister(&motorUtilDef,  motorUtilCallFunc);
     iocshRegister(&printChIDDef,  printChIDCallFunc);
+    iocshRegister(&listMovingMotorsDef,  listMovingMotorsCallFunc);
 }
 
 epicsExportRegistrar(motorUtilRegister);

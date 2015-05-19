@@ -6,7 +6,7 @@ USAGE...    Motor record driver level support for Intelligent Motion
 Version:        $Revision: 16385 $
 Modified By:    $Author: sluiter $
 Last Modified:  $Date: 2013-04-24 11:01:47 -0500 (Wed, 24 Apr 2013) $
-HeadURL:        $URL: https://subversion.xor.aps.anl.gov/synApps/motor/tags/R6-8/motorApp/ImsSrc/drvMDrive.cc $
+HeadURL:        $URL: https://subversion.xray.aps.anl.gov/synApps/motor/tags/R6-9/motorApp/ImsSrc/drvMDrive.cc $
 */
 
 /*
@@ -569,7 +569,7 @@ static int motor_init()
     int total_axis = 0;
     int status;
     asynStatus success_rtn;
-    static const char output_terminator[] = "\r";
+    static const char output_terminator[] = "\n";
     static const char input_terminator[]  = "\r\n";
 
     initialized = true;     /* Indicate that driver is initialized. */

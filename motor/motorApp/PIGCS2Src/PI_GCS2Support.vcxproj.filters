@@ -41,6 +41,12 @@
     <ClInclude Include="PIHexapodController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PIGCS2_HexapodController.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PIInterface.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PIasynAxis.cpp">
@@ -71,6 +77,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="translateerror.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PIGCS2_HexapodController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PIInterface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

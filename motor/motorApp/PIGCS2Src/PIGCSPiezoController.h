@@ -7,9 +7,9 @@ FILENAME...     PIGCScontroller.h
 * found in the file LICENSE that is included with this distribution.
 *************************************************************************
 
-Version:        $Revision$
-Modified By:    $Author$
-Last Modified:  $Date$
+Version:        $Revision: 3$
+Modified By:    $Author: Steffen Rau$
+Last Modified:  $Date: 25.10.2013 10:43:08$
 HeadURL:        $URL$
 
 Original Author: Steffen Rau 
@@ -30,13 +30,15 @@ Created: 15.12.2010
 class PIGCSPiezoController : public PIGCSController
 {
 public:
-	PIGCSPiezoController(asynUser* pCom, const char* szIDN)
-	: PIGCSController(pCom, szIDN)
+	PIGCSPiezoController(PIInterface* pInterface, const char* szIDN)
+	: PIGCSController(pInterface, szIDN)
 	{
 	}
 	~PIGCSPiezoController() {}
 
 	virtual asynStatus init(void) { return PIGCSController::init(); }
+	virtual asynStatus initAxis(PIasynAxis* pAxis);
+	virtual asynStatus haltAxis(PIasynAxis* pAxis);
 
     virtual asynStatus getStatus(PIasynAxis* pAxis, int& homing, int& moving, int& negLimit, int& posLimit, int& servoControl);
     virtual asynStatus getReferencedState(PIasynAxis* pAxis);

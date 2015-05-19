@@ -9,7 +9,7 @@
 #
 # Add your declarations here
 
-SUPPORT=/EPICS
+SUPPORT=\EPICS/support
 -include $(TOP)/../configure/SUPPORT.$(EPICS_HOST_ARCH)
 
 # If any motor controller communication mechanism besides the VME backplane is
@@ -24,7 +24,7 @@ SNCSEQ=$(SUPPORT)/seq
 BUSY=$(SUPPORT)/busy
 
 # Recommended EPICS release: R3.14.12.1
-EPICS_BASE=D:\EPICS/base
+EPICS_BASE=\EPICS/base
 -include $(TOP)/../configure/EPICS_BASE.$(EPICS_HOST_ARCH)
 
 # The following must be defined for the MXmotor device driver.

@@ -2,10 +2,10 @@
 FILENAME...	AerotechRegister.h
 USAGE... This file contains function prototypes for ACS IOC shell commands.
 
-Version:        $Revision: 12194 $
+Version:        $Revision: 17434 $
 Modified By:    $Author: sluiter $
-Last Modified:  $Date: 2011-01-07 10:06:01 -0600 (Fri, 07 Jan 2011) $
-HeadURL:        $URL: https://subversion.xor.aps.anl.gov/synApps/motor/tags/R6-8/motorApp/AerotechSrc/AerotechRegister.h $
+Last Modified:  $Date: 2014-05-21 11:43:51 -0500 (Wed, 21 May 2014) $
+HeadURL:        $URL: https://subversion.xray.aps.anl.gov/synApps/motor/tags/R6-9/motorApp/AerotechSrc/AerotechRegister.h $
 */
 
 /*
@@ -38,11 +38,12 @@ HeadURL:        $URL: https://subversion.xor.aps.anl.gov/synApps/motor/tags/R6-8
  * .01	2008/04/10 caw Initial support for Ensemble
  * .02	2009/04/29 hcf Added support for Soloist
  * .03	2009/07/28 cjb Added support for Ensemble asynMotor
+ * .04  2013/11/26 cjb Added support for A3200 asynMotor
  */
 
 #include "motor.h"
 #include "motordrvCom.h"
 #include "drvEnsembleAsyn.h"
 #include "drvSoloist.h"
-
+#include "drvA3200Asyn.h"
 

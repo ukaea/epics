@@ -9,6 +9,10 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
+    <Filter Include="O.Common">
+      <UniqueIdentifier>{f6f5dfae-189d-4891-aca9-0de84cbb379d}</UniqueIdentifier>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AerotechRegister.cc">
@@ -26,6 +30,12 @@
     <ClCompile Include="drvSoloist.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="drvA3200Asyn.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="O.Common\EnsembleTrajectoryScan.c">
+      <Filter>O.Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AerotechRegister.h">
@@ -40,5 +50,22 @@
     <ClInclude Include="ParameterId.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="A3200CommonStructures.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="A3200ParameterId.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="drvA3200Asyn.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EnsembleTrajectoryScan.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="EnsembleTrajectoryScan.st">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
   </ItemGroup>
 </Project>

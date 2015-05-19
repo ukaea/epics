@@ -57,10 +57,10 @@
 #include <drvSup.h>
 #include <registryDriverSupport.h>
 
+#include <epicsExport.h>
 #include "asynMotorController.h"
 #include "motor_interface.h"
 #include <limits.h>
-#include <epicsExport.h>
 
 /* Message queue size */
 #define MAX_MESSAGES 100
@@ -1093,7 +1093,7 @@ static void initCallFunc(const iocshArgBuf *args)
                           args[3].ival);
 }
 
-void motorRegister(void)
+static void motorRegister(void)
 {
     iocshRegister(&initFuncDef,initCallFunc);
 }

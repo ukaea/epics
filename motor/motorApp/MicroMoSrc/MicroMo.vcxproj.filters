@@ -20,6 +20,9 @@
     <ClCompile Include="MicroMoRegister.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MVP2001Driver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="devMicroMo.dbd">
@@ -29,6 +32,9 @@
   <ItemGroup>
     <ClInclude Include="drvMVP2001.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MVP2001Driver.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

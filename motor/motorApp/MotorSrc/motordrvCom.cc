@@ -3,10 +3,10 @@ FILENAME...     motordrvCom.cc
 USAGE...        This file contains driver functions that are common
                 to all motor record driver modules.
 
-Version:        $Revision: 15586 $
-Modified By:    $Author: sluiter $
-Last Modified:  $Date: 2012-11-30 16:27:08 -0600 (Fri, 30 Nov 2012) $
-HeadURL:        $URL: https://subversion.xor.aps.anl.gov/synApps/motor/tags/R6-8/motorApp/MotorSrc/motordrvCom.cc $
+Version:        $Revision: 17309 $
+Modified By:    $Author: mooney $
+Last Modified:  $Date: 2014-04-02 12:52:06 -0500 (Wed, 02 Apr 2014) $
+HeadURL:        $URL: https://subversion.xray.aps.anl.gov/synApps/motor/tags/R6-9/motorApp/MotorSrc/motordrvCom.cc $
 */
 
 /*
@@ -276,6 +276,7 @@ static double query_axis(int card, struct driver_table *tabptr, epicsTime tick,
                     motor_free(motor_motion, tabptr);
                     motor_motion = (struct mess_node *) NULL;
                     motor_info->motor_motion = (struct mess_node *) NULL;
+                    mess_ret->status.Bits.RA_DONE = 1;
                 }
 
                 callbackRequest(&mess_ret->callback);

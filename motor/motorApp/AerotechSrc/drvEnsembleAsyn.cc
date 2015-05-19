@@ -2,10 +2,10 @@
 FILENAME... drvEnsembleAsyn.cc
 USAGE...    Motor record asyn driver level support for Aerotech Ensemble.
 
-Version:        $Revision: 16392 $
+Version:        $Revision: 18150 $
 Modified By:    $Author: sluiter $
-Last Modified:  $Date: 2013-04-24 14:41:05 -0500 (Wed, 24 Apr 2013) $
-HeadURL:        $URL: https://subversion.xor.aps.anl.gov/synApps/motor/tags/R6-8/motorApp/AerotechSrc/drvEnsembleAsyn.cc $
+Last Modified:  $Date: 2014-11-24 11:47:32 -0600 (Mon, 24 Nov 2014) $
+HeadURL:        $URL: https://subversion.xray.aps.anl.gov/synApps/motor/tags/R6-9/motorApp/AerotechSrc/drvEnsembleAsyn.cc $
 */
 
 /*
@@ -65,6 +65,9 @@ in file LICENSE that is included with this distribution.
 *                  - Deleted duplicate error messages. 
 * .17 09-27-12 rls - Bug fix for incorrect jog acceleration rate.
 * .18 09-27-12 rls - Support for actual velocity in status update. 
+* .19 09-11-14 rls - sendAndReceive() diagnostic message added when controller returns NAK. 
+* .20 11-24-14 rls - Moved "WAIT MODE NOWAIT" from EnsembleAsynConfig to motorAxisSetInteger 
+*                    where torque is enabled/disabled. 
 */
 
 
@@ -436,6 +439,10 @@ static int motorAxisSetInteger(AXIS_HDL pAxis, motorAxisParam_t function, int va
             sprintf(outputBuff, "ENABLE @%d", pAxis->axis);
         }
         ret_status = sendAndReceive(pAxis->pController, outputBuff, inputBuff, sizeof(inputBuff));
+
+        /* Prevent ASCII interpreter from blocking during MOVEABS/INC commands. */
+        ret_status = sendAndReceive(pAxis->pController, (char *) "WAIT MODE NOWAIT", inputBuff, sizeof(inputBuff));
+
         break;
     default:
         PRINT(pAxis->logParam, TERROR, "motorAxisSetInteger: unknown function %d\n", function);
@@ -974,9 +981,6 @@ int EnsembleAsynConfig(int card,             /* Controller number */
             if (inputBuff[0] == ASCII_ACK_CHAR)
                 pAxis->swconfig.All = atoi(&inputBuff[1]);
 
-            /* Prevent ASCII interpreter from blocking during MOVEABS/INC commands. */
-            sendAndReceive(pController, (char *) "WAIT MODE NOWAIT", inputBuff, sizeof(inputBuff));
-
             /* Set RAMP MODE to RATE. */
             sprintf(outputBuff, "RAMP MODE @%d RATE", axis);
             sendAndReceive(pController, outputBuff, inputBuff, sizeof(inputBuff));
@@ -1039,6 +1043,9 @@ static asynStatus sendAndReceive(EnsembleController *pController, char *outputBu
             PRINT(pController->pAxis->logParam, TERROR,
                   "drvEnsembleAsyn:sendAndReceive: Retry succeeded for command = %s with response = %s\n", outputCopy, inputBuff);
     }
+    else if (status == asynSuccess && inputBuff[0] == ASCII_FAULT_CHAR)
+        PRINT(pController->pAxis->logParam, TERROR,
+              "drvEnsembleAsyn:sendAndReceive: Error returned for command = %s with response = %s\n", outputCopy, inputBuff);
 
     if (status != asynSuccess)
         asynPrint(pController->pasynUser, ASYN_TRACE_ERROR,

@@ -5,7 +5,7 @@ USAGE...	Motor record driver level support for OMS model VME58.
 Version:        $Revision: 14914 $
 Modified By:    $Author: sluiter $
 Last Modified:  $Date: 2012-07-26 14:04:55 -0500 (Thu, 26 Jul 2012) $
-HeadURL:        $URL: https://subversion.xor.aps.anl.gov/synApps/motor/tags/R6-8/motorApp/OmsSrc/drvOms58.cc $
+HeadURL:        $URL: https://subversion.xray.aps.anl.gov/synApps/motor/tags/R6-9/motorApp/OmsSrc/drvOms58.cc $
 */
 
 /*

@@ -1,10 +1,10 @@
 #FILENAME...     Makefile
 #USAGE...        Makefile for motor application example with Asyn
 
-#Version:        $Revision: 13567 $
-#Modified By:    $Author: rivers $
-#Last Modified:  $Date: 2011-08-30 14:11:01 -0500 (Tue, 30 Aug 2011) $
-#HeadURL:        $URL: https://subversion.xor.aps.anl.gov/synApps/motor/tags/R6-8/motorExApp/WithAsyn/Makefile $
+#Version:        $Revision: 18552 $
+#Modified By:    $Author: sluiter $
+#Last Modified:  $Date: 2015-01-07 09:33:30 -0600 (Wed, 07 Jan 2015) $
+#HeadURL:        $URL: https://subversion.xray.aps.anl.gov/synApps/motor/tags/R6-9/motorExApp/WithAsyn/Makefile $
 
 # "#!" marks lines that can be uncommented.
 
@@ -34,9 +34,15 @@ COMMONDBDS += devKohzuMotor.dbd
 COMMONDBDS += devAttocube.dbd
 COMMONDBDS += devAerotech.dbd
 COMMONDBDS += ACRMotorSupport.dbd
+COMMONDBDS += asyn.dbd
 COMMONDBDS += drvAsynSerialPort.dbd
 COMMONDBDS += drvAsynIPPort.dbd
-COMMONDBDS += busySupport.dbd
+ifdef BUSY
+	COMMONDBDS += busySupport.dbd
+	COMMONLIBS := busy $(COMMONLIBS)
+endif
+COMMONDBDS += PI_GCS2Support.dbd
+COMMONDBDS += phytron.dbd
 
 DBD += WithAsyn.dbd
 WithAsyn_DBD += $(COMMONDBDS)
@@ -72,6 +78,8 @@ COMMONLIBS += motorSimSupport
 COMMONLIBS += SmartMotor
 COMMONLIBS += KohzuMotor
 COMMONLIBS += ACRMotor
+COMMONLIBS += PI_GCS2Support
+COMMONLIBS += phytronAxisMotor
 COMMONLIBS += motor
 
 # Needed for Newport SNL programs
@@ -81,8 +89,6 @@ ifdef SNCSEQ
 WithAsyn_LIBS += seqDev seq pv
 endif
 WithAsyn_LIBS += $(EPICS_BASE_IOC_LIBS)
-
-WithAsyn_LIBS += busy
 
 WithAsynVx_LIBS += $(COMMONLIBS)
 ifdef IPAC

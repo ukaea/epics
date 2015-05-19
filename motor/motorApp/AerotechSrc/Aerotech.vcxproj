@@ -38,31 +38,77 @@
     <ClCompile Include="AerotechRegister.cc" />
     <ClCompile Include="concatString.c" />
     <ClCompile Include="devSoloist.cc" />
+    <ClCompile Include="drvA3200Asyn.cc" />
     <ClCompile Include="drvEnsembleAsyn.cc" />
     <ClCompile Include="drvSoloist.cc" />
+    <ClCompile Include="O.Common\EnsembleTrajectoryScan.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="A3200CommonStructures.h" />
+    <ClInclude Include="A3200ParameterId.h" />
     <ClInclude Include="AerotechRegister.h" />
+    <ClInclude Include="drvA3200Asyn.h" />
     <ClInclude Include="drvEnsembleAsyn.h" />
     <ClInclude Include="drvSoloist.h" />
+    <ClInclude Include="EnsembleTrajectoryScan.h" />
     <ClInclude Include="ParameterId.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\asyn\asyn\asyn.vcxproj">
-      <Project>{c3ea0ff7-6039-4884-ba91-7b4619befea5}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\base\src\ca\client\ca.vcxproj">
+    <ProjectReference Include="..\..\..\base-3.15.1\src\ca\client\ca.vcxproj">
       <Project>{02caf068-a7fc-463e-aa7e-72eeaf665826}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\base\src\ioc\dbCore.vcxproj">
+    <ProjectReference Include="..\..\..\base-3.15.1\src\ioc\dbCore.vcxproj">
       <Project>{440c585d-ad66-4738-941c-a87a1817a9be}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\base\src\libCom\Com.vcxproj">
       <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\support\asyn4-25\asyn\asyn.vcxproj">
+      <Project>{c3ea0ff7-6039-4884-ba91-7b4619befea5}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\support\seq\src\seq\seq.vcxproj">
+      <Project>{ae5791bc-9233-4f7a-8deb-a14e4d969c05}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\MotorSrc\motor.vcxproj">
       <Project>{9ea7bd8e-c551-4874-85ed-abbfcfe7a7d4}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="EnsembleTrajectoryScan.st">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
+$(OutDir)snc.exe     O.Common\%(Filename).i -o O.Common\%(Filename).c
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
+$(OutDir)snc.exe     O.Common\%(Filename).i -o O.Common\%(Filename).c
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
+$(OutDir)snc.exe     O.Common\%(Filename).i -o O.Common\%(Filename).c
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
+$(OutDir)snc.exe     O.Common\%(Filename).i -o O.Common\%(Filename).c
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
+$(OutDir)snc.exe     O.Common\%(Filename).i -o O.Common\%(Filename).c
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
+$(OutDir)snc.exe     O.Common\%(Filename).i -o O.Common\%(Filename).c
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
+$(OutDir)snc.exe     O.Common\%(Filename).i -o O.Common\%(Filename).c
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
+$(OutDir)snc.exe     O.Common\%(Filename).i -o O.Common\%(Filename).c
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common\%(Filename).c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">O.Common\%(Filename).c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common\%(Filename).c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">O.Common\%(Filename).c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">O.Common\%(Filename).c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">O.Common\%(Filename).c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">O.Common\%(Filename).c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">O.Common\%(Filename).c</Outputs>
+    </CustomBuild>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{4EA30C3F-89E2-4DA5-8AAF-BDECC5F819E4}</ProjectGuid>
@@ -203,6 +249,7 @@
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
 xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
+if not exist  O.Common md  O.Common
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -221,6 +268,7 @@ xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
 xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
+if not exist  O.Common md  O.Common
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -240,6 +288,7 @@ xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
 xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
+if not exist  O.Common md  O.Common
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -259,6 +308,7 @@ xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
 xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
+if not exist  O.Common md  O.Common
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -281,6 +331,7 @@ xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
 xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
+if not exist  O.Common md  O.Common
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -303,6 +354,7 @@ xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
 xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
+if not exist  O.Common md  O.Common
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -326,6 +378,7 @@ xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
 xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
+if not exist  O.Common md  O.Common
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -349,6 +402,7 @@ xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
 xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
+if not exist  O.Common md  O.Common
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>

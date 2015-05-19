@@ -53,8 +53,8 @@ monitor endPulses;
 int     nactual;     assign nactual      to "{P}{R}Nactual.VAL"; 
 int     moveMode;    assign moveMode     to "{P}{R}MoveMode.VAL";    
 monitor moveMode;
-double  time;        assign time         to "{P}{R}Time.VAL";      
-monitor time;
+double  time_PV;     assign time_PV      to "{P}{R}Time.VAL";      
+monitor time_PV;
 double  timeScale;   assign timeScale    to "{P}{R}TimeScale.VAL"; 
 monitor timeScale;
 int     timeMode;    assign timeMode     to "{P}{R}TimeMode.VAL";    
@@ -156,6 +156,22 @@ assign  motorMaxSpeed to
          "{P}{R}M6MaxSpeed.VAL",
          "{P}{R}M7MaxSpeed.VAL",
          "{P}{R}M8MaxSpeed.VAL"};
+
+double  motorStart[MAX_AXES]; 
+assign  motorStart to
+        {"{P}{R}M1Start.VAL",
+         "{P}{R}M2Start.VAL",
+         "{P}{R}M3Start.VAL",
+         "{P}{R}M4Start.VAL",
+         "{P}{R}M5Start.VAL",
+         "{P}{R}M6Start.VAL",
+         "{P}{R}M7Start.VAL",
+         "{P}{R}M8Start.VAL"};
+
+int     addAccelDecel;    assign addAccelDecel     to "{P}{R}AddAccelDecel.VAL";    
+monitor addAccelDecel;
+evflag moveModeMon; sync moveMode moveModeMon;
+int moveModePrev;
 
 /*** END: Specific to MAX_trajectoryScan.st ***/
 
@@ -328,6 +344,9 @@ double  epicsMotorACCL[MAX_AXES];
 assign  epicsMotorACCL to {"","","","","","","",""};
 monitor epicsMotorACCL;
 
+string  epicsMotorOUT[MAX_AXES]; 
+assign  epicsMotorOUT to {"","","","","","","",""};
+
 
 evflag buildMon;        sync build      buildMon;
 evflag executeMon;      sync execute    executeMon;
@@ -336,4 +355,6 @@ evflag abortMon;        sync abort      abortMon;
 evflag readbackMon;     sync readback   readbackMon;
 evflag nelementsMon;    sync nelements  nelementsMon;
 evflag motorMDVSMon;    sync motorMDVS  motorMDVSMon;
+
+
 
