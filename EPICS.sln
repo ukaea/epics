@@ -55,7 +55,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "base-3.15.1", "base-3.15.1"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "startup", "startup", "{3E2860A3-27D0-4BBC-83E8-6590C5335443}"
 	ProjectSection(SolutionItems) = preProject
-		base\startup\win32.bat = base\startup\win32.bat
+		base-3.15.1\startup\win32.bat = base-3.15.1\startup\win32.bat
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "epicsRunLibComTests", "base-3.15.1\src\libCom\test\epicsRunLibComTests.vcxproj", "{FD088109-0D8F-48AA-B23D-17693F119F15}"
@@ -253,6 +253,60 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "antelope", "base-3.15.1\src\libCom\yacc\antelope.vcxproj", "{5F6323FF-CEEB-4AD8-BED3-A443E6F75546}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "support", "support", "{A35FC520-4FE8-44FA-8E70-266C3CF86F68}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LeyboldTurbo", "LeyboldTurbo", "{D04ACFD8-B76B-4D6C-BF02-F280CF75ABAA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LeyboldTurboApp", "LeyboldTurboApp", "{C2A4C477-2BE6-494C-89F3-B51BA1376EBD}"
+	ProjectSection(SolutionItems) = preProject
+		LeyboldTurbo\LeyboldTurboApp\LeyboldTurbo.bat = LeyboldTurbo\LeyboldTurboApp\LeyboldTurbo.bat
+		LeyboldTurbo\LeyboldTurboApp\LeyboldTurbo.py = LeyboldTurbo\LeyboldTurboApp\LeyboldTurbo.py
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "configure", "configure", "{18C9AB30-1CAF-4A41-95A2-0CA2D3E19854}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "iocBoot", "iocBoot", "{73322DE2-4EF3-41A8-86BE-BB9C2EEFDE68}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "iocLeyboldTurbo", "iocLeyboldTurbo", "{13E0B500-742B-401B-AF78-3F6A0201436D}"
+	ProjectSection(SolutionItems) = preProject
+		LeyboldTurbo\iocBoot\iocLeyboldTurbo\dllPath.bat = LeyboldTurbo\iocBoot\iocLeyboldTurbo\dllPath.bat
+		LeyboldTurbo\iocBoot\iocLeyboldTurbo\envPaths = LeyboldTurbo\iocBoot\iocLeyboldTurbo\envPaths
+		LeyboldTurbo\iocBoot\iocLeyboldTurbo\MakeFile = LeyboldTurbo\iocBoot\iocLeyboldTurbo\MakeFile
+		LeyboldTurbo\iocBoot\iocLeyboldTurbo\st1.cmd = LeyboldTurbo\iocBoot\iocLeyboldTurbo\st1.cmd
+		LeyboldTurbo\iocBoot\iocLeyboldTurbo\st1.simulated.cmd = LeyboldTurbo\iocBoot\iocLeyboldTurbo\st1.simulated.cmd
+		LeyboldTurbo\iocBoot\iocLeyboldTurbo\st5.cmd = LeyboldTurbo\iocBoot\iocLeyboldTurbo\st5.cmd
+		LeyboldTurbo\iocBoot\iocLeyboldTurbo\st5.simulated.cmd = LeyboldTurbo\iocBoot\iocLeyboldTurbo\st5.simulated.cmd
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LeyboldSimApp", "LeyboldSimApp", "{36E5CD3A-D134-4077-841A-A26AC2FAAFC0}"
+	ProjectSection(SolutionItems) = preProject
+		LeyboldTurbo\LeyboldSimApp\LeyboldSim.bat = LeyboldTurbo\LeyboldSimApp\LeyboldSim.bat
+		LeyboldTurbo\LeyboldSimApp\LeyboldSim.py = LeyboldTurbo\LeyboldSimApp\LeyboldSim.py
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LeyboldTurbo", "LeyboldTurbo\LeyboldTurboApp\LeyboldTurbo.vcxproj", "{BAE6CE99-140A-4018-8BCB-9D63F54D6F07}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LeyboldSim", "LeyboldTurbo\LeyboldSimApp\LeyboldSim.vcxproj", "{4FBF939A-460F-4ADC-822E-9049AB4DA174}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "iocLeyboldSim", "iocLeyboldSim", "{8687A51C-BA97-4FFE-9B0B-55DACE994618}"
+	ProjectSection(SolutionItems) = preProject
+		LeyboldTurbo\iocBoot\iocLeyboldSim\MakeFile = LeyboldTurbo\iocBoot\iocLeyboldSim\MakeFile
+		LeyboldTurbo\iocBoot\iocLeyboldSim\st1.simulator.cmd = LeyboldTurbo\iocBoot\iocLeyboldSim\st1.simulator.cmd
+		LeyboldTurbo\iocBoot\iocLeyboldSim\st5.simulator.cmd = LeyboldTurbo\iocBoot\iocLeyboldSim\st5.simulator.cmd
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestScripts", "TestScripts", "{3B25DF17-DA76-4505-BB10-99F4E84DFFB1}"
+	ProjectSection(SolutionItems) = preProject
+		LeyboldTurbo\LeyboldSimApp\TestScripts\camonitor.py = LeyboldTurbo\LeyboldSimApp\TestScripts\camonitor.py
+		LeyboldTurbo\LeyboldSimApp\TestScripts\setrunning.py = LeyboldTurbo\LeyboldSimApp\TestScripts\setrunning.py
+		LeyboldTurbo\LeyboldSimApp\TestScripts\testsequence.py = LeyboldTurbo\LeyboldSimApp\TestScripts\testsequence.py
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{4E2E628F-A8C1-488D-811D-964B40C89879}"
+	ProjectSection(SolutionItems) = preProject
+		LeyboldTurbo\LeyboldTurboApp\Scripts\camonitor.py = LeyboldTurbo\LeyboldTurboApp\Scripts\camonitor.py
+		LeyboldTurbo\LeyboldTurboApp\Scripts\Reset.py = LeyboldTurbo\LeyboldTurboApp\Scripts\Reset.py
+		LeyboldTurbo\LeyboldTurboApp\Scripts\SetRunning.py = LeyboldTurbo\LeyboldTurboApp\Scripts\SetRunning.py
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1434,6 +1488,38 @@ Global
 		{5F6323FF-CEEB-4AD8-BED3-A443E6F75546}.Release_LIB|Win32.Build.0 = Release_LIB|Win32
 		{5F6323FF-CEEB-4AD8-BED3-A443E6F75546}.Release_LIB|X64.ActiveCfg = Release_LIB|X64
 		{5F6323FF-CEEB-4AD8-BED3-A443E6F75546}.Release_LIB|X64.Build.0 = Release_LIB|X64
+		{BAE6CE99-140A-4018-8BCB-9D63F54D6F07}.Debug_DLL|Win32.ActiveCfg = Debug_DLL|Win32
+		{BAE6CE99-140A-4018-8BCB-9D63F54D6F07}.Debug_DLL|Win32.Build.0 = Debug_DLL|Win32
+		{BAE6CE99-140A-4018-8BCB-9D63F54D6F07}.Debug_DLL|X64.ActiveCfg = Debug_DLL|x64
+		{BAE6CE99-140A-4018-8BCB-9D63F54D6F07}.Debug_DLL|X64.Build.0 = Debug_DLL|x64
+		{BAE6CE99-140A-4018-8BCB-9D63F54D6F07}.Debug_LIB|Win32.ActiveCfg = Debug_LIB|Win32
+		{BAE6CE99-140A-4018-8BCB-9D63F54D6F07}.Debug_LIB|Win32.Build.0 = Debug_LIB|Win32
+		{BAE6CE99-140A-4018-8BCB-9D63F54D6F07}.Debug_LIB|X64.ActiveCfg = Debug_LIB|x64
+		{BAE6CE99-140A-4018-8BCB-9D63F54D6F07}.Debug_LIB|X64.Build.0 = Debug_LIB|x64
+		{BAE6CE99-140A-4018-8BCB-9D63F54D6F07}.Release_DLL|Win32.ActiveCfg = Release_DLL|Win32
+		{BAE6CE99-140A-4018-8BCB-9D63F54D6F07}.Release_DLL|Win32.Build.0 = Release_DLL|Win32
+		{BAE6CE99-140A-4018-8BCB-9D63F54D6F07}.Release_DLL|X64.ActiveCfg = Release_DLL|x64
+		{BAE6CE99-140A-4018-8BCB-9D63F54D6F07}.Release_DLL|X64.Build.0 = Release_DLL|x64
+		{BAE6CE99-140A-4018-8BCB-9D63F54D6F07}.Release_LIB|Win32.ActiveCfg = Release_LIB|Win32
+		{BAE6CE99-140A-4018-8BCB-9D63F54D6F07}.Release_LIB|Win32.Build.0 = Release_LIB|Win32
+		{BAE6CE99-140A-4018-8BCB-9D63F54D6F07}.Release_LIB|X64.ActiveCfg = Release_LIB|x64
+		{BAE6CE99-140A-4018-8BCB-9D63F54D6F07}.Release_LIB|X64.Build.0 = Release_LIB|x64
+		{4FBF939A-460F-4ADC-822E-9049AB4DA174}.Debug_DLL|Win32.ActiveCfg = Debug_DLL|Win32
+		{4FBF939A-460F-4ADC-822E-9049AB4DA174}.Debug_DLL|Win32.Build.0 = Debug_DLL|Win32
+		{4FBF939A-460F-4ADC-822E-9049AB4DA174}.Debug_DLL|X64.ActiveCfg = Debug_DLL|x64
+		{4FBF939A-460F-4ADC-822E-9049AB4DA174}.Debug_DLL|X64.Build.0 = Debug_DLL|x64
+		{4FBF939A-460F-4ADC-822E-9049AB4DA174}.Debug_LIB|Win32.ActiveCfg = Debug_LIB|Win32
+		{4FBF939A-460F-4ADC-822E-9049AB4DA174}.Debug_LIB|Win32.Build.0 = Debug_LIB|Win32
+		{4FBF939A-460F-4ADC-822E-9049AB4DA174}.Debug_LIB|X64.ActiveCfg = Debug_LIB|x64
+		{4FBF939A-460F-4ADC-822E-9049AB4DA174}.Debug_LIB|X64.Build.0 = Debug_LIB|x64
+		{4FBF939A-460F-4ADC-822E-9049AB4DA174}.Release_DLL|Win32.ActiveCfg = Release_DLL|Win32
+		{4FBF939A-460F-4ADC-822E-9049AB4DA174}.Release_DLL|Win32.Build.0 = Release_DLL|Win32
+		{4FBF939A-460F-4ADC-822E-9049AB4DA174}.Release_DLL|X64.ActiveCfg = Release_DLL|x64
+		{4FBF939A-460F-4ADC-822E-9049AB4DA174}.Release_DLL|X64.Build.0 = Release_DLL|x64
+		{4FBF939A-460F-4ADC-822E-9049AB4DA174}.Release_LIB|Win32.ActiveCfg = Release_LIB|Win32
+		{4FBF939A-460F-4ADC-822E-9049AB4DA174}.Release_LIB|Win32.Build.0 = Release_LIB|Win32
+		{4FBF939A-460F-4ADC-822E-9049AB4DA174}.Release_LIB|X64.ActiveCfg = Release_LIB|x64
+		{4FBF939A-460F-4ADC-822E-9049AB4DA174}.Release_LIB|X64.Build.0 = Release_LIB|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1560,5 +1646,15 @@ Global
 		{6A4869D5-C1DE-4552-81DA-DE3FDE27BE3C} = {0D63DA3E-697F-4E7C-8EFA-4D06DB40D442}
 		{77DB8482-7396-4197-B74F-153BFB00AE3F} = {77BEFD8E-CE1F-4C16-AE24-731A413778B0}
 		{2168ADF1-2C87-4877-889D-DF444E180D5B} = {6A4869D5-C1DE-4552-81DA-DE3FDE27BE3C}
+		{C2A4C477-2BE6-494C-89F3-B51BA1376EBD} = {D04ACFD8-B76B-4D6C-BF02-F280CF75ABAA}
+		{18C9AB30-1CAF-4A41-95A2-0CA2D3E19854} = {D04ACFD8-B76B-4D6C-BF02-F280CF75ABAA}
+		{73322DE2-4EF3-41A8-86BE-BB9C2EEFDE68} = {D04ACFD8-B76B-4D6C-BF02-F280CF75ABAA}
+		{36E5CD3A-D134-4077-841A-A26AC2FAAFC0} = {D04ACFD8-B76B-4D6C-BF02-F280CF75ABAA}
+		{BAE6CE99-140A-4018-8BCB-9D63F54D6F07} = {C2A4C477-2BE6-494C-89F3-B51BA1376EBD}
+		{4E2E628F-A8C1-488D-811D-964B40C89879} = {C2A4C477-2BE6-494C-89F3-B51BA1376EBD}
+		{13E0B500-742B-401B-AF78-3F6A0201436D} = {73322DE2-4EF3-41A8-86BE-BB9C2EEFDE68}
+		{8687A51C-BA97-4FFE-9B0B-55DACE994618} = {73322DE2-4EF3-41A8-86BE-BB9C2EEFDE68}
+		{4FBF939A-460F-4ADC-822E-9049AB4DA174} = {36E5CD3A-D134-4077-841A-A26AC2FAAFC0}
+		{3B25DF17-DA76-4505-BB10-99F4E84DFFB1} = {36E5CD3A-D134-4077-841A-A26AC2FAAFC0}
 	EndGlobalSection
 EndGlobal
