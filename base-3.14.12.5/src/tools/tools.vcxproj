@@ -38,7 +38,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{5CCE1C6A-2BD5-48BF-99E2-D29B58F91991}</ProjectGuid>
+    <ProjectGuid>{AEB09F5F-F613-4761-9FCF-BE31628CFA40}</ProjectGuid>
     <RootNamespace>tools</RootNamespace>
     <SccProjectName>
     </SccProjectName>

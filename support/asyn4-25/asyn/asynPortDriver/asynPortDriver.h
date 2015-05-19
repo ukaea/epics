@@ -1,8 +1,18 @@
 #ifndef asynPortDriver_H
 #define asynPortDriver_H
 
+#ifdef epicsExportSharedSymbols
+#define asynPortDriver_epicsExportSharedSymbols
+#undef epicsExportSharedSymbols
+#endif
+
 #include <epicsTypes.h>
 #include <epicsMutex.h>
+
+#ifdef asynPortDriver_epicsExportSharedSymbols
+#undef asynPortDriver_epicsExportSharedSymbols
+#define epicsExportSharedSymbols
+#endif
 
 #include <asynStandardInterfaces.h>
 #include "paramVal.h"
