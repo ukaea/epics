@@ -394,10 +394,10 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I./O.Common -I$(SolutionDir)/
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
     </ClCompile>
     <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-
-perl -CSD  $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I../../../dbd -I..\..\..\asyn/dbd -I..\..\..\seq/dbd -I..\..\..\busy/dbd -I..\..\..\base/dbd -I..\..\..\/ipac/dbd -o O.Common\motorIms.dbd base.dbd motorSupport.dbd devAcsMotor.dbd devImsMotor.dbd devMclennanMotor.dbd devMicos.dbd devMicroMo.dbd devNewport.dbd LdevNewportTS.dbd devPIMotor.dbd devOms.dbd devSoftMotor.dbd motorSimSupport.dbd devSmartMotorMotor.dbd devKohzuMotor.dbd devAttocube.dbd devAerotech.dbd ACRMotorSupport.dbd drvAsynSerialPort.dbd drvAsynIPPort.dbd busySupport.dbd devSequencer.dbd
-perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I. -I./O.Common -I../../../dbd -I..\..\..\asyn/dbd -I..\..\..\seq/dbd -I..\..\..\busy/dbd -ID:..\..\..\base/dbd -IC:\EPICS/ipac/dbd   -o  O.Common\motorIms_registerRecordDeviceDriver.cpp O.Common/motorIms.dbd motorIms_registerRecordDeviceDriver ..\..\..\
+      <Command>if not exist src\O.Common md .\src\O.Common
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD  $(OutDir)dbdExpand.pl  -I.\src\O.Common -I$(SolutionDir)/dbd -o src\O.Common\motorIms.dbd base.dbd motorSupport.dbd devImsMotor.dbd asyn.dbd drvAsynSerialPort.dbd
+perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I./O.Common -I$(SolutionDir)/dbd  -o  src\O.Common\motorIms_registerRecordDeviceDriver.cpp .\src\O.Common\motorIms.dbd motorIms_registerRecordDeviceDriver ..\..\
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -407,10 +407,10 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I. -I./O.Common -I../../../db
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
     </ClCompile>
     <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-
-perl -CSD  $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I../../../dbd -I..\..\..\asyn/dbd -I..\..\..\seq/dbd -I..\..\..\busy/dbd -I..\..\..\base/dbd -I..\..\..\/ipac/dbd -o O.Common\motorIms.dbd base.dbd motorSupport.dbd devAcsMotor.dbd devImsMotor.dbd devMclennanMotor.dbd devMicos.dbd devMicroMo.dbd devNewport.dbd LdevNewportTS.dbd devPIMotor.dbd devOms.dbd devSoftMotor.dbd motorSimSupport.dbd devSmartMotorMotor.dbd devKohzuMotor.dbd devAttocube.dbd devAerotech.dbd ACRMotorSupport.dbd drvAsynSerialPort.dbd drvAsynIPPort.dbd busySupport.dbd devSequencer.dbd
-perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I. -I./O.Common -I../../../dbd -I..\..\..\asyn/dbd -I..\..\..\seq/dbd -I..\..\..\busy/dbd -ID:..\..\..\base/dbd -IC:\EPICS/ipac/dbd   -o  O.Common\motorIms_registerRecordDeviceDriver.cpp O.Common/motorIms.dbd motorIms_registerRecordDeviceDriver ..\..\..\
+      <Command>if not exist src\O.Common md .\src\O.Common
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD  $(OutDir)dbdExpand.pl  -I.\src\O.Common -I$(SolutionDir)/dbd -o src\O.Common\motorIms.dbd base.dbd motorSupport.dbd devImsMotor.dbd asyn.dbd drvAsynSerialPort.dbd
+perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I./O.Common -I$(SolutionDir)/dbd  -o  src\O.Common\motorIms_registerRecordDeviceDriver.cpp .\src\O.Common\motorIms.dbd motorIms_registerRecordDeviceDriver ..\..\
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>

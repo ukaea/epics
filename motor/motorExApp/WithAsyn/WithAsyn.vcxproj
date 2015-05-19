@@ -456,8 +456,9 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I. -I./O.Common -I$(SolutionD
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 
-perl -CSD $(SolutionDir)lib\perldbdExpand.pl  -I. -I.. -I../O.Common -I../../../dbd -I..\..\..\asyn/dbd -I..\..\..\seq/dbd -I..\..\..\busy/dbd -I..\..\..\base/dbd -I..\..\..\/ipac/dbd -o O.Common\WithAsyn.dbd base.dbd motorSupport.dbd devAcsMotor.dbd devImsMotor.dbd devMclennanMotor.dbd devMicos.dbd devMicroMo.dbd devNewport.dbd LdevNewportTS.dbd devPIMotor.dbd devOms.dbd devSoftMotor.dbd motorSimSupport.dbd devSmartMotorMotor.dbd devKohzuMotor.dbd devAttocube.dbd devAerotech.dbd ACRMotorSupport.dbd drvAsynSerialPort.dbd drvAsynIPPort.dbd busySupport.dbd devSequencer.dbd
-perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I. -I./O.Common -I../../../dbd -I..\..\..\asyn/dbd -I..\..\..\seq/dbd -I..\..\..\busy/dbd -ID:..\..\..\base/dbd -IC:\EPICS/ipac/dbd   -o  O.Common\WithAsyn_registerRecordDeviceDriver.cpp O.Common/WithAsyn.dbd WithAsyn_registerRecordDeviceDriver ..\..\..\
+set PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I$(SolutionDir)dbd  -o O.Common\WithAsyn.dbd base.dbd motorSupport.dbd devAcsMotor.dbd devImsMotor.dbd devMclennanMotor.dbd devMicos.dbd devMicroMo.dbd devNewport.dbd LdevNewportTS.dbd devPIMotor.dbd devOms.dbd devSoftMotor.dbd motorSimSupport.dbd devSmartMotorMotor.dbd devKohzuMotor.dbd devAttocube.dbd devAerotech.dbd ACRMotorSupport.dbd drvAsynSerialPort.dbd drvAsynIPPort.dbd busySupport.dbd devSequencer.dbd
+perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I. -I./O.Common -I$(SolutionDir)dbd -o  O.Common\WithAsyn_registerRecordDeviceDriver.cpp O.Common/WithAsyn.dbd WithAsyn_registerRecordDeviceDriver ..\..\..\
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -469,8 +470,9 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I. -I./O.Common -I../../../db
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 
-perl -CSD $(SolutionDir)lib\perldbdExpand.pl  -I. -I.. -I../O.Common -I../../../dbd -I..\..\..\asyn/dbd -I..\..\..\seq/dbd -I..\..\..\busy/dbd -I..\..\..\base/dbd -I..\..\..\/ipac/dbd -o O.Common\WithAsyn.dbd base.dbd motorSupport.dbd devAcsMotor.dbd devImsMotor.dbd devMclennanMotor.dbd devMicos.dbd devMicroMo.dbd devNewport.dbd LdevNewportTS.dbd devPIMotor.dbd devOms.dbd devSoftMotor.dbd motorSimSupport.dbd devSmartMotorMotor.dbd devKohzuMotor.dbd devAttocube.dbd devAerotech.dbd ACRMotorSupport.dbd drvAsynSerialPort.dbd drvAsynIPPort.dbd busySupport.dbd devSequencer.dbd
-perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I. -I./O.Common -I../../../dbd -I..\..\..\asyn/dbd -I..\..\..\seq/dbd -I..\..\..\busy/dbd -ID:..\..\..\base/dbd -IC:\EPICS/ipac/dbd   -o  O.Common\WithAsyn_registerRecordDeviceDriver.cpp O.Common/WithAsyn.dbd WithAsyn_registerRecordDeviceDriver ..\..\..\
+set PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I$(SolutionDir)dbd  -o O.Common\WithAsyn.dbd base.dbd motorSupport.dbd devAcsMotor.dbd devImsMotor.dbd devMclennanMotor.dbd devMicos.dbd devMicroMo.dbd devNewport.dbd LdevNewportTS.dbd devPIMotor.dbd devOms.dbd devSoftMotor.dbd motorSimSupport.dbd devSmartMotorMotor.dbd devKohzuMotor.dbd devAttocube.dbd devAerotech.dbd ACRMotorSupport.dbd drvAsynSerialPort.dbd drvAsynIPPort.dbd busySupport.dbd devSequencer.dbd
+perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I. -I./O.Common -I$(SolutionDir)dbd -o  O.Common\WithAsyn_registerRecordDeviceDriver.cpp O.Common/WithAsyn.dbd WithAsyn_registerRecordDeviceDriver ..\..\..\
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>

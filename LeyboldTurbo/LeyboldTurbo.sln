@@ -78,6 +78,15 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "iocBoot", "iocBoot", "{73322DE2-4EF3-41A8-86BE-BB9C2EEFDE68}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "iocLeyboldTurbo", "iocLeyboldTurbo", "{13E0B500-742B-401B-AF78-3F6A0201436D}"
+	ProjectSection(SolutionItems) = preProject
+		iocBoot\iocLeyboldTurbo\dllPath.bat = iocBoot\iocLeyboldTurbo\dllPath.bat
+		iocBoot\iocLeyboldTurbo\envPaths = iocBoot\iocLeyboldTurbo\envPaths
+		iocBoot\iocLeyboldTurbo\MakeFile = iocBoot\iocLeyboldTurbo\MakeFile
+		iocBoot\iocLeyboldTurbo\st1.cmd = iocBoot\iocLeyboldTurbo\st1.cmd
+		iocBoot\iocLeyboldTurbo\st1.simulated.cmd = iocBoot\iocLeyboldTurbo\st1.simulated.cmd
+		iocBoot\iocLeyboldTurbo\st5.cmd = iocBoot\iocLeyboldTurbo\st5.cmd
+		iocBoot\iocLeyboldTurbo\st5.simulated.cmd = iocBoot\iocLeyboldTurbo\st5.simulated.cmd
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "caRepeater", "..\base-3.15.1\src\ca\client\caRepeater.vcxproj", "{5BCFEACD-AF21-4BF0-B130-14C814453F07}"
 EndProject
@@ -101,9 +110,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "iocLeyboldSim", "iocLeybold
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestScripts", "TestScripts", "{3B25DF17-DA76-4505-BB10-99F4E84DFFB1}"
+	ProjectSection(SolutionItems) = preProject
+		LeyboldSimApp\TestScripts\camonitor.py = LeyboldSimApp\TestScripts\camonitor.py
+		LeyboldSimApp\TestScripts\setrunning.py = LeyboldSimApp\TestScripts\setrunning.py
+		LeyboldSimApp\TestScripts\testsequence.py = LeyboldSimApp\TestScripts\testsequence.py
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{4E2E628F-A8C1-488D-811D-964B40C89879}"
 	ProjectSection(SolutionItems) = preProject
+		LeyboldTurboApp\Scripts\camonitor.py = LeyboldTurboApp\Scripts\camonitor.py
+		LeyboldTurboApp\Scripts\Reset.py = LeyboldTurboApp\Scripts\Reset.py
 		LeyboldTurboApp\Scripts\SetRunning.py = LeyboldTurboApp\Scripts\SetRunning.py
 	EndProjectSection
 EndProject
