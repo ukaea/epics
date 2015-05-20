@@ -328,6 +328,9 @@
     <ProjectReference Include="..\dbStatic\dbstaticIoc.vcxproj">
       <Project>{97d3c50e-9c9e-41ef-a49d-eaea78ce8378}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\dbStatic\dbToMenuH.vcxproj">
+      <Project>{ce27ad72-46e7-4f01-b398-4a648f02d249}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\dbStatic\dbToRecordTypeH.vcxproj">
       <Project>{79e5a43c-7673-47f8-8139-50aea5688464}</Project>
     </ProjectReference>
