@@ -22,6 +22,7 @@
 #endif
 #include <winsock2.h>
 
+#include <sharelib.h>
 
 #define SOCKERRNO WSAGetLastError()
 
