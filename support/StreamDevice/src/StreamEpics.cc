@@ -41,7 +41,6 @@ extern "C" {
 #include <devLib.h>
 #define epicsAlarmGLOBAL
 #include <alarm.h>
-#include <alarmString.h>
 #include <callback.h>
 
 #ifdef EPICS_3_13
@@ -158,13 +157,13 @@ class Stream : protected StreamCore
     bool process();
 
 // device support functions
-    friend epicsShareExtern long streamInitRecord(dbCommon *record, const struct link *ioLink,
+    friend long streamInitRecord(dbCommon *record, const struct link *ioLink,
         streamIoFunction readData, streamIoFunction writeData);
-    friend epicsShareExtern long streamReadWrite(dbCommon *record);
-    friend epicsShareExtern long streamGetIointInfo(int cmd, dbCommon *record,
+    friend long streamReadWrite(dbCommon *record);
+    friend long streamGetIointInfo(int cmd, dbCommon *record,
         IOSCANPVT *ppvt);
-    friend epicsShareExtern long streamPrintf(dbCommon *record, format_t *format, ...);
-    friend epicsShareExtern long streamScanfN(dbCommon *record, format_t *format,
+    friend long streamPrintf(dbCommon *record, format_t *format, ...);
+    friend long streamScanfN(dbCommon *record, format_t *format,
         void*, size_t maxStringSize);
     friend long streamReload(char* recordname);
 
@@ -396,7 +395,7 @@ drvInit()
 
 // device support (C interface) //////////////////////////////////////////
 
-epicsShareExtern long streamInit(int after)
+long streamInit(int after)
 {
     if (after)
     {

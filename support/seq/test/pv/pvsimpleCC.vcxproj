@@ -35,10 +35,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\base\src\ca\client\ca.vcxproj">
+    <ProjectReference Include="..\..\..\base-3.15.1\src\ca\client\ca.vcxproj">
       <Project>{02caf068-a7fc-463e-aa7e-72eeaf665826}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\base\src\libCom\Com.vcxproj">
+    <ProjectReference Include="..\..\..\base-3.15.1\src\libCom\Com.vcxproj">
       <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\src\pv\pv.vcxproj">
