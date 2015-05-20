@@ -74,11 +74,11 @@
     <CustomBuild Include="parse.y">
       <Filter>Source Files</Filter>
     </CustomBuild>
+    <CustomBuild Include="flex.skel.static">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <None Include="flex.skel.static">
-      <Filter>Source Files</Filter>
-    </None>
     <None Include="ClassDiagram1.cd" />
   </ItemGroup>
 </Project>

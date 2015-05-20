@@ -145,15 +145,15 @@ move /Y y.tab.h O.Common\parse.h
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />
-    <None Include="flex.skel.static">
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
-      </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
-      </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">
-      </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">
-      </Command>
+    <CustomBuild Include="flex.skel.static">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">xcopy /Y /Q  /D /R  flex.skel.static $(SolutionDir)include &gt; NUL
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">xcopy /Y /Q  /D /R  flex.skel.static $(SolutionDir)include &gt; NUL
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">xcopy /Y /Q  /D /R  flex.skel.static $(SolutionDir)include &gt; NUL
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">xcopy /Y /Q  /D /R  flex.skel.static $(SolutionDir)include &gt; NUL
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
       </Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
@@ -163,7 +163,15 @@ move /Y y.tab.h O.Common\parse.h
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">
       </Outputs>
       <FileType>Document</FileType>
-    </None>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">xcopy /Y /Q  /D /R  flex.skel.static $(SolutionDir)include &gt; NUL
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">xcopy /Y /Q  /D /R  flex.skel.static $(SolutionDir)include &gt; NUL
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'">xcopy /Y /Q  /D /R  flex.skel.static $(SolutionDir)include &gt; NUL
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">xcopy /Y /Q  /D /R  flex.skel.static $(SolutionDir)include &gt; NUL
+</Command>
+    </CustomBuild>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{285B2DD5-B55E-4195-9B2D-F129CF54A2B4}</ProjectGuid>

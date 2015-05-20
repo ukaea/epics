@@ -50,9 +50,6 @@
     <None Include="src\Makefile" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\asyn\asyn\asyn.vcxproj">
-      <Project>{c3ea0ff7-6039-4884-ba91-7b4619befea5}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\base-3.15.1\src\ioc\dbCore.vcxproj">
       <Project>{440c585d-ad66-4738-941c-a87a1817a9be}</Project>
     </ProjectReference>
@@ -61,6 +58,9 @@
     </ProjectReference>
     <ProjectReference Include="..\..\base-3.15.1\src\std\dbRecStd.vcxproj">
       <Project>{3b0e3542-cb89-4ffa-b004-eac882b3f277}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\support\asyn4-25\asyn\asyn.vcxproj">
+      <Project>{c3ea0ff7-6039-4884-ba91-7b4619befea5}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -206,8 +206,10 @@
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
+SET PERL5LIB=$(SolutionDir)lib\perl
 perl -CSD $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I$(SolutionDir)\dbd  -o O.Common\DAQmxBase.dbd base.dbd src/DAQmxBaseSupport.dbd asyn.dbd
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_registerRecordDeviceDriver $(SolutionDir) &gt;O.Common\DAQmxBase_registerRecordDeviceDriver.cpp
+
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -234,8 +236,10 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBas
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
+SET PERL5LIB=$(SolutionDir)lib\perl
 perl -CSD $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I$(SolutionDir)\dbd  -o O.Common\DAQmxBase.dbd base.dbd src/DAQmxBaseSupport.dbd asyn.dbd
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_registerRecordDeviceDriver $(SolutionDir) &gt;O.Common\DAQmxBase_registerRecordDeviceDriver.cpp
+
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -262,8 +266,10 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBas
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
+SET PERL5LIB=$(SolutionDir)lib\perl
 perl -CSD $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I$(SolutionDir)\dbd  -o O.Common\DAQmxBase.dbd base.dbd src/DAQmxBaseSupport.dbd asyn.dbd
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_registerRecordDeviceDriver $(SolutionDir) &gt;O.Common\DAQmxBase_registerRecordDeviceDriver.cpp
+
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -290,8 +296,10 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBas
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
+SET PERL5LIB=$(SolutionDir)lib\perl
 perl -CSD $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I$(SolutionDir)\dbd  -o O.Common\DAQmxBase.dbd base.dbd src/DAQmxBaseSupport.dbd asyn.dbd
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_registerRecordDeviceDriver $(SolutionDir) &gt;O.Common\DAQmxBase_registerRecordDeviceDriver.cpp
+
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -321,8 +329,10 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBas
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
+SET PERL5LIB=$(SolutionDir)lib\perl
 perl -CSD $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I$(SolutionDir)\dbd  -o O.Common\DAQmxBase.dbd base.dbd src/DAQmxBaseSupport.dbd asyn.dbd
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_registerRecordDeviceDriver $(SolutionDir) &gt;O.Common\DAQmxBase_registerRecordDeviceDriver.cpp
+
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -352,8 +362,10 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBas
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
+SET PERL5LIB=$(SolutionDir)lib\perl
 perl -CSD $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I$(SolutionDir)\dbd  -o O.Common\DAQmxBase.dbd base.dbd src/DAQmxBaseSupport.dbd asyn.dbd
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_registerRecordDeviceDriver $(SolutionDir) &gt;O.Common\DAQmxBase_registerRecordDeviceDriver.cpp
+
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -383,8 +395,10 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBas
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
+SET PERL5LIB=$(SolutionDir)lib\perl
 perl -CSD $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I$(SolutionDir)\dbd  -o O.Common\DAQmxBase.dbd base.dbd src/DAQmxBaseSupport.dbd asyn.dbd
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_registerRecordDeviceDriver $(SolutionDir) &gt;O.Common\DAQmxBase_registerRecordDeviceDriver.cpp
+
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -414,8 +428,10 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBas
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
+SET PERL5LIB=$(SolutionDir)lib\perl
 perl -CSD $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I$(SolutionDir)\dbd  -o O.Common\DAQmxBase.dbd base.dbd src/DAQmxBaseSupport.dbd asyn.dbd
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_registerRecordDeviceDriver $(SolutionDir) &gt;O.Common\DAQmxBase_registerRecordDeviceDriver.cpp
+
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
