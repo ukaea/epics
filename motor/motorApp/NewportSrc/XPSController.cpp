@@ -95,9 +95,9 @@ Versions: Release 4-5 and higher.
 #include "xps_ftp.h"
 #include "asynMotorController.h"
 #include "asynMotorAxis.h"
+#include "XPSAxis.h"
 
 #include <epicsExport.h>
-#include "XPSAxis.h"
 #include "XPSController.h"
 
 static const char *driverName = "XPSController";

@@ -8,26 +8,11 @@
 #ifndef asynMotorAxis_H
 #define asynMotorAxis_H
 
-#ifdef epicsExportSharedSymbols
-#define asynMotorAxis_epicsExportSharedSymbols
-#undef epicsExportSharedSymbols
-#endif
-
 #include <epicsEvent.h>
 #include <epicsTypes.h>
 
 #ifdef __cplusplus
 #include <asynPortDriver.h>
-#endif
-
-#ifdef asynMotorAxis_epicsExportSharedSymbols
-#undef asynMotorAxis_epicsExportSharedSymbols
-#define epicsExportSharedSymbols
-#endif
-
-#include <shareLib.h>
-
-#ifdef __cplusplus
 
 #include "asynMotorController.h"
 

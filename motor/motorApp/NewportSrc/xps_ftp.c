@@ -18,7 +18,6 @@
 
 
 /******[ includes ]**************************************************/
-#define epicsExportSharedSymbols
 #include "xps_ftp.h"
 
 /* local functions */

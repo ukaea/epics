@@ -14,8 +14,8 @@
 #include <asynPortDriver.h>
 #include <asynOctetSyncIO.h>
 #include <epicsExport.h>
-
 #define epicsExportSharedSymbols
+#include <shareLib.h>
 #include "asynMotorController.h"
 #include "asynMotorAxis.h"
 

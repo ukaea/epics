@@ -69,8 +69,7 @@
 
 #include "motorRecord.h"
 #include "motor.h"
-
-#include <epicsExport.h>
+#include "epicsExport.h"
 #include "asynMotorController.h"
 #include "motor_interface.h"
 

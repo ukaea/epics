@@ -8,24 +8,8 @@
 #ifndef asynMotorController_H
 #define asynMotorController_H
 
-#ifdef epicsExportSharedSymbols
-#define asynMotorController_epicsExportSharedSymbols
-#undef epicsExportSharedSymbols
-#endif
-
-#ifdef __cplusplus
-#include <asynPortDriver.h>
-#endif
-
 #include <epicsEvent.h>
 #include <epicsTypes.h>
-
-#ifdef asynMotorController_epicsExportSharedSymbols
-#undef asynMotorController_epicsExportSharedSymbols
-#define epicsExportSharedSymbols
-#endif
-
-#include <shareLib.h>
 
 #define MAX_CONTROLLER_STRING_SIZE 256
 #define DEFAULT_CONTROLLER_TIMEOUT 2.0
@@ -157,6 +141,7 @@ enum ProfileStatus {
 };
 
 #ifdef __cplusplus
+#include <asynPortDriver.h>
 
 class asynMotorAxis;
 

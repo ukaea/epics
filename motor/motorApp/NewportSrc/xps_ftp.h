@@ -24,7 +24,7 @@
 #include <stdlib.h>
 
 #include <osiSock.h>
-#include <shareLib.h>
+#include <epicsExport.h>
 
 
 /******[ defines ]***************************************************/
