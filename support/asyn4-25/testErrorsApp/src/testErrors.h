@@ -9,28 +9,34 @@
  * Created April 29, 2012
  */
 
+#include <epicsEvent.h>
 #include "asynPortDriver.h"
 
 #define MAX_ARRAY_POINTS 100
 #define OCTET_LENGTH 20
 #define MAX_STATUS_ENUMS 6
 #define MAX_INT32_ENUMS 16
-#define MAX_UINT32_ENUMS 3
+#define MAX_UINT32_ENUMS 8
 #define MAX_ENUM_STRING_SIZE 20
 
 /* These are the drvInfo strings that are used to identify the parameters.
  * They are used by asyn clients, including standard asyn device support */
-#define P_StatusReturnString          "STATUS_RETURN"         /* asynInt32,    r/w */
-#define P_EnumOrderString             "ENUM_ORDER"            /* asynInt32,    r/w */
-#define P_Int32ValueString            "INT32_VALUE"           /* asynInt32,    r/w */
-#define P_Float64ValueString          "FLOAT64_VALUE"         /* asynFloat64,  r/w */
-#define P_UInt32DigitalValueString    "UINT32D_VALUE"         /* asynUInt32Digital,  r/w */
-#define P_OctetValueString            "OCTET_VALUE"           /* asynOctet,    r/w */
-#define P_Int8ArrayValueString        "INT8_ARRAY_VALUE"      /* asynInt8Array,    r/w */
-#define P_Int16ArrayValueString       "INT16_ARRAY_VALUE"     /* asynInt16Array,    r/w */
-#define P_Int32ArrayValueString       "INT32_ARRAY_VALUE"     /* asynInt32Array,    r/w */
-#define P_Float32ArrayValueString     "FLOAT32_ARRAY_VALUE"   /* asynFloat32Array,    r/w */
-#define P_Float64ArrayValueString     "FLOAT64_ARRAY_VALUE"   /* asynFloat64Array,    r/w */
+#define P_StatusReturnString                "STATUS_RETURN"           /* asynInt32,         r/w */
+#define P_EnumOrderString                   "ENUM_ORDER"              /* asynInt32,         r/w */
+#define P_DoUpdateString                    "DO_UPDATE"               /* asynInt32,         r/w */
+#define P_Int32ValueString                  "INT32_VALUE"             /* asynInt32,         r/w */
+#define P_BinaryInt32ValueString            "BINARY_INT32_VALUE"      /* asynInt32,         r/w */
+#define P_MultibitInt32ValueString          "MULTIBIT_INT32_VALUE"    /* asynInt32,         r/w */
+#define P_Float64ValueString                "FLOAT64_VALUE"           /* asynFloat64,       r/w */
+#define P_UInt32DigitalValueString          "UINT32D_VALUE"           /* asynUInt32Digital, r/w */
+#define P_BinaryUInt32DigitalValueString    "BINARY_UINT32D_VALUE"    /* asynUInt32Digital, r/w */
+#define P_MultibitUInt32DigitalValueString  "MULTIBIT_UINT32D_VALUE"  /* asynUInt32Digital, r/w */
+#define P_OctetValueString                  "OCTET_VALUE"             /* asynOctet,         r/w */
+#define P_Int8ArrayValueString              "INT8_ARRAY_VALUE"        /* asynInt8Array,     r/w */
+#define P_Int16ArrayValueString             "INT16_ARRAY_VALUE"       /* asynInt16Array,    r/w */
+#define P_Int32ArrayValueString             "INT32_ARRAY_VALUE"       /* asynInt32Array,    r/w */
+#define P_Float32ArrayValueString           "FLOAT32_ARRAY_VALUE"     /* asynFloat32Array,  r/w */
+#define P_Float64ArrayValueString           "FLOAT64_ARRAY_VALUE"     /* asynFloat64Array,  r/w */
 
 /** Class that tests error handing of the asynPortDriver base class using both normally scanned records and I/O Intr
   * scanned records. */
@@ -67,9 +73,14 @@ protected:
     int P_StatusReturn;
     #define FIRST_COMMAND P_StatusReturn
     int P_EnumOrder;
+    int P_DoUpdate;
     int P_Int32Value;
+    int P_BinaryInt32Value;
+    int P_MultibitInt32Value;
     int P_Float64Value;
     int P_UInt32DigitalValue;
+    int P_BinaryUInt32DigitalValue;
+    int P_MultibitUInt32DigitalValue;
     int P_OctetValue;
     int P_Int8ArrayValue;
     int P_Int16ArrayValue;
@@ -86,6 +97,7 @@ private:
     char *uint32EnumStrings_ [MAX_UINT32_ENUMS];
     int uint32EnumValues_    [MAX_UINT32_ENUMS];
     int uint32EnumSeverities_[MAX_UINT32_ENUMS];
+    epicsEventId eventId_;
     void setEnums();
     epicsInt8     int8ArrayValue_   [MAX_ARRAY_POINTS];
     epicsInt16    int16ArrayValue_  [MAX_ARRAY_POINTS];
@@ -94,9 +106,9 @@ private:
     epicsFloat64  float64ArrayValue_[MAX_ARRAY_POINTS];
     template <typename epicsType> 
         asynStatus doReadArray(asynUser *pasynUser, epicsType *value, 
-                               size_t nElements, size_t *nIn, int paramIndex, epicsType *pValue);
+                           size_t nElements, size_t *nIn, int paramIndex, epicsType *pValue);
 };
 
 
-#define NUM_PARAMS (&LAST_COMMAND - &FIRST_COMMAND + 1)
+#define NUM_PARAMS (int)(&LAST_COMMAND - &FIRST_COMMAND + 1)
 

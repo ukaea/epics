@@ -17,6 +17,7 @@
 #include <epicsTime.h>
 #include <epicsThread.h>
 #include <epicsString.h>
+#include <epicsEvent.h>
 #include <iocsh.h>
 
 #include "testErrors.h"
@@ -24,7 +25,7 @@
 
 static const char *driverName="testErrors";
 
-#define CALLBACK_PERIOD 0.5
+#define UINT32_DIGITAL_MASK 0xFFFFFFFF
 
 static const char *statusEnumStrings[MAX_STATUS_ENUMS] = {
     "asynSuccess",
@@ -44,9 +45,11 @@ static const char *allInt32EnumStrings[MAX_INT32_ENUMS] = {
 static int allInt32EnumValues[MAX_INT32_ENUMS]     =  {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
 static int allInt32EnumSeverities[MAX_INT32_ENUMS] =  {0, 0, 0, 0, 1, 1, 1, 1, 1, 2,  2,  2,  2,  3,  3,  3};
 
-static const char *allUInt32EnumStrings[MAX_UINT32_ENUMS] =  {"Zero", "One", "Three"};
-static int allUInt32EnumValues[MAX_UINT32_ENUMS]     = {0, 1, 3};
-static int allUInt32EnumSeverities[MAX_UINT32_ENUMS] = {0, 1, 1};
+static const char *allUInt32EnumStrings[MAX_UINT32_ENUMS] = {
+    "Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven"
+};
+static int allUInt32EnumValues[MAX_UINT32_ENUMS]     =  {0, 1, 2, 3, 4, 5, 6, 7};
+static int allUInt32EnumSeverities[MAX_UINT32_ENUMS] =  {0, 0, 1, 1, 2, 2, 3, 3};
 
 static void callbackTask(void *drvPvt);
 
@@ -75,17 +78,22 @@ testErrors::testErrors(const char *portName)
     int i;
     const char *functionName = "testErrors";
 
-    createParam(P_StatusReturnString,       asynParamInt32,         &P_StatusReturn);
-    createParam(P_EnumOrderString,          asynParamInt32,         &P_EnumOrder);
-    createParam(P_Int32ValueString,         asynParamInt32,         &P_Int32Value);
-    createParam(P_Float64ValueString,       asynParamFloat64,       &P_Float64Value);
-    createParam(P_UInt32DigitalValueString, asynParamUInt32Digital, &P_UInt32DigitalValue);
-    createParam(P_OctetValueString,         asynParamOctet,         &P_OctetValue);
-    createParam(P_Int8ArrayValueString,     asynParamInt8Array,     &P_Int8ArrayValue);
-    createParam(P_Int16ArrayValueString,    asynParamInt16Array,    &P_Int16ArrayValue);
-    createParam(P_Int32ArrayValueString,    asynParamInt32Array,    &P_Int32ArrayValue);
-    createParam(P_Float32ArrayValueString,  asynParamFloat32Array,  &P_Float32ArrayValue);
-    createParam(P_Float64ArrayValueString,  asynParamFloat64Array,  &P_Float64ArrayValue);
+    createParam(P_StatusReturnString,               asynParamInt32,         &P_StatusReturn);
+    createParam(P_EnumOrderString,                  asynParamInt32,         &P_EnumOrder);
+    createParam(P_DoUpdateString,                   asynParamInt32,         &P_DoUpdate);
+    createParam(P_Int32ValueString,                 asynParamInt32,         &P_Int32Value);
+    createParam(P_BinaryInt32ValueString,           asynParamInt32,         &P_BinaryInt32Value);
+    createParam(P_MultibitInt32ValueString,         asynParamInt32,         &P_MultibitInt32Value);
+    createParam(P_Float64ValueString,               asynParamFloat64,       &P_Float64Value);
+    createParam(P_UInt32DigitalValueString,         asynParamUInt32Digital, &P_UInt32DigitalValue);
+    createParam(P_BinaryUInt32DigitalValueString,   asynParamUInt32Digital, &P_BinaryUInt32DigitalValue);
+    createParam(P_MultibitUInt32DigitalValueString, asynParamUInt32Digital, &P_MultibitUInt32DigitalValue);
+    createParam(P_OctetValueString,                 asynParamOctet,         &P_OctetValue);
+    createParam(P_Int8ArrayValueString,             asynParamInt8Array,     &P_Int8ArrayValue);
+    createParam(P_Int16ArrayValueString,            asynParamInt16Array,    &P_Int16ArrayValue);
+    createParam(P_Int32ArrayValueString,            asynParamInt32Array,    &P_Int32ArrayValue);
+    createParam(P_Float32ArrayValueString,          asynParamFloat32Array,  &P_Float32ArrayValue);
+    createParam(P_Float64ArrayValueString,          asynParamFloat64Array,  &P_Float64ArrayValue);
     
     for (i=0; i<MAX_INT32_ENUMS; i++) {
         int32EnumStrings_[i] = (char*)calloc(MAX_ENUM_STRING_SIZE, sizeof(char));
@@ -93,15 +101,21 @@ testErrors::testErrors(const char *portName)
     for (i=0; i<MAX_UINT32_ENUMS; i++) {
         uint32EnumStrings_[i] = (char*)calloc(MAX_ENUM_STRING_SIZE, sizeof(char));
     }
-    setIntegerParam(P_StatusReturn, asynSuccess);
-    setIntegerParam(P_Int32Value, 0);
-    setDoubleParam(P_Float64Value, 0.0);
-    setIntegerParam(P_EnumOrder, 0);
+    setIntegerParam(P_StatusReturn,       asynSuccess);
+    setIntegerParam(P_Int32Value,         0);
+    setIntegerParam(P_BinaryInt32Value,   0);
+    setIntegerParam(P_MultibitInt32Value, 0);
+    setDoubleParam(P_Float64Value,        0.0);
+    setIntegerParam(P_EnumOrder,          0);
     setEnums();
     // Need to force callbacks with the interruptMask once 
-    setUIntDigitalParam(P_UInt32DigitalValue, (epicsUInt32)0x0, 0xFFFFFFFF, 0xFFFFFFFF);
+    setUIntDigitalParam(P_UInt32DigitalValue,         (epicsUInt32)0x0, 0xFFFFFFFF, 0xFFFFFFFF);
+    setUIntDigitalParam(P_BinaryUInt32DigitalValue,   (epicsUInt32)0x0, 0xFFFFFFFF, 0xFFFFFFFF);
+    setUIntDigitalParam(P_MultibitUInt32DigitalValue, (epicsUInt32)0x0, 0xFFFFFFFF, 0xFFFFFFFF);
     
-    /* Create the thread that computes the waveforms in the background */
+    eventId_ = epicsEventCreate(epicsEventEmpty);
+    
+    /* Create the thread that updates values in the background */
     status = (asynStatus)(epicsThreadCreate("testErrorsTask",
                           epicsThreadPriorityMedium,
                           epicsThreadGetStackSize(epicsThreadStackMedium),
@@ -128,6 +142,7 @@ void testErrors::callbackTask(void)
     asynStatus currentStatus;
     int itemp;
     epicsInt32 iVal;
+    epicsUInt32 uiVal;
     epicsFloat64 dVal;
     int i;
     char octetValue[20];
@@ -137,20 +152,52 @@ void testErrors::callbackTask(void)
         lock();
         updateTimeStamp();
         getIntegerParam(P_StatusReturn, &itemp); currentStatus = (asynStatus)itemp;
+
         getIntegerParam(P_Int32Value, &iVal);
         iVal++;
-        if (iVal > 15) iVal=0;
+        if (iVal > 64) iVal=0;
         setIntegerParam(P_Int32Value, iVal);
-        setParamStatus(P_Int32Value, currentStatus);
+        setParamStatus( P_Int32Value, currentStatus);
+
+        getIntegerParam(P_BinaryInt32Value, &iVal);
+        iVal++;
+        if (iVal > 1) iVal=0;
+        setIntegerParam(P_BinaryInt32Value, iVal);
+        setParamStatus( P_BinaryInt32Value, currentStatus);
+
+        getIntegerParam(P_MultibitInt32Value, &iVal);
+        iVal++;
+        if (iVal > MAX_INT32_ENUMS-1) iVal=0;
+        setIntegerParam(P_MultibitInt32Value, iVal);
+        setParamStatus( P_MultibitInt32Value, currentStatus);
+
+        getUIntDigitalParam(P_UInt32DigitalValue, &uiVal, UINT32_DIGITAL_MASK);
+        uiVal++;
+        if (uiVal > 64) uiVal=0;
+        setUIntDigitalParam(P_UInt32DigitalValue, uiVal, UINT32_DIGITAL_MASK);
+        setParamStatus(     P_UInt32DigitalValue, currentStatus);
+
+        getUIntDigitalParam(P_BinaryUInt32DigitalValue, &uiVal, UINT32_DIGITAL_MASK);
+        uiVal++;
+        if (uiVal > 1) uiVal=0;
+        setUIntDigitalParam(P_BinaryUInt32DigitalValue, uiVal, UINT32_DIGITAL_MASK);
+        setParamStatus(     P_BinaryUInt32DigitalValue, currentStatus);
+
+        getUIntDigitalParam(P_MultibitUInt32DigitalValue, &uiVal, UINT32_DIGITAL_MASK);
+        uiVal++;
+        if (uiVal > MAX_UINT32_ENUMS-1) uiVal=0;
+        setUIntDigitalParam(P_MultibitUInt32DigitalValue, uiVal, UINT32_DIGITAL_MASK);
+        setParamStatus(     P_MultibitUInt32DigitalValue, currentStatus);
+
         getDoubleParam(P_Float64Value, &dVal);
         dVal += 0.1;
         setDoubleParam(P_Float64Value, dVal);
         setParamStatus(P_Float64Value, currentStatus);
+
         sprintf(octetValue, "%.1f", dVal); 
-        setParamStatus(P_UInt32DigitalValue, currentStatus);
         setStringParam(P_OctetValue, octetValue);
         setParamStatus(P_OctetValue, currentStatus);
-        setParamStatus(P_Float64ArrayValue, currentStatus);
+
         for (i=0; i<MAX_ARRAY_POINTS; i++) {
             int8ArrayValue_[i]    = iVal;
             int16ArrayValue_[i]   = iVal;
@@ -159,18 +206,18 @@ void testErrors::callbackTask(void)
             float64ArrayValue_[i] = dVal;
         }
         callParamCallbacks();
-        setParamStatus(P_Int8ArrayValue, currentStatus);
-        doCallbacksInt8Array(int8ArrayValue_, MAX_ARRAY_POINTS, P_Int8ArrayValue, 0);
-        setParamStatus(P_Int16ArrayValue, currentStatus);
-        doCallbacksInt16Array(int16ArrayValue_, MAX_ARRAY_POINTS, P_Int16ArrayValue, 0);
-        setParamStatus(P_Int32ArrayValue, currentStatus);
-        doCallbacksInt32Array(int32ArrayValue_, MAX_ARRAY_POINTS, P_Int32ArrayValue, 0);
+        setParamStatus(P_Int8ArrayValue,    currentStatus);
+        setParamStatus(P_Int16ArrayValue,   currentStatus);
+        setParamStatus(P_Int32ArrayValue,   currentStatus);
         setParamStatus(P_Float32ArrayValue, currentStatus);
-        doCallbacksFloat32Array(float32ArrayValue_, MAX_ARRAY_POINTS, P_Float32ArrayValue, 0);
         setParamStatus(P_Float64ArrayValue, currentStatus);
+        doCallbacksInt8Array(int8ArrayValue_,       MAX_ARRAY_POINTS, P_Int8ArrayValue,    0);
+        doCallbacksInt16Array(int16ArrayValue_,     MAX_ARRAY_POINTS, P_Int16ArrayValue,   0);
+        doCallbacksInt32Array(int32ArrayValue_,     MAX_ARRAY_POINTS, P_Int32ArrayValue,   0);
+        doCallbacksFloat32Array(float32ArrayValue_, MAX_ARRAY_POINTS, P_Float32ArrayValue, 0);
         doCallbacksFloat64Array(float64ArrayValue_, MAX_ARRAY_POINTS, P_Float64ArrayValue, 0);
         unlock();
-        epicsThreadSleep(CALLBACK_PERIOD);
+        epicsEventWait(eventId_);
     }
 }
 
@@ -196,8 +243,14 @@ void testErrors::setEnums()
         uint32EnumValues_[i]         = allUInt32EnumValues[j];
         uint32EnumSeverities_[i]     = allUInt32EnumSeverities[j];
     }
-    doCallbacksEnum(int32EnumStrings_,  int32EnumValues_,  int32EnumSeverities_,  MAX_INT32_ENUMS,  P_Int32Value,         0);
-    doCallbacksEnum(uint32EnumStrings_, uint32EnumValues_, uint32EnumSeverities_, MAX_UINT32_ENUMS, P_UInt32DigitalValue, 0);
+    doCallbacksEnum(int32EnumStrings_,  int32EnumValues_,  int32EnumSeverities_,  
+                    MAX_INT32_ENUMS,  P_BinaryInt32Value,   0);
+    doCallbacksEnum(int32EnumStrings_,  int32EnumValues_,  int32EnumSeverities_,  
+                    MAX_INT32_ENUMS,  P_MultibitInt32Value, 0);
+    doCallbacksEnum(uint32EnumStrings_, uint32EnumValues_, uint32EnumSeverities_, 
+                    MAX_UINT32_ENUMS, P_BinaryUInt32DigitalValue,   0);
+    doCallbacksEnum(uint32EnumStrings_, uint32EnumValues_, uint32EnumSeverities_, 
+                    MAX_UINT32_ENUMS, P_MultibitUInt32DigitalValue, 0);
 }
 
 /** Called when asyn clients call pasynInt32->write().
@@ -213,22 +266,26 @@ asynStatus testErrors::writeInt32(asynUser *pasynUser, epicsInt32 value)
     const char *paramName;
     const char* functionName = "writeInt32";
 
-    /* Get the current error status */
-    getIntegerParam(P_StatusReturn, &itemp); status = (asynStatus)itemp;
-
     /* Fetch the parameter string name for use in debugging */
     getParamName(function, &paramName);
 
     /* Set the parameter value in the parameter library. */
     setIntegerParam(function, value);
-    /* Set the parameter status in the parameter library except for P_StatusReturn which is always OK */
-    if (function == P_StatusReturn) {
-        status = asynSuccess;
+
+    if (function == P_DoUpdate) {
+        epicsEventSignal(eventId_);
+    }
+    else if (function == P_StatusReturn) {
     }
     else if (function == P_EnumOrder) {
         setEnums();
     }
-    setParamStatus(function, status);
+    else {
+        /* Set the parameter status in the parameter library except for the above commands with always return OK */
+        /* Get the current error status */
+        getIntegerParam(P_StatusReturn, &itemp); status = (asynStatus)itemp;
+        setParamStatus(function, status);
+    }
     
     /* Do callbacks so higher layers see any changes */
     callParamCallbacks();
@@ -368,7 +425,9 @@ asynStatus testErrors::readEnum(asynUser *pasynUser, char *strings[], int values
             severities[i] = statusEnumSeverities[i];
         }
     }
-    else if (function == P_Int32Value) {
+    else if ((function == P_Int32Value)       ||
+             (function == P_BinaryInt32Value) ||   
+             (function == P_MultibitInt32Value)) {
         for (i=0; ((i<MAX_INT32_ENUMS) && (i<nElements)); i++) {
             if (strings[i]) free(strings[i]);
             strings[i] = epicsStrDup(int32EnumStrings_[i]);
@@ -376,7 +435,9 @@ asynStatus testErrors::readEnum(asynUser *pasynUser, char *strings[], int values
             severities[i] = int32EnumSeverities_[i];
         }
     }
-    else if (function == P_UInt32DigitalValue) {
+    else if ((function == P_UInt32DigitalValue)       ||
+             (function == P_BinaryUInt32DigitalValue) ||
+             (function == P_MultibitUInt32DigitalValue)) {
         for (i=0; ((i<MAX_UINT32_ENUMS) && (i<nElements)); i++) {
             if (strings[i]) free(strings[i]);
             strings[i] = epicsStrDup(uint32EnumStrings_[i]);
