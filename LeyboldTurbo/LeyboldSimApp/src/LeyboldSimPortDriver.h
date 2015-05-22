@@ -45,7 +45,7 @@ protected:
 	static void ListenerThread(void* parm);
 
 private:
-	void setDefaultValues(int TableIndex);
+	void setDefaultValues(size_t TableIndex);
 
 	int m_NumConnected;				// how many sockets have actually connected?
 	volatile bool m_Exiting;		// Signals the listening thread to exit.

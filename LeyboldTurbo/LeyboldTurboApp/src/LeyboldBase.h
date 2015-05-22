@@ -56,23 +56,23 @@ public:
 		asynPortDriver(portName, maxAddr, paramTableSize, interfaceMask, interfaceMask, ASYN_MULTIDEVICE, 1, 0, 0) {
 			m_NoOfPZD = NoOfPZD;
 	}
-    void createParam(size_t list, int ParamIndex) {
+    void createParam(size_t list, size_t ParamIndex) {
 		int index;
 		const char* ParamName = ParameterDefns[ParamIndex].ParamName;
-		if (asynPortDriver::createParam(list, ParamName, ParameterDefns[ParamIndex].ParamType, &index) != asynSuccess)
+		if (asynPortDriver::createParam(int(list), ParamName, ParameterDefns[ParamIndex].ParamType, &index) != asynSuccess)
 			throw CException(pasynUserSelf, __FUNCTION__, ParamName);
 		m_Parameters[ParamName] = index;
 	}
     void setIntegerParam(size_t list, const char* ParamName, int value) {
-		if (asynPortDriver::setIntegerParam(list, m_Parameters[ParamName], value) != asynSuccess)
+		if (asynPortDriver::setIntegerParam(int(list), m_Parameters[ParamName], value) != asynSuccess)
 			throw CException(pasynUserSelf, __FUNCTION__, ParamName);
 	}
     void setDoubleParam(size_t list, const char* ParamName, double value) {
-		if (asynPortDriver::setDoubleParam(list, m_Parameters[ParamName], value) != asynSuccess)
+		if (asynPortDriver::setDoubleParam(int(list), m_Parameters[ParamName], value) != asynSuccess)
 			throw CException(pasynUserSelf, __FUNCTION__, ParamName);
 	}
 	void setStringParam(size_t list, const char* ParamName, std::string const& value) {
-		if (asynPortDriver::setStringParam (list, m_Parameters[ParamName], value.substr(0, MaxEPICSStrLen).c_str()) != asynSuccess)
+		if (asynPortDriver::setStringParam (int(list), m_Parameters[ParamName], value.substr(0, MaxEPICSStrLen).c_str()) != asynSuccess)
 			throw CException(pasynUserSelf, __FUNCTION__, ParamName);
 	}
     int getIntegerParam(int list, const char* ParamName) {

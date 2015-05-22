@@ -197,7 +197,7 @@ void CLeyboldSimPortDriver::addIOPort(const char* IOPortName)
 	m_WasRunning.push_back(true);
 }
 
-void CLeyboldSimPortDriver::setDefaultValues(int TableIndex)
+void CLeyboldSimPortDriver::setDefaultValues(size_t TableIndex)
 {
 	// The running state has just been enabled.
 	setIntegerParam(TableIndex, RUNNING, 1);
