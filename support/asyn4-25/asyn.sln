@@ -1,7 +1,7 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "asyn", "asyn\asyn.vcxproj", "{C3EA0FF7-6039-4884-BA91-7B4619BEFEA5}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "asyn", "asyn4-25\asyn.vcxproj", "{C3EA0FF7-6039-4884-BA91-7B4619BEFEA5}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Com", "..\..\base-3.15.1\src\libCom\Com.vcxproj", "{35E6ABA4-E192-497D-BA02-EFB79D1E0336}"
 EndProject
