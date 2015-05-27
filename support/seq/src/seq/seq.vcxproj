@@ -167,10 +167,12 @@
 if not exist O.Common md O.Common
 xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
 SET PERL5LIB=$(SolutionDir)lib\perl
+
 perl -CSD $(OutDir)dbdExpand.pl  -I ./O.Common -I. -I.. -I./O.Common -I$(SolutionDir)DBD -o O.Common\seqSoftIoc.dbd base.dbd ..\..\test\validate\testSupport.dbd
+
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I ./O.Common -I.  -I$(SolutionDir)dbd   -o ./O.Common/seqSoftIoc_registerRecordDeviceDriver.cpp ./O.Common/seqSoftIoc.dbd seqSoftIoc_registerRecordDeviceDriver $(SolutionDir)
 
-perl -CSD %(Filename).pl 2.1.15 &gt; O.Common/%(Filename).h
+perl -CSD seq_release.pl 2.1.15 &gt; O.Common/seq_release.h
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -195,10 +197,12 @@ perl -CSD %(Filename).pl 2.1.15 &gt; O.Common/%(Filename).h
 if not exist O.Common md O.Common
 xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
 SET PERL5LIB=$(SolutionDir)lib\perl
+
 perl -CSD $(OutDir)dbdExpand.pl  -I ./O.Common -I. -I.. -I./O.Common -I$(SolutionDir)DBD -o O.Common\seqSoftIoc.dbd base.dbd ..\..\test\validate\testSupport.dbd
+
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I ./O.Common -I.  -I$(SolutionDir)dbd   -o ./O.Common/seqSoftIoc_registerRecordDeviceDriver.cpp ./O.Common/seqSoftIoc.dbd seqSoftIoc_registerRecordDeviceDriver $(SolutionDir)
 
-perl -CSD %(Filename).pl 2.1.15 &gt; O.Common/%(Filename).h
+perl -CSD seq_release.pl 2.1.15 &gt; O.Common/seq_release.h
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -223,10 +227,12 @@ perl -CSD %(Filename).pl 2.1.15 &gt; O.Common/%(Filename).h
 if not exist O.Common md O.Common
 xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
 SET PERL5LIB=$(SolutionDir)lib\perl
+
 perl -CSD $(OutDir)dbdExpand.pl  -I ./O.Common -I. -I.. -I./O.Common -I$(SolutionDir)DBD -o O.Common\seqSoftIoc.dbd base.dbd ..\..\test\validate\testSupport.dbd
+
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I ./O.Common -I.  -I$(SolutionDir)dbd   -o ./O.Common/seqSoftIoc_registerRecordDeviceDriver.cpp ./O.Common/seqSoftIoc.dbd seqSoftIoc_registerRecordDeviceDriver $(SolutionDir)
 
-perl -CSD %(Filename).pl 2.1.15 &gt; O.Common/%(Filename).h
+perl -CSD seq_release.pl 2.1.15 &gt; O.Common/seq_release.h
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -251,10 +257,12 @@ perl -CSD %(Filename).pl 2.1.15 &gt; O.Common/%(Filename).h
 if not exist O.Common md O.Common
 xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
 SET PERL5LIB=$(SolutionDir)lib\perl
+
 perl -CSD $(OutDir)dbdExpand.pl  -I ./O.Common -I. -I.. -I./O.Common -I$(SolutionDir)DBD -o O.Common\seqSoftIoc.dbd base.dbd ..\..\test\validate\testSupport.dbd
+
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I ./O.Common -I.  -I$(SolutionDir)dbd   -o ./O.Common/seqSoftIoc_registerRecordDeviceDriver.cpp ./O.Common/seqSoftIoc.dbd seqSoftIoc_registerRecordDeviceDriver $(SolutionDir)
 
-perl -CSD %(Filename).pl 2.1.15 &gt; O.Common/%(Filename).h
+perl -CSD seq_release.pl 2.1.15 &gt; O.Common/seq_release.h
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -282,10 +290,12 @@ perl -CSD %(Filename).pl 2.1.15 &gt; O.Common/%(Filename).h
 if not exist O.Common md O.Common
 xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
 SET PERL5LIB=$(SolutionDir)lib\perl
+
 perl -CSD $(OutDir)dbdExpand.pl  -I ./O.Common -I. -I.. -I./O.Common -I$(SolutionDir)DBD -o O.Common\seqSoftIoc.dbd base.dbd ..\..\test\validate\testSupport.dbd
+
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I ./O.Common -I.  -I$(SolutionDir)dbd   -o ./O.Common/seqSoftIoc_registerRecordDeviceDriver.cpp ./O.Common/seqSoftIoc.dbd seqSoftIoc_registerRecordDeviceDriver $(SolutionDir)
 
-perl -CSD %(Filename).pl 2.1.15 &gt; O.Common/%(Filename).h
+perl -CSD seq_release.pl 2.1.15 &gt; O.Common/seq_release.h
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -314,10 +324,12 @@ perl -CSD %(Filename).pl 2.1.15 &gt; O.Common/%(Filename).h
 if not exist O.Common md O.Common
 xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
 SET PERL5LIB=$(SolutionDir)lib\perl
+
 perl -CSD $(OutDir)dbdExpand.pl  -I ./O.Common -I. -I.. -I./O.Common -I$(SolutionDir)DBD -o O.Common\seqSoftIoc.dbd base.dbd ..\..\test\validate\testSupport.dbd
+
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I ./O.Common -I.  -I$(SolutionDir)dbd   -o ./O.Common/seqSoftIoc_registerRecordDeviceDriver.cpp ./O.Common/seqSoftIoc.dbd seqSoftIoc_registerRecordDeviceDriver $(SolutionDir)
 
-perl -CSD %(Filename).pl 2.1.15 &gt; O.Common/%(Filename).h
+perl -CSD seq_release.pl 2.1.15 &gt; O.Common/seq_release.h
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -345,10 +357,12 @@ perl -CSD %(Filename).pl 2.1.15 &gt; O.Common/%(Filename).h
 if not exist O.Common md O.Common
 xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
 SET PERL5LIB=$(SolutionDir)lib\perl
+
 perl -CSD $(OutDir)dbdExpand.pl  -I ./O.Common -I. -I.. -I./O.Common -I$(SolutionDir)DBD -o O.Common\seqSoftIoc.dbd base.dbd ..\..\test\validate\testSupport.dbd
+
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I ./O.Common -I.  -I$(SolutionDir)dbd   -o ./O.Common/seqSoftIoc_registerRecordDeviceDriver.cpp ./O.Common/seqSoftIoc.dbd seqSoftIoc_registerRecordDeviceDriver $(SolutionDir)
 
-perl -CSD %(Filename).pl 2.1.15 &gt; O.Common/%(Filename).h
+perl -CSD seq_release.pl 2.1.15 &gt; O.Common/seq_release.h
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -377,10 +391,12 @@ perl -CSD %(Filename).pl 2.1.15 &gt; O.Common/%(Filename).h
 if not exist O.Common md O.Common
 xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
 SET PERL5LIB=$(SolutionDir)lib\perl
+
 perl -CSD $(OutDir)dbdExpand.pl  -I ./O.Common -I. -I.. -I./O.Common -I$(SolutionDir)DBD -o O.Common\seqSoftIoc.dbd base.dbd ..\..\test\validate\testSupport.dbd
+
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I ./O.Common -I.  -I$(SolutionDir)dbd   -o ./O.Common/seqSoftIoc_registerRecordDeviceDriver.cpp ./O.Common/seqSoftIoc.dbd seqSoftIoc_registerRecordDeviceDriver $(SolutionDir)
 
-perl -CSD %(Filename).pl 2.1.15 &gt; O.Common/%(Filename).h
+perl -CSD seq_release.pl 2.1.15 &gt; O.Common/seq_release.h
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
