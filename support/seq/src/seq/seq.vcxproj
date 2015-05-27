@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug_DLL|Win32">
@@ -170,6 +170,7 @@ SET PERL5LIB=$(SolutionDir)lib\perl
 perl -CSD $(OutDir)dbdExpand.pl  -I ./O.Common -I. -I.. -I./O.Common -I$(SolutionDir)DBD -o O.Common\seqSoftIoc.dbd base.dbd ..\..\test\validate\testSupport.dbd
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I ./O.Common -I.  -I$(SolutionDir)dbd   -o ./O.Common/seqSoftIoc_registerRecordDeviceDriver.cpp ./O.Common/seqSoftIoc.dbd seqSoftIoc_registerRecordDeviceDriver $(SolutionDir)
 
+perl -CSD %(Filename).pl 2.1.15 &gt; O.Common/%(Filename).h
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -197,6 +198,7 @@ SET PERL5LIB=$(SolutionDir)lib\perl
 perl -CSD $(OutDir)dbdExpand.pl  -I ./O.Common -I. -I.. -I./O.Common -I$(SolutionDir)DBD -o O.Common\seqSoftIoc.dbd base.dbd ..\..\test\validate\testSupport.dbd
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I ./O.Common -I.  -I$(SolutionDir)dbd   -o ./O.Common/seqSoftIoc_registerRecordDeviceDriver.cpp ./O.Common/seqSoftIoc.dbd seqSoftIoc_registerRecordDeviceDriver $(SolutionDir)
 
+perl -CSD %(Filename).pl 2.1.15 &gt; O.Common/%(Filename).h
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -224,6 +226,7 @@ SET PERL5LIB=$(SolutionDir)lib\perl
 perl -CSD $(OutDir)dbdExpand.pl  -I ./O.Common -I. -I.. -I./O.Common -I$(SolutionDir)DBD -o O.Common\seqSoftIoc.dbd base.dbd ..\..\test\validate\testSupport.dbd
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I ./O.Common -I.  -I$(SolutionDir)dbd   -o ./O.Common/seqSoftIoc_registerRecordDeviceDriver.cpp ./O.Common/seqSoftIoc.dbd seqSoftIoc_registerRecordDeviceDriver $(SolutionDir)
 
+perl -CSD %(Filename).pl 2.1.15 &gt; O.Common/%(Filename).h
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -251,6 +254,7 @@ SET PERL5LIB=$(SolutionDir)lib\perl
 perl -CSD $(OutDir)dbdExpand.pl  -I ./O.Common -I. -I.. -I./O.Common -I$(SolutionDir)DBD -o O.Common\seqSoftIoc.dbd base.dbd ..\..\test\validate\testSupport.dbd
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I ./O.Common -I.  -I$(SolutionDir)dbd   -o ./O.Common/seqSoftIoc_registerRecordDeviceDriver.cpp ./O.Common/seqSoftIoc.dbd seqSoftIoc_registerRecordDeviceDriver $(SolutionDir)
 
+perl -CSD %(Filename).pl 2.1.15 &gt; O.Common/%(Filename).h
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -281,6 +285,7 @@ SET PERL5LIB=$(SolutionDir)lib\perl
 perl -CSD $(OutDir)dbdExpand.pl  -I ./O.Common -I. -I.. -I./O.Common -I$(SolutionDir)DBD -o O.Common\seqSoftIoc.dbd base.dbd ..\..\test\validate\testSupport.dbd
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I ./O.Common -I.  -I$(SolutionDir)dbd   -o ./O.Common/seqSoftIoc_registerRecordDeviceDriver.cpp ./O.Common/seqSoftIoc.dbd seqSoftIoc_registerRecordDeviceDriver $(SolutionDir)
 
+perl -CSD %(Filename).pl 2.1.15 &gt; O.Common/%(Filename).h
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -312,6 +317,7 @@ SET PERL5LIB=$(SolutionDir)lib\perl
 perl -CSD $(OutDir)dbdExpand.pl  -I ./O.Common -I. -I.. -I./O.Common -I$(SolutionDir)DBD -o O.Common\seqSoftIoc.dbd base.dbd ..\..\test\validate\testSupport.dbd
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I ./O.Common -I.  -I$(SolutionDir)dbd   -o ./O.Common/seqSoftIoc_registerRecordDeviceDriver.cpp ./O.Common/seqSoftIoc.dbd seqSoftIoc_registerRecordDeviceDriver $(SolutionDir)
 
+perl -CSD %(Filename).pl 2.1.15 &gt; O.Common/%(Filename).h
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -342,6 +348,7 @@ SET PERL5LIB=$(SolutionDir)lib\perl
 perl -CSD $(OutDir)dbdExpand.pl  -I ./O.Common -I. -I.. -I./O.Common -I$(SolutionDir)DBD -o O.Common\seqSoftIoc.dbd base.dbd ..\..\test\validate\testSupport.dbd
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I ./O.Common -I.  -I$(SolutionDir)dbd   -o ./O.Common/seqSoftIoc_registerRecordDeviceDriver.cpp ./O.Common/seqSoftIoc.dbd seqSoftIoc_registerRecordDeviceDriver $(SolutionDir)
 
+perl -CSD %(Filename).pl 2.1.15 &gt; O.Common/%(Filename).h
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -373,6 +380,7 @@ SET PERL5LIB=$(SolutionDir)lib\perl
 perl -CSD $(OutDir)dbdExpand.pl  -I ./O.Common -I. -I.. -I./O.Common -I$(SolutionDir)DBD -o O.Common\seqSoftIoc.dbd base.dbd ..\..\test\validate\testSupport.dbd
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I ./O.Common -I.  -I$(SolutionDir)dbd   -o ./O.Common/seqSoftIoc_registerRecordDeviceDriver.cpp ./O.Common/seqSoftIoc.dbd seqSoftIoc_registerRecordDeviceDriver $(SolutionDir)
 
+perl -CSD %(Filename).pl 2.1.15 &gt; O.Common/%(Filename).h
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -427,8 +435,7 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I ./O.Common -I.  -I$(Solutio
     <ClInclude Include="seq_queue.h" />
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="seq_release.pl">
-      <FileType>Document</FileType>
+    <None Include="seq_release.pl">
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">perl -CSD %(Filename).pl 2.1.15 &gt; O.Common/%(Filename).h</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">O.Common/%(Filename).h</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">perl -CSD %(Filename).pl 2.1.15 &gt; O.Common/%(Filename).h</Command>
@@ -445,7 +452,8 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I ./O.Common -I.  -I$(Solutio
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">O.Common/%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">O.Common/%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">O.Common/%(Filename).h</Outputs>
-    </CustomBuild>
+      <FileType>Document</FileType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="O.Common\seqSoftIoc.dbd" />
