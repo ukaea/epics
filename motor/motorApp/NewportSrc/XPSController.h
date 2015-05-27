@@ -6,8 +6,20 @@ USAGE...        Newport XPS EPICS asyn motor device driver
 #ifndef XPSController_H
 #define XPSController_H
 
+#ifdef epicsExportSharedSymbols
+#define XPSController_epicsExportSharedSymbols
+#undef epicsExportSharedSymbols
+#endif
+
 #include "asynMotorController.h"
 #include "asynMotorAxis.h"
+
+#ifdef XPSController_epicsExportSharedSymbols
+#define epicsExportSharedSymbols
+#undef XPSController_epicsExportSharedSymbols
+#endif
+#include <shareLib.h>
+
 #include "XPSAxis.h"
 
 #define XPS_MAX_AXES 8

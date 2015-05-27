@@ -10,8 +10,19 @@ K. Goetze 2012-03-23
 
 */
 
+#ifdef epicsExportSharedSymbols
+#define SMC100Driver_epicsExportSharedSymbols
+#undef epicsExportSharedSymbols
+#endif
+
 #include "asynMotorController.h"
 #include "asynMotorAxis.h"
+
+#ifdef SMC100Driver_epicsExportSharedSymbols
+#define epicsExportSharedSymbols
+#undef SMC100Driver_epicsExportSharedSymbols
+#endif
+#include <shareLib.h>
 
 #define MAX_SMC100_AXES 1
 
