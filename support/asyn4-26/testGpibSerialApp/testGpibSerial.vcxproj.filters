@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="src">
@@ -34,11 +34,11 @@
     <None Include="src\testGpibSerialSupport.dbd">
       <Filter>src</Filter>
     </None>
+    <None Include="src\devTestGpibSerial.dbd">
+      <Filter>src</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="src\devTestGpibSerial.dbd">
-      <Filter>src</Filter>
-    </CustomBuild>
     <CustomBuild Include="src\O.Common\testGpibSerial.dbd">
       <Filter>src\O.Common</Filter>
     </CustomBuild>

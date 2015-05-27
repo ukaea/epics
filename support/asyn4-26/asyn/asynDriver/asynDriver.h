@@ -15,9 +15,19 @@
 #ifndef ASYNDRIVER_H
 #define ASYNDRIVER_H
 
+#ifdef epicsExportSharedSymbols
+#define asynDriver_epicsExportSharedSymbols
+#undef epicsExportSharedSymbols
+#endif
+
 #include <epicsStdio.h>
 #include <epicsTime.h>
 #include <ellLib.h>
+
+#ifdef asynDriver_epicsExportSharedSymbols
+#undef asynDriver_epicsExportSharedSymbols
+#define epicsExportSharedSymbols
+#endif
 #include <shareLib.h>
 
 /* Version number names similar to those provide by base

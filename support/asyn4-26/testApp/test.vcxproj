@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug_DLL|Win32">
@@ -54,10 +54,10 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\base-3.15.1\src\ioc\dbCore.vcxproj">
+    <ProjectReference Include="..\..\..\base-3.15.1\src\ioc\dbCore.vcxproj">
       <Project>{440c585d-ad66-4738-941c-a87a1817a9be}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\base-3.15.1\src\libCom\Com.vcxproj">
+    <ProjectReference Include="..\..\..\base-3.15.1\src\libCom\Com.vcxproj">
       <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
     </ProjectReference>
     <ProjectReference Include="..\asyn\asyn.vcxproj">

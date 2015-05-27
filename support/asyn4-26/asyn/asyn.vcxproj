@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug_DLL|Win32">
@@ -439,6 +439,7 @@ xcopy /Y /Q /D /R .\devEpics\*.dbd   $(SolutionDir)dbd &gt; NUL
     <ClInclude Include="asynDriver\asynDriver.h" />
     <ClInclude Include="asynDriver\epicsInterruptibleSyscall.h" />
     <ClInclude Include="asynGpib\asynGpibDriver.h" />
+    <ClInclude Include="asynPortClient\asynPortClient.h" />
     <ClInclude Include="asynPortDriver\asynParamType.h" />
     <ClInclude Include="asynPortDriver\asynPortDriver.h" />
     <ClInclude Include="asynPortDriver\exceptions\ParamListInvalidIndex.h" />
@@ -481,6 +482,7 @@ xcopy /Y /Q /D /R .\devEpics\*.dbd   $(SolutionDir)dbd &gt; NUL
     <ClInclude Include="interfaces\asynOctet.h" />
     <ClInclude Include="interfaces\asynOctetSyncIO.h" />
     <ClInclude Include="interfaces\asynOption.h" />
+    <ClInclude Include="interfaces\asynOptionSyncIO.h" />
     <ClInclude Include="interfaces\asynStandardInterfaces.h" />
     <ClInclude Include="interfaces\asynUInt32Digital.h" />
     <ClInclude Include="interfaces\asynUInt32DigitalSyncIO.h" />
@@ -504,6 +506,7 @@ xcopy /Y /Q /D /R .\devEpics\*.dbd   $(SolutionDir)dbd &gt; NUL
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="asynPortClient\asynPortClient.cpp" />
     <ClCompile Include="asynPortDriver\asynPortDriver.cpp" />
     <ClCompile Include="asynPortDriver\exceptions\ParamListInvalidIndex.cpp" />
     <ClCompile Include="asynPortDriver\exceptions\ParamListParamNotFound.cpp" />
@@ -558,6 +561,16 @@ xcopy /Y /Q /D /R .\devEpics\*.dbd   $(SolutionDir)dbd &gt; NUL
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="drvAsynSerial\drvAsynSerialPortWin32.c" />
+    <ClCompile Include="drvAsynUSBTMC\drvAsynUSBTMC.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="gsIP488\drvGsIP488.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
@@ -589,6 +602,7 @@ xcopy /Y /Q /D /R .\devEpics\*.dbd   $(SolutionDir)dbd &gt; NUL
     <ClCompile Include="interfaces\asynInt8ArraySyncIO.c" />
     <ClCompile Include="interfaces\asynOctetBase.c" />
     <ClCompile Include="interfaces\asynOctetSyncIO.c" />
+    <ClCompile Include="interfaces\asynOptionSyncIO.c" />
     <ClCompile Include="interfaces\asynStandardInterfacesBase.c" />
     <ClCompile Include="interfaces\asynUInt32DigitalBase.c" />
     <ClCompile Include="interfaces\asynUInt32DigitalSyncIO.c" />
@@ -679,6 +693,8 @@ cd $(ProjectDir)
     <None Include="devGpib\devGpib.dbd" />
     <None Include="drvAsynSerial\drvAsynIPPort.dbd" />
     <None Include="drvAsynSerial\drvAsynSerialPort.dbd" />
+    <None Include="drvAsynUSBTMC\drvAsynUSBTMC.dbd" />
+    <None Include="drvAsynUSBTMC\README.txt" />
     <None Include="gsIP488\drvGsIP488.dbd" />
     <None Include="miscellaneous\asyn.dbd" />
     <None Include="ni1014\drvNi1014.dbd" />

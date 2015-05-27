@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="asynDriver">
@@ -37,6 +37,12 @@
     </Filter>
     <Filter Include="asynPortDriver\exceptions">
       <UniqueIdentifier>{adcdf4e1-f45a-495e-9d1c-4ba3e89f2154}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="asynPortClient">
+      <UniqueIdentifier>{7dc8af06-f469-40bb-9c6e-d924486cab4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="drvAsynUSBTMC">
+      <UniqueIdentifier>{93a072ab-5445-4179-bc65-1feb069c3f24}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -198,6 +204,12 @@
     </ClInclude>
     <ClInclude Include="asynPortDriver\exceptions\ParamValWrongType.h">
       <Filter>asynPortDriver\exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="asynPortClient\asynPortClient.h">
+      <Filter>asynPortClient</Filter>
+    </ClInclude>
+    <ClInclude Include="interfaces\asynOptionSyncIO.h">
+      <Filter>interfaces</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -399,6 +411,15 @@
     <ClCompile Include="asynPortDriver\exceptions\ParamValWrongType.cpp">
       <Filter>asynPortDriver\exceptions</Filter>
     </ClCompile>
+    <ClCompile Include="asynPortClient\asynPortClient.cpp">
+      <Filter>asynPortClient</Filter>
+    </ClCompile>
+    <ClCompile Include="drvAsynUSBTMC\drvAsynUSBTMC.c">
+      <Filter>drvAsynUSBTMC</Filter>
+    </ClCompile>
+    <ClCompile Include="interfaces\asynOptionSyncIO.c">
+      <Filter>interfaces</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="asynRecord\asynRecord.db">
@@ -466,6 +487,12 @@
     </None>
     <None Include="ni1014\drvNi1014.dbd">
       <Filter>ni1014</Filter>
+    </None>
+    <None Include="drvAsynUSBTMC\drvAsynUSBTMC.dbd">
+      <Filter>drvAsynUSBTMC</Filter>
+    </None>
+    <None Include="drvAsynUSBTMC\README.txt">
+      <Filter>drvAsynUSBTMC</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
