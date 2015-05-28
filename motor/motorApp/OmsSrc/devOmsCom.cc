@@ -2,10 +2,10 @@
 FILENAME...     devOmsCom.cc
 USAGE...        Data and functions common to all OMS device level support.
 
-Version:        $Revision: 17420 $
+Version:        $Revision: 19104 $
 Modified By:    $Author: sluiter $
-Last Modified:  $Date: 2014-05-09 16:51:25 -0500 (Fri, 09 May 2014) $
-HeadURL:        $URL: https://subversion.xray.aps.anl.gov/synApps/motor/tags/R6-9/motorApp/OmsSrc/devOmsCom.cc $
+Last Modified:  $Date: 2015-03-13 14:59:54 +0000 (Fri, 13 Mar 2015) $
+HeadURL:        $URL: https://subversion.xray.aps.anl.gov/synApps/motor/trunk/motorApp/OmsSrc/devOmsCom.cc $
 */
 
 /*
@@ -70,6 +70,8 @@ HeadURL:        $URL: https://subversion.xray.aps.anl.gov/synApps/motor/tags/R6-
  *                   different polarity (signs).
  * .24  11-29-12 rls Terminate UU command argument with a ';' character.
  *                   Fixes "Command error" with MAXv ver:1.41 firmware.
+ * .25  03-13-15 rls Bug fix for incorrect deceleration calculation at end of
+ *                   JOG command.
  *
  */
 
@@ -311,7 +313,7 @@ RTN_STATUS oms_build_trans(motor_cmnd command, double *parms, struct motorRecord
 
                 /* Use MIP to determine which acc. rate to use. */
                 if (mr->mip & MIP_JOG_STOP)
-                    acc = ((mr->jar) / fabs(mr->mres)) / mr->accl;
+                    acc = mr->jar / fabs(mr->mres);
                 else
                     acc = ((mr->velo - mr->vbas) / fabs(mr->mres)) / mr->accl;
 

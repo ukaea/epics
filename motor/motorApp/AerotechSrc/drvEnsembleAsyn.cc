@@ -2,10 +2,10 @@
 FILENAME... drvEnsembleAsyn.cc
 USAGE...    Motor record asyn driver level support for Aerotech Ensemble.
 
-Version:        $Revision: 18150 $
+Version:        $Revision: 19106 $
 Modified By:    $Author: sluiter $
-Last Modified:  $Date: 2014-11-24 11:47:32 -0600 (Mon, 24 Nov 2014) $
-HeadURL:        $URL: https://subversion.xray.aps.anl.gov/synApps/motor/tags/R6-9/motorApp/AerotechSrc/drvEnsembleAsyn.cc $
+Last Modified:  $Date: 2015-03-13 15:05:28 +0000 (Fri, 13 Mar 2015) $
+HeadURL:        $URL: https://subversion.xray.aps.anl.gov/synApps/motor/trunk/motorApp/AerotechSrc/drvEnsembleAsyn.cc $
 */
 
 /*
@@ -820,7 +820,7 @@ static void EnsemblePoller(EnsembleController *pController)
             }
             else
             {
-                double actvelocity = atof(&inputBuff[1]) * 1000.;
+                double actvelocity = atof(&inputBuff[1]) / fabs(pAxis->stepSize);
                 motorParam->setDouble(pAxis->params, motorAxisActualVel, actvelocity);
             }
             motorParam->callCallback(pAxis->params);

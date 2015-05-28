@@ -1,10 +1,10 @@
 #FILENAME...     Makefile
 #USAGE...        Makefile for motor application example with Asyn
 
-#Version:        $Revision: 18552 $
+#Version:        $Revision: 19336 $
 #Modified By:    $Author: sluiter $
-#Last Modified:  $Date: 2015-01-07 09:33:30 -0600 (Wed, 07 Jan 2015) $
-#HeadURL:        $URL: https://subversion.xray.aps.anl.gov/synApps/motor/tags/R6-9/motorExApp/WithAsyn/Makefile $
+#Last Modified:  $Date: 2015-05-04 19:58:35 +0100 (Mon, 04 May 2015) $
+#HeadURL:        $URL: https://subversion.xray.aps.anl.gov/synApps/motor/trunk/motorExApp/WithAsyn/Makefile $
 
 # "#!" marks lines that can be uncommented.
 
@@ -47,7 +47,13 @@ COMMONDBDS += phytron.dbd
 DBD += WithAsyn.dbd
 WithAsyn_DBD += $(COMMONDBDS)
 ifdef SNCSEQ
-WithAsyn_DBD += devSequencer.dbd
+	# seq-2-1 and earlier has devSequencer
+	ifeq (seq-2-1, $(findstring seq-2-1, $(SNCSEQ)))
+		WithAsyn_DBD += devSequencer.dbd
+	else ifeq (seq-2.1, $(findstring seq-2.1, $(SNCSEQ)))
+		WithAsyn_DBD += devSequencer.dbd
+	endif
+
 endif
 
 DBD += WithAsynVx.dbd
@@ -86,7 +92,15 @@ COMMONLIBS += motor
 WithAsyn_LIBS += $(COMMONLIBS)
 WithAsyn_LIBS += asyn
 ifdef SNCSEQ
-WithAsyn_LIBS += seqDev seq pv
+	# seq-2-1 and earlier has devSequencer
+	ifeq (seq-2-1, $(findstring seq-2-1, $(SNCSEQ)))
+		WithAsyn_LIBS += seqDev seq pv
+	else ifeq (seq-2.1, $(findstring seq-2.1, $(SNCSEQ)))
+		WithAsyn_LIBS += seqDev seq pv
+	else
+		# seq 2.2.
+		WithAsyn_LIBS += seq pv
+	endif
 endif
 WithAsyn_LIBS += $(EPICS_BASE_IOC_LIBS)
 
@@ -97,7 +111,14 @@ endif
 WithAsynVx_LIBS += asyn
 # Needed for Newport SNL programs
 ifdef SNCSEQ
-WithAsynVx_LIBS   += seqDev seq pv
+	ifeq (seq-2-1, $(findstring seq-2-1, $(SNCSEQ)))
+		WithAsynVx_LIBS += seqDev seq pv
+	else ifeq (seq-2.1, $(findstring seq-2.1, $(SNCSEQ)))
+		WithAsynVx_LIBS += seqDev seq pv
+	else
+		# seq 2.2.
+		WithAsynVx_LIBS += seq pv
+	endif
 endif
 WithAsynVx_LIBS += $(EPICS_BASE_IOC_LIBS)
 

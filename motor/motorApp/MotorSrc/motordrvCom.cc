@@ -5,8 +5,8 @@ USAGE...        This file contains driver functions that are common
 
 Version:        $Revision: 17309 $
 Modified By:    $Author: mooney $
-Last Modified:  $Date: 2014-04-02 12:52:06 -0500 (Wed, 02 Apr 2014) $
-HeadURL:        $URL: https://subversion.xray.aps.anl.gov/synApps/motor/tags/R6-9/motorApp/MotorSrc/motordrvCom.cc $
+Last Modified:  $Date: 2014-04-02 18:52:06 +0100 (Wed, 02 Apr 2014) $
+HeadURL:        $URL: https://subversion.xray.aps.anl.gov/synApps/motor/trunk/motorApp/MotorSrc/motordrvCom.cc $
 */
 
 /*

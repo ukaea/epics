@@ -6,8 +6,8 @@ USAGE... This file contains local variables that are allocated
 
 Version:	$Revision: 16591 $
 Modified By:	$Author: sluiter $
-Last Modified:	$Date: 2013-06-17 09:23:05 -0500 (Mon, 17 Jun 2013) $
-HeadURL:        $URL: https://subversion.xray.aps.anl.gov/synApps/motor/tags/R6-9/motorApp/MotorSrc/motordrvComCode.h $
+Last Modified:	$Date: 2013-06-17 15:23:05 +0100 (Mon, 17 Jun 2013) $
+HeadURL:        $URL: https://subversion.xray.aps.anl.gov/synApps/motor/trunk/motorApp/MotorSrc/motordrvComCode.h $
 */
 
 /*

@@ -2,10 +2,10 @@
 FILENAME...     drvOms.cc
 USAGE...        Driver level support for OMS models VME8, VME44, VS4 and VX2.
 
-Version:        $Revision: 17104 $
+Version:        $Revision: 19357 $
 Modified By:    $Author: sluiter $
-Last Modified:  $Date: 2013-11-15 13:44:42 -0600 (Fri, 15 Nov 2013) $
-HeadURL:        $URL: https://subversion.xray.aps.anl.gov/synApps/motor/tags/R6-9/motorApp/OmsSrc/drvOms.cc $
+Last Modified:  $Date: 2015-05-07 14:34:18 +0100 (Thu, 07 May 2015) $
+HeadURL:        $URL: https://subversion.xray.aps.anl.gov/synApps/motor/trunk/motorApp/OmsSrc/drvOms.cc $
 */
 
 /*
@@ -1013,7 +1013,7 @@ static void motorIsrDisable(int card)
 /*****************************************************/
 RTN_STATUS
 omsSetup(int num_cards,  /* maximum number of cards in rack */
-         void *addrs,    /* Base Address(0x0-0xb000 on 4K boundary) */
+         void *addrs,    /* Base Address(see README for details) */
          unsigned vector,/* noninterrupting(0), valid vectors(64-255) */
          int int_level,  /* interrupt level (1-6) */
          int scan_rate)  /* polling rate - 1-60 Hz */

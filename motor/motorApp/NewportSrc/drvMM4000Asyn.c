@@ -4,8 +4,8 @@ USAGE...    Motor record asyn driver level support for Newport MM4000.
 
 Version:        $Revision: 15950 $
 Modified By:    $Author: rivers $
-Last Modified:  $Date: 2013-02-18 14:53:20 -0600 (Mon, 18 Feb 2013) $
-HeadURL:        $URL: https://subversion.xray.aps.anl.gov/synApps/motor/tags/R6-9/motorApp/NewportSrc/drvMM4000Asyn.c $
+Last Modified:  $Date: 2013-02-18 20:53:20 +0000 (Mon, 18 Feb 2013) $
+HeadURL:        $URL: https://subversion.xray.aps.anl.gov/synApps/motor/trunk/motorApp/NewportSrc/drvMM4000Asyn.c $
 */
 
 /*

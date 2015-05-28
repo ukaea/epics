@@ -4,8 +4,8 @@ USAGE...    Motor record driver level support for Newport MM3000.
 
 Version:        $Revision: 15621 $
 Modified By:    $Author: rivers $
-Last Modified:  $Date: 2012-12-06 16:20:48 -0600 (Thu, 06 Dec 2012) $
-HeadURL:        $URL: https://subversion.xray.aps.anl.gov/synApps/motor/tags/R6-9/motorApp/NewportSrc/drvMM3000.cc $
+Last Modified:  $Date: 2012-12-06 22:20:48 +0000 (Thu, 06 Dec 2012) $
+HeadURL:        $URL: https://subversion.xray.aps.anl.gov/synApps/motor/trunk/motorApp/NewportSrc/drvMM3000.cc $
 */
 
 /*

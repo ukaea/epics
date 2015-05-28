@@ -5,8 +5,8 @@ USAGE...    Motor record driver level support for Intelligent Motion
 
 Version:        $Revision: 16385 $
 Modified By:    $Author: sluiter $
-Last Modified:  $Date: 2013-04-24 11:01:47 -0500 (Wed, 24 Apr 2013) $
-HeadURL:        $URL: https://subversion.xray.aps.anl.gov/synApps/motor/tags/R6-9/motorApp/ImsSrc/drvMDrive.cc $
+Last Modified:  $Date: 2013-04-24 17:01:47 +0100 (Wed, 24 Apr 2013) $
+HeadURL:        $URL: https://subversion.xray.aps.anl.gov/synApps/motor/trunk/motorApp/ImsSrc/drvMDrive.cc $
 */
 
 /*

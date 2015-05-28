@@ -6,20 +6,8 @@ USAGE...        Newport XPS EPICS asyn motor device driver
 #ifndef XPSController_H
 #define XPSController_H
 
-#ifdef epicsExportSharedSymbols
-#define XPSController_epicsExportSharedSymbols
-#undef epicsExportSharedSymbols
-#endif
-
 #include "asynMotorController.h"
 #include "asynMotorAxis.h"
-
-#ifdef XPSController_epicsExportSharedSymbols
-#define epicsExportSharedSymbols
-#undef XPSController_epicsExportSharedSymbols
-#endif
-#include <shareLib.h>
-
 #include "XPSAxis.h"
 
 #define XPS_MAX_AXES 8
@@ -33,19 +21,36 @@ USAGE...        Newport XPS EPICS asyn motor device driver
 #define MAX_MESSAGE_LEN   256
 #define MAX_GROUPNAME_LEN  64
 
+#define MAX_PULSE_WIDTHS 4
+#define MAX_SETTLING_TIMES 4
+static const double positionComparePulseWidths[MAX_PULSE_WIDTHS]     = {0.2,   1.0, 2.5, 10.0};
+static const double positionCompareSettlingTimes[MAX_SETTLING_TIMES] = {0.075, 1.0, 4.0, 12.0};
+typedef enum {
+  XPSPositionCompareModeDisable,
+  XPSPositionCompareModePulse,
+  XPSPositionCompareModeAquadBWindowed,
+  XPSPositionCompareModeAquadBAlways
+} XPSPositionCompareMode_t;
+  
 // drvInfo strings for extra parameters that the XPS controller supports
-#define XPSMinJerkString                "XPS_MIN_JERK"
-#define XPSMaxJerkString                "XPS_MAX_JERK"
-#define XPSProfileMaxVelocityString     "XPS_PROFILE_MAX_VELOCITY"
-#define XPSProfileMaxAccelerationString "XPS_PROFILE_MAX_ACCELERATION"
-#define XPSProfileMinPositionString     "XPS_PROFILE_MIN_POSITION"
-#define XPSProfileMaxPositionString     "XPS_PROFILE_MAX_POSITION"
-#define XPSProfileGroupNameString       "XPS_PROFILE_GROUP_NAME"
-#define XPSTrajectoryFileString         "XPS_TRAJECTORY_FILE"
-#define XPSStatusString                 "XPS_STATUS"
-#define XPSStatusStringString           "XPS_STATUS_STRING"
-#define XPSTclScriptString              "XPS_TCL_SCRIPT"
-#define XPSTclScriptExecuteString       "XPS_TCL_SCRIPT_EXECUTE"
+#define XPSMinJerkString                      "XPS_MIN_JERK"
+#define XPSMaxJerkString                      "XPS_MAX_JERK"
+#define XPSPositionCompareModeString          "XPS_POSITION_COMPARE_MODE"
+#define XPSPositionCompareMinPositionString   "XPS_POSITION_COMPARE_MIN_POSITION"
+#define XPSPositionCompareMaxPositionString   "XPS_POSITION_COMPARE_MAX_POSITION"
+#define XPSPositionCompareStepSizeString      "XPS_POSITION_COMPARE_STEP_SIZE"
+#define XPSPositionComparePulseWidthString    "XPS_POSITION_COMPARE_PULSE_WIDTH"
+#define XPSPositionCompareSettlingTimeString  "XPS_POSITION_COMPARE_SETTLING_TIME"
+#define XPSProfileMaxVelocityString           "XPS_PROFILE_MAX_VELOCITY"
+#define XPSProfileMaxAccelerationString       "XPS_PROFILE_MAX_ACCELERATION"
+#define XPSProfileMinPositionString           "XPS_PROFILE_MIN_POSITION"
+#define XPSProfileMaxPositionString           "XPS_PROFILE_MAX_POSITION"
+#define XPSProfileGroupNameString             "XPS_PROFILE_GROUP_NAME"
+#define XPSTrajectoryFileString               "XPS_TRAJECTORY_FILE"
+#define XPSStatusString                       "XPS_STATUS"
+#define XPSStatusStringString                 "XPS_STATUS_STRING"
+#define XPSTclScriptString                    "XPS_TCL_SCRIPT"
+#define XPSTclScriptExecuteString             "XPS_TCL_SCRIPT_EXECUTE"
 
 class epicsShareClass XPSController : public asynMotorController {
 
@@ -56,6 +61,7 @@ class epicsShareClass XPSController : public asynMotorController {
 
   /* These are the methods that we override from asynMotorDriver */
   asynStatus writeInt32(asynUser *pasynUser, epicsInt32 value);
+  asynStatus writeFloat64(asynUser *pasynUser, epicsFloat64 value);
   void report(FILE *fp, int level);
   XPSAxis* getAxis(asynUser *pasynUser);
   XPSAxis* getAxis(int axisNo);
@@ -93,6 +99,12 @@ class epicsShareClass XPSController : public asynMotorController {
   #define FIRST_XPS_PARAM XPSMinJerk_
   int XPSMinJerk_;
   int XPSMaxJerk_;
+  int XPSPositionCompareMode_;
+  int XPSPositionCompareMinPosition_;
+  int XPSPositionCompareMaxPosition_;
+  int XPSPositionCompareStepSize_;
+  int XPSPositionComparePulseWidth_;
+  int XPSPositionCompareSettlingTime_;
   int XPSProfileMaxVelocity_;
   int XPSProfileMaxAcceleration_;
   int XPSProfileMinPosition_;

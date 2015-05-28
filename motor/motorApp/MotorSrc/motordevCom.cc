@@ -5,8 +5,8 @@ USAGE... This file contains device functions that are common to all motor
 
 Version:        $Revision: 17842 $
 Modified By:    $Author: sluiter $
-Last Modified:  $Date: 2014-09-11 10:28:26 -0500 (Thu, 11 Sep 2014) $
-HeadURL:        $URL: https://subversion.xray.aps.anl.gov/synApps/motor/tags/R6-9/motorApp/MotorSrc/motordevCom.cc $
+Last Modified:  $Date: 2014-09-11 16:28:26 +0100 (Thu, 11 Sep 2014) $
+HeadURL:        $URL: https://subversion.xray.aps.anl.gov/synApps/motor/trunk/motorApp/MotorSrc/motordevCom.cc $
 */
 
 /*

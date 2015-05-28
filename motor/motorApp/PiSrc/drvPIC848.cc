@@ -5,8 +5,8 @@ USAGE...	Motor record driver level support for Physik Instrumente (PI)
 
 Version:        $Revision: 14157 $
 Modified By:    $Author: sluiter $
-Last Modified:  $Date: 2011-11-29 15:52:25 -0600 (Tue, 29 Nov 2011) $
-HeadURL:        $URL: https://subversion.xray.aps.anl.gov/synApps/motor/tags/R6-9/motorApp/PiSrc/drvPIC848.cc $
+Last Modified:  $Date: 2011-11-29 21:52:25 +0000 (Tue, 29 Nov 2011) $
+HeadURL:        $URL: https://subversion.xray.aps.anl.gov/synApps/motor/trunk/motorApp/PiSrc/drvPIC848.cc $
 */
 
 /*

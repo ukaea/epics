@@ -5,8 +5,8 @@ USAGE...	OMS driver level "include" information that is specific to OMS
 
 Version:        $Revision: 17212 $
 Modified By:    $Author: sluiter $
-Last Modified:  $Date: 2014-02-06 15:16:54 -0600 (Thu, 06 Feb 2014) $
-HeadURL:        $URL: https://subversion.xray.aps.anl.gov/synApps/motor/tags/R6-9/motorApp/OmsSrc/drvMAXv.h $
+Last Modified:  $Date: 2014-02-06 21:16:54 +0000 (Thu, 06 Feb 2014) $
+HeadURL:        $URL: https://subversion.xray.aps.anl.gov/synApps/motor/trunk/motorApp/OmsSrc/drvMAXv.h $
 */
 
 /*

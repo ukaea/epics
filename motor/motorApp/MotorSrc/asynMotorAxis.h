@@ -2,25 +2,14 @@
  * 
  * Mark Rivers
  *
- * This file defines the base class for an asynMotoAxis.  It is the class
+ * This file defines the base class for an asynMotorAxis.  It is the class
  * from which real motor axes are derived.
  */
 #ifndef asynMotorAxis_H
 #define asynMotorAxis_H
 
-#ifdef epicsExportSharedSymbols
-#define asynMotorAxis_epicsExportSharedSymbols
-#undef epicsExportSharedSymbols
-#endif
-
 #include <epicsEvent.h>
 #include <epicsTypes.h>
-
-#ifdef asynMotorAxis_epicsExportSharedSymbols
-#define epicsExportSharedSymbols
-#undef asynMotorAxis_epicsExportSharedSymbols
-#endif
-#include <shareLib.h>
 
 #ifdef __cplusplus
 #include <asynPortDriver.h>
@@ -67,6 +56,13 @@ class epicsShareClass asynMotorAxis {
   void setReferencingModeMove(int distance);
   int getReferencingModeMove();
 
+  int getWasMovingFlag();
+  void setWasMovingFlag(int wasMoving);
+  int getDisableFlag();
+  void setDisableFlag(int disableFlag);
+  double getLastEndOfMoveTime();
+  void setLastEndOfMoveTime(double time);
+
   protected:
   class asynMotorController *pC_;    /**< Pointer to the asynMotorController to which this axis belongs.
                                       *   Abbreviated because it is used very frequently */
@@ -81,6 +77,9 @@ class epicsShareClass asynMotorAxis {
   MotorStatus status_;
   int statusChanged_;
   int referencingModeMove_;
+  int wasMovingFlag_;
+  int disableFlag_;
+  double lastEndOfMoveTime_;
   
   friend class asynMotorController;
 };
