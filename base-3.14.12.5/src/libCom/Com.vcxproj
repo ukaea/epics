@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TrackFileAccess>false</TrackFileAccess>
@@ -341,19 +341,19 @@ cd $(ProjectDir)
     <CustomBuild Include="error\makeStatTbl.pl">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">cd O.Common
-perl ../../../src/libCom/error/makeStatTbl.pl  $(SolutionDir)include\devLib.h $(SolutionDir)include\asLib.h $(SolutionDir)include\dbAccessDefs.h $(SolutionDir)include\devSup.h $(SolutionDir)include\drvSup.h $(SolutionDir)include\recSup.h $(SolutionDir)include\dbStaticLib.h $(SolutionDir)include\errMdef.h $(SolutionDir)include\casdef.h $(SolutionDir)include\gddAppFuncTable.h
+perl ../../libCom/error/makeStatTbl.pl  ../..//libCom/osi/devLib.h ../../as/asLib.h ../../db/dbAccessDefs.h ../../dbStatic/devSup.h ../../dbStatic/drvSup.h ../../dbStatic/recSup.h ../../dbStatic/dbStaticLib.h ../../libCom/error/errMdef.h ../../cas/generic/casdef.h ../../gdd/gddAppFuncTable.h
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">cd O.Common
-perl ../../../src/libCom/error/makeStatTbl.pl  $(SolutionDir)include\devLib.h $(SolutionDir)include\asLib.h $(SolutionDir)include\dbAccessDefs.h $(SolutionDir)include\devSup.h $(SolutionDir)include\drvSup.h $(SolutionDir)include\recSup.h $(SolutionDir)include\dbStaticLib.h $(SolutionDir)include\errMdef.h $(SolutionDir)include\casdef.h $(SolutionDir)include\gddAppFuncTable.h
+perl ../../libCom/error/makeStatTbl.pl  ../..//libCom/osi/devLib.h ../../as/asLib.h ../../db/dbAccessDefs.h ../../dbStatic/devSup.h ../../dbStatic/drvSup.h ../../dbStatic/recSup.h ../../dbStatic/dbStaticLib.h ../../libCom/error/errMdef.h ../../cas/generic/casdef.h ../../gdd/gddAppFuncTable.h
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">cd O.Common
-perl ../../../src/libCom/error/makeStatTbl.pl  $(SolutionDir)include\devLib.h $(SolutionDir)include\asLib.h $(SolutionDir)include\dbAccessDefs.h $(SolutionDir)include\devSup.h $(SolutionDir)include\drvSup.h $(SolutionDir)include\recSup.h $(SolutionDir)include\dbStaticLib.h $(SolutionDir)include\errMdef.h $(SolutionDir)include\casdef.h $(SolutionDir)include\gddAppFuncTable.h
+perl ../../libCom/error/makeStatTbl.pl  ../..//libCom/osi/devLib.h ../../as/asLib.h ../../db/dbAccessDefs.h ../../dbStatic/devSup.h ../../dbStatic/drvSup.h ../../dbStatic/recSup.h ../../dbStatic/dbStaticLib.h ../../libCom/error/errMdef.h ../../cas/generic/casdef.h ../../gdd/gddAppFuncTable.h
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">cd O.Common
-perl ../../../src/libCom/error/makeStatTbl.pl  $(SolutionDir)include\devLib.h $(SolutionDir)include\asLib.h $(SolutionDir)include\dbAccessDefs.h $(SolutionDir)include\devSup.h $(SolutionDir)include\drvSup.h $(SolutionDir)include\recSup.h $(SolutionDir)include\dbStaticLib.h $(SolutionDir)include\errMdef.h $(SolutionDir)include\casdef.h $(SolutionDir)include\gddAppFuncTable.h
+perl ../../libCom/error/makeStatTbl.pl  ../..//libCom/osi/devLib.h ../../as/asLib.h ../../db/dbAccessDefs.h ../../dbStatic/devSup.h ../../dbStatic/drvSup.h ../../dbStatic/recSup.h ../../dbStatic/dbStaticLib.h ../../libCom/error/errMdef.h ../../cas/generic/casdef.h ../../gdd/gddAppFuncTable.h
 cd $(ProjectDir)
 </Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common\errSymTbl.c</Outputs>
@@ -361,19 +361,19 @@ cd $(ProjectDir)
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">O.Common\errSymTbl.c</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">O.Common\errSymTbl.c</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">cd O.Common
-perl ../../../src/libCom/error/makeStatTbl.pl  $(SolutionDir)include\devLib.h $(SolutionDir)include\asLib.h $(SolutionDir)include\dbAccessDefs.h $(SolutionDir)include\devSup.h $(SolutionDir)include\drvSup.h $(SolutionDir)include\recSup.h $(SolutionDir)include\dbStaticLib.h $(SolutionDir)include\errMdef.h $(SolutionDir)include\casdef.h $(SolutionDir)include\gddAppFuncTable.h
+perl ../../libCom/error/makeStatTbl.pl  ../..//libCom/osi/devLib.h ../../as/asLib.h ../../db/dbAccessDefs.h ../../dbStatic/devSup.h ../../dbStatic/drvSup.h ../../dbStatic/recSup.h ../../dbStatic/dbStaticLib.h ../../libCom/error/errMdef.h ../../cas/generic/casdef.h ../../gdd/gddAppFuncTable.h
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">cd O.Common
-perl ../../../src/libCom/error/makeStatTbl.pl  $(SolutionDir)include\devLib.h $(SolutionDir)include\asLib.h $(SolutionDir)include\dbAccessDefs.h $(SolutionDir)include\devSup.h $(SolutionDir)include\drvSup.h $(SolutionDir)include\recSup.h $(SolutionDir)include\dbStaticLib.h $(SolutionDir)include\errMdef.h $(SolutionDir)include\casdef.h $(SolutionDir)include\gddAppFuncTable.h
+perl ../../libCom/error/makeStatTbl.pl  ../..//libCom/osi/devLib.h ../../as/asLib.h ../../db/dbAccessDefs.h ../../dbStatic/devSup.h ../../dbStatic/drvSup.h ../../dbStatic/recSup.h ../../dbStatic/dbStaticLib.h ../../libCom/error/errMdef.h ../../cas/generic/casdef.h ../../gdd/gddAppFuncTable.h
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'">cd O.Common
-perl ../../../src/libCom/error/makeStatTbl.pl  $(SolutionDir)include\devLib.h $(SolutionDir)include\asLib.h $(SolutionDir)include\dbAccessDefs.h $(SolutionDir)include\devSup.h $(SolutionDir)include\drvSup.h $(SolutionDir)include\recSup.h $(SolutionDir)include\dbStaticLib.h $(SolutionDir)include\errMdef.h $(SolutionDir)include\casdef.h $(SolutionDir)include\gddAppFuncTable.h
+perl ../../libCom/error/makeStatTbl.pl  ../..//libCom/osi/devLib.h ../../as/asLib.h ../../db/dbAccessDefs.h ../../dbStatic/devSup.h ../../dbStatic/drvSup.h ../../dbStatic/recSup.h ../../dbStatic/dbStaticLib.h ../../libCom/error/errMdef.h ../../cas/generic/casdef.h ../../gdd/gddAppFuncTable.h
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">cd O.Common
-perl ../../../src/libCom/error/makeStatTbl.pl  $(SolutionDir)include\devLib.h $(SolutionDir)include\asLib.h $(SolutionDir)include\dbAccessDefs.h $(SolutionDir)include\devSup.h $(SolutionDir)include\drvSup.h $(SolutionDir)include\recSup.h $(SolutionDir)include\dbStaticLib.h $(SolutionDir)include\errMdef.h $(SolutionDir)include\casdef.h $(SolutionDir)include\gddAppFuncTable.h
+perl ../../libCom/error/makeStatTbl.pl  ../..//libCom/osi/devLib.h ../../as/asLib.h ../../db/dbAccessDefs.h ../../dbStatic/devSup.h ../../dbStatic/drvSup.h ../../dbStatic/recSup.h ../../dbStatic/dbStaticLib.h ../../libCom/error/errMdef.h ../../cas/generic/casdef.h ../../gdd/gddAppFuncTable.h
 cd $(ProjectDir)
 </Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common\errSymTbl.c</Outputs>
