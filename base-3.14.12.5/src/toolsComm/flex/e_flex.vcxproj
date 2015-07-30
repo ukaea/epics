@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TrackFileAccess>false</TrackFileAccess>
@@ -154,14 +154,10 @@ move /Y y.tab.h O.Common\parse.h
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">xcopy /Y /Q  /D /R  flex.skel.static $(SolutionDir)include &gt; NUL
 </Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
-      </Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
-      </Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">
-      </Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">
-      </Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">$(SolutionDir)include\flex.skel.static</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">$(SolutionDir)include\flex.skel.static</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">$(SolutionDir)include\flex.skel.static</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">$(SolutionDir)include\flex.skel.static</Outputs>
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">xcopy /Y /Q  /D /R  flex.skel.static $(SolutionDir)include &gt; NUL
 </Command>
@@ -171,6 +167,10 @@ move /Y y.tab.h O.Common\parse.h
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">xcopy /Y /Q  /D /R  flex.skel.static $(SolutionDir)include &gt; NUL
 </Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">$(SolutionDir)include\flex.skel.static</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">$(SolutionDir)include\flex.skel.static</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'">$(SolutionDir)include\flex.skel.static</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">$(SolutionDir)include\flex.skel.static</Outputs>
     </CustomBuild>
   </ItemGroup>
   <PropertyGroup Label="Globals">

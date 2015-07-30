@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TrackFileAccess>false</TrackFileAccess>
@@ -143,8 +143,6 @@ if not exist $(SolutionDir)lib\perl\DBD md $(SolutionDir)lib\perl\DBD
 if not exist $(SolutionDir)lib\perl\EPICS md $(SolutionDir)lib\perl\EPICS
 
 xcopy /Y /Q /D /R *.pl $(OutDir) &gt; NUL
-xcopy /Y /Q /D /R *.pm $(SolutionDir)lib\perl &gt; NUL
-xcopy /Y /Q /D /R DBD\*.pm $(SolutionDir)lib\perl\DBD &gt; NUL
 xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -164,8 +162,6 @@ if not exist $(SolutionDir)lib\perl\DBD md $(SolutionDir)lib\perl\DBD
 if not exist $(SolutionDir)lib\perl\EPICS md $(SolutionDir)lib\perl\EPICS
 
 xcopy /Y /Q /D /R *.pl $(OutDir) &gt; NUL
-xcopy /Y /Q /D /R *.pm $(SolutionDir)lib\perl &gt; NUL
-xcopy /Y /Q /D /R DBD\*.pm $(SolutionDir)lib\perl\DBD &gt; NUL
 xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -185,8 +181,6 @@ if not exist $(SolutionDir)lib\perl\DBD md $(SolutionDir)lib\perl\DBD
 if not exist $(SolutionDir)lib\perl\EPICS md $(SolutionDir)lib\perl\EPICS
 
 xcopy /Y /Q /D /R *.pl $(OutDir) &gt; NUL
-xcopy /Y /Q /D /R *.pm $(SolutionDir)lib\perl &gt; NUL
-xcopy /Y /Q /D /R DBD\*.pm $(SolutionDir)lib\perl\DBD &gt; NUL
 xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -206,7 +200,6 @@ if not exist $(SolutionDir)lib\perl\DBD md $(SolutionDir)lib\perl\DBD
 if not exist $(SolutionDir)lib\perl\EPICS md $(SolutionDir)lib\perl\EPICS
 
 xcopy /Y /Q /D /R *.pl $(OutDir) &gt; NUL
-xcopy /Y /Q /D /R *.pm $(SolutionDir)lib\perl &gt; NUL
 xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -230,8 +223,6 @@ if not exist $(SolutionDir)lib\perl\DBD md $(SolutionDir)lib\perl\DBD
 if not exist $(SolutionDir)lib\perl\EPICS md $(SolutionDir)lib\perl\EPICS
 
 xcopy /Y /Q /D /R *.pl $(OutDir) &gt; NUL
-xcopy /Y /Q /D /R *.pm $(SolutionDir)lib\perl &gt; NUL
-xcopy /Y /Q /D /R DBD\*.pm $(SolutionDir)lib\perl\DBD &gt; NUL
 xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -255,8 +246,6 @@ if not exist $(SolutionDir)lib\perl\DBD md $(SolutionDir)lib\perl\DBD
 if not exist $(SolutionDir)lib\perl\EPICS md $(SolutionDir)lib\perl\EPICS
 
 xcopy /Y /Q /D /R *.pl $(OutDir) &gt; NUL
-xcopy /Y /Q /D /R *.pm $(SolutionDir)lib\perl &gt; NUL
-xcopy /Y /Q /D /R DBD\*.pm $(SolutionDir)lib\perl\DBD &gt; NUL
 xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -280,8 +269,6 @@ if not exist $(SolutionDir)lib\perl\DBD md $(SolutionDir)lib\perl\DBD
 if not exist $(SolutionDir)lib\perl\EPICS md $(SolutionDir)lib\perl\EPICS
 
 xcopy /Y /Q /D /R *.pl $(OutDir) &gt; NUL
-xcopy /Y /Q /D /R *.pm $(SolutionDir)lib\perl &gt; NUL
-xcopy /Y /Q /D /R DBD\*.pm $(SolutionDir)lib\perl\DBD &gt; NUL
 xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -305,8 +292,6 @@ if not exist $(SolutionDir)lib\perl\DBD md $(SolutionDir)lib\perl\DBD
 if not exist $(SolutionDir)lib\perl\EPICS md $(SolutionDir)lib\perl\EPICS
 
 xcopy /Y /Q /D /R *.pl $(OutDir) &gt; NUL
-xcopy /Y /Q /D /R *.pm $(SolutionDir)lib\perl &gt; NUL
-xcopy /Y /Q /D /R DBD\*.pm $(SolutionDir)lib\perl\DBD &gt; NUL
 xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
 </Command>
     </PreBuildEvent>
