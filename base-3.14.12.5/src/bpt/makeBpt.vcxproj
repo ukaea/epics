@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TrackFileAccess>false</TrackFileAccess>
@@ -185,6 +185,25 @@
       <FileType>Document</FileType>
     </None>
     <None Include="Makefile" />
+    <CustomBuild Include="menuConvert.dbd">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">$(OutDir)dbToMenuH.exe  -I. -I.. -IO.Common -I../../dbd %(FileName).dbd O.Common\%(FileName).h</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common\%(FileName).h</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">$(OutDir)dbToMenuH.exe  -I. -I.. -IO.Common -I../../dbd %(FileName).dbd O.Common\%(FileName).h</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">O.Common\%(FileName).h</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">$(OutDir)dbToMenuH.exe  -I. -I.. -IO.Common -I../../dbd %(FileName).dbd O.Common\%(FileName).h</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common\%(FileName).h</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">$(OutDir)dbToMenuH.exe  -I. -I.. -IO.Common -I../../dbd %(FileName).dbd O.Common\%(FileName).h</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">O.Common\%(FileName).h</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">$(OutDir)dbToMenuH.exe  -I. -I.. -IO.Common -I../../dbd %(FileName).dbd O.Common\%(FileName).h</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">O.Common\%(FileName).h</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">$(OutDir)dbToMenuH.exe  -I. -I.. -IO.Common -I../../dbd %(FileName).dbd O.Common\%(FileName).h</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">O.Common\%(FileName).h</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'">$(OutDir)dbToMenuH.exe  -I. -I.. -IO.Common -I../../dbd %(FileName).dbd O.Common\%(FileName).h</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'">O.Common\%(FileName).h</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">$(OutDir)dbToMenuH.exe  -I. -I.. -IO.Common -I../../dbd %(FileName).dbd O.Common\%(FileName).h</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">O.Common\%(FileName).h</Outputs>
+    </CustomBuild>
     <None Include="O.Common\bptTypeJdegC.dbd" />
     <None Include="O.Common\bptTypeJdegF.dbd" />
     <None Include="O.Common\bptTypeKdegC.dbd" />
