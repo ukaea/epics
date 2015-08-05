@@ -48,8 +48,6 @@ record(longout, "$(P)Fault")
 	field(DTYP, "asynInt32")
 	field(OUT,  "@asyn($(PORT),$(ADDR),1)FAULT")
 	field(SCAN, "I/O Intr")
-	field(ZNAM,  "NORMAL")
-	field(ONAM,  "FAULT")
 }
 
 record(stringout, "$(P)FirmwareVersion")

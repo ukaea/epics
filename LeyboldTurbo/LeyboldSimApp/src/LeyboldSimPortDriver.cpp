@@ -174,7 +174,11 @@ void CLeyboldSimPortDriver::addIOPort(const char* IOPortName)
 	for (size_t ParamIndex = 0; ParamIndex < NUM_PARAMS; ParamIndex++)
 	{
 		std::string const& ParamName =  ParameterDefns[ParamIndex].ParamName;
-		if ((ParamName == "RESET") || (ParamName == "FAULTSTR"))
+		if ((ParamName == "RESET") || 
+			(ParamName == "FAULTSTR") || 
+			(ParamName == "WARNINGTEMPERATURESTR") || 
+			(ParamName == "WARNINGHIGHLOADSTR") || 
+			(ParamName == "WARNINGPURGESTR"))
 			// Not implemented, because not meaningful for the simulater.
 			continue;
 
@@ -201,13 +205,18 @@ void CLeyboldSimPortDriver::setDefaultValues(size_t TableIndex)
 {
 	// The running state has just been enabled.
 	setIntegerParam(TableIndex, RUNNING, 1);
+	// Not set here : FAULT
+	// Reset, FaultStr, WarningTemperatureStr, WarningHighLoadStr and WarningPurgeStr are not used.
+
+	setStringParam(TableIndex, FIRMWAREVERSION, "3.03.05");
+	setIntegerParam(TableIndex, WARNINGTEMPERATURE, 0);
+	setIntegerParam(TableIndex, WARNINGHIGHLOAD, 0);
+	setIntegerParam(TableIndex, WARNINGPURGE, 0);
 	setIntegerParam(TableIndex, STATORFREQUENCY, 500);
 	setIntegerParam(TableIndex, CONVERTERTEMPERATURE, 50);
 	setDoubleParam(TableIndex, MOTORCURRENT, 10.0);
 	setIntegerParam(TableIndex, PUMPTEMPERATURE, 40);
 	setDoubleParam(TableIndex, CIRCUITVOLTAGE, 30.0);
-	setIntegerParam(TableIndex, WARNINGTEMPERATURE, 0);
-	setIntegerParam(TableIndex, WARNINGHIGHLOAD, 0);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
