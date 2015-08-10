@@ -26,8 +26,19 @@ def TestSequenceOnePump(Pump):
 
 	time.sleep(10)
 
-	print("There is now a fault on ", Pump)
+	print("Motor temperature too high on ", Pump)
+	epics.caput(ChannelRoot + ':Fault', 2)
+	epics.caput(ChannelRoot + ':Fault.PROC', 1)
+
+	time.sleep(10)
+
+	print("Overload on ", Pump)
 	epics.caput(ChannelRoot + ':Fault', 1)
+	epics.caput(ChannelRoot + ':Fault.PROC', 1)
+	time.sleep(10)
+
+	print("No motor current on ", Pump)
+	epics.caput(ChannelRoot + ':Fault', 17)
 	epics.caput(ChannelRoot + ':Fault.PROC', 1)
 
 os.environ["EPICS_CA_SERVER_PORT"]="5071"

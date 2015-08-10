@@ -24,6 +24,7 @@
 #		Running					true(1), if the pump is operating, false(0), if it is stopped.		#
 #		Reset:					Not implemented, because not meaningful for the simulater.			#
 #		Fault					true(1), if the pump has a fault condition, otherwise false(0)		#
+#		FirmwareVersion			A text string, e.g. 3.03.05											#
 #		WarningTemperature:		The pump has a (silulated) high temperature warning.				#
 #		WarningHighLoad:		The pump has a (simulated) high load warning.						#
 #		WarningPurge:			The pump has a (simulated) purge warning.							#
