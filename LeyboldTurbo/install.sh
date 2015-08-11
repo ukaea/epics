@@ -37,24 +37,8 @@ then
     ./epics_asyn_4-25_install.sh $INSTALL_PATH
 fi
 
-# asyn
-ASYN_DOWNLOAD="asyn4-24.tar.gz"
-ASYN_DIRECTORY="asyn4-24"
-wget --tries=3 --timeout=10  http://www.aps.anl.gov/epics/download/modules/$ASYN_DOWNLOAD
-SUPPORT_PATH=$INSTALL_PATH/support/asyn
-mkdir -p $SUPPORT_PATH
-tar xzvf $ASYN_DOWNLOAD -C $SUPPORT_PATH
-rm $ASYN_DOWNLOAD
-
-#symbolic link
-rm -f $SUPPORT_PATH/current
-ln -s $SUPPORT_PATH/$ASYN_DIRECTORY $SUPPORT_PATH/current
-
-chmod 666 $SUPPORT_PATH/current/configure/RELEASE
-sed -i -e "/^SUPPORT\s*=/ s,=.*,=$INSTALL_PATH/support," $SUPPORT_PATH/current/configure/RELEASE
-sed -i -e "/^EPICS_BASE\s*=/ s,=.*,=$INSTALL_PATH/base," $SUPPORT_PATH/current/configure/RELEASE
-sed -i -e "/^SNCSEQ\s*=/ s,=.*,=$INSTALL_PATH/support/seq/current," $SUPPORT_PATH/current/configure/RELEASE
-sed -i -e "/^IPAC\s*=/ s,=.*,=$INSTALL_PATH/support/ipac/current," $SUPPORT_PATH/current/configure/RELEASE
-
-make -C $SUPPORT_PATH/current install
+if [ ! -d $INSTALL_PATH/extensions/src/pyepics ]; 
+then
+    ./epics_pyepics_3-2-4_install.sh $INSTALL_PATH
+fi
 

@@ -93,7 +93,6 @@ void CLeyboldTurboPortDriver::addIOPort(const char* IOPortName)
 	{
 		// Create parameters from the definitions.
 		// These variables end up being addressed as e.g. TURBO:1:RUNNING.
-		std::string const& ParamName =  ParameterDefns[ParamIndex].ParamName;
 		createParam(m_AsynUsers.size(), ParamIndex);
 		switch(ParameterDefns[ParamIndex].ParamType)
 		{
@@ -235,7 +234,7 @@ asynStatus CLeyboldTurboPortDriver::readOctet(asynUser *pasynUser, char *value, 
 			int Major=PWE / 10000,
 				Minor1 = (PWE % 10000) / 100,
 				Minor2 = PWE %100;
-			_snprintf(CBuf, sizeof(CBuf), "%1d.%02d.%02d", Major, Minor1, Minor2);
+			epicsSnprintf(CBuf, sizeof(CBuf), "%1d.%02d.%02d", Major, Minor1, Minor2);
 			setStringParam (TableIndex, FIRMWAREVERSION, CBuf);
 		}
 	}
@@ -261,8 +260,8 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::writeRead(int TableIndex,
 	USSWritePacket.m_USSPacketStruct.HToN();
 	// NB, *don't* pass pasynUser to this function - it has the wrong type and will cause an access violation.
 	if (pasynOctetSyncIO->writeRead(IOUser,
-		reinterpret_cast<const char*>(USSWritePacket.m_Bytes), USSPacket<NoOfPZD>::USSPacketSize, 
-		reinterpret_cast<char*>(USSReadPacket.m_Bytes), USSPacket<NoOfPZD>::USSPacketSize,
+		reinterpret_cast<const char*>(USSWritePacket.m_Bytes), USSPacketStruct<NoOfPZD>::USSPacketSize, 
+		reinterpret_cast<char*>(USSReadPacket.m_Bytes), USSPacketStruct<NoOfPZD>::USSPacketSize,
 		TimeOut, &nbytesOut, &nbytesIn, &eomReason) != asynSuccess)
 		throw CException(IOUser, __FUNCTION__, "Can't write/read:");
 	USSReadPacket.m_USSPacketStruct.NToH();
@@ -537,7 +536,6 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processWrite(int TableInd
 	bool Running = (getIntegerParam(TableIndex, RUNNING) != 0);
 	USSPacket<NoOfPZD> USSWritePacket(Running), USSReadPacket;
 
-	asynUser* IOUser = m_AsynUsers[TableIndex];
 	int function = pasynUser->reason;
 
 	if (function == Parameters(RUNNING))

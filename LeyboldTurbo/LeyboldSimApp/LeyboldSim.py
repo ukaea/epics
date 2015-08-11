@@ -1,6 +1,6 @@
 import os
 import sys
-os.chdir(os.path.dirname(sys.argv[0]))
+os.chdir(os.path.dirname(os.path.realpath(sys.argv[0])))
 
 NumPumps='1'
 if len(sys.argv) > 1:

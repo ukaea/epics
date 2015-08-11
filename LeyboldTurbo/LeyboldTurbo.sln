@@ -1,4 +1,3 @@
-
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "asyn", "..\support\asyn4-26\asyn\asyn.vcxproj", "{C3EA0FF7-6039-4884-BA91-7B4619BEFEA5}"
@@ -81,7 +80,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "iocLeyboldTurbo", "iocLeybo
 	ProjectSection(SolutionItems) = preProject
 		iocBoot\iocLeyboldTurbo\dllPath.bat = iocBoot\iocLeyboldTurbo\dllPath.bat
 		iocBoot\iocLeyboldTurbo\envPaths = iocBoot\iocLeyboldTurbo\envPaths
-		iocBoot\iocLeyboldTurbo\MakeFile = iocBoot\iocLeyboldTurbo\MakeFile
 		iocBoot\iocLeyboldTurbo\st1.cmd = iocBoot\iocLeyboldTurbo\st1.cmd
 		iocBoot\iocLeyboldTurbo\st1.simulated.cmd = iocBoot\iocLeyboldTurbo\st1.simulated.cmd
 		iocBoot\iocLeyboldTurbo\st5.cmd = iocBoot\iocLeyboldTurbo\st5.cmd
@@ -104,7 +102,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "support", "support", "{0419
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "iocLeyboldSim", "iocLeyboldSim", "{8687A51C-BA97-4FFE-9B0B-55DACE994618}"
 	ProjectSection(SolutionItems) = preProject
-		iocBoot\iocLeyboldSim\MakeFile = iocBoot\iocLeyboldSim\MakeFile
 		iocBoot\iocLeyboldSim\st1.simulator.cmd = iocBoot\iocLeyboldSim\st1.simulator.cmd
 		iocBoot\iocLeyboldSim\st5.simulator.cmd = iocBoot\iocLeyboldSim\st5.simulator.cmd
 	EndProjectSection

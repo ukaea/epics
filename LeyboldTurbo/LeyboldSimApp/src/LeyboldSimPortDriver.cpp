@@ -235,7 +235,7 @@ template<size_t NoOfPZD> bool CLeyboldSimPortDriver::read(asynUser *pasynUser, U
 	// NB, This pasynUser is OK because it emitted by pasynOctetSyncIO->connect().
 	size_t nbytesIn;
 	int eomReason;
-	asynStatus status = pasynOctetSyncIO->read(pasynUser, reinterpret_cast<char*>(USSReadPacket.m_Bytes), USSReadPacket.USSPacketSize, -1, &nbytesIn, &eomReason);
+	asynStatus status = pasynOctetSyncIO->read(pasynUser, reinterpret_cast<char*>(USSReadPacket.m_Bytes), USSPacketStruct<NoOfPZD>::USSPacketSize, -1, &nbytesIn, &eomReason);
 	if (status == asynTimeout)
 		return true;
 	if (status == asynDisconnected)
@@ -394,7 +394,7 @@ template<size_t NoOfPZD> bool CLeyboldSimPortDriver::process(asynUser *pasynUser
 	// NB, *don't* pass pasynUser to this function - it has the wrong type and will cause an access violation.
 	size_t nbytesOut;
 	asynStatus status = pasynOctetSyncIO->write(pasynUser,
-		reinterpret_cast<char*>(&USSWritePacket.m_Bytes), USSWritePacket.USSPacketSize,
+		reinterpret_cast<char*>(&USSWritePacket.m_Bytes), USSPacketStruct<NoOfPZD>::USSPacketSize,
 		-1, &nbytesOut);
 	if (status == asynDisconnected)
 		return false;
