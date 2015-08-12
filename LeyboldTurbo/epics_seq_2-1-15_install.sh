@@ -25,8 +25,13 @@ set -e
 DEFAULT_INSTALL_PATH="/usr/local/epics"
 if [ -z "$*" ]; then INSTALL_PATH=$DEFAULT_INSTALL_PATH; else INSTALL_PATH=$1;fi
 
-# dependencies
-apt-get -y install re2c
+if [! -a /etc/redhat-release ];
+then
+	# dependencies
+	apt-get -y install re2c
+# else
+#	yum install re2c-0.13.5-alt1.qa1.x86_64.rpm
+fi
 
 # seq
 SEQ_DOWNLOAD="seq-2.1.15.tar.gz"

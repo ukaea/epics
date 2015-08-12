@@ -24,7 +24,10 @@ if [ -z "$*" ]; then INSTALL_PATH=$DEFAULT_INSTALL_PATH; else INSTALL_PATH=$1;fi
 set -e
 
 # dependencies
-sudo apt-get -y install python python-numpy python-setuptools
+if [! -a /etc/redhat-release ];
+then
+	sudo apt-get -y install python python-numpy python-setuptools
+fi
 
 export PYEPICS_LIBCA=${EPICS_ROOT}/base/lib/${EPICS_HOST_ARCH}/libca.so
 

@@ -32,11 +32,14 @@ esac
 DEFAULT_INSTALL_PATH="/usr/local/epics"
 if [ -z "$*" ]; then INSTALL_PATH=$DEFAULT_INSTALL_PATH; else INSTALL_PATH=$1;fi
 
-# see http://stackoverflow.com/questions/6486449/the-problem-of-using-sudo-apt-get-install-build-essentials
-apt-get update
+if [! -a /etc/redhat-release ];
+then
+    # see http://stackoverflow.com/questions/6486449/the-problem-of-using-sudo-apt-get-install-build-essentials
+    apt-get update
 
-# install dependencies
-apt-get -y install build-essential g++ libreadline-dev
+    # install dependencies
+    apt-get -y install build-essential g++ libreadline-dev
+fi
 
 # base
 BASE_DOWNLOAD="base-3.15.1.tar.gz"
