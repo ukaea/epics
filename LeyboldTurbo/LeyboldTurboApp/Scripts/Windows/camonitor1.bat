@@ -1,20 +1,20 @@
-call %~dp0..\..\..\iocBoot\iocLeyboldTurbo\dllPath.bat
+call %~dp0..\..\..\iocBoot\iocLeyboldLEYBOLDTURBO\dllPath.bat
 
 camonitor.exe ^
-	TURBO:1:Running ^
-	TURBO:1:FirmwareVersion ^
-	TURBO:1:Reset ^
-	TURBO:1:Fault ^
-	TURBO:1:FaultStr ^
-	TURBO:1:WarningTemperature ^
-	TURBO:1:WarningTemperatureStr ^
-	TURBO:1:WarningHighLoad ^
-	TURBO:1:WarningHighLoadStr ^
-	TURBO:1:WarningPurge ^
-	TURBO:1:WarningPurgeStr ^
-	TURBO:1:StatorFrequency ^
-	TURBO:1:ConverterTemperature ^
-	TURBO:1:MotorCurrent ^
-	TURBO:1:PumpTemperature ^
-	TURBO:1:CircuitVoltage ^
+	LEYBOLDTURBO:1:Running ^
+	LEYBOLDTURBO:1:FirmwareVersion ^
+	LEYBOLDTURBO:1:Reset ^
+	LEYBOLDTURBO:1:Fault ^
+	LEYBOLDTURBO:1:FaultStr ^
+	LEYBOLDTURBO:1:WarningTemperature ^
+	LEYBOLDTURBO:1:WarningTemperatureStr ^
+	LEYBOLDTURBO:1:WarningHighLoad ^
+	LEYBOLDTURBO:1:WarningHighLoadStr ^
+	LEYBOLDTURBO:1:WarningPurge ^
+	LEYBOLDTURBO:1:WarningPurgeStr ^
+	LEYBOLDTURBO:1:StatorFrequency ^
+	LEYBOLDTURBO:1:ConverterTemperature ^
+	LEYBOLDTURBO:1:MotorCurrent ^
+	LEYBOLDTURBO:1:PumpTemperature ^
+	LEYBOLDTURBO:1:CircuitVoltage ^
 	2>camonitor1.err

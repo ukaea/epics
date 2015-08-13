@@ -244,11 +244,11 @@ template<size_t NoOfPZD> bool CLeyboldSimPortDriver::read(asynUser *pasynUser, U
 		return false;
 	if (status != asynSuccess)
 		throw CException(pasynUser, __FUNCTION__, "Can't read:");
-//	STATIC_ASSERT ( sizeof(USSPacketStruct<NoOfPZD>) == USSPacketStruct<NoOfPZD>::USSPacketSize );
-//	STATIC_ASSERT ( sizeof(USSPacket<NoOfPZD>) == USSPacketStruct<NoOfPZD>::USSPacketSize );
-	if ((sizeof(USSPacket<NoOfPZD>) != USSPacketStruct<NoOfPZD>::USSPacketSize) ||
-		(sizeof(USSPacketStruct<NoOfPZD>) != USSPacketStruct<NoOfPZD>::USSPacketSize))
-		asynPrint(pasynUser, ASYN_TRACE_ERROR, "Packet size descrepant %ul %ul %ul\n", sizeof(USSPacket<NoOfPZD>), sizeof(USSPacketStruct<NoOfPZD>), USSPacketStruct<NoOfPZD>::USSPacketSize);
+	STATIC_ASSERT ( sizeof(USSPacketStruct<NoOfPZD>) == USSPacketStruct<NoOfPZD>::USSPacketSize );
+	STATIC_ASSERT ( sizeof(USSPacket<NoOfPZD>) == USSPacketStruct<NoOfPZD>::USSPacketSize );
+//	if ((sizeof(USSPacket<NoOfPZD>) != USSPacketStruct<NoOfPZD>::USSPacketSize) ||
+//		(sizeof(USSPacketStruct<NoOfPZD>) != USSPacketStruct<NoOfPZD>::USSPacketSize))
+//		asynPrint(pasynUser, ASYN_TRACE_ERROR, "Packet size descrepant %ul %ul %ul\n", sizeof(USSPacket<NoOfPZD>), sizeof(USSPacketStruct<NoOfPZD>), USSPacketStruct<NoOfPZD>::USSPacketSize);
 	if (nBytesIn != USSPacketStruct<NoOfPZD>::USSPacketSize)
 		asynPrint(pasynUser, ASYN_TRACE_ERROR, "Unexpected packet size recieved %s %s\n", __FILE__, __FUNCTION__);
 

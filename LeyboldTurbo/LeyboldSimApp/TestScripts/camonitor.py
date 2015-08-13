@@ -11,16 +11,16 @@ os.environ["EPICS_CA_AUTO_ADDR_LIST"]="NO"
 os.environ["EPICS_CA_ADDR_LIST"]="localhost"
 
 for Pump in range(1, int(NumPumps)+1):
-	epics.camonitor('TURBOSIM:' + str(Pump) + ':Running')
-	epics.camonitor('TURBOSIM:' + str(Pump) + ':FirmwareVersion')
-	epics.camonitor('TURBOSIM:' + str(Pump) + ':Fault')
-	epics.camonitor('TURBOSIM:' + str(Pump) + ':WarningTemperature')
-	epics.camonitor('TURBOSIM:' + str(Pump) + ':WarningHighLoad')
-	epics.camonitor('TURBOSIM:' + str(Pump) + ':Fault')
-	epics.camonitor('TURBOSIM:' + str(Pump) + ':StatorFrequency')
-	epics.camonitor('TURBOSIM:' + str(Pump) + ':ConverterTemperature')
-	epics.camonitor('TURBOSIM:' + str(Pump) + ':MotorCurrent')
-	epics.camonitor('TURBOSIM:' + str(Pump) + ':PumpTemperature')
-	epics.camonitor('TURBOSIM:' + str(Pump) + ':CircuitVoltage')
+	epics.camonitor('LEYBOLDTURBOSIM:' + str(Pump) + ':Running')
+	epics.camonitor('LEYBOLDTURBOSIM:' + str(Pump) + ':FirmwareVersion')
+	epics.camonitor('LEYBOLDTURBOSIM:' + str(Pump) + ':Fault')
+	epics.camonitor('LEYBOLDTURBOSIM:' + str(Pump) + ':WarningTemperature')
+	epics.camonitor('LEYBOLDTURBOSIM:' + str(Pump) + ':WarningHighLoad')
+	epics.camonitor('LEYBOLDTURBOSIM:' + str(Pump) + ':Fault')
+	epics.camonitor('LEYBOLDTURBOSIM:' + str(Pump) + ':StatorFrequency')
+	epics.camonitor('LEYBOLDTURBOSIM:' + str(Pump) + ':ConverterTemperature')
+	epics.camonitor('LEYBOLDTURBOSIM:' + str(Pump) + ':MotorCurrent')
+	epics.camonitor('LEYBOLDTURBOSIM:' + str(Pump) + ':PumpTemperature')
+	epics.camonitor('LEYBOLDTURBOSIM:' + str(Pump) + ':CircuitVoltage')
 
 sys.stdin.read(1)

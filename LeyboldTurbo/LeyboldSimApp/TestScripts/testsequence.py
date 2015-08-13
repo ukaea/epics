@@ -5,7 +5,7 @@ import time
 
 def TestSequenceOnePump(Pump):
 	print("Setting some values indicating high pump stress on ", Pump)
-	ChannelRoot = 'TURBOSIM:' + str(Pump)
+	ChannelRoot = 'LEYBOLDTURBOSIM:' + str(Pump)
 	epics.caput(ChannelRoot + ':StatorFrequency', 200)
 	epics.caput(ChannelRoot + ':StatorFrequency.PROC', 1)
 	epics.caput(ChannelRoot + ':ConverterTemperature', 70)

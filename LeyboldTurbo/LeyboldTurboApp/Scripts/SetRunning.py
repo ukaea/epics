@@ -9,5 +9,5 @@ Run='1'
 if len(sys.argv) > 2:
 	Run=sys.argv[2]
 
-epics.caput('TURBO:' + str(Pump) + ':Running', Run)
-epics.caput('TURBO:' + str(Pump) + ':Running.PROC', 1)
+epics.caput('LEYBOLDTURBO:' + str(Pump) + ':Running', Run)
+epics.caput('LEYBOLDTURBO:' + str(Pump) + ':Running.PROC', 1)

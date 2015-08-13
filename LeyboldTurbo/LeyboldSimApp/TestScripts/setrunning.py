@@ -19,5 +19,5 @@ if len(sys.argv) > 2:
 for Pump in range(1, int(NumPumps)+1):
 	time.sleep(10)
 	print("Setting pump ", Pump)
-	epics.caput("TURBOSIM:" + str(Pump) + ":Running", Run)
-	epics.caput("TURBOSIM:" + str(Pump) + ":Running.PROC", 1)
+	epics.caput("LEYBOLDTURBOSIM:" + str(Pump) + ":Running", Run)
+	epics.caput("LEYBOLDTURBOSIM:" + str(Pump) + ":Running.PROC", 1)
