@@ -1,7 +1,4 @@
-#!../../bin/win32-x86/LeyboldTurbo
-
-## You may have to change LeyboldTurbo to something else
-## everywhere it appears in this file
+#!../../bin/linux-x86_64/LeyboldTurbo
 
 ## Register all support components
 dbLoadDatabase ("../dbd/LeyboldTurbo.dbd")

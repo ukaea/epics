@@ -32,7 +32,7 @@ esac
 DEFAULT_INSTALL_PATH="/usr/local/epics"
 if [ -z "$*" ]; then INSTALL_PATH=$DEFAULT_INSTALL_PATH; else INSTALL_PATH=$1;fi
 
-if [! -a /etc/redhat-release ];
+if [ ! -f /etc/redhat-release ];
 then
     # see http://stackoverflow.com/questions/6486449/the-problem-of-using-sudo-apt-get-install-build-essentials
     apt-get update
@@ -55,7 +55,6 @@ ln -s $INSTALL_PATH/$BASE_DIRECTORY $INSTALL_PATH/base
 touch $INSTALL_PATH/siteEnv
 echo \# main EPICS env var >> $INSTALL_PATH/siteEnv
 echo export EPICS_HOST_ARCH=$EPICS_ARCH >> $INSTALL_PATH/siteEnv
-echo export INSTALL_PATH=$INSTALL_PATH >> $INSTALL_PATH/siteEnv
 echo export EPICS_BASE=$INSTALL_PATH/base >> $INSTALL_PATH/siteEnv
 echo export PATH=\${PATH}:\${INSTALL_PATH}/base/bin/\${EPICS_HOST_ARCH}:\${EPICS_HOST_ARCH} >> $INSTALL_PATH/siteEnv
 echo "" >> $INSTALL_PATH/siteEnv
@@ -63,8 +62,7 @@ echo \# channel access >> $INSTALL_PATH/siteEnv
 echo export EPICS_CA_MAX_ARRAY_BYTES=100000000 >> $INSTALL_PATH/siteEnv
 echo export EPICS_CA_AUTO_ADDR_LIST=YES >> $INSTALL_PATH/siteEnv
 echo export EPICS_CA_ADDR_LIST= >> $INSTALL_PATH/siteEnv
+chmod a+x $INSTALL_PATH/siteEnv
 
 # This sets the environment variables following a reboot.
-echo "" >> ~/.bashrc
-echo \#EPICS >> ~/.bashrc
-echo . $INSTALL_PATH/siteEnv >> ~/.bashrc
+su -c bashrc.sh --login $USERNAME

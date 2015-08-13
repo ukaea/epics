@@ -24,7 +24,7 @@ if [ -z "$*" ]; then INSTALL_PATH=$DEFAULT_INSTALL_PATH; else INSTALL_PATH=$1;fi
 set -e
 
 # dependencies
-if [! -a /etc/redhat-release ];
+if [ ! -f /etc/redhat-release ];
 then
 	sudo apt-get -y install python python-numpy python-setuptools
 fi

@@ -16,8 +16,6 @@ if [ "$(id -u)" != "0" ]; then
 	exit 1
 fi
 
-echo $BASH_SOURCE   
-
 # terminate script after first line that fails
 set -e
 
@@ -25,12 +23,17 @@ set -e
 DEFAULT_INSTALL_PATH="/usr/local/epics"
 if [ -z "$*" ]; then INSTALL_PATH=$DEFAULT_INSTALL_PATH; else INSTALL_PATH=$1;fi
 
-if [! -a /etc/redhat-release ];
+if [ ! -d $INSTALL_PATH/base ]; 
+then
+    ./epics_base_3-15-1_install.sh $INSTALL_PATH
+fi
+
+if [ ! -f /etc/redhat-release ];
 then
 	# dependencies
 	apt-get -y install re2c
-# else
-#	yum install re2c-0.13.5-alt1.qa1.x86_64.rpm
+else
+	yum -y install http://ftp.scientificlinux.org/linux/extra/dag/packages/re2c/re2c-0.13.2-1.el5.rf.x86_64.rpm
 fi
 
 # seq
