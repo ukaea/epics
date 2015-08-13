@@ -1,8 +1,9 @@
 #!/bin/bash 
 
-#copyright (c) Tessella 2014
+#	Author:  Peter Heesterman (Tessella plc). Date: 13 Aug 2015.
+#	Written for CCFE (Culham Centre for Fusion Energy).
 
-# this script installs EPICS base 3.14.12.3, set necessary environment variables
+# this script installs EPICS base, set necessary environment variables
 # as well as the extension directory file structure (so it's ready to install extensions)
 
 # check if user has right permissions

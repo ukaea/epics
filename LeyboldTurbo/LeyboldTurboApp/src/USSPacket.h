@@ -29,7 +29,11 @@
 #include <osiSock.h>
 
 #pragma pack(push, 1)
-template<size_t NoOfPZD> struct USSPacketStruct
+template<size_t NoOfPZD> struct
+#ifdef __GNUC__
+__attribute__((packed))
+#endif
+	USSPacketStruct
 {
 	static const size_t USSPacketSize = NoOfPZD * sizeof(epicsUInt16) + 12;
 
@@ -73,7 +77,11 @@ template<size_t NoOfPZD> struct USSPacketStruct
 	}
 };
 
-template<size_t NoOfPZD> union USSPacket
+template<size_t NoOfPZD> union
+#ifdef __GNUC__
+__attribute__((packed))
+#endif
+	USSPacket
 {
 	USSPacket(bool Running = true, int Parameter = 0) {
 		m_USSPacketStruct.SetDefault(Running, Parameter);

@@ -1,14 +1,14 @@
 #!/bin/bash 
 
+#	Author:  Peter Heesterman (Tessella plc). Date: 13 Aug 2015.
+#	Written for CCFE (Culham Centre for Fusion Energy).
+
 # this script install pyepics
 # It assumes EPICS base is already installed and that
 # + the environment variable EPICS_ROOT is set and points to the installation directory.
 # + the environment variable EPICS_HOST_ARCH is set 
 # and points to the correct architecture (e.g. 32 or 64 bit)
 #
-# Usage:
-# sudo -s
-# source ./epics_pyepics_3-2-1_install.sh
 
 # check if user has right permissions
 if [ "$(id -u)" != "0" ]; then

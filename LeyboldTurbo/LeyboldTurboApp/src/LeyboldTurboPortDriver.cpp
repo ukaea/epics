@@ -31,6 +31,7 @@
 #define epicsExportSharedSymbols
 #include <epicsExport.h>
 
+#include <stdlib.h>
 #include <stdexcept>
 
 static CLeyboldTurboPortDriver* g_LeyboldTurboPortDriver;
@@ -87,7 +88,7 @@ CLeyboldTurboPortDriver::~CLeyboldTurboPortDriver()
 //////////////////////////////////////////////////////////////////////////////////////////////////
 void CLeyboldTurboPortDriver::addIOPort(const char* IOPortName)
 {
-	for (size_t ParamIndex = 0; ParamIndex < NUM_PARAMS; ParamIndex++)
+	for (size_t ParamIndex = 0; ParamIndex < size_t(NUM_PARAMS); ParamIndex++)
 	{
 		// Create parameters from the definitions.
 		// These variables end up being addressed as e.g. TURBO:1:RUNNING.
@@ -247,7 +248,7 @@ asynStatus CLeyboldTurboPortDriver::readOctet(asynUser *pasynUser, char *value, 
 template<size_t NoOfPZD> void CLeyboldTurboPortDriver::writeRead(int TableIndex, asynUser *pasynUser, USSPacket<NoOfPZD> USSWritePacket, USSPacket<NoOfPZD>& USSReadPacket)
 {
 	int eomReason;
-	size_t nbytesOut, nbytesIn;
+	size_t nBytesOut, nBytesIn;
 	asynUser* IOUser = m_AsynUsers[TableIndex];
 #ifdef _DEBUG
 	// Infinite timeout, convenient for debugging.
@@ -260,8 +261,20 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::writeRead(int TableIndex,
 	if (pasynOctetSyncIO->writeRead(IOUser,
 		reinterpret_cast<const char*>(USSWritePacket.m_Bytes), USSPacketStruct<NoOfPZD>::USSPacketSize, 
 		reinterpret_cast<char*>(USSReadPacket.m_Bytes), USSPacketStruct<NoOfPZD>::USSPacketSize,
-		TimeOut, &nbytesOut, &nbytesIn, &eomReason) != asynSuccess)
+		TimeOut, &nBytesOut, &nBytesIn, &eomReason) != asynSuccess)
 		throw CException(IOUser, __FUNCTION__, "Can't write/read:");
+
+//	STATIC_ASSERT ( sizeof(USSPacketStruct<NoOfPZD>) == USSPacketStruct<NoOfPZD>::USSPacketSize );
+//	STATIC_ASSERT ( sizeof(USSPacket<NoOfPZD>) == USSPacketStruct<NoOfPZD>::USSPacketSize );
+	if ((sizeof(USSPacket<NoOfPZD>) != USSPacketStruct<NoOfPZD>::USSPacketSize) ||
+		(sizeof(USSPacketStruct<NoOfPZD>) != USSPacketStruct<NoOfPZD>::USSPacketSize))
+		asynPrint(pasynUser, ASYN_TRACE_ERROR, "Packet size descrepant %ul %ul %ul\n", sizeof(USSPacket<NoOfPZD>), sizeof(USSPacketStruct<NoOfPZD>), USSPacketStruct<NoOfPZD>::USSPacketSize);
+
+	if (nBytesOut != USSPacketStruct<NoOfPZD>::USSPacketSize)
+		throw CException(pasynUser, __FUNCTION__, "Incorrect packet size transmitted");
+	if (nBytesIn != USSPacketStruct<NoOfPZD>::USSPacketSize)
+		throw CException(pasynUser, __FUNCTION__, "Unexpected packet size recieved");
+
 	USSReadPacket.m_USSPacketStruct.NToH();
 
 	if (!USSReadPacket.ValidateChecksum())

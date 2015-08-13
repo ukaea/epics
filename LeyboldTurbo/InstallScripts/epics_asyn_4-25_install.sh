@@ -1,12 +1,11 @@
 #!/bin/bash 
 
-# Copyright (c) Tessella 2014
+#	Author:  Peter Heesterman (Tessella plc). Date: 13 Aug 2015.
+#	Written for CCFE (Culham Centre for Fusion Energy).
 
-# This script install asyn 4.25
 #
 # Usage:
-# sudo -s
-# source ./epics_asyn_4-23_install.sh
+# sudo ./epics_asyn_4-23_install.sh
 
 # check if user has right permissions
 if [ "$(id -u)" != "0" ]; then

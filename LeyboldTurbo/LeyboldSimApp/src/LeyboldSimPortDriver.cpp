@@ -34,6 +34,8 @@
 #define epicsExportSharedSymbols
 #include <epicsExport.h>
 
+#include <stdlib.h>
+
 static CLeyboldSimPortDriver* g_LeyboldSimPortDriver;
 
 #ifndef ASYN_TRACE_WARNING
@@ -171,7 +173,7 @@ void CLeyboldSimPortDriver::octetConnectionCallback(void *drvPvt, asynUser *pasy
 void CLeyboldSimPortDriver::addIOPort(const char* IOPortName)
 {
 	epicsGuard < epicsMutex > guard ( m_Mutex );
-	for (size_t ParamIndex = 0; ParamIndex < NUM_PARAMS; ParamIndex++)
+	for (size_t ParamIndex = 0; ParamIndex < size_t(NUM_PARAMS); ParamIndex++)
 	{
 		std::string const& ParamName =  ParameterDefns[ParamIndex].ParamName;
 		if ((ParamName == "RESET") || 
@@ -233,20 +235,27 @@ void CLeyboldSimPortDriver::setDefaultValues(size_t TableIndex)
 template<size_t NoOfPZD> bool CLeyboldSimPortDriver::read(asynUser *pasynUser, USSPacket<NoOfPZD>& USSReadPacket)
 {
 	// NB, This pasynUser is OK because it emitted by pasynOctetSyncIO->connect().
-	size_t nbytesIn;
+	size_t nBytesIn;
 	int eomReason;
-	asynStatus status = pasynOctetSyncIO->read(pasynUser, reinterpret_cast<char*>(USSReadPacket.m_Bytes), USSPacketStruct<NoOfPZD>::USSPacketSize, -1, &nbytesIn, &eomReason);
+	asynStatus status = pasynOctetSyncIO->read(pasynUser, reinterpret_cast<char*>(USSReadPacket.m_Bytes), USSPacketStruct<NoOfPZD>::USSPacketSize, -1, &nBytesIn, &eomReason);
 	if (status == asynTimeout)
 		return true;
 	if (status == asynDisconnected)
 		return false;
 	if (status != asynSuccess)
 		throw CException(pasynUser, __FUNCTION__, "Can't read:");
+//	STATIC_ASSERT ( sizeof(USSPacketStruct<NoOfPZD>) == USSPacketStruct<NoOfPZD>::USSPacketSize );
+//	STATIC_ASSERT ( sizeof(USSPacket<NoOfPZD>) == USSPacketStruct<NoOfPZD>::USSPacketSize );
+	if ((sizeof(USSPacket<NoOfPZD>) != USSPacketStruct<NoOfPZD>::USSPacketSize) ||
+		(sizeof(USSPacketStruct<NoOfPZD>) != USSPacketStruct<NoOfPZD>::USSPacketSize))
+		asynPrint(pasynUser, ASYN_TRACE_ERROR, "Packet size descrepant %ul %ul %ul\n", sizeof(USSPacket<NoOfPZD>), sizeof(USSPacketStruct<NoOfPZD>), USSPacketStruct<NoOfPZD>::USSPacketSize);
+	if (nBytesIn != USSPacketStruct<NoOfPZD>::USSPacketSize)
+		asynPrint(pasynUser, ASYN_TRACE_ERROR, "Unexpected packet size recieved %s %s\n", __FILE__, __FUNCTION__);
 
 	USSReadPacket.m_USSPacketStruct.NToH();
 	if (!USSReadPacket.ValidateChecksum())
 	{
-		asynPrint(pasynUser, ASYN_TRACE_WARNING, "Packet validation failed %s %s\n", __FILE__, __FUNCTION__);
+		asynPrint(pasynUser, ASYN_TRACE_ERROR, "Packet validation failed %s %s\n", __FILE__, __FUNCTION__);
 		return true;
 	}
 	return true;

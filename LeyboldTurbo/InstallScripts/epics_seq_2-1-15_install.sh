@@ -1,6 +1,7 @@
 #!/bin/bash 
 
-# copyright (c) Tessella 2014
+#	Author:  Peter Heesterman (Tessella plc). Date: 13 Aug 2015.
+#	Written for CCFE (Culham Centre for Fusion Energy).
 
 # this script install seq. 
 # It assumes EPICS base is already installed and that
