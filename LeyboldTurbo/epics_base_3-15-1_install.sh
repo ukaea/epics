@@ -65,4 +65,9 @@ echo export EPICS_CA_ADDR_LIST= >> $INSTALL_PATH/siteEnv
 chmod a+x $INSTALL_PATH/siteEnv
 
 # This sets the environment variables following a reboot.
-su -c bashrc.sh --login $USERNAME
+if [ ! -f /etc/redhat-release ];
+then
+	./bashrc.sh $INSTALL_PATH
+else
+	su -c './bashrc.sh $INSTALL_PATH' $USERNAME
+fi

@@ -25,6 +25,7 @@
 #include <epicsExit.h>
 #include <epicsAssert.h>
 #include <epicsThread.h>
+#include <epicsGuard.h>
 #include <asynOctetSyncIO.h>
 #include <asynStandardInterfaces.h>
 
@@ -32,8 +33,6 @@
 
 #define epicsExportSharedSymbols
 #include <epicsExport.h>
-
-#include <stdlib.h>
 
 static CLeyboldSimPortDriver* g_LeyboldSimPortDriver;
 
@@ -149,7 +148,7 @@ void CLeyboldSimPortDriver::octetConnectionCallback(void *drvPvt, asynUser *pasy
               "octetConnectionCallback, portName=%s\n", portName);
     // Create a new thread to communicate with this port
     epicsThreadCreate(portName,
-                      epicsThreadPriorityLow,
+                      epicsThreadPriorityMedium,
                       epicsThreadGetStackSize(epicsThreadStackSmall),
                       ListenerThread, drvPvt);
 	// This user isn't needed any more 
@@ -171,6 +170,7 @@ void CLeyboldSimPortDriver::octetConnectionCallback(void *drvPvt, asynUser *pasy
 //////////////////////////////////////////////////////////////////////////////////////////////////
 void CLeyboldSimPortDriver::addIOPort(const char* IOPortName)
 {
+	epicsGuard < epicsMutex > guard ( m_Mutex );
 	for (size_t ParamIndex = 0; ParamIndex < NUM_PARAMS; ParamIndex++)
 	{
 		std::string const& ParamName =  ParameterDefns[ParamIndex].ParamName;
@@ -302,19 +302,23 @@ template<size_t NoOfPZD> bool CLeyboldSimPortDriver::process(asynUser *pasynUser
 		}
 	}
 
-	if (Running && !m_WasRunning[TableIndex])
 	{
-		// The running state has just been enabled.
-		setDefaultValues(TableIndex);
-	}
-	if (!Running && m_WasRunning[TableIndex])
-	{
-		// The running state has just been disabled.
-		setIntegerParam(TableIndex, RUNNING, Running ? 1 : 0);
-		setIntegerParam(TableIndex, STATORFREQUENCY, 0);
-	}
+		epicsGuard < epicsMutex > guard ( m_Mutex );
 
-	m_WasRunning[TableIndex] = Running;
+		if (Running && !m_WasRunning[TableIndex])
+		{
+			// The running state has just been enabled.
+			setDefaultValues(TableIndex);
+		}
+		if (!Running && m_WasRunning[TableIndex])
+		{
+			// The running state has just been disabled.
+			setIntegerParam(TableIndex, RUNNING, Running ? 1 : 0);
+			setIntegerParam(TableIndex, STATORFREQUENCY, 0);
+		}
+
+		m_WasRunning[TableIndex] = Running;
+	}
 
 	USSWritePacket.m_USSPacketStruct.m_PZD[0] = 0;
 

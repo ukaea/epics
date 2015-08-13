@@ -26,6 +26,8 @@
 
 #include <LeyboldBase.h>
 
+#include <epicsMutex.h>
+
 #include <map>
 #include <vector>
 #include <string>
@@ -46,6 +48,7 @@ protected:
 
 private:
 	void setDefaultValues(size_t TableIndex);
+    epicsMutex m_Mutex;
 
 	int m_NumConnected;				// how many sockets have actually connected?
 	volatile bool m_Exiting;		// Signals the listening thread to exit.

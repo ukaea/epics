@@ -23,7 +23,6 @@
 #include <iocsh.h>
 #include <epicsExit.h>
 #include <epicsAssert.h>
-#include <epicsThread.h>
 #include <asynOctetSyncIO.h>
 
 #include "USSPacket.h"
@@ -32,7 +31,6 @@
 #define epicsExportSharedSymbols
 #include <epicsExport.h>
 
-#include <stdlib.h>
 #include <stdexcept>
 
 static CLeyboldTurboPortDriver* g_LeyboldTurboPortDriver;
