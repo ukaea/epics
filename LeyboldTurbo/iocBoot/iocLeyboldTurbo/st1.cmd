@@ -4,7 +4,7 @@
 dbLoadDatabase ("../dbd/LeyboldTurbo.dbd")
 LeyboldTurbo_registerRecordDeviceDriver pdbbase
 
-epicsEnvSet ASYNPORT TURBO
+epicsEnvSet ASYNPORT LEYBOLDTURBO
 epicsEnvSet IOPORT PUMP
 
 # Configure asyn communication port, first

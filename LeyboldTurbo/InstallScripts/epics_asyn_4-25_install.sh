@@ -18,8 +18,13 @@ fi
 set -e
 
 # get installation directory from command line argument
-DEFAULT_INSTALL_PATH="/usr/local/epics"
-if [ -z "$*" ]; then INSTALL_PATH=$DEFAULT_INSTALL_PATH; else INSTALL_PATH=$1;fi
+INSTALL_PATH="/usr/local/epics"; 
+if [ $# -ge 1 ]; then INSTALL_PATH=$1; fi
+echo "Asyn install path "$INSTALL_PATH
+
+ASYN_VER="4-25";
+if [ $# -ge 2 ]; then ASYN_VER=$2; fi
+echo "Asyn version "$ASYN_VER
 
 # dependencies
 # base
@@ -35,8 +40,8 @@ then
 fi
 
 # asyn
-ASYN_DOWNLOAD="asyn4-25.tar.gz"
-ASYN_DIRECTORY="asyn4-25"
+ASYN_DOWNLOAD="asyn"$ASYN_VER".tar.gz"
+ASYN_DIRECTORY="asyn"$ASYN_VER
 wget --tries=3 --timeout=10  http://www.aps.anl.gov/epics/download/modules/$ASYN_DOWNLOAD
 SUPPORT_PATH=$INSTALL_PATH/support/asyn
 mkdir -p $SUPPORT_PATH

@@ -21,8 +21,13 @@ fi
 set -e
 
 # get installation directory from command line argument
-DEFAULT_INSTALL_PATH="/usr/local/epics"
-if [ -z "$*" ]; then INSTALL_PATH=$DEFAULT_INSTALL_PATH; else INSTALL_PATH=$1;fi
+INSTALL_PATH="/usr/local/epics"; 
+if [ $# -ge 1 ]; then INSTALL_PATH=$1; fi
+echo "Seq install path "$INSTALL_PATH
+
+SEQ_VER="2.1.15"
+if [ $# -ge 2 ]; then SEQ_VER=$2; fi
+echo "Seq version "$SEQ_VER
 
 if [ ! -d $INSTALL_PATH/base ]; 
 then
@@ -38,8 +43,8 @@ else
 fi
 
 # seq
-SEQ_DOWNLOAD="seq-2.1.15.tar.gz"
-SEQ_DIRECTORY="seq-2.1.15"
+SEQ_DOWNLOAD="seq-"$SEQ_VER".tar.gz"
+SEQ_DIRECTORY="seq-"$SEQ_VER
 wget --tries=3 --timeout=10  http://www-csr.bessy.de/control/SoftDist/sequencer/releases/$SEQ_DOWNLOAD
 SUPPORT_PATH=$INSTALL_PATH/support/seq
 mkdir -p $SUPPORT_PATH

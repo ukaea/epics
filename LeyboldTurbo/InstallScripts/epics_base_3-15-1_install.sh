@@ -30,8 +30,13 @@ case `uname -m` in
 esac
 
 # get installation directory from command line argument
-DEFAULT_INSTALL_PATH="/usr/local/epics"
-if [ -z "$*" ]; then INSTALL_PATH=$DEFAULT_INSTALL_PATH; else INSTALL_PATH=$1;fi
+INSTALL_PATH="/usr/local/epics"; 
+if [ $# -ge 1 ]; then INSTALL_PATH=$1; fi
+echo "Base install path "$INSTALL_PATH
+
+BASE_VERSION="3.15.1";
+if [ $# -ge 2 ]; then BASE_VERSION=$2; fi
+echo "Base version "$BASE_VERSION
 
 if [ ! -f /etc/redhat-release ];
 then
@@ -43,8 +48,13 @@ then
 fi
 
 # base
-BASE_DOWNLOAD="base-3.15.1.tar.gz"
-BASE_DIRECTORY="base-3.15.1"
+if [[ $BASE_VERSION =~ "3.15" ]]; then 
+	BASE_DOWNLOAD="base-"$BASE_VERSION".tar.gz"
+else
+	BASE_DOWNLOAD="baseR"$BASE_VERSION".tar.gz"
+fi
+
+BASE_DIRECTORY="base-"$BASE_VERSION
 wget --tries=3 --timeout=10 http://aps.anl.gov/epics/download/base/$BASE_DOWNLOAD
 mkdir -p $INSTALL_PATH
 tar xzvf $BASE_DOWNLOAD -C $INSTALL_PATH
