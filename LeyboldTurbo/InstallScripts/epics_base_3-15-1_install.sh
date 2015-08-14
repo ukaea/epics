@@ -55,14 +55,13 @@ ln -s $INSTALL_PATH/$BASE_DIRECTORY $INSTALL_PATH/base
 # set environment variables
 touch $INSTALL_PATH/siteEnv
 echo \# main EPICS env var >> $INSTALL_PATH/siteEnv
+
+
 echo export EPICS_HOST_ARCH=$EPICS_ARCH >> $INSTALL_PATH/siteEnv
+echo export EPICS_ROOT=$INSTALL_PATH >> $INSTALL_PATH/siteEnv
 echo export EPICS_BASE=$INSTALL_PATH/base >> $INSTALL_PATH/siteEnv
-echo export PATH=\${PATH}:\${INSTALL_PATH}/base/bin/\${EPICS_HOST_ARCH}:\${EPICS_HOST_ARCH} >> $INSTALL_PATH/siteEnv
+echo export PATH=\${PATH}:\${EPICS_ROOT}/base/bin/\${EPICS_HOST_ARCH} >> $INSTALL_PATH/siteEnv
 echo "" >> $INSTALL_PATH/siteEnv
-echo \# channel access >> $INSTALL_PATH/siteEnv
-echo export EPICS_CA_MAX_ARRAY_BYTES=100000000 >> $INSTALL_PATH/siteEnv
-echo export EPICS_CA_AUTO_ADDR_LIST=YES >> $INSTALL_PATH/siteEnv
-echo export EPICS_CA_ADDR_LIST= >> $INSTALL_PATH/siteEnv
 chmod a+x $INSTALL_PATH/siteEnv
 
 # This sets the environment variables following a reboot.
