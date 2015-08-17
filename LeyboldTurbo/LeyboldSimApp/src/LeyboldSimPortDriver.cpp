@@ -96,10 +96,9 @@ void CLeyboldSimPortDriver::ListenerThread(void* parm)
 		This->m_NumConnected++;
 		while (!This->m_Exiting)
 		{
-			bool Running = (This->getIntegerParam(TableIndex, RUNNING) != 0);
 			if (This->m_NoOfPZD == NoOfPZD2)
 			{
-				USSPacket<NoOfPZD2> USSReadPacket, USSWritePacket(Running);
+				USSPacket<NoOfPZD2> USSReadPacket, USSWritePacket(false);
 				if (!This->read<NoOfPZD2>(AsynUser, USSReadPacket))
 				   break;
 				if (!This->process<NoOfPZD2>(AsynUser, USSReadPacket, USSWritePacket, TableIndex))
@@ -107,7 +106,7 @@ void CLeyboldSimPortDriver::ListenerThread(void* parm)
 			}
 			else
 			{
-				USSPacket<NoOfPZD6> USSReadPacket, USSWritePacket(Running);
+				USSPacket<NoOfPZD6> USSReadPacket, USSWritePacket(false);
 				if (!This->read<NoOfPZD6>(AsynUser, USSReadPacket))
 				   break;
 				This->process(AsynUser, USSWritePacket, TableIndex);
@@ -330,6 +329,8 @@ template<size_t NoOfPZD> bool CLeyboldSimPortDriver::process(asynUser *pasynUser
 	}
 
 	USSWritePacket.m_USSPacketStruct.m_PZD[0] = 0;
+	if (Running)
+		USSWritePacket.m_USSPacketStruct.m_PZD[0] |= (1 << 10);
 
 	// Remote has been activated 1 = start/stop (control bit 0) and reset(control bit 7) through serial interface is possible.
 	USSWritePacket.m_USSPacketStruct.m_PZD[0] |= ((RemoteActivated ? 1 : 0) << 15);

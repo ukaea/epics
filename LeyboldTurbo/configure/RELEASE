@@ -26,10 +26,10 @@ TEMPLATE_TOP=$(EPICS_BASE)/templates/makeBaseApp/top
 
 # Create a file RELEASE.local pointing to your ASYN
 # and EPICS_BASE build directories, e.g.
-ASYN = /usr/local/epics/support/asyn/current
-EPICS_BASE = /usr/local/epics/base
-# ASYN = /epics/support/asyn
-# EPICS_BASE = /EPICS/base
+# ASYN = /usr/local/epics/support/asyn/current
+# EPICS_BASE = /usr/local/epics/base
+ASYN = D:/epics/support/asyn
+EPICS_BASE = D:/EPICS/base
 
 # Set RULES here if you want to take build rules from somewhere
 # other than EPICS_BASE:

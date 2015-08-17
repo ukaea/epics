@@ -109,6 +109,9 @@ void CLeyboldTurboPortDriver::addIOPort(const char* IOPortName)
 		}
 	}
 
+	// Normal operation 1 = the pump is running in the normal operation mode
+	setIntegerParam (m_AsynUsers.size(), RUNNING, 1);
+
 	asynUser* IOUser;
 	// Connect to the I/O port.
 	if (pasynOctetSyncIO->connect(IOPortName, int(m_AsynUsers.size()), &IOUser, NULL) != asynSuccess)

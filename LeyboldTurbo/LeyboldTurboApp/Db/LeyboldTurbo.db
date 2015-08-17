@@ -65,7 +65,6 @@ record(bo, "$(P)Reset")
 	field(HIGH, "1.0")
 	field(ZNAM,  "NORMAL")
 	field(ONAM,  "RESET IN PROGRESS")
-	field(PINI, "1")
 	field(VAL, 0)
 }
 
