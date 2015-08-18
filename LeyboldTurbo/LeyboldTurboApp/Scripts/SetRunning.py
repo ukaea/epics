@@ -2,8 +2,8 @@ import epics
 import os
 import sys
 
-os.environ["EPICS_CA_AUTO_ADDR_LIST"]="NO"
-os.environ["EPICS_CA_ADDR_LIST"]="localhost"
+os.environ["EPICS_CA_AUTO_ADDR_LIST"]="YES"
+os.environ["EPICS_CA_SERVER_PORT"]="5064"
 
 FirstPump='1'
 if len(sys.argv) > 1:

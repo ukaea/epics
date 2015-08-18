@@ -215,9 +215,9 @@ void CLeyboldSimPortDriver::setDefaultValues(size_t TableIndex)
 	setIntegerParam(TableIndex, WARNINGPURGE, 0);
 	setIntegerParam(TableIndex, STATORFREQUENCY, 500);
 	setIntegerParam(TableIndex, CONVERTERTEMPERATURE, 50);
-	setDoubleParam(TableIndex, MOTORCURRENT, 10.0);
+	setDoubleParam(TableIndex, MOTORCURRENT, 10.1);
 	setIntegerParam(TableIndex, PUMPTEMPERATURE, 40);
-	setDoubleParam(TableIndex, CIRCUITVOLTAGE, 30.0);
+	setDoubleParam(TableIndex, CIRCUITVOLTAGE, 30.2);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

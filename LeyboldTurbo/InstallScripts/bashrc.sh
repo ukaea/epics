@@ -5,6 +5,9 @@
 DEFAULT_INSTALL_PATH="/usr/local/epics"
 if [ -z "$*" ]; then INSTALL_PATH=$DEFAULT_INSTALL_PATH; else INSTALL_PATH=$1;fi
 
+#So the environment is set for this shell, too.
+$INSTALL_PATH/siteEnv
+
 ls ~/.bashrc
 echo "" >> ~/.bashrc
 echo \#EPICS >> ~/.bashrc

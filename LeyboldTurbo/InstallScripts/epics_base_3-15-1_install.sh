@@ -74,9 +74,6 @@ echo export PATH=\${PATH}:\${EPICS_ROOT}/base/bin/\${EPICS_HOST_ARCH} >> $INSTAL
 echo "" >> $INSTALL_PATH/siteEnv
 chmod a+x $INSTALL_PATH/siteEnv
 
-#So the environment is set for this shell, too.
-./$INSTALL_PATH/siteEnv
-
 # This sets the environment variables following a reboot.
 if [ ! -f /etc/redhat-release ];
 then

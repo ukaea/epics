@@ -16,12 +16,8 @@ gnome-terminal -e "python ../../LeyboldTurboApp/Scripts/camonitor.py $NUMPUMPS"
 python testsequence.py $NUMPUMPS
 
 sleep 10
-for ((Pump=1; Pump<=$NUMPUMPS; Pump++))
-do
-	caput "LEYBOLDTURBO:$Pump:Reset" 1
-	caput "LEYBOLDTURBO:$Pump:Reset.PROC" 1
-	sleep 10
-	caput "LEYBOLDTURBO:$Pump:Running" 1
-	caput "LEYBOLDTURBO:$Pump:Running.PROC" 1
-done
+python ../../LeyboldTurboApp/Scripts/Reset.py 1 $NUMPUMPS
+
+sleep 10
+python ../../LeyboldTurboApp/Scripts/SetRunning.py 1 $NUMPUMPS 1
 
