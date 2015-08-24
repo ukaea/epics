@@ -34,14 +34,16 @@ then
     ./epics_base_3-15-1_install.sh $INSTALL_PATH
 fi
 
-if [ ! -f /etc/redhat-release ];
-then
+if [ ! -f /etc/redhat-release ]; then
 	# dependencies
 	apt-get -y install re2c
 else
-	yum -y install http://ftp.scientificlinux.org/linux/extra/dag/packages/re2c/re2c-0.13.2-1.el5.rf.x86_64.rpm
+	if $(uname -a | grep 'x86_64'); then
+		yum -y install http://ftp.scientificlinux.org/linux/extra/dag/packages/re2c/re2c-0.13.2-1.el5.rf.x86_64.rpm
+	else
+		yum -y install http://ftp.scientificlinux.org/linux/extra/dag/packages/re2c/re2c-0.13.2-1.el5.rf.i386.rpm
+	fi
 fi
-
 # seq
 SEQ_DOWNLOAD="seq-"$SEQ_VER".tar.gz"
 SEQ_DIRECTORY="seq-"$SEQ_VER
