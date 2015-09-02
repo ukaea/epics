@@ -8,37 +8,36 @@ include $(TOP)/configure/CONFIG
 #=============================
 # Build the IOC application
 
-PROD_IOC = LeyboldTurbo
+LIBRARY_IOC = LeyboldTurboDev
+PROD_IOC = LeyboldTurboApp
+
 # LeyboldTurbo.dbd will be created and installed
 DBD += LeyboldTurbo.dbd
 
 # LeyboldTurbo.dbd will be made up from these files:
-LeyboldTurbo_DBD += base.dbd
-
-# Include dbd files from all support applications:
-#LeyboldTurbo_DBD += xxx.dbd
+LeyboldTurboDev_DBD += base.dbd
 
 # Add all the support libraries needed by this IOC
-LeyboldTurbo_LIBS += asyn
-LeyboldTurbo_LIBS += $(EPICS_BASE_IOC_LIBS)
-LeyboldTurbo_SYS_LIBS_WIN32 += ws2_32
+LeyboldTurboDev_LIBS += asyn
+LeyboldTurboApp_LIBS += asyn
+LeyboldTurboDev_SYS_LIBS_WIN32 += ws2_32
+
+LeyboldTurboDev_SRCS += LeyboldTurboPortDriver.cpp
 
 # LeyboldTurbo_registerRecordDeviceDriver.cpp derives from LeyboldTurbo.dbd
-LeyboldTurbo_SRCS += LeyboldTurbo_registerRecordDeviceDriver.cpp
-LeyboldTurbo_SRCS += LeyboldTurboPortDriver.cpp
+LeyboldTurboApp_LIBS += LeyboldTurboDev
+LeyboldTurboApp_SRCS += LeyboldTurbo_registerRecordDeviceDriver.cpp
+LeyboldTurboApp_SRCS += LeyboldTurboMain.cpp
 INC += USSPacket.h
 INC += ParameterDefns.h
 INC += LeyboldTurboPortDriver.h
-
-# Build the main IOC entry point on workstation OSs.
-LeyboldTurbo_SRCS_DEFAULT += LeyboldTurboMain.cpp
-LeyboldTurbo_SRCS_vxWorks += -nil-
 
 # Add support from base/src/vxWorks if needed
 #LeyboldTurbo_OBJS_vxWorks += $(EPICS_BASE_BIN)/vxComLibrary
 
 # Finally link to the EPICS Base libraries
-LeyboldTurbo_LIBS += $(EPICS_BASE_IOC_LIBS)
+LeyboldTurboDev_LIBS += $(EPICS_BASE_IOC_LIBS)
+LeyboldTurboApp_LIBS += $(EPICS_BASE_IOC_LIBS)
 
 #===========================
 
