@@ -42,6 +42,6 @@ else:
 		os.environ["COMPORT4"]="/dev/ttyS3"
 		os.environ["COMPORT5"]="/dev/ttyS4"
 
-cmdline = '..' + os.sep + 'bin' + os.sep + epics_host_arch + os.sep + 'LeyboldTurbo ../iocBoot/iocLeyboldTurbo/st' + NumPumps + Simulated + '.cmd'
+cmdline = '..' + os.sep + 'bin' + os.sep + epics_host_arch + os.sep + 'LeyboldTurboApp ../iocBoot/iocLeyboldTurbo/st' + NumPumps + Simulated + '.cmd'
 
 os.system(cmdline)
