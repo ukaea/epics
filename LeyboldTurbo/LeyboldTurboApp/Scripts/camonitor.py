@@ -6,9 +6,6 @@ NumPumps='1'
 if len(sys.argv) > 1:
 	NumPumps=sys.argv[1]
 	
-os.environ["EPICS_CA_AUTO_ADDR_LIST"]="YES"
-os.environ["EPICS_CA_SERVER_PORT"]="5064"
-
 
 for Pump in range(1, int(NumPumps)+1):
 	epics.camonitor('LEYBOLDTURBO:' + str(Pump) + ':Running')
