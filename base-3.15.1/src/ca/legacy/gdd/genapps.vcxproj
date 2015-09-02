@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TrackFileAccess>false</TrackFileAccess>
@@ -53,6 +53,9 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\libCom\Com.vcxproj">
       <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
+    </ProjectReference>
+    <ProjectReference Include="aitgen.vcxproj">
+      <Project>{3c906c28-3e5e-429a-9dc9-fadd47db579e}</Project>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
