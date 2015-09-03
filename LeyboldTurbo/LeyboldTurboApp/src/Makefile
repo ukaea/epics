@@ -16,7 +16,6 @@ DBD += LeyboldTurbo.dbd
 
 # LeyboldTurbo.dbd will be made up from these files:
 LeyboldTurboDev_DBD += base.dbd
-LeyboldTurboApp_DBD += base.dbd
 
 # Add all the support libraries needed by this IOC
 LeyboldTurboDev_LIBS += asyn

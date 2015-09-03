@@ -1,4 +1,4 @@
-#!../../bin/linux-x86_64/LeyboldSim
+#!../../bin/_TARGETARCH_/LeyboldSim
 
 ## You may have to change LeyboldSim to something else
 ## everywhere it appears in this file

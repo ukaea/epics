@@ -47,9 +47,12 @@ record(bo, "$(P)Running")
 #		Fault:					The pump has a fault.												#
 #		FaultStr:				The pump's fault expressed as a string.								#
 #		FirmwareVersion:		The pumps firmware version string is read out (start-up only).		#
-#		WarningTemperature:		The pump has a high temperature warning.							#
-#		WarningHighLoad:		The pump has a high load warning.									#
-#		WarningPurge:			The pump has purge warning.											#
+#		WarningTemperature:		The pump has a high temperature warning (numeric code).				#
+#		WarningTemperatureStr:	A textual representation of the above warning.						#
+#		WarningHighLoad:		The pump has a high load warning (numeric code).					#
+#		WarningHighLoadStr:		A textual representation of the above warning.						#
+#		WarningPurge:			The pump has purge warning (numeric code).							#
+#		WarningPurgeStr:		A textual representation of the above warning.						#
 #		StatorFrequency:		The pump's stator frequency value.									#
 #		ConverterTemperature:	The pump's converter temperature value.								#
 #		MotorCurrent:			The pump's motor current value.										#
@@ -149,6 +152,7 @@ record(ai, "$(P)ConverterTemperature")
 record(ai, "$(P)MotorCurrent")
 {
     field(DTYP, "asynFloat64")
+	field(PREC, "1")
 	field(INP,  "@asyn($(PORT),$(ADDR),1)MOTORCURRENT")
 	field(SCAN, "I/O Intr")
 }
@@ -163,6 +167,7 @@ record(ai, "$(P)PumpTemperature")
 record(ai, "$(P)CircuitVoltage")
 {
     field(DTYP, "asynFloat64")
+	field(PREC, "1")
 	field(INP,  "@asyn($(PORT),$(ADDR),1)CIRCUITVOLTAGE")
 	field(SCAN, "I/O Intr")
 }

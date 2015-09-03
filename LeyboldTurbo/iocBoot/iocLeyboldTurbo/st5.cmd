@@ -1,4 +1,4 @@
-#!../../bin/linux-x86_64/LeyboldTurbo
+#!../../bin/_TARGETARCH_/LeyboldTurbo
 
 ## Register all support components
 dbLoadDatabase ("../dbd/LeyboldTurbo.dbd")

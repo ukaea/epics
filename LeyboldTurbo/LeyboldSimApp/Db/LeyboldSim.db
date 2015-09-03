@@ -97,6 +97,7 @@ record(ao, "$(P)ConverterTemperature")
 record(ao, "$(P)MotorCurrent")
 {
     field(DTYP, "asynFloat64")
+	field(PREC, "1")
 	field(OUT,  "@asyn($(PORT),$(ADDR),1)MOTORCURRENT")
 	field(SCAN, "I/O Intr")
 }
@@ -111,6 +112,7 @@ record(ao, "$(P)PumpTemperature")
 record(ao, "$(P)CircuitVoltage")
 {
     field(DTYP, "asynFloat64")
+	field(PREC, "1")
 	field(OUT,  "@asyn($(PORT),$(ADDR),1)CIRCUITVOLTAGE")
 	field(SCAN, "I/O Intr")
 }

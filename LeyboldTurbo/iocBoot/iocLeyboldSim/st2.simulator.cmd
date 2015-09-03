@@ -1,4 +1,4 @@
-#!../../bin/linux-x86_64/LeyboldSim
+#!../../bin/_TARGETARCH_/LeyboldSim
 
 ## Register all support components
 dbLoadDatabase ("../dbd/LeyboldSim.dbd")

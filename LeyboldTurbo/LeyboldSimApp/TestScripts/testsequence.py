@@ -1,3 +1,21 @@
+#####################################################################################################
+#																									#
+#	Module:																							#
+#		testsequience.py																			#
+#																									#
+#	Description:																					#
+#		Uses pyepics to control the simulator values and thereby excercise the (simulated)			#
+#		pump through a sequence of value change events.												#
+#		Pyepics is used for the convenience of cross-platform scripting.							#
+#																									#
+#	Author:  Peter Heesterman (Tessella plc). Date: 03 Sep 2015.									#
+#	Written for CCFE (Culham Centre for Fusion Energy).												#
+#																									#
+#	LeyboldTurbo is distributed subject to a Software License Agreement								#
+#	found in file LICENSE that is included with this distribution.									#
+#																									#
+#####################################################################################################
+
 import epics
 import os
 import sys
