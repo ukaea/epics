@@ -41,6 +41,9 @@
     <ProjectReference Include="..\..\..\base-3.15.1\src\libCom\Com.vcxproj">
       <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\seq\src\snc\snc.vcxproj">
+      <Project>{71608fb9-8dbe-42ad-93a1-0b521a6fb6aa}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\asyn\asyn.vcxproj">
       <Project>{c3ea0ff7-6039-4884-ba91-7b4619befea5}</Project>
     </ProjectReference>
@@ -52,7 +55,65 @@
     <ClCompile Include="src\testIPServerMain.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\ipSNCServer.st" />
+    <CustomBuild Include="src\ipSNCServer.st">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">md O.Common
+cd O.Common
+cl /C /E                /nologo /D__STDC__=0 /D_CRT_SECURE_NO_DEPRECATE /D_CRT_NONSTDC_NO_DEPRECATE -I. -I../O.Common -I. -I.. -I../../../include/os/WIN32 -I../../../include    -I\EPICS\support/ipac/include  -I\EPICS\support/seq/include   -I\EPICS\base/include/os/WIN32 -I\EPICS\base/include        ../src/ipSNCServer.st &gt; ipSNCServer.i
+$(OutDir)snc.exe     ipSNCServer.i -o ipSNCServer.c.tmp
+cd ..
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">md O.Common
+cd O.Common
+cl /C /E                /nologo /D__STDC__=0 /D_CRT_SECURE_NO_DEPRECATE /D_CRT_NONSTDC_NO_DEPRECATE -I. -I../O.Common -I. -I.. -I../../../include/os/WIN32 -I../../../include    -I\EPICS\support/ipac/include  -I\EPICS\support/seq/include   -I\EPICS\base/include/os/WIN32 -I\EPICS\base/include        ../src/ipSNCServer.st &gt; ipSNCServer.i
+$(OutDir)snc.exe     ipSNCServer.i -o ipSNCServer.c.tmp
+cd ..
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">md O.Common
+cd O.Common
+cl /C /E                /nologo /D__STDC__=0 /D_CRT_SECURE_NO_DEPRECATE /D_CRT_NONSTDC_NO_DEPRECATE -I. -I../O.Common -I. -I.. -I../../../include/os/WIN32 -I../../../include    -I\EPICS\support/ipac/include  -I\EPICS\support/seq/include   -I\EPICS\base/include/os/WIN32 -I\EPICS\base/include        ../src/ipSNCServer.st &gt; ipSNCServer.i
+$(OutDir)snc.exe     ipSNCServer.i -o ipSNCServer.c.tmp
+cd ..
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">md O.Common
+cd O.Common
+cl /C /E                /nologo /D__STDC__=0 /D_CRT_SECURE_NO_DEPRECATE /D_CRT_NONSTDC_NO_DEPRECATE -I. -I../O.Common -I. -I.. -I../../../include/os/WIN32 -I../../../include    -I\EPICS\support/ipac/include  -I\EPICS\support/seq/include   -I\EPICS\base/include/os/WIN32 -I\EPICS\base/include        ../src/ipSNCServer.st &gt; ipSNCServer.i
+$(OutDir)snc.exe     ipSNCServer.i -o ipSNCServer.c.tmp
+cd ..
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">md O.Common
+cd O.Common
+cl /C /E                /nologo /D__STDC__=0 /D_CRT_SECURE_NO_DEPRECATE /D_CRT_NONSTDC_NO_DEPRECATE -I. -I../O.Common -I. -I.. -I../../../include/os/WIN32 -I../../../include    -I\EPICS\support/ipac/include  -I\EPICS\support/seq/include   -I\EPICS\base/include/os/WIN32 -I\EPICS\base/include        ../src/ipSNCServer.st &gt; ipSNCServer.i
+$(OutDir)snc.exe     ipSNCServer.i -o ipSNCServer.c.tmp
+cd ..
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">md O.Common
+cd O.Common
+cl /C /E                /nologo /D__STDC__=0 /D_CRT_SECURE_NO_DEPRECATE /D_CRT_NONSTDC_NO_DEPRECATE -I. -I../O.Common -I. -I.. -I../../../include/os/WIN32 -I../../../include    -I\EPICS\support/ipac/include  -I\EPICS\support/seq/include   -I\EPICS\base/include/os/WIN32 -I\EPICS\base/include        ../src/ipSNCServer.st &gt; ipSNCServer.i
+$(OutDir)snc.exe     ipSNCServer.i -o ipSNCServer.c.tmp
+cd ..
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">md O.Common
+cd O.Common
+cl /C /E                /nologo /D__STDC__=0 /D_CRT_SECURE_NO_DEPRECATE /D_CRT_NONSTDC_NO_DEPRECATE -I. -I../O.Common -I. -I.. -I../../../include/os/WIN32 -I../../../include    -I\EPICS\support/ipac/include  -I\EPICS\support/seq/include   -I\EPICS\base/include/os/WIN32 -I\EPICS\base/include        ../src/ipSNCServer.st &gt; ipSNCServer.i
+$(OutDir)snc.exe     ipSNCServer.i -o ipSNCServer.c.tmp
+cd ..
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">md O.Common
+cd O.Common
+cl /C /E                /nologo /D__STDC__=0 /D_CRT_SECURE_NO_DEPRECATE /D_CRT_NONSTDC_NO_DEPRECATE -I. -I../O.Common -I. -I.. -I../../../include/os/WIN32 -I../../../include    -I\EPICS\support/ipac/include  -I\EPICS\support/seq/include   -I\EPICS\base/include/os/WIN32 -I\EPICS\base/include        ../src/ipSNCServer.st &gt; ipSNCServer.i
+$(OutDir)snc.exe     ipSNCServer.i -o ipSNCServer.c.tmp
+cd ..
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">ipSNCServer.i</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">ipSNCServer.i</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">ipSNCServer.i</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">ipSNCServer.i</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">ipSNCServer.i</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">ipSNCServer.i</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">ipSNCServer.i</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">ipSNCServer.i</Outputs>
+    </CustomBuild>
     <None Include="src\testIPServerInclude.dbd" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
