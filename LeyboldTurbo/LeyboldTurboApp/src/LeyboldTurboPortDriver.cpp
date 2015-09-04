@@ -122,13 +122,13 @@ void CLeyboldTurboPortDriver::addIOPort(const char* IOPortName)
 		throw CException(pasynUserSelf, __FUNCTION__, "callParamCallbacks");
 	m_AsynUsers.push_back(IOUser);
 }
- 
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 //																								//
 //	asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *value)		//
 //																								//
 //	Description:																				//
-//		This method is invoked by the Asyn framework to read values from the hardware.			//
+//		This method is invoked by the Asyn framework to read integer values from the hardware.	//
 //		It will normally be called for the FAULT variable which is set to poll once every		//
 //		5 seconds.																				//
 //																								//
@@ -151,6 +151,8 @@ asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *v
 
 		if (function == Parameters(FAULT))
 		{
+			// The following values are present in the 24-byte packet (NoOfPZD==6)
+			// but need each to be explictly queried when the 16-byte packet (NoOfPZD==2) is being used.
 			if (m_NoOfPZD == NoOfPZD2)
 			{
 				USSPacket<NoOfPZD2> USSWritePacket(Running), USSReadPacket;
@@ -203,6 +205,18 @@ asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *v
 	return asynPortDriver::readInt32(pasynUser, value);
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+//																								//
+//	asynStatus CLeyboldTurboPortDriver::readOctet(asynUser *pasynUser, char *value,				//
+//		size_t maxChars, size_t *nActual, int *eomReason)										//
+//																								//
+//	Description:																				//
+//		This method is invoked by the Asyn framework to read string values from the hardware.	//
+//		The only such is the firmware version.													//
+//		It is assumed the firmware version will not change while the software is running.		//
+//		So this method only needs to be invoked once on start-up.								//
+//																								//
+//////////////////////////////////////////////////////////////////////////////////////////////////
 asynStatus CLeyboldTurboPortDriver::readOctet(asynUser *pasynUser, char *value, size_t maxChars,
                                         size_t *nActual, int *eomReason)
 {
@@ -248,6 +262,18 @@ asynStatus CLeyboldTurboPortDriver::readOctet(asynUser *pasynUser, char *value, 
 	return asynPortDriver::readOctet(pasynUser, value, maxChars, nActual, eomReason);
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+//																								//
+//	template<size_t NoOfPZD> void CLeyboldTurboPortDriver::writeRead(int TableIndex,			//
+//		asynUser *pasynUser, USSPacket<NoOfPZD> USSWritePacket, USSPacket<NoOfPZD>& USSReadPacket)
+//		size_t maxChars, size_t *nActual, int *eomReason)										//
+//																								//
+//	Description:																				//
+//		This method is invoked by the readInt32 method to send a request (or command) packet,	//
+//		and then read the controller's response													//
+//		It's a wrapper round Asyn's writeRead method that provides byte-swapping and validation.//
+//																								//
+//////////////////////////////////////////////////////////////////////////////////////////////////
 template<size_t NoOfPZD> void CLeyboldTurboPortDriver::writeRead(int TableIndex, asynUser *pasynUser, USSPacket<NoOfPZD> USSWritePacket, USSPacket<NoOfPZD>& USSReadPacket)
 {
 	int eomReason;
@@ -284,6 +310,17 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::writeRead(int TableIndex,
 		throw CException(pasynUser, __FUNCTION__, "Packet validation failed");
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+//																								//
+//	template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processRead(int TableIndex,			//
+//		asynUser *pasynUser, USSPacket<NoOfPZD> const& USSReadPacket)							//
+//																								//
+//	Description:																				//
+//		This method(s) is processes a data packet that has just been read.						//
+//		It includes the data management that is generic to both 16 (PZD==2) and 24 (PZD==6)		//
+//		packet types. So it can respond to the contents of m_PZD[0] and [1], but not 2..5.		//
+//																								//
+//////////////////////////////////////////////////////////////////////////////////////////////////
 template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processRead(int TableIndex, asynUser *pasynUser, USSPacket<NoOfPZD> const& USSReadPacket)
 {
 	bool Running = (getIntegerParam(TableIndex, RUNNING) != 0);
@@ -525,6 +562,22 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processRead(int TableInde
 template void CLeyboldTurboPortDriver::processRead<CLeyboldTurboPortDriver::NoOfPZD2>(int TableIndex, asynUser *pasynUser, USSPacket<NoOfPZD2> const& USSReadPacket);
 template void CLeyboldTurboPortDriver::processRead<CLeyboldTurboPortDriver::NoOfPZD6>(int TableIndex, asynUser *pasynUser, USSPacket<NoOfPZD6> const& USSReadPacket);
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+//																								//
+//	void CLeyboldTurboPortDriver::process(int TableIndex, asynUser *pasynUser,					//
+//		USSPacket<NoOfPZD2> const& USSWritePacket, USSPacket<NoOfPZD2>& USSReadPacket)			//
+//	void CLeyboldTurboPortDriver::process(int TableIndex, asynUser *pasynUser,					//
+//		USSPacket<NoOfPZD6> const& USSWritePacket, USSPacket<NoOfPZD6>& USSReadPacket)			//
+//																								//
+//	Description:																				//
+//		These two methods write a packet, and process the read response packet.					//
+//		The methods differ from each other in that the 24-byte packet (NoOfPZD==6) contains		//
+//		more information that can be read out.													//
+//																								//
+//		For the 16-byte packet (NoOfPZD==2) these values have to be explictly queried -			//
+//		this is done in readInt32.																//
+//																								//
+//////////////////////////////////////////////////////////////////////////////////////////////////
 void CLeyboldTurboPortDriver::process(int TableIndex, asynUser *pasynUser, USSPacket<NoOfPZD2> const& USSWritePacket, USSPacket<NoOfPZD2>& USSReadPacket)
 {
 	writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
@@ -537,6 +590,7 @@ void CLeyboldTurboPortDriver::process(int TableIndex, asynUser *pasynUser, USSPa
 
 	processRead(TableIndex, pasynUser, USSReadPacket);
 
+	// Process the data fields 2..5. These don't exist for the smaller packet.
 	setIntegerParam (TableIndex, CONVERTERTEMPERATURE, USSReadPacket.m_USSPacketStruct.m_PZD[2]);
 	setDoubleParam  (TableIndex, MOTORCURRENT, 0.1 * USSReadPacket.m_USSPacketStruct.m_PZD[3]);
 	setIntegerParam (TableIndex, PUMPTEMPERATURE, USSReadPacket.m_USSPacketStruct.m_PZD[4]);
@@ -544,6 +598,16 @@ void CLeyboldTurboPortDriver::process(int TableIndex, asynUser *pasynUser, USSPa
 	asynPrint(pasynUser, ASYN_TRACE_FLOW, "Packet success %s %s\n", __FILE__, __FUNCTION__);
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+//																								//
+//	template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processWrite(int TableIndex,			//
+//		asynUser *pasynUser, epicsInt32 value)													//
+//																								//
+//	Description:																				//
+//		This method implements the logic of writeInt32.											//
+//		It's templated for the two packet types.												//
+//																								//
+//////////////////////////////////////////////////////////////////////////////////////////////////
 template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processWrite(int TableIndex, asynUser *pasynUser, epicsInt32 value)
 {
 	// Normal operation 1 = the pump is running in the normal operation mode
@@ -590,6 +654,7 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processWrite(int TableInd
 //////////////////////////////////////////////////////////////////////////////////////////////////
 asynStatus CLeyboldTurboPortDriver::writeInt32(asynUser *pasynUser, epicsInt32 value)
 {
+	// Invoke the base class method to store the value in the database.
 	asynStatus status = asynPortDriver::writeInt32(pasynUser, value);
 	int TableIndex = 0;
 	try {

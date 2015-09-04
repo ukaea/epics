@@ -109,7 +109,7 @@ void CLeyboldSimPortDriver::ListenerThread(void* parm)
 				USSPacket<NoOfPZD6> USSReadPacket, USSWritePacket(false);
 				if (!This->read<NoOfPZD6>(AsynUser, USSReadPacket))
 				   break;
-				This->process(AsynUser, USSWritePacket, TableIndex);
+				This->process(USSWritePacket, TableIndex);
 				if (!This->process<NoOfPZD6>(AsynUser, USSReadPacket, USSWritePacket, TableIndex))
 				   break;
 			}
@@ -219,13 +219,16 @@ void CLeyboldSimPortDriver::setDefaultValues(size_t TableIndex)
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 //																								//
-//	bool CLeyboldSimPortDriver::process(asynUser *pasynUser, int TableIndex)					//
+//	template<size_t NoOfPZD> bool CLeyboldSimPortDriver::read(asynUser *pasynUser,				//
+//		USSPacket<NoOfPZD>& USSReadPacket)														//
 //																								//
 //	Description:																				//
-//		Called from the listening thread to process a packet request.							//
+//		Called from the listening thread to wait for an incoming packet.						//
+//		The packet is then byte-swapped and validated.											//
 //																								//
 //	Parameters:																					//
 //		pasynUser - the user associated with the TCP link (*not* the device connection user).	//
+//		USSReadPacket - output of the data packet that has been read.							//
 //																								//
 //////////////////////////////////////////////////////////////////////////////////////////////////
 template<size_t NoOfPZD> bool CLeyboldSimPortDriver::read(asynUser *pasynUser, USSPacket<NoOfPZD>& USSReadPacket)
@@ -257,7 +260,19 @@ template<size_t NoOfPZD> bool CLeyboldSimPortDriver::read(asynUser *pasynUser, U
 	return true;
 }
 
-void CLeyboldSimPortDriver::process(asynUser *pasynUser, USSPacket<NoOfPZD6>& USSWritePacket, int TableIndex)
+//////////////////////////////////////////////////////////////////////////////////////////////////
+//																								//
+//	bool CLeyboldSimPortDriver::process(USSPacket<NoOfPZD6>& USSWritePacket, int TableIndex)	//
+//																								//
+//	Description:																				//
+//		Called from the listening thread to process a packet request.							//
+//		The response should resemble the behaviour of the 'real' pump controller.				//
+//																								//
+//	Parameters:																					//
+//		USSWritePacket - this is the packet that will be returned as output.					//
+//																								//
+//////////////////////////////////////////////////////////////////////////////////////////////////
+void CLeyboldSimPortDriver::process(USSPacket<NoOfPZD6>& USSWritePacket, int TableIndex)
 {
 	epicsInt32 IBuf;
 	epicsFloat64 DBuf;
