@@ -41,7 +41,7 @@ if len(sys.argv) > 2:
 	NoOfPZD=sys.argv[2]
 
 os.environ["BAUD"]="19200"
-if NoOfPZD==2:
+if NoOfPZD=='2':
 	os.environ["BAUD"]="9600"
 
 	
@@ -59,11 +59,11 @@ if len(sys.argv) > 3:
 	os.environ["IPPORT5"]="localhost:5070"
 else:
 	if epics_host_arch.startswith('win'):
-		os.environ["COMPORT1"]="COM1"
-		os.environ["COMPORT2"]="COM2"
-		os.environ["COMPORT3"]="COM3"
-		os.environ["COMPORT4"]="COM4"
-		os.environ["COMPORT5"]="COM5"
+		os.environ["COMPORT1"]="COM1:"
+		os.environ["COMPORT2"]="COM2:"
+		os.environ["COMPORT3"]="COM3:"
+		os.environ["COMPORT4"]="COM4:"
+		os.environ["COMPORT5"]="COM5:"
 	else:
 		os.environ["COMPORT1"]="/dev/ttyS0"
 		os.environ["COMPORT2"]="/dev/ttyS1"
