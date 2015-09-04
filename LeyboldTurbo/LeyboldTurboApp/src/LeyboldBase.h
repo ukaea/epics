@@ -58,8 +58,8 @@ public:
 	}
     void createParam(size_t list, size_t ParamIndex) {
 		int index;
-		const char* ParamName = ParameterDefns[ParamIndex].ParamName;
-		if (asynPortDriver::createParam(int(list), ParamName, ParameterDefns[ParamIndex].ParamType, &index) != asynSuccess)
+		const char* ParamName = ParameterDefns[ParamIndex].m_ParamName;
+		if (asynPortDriver::createParam(int(list), ParamName, ParameterDefns[ParamIndex].m_ParamType, &index) != asynSuccess)
 			throw CException(pasynUserSelf, __FUNCTION__, ParamName);
 		m_Parameters[ParamName] = index;
 	}

@@ -174,14 +174,11 @@ void CLeyboldSimPortDriver::addIOPort(const char* IOPortName)
 	epicsGuard < epicsMutex > guard ( m_Mutex );
 	for (size_t ParamIndex = 0; ParamIndex < size_t(NUM_PARAMS); ParamIndex++)
 	{
-		std::string const& ParamName =  ParameterDefns[ParamIndex].ParamName;
-		if ((ParamName == "RESET") || 
-			(ParamName == "FAULTSTR") || 
-			(ParamName == "WARNINGTEMPERATURESTR") || 
-			(ParamName == "WARNINGHIGHLOADSTR") || 
-			(ParamName == "WARNINGPURGESTR"))
+		if (ParameterDefns[ParamIndex].m_NotForSim)
 			// Not implemented, because not meaningful for the simulater.
 			continue;
+
+		std::string const& ParamName =  ParameterDefns[ParamIndex].m_ParamName;
 
 		createParam(m_WasRunning.size(), ParamIndex);
 	}

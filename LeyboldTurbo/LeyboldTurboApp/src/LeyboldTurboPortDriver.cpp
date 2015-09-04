@@ -93,17 +93,17 @@ void CLeyboldTurboPortDriver::addIOPort(const char* IOPortName)
 		// Create parameters from the definitions.
 		// These variables end up being addressed as e.g. TURBO:1:RUNNING.
 		createParam(m_AsynUsers.size(), ParamIndex);
-		switch(ParameterDefns[ParamIndex].ParamType)
+		switch(ParameterDefns[ParamIndex].m_ParamType)
 		{
 			// Set default values.
 			case asynParamInt32: 
-				setIntegerParam(m_AsynUsers.size(), ParameterDefns[ParamIndex].ParamName, 0);
+				setIntegerParam(m_AsynUsers.size(), ParameterDefns[ParamIndex].m_ParamName, 0);
 				break;
 			case asynParamFloat64: 
-				setDoubleParam (int(m_AsynUsers.size()), ParameterDefns[ParamIndex].ParamName, 0.0);
+				setDoubleParam (int(m_AsynUsers.size()), ParameterDefns[ParamIndex].m_ParamName, 0.0);
 				break;
 			case asynParamOctet: 
-				setStringParam (int(m_AsynUsers.size()), ParameterDefns[ParamIndex].ParamName, "");
+				setStringParam (int(m_AsynUsers.size()), ParameterDefns[ParamIndex].m_ParamName, "");
 				break;
 			default: assert(false);
 		}
