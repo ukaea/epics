@@ -39,8 +39,8 @@ public:
 	void addIOPort(const char* IOPortName);
                  
 protected:
-    template<size_t NoOfPZD> bool read(asynUser *pasynUser, USSPacket<NoOfPZD>& USSReadPacket);
-    template<size_t NoOfPZD> bool process(asynUser *pasynUser, USSPacket<NoOfPZD> const& USSReadPacket, USSPacket<NoOfPZD>& USSWritePacket, int TableIndex);
+    template<size_t NoOfPZD> bool read(asynUser *pasynUser, asynUser *IOUser, USSPacket<NoOfPZD>& USSReadPacket);
+    template<size_t NoOfPZD> bool process(asynUser *pasynUser, asynUser *IOUser, USSPacket<NoOfPZD> const& USSReadPacket, USSPacket<NoOfPZD>& USSWritePacket, size_t TableIndex);
     void process(USSPacket<NoOfPZD6>& USSWritePacket, int TableIndex);
 	static void octetConnectionCallback(void *userPvt, asynUser *pasynUser,
                       char *data,size_t numchars, int eomReason);
@@ -50,9 +50,9 @@ private:
 	void setDefaultValues(size_t TableIndex);
     epicsMutex m_Mutex;
 
-	int m_NumConnected;				// how many sockets have actually connected?
 	volatile bool m_Exiting;		// Signals the listening thread to exit.
 	std::vector<bool> m_WasRunning;	// For each simulated pump, was it in the Running state, on the previous iteration?
+	std::vector<asynUser*> m_asynUsers;
 };
 
 #endif // LEYBOLD_SIM_DRIVER_H

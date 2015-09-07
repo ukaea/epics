@@ -66,7 +66,6 @@ CLeyboldSimPortDriver::CLeyboldSimPortDriver(const char *asynPortName, int numPu
                     asynDrvUserMask | asynInt32Mask | asynFloat64Mask | asynOctetMask // Interface and interrupt mask
 				)
 {
-	m_NumConnected = 0;
 	m_Exiting = false;
 }
 
@@ -87,49 +86,73 @@ CLeyboldSimPortDriver::~CLeyboldSimPortDriver()
 void CLeyboldSimPortDriver::ListenerThread(void* parm)
 {
 	CLeyboldSimPortDriver* This = static_cast<CLeyboldSimPortDriver*>(parm);
-	asynUser* AsynUser;
+	asynUser* IOUser;
 	const char* IOPortName = epicsThreadGetNameSelf();
+	int TableIndex;
+	{
+		epicsGuard < epicsMutex > guard ( This->m_Mutex );
+		TableIndex = This->m_WasRunning.size();
+	}
+	asynUser* asynUser = This->m_asynUsers[TableIndex];
 	try {
-		int TableIndex = This->m_NumConnected;
-		if (pasynOctetSyncIO->connect(IOPortName, TableIndex, &AsynUser, NULL) != asynSuccess)
+		if (pasynOctetSyncIO->connect(IOPortName, TableIndex, &IOUser, NULL) != asynSuccess)
 			throw CException(This->pasynUserSelf, __FUNCTION__, "connecting to IO port=" + std::string(IOPortName));
-		This->m_NumConnected++;
+		{
+			epicsGuard < epicsMutex > guard ( This->m_Mutex );
+			This->m_WasRunning.push_back(true);
+		}
 		while (!This->m_Exiting)
 		{
 			if (This->m_NoOfPZD == NoOfPZD2)
 			{
 				USSPacket<NoOfPZD2> USSReadPacket, USSWritePacket(false);
-				if (!This->read<NoOfPZD2>(AsynUser, USSReadPacket))
+				if (!This->read<NoOfPZD2>(asynUser, IOUser, USSReadPacket))
 				   break;
-				if (!This->process<NoOfPZD2>(AsynUser, USSReadPacket, USSWritePacket, TableIndex))
-				   break;
+				{
+					epicsGuard < epicsMutex > guard ( This->m_Mutex );
+					if (!This->process<NoOfPZD2>(asynUser, IOUser, USSReadPacket, USSWritePacket, TableIndex))
+						break;
+				}
 			}
 			else
 			{
 				USSPacket<NoOfPZD6> USSReadPacket, USSWritePacket(false);
-				if (!This->read<NoOfPZD6>(AsynUser, USSReadPacket))
+				if (!This->read<NoOfPZD6>(asynUser, IOUser, USSReadPacket))
 				   break;
-				This->process(USSWritePacket, TableIndex);
-				if (!This->process<NoOfPZD6>(AsynUser, USSReadPacket, USSWritePacket, TableIndex))
-				   break;
+				{
+					epicsGuard < epicsMutex > guard ( This->m_Mutex );
+					This->process(USSWritePacket, TableIndex);
+					if (!This->process<NoOfPZD6>(asynUser, IOUser, USSReadPacket, USSWritePacket, TableIndex))
+						break;
+				}
 			}
 		}
 	} catch(CException const&) {
 	}
-	This->m_NumConnected--;
-	asynStatus status = pasynOctetSyncIO->disconnect(AsynUser);
+	asynStatus status = pasynOctetSyncIO->disconnect(IOUser);
     if (status != asynSuccess) {
-        asynPrint(AsynUser, ASYN_TRACE_ERROR,
-                              "ListenerThread: Can't disconnect port %s asynUser\n",
+        asynPrint(asynUser, ASYN_TRACE_ERROR,
+                              "ListenerThread: Can't disconnect port %s IOUser\n",
                                                                IOPortName);
     }
-    status = pasynManager->freeAsynUser(AsynUser);
-    if (status != asynSuccess)
-        asynPrint(AsynUser, ASYN_TRACE_ERROR,
+	
+	{
+		epicsGuard < epicsMutex > guard ( This->m_Mutex );
+
+		status = pasynManager->freeAsynUser(IOUser);
+		if (status != asynSuccess)
+			asynPrint(asynUser, ASYN_TRACE_ERROR,
+								"echoListener: Can't free port %s IOUser\n",
+                                                               IOPortName);
+		status = pasynManager->freeAsynUser(asynUser);
+		if (status != asynSuccess)
+			asynPrint(This->pasynUserSelf, ASYN_TRACE_ERROR,
                               "echoListener: Can't free port %s asynUser\n",
                                                                IOPortName);
-	if (This->m_NumConnected == 0)
-		epicsExit(0);
+		This->m_asynUsers.erase(This->m_asynUsers.begin()+TableIndex);
+		if (This->m_asynUsers.size() == 0)
+			epicsExit(0);
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -152,11 +175,6 @@ void CLeyboldSimPortDriver::octetConnectionCallback(void *drvPvt, asynUser *pasy
                       epicsThreadPriorityMedium,
                       epicsThreadGetStackSize(epicsThreadStackSmall),
                       ListenerThread, drvPvt);
-	// This user isn't needed any more 
-	asynStatus status = pasynManager->freeAsynUser(pasynUser);
-    if (status != asynSuccess)
-        asynPrint(pasynUser, ASYN_TRACE_ERROR,
-                              "octetConnectionCallback: Can't free port %s asynUser\n", portName);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -180,23 +198,23 @@ void CLeyboldSimPortDriver::addIOPort(const char* IOPortName)
 
 		std::string const& ParamName =  ParameterDefns[ParamIndex].m_ParamName;
 
-		createParam(m_WasRunning.size(), ParamIndex);
+		createParam(m_asynUsers.size(), ParamIndex);
 	}
-	setDefaultValues(m_WasRunning.size());
-	setIntegerParam(m_WasRunning.size(), FAULT, 0);
+	setDefaultValues(m_asynUsers.size());
+	setIntegerParam(m_asynUsers.size(), FAULT, 0);
 
-    asynUser *AsynUser = pasynManager->createAsynUser(0,0);
+    asynUser *asynUser = pasynManager->createAsynUser(0,0);
+	m_asynUsers.push_back(asynUser);
 
-    if (pasynManager->connectDevice(AsynUser, IOPortName, m_NumConnected) != asynSuccess)
-		throw CException(AsynUser, __FUNCTION__, "connectDevice" + std::string(IOPortName));
+    if (pasynManager->connectDevice(asynUser, IOPortName, m_asynUsers.size()) != asynSuccess)
+		throw CException(asynUser, __FUNCTION__, "connectDevice" + std::string(IOPortName));
 
-    asynInterface* pasynOctetInterface = pasynManager->findInterface(AsynUser, asynOctetType, 1);
+    asynInterface* pasynOctetInterface = pasynManager->findInterface(asynUser, asynOctetType, 1);
 
 	asynOctet* Octet = (asynOctet*)pasynOctetInterface->pinterface;
 	void      *pinterruptNode;
 
-	Octet->registerInterruptUser(pasynOctetInterface->drvPvt, AsynUser, octetConnectionCallback, this, &pinterruptNode);
-	m_WasRunning.push_back(true);
+	Octet->registerInterruptUser(pasynOctetInterface->drvPvt, asynUser, octetConnectionCallback, this, &pinterruptNode);
 }
 
 void CLeyboldSimPortDriver::setDefaultValues(size_t TableIndex)
@@ -231,12 +249,12 @@ void CLeyboldSimPortDriver::setDefaultValues(size_t TableIndex)
 //		USSReadPacket - output of the data packet that has been read.							//
 //																								//
 //////////////////////////////////////////////////////////////////////////////////////////////////
-template<size_t NoOfPZD> bool CLeyboldSimPortDriver::read(asynUser *pasynUser, USSPacket<NoOfPZD>& USSReadPacket)
+template<size_t NoOfPZD> bool CLeyboldSimPortDriver::read(asynUser *pasynUser, asynUser *IOUser, USSPacket<NoOfPZD>& USSReadPacket)
 {
 	// NB, This pasynUser is OK because it emitted by pasynOctetSyncIO->connect().
 	size_t nBytesIn;
 	int eomReason;
-	asynStatus status = pasynOctetSyncIO->read(pasynUser, reinterpret_cast<char*>(USSReadPacket.m_Bytes), USSPacketStruct<NoOfPZD>::USSPacketSize, -1, &nBytesIn, &eomReason);
+	asynStatus status = pasynOctetSyncIO->read(IOUser, reinterpret_cast<char*>(USSReadPacket.m_Bytes), USSPacketStruct<NoOfPZD>::USSPacketSize, -1, &nBytesIn, &eomReason);
 	if (status == asynTimeout)
 		return true;
 	if (status == asynDisconnected)
@@ -297,9 +315,9 @@ void CLeyboldSimPortDriver::process(USSPacket<NoOfPZD6>& USSWritePacket, int Tab
 	USSWritePacket.m_USSPacketStruct.m_PZD[5] = epicsUInt32(10.0 * DBuf + 0.5);
 }
 
-template<size_t NoOfPZD> bool CLeyboldSimPortDriver::process(asynUser *pasynUser, USSPacket<NoOfPZD> const& USSReadPacket, USSPacket<NoOfPZD>& USSWritePacket, int TableIndex)
+template<size_t NoOfPZD> bool CLeyboldSimPortDriver::process(asynUser* pasynUser, asynUser* IOUser, USSPacket<NoOfPZD> const& USSReadPacket, USSPacket<NoOfPZD>& USSWritePacket, size_t TableIndex)
 {
-	if ((TableIndex < 0) || (TableIndex >= m_NumConnected))
+	if ((TableIndex < 0) || (TableIndex >= m_WasRunning.size()))
 		throw CException(pasynUser, __FUNCTION__, "User / pump not configured");
 
 	// Normal operation 1 = the pump is running in the normal operation mode
@@ -419,13 +437,13 @@ template<size_t NoOfPZD> bool CLeyboldSimPortDriver::process(asynUser *pasynUser
 
 	// NB, *don't* pass pasynUser to this function - it has the wrong type and will cause an access violation.
 	size_t nbytesOut;
-	asynStatus status = pasynOctetSyncIO->write(pasynUser,
+	asynStatus status = pasynOctetSyncIO->write(IOUser,
 		reinterpret_cast<char*>(&USSWritePacket.m_Bytes), USSPacketStruct<NoOfPZD>::USSPacketSize,
 		-1, &nbytesOut);
 	if (status == asynDisconnected)
 		return false;
 	if (status != asynSuccess)
-		throw CException(pasynUser, __FUNCTION__, "Can't write/read:");
+		throw CException(IOUser, __FUNCTION__, "Can't write/read:");
 
 	callParamCallbacks(TableIndex);
 	asynPrint(pasynUser, ASYN_TRACE_FLOW, "Packet success %s %s\n", __FILE__, __FUNCTION__);

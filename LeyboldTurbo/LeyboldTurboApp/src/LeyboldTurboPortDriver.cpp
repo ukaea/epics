@@ -63,9 +63,9 @@ CLeyboldTurboPortDriver::CLeyboldTurboPortDriver(const char *asynPortName, int n
 CLeyboldTurboPortDriver::~CLeyboldTurboPortDriver()
 {
 	asynStatus overallstatus = asynSuccess;
-	for(size_t Index = 0; Index < m_AsynUsers.size(); Index++)
+	for(size_t Index = 0; Index < m_IOUsers.size(); Index++)
 	{
-		asynStatus status = pasynOctetSyncIO->disconnect(m_AsynUsers[Index]);
+		asynStatus status = pasynOctetSyncIO->disconnect(m_IOUsers[Index]);
 		if (overallstatus == asynSuccess)
 			overallstatus = status;
 	}
@@ -92,35 +92,35 @@ void CLeyboldTurboPortDriver::addIOPort(const char* IOPortName)
 	{
 		// Create parameters from the definitions.
 		// These variables end up being addressed as e.g. TURBO:1:RUNNING.
-		createParam(m_AsynUsers.size(), ParamIndex);
+		createParam(m_IOUsers.size(), ParamIndex);
 		switch(ParameterDefns[ParamIndex].m_ParamType)
 		{
 			// Set default values.
 			case asynParamInt32: 
-				setIntegerParam(m_AsynUsers.size(), ParameterDefns[ParamIndex].m_ParamName, 0);
+				setIntegerParam(m_IOUsers.size(), ParameterDefns[ParamIndex].m_ParamName, 0);
 				break;
 			case asynParamFloat64: 
-				setDoubleParam (int(m_AsynUsers.size()), ParameterDefns[ParamIndex].m_ParamName, 0.0);
+				setDoubleParam (int(m_IOUsers.size()), ParameterDefns[ParamIndex].m_ParamName, 0.0);
 				break;
 			case asynParamOctet: 
-				setStringParam (int(m_AsynUsers.size()), ParameterDefns[ParamIndex].m_ParamName, "");
+				setStringParam (int(m_IOUsers.size()), ParameterDefns[ParamIndex].m_ParamName, "");
 				break;
 			default: assert(false);
 		}
 	}
 
 	// Normal operation 1 = the pump is running in the normal operation mode
-	setIntegerParam (m_AsynUsers.size(), RUNNING, 1);
+	setIntegerParam (m_IOUsers.size(), RUNNING, 1);
 
 	asynUser* IOUser;
 	// Connect to the I/O port.
-	if (pasynOctetSyncIO->connect(IOPortName, int(m_AsynUsers.size()), &IOUser, NULL) != asynSuccess)
+	if (pasynOctetSyncIO->connect(IOPortName, int(m_IOUsers.size()), &IOUser, NULL) != asynSuccess)
 		throw CException(pasynUserSelf, __FUNCTION__, "connecting to IO port=" + std::string(IOPortName));
 
 	if (callParamCallbacks() != asynSuccess)
 		// Make sure the (just set) default values are available to read.
 		throw CException(pasynUserSelf, __FUNCTION__, "callParamCallbacks");
-	m_AsynUsers.push_back(IOUser);
+	m_IOUsers.push_back(IOUser);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -144,19 +144,20 @@ asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *v
 	try {
 		if (getAddress(pasynUser, &TableIndex) != asynSuccess)
 			throw CException(pasynUser, __FUNCTION__, "Could not get address");
-		if ((TableIndex < 0) || (TableIndex >= int(m_AsynUsers.size())))
+		if ((TableIndex < 0) || (TableIndex >= int(m_IOUsers.size())))
 			throw CException(pasynUser, __FUNCTION__, "User / pump not configured");
 
 		bool Running = (getIntegerParam(TableIndex, RUNNING) != 0);
 
 		if (function == Parameters(FAULT))
 		{
-			// The following values are present in the 24-byte packet (NoOfPZD==6)
+			// The following values are present in the 24-byte packet (NoOfPZD==6),
 			// but need each to be explictly queried when the 16-byte packet (NoOfPZD==2) is being used.
 			if (m_NoOfPZD == NoOfPZD2)
 			{
 				USSPacket<NoOfPZD2> USSWritePacket(Running), USSReadPacket;
-				process(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
+				writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
+				processRead(TableIndex, pasynUser, USSReadPacket);
 
 				{
 					USSPacket<NoOfPZD2> USSWritePacket(Running, 3), // Frequency - actual value
@@ -192,9 +193,14 @@ asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *v
 			else
 			{
 				USSPacket<NoOfPZD6> USSWritePacket(Running), USSReadPacket;
-				process(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
+				// Process the data fields 2..5. These don't exist for the smaller packet.
+				setIntegerParam (TableIndex, CONVERTERTEMPERATURE, USSReadPacket.m_USSPacketStruct.m_PZD[2]);
+				setDoubleParam  (TableIndex, MOTORCURRENT, 0.1 * USSReadPacket.m_USSPacketStruct.m_PZD[3]);
+				setIntegerParam (TableIndex, PUMPTEMPERATURE, USSReadPacket.m_USSPacketStruct.m_PZD[4]);
+				setDoubleParam  (TableIndex, CIRCUITVOLTAGE, 0.1 * USSReadPacket.m_USSPacketStruct.m_PZD[5]);
 			}
 		}
+		asynPrint(pasynUser, ASYN_TRACE_FLOW, "Packet success %s %s\n", __FILE__, __FUNCTION__);
 
 	}
 	catch(CException const&) {
@@ -225,7 +231,7 @@ asynStatus CLeyboldTurboPortDriver::readOctet(asynUser *pasynUser, char *value, 
 	try {
 		if (getAddress(pasynUser, &TableIndex) != asynSuccess)
 			throw CException(pasynUser, __FUNCTION__, "Could not get address");
-		if ((TableIndex < 0) || (TableIndex >= int(m_AsynUsers.size())))
+		if ((TableIndex < 0) || (TableIndex >= int(m_IOUsers.size())))
 			throw CException(pasynUser, __FUNCTION__, "User / pump not configured");
 		bool Running = (getIntegerParam(TableIndex, RUNNING) != 0);
 		if (function == Parameters(FIRMWAREVERSION))
@@ -278,7 +284,7 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::writeRead(int TableIndex,
 {
 	int eomReason;
 	size_t nBytesOut, nBytesIn;
-	asynUser* IOUser = m_AsynUsers[TableIndex];
+	asynUser* IOUser = m_IOUsers[TableIndex];
 #ifdef _DEBUG
 	// Infinite timeout, convenient for debugging.
 	const double TimeOut = -1;
@@ -564,42 +570,6 @@ template void CLeyboldTurboPortDriver::processRead<CLeyboldTurboPortDriver::NoOf
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 //																								//
-//	void CLeyboldTurboPortDriver::process(int TableIndex, asynUser *pasynUser,					//
-//		USSPacket<NoOfPZD2> const& USSWritePacket, USSPacket<NoOfPZD2>& USSReadPacket)			//
-//	void CLeyboldTurboPortDriver::process(int TableIndex, asynUser *pasynUser,					//
-//		USSPacket<NoOfPZD6> const& USSWritePacket, USSPacket<NoOfPZD6>& USSReadPacket)			//
-//																								//
-//	Description:																				//
-//		These two methods write a packet, and process the read response packet.					//
-//		The methods differ from each other in that the 24-byte packet (NoOfPZD==6) contains		//
-//		more information that can be read out.													//
-//																								//
-//		For the 16-byte packet (NoOfPZD==2) these values have to be explictly queried -			//
-//		this is done in readInt32.																//
-//																								//
-//////////////////////////////////////////////////////////////////////////////////////////////////
-void CLeyboldTurboPortDriver::process(int TableIndex, asynUser *pasynUser, USSPacket<NoOfPZD2> const& USSWritePacket, USSPacket<NoOfPZD2>& USSReadPacket)
-{
-	writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
-	processRead(TableIndex, pasynUser, USSReadPacket);
-}
-
-void CLeyboldTurboPortDriver::process(int TableIndex, asynUser *pasynUser, USSPacket<NoOfPZD6> const& USSWritePacket, USSPacket<NoOfPZD6>& USSReadPacket)
-{
-	writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
-
-	processRead(TableIndex, pasynUser, USSReadPacket);
-
-	// Process the data fields 2..5. These don't exist for the smaller packet.
-	setIntegerParam (TableIndex, CONVERTERTEMPERATURE, USSReadPacket.m_USSPacketStruct.m_PZD[2]);
-	setDoubleParam  (TableIndex, MOTORCURRENT, 0.1 * USSReadPacket.m_USSPacketStruct.m_PZD[3]);
-	setIntegerParam (TableIndex, PUMPTEMPERATURE, USSReadPacket.m_USSPacketStruct.m_PZD[4]);
-	setDoubleParam  (TableIndex, CIRCUITVOLTAGE, 0.1 * USSReadPacket.m_USSPacketStruct.m_PZD[5]);
-	asynPrint(pasynUser, ASYN_TRACE_FLOW, "Packet success %s %s\n", __FILE__, __FUNCTION__);
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-//																								//
 //	template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processWrite(int TableIndex,			//
 //		asynUser *pasynUser, epicsInt32 value)													//
 //																								//
@@ -611,8 +581,8 @@ void CLeyboldTurboPortDriver::process(int TableIndex, asynUser *pasynUser, USSPa
 template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processWrite(int TableIndex, asynUser *pasynUser, epicsInt32 value)
 {
 	// Normal operation 1 = the pump is running in the normal operation mode
-	bool Running = (getIntegerParam(TableIndex, RUNNING) != 0);
-	USSPacket<NoOfPZD> USSWritePacket(Running), USSReadPacket;
+	USSPacket<NoOfPZD> USSWritePacket(false), // Assumed not currently running
+		USSReadPacket;
 
 	int function = pasynUser->reason;
 
@@ -634,12 +604,15 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processWrite(int TableInd
 		//		the cause for the error has been removed and
 		//		control bit 0 = 0 and
 		//		control bit 10 = 1
-		USSWritePacket.m_USSPacketStruct.m_PZD[0] |= 0;						// Clear Running bit.
+		bool Running = (getIntegerParam(TableIndex, RUNNING) != 0);
+		if (Running)
+			throw CException(pasynUser, __FUNCTION__, "The pump must be halted before a reset can be applied");
 		USSWritePacket.m_USSPacketStruct.m_PZD[0] |= 1 << 10;
 		USSWritePacket.m_USSPacketStruct.m_PZD[0] |= (value ? 1 : 0) << 7;	// High
 	}
 	USSWritePacket.GenerateChecksum();
-	process(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
+	writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
+	processRead(TableIndex, pasynUser, USSReadPacket);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -660,7 +633,7 @@ asynStatus CLeyboldTurboPortDriver::writeInt32(asynUser *pasynUser, epicsInt32 v
 	try {
 		if (getAddress(pasynUser, &TableIndex) != asynSuccess)
 			throw CException(pasynUser, __FUNCTION__, "Could not get address");
-		if ((TableIndex < 0) || (TableIndex >= int(m_AsynUsers.size())))
+		if ((TableIndex < 0) || (TableIndex >= int(m_IOUsers.size())))
 			throw CException(pasynUser, __FUNCTION__, "User / pump not configured");
 		if (m_NoOfPZD == NoOfPZD2)
 			processWrite<NoOfPZD2>(TableIndex, pasynUser, value);
@@ -703,7 +676,7 @@ void LeyboldTurboExitFunc(void * param)
 //		It creates the object and also schedules the exit event.								//
 //																								//
 //	Parameters:																					//
-//		asynPortName. This is the Asyn port name (e.g. TURBO).									//
+//		asynPortName. This is the Asyn port name (e.g. LEYBOLDTURBO).							//
 //					This will have been mapped by drvAsynIPPortConfigure to a physical port,	//
 //					e.g. COM1: (or /dev/ttyS0).													//
 //		numPumps - how many pumps will be attached?												//
