@@ -155,44 +155,40 @@ asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *v
 			// but need each to be explictly queried when the 16-byte packet (NoOfPZD==2) is being used.
 			if (m_NoOfPZD == NoOfPZD2)
 			{
-				USSPacket<NoOfPZD2> USSWritePacket(Running), USSReadPacket;
-				writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
-				processRead(TableIndex, pasynUser, USSReadPacket);
-
-				{
-					USSPacket<NoOfPZD2> USSWritePacket(Running, 3), // Frequency - actual value
-						USSReadPacket;
-					writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
-					setIntegerParam (TableIndex, STATORFREQUENCY, USSReadPacket.m_USSPacketStruct.m_PWE);
-				}
 				{
 					USSPacket<NoOfPZD2> USSWritePacket(Running, 4), // Intermediate circuit voltage Uzk
 						USSReadPacket;
 					writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
+					processRead(TableIndex, pasynUser, USSReadPacket);
 					setDoubleParam  (TableIndex, CIRCUITVOLTAGE, 0.1 * USSReadPacket.m_USSPacketStruct.m_PWE);
 				}
 				{
 					USSPacket<NoOfPZD2> USSWritePacket(Running, 5), // Motor current - actual value
 						USSReadPacket;
 					writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
+					processRead(TableIndex, pasynUser, USSReadPacket);
 					setDoubleParam  (TableIndex, MOTORCURRENT, 0.1 * USSReadPacket.m_USSPacketStruct.m_PWE);
 				}
 				{
 					USSPacket<NoOfPZD2> USSWritePacket(Running, 7), // Converter temperature - actual value
 						USSReadPacket;
 					writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
+					processRead(TableIndex, pasynUser, USSReadPacket);
 					setIntegerParam (TableIndex, PUMPTEMPERATURE, USSReadPacket.m_USSPacketStruct.m_PWE);
 				}
 				{
 					USSPacket<NoOfPZD2> USSWritePacket(Running, 11), // Converter temperature - actual value
 						USSReadPacket;
 					writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
+					processRead(TableIndex, pasynUser, USSReadPacket);
 					setIntegerParam (TableIndex, CONVERTERTEMPERATURE, USSReadPacket.m_USSPacketStruct.m_PWE);
 				}
 			}
 			else
 			{
 				USSPacket<NoOfPZD6> USSWritePacket(Running), USSReadPacket;
+				writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
+				processRead(TableIndex, pasynUser, USSReadPacket);
 				// Process the data fields 2..5. These don't exist for the smaller packet.
 				setIntegerParam (TableIndex, CONVERTERTEMPERATURE, USSReadPacket.m_USSPacketStruct.m_PZD[2]);
 				setDoubleParam  (TableIndex, MOTORCURRENT, 0.1 * USSReadPacket.m_USSPacketStruct.m_PZD[3]);
