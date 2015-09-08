@@ -44,13 +44,12 @@ os.environ["BAUD"]="19200"
 if NoOfPZD=='2':
 	os.environ["BAUD"]="9600"
 
-	
 os.environ["NOOFPZD"]=NoOfPZD
 
 epics_host_arch = os.getenv('EPICS_HOST_ARCH', 'win32-x86')
 
 Simulated=''
-if len(sys.argv) > 3:
+if len(sys.argv) > 3 and sys.argv[3].lower() == "sim":
 	Simulated='.simulated'
 	os.environ["IPPORT1"]="localhost:5066"
 	os.environ["IPPORT2"]="localhost:5067"
@@ -59,17 +58,17 @@ if len(sys.argv) > 3:
 	os.environ["IPPORT5"]="localhost:5070"
 else:
 	if epics_host_arch.startswith('win'):
-		os.environ["COMPORT1"]="COM1:"
-		os.environ["COMPORT2"]="COM2:"
-		os.environ["COMPORT3"]="COM3:"
-		os.environ["COMPORT4"]="COM4:"
-		os.environ["COMPORT5"]="COM5:"
+		os.environ["COMPORT1"]="COM1:" if len(sys.argv) <= 3 else sys.argv[3]
+		os.environ["COMPORT2"]="COM2:" if len(sys.argv) <= 4 else sys.argv[4]
+		os.environ["COMPORT3"]="COM3:" if len(sys.argv) <= 5 else sys.argv[5]
+		os.environ["COMPORT4"]="COM4:" if len(sys.argv) <= 6 else sys.argv[6]
+		os.environ["COMPORT5"]="COM5:" if len(sys.argv) <= 7 else sys.argv[7]
 	else:
-		os.environ["COMPORT1"]="/dev/ttyS0"
-		os.environ["COMPORT2"]="/dev/ttyS1"
-		os.environ["COMPORT3"]="/dev/ttyS2"
-		os.environ["COMPORT4"]="/dev/ttyS3"
-		os.environ["COMPORT5"]="/dev/ttyS4"
+		os.environ["COMPORT1"]="/dev/ttyS0" if len(sys.argv) <= 3 else sys.argv[3]
+		os.environ["COMPORT2"]="/dev/ttyS1" if len(sys.argv) <= 4 else sys.argv[4]
+		os.environ["COMPORT3"]="/dev/ttyS2" if len(sys.argv) <= 5 else sys.argv[5]
+		os.environ["COMPORT4"]="/dev/ttyS3" if len(sys.argv) <= 6 else sys.argv[6]
+		os.environ["COMPORT5"]="/dev/ttyS4" if len(sys.argv) <= 7 else sys.argv[7]
 
 cmdline = '..' + os.sep + 'bin' + os.sep + epics_host_arch + os.sep + 'LeyboldTurboApp ../iocBoot/iocLeyboldTurbo/st' + NumPumps + Simulated + '.cmd'
 
