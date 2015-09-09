@@ -61,6 +61,9 @@
   <ItemGroup>
     <None Include="LeyboldTurbo.bat" />
     <None Include="LeyboldTurbo.py" />
+    <None Include="Scripts\camonitor.py" />
+    <None Include="Scripts\Reset.py" />
+    <None Include="Scripts\SetRunning.py" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{D3311F39-9AE8-4F16-BE04-1D1D31135BA9}</ProjectGuid>

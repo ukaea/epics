@@ -72,7 +72,8 @@ CLeyboldSimPortDriver::CLeyboldSimPortDriver(const char *asynPortName, int numPu
 CLeyboldSimPortDriver::~CLeyboldSimPortDriver()
 {
 	m_Exiting = true;
-	m_ExitEvent.wait();
+	while (m_WasRunning.size() > 0)
+		m_ExitEvent.wait();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -151,6 +152,7 @@ void CLeyboldSimPortDriver::ListenerThread(void* parm)
                               "echoListener: Can't free port %s asynUser\n",
                                                                IOPortName);
 		This->m_asynUsers.erase(This->m_asynUsers.begin()+TableIndex);
+		This->m_WasRunning.erase(This->m_WasRunning.begin()+TableIndex);
 	}
 	This->m_ExitEvent.signal();
 	if (This->m_asynUsers.size() == 0)
@@ -235,7 +237,6 @@ void CLeyboldSimPortDriver::setDefaultValues(size_t TableIndex)
 	// Not set here : FAULT
 	// Reset, FaultStr, WarningTemperatureStr, WarningHighLoadStr and WarningPurgeStr are not used.
 
-	setStringParam(TableIndex, FIRMWAREVERSION, "3.03.05");
 	setIntegerParam(TableIndex, WARNINGTEMPERATURE, 0);
 	setIntegerParam(TableIndex, WARNINGHIGHLOAD, 0);
 	setIntegerParam(TableIndex, WARNINGPURGE, 0);

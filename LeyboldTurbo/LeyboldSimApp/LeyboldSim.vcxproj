@@ -121,6 +121,11 @@ cd $(ProjectDir)
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">./O.Common/LeyboldSim.dbd</Outputs>
     </CustomBuild>
     <None Include="src\Makefile" />
+    <None Include="TestScripts\camonitor.py" />
+    <None Include="TestScripts\setrunning.py" />
+    <None Include="TestScripts\testsequence.bat" />
+    <None Include="TestScripts\testsequence.py" />
+    <None Include="TestScripts\testsequence.sh" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\LeyboldSimPortDriver.h" />
