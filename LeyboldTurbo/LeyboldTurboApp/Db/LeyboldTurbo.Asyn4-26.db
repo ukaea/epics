@@ -1,0 +1,173 @@
+#####################################################################################################
+#																									#
+#	Module:																							#
+#		LeyboldTurbo.db																				#
+#																									#
+#	Description:																					#
+#		Defines the IOC records that are used by the LeyboldSimApp.									#
+#		These are, generally, a mirror-image of the fields that are used by the LeyboldTurboApp		#
+#		(i.e. outputs in one are inputs in the other).												#
+#																									#
+#	Author:  Peter Heesterman (Tessella plc). Date: 05 Jan 2015.									#
+#	Written for CCFE (Culham Centre for Fusion Energy).												#
+#																									#
+#	LeyboldTurbo is distributed subject to a Software License Agreement								#
+#	found in file LICENSE that is included with this distribution.									#
+#																									#
+#####################################################################################################
+
+#####################################################################################################
+#																									#
+#	Field: Running.																					#
+#	Description:																					#
+#		true(1), if the pump is operating, false(0), if it is stopped.								#
+#																									#
+#		This field is unique in that it is both an input and an output (for both apps).				#
+#		This is the case because it provides both setting capability and readback.					#
+#		It is possible for the 'Running' state to be set either by:									#
+#			a. the software user through the IOC, or:												#
+#			b. the equipment user, by means of switching the pump off.								#
+#																									#
+#####################################################################################################
+record(bo, "$(P)Running")
+{
+	field(DESC, "Running")
+	field(DTYP, "asynInt32")
+	field(OUT,  "@asyn($(PORT),$(ADDR),1)RUNNING")
+	info("asyn:READBACK", "1")
+	field(ZNAM,  "OFF")
+	field(ONAM,  "ON")
+	field(VAL, 1)
+}
+
+#####################################################################################################
+#																									#
+#	Field(s)																						#
+#		Reset:					Set to true for a pump reset (rising edge). Returns to the false.	#
+#		Fault:					The pump has a fault.												#
+#		FaultStr:				The pump's fault expressed as a string.								#
+#		FirmwareVersion:		The pumps firmware version string is read out (start-up only).		#
+#		WarningTemperature:		The pump has a high temperature warning (numeric code).				#
+#		WarningTemperatureStr:	A textual representation of the above warning.						#
+#		WarningHighLoad:		The pump has a high load warning (numeric code).					#
+#		WarningHighLoadStr:		A textual representation of the above warning.						#
+#		WarningPurge:			The pump has purge warning (numeric code).							#
+#		WarningPurgeStr:		A textual representation of the above warning.						#
+#		StatorFrequency:		The pump's stator frequency value.									#
+#		ConverterTemperature:	The pump's converter temperature value.								#
+#		MotorCurrent:			The pump's motor current value.										#
+#		PumpTemperature:		The pump's temperaure value.										#
+#		CircuitVoltage:			The pump's circuit voltage value.									#
+#																									#
+#####################################################################################################
+
+record(bo, "$(P)Reset")
+{
+	field(DTYP, "asynInt32")
+	field(OUT,  "@asyn($(PORT),$(ADDR),1)RESET")
+	field(HIGH, "1.0")
+	field(ZNAM,  "NORMAL")
+	field(ONAM,  "RESET IN PROGRESS")
+	field(VAL, 0)
+}
+
+record(longin, "$(P)Fault")
+{
+	field(DTYP, "asynInt32")
+	field(INP,  "@asyn($(PORT),$(ADDR),1)FAULT")
+	field(SCAN, "5 second")
+	field(PINI, "1")
+}
+
+record(stringin, "$(P)FaultStr")
+{
+	field(DTYP, "asynOctetRead")
+	field(INP,  "@asyn($(PORT),$(ADDR),1)FAULTSTR")
+	field(SCAN, "I/O Intr")
+}
+
+record(stringin, "$(P)FirmwareVersion")
+{
+	field(DTYP, "asynOctetRead")
+	field(INP,  "@asyn($(PORT),$(ADDR),1)FIRMWAREVERSION")
+	field(PINI, "1")
+}
+
+record(longin, "$(P)WarningTemperature")
+{
+    field(DTYP, "asynInt32")
+	field(INP,  "@asyn($(PORT),$(ADDR),1)WARNINGTEMPERATURE")
+	field(SCAN, "I/O Intr")
+}
+
+record(stringin, "$(P)WarningTemperatureStr")
+{
+    field(DTYP, "asynOctetRead")
+	field(INP,  "@asyn($(PORT),$(ADDR),1)WARNINGTEMPERATURESTR")
+	field(SCAN, "I/O Intr")
+}
+
+record(longin, "$(P)WarningHighLoad")
+{
+    field(DTYP, "asynInt32")
+	field(INP,  "@asyn($(PORT),$(ADDR),1)WARNINGHIGHLOAD")
+	field(SCAN, "I/O Intr")
+}
+
+record(stringin, "$(P)WarningHighLoadStr")
+{
+    field(DTYP, "asynOctetRead")
+	field(INP,  "@asyn($(PORT),$(ADDR),1)WARNINGHIGHLOADSTR")
+	field(SCAN, "I/O Intr")
+}
+
+record(longin, "$(P)WarningPurge")
+{
+    field(DTYP, "asynInt32")
+	field(INP,  "@asyn($(PORT),$(ADDR),1)WARNINGPURGE")
+	field(SCAN, "I/O Intr")
+}
+
+record(stringin, "$(P)WarningPurgeStr")
+{
+    field(DTYP, "asynOctetRead")
+	field(INP,  "@asyn($(PORT),$(ADDR),1)WARNINGPURGESTR")
+	field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P)StatorFrequency")
+{
+    field(DTYP, "asynInt32")
+	field(INP,  "@asyn($(PORT),$(ADDR),1)STATORFREQUENCY")
+	field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P)ConverterTemperature")
+{
+    field(DTYP, "asynInt32")
+	field(INP,  "@asyn($(PORT),$(ADDR),1)CONVERTERTEMPERATURE")
+	field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P)MotorCurrent")
+{
+    field(DTYP, "asynFloat64")
+	field(PREC, "1")
+	field(INP,  "@asyn($(PORT),$(ADDR),1)MOTORCURRENT")
+	field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P)PumpTemperature")
+{
+    field(DTYP, "asynInt32")
+	field(INP,  "@asyn($(PORT),$(ADDR),1)PUMPTEMPERATURE")
+	field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P)CircuitVoltage")
+{
+    field(DTYP, "asynFloat64")
+	field(PREC, "1")
+	field(INP,  "@asyn($(PORT),$(ADDR),1)CIRCUITVOLTAGE")
+	field(SCAN, "I/O Intr")
+}

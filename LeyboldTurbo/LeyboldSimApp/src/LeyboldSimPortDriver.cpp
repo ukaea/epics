@@ -111,7 +111,6 @@ void CLeyboldSimPortDriver::ListenerThread(void* parm)
 				if (!This->read<NoOfPZD2>(asynUser, IOUser, USSReadPacket))
 				   break;
 				{
-					epicsGuard < epicsMutex > guard ( This->m_Mutex );
 					if (!This->process<NoOfPZD2>(asynUser, IOUser, USSReadPacket, USSWritePacket, TableIndex))
 						break;
 				}
@@ -122,7 +121,6 @@ void CLeyboldSimPortDriver::ListenerThread(void* parm)
 				if (!This->read<NoOfPZD6>(asynUser, IOUser, USSReadPacket))
 				   break;
 				{
-					epicsGuard < epicsMutex > guard ( This->m_Mutex );
 					This->process(USSWritePacket, TableIndex);
 					if (!This->process<NoOfPZD6>(asynUser, IOUser, USSReadPacket, USSWritePacket, TableIndex))
 						break;

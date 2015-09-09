@@ -15,9 +15,9 @@ drvAsynIPPortConfigure($(IOPORT):2, $(IPPORT2), 0, 0)
 LeyboldTurboAddIOPort($(IOPORT):2)
 
 ## Load record instances
-dbLoadRecords("Db/LeyboldTurbo.db", "P=$(ASYNPORT):1:,PORT=$(ASYNPORT),ADDR=0")
+dbLoadRecords("Db/$(DB=LeyboldTurbo).db", "P=$(ASYNPORT):1:,PORT=$(ASYNPORT),ADDR=0")
 
-dbLoadRecords("Db/LeyboldTurbo.db", "P=$(ASYNPORT):2:,PORT=$(ASYNPORT),ADDR=1")
+dbLoadRecords("Db/$(DB=LeyboldTurbo).db", "P=$(ASYNPORT):2:,PORT=$(ASYNPORT),ADDR=1")
 
 iocInit
 

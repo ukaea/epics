@@ -70,6 +70,10 @@ else:
 		os.environ["COMPORT4"]="/dev/ttyS3" if len(sys.argv) <= 6 else sys.argv[6]
 		os.environ["COMPORT5"]="/dev/ttyS4" if len(sys.argv) <= 7 else sys.argv[7]
 
+if "ASYN_VER" in os.environ and os.environ["ASYN_VER"]>="4-26":
+	print ("using asyn:READBACK")
+	os.environ["DB"]="LeyboldTurbo.Asyn4-26"
+	
 cmdline = '..' + os.sep + 'bin' + os.sep + epics_host_arch + os.sep + 'LeyboldTurboApp ../iocBoot/iocLeyboldTurbo/st' + NumPumps + Simulated + '.cmd'
 
 os.system(cmdline)

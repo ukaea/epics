@@ -16,7 +16,7 @@ drvAsynIPServerPortConfigure($(IOPORT):1, $(IPPORT1), 1, 0, 0, 1)
 LeyboldSimAddIOPort($(IOPORT):1)
 
 ## Load record instances
-dbLoadRecords("Db/LeyboldSim.db", "P=$(ASYNPORT):1:,PORT=$(ASYNPORT),ADDR=0")
+dbLoadRecords("Db/$(DB=LeyboldSim).db", "P=$(ASYNPORT):1:,PORT=$(ASYNPORT),ADDR=0")
 
 iocInit
 

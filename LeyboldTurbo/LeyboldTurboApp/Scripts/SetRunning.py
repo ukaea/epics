@@ -6,7 +6,7 @@
 #	Description:																					#
 #		Uses pyepics to set (or unset) the 'Running' state of the pump.								#
 #		NB, this allows the software user to turn the pump on electronically.						#
-#		It is also possible for the equipmwent user to physically turn the pump on or off.			#
+#		It is also possible for the equipment user to physically turn the pump on or off.			#
 #		Pyepics is used for the convenience of cross-platform scripting.							#
 #																									#
 #	Author:  Peter Heesterman (Tessella plc). Date: 03 Sep 2015.									#
@@ -21,9 +21,6 @@ import epics
 import os
 import sys
 
-os.environ["EPICS_CA_AUTO_ADDR_LIST"]="YES"
-os.environ["EPICS_CA_SERVER_PORT"]="5064"
-
 FirstPump='1'
 if len(sys.argv) > 1:
 	FirstPump=sys.argv[1]
@@ -36,7 +33,11 @@ Run='1'
 if len(sys.argv) > 3:
 	Run=sys.argv[3]
 
+	os.environ["EPICS_CA_AUTO_ADDR_LIST"]="YES"
+	os.environ["EPICS_CA_SERVER_PORT"]="5064"
+
 for Pump in range(int(FirstPump), int(LastPump)+1):
 	print("Setting pump", Pump, Run)
 	epics.caput('LEYBOLDTURBO:' + str(Pump) + ':Running', Run)
-	epics.caput('LEYBOLDTURBO:' + str(Pump) + ':Running.PROC', 1)
+	if "ASYN_VER" not in os.environ or os.environ["ASYN_VER"]<"4-26":
+		epics.caput('LEYBOLDTURBO:' + str(Pump) + ':Running.PROC', 1)

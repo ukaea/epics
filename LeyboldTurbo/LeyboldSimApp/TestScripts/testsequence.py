@@ -23,7 +23,8 @@ import time
 
 def caput(PVName, Value):
 	epics.caput(PVName, Value)
-	epics.caput(PVName+'.PROC', 1)
+	if "ASYN_VER" not in os.environ or os.environ["ASYN_VER"]<"4-26":
+		epics.caput(PVName+'.PROC', 1)
 
 def TestSequenceOnePump(Pump):
 	ChannelRoot = 'LEYBOLDTURBOSIM:' + str(Pump)

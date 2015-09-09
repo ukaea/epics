@@ -27,6 +27,10 @@ os.environ["IPPORT5"]="localhost:5070"
 
 epics_host_arch = os.getenv('EPICS_HOST_ARCH', 'win32-x86')
 
+if "ASYN_VER" in os.environ and os.environ["ASYN_VER"]>="4-26":
+	print ("using asyn:READBACK")
+	os.environ["DB"]="LeyboldSim.Asyn4-26"
+
 cmdline = '..' + os.sep + 'bin' + os.sep + epics_host_arch + os.sep + 'LeyboldSim ../iocBoot/iocLeyboldSim/st' + NumPumps + '.simulator.cmd'
 print("Command Line ", cmdline)
 

@@ -42,4 +42,5 @@ for Pump in range(int(FirstPump), int(LastPump)+1):
 	time.sleep(10)
 	print("Setting pump ", Pump)
 	epics.caput("LEYBOLDTURBOSIM:" + str(Pump) + ":Running", Run)
-	epics.caput("LEYBOLDTURBOSIM:" + str(Pump) + ":Running.PROC", 1)
+	if "ASYN_VER" not in os.environ or os.environ["ASYN_VER"]<"4-26":
+		epics.caput("LEYBOLDTURBOSIM:" + str(Pump) + ":Running.PROC", 1)

@@ -601,7 +601,7 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processWrite(int TableInd
 		//		control bit 0 = 0 and
 		//		control bit 10 = 1
 		bool Running = (getIntegerParam(TableIndex, RUNNING) != 0);
-		if (Running)
+		if ((Running) && (value))
 			throw CException(pasynUser, __FUNCTION__, "The pump must be halted before a reset can be applied");
 		USSWritePacket.m_USSPacketStruct.m_PZD[0] |= 1 << 10;
 		USSWritePacket.m_USSPacketStruct.m_PZD[0] |= (value ? 1 : 0) << 7;	// High

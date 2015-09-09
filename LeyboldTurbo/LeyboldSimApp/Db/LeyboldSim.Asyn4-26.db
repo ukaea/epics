@@ -1,0 +1,118 @@
+#####################################################################################################
+#																									#
+#	Module:																							#
+#		LeyboldSim.db																				#
+#																									#
+#	Description:																					#
+#		Defines the IOC records that are used by the LeyboldSimApp.									#
+#		These are, generally, a mirror-image of the fields that are used by the LeyboldTurboApp		#
+#		(i.e. outputs in one are inputs in the other).												#
+#																									#
+#	Author:  Peter Heesterman (Tessella plc). Date: 05 Jan 2015.									#
+#	Written for CCFE (Culham Centre for Fusion Energy).												#
+#																									#
+#	LeyboldTurbo is distributed subject to a Software License Agreement								#
+#	found in file LICENSE that is included with this distribution.									#
+#																									#
+#####################################################################################################
+
+#####################################################################################################
+#																									#
+#	All fields have both output and input behaviour 												#
+#																									#
+#	Field(s)																						#
+#		Running					true(1), if the pump is operating, false(0), if it is stopped.		#
+#		Reset:					Not implemented, because not meaningful for the simulater.			#
+#		Fault					true(1), if the pump has a fault condition, otherwise false(0)		#
+#		FirmwareVersion			A text string, e.g. 3.03.05											#
+#		WarningTemperature:		The pump has a (silulated) high temperature warning.				#
+#		WarningHighLoad:		The pump has a (simulated) high load warning.						#
+#		WarningPurge:			The pump has a (simulated) purge warning.							#
+#		StatorFrequency:		The pump's stator frequency value.									#
+#		ConverterTemperature:	The pump's converter temperature value.								#
+#		MotorCurrent:			The pump's motor current value.										#
+#		PumpTemperature:		The pump's temperaure value.										#
+#		CircuitVoltage:			The pump's circuit voltage value.									#
+#																									#
+#####################################################################################################
+record(bo, "$(P)Running")
+{
+	field(DTYP, "asynInt32")
+	field(OUT,  "@asyn($(PORT),$(ADDR),1)RUNNING")
+	info("asyn:READBACK", "1")
+	field(ZNAM,  "OFF")
+	field(ONAM,  "ON")
+}
+
+record(longout, "$(P)Fault")
+{
+	field(DTYP, "asynInt32")
+	field(OUT,  "@asyn($(PORT),$(ADDR),1)FAULT")
+	info("asyn:READBACK", "1")
+}
+
+record(stringout, "$(P)FirmwareVersion")
+{
+	field(DTYP, "asynOctetWrite")
+	field(OUT,  "@asyn($(PORT),$(ADDR),1)FIRMWAREVERSION")
+	field(VAL, "3.03.11")
+	field(PINI, "1")
+}
+
+record(mbbo, "$(P)WarningTemperature")
+{
+    field(DTYP, "asynInt32")
+	field(OUT,  "@asyn($(PORT),$(ADDR),1)WARNINGTEMPERATURE")
+	info("asyn:READBACK", "1")
+}
+
+record(mbbo, "$(P)WarningHighLoad")
+{
+    field(DTYP, "asynInt32")
+	field(OUT,  "@asyn($(PORT),$(ADDR),1)WARNINGHIGHLOAD")
+	info("asyn:READBACK", "1")
+}
+
+record(mbbo, "$(P)WarningPurge")
+{
+    field(DTYP, "asynInt32")
+	field(OUT,  "@asyn($(PORT),$(ADDR),1)WARNINGPURGE")
+	info("asyn:READBACK", "1")
+}
+
+record(ao, "$(P)StatorFrequency")
+{
+    field(DTYP, "asynInt32")
+	field(OUT,  "@asyn($(PORT),$(ADDR),1)STATORFREQUENCY")
+	info("asyn:READBACK", "1")
+}
+
+record(ao, "$(P)ConverterTemperature")
+{
+    field(DTYP, "asynInt32")
+	field(OUT,  "@asyn($(PORT),$(ADDR),1)CONVERTERTEMPERATURE")
+	info("asyn:READBACK", "1")
+}
+
+record(ao, "$(P)MotorCurrent")
+{
+    field(DTYP, "asynFloat64")
+	field(PREC, "1")
+	field(OUT,  "@asyn($(PORT),$(ADDR),1)MOTORCURRENT")
+	info("asyn:READBACK", "1")
+}
+
+record(ao, "$(P)PumpTemperature")
+{
+    field(DTYP, "asynInt32")
+	field(OUT,  "@asyn($(PORT),$(ADDR),1)PUMPTEMPERATURE")
+	info("asyn:READBACK", "1")
+}
+
+record(ao, "$(P)CircuitVoltage")
+{
+    field(DTYP, "asynFloat64")
+	field(PREC, "1")
+	field(OUT,  "@asyn($(PORT),$(ADDR),1)CIRCUITVOLTAGE")
+	info("asyn:READBACK", "1")
+}
