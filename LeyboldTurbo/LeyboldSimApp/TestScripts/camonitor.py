@@ -21,15 +21,6 @@ import os
 import sys
 import datetime
 
-NumPumps='1'
-if len(sys.argv) > 1:
-	NumPumps=sys.argv[1]
-
-
-os.environ["EPICS_CA_SERVER_PORT"]="5071"
-os.environ["EPICS_CA_AUTO_ADDR_LIST"]="NO"
-os.environ["EPICS_CA_ADDR_LIST"]="localhost"
-
 # pyepics camonitor doesn't output the initial value of the PV when it starts up.
 # It only reports subsequent changes.
 # I want to know the initial value.
@@ -39,6 +30,16 @@ def caGetAndMonitor(PVName):
 	print(PVName, datetime.datetime.fromtimestamp(PV.timestamp).strftime('%Y-%m-%d %H:%M:%S'), PV.value)
 	epics.camonitor(PVName)
 	return;
+
+NumPumps='1'
+if len(sys.argv) > 1:
+	NumPumps=sys.argv[1]
+
+sys.stdout = open('camonitor.sim.log', 'w')
+
+os.environ["EPICS_CA_SERVER_PORT"]="5071"
+os.environ["EPICS_CA_AUTO_ADDR_LIST"]="NO"
+os.environ["EPICS_CA_ADDR_LIST"]="localhost"
 
 PVNames = ["Running", \
 			"Fault", \
@@ -52,13 +53,9 @@ PVNames = ["Running", \
 			"PumpTemperature", \
 			"CircuitVoltage"]
 
-#		CircuitVoltage:			The pump's circuit voltage value.									#
 for Pump in range(1, int(NumPumps)+1):
 	for index, PVName in enumerate(PVNames):
 		caGetAndMonitor("LEYBOLDTURBOSIM:" + str(Pump) + ":" + PVName)
-		
-# This should work to force a polled initial value. But it doesn't
-# epics.ca.poll()
 
 sys.stdin.read(1)
 epics.camonitor_clear()

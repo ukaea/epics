@@ -72,6 +72,7 @@ CLeyboldSimPortDriver::CLeyboldSimPortDriver(const char *asynPortName, int numPu
 CLeyboldSimPortDriver::~CLeyboldSimPortDriver()
 {
 	m_Exiting = true;
+	m_ExitEvent.wait();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -150,9 +151,10 @@ void CLeyboldSimPortDriver::ListenerThread(void* parm)
                               "echoListener: Can't free port %s asynUser\n",
                                                                IOPortName);
 		This->m_asynUsers.erase(This->m_asynUsers.begin()+TableIndex);
-		if (This->m_asynUsers.size() == 0)
-			epicsExit(0);
 	}
+	This->m_ExitEvent.signal();
+	if (This->m_asynUsers.size() == 0)
+		epicsExit(0);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -217,6 +219,15 @@ void CLeyboldSimPortDriver::addIOPort(const char* IOPortName)
 	Octet->registerInterruptUser(pasynOctetInterface->drvPvt, asynUser, octetConnectionCallback, this, &pinterruptNode);
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+//																								//
+//	void CLeyboldSimPortDriver::setDefaultValues(size_t TableIndex)								//
+//																								//
+//	Descreiption:																				//
+//		This method sets a set of normal 'typical' values that would be expected from a			//
+//		pump running in steady state.															//
+//																								//
+//////////////////////////////////////////////////////////////////////////////////////////////////
 void CLeyboldSimPortDriver::setDefaultValues(size_t TableIndex)
 {
 	// The running state has just been enabled.
@@ -228,11 +239,11 @@ void CLeyboldSimPortDriver::setDefaultValues(size_t TableIndex)
 	setIntegerParam(TableIndex, WARNINGTEMPERATURE, 0);
 	setIntegerParam(TableIndex, WARNINGHIGHLOAD, 0);
 	setIntegerParam(TableIndex, WARNINGPURGE, 0);
-	setIntegerParam(TableIndex, STATORFREQUENCY, 500);
+	setIntegerParam(TableIndex, STATORFREQUENCY, 490);
 	setIntegerParam(TableIndex, CONVERTERTEMPERATURE, 50);
-	setDoubleParam(TableIndex, MOTORCURRENT, 10.1);
-	setIntegerParam(TableIndex, PUMPTEMPERATURE, 40);
-	setDoubleParam(TableIndex, CIRCUITVOLTAGE, 30.2);
+	setDoubleParam(TableIndex, MOTORCURRENT, 1.1);
+	setIntegerParam(TableIndex, PUMPTEMPERATURE, 65);
+	setDoubleParam(TableIndex, CIRCUITVOLTAGE, 60.2);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -270,9 +281,9 @@ template<size_t NoOfPZD> bool CLeyboldSimPortDriver::read(asynUser *pasynUser, a
 		asynPrint(pasynUser, ASYN_TRACE_ERROR, "Unexpected packet size recieved %s %s\n", __FILE__, __FUNCTION__);
 
 	USSReadPacket.m_USSPacketStruct.NToH();
-	if (!USSReadPacket.ValidateChecksum())
+	if (!USSReadPacket.ValidateChecksum()) 
 	{
-		asynPrint(pasynUser, ASYN_TRACE_ERROR, "Packet validation failed %s %s\n", __FILE__, __FUNCTION__);
+		asynPrint(pasynUser, ASYN_TRACE_WARNING, "Packet validation failed %s %s\n", __FILE__, __FUNCTION__);
 		return true;
 	}
 	return true;
@@ -294,9 +305,6 @@ void CLeyboldSimPortDriver::process(USSPacket<NoOfPZD6>& USSWritePacket, int Tab
 {
 	epicsInt32 IBuf;
 	epicsFloat64 DBuf;
-	// Frequency - actual value. This is equivalent to parameter 3.
-	IBuf = getIntegerParam(TableIndex, STATORFREQUENCY);
-	USSWritePacket.m_USSPacketStruct.m_PZD[1] = IBuf;
 
 	// Converter temperature - actual value. This is equivalent to parameter 11.
 	IBuf = getIntegerParam(TableIndex, CONVERTERTEMPERATURE); 
@@ -379,6 +387,9 @@ template<size_t NoOfPZD> bool CLeyboldSimPortDriver::process(asynUser* pasynUser
 	if (getIntegerParam(TableIndex, WARNINGPURGE) != 0)
 		USSWritePacket.m_USSPacketStruct.m_PZD[0] |= (1 << 14);
 
+	// Frequency - actual value. This is equivalent to parameter 3. Both packet types have this field.
+	USSWritePacket.m_USSPacketStruct.m_PZD[1] = getIntegerParam(TableIndex, STATORFREQUENCY);
+
 	epicsUInt16 PKE = 0;
 	if (USSReadPacket.m_USSPacketStruct.m_PKE & (1 << 12))
 		// The requested parameter is in the least 12 bits.
@@ -460,6 +471,11 @@ static const iocshArg initArg2 = { "NoOfPZD", iocshArgString};
 static const iocshArg * const initArgs[] = {&initArg0, &initArg1, &initArg2};
 static const iocshFuncDef initFuncDef = {"LeyboldSimPortDriverConfigure",3,initArgs};
 
+void CLeyboldSimPortDriver::exit()
+{
+	m_Exiting = true;
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 //																								//
 //	void LeyboldSimExitFunc(void * param)														//
@@ -471,46 +487,36 @@ static const iocshFuncDef initFuncDef = {"LeyboldSimPortDriverConfigure",3,initA
 //////////////////////////////////////////////////////////////////////////////////////////////////
 void LeyboldSimExitFunc(void * param)
 {
+	g_LeyboldSimPortDriver->exit();
 	delete g_LeyboldSimPortDriver;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 //																								//
-//	int LeyboldSimPortDriverConfigure(const char *asynPortName, int numPumps)					//
+//	int LeyboldSimPortDriverConfigure(const char *asynPortName, int numPumps, int NoOfPZD)		//
 //																								//
 //	Description:																				//
 //		EPICS iocsh callable function to call constructor for the CLeyboldSimPortDriver class.	//
 //																								//
 //	Parameters:																					//
-//		asynPortName - the Asyn port name (e.g. TURBOSIM) to be used.							//
-//		numPumps - how many pumps will be attached?												//
+//		args - 3 arguments:																		//
+//			asynPortName - the Asyn port name (e.g. TURBOSIM) to be used.						//
+//			numPumps - how many pumps will be attached?											//
+//			NoOfPZD - This will be 6 for older model pumps or									//
+//					  2 for the rear port of the MAG Drive Digital model.						//
 //																								//
 //////////////////////////////////////////////////////////////////////////////////////////////////
-int LeyboldSimPortDriverConfigure(const char *asynPortName, int numPumps, int NoOfPZD)
+static void LeyboldSimPortDriverConfigure(const iocshArgBuf *args)
 {
 	try {
+		const char* asynPortName = args[0].sval;
+		int numPumps = atoi(args[1].sval);
+		int NoOfPZD = atoi(args[2].sval);
 		g_LeyboldSimPortDriver = new CLeyboldSimPortDriver(asynPortName, numPumps, NoOfPZD);
 		epicsAtExit(LeyboldSimExitFunc, NULL);
 	}
 	catch(CLeyboldSimPortDriver::CException const&) {
 	}
-    return(asynSuccess);
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-//																								//
-//	static void initCallFunc(const iocshArgBuf *args)											//
-//																								//
-//	Description:																				//
-//		Registered function that configures the IOC.											//
-//																								//
-//////////////////////////////////////////////////////////////////////////////////////////////////
-static void initCallFunc(const iocshArgBuf *args)
-{
-	const char* asynPortName = args[0].sval;
-	int numPumps = atoi(args[1].sval);
-	int NoOfPZD = atoi(args[2].sval);
-	LeyboldSimPortDriverConfigure(asynPortName, numPumps, NoOfPZD);
 }
 
 static const iocshArg addArg0 = { "IOPortName", iocshArgString};
@@ -519,39 +525,25 @@ static const iocshFuncDef addFuncDef = {"LeyboldSimAddIOPort",1,addArgs};
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 //																								//
-//	int LeyboldSimAddIOPort(const char *IOPortName)												//
+//	int LeyboldSimAddIOPort(const iocshArgBuf *args)											//
 //																								//
 //	Description:																				//
 //		EPICS iocsh callable function to add a (simulated) pump to the IOC.						//
 //																								//
 //	Parameters:																					//
-//		IOPortName - the IOC port name (e.g. PUMP:1) to be used.								//
+//		args - 1 argument, the IOC port name (e.g. PUMP:1) to be used.							//
 //																								//
 //////////////////////////////////////////////////////////////////////////////////////////////////
-int LeyboldSimAddIOPort(const char *IOPortName)
+void LeyboldSimAddIOPort(const iocshArgBuf *args)
 {
 	try {
+		const char* IOPortName = args[0].sval;
 		// Test the driver has been configured
 		if (g_LeyboldSimPortDriver)
 			g_LeyboldSimPortDriver->addIOPort(IOPortName);
 	}
 	catch(CLeyboldSimPortDriver::CException const&) {
 	}
-    return(asynSuccess);
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-//																								//
-//	static void addPumpFunc(const iocshArgBuf *args)											//
-//																								//
-//	Description:																				//
-//		Registered function that adds a (simulated) pump to the IOC.							//
-//																								//
-//////////////////////////////////////////////////////////////////////////////////////////////////
-static void addPumpFunc(const iocshArgBuf *args)
-{
-	const char* IOPortName = args[0].sval;
-	LeyboldSimAddIOPort(IOPortName);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -564,8 +556,8 @@ static void addPumpFunc(const iocshArgBuf *args)
 //////////////////////////////////////////////////////////////////////////////////////////////////
 static void LeyboldSimRegistrar(void)
 {
-    iocshRegister(&initFuncDef, initCallFunc);
-    iocshRegister(&addFuncDef, addPumpFunc);
+    iocshRegister(&initFuncDef, LeyboldSimPortDriverConfigure);
+    iocshRegister(&addFuncDef, LeyboldSimAddIOPort);
 }
 
 extern "C" {

@@ -25,8 +25,8 @@ start ..\LeyboldSim.bat %NUMPUMPS% %NOOFPZD%
 
 start ..\..\LeyboldTurboApp\LeyboldTurboApp.bat %NUMPUMPS% %NOOFPZD% Sim
 
-start camonitor.py %NUMPUMPS%
-start ..\..\LeyboldTurboApp\Scripts\camonitor.py %NUMPUMPS%
+start python camonitor.py %NUMPUMPS%
+start python ..\..\LeyboldTurboApp\Scripts\camonitor.py %NUMPUMPS%
 
 testsequence.py %NUMPUMPS%
 

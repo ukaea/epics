@@ -27,6 +27,7 @@
 #include <LeyboldBase.h>
 
 #include <epicsMutex.h>
+#include <epicsEvent.h>
 
 #include <map>
 #include <vector>
@@ -37,6 +38,7 @@ public:
     CLeyboldSimPortDriver(const char *AsynPortName, int NumPumps, int NoOfPZD);
     ~CLeyboldSimPortDriver();
 	void addIOPort(const char* IOPortName);
+	void exit();
                  
 protected:
     template<size_t NoOfPZD> bool read(asynUser *pasynUser, asynUser *IOUser, USSPacket<NoOfPZD>& USSReadPacket);
@@ -49,6 +51,7 @@ protected:
 private:
 	void setDefaultValues(size_t TableIndex);
     epicsMutex m_Mutex;
+	epicsEvent m_ExitEvent;
 
 	volatile bool m_Exiting;		// Signals the listening thread to exit.
 	std::vector<bool> m_WasRunning;	// For each simulated pump, was it in the Running state, on the previous iteration?

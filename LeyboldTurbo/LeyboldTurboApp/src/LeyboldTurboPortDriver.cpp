@@ -678,31 +678,17 @@ void LeyboldTurboExitFunc(void * param)
 //		numPumps - how many pumps will be attached?												//
 //																								//
 //////////////////////////////////////////////////////////////////////////////////////////////////
-int LeyboldTurboPortDriverConfigure(const char *asynPortName, int numPumps, int NoOfPZD)
+static void LeyboldTurboPortDriverConfigure(const iocshArgBuf *args)
 {
 	try {
+		const char* asynPortName = args[0].sval;
+		int numPumps = atoi(args[1].sval);
+		int NoOfPZD = atoi(args[2].sval);
 		g_LeyboldTurboPortDriver = new CLeyboldTurboPortDriver(asynPortName, numPumps, NoOfPZD);
 		epicsAtExit(LeyboldTurboExitFunc, NULL);
 	}
 	catch(CLeyboldTurboPortDriver::CException const&) {
 	}
-    return(asynSuccess);
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-//																								//
-//	static void initCallFunc(const iocshArgBuf *args)											//
-//																								//
-//	Description:																				//
-//		Registered function that configures the IOC.											//
-//																								//
-//////////////////////////////////////////////////////////////////////////////////////////////////
-static void initCallFunc(const iocshArgBuf *args)
-{
-	const char* asynPortName = args[0].sval;
-	int numPumps = atoi(args[1].sval);
-	int NoOfPZD = atoi(args[2].sval);
-	LeyboldTurboPortDriverConfigure(asynPortName, numPumps, NoOfPZD);
 }
 
 static const iocshArg addArg0 = { "IOPortName", iocshArgString};
@@ -719,30 +705,16 @@ static const iocshFuncDef addFuncDef = {"LeyboldTurboAddIOPort",1,addArgs};
 //		IOPortName - the IOC port name (e.g. PUMP:1) to be used.								//
 //																								//
 //////////////////////////////////////////////////////////////////////////////////////////////////
-int LeyboldTurboAddIOPort(const char *IOPortName)
+void LeyboldTurboAddIOPort(const iocshArgBuf *args)
 {
 	try {
+		const char* IOPortName = args[0].sval;
 		// Test the driver has been configured
 		if (g_LeyboldTurboPortDriver)
 			g_LeyboldTurboPortDriver->addIOPort(IOPortName);
 	}
 	catch(CLeyboldTurboPortDriver::CException const&) {
 	}
-    return(asynSuccess);
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-//																								//
-//	static void addPumpFunc(const iocshArgBuf *args)											//
-//																								//
-//	Description:																				//
-//		Registered function that adds a (simulated or real) pump to the IOC.					//
-//																								//
-//////////////////////////////////////////////////////////////////////////////////////////////////
-static void addPumpFunc(const iocshArgBuf *args)
-{
-	const char* IOPortName = args[0].sval;
-	LeyboldTurboAddIOPort(IOPortName);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -755,8 +727,8 @@ static void addPumpFunc(const iocshArgBuf *args)
 //////////////////////////////////////////////////////////////////////////////////////////////////
 static void LeyboldTurboRegistrar(void)
 {
-    iocshRegister(&initFuncDef, initCallFunc);
-    iocshRegister(&addFuncDef, addPumpFunc);
+    iocshRegister(&initFuncDef, LeyboldTurboPortDriverConfigure);
+    iocshRegister(&addFuncDef, LeyboldTurboAddIOPort);
 }
 
 extern "C" {
