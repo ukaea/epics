@@ -22,7 +22,7 @@ INSTALL_PATH="/usr/local/epics";
 if [ $# -ge 1 ]; then INSTALL_PATH=$1; fi
 echo "Asyn install path "$INSTALL_PATH
 
-ASYN_VER="4-25";
+ASYN_VER="4-26";
 if [ $# -ge 2 ]; then ASYN_VER=$2; fi
 echo "Asyn version "$ASYN_VER
 
