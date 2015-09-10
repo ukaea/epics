@@ -94,7 +94,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "support", "support", "{0419
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "iocLeyboldSim", "iocLeyboldSim", "{8687A51C-BA97-4FFE-9B0B-55DACE994618}"
 	ProjectSection(SolutionItems) = preProject
+		iocBoot\iocLeyboldSim\dllPath.bat = iocBoot\iocLeyboldSim\dllPath.bat
+		iocBoot\iocLeyboldSim\envPaths = iocBoot\iocLeyboldSim\envPaths
+		iocBoot\iocLeyboldSim\Makefile = iocBoot\iocLeyboldSim\Makefile
 		iocBoot\iocLeyboldSim\st1.simulator.cmd = iocBoot\iocLeyboldSim\st1.simulator.cmd
+		iocBoot\iocLeyboldSim\st2.simulator.cmd = iocBoot\iocLeyboldSim\st2.simulator.cmd
 		iocBoot\iocLeyboldSim\st5.simulator.cmd = iocBoot\iocLeyboldSim\st5.simulator.cmd
 	EndProjectSection
 EndProject

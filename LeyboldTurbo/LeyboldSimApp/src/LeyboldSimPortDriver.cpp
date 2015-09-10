@@ -375,6 +375,7 @@ template<size_t NoOfPZD> bool CLeyboldSimPortDriver::process(asynUser* pasynUser
 	bool Fault = (getIntegerParam(TableIndex, FAULT) != 0);
 	if (Fault)
 	{
+		// A fault condition causes the controller to stop the pump.
 		USSWritePacket.m_USSPacketStruct.m_PZD[0] |= (1 << 3);
 		setIntegerParam(TableIndex, STATORFREQUENCY, 0);
 		setIntegerParam(TableIndex, RUNNING, 0);

@@ -11,8 +11,6 @@ NoOfPZD = '6'
 if len(sys.argv) > 2:
 	NoOfPZD=sys.argv[2]
 
-os.environ["EPICS_CA_SERVER_PORT"]="5071"
-
 os.environ["NOOFPZD"]=NoOfPZD
 
 epics_host_arch = os.getenv('EPICS_HOST_ARCH', 'win32-x86')
