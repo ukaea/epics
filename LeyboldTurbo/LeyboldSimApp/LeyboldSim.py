@@ -15,10 +15,6 @@ os.environ["EPICS_CA_SERVER_PORT"]="5071"
 
 os.environ["NOOFPZD"]=NoOfPZD
 
-for IpPort in range(1, int(NumPumps)+1):
-	# 1 -> 6066, 2 -> 5067, etc.
-	os.environ["IPPORT" + str(IpPort)]="localhost:506" + str(5+IpPort)
-
 epics_host_arch = os.getenv('EPICS_HOST_ARCH', 'win32-x86')
 
 if "ASYN_VER" in os.environ and os.environ["ASYN_VER"]>="4-26":

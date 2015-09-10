@@ -51,9 +51,6 @@ epics_host_arch = os.getenv('EPICS_HOST_ARCH', 'win32-x86')
 Simulated=''
 if len(sys.argv) > 3 and sys.argv[3].lower() == "sim":
 	Simulated='.simulated'
-	for IpPort in range(1, int(NumPumps)+1):
-		# 1 -> 6066, 2 -> 5067, etc.
-		os.environ["IPPORT" + str(IpPort)]="localhost:506" + str(5+IpPort)
 else:
 	if epics_host_arch.startswith('win'):
 		for ComPort in range(1, int(NumPumps)+1):

@@ -1,4 +1,4 @@
-#!../../bin/_TARGETARCH_/LeyboldTurbo
+#!../bin/linux-x86_64/LeyboldTurbo
 
 ## Register all support components
 dbLoadDatabase ("../dbd/LeyboldTurbo.dbd")
@@ -8,12 +8,12 @@ epicsEnvSet ASYNPORT LEYBOLDTURBO
 epicsEnvSet IOPORT PUMP
 
 # Configure asyn communication port, first
-LeyboldTurboPortDriverConfigure($(ASYNPORT), 1, $(NOOFPZD))
-drvAsynIPPortConfigure($(IOPORT):1, $(IPPORT1), 0, 0)
+LeyboldTurboPortDriverConfigure($(ASYNPORT), 1, $(NOOFPZD="6"))
+drvAsynIPPortConfigure($(IOPORT):1, $(IPPORT1="localhost:5066"), 0, 0)
 LeyboldTurboAddIOPort($(IOPORT):1)
 
 ## Load record instances
-dbLoadRecords("Db/$(DB=LeyboldTurbo).db", "P=$(ASYNPORT):1:,PORT=$(ASYNPORT),ADDR=0")
+dbLoadRecords("../LeyboldTurboApp/Db/$(DB=LeyboldTurbo).db", "P=$(ASYNPORT):1:,PORT=$(ASYNPORT),ADDR=0")
 asynSetTraceIOMask($(ASYNPORT),0,0x2)
 
 iocInit
