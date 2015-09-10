@@ -18,7 +18,7 @@ if not "%1"=="" set NUMPUMPS=%1
 echo "Number of pumps " %NUMPUMPS%
 
 set NOOFPZD=6
-if not "%2"=="" set NOOFPZD=%1
+if not "%2"=="" set NOOFPZD=%2
 echo "Number of pzd " %NOOFPZD%
 
 start ..\LeyboldSim.bat %NUMPUMPS% %NOOFPZD%

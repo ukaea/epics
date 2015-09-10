@@ -15,15 +15,9 @@ os.environ["EPICS_CA_SERVER_PORT"]="5071"
 
 os.environ["NOOFPZD"]=NoOfPZD
 
-os.environ["IPPORT1"]="localhost:5066"
-
-os.environ["IPPORT2"]="localhost:5067"
-
-os.environ["IPPORT3"]="localhost:5068"
-
-os.environ["IPPORT4"]="localhost:5069"
-
-os.environ["IPPORT5"]="localhost:5070"
+for IpPort in range(1, int(NumPumps)+1):
+	# 1 -> 6066, 2 -> 5067, etc.
+	os.environ["IPPORT" + str(IpPort)]="localhost:506" + str(5+IpPort)
 
 epics_host_arch = os.getenv('EPICS_HOST_ARCH', 'win32-x86')
 

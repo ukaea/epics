@@ -26,7 +26,7 @@ if [ -z "$*" ]; then INSTALL_PATH=$DEFAULT_INSTALL_PATH; else INSTALL_PATH=$1;fi
 # asyn
 if [ ! -d $INSTALL_PATH/support/asyn ]; 
 then
-    ./epics_asyn_4-25_install.sh $INSTALL_PATH
+    ./epics_asyn_4-26_install.sh $INSTALL_PATH
 fi
 
 #pyepics

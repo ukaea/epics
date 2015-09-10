@@ -51,24 +51,18 @@ epics_host_arch = os.getenv('EPICS_HOST_ARCH', 'win32-x86')
 Simulated=''
 if len(sys.argv) > 3 and sys.argv[3].lower() == "sim":
 	Simulated='.simulated'
-	os.environ["IPPORT1"]="localhost:5066"
-	os.environ["IPPORT2"]="localhost:5067"
-	os.environ["IPPORT3"]="localhost:5068"
-	os.environ["IPPORT4"]="localhost:5069"
-	os.environ["IPPORT5"]="localhost:5070"
+	for IpPort in range(1, int(NumPumps)+1):
+		# 1 -> 6066, 2 -> 5067, etc.
+		os.environ["IPPORT" + str(IpPort)]="localhost:506" + str(5+IpPort)
 else:
 	if epics_host_arch.startswith('win'):
-		os.environ["COMPORT1"]="COM1:" if len(sys.argv) <= 3 else sys.argv[3]
-		os.environ["COMPORT2"]="COM2:" if len(sys.argv) <= 4 else sys.argv[4]
-		os.environ["COMPORT3"]="COM3:" if len(sys.argv) <= 5 else sys.argv[5]
-		os.environ["COMPORT4"]="COM4:" if len(sys.argv) <= 6 else sys.argv[6]
-		os.environ["COMPORT5"]="COM5:" if len(sys.argv) <= 7 else sys.argv[7]
+		for ComPort in range(1, int(NumPumps)+1):
+			# 1 -> 1, 2 -> 2, etc - but overridden by command line values
+			os.environ["COMPORT" + str(ComPort)]="COM"+chr(ComPort)+":" if len(sys.argv) <= ComPort+2 else sys.argv[ComPort+2]
 	else:
-		os.environ["COMPORT1"]="/dev/ttyS0" if len(sys.argv) <= 3 else sys.argv[3]
-		os.environ["COMPORT2"]="/dev/ttyS1" if len(sys.argv) <= 4 else sys.argv[4]
-		os.environ["COMPORT3"]="/dev/ttyS2" if len(sys.argv) <= 5 else sys.argv[5]
-		os.environ["COMPORT4"]="/dev/ttyS3" if len(sys.argv) <= 6 else sys.argv[6]
-		os.environ["COMPORT5"]="/dev/ttyS4" if len(sys.argv) <= 7 else sys.argv[7]
+		for ComPort in range(1, int(NumPumps)+1):
+			# 1 -> 0, 2 -> 1, etc - but overridden by command line values
+			os.environ["COMPORT" + str(ComPort)]="/dev/ttyS"+chr(ComPort-1)+":" if len(sys.argv) <= ComPort+2 else sys.argv[ComPort+2]
 
 if "ASYN_VER" in os.environ and os.environ["ASYN_VER"]>="4-26":
 	print ("using asyn:READBACK")

@@ -21,7 +21,7 @@ if [ $# -ge 1 ]; then NUMPUMPS=$1; fi
 echo "Number of pumps " $NUMPUMPS
 
 NOOFPZD="6";
-if [ $# -ge 2 ]; then NOOFPZD=$1; fi
+if [ $# -ge 2 ]; then NOOFPZD=$2; fi
 echo "Number of pzd " $NOOFPZD
 
 gnome-terminal -e "python ../LeyboldSim.py $NUMPUMPS $NOOFPZD"
