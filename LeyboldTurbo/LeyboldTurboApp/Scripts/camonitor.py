@@ -19,6 +19,7 @@ import epics
 import os
 import sys
 import datetime
+import time
 
 # pyepics camonitor doesn't output the initial value of the PV when it starts up.
 # It only reports subsequent changes.
@@ -28,7 +29,6 @@ def caGetAndMonitor(PVName):
 	PV = epics.PV(PVName)
 	print(PVName, datetime.datetime.fromtimestamp(PV.timestamp).strftime('%Y-%m-%d %H:%M:%S'), PV.value)
 	epics.camonitor(PVName)
-	return;
 
 NumPumps='1'
 if len(sys.argv) > 1:
@@ -57,5 +57,9 @@ for Pump in range(1, int(NumPumps)+1):
 	for index, PVName in enumerate(PVNames):
 		caGetAndMonitor("LEYBOLDTURBO:" + str(Pump) + ":" + PVName)
 
-sys.stdin.read(1)
-epics.camonitor_clear()
+chid = epics.ca.create_channel("LEYBOLDTURBO:1:Running")
+while (epics.ca.isConnected(chid)):
+	time.sleep(1)
+
+# https://github.com/pyepics/pyepics/issues/34 
+epics.ca.finalize_libca()

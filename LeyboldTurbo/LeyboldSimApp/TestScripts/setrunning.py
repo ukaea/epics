@@ -44,3 +44,8 @@ for Pump in range(int(FirstPump), int(LastPump)+1):
 	epics.caput("LEYBOLDTURBOSIM:" + str(Pump) + ":Running", Run)
 	if "ASYN_VER" not in os.environ or os.environ["ASYN_VER"]<"4-26":
 		epics.caput("LEYBOLDTURBOSIM:" + str(Pump) + ":Running.PROC", 1)
+
+os.environ.unsetenv("EPICS_CA_SERVER_PORT")
+os.environ.unsetenv("EPICS_CA_AUTO_ADDR_LIST")
+os.environ.unsetenv("EPICS_CA_ADDR_LIST")
+

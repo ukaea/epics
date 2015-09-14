@@ -78,3 +78,9 @@ for Pump in range(1, int(NumPumps)+1):
 	time.sleep(10)
 	TestSequenceOnePump(Pump)
 	
+del os.environ["EPICS_CA_SERVER_PORT"]
+del os.environ["EPICS_CA_AUTO_ADDR_LIST"]
+del os.environ["EPICS_CA_ADDR_LIST"]
+
+# https://github.com/pyepics/pyepics/issues/34 
+# epics.ca.finalize_libca()

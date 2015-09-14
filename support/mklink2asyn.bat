@@ -1,8 +1,6 @@
 rmdir asyn
 
-if "%1"=="" goto blank
-mklink /D asyn %1
-goto end
-:blank
-mklink /D asyn asyn4-26
-:end
+SET A_V=%1%
+if "%A_V%"=="" SET A_V=4-26
+mklink /D asyn asyn%A_V%
+SETX ASYN_VER %A_V%

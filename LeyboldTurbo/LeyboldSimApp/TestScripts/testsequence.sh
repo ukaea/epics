@@ -33,9 +33,21 @@ gnome-terminal -e "python ../../LeyboldTurboApp/Scripts/camonitor.py $NUMPUMPS"
 
 python testsequence.py $NUMPUMPS
 
+# NB - there is an issue here.
+# This script previously invoked ../../LeyboldTurboApp/Scripts/Reset.py and ../../LeyboldTurboApp/Scripts/SetRunning.py.
+# However, each caput/caget causes warnings due to multiple IP nodes - IP V4. IP V6 and localhost, that have the same PV.
+# (The fact that these are one and the same is not taken in to account.)
+# When there are too many warnings, the (pytyhon) script fails with errors:
+# "sys.excepthook is missing".
 sleep 10
-python ../../LeyboldTurboApp/Scripts/Reset.py 1 $NUMPUMPS
+for ((Pump=1; Pump<=$NUMPUMPS; Pump++))
+do
+	caput LEYBOLDTURBO:$Pump:Reset 1
+done
 
 sleep 10
-python ../../LeyboldTurboApp/Scripts/SetRunning.py 1 $NUMPUMPS 1
+for ((Pump=1; Pump<=$NUMPUMPS; Pump++))
+do
+	caput LEYBOLDTURBO:$Pump:Running 1
+done
 

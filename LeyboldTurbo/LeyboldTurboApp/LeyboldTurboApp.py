@@ -46,7 +46,7 @@ if NoOfPZD=='2':
 
 os.environ["NOOFPZD"]=NoOfPZD
 
-epics_host_arch = os.getenv('EPICS_HOST_ARCH', 'win32-x86')
+epics_host_arch = os.getenv('EPICS_HOST_ARCH', 'win32-x86-static')
 
 Simulated=''
 if len(sys.argv) > 3 and sys.argv[3].lower() == "sim":
