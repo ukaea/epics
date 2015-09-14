@@ -13,7 +13,7 @@ if len(sys.argv) > 2:
 
 os.environ["NOOFPZD"]=NoOfPZD
 
-epics_host_arch = os.getenv('EPICS_HOST_ARCH', 'win32-x86')
+epics_host_arch = os.getenv('EPICS_HOST_ARCH', 'win32-x86-static')
 
 if "ASYN_VER" in os.environ and os.environ["ASYN_VER"]>="4-26":
 	print ("using asyn:READBACK")

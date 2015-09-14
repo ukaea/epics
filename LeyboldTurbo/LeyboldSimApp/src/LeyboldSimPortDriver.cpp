@@ -153,8 +153,6 @@ void CLeyboldSimPortDriver::ListenerThread(void* parm)
 		This->m_WasRunning.erase(This->m_WasRunning.begin()+TableIndex);
 	}
 	This->m_ExitEvent.signal();
-	if (This->m_asynUsers.size() == 0)
-		epicsExit(0);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

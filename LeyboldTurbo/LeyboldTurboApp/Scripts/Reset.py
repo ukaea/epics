@@ -28,9 +28,6 @@ LastPump=FirstPump
 if len(sys.argv) > 2:
 	LastPump=sys.argv[2]
 
-os.environ["EPICS_CA_AUTO_ADDR_LIST"]="YES"
-os.environ["EPICS_CA_SERVER_PORT"]="5064"
-
 for Pump in range(int(FirstPump), int(LastPump)+1):
 	print("Resetting ", Pump)
 	epics.caput('LEYBOLDTURBO:' + str(Pump) + ':Reset', 1)
