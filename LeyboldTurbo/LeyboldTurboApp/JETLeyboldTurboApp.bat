@@ -1,6 +1,6 @@
 set NUMPUMPS=6
 set BAUD=19200
-set NoOfPZD=2
+set NoOfPZD=6
 
 set ASYNPORT=TT
 

@@ -10,7 +10,7 @@ epicsEnvSet ASYNSIMPORT1 $(ASYNSIMPORT1=$(ASYNSIMPORT):1)
 epicsEnvSet IOPORT PUMP
 
 # Configure asyn communication port, first
-LeyboldSimPortDriverConfigure($(ASYNPORT), 1, $(NOOFPZD="6"))
+LeyboldSimPortDriverConfigure($(ASYNSIMPORT), 1, $(NOOFPZD="6"))
 drvAsynIPServerPortConfigure($(IOPORT):1, $(IPPORT1="localhost:5066"), 1, 0, 0, 1)
 LeyboldSimAddIOPort($(IOPORT):1)
 
