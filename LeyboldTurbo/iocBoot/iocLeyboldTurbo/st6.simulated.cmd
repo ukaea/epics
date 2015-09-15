@@ -10,11 +10,12 @@ epicsEnvSet ASYNPORT2 $(ASYNPORT2=$(ASYNPORT):2)
 epicsEnvSet ASYNPORT3 $(ASYNPORT3=$(ASYNPORT):3)
 epicsEnvSet ASYNPORT4 $(ASYNPORT4=$(ASYNPORT):4)
 epicsEnvSet ASYNPORT5 $(ASYNPORT5=$(ASYNPORT):5)
+epicsEnvSet ASYNPORT6 $(ASYNPORT5=$(ASYNPORT):6)
 
 epicsEnvSet IOPORT PUMP
 
 # Configure asyn communication port, first
-LeyboldTurboPortDriverConfigure($(ASYNPORT), 5, $(NOOFPZD="6"))
+LeyboldTurboPortDriverConfigure($(ASYNPORT), 6, $(NOOFPZD="6"))
 drvAsynIPPortConfigure($(IOPORT):1, $(IPPORT1="localhost:5066"), 0, 0)
 LeyboldTurboAddIOPort($(IOPORT):1)
 drvAsynIPPortConfigure($(IOPORT):2, $(IPPORT2="localhost:5067"), 0, 0)
@@ -25,6 +26,8 @@ drvAsynIPPortConfigure($(IOPORT):4, $(IPPORT4="localhost:5069"), 0, 0)
 LeyboldTurboAddIOPort($(IOPORT):4)
 drvAsynIPPortConfigure($(IOPORT):5, $(IPPORT5="localhost:5070"), 0, 0)
 LeyboldTurboAddIOPort($(IOPORT):5)
+drvAsynIPPortConfigure($(IOPORT):6, $(IPPORT6="localhost:5071"), 0, 0)
+LeyboldTurboAddIOPort($(IOPORT):6)
 
 ## Load record instances
 dbLoadRecords("../LeyboldTurboApp/Db/$(DB=LeyboldTurbo).db", "P=$(ASYNPORT1):,PORT=$(ASYNPORT),ADDR=0")
@@ -36,6 +39,8 @@ dbLoadRecords("../LeyboldTurboApp/Db/$(DB=LeyboldTurbo).db", "P=$(ASYNPORT3):,PO
 dbLoadRecords("../LeyboldTurboApp/Db/$(DB=LeyboldTurbo).db", "P=$(ASYNPORT4):,PORT=$(ASYNPORT),ADDR=3")
 
 dbLoadRecords("../LeyboldTurboApp/Db/$(DB=LeyboldTurbo).db", "P=$(ASYNPORT5):,PORT=$(ASYNPORT),ADDR=4")
+
+dbLoadRecords("../LeyboldTurboApp/Db/$(DB=LeyboldTurbo).db", "P=$(ASYNPORT6):,PORT=$(ASYNPORT),ADDR=5")
 
 iocInit
 

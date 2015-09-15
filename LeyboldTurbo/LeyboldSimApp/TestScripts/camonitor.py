@@ -32,13 +32,17 @@ def caGetAndMonitor(PVName):
 	epics.camonitor(PVName)
 	return;
 
-NumPumps='1'
+FirstPump='1'
 if len(sys.argv) > 1:
-	NumPumps=sys.argv[1]
+	FirstPump=sys.argv[1]
+	
+LastPump=FirstPump
+if len(sys.argv) > 2:
+	LastPump=sys.argv[2]
 
 sys.stdout = open('camonitor.sim.log', 'w')
 
-os.environ["EPICS_CA_SERVER_PORT"]="5071"
+os.environ["EPICS_CA_SERVER_PORT"]="5072"
 os.environ["EPICS_CA_AUTO_ADDR_LIST"]="NO"
 os.environ["EPICS_CA_ADDR_LIST"]="localhost"
 
@@ -56,12 +60,12 @@ PVNames = ["Running", \
 
 			
 ChannelDefaultRoot = os.getenv('ASYNSIMPORT', 'LEYBOLDTURBOSIM')
-for Pump in range(1, int(NumPumps)+1):
+for Pump in range(int(FirstPump), int(LastPump)+1):
 	for index, PVName in enumerate(PVNames):
 		ChannelRoot = os.getenv('ASYNSIMPORT'+str(Pump), ChannelDefaultRoot+':'+str(Pump))
 		caGetAndMonitor(ChannelRoot + ":" + PVName)
 
-Channel1Root = os.getenv('ASYNSIMPORT1', ChannelDefaultRoot+':1')
+Channel1Root = os.getenv('ASYNSIMPORT'+str(FirstPump), ChannelDefaultRoot+':'+str(FirstPump))
 chid = epics.ca.create_channel(Channel1Root + ":Running")
 while (epics.ca.isConnected(chid)):
 	time.sleep(1)

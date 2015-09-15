@@ -28,8 +28,8 @@ gnome-terminal -e "python ../LeyboldSim.py $NUMPUMPS $NOOFPZD"
 
 gnome-terminal -e "python ../../LeyboldTurboApp/LeyboldTurboApp.py $NUMPUMPS $NOOFPZD Sim"
 
-gnome-terminal -e "python camonitor.py $NUMPUMPS"
-gnome-terminal -e "python ../../LeyboldTurboApp/Scripts/camonitor.py $NUMPUMPS"
+gnome-terminal -e "python camonitor.py 1 $NUMPUMPS"
+gnome-terminal -e "python ../../LeyboldTurboApp/Scripts/camonitor.py 1 $NUMPUMPS"
 
 python testsequence.py $NUMPUMPS
 

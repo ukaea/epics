@@ -67,7 +67,7 @@ def TestSequenceOnePump(Pump):
 	print("No motor current on ", Pump)
 	caput(ChannelRoot + ':Fault', 17)
 
-os.environ["EPICS_CA_SERVER_PORT"]="5071"
+os.environ["EPICS_CA_SERVER_PORT"]="5072"
 os.environ["EPICS_CA_AUTO_ADDR_LIST"]="NO"
 os.environ["EPICS_CA_ADDR_LIST"]="localhost"
 
