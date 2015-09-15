@@ -33,8 +33,14 @@ def caGetAndMonitor(PVName):
 NumPumps='1'
 if len(sys.argv) > 1:
 	NumPumps=sys.argv[1]
+	
 
-sys.stdout = open('camonitor.app.log', 'w')
+ArchivePath = 'camonitor.app.log'
+if len(sys.argv) > 2:
+	ArchivePath=sys.argv[2]
+	
+
+sys.stdout = open(ArchivePath, 'w')
 
 PVNames = ["Running", \
 			"Reset", \
@@ -53,11 +59,14 @@ PVNames = ["Running", \
 			"PumpTemperature", \
 			"CircuitVoltage"]
 
+ChannelDefaultRoot = os.getenv('ASYNPORT', 'LEYBOLDTURBO')
 for Pump in range(1, int(NumPumps)+1):
+	ChannelRoot = os.getenv('ASYNPORT'+str(Pump), ChannelDefaultRoot+':'+str(Pump))
 	for index, PVName in enumerate(PVNames):
-		caGetAndMonitor("LEYBOLDTURBO:" + str(Pump) + ":" + PVName)
+		caGetAndMonitor(ChannelRoot + ":" + PVName)
 
-chid = epics.ca.create_channel("LEYBOLDTURBO:1:Running")
+Channel1Root = os.getenv('ASYNPORT1', ChannelDefaultRoot+':1')
+chid = epics.ca.create_channel(Channel1Root+':Running')
 while (epics.ca.isConnected(chid)):
 	time.sleep(1)
 

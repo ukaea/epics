@@ -1,0 +1,10 @@
+set NUMPUMPS=6
+set BAUD=19200
+set NoOfPZD=2
+set COMPORT1=COM1
+set COMPORT2=COM2
+set COMPORT3=COM3
+set COMPORT4=COM4
+set COMPORT5=COM7
+set COMPORT5=COM10
+..\Release_LIB\LeyboldTurboApp ..\iocBoot\iocLeyboldTurbo\st5.cmd

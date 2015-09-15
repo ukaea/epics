@@ -37,8 +37,11 @@ if len(sys.argv) > 2:
 Run='1'
 if len(sys.argv) > 3:
 	Run=sys.argv[3]
+
+ChannelDefaultRoot = os.getenv('ASYNSIMPORT', 'LEYBOLDTURBOSIM')
 	
 for Pump in range(int(FirstPump), int(LastPump)+1):
+	ChannelRoot = os.getenv('ASYNSIMPORT'+str(Pump), ChannelDefaultRoot+':'+str(Pump))
 	time.sleep(10)
 	print("Setting pump ", Pump)
 	epics.caput("LEYBOLDTURBOSIM:" + str(Pump) + ":Running", Run)

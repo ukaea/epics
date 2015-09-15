@@ -28,7 +28,9 @@ LastPump=FirstPump
 if len(sys.argv) > 2:
 	LastPump=sys.argv[2]
 
+ChannelDefaultRoot = os.getenv('ASYNPORT', 'LEYBOLDTURBO')
 for Pump in range(int(FirstPump), int(LastPump)+1):
+	ChannelRoot = os.getenv('ASYNPORT'+str(Pump), ChannelDefaultRoot+':'+str(Pump))
 	print("Resetting ", Pump)
-	epics.caput('LEYBOLDTURBO:' + str(Pump) + ':Reset', 1)
+	epics.caput(ChannelRoot + ':Reset', 1)
 

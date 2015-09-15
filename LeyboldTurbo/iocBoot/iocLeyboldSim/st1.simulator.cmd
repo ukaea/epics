@@ -5,7 +5,7 @@ dbLoadDatabase ("../dbd/LeyboldSim.dbd")
 LeyboldSim_registerRecordDeviceDriver pdbbase
 
 epicsEnvSet EPICS_CA_SERVER_PORT "5071"
-epicsEnvSet ASYNPORT LEYBOLDTURBOSIM
+epicsEnvSet ASYNSIMPORT $(ASYNSIMPORT=LEYBOLDTURBOSIM)
 epicsEnvSet IOPORT PUMP
 
 # Configure asyn communication port, first
@@ -14,7 +14,7 @@ drvAsynIPServerPortConfigure($(IOPORT):1, $(IPPORT1="localhost:5066"), 1, 0, 0, 
 LeyboldSimAddIOPort($(IOPORT):1)
 
 ## Load record instances
-dbLoadRecords("../LeyboldSimApp/Db/$(DB=LeyboldSim).db", "P=$(ASYNPORT):1:,PORT=$(ASYNPORT),ADDR=0")
+dbLoadRecords("../LeyboldSimApp/Db/$(DB=LeyboldSim).db", "P=$(ASYNSIMPORT):1:,PORT=$(ASYNSIMPORT),ADDR=0")
 
 iocInit
 

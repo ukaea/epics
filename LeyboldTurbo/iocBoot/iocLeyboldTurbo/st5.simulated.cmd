@@ -4,7 +4,13 @@
 dbLoadDatabase ("../dbd/LeyboldTurbo.dbd")
 LeyboldTurbo_registerRecordDeviceDriver pdbbase
 
-epicsEnvSet ASYNPORT LEYBOLDTURBO
+epicsEnvSet ASYNPORT $(ASYNPORT=LEYBOLDTURBO)
+epicsEnvSet ASYNPORT1 $(ASYNPORT1=$(ASYNPORT):1)
+epicsEnvSet ASYNPORT2 $(ASYNPORT2=$(ASYNPORT):2)
+epicsEnvSet ASYNPORT3 $(ASYNPORT3=$(ASYNPORT):3)
+epicsEnvSet ASYNPORT4 $(ASYNPORT4=$(ASYNPORT):4)
+epicsEnvSet ASYNPORT5 $(ASYNPORT5=$(ASYNPORT):5)
+
 epicsEnvSet IOPORT PUMP
 
 # Configure asyn communication port, first
@@ -21,15 +27,15 @@ drvAsynIPPortConfigure($(IOPORT):5, $(IPPORT5="localhost:5070"), 0, 0)
 LeyboldTurboAddIOPort($(IOPORT):5)
 
 ## Load record instances
-dbLoadRecords("../LeyboldTurboApp/Db/$(DB=LeyboldTurbo).db", "P=$(ASYNPORT):1:,PORT=$(ASYNPORT),ADDR=0")
+dbLoadRecords("../LeyboldTurboApp/Db/$(DB=LeyboldTurbo).db", "P=$(ASYNPORT1):,PORT=$(ASYNPORT),ADDR=0")
 
-dbLoadRecords("../LeyboldTurboApp/Db/$(DB=LeyboldTurbo).db", "P=$(ASYNPORT):2:,PORT=$(ASYNPORT),ADDR=1")
+dbLoadRecords("../LeyboldTurboApp/Db/$(DB=LeyboldTurbo).db", "P=$(ASYNPORT2):,PORT=$(ASYNPORT),ADDR=1")
 
-dbLoadRecords("../LeyboldTurboApp/Db/$(DB=LeyboldTurbo).db", "P=$(ASYNPORT):3:,PORT=$(ASYNPORT),ADDR=2")
+dbLoadRecords("../LeyboldTurboApp/Db/$(DB=LeyboldTurbo).db", "P=$(ASYNPORT3):,PORT=$(ASYNPORT),ADDR=2")
 
-dbLoadRecords("../LeyboldTurboApp/Db/$(DB=LeyboldTurbo).db", "P=$(ASYNPORT):4:,PORT=$(ASYNPORT),ADDR=3")
+dbLoadRecords("../LeyboldTurboApp/Db/$(DB=LeyboldTurbo).db", "P=$(ASYNPORT4):,PORT=$(ASYNPORT),ADDR=3")
 
-dbLoadRecords("../LeyboldTurboApp/Db/$(DB=LeyboldTurbo).db", "P=$(ASYNPORT):5:,PORT=$(ASYNPORT),ADDR=4")
+dbLoadRecords("../LeyboldTurboApp/Db/$(DB=LeyboldTurbo).db", "P=$(ASYNPORT5):,PORT=$(ASYNPORT),ADDR=4")
 
 iocInit
 

@@ -54,11 +54,15 @@ PVNames = ["Running", \
 			"PumpTemperature", \
 			"CircuitVoltage"]
 
+			
+ChannelDefaultRoot = os.getenv('ASYNSIMPORT', 'LEYBOLDTURBOSIM')
 for Pump in range(1, int(NumPumps)+1):
 	for index, PVName in enumerate(PVNames):
-		caGetAndMonitor("LEYBOLDTURBOSIM:" + str(Pump) + ":" + PVName)
+		ChannelRoot = os.getenv('ASYNSIMPORT'+str(Pump), ChannelDefaultRoot+':'+str(Pump))
+		caGetAndMonitor(ChannelRoot + ":" + PVName)
 
-chid = epics.ca.create_channel("LEYBOLDTURBOSIM:1:Running")
+Channel1Root = os.getenv('ASYNSIMPORT1', ChannelDefaultRoot+':1')
+chid = epics.ca.create_channel(Channel1Root + ":Running")
 while (epics.ca.isConnected(chid)):
 	time.sleep(1)
 

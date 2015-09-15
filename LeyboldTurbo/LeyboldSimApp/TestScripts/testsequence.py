@@ -27,7 +27,8 @@ def caput(PVName, Value):
 		epics.caput(PVName+'.PROC', 1)
 
 def TestSequenceOnePump(Pump):
-	ChannelRoot = 'LEYBOLDTURBOSIM:' + str(Pump)
+	ChannelDefaultRoot = os.getenv('ASYNSIMPORT', 'LEYBOLDTURBOSIM')
+	ChannelRoot = os.getenv('ASYNSIMPORT'+str(Pump), ChannelDefaultRoot+':'+str(Pump))
 
 	print("First turn the pump off ", Pump)
 	caput(ChannelRoot + ':Running', 0)
