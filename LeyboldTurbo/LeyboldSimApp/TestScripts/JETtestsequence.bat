@@ -13,25 +13,14 @@ REM	LeyboldTurbo is distributed subject to a Software License Agreement
 REM	found in file LICENSE that is included with this distribution.
 
 
-set ASYNPORT=TT
 set ASYNSIMPORT=TTSIM
-
-set ASYNPORT1=TT:01
 set ASYNSIMPORT1=TTSIM:01
-
-set ASYNPORT2=TT:02
 set ASYNSIMPORT2=TTSIM:02
-
-set ASYNPORT3=TT:03
 set ASYNSIMPORT3=TPSIM:03
-
-set ASYNPORT4=TT:04
 set ASYNSIMPORT4=TPSIM:04
-
-set ASYNPORT5=NT:07
 set ASYNSIMPORT5=NTSIM:07
+set ASYNSIMPORT6=NTSIM:10
 
-set ASYNPORT6=NT:07
-set ASYNSIMPORT6=NTSIM:07
+call ..\..\LeyboldTurboApp\Scripts\JETMappings.bat
 
 TestSequence.bat 6 2

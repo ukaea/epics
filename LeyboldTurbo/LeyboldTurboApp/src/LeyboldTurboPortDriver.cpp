@@ -330,9 +330,6 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processRead(int TableInde
 	// Normal operation 1 = the pump is running in the normal operation mode
 	setIntegerParam (TableIndex, RUNNING, USSReadPacket.m_USSPacketStruct.m_PZD[0] & (1 << 10) ? 1 : 0);
 
-	// Remote has been activated 1 = start/stop (control bit 0) and reset(control bit 7) through serial interface is possible.
-	setIntegerParam (TableIndex, RESET, USSReadPacket.m_USSPacketStruct.m_PZD[0] & (1 << 15) ? 1 : 0);
-
 	if (USSReadPacket.m_USSPacketStruct.m_PZD[0] & (1 << 3))
 	{
 		// We have an error status. Request the error code

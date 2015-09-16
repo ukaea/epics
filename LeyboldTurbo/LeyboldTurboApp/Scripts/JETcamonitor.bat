@@ -1,7 +1,20 @@
+REM	Module:
+REM		JETcamonitor.bat
+REM
+REM	Description:
+REM		This is a Windows script that provides the name mappings - and file path - that are required
+REM 	for the turbo pumps that are installed at JET.
+REM 	This script is JET-specific.
+REM
+REM	Author:  Peter Heesterman (Tessella plc). Date: 03 Sep 2015.
+REM	Written for CCFE (Culham Centre for Fusion Energy).
+REM
+REM	LeyboldTurbo is distributed subject to a Software License Agreement
+REM	found in file LICENSE that is included with this distribution.
+
+
 md D:\LocalData\
-start /B camonitor.py 1 1 D:\LocalData\TT.01.log
-start /B camonitor.py 2 2 D:\LocalData\TT.02.log
-start /B camonitor.py 3 3 D:\LocalData\TT.03.log
-start /B camonitor.py 4 4 D:\LocalData\TT.04.log
-start /B camonitor.py 5 5 D:\LocalData\NT.07.log
-start /B camonitor.py 6 6 D:\LocalData\NT.10.log
+
+call JETMappings.bat
+
+camonitor.py 1 6 D:\LocalData\
