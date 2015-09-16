@@ -36,6 +36,8 @@
 
 static CLeyboldTurboPortDriver* g_LeyboldTurboPortDriver;
 
+const char* SoftwareVersion = "1.0";
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 //																								//
 //	CLeyboldTurboPortDriver::CLeyboldTurboPortDriver(const char *asynPortName, int numPumps)	//
@@ -88,6 +90,9 @@ CLeyboldTurboPortDriver::~CLeyboldTurboPortDriver()
 //////////////////////////////////////////////////////////////////////////////////////////////////
 void CLeyboldTurboPortDriver::addIOPort(const char* IOPortName)
 {
+	if (int(m_IOUsers.size()) >= maxAddr)
+		throw CException(pasynUserSelf, __FUNCTION__, "Too many pumps connected=" + std::string(IOPortName));
+		
 	for (size_t ParamIndex = 0; ParamIndex < size_t(NUM_PARAMS); ParamIndex++)
 	{
 		// Create parameters from the definitions.
@@ -97,7 +102,7 @@ void CLeyboldTurboPortDriver::addIOPort(const char* IOPortName)
 		{
 			// Set default values.
 			case asynParamInt32: 
-				setIntegerParam(m_IOUsers.size(), ParameterDefns[ParamIndex].m_ParamName, 0);
+				setIntegerParam(int(m_IOUsers.size()), ParameterDefns[ParamIndex].m_ParamName, 0);
 				break;
 			case asynParamFloat64: 
 				setDoubleParam (int(m_IOUsers.size()), ParameterDefns[ParamIndex].m_ParamName, 0.0);
@@ -254,6 +259,18 @@ asynStatus CLeyboldTurboPortDriver::readOctet(asynUser *pasynUser, char *value, 
 				Minor2 = PWE %100;
 			epicsSnprintf(CBuf, sizeof(CBuf), "%1d.%02d.%02d", Major, Minor1, Minor2);
 			setStringParam (TableIndex, FIRMWAREVERSION, CBuf);
+
+			FILE* Version = fopen("version.txt", "rt");
+			if (Version)
+			{
+				char CBuf[MaxEPICSStrLen];
+				fgets(CBuf, MaxEPICSStrLen, Version);
+				setStringParam (TableIndex, SOFTWAREVERSION, CBuf);
+				fclose(Version);
+			}
+			else
+				setStringParam (TableIndex, SOFTWAREVERSION, SoftwareVersion);
+
 		}
 	}
 	catch(CException const&) {

@@ -75,20 +75,20 @@ public:
 		if (asynPortDriver::setStringParam (int(list), Parameters(ParamName), value.substr(0, MaxEPICSStrLen).c_str()) != asynSuccess)
 			throw CException(pasynUserSelf, __FUNCTION__, ParamName);
 	}
-    int getIntegerParam(int list, const char* ParamName) {
+    int getIntegerParam(size_t list, const char* ParamName) {
 		int value = 0;
-		if (asynPortDriver::getIntegerParam(list, Parameters(ParamName), &value) != asynSuccess)
+		if (asynPortDriver::getIntegerParam(int(list), Parameters(ParamName), &value) != asynSuccess)
 			throw CException(pasynUserSelf, __FUNCTION__, ParamName);
 		return value;
 	}
-    double getDoubleParam(int list, const char* ParamName) {
+    double getDoubleParam(size_t list, const char* ParamName) {
 		double value = 0;
-		if (asynPortDriver::getDoubleParam(list, Parameters(ParamName), &value) != asynSuccess)
+		if (asynPortDriver::getDoubleParam(int(list), Parameters(ParamName), &value) != asynSuccess)
 			throw CException(pasynUserSelf, __FUNCTION__, ParamName);
 		return value;
 	}
-    void getStringParam(int list, const char* ParamName, int maxChars, char *value) {
-		if (asynPortDriver::getStringParam(list, Parameters(ParamName), maxChars, value) != asynSuccess)
+    void getStringParam(size_t list, const char* ParamName, int maxChars, char *value) {
+		if (asynPortDriver::getStringParam(int(list), Parameters(ParamName), maxChars, value) != asynSuccess)
 			throw CException(pasynUserSelf, __FUNCTION__, ParamName);
 	}
 	int Parameters(std::string const& ParamName) const {

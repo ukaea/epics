@@ -104,7 +104,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "iocLeyboldSim", "iocLeybold
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestScripts", "TestScripts", "{3B25DF17-DA76-4505-BB10-99F4E84DFFB1}"
 	ProjectSection(SolutionItems) = preProject
-		LeyboldSimApp\TestScripts\camonitor.py = LeyboldSimApp\TestScripts\camonitor.py
 		LeyboldSimApp\TestScripts\setrunning.py = LeyboldSimApp\TestScripts\setrunning.py
 		LeyboldSimApp\TestScripts\testsequence.bat = LeyboldSimApp\TestScripts\testsequence.bat
 		LeyboldSimApp\TestScripts\testsequence.py = LeyboldSimApp\TestScripts\testsequence.py

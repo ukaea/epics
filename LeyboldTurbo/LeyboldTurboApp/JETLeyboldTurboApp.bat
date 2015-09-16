@@ -24,6 +24,9 @@ set COMPORT4=COM4
 set COMPORT5=COM7
 set COMPORT5=COM10
 
+REM Cos we're using up-to-date asyn
+set DB=LeyboldTurbo.Asyn4-26
+
 call Scripts\JETMappings.bat
 
 ..\Release_LIB\LeyboldTurboApp ..\iocBoot\iocLeyboldTurbo\st6.cmd

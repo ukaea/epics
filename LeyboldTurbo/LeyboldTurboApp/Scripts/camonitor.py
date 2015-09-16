@@ -26,8 +26,8 @@ import _io
 # Redirecting this causes it not to put any end-of-line charachters on it.
 # Also, I would prefer to flush the file each time so that the information is up-to-date.
 class cFile:
-	def __init__ (self, fileName, someOtherParameter):
-		self.f = open(fileName, 'a')
+	def __init__ (self, fileName, attributes='a'):
+		self.f = open(fileName, attributes)
 	def __enter__ (self):
 		return self.f
 	def __exit__ (self, exc_type, exc_value, traceback):
@@ -62,6 +62,7 @@ PVNames = ["Running", \
 			"Fault", \
 			"FaultStr", \
 			"FirmwareVersion", \
+			"SoftwareVersion", \
 			"WarningTemperature", \
 			"WarningTemperatureStr", \
 			"WarningHighLoad",

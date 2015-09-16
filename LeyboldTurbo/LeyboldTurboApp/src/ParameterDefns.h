@@ -32,6 +32,7 @@ static const char* RESET = "RESET";
 static const char* FAULT = "FAULT";
 static const char* FAULTSTR = "FAULTSTR";
 static const char* FIRMWAREVERSION = "FIRMWAREVERSION";
+static const char* SOFTWAREVERSION = "SOFTWAREVERSION";
 static const char* WARNINGTEMPERATURE = "WARNINGTEMPERATURE";
 static const char* WARNINGTEMPERATURESTR = "WARNINGTEMPERATURESTR";
 static const char* WARNINGHIGHLOAD = "WARNINGHIGHLOAD";
@@ -51,6 +52,7 @@ ParameterDefn ParameterDefns[] =
 	{FAULT, asynParamInt32, false},
 	{FAULTSTR, asynParamOctet, true},
 	{FIRMWAREVERSION, asynParamOctet, false},
+	{SOFTWAREVERSION, asynParamOctet, true},
 	{WARNINGTEMPERATURE, asynParamInt32, false},
 	{WARNINGTEMPERATURESTR, asynParamOctet, true},
 	{WARNINGHIGHLOAD, asynParamInt32, false},

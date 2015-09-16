@@ -61,7 +61,7 @@ static const int ASYN_TRACE_WARNING = ASYN_TRACE_ERROR;
 CLeyboldSimPortDriver::CLeyboldSimPortDriver(const char *asynPortName, int numPumps, int NoOfPZD)
    : CLeyboldBase(asynPortName, 
                     numPumps,		// maxAddr
-                    NUM_PARAMS-5,	// Because Reset, FaultStr, WarningTemperatureStr, WarningHighLoadStr and WarningPurgeStr are not used.
+                    UsedParams(),
 					NoOfPZD,		// Either 2 or 6, depending on the serial port and model.
                     asynDrvUserMask | asynInt32Mask | asynFloat64Mask | asynOctetMask // Interface and interrupt mask
 				)
@@ -90,14 +90,14 @@ void CLeyboldSimPortDriver::ListenerThread(void* parm)
 	CLeyboldSimPortDriver* This = static_cast<CLeyboldSimPortDriver*>(parm);
 	asynUser* IOUser;
 	const char* IOPortName = epicsThreadGetNameSelf();
-	int TableIndex;
+	size_t TableIndex;
 	{
 		epicsGuard < epicsMutex > guard ( This->m_Mutex );
-		TableIndex = This->m_WasRunning.size();
+		TableIndex = int(This->m_WasRunning.size());
 	}
 	asynUser* asynUser = This->m_asynUsers[TableIndex];
 	try {
-		if (pasynOctetSyncIO->connect(IOPortName, TableIndex, &IOUser, NULL) != asynSuccess)
+		if (pasynOctetSyncIO->connect(IOPortName, int(TableIndex), &IOUser, NULL) != asynSuccess)
 			throw CException(This->pasynUserSelf, __FUNCTION__, "connecting to IO port=" + std::string(IOPortName));
 		{
 			epicsGuard < epicsMutex > guard ( This->m_Mutex );
@@ -121,7 +121,7 @@ void CLeyboldSimPortDriver::ListenerThread(void* parm)
 				if (!This->read<NoOfPZD6>(asynUser, IOUser, USSReadPacket))
 				   break;
 				{
-					This->process(USSWritePacket, TableIndex);
+					This->process(USSWritePacket, int(TableIndex));
 					if (!This->process<NoOfPZD6>(asynUser, IOUser, USSReadPacket, USSWritePacket, TableIndex))
 						break;
 				}
@@ -206,7 +206,7 @@ void CLeyboldSimPortDriver::addIOPort(const char* IOPortName)
     asynUser *asynUser = pasynManager->createAsynUser(0,0);
 	m_asynUsers.push_back(asynUser);
 
-    if (pasynManager->connectDevice(asynUser, IOPortName, m_asynUsers.size()) != asynSuccess)
+    if (pasynManager->connectDevice(asynUser, IOPortName, int(m_asynUsers.size())) != asynSuccess)
 		throw CException(asynUser, __FUNCTION__, "connectDevice" + std::string(IOPortName));
 
     asynInterface* pasynOctetInterface = pasynManager->findInterface(asynUser, asynOctetType, 1);
@@ -216,6 +216,28 @@ void CLeyboldSimPortDriver::addIOPort(const char* IOPortName)
 
 	Octet->registerInterruptUser(pasynOctetInterface->drvPvt, asynUser, octetConnectionCallback, this, &pinterruptNode);
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+//																								//
+//	int CLeyboldSimPortDriver::UsedParams()														//
+//																								//
+//	Description:																				//
+//		Gives a count of how many parameters are required for this IOC.							//
+//																								//
+//////////////////////////////////////////////////////////////////////////////////////////////////
+int CLeyboldSimPortDriver::UsedParams()
+{
+	int UsedParams = 0;
+	for (size_t ParamIndex = 0; ParamIndex < size_t(NUM_PARAMS); ParamIndex++)
+	{
+		if (ParameterDefns[ParamIndex].m_NotForSim)
+			// Not implemented, because not meaningful for the simulater.
+			continue;
+		UsedParams++;
+	}
+	return UsedParams;
+}
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 //																								//
@@ -454,7 +476,7 @@ template<size_t NoOfPZD> bool CLeyboldSimPortDriver::process(asynUser* pasynUser
 	if (status != asynSuccess)
 		throw CException(IOUser, __FUNCTION__, "Can't write/read:");
 
-	callParamCallbacks(TableIndex);
+	callParamCallbacks(int(TableIndex));
 	asynPrint(pasynUser, ASYN_TRACE_FLOW, "Packet success %s %s\n", __FILE__, __FUNCTION__);
 
 	return true;
