@@ -16,6 +16,8 @@
 #ifndef epicsAtomicOSD_h
 #define epicsAtomicOSD_h
 
+#define EPICS_ATOMIC_OS_NAME "WIN32"
+
 #ifdef VC_EXTRALEAN
 #   define VC_EXTRALEAN_DETECTED_epicsAtomicOSD_h
 #else
@@ -55,7 +57,7 @@
 #   define MS_InterlockedDecrement64 InterlockedDecrement64 
 #   define MS_InterlockedExchange64 InterlockedExchange64 
 #   define MS_InterlockedExchangeAdd64 InterlockedExchangeAdd64 
-#   define MS_InterlockedCompareExchange InterlockedCompareExchange64
+#   define MS_InterlockedCompareExchange64 InterlockedCompareExchange64
 #endif
 
 #include "epicsAtomicMS.h"

@@ -6,7 +6,7 @@
 # EPICS BASE is distributed subject to a Software License Agreement found
 # in the file LICENSE that is included with this distribution. 
 #*************************************************************************
-# Revision-Id: anj@aps.anl.gov-20141113230210-9jdz2tuq0a6gwmjo
+# Revision-Id: ralph.lange@gmx.de-20150416085514-7g658e07bvx1ahc6
 #
 #	Rules for making things specified in Makefile
 #
@@ -94,7 +94,7 @@ include $(CONFIG)/RULES_TARGET
 # Read dependency files
 
 ifneq (,$(strip $(HDEPENDS_FILES)))
-$(filter-out $(wildcard *$(DEP)), $(HDEPENDS_FILES)): $(COMMON_INC)
+$(filter-out $(wildcard *$(DEP)), $(HDEPENDS_FILES)): | $(COMMON_INC)
 -include $(HDEPENDS_FILES)
 endif
 
@@ -215,15 +215,16 @@ $(TESTPRODNAME) $(PRODNAME): %$(EXE):
 %.o : %.cc
 %.o : %.cpp
 
-%$(OBJ): %.c $(COMMON_INC) $(INSTALL_INC)
+# Include files are order-only prerequisites for compilation:
+%$(OBJ): %.c | $(COMMON_INC) $(INSTALL_INC)
 	@$(RM) $@
 	$(COMPILE.c) -c $<
 
-%$(OBJ): %.cc $(COMMON_INC) $(INSTALL_INC)
+%$(OBJ): %.cc | $(COMMON_INC) $(INSTALL_INC)
 	@$(RM) $@
 	$(COMPILE.cpp) -c $<
 
-%$(OBJ): %.cpp $(COMMON_INC) $(INSTALL_INC)
+%$(OBJ): %.cpp | $(COMMON_INC) $(INSTALL_INC)
 	@$(RM) $@
 	$(COMPILE.cpp) -c $<
 
@@ -259,7 +260,7 @@ YACCOPT ?= $($*_YACCOPT)
 
 $(LIBNAME) $(TESTLIBNAME): $(LIBRARY_OBJS)
 
-$(LIBNAME) $(TESTLIBNAME): $(LIB_PREFIX)%$(LIB_SUFFIX):
+$(filter-out $(DLLSTUB_LIBNAME) $(TESTDLLSTUB_LIBNAME), $(LIBNAME) $(TESTLIBNAME)): $(LIB_PREFIX)%$(LIB_SUFFIX):
 	@$(RM) $@
 	$(ARCMD)
 ifneq ($(strip $(RANLIB)),)
@@ -269,11 +270,13 @@ endif # RANLIB
 $(SHRLIBNAME) $(DLLSTUB_LIBNAME) $(TESTSHRLIBNAME) $(TESTDLLSTUB_LIBNAME): \
     $(LIBRARY_OBJS) $(LIBRARY_RESS) $(SHRLIB_DEPLIBS)
 
+$(DLLSTUB_LIBNAME): $(SHRLIBNAME);
 $(SHRLIBNAME): $(SHRLIB_PREFIX)%$(SHRLIB_SUFFIX):
 	@$(RM) $@
 	$(LINK.shrlib)
 	$(MT_DLL_COMMAND)
 
+$(TESTDLLSTUB_LIBNAME): $(TESTSHRLIBNAME);
 $(TESTSHRLIBNAME): $(SHRLIB_PREFIX)%$(SHRLIB_SUFFIX):
 	@$(RM) $@
 	$(LINK.shrlib)
@@ -297,13 +300,20 @@ $(LOADABLE_SHRLIBNAME): $(LOADABLE_SHRLIB_PREFIX)%$(LOADABLE_SHRLIB_SUFFIX):
 	@$(RM) $@
 	$(NM) $<  > $@
 
-%_ctdt.c: %.nm
+%_ctdt.c: %.nm $(TOOLS)/munch.pl
 	@$(RM) $@
 	$(PERL) $(TOOLS)/munch.pl -o $@ $<
 
 $(MUNCHNAME): %$(MUNCH_SUFFIX): $(MUNCH_DEPENDS) %$(EXE)
 	@$(RM) $@
 	$(MUNCH_CMD)
+
+#---------------------------------------------------------------
+# GeSys modules for RTEMS
+$(MODNAME): %$(MODEXT): %$(EXE)
+	@echo "Building module $@"
+	@$(RM) $@
+	$(LINK.mod)
 
 #---------------------------------------------------------------
 # Automated testing
@@ -323,7 +333,7 @@ tapfiles: $(TESTSCRIPTS) $(TAPFILES)
 
 # A .tap file is the output from running the associated test script
 %.tap: %.t
-	-HARNESS_ACTIVE=1 $(PERL) $< > $@
+	-$(PERL) $< -tap > $@
 
 # If there's a perl test script (.plt) available, use it
 %.t: ../%.plt
@@ -332,7 +342,7 @@ tapfiles: $(TESTSCRIPTS) $(TAPFILES)
 
 # Test programs (.t files) must be written in Perl.
 # Generate a perl program to exec the real test binary.
-%.t: %$(EXE)
+%.t: %$(EXE) $(TOOLS)/makeTestfile.pl
 	@$(RM) $@
 	$(PERL) $(TOOLS)/makeTestfile.pl $@ $<
 

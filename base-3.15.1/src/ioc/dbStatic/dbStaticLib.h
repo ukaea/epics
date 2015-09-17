@@ -6,7 +6,7 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/* Revision-Id: anj@aps.anl.gov-20120718050742-dxsk1au1418o7pl5
+/* Revision-Id: anj@aps.anl.gov-20150318213407-r3dqqd2i7enrlzjw
  *
  *      Author: Marty Kraimer
  *      Date:   06-08-93
@@ -189,6 +189,9 @@ epicsShareFunc long dbPutInfo(DBENTRY *pdbentry,
 
 epicsShareFunc brkTable * dbFindBrkTable(DBBASE *pdbbase,
     const char *name);
+
+epicsShareFunc const char * dbGetFieldTypeString(int dbfType);
+epicsShareFunc int dbFindFieldType(const char *type);
 
 epicsShareFunc dbMenu * dbFindMenu(DBBASE *pdbbase,
     const char *name);

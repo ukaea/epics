@@ -56,7 +56,6 @@ typedef struct dbChannel {
     long  final_no_elements;  /* final number of elements (arrays) */
     short final_field_size;   /* final size of element */
     short final_type;         /* final type of database field */
-    short final_dbr_type;     /* final field type as seen by database request */
     ELLLIST filters;          /* list of filters as created from JSON */
     ELLLIST pre_chain;        /* list of filters to be called pre-event-queue */
     ELLLIST post_chain;       /* list of filters to be called post-event-queue */
@@ -150,10 +149,13 @@ struct dbCommon;
 struct dbFldDes;
 
 epicsShareFunc void dbChannelInit (void);
+epicsShareFunc void dbChannelExit(void);
 epicsShareFunc long dbChannelTest(const char *name);
 epicsShareFunc dbChannel * dbChannelCreate(const char *name);
 epicsShareFunc long dbChannelOpen(dbChannel *chan);
 
+/*Following is also defined in db_convert.h*/
+epicsShareExtern unsigned short dbDBRnewToDBRold[];
 
 /* In the following macros pChan is dbChannel* */
 
@@ -176,6 +178,9 @@ epicsShareFunc long dbChannelOpen(dbChannel *chan);
 #define dbChannelExportType(pChan) ((pChan)->addr.dbr_field_type)
 
 /* evaluates to short */
+#define dbChannelExportCAType(pChan) (dbDBRnewToDBRold[dbChannelExportType(pChan)])
+
+/* evaluates to short */
 #define dbChannelFieldSize(pChan) ((pChan)->addr.field_size)
 
 /* evaluates to long */
@@ -185,7 +190,7 @@ epicsShareFunc long dbChannelOpen(dbChannel *chan);
 #define dbChannelFinalFieldType(pChan) ((pChan)->final_type)
 
 /* evaluates to short */
-#define dbChannelFinalExportType(pChan) ((pChan)->final_dbr_type)
+#define dbChannelFinalCAType(pChan) (dbDBRnewToDBRold[(pChan)->final_type])
 
 /* evaluates to short */
 #define dbChannelFinalFieldSize(pChan) ((pChan)->final_field_size)

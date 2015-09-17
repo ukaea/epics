@@ -6,7 +6,7 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
-/* Revision-Id: anj@aps.anl.gov-20131217185404-wng3r3ldfeefnu61 */
+/* Revision-Id: anj@aps.anl.gov-20150501163854-m0ldl5jrhu3gziw1 */
 /*
  *      Author:		Jeff Hill 
  */
@@ -19,7 +19,7 @@
 enum epicsSocketSystemCallInterruptMechanismQueryInfo 
         epicsSocketSystemCallInterruptMechanismQuery ()
 {
-#if (CYGWIN_VERSION_DLL_MAJOR >= 1007) && (CYGWIN_VERSION_DLL_MINOR < 15)
+#if (CYGWIN_VERSION_DLL_MAJOR == 1007) && (CYGWIN_VERSION_DLL_MINOR < 15)
     // Behaviour changed in early Cygwin 1.7 releases, reverted later.
     return esscimqi_socketCloseRequired;
 #else

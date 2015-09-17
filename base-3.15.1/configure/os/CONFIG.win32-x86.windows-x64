@@ -1,6 +1,6 @@
 # CONFIG.win-x86.windows-x64
 #
-# Revision-Id: anj@aps.anl.gov-20141118155128-7z985le7x3pfxtg5
+# Revision-Id: anj@aps.anl.gov-20150303173546-jpdozsjpm7n0w5jz
 # This file is maintained by the build community.
 #
 # Definitions for windows-x64 target archs when host arch is win32-x86

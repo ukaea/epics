@@ -1,6 +1,6 @@
 # CONFIG.Common.win32-x86-mingw
 #
-# Revision-Id: jba@aps.anl.gov-20130726193755-s5xjgco9gbz3djk2
+# Revision-Id: anj@aps.anl.gov-20150303172109-7pec4jw5l5bk9wix
 # This file is maintained by the build community.
 #
 # Definitions for win32-x86-mingw target builds
@@ -36,6 +36,7 @@ ARCH_DEP_LDFLAGS += -m32
 OP_SYS_CPPFLAGS = -D_MINGW
 
 EXE = .exe
+RES = .coff
 
 # Use .o for static object files, .obj for shared library object files
 OBJ_NO  = .o

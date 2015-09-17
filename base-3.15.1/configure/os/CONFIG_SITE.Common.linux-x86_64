@@ -1,6 +1,6 @@
 # CONFIG_SITE.Common.linux-x86_64
 #
-# Revision-Id: anj@aps.anl.gov-20131217185404-wng3r3ldfeefnu61
+# Revision-Id: anj@aps.anl.gov-20150428162706-e3fznhxd409hdfdi
 #
 # Site Specific definitions for linux-x86_64 target
 # Only the local epics system manager should modify this file
@@ -47,3 +47,8 @@ COMMANDLINE_LIBRARY = READLINE
 # loaded into RAM when the binary is loaded.
 OPT_CFLAGS_YES += -g
 OPT_CXXFLAGS_YES += -g
+
+
+# Tune GNU compiler output for a specific 64-bit cpu-type
+# (e.g. generic, native, core2, nocona, k8, opteron, athlon64, barcelona etc.)
+GNU_TUNE_CFLAGS = -mtune=generic

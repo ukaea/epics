@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TrackFileAccess>false</TrackFileAccess>
@@ -144,6 +144,7 @@
     </ClCompile>
     <ClCompile Include="osi\osiSock.c" />
     <ClCompile Include="osi\os\default\devLibVMEOSD.c" />
+    <ClCompile Include="osi\os\default\epicsAtomicOSD.cpp" />
     <ClCompile Include="osi\os\default\epicsReadline.c" />
     <ClCompile Include="osi\os\default\epicsSocketConvertErrnoToString.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
@@ -202,7 +203,6 @@
     </ClCompile>
     <ClCompile Include="osi\os\default\osdSpin.c" />
     <ClCompile Include="osi\os\default\osdThreadHooks.c" />
-    <ClCompile Include="osi\os\WIN32\epicsAtomicOSD.cpp" />
     <ClCompile Include="osi\os\WIN32\epicsGetopt.c" />
     <ClCompile Include="osi\os\WIN32\epicsSocketConvertErrnoToString.cpp" />
     <ClCompile Include="osi\os\WIN32\epicsTempFile.cpp" />

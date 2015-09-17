@@ -6,7 +6,7 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/* Revision-Id: anj@aps.anl.gov-20141007043923-zjae64um80bas2df */
+/* Revision-Id: anj@aps.anl.gov-20150318213407-r3dqqd2i7enrlzjw */
 
 /* Author:  Marty Kraimer Date:    13JUL95*/
 
@@ -486,13 +486,10 @@ static void dbRecordtypeFieldHead(char *name,char *type)
     allocTemp(pdbFldDes);
     pdbFldDes->name = epicsStrDup(name);
     pdbFldDes->as_level = ASL1;
-    for(i=0; i<DBF_NTYPES; i++) {
-	if(strcmp(type,pamapdbfType[i].strvalue)==0) {
-	    pdbFldDes->field_type = pamapdbfType[i].value;
-	    return;
-	}
-    }
-    yyerrorAbort("Illegal Field Type");
+    i = dbFindFieldType(type);
+    if (i < 0)
+        yyerrorAbort("Illegal Field Type");
+    pdbFldDes->field_type = i;
 }
 
 static void dbRecordtypeFieldItem(char *name,char *value)

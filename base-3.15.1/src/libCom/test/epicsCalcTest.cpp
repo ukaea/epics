@@ -4,7 +4,7 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
-// Revision-Id: anj@aps.anl.gov-20140925213412-lo1rca0dx74lzif7
+// Revision-Id: anj@aps.anl.gov-20150302163535-xmbr20buf808urmb
 //	Author: Andrew Johnson
 
 #include "epicsUnitTest.h"
@@ -553,10 +553,18 @@ MAIN(epicsCalcTest)
     testExpr(0.0 + NaN);
     testExpr(Inf + 0.0);
     testExpr(Inf + Inf);
+#if defined(_WIN64) && defined(_MSC_VER)
+    testCalc("Inf + -Inf", NaN);
+#else
     testExpr(Inf + -Inf);
+#endif
     testExpr(Inf + NaN);
     testExpr(-Inf + 0.0);
+#if defined(_WIN64) && defined(_MSC_VER)
+    testCalc("-Inf + Inf", NaN);
+#else
     testExpr(-Inf + Inf);
+#endif
     testExpr(-Inf + -Inf);
     testExpr(-Inf + NaN);
     testExpr(NaN + 0.0);

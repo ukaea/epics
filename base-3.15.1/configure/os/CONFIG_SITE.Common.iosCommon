@@ -1,6 +1,6 @@
 # CONFIG_SITE.Common.iosCommon
 #
-# Revision-Id: anj@aps.anl.gov-20141119195755-fvtzzqsml6p54h17
+# Revision-Id: anj@aps.anl.gov-20150303173546-jpdozsjpm7n0w5jz
 #
 # Site-specific settings for Apple iOS builds
 #-------------------------------------------------------
@@ -12,8 +12,13 @@
 #IOS_DEPLOYMENT_TARGET = 5.1
 #IOS_DEPLOYMENT_TARGET = 6.0
 #IOS_DEPLOYMENT_TARGET = 6.1
-IOS_DEPLOYMENT_TARGET = 7.0
-#IOS_DEPLOYMENT_TARGET = 8.0
+#IOS_DEPLOYMENT_TARGET = 7.0
+#IOS_DEPLOYMENT_TARGET = 7.1
+IOS_DEPLOYMENT_TARGET = 8.0
+#IOS_DEPLOYMENT_TARGET = 8.1
+
+# Older versions of Xcode may require this SDK_DIR definition
+#SDK_DIR = $(PLATFORM_DIR)/Developer/SDKs/$(IOS_PLATFORM)$(IOS_DEPLOYMENT_TARGET).sdk
 
 
 # Which compiler to use:

@@ -6,7 +6,7 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/* Revision-Id: anj@aps.anl.gov-20141007043923-zjae64um80bas2df
+/* Revision-Id: anj@aps.anl.gov-20141030225512-k29rk0j4cqg3tar3
  *
  * Implementation of core macro substitution library (macLib)
  *
@@ -259,9 +259,10 @@ epicsShareAPI macPutValue(
          * a macro from all scopes will still be needed by iocshEnvClear
          */
         while ( ( entry = lookup( handle, name, FALSE ) ) != NULL ) {
+            int done = strcmp(entry->type, "environment variable") == 0;
             delete( handle, entry );
             
-            if (strcmp(entry->type, "environment variable") == 0)
+            if (done)
                 break;
         }
         

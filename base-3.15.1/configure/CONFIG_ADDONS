@@ -6,7 +6,7 @@
 # EPICS BASE is distributed subject to a Software License Agreement found
 # in file LICENSE that is included with this distribution. 
 #*************************************************************************
-# Revision-Id: anj@aps.anl.gov-20140313200431-4d48kjtq8tzh11xi
+# Revision-Id: anj@aps.anl.gov-20150303173546-jpdozsjpm7n0w5jz
 #
 #	check for add-on CFLAGS and CXXFLAGS
 #
@@ -26,7 +26,6 @@
 #    USR_CFLAGS    C flags
 #    USR_CXXFLAGS  C++ flags
 #    USR_CPPFLAGS  c preprocesser flags
-#    INC           include-files to install
 #    SRCS          source files for building libraries and prods
 #    USR_SRCS      source files for building libraries and prods
 #    PROD_SRCS     source files for building prods

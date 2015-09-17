@@ -38,9 +38,6 @@
 #include "recSup.h"
 #include "special.h"
 
-/* The following is defined in db_convert.h */
-extern unsigned short dbDBRnewToDBRold[DBR_ENUM+1];
-
 typedef struct parseContext {
     dbChannel *chan;
     chFilter *filter;
@@ -53,7 +50,7 @@ static void *dbChannelFreeList;
 static void *chFilterFreeList;
 static void *dbchStringFreeList;
 
-static void dbChannelExit(void* junk)
+void dbChannelExit(void)
 {
     freeListCleanup(dbChannelFreeList);
     freeListCleanup(chFilterFreeList);
@@ -69,7 +66,6 @@ void dbChannelInit (void)
     freeListInitPvt(&dbChannelFreeList,  sizeof(dbChannel), 128);
     freeListInitPvt(&chFilterFreeList,  sizeof(chFilter), 64);
     freeListInitPvt(&dbchStringFreeList, sizeof(epicsOldString), 128);
-    epicsAtExit(dbChannelExit, NULL);
 }
 
 static void chf_value(parseContext *parser, parse_result *presult)
@@ -619,7 +615,7 @@ long dbChannelOpen(dbChannel *chan)
     /* Set up type probe */
     probe.type = dbfl_type_val;
     probe.ctx = dbfl_context_read;
-    probe.field_type  = dbChannelFieldType(chan);
+    probe.field_type  = dbChannelExportType(chan);
     probe.no_elements = dbChannelElements(chan);
     probe.field_size  = dbChannelFieldSize(chan);
     p = probe;
@@ -661,7 +657,6 @@ long dbChannelOpen(dbChannel *chan)
     chan->final_no_elements  = probe.no_elements;
     chan->final_field_size   = probe.field_size;
     chan->final_type         = probe.field_type;
-    chan->final_dbr_type     = dbDBRnewToDBRold[mapDBFToDBR[probe.field_type]];
 
     return 0;
 }
@@ -710,9 +705,9 @@ void dbChannelShow(dbChannel *chan, int level, const unsigned short indent)
     int post  = ellCount(&chan->post_chain);
 
     printf("%*schannel name: %s\n", indent, "", chan->name);
-    /* FIXME: show field_type as text */
-    printf("%*s  field_type=%d (%dB), %ld element%s, %d filter%s", indent, "",
-           chan->addr.field_type, chan->addr.field_size, elems, elems == 1 ? "" : "s",
+    printf("%*s  field_type=%s (%d bytes), dbr_type=%s, %ld element%s, %d filter%s", indent, "",
+           dbGetFieldTypeString(chan->addr.field_type), chan->addr.field_size,
+           dbGetFieldTypeString(chan->addr.dbr_field_type), elems, elems == 1 ? "" : "s",
            count, count == 1 ? "" : "s");
     if (count)
         printf(" (%d pre eventq, %d post eventq)\n", pre, post);
@@ -721,9 +716,9 @@ void dbChannelShow(dbChannel *chan, int level, const unsigned short indent)
     if (level > 0)
         dbChannelFilterShow(chan, level - 1, indent + 2);
     if (count) {
-        /* FIXME: show field_type as text */
-        printf("%*s  final field_type=%d (%dB), %ld element%s\n", indent, "",
-               chan->final_type, chan->final_field_size, felems, felems == 1 ? "" : "s");
+        printf("%*s  final field_type=%s (%dB), %ld element%s\n", indent, "",
+               dbGetFieldTypeString(chan->final_type), chan->final_field_size,
+               felems, felems == 1 ? "" : "s");
     }
 }
 
@@ -762,7 +757,7 @@ void dbChannelMakeArrayCopy(void *pvt, db_field_log *pfl, dbChannel *chan)
     void *p;
     struct dbCommon *prec = dbChannelRecord(chan);
 
-    if (!pfl->type == dbfl_type_rec) return;
+    if (pfl->type != dbfl_type_rec) return;
 
     pfl->type = dbfl_type_ref;
     pfl->stat = prec->stat;

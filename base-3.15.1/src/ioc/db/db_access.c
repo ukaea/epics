@@ -99,29 +99,17 @@
 #define oldDBR_STSACK_STRING    oldDBR_PUT_ACKS + 1
 #define oldDBR_CLASS_NAME       oldDBR_STSACK_STRING + 1
 
-/*Following is defined in db_convert.h*/
-extern unsigned short dbDBRnewToDBRold[DBR_ENUM+1];
-
 typedef char DBSTRING[MAX_STRING_SIZE];
-
 
 struct dbChannel * dbChannel_create(const char *pname)
 {
     dbChannel *chan = dbChannelCreate(pname);
-    short ftype;
 
     if (!chan)
         return NULL;
 
-    ftype = chan->addr.dbr_field_type;
-    if (INVALID_DB_REQ(ftype)) {
-        dbChannelDelete(chan);
-        return NULL;
-    }
-
-    chan->addr.dbr_field_type = dbDBRnewToDBRold[ftype];
-
-    if (dbChannelOpen(chan)) {
+    if (INVALID_DB_REQ(dbChannelExportType(chan)) ||
+        dbChannelOpen(chan)) {
         dbChannelDelete(chan);
         return NULL;
     }

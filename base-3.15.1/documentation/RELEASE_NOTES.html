@@ -3,11 +3,130 @@
 <html>
 <head>
   <meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
-  <title>EPICS Base R3.15.1 Release Notes</title>
+  <title>EPICS Base R3.15.2 Release Notes</title>
 </head>
 
 <body lang="en">
-<h1 align="center">EPICS Base Release 3.15.1</h1>
+<h1 align="center">EPICS Base Release 3.15.2</h1>
+
+<h2 align="center">Changes between 3.15.1 and 3.15.2</h2>
+<!-- Insert new items immediately below here ... -->
+
+<h3>Raised limit on link field length in database files</h3>
+
+<p>The length of INP/OUT link fields in database files was limited to 79 chars
+by an internal buffer size in the db file parser. This limitation will go away
+completely in 3.16, and has been statically raised to 255 chars for the 3.15
+series.</p>
+
+<h3>aoRecord raw conversion overflows</h3>
+
+<p>The ao record type now checks converted raw values and limits them to the
+32-bit integer range before writing them to the RVAL field. Previously value
+overflows relied on Undefined Behaviour which could give different results on
+different platforms. The ROFF fields of the ao and ai record types are now
+DBF_ULONG to allow an ROFF setting of 0x80000000 to work properly.</p>
+
+<h3>Changes to &lt;top&gt;/cfg/* files</h3>
+
+<p>The order in which cfg/CONFIG* and cfg/RULES* files are included from support
+applications listed in the configure/RELEASE* files has been changed. Previously
+these files were included in the order in which the top areas are listed in the
+RELEASE file, but it makes more sense to load them in reverse order since later
+entries override earlier ones in Makefiles but the release file order is
+supposed to allow earlier entries to take precedence over later ones. The same
+change has been made to the inclusion of the &lt;top&gt;/configure/RULES_BUILD
+files.</p>
+
+<p>Two new file types can also be provided in a module's cfg directory. Files
+named TOP_RULES* will be included by the top-level Makefile of other modules
+that refer to this module; files name DIR_RULES* will be included by all
+Makefiles that merely descend into lower-level directories. The cfg/RULES* files
+are only included when make is building code inside the O.&lt;arch&gt;
+directories.</p>
+
+<p>The new cfg/DIR_RULES* file inclusion was designed to permit new recursive
+make actions to be implemented by appending the name of the new action to the
+ACTIONS variable. There must be a matching rule in one of the cfg/RULES* files
+when doing this. Similar rules may also be defined in the cfg/TOP_RULES* and/or
+cfg/DIR_RULES* files, but these should only state prerequisites and not directly
+provide commands to be executed.</p>
+
+<h3>Build rules for RTEMS GESYS modules</h3>
+
+<p>RTEMS target builds can now be configured to make GESYS modules by changing
+the <CODE>USE_GESYS=NO</code> setting in the file
+configure/os/CONFIG_SITE.Common.RTEMS to <code>YES</code>.</p>
+
+<h3>Added Make variables for command-line use</h3>
+
+<p>The following variables are now used during the build process, reserved for
+setting on the command-line only (Makefiles should continue to use the
+<code>USR_</code> equivalents):</p>
+
+<ul>
+<li>CMD_INCLUDES</li>
+<li>CMD_CPPFLAGS</li>
+<li>CMD_CFLAGS</li>
+<li>CMD_CXXFLAGS</li>
+<li>CMD_LDFLAGS</li>
+<li>CMD_DBFLAGS</li>
+<li>CMD_DBDFLAGS</li>
+<li>CMD_REGRDDFLAGS</li>
+<li>CMD_ARFLAGS</li>
+</ul>
+
+<p>For example:</p>
+
+<blockquote><pre>
+make CMD_INCLUDES=/opt/local/include CMD_LDFLAGS=-L/opt/local/lib
+</pre></blockquote>
+
+<h3>Enhanced API for asTrapWrite listeners</h3>
+
+<p>External software such as the CA Put Logging module that registers a listener
+with the asTrapWrite subsystem was not previously given access to the actual
+data being sent by the CA client. In most cases this was not a problem as the
+listener can look at the field being modified both before and after the
+operation, but if the put processes the record which immediately overwrites the
+new value, the client's value cannot be observed.</p>
+
+<p>This release adds three fields to the asTrapWriteMessage structure that is
+passed to the listener routines. These new fields provide the CA data type, the
+number of array elements, and a pointer to the source data buffer. This change
+is completely backwards compatible with listener code written against the
+original API. The new API can be detected at compile-time as follows:</p>
+
+<blockquote><pre>
+#include "asLib.h"
+
+/* ... */
+
+#ifdef asTrapWriteWithData
+    /* Enhanced API */
+#endif
+</pre></blockquote>
+
+<h3>Use of PATH_FILTER in Makefiles deprecated</h3>
+
+<p>The PATH_FILTER variable was being called to convert forward shashes
+<tt><b>/</b></tt> in file paths into pairs of backward slashes
+<tt><b>\\</b></tt> on Windows architectures. This has never been strictly
+necessary, and was added about 10 years ago to get around some short-comings in
+Windows tools at the time. All uses of PATH_FILTER in Base have now been
+removed; the definition is still present, but will result in a warning being
+printed if it is ever used.</p>
+
+<h3>Using msi for dependencies</h3>
+
+<p>To reduce confusion the msi program has been modified to allow the generation
+of dependency rules by adding support for a <tt>-D</tt> option, and changing the
+commands in RULES.Db to use this option instead of the mkmf.pl script. The new
+build rules will not work with old versions of the msi program, so the command
+variable name used in the rules has been changed from MSI to MSI3_15. Sites that
+use a modified version of msi must provide support for both the <tt>-D</tt> and
+<tt>-o&nbsp;outfile</tt> options, and should then point the MSI3_15 variable in
+their applications' CONFIG_SITE files to that updated executable.</p>
 
 <h2 align="center">Changes between 3.15.0.2 and 3.15.1</h2>
 

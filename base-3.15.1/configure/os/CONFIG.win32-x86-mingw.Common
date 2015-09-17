@@ -1,6 +1,6 @@
 # CONFIG.win32-x86-mingw.Common
 #
-# Revision-Id: jba@aps.anl.gov-20140909205804-ge6vbf650bylvqc8
+# Revision-Id: anj@aps.anl.gov-20150303173546-jpdozsjpm7n0w5jz
 # This file is maintained by the build community.
 #
 # Definitions for win32-x86-mingw host archs
@@ -9,9 +9,6 @@
 
 #Include definitions common to unix hosts
 include $(CONFIG)/os/CONFIG.UnixCommon.Common
-
-# convert UNIX path to native path
-PATH_FILTER = $(subst /,\\,$(1))
 
 CP = $(PERL) -MExtUtils::Command -e cp
 MV = $(PERL) -MExtUtils::Command -e mv

@@ -284,21 +284,18 @@ static void log_header (
     pciu = MPTOPCIU(mp);
 
     if (pContext) {
-        epicsPrintf ("CAS: request from %s => \"%s\"\n",
+        epicsPrintf ("CAS: request from %s => %s\n",
             hostName, pContext);
     }
 
-    epicsPrintf (
-"CAS: Request from %s => cmmd=%d cid=0x%x type=%d count=%d postsize=%u\n",
+    epicsPrintf ( "CAS: Request from %s => cmmd=%d cid=0x%x type=%d count=%d postsize=%u\n",
         hostName, mp->m_cmmd, mp->m_cid, mp->m_dataType, mp->m_count, mp->m_postsize);
 
-    epicsPrintf (
-"CAS: Request from %s =>  available=0x%x \tN=%u dbch=%p\n",
-        hostName, mp->m_available, mnum, (pciu?(void *)&pciu->dbch:NULL));
+    epicsPrintf ( "CAS: Request from %s =>   available=0x%x \tN=%u paddr=%p\n",
+        hostName, mp->m_available, mnum, (pciu ? (void *)&pciu->dbch : NULL));
 
     if (mp->m_cmmd==CA_PROTO_WRITE && mp->m_dataType==DBF_STRING && pPayLoad ) {
-        epicsPrintf (
-"CAS: Request from %s => \tThe string written: %s \n",
+        epicsPrintf ( "CAS: Request from %s =>   Wrote string \"%s\"\n",
         hostName, (char *)pPayLoad );
     }
 }
@@ -854,10 +851,10 @@ static int write_action ( caHdrLargeArray *mp,
         return RSRV_ERROR;
     }
 
-    asWritePvt = asTrapWriteBefore ( pciu->asClientPVT,
+    asWritePvt = asTrapWriteWithData ( pciu->asClientPVT,
         pciu->client->pUserName ? pciu->client->pUserName : "",
         pciu->client->pHostName ? pciu->client->pHostName : "",
-        pciu->dbch );
+        pciu->dbch, mp->m_dataType, mp->m_count, pPayload );
 
     dbStatus = dbChannel_put(
                   pciu->dbch,
@@ -1258,7 +1255,7 @@ static void claim_ciu_reply ( struct channel_in_use * pciu )
         }
         status = cas_copy_in_header (
             pciu->client, CA_PROTO_CREATE_CHAN, 0u,
-            dbChannelFinalExportType(pciu->dbch), nElem, pciu->cid,
+            dbChannelFinalCAType(pciu->dbch), nElem, pciu->cid,
             pciu->sid, NULL );
         if ( status == ECA_NORMAL ) {
             cas_commit_msg ( pciu->client, 0u );
@@ -1304,7 +1301,7 @@ static int claim_ciu_action ( caHdrLargeArray *mp,
         }
 
         DLOG ( 2, ("CAS: claim_ciu_action found '%s', type %d, count %d\n",
-            pName, dbChannelExportType(dbch), dbChannelElements(dbch)) );
+            pName, dbChannelCAType(dbch), dbChannelElements(dbch)) );
 
         pciu = casCreateChannel (
                 client,
@@ -1881,11 +1878,12 @@ static int write_notify_action ( caHdrLargeArray *mp, void *pPayload,
 
     pciu->pPutNotify->dbrType = mp->m_dataType;
 
-    pciu->pPutNotify->asWritePvt = asTrapWriteBefore (
+    pciu->pPutNotify->asWritePvt = asTrapWriteWithData (
         pciu->asClientPVT,
         pciu->client->pUserName ? pciu->client->pUserName : "",
         pciu->client->pHostName ? pciu->client->pHostName : "",
-        pciu->dbch );
+        pciu->dbch, mp->m_dataType, mp->m_count,
+        pciu->pPutNotify->pbuffer );
 
     dbProcessNotify(&pciu->pPutNotify->dbPutNotify);
 
@@ -2350,7 +2348,7 @@ static int search_reply_udp ( caHdrLargeArray *mp, void *pPayload, struct client
         else {
             count = (ca_uint16_t) dbChannelFinalElements(dbch);
         }
-        type = (ca_uint16_t) dbChannelFinalExportType(dbch);
+        type = (ca_uint16_t) dbChannelFinalCAType(dbch);
     }
 
     SEND_LOCK ( client );

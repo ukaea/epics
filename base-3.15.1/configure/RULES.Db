@@ -29,9 +29,9 @@ vpath %.acs $(USR_VPATH) $(SRC_DIRS) $(COMMON_DIR)
 DBD_SEARCH_DIRS = . .. $(COMMON_DIR) $(SRC_DIRS) $(INSTALL_DBD) $(RELEASE_DBD_DIRS)
 DB_SEARCH_DIRS = . .. $(COMMON_DIR) $(SRC_DIRS) $(INSTALL_DB) $(RELEASE_DB_DIRS)
 
-DBDFLAGS = $(USR_DBDFLAGS) $(addprefix -I,$(DBD_SEARCH_DIRS))
-DBFLAGS = $($*_DBFLAGS) $(USR_DBFLAGS) $(addprefix -I,$(DB_SEARCH_DIRS))
-REGRDDFLAGS = $(DBDFLAGS) $($*_REGRDDFLAGS) $(USR_REGRDDFLAGS)
+DBDFLAGS = $(USR_DBDFLAGS) $(CMD_DBDFLAGS) $(addprefix -I,$(DBD_SEARCH_DIRS))
+DBFLAGS = $($*_DBFLAGS) $(USR_DBFLAGS) $(CMD_DBFLAGS) $(addprefix -I,$(DB_SEARCH_DIRS))
+REGRDDFLAGS = $(DBDFLAGS) $($*_REGRDDFLAGS) $(USR_REGRDDFLAGS) $(CMD_REGRDDFLAGS)
 
 ##################################################### Targets
 
@@ -239,8 +239,7 @@ menu%.h$(DEP): ../menu%.dbd
 
 %.dbd$(DEP): %.dbd.pod
 	@$(RM) $@
-	@$(DBEXPAND) -D $(DBDFLAGS) -o $(COMMONDEP_TARGET) $< > $@
-	@echo "$(COMMONDEP_TARGET): ../Makefile" >> $@
+	@echo "$(COMMONDEP_TARGET): ../Makefile" > $@
 
 %.dbd$(DEP): %Include.dbd
 	@$(RM) $@
@@ -259,23 +258,19 @@ menu%.h$(DEP): ../menu%.dbd
 
 %.db$(RAW)$(DEP): %$(SUBST_SUFFIX)
 	@$(RM) $@
-	$(MKMF) -m$@ $(DBFLAGS) $(COMMONDEP_TARGET) $< $(TEMPLATE_FILENAME)
-	@echo "$(COMMONDEP_TARGET): $(TEMPLATE_FILENAME)" >> $@
-	@echo "$@: $(TEMPLATE_FILENAME)" >> $@
+	$(MSI3_15) -D $(DBFLAGS) -o $(COMMONDEP_TARGET) -S$< $(TEMPLATE_FILENAME) > $@
 
 %.db$(RAW)$(DEP): ../%$(SUBST_SUFFIX)
 	@$(RM) $@
-	$(MKMF) -m$@ $(DBFLAGS) $(COMMONDEP_TARGET) $< $(TEMPLATE_FILENAME)
-	@echo "$(COMMONDEP_TARGET): $(TEMPLATE_FILENAME)" >> $@
-	@echo "$@: $(TEMPLATE_FILENAME)" >> $@
+	$(MSI3_15) -D $(DBFLAGS) -o $(COMMONDEP_TARGET) -S$< $(TEMPLATE_FILENAME) > $@
 
 %.db$(RAW)$(DEP): %.template
 	@$(RM) $@
-	$(MKMF) -m$@ $(DBFLAGS) $(COMMONDEP_TARGET) $<
+	$(MSI3_15) -D $(DBFLAGS) -o $(COMMONDEP_TARGET) $< > $@
 
 %.db$(RAW)$(DEP): ../%.template
 	@$(RM) $@
-	$(MKMF) -m$@ $(DBFLAGS) $(COMMONDEP_TARGET) $<
+	$(MSI3_15) -D $(DBFLAGS) -o $(COMMONDEP_TARGET) $< > $@
 
 %.acf$(DEP): %.acs
 	@$(RM) $@
@@ -284,6 +279,8 @@ menu%.h$(DEP): ../menu%.dbd
 %.acf$(DEP): ../%.acs
 	@$(RM) $@
 	@$(ACFDEPENDS_CMD)
+
+.PRECIOUS: %$(DEP)
 
 ##################################################### CapFast filter
 
@@ -304,11 +301,11 @@ $(COMMON_DIR)/%$(SUBST_SUFFIX):
 endif
 
 $(INSTALL_DB)/%$(SUBST_SUFFIX): %$(SUBST_SUFFIX)
-	$(ECHO) "Installing db file $@"
+	$(ECHO) "Installing substitution file $@"
 	@$(INSTALL) -d -m $(INSTALL_PERMISSIONS) $< $(@D)
 
 $(INSTALL_DB)/%$(SUBST_SUFFIX): ../%$(SUBST_SUFFIX)
-	$(ECHO) "Installing db file $@"
+	$(ECHO) "Installing substitution file $@"
 	@$(INSTALL) -d -m $(INSTALL_PERMISSIONS) $< $(@D)
 
 .PRECIOUS: $(COMMON_DIR)/%$(SUBST_SUFFIX)
@@ -322,11 +319,11 @@ $(COMMON_DIR)/%.template: $(COMMON_DIR)/%.edf
 	@$(RM) $@.VAR
 
 $(INSTALL_DB)/%.template: %.template
-	$(ECHO) "Installing db file $@"
+	$(ECHO) "Installing template file $@"
 	@$(INSTALL) -d -m $(INSTALL_PERMISSIONS) $< $(@D)
 
 $(INSTALL_DB)/%.template: ../%.template
-	$(ECHO) "Installing db file $@"
+	$(ECHO) "Installing template file $@"
 	@$(INSTALL) -d -m $(INSTALL_PERMISSIONS) $< $(@D)
 
 .PRECIOUS: $(COMMON_DIR)/%.template
@@ -374,7 +371,7 @@ $(COMMON_DIR)/bpt%.dbd: bpt%.data
 
 $(COMMON_DIR)/%.dbd: %.dbd.pod
 	@$(RM) $(notdir $@)
-	$(DBEXPAND) $(DBDFLAGS) -o $(notdir $@) $<
+	$(PERL) $(TOOLS)/podRemove.pl -o $(notdir $@) $<
 	@$(MV) $(notdir $@) $@
 
 $(COMMON_DIR)/%.dbd: %Include.dbd
@@ -426,7 +423,7 @@ $$(INSTALL_DBD)/$$(notdir $(1)) : $(1)
 endef
 $(foreach file, $(DBD_INSTALLS), $(eval $(call DBD_INSTALLS_template, $(file))))
 
-.PRECIOUS: $(COMMON_DBDS) $(COMMON_DIR)/%Include.dbd
+.PRECIOUS: $(COMMON_DBDS) $(COMMON_DIR)/%.dbd
 
 ##################################################### HTML files
 
@@ -461,27 +458,27 @@ $(COMMON_DIR)/%.db$(RAW): $(COMMON_DIR)/%.edf
 
 $(COMMON_DIR)/%.db$(RAW): %$(SUBST_SUFFIX)
 	$(ECHO) "Inflating database from $< $(TEMPLATE_FILENAME)"
-	@$(RM) $@ $*.tmp
-	$(MSI) $(DBFLAGS) -S$< $(TEMPLATE_FILENAME) > $*.tmp
-	$(MV) $*.tmp $@
+	@$(RM) $(notdir $@)
+	$(MSI3_15) $(DBFLAGS) -o $(notdir $@) -S$< $(TEMPLATE_FILENAME)
+	@$(MV) $(notdir $@) $@
 
 $(COMMON_DIR)/%.db$(RAW): ../%$(SUBST_SUFFIX)
 	$(ECHO) "Inflating database from $< $(TEMPLATE_FILENAME)"
-	@$(RM) $@ $*.tmp
-	$(MSI) $(DBFLAGS) -S$< $(TEMPLATE_FILENAME) > $*.tmp
-	$(MV) $*.tmp $@
+	@$(RM) $(notdir $@)
+	$(MSI3_15) $(DBFLAGS) -o $(notdir $@) -S$< $(TEMPLATE_FILENAME)
+	@$(MV) $(notdir $@) $@
 
 $(COMMON_DIR)/%.db$(RAW): %.template
 	$(ECHO) "Inflating database from $<"
-	@$(RM) $@ $*.tmp
-	$(MSI) $(DBFLAGS) $< > $*.tmp
-	$(MV) $*.tmp $@
+	@$(RM) $(notdir $@)
+	$(MSI3_15) $(DBFLAGS) -o $(notdir $@) $<
+	@$(MV) $(notdir $@) $@
 
 $(COMMON_DIR)/%.db$(RAW): ../%.template
 	$(ECHO) "Inflating database from $<"
-	@$(RM) $@ $*.tmp
-	$(MSI) $(DBFLAGS) $< > $*.tmp
-	$(MV) $*.tmp $@
+	@$(RM) $(notdir $@)
+	$(MSI3_15) $(DBFLAGS) -o $(notdir $@) $<
+	@$(MV) $(notdir $@) $@
 
 $(COMMON_DIR)/%.acf: %.acs
 	$(ECHO) "Creating acf file $@"
@@ -512,11 +509,11 @@ $(COMMON_DIR)/%.db: $(COMMON_DIR)/%.db$(RAW)
 else
 
 $(INSTALL_DB)/%: %
-	$(ECHO) "Installing db file $@"
+	$(ECHO) "Installing $@"
 	@$(INSTALL) -d -m $(INSTALL_PERMISSIONS) $< $(@D)
 
 $(INSTALL_DB)/%: ../%
-	$(ECHO) "Installing db file $@"
+	$(ECHO) "Installing $@"
 	@$(INSTALL) -d -m $(INSTALL_PERMISSIONS) $< $(@D)
 endif
 

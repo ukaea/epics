@@ -8,7 +8,7 @@
 \*************************************************************************/
 
 //
-// Revision-Id: johill@lanl.gov-20131107172603-vkmh5jo4no0nxjhp
+// Revision-Id: anj@aps.anl.gov-20150313165026-y1u6cd26lamhawz1
 //
 // Author: Jeff Hill
 //
@@ -390,7 +390,7 @@ void currentTime::getCurrentTime ( epicsTimeStamp & dest )
         LONGLONG epicsTimeCurrent = this->epicsTimeLast + offset;
         if ( this->epicsTimeLast > epicsTimeCurrent ) {
             double diff = static_cast < double >
-                ( this->epicsTimeLast - epicsTimeCurrent );
+                ( this->epicsTimeLast - epicsTimeCurrent ) / EPICS_TIME_TICKS_PER_SEC;
             errlogPrintf (
                 "currentTime::getCurrentTime(): %f sec "
                 "time discontinuity detected\n",

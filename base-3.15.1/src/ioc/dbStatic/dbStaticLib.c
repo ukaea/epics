@@ -6,7 +6,7 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
-/* Revision-Id: anj@aps.anl.gov-20141006230433-lbbjjxwesp6pkgfw */
+/* Revision-Id: ralph.lange@gmx.de-20150413151309-un2gzt22wtmpj61b */
 
 #include <stdio.h>
 #include <stddef.h>
@@ -48,7 +48,7 @@
 int dbStaticDebug = 0;
 static char *pNullString = "";
 #define messagesize	100
-#define RPCL_LEN 184
+#define RPCL_LEN INFIX_TO_POSTFIX_SIZE(80)
 
 static char *ppstring[5]={"NPP","PP","CA","CP","CPP"};
 static char *msstring[4]={"NMS","MS","MSI","MSS"};
@@ -588,6 +588,7 @@ void dbFreeBase(dbBase *pdbbase)
     dbPvdFreeMem(pdbbase);
     dbFreePath(pdbbase);
     free((void *)pdbbase);
+    pdbbase = NULL;
     return;
 }
 
@@ -927,15 +928,8 @@ long dbWriteRecordTypeFP(
 	    int	j;
 
 	    pdbFldDes = pdbRecordType->papFldDes[i];
-	    fprintf(fp,"\tfield(%s,",pdbFldDes->name);
-	    for(j=0; j<DBF_NTYPES; j++) {
-		if(pamapdbfType[j].value == pdbFldDes->field_type) break;
-	    }
-	    if(j>=DBF_NTYPES)
-		fprintf(stderr,"\t     field_type: %d\n",
-			pdbFldDes->field_type);
-	    else
-		fprintf(fp,"%s) {\n",pamapdbfType[j].strvalue);
+	    fprintf(fp,"\tfield(%s,%s) {\n",pdbFldDes->name,
+	        dbGetFieldTypeString(pdbFldDes->field_type));
 	    if(pdbFldDes->prompt)
 		fprintf(fp,"\t\tprompt(\"%s\")\n",pdbFldDes->prompt);
 	    if(pdbFldDes->initial)
@@ -2093,7 +2087,7 @@ long dbPutString(DBENTRY *pdbentry,const char *pstring)
     case DBF_OUTLINK:
     case DBF_FWDLINK: {
 	    DBLINK	*plink;
-	    char	string[80];
+        char	string[256];
 	    char	*pstr = string;
 
 	    if (!pfield)
@@ -2754,6 +2748,30 @@ brkTable * dbFindBrkTable(dbBase *pdbbase,const char *name)
     return((brkTable *)pgph->userPvt);
 }
 
+const char * dbGetFieldTypeString(int dbfType)
+{
+    int i;
+
+    for (i=0; i < DBF_NTYPES; i++) {
+        if (pamapdbfType[i].value == dbfType) {
+            return pamapdbfType[i].strvalue;
+        }
+    }
+    return "BAD_DBF_TYPE";
+}
+
+int dbFindFieldType(const char *type)
+{
+    int i;
+
+    for (i = 0; i < DBF_NTYPES; i++) {
+        if (strcmp(type, pamapdbfType[i].strvalue) == 0) {
+            return pamapdbfType[i].value;
+        }
+    }
+    return -1;
+}
+
 dbMenu * dbFindMenu(dbBase *pdbbase,const char *name)
 {
     GPHENTRY *pgph;
@@ -3142,13 +3160,8 @@ void  dbDumpField(
 		}
 	    }
 	    printf("\n");
-	    for(j=0; j<DBF_NTYPES; j++) {
-		if(pamapdbfType[j].value == pdbFldDes->field_type) break;
-	    }
-	    if(j>=DBF_NTYPES)
-		printf("\t     field_type: %d\n", pdbFldDes->field_type);
-	    else
-		printf("\t     field_type: %s\n", pamapdbfType[j].strvalue);
+            printf("\t     field_type: %s\n",
+                dbGetFieldTypeString(pdbFldDes->field_type));
 	    printf("\tprocess_passive: %u\n",pdbFldDes->process_passive);
 	    printf("\t       property: %u\n",pdbFldDes->prop);
 	    printf("\t           base: %d\n",pdbFldDes->base);
