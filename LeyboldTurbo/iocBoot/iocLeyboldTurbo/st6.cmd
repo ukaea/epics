@@ -1,7 +1,7 @@
-#!../bin/linux-x86_64/LeyboldTurbo
+#!../../bin/linux-x86_64/LeyboldTurbo
 
 ## Register all support components
-dbLoadDatabase ("../dbd/LeyboldTurbo.dbd")
+dbLoadDatabase ("../../dbd/LeyboldTurbo.dbd")
 LeyboldTurbo_registerRecordDeviceDriver pdbbase
 
 epicsEnvSet ASYNPORT $(ASYNPORT=LEYBOLDTURBO)
@@ -29,17 +29,17 @@ drvAsynSerialPortConfigure($(IOPORT):6, $(COMPORT6="/dev/ttyS5"), 0, 0, 0)
 LeyboldTurboAddIOPort($(IOPORT):6)
 
 ## Load record instances
-dbLoadRecords("../LeyboldTurboApp/Db/$(DB=LeyboldTurbo).db", "P=$(ASYNPORT1):,PORT=$(ASYNPORT),ADDR=0")
+dbLoadRecords("../../LeyboldTurboApp/Db/$(DB=LeyboldTurbo).db", "P=$(ASYNPORT1):,PORT=$(ASYNPORT),ADDR=0")
 
-dbLoadRecords("../LeyboldTurboApp/Db/$(DB=LeyboldTurbo).db", "P=$(ASYNPORT2):,PORT=$(ASYNPORT),ADDR=1")
+dbLoadRecords("../../LeyboldTurboApp/Db/$(DB=LeyboldTurbo).db", "P=$(ASYNPORT2):,PORT=$(ASYNPORT),ADDR=1")
 
-dbLoadRecords("../LeyboldTurboApp/Db/$(DB=LeyboldTurbo).db", "P=$(ASYNPORT3):,PORT=$(ASYNPORT),ADDR=2")
+dbLoadRecords("../../LeyboldTurboApp/Db/$(DB=LeyboldTurbo).db", "P=$(ASYNPORT3):,PORT=$(ASYNPORT),ADDR=2")
 
-dbLoadRecords("../LeyboldTurboApp/Db/$(DB=LeyboldTurbo).db", "P=$(ASYNPORT4):,PORT=$(ASYNPORT),ADDR=3")
+dbLoadRecords("../../LeyboldTurboApp/Db/$(DB=LeyboldTurbo).db", "P=$(ASYNPORT4):,PORT=$(ASYNPORT),ADDR=3")
 
-dbLoadRecords("../LeyboldTurboApp/Db/$(DB=LeyboldTurbo).db", "P=$(ASYNPORT5):,PORT=$(ASYNPORT),ADDR=4")
+dbLoadRecords("../../LeyboldTurboApp/Db/$(DB=LeyboldTurbo).db", "P=$(ASYNPORT5):,PORT=$(ASYNPORT),ADDR=4")
 
-dbLoadRecords("../LeyboldTurboApp/Db/$(DB=LeyboldTurbo).db", "P=$(ASYNPORT6):,PORT=$(ASYNPORT),ADDR=5")
+dbLoadRecords("../../LeyboldTurboApp/Db/$(DB=LeyboldTurbo).db", "P=$(ASYNPORT6):,PORT=$(ASYNPORT),ADDR=5")
 
 asynSetOption ($(IOPORT):1, 0, "baud", $(BAUD))
 asynSetOption ($(IOPORT):1, 0, "bits", "8")

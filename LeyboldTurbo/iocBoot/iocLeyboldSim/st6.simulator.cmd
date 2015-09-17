@@ -1,7 +1,7 @@
-#!../bin/linux-x86_64/LeyboldSim
+#!../../bin/linux-x86_64/LeyboldSim
 
 ## Register all support components
-dbLoadDatabase ("../dbd/LeyboldSim.dbd")
+dbLoadDatabase ("../../dbd/LeyboldSim.dbd")
 LeyboldSim_registerRecordDeviceDriver pdbbase
 
 epicsEnvSet EPICS_CA_SERVER_PORT "5072"
@@ -30,17 +30,17 @@ drvAsynIPServerPortConfigure($(IOPORT):6, $(IPPORT6="localhost:5071"), 1, 0, 0, 
 LeyboldSimAddIOPort($(IOPORT):6)
 
 ## Load record instances
-dbLoadRecords("../LeyboldSimApp/Db/$(DB=LeyboldSim).db", "P=$(ASYNSIMPORT1):,PORT=$(ASYNSIMPORT),ADDR=0")
+dbLoadRecords("../../LeyboldSimApp/Db/$(DB=LeyboldSim).db", "P=$(ASYNSIMPORT1):,PORT=$(ASYNSIMPORT),ADDR=0")
 
-dbLoadRecords("../LeyboldSimApp/Db/$(DB=LeyboldSim).db", "P=$(ASYNSIMPORT2):,PORT=$(ASYNSIMPORT),ADDR=1")
+dbLoadRecords("../../LeyboldSimApp/Db/$(DB=LeyboldSim).db", "P=$(ASYNSIMPORT2):,PORT=$(ASYNSIMPORT),ADDR=1")
 
-dbLoadRecords("../LeyboldSimApp/Db/$(DB=LeyboldSim).db", "P=$(ASYNSIMPORT3):,PORT=$(ASYNSIMPORT),ADDR=2")
+dbLoadRecords("../../LeyboldSimApp/Db/$(DB=LeyboldSim).db", "P=$(ASYNSIMPORT3):,PORT=$(ASYNSIMPORT),ADDR=2")
 
-dbLoadRecords("../LeyboldSimApp/Db/$(DB=LeyboldSim).db", "P=$(ASYNSIMPORT4):,PORT=$(ASYNSIMPORT),ADDR=3")
+dbLoadRecords("../../LeyboldSimApp/Db/$(DB=LeyboldSim).db", "P=$(ASYNSIMPORT4):,PORT=$(ASYNSIMPORT),ADDR=3")
 
-dbLoadRecords("../LeyboldSimApp/Db/$(DB=LeyboldSim).db", "P=$(ASYNSIMPORT5):,PORT=$(ASYNSIMPORT),ADDR=4")
+dbLoadRecords("../../LeyboldSimApp/Db/$(DB=LeyboldSim).db", "P=$(ASYNSIMPORT5):,PORT=$(ASYNSIMPORT),ADDR=4")
 
-dbLoadRecords("../LeyboldSimApp/Db/$(DB=LeyboldSim).db", "P=$(ASYNSIMPORT6):,PORT=$(ASYNSIMPORT),ADDR=5")
+dbLoadRecords("../../LeyboldSimApp/Db/$(DB=LeyboldSim).db", "P=$(ASYNSIMPORT6):,PORT=$(ASYNSIMPORT),ADDR=5")
 
 iocInit
 
