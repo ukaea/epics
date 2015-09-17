@@ -72,7 +72,7 @@ PVNames = ["Running", \
 			
 ChannelDefaultRoot = os.getenv('ASYNSIMPORT', 'LEYBOLDTURBOSIM')
 for Pump in range(int(FirstPump), int(LastPump)+1):
-	ChannelRoot = os.getenv('ASYNPORT'+str(Pump), ChannelDefaultRoot+':'+str(Pump))
+	ChannelRoot = os.getenv('ASYNSIMPORT'+str(Pump), ChannelDefaultRoot+':'+str(Pump))
 	FileName = ChannelRoot
 	FileName = FileName.replace(':', '_')
 	FileName = FileName + '.log'

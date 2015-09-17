@@ -20,7 +20,21 @@ set ASYNSIMPORT3=TPSIM:03
 set ASYNSIMPORT4=TPSIM:04
 set ASYNSIMPORT5=NTSIM:07
 set ASYNSIMPORT6=NTSIM:10
+set NUMUMPS=6
 
 call ..\..\LeyboldTurboApp\Scripts\JETMappings.bat
 
-TestSequence.bat 6 2
+start ..\..\Release_LIB\LeyboldSim.exe ..\..\iocBoot\iocLeyboldSim\st6.simulator.cmd
+
+start ..\..\Release_LIB\LeyboldTurboApp.exe ..\..\iocBoot\iocLeyboldTurbo\st6.simulated.cmd
+
+start python camonitor.py 1 %NUMPUMPS%"
+start python ..\..\LeyboldTurboApp\Scripts\camonitor.py 1 %NUMPUMPS%
+
+testsequence.py %NUMPUMPS%
+
+timeout 10
+start /WAIT ..\..\LeyboldTurboApp\Scripts\Reset.py 1 %NUMPUMPS%
+
+timeout 10
+start /WAIT ..\..\LeyboldTurboApp\Scripts\SetRunning.py 1 %NUMPUMPS% 1

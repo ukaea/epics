@@ -17,12 +17,13 @@ set NUMPUMPS=6
 set BAUD=19200
 set NoOfPZD=6
 
-set COMPORT1=COM1
-set COMPORT2=COM2
-set COMPORT3=COM3
-set COMPORT4=COM4
-set COMPORT5=COM7
-set COMPORT5=COM10
+set COMPORT1=COM1:
+set COMPORT2=COM2:
+set COMPORT3=COM3:
+set COMPORT4=COM4:
+set COMPORT5=COM7:
+set COMPORT6=COM10:
+set NUMPUMPS=6
 
 REM Cos we're using up-to-date asyn
 set DB=LeyboldTurbo.Asyn4-26
@@ -30,3 +31,15 @@ set DB=LeyboldTurbo.Asyn4-26
 call Scripts\JETMappings.bat
 
 ..\Release_LIB\LeyboldTurboApp ..\iocBoot\iocLeyboldTurbo\st6.cmd
+
+start python camonitor.py 1 %NUMPUMPS%"
+start python ..\..\LeyboldTurboApp\Scripts\camonitor.py 1 %NUMPUMPS%
+
+testsequence.py %NUMPUMPS%
+
+timeout 10
+start /WAIT ..\..\LeyboldTurboApp\Scripts\Reset.py 1 %NUMPUMPS%
+
+timeout 10
+start /WAIT ..\..\LeyboldTurboApp\Scripts\SetRunning.py 1 %NUMPUMPS% 1
+

@@ -26,7 +26,7 @@ LeyboldTurboAddIOPort($(IOPORT):4)
 drvAsynSerialPortConfigure($(IOPORT):5, $(COMPORT5="/dev/ttyS4"), 0, 0, 0)
 LeyboldTurboAddIOPort($(IOPORT):5)
 drvAsynSerialPortConfigure($(IOPORT):6, $(COMPORT6="/dev/ttyS5"), 0, 0, 0)
-LeyboldTurboAddIOPort($(IOPORT):5)
+LeyboldTurboAddIOPort($(IOPORT):6)
 
 ## Load record instances
 dbLoadRecords("../LeyboldTurboApp/Db/$(DB=LeyboldTurbo).db", "P=$(ASYNPORT1):,PORT=$(ASYNPORT),ADDR=0")

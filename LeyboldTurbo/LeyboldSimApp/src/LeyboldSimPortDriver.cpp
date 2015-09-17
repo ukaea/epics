@@ -466,7 +466,6 @@ template<size_t NoOfPZD> bool CLeyboldSimPortDriver::process(asynUser* pasynUser
 	USSWritePacket.GenerateChecksum();
 	USSWritePacket.m_USSPacketStruct.HToN();
 
-	// NB, *don't* pass pasynUser to this function - it has the wrong type and will cause an access violation.
 	size_t nbytesOut;
 	asynStatus status = pasynOctetSyncIO->write(IOUser,
 		reinterpret_cast<char*>(&USSWritePacket.m_Bytes), USSPacketStruct<NoOfPZD>::USSPacketSize,
