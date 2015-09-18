@@ -24,9 +24,9 @@ NOOFPZD="6";
 if [ $# -ge 2 ]; then NOOFPZD=$2; fi
 echo "Number of pzd " $NOOFPZD
 
-gnome-terminal -e "python ../LeyboldSim.py $NUMPUMPS $NOOFPZD"
+gnome-terminal -e "python LeyboldSim.py $NUMPUMPS $NOOFPZD"
 
-gnome-terminal -e "python ../../LeyboldTurboApp/LeyboldTurboApp.py $NUMPUMPS $NOOFPZD Sim"
+gnome-terminal -e "python ../../LeyboldTurboApp/Scripts/LeyboldTurboApp.py $NUMPUMPS $NOOFPZD Sim"
 
 gnome-terminal -e "python camonitor.py 1 $NUMPUMPS"
 gnome-terminal -e "python ../../LeyboldTurboApp/Scripts/camonitor.py 1 $NUMPUMPS"

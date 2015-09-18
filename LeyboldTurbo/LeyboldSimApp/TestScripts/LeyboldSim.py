@@ -17,9 +17,9 @@ epics_host_arch = os.getenv('EPICS_HOST_ARCH', 'win32-x86-static')
 
 if "ASYN_VER" in os.environ and os.environ["ASYN_VER"]>="4-26":
 	print ("using asyn:READBACK")
-	os.environ["DB"]="LeyboldSim.Asyn4-26"
+	os.environ["SIMDB"]="LeyboldSim.Asyn4-26"
 
-cmdline = '..' + os.sep + 'bin' + os.sep + epics_host_arch + os.sep + 'LeyboldSim ../iocBoot/iocLeyboldSim/st' + NumPumps + '.simulator.cmd'
+cmdline = '..' + os.sep + '..' + os.sep + 'bin' + os.sep + epics_host_arch + os.sep + 'LeyboldSim ../../iocBoot/iocLeyboldSim/st' + NumPumps + '.simulator.cmd'
 print("Command Line ", cmdline)
 
 os.system(cmdline)

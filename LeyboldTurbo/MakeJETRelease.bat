@@ -9,8 +9,6 @@ copy %~dp0\LeyboldSimApp\TestScripts\*.bat \\catsserver.jetcats.jet.efda.org\Cop
 copy %~dp0\LeyboldTurboApp\Db\*.db \\catsserver.jetcats.jet.efda.org\CopyArea\LeyboldTurbo\Release\LeyboldTurboApp\Db
 copy %~dp0\LeyboldTurboApp\Scripts\*.py \\catsserver.jetcats.jet.efda.org\CopyArea\LeyboldTurbo\Release\LeyboldTurboApp\Scripts
 copy %~dp0\LeyboldTurboApp\Scripts\*.bat \\catsserver.jetcats.jet.efda.org\CopyArea\LeyboldTurbo\Release\LeyboldTurboApp\Scripts
-copy %~dp0\LeyboldTurboApp\*.py \\catsserver.jetcats.jet.efda.org\CopyArea\LeyboldTurbo\Release\LeyboldTurboApp
-copy %~dp0\LeyboldTurboApp\*.bat \\catsserver.jetcats.jet.efda.org\CopyArea\LeyboldTurbo\Release\LeyboldTurboApp
 
 copy %~dp0\iocBoot\iocLeyboldSim\*.cmd \\catsserver.jetcats.jet.efda.org\CopyArea\LeyboldTurbo\Release\iocBoot\iocLeyboldSim
 copy %~dp0\iocBoot\iocLeyboldTurbo\*.cmd \\catsserver.jetcats.jet.efda.org\CopyArea\LeyboldTurbo\Release\iocBoot\iocLeyboldTurbo

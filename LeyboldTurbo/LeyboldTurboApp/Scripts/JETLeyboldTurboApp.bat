@@ -22,7 +22,7 @@ set COMPORT2=COM2:
 set COMPORT3=COM3:
 set COMPORT4=COM4:
 set COMPORT5=COM7:
-set COMPORT6=COM10:
+set COMPORT6=COM8:
 set NUMPUMPS=6
 
 REM Cos we're using up-to-date asyn

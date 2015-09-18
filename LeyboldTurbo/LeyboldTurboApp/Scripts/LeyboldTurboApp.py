@@ -65,6 +65,6 @@ if "ASYN_VER" in os.environ and os.environ["ASYN_VER"]>="4-26":
 	print ("using asyn:READBACK")
 	os.environ["DB"]="LeyboldTurbo.Asyn4-26"
 	
-cmdline = '..' + os.sep + 'bin' + os.sep + epics_host_arch + os.sep + 'LeyboldTurboApp ../iocBoot/iocLeyboldTurbo/st' + NumPumps + Simulated + '.cmd'
+cmdline = '..' + os.sep + '..' + os.sep + 'bin' + os.sep + epics_host_arch + os.sep + 'LeyboldTurboApp ../../iocBoot/iocLeyboldTurbo/st' + NumPumps + Simulated + '.cmd'
 
 os.system(cmdline)

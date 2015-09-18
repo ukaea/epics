@@ -26,7 +26,7 @@ import _io
 # Redirecting this causes it not to put any end-of-line charachters on it.
 # Also, I would prefer to flush the file each time so that the information is up-to-date.
 class cFile:
-	def __init__ (self, fileName, attributes='a'):
+	def __init__ (self, fileName, attributes='w'):
 		self.f = open(fileName, attributes)
 	def __enter__ (self):
 		return self.f
@@ -54,8 +54,10 @@ if len(sys.argv) > 2:
 	LastPump=sys.argv[2]
 	
 ArchivePath = ''
+attributes = 'w'
 if len(sys.argv) > 3:
 	ArchivePath=sys.argv[3]
+	attributes = 'a'
 	
 PVNames = ["Running", \
 			"Reset", \
@@ -81,7 +83,7 @@ for Pump in range(int(FirstPump), int(LastPump)+1):
 	FileName = ChannelRoot
 	FileName = FileName.replace(':', '_')
 	FileName = ArchivePath + FileName + '.log'
-	File = cFile(FileName, 'a')
+	File = cFile(FileName, attributes)
 	for index, PVName in enumerate(PVNames):
 		caGetAndMonitor(ChannelRoot + ":" + PVName, File)
 
