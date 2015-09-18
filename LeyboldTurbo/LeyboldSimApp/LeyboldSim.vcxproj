@@ -68,6 +68,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Db\LeyboldSim.Asyn4-26.db" />
     <None Include="Db\LeyboldSim.db" />
     <None Include="O.Common\LeyboldSim.dbd">
       <FileType>Document</FileType>

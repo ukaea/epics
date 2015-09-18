@@ -18,11 +18,43 @@
 
 #####################################################################################################
 #																									#
+#	Field: Running.																					#
+#	Description:																					#
+#		OFF		- the pump is not running															#
+#		ON		- the pump is in normal operation													#
+#		ACCEL	- the pump is in normal operation													#
+#		DECEL	- the pump is decelerating															#
+#		MOVING	- the pump is (still) rotaing at >3Hz												#
+#																									#
+#		This field is unique in that it is both an input and an output (for both apps).				#
+#		This is the case because it provides both setting capability and readback.					#
+#		It is possible for the 'Running' state to be set either by:									#
+#			a. the software user through the IOC, or:												#
+#			b. the equipment user, by means of switching the pump off.								#
+#																									#
+#####################################################################################################
+record(mbbo, "$(P)Running")
+{
+	field(DTYP, "asynInt32")
+	field(OUT,  "@asyn($(PORT),$(ADDR),1)RUNNING")
+	field(SCAN, "I/O Intr")
+	field(ZRVL, "0")
+	field(ONVL, "1")
+	field(TWVL, "2")
+    field(THVL, "3")
+    field(FRVL, "4")
+    field(ZRST, "OFF")
+    field(ONST, "ON")
+    field(TWST, "ACCEL")
+    field(THST, "DECEL")
+    field(FRST, "MOVING")
+}
+
+#####################################################################################################
+#																									#
 #	All fields have both output and input behaviour 												#
 #																									#
 #	Field(s)																						#
-#		Running					true(1), if the pump is operating, false(0), if it is stopped.		#
-#		Reset:					Not implemented, because not meaningful for the simulater.			#
 #		Fault					true(1), if the pump has a fault condition, otherwise false(0)		#
 #		FirmwareVersion			A text string, e.g. 3.03.05											#
 #		WarningTemperature:		The pump has a (silulated) high temperature warning.				#
@@ -35,15 +67,6 @@
 #		CircuitVoltage:			The pump's circuit voltage value.									#
 #																									#
 #####################################################################################################
-record(bo, "$(P)Running")
-{
-	field(DTYP, "asynInt32")
-	field(OUT,  "@asyn($(PORT),$(ADDR),1)RUNNING")
-	field(SCAN, "I/O Intr")
-	field(ZNAM,  "OFF")
-	field(ONAM,  "ON")
-}
-
 record(longout, "$(P)Fault")
 {
 	field(DTYP, "asynInt32")

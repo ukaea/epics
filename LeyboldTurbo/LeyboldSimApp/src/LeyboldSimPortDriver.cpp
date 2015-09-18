@@ -38,6 +38,8 @@
 
 static CLeyboldSimPortDriver* g_LeyboldSimPortDriver;
 
+static const int NormalStatorFrequency = 490;
+
 #ifndef ASYN_TRACE_WARNING
 // Added with asyn4-22
 static const int ASYN_TRACE_WARNING = ASYN_TRACE_ERROR;
@@ -76,6 +78,12 @@ CLeyboldSimPortDriver::~CLeyboldSimPortDriver()
 		m_ExitEvent.wait();
 }
 
+unsigned getTickCount()
+{
+	epicsTimeStamp TimeStamp = epicsTime::getCurrent();
+	return TimeStamp.secPastEpoch * 1000 + TimeStamp.nsec / 1000000;
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 //																								//
 //	void CLeyboldSimPortDriver::ListenerThread(void* parm)										//
@@ -101,7 +109,7 @@ void CLeyboldSimPortDriver::ListenerThread(void* parm)
 			throw CException(This->pasynUserSelf, __FUNCTION__, "connecting to IO port=" + std::string(IOPortName));
 		{
 			epicsGuard < epicsMutex > guard ( This->m_Mutex );
-			This->m_WasRunning.push_back(true);
+			This->m_WasRunning.push_back(std::pair<RunStates, unsigned>(On, getTickCount()));
 		}
 		while (!This->m_Exiting)
 		{
@@ -251,14 +259,14 @@ int CLeyboldSimPortDriver::UsedParams()
 void CLeyboldSimPortDriver::setDefaultValues(size_t TableIndex)
 {
 	// The running state has just been enabled.
-	setIntegerParam(TableIndex, RUNNING, 1);
+	setIntegerParam(TableIndex, RUNNING, On);
 	// Not set here : FAULT
 	// Reset, FaultStr, WarningTemperatureStr, WarningHighLoadStr and WarningPurgeStr are not used.
 
 	setIntegerParam(TableIndex, WARNINGTEMPERATURE, 0);
 	setIntegerParam(TableIndex, WARNINGHIGHLOAD, 0);
 	setIntegerParam(TableIndex, WARNINGPURGE, 0);
-	setIntegerParam(TableIndex, STATORFREQUENCY, 490);
+	setIntegerParam(TableIndex, STATORFREQUENCY, NormalStatorFrequency);
 	setIntegerParam(TableIndex, CONVERTERTEMPERATURE, 50);
 	setDoubleParam(TableIndex, MOTORCURRENT, 1.1);
 	setIntegerParam(TableIndex, PUMPTEMPERATURE, 65);
@@ -348,7 +356,7 @@ template<size_t NoOfPZD> bool CLeyboldSimPortDriver::process(asynUser* pasynUser
 		throw CException(pasynUser, __FUNCTION__, "User / pump not configured");
 
 	// Normal operation 1 = the pump is running in the normal operation mode
-	bool Running = (getIntegerParam(TableIndex, RUNNING) != 0);
+	bool Running = (getIntegerParam(TableIndex, RUNNING) == On);
 
 	//	control bit 10 = 1
 	bool RemoteActivated = ((USSReadPacket.m_USSPacketStruct.m_PZD[0] & (1 << 10)) != 0);
@@ -370,19 +378,64 @@ template<size_t NoOfPZD> bool CLeyboldSimPortDriver::process(asynUser* pasynUser
 	{
 		epicsGuard < epicsMutex > guard ( m_Mutex );
 
-		if (Running && !m_WasRunning[TableIndex])
+		if (Running && (m_WasRunning[TableIndex].first != On))
 		{
 			// The running state has just been enabled.
-			setDefaultValues(TableIndex);
+			if (m_WasRunning[TableIndex].first == Off)
+			{
+				setIntegerParam(TableIndex, RUNNING, Accel);
+				setDoubleParam(TableIndex, MOTORCURRENT, 15.2);
+				m_WasRunning[TableIndex].first = Accel;
+				m_WasRunning[TableIndex].second = getTickCount();
+			}
+			else
+			{
+				// Accel
+				static const size_t Duration = 2000;
+				unsigned ElapsedTime = getTickCount() - m_WasRunning[TableIndex].second;
+				setIntegerParam(TableIndex, STATORFREQUENCY, (ElapsedTime * NormalStatorFrequency) / Duration);
+				if (ElapsedTime >= Duration)
+				{
+					setDefaultValues(TableIndex);
+					m_WasRunning[TableIndex].first = On;
+					m_WasRunning[TableIndex].second = getTickCount();
+				}
+			}
 		}
-		if (!Running && m_WasRunning[TableIndex])
+		if (!Running && (m_WasRunning[TableIndex].first != Off))
 		{
 			// The running state has just been disabled.
-			setIntegerParam(TableIndex, RUNNING, Running ? 1 : 0);
-			setIntegerParam(TableIndex, STATORFREQUENCY, 0);
+			if (m_WasRunning[TableIndex].first == On)
+			{
+				setIntegerParam(TableIndex, RUNNING, Decel);
+				m_WasRunning[TableIndex].first = Decel;
+				m_WasRunning[TableIndex].second = getTickCount();
+			}
+			else if (m_WasRunning[TableIndex].first == Decel)
+			{
+				static const size_t Duration = 2000;
+				unsigned ElapsedTime = getTickCount() - m_WasRunning[TableIndex].second;
+				int StatorFrequency = __max(3, ((Duration - ElapsedTime) * NormalStatorFrequency) / Duration);
+				setIntegerParam(TableIndex, STATORFREQUENCY, StatorFrequency);
+				if (ElapsedTime >= Duration)
+				{
+					setIntegerParam(TableIndex, RUNNING, Moving);
+					m_WasRunning[TableIndex].first = Moving;
+					m_WasRunning[TableIndex].second = getTickCount();
+				}
+			}
+			else if (m_WasRunning[TableIndex].first == Moving)
+			{
+				static const size_t Duration = 2000;
+				unsigned ElapsedTime = getTickCount() - m_WasRunning[TableIndex].second;
+				if (ElapsedTime >= Duration)
+				{
+					setIntegerParam(TableIndex, RUNNING, Off);
+					m_WasRunning[TableIndex].first = Off;
+					m_WasRunning[TableIndex].second = getTickCount();
+				}
+			}
 		}
-
-		m_WasRunning[TableIndex] = Running;
 	}
 
 	USSWritePacket.m_USSPacketStruct.m_PZD[0] = 0;
@@ -398,7 +451,8 @@ template<size_t NoOfPZD> bool CLeyboldSimPortDriver::process(asynUser* pasynUser
 		// A fault condition causes the controller to stop the pump.
 		USSWritePacket.m_USSPacketStruct.m_PZD[0] |= (1 << 3);
 		setIntegerParam(TableIndex, STATORFREQUENCY, 0);
-		setIntegerParam(TableIndex, RUNNING, 0);
+		setIntegerParam(TableIndex, RUNNING, Off);
+		m_WasRunning[TableIndex].first = Off;
 	}
 	if (getIntegerParam(TableIndex, WARNINGTEMPERATURE) != 0)
 		USSWritePacket.m_USSPacketStruct.m_PZD[0] |= (1 << 2);

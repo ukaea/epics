@@ -28,6 +28,11 @@
 #include <epicsTypes.h>
 #include <osiSock.h>
 
+enum RunStates
+{
+	Off, On, Accel, Decel, Moving
+};
+
 #pragma pack(push, 1)
 template<size_t NoOfPZD> struct
 #ifdef __GNUC__

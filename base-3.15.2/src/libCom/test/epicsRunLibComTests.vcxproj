@@ -112,6 +112,10 @@
     </ClCompile>
     <ClCompile Include="taskwdTest.c" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="epicsUnitTestTest.plt" />
+    <None Include="Makefile" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{FD088109-0D8F-48AA-B23D-17693F119F15}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>

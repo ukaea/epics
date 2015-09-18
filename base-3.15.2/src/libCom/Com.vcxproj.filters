@@ -419,6 +419,12 @@
     <ClCompile Include="osi\os\default\epicsAtomicOSD.cpp">
       <Filter>osi\os\default</Filter>
     </ClCompile>
+    <ClCompile Include="osi\os\default\osdFindSymbol.c">
+      <Filter>osi\os\default</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\os\default\osdThreadExtra.c">
+      <Filter>osi\os\default</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bucketLib\bucketLib.h">

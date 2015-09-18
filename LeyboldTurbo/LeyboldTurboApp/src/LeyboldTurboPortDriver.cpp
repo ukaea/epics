@@ -152,7 +152,7 @@ asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *v
 		if ((TableIndex < 0) || (TableIndex >= int(m_IOUsers.size())))
 			throw CException(pasynUser, __FUNCTION__, "User / pump not configured");
 
-		bool Running = (getIntegerParam(TableIndex, RUNNING) != 0);
+		bool Running = (getIntegerParam(TableIndex, RUNNING) != Off);
 
 		if (function == Parameters(FAULT))
 		{
@@ -234,7 +234,7 @@ asynStatus CLeyboldTurboPortDriver::readOctet(asynUser *pasynUser, char *value, 
 			throw CException(pasynUser, __FUNCTION__, "Could not get address");
 		if ((TableIndex < 0) || (TableIndex >= int(m_IOUsers.size())))
 			throw CException(pasynUser, __FUNCTION__, "User / pump not configured");
-		bool Running = (getIntegerParam(TableIndex, RUNNING) != 0);
+		bool Running = (getIntegerParam(TableIndex, RUNNING) != Off);
 		if (function == Parameters(FIRMWAREVERSION))
 		{
 			epicsUInt32 PWE;
@@ -342,10 +342,19 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::writeRead(int TableIndex,
 //////////////////////////////////////////////////////////////////////////////////////////////////
 template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processRead(int TableIndex, asynUser *pasynUser, USSPacket<NoOfPZD> const& USSReadPacket)
 {
-	bool Running = (getIntegerParam(TableIndex, RUNNING) != 0);
+	bool Running = (getIntegerParam(TableIndex, RUNNING) != Off);
 
 	// Normal operation 1 = the pump is running in the normal operation mode
-	setIntegerParam (TableIndex, RUNNING, USSReadPacket.m_USSPacketStruct.m_PZD[0] & (1 << 10) ? 1 : 0);
+	RunStates RunState=Off;
+	if (USSReadPacket.m_USSPacketStruct.m_PZD[0] & (1 << 10))
+		RunState=On;
+	else if (USSReadPacket.m_USSPacketStruct.m_PZD[0] & (1 << 4))
+		RunState=Accel;
+	else if (USSReadPacket.m_USSPacketStruct.m_PZD[0] & (1 << 5))
+		RunState=Decel;
+	else if (USSReadPacket.m_USSPacketStruct.m_PZD[0] & (1 << 11))
+		RunState=Moving;
+	setIntegerParam (TableIndex, RUNNING, RunState);
 
 	if (USSReadPacket.m_USSPacketStruct.m_PZD[0] & (1 << 3))
 	{
@@ -614,7 +623,7 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processWrite(int TableInd
 		//		the cause for the error has been removed and
 		//		control bit 0 = 0 and
 		//		control bit 10 = 1
-		bool Running = (getIntegerParam(TableIndex, RUNNING) != 0);
+		bool Running = (getIntegerParam(TableIndex, RUNNING) != Off);
 		if ((Running) && (value))
 			throw CException(pasynUser, __FUNCTION__, "The pump must be halted before a reset can be applied");
 		USSWritePacket.m_USSPacketStruct.m_PZD[0] |= 1 << 10;

@@ -52,6 +52,9 @@
     <None Include="TestScripts\testsequence.sh">
       <Filter>TestScripts</Filter>
     </None>
+    <None Include="Db\LeyboldSim.Asyn4-26.db">
+      <Filter>db</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\LeyboldSimPortDriver.h">

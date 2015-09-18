@@ -32,6 +32,9 @@
     <None Include="src\Makefile">
       <Filter>src</Filter>
     </None>
+    <None Include="Db\LeyboldTurbo.Asyn4-26.db">
+      <Filter>db</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\LeyboldTurboPortDriver.h">

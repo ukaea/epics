@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TrackFileAccess>false</TrackFileAccess>
@@ -315,8 +315,12 @@ xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="convertRelease.pl" />
+    <None Include="cvsclean.pl" />
     <None Include="DBD.pm" />
     <None Include="dbdExpand.pl" />
+    <None Include="dbdReport.pl" />
+    <None Include="dbdToHtml.pl" />
     <None Include="dbdToMenuH.pl" />
     <None Include="dbdToRecordtypeH.pl" />
     <None Include="DBD\Base.pm" />
@@ -331,9 +335,22 @@ xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
     <None Include="DBD\Recordtype.pm" />
     <None Include="DBD\Registrar.pm" />
     <None Include="DBD\Variable.pm" />
+    <None Include="dos2unix.pl" />
     <None Include="EPICS\Path.pm" />
     <None Include="EPICS\Release.pm" />
+    <None Include="expandVars.pl" />
+    <None Include="fullPathName.pl" />
+    <None Include="installEpics.pl" />
+    <None Include="makeIncludeDbd.pl" />
+    <None Include="makeMakefile.pl" />
+    <None Include="makeTestfile.pl" />
+    <None Include="mkmf.pl" />
+    <None Include="munch.pl" />
+    <None Include="podRemove.pl" />
+    <None Include="podToHtml.pl" />
     <None Include="registerRecordDeviceDriver.pl" />
+    <None Include="replaceVAR.pl" />
+    <None Include="useManifestTool.pl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

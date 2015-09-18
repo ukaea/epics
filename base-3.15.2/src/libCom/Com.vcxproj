@@ -169,6 +169,7 @@
     </ClCompile>
     <ClCompile Include="osi\os\default\osdEnv.c" />
     <ClCompile Include="osi\os\default\osdFindAddr.c" />
+    <ClCompile Include="osi\os\default\osdFindSymbol.c" />
     <ClCompile Include="osi\os\default\osdInterrupt.c" />
     <ClCompile Include="osi\os\default\osdMessageQueue.cpp" />
     <ClCompile Include="osi\os\default\osdNetIntf.c">
@@ -202,6 +203,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="osi\os\default\osdSpin.c" />
+    <ClCompile Include="osi\os\default\osdThreadExtra.c" />
     <ClCompile Include="osi\os\default\osdThreadHooks.c" />
     <ClCompile Include="osi\os\WIN32\epicsGetopt.c" />
     <ClCompile Include="osi\os\WIN32\epicsSocketConvertErrnoToString.cpp" />
