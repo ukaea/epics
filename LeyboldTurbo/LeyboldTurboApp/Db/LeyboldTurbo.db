@@ -88,7 +88,7 @@ record(longin, "$(P)Fault")
 {
 	field(DTYP, "asynInt32")
 	field(INP,  "@asyn($(PORT),$(ADDR),1)FAULT")
-	field(SCAN, $(SCANINT="5 second"))
+	field(SCAN, "$(SCAN)")
 	field(PINI, "1")
 }
 

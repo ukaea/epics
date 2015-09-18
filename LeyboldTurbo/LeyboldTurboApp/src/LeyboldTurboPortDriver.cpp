@@ -612,7 +612,8 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processWrite(int TableInd
 		//		no error is present and
 		//		control bit 10 = 1
 		USSWritePacket.m_USSPacketStruct.m_PZD[0] |= 1 << 10;
-		USSWritePacket.m_USSPacketStruct.m_PZD[0] |= (value ? 1 : 0) << 0;	// Set Running bit.
+		bool Running = (value == On) || (value == Accel);	// Just in case someone tries to set the Accel state.
+		USSWritePacket.m_USSPacketStruct.m_PZD[0] |= (Running ? 1 : 0) << 0;	// Set Running bit.
 	}
 
 	if (function == Parameters(RESET))

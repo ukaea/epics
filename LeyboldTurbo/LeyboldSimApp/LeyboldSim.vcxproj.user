@@ -37,6 +37,7 @@ IPPORT3=localhost:5068
 IPPORT4=localhost:5069
 IPPORT5=localhost:5070
 IPPORT6=localhost:5071
+SIMDB=LeyboldSim.Asyn4-26
 $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <LocalDebuggerWorkingDirectory>$(ProjectDir)\TestScripts</LocalDebuggerWorkingDirectory>

@@ -355,20 +355,22 @@ template<size_t NoOfPZD> bool CLeyboldSimPortDriver::process(asynUser* pasynUser
 	if ((TableIndex < 0) || (TableIndex >= m_WasRunning.size()))
 		throw CException(pasynUser, __FUNCTION__, "User / pump not configured");
 
-	// Normal operation 1 = the pump is running in the normal operation mode
-	bool Running = (getIntegerParam(TableIndex, RUNNING) == On);
+	RunStates RunState = static_cast<RunStates>(getIntegerParam(TableIndex, RUNNING));
+	// Means the running state is in effect or has been requested.
+	bool Running = ((RunState == On) || (RunState == Accel));
 
 	//	control bit 10 = 1
 	bool RemoteActivated = ((USSReadPacket.m_USSPacketStruct.m_PZD[0] & (1 << 10)) != 0);
 
 	if (RemoteActivated)
 	{
-		Running = ((USSReadPacket.m_USSPacketStruct.m_PZD[0] & (1 << 0)) != 0);
+		// Running state change can be requested both ways!
+		Running = (USSReadPacket.m_USSPacketStruct.m_PZD[0] & (1 << 0));
 
 		// 0 to 1 transition = Error reset Is only run provided if:
 		//		the cause for the error has been removed
 		//		and control bit 0 = 0 and control bit 10 = 1
-		if ((USSReadPacket.m_USSPacketStruct.m_PZD[0] & (1 << 7)) && (!Running))
+		if ((USSReadPacket.m_USSPacketStruct.m_PZD[0] & (1 << 7)) && (RunState==Off))
 		{
 			// Clear the fault condition.
 			setIntegerParam(TableIndex, FAULT, 0);
@@ -378,7 +380,7 @@ template<size_t NoOfPZD> bool CLeyboldSimPortDriver::process(asynUser* pasynUser
 	{
 		epicsGuard < epicsMutex > guard ( m_Mutex );
 
-		if (Running && (m_WasRunning[TableIndex].first != On))
+		if ((Running) && (m_WasRunning[TableIndex].first != On))
 		{
 			// The running state has just been enabled.
 			if (m_WasRunning[TableIndex].first == Off)
@@ -402,7 +404,7 @@ template<size_t NoOfPZD> bool CLeyboldSimPortDriver::process(asynUser* pasynUser
 				}
 			}
 		}
-		if (!Running && (m_WasRunning[TableIndex].first != Off))
+		else if ((!Running) && (m_WasRunning[TableIndex].first != Off))
 		{
 			// The running state has just been disabled.
 			if (m_WasRunning[TableIndex].first == On)
@@ -439,8 +441,15 @@ template<size_t NoOfPZD> bool CLeyboldSimPortDriver::process(asynUser* pasynUser
 	}
 
 	USSWritePacket.m_USSPacketStruct.m_PZD[0] = 0;
-	if (Running)
+	RunState = m_WasRunning[TableIndex].first;
+	if (RunState == On)
 		USSWritePacket.m_USSPacketStruct.m_PZD[0] |= (1 << 10);
+	else if (RunState == Accel)
+		USSWritePacket.m_USSPacketStruct.m_PZD[0] |= (1 << 4);
+	else if (RunState == Decel)
+		USSWritePacket.m_USSPacketStruct.m_PZD[0] |= (1 << 5);
+	else if (RunState == Moving)
+		USSWritePacket.m_USSPacketStruct.m_PZD[0] |= (1 << 11);
 
 	// Remote has been activated 1 = start/stop (control bit 0) and reset(control bit 7) through serial interface is possible.
 	USSWritePacket.m_USSPacketStruct.m_PZD[0] |= ((RemoteActivated ? 1 : 0) << 15);
