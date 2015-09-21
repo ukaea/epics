@@ -28,18 +28,10 @@ set NUMPUMPS=6
 REM Cos we're using up-to-date asyn
 set DB=LeyboldTurbo.Asyn4-26
 
-call Scripts\JETMappings.bat
+call JETMappings.bat
 
-..\Release_LIB\LeyboldTurboApp ..\iocBoot\iocLeyboldTurbo\st6.cmd
+start ..\..\Release_LIB\LeyboldTurboApp ..\..\iocBoot\iocLeyboldTurbo\st6.cmd
 
-start python camonitor.py 1 %NUMPUMPS%"
-start python ..\..\LeyboldTurboApp\Scripts\camonitor.py 1 %NUMPUMPS%
-
-testsequence.py %NUMPUMPS%
-
-timeout 10
-start /WAIT ..\..\LeyboldTurboApp\Scripts\Reset.py 1 %NUMPUMPS%
-
-timeout 10
-start /WAIT ..\..\LeyboldTurboApp\Scripts\SetRunning.py 1 %NUMPUMPS% 1
+md d:\LocalData\
+python camonitor.py 1 %NUMPUMPS% D:\LocalData\
 
