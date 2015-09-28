@@ -33,12 +33,12 @@ def TestSequenceOnePump(Pump):
 	print("First turn the pump off ", Pump)
 	caput(ChannelRoot + ':Running', 0)
 
-	time.sleep(10)
+	time.sleep(5)
 
 	print("Then turn it on again ", Pump)
 	caput(ChannelRoot + ':Running', 1)
 
-	time.sleep(10)
+	time.sleep(5)
 
 	print("Setting some values indicating high pump stress on ", Pump)
 	caput(ChannelRoot + ':StatorFrequency', 200)
@@ -47,22 +47,22 @@ def TestSequenceOnePump(Pump):
 	caput(ChannelRoot + ':CircuitVoltage', 40.6)
 	caput(ChannelRoot + ':WarningHighLoad', 1)
 
-	time.sleep(10)
+	time.sleep(5)
 
 	print("Setting some more values indicating high pump stress on ", Pump)
 	caput(ChannelRoot + ':PumpTemperature', 80)
 	caput(ChannelRoot + ':WarningTemperature', 1)
 
-	time.sleep(10)
+	time.sleep(5)
 
 	print("Motor temperature too high on ", Pump)
 	caput(ChannelRoot + ':Fault', 2)
 
-	time.sleep(10)
+	time.sleep(5)
 
 	print("Overload on ", Pump)
 	caput(ChannelRoot + ':Fault', 1)
-	time.sleep(10)
+	time.sleep(5)
 
 	print("No motor current on ", Pump)
 	caput(ChannelRoot + ':Fault', 17)
@@ -76,7 +76,7 @@ if len(sys.argv) > 1:
 	NumPumps=sys.argv[1]
 
 for Pump in range(1, int(NumPumps)+1):
-	time.sleep(10)
+	time.sleep(5)
 	TestSequenceOnePump(Pump)
 	
 del os.environ["EPICS_CA_SERVER_PORT"]

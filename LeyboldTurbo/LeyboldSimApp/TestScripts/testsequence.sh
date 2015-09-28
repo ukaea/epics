@@ -39,13 +39,13 @@ python testsequence.py $NUMPUMPS
 # (The fact that these are one and the same is not taken in to account.)
 # When there are too many warnings, the (pytyhon) script fails with errors:
 # "sys.excepthook is missing".
-sleep 10
+sleep 5
 for ((Pump=1; Pump<=$NUMPUMPS; Pump++))
 do
 	caput LEYBOLDTURBO:$Pump:Reset 1
 done
 
-sleep 10
+sleep 5
 for ((Pump=1; Pump<=$NUMPUMPS; Pump++))
 do
 	caput LEYBOLDTURBO:$Pump:Running 1

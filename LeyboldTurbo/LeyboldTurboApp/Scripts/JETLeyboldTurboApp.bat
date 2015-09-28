@@ -14,8 +14,8 @@ REM	found in file LICENSE that is included with this distribution.
 
 
 set NUMPUMPS=6
-set BAUD=19200
-set NoOfPZD=6
+set BAUD=9600
+set NoOfPZD=2
 
 set COMPORT1=COM1:
 set COMPORT2=COM2:
@@ -33,5 +33,5 @@ call JETMappings.bat
 start ..\..\Release_LIB\LeyboldTurboApp ..\..\iocBoot\iocLeyboldTurbo\st6.cmd
 
 md d:\LocalData\
-python camonitor.py 1 %NUMPUMPS% D:\LocalData\
+camonitor.py 1 %NUMPUMPS% D:\LocalData\
 
