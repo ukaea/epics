@@ -55,7 +55,7 @@ private:
 
 	static int UsedParams();
 	volatile bool m_Exiting;		// Signals the listening thread to exit.
-	std::vector<std::pair<RunStates, unsigned>> m_WasRunning;	// For each simulated pump, was it in the Running state, on the previous iteration?
+	std::vector<std::pair<RunStates, unsigned> > m_WasRunning;	// For each simulated pump, was it in the Running state, on the previous iteration?
 	std::vector<asynUser*> m_asynUsers;
 };
 

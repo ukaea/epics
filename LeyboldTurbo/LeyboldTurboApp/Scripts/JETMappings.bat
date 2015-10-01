@@ -13,7 +13,7 @@ REM	LeyboldTurbo is distributed subject to a Software License Agreement
 REM	found in file LICENSE that is included with this distribution.
 
 
-set ASYNPORT=TT
+REM set ASYNPORT=TT
 
 set ASYNPORT1=TT:01
 set ASYNPORT2=TT:02

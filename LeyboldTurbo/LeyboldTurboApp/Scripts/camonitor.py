@@ -20,7 +20,6 @@ import os
 import sys
 import datetime
 import time
-import _io
 
 # camonitor calls sys.stdout.write() by default.
 # Redirecting this causes it not to put any end-of-line charachters on it.

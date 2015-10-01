@@ -26,6 +26,7 @@
 #include <epicsAssert.h>
 #include <epicsThread.h>
 #include <epicsGuard.h>
+#include <epicsTime.h>
 #include <asynOctetSyncIO.h>
 #include <asynStandardInterfaces.h>
 
@@ -419,7 +420,9 @@ template<size_t NoOfPZD> bool CLeyboldSimPortDriver::process(asynUser* pasynUser
 				// It is intended that the (simulated) pump speed ramps down to nothing in Duration
 				static const size_t Duration = 2000;
 				unsigned ElapsedTime = getTickCount() - m_WasRunning[TableIndex].second;
-				int StatorFrequency = __max(3, ((Duration - ElapsedTime) * NormalStatorFrequency) / Duration);
+				int StatorFrequency = ((Duration - ElapsedTime) * NormalStatorFrequency) / Duration;
+				if (StatorFrequency < 3)
+					StatorFrequency = 3;
 				setIntegerParam(TableIndex, STATORFREQUENCY, StatorFrequency);
 				if (ElapsedTime >= Duration)
 				{
