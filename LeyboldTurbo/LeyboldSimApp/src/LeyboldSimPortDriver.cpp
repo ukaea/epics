@@ -38,6 +38,7 @@
 #include <stdlib.h>
 
 static CLeyboldSimPortDriver* g_LeyboldSimPortDriver;
+epicsMutex CLeyboldSimPortDriver::m_Mutex;
 
 static const int NormalStatorFrequency = 490;
 
@@ -101,7 +102,7 @@ void CLeyboldSimPortDriver::ListenerThread(void* parm)
 	const char* IOPortName = epicsThreadGetNameSelf();
 	size_t TableIndex;
 	{
-		epicsGuard < epicsMutex > guard ( This->m_Mutex );
+		epicsGuard < epicsMutex > guard ( CLeyboldSimPortDriver::m_Mutex );
 		TableIndex = int(This->m_WasRunning.size());
 	}
 	asynUser* asynUser = This->m_asynUsers[TableIndex];
@@ -109,7 +110,7 @@ void CLeyboldSimPortDriver::ListenerThread(void* parm)
 		if (pasynOctetSyncIO->connect(IOPortName, int(TableIndex), &IOUser, NULL) != asynSuccess)
 			throw CException(This->pasynUserSelf, __FUNCTION__, "connecting to IO port=" + std::string(IOPortName));
 		{
-			epicsGuard < epicsMutex > guard ( This->m_Mutex );
+			epicsGuard < epicsMutex > guard ( CLeyboldSimPortDriver::m_Mutex );
 			This->m_WasRunning.push_back(std::pair<RunStates, unsigned>(On, getTickCount()));
 		}
 		while (!This->m_Exiting)
@@ -146,7 +147,7 @@ void CLeyboldSimPortDriver::ListenerThread(void* parm)
     }
 	
 	{
-		epicsGuard < epicsMutex > guard ( This->m_Mutex );
+		epicsGuard < epicsMutex > guard ( CLeyboldSimPortDriver::m_Mutex );
 
 		status = pasynManager->freeAsynUser(IOUser);
 		if (status != asynSuccess)
@@ -198,14 +199,17 @@ void CLeyboldSimPortDriver::octetConnectionCallback(void *drvPvt, asynUser *pasy
 //////////////////////////////////////////////////////////////////////////////////////////////////
 void CLeyboldSimPortDriver::addIOPort(const char* IOPortName)
 {
-	epicsGuard < epicsMutex > guard ( m_Mutex );
+	epicsGuard < epicsMutex > guard ( CLeyboldSimPortDriver::m_Mutex );
 	for (size_t ParamIndex = 0; ParamIndex < size_t(NUM_PARAMS); ParamIndex++)
 	{
-		if (ParameterDefns[ParamIndex].m_NotForSim)
+		if (ParameterDefns[ParamIndex].m_UseCase == NotForSim)
 			// Not implemented, because not meaningful for the simulater.
 			continue;
+		if (ParameterDefns[ParamIndex].m_UseCase == Single)
+			// Single instance parameter
+			continue;
 
-		std::string const& ParamName =  ParameterDefns[ParamIndex].m_ParamName;
+		std::string const& ParamName =  ParameterDefns[ParamIndex].m_Name;
 
 		createParam(m_asynUsers.size(), ParamIndex);
 	}
@@ -239,7 +243,7 @@ int CLeyboldSimPortDriver::UsedParams()
 	int UsedParams = 0;
 	for (size_t ParamIndex = 0; ParamIndex < size_t(NUM_PARAMS); ParamIndex++)
 	{
-		if (ParameterDefns[ParamIndex].m_NotForSim)
+		if (ParameterDefns[ParamIndex].m_UseCase == NotForSim)
 			// Not implemented, because not meaningful for the simulater.
 			continue;
 		UsedParams++;
@@ -379,7 +383,7 @@ template<size_t NoOfPZD> bool CLeyboldSimPortDriver::process(asynUser* pasynUser
 	}
 
 	{
-		epicsGuard < epicsMutex > guard ( m_Mutex );
+		epicsGuard < epicsMutex > guard ( CLeyboldSimPortDriver::m_Mutex );
 
 		if ((Running) && (m_WasRunning[TableIndex].first != On))
 		{
@@ -551,7 +555,27 @@ template<size_t NoOfPZD> bool CLeyboldSimPortDriver::process(asynUser* pasynUser
 
 }
 
-bool process6ByteFields(asynUser *pasynUser, int TableIndex);
+asynStatus CLeyboldSimPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *value)
+{
+	epicsGuard < epicsMutex > guard ( CLeyboldSimPortDriver::m_Mutex );
+	asynStatus Status = CLeyboldBase::readInt32(pasynUser, value);
+	return Status;
+}
+
+asynStatus CLeyboldSimPortDriver::writeInt32(asynUser *pasynUser, epicsInt32 value)
+{
+	epicsGuard < epicsMutex > guard ( CLeyboldSimPortDriver::m_Mutex );
+	asynStatus Status = CLeyboldBase::writeInt32(pasynUser, value);
+	return Status;
+}
+
+asynStatus CLeyboldSimPortDriver::readOctet(asynUser *pasynUser, char *value, size_t maxChars,
+                                        size_t *nActual, int *eomReason)
+{
+	epicsGuard < epicsMutex > guard ( CLeyboldSimPortDriver::m_Mutex );
+	asynStatus Status = CLeyboldBase::readOctet(pasynUser, value, maxChars, nActual, eomReason);
+	return Status;
+}
 
 static const iocshArg initArg0 = { "asynPortName", iocshArgString};
 static const iocshArg initArg1 = { "numPumps", iocshArgString};
@@ -581,14 +605,13 @@ void LeyboldSimExitFunc(void * param)
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 //																								//
-//	int LeyboldSimPortDriverConfigure(const char *asynPortName, int numPumps, int NoOfPZD)		//
+//	static void LeyboldSimPortDriverConfigure(const iocshArgBuf *args)							//
 //																								//
 //	Description:																				//
 //		EPICS iocsh callable function to call constructor for the CLeyboldSimPortDriver class.	//
 //																								//
 //	Parameters:																					//
 //		args - 3 arguments:																		//
-//			asynPortName - the Asyn port name (e.g. TURBOSIM) to be used.						//
 //			numPumps - how many pumps will be attached?											//
 //			NoOfPZD - This will be 6 for older model pumps or									//
 //					  2 for the rear port of the MAG Drive Digital model.						//

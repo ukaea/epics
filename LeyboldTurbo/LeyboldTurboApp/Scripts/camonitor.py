@@ -63,7 +63,6 @@ PVNames = ["Running", \
 			"Fault", \
 			"FaultStr", \
 			"FirmwareVersion", \
-			"SoftwareVersion", \
 			"WarningTemperature", \
 			"WarningTemperatureStr", \
 			"WarningHighLoad",

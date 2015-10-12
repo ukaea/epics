@@ -59,7 +59,6 @@ record(mbbo, "$(P)Running")
 #		Fault:					The pump has a fault.												#
 #		FaultStr:				The pump's fault expressed as a string.								#
 #		FirmwareVersion:		The pumps firmware version string is read out (start-up only).		#
-#		SoftwareVersion:		The version string of this application (start-up only).				#
 #		WarningTemperature:		The pump has a high temperature warning (numeric code).				#
 #		WarningTemperatureStr:	A textual representation of the above warning.						#
 #		WarningHighLoad:		The pump has a high load warning (numeric code).					#
@@ -104,13 +103,6 @@ record(stringin, "$(P)FirmwareVersion")
 	field(DTYP, "asynOctetRead")
 	field(INP,  "@asyn($(PORT),$(ADDR),1)FIRMWAREVERSION")
 	field(PINI, "1")
-}
-
-record(stringin, "$(P)SoftwareVersion")
-{
-	field(DTYP, "asynOctetRead")
-	field(INP,  "@asyn($(PORT),$(ADDR),1)SOFTWAREVERSION")
-	field(SCAN, "I/O Intr")
 }
 
 record(longin, "$(P)WarningTemperature")

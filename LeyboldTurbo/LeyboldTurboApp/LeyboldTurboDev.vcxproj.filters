@@ -35,6 +35,9 @@
     <None Include="Db\LeyboldTurbo.Asyn4-26.db">
       <Filter>db</Filter>
     </None>
+    <None Include="Db\SoftwareVersions.db">
+      <Filter>db</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\LeyboldTurboPortDriver.h">

@@ -61,10 +61,6 @@ else:
 			# 1 -> 0, 2 -> 1, etc - but overridden by command line values
 			os.environ["COMPORT" + str(ComPort)]="/dev/ttyS"+chr(ComPort-1)+":" if len(sys.argv) <= ComPort+2 else sys.argv[ComPort+2]
 
-if "ASYN_VER" in os.environ and os.environ["ASYN_VER"]>="4-26":
-	print ("using asyn:READBACK")
-	os.environ["DB"]="LeyboldTurbo.Asyn4-26"
-	
 cmdline = '..' + os.sep + '..' + os.sep + 'bin' + os.sep + epics_host_arch + os.sep + 'LeyboldTurboApp ../../iocBoot/iocLeyboldTurbo/st' + NumPumps + Simulated + '.cmd'
 
 os.system(cmdline)

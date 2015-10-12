@@ -15,11 +15,13 @@ drvAsynIPPortConfigure($(IOPORT):2, $(IPPORT2="localhost:5067"), 0, 0)
 LeyboldTurboAddIOPort($(IOPORT):2)
 
 ## Load record instances
+
+$(ASYN_VERSION_GE426=#) epicsEnvSet DB LeyboldTurbo.Asyn4-26
+
+dbLoadRecords("../../LeyboldTurboApp/Db/SoftwareVersions.db", "P=$(ASYNPORT):,PORT=$(ASYNPORT)")
+
 dbLoadRecords("../../LeyboldTurboApp/Db/$(DB=LeyboldTurbo).db", "P=$(ASYNPORT):1:,PORT=$(ASYNPORT),SCAN=$(SCANINT=.1 second),ADDR=0")
 
 dbLoadRecords("../../LeyboldTurboApp/Db/$(DB=LeyboldTurbo).db", "P=$(ASYNPORT):2:,PORT=$(ASYNPORT),SCAN=$(SCANINT=.1 second),ADDR=1")
 
 iocInit
-
-## Start any sequence programs
-#seq sncxxx,"user=pheestHost"

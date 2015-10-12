@@ -36,8 +36,6 @@
 
 static CLeyboldTurboPortDriver* g_LeyboldTurboPortDriver;
 
-const char* SoftwareVersion = "1.0";
-
 //////////////////////////////////////////////////////////////////////////////////////////////////
 //																								//
 //	CLeyboldTurboPortDriver::CLeyboldTurboPortDriver(const char *asynPortName, int numPumps)	//
@@ -60,6 +58,7 @@ CLeyboldTurboPortDriver::CLeyboldTurboPortDriver(const char *asynPortName, int n
                     asynDrvUserMask | asynInt32Mask | asynFloat64Mask | asynOctetMask // Interface and interrupt mask// Interface mask
 					)
 {
+
 }
 
 CLeyboldTurboPortDriver::~CLeyboldTurboPortDriver()
@@ -95,23 +94,12 @@ void CLeyboldTurboPortDriver::addIOPort(const char* IOPortName)
 		
 	for (size_t ParamIndex = 0; ParamIndex < size_t(NUM_PARAMS); ParamIndex++)
 	{
+		if (ParameterDefns[ParamIndex].m_UseCase == Single)
+			// Single instance parameter
+			continue;
 		// Create parameters from the definitions.
 		// These variables end up being addressed as e.g. TURBO:1:RUNNING.
 		createParam(m_IOUsers.size(), ParamIndex);
-		switch(ParameterDefns[ParamIndex].m_ParamType)
-		{
-			// Set default values.
-			case asynParamInt32: 
-				setIntegerParam(int(m_IOUsers.size()), ParameterDefns[ParamIndex].m_ParamName, 0);
-				break;
-			case asynParamFloat64: 
-				setDoubleParam (int(m_IOUsers.size()), ParameterDefns[ParamIndex].m_ParamName, 0.0);
-				break;
-			case asynParamOctet: 
-				setStringParam (int(m_IOUsers.size()), ParameterDefns[ParamIndex].m_ParamName, "");
-				break;
-			default: assert(false);
-		}
 	}
 
 	// Normal operation 1 = the pump is running in the normal operation mode
@@ -208,8 +196,9 @@ asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *v
 		// Internal communication failure
 		setIntegerParam(TableIndex, FAULT, 65);
 	}
+	asynStatus Status = CLeyboldBase::readInt32(pasynUser, value);
 	callParamCallbacks(TableIndex);
-	return asynPortDriver::readInt32(pasynUser, value);
+	return Status;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -260,25 +249,15 @@ asynStatus CLeyboldTurboPortDriver::readOctet(asynUser *pasynUser, char *value, 
 			epicsSnprintf(CBuf, sizeof(CBuf), "%1d.%02d.%02d", Major, Minor1, Minor2);
 			setStringParam (TableIndex, FIRMWAREVERSION, CBuf);
 
-			FILE* Version = fopen("version.txt", "rt");
-			if (Version)
-			{
-				char CBuf[MaxEPICSStrLen];
-				fgets(CBuf, MaxEPICSStrLen, Version);
-				setStringParam (TableIndex, SOFTWAREVERSION, CBuf);
-				fclose(Version);
-			}
-			else
-				setStringParam (TableIndex, SOFTWAREVERSION, SoftwareVersion);
-
 		}
 	}
 	catch(CException const&) {
 		// Internal communication failure
 		setIntegerParam(TableIndex, FAULT, 65);
 	}
+	asynStatus Status = CLeyboldBase::readOctet(pasynUser, value, maxChars, nActual, eomReason);
 	callParamCallbacks(TableIndex);
-	return asynPortDriver::readOctet(pasynUser, value, maxChars, nActual, eomReason);
+	return Status;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -648,7 +627,7 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processWrite(int TableInd
 asynStatus CLeyboldTurboPortDriver::writeInt32(asynUser *pasynUser, epicsInt32 value)
 {
 	// Invoke the base class method to store the value in the database.
-	asynStatus status = asynPortDriver::writeInt32(pasynUser, value);
+	asynStatus status = CLeyboldBase::writeInt32(pasynUser, value);
 	int TableIndex = 0;
 	try {
 		if (getAddress(pasynUser, &TableIndex) != asynSuccess)
@@ -689,7 +668,7 @@ void LeyboldTurboExitFunc(void * param)
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 //																								//
-//	int LeyboldTurboPortDriverConfigure(const char *asynPortName, int numPumps, int NoOfPZD)	//
+//	static void LeyboldTurboPortDriverConfigure(const iocshArgBuf *args)						//
 //																								//
 //	Description:																				//
 //		This function will be invoked when from the st.cmd starup script.						//
@@ -721,7 +700,7 @@ static const iocshFuncDef addFuncDef = {"LeyboldTurboAddIOPort",1,addArgs};
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 //																								//
-//	int LeyboldTurboAddIOPort(const char *IOPortName)											//
+//	static void LeyboldTurboAddIOPort(const iocshArgBuf *args)									//
 //	Description:																				//
 //		EPICS iocsh callable function to add a (simulated or real) pump to the IOC.				//
 //																								//
@@ -729,7 +708,7 @@ static const iocshFuncDef addFuncDef = {"LeyboldTurboAddIOPort",1,addArgs};
 //		IOPortName - the IOC port name (e.g. PUMP:1) to be used.								//
 //																								//
 //////////////////////////////////////////////////////////////////////////////////////////////////
-void LeyboldTurboAddIOPort(const iocshArgBuf *args)
+static void LeyboldTurboAddIOPort(const iocshArgBuf *args)
 {
 	try {
 		const char* IOPortName = args[0].sval;

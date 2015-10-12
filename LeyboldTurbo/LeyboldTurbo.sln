@@ -74,10 +74,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "iocBoot", "iocBoot", "{7332
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "iocLeyboldTurbo", "iocLeyboldTurbo", "{13E0B500-742B-401B-AF78-3F6A0201436D}"
 	ProjectSection(SolutionItems) = preProject
+		iocBoot\iocLeyboldTurbo\dllPath.bat = iocBoot\iocLeyboldTurbo\dllPath.bat
+		iocBoot\iocLeyboldTurbo\envPaths = iocBoot\iocLeyboldTurbo\envPaths
+		iocBoot\iocLeyboldTurbo\Makefile = iocBoot\iocLeyboldTurbo\Makefile
 		iocBoot\iocLeyboldTurbo\st1.cmd = iocBoot\iocLeyboldTurbo\st1.cmd
 		iocBoot\iocLeyboldTurbo\st1.simulated.cmd = iocBoot\iocLeyboldTurbo\st1.simulated.cmd
-		iocBoot\iocLeyboldTurbo\st5.cmd = iocBoot\iocLeyboldTurbo\st5.cmd
-		iocBoot\iocLeyboldTurbo\st5.simulated.cmd = iocBoot\iocLeyboldTurbo\st5.simulated.cmd
+		iocBoot\iocLeyboldTurbo\st2.cmd = iocBoot\iocLeyboldTurbo\st2.cmd
+		iocBoot\iocLeyboldTurbo\st2.simulated.cmd = iocBoot\iocLeyboldTurbo\st2.simulated.cmd
+		iocBoot\iocLeyboldTurbo\st6.cmd = iocBoot\iocLeyboldTurbo\st6.cmd
+		iocBoot\iocLeyboldTurbo\st6.simulated.cmd = iocBoot\iocLeyboldTurbo\st6.simulated.cmd
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "caRepeater", "..\base-3.15.2\src\ca\client\caRepeater.vcxproj", "{5BCFEACD-AF21-4BF0-B130-14C814453F07}"
@@ -99,7 +104,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "iocLeyboldSim", "iocLeybold
 		iocBoot\iocLeyboldSim\Makefile = iocBoot\iocLeyboldSim\Makefile
 		iocBoot\iocLeyboldSim\st1.simulator.cmd = iocBoot\iocLeyboldSim\st1.simulator.cmd
 		iocBoot\iocLeyboldSim\st2.simulator.cmd = iocBoot\iocLeyboldSim\st2.simulator.cmd
-		iocBoot\iocLeyboldSim\st5.simulator.cmd = iocBoot\iocLeyboldSim\st5.simulator.cmd
+		iocBoot\iocLeyboldSim\st6.simulator.cmd = iocBoot\iocLeyboldSim\st6.simulator.cmd
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestScripts", "TestScripts", "{3B25DF17-DA76-4505-BB10-99F4E84DFFB1}"

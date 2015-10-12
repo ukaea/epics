@@ -38,5 +38,6 @@ for Pump in range(int(FirstPump), int(LastPump)+1):
 	print("Setting pump", Pump, Run)
 	ChannelRoot = os.getenv('ASYNPORT'+str(Pump), ChannelDefaultRoot+':'+str(Pump))
 	epics.caput(ChannelRoot + ':Running', Run)
-	if "ASYN_VER" not in os.environ or os.environ["ASYN_VER"]<"4-26":
+	ASYNVERSION = epics.caget(ChannelRoot + ':AsynVersion')
+	if ASYNVERSION < "4-26":
 		epics.caput(ChannelRoot + ':Running.PROC', 1)

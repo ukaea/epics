@@ -21,8 +21,6 @@ set ASYNSIMPORT4=TPSIM:04
 set ASYNSIMPORT5=NTSIM:07
 set ASYNSIMPORT6=NTSIM:10
 set NUMPUMPS=6
-set SIMDB=LeyboldSim.Asyn4-26
-set DB=LeyboldTurbo.Asyn4-26
 
 call ..\..\LeyboldTurboApp\Scripts\JETMappings.bat
 

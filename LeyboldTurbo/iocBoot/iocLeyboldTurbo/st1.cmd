@@ -14,6 +14,10 @@ drvAsynSerialPortConfigure($(IOPORT):1, $(COMPORT1="/dev/ttyS0"), 0, 0, 0)
 LeyboldTurboAddIOPort($(IOPORT):1)
 
 ## Load record instances
+dbLoadRecords("../../LeyboldTurboApp/Db/SoftwareVersions.db", "P=$(ASYNPORT):,PORT=$(ASYNPORT)")
+
+$(ASYN_VERSION_GE426=#) epicsEnvSet DB LeyboldTurbo.Asyn4-26
+
 dbLoadRecords("../../LeyboldTurboApp/Db/$(DB=LeyboldTurbo).db", "P=$(ASYNPORT1):,PORT=$(ASYNPORT),SCAN=$(SCANINT=5 second),ADDR=0")
 
 asynSetOption ($(IOPORT):1, 0, "baud", $(BAUD))
@@ -24,6 +28,3 @@ asynSetOption ($(IOPORT):1, -1, "clocal", "Y")
 asynSetOption ($(IOPORT):1, -1, "crtscts", "N")
 
 iocInit
-
-## Start any sequence programs
-#seq sncxxx,"user=pheestHost"

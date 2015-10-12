@@ -39,6 +39,10 @@ public:
     ~CLeyboldSimPortDriver();
 	void addIOPort(const char* IOPortName);
 	void exit();
+    virtual asynStatus readInt32(asynUser *pasynUser, epicsInt32 *value);
+    virtual asynStatus writeInt32(asynUser *pasynUser, epicsInt32 value);
+    virtual asynStatus readOctet(asynUser *pasynUser, char *value, size_t maxChars,
+                                        size_t *nActual, int *eomReason);
                  
 protected:
     template<size_t NoOfPZD> bool read(asynUser *pasynUser, asynUser *IOUser, USSPacket<NoOfPZD>& USSReadPacket);
@@ -50,7 +54,7 @@ protected:
 
 private:
 	void setDefaultValues(size_t TableIndex);
-    epicsMutex m_Mutex;
+    static epicsMutex m_Mutex;
 	epicsEvent m_ExitEvent;
 
 	static int UsedParams();

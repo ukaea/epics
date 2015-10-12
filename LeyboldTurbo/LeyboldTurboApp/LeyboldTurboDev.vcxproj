@@ -110,6 +110,7 @@ cd $(ProjectDir)
   <ItemGroup>
     <None Include="Db\LeyboldTurbo.Asyn4-26.db" />
     <None Include="Db\LeyboldTurbo.db" />
+    <None Include="Db\SoftwareVersions.db" />
     <None Include="O.Common\LeyboldTurbo.dbd" />
     <None Include="src\Makefile" />
   </ItemGroup>

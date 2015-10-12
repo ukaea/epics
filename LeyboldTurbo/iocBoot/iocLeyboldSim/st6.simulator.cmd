@@ -30,6 +30,9 @@ drvAsynIPServerPortConfigure($(IOPORT):6, $(IPPORT6="localhost:5071"), 1, 0, 0, 
 LeyboldSimAddIOPort($(IOPORT):6)
 
 ## Load record instances
+dbLoadRecords("../../LeyboldTurboApp/Db/SoftwareVersions.db", "P=$(ASYNSIMPORT):,PORT=$(ASYNSIMPORT)")
+
+$(ASYN_VERSION_GE426=#) epicsEnvSet SIMDB LeyboldSim.Asyn4-26
 dbLoadRecords("../../LeyboldSimApp/Db/$(SIMDB=LeyboldSim).db", "P=$(ASYNSIMPORT1):,PORT=$(ASYNSIMPORT),ADDR=0")
 
 dbLoadRecords("../../LeyboldSimApp/Db/$(SIMDB=LeyboldSim).db", "P=$(ASYNSIMPORT2):,PORT=$(ASYNSIMPORT),ADDR=1")
@@ -43,6 +46,3 @@ dbLoadRecords("../../LeyboldSimApp/Db/$(SIMDB=LeyboldSim).db", "P=$(ASYNSIMPORT5
 dbLoadRecords("../../LeyboldSimApp/Db/$(SIMDB=LeyboldSim).db", "P=$(ASYNSIMPORT6):,PORT=$(ASYNSIMPORT),ADDR=5")
 
 iocInit
-
-## Start any sequence programs
-#seq sncxxx,"user=pheestHost"
