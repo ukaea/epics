@@ -43,6 +43,9 @@ public:
     virtual asynStatus writeInt32(asynUser *pasynUser, epicsInt32 value);
     virtual asynStatus readOctet(asynUser *pasynUser, char *value, size_t maxChars,
                                         size_t *nActual, int *eomReason);
+	static CLeyboldSimPortDriver* Instance() {
+		return m_Instance;
+	}
                  
 protected:
     template<size_t NoOfPZD> bool read(asynUser *pasynUser, asynUser *IOUser, USSPacket<NoOfPZD>& USSReadPacket);
@@ -61,6 +64,7 @@ private:
 	volatile bool m_Exiting;		// Signals the listening thread to exit.
 	std::vector<std::pair<RunStates, unsigned> > m_WasRunning;	// For each simulated pump, was it in the Running state, on the previous iteration?
 	std::vector<asynUser*> m_asynUsers;
+	static CLeyboldSimPortDriver* m_Instance;
 };
 
 #endif // LEYBOLD_SIM_DRIVER_H

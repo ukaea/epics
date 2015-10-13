@@ -37,8 +37,8 @@
 
 #include <stdlib.h>
 
-static CLeyboldSimPortDriver* g_LeyboldSimPortDriver;
 epicsMutex CLeyboldSimPortDriver::m_Mutex;
+CLeyboldSimPortDriver* CLeyboldSimPortDriver::m_Instance;
 
 static const int NormalStatorFrequency = 490;
 
@@ -107,8 +107,9 @@ void CLeyboldSimPortDriver::ListenerThread(void* parm)
 	}
 	asynUser* asynUser = This->m_asynUsers[TableIndex];
 	try {
-		if (pasynOctetSyncIO->connect(IOPortName, int(TableIndex), &IOUser, NULL) != asynSuccess)
-			throw CException(This->pasynUserSelf, __FUNCTION__, "connecting to IO port=" + std::string(IOPortName));
+		asynStatus Status = pasynOctetSyncIO->connect(IOPortName, int(TableIndex), &IOUser, NULL);
+		if (Status != asynSuccess)
+			throw CException(This->pasynUserSelf, Status, __FUNCTION__, "connecting to IO port=" + std::string(IOPortName));
 		{
 			epicsGuard < epicsMutex > guard ( CLeyboldSimPortDriver::m_Mutex );
 			This->m_WasRunning.push_back(std::pair<RunStates, unsigned>(On, getTickCount()));
@@ -219,8 +220,9 @@ void CLeyboldSimPortDriver::addIOPort(const char* IOPortName)
     asynUser *asynUser = pasynManager->createAsynUser(0,0);
 	m_asynUsers.push_back(asynUser);
 
-    if (pasynManager->connectDevice(asynUser, IOPortName, int(m_asynUsers.size())) != asynSuccess)
-		throw CException(asynUser, __FUNCTION__, "connectDevice" + std::string(IOPortName));
+	asynStatus Status = pasynManager->connectDevice(asynUser, IOPortName, int(m_asynUsers.size()));
+    if (Status != asynSuccess)
+		throw CException(asynUser, Status, __FUNCTION__, "connectDevice" + std::string(IOPortName));
 
     asynInterface* pasynOctetInterface = pasynManager->findInterface(asynUser, asynOctetType, 1);
 
@@ -303,7 +305,7 @@ template<size_t NoOfPZD> bool CLeyboldSimPortDriver::read(asynUser *pasynUser, a
 	if (status == asynDisconnected)
 		return false;
 	if (status != asynSuccess)
-		throw CException(pasynUser, __FUNCTION__, "Can't read:");
+		throw CException(pasynUser, status, __FUNCTION__, "Can't read:");
 	STATIC_ASSERT ( sizeof(USSPacketStruct<NoOfPZD>) == USSPacketStruct<NoOfPZD>::USSPacketSize );
 	STATIC_ASSERT ( sizeof(USSPacket<NoOfPZD>) == USSPacketStruct<NoOfPZD>::USSPacketSize );
 //	if ((sizeof(USSPacket<NoOfPZD>) != USSPacketStruct<NoOfPZD>::USSPacketSize) ||
@@ -358,7 +360,7 @@ void CLeyboldSimPortDriver::process(USSPacket<NoOfPZD6>& USSWritePacket, int Tab
 template<size_t NoOfPZD> bool CLeyboldSimPortDriver::process(asynUser* pasynUser, asynUser* IOUser, USSPacket<NoOfPZD> const& USSReadPacket, USSPacket<NoOfPZD>& USSWritePacket, size_t TableIndex)
 {
 	if ((TableIndex < 0) || (TableIndex >= m_WasRunning.size()))
-		throw CException(pasynUser, __FUNCTION__, "User / pump not configured");
+		throw CException(pasynUser, asynError, __FUNCTION__, "User / pump not configured");
 
 	RunStates RunState = static_cast<RunStates>(getIntegerParam(TableIndex, RUNNING));
 	// Means the running state is in effect or has been requested.
@@ -546,7 +548,7 @@ template<size_t NoOfPZD> bool CLeyboldSimPortDriver::process(asynUser* pasynUser
 	if (status == asynDisconnected)
 		return false;
 	if (status != asynSuccess)
-		throw CException(IOUser, __FUNCTION__, "Can't write/read:");
+		throw CException(IOUser, status, __FUNCTION__, "Can't write/read:");
 
 	callParamCallbacks(int(TableIndex));
 	asynPrint(pasynUser, ASYN_TRACE_FLOW, "Packet success %s %s\n", __FILE__, __FUNCTION__);
@@ -599,8 +601,9 @@ void CLeyboldSimPortDriver::exit()
 //////////////////////////////////////////////////////////////////////////////////////////////////
 void LeyboldSimExitFunc(void * param)
 {
-	g_LeyboldSimPortDriver->exit();
-	delete g_LeyboldSimPortDriver;
+	CLeyboldSimPortDriver* Instance = static_cast<CLeyboldSimPortDriver*>(param);
+	Instance->exit();
+	delete Instance;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -623,8 +626,8 @@ static void LeyboldSimPortDriverConfigure(const iocshArgBuf *args)
 		const char* asynPortName = args[0].sval;
 		int numPumps = atoi(args[1].sval);
 		int NoOfPZD = atoi(args[2].sval);
-		g_LeyboldSimPortDriver = new CLeyboldSimPortDriver(asynPortName, numPumps, NoOfPZD);
-		epicsAtExit(LeyboldSimExitFunc, NULL);
+		CLeyboldSimPortDriver* Instance = new CLeyboldSimPortDriver(asynPortName, numPumps, NoOfPZD);
+		epicsAtExit(LeyboldSimExitFunc, Instance);
 	}
 	catch(CLeyboldSimPortDriver::CException const&) {
 	}
@@ -650,8 +653,8 @@ void LeyboldSimAddIOPort(const iocshArgBuf *args)
 	try {
 		const char* IOPortName = args[0].sval;
 		// Test the driver has been configured
-		if (g_LeyboldSimPortDriver)
-			g_LeyboldSimPortDriver->addIOPort(IOPortName);
+		if (CLeyboldSimPortDriver::Instance())
+			CLeyboldSimPortDriver::Instance()->addIOPort(IOPortName);
 	}
 	catch(CLeyboldSimPortDriver::CException const&) {
 	}

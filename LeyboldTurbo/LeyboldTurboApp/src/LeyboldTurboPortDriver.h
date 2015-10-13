@@ -42,6 +42,10 @@ public:
     virtual asynStatus readOctet(asynUser *pasynUser, char *value, size_t maxChars,
                                         size_t *nActual, int *eomReason);
 	void addIOPort(const char* IOPortName);
+	static CLeyboldTurboPortDriver* Instance() {
+		return m_Instance;
+	}
+
                  
 protected:
 	template<size_t NoOfPZD> void writeRead(int TableIndex, asynUser *pasynUser, USSPacket<NoOfPZD> USSWritePacket, USSPacket<NoOfPZD>& USSReadPacket);
@@ -51,6 +55,7 @@ protected:
 private:
 	// Each of these is associated with an octet I/O connection (i.e. serial or TCP port).
 	std::vector<asynUser*> m_IOUsers;
+	static CLeyboldTurboPortDriver* m_Instance;
 };
 
 #endif // LEYBOLD_TURBO_PORT_DRIVER_H

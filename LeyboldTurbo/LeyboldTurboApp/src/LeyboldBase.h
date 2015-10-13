@@ -40,10 +40,15 @@ public:
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 	class CException : public std::runtime_error
 	{
+		asynStatus m_Status;
 	public:
-		CException(asynUser* AsynUser, const char* functionName, std::string const& what) : std::runtime_error(what) {
+		CException(asynUser* AsynUser, asynStatus Status, const char* functionName, std::string const& what) : std::runtime_error(what) {
 			std::string message = "%s:%s ERROR: " + what + "%s\n";
 			asynPrint(AsynUser, ASYN_TRACE_ERROR, message.c_str(), __FILE__, functionName, AsynUser->errorMessage);
+			m_Status = Status;
+		}
+		asynStatus Status() const {
+			return m_Status;
 		}
 	};
 
@@ -85,8 +90,9 @@ public:
     void createParam(size_t list, size_t ParamIndex) {
 		int index;
 		const char* ParamName = ParameterDefns[ParamIndex].m_Name;
-		if (asynPortDriver::createParam(int(list), ParamName, ParameterDefns[ParamIndex].m_Type, &index) != asynSuccess)
-			throw CException(pasynUserSelf, __FUNCTION__, ParamName);
+		asynStatus Status = asynPortDriver::createParam(int(list), ParamName, ParameterDefns[ParamIndex].m_Type, &index);
+		if (Status != asynSuccess)
+			throw CException(pasynUserSelf, Status, __FUNCTION__, ParamName);
 		m_Parameters[ParamName] = index;
 		switch(ParameterDefns[ParamIndex].m_Type)
 		{
@@ -106,8 +112,9 @@ public:
     void createParam(size_t ParamIndex) {
 		int index;
 		const char* ParamName = ParameterDefns[ParamIndex].m_Name;
-		if (asynPortDriver::createParam(ParamName, ParameterDefns[ParamIndex].m_Type, &index) != asynSuccess)
-			throw CException(pasynUserSelf, __FUNCTION__, ParamName);
+		asynStatus Status = asynPortDriver::createParam(ParamName, ParameterDefns[ParamIndex].m_Type, &index);
+		if (Status != asynSuccess)
+			throw CException(pasynUserSelf, Status, __FUNCTION__, ParamName);
 		m_Parameters[ParamName] = index;
 		switch(ParameterDefns[ParamIndex].m_Type)
 		{
@@ -125,48 +132,59 @@ public:
 		}
 	}
     void setIntegerParam(size_t list, const char* ParamName, int value) {
-		if (asynPortDriver::setIntegerParam(int(list), Parameters(ParamName), value) != asynSuccess)
-			throw CException(pasynUserSelf, __FUNCTION__, ParamName);
+		asynStatus Status = asynPortDriver::setIntegerParam(int(list), Parameters(ParamName), value);
+		if (Status != asynSuccess)
+			throw CException(pasynUserSelf, Status, __FUNCTION__, ParamName);
 	}
     void setIntegerParam(const char* ParamName, int value) {
-		if (asynPortDriver::setIntegerParam(Parameters(ParamName), value) != asynSuccess)
-			throw CException(pasynUserSelf, __FUNCTION__, ParamName);
+		asynStatus Status = asynPortDriver::setIntegerParam(Parameters(ParamName), value);
+		if (Status != asynSuccess)
+			throw CException(pasynUserSelf, Status, __FUNCTION__, ParamName);
 	}
     void setDoubleParam(size_t list, const char* ParamName, double value) {
-		if (asynPortDriver::setDoubleParam(int(list), Parameters(ParamName), value) != asynSuccess)
-			throw CException(pasynUserSelf, __FUNCTION__, ParamName);
+		asynStatus Status = asynPortDriver::setDoubleParam(int(list), Parameters(ParamName), value);
+		if (Status != asynSuccess)
+			throw CException(pasynUserSelf, Status, __FUNCTION__, ParamName);
 	}
     void setDoubleParam(const char* ParamName, double value) {
-		if (asynPortDriver::setDoubleParam(Parameters(ParamName), value) != asynSuccess)
-			throw CException(pasynUserSelf, __FUNCTION__, ParamName);
+		asynStatus Status = asynPortDriver::setDoubleParam(Parameters(ParamName), value);
+		if (Status != asynSuccess)
+			throw CException(pasynUserSelf, Status, __FUNCTION__, ParamName);
 	}
 	void setStringParam(size_t list, const char* ParamName, std::string const& value) {
-		if (asynPortDriver::setStringParam (int(list), Parameters(ParamName), value.substr(0, MaxEPICSStrLen).c_str()) != asynSuccess)
-			throw CException(pasynUserSelf, __FUNCTION__, ParamName);
+		asynStatus Status = asynPortDriver::setStringParam (int(list), Parameters(ParamName), value.substr(0, MaxEPICSStrLen).c_str());
+		if (Status != asynSuccess)
+			throw CException(pasynUserSelf, Status, __FUNCTION__, ParamName);
 	}
 	void setStringParam(const char* ParamName, std::string const& value) {
 		setStringParam(0, ParamName, value);
 	}
+    asynStatus setParamStatus(size_t list, const char* ParamName, asynStatus status) {
+		return asynPortDriver::setParamStatus(int(list), Parameters(ParamName), status);
+	}
     int getIntegerParam(size_t list, const char* ParamName) {
 		int value = 0;
-		if (asynPortDriver::getIntegerParam(int(list), Parameters(ParamName), &value) != asynSuccess)
-			throw CException(pasynUserSelf, __FUNCTION__, ParamName);
+		asynStatus Status = asynPortDriver::getIntegerParam(int(list), Parameters(ParamName), &value);
+		if (Status != asynSuccess)
+			throw CException(pasynUserSelf, Status, __FUNCTION__, ParamName);
 		return value;
 	}
     double getDoubleParam(size_t list, const char* ParamName) {
 		double value = 0;
-		if (asynPortDriver::getDoubleParam(int(list), Parameters(ParamName), &value) != asynSuccess)
-			throw CException(pasynUserSelf, __FUNCTION__, ParamName);
+		asynStatus Status = asynPortDriver::getDoubleParam(int(list), Parameters(ParamName), &value);
+		if (Status != asynSuccess)
+			throw CException(pasynUserSelf, Status, __FUNCTION__, ParamName);
 		return value;
 	}
     void getStringParam(size_t list, const char* ParamName, int maxChars, char *value) {
-		if (asynPortDriver::getStringParam(int(list), Parameters(ParamName), maxChars, value) != asynSuccess)
-			throw CException(pasynUserSelf, __FUNCTION__, ParamName);
+		asynStatus Status = asynPortDriver::getStringParam(int(list), Parameters(ParamName), maxChars, value);
+		if (Status != asynSuccess)
+			throw CException(pasynUserSelf, Status, __FUNCTION__, ParamName);
 	}
 	int Parameters(std::string const& ParamName) const {
 		std::map<std::string, int>::const_iterator Iter = m_Parameters.find(ParamName);
 		if (Iter == m_Parameters.end())
-			throw CException(pasynUserSelf, __FUNCTION__, ParamName);
+			throw CException(pasynUserSelf, asynError, __FUNCTION__, ParamName);
 		return Iter->second;
 	}
 private:

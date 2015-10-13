@@ -34,7 +34,7 @@
 #include <stdlib.h>
 #include <stdexcept>
 
-static CLeyboldTurboPortDriver* g_LeyboldTurboPortDriver;
+CLeyboldTurboPortDriver* CLeyboldTurboPortDriver::m_Instance;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 //																								//
@@ -58,7 +58,7 @@ CLeyboldTurboPortDriver::CLeyboldTurboPortDriver(const char *asynPortName, int n
                     asynDrvUserMask | asynInt32Mask | asynFloat64Mask | asynOctetMask // Interface and interrupt mask// Interface mask
 					)
 {
-
+	m_Instance = this;
 }
 
 CLeyboldTurboPortDriver::~CLeyboldTurboPortDriver()
@@ -90,7 +90,7 @@ CLeyboldTurboPortDriver::~CLeyboldTurboPortDriver()
 void CLeyboldTurboPortDriver::addIOPort(const char* IOPortName)
 {
 	if (int(m_IOUsers.size()) >= maxAddr)
-		throw CException(pasynUserSelf, __FUNCTION__, "Too many pumps connected=" + std::string(IOPortName));
+		throw CException(pasynUserSelf, asynError, __FUNCTION__, "Too many pumps connected=" + std::string(IOPortName));
 		
 	for (size_t ParamIndex = 0; ParamIndex < size_t(NUM_PARAMS); ParamIndex++)
 	{
@@ -102,17 +102,21 @@ void CLeyboldTurboPortDriver::addIOPort(const char* IOPortName)
 		createParam(m_IOUsers.size(), ParamIndex);
 	}
 
-	// Normal operation 1 = the pump is running in the normal operation mode
-	setIntegerParam (m_IOUsers.size(), RUNNING, 1);
+	// Expected normal operation is for the pump to be running.
+	// NB, this value is NOT being applied as an output to the operating state of the pump.
+	// It is only the default value of the read-back, prior to the value being set by a scan cycle.
+	setIntegerParam (m_IOUsers.size(), RUNNING, On);
 
 	asynUser* IOUser;
 	// Connect to the I/O port.
-	if (pasynOctetSyncIO->connect(IOPortName, int(m_IOUsers.size()), &IOUser, NULL) != asynSuccess)
-		throw CException(pasynUserSelf, __FUNCTION__, "connecting to IO port=" + std::string(IOPortName));
+	asynStatus Status = pasynOctetSyncIO->connect(IOPortName, int(m_IOUsers.size()), &IOUser, NULL);
+	if (Status != asynSuccess)
+		throw CException(pasynUserSelf, Status, __FUNCTION__, "connecting to IO port=" + std::string(IOPortName));
 
+	Status = callParamCallbacks();
 	if (callParamCallbacks() != asynSuccess)
 		// Make sure the (just set) default values are available to read.
-		throw CException(pasynUserSelf, __FUNCTION__, "callParamCallbacks");
+		throw CException(pasynUserSelf, Status, __FUNCTION__, "callParamCallbacks");
 	m_IOUsers.push_back(IOUser);
 }
 
@@ -133,12 +137,14 @@ asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *v
 {
 	int function = pasynUser->reason;
 	int TableIndex;
+	asynStatus Status = asynSuccess;
 
 	try {
-		if (getAddress(pasynUser, &TableIndex) != asynSuccess)
-			throw CException(pasynUser, __FUNCTION__, "Could not get address");
+		Status = getAddress(pasynUser, &TableIndex);
+		if (Status != asynSuccess)
+			throw CException(pasynUser, Status, __FUNCTION__, "Could not get address");
 		if ((TableIndex < 0) || (TableIndex >= int(m_IOUsers.size())))
-			throw CException(pasynUser, __FUNCTION__, "User / pump not configured");
+			throw CException(pasynUser, asynError, __FUNCTION__, "User / pump not configured");
 
 		bool Running = (getIntegerParam(TableIndex, RUNNING) != Off);
 
@@ -190,13 +196,17 @@ asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *v
 			}
 		}
 		asynPrint(pasynUser, ASYN_TRACE_FLOW, "Packet success %s %s\n", __FILE__, __FUNCTION__);
-
+		Status = CLeyboldBase::readInt32(pasynUser, value);
 	}
-	catch(CException const&) {
+	catch(CException const& E) {
 		// Internal communication failure
 		setIntegerParam(TableIndex, FAULT, 65);
+		setParamStatus(TableIndex, FAULT, E.Status());
+		setStringParam (TableIndex, FAULTSTR, "Internal communication timeout");
+		setParamStatus(TableIndex, FAULTSTR, E.Status());
+		// make sure we return an error state if there are comms problems
+		Status = E.Status();
 	}
-	asynStatus Status = CLeyboldBase::readInt32(pasynUser, value);
 	callParamCallbacks(TableIndex);
 	return Status;
 }
@@ -218,11 +228,13 @@ asynStatus CLeyboldTurboPortDriver::readOctet(asynUser *pasynUser, char *value, 
 {
 	int function = pasynUser->reason;
 	int TableIndex;
+	asynStatus Status = asynSuccess;
 	try {
-		if (getAddress(pasynUser, &TableIndex) != asynSuccess)
-			throw CException(pasynUser, __FUNCTION__, "Could not get address");
+		Status = getAddress(pasynUser, &TableIndex);
+		if (Status != asynSuccess)
+			throw CException(pasynUser, Status, __FUNCTION__, "Could not get address");
 		if ((TableIndex < 0) || (TableIndex >= int(m_IOUsers.size())))
-			throw CException(pasynUser, __FUNCTION__, "User / pump not configured");
+			throw CException(pasynUser, asynError, __FUNCTION__, "User / pump not configured");
 		bool Running = (getIntegerParam(TableIndex, RUNNING) != Off);
 		if (function == Parameters(FIRMWAREVERSION))
 		{
@@ -250,12 +262,17 @@ asynStatus CLeyboldTurboPortDriver::readOctet(asynUser *pasynUser, char *value, 
 			setStringParam (TableIndex, FIRMWAREVERSION, CBuf);
 
 		}
+		Status = CLeyboldBase::readOctet(pasynUser, value, maxChars, nActual, eomReason);
 	}
-	catch(CException const&) {
+	catch(CException const& E) {
 		// Internal communication failure
 		setIntegerParam(TableIndex, FAULT, 65);
+		setParamStatus(TableIndex, FAULT, E.Status());
+		setStringParam(TableIndex, FAULTSTR, "Internal communication timeout");
+		setParamStatus(TableIndex, FAULTSTR, E.Status());
+		// make sure we return an error state if there are comms problems
+		Status = E.Status();
 	}
-	asynStatus Status = CLeyboldBase::readOctet(pasynUser, value, maxChars, nActual, eomReason);
 	callParamCallbacks(TableIndex);
 	return Status;
 }
@@ -285,11 +302,12 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::writeRead(int TableIndex,
 #endif
 	USSWritePacket.m_USSPacketStruct.HToN();
 	// NB, *don't* pass pasynUser to this function - it has the wrong type and will cause an access violation.
-	if (pasynOctetSyncIO->writeRead(IOUser,
+	asynStatus Status = pasynOctetSyncIO->writeRead(IOUser,
 		reinterpret_cast<const char*>(USSWritePacket.m_Bytes), USSPacketStruct<NoOfPZD>::USSPacketSize, 
 		reinterpret_cast<char*>(USSReadPacket.m_Bytes), USSPacketStruct<NoOfPZD>::USSPacketSize,
-		TimeOut, &nBytesOut, &nBytesIn, &eomReason) != asynSuccess)
-		throw CException(IOUser, __FUNCTION__, "Can't write/read:");
+		TimeOut, &nBytesOut, &nBytesIn, &eomReason);
+	if (Status != asynSuccess)
+		throw CException(IOUser, Status, __FUNCTION__, "Can't write/read:");
 
 	STATIC_ASSERT ( sizeof(USSPacketStruct<NoOfPZD>) == USSPacketStruct<NoOfPZD>::USSPacketSize );
 	STATIC_ASSERT ( sizeof(USSPacket<NoOfPZD>) == USSPacketStruct<NoOfPZD>::USSPacketSize );
@@ -298,14 +316,14 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::writeRead(int TableIndex,
 //		asynPrint(pasynUser, ASYN_TRACE_ERROR, "Packet size descrepant %ul %ul %ul\n", sizeof(USSPacket<NoOfPZD>), sizeof(USSPacketStruct<NoOfPZD>), USSPacketStruct<NoOfPZD>::USSPacketSize);
 
 	if (nBytesOut != USSPacketStruct<NoOfPZD>::USSPacketSize)
-		throw CException(pasynUser, __FUNCTION__, "Incorrect packet size transmitted");
+		throw CException(pasynUser, asynError, __FUNCTION__, "Incorrect packet size transmitted");
 	if (nBytesIn != USSPacketStruct<NoOfPZD>::USSPacketSize)
-		throw CException(pasynUser, __FUNCTION__, "Unexpected packet size recieved");
+		throw CException(pasynUser, asynError, __FUNCTION__, "Unexpected packet size recieved");
 
 	USSReadPacket.m_USSPacketStruct.NToH();
 
 	if (!USSReadPacket.ValidateChecksum())
-		throw CException(pasynUser, __FUNCTION__, "Packet validation failed");
+		throw CException(pasynUser, asynError, __FUNCTION__, "Packet validation failed");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -343,6 +361,7 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processRead(int TableInde
 		writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
 
 		setIntegerParam (TableIndex, FAULT, USSReadPacket.m_USSPacketStruct.m_PWE);
+		setParamStatus(TableIndex, FAULT, asynError);
 
 		// Plus null termination.
 		const char ErrorStrings[77][MaxEPICSStrLen+1] =
@@ -427,12 +446,15 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processRead(int TableInde
 		};
 
 		setStringParam (TableIndex, FAULTSTR, ErrorStrings[USSReadPacket.m_USSPacketStruct.m_PWE]);
+		setParamStatus(TableIndex, FAULTSTR, asynError);
 	}
 	else
 	{
 		// Clear error status
 		setIntegerParam (TableIndex, FAULT, 0);
+		setParamStatus(TableIndex, FAULT, asynSuccess);
 		setStringParam (TableIndex, FAULTSTR, "");
+		setParamStatus(TableIndex, FAULTSTR, asynSuccess);
 	}
 
 	if (USSReadPacket.m_USSPacketStruct.m_PZD[0] & (1 << 7))
@@ -474,12 +496,16 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processRead(int TableInde
 			WarningTemperatureStr += WarningStrings[Bit];
 		}
 		setIntegerParam (TableIndex, WARNINGTEMPERATURE, USSReadPacket.m_USSPacketStruct.m_PWE);
+		setParamStatus(TableIndex, WARNINGTEMPERATURE, asynError);
 		setStringParam (TableIndex, WARNINGTEMPERATURESTR, WarningTemperatureStr);
+		setParamStatus(TableIndex, WARNINGTEMPERATURESTR, asynError);
 	}
 	else
 	{
 		setIntegerParam (TableIndex, WARNINGTEMPERATURE, 0);
+		setParamStatus(TableIndex, WARNINGTEMPERATURE, asynSuccess);
 		setStringParam (TableIndex, WARNINGTEMPERATURESTR, "");
+		setParamStatus(TableIndex, WARNINGTEMPERATURESTR, asynSuccess);
 	}
 
 	if (USSReadPacket.m_USSPacketStruct.m_PZD[0] & (1 << 13))
@@ -517,12 +543,16 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processRead(int TableInde
 			WarningHighLoadStr += WarningStrings[Bit];
 		}
 		setIntegerParam (TableIndex, WARNINGHIGHLOAD, USSReadPacket.m_USSPacketStruct.m_PWE);
+		setParamStatus(TableIndex, WARNINGHIGHLOAD, asynError);
 		setStringParam (TableIndex, WARNINGHIGHLOADSTR, WarningHighLoadStr);
+		setParamStatus(TableIndex, WARNINGHIGHLOADSTR, asynError);
 	}
 	else
 	{
 		setIntegerParam (TableIndex, WARNINGHIGHLOAD, 0);
+		setParamStatus(TableIndex, WARNINGHIGHLOAD, asynSuccess);
 		setStringParam (TableIndex, WARNINGHIGHLOADSTR, "");
+		setParamStatus(TableIndex, WARNINGHIGHLOADSTR, asynSuccess);
 	}
 
 	if (USSReadPacket.m_USSPacketStruct.m_PZD[0] & (1 << 14))
@@ -552,12 +582,16 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processRead(int TableInde
 			WarningPurgeStr += WarningStrings[Bit];
 		}
 		setIntegerParam (TableIndex, WARNINGPURGE, USSReadPacket.m_USSPacketStruct.m_PWE);
+		setParamStatus(TableIndex, WARNINGPURGE, asynError);
 		setStringParam (TableIndex, WARNINGPURGESTR, WarningPurgeStr);
+		setParamStatus(TableIndex, WARNINGPURGESTR, asynError);
 	}
 	else
 	{
 		setIntegerParam (TableIndex, WARNINGPURGE, 0);
+		setParamStatus(TableIndex, WARNINGPURGE, asynSuccess);
 		setStringParam (TableIndex, WARNINGPURGESTR, "");
+		setParamStatus(TableIndex, WARNINGPURGESTR, asynSuccess);
 	}
 
 	setIntegerParam (TableIndex, STATORFREQUENCY, USSReadPacket.m_USSPacketStruct.m_PZD[1]);
@@ -605,7 +639,7 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processWrite(int TableInd
 		//		control bit 10 = 1
 		bool Running = (getIntegerParam(TableIndex, RUNNING) != Off);
 		if ((Running) && (value))
-			throw CException(pasynUser, __FUNCTION__, "The pump must be halted before a reset can be applied");
+			throw CException(pasynUser, asynError, __FUNCTION__, "The pump must be halted before a reset can be applied");
 		USSWritePacket.m_USSPacketStruct.m_PZD[0] |= 1 << 10;
 		USSWritePacket.m_USSPacketStruct.m_PZD[0] |= (value ? 1 : 0) << 7;	// High
 	}
@@ -627,23 +661,30 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processWrite(int TableInd
 asynStatus CLeyboldTurboPortDriver::writeInt32(asynUser *pasynUser, epicsInt32 value)
 {
 	// Invoke the base class method to store the value in the database.
-	asynStatus status = CLeyboldBase::writeInt32(pasynUser, value);
+	asynStatus Status = CLeyboldBase::writeInt32(pasynUser, value);
 	int TableIndex = 0;
 	try {
-		if (getAddress(pasynUser, &TableIndex) != asynSuccess)
-			throw CException(pasynUser, __FUNCTION__, "Could not get address");
+		Status = getAddress(pasynUser, &TableIndex);
+		if (Status != asynSuccess)
+			throw CException(pasynUser, Status, __FUNCTION__, "Could not get address");
 		if ((TableIndex < 0) || (TableIndex >= int(m_IOUsers.size())))
-			throw CException(pasynUser, __FUNCTION__, "User / pump not configured");
+			throw CException(pasynUser, asynError, __FUNCTION__, "User / pump not configured");
 		if (m_NoOfPZD == NoOfPZD2)
 			processWrite<NoOfPZD2>(TableIndex, pasynUser, value);
 		else
 			processWrite<NoOfPZD6>(TableIndex, pasynUser, value);
 	}
-	catch(CException const&) {
+	catch(CException const& E) {
+		// Internal communication failure
 		setIntegerParam(TableIndex, FAULT, 65);
+		setParamStatus(TableIndex, FAULT, E.Status());
+		setStringParam (TableIndex, FAULTSTR, "Internal communication timeout");
+		setParamStatus(TableIndex, FAULTSTR, E.Status());
+		// make sure we return an error state if there are comms problems
+		Status = E.Status();
 	}
 	callParamCallbacks(TableIndex);
-	return status;
+	return Status;
 }
 
 static const iocshArg initArg0 = { "asynPortName", iocshArgString};
@@ -663,7 +704,8 @@ static const iocshFuncDef initFuncDef = {"LeyboldTurboPortDriverConfigure",3,ini
 //////////////////////////////////////////////////////////////////////////////////////////////////
 void LeyboldTurboExitFunc(void * param)
 {
-	delete g_LeyboldTurboPortDriver;
+	CLeyboldTurboPortDriver* Instance = static_cast<CLeyboldTurboPortDriver*>(param);
+	delete Instance;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -687,8 +729,8 @@ static void LeyboldTurboPortDriverConfigure(const iocshArgBuf *args)
 		const char* asynPortName = args[0].sval;
 		int numPumps = atoi(args[1].sval);
 		int NoOfPZD = atoi(args[2].sval);
-		g_LeyboldTurboPortDriver = new CLeyboldTurboPortDriver(asynPortName, numPumps, NoOfPZD);
-		epicsAtExit(LeyboldTurboExitFunc, NULL);
+		CLeyboldTurboPortDriver* Instance = new CLeyboldTurboPortDriver(asynPortName, numPumps, NoOfPZD);
+		epicsAtExit(LeyboldTurboExitFunc, Instance);
 	}
 	catch(CLeyboldTurboPortDriver::CException const&) {
 	}
@@ -713,8 +755,8 @@ static void LeyboldTurboAddIOPort(const iocshArgBuf *args)
 	try {
 		const char* IOPortName = args[0].sval;
 		// Test the driver has been configured
-		if (g_LeyboldTurboPortDriver)
-			g_LeyboldTurboPortDriver->addIOPort(IOPortName);
+		if (CLeyboldTurboPortDriver::Instance())
+			CLeyboldTurboPortDriver::Instance()->addIOPort(IOPortName);
 	}
 	catch(CLeyboldTurboPortDriver::CException const&) {
 	}
