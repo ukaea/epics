@@ -66,8 +66,7 @@ CLeyboldSimPortDriver::CLeyboldSimPortDriver(const char *asynPortName, int numPu
    : CLeyboldBase(asynPortName, 
                     numPumps,		// maxAddr
                     UsedParams(),
-					NoOfPZD,		// Either 2 or 6, depending on the serial port and model.
-                    asynDrvUserMask | asynInt32Mask | asynFloat64Mask | asynOctetMask // Interface and interrupt mask
+					NoOfPZD		// Either 2 or 6, depending on the serial port and model.
 				)
 {
 	m_Exiting = false;
@@ -210,8 +209,6 @@ void CLeyboldSimPortDriver::addIOPort(const char* IOPortName)
 		if (ParameterDefns[ParamIndex].m_UseCase == Single)
 			// Single instance parameter
 			continue;
-
-		std::string const& ParamName =  ParameterDefns[ParamIndex].m_Name;
 
 		createParam(m_asynUsers.size(), ParamIndex);
 	}

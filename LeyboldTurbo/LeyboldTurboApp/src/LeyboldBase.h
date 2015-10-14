@@ -4,7 +4,7 @@
 //		LeyboldBase.h																				//
 //																									//
 //	Description:																					//
-//		Declares the CLeyboldBase class that forms an interm,ediate base class for both				//
+//		Declares the CLeyboldBase class that forms an intermediate base class for both				//
 //		CLeyboldTurboPortDriver and CLeyboldSimPortDriver.											//
 //		Includes parameter management and error handling.											//
 //																									//
@@ -21,6 +21,11 @@
 
 #include "ParameterDefns.h"
 
+#ifdef epicsExportSharedSymbols
+#define LeyboldBaseepicsExportSharedSymbols
+#undef epicsExportSharedSymbols
+#endif
+
 #include <asynPortDriver.h>
 #include <envDefs.h>
 
@@ -28,7 +33,13 @@
 #include <string>
 #include <map>
 
-class CLeyboldBase : public asynPortDriver
+#ifdef LeyboldBaseepicsExportSharedSymbols
+#undef LeyboldBaseepicsExportSharedSymbols
+#define epicsExportSharedSymbols
+#include <shareLib.h>
+#endif
+
+class epicsShareClass CLeyboldBase : public asynPortDriver
 {
 public:
 	//////////////////////////////////////////////////////////////////////////////////////////////////
@@ -58,79 +69,9 @@ public:
 	// NB, a string is limited to 40 charachters in EPICS.
 	static const size_t MaxEPICSStrLen = 40;
 
-    CLeyboldBase(const char *portName, int maxAddr, int paramTableSize, int NoOfPZD, int interfaceMask) :
-		asynPortDriver(portName, maxAddr, paramTableSize, interfaceMask, interfaceMask, ASYN_MULTIDEVICE, 1, 0, 0) {
-		m_NoOfPZD = NoOfPZD;
-		for (size_t ParamIndex = 0; ParamIndex < size_t(NUM_PARAMS); ParamIndex++)
-		{
-			if (ParameterDefns[ParamIndex].m_UseCase != Single)
-				// Non-single instance parameter
-				continue;
-
-			std::string const& ParamName =  ParameterDefns[ParamIndex].m_Name;
-			createParam(ParamIndex);
-		}
-		char Buf[5];
-		_snprintf(Buf, sizeof(Buf), "%1d-%02d", ASYN_VERSION, ASYN_REVISION);
-		setStringParam(ASYNVERSION, Buf);
-		if ((ASYN_VERSION >= 4) && (ASYN_REVISION >= 26))
-			epicsEnvSet("ASYN_VERSION_GE426", " ");
-		const char* SoftwareVersion = "1.0";
-		FILE* Version = fopen("version.txt", "rt");
-		if (Version)
-		{
-			char CBuf[MaxEPICSStrLen];
-			fgets(CBuf, MaxEPICSStrLen, Version);
-			setStringParam (SOFTWAREVERSION, CBuf);
-			fclose(Version);
-		}
-		else
-			setStringParam (SOFTWAREVERSION, SoftwareVersion);
-	}
-    void createParam(size_t list, size_t ParamIndex) {
-		int index;
-		const char* ParamName = ParameterDefns[ParamIndex].m_Name;
-		asynStatus Status = asynPortDriver::createParam(int(list), ParamName, ParameterDefns[ParamIndex].m_Type, &index);
-		if (Status != asynSuccess)
-			throw CException(pasynUserSelf, Status, __FUNCTION__, ParamName);
-		m_Parameters[ParamName] = index;
-		switch(ParameterDefns[ParamIndex].m_Type)
-		{
-			// Set default values.
-			case asynParamInt32: 
-				setIntegerParam(list, ParamName, 0);
-				break;
-			case asynParamFloat64: 
-				setDoubleParam (list, ParamName, 0.0);
-				break;
-			case asynParamOctet: 
-				setStringParam (list, ParamName, "");
-				break;
-			default: assert(false);
-		}
-	}
-    void createParam(size_t ParamIndex) {
-		int index;
-		const char* ParamName = ParameterDefns[ParamIndex].m_Name;
-		asynStatus Status = asynPortDriver::createParam(ParamName, ParameterDefns[ParamIndex].m_Type, &index);
-		if (Status != asynSuccess)
-			throw CException(pasynUserSelf, Status, __FUNCTION__, ParamName);
-		m_Parameters[ParamName] = index;
-		switch(ParameterDefns[ParamIndex].m_Type)
-		{
-			// Set default values.
-			case asynParamInt32: 
-				setIntegerParam(ParamName, 0);
-				break;
-			case asynParamFloat64: 
-				setDoubleParam (ParamName, 0.0);
-				break;
-			case asynParamOctet: 
-				setStringParam (ParamName, "");
-				break;
-			default: assert(false);
-		}
-	}
+    CLeyboldBase(const char *portName, int maxAddr, int paramTableSize, int NoOfPZD);
+    void createParam(size_t list, size_t ParamIndex);
+    void createParam(size_t ParamIndex);
     void setIntegerParam(size_t list, const char* ParamName, int value) {
 		asynStatus Status = asynPortDriver::setIntegerParam(int(list), Parameters(ParamName), value);
 		if (Status != asynSuccess)
@@ -188,6 +129,9 @@ public:
 		return Iter->second;
 	}
 private:
+	static int Mask();
+	void ParamDefaultValue(size_t ParamIndex);
+
 	// Each parameter is associated with an int handle.
 	// This structure is used in order to address them by name, which is more convenient.
 	std::map<std::string, int> m_Parameters;

@@ -21,6 +21,9 @@
     <ClCompile Include="src\LeyboldTurboPortDriver.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\LeyboldBase.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="O.Common\LeyboldTurbo.dbd">

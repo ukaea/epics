@@ -51,7 +51,7 @@ static const char* MOTORCURRENT = "MOTORCURRENT";
 static const char* PUMPTEMPERATURE = "PUMPTEMPERATURE";
 static const char* CIRCUITVOLTAGE = "CIRCUITVOLTAGE";
 
-ParameterDefn ParameterDefns[] =
+static ParameterDefn ParameterDefns[] =
 {
 	{RUNNING, asynParamInt32, Both},
 	{RESET, asynParamInt32, NotForSim},

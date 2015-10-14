@@ -54,8 +54,7 @@ CLeyboldTurboPortDriver::CLeyboldTurboPortDriver(const char *asynPortName, int n
    : CLeyboldBase(asynPortName, 
                     numPumps,	// maxAddr
                     NUM_PARAMS,
-					NoOfPZD,	// Either 2 or 6, depending on the serial port and model
-                    asynDrvUserMask | asynInt32Mask | asynFloat64Mask | asynOctetMask // Interface and interrupt mask// Interface mask
+					NoOfPZD	// Either 2 or 6, depending on the serial port and model
 					)
 {
 	m_Instance = this;
