@@ -71,6 +71,7 @@ CLeyboldSimPortDriver::CLeyboldSimPortDriver(const char *asynPortName, int numPu
 				)
 {
 	m_Exiting = false;
+	m_Instance = this;
 }
 
 CLeyboldSimPortDriver::~CLeyboldSimPortDriver()
@@ -401,7 +402,7 @@ template<size_t NoOfPZD> bool CLeyboldSimPortDriver::process(asynUser* pasynUser
 			{
 				// Accel.
 				// It is intended that the (simulated) pump speed ramps up to full speed in Duration
-				static const size_t Duration = 2000;
+				static const unsigned Duration = 2000;
 				unsigned ElapsedTime = getTickCount() - m_WasRunning[TableIndex].second;
 				setIntegerParam(TableIndex, STATORFREQUENCY, (ElapsedTime * NormalStatorFrequency) / Duration);
 				if (ElapsedTime >= Duration)
@@ -424,8 +425,8 @@ template<size_t NoOfPZD> bool CLeyboldSimPortDriver::process(asynUser* pasynUser
 			else if (m_WasRunning[TableIndex].first == Decel)
 			{
 				// It is intended that the (simulated) pump speed ramps down to nothing in Duration
-				static const size_t Duration = 2000;
-				unsigned ElapsedTime = getTickCount() - m_WasRunning[TableIndex].second;
+				static const int Duration = 2000;
+				int ElapsedTime = getTickCount() - m_WasRunning[TableIndex].second;
 				int StatorFrequency = ((Duration - ElapsedTime) * NormalStatorFrequency) / Duration;
 				if (StatorFrequency < 3)
 					StatorFrequency = 3;
@@ -440,10 +441,11 @@ template<size_t NoOfPZD> bool CLeyboldSimPortDriver::process(asynUser* pasynUser
 			else if (m_WasRunning[TableIndex].first == Moving)
 			{
 				// It is intended that the pump remains in the 'Moving' state for another Duration
-				static const size_t Duration = 2000;
+				static const unsigned Duration = 2000;
 				unsigned ElapsedTime = getTickCount() - m_WasRunning[TableIndex].second;
 				if (ElapsedTime >= Duration)
 				{
+					setIntegerParam(TableIndex, STATORFREQUENCY, 0);
 					setIntegerParam(TableIndex, RUNNING, Off);
 					m_WasRunning[TableIndex].first = Off;
 					m_WasRunning[TableIndex].second = getTickCount();

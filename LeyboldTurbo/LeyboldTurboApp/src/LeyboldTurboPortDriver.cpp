@@ -148,7 +148,7 @@ asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *v
 
 		bool Running = (getIntegerParam(TableIndex, RUNNING) != Off);
 
-		if (function == Parameters(FAULT))
+		if (function == Parameters(STATORFREQUENCY))
 		{
 			// The following values are present in the 24-byte packet (NoOfPZD==6),
 			// but need each to be explictly queried when the 16-byte packet (NoOfPZD==2) is being used.

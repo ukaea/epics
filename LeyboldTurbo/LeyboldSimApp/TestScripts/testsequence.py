@@ -33,7 +33,7 @@ def TestSequenceOnePump(Pump):
 
 	AsynVersion = epics.caget(ChannelDefaultRoot + ':AsynVersion')
 	
-	print("First turn the pump off ", Pump, AsynVersion)
+	print("First turn the pump off ", Pump)
 	caput(ChannelRoot + ':Running', AsynVersion, 0)
 
 	time.sleep(5)
