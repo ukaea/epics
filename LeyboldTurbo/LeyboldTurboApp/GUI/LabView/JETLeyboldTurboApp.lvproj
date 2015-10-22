@@ -10,16 +10,19 @@
 		<Property Name="server.vi.callsEnabled" Type="Bool">true</Property>
 		<Property Name="server.vi.propertiesEnabled" Type="Bool">true</Property>
 		<Property Name="specify.custom.address" Type="Bool">false</Property>
-		<Item Name="Controls.ctl" Type="VI" URL="../Controls.ctl"/>
 		<Item Name="Fault.ctl" Type="VI" URL="../Fault.ctl"/>
+		<Item Name="FindRunningButton.vi" Type="VI" URL="../FindRunningButton.vi"/>
+		<Item Name="GeneratePVNames.vi" Type="VI" URL="../GeneratePVNames.vi"/>
 		<Item Name="GetFault.vi" Type="VI" URL="../GetFault.vi"/>
 		<Item Name="GetMeasurements.vi" Type="VI" URL="../GetMeasurements.vi"/>
 		<Item Name="GetPumpStatus.vi" Type="VI" URL="../GetPumpStatus.vi"/>
 		<Item Name="GetPumpWarnings.vi" Type="VI" URL="../GetPumpWarnings.vi"/>
-		<Item Name="LeyboldTurboApp.vi" Type="VI" URL="../LeyboldTurboApp.vi"/>
+		<Item Name="JETLeyboldTurboApp.vi" Type="VI" URL="../JETLeyboldTurboApp.vi"/>
 		<Item Name="Measusurements.ctl" Type="VI" URL="../Measusurements.ctl"/>
 		<Item Name="PumpRecord.ctl" Type="VI" URL="../PumpRecord.ctl"/>
+		<Item Name="PumpStates.ctl" Type="VI" URL="../PumpStates.ctl"/>
 		<Item Name="RunStates.ctl" Type="VI" URL="../RunStates.ctl"/>
+		<Item Name="SetRunningButton.vi" Type="VI" URL="../SetRunningButton.vi"/>
 		<Item Name="Warnings.ctl" Type="VI" URL="../Warnings.ctl"/>
 		<Item Name="Dependencies" Type="Dependencies">
 			<Item Name="user.lib" Type="Folder">
@@ -63,6 +66,7 @@
 				<Item Name="Trim Whitespace.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/Trim Whitespace.vi"/>
 				<Item Name="whitespace.ctl" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/whitespace.ctl"/>
 			</Item>
+			<Item Name="Controls.ctl" Type="VI" URL="../Controls.ctl"/>
 		</Item>
 		<Item Name="Build Specifications" Type="Build"/>
 	</Item>
