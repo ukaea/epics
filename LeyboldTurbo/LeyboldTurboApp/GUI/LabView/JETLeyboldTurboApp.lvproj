@@ -10,7 +10,9 @@
 		<Property Name="server.vi.callsEnabled" Type="Bool">true</Property>
 		<Property Name="server.vi.propertiesEnabled" Type="Bool">true</Property>
 		<Property Name="specify.custom.address" Type="Bool">false</Property>
+		<Item Name="DisableControls.vi" Type="VI" URL="../DisableControls.vi"/>
 		<Item Name="Fault.ctl" Type="VI" URL="../Fault.ctl"/>
+		<Item Name="FindPaneAndControl.vi" Type="VI" URL="../FindPaneAndControl.vi"/>
 		<Item Name="FindRunningButton.vi" Type="VI" URL="../FindRunningButton.vi"/>
 		<Item Name="GeneratePVNames.vi" Type="VI" URL="../GeneratePVNames.vi"/>
 		<Item Name="GetFault.vi" Type="VI" URL="../GetFault.vi"/>
