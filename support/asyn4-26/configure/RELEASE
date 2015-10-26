@@ -1,6 +1,6 @@
 #RELEASE Location of external products
 
-SUPPORT=D:/EPICS/support
+SUPPORT=\EPICS\support
 -include $(TOP)/../configure/SUPPORT.$(EPICS_HOST_ARCH)
 
 #  IPAC is only necessary if support for Greensprings IP488 is required
@@ -11,5 +11,5 @@ IPAC=$(SUPPORT)/ipac
 SNCSEQ=$(SUPPORT)/seq
 
 #  EPICS_BASE 3.14.6 or later is required
-EPICS_BASE=D:/EPICS/base
+EPICS_BASE=\EPICS\base
 -include $(TOP)/../configure/EPICS_BASE.$(EPICS_HOST_ARCH)
