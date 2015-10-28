@@ -25,8 +25,8 @@ set COMPORT6=COM8:
 
 call JETMappings.bat
 
-start ..\..\Release_LIB\LeyboldTurboApp ..\..\iocBoot\iocLeyboldTurbo\st6.cmd
+start ..\..\Release_LIB\LeyboldTurboApp.exe ..\..\iocBoot\iocLeyboldTurbo\st6.cmd
+start ..\..\Release_LIB\LeyboldTurboGUI.exe
 
 md d:\LocalData\
 camonitor.py 1 %NUMPUMPS% D:\LocalData\
-

@@ -19,7 +19,8 @@
 		<Item Name="GetMeasurements.vi" Type="VI" URL="../GetMeasurements.vi"/>
 		<Item Name="GetPumpStatus.vi" Type="VI" URL="../GetPumpStatus.vi"/>
 		<Item Name="GetPumpWarnings.vi" Type="VI" URL="../GetPumpWarnings.vi"/>
-		<Item Name="JETLeyboldTurboApp.vi" Type="VI" URL="../JETLeyboldTurboApp.vi"/>
+		<Item Name="Leybold.ico" Type="Document" URL="../Leybold.ico"/>
+		<Item Name="LeyboldTurboGUI.vi" Type="VI" URL="../LeyboldTurboGUI.vi"/>
 		<Item Name="Measusurements.ctl" Type="VI" URL="../Measusurements.ctl"/>
 		<Item Name="PumpRecord.ctl" Type="VI" URL="../PumpRecord.ctl"/>
 		<Item Name="PumpStates.ctl" Type="VI" URL="../PumpStates.ctl"/>
@@ -128,10 +129,10 @@
 				<Property Name="Bld_previewCacheID" Type="Str">{01B58664-AF5D-41A5-B400-ECA9354810ED}</Property>
 				<Property Name="Bld_supportedLanguage[0]" Type="Str">English</Property>
 				<Property Name="Bld_supportedLanguageCount" Type="Int">1</Property>
-				<Property Name="Bld_version.build" Type="Int">1</Property>
+				<Property Name="Bld_version.build" Type="Int">12</Property>
 				<Property Name="Bld_version.major" Type="Int">1</Property>
 				<Property Name="Destination[0].destName" Type="Str">LeyboldTurboGUI.exe</Property>
-				<Property Name="Destination[0].path" Type="Path">/D/EPICS/LeyboldTurbo/Release_LIB/LeyboldTurboGUI.exe</Property>
+				<Property Name="Destination[0].path" Type="Path">/D/EPICS/LeyboldTurbo/Release_LIB/NI_AB_PROJECTNAME.exe</Property>
 				<Property Name="Destination[0].path.type" Type="Str">&lt;none&gt;</Property>
 				<Property Name="Destination[0].preserveHierarchy" Type="Bool">true</Property>
 				<Property Name="Destination[0].type" Type="Str">App</Property>
@@ -139,10 +140,11 @@
 				<Property Name="Destination[1].path" Type="Path">/D/EPICS/LeyboldTurbo/Release_LIB/data</Property>
 				<Property Name="Destination[1].path.type" Type="Str">&lt;none&gt;</Property>
 				<Property Name="DestinationCount" Type="Int">2</Property>
-				<Property Name="Source[0].itemID" Type="Str">{E5DCD5AE-E6DB-44FB-8132-875F017457C3}</Property>
+				<Property Name="Exe_iconItemID" Type="Ref">/My Computer/Leybold.ico</Property>
+				<Property Name="Source[0].itemID" Type="Str">{6C36D32B-CF05-4097-A831-FA368E243E5C}</Property>
 				<Property Name="Source[0].type" Type="Str">Container</Property>
 				<Property Name="Source[1].destinationIndex" Type="Int">0</Property>
-				<Property Name="Source[1].itemID" Type="Ref">/My Computer/JETLeyboldTurboApp.vi</Property>
+				<Property Name="Source[1].itemID" Type="Ref">/My Computer/LeyboldTurboGUI.vi</Property>
 				<Property Name="Source[1].sourceInclusion" Type="Str">TopLevel</Property>
 				<Property Name="Source[1].type" Type="Str">VI</Property>
 				<Property Name="Source[10].destinationIndex" Type="Int">0</Property>
