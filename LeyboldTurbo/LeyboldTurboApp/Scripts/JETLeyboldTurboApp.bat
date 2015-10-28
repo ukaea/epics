@@ -13,7 +13,6 @@ REM	LeyboldTurbo is distributed subject to a Software License Agreement
 REM	found in file LICENSE that is included with this distribution.
 
 
-set NUMPUMPS=6
 set BAUD=9600
 set NoOfPZD=2
 
@@ -23,10 +22,6 @@ set COMPORT3=COM3:
 set COMPORT4=COM4:
 set COMPORT5=COM7:
 set COMPORT6=COM8:
-set NUMPUMPS=6
-
-REM Cos we're using up-to-date asyn
-set DB=LeyboldTurbo.Asyn4-26
 
 call JETMappings.bat
 

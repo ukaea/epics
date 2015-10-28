@@ -15,6 +15,7 @@ REM	found in file LICENSE that is included with this distribution.
 
 REM set ASYNPORT=TT
 
+set NUMPUMPS=6
 set ASYNPORT1=TT:01
 set ASYNPORT2=TT:02
 set ASYNPORT3=TT:03

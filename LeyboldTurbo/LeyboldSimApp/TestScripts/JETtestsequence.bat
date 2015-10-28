@@ -33,8 +33,8 @@ start python ..\..\LeyboldTurboApp\Scripts\camonitor.py 1 %NUMPUMPS%
 
 testsequence.py %NUMPUMPS%
 
-timeout 5
-start /WAIT ..\..\LeyboldTurboApp\Scripts\Reset.py 1 %NUMPUMPS%
+REM timeout 5
+REM start /WAIT ..\..\LeyboldTurboApp\Scripts\Reset.py 1 %NUMPUMPS%
 
-timeout 5
-start /WAIT ..\..\LeyboldTurboApp\Scripts\SetRunning.py 1 %NUMPUMPS% 1
+REM timeout 5
+REM start /WAIT ..\..\LeyboldTurboApp\Scripts\SetRunning.py 1 %NUMPUMPS% 1
