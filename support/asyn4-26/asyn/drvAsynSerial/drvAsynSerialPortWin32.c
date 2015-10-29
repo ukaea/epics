@@ -674,6 +674,7 @@ drvAsynSerialPortConfigure(char *portName,
 {
     ttyController_t *tty;
     asynStatus status;
+    char winTtyName[MAX_PATH];
 
 
     /*
@@ -704,7 +705,16 @@ drvAsynSerialPortConfigure(char *portName,
         return -1;
     }
     tty->commHandle = INVALID_HANDLE_VALUE;
-    tty->serialDeviceName = epicsStrDup(ttyName);
+    if ( (epicsStrnCaseCmp(ttyName, "\\\\.\\", 4) != 0)) {
+        /* 
+         * The user did not pass a Windows device name, so prepend \\.\
+         */
+        epicsSnprintf(winTtyName, sizeof(winTtyName), "\\\\.\\%s", ttyName);
+    } 
+    else {
+        strncpy(winTtyName, ttyName, sizeof(winTtyName));
+    }   
+    tty->serialDeviceName = epicsStrDup(winTtyName);
     tty->portName = epicsStrDup(portName);
 
     /*

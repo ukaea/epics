@@ -12,6 +12,108 @@
   <div style="text-align: center">
     <hr />
     <h2>
+      Release 4-27</h2>
+    <h2>
+      October 7, 2015</h2>
+  </div>
+  <h3>
+    Repository location</h3>
+  <p>
+    The source code repository was moved from <a href="https://svn.aps.anl.gov/epics/asyn">
+      https://svn.aps.anl.gov/epics/asyn</a> to <a href="https://github.com/epics-modules/asyn">
+        https://github.com/epics-modules/asyn</a>. This will make it much easier for
+    others to collaborate in the development of asyn.</p>
+  <h3>
+    drvAsynSerialPort</h3>
+  <ul>
+    <li>Fix to save the previous values of the baud rate and termios structures before
+      attempting to change them. If the change fails then the previous values are restored.
+      Previously if a call to setOption() failed, then subsequent calls to getOption()
+      would return the value that failed. Now subsequent calls to getOption() will return
+      the previous valid option, which is presumably the one that the underlying OS driver
+      is still using. Thanks to Ron Sluiter for the initial fix to this problem.</li>
+  </ul>
+  <h3>
+    drvAsynSerialPortWin32</h3>
+  <ul>
+    <li>Fix to automatically prefix COM port names with "\\.\" unless the port name already
+      begins with "\\.\". This is valid syntax for all COM ports and is required for all
+      ports except COM1-COM9. Note that when passing the port string from the iocsh if
+      the port name is in quotes then backslash characters should not be escaped, e.g.
+      "\\.\COM10". If the port name is not in quotes then the backslash characters must
+      be escaped, e.g. \\\\.\\COM10. Thanks to Freddie Akeroyd for the initial version
+      of this fix.</li>
+  </ul>
+  <h3>
+    drvAsynIPPort</h3>
+  <ul>
+    <li>Added the option to automatically close the port when there is a read timeout.
+      This was done by changing the syntax of the drvAsynIPConfigure command from<br />
+      <code>drvAsynIPPortConfigure("portName","hostInfo",priority,noAutoConnect,noProcessEos)</code>
+      to
+      <br />
+      <code>drvAsynIPPortConfigure("portName","hostInfo",priority,noAutoConnect,userFlags)</code><br />
+      userFlags: bit-wise ORed:
+      <ul>
+        <li>Bit 0 is USERFLAG_NO_PROCESS_EOS. If 0 then asynInterposeEosConfig is called specifying
+          both processEosIn and processEosOut. </li>
+        <li>Bit 1 is USERFLAG_CLOSE_ON_READ_TIMEOUT. If 1 then the (TCP) socket will be closed
+          when read() returns a timeout. </li>
+        <li>Bit 2--31 are reserved, set to zero. </li>
+      </ul>
+      This change is backwards compatible since bit 0 is the same as the previous noProcessEos.
+      Thanks to Torsten Bogershausen for this change. </li>
+  </ul>
+  <h3>
+    devEpics</h3>
+  <ul>
+    <li>Changed error reporting if pasynManager->queueRequest returned an error. Previously
+      error messages were printed on every call, which would cause a large number of messages
+      if the port was disconnected and records were periodically processing. Now an error
+      message is only printed when the status return from pasynManager->queueRequest changes,
+      so there will be single message for each record when a port disconnects and a single
+      message when it reconnects.</li>
+    <li>Changed error handling when any of the following errors are encountered:
+      <ul>
+        <li>pasynManager->queueRequest returns an error</li>
+        <li>The I/O call to the driver (e.g. pasynInt32->read()) returns an error.</li>
+        <li>The interrupt callback function is passed an error code in pasynUser->auxStatus</li>
+      </ul>
+      Previously such errors did correctly set the record alarm status and severity. However,
+      they did not return an error code to the function that called the device support
+      write() or read() function. They also updated the record VAL or RVAL field when
+      there was an error, which they should not. Now these functions return an error code
+      and do not update VAL or RVAL when there is an error. </li>
+  </ul>
+  <h3>
+    asynPortDriver</h3>
+  <ul>
+    <li>Changed the status return from pasynManager->queueRequest from asynError to asynDisconnected
+      if a port with ASYN_CANBLOCK=0 is disconnected.</li>
+  </ul>
+  <h3>
+    asynShellCommands</h3>
+  <ul>
+    <li>Added new command asynSetMinTimerPeriod, and corresponding C function. This command
+      is currently only implemented on the WIN32 architectures, and simply prints an error
+      message on all other architectures. It allows reducing the minimum time for epicsThreadSleep()
+      from the default of 10 ms to the minimum supported Windows system value. On most
+      systems this is 1 ms. Note that epicsThreadSleepQuantum() does not seem to report
+      the correct value whether or not this function is called. On my system it always
+      reports 0.0156 seconds. Note also that this function really has nothing to do with
+      asyn, and the equivalent functionality should probably be moved into EPICS base
+      at some time.</li>
+  </ul>
+  <h3>
+    Deadlock issue</h3>
+  <ul>
+    <li>There is a potential deadlock issue when using input records with SCAN=I/O Intr.
+      This is discussed in the <a href="KnownProblems.html">KnownProblems document</a>.
+      Thanks to Ambroz Bizjak for finding this problem.</li>
+  </ul>
+  <div style="text-align: center">
+    <hr />
+    <h2>
       Release 4-26</h2>
     <h2>
       February 15, 2015</h2>

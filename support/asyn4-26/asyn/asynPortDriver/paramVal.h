@@ -1,19 +1,8 @@
 #ifndef asynparamVal_H
 #define asynparamVal_H
 
-#ifdef epicsExportSharedSymbols
-#define paramVal_epicsExportSharedSymbols
-#undef epicsExportSharedSymbols
-#endif
-
 #include "stdio.h"
 #include "epicsTypes.h"
-
-#ifdef paramVal_epicsExportSharedSymbols
-#undef paramVal_epicsExportSharedSymbols
-#define epicsExportSharedSymbols
-#endif
-
 #include "asynParamType.h"
 #include "asynDriver.h"
 #ifdef __cplusplus

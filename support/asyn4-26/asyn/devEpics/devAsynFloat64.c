@@ -79,6 +79,7 @@ typedef struct devPvt{
     char              *portName;
     char              *userParam;
     int               addr;
+    asynStatus        previousQueueRequestStatus;
 }devPvt;
 
 static long initCommon(dbCommon *pr, DBLINK *plink,
@@ -433,6 +434,23 @@ static int getCallbackValue(devPvt *pPvt)
     return ret;
 }
 
+static void reportQueueRequestStatus(devPvt *pPvt, asynStatus status)
+{
+    if (status != asynSuccess) pPvt->result.status = status;
+    if (pPvt->previousQueueRequestStatus != status) {
+        pPvt->previousQueueRequestStatus = status;
+        if (status == asynSuccess) {
+            asynPrint(pPvt->pasynUser, ASYN_TRACE_ERROR,
+                "%s devAsynFloat64 queueRequest status returned to normal\n", 
+                pPvt->pr->name);
+        } else {
+            asynPrint(pPvt->pasynUser, ASYN_TRACE_ERROR,
+                "%s devAsynFloat64 queueRequest %s\n", 
+                pPvt->pr->name,pPvt->pasynUser->errorMessage);
+        }
+    }
+}
+
 
 static long initAi(aiRecord *pai)
 {
@@ -453,24 +471,20 @@ static long processAi(aiRecord *pr)
         status = pasynManager->queueRequest(pPvt->pasynUser, 0, 0);
         if((status==asynSuccess) && pPvt->canBlock) return 0;
         if(pPvt->canBlock) pr->pact = 0;
-        if(status != asynSuccess) {
-            pPvt->result.status = status;
-            asynPrint(pPvt->pasynUser, ASYN_TRACE_ERROR,
-                "%s devAsynFloat64 queueRequest %s\n",
-                pr->name,pPvt->pasynUser->errorMessage);
-        }
+        reportQueueRequestStatus(pPvt, status);
     }
-    pr->val = pPvt->result.value; 
     pr->time = pPvt->result.time; 
     if(pPvt->result.status==asynSuccess) {
+        pr->val = pPvt->result.value; 
         pr->udf=0;
+        return 2;
     }
     else {
         pasynEpicsUtils->asynStatusToEpicsAlarm(pPvt->result.status, READ_ALARM, &pPvt->alarmStat,
                                             INVALID_ALARM, &pPvt->alarmSevr);
         recGblSetSevr(pr, pPvt->alarmStat, pPvt->alarmSevr);
+        return -1;
     }
-    return 2;
 }
 
 
@@ -511,20 +525,18 @@ static long processAo(aoRecord *pr)
         status = pasynManager->queueRequest(pPvt->pasynUser, 0, 0);
         if((status==asynSuccess) && pPvt->canBlock) return 0;
         if(pPvt->canBlock) pr->pact = 0;
-        if(status != asynSuccess) {
-            pPvt->result.status = status;
-            asynPrint(pPvt->pasynUser, ASYN_TRACE_ERROR,
-                "%s devAsynFloat64:process error queuing request %s\n",
-                pr->name,pPvt->pasynUser->errorMessage);
-        }
+        reportQueueRequestStatus(pPvt, status);
     }
-    if(pPvt->result.status != asynSuccess) {
+    if(pPvt->result.status == asynSuccess) {
+        return 0;
+    }
+    else {
         pasynEpicsUtils->asynStatusToEpicsAlarm(pPvt->result.status,
                 WRITE_ALARM, &pPvt->alarmStat, INVALID_ALARM, &pPvt->alarmSevr);
         recGblSetSevr(pr, pPvt->alarmStat, pPvt->alarmSevr);
+        pPvt->result.status = asynSuccess;
+        return -1;
     }
-    pPvt->result.status = asynSuccess;
-    return 0;
 }
 
 static long initAiAverage(aiRecord *pai)
@@ -549,6 +561,7 @@ static long initAiAverage(aiRecord *pai)
 static long processAiAverage(aiRecord *pai)
 {
     devPvt *pPvt = (devPvt *)pai->dpvt;
+    double dval;
 
     epicsMutexLock(pPvt->ringBufferLock);
     if (pPvt->numAverage == 0) {
@@ -557,21 +570,23 @@ static long processAiAverage(aiRecord *pai)
         epicsMutexUnlock(pPvt->ringBufferLock);
         return -2;
     }
+    dval = pPvt->sum/pPvt->numAverage;
+    pPvt->numAverage = 0;
+    pPvt->sum = 0.;
+    epicsMutexUnlock(pPvt->ringBufferLock);
     if (pPvt->result.status == asynSuccess) {
+        pai->val = dval;
         pai->udf = 0;
+        asynPrint(pPvt->pasynUser, ASYN_TRACEIO_DEVICE,
+                  "%s devAsynFloat64::callbackAiAverage val=%f\n",
+                  pai->name, pai->val);
+        return 2;
     }
     else {
         pasynEpicsUtils->asynStatusToEpicsAlarm(pPvt->result.status, READ_ALARM, &pPvt->alarmStat,
                                                     INVALID_ALARM, &pPvt->alarmSevr);
         recGblSetSevr(pai, pPvt->alarmStat, pPvt->alarmSevr);
         pPvt->result.status = asynSuccess;
+        return -1;
     }
-    pai->val = pPvt->sum/pPvt->numAverage;
-    pPvt->numAverage = 0;
-    pPvt->sum = 0.;
-    epicsMutexUnlock(pPvt->ringBufferLock);
-    asynPrint(pPvt->pasynUser, ASYN_TRACEIO_DEVICE,
-              "%s devAsynFloat64::callbackAiAverage val=%f\n",
-              pai->name, pai->val);
-    return 2;
 }

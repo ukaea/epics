@@ -109,6 +109,7 @@ typedef struct devPvt {
     epicsAlarmCondition alarmStat;
     epicsAlarmSeverity  alarmSevr;
     interruptCallbackOctet interruptCallback;
+    asynStatus          previousQueueRequestStatus;
 } devPvt;
 
 static long initCommon(dbCommon *precord, DBLINK *plink, userCallback callback, 
@@ -387,11 +388,13 @@ static void interruptCallback(void *drvPvt, asynUser *pasynUser,
     if (pPvt->ringSize == 0) {
         /* Not using a ring buffer */ 
         dbScanLock(pr);
-        memcpy(pPvt->pValue, value, len);
-        if (len < pPvt->valSize) pPvt->pValue[len] = 0;
         pr->time = pasynUser->timestamp;
-        pPvt->gotValue++;
+        if (pasynUser->auxStatus == asynSuccess) {
+            memcpy(pPvt->pValue, value, len);
+            if (len < pPvt->valSize) pPvt->pValue[len] = 0;
+        }
         pPvt->nord = (epicsUInt32)len;
+        pPvt->gotValue++;
         if (pPvt->status == asynSuccess) pPvt->status = pasynUser->auxStatus;
         dbScanUnlock(pPvt->precord);
         if (pPvt->isOutput) 
@@ -553,6 +556,21 @@ static asynStatus readIt(asynUser *pasynUser,char *message,
     return status;
 }
 
+static void reportQueueRequestStatus(devPvt *pPvt, asynStatus status)
+{
+    if (pPvt->previousQueueRequestStatus != status) {
+        pPvt->previousQueueRequestStatus = status;
+        if (status == asynSuccess) {
+            asynPrint(pPvt->pasynUser, ASYN_TRACE_ERROR,
+                "%s devAsynOctet queueRequest status returned to normal\n", 
+                pPvt->precord->name);
+        } else {
+            asynPrint(pPvt->pasynUser, ASYN_TRACE_ERROR,
+                "%s devAsynOctet queueRequest %s\n", 
+                pPvt->precord->name,pPvt->pasynUser->errorMessage);
+        }
+    }
+}
 static long processCommon(dbCommon *precord)
 {
     devPvt *pdevPvt = (devPvt *)precord->dpvt;
@@ -572,10 +590,8 @@ static long processCommon(dbCommon *precord)
            pdevPvt->pasynUser, asynQueuePriorityMedium, 0.0);
         if((status==asynSuccess) && pdevPvt->canBlock) return 0;
         if(pdevPvt->canBlock) precord->pact = 0;
+        reportQueueRequestStatus(pdevPvt, status);
         if (status != asynSuccess) {
-            asynPrint(pdevPvt->pasynUser, ASYN_TRACE_ERROR,
-                "%s %s::processCommon, error queuing request %s\n", 
-                precord->name, driverName, pdevPvt->pasynUser->errorMessage);
             pasynEpicsUtils->asynStatusToEpicsAlarm(status, 
                                                     pdevPvt->isOutput ? WRITE_ALARM : READ_ALARM, 
                                                     &pdevPvt->alarmStat,
@@ -588,7 +604,7 @@ static long processCommon(dbCommon *precord)
         if (pdevPvt->ringSize == 0) {
             /* Data has already been copied to the record in interruptCallback */
             pdevPvt->gotValue--;
-            if (pdevPvt->isWaveform) pwf->nord = pdevPvt->nord;
+            if (pdevPvt->isWaveform && (pdevPvt->status == asynSuccess)) pwf->nord = pdevPvt->nord;
             if (pdevPvt->gotValue) {
                 asynPrint(pdevPvt->pasynUser, ASYN_TRACE_WARNING,
                     "%s %s::processCommon, "
@@ -601,8 +617,10 @@ static long processCommon(dbCommon *precord)
             /* Need to copy the array with the lock because that is shared even though
                pPvt->result is a copy */
             epicsMutexLock(pdevPvt->ringBufferLock);
-            memcpy(pdevPvt->pValue, rp->pValue, rp->len);
-            if (pdevPvt->isWaveform) pwf->nord = rp->len;
+            if (rp->status == asynSuccess) {
+                memcpy(pdevPvt->pValue, rp->pValue, rp->len);
+                if (pdevPvt->isWaveform) pwf->nord = rp->len;
+            }
             precord->time = rp->time;
             pdevPvt->status = rp->status;
             epicsMutexUnlock(pdevPvt->ringBufferLock);
@@ -617,14 +635,14 @@ static long processCommon(dbCommon *precord)
     /* If interrupt callbacks set an error status put record in alarm */
     if (pdevPvt->status == asynSuccess) {
         pdevPvt->precord->udf = 0;
+        return 0;
     } else {
         pasynEpicsUtils->asynStatusToEpicsAlarm(pdevPvt->status, READ_ALARM, &pdevPvt->alarmStat,
                                                 INVALID_ALARM, &pdevPvt->alarmSevr);
         recGblSetSevr(precord, pdevPvt->alarmStat, pdevPvt->alarmSevr);
+        pdevPvt->status = asynSuccess;
+        return -1;
     }
-    pdevPvt->status = asynSuccess;
-        
-    return 0;
 }
 
 static void finish(dbCommon *pr)
