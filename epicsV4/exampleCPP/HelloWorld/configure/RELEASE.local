@@ -1,6 +1,6 @@
 # Create a file RELEASE.local pointing to your PVDATA, PVCOMMON
 # and EPICS_BASE build directories, e.g.
-# PVCOMMON = D:/EPICS/epicsV4/pvCommonCPP
-PVDATA = D:/EPICS/epicsV4/pvDataCPP
-PVACCESS = D:/EPICS/epicsV4/pvAccessCPP
-EPICS_BASE = D:/EPICS/base-3.14.12.5
+# PVCOMMON = \EPICS/epicsV4/pvCommonCPP
+PVDATA = \EPICS/epicsV4/pvDataCPP
+PVACCESS = \EPICS/epicsV4/pvAccessCPP
+EPICS_BASE = \EPICS/base
