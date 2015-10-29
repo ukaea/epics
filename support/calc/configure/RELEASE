@@ -4,7 +4,7 @@
 
 TEMPLATE_TOP=$(EPICS_BASE)/templates/makeBaseApp/top
 
-SUPPORT=D:/EPICS/support
+SUPPORT=\EPICS/support
 -include $(TOP)/../configure/SUPPORT.$(EPICS_HOST_ARCH)
 
 # Need SSCAN module only to build the swait record (recDynLink library)
