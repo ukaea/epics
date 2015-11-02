@@ -112,10 +112,7 @@ void CLeyboldTurboPortDriver::addIOPort(const char* IOPortName)
 	if (Status != asynSuccess)
 		throw CException(pasynUserSelf, Status, __FUNCTION__, "connecting to IO port=" + std::string(IOPortName));
 
-	Status = callParamCallbacks();
-	if (callParamCallbacks() != asynSuccess)
-		// Make sure the (just set) default values are available to read.
-		throw CException(pasynUserSelf, Status, __FUNCTION__, "callParamCallbacks");
+	callParamCallbacks(m_IOUsers.size());
 	m_IOUsers.push_back(IOUser);
 }
 
@@ -199,9 +196,14 @@ asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *v
 	}
 	catch(CException const& E) {
 		// Internal communication failure
+		// NB, Asyn 4-27 requires that the parameter status is success before the value can be set through callback.
+		setParamStatus(TableIndex, FAULT, asynSuccess);
+		setParamStatus(TableIndex, FAULTSTR, asynSuccess);
 		setIntegerParam(TableIndex, FAULT, 65);
-		setParamStatus(TableIndex, FAULT, E.Status());
 		setStringParam (TableIndex, FAULTSTR, "Internal communication timeout");
+		callParamCallbacks(TableIndex);
+
+		setParamStatus(TableIndex, FAULT, E.Status());
 		setParamStatus(TableIndex, FAULTSTR, E.Status());
 		// make sure we return an error state if there are comms problems
 		Status = E.Status();
@@ -265,9 +267,14 @@ asynStatus CLeyboldTurboPortDriver::readOctet(asynUser *pasynUser, char *value, 
 	}
 	catch(CException const& E) {
 		// Internal communication failure
+		// NB, Asyn 4-27 requires that the parameter status is success before the value can be set through callback.
+		setParamStatus(TableIndex, FAULT, asynSuccess);
+		setParamStatus(TableIndex, FAULTSTR, asynSuccess);
 		setIntegerParam(TableIndex, FAULT, 65);
-		setParamStatus(TableIndex, FAULT, E.Status());
 		setStringParam(TableIndex, FAULTSTR, "Internal communication timeout");
+		callParamCallbacks(TableIndex);
+
+		setParamStatus(TableIndex, FAULT, E.Status());
 		setParamStatus(TableIndex, FAULTSTR, E.Status());
 		// make sure we return an error state if there are comms problems
 		Status = E.Status();
@@ -352,6 +359,13 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processRead(int TableInde
 		RunState=Moving;
 	setIntegerParam (TableIndex, RUNNING, RunState);
 
+	// NB Asyn 4-27 requires the parameter status to be clear before the value can be set.
+	setParamStatus(TableIndex, FAULT, asynSuccess);
+	setParamStatus(TableIndex, FAULTSTR, asynSuccess);
+	setParamStatus(TableIndex, WARNINGHIGHLOADSTR, asynSuccess);
+	setParamStatus(TableIndex, WARNINGHIGHLOAD, asynSuccess);
+	setParamStatus(TableIndex, WARNINGPURGE, asynSuccess);
+	setParamStatus(TableIndex, WARNINGPURGESTR, asynSuccess);
 	if (USSReadPacket.m_USSPacketStruct.m_PZD[0] & (1 << 3))
 	{
 		// We have an error status. Request the error code
@@ -360,7 +374,6 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processRead(int TableInde
 		writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
 
 		setIntegerParam (TableIndex, FAULT, USSReadPacket.m_USSPacketStruct.m_PWE);
-		setParamStatus(TableIndex, FAULT, asynError);
 
 		// Plus null termination.
 		const char ErrorStrings[77][MaxEPICSStrLen+1] =
@@ -444,16 +457,18 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processRead(int TableInde
 			"Firmware update is required"				// 76
 		};
 
+		// NB, Asyn 4-27 requires that the parameter status is success before the value can be set through callback.
 		setStringParam (TableIndex, FAULTSTR, ErrorStrings[USSReadPacket.m_USSPacketStruct.m_PWE]);
+		callParamCallbacks(TableIndex);
+
+		setParamStatus(TableIndex, FAULT, asynError);
 		setParamStatus(TableIndex, FAULTSTR, asynError);
 	}
 	else
 	{
 		// Clear error status
 		setIntegerParam (TableIndex, FAULT, 0);
-		setParamStatus(TableIndex, FAULT, asynSuccess);
 		setStringParam (TableIndex, FAULTSTR, "");
-		setParamStatus(TableIndex, FAULTSTR, asynSuccess);
 	}
 
 	if (USSReadPacket.m_USSPacketStruct.m_PZD[0] & (1 << 7))
@@ -495,16 +510,17 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processRead(int TableInde
 			WarningTemperatureStr += WarningStrings[Bit];
 		}
 		setIntegerParam (TableIndex, WARNINGTEMPERATURE, USSReadPacket.m_USSPacketStruct.m_PWE);
-		setParamStatus(TableIndex, WARNINGTEMPERATURE, asynError);
 		setStringParam (TableIndex, WARNINGTEMPERATURESTR, WarningTemperatureStr);
+
+		// NB, Asyn 4-27 requires that the parameter status is success before the value can be set through callback.
+		callParamCallbacks(TableIndex);
+		setParamStatus(TableIndex, WARNINGTEMPERATURE, asynError);
 		setParamStatus(TableIndex, WARNINGTEMPERATURESTR, asynError);
 	}
 	else
 	{
 		setIntegerParam (TableIndex, WARNINGTEMPERATURE, 0);
-		setParamStatus(TableIndex, WARNINGTEMPERATURE, asynSuccess);
 		setStringParam (TableIndex, WARNINGTEMPERATURESTR, "");
-		setParamStatus(TableIndex, WARNINGTEMPERATURESTR, asynSuccess);
 	}
 
 	if (USSReadPacket.m_USSPacketStruct.m_PZD[0] & (1 << 13))
@@ -541,17 +557,18 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processRead(int TableInde
 				WarningHighLoadStr += "\n";
 			WarningHighLoadStr += WarningStrings[Bit];
 		}
+		// NB, Asyn 4-27 requires that the parameter status is success before the value can be set through callback.
 		setIntegerParam (TableIndex, WARNINGHIGHLOAD, USSReadPacket.m_USSPacketStruct.m_PWE);
-		setParamStatus(TableIndex, WARNINGHIGHLOAD, asynError);
 		setStringParam (TableIndex, WARNINGHIGHLOADSTR, WarningHighLoadStr);
+		callParamCallbacks(TableIndex);
+
+		setParamStatus(TableIndex, WARNINGHIGHLOAD, asynError);
 		setParamStatus(TableIndex, WARNINGHIGHLOADSTR, asynError);
 	}
 	else
 	{
 		setIntegerParam (TableIndex, WARNINGHIGHLOAD, 0);
-		setParamStatus(TableIndex, WARNINGHIGHLOAD, asynSuccess);
 		setStringParam (TableIndex, WARNINGHIGHLOADSTR, "");
-		setParamStatus(TableIndex, WARNINGHIGHLOADSTR, asynSuccess);
 	}
 
 	if (USSReadPacket.m_USSPacketStruct.m_PZD[0] & (1 << 14))
@@ -588,9 +605,7 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processRead(int TableInde
 	else
 	{
 		setIntegerParam (TableIndex, WARNINGPURGE, 0);
-		setParamStatus(TableIndex, WARNINGPURGE, asynSuccess);
 		setStringParam (TableIndex, WARNINGPURGESTR, "");
-		setParamStatus(TableIndex, WARNINGPURGESTR, asynSuccess);
 	}
 
 	setIntegerParam (TableIndex, STATORFREQUENCY, USSReadPacket.m_USSPacketStruct.m_PZD[1]);
@@ -675,9 +690,14 @@ asynStatus CLeyboldTurboPortDriver::writeInt32(asynUser *pasynUser, epicsInt32 v
 	}
 	catch(CException const& E) {
 		// Internal communication failure
+		// NB, Asyn 4-27 requires that the parameter status is success before the value can be set through callback.
+		setParamStatus(TableIndex, FAULT, asynSuccess);
+		setParamStatus(TableIndex, FAULTSTR, asynSuccess);
 		setIntegerParam(TableIndex, FAULT, 65);
-		setParamStatus(TableIndex, FAULT, E.Status());
 		setStringParam (TableIndex, FAULTSTR, "Internal communication timeout");
+		callParamCallbacks(TableIndex);
+
+		setParamStatus(TableIndex, FAULT, E.Status());
 		setParamStatus(TableIndex, FAULTSTR, E.Status());
 		// make sure we return an error state if there are comms problems
 		Status = E.Status();

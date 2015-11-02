@@ -128,6 +128,11 @@ public:
 			throw CException(pasynUserSelf, asynError, __FUNCTION__, ParamName);
 		return Iter->second;
 	}
+	void callParamCallbacks(size_t list) {
+		asynStatus Status = asynPortDriver::callParamCallbacks(int(list));
+		if (Status != asynSuccess)
+			throw CException(pasynUserSelf, Status, __FUNCTION__, "callParamCallbacks");
+	}
 private:
 	static int Mask();
 	void ParamDefaultValue(size_t ParamIndex);

@@ -50,7 +50,7 @@
     <ProjectReference Include="..\..\base-3.15.2\src\libCom\Com.vcxproj">
       <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\support\asyn4-26\asyn\asyn.vcxproj">
+    <ProjectReference Include="..\..\support\asyn4-27\asyn\asyn.vcxproj">
       <Project>{c3ea0ff7-6039-4884-ba91-7b4619befea5}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\support\seq\src\pv\pv.vcxproj">

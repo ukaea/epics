@@ -59,7 +59,7 @@
     <ProjectReference Include="..\..\base-3.15.2\src\std\dbRecStd.vcxproj">
       <Project>{3b0e3542-cb89-4ffa-b004-eac882b3f277}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\support\asyn4-26\asyn\asyn.vcxproj">
+    <ProjectReference Include="..\..\support\asyn4-27\asyn\asyn.vcxproj">
       <Project>{c3ea0ff7-6039-4884-ba91-7b4619befea5}</Project>
     </ProjectReference>
   </ItemGroup>
