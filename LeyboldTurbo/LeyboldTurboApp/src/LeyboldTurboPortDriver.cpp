@@ -362,8 +362,10 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processRead(int TableInde
 	// NB Asyn 4-27 requires the parameter status to be clear before the value can be set.
 	setParamStatus(TableIndex, FAULT, asynSuccess);
 	setParamStatus(TableIndex, FAULTSTR, asynSuccess);
-	setParamStatus(TableIndex, WARNINGHIGHLOADSTR, asynSuccess);
+	setParamStatus(TableIndex, WARNINGTEMPERATURE, asynSuccess);
+	setParamStatus(TableIndex, WARNINGTEMPERATURESTR, asynSuccess);
 	setParamStatus(TableIndex, WARNINGHIGHLOAD, asynSuccess);
+	setParamStatus(TableIndex, WARNINGHIGHLOADSTR, asynSuccess);
 	setParamStatus(TableIndex, WARNINGPURGE, asynSuccess);
 	setParamStatus(TableIndex, WARNINGPURGESTR, asynSuccess);
 	if (USSReadPacket.m_USSPacketStruct.m_PZD[0] & (1 << 3))
@@ -509,11 +511,13 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processRead(int TableInde
 				WarningTemperatureStr += "\n";
 			WarningTemperatureStr += WarningStrings[Bit];
 		}
+		if (WarningTemperatureStr == "")
+			// Unexpected that the string should be empty.
+			WarningTemperatureStr = "Unknown";
 		setIntegerParam (TableIndex, WARNINGTEMPERATURE, USSReadPacket.m_USSPacketStruct.m_PWE);
 		setStringParam (TableIndex, WARNINGTEMPERATURESTR, WarningTemperatureStr);
 
 		// NB, Asyn 4-27 requires that the parameter status is success before the value can be set through callback.
-		callParamCallbacks(TableIndex);
 		setParamStatus(TableIndex, WARNINGTEMPERATURE, asynError);
 		setParamStatus(TableIndex, WARNINGTEMPERATURESTR, asynError);
 	}
@@ -557,10 +561,12 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processRead(int TableInde
 				WarningHighLoadStr += "\n";
 			WarningHighLoadStr += WarningStrings[Bit];
 		}
+		if (WarningHighLoadStr == "")
+			// Unexpected that the warning string will be empty. But this can cause an update problem.
+			WarningHighLoadStr = "Unknown";
 		// NB, Asyn 4-27 requires that the parameter status is success before the value can be set through callback.
 		setIntegerParam (TableIndex, WARNINGHIGHLOAD, USSReadPacket.m_USSPacketStruct.m_PWE);
 		setStringParam (TableIndex, WARNINGHIGHLOADSTR, WarningHighLoadStr);
-		callParamCallbacks(TableIndex);
 
 		setParamStatus(TableIndex, WARNINGHIGHLOAD, asynError);
 		setParamStatus(TableIndex, WARNINGHIGHLOADSTR, asynError);
@@ -597,9 +603,16 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processRead(int TableInde
 				WarningPurgeStr += "\n";
 			WarningPurgeStr += WarningStrings[Bit];
 		}
+		if (WarningPurgeStr == "")
+			// Unexpected that the string should be empty.
+			WarningPurgeStr = "Unknown";
+
+		// NB, Asyn 4-27 requires that the parameter status is success before the value can be set through callback.
 		setIntegerParam (TableIndex, WARNINGPURGE, USSReadPacket.m_USSPacketStruct.m_PWE);
-		setParamStatus(TableIndex, WARNINGPURGE, asynError);
 		setStringParam (TableIndex, WARNINGPURGESTR, WarningPurgeStr);
+		callParamCallbacks(TableIndex);
+
+		setParamStatus(TableIndex, WARNINGPURGE, asynError);
 		setParamStatus(TableIndex, WARNINGPURGESTR, asynError);
 	}
 	else

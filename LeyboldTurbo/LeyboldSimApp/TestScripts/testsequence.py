@@ -48,13 +48,13 @@ def TestSequenceOnePump(Pump):
 	caput(ChannelRoot + ':ConverterTemperature', AsynVersion, 70)
 	caput(ChannelRoot + ':MotorCurrent', AsynVersion, 15.4)
 	caput(ChannelRoot + ':CircuitVoltage', AsynVersion, 40.6)
-	caput(ChannelRoot + ':WarningHighLoad', AsynVersion, 1)
+	caput(ChannelRoot + ':WarningHighLoad', AsynVersion, 4096 + 8192)
 
 	time.sleep(5)
 
 	print("Setting some more values indicating high pump stress on ", Pump)
 	caput(ChannelRoot + ':PumpTemperature', AsynVersion, 80)
-	caput(ChannelRoot + ':WarningTemperature', AsynVersion, 1)
+	caput(ChannelRoot + ':WarningTemperature', AsynVersion, 1 + 2 + 4)
 
 	time.sleep(5)
 

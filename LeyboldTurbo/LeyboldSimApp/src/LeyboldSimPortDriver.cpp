@@ -475,7 +475,7 @@ template<size_t NoOfPZD> bool CLeyboldSimPortDriver::process(asynUser* pasynUser
 		m_WasRunning[TableIndex].first = Off;
 	}
 	if (getIntegerParam(TableIndex, WARNINGTEMPERATURE) != 0)
-		USSWritePacket.m_USSPacketStruct.m_PZD[0] |= (1 << 2);
+		USSWritePacket.m_USSPacketStruct.m_PZD[0] |= (1 << 7);
 	if (getIntegerParam(TableIndex, WARNINGHIGHLOAD) != 0)
 		USSWritePacket.m_USSPacketStruct.m_PZD[0] |= (1 << 13);
 	if (getIntegerParam(TableIndex, WARNINGPURGE) != 0)
@@ -527,9 +527,13 @@ template<size_t NoOfPZD> bool CLeyboldSimPortDriver::process(asynUser* pasynUser
 		// Temperature Warning code
 		USSWritePacket.m_USSPacketStruct.m_PWE = getIntegerParam(TableIndex, WARNINGTEMPERATURE);
 		break;
-	case 230:
+	case 228:
 		// Load warning code.
 		USSWritePacket.m_USSPacketStruct.m_PWE = getIntegerParam(TableIndex, WARNINGHIGHLOAD);
+		break;
+	case 230:
+		// Purge warning code.
+		USSWritePacket.m_USSPacketStruct.m_PWE = getIntegerParam(TableIndex, WARNINGPURGE);
 		break;
 
 	default:
