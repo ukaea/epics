@@ -1,7 +1,7 @@
 #!../../bin/linux-x86_64/LeyboldSim
 
 ## Register all support components
-dbLoadDatabase ("../dbd/LeyboldSim.dbd")
+dbLoadDatabase ("../../dbd/LeyboldSim.dbd")
 LeyboldSim_registerRecordDeviceDriver pdbbase
 
 epicsEnvSet EPICS_CA_SERVER_PORT "5072"

@@ -160,8 +160,10 @@ void CLeyboldSimPortDriver::ListenerThread(void* parm)
 			asynPrint(This->pasynUserSelf, ASYN_TRACE_ERROR,
                               "echoListener: Can't free port %s asynUser\n",
                                                                IOPortName);
-		This->m_asynUsers.erase(This->m_asynUsers.begin()+TableIndex);
-		This->m_WasRunning.erase(This->m_WasRunning.begin()+TableIndex);
+		if (This->m_asynUsers.size() > TableIndex)
+			This->m_asynUsers.erase(This->m_asynUsers.begin()+TableIndex);
+		if (This->m_WasRunning.size() > TableIndex)
+			This->m_WasRunning.erase(This->m_WasRunning.begin()+TableIndex);
 	}
 	This->m_ExitEvent.signal();
 }
