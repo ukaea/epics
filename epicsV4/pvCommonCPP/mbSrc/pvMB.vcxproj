@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug_DLL|Win32">
@@ -164,6 +164,7 @@
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
 xcopy /Y /Q /D /R *.h $(SolutionDir)include\pv &gt; NUL
+set "BOOST_JAM_TOOLSET=vc10"
 cd ..\boostApp\boost
 call bootstrap.bat &gt; NUL
 b2.exe &gt; NUL
@@ -213,6 +214,7 @@ cd $(ProjectDir)
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
 xcopy /Y /Q /D /R *.h $(SolutionDir)include\pv &gt; NUL
+set "BOOST_JAM_TOOLSET=vc10"
 cd ..\boostApp\boost
 call bootstrap.bat &gt; NUL
 b2.exe &gt; NUL
