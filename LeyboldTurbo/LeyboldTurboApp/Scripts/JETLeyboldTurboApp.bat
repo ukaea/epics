@@ -16,12 +16,12 @@ REM	found in file LICENSE that is included with this distribution.
 set BAUD=9600
 set NoOfPZD=2
 
-set COMPORT1=COM1:
-set COMPORT2=COM2:
-set COMPORT3=COM3:
-set COMPORT4=COM4:
-set COMPORT5=COM7:
-set COMPORT6=COM8:
+set COMPORT1=COM1
+set COMPORT2=COM2
+set COMPORT3=COM3
+set COMPORT4=COM4
+set COMPORT5=COM7
+set COMPORT6=COM10
 
 call JETMappings.bat
 

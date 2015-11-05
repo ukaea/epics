@@ -33,4 +33,4 @@ copy %~dp0..\Release_LIB\LeyboldSim.exe \\catsserver.jetcats.jet.efda.org\CopyAr
 copy %~dp0..\Release_LIB\LeyboldTurboApp.exe \\catsserver.jetcats.jet.efda.org\CopyArea\LeyboldTurbo\Release\Release_LIB
 copy %~dp0..\Release_LIB\LeyboldTurboGUI.exe \\catsserver.jetcats.jet.efda.org\CopyArea\LeyboldTurbo\Release\Release_LIB
 copy %~dp0..\Release_LIB\data\LeyboldTurboGUI.exe \\catsserver.jetcats.jet.efda.org\CopyArea\LeyboldTurbo\Release\Release_LIB
-copy "C:\Program Files (x86)\National Instruments\LabVIEW 2014\user.lib\caLab\lib\caLab.dll" \\catsserver.jetcats.jet.efda.org\CopyArea\LeyboldTurbo\Release\Release_LIB\data
+copy "C:\Program Files (x86)\National Instruments\LabVIEW 2014\user.lib\caLab\lib\*.*" \\catsserver.jetcats.jet.efda.org\CopyArea\LeyboldTurbo\Release\Release_LIB\data
