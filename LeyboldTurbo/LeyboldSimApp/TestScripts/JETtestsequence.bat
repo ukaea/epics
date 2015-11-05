@@ -16,17 +16,18 @@ REM	found in file LICENSE that is included with this distribution.
 set ASYNSIMPORT=TTSIM
 set ASYNSIMPORT1=TTSIM:01
 set ASYNSIMPORT2=TTSIM:02
-set ASYNSIMPORT3=TPSIM:03
-set ASYNSIMPORT4=TPSIM:04
+set ASYNSIMPORT3=TTSIM:03
+set ASYNSIMPORT4=TTSIM:04
 set ASYNSIMPORT5=NTSIM:07
 set ASYNSIMPORT6=NTSIM:10
 
 call ..\..\LeyboldTurboApp\Scripts\JETMappings.bat
 
+start ..\..\Release_LIB\LeyboldTurboGUI.exe
+
 start ..\..\Release_LIB\LeyboldSim.exe ..\..\iocBoot\iocLeyboldSim\st6.simulator.cmd
 
 start ..\..\Release_LIB\LeyboldTurboApp.exe ..\..\iocBoot\iocLeyboldTurbo\st6.simulated.cmd
-start ..\..\Release_LIB\LeyboldTurboGUI.exe
 
 start python camonitor.py 1 %NUMPUMPS%
 start python ..\..\LeyboldTurboApp\Scripts\camonitor.py 1 %NUMPUMPS%

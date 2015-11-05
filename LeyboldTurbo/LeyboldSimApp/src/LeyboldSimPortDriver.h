@@ -28,6 +28,7 @@
 
 #include <epicsMutex.h>
 #include <epicsEvent.h>
+#include <iocsh.h>
 
 #include <map>
 #include <vector>
@@ -39,14 +40,12 @@ public:
     ~CLeyboldSimPortDriver();
 	void addIOPort(const char* IOPortName);
 	void exit();
-    virtual asynStatus readInt32(asynUser *pasynUser, epicsInt32 *value);
-    virtual asynStatus writeInt32(asynUser *pasynUser, epicsInt32 value);
-    virtual asynStatus readOctet(asynUser *pasynUser, char *value, size_t maxChars,
-                                        size_t *nActual, int *eomReason);
 	static CLeyboldSimPortDriver* Instance() {
 		return m_Instance;
 	}
-                 
+	static void LeyboldSimAddIOPort(const iocshArgBuf *args);
+	static void LeyboldSimPortDriverConfigure(const iocshArgBuf *args);
+
 protected:
     template<size_t NoOfPZD> bool read(asynUser *pasynUser, asynUser *IOUser, USSPacket<NoOfPZD>& USSReadPacket);
     template<size_t NoOfPZD> bool process(asynUser *pasynUser, asynUser *IOUser, USSPacket<NoOfPZD> const& USSReadPacket, USSPacket<NoOfPZD>& USSWritePacket, size_t TableIndex);
@@ -62,8 +61,19 @@ private:
 
 	static int UsedParams();
 	volatile bool m_Exiting;		// Signals the listening thread to exit.
-	std::vector<std::pair<RunStates, unsigned> > m_WasRunning;	// For each simulated pump, was it in the Running state, on the previous iteration?
-	std::vector<asynUser*> m_asynUsers;
+
+	struct RunRecord {
+		RunRecord(RunStates RunState, unsigned TimeStamp) {
+			m_RunState = RunState;
+			m_TimeStamp = TimeStamp;
+		}
+		RunStates m_RunState;
+		unsigned m_TimeStamp;
+	};
+
+	std::map<std::string, size_t> m_TableLookup;	// The application does not launch threads in linear sequence. Need this lookup.
+	std::vector<RunRecord> m_RunRecord;				// For each simulated pump, a record of the Running state, for the previous iteration.
+	std::vector<asynUser*> m_asynUsers;				// An Asyn user for each simulated pump.
 	static CLeyboldSimPortDriver* m_Instance;
 };
 
