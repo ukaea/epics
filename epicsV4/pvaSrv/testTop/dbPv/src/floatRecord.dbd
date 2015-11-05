@@ -1,4 +1,4 @@
-recordtype(float) {
+recordtype(floatr) {
 	include "dbCommon.dbd" 
 	field(VAL,DBF_FLOAT) {
 		prompt("Current EGU Value")

@@ -1,12 +1,17 @@
+// Copyright information and license terms for this software can be
+// found in the file LICENSE that is included with the distribution
+
 #ifndef CHANNEL_MONITOR_REQUESTER_IMPL_H
 #define CHANNEL_MONITOR_REQUESTER_IMPL_H
 
 #include <string>
 #include <map>
+#include <utility>
 #include "pv/pvData.h"
 #include "pv/pvAccess.h"
 #include "PvObject.h"
 #include "PvaClient.h"
+#include "PvaPyLogger.h"
 #include "SynchronizedQueue.h"
 #include "ChannelTimeout.h"
 
@@ -25,10 +30,15 @@ public:
 
     virtual PvObject getQueuedPvObject(double timeout) throw(ChannelTimeout);
     virtual void cancelGetQueuedPvObject();
+    virtual void clearPvObjectQueue();
+
+    virtual void setPvObjectQueueMaxLength(int maxLength);
+    virtual int getPvObjectQueueMaxLength();
 
 private:
+    static PvaPyLogger logger;
     std::string channelName;
-    SynchronizedQueue<PvObject> pvObjectMonitorQueue;
+    SynchronizedQueue<PvObject> pvObjectQueue;
 };
 
 #endif // CHANNEL_MONITOR_REQUESTER_IMPL_H

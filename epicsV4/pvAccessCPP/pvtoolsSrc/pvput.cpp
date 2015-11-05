@@ -8,6 +8,7 @@
 #include <epicsThread.h>
 #include <pv/logger.h>
 #include <pv/lock.h>
+#include <pv/convert.h>
 
 #include <vector>
 #include <string>
@@ -19,7 +20,6 @@
 #include <epicsExit.h>
 
 #include "pvutils.cpp"
-#include <pv/convert.h>
 
 #include <pv/caProvider.h>
 
@@ -39,7 +39,7 @@ size_t fromString(PVScalarArrayPtr const &pv, StringArray const & from, size_t f
 
 	// first get count
 	if (fromStartIndex >= fromValueCount)
-		throw std::runtime_error("not enough of values");
+		throw std::runtime_error("not enough values");
 
 	size_t count;
 	istringstream iss(from[fromStartIndex]);
@@ -73,7 +73,7 @@ size_t fromString(PVStructureArrayPtr const &pv, StringArray const & from, size_
 
 	// first get count
 	if (fromStartIndex >= fromValueCount)
-		throw std::runtime_error("not enough of values");
+		throw std::runtime_error("not enough values");
 
 	size_t numberOfStructures;
 	istringstream iss(from[fromStartIndex]);
@@ -112,7 +112,7 @@ size_t fromString(PVUnionPtr const & pvUnion, StringArray const & from, size_t f
     size_t fromValueCount = from.size();
 
     if (fromStartIndex >= fromValueCount)
-        throw std::runtime_error("not enough of values");
+        throw std::runtime_error("not enough values");
 
     string selector = from[fromStartIndex++];
     PVFieldPtr pv = pvUnion->select(selector);
@@ -130,7 +130,7 @@ size_t fromString(PVUnionArrayPtr const &pv, StringArray const & from, size_t fr
 
     // first get count
     if (fromStartIndex >= fromValueCount)
-        throw std::runtime_error("not enough of values");
+        throw std::runtime_error("not enough values");
 
     size_t numberOfUnions;
     istringstream iss(from[fromStartIndex]);
@@ -223,7 +223,7 @@ size_t fromString(PVFieldPtr const & fieldField, StringArray const & from, size_
             case scalar:
             {
                 if (fromStartIndex >= from.size())
-                    throw std::runtime_error("not enough of values");
+                    throw std::runtime_error("not enough values");
 
                 PVScalarPtr pv = static_pointer_cast<PVScalar>(fieldField);
                 getConvert()->fromString(pv, from[fromStartIndex]);
@@ -264,9 +264,12 @@ size_t fromString(PVFieldPtr const & fieldField, StringArray const & from, size_
 
 #define DEFAULT_TIMEOUT 3.0
 #define DEFAULT_REQUEST "field(value)"
+#define DEFAULT_PROVIDER "pva"
 
 double timeOut = DEFAULT_TIMEOUT;
 string request(DEFAULT_REQUEST);
+string defaultProvider(DEFAULT_PROVIDER);
+const string noAddress;
 
 enum PrintMode { ValueOnlyMode, StructureMode, TerseMode };
 PrintMode mode = ValueOnlyMode;
@@ -281,6 +284,7 @@ void usage (void)
     "  -r <pv request>:   Request, specifies what fields to return and options, default is '%s'\n"
     "  -w <sec>:          Wait time, specifies timeout, default is %f second(s)\n"
     "  -t:                Terse mode - print only successfully written value, without names\n"
+    "  -p <provider>:     Set default provider name, default is '%s'\n"
     "  -q:                Quiet mode, print only error messages\n"
     "  -d:                Enable debug output\n"
     "  -F <ofs>:          Use <ofs> as an alternate output field separator\n"
@@ -290,7 +294,7 @@ void usage (void)
     "  -n: Force enum interpretation of values as numbers\n"
     "  -s: Force enum interpretation of values as strings\n"
     "\nexample: pvput double01 1.234\n\n"
-             , DEFAULT_REQUEST, DEFAULT_TIMEOUT);
+             , DEFAULT_REQUEST, DEFAULT_TIMEOUT, DEFAULT_PROVIDER);
 }
 
 
@@ -542,13 +546,13 @@ int main (int argc, char *argv[])
     setvbuf(stdout,NULL,_IOLBF,BUFSIZ);    /* Set stdout to line buffering */
     putenv(const_cast<char*>("POSIXLY_CORRECT="));            /* Behave correct on GNU getopt systems; e.g. handle negative numbers */
 
-    while ((opt = getopt(argc, argv, ":hr:w:tqdF:f:ns")) != -1) {
+    while ((opt = getopt(argc, argv, ":hr:w:tp:qdF:f:ns")) != -1) {
         switch (opt) {
         case 'h':               /* Print usage */
             usage();
             return 0;
         case 'w':               /* Set PVA timeout value */
-            if(epicsScanDouble(optarg, &timeOut) != 1)
+            if((epicsScanDouble(optarg, &timeOut)) != 1 || timeOut <= 0.0)
             {
                 fprintf(stderr, "'%s' is not a valid timeout value "
                         "- ignored. ('pvput -h' for help.)\n", optarg);
@@ -565,6 +569,9 @@ int main (int argc, char *argv[])
             break;
         case 'd':               /* Debug log level */
             debug = true;
+            break;
+        case 'p':               /* Set default provider */
+            defaultProvider = optarg;
             break;
         case 'q':               /* Quiet mode */
             quiet = true;
@@ -621,8 +628,38 @@ int main (int argc, char *argv[])
         fprintf(stderr, "No pv name specified. ('pvput -h' for help.)\n");
         return 1;
     }
-    string pvName = argv[optind++];
-    
+    string pv = argv[optind++];
+
+    URI uri;
+    bool validURI = URI::parse(pv, uri);
+
+    shared_ptr<ChannelRequesterImpl> channelRequesterImpl(new ChannelRequesterImpl(quiet));
+
+    string providerName(defaultProvider);
+    string pvName(pv);
+    string address(noAddress);
+    bool usingDefaultProvider = true;
+    if (validURI)
+    {
+        if (uri.path.length() <= 1)
+        {
+            std::cerr << "invalid URI '" << pv << "', empty path" << std::endl;
+            return 1;
+        }
+        providerName = uri.protocol;
+        pvName = uri.path.substr(1);
+        address = uri.host;
+        usingDefaultProvider = false;
+    }
+
+    if ((providerName != "pva") && (providerName != "ca"))
+    {
+        std::cerr << "invalid "
+                  << (usingDefaultProvider ? "default provider" : "URI scheme")
+                  << " '" << providerName 
+                  << "', only 'pva' and 'ca' are supported" << std::endl;
+        return 1;
+    }
 
     int nVals = argc - optind;       /* Remaining arg list are PV names */
     if (nVals > 0)
@@ -670,10 +707,7 @@ int main (int argc, char *argv[])
     setEnumPrintMode(enumMode);
 
     ClientFactory::start();
-    ChannelProvider::shared_pointer provider = getChannelProviderRegistry()->getProvider("pva");
-
-    //epics::pvAccess::ca::CAClientFactory::start();
-    //ChannelProvider::shared_pointer provider = getChannelProviderRegistry()->getProvider("ca");
+    epics::pvAccess::ca::CAClientFactory::start();
 
     bool allOK = true;
 
@@ -683,7 +717,15 @@ int main (int argc, char *argv[])
         {
             // first connect
             shared_ptr<ChannelRequesterImpl> channelRequesterImpl(new ChannelRequesterImpl(quiet));
-            Channel::shared_pointer channel = provider->createChannel(pvName, channelRequesterImpl);
+
+            Channel::shared_pointer channel;
+            if (address.empty())
+                channel = getChannelProviderRegistry()->getProvider(
+                    providerName)->createChannel(pvName, channelRequesterImpl);
+            else
+                channel = getChannelProviderRegistry()->getProvider(
+                    providerName)->createChannel(pvName, channelRequesterImpl, 
+                    ChannelProvider::PRIORITY_DEFAULT, address);
 
             if (channelRequesterImpl->waitUntilConnected(timeOut))
             {
@@ -725,15 +767,14 @@ int main (int argc, char *argv[])
             else
             {
                 allOK = false;
-                channel->destroy();
                 std::cerr << "[" << channel->getChannelName() << "] connection timeout" << std::endl;
-                break;
             }
+            channel->destroy();
         }
         while (false);
     } catch (std::out_of_range& oor) {
         allOK = false;
-        std::cerr << "parse error: not enough of values" << std::endl;
+        std::cerr << "parse error: not enough values" << std::endl;
     } catch (std::exception& ex) {
         allOK = false;
         std::cerr << ex.what() << std::endl;
@@ -741,7 +782,8 @@ int main (int argc, char *argv[])
         allOK = false;
         std::cerr << "unknown exception caught" << std::endl;
     }
-        
+
+    epics::pvAccess::ca::CAClientFactory::stop(); 
     ClientFactory::stop();
 
     return allOK ? 0 : 1;

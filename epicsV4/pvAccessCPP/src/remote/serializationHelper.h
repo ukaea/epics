@@ -98,6 +98,7 @@ namespace epics {
              * @param buffer data buffer.
              */
             static void serializeFull(epics::pvData::ByteBuffer* buffer, epics::pvData::SerializableControl* control, epics::pvData::PVField::shared_pointer const & pvField);
+
 };
 
 }

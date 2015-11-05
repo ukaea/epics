@@ -16,7 +16,6 @@
 #define epicsExportSharedSymbols
 #include <pv/pvData.h>
 #include <pv/pvIntrospect.h>
-#include <pv/convert.h>
 #include <pv/factory.h>
 #include <pv/bitSet.h>
 
@@ -45,18 +44,14 @@ PVUnionPtr PVStructure::nullPVUnion;
 PVUnionArrayPtr PVStructure::nullPVUnionArray;
 PVScalarArrayPtr PVStructure::nullPVScalarArray;
 
-static PVFieldPtr findSubField(
-    string const &fieldName,
-    const PVStructure *pvStructure);
-
 PVStructure::PVStructure(StructureConstPtr const & structurePtr)
 : PVField(structurePtr),
   structurePtr(structurePtr),
   extendsStructureName("")
 {
     size_t numberFields = structurePtr->getNumberFields();
-    FieldConstPtrArray fields = structurePtr->getFields();
-    StringArray fieldNames = structurePtr->getFieldNames();
+    FieldConstPtrArray const & fields = structurePtr->getFields();
+    StringArray const & fieldNames = structurePtr->getFieldNames();
 //    PVFieldPtrArray * xxx = const_cast<PVFieldPtrArray *>(&pvFields);
     pvFields.reserve(numberFields);
     PVDataCreatePtr pvDataCreate = getPVDataCreate();
@@ -76,7 +71,7 @@ PVStructure::PVStructure(StructureConstPtr const & structurePtr,
   extendsStructureName("")
 {
     size_t numberFields = structurePtr->getNumberFields();
-    StringArray fieldNames = structurePtr->getFieldNames();
+    StringArray const & fieldNames = structurePtr->getFieldNames();
     pvFields.reserve(numberFields);
     for(size_t i=0; i<numberFields; i++) {
         pvFields.push_back(pvs[i]);
@@ -112,7 +107,11 @@ const PVFieldPtrArray & PVStructure::getPVFields() const
 
 PVFieldPtr  PVStructure::getSubField(string const &fieldName) const
 {
-    return findSubField(fieldName,this);
+    PVField * field = getSubFieldImpl(fieldName.c_str(), false);
+    if (field)
+       return field->shared_from_this();
+    else
+       return PVFieldPtr();
 }
 
 
@@ -135,107 +134,111 @@ PVFieldPtr  PVStructure::getSubField(size_t fieldOffset) const
     throw std::logic_error("PVStructure.getSubField: Logic error");
 }
 
-
-PVBooleanPtr PVStructure::getBooleanField(string const &fieldName)
+PVFieldPtr PVStructure::getSubFieldT(std::size_t fieldOffset) const
 {
-    return getSubField<PVBoolean>(fieldName);
-}
-
-PVBytePtr PVStructure::getByteField(string const &fieldName)
-{
-    return getSubField<PVByte>(fieldName);
-}
-
-PVShortPtr PVStructure::getShortField(string const &fieldName)
-{
-    return getSubField<PVShort>(fieldName);
-}
-
-PVIntPtr PVStructure::getIntField(string const &fieldName)
-{
-    return getSubField<PVInt>(fieldName);
-}
-
-PVLongPtr PVStructure::getLongField(string const &fieldName)
-{
-    return getSubField<PVLong>(fieldName);
-}
-
-PVUBytePtr PVStructure::getUByteField(string const &fieldName)
-{
-    return getSubField<PVUByte>(fieldName);
-}
-
-PVUShortPtr PVStructure::getUShortField(string const &fieldName)
-{
-    return getSubField<PVUShort>(fieldName);
-}
-
-PVUIntPtr PVStructure::getUIntField(string const &fieldName)
-{
-    return getSubField<PVUInt>(fieldName);
-}
-
-PVULongPtr PVStructure::getULongField(string const &fieldName)
-{
-    return getSubField<PVULong>(fieldName);
-}
-
-PVFloatPtr PVStructure::getFloatField(string const &fieldName)
-{
-    return getSubField<PVFloat>(fieldName);
-}
-
-PVDoublePtr PVStructure::getDoubleField(string const &fieldName)
-{
-    return getSubField<PVDouble>(fieldName);
-}
-
-PVStringPtr PVStructure::getStringField(string const &fieldName)
-{
-    return getSubField<PVString>(fieldName);
-}
-
-PVStructurePtr PVStructure::getStructureField(string const &fieldName)
-{
-    return getSubField<PVStructure>(fieldName);
-}
-
-PVUnionPtr PVStructure::getUnionField(string const &fieldName)
-{
-    return getSubField<PVUnion>(fieldName);
-}
-
-PVScalarArrayPtr PVStructure::getScalarArrayField(
-    string const &fieldName,ScalarType elementType)
-{
-    PVFieldPtr pvField  = findSubField(fieldName,this);
-    if(pvField.get()==NULL) {
-        return nullPVScalarArray;
+    PVFieldPtr pvField = getSubField(fieldOffset);
+    if (pvField.get())
+        return pvField;
+    else
+    {
+        std::stringstream ss;
+        ss << "Failed to get field with offset "
+           << fieldOffset << "(Invalid offset)" ;
+        throw std::runtime_error(ss.str());
     }
-    FieldConstPtr field = pvField->getField();
-    Type type = field->getType();
-    if(type!=scalarArray) {
-        return nullPVScalarArray;
-    }
-    ScalarArrayConstPtr pscalarArray
-        = static_pointer_cast<const ScalarArray>(pvField->getField());
-    if(pscalarArray->getElementType()!=elementType) {
-        return nullPVScalarArray;
-    }
-    return std::tr1::static_pointer_cast<PVScalarArray>(pvField);
 }
 
-PVStructureArrayPtr PVStructure::getStructureArrayField(
-    string const &fieldName)
+PVField* PVStructure::getSubFieldImpl(const char *name, bool throws) const
 {
-    return getSubField<PVStructureArray>(fieldName);
-}
+    const PVStructure *parent = this;
+    if(!name)
+    {
+        if (throws)
+            throw std::invalid_argument("Failed to get field: (Field name is NULL string)");
+        else
+            return NULL;
+    }
+    const char *fullName = name;
+    while(true) {
+        const char *sep=name;
+        while(*sep!='\0' && *sep!='.' && *sep!=' ') sep++;
+        if(*sep==' ')
+        {
+            if (throws)
+            {
+                std::stringstream ss;
+                ss << "Failed to get field: " << fullName
+                   << " (No spaces allowed in field name)";
+                throw std::runtime_error(ss.str());
+            }
+            else
+                return NULL;
+        }
+        size_t N = sep-name;
+        if(N==0)
+        {
+            if (throws)
+            {
+                std::stringstream ss;
+                ss << "Failed to get field: " << fullName
+                   << " (Zero-length field name encountered)";
+                throw std::runtime_error(ss.str());
+            }
+            else
+                return NULL;
+        }
 
-PVUnionArrayPtr PVStructure::getUnionArrayField(
-    string const &fieldName)
-{
-    return getSubField<PVUnionArray>(fieldName);
+        const PVFieldPtrArray& pvFields = parent->getPVFields();
+
+        PVField *child = NULL;
+
+        for(size_t i=0, n=pvFields.size(); i!=n; i++) {
+            const PVFieldPtr& fld = pvFields[i];
+            const std::string& fname = fld->getFieldName();
+
+            if(fname.size()==N && memcmp(name, fname.c_str(), N)==0) {
+                child = fld.get();
+                break;
+            }
+        }
+
+        if(!child)
+        {
+            if (throws)
+            {
+                std::stringstream ss;
+                ss << "Failed to get field: " << fullName << " ("
+                   << std::string(fullName, sep) << " not found)";
+                throw std::runtime_error(ss.str());   
+            }
+            else
+                return NULL;
+        }
+
+        if(*sep) {
+            // this is not the requested leaf
+            parent = dynamic_cast<PVStructure*>(child);
+            if(!parent)
+            {
+                if (throws)
+                {
+                    std::stringstream ss;
+                    ss << "Failed to get field: " << fullName
+                       << " (" << std::string(fullName, sep)
+                       <<  " is not a structure)"; 
+                    throw std::runtime_error(ss.str());
+                }
+                else
+                    return NULL;
+            }
+            child = NULL;
+            name = sep+1; // skip past '.'
+            // loop around to new parent
+
+        } else {
+            return child;
+        }
+    }
 }
 
 
@@ -328,37 +331,6 @@ void PVStructure::deserialize(ByteBuffer *pbuffer,
     }
 }
 
-static PVFieldPtr findSubField(
-    string const & fieldName,
-    PVStructure const *pvStructure)
-{
-    if( fieldName.length()<1) return PVFieldPtr();
-    string::size_type index = fieldName.find('.');
-    string name = fieldName;
-    string restOfName = string();
-    if(index>0) {
-        name = fieldName.substr(0, index);
-        if(fieldName.length()>index) {
-            restOfName = fieldName.substr(index+1);
-        }
-    }
-    PVFieldPtrArray  pvFields = pvStructure->getPVFields();
-    PVFieldPtr pvField;
-    size_t numFields = pvStructure->getStructure()->getNumberFields();
-    for(size_t i=0; i<numFields; i++) {
-        pvField = pvFields[i];
-        size_t result = pvField->getFieldName().compare(name);
-        if(result==0) {
-            if(restOfName.length()==0) return pvFields[i];
-            if(pvField->getField()->getType()!=structure) return PVFieldPtr();
-            PVStructurePtr pvStructure =
-                std::tr1::static_pointer_cast<PVStructure>(pvField);
-            return findSubField(restOfName,pvStructure.get());
-        }
-    }
-    return PVFieldPtr();
-}
-
 std::ostream& PVStructure::dumpValue(std::ostream& o) const
 {
     o << format::indent() << getStructure()->getID() << ' ' << getFieldName();
@@ -381,5 +353,80 @@ std::ostream& PVStructure::dumpValue(std::ostream& o) const
     }
  	return o;
 }
+
+
+void PVStructure::copy(const PVStructure& from)
+{
+    if(isImmutable())
+        throw std::invalid_argument("destination is immutable");
+
+    if(*getStructure() != *from.getStructure())
+        throw std::invalid_argument("structure definitions do not match");
+
+    copyUnchecked(from);
+}
+
+void PVStructure::copyUnchecked(const PVStructure& from)
+{
+    if (this == &from)
+        return;
+
+    PVFieldPtrArray const & fromPVFields = from.getPVFields();
+    PVFieldPtrArray const & toPVFields = getPVFields();
+
+    size_t fieldsSize = fromPVFields.size();
+    for(size_t i = 0; i<fieldsSize; i++) {
+        toPVFields[i]->copyUnchecked(*fromPVFields[i]);
+    }
+}
+
+void PVStructure::copyUnchecked(const PVStructure& from, const BitSet& maskBitSet, bool inverse)
+{
+    if (this == &from)
+        return;
+
+    size_t numberFields = from.getNumberFields();
+    size_t offset = from.getFieldOffset();
+    int32 next = inverse ?
+                maskBitSet.nextClearBit(static_cast<uint32>(offset)) :
+                maskBitSet.nextSetBit(static_cast<uint32>(offset));
+
+    // no more changes or no changes in this structure
+    if(next<0||next>=static_cast<int32>(offset+numberFields)) return;
+
+    // entire structure
+    if(static_cast<int32>(offset)==next) {
+        copyUnchecked(from);
+        return;
+    }
+
+    PVFieldPtrArray const & fromPVFields = from.getPVFields();
+    PVFieldPtrArray const & toPVFields = getPVFields();
+
+    size_t fieldsSize = fromPVFields.size();
+    for(size_t i = 0; i<fieldsSize; i++) {
+        PVFieldPtr pvField = fromPVFields[i];
+        offset = pvField->getFieldOffset();
+        int32 inumberFields = static_cast<int32>(pvField->getNumberFields());
+        next = inverse ?
+                    maskBitSet.nextClearBit(static_cast<uint32>(offset)) :
+                    maskBitSet.nextSetBit(static_cast<uint32>(offset));
+
+        // no more changes
+        if(next<0) return;
+        //  no change in this pvField
+        if(next>=static_cast<int32>(offset+inumberFields)) continue;
+
+        // serialize field or fields
+        if(inumberFields==1) {
+            toPVFields[i]->copyUnchecked(*pvField);
+        } else {
+            PVStructure::shared_pointer fromPVStructure = std::tr1::static_pointer_cast<PVStructure>(pvField);
+            PVStructure::shared_pointer toPVStructure = std::tr1::static_pointer_cast<PVStructure>(toPVFields[i]);
+            toPVStructure->copyUnchecked(*fromPVStructure, maskBitSet, inverse);
+       }
+    }
+}
+
 
 }}

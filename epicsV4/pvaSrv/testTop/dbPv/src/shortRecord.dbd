@@ -1,4 +1,4 @@
-recordtype(short) {
+recordtype(shortr) {
 	include "dbCommon.dbd" 
 	field(VAL,DBF_SHORT) {
 		prompt("Current EGU Value")

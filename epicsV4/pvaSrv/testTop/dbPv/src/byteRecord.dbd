@@ -1,4 +1,4 @@
-recordtype(byte) {
+recordtype(byter) {
 	include "dbCommon.dbd" 
 	field(VAL,DBF_CHAR) {
 		prompt("Current EGU Value")

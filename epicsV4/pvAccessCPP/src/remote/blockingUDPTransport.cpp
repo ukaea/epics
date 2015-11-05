@@ -9,6 +9,7 @@
 #include <Ws2tcpip.h>
 #endif
 
+#include <pv/blockingUDP.h>
 #include <pv/pvaConstants.h>
 #include <pv/inetAddressUtil.h>
 #include <pv/logger.h>
@@ -20,9 +21,6 @@
 #include <osdSock.h>
 #include <osiSock.h>
 #include <epicsThread.h>
-
-#define epicsExportSharedSymbols
-#include <pv/blockingUDP.h>
 
 #include <cstdio>
 #include <sys/types.h>

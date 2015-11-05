@@ -1,3 +1,6 @@
+// Copyright information and license terms for this software can be
+// found in the file LICENSE that is included with the distribution
+
 #ifndef CHANNEL_PUT_REQUESTER_IMPL_H
 #define CHANNEL_PUT_REQUESTER_IMPL_H
 
@@ -15,24 +18,11 @@ public:
     ChannelPutRequesterImpl(const ChannelPutRequesterImpl& channelPutRequester);
     virtual std::string getRequesterName();
     virtual void message(const std::string& message, epics::pvData::MessageType messageType);
-
-#if defined PVA_API_VERSION && PVA_API_VERSION == 430
-    virtual void channelPutConnect(const epics::pvData::Status& status,
-        const epics::pvAccess::ChannelPut::shared_pointer& channelPut,
-        const epics::pvData::PVStructure::shared_pointer& pvStructure, 
-        const epics::pvData::BitSet::shared_pointer& bitSet);
-    virtual void getDone(const epics::pvData::Status& status);
-    virtual void putDone(const epics::pvData::Status& status);
-
-#else
-
     virtual void channelPutConnect(const epics::pvData::Status& status,
         const epics::pvAccess::ChannelPut::shared_pointer& channelPut,
         const epics::pvData::Structure::const_shared_pointer& structure);
     virtual void getDone(const epics::pvData::Status& status, const epics::pvAccess::ChannelPut::shared_pointer& channelPut, const epics::pvData::PVStructure::shared_pointer& pvStructure, const epics::pvData::BitSet::shared_pointer& bitSet);
     virtual void putDone(const epics::pvData::Status& status, const epics::pvAccess::ChannelPut::shared_pointer& channelPut);
-#endif // if defined PVA_API_VERSION && PVA_API_VERSION == 430
-
     epics::pvData::PVStructure::shared_pointer getStructure();
     epics::pvData::BitSet::shared_pointer getBitSet();
     void resetEvent();

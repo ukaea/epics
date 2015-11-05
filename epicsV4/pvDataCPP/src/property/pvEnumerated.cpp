@@ -28,15 +28,14 @@ bool PVEnumerated::attach(PVFieldPtr const & pvField)
 {
     if(pvField->getField()->getType()!=structure) return false;
     PVStructurePtr pvStructure = static_pointer_cast<PVStructure>(pvField);
-    pvIndex = pvStructure->getIntField("index");
+    pvIndex = pvStructure->getSubField<PVInt>("index");
     if(pvIndex.get()==NULL) return false;
-    PVScalarArrayPtr pvScalarArray = pvStructure->getScalarArrayField(
-        "choices",pvString);
-    if(pvScalarArray.get()==NULL) {
+    PVStringArrayPtr pvStringArray = pvStructure->getSubField<PVStringArray>("choices");
+    if(pvStringArray.get()==NULL) {
         pvIndex.reset();
         return false;
     }
-    pvChoices = static_pointer_cast<PVStringArray>(pvScalarArray);
+    pvChoices = pvStringArray;
     return true;
 }
 
@@ -74,8 +73,12 @@ string PVEnumerated::getChoice()
     if(pvIndex.get()==NULL ) {
          throw std::logic_error(notAttached);
     }
-    int index = pvIndex->get();
+    size_t index = pvIndex->get();
     const PVStringArray::const_svector& data(pvChoices->view());
+    if(/*index<0 ||*/ index>=data.size()) {
+        string nullString;
+        return nullString;
+    }
     return data[index];
 }
 

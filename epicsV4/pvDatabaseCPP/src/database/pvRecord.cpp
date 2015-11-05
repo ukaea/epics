@@ -39,10 +39,10 @@ PVRecord::PVRecord(
     PVStructurePtr const & pvStructure)
 : recordName(recordName),
   pvStructure(pvStructure),
-  convert(getConvert()),
   depthGroupPut(0),
   traceLevel(0),
-  isDestroyed(false)
+  isDestroyed(false),
+  isAddListener(false)
 {
 }
 
@@ -59,6 +59,8 @@ void PVRecord::initPVRecord()
     pvRecordStructure = PVRecordStructurePtr(
         new PVRecordStructure(pvStructure,parent,getPtrSelf()));
     pvRecordStructure->init();
+    PVFieldPtr pvField = pvStructure->getSubField("timeStamp");
+    if(pvField) pvTimeStamp.attach(pvField);
 }
 
 void PVRecord::destroy()
@@ -73,6 +75,7 @@ void PVRecord::destroy()
             return;
         }
         isDestroyed = true;
+        pvTimeStamp.detach();
     
         std::list<PVRecordClientPtr>::iterator clientIter;
         while(true) {
@@ -94,12 +97,22 @@ void PVRecord::destroy()
         }
         pvRecordStructure->destroy();
         pvRecordStructure.reset();
-        convert.reset();
         pvStructure.reset();
         unlock();
     } catch(...) {
         unlock();
         throw;
+    }
+}
+
+void PVRecord::process()
+{
+    if(traceLevel>2) {
+        cout << "PVRecord::process() " << recordName << endl;
+    }
+    if(pvTimeStamp.isAttached()) {
+        timeStamp.getCurrent();
+        pvTimeStamp.set(timeStamp);
     }
 }
 
@@ -263,7 +276,9 @@ void PVRecord::detachClients()
     }
 }
 
-bool PVRecord::addListener(PVListenerPtr const & pvListener)
+bool PVRecord::addListener(
+    PVListenerPtr const & pvListener,
+    PVCopyPtr const & pvCopy)
 {
     if(traceLevel>1) {
         cout << "PVRecord::addListener() " << recordName << endl;
@@ -283,6 +298,10 @@ bool PVRecord::addListener(PVListenerPtr const & pvListener)
             }
         }
         pvListenerList.push_back(pvListener);
+        this->pvListener = pvListener;
+        isAddListener = true;
+        pvCopy->traverseMaster(getPtrSelf());
+        this->pvListener = PVListenerPtr();;
         unlock();
         return true;
     } catch(...) {
@@ -291,7 +310,19 @@ bool PVRecord::addListener(PVListenerPtr const & pvListener)
     }
 }
 
-bool PVRecord::removeListener(PVListenerPtr const & pvListener)
+void PVRecord::nextMasterPVField(PVFieldPtr const & pvField)
+{
+     PVRecordFieldPtr pvRecordField = findPVRecordField(pvField);
+     if(isAddListener) {
+         pvRecordField->addListener(pvListener);
+     } else {
+         pvRecordField->removeListener(pvListener);
+     }
+}
+
+bool PVRecord::removeListener(
+    PVListenerPtr const & pvListener,
+    PVCopyPtr const & pvCopy)
 {
     if(traceLevel>1) {
         cout << "PVRecord::removeListener() " << recordName << endl;
@@ -307,7 +338,10 @@ bool PVRecord::removeListener(PVListenerPtr const & pvListener)
         {
             if((*iter).get()==pvListener.get()) {
                 pvListenerList.erase(iter);
-                pvRecordStructure->removeListener(pvListener);
+                this->pvListener = pvListener;
+                isAddListener = false;
+                pvCopy->traverseMaster(getPtrSelf());
+                this->pvListener = PVListenerPtr();;
                 unlock();
                 return true;
             }
@@ -411,6 +445,9 @@ PVRecordPtr PVRecordField::getPVRecord() {return pvRecord;}
 
 bool PVRecordField::addListener(PVListenerPtr const & pvListener)
 {
+    if(pvRecord->getTraceLevel()>1) {
+         cout << "PVRecordField::addListener() " << getFullName() << endl;
+    }
     std::list<PVListenerPtr>::iterator iter;
     for (iter = pvListenerList.begin(); iter!=pvListenerList.end(); iter++ ) {
         if((*iter).get()==pvListener.get()) {
@@ -423,6 +460,9 @@ bool PVRecordField::addListener(PVListenerPtr const & pvListener)
 
 void PVRecordField::removeListener(PVListenerPtr const & pvListener)
 {
+    if(pvRecord->getTraceLevel()>1) {
+         cout << "PVRecordField::removeListener() " << getFullName() << endl;
+    }
     std::list<PVListenerPtr>::iterator iter;
     for (iter = pvListenerList.begin(); iter!=pvListenerList.end(); iter++ ) {
         if((*iter).get()==pvListener.get()) {

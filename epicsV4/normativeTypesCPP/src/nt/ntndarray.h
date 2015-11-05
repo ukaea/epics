@@ -1,7 +1,7 @@
 /* ntndarray.h */
 /**
  * Copyright - See the COPYRIGHT that is included with this distribution.
- * EPICS pvDataCPP is distributed subject to a Software License Agreement found
+ * This software is distributed subject to a Software License Agreement found
  * in file LICENSE that is included with this distribution.
  */
 #ifndef NTNDARRAY_H
@@ -35,7 +35,8 @@ typedef std::tr1::shared_ptr<NTNDArray> NTNDArrayPtr;
 namespace detail {
 
     /**
-     * Interface for in-line creating of NTNDArray.
+     * @brief Interface for in-line creating of NTNDArray.
+     *
      * One instance can be used to create multiple instances.
      * An instance of this object must not be used concurrently (an object has a state).
      * @author mse
@@ -47,54 +48,55 @@ namespace detail {
         POINTER_DEFINITIONS(NTNDArrayBuilder);
 
         /**
-         * Add descriptor field to the NTNDArray.
-         * @return this instance of a {@code NTNDArrayBuilder}.
+         * Adds descriptor field to the NTNDArray.
+         * @return this instance of <b>NTNDArrayBuilder</b>.
          */
         shared_pointer addDescriptor();
 
         /**
-         * Add alarm structure to the NTNDArray.
-         * @return this instance of a {@code NTNDArrayBuilder}.
+         * Adds alarm field to the NTNDArray.
+         * @return this instance of <b>NTNDArrayBuilder</b>.
          */
         shared_pointer addAlarm();
 
         /**
-         * Add timeStamp structure to the NTNDArray.
-         * @return this instance of a {@code NTNDArrayBuilder}.
+         * Adds timeStamp field to the NTNDArray.
+         * @return this instance of <b>NTNDArrayBuilder</b>.
          */
         shared_pointer addTimeStamp();
 
         /**
-         * Add display structure to the NTNDArray.
-         * @return this instance of a {@code NTNDArrayBuilder}.
+         * Adds display field to the NTNDArray.
+         * @return this instance of <b>NTNDArrayBuilder</b>.
          */
         shared_pointer addDisplay();
 
         /**
-         * Create a {@code Structure} that represents NTNDArray.
+         * Creates a  <b>Structure</b> that represents NTNDArray.
          * This resets this instance state and allows new instance to be created.
-         * @return a new instance of a {@code Structure}.
+         * @return a new instance of a <b>Structure</b>.
          */
         epics::pvData::StructureConstPtr createStructure();
 
         /**
-         * Create a {@code PVStructure} that represents NTNDArray.
-         * This resets this instance state and allows new {@code instance to be created.
-         * @return a new instance of a {@code PVStructure}
+         * Creates a <b>PVStructure</b> that represents NTNDArray.
+         * This resets this instance state and allows new instance to be created.
+         * @return a new instance of a <b>PVStructure</b>
          */
         epics::pvData::PVStructurePtr createPVStructure();
 
         /**
-         * Create a {@code NTNDArray} instance.
-         * This resets this instance state and allows new {@code instance to be created.
-         * @return a new instance of a {@code NTNDArray}
+         * Creates a <b>NTNDArray</b> instance.
+         * This resets this instance state and allows new instance to be created.
+         * @return a new instance of a <b>NTNDArray</b>
          */
         NTNDArrayPtr create();
+
         /**
-         * Add extra {@code Field} to the type.
-         * @param name name of the field.
-         * @param field a field to add.
-         * @return this instance of a {@code NTArrayBuilder}.
+         * Adds extra <b>Field</b> to the type.
+         * @param name the name of the field.
+         * @param field the field to be added.
+         * @return this instance of a <b>NTArrayBuilder</b>.
          */
         shared_pointer add(std::string const & name, epics::pvData::FieldConstPtr const & field);
 
@@ -120,7 +122,8 @@ namespace detail {
 typedef std::tr1::shared_ptr<detail::NTNDArrayBuilder> NTNDArrayBuilderPtr;
 
 /**
- * Convenience Class for NTNDArray
+ * @brief Convenience Class for NTNDArray
+ *
  * @author dgh
  */
 class epicsShareClass NTNDArray
@@ -131,39 +134,91 @@ public:
     static const std::string URI;
 
     /**
-     * Wrap (aka dynamic cast, or wrap) the structure to NTNDArray.
-     * First isCompatible is called.
-     * This method will nullptr if the structure is is not compatible.
-     * This method will nullptr if the structure is nullptr.
-     * @param structure The structure to wrap-ed (dynamic cast, wrapped) to NTNDArray.
-     * @return NTNDArray instance on success, nullptr otherwise.
+     * Creates an NTScalarArray wrapping the specified PVStructure if the latter is compatible.
+     * <p>
+     * Checks the supplied PVStructure is compatible with NTScalarArray
+     * and if so returns an NTScalarArray which wraps it.
+     * This method will return null if the structure is is not compatible
+     * or is null.
+     * 
+     * @param pvStructure the PVStructure to be wrapped
+     * @return NTScalarArray instance wrapping pvStructure on success, null otherwise
      */
-    static shared_pointer wrap(epics::pvData::PVStructurePtr const & structure);
+    static shared_pointer wrap(epics::pvData::PVStructurePtr const & pvStructure);
 
     /**
-     * Wrap (aka dynamic cast, or wrap) the structure to NTMultiChannel without checking for isCompatible
-     * @param structure The structure to wrap-ed (dynamic cast, wrapped) to NTNDArray.
-     * @return NTNDArray instance.
+     * Creates an NTNDArray wrapping the specified PVStructure, regardless of the latter's compatibility.
+     * <p>
+     * No checks are made as to whether the specified PVStructure
+     * is compatible with NTNDArray or is non-null.
+     * 
+     * @param pvStructure the PVStructure to be wrapped
+     * @return NTNDArray instance wrapping pvStructure
      */
-    static shared_pointer wrapUnsafe(epics::pvData::PVStructurePtr const & structure);
+    static shared_pointer wrapUnsafe(epics::pvData::PVStructurePtr const & pvStructure);
 
     /**
-     * Is the structure an NTNDArray.
-     * @param structure The structure to test.
-     * @return (false,true) if (is not, is) an NTNDArray.
+     * Returns whether the specified Structure reports to be a compatible NTNDArray.
+     * <p>
+     * Checks if the specified Structure reports compatibility with this
+     * version of NTNDArray through its type ID, including checking version numbers.
+     * The return value does not depend on whether the structure is actually
+     * compatible in terms of its introspection type.
+     * 
+     * @param structure the pvStructure to test
+     * @return (false,true) if the specified Structure (is not, is) a compatible NTNDArray
      */
     static bool is_a(epics::pvData::StructureConstPtr const & structure);
 
     /**
-     * Is the pvStructure compatible with  NTNDArray..
-     * This method introspects the fields to see if they are compatible.
-     * @param pvStructure The pvStructure to test.
-     * @return (false,true) if (is not, is) an NTMultiChannel.
+     * Returns whether the specified PVStructure reports to be a compatible NTNDArray.
+     *
+     * Checks if the specified PVStructure reports compatibility with this
+     * version of NTNDArray through its type ID, including checking version numbers.
+     * The return value does not depend on whether the structure is actually
+     * compatible in terms of its introspection type.
+     * 
+     * @param pvStructure the PVStructure to test
+     * @return (false,true) if the specified PVStructure (is not, is) a compatible NTNDArray
+     */
+    static bool is_a(epics::pvData::PVStructurePtr const & pvStructure);
+
+    /**
+     * Returns whether the specified Structure is compatible with NTNDArray.
+     * <p>
+     * Checks if the specified Structure is compatible with this version
+     * of NTNDArray through the introspection interface.
+     * 
+     * @param structure the Structure to test
+     * @return (false,true) if the specified Structure (is not, is) a compatible NTNDArray
+     */
+    static bool isCompatible(
+        epics::pvData::StructureConstPtr const &structure);
+
+    /**
+     * Returns whether the specified PVStructure is compatible with NTNDArray.
+     * <p>
+     * Checks if the specified PVStructure is compatible with this version
+     * of NTNDArray through the introspection interface.
+     * @param pvStructure the PVStructure to test
+     * @return (false,true) if the specified PVStructure (is not, is) a compatible NTNDArray
      */
     static bool isCompatible(
         epics::pvData::PVStructurePtr const &pvStructure);
+
     /**
-     * Create a NTNDArrayBuilder instance
+     * Returns whether the wrapped PVStructure is valid with respect to this
+     * version of NTNDArray.
+     * <p>
+     * Unlike isCompatible(), isValid() may perform checks on the value
+     * data as well as the introspection data.
+     *
+     * @return (false,true) if the wrapped PVStructure (is not, is) a valid NTNDArray
+     */
+    bool isValid();
+
+    /**
+     * Creates an NTNDArrayBuilder instance
      * @return builder instance.
      */
     static NTNDArrayBuilderPtr createBuilder();
@@ -174,15 +229,15 @@ public:
     ~NTNDArray() {}
 
      /**
-      * Attach a pvTimeStamp to timeStamp field.
-      * @param pvTimeStamp The pvTimeStamp that will be attached.
-      * Does nothing if no timeStamp.
+      * Attaches a PVTimeStamp to the wrapped PVStructure.
+      * Does nothing if no timeStamp field.
+      * @param pvTimeStamp the PVTimeStamp that will be attached.
       * @return true if the operation was successfull (i.e. this instance has a timeStamp field), otherwise false.
       */
     bool attachTimeStamp(epics::pvData::PVTimeStamp &pvTimeStamp) const;
 
      /**
-      * Attach a pvTimeStamp to dataTimeStamp field.
+      * Attaches a pvTimeStamp to dataTimeStamp field.
       * @param pvTimeStamp The pvTimeStamp that will be attached.
       * Does nothing if no timeStamp.
       * @return true if the operation was successfull (i.e. this instance has a timeStamp field), otherwise false.
@@ -190,93 +245,106 @@ public:
     bool attachDataTimeStamp(epics::pvData::PVTimeStamp &pvTimeStamp) const;
 
     /**
-     * Attach an pvAlarm.
-     * @param pvAlarm The pvAlarm that will be attached.
-     * Does nothing if no alarm.
-      * @return true if the operation was successfull (i.e. this instance has a timeStamp field), otherwise false.
+     * Attaches a PVAlarm to the wrapped PVStructure.
+     * Does nothing if no alarm field.
+     * @param pvAlarm the PVAlarm that will be attached.
+     * @return true if the operation was successfull (i.e. this instance has an alarm field), otherwise false.
      */
     bool attachAlarm(epics::pvData::PVAlarm &pvAlarm) const;
 
     /**
-     * Get the pvStructure.
-     * @return PVStructurePtr.
+     * Returns the PVStructure wrapped by this instance.
+     * @return the PVStructure wrapped by this instance.
      */
     epics::pvData::PVStructurePtr getPVStructure() const;
 
     /**
-     * Get the value field.
-     * @return The PVField for the values.
+     * Returns the value field.
+     * Returns the value field.
      */
     epics::pvData::PVUnionPtr getValue() const;
 
     /**
-     * Get the codec field.
-     * @return the PVStructurePtr.
+     * Returns the codec field.
+     * @return the codec field.
      */
     epics::pvData::PVStructurePtr getCodec() const;
 
     /**
-     * Get the compressedDataSize field.
-     * @return PVStructurePtr.
+     * Returns the compressedDataSize field.
+     * @return the compressedDataSize field.
      */
     epics::pvData::PVLongPtr getCompressedDataSize() const;
 
     /**
-     * Get the uncompressedDataSize field.
-     * @return PVStructurePtr.
+     * Returns the uncompressedDataSize field.
+     * @return the uncompressedDataSize field.
      */
     epics::pvData::PVLongPtr getUncompressedDataSize() const;
 
     /**
-     * Get the attribute field.
-     * @return the PVStructurePtr.
-     */
-    epics::pvData::PVStructureArrayPtr getAttribute() const;
-
-    /**
-     * Get the dimension field.
-     * @return the PVStructurePtr.
+     * Returns the dimension field.
+     * @return the dimension field.
      */
     epics::pvData::PVStructureArrayPtr getDimension() const;
 
     /**
-     * Get the uniqueId field.
-     * @return PVStructurePtr.
+     * Returns the uniqueId field.
+     * @return the uniqueId field.
      */
     epics::pvData::PVIntPtr getUniqueId() const;
 
     /**
-     * Get the data timeStamp field.
-     * @return PVStructurePtr.
+     * Returns the dataTimeStamp field.
+     * @return the dataTimeStamp field.
      */
     epics::pvData::PVStructurePtr getDataTimeStamp() const;
 
     /**
-     * Get the descriptor field.
-     * @return The pvString or null if no function field.
+     * Returns the attribute field.
+     * @return the attribute field.
+     */
+    epics::pvData::PVStructureArrayPtr getAttribute() const;
+
+    /**
+     * Returns the descriptor field.
+     * @return the descriptor field or null if no descriptor field.
      */
     epics::pvData::PVStringPtr getDescriptor() const;
 
     /**
-     * Get the timeStamp field.
-     * @return PVStructurePtr which may be null.
+     * Returns the timeStamp field.
+     * @return the timStamp field or null if no timeStamp field.
      */
     epics::pvData::PVStructurePtr getTimeStamp() const;
 
     /**
-     * Get the alarm field.
-     * @return PVStructurePtr which may be null.
+     * Returns the alarm field.
+     * @return the alarm field or null if no alarm field.
      */
     epics::pvData::PVStructurePtr getAlarm() const;
 
     /**
-     * Get the display field.
-     * @return PVStructurePtr which may be null.
+     * Attaches a PVDisplay to the wrapped PVStructure.
+     * Does nothing if no display.
+     * @param pvDisplay the PVDisplay that will be attached.
+     * @return true if the operation was successfull (i.e. this instance has a display field), otherwise false.
+     */
+    bool attachDisplay(epics::pvData::PVDisplay &pvDisplay) const;
+
+    /**
+     * Returns the display field.
+     * @return PVStructurePtr or null if no alarm field.
      */
     epics::pvData::PVStructurePtr getDisplay() const;
 
 private:
     NTNDArray(epics::pvData::PVStructurePtr const & pvStructure);
+
+    epics::pvData::int64 getExpectedUncompressedSize();
+    epics::pvData::int64 getValueSize();
+    epics::pvData::int64 getValueTypeSize();
+
     epics::pvData::PVStructurePtr pvNTNDArray;
 
     friend class detail::NTNDArrayBuilder;

@@ -59,9 +59,9 @@ bool ArrayPerformance::init()
 {
     
     initPVRecord();
-    PVScalarArrayPtr pvScalarArray = getPVStructure()->getScalarArrayField("value",pvLong);
-    if(!pvScalarArray) return false;
-    pvValue = static_pointer_cast<PVLongArray>(pvScalarArray);
+    PVLongArrayPtr pvLongArray = getPVStructure()->getSubField<PVLongArray>("value");
+    if(!pvLongArray) return false;
+    pvValue = pvLongArray;
     ArrayPerformancePtr xxx = dynamic_pointer_cast<ArrayPerformance>(getPtrSelf());
     arrayPerformanceThread = ArrayPerformanceThreadPtr(new ArrayPerformanceThread(xxx));
     arrayPerformanceThread->init();

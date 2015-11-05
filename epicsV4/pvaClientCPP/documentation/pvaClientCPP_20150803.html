@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+  <title>EPICS pva</title>
+  <link rel="stylesheet" type="text/css"
+  href="http://epics-pvdata.sourceforge.net/base.css" />
+  <link rel="stylesheet" type="text/css"
+  href="http://epics-pvdata.sourceforge.net/epicsv4.css" />
+  <style type="text/css">
+/*<![CDATA[*/
+     .about { margin-left: 3em; margin-right: 3em; font-size: .83em}
+     table { margin-left: auto; margin-right: auto }
+     .diagram { text-align: center; margin: 2.5em 0 }
+     body { margin-right: 10% }
+/*]]>*/</style>
+
+ <!-- Script that generates the Table of Contents -->
+  <script type="text/javascript" src="http://epics-pvdata.sourceforge.net/script/tocgen.js"></script>
+
+</head>
+
+<body>
+
+<div class="head">
+<h1>EPICS pvaClientCPP</h1>
+<!-- Maturity: Working Draft or Request for Comments, or Recommendation, and date.  -->
+<h2 class="nocount">EPICS V4 Working Group, Working Draft,
+03-August-2015</h2>
+<dl>
+  <dt>This version:</dt>
+    <dd><a
+      href="pvaClientCPP.html">pvaClientCPP.html
+    </a> </dd>
+  <dt>Latest version:</dt>
+    <dd><a
+      href="pvaClientCPP_20150803.html">pvaClientCPP_20150803.html
+    </a> </dd>
+  <dt>Previous version:</dt>
+    <dd><a
+      href="pvaClientCPP_20150626.html">pvaClientCPP_20150626.html
+    </a> </dd>
+  <dt>Editors:</dt>
+    <dd>Marty Kraimer, BNL</dd>
+</dl>
+
+<h2 class="nocount">Abstract</h2>
+
+<p>pvaClient is a software library that provides to an EPICS client programmer, a friendly
+client side programming interface to the data of an EPICS based control system. It is intended 
+for such uses as rapid development of ad hoc programs by controls engineers, or to provide 
+scientists a way to directly develop analytical applications.</p>
+
+<p>Specifically, pvaClient provides a synchronous interface for pvAccess, which is the
+software support for high speed controls network communications used in EPICS version 4.
+pvAccess provides a callback based interface, which can be hard to use.
+pvaClient provides an interface that does not require callbacks even for monitors.
+</p>
+<p>
+pvaClientChannel provides many "convenience" methods to directly get and put 
+scalar and scalarArray data types.
+Additional methods provide access to the full features of pvAccess.
+</p>
+<p>
+pvaClientMultiChannel provides access to data from multiple channels.
+It can be used directly by a client or via pvaClientMultiDouble or pvaClientNTMultiChannel.
+pvaClientMultiDouble allows the client to get and put data to multiple channels.
+But each channel must have a value field that is a numeric scalar.
+pvaClientNTMultiChannel allows the client to get and put data to multiple channels.
+Each channel must have a value field.
+The data for the channels is presented via normative type NTMultiChannel.
+</p>
+  <!-- last para of Abstract is boilerplate reference to EPICS -->
+      <p>For more information about EPICS generally, please refer to the home page of the <a
+       href="http://www.aps.anl.gov/epics/">Experimental Physics and Industrial
+      Control System</a>.</p>
+
+
+
+<h2 class="nocount">Status of this Document and of the pvaClient Software</h2>
+
+<p>pvaClientCPP is ready for use.</p>
+
+</div> <!-- head -->
+
+<div id="toc">
+  <h2 class="nocount">Table of Contents</h2>
+</div>
+
+<!-- Place what you would like in the Table of Contents, inside the contents div -->
+<div id="contents" class="contents">	  
+<hr />
+
+<h2>Introduction</h2>
+
+<p>pvaClient is a synchronous API for accessing PVData via PVAccess. It provides
+an interface to many of the features provided by pvData and pvAccess.</p>
+
+<p>This document describes the layout of the source files in this project.</p>
+<p>
+A user overview is available via
+<a
+href="./pvaClientOverview.html">pvaClientOverview.html
+</a>
+</p>
+<p>
+Doxygen documentation is available at
+<a
+href="./html/index.html">doxygenDoc
+</a>
+</p>
+<h2>Example Database</h2>
+<p>The examples require that the database provided by project pvaClientTestCPP
+is running.
+For example:</p>
+<pre>
+mrk&gt; pwd
+/home/epicsv4/pvaClientTestCPP/database/iocBoot/exampleDatabase
+mrk&gt; ../../bin/linux-x86_64/exampleDatabase st.cmd 
+</pre>
+<h2>Examples</h2>
+<p>Examples are in directory <b>example/src</b>.
+An example of how to run them is:</p>
+<pre>
+mrk&gt; pwd
+/home/epicsv4/pvaClientCPP/example
+mrk&gt; bin/linux-x86_64/examplePvaClientGet 
+</pre>
+<p>The following is a brief description of each example.
+In order to understand each example it
+helps to also look at the source for the example.</p>
+<h2>examplePvaClientGet</h2>
+<p>This has a number of examples:</p>
+<dl>
+   <dt>exampleDouble</dt>
+      <dd>
+         This shows two methods for getting data from a channel that has a numeric
+         scalar value field.
+     </dd>
+   <dt>exampleDoubleArray</dt>
+      <dd>
+         This shows two methods for getting data from a channel that has a
+         double array value field.
+     </dd>
+   <dt>exampleCADouble</dt>
+      <dd>
+         This is like exampleDouble except it uses provider <b>ca</b>.
+     </dd>
+   <dt>exampleCADoubleArray</dt>
+      <dd>
+         This is like exampleDoubleArray except it uses provider <b>ca</b>.
+     </dd>
+   <dt>examplePowerSupply</dt>
+      <dd>
+       This is an example of getting data from a channel that does not
+        have a value field.
+     </dd>
+</dl>
+<h2>examplePvaClientMonitor</h2>
+<p>This is an example of creating a monitor on a channel.
+It monitors a scalar double field.
+It also issues puts to the same channel so that it can make the monitors occur.
+</p>
+<h2>examplePvaClientPut</h2>
+<p>This example gets and puts to channels exampleDouble
+and exampleDoubleArray.</p>
+<h2>examplePvaClientProcess</h2>
+<p>This example makes a process request to channel exampleDouble.</p>
+<h2>helloWorldPutGet</h2>
+<p>This is an example of issuing a channelPutGet.</p>
+<h2>examplePvaClientMultiDouble</h2>
+<p>This is an example of using pvaClientMultiChannel,
+pvaClientMultiGetDouble, pvaClientMultiPutDouble, and pvaClientMultiMonitorDouble.
+</p>
+<h2>helloWorldRPC</h2>
+<p>This is an example of issuing a channelRPC request.
+It does <b>not</b> use pva.</p>
+</div> <!-- class="contents" -->
+</body>
+</html>

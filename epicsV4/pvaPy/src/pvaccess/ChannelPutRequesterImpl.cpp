@@ -1,3 +1,6 @@
+// Copyright information and license terms for this software can be
+// found in the file LICENSE that is included with the distribution
+
 #include "ChannelPutRequesterImpl.h"
 
 PvaClient ChannelPutRequesterImpl::pvaClient;
@@ -27,72 +30,6 @@ void ChannelPutRequesterImpl::message(const std::string& message, epics::pvData:
 {
     std::cerr << "[" << getRequesterName() << "] message(" << message << ", " << getMessageTypeName(messageType) << ")" << std::endl;
 }
-
-#if defined PVA_API_VERSION && PVA_API_VERSION == 430
-
-void ChannelPutRequesterImpl::channelPutConnect(const epics::pvData::Status& status,
-    const epics::pvAccess::ChannelPut::shared_pointer& channelPut,
-    const epics::pvData::PVStructure::shared_pointer& pvStructure, 
-    const epics::pvData::BitSet::shared_pointer& bitSet)
-{
-    if (status.isSuccess()) {
-        // show warning
-        if (!status.isOK()) {
-            std::cerr << "[" << channelName << "] channel put create: " << status.getMessage() << std::endl;
-        }
-
-        // assign smart pointers
-        {
-            epics::pvData::Lock lock(pointerMutex);
-            this->channelPut = channelPut;
-            this->pvStructure = pvStructure;
-            this->bitSet = bitSet;
-        }
-            
-        // we always put all
-        this->bitSet->set(0);
-            
-        // get immediately old value
-        this->channelPut->get();
-    }
-    else {
-        std::cerr << "[" << channelName << "] failed to create channel put: " << status.getMessage() << std::endl;
-    }
-    event->signal();
-}
-
-void ChannelPutRequesterImpl::getDone(const epics::pvData::Status& status)
-{
-    if (status.isSuccess()) {
-        // show warning
-        if (!status.isOK()) {
-            std::cerr << "[" << channelName << "] channel get: " << status.getMessage() << std::endl;
-        }
-        done = true;
-    }
-    else {
-        std::cerr << "[" << channelName << "] failed to get: " << status.getMessage() << std::endl;
-    }
-    event->signal();
-}
-
-void ChannelPutRequesterImpl::putDone(const epics::pvData::Status& status)
-{
-    if (status.isSuccess()) {
-        // show warning
-        if (!status.isOK()) {
-            std::cerr << "[" << channelName << "] channel put: " << status.getMessage() << std::endl;
-        }
-        done = true;
-    }
-    else {
-        std::cerr << "[" << channelName << "] failed to put: " << status.getMessage() << std::endl;
-    }
-    event->signal();
-}
-
-#else
-
 
 void ChannelPutRequesterImpl::channelPutConnect(const epics::pvData::Status& status,
     const epics::pvAccess::ChannelPut::shared_pointer& channelPut,
@@ -150,8 +87,6 @@ void ChannelPutRequesterImpl::putDone(const epics::pvData::Status& status, const
     }
     event->signal();
 }
-
-#endif // if defined PVA_API_VERSION && PVA_API_VERSION == 430
 
 epics::pvData::PVStructure::shared_pointer ChannelPutRequesterImpl::getStructure()
 {

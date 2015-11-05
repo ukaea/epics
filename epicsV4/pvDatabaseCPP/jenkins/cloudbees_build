@@ -1,12 +1,27 @@
-# pvDatabaseCPP
+# pvDatabase C++ implementation
 # Jenkins @ Cloudbees build script
 #
 # Jenkins invokes scripts with the "-ex" option. So the build is considered a failure
 # if any of the commands exits with a non-zero exit code.
 #
-# Author: Ralph Lange <Ralph.Lange@gmx.de>
+# Author: Ralph Lange <ralph.lange@gmx.de>
 # Copyright (C) 2014 Helmholtz-Zentrum Berlin für Materialien und Energie GmbH
+# Copyright (C) 2014-2015 ITER Organization.
 # All rights reserved. Use is subject to license terms.
+
+###########################################
+# Determine EPICS Base version
+
+DEFAULT_BASE=3.14.12.5
+
+BASE=${1:-${DEFAULT_BASE}}
+USE_MB=${2:-"MB_NO"}
+
+# Dependent module branches (empty = master)
+PVCOMMON_BRANCH="Release-4.1-"
+PVDATA_BRANCH="Release-5.0-"
+PVACCESS_BRANCH="Release-4.1-"
+PVASRV_BRANCH="Release-0.11-"
 
 ###########################################
 # Fetch and unpack dependencies
@@ -17,16 +32,19 @@ rm -fr ${STUFF}
 mkdir -p ${STUFF}
 cd ${STUFF}
 
-wget -nv https://openepics.ci.cloudbees.com/job/Base-3.14.12.3_Build/lastSuccessfulBuild/artifact/baseR3.14.12.3.CB-dist.tar.gz
-wget -nv https://openepics.ci.cloudbees.com/job/Doxygen-1.8.3_Build/lastSuccessfulBuild/artifact/doxygen-1.8.3.CB-dist.tar.gz
-wget -nv https://openepics.ci.cloudbees.com/job/pvData_CPP_Build/lastSuccessfulBuild/artifact/pvData.CB-dist.tar.gz
-wget -nv https://openepics.ci.cloudbees.com/job/pvAccess_CPP_Build/lastSuccessfulBuild/artifact/pvAccess.CB-dist.tar.gz
-wget -nv https://openepics.ci.cloudbees.com/job/pvaSrv_CPP_Build/lastSuccessfulBuild/artifact/pvaSrv.CB-dist.tar.gz
-tar -xzf baseR3.14.12.3.CB-dist.tar.gz
-tar -xzf doxygen-1.8.3.CB-dist.tar.gz
+wget -nv https://openepics.ci.cloudbees.com/job/Base-${BASE}_Build/lastSuccessfulBuild/artifact/base-${BASE}.CB-dist.tar.gz
+wget -nv https://openepics.ci.cloudbees.com/job/pvDataCPP_${PVDATA_BRANCH}Build/BASE=${BASE},USE_MB=MB_NO/lastSuccessfulBuild/artifact/pvData.CB-dist.tar.gz
+wget -nv https://openepics.ci.cloudbees.com/job/pvAccessCPP_${PVACCESS_BRANCH}Build/BASE=${BASE},USE_MB=${USE_MB}/lastSuccessfulBuild/artifact/pvAccess.CB-dist.tar.gz
+wget -nv https://openepics.ci.cloudbees.com/job/pvaSrvCPP_${PVASRV_BRANCH}Build/BASE=${BASE},USE_MB=MB_NO/lastSuccessfulBuild/artifact/pvaSrv.CB-dist.tar.gz
+tar -xzf base-${BASE}.CB-dist.tar.gz
 tar -xzf pvData.CB-dist.tar.gz
 tar -xzf pvAccess.CB-dist.tar.gz
 tar -xzf pvaSrv.CB-dist.tar.gz
+
+if [ "${USE_MB}" = "MB_YES" ]; then
+    wget -nv https://openepics.ci.cloudbees.com/job/pvCommonCPP_${PVCOMMON_BRANCH}Build/BASE=${BASE},USE_MB=MB_YES/lastSuccessfulBuild/artifact/pvCommon.CB-dist.tar.gz
+    tar -xzf pvCommon.CB-dist.tar.gz
+fi
 
 ###########################################
 # Build
@@ -43,7 +61,6 @@ EPICS_BASE=${EPICS_BASE}
 EOF
 
 make distclean all
-doxygen
 
 ###########################################
 # Test
@@ -53,9 +70,4 @@ doxygen
 ###########################################
 # Create distribution
 
-tar -czf pvDatabaseCPP.CB-dist.tar.gz lib include dbd COPYRIGHT LICENSE
-
-###########################################
-# Publish documentation
-
-rsync -aP --delete -e ssh documentation epics-jenkins@web.sourceforge.net:/home/project-web/epics-pvdata/htdocs/docbuild/pvDatabaseCPP/tip
+tar -czf pvDatabase.CB-dist.tar.gz lib include dbd COPYRIGHT LICENSE

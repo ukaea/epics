@@ -356,7 +356,7 @@ static void testPush()
 
 static void testVoid()
 {
-    testDiag("Test vecter cast to/from void");
+    testDiag("Test vector cast to/from void");
 
     epics::pvData::shared_vector<int32> typed(4);
 
@@ -497,8 +497,8 @@ static void testICE()
     
     D = B; // create second const reference
 
-    // clears D, but reference to B refrence
-    // to B remains, so a copy is made
+    // clears D, but reference to B
+    // remains, so a copy is made
     C = epics::pvData::thaw(D);
 
     testOk1(B.unique());

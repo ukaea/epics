@@ -24,6 +24,10 @@ TESTPROD_HOST += ntmultiChannelTest
 ntmultiChannelTest_SRCS += ntmultiChannelTest.cpp
 TESTS += ntmultiChannelTest
 
+TESTPROD_HOST += ntscalarMultiChannelTest
+ntscalarMultiChannelTest_SRCS += ntscalarMultiChannelTest.cpp
+TESTS += ntscalarMultiChannelTest
+
 TESTPROD_HOST += nttableTest
 nttableTest_SRCS = nttableTest.cpp
 TESTS += nttableTest
@@ -31,6 +35,38 @@ TESTS += nttableTest
 TESTPROD_HOST += ntndarrayTest
 ntndarrayTest_SRCS = ntndarrayTest.cpp
 TESTS += ntndarrayTest
+
+TESTPROD_HOST += ntmatrixTest
+ntmatrixTest_SRCS = ntmatrixTest.cpp
+TESTS += ntmatrixTest
+
+TESTPROD_HOST += ntenumTest
+ntenumTest_SRCS = ntenumTest.cpp
+TESTS += ntenumTest
+
+TESTPROD_HOST += ntunionTest
+ntunionTest_SRCS = ntunionTest.cpp
+TESTS += ntunionTest
+
+TESTPROD_HOST += ntaggregateTest
+ntaggregateTest_SRCS = ntaggregateTest.cpp
+TESTS += ntaggregateTest
+
+TESTPROD_HOST += ntattributeTest
+ntattributeTest_SRCS = ntattributeTest.cpp
+TESTS += ntattributeTest
+
+TESTPROD_HOST += ntndarrayAttributeTest
+ntndarrayAttributeTest_SRCS = ntndarrayAttributeTest.cpp
+TESTS += ntndarrayAttributeTest
+
+TESTPROD_HOST += ntcontinuumTest
+ntattributeTest_SRCS = ntcontinuumTest.cpp
+TESTS += ntcontinuumTest
+
+TESTPROD_HOST += nthistogramTest
+ntattributeTest_SRCS = nthistogramTest.cpp
+TESTS += nthistogramTest
 
 TESTPROD_HOST += ntutilsTest
 ntutilsTest_SRCS = ntutilsTest.cpp

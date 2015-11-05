@@ -23,7 +23,6 @@
 #include <pv/standardField.h>
 #include <pv/standardPVField.h>
 #include <pv/channelProviderLocal.h>
-#include <pv/recordList.h>
 #include <pv/traceRecord.h>
 
 #include <pv/powerSupply.h>
@@ -154,14 +153,6 @@ void ExampleDatabase::create()
           cout << "PowerSupply::create failed" << endl;
     } else {
         result = master->addRecord(psr);
-        if(!result) cout<< "record " << recordName << " not added" << endl;
-    }
-    recordName = "laptoprecordListPGRPC";
-    pvRecord = RecordListRecord::create(recordName);
-    if(!pvRecord) {
-          cout << "RecordListRecord::create failed" << endl;
-    } else {
-        result = master->addRecord(pvRecord);
         if(!result) cout<< "record " << recordName << " not added" << endl;
     }
 }

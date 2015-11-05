@@ -1,0 +1,15 @@
+QtC-
+bin/
+lib/
+include/
+config.log
+configure/*.local
+**/O.*
+tools/autoconf/install-sh
+tools/autoconf/missing
+tools/autoconf/config.status
+tools/autoconf/configure
+tools/autoconf/Makefile.in
+tools/autoconf/Makefile
+tools/autoconf/aclocal.m4
+tools/autoconf/autom4te.cache/

@@ -208,7 +208,7 @@ PVStructurePtr ArchiverServiceRPC::queryRaw(
         
     // Pack the table into the pvStructure using some STL helper functions
 
-    PVStructurePtr resultValues = pvResult->getStructureField("value");
+    PVStructurePtr resultValues = pvResult->getSubField<PVStructure>("value");
 
     getDoubleArrayField(resultValues, "value")->replace(freeze(values));
     getLongArrayField(resultValues, "secondsPastEpoch")->replace(freeze(secPastEpoch));
@@ -255,7 +255,7 @@ PVStructurePtr ArchiverServiceRPC::request(PVStructurePtr const & pvArgument)
                 "Request uses unsupported major version of NTURI");
         }
 
-        query = pvArgument->getStructureField("query");
+        query = pvArgument->getSubField<PVStructure>("query");
         if (!query)
         {
             throw RPCRequestException(Status::STATUSTYPE_ERROR,
@@ -263,9 +263,9 @@ PVStructurePtr ArchiverServiceRPC::request(PVStructurePtr const & pvArgument)
         }      
     }
 
-    if (query->getStringField(nameStr))
+    if (query->getSubField<PVString>(nameStr))
     {
-        name = query->getStringField(nameStr)->get();
+        name = query->getSubField<PVString>(nameStr)->get();
         if (name == "")
         {
             throw RPCRequestException(Status::STATUSTYPE_ERROR, "Empty channel name");
@@ -276,19 +276,19 @@ PVStructurePtr ArchiverServiceRPC::request(PVStructurePtr const & pvArgument)
         throw RPCRequestException(Status::STATUSTYPE_ERROR, "No channel name");
     }
         
-    if (query->getStringField(startStr))
+    if (query->getSubField<PVString>(startStr))
     {
-        start = toLong((query->getStringField(startStr)->get()));
+        start = toLong((query->getSubField<PVString>(startStr)->get()));
     }
 
-    if (query->getStringField(endStr))
+    if (query->getSubField<PVString>(endStr))
     {
-        end = toLong((query->getStringField(endStr)->get()));
+        end = toLong((query->getSubField<PVString>(endStr)->get()));
     }
 
-    if (query->getStringField(countStr))
+    if (query->getSubField<PVString>(countStr))
     {
-        maxRecords = toLong((query->getStringField(countStr)->get()));
+        maxRecords = toLong((query->getSubField<PVString>(countStr)->get()));
     }
 
     epicsTimeStamp t0, t1;

@@ -4,9 +4,18 @@
 # Jenkins invokes scripts with the "-ex" option. So the build is considered a failure
 # if any of the commands exits with a non-zero exit code.
 #
-# Author: Ralph Lange <Ralph.Lange@gmx.de>
+# Author: Ralph Lange <ralph.lange@gmx.de>
 # Copyright (C) 2013 Helmholtz-Zentrum Berlin für Materialien und Energie GmbH
+# Copyright (C) 2014-2015 ITER Organization.
 # All rights reserved. Use is subject to license terms.
+
+###########################################
+# Determine EPICS Base version
+
+DEFAULT_BASE=3.14.12.5
+
+BASE=${1:-${DEFAULT_BASE}}
+USE_MB=${2:-"MB_NO"}
 
 ###########################################
 # Fetch and unpack dependencies
@@ -17,10 +26,8 @@ rm -fr ${STUFF}
 mkdir -p ${STUFF}
 cd ${STUFF}
 
-wget -nv https://openepics.ci.cloudbees.com/job/Base-3.14.12.3_Build/lastSuccessfulBuild/artifact/baseR3.14.12.3.CB-dist.tar.gz
-wget -nv https://openepics.ci.cloudbees.com/job/Doxygen-1.8.3_Build/lastSuccessfulBuild/artifact/doxygen-1.8.3.CB-dist.tar.gz
-tar -xzf baseR3.14.12.3.CB-dist.tar.gz
-tar -xzf doxygen-1.8.3.CB-dist.tar.gz
+wget -nv https://openepics.ci.cloudbees.com/job/Base-${BASE}_Build/lastSuccessfulBuild/artifact/base-${BASE}.CB-dist.tar.gz
+tar -xzf base-${BASE}.CB-dist.tar.gz
 
 ###########################################
 # Build
@@ -37,20 +44,13 @@ EPICS_BASE=${EPICS_BASE}
 EOF
 
 make distclean all
-doxygen
 
 ###########################################
 # Test
 
-# EPICS Test Harness tests
 make runtests
 
 ###########################################
 # Create distribution
 
 tar czf pvData.CB-dist.tar.gz lib include COPYRIGHT LICENSE
-
-###########################################
-# Publish documentation
-
-rsync -aP --delete -e ssh documentation epics-jenkins@web.sourceforge.net:/home/project-web/epics-pvdata/htdocs/docbuild/pvDataCPP/tip

@@ -1,34 +1,24 @@
 #ifndef _MB_H_
 #define _MB_H_
 
-#ifdef WITH_MICROBENCH
-
 #include <string>
 #include <vector>
 
-// http://stackoverflow.com/questions/13266868/ffmpeg-inttypes-h-not-found-error
-#ifndef HAS_INT_TYPES
-
-#ifdef HAS_C99
-  #include <stdint.h>
-#endif
-
+#ifndef vxWorks
+#  include <inttypes.h>
 #endif
 
 #include <iostream>
 
+#include <epicsVersion.h>
+
 #include <boost/atomic.hpp>
 
-
-#include <shareLib.h>
-
-class epicsShareClass MBMutexInitializer {
+static class MBMutexInitializer {
   public:
     MBMutexInitializer ();
     ~MBMutexInitializer ();
-};
-
-epicsShareExtern MBMutexInitializer mbStaticMutexInitializer; // Note object here in the header.
+} mbStaticMutexInitializer; // Note object here in the header.
 
 struct MBPoint
 {
@@ -42,7 +32,7 @@ struct MBPoint
 
 struct MBEntity;
 
-epicsShareExtern void MBEntityRegister(MBEntity *e);
+extern void MBEntityRegister(MBEntity *e);
 
 typedef std::vector<MBPoint> MBPointType;
 
@@ -64,19 +54,19 @@ struct MBEntity
     }
 };
 
-epicsShareExtern uint64_t MBTime();
+extern uint64_t MBTime();
 
-epicsShareExtern void MBPointAdd(MBEntity &e, std::ptrdiff_t id, uint8_t stage);
+extern void MBPointAdd(MBEntity &e, std::ptrdiff_t id, uint8_t stage);
 
-epicsShareExtern void MBCSVExport(MBEntity &e, uint8_t stageOnly, std::size_t skipFirstNSamples, std::ostream &o);
-epicsShareExtern void MBCSVImport(MBEntity &e, std::istream &i);
+extern void MBCSVExport(MBEntity &e, uint8_t stageOnly, std::size_t skipFirstNSamples, std::ostream &o);
+extern void MBCSVImport(MBEntity &e, std::istream &i);
 
-epicsShareExtern void MBStats(MBEntity &e, uint8_t stageOnly, std::size_t skipFirstNSamples, std::ostream &o);
+extern void MBStats(MBEntity &e, uint8_t stageOnly, std::size_t skipFirstNSamples, std::ostream &o);
 
-epicsShareExtern void MBNormalize(MBEntity &e);
+extern void MBNormalize(MBEntity &e);
 
 
-epicsShareExtern void MBInit();
+extern void MBInit();
 
 
 #define MB_NAME(NAME) g_MB_##NAME
@@ -103,34 +93,5 @@ epicsShareExtern void MBInit();
 #define MB_PRINT_OPT(NAME, STAGE_ONLY, SKIP_FIRST_N_SAMPLES, STREAM) MB_CSV_EXPORT_OPT(NAME, STAGE_ONLY, SKIP_FIRST_N_SAMPLES, STREAM)
 
 #define MB_INIT MBInit()
-
-
-#else
-
-#define MB_DECLARE(NAME, SIZE) 
-#define MB_DECLARE_EXTERN(NAME)
-
-#define MB_POINT_ID(NAME, STAGE, STAGE_DESC, ID)
-
-#define MB_INC_AUTO_ID(NAME)
-#define MB_POINT(NAME, STAGE, STAGE_DESC)
-
-#define MB_POINT_CONDITIONAL(NAME, STAGE, STAGE_DESC, COND)
-
-#define MB_NORMALIZE(NAME)
-
-#define MB_STATS(NAME, STREAM)
-#define MB_STATS_OPT(NAME, STAGE_ONLY, SKIP_FIRST_N_SAMPLES, STREAM)
-
-#define MB_CSV_EXPORT(NAME, STREAM)
-#define MB_CSV_EXPORT_OPT(NAME, STAGE_ONLY, SKIP_FIRST_N_SAMPLES, STREAM)
-#define MB_CSV_IMPORT(NAME, STREAM)
-
-#define MB_PRINT(NAME, STREAM)
-#define MB_PRINT_OPT(NAME, STAGE_ONLY, SKIP_FIRST_N_SAMPLES, STREAM)
-
-#define MB_INIT
-
-#endif
 
 #endif

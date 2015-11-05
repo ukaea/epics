@@ -1,7 +1,7 @@
 /* nttable.cpp */
 /**
  * Copyright - See the COPYRIGHT that is included with this distribution.
- * EPICS pvDataCPP is distributed subject to a Software License Agreement found
+ * This software is distributed subject to a Software License Agreement found
  * in file LICENSE that is included with this distribution.
  */
 
@@ -20,14 +20,14 @@ static NTFieldPtr ntField = NTField::get();
 
 namespace detail {
 
-NTTableBuilder::shared_pointer NTTableBuilder::add(
+NTTableBuilder::shared_pointer NTTableBuilder::addColumn(
         std::string const & name, epics::pvData::ScalarType scalarType
         )
 {
-    if (std::find(labels.begin(), labels.end(), name) != labels.end())
+    if (std::find(columnNames.begin(), columnNames.end(), name) != columnNames.end())
         throw std::runtime_error("duplicate column name");
 
-    labels.push_back(name);
+    columnNames.push_back(name);
     types.push_back(scalarType);
 
     return shared_from_this();
@@ -43,9 +43,9 @@ StructureConstPtr NTTableBuilder::createStructure()
                addArray("labels", pvString)->
                addNestedStructure("value");
 
-    vector<string>::size_type len = labels.size();
+    vector<string>::size_type len = columnNames.size();
     for (vector<string>::size_type i = 0; i < len; i++)
-        nestedBuilder->addArray(labels[i], types[i]);
+        nestedBuilder->addArray(columnNames[i], types[i]);
 
     builder = nestedBuilder->endNested();
 
@@ -58,12 +58,11 @@ StructureConstPtr NTTableBuilder::createStructure()
     if (timeStamp)
         builder->add("timeStamp", ntField->createTimeStamp());
 
-    StructureConstPtr s = builder->createStructure();
-
     size_t extraCount = extraFieldNames.size();
     for (size_t i = 0; i< extraCount; i++)
         builder->add(extraFieldNames[i], extraFields[i]);
 
+    StructureConstPtr s = builder->createStructure();
 
     reset();
     return s;
@@ -89,9 +88,10 @@ NTTableBuilder::shared_pointer NTTableBuilder::addTimeStamp()
 
 PVStructurePtr NTTableBuilder::createPVStructure()
 {
-    size_t len = labels.size();
+    // fill in labels with default values (the column names)
+    size_t len = columnNames.size();
     shared_vector<string> l(len);
-    for(size_t i=0; i<len; ++i) l[i] = labels[i];
+    for(size_t i=0; i<len; ++i) l[i] = columnNames[i];
     PVStructurePtr s = getPVDataCreate()->createPVStructure(createStructure());
     s->getSubField<PVStringArray>("labels")->replace(freeze(l));
     return s;
@@ -109,7 +109,7 @@ NTTableBuilder::NTTableBuilder()
 
 void NTTableBuilder::reset()
 {
-    labels.clear();
+    columnNames.clear();
     types.clear();
     descriptor = false;
     alarm = false;
@@ -127,15 +127,15 @@ NTTableBuilder::shared_pointer NTTableBuilder::add(string const & name, FieldCon
 
 const std::string NTTable::URI("epics:nt/NTTable:1.0");
 
-NTTable::shared_pointer NTTable::wrap(PVStructurePtr const & structure)
+NTTable::shared_pointer NTTable::wrap(PVStructurePtr const & pvStructure)
 {
-    if(!isCompatible(structure)) return shared_pointer();
-    return wrapUnsafe(structure);
+    if(!isCompatible(pvStructure)) return shared_pointer();
+    return wrapUnsafe(pvStructure);
 }
 
-NTTable::shared_pointer NTTable::wrapUnsafe(PVStructurePtr const & structure)
+NTTable::shared_pointer NTTable::wrapUnsafe(PVStructurePtr const & pvStructure)
 {
-    return shared_pointer(new NTTable(structure));
+    return shared_pointer(new NTTable(pvStructure));
 }
 
 bool NTTable::is_a(StructureConstPtr const & structure)
@@ -143,17 +143,78 @@ bool NTTable::is_a(StructureConstPtr const & structure)
     return NTUtils::is_a(structure->getID(), URI);
 }
 
+bool NTTable::isCompatible(StructureConstPtr const & structure)
+{
+    if (!structure.get()) return false;
+
+    StructureConstPtr valueField = structure->getField<Structure>("value");
+    if (!valueField.get())
+        return false;
+
+    FieldConstPtrArray const & fields = valueField->getFields();
+    for (FieldConstPtrArray::const_iterator it = fields.begin();
+         it != fields.end(); ++it)
+    {
+        if ((*it)->getType() != scalarArray) return false;
+    }
+
+    ScalarArrayConstPtr labelsField = structure->getField<ScalarArray>("labels");
+    if (!labelsField.get() || labelsField->getElementType() != pvString)
+        return false;
+
+    FieldConstPtr field = structure->getField("descriptor");
+    if (field.get())
+    {
+        ScalarConstPtr descriptorField = structure->getField<Scalar>("descriptor");
+        if (!descriptorField.get() || descriptorField->getScalarType() != pvString)
+            return false;
+    }
+
+    NTFieldPtr ntField = NTField::get();
+
+    field = structure->getField("alarm");
+    if (field.get() && !ntField->isAlarm(field))
+        return false;
+
+    field = structure->getField("timeStamp");
+    if (field.get() && !ntField->isTimeStamp(field))
+        return false;
+
+    return true;
+}
+
 bool NTTable::isCompatible(PVStructurePtr const & pvStructure)
 {
     if(!pvStructure) return false;
-    PVFieldPtr pvField = pvStructure->getSubField("alarm");
-    if(pvField && !ntField->isAlarm(pvField->getField())) return false;
-    pvField = pvStructure->getSubField("timeStamp");
-    if(pvField && !ntField->isTimeStamp(pvField->getField())) return false;
-    PVStringArrayPtr pvLabel = pvStructure->getSubField<PVStringArray>("labels");
-    if(!pvLabel) return false;
+
+    return isCompatible(pvStructure->getStructure());
+}
+
+bool NTTable::isValid()
+{
+    PVFieldPtrArray const & columns = pvValue->getPVFields();
+        
+    if (getLabels()->getLength() != columns.size()) return false;
+    bool first = true;
+    int length = 0;
+    for (PVFieldPtrArray::const_iterator it = columns.begin();
+        it != columns.end();++it)
+    {
+        PVScalarArrayPtr column = std::tr1::dynamic_pointer_cast<PVScalarArray>(*it);
+        if (!column.get()) return false;
+        int colLength = column->getLength();
+        if (first)
+        {
+            length = colLength;
+            first = false;
+        }
+        else if (length != colLength)
+            return false;
+    }
+
     return true;
 }
+
 
 NTTableBuilderPtr NTTable::createBuilder()
 {
@@ -203,13 +264,18 @@ PVStringArrayPtr NTTable::getLabels() const
     return pvNTTable->getSubField<PVStringArray>("labels");
 }
 
+StringArray const & NTTable::getColumnNames() const
+{
+    return pvNTTable->getStructure()->getFieldNames();
+}
+
 PVFieldPtr NTTable::getColumn(std::string const & columnName) const
 {
-    return pvNTTable->getSubField("value." + columnName);
+    return pvValue->getSubField(columnName);
 }
 
 NTTable::NTTable(PVStructurePtr const & pvStructure) :
-    pvNTTable(pvStructure)
+    pvNTTable(pvStructure), pvValue(pvNTTable->getSubField<PVStructure>("value"))
 {}
 
 

@@ -1,7 +1,7 @@
 /* ntscalarArray.cpp */
 /**
  * Copyright - See the COPYRIGHT that is included with this distribution.
- * EPICS pvDataCPP is distributed subject to a Software License Agreement found
+ * This software is distributed subject to a Software License Agreement found
  * in file LICENSE that is included with this distribution.
  */
 
@@ -17,6 +17,16 @@ namespace epics { namespace nt {
 static NTFieldPtr ntField = NTField::get();
 
 namespace detail {
+
+NTScalarArrayBuilder::shared_pointer NTScalarArrayBuilder::value(
+        epics::pvData::ScalarType elementType
+        )
+{
+    valueType = elementType;
+    valueTypeSet = true;
+
+    return shared_from_this();
+}
 
 NTScalarArrayBuilder::shared_pointer NTScalarArrayBuilder::arrayValue(
         epics::pvData::ScalarType elementType
@@ -129,15 +139,15 @@ NTScalarArrayBuilder::shared_pointer NTScalarArrayBuilder::add(string const & na
 
 const std::string NTScalarArray::URI("epics:nt/NTScalarArray:1.0");
 
-NTScalarArray::shared_pointer NTScalarArray::wrap(PVStructurePtr const & structure)
+NTScalarArray::shared_pointer NTScalarArray::wrap(PVStructurePtr const & pvStructure)
 {
-    if(!isCompatible(structure)) return shared_pointer();
-    return wrapUnsafe(structure);
+    if(!isCompatible(pvStructure)) return shared_pointer();
+    return wrapUnsafe(pvStructure);
 }
 
-NTScalarArray::shared_pointer NTScalarArray::wrapUnsafe(PVStructurePtr const & structure)
+NTScalarArray::shared_pointer NTScalarArray::wrapUnsafe(PVStructurePtr const & pvStructure)
 {
-    return shared_pointer(new NTScalarArray(structure));
+    return shared_pointer(new NTScalarArray(pvStructure));
 }
 
 bool NTScalarArray::is_a(StructureConstPtr const & structure)
@@ -145,24 +155,54 @@ bool NTScalarArray::is_a(StructureConstPtr const & structure)
     return NTUtils::is_a(structure->getID(), URI);
 }
 
-bool NTScalarArray::isCompatible(PVStructurePtr const & pvStructure)
+bool NTScalarArray::isCompatible(StructureConstPtr const & structure)
 {
-    if(!pvStructure) return false;
-    PVScalarArrayPtr pvValue = pvStructure->getSubField<PVScalarArray>("value");
-    if(!pvValue) return false;
-    PVFieldPtr pvField = pvStructure->getSubField("descriptor");
-    if(pvField && !pvStructure->getSubField<PVString>("descriptor")) return false;
-    pvField = pvStructure->getSubField("alarm");
-    if(pvField && !ntField->isAlarm(pvField->getField())) return false;
-    pvField = pvStructure->getSubField("timeStamp");
-    if(pvField && !ntField->isTimeStamp(pvField->getField())) return false;
-    pvField = pvStructure->getSubField("display");
-    if(pvField && !ntField->isDisplay(pvField->getField())) return false;
-    pvField = pvStructure->getSubField("control");
-    if(pvField && !ntField->isControl(pvField->getField())) return false;
+    if (structure.get() == 0) return false;
+
+    ScalarArrayConstPtr valueField = structure->getField<ScalarArray>("value");
+    if (valueField.get() == 0)
+        return false;
+
+    FieldConstPtr field = structure->getField("descriptor");
+    if (field.get())
+    {
+        ScalarConstPtr descriptorField = structure->getField<Scalar>("descriptor");
+        if (!descriptorField.get() || descriptorField->getScalarType() != pvString)
+            return false;
+    }
+
+    NTFieldPtr ntField = NTField::get();
+
+    field = structure->getField("alarm");
+    if (field.get() && !ntField->isAlarm(field))
+        return false;
+
+    field = structure->getField("timeStamp");
+    if (field.get() && !ntField->isTimeStamp(field))
+        return false;
+
+    field = structure->getField("display");
+    if (field.get() && !ntField->isDisplay(field))
+        return false;
+
+    field = structure->getField("control");
+    if (field.get() && !ntField->isControl(field))
+        return false;
+
     return true;
 }
 
+bool NTScalarArray::isCompatible(PVStructurePtr const & pvStructure)
+{
+    if(!pvStructure) return false;
+
+    return isCompatible(pvStructure->getStructure());
+}
+
+bool NTScalarArray::isValid()
+{
+    return true;
+}
 
 NTScalarArrayBuilderPtr NTScalarArray::createBuilder()
 {

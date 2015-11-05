@@ -2,7 +2,9 @@
 TEMPLATE_TOP=$(EPICS_BASE)/templates/makeBaseApp/top
 
 EPICS_BASE=/home/install/epics/base
-PVCOMMON=/home/hg/pvCommonCPP
-PVDATA=/home/hg/pvDataCPP
-PVACCESS=/home/hg/pvAccessCPP
-PVASRV=/home/hg/pvaSrv
+V4BASE=/home/epicsv4
+PVCOMMON=${V4BASE}/pvCommonCPP
+PVDATA=${V4BASE}/pvDataCPP
+NORMATIVETYPES=${V4BASE}/normativeTypesCPP
+PVACCESS=${V4BASE}/pvAccessCPP
+PVASRV=${V4BASE}/pvaSrv

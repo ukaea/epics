@@ -83,7 +83,6 @@ private:
         epics::pvData::PVStructurePtr const & pvStructure);
     std::string providerName;
     std::string channelName;
-    epics::pvData::ConvertPtr convert;
     epics::pvData::PVDoubleArrayPtr pvValue;
     epics::pvData::PVTimeStamp pvTimeStamp;
     epics::pvData::TimeStamp timeStamp;

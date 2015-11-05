@@ -1,3 +1,6 @@
+// Copyright information and license terms for this software can be
+// found in the file LICENSE that is included with the distribution
+
 #include <iostream>
 #include "epicsStdio.h"
 #include "PvaException.h"
@@ -5,6 +8,7 @@
 // Constants.
 const int PvaException::MaxMessageLength(1024);
 const int PvaException::GenericErrorCode(1);
+const char* PvaException::PyExceptionClassName = "PvaException";
 
 PvaException::PvaException(int errorCode_, const std::string& message) :
     std::exception(),

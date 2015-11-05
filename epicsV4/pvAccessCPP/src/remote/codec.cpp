@@ -784,11 +784,11 @@ namespace epics {
 
       // On Windows, limiting the buffer size is important to prevent
       // poor throughput performances when transferring large amount of
-      // data. See Microsoft KB article KB823764.
+      // data over non-blocking socket. See Microsoft KB article KB823764.
       // We do it also for other systems just to be safe.
-      std::size_t maxBytesToSend = 
-        std::min<int32_t>(
-        _socketSendBufferSize, _remoteTransportSocketReceiveBufferSize) / 2;
+      std::size_t maxBytesToSend = (size_t)-1; 
+      //  std::min<int32_t>(
+      //  _socketSendBufferSize, _remoteTransportSocketReceiveBufferSize) / 2;
 
       std::size_t limit = buffer->getLimit();
       std::size_t bytesToSend = limit - buffer->getPosition();
@@ -914,6 +914,9 @@ namespace epics {
 
         // automatic end (to set payload size)
         endMessage(false);
+      }
+      catch (connection_closed_exception & ) {
+          throw;
       }
       catch (std::exception &e ) {
 
@@ -1214,7 +1217,7 @@ namespace epics {
     void BlockingAbstractCodec::sendThread(void *param)
     {
 
-        BlockingAbstractCodec *bac = static_cast<BlockingAbstractCodec *>(param);
+      BlockingAbstractCodec *bac = static_cast<BlockingAbstractCodec *>(param);
       Transport::shared_pointer ptr = bac->shared_from_this();
 
       bac->setSenderThread();
@@ -1241,12 +1244,17 @@ namespace epics {
         }
       }
 
+      /*
       // wait read thread to die
-      bac->_shutdownEvent.wait();
+      // TODO rewise if this is really needed
+      // this timeout is needed where close() is initiated from the send thread,
+      // and not from the read thread as usualy - recv() does not exit until socket is not destroyed,
+      // which is done the internalDestroy() call below
+      bac->_shutdownEvent.wait(3.0);
+      */
 
       // call internal destroy
       bac->internalDestroy();
-
     }
 
 
@@ -1449,7 +1457,7 @@ namespace epics {
        if (IS_LOGGABLE(logLevelDebug))
        {
            LOG(logLevelDebug,
-               "TCP socket to %s closed.",
+               "TCP socket to %s is to be closed.",
                inetAddressToString(_socketAddress).c_str());
        }
    }

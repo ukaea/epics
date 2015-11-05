@@ -182,7 +182,7 @@ void RequestResponseHandler::makeStrings(epics::pvData::PVStructurePtr const & r
     using namespace epics::pvData;
     using namespace std;
 
-    PVStructurePtr responseValues = response->getStructureField("value");
+    PVStructurePtr responseValues = response->getSubField<PVStructure>("value");
     if (!responseValues)
     {
         cerr << "Data invalid: No value field in table." << endl;

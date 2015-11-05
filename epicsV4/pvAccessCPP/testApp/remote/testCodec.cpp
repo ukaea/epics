@@ -49,12 +49,14 @@ namespace epics {
 
     class ReadPollOneCallback {
     public:
+      virtual ~ReadPollOneCallback() {}
       virtual void readPollOne() = 0;
     };
 
 
     class WritePollOneCallback {
     public:
+      virtual ~WritePollOneCallback() {}
       virtual void writePollOne() = 0 ;
     };
 
@@ -2618,7 +2620,7 @@ namespace epics {
         for (int32_t i = 0; i < header._payloadSize; i++) {
           if ((int8_t)i != header._payload->getByte()) {
             testFail("%s: (int8_t)%d == header._payload->getByte()", 
-              CURRENT_FUNCTION, i);
+              CURRENT_FUNCTION, (int)i);
           }
         }
       }	
@@ -2823,7 +2825,7 @@ namespace epics {
         for (int32_t i = 0; i < header._payloadSize; i++) {
           if ((int8_t)i != header._payload->getByte()) {
             testFail("%s: (int8_t)%d == header._payload->getByte()", 
-              CURRENT_FUNCTION, i);
+              CURRENT_FUNCTION, (int)i);
           }
         }
 
@@ -3096,8 +3098,10 @@ namespace epics {
         testOk(codec._invalidDataStreamCount == 0, 
           "%s: codec._invalidDataStreamCount == 0", 
           CURRENT_FUNCTION);
-        testOk(codec._closedCount == 1, 
-          "%s: codec._closedCount == 1", CURRENT_FUNCTION);
+        // _closedCount is not incremented since CCE exception is being thrown manually
+        // w/o calling close()
+        testOk(codec._closedCount == 0 /*1*/,
+          "%s: codec._closedCount == 0", CURRENT_FUNCTION);
         testOk(codec._receivedControlMessages.size() == 0, 
           "%s: codec._receivedControlMessages.size() == 0 ",
           CURRENT_FUNCTION);

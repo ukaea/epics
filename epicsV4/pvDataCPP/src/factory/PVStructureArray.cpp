@@ -14,7 +14,6 @@
 
 #define epicsExportSharedSymbols
 #include <pv/pvData.h>
-#include <pv/convert.h>
 #include <pv/factory.h>
 #include <pv/serializeHelper.h>
 
@@ -179,7 +178,7 @@ void PVStructureArray::deserialize(ByteBuffer *pbuffer,
             data[i].reset();
         }
         else {
-            if(data[i].get()==NULL) {
+            if(data[i].get()==NULL || !data[i].unique()) {
                 data[i] = pvDataCreate->createPVStructure(structure);
             }
             data[i]->deserialize(pbuffer, pcontrol);
@@ -240,6 +239,25 @@ std::ostream& PVStructureArray::dumpValue(std::ostream& o, std::size_t index) co
             o << format::indent() << "(none)" << std::endl;
     }
     return o;
+}
+
+void PVStructureArray::copy(const PVStructureArray& from)
+{
+    if(isImmutable())
+        throw std::invalid_argument("destination is immutable");
+
+    if(*getStructureArray() != *from.getStructureArray())
+        throw std::invalid_argument("structureArray definitions do not match");
+
+    copyUnchecked(from);
+}
+
+void PVStructureArray::copyUnchecked(const PVStructureArray& from)
+{
+    if (this == &from)
+        return;
+
+    replace(from.view());
 }
 
 }}

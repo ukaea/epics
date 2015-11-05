@@ -1,3 +1,6 @@
+// Copyright information and license terms for this software can be
+// found in the file LICENSE that is included with the distribution
+
 #include "PvByte.h"
 #include "PvType.h"
 #include "PyUtility.h"
@@ -27,12 +30,12 @@ PvByte::~PvByte()
 
 void PvByte::set(char c) 
 {
-    pvStructurePtr->getByteField(ValueFieldKey)->put(c);
+    pvStructurePtr->getSubField<epics::pvData::PVByte>(ValueFieldKey)->put(c);
 }
 
 char PvByte::get() const 
 {
-    return pvStructurePtr->getByteField(ValueFieldKey)->get();
+    return pvStructurePtr->getSubField<epics::pvData::PVByte>(ValueFieldKey)->get();
 }
 
 

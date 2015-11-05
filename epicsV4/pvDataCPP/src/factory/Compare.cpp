@@ -12,13 +12,13 @@
 #include <sstream>
 
 #define epicsExportSharedSymbols
-#include <pv/convert.h>
+#include <pv/pvData.h>
 
 using std::string;
 
 namespace epics { namespace pvData {
 
-// Introspection object comparision
+// Introspection object comparison
 
 /** Field equality conditions:
  * 1) same instance
@@ -62,7 +62,7 @@ bool operator==(const Field& a, const Field& b)
             return A==B;
         }
     default:
-        throw std::logic_error("Invalid Field type in comparision");
+        throw std::logic_error("Invalid Field type in comparison");
     }
 }
 
@@ -91,14 +91,14 @@ bool operator==(const Structure& a, const Structure& b)
         return false;
 
     // std::equals does not work, since FieldConstPtrArray is an array of shared_pointers
-    FieldConstPtrArray af = a.getFields();
-    FieldConstPtrArray bf = b.getFields();
+    FieldConstPtrArray const & af = a.getFields();
+    FieldConstPtrArray const & bf = b.getFields();
     for (size_t i = 0; i < nflds; i++)
         if (*(af[i].get()) != *(bf[i].get()))
             return false;
 
-    StringArray an = a.getFieldNames();
-    StringArray bn = b.getFieldNames();
+    StringArray const & an = a.getFieldNames();
+    StringArray const & bn = b.getFieldNames();
     return std::equal( an.begin(), an.end(), bn.begin() );
 }
 
@@ -118,14 +118,14 @@ bool operator==(const Union& a, const Union& b)
         return false;
 
     // std::equals does not work, since FieldConstPtrArray is an array of shared_pointers
-    FieldConstPtrArray af = a.getFields();
-    FieldConstPtrArray bf = b.getFields();
+    FieldConstPtrArray const & af = a.getFields();
+    FieldConstPtrArray const & bf = b.getFields();
     for (size_t i = 0; i < nflds; i++)
         if (*(af[i].get()) != *(bf[i].get()))
             return false;
 
-    StringArray an = a.getFieldNames();
-    StringArray bn = b.getFieldNames();
+    StringArray const & an = a.getFieldNames();
+    StringArray const & bn = b.getFieldNames();
     return std::equal( an.begin(), an.end(), bn.begin() );
 }
 

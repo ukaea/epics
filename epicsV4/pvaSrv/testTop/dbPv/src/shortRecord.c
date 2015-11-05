@@ -40,7 +40,7 @@ static long get_graphic_double();
 static long get_control_double();
 static long get_alarm_double();
  
-rset shortRSET={
+rset shortrRSET={
 	RSETNUMBER,
 	report,
 	initialize,
@@ -60,10 +60,10 @@ rset shortRSET={
 	get_control_double,
 	get_alarm_double
 };
-epicsExportAddress(rset,shortRSET);
+epicsExportAddress(rset,shortrRSET);
 
-static void checkAlarms(shortRecord *pshort);
-static void monitor(shortRecord *pshort);
+static void checkAlarms(shortrRecord *pshort);
+static void monitor(shortrRecord *pshort);
 
 static long init_record(void *precord,int pass)
 {
@@ -72,7 +72,7 @@ static long init_record(void *precord,int pass)
 
 static long process(void *precord)
 {
-	shortRecord	*pshort = (shortRecord *)precord;
+    shortrRecord	*pshort = (shortrRecord *)precord;
 
 	pshort->pact = TRUE;
 
@@ -90,7 +90,7 @@ static long process(void *precord)
 
 static long get_units(DBADDR *paddr, char *units)
 {
-    shortRecord	*pshort=(shortRecord *)paddr->precord;
+    shortrRecord	*pshort=(shortrRecord *)paddr->precord;
 
     strncpy(units,pshort->egu,DB_UNITS_SIZE);
     return(0);
@@ -98,7 +98,7 @@ static long get_units(DBADDR *paddr, char *units)
 
 static long get_precision(DBADDR *paddr, long *precision)
 {
-    shortRecord	*pshort=(shortRecord *)paddr->precord;
+    shortrRecord	*pshort=(shortrRecord *)paddr->precord;
 
     *precision = pshort->prec;
     if(paddr->pfield == (void *)&pshort->val) return(0);
@@ -108,16 +108,16 @@ static long get_precision(DBADDR *paddr, long *precision)
 
 static long get_graphic_double(DBADDR *paddr,struct dbr_grDouble *pgd)
 {
-    shortRecord	*pshort=(shortRecord *)paddr->precord;
+    shortrRecord	*pshort=(shortrRecord *)paddr->precord;
     int		fieldIndex = dbGetFieldIndex(paddr);
 
-    if(fieldIndex == shortRecordVAL
-    || fieldIndex == shortRecordHIHI
-    || fieldIndex == shortRecordHIGH
-    || fieldIndex == shortRecordLOW
-    || fieldIndex == shortRecordLOLO
-    || fieldIndex == shortRecordHOPR
-    || fieldIndex == shortRecordLOPR) {
+    if(fieldIndex == shortrRecordVAL
+    || fieldIndex == shortrRecordHIHI
+    || fieldIndex == shortrRecordHIGH
+    || fieldIndex == shortrRecordLOW
+    || fieldIndex == shortrRecordLOLO
+    || fieldIndex == shortrRecordHOPR
+    || fieldIndex == shortrRecordLOPR) {
         pgd->upper_disp_limit = pshort->hopr;
         pgd->lower_disp_limit = pshort->lopr;
     } else recGblGetGraphicDouble(paddr,pgd);
@@ -126,14 +126,14 @@ static long get_graphic_double(DBADDR *paddr,struct dbr_grDouble *pgd)
 
 static long get_control_double(DBADDR *paddr,struct dbr_ctrlDouble *pcd)
 {
-    shortRecord	*pshort=(shortRecord *)paddr->precord;
+    shortrRecord	*pshort=(shortrRecord *)paddr->precord;
     int		fieldIndex = dbGetFieldIndex(paddr);
 
-    if(fieldIndex == shortRecordVAL
-    || fieldIndex == shortRecordHIHI
-    || fieldIndex == shortRecordHIGH
-    || fieldIndex == shortRecordLOW
-    || fieldIndex == shortRecordLOLO) {
+    if(fieldIndex == shortrRecordVAL
+    || fieldIndex == shortrRecordHIHI
+    || fieldIndex == shortrRecordHIGH
+    || fieldIndex == shortrRecordLOW
+    || fieldIndex == shortrRecordLOLO) {
 	pcd->upper_ctrl_limit = pshort->hopr;
 	pcd->lower_ctrl_limit = pshort->lopr;
     } else recGblGetControlDouble(paddr,pcd);
@@ -142,10 +142,10 @@ static long get_control_double(DBADDR *paddr,struct dbr_ctrlDouble *pcd)
 
 static long get_alarm_double(DBADDR *paddr,struct dbr_alDouble *pad)
 {
-    shortRecord	*pshort=(shortRecord *)paddr->precord;
+    shortrRecord	*pshort=(shortrRecord *)paddr->precord;
     int		fieldIndex = dbGetFieldIndex(paddr);
 
-    if(fieldIndex == shortRecordVAL) {
+    if(fieldIndex == shortrRecordVAL) {
 	pad->upper_alarm_limit = pshort->hihi;
 	pad->upper_warning_limit = pshort->high;
 	pad->lower_warning_limit = pshort->low;
@@ -154,7 +154,7 @@ static long get_alarm_double(DBADDR *paddr,struct dbr_alDouble *pad)
     return(0);
 }
 
-static void checkAlarms(shortRecord *pshort)
+static void checkAlarms(shortrRecord *pshort)
 {
 	double		val;
 	float		hyst, lalm, hihi, high, low, lolo;
@@ -197,7 +197,7 @@ static void checkAlarms(shortRecord *pshort)
 	return;
 }
 
-static void monitor(shortRecord *pshort)
+static void monitor(shortrRecord *pshort)
 {
 	unsigned short	monitor_mask;
 	double		delta;

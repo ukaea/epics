@@ -295,7 +295,7 @@ void runTest()
     fields.push_back(getFieldCreate()->createScalar(pvInt));
     PVStructure::shared_pointer configuration =
         getPVDataCreate()->createPVStructure(getFieldCreate()->createStructure(fieldNames, fields));
-    configuration->getIntField("strategy")->put(bulkMode ? USER_CONTROLED : DELAYED);
+    configuration->getSubField<PVInt>("strategy")->put(bulkMode ? USER_CONTROLED : DELAYED);
     provider->configure(configuration);
     */
 
@@ -400,7 +400,7 @@ int main (int argc, char *argv[])
             usage();
             return 0;
         case 'w':               // Set PVA timeout value
-            if(epicsScanDouble(optarg, &timeOut) != 1)
+            if((epicsScanDouble(optarg, &timeOut)) != 1)
             {
                 fprintf(stderr, "'%s' is not a valid timeout value "
                         "- ignored. ('cainfo -h' for help.)\n", optarg);

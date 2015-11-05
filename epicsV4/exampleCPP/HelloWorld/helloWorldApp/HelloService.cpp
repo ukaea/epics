@@ -39,7 +39,7 @@ epics::pvData::PVStructurePtr HelloService::request(
 {   
     // Extract the arguments. Just one in this case.
     // Report an error by throwing a RPCRequestException 
-    epics::pvData::PVStringPtr nameField = pvArgument->getStringField("personsname");
+    epics::pvData::PVStringPtr nameField = pvArgument->getSubField<PVString>("personsname");
     if (!nameField)
     {
         throw pvAccess::RPCRequestException(Status::STATUSTYPE_ERROR,
@@ -53,7 +53,7 @@ epics::pvData::PVStructurePtr HelloService::request(
     // Extract from the constructed data interface the value of
     // "greeting" field. The value we'll return, is "Hello" concatenated
     // to the value of the input parameter called "personsname".
-    PVStringPtr greetingValueField = result->getStringField("greeting");
+    PVStringPtr greetingValueField = result->getSubField<PVString>("greeting");
 	greetingValueField->put("Hello " + nameField->get());
 
     return result;

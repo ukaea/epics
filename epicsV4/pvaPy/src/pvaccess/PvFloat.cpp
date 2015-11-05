@@ -1,3 +1,6 @@
+// Copyright information and license terms for this software can be
+// found in the file LICENSE that is included with the distribution
+
 #include "PvFloat.h"
 #include "PvType.h"
 #include "PyUtility.h"
@@ -27,12 +30,12 @@ PvFloat::~PvFloat()
 
 void PvFloat::set(float f) 
 {
-    pvStructurePtr->getFloatField(ValueFieldKey)->put(f);
+    pvStructurePtr->getSubField<epics::pvData::PVFloat>(ValueFieldKey)->put(f);
 }
 
 float PvFloat::get() const 
 {
-    return pvStructurePtr->getFloatField(ValueFieldKey)->get();
+    return pvStructurePtr->getSubField<epics::pvData::PVFloat>(ValueFieldKey)->get();
 }
 
 

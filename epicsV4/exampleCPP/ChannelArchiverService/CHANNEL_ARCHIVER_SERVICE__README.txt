@@ -8,10 +8,11 @@ Auth: Dave Hickin, 20-Mar-2012 (david.hickin@diamond.ac.uk)
 SUMMARY
 -------
 
-The ChannelArchiver service is an EPICS V4 client and server which can be used
+The ChannelArchiver Service is an EPICS V4 client and server which can be used
 to query the data archived by an EPICS Channel Archiver. It includes a bash
 script, gethist, which can parse a wide range of dates and times and process
-the corresponding data.
+the corresponding data. However the service can be queried by any client
+issuing a pvAccess RPC request, such as eget.
 
 
 EXAMPLES

@@ -21,7 +21,6 @@
 #include <pv/remote.h>
 #include <pv/hexDump.h>
 #include <pv/serializationHelper.h>
-#include <pv/convert.h>
 
 #include <pv/byteBuffer.h>
 
@@ -517,7 +516,7 @@ public:
         // NTURI support
         PVStructure::shared_pointer args(
                     (starts_with(arguments->getStructure()->getID(), "epics:nt/NTURI:1.")) ?
-                        arguments->getStructureField("query") :
+                        arguments->getSubField<PVStructure>("query") :
                         arguments
                         );
 
@@ -1088,8 +1087,14 @@ void ServerChannelGetRequesterImpl::channelGetConnect(const Status& status, Chan
 		Lock guard(_mutex);
 		_status = status;
 		_channelGet = channelGet;
-		_structure = structure;
-	}
+
+        if (_status.isSuccess())
+        {
+           _pvStructure = std::tr1::static_pointer_cast<PVStructure>(reuseOrCreatePVField(structure, _pvStructure));
+           _bitSet = createBitSetFor(_pvStructure, _bitSet);
+        }
+    }
+
 	TransportSender::shared_pointer thisSender = shared_from_this();
 	_transport->enqueueSendRequest(thisSender);
 
@@ -1107,10 +1112,14 @@ void ServerChannelGetRequesterImpl::getDone(const Status& status, ChannelGet::sh
 	{
 		Lock guard(_mutex);
 		_status = status;
-		_pvStructure = pvStructure;
-		_bitSet = bitSet;
+        if (_status.isSuccess())
+        {
+            *_bitSet = *bitSet;
+            _pvStructure->copyUnchecked(*pvStructure, *_bitSet);
+        }
 	}
-	TransportSender::shared_pointer thisSender = shared_from_this();
+
+    TransportSender::shared_pointer thisSender = shared_from_this();
 	_transport->enqueueSendRequest(thisSender);
 }
 
@@ -1188,7 +1197,7 @@ void ServerChannelGetRequesterImpl::send(ByteBuffer* buffer, TransportSendContro
 		if (request & QOS_INIT)
 		{
 			Lock guard(_mutex);
-            control->cachedSerialize(_structure, buffer);
+            control->cachedSerialize(_pvStructure->getStructure(), buffer);
 		}
 		else
 		{
@@ -1198,9 +1207,6 @@ void ServerChannelGetRequesterImpl::send(ByteBuffer* buffer, TransportSendContro
     		    
     			_bitSet->serialize(buffer, control);
     			_pvStructure->serialize(buffer, control, _bitSet.get());
-    			
-    			_pvStructure.reset();
-    			_bitSet.reset();
             }
             MB_POINT(channelGet, 7, "server channelGet->serialize response (end)");
 		}
@@ -1356,14 +1362,12 @@ void ServerChannelPutRequesterImpl::channelPutConnect(const Status& status, Chan
 		Lock guard(_mutex);
 		_status = status;
 		_channelPut = channelPut;
-		_structure = structure;
-	}
-	
-	if (status.isSuccess())
-	{
-	   _putPVStructure = std::tr1::static_pointer_cast<PVStructure>(reuseOrCreatePVField(_structure, _putPVStructure));
-	   _putBitSet = createBitSetFor(_putPVStructure, _putBitSet);
-	}
+        if (_status.isSuccess())
+        {
+           _pvStructure = std::tr1::static_pointer_cast<PVStructure>(reuseOrCreatePVField(structure, _pvStructure));
+           _bitSet = createBitSetFor(_pvStructure, _bitSet);
+        }
+    }
 	
 	TransportSender::shared_pointer thisSender = shared_from_this();
 	_transport->enqueueSendRequest(thisSender);
@@ -1390,9 +1394,12 @@ void ServerChannelPutRequesterImpl::getDone(const Status& status, ChannelPut::sh
 	{
 		Lock guard(_mutex);
 		_status = status;
-		_pvStructure = pvStructure;
-		_bitSet = bitSet;
-	}
+        if (_status.isSuccess())
+        {
+            *_bitSet = *bitSet;
+            _pvStructure->copyUnchecked(*pvStructure, *_bitSet);
+        }
+    }
 	TransportSender::shared_pointer thisSender = shared_from_this();
 	_transport->enqueueSendRequest(thisSender);
 }
@@ -1441,13 +1448,13 @@ ChannelPut::shared_pointer ServerChannelPutRequesterImpl::getChannelPut()
 BitSet::shared_pointer ServerChannelPutRequesterImpl::getPutBitSet()
 {
 	//Lock guard(_mutex);
-	return _putBitSet;
+    return _bitSet;
 }
 
 PVStructure::shared_pointer ServerChannelPutRequesterImpl::getPutPVStructure()
 {
 	//Lock guard(_mutex);
-	return _putPVStructure;
+    return _pvStructure;
 }
 
 void ServerChannelPutRequesterImpl::send(ByteBuffer* buffer, TransportSendControl* control)
@@ -1476,7 +1483,7 @@ void ServerChannelPutRequesterImpl::send(ByteBuffer* buffer, TransportSendContro
 		if ((QOS_INIT & request) != 0)
 		{
 			Lock guard(_mutex);
-            control->cachedSerialize(_structure, buffer);
+            control->cachedSerialize(_pvStructure->getStructure(), buffer);
 		}
 		else if ((QOS_GET & request) != 0)
 		{
@@ -1649,15 +1656,15 @@ void ServerChannelPutGetRequesterImpl::channelPutGetConnect(const Status& status
 		Lock guard(_mutex);
 		_status = status;
 		_channelPutGet = channelPutGet;
-		_putStructure = putStructure;
-		_getStructure = getStructure;
-	}
-	
-	if (status.isSuccess())
-	{
-	   _pvPutGetStructure = std::tr1::static_pointer_cast<PVStructure>(reuseOrCreatePVField(_putStructure, _pvPutGetStructure));
-	   _pvPutGetBitSet = createBitSetFor(_pvPutGetStructure, _pvPutGetBitSet);
-	}
+        if (_status.isSuccess())
+        {
+           _pvPutStructure = std::tr1::static_pointer_cast<PVStructure>(reuseOrCreatePVField(putStructure, _pvPutStructure));
+           _pvPutBitSet = createBitSetFor(_pvPutStructure, _pvPutBitSet);
+
+           _pvGetStructure = std::tr1::static_pointer_cast<PVStructure>(reuseOrCreatePVField(getStructure, _pvGetStructure));
+           _pvGetBitSet = createBitSetFor(_pvGetStructure, _pvGetBitSet);
+        }
+    }
 	
 	TransportSender::shared_pointer thisSender = shared_from_this();
 	_transport->enqueueSendRequest(thisSender);
@@ -1675,8 +1682,11 @@ void ServerChannelPutGetRequesterImpl::getGetDone(const Status& status, ChannelP
 	{
 		Lock guard(_mutex);
 		_status = status;
-		_pvGetStructure = pvStructure;
-		_pvGetBitSet = bitSet;
+        if (_status.isSuccess())
+        {
+            *_pvGetBitSet = *bitSet;
+            _pvGetStructure->copyUnchecked(*pvStructure, *_pvGetBitSet);
+        }
 	}
 	TransportSender::shared_pointer thisSender = shared_from_this();
 	_transport->enqueueSendRequest(thisSender);
@@ -1688,9 +1698,12 @@ void ServerChannelPutGetRequesterImpl::getPutDone(const Status& status, ChannelP
 	{
 		Lock guard(_mutex);
 		_status = status;
-		_pvPutStructure = pvStructure;
-		_pvPutBitSet = bitSet;
-	}
+        if (_status.isSuccess())
+        {
+            *_pvPutBitSet = *bitSet;
+            _pvPutStructure->copyUnchecked(*pvStructure, *_pvPutBitSet);
+        }
+    }
 	TransportSender::shared_pointer thisSender = shared_from_this();
 	_transport->enqueueSendRequest(thisSender);
 }
@@ -1701,9 +1714,12 @@ void ServerChannelPutGetRequesterImpl::putGetDone(const Status& status, ChannelP
 	{
 		Lock guard(_mutex);
 		_status = status;
-		_pvGetStructure = pvStructure;
-		_pvGetBitSet = bitSet;
-	}
+        if (_status.isSuccess())
+        {
+            *_pvGetBitSet = *bitSet;
+            _pvGetStructure->copyUnchecked(*pvStructure, *_pvGetBitSet);
+        }
+    }
 	TransportSender::shared_pointer thisSender = shared_from_this();
 	_transport->enqueueSendRequest(thisSender);
 }
@@ -1752,13 +1768,13 @@ ChannelPutGet::shared_pointer ServerChannelPutGetRequesterImpl::getChannelPutGet
 PVStructure::shared_pointer ServerChannelPutGetRequesterImpl::getPutGetPVStructure()
 {
 	//Lock guard(_mutex);
-	return _pvPutGetStructure;
+    return _pvPutStructure;
 }
 
 BitSet::shared_pointer ServerChannelPutGetRequesterImpl::getPutGetBitSet()
 {
 	//Lock guard(_mutex);
-	return _pvPutGetBitSet;
+    return _pvPutBitSet;
 }
 
 void ServerChannelPutGetRequesterImpl::send(ByteBuffer* buffer, TransportSendControl* control)
@@ -1787,8 +1803,8 @@ void ServerChannelPutGetRequesterImpl::send(ByteBuffer* buffer, TransportSendCon
 		if ((QOS_INIT & request) != 0)
 		{
 			Lock guard(_mutex);
-            control->cachedSerialize(_putStructure, buffer);
-            control->cachedSerialize(_getStructure, buffer);
+            control->cachedSerialize(_pvPutStructure->getStructure(), buffer);
+            control->cachedSerialize(_pvGetStructure->getStructure(), buffer);
 		}
 		else if ((QOS_GET & request) != 0)
 		{
@@ -2257,20 +2273,18 @@ void ServerChannelArrayRequesterImpl::channelArrayConnect(const Status& status, 
         Lock guard(_mutex);
         _status = Status(Status::STATUSTYPE_ERROR, "fixed sized array returned as a ChannelArray array instance");
         _channelArray.reset();
-        _array.reset();
+        _pvArray.reset();
     }
     else
     {
 		Lock guard(_mutex);
 		_status = status;
 		_channelArray = channelArray;
-		_array = array;
-	}
-	
-	if (status.isSuccess())
-	{
-	   _pvPutArray = std::tr1::static_pointer_cast<PVArray>(reuseOrCreatePVField(_array, _pvPutArray));
-	}
+        if (_status.isSuccess())
+        {
+           _pvArray = std::tr1::static_pointer_cast<PVArray>(reuseOrCreatePVField(array, _pvArray));
+        }
+    }
 	
     TransportSender::shared_pointer thisSender = shared_from_this();
 	_transport->enqueueSendRequest(thisSender);
@@ -2287,7 +2301,10 @@ void ServerChannelArrayRequesterImpl::getArrayDone(const Status& status, Channel
 	{
 		Lock guard(_mutex);
 		_status = status;
-		_pvArray = pvArray;
+        if (_status.isSuccess())
+        {
+            _pvArray->copyUnchecked(*pvArray);
+        }
 	}
     TransportSender::shared_pointer thisSender = shared_from_this();
 	_transport->enqueueSendRequest(thisSender);
@@ -2369,7 +2386,7 @@ ChannelArray::shared_pointer ServerChannelArrayRequesterImpl::getChannelArray()
 PVArray::shared_pointer ServerChannelArrayRequesterImpl::getPVArray()
 {
 	//Lock guard(_mutex);
-	return _pvPutArray;
+    return _pvArray;
 }
 
 void ServerChannelArrayRequesterImpl::send(ByteBuffer* buffer, TransportSendControl* control)
@@ -2400,7 +2417,6 @@ void ServerChannelArrayRequesterImpl::send(ByteBuffer* buffer, TransportSendCont
 			//Lock guard(_mutex);
             ScopedLock lock(channelArray);
 			_pvArray->serialize(buffer, control, 0, _pvArray->getLength());
-			_pvArray.reset();
 		}
 		else if ((QOS_PROCESS & request) != 0)
 		{
@@ -2410,7 +2426,7 @@ void ServerChannelArrayRequesterImpl::send(ByteBuffer* buffer, TransportSendCont
 		else if ((QOS_INIT & request) != 0)
 		{
 			Lock guard(_mutex);
-            control->cachedSerialize(_array, buffer);
+            control->cachedSerialize(_pvArray->getArray(), buffer);
 		}
 	}
 
