@@ -29,4 +29,4 @@ start ..\..\Release_LIB\LeyboldTurboApp.exe ..\..\iocBoot\iocLeyboldTurbo\st6.cm
 start ..\..\Release_LIB\LeyboldTurboGUI.exe
 
 md d:\LocalData\
-camonitor.py 1 %NUMPUMPS% D:\LocalData\
+python camonitor.py 1 %NUMPUMPS% D:\LocalData\

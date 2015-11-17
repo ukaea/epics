@@ -76,6 +76,11 @@ PVNames = ["Running", \
 			"CircuitVoltage"]
 
 ChannelDefaultRoot = os.getenv('ASYNPORT', 'LEYBOLDTURBO')
+Channel1Root = os.getenv('ASYNPORT'+FirstPump, ChannelDefaultRoot+':'+FirstPump)
+chid = epics.ca.create_channel(Channel1Root+':Running')
+while (not epics.ca.isConnected(chid)):
+	time.sleep(1)
+
 for Pump in range(int(FirstPump), int(LastPump)+1):
 	ChannelRoot = os.getenv('ASYNPORT'+str(Pump), ChannelDefaultRoot+':'+str(Pump))
 	FileName = ChannelRoot
@@ -85,8 +90,6 @@ for Pump in range(int(FirstPump), int(LastPump)+1):
 	for index, PVName in enumerate(PVNames):
 		caGetAndMonitor(ChannelRoot + ":" + PVName, File)
 
-Channel1Root = os.getenv('ASYNPORT'+FirstPump, ChannelDefaultRoot+':'+FirstPump)
-chid = epics.ca.create_channel(Channel1Root+':Running')
 while (epics.ca.isConnected(chid)):
 	time.sleep(1)
 
