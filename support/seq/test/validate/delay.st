@@ -8,63 +8,77 @@ program delayTest
 */
 option +s;
 
-%%#include "errlog.h"
+%%#include "pv.h"
 
-float v = 0;
+double v = 0;
 assign v;
 
 ss test {
-    float thr = 5.0;
-    float hyst = 0.45;
+    double thr = 5.0;
+    double hyst = 0.45;
     state low {
         entry {
-            errlogPrintf("state low: v = %g\n",v);
-            errlogPrintf("state low: thr = %g, hyst = %g\n",thr,hyst);
+            printf("state low: v = %g\n",v);
+            printf("state low: thr = %g, hyst = %g\n",thr,hyst);
         }
         when (v >= thr+hyst) {
-            errlogPrintf("low, v = %g, transition to high\n",v);
+            printf("low, v = %g, transition to high\n",v);
         } state high
     }
     state high {
         entry {
-            errlogPrintf("state high: v = %g\n",v);
-            errlogPrintf("state high: thr = %g, hyst = %g\n",thr,hyst);
+            printf("state high: v = %g\n",v);
+            printf("state high: thr = %g, hyst = %g\n",thr,hyst);
         }
         when (v <= thr-hyst) {
-            errlogPrintf("high, v = %g, transition to low\n",v);
+            printf("high, v = %g, transition to low\n",v);
         } state low
     }
 }
 
 ss ramp {
-    float lo = 4.0;
-    float hi = 6.0;
-    float step = 0.1;
-    float dt = 0.1;
-    float t = 0.0;
+    double lo = 4.0;
+    double hi = 6.0;
+    double step = 0.1;
+    double dt = 0.1;
+    double t = 0.0;
+    double start_time;
+    state init {
+        when() {
+            pvTimeGetCurrentDouble(&start_time);
+        } state up
+    }
     state up {
         when (v >= hi) {
+            double real_time;
+            pvTimeGetCurrentDouble(&real_time);
             v = hi;
-            errlogPrintf("go down, v = %g, t = %g\n",v,t);
+            printf("go down, v = %g, t = %g, rt = %g\n",v,t,real_time-start_time);
             pvPut(v);
         } state down
         when (delay(dt)) {
+            double real_time;
+            pvTimeGetCurrentDouble(&real_time);
             t += dt;
             v += step;
-            errlogPrintf("up, v = %g, t = %g\n",v,t);
+            printf("up, v = %g, t = %g, rt = %g\n",v,t,real_time-start_time);
             pvPut(v);
         } state up
     }
     state down {
         when (v <= lo) {
+            double real_time;
+            pvTimeGetCurrentDouble(&real_time);
             v = lo;
-            errlogPrintf("go up, v = %g, t = %g\n",v,t);
+            printf("go up, v = %g, t = %g, rt = %g\n",v,t,real_time-start_time);
             pvPut(v);
         } state up
         when (delay(dt)) {
+            double real_time;
+            pvTimeGetCurrentDouble(&real_time);
             v -= step;
             t += dt;
-            errlogPrintf("down, v = %g, t = %g\n",v,t);
+            printf("down, v = %g, t = %g, rt = %g\n",v,t,real_time-start_time);
             pvPut(v);
         } state down
     }

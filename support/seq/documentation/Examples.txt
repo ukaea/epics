@@ -78,7 +78,7 @@ The following program contains most of the concepts presented
 in the previous sections. It consists of four state sets: (1)
 ``level_det`` , (2) ``generate_voltage`` , (3) ``test_status`` , and
 (4) ``periodic_read`` . The state set ``level_det`` is similar to the
-example in :ref:`A Complete Program`.
+example in `A Complete Program` from the `Tutorial`.
 It generates a triangle waveform in one state set and detects the
 level in another. Other state sets detect and print alarm status
 and demonstrate asynchronous ``pvGet`` and ``pvPut`` operation. The
@@ -91,7 +91,6 @@ Preamble
 
 ::
 
-  /* File example.st: State program example. */
   program example ("unit=ajk, stack=11000")
 
   /*=================== declarations =========================*/

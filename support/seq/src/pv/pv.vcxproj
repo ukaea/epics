@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug_DLL|Win32">
@@ -356,10 +356,7 @@ xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="pv.cc" />
-    <ClCompile Include="pvCa.cc" />
-    <ClCompile Include="pvFile.cc" />
-    <ClCompile Include="pvNew.cc" />
+    <ClCompile Include="pv.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pv.h" />

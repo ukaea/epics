@@ -1,5 +1,5 @@
 /*************************************************************************\
-Copyright (c) 2010-2012 Helmholtz-Zentrum Berlin f. Materialien
+Copyright (c) 2010-2015 Helmholtz-Zentrum Berlin f. Materialien
                         und Energie GmbH, Germany (HZB)
 This file is distributed subject to a Software License Agreement found
 in the file LICENSE that is included with this distribution.
@@ -14,8 +14,6 @@ int x, y, z;
 assign x to "pv1";
 assign y to "";
 assign z to "pv1";
-
-foreign pvStatOK;
 
 #define NTESTS 30
 

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug_DLL|Win32">
@@ -35,14 +35,17 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\base-3.15.2\src\ca\client\ca.vcxproj">
+    <ProjectReference Include="..\..\..\..\base-3.15.2\src\ca\client\ca.vcxproj">
       <Project>{02caf068-a7fc-463e-aa7e-72eeaf665826}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\base-3.15.2\src\ioc\dbCore.vcxproj">
+    <ProjectReference Include="..\..\..\..\base-3.15.2\src\ioc\dbCore.vcxproj">
       <Project>{440c585d-ad66-4738-941c-a87a1817a9be}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\base-3.15.2\src\libCom\Com.vcxproj">
+    <ProjectReference Include="..\..\..\..\base-3.15.2\src\libCom\Com.vcxproj">
       <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\base-3.15.2\src\std\dbRecStd.vcxproj">
+      <Project>{3b0e3542-cb89-4ffa-b004-eac882b3f277}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\src\pv\pv.vcxproj">
       <Project>{a463e1aa-5c19-4964-8851-c4070a07aeb7}</Project>
@@ -58,28 +61,28 @@
     <CustomBuild Include="optt.st">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">cl -C -E  -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I. -I../O.Common -I. -I. -I.. -I$(SolutionDir)include/compiler/msvc -I(SolutionDir)include/os/WIN32 -I(SolutionDir)include %(FileName).st &gt; O.Common\%(FileName).i
-$(OutDir)\snc.exe   +m -i  O.Common\%(FileName).i -o O.Common\%(FileName).c
+$(OutDir)\snc.exe   +m O.Common\%(FileName).i -o O.Common\%(FileName).c
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">cl -C -E  -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I. -I../O.Common -I. -I. -I.. -I$(SolutionDir)include/compiler/msvc -I(SolutionDir)include/os/WIN32 -I(SolutionDir)include %(FileName).st &gt; O.Common\%(FileName).i
-$(OutDir)\snc.exe   +m -i  O.Common\%(FileName).i -o O.Common\%(FileName).c
+$(OutDir)\snc.exe   +m O.Common\%(FileName).i -o O.Common\%(FileName).c
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">cl -C -E  -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I. -I../O.Common -I. -I. -I.. -I$(SolutionDir)include/compiler/msvc -I(SolutionDir)include/os/WIN32 -I(SolutionDir)include %(FileName).st &gt; O.Common\%(FileName).i
-$(OutDir)\snc.exe   +m -i  O.Common\%(FileName).i -o O.Common\%(FileName).c
+$(OutDir)\snc.exe   +m O.Common\%(FileName).i -o O.Common\%(FileName).c
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">cl -C -E  -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I. -I../O.Common -I. -I. -I.. -I$(SolutionDir)include/compiler/msvc -I(SolutionDir)include/os/WIN32 -I(SolutionDir)include %(FileName).st &gt; O.Common\%(FileName).i
-$(OutDir)\snc.exe   +m -i  O.Common\%(FileName).i -o O.Common\%(FileName).c
+$(OutDir)\snc.exe   +m O.Common\%(FileName).i -o O.Common\%(FileName).c
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">cl -C -E  -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I. -I../O.Common -I. -I. -I.. -I$(SolutionDir)include/compiler/msvc -I(SolutionDir)include/os/WIN32 -I(SolutionDir)include %(FileName).st &gt; O.Common\%(FileName).i
-$(OutDir)\snc.exe   +m -i  O.Common\%(FileName).i -o O.Common\%(FileName).c
+$(OutDir)\snc.exe   +m O.Common\%(FileName).i -o O.Common\%(FileName).c
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">cl -C -E  -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I. -I../O.Common -I. -I. -I.. -I$(SolutionDir)include/compiler/msvc -I(SolutionDir)include/os/WIN32 -I(SolutionDir)include %(FileName).st &gt; O.Common\%(FileName).i
-$(OutDir)\snc.exe   +m -i  O.Common\%(FileName).i -o O.Common\%(FileName).c
+$(OutDir)\snc.exe   +m O.Common\%(FileName).i -o O.Common\%(FileName).c
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">cl -C -E  -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I. -I../O.Common -I. -I. -I.. -I$(SolutionDir)include/compiler/msvc -I(SolutionDir)include/os/WIN32 -I(SolutionDir)include %(FileName).st &gt; O.Common\%(FileName).i
-$(OutDir)\snc.exe   +m -i  O.Common\%(FileName).i -o O.Common\%(FileName).c
+$(OutDir)\snc.exe   +m O.Common\%(FileName).i -o O.Common\%(FileName).c
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">cl -C -E  -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I. -I../O.Common -I. -I. -I.. -I$(SolutionDir)include/compiler/msvc -I(SolutionDir)include/os/WIN32 -I(SolutionDir)include %(FileName).st &gt; O.Common\%(FileName).i
-$(OutDir)\snc.exe   +m -i  O.Common\%(FileName).i -o O.Common\%(FileName).c
+$(OutDir)\snc.exe   +m O.Common\%(FileName).i -o O.Common\%(FileName).c
 </Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common\%(FileName).c</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">O.Common\%(FileName).c</Outputs>
@@ -93,6 +96,7 @@ $(OutDir)\snc.exe   +m -i  O.Common\%(FileName).i -o O.Common\%(FileName).c
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="O.Common\optt.c" />
+    <ClCompile Include="testSupport.c" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{474EBF78-7DA7-4EBC-BE45-1261F7438D11}</ProjectGuid>

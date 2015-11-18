@@ -166,6 +166,7 @@
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist O.Common md O.Common
 xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R ..\Common\*.h  $(SolutionDir)include &gt; NUL
 SET PERL5LIB=$(SolutionDir)lib\perl
 
 perl -CSD $(OutDir)dbdExpand.pl  -I ./O.Common -I. -I.. -I./O.Common -I$(SolutionDir)DBD -o O.Common\seqSoftIoc.dbd base.dbd ..\..\test\validate\testSupport.dbd
@@ -196,6 +197,7 @@ perl -CSD seq_release.pl 2.1.15 &gt; O.Common/seq_release.h
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist O.Common md O.Common
 xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R ..\Common\*.h  $(SolutionDir)include &gt; NUL
 SET PERL5LIB=$(SolutionDir)lib\perl
 
 perl -CSD $(OutDir)dbdExpand.pl  -I ./O.Common -I. -I.. -I./O.Common -I$(SolutionDir)DBD -o O.Common\seqSoftIoc.dbd base.dbd ..\..\test\validate\testSupport.dbd
@@ -226,6 +228,7 @@ perl -CSD seq_release.pl 2.1.15 &gt; O.Common/seq_release.h
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist O.Common md O.Common
 xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R ..\Common\*.h  $(SolutionDir)include &gt; NUL
 SET PERL5LIB=$(SolutionDir)lib\perl
 
 perl -CSD $(OutDir)dbdExpand.pl  -I ./O.Common -I. -I.. -I./O.Common -I$(SolutionDir)DBD -o O.Common\seqSoftIoc.dbd base.dbd ..\..\test\validate\testSupport.dbd
@@ -256,6 +259,7 @@ perl -CSD seq_release.pl 2.1.15 &gt; O.Common/seq_release.h
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist O.Common md O.Common
 xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R ..\Common\*.h  $(SolutionDir)include &gt; NUL
 SET PERL5LIB=$(SolutionDir)lib\perl
 
 perl -CSD $(OutDir)dbdExpand.pl  -I ./O.Common -I. -I.. -I./O.Common -I$(SolutionDir)DBD -o O.Common\seqSoftIoc.dbd base.dbd ..\..\test\validate\testSupport.dbd
@@ -289,6 +293,7 @@ perl -CSD seq_release.pl 2.1.15 &gt; O.Common/seq_release.h
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist O.Common md O.Common
 xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R ..\Common\*.h  $(SolutionDir)include &gt; NUL
 SET PERL5LIB=$(SolutionDir)lib\perl
 
 perl -CSD $(OutDir)dbdExpand.pl  -I ./O.Common -I. -I.. -I./O.Common -I$(SolutionDir)DBD -o O.Common\seqSoftIoc.dbd base.dbd ..\..\test\validate\testSupport.dbd
@@ -323,6 +328,7 @@ perl -CSD seq_release.pl 2.1.15 &gt; O.Common/seq_release.h
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist O.Common md O.Common
 xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R ..\Common\*.h  $(SolutionDir)include &gt; NUL
 SET PERL5LIB=$(SolutionDir)lib\perl
 
 perl -CSD $(OutDir)dbdExpand.pl  -I ./O.Common -I. -I.. -I./O.Common -I$(SolutionDir)DBD -o O.Common\seqSoftIoc.dbd base.dbd ..\..\test\validate\testSupport.dbd
@@ -356,6 +362,7 @@ perl -CSD seq_release.pl 2.1.15 &gt; O.Common/seq_release.h
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist O.Common md O.Common
 xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R ..\Common\*.h  $(SolutionDir)include &gt; NUL
 SET PERL5LIB=$(SolutionDir)lib\perl
 
 perl -CSD $(OutDir)dbdExpand.pl  -I ./O.Common -I. -I.. -I./O.Common -I$(SolutionDir)DBD -o O.Common\seqSoftIoc.dbd base.dbd ..\..\test\validate\testSupport.dbd
@@ -390,6 +397,7 @@ perl -CSD seq_release.pl 2.1.15 &gt; O.Common/seq_release.h
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist O.Common md O.Common
 xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R ..\Common\*.h  $(SolutionDir)include &gt; NUL
 SET PERL5LIB=$(SolutionDir)lib\perl
 
 perl -CSD $(OutDir)dbdExpand.pl  -I ./O.Common -I. -I.. -I./O.Common -I$(SolutionDir)DBD -o O.Common\seqSoftIoc.dbd base.dbd ..\..\test\validate\testSupport.dbd

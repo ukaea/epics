@@ -2,7 +2,7 @@
 Copyright (c) 1991      The Regents of the University of California
                         and the University of Chicago.
                         Los Alamos National Laboratory
-Copyright (c) 2010-2012 Helmholtz-Zentrum Berlin f. Materialien
+Copyright (c) 2010-2015 Helmholtz-Zentrum Berlin f. Materialien
                         und Energie GmbH, Germany (HZB)
 This file is distributed subject to a Software License Agreement found
 in the file LICENSE that is included with this distribution.
@@ -16,10 +16,10 @@ in the file LICENSE that is included with this distribution.
 /*
  * seqFindProg() - find a program in the state program list from thread id.
  */
-SPROG *seqFindProg(epicsThreadId threadId)
+PROG *seqFindProg(epicsThreadId threadId)
 {
     SSCB *ss = seqFindStateSet(threadId);
-    return ss ? ss->sprog : NULL;
+    return ss ? ss->prog : NULL;
 }
 
 struct findStateSetArgs {
@@ -27,7 +27,7 @@ struct findStateSetArgs {
     epicsThreadId threadId;
 };
 
-static int findStateSet(SPROG *sp, void *param)
+static int findStateSet(PROG *sp, void *param)
 {
     struct findStateSetArgs *pargs = (struct findStateSetArgs *)param;
     unsigned nss;
@@ -46,7 +46,7 @@ static int findStateSet(SPROG *sp, void *param)
 }
 
 /*
- * seqFindStateSet() - find a state set in the state program list from thread id.
+ * seqFindStateSet() - find a state set in the program list from thread id.
  */
 SSCB *seqFindStateSet(epicsThreadId threadId)
 {
@@ -58,45 +58,15 @@ SSCB *seqFindStateSet(epicsThreadId threadId)
     return args.ss;
 }
 
-struct findByNameArgs {
-    SPROG *sp;
-    const char *progName;
-    int instance;
-};
-
-static int findByName(SPROG *sp, void *param)
-{
-    struct findByNameArgs *pargs = (struct findByNameArgs *)param;
-    int found = strcmp(sp->progName, pargs->progName) == 0 && sp->instance == pargs->instance;
-    if (found)
-        pargs->sp = sp;
-    return found;
-}
-
-/*
- * seqFindProgByName() - find a program in the program instance list by name
- * and instance number.
- */
-epicsShareFunc SPROG *epicsShareAPI seqFindProgByName(const char *progName, int instance)
-{
-    struct findByNameArgs args;
-
-    args.sp = 0;
-    args.progName = progName;
-    args.instance = instance;
-    seqTraverseProg(findByName, &args);
-    return args.sp;
-}
-
 struct traverseInstancesArgs {
     seqTraversee *func;
     void *param;
 };
 
-static int traverseInstances(SPROG **ppInstances, seqProgram *pseq, void *param)
+static int traverseInstances(PROG **ppInstances, seqProgram *pseq, void *param)
 {
     struct traverseInstancesArgs *pargs = (struct traverseInstancesArgs *)param;
-    SPROG *sp;
+    PROG *sp;
     if (!ppInstances) return FALSE;
     foreach(sp, *ppInstances) {
         if (pargs->func(sp, pargs->param))
@@ -118,32 +88,16 @@ void seqTraverseProg(seqTraversee * func, void *param)
     traverseSequencerPrograms(traverseInstances, &args);
 }
 
-static int addProg(SPROG **ppInstances, seqProgram *pseq, void *param)
+static int addProg(PROG **ppInstances, seqProgram *pseq, void *param)
 {
-    SPROG *sp = (SPROG *)param;
+    PROG *sp = (PROG *)param;
 
     if (!ppInstances || !pseq) {
-        if (!sp->pvSys) {
-            seqCreatePvSys(sp);
-        }
         return FALSE;
-    }
-    assert(sp->pvSysName);
-    /* search for an instance with the same pvSysName */
-    if (!sp->pvSys) {
-        SPROG *curSP;
-        foreach(curSP, *ppInstances) {
-            if (strcmp(sp->pvSysName, curSP->pvSysName) == 0) {
-                DEBUG("Found a program instance (%p[%d]) with pvSys=%s.\n",
-                    curSP, curSP->instance, curSP->pvSysName);
-                sp->pvSys = curSP->pvSys;
-            }
-            break;
-        }
     }
     /* same program name */
     if (strcmp(sp->progName, pseq->progName) == 0) {
-        SPROG *curSP, *lastSP = NULL;
+        PROG *curSP, *lastSP = NULL;
         int instance = -1;
 
         /* determine maximum instance number for this program */
@@ -161,29 +115,28 @@ static int addProg(SPROG **ppInstances, seqProgram *pseq, void *param)
         }
         DEBUG("Added program %p, instance %d to instance list.\n",
             sp, sp->instance);
-        if (sp->pvSys)
-            return TRUE;
+        return TRUE;        /* terminate traversal */
     }
-    return FALSE;
+    return FALSE;           /* continue traversal */
 }
 
 /*
  * seqAddProg() - add a program to the program instance list.
  * Precondition: must not be already in the list.
  */
-void seqAddProg(SPROG *sp)
+void seqAddProg(PROG *sp)
 {
     traverseSequencerPrograms(addProg, sp);
 }
 
-static int delProg(SPROG **ppInstances, seqProgram *pseq, void *param)
+static int delProg(PROG **ppInstances, seqProgram *pseq, void *param)
 {
-    SPROG *sp = (SPROG *)param;
+    PROG *sp = (PROG *)param;
 
     if (!ppInstances || !pseq)
         return FALSE;
     if (strcmp(sp->progName, pseq->progName) == 0) {
-        SPROG *curSP;
+        PROG *curSP;
 
         if (*ppInstances == sp) {
             *ppInstances = sp->next;
@@ -204,7 +157,7 @@ static int delProg(SPROG **ppInstances, seqProgram *pseq, void *param)
 /*
  * seqDelProg() - delete a program from the program instance list.
  */
-void seqDelProg(SPROG *sp)
+void seqDelProg(PROG *sp)
 {
     traverseSequencerPrograms(delProg, sp);
 }

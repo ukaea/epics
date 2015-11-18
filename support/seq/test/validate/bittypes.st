@@ -1,5 +1,5 @@
 /*************************************************************************\
-Copyright (c) 2010-2012 Helmholtz-Zentrum Berlin f. Materialien
+Copyright (c) 2010-2015 Helmholtz-Zentrum Berlin f. Materialien
                         und Energie GmbH, Germany (HZB)
 This file is distributed subject to a Software License Agreement found
 in the file LICENSE that is included with this distribution.
@@ -23,7 +23,7 @@ assign i32 to "ushort";
 assign ui32 to "ushort";
 
 entry {
-    seq_test_init(12);
+    seq_test_init(24);
 }
 
 ss test {
@@ -45,29 +45,42 @@ ss test {
         int32_t xi32 = -1;
         uint32_t xui32 = -1;
         when () {
+            int pvstat;
             i8 = xi8;
-            pvPut(i8, SYNC);
-            pvGet(i8);
+            pvstat = pvPut(i8, SYNC);
+            testOk1(pvstat==pvStatOK);
+            pvstat = pvGet(i8);
+            testOk1(pvstat==pvStatOK);
             testOk1(i8==xi8);
             ui8 = xui8;
-            pvPut(ui8, SYNC);
-            pvGet(ui8);
+            pvstat = pvPut(ui8, SYNC);
+            testOk1(pvstat==pvStatOK);
+            pvstat = pvGet(ui8);
+            testOk1(pvstat==pvStatOK);
             testOk1(ui8==xui8);
             i16 = xi16;
-            pvPut(i16, SYNC);
-            pvGet(i16);
+            pvstat = pvPut(i16, SYNC);
+            testOk1(pvstat==pvStatOK);
+            pvstat = pvGet(i16);
+            testOk1(pvstat==pvStatOK);
             testOk1(i16==xi16);
             ui16 = xui16;
-            pvPut(ui16, SYNC);
-            pvGet(ui16);
+            pvstat = pvPut(ui16, SYNC);
+            testOk1(pvstat==pvStatOK);
+            pvstat = pvGet(ui16);
+            testOk1(pvstat==pvStatOK);
             testOk1(ui16==xui16);
             i32 = xi32;
-            pvPut(i32, SYNC);
-            pvGet(i32);
+            pvstat = pvPut(i32, SYNC);
+            testOk1(pvstat==pvStatOK);
+            pvstat = pvGet(i32);
+            testOk1(pvstat==pvStatOK);
             testOk1(i32!=xi32);
             ui32 = xui32;
-            pvPut(ui32, SYNC);
-            pvGet(ui32);
+            pvstat = pvPut(ui32, SYNC);
+            testOk1(pvstat==pvStatOK);
+            pvstat = pvGet(ui32);
+            testOk1(pvstat==pvStatOK);
             testOk1(ui32!=xui32);
         } exit
     }

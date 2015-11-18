@@ -46,21 +46,3 @@ record(bo,"$(PREFIX):light") {
     field(ONAM,"on")
     field(ZSV,"MINOR")
 }
-
-record(stringin,"$(PREFIX):ss_light") {
-    field(DTYP,"Sequencer Internals")
-    field(INP,"@demo light")
-    field(SCAN,"1 second")
-}
-
-record(stringin,"$(PREFIX):ss_ramp") {
-    field(DTYP,"Sequencer Internals")
-    field(INP,"@demo ramp")
-    field(SCAN,"1 second")
-}
-
-record(stringin,"$(PREFIX):ss_limit") {
-    field(DTYP,"Sequencer Internals")
-    field(INP,"@demo limit")
-    field(SCAN,"1 second")
-}

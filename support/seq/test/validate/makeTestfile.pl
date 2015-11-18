@@ -4,7 +4,7 @@
 #                         Operator of Los Alamos National Laboratory.
 # Copyright (c) 2008      UChicago Argonne LLC, as Operator of Argonne
 #                         National Laboratory.
-# Copyright (c) 2010-2012 Helmholtz-Zentrum Berlin f. Materialien
+# Copyright (c) 2010-2015 Helmholtz-Zentrum Berlin f. Materialien
 #                         und Energie GmbH, Germany (HZB)
 # This file is distributed subject to a Software License Agreement found
 # in file LICENSE that is included with this distribution.
@@ -20,6 +20,7 @@
 #     executable is the name of the file the script runs
 
 use strict;
+use Cwd;
 
 my $valgrind = "";
 
@@ -34,36 +35,59 @@ my $db = "../$stem.db";
 
 my $host_arch = $ENV{EPICS_HOST_ARCH};
 
+my $path = $ENV{PATH};
+
+my $top = Cwd::abs_path($ENV{TOP});
+
 open(my $OUT, ">", $target) or die "Can't create $target: $!\n";
 
 my $pid = '$pid';
 my $err = '$!';
 
-my $killit;
-if ($host_arch =~ /win32/) {
-  $killit = 'system("taskkill /F /IM softIoc.exe")';
-} else {
-  $killit = 'kill 9, $pid or die "kill failed: $!"';
+my $killit = 'kill 9, $pid or die "kill failed: $!"';
+my $child_proc = '$child_proc';
+
+my $pathsep = ':';
+if ("$host_arch" =~ /win32/ || "$host_arch" =~ /windows/) {
+  $pathsep = ';';
 }
 
+print $OUT <<EOF;
+\$ENV{HARNESS_ACTIVE} = 1;
+\$ENV{TOP} = '$top';
+\$ENV{PATH} = '$top/bin/$host_arch$pathsep$path';
+\$ENV{EPICS_CA_SERVER_PORT} = 10000 + \$\$ % 30000;
+EOF
+
 if ($ioc eq "ioc") {
-  print $OUT <<EOF;
+  if ("$host_arch" =~ /win32/ || "$host_arch" =~ /windows/) {
+    print $OUT <<EOF;
+require Win32::Process;
+my $child_proc;
+Win32::Process::Create($child_proc, "./$exe", "$exe -S -d $db", 0, 0, ".") || die "Win32::Process::Create() failed: $err";
+my $pid = $child_proc->GetProcessID();
+EOF
+  } else {
+    print $OUT <<EOF;
 my $pid = fork();
 die "fork failed: $err" unless defined($pid);
 if (!$pid) {
   exec("./$exe -S -d $db");
   die "exec failed: $err";
 }
+EOF
+  }
+  print $OUT <<EOF;
 system("$valgrind./$exe -S -t");
 $killit;
 EOF
 } elsif (-r "$db") {
   print $OUT <<EOF;
-exec "$valgrind./$exe -S -t -d $db" or die "exec failed: $err";
+system "$valgrind./$exe -S -t -d $db";
 EOF
 } else {
   print $OUT <<EOF;
-exec "$valgrind./$exe -S -t" or die "exec failed: $err";
+system "$valgrind./$exe -S -t";
 EOF
 }
 

@@ -12,36 +12,19 @@ list. Comments are welcome, as usual.
   brings any actual benefit, considering that sequencer and database
   typically run on the same IOC. It might be convenient, sometimes.
 
-* Add optional timeout argument for pvGet and pvPut to override the
-  hard-coded default of 10 seconds.
+* Add "pv" as a prefix type constructor. This is now implemented in my
+  working branch for version 2.3. Sketch::
 
-* pvGetComplete should support additional arguments for arrays of multiple
-  PVs, just like pvPutComplete.
+    int pv x = 0;                         /* single anonymous scalar pv */
+    int pv x = pv "name";                 /* single named scalar pv */
+    int (pv x)[2] = {1,2};                /* single anonymous array valued pv */
+    int (pv x)[2] = pv "name";            /* single named array valued pv */
+    int pv x[2];                          /* array of 2 anonymous scalar pvs */
+    int pv x[2] = pv {"n1", "n2"};        /* array of 2 named scalar pvs */
+    int (pv x[2])[100];                   /* array of 2 anonymous array valued pvs */
+    int (pv x[2])[100] = pv {"n1", "n2"}; /* array of 2 named array valued pvs */
 
-* It would be nice to be able to use foreign types in SNL declarations.
-  However, supporting typedefs exactly as in C is problematic:
-  at the place where an identifier is *used*, the context-free grammar cannot
-  decide whether it is a type or a variable. So we would need to assign
-  different tokens to typedefs and other identifiers. And the
-  lexer would have to look up the identifier in the symbol table to see
-  what kind of token to produce. Effectively, we need to feed information
-  from the parser back into the lexer. This is all horrible and error
-  prone. Instead, I am flirting
-  with the idea to borrow C++'s typename keyword, so one could write e.g. ::
-
-    %%#include <stdio.h>
-    typename FILE *f;
-
-  in SNL code. The "typename" would of course not be included in the
-  generated C code.
-
-  We could also allow to use named struct, union, or enum types, e.g. ::
-
-    struct epicsTimeStamp ts = pvTimestamp(var);
-
-  In all these cases, the keyword (typename, struct, union, enum)
-  cleanly disambiguates the grammar, so we can keep lexing and parsing
-  as separate stages.
+  This now also works for structs whose members can be of pv type etc.
 
 * Raw ideas:
 
@@ -60,24 +43,11 @@ list. Comments are welcome, as usual.
 
       int pvChoice(var, char *choice_name);
 
-    This requires support for DBR_GR_ENUM in the pv layer (so realistically
-    has to wait until the pv layer is demolished).
+    This requires support for DBR_GR_ENUM in the pv layer.
 
-  - Invent a new syntax for pv "assign". My current favourite::
-
-      pv int x = 0;                   /* single anonymous scalar pv */
-      pv "name" int x;                /* single named scalar pv */
-      pv int x[2] = {1,2};            /* single anonymous array[2] pv */
-      pv "name" int x[2] = {1,2};     /* single named array[2] pv */
-      pv {} int x[2];                 /* multiple(2) anonymous scalar pvs */
-      pv {"n1", "n2"} int x[2];       /* multiple(2) named scalar pvs */
-      pv {} int x[2][100];            /* multiple(2) anonymous array[100] pvs */
-      pv {"n1", "n2"} int x[2][100];  /* multiple(2) named array[100] pvs */
-
-  - Go even further and invent a syntax for assign, monitor, sync, etc.
-    The idea is to provide an alternative to the usual macros. Every
-    SNL programmer uses her own self-made macros to simplify declaration blocks
-    like ::
+  - Better syntax for assign, monitor, sync, etc. The idea is to provide an
+    alternative to the usual macros. Every SNL programmer uses her own
+    self-made macros to simplify declaration blocks like ::
 
       int x;
       assign x to "bla";
@@ -86,28 +56,59 @@ list. Comments are welcome, as usual.
 
     The challenge here is to come up with something that is light-weight,
     can be easily specialized, and seamlessly fits into the existing syntax.
+    
+    My current favorite candidate is to extend the pv initialization syntax.
+    The idea is that a pv init expression (i.e. an initializer prefixed with
+    the "pv" keyword) can get extra arguments with defaults::
+    
+      int pv x = pv "name";             /* just assigned to "name" */
+      int pv x = pv ("name");           /* same */
+      int pv x = pv ("name", 1);        /* also monitor */
+      int pv x = pv ("name", 1, ef);    /* also sync to ef */
+      int pv x = pv ("name", 0, ef);    /* no monitor, but sync to ef */
+      int pv x = pv ("name", 1, 0, 20); /* monitor, no sync, queued (size 20) */
+      int pv x[2] = pv ({"n1", "n2"},1);/* both pvs are monitored */
+      struct two {
+        int pv x;
+        int pv ys[2];
+      };
+      struct two s = pv {"n1", {"n2", "n3"}}; /* no monitors */
+      struct two s = pv {("n1",1), ({"n2", "n3"}, 1, ef)}; /* x monitored, ys also synced */
+      etc...
+
+    The "pv" outside of an aggregate "{ ... }" should be the same as
+    prefixing all elements with it. Aggregates in a pv argument position
+    are allowed only for the pv name and mean expand all elements with the
+    other arguments.
 
 * Convert everything under test to use epicsUnitTest. Add more regression tests.
 
-* Clarify the situation of a pvPut/pvGet to array variable that
-  has been connected to separate PVs. Currently this puts/gets the first element,
-  but wouldn't it be nice if it meant to put/get all (connected) elements?
-  Write to tech-talk and ask (since it breaks compatibility)?
-
-* Not sure what to do with devSequencer. It is ugly, accesses sequencer
-  internals, and does not work if programs are instantiated more than once.
-
 * Need to go over the introductory chapters in the docs, remove out-dated
-  information.
+  information. Partly done.
 
-* Götz suggested to allow the monitor clause inside a state set, even if the
-  variable is global. This would mean automatic variable updates affect only
-  those state sets which contain the monitor clause, while others do not get
-  updates. Can combine this with state set local event flags and sync clauses.
+* Götz suggested to allow the monitor clause inside a state set, even if
+  the variable is global. This would mean automatic variable updates affect
+  only those state sets which contain the monitor clause, while others do
+  not get updates. (Perhaps: combine this with state set local event flags
+  and sync clauses.)
 
   This could be useful in situations where one state set writes to the variable
-  and others only read. The writer would no need the monitor, thus would see
-  his local copy in a consistent way.
+  and others only read. The writer would not monitor, thus would not fall
+  victim to the modify but not publish fallacy.
 
-  Implementation: need to have monitor flags for each state set; must also
-  change interface to snc (monitored becomes a bitmask with numSS bits).
+  Experimental implementation in version 2.3 branch done. State local
+  assign, monitor, etc got in the way, which is why I removed them in 2.3
+  (deprecated in 2.2). They aren't too useful anyway.
+
+* Add some sort of built-in macro language. Something that nicely integrates
+  with the existing SNL syntax would be nice, e.g. ::
+
+    define macro (arg, ...) {
+      definition
+    }
+    include "headerfile";
+
+  Use of CPP could then be deprecated. What about token catenation and
+  stringification as in CPP?
+
+  Implementation would have to be an intermediate step between lexing and parsing.

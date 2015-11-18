@@ -12,6 +12,7 @@ in the file LICENSE that is included with this distribution.
 #define INCLpvTypeh
 
 #include "epicsTime.h"		/* for time stamps */
+#include "epicsTypes.h"
 
 #include "pvAlarm.h"		/* status and severity definitions */
 
@@ -34,55 +35,15 @@ typedef enum {
     pvTypeTIME_STRING = 11
 } pvType;
 
-#define PV_SIMPLE(type) ((type)<=pvTypeSTRING)
+/* these must correspond to corresponding types in db_access.h */
+typedef epicsUInt8      pvChar;     /* dbr_char_t   */
+typedef epicsInt16      pvShort;    /* dbr_short_t  */
+typedef epicsInt32      pvLong;     /* dbr_long_t   */
+typedef epicsFloat32    pvFloat;    /* dbr_float_t  */
+typedef epicsFloat64    pvDouble;   /* dbr_double_t */
+typedef epicsOldString  pvString;   /* dbr_string_t */
 
-#define pv_type_is_valid(type) ((type)>=0&&(type)<=pvTypeTIME_STRING)
-#define pv_type_is_plain(type) ((type)>=0&&(type)<=pvTypeSTRING)
-
-/*
- * Value-related types (c.f. db_access.h)
- */
-typedef epicsInt8    pvChar;
-typedef epicsInt16   pvShort;
-typedef epicsInt32   pvLong;
-typedef epicsFloat32 pvFloat;
-typedef epicsFloat64 pvDouble;
-typedef char         pvString[40]; /* use sizeof( pvString ) */
-
-#define PV_TIME_XXX(type) \
-    typedef struct { \
-	pvStat	  status; \
-	pvSevr    severity; \
-	epicsTimeStamp  stamp; \
-	pv##type value[1]; \
-    } pvTime##type
-
-PV_TIME_XXX( Char   );
-PV_TIME_XXX( Short  );
-PV_TIME_XXX( Long   );
-PV_TIME_XXX( Float  );
-PV_TIME_XXX( Double );
-PV_TIME_XXX( String );
-
-typedef union {
-    pvChar       charVal[1];
-    pvShort      shortVal[1];
-    pvLong       longVal[1];
-    pvFloat      floatVal[1];
-    pvDouble     doubleVal[1];
-    pvString     stringVal[1];
-    pvTimeChar   timeCharVal;
-    pvTimeShort  timeShortVal;
-    pvTimeLong   timeLongVal;
-    pvTimeFloat  timeFloatVal;
-    pvTimeDouble timeDoubleVal;
-    pvTimeString timeStringVal;
-} pvValue;
-
-/* deprecated, use pv_value_ptr */
-#define PV_VALPTR(type,value)\
-    ((PV_SIMPLE(type)?(void*)(value):\
-                      (void*)(&value->timeCharVal.value)))
+typedef void            pvValue;    /* abstract */
 
 #define pv_is_simple_type(type)\
     ((type)>=pvTypeCHAR&&(type)<=pvTypeSTRING)
@@ -91,15 +52,15 @@ typedef union {
 #define pv_is_valid_type(type)\
     ((type)>=pvTypeCHAR&&(type)<=pvTypeTIME_STRING)
 
-#define pv_status_ptr(pv,type)\
+#define pv_status(pv,type)\
     (assert(pv_is_time_type(type)),\
-    (pvStat *)(((char *)pv)+pv_status_offsets[(type)-pvTypeTIME_CHAR]))
-#define pv_severity_ptr(pv,type)\
+    (pvStat)*(epicsInt16 *)(((char *)pv)+pv_status_offsets[(type)-pvTypeTIME_CHAR]))
+#define pv_severity(pv,type)\
     (assert(pv_is_time_type(type)),\
-    (pvSevr *)(((char *)pv)+pv_severity_offsets[(type)-pvTypeTIME_CHAR]))
-#define pv_stamp_ptr(pv,type)\
+    (pvSevr)*(epicsInt16 *)(((char *)pv)+pv_severity_offsets[(type)-pvTypeTIME_CHAR]))
+#define pv_stamp(pv,type)\
     (assert(pv_is_time_type(type)),\
-    (epicsTimeStamp *)(((char *)pv)+pv_stamp_offsets[(type)-pvTypeTIME_CHAR]))
+    *(epicsTimeStamp *)(((char *)pv)+pv_stamp_offsets[(type)-pvTypeTIME_CHAR]))
 
 #define pv_value_ptr(pv,type)\
     (assert(pv_is_valid_type(type)),(void *)(((char *)pv)+pv_value_offsets[type]))

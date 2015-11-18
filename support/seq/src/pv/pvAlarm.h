@@ -60,14 +60,3 @@ typedef enum {
 } pvSevr;
 
 #endif /* INCLpvAlarmh */
-
-/*
- * pvAlarm.h,v
- * Revision 1.1.1.1  2000/04/04 03:22:15  wlupton
- * first commit of seq-2-0-0
- *
- * Revision 1.1  2000/03/29 01:58:59  wlupton
- * initial insertion
- *
- */
-

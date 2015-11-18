@@ -4,95 +4,124 @@ Tutorial
 This chapter gives a gentle introduction to State Notation Language
 (SNL).
 
-Introduction
-------------
+A First Example
+---------------
 
-SNL is a programming language specifically designed for programming
-*finite state machines* in such a way that it is easy for the program
-to interact with EPICS *process variables* (PVs), allowing to read and
-to write them and to react to changes in their value or status.
+We start with a simple state machine ``volt_check`` that controls a
+light switch depending on the value of a voltage measurement and
+the internal state of the program. The following code fragment
+defines the state machine::
 
-An SNL program consists of a number of *state sets*, each one
-representing an independent state machine. The state set lists all the
-possible *states* that are allowed for this state set, along with
-conditions for transitions to other states of the same state set and
-code that is executed when the state transition take place.
+  ss volt_check {
+    state light_off {
+      when (voltage > 5.0) {
+        light = TRUE;
+        pvPut(light);
+      } state light_on
+    }
+    state light_on {
+      when (voltage < 3.0) {
+        light = FALSE;
+        pvPut(light);
+      } state light_off
+    }
+  }
 
+At the top level we use the keyword ``ss`` to declare a *state set* (which
+is SNL speak for state machine) named ``volt_check``. Inside the code
+block that follows, we define the *states* of this state set, using the
+``state`` keyword. There are two states here: ``light_off`` and ``light_on``.
+Inside each state, we define conditions under which the program will
+enter another state, indicated by the keyword ``when``. The block
+following the condition contains *action statements* that are executed
+when the condition fires.
 
-State Transition Diagrams
--------------------------
+In our example, in state ``light_off``, whenever the voltage exceeds a
+value of 5.0, the light switch is turned on, and the internal state
+changes to ``light_on``. In state ``light_on``, whenever the voltage is
+or drops below 3.0, the light switch is turned off, and the internal
+state changes to ``light_off``.
 
-A *state transition diagram* (STD) is a graphical notation for
-specifying state machines. In the STD, states are represented by oval
-boxes, transitions by arrows. State transitions can happen in response
-to both the present internal state and some external event or
-condition; this is represented by annotating the state transition
-arrow with a horizontal bar: the condition is noted above the line and
-the action to be taken when the transition happens below the line.
+The following is a graphical representation of the above state machine:
 
-A simple STD is shown in Figure 2-1. In this example the level of an
-input voltage is sensed; a light is turned on if the voltage is
-greater than 5 volts and the state is "Light is Off"; conversely, the
-light is turned off if the voltage becomes less than 3 volts and the
-state is "Light is On".
+.. blockdiag::
+
+   blockdiag {
+      orientation = portrait
+      default_group_color = "#6BA81E"
+
+      span_width = 180  // default value is 64
+      span_height = 30  // default value is 40
+
+      class start [shape = minidiamond, color = "#6BA81E", fontsize = 14]
+      class state [shape = cloud, style = "1,2", height = 30, width = 100, color = "#6BA81E", fontsize = 14]
+      class cond [shape = flowchart.condition, width = 80, height = 30]
+      class actions [shape = flowchart.terminator, width = 120]
+      class inner [style = "1,2"]
+
+      start [class = start]
+      start -> light_off
+      group {
+         light_off [class = state]
+         v_above_5 [class = cond, label = "v > 5"]
+         turn_on [class = actions, label = "light = TRUE;\npvPut(light);"]
+         light_off -> v_above_5 -> turn_on [class = inner]
+      }
+      turn_on -> light_on
+      group {
+         light_on [class = state]
+         v_below_3 [class = cond, label = "v < 3"]
+         turn_off [class = actions, label = "light = FALSE;\npvPut(light);"]
+         light_on -> v_below_3 -> turn_off [class = inner]
+      }
+      turn_off -> light_off
+   }
 
 Note that the output or action depends not only on the input or
-condition, but also on the current state. For instance, an input ``v``
-of 4.2 volts does not alone determine the output (``light``), the
-current state matters, too.
+condition, but also on the current state. For instance, an input
+``voltage`` of 4.2 volts does not alone determine the output (``light``),
+the current state matters, too.
 
-.. image:: Figure2-1.png
+As you can see, the SNL code is syntactically very similar to the C
+language. Particularly, the syntax for variable declarations,
+expressions, and statements are exactly as in C, albeit with a few
+restrictions.
+
+You might wonder about the function calls in the above code.  The
+``pvPut`` function is a special built-in function that writes (or puts)
+the value in the variable ``light`` to the appropriate process variable.
+But before I can explain how this works, we must talk about how program
+variables are "connected" to process variables.
 
 
-Elements of the State Notation Language
----------------------------------------
+Variables
+---------
 
-The following SNL code segment expresses the STD in Figure 2-1::
+SNL programs interact with the outside world via variables that are bound
+to (or connected to) `process variable`\s (PVs) in EPICS. In our example,
+there are two such variables:  ``voltage``, which represents a measured
+voltage, and ``light`` which controls a light switch. In an actual SNL
+program, these variables must be declared before they can be used::
 
-  state light_off {
-    when (v > 5.0) {
-      light = TRUE;
-      pvPut(light);
-    } state light_on
-  }
+  float voltage;
+  int light;
 
-  state light_on {
-    when (v < 3.0) {
-      light = FALSE;
-      pvPut(light);
-    } state light_off
-  }
+We also want to associated them with PVs i.e. EPICS record fields::
 
-You will notice that the SNL appears to have a structure and syntax
-that is similar to the C language. In fact the SNL uses its own syntax
-plus a subset of C, such as expressions, assignments, and function
-calls. This example contains two code blocks that define two states:
-``light_off`` and ``light_on``. Within each state block are
-:token:`when` clauses that define events or conditions (``v > 5.0``
-and ``v < 3.0``) that lead to a state change. Following each condition
-is a block containing actions (C statements). The :c:func:`pvPut`
-function writes or puts the value in the variable ``light`` to the
-appropriate process variable. Following the action block, the next
-state is specified.
-
-The variables (in our example ``v`` and ``light``) must be declared
-and associated with process variables::
-
-  float v;
-  short light;
-  assign v to "Input_voltage";
+  assign voltage to "Input_voltage";
   assign light to "Indicator_light";
 
-The above :token:`assign` clause associate the variables ``v`` and
+The above `assign` clauses associate the variables ``voltage`` and
 ``light`` with the process variables "Input_voltage" and
-"Indicator_light" respectively. We want the value of ``v`` to be
-updated automatically whenever it changes. This is accomplished with
-the following declaration::
+"Indicator_light" respectively.
 
-  monitor v;
+We also want the value of ``voltage`` to be updated automatically whenever
+it changes. This is accomplished with the following code::
+
+  monitor voltage;
 
 Whenever the value in the control system (the EPICS database) changes,
-the value of ``v`` will likewise change. Note however that this
+the value of ``voltage`` will likewise change. Note however that this
 depends on the underlying system sending update messages for the value
 in question. When and how often such updates are communicated by the
 underlying system may depend on the configuration of the PV. For
@@ -103,6 +132,41 @@ specifies the amount of change that the designer considers a
 and accordingly will not cause a state change in the above program.
 
 
+Built-in PV Functions
+---------------------
+
+I said above that the program interacts with the outside world via
+variables assigned to PVs. However, mutating such a variable e.g. via
+the C assignment operator (see `Assignment Operators`), as in::
+
+  light = TRUE;
+
+only changes the value of ``light`` as seen from inside the program.
+In order for the new value to take effect, it must be written to the
+PV connected with the variable. This is done by calling the special
+built-in function `pvPut`, that gets the variable as argument.
+
+Note that calling such a special built-in function does *not* follow
+the standard C semantics for function calls! Particularly, what
+actually gets passed to the function is not the *value* of the variable
+``light`` (as it would in C), instead an internal representation of the
+variable gets passed (by reference). You can think of what actually
+gets passed as an "object" (as in "object-oriented") or a "handle"
+that contains all the necessary run-time information, one of which is
+the name of PV the variable is connected with.
+
+There are many more of these built-in functions, the `Reference`
+contains detailed description of each one. For now, let's keep to the
+basics; I'll mention just one more built-in function: With
+`pvGet`, you can poll PVs explicitly, instead of using
+`monitor`. That is, a statement such as ::
+
+  pvGet(voltage);
+
+has the effect of sending a get request to the PV "Input_voltage",
+waiting for the response, and then updating the variable with the
+new value.
+
 .. _A Complete Program:
 
 A Complete Program
@@ -112,15 +176,16 @@ Here is what the complete program for our example looks like::
 
   program level_check
 
-  float v;
-  assign v to "Input_voltage";
-  monitor v;
+  float voltage;
+  assign voltage to "Input_voltage";
+  monitor voltage;
+
   short light;
   assign light to "Indicator_light";
 
   ss volt_check {
     state light_off {
-      when (v > 5.0) {
+      when (voltage > 5.0) {
         /* turn light on */
         light = TRUE;
         pvPut(light);
@@ -128,7 +193,7 @@ Here is what the complete program for our example looks like::
     }
 
     state light_on {
-      when (v < 5.0) {
+      when (voltage < 5.0) {
         /* turn light off */
         light = FALSE;
         pvPut(light);
@@ -136,15 +201,12 @@ Here is what the complete program for our example looks like::
     }
   }
 
-Each program must start with the word "program", followed by the name
+Each program must start with the word `program`, followed by the name
 of the program (an identifier)::
 
   program level_check
 
-After that come declarations and then the state sets. Each state set
-must have name, which comes after the word "ss"::
-
-  ss volt_check { ... }
+After that come global declarations and then one or more state sets.
 
 
 Adding a Second State Set
@@ -182,7 +244,7 @@ Next we add the following lines after the first state set::
   }
 
 The above example exhibits several concepts. First, note that the
-:token:`when` clause in state ``init`` contains an empty event
+`transition` clause in state ``init`` contains an empty event
 expression. This means unconditional execution of the transition. The
 first state in each state set is always the initial state, so we give
 it the name ``init``. From this first state there is an immediate
@@ -191,38 +253,70 @@ variables during the transition. Note that the ``ramp`` state always
 returns to itself. The structure of this state set is shown in the
 following STD:
 
-.. image:: Figure2-2.png
+.. blockdiag::
 
-The final concept introduced in the last example is the
-:c:func:`delay` function. This function returns a ``TRUE`` value after
-a specified time interval from when the state was entered. The
-parameter to :c:func:`delay` specifies the number of seconds, and must
-be a floating point value (constant or expression).
+   blockdiag {
+      orientation = portrait
+      default_group_color = "#6BA81E"
+
+      span_width = 180  // default value is 64
+      span_height = 30  // default value is 40
+
+      class start [shape = minidiamond, color = "#6BA81E", fontsize = 14]
+      class state [shape = cloud, style = "1,2", height = 30, width = 100, color = "#6BA81E", fontsize = 14]
+      class cond [shape = flowchart.condition, width = 80, height = 30]
+      class actions [shape = flowchart.terminator, width = 120]
+      class inner [style = "1,2"]
+
+      start [class = start]
+      start -> init
+      group {
+         init [class = state, label = "state init"]
+         nil [class = cond, label = "TRUE"]
+         set_vout [class = actions, height = 55, label = "vout = 0.0;\npvPut(vout);\ndelta = 0.2;\n"]
+         init -> nil -> set_vout [class = inner]
+      }
+      set_vout -> ramp
+      group {
+         ramp [class = state, label = "state ramp"]
+         delay [class = cond, label = "delay(0.1)", width = 100]
+         repeat [class = actions, label = "...\nvout += delta;"]
+         ramp -> delay -> repeat [class = inner]
+      }
+      repeat -> ramp
+   }
+
+The final concept introduced in the last example is the `delay` function.
+This function returns a boolean that tells us whether the given time
+interval has elapsed. The interval is given in seconds (as a floating point
+value) and counts from the time the state was entered.
 
 At this point, you may wish to try an example with the two state sets.
-You can jump ahead and read parts of Chapters 3-5. You probably want
-to pick unique names for your process variables, rather than the ones
-used above. You may also wish to replace the :c:func:`pvPut`
-statements with ``printf`` statements to display "High" and "Low" on
-your console.
+You can jump ahead and read parts of the Chapters `Compiling` and
+`Using` to find out how. You probably want to pick unique names
+for your process variables, rather than the ones used above.
 
 
 Variable Initialization and Entry Blocks
 ----------------------------------------
 
-Since version 2.1 is has become simpler to initialize variables: you
+Since version 2.1 it has become simpler to initialize variables: you
 can use the same syntax as in C, i.e. initialize together with the
 declaration::
 
   float vout = 0.0;
   float delta = 0.2;
 
-More complicated initialization can also be done using an
-:token:`entry` block instead of using a separate state::
+which, by the way, can also be written as ::
+
+  float vout = 0.0, delta = 0.2;
+
+More complicated initialization (e.g. involving non-constant expressions or
+side-effects) can be done using an `entry` block instead of using a separate
+state::
 
   ss generate_voltage {
     state ramp {
-      option -e;
       entry {
         pvPut(vout);
       }
@@ -232,60 +326,68 @@ More complicated initialization can also be done using an
     }
   }
 
-The actions in an entry block in a state declaration are executed
-whenever the state is enetered. The state option ::
-
-  option -e;
-
-specifies that this action block is *not* executed if coming from the
-same state; in this case this ensures that the ::
+The actions in an entry block in a state declaration are executed whenever
+the state is entered from a different state. In this case this means the ::
 
   pvPut(vout);
 
-that appears inside the entry block is executed only once when the
+that appears inside the entry block will be executed only once when the
 state is entered for the first time.
 
 
-Variable Names Using Macros
----------------------------
+PV Names Using Program Parameters
+---------------------------------
 
-You can specify the names of process variables or parts of them at
-run-time. This is done by using macro substitution. In our example we
-could replace the :token:`assign` statements with the following::
+You can use program parameter substitution to parameterize the PV names
+in your program. In our example we could replace the `assign`
+statements with the following::
 
-  assign v to "{unit}:ai1";
+  assign voltage to "{unit}:ai1";
   assign vout to "{unit}:ao1";
 
-The string within the curly brackets is a macro which has a name
-("unit" in this case). At run-time you give the macro a value,
-which is substituted in the above string to form a complete process
-variable name. For example, if the macro "unit" is given
-a name "DTL_6:CM_2", then the run-time variable name is
-"DTL_6:CM_2:ai1". More than one macro may be specified within
-a string, and the entire string may be a macro. See
-:ref:`run time parameters` for more on macros.
+The string within the curly braces is the name of a program parameter
+and the whole thing (the name and the braces) are replaced with the
+value of the parameter. For example, if the parameter "unit" has value
+"DTL_6:CM_2", then the expanded PV name is "DTL_6:CM_2:ai1". See
+`run time parameters` for more on program parameters (and
+particularly how to give them values).
 
 
 Data Types
 ----------
 
-The allowable variable declaration types correspond to the C types:
-``char``, ``unsigned char``, ``short``, ``unsigned short``, ``int``,
-``unsigned int``, ``long``, ``unsigned long``, ``float`` , and
-``double``. In addition there is the type ``string``, which is a fixed
-array size of type ``char`` (at the time of writing, a string can hold
-40 characters). Sequencer variables having any of these types may be
+In earlier versions, variables were restricted to a hand full of
+predefined types, plus one or two-dimensional arrays of these.
+
+This is no longer true: you can declare variables of any type you like.
+The only restrictions are:
+
+#. you cannot *define* new types, only use them in declarations
+
+#. when using type aliases ("typedef") you must prefix them with
+   the keyword "typename"
+
+#. only variables of the above mentioned restricted list can be
+   `assign`\'ed to PVs.
+
+The built-in types are: ``char``, ``unsigned char``, ``short``,
+``unsigned short``, ``int``, ``unsigned int``, ``long``,  ``unsigned
+long``, ``float`` , and ``double``. These correspond exactly to their C
+equivalents. In addition there is the type ``string``, which is an array
+of 40 ``char``.
+
+Sequencer variables having any of these types may be
 assigned to a process variable. The type declared does not have to be
 the same as the native control system value type. The conversion
 between types is performed at run-time. For more details see the
-:ref:`corresponding section in the reference <Types>`.
+`corresponding section in the reference <Types>`.
 
 You may specify array variables as follows::
 
   long arc_wf[1000];
 
 When assigned to a process variable, operations such as
-:c:func:`pvPut` are performed for the entire array.
+`pvPut` are performed for the entire array.
 
 
 Arrays of Variables
@@ -328,7 +430,7 @@ Alternatively, we can do this for the entire array::
   monitor Vin;
 
 And the same goes when `Synchronizing State Sets with Event Flags`_
-and :ref:`QueuingMonitors`.
+and `QueuingMonitors`.
 
 Double subscripts offer additional options::
 
@@ -346,7 +448,7 @@ second index defines a 100-element double array to hold the value of
 each of the two process variables. When used in a context where a
 number is expected, both indices must be specified, e.g. ``X[1][49]``
 is the 50th element of the value of "orange" . When used in a context
-where a process variable is expected, e.g. with :c:func:`pvPut`, then
+where a process variable is expected, e.g. with `pvPut`, then
 only the first index should be specified, e.g. ``X[1]`` for "orange" .
 
 Dynamic Assignment
@@ -375,12 +477,12 @@ Likewise, an empty string can de-assign a variable::
   pvAssign(Xmotor, "");
 
 The current assignment status of a variable is returned by the
-:c:func:`pvAssigned` function as follows::
+`pvAssigned` function as follows::
 
   isAssigned = pvAssigned(Xmotor);
 
 The number of assigned variables is returned by the
-:c:func:`pvAssignCount` function as follows::
+`pvAssignCount` function as follows::
 
   numAssigned = pvAssignCount();
 
@@ -396,8 +498,8 @@ Status of Process Variables
 ---------------------------
 
 Process variables have an associated status, severity and time stamp.
-You can obtain these with the :c:func:`pvStatus`, :c:func:`pvSeverity`
-and :c:func:`pvTimeStamp` functions. For example::
+You can obtain these with the `pvStatus`, `pvSeverity`
+and `pvTimeStamp` functions. For example::
 
   when (pvStatus(x_motor) != pvStatOK) {
   printf("X motor status=%d, severity=%d, timestamp=%d\\n",
@@ -405,7 +507,7 @@ and :c:func:`pvTimeStamp` functions. For example::
   pvTimeStamp(x_motor).secPastEpoch);
   ...
 
-These routines are described in :ref:`BuiltinFunctions`. The values
+These routines are described in `BuiltinFunctions`. The values
 for status and severity are defined in the include file *pvAlarm.h*,
 and the time stamp is returned as a standard EPICS ``TS_STAMP``
 structure, which is defined in *tsStamp.h* . Both these files are
@@ -420,8 +522,8 @@ Synchronizing State Sets with Event Flags
 
 State sets within a program may be synchronized through the use
 of event flags. Typically, one state set will set an event flag, and
-another state set will test that event flag within a :token:`when`
-clause. The :token:`sync` statement may also be used to associate an
+another state set will test that event flag within a `transition`
+clause. The `sync` statement may also be used to associate an
 event flag with a process variable that is being monitored. In that
 case, whenever a monitor is delivered, the corresponding event flag is
 set. Note that this provides an alternative to testing the value of
@@ -430,9 +532,9 @@ being tested is an array or when it can have multiple values and an
 action must occur for any change.
 
 This example shows a state set that forces a low limit always to be
-less than or equal to a high limit. The first :token:`when` clause
+less than or equal to a high limit. The first `transition` clause
 fires when the low limit changes and someone has attempted to set it
-above the high limit. The second :token:`when` clause fires when the
+above the high limit. The second `transition` clause fires when the
 opposite situation occurs.
 
 ::
@@ -474,47 +576,46 @@ element of that array.
 Queuing Monitors
 ----------------
 
-Neither testing the value of a monitored channel in a :token:`when`
+Neither testing the value of a monitored channel in a `transition`
 clause nor associating the channel with an event flag and then testing
 the event flag can guarantee that the sequence is aware of all
 monitors posted on the channel. Often this doesn't matter, but
 sometimes it does. For example, a variable may transition to 1 and
 then back to 0 to indicate that a command is active and has completed.
 These transitions may occur in rapid succession. This problem can be
-avoided by using the :token:`syncQ` statement to associate a variable
-with both a queue and an event flag. The :c:func:`pvGetQ` function
-retrieves and removes the head of queue.
+avoided by using the `syncq` statement to associate a variable
+with a queue. The `pvGetQ` function retrieves and removes the
+head of queue.
 
-This example illustrates a typical use of :c:func:`pvGetQ` : setting a
+This example illustrates a typical use of `pvGetQ` : setting a
 command variable to 1 and then changing state as an active flag
-transitions to 1 and then back to 0. Note the use of :c:func:`pvFreeQ`
+transitions to 1 and then back to 0. Note the use of `pvFlushQ`
 to clear the queue before sending the command. Note also that, if
-:c:func:`pvGetQ` hadn't been used then the active flag's transitions
+`pvGetQ` hadn't been used then the active flag's transitions
 from 0 to 1 and back to 0 might both have occurred before the
-:token:`when` clause in the ``sent`` state fired::
+`transition` clause in the ``sent`` state fired::
 
   long command; assign command to "commandVar";
 
   long active; assign active to "activeVar"; monitor active;
-  evflag activeFlag; syncQ active activeFlag;
+  syncq active 2;
 
   ss queue {
     state start {
-      when () {
-        pvFreeQ( active );
+      entry {
+        pvFlushQ( active );
         command = 1;
         pvPut( command );
-      } state sent
-    }
-
-    state sent {
+      }
       when ( pvGetQ( active ) && active ) {
       } state high
     }
-
     state high {
       when ( pvGetQ( active ) && !active ) {
       } state done
+    }
+    state done {
+      /* ... */
     }
   }
 
@@ -524,20 +625,22 @@ related control system ``active`` flags. In this case, the queue
 would have had an entry added to it whenever a monitor was posted
 on any of the underlying control system ``active`` flags.
 
+.. todo:: check if the implementation conforms to the above
+
 Asynchronous Use of pvGet
 -------------------------
 
-Normally the :c:func:`pvGet` operation completes before the function
+Normally the `pvGet` operation completes before the function
 returns, thus ensuring data integrity. However, it is possible to use
-these functions asynchronously by specifying the :option:`+a` compiler
-flag (see :ref:`CompilerOptions`). The operation might not be
+these functions asynchronously by specifying the `+a` compiler
+flag (see `CompilerOptions`). The operation might not be
 initiated until the action statements in the current transition have
 been completed and it could complete at any later time. To test for
-completion use the function :c:func:`pvGetComplete`, which is
-described in :ref:`BuiltinFunctions`.
+completion use the function `pvGetComplete`, which is
+described in `BuiltinFunctions`.
 
-:c:func:`pvGet` also accepts an optional ``SYNC`` or ``ASYNC``
-argument, which overrides the :option:`+a` compiler flag. For
+`pvGet` also accepts an optional ``SYNC`` or ``ASYNC``
+argument, which overrides the `+a` compiler flag. For
 example::
 
   pvGet( initActive[i], ASYNC );
@@ -547,18 +650,18 @@ example::
 Asynchronous Use of pvPut
 -------------------------
 
-Normally the :c:func:`pvPut` operation completes asynchronously. In
+Normally the `pvPut` operation completes asynchronously. In
 the past it has been the responsibility of the programmer to ensure
 that the operation completed (typically by monitoring other
-variables). However, the function :c:func:`pvPutComplete` can now be
-used for this. Also, while the :option:`+a` compiler flag does not
-affect put operations, :c:func:`pvPut`, like :c:func:`pvGet`, accepts
+variables). However, the function `pvPutComplete` can now be
+used for this. Also, while the `+a` compiler flag does not
+affect put operations, `pvPut`, like `pvGet`, accepts
 an optional ``SYNC`` or ``ASYNC`` argument, which forces a synchronous
 or asynchronous put. For example::
 
-  pvPut( init[i], SYNC );
+  pvPut(init[i], SYNC);
 
-:c:func:`pvPutComplete` supports arrays and can be used to check
+`pvPutComplete` supports arrays and can be used to check
 whether a set of puts have all completed. This example illustrates how
 to manage a set of parallel commands.
 
@@ -586,10 +689,10 @@ to manage a set of parallel commands.
     } state timeout
   }
 
-:c:func:`pvPutComplete` also supports optional arguments to wake up
+`pvPutComplete` also supports optional arguments to wake up
 the state set as each put completes. The following could be inserted
-before the first :token:`when` clause in the ``active`` state above.
-The ``TRUE`` argument causes :c:func:`pvPutComplete` to return
+before the first `transition` clause in the ``active`` state above.
+The ``TRUE`` argument causes `pvPutComplete` to return
 ``TRUE`` when any command completed (rather than only when all
 commands complete). The ``done`` argument is the address of a ``long``
 array of the same size as ``init`` ; its elements are set to 0 for
@@ -608,20 +711,20 @@ Connection Management
 
 All process variable connections are handled by the sequencer via the
 PV API. Normally the programs are not run until all process
-variables are connected. However, with the :option:`-c` compiler flag,
+variables are connected. However, with the `-c` compiler flag,
 execution begins while the connections are being established. The
 program can test for each variable's connection status with the
-:c:func:`pvConnected` routine, or it can test for all variables
+`pvConnected` routine, or it can test for all variables
 connected with the following comparison (if not using dynamic
-assignment, see `Dynamic Assignment`_, :c:func:`pvAssignCount` will be
-the same as :c:func:`pvChannelCount`)::
+assignment, see `Dynamic Assignment`_, `pvAssignCount` will be
+the same as `pvChannelCount`)::
 
   pvConnectCount() == pvAssignCount()
 
-These routines are described in :ref:`BuiltinFunctions`. If a variable
+These routines are described in `BuiltinFunctions`. If a variable
 disconnects or re-connects during execution of a program, the
 sequencer updates the connection status appropriately; this can be
-tested in a :token:`when` clause, as in::
+tested in a `transition` clause, as in::
 
   when (pvConnectCount() < pvAssignCount()) {
   } state disconnected
@@ -649,9 +752,9 @@ Occasionally you will create a program that can be used in
 multiple instances. If these instances run in separate address spaces,
 there is no problem. However, if more than one instance must be
 executed simultaneously in a single address space, then the objects
-must be made reentrant using the :option:`+r` compiler flag. With this
+must be made reentrant using the `+r` compiler flag. With this
 flag all variables are allocated dynamically at run time; otherwise
-they are declared static. With the :option:`+r` flag all variables
+they are declared static. With the `+r` flag all variables
 become elements of a common data structure, and therefore access to
 variables is slightly less efficient.
 
@@ -661,7 +764,7 @@ Process Variable Element Count
 All requests for process variables that are arrays assume the array
 size for the element count. However, if the process variable has a
 smaller count than the array size, the smaller number is used for all
-requests. This count is available with the :c:func:`pvCount` function.
+requests. This count is available with the `pvCount` function.
 The following example illustrates this::
 
   float wf[2000];
@@ -678,45 +781,211 @@ The following example illustrates this::
 What's Happening at Run Time
 ----------------------------
 
-At run time the sequencer blocks until something "interesting" occurs,
-where "interesting" means things like receiving a monitor from a PV
-used in a :token:`when` clause, an event flag changing state, or a
-delay timer expiring. More precisely, there are five types of sequencer
-event:
+At run time the sequencer blocks until something "interesting" occurs, where
+"interesting" means things like receiving a monitor from a PV used in a
+`transition` clause, an event flag changing state, or a delay timer
+expiring. See section `transitions` in the `Reference` for a
+detailed list.
 
--  a process variable monitor is posted
--  an asynchronous :c:func:`pvGet` or :c:func:`pvPut` completes
--  a time :c:func:`delay` elapses
--  an event flag is set or cleared
--  a process variable connects or disconnects
+The sequencer then scans the list of `transition` statements for the
+current state and evaluates each expression in turn. If a `transition`
+expression evaluates to non-zero the actions within that `transition` block
+are executed and the sequencer enters the state specified by that
+`transition` statement. The sequencer then blocks again waiting for
+something "interesting" to happen.
 
-The sequencer then scans the list of
-:token:`when` statements for the current state and evaluates each
-expression in turn. If a :token:`when` expression evaluates to
-non-zero the actions within that :token:`when` block are executed and
-the sequencer enters the state specified by that :token:`when`
-statement. The sequencer then blocks again waiting for something
-"interesting" to happen.
+Note, however, that whenever a new state is entered, the corresponding
+`transition` conditions for that state are evaluated once without first
+waiting for events.
 
-Note, however, that whenever a new state is entered, the
-corresponding :token:`when` conditions for that state are evaluated once
-without first waiting for events.
+.. _safe mode tutorial:
 
-A Common Misconception
-^^^^^^^^^^^^^^^^^^^^^^
+Safe Mode
+---------
+
+.. versionadded:: 2.1
+
+SNL code can be interpreted in *safe mode*. This must be enabled with the
+`+s` option, because it changes the way variables are handled and is thus
+not fully backwards compatible. It should, however, be easy to adapt
+existing programs to safe mode by making communication between state sets
+explicit. New programs should no longer use the traditional unsafe mode.
+
+Rationale
+^^^^^^^^^
+
+In the traditional (unsafe) mode, variables are *not* protected against
+access from concurrently running threads. Concurrent access to SNL
+variables was introduced in version 2.0, when implementation of the PV
+layer switched from the old single threaded CA mode ("preemptive
+callbacks disabled") to the multi-threaded mode ("preemptive callbacks
+enabled") in order to support more than one state set per program. This
+could result in data corruption for variables that are not read and written
+atomically, the details of which are architecture and compiler dependent
+(i.e. plain ``int`` is typically atomic, whereas double is problematic on
+some, string and arrays on almost all architectures/compilers). Even for
+plain ``int`` variables, read-modify-write cycles (like ``v++``) cannot be
+guaranteed to have any consistent result. Furthermore, `condition`\s that have
+been met inside a `transition` clause cannot be relied upon to still hold
+inside the associated action block.
+
+Concurrent access to SNL variables happens when
+
+* multiple state sets access the same variable, or
+* variables are updated from the PV layer due to monitors
+  and asynchronous get operations.
+
+While it is possible to avoid the first case by careful coding (using e.g.
+event flags for synchronization) it is not possible to guard against the
+second case as these events can interrupt action statements at any time.
+
+One of the reasons SNL programs have mostly worked in spite of this is
+that due to the standard CA thread priorities the callback thread does not
+interrupt the state set threads. Furthermore (and contrary to what many
+people believe) the VxWorks scheduler does not normally serve threads with
+equal priority in a round-robin (time-sliced) fashion; instead each thread
+keeps running until it gets interrupted by a higher priority thread or
+until it blocks on a semaphore.
+
+However, RTEMS does time-share threads at the same priority, while Linux and
+Windows may or may not honor thread priorities, depending on the system
+configuration. Most importantly, priorities should only be used to improve
+latency for certain operations (at the cost of others) and never should be
+relied upon for program correctness.
+
+Safe mode solves all these problems by changing the way variables,
+particularly global variables, are interpreted.
+
+How it Works
+^^^^^^^^^^^^
+
+In safe mode, all variables
+--except event flags-- are interpreted as if they were *local to the state
+set*. This means that setting a variable (even a global variable) in one
+state set does *not* automatically change its value as seen by other state
+sets. State sets are effectively isolated against each other, and all
+communication between them must be explicit. They are also isolated against
+updates by callbacks from the PV layer except at those points where they
+don't do anything i.e. when they wait for events in a `transition` clause.
+In safe mode, variable values get updated right before the `condition`\s are
+evaluated, or when explicitly calling synchronization functions like
+`pvGetComplete` or `pvGet` (the latter only if called in
+synchronous mode), as well as `efTest` and `efTestAndClear`.
+The documentation for the built-in functions explains the details.
+
+For instance, with the declaration ::
+
+   int var;
+   assign var;
+
+the action statement ::
+
+   pvPut(var)
+
+makes the value of ``var`` available to other state sets. They will,
+however, not see the new value until they issue either a (synchronous)
+`pvGet`, or the variable is declared as monitored and state
+change `condition`\s are evaluated.
+
+The action ::
+
+   pvGet(var, SYNC)
+
+updates ``var`` immediately with whatever has been written to it
+previously via `pvPut` by some other state set. Whereas ::
+
+   pvGet(var, ASYNC)
+
+has no immediate effect on the variable ``var``. Instead, ``var``
+will be updated only if the code calls `pvGetComplete`
+(and it returns `true`).
+
+.. todo::
+
+   Also when state change `condition`\s are evaluated the next time?
+
+.. note:: This behaviour is exactly the same as with external PVs.
+
+.. note:: Using `SYNC <compType>` or `ASYNC <compType>` with anonymous PVs is not very
+   useful since all operations complete immediately.
+
+
+Common Pitfalls and Misconceptions
+----------------------------------
+
+The delay function does not block
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 A common misconception among new SNL programmers is that the sequencer
-somehow blocks inside the :c:func:`delay` function within :token:`when`
-statements. This interpretation of the :c:func:`delay` function is
-incorrect but understandable given the name. The :c:func:`delay` function
+somehow blocks inside the `delay` function within `transition`
+statements. This interpretation of the `delay` function is
+incorrect but understandable given the name. The `delay` function
 does not block at all, it merely compares its argument with a timer that
 is reset whenever the state is entered (from the same or another state),
 and then returns the result (a boolean value). Any blocking (in case the
 returned value is FALSE and no other condition fires) is done outside of
-the :c:func:`delay` function by the run time system. You might want to
-think of the operation as `elapsed(s)` rather than `delay(s)`.
+the `delay` function by the run time system. You might want to
+think of the operation as ``elapsed(s)`` rather than ``delay(s)``.
 
 If your action statements have any sort of polling loops or calls to
 ``epicsThreadSleep`` you should reconsider your design. The presence
 of such operations is a strong indication that you're not using the
 sequencer as intended.
+
+Using pvPut and monitor in the same state set
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Let's say you have a channel variable x that is monitored, and this code
+fragment::
+
+  state one {
+    when () {
+      x = 1;
+      pvPut(x);
+      x++;
+    } state two
+  }
+  state two {
+    when (x > 1) {
+      do_something();
+    }
+    when (x <= 1) {
+      do_something_else();
+    }
+  }
+
+This pattern is hazardous in a number of ways. What exactly happens here
+depends on whether you are using `safe mode` or not.
+
+Assuming traditional (unsafe) mode, it is unpredictable which branch in
+state ``two`` will be taken. The ``pvPut(x)`` might cause a monitor event to
+be posted by the PV that was assigned to ``x``. This event will change ``x``
+back to ``1`` whenever it arrives. This might happen at any time in between
+the ``pvPut(x)`` and the testing of the conditions. It could even interrupt
+in the middle of the ``x++`` operation. As a result, this code behaves in
+conpletely unpredictable ways, depending on the timing of the pvPut-monitor
+round-trip.
+
+In `safe mode` things are slightly better: the only point where the event can
+lead to an update of the variable is *right before* evaluation of the
+conditions. However, it is still undetermined which branch will be taken.
+
+You might be tempted to test your code and find that "it works", in the
+sense that the behavior you see appears to consistently chose one of the two
+branches, perhaps after adding some `delay`\s to the conditions. But this
+impression is **misleading**, since what actually happens depends on details
+of thread scheduling and priorities and a host of other timing factors, some
+of which are very hard to control such as network or system load.
+
+If you cannot avoid using pvPut for a monitored variable, then you should at
+least
+
+#. use `safe mode`, *and*
+
+#. either
+
+   a) make sure any change you make to the variable gets published (using
+      `pvPut`) before you leave the current action block, *or*
+
+   b) refrain from changing it, and instead copy the value to some other
+      variable and change *that*.

@@ -1,5 +1,5 @@
 /*************************************************************************\
-Copyright (c) 2010-2012 Helmholtz-Zentrum Berlin f. Materialien
+Copyright (c) 2010-2015 Helmholtz-Zentrum Berlin f. Materialien
                         und Energie GmbH, Germany (HZB)
 This file is distributed subject to a Software License Agreement found
 in the file LICENSE that is included with this distribution.
@@ -9,38 +9,34 @@ in the file LICENSE that is included with this distribution.
 
 #include "sym_table.h"
 
-struct const_symbol
-{
+struct const_symbol {
     const char  *name;
     int         type;
 };
 
-enum const_type
-{
-    CT_NONE,
-    CT_BOOL,
-    CT_SYNCFLAG,
+enum const_type {
     CT_EVFLAG,
-    CT_PVSTAT,
-    CT_PVSEVR
+    CT_OTHER
 };
 
-enum func_type
-{
-    FT_DELAY,
-    FT_EVENT,
-    FT_PV,
-    FT_OTHER
+enum param_type {
+    PT_EF,
+    PT_PV,
+    PT_PV_ARRAY,
+    PT_OTHER
 };
 
-struct func_symbol
-{
-    const char  *name;
-    uint        type:2;
-    uint        add_length:1;
-    uint        default_args:2;
-    uint        ef_action_only:1;
-    uint        ef_args:1;
+struct param {
+    enum param_type type;
+    const char *default_value;
+};
+
+struct func_symbol {
+    const char *name;           /* SNL name */
+    const char *c_name;         /* C name, or 0 if same as SNL name */
+    uint action_only:1;         /* not allowed in when-conditions */
+    uint cond_only:1;           /* only allowed in when-conditions */
+    const struct param **params;/* parameter descriptions */
 };
 
 /* Insert builtin constants into symbol table */

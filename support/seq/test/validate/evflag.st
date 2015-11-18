@@ -1,5 +1,5 @@
 /*************************************************************************\
-Copyright (c) 2010-2012 Helmholtz-Zentrum Berlin f. Materialien
+Copyright (c) 2010-2015 Helmholtz-Zentrum Berlin f. Materialien
                         und Energie GmbH, Germany (HZB)
 This file is distributed subject to a Software License Agreement found
 in the file LICENSE that is included with this distribution.
@@ -26,7 +26,7 @@ monitor anonymous;
 sync anonymous to ef_anonymous;
 
 entry {
-    seq_test_init(0);
+    seq_test_init(44);
     efClear(ef_named);
 }
 

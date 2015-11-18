@@ -1,11 +1,16 @@
-Installation
-============
+Download and Installation
+=========================
+
+This chapter gives instructions on how to download, build, and install the
+sequencer, as well as how to run the tests, build the manual, report bugs,
+and contribute patches.
 
 Prerequisites
 -------------
 
-You need to have an `EPICS-3.14`_ base and its dependencies (`GNU
-make`_, `Perl`_) installed.
+You need to have `EPICS base`_ and its dependencies (`GNU
+make`_, `Perl`_) installed. Any version of EPICS base starting
+with 3.14.12.2 and up to 3.15 should do.
 
 From version 2.1 onwards, building the sequencer requires the lexer
 generator tool `re2c`_. If you are on a Linux system, you will
@@ -14,7 +19,7 @@ otherwise sources and windows binaries are available from the `re2c
 download`_ page. The minimum version required is 0.9.9, but I
 recommend using the latest version that is avaliable for your system.
 
-.. _EPICS-3.14: http://www.aps.anl.gov/epics/base/R3-14/
+.. _EPICS base: http://www.aps.anl.gov/epics/base/
 .. _GNU make: http://www.gnu.org/software/make/
 .. _Perl: http://www.perl.org/
 .. _re2c: http://re2c.org/
@@ -28,122 +33,68 @@ Releases are available here:
 
    http://www-csr.bessy.de/control/SoftDist/sequencer/releases/
 
-The current stable release is `2.1.15`_. Please take a look at the
-:ref:`VersioningPolicy` if you are unsure whether to upgrade to
+The current stable release is `2.2.3`_. Please take a look at the
+`VersioningPolicy` if you are unsure whether to upgrade to
 a new release.
+
+.. note::
+
+  The documentation and download links you will find on this page are for
+  version 2.2. The `documentation for version 2.1`_ is still there and will
+  be maintained at least until version 2.3 is released.
 
 Development snapshots are available under the name
 
-   seq-snapshot-<date>.tar.gz
+   seq-<version>-snapshot-<date>.tar.gz
+
+where <version> is the branch name without the 'branch-' prefix.
 
 In the releases directory there is always a symbolic link to the
 `latest snapshot`_.
 
-Older releases can be downloaded by following the links here:
+Here are all releases for version 2.2:
 
-   ========= =========================== ============================
-   Version   Release Notes               Known Problems
-   ========= =========================== ============================
-   `2.1.15`_ :ref:`Release_Notes_2.1.15` n/a
-   `2.1.14`_ :ref:`Release_Notes_2.1.14` :ref:`Known_Problems_2.1.14`
-   `2.1.13`_ :ref:`Release_Notes_2.1.13` :ref:`Known_Problems_2.1.13`
-   `2.1.12`_ :ref:`Release_Notes_2.1.12` :ref:`Known_Problems_2.1.12`
-   `2.1.11`_ :ref:`Release_Notes_2.1.11` n/a
-   `2.1.10`_ :ref:`Release_Notes_2.1.10` :ref:`Known_Problems_2.1.10`
-   `2.1.9`_  :ref:`Release_Notes_2.1.9`  n/a
-   `2.1.8`_  :ref:`Release_Notes_2.1.8`  :ref:`Known_Problems_2.1.8`
-   `2.1.7`_  :ref:`Release_Notes_2.1.7`  :ref:`Known_Problems_2.1.7`
-   `2.1.6`_  :ref:`Release_Notes_2.1.6`  :ref:`Known_Problems_2.1.6`
-   `2.1.5`_  :ref:`Release_Notes_2.1.5`  :ref:`Known_Problems_2.1.5`
-   `2.1.4`_  :ref:`Release_Notes_2.1.4`  :ref:`Known_Problems_2.1.4`
-   `2.1.3`_  :ref:`Release_Notes_2.1.3`  n/a
-   `2.1.2`_  :ref:`Release_Notes_2.1.2`  n/a
-   `2.1.1`_  :ref:`Release_Notes_2.1.1`  n/a
-   `2.1.0`_  :ref:`Release_Notes_2.1.0`  n/a
-   `2.0.14`_ :ref:`Release_Notes_2.0.14` n/a
-   `2.0.13`_ :ref:`Release_Notes_2.0.13` n/a
-   `2.0.12`_ :ref:`Release_Notes_2.0.12` n/a
-   `2.0.11`_ :ref:`Release_Notes_2.0.11` n/a
-   `2.0.10`_ :ref:`Release_Notes_2.0.10` n/a
-   `2.0.9`_  :ref:`Release_Notes_2.0.9`  n/a
-   `2.0.8`_  :ref:`Release_Notes_2.0.8`  n/a
-   `2.0.7`_  :ref:`Release_Notes_2.0.7`  n/a
-   `2.0.6`_  :ref:`Release_Notes_2.0.6`  n/a
-   `2.0.5`_  :ref:`Release_Notes_2.0.5`  n/a
-   `2.0.4`_  :ref:`Release_Notes_2.0.4`  n/a
-   `2.0.3`_  n/a                         n/a
-   `2.0.2`_  n/a                         n/a
-   `2.0.1`_  :ref:`Release_Notes_2.0.1`  n/a
-   `2.0.0`_  :ref:`Release_Notes_2.0`    n/a
-   `1.9.5`_  :ref:`Release_Notes_1.9`    n/a
-   `1.9.4`_  :ref:`Release_Notes_1.9`    n/a
-   ========= =========================== ============================
+   ========== =========================== ============================
+   Version    Release Notes               Known Problems
+   ========== =========================== ============================
+   `2.2.3`_   `Release_Notes_2.2.3`       n/a
+   `2.2.2`_   `Release_Notes_2.2.2`       `Known_Problems_2.2.2`
+   `2.2.1`_   `Release_Notes_2.2.1`       `Known_Problems_2.2.1`
+   ========== =========================== ============================
 
-(Not listed are alpha releases and repository snapshots.)
+If you want to help testing, please use the `latest snapshot`_, or check out
+the `darcs`_ repository for `branch-2-2`_::
 
-If you want to help testing, please use
-the `latest snapshot`_, or check out the `darcs`_ repository::
+   darcs get http://www-csr.bessy.de/control/SoftDist/sequencer/repo/branch-2-2
 
-   > darcs get http://www-csr.bessy.de/control/SoftDist/sequencer/repo/<branch>
+Since release 2.2.2 there is also a git mirror, so you can as well ::
 
-where ``<branch>`` is the branch name. There are currently three branches:
+   git clone http://www-csr.bessy.de/control/SoftDist/sequencer/repo/branch-2-2.git
 
-* `branch-2-0`_ is the previous version. This branch is now frozen and will
-  receive no more patches, nor will there be any new releases.
+but please note that this is just a mirror, no more: I cannot accept git
+patches (or whatever they are called in git); it may also happen that I have
+to re-create the whole git repo from scratch (because incremental conversion
+sometimes fails).
 
-* `branch-2-1`_ is the current "stable" version. Development is restricted
-  to bug fixes (including fixes for build problems) and improvement of the
-  documentation.
+Development of new features now happens on `branch-2-3`_.
 
-* `branch-2-2`_ is where new features are developed that will appear in
-  version 2.2. Release 2.2.0 will soon go into beta testing phase.
-
-See `Contribute`_ for a short description how to record and send
-patches.
+See `Contribute`_ for a short description how to record and send patches.
 
 You can also follow development by using the `repository browser`_.
 
-.. _latest snapshot: http://www-csr.bessy.de/control/SoftDist/sequencer/releases/seq-snapshot-latest.tar.gz
-.. _2.1.15: http://www-csr.bessy.de/control/SoftDist/sequencer/releases/seq-2.1.15.tar.gz
-.. _2.1.14: http://www-csr.bessy.de/control/SoftDist/sequencer/releases/seq-2.1.14.tar.gz
-.. _2.1.13: http://www-csr.bessy.de/control/SoftDist/sequencer/releases/seq-2.1.13.tar.gz
-.. _2.1.12: http://www-csr.bessy.de/control/SoftDist/sequencer/releases/seq-2.1.12.tar.gz
-.. _2.1.11: http://www-csr.bessy.de/control/SoftDist/sequencer/releases/seq-2.1.11.tar.gz
-.. _2.1.10: http://www-csr.bessy.de/control/SoftDist/sequencer/releases/seq-2.1.10.tar.gz
-.. _2.1.9: http://www-csr.bessy.de/control/SoftDist/sequencer/releases/seq-2.1.9.tar.gz
-.. _2.1.8: http://www-csr.bessy.de/control/SoftDist/sequencer/releases/seq-2.1.8.tar.gz
-.. _2.1.7: http://www-csr.bessy.de/control/SoftDist/sequencer/releases/seq-2.1.7.tar.gz
-.. _2.1.6: http://www-csr.bessy.de/control/SoftDist/sequencer/releases/seq-2.1.6.tar.gz
-.. _2.1.5: http://www-csr.bessy.de/control/SoftDist/sequencer/releases/seq-2.1.5.tar.gz
-.. _2.1.4: http://www-csr.bessy.de/control/SoftDist/sequencer/releases/seq-2.1.4.tar.gz
-.. _2.1.3: http://www-csr.bessy.de/control/SoftDist/sequencer/releases/seq-2.1.3.tar.gz
-.. _2.1.2: http://www-csr.bessy.de/control/SoftDist/sequencer/releases/seq-2.1.2.tar.gz
-.. _2.1.1: http://www-csr.bessy.de/control/SoftDist/sequencer/releases/seq-2.1.1.tar.gz
-.. _2.1.0: http://www-csr.bessy.de/control/SoftDist/sequencer/releases/seq-2.1.0.tar.gz
-.. _2.0.14: http://www-csr.bessy.de/control/SoftDist/sequencer/releases/seq-2.0.14.tar.gz
-.. _2.0.13: http://www-csr.bessy.de/control/SoftDist/sequencer/releases/seq-2.0.13.tar.gz
-.. _2.0.12: http://www-csr.bessy.de/control/SoftDist/sequencer/releases/seq-2.0.12.tar.gz
-.. _2.0.11: http://www-csr.bessy.de/control/SoftDist/sequencer/releases/seq-2.0.11.tar.gz
-.. _2.0.10: http://www-csr.bessy.de/control/SoftDist/sequencer/releases/seq-2.0.10.tar.gz
-.. _2.0.9: http://www-csr.bessy.de/control/SoftDist/sequencer/releases/seq-2.0.9.tar.gz
-.. _2.0.8: http://www-csr.bessy.de/control/SoftDist/sequencer/releases/seq-2.0.8.tar.gz
-.. _2.0.7: http://www-csr.bessy.de/control/SoftDist/sequencer/releases/seq-2.0.7.tar.gz
-.. _2.0.6: http://www-csr.bessy.de/control/SoftDist/sequencer/releases/seq-2.0.6.tar.gz
-.. _2.0.5: http://www-csr.bessy.de/control/SoftDist/sequencer/releases/seq-2.0.5.tar.gz
-.. _2.0.4: http://www-csr.bessy.de/control/SoftDist/sequencer/releases/seq-2.0.4.tar.gz
-.. _2.0.3: http://www-csr.bessy.de/control/SoftDist/sequencer/releases/seq-2.0.3.tar.gz
-.. _2.0.2: http://www-csr.bessy.de/control/SoftDist/sequencer/releases/seq-2.0.2.tar.gz
-.. _2.0.1: http://www-csr.bessy.de/control/SoftDist/sequencer/releases/seq-2.0.1.tar.gz
-.. _2.0.0: http://www-csr.bessy.de/control/SoftDist/sequencer/releases/seq-2.0.0.tar.gz
-.. _1.9.5: http://www-csr.bessy.de/control/SoftDist/sequencer/releases/seq-1.9.5.tar.gz
-.. _1.9.4: http://www-csr.bessy.de/control/SoftDist/sequencer/releases/seq-1.9.4.tar.gz
+.. _latest snapshot: http://www-csr.bessy.de/control/SoftDist/sequencer/releases/seq-2-2-snapshot-latest.tar.gz
+.. _2.2.3: http://www-csr.bessy.de/control/SoftDist/sequencer/releases/seq-2.2.3.tar.gz
+.. _2.2.2: http://www-csr.bessy.de/control/SoftDist/sequencer/releases/seq-2.2.2.tar.gz
+.. _2.2.1: http://www-csr.bessy.de/control/SoftDist/sequencer/releases/seq-2.2.1.tar.gz
 .. _repository browser: http://www-csr.bessy.de/cgi-bin/darcsweb.cgi
 .. _branch-2-0: http://www-csr.bessy.de/cgi-bin/darcsweb.cgi?r=seq%20branch-2-0;a=summary
 .. _branch-2-1: http://www-csr.bessy.de/cgi-bin/darcsweb.cgi?r=seq%20branch-2-1;a=summary
 .. _branch-2-2: http://www-csr.bessy.de/cgi-bin/darcsweb.cgi?r=seq%20branch-2-2;a=summary
+.. _branch-2-3: http://www-csr.bessy.de/cgi-bin/darcsweb.cgi?r=seq%20branch-2-3;a=summary
 .. _old: http://www-csr.bessy.de/control/SoftDist/sequencer/repo/old/
 .. _stable: http://www-csr.bessy.de/control/SoftDist/sequencer/repo/stable/
 .. _experimental: http://www-csr.bessy.de/control/SoftDist/sequencer/repo/experimental/
+.. _documentation for version 2.1: http://www-csr.bessy.de/control/SoftDist/sequencer-2-1/index.html
 
 Unpack
 ------
@@ -151,16 +102,16 @@ Unpack
 Change to the directory that you wish to be the parent of the sequencer
 source tree. Then unpack and untar the file. For example::
 
-   > gunzip seq-x.y.z.tar.gz
-   > tar xf seq-x.y.z.tar
+   gunzip seq-x.y.z.tar.gz
+   tar xf seq-x.y.z.tar
 
 or, if you have `GNU tar`_, simply::
 
-   > tar zxf seq-x.y.z.tar.gz
+   tar zxf seq-x.y.z.tar.gz
 
 You can now::
 
-   > cd seq-x.y.z
+   cd seq-x.y.z
 
 and look at the source tree. The actual source code for the sequencer
 is under ``src``. The documentation sources are under ``documentation`` and
@@ -188,16 +139,14 @@ In ``configure/RELEASE``, change the definition of the variable
 
 In ``configure/CONFIG_SITE``, you can specify the target architectures
 for which to build via the ``CROSS_COMPILER_TARGET_ARCHS`` variable (a
-subset of those for which EPICS has been built, default is all), and
-the message systems to support via the ``PVXXX`` variables (the default
-is to use only CA). You can also configure where the re2c tool is
+subset of those for which EPICS has been built, default is all). You
+can also configure where the re2c tool is
 installed (the default configuration assumes that it can be found in
 your ``PATH``).
 
 Your environment should be configured for building EPICS applications.
 This means that ``EPICS_HOST_ARCH`` and (possibly) ``LD_LIBRARY_PATH``
-should be correctly defined. See the `EPICS Application Developer's
-Guide
+should be correctly defined. See the `EPICS Application Developer's Guide
 <http://www.aps.anl.gov/epics/base/R3-14/11-docs/AppDevGuide.pdf>`_ 
 for details.
 
@@ -209,6 +158,7 @@ in the latter two
 will not impact your ability to write SNL programs (but is still a bug and
 should be reported, see `Report Bugs`_).
 
+.. _Building the Manual:
 
 Building the Manual
 ^^^^^^^^^^^^^^^^^^^
@@ -221,7 +171,7 @@ single pdf from the sources.
 
 The html pages are generated by issuing::
 
-   > make docs=1
+   make html
 
 This will generate the home page and install it into the directory
 ``$SEQ/html``. This step requires that you have `Python`_ and `Sphinx`_
@@ -229,12 +179,13 @@ installed on your system.
 
 If, in addition, you want a printable version (pdf), do::
 
-   > make docs=1 pdf=1
+   make docs
 
 This generates a pdf file named ``Manual.pdf`` and also puts it into the
 ``html`` subdirectory. Note that pdf generation is done via latex, so
 you need to have a working latex installation. On my system (kubuntu
-karmic) I also needed to install the package tetex-extra.
+karmic at the time of writing this) I also needed to install the package
+tetex-extra.
 
 .. _reStructuredText: http://docutils.sourceforge.net/rst.html
 .. _Python: http://www.python.org/
@@ -246,22 +197,20 @@ karmic) I also needed to install the package tetex-extra.
 Test
 ----
 
-Since version 2.1, the sequencer comes with an automated test suite.
-You can run all tests by issuing ::
+You can run the automated test suite by issuing ::
 
-   > make -s runtests
+   make -s runtests
 
 (the -s option is to suppress irrelevant output generated by make).
-Note that this requires EPICS base R3.14.10 or later, since we use the
-test support in base.
 
-To run just one test from the suite, switch to the architecture build
-directory of the test and execute perl with the name of the test
+To run just one test from the suite, switch to the build directory of
+the test that corresonds to your ``EPICS_HOST_ARCH`` and execute perl
+with the name of the test
 program ending in ``.t``.  For example, to run the evflag test on a
 linux-x86_64 host, change directory to
 ``test/validate/O.linux-x86_64`` and run ::
 
-   > perl evflag.t
+   perl evflag.t
 
 There are two ways to run a test that has an associated database
 (evflag is such a test).  The above will run the state machine and
@@ -270,9 +219,8 @@ the test program ending in ``Ioc.t`` (e.g. evflagIoc.t).  The IOC
 running the state machine runs in the foreground, and the one running
 the database runs in the background.
 
-The test suite can also be run on an embedded system. Currently only
-vxWorks systems are supported, but RTEMS will follow soon. To do this,
-point the vxWorks startup script to ::
+The test suite can also be run on an embedded system. Currently only vxWorks
+systems are supported. To do this, point the vxWorks startup script to ::
 
    $SEQ/test/validate/O.$T_A/st.cmd
 
@@ -283,7 +231,7 @@ after each one giving a summary of how many tests failed etc.
 
 To check out an example, change directory to examples/demo and run ::
 
-   > ../../bin/$EPICS_HOST_ARCH/demo stcmd.host
+   ../../bin/$EPICS_HOST_ARCH/demo stcmd.host
 
 The output should look something like this::
 
@@ -310,21 +258,7 @@ The output should look something like this::
    ramp_up -> ramp_down
    ...
 
-If you see the "start -> ramp_up" etc. messages, things are
-good. From another shell, do the following::
-
-   > camonitor demo:ss_light demo:ss_ramp demo:ss_limit
-   demo:ss_light                  2011-07-15 12:35:24.809118 LIGHT_ON  
-   demo:ss_ramp                   2011-07-15 12:35:24.809131 RAMP_DOWN  
-   demo:ss_limit                  2011-07-15 12:35:24.809126 START  
-   demo:ss_light                  2011-07-15 12:35:29.829946 LIGHT_OFF  
-   demo:ss_ramp                   2011-07-15 12:35:34.850682 RAMP_UP  
-   demo:ss_light                  2011-07-15 12:35:40.873949 LIGHT_ON  
-   ...
-
-This illustrates the very basic "sequencer device support" that was
-added in release 2.0. These records are returning the names of the
-first two state-sets of the demo program.
+If you see the "start -> ramp_up" etc. messages, things are good.
 
 
 Use
@@ -332,7 +266,7 @@ Use
 
 This is a short description how to use the sequencer in an EPICS
 application. For more general usage information, see the section on
-:doc:`Compiling` and :doc:`Using`.
+`Compiling` and `Using`.
 
 To use the sequencer in an EPICS application, change the definition of
 ``SNCSEQ`` in ``configure/RELEASE`` (that is, the one in your
@@ -348,7 +282,7 @@ program to your application, write something like ::
 
 into your Makefile. Here, ``xyz.st`` is the name of your SNL program, and
 ``abc`` is the name of the library or binary to produce. Note that ``.st``
-files are run through the C preprocessor (*cpp*) before giving them to
+files are run through the C preprocessor (`cpp`) before giving them to
 the SNL compiler. Use the extension ``.stt`` to avoid this. For details,
 see Chapter 4 of the `EPICS Application Developer's Guide`_.
 
@@ -357,7 +291,7 @@ see Chapter 4 of the `EPICS Application Developer's Guide`_.
 A complete example application that also uses the sequencer can be
 produced using makeBaseApp, e.g. ::
 
-   > makeBaseApp.pl -t example ex
+   makeBaseApp.pl -t example ex
 
 Take a look at ``exApp/src``, especially the ``Makefile``.
 
@@ -374,28 +308,34 @@ you are using.
 Contribute
 ----------
 
-I am always happy to receive patches (bug fixes, improvements,
-whatever). You can create a local copy of the `darcs`_
-repository (the stable branch in this example) by saying::
+I am always happy to receive patches (bug fixes, improvements, whatever).
+For minor changes you don't need to bother with `darcs`_, just send me a
+`patch file`_.
 
-   > darcs get http://www-csr.bessy.de/control/SoftDist/sequencer/repo/stable
+.. _patch file: http://en.wikipedia.org/wiki/Patch_%28Unix%29
+
+For more involved changes you might want to send a `darcs`_ patch. You can
+create a local copy of the `darcs`_ repository (the stable branch in this
+example) by saying::
+
+   darcs get http://www-csr.bessy.de/control/SoftDist/sequencer/repo/stable
 
 Assuming you have made some changes, first update your repository to
 include the latest changes from upstream (with darcs this is not
 strictly necessary, but good practice as it helps to avoid unnecessary
 conflicts)::
 
-   > darcs pull
+   darcs pull
 
 (darcs will ask you for each patch that is not yet in your repo). Then
 record your changes (if you haven't already)::
 
-   > darcs record
+   darcs record
 
 (darcs will prompt you for every single change you made and then prompt
 you for giving the patch a name). Finally say::
 
-   > darcs send
+   darcs send
 
 A word of caution: it may happen that I `darcs obliterate`_ patches in
 the experimental branch. If `darcs send`_ asks whether to include patches

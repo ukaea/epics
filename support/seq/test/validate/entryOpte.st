@@ -3,86 +3,45 @@ This file is distributed subject to a Software License Agreement found
 in the file LICENSE that is included with this distribution.
 \*************************************************************************/
 program entryOpteTest
-/* snc test program to test entry and exit condition execution, with -e
- * option. Test -e, that entry will be executed on each iteration.
- */
 
-%%#include "epicsThread.h"
+%%#include "../testSupport.h"
 
-float v;
-
-ss ss1
-{
-	state low
-	{
-	    option -e;
-	    entry 
-	    { 
-		printf("Pause on each entry to low, including 'iterations'\n");
-		epicsThreadSleep(1.0);
-	    }
-	    when(v>5.0)
-	    {
-		printf("low, v = %g, now changing to high\n",v);
-	    } state high
-	    when(delay(2.0)) 
-	    {
-		printf("low, delay timeout, incr v and now reenter low\n");
-		v = v+1.0;
-		printf("v = %g\n",v); 
-	    } state low
-	    exit 
-	    { 
-		printf("low, print this on exit of low\n");
-	    }
-
-	}
-
-	state high
-	{
-	    entry { printf("\nentered high\n"); }
-	    when(v==0.0)
-	    {
-		printf("changing to low\n");
-	    } state low
-	    when(delay(3.0))
-	    {
-		printf("high, delay 3.0 timeout, resetting v\n");
-		v = 0;
-	    } state high
-	}
+entry {
+    seq_test_init(5);
 }
 
-/* Expected output
-Pause on each entry to low, including 'iterations'
-low, delay timeout, incr v and now reenter low
-v = 1
-Pause on each entry to low, including 'iterations'
-low, delay timeout, incr v and now reenter low
-v = 2
-Pause on each entry to low, including 'iterations'
-low, delay timeout, incr v and now reenter low
-v = 3
-Pause on each entry to low, including 'iterations'
-low, delay timeout, incr v and now reenter low
-v = 4
-Pause on each entry to low, including 'iterations'
-low, delay timeout, incr v and now reenter low
-v = 5
-Pause on each entry to low, including 'iterations'
-low, delay timeout, incr v and now reenter low
-v = 6
-Pause on each entry to low, including 'iterations'
-low, v = 6, now changing to high
-low, print this on exit of low
+ss opt_e {
+    int entry1cnt = 0;
+    int entry2cnt = 0;
+    int delayed1 = 0;
+    int delayed2 = 0;
+    state plus_e {
+        entry {
+            /* only once on init */
+            testOk1(entry1cnt==0);
+            entry1cnt++;
+        }
+        when (delay(0.1)) {
+            delayed1++;
+        } state plus_e
+        when (delayed1) {
+        } state minus_e
+    }
+    state minus_e {
+        option -e;
+        entry {
+            entry2cnt++;
+            testOk1(entry2cnt == delayed2 + 1);
+        }
+        when (delay(0.1)) {
+            delayed2++;
+        } state minus_e
+        when (delayed2 > 1) {
+            testOk1(entry2cnt == delayed2 + 1);
+        } exit
+    }
+}
 
-entered high
-high, delay 3.0 timeout, resetting v
-changing to low
-Pause on each entry to low, including 'iterations'
-low, delay timeout, incr v and now reenter low
-v = 1
-Pause on each entry to low, including 'iterations'
-low, delay timeout, incr v and now reenter low
-v = 2
-...*/
+exit {
+    seq_test_done();
+}

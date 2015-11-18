@@ -122,7 +122,6 @@
 ^html($|/)
 
 ### Sequencer
-^documentation/bnf.inc$
 ^seq\.
 # darcs patches received or created locally
 ^.*\.dpatch$

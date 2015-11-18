@@ -28,6 +28,7 @@ while (<$fhre>) {
 
 print ".. productionlist::\n";
 while (<$fhlem>) {
+  next if /error/;
   if (my ($l,$r) = /(\w+) ::= ?(.*)\./) {
     my @rws = split(/ /,$r);
     print "   $l: ";

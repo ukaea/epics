@@ -10,6 +10,4 @@ device(ao,CONSTANT,devAoSoft,"Soft Channel")
 device(bo,CONSTANT,devBoSoft,"Soft Channel")
 device(waveform,CONSTANT,devWfSoft,"Soft Channel")
 
-include "devSequencer.dbd"
-
 registrar(demoRegistrar)
