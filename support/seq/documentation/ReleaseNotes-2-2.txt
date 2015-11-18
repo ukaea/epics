@@ -1,0 +1,636 @@
+Release Notes for Version 2.2
+=============================
+
+.. _Release_Notes_2.2.3:
+
+Release 2.2.3
+-------------
+
+Thanks to the new co-maintainer Freddie Akeroyd <freddie.akeroyd@stfc.ac.uk>
+this release fixes building and running the tests for Windows7 in 32 and 64
+bit, both with cygwin and native compiler. Please note that parallel building
+may not work on Windows yet.
+
+A few bugs have been fixed and some minor improvements made here or there,
+for details see the list below.
+
+snc:
+
+* cast 0 to Node* in varargs call to node constructor
+
+* added a missing include to types.h
+
+* explain apparently missing var init in a comment
+
+* fix warnings and error when DEBUG is defined
+
+seq:
+
+* Initialise timeNow
+
+  Required for running tests with windows debug build
+
+* fix default put during a pending async put
+
+  Attempting to issue a DEFAULT pvPut even when an ASYNC put is already
+  pending on the same variable led to an assertion failure. This is now fixed.
+
+common:
+
+* cleaned up the prim_types mess, snc no longer depends on seq library
+
+  Making the compiler depend on the seq library was a bad idea, since the
+  names of the primitive types were the only thing that snc needed from seq.
+
+  Instead I added a new src/common subdir that installs (and for seq_release.h
+  generates) the header files that are shared between the compiler and the
+  runtime. The epicsShare stuff has been removed from seq_prim_types.h. A new
+  preprocessor symbol (declare_prim_type_names) makes sure that the
+  prim_type_name and prim_type_tag_name variables are visible only inside the
+  runtime library and the compiler and not  in generated sequencer programs.
+
+test:
+
+* Set PATH for running tests in shared build
+
+  The path to seq.dll needs to be set in cygwin and Windows for running
+  tests when built with SHARED_LIBRARIES=YES
+
+* Fix running tests on Windows
+
+  The \*Ioc.t tests were hanging on windows when run from Make - they
+  worked when ran individually from the command line, but were not then
+  killing the background IOC process on test completion. Using the
+  Win32::Process package rather than fork() to create subprocesses fixes
+  both issues
+
+* set environment variables in a more portable way
+
+* silence warnings about different TOP dirs
+
+* ensure that tests cover seq exit phase
+
+* Reorder test linking for cygwin
+
+  Move subThreadSleep.c to separate library to enable correct import/export
+  declarations for linking on cygwin
+
+* enable pvSync with or without db
+
+* set HARNESS_ACTIVE env var in queueTest.plt
+
+* use a per host "unique" CA server port
+
+  The idea here is to isolate concurrent test runs on the same machine against
+  each other. The port is set to 10000 + pid % 30000, which is not unique in a
+  strict sense, but the probability of a collision is quite small and the
+  solution is non-intrusive and very simple to implement.
+
+examples/demo:
+
+* link specific code into a library instead of main
+
+  This fixes problems for cygwin-x86 arch.
+
+build system:
+
+* added include of meta build configuration to configure/RELEASE
+
+* removed configure/RELEASE.win32-x86
+
+
+.. _Release_Notes_2.2.2:
+
+Release 2.2.2
+-------------
+
+The bugs listed in `Known_Problems_2.2.1` have been fixed.
+
+In addition, some of the tests and parts of the test infrastructure have
+been changed so as to produce clean TAP files (this is currently only
+supported by base-3.15 with 'make tapfiles'). For the same reason, the usual
+messages when a program starts are no longer issued with printf, but rather
+with errlogSevPrintf(errlogInfo,...).
+
+Some improvements to the web pages have been made: the version the pages
+refer to is more prominently visible, some shortcuts have been renamed, and
+side-bar shortcuts to all other (maintained) versions were added.
+
+I added git mirrors of the darcs repos, the URLs are:
+
+http://www-csr.bessy.de/control/SoftDist/sequencer/repo/branch-2-1.git
+http://www-csr.bessy.de/control/SoftDist/sequencer/repo/branch-2-2.git
+http://www-csr.bessy.de/control/SoftDist/sequencer/repo/branch-2-3.git
+
+.. _Release_Notes_2.2.1:
+
+Release 2.2.1
+-------------
+
+This is the first release of version 2.2 of the sequencer. The following
+describes what has changed relative to version 2.1.
+
+Supported EPICS Base Versions
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This version drops support for base versions older than 3.14.12.2, all
+others should work fine.
+
+If you manage to compile the sequencer with earlier base versions, well,
+good for you. It'll probably work, too. I will also accept patches that
+restore lost compatibility with older base versions, provided they achieve
+this without unduly complicating the code base or build system.
+
+New Language Features
+^^^^^^^^^^^^^^^^^^^^^
+
+Foreign Types
+~~~~~~~~~~~~~
+
+It is now possible to use foreign types (i.e. types declared in C code, such
+as structs, enums, unions, and typedefs) in variable declarations, type
+casts, and the special "sizeof" built-in operator. Previously existing
+restrictions as to which type expressions are allowed have been lifted, so
+that (almost) everything you can say in C is now supported in SNL, too.
+Particularly, function types are now supported in declarations and type
+expressions, as well as indirect calls in expressions.
+
+There are two notable limitations:
+
+* Using C *type aliases* (defined in C with ``typedef``) is allowed, but you
+  must prefix the type name with the new keyword ``typename`` (which I
+  borrowed from C++). Supporting foreign typedefs without any extra markup
+  as in C would require lots of extra effort which IMO is not justified.
+
+* There is only limited support for *defining* your own types (see `Type
+  Definitions`_ below) and you cannot mix type definition with type usage
+  (for instance in a variable declaration) as in C.
+
+The words ``enum``, ``struct``, ``typename``, ``union``, and ``void`` are
+reserved words now and can no longer be used as identifiers.
+
+Other Foreign Entities
+~~~~~~~~~~~~~~~~~~~~~~
+
+A side effect of allowing indirect calls is that there is no longer any
+*syntactic* distinction between using functions and using variables. This
+means that issuing warnings just for the use of undeclared foreign
+*variables* is no longer possible. If they are still undeclared in the
+generated C code, the C compiler will warn you anyway. You can enable extra
+warnings (`+W`, see `New Option for Extra Warnings`_ below) to get
+these warnings, but that will report foreign functions, too.
+
+A related change is that struct or union members are no longer identified
+with variables in the SNL syntax; members are no longer considered to be
+foreign entities (but for compatibility you can still list them in a foreign
+declaration).
+
+Function Definitions
+~~~~~~~~~~~~~~~~~~~~
+
+You can now define functions in SNL. The syntax is like in C and you *can*
+call the built-in PV functions inside them. This is made possible by passing
+the execution context (the state set identifier and the variable block
+pointer) as hidden parameters.
+
+You may pass all kinds of variables to such a function, but for channel
+("assigned") variables their special "assigned" status gets lost when
+passing them, similar as when passing them to a C function. This means you
+can call e.g. pvGet(x) in the body of an SNL function, but only if x is a
+global variable.
+
+My various attempts to lift this limitation were the main reason it took me
+so much longer than I had expected to make this release. In order not to
+hold up the release of version 2.2 any longer, I decided to postpone this
+feature to a future release.
+
+Type Definitions
+~~~~~~~~~~~~~~~~
+
+You can now define your own struct types in SNL (other type formers like
+union and enum are not yet supported). As usual the syntax is a (simplified:
+no bit fields) variant of the C syntax. This is currently not very useful,
+since there is no way to "assign" struct members to PVs. Lifting this
+limitation is closely related to passing channel arguments to functions and
+therefore postponed, too.
+
+New Option for Extra Warnings
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The new option:`+W` (off by default) enables extra warnings, that you
+normally don't want to see. Currently this warns you once for each foreign
+entity that appears in the program.
+
+
+Deprecated and Removed Features
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Deprecated Foreign Declarations
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The so called "foreign entity declarations", introduced in version 2.1, have
+become obsolete (see `Other Foreign Entities`_) and are therefore
+*deprecated*.
+
+Deprecated State Local ``assign`` etc
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Using an `assign`, `monitor`, `sync`, or `syncq` clause inside a state is
+now deprecated. This was never very useful to begin with, and gets in the
+way of some future improvements.
+
+Removed Keyword "connect"
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This alias for the "assign" keyword, also introduced in version 2.1, is no
+longer supported. I believe nobody actually uses it, and the next version
+will introduce a completely new syntax for that feature anyway. I can demote
+the removal to a deprecation warning if it turns out that this seriously
+hurts people.
+
+With hindsight, introducing this was a bad idea, as were foreign
+declarations and state local assign.
+
+Removed PV Library
+~~~~~~~~~~~~~~~~~~
+
+The PV library has been almost completely eliminated. What remains is a thin
+layer over CA, implemented in C, and offering only the functionality that is
+actually needed by the sequencer. The API is similar (but not identical) to
+the old C API; particularly, all the pvStat, pvSevr, and pvType definitions
+are as before.
+
+The documentation for the PV layer has been removed, too. The only remaining
+user relevant part of the interface is contained in pvAlarm.h, see
+`Built-in Constants`_.
+
+Also removed were the Keck examples and the KTL related stuff in other example
+directories.
+
+Removed devSequencer
+~~~~~~~~~~~~~~~~~~~~
+
+The (broken and ugly) sequencer device support was removed.
+Consequently, seqFindProgByName was be removed as it is no longer needed.
+
+
+Built-in Constants
+^^^^^^^^^^^^^^^^^^
+
+All built-in constants are now known to `snc` and therefore no longer
+treated as foreign entities. Particularly, using them no longer gives
+"undefined variable" warnings, even with extra warnings enabled
+(`+W`). They are also documented in the reference.
+
+The *snc*-generated C code for built-in constants now uses the name of the
+constant, instead of its value. This makes the code a bit more readable and
+slightly simplifies code generation.
+
+The variables ``ssId`` and ``pVar`` are (somewhat irregularly) treated as
+built-in constants, too. This makes it possible to call C functions that
+take them as a parameter directly from inside SNL code without having to
+escape the call. That is, you can now write such calls as ::
+
+  my_c_fun(ssId, pVar, ...);
+
+instead of ::
+
+  %%my_c_fun(ssId, pVar, ...);
+
+
+Built-in Functions
+^^^^^^^^^^^^^^^^^^
+
+Reported Severity of Failures
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The severity of timeouts and usage errors reported on the console has been
+demoted from ``errlogFatal`` to ``errlogMajor``. Reporting them as fatal has
+misled users in the past to think that their running program instances have
+become unstable now, which is definitely not the case for this sort of
+errors.
+
+pvMessage
+~~~~~~~~~
+
+The built-in function `pvMessage` now consistently returns a failure string
+describing the problem whenever anything with the passed channel variable
+went wrong. This particularly applies to any failure status returned from
+the CA layer.
+
+New Delay Implementation
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+While it was always *allowed* to use arbitrary SNL expressions for the
+argument to `delay`, even expressions that could change their value
+at any time (e.g. because they contain monitored variables), this did *not*
+work as one would expect. In fact, the delay expression would be evaluated
+just once for all delays appearing in conditions inside a state when the
+state was entered. Later checks whether the delay has expired used the
+cached delay value.
+
+In the new (much simpler) implementation, delay expressions are evaluated
+like all other parts of the state transition condition. Delay IDs no longer
+exist and the code generator treats calls to delay like any other built-in
+function. The effect of delaying the state transition is now achieved
+(completely internal to the implementation of seq_delay) by adjusting the
+minimum time to wait for events (if the delay has not yet expired). The
+run-time system no longer stores the delay, but rather the (future) time
+when the wake-up should happen, leading to more accurate timing of delays.
+
+Since calling delay outside of the condition of a state transition never had
+any useful effect, it is now disallowed.
+
+.. note::
+
+  The prototype of the underlying C function seq_delay() has changed to
+  support the new implementation. If there is code out there which calls
+  this function from the C side, I'd venture that it is broken anyway and
+  should be fixed.
+
+
+pvAssignSubst
+~~~~~~~~~~~~~
+
+Unlike the `assign` clause, the dynamic `pvAssign` function does not
+substitute program parameters (previously sometimes referred to as "macros")
+in the channel name. There is now a new function `pvAssignSubst` that
+behaves exactly like `pvAssign` except that it substitutes program
+parameters in the channel name, just like `assign` does.
+
+PV Functions and Multiply Assigned Arrays
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+A long time wart of the sequencer, inherited from the 2.0 version, was the
+behaviour of built-in PV functions when you pass an array in which elements
+are assigned to separate PVs. In most cases (except one, see below) this
+behaved as if you had passed in just the first element of the array, which
+is inconsistent and error-prone.
+
+However, existing programs might (perhaps without the author or maintainer
+being aware of it) rely on the current behaviour -- and silently breaking
+such programs seems like a bad idea. Instead, this is now a *compile time
+error*. The error message contains a hint how the user can fix their program
+("perhaps you meant to pass xxx[0]?") so that it retains its old behaviour.
+
+For some of the PV functions, operating on all contained PVs of a multi-PV
+array would make sense if one would be willing to overload them. I decided
+against that and instead provide a number of new functions named
+"pvArray...":
+
+* `pvArrayGetComplete`
+* `pvArrayMonitor`
+* `pvArrayPutComplete`
+* `pvArrayStopMonitor`
+* `pvArraySync`
+* `pvArrayConnected`
+
+I may add ``pvArrayGet`` and ``pvArrayPut`` in the future. Especially for
+the `SYNC<compType>` variant, such functions could be implemented (much)
+more efficiently than the semantically equivalent loop over all elements of
+the array.
+
+.. note::
+
+  The C side equivalents seq_pvArray... are not (yet) part of the public
+  API. The reason is that in version 2.3 they will get a slightly different
+  type. You can use them in embedded C code but if you do that you should be
+  aware that your program might not work or even build with version 2.3.
+
+Timeout Arguments for pvGet and pvPut
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+For both `pvGet` and `pvPut` there is now the possibility to
+specify a timeout that differs from the default of 10 seconds. This is done
+by giving an extra argument after the ``SYNC`` keyword, as in::
+
+  pvGet(var,SYNC,1.0);
+
+As before, the default behaviour for ``pvGet(var)`` i.e. neither an explicit
+``SYNC`` nor ``ASYNC``, is synchronous, unless option `-a` is in
+effect. In this case, or if ``SYNC`` is given with no extra argument, the
+standard default timeout of 10 seconds is assumed.
+
+In contrast to previous releases of version 2.2, the C equivalents are
+unchanged with respect to version 2.1. Instead, the compiler generates calls
+to ``seq_pvGetTmo`` or ``seq_pvPutTmo`` which have the additional argument.
+
+New Built-in Functions pvGetCancel and pvPutCancel
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+It is now possible to cancel and asynchronous get or put request by calling
+`pvGetCancel` or `pvPutCancel`, or the channel array variants
+`pvArrayGetCancel` or `pvArrayPutCancel`, respectively.
+
+
+Generated C Code
+^^^^^^^^^^^^^^^^
+
+Order of Definitions
+~~~~~~~~~~~~~~~~~~~~
+
+The first change here is that the generated variable block is now placed
+*after* all other top-level definitions that appear in the program before
+the first state set, in particular before escaped C code. In previous
+versions, this was the other way around. The second change is that for all
+other top-level definitions the order is retained exactly as in the SNL
+source file.
+
+This was done so that foreign type declarations can be used in global (SNL)
+variable declarations. This concerns types imported via ``%%#include``
+as well as types defined in escaped C code.
+
+Note that this means that escaped C code that appears before the first state
+set cannot access global variables declared in SNL, even if the re-entrant
+option is not in effect. Such C code should now be placed after the last
+state set.
+
+Anyway, it is my hope that the possibility to write functions directly in
+SNL will make the escape-to-C route mostly obsolete.
+
+
+Names of Generated Entities
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+These now follow a strict naming convention:
+
+  Generated names start with ``seqg_``.
+
+In particular, ``struct UserVar`` became ``struct seqg_var``, and the
+implicit parameters ``ssId`` and ``pVar`` are now named ``seqg_ss`` and
+``seqg_var``, respectively. Because these three identifiers are often
+referenced in escaped C code, I have added compatibility aliases for them,
+so as not to break existing programs. See `External API`_ below for details.
+
+In order to prevent name clashes, words starting with ``seqg_`` are no longer
+valid identifiers in SNL.
+
+I am aware that there may be cases where this change breaks existing
+programs which heavily rely on escape to C code. If this is the case, please
+shout! Adding more compatibility aliases can be done any time.
+
+Event Flags
+~~~~~~~~~~~
+
+The compiler now generates variables for event flags to make it easier for
+escaped C code to call event flag functions (seq_ef*).
+
+
+External API
+^^^^^^^^^^^^
+
+I finally got around to separating the public API (to be called from
+e.g. embedded C code) from the internal interface between the compiler
+generated code and the run-time system. The latter parts have been moved
+from seqCom.h to the new header file seq_snc.h.
+
+In particular, the following changes have been made:
+
+Retained
+~~~~~~~~
+
+- includes of pvAlarm.h and seq_release.h
+
+- enum compType and its members DEFAULT, ASYNC, SYNC
+
+- constants NOEVFLAG and DEFAULT_QUEUE_SIZE
+
+- typedefs string, SS_ID, seqBool, seqProgram
+
+- all functions except seqRegisterSequencerProgram and seqRegisterSequencerCommands
+  but including seq_pvIndex (which is actually a macro)
+
+Added
+~~~~~
+
+- new built-in functions:
+
+  + seq_pvGetCancel
+  + seq_pvPutCancel
+  + seq_pvAssignSubst
+
+- the constant DEFAULT_TIMEOUT (see `New Delay Implementation`_)
+
+Renamed
+~~~~~~~
+
+- EV_ID -> EF_ID
+- VAR_ID -> CH_ID
+
+Compatibility Aliases
+~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  typedef SEQ_VARS USER_VAR
+  #define ssId                  seqg_ss
+  #define pVar                  seqg_var
+  #define USER_VAR              SEQ_VARS
+  #define UserVar               seqg_vars
+  #define VAR_ID                CH_ID
+  #define EV_ID                 EF_ID
+  #define seq_pvFreeQ           seq_pvFlushQ
+  #define DEFAULT_QUEUE_SIZE    100
+
+These names should not be used in new code.
+
+Removed
+~~~~~~~
+
+- DELAY_ID (obsolete, see `New Delay Implementation`_)
+
+- OPT_MAIN (-m is a compile time option)
+
+- optTest (is now internal to seq library)
+
+Moved to seq_snc.h
+~~~~~~~~~~~~~~~~~~
+
+- struct definitions for the static part of the generated program:
+
+  + struct seqChan
+  + struct seqState
+  + struct seqSS
+  + struct seqProgram
+  + typedef PROG_ID
+
+- option constants:
+
+  + OPT_DEBUG
+  + OPT_ASYNC
+  + OPT_CONN
+  + OPT_REENT
+  + OPT_NEWEF
+  + OPT_SAFE
+
+  + OPT_NORESETTIMERS
+  + OPT_DOENTRYFROMSELF
+  + OPT_DOEXITTOSELF
+
+  User code never needs to use these. It can use seq_optGet instead.
+
+- bitmask operations:
+
+  + NBITS
+  + NWORDS
+  + bitSet, bitClear, bitTest
+
+  Like option values, these were never meant to be part of a public API.
+
+- the constants TRUE and FALSE
+
+- typedefs for generated functions; note that these have been renamed, too
+
+- the functions seqRegisterSequencerProgram and seqRegisterSequencerCommands
+
+Other Changes
+~~~~~~~~~~~~~
+
+- epicsShareAPI markers have been removed except for shell commands
+
+Remarks
+~~~~~~~
+
+My justification for making these potentially breaking changes is that this
+is how it should have been done from the start. The things I have removed
+were never meant to be part of a public API. In the unlikely event that
+there are existing programs with a legitimate need to access these
+internals, they can always include seq_snc.h.
+
+
+Build System
+^^^^^^^^^^^^
+
+Top-level Makefile
+~~~~~~~~~~~~~~~~~~
+
+The extra rules in the top level Makefile to produce documentation with
+or without generating a pdf file have been changed: 'pdf' and 'docs' are
+no longer make variables. Instead there are a number of new targets you
+can specify:
+
+- html: build the docs in html format
+- docs: additionally build the manual in pdf format
+- upload etc: these are for my own benefit only, ignore them
+
+See `Building the Manual` for details.
+
+Generate st.d Files
+~~~~~~~~~~~~~~~~~~~
+
+The extra build rules for the sequencer have been extended to generate
+dependencies for .st files, using the mkmf.pl tool from base. Note that .st
+files are passed through the C preprocessor and therefore may include C
+header files or in fact SNL code from another file.
+
+
+Bug Fixes
+^^^^^^^^^
+
+* Place program lock around wake-up commands in CA callback.
+
+  This prevents a race condition resulting in a crash when the program
+  shuts down and deletes mutexes etc before the callback has issued its
+  final ss_wakeup call.
+
+* Fixed connect and monitor accounting in seq_disconnect and seq_camonitor.

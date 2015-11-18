@@ -11,7 +11,7 @@ in the file LICENSE that is included with this distribution.
 #include "epicsExit.h"
 #include "seqCom.h"
 
-#include "testSupport.h"
+#include "../testSupport.h"
 
 static epicsEventId this_test_done;
 static seqProgram *prog;

@@ -1,0 +1,60 @@
+Glossary of Terms
+=================
+
+.. glossary::
+
+   sequencer
+
+      #. The project that defines `SNL` and provides an implementation.
+      #. The runtime library that supports execution of `SNL` `program`\s.
+
+   cpp
+
+      The C preprocessor. Normally not a stand-alone program but part of the
+      C compiler. Can be abused to preprocess `SNL` code, too, which is a
+      constant source of compatibility problems.
+
+   snc
+
+      The `SNL` compiler. See `Compiling`.
+
+   SNL
+
+      State Notation Language. What this project is about.
+
+   assigned
+
+      The property of a variable or array element to occur in an `assign`
+      clause in an `SNL` `program`.
+
+   PV
+   process variable
+
+      A mutable variable that is globally visible and accessible via some
+      network protocol in a distributed control system, such as one based on
+      `EPICS`.
+
+   CA
+   Channel Access
+
+      The `EPICS` network protocol, used to connect client programs to
+      `PV`\s hosted on a server.
+
+   EPICS
+
+      Experimental Physical and Industrial Control System. A set of tools
+      and libraries for building large distributed soft real-time control
+      systems.
+
+   state set
+
+      `SNL` jargon for finite state machine. A program may contain multiple
+      state sets and each runs in its own thread.
+
+   true
+
+      Any non-zero value, as in C.
+
+   false
+
+      Zero, as in C.
