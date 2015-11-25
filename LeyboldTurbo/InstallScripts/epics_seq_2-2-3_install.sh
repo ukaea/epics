@@ -4,12 +4,7 @@
 #	Written for CCFE (Culham Centre for Fusion Energy).
 
 # this script install seq. 
-# It assumes EPICS base is already installed and that
-# the environment variable EPICS_ROOT is set and points to the installation directory.
 #
-# Usage:
-# sudo -s
-# source ./epics_seq_2-1-15_install.sh
 
 # check if user has right permissions
 if [ "$(id -u)" != "0" ]; then

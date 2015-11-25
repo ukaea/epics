@@ -36,7 +36,7 @@ fi
 # seq
 if [ ! -d $INSTALL_PATH/support/seq ]; 
 then
-    ./epics_seq_2-1-15_install.sh $INSTALL_PATH
+    ./epics_seq_2-2-3_install.sh $INSTALL_PATH
 fi
 
 # asyn

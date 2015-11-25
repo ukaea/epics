@@ -1,3 +1,17 @@
+REM	Module:
+REM		MakeJETRelease.bat
+REM
+REM	Description:
+REM		This script copies the binary files required to deploy the application to CatsServer.
+REM 	CatsServer is uniquely accessible from both on and off-line networks at JET.
+REM 	This allows the binaries to be transferred from an office-based PC to a deployment PC.
+REM
+REM	Author:  Peter Heesterman (Tessella plc). Date: 25 Nov 2015.
+REM	Written for CCFE (Culham Centre for Fusion Energy).
+REM
+REM	LeyboldTurbo is distributed subject to a Software License Agreement
+REM	found in file LICENSE that is included with this distribution.
+
 md \\catsserver.jetcats.jet.efda.org\CopyArea\LeyboldTurbo\Release
 md \\catsserver.jetcats.jet.efda.org\CopyArea\LeyboldTurbo\Release\dbd
 md \\catsserver.jetcats.jet.efda.org\CopyArea\LeyboldTurbo\Release\LeyboldSimApp

@@ -31,13 +31,13 @@ fi
 # seq
 if [ ! -d $INSTALL_PATH/support/seq ]; 
 then
-    ./epics_seq_2-1-15_install.sh $INSTALL_PATH 2.1.11
+    ./epics_seq_2-2-3_install.sh $INSTALL_PATH 2.1.11
 fi
 
 # asyn
 if [ ! -d $INSTALL_PATH/support/asyn ]; 
 then
-    ./epics_asyn_4-26_install.sh $INSTALL_PATH 4-19
+    ./epics_asyn_4-27_install.sh $INSTALL_PATH 4-19
 fi
 
 #pyepics

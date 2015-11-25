@@ -1,5 +1,2 @@
-SU18923 First opererational release deployment
-
-
-
+SU19049 Updated with local LabVIEW GUI
 
