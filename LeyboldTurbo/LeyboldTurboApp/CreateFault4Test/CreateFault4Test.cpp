@@ -11,6 +11,9 @@
 //		You can create a run-up time failure.														//
 //		You have to switch parameter 32 to “0” and after that  you have to start the pump.			//
 //																									//
+//		The value of this parameter was 1200s before I changed anything.							//
+//		(So as to put it back afterwards.)															//
+//																									//
 //		This code is for testing only; it allows to program the said parameter.						//
 //																									//
 //	LeyboldTurbo is distributed subject to a Software License Agreement								//
@@ -73,7 +76,7 @@ int main(int argc, const char* argv[])
 
 	//  Fill in some DCB values and set the com state: 
 	//  19,200 bps, 8 data bits, even parity, and 1 stop bit.
-	dcb.BaudRate = CBR_19200;     //  baud rate
+	dcb.BaudRate = CBR_9600;	  //  baud rate
 	dcb.ByteSize = 8;             //  data size, xmit and rcv
 	dcb.Parity   = EVENPARITY;    //  parity bit
 	dcb.StopBits = ONESTOPBIT;    //  stop bit
@@ -101,11 +104,11 @@ int main(int argc, const char* argv[])
 
 	COMMTIMEOUTS timeouts;
 
-	timeouts.ReadIntervalTimeout = 1;
+	timeouts.ReadIntervalTimeout = 1000;
 	timeouts.ReadTotalTimeoutMultiplier = 1;
-	timeouts.ReadTotalTimeoutConstant = 1;
+	timeouts.ReadTotalTimeoutConstant = 1000;
 	timeouts.WriteTotalTimeoutMultiplier = 1;
-	timeouts.WriteTotalTimeoutConstant = 1;
+	timeouts.WriteTotalTimeoutConstant = 1000;
 	if (!SetCommTimeouts(hCom, &timeouts))
 	{
 		printf("setting timeouts failed\n");
@@ -114,7 +117,7 @@ int main(int argc, const char* argv[])
 	}
 
 	bool Running = true;
-	USSPacket<CLeyboldBase::NoOfPZD6> USSWritePacket(Running, 32), USSReadPacket;
+	USSPacket<CLeyboldBase::NoOfPZD2> USSWritePacket(Running, 32), USSReadPacket;
 
 	if (NewValue != -1)
 	{
@@ -124,26 +127,26 @@ int main(int argc, const char* argv[])
 	}
 	USSWritePacket.m_USSPacketStruct.HToN();
 	DWORD NumberOfBytesWritten, NumberOfBytesRead;
-	if (!WriteFile(hCom, USSWritePacket.m_Bytes, USSPacketStruct<CLeyboldBase::NoOfPZD6>::USSPacketSize, &NumberOfBytesWritten, NULL))
+	if (!WriteFile(hCom, USSWritePacket.m_Bytes, USSWritePacket.m_USSPacketStruct.USSPacketSize, &NumberOfBytesWritten, NULL))
 	{
 		printf ("WriteFile failed with error %lu.\n", GetLastError());
 		CloseHandle(hCom);
 		return (3);
 	}
-	if (NumberOfBytesWritten != USSPacketStruct<CLeyboldBase::NoOfPZD6>::USSPacketSize)
+	if (NumberOfBytesWritten != USSWritePacket.m_USSPacketStruct.USSPacketSize)
 	{
 		printf ("WriteFile did not write any data %lu.\n", GetLastError());
 		CloseHandle(hCom);
 		return (4);
 	}
 
-	if (!ReadFile(hCom,  USSReadPacket.m_Bytes, USSPacketStruct<CLeyboldBase::NoOfPZD6>::USSPacketSize, &NumberOfBytesRead, NULL))
+	if (!ReadFile(hCom,  USSReadPacket.m_Bytes, USSReadPacket.m_USSPacketStruct.USSPacketSize, &NumberOfBytesRead, NULL))
 	{
 		printf ("ReadFile failed with error %lu.\n", GetLastError());
 		CloseHandle(hCom);
 		return (5);
 	}
-	if (NumberOfBytesRead != USSPacketStruct<CLeyboldBase::NoOfPZD6>::USSPacketSize)
+	if (NumberOfBytesRead != USSReadPacket.m_USSPacketStruct.USSPacketSize)
 	{
 		printf ("ReadFile did not recieve any data %lu.\n", GetLastError());
 		CloseHandle(hCom);
@@ -153,7 +156,7 @@ int main(int argc, const char* argv[])
 	if (!USSReadPacket.ValidateChecksum())
 		printf("Checksum validation failed\n");
 
-	printf("Current value of parameter 32 is %d\n", USSWritePacket.m_USSPacketStruct.m_PWE);
+	printf("Current value of parameter 32 is %d\n", USSReadPacket.m_USSPacketStruct.m_PWE);
 
 	CloseHandle(hCom);
 	return 0;
