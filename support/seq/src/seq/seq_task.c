@@ -2,7 +2,7 @@
 Copyright (c) 1990-1994 The Regents of the University of California
                         and the University of Chicago.
                         Los Alamos National Laboratory
-Copyright (c) 2010-2012 Helmholtz-Zentrum Berlin f. Materialien
+Copyright (c) 2010-2015 Helmholtz-Zentrum Berlin f. Materialien
                         und Energie GmbH, Germany (HZB)
 This file is distributed subject to a Software License Agreement found
 in the file LICENSE that is included with this distribution.
@@ -14,15 +14,13 @@ in the file LICENSE that is included with this distribution.
 #include "seq_debug.h"
 
 static void ss_entry(void *arg);
-static void clearDelays(SSCB *,STATE *);
-static boolean calcTimeout(SSCB *, double *);
 
 /*
  * sequencer() - Sequencer main thread entry point.
  */
 void sequencer (void *arg)	/* ptr to original (global) state program table */
 {
-	SPROG		*sp = (SPROG *)arg;
+	PROG		*sp = (PROG *)arg;
 	unsigned	nss;
 	size_t		threadLen;
 	char		threadName[THREAD_NAME_SIZE+10];
@@ -30,31 +28,29 @@ void sequencer (void *arg)	/* ptr to original (global) state program table */
 	/* Get this thread's id */
 	sp->ss->threadId = epicsThreadGetIdSelf();
 
-	/* Add the program to the state program list
-	   and if necessary create pvSys */
+	/* Add the program to the program list */
 	seqAddProg(sp);
 
-	if (!sp->pvSys)
+	createOrAttachPvSystem(sp);
+
+	if (!pvSysIsDefined(sp->pvSys))
 	{
 		sp->die = TRUE;
 		goto exit;
 	}
 
-	/* Note that the program init function
-	   gets the global var buffer sp->var passed,
-	   not the state set local one, even in safe mode. */
-
 	/* Call sequencer init function to initialize variables. */
-	sp->initFunc(sp->var);
+	sp->initFunc(sp);
 
 	/* Initialize state set variables. In safe mode, copy variable
 	   block to state set buffers. Must do all this before connecting. */
-	for (nss = 0; nss < sp->numSS; nss++)
+	if (optTest(sp, OPT_SAFE))
 	{
-		SSCB	*ss = sp->ss + nss;
-
-		if (sp->options & OPT_SAFE)
+		for (nss = 0; nss < sp->numSS; nss++)
+		{
+			SSCB	*ss = sp->ss + nss;
 			memcpy(ss->var, sp->var, sp->varSize);
+		}
 	}
 
 	/* Attach to PV system */
@@ -62,11 +58,11 @@ void sequencer (void *arg)	/* ptr to original (global) state program table */
 
 	/* Initiate connect & monitor requests to database channels, waiting
 	   for all connections to be established if the option is set. */
-	if (seq_connect(sp, ((sp->options & OPT_CONN) != 0)) != pvStatOK)
+	if (seq_connect(sp, optTest(sp, OPT_CONN) != pvStatOK))
 		goto exit;
 
 	/* Emulate the 'first monitor event' for anonymous PVs */
-	if ((sp->options & OPT_SAFE) != 0)
+	if (optTest(sp, OPT_SAFE))
 	{
 		unsigned nch;
 		for (nch=0; nch<sp->numChans; nch++)
@@ -76,7 +72,7 @@ void sequencer (void *arg)	/* ptr to original (global) state program table */
 
 	/* Call program entry function if defined.
 	   Treat as if called from 1st state set. */
-	if (sp->entryFunc) sp->entryFunc(sp->ss, sp->ss->var);
+	if (sp->entryFunc) sp->entryFunc(sp->ss);
 
 	/* Create each additional state set task (additional state set thread
 	   names are derived from the first ss) */
@@ -113,7 +109,7 @@ void sequencer (void *arg)	/* ptr to original (global) state program table */
 
 	/* Call program exit function if defined.
 	   Treat as if called from 1st state set. */
-	if (sp->exitFunc) sp->exitFunc(sp->ss, sp->ss->var);
+	if (sp->exitFunc) sp->exitFunc(sp->ss);
 
 exit:
 	DEBUG("   Disconnect all channels\n");
@@ -121,7 +117,8 @@ exit:
 	DEBUG("   Remove program instance from list\n");
 	seqDelProg(sp);
 
-	printf("Instance %d of sequencer program \"%s\" terminated\n",
+	errlogSevPrintf(errlogInfo,
+		"Instance %d of sequencer program \"%s\" terminated\n",
 		sp->instance, sp->progName);
 
 	/* Free all allocated memory */
@@ -151,9 +148,10 @@ static void ss_read_buffer_static(SSCB *ss, CHAN *ch, boolean dirty_only)
 	print_channel_value(DEBUG, ch, val);
 
 	memcpy(val, buf, var_size);
-	if (ch->dbch) {
+	if (ch->dbch)
+	{
 		/* structure copy */
-		ch->dbch->ssMetaData[ssNum(ss)] = ch->dbch->metaData;
+		ss->metaData[nch] = ch->dbch->metaData;
 	}
 
 	DEBUG("ss %s: after read %s", ss->ssName, ch->varName);
@@ -179,7 +177,7 @@ void ss_read_buffer(SSCB *ss, CHAN *ch, boolean dirty_only)
  * ss_read_all_buffer() - Call ss_read_buffer_static
  * for all channels.
  */
-static void ss_read_all_buffer(SPROG *sp, SSCB *ss)
+static void ss_read_all_buffer(PROG *sp, SSCB *ss)
 {
 	unsigned nch;
 
@@ -194,10 +192,10 @@ static void ss_read_all_buffer(SPROG *sp, SSCB *ss)
 /*
  * ss_read_all_buffer_selective() - Call ss_read_buffer_static
  * for all channels that are sync'ed to the given event flag.
- * NOTE: calling code must take sp->programLock, as we traverse
+ * NOTE: calling code must take sp->lock, as we traverse
  * the list of channels synced to this event flag.
  */
-void ss_read_buffer_selective(SPROG *sp, SSCB *ss, EV_ID ev_flag)
+void ss_read_buffer_selective(PROG *sp, SSCB *ss, EF_ID ev_flag)
 {
 	CHAN *ch = sp->syncedChans[ev_flag];
 	while (ch)
@@ -215,7 +213,7 @@ void ss_read_buffer_selective(SPROG *sp, SSCB *ss, EV_ID ev_flag)
  */
 void ss_write_buffer(CHAN *ch, void *val, PVMETA *meta, boolean dirtify)
 {
-	SPROG *sp = ch->sprog;
+	PROG *sp = ch->prog;
 	char *buf = bufPtr(ch);		/* shared buffer */
 	/* Must use dbCount for db channels, else we overwrite
 	   elements we didn't get */
@@ -237,7 +235,7 @@ void ss_write_buffer(CHAN *ch, void *val, PVMETA *meta, boolean dirtify)
 	DEBUG("ss_write_buffer: after write %s", ch->varName);
 	print_channel_value(DEBUG, ch, buf);
 
-	if ((sp->options & OPT_SAFE) && dirtify)
+	if (optTest(sp, OPT_SAFE) && dirtify)
 		for (nss = 0; nss < sp->numSS; nss++)
 			sp->ss[nss].dirty[nch] = TRUE;
 
@@ -251,19 +249,13 @@ void ss_write_buffer(CHAN *ch, void *val, PVMETA *meta, boolean dirtify)
 static void ss_entry(void *arg)
 {
 	SSCB		*ss = (SSCB *)arg;
-	SPROG		*sp = ss->sprog;
-	USER_VAR	*var;
-
-	if (sp->options & OPT_SAFE)
-		var = ss->var;
-	else
-		var = sp->var;
+	PROG		*sp = ss->prog;
 
 	/* Attach to PV system; was already done for the first state set */
 	if (ss != sp->ss)
 	{
 		ss->threadId = epicsThreadGetIdSelf();
-		pvSysAttach(sp->pvSys);
+		createOrAttachPvSystem(sp);
 	}
 
 	/* Register this thread with the EPICS watchdog (no callback func) */
@@ -273,7 +265,7 @@ static void ss_entry(void *arg)
 	   entering the event loop. Must do this using
 	   ss_read_all_buffer since CA and other state sets could
 	   already post events resp. pvPut. */
-	if (sp->options & OPT_SAFE)
+	if (optTest(sp, OPT_SAFE))
 		ss_read_all_buffer(sp, ss);
 
 	/* Initial state is the first one */
@@ -291,6 +283,7 @@ static void ss_entry(void *arg)
 		boolean	ev_trig;
 		int	transNum = 0;	/* highest prio trans. # triggered */
 		STATE	*st = ss->states + ss->currentState;
+		double	now;
 
 		/* Set state to current state */
 		assert(ss->currentState >= 0);
@@ -302,42 +295,39 @@ static void ss_entry(void *arg)
 		 * even if it's the same state if option to do so is enabled.
 		 */
 		if (st->entryFunc && (ss->prevState != ss->currentState
-			|| (st->options & OPT_DOENTRYFROMSELF)))
+			|| optTest(st, OPT_DOENTRYFROMSELF)))
 		{
-			st->entryFunc(ss, var);
+			st->entryFunc(ss);
 		}
 
 		/* Flush any outstanding DB requests */
 		pvSysFlush(sp->pvSys);
 
-		clearDelays(ss, st); /* Clear delay list */
-		st->delayFunc(ss, var); /* Set up new delay list */
-
 		/* Setting this semaphore here guarantees that a when() is
-		 * always executed at least once when a state is first
-		 * entered.
+		 * always executed at least once when a state is first entered.
 		 */
-		epicsEventSignal(ss->syncSemId);
+		epicsEventSignal(ss->syncSem);
+
+		pvTimeGetCurrentDouble(&now);
+
+		/* Set time we entered this state if transition from a different
+		 * state or else if option not to do so is off for this state.
+		 */
+		if ((ss->currentState != ss->prevState) ||
+			!optTest(st, OPT_NORESETTIMERS))
+		{
+			ss->timeEntered = now;
+		}
+		ss->wakeupTime = epicsINF;
 
 		/* Loop until an event is triggered, i.e. when() returns TRUE
 		 */
 		do {
-			double delay = 0.0;
-
 			/* Wake up on PV event, event flag, or expired delay */
-			if (calcTimeout(ss, &delay))
-			{
-				DEBUG("before epicsEventWaitWithTimeout(ss=%d,delay=%f)\n",
-					ss - sp->ss, delay);
-				epicsEventWaitWithTimeout(ss->syncSemId, delay);
-				DEBUG("after epicsEventWaitWithTimeout()\n");
-			}
-			else
-			{
-				DEBUG("before epicsEventWait\n");
-				epicsEventWait(ss->syncSemId);
-				DEBUG("after epicsEventWait\n");
-			}
+			DEBUG("before epicsEventWaitWithTimeout(ss=%d,timeout=%f)\n",
+				ss - sp->ss, ss->wakeupTime - now);
+			epicsEventWaitWithTimeout(ss->syncSem, ss->wakeupTime - now);
+			DEBUG("after epicsEventWaitWithTimeout()\n");
 
 			/* Check whether we have been asked to exit */
 			if (sp->die) goto exit;
@@ -345,15 +335,17 @@ static void ss_entry(void *arg)
 			/* Copy dirty variable values from CA buffer
 			 * to user (safe mode only).
 			 */
-			if (sp->options & OPT_SAFE)
+			if (optTest(sp, OPT_SAFE))
 				ss_read_all_buffer(sp, ss);
 
+			ss->wakeupTime = epicsINF;
+
 			/* Check state change conditions */
-			ev_trig = st->eventFunc(ss, var,
+			ev_trig = st->eventFunc(ss,
 				&transNum, &ss->nextState);
 
 			/* Clear all event flags (old ef mode only) */
-			if (ev_trig && !(sp->options & OPT_NEWEF))
+			if (ev_trig && !optTest(sp, OPT_NEWEF))
 			{
 				unsigned i;
 				for (i = 0; i < NWORDS(sp->numEvFlags); i++)
@@ -361,19 +353,21 @@ static void ss_entry(void *arg)
 					sp->evFlags[i] &= ~ss->mask[i];
 				}
 			}
+			if (!ev_trig)
+				pvTimeGetCurrentDouble(&now);
 		} while (!ev_trig);
 
 		/* Execute the state change action */
-		st->actionFunc(ss, var, transNum, &ss->nextState);
+		st->actionFunc(ss, transNum, &ss->nextState);
 
 		/* Check whether we have been asked to exit */
 		if (sp->die) goto exit;
 
 		/* If changing state, do exit actions */
 		if (st->exitFunc && (ss->currentState != ss->nextState
-			|| (st->options & OPT_DOEXITTOSELF)))
+			|| optTest(st, OPT_DOEXITTOSELF)))
 		{
-			st->exitFunc(ss, var);
+			st->exitFunc(ss);
 		}
 
 		/* Change to next state */
@@ -390,93 +384,11 @@ exit:
 }
 
 /*
- * clearDelays() - clear the time delay list.
- */
-static void clearDelays(SSCB *ss, STATE *st)
-{
-	unsigned ndelay;
-
-	/* On state change set time we entered this state; or if transition from
-	 * same state if option to do so is on for this state.
-	 */
-	if ((ss->currentState != ss->prevState) ||
-		!(st->options & OPT_NORESETTIMERS))
-	{
-		pvTimeGetCurrentDouble(&ss->timeEntered);
-	}
-
-	for (ndelay = 0; ndelay < ss->maxNumDelays; ndelay++)
-	{
-		ss->delay[ndelay] = 0;
-	 	ss->delayExpired[ndelay] = FALSE;
-	}
-
-	ss->numDelays = 0;
-}
-
-/*
- * calcTimeout() - calculate the time-out for pending on events
- * Return whether to time out when waiting for events.
- * If yes, set *pdelay to the timout (in seconds).
- */
-static boolean calcTimeout(SSCB *ss, double *pdelay)
-{
-	unsigned ndelay;
-	boolean	do_timeout = FALSE;
-	double	now, timeElapsed;
-	double	delayMin = 0;
-	/* not really necessary to initialize delayMin,
-	   but tell that to the compiler...
-	 */
-
-	if (ss->numDelays == 0)
-		return FALSE;
-
-	/*
-	 * Calculate the timeElapsed since this state was entered.
-	 */
-	pvTimeGetCurrentDouble(&now);
-	timeElapsed = now - ss->timeEntered;
-	DEBUG("calcTimeout: now=%f, timeElapsed=%f\n", now, timeElapsed);
-
-	/*
-	 * Find the minimum delay among all unexpired timeouts if
-	 * one exists, and set do_timeout in this case.
-	 */
-	for (ndelay = 0; ndelay < ss->numDelays; ndelay++)
-	{
-		double delayN = ss->delay[ndelay];
-
-		if (ss->delayExpired[ndelay])
-			continue; /* skip if this delay entry already expired */
-		if (timeElapsed >= delayN)
-		{	/* just expired */
-			ss->delayExpired[ndelay] = TRUE; /* mark as expired */
-			*pdelay = 0.0;
-			DEBUG("calcTimeout: %d expired\n", ndelay);
-			return TRUE;
-		}
-		if (!do_timeout || delayN<=delayMin)
-		{
-			do_timeout = TRUE;
-			delayMin = delayN;  /* this is the min. delay so far */
-		}
-	}
-	if (do_timeout)
-	{
-		*pdelay = max(0.0, delayMin - timeElapsed);
-	}
-	DEBUG("calcTimeout: do_timeout=%s, *pdelay=%f\n",
-		do_timeout?"yes":"no", *pdelay);
-	return do_timeout;
-}
-
-/*
  * Delete all state set threads and do general clean-up.
  */
-void epicsShareAPI seqStop(epicsThreadId tid)
+epicsShareFunc void epicsShareAPI seqStop(epicsThreadId tid)
 {
-	SPROG	*sp;
+	PROG	*sp;
 
 	/* Check that this is indeed a state program thread */
 	sp = seqFindProg(tid);
@@ -485,20 +397,11 @@ void epicsShareAPI seqStop(epicsThreadId tid)
 	seq_exit(sp->ss);
 }
 
-void seqCreatePvSys(SPROG *sp)
-{
-	int debug = sp->debug;
-	pvStat status = pvSysCreate(sp->pvSysName,
-		max(0, debug-1), &sp->pvSys);
-	if (status != pvStatOK)
-		errlogSevPrintf(errlogFatal, "pvSysCreate(\"%s\") failure\n", sp->pvSysName);
-}
-
 /*
- * seqWakeup() -- wake up each state set that is waiting on this event
+ * ss_wakeup() -- wake up each state set that is waiting on this event
  * based on the current event mask; eventNum = 0 means wake all state sets.
  */
-void seqWakeup(SPROG *sp, unsigned eventNum)
+void ss_wakeup(PROG *sp, unsigned eventNum)
 {
 	unsigned nss;
 
@@ -507,16 +410,16 @@ void seqWakeup(SPROG *sp, unsigned eventNum)
 	{
 		SSCB *ss = sp->ss + nss;
 
-		epicsMutexMustLock(sp->programLock);
+		epicsMutexMustLock(sp->lock);
 		/* If event bit in mask is set, wake that state set */
-		DEBUG("seqWakeup: eventNum=%d, mask=%u, state set=%d\n", eventNum, 
+		DEBUG("ss_wakeup: eventNum=%d, mask=%u, state set=%d\n", eventNum, 
 			ss->mask? *ss->mask : 0, (int)ssNum(ss));
 		if (eventNum == 0 || 
 			(ss->mask && bitTest(ss->mask, eventNum)))
 		{
-			DEBUG("seqWakeup: waking up state set=%d\n", (int)ssNum(ss));
-			epicsEventSignal(ss->syncSemId); /* wake up ss thread */
+			DEBUG("ss_wakeup: waking up state set=%d\n", (int)ssNum(ss));
+			epicsEventSignal(ss->syncSem); /* wake up ss thread */
 		}
-		epicsMutexUnlock(sp->programLock);
+		epicsMutexUnlock(sp->lock);
 	}
 }

@@ -145,6 +145,24 @@ inline int64 swap(int64 val)
 }
 
 template<>
+inline uint16 swap(uint16 val)
+{
+    return swap16(val);
+}
+
+template<>
+inline uint32 swap(uint32 val)
+{
+    return swap32(val);
+}
+
+template<>
+inline uint64 swap(uint64 val)
+{
+    return swap64(val);
+}
+
+template<>
 inline float swap(float val)
 {
     union {
@@ -188,8 +206,9 @@ inline double swap(double val)
 #endif
 
 /**
- * This class implements {@code Bytebuffer} that is like the {@code java.nio.ByteBuffer}.
- * <p>A {@code BitSet} is not safe for multithreaded use without
+ * @brief This class implements a Bytebuffer that is like the java.nio.ByteBuffer.
+ * 
+ * <p>A @c BitSet is not safe for multithreaded use without
  * external synchronization.
  *
  * Based on Java implementation.
@@ -354,7 +373,7 @@ public:
     template<typename T>
     inline void put(std::size_t index, T value);
     /**
-     * Get the new object from  the byte buffer. The item MUST have type {@code T}.
+     * Get the new object from  the byte buffer. The item MUST have type @c T.
      * The position is adjusted based on the type.
      *
      * @return The object.
@@ -368,7 +387,7 @@ public:
 #endif
     /**
      * Get the new object from  the byte buffer at the specified index.
-     * The item MUST have type {@code T}.
+     * The item MUST have type @c T.
      * The position is adjusted based on the type.
      *
      * @param index The location in the byte buffer.
@@ -380,9 +399,9 @@ public:
      * Put a sub-array of bytes into the byte buffer.
      * The position is increased by the count.
      *
-     * @param  src    The source array.
-     * @param  offset The starting position within src.
-     * @param  count  The number of bytes to put into the byte buffer,
+     * @param  src        The source array.
+     * @param  src_offset The starting position within src.
+     * @param  count      The number of bytes to put into the byte buffer,
      */
     inline void put(const char* src, std::size_t src_offset, std::size_t count) {
         //if(count>getRemaining()) THROW_BASE_EXCEPTION("buffer overflow");
@@ -393,9 +412,9 @@ public:
      * Get a sub-array of bytes from the byte buffer.
      * The position is increased by the count.
      *
-     * @param  dest    The destination array.
-     * @param  offset The starting position within src.
-     * @param  count  The number of bytes to put into the byte buffer,
+     * @param  dest        The destination array.
+     * @param  dest_offset The starting position within src.
+     * @param  count       The number of bytes to put into the byte buffer.
      */
     inline void get(char* dest, std::size_t dest_offset, std::size_t count) {
         //if(count>getRemaining()) THROW_BASE_EXCEPTION("buffer overflow");
@@ -403,7 +422,7 @@ public:
         _position += count;
     }
     /**
-     * Put an array of type {@code T} into the byte buffer.
+     * Put an array of type @c T into the byte buffer.
      * The position is adjusted.
      *
      * @param  values The input array.
@@ -412,7 +431,7 @@ public:
     template<typename T>
     inline void putArray(const T* values, std::size_t count);
     /**
-     * Get an array of type {@code T} from the byte buffer.
+     * Get an array of type @c T from the byte buffer.
      * The position is adjusted.
      *
      * @param  values The destination array.
@@ -618,7 +637,7 @@ public:
     /**
      * Get a boolean value from the byte buffer at the specified index.
      *
-     * @param  double The offset in the byte buffer.
+     * @param  index The offset in the byte buffer.
      * @return The value.
      */
     inline double getDouble (std::size_t  index) { return get<double>(index); }
@@ -695,7 +714,7 @@ private:
         }
         else
         {
-            // NOTE: this check and branching does not always payoff
+            // NOTE: this check and branching does not always pay off
             if (ADAPTIVE_ACCESS && is_aligned(_position, sizeof(T)))
             {
                 *((T*)_position) = value;
@@ -738,12 +757,12 @@ private:
 
         if (UNALIGNED_ACCESS)
         {
-            // NOTE: some CPU handle unaligned access preety good (e.g. x86)
+            // NOTE: some CPU handle unaligned access pretty good (e.g. x86)
             *((T*)(_buffer + index)) = value;
         }
         else
         {
-            // NOTE: this check and branching does not always payoff
+            // NOTE: this check and branching does not always pay off
             if (ADAPTIVE_ACCESS && is_aligned(_position, sizeof(T)))
             {
                 *((T*)(_buffer + index)) = value;
@@ -786,13 +805,13 @@ private:
 
         if (UNALIGNED_ACCESS)
         {
-            // NOTE: some CPU handle unaligned access preety good (e.g. x86)
+            // NOTE: some CPU handle unaligned access pretty good (e.g. x86)
             value = *((T*)_position);
             _position += sizeof(T);
         }
         else
         {
-            // NOTE: this check and branching does not always payoff
+            // NOTE: this check and branching does not always pay off
             if (ADAPTIVE_ACCESS && is_aligned(_position, sizeof(T)))
             {
                 value = *((T*)_position);
@@ -838,12 +857,12 @@ private:
 
         if (UNALIGNED_ACCESS)
         {
-            // NOTE: some CPU handle unaligned access preety good (e.g. x86)
+            // NOTE: some CPU handle unaligned access pretty good (e.g. x86)
             value = *((T*)(_buffer + index));
         }
         else
         {
-            // NOTE: this check and branching does not always payoff
+            // NOTE: this check and branching does not always pay off
             if (ADAPTIVE_ACCESS && is_aligned(_position, sizeof(T)))
             {
                 value = *((T*)(_buffer + index));
@@ -890,7 +909,7 @@ private:
         memcpy(_position, values, n);
         _position += n;
 
-        // ... so that we can be fast changing endianess
+        // ... so that we can be fast changing endianness
         if (ENDIANESS_SUPPORT && reverse<T>())
         {
             for (std::size_t i = 0; i < count; i++)
@@ -918,7 +937,7 @@ private:
         memcpy(values, _position, n);
         _position += n;
 
-        // ... so that we can be fast changing endianess
+        // ... so that we can be fast changing endianness
         if (ENDIANESS_SUPPORT && reverse<T>())
         {
             for (std::size_t i = 0; i < count; i++)

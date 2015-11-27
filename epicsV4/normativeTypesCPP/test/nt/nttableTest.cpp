@@ -1,6 +1,6 @@
 /**
  * Copyright - See the COPYRIGHT that is included with this distribution.
- * EPICS pvDataCPP is distributed subject to a Software License Agreement found
+ * This software is distributed subject to a Software License Agreement found
  * in file LICENSE that is included with this distribution.
  */
 
@@ -22,9 +22,9 @@ void test_builder()
     testOk(builder.get() != 0, "Got builder");
 
     StructureConstPtr structure = builder->
-            add("column0", pvDouble)->
-            add("column1", pvString)->
-            add("column2", pvInt)->
+            addColumn("column0", pvDouble)->
+            addColumn("column1", pvString)->
+            addColumn("column2", pvInt)->
             addDescriptor()->
             addAlarm()->
             addTimeStamp()->
@@ -37,12 +37,14 @@ void test_builder()
 
     testOk1(NTTable::is_a(structure));
     testOk1(structure->getID() == NTTable::URI);
-    testOk1(structure->getNumberFields() == 5);
+    testOk1(structure->getNumberFields() == 7);
     testOk1(structure->getField("labels").get() != 0);
     testOk1(structure->getField("value").get() != 0);
     testOk1(structure->getField("descriptor").get() != 0);
     testOk1(structure->getField("alarm").get() != 0);
     testOk1(structure->getField("timeStamp").get() != 0);
+    testOk1(structure->getField("extra1").get() != 0);
+    testOk1(structure->getField("extra2").get() != 0);
 
     StructureConstPtr s = dynamic_pointer_cast<const Structure>(structure->getField("value"));
 #define TEST_COLUMN(name, type) \
@@ -62,8 +64,8 @@ void test_builder()
     try
     {
         structure = builder->
-                add("column0", pvDouble)->
-                add("column0", pvString)->
+                addColumn("column0", pvDouble)->
+                addColumn("column0", pvString)->
                 createStructure();
         testFail("duplicate column name");
     } catch (std::runtime_error &) {
@@ -79,9 +81,9 @@ void test_labels()
     testOk(builder.get() != 0, "Got builder");
 
     PVStructurePtr pvStructure = builder->
-            add("column0", pvDouble)->
-            add("column1", pvString)->
-            add("column2", pvInt)->
+            addColumn("column0", pvDouble)->
+            addColumn("column1", pvString)->
+            addColumn("column2", pvInt)->
             createPVStructure();
     testOk1(pvStructure.get() != 0);
     if (!pvStructure)
@@ -108,9 +110,9 @@ void test_nttable()
     testOk(builder.get() != 0, "Got builder");
 
     NTTablePtr ntTable = builder->
-            add("column0", pvDouble)->
-            add("column1", pvString)->
-            add("column2", pvInt)->
+            addColumn("column0", pvDouble)->
+            addColumn("column1", pvString)->
+            addColumn("column2", pvInt)->
             addDescriptor()->
             addAlarm()->
             addTimeStamp()->
@@ -218,9 +220,9 @@ void test_wrap()
     testOk(builder.get() != 0, "Got builder");
 
     PVStructurePtr pvStructure = builder->
-            add("column0", pvDouble)->
-            add("column1", pvString)->
-            add("column2", pvInt)->
+            addColumn("column0", pvDouble)->
+            addColumn("column1", pvString)->
+            addColumn("column2", pvInt)->
             createPVStructure();
     testOk1(pvStructure.get() != 0);
     if (!pvStructure)
@@ -234,7 +236,7 @@ void test_wrap()
 }
 
 MAIN(testNTTable) {
-    testPlan(46);
+    testPlan(48);
     test_builder();
     test_labels();
     test_nttable();

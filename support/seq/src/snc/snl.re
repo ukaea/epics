@@ -1,5 +1,5 @@
 /*************************************************************************\
-Copyright (c) 2010-2012 Helmholtz-Zentrum Berlin f. Materialien
+Copyright (c) 2010-2015 Helmholtz-Zentrum Berlin f. Materialien
                         und Energie GmbH, Germany (HZB)
 This file is distributed subject to a Software License Agreement found
 in the file LICENSE that is included with this distribution.
@@ -17,7 +17,7 @@ in the file LICENSE that is included with this distribution.
 #include "main.h"
 #include "parser.h"
 
-#define	EOI		0
+#define	TOK_EOI		0
 
 typedef unsigned char uchar;
 
@@ -33,7 +33,7 @@ typedef unsigned char uchar;
 #define	RET(i,r) {\
 	s->cur = cursor;\
 	t->str = r;\
-	return i;\
+	return TOK_ ## i;\
 }
 
 #define OPERATOR		RET
@@ -56,7 +56,11 @@ typedef struct Scanner {
 	uchar	*eof;	/* pointer to (one after) last char in file (or 0) */
 	const char *file;	/* source file name */
 	int	line;	/* line number */
+	FILE	*in;
 } Scanner;
+
+static void scan_report(Scanner *s, const char *format, ...)
+__attribute__((format(printf,2,3)));
 
 static void scan_report(Scanner *s, const char *format, ...)
 {
@@ -83,12 +87,14 @@ static uchar *fill(Scanner *s, uchar *cursor) {
 	/* does not touch s->cur, instead works with argument cursor */
 	if (!s->eof) {
 		uint read_cnt;			/* number of bytes read */
-		uint garbage = s->tok - s->bot;	/* number of garbage bytes */
-		uint valid = s->lim - s->tok;	/* number of still valid bytes to copy */
+		int garbage = s->tok - s->bot;	/* number of garbage bytes */
+		int valid = s->lim - s->tok;	/* number of still valid bytes to copy */
 		uchar *token = s->tok;		/* start of valid bytes */
-		uint space = (s->top - s->lim) + garbage;
+		int space = (s->top - s->lim) + garbage;
 						/* remaining space after garbage collection */
 		int need_alloc = space < BSIZE;	/* do we need to allocate a new buffer? */
+
+		assert(valid >= 0);
 
 		/* anything below s->tok is garbage, collect it */
 		if (garbage) {
@@ -97,7 +103,7 @@ static uchar *fill(Scanner *s, uchar *cursor) {
 #endif
 			if (!need_alloc) {
 				/* shift valid buffer content down to bottom of buffer */
-				memmove(s->bot, token, valid);
+				memmove(s->bot, token, (size_t)valid);
 			}
 			/* adjust pointers */
 			s->tok = s->bot;	/* same as s->tok -= garbage */
@@ -110,11 +116,14 @@ static uchar *fill(Scanner *s, uchar *cursor) {
 		/* increase the buffer size if necessary, ensuring that we have
 		   at least BSIZE bytes of free space to fill (after s->lim) */
 		if (need_alloc) {
-			uchar *buf = (uchar*) malloc((s->lim - s->bot + BSIZE)*sizeof(uchar));
+			uchar *buf;
+
+			assert(s->lim - s->bot >= 0);
+			buf = (uchar*) malloc(((size_t)(s->lim - s->bot) + BSIZE)*sizeof(uchar));
 #ifdef DEBUG
 			report("fill: need_alloc, bot: before=%p after=%p\n", s->bot, buf);
 #endif
-			memcpy(buf, token, valid);
+			memcpy(buf, token, (size_t)valid);
 			s->tok = buf;
 			s->end = &buf[s->end - s->bot];
 			s->ptr = &buf[s->ptr - s->bot];
@@ -126,12 +135,12 @@ static uchar *fill(Scanner *s, uchar *cursor) {
 		}
 		/* fill the buffer, starting at s->lim, by reading a chunk of
 		   BSIZE bytes (or less if eof is encountered) */
-		if ((read_cnt = fread(s->lim, sizeof(uchar), BSIZE, stdin)) != BSIZE) {
-			if (ferror(stdin)) {
+		if ((read_cnt = fread(s->lim, sizeof(uchar), BSIZE, s->in)) != BSIZE) {
+			if (ferror(s->in)) {
 				perror("error reading input");
 				exit(EXIT_FAILURE);
 			}
-			if (feof(stdin)) {
+			if (feof(s->in)) {
 				s->eof = &s->lim[read_cnt];
 				/* insert sentinel and increase s->eof */
 				*(s->eof)++ = '\n';
@@ -209,6 +218,7 @@ snl:
 				goto string_const;
 			}
 	"/*"		{ goto comment; }
+	"//" .*		{ goto snl; }
 	"%{"		{
 				s->tok = cursor;
 				in_c_code = 1;
@@ -224,11 +234,12 @@ snl:
 	"assign"	{ KEYWORD(ASSIGN,	"assign"); }
 	"break"		{ KEYWORD(BREAK,	"break"); }
 	"char"		{ TYPEWORD(CHAR,	"char"); }
-	"connect"	{ KEYWORD(CONNECT,	"connect"); }
+	"const"		{ TYPEWORD(CONST,	"const"); }
 	"continue"	{ KEYWORD(CONTINUE,	"continue"); }
 	"double"	{ TYPEWORD(DOUBLE,	"double"); }
 	"else"		{ KEYWORD(ELSE,		"else"); }
 	"entry"		{ KEYWORD(ENTRY,	"entry"); }
+	"enum"		{ TYPEWORD(ENUM,	"enum"); }
 	"evflag"	{ TYPEWORD(EVFLAG,	"evflag"); }
 	"exit"		{ KEYWORD(EXIT,		"exit"); }
 	"float"		{ TYPEWORD(FLOAT,	"float"); }
@@ -240,15 +251,21 @@ snl:
 	"monitor"	{ KEYWORD(MONITOR,	"monitor"); }
 	"option"	{ KEYWORD(OPTION,	"option"); }
 	"program"	{ KEYWORD(PROGRAM,	"program"); }
+	"return"	{ KEYWORD(RETURN,	"return"); }
 	"short"		{ TYPEWORD(SHORT,	"short"); }
+	"sizeof"	{ TYPEWORD(SIZEOF,	"sizeof"); }
 	"ss"		{ KEYWORD(SS,		"ss"); }
 	"state"		{ KEYWORD(STATE,	"state"); }
 	"string"	{ KEYWORD(STRING,	"string"); }
+	"struct"	{ TYPEWORD(STRUCT,	"struct"); }
 	"syncQ"		{ KEYWORD(SYNCQ,	"syncQ"); }
 	"syncq"		{ KEYWORD(SYNCQ,	"syncq"); }
 	"sync"		{ KEYWORD(SYNC,		"sync"); }
 	"to"		{ KEYWORD(TO,		"to"); }
+	"typename"	{ TYPEWORD(TYPENAME,	"typename"); }
+	"union"		{ TYPEWORD(UNION,	"union"); }
 	"unsigned"	{ TYPEWORD(UNSIGNED,	"unsigned"); }
+	"void"		{ TYPEWORD(VOID,	"void"); }
 	"when"		{ KEYWORD(WHEN,		"when"); }
 	"while"		{ KEYWORD(WHILE,	"while"); }
 
@@ -258,6 +275,12 @@ snl:
 	"uint16_t"	{ TYPEWORD(UINT16T,	"uint16_t"); }
 	"int32_t"	{ TYPEWORD(INT32T, 	"int32_t"); }
 	"uint32_t"	{ TYPEWORD(UINT32T,	"uint32_t"); }
+
+	"seqg_" (LET|DEC)* {
+		*cursor = 0;
+		scan_report(s, "identifier '%s'starts with reserved prefix\n", s->tok);
+		DONE;
+	}
 
 	LET (LET|DEC)*	{ IDENTIFIER(NAME, identifier, strdupft(s->tok, cursor)); }
 	("0" [xX] HEX+ IS?) | ("0" OCT+ IS?) | (DEC+ IS?) | (['] (ESC|[^\n\\'])* ['])
@@ -338,8 +361,9 @@ string_cat:
 				goto string_cat;
 			}
 	["]		{
-				uint len = s->end - s->tok;
-				memmove(cursor - len, s->tok, len);
+				int len = s->end - s->tok;
+				assert(len >= 0);
+				memmove(cursor - len, s->tok, (size_t)len);
 				s->tok = cursor - len;
 				goto string_const;
 			}
@@ -437,44 +461,24 @@ c_code_line:
 	DONE;		/* dead code, only here to make compiler warning go away */
 }
 
-#ifdef TEST_LEXER
-void report_loc(const char *f, int l) {
-	fprintf(stderr, "%s:%d: ", f, l);
-}
-
-int main() {
-	Scanner s;
-	int		tt;	/* token type */
-	Token		tv;	/* token value */
-
-	memset(&s, 0, sizeof(s));
-
-	s.cur = fill(&s, s.cur);
-	s.line = 1;
-
-	while( (tt = scan(&s, &tv)) != EOI) {
-		printf("%s:%d: %2d\t$%s$\n", tv.file, tv.line, tt, tv.str);
-	}
-	return 0;
-}
-#else
-
-Expr *parse_program(const char *src_file)
+Node *parse_program(FILE *in, const char *src_file)
 {
 	Scanner	s;
 	int	tt;		/* token type */
 	Token	tv;		/* token value */
-	Expr	*result;	/* result of parsing */
+	Node	*result;	/* result of parsing */
 	void	*parser;	/* the (lemon generated) parser */
 
 	memset(&s, 0, sizeof(s));
 	s.file = src_file;
 	s.line = 1;
+	s.in = in;
 
 	parser = snlParserAlloc(malloc);
 	do
 	{
 		tt = scan(&s, &tv);
+                tv.symbol = tt;
 #ifdef	DEBUG
 		report_at(tv.file, tv.line, "%2d\t$%s$\n", tt, tv.str);
 #endif
@@ -484,5 +488,3 @@ Expr *parse_program(const char *src_file)
 	snlParserFree(parser, free);
 	return result;
 }
-
-#endif /* TEST_LEXER */

@@ -14,7 +14,7 @@ ALLSPHINXOPTS   = -d $(BUILDDIR)/doctrees $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
 
 .PHONY: install all build realclean
 .PHONY: help clean html dirhtml pickle json htmlhelp qthelp latex changes
-.PHONY: linkcheck doctest
+.PHONY: linkcheck doctest checksyntax
 
 install all: build
 	cp -r $(BUILDDIR)/html $(INSTALL_LOCATION)
@@ -22,7 +22,7 @@ ifdef pdf
 	cp $(BUILDDIR)/latex/Manual.pdf $(INSTALL_LOCATION)/html
 endif
 
-build: html
+build: html checksyntax
 
 ifdef pdf
 build: pdf
@@ -46,11 +46,16 @@ realclean clean:
 
 runtests:
 
-html: bnf.inc
-	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
+checksyntax: html extractbnf.pl Reference.txt $(INSTALL_LOCATION)/html/Syntax.txt
+	sort $(INSTALL_LOCATION)/html/Syntax.txt > $(BUILDDIR)/Syntax.txt.sorted.tmp
+	$(MV) $(BUILDDIR)/Syntax.txt.sorted.tmp $(BUILDDIR)/Syntax.txt.sorted
+	$(PERL) extractbnf.pl Reference.txt | sort > $(BUILDDIR)/Reference.txt.sorted.tmp
+	$(MV) $(BUILDDIR)/Reference.txt.sorted.tmp $(BUILDDIR)/Reference.txt.sorted
+	if ! diff $(BUILDDIR)/Syntax.txt.sorted $(BUILDDIR)/Reference.txt.sorted; then\
+		echo "warning: syntax is inconsistent with specification"; fi
 
-# 	@echo
-# 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
+html:
+	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
 
 dirhtml:
 	$(SPHINXBUILD) -b dirhtml $(ALLSPHINXOPTS) $(BUILDDIR)/dirhtml

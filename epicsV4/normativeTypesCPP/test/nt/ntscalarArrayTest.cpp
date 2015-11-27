@@ -1,6 +1,6 @@
 /**
  * Copyright - See the COPYRIGHT that is included with this distribution.
- * EPICS pvDataCPP is distributed subject to a Software License Agreement found
+ * This software is distributed subject to a Software License Agreement found
  * in file LICENSE that is included with this distribution.
  */
 
@@ -23,7 +23,7 @@ void test_builder()
     testOk(builder.get() != 0, "Got builder");
 
     StructureConstPtr structure = builder->
-            arrayValue(pvDouble)->
+            value(pvDouble)->
             addDescriptor()->
             addAlarm()->
             addTimeStamp()->
@@ -75,7 +75,7 @@ void test_ntscalarArray()
     testOk(builder.get() != 0, "Got builder");
 
     NTScalarArrayPtr ntScalarArray = builder->
-            arrayValue(pvInt)->
+            value(pvInt)->
             addDescriptor()->
             addAlarm()->
             addTimeStamp()->
@@ -220,7 +220,7 @@ void test_wrap()
     testOk(builder.get() != 0, "Got builder");
 
     PVStructurePtr pvStructure = builder->
-            arrayValue(pvDouble)->
+            value(pvDouble)->
             createPVStructure();
     testOk1(pvStructure.get() != 0);
     if (!pvStructure)

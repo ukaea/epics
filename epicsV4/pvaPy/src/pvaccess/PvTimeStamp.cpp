@@ -1,3 +1,6 @@
+// Copyright information and license terms for this software can be
+// found in the file LICENSE that is included with the distribution
+
 #include "PvTimeStamp.h"
 #include "PvType.h"
 
@@ -64,31 +67,31 @@ PvTimeStamp::~PvTimeStamp()
 
 void PvTimeStamp::setSecondsPastEpoch(long long secondsPastEpoch)
 {
-    pvStructurePtr->getLongField(SecondsPastEpochFieldKey)->put(secondsPastEpoch);
+    pvStructurePtr->getSubField<epics::pvData::PVLong>(SecondsPastEpochFieldKey)->put(secondsPastEpoch);
 }
 
 long long PvTimeStamp::getSecondsPastEpoch() const
 {
-    return pvStructurePtr->getLongField(SecondsPastEpochFieldKey)->get();
+    return pvStructurePtr->getSubField<epics::pvData::PVLong>(SecondsPastEpochFieldKey)->get();
 }
 
 void PvTimeStamp::setNanoseconds(int nanoseconds)
 {
-    pvStructurePtr->getIntField(NanosecondsFieldKey)->put(nanoseconds);
+    pvStructurePtr->getSubField<epics::pvData::PVInt>(NanosecondsFieldKey)->put(nanoseconds);
 }
 
 int PvTimeStamp::getNanoseconds() const
 {
-    return pvStructurePtr->getIntField(NanosecondsFieldKey)->get();
+    return pvStructurePtr->getSubField<epics::pvData::PVInt>(NanosecondsFieldKey)->get();
 }
 
 void PvTimeStamp::setUserTag(int userTag)
 {
-    pvStructurePtr->getIntField(UserTagFieldKey)->put(userTag);
+    pvStructurePtr->getSubField<epics::pvData::PVInt>(UserTagFieldKey)->put(userTag);
 }
 
 int PvTimeStamp::getUserTag() const
 {
-    return pvStructurePtr->getIntField(UserTagFieldKey)->get();
+    return pvStructurePtr->getSubField<epics::pvData::PVInt>(UserTagFieldKey)->get();
 }
 

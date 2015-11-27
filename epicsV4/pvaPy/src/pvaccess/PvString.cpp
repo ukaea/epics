@@ -1,3 +1,6 @@
+// Copyright information and license terms for this software can be
+// found in the file LICENSE that is included with the distribution
+
 #include "PvString.h"
 #include "PvType.h"
 #include "PyUtility.h"
@@ -27,12 +30,12 @@ PvString::~PvString()
 
 void PvString::set(const std::string& s) 
 {
-    pvStructurePtr->getStringField(ValueFieldKey)->put(s);
+    pvStructurePtr->getSubField<epics::pvData::PVString>(ValueFieldKey)->put(s);
 }
 
 std::string PvString::get() const 
 {
-    return pvStructurePtr->getStringField(ValueFieldKey)->get();
+    return pvStructurePtr->getSubField<epics::pvData::PVString>(ValueFieldKey)->get();
 }
 
 

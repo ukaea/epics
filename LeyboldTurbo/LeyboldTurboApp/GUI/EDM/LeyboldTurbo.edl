@@ -1,0 +1,254 @@
+4 0 1
+beginScreenProperties
+major 4
+minor 0
+release 1
+x 554
+y 393
+w 250
+h 290
+font "arial-bold-r-14.0"
+ctlFont "arial-bold-r-14.0"
+btnFont "arial-bold-r-14.0"
+fgColor index 14
+bgColor index 3
+textColor index 14
+ctlFgColor1 index 14
+ctlFgColor2 index 14
+ctlBgColor1 index 3
+ctlBgColor2 index 3
+topShadowColor index 1
+botShadowColor index 11
+title "Leybold Turbo"
+showGrid
+snapToGrid
+gridSize 5
+endScreenProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 0
+y 0
+w 460
+h 40
+lineColor index 61
+fill
+fillColor index 61
+endObjectProperties
+
+# (Exit Button)
+object activeExitButtonClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 165
+y 260
+w 80
+h 25
+fgColor index 46
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+label "EXIT"
+font "arial-medium-r-18.0"
+3d
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 30
+y 10
+w 35
+h 21
+font "arial-bold-r-18.0"
+fgColor index 14
+bgColor index 3
+useDisplayBg
+value {
+  "$(P)"
+}
+autoSize
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 6
+release 0
+x 100
+y 185
+w 95
+h 20
+controlPv "$(P)StatorFrequency"
+font "arial-bold-r-14.0"
+fgColor index 16
+fgAlarm
+bgColor index 10
+limitsFromDb
+nullColor index 14
+fastUpdate
+useHexPrefix
+showUnits
+newPos
+objType "monitors"
+noExecuteClipMask
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 10
+y 185
+w 105
+h 20
+font "arial-bold-r-14.0"
+fgColor index 14
+bgColor index 3
+useDisplayBg
+value {
+  "Frequency"
+}
+endObjectProperties
+
+# (Meter)
+object activeMeterClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 10
+y 45
+w 235
+h 135
+caseColor index 3
+caseAlarm
+scaleColor index 16
+scaleAlarm
+labelColor index 14
+fgColor index 16
+fgAlarm
+bgColor index 12
+topShadowColor index 1
+botShadowColor index 11
+readPv "$(P)StatorRPM"
+label "RPM"
+showScale
+scaleFormat "FFloat"
+scalePrecision ""
+scaleLimitsFromDb
+useDisplayBg
+labelIntervals "5"
+majorIntervals "2"
+minorIntervals "2"
+complexNeedle
+3d
+labelFontTag "arial-bold-r-14.0"
+scaleFontTag "arial-medium-r-10.0"
+meterAngle 120
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 6
+release 0
+x 100
+y 210
+w 95
+h 20
+controlPv "$(P)Running:RBV"
+font "arial-bold-r-14.0"
+fgColor index 16
+fgAlarm
+bgColor index 10
+limitsFromDb
+nullColor index 14
+fastUpdate
+useHexPrefix
+showUnits
+newPos
+objType "monitors"
+noExecuteClipMask
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 10
+y 210
+w 105
+h 20
+font "arial-bold-r-14.0"
+fgColor index 14
+bgColor index 3
+useDisplayBg
+value {
+  "Status"
+}
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 6
+release 0
+x 10
+y 235
+w 235
+h 20
+controlPv "$(P)FaultStr"
+font "arial-bold-r-14.0"
+fgColor index 16
+fgAlarm
+bgColor index 10
+limitsFromDb
+nullColor index 14
+fastUpdate
+useHexPrefix
+showUnits
+newPos
+objType "monitors"
+noExecuteClipMask
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 4
+release 0
+x 10
+y 260
+w 65
+h 20
+fgColor index 43
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-bold-r-14.0"
+buttonLabel "More"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "LeyboldTurboExtra.edl"
+}
+endObjectProperties
+

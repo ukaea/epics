@@ -55,14 +55,17 @@ COMPORT2=COM2:
 COMPORT3=COM3:
 COMPORT4=COM4:
 COMPORT5=COM5:
+COMPORT6=COM6:
 IPPORT1=localhost:5066
 IPPORT2=localhost:5067
 IPPORT3=localhost:5068
 IPPORT4=localhost:5069
 IPPORT5=localhost:5070
+IPPORT6=localhost:5071
 $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-    <LocalDebuggerCommandArguments>..\iocBoot\iocLeyboldTurbo\st1.simulated.cmd</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>..\..\iocBoot\iocLeyboldTurbo\st2.simulated.cmd</LocalDebuggerCommandArguments>
+    <LocalDebuggerWorkingDirectory>$(ProjectDir)\Scripts</LocalDebuggerWorkingDirectory>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
     <LocalDebuggerEnvironment>COMPORT1=COM1:

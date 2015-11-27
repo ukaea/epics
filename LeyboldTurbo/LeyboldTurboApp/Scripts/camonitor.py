@@ -21,21 +21,43 @@ import sys
 import datetime
 import time
 
+# camonitor calls sys.stdout.write() by default.
+# Redirecting this causes it not to put any end-of-line charachters on it.
+# Also, I would prefer to flush the file each time so that the information is up-to-date.
+class cFile:
+	def __init__ (self, fileName, attributes='w'):
+		self.f = open(fileName, attributes)
+	def __enter__ (self):
+		return self.f
+	def __exit__ (self, exc_type, exc_value, traceback):
+		self.f.close()
+	def writeln(self, string):
+		self.f.write(string + '\n')
+		self.f.flush()
+
 # pyepics camonitor doesn't output the initial value of the PV when it starts up.
 # It only reports subsequent changes.
 # I want to know the initial value.
 # It's not a good solution but I'm using pvget to read and print that.
-def caGetAndMonitor(PVName):
+def caGetAndMonitor(PVName, File):
 	PV = epics.PV(PVName)
-	print(PVName, datetime.datetime.fromtimestamp(PV.timestamp).strftime('%Y-%m-%d %H:%M:%S'), PV.value)
-	epics.camonitor(PVName)
-
-NumPumps='1'
+	File.writeln("%s %s %s" % (PVName, datetime.datetime.fromtimestamp(PV.timestamp).strftime('%Y-%m-%d %H:%M:%S'), PV.value))
+	epics.camonitor(PVName, File.writeln)
+	
+FirstPump='1'
 if len(sys.argv) > 1:
-	NumPumps=sys.argv[1]
-
-sys.stdout = open('camonitor.app.log', 'w')
-
+	FirstPump=sys.argv[1]
+	
+LastPump=FirstPump
+if len(sys.argv) > 2:
+	LastPump=sys.argv[2]
+	
+ArchivePath = ''
+attributes = 'w'
+if len(sys.argv) > 3:
+	ArchivePath=sys.argv[3]
+	attributes = 'a'
+	
 PVNames = ["Running", \
 			"Reset", \
 			"Fault", \
@@ -53,11 +75,21 @@ PVNames = ["Running", \
 			"PumpTemperature", \
 			"CircuitVoltage"]
 
-for Pump in range(1, int(NumPumps)+1):
-	for index, PVName in enumerate(PVNames):
-		caGetAndMonitor("LEYBOLDTURBO:" + str(Pump) + ":" + PVName)
+ChannelDefaultRoot = os.getenv('ASYNPORT', 'LEYBOLDTURBO')
+Channel1Root = os.getenv('ASYNPORT'+FirstPump, ChannelDefaultRoot+':'+FirstPump)
+chid = epics.ca.create_channel(Channel1Root+':Running')
+while (not epics.ca.isConnected(chid)):
+	time.sleep(1)
 
-chid = epics.ca.create_channel("LEYBOLDTURBO:1:Running")
+for Pump in range(int(FirstPump), int(LastPump)+1):
+	ChannelRoot = os.getenv('ASYNPORT'+str(Pump), ChannelDefaultRoot+':'+str(Pump))
+	FileName = ChannelRoot
+	FileName = FileName.replace(':', '_')
+	FileName = ArchivePath + FileName + '.log'
+	File = cFile(FileName, attributes)
+	for index, PVName in enumerate(PVNames):
+		caGetAndMonitor(ChannelRoot + ":" + PVName, File)
+
 while (epics.ca.isConnected(chid)):
 	time.sleep(1)
 

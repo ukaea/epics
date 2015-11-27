@@ -1,15 +1,6 @@
 TODO
 ===========
 
-
-recordList
-----------
-
-This is putGet support that provides a list of all the records in an IOC.
-Since pvAccess implements pvlist this is no longer needed.
-Remove it from pvDatabaseCPP and pvIOCCPP.
-Also remove channelList from swtshell.
-
 monitorPlugin
 -------------
 

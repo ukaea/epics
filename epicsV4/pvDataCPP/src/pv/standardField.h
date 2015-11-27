@@ -25,7 +25,8 @@ class StandardField;
 typedef std::tr1::shared_ptr<StandardField> StandardFieldPtr;
 
 /**
- * Standard Fields is a class or creating or sharing Field objects for standard fields.
+ * @brief Standard Fields is a class or creating or sharing Field objects for standard fields.
+ *
  * For each type of standard object two methods are defined:s
  *      one with no properties and with properties
  * The property field is a comma separated string of property names of the following:
@@ -85,21 +86,21 @@ public:
     StructureConstPtr regUnion(
         UnionConstPtr const & punion,
         std::string const & properties);
-    /** Create a structure that has a varient union value field.
+    /** Create a structure that has a variant union value field.
      * @param properties A comma separated list of properties.
      * This is some combination of "alarm,timeStamp,display,control,valueAlarm".
      * @return The const shared pointer to the structure.
      */
     StructureConstPtr variantUnion(std::string const & properties);
     /** Create a structure that has a scalarArray value field.
-     * @param type The type.
+     * @param elementType The element type.
      * @param properties A comma separated list of properties.
      * This is some combination of "alarm,timeStamp,display,control,valueAlarm".
      * @return The const shared pointer to the structure.
      */
     StructureConstPtr scalarArray(ScalarType elementType, std::string const & properties);
     /** Create a structure that has a structureArray value field.
-     * @param type The type.
+     * @param structure The Structure introspection object for elements of the value field.
      * @param properties A comma separated list of properties.
      * This is some combination of "alarm,timeStamp,display,control,valueAlarm".
      * @return The const shared pointer to the structure.
@@ -108,7 +109,7 @@ public:
         StructureConstPtr const & structure,
         std::string const & properties);
     /** Create a structure that has a unionArray value field.
-     * @param type The type.
+     * @param punion The Union introspection object for elements of the value field.
      * @param properties A comma separated list of properties.
      * This is some combination of "alarm,timeStamp,display,control".
      * @return The const shared pointer to the structure.
@@ -117,7 +118,7 @@ public:
         UnionConstPtr const & punion,
         std::string const & properties);
     /** Create a structure that has an enumerated structure value field.
-     *  The id for the structure is "enum-t".
+     *  The id for the structure is "enum_t".
      * @return The const shared pointer to the structure.
      */
     StructureConstPtr enumerated();

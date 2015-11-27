@@ -22,23 +22,38 @@ import sys
 import datetime
 import time
 
+# camonitor calls sys.stdout.write() by default.
+# Redirecting this causes it not to put any end-of-line charachters on it.
+# Also, I would prefer to flush the file each time so that the information is up-to-date.
+class cFile:
+	def __init__ (self, fileName, attributes='w'):
+		self.f = open(fileName, attributes)
+	def __enter__ (self):
+		return self.f
+	def __exit__ (self, exc_type, exc_value, traceback):
+		self.f.close()
+	def writeln(self, string):
+		self.f.write(string + '\n')
+		self.f.flush()
+
 # pyepics camonitor doesn't output the initial value of the PV when it starts up.
 # It only reports subsequent changes.
 # I want to know the initial value.
 # It's not a good solution but I'm using pvget to read and print that.
-def caGetAndMonitor(PVName):
+def caGetAndMonitor(PVName, File):
 	PV = epics.PV(PVName)
-	print(PVName, datetime.datetime.fromtimestamp(PV.timestamp).strftime('%Y-%m-%d %H:%M:%S'), PV.value)
-	epics.camonitor(PVName)
-	return;
+	File.writeln("%s %s %s" % (PVName, datetime.datetime.fromtimestamp(PV.timestamp).strftime('%Y-%m-%d %H:%M:%S'), PV.value))
+	epics.camonitor(PVName, File.writeln)
 
-NumPumps='1'
+FirstPump='1'
 if len(sys.argv) > 1:
-	NumPumps=sys.argv[1]
+	FirstPump=sys.argv[1]
+	
+LastPump=FirstPump
+if len(sys.argv) > 2:
+	LastPump=sys.argv[2]
 
-sys.stdout = open('camonitor.sim.log', 'w')
-
-os.environ["EPICS_CA_SERVER_PORT"]="5071"
+os.environ["EPICS_CA_SERVER_PORT"]="5072"
 os.environ["EPICS_CA_AUTO_ADDR_LIST"]="NO"
 os.environ["EPICS_CA_ADDR_LIST"]="localhost"
 
@@ -54,11 +69,19 @@ PVNames = ["Running", \
 			"PumpTemperature", \
 			"CircuitVoltage"]
 
-for Pump in range(1, int(NumPumps)+1):
+			
+ChannelDefaultRoot = os.getenv('ASYNSIMPORT', 'LEYBOLDTURBOSIM')
+for Pump in range(int(FirstPump), int(LastPump)+1):
+	ChannelRoot = os.getenv('ASYNSIMPORT'+str(Pump), ChannelDefaultRoot+':'+str(Pump))
+	FileName = ChannelRoot
+	FileName = FileName.replace(':', '_')
+	FileName = FileName + '.log'
+	File = cFile(FileName, 'w')
 	for index, PVName in enumerate(PVNames):
-		caGetAndMonitor("LEYBOLDTURBOSIM:" + str(Pump) + ":" + PVName)
+		caGetAndMonitor(ChannelRoot + ":" + PVName, File)
 
-chid = epics.ca.create_channel("LEYBOLDTURBOSIM:1:Running")
+Channel1Root = os.getenv('ASYNSIMPORT'+str(FirstPump), ChannelDefaultRoot+':'+str(FirstPump))
+chid = epics.ca.create_channel(Channel1Root + ":Running")
 while (epics.ca.isConnected(chid)):
 	time.sleep(1)
 

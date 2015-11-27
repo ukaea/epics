@@ -88,12 +88,12 @@ ChannelProviderLocal::ChannelProviderLocal()
 
 ChannelProviderLocal::~ChannelProviderLocal()
 {
-    cout << "~ChannelProviderLocal()" << endl;
+    // TODO should I call destroy() here
+    destroy();
 }
 
 void ChannelProviderLocal::destroy()
 {
-    cout << "ChannelProviderLocal::destroy()" << endl;
     Lock xx(mutex);
     if(beingDestroyed) return;
     beingDestroyed = true;
@@ -170,6 +170,49 @@ Channel::shared_pointer ChannelProviderLocal::createChannel(
         notFoundStatus,
         Channel::shared_pointer());
     return Channel::shared_pointer();
+}
+
+
+ContextLocal::shared_pointer ContextLocal::create()
+{
+    return ContextLocal::shared_pointer(new ContextLocal());
+}
+
+void ContextLocal::start(bool _waitForExit)
+{
+    m_context = startPVAServer(
+            PVACCESS_ALL_PROVIDERS,
+            0,
+            true,
+            true);
+
+    if (_waitForExit)
+        waitForExit();
+}
+
+void ContextLocal::waitForExit()
+{
+    while (true)
+    {
+        std::cout << "Type 'exit' to stop: ";
+        std::string input;
+        std::cin >> input;
+        if (input == "exit")
+            break;
+    }
+
+    destroy();
+}
+
+void ContextLocal::destroy()
+{
+    if (m_context)
+        m_context->destroy();
+}
+
+ContextLocal::ContextLocal()
+{
+     m_channelProvider = getChannelProviderLocal();
 }
 
 }}

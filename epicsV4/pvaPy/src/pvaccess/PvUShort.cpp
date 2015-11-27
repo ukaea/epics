@@ -1,3 +1,6 @@
+// Copyright information and license terms for this software can be
+// found in the file LICENSE that is included with the distribution
+
 #include "PvUShort.h"
 #include "PvType.h"
 #include "PyUtility.h"
@@ -27,12 +30,12 @@ PvUShort::~PvUShort()
 
 void PvUShort::set(unsigned short us) 
 {
-    pvStructurePtr->getUShortField(ValueFieldKey)->put(us);
+    pvStructurePtr->getSubField<epics::pvData::PVUShort>(ValueFieldKey)->put(us);
 }
 
 unsigned short PvUShort::get() const 
 {
-    return pvStructurePtr->getUShortField(ValueFieldKey)->get();
+    return pvStructurePtr->getSubField<epics::pvData::PVUShort>(ValueFieldKey)->get();
 }
 
 

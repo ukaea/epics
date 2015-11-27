@@ -14,7 +14,6 @@
 #include <pv/timer.h>
 #include <pv/bitSetUtil.h>
 #include <pv/serializationHelper.h>
-#include <pv/convert.h>
 #include <pv/queue.h>
 #include <pv/standardPVField.h>
 
@@ -53,7 +52,6 @@ namespace epics {
         Status ChannelImpl::channelDisconnected(
             Status::STATUSTYPE_WARNING, "channel disconnected");
         string emptyString;
-        ConvertPtr convert = getConvert();
 
         // TODO consider std::unordered_map
         //typedef std::tr1::unordered_map<pvAccessID, ResponseRequest::weak_pointer> IOIDResponseRequestMap;
@@ -786,14 +784,9 @@ namespace epics {
 
             PVStructure::shared_pointer m_pvRequest;
 
-            // get structure container
             PVStructure::shared_pointer m_structure;
             BitSet::shared_pointer m_bitSet;
             
-            // put reference store
-            PVStructure::shared_pointer m_pvPutStructure;
-            BitSet::shared_pointer m_pvPutBitSet;
-
             Mutex m_structureMutex;
 
             ChannelPutImpl(ChannelImpl::shared_pointer const & channel, ChannelPutRequester::shared_pointer const & channelPutRequester, PVStructure::shared_pointer const & pvRequest) :
@@ -869,12 +862,8 @@ namespace epics {
                     {
                         // no need to lock here, since it is already locked via TransportSender IF
                         //Lock lock(m_structureMutex);
-                        m_pvPutBitSet->serialize(buffer, control);
-                        m_pvPutStructure->serialize(buffer, control, m_pvPutBitSet.get());
-                        
-                        // release references
-                        m_pvPutBitSet.reset();
-                        m_pvPutStructure.reset();
+                        m_bitSet->serialize(buffer, control);
+                        m_structure->serialize(buffer, control, m_bitSet.get());
                     }
                 }
 
@@ -992,8 +981,8 @@ namespace epics {
 
                 try {
                     lock();
-                    m_pvPutStructure = pvPutStructure;
-                    m_pvPutBitSet = pvPutBitSet;
+                    *m_bitSet = *pvPutBitSet;
+                    m_structure->copyUnchecked(*pvPutStructure, *m_bitSet);
                     unlock();
                     m_channel->checkAndGetTransport()->enqueueSendRequest(shared_from_this());
                 } catch (std::runtime_error &rte) {
@@ -1059,10 +1048,6 @@ namespace epics {
             PVStructure::shared_pointer m_getData;
             BitSet::shared_pointer m_getDataBitSet;
 
-            // putGet reference store
-            PVStructure::shared_pointer m_putPutData;
-            BitSet::shared_pointer m_putPutDataBitSet;
-            
             Mutex m_structureMutex;
             
             ChannelPutGetImpl(ChannelImpl::shared_pointer const & channel, ChannelPutGetRequester::shared_pointer const & channelPutGetRequester, PVStructure::shared_pointer const & pvRequest) :
@@ -1139,12 +1124,8 @@ namespace epics {
                     {
                         // no need to lock here, since it is already locked via TransportSender IF
                         //Lock lock(m_structureMutex);
-                        m_putPutDataBitSet->serialize(buffer, control);
-                        m_putPutData->serialize(buffer, control, m_putPutDataBitSet.get());
-                        
-                        // release references
-                        m_putPutDataBitSet.reset();
-                        m_putPutData.reset();
+                        m_putDataBitSet->serialize(buffer, control);
+                        m_putData->serialize(buffer, control, m_putDataBitSet.get());
                     }
                 }
 
@@ -1266,8 +1247,8 @@ namespace epics {
 
                 try {
                     lock();
-                    m_putPutData = pvPutStructure;
-                    m_putPutDataBitSet = bitSet;
+                    *m_putDataBitSet = *bitSet;
+                    m_putData->copyUnchecked(*pvPutStructure, *m_putDataBitSet);
                     unlock();
                     m_channel->checkAndGetTransport()->enqueueSendRequest(shared_from_this());
                 } catch (std::runtime_error &rte) {
@@ -1582,12 +1563,9 @@ namespace epics {
 
             PVStructure::shared_pointer m_pvRequest;
 
-            // data container (for get)
+            // data container
             PVArray::shared_pointer m_arrayData;
 
-            // reference store (for put
-            PVArray::shared_pointer m_putData;
-            
             size_t m_offset;
             size_t m_count;
             size_t m_stride;
@@ -1687,9 +1665,7 @@ namespace epics {
                         SerializeHelper::writeSize(m_offset, buffer, control);
                         SerializeHelper::writeSize(m_stride, buffer, control);
                         // TODO what about count sanity check?
-                        m_putData->serialize(buffer, control, 0, m_count ? m_count : m_putData->getLength()); // put from 0 offset (see API doc), m_count == 0 means entire array
-                        // release reference
-                        m_putData.reset();
+                        m_arrayData->serialize(buffer, control, 0, m_count ? m_count : m_arrayData->getLength()); // put from 0 offset (see API doc), m_count == 0 means entire array
                     }
                 }
 
@@ -1821,7 +1797,7 @@ namespace epics {
                 try {
                     {
                         Lock lock(m_structureMutex);
-                        m_putData = putArray;
+                        m_arrayData->copyUnchecked(*putArray);
                         m_offset = offset;
                         m_count = count;
                         m_stride = stride;
@@ -2089,8 +2065,9 @@ namespace epics {
     		virtual void response(Transport::shared_pointer const & transport, ByteBuffer* payloadBuffer) = 0;
     	};
     	
+        typedef vector<MonitorElement::shared_pointer> FreeElementQueue;
+        typedef queue<MonitorElement::shared_pointer> MonitorElementQueue;
 
-       typedef Queue<MonitorElement> MonitorElementQueue;
 
         class MonitorStrategyQueue :
             public MonitorStrategy,
@@ -2101,7 +2078,8 @@ namespace epics {
            int32 m_queueSize;
 
            StructureConstPtr m_lastStructure;
-           std::tr1::shared_ptr<MonitorElementQueue> m_monitorQueue;
+           FreeElementQueue m_freeQueue;
+           MonitorElementQueue m_monitorQueue;
 
 
            MonitorRequester::shared_pointer m_callback;
@@ -2110,24 +2088,30 @@ namespace epics {
 
            BitSet::shared_pointer m_bitSet1;
            BitSet::shared_pointer m_bitSet2;
+           MonitorElement::shared_pointer m_overrunElement;
            bool m_overrunInProgress;
 
-           bool m_needToReleaseFirst;
 
            MonitorElement::shared_pointer m_nullMonitorElement;
-           MonitorElement::shared_pointer m_monitorElement;
+
+           PVStructure::shared_pointer m_up2datePVStructure;
 
            public:
 
            MonitorStrategyQueue(MonitorRequester::shared_pointer const & callback, int32 queueSize) :
-               m_queueSize(queueSize), m_lastStructure(), m_monitorQueue(),
+               m_queueSize(queueSize), m_lastStructure(),
+               m_freeQueue(),
+               m_monitorQueue(),
                m_callback(callback), m_mutex(),
                m_bitSet1(), m_bitSet2(), m_overrunInProgress(false),
-               m_needToReleaseFirst(false),
-               m_nullMonitorElement(), m_monitorElement()
+               m_nullMonitorElement()
             {
                 if (queueSize <= 1)
                     throw std::invalid_argument("queueSize <= 1");
+
+                m_freeQueue.reserve(m_queueSize);
+                // TODO array based deque
+                //m_monitorQueue.reserve(m_queueSize);
             }
 
             virtual ~MonitorStrategyQueue()
@@ -2141,20 +2125,17 @@ namespace epics {
                 if (m_lastStructure.get() == 0 ||
                     *(m_lastStructure.get()) == *(structure.get()))
                 {
-                    std::vector<MonitorElementPtr> monitorElementArray;
-                    monitorElementArray.reserve(m_queueSize);
-
                     for (int32 i = 0; i < m_queueSize; i++)
                     {
                         PVStructure::shared_pointer pvStructure = getPVDataCreate()->createPVStructure(structure);
                         MonitorElement::shared_pointer monitorElement(new MonitorElement(pvStructure));
-                        monitorElementArray.push_back(monitorElement);
+                        m_freeQueue.push_back(monitorElement);
                     }
-                    m_monitorQueue.reset(new MonitorElementQueue(monitorElementArray));
                     m_lastStructure = structure;
                 }
             }
 
+           /*
             virtual void response(Transport::shared_pointer const & transport, ByteBuffer* payloadBuffer) {
 
                 bool notify = false;
@@ -2165,16 +2146,16 @@ namespace epics {
                     // if in overrun mode, check if some is free
                     if (m_overrunInProgress)
                     {
-                        MonitorElementPtr newElement = m_monitorQueue->getFree();
+                        MonitorElementPtr newElement = m_monitorQueue.getFree();
                         if (newElement.get() != 0)
                         {
                             // take new, put current in use
                             PVStructurePtr pvStructure = m_monitorElement->pvStructurePtr;
-                            getConvert()->copy(pvStructure, newElement->pvStructurePtr);
+                            copyUnchecked(pvStructure, newElement->pvStructurePtr);
 
                             BitSetUtil::compress(m_monitorElement->changedBitSet, pvStructure);
                             BitSetUtil::compress(m_monitorElement->overrunBitSet, pvStructure);
-                            m_monitorQueue->setUsed(m_monitorElement);
+                            m_monitorQueue.setUsed(m_monitorElement);
 
                             m_monitorElement = newElement;
                             notify = true;
@@ -2228,7 +2209,7 @@ namespace epics {
                     }
 
                     // prepare next free (if any)
-                    MonitorElementPtr newElement = m_monitorQueue->getFree();
+                    MonitorElementPtr newElement = m_monitorQueue.getFree();
                     if (newElement.get() == 0) {
                         m_overrunInProgress = true;
                         return;
@@ -2242,9 +2223,9 @@ namespace epics {
                         m_overrunInProgress = false;
                     }
 
-                    getConvert()->copy(pvStructure, newElement->pvStructurePtr);
+                    copyUnchecked(pvStructure, newElement->pvStructurePtr);
 
-                    m_monitorQueue->setUsed(m_monitorElement);
+                    m_monitorQueue.setUsed(m_monitorElement);
 
                     m_monitorElement = newElement;
                 }
@@ -2252,59 +2233,122 @@ namespace epics {
                 EXCEPTION_GUARD(m_callback->monitorEvent(shared_from_this()));
 
             }
+            */
+
+
+           virtual void response(Transport::shared_pointer const & transport, ByteBuffer* payloadBuffer) {
+
+               {
+                   // TODO do not lock deserialization
+                   Lock guard(m_mutex);
+
+                   if (m_overrunInProgress)
+                   {
+                       PVStructurePtr pvStructure = m_overrunElement->pvStructurePtr;
+                       BitSet::shared_pointer changedBitSet = m_overrunElement->changedBitSet;
+                       BitSet::shared_pointer overrunBitSet = m_overrunElement->overrunBitSet;
+
+                       // lazy init
+                       if (m_bitSet1.get() == 0) m_bitSet1.reset(new BitSet(changedBitSet->size()));
+                       if (m_bitSet2.get() == 0) m_bitSet2.reset(new BitSet(overrunBitSet->size()));
+
+                       m_bitSet1->deserialize(payloadBuffer, transport.get());
+                       pvStructure->deserialize(payloadBuffer, transport.get(), m_bitSet1.get());
+                       m_bitSet2->deserialize(payloadBuffer, transport.get());
+
+                       // OR local overrun
+                       // TODO this does not work perfectly if bitSet is compressed !!!
+                       // uncompressed bitSets should be used !!!
+                       overrunBitSet->or_and(*(changedBitSet.get()), *(m_bitSet1.get()));
+
+                       // OR remove change
+                       *(changedBitSet.get()) |= *(m_bitSet1.get());
+
+                       // OR remote overrun
+                       *(overrunBitSet.get()) |= *(m_bitSet2.get());
+
+                       // m_up2datePVStructure is already set
+
+                       return;
+                   }
+
+                   MonitorElementPtr newElement = m_freeQueue.back();
+                   m_freeQueue.pop_back();
+
+                   if (m_freeQueue.empty())
+                   {
+                       m_overrunInProgress = true;
+                       m_overrunElement = newElement;
+                   }
+
+                   // setup current fields
+                   PVStructurePtr pvStructure = newElement->pvStructurePtr;
+                   BitSet::shared_pointer changedBitSet = newElement->changedBitSet;
+                   BitSet::shared_pointer overrunBitSet = newElement->overrunBitSet;
+
+                   // deserialize changedBitSet and data, and overrun bit set
+                   changedBitSet->deserialize(payloadBuffer, transport.get());
+                   if (m_up2datePVStructure && m_up2datePVStructure.get() != pvStructure.get())
+                       pvStructure->copyUnchecked(*m_up2datePVStructure, *changedBitSet, true);
+                   pvStructure->deserialize(payloadBuffer, transport.get(), changedBitSet.get());
+                   overrunBitSet->deserialize(payloadBuffer, transport.get());
+
+                   m_up2datePVStructure = pvStructure;
+
+                   m_monitorQueue.push(newElement);
+               }
+
+               if (!m_overrunInProgress)
+               {
+                   EXCEPTION_GUARD(m_callback->monitorEvent(shared_from_this()));
+               }
+           }
+
 
             virtual MonitorElement::shared_pointer poll() {
                 Lock guard(m_mutex);
 
-                if (m_needToReleaseFirst)
-                return m_nullMonitorElement;
-                MonitorElementPtr retVal = m_monitorQueue->getUsed();
-                if (retVal.get() != 0)
-                {
-                    m_needToReleaseFirst = true;
-                    return retVal;
-                }
-
-                // if in overrun mode and we have free, make it as last element
-                if (m_overrunInProgress)
-                {
-                    MonitorElementPtr newElement = m_monitorQueue->getFree();
-                    if (newElement.get() != 0)
-                    {
-                        // take new, put current in use
-                        PVStructurePtr pvStructure = m_monitorElement->pvStructurePtr;
-                        getConvert()->copy(pvStructure, newElement->pvStructurePtr);
-
-                        BitSetUtil::compress(m_monitorElement->changedBitSet, pvStructure);
-                        BitSetUtil::compress(m_monitorElement->overrunBitSet, pvStructure);
-                        m_monitorQueue->setUsed(m_monitorElement);
-
-                        m_monitorElement = newElement;
-
-                        m_overrunInProgress = false;
-
-                        m_needToReleaseFirst = true;
-                        return m_monitorQueue->getUsed();
-                    }
-                    else
-                        return m_nullMonitorElement;		// should never happen since queueSize >= 2, but a client not calling release can do this
-                }
-                else
+                if (m_monitorQueue.empty())
                     return m_nullMonitorElement;
+
+                MonitorElement::shared_pointer retVal = m_monitorQueue.front();
+                m_monitorQueue.pop();
+                return retVal;
             }
 
+            // NOTE: a client must always call poll() after release() to check the presence of any new monitor elements
             virtual void release(MonitorElement::shared_pointer const & monitorElement) {
                 Lock guard(m_mutex);
-                m_monitorQueue->releaseUsed(monitorElement);
-                m_needToReleaseFirst = false;
+
+                m_freeQueue.push_back(monitorElement);
+
+                if (m_overrunInProgress)
+                {
+                    // compress bit-set
+                    PVStructurePtr pvStructure = m_overrunElement->pvStructurePtr;
+                    BitSetUtil::compress(m_overrunElement->changedBitSet, pvStructure);
+                    BitSetUtil::compress(m_overrunElement->overrunBitSet, pvStructure);
+
+                    m_monitorQueue.push(m_overrunElement);
+
+                    m_overrunElement.reset();
+                    m_overrunInProgress = false;
+                }
             }
 
             Status start() {
                 Lock guard(m_mutex);
+                while (!m_monitorQueue.empty())
+                {
+                    m_freeQueue.push_back(m_monitorQueue.front());
+                    m_monitorQueue.pop();
+                }
+                if (m_overrunElement)
+                {
+                    m_freeQueue.push_back(m_overrunElement);
+                    m_overrunElement.reset();
+                }
                 m_overrunInProgress = false;
-                m_monitorQueue->clear();
-                m_monitorElement = m_monitorQueue->getFree();
-                m_needToReleaseFirst = false;
                 return Status::Ok;
             }
 
@@ -2356,13 +2400,11 @@ namespace epics {
                 }
                 
                int queueSize = 2;
-               PVFieldPtr pvField = m_pvRequest->getSubField("record._options");
-               if (pvField.get()) {
-                   PVStructurePtr pvOptions = static_pointer_cast<PVStructure>(pvField);
-                   pvField = pvOptions->getSubField("queueSize");
-                   if (pvField.get()) {
-                       PVStringPtr pvString = pvOptions->getStringField("queueSize");
-                       if(pvString) {
+               {
+                   PVStructurePtr pvOptions = m_pvRequest->getSubField<PVStructure>("record._options");
+                   if(pvOptions.get()) {
+                       PVStringPtr pvString = pvOptions->getSubField<PVString>("queueSize");
+                       if(pvString.get()) {
                            int32 size;
                            std::stringstream ss;
                            ss << pvString->get();
@@ -2452,11 +2494,13 @@ namespace epics {
                                             );
                 m_monitorStrategy->init(structure);
                 
+                bool restoreStartedState = m_started;
+
                 // notify
                 Monitor::shared_pointer thisChannelMonitor = dynamic_pointer_cast<Monitor>(shared_from_this());
                 EXCEPTION_GUARD(m_monitorRequester->monitorConnect(status, thisChannelMonitor, structure));
 
-                if (m_started)
+                if (restoreStartedState)
                     start();
             }
 
@@ -3048,6 +3092,17 @@ namespace epics {
                 {
                     // failed check
                     if (!status.isSuccess()) {
+
+                        if (IS_LOGGABLE(logLevelDebug))
+                        {
+                            std::stringstream ss;
+                            ss << "Failed to create channel '" << channel->getChannelName() << "': ";
+                            ss << status.getMessage();
+                            if (!status.getStackDump().empty())
+                                ss << std::endl << status.getStackDump();
+                            LOG(logLevelDebug, "%s", ss.str().c_str());
+                        }
+
                         channel->createChannelFailed();
                         return;
                     }
@@ -3609,12 +3664,12 @@ namespace epics {
                 void createChannel(Transport::shared_pointer const & transport)
                 {
                     Lock guard(m_channelMutex);
-                    
+
                     // do not allow duplicate creation to the same transport
                     if (!m_allowCreation)
                         return;
                     m_allowCreation = false;
-                    
+
                     // check existing transport
                     if (m_transport.get() && m_transport.get() != transport.get())
                     {
@@ -3647,10 +3702,18 @@ namespace epics {
                 virtual void createChannelFailed()
                 {
                     Lock guard(m_channelMutex);
-                    
+
                     cancel();
-                    // ... and search again
-                    initiateSearch();
+
+                    // release transport if active
+                    if (m_transport)
+                    {
+                        m_transport->release(getID());
+                        m_transport.reset();
+                    }
+                    
+                    // ... and search again, with penalty
+                    initiateSearch(true);
                 }
                 
                 /**
@@ -3801,7 +3864,7 @@ namespace epics {
                 /**
                  * Initiate search (connect) procedure.
                  */
-                void initiateSearch()
+                void initiateSearch(bool penalize = false)
                 {
                     Lock guard(m_channelMutex);
                     
@@ -3809,7 +3872,7 @@ namespace epics {
                     
                     if (!m_addresses.get())
                     {
-                        m_context->getChannelSearchManager()->registerSearchInstance(shared_from_this());
+                        m_context->getChannelSearchManager()->registerSearchInstance(shared_from_this(), penalize);
                     }
                     else if (!m_addresses->empty())
                     {
@@ -3841,11 +3904,12 @@ namespace epics {
                     Transport::shared_pointer transport = m_transport;
                     if (transport.get())
                     {
+                        // TODO use GUID to determine whether there are multiple servers with the same channel
                         // multiple defined PV or reconnect request (same server address)
                         if (!sockAddrAreIdentical(transport->getRemoteAddress(), serverAddress))
                         {
                             EXCEPTION_GUARD(m_requester->message("More than one channel with name '" + m_name +
-                                                                 "' detected, additional response from: " + inetAddressToString(*serverAddress), warningMessage));
+                                                                 "' detected, connected to: " + inetAddressToString(*transport->getRemoteAddress()) + ", ignored: " + inetAddressToString(*serverAddress), warningMessage));
                             return;
                         }
                     }
@@ -4344,7 +4408,7 @@ TODO
                 int32 debugLevel = m_configuration->getPropertyAsInteger(PVACCESS_DEBUG, 0);
                 if (debugLevel > 0)
                     SET_LOG_LEVEL(logLevelDebug);
-                    
+
                 m_addressList = m_configuration->getPropertyAsString("EPICS_PVA_ADDR_LIST", m_addressList);
                 m_autoAddressList = m_configuration->getPropertyAsBoolean("EPICS_PVA_AUTO_ADDR_LIST", m_autoAddressList);
                 m_connectionTimeout = m_configuration->getPropertyAsFloat("EPICS_PVA_CONN_TMO", m_connectionTimeout);
@@ -4493,6 +4557,15 @@ TODO
                 // stop UDPs
                 m_searchTransport->close();
                 m_broadcastTransport->close();
+
+                // wait for all transports to cleanly exit
+                int tries = 40;
+                epics::pvData::int32 transportCount;
+                while ((transportCount = m_transportRegistry->numberOfActiveTransports()) && tries--)
+                    epicsThreadSleep(0.025);
+
+                if (transportCount)
+                    LOG(logLevelDebug, "PVA client context destroyed with %d transport(s) active.", transportCount);
             }
 
             void destroyAllChannels() {

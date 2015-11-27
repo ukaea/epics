@@ -1,7 +1,7 @@
 /* ntscalar.cpp */
 /**
  * Copyright - See the COPYRIGHT that is included with this distribution.
- * EPICS pvDataCPP is distributed subject to a Software License Agreement found
+ * This software is distributed subject to a Software License Agreement found
  * in file LICENSE that is included with this distribution.
  */
 
@@ -17,8 +17,6 @@ namespace epics { namespace nt {
 static NTFieldPtr ntField = NTField::get();
 
 namespace detail {
-
-static NTFieldPtr ntField = NTField::get();
 
 NTScalarBuilder::shared_pointer NTScalarBuilder::value(
         epics::pvData::ScalarType scalarType
@@ -132,15 +130,15 @@ NTScalarBuilder::shared_pointer NTScalarBuilder::add(string const & name, FieldC
 
 const std::string NTScalar::URI("epics:nt/NTScalar:1.0");
 
-NTScalar::shared_pointer NTScalar::wrap(PVStructurePtr const & structure)
+NTScalar::shared_pointer NTScalar::wrap(PVStructurePtr const & pvStructure)
 {
-    if(!isCompatible(structure)) return shared_pointer();
-    return wrapUnsafe(structure);
+    if(!isCompatible(pvStructure)) return shared_pointer();
+    return wrapUnsafe(pvStructure);
 }
 
-NTScalar::shared_pointer NTScalar::wrapUnsafe(PVStructurePtr const & structure)
+NTScalar::shared_pointer NTScalar::wrapUnsafe(PVStructurePtr const & pvStructure)
 {
-    return shared_pointer(new NTScalar(structure));
+    return shared_pointer(new NTScalar(pvStructure));
 }
 
 bool NTScalar::is_a(StructureConstPtr const & structure)
@@ -148,21 +146,53 @@ bool NTScalar::is_a(StructureConstPtr const & structure)
     return NTUtils::is_a(structure->getID(), URI);
 }
 
+bool NTScalar::isCompatible(StructureConstPtr const &structure)
+{
+    if (structure.get() == 0) return false;
+
+    ScalarConstPtr valueField = structure->getField<Scalar>("value");
+    if (valueField.get() == 0)
+        return false;
+
+    FieldConstPtr field = structure->getField("descriptor");
+    if (field.get())
+    {
+        ScalarConstPtr descriptorField = structure->getField<Scalar>("descriptor");
+        if (!descriptorField.get() || descriptorField->getScalarType() != pvString)
+            return false;
+    }
+
+    NTFieldPtr ntField = NTField::get();
+
+    field = structure->getField("alarm");
+    if (field.get() && !ntField->isAlarm(field))
+        return false;
+
+    field = structure->getField("timeStamp");
+    if (field.get() && !ntField->isTimeStamp(field))
+        return false;
+
+    field = structure->getField("display");
+    if (field.get() && !ntField->isDisplay(field))
+        return false;
+
+    field = structure->getField("control");
+    if (field.get() && !ntField->isControl(field))
+        return false;
+
+    return true;
+}
+
+
 bool NTScalar::isCompatible(PVStructurePtr const & pvStructure)
 {
     if(!pvStructure) return false;
-    PVScalarPtr pvValue = pvStructure->getSubField<PVScalar>("value");
-    if(!pvValue) return false;
-    PVFieldPtr pvField = pvStructure->getSubField("descriptor");
-    if(pvField && !pvStructure->getSubField<PVString>("descriptor")) return false;
-    pvField = pvStructure->getSubField("alarm");
-    if(pvField && !ntField->isAlarm(pvField->getField())) return false;
-    pvField = pvStructure->getSubField("timeStamp");
-    if(pvField && !ntField->isTimeStamp(pvField->getField())) return false;
-    pvField = pvStructure->getSubField("display");
-    if(pvField && !ntField->isDisplay(pvField->getField())) return false;
-    pvField = pvStructure->getSubField("control");
-    if(pvField && !ntField->isControl(pvField->getField())) return false;
+
+    return isCompatible(pvStructure->getStructure());
+}
+
+bool NTScalar::isValid()
+{
     return true;
 }
 

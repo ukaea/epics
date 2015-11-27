@@ -1,0 +1,50 @@
+#!../../bin/linux-x86_64/LeyboldTurbo
+
+## Register all support components
+dbLoadDatabase ("../../dbd/LeyboldTurbo.dbd")
+LeyboldTurbo_registerRecordDeviceDriver pdbbase
+
+epicsEnvSet ASYNPORT $(ASYNPORT=LEYBOLDTURBO)
+epicsEnvSet ASYNPORT1 $(ASYNPORT1=$(ASYNPORT):1)
+epicsEnvSet ASYNPORT2 $(ASYNPORT2=$(ASYNPORT):2)
+epicsEnvSet ASYNPORT3 $(ASYNPORT3=$(ASYNPORT):3)
+epicsEnvSet ASYNPORT4 $(ASYNPORT4=$(ASYNPORT):4)
+epicsEnvSet ASYNPORT5 $(ASYNPORT5=$(ASYNPORT):5)
+epicsEnvSet ASYNPORT6 $(ASYNPORT6=$(ASYNPORT):6)
+
+epicsEnvSet IOPORT PUMP
+
+# Configure asyn communication port, first
+LeyboldTurboPortDriverConfigure($(ASYNPORT), 6, $(NOOFPZD="6"))
+drvAsynIPPortConfigure($(IOPORT):1, $(IPPORT1="localhost:5066"), 0, 0)
+LeyboldTurboAddIOPort($(IOPORT):1)
+drvAsynIPPortConfigure($(IOPORT):2, $(IPPORT2="localhost:5067"), 0, 0)
+LeyboldTurboAddIOPort($(IOPORT):2)
+drvAsynIPPortConfigure($(IOPORT):3, $(IPPORT3="localhost:5068"), 0, 0)
+LeyboldTurboAddIOPort($(IOPORT):3)
+drvAsynIPPortConfigure($(IOPORT):4, $(IPPORT4="localhost:5069"), 0, 0)
+LeyboldTurboAddIOPort($(IOPORT):4)
+drvAsynIPPortConfigure($(IOPORT):5, $(IPPORT5="localhost:5070"), 0, 0)
+LeyboldTurboAddIOPort($(IOPORT):5)
+drvAsynIPPortConfigure($(IOPORT):6, $(IPPORT6="localhost:5071"), 0, 0)
+LeyboldTurboAddIOPort($(IOPORT):6)
+
+## Load record instances
+#Required before loadinhg the database because it can initialise ASYN_VERSION_GE426
+
+dbLoadRecords("../../LeyboldTurboApp/Db/SoftwareVersions.db", "P=$(ASYNPORT):,PORT=$(ASYNPORT)")
+
+$(ASYN_VERSION_GE426=#) epicsEnvSet DB LeyboldTurbo.Asyn4-26
+dbLoadRecords("../../LeyboldTurboApp/Db/$(DB=LeyboldTurbo).db", "P=$(ASYNPORT1):,PORT=$(ASYNPORT),SCAN=$(SCANINT=.1 second),ADDR=0")
+
+dbLoadRecords("../../LeyboldTurboApp/Db/$(DB=LeyboldTurbo).db", "P=$(ASYNPORT2):,PORT=$(ASYNPORT),SCAN=$(SCANINT=.1 second),ADDR=1")
+
+dbLoadRecords("../../LeyboldTurboApp/Db/$(DB=LeyboldTurbo).db", "P=$(ASYNPORT3):,PORT=$(ASYNPORT),SCAN=$(SCANINT=.1 second),ADDR=2")
+
+dbLoadRecords("../../LeyboldTurboApp/Db/$(DB=LeyboldTurbo).db", "P=$(ASYNPORT4):,PORT=$(ASYNPORT),SCAN=$(SCANINT=.1 second),ADDR=3")
+
+dbLoadRecords("../../LeyboldTurboApp/Db/$(DB=LeyboldTurbo).db", "P=$(ASYNPORT5):,PORT=$(ASYNPORT),SCAN=$(SCANINT=.1 second),ADDR=4")
+
+dbLoadRecords("../../LeyboldTurboApp/Db/$(DB=LeyboldTurbo).db", "P=$(ASYNPORT6):,PORT=$(ASYNPORT),SCAN=$(SCANINT=.1 second),ADDR=5")
+
+iocInit

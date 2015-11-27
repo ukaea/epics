@@ -1,7 +1,7 @@
 /* ntmultiChannel.cpp */
 /**
  * Copyright - See the COPYRIGHT that is included with this distribution.
- * EPICS pvDataCPP is distributed subject to a Software License Agreement found
+ * This software is distributed subject to a Software License Agreement found
  * in file LICENSE that is included with this distribution.
  */
 
@@ -84,10 +84,16 @@ NTMultiChannelBuilder::shared_pointer NTMultiChannelBuilder::addUserTag()
     return shared_from_this();
 }
 
+NTMultiChannelBuilder::shared_pointer NTMultiChannelBuilder::addIsConnected()
+{
+    isConnected = true;
+    return shared_from_this();
+}
+
 StructureConstPtr NTMultiChannelBuilder::createStructure()
 {
     StandardFieldPtr standardField = getStandardField();
-    size_t nfields = 3;
+    size_t nfields = 2;
     size_t extraCount = extraFieldNames.size();
     nfields += extraCount;
     if(descriptor) ++nfields;
@@ -99,6 +105,7 @@ StructureConstPtr NTMultiChannelBuilder::createStructure()
     if(secondsPastEpoch) ++nfields;
     if(nanoseconds) ++nfields;
     if(userTag) ++nfields;
+    if(isConnected) ++nfields;
     FieldConstPtrArray fields(nfields);
     StringArray names(nfields);
     size_t ind = 0;
@@ -110,19 +117,17 @@ StructureConstPtr NTMultiChannelBuilder::createStructure()
     }
     names[ind] = "channelName";
     fields[ind++] =  fieldCreate->createScalarArray(pvString);
-    names[ind] = "isConnected";
-    fields[ind++] =  fieldCreate->createScalarArray(pvBoolean);
-    if(timeStamp) {
-        names[ind] = "timeStamp";
-        fields[ind++] = standardField->timeStamp();
+    if(descriptor) {
+        names[ind] = "descriptor";
+        fields[ind++] = fieldCreate->createScalar(pvString);
     }
     if(alarm) {
         names[ind] = "alarm";
         fields[ind++] = standardField->alarm();
     }
-    if(descriptor) {
-        names[ind] = "descriptor";
-        fields[ind++] = fieldCreate->createScalar(pvString);
+    if(timeStamp) {
+        names[ind] = "timeStamp";
+        fields[ind++] = standardField->timeStamp();
     }
     if(severity) {
         names[ind] = "severity";
@@ -147,6 +152,10 @@ StructureConstPtr NTMultiChannelBuilder::createStructure()
     if(userTag) {
         names[ind] = "userTag";
         fields[ind++] = fieldCreate->createScalarArray(pvInt);
+    }
+    if(isConnected) {
+        names[ind] = "isConnected";
+        fields[ind++] =  fieldCreate->createScalarArray(pvBoolean);
     }
     for (size_t i = 0; i< extraCount; i++) {
         names[ind] = extraFieldNames[i];
@@ -187,6 +196,7 @@ void NTMultiChannelBuilder::reset()
     secondsPastEpoch = false;
     nanoseconds = false;
     userTag = false;
+    isConnected = false;
 }
 
 
@@ -200,15 +210,15 @@ NTMultiChannelBuilder::shared_pointer NTMultiChannelBuilder::add(string const & 
 
 const std::string NTMultiChannel::URI("epics:nt/NTMultiChannel:1.0");
 
-NTMultiChannel::shared_pointer NTMultiChannel::wrap(PVStructurePtr const & structure)
+NTMultiChannel::shared_pointer NTMultiChannel::wrap(PVStructurePtr const & pvStructure)
 {
-    if(!isCompatible(structure)) return shared_pointer();
-    return wrapUnsafe(structure);
+    if(!isCompatible(pvStructure)) return shared_pointer();
+    return wrapUnsafe(pvStructure);
 }
 
-NTMultiChannel::shared_pointer NTMultiChannel::wrapUnsafe(PVStructurePtr const & structure)
+NTMultiChannel::shared_pointer NTMultiChannel::wrapUnsafe(PVStructurePtr const & pvStructure)
 {
-    return shared_pointer(new NTMultiChannel(structure));
+    return shared_pointer(new NTMultiChannel(pvStructure));
 }
 
 bool NTMultiChannel::is_a(StructureConstPtr const &structure)
@@ -216,37 +226,123 @@ bool NTMultiChannel::is_a(StructureConstPtr const &structure)
     return NTUtils::is_a(structure->getID(), URI);
 }
 
-bool NTMultiChannel::isCompatible(PVStructurePtr const &pvStructure)
+
+bool NTMultiChannel::isCompatible(StructureConstPtr const & structure)
 {
-    if(!pvStructure) return false;
-    PVUnionArrayPtr pvValue = pvStructure->getSubField<PVUnionArray>("value");
-    if(!pvValue) return false;
-    PVFieldPtr pvField = pvStructure->getSubField("descriptor");
-    if(pvField && !pvStructure->getSubField<PVString>("descriptor")) return false;
-    pvField = pvStructure->getSubField("alarm");
-    if(pvField && !ntField->isAlarm(pvField->getField())) return false;
-    pvField = pvStructure->getSubField("timeStamp");
-    if(pvField && !ntField->isTimeStamp(pvField->getField())) return false;
-    pvField = pvStructure->getSubField("severity");
-    if(pvField && !pvStructure->getSubField<PVIntArray>("severity")) return false;
-    pvField = pvStructure->getSubField("status");
-    if(pvField && !pvStructure->getSubField<PVIntArray>("status")) return false;
-    pvField = pvStructure->getSubField("message");
-    if(pvField && !pvStructure->getSubField<PVStringArray>("message")) return false;
-    pvField = pvStructure->getSubField("secondsPastEpoch");
-    if(pvField && !pvStructure->getSubField<PVLongArray>("secondsPastEpoch")) return false;
-    pvField = pvStructure->getSubField("nanoseconds");
-    if(pvField && !pvStructure->getSubField<PVIntArray>("nanoseconds")) return false;
-    pvField = pvStructure->getSubField("userTag");
-    if(pvField && !pvStructure->getSubField<PVIntArray>("userTag")) return false;
+    if (!structure.get()) return false;
+
+    UnionArrayConstPtr valueField = structure->getField<UnionArray>("value");
+    if (!valueField.get()) return false;
+
+    ScalarArrayConstPtr channelNameField = structure->getField<ScalarArray>(
+        "channelName");
+    if (!channelNameField.get()) return false;
+    if (channelNameField->getElementType() != pvString) return false;
+
+    FieldConstPtr field = structure->getField("severity");
+    if (field.get())
+    {
+        ScalarArrayConstPtr severityField = structure->getField<ScalarArray>("severity");
+        if (!severityField.get() || severityField->getElementType() != pvInt)
+            return false;
+    }
+
+    field = structure->getField("status");
+    if (field.get())
+    {
+        ScalarArrayConstPtr statusField = structure->getField<ScalarArray>("status");
+        if (!statusField.get() || statusField->getElementType() != pvInt)
+            return false;
+    }
+
+    field = structure->getField("message");
+    if (field.get())
+    {
+        ScalarArrayConstPtr messageField = structure->getField<ScalarArray>("message");
+        if (!messageField.get() || messageField->getElementType() != pvString)
+           return false;
+    }
+
+    field = structure->getField("secondsPastEpoch");
+    if (field.get())
+    {
+        ScalarArrayConstPtr secondsPastEpochField = structure->getField<ScalarArray>("secondsPastEpoch");
+        if (!secondsPastEpochField.get() || secondsPastEpochField->getElementType() != pvLong)
+            return false;
+    }
+
+    field = structure->getField("nanoseconds");
+    if (field.get())
+    {
+        ScalarArrayConstPtr nanosecondsField = structure->getField<ScalarArray>("nanoseconds");
+        if (!nanosecondsField.get() || nanosecondsField->getElementType() != pvInt)
+            return false;
+    }
+
+    field = structure->getField("userTag");
+    if (field.get())
+    {
+        ScalarArrayConstPtr userTagField = structure->getField<ScalarArray>("userTag");
+        if (!userTagField.get() || userTagField->getElementType() != pvInt)
+            return false;
+    }
+
+    field = structure->getField("descriptor");
+    if (field.get())
+    {
+        ScalarConstPtr descriptorField = structure->getField<Scalar>("descriptor");
+        if (!descriptorField.get() || descriptorField->getScalarType() != pvString)
+            return false;
+    }
+
+    NTFieldPtr ntField = NTField::get();
+
+    field = structure->getField("alarm");
+    if (field.get() && !ntField->isAlarm(field))
+        return false;
+
+    field = structure->getField("timeStamp");
+    if (field.get() && !ntField->isTimeStamp(field))
+        return false;
+
     return true;
 }
+
+
+bool NTMultiChannel::isCompatible(PVStructurePtr const &pvStructure)
+{
+    if(!pvStructure.get()) return false;
+
+    return isCompatible(pvStructure->getStructure());
+}
+
+
+bool NTMultiChannel::isValid()
+{
+    size_t valueLength = getValue()->getLength();
+    if (getChannelName()->getLength() != valueLength) return false;
+
+    PVScalarArrayPtr arrayFields[] = {
+          getSeverity(), getStatus(), getMessage(), 
+          getSecondsPastEpoch(), getNanoseconds(), getUserTag()
+    };
+    size_t N = sizeof(arrayFields)/sizeof(arrayFields[0]);
+
+    PVScalarArrayPtr arrayField;
+    for (PVScalarArrayPtr * pa = arrayFields; pa != arrayFields+N; ++pa)
+    {
+        arrayField = *pa;
+        if (arrayField.get() && arrayField->getLength() != valueLength)
+            return false;
+    }
+    return true; 
+}
+
 
 NTMultiChannelBuilderPtr NTMultiChannel::createBuilder()
 {
     return NTMultiChannelBuilderPtr(new detail::NTMultiChannelBuilder());
 }
-
 
 NTMultiChannel::NTMultiChannel(PVStructurePtr const & pvStructure)
 : pvNTMultiChannel(pvStructure),
@@ -266,16 +362,20 @@ NTMultiChannel::NTMultiChannel(PVStructurePtr const & pvStructure)
 }
 
 
-void  NTMultiChannel::attachTimeStamp(PVTimeStamp &pv) const
+bool  NTMultiChannel::attachTimeStamp(PVTimeStamp &pv) const
 {
-    if(!pvTimeStamp) return;
-    pv.attach(pvTimeStamp);
+    if (pvTimeStamp)
+        return pv.attach(pvTimeStamp);
+    else
+        return false;
 }
 
-void  NTMultiChannel::attachAlarm(PVAlarm &pv) const
+bool  NTMultiChannel::attachAlarm(PVAlarm &pv) const
 {
-    if(!pvAlarm) return;
-    pv.attach(pvAlarm);
+    if (pvAlarm)
+        return pv.attach(pvAlarm);
+    else
+        return false;
 }
 
 }}

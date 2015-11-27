@@ -58,7 +58,7 @@ int main (int argc, char *argv[])
         // Get the value of the first input argument to this executable and use it 
         // to set the data to be sent to the server through the introspection interface. 
         std::string name = (argc > 1) ? argv[1] : "anonymous";
-	    arguments->getStringField("personsname")->put(name);
+	    arguments->getSubField<PVString>("personsname")->put(name);
 
         // Create an RPC client to the "helloService" service
         epics::pvAccess::RPCClient::shared_pointer client
@@ -71,7 +71,7 @@ int main (int argc, char *argv[])
 
         // Extract the result using the introspection interface of the returned 
         // datum, 
-        PVStringPtr greeting = response->getStringField("greeting");
+        PVStringPtr greeting = response->getSubField<PVString>("greeting");
 
         // Check the result conforms to expected format and if so print it.
         if (!greeting)

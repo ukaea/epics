@@ -40,7 +40,7 @@ static long get_graphic_double();
 static long get_control_double();
 static long get_alarm_double();
  
-rset floatRSET={
+rset floatrRSET={
 	RSETNUMBER,
 	report,
 	initialize,
@@ -60,10 +60,10 @@ rset floatRSET={
 	get_control_double,
 	get_alarm_double
 };
-epicsExportAddress(rset,floatRSET);
+epicsExportAddress(rset,floatrRSET);
 
-static void checkAlarms(floatRecord *pfloat);
-static void monitor(floatRecord *pfloat);
+static void checkAlarms(floatrRecord *pfloat);
+static void monitor(floatrRecord *pfloat);
 
 static long init_record(void *precord,int pass)
 {
@@ -72,7 +72,7 @@ static long init_record(void *precord,int pass)
 
 static long process(void *precord)
 {
-	floatRecord	*pfloat = (floatRecord *)precord;
+    floatrRecord	*pfloat = (floatrRecord *)precord;
 
 	pfloat->pact = TRUE;
 
@@ -90,7 +90,7 @@ static long process(void *precord)
 
 static long get_units(DBADDR *paddr, char *units)
 {
-    floatRecord	*pfloat=(floatRecord *)paddr->precord;
+    floatrRecord	*pfloat=(floatrRecord *)paddr->precord;
 
     strncpy(units,pfloat->egu,DB_UNITS_SIZE);
     return(0);
@@ -98,7 +98,7 @@ static long get_units(DBADDR *paddr, char *units)
 
 static long get_precision(DBADDR *paddr, long *precision)
 {
-    floatRecord	*pfloat=(floatRecord *)paddr->precord;
+    floatrRecord	*pfloat=(floatrRecord *)paddr->precord;
 
     *precision = pfloat->prec;
     if(paddr->pfield == (void *)&pfloat->val) return(0);
@@ -108,16 +108,16 @@ static long get_precision(DBADDR *paddr, long *precision)
 
 static long get_graphic_double(DBADDR *paddr,struct dbr_grDouble *pgd)
 {
-    floatRecord	*pfloat=(floatRecord *)paddr->precord;
+    floatrRecord	*pfloat=(floatrRecord *)paddr->precord;
     int		fieldIndex = dbGetFieldIndex(paddr);
 
-    if(fieldIndex == floatRecordVAL
-    || fieldIndex == floatRecordHIHI
-    || fieldIndex == floatRecordHIGH
-    || fieldIndex == floatRecordLOW
-    || fieldIndex == floatRecordLOLO
-    || fieldIndex == floatRecordHOPR
-    || fieldIndex == floatRecordLOPR) {
+    if(fieldIndex == floatrRecordVAL
+    || fieldIndex == floatrRecordHIHI
+    || fieldIndex == floatrRecordHIGH
+    || fieldIndex == floatrRecordLOW
+    || fieldIndex == floatrRecordLOLO
+    || fieldIndex == floatrRecordHOPR
+    || fieldIndex == floatrRecordLOPR) {
         pgd->upper_disp_limit = pfloat->hopr;
         pgd->lower_disp_limit = pfloat->lopr;
     } else recGblGetGraphicDouble(paddr,pgd);
@@ -126,14 +126,14 @@ static long get_graphic_double(DBADDR *paddr,struct dbr_grDouble *pgd)
 
 static long get_control_double(DBADDR *paddr,struct dbr_ctrlDouble *pcd)
 {
-    floatRecord	*pfloat=(floatRecord *)paddr->precord;
+    floatrRecord	*pfloat=(floatrRecord *)paddr->precord;
     int		fieldIndex = dbGetFieldIndex(paddr);
 
-    if(fieldIndex == floatRecordVAL
-    || fieldIndex == floatRecordHIHI
-    || fieldIndex == floatRecordHIGH
-    || fieldIndex == floatRecordLOW
-    || fieldIndex == floatRecordLOLO) {
+    if(fieldIndex == floatrRecordVAL
+    || fieldIndex == floatrRecordHIHI
+    || fieldIndex == floatrRecordHIGH
+    || fieldIndex == floatrRecordLOW
+    || fieldIndex == floatrRecordLOLO) {
 	pcd->upper_ctrl_limit = pfloat->hopr;
 	pcd->lower_ctrl_limit = pfloat->lopr;
     } else recGblGetControlDouble(paddr,pcd);
@@ -142,10 +142,10 @@ static long get_control_double(DBADDR *paddr,struct dbr_ctrlDouble *pcd)
 
 static long get_alarm_double(DBADDR *paddr,struct dbr_alDouble *pad)
 {
-    floatRecord	*pfloat=(floatRecord *)paddr->precord;
+    floatrRecord	*pfloat=(floatrRecord *)paddr->precord;
     int		fieldIndex = dbGetFieldIndex(paddr);
 
-    if(fieldIndex == floatRecordVAL) {
+    if(fieldIndex == floatrRecordVAL) {
 	pad->upper_alarm_limit = pfloat->hihi;
 	pad->upper_warning_limit = pfloat->high;
 	pad->lower_warning_limit = pfloat->low;
@@ -154,7 +154,7 @@ static long get_alarm_double(DBADDR *paddr,struct dbr_alDouble *pad)
     return(0);
 }
 
-static void checkAlarms(floatRecord *pfloat)
+static void checkAlarms(floatrRecord *pfloat)
 {
 	double		val;
 	float		hyst, lalm, hihi, high, low, lolo;
@@ -197,7 +197,7 @@ static void checkAlarms(floatRecord *pfloat)
 	return;
 }
 
-static void monitor(floatRecord *pfloat)
+static void monitor(floatrRecord *pfloat)
 {
 	unsigned short	monitor_mask;
 	double		delta;

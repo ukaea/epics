@@ -25,9 +25,9 @@ vpath %.stt $(USR_VPATH) $(ALL_SRC_DIRS)
 #--------------------------------------------------
 # depends rule needs .c files
 
-SNC_SRC_FILES = $(basename $(notdir $(filter %.st %.stt,$(SRC_FILES))))
-SNC_CSRC_FILES =  $(addsuffix .c,$(SNC_SRC_FILES))
-HDEPENDS_FILES_YES += $(addsuffix $(DEP),$(basename $(SNC_CSRC_FILES)))
+ST_TARGETS = $(TESTPROD) $(PROD) $(LIBRARY) $(LOADABLE_LIBRARY)
+ST_TARGET_SRCS = $(addsuffix .st, $(ST_TARGETS))
+ST_DEPENDS_FILES = $(addsuffix $(DEP),$(SRC_FILES) $(ST_TARGET_SRCS))
 
 #--------------------------------------------------
 # snc executable location
@@ -53,24 +53,27 @@ endif
 #--------------------------------------------------
 # Rules
 
+%.st$(DEP): %.st
+	$(MKMF) -m $@ $(USR_VPATH) $(ALL_SRC_DIRS) $*.i $<
+
 %.i: %.st
 	$(ECHO) "preprocessing $<"
 	@$(RM) $@
 	$(PREPROCESS.cpp)
 
 %.c: %.i $(SNC)
-	$(ECHO) "converting $<"
-	$(SNC) $(TARGET_SNCFLAGS) $(SNCFLAGS) $(USR_SNCFLAGS) $(call PATH_FILTER,$<) -o $(@F).tmp
-	$(MV) $(@F).tmp $@
+	$(ECHO) "compiling $< to C"
+	$(SNC) $(TARGET_SNCFLAGS) $(SNCFLAGS) $(USR_SNCFLAGS) $(call PATH_FILTER,$<) -o $(*F).c
 
 %.c: %.stt $(SNC)
-	$(ECHO) "converting $< "
-	$(SNC) $(TARGET_SNCFLAGS) $(SNCFLAGS) $(USR_SNCFLAGS) $(call PATH_FILTER,$<) -o $(@F).tmp
-	$(MV) $(@F).tmp $@
+	$(ECHO) "compiling $< to C"
+	$(SNC) $(TARGET_SNCFLAGS) $(SNCFLAGS) $(USR_SNCFLAGS) $(call PATH_FILTER,$<) -o $(*F).c
 
-CLEANS += $(SNC_CSRC_FILES)
+CLEANS += $(wildcard *.d)
 
 ifndef BASE_3_15
 clean::
 	$(RM) $(CLEANS)
 endif
+
+-include $(ST_DEPENDS_FILES)

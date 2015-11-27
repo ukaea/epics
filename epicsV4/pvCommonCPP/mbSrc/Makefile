@@ -2,7 +2,7 @@ TOP = ..
 include $(TOP)/configure/CONFIG
 
 ifdef WITH_MICROBENCH
-    USR_CPPFLAGS += -DWITH_MICROBENCH -I$(TOP)/include
+    USR_CPPFLAGS += -DWITH_MICROBENCH -I$(INSTALL_LOCATION)/include
 endif
 
 INSTALL_INCLUDE = $(INSTALL_LOCATION)/include/pv

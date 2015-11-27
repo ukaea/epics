@@ -1,6 +1,10 @@
 #Makefile at top of application tree
 TOP = .
 include $(TOP)/configure/CONFIG
+
+# First because dependency
+DIRS := LeyboldTurboApp
+
 DIRS := $(DIRS) $(filter-out $(DIRS), configure)
 DIRS := $(DIRS) $(filter-out $(DIRS), $(wildcard *App))
 DIRS := $(DIRS) $(filter-out $(DIRS), $(wildcard iocBoot))
@@ -11,6 +15,7 @@ endef
 $(foreach dir, $(filter-out configure,$(DIRS)),$(eval $(call DIR_template,$(dir))))
 
 iocBoot_DEPEND_DIRS += $(filter %App,$(DIRS))
+
 
 include $(TOP)/configure/RULES_TOP
 

@@ -30,6 +30,8 @@ typedef std::tr1::shared_ptr<Monitor> MonitorPtr;
 
 
 /**
+ * @brief An element for a monitorQueue.
+ *
  * Class instance representing monitor element.
  * @author mrk
  */
@@ -48,7 +50,9 @@ class epicsShareClass MonitorElement {
 };
 
 /**
- * Interface for Monitor.
+ * @brief Monitor changes to fields of a pvStructure.
+ *
+ * This is used by pvAccess to implement monitors.
  * @author mrk
  */
 class epicsShareClass Monitor : public Destroyable{
@@ -73,6 +77,7 @@ class epicsShareClass Monitor : public Destroyable{
     virtual MonitorElementPtr poll() = 0;
     /**
      * Release a MonitorElement that was returned by poll.
+     * A poll() must be called after the release() to check the presence of any modified data.
      * @param monitorElement
      */
     virtual void release(MonitorElementPtr const & monitorElement) = 0;
@@ -80,6 +85,8 @@ class epicsShareClass Monitor : public Destroyable{
 
 
 /**
+ * @brief Callback implemented by monitor clients.
+ *
  * Requester for ChannelMonitor.
  * @author mrk
  */

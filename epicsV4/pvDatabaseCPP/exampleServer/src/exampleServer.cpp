@@ -66,9 +66,9 @@ bool ExampleServer::init()
     
     initPVRecord();
     PVFieldPtr pvField;
-    pvArgumentValue = getPVStructure()->getStringField("argument.value");
+    pvArgumentValue = getPVStructure()->getSubField<PVString>("argument.value");
     if(pvArgumentValue.get()==NULL) return false;
-    pvResultValue = getPVStructure()->getStringField("result.value");
+    pvResultValue = getPVStructure()->getSubField<PVString>("result.value");
     if(pvResultValue.get()==NULL) return false;
     pvTimeStamp.attach(getPVStructure()->getSubField("result.timeStamp"));
     return true;

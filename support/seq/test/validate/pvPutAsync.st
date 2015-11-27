@@ -1,5 +1,5 @@
 /*************************************************************************\
-Copyright (c) 2010-2012 Helmholtz-Zentrum Berlin f. Materialien
+Copyright (c) 2010-2015 Helmholtz-Zentrum Berlin f. Materialien
                         und Energie GmbH, Germany (HZB)
 This file is distributed subject to a Software License Agreement found
 in the file LICENSE that is included with this distribution.
@@ -7,10 +7,6 @@ in the file LICENSE that is included with this distribution.
 program pvPutAsyncTest
 
 %%#include "../testSupport.h"
-
-%%epicsShareExtern double seq_sync_timeout;
-
-foreign seq_sync_timeout;
 
 int x;
 assign x to "pvPutAsync1";
@@ -56,15 +52,13 @@ ss test1 {
                     i, status, status ? pvMessage(x) : "");
             }
             i = 2;
-            seq_sync_timeout = 1.0;
-            status = pvPut(x,SYNC);
+            status = pvPut(x,SYNC,1.0);
             /* should fail */
             testOk(status==pvStatTIMEOUT, "pvPut/SYNC %d, status=%d (%s)",
                 i, status, status ? pvMessage(x) : "");
 
             i = 3;
-            seq_sync_timeout = 10.0;
-            status = pvPut(x,SYNC);
+            status = pvPut(x,SYNC,10.0);
             /* should succeed */
             testOk(status==pvStatOK, "pvPut/SYNC %d, status=%d (%s)",
                 i, status, status ? pvMessage(x) : "");

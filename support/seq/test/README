@@ -1,1 +1,10 @@
-Test directory. See the README file in the parent directory.
+Directory for tests.
+
+compiler
+  Pure compiler tests. Mostly checks that certain constructs give warnings or errors.
+
+validate
+  These are overall functionality tests.
+
+unit
+  Unit tests. The only test here is for the queue implementation.

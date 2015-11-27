@@ -1,5 +1,10 @@
+// Copyright information and license terms for this software can be
+// found in the file LICENSE that is included with the distribution
+
 #include "epicsStdio.h"
 #include "FieldNotFound.h"
+
+const char* FieldNotFound::PyExceptionClassName = "FieldNotFound";
 
 FieldNotFound::FieldNotFound(const std::string& message) :
     PvaException(message)

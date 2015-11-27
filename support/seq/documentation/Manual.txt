@@ -9,12 +9,12 @@ Users' Guide
    Tutorial
    Compiling
    Using
+   EscapeToC
    Reference
-   PV-API
    Examples
-   ReleaseNotes-2-1
-   ReleaseNotes-2-0-and-older
+   ReleaseNotes-2-2
    KnownProblems
    Plans
+   Glossary
 
-* :ref:`Index <genindex>`
+* `Index <genindex>`

@@ -2,4 +2,4 @@
 #
 # Create a file RELEASE.local pointing to your EPICS_BASE
 # build directory, e.g.
-EPICS_BASE = D:/EPICS/base-3.14.12.5
+EPICS_BASE = \EPICS/base

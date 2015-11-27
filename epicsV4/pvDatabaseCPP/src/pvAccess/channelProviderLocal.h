@@ -25,10 +25,10 @@
 #include <pv/lock.h>
 #include <pv/pvType.h>
 #include <pv/pvData.h>
-#include <pv/monitorPlugin.h>
 #include <pv/pvCopy.h>
 #include <pv/pvAccess.h>
 #include <pv/status.h>
+#include <pv/serverContext.h>
 
 #ifdef channelProviderLocalEpicsExportSharedSymbols
 #   define epicsExportSharedSymbols
@@ -57,7 +57,9 @@ typedef std::tr1::shared_ptr<ChannelLocal> ChannelLocalPtr;
 
 epicsShareExtern MonitorFactoryPtr getMonitorFactory();
 
-/** MonitorFactory
+/**
+ * @brief MonitorFactory
+ *
  * This class provides a static method to create a monitor for a PVRecord
  */
 class epicsShareClass MonitorFactory 
@@ -99,6 +101,8 @@ private:
 epicsShareExtern ChannelProviderLocalPtr getChannelProviderLocal();
 
 /**
+ * @brief ChannelProvider for PVDatabase.
+ *
  * An implementation of channelProvider that provides access to records in PVDatabase.
  */
 class epicsShareClass ChannelProviderLocal :
@@ -191,6 +195,8 @@ private:
 };
 
 /**
+ * @brief Channel for accessing a PVRecord.
+ *
  * A Channel for accessing a record in the PVDatabase.
  * It is a complete implementation of Channel
  */
@@ -225,7 +231,7 @@ public:
     virtual void destroy();
     /** 
      * Get the requester name.
-     * @param returns the name of the channel requester.
+     * @return returns the name of the channel requester.
      */
     virtual std::string getRequesterName();
     /** 
@@ -273,7 +279,7 @@ public:
      * Get the introspection interface for subField.
      * The introspection interface is given via GetFieldRequester::getDone.
      * @param requester The client callback.
-     * @param The subField of the record.
+     * @param subField The subField of the record.
      * If an empty string then the interface for the top level structure of
      * the record is provided.
      */
@@ -378,7 +384,7 @@ public:
     /** 
      * This is called when a record is being removed from the database.
      * Calls destroy.
-     * @record The record being destroyed.
+     * @param pvRecord The record being destroyed.
      */
     virtual void detach(PVRecordPtr const &pvRecord);
 protected:
@@ -394,7 +400,44 @@ private:
     epics::pvData::Mutex mutex;
 };
 
-    
+
+/**
+ * @brief A pvAccess server context that provides
+ * remote access to a local channel providers (i.e. pvDatabase records).
+ */
+class epicsShareClass ContextLocal
+{
+
+public:
+    POINTER_DEFINITIONS(ContextLocal);
+
+    static shared_pointer create();
+
+    /**
+     * Start the context thread.
+     * After this is called clients can connect to the server.
+     * @param waitForExit In true then waitForExit() method is called after the server is started.
+     */
+    void start(bool waitForExit = false);
+
+    /**
+     * Waits for "exit" to be entered on standard input and calls destroy() before returning.
+     */
+    void waitForExit();
+
+    /**
+     * This destroys the context.
+     * All clients will be disconnected.
+     */
+    void destroy();
+
+private:
+    ContextLocal();
+
+    ChannelProviderLocalPtr m_channelProvider;
+    epics::pvAccess::ServerContext::shared_pointer m_context;
+};
+
 
 }}
 #endif  /* CHANNELPROVIDERLOCAL_H */

@@ -22,3 +22,9 @@ CHECK_RELEASE = YES
 
 -include $(TOP)/../../CONFIG_SITE.local
 -include $(TOP)/../configure/CONFIG_SITE.local
+
+ifdef WITH_MICROBENCH
+USR_CPPFLAGS += -DWITH_MICROBENCH
+MBLIB = pvMB
+endif
+

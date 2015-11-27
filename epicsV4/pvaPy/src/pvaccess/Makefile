@@ -3,19 +3,38 @@ TOP=../..
 include $(TOP)/configure/CONFIG
 #----------------------------------------
 #  ADD MACRO DEFINITIONS AFTER THIS LINE
-#=============================
+
+# Global compiler/linker settings
+
+USR_CXXFLAGS += -DPVA_API_VERSION=$(PVA_API_VERSION)
+USR_CXXFLAGS += -DPVA_RPC_API_VERSION=$(PVA_RPC_API_VERSION)
+
+USR_CXXFLAGS += $(PVA_PY_CPPFLAGS)
+USR_LDFLAGS  += $(PVA_PY_LDFLAGS)
+USR_SYS_LIBS += $(PVA_PY_SYS_LIBS)
+
+# Set our library install location; /$(T_A) will be added
+INSTALL_LOCATION_LIB = $(INSTALL_LOCATION)/lib/python/$(PYTHON_VERSION)
 
 
-#=============================
+# Expand and install the setup shell scripts
+
+SCRIPTS_HOST = setup.sh setup.csh
+EXPANDFLAGS += -DPYLIB=$(abspath $(INSTALL_LOCATION_LIB))
+EXPAND += $(SCRIPTS:%=%@)
+
+
+# Build the Python pvaccess loadable library
 
 LOADABLE_LIBRARY_HOST += pvaccess
+
+# Disable 'lib' prefix
 LOADABLE_SHRLIB_PREFIX = 
 
-#PROD_HOST_linux-x86_64 += testClient
-PROD_HOST += $(PROD_HOST_$(T_A))
-
-CXXFLAGS += -g -I$(BOOST_DIR)/include $(PVA_PY_CPPFLAGS)
-LDFLAGS += $(PVA_PY_LDFLAGS)
+ifeq ($(OS_CLASS),Darwin)
+# Python on Darwin needs the suffix .so
+LOADABLE_SHRLIB_SUFFIX = .so
+endif
 
 
 pvaccess_SRCS += pvaccess.cpp
@@ -37,6 +56,7 @@ pvaccess_SRCS += NtTable.cpp
 pvaccess_SRCS += NtType.cpp
 pvaccess_SRCS += ObjectNotFound.cpp
 pvaccess_SRCS += PvaClient.cpp
+pvaccess_SRCS += PvaConstants.cpp
 pvaccess_SRCS += PvaException.cpp
 pvaccess_SRCS += PvaExceptionTranslator.cpp
 pvaccess_SRCS += PvaPyLogger.cpp
@@ -57,6 +77,7 @@ pvaccess_SRCS += PvTimeStamp.cpp
 pvaccess_SRCS += PvUByte.cpp
 pvaccess_SRCS += PvUInt.cpp
 pvaccess_SRCS += PvULong.cpp
+pvaccess_SRCS += PvUnion.cpp
 pvaccess_SRCS += PvUShort.cpp
 pvaccess_SRCS += PvUtility.cpp
 pvaccess_SRCS += PyGilManager.cpp
@@ -73,21 +94,22 @@ pvaccess_SRCS += RpcServer.cpp
 pvaccess_SRCS += RpcTimeout.cpp
 pvaccess_SRCS += StringUtility.cpp
 
-pvaccess_LIBS += pvData
+with_pvaClient := $(shell $(PERL) -e "print $(PVA_API_VERSION) >= 450")
+pvaccess_1_LIBS += pvaClient
+pvaccess_1_LIBS += nt
+pvaccess_LIBS += $(pvaccess_$(with_pvaClient)_LIBS)
+
 pvaccess_LIBS += pvAccess
+pvaccess_LIBS += pvData
 pvaccess_LIBS += Com
-USR_SYS_LIBS += $(BOOST_PYTHON_LIB)
 
-testClient_SRCS += testClient.cpp
-testClient_LIBS += pvaccess
-testClient_LIBS += python
-testClient_LIBS += boost_python
-testClient_LIBS += pvData pvAccess Com
 
-#===========================
+# Build the testClient on Linux
+
+#TESTPROD_HOST_Linux += testClient
+#LIBRARY_HOST += pvaccess
+#testClient_LIBS += pvaccess
 
 include $(TOP)/configure/RULES
 #----------------------------------------
 #  ADD RULES AFTER THIS LINE
-
-

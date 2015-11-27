@@ -21,8 +21,8 @@
 #include <deque>
 
 #include <pv/pvData.h>
-
-#include <pv/convert.h>
+#include <pv/pvCopy.h>
+#include <pv/pvTimeStamp.h>
 
 #ifdef pvdatabaseEpicsExportSharedSymbols
 #   define epicsExportSharedSymbols
@@ -56,10 +56,12 @@ class PVDatabase;
 typedef std::tr1::shared_ptr<PVDatabase> PVDatabasePtr;
 
 /**
- * Base interface for a record.
+ * @brief Base interface for a record.
+ *
  * @author mrk
  */
 class epicsShareClass PVRecord :
+     public epics::pvData::PVCopyTraverseMasterCallback,
      public std::tr1::enable_shared_from_this<PVRecord>
 {
 public:
@@ -83,7 +85,7 @@ public:
      *  If it encounters errors it should raise alarms and/or
      *  call the <b>message</b> method provided by the base class.
      */
-    virtual void process() {}
+    virtual void process();
     /**
      *  Destroy the PVRecord. Release any resources used and 
      *  get rid of listeners and requesters.
@@ -167,15 +169,26 @@ public:
      * Add a PVListener.
      * This must be called before calling pvRecordField.addListener.
      * @param pvListener The listener.
+     * @param pvCopy The pvStructure that has the client fields.
      * @return <b>true</b> if the listener was added.
      */
-    bool addListener(PVListenerPtr const & pvListener);
+    bool addListener(
+        PVListenerPtr const & pvListener,
+        epics::pvData::PVCopyPtr const & pvCopy);
+    /* 
+     * PVCopyTraverseMasterCallback method
+     * @param pvField The next client field.
+     */
+    void nextMasterPVField(epics::pvData::PVFieldPtr const & pvField);
     /**
      * Remove a listener.
      * @param pvListener The listener.
+     * @param pvCopy The pvStructure that has the client fields.
      * @return <b>true</b> if the listener was removed.
      */
-    bool removeListener(PVListenerPtr const & pvListener);
+    bool removeListener(
+        PVListenerPtr const & pvListener,
+        epics::pvData::PVCopyPtr const & pvCopy);
     /**
      * Begins a group of puts.
      */
@@ -220,9 +233,9 @@ private:
     PVRecordFieldPtr findPVRecordField(
         PVRecordStructurePtr const & pvrs,
         epics::pvData::PVFieldPtr const & pvField);
+
     std::string recordName;
     epics::pvData::PVStructurePtr pvStructure;
-    epics::pvData::ConvertPtr convert;
     PVRecordStructurePtr pvRecordStructure;
     std::list<PVListenerPtr> pvListenerList;
     std::list<PVRecordClientPtr> pvRecordClientList;
@@ -230,12 +243,20 @@ private:
     std::size_t depthGroupPut;
     int traceLevel;
     bool isDestroyed;
+
+    epics::pvData::PVTimeStamp pvTimeStamp;
+    epics::pvData::TimeStamp timeStamp;
+
+    // following only valid while addListener or removeListener is active.
+    bool isAddListener;
+    PVListenerPtr pvListener;
 };
 
 epicsShareExtern std::ostream& operator<<(std::ostream& o, const PVRecord& record);
 
 /**
- * Interface for a field of a record.
+ * @brief Interface for a field of a record.
+ *
  * One exists for each field of the top level PVStructure.
  * @author mrk
  */
@@ -248,7 +269,8 @@ public:
     /**
      * Constructor.
      * @param pvField The field from the top level structure.
-     * @param The parent.
+     * @param parent The parent.
+     * @param pvRecord The PVRecord.
      */
     PVRecordField(
         epics::pvData::PVFieldPtr const & pvField,
@@ -288,21 +310,6 @@ public:
      */
     PVRecordPtr getPVRecord();
     /**
-     * Add A PVListener to this field.
-     * Whenever this field or any subfield if this field is modified the listener will be notified.
-     * PVListener is described below.
-     * Before a listener can call addListener it must first call PVRecord.registerListener.
-     * @param pvListener The listener.
-     * @return <b<true</b> if listener is added.
-     */
-    bool addListener(PVListenerPtr const & pvListener);
-    /**
-     * Remove a listener.
-     * @param pvListener The listener.
-     * @return <b<true</b> if listener is removed.
-     */
-    virtual void removeListener(PVListenerPtr const & pvListener);
-    /**
      * This is called by the code that implements the data interface.
      * It is called whenever the put method is called.
      */
@@ -316,6 +323,8 @@ protected:
     virtual void postParent(PVRecordFieldPtr const & subField);
     virtual void postSubField();
 private:
+    bool addListener(PVListenerPtr const & pvListener);
+    virtual void removeListener(PVListenerPtr const & pvListener);
     void callListener();
 
     std::list<PVListenerPtr> pvListenerList;
@@ -330,7 +339,8 @@ private:
 };
 
 /**
- * Interface for a field that is a structure.
+ * @brief Interface for a field that is a structure.
+ *
  * One exists for each structure field of the top level PVStructure.
  * @author mrk
  */
@@ -366,11 +376,6 @@ public:
      */
     epics::pvData::PVStructurePtr getPVStructure();
     /**
-     * Called by PVRecord::removeListener.
-     * @param pvListener The listener.
-     */
-    virtual void removeListener(PVListenerPtr const & pvListener);
-    /**
      * Called by implementation code of PVRecord.
      */
     virtual void postPut();
@@ -380,13 +385,16 @@ protected:
      */
     virtual void init();
 private:
+    virtual void removeListener(PVListenerPtr const & pvListener);
+
     epics::pvData::PVStructurePtr pvStructure;
     PVRecordFieldPtrArrayPtr pvRecordFields;
     friend class PVRecord;
 };
 
 /**
- * An interface that must be implemented by any code that accesses the record.
+ * @brief An interface implemented by code that accesses the record.
+ *
  * @author mrk
  */
 class epicsShareClass PVRecordClient {
@@ -404,6 +412,8 @@ public:
 };
 
 /**
+ * @brief Listener for PVRecord::message.
+ *
  * An interface that is implemented by code that traps calls to PVRecord::message.
  * @author mrk
  */
@@ -448,7 +458,8 @@ public:
 };
 
 /**
- * The interface to a database of PVRecords.
+ * @brief The interface for a database of PVRecords.
+ *
  * @author mrk
  */
 class epicsShareClass PVDatabase {
@@ -503,3 +514,10 @@ private:
 }}
 
 #endif  /* PVDATABASE_H */
+
+/** @page Overview Documentation
+ *
+ * <a href = "pvDatabaseCPP.html">pvDatabase.html</a>
+ *
+ */
+

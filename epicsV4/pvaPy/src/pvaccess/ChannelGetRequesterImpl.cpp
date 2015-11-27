@@ -1,3 +1,6 @@
+// Copyright information and license terms for this software can be
+// found in the file LICENSE that is included with the distribution
+
 #include <iostream>
 #include "ChannelGetRequesterImpl.h"
 #include "GetFieldRequesterImpl.h"
@@ -33,65 +36,6 @@ void ChannelGetRequesterImpl::message(const std::string& message, epics::pvData:
 {
     std::cerr << "[" << getRequesterName() << "] message(" << message << ", " << getMessageTypeName(messageType) << ")" << std::endl;
 }
-
-#if defined PVA_API_VERSION && PVA_API_VERSION == 430
-void ChannelGetRequesterImpl::channelGetConnect(const epics::pvData::Status& status,
-    const epics::pvAccess::ChannelGet::shared_pointer& channelGet,
-    const epics::pvData::PVStructure::shared_pointer& pvStructure, 
-    const epics::pvData::BitSet::shared_pointer& bitSet)
-{
-    if (status.isSuccess()) {
-        // show warning
-        if (!status.isOK()) {
-            std::cerr << "[" << channelName << "] channel get create: " << status.getMessage() << std::endl;
-        }
-    
-        // assign smart pointers
-        {
-            epics::pvData::Lock lock(pointerMutex);
-            this->channelGet = channelGet;
-            this->pvStructure = pvStructure;
-            this->bitSet = bitSet;
-        }
-            
-        this->channelGet->get(true);
-    }
-    else {
-        std::cerr << "[" << channelName << "] failed to create channel get: " << status.getMessage() << std::endl;
-        event.signal();
-    }
-}
-
-void ChannelGetRequesterImpl::getDone(const epics::pvData::Status& status)
-{
-    if (status.isSuccess()) {
-        // show warning
-        if (!status.isOK()) {
-            std::cerr << "[" << channelName << "] channel get: " << status.getMessage() << std::endl;
-        }
-
-        // access smart pointers
-        {
-            epics::pvData::Lock lock(pointerMutex);
-            done = true;
-
-            // this is OK since callee holds also owns it
-            channelGet.reset();
-        }
-    }
-    else {
-        std::cerr << "[" << channelName << "] failed to get: " << status.getMessage() << std::endl;
-        {
-            epics::pvData::Lock lock(pointerMutex);
-            // this is OK since caller holds also owns it
-            channelGet.reset();
-        }
-    }
-        
-    event.signal();
-}
-
-#else
 
 void ChannelGetRequesterImpl::channelGetConnect(const epics::pvData::Status& status,
     const epics::pvAccess::ChannelGet::shared_pointer& channelGet,
@@ -134,7 +78,6 @@ void ChannelGetRequesterImpl::getDone(const epics::pvData::Status& status,
 
     event.signal();
 }
-#endif // if defined PVA_API_VERSION && PVA_API_VERSION == 430
 
 epics::pvData::PVStructure::shared_pointer ChannelGetRequesterImpl::getPVStructure()
 {

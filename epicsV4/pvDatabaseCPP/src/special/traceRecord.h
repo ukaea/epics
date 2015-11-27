@@ -18,15 +18,17 @@
 namespace epics { namespace pvDatabase { 
 
 
+class TraceRecord;
+typedef std::tr1::shared_ptr<TraceRecord> TraceRecordPtr;
+
 /**
+ * @brief Trace activity of  PVRecord.
+ *
  * A record to set the trace value for another record
  * It is meant to be used via a channelPutGet request.
  * The argument has two fields: recordName and  level.
  * The result has a field named status.
  */
-class TraceRecord;
-typedef std::tr1::shared_ptr<TraceRecord> TraceRecordPtr;
-
 class epicsShareClass TraceRecord :
     public PVRecord
 {

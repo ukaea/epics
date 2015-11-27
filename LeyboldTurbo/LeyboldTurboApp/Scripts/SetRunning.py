@@ -33,8 +33,11 @@ Run='1'
 if len(sys.argv) > 3:
 	Run=sys.argv[3]
 
+ChannelDefaultRoot = os.getenv('ASYNPORT', 'LEYBOLDTURBO')
 for Pump in range(int(FirstPump), int(LastPump)+1):
 	print("Setting pump", Pump, Run)
-	epics.caput('LEYBOLDTURBO:' + str(Pump) + ':Running', Run)
-	if "ASYN_VER" not in os.environ or os.environ["ASYN_VER"]<"4-26":
-		epics.caput('LEYBOLDTURBO:' + str(Pump) + ':Running.PROC', 1)
+	ChannelRoot = os.getenv('ASYNPORT'+str(Pump), ChannelDefaultRoot+':'+str(Pump))
+	epics.caput(ChannelRoot + ':Running', Run)
+	ASYNVERSION = epics.caget(ChannelRoot + ':AsynVersion')
+	if ASYNVERSION < "4-26":
+		epics.caput(ChannelRoot + ':Running.PROC', 1)

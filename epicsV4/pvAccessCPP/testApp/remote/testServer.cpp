@@ -15,7 +15,6 @@
 #include <epicsExit.h>
 #include <pv/standardPVField.h>
 #include <pv/pvTimeStamp.h>
-#include <pv/convert.h>
 
 #include <stdlib.h>
 #include <time.h>
@@ -24,7 +23,6 @@
 #include <cmath>
 
 #include <pv/logger.h>
-#include <pv/convert.h>
 
 // TODO temp
 #include "testADCSim.cpp"
@@ -53,6 +51,9 @@ map<string, PVStructure::shared_pointer> structureStore;
 class StructureChangedCallback {
 public:
     POINTER_DEFINITIONS(StructureChangedCallback);
+
+    virtual ~StructureChangedCallback() {}
+
     // TODO for now no BitSets, etc.
     virtual void structureChanged() = 0;
 };
@@ -85,7 +86,7 @@ static PVStructure::shared_pointer getRequestedStructure(
     {
         PVStructure::shared_pointer pvRequestFields;
         if (pvRequest->getSubField(subfieldName))
-            pvRequestFields = pvRequest->getStructureField(subfieldName);
+            pvRequestFields = pvRequest->getSubField<PVStructure>(subfieldName);
         else
             pvRequestFields = pvRequest;
 
@@ -202,7 +203,7 @@ public:
                     std::copy(shape->begin(), shape->end(), temp2.begin());
                     adcSimShape->replace(freeze(temp2));
 
-                    PVStructure::shared_pointer ts = adcMatrix->getStructureField("timeStamp");
+                    PVStructure::shared_pointer ts = adcMatrix->getSubField<PVStructure>("timeStamp");
 
                     PVTimeStamp timeStamp;
                     timeStamp.attach(ts);
@@ -380,10 +381,10 @@ static epics::pvData::PVStructure::shared_pointer createNTHistogram()
 
 static void generateNTTableDoubleValues(epics::pvData::PVStructure::shared_pointer result)
 {
-    PVStringArray::shared_pointer pvLabels = (static_pointer_cast<PVStringArray>(result->getScalarArrayField("labels", pvString)));
+    PVStringArray::shared_pointer pvLabels = result->getSubField<PVStringArray>("labels");
     PVStringArray::const_svector ld(pvLabels->view());
 
-    PVStructure::shared_pointer resultValue = result->getStructureField("value");
+    PVStructure::shared_pointer resultValue = result->getSubField<PVStructure>("value");
 
 #define ROWS 10
     double values[ROWS];
@@ -428,7 +429,7 @@ static void setTimeStamp(PVStructure::shared_pointer const & ts)
 
 static void generateNTAggregateValues(epics::pvData::PVStructure::shared_pointer result)
 {
-    setTimeStamp(result->getStructureField("firstTimeStamp"));
+    setTimeStamp(result->getSubField<PVStructure>("firstTimeStamp"));
 
 #define N 1024
     double values[N];
@@ -463,7 +464,7 @@ static void generateNTAggregateValues(epics::pvData::PVStructure::shared_pointer
     result->getSubField<PVLong>("N")->put(N);
 #undef N
 
-    setTimeStamp(result->getStructureField("lastTimeStamp"));
+    setTimeStamp(result->getSubField<PVStructure>("lastTimeStamp"));
 }
 
 
@@ -490,7 +491,7 @@ static void generateNTHistogramValues(epics::pvData::PVStructure::shared_pointer
     }
 #undef N
 
-    setTimeStamp(result->getStructureField("timeStamp"));
+    setTimeStamp(result->getSubField<PVStructure>("timeStamp"));
 }
 
 class ChannelFindRequesterImpl : public ChannelFindRequester
@@ -1000,7 +1001,7 @@ public:
         if (putBitSet->cardinality())
         {
             lock();
-            getConvert()->copy(pvPutStructure, m_pvStructure);
+            m_pvStructure->copyUnchecked(*pvPutStructure);
             unlock();
         }
         
@@ -1122,7 +1123,7 @@ public:
         if (putBitSet->cardinality())
         {
             lock();
-            getConvert()->copy(pvPutStructure, m_putStructure);
+            m_putStructure->copyUnchecked(*pvPutStructure);
             unlock();
         }
         
@@ -1212,7 +1213,7 @@ static bool handleHelp(
                         )
                     );
 
-        static_pointer_cast<PVString>(result->getStringField("value"))->put(helpText);
+        static_pointer_cast<PVString>(result->getSubField<PVString>("value"))->put(helpText);
         channelRPCRequester->requestDone(Status::Ok, channelRPC, result);
         return true;
     }
@@ -1288,7 +1289,7 @@ public:
         // handle NTURI request
         PVStructure::shared_pointer args(
                     (starts_with(pvArgument->getStructure()->getID(), "epics:nt/NTURI:1.")) ?
-                        pvArgument->getStructureField("query") :
+                        pvArgument->getSubField<PVStructure>("query") :
                         pvArgument
                         );
 
@@ -1548,7 +1549,7 @@ public:
             StructureConstPtr resultStructure = fieldCreate->createStructure(fieldNames, fields);
 
             PVStructure::shared_pointer result = getPVDataCreate()->createPVStructure(resultStructure);
-            result->getIntField("c")->put(a+b);
+            result->getSubField<PVInt>("c")->put(a+b);
 
             m_channelRPCRequester->requestDone(Status::Ok, shared_from_this(), result);
 
@@ -1944,7 +1945,7 @@ public:
     {
         {
             lock();
-            getConvert()->copyStructure(m_pvStructure, m_ccopy);
+            m_ccopy->copyUnchecked(*m_pvStructure);
             unlock();
         }
     }
@@ -2109,7 +2110,7 @@ protected:
                 string allProperties("");
                 //            string allProperties("alarm,timeStamp,display,control");
                 m_pvStructure = getStandardPVField()->scalarArray(pvDouble,allProperties);
-                PVDoubleArrayPtr pvField = static_pointer_cast<PVDoubleArray>(m_pvStructure->getScalarArrayField(std::string("value"), pvDouble));
+                PVDoubleArrayPtr pvField = m_pvStructure->getSubField<PVDoubleArray>("value");
 
                 int specCount = 0; char postfix[64];
                 int done = sscanf(m_name.c_str(), "testArray%d%s", &specCount, postfix);
@@ -2202,13 +2203,13 @@ protected:
                 dimValue[0] = 0;
                 m_pvStructure->getSubField<PVIntArray>("dim")->replace(freeze(dimValue));
 
-                m_pvStructure->getStringField("descriptor")->put("Simulated ADC that provides NTMatrix value");
-                PVStructurePtr displayStructure = m_pvStructure->getStructureField("display");
-                displayStructure->getDoubleField("limitLow")->put(-1.0);
-                displayStructure->getDoubleField("limitHigh")->put(1.0);
-                displayStructure->getStringField("description")->put("Simulated ADC");
-                displayStructure->getStringField("format")->put("%f");
-                displayStructure->getStringField("units")->put("V");
+                m_pvStructure->getSubField<PVString>("descriptor")->put("Simulated ADC that provides NTMatrix value");
+                PVStructurePtr displayStructure = m_pvStructure->getSubField<PVStructure>("display");
+                displayStructure->getSubField<PVDouble>("limitLow")->put(-1.0);
+                displayStructure->getSubField<PVDouble>("limitHigh")->put(1.0);
+                displayStructure->getSubField<PVString>("description")->put("Simulated ADC");
+                displayStructure->getSubField<PVString>("format")->put("%f");
+                displayStructure->getSubField<PVString>("units")->put("V");
             }
             else if (m_name.find("testRPC") == 0 || m_name == "testNTTable" || m_name == "testNTMatrix")
             {
@@ -2304,7 +2305,7 @@ protected:
             {
                 string allProperties("alarm,timeStamp,display,control,valueAlarm");
                 m_pvStructure = getStandardPVField()->scalar(pvDouble,allProperties);
-                //PVDoublePtr pvField = m_pvStructure->getDoubleField(std::string("value"));
+                //PVDoublePtr pvField = m_pvStructure->getSubField<PVDouble>(std::string("value"));
                 //pvField->put(1.123);
             }
 

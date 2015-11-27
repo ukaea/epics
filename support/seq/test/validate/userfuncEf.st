@@ -1,5 +1,5 @@
 /*************************************************************************\
-Copyright (c) 2010-2012 Helmholtz-Zentrum Berlin f. Materialien
+Copyright (c) 2010-2015 Helmholtz-Zentrum Berlin f. Materialien
                         und Energie GmbH, Germany (HZB)
 This file is distributed subject to a Software License Agreement found
 in the file LICENSE that is included with this distribution.
@@ -18,8 +18,6 @@ static void efSet_x(SS_ID ssId, EV_ID x)
     seq_efSet(ssId, x);
 }
 }%
-
-foreign pVar, ssId;
 
 entry {
     seq_test_init(2);

@@ -1,5 +1,5 @@
 /*************************************************************************\
-Copyright (c) 2010-2012 Helmholtz-Zentrum Berlin f. Materialien
+Copyright (c) 2010-2015 Helmholtz-Zentrum Berlin f. Materialien
                         und Energie GmbH, Germany (HZB)
 This file is distributed subject to a Software License Agreement found
 in the file LICENSE that is included with this distribution.
@@ -31,21 +31,24 @@ epicsShareFunc QUEUE seqQueueCreate(size_t numElems, size_t elemSize)
 {
     QUEUE q = new(struct seqQueue);
 
+    if (!q) {
+        errlogSevPrintf(errlogFatal, "seqQueueCreate: out of memory\n");
+        return 0;
+    }
     /* check arguments to establish invariants */
     if (numElems == 0) {
         errlogSevPrintf(errlogFatal, "seqQueueCreate: numElems must be positive\n");
+        free(q);
         return 0;
     }
     if (elemSize == 0) {
         errlogSevPrintf(errlogFatal, "seqQueueCreate: elemSize must be positive\n");
+        free(q);
         return 0;
     }
     if (numElems > seqQueueMaxNumElems) {
         errlogSevPrintf(errlogFatal, "seqQueueCreate: numElems too large\n");
-        return 0;
-    }
-    if (!q) {
-        errlogSevPrintf(errlogFatal, "seqQueueCreate: out of memory\n");
+        free(q);
         return 0;
     }
     DEBUG("%s:%d:calloc(%u,%u)\n",__FILE__,__LINE__,numElems, elemSize);

@@ -1,5 +1,5 @@
 /*************************************************************************\
-Copyright (c) 2010-2012 Helmholtz-Zentrum Berlin f. Materialien
+Copyright (c) 2010-2015 Helmholtz-Zentrum Berlin f. Materialien
                         und Energie GmbH, Germany (HZB)
 This file is distributed subject to a Software License Agreement found
 in the file LICENSE that is included with this distribution.
@@ -26,14 +26,18 @@ struct sequencerProgram {
 };
 
 /* These are the only global variables in the whole seq library. */
-static struct sequencerProgram *seqHead;
-static epicsMutexId seqLock;
+static struct
+{
+    epicsMutexId lock;
+    struct sequencerProgram *programs;
+    pvSystem pvSys;
+} globals;
 
 static void seqInitPvt(void *arg)
 {
-    seqLock = epicsMutexCreate();
-    if (!seqLock) {
-        errlogSevPrintf(errlogFatal, "seqInitPvt: out of memory");
+    globals.lock = epicsMutexCreate();
+    if (!globals.lock) {
+        errlogSevPrintf(errlogFatal, "seqInitPvt: epicsMutexCreate failed\n");
         exit(EXIT_FAILURE);
     }
 }
@@ -44,13 +48,29 @@ static void seqLazyInit()
     epicsThreadOnce(&seqOnceFlag, seqInitPvt, NULL);
 }
 
-epicsShareFunc void epicsShareAPI seqRegisterSequencerProgram(seqProgram *prog)
+void createOrAttachPvSystem(struct program_instance *sp)
+{
+    seqLazyInit();
+    epicsMutexMustLock(globals.lock);
+    if (!pvSysIsDefined(globals.pvSys)) {
+        pvStat status = pvSysCreate(&globals.pvSys);
+        if (status != pvStatOK) {
+            errlogPrintf("getPvSystem: pvSysCreate() failure\n");
+        }
+    } else {
+        pvSysAttach(globals.pvSys);
+    }
+    sp->pvSys = globals.pvSys;
+    epicsMutexUnlock(globals.lock);
+}
+
+epicsShareFunc void seqRegisterSequencerProgram(seqProgram *prog)
 {
     struct sequencerProgram *sp = NULL;
 
     seqLazyInit();
-    epicsMutexMustLock(seqLock);
-    foreach(sp, seqHead) {
+    epicsMutexMustLock(globals.lock);
+    foreach(sp, globals.programs) {
         if (sp->prog == prog) {
             break;
         }
@@ -61,11 +81,11 @@ epicsShareFunc void epicsShareAPI seqRegisterSequencerProgram(seqProgram *prog)
             errlogSevPrintf(errlogFatal, "seqRegisterSequencerProgram: out of memory");
         }
         sp->prog = prog;
-        sp->next = seqHead;
+        sp->next = globals.programs;
         sp->instances = NULL;
-        seqHead = sp;
+        globals.programs = sp;
     }
-    epicsMutexUnlock(seqLock);
+    epicsMutexUnlock(globals.lock);
 }
 
 int traverseSequencerPrograms(sequencerProgramTraversee *traversee, void *param)
@@ -74,8 +94,8 @@ int traverseSequencerPrograms(sequencerProgramTraversee *traversee, void *param)
     int stop = FALSE;
 
     seqLazyInit();
-    epicsMutexMustLock(seqLock);
-    foreach(sp, seqHead) {
+    epicsMutexMustLock(globals.lock);
+    foreach(sp, globals.programs) {
         stop = traversee(&sp->instances, sp->prog, param);
         if (stop) break;
     }
@@ -83,7 +103,7 @@ int traverseSequencerPrograms(sequencerProgramTraversee *traversee, void *param)
     if (!stop) {
         stop = traversee(NULL, NULL, param);
     }
-    epicsMutexUnlock(seqLock);
+    epicsMutexUnlock(globals.lock);
     return stop;
 }
 
@@ -129,13 +149,13 @@ static void seqCallFunc(const iocshArgBuf *args)
     if (*table == '&')
         table++;
     seqLazyInit();
-    epicsMutexMustLock(seqLock);
-    foreach(sp, seqHead) {
+    epicsMutexMustLock(globals.lock);
+    foreach(sp, globals.programs) {
         if (!strcmp(table, sp->prog->progName)) {
             break;
         }
     }
-    epicsMutexUnlock(seqLock);
+    epicsMutexUnlock(globals.lock);
     if (sp) {
         seq(sp->prog, macroDef, (unsigned)stackSize);
     } else {
@@ -224,7 +244,7 @@ static void seqcarCallFunc(const iocshArgBuf *args)
  * This routine is called before multitasking has started, so there's
  * no race condition in the test/set of firstTime.
  */
-epicsShareFunc void epicsShareAPI seqRegisterSequencerCommands(void)
+epicsShareFunc void seqRegisterSequencerCommands(void)
 {
     static int firstTime = 1;
     if (firstTime) {

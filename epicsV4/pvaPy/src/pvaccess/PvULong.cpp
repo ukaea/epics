@@ -1,3 +1,6 @@
+// Copyright information and license terms for this software can be
+// found in the file LICENSE that is included with the distribution
+
 #include "PvULong.h"
 #include "PvType.h"
 #include "PyUtility.h"
@@ -27,12 +30,12 @@ PvULong::~PvULong()
 
 void PvULong::set(unsigned long long ull) 
 {
-    pvStructurePtr->getULongField(ValueFieldKey)->put(ull);
+    pvStructurePtr->getSubField<epics::pvData::PVULong>(ValueFieldKey)->put(ull);
 }
 
 unsigned long long PvULong::get() const 
 {
-    return pvStructurePtr->getULongField(ValueFieldKey)->get();
+    return pvStructurePtr->getSubField<epics::pvData::PVULong>(ValueFieldKey)->get();
 }
 
 

@@ -1,5 +1,5 @@
 /*************************************************************************\
-Copyright (c) 2010-2012 Helmholtz-Zentrum Berlin f. Materialien
+Copyright (c) 2010-2015 Helmholtz-Zentrum Berlin f. Materialien
                         und Energie GmbH, Germany (HZB)
 This file is distributed subject to a Software License Agreement found
 in the file LICENSE that is included with this distribution.
@@ -16,8 +16,6 @@ assign y to "";
 evflag efx;
 sync x to efx;
 
-foreign MAX_STRING_SIZE;
-
 #define MAX_TESTS 10
 
 entry {
@@ -26,15 +24,14 @@ entry {
 }
 
 ss race1 {
+    string z;
+    assign z to "";
     state init {
         when () {
             x[0] = 0;
         } state wait
     }
     state wait {
-        string z;
-        assign z to "";
-
         when (delay(0.001)) {
             int j;
             for (j=0; j <1000; j++) {
@@ -104,15 +101,14 @@ ss race2 {
 }
 
 ss race3 {
+    string z;
+    assign z to "";
     state init {
         when () {
             x[0] = 0;
         } state wait
     }
     state wait {
-        string z;
-        assign z to "";
-
         when (delay(0.001)) {
             int j;
             for (j=0; j <1000; j++) {

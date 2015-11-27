@@ -1,6 +1,12 @@
 # This is a Makefile fragment, see ../Makefile
 
-SRC_DIRS += $(PVASRV_SRC)/dbPv
+PLACE=$(EPICS_VERSION).$(EPICS_REVISION)
+
+ifeq ($(PLACE),3.16)
+  PLACE=3.15
+endif
+
+SRC_DIRS += $(PVASRV_SRC)/dbPv/$(PLACE)
 
 DBD += dbPv.dbd
 
@@ -17,9 +23,7 @@ LIBSRCS += dbPv.cpp
 LIBSRCS += dbPvProvider.cpp
 LIBSRCS += dbPvProcess.cpp
 LIBSRCS += dbPvGet.cpp
-LIBSRCS += dbPvMultiGet.cpp
 LIBSRCS += dbPvPut.cpp
-LIBSRCS += dbPvMultiPut.cpp
 LIBSRCS += dbPvArray.cpp
 LIBSRCS += dbPvRegister.cpp
 LIBSRCS += dbPvMonitor.cpp

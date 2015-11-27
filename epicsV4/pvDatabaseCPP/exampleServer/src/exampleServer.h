@@ -8,8 +8,8 @@
  * @author mrk
  * @date 2013.04.02
  */
-#ifndef EXAMPLECOUNTER_H
-#define EXAMPLECOUNTER_H
+#ifndef EXAMPLESERVER_H
+#define EXAMPLESERVER_H
 
 #ifdef epicsExportSharedSymbols
 #   define exampleServerEpicsExportSharedSymbols
@@ -58,4 +58,4 @@ private:
 
 }}
 
-#endif  /* EXAMPLECOUNTER_H */
+#endif  /* EXAMPLESERVER_H */

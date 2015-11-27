@@ -1,10 +1,11 @@
-# Module IDs for release EPICS-CPP-4.4.0
-# module global_rev local_rev branch tag
-pvCommonCPP  81e0536cafe2 64 release/4.0 4.0.2
-pvDataCPP  8543734dbf6e 619 release/4.0 4.0.3
-pvAccessCPP  b5cb51859dcc 845 release/4.0 4.0.4
-pvDatabaseCPP  80ee99ab2856 134 release/4.0 4.0.2
-exampleCPP  18294574af27 135 release/4.0 4.0.3
-pvaSrv  c190a8595fc9 263 release/0.10 0.10.5
-pvaPy  1b9053c11e51 82 release/0.4 0.4.6
-normativeTypesCPP  e4b8d66cee36 67 release/4.0 4.0.2
+# Module IDs for release EPICS-CPP-4.5.0
+# module tag commit_id reference
+pvCommonCPP 4.1.1 6582b3c57471f41fa052e31a7adadd546230a69c	refs/tags/4.1.1
+pvDataCPP 5.0.2 7fc3f50ae9ee7de845f1dbe04c97194110ef5e8e	refs/tags/5.0.2
+normativeTypesCPP 5.0.2 892f1e224234206b51eab9b7d837fc978603f089	refs/tags/5.0.2
+pvAccessCPP 4.1.2 9d664ed0b75a0d3caefe02d9180282ba7a665685	refs/tags/4.1.2
+pvaClientCPP 4.1.1 51ed7d32a8142df13992e8436e6d3f567a9f16ec	refs/tags/4.1.1
+pvaSrv 0.11.2 fb76178d6753d1cff744ae07b37103e87126fa32	refs/tags/0.11.2
+pvDatabaseCPP 4.1.1 b3b01959e56a774c63196d7f83321a310c51d5e7	refs/tags/4.1.1
+pvaPy 0.5.2 7d8f5a851b262b547c3215e9246be174c9a9787e	refs/tags/0.5.2
+exampleCPP 4.1.1 f29ee111fd7d7adfaaa3993cc02406903afdee3b	refs/tags/4.1.1

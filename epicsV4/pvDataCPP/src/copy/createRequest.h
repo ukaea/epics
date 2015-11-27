@@ -18,7 +18,12 @@
 namespace epics { namespace pvData {
 
 /**
- * Class to create pvRequest structures to pass to pvAccess Channel methods.
+ * @brief Create pvRequest structure for Channel methods.
+ *
+ * Many methods of the Channel class of pvAccess have an
+ * argument <b>PVStructurePtr const * pvRequest</b>.
+ * This class provides a method that creates a valid pvRequest.
+ *
  */
 class epicsShareClass CreateRequest {
     public:
@@ -33,7 +38,6 @@ class epicsShareClass CreateRequest {
     * Create a request structure for the create calls in Channel.
     * See the package overview documentation for details.
     * @param request The field request. See the package overview documentation for details.
-    * @param requester The requester;
     * @return The request PVStructure if a valid request was given.
     * If a NULL PVStructure is returned then getMessage will return
     * the reason.

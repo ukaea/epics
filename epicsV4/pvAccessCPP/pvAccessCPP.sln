@@ -53,19 +53,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "configure", "configure", "{
 		configure\CONFIG_SITE = configure\CONFIG_SITE
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Com", "..\..\base-3.15.1\src\libCom\Com.vcxproj", "{35E6ABA4-E192-497D-BA02-EFB79D1E0336}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Com", "..\..\base-3.15.2\src\libCom\Com.vcxproj", "{35E6ABA4-E192-497D-BA02-EFB79D1E0336}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ca", "..\..\base-3.15.1\src\ca\client\ca.vcxproj", "{02CAF068-A7FC-463E-AA7E-72EEAF665826}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ca", "..\..\base-3.15.2\src\ca\client\ca.vcxproj", "{02CAF068-A7FC-463E-AA7E-72EEAF665826}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "e_flex", "..\..\base-3.15.1\src\libCom\flex\e_flex.vcxproj", "{285B2DD5-B55E-4195-9B2D-F129CF54A2B4}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "e_flex", "..\..\base-3.15.2\src\libCom\flex\e_flex.vcxproj", "{285B2DD5-B55E-4195-9B2D-F129CF54A2B4}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "antelope", "..\..\base-3.15.1\src\libCom\yacc\antelope.vcxproj", "{5F6323FF-CEEB-4AD8-BED3-A443E6F75546}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "antelope", "..\..\base-3.15.2\src\libCom\yacc\antelope.vcxproj", "{5F6323FF-CEEB-4AD8-BED3-A443E6F75546}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "casw", "..\..\base-3.15.1\src\ca\client\casw.vcxproj", "{CCEE947D-00D4-4A3D-B9B0-F519EB50E081}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "casw", "..\..\base-3.15.2\src\ca\client\casw.vcxproj", "{CCEE947D-00D4-4A3D-B9B0-F519EB50E081}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "base", "base", "{D772CB17-6D38-48F4-958E-6A721026C056}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tools", "..\..\base-3.15.1\src\tools\tools.vcxproj", "{5CCE1C6A-2BD5-48BF-99E2-D29B58F91991}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tools", "..\..\base-3.15.2\src\tools\tools.vcxproj", "{5CCE1C6A-2BD5-48BF-99E2-D29B58F91991}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{0D47E8DC-50E9-4274-B348-92967123AE6C}"
 EndProject

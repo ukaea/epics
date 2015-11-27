@@ -2,7 +2,7 @@
 Copyright (c) 1990      The Regents of the University of California
                         and the University of Chicago.
                         Los Alamos National Laboratory
-Copyright (c) 2010-2012 Helmholtz-Zentrum Berlin f. Materialien
+Copyright (c) 2010-2015 Helmholtz-Zentrum Berlin f. Materialien
                         und Energie GmbH, Germany (HZB)
 This file is distributed subject to a Software License Agreement found
 in the file LICENSE that is included with this distribution.
@@ -10,80 +10,72 @@ in the file LICENSE that is included with this distribution.
 /*************************************************************************\
                 Main program, reporting and printing procedures
 \*************************************************************************/
-#include	<stdio.h>
-#include	<stdlib.h>
-#include	<string.h>
-#include	<stdarg.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdarg.h>
 
-#include	"types.h"
-#include	"parser.h"
-#include	"analysis.h"
-#include	"gen_code.h"
-#include	"main.h"
+#include "types.h"
+#include "parser.h"
+#include "analysis.h"
+#include "gen_code.h"
+#include "main.h"
 
-#include <seq_release.h>
+#include "seq_release.h"
 
 static Options options = DEFAULT_OPTIONS;
 
-static char *in_file;	/* input file name */
-static char *out_file;	/* output file name */
+static char *input_name;	/* input file name */
+static char *output_name;	/* c output file name */
+
+static FILE *out = NULL;	/* output file handle */
 
 static int err_cnt;
 
 static void parse_args(int argc, char *argv[]);
 static void parse_option(char *s);
 static void print_usage(void);
+static char *replace_extension(const char *in, const char *ext);
 
 /* The streams stdin and stdout are redirected to files named in the
    command parameters. */
 int main(int argc, char *argv[])
 {
-	FILE	*infp, *outfp;
+	FILE	*in;
 	Program	*prg;
-        Expr    *exp;
+        Node    *exp;
 
 	/* Get command arguments */
 	parse_args(argc, argv);
 
-	/* Redirect input stream from specified file */
-	infp = freopen(in_file, "r", stdin);
-	if (infp == NULL)
+	in = fopen(input_name, "r");
+	if (in == NULL)
 	{
-		perror(in_file);
-		exit(EXIT_FAILURE);
+		perror(input_name);
+		return EXIT_FAILURE;
+	}
+	out = fopen(output_name, "w");
+	if (out == NULL)
+	{
+		perror(output_name);
+		return EXIT_FAILURE;
 	}
 
-	/* Redirect output stream to specified file */
-	outfp = freopen(out_file, "w", stdout);
-	if (outfp == NULL)
-	{
-		perror(out_file);
-		exit(EXIT_FAILURE);
-	}
+	/* the input file should be unbuffered,
+           since the lexer maintains its own buffer */
+	setvbuf(in, NULL, _IONBF, 0);
 
-	/* stdin, i.e. the input file should be unbuffered,
-           since the re2c generated lexer works fastest when
-           it maintains its own buffer */
-	setvbuf(stdin, NULL, _IONBF, 0);
-	/* stdout, i.e. the generated C program should be
-           block buffered with standard buffer size */
-	setvbuf(stdout, NULL, _IOFBF, BUFSIZ);
-	/* stderr, i.e. messages should be output immediately */
-	setvbuf(stderr, NULL, _IONBF, 0);
-
-	printf("/* Generated with snc from %s */\n", in_file);
-
-	exp = parse_program(in_file);
+	exp = parse_program(in, input_name);
 
         prg = analyse_program(exp, options);
 
 	if (err_cnt == 0)
 		generate_code(prg);
 
-	exit(err_cnt ? EXIT_FAILURE : EXIT_SUCCESS);
+	return err_cnt ? EXIT_FAILURE : EXIT_SUCCESS;
 }
 
-/* Initialize options, in_file, and out_file from arguments. */
+/* Initialize options, input_name, and output_name from arguments. */
 static void parse_args(int argc, char *argv[])
 {
 	int i;
@@ -109,13 +101,13 @@ static void parse_args(int argc, char *argv[])
 			else
 			{
 				i++;
-				out_file = argv[i];
+				output_name = argv[i];
 				continue;
 			}
 		}
 		else if (s[0] != '+' && s[0] != '-')
 		{
-			in_file = s;
+			input_name = s;
 			continue;
 		}
 		else
@@ -127,35 +119,34 @@ static void parse_args(int argc, char *argv[])
 		options.reent = TRUE;
 	}
 
-	if (!in_file)
+	if (!input_name)
 	{
 		report("no input file argument given\n");
 		print_usage();
 		exit(EXIT_FAILURE);
 	}
 
-	if (!out_file)	/* no -o option given */
+	if (!output_name)	/* no -o option given */
 	{
-		unsigned l = strlen(in_file);
-		char *ext = strrchr(in_file, '.');
-
-		if (ext && strcmp(ext,".st") == 0)
-		{
-			out_file = (char*)malloc(l);
-			strcpy(out_file, in_file);
-			strcpy(out_file+(ext-in_file), ".c\n");
-		}
-		else
-		{
-			out_file = (char*)malloc(l+3);
-			sprintf(out_file, "%s.c", in_file);
-		}
+		output_name = replace_extension(input_name, ".c");
 	}
+}
+
+static char *replace_extension(const char *in, const char *ext)
+{
+	char *in_ext = strrchr(in, '.');
+	size_t ext_len = strlen(ext);
+	size_t in_len = in_ext ? (in_ext - in) : strlen(in);
+	char *out = (char*)malloc(in_len+ext_len+1);
+
+	strncpy(out, in, in_len);
+	strcpy(out+in_len, ext);
+	return out;
 }
 
 static void parse_option(char *s)
 {
-	int		opt_val;
+	uint		opt_val;
 
 	opt_val = (*s == '+');
 
@@ -176,9 +167,6 @@ static void parse_option(char *s)
 	case 'r':
 		options.reent = opt_val;
 		break;
-	case 'i':
-		options.init_reg = opt_val;
-		break;
 	case 'l':
 		options.line = opt_val;
 		break;
@@ -190,6 +178,9 @@ static void parse_option(char *s)
 		break;
 	case 'w':
 		options.warn = opt_val;
+		break;
+	case 'W':
+		options.xwarn = opt_val;
 		break;
 	default:
 		report("unknown option ignored: '%s'\n", s);
@@ -213,13 +204,25 @@ static void print_usage(void)
 	report("  +r           - make reentrant at run-time\n");
 	report("  +s           - safe mode (implies +r, overrides -r)\n");
 	report("  -w           - suppress compiler warnings\n");
+	report("  +W           - enable extra compiler warnings\n");
 	report("example:\n snc +a -c vacuum.st\n");
 }
+
+/* Code generation support */
 
 void gen_line_marker_prim(int line_num, const char *src_file)
 {
 	if (options.line)
-		printf("# line %d \"%s\"\n", line_num, src_file);
+		fprintf(out, "# line %d \"%s\"\n", line_num, src_file);
+}
+
+void gen_code(const char *format, ...)
+{
+	va_list args;
+
+	va_start(args, format);
+	vfprintf(out, format, args);
+	va_end(args);
 }
 
 /* Errors and warnings */
@@ -252,23 +255,39 @@ void error_at(const char *src_file, int line_num, const char *format, ...)
 	va_end(args);
 }
 
-void report_at_expr(Expr *ep, const char *format, ...)
+/* location plus message and report a bug in snc */
+void assert_at(int cond, const char *src_file, int line_num, const char *format, ...)
+{
+	if (!cond)
+	{
+		va_list args;
+
+		report_loc(src_file, line_num);
+		fprintf(stderr, "snc bug (assertion failed): ");
+		va_start(args, format);
+		vfprintf(stderr, format, args);
+		va_end(args);
+		exit(EXIT_FAILURE);
+	}
+}
+
+void report_at_node(Node *ep, const char *format, ...)
 {
 	va_list args;
 
-	report_loc(ep->src_file, ep->line_num);
+	report_loc(ep->token.file, ep->token.line);
 
 	va_start(args, format);
 	vfprintf(stderr, format, args);
 	va_end(args);
 }
 
-void warning_at_expr(Expr *ep, const char *format, ...)
+void warning_at_node(Node *ep, const char *format, ...)
 {
 	va_list args;
 
 	if (!options.warn) return;
-	report_loc(ep->src_file, ep->line_num);
+	report_loc(ep->token.file, ep->token.line);
 	fprintf(stderr, "warning: ");
 
 	va_start(args, format);
@@ -276,17 +295,46 @@ void warning_at_expr(Expr *ep, const char *format, ...)
 	va_end(args);
 }
 
-void error_at_expr(Expr *ep, const char *format, ...)
+void extra_warning_at_node(Node *ep, const char *format, ...)
+{
+	va_list args;
+
+	if (!options.xwarn) return;
+	report_loc(ep->token.file, ep->token.line);
+	fprintf(stderr, "warning: ");
+
+	va_start(args, format);
+	vfprintf(stderr, format, args);
+	va_end(args);
+}
+
+void error_at_node(Node *ep, const char *format, ...)
 {
 	va_list args;
 
 	err_cnt++;
-	report_loc(ep->src_file, ep->line_num);
+	report_loc(ep->token.file, ep->token.line);
 	fprintf(stderr, "error: ");
 
 	va_start(args, format);
 	vfprintf(stderr, format, args);
 	va_end(args);
+}
+
+/* with location from this node and report a bug in snc */
+void assert_at_node(int cond, Node *ep, const char *format, ...)
+{
+	if (!cond)
+	{
+		va_list args;
+
+		report_loc(ep->token.file, ep->token.line);
+		fprintf(stderr, "snc bug (assertion failed): ");
+		va_start(args, format);
+		vfprintf(stderr, format, args);
+		va_end(args);
+		exit(EXIT_FAILURE);
+	}
 }
 
 void report(const char *format, ...)

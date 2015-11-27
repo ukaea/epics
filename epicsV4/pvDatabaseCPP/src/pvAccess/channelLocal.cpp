@@ -13,7 +13,6 @@
 
 #include <epicsThread.h>
 #include <pv/timeStamp.h>
-#include <pv/convert.h>
 #include <pv/pvSubArrayCopy.h>
 
 #define epicsExportSharedSymbols
@@ -30,7 +29,6 @@ using std::string;
 
 namespace epics { namespace pvDatabase { 
 
-static ConvertPtr convert = getConvert();
 static StructureConstPtr nullStructure;
 static PVStructurePtr nullPVStructure;
 static BitSetPtr nullBitSet;
@@ -109,8 +107,8 @@ public:
         {return channelLocal;}
     virtual void cancel(){}
     virtual void lastRequest() {}
-    virtual void lock() {mutex.lock();}
-    virtual void unlock() {mutex.unlock();}
+    virtual void lock() {pvRecord->lock();}
+    virtual void unlock() {pvRecord->unlock();}
 private:
     shared_pointer getPtrSelf()
     {
@@ -133,8 +131,8 @@ private:
     ChannelLocalPtr channelLocal;
     ChannelProcessRequester::shared_pointer channelProcessRequester;
     PVRecordPtr pvRecord;
-    Mutex mutex;
     int nProcess;
+    Mutex mutex;
 };
 
 ChannelProcessLocalPtr ChannelProcessLocal::create(
@@ -151,7 +149,7 @@ ChannelProcessLocalPtr ChannelProcessLocal::create(
         pvOptions = static_pointer_cast<PVStructure>(pvField);
         pvField = pvOptions->getSubField("nProcess");
         if(pvField) {
-            PVStringPtr pvString = pvOptions->getStringField("nProcess");
+            PVStringPtr pvString = pvOptions->getSubField<PVString>("nProcess");
             if(pvString) {
                 int size;
                 std::stringstream ss;
@@ -242,8 +240,8 @@ public:
         {return channelLocal;}
     virtual void cancel(){}
     virtual void lastRequest() {}
-    virtual void lock() {mutex.lock();}
-    virtual void unlock() {mutex.unlock();}
+    virtual void lock() {pvRecord->lock();}
+    virtual void unlock() {pvRecord->unlock();}
 private:
     shared_pointer getPtrSelf()
     {
@@ -401,8 +399,8 @@ public:
         {return channelLocal;}
     virtual void cancel(){}
     virtual void lastRequest() {}
-    virtual void lock() {mutex.lock();}
-    virtual void unlock() {mutex.unlock();}
+    virtual void lock() {pvRecord->lock();}
+    virtual void unlock() {pvRecord->unlock();}
 private:
     shared_pointer getPtrSelf()
     {
@@ -570,8 +568,8 @@ public:
         {return channelLocal;}
     virtual void cancel(){}
     virtual void lastRequest() {}
-    virtual void lock() {mutex.lock();}
-    virtual void unlock() {mutex.unlock();}
+    virtual void lock() {pvRecord->lock();}
+    virtual void unlock() {pvRecord->unlock();}
 private:
     shared_pointer getPtrSelf()
     {
@@ -783,8 +781,8 @@ public:
         {return channelLocal;}
     virtual void cancel(){}
     virtual void lastRequest() {}
-    virtual void lock() {mutex.lock();}
-    virtual void unlock() {mutex.unlock();}
+    virtual void lock() {pvRecord->lock();}
+    virtual void unlock() {pvRecord->unlock();}
 private:
     shared_pointer getPtrSelf()
     {
@@ -873,66 +871,29 @@ ChannelArrayLocalPtr ChannelArrayLocal::create(
         PVScalarArrayPtr xxx = static_pointer_cast<PVScalarArray>(pvField);
         pvCopy = getPVDataCreate()->createPVScalarArray(
             xxx->getScalarArray()->getElementType());
-        ChannelArrayLocalPtr array(new ChannelArrayLocal(
-            channelLocal,
-            channelArrayRequester,
-            pvArray,
-            pvCopy,
-            pvRecord));
-        if(pvRecord->getTraceLevel()>0)
-        {
-            cout << "ChannelArrayLocal::create";
-            cout << " recordName " << pvRecord->getRecordName() << endl;
-        }
-        channelArrayRequester->channelArrayConnect(
-            Status::Ok, array, pvCopy->getArray());
-        return array;
-    }
-    if(pvField->getField()->getType()==structureArray) {
+    } else if(pvField->getField()->getType()==structureArray) {
         PVStructureArrayPtr xxx = static_pointer_cast<PVStructureArray>(pvField);
         pvCopy = getPVDataCreate()->createPVStructureArray(
             xxx->getStructureArray()->getStructure());
-        ChannelArrayLocalPtr array(new ChannelArrayLocal(
-            channelLocal,
-            channelArrayRequester,
-            pvArray,
-            pvCopy,
-            pvRecord));
-        if(pvRecord->getTraceLevel()>0)
-        {
-            cout << "ChannelArrayLocal::create";
-            cout << " recordName " << pvRecord->getRecordName() << endl;
-        }
-        channelArrayRequester->channelArrayConnect(
-            Status::Ok, array, pvCopy->getArray());
-        return array;
-    }
-    if(pvField->getField()->getType()==unionArray) {
+    } else {
         PVUnionArrayPtr xxx = static_pointer_cast<PVUnionArray>(pvField);
         pvCopy = getPVDataCreate()->createPVUnionArray(
             xxx->getUnionArray()->getUnion());
-        ChannelArrayLocalPtr array(new ChannelArrayLocal(
-            channelLocal,
-            channelArrayRequester,
-            pvArray,
-            pvCopy,
-            pvRecord));
-        if(pvRecord->getTraceLevel()>0)
-        {
-            cout << "ChannelArrayLocal::create";
-            cout << " recordName " << pvRecord->getRecordName() << endl;
-        }
-        channelArrayRequester->channelArrayConnect(
-            Status::Ok, array, pvCopy->getArray());
-        return array;
     }
-    
-    Status status(Status::STATUSTYPE_ERROR,
-            "Logic error. Should not reach this code");
-    ChannelArrayLocalPtr channelArray;
-    ArrayConstPtr array;
-    channelArrayRequester->channelArrayConnect(status,channelArray,array);
-    return channelArray;
+    ChannelArrayLocalPtr array(new ChannelArrayLocal(
+        channelLocal,
+        channelArrayRequester,
+        pvArray,
+        pvCopy,
+        pvRecord));
+    if(pvRecord->getTraceLevel()>0)
+    {
+        cout << "ChannelArrayLocal::create";
+        cout << " recordName " << pvRecord->getRecordName() << endl;
+    }
+    channelArrayRequester->channelArrayConnect(
+        Status::Ok, array, pvCopy->getArray());
+    return array;
 }
 
 
@@ -1083,23 +1044,6 @@ void ChannelArrayLocal::setLength(size_t length)
 }
 
 
-class ChannelRPCLocal :
-    public ChannelRPC
-{
-public:
-    POINTER_DEFINITIONS(ChannelRPCLocal);
-    virtual ~ChannelRPCLocal();
-    static ChannelRPC::shared_pointer create(
-        ChannelProviderLocalPtr const &channelProvider,
-        ChannelRPC::shared_pointer const & channelRPCRequester,
-        PVStructurePtr const & pvRequest,
-        PVRecordPtr const &pvRecord);
-    virtual void request(
-        PVStructurePtr const & pvArgument,
-        bool lastRequest);
-};
-
-
 ChannelLocal::ChannelLocal(
     ChannelProviderLocalPtr const & provider,
     ChannelRequester::shared_pointer const & requester,
@@ -1161,6 +1105,8 @@ string ChannelLocal::getRemoteAddress()
 
 Channel::ConnectionState ChannelLocal::getConnectionState()
 {
+    Lock xx(mutex);
+    if(beingDestroyed) return Channel::DESTROYED;
     return Channel::CONNECTED;
 }
 
@@ -1176,6 +1122,8 @@ ChannelRequester::shared_pointer ChannelLocal::getChannelRequester()
 
 bool ChannelLocal::isConnected()
 {
+    Lock xx(mutex);
+    if(beingDestroyed) return false;
     return true;
 }
 

@@ -2,7 +2,7 @@
 Copyright (c) 1991-1993 The Regents of the University of California
                         and the University of Chicago.
                         Los Alamos National Laboratory
-Copyright (c) 2010-2012 Helmholtz-Zentrum Berlin f. Materialien
+Copyright (c) 2010-2015 Helmholtz-Zentrum Berlin f. Materialien
                         und Energie GmbH, Germany (HZB)
 This file is distributed subject to a Software License Agreement found
 in the file LICENSE that is included with this distribution.
@@ -38,8 +38,10 @@ in the file LICENSE that is included with this distribution.
 #include <string.h>
 #include <ctype.h>
 #include <limits.h>
+#include <math.h>
 
 #include "cantProceed.h"
+#include "epicsMath.h"
 #include "epicsEvent.h"
 #include "epicsMutex.h"
 #include "epicsString.h"
@@ -57,6 +59,8 @@ in the file LICENSE that is included with this distribution.
 #undef epicsAssertAuthor
 #endif
 #define epicsAssertAuthor "benjamin.franksen@helmholtz-berlin.de"
+
+#define declare_prim_type_names
 #include "seqPvt.h"
 
 #endif /*INCLseqh*/

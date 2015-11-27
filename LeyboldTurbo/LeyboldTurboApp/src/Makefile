@@ -23,11 +23,13 @@ LeyboldTurboApp_LIBS += asyn
 LeyboldTurboDev_SYS_LIBS_WIN32 += ws2_32
 
 LeyboldTurboDev_SRCS += LeyboldTurboPortDriver.cpp
+LeyboldTurboDev_SRCS += LeyboldBase.cpp
 
 # LeyboldTurbo_registerRecordDeviceDriver.cpp derives from LeyboldTurbo.dbd
 LeyboldTurboApp_LIBS += LeyboldTurboDev
 LeyboldTurboApp_SRCS += LeyboldTurbo_registerRecordDeviceDriver.cpp
 LeyboldTurboApp_SRCS += LeyboldTurboMain.cpp
+INC += LeyboldBase.h
 INC += USSPacket.h
 INC += ParameterDefns.h
 INC += LeyboldTurboPortDriver.h

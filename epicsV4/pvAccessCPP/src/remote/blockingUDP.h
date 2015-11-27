@@ -37,7 +37,7 @@ namespace epics {
 
         enum InetAddressType { inetAddressType_all, inetAddressType_unicast, inetAddressType_broadcast_multicast };
 
-        class epicsShareClass BlockingUDPTransport : public epics::pvData::NoDefaultMethods,
+        class BlockingUDPTransport : public epics::pvData::NoDefaultMethods,
                 public Transport,
                 public TransportSendControl,
                 public std::tr1::enable_shared_from_this<BlockingUDPTransport>
@@ -380,7 +380,7 @@ namespace epics {
 
         };
 
-        class epicsShareClass BlockingUDPConnector :
+        class BlockingUDPConnector :
                 public Connector,
                 private epics::pvData::NoDefaultMethods {
         public:

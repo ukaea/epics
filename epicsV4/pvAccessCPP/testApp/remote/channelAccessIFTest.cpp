@@ -10,7 +10,6 @@
 
 #include <pv/logger.h>
 #include <pv/pvAccess.h>
-#include <pv/convert.h>
 #include <pv/serverContext.h>
 #include <pv/clientFactory.h>
 #include <pv/clientContextImpl.h>
@@ -550,11 +549,11 @@ void ChannelAccessIFTest::test_channelGetIntProcessInternal(Channel::shared_poin
     return;
   }
 
-  std::tr1::shared_ptr<PVInt> value = channelGetReq->getPVStructure()->getIntField("value");
+  std::tr1::shared_ptr<PVInt> value = channelGetReq->getPVStructure()->getSubField<PVInt>("value");
 
   PVTimeStamp pvTimeStamp;
 
-  testOk(pvTimeStamp.attach(channelGetReq->getPVStructure()->getStructureField("timeStamp")),
+  testOk(pvTimeStamp.attach(channelGetReq->getPVStructure()->getSubField<PVStructure>("timeStamp")),
       "%s: attaching a timestamp", testMethodName.c_str());
 
   TimeStamp timeStamp;
@@ -680,7 +679,7 @@ void ChannelAccessIFTest::test_channelPutNoProcess() {
     return;
   } 
 
-  std::tr1::shared_ptr<PVDouble> value = channelPutReq->getPVStructure()->getDoubleField("value");
+  std::tr1::shared_ptr<PVDouble> value = channelPutReq->getPVStructure()->getSubField<PVDouble>("value");
   if (!value.get()) {
     testFail("%s: getting double value field failed ", CURRENT_FUNCTION);
     return;
@@ -819,7 +818,7 @@ void ChannelAccessIFTest::test_channelPutIntProcessInternal(Channel::shared_poin
     return;
   } 
 
-  std::tr1::shared_ptr<PVInt> value = channelPutReq->getPVStructure()->getIntField("value");
+  std::tr1::shared_ptr<PVInt> value = channelPutReq->getPVStructure()->getSubField<PVInt>("value");
   if (!value.get()) {
     testFail("%s: getting int value field failed ", testMethodName.c_str());
     return;
@@ -1214,7 +1213,7 @@ void ChannelAccessIFTest::test_channelPutGetNoProcess_putGet() {
   } 
 
 
-  std::tr1::shared_ptr<PVDouble> putValue = channelPutGetReq->getPVPutStructure()->getDoubleField("value");
+  std::tr1::shared_ptr<PVDouble> putValue = channelPutGetReq->getPVPutStructure()->getSubField<PVDouble>("value");
   if (!putValue.get()) {
     testFail("%s: getting put double value field failed ", CURRENT_FUNCTION);
     return;
@@ -1223,7 +1222,7 @@ void ChannelAccessIFTest::test_channelPutGetNoProcess_putGet() {
   double initVal = 321.0;
   putValue->put(initVal);
 
-  std::tr1::shared_ptr<PVDouble> getValuePtr = channelPutGetReq->getPVGetStructure()->getDoubleField("value");
+  std::tr1::shared_ptr<PVDouble> getValuePtr = channelPutGetReq->getPVGetStructure()->getSubField<PVDouble>("value");
   if (!getValuePtr.get()) {
     testFail("%s: getting get double value field failed ", CURRENT_FUNCTION);
     return;
@@ -1293,7 +1292,7 @@ void ChannelAccessIFTest::test_channelPutGetNoProcess_getPut() {
   } 
 
 
-  std::tr1::shared_ptr<PVDouble> putValue = channelPutGetReq->getPVPutStructure()->getDoubleField("value");
+  std::tr1::shared_ptr<PVDouble> putValue = channelPutGetReq->getPVPutStructure()->getSubField<PVDouble>("value");
   if (!putValue.get()) {
     testFail("%s: getting put double value field failed ", CURRENT_FUNCTION);
     return;
@@ -1302,7 +1301,7 @@ void ChannelAccessIFTest::test_channelPutGetNoProcess_getPut() {
   double initVal = 321.0;
   putValue->put(initVal);
 
-  std::tr1::shared_ptr<PVDouble> getValuePtr = channelPutGetReq->getPVGetStructure()->getDoubleField("value");
+  std::tr1::shared_ptr<PVDouble> getValuePtr = channelPutGetReq->getPVGetStructure()->getSubField<PVDouble>("value");
   if (!getValuePtr.get()) {
     testFail("%s: getting get double value field failed ", CURRENT_FUNCTION);
     return;
@@ -1370,7 +1369,7 @@ void ChannelAccessIFTest::test_channelPutGetNoProcess_getGet() {
   } 
 
 
-  std::tr1::shared_ptr<PVDouble> putValue = channelPutGetReq->getPVPutStructure()->getDoubleField("value");
+  std::tr1::shared_ptr<PVDouble> putValue = channelPutGetReq->getPVPutStructure()->getSubField<PVDouble>("value");
   if (!putValue.get()) {
     testFail("%s: getting put double value field failed ", CURRENT_FUNCTION);
     return;
@@ -1379,7 +1378,7 @@ void ChannelAccessIFTest::test_channelPutGetNoProcess_getGet() {
   double initVal = 432.0;
   putValue->put(initVal);
 
-  std::tr1::shared_ptr<PVDouble> getValuePtr = channelPutGetReq->getPVGetStructure()->getDoubleField("value");
+  std::tr1::shared_ptr<PVDouble> getValuePtr = channelPutGetReq->getPVGetStructure()->getSubField<PVDouble>("value");
   if (!getValuePtr.get()) {
     testFail("%s: getting get double value field failed ", CURRENT_FUNCTION);
     return;
@@ -1506,7 +1505,7 @@ void ChannelAccessIFTest::test_channelPutGetIntProcess() {
   } 
 
 
-  std::tr1::shared_ptr<PVInt> putValue = channelPutGetReq->getPVPutStructure()->getIntField("value");
+  std::tr1::shared_ptr<PVInt> putValue = channelPutGetReq->getPVPutStructure()->getSubField<PVInt>("value");
   if (!putValue.get()) {
     testFail("%s: getting put int value field failed ", CURRENT_FUNCTION);
     return;
@@ -1515,7 +1514,7 @@ void ChannelAccessIFTest::test_channelPutGetIntProcess() {
   int initVal = 3;
   putValue->put(initVal);
 
-  std::tr1::shared_ptr<PVInt> getValuePtr = channelPutGetReq->getPVGetStructure()->getIntField("value");
+  std::tr1::shared_ptr<PVInt> getValuePtr = channelPutGetReq->getPVGetStructure()->getSubField<PVInt>("value");
   if (!getValuePtr.get()) {
     testFail("%s: getting get int value field failed ", CURRENT_FUNCTION);
     return;
@@ -1523,7 +1522,7 @@ void ChannelAccessIFTest::test_channelPutGetIntProcess() {
 
   PVTimeStamp pvTimeStamp;
 
-  testOk(pvTimeStamp.attach(channelPutGetReq->getPVGetStructure()->getStructureField("timeStamp")),
+  testOk(pvTimeStamp.attach(channelPutGetReq->getPVGetStructure()->getSubField<PVStructure>("timeStamp")),
       "%s: attaching a timestamp", CURRENT_FUNCTION);
 
   TimeStamp timeStamp;
@@ -1598,7 +1597,7 @@ void ChannelAccessIFTest::test_channelRPC() {
       createSumArgumentStructure(1,2),false, getTimeoutSec());
   if (succStatus) {
     testOk(true, "%s: calling sum rpc service successfull", CURRENT_FUNCTION);
-    testOk(channelRPCReq->getLastResponse()->getIntField("c")->get() == 3, 
+    testOk(channelRPCReq->getLastResponse()->getSubField<PVInt>("c")->get() == 3, 
         "%s: rpc service returned correct sum", CURRENT_FUNCTION);
   }
   else {
@@ -1757,8 +1756,7 @@ std::ostringstream oss;
 oss << *monitorReq->getPVStructure();
 testDiag("%s:\n%s", CURRENT_FUNCTION, oss.str().c_str());
 
-  ConvertPtr convert = getConvert();
-  convert->copy(valueField, previousValue);
+  previousValue->copyUnchecked(*valueField);
 
   testOk(valueField->equals(*previousValue.get()) == true , "%s: value field equals to a previous value", 
       CURRENT_FUNCTION);
@@ -1801,7 +1799,7 @@ testDiag("%s:\n%s", CURRENT_FUNCTION, oss.str().c_str());
     testOk(valueField->equals(*previousValue.get()) == false , "%s: value field not equals to a previous value", 
         CURRENT_FUNCTION);
 
-    convert->copy(valueField, previousValue);
+    previousValue->copyUnchecked(*valueField);
   } 
 
 
@@ -2331,8 +2329,8 @@ PVStructure::shared_pointer ChannelAccessIFTest::createSumArgumentStructure(int 
       getPVDataCreate()->createPVStructure(
         getFieldCreate()->createStructure(fieldNames, fields)));
 
-  pvArguments->getIntField("a")->put(a);
-  pvArguments->getIntField("b")->put(b);
+  pvArguments->getSubField<PVInt>("a")->put(a);
+  pvArguments->getSubField<PVInt>("b")->put(b);
 
   return pvArguments;
 
@@ -2346,7 +2344,7 @@ PVStructure::shared_pointer ChannelAccessIFTest::createArrayPvRequest() {
   PVStructure::shared_pointer pvRequest(getPVDataCreate()->createPVStructure(
         getFieldCreate()->createStructure(fieldNames, fields)));
 
-  PVString::shared_pointer pvFieldName = pvRequest->getStringField("field");
+  PVString::shared_pointer pvFieldName = pvRequest->getSubField<PVString>("field");
   pvFieldName->put("value");
   return pvRequest;
 }

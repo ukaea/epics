@@ -10,7 +10,6 @@
  */
 
 #include <pv/standardPVField.h>
-#include <pv/convert.h>
 
 #define epicsExportSharedSymbols
 #include <pv/exampleLink.h>
@@ -46,8 +45,7 @@ ExampleLink::ExampleLink(
     PVStructurePtr const & pvStructure)
 : PVRecord(recordName,pvStructure),
   providerName(providerName),
-  channelName(channelName),
-  convert(getConvert())
+  channelName(channelName)
 {
 }
 
@@ -63,8 +61,7 @@ bool ExampleLink::init()
     PVStructurePtr pvStructure = getPVRecordStructure()->getPVStructure();
     pvTimeStamp.attach(pvStructure->getSubField("timeStamp"));
     pvAlarm.attach(pvStructure->getSubField("alarm"));
-    pvValue = static_pointer_cast<PVDoubleArray>(
-        pvStructure->getScalarArrayField("value",pvDouble));
+    pvValue = pvStructure->getSubField<PVDoubleArray>("value");
     if(!pvValue) {
         return false;
     }
@@ -95,8 +92,7 @@ bool ExampleLink::init()
              << status.getMessage() << endl;
         return false;
     }
-    getPVValue = static_pointer_cast<PVDoubleArray>(
-        getPVStructure->getScalarArrayField("value",pvDouble));
+    getPVValue = getPVStructure->getSubField<PVDoubleArray>("value");
     if(!getPVValue) {
         cout << getRecordName() << " get value not  PVDoubleArray" << endl;
         return false;
@@ -121,7 +117,7 @@ void ExampleLink::process()
         }
         alarm.setSeverity(severity);
     } else {
-        convert->copy(getPVValue,pvValue);
+        pvValue->copyUnchecked(*getPVValue);
     }
     alarm.setMessage(status.getMessage());
     pvAlarm.set(alarm);
@@ -160,7 +156,7 @@ void ExampleLink::getDone(
         BitSetPtr const & bitSet)
 {
     this->status = status;
-    convert->copyStructure(pvStructure,getPVStructure);
+    getPVStructure->copyUnchecked(*pvStructure);
     this->bitSet = bitSet;
     event.signal();
 }

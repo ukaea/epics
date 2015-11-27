@@ -2,18 +2,44 @@
 Copyright (c) 1990-1994 The Regents of the University of California
                         and the University of Chicago.
                         Los Alamos National Laboratory
-Copyright (c) 2010-2012 Helmholtz-Zentrum Berlin f. Materialien
+Copyright (c) 2010-2015 Helmholtz-Zentrum Berlin f. Materialien
                         und Energie GmbH, Germany (HZB)
 This file is distributed subject to a Software License Agreement found
 in the file LICENSE that is included with this distribution.
 \*************************************************************************/
+#define prim_types_GLOBAL
 #include "seq.h"
 #include "seq_debug.h"
 
-static boolean init_sprog(SPROG *sp, seqProgram *seqProg);
-static boolean init_sscb(SPROG *sp, SSCB *ss, seqSS *seqSS);
-static boolean init_chan(SPROG *sp, CHAN *ch, seqChan *seqChan);
-static PVTYPE *find_type(const char *userType);
+static boolean init_sprog(PROG *sp, seqProgram *seqProg);
+static boolean init_sscb(PROG *sp, SSCB *ss, seqSS *seqSS);
+static boolean init_chan(PROG *sp, CHAN *ch, seqChan *seqChan);
+
+/*
+ * types for DB put/get, element size based on user variable type.
+ * pvTypeTIME_* types for gets/monitors return status, severity, and time stamp
+ * in addition to the value.
+ */
+static PVTYPE pv_type_map[] =
+{
+	{ P_CHAR,	pvTypeCHAR,	pvTypeTIME_CHAR,	sizeof(char)		},
+	{ P_UCHAR,	pvTypeCHAR,	pvTypeTIME_CHAR,	sizeof(unsigned char)	},
+	{ P_SHORT,	pvTypeSHORT,	pvTypeTIME_SHORT,	sizeof(short)		},
+	{ P_USHORT,	pvTypeSHORT,	pvTypeTIME_SHORT,	sizeof(unsigned short)	},
+	{ P_INT,	pvTypeLONG,	pvTypeTIME_LONG,	sizeof(int)		},
+	{ P_UINT,	pvTypeLONG,	pvTypeTIME_LONG,	sizeof(unsigned int)	},
+	{ P_LONG,	pvTypeLONG,	pvTypeTIME_LONG,	sizeof(long)		},
+	{ P_ULONG,	pvTypeLONG,	pvTypeTIME_LONG,	sizeof(unsigned long)	},
+	{ P_INT8T,	pvTypeCHAR,	pvTypeTIME_CHAR,	sizeof(epicsInt8)	},
+	{ P_UINT8T,	pvTypeCHAR,	pvTypeTIME_CHAR,	sizeof(epicsUInt8)	},
+	{ P_INT16T,	pvTypeSHORT,	pvTypeTIME_SHORT,	sizeof(epicsInt16)	},
+	{ P_UINT16T,	pvTypeSHORT,	pvTypeTIME_SHORT,	sizeof(epicsUInt16)	},
+	{ P_INT32T,	pvTypeLONG,	pvTypeTIME_LONG,	sizeof(epicsInt32)	},
+	{ P_UINT32T,	pvTypeLONG,	pvTypeTIME_LONG,	sizeof(epicsUInt32)	},
+	{ P_FLOAT,	pvTypeFLOAT,	pvTypeTIME_FLOAT,	sizeof(float)		},
+	{ P_DOUBLE,	pvTypeDOUBLE,	pvTypeTIME_DOUBLE,	sizeof(double)		},
+	{ P_STRING,	pvTypeSTRING,	pvTypeTIME_STRING,	sizeof(string)		},
+};
 
 /*
  * seq: Run a state program.
@@ -29,7 +55,7 @@ epicsShareFunc epicsThreadId epicsShareAPI seq(
 	seqProgram *seqProg, const char *macroDef, unsigned stackSize)
 {
 	epicsThreadId	tid;
-	SPROG		*sp;
+	PROG		*sp;
 	char		*str;
 	const char	*threadName;
 	unsigned int	smallStack;
@@ -38,7 +64,7 @@ epicsShareFunc epicsThreadId epicsShareAPI seq(
 	seqRegisterSequencerProgram(seqProg);
 
 	/* Print version & date of sequencer */
-	printf(SEQ_RELEASE "\n");
+	errlogSevPrintf(errlogInfo, SEQ_RELEASE "\n");
 
 	/* Exit if no parameters specified */
 	if (!seqProg)
@@ -56,7 +82,7 @@ epicsShareFunc epicsThreadId epicsShareAPI seq(
 		return 0;
 	}
 
-	sp = new(SPROG);
+	sp = new(PROG);
 	if (!sp)
 	{
 		errlogSevPrintf(errlogFatal, "seq: calloc failed\n");
@@ -93,20 +119,6 @@ epicsShareFunc epicsThreadId epicsShareAPI seq(
 	else
 		threadName = sp->progName;
 
-	/* Specify PV system name (defaults to CA) */
-	str = seqMacValGet(sp, "pvsys");
-	if (str && str[0] != '\0')
-		sp->pvSysName = str;
-	else
-		sp->pvSysName = "ca";
-
-	/* Determine debug level (currently only used for PV-level debugging) */
-	str = seqMacValGet(sp, "debug");
-	if (str && str[0] != '\0')
-		sp->debug = atoi(str);
-	else
-		sp->debug = 0;
-
 	/* Specify thread priority */
 	sp->threadPriority = THREAD_PRIORITY;
 	str = seqMacValGet(sp, "priority");
@@ -125,7 +137,8 @@ epicsShareFunc epicsThreadId epicsShareAPI seq(
 		return 0;
 	}
 
-	printf("Spawning sequencer program \"%s\", thread %p: \"%s\"\n",
+	errlogSevPrintf(errlogInfo,
+		"Spawning sequencer program \"%s\", thread %p: \"%s\"\n",
 		sp->progName, tid, threadName);
 
 	return tid;
@@ -135,7 +148,7 @@ epicsShareFunc epicsThreadId epicsShareAPI seq(
  * Copy data from seqCom.h structures into this thread's dynamic structures
  * as defined in seq.h.
  */
-static boolean init_sprog(SPROG *sp, seqProgram *seqProg)
+static boolean init_sprog(PROG *sp, seqProgram *seqProg)
 {
 	unsigned nss, nch;
 
@@ -152,9 +165,9 @@ static boolean init_sprog(SPROG *sp, seqProgram *seqProg)
 	sp->numQueues = seqProg->numQueues;
 
 	/* Allocate user variable area if reentrant option (+r) is set */
-	if ((sp->options & OPT_REENT) && sp->varSize > 0)
+	if (optTest(sp, OPT_REENT) && sp->varSize > 0)
 	{
-		sp->var = (USER_VAR *)newArray(char, sp->varSize);
+		sp->var = (SEQ_VARS *)newArray(char, sp->varSize);
 		if (!sp->var)
 		{
 			errlogSevPrintf(errlogFatal, "init_sprog: calloc failed\n");
@@ -167,8 +180,8 @@ static boolean init_sprog(SPROG *sp, seqProgram *seqProg)
 		sp->numEvFlags, sp->progName, sp->varSize);
 
 	/* Create semaphores */
-	sp->programLock = epicsMutexCreate();
-	if (!sp->programLock)
+	sp->lock = epicsMutexCreate();
+	if (!sp->lock)
 	{
 		errlogSevPrintf(errlogFatal, "init_sprog: epicsMutexCreate failed\n");
 		return FALSE;
@@ -254,40 +267,22 @@ static boolean init_sprog(SPROG *sp, seqProgram *seqProg)
 /*
  * Initialize a state set control block
  */
-static boolean init_sscb(SPROG *sp, SSCB *ss, seqSS *seqSS)
+static boolean init_sscb(PROG *sp, SSCB *ss, seqSS *seqSS)
 {
-	unsigned nch;
-
 	/* Fill in SSCB */
 	ss->ssName = seqSS->ssName;
 	ss->numStates = seqSS->numStates;
-	ss->maxNumDelays = seqSS->numDelays;
 
-	if (ss->maxNumDelays > 0)
-	{
-		ss->delay = newArray(double, ss->maxNumDelays);
-		if (!ss->delay)
-		{
-			errlogSevPrintf(errlogFatal, "init_sscb: calloc failed\n");
-			return FALSE;
-		}
-		ss->delayExpired = newArray(boolean, ss->maxNumDelays);
-		if (!ss->delayExpired)
-		{
-			errlogSevPrintf(errlogFatal, "init_sscb: calloc failed\n");
-			return FALSE;
-		}
-	}
 	ss->currentState = 0; /* initial state */
 	ss->nextState = 0;
 	ss->prevState = 0;
 	ss->threadId = 0;
-	/* Initialize to start time rather than zero time! */
-	pvTimeGetCurrentDouble(&ss->timeEntered);
-	ss->sprog = sp;
+	ss->timeEntered = epicsINF;
+	ss->wakeupTime = epicsINF;
+	ss->prog = sp;
 
-	ss->syncSemId = epicsEventCreate(epicsEventEmpty);
-	if (!ss->syncSemId)
+	ss->syncSem = epicsEventCreate(epicsEventEmpty);
+	if (!ss->syncSem)
 	{
 		errlogSevPrintf(errlogFatal, "init_sscb: epicsEventCreate failed\n");
 		return FALSE;
@@ -295,18 +290,6 @@ static boolean init_sscb(SPROG *sp, SSCB *ss, seqSS *seqSS)
 
 	if (sp->numChans > 0)
 	{
-		ss->getSemId = newArray(epicsEventId, sp->numChans);
-		if (!ss->getSemId)
-		{
-			errlogSevPrintf(errlogFatal, "init_sscb: calloc failed\n");
-			return FALSE;
-		}
-		ss->putSemId = newArray(epicsEventId, sp->numChans);
-		if (!ss->putSemId)
-		{
-			errlogSevPrintf(errlogFatal, "init_sscb: calloc failed\n");
-			return FALSE;
-		}
 		ss->getReq = newArray(PVREQ*, sp->numChans);
 		if (!ss->getReq)
 		{
@@ -319,23 +302,17 @@ static boolean init_sscb(SPROG *sp, SSCB *ss, seqSS *seqSS)
 			errlogSevPrintf(errlogFatal, "init_sscb: calloc failed\n");
 			return FALSE;
 		}
-	}
-	for (nch = 0; nch < sp->numChans; nch++)
-	{
-		ss->getSemId[nch] = epicsEventCreate(epicsEventFull);
-		if (!ss->getSemId[nch])
+		if (optTest(sp, OPT_SAFE))
 		{
-			errlogSevPrintf(errlogFatal, "init_sscb: epicsEventCreate failed\n");
-			return FALSE;
+			ss->metaData = newArray(PVMETA, sp->numChans);
+			if (!ss->metaData)
+			{
+				errlogSevPrintf(errlogFatal, "init_ss: calloc failed\n");
+				return FALSE;
+			}
 		}
-		ss->putSemId[nch] = epicsEventCreate(epicsEventFull);
-		if (!ss->putSemId[nch])
-		{
-			errlogSevPrintf(errlogFatal, "init_sscb: epicsEventCreate failed\n");
-			return FALSE;
-		}
-		/* note: do not pre-allocate request structures */
 	}
+	/* note: do not pre-allocate request structures */
 	ss->dead = epicsEventCreate(epicsEventEmpty);
 	if (!ss->dead)
 	{
@@ -348,7 +325,7 @@ static boolean init_sscb(SPROG *sp, SSCB *ss, seqSS *seqSS)
 	ss->states = seqSS->states;
 
 	/* Allocate separate user variable area if safe mode option (+s) is set */
-	if (sp->options & OPT_SAFE)
+	if (optTest(sp, OPT_SAFE))
 	{
 		if (sp->numChans > 0)
 		{
@@ -361,7 +338,7 @@ static boolean init_sscb(SPROG *sp, SSCB *ss, seqSS *seqSS)
 		}
 		if (sp->varSize > 0)
 		{
-			ss->var = (USER_VAR *)newArray(char, sp->varSize);
+			ss->var = (SEQ_VARS *)newArray(char, sp->varSize);
 			if (!ss->var)
 			{
 				errlogSevPrintf(errlogFatal, "init_sscb: calloc failed\n");
@@ -380,10 +357,10 @@ static boolean init_sscb(SPROG *sp, SSCB *ss, seqSS *seqSS)
 /*
  * Build the database channel structures.
  */
-static boolean init_chan(SPROG *sp, CHAN *ch, seqChan *seqChan)
+static boolean init_chan(PROG *sp, CHAN *ch, seqChan *seqChan)
 {
 	DEBUG("init_chan: ch=%p\n", ch);
-	ch->sprog = sp;
+	ch->prog = sp;
 	ch->varName = seqChan->varName;
 	ch->offset = seqChan->offset;
 	ch->count = seqChan->count;
@@ -400,20 +377,15 @@ static boolean init_chan(SPROG *sp, CHAN *ch, seqChan *seqChan)
 	ch->eventNum = seqChan->eventNum;
 
 	/* Fill in request type info */
-	ch->type = find_type(seqChan->varType);
-	if (!ch->type->size)
-	{
-		errlogSevPrintf(errlogFatal, "init_chan: unknown type %s for assigned variable: %s\n",
-			seqChan->varType, seqChan->varName);
-		return FALSE;
-	}
+	ch->type = pv_type_map + seqChan->varType;
+	assert(seqChan->varType == ch->type->tag);
 
 	DEBUG("  varname=%s, count=%u\n"
 		"  syncedTo=%u, monitored=%u, eventNum=%u\n",
 		ch->varName, ch->count,
 		ch->syncedTo, ch->monitored, ch->eventNum);
-	DEBUG("  type=%p: typeStr=%s, putType=%d, getType=%d, size=%d\n",
-		ch->type, ch->type->typeStr,
+	DEBUG("  type=%p: tag=%s, putType=%d, getType=%d, size=%d\n",
+		ch->type, prim_type_tag_name[ch->type->tag],
 		ch->type->putType, ch->type->getType, ch->type->size);
 
 	if (seqChan->chName)	/* skip anonymous PVs */
@@ -434,15 +406,6 @@ static boolean init_chan(SPROG *sp, CHAN *ch, seqChan *seqChan)
 			{
 				errlogSevPrintf(errlogFatal, "init_chan: epicsStrDup failed\n");
 				return FALSE;
-			}
-			if ((sp->options & OPT_SAFE) && sp->numSS > 0)
-			{
-				dbch->ssMetaData = newArray(PVMETA, sp->numSS);
-				if (!dbch->ssMetaData)
-				{
-					errlogSevPrintf(errlogFatal, "init_chan: calloc failed\n");
-					return FALSE;
-				}
 			}
 			ch->dbch = dbch;
 			sp->assignCount++;
@@ -498,55 +461,8 @@ static boolean init_chan(SPROG *sp, CHAN *ch, seqChan *seqChan)
 	return TRUE;
 }
 
-/*
- * find_type() -- returns types for DB put/get, element size based on user variable type.
- * Mapping is determined by the following pv_type_map[] array.
- * pvTypeTIME_* types for gets/monitors return status, severity, and time stamp
- * in addition to the value.
- */
-static PVTYPE pv_type_map[] =
-{
-	{ "char",		pvTypeCHAR,	pvTypeTIME_CHAR,	sizeof(char)		},
-	{ "short",		pvTypeSHORT,	pvTypeTIME_SHORT,	sizeof(short)		},
-	{ "int",		pvTypeLONG,	pvTypeTIME_LONG,	sizeof(int)		},
-	{ "long",		pvTypeLONG,	pvTypeTIME_LONG,	sizeof(long)		},
-	{ "unsigned char",	pvTypeCHAR,	pvTypeTIME_CHAR,	sizeof(unsigned char)	},
-	{ "unsigned short",	pvTypeSHORT,	pvTypeTIME_SHORT,	sizeof(unsigned short)	},
-	{ "unsigned int",	pvTypeLONG,	pvTypeTIME_LONG,	sizeof(unsigned int)	},
-	{ "unsigned long",	pvTypeLONG,	pvTypeTIME_LONG,	sizeof(unsigned long)	},
-	{ "float",		pvTypeFLOAT,	pvTypeTIME_FLOAT,	sizeof(float)		},
-	{ "double",		pvTypeDOUBLE,	pvTypeTIME_DOUBLE,	sizeof(double)		},
-	{ "string",		pvTypeSTRING,	pvTypeTIME_STRING,	sizeof(string)		},
-
-	{ "epicsInt8",		pvTypeCHAR,	pvTypeTIME_CHAR,	sizeof(epicsInt8)	},
-	{ "epicsUInt8",		pvTypeCHAR,	pvTypeTIME_CHAR,	sizeof(epicsUInt8)	},
-	{ "epicsInt16",		pvTypeSHORT,	pvTypeTIME_SHORT,	sizeof(epicsInt16)	},
-	{ "epicsUInt16",	pvTypeSHORT,	pvTypeTIME_SHORT,	sizeof(epicsUInt16)	},
-	{ "epicsInt32",		pvTypeLONG,	pvTypeTIME_LONG,	sizeof(epicsInt32)	},
-	{ "epicsUInt32",	pvTypeLONG,	pvTypeTIME_LONG,	sizeof(epicsUInt32)	},
-
-	{ NULL,			pvTypeERROR,	pvTypeERROR,		0			}
-};
-
-static PVTYPE *find_type(const char *userType)
-{
-	PVTYPE	*pt;
-
-	/* TODO: select pvType according to sizeof int/long/etc */
-	assert(sizeof(char)==1);
-	assert(sizeof(unsigned char)==1);
-	assert(sizeof(short)==2);
-	assert(sizeof(unsigned short)==2);
-	assert(sizeof(int)==4);
-	assert(sizeof(unsigned int)==4);
-	for (pt = pv_type_map; pt->typeStr; pt++)
-		if (strcmp(userType, pt->typeStr) == 0)
-			break;
-	return pt;
-}
-
 /* Free all allocated memory in a program structure */
-void seq_free(SPROG *sp)
+void seq_free(PROG *sp)
 {
 	unsigned nss, nch, nq;
 
@@ -555,27 +471,19 @@ void seq_free(SPROG *sp)
 	{
 		SSCB *ss = sp->ss + nss;
 
-		epicsEventDestroy(ss->syncSemId);
-		for (nch = 0; nch < sp->numChans; nch++)
-		{
-			epicsEventDestroy(ss->getSemId[nch]);
-			epicsEventDestroy(ss->putSemId[nch]);
-		}
-		free(ss->getSemId);
-		free(ss->putSemId);
+		epicsEventDestroy(ss->syncSem);
+		free(ss->metaData);
 
 		epicsEventDestroy(ss->dead);
 
-		free(ss->delay);
-		free(ss->delayExpired);
-		if (sp->options & OPT_SAFE) free(ss->dirty);
-		if (sp->options & OPT_SAFE) free(ss->var);
+		if (optTest(sp, OPT_SAFE)) free(ss->dirty);
+		if (optTest(sp, OPT_SAFE)) free(ss->var);
 	}
 
 	free(sp->ss);
 
 	/* Delete program-wide semaphores */
-	epicsMutexDestroy(sp->programLock);
+	epicsMutexDestroy(sp->lock);
 	epicsEventDestroy(sp->ready);
 
 	seqMacFree(sp);
@@ -586,7 +494,6 @@ void seq_free(SPROG *sp)
 
 		if (ch->dbch)
 		{
-			free(ch->dbch->ssMetaData);
 			free(ch->dbch->dbName);
 			free(ch->dbch);
 		}
@@ -599,6 +506,6 @@ void seq_free(SPROG *sp)
 
 	free(sp->evFlags);
 	free(sp->syncedChans);
-	if (sp->options & OPT_REENT) free(sp->var);
+	if (optTest(sp, OPT_REENT)) free(sp->var);
 	free(sp);
 }

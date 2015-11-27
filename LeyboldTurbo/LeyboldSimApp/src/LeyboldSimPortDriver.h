@@ -28,6 +28,7 @@
 
 #include <epicsMutex.h>
 #include <epicsEvent.h>
+#include <iocsh.h>
 
 #include <map>
 #include <vector>
@@ -39,7 +40,12 @@ public:
     ~CLeyboldSimPortDriver();
 	void addIOPort(const char* IOPortName);
 	void exit();
-                 
+	static CLeyboldSimPortDriver* Instance() {
+		return m_Instance;
+	}
+	static void LeyboldSimAddIOPort(const iocshArgBuf *args);
+	static void LeyboldSimPortDriverConfigure(const iocshArgBuf *args);
+
 protected:
     template<size_t NoOfPZD> bool read(asynUser *pasynUser, asynUser *IOUser, USSPacket<NoOfPZD>& USSReadPacket);
     template<size_t NoOfPZD> bool process(asynUser *pasynUser, asynUser *IOUser, USSPacket<NoOfPZD> const& USSReadPacket, USSPacket<NoOfPZD>& USSWritePacket, size_t TableIndex);
@@ -50,12 +56,25 @@ protected:
 
 private:
 	void setDefaultValues(size_t TableIndex);
-    epicsMutex m_Mutex;
+    static epicsMutex m_Mutex;
 	epicsEvent m_ExitEvent;
 
+	static int UsedParams();
 	volatile bool m_Exiting;		// Signals the listening thread to exit.
-	std::vector<bool> m_WasRunning;	// For each simulated pump, was it in the Running state, on the previous iteration?
-	std::vector<asynUser*> m_asynUsers;
+
+	struct RunRecord {
+		RunRecord(RunStates RunState, unsigned TimeStamp) {
+			m_RunState = RunState;
+			m_TimeStamp = TimeStamp;
+		}
+		RunStates m_RunState;
+		unsigned m_TimeStamp;
+	};
+
+	std::map<std::string, size_t> m_TableLookup;	// The application does not launch threads in linear sequence. Need this lookup.
+	std::vector<RunRecord> m_RunRecord;				// For each simulated pump, a record of the Running state, for the previous iteration.
+	std::vector<asynUser*> m_asynUsers;				// An Asyn user for each simulated pump.
+	static CLeyboldSimPortDriver* m_Instance;
 };
 
 #endif // LEYBOLD_SIM_DRIVER_H

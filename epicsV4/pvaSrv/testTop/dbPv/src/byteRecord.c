@@ -40,7 +40,7 @@ static long get_graphic_double();
 static long get_control_double();
 static long get_alarm_double();
  
-rset byteRSET={
+rset byterRSET={
 	RSETNUMBER,
 	report,
 	initialize,
@@ -60,10 +60,10 @@ rset byteRSET={
 	get_control_double,
 	get_alarm_double
 };
-epicsExportAddress(rset,byteRSET);
+epicsExportAddress(rset,byterRSET);
 
-static void checkAlarms(byteRecord *pbyte);
-static void monitor(byteRecord *pbyte);
+static void checkAlarms(byterRecord *pbyte);
+static void monitor(byterRecord *pbyte);
 
 static long init_record(void *precord,int pass)
 {
@@ -72,7 +72,7 @@ static long init_record(void *precord,int pass)
 
 static long process(void *precord)
 {
-	byteRecord	*pbyte = (byteRecord *)precord;
+    byterRecord	*pbyte = (byterRecord *)precord;
 
 	pbyte->pact = TRUE;
 
@@ -90,7 +90,7 @@ static long process(void *precord)
 
 static long get_units(DBADDR *paddr, char *units)
 {
-    byteRecord	*pbyte=(byteRecord *)paddr->precord;
+    byterRecord	*pbyte=(byterRecord *)paddr->precord;
 
     strncpy(units,pbyte->egu,DB_UNITS_SIZE);
     return(0);
@@ -98,7 +98,7 @@ static long get_units(DBADDR *paddr, char *units)
 
 static long get_precision(DBADDR *paddr, long *precision)
 {
-    byteRecord	*pbyte=(byteRecord *)paddr->precord;
+    byterRecord	*pbyte=(byterRecord *)paddr->precord;
 
     *precision = pbyte->prec;
     if(paddr->pfield == (void *)&pbyte->val) return(0);
@@ -108,16 +108,16 @@ static long get_precision(DBADDR *paddr, long *precision)
 
 static long get_graphic_double(DBADDR *paddr,struct dbr_grDouble *pgd)
 {
-    byteRecord	*pbyte=(byteRecord *)paddr->precord;
+    byterRecord	*pbyte=(byterRecord *)paddr->precord;
     int		fieldIndex = dbGetFieldIndex(paddr);
 
-    if(fieldIndex == byteRecordVAL
-    || fieldIndex == byteRecordHIHI
-    || fieldIndex == byteRecordHIGH
-    || fieldIndex == byteRecordLOW
-    || fieldIndex == byteRecordLOLO
-    || fieldIndex == byteRecordHOPR
-    || fieldIndex == byteRecordLOPR) {
+    if(fieldIndex == byterRecordVAL
+    || fieldIndex == byterRecordHIHI
+    || fieldIndex == byterRecordHIGH
+    || fieldIndex == byterRecordLOW
+    || fieldIndex == byterRecordLOLO
+    || fieldIndex == byterRecordHOPR
+    || fieldIndex == byterRecordLOPR) {
         pgd->upper_disp_limit = pbyte->hopr;
         pgd->lower_disp_limit = pbyte->lopr;
     } else recGblGetGraphicDouble(paddr,pgd);
@@ -126,14 +126,14 @@ static long get_graphic_double(DBADDR *paddr,struct dbr_grDouble *pgd)
 
 static long get_control_double(DBADDR *paddr,struct dbr_ctrlDouble *pcd)
 {
-    byteRecord	*pbyte=(byteRecord *)paddr->precord;
+    byterRecord	*pbyte=(byterRecord *)paddr->precord;
     int		fieldIndex = dbGetFieldIndex(paddr);
 
-    if(fieldIndex == byteRecordVAL
-    || fieldIndex == byteRecordHIHI
-    || fieldIndex == byteRecordHIGH
-    || fieldIndex == byteRecordLOW
-    || fieldIndex == byteRecordLOLO) {
+    if(fieldIndex == byterRecordVAL
+    || fieldIndex == byterRecordHIHI
+    || fieldIndex == byterRecordHIGH
+    || fieldIndex == byterRecordLOW
+    || fieldIndex == byterRecordLOLO) {
 	pcd->upper_ctrl_limit = pbyte->hopr;
 	pcd->lower_ctrl_limit = pbyte->lopr;
     } else recGblGetControlDouble(paddr,pcd);
@@ -142,10 +142,10 @@ static long get_control_double(DBADDR *paddr,struct dbr_ctrlDouble *pcd)
 
 static long get_alarm_double(DBADDR *paddr,struct dbr_alDouble *pad)
 {
-    byteRecord	*pbyte=(byteRecord *)paddr->precord;
+    byterRecord	*pbyte=(byterRecord *)paddr->precord;
     int		fieldIndex = dbGetFieldIndex(paddr);
 
-    if(fieldIndex == byteRecordVAL) {
+    if(fieldIndex == byterRecordVAL) {
 	pad->upper_alarm_limit = pbyte->hihi;
 	pad->upper_warning_limit = pbyte->high;
 	pad->lower_warning_limit = pbyte->low;
@@ -154,7 +154,7 @@ static long get_alarm_double(DBADDR *paddr,struct dbr_alDouble *pad)
     return(0);
 }
 
-static void checkAlarms(byteRecord *pbyte)
+static void checkAlarms(byterRecord *pbyte)
 {
 	double		val;
 	float		hyst, lalm, hihi, high, low, lolo;
@@ -197,7 +197,7 @@ static void checkAlarms(byteRecord *pbyte)
 	return;
 }
 
-static void monitor(byteRecord *pbyte)
+static void monitor(byterRecord *pbyte)
 {
 	unsigned short	monitor_mask;
 	double		delta;

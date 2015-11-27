@@ -24,7 +24,6 @@
 #include <iomanip>
 #include <map>
 
-#include <pv/convert.h>
 #include <pv/event.h>
 #include <epicsExit.h>
 
@@ -329,14 +328,14 @@ void formatTable(std::ostream& o,
 
 void formatNTTable(std::ostream& o, PVStructurePtr const & pvStruct)
 {
-    PVStringArrayPtr labels = dynamic_pointer_cast<PVStringArray>(pvStruct->getScalarArrayField("labels", pvString));
+    PVStringArrayPtr labels = pvStruct->getSubField<PVStringArray>("labels");
     if (labels.get() == 0)
     {
         std::cerr << "no string[] 'labels' field in NTTable" << std::endl;
         return;
     }
 
-    PVStructurePtr value = pvStruct->getStructureField("value");
+    PVStructurePtr value = pvStruct->getSubField<PVStructure>("value");
     if (value.get() == 0)
     {
         std::cerr << "no 'value' structure in NTTable" << std::endl;
@@ -372,7 +371,7 @@ void formatNTTable(std::ostream& o, PVStructurePtr const & pvStruct)
 
 void formatNTMatrix(std::ostream& o, PVStructurePtr const & pvStruct)
 {
-    PVDoubleArrayPtr value = dynamic_pointer_cast<PVDoubleArray>(pvStruct->getScalarArrayField("value", pvDouble));
+    PVDoubleArrayPtr value = pvStruct->getSubField<PVDoubleArray>("value");
     if (value.get() == 0)
     {
         std::cerr << "no double[] 'value' field in NTMatrix" << std::endl;
@@ -381,7 +380,7 @@ void formatNTMatrix(std::ostream& o, PVStructurePtr const & pvStruct)
 
     int32 rows, cols;
 
-    PVIntArrayPtr dim = dynamic_pointer_cast<PVIntArray>(pvStruct->getScalarArrayField("dim", pvInt));
+    PVIntArrayPtr dim = pvStruct->getSubField<PVIntArray>("dim");
     if (dim.get() != 0)
     {
         // dim[] = { rows, columns }
@@ -480,7 +479,7 @@ void formatNTMatrix(std::ostream& o, PVStructurePtr const & pvStruct)
 // TODO use formatNTTable
 void formatNTNameValue(std::ostream& o, PVStructurePtr const & pvStruct)
 {
-    PVStringArrayPtr name = dynamic_pointer_cast<PVStringArray>(pvStruct->getScalarArrayField("name", pvString));
+    PVStringArrayPtr name = pvStruct->getSubField<PVStringArray>("name");
     if (name.get() == 0)
     {
         std::cerr << "no string[] 'name' field in NTNameValue" << std::endl;
@@ -614,7 +613,7 @@ void formatNTNameValue(std::ostream& o, PVStructurePtr const & pvStruct)
 
 void formatNTURI(std::ostream& o, PVStructurePtr const & pvStruct)
 {
-    PVStringPtr scheme = dynamic_pointer_cast<PVString>(pvStruct->getStringField("scheme"));
+    PVStringPtr scheme = dynamic_pointer_cast<PVString>(pvStruct->getSubField<PVString>("scheme"));
     if (scheme.get() == 0)
     {
         std::cerr << "no string 'scheme' field in NTURI" << std::endl;
@@ -622,7 +621,7 @@ void formatNTURI(std::ostream& o, PVStructurePtr const & pvStruct)
 
     PVStringPtr authority = dynamic_pointer_cast<PVString>(pvStruct->getSubField("authority"));
 
-    PVStringPtr path = dynamic_pointer_cast<PVString>(pvStruct->getStringField("path"));
+    PVStringPtr path = dynamic_pointer_cast<PVString>(pvStruct->getSubField<PVString>("path"));
     if (path.get() == 0)
     {
         std::cerr << "no string 'path' field in NTURI" << std::endl;
@@ -970,7 +969,7 @@ void printValues(shared_vector<const string> const & names, vector<PVStructure::
                         dynamic_pointer_cast<PVStringArray>(getPVDataCreate()->createPVScalarArray(pvString));
                 
                 PVStringArray::svector values;
-                values.push_back(getConvert()->toString(scalar));
+                values.push_back(scalar->getAs<std::string>());
                 StringArray->replace(freeze(values));
                 
                 scalarArrays.push_back(StringArray);
@@ -1473,7 +1472,7 @@ int main (int argc, char *argv[])
             usage();
             return 0;
         case 'w':               /* Set PVA timeout value */
-            if(epicsScanDouble(optarg, &timeOut) != 1)
+            if((epicsScanDouble(optarg, &timeOut)) != 1 || timeOut <= 0.0)
             {
                 fprintf(stderr, "'%s' is not a valid timeout value "
                         "- ignored. ('eget -h' for help.)\n", optarg);
@@ -2066,15 +2065,15 @@ int main (int argc, char *argv[])
                     getPVDataCreate()->createPVStructure(uriStructure)
                     );
 
-        request->getStringField("scheme")->put("pva");
-        if (!authority.empty()) request->getStringField("authority")->put(authority);
-        request->getStringField("path")->put(service);
-        PVStructure::shared_pointer query = request->getStructureField("query");
+        request->getSubField<PVString>("scheme")->put("pva");
+        if (!authority.empty()) request->getSubField<PVString>("authority")->put(authority);
+        request->getSubField<PVString>("path")->put(service);
+        PVStructure::shared_pointer query = request->getSubField<PVStructure>("query");
         for (vector< pair<string, string> >::iterator iter = parameters.begin();
              iter != parameters.end();
              iter++)
         {
-            query->getStringField(iter->first)->put(iter->second);
+            query->getSubField<PVString>(iter->first)->put(iter->second);
         }
 
 

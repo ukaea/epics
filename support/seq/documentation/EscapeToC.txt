@@ -1,0 +1,205 @@
+.. _Escape to C Code:
+
+Escape to C Code
+================
+
+.. todo::
+
+   - update to version 2.2 (see release notes for many details)
+   
+   - reduce verbosity, e.g. move examples and motivations to the tutorial
+
+   - explain how to do common things w/o escape to C, e.g.
+     define your own functions in SNL
+
+Because the SNL does not support the full C language, C code may be
+escaped in the program. The escaped code is not compiled by
+`snc`, instead it is literally copied to the generated C code.
+There are two escape methods:
+
+#. Any code between ``%%`` and the next newline character is escaped.
+   Example::
+
+      %% for (i=0; i < NVAL; i++)
+
+#. Any code between ``%{`` and ``}%`` is escaped. Example::
+
+      %{
+      extern float smooth();
+      extern LOGICAL accelerator_mode;
+      }%
+
+   Note that text appearing on the same line after ``%{`` and
+   before ``}%`` also belongs to the literal code block.
+
+A variable or preprocessor macro declared in escaped C code is
+foreign to the SNL, just as if it were declared in C code extern to
+the SNL program and its use will give a warning if no foreign
+declaration preceeds it.
+
+
+.. _Preprocessor Directives:
+
+Preprocessor Directives
+-----------------------
+
+A very common pitfall is the use of preprocessor directives, such as
+``#include``,  in multi-line literal C code blocks in conjunction
+with using the preprocessor on the unprocessed SNL code (which
+happens by the default with the standard build rules if the name of
+the source file has the ``.st`` extension).
+
+For instance with ::
+
+   %{
+   #include <abcLib.h>
+   /* ... */
+   }%
+
+the header file will be included *before* the SNL compiler parses
+the program, which is most probably not what you wanted to happen
+here. For instance,
+if the header contains macro definitions, these will not be in effect
+when the rest of the C code block gets compiled.
+
+You can defer interpretation of a preprocessor directive until after
+`snc` has compiled the code to C, by ensuring that some extra
+non-blank characters appear in front of the ``#`` sign, so
+`cpp` does not recognize the directive. For instance ::
+
+   %%#include <abcLib.h>
+
+or ::
+
+   %{#include <abcLib.h>}%
+
+
+Defining C Functions within the Program
+---------------------------------------
+
+Escaped C code can appear in many places in the SNL program. But only
+code that appears at the top level, i.e. outside any SNL code block will
+be placed at the C top level. So, C *function definitions* must be
+placed there; this means either inside the definitions section
+(`initial_defns`) or at the end of the program. For example::
+
+   program example
+   ...
+   /* last SNL statement */
+   %{
+       static float smooth (pArray, numElem)
+       { ... }
+   }%
+
+It matters where the function is defined: if it appears at the end of
+the program, it can see all the variable and type definitions generated
+by the SNL compiler, so if your C function accesses a global SNL variable,
+you must place its definition at the end. However, this means that the
+generated code for the SNL program does not see the C function definition,
+so you might want to place a separate prototype for the function in the
+definitions section (i.e. before the state sets).
+
+Remember that you can *call* any C function from anywhere in the SNL program
+without escaping. You can also link the SNL program to C objects or
+libraries, so the only reason to put C function definitions inside the
+SNL program is if your function accesses global SNL variables.
+
+.. _Calling PV Functions from C:
+
+Calling PV Functions from C
+---------------------------
+
+The built-in SNL functions such as `pvGet` cannot be directly
+used in user-supplied functions. However, most of the built-in
+functions have a C language equivalent with the same name, except
+that the prefix ``seq_`` is added (e.g. ``pvGet`` becomes
+``seq_pvGet``). These C functions expect an additional first argument
+identifying the calling state set, which is available in action code
+under the name ``ssId``. If a process variable name is required, the
+index of that variable must be supplied. This index is obtained via
+the `pvIndex` function (which must be called from SNL code,
+not C code, to work).
+
+If the program is compiled with the `+r` option, user
+functions cannot directly access SNL variables, not even global ones.
+Instead, variables (or their address) should be passed to user
+functions as arguments. Alternatively, you can pass the ``pVar``
+variable of type ``USER_VAR*`` and access SNL variables as structure
+members of ``pVar``. See next section for details and an example.
+
+The prototypes for the C functions corresponding to the built-in SNL
+functions as well as additional supporting macros and type
+definitions can be found in the header file ``seqCom.h``. This header
+file is always included by the generated C code.
+
+
+.. _reentrant option:
+
+Variable Modification for Reentrant Option
+------------------------------------------
+
+If the reentrant option (`+r`) is specified to `snc`
+then all variables are made part of a structure. Suppose we have the
+following top-level declarations in the SNL program::
+
+   int sw1;
+   float v5;
+   short wf2[1024];
+
+The C file will contain the following declaration::
+
+   struct UserVar {
+       int sw1;
+       float v5;
+       short wf2[1024];
+   };
+
+The sequencer allocates the structure area at run time and passes a
+pointer to this structure into the program. This structure
+has the following type::
+
+   struct UserVar *pVar;
+
+Reference to variable ``sw1`` is made as ::
+
+   pVar->sw1
+
+This conversion is automatically performed by `snc` for all SNL
+statements, but you will have to handle escaped C code yourself.
+
+.. note::
+
+   `safe mode` (enabled with the `+s` option) implies
+   reentrant mode. In safe mode, each state set has its own copy of the
+   ``UserVar`` struct. You can operate on its members in any way you like,
+   including taking the address of variables and passing them to C
+   functions.
+
+Here is a stupid example of a C function that does a pvGet, increments the
+variable, and then does a pvPut::
+
+   program userfunc
+
+   option +r;
+
+   %{
+   static void incr(SS_ID ssId, int *pv, VAR_ID v)
+   {
+       seq_pvGet(ssId, v, SYNC);
+       *pv += 1;
+       seq_pvPut(ssId, v, SYNC);
+   }
+   }%
+
+   int i;
+   assign i to "counter";
+
+   foreign ssId;
+
+   ss myss {
+       state doit {
+           when (delay(1)) {
+               incr(ssId, &i, pvIndex(i));
+           } state doit
+       }
+   }

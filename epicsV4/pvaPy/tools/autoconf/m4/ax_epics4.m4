@@ -1,5 +1,5 @@
 # ===========================================================================
-#       http://www.gnu.org/software/autoconf-archive/ax_epics_base.html
+#       http://www.gnu.org/software/autoconf-archive/ax_epics4.html
 # ===========================================================================
 #
 # SYNOPSIS
@@ -29,7 +29,7 @@
 
 #serial 1
 
-DEFAULT_EPICS4_VERSION=4.3.0
+DEFAULT_EPICS4_VERSION=4.4.0
 
 AC_DEFUN([AX_EPICS4],
 
@@ -58,7 +58,20 @@ AC_DEFUN([AX_EPICS4],
         AC_MSG_ERROR($ac_epics4_dir_path is not a valid directory path)
     fi
 
-    epics4_version_h="$ac_epics4_dir_path/pvAccessCPP/include/pv/pvaVersion.h"
+    pvaccesscpp_dir="$ac_epics4_dir_path/pvAccessCPP"
+    pvdatacpp_dir="$ac_epics4_dir_path/pvDataCPP"
+    normativetypescpp_dir="$ac_epics4_dir_path/normativeTypesCPP"
+    pvaclientcpp_dir="$ac_epics4_dir_path/pvaClientCPP"
+
+    epics4_version_h="$pvaccesscpp_dir/include/pv/pvaVersion.h"
+    if ! test -f "$epics4_version_h"; then
+        pvaccesscpp_dir="$ac_epics4_dir_path"
+        pvdatacpp_dir="$ac_epics4_dir_path"
+        normativetypescpp_dir="$ac_epics4_dir_path"
+        pvaclientcpp_dir="$ac_epics4_dir_path"
+        epics4_version_h="$pvaccesscpp_dir/include/pv/pvaVersion.h"
+    fi
+
     if ! test -f "$epics4_version_h"; then
         AC_MSG_RESULT([no])
         AC_MSG_ERROR(could not find valid EPICS4 installation in $ac_epics4_dir_path: no version header file $epics_version_h)
@@ -101,21 +114,20 @@ AC_DEFUN([AX_EPICS4],
     AC_MSG_RESULT([yes])
 
     # test basic libraries
-    AC_MSG_CHECKING(for usable EPICS4 libraries for $EPICS_OS_CLASS OS and host architecture $EPICS_HOST_ARCH)
+    AC_MSG_CHECKING(for usable EPICS4 libraries for $EPICS_OS_CLASS OS ($EPICS_CMPLR_CLASS compiler) and host architecture $EPICS_HOST_ARCH)
 
     pva_api_version=430
     pva_rpc_api_version=430
     CPPFLAGS_SAVED="$CPPFLAGS"
-    CPPFLAGS="$CPPFLAGS $EPICS_CPPFLAGS -I$EPICS_BASE/include -I$EPICS_BASE/include/os/$EPICS_OS_CLASS -I$EPICS4_DIR/pvDataCPP/include -I$EPICS4_DIR/pvAccessCPP/include"
+    CPPFLAGS="$CPPFLAGS $EPICS_CPPFLAGS -I$EPICS_BASE/include -I$EPICS_BASE/include/os/$EPICS_OS_CLASS -I$EPICS_BASE/include/compiler/$EPICS_CMPLR_CLASS -I$pvdatacpp_dir/include -I$pvaccesscpp_dir/include"
     export CPPFLAGS
 
     LDFLAGS_SAVED="$LDFLAGS"
     LDFLAGS="$LDFLAGS $EPICS_LDFLAGS"
-    #LDFLAGS="$LDFLAGS -L$EPICS_BASE/lib/$EPICS_HOST_ARCH -L$EPICS4_DIR/pvDataCPP/lib/$EPICS_HOST_ARCH -L$EPICS4_DIR/pvAccessCPP/lib/$EPICS_HOST_ARCH -lpvData -lpvAccess -lCom"
-    LDFLAGS="$LDFLAGS -L$EPICS_BASE/lib/$EPICS_HOST_ARCH -L$EPICS4_DIR/pvDataCPP/lib/$EPICS_HOST_ARCH -L$EPICS4_DIR/pvAccessCPP/lib/$EPICS_HOST_ARCH"
+    LDFLAGS="$LDFLAGS -L$EPICS_BASE/lib/$EPICS_HOST_ARCH -L$pvdatacpp_dir/lib/$EPICS_HOST_ARCH -L$pvaccesscpp_dir/lib/$EPICS_HOST_ARCH"
     export LDFLAGS
 
-    LIBS="-lpvData -lpvAccess -lCom"
+    LIBS="-lpvAccess -lpvData -lCom"
     export LIBS
 
     succeeded=no
@@ -149,17 +161,48 @@ AC_DEFUN([AX_EPICS4],
         ],[pva_api_version=430],[pva_api_version=440])
     AC_LANG_POP([C++])
 
+    # Check for pvaClient API
+    CPPFLAGS_NO_PVACLIENTCPP=$CPPFLAGS
+    CPPFLAGS="$CPPFLAGS -I$normativetypescpp_dir/include -I$pvaclientcpp_dir/include"
+    LDFLAGS_NO_PVACLIENTCPP=$LDFLAGS
+    LDFLAGS="$LDFLAGS -L$pvaclientcpp_dir/lib/$EPICS_HOST_ARCH -L$normativetypescpp_dir/lib/$EPICS_HOST_ARCH"
+    LIBS_NO_PVACLIENTCPP=$LIBS
+    LIBS="-lpvaClient -lpvAccess -lnt -lpvData -lCom"
+    AC_REQUIRE([AC_PROG_CXX])
+    AC_LANG_PUSH([C++])
+        AC_LINK_IFELSE([AC_LANG_PROGRAM(
+            [[
+            #include "pv/pvaClient.h"
+            ]],
+            [[
+            epics::pvaClient::PvaClientChannelPtr pvaClientChannel;
+            ]])
+        ],[pva_client_cpp=yes],[pva_client_cpp=no])
+    AC_LANG_POP([C++])
+
     if test "$succeeded" != "yes" ; then
         AC_MSG_RESULT([no])
         AC_MSG_ERROR(could not compile and link EPICS4 test code: check your EPICS4 installation)
     else
+        AC_SUBST(NORMATIVETYPESCPP_DIR, "")
+        AC_SUBST(PVACLIENTCPP_DIR, "")
+        if test "$pva_client_cpp" == "yes" ; then
+            pva_api_version=450
+            AC_SUBST(NORMATIVETYPESCPP_DIR, $normativetypescpp_dir)
+            AC_SUBST(PVACLIENTCPP_DIR, $pvaclientcpp_dir)
+        fi
         AC_MSG_RESULT([yes (pva api version: $pva_api_version)])
         AC_DEFINE(HAVE_EPICS4,,[define if the EPICS4 libraries are available])
         AC_DEFINE(PVA_API_VERSION,$pva_api_version,[define PVA API version])
         AC_SUBST(PVA_API_VERSION, $pva_api_version)
         AC_SUBST(EPICS4_DIR)
+        AC_SUBST(PVDATACPP_DIR, $pvdatacpp_dir)
+        AC_SUBST(PVACCESSCPP_DIR, $pvaccesscpp_dir)
     fi
 
+    CPPFLAGS=$CPPFLAGS_NO_PVACLIENTCPP
+    LDFLAGS=$LDFLAGS_NO_PVACLIENTCPP
+    LIBS=$LIBS_NO_PVACLIENTCPP
     AC_MSG_CHECKING(EPICS4 PVA RPC API version)
     succeeded=no
     AC_REQUIRE([AC_PROG_CXX])

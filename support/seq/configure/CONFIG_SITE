@@ -1,10 +1,5 @@
 # CONFIG_SITE - site-specific build configuration settings
 
-# Enable build of different process variable access methods
-PVCA   = TRUE
-PVFILE = FALSE
-PVKTL  = FALSE
-
 # To restrict the architectures to cross-compile for, set this:
 #CROSS_COMPILER_TARGET_ARCHS = vxWorks-68040
 

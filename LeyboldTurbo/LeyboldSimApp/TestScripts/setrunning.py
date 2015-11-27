@@ -22,7 +22,7 @@ import os
 import sys
 import time
 
-os.environ["EPICS_CA_SERVER_PORT"]="5071"
+os.environ["EPICS_CA_SERVER_PORT"]="5072"
 os.environ["EPICS_CA_AUTO_ADDR_LIST"]="NO"
 os.environ["EPICS_CA_ADDR_LIST"]="localhost"
 
@@ -37,12 +37,16 @@ if len(sys.argv) > 2:
 Run='1'
 if len(sys.argv) > 3:
 	Run=sys.argv[3]
+
+ChannelDefaultRoot = os.getenv('ASYNSIMPORT', 'LEYBOLDTURBOSIM')
 	
 for Pump in range(int(FirstPump), int(LastPump)+1):
+	ChannelRoot = os.getenv('ASYNSIMPORT'+str(Pump), ChannelDefaultRoot+':'+str(Pump))
 	time.sleep(10)
 	print("Setting pump ", Pump)
 	epics.caput("LEYBOLDTURBOSIM:" + str(Pump) + ":Running", Run)
-	if "ASYN_VER" not in os.environ or os.environ["ASYN_VER"]<"4-26":
+	ASYNVERSION = epics.caget(ChannelRoot + ':ASYNVERSION')
+	if ASYNVERSION < "4-26":
 		epics.caput("LEYBOLDTURBOSIM:" + str(Pump) + ":Running.PROC", 1)
 
 os.environ.unsetenv("EPICS_CA_SERVER_PORT")

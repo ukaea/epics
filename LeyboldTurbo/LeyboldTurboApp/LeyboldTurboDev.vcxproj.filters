@@ -21,6 +21,9 @@
     <ClCompile Include="src\LeyboldTurboPortDriver.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\LeyboldBase.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="O.Common\LeyboldTurbo.dbd">
@@ -31,6 +34,12 @@
     </None>
     <None Include="src\Makefile">
       <Filter>src</Filter>
+    </None>
+    <None Include="Db\LeyboldTurbo.Asyn4-26.db">
+      <Filter>db</Filter>
+    </None>
+    <None Include="Db\SoftwareVersions.db">
+      <Filter>db</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

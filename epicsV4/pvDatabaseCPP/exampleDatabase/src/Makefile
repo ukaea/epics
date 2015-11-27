@@ -7,13 +7,10 @@ include $(TOP)/configure/CONFIG
 DBD += exampleDatabase.dbd
 
 INC += exampleDatabase.h
-INC += exampleMonitorPlugin.h
 
 LIBRARY += exampleDatabase
 exampleDatabase_SRCS += exampleDatabase.cpp
-exampleDatabase_SRCS += exampleMonitorPlugin.cpp
 exampleDatabase_SRCS += exampleDatabaseRegister.cpp
-exampleDatabase_SRCS += exampleMonitorPluginRegister.cpp
 exampleDatabase_LIBS += powerSupply
 exampleDatabase_LIBS += pvDatabase
 exampleDatabase_LIBS += pvAccess

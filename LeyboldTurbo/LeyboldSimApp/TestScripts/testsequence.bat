@@ -21,18 +21,19 @@ set NOOFPZD=6
 if not "%2"=="" set NOOFPZD=%2
 echo "Number of pzd " %NOOFPZD%
 
-start cmd /C "..\LeyboldSim.bat %NUMPUMPS% %NOOFPZD%"
+start cmd /C "LeyboldSim.py %NUMPUMPS% %NOOFPZD%"
 
-start cmd /C "..\..\LeyboldTurboApp\LeyboldTurboApp.bat %NUMPUMPS% %NOOFPZD% Sim"
+start cmd /C "..\..\LeyboldTurboApp\Scripts\LeyboldTurboApp.py %NUMPUMPS% %NOOFPZD% Sim"
+start ..\..\Release_LIB\LeyboldTurboGUI.exe
 
-start python camonitor.py %NUMPUMPS%"
-start python ..\..\LeyboldTurboApp\Scripts\camonitor.py %NUMPUMPS%
+start python camonitor.py 1 %NUMPUMPS%
+start python ..\..\LeyboldTurboApp\Scripts\camonitor.py 1 %NUMPUMPS%
 
 testsequence.py %NUMPUMPS%
 
-timeout 10
-..\..\LeyboldTurboApp\Scripts\Reset.py 1 %NUMPUMPS%
+REM timeout 5
+REM start /WAIT ..\..\LeyboldTurboApp\Scripts\Reset.py 1 %NUMPUMPS%
 
-timeout 10
-..\..\LeyboldTurboApp\Scripts\SetRunning.py 1 %NUMPUMPS% 1
+REM timeout 5
+REM start /WAIT ..\..\LeyboldTurboApp\Scripts\SetRunning.py 1 %NUMPUMPS% 1
 

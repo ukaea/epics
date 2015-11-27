@@ -20,11 +20,16 @@
 
 #include <asynParamType.h>
 
+enum ParamUseCases
+{
+	Single, NotForSim, Both
+};
+
 struct ParameterDefn
 {
-	const char*		m_ParamName;
-	asynParamType	m_ParamType;
-	bool			m_NotForSim;
+	const char*		m_Name;
+	asynParamType	m_Type;
+	ParamUseCases	m_UseCase;
 };
 
 static const char* RUNNING = "RUNNING"; 
@@ -32,6 +37,8 @@ static const char* RESET = "RESET";
 static const char* FAULT = "FAULT";
 static const char* FAULTSTR = "FAULTSTR";
 static const char* FIRMWAREVERSION = "FIRMWAREVERSION";
+static const char* SOFTWAREVERSION = "SOFTWAREVERSION";
+static const char* ASYNVERSION = "ASYNVERSION";
 static const char* WARNINGTEMPERATURE = "WARNINGTEMPERATURE";
 static const char* WARNINGTEMPERATURESTR = "WARNINGTEMPERATURESTR";
 static const char* WARNINGHIGHLOAD = "WARNINGHIGHLOAD";
@@ -44,24 +51,26 @@ static const char* MOTORCURRENT = "MOTORCURRENT";
 static const char* PUMPTEMPERATURE = "PUMPTEMPERATURE";
 static const char* CIRCUITVOLTAGE = "CIRCUITVOLTAGE";
 
-ParameterDefn ParameterDefns[] =
+static ParameterDefn ParameterDefns[] =
 {
-	{RUNNING, asynParamInt32, false},
-	{RESET, asynParamInt32, true},
-	{FAULT, asynParamInt32, false},
-	{FAULTSTR, asynParamOctet, true},
-	{FIRMWAREVERSION, asynParamOctet, false},
-	{WARNINGTEMPERATURE, asynParamInt32, false},
-	{WARNINGTEMPERATURESTR, asynParamOctet, true},
-	{WARNINGHIGHLOAD, asynParamInt32, false},
-	{WARNINGHIGHLOADSTR, asynParamOctet, true},
-	{WARNINGPURGE, asynParamInt32, false},
-	{WARNINGPURGESTR, asynParamOctet, true},
-	{STATORFREQUENCY, asynParamInt32, false},
-	{CONVERTERTEMPERATURE, asynParamInt32, false},
-	{MOTORCURRENT, asynParamFloat64, false},
-	{PUMPTEMPERATURE, asynParamInt32, false},
-	{CIRCUITVOLTAGE, asynParamFloat64, false}
+	{RUNNING, asynParamInt32, Both},
+	{RESET, asynParamInt32, NotForSim},
+	{FAULT, asynParamInt32, Both},
+	{FAULTSTR, asynParamOctet, NotForSim},
+	{FIRMWAREVERSION, asynParamOctet, Both},
+	{ASYNVERSION, asynParamOctet, Single},
+	{SOFTWAREVERSION, asynParamOctet, Single},
+	{WARNINGTEMPERATURE, asynParamInt32, Both},
+	{WARNINGTEMPERATURESTR, asynParamOctet, NotForSim},
+	{WARNINGHIGHLOAD, asynParamInt32, Both},
+	{WARNINGHIGHLOADSTR, asynParamOctet, NotForSim},
+	{WARNINGPURGE, asynParamInt32, Both},
+	{WARNINGPURGESTR, asynParamOctet, NotForSim},
+	{STATORFREQUENCY, asynParamInt32, Both},
+	{CONVERTERTEMPERATURE, asynParamInt32, Both},
+	{MOTORCURRENT, asynParamFloat64, Both},
+	{PUMPTEMPERATURE, asynParamInt32, Both},
+	{CIRCUITVOLTAGE, asynParamFloat64, Both}
 };
 
 static const int NUM_PARAMS = sizeof(ParameterDefns) / sizeof(ParameterDefn);

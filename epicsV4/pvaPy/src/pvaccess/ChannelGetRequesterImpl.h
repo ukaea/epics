@@ -1,3 +1,6 @@
+// Copyright information and license terms for this software can be
+// found in the file LICENSE that is included with the distribution
+
 #ifndef CHANNEL_GET_REQUESTER_IMPL_H
 #define CHANNEL_GET_REQUESTER_IMPL_H
 
@@ -16,14 +19,6 @@ public:
     
     virtual std::string getRequesterName();
     virtual void message(const std::string& message, epics::pvData::MessageType messageType);
-
-#if defined PVA_API_VERSION && PVA_API_VERSION == 430
-    virtual void channelGetConnect(const epics::pvData::Status& status,
-        const epics::pvAccess::ChannelGet::shared_pointer& channelGet,
-        const epics::pvData::PVStructure::shared_pointer& pvStructure, 
-        const epics::pvData::BitSet::shared_pointer& bitSet);
-    virtual void getDone(const epics::pvData::Status& status);
-#else
     virtual void channelGetConnect(const epics::pvData::Status& status,
         const epics::pvAccess::ChannelGet::shared_pointer& channelGet,
         const epics::pvData::Structure::const_shared_pointer& structure);
@@ -31,8 +26,6 @@ public:
         const epics::pvAccess::ChannelGet::shared_pointer& channelGet,
         const epics::pvData::PVStructure::shared_pointer& pvStructure,
         const epics::pvData::BitSet::shared_pointer& bitSet);
-#endif // if defined PVA_API_VERSION && PVA_API_VERSION == 430
-
     epics::pvData::PVStructure::shared_pointer getPVStructure();
     bool waitUntilGet(double timeOut);
     std::string getChannelName() const;

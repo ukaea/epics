@@ -14,7 +14,7 @@ PROD_IOC += simpleDbPv
 simpleDbPv_SRCS += simpleDbPv_registerRecordDeviceDriver.cpp
 simpleDbPv_SRCS_DEFAULT += simpleDbPvMain.cpp
 
-simpleDbPv_LIBS += pvaSrv pvAccess pvData pvMB
+simpleDbPv_LIBS += pvaSrv pvAccess pvData $(MBLIB)
 simpleDbPv_LIBS += $(EPICS_BASE_IOC_LIBS)
 
 simpleDbPv_SRCS_vxWorks += -nil-

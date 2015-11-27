@@ -19,7 +19,6 @@
 #include <pv/requester.h>
 #include <pv/pvIntrospect.h>
 #include <pv/pvData.h>
-#include <pv/convert.h>
 #include <pv/standardField.h>
 #include <pv/standardPVField.h>
 #include <pv/alarm.h>
@@ -41,7 +40,6 @@ static FieldCreatePtr fieldCreate;
 static PVDataCreatePtr pvDataCreate;
 static StandardFieldPtr standardField;
 static StandardPVFieldPtr standardPVField;
-static ConvertPtr convert;
 static string alarmTimeStamp("alarm,timeStamp");
 static string allProperties("alarm,timeStamp,display,control");
 
@@ -131,9 +129,9 @@ static void testTimeStamp()
             "%4.4d.%2.2d.%2.2d %2.2d:%2.2d:%2.2d %d nanoseconds isDst %s userTag %d\n",
             ctm.tm_year+1900,ctm.tm_mon + 1,ctm.tm_mday,
             ctm.tm_hour,ctm.tm_min,ctm.tm_sec,
-            timeStamp.getNanoseconds(),
+            (int)timeStamp.getNanoseconds(),
             (ctm.tm_isdst==0) ? "false" : "true",
-            timeStamp.getUserTag());
+            (int)timeStamp.getUserTag());
     }
     timeStamp.put(0,0);
     pvTimeStamp.set(timeStamp);
@@ -217,14 +215,14 @@ static void testEnumerated()
     PVStringArray::const_svector choices = pvEnumerated.getChoices();
     int32 numChoices = pvEnumerated.getNumberChoices();
     if(debug) {
-        printf("index %d choice %s choices",index,choice.c_str());
+        printf("index %d choice %s choices",(int)index,choice.c_str());
         for(int i=0; i<numChoices; i++ ) printf(" %s",choices[i].c_str());
         printf("\n");
     }
     pvEnumerated.setIndex(2);
     index = pvEnumerated.getIndex();
     choice = pvEnumerated.getChoice();
-    if(debug) printf("index %d choice %s\n",index,choice.c_str());
+    if(debug) printf("index %d choice %s\n",(int)index,choice.c_str());
     printf("testEnumerated PASSED\n");
 }
 
@@ -236,7 +234,6 @@ MAIN(testProperty)
     pvDataCreate = getPVDataCreate();
     standardField = getStandardField();
     standardPVField = getStandardPVField();
-    convert = getConvert();
     createRecords();
     testAlarm();
     testTimeStamp();

@@ -1,5 +1,5 @@
 /*************************************************************************\
-Copyright (c) 2010-2012 Helmholtz-Zentrum Berlin f. Materialien
+Copyright (c) 2010-2015 Helmholtz-Zentrum Berlin f. Materialien
                         und Energie GmbH, Germany (HZB)
 This file is distributed subject to a Software License Agreement found
 in the file LICENSE that is included with this distribution.
@@ -13,8 +13,6 @@ option +s;
 /* use literal C code to circumvent safe mode */
 %%int shared = 0;
 %%epicsMutexId mutex;
-
-foreign shared, mutex;
 
 int anon;
 assign anon;
@@ -30,7 +28,7 @@ entry {
 
 ss read_named {
     int named;
-    connect named to "pvGet1";
+    assign named to "pvGet1";
     int expected;
     int n = 0;
 
@@ -47,14 +45,14 @@ ss read_named {
                 testOk(expected==named,
                     "immediate completion:      expected=%d==%d=named", expected, named);
             } else {
-                testSkip(1, "no immediate completion");
+                testPass("no immediate completion");
             }
             epicsThreadSleep(0.1);
             if (pvGetComplete(named)) {
                 testOk(expected==named,
                     "completion after delay:    expected=%d==%d=named", expected, named);
             } else {
-                testSkip(1, "no completion after delay");
+                testPass("no completion after delay");
             }
         } state wait
     }
@@ -87,14 +85,14 @@ ss read_anon {
                 testOk(expected==anon,
                     "immediate completion:      expected=%d==%d=anon", expected, anon);
             } else {
-                testSkip(1, "no immediate completion");
+                testPass("no immediate completion");
             }
             epicsThreadSleep(0.1);
             if (pvGetComplete(anon)) {
                 testOk(expected==anon,
                     "completion after delay:    expected=%d==%d=anon", expected, anon);
             } else {
-                testSkip(1, "no completion after delay");
+                testPass("no completion after delay");
             }
         } state wait
     }
@@ -112,7 +110,7 @@ ss read_anon {
 
 ss read_named_sync {
     int named;
-    connect named to "pvGet1";
+    assign named to "pvGet1";
     int expected;
     int n = 0;
 
@@ -186,7 +184,7 @@ ss read_anon_sync {
 
 ss write {
     int out = 0;
-    connect out to "pvGet1";
+    assign out to "pvGet1";
 
     state run {
         when (efTest(ef_read_named) && efTest(ef_read_anon) &&

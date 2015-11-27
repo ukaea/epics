@@ -1,3 +1,6 @@
+// Copyright information and license terms for this software can be
+// found in the file LICENSE that is included with the distribution
+
 #include "PvUInt.h"
 #include "PvType.h"
 #include "PyUtility.h"
@@ -27,12 +30,12 @@ PvUInt::~PvUInt()
 
 void PvUInt::set(unsigned int ui) 
 {
-    pvStructurePtr->getUIntField(ValueFieldKey)->put(ui);
+    pvStructurePtr->getSubField<epics::pvData::PVUInt>(ValueFieldKey)->put(ui);
 }
 
 unsigned int PvUInt::get() const 
 {
-    return pvStructurePtr->getUIntField(ValueFieldKey)->get();
+    return pvStructurePtr->getSubField<epics::pvData::PVUInt>(ValueFieldKey)->get();
 }
 
 
