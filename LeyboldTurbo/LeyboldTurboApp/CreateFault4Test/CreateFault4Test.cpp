@@ -72,10 +72,10 @@ int main(int argc, const char* argv[])
 	}
 
 	//  Fill in some DCB values and set the com state: 
-	//  57,600 bps, 8 data bits, no parity, and 1 stop bit.
-	dcb.BaudRate = CBR_57600;     //  baud rate
+	//  19,200 bps, 8 data bits, even parity, and 1 stop bit.
+	dcb.BaudRate = CBR_19200;     //  baud rate
 	dcb.ByteSize = 8;             //  data size, xmit and rcv
-	dcb.Parity   = NOPARITY;      //  parity bit
+	dcb.Parity   = EVENPARITY;    //  parity bit
 	dcb.StopBits = ONESTOPBIT;    //  stop bit
 
 	fSuccess = SetCommState(hCom, &dcb);
@@ -99,6 +99,20 @@ int main(int argc, const char* argv[])
 		return (2);
 	}
 
+	COMMTIMEOUTS timeouts;
+
+	timeouts.ReadIntervalTimeout = 1;
+	timeouts.ReadTotalTimeoutMultiplier = 1;
+	timeouts.ReadTotalTimeoutConstant = 1;
+	timeouts.WriteTotalTimeoutMultiplier = 1;
+	timeouts.WriteTotalTimeoutConstant = 1;
+	if (!SetCommTimeouts(hCom, &timeouts))
+	{
+		printf("setting timeouts failed\n");
+		CloseHandle(hCom);
+		return (2);
+	}
+
 	bool Running = true;
 	USSPacket<CLeyboldBase::NoOfPZD6> USSWritePacket(Running, 32), USSReadPacket;
 
@@ -110,9 +124,31 @@ int main(int argc, const char* argv[])
 	}
 	USSWritePacket.m_USSPacketStruct.HToN();
 	DWORD NumberOfBytesWritten, NumberOfBytesRead;
-	WriteFile(hCom, USSWritePacket.m_Bytes, USSPacketStruct<CLeyboldBase::NoOfPZD6>::USSPacketSize, &NumberOfBytesWritten, NULL);
+	if (!WriteFile(hCom, USSWritePacket.m_Bytes, USSPacketStruct<CLeyboldBase::NoOfPZD6>::USSPacketSize, &NumberOfBytesWritten, NULL))
+	{
+		printf ("WriteFile failed with error %lu.\n", GetLastError());
+		CloseHandle(hCom);
+		return (3);
+	}
+	if (NumberOfBytesWritten != USSPacketStruct<CLeyboldBase::NoOfPZD6>::USSPacketSize)
+	{
+		printf ("WriteFile did not write any data %lu.\n", GetLastError());
+		CloseHandle(hCom);
+		return (4);
+	}
 
-	ReadFile(hCom,  USSReadPacket.m_Bytes, USSPacketStruct<CLeyboldBase::NoOfPZD6>::USSPacketSize, &NumberOfBytesRead, NULL);
+	if (!ReadFile(hCom,  USSReadPacket.m_Bytes, USSPacketStruct<CLeyboldBase::NoOfPZD6>::USSPacketSize, &NumberOfBytesRead, NULL))
+	{
+		printf ("ReadFile failed with error %lu.\n", GetLastError());
+		CloseHandle(hCom);
+		return (5);
+	}
+	if (NumberOfBytesRead != USSPacketStruct<CLeyboldBase::NoOfPZD6>::USSPacketSize)
+	{
+		printf ("ReadFile did not recieve any data %lu.\n", GetLastError());
+		CloseHandle(hCom);
+		return (6);
+	}
 	USSReadPacket.m_USSPacketStruct.NToH();
 	if (!USSReadPacket.ValidateChecksum())
 		printf("Checksum validation failed\n");
