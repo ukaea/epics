@@ -339,13 +339,13 @@ xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
     <ClCompile Include="translateerror.c" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\base-3.15.2\src\libCom\flex\e_flex.vcxproj">
+    <ProjectReference Include="..\..\..\base-3.15.3\src\libCom\flex\e_flex.vcxproj">
       <Project>{285b2dd5-b55e-4195-9b2d-f129cf54a2b4}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\base-3.15.2\src\tools\tools.vcxproj">
+    <ProjectReference Include="..\..\..\base-3.15.3\src\tools\tools.vcxproj">
       <Project>{5cce1c6a-2bd5-48bf-99e2-d29b58f91991}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\base-3.15.2\src\libCom\Com.vcxproj">
+    <ProjectReference Include="..\..\..\base-3.15.3\src\libCom\Com.vcxproj">
       <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\support\asyn4-27\asyn\asyn.vcxproj">

@@ -92,10 +92,10 @@
     <ClInclude Include="StreamProtocol.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\base-3.15.2\src\ioc\dbCore.vcxproj">
+    <ProjectReference Include="..\..\..\base-3.15.3\src\ioc\dbCore.vcxproj">
       <Project>{440c585d-ad66-4738-941c-a87a1817a9be}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\base-3.15.2\src\libCom\Com.vcxproj">
+    <ProjectReference Include="..\..\..\base-3.15.3\src\libCom\Com.vcxproj">
       <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\asyn4-27\asyn\asyn.vcxproj">

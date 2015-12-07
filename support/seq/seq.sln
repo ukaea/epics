@@ -2,25 +2,25 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "snc", "src\snc\snc.vcxproj", "{71608FB9-8DBE-42AD-93A1-0B521A6FB6AA}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "base-3.15.2", "base-3.15.2", "{A9C204E2-0C42-4D69-8AB8-C0A99F9C0262}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "base-3.15.3", "base-3.15.3", "{A9C204E2-0C42-4D69-8AB8-C0A99F9C0262}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{9CB2B520-930C-4CF7-9CA5-88FF590CF6FD}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tools", "..\..\base-3.15.2\src\tools\tools.vcxproj", "{5CCE1C6A-2BD5-48BF-99E2-D29B58F91991}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tools", "..\..\base-3.15.3\src\tools\tools.vcxproj", "{5CCE1C6A-2BD5-48BF-99E2-D29B58F91991}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "libCom", "libCom", "{70671314-8426-49C4-8E92-785425D3FDBA}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Com", "..\..\base-3.15.2\src\libCom\Com.vcxproj", "{35E6ABA4-E192-497D-BA02-EFB79D1E0336}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Com", "..\..\base-3.15.3\src\libCom\Com.vcxproj", "{35E6ABA4-E192-497D-BA02-EFB79D1E0336}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "flex", "flex", "{5EB99958-08C5-4C75-8E02-2D18EC66B613}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "yacc", "yacc", "{30313140-657A-483D-AB0C-5566B9FF557E}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "e_flex", "..\..\base-3.15.2\src\libCom\flex\e_flex.vcxproj", "{285B2DD5-B55E-4195-9B2D-F129CF54A2B4}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "e_flex", "..\..\base-3.15.3\src\libCom\flex\e_flex.vcxproj", "{285B2DD5-B55E-4195-9B2D-F129CF54A2B4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{2954B9D8-AFFE-4182-A33A-6459C3F1CE48}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "antelope", "..\..\base-3.15.2\src\libCom\yacc\antelope.vcxproj", "{5F6323FF-CEEB-4AD8-BED3-A443E6F75546}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "antelope", "..\..\base-3.15.3\src\libCom\yacc\antelope.vcxproj", "{5F6323FF-CEEB-4AD8-BED3-A443E6F75546}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lemon", "src\lemon\lemon.vcxproj", "{91CDF9CD-71FD-4AFE-A824-FB868BF15978}"
 EndProject
@@ -34,7 +34,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pv", "src\pv\pv.vcxproj", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ca", "ca", "{199B96C5-65BC-4171-A468-DA0CD15AF87A}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ca", "..\..\base-3.15.2\src\ca\client\ca.vcxproj", "{02CAF068-A7FC-463E-AA7E-72EEAF665826}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ca", "..\..\base-3.15.3\src\ca\client\ca.vcxproj", "{02CAF068-A7FC-463E-AA7E-72EEAF665826}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "client", "client", "{11812A0F-8E02-4C46-95AB-9976961DE024}"
 EndProject
@@ -46,7 +46,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "snc", "snc", "{E8E74AAC-957
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ioc", "ioc", "{682E9C49-1AC7-4B00-A512-F2957B6B82BA}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dbCore", "..\..\base-3.15.2\src\ioc\dbCore.vcxproj", "{440C585D-AD66-4738-941C-A87A1817A9BE}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dbCore", "..\..\base-3.15.3\src\ioc\dbCore.vcxproj", "{440C585D-AD66-4738-941C-A87A1817A9BE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "seq", "seq", "{CDBB7EE0-6D66-47C5-837F-42164401C40F}"
 EndProject
@@ -70,7 +70,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "stop", "test\validate\stop.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "std", "std", "{C7155ED0-B082-42E4-9513-613B667B89FB}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dbRecStd", "..\..\base-3.15.2\src\std\dbRecStd.vcxproj", "{3B0E3542-CB89-4FFA-B004-EAC882B3F277}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dbRecStd", "..\..\base-3.15.3\src\std\dbRecStd.vcxproj", "{3B0E3542-CB89-4FFA-B004-EAC882B3F277}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "syncq", "test\validate\syncq.vcxproj", "{414679F4-9B3D-4F8A-B715-BC49FA3100C9}"
 EndProject
@@ -82,11 +82,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pvGetSync", "test\validate\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "bpt", "bpt", "{5F232474-5059-4594-B250-B732C793C7DB}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "makeBpt", "..\..\base-3.15.2\src\ioc\bpt\makeBpt.vcxproj", "{3D039C8A-8B8D-4408-B1F7-BF1878D50315}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "makeBpt", "..\..\base-3.15.3\src\ioc\bpt\makeBpt.vcxproj", "{3D039C8A-8B8D-4408-B1F7-BF1878D50315}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "softIoc", "softIoc", "{13163855-2EF7-4E1D-8D33-E2853D9FA067}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "softIoc", "..\..\base-3.15.2\src\std\softIoc\softIoc.vcxproj", "{0DF29C1B-6C17-4D60-8B78-27FE8714DC11}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "softIoc", "..\..\base-3.15.3\src\std\softIoc\softIoc.vcxproj", "{0DF29C1B-6C17-4D60-8B78-27FE8714DC11}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "support", "support", "{2EEA5876-9D9E-42BA-BA82-C3A234FB79BC}"
 EndProject
