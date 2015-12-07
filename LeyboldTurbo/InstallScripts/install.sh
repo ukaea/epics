@@ -5,7 +5,7 @@
 
 #
 # Usage:
-# sudo ./epics_asyn_4-23_install.sh
+# sudo ./install.sh
 
 # check if user has right permissions
 if [ "$(id -u)" != "0" ]; then

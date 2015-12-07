@@ -5,7 +5,7 @@
 
 #
 # Usage:
-# sudo ./epics_asyn_4-23_install.sh
+# sudo ./epics_asyn_4-27_install.sh
 
 # check if user has right permissions
 if [ "$(id -u)" != "0" ]; then
@@ -30,7 +30,7 @@ echo "Asyn version "$ASYN_VER
 # base
 if [ ! -d $INSTALL_PATH/base ]; 
 then
-    ./epics_base_3-15-2_install.sh $INSTALL_PATH
+    ./epics_base_3-15-3_install.sh $INSTALL_PATH
 fi
 
 # seq
