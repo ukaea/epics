@@ -54,6 +54,7 @@ typedef struct cbQueueSet {
     epicsEventId semWakeUp;
     epicsRingPointerId queue;
     int queueOverflow;
+    int shutdown;
     int threadsConfigured;
     int threadsRunning;
 } cbQueueSet;
@@ -73,7 +74,8 @@ static epicsTimerQueueId timerQueue;
 enum ctl {ctlInit, ctlRun, ctlPause, ctlExit};
 static volatile enum ctl cbCtl;
 static epicsEventId startStopEvent;
-static void *exitCallback;
+
+static int callbackIsInit;
 
 /* Static data */
 static char *threadNamePrefix[NUM_CALLBACK_PRIORITIES] = {
@@ -89,7 +91,7 @@ static int priorityValue[NUM_CALLBACK_PRIORITIES] = {0, 1, 2};
 
 int callbackSetQueueSize(int size)
 {
-    if (startStopEvent) {
+    if (callbackIsInit) {
         errlogPrintf("Callback system already initialized\n");
         return -1;
     }
@@ -99,7 +101,7 @@ int callbackSetQueueSize(int size)
 
 int callbackParallelThreads(int count, const char *prio)
 {
-    if (startStopEvent) {
+    if (callbackIsInit) {
         errlogPrintf("Callback system already initialized\n");
         return -1;
     }
@@ -149,12 +151,13 @@ int callbackParallelThreads(int count, const char *prio)
 
 static void callbackTask(void *arg)
 {
-    cbQueueSet *mySet = &callbackQueue[*(int*)arg];
+    int prio = *(int*)arg;
+    cbQueueSet *mySet = &callbackQueue[prio];
 
     taskwdInsert(0, NULL, NULL);
     epicsEventSignal(startStopEvent);
 
-    while(TRUE) {
+    while(!mySet->shutdown) {
         void *ptr;
         if (epicsRingPointerIsEmpty(mySet->queue))
             epicsEventMustWait(mySet->semWakeUp);
@@ -163,42 +166,52 @@ static void callbackTask(void *arg)
             CALLBACK *pcallback = (CALLBACK *)ptr;
             if(!epicsRingPointerIsEmpty(mySet->queue))
                 epicsEventMustTrigger(mySet->semWakeUp);
-            if (ptr == &exitCallback) goto shutdown;
             mySet->queueOverflow = FALSE;
             (*pcallback->callback)(pcallback);
         }
     }
 
-shutdown:
-    mySet->threadsRunning--;
+    if(!epicsAtomicDecrIntT(&mySet->threadsRunning))
+        epicsEventSignal(startStopEvent);
     taskwdRemove(0);
-    epicsEventSignal(startStopEvent);
 }
 
-void callbackShutdown(void)
+void callbackStop(void)
 {
     int i;
 
     if (cbCtl == ctlExit) return;
     cbCtl = ctlExit;
 
-    /* sequential shutdown of workers */
     for (i = 0; i < NUM_CALLBACK_PRIORITIES; i++) {
-        while (callbackQueue[i].threadsRunning) {
-            if(epicsRingPointerPush(callbackQueue[i].queue, &exitCallback)) {
-                epicsEventSignal(callbackQueue[i].semWakeUp);
-                epicsEventWait(startStopEvent);
-            } else {
-                epicsThreadSleep(0.05);
-            }
-        }
-        assert(callbackQueue[i].threadsRunning==0);
-        epicsEventDestroy(callbackQueue[i].semWakeUp);
-        epicsRingPointerDelete(callbackQueue[i].queue);
+        callbackQueue[i].shutdown = 1;
+        epicsEventSignal(callbackQueue[i].semWakeUp);
     }
+
+    for (i = 0; i < NUM_CALLBACK_PRIORITIES; i++) {
+        cbQueueSet *mySet = &callbackQueue[i];
+
+        while (epicsAtomicGetIntT(&mySet->threadsRunning)) {
+            epicsEventSignal(mySet->semWakeUp);
+            epicsEventWaitWithTimeout(startStopEvent, 0.1);
+        }
+    }
+}
+
+void callbackCleanup(void)
+{
+    int i;
+
+    for (i = 0; i < NUM_CALLBACK_PRIORITIES; i++) {
+        cbQueueSet *mySet = &callbackQueue[i];
+
+        assert(epicsAtomicGetIntT(&mySet->threadsRunning)==0);
+        epicsEventDestroy(mySet->semWakeUp);
+        epicsRingPointerDelete(mySet->queue);
+    }
+
     epicsTimerQueueRelease(timerQueue);
-    epicsEventDestroy(startStopEvent);
-    startStopEvent = NULL;
+    callbackIsInit = 0;
     memset(callbackQueue, 0, sizeof(callbackQueue));
 }
 
@@ -208,10 +221,14 @@ void callbackInit(void)
     int j;
     char threadName[32];
 
-    if (startStopEvent)
+    if (callbackIsInit) {
+        errlogMessage("Warning: callbackInit called again before callbackCleanup\n");
         return;
+    }
+    callbackIsInit = 1;
 
-    startStopEvent = epicsEventMustCreate(epicsEventEmpty);
+    if(!startStopEvent)
+        startStopEvent = epicsEventMustCreate(epicsEventEmpty);
     cbCtl = ctlRun;
     timerQueue = epicsTimerQueueAllocate(0, epicsThreadPriorityScanHigh);
 
@@ -239,7 +256,7 @@ void callbackInit(void)
                 cantProceed("Failed to spawn callback thread %s\n", threadName);
             } else {
                 epicsEventWait(startStopEvent);
-                callbackQueue[i].threadsRunning++;
+                epicsAtomicIncrIntT(&callbackQueue[i].threadsRunning);
             }
         }
     }

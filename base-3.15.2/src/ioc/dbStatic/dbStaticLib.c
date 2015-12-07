@@ -6,7 +6,7 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
-/* Revision-Id: ralph.lange@gmx.de-20150413151309-un2gzt22wtmpj61b */
+/* Revision-Id: anj@aps.anl.gov-20151013194139-q7ydoou2atcl1qdx */
 
 #include <stdio.h>
 #include <stddef.h>
@@ -47,7 +47,7 @@
 
 int dbStaticDebug = 0;
 static char *pNullString = "";
-#define messagesize	100
+#define messagesize	276
 #define RPCL_LEN INFIX_TO_POSTFIX_SIZE(80)
 
 static char *ppstring[5]={"NPP","PP","CA","CP","CPP"};
@@ -604,7 +604,10 @@ DBENTRY * dbAllocEntry(dbBase *pdbbase)
 
 void dbFreeEntry(DBENTRY *pdbentry)
 {
-    if(pdbentry->message) free((void *)pdbentry->message);
+    if (!pdbentry)
+        return;
+    if (pdbentry->message)
+        free((void *)pdbentry->message);
     dbmfFree(pdbentry);
 }
 
@@ -1198,7 +1201,7 @@ long dbPutRecordAttribute(
 
 	pnew = dbCalloc(1,sizeof(dbRecordAttribute));
 	if(pattribute) {
-	    ellInsert(&precordType->attributeList,&pattribute->node,
+	    ellInsert(&precordType->attributeList,pattribute->node.previous,
 		&pnew->node);
 	} else {
 	    ellAdd(&precordType->attributeList,&pnew->node);
@@ -1226,17 +1229,27 @@ long dbGetAttributePart(DBENTRY *pdbentry, const char **ppname)
     const char *pname = *ppname;
     dbRecordAttribute *pattribute;
 
-    if (!precordType) return S_dbLib_recordTypeNotFound;
+    if (!precordType)
+        return S_dbLib_recordTypeNotFound;
+
     pattribute = (dbRecordAttribute *)ellFirst(&precordType->attributeList);
     while (pattribute) {
         size_t nameLen = strlen(pattribute->name);
         int compare = strncmp(pattribute->name, pname, nameLen);
-        int ch = pname[nameLen];
-        if (compare == 0 && !(ch == '_' || isalnum(ch))) {
-            pdbentry->pflddes = pattribute->pdbFldDes;
-            pdbentry->pfield = pattribute->value;
-            *ppname = &pname[nameLen];
-            return 0;
+
+        if (compare == 0) {
+            int ch = pname[nameLen];
+
+            if (ch != '_' && !isalnum(ch)) {
+                /* Any other character can't be in the attribute name */
+                pdbentry->pflddes = pattribute->pdbFldDes;
+                pdbentry->pfield = pattribute->value;
+                *ppname = &pname[nameLen];
+                return 0;
+            }
+            if (strlen(pname) > nameLen) {
+                compare = -1;
+            }
         }
         if (compare >= 0) break;
         pattribute = (dbRecordAttribute *)ellNext(&pattribute->node);

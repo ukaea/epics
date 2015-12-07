@@ -3,14 +3,54 @@
 <html>
 <head>
   <meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
-  <title>EPICS Base R3.15.2 Release Notes</title>
+  <title>EPICS Base R3.15.3 Release Notes</title>
 </head>
 
 <body lang="en">
-<h1 align="center">EPICS Base Release 3.15.2</h1>
+<h1 align="center">EPICS Base Release 3.15.3</h1>
+
+<h2 align="center">Changes between 3.15.2 and 3.15.3</h2>
+<!-- Insert new items immediately below here ... -->
+
+<h3>Make the NTP Time provider optional on VxWorks</h3>
+
+<p>Recent versions of VxWorks (sometime after VxWorks 6) provide facilities for
+automatically synchronizing the OS clock time with an NTP server. The EPICS time
+system used to assume that it had to provide time synchronization on VxWorks,
+but now it tests for the existance of either of the two OS synchronization
+threads before starting the NTP time provider. It is still possible to force the
+NTP provider to be started even if the OS synchronization is running by defining
+the environment variable <tt>EPICS_TS_FORCE_NTPTIME</tt> in the startup script
+before loading the IOC's .munch file. Forcing may be necessary if the VxWorks
+image is not correctly configured with the IP address of a local NTP server.</p>
+
+<h3>Assembling files from numbered snippets</h3>
+
+<p>A tool has been added that assembles file snippets specified on the
+command line into a single output file, with sorting and replacing/adding of
+snippets done based on their file names. The build system integration requires
+the output file to be specified setting COMMON_ASSEMBLIES (arch independent)
+or ASSEMBLIES (created by arch), then defining the snippets for each assembly
+setting *_SNIPPETS (explicitly) or *_PATTERN (searched relative to all source
+directories).
+</p>
+
+<h3>Clean up after GNU readline()</h3>
+
+<p>If EPICS Base is built with readline support, any IOC that calls epicsExit()
+from a thread other than the main thread is likely to leave the user's terminal
+in a weird state, requiring the user to run something like 'stty sane' to clean
+it up. This release patches the readline support code to clean up automatically
+by registering an epicsAtExit() routine.</p>
+
+<h3>Removed the last vestiges of RSET::get_value()</h3>
+
+<p>The IOC has not called the get_value() routine in the RSET for a very long
+time, but there was still one implementation left in the event record support
+code, and a structure definition for one of the original arguments to that
+routine was defined in recGbl.h. Both of these have now been removed.</p>
 
 <h2 align="center">Changes between 3.15.1 and 3.15.2</h2>
-<!-- Insert new items immediately below here ... -->
 
 <h3>Raised limit on link field length in database files</h3>
 

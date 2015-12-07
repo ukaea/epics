@@ -8,7 +8,7 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/* Revision-Id: anj@aps.anl.gov-20141223180135-0248ltaetrxgu1b8 */
+/* Revision-Id: mdavidsaver@bnl.gov-20150721230807-8rh8cq3iy4t0ixnc */
 /*
  *      Original Author: Marty Kraimer
  *      Date:            06-01-91
@@ -607,7 +607,8 @@ static void initialProcess(void)
 
 
 /*
- * Shutdown processing.
+ * set DB_LINK and CA_LINK to PV_LINK
+ * Delete record scans
  */
 static void doCloseLinks(dbRecordType *pdbRecordType, dbCommon *precord,
     void *user)
@@ -678,8 +679,15 @@ int iocShutdown(void)
     if (iocState == iocVirgin || iocState == iocStopped) return 0;
     iterateRecords(doCloseLinks, NULL);
     if (iocBuildMode==buildIsolated) {
-        scanShutdown();
-        callbackShutdown();
+        /* stop and "join" threads */
+        scanStop();
+        callbackStop();
+    }
+    dbCaShutdown();
+    if (iocBuildMode==buildIsolated) {
+        /* free resources */
+        scanCleanup();
+        callbackCleanup();
         iterateRecords(doFreeRecord, NULL);
         dbLockCleanupRecords(pdbbase);
         asShutdown();

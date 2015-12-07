@@ -7,7 +7,7 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/* Revision-Id: mdavidsaver@bnl.gov-20140916225527-u0vsnsmg8z9u17e2 */
+/* Revision-Id: anj@aps.anl.gov-20150716164829-xmy3jksagq4szgk5 */
 
 /* Author:  Marty Kraimer Date:    26JAN2000 */
 
@@ -181,7 +181,8 @@ MAIN(callbackTest)
         free(pcbt[i]);
     }
 
-    callbackShutdown();
+    callbackStop();
+    callbackCleanup();
 
     return testDone();
 }

@@ -5,7 +5,7 @@
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
 
-/* Revision-Id: anj@aps.anl.gov-20140710192744-kput2tqia2m74v63
+/* Revision-Id: anj@aps.anl.gov-20150723151307-cc77tm4jnjwm1rke
  * Author: Andrew Johnson
  */
 
@@ -43,9 +43,11 @@ epicsShareFunc int  testDone(void);
 
 typedef int (*TESTFUNC)(void);
 epicsShareFunc void testHarness(void);
+epicsShareFunc void testHarnessExit(void *dummy);
 epicsShareFunc void runTestFunc(const char *name, TESTFUNC func);
 
 #define runTest(func) runTestFunc(#func, func)
+#define testHarnessDone() testHarnessExit(0)
 
 #ifdef __cplusplus
 }

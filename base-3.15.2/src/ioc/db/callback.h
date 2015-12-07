@@ -7,7 +7,7 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/* Revision-Id: ralph.lange@gmx.de-20140825214037-93vz1exht9d7b50x */
+/* Revision-Id: anj@aps.anl.gov-20150716164829-xmy3jksagq4szgk5 */
 
 /* includes for general purpose callback tasks		*/
 /*
@@ -57,7 +57,8 @@ typedef void    (*CALLBACKFUNC)(struct callbackPvt*);
 ( (USER) = (void *)((CALLBACK *)(PCALLBACK))->user )
 
 epicsShareFunc void callbackInit(void);
-epicsShareFunc void callbackShutdown(void);
+epicsShareFunc void callbackStop(void);
+epicsShareFunc void callbackCleanup(void);
 epicsShareFunc int callbackRequest(CALLBACK *pCallback);
 epicsShareFunc void callbackSetProcess(
     CALLBACK *pcallback, int Priority, void *pRec);

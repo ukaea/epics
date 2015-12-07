@@ -151,7 +151,7 @@ static void buildScanLists(void);
 static void addToList(struct dbCommon *precord, scan_list *psl);
 static void deleteFromList(struct dbCommon *precord, scan_list *psl);
 
-void scanShutdown(void)
+void scanStop(void)
 {
     int i;
 
@@ -168,15 +168,15 @@ void scanShutdown(void)
 
     scanOnce((dbCommon *)&exitOnce);
     epicsEventWait(startStopEvent);
+}
+
+void scanCleanup(void)
+{
 
     deletePeriodic();
     ioscanDestroy();
 
     epicsRingPointerDelete(onceQ);
-
-    epicsEventDestroy(startStopEvent);
-    epicsEventDestroy(onceSem);
-    onceSem = startStopEvent = NULL;
 
     free(periodicTaskId);
     papPeriodic = NULL;
@@ -187,7 +187,8 @@ long scanInit(void)
 {
     int i;
 
-    startStopEvent = epicsEventMustCreate(epicsEventEmpty);
+    if(!startStopEvent)
+        startStopEvent = epicsEventMustCreate(epicsEventEmpty);
     scanCtl = ctlPause;
 
     initPeriodic();
@@ -639,7 +640,8 @@ static void initOnce(void)
     if ((onceQ = epicsRingPointerCreate(onceQueueSize)) == NULL) {
         cantProceed("initOnce: Ring buffer create failed\n");
     }
-    onceSem = epicsEventMustCreate(epicsEventEmpty);
+    if(!onceSem)
+        onceSem = epicsEventMustCreate(epicsEventEmpty);
     onceTaskId = epicsThreadCreate("scanOnce",
         epicsThreadPriorityScanLow + nPeriodic,
         epicsThreadGetStackSize(epicsThreadStackBig), onceTask, 0);

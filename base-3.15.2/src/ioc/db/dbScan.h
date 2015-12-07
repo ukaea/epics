@@ -6,7 +6,7 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/* Revision-Id: anj@aps.anl.gov-20140930212203-3q5kofhrtnxjp1pe
+/* Revision-Id: anj@aps.anl.gov-20150716164829-xmy3jksagq4szgk5
  *
  *      Author:         Marty Kraimer
  *      Date:           07-17-91
@@ -46,7 +46,8 @@ struct dbCommon;
 epicsShareFunc long scanInit(void);
 epicsShareFunc void scanRun(void);
 epicsShareFunc void scanPause(void);
-epicsShareFunc void scanShutdown(void);
+epicsShareFunc void scanStop(void);
+epicsShareFunc void scanCleanup(void);
 
 epicsShareFunc EVENTPVT eventNameToHandle(const char* event);
 epicsShareFunc void postEvent(EVENTPVT epvt);

@@ -6,7 +6,7 @@
 # EPICS BASE is distributed subject to a Software License Agreement found
 # in the file LICENSE that is included with this distribution. 
 #*************************************************************************
-# Revision-Id: ralph.lange@gmx.de-20150416085514-7g658e07bvx1ahc6
+# Revision-Id: ralph.lange@gmx.de-20151010161735-y2c1lvvmap373zcb
 #
 #	Rules for making things specified in Makefile
 #
@@ -81,6 +81,8 @@ else
 host:
 endif
 
+-include $(CONFIG)/RULES_FILE_TYPE
+
 -include $(CONFIG)/RULES.Db
 
 #---------------------------------------------------------------
@@ -121,8 +123,6 @@ LIBTARGETS += $(LIBNAME) $(INSTALL_LIBS) $(TESTLIBNAME) \
   $(DLLSTUB_LIBNAME) $(INSTALL_DLLSTUB_LIBS) $(TESTDLLSTUB_LIBNAME) \
   $(LOADABLE_SHRLIBNAME) $(INSTALL_LOADABLE_SHRLIBS)
 
-
--include $(CONFIG)/RULES_FILE_TYPE
 
 #	Main targets
 

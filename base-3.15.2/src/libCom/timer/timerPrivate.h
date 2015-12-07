@@ -1,14 +1,13 @@
 /*************************************************************************\
-* Copyright (c) 2002 The University of Chicago, as Operator of Argonne
+* Copyright (c) 2015 UChicago Argonne LLC, as Operator of Argonne
 *     National Laboratory.
 * Copyright (c) 2002 The Regents of the University of California, as
 *     Operator of Los Alamos National Laboratory.
-* EPICS BASE Versions 3.13.7
-* and higher are distributed subject to a Software License Agreement found
-* in file LICENSE that is included with this distribution. 
+* EPICS BASE is distributed subject to a Software License Agreement found
+* in file LICENSE that is included with this distribution.
 \*************************************************************************/
 /*
- *      Revision-Id: anj@aps.anl.gov-20120412162823-tnqnbhwteb9vx9gw
+ *      Revision-Id: anj@aps.anl.gov-20150918165151-dwvy0b54q8rfomvv
  *
  *      Author  Jeffrey O. Hill
  *              johill@lanl.gov
@@ -134,6 +133,7 @@ class timerQueueActive : public epicsTimerQueueActive,
 public:
     typedef epicsSingleton < timerQueueActiveMgr > :: reference RefMgr;
     timerQueueActive ( RefMgr &, bool okToShare, unsigned priority );
+    void start ();
     epicsTimer & createTimer ();
     epicsTimerForC & createTimerForC ( epicsTimerCallback pCallback, void *pArg );
     void show ( unsigned int level ) const;

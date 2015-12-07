@@ -6,12 +6,13 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/* Revision-Id: anj@aps.anl.gov-20150318213407-r3dqqd2i7enrlzjw */
+/* Revision-Id: anj@aps.anl.gov-20151013194139-q7ydoou2atcl1qdx */
 
 /* Author:  Marty Kraimer Date:    13JUL95*/
 
 /*The routines in this module are serially reusable NOT reentrant*/
 
+#include <ctype.h>
 #include <epicsStdlib.h>
 #include <stddef.h>
 #include <stdio.h>
