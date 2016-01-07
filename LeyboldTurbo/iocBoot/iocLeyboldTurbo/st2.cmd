@@ -25,14 +25,14 @@ dbLoadRecords("../../LeyboldTurboApp/Db/$(DB=LeyboldTurbo).db", "P=$(ASYNPORT1):
 dbLoadRecords("../../LeyboldTurboApp/Db/$(DB=LeyboldTurbo).db", "P=$(ASYNPORT2):,PORT=$(ASYNPORT),SCAN=$(SCANINT=5 second),ADDR=1")
 
 
-asynSetOption ($(IOPORT):1, 0, "baud", $(BAUD))
+asynSetOption ($(IOPORT):1, 0, "baud", $(BAUD=19200))
 asynSetOption ($(IOPORT):1, 0, "bits", "8")
 asynSetOption ($(IOPORT):1, 0, "parity", "even")
 asynSetOption ($(IOPORT):1, 0, "stop", "1")
 asynSetOption ($(IOPORT):1, -1, "clocal", "Y")
 asynSetOption ($(IOPORT):1, -1, "crtscts", "N")
 
-asynSetOption ($(IOPORT):2, 0, "baud", $(BAUD))
+asynSetOption ($(IOPORT):2, 0, "baud", $(BAUD=19200))
 asynSetOption ($(IOPORT):2, 0, "bits", "8")
 asynSetOption ($(IOPORT):2, 0, "parity", "even")
 asynSetOption ($(IOPORT):2, 0, "stop", "1")

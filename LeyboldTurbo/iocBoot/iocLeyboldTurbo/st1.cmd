@@ -20,7 +20,7 @@ $(ASYN_VERSION_GE426=#) epicsEnvSet DB LeyboldTurbo.Asyn4-26
 
 dbLoadRecords("../../LeyboldTurboApp/Db/$(DB=LeyboldTurbo).db", "P=$(ASYNPORT1):,PORT=$(ASYNPORT),SCAN=$(SCANINT=5 second),ADDR=0")
 
-asynSetOption ($(IOPORT):1, 0, "baud", $(BAUD))
+asynSetOption ($(IOPORT):1, 0, "baud", $(BAUD=19200))
 asynSetOption ($(IOPORT):1, 0, "bits", "8")
 asynSetOption ($(IOPORT):1, 0, "parity", "even")
 asynSetOption ($(IOPORT):1, 0, "stop", "1")

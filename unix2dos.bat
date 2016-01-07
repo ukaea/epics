@@ -3,6 +3,6 @@ echo off
 set ThisDirectory=%1
 if "%ThisDirectory%"=="" set ThisDirectory=%cd%
 
-FOR %%j IN (%ThisDirectory%\*.bat %ThisDirectory%\*.vcxproj %ThisDirectory%\*.vcxproj.filters %ThisDirectory%\*.sln) DO (
+FOR %%j IN (%ThisDirectory%\*.bat %ThisDirectory%\*.vcxproj %ThisDirectory%\*.vcxproj.filters %ThisDirectory%\*.sln %ThisDirectory%\*.lvproj %ThisDirectory%\*.lvlps %ThisDirectory%\*.aliases) DO (
 	unix2dos.exe %%j
 )
