@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CreateFault4Test.cpp">
+    <ClCompile Include="QueryNSetParam.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

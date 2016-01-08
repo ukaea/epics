@@ -1,20 +1,14 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 //																									//
 //	Module:																							//
-//		CreateFault4Test.cpp																		//
+//		QueryNSetParam.cpp																			//
 //																									//
 //	Description:																					//
-//		In order to test the 'RESET' functionality, how to put the controller in to a fault state	//
-//		without risking damage to the hardware? Tricky...											//
+//		This application was originally created in order to generate an artifical fault condition.	//
+//		But the approach doesn't work.																//
 //																									//
-//		From Oliver Wasser (Oerlikon KN):															//
-//		You can create a run-up time failure.														//
-//		You have to switch parameter 32 to “0” and after that  you have to start the pump.			//
-//																									//
-//		The value of this parameter was 1200s before I changed anything.							//
-//		(So as to put it back afterwards.)															//
-//																									//
-//		This code is for testing only; it allows to program the said parameter.						//
+//		The application is nonetheless potentially useful and will be retained in the project.		//
+//		The application queries a parameter value from the controller, and optionally sets it.		//
 //																									//
 //	LeyboldTurbo is distributed subject to a Software License Agreement								//
 //	found in file LICENSE that is included with this distribution.									//

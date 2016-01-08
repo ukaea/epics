@@ -13,7 +13,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{27AFB6F6-CCB9-4B9E-953D-E0212724B695}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>CreateFault4Test</RootNamespace>
+    <RootNamespace>QueryNSetParam</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -82,7 +82,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="CreateFault4Test.cpp" />
+    <ClCompile Include="QueryNSetParam.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
