@@ -125,8 +125,7 @@ void CLeyboldSimPortDriver::ListenerThread(void* parm)
 			if (This->m_NoOfPZD == NoOfPZD2)
 			{
 				USSPacket<NoOfPZD2> USSReadPacket, USSWritePacket(false);
-				if (!This->read<NoOfPZD2>(asynUser, IOUser, USSReadPacket))
-				   break;
+				if (This->read<NoOfPZD2>(asynUser, IOUser, USSReadPacket, TableIndex))
 				{
 					if (!This->process<NoOfPZD2>(asynUser, IOUser, USSReadPacket, USSWritePacket, TableIndex))
 						break;
@@ -135,8 +134,7 @@ void CLeyboldSimPortDriver::ListenerThread(void* parm)
 			else
 			{
 				USSPacket<NoOfPZD6> USSReadPacket, USSWritePacket(false);
-				if (!This->read<NoOfPZD6>(asynUser, IOUser, USSReadPacket))
-				   break;
+				if (This->read<NoOfPZD6>(asynUser, IOUser, USSReadPacket, TableIndex))
 				{
 					This->process(USSWritePacket, int(TableIndex));
 					if (!This->process<NoOfPZD6>(asynUser, IOUser, USSReadPacket, USSWritePacket, TableIndex))
@@ -275,20 +273,21 @@ void CLeyboldSimPortDriver::setDefaultValues(size_t TableIndex)
 	// Not set here : FAULT
 	// Reset, FaultStr, WarningTemperatureStr, WarningHighLoadStr and WarningPurgeStr are not used.
 
+	setIntegerParam(TableIndex, DISCONNECTED, 0);
 	setIntegerParam(TableIndex, WARNINGTEMPERATURE, 0);
 	setIntegerParam(TableIndex, WARNINGHIGHLOAD, 0);
 	setIntegerParam(TableIndex, WARNINGPURGE, 0);
 	setIntegerParam(TableIndex, STATORFREQUENCY, NormalStatorFrequency);
 	setIntegerParam(TableIndex, CONVERTERTEMPERATURE, 50);
-	setDoubleParam(TableIndex, MOTORCURRENT, 1.1);
+	setDoubleParam (TableIndex, MOTORCURRENT, 1.1);
 	setIntegerParam(TableIndex, PUMPTEMPERATURE, 65);
-	setDoubleParam(TableIndex, CIRCUITVOLTAGE, 60.2);
+	setDoubleParam (TableIndex, CIRCUITVOLTAGE, 60.2);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 //																								//
 //	template<size_t NoOfPZD> bool CLeyboldSimPortDriver::read(asynUser *pasynUser,				//
-//		USSPacket<NoOfPZD>& USSReadPacket)														//
+//		USSPacket<NoOfPZD>& USSReadPacket, size_t TableIndex)									//
 //																								//
 //	Description:																				//
 //		Called from the listening thread to wait for an incoming packet.						//
@@ -299,16 +298,21 @@ void CLeyboldSimPortDriver::setDefaultValues(size_t TableIndex)
 //		USSReadPacket - output of the data packet that has been read.							//
 //																								//
 //////////////////////////////////////////////////////////////////////////////////////////////////
-template<size_t NoOfPZD> bool CLeyboldSimPortDriver::read(asynUser *pasynUser, asynUser *IOUser, USSPacket<NoOfPZD>& USSReadPacket)
+template<size_t NoOfPZD> bool CLeyboldSimPortDriver::read(asynUser *pasynUser, asynUser *IOUser, USSPacket<NoOfPZD>& USSReadPacket, size_t TableIndex)
 {
 	// NB, This pasynUser is OK because it emitted by pasynOctetSyncIO->connect().
 	size_t nBytesIn;
 	int eomReason;
-	asynStatus status = pasynOctetSyncIO->read(IOUser, reinterpret_cast<char*>(USSReadPacket.m_Bytes), USSPacketStruct<NoOfPZD>::USSPacketSize, -1, &nBytesIn, &eomReason);
-	if (status == asynTimeout)
-		return true;
-	if (status == asynDisconnected)
+	if (getIntegerParam(TableIndex, DISCONNECTED) == 1)
+	{
+		epicsThreadSleep(1);
 		return false;
+	}
+	asynStatus status = pasynOctetSyncIO->read(IOUser, reinterpret_cast<char*>(USSReadPacket.m_Bytes), USSPacketStruct<NoOfPZD>::USSPacketSize, 1, &nBytesIn, &eomReason);
+	if (status == asynTimeout)
+		return false;
+	if (status == asynDisconnected)
+		throw CException(pasynUser, asynDisconnected, __FUNCTION__, "Socket disconnected");
 	if (status != asynSuccess)
 		throw CException(pasynUser, status, __FUNCTION__, "Can't read:");
 	STATIC_ASSERT ( sizeof(USSPacketStruct<NoOfPZD>) == USSPacketStruct<NoOfPZD>::USSPacketSize );
@@ -317,13 +321,16 @@ template<size_t NoOfPZD> bool CLeyboldSimPortDriver::read(asynUser *pasynUser, a
 //		(sizeof(USSPacketStruct<NoOfPZD>) != USSPacketStruct<NoOfPZD>::USSPacketSize))
 //		asynPrint(pasynUser, ASYN_TRACE_ERROR, "Packet size descrepant %ul %ul %ul\n", sizeof(USSPacket<NoOfPZD>), sizeof(USSPacketStruct<NoOfPZD>), USSPacketStruct<NoOfPZD>::USSPacketSize);
 	if (nBytesIn != USSPacketStruct<NoOfPZD>::USSPacketSize)
+	{
 		asynPrint(pasynUser, ASYN_TRACE_ERROR, "Unexpected packet size recieved %s %s\n", __FILE__, __FUNCTION__);
+		return false;
+	}
 
 	USSReadPacket.m_USSPacketStruct.NToH();
 	if (!USSReadPacket.ValidateChecksum()) 
 	{
 		asynPrint(pasynUser, ASYN_TRACE_WARNING, "Packet validation failed %s %s\n", __FILE__, __FUNCTION__);
-		return true;
+		return false;
 	}
 	return true;
 }

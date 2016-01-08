@@ -114,6 +114,7 @@ void CLeyboldTurboPortDriver::addIOPort(const char* IOPortName)
 
 	callParamCallbacks(m_IOUsers.size());
 	m_IOUsers.push_back(IOUser);
+	m_Disconnected.push_back(false);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -153,60 +154,60 @@ asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *v
 				{
 					USSPacket<NoOfPZD2> USSWritePacket(Running, 4), // Intermediate circuit voltage Uzk
 						USSReadPacket;
-					writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
-					processRead(TableIndex, pasynUser, USSReadPacket);
-					setDoubleParam  (TableIndex, CIRCUITVOLTAGE, 0.1 * USSReadPacket.m_USSPacketStruct.m_PWE);
+					if (writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket))
+					{
+						processRead(TableIndex, pasynUser, USSReadPacket);
+						setDoubleParam  (TableIndex, CIRCUITVOLTAGE, 0.1 * USSReadPacket.m_USSPacketStruct.m_PWE);
+					}
 				}
 				{
 					USSPacket<NoOfPZD2> USSWritePacket(Running, 5), // Motor current - actual value
 						USSReadPacket;
-					writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
-					processRead(TableIndex, pasynUser, USSReadPacket);
-					setDoubleParam  (TableIndex, MOTORCURRENT, 0.1 * USSReadPacket.m_USSPacketStruct.m_PWE);
+					if (writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket))
+					{
+						processRead(TableIndex, pasynUser, USSReadPacket);
+						setDoubleParam  (TableIndex, MOTORCURRENT, 0.1 * USSReadPacket.m_USSPacketStruct.m_PWE);
+					}
 				}
 				{
 					USSPacket<NoOfPZD2> USSWritePacket(Running, 7), // Converter temperature - actual value
 						USSReadPacket;
-					writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
-					processRead(TableIndex, pasynUser, USSReadPacket);
-					setIntegerParam (TableIndex, PUMPTEMPERATURE, USSReadPacket.m_USSPacketStruct.m_PWE);
+					if (writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket))
+					{
+						processRead(TableIndex, pasynUser, USSReadPacket);
+						setIntegerParam (TableIndex, PUMPTEMPERATURE, USSReadPacket.m_USSPacketStruct.m_PWE);
+					}
 				}
 				{
 					USSPacket<NoOfPZD2> USSWritePacket(Running, 11), // Converter temperature - actual value
 						USSReadPacket;
-					writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
-					processRead(TableIndex, pasynUser, USSReadPacket);
-					setIntegerParam (TableIndex, CONVERTERTEMPERATURE, USSReadPacket.m_USSPacketStruct.m_PWE);
+					if (writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket))
+					{
+						processRead(TableIndex, pasynUser, USSReadPacket);
+						setIntegerParam (TableIndex, CONVERTERTEMPERATURE, USSReadPacket.m_USSPacketStruct.m_PWE);
+					}
 				}
 			}
 			else
 			{
 				USSPacket<NoOfPZD6> USSWritePacket(Running), USSReadPacket;
-				writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
-				processRead(TableIndex, pasynUser, USSReadPacket);
-				// Process the data fields 2..5. These don't exist for the smaller packet.
-				setIntegerParam (TableIndex, CONVERTERTEMPERATURE, USSReadPacket.m_USSPacketStruct.m_PZD[2]);
-				setDoubleParam  (TableIndex, MOTORCURRENT, 0.1 * USSReadPacket.m_USSPacketStruct.m_PZD[3]);
-				setIntegerParam (TableIndex, PUMPTEMPERATURE, USSReadPacket.m_USSPacketStruct.m_PZD[4]);
-				setDoubleParam  (TableIndex, CIRCUITVOLTAGE, 0.1 * USSReadPacket.m_USSPacketStruct.m_PZD[5]);
+				if (writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket))
+				{
+					processRead(TableIndex, pasynUser, USSReadPacket);
+					// Process the data fields 2..5. These don't exist for the smaller packet.
+					setIntegerParam (TableIndex, CONVERTERTEMPERATURE, USSReadPacket.m_USSPacketStruct.m_PZD[2]);
+					setDoubleParam  (TableIndex, MOTORCURRENT, 0.1 * USSReadPacket.m_USSPacketStruct.m_PZD[3]);
+					setIntegerParam (TableIndex, PUMPTEMPERATURE, USSReadPacket.m_USSPacketStruct.m_PZD[4]);
+					setDoubleParam  (TableIndex, CIRCUITVOLTAGE, 0.1 * USSReadPacket.m_USSPacketStruct.m_PZD[5]);
+				}
 			}
 		}
 		asynPrint(pasynUser, ASYN_TRACE_FLOW, "Packet success %s %s\n", __FILE__, __FUNCTION__);
 		Status = CLeyboldBase::readInt32(pasynUser, value);
 	}
 	catch(CException const& E) {
-		// Internal communication failure
-		// NB, Asyn 4-27 requires that the parameter status is success before the value can be set through callback.
-		setParamStatus(TableIndex, FAULT, asynSuccess);
-		setParamStatus(TableIndex, FAULTSTR, asynSuccess);
-		setIntegerParam(TableIndex, FAULT, 65);
-		setStringParam (TableIndex, FAULTSTR, "Internal communication timeout");
-		callParamCallbacks(TableIndex);
-
-		setParamStatus(TableIndex, FAULT, E.Status());
-		setParamStatus(TableIndex, FAULTSTR, E.Status());
 		// make sure we return an error state if there are comms problems
-		Status = E.Status();
+		Status = ErrorHandler(TableIndex, E);
 	}
 	callParamCallbacks(TableIndex);
 	return Status;
@@ -266,18 +267,8 @@ asynStatus CLeyboldTurboPortDriver::readOctet(asynUser *pasynUser, char *value, 
 		Status = CLeyboldBase::readOctet(pasynUser, value, maxChars, nActual, eomReason);
 	}
 	catch(CException const& E) {
-		// Internal communication failure
-		// NB, Asyn 4-27 requires that the parameter status is success before the value can be set through callback.
-		setParamStatus(TableIndex, FAULT, asynSuccess);
-		setParamStatus(TableIndex, FAULTSTR, asynSuccess);
-		setIntegerParam(TableIndex, FAULT, 65);
-		setStringParam(TableIndex, FAULTSTR, "Internal communication timeout");
-		callParamCallbacks(TableIndex);
-
-		setParamStatus(TableIndex, FAULT, E.Status());
-		setParamStatus(TableIndex, FAULTSTR, E.Status());
 		// make sure we return an error state if there are comms problems
-		Status = E.Status();
+		Status = ErrorHandler(TableIndex, E);
 	}
 	callParamCallbacks(TableIndex);
 	return Status;
@@ -285,7 +276,7 @@ asynStatus CLeyboldTurboPortDriver::readOctet(asynUser *pasynUser, char *value, 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 //																								//
-//	template<size_t NoOfPZD> void CLeyboldTurboPortDriver::writeRead(int TableIndex,			//
+//	template<size_t NoOfPZD> bool CLeyboldTurboPortDriver::writeRead(int TableIndex,			//
 //		asynUser *pasynUser, USSPacket<NoOfPZD> USSWritePacket, USSPacket<NoOfPZD>& USSReadPacket)
 //		size_t maxChars, size_t *nActual, int *eomReason)										//
 //																								//
@@ -295,7 +286,7 @@ asynStatus CLeyboldTurboPortDriver::readOctet(asynUser *pasynUser, char *value, 
 //		It's a wrapper round Asyn's writeRead method that provides byte-swapping and validation.//
 //																								//
 //////////////////////////////////////////////////////////////////////////////////////////////////
-template<size_t NoOfPZD> void CLeyboldTurboPortDriver::writeRead(int TableIndex, asynUser *pasynUser, USSPacket<NoOfPZD> USSWritePacket, USSPacket<NoOfPZD>& USSReadPacket)
+template<size_t NoOfPZD> bool CLeyboldTurboPortDriver::writeRead(int TableIndex, asynUser *pasynUser, USSPacket<NoOfPZD> USSWritePacket, USSPacket<NoOfPZD>& USSReadPacket)
 {
 	int eomReason;
 	size_t nBytesOut, nBytesIn;
@@ -312,8 +303,21 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::writeRead(int TableIndex,
 		reinterpret_cast<const char*>(USSWritePacket.m_Bytes), USSPacketStruct<NoOfPZD>::USSPacketSize, 
 		reinterpret_cast<char*>(USSReadPacket.m_Bytes), USSPacketStruct<NoOfPZD>::USSPacketSize,
 		TimeOut, &nBytesOut, &nBytesIn, &eomReason);
-	if (Status != asynSuccess)
+
+	if (m_Disconnected[TableIndex])
+	{
+		// If the connection is broken, it will generate an error every time, which is unhelpful at diagnosing.
+		// Only log the first fail and when the connection is restored.
+		if (Status == asynSuccess)
+			asynPrint(pasynUser, ASYN_TRACEIO_DRIVER, "Connection to %d resumed\n", TableIndex);
+		else
+			return false;
+	}
+	m_Disconnected[TableIndex] = (Status != asynSuccess);
+	if (m_Disconnected[TableIndex])
+	{
 		throw CException(IOUser, Status, __FUNCTION__, "Can't write/read:");
+	}
 
 	STATIC_ASSERT ( sizeof(USSPacketStruct<NoOfPZD>) == USSPacketStruct<NoOfPZD>::USSPacketSize );
 	STATIC_ASSERT ( sizeof(USSPacket<NoOfPZD>) == USSPacketStruct<NoOfPZD>::USSPacketSize );
@@ -330,6 +334,7 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::writeRead(int TableIndex,
 
 	if (!USSReadPacket.ValidateChecksum())
 		throw CException(pasynUser, asynError, __FUNCTION__, "Packet validation failed");
+	return true;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -675,6 +680,22 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processWrite(int TableInd
 	processRead(TableIndex, pasynUser, USSReadPacket);
 }
 
+asynStatus CLeyboldTurboPortDriver::ErrorHandler(int TableIndex, CException const& E)
+{
+	// Internal communication failure
+	// NB, Asyn 4-27 requires that the parameter status is success before the value can be set through callback.
+	setParamStatus(TableIndex, FAULT, asynSuccess);
+	setParamStatus(TableIndex, FAULTSTR, asynSuccess);
+	setIntegerParam(TableIndex, FAULT, 65);
+	m_Disconnected[TableIndex] = true;
+	setStringParam (TableIndex, FAULTSTR, "Internal communication timeout");
+	callParamCallbacks(TableIndex);
+
+	setParamStatus(TableIndex, FAULT, E.Status());
+	setParamStatus(TableIndex, FAULTSTR, E.Status());
+	return E.Status();
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 //																								//
 //	asynStatus CLeyboldTurboPortDriver::writeInt32(asynUser *pasynUser, epicsInt32 value)		//
@@ -702,18 +723,8 @@ asynStatus CLeyboldTurboPortDriver::writeInt32(asynUser *pasynUser, epicsInt32 v
 			processWrite<NoOfPZD6>(TableIndex, pasynUser, value);
 	}
 	catch(CException const& E) {
-		// Internal communication failure
-		// NB, Asyn 4-27 requires that the parameter status is success before the value can be set through callback.
-		setParamStatus(TableIndex, FAULT, asynSuccess);
-		setParamStatus(TableIndex, FAULTSTR, asynSuccess);
-		setIntegerParam(TableIndex, FAULT, 65);
-		setStringParam (TableIndex, FAULTSTR, "Internal communication timeout");
-		callParamCallbacks(TableIndex);
-
-		setParamStatus(TableIndex, FAULT, E.Status());
-		setParamStatus(TableIndex, FAULTSTR, E.Status());
 		// make sure we return an error state if there are comms problems
-		Status = E.Status();
+		Status = ErrorHandler(TableIndex, E);
 	}
 	callParamCallbacks(TableIndex);
 	return Status;

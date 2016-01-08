@@ -22,7 +22,7 @@
 
 enum ParamUseCases
 {
-	Single, NotForSim, Both
+	Single, NotForSim, NotForReal, Both
 };
 
 struct ParameterDefn
@@ -35,6 +35,7 @@ struct ParameterDefn
 static const char* RUNNING = "RUNNING"; 
 static const char* RESET = "RESET";
 static const char* FAULT = "FAULT";
+static const char* DISCONNECTED = "DISCONNECTED";
 static const char* FAULTSTR = "FAULTSTR";
 static const char* FIRMWAREVERSION = "FIRMWAREVERSION";
 static const char* SOFTWAREVERSION = "SOFTWAREVERSION";
@@ -56,6 +57,7 @@ static ParameterDefn ParameterDefns[] =
 	{RUNNING, asynParamInt32, Both},
 	{RESET, asynParamInt32, NotForSim},
 	{FAULT, asynParamInt32, Both},
+	{DISCONNECTED, asynParamInt32, NotForReal},
 	{FAULTSTR, asynParamOctet, NotForSim},
 	{FIRMWAREVERSION, asynParamOctet, Both},
 	{ASYNVERSION, asynParamOctet, Single},

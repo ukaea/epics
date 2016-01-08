@@ -3,10 +3,10 @@ beginScreenProperties
 major 4
 minor 0
 release 1
-x 593
-y 385
+x 597
+y 437
 w 460
-h 500
+h 480
 font "arial-bold-r-14.0"
 ctlFont "arial-bold-r-14.0"
 btnFont "arial-bold-r-14.0"
@@ -71,7 +71,7 @@ major 4
 minor 1
 release 0
 x 370
-y 470
+y 445
 w 80
 h 25
 fgColor index 46
@@ -204,7 +204,7 @@ major 4
 minor 1
 release 1
 x 10
-y 455
+y 430
 w 125
 h 20
 font "arial-bold-r-14.0"
@@ -223,7 +223,7 @@ major 4
 minor 0
 release 0
 x 145
-y 455
+y 430
 w 100
 h 20
 fgColor index 25
@@ -262,7 +262,7 @@ major 4
 minor 6
 release 0
 x 250
-y 430
+y 405
 w 200
 h 20
 controlPv "$(P)FaultStr"
@@ -287,35 +287,10 @@ major 4
 minor 6
 release 0
 x 145
-y 430
+y 405
 w 100
 h 20
 controlPv "$(P)Fault"
-font "arial-bold-r-14.0"
-fgColor index 16
-fgAlarm
-bgColor index 10
-limitsFromDb
-nullColor index 14
-fastUpdate
-useHexPrefix
-showUnits
-newPos
-objType "monitors"
-noExecuteClipMask
-endObjectProperties
-
-# (Text Monitor)
-object activeXTextDspClass:noedit
-beginObjectProperties
-major 4
-minor 6
-release 0
-x 145
-y 390
-w 100
-h 20
-controlPv "$(P)SoftwareVersion"
 font "arial-bold-r-14.0"
 fgColor index 16
 fgAlarm
@@ -714,26 +689,7 @@ major 4
 minor 1
 release 1
 x 10
-y 390
-w 135
-h 20
-font "arial-bold-r-14.0"
-fgColor index 14
-bgColor index 3
-useDisplayBg
-value {
-  "Software Version"
-}
-endObjectProperties
-
-# (Static Text)
-object activeXTextClass
-beginObjectProperties
-major 4
-minor 1
-release 1
-x 10
-y 430
+y 405
 w 125
 h 20
 font "arial-bold-r-14.0"
@@ -858,7 +814,7 @@ bgColor index 12
 topShadowColor index 1
 botShadowColor index 11
 readPv "$(P)StatorRPM"
-label "RPM"
+label "kRPM"
 showScale
 scaleFormat "FFloat"
 scalePrecision ""

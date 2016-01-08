@@ -52,10 +52,11 @@ record(mbbo, "$(P)Running")
 
 #####################################################################################################
 #																									#
-#	All fields have both output and input behaviour 												#
+#	Most fields have both output and input behaviour 												#
 #																									#
 #	Field(s)																						#
 #		Fault					true(1), if the pump has a fault condition, otherwise false(0)		#
+#		Disconnected			true(1), if the controller is not connected (not reading)			#
 #		FirmwareVersion			A text string, e.g. 3.03.05											#
 #		WarningTemperature:		The pump has a (silulated) high temperature warning.				#
 #		WarningHighLoad:		The pump has a (simulated) high load warning.						#
@@ -72,6 +73,12 @@ record(longout, "$(P)Fault")
 	field(DTYP, "asynInt32")
 	field(OUT,  "@asyn($(PORT),$(ADDR),1)FAULT")
 	field(SCAN, "I/O Intr")
+}
+
+record(longout, "$(P)Disconnected")
+{
+	field(DTYP, "asynInt32")
+	field(OUT,  "@asyn($(PORT),$(ADDR),1)DISCONNECTED")
 }
 
 record(stringout, "$(P)FirmwareVersion")

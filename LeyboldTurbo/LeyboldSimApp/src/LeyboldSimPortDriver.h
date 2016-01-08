@@ -47,7 +47,7 @@ public:
 	static void LeyboldSimPortDriverConfigure(const iocshArgBuf *args);
 
 protected:
-    template<size_t NoOfPZD> bool read(asynUser *pasynUser, asynUser *IOUser, USSPacket<NoOfPZD>& USSReadPacket);
+    template<size_t NoOfPZD> bool read(asynUser *pasynUser, asynUser *IOUser, USSPacket<NoOfPZD>& USSReadPacket, size_t TableIndex);
     template<size_t NoOfPZD> bool process(asynUser *pasynUser, asynUser *IOUser, USSPacket<NoOfPZD> const& USSReadPacket, USSPacket<NoOfPZD>& USSWritePacket, size_t TableIndex);
     void process(USSPacket<NoOfPZD6>& USSWritePacket, int TableIndex);
 	static void octetConnectionCallback(void *userPvt, asynUser *pasynUser,

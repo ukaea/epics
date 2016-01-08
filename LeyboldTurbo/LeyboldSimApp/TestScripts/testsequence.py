@@ -69,6 +69,18 @@ def TestSequenceOnePump(Pump):
 
 	print("No motor current on ", ChannelRoot)
 	caput(ChannelRoot + ':Fault', AsynVersion, 17)
+	time.sleep(5)
+
+	print("Communication connection lost ", ChannelRoot)
+	caput(ChannelRoot + ':Disconnected', AsynVersion, 1)
+
+def ResumeConnectionOnePump(Pump):
+	ChannelDefaultRoot = os.getenv('ASYNSIMPORT', 'LEYBOLDTURBOSIM')
+	ChannelRoot = os.getenv('ASYNSIMPORT'+str(Pump), ChannelDefaultRoot+':'+str(Pump))
+	AsynVersion = epics.caget(ChannelDefaultRoot + ':AsynVersion')
+	time.sleep(5)
+	print("Communication connection resumed ", ChannelRoot)
+	caput(ChannelRoot + ':Disconnected', AsynVersion, 0)
 
 os.environ["EPICS_CA_SERVER_PORT"]="5072"
 os.environ["EPICS_CA_AUTO_ADDR_LIST"]="NO"
@@ -79,8 +91,10 @@ if len(sys.argv) > 1:
 	NumPumps=sys.argv[1]
 
 for Pump in range(1, int(NumPumps)+1):
-	time.sleep(5)
 	TestSequenceOnePump(Pump)
+	
+for Pump in range(1, int(NumPumps)+1):
+	ResumeConnectionOnePump(Pump)
 	
 del os.environ["EPICS_CA_SERVER_PORT"]
 del os.environ["EPICS_CA_AUTO_ADDR_LIST"]

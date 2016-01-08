@@ -3,8 +3,8 @@ beginScreenProperties
 major 4
 minor 0
 release 1
-x 554
-y 393
+x 636
+y 61
 w 250
 h 290
 font "arial-bold-r-14.0"
@@ -144,7 +144,7 @@ bgColor index 12
 topShadowColor index 1
 botShadowColor index 11
 readPv "$(P)StatorRPM"
-label "RPM"
+label "kRPM"
 showScale
 scaleFormat "FFloat"
 scalePrecision ""
