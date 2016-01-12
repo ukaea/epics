@@ -25,6 +25,8 @@
 #include "LeyboldBase.h"
 #include "USSPacket.h"
 
+#include <epicsMutex.h>
+
 #include <map>
 #include <string>
 #include <vector>
@@ -52,11 +54,13 @@ protected:
 	template<size_t NoOfPZD> void processRead(int TableIndex, asynUser *pasynUser, USSPacket<NoOfPZD> const& USSReadPacket);
 	template<size_t NoOfPZD> void processWrite(int TableIndex, asynUser *pasynUser, epicsInt32 value);
 	asynStatus ErrorHandler(int TableIndex, CException const& E);
+	static int UsedParams();
 
 private:
 	// Each of these is associated with an octet I/O connection (i.e. serial or TCP port).
 	std::vector<asynUser*> m_IOUsers;
 	std::vector<bool> m_Disconnected;
+    static epicsMutex m_Mutex;
 	static CLeyboldTurboPortDriver* m_Instance;
 };
 

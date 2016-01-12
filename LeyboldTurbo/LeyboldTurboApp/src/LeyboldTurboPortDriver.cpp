@@ -23,6 +23,7 @@
 #include <iocsh.h>
 #include <epicsExit.h>
 #include <epicsAssert.h>
+#include <epicsGuard.h>
 #include <asynOctetSyncIO.h>
 
 #include "USSPacket.h"
@@ -34,6 +35,7 @@
 #include <stdlib.h>
 #include <stdexcept>
 
+epicsMutex CLeyboldTurboPortDriver::m_Mutex;
 CLeyboldTurboPortDriver* CLeyboldTurboPortDriver::m_Instance;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -53,7 +55,7 @@ CLeyboldTurboPortDriver* CLeyboldTurboPortDriver::m_Instance;
 CLeyboldTurboPortDriver::CLeyboldTurboPortDriver(const char *asynPortName, int numPumps, int NoOfPZD)
    : CLeyboldBase(asynPortName, 
                     numPumps,	// maxAddr
-                    NUM_PARAMS,
+                    UsedParams(),
 					NoOfPZD	// Either 2 or 6, depending on the serial port and model
 					)
 {
@@ -62,6 +64,8 @@ CLeyboldTurboPortDriver::CLeyboldTurboPortDriver(const char *asynPortName, int n
 
 CLeyboldTurboPortDriver::~CLeyboldTurboPortDriver()
 {
+	m_Instance = NULL;
+	epicsGuard < epicsMutex > guard ( CLeyboldTurboPortDriver::m_Mutex );
 	asynStatus overallstatus = asynSuccess;
 	for(size_t Index = 0; Index < m_IOUsers.size(); Index++)
 	{
@@ -93,6 +97,9 @@ void CLeyboldTurboPortDriver::addIOPort(const char* IOPortName)
 		
 	for (size_t ParamIndex = 0; ParamIndex < size_t(NUM_PARAMS); ParamIndex++)
 	{
+		if (ParameterDefns[ParamIndex].m_UseCase == NotForReal)
+			// Not used by the 'real' IOC
+			continue;
 		if (ParameterDefns[ParamIndex].m_UseCase == Single)
 			// Single instance parameter
 			continue;
@@ -119,6 +126,28 @@ void CLeyboldTurboPortDriver::addIOPort(const char* IOPortName)
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 //																								//
+//	int CLeyboldTurboPortDriver::UsedParams()													//
+//																								//
+//	Description:																				//
+//		Gives a count of how many parameters are required for this IOC.							//
+//																								//
+//////////////////////////////////////////////////////////////////////////////////////////////////
+int CLeyboldTurboPortDriver::UsedParams()
+{
+	int UsedParams = 0;
+	for (size_t ParamIndex = 0; ParamIndex < size_t(NUM_PARAMS); ParamIndex++)
+	{
+		if (ParameterDefns[ParamIndex].m_UseCase == NotForReal)
+			// Not implemented, because not meaningful for the simulater.
+			continue;
+		// But the Single parameter list is required.
+		UsedParams++;
+	}
+	return UsedParams;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+//																								//
 //	asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *value)		//
 //																								//
 //	Description:																				//
@@ -135,6 +164,10 @@ asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *v
 	int function = pasynUser->reason;
 	int TableIndex;
 	asynStatus Status = asynSuccess;
+	epicsGuard < epicsMutex > guard ( CLeyboldTurboPortDriver::m_Mutex );
+	if (m_Instance == NULL)
+		// The IOC is exiting
+		return asynTimeout;
 
 	try {
 		Status = getAddress(pasynUser, &TableIndex);
@@ -231,6 +264,10 @@ asynStatus CLeyboldTurboPortDriver::readOctet(asynUser *pasynUser, char *value, 
 	int function = pasynUser->reason;
 	int TableIndex;
 	asynStatus Status = asynSuccess;
+	epicsGuard < epicsMutex > guard ( CLeyboldTurboPortDriver::m_Mutex );
+	if (m_Instance == NULL)
+		// The IOC is exiting
+		return asynTimeout;
 	try {
 		Status = getAddress(pasynUser, &TableIndex);
 		if (Status != asynSuccess)
@@ -304,6 +341,7 @@ template<size_t NoOfPZD> bool CLeyboldTurboPortDriver::writeRead(int TableIndex,
 		reinterpret_cast<char*>(USSReadPacket.m_Bytes), USSPacketStruct<NoOfPZD>::USSPacketSize,
 		TimeOut, &nBytesOut, &nBytesIn, &eomReason);
 
+//	if (getIntegerParam(TableIndex, FAULT) == 65)
 	if (m_Disconnected[TableIndex])
 	{
 		// If the connection is broken, it will generate an error every time, which is unhelpful at diagnosing.
@@ -314,7 +352,7 @@ template<size_t NoOfPZD> bool CLeyboldTurboPortDriver::writeRead(int TableIndex,
 			return false;
 	}
 	m_Disconnected[TableIndex] = (Status != asynSuccess);
-	if (m_Disconnected[TableIndex])
+	if (Status != asynSuccess)
 	{
 		throw CException(IOUser, Status, __FUNCTION__, "Can't write/read:");
 	}
@@ -708,6 +746,10 @@ asynStatus CLeyboldTurboPortDriver::ErrorHandler(int TableIndex, CException cons
 //////////////////////////////////////////////////////////////////////////////////////////////////
 asynStatus CLeyboldTurboPortDriver::writeInt32(asynUser *pasynUser, epicsInt32 value)
 {
+	epicsGuard < epicsMutex > guard ( CLeyboldTurboPortDriver::m_Mutex );
+	if (m_Instance == NULL)
+		// The IOC is exiting
+		return asynTimeout;
 	// Invoke the base class method to store the value in the database.
 	asynStatus Status = CLeyboldBase::writeInt32(pasynUser, value);
 	int TableIndex = 0;
@@ -748,7 +790,7 @@ static const iocshFuncDef initFuncDef = {"LeyboldTurboPortDriverConfigure",3,ini
 void LeyboldTurboExitFunc(void * param)
 {
 	CLeyboldTurboPortDriver* Instance = static_cast<CLeyboldTurboPortDriver*>(param);
-	delete Instance;
+//	delete Instance;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

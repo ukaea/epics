@@ -48,6 +48,23 @@ static const int ASYN_TRACE_WARNING = ASYN_TRACE_ERROR;
 #endif
 
 
+class CLeyboldSimPortDriver::CThreadRunable : public epicsThreadRunable
+{
+	public:
+		CThreadRunable(CLeyboldSimPortDriver* This) {
+			m_This = This;
+			m_Exiting = false;
+		}
+
+		virtual void run ();
+		void setExiting() {
+			m_Exiting = true;
+		}
+	private:
+		CLeyboldSimPortDriver* m_This;
+		volatile bool m_Exiting;		// Signals the listening thread to exit.
+};
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 //																								//
 //	CLeyboldSimPortDriver::CLeyboldSimPortDriver(const char *asynPortName, int numPumps)		//
@@ -69,15 +86,15 @@ CLeyboldSimPortDriver::CLeyboldSimPortDriver(const char *asynPortName, int numPu
 					NoOfPZD		// Either 2 or 6, depending on the serial port and model.
 				)
 {
-	m_Exiting = false;
+	m_ThreadRunable = new CThreadRunable(this);
 	m_Instance = this;
 }
 
 CLeyboldSimPortDriver::~CLeyboldSimPortDriver()
 {
-	m_Exiting = true;
-	while (m_RunRecord.size() > 0)
-		m_ExitEvent.wait();
+	m_ThreadRunable->setExiting();
+	for(size_t ThreadNum = 0; ThreadNum < m_Threads.size(); ThreadNum++)
+		delete m_Threads[ThreadNum];
 }
 
 unsigned getTickCount()
@@ -88,16 +105,15 @@ unsigned getTickCount()
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 //																								//
-//	void CLeyboldSimPortDriver::ListenerThread(void* parm)										//
+//	void CLeyboldSimPortDriver::CThreadRunable::run()											//
 //																								//
 //	Description:																				//
 //		static method, implements a thread that waits for connecting sockets and responds		//
 ///		to packet requests.																		//
 //																								//
 //////////////////////////////////////////////////////////////////////////////////////////////////
-void CLeyboldSimPortDriver::ListenerThread(void* parm)
+void CLeyboldSimPortDriver::CThreadRunable::run()
 {
-	CLeyboldSimPortDriver* This = static_cast<CLeyboldSimPortDriver*>(parm);
 	asynUser* IOUser;
 	const char* IOPortName = epicsThreadGetNameSelf();
 	size_t TableIndex;
@@ -106,38 +122,38 @@ void CLeyboldSimPortDriver::ListenerThread(void* parm)
 		std::string LookupPortName = IOPortName;
 		size_t Colon1Pos = LookupPortName.rfind(":1");
 		LookupPortName = LookupPortName.substr(0, Colon1Pos);
-		std::map<std::string, size_t>::const_iterator Iter = This->m_TableLookup.find(LookupPortName);
-		if (Iter == This->m_TableLookup.end())
-			throw CException(This->pasynUserSelf, asynError, __FUNCTION__, "Pump name not found");
+		std::map<std::string, size_t>::const_iterator Iter = m_This->m_TableLookup.find(LookupPortName);
+		if (Iter == m_This->m_TableLookup.end())
+			throw CException(m_This->pasynUserSelf, asynError, __FUNCTION__, "Pump name not found");
 		TableIndex = int(Iter->second);
 	}
-	asynUser* asynUser = This->m_asynUsers[TableIndex];
+	asynUser* asynUser = m_This->m_asynUsers[TableIndex];
 	try {
 		asynStatus Status = pasynOctetSyncIO->connect(IOPortName, int(TableIndex), &IOUser, NULL);
 		if (Status != asynSuccess)
-			throw CException(This->pasynUserSelf, Status, __FUNCTION__, "connecting to IO port=" + std::string(IOPortName));
+			throw CException(m_This->pasynUserSelf, Status, __FUNCTION__, "connecting to IO port=" + std::string(IOPortName));
 		{
 			epicsGuard < epicsMutex > guard ( CLeyboldSimPortDriver::m_Mutex );
-			This->m_RunRecord.push_back(RunRecord(On, getTickCount()));
+			m_This->m_RunRecord.push_back(RunRecord(On, getTickCount()));
 		}
-		while (!This->m_Exiting)
+		while (!m_Exiting)
 		{
-			if (This->m_NoOfPZD == NoOfPZD2)
+			if (m_This->m_NoOfPZD == NoOfPZD2)
 			{
 				USSPacket<NoOfPZD2> USSReadPacket, USSWritePacket(false);
-				if (This->read<NoOfPZD2>(asynUser, IOUser, USSReadPacket, TableIndex))
+				if (m_This->read<NoOfPZD2>(asynUser, IOUser, USSReadPacket, TableIndex))
 				{
-					if (!This->process<NoOfPZD2>(asynUser, IOUser, USSReadPacket, USSWritePacket, TableIndex))
+					if (!m_This->process<NoOfPZD2>(asynUser, IOUser, USSReadPacket, USSWritePacket, TableIndex))
 						break;
 				}
 			}
 			else
 			{
 				USSPacket<NoOfPZD6> USSReadPacket, USSWritePacket(false);
-				if (This->read<NoOfPZD6>(asynUser, IOUser, USSReadPacket, TableIndex))
+				if (m_This->read<NoOfPZD6>(asynUser, IOUser, USSReadPacket, TableIndex))
 				{
-					This->process(USSWritePacket, int(TableIndex));
-					if (!This->process<NoOfPZD6>(asynUser, IOUser, USSReadPacket, USSWritePacket, TableIndex))
+					m_This->process(USSWritePacket, int(TableIndex));
+					if (!m_This->process<NoOfPZD6>(asynUser, IOUser, USSReadPacket, USSWritePacket, TableIndex))
 						break;
 				}
 			}
@@ -161,15 +177,14 @@ void CLeyboldSimPortDriver::ListenerThread(void* parm)
                                                                IOPortName);
 		status = pasynManager->freeAsynUser(asynUser);
 		if (status != asynSuccess)
-			asynPrint(This->pasynUserSelf, ASYN_TRACE_ERROR,
+			asynPrint(m_This->pasynUserSelf, ASYN_TRACE_ERROR,
                               "echoListener: Can't free port %s asynUser\n",
                                                                IOPortName);
-		if (This->m_asynUsers.size() > TableIndex)
-			This->m_asynUsers.erase(This->m_asynUsers.begin()+TableIndex);
-		if (This->m_RunRecord.size() > TableIndex)
-			This->m_RunRecord.erase(This->m_RunRecord.begin()+TableIndex);
+		if (m_This->m_asynUsers.size() > TableIndex)
+			m_This->m_asynUsers.erase(m_This->m_asynUsers.begin()+TableIndex);
+		if (m_This->m_RunRecord.size() > TableIndex)
+			m_This->m_RunRecord.erase(m_This->m_RunRecord.begin()+TableIndex);
 	}
-	This->m_ExitEvent.signal();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -185,11 +200,10 @@ void CLeyboldSimPortDriver::ListenerThread(void* parm)
 void CLeyboldSimPortDriver::octetConnectionCallback(void *drvPvt, asynUser *pasynUser, char *portName, 
                                size_t len, int eomReason)
 {
+	CLeyboldSimPortDriver* This = reinterpret_cast<CLeyboldSimPortDriver*>(drvPvt);
     // Create a new thread to communicate with this port
-    epicsThreadCreate(portName,
-                      epicsThreadPriorityMedium,
-                      epicsThreadGetStackSize(epicsThreadStackSmall),
-                      ListenerThread, drvPvt);
+	This->m_Threads.push_back(new epicsThread(*This->m_ThreadRunable, portName, 10000));
+	(*This->m_Threads.rbegin())->start();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -251,6 +265,7 @@ int CLeyboldSimPortDriver::UsedParams()
 		if (ParameterDefns[ParamIndex].m_UseCase == NotForSim)
 			// Not implemented, because not meaningful for the simulater.
 			continue;
+		// But the Single parameter list is required.
 		UsedParams++;
 	}
 	return UsedParams;
@@ -580,11 +595,6 @@ static const iocshArg initArg2 = { "NoOfPZD", iocshArgString};
 static const iocshArg * const initArgs[] = {&initArg0, &initArg1, &initArg2};
 static const iocshFuncDef initFuncDef = {"LeyboldSimPortDriverConfigure",3,initArgs};
 
-void CLeyboldSimPortDriver::exit()
-{
-	m_Exiting = true;
-}
-
 //////////////////////////////////////////////////////////////////////////////////////////////////
 //																								//
 //	void LeyboldSimExitFunc(void * param)														//
@@ -597,7 +607,6 @@ void CLeyboldSimPortDriver::exit()
 void LeyboldSimExitFunc(void * param)
 {
 	CLeyboldSimPortDriver* Instance = static_cast<CLeyboldSimPortDriver*>(param);
-	Instance->exit();
 	delete Instance;
 }
 
