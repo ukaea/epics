@@ -34,7 +34,7 @@
 //																								//
 //////////////////////////////////////////////////////////////////////////////////////////////////
 CLeyboldBase::CLeyboldBase(const char *portName, int maxAddr, int paramTableSize, int NoOfPZD) :
-	asynPortDriver(portName, maxAddr, paramTableSize,  Mask(), Mask(), ASYN_MULTIDEVICE, 1, 0, 0) 
+	asynPortDriver(portName, maxAddr, paramTableSize,  Mask(), Mask(), ASYN_MULTIDEVICE | ASYN_CANBLOCK, 1, 0, 0) 
 {
 	m_NoOfPZD = NoOfPZD;
 	for (size_t ParamIndex = 0; ParamIndex < size_t(NUM_PARAMS); ParamIndex++)
@@ -94,7 +94,7 @@ void CLeyboldBase::createParam(size_t list, size_t ParamIndex)
 	if (Status != asynSuccess)
 		throw CException(pasynUserSelf, Status, __FUNCTION__, ParamName);
 	m_Parameters[ParamName] = index;
-	ParamDefaultValue(ParamIndex);
+	ParamDefaultValue(list, ParamIndex);
 }
 
 void CLeyboldBase::createParam(size_t ParamIndex) 
@@ -130,6 +130,25 @@ void CLeyboldBase::ParamDefaultValue(size_t ParamIndex)
 			break;
 		case asynParamOctet: 
 			setStringParam (ParamName, "");
+			break;
+		default: assert(false);
+	}
+}
+
+void CLeyboldBase::ParamDefaultValue(size_t list, size_t ParamIndex)
+{
+	const char* ParamName = ParameterDefns[ParamIndex].m_Name;
+	switch(ParameterDefns[ParamIndex].m_Type)
+	{
+		// Set default values.
+		case asynParamInt32: 
+			setIntegerParam(list, ParamName, 0);
+			break;
+		case asynParamFloat64: 
+			setDoubleParam (list, ParamName, 0.0);
+			break;
+		case asynParamOctet: 
+			setStringParam (list, ParamName, "");
 			break;
 		default: assert(false);
 	}

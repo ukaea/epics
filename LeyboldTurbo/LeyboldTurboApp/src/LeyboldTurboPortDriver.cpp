@@ -29,13 +29,14 @@
 #include "USSPacket.h"
 #include "ParameterDefns.h"
 
+#include <epicsThread.h>
+
 #define epicsExportSharedSymbols
 #include <epicsExport.h>
 
 #include <stdlib.h>
 #include <stdexcept>
 
-epicsMutex CLeyboldTurboPortDriver::m_Mutex;
 CLeyboldTurboPortDriver* CLeyboldTurboPortDriver::m_Instance;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -65,14 +66,24 @@ CLeyboldTurboPortDriver::CLeyboldTurboPortDriver(const char *asynPortName, int n
 CLeyboldTurboPortDriver::~CLeyboldTurboPortDriver()
 {
 	m_Instance = NULL;
-	epicsGuard < epicsMutex > guard ( CLeyboldTurboPortDriver::m_Mutex );
+	disconnect();
+	for(size_t Index = 0; Index < m_Mutexes.size(); Index++)
+		delete m_Mutexes[Index];
+}
+
+void CLeyboldTurboPortDriver::disconnect()
+{
 	asynStatus overallstatus = asynSuccess;
+	for(size_t Index = 0; Index < m_Mutexes.size(); Index++)
+		m_Mutexes[Index]->lock();
 	for(size_t Index = 0; Index < m_IOUsers.size(); Index++)
 	{
 		asynStatus status = pasynOctetSyncIO->disconnect(m_IOUsers[Index]);
 		if (overallstatus == asynSuccess)
 			overallstatus = status;
 	}
+	for(size_t Index = 0; Index < m_Mutexes.size(); Index++)
+		m_Mutexes[Index]->unlock();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -121,7 +132,7 @@ void CLeyboldTurboPortDriver::addIOPort(const char* IOPortName)
 
 	callParamCallbacks(m_IOUsers.size());
 	m_IOUsers.push_back(IOUser);
-	m_Disconnected.push_back(false);
+	m_Mutexes.push_back(new epicsMutex());
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -164,7 +175,6 @@ asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *v
 	int function = pasynUser->reason;
 	int TableIndex;
 	asynStatus Status = asynSuccess;
-	epicsGuard < epicsMutex > guard ( CLeyboldTurboPortDriver::m_Mutex );
 	if (m_Instance == NULL)
 		// The IOC is exiting
 		return asynTimeout;
@@ -176,6 +186,11 @@ asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *v
 		if ((TableIndex < 0) || (TableIndex >= int(m_IOUsers.size())))
 			throw CException(pasynUser, asynError, __FUNCTION__, "User / pump not configured");
 
+		epicsGuard < epicsMutex > guard ( *(m_Mutexes[TableIndex]) );
+		if (m_Instance == NULL)
+			// The IOC is exiting
+			return asynTimeout;
+		
 		bool Running = (getIntegerParam(TableIndex, RUNNING) != Off);
 
 		if (function == Parameters(STATORFREQUENCY))
@@ -264,7 +279,6 @@ asynStatus CLeyboldTurboPortDriver::readOctet(asynUser *pasynUser, char *value, 
 	int function = pasynUser->reason;
 	int TableIndex;
 	asynStatus Status = asynSuccess;
-	epicsGuard < epicsMutex > guard ( CLeyboldTurboPortDriver::m_Mutex );
 	if (m_Instance == NULL)
 		// The IOC is exiting
 		return asynTimeout;
@@ -274,6 +288,10 @@ asynStatus CLeyboldTurboPortDriver::readOctet(asynUser *pasynUser, char *value, 
 			throw CException(pasynUser, Status, __FUNCTION__, "Could not get address");
 		if ((TableIndex < 0) || (TableIndex >= int(m_IOUsers.size())))
 			throw CException(pasynUser, asynError, __FUNCTION__, "User / pump not configured");
+		epicsGuard < epicsMutex > guard ( *(m_Mutexes[TableIndex]) );
+		if (m_Instance == NULL)
+			// The IOC is exiting
+			return asynTimeout;
 		bool Running = (getIntegerParam(TableIndex, RUNNING) != Off);
 		if (function == Parameters(FIRMWAREVERSION))
 		{
@@ -332,7 +350,7 @@ template<size_t NoOfPZD> bool CLeyboldTurboPortDriver::writeRead(int TableIndex,
 	// Infinite timeout, convenient for debugging.
 	const double TimeOut = -1;
 #else
-	const double TimeOut = 1;
+	const double TimeOut = 5;
 #endif
 	USSWritePacket.m_USSPacketStruct.HToN();
 	// NB, *don't* pass pasynUser to this function - it has the wrong type and will cause an access violation.
@@ -341,8 +359,11 @@ template<size_t NoOfPZD> bool CLeyboldTurboPortDriver::writeRead(int TableIndex,
 		reinterpret_cast<char*>(USSReadPacket.m_Bytes), USSPacketStruct<NoOfPZD>::USSPacketSize,
 		TimeOut, &nBytesOut, &nBytesIn, &eomReason);
 
-//	if (getIntegerParam(TableIndex, FAULT) == 65)
-	if (m_Disconnected[TableIndex])
+	if (m_Instance == NULL)
+		// The IOC is exiting
+		return false;
+
+	if (getIntegerParam(TableIndex, FAULT) == 65)
 	{
 		// If the connection is broken, it will generate an error every time, which is unhelpful at diagnosing.
 		// Only log the first fail and when the connection is restored.
@@ -351,7 +372,6 @@ template<size_t NoOfPZD> bool CLeyboldTurboPortDriver::writeRead(int TableIndex,
 		else
 			return false;
 	}
-	m_Disconnected[TableIndex] = (Status != asynSuccess);
 	if (Status != asynSuccess)
 	{
 		throw CException(IOUser, Status, __FUNCTION__, "Can't write/read:");
@@ -720,12 +740,15 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processWrite(int TableInd
 
 asynStatus CLeyboldTurboPortDriver::ErrorHandler(int TableIndex, CException const& E)
 {
+	if (m_Instance == NULL)
+		// The IOC is exiting
+		return asynTimeout;
+
 	// Internal communication failure
 	// NB, Asyn 4-27 requires that the parameter status is success before the value can be set through callback.
 	setParamStatus(TableIndex, FAULT, asynSuccess);
 	setParamStatus(TableIndex, FAULTSTR, asynSuccess);
 	setIntegerParam(TableIndex, FAULT, 65);
-	m_Disconnected[TableIndex] = true;
 	setStringParam (TableIndex, FAULTSTR, "Internal communication timeout");
 	callParamCallbacks(TableIndex);
 
@@ -746,10 +769,10 @@ asynStatus CLeyboldTurboPortDriver::ErrorHandler(int TableIndex, CException cons
 //////////////////////////////////////////////////////////////////////////////////////////////////
 asynStatus CLeyboldTurboPortDriver::writeInt32(asynUser *pasynUser, epicsInt32 value)
 {
-	epicsGuard < epicsMutex > guard ( CLeyboldTurboPortDriver::m_Mutex );
 	if (m_Instance == NULL)
 		// The IOC is exiting
 		return asynTimeout;
+
 	// Invoke the base class method to store the value in the database.
 	asynStatus Status = CLeyboldBase::writeInt32(pasynUser, value);
 	int TableIndex = 0;
@@ -759,6 +782,10 @@ asynStatus CLeyboldTurboPortDriver::writeInt32(asynUser *pasynUser, epicsInt32 v
 			throw CException(pasynUser, Status, __FUNCTION__, "Could not get address");
 		if ((TableIndex < 0) || (TableIndex >= int(m_IOUsers.size())))
 			throw CException(pasynUser, asynError, __FUNCTION__, "User / pump not configured");
+		epicsGuard < epicsMutex > guard ( *(m_Mutexes[TableIndex]) );
+		if (m_Instance == NULL)
+			// The IOC is exiting
+			return asynTimeout;
 		if (m_NoOfPZD == NoOfPZD2)
 			processWrite<NoOfPZD2>(TableIndex, pasynUser, value);
 		else
@@ -790,7 +817,8 @@ static const iocshFuncDef initFuncDef = {"LeyboldTurboPortDriverConfigure",3,ini
 void LeyboldTurboExitFunc(void * param)
 {
 	CLeyboldTurboPortDriver* Instance = static_cast<CLeyboldTurboPortDriver*>(param);
-//	delete Instance;
+//	Instance->disconnect();
+	delete Instance;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

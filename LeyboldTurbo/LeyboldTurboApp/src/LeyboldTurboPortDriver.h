@@ -25,8 +25,6 @@
 #include "LeyboldBase.h"
 #include "USSPacket.h"
 
-#include <epicsMutex.h>
-
 #include <map>
 #include <string>
 #include <vector>
@@ -39,6 +37,7 @@ public:
 
     CLeyboldTurboPortDriver(const char *AsynPortName, int NumPumps, int NoOfPZD);
     ~CLeyboldTurboPortDriver();
+	void disconnect();
     virtual asynStatus readInt32(asynUser *pasynUser, epicsInt32 *value);
     virtual asynStatus writeInt32(asynUser *pasynUser, epicsInt32 value);
     virtual asynStatus readOctet(asynUser *pasynUser, char *value, size_t maxChars,
@@ -59,8 +58,7 @@ protected:
 private:
 	// Each of these is associated with an octet I/O connection (i.e. serial or TCP port).
 	std::vector<asynUser*> m_IOUsers;
-	std::vector<bool> m_Disconnected;
-    static epicsMutex m_Mutex;
+    std::vector<epicsMutex*> m_Mutexes;
 	static CLeyboldTurboPortDriver* m_Instance;
 };
 

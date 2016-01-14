@@ -136,6 +136,7 @@ public:
 private:
 	static int Mask();
 	void ParamDefaultValue(size_t ParamIndex);
+	void ParamDefaultValue(size_t list, size_t ParamIndex);
 
 	// Each parameter is associated with an int handle.
 	// This structure is used in order to address them by name, which is more convenient.
