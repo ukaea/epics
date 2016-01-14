@@ -98,10 +98,21 @@ public:
 			throw CException(pasynUserSelf, Status, __FUNCTION__, ParamName);
 	}
 	void setStringParam(const char* ParamName, std::string const& value) {
-		setStringParam(0, ParamName, value);
+		asynStatus Status = asynPortDriver::setStringParam (Parameters(ParamName), value.substr(0, MaxEPICSStrLen).c_str());
+		if (Status != asynSuccess)
+			throw CException(pasynUserSelf, Status, __FUNCTION__, ParamName);
 	}
-    asynStatus setParamStatus(size_t list, const char* ParamName, asynStatus status) {
-		return asynPortDriver::setParamStatus(int(list), Parameters(ParamName), status);
+    void setParamStatus(size_t list, const char* ParamName, asynStatus ParamStatus) {
+		asynStatus Status = asynPortDriver::setParamStatus(int(list), Parameters(ParamName), ParamStatus);
+		if (Status != asynSuccess)
+			throw CException(pasynUserSelf, Status, __FUNCTION__, ParamName);
+	}
+    asynStatus getParamStatus(size_t list, const char* ParamName) {
+		asynStatus ParamStatus;
+		asynStatus Status = asynPortDriver::getParamStatus(int(list), Parameters(ParamName), &ParamStatus);
+		if (Status != asynSuccess)
+			throw CException(pasynUserSelf, Status, __FUNCTION__, ParamName);
+		return ParamStatus;
 	}
     int getIntegerParam(size_t list, const char* ParamName) {
 		int value = 0;

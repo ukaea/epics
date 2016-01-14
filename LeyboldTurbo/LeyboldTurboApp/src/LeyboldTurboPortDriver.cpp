@@ -363,7 +363,7 @@ template<size_t NoOfPZD> bool CLeyboldTurboPortDriver::writeRead(int TableIndex,
 		// The IOC is exiting
 		return false;
 
-	if (getIntegerParam(TableIndex, FAULT) == 65)
+	if (getParamStatus(TableIndex, FAULT) != asynSuccess)
 	{
 		// If the connection is broken, it will generate an error every time, which is unhelpful at diagnosing.
 		// Only log the first fail and when the connection is restored.
