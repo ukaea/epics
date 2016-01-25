@@ -121,17 +121,17 @@ void CLeyboldTurboPortDriver::addIOPort(const char* IOPortName)
 			continue;
 		// Create parameters from the definitions.
 		// These variables end up being addressed as e.g. TURBO:1:RUNNING.
-		createParam(m_IOUsers.size(), ParamIndex);
+		createParam(NrInstalled(), ParamIndex);
 	}
 
 	// Expected normal operation is for the pump to be running.
 	// NB, this value is NOT being applied as an output to the operating state of the pump.
 	// It is only the default value of the read-back, prior to the value being set by a scan cycle.
-	setIntegerParam (m_IOUsers.size(), RUNNING, On);
+	setIntegerParam (NrInstalled(), RUNNING, On);
 
 	asynUser* IOUser;
 	// Connect to the I/O port.
-	asynStatus Status = pasynOctetSyncIO->connect(IOPortName, int(m_IOUsers.size()), &IOUser, NULL);
+	asynStatus Status = pasynOctetSyncIO->connect(IOPortName, int(NrInstalled()), &IOUser, NULL);
 	if (Status != asynSuccess)
 		throw CException(pasynUserSelf, Status, __FUNCTION__, "connecting to IO port=" + std::string(IOPortName));
 
@@ -903,7 +903,7 @@ static void LeyboldTurboAddIOPort(const iocshArgBuf *args)
 	catch(CLeyboldTurboPortDriver::CException const& E) {
 		// make sure we return an error state if there are comms problems
 		if (CLeyboldTurboPortDriver::Instance())
-			CLeyboldTurboPortDriver::Instance()->ErrorHandler(CLeyboldTurboPortDriver::Instance()->NrInstalled(), E);
+			CLeyboldTurboPortDriver::Instance()->ErrorHandler(int(CLeyboldTurboPortDriver::Instance()->NrInstalled()), E);
 	}
 }
 
