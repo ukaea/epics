@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClInclude Include="nt.h" />
@@ -10,6 +10,17 @@
     <ClInclude Include="ntscalarArray.h" />
     <ClInclude Include="nttable.h" />
     <ClInclude Include="ntutils.h" />
+    <ClInclude Include="ntndarrayAttribute.h" />
+    <ClInclude Include="ntaggregate.h" />
+    <ClInclude Include="ntattribute.h" />
+    <ClInclude Include="ntcontinuum.h" />
+    <ClInclude Include="ntenum.h" />
+    <ClInclude Include="nthistogram.h" />
+    <ClInclude Include="ntid.h" />
+    <ClInclude Include="ntmatrix.h" />
+    <ClInclude Include="ntscalarMultiChannel.h" />
+    <ClInclude Include="ntunion.h" />
+    <ClInclude Include="nturi.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ntfield.cpp" />
@@ -20,5 +31,16 @@
     <ClCompile Include="ntscalarArray.cpp" />
     <ClCompile Include="nttable.cpp" />
     <ClCompile Include="ntutils.cpp" />
+    <ClCompile Include="ntndarrayAttribute.cpp" />
+    <ClCompile Include="ntaggregate.cpp" />
+    <ClCompile Include="ntattribute.cpp" />
+    <ClCompile Include="ntcontinuum.cpp" />
+    <ClCompile Include="ntenum.cpp" />
+    <ClCompile Include="nthistogram.cpp" />
+    <ClCompile Include="ntid.cpp" />
+    <ClCompile Include="ntmatrix.cpp" />
+    <ClCompile Include="ntscalarMultiChannel.cpp" />
+    <ClCompile Include="ntunion.cpp" />
+    <ClCompile Include="nturi.cpp" />
   </ItemGroup>
 </Project>

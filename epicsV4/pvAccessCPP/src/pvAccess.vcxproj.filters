@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="ca">
@@ -150,6 +150,9 @@
     <ClCompile Include="v3ioc\PVAServerRegister.cpp">
       <Filter>v3ioc</Filter>
     </ClCompile>
+    <ClCompile Include="ca\caStatus.cpp">
+      <Filter>ca</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ca\caChannel.h">
@@ -262,6 +265,9 @@
     </ClInclude>
     <ClInclude Include="utils\wildcard.h">
       <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="ca\caStatus.h">
+      <Filter>ca</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

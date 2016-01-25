@@ -390,6 +390,7 @@ xcopy /Y /Q /D /R v3ioc\*.h $(SolutionDir)include\pv &gt; NUL
   <ItemGroup>
     <ClCompile Include="ca\caChannel.cpp" />
     <ClCompile Include="ca\caProvider.cpp" />
+    <ClCompile Include="ca\caStatus.cpp" />
     <ClCompile Include="client\pvAccess.cpp" />
     <ClCompile Include="factory\ChannelAccessFactory.cpp" />
     <ClCompile Include="mb\pvAccessMB.cpp" />
@@ -429,6 +430,7 @@ xcopy /Y /Q /D /R v3ioc\*.h $(SolutionDir)include\pv &gt; NUL
   <ItemGroup>
     <ClInclude Include="ca\caChannel.h" />
     <ClInclude Include="ca\caProvider.h" />
+    <ClInclude Include="ca\caStatus.h" />
     <ClInclude Include="client\pvAccess.h" />
     <ClInclude Include="mb\pvAccessMB.h" />
     <ClInclude Include="pva\clientFactory.h" />
@@ -471,9 +473,6 @@ xcopy /Y /Q /D /R v3ioc\*.h $(SolutionDir)include\pv &gt; NUL
     </ProjectReference>
     <ProjectReference Include="..\..\..\base-3.15.3\src\libCom\Com.vcxproj">
       <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\pvCommonCPP\mbSrc\pvMB.vcxproj">
-      <Project>{aa7645c9-77df-4898-b241-9000c389f23f}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\pvDataCPP\src\pvData.vcxproj">
       <Project>{f4a51415-2981-42ee-87c7-f29d5805583e}</Project>
