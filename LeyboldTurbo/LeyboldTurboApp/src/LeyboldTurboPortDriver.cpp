@@ -105,6 +105,11 @@ void CLeyboldTurboPortDriver::addIOPort(const char* IOPortName)
 {
 	if (int(m_IOUsers.size()) >= maxAddr)
 		throw CException(pasynUserSelf, asynError, __FUNCTION__, "Too many pumps connected=" + std::string(IOPortName));
+
+	// If the new connection fails, the size of the vectors will still have increased.
+	// This means only the failing connection will be lost, and not all subsequent connections.
+	m_IOUsers.push_back(NULL);
+	m_Mutexes.push_back(NULL);
 		
 	for (size_t ParamIndex = 0; ParamIndex < size_t(NUM_PARAMS); ParamIndex++)
 	{
@@ -130,9 +135,9 @@ void CLeyboldTurboPortDriver::addIOPort(const char* IOPortName)
 	if (Status != asynSuccess)
 		throw CException(pasynUserSelf, Status, __FUNCTION__, "connecting to IO port=" + std::string(IOPortName));
 
-	callParamCallbacks(m_IOUsers.size());
-	m_IOUsers.push_back(IOUser);
-	m_Mutexes.push_back(new epicsMutex());
+	callParamCallbacks(NrInstalled());
+	m_IOUsers.back() = IOUser;
+	m_Mutexes.back() = new epicsMutex();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -183,7 +188,7 @@ asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *v
 		Status = getAddress(pasynUser, &TableIndex);
 		if (Status != asynSuccess)
 			throw CException(pasynUser, Status, __FUNCTION__, "Could not get address");
-		if ((TableIndex < 0) || (TableIndex >= int(m_IOUsers.size())))
+		if ((TableIndex < 0) || (TableIndex > int(NrInstalled())))
 			throw CException(pasynUser, asynError, __FUNCTION__, "User / pump not configured");
 
 		epicsGuard < epicsMutex > guard ( *(m_Mutexes[TableIndex]) );
@@ -202,52 +207,55 @@ asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *v
 				{
 					USSPacket<NoOfPZD2> USSWritePacket(Running, 4), // Intermediate circuit voltage Uzk
 						USSReadPacket;
-					if (writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket))
-					{
-						processRead(TableIndex, pasynUser, USSReadPacket);
-						setDoubleParam  (TableIndex, CIRCUITVOLTAGE, 0.1 * USSReadPacket.m_USSPacketStruct.m_PWE);
-					}
+					if (!writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket))
+						// Get outta here but don't log error.
+						return asynSuccess;
+
+					processRead(TableIndex, pasynUser, USSReadPacket);
+					setDoubleParam  (TableIndex, CIRCUITVOLTAGE, 0.1 * USSReadPacket.m_USSPacketStruct.m_PWE);
 				}
 				{
 					USSPacket<NoOfPZD2> USSWritePacket(Running, 5), // Motor current - actual value
 						USSReadPacket;
-					if (writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket))
-					{
-						processRead(TableIndex, pasynUser, USSReadPacket);
-						setDoubleParam  (TableIndex, MOTORCURRENT, 0.1 * USSReadPacket.m_USSPacketStruct.m_PWE);
-					}
+					if (!writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket))
+						// Get outta here but don't log error.
+						return asynSuccess;
+
+					processRead(TableIndex, pasynUser, USSReadPacket);
+					setDoubleParam  (TableIndex, MOTORCURRENT, 0.1 * USSReadPacket.m_USSPacketStruct.m_PWE);
 				}
 				{
 					USSPacket<NoOfPZD2> USSWritePacket(Running, 7), // Converter temperature - actual value
 						USSReadPacket;
-					if (writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket))
-					{
-						processRead(TableIndex, pasynUser, USSReadPacket);
-						setIntegerParam (TableIndex, PUMPTEMPERATURE, USSReadPacket.m_USSPacketStruct.m_PWE);
-					}
+					if (!writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket))
+						// Get outta here but don't log error.
+						return asynSuccess;
+					processRead(TableIndex, pasynUser, USSReadPacket);
+					setIntegerParam (TableIndex, PUMPTEMPERATURE, USSReadPacket.m_USSPacketStruct.m_PWE);
 				}
 				{
 					USSPacket<NoOfPZD2> USSWritePacket(Running, 11), // Converter temperature - actual value
 						USSReadPacket;
-					if (writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket))
-					{
-						processRead(TableIndex, pasynUser, USSReadPacket);
-						setIntegerParam (TableIndex, CONVERTERTEMPERATURE, USSReadPacket.m_USSPacketStruct.m_PWE);
-					}
+					if (!writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket))
+						// Get outta here but don't log error.
+						return asynSuccess;
+					processRead(TableIndex, pasynUser, USSReadPacket);
+					setIntegerParam (TableIndex, CONVERTERTEMPERATURE, USSReadPacket.m_USSPacketStruct.m_PWE);
 				}
 			}
 			else
 			{
 				USSPacket<NoOfPZD6> USSWritePacket(Running), USSReadPacket;
-				if (writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket))
-				{
-					processRead(TableIndex, pasynUser, USSReadPacket);
-					// Process the data fields 2..5. These don't exist for the smaller packet.
-					setIntegerParam (TableIndex, CONVERTERTEMPERATURE, USSReadPacket.m_USSPacketStruct.m_PZD[2]);
-					setDoubleParam  (TableIndex, MOTORCURRENT, 0.1 * USSReadPacket.m_USSPacketStruct.m_PZD[3]);
-					setIntegerParam (TableIndex, PUMPTEMPERATURE, USSReadPacket.m_USSPacketStruct.m_PZD[4]);
-					setDoubleParam  (TableIndex, CIRCUITVOLTAGE, 0.1 * USSReadPacket.m_USSPacketStruct.m_PZD[5]);
-				}
+				if (!writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket))
+					// Get outta here but don't log error.
+					return asynSuccess;
+
+				processRead(TableIndex, pasynUser, USSReadPacket);
+				// Process the data fields 2..5. These don't exist for the smaller packet.
+				setIntegerParam (TableIndex, CONVERTERTEMPERATURE, USSReadPacket.m_USSPacketStruct.m_PZD[2]);
+				setDoubleParam  (TableIndex, MOTORCURRENT, 0.1 * USSReadPacket.m_USSPacketStruct.m_PZD[3]);
+				setIntegerParam (TableIndex, PUMPTEMPERATURE, USSReadPacket.m_USSPacketStruct.m_PZD[4]);
+				setDoubleParam  (TableIndex, CIRCUITVOLTAGE, 0.1 * USSReadPacket.m_USSPacketStruct.m_PZD[5]);
 			}
 		}
 		asynPrint(pasynUser, ASYN_TRACE_FLOW, "Packet success %s %s\n", __FILE__, __FUNCTION__);
@@ -286,7 +294,7 @@ asynStatus CLeyboldTurboPortDriver::readOctet(asynUser *pasynUser, char *value, 
 		Status = getAddress(pasynUser, &TableIndex);
 		if (Status != asynSuccess)
 			throw CException(pasynUser, Status, __FUNCTION__, "Could not get address");
-		if ((TableIndex < 0) || (TableIndex >= int(m_IOUsers.size())))
+		if ((TableIndex < 0) || (TableIndex > int(NrInstalled())))
 			throw CException(pasynUser, asynError, __FUNCTION__, "User / pump not configured");
 		epicsGuard < epicsMutex > guard ( *(m_Mutexes[TableIndex]) );
 		if (m_Instance == NULL)
@@ -301,14 +309,20 @@ asynStatus CLeyboldTurboPortDriver::readOctet(asynUser *pasynUser, char *value, 
 			{
 				USSPacket<NoOfPZD2> USSWritePacket(Running, 2),
 					USSReadPacket;
-				writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
+				if (!writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket))
+					// Get outta here but don't log error.
+					return asynSuccess;
+
 				PWE = USSReadPacket.m_USSPacketStruct.m_PWE;
 			}
 			else
 			{
 				USSPacket<NoOfPZD6> USSWritePacket(Running, 2),
 					USSReadPacket;
-				writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
+				if (!writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket))
+					// Get outta here but don't log error.
+					return asynSuccess;
+
 				PWE = USSReadPacket.m_USSPacketStruct.m_PWE;
 			}
 			char CBuf[8]; // 7 chars plus null termination
@@ -352,6 +366,10 @@ template<size_t NoOfPZD> bool CLeyboldTurboPortDriver::writeRead(int TableIndex,
 #else
 	const double TimeOut = 5;
 #endif
+	if (IOUser == NULL)
+		// The connection is failed.
+		return false;
+
 	USSWritePacket.m_USSPacketStruct.HToN();
 	// NB, *don't* pass pasynUser to this function - it has the wrong type and will cause an access violation.
 	asynStatus Status = pasynOctetSyncIO->writeRead(IOUser,
@@ -363,7 +381,7 @@ template<size_t NoOfPZD> bool CLeyboldTurboPortDriver::writeRead(int TableIndex,
 		// The IOC is exiting
 		return false;
 
-	if (getParamStatus(TableIndex, FAULT) != asynSuccess)
+	if ((getParamStatus(TableIndex, FAULT) != asynSuccess) || (getIntegerParam (TableIndex, FAULT) == 65))
 	{
 		// If the connection is broken, it will generate an error every time, which is unhelpful at diagnosing.
 		// Only log the first fail and when the connection is restored.
@@ -436,7 +454,9 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processRead(int TableInde
 		// We have an error status. Request the error code
 		USSPacket<NoOfPZD> USSWritePacket(Running, 171), USSReadPacket;
 
-		writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
+		if (!writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket))
+			// Get outta here but don't log error.
+			return;
 
 		setIntegerParam (TableIndex, FAULT, USSReadPacket.m_USSPacketStruct.m_PWE);
 
@@ -541,7 +561,9 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processRead(int TableInde
 		// We have a temperature warning status. Request the warning bits.
 		USSPacket<NoOfPZD> USSWritePacket(Running, 227), USSReadPacket;
 
-		writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
+		if (!writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket))
+			// Get outta here but don't log error.
+			return;
 
 		// NB, 16 possible warning values here.
 		// This is not (now) using MBBI but keep it short.
@@ -595,7 +617,9 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processRead(int TableInde
 		// We have a high load warning status. Request the warning bits.
 		USSPacket<NoOfPZD> USSWritePacket(Running, 228), USSReadPacket;
 
-		writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
+		if (!writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket))
+			// Get outta here but don't log error.
+			return;
 
 		const char WarningStrings[BitsPerUInt16][MaxEPICSMBBIStrLen] =
 		{
@@ -645,7 +669,10 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processRead(int TableInde
 		// We have a purge not active warning status. Request the warning bits.
 		USSPacket<NoOfPZD> USSWritePacket(Running, 230), USSReadPacket;
 
-		writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
+		if (!writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket))
+			// Get outta here but don't log error.
+			return;
+
 		const char WarningStrings[8][MaxEPICSMBBIStrLen] =
 		{
 			"Ident CRC data",
@@ -734,7 +761,9 @@ template<size_t NoOfPZD> void CLeyboldTurboPortDriver::processWrite(int TableInd
 		USSWritePacket.m_USSPacketStruct.m_PZD[0] |= (value ? 1 : 0) << 7;	// High
 	}
 	USSWritePacket.GenerateChecksum();
-	writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket);
+	if (!writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket))
+		// Get outta here but don't log error.
+		return;
 	processRead(TableIndex, pasynUser, USSReadPacket);
 }
 
@@ -871,7 +900,10 @@ static void LeyboldTurboAddIOPort(const iocshArgBuf *args)
 		if (CLeyboldTurboPortDriver::Instance())
 			CLeyboldTurboPortDriver::Instance()->addIOPort(IOPortName);
 	}
-	catch(CLeyboldTurboPortDriver::CException const&) {
+	catch(CLeyboldTurboPortDriver::CException const& E) {
+		// make sure we return an error state if there are comms problems
+		if (CLeyboldTurboPortDriver::Instance())
+			CLeyboldTurboPortDriver::Instance()->ErrorHandler(CLeyboldTurboPortDriver::Instance()->NrInstalled(), E);
 	}
 }
 

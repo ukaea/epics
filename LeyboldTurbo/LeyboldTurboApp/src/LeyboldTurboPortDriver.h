@@ -46,13 +46,16 @@ public:
 	static CLeyboldTurboPortDriver* Instance() {
 		return m_Instance;
 	}
+	asynStatus ErrorHandler(int TableIndex, CException const& E);
+	size_t NrInstalled() {
+		return m_IOUsers.size()-1;
+	}
 
                  
 protected:
 	template<size_t NoOfPZD> bool writeRead(int TableIndex, asynUser *pasynUser, USSPacket<NoOfPZD> USSWritePacket, USSPacket<NoOfPZD>& USSReadPacket);
 	template<size_t NoOfPZD> void processRead(int TableIndex, asynUser *pasynUser, USSPacket<NoOfPZD> const& USSReadPacket);
 	template<size_t NoOfPZD> void processWrite(int TableIndex, asynUser *pasynUser, epicsInt32 value);
-	asynStatus ErrorHandler(int TableIndex, CException const& E);
 	static int UsedParams();
 
 private:

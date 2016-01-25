@@ -78,7 +78,7 @@ IPPORT5=localhost:5070
 IPPORT6=localhost:5071
 $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-    <LocalDebuggerCommandArguments>..\..\iocBoot\iocLeyboldTurbo\st6.cmd</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>..\..\iocBoot\iocLeyboldTurbo\st6.simulated.cmd</LocalDebuggerCommandArguments>
     <LocalDebuggerWorkingDirectory>$(ProjectDir)\Scripts</LocalDebuggerWorkingDirectory>
     <DevPartner_IsInstrumented>1</DevPartner_IsInstrumented>
     <DevPartner_Instrumented_Type> /NMbcOn</DevPartner_Instrumented_Type>
