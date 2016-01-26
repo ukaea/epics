@@ -125,7 +125,7 @@ set EPICS_HOST_ARCH=win32-x86-static
 goto CONTINUE
 
 :X86DEBUG
-set EPICS_HOST_ARCH=win32-x86-static-debug
+set EPICS_HOST_ARCH=win32-x86-debug-static
 goto CONTINUE
 
 :X86DLL
