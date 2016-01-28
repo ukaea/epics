@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="dbGroup">
@@ -7,6 +7,9 @@
     </Filter>
     <Filter Include="dbPv">
       <UniqueIdentifier>{2ec4e012-1a5a-4bb3-97e5-43a84d55ad26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dbPv\3.15">
+      <UniqueIdentifier>{c5cef0da-1c4c-4032-88fb-1108d3dac9ab}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -25,47 +28,41 @@
     <ClCompile Include="dbGroup\pvValue.cpp">
       <Filter>dbGroup</Filter>
     </ClCompile>
-    <ClCompile Include="dbPv\caContext.cpp">
-      <Filter>dbPv</Filter>
+    <ClCompile Include="dbPv\3.15\caContext.cpp">
+      <Filter>dbPv\3.15</Filter>
     </ClCompile>
-    <ClCompile Include="dbPv\caMonitor.cpp">
-      <Filter>dbPv</Filter>
+    <ClCompile Include="dbPv\3.15\caMonitor.cpp">
+      <Filter>dbPv\3.15</Filter>
     </ClCompile>
-    <ClCompile Include="dbPv\caSecurity.cpp">
-      <Filter>dbPv</Filter>
+    <ClCompile Include="dbPv\3.15\caSecurity.cpp">
+      <Filter>dbPv\3.15</Filter>
     </ClCompile>
-    <ClCompile Include="dbPv\dbPv.cpp">
-      <Filter>dbPv</Filter>
+    <ClCompile Include="dbPv\3.15\dbPv.cpp">
+      <Filter>dbPv\3.15</Filter>
     </ClCompile>
-    <ClCompile Include="dbPv\dbPvArray.cpp">
-      <Filter>dbPv</Filter>
+    <ClCompile Include="dbPv\3.15\dbPvArray.cpp">
+      <Filter>dbPv\3.15</Filter>
     </ClCompile>
-    <ClCompile Include="dbPv\dbPvGet.cpp">
-      <Filter>dbPv</Filter>
+    <ClCompile Include="dbPv\3.15\dbPvGet.cpp">
+      <Filter>dbPv\3.15</Filter>
     </ClCompile>
-    <ClCompile Include="dbPv\dbPvMonitor.cpp">
-      <Filter>dbPv</Filter>
+    <ClCompile Include="dbPv\3.15\dbPvMonitor.cpp">
+      <Filter>dbPv\3.15</Filter>
     </ClCompile>
-    <ClCompile Include="dbPv\dbPvMultiGet.cpp">
-      <Filter>dbPv</Filter>
+    <ClCompile Include="dbPv\3.15\dbPvProcess.cpp">
+      <Filter>dbPv\3.15</Filter>
     </ClCompile>
-    <ClCompile Include="dbPv\dbPvMultiPut.cpp">
-      <Filter>dbPv</Filter>
+    <ClCompile Include="dbPv\3.15\dbPvProvider.cpp">
+      <Filter>dbPv\3.15</Filter>
     </ClCompile>
-    <ClCompile Include="dbPv\dbPvProcess.cpp">
-      <Filter>dbPv</Filter>
+    <ClCompile Include="dbPv\3.15\dbPvPut.cpp">
+      <Filter>dbPv\3.15</Filter>
     </ClCompile>
-    <ClCompile Include="dbPv\dbPvProvider.cpp">
-      <Filter>dbPv</Filter>
+    <ClCompile Include="dbPv\3.15\dbPvRegister.cpp">
+      <Filter>dbPv\3.15</Filter>
     </ClCompile>
-    <ClCompile Include="dbPv\dbPvPut.cpp">
-      <Filter>dbPv</Filter>
-    </ClCompile>
-    <ClCompile Include="dbPv\dbPvRegister.cpp">
-      <Filter>dbPv</Filter>
-    </ClCompile>
-    <ClCompile Include="dbPv\dbUtil.cpp">
-      <Filter>dbPv</Filter>
+    <ClCompile Include="dbPv\3.15\dbUtil.cpp">
+      <Filter>dbPv\3.15</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -75,11 +72,8 @@
     <None Include="dbGroup\Makefile">
       <Filter>dbGroup</Filter>
     </None>
-    <None Include="dbPv\dbPv.dbd">
-      <Filter>dbPv</Filter>
-    </None>
-    <None Include="dbPv\Makefile">
-      <Filter>dbPv</Filter>
+    <None Include="dbPv\3.15\dbPv.dbd">
+      <Filter>dbPv\3.15</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -89,23 +83,23 @@
     <ClInclude Include="dbGroup\pvValue.h">
       <Filter>dbGroup</Filter>
     </ClInclude>
-    <ClInclude Include="dbPv\caContext.h">
-      <Filter>dbPv</Filter>
+    <ClInclude Include="dbPv\3.15\caContext.h">
+      <Filter>dbPv\3.15</Filter>
     </ClInclude>
-    <ClInclude Include="dbPv\caMonitor.h">
-      <Filter>dbPv</Filter>
+    <ClInclude Include="dbPv\3.15\caMonitor.h">
+      <Filter>dbPv\3.15</Filter>
     </ClInclude>
-    <ClInclude Include="dbPv\caSecurity.h">
-      <Filter>dbPv</Filter>
+    <ClInclude Include="dbPv\3.15\caSecurity.h">
+      <Filter>dbPv\3.15</Filter>
     </ClInclude>
-    <ClInclude Include="dbPv\dbPv.h">
-      <Filter>dbPv</Filter>
+    <ClInclude Include="dbPv\3.15\dbPv.h">
+      <Filter>dbPv\3.15</Filter>
     </ClInclude>
-    <ClInclude Include="dbPv\dbPvDebug.h">
-      <Filter>dbPv</Filter>
+    <ClInclude Include="dbPv\3.15\dbPvDebug.h">
+      <Filter>dbPv\3.15</Filter>
     </ClInclude>
-    <ClInclude Include="dbPv\dbUtil.h">
-      <Filter>dbPv</Filter>
+    <ClInclude Include="dbPv\3.15\dbUtil.h">
+      <Filter>dbPv\3.15</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

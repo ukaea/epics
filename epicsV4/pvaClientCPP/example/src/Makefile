@@ -60,12 +60,13 @@ examplePvaClientNTMulti_LIBS += ca
 examplePvaClientNTMulti_LIBS += Com
 
 PROD_HOST += helloWorldRPC
-helloWorldPutGet_LIBS += pvaClient
-helloWorldPutGet_LIBS += pvAccess
-helloWorldPutGet_LIBS += nt
-helloWorldPutGet_LIBS += pvData
-helloWorldPutGet_LIBS += ca
-helloWorldPutGet_LIBS += Com
+helloWorldRPC_SRCS += helloWorldRPC.cpp
+helloWorldRPC_LIBS += pvaClient
+helloWorldRPC_LIBS += pvAccess
+helloWorldRPC_LIBS += nt
+helloWorldRPC_LIBS += pvData
+helloWorldRPC_LIBS += ca
+helloWorldRPC_LIBS += Com
 
 PROD_HOST += helloWorldPutGet
 helloWorldPutGet_SRCS += helloWorldPutGet.cpp

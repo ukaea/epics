@@ -19,6 +19,7 @@ ifdef WITH_MICROBENCH
 
     mb_stat_SRCS += mb_stat.cpp
     mb_stat_LIBS += pvMB Com
+	USR_LDFLAGS += -LIBPATH:../../boostApp/boost/stage/lib/
 endif
 
 include $(TOP)/configure/RULES

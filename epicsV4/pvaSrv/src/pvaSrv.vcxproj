@@ -144,7 +144,7 @@
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q /D /R dbPv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R dbPv\3.15\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R dbGroup\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -165,7 +165,7 @@ xcopy /Y /Q /D /R dbGroup\*.h $(SolutionDir)include\pv &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q /D /R dbPv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R dbPv\3.15\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R dbGroup\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -187,7 +187,7 @@ xcopy /Y /Q /D /R dbGroup\*.h $(SolutionDir)include\pv &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q /D /R dbPv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R dbPv\3.15\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R dbGroup\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -208,7 +208,7 @@ xcopy /Y /Q /D /R dbGroup\*.h $(SolutionDir)include\pv &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q /D /R dbPv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R dbPv\3.15\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R dbGroup\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -233,7 +233,7 @@ xcopy /Y /Q /D /R dbGroup\*.h $(SolutionDir)include\pv &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q /D /R dbPv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R dbPv\3.15\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R dbGroup\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -258,7 +258,7 @@ xcopy /Y /Q /D /R dbGroup\*.h $(SolutionDir)include\pv &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q /D /R dbPv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R dbPv\3.15\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R dbGroup\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -284,7 +284,7 @@ xcopy /Y /Q /D /R dbGroup\*.h $(SolutionDir)include\pv &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q /D /R dbPv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R dbPv\3.15\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R dbGroup\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -309,7 +309,7 @@ xcopy /Y /Q /D /R dbGroup\*.h $(SolutionDir)include\pv &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q /D /R dbPv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R dbPv\3.15\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R dbGroup\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -365,38 +365,41 @@ xcopy /Y /Q /D /R dbGroup\*.h $(SolutionDir)include\pv &gt; NUL
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="dbPv\caContext.cpp" />
-    <ClCompile Include="dbPv\caMonitor.cpp" />
-    <ClCompile Include="dbPv\caSecurity.cpp" />
-    <ClCompile Include="dbPv\dbPv.cpp" />
-    <ClCompile Include="dbPv\dbPvArray.cpp" />
-    <ClCompile Include="dbPv\dbPvGet.cpp" />
-    <ClCompile Include="dbPv\dbPvMonitor.cpp" />
-    <ClCompile Include="dbPv\dbPvMultiGet.cpp" />
-    <ClCompile Include="dbPv\dbPvMultiPut.cpp" />
-    <ClCompile Include="dbPv\dbPvProcess.cpp" />
-    <ClCompile Include="dbPv\dbPvProvider.cpp" />
-    <ClCompile Include="dbPv\dbPvPut.cpp" />
-    <ClCompile Include="dbPv\dbPvRegister.cpp" />
-    <ClCompile Include="dbPv\dbUtil.cpp" />
+    <ClCompile Include="dbPv\3.15\caContext.cpp" />
+    <ClCompile Include="dbPv\3.15\caMonitor.cpp" />
+    <ClCompile Include="dbPv\3.15\caSecurity.cpp" />
+    <ClCompile Include="dbPv\3.15\dbPv.cpp" />
+    <ClCompile Include="dbPv\3.15\dbPvArray.cpp" />
+    <ClCompile Include="dbPv\3.15\dbPvGet.cpp" />
+    <ClCompile Include="dbPv\3.15\dbPvMonitor.cpp" />
+    <ClCompile Include="dbPv\3.15\dbPvProcess.cpp" />
+    <ClCompile Include="dbPv\3.15\dbPvProvider.cpp" />
+    <ClCompile Include="dbPv\3.15\dbPvPut.cpp" />
+    <ClCompile Include="dbPv\3.15\dbPvRegister.cpp" />
+    <ClCompile Include="dbPv\3.15\dbUtil.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="dbGroup\dbGroup.dbd" />
     <None Include="dbGroup\Makefile" />
-    <None Include="dbPv\dbPv.dbd" />
-    <None Include="dbPv\Makefile" />
+    <None Include="dbPv\3.15\dbPv.dbd" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dbGroup\dbGroup.h" />
     <ClInclude Include="dbGroup\pvValue.h" />
-    <ClInclude Include="dbPv\caContext.h" />
-    <ClInclude Include="dbPv\caMonitor.h" />
-    <ClInclude Include="dbPv\caSecurity.h" />
-    <ClInclude Include="dbPv\dbPv.h" />
-    <ClInclude Include="dbPv\dbPvDebug.h" />
-    <ClInclude Include="dbPv\dbUtil.h" />
+    <ClInclude Include="dbPv\3.15\caContext.h" />
+    <ClInclude Include="dbPv\3.15\caMonitor.h" />
+    <ClInclude Include="dbPv\3.15\caSecurity.h" />
+    <ClInclude Include="dbPv\3.15\dbPv.h" />
+    <ClInclude Include="dbPv\3.15\dbPvDebug.h" />
+    <ClInclude Include="dbPv\3.15\dbUtil.h" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\base-3.15.3\src\ca\client\ca.vcxproj">
+      <Project>{02caf068-a7fc-463e-aa7e-72eeaf665826}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\base-3.15.3\src\ioc\dbCore.vcxproj">
+      <Project>{440c585d-ad66-4738-941c-a87a1817a9be}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\base-3.15.3\src\libCom\Com.vcxproj">
       <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
     </ProjectReference>
