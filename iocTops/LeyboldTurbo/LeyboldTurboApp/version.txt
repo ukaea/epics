@@ -1,2 +1,2 @@
-SU19049 Updated with local LabVIEW GUI
+SU19179 Addresed recovery in the case of serial connection failed.
 

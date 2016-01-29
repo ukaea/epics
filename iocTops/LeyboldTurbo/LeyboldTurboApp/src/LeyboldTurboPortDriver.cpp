@@ -208,7 +208,7 @@ asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *v
 					USSPacket<NoOfPZD2> USSWritePacket(Running, 4), // Intermediate circuit voltage Uzk
 						USSReadPacket;
 					if (!writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket))
-						// Get outta here but don't log error.
+						// Get outta here but don't log (another) error.
 						return asynSuccess;
 
 					processRead(TableIndex, pasynUser, USSReadPacket);
@@ -218,7 +218,7 @@ asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *v
 					USSPacket<NoOfPZD2> USSWritePacket(Running, 5), // Motor current - actual value
 						USSReadPacket;
 					if (!writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket))
-						// Get outta here but don't log error.
+						// Get outta here but don't log (another) error.
 						return asynSuccess;
 
 					processRead(TableIndex, pasynUser, USSReadPacket);
@@ -228,7 +228,7 @@ asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *v
 					USSPacket<NoOfPZD2> USSWritePacket(Running, 7), // Converter temperature - actual value
 						USSReadPacket;
 					if (!writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket))
-						// Get outta here but don't log error.
+						// Get outta here but don't log (another) error.
 						return asynSuccess;
 					processRead(TableIndex, pasynUser, USSReadPacket);
 					setIntegerParam (TableIndex, PUMPTEMPERATURE, USSReadPacket.m_USSPacketStruct.m_PWE);
@@ -237,7 +237,7 @@ asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *v
 					USSPacket<NoOfPZD2> USSWritePacket(Running, 11), // Converter temperature - actual value
 						USSReadPacket;
 					if (!writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket))
-						// Get outta here but don't log error.
+						// Get outta here but don't log (another) error.
 						return asynSuccess;
 					processRead(TableIndex, pasynUser, USSReadPacket);
 					setIntegerParam (TableIndex, CONVERTERTEMPERATURE, USSReadPacket.m_USSPacketStruct.m_PWE);
@@ -247,7 +247,7 @@ asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *v
 			{
 				USSPacket<NoOfPZD6> USSWritePacket(Running), USSReadPacket;
 				if (!writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket))
-					// Get outta here but don't log error.
+					// Get outta here but don't log (another) error.
 					return asynSuccess;
 
 				processRead(TableIndex, pasynUser, USSReadPacket);
@@ -310,7 +310,7 @@ asynStatus CLeyboldTurboPortDriver::readOctet(asynUser *pasynUser, char *value, 
 				USSPacket<NoOfPZD2> USSWritePacket(Running, 2),
 					USSReadPacket;
 				if (!writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket))
-					// Get outta here but don't log error.
+					// Get outta here but don't log (another) error.
 					return asynSuccess;
 
 				PWE = USSReadPacket.m_USSPacketStruct.m_PWE;
@@ -320,7 +320,7 @@ asynStatus CLeyboldTurboPortDriver::readOctet(asynUser *pasynUser, char *value, 
 				USSPacket<NoOfPZD6> USSWritePacket(Running, 2),
 					USSReadPacket;
 				if (!writeRead(TableIndex, pasynUser, USSWritePacket, USSReadPacket))
-					// Get outta here but don't log error.
+					// Get outta here but don't log (another) error.
 					return asynSuccess;
 
 				PWE = USSReadPacket.m_USSPacketStruct.m_PWE;
