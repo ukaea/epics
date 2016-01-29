@@ -69,7 +69,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DAQmxBase", "DAQmxBase", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DAQmxBaseApp", "DAQmxBaseApp", "{8004015A-D146-405A-A9EE-C1C8EF70E463}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DAQmxBaseApp", "DAQmxBase\DAQmxBaseApp\DAQmxBaseApp.vcxproj", "{4198C3D2-FCF6-4FCA-B093-A0C53A4DB235}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DAQmxBaseApp", "iocTops\DAQmxBase\DAQmxBaseApp\DAQmxBaseApp.vcxproj", "{4198C3D2-FCF6-4FCA-B093-A0C53A4DB235}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "asyn4-28", "asyn4-28", "{1E22D567-DE95-4057-98E3-55F01A99D61F}"
 EndProject
@@ -278,7 +278,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LeyboldSimApp", "LeyboldSim
 		LeyboldTurbo\LeyboldSimApp\LeyboldSim.py = LeyboldTurbo\LeyboldSimApp\LeyboldSim.py
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LeyboldSim", "LeyboldTurbo\LeyboldSimApp\LeyboldSim.vcxproj", "{4FBF939A-460F-4ADC-822E-9049AB4DA174}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LeyboldSim", "iocTops\LeyboldTurbo\LeyboldSimApp\LeyboldSim.vcxproj", "{4FBF939A-460F-4ADC-822E-9049AB4DA174}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "iocLeyboldSim", "iocLeyboldSim", "{8687A51C-BA97-4FFE-9B0B-55DACE994618}"
 	ProjectSection(SolutionItems) = preProject
@@ -301,9 +301,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{4E2E
 		LeyboldTurbo\LeyboldTurboApp\Scripts\SetRunning.py = LeyboldTurbo\LeyboldTurboApp\Scripts\SetRunning.py
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LeyboldTurboDev", "LeyboldTurbo\LeyboldTurboApp\LeyboldTurboDev.vcxproj", "{BAE6CE99-140A-4018-8BCB-9D63F54D6F07}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LeyboldTurboDev", "iocTops\LeyboldTurbo\LeyboldTurboApp\LeyboldTurboDev.vcxproj", "{BAE6CE99-140A-4018-8BCB-9D63F54D6F07}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LeyboldTurboApp", "LeyboldTurbo\LeyboldTurboApp\LeyboldTurboApp.vcxproj", "{D3311F39-9AE8-4F16-BE04-1D1D31135BA9}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LeyboldTurboApp", "iocTops\LeyboldTurbo\LeyboldTurboApp\LeyboldTurboApp.vcxproj", "{D3311F39-9AE8-4F16-BE04-1D1D31135BA9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "iocTops", "iocTops", "{8BA6450F-19D0-44A3-90DB-D42ADAC42E4D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1652,5 +1654,7 @@ Global
 		{8687A51C-BA97-4FFE-9B0B-55DACE994618} = {73322DE2-4EF3-41A8-86BE-BB9C2EEFDE68}
 		{4FBF939A-460F-4ADC-822E-9049AB4DA174} = {36E5CD3A-D134-4077-841A-A26AC2FAAFC0}
 		{3B25DF17-DA76-4505-BB10-99F4E84DFFB1} = {36E5CD3A-D134-4077-841A-A26AC2FAAFC0}
+		{4B195F07-0BF2-457B-9FC7-94553D28B259} = {8BA6450F-19D0-44A3-90DB-D42ADAC42E4D}
+		{D04ACFD8-B76B-4D6C-BF02-F280CF75ABAA} = {8BA6450F-19D0-44A3-90DB-D42ADAC42E4D}
 	EndGlobalSection
 EndGlobal

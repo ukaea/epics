@@ -1,10 +1,6 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="Debug_DLL|Win32">
-      <Configuration>Debug_DLL</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
     <ProjectConfiguration Include="Debug_DLL|x64">
       <Configuration>Debug_DLL</Configuration>
       <Platform>x64</Platform>
@@ -13,13 +9,13 @@
       <Configuration>Debug_LIB</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug_DLL|Win32">
+      <Configuration>Debug_DLL</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Debug_LIB|x64">
       <Configuration>Debug_LIB</Configuration>
       <Platform>x64</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release_DLL|Win32">
-      <Configuration>Release_DLL</Configuration>
-      <Platform>Win32</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Release_DLL|x64">
       <Configuration>Release_DLL</Configuration>
@@ -29,91 +25,115 @@
       <Configuration>Release_LIB</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_DLL|Win32">
+      <Configuration>Release_DLL</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release_LIB|x64">
       <Configuration>Release_LIB</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="O.Common\LeyboldTurbo_registerRecordDeviceDriver.cpp" />
-    <ClCompile Include="src\LeyboldTurboMain.cpp" />
+    <ClCompile Include="O.Common\DAQmxBase_registerRecordDeviceDriver.cpp" />
+    <ClCompile Include="src\DAQmxBaseMain.cpp" />
+    <ClCompile Include="src\drvDaqMxBase.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\base-3.15.3\src\ca\client\ca.vcxproj">
-      <Project>{02caf068-a7fc-463e-aa7e-72eeaf665826}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\base-3.15.3\src\std\softIoc\softIoc.vcxproj">
-      <Project>{0df29c1b-6c17-4d60-8b78-27fe8714dc11}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\support\asyn4-28\asyn\asyn.vcxproj">
-      <Project>{c3ea0ff7-6039-4884-ba91-7b4619befea5}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\base-3.15.3\src\ioc\dbCore.vcxproj">
+    <ClInclude Include="NiDaqMx\NIDAQmx.h" />
+    <ClInclude Include="NiDaqMx\NIDAQmxBase.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\DAQmxBaseSupport.dbd">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="src\Makefile" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\base-3.15.3\src\ioc\dbCore.vcxproj">
       <Project>{440c585d-ad66-4738-941c-a87a1817a9be}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\base-3.15.3\src\libCom\Com.vcxproj">
+    <ProjectReference Include="..\..\..\base-3.15.3\src\libCom\Com.vcxproj">
       <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\base-3.15.3\src\std\dbRecStd.vcxproj">
+    <ProjectReference Include="..\..\..\base-3.15.3\src\std\dbRecStd.vcxproj">
       <Project>{3b0e3542-cb89-4ffa-b004-eac882b3f277}</Project>
     </ProjectReference>
-    <ProjectReference Include="LeyboldTurboDev.vcxproj">
-      <Project>{bae6ce99-140a-4018-8bcb-9d63f54d6f07}</Project>
+    <ProjectReference Include="..\..\..\support\asyn4-28\asyn\asyn.vcxproj">
+      <Project>{c3ea0ff7-6039-4884-ba91-7b4619befea5}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="LeyboldTurbo.bat" />
-    <None Include="LeyboldTurbo.py" />
-    <None Include="Scripts\camonitor.py" />
-    <None Include="Scripts\Reset.py" />
-    <None Include="Scripts\SetRunning.py" />
+    <Library Include="NiDaqMx\lib32\NIDAQmx.lib">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
+    </Library>
+    <Library Include="NiDaqMx\lib64\NIDAQmx.lib">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
+    </Library>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{D3311F39-9AE8-4F16-BE04-1D1D31135BA9}</ProjectGuid>
+    <ProjectGuid>{4198C3D2-FCF6-4FCA-B093-A0C53A4DB235}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>WithAsyn</RootNamespace>
-    <SccProjectName>Svn</SccProjectName>
-    <SccLocalPath>Svn</SccLocalPath>
-    <SccProvider>SubversionScc</SccProvider>
-    <SccAuxPath>Svn</SccAuxPath>
-    <ProjectName>LeyboldTurboApp</ProjectName>
+    <RootNamespace>DAQmxBaseApp</RootNamespace>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
+    <SccAuxPath>
+    </SccAuxPath>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -173,25 +193,28 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
-      <TreatWarningAsError>true</TreatWarningAsError>
+      <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;NiDaqMx;.\src</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4018</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Program Files (x86)\National Instruments\Shared\ExternalCompilerSupport\C\lib32\msvc</AdditionalLibraryDirectories>
+      <AdditionalOptions>/ignore:4049 %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\LeyboldTurbo_registerRecordDeviceDriver.cpp src\LeyboldTurboInclude.dbd  LeyboldTurbo_registerRecordDeviceDriver  $(SolutionDir)
+perl -CSD $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I$(SolutionDir)\dbd  -o O.Common\DAQmxBase.dbd base.dbd src/DAQmxBaseSupport.dbd asyn.dbd
+perl -CSD $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_registerRecordDeviceDriver $(SolutionDir) &gt;O.Common\DAQmxBase_registerRecordDeviceDriver.cpp
+
 </Command>
     </PreBuildEvent>
-    <PostBuildEvent />
     <PostBuildEvent>
-      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
+      <Command>xcopy /Y /Q /D /R O.Common\*.DBD $(SolutionDir)DBD &gt; NUL
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
@@ -200,25 +223,28 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Com
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
-      <TreatWarningAsError>true</TreatWarningAsError>
+      <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;NiDaqMx;.\src</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4018</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Program Files (x86)\National Instruments\Shared\ExternalCompilerSupport\C\lib64\msvc</AdditionalLibraryDirectories>
+      <AdditionalOptions>/ignore:4049 %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\LeyboldTurbo_registerRecordDeviceDriver.cpp src\LeyboldTurboInclude.dbd  LeyboldTurbo_registerRecordDeviceDriver  $(SolutionDir)
+perl -CSD $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I$(SolutionDir)\dbd  -o O.Common\DAQmxBase.dbd base.dbd src/DAQmxBaseSupport.dbd asyn.dbd
+perl -CSD $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_registerRecordDeviceDriver $(SolutionDir) &gt;O.Common\DAQmxBase_registerRecordDeviceDriver.cpp
+
 </Command>
     </PreBuildEvent>
-    <PostBuildEvent />
     <PostBuildEvent>
-      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
+      <Command>xcopy /Y /Q /D /R O.Common\*.DBD $(SolutionDir)DBD &gt; NUL
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
@@ -228,25 +254,27 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Com
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <TreatWarningAsError>true</TreatWarningAsError>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;NiDaqMx;.\src</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4018</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Program Files (x86)\National Instruments\Shared\ExternalCompilerSupport\C\lib32\msvc</AdditionalLibraryDirectories>
+      <AdditionalOptions>/ignore:4049 %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\LeyboldTurbo_registerRecordDeviceDriver.cpp src\LeyboldTurboInclude.dbd  LeyboldTurbo_registerRecordDeviceDriver  $(SolutionDir)
+perl -CSD $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I$(SolutionDir)\dbd  -o O.Common\DAQmxBase.dbd base.dbd src/DAQmxBaseSupport.dbd asyn.dbd
+perl -CSD $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_registerRecordDeviceDriver $(SolutionDir) &gt;O.Common\DAQmxBase_registerRecordDeviceDriver.cpp
+
 </Command>
     </PreBuildEvent>
-    <PostBuildEvent />
     <PostBuildEvent>
-      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
+      <Command>xcopy /Y /Q /D /R O.Common\*.DBD $(SolutionDir)DBD &gt; NUL
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
@@ -256,25 +284,27 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Com
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <TreatWarningAsError>true</TreatWarningAsError>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;NiDaqMx;.\src</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4018</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Program Files (x86)\National Instruments\Shared\ExternalCompilerSupport\C\lib64\msvc</AdditionalLibraryDirectories>
+      <AdditionalOptions>/ignore:4049 %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\LeyboldTurbo_registerRecordDeviceDriver.cpp src\LeyboldTurboInclude.dbd  LeyboldTurbo_registerRecordDeviceDriver  $(SolutionDir)
+perl -CSD $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I$(SolutionDir)\dbd  -o O.Common\DAQmxBase.dbd base.dbd src/DAQmxBaseSupport.dbd asyn.dbd
+perl -CSD $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_registerRecordDeviceDriver $(SolutionDir) &gt;O.Common\DAQmxBase_registerRecordDeviceDriver.cpp
+
 </Command>
     </PreBuildEvent>
-    <PostBuildEvent />
     <PostBuildEvent>
-      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
+      <Command>xcopy /Y /Q /D /R O.Common\*.DBD $(SolutionDir)DBD &gt; NUL
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
@@ -285,27 +315,29 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Com
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;EPICS_CALL_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
-      <TreatWarningAsError>true</TreatWarningAsError>
+      <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;NiDaqMx;.\src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Program Files (x86)\National Instruments\Shared\ExternalCompilerSupport\C\lib32\msvc</AdditionalLibraryDirectories>
+      <AdditionalOptions>/ignore:4049 %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\LeyboldTurbo_registerRecordDeviceDriver.cpp src\LeyboldTurboInclude.dbd  LeyboldTurbo_registerRecordDeviceDriver  $(SolutionDir)
+perl -CSD $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I$(SolutionDir)\dbd  -o O.Common\DAQmxBase.dbd base.dbd src/DAQmxBaseSupport.dbd asyn.dbd
+perl -CSD $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_registerRecordDeviceDriver $(SolutionDir) &gt;O.Common\DAQmxBase_registerRecordDeviceDriver.cpp
+
 </Command>
     </PreBuildEvent>
-    <PostBuildEvent />
     <PostBuildEvent>
-      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
+      <Command>xcopy /Y /Q /D /R O.Common\*.DBD $(SolutionDir)DBD &gt; NUL
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
@@ -316,27 +348,29 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Com
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;EPICS_CALL_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
-      <TreatWarningAsError>true</TreatWarningAsError>
+      <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;NiDaqMx;.\src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Program Files (x86)\National Instruments\Shared\ExternalCompilerSupport\C\lib64\msvc</AdditionalLibraryDirectories>
+      <AdditionalOptions>/ignore:4049 %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\LeyboldTurbo_registerRecordDeviceDriver.cpp src\LeyboldTurboInclude.dbd  LeyboldTurbo_registerRecordDeviceDriver  $(SolutionDir)
+perl -CSD $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I$(SolutionDir)\dbd  -o O.Common\DAQmxBase.dbd base.dbd src/DAQmxBaseSupport.dbd asyn.dbd
+perl -CSD $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_registerRecordDeviceDriver $(SolutionDir) &gt;O.Common\DAQmxBase_registerRecordDeviceDriver.cpp
+
 </Command>
     </PreBuildEvent>
-    <PostBuildEvent />
     <PostBuildEvent>
-      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
+      <Command>xcopy /Y /Q /D /R O.Common\*.DBD $(SolutionDir)DBD &gt; NUL
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
@@ -347,28 +381,29 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Com
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <TreatWarningAsError>true</TreatWarningAsError>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;NiDaqMx;.\src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Program Files (x86)\National Instruments\Shared\ExternalCompilerSupport\C\lib32\msvc</AdditionalLibraryDirectories>
+      <AdditionalOptions>/ignore:4049 %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\LeyboldTurbo_registerRecordDeviceDriver.cpp src\LeyboldTurboInclude.dbd  LeyboldTurbo_registerRecordDeviceDriver  $(SolutionDir)
+perl -CSD $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I$(SolutionDir)\dbd  -o O.Common\DAQmxBase.dbd base.dbd src/DAQmxBaseSupport.dbd asyn.dbd
+perl -CSD $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_registerRecordDeviceDriver $(SolutionDir) &gt;O.Common\DAQmxBase_registerRecordDeviceDriver.cpp
+
 </Command>
     </PreBuildEvent>
-    <PostBuildEvent />
     <PostBuildEvent>
-      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
+      <Command>xcopy /Y /Q /D /R O.Common\*.DBD $(SolutionDir)DBD &gt; NUL
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">
@@ -379,55 +414,30 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Com
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <TreatWarningAsError>true</TreatWarningAsError>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;NiDaqMx;.\src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Program Files (x86)\National Instruments\Shared\ExternalCompilerSupport\C\lib64\msvc</AdditionalLibraryDirectories>
+      <AdditionalOptions>/ignore:4049 %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\LeyboldTurbo_registerRecordDeviceDriver.cpp src\LeyboldTurboInclude.dbd  LeyboldTurbo_registerRecordDeviceDriver  $(SolutionDir)
+perl -CSD $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I$(SolutionDir)\dbd  -o O.Common\DAQmxBase.dbd base.dbd src/DAQmxBaseSupport.dbd asyn.dbd
+perl -CSD $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_registerRecordDeviceDriver $(SolutionDir) &gt;O.Common\DAQmxBase_registerRecordDeviceDriver.cpp
+
 </Command>
     </PreBuildEvent>
-    <PostBuildEvent />
     <PostBuildEvent>
-      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
+      <Command>xcopy /Y /Q /D /R O.Common\*.DBD $(SolutionDir)DBD &gt; NUL
+</Command>
     </PostBuildEvent>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <ClCompile>
-      <PreprocessorDefinitions>WIN32;NDEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
-    </ClCompile>
-    <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\LeyboldTurbo_registerRecordDeviceDriver.cpp src\LeyboldTurboInclude.dbd  LeyboldTurbo_registerRecordDeviceDriver  $(SolutionDir)
-</Command>
-    </PreBuildEvent>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <ClCompile>
-      <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
-    </ClCompile>
-    <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\LeyboldTurbo_registerRecordDeviceDriver.cpp src\LeyboldTurboInclude.dbd  LeyboldTurbo_registerRecordDeviceDriver  $(SolutionDir)
-</Command>
-    </PreBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
