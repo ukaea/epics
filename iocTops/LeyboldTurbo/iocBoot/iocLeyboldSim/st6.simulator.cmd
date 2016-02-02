@@ -34,15 +34,21 @@ dbLoadRecords("../../LeyboldTurboApp/Db/SoftwareVersions.db", "P=$(ASYNSIMPORT):
 
 $(ASYN_VERSION_GE426=#) epicsEnvSet SIMDB LeyboldSim.Asyn4-26
 dbLoadRecords("../../LeyboldSimApp/Db/$(SIMDB=LeyboldSim).db", "P=$(ASYNSIMPORT1):,PORT=$(ASYNSIMPORT),ADDR=0")
+asynSetTraceMask($(IOPORT):1, 0, 0x21)
 
 dbLoadRecords("../../LeyboldSimApp/Db/$(SIMDB=LeyboldSim).db", "P=$(ASYNSIMPORT2):,PORT=$(ASYNSIMPORT),ADDR=1")
+asynSetTraceMask($(IOPORT):2, 1, 0x21)
 
 dbLoadRecords("../../LeyboldSimApp/Db/$(SIMDB=LeyboldSim).db", "P=$(ASYNSIMPORT3):,PORT=$(ASYNSIMPORT),ADDR=2")
+asynSetTraceMask($(IOPORT):3, 2, 0x21)
 
 dbLoadRecords("../../LeyboldSimApp/Db/$(SIMDB=LeyboldSim).db", "P=$(ASYNSIMPORT4):,PORT=$(ASYNSIMPORT),ADDR=3")
+asynSetTraceMask($(IOPORT):4, 3, 0x21)
 
 dbLoadRecords("../../LeyboldSimApp/Db/$(SIMDB=LeyboldSim).db", "P=$(ASYNSIMPORT5):,PORT=$(ASYNSIMPORT),ADDR=4")
+asynSetTraceMask($(IOPORT):5, 4, 0x21)
 
 dbLoadRecords("../../LeyboldSimApp/Db/$(SIMDB=LeyboldSim).db", "P=$(ASYNSIMPORT6):,PORT=$(ASYNSIMPORT),ADDR=5")
+asynSetTraceMask($(IOPORT):6, 5, 0x21)
 
 iocInit

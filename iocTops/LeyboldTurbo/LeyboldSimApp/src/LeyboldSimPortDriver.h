@@ -48,7 +48,7 @@ public:
 
 protected:
     template<size_t NoOfPZD> bool read(asynUser *pasynUser, asynUser *IOUser, USSPacket<NoOfPZD>& USSReadPacket, size_t TableIndex);
-    template<size_t NoOfPZD> bool process(asynUser *pasynUser, asynUser *IOUser, USSPacket<NoOfPZD> const& USSReadPacket, USSPacket<NoOfPZD>& USSWritePacket, size_t TableIndex);
+    template<size_t NoOfPZD> bool process(asynUser *IOUser, USSPacket<NoOfPZD> const& USSReadPacket, USSPacket<NoOfPZD>& USSWritePacket, size_t TableIndex);
     void process(USSPacket<NoOfPZD6>& USSWritePacket, int TableIndex);
 	static void octetConnectionCallback(void *userPvt, asynUser *pasynUser,
                       char *data,size_t numchars, int eomReason);

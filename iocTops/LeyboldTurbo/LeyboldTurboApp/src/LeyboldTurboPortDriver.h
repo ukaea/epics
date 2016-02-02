@@ -53,7 +53,7 @@ public:
 
                  
 protected:
-	template<size_t NoOfPZD> bool writeRead(int TableIndex, asynUser *pasynUser, USSPacket<NoOfPZD> USSWritePacket, USSPacket<NoOfPZD>& USSReadPacket);
+	template<size_t NoOfPZD> bool writeRead(int TableIndex, USSPacket<NoOfPZD> USSWritePacket, USSPacket<NoOfPZD>& USSReadPacket);
 	template<size_t NoOfPZD> void processRead(int TableIndex, asynUser *pasynUser, USSPacket<NoOfPZD> const& USSReadPacket);
 	template<size_t NoOfPZD> void processWrite(int TableIndex, asynUser *pasynUser, epicsInt32 value);
 	static int UsedParams();
@@ -62,6 +62,7 @@ private:
 	// Each of these is associated with an octet I/O connection (i.e. serial or TCP port).
 	std::vector<asynUser*> m_IOUsers;
     std::vector<epicsMutex*> m_Mutexes;
+    std::vector<bool> m_Disconnected;
 	static CLeyboldTurboPortDriver* m_Instance;
 };
 

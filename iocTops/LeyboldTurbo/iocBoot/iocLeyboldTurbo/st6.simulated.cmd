@@ -36,15 +36,21 @@ dbLoadRecords("../../LeyboldTurboApp/Db/SoftwareVersions.db", "P=$(ASYNPORT):,PO
 
 $(ASYN_VERSION_GE426=#) epicsEnvSet DB LeyboldTurbo.Asyn4-26
 dbLoadRecords("../../LeyboldTurboApp/Db/$(DB=LeyboldTurbo).db", "P=$(ASYNPORT1):,PORT=$(ASYNPORT),SCAN=$(SCANINT=.1 second),ADDR=0")
+asynSetTraceMask($(IOPORT):1, 0, 0x21)
 
 dbLoadRecords("../../LeyboldTurboApp/Db/$(DB=LeyboldTurbo).db", "P=$(ASYNPORT2):,PORT=$(ASYNPORT),SCAN=$(SCANINT=.1 second),ADDR=1")
+asynSetTraceMask($(IOPORT):2, 1, 0x21)
 
 dbLoadRecords("../../LeyboldTurboApp/Db/$(DB=LeyboldTurbo).db", "P=$(ASYNPORT3):,PORT=$(ASYNPORT),SCAN=$(SCANINT=.1 second),ADDR=2")
+asynSetTraceMask($(IOPORT):3, 2, 0x21)
 
 dbLoadRecords("../../LeyboldTurboApp/Db/$(DB=LeyboldTurbo).db", "P=$(ASYNPORT4):,PORT=$(ASYNPORT),SCAN=$(SCANINT=.1 second),ADDR=3")
+asynSetTraceMask($(IOPORT):4, 3, 0x21)
 
 dbLoadRecords("../../LeyboldTurboApp/Db/$(DB=LeyboldTurbo).db", "P=$(ASYNPORT5):,PORT=$(ASYNPORT),SCAN=$(SCANINT=.1 second),ADDR=4")
+asynSetTraceMask($(IOPORT):5, 4, 0x21)
 
 dbLoadRecords("../../LeyboldTurboApp/Db/$(DB=LeyboldTurbo).db", "P=$(ASYNPORT6):,PORT=$(ASYNPORT),SCAN=$(SCANINT=.1 second),ADDR=5")
+asynSetTraceMask($(IOPORT):6, 5, 0x21)
 
 iocInit

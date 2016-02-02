@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">
     <LocalDebuggerCommandArguments>..\iocBoot\iocLeyboldTurbo\st1.simulated.cmd</LocalDebuggerCommandArguments>
@@ -38,7 +38,7 @@ $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
     <DevPartner_Instrumented_Type> /NMbcOn</DevPartner_Instrumented_Type>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
-    <LocalDebuggerCommandArguments>..\..\iocBoot\iocLeyboldTurbo\st1.simulated.cmd</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>..\..\iocBoot\iocLeyboldTurbo\st6.simulated.cmd</LocalDebuggerCommandArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
     <LocalDebuggerEnvironment>COMPORT1=COM1:
@@ -78,7 +78,7 @@ IPPORT5=localhost:5070
 IPPORT6=localhost:5071
 $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-    <LocalDebuggerCommandArguments>..\..\iocBoot\iocLeyboldTurbo\st6.simulated.cmd</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>..\..\iocBoot\iocLeyboldTurbo\st1.cmd</LocalDebuggerCommandArguments>
     <LocalDebuggerWorkingDirectory>$(ProjectDir)\Scripts</LocalDebuggerWorkingDirectory>
     <DevPartner_IsInstrumented>1</DevPartner_IsInstrumented>
     <DevPartner_Instrumented_Type> /NMbcOn</DevPartner_Instrumented_Type>
@@ -96,7 +96,7 @@ IPPORT4=localhost:5069
 IPPORT5=localhost:5070
 $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-    <LocalDebuggerCommandArguments>..\..\iocBoot\iocLeyboldTurbo\st1.simulated.cmd</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>..\..\iocBoot\iocLeyboldTurbo\st6.cmd</LocalDebuggerCommandArguments>
     <LocalDebuggerWorkingDirectory>$(ProjectDir)\Scripts</LocalDebuggerWorkingDirectory>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">

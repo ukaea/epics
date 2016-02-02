@@ -1,2 +1,1 @@
-SU19179 Addresed recovery in the case of serial connection failed.
-
+SU19180 Minor changes, primarilily logging improvements.

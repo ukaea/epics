@@ -143,7 +143,7 @@ void CLeyboldSimPortDriver::CThreadRunable::run()
 				USSPacket<NoOfPZD2> USSReadPacket, USSWritePacket(false);
 				if (m_This->read<NoOfPZD2>(asynUser, IOUser, USSReadPacket, TableIndex))
 				{
-					if (!m_This->process<NoOfPZD2>(asynUser, IOUser, USSReadPacket, USSWritePacket, TableIndex))
+					if (!m_This->process<NoOfPZD2>(IOUser, USSReadPacket, USSWritePacket, TableIndex))
 						break;
 				}
 			}
@@ -153,7 +153,7 @@ void CLeyboldSimPortDriver::CThreadRunable::run()
 				if (m_This->read<NoOfPZD6>(asynUser, IOUser, USSReadPacket, TableIndex))
 				{
 					m_This->process(USSWritePacket, int(TableIndex));
-					if (!m_This->process<NoOfPZD6>(asynUser, IOUser, USSReadPacket, USSWritePacket, TableIndex))
+					if (!m_This->process<NoOfPZD6>(IOUser, USSReadPacket, USSWritePacket, TableIndex))
 						break;
 				}
 			}
@@ -318,14 +318,14 @@ template<size_t NoOfPZD> bool CLeyboldSimPortDriver::read(asynUser *pasynUser, a
 	// NB, This pasynUser is OK because it emitted by pasynOctetSyncIO->connect().
 	size_t nBytesIn;
 	int eomReason;
+	asynStatus status = pasynOctetSyncIO->read(IOUser, reinterpret_cast<char*>(USSReadPacket.m_Bytes), USSPacketStruct<NoOfPZD>::USSPacketSize, 1, &nBytesIn, &eomReason);
+	if (status == asynTimeout)
+		return false;
 	if (getIntegerParam(TableIndex, DISCONNECTED) == 1)
 	{
 		epicsThreadSleep(1);
 		return false;
 	}
-	asynStatus status = pasynOctetSyncIO->read(IOUser, reinterpret_cast<char*>(USSReadPacket.m_Bytes), USSPacketStruct<NoOfPZD>::USSPacketSize, 1, &nBytesIn, &eomReason);
-	if (status == asynTimeout)
-		return false;
 	if (status == asynDisconnected)
 		throw CException(pasynUser, asynDisconnected, __FUNCTION__, "Socket disconnected");
 	if (status != asynSuccess)
@@ -384,10 +384,10 @@ void CLeyboldSimPortDriver::process(USSPacket<NoOfPZD6>& USSWritePacket, int Tab
 	USSWritePacket.m_USSPacketStruct.m_PZD[5] = epicsUInt32(10.0 * DBuf + 0.5);
 }
 
-template<size_t NoOfPZD> bool CLeyboldSimPortDriver::process(asynUser* pasynUser, asynUser* IOUser, USSPacket<NoOfPZD> const& USSReadPacket, USSPacket<NoOfPZD>& USSWritePacket, size_t TableIndex)
+template<size_t NoOfPZD> bool CLeyboldSimPortDriver::process(asynUser* IOUser, USSPacket<NoOfPZD> const& USSReadPacket, USSPacket<NoOfPZD>& USSWritePacket, size_t TableIndex)
 {
 	if ((TableIndex < 0) || (TableIndex >= m_RunRecord.size()))
-		throw CException(pasynUser, asynError, __FUNCTION__, "User / pump not configured");
+		throw CException(IOUser, asynError, __FUNCTION__, "User / pump not configured");
 
 	RunStates RunState = static_cast<RunStates>(getIntegerParam(TableIndex, RUNNING));
 	// Means the running state is in effect or has been requested.
@@ -583,7 +583,7 @@ template<size_t NoOfPZD> bool CLeyboldSimPortDriver::process(asynUser* pasynUser
 		throw CException(IOUser, status, __FUNCTION__, "Can't write/read:");
 
 	callParamCallbacks(int(TableIndex));
-	asynPrint(pasynUser, ASYN_TRACE_FLOW, "Packet success %s %s\n", __FILE__, __FUNCTION__);
+	asynPrint(IOUser, ASYN_TRACE_FLOW, "Packet success %s %s\n", __FILE__, __FUNCTION__);
 
 	return true;
 
