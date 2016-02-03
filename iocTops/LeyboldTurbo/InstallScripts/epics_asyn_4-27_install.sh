@@ -52,8 +52,6 @@ rm $ASYN_DOWNLOAD
 rm -f $SUPPORT_PATH/current
 ln -s $SUPPORT_PATH/$ASYN_DIRECTORY $SUPPORT_PATH/current
 
-echo export ASYN_VER=$ASYN_VER >> $INSTALL_PATH/siteEnv
-
 chmod 666 $SUPPORT_PATH/current/configure/RELEASE
 sed -i -e "/^SUPPORT\s*=/ s,=.*,=$INSTALL_PATH/support," $SUPPORT_PATH/current/configure/RELEASE
 sed -i -e "/^EPICS_BASE\s*=/ s,=.*,=$INSTALL_PATH/base," $SUPPORT_PATH/current/configure/RELEASE

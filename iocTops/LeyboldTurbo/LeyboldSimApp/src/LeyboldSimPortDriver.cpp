@@ -202,7 +202,7 @@ void CLeyboldSimPortDriver::octetConnectionCallback(void *drvPvt, asynUser *pasy
 {
 	CLeyboldSimPortDriver* This = reinterpret_cast<CLeyboldSimPortDriver*>(drvPvt);
     // Create a new thread to communicate with this port
-	This->m_Threads.push_back(new epicsThread(*This->m_ThreadRunable, portName, 10000));
+	This->m_Threads.push_back(new epicsThread(*This->m_ThreadRunable, portName, epicsThreadGetStackSize(epicsThreadStackSmall)));
 	(*This->m_Threads.rbegin())->start();
 }
 
