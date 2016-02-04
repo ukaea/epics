@@ -834,7 +834,6 @@ asynStatus CLeyboldTurboPortDriver::writeInt32(asynUser *pasynUser, epicsInt32 v
 		// make sure we return an error state if there are comms problems
 		Status = ErrorHandler(TableIndex, E);
 	}
-	callParamCallbacks(TableIndex);
 	return Status;
 }
 

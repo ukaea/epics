@@ -72,7 +72,17 @@ public:
     CLeyboldBase(const char *portName, int maxAddr, int paramTableSize, int NoOfPZD);
     void createParam(size_t list, size_t ParamIndex);
     void createParam(size_t ParamIndex);
+	void checkParamStatus(size_t list, const char* ParamName) {
+#ifdef _DEBUG
+		// NB Asyn 4-27 requires the parameter status to be clear before the value can be set.
+		// Let's be sure that is the case, because it is a silent fail otherwise.
+		asynStatus Status = getParamStatus(list, ParamName);
+		if (Status != asynSuccess)
+			throw CException(pasynUserSelf, Status, __FUNCTION__, ParamName);
+#endif
+	}
     void setIntegerParam(size_t list, const char* ParamName, int value) {
+		checkParamStatus(list, ParamName);
 		asynStatus Status = asynPortDriver::setIntegerParam(int(list), Parameters(ParamName), value);
 		if (Status != asynSuccess)
 			throw CException(pasynUserSelf, Status, __FUNCTION__, ParamName);
@@ -83,6 +93,7 @@ public:
 			throw CException(pasynUserSelf, Status, __FUNCTION__, ParamName);
 	}
     void setDoubleParam(size_t list, const char* ParamName, double value) {
+		checkParamStatus(list, ParamName);
 		asynStatus Status = asynPortDriver::setDoubleParam(int(list), Parameters(ParamName), value);
 		if (Status != asynSuccess)
 			throw CException(pasynUserSelf, Status, __FUNCTION__, ParamName);
@@ -93,6 +104,7 @@ public:
 			throw CException(pasynUserSelf, Status, __FUNCTION__, ParamName);
 	}
 	void setStringParam(size_t list, const char* ParamName, std::string const& value) {
+		checkParamStatus(list, ParamName);
 		asynStatus Status = asynPortDriver::setStringParam (int(list), Parameters(ParamName), value.substr(0, MaxEPICSStrLen).c_str());
 		if (Status != asynSuccess)
 			throw CException(pasynUserSelf, Status, __FUNCTION__, ParamName);
