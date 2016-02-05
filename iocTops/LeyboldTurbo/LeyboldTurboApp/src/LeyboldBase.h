@@ -81,69 +81,49 @@ public:
 			throw CException(pasynUserSelf, Status, __FUNCTION__, ParamName);
 #endif
 	}
-    void setIntegerParam(size_t list, const char* ParamName, int value) {
+    void setIntegerParam(size_t list, const char* ParamName, int value, bool ThrowIt = true) {
 		checkParamStatus(list, ParamName);
 		asynStatus Status = asynPortDriver::setIntegerParam(int(list), Parameters(ParamName), value);
 		if (Status != asynSuccess)
 			throw CException(pasynUserSelf, Status, __FUNCTION__, ParamName);
 	}
     void setIntegerParam(const char* ParamName, int value) {
-		asynStatus Status = asynPortDriver::setIntegerParam(Parameters(ParamName), value);
-		if (Status != asynSuccess)
-			throw CException(pasynUserSelf, Status, __FUNCTION__, ParamName);
+		ThrowException(pasynUserSelf, asynPortDriver::setIntegerParam(Parameters(ParamName), value), __FUNCTION__, ParamName);
 	}
     void setDoubleParam(size_t list, const char* ParamName, double value) {
 		checkParamStatus(list, ParamName);
-		asynStatus Status = asynPortDriver::setDoubleParam(int(list), Parameters(ParamName), value);
-		if (Status != asynSuccess)
-			throw CException(pasynUserSelf, Status, __FUNCTION__, ParamName);
+		ThrowException(pasynUserSelf, asynPortDriver::setDoubleParam(int(list), Parameters(ParamName), value), __FUNCTION__, ParamName);
 	}
     void setDoubleParam(const char* ParamName, double value) {
-		asynStatus Status = asynPortDriver::setDoubleParam(Parameters(ParamName), value);
-		if (Status != asynSuccess)
-			throw CException(pasynUserSelf, Status, __FUNCTION__, ParamName);
+		ThrowException(pasynUserSelf, asynPortDriver::setDoubleParam(Parameters(ParamName), value), __FUNCTION__, ParamName);
 	}
-	void setStringParam(size_t list, const char* ParamName, std::string const& value) {
+	void setStringParam(size_t list, const char* ParamName, std::string const& value, bool ThrowIt = true) {
 		checkParamStatus(list, ParamName);
-		asynStatus Status = asynPortDriver::setStringParam (int(list), Parameters(ParamName), value.substr(0, MaxEPICSStrLen).c_str());
-		if (Status != asynSuccess)
-			throw CException(pasynUserSelf, Status, __FUNCTION__, ParamName);
+		ThrowException(pasynUserSelf, asynPortDriver::setStringParam (int(list), Parameters(ParamName), value.substr(0, MaxEPICSStrLen).c_str()), __FUNCTION__, ParamName, ThrowIt);
 	}
 	void setStringParam(const char* ParamName, std::string const& value) {
-		asynStatus Status = asynPortDriver::setStringParam (Parameters(ParamName), value.substr(0, MaxEPICSStrLen).c_str());
-		if (Status != asynSuccess)
-			throw CException(pasynUserSelf, Status, __FUNCTION__, ParamName);
+		ThrowException(pasynUserSelf, asynPortDriver::setStringParam (Parameters(ParamName), value.substr(0, MaxEPICSStrLen).c_str()), __FUNCTION__, ParamName);
 	}
-    void setParamStatus(size_t list, const char* ParamName, asynStatus ParamStatus) {
-		asynStatus Status = asynPortDriver::setParamStatus(int(list), Parameters(ParamName), ParamStatus);
-		if (Status != asynSuccess)
-			throw CException(pasynUserSelf, Status, __FUNCTION__, ParamName);
+    void setParamStatus(size_t list, const char* ParamName, asynStatus ParamStatus, bool ThrowIt = true) {
+		ThrowException(pasynUserSelf, asynPortDriver::setParamStatus(int(list), Parameters(ParamName), ParamStatus), __FUNCTION__, ParamName);
 	}
     asynStatus getParamStatus(size_t list, const char* ParamName) {
 		asynStatus ParamStatus;
-		asynStatus Status = asynPortDriver::getParamStatus(int(list), Parameters(ParamName), &ParamStatus);
-		if (Status != asynSuccess)
-			throw CException(pasynUserSelf, Status, __FUNCTION__, ParamName);
+		ThrowException(pasynUserSelf, asynPortDriver::getParamStatus(int(list), Parameters(ParamName), &ParamStatus), __FUNCTION__, ParamName);
 		return ParamStatus;
 	}
     int getIntegerParam(size_t list, const char* ParamName) {
 		int value = 0;
-		asynStatus Status = asynPortDriver::getIntegerParam(int(list), Parameters(ParamName), &value);
-		if (Status != asynSuccess)
-			throw CException(pasynUserSelf, Status, __FUNCTION__, ParamName);
+		ThrowException(pasynUserSelf, asynPortDriver::getIntegerParam(int(list), Parameters(ParamName), &value), __FUNCTION__, ParamName);
 		return value;
 	}
     double getDoubleParam(size_t list, const char* ParamName) {
 		double value = 0;
-		asynStatus Status = asynPortDriver::getDoubleParam(int(list), Parameters(ParamName), &value);
-		if (Status != asynSuccess)
-			throw CException(pasynUserSelf, Status, __FUNCTION__, ParamName);
+		ThrowException(pasynUserSelf, asynPortDriver::getDoubleParam(int(list), Parameters(ParamName), &value), __FUNCTION__, ParamName);
 		return value;
 	}
     void getStringParam(size_t list, const char* ParamName, int maxChars, char *value) {
-		asynStatus Status = asynPortDriver::getStringParam(int(list), Parameters(ParamName), maxChars, value);
-		if (Status != asynSuccess)
-			throw CException(pasynUserSelf, Status, __FUNCTION__, ParamName);
+		ThrowException(pasynUserSelf, asynPortDriver::getStringParam(int(list), Parameters(ParamName), maxChars, value), __FUNCTION__, ParamName);
 	}
 	int Parameters(std::string const& ParamName) const {
 		std::map<std::string, int>::const_iterator Iter = m_Parameters.find(ParamName);
@@ -151,12 +131,23 @@ public:
 			throw CException(pasynUserSelf, asynError, __FUNCTION__, ParamName);
 		return Iter->second;
 	}
-	void callParamCallbacks(size_t list) {
+	void callParamCallbacks(size_t list, bool ThrowIt = true) {
 		asynStatus Status = asynPortDriver::callParamCallbacks(int(list));
 		if (Status != asynSuccess)
 			throw CException(pasynUserSelf, Status, __FUNCTION__, "callParamCallbacks");
 	}
-private:
+	size_t getNoOfPZD() const {
+		return m_NoOfPZD;
+	}
+protected:
+	void ThrowException(asynUser* pasynUser, asynStatus Status, const char* Function, std::string const& what, bool ThrowIt = true) const {
+		if (Status == asynSuccess)
+			return;
+		if (ThrowIt)
+			throw CException(pasynUser, Status, __FUNCTION__, "callParamCallbacks");
+		else
+			asynPrint(pasynUser, ASYN_TRACE_ERROR, what.c_str(), __FILE__, Function, pasynUser->errorMessage);
+	}
 	static int Mask();
 	void ParamDefaultValue(size_t ParamIndex);
 	void ParamDefaultValue(size_t list, size_t ParamIndex);
@@ -165,7 +156,7 @@ private:
 	// This structure is used in order to address them by name, which is more convenient.
 	std::map<std::string, int> m_Parameters;
 
-protected:
+private:
 	size_t m_NoOfPZD;
 
 };

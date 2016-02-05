@@ -137,9 +137,7 @@ void CLeyboldTurboPortDriver::addIOPort(const char* IOPortName)
 
 	asynUser* IOUser;
 	// Connect to the I/O port.
-	asynStatus Status = pasynOctetSyncIO->connect(IOPortName, int(NrInstalled()), &IOUser, NULL);
-	if (Status != asynSuccess)
-		throw CException(pasynUserSelf, Status, __FUNCTION__, "connecting to IO port=" + std::string(IOPortName));
+	ThrowException(pasynUserSelf, pasynOctetSyncIO->connect(IOPortName, int(NrInstalled()), &IOUser, NULL), __FUNCTION__, "connecting to IO port=" + std::string(IOPortName));
 
 	callParamCallbacks(NrInstalled());
 	m_IOUsers.back() = IOUser;
@@ -191,9 +189,7 @@ asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *v
 		return asynTimeout;
 
 	try {
-		Status = getAddress(pasynUser, &TableIndex);
-		if (Status != asynSuccess)
-			throw CException(pasynUser, Status, __FUNCTION__, "Could not get address");
+		ThrowException(pasynUser, getAddress(pasynUser, &TableIndex), __FUNCTION__, "Could not get address");
 		if ((TableIndex < 0) || (TableIndex > int(NrInstalled())))
 			throw CException(pasynUser, asynError, __FUNCTION__, "User / pump not configured");
 
@@ -208,7 +204,7 @@ asynStatus CLeyboldTurboPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *v
 		{
 			// The following values are present in the 24-byte packet (NoOfPZD==6),
 			// but need each to be explictly queried when the 16-byte packet (NoOfPZD==2) is being used.
-			if (m_NoOfPZD == NoOfPZD2)
+			if (getNoOfPZD() == NoOfPZD2)
 			{
 				{
 					USSPacket<NoOfPZD2> USSWritePacket(Running, 4), // Intermediate circuit voltage Uzk
@@ -297,9 +293,7 @@ asynStatus CLeyboldTurboPortDriver::readOctet(asynUser *pasynUser, char *value, 
 		// The IOC is exiting
 		return asynTimeout;
 	try {
-		Status = getAddress(pasynUser, &TableIndex);
-		if (Status != asynSuccess)
-			throw CException(pasynUser, Status, __FUNCTION__, "Could not get address");
+		ThrowException(pasynUser, getAddress(pasynUser, &TableIndex), __FUNCTION__, "Could not get address");
 		if ((TableIndex < 0) || (TableIndex > int(NrInstalled())))
 			throw CException(pasynUser, asynError, __FUNCTION__, "User / pump not configured");
 		epicsGuard < epicsMutex > guard ( *(m_Mutexes[TableIndex]) );
@@ -311,7 +305,7 @@ asynStatus CLeyboldTurboPortDriver::readOctet(asynUser *pasynUser, char *value, 
 		{
 			epicsUInt32 PWE;
 			// Software version (I assume this means firmware). e.g. 3.03.05
-			if (m_NoOfPZD == NoOfPZD2)
+			if (getNoOfPZD() == NoOfPZD2)
 			{
 				USSPacket<NoOfPZD2> USSWritePacket(Running, 2),
 					USSReadPacket;
@@ -785,14 +779,14 @@ asynStatus CLeyboldTurboPortDriver::ErrorHandler(int TableIndex, CException cons
 
 	// Internal communication failure
 	// NB, Asyn 4-27 requires that the parameter status is success before the value can be set through callback.
-	setParamStatus(TableIndex, FAULT, asynSuccess);
-	setParamStatus(TableIndex, FAULTSTR, asynSuccess);
-	setIntegerParam(TableIndex, FAULT, 65);
-	setStringParam (TableIndex, FAULTSTR, "Internal communication timeout");
-	callParamCallbacks(TableIndex);
+	setParamStatus(TableIndex, FAULT, asynSuccess, false);
+	setParamStatus(TableIndex, FAULTSTR, asynSuccess, false);
+	setIntegerParam(TableIndex, FAULT, 65, false);
+	setStringParam (TableIndex, FAULTSTR, "Internal communication timeout", false);
+	callParamCallbacks(TableIndex, false);
 
-	setParamStatus(TableIndex, FAULT, E.Status());
-	setParamStatus(TableIndex, FAULTSTR, E.Status());
+	setParamStatus(TableIndex, FAULT, E.Status(), false);
+	setParamStatus(TableIndex, FAULTSTR, E.Status(), false);
 	return E.Status();
 }
 
@@ -812,20 +806,19 @@ asynStatus CLeyboldTurboPortDriver::writeInt32(asynUser *pasynUser, epicsInt32 v
 		// The IOC is exiting
 		return asynTimeout;
 
+	asynStatus Status = asynSuccess;
 	// Invoke the base class method to store the value in the database.
-	asynStatus Status = CLeyboldBase::writeInt32(pasynUser, value);
+	ThrowException(pasynUser, CLeyboldBase::writeInt32(pasynUser, value), __FUNCTION__, "CLeyboldBase::writeInt32");
 	int TableIndex = 0;
 	try {
-		Status = getAddress(pasynUser, &TableIndex);
-		if (Status != asynSuccess)
-			throw CException(pasynUser, Status, __FUNCTION__, "Could not get address");
+		ThrowException(pasynUser, getAddress(pasynUser, &TableIndex), __FUNCTION__, "Could not get address");
 		if ((TableIndex < 0) || (TableIndex >= int(m_IOUsers.size())))
 			throw CException(pasynUser, asynError, __FUNCTION__, "User / pump not configured");
 		epicsGuard < epicsMutex > guard ( *(m_Mutexes[TableIndex]) );
 		if (m_Instance == NULL)
 			// The IOC is exiting
 			return asynTimeout;
-		if (m_NoOfPZD == NoOfPZD2)
+		if (getNoOfPZD() == NoOfPZD2)
 			processWrite<NoOfPZD2>(TableIndex, pasynUser, value);
 		else
 			processWrite<NoOfPZD6>(TableIndex, pasynUser, value);
@@ -855,7 +848,6 @@ static const iocshFuncDef initFuncDef = {"LeyboldTurboPortDriverConfigure",3,ini
 void LeyboldTurboExitFunc(void * param)
 {
 	CLeyboldTurboPortDriver* Instance = static_cast<CLeyboldTurboPortDriver*>(param);
-//	Instance->disconnect();
 	delete Instance;
 }
 

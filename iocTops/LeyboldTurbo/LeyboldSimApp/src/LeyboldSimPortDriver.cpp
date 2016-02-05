@@ -138,7 +138,7 @@ void CLeyboldSimPortDriver::CThreadRunable::run()
 		}
 		while (!m_Exiting)
 		{
-			if (m_This->m_NoOfPZD == NoOfPZD2)
+			if (m_This->getNoOfPZD() == NoOfPZD2)
 			{
 				USSPacket<NoOfPZD2> USSReadPacket, USSWritePacket(false);
 				if (m_This->read<NoOfPZD2>(asynUser, IOUser, USSReadPacket, TableIndex))
