@@ -1,4 +1,5 @@
-Copyright (c) 2015 EuroFusion (https://www.euro-fusion.org/)
+Copyright (c) 2015 EuroFusion (https://www.euro-fusion.org/) and
+                   UK Atomic Energy Authority (https://www.gov.uk/government/organisations/uk-atomic-energy-authority).
 All rights reserved.
 
 LeyboldTurbo is distributed subject to the following license conditions:
@@ -36,14 +37,7 @@ LeyboldTurbo is distributed subject to the following license conditions:
          prominent notices stating that you changed specified portions of
          the Software.
 
- 5. Portions of the Software resulted from work developed under a European
-	Commision contract and are subject to the following license: the
-    Commision is granted for itself and others acting on its behalf a
-    paid-up, nonexclusive, irrevocable worldwide license in this computer
-    software to reproduce, prepare derivative works, and perform publicly
-    and display publicly.
-
- 6. WARRANTY DISCLAIMER. THE SOFTWARE IS SUPPLIED "AS IS" WITHOUT WARRANTY
+ 5. WARRANTY DISCLAIMER. THE SOFTWARE IS SUPPLIED "AS IS" WITHOUT WARRANTY
     OF ANY KIND. THE COPYRIGHT HOLDERS, THEIR THIRD PARTY LICENSORS, THE
     UNITED KINGDOM, THE UNITED KINGDOM ATOMIC ENERGY AUTHORITY, AND THEIR
     EMPLOYEES: (1) DISCLAIM ANY WARRANTIES, EXPRESS OR IMPLIED, INCLUDING
@@ -55,7 +49,7 @@ LeyboldTurbo is distributed subject to the following license conditions:
     THAT THE SOFTWARE WILL FUNCTION UNINTERRUPTED, THAT IT IS ERROR-FREE
     OR THAT ANY ERRORS WILL BE CORRECTED.
 
- 7. LIMITATION OF LIABILITY. IN NO EVENT WILL THE COPYRIGHT HOLDERS, THEIR
+ 6. LIMITATION OF LIABILITY. IN NO EVENT WILL THE COPYRIGHT HOLDERS, THEIR
     THIRD PARTY LICENSORS, THE UNITED KINGDOM, THE UNITED KINGDOM ATOMIC 
 	ENERGY AUTHORITY, OR THEIR EMPLOYEES: BE LIABLE FOR ANY INDIRECT, INCIDENTAL,
     CONSEQUENTIAL, SPECIAL OR PUNITIVE DAMAGES OF ANY KIND OR NATURE,
@@ -64,5 +58,4 @@ LeyboldTurbo is distributed subject to the following license conditions:
     CONTRACT, TORT (INCLUDING NEGLIGENCE OR STRICT LIABILITY), OR
     OTHERWISE, EVEN IF ANY OF SAID PARTIES HAS BEEN WARNED OF THE
     POSSIBILITY OF SUCH LOSS OR DAMAGES.
-
 
