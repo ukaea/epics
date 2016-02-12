@@ -65,7 +65,6 @@ helloWorldRPC_LIBS += pvaClient
 helloWorldRPC_LIBS += pvAccess
 helloWorldRPC_LIBS += nt
 helloWorldRPC_LIBS += pvData
-helloWorldRPC_LIBS += ca
 helloWorldRPC_LIBS += Com
 
 PROD_HOST += helloWorldPutGet

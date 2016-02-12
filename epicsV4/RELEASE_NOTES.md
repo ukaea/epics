@@ -1,3 +1,20 @@
+4.5.0.1 (2016/02/05)
+====================
+
+The only changes since release 4.5.0 are:
+
+pvDataCPP (5.0.3)
+-----------------
+
+* Fixed buffer overflow in PVUnion::serialize() (issue #20)
+
+
+pvaClientCPP (4.1.2)
+--------------------
+
+* Added missing libraries needed for static builds
+
+
 4.5.0 (2015/10/16)
 ==================
 
