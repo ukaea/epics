@@ -3,14 +3,12 @@
 //!         MDrivePlus series; M17, M23, M34.
 //!         Use "model 3" asyn motor, asynMotorController and asynMotorAxis classes.
 //!
-//! Original Author : Nia Fong
+//! Author : Nia Fong
 //! Date : 11-21-2011
-//! Current Author : Mitch D'Ewart (SLAC)
 //
 //  Revision History
 //  ----------------
 //  11-21-2011  NF Initial version
-//  12-15-2014 RLS Bug fix from Thierry Zamofing (PSI); acceleration was set to the same value as the speed.
 
 #include <stddef.h>
 #include <stdlib.h>
@@ -22,11 +20,10 @@
 #include <iocsh.h>
 #include <asynOctetSyncIO.h>
 
-#include "asynMotorController.h"
-#include "asynMotorAxis.h"
-
-#include <epicsExport.h>
 #include "ImsMDrivePlusMotorController.h"
+#include <epicsExport.h>
+
+static bool EncoderEnabled;
 
 ////////////////////////////////////////////////////////
 //! ImsMDrivePlusMotorAxis()
@@ -67,6 +64,8 @@ asynStatus ImsMDrivePlusMotorAxis::configAxis()
 	static const char *functionName = "configAxis()";
 	// figure out what needs to be done to initialize controller
 
+	sprintf(cmd, "EM=2");
+	status = pController->writeReadController(cmd, resp, sizeof(resp), &nread, IMS_TIMEOUT);
 	// try getting firmware version to make sure communication works
 	sprintf(cmd, "PR VR");
 	for (int i=0; i<maxRetries; i++) {
@@ -85,13 +84,17 @@ asynStatus ImsMDrivePlusMotorAxis::configAxis()
 		}
 	}
 
+	sprintf(cmd, "EE=1");
+	status = pController->writeController(cmd, IMS_TIMEOUT);
+
 	// set encoder flags
 	sprintf(cmd, "PR EE");
 	status = pController->writeReadController(cmd, resp, sizeof(resp), &nread, IMS_TIMEOUT);
 	if (status == asynSuccess) {
 		int val = atoi(resp);
-		setIntegerParam(pController->motorStatusHasEncoder_, val ? 1:0);
-		setIntegerParam(pController->motorStatusGainSupport_, val ? 1:0);
+		EncoderEnabled = val ? 1:0;
+		setIntegerParam(pController->motorStatusHasEncoder_, EncoderEnabled);
+		setIntegerParam(pController->motorStatusGainSupport_, EncoderEnabled);
 		asynPrint(pController->pasynUserSelf, ASYN_TRACEIO_DRIVER, "%s:%s: set motorStatusHasEncoder_=%d, motorStatusGainSupport_=%d.\n", DRIVER_NAME, functionName, val, val);
 	}
 
@@ -137,7 +140,7 @@ asynStatus ImsMDrivePlusMotorAxis::setAxisMoveParameters(double minVelocity, dou
 
 	// set accceleration
 	if (acceleration != 0) {
-		sprintf(cmd, "A=%ld", (long)acceleration);
+		sprintf(cmd, "A=%ld", (long)maxVelocity);
 		status = pController->writeController(cmd, IMS_TIMEOUT);
 		if (status) goto bail;
 	}
@@ -173,6 +176,13 @@ asynStatus ImsMDrivePlusMotorAxis::move(double position, int relative, double mi
 	// sent commands to motor to set velocities and acceleration
 	status = setAxisMoveParameters(minVelocity, maxVelocity, acceleration);
 	if (status) goto bail;
+
+	if ((!relative) && (EncoderEnabled))
+	{
+		EncoderEnabled = false;
+		sprintf(cmd, "EE=0");
+		status = pController->writeController(cmd, IMS_TIMEOUT);
+	}
 
 	// move
 	asynPrint(pController->pasynUserSelf, ASYN_TRACEIO_DRIVER, "%s:%s: VBASE=%f, VELO=%f, ACCL=%f, position=%f, relative=%d\n", DRIVER_NAME, functionName, minVelocity, maxVelocity, acceleration, position, relative);
@@ -273,7 +283,7 @@ asynStatus ImsMDrivePlusMotorAxis::stop(double acceleration)
 //! Override asynMotorAxis class implementation
 // Based on smarActMCSMotorDriver.cpp
 //
-//! direction=1: slew at maxVelocity in the minus direction (until switch activates) then creep at vi in the plus direction (until switch becomes inactive again)
+//! direction=1: slew at maxVelocity in the minus direction (until switch activates) then cr`p at vi in the plus direction (until switch becomes inactive again)
 //! direction=3: slew at maxVelocity in the plus direction (until switch activates) then creep at vi in the minus direction (until switch becomes inactive again)
 //
 //! @param[in] minVelocity

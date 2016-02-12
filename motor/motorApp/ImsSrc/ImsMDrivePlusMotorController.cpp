@@ -3,9 +3,8 @@
 //!         MDrivePlus series; M17, M23, M34.
 //!	      Simple implementation using "model 3" asynMotorController and asynMotorAxis base classes (derived from asynPortDriver)
 //!
-//!  Original Author : Nia Fong
+//!  Author : Nia Fong 
 //!  Date : 11-21-2011
-//!  Current Author : Mitch D'Ewart (SLAC)
 //!
 //!  Assumptions :
 //!    1) Like all controllers, the MDrivePlus must be powered-on when EPICS is first booted up.
@@ -27,13 +26,10 @@
 #include <epicsThread.h>
 #include <iocsh.h>
 #include <asynOctetSyncIO.h>
+#include <motorRecord.h>
 
-#include "asynMotorController.h"
-#include "asynMotorAxis.h"
-#include "ImsMDrivePlusMotorAxis.h"
-
-#include <epicsExport.h>
 #include "ImsMDrivePlusMotorController.h"
+#include <epicsExport.h>
 
 ////////////////////////////////////////////////////////
 //! @ImsMDrivePlusMotorController()
@@ -76,10 +72,11 @@ ImsMDrivePlusMotorController::ImsMDrivePlusMotorController(const char *motorPort
 	// write version, cannot use asynPrint() in constructor since controller (motorPortName) hasn't been created yet
 	printf("%s:%s: motorPortName=%s, IOPortName=%s, devName=%s \n", DRIVER_NAME, functionName, motorPortName, IOPortName, devName);
 
-
 	// init
-	pasynOctetSyncIO->setInputEos(pAsynUserIMS, "\n", 1);
-	pasynOctetSyncIO->setOutputEos(pAsynUserIMS, "\r\n", 2); 
+    static const char output_terminator[] = "\r";
+    static const char input_terminator[]  = "\r\n";
+	pasynOctetSyncIO->setInputEos(pAsynUserIMS, input_terminator, strlen(input_terminator));
+	pasynOctetSyncIO->setOutputEos(pAsynUserIMS, output_terminator, strlen(output_terminator)); 
 
 	// Create controller-specific parameters
 	createParam(ImsMDrivePlusSaveToNVMControlString, asynParamInt32, &ImsMDrivePlusSaveToNVM_);
@@ -147,7 +144,9 @@ int ImsMDrivePlusMotorController::readHomeAndLimitConfig()
 	for (int i=1; i<=4; i++) {
 		sprintf(cmd, "PR S%d", i); // query S1-S4 setting
 		status = this->writeReadController(cmd, resp, sizeof(resp), &nread, IMS_TIMEOUT);
-		sscanf(resp, "%d", &type);
+		int Read = sscanf(resp, "%d", &type);
+		if (Read <= 0)
+			continue;
 		//asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER, "%s:%s: S%d: type=%d\n", DRIVER_NAME, functionName, i, type);
 		if (type != 0)
 			//printf("%s:%s: S%d: type=%d\n", DRIVER_NAME, functionName, i, type);
@@ -256,11 +255,26 @@ asynStatus ImsMDrivePlusMotorController::writeController(const char *output, dou
 	asynStatus status;
 	char outbuff[MAX_BUFF_LEN];
 	static const char *functionName = "writeController()";
+	char dbgbuff[MAX_BUFF_LEN];
+	size_t nread;
+	int eomReason;
 
 	// in party-mode Line Feed must follow command string
 	sprintf(outbuff, "%s%s", deviceName, output);
 	asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER, "%s:%s: deviceName=%s, command=%s\n", DRIVER_NAME, functionName, deviceName, outbuff);
 	status = pasynOctetSyncIO->write(pAsynUserIMS, outbuff, strlen(outbuff), timeout, &nwrite);
+	sprintf(outbuff, "%s%s", deviceName, "PR EF");
+	if (!status)
+	{
+		// Print out the error flag to indicate what went wrong.
+		status = pasynOctetSyncIO->writeRead(pAsynUserIMS, outbuff, strlen(outbuff), dbgbuff, MAX_BUFF_LEN, timeout, &nwrite, &nread, &eomReason);
+		if ((!status) && (strcmp(dbgbuff, "1") == 0))
+		{
+			sprintf(outbuff, "%s%s", deviceName, "PR ER");
+			status = pasynOctetSyncIO->writeRead(pAsynUserIMS, outbuff, strlen(outbuff), dbgbuff, MAX_BUFF_LEN, timeout, &nwrite, &nread, &eomReason);
+			asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, "%s:%s: deviceName=%s, command=%s, error code=%s\n", DRIVER_NAME, functionName, deviceName, output, dbgbuff);
+		}
+	}
 	if (status) { // update comm flag
 		setIntegerParam(this->motorStatusCommsError_, 1);
 	}
@@ -285,6 +299,8 @@ asynStatus ImsMDrivePlusMotorController::writeReadController(const char *output,
 	asynStatus status;
 	int eomReason;
 	char outbuff[MAX_BUFF_LEN];
+	char dbgbuff[MAX_BUFF_LEN];
+	size_t dbgnread;
 	static const char *functionName = "writeReadController()";
 
 	// in party-mode Line Feed must follow command string
@@ -292,6 +308,17 @@ asynStatus ImsMDrivePlusMotorController::writeReadController(const char *output,
 	status = pasynOctetSyncIO->writeRead(pAsynUserIMS, outbuff, strlen(outbuff), input, maxChars, timeout, &nwrite, nread, &eomReason);
 	if (status) { // update comm flag
 		setIntegerParam(this->motorStatusCommsError_, 1);
+	}
+	sprintf(outbuff, "%s%s", deviceName, "PR EF");
+	if (!status)
+	{
+		status = pasynOctetSyncIO->writeRead(pAsynUserIMS, outbuff, strlen(outbuff), dbgbuff, MAX_BUFF_LEN, timeout, &nwrite, &dbgnread, &eomReason);
+		if ((!status) && (strcmp(dbgbuff, "1") == 0))
+		{
+			sprintf(outbuff, "%s%s", deviceName, "PR ER");
+			status = pasynOctetSyncIO->writeRead(pAsynUserIMS, outbuff, strlen(outbuff), dbgbuff, MAX_BUFF_LEN, timeout, &nwrite, &dbgnread, &eomReason);
+			asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, "%s:%s: deviceName=%s, command=%s, error code=%s\n", DRIVER_NAME, functionName, deviceName, output, dbgbuff);
+		}
 	}
 	asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER, "%s:%s: deviceName=%s, command=%s, response=%s\n", DRIVER_NAME, functionName, deviceName, outbuff, input);
 	return status;
