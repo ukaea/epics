@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="O.Common">
+      <UniqueIdentifier>{f19b6948-4535-47d5-a8c3-1f537ec15532}</UniqueIdentifier>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="db">
+      <UniqueIdentifier>{fef0bd38-19ac-4984-803b-3bf69909b6aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TestScripts">
+      <UniqueIdentifier>{64a4a037-e89d-424f-938e-0246914b6a2a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\VQM_ITMS_SimMain.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="O.Common\VQM_ITMS_Sim_registerRecordDeviceDriver.cpp">
+      <Filter>O.Common</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VQM_ITMS_SimDriver.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\Makefile">
+      <Filter>src</Filter>
+    </None>
+    <None Include="O.Common\VQM_ITMS_Sim.dbd">
+      <Filter>O.Common</Filter>
+    </None>
+    <None Include="Db\VQM_ITMS_Sim.db">
+      <Filter>db</Filter>
+    </None>
+    <None Include="TestScripts\camonitor.py">
+      <Filter>TestScripts</Filter>
+    </None>
+    <None Include="TestScripts\setrunning.py">
+      <Filter>TestScripts</Filter>
+    </None>
+    <None Include="TestScripts\testsequence.bat">
+      <Filter>TestScripts</Filter>
+    </None>
+    <None Include="TestScripts\testsequence.py">
+      <Filter>TestScripts</Filter>
+    </None>
+    <None Include="TestScripts\testsequence.sh">
+      <Filter>TestScripts</Filter>
+    </None>
+    <None Include="Db\VQM_ITMS_Sim.Asyn4-26.db">
+      <Filter>db</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="src\VQM_ITMS_SimInclude.dbd">
+      <Filter>src</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\VQM_ITMS_SimDriver.h">
+      <Filter>src</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

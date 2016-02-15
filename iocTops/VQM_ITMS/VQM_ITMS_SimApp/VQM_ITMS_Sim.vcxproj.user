@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">
+    <LocalDebuggerCommandArguments>..\iocBoot\iocVQM_ITMS\st1.simulator.cmd</LocalDebuggerCommandArguments>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <LocalDebuggerEnvironment>EPICS_CA_SERVER_PORT=5071
+IPPORT1=localhost:5066
+IPPORT2=localhost:5067
+IPPORT3=localhost:5068
+IPPORT4=localhost:5069
+IPPORT5=localhost:5070
+$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
+    <LocalDebuggerCommandArguments>..\..\iocBoot\iocVQM_ITMS_Sim\st1.simulator.cmd</LocalDebuggerCommandArguments>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
+    <LocalDebuggerEnvironment>EPICS_CA_SERVER_PORT=5072
+NOOFPZD=6
+IPPORT1=localhost:5066
+IPPORT2=localhost:5067
+IPPORT3=localhost:5068
+IPPORT4=localhost:5069
+IPPORT5=localhost:5070
+IPPORT6=localhost:5071
+$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <LocalDebuggerWorkingDirectory>$(ProjectDir)\TestScripts</LocalDebuggerWorkingDirectory>
+    <DevPartner_IsInstrumented>1</DevPartner_IsInstrumented>
+    <DevPartner_Instrumented_Type> /NMbcOn</DevPartner_Instrumented_Type>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
+    <LocalDebuggerCommandArguments>..\..\iocBoot\iocVQM_ITMS_Sim\st1.cmd</LocalDebuggerCommandArguments>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
+    <LocalDebuggerEnvironment>EPICS_CA_SERVER_PORT=5072
+IPPORT1=localhost:5066
+IPPORT2=localhost:5067
+IPPORT3=localhost:5068
+IPPORT4=localhost:5069
+IPPORT5=localhost:5070
+IPPORT6=localhost:5071
+NoOfPZD=2
+$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <LocalDebuggerWorkingDirectory>$(ProjectDir)\TestScripts</LocalDebuggerWorkingDirectory>
+    <DevPartner_IsInstrumented>1</DevPartner_IsInstrumented>
+    <DevPartner_Instrumented_Type> /NMbcOn</DevPartner_Instrumented_Type>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
+    <LocalDebuggerCommandArguments>..\..\iocBoot\iocVQM_ITMS_Sim\st6.simulator.cmd</LocalDebuggerCommandArguments>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
+    <LocalDebuggerEnvironment>EPICS_CA_SERVER_PORT=5071
+IPPORT1=localhost:5066
+IPPORT2=localhost:5067
+IPPORT3=localhost:5068
+IPPORT4=localhost:5069
+IPPORT5=localhost:5070
+$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <LocalDebuggerWorkingDirectory>$(ProjectDir)\TestScripts</LocalDebuggerWorkingDirectory>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
+    <LocalDebuggerCommandArguments>..\..\iocBoot\iocVQM_ITMS_Sim\st6.cmd</LocalDebuggerCommandArguments>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
+    <LocalDebuggerEnvironment>EPICS_CA_SERVER_PORT=5071
+IPPORT1=localhost:5066
+IPPORT2=localhost:5067
+IPPORT3=localhost:5068
+IPPORT4=localhost:5069
+IPPORT5=localhost:5070
+$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <LocalDebuggerWorkingDirectory>$(ProjectDir)\TestScripts</LocalDebuggerWorkingDirectory>
+  </PropertyGroup>
+</Project>

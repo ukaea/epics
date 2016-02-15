@@ -1,0 +1,38 @@
+#####################################################################################################
+#																									#
+#	Module:																							#
+#		SoftwareVersions.db																			#
+#																									#
+#	Description:																					#
+#		Defines only the IOC records that are used by the base class.								#
+#																									#
+#	Author:  Peter Heesterman (Tessella plc). Date: 05 Jan 2015.									#
+#	Written for CCFE (Culham Centre for Fusion Energy).												#
+#																									#
+#	VQM_ITMS is distributed subject to a Software License Agreement								#
+#	found in file LICENSE that is included with this distribution.									#
+#																									#
+#####################################################################################################
+
+
+#####################################################################################################
+#																									#
+#	Field(s)																						#
+#		AsynVersion				Reads out the Asyn version.											#
+#		SoftwareVersion			Reads out the VQM_ITMS software version.						#
+#																									#
+#####################################################################################################
+
+record(stringin, "$(P)AsynVersion")
+{
+	field(DTYP, "asynOctetRead")
+	field(INP,  "@asyn($(PORT),0,1)ASYNVERSION")
+	field(PINI, "1")
+}
+
+record(stringin, "$(P)SoftwareVersion")
+{
+	field(DTYP, "asynOctetRead")
+	field(INP,  "@asyn($(PORT),0,1)SOFTWAREVERSION")
+	field(PINI, "1")
+}
