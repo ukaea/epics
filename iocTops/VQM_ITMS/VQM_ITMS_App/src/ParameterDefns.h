@@ -19,60 +19,44 @@
 #define ParameterDefns_H
 
 #include <asynParamType.h>
+#include <shareLib.h>
 
 enum ParamUseCases
 {
 	Single, NotForSim, NotForReal, Both
 };
 
-struct ParameterDefn
+struct epicsShareClass ParameterDefn
 {
 	const char*		m_Name;
 	asynParamType	m_Type;
 	ParamUseCases	m_UseCase;
+	static const char* FILAMENT;
+	static const char* EMISSION;
+	static const char* MASSRANGE;
+	static const char* RAWDATA;
+	static const char* DETECTOR;
+	static const char* FAULT;
+	static const char* FAULTSTR;
+	static const char* DISCONNECTED;
+	static const char* FIRMWAREVERSION;
+	static const char* SOFTWAREVERSION;
+	static const char* ASYNVERSION;
 };
-
-static const char* RUNNING = "RUNNING"; 
-static const char* RESET = "RESET";
-static const char* FAULT = "FAULT";
-static const char* DISCONNECTED = "DISCONNECTED";
-static const char* FAULTSTR = "FAULTSTR";
-static const char* FIRMWAREVERSION = "FIRMWAREVERSION";
-static const char* SOFTWAREVERSION = "SOFTWAREVERSION";
-static const char* ASYNVERSION = "ASYNVERSION";
-static const char* WARNINGTEMPERATURE = "WARNINGTEMPERATURE";
-static const char* WARNINGTEMPERATURESTR = "WARNINGTEMPERATURESTR";
-static const char* WARNINGHIGHLOAD = "WARNINGHIGHLOAD";
-static const char* WARNINGHIGHLOADSTR = "WARNINGHIGHLOADSTR";
-static const char* WARNINGPURGE = "WARNINGPURGE";
-static const char* WARNINGPURGESTR = "WARNINGPURGESTR";
-static const char* STATORFREQUENCY = "STATORFREQUENCY";
-static const char* CONVERTERTEMPERATURE = "CONVERTERTEMPERATURE";
-static const char* MOTORCURRENT = "MOTORCURRENT";
-static const char* PUMPTEMPERATURE = "PUMPTEMPERATURE";
-static const char* CIRCUITVOLTAGE = "CIRCUITVOLTAGE";
 
 static ParameterDefn ParameterDefns[] =
 {
-	{RUNNING, asynParamInt32, Both},
-	{RESET, asynParamInt32, NotForSim},
-	{FAULT, asynParamInt32, Both},
-	{DISCONNECTED, asynParamInt32, NotForReal},
-	{FAULTSTR, asynParamOctet, NotForSim},
-	{FIRMWAREVERSION, asynParamOctet, Both},
-	{ASYNVERSION, asynParamOctet, Single},
-	{SOFTWAREVERSION, asynParamOctet, Single},
-	{WARNINGTEMPERATURE, asynParamInt32, Both},
-	{WARNINGTEMPERATURESTR, asynParamOctet, NotForSim},
-	{WARNINGHIGHLOAD, asynParamInt32, Both},
-	{WARNINGHIGHLOADSTR, asynParamOctet, NotForSim},
-	{WARNINGPURGE, asynParamInt32, Both},
-	{WARNINGPURGESTR, asynParamOctet, NotForSim},
-	{STATORFREQUENCY, asynParamInt32, Both},
-	{CONVERTERTEMPERATURE, asynParamInt32, Both},
-	{MOTORCURRENT, asynParamFloat64, Both},
-	{PUMPTEMPERATURE, asynParamInt32, Both},
-	{CIRCUITVOLTAGE, asynParamFloat64, Both}
+	{ParameterDefn::FILAMENT, asynParamInt32, Both},
+	{ParameterDefn::EMISSION, asynParamFloat64, Both},
+	{ParameterDefn::DETECTOR, asynParamInt32, Both},
+	{ParameterDefn::MASSRANGE, asynParamFloat64Array, Both},
+	{ParameterDefn::RAWDATA, asynParamFloat32Array, Both},
+	{ParameterDefn::FAULT, asynParamInt32, Both},
+	{ParameterDefn::FAULTSTR, asynParamOctet, NotForSim},
+	{ParameterDefn::DISCONNECTED, asynParamInt32, NotForReal},
+	{ParameterDefn::FIRMWAREVERSION, asynParamOctet, Both},
+	{ParameterDefn::ASYNVERSION, asynParamOctet, Single},
+	{ParameterDefn::SOFTWAREVERSION, asynParamOctet, Single}
 };
 
 static const int NUM_PARAMS = sizeof(ParameterDefns) / sizeof(ParameterDefn);

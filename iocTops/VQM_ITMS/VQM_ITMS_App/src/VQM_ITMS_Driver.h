@@ -28,6 +28,8 @@
 #include <string>
 #include <vector>
 
+struct IServiceWrapper;
+
 class CVQM_ITMS_Driver : public CVQM_ITMS_Base {
 public:
 	// NB, an MBBI string is limited to 40 charachters in EPICS.
@@ -39,15 +41,20 @@ public:
 	void disconnect();
     virtual asynStatus readInt32(asynUser *pasynUser, epicsInt32 *value);
     virtual asynStatus writeInt32(asynUser *pasynUser, epicsInt32 value);
+    virtual asynStatus writeFloat64(asynUser *pasynUser, epicsFloat64 value);
+    virtual asynStatus writeFloat64Array(asynUser *pasynUser, epicsFloat64 *value,
+                                        size_t nElements);
+    virtual asynStatus readFloat32Array(asynUser *pasynUser, epicsFloat32 *value,
+                                        size_t nElements, size_t *nIn);
     virtual asynStatus readOctet(asynUser *pasynUser, char *value, size_t maxChars,
                                         size_t *nActual, int *eomReason);
-	void addIOPort(const char* IOPortName);
+	void addIOPort(const char* IOPortName, const char* DeviceAddress);
 	static CVQM_ITMS_Driver* Instance() {
 		return m_Instance;
 	}
 	asynStatus ErrorHandler(int TableIndex, CException const& E);
 	size_t NrInstalled() {
-		return m_IOUsers.size()-1;
+		return m_Connections.size()-1;
 	}
 
                  
@@ -55,10 +62,10 @@ protected:
 	static int UsedParams();
 
 private:
+	struct SDeviceConnectionInfo;
+	IServiceWrapper* m_serviceWrapper;
 	// Each of these is associated with an octet I/O connection (i.e. serial or TCP port).
-	std::vector<asynUser*> m_IOUsers;
-    std::vector<epicsMutex*> m_Mutexes;
-    std::vector<bool> m_Disconnected;
+	std::vector<SDeviceConnectionInfo*> m_Connections;
 	static CVQM_ITMS_Driver* m_Instance;
 };
 

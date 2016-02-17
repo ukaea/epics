@@ -19,6 +19,19 @@
 #define epicsExportSharedSymbols
 #include "VQM_ITMS_Base.h"
 
+const char* ParameterDefn::FILAMENT = "FILAMENT";
+const char* ParameterDefn::EMISSION = "EMISSION";
+const char* ParameterDefn::MASSRANGE = "MASSRANGE";
+const char* ParameterDefn::RAWDATA = "RAWDATA";
+const char* ParameterDefn::DETECTOR = "DETECTOR";
+const char* ParameterDefn::FAULT = "FAULT";
+const char* ParameterDefn::FAULTSTR = "FAULTSTR";
+const char* ParameterDefn::DISCONNECTED = "DISCONNECTED";
+const char* ParameterDefn::FIRMWAREVERSION = "FIRMWAREVERSION";
+const char* ParameterDefn::SOFTWAREVERSION = "SOFTWAREVERSION";
+const char* ParameterDefn::ASYNVERSION = "ASYNVERSION";
+
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 //																								//
 // CVQM_ITMS_Base::CVQM_ITMS_Base(const char *portName, int maxAddr, int paramTableSize)/
@@ -49,7 +62,7 @@ CVQM_ITMS_Base::CVQM_ITMS_Base(const char *portName, int maxAddr, int paramTable
 	// in order to force output of the I/O parameter.
 	char Buf[5];
 	epicsSnprintf(Buf, sizeof(Buf), "%1d-%02d", ASYN_VERSION, ASYN_REVISION);
-	setStringParam(ASYNVERSION, Buf);
+	setStringParam(ParameterDefn::ASYNVERSION, Buf);
 
 	if ((ASYN_VERSION >= 4) && (ASYN_REVISION >= 26))
 		// This version includes the asyn:READBACK feature as per http://www.aps.anl.gov/epics/tech-talk/2015/msg00431.php
@@ -63,11 +76,11 @@ CVQM_ITMS_Base::CVQM_ITMS_Base(const char *portName, int maxAddr, int paramTable
 		// For CCFE, this file would typically constain an SU number, e.g. SU18923.
 		char CBuf[MaxEPICSStrLen];
 		fgets(CBuf, MaxEPICSStrLen, Version);
-		setStringParam (SOFTWAREVERSION, CBuf);
+		setStringParam (ParameterDefn::SOFTWAREVERSION, CBuf);
 		fclose(Version);
 	}
 	else
-		setStringParam (SOFTWAREVERSION, SoftwareVersion);
+		setStringParam (ParameterDefn::SOFTWAREVERSION, SoftwareVersion);
 }
 
 int CVQM_ITMS_Base::Mask()

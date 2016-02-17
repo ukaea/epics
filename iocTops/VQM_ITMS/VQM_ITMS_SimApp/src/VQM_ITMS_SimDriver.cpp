@@ -205,7 +205,7 @@ void CVQM_ITMS_SimPortDriver::addIOPort(const char* IOPortName)
 		createParam(m_asynUsers.size(), ParamIndex);
 	}
 	setDefaultValues(m_asynUsers.size());
-	setIntegerParam(m_asynUsers.size(), FAULT, 0);
+	setIntegerParam(m_asynUsers.size(), ParameterDefn::FAULT, 0);
 
     asynUser *asynUser = pasynManager->createAsynUser(0,0);
 	m_TableLookup[IOPortName] = m_asynUsers.size();
@@ -260,15 +260,7 @@ void CVQM_ITMS_SimPortDriver::setDefaultValues(size_t TableIndex)
 	// Not set here : FAULT
 	// Reset, FaultStr, WarningTemperatureStr, WarningHighLoadStr and WarningPurgeStr are not used.
 
-	setIntegerParam(TableIndex, DISCONNECTED, 0);
-	setIntegerParam(TableIndex, WARNINGTEMPERATURE, 0);
-	setIntegerParam(TableIndex, WARNINGHIGHLOAD, 0);
-	setIntegerParam(TableIndex, WARNINGPURGE, 0);
-	setIntegerParam(TableIndex, STATORFREQUENCY, NormalStatorFrequency);
-	setIntegerParam(TableIndex, CONVERTERTEMPERATURE, 50);
-	setDoubleParam (TableIndex, MOTORCURRENT, 1.1);
-	setIntegerParam(TableIndex, PUMPTEMPERATURE, 65);
-	setDoubleParam (TableIndex, CIRCUITVOLTAGE, 60.2);
+	setIntegerParam(TableIndex, ParameterDefn::DISCONNECTED, 0);
 }
 
 static const iocshArg initArg0 = { "asynPortName", iocshArgString};
