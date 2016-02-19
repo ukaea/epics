@@ -16,46 +16,8 @@
 
 #####################################################################################################
 #																									#
-#	Field: Running.																					#
-#	Description:																					#
-#		OFF		- the pump is not running															#
-#		ON		- the pump is in normal operation													#
-#		ACCEL	- the pump is in normal operation													#
-#		DECEL	- the pump is decelerating															#
-#		MOVING	- the pump is (still) rotaing at >3Hz												#
-#																									#
-#		This field is unique in that it is both an input and an output (for both apps).				#
-#		This is the case because it provides both setting capability and readback.					#
-#		It is possible for the 'Running' state to be set either by:									#
-#			a. the software user through the IOC, or:												#
-#			b. the equipment user, by means of switching the pump off.								#
-#																									#
-#####################################################################################################
-record(mbbo, "$(P)Running")
-{
-	field(DESC, "Running")
-	field(DTYP, "asynInt32")
-	field(OUT,  "@asyn($(PORT),$(ADDR),1)RUNNING")
-	info("asyn:READBACK", "1")
-	field(ZRVL, "0")
-	field(ONVL, "1")
-	field(TWVL, "2")
-    field(THVL, "3")
-    field(FRVL, "4")
-    field(ZRST, "OFF")
-    field(ONST, "ON")
-    field(TWST, "ACCEL")
-    field(THST, "DECEL")
-    field(FRST, "MOVING")
-	field(VAL, 1)
-}
-
-#####################################################################################################
-#																									#
 #	Field(s)																						#
 #		Reset:					Set to true for a pump reset (rising edge). Returns to the false.	#
-#		Fault:					The pump has a fault.												#
-#		FaultStr:				The pump's fault expressed as a string.								#
 #		FirmwareVersion:		The pumps firmware version string is read out (start-up only).		#
 #		WarningTemperature:		The pump has a high temperature warning (numeric code).				#
 #		WarningTemperatureStr:	A textual representation of the above warning.						#
@@ -71,113 +33,63 @@ record(mbbo, "$(P)Running")
 #																									#
 #####################################################################################################
 
-record(bo, "$(P)Reset")
+record(mbbo, "$(P)Filament")
 {
 	field(DTYP, "asynInt32")
-	field(OUT,  "@asyn($(PORT),$(ADDR),1)RESET")
-	field(HIGH, "1.0")
-	field(ZNAM,  "NORMAL")
-	field(ONAM,  "RESET IN PROGRESS")
-	field(VAL, 0)
+	field(OUT,  "@asyn($(PORT),$(ADDR),1)FILAMENT")
+	info("asyn:READBACK", "1")
+	field(ZRVL, "0")
+	field(ONVL, "1")
+	field(TWVL, "2")
+    field(ZRST, "OFF")
+    field(ONST, "ONE")
+    field(TWST, "TWO")
+	field(VAL, 1)
 }
 
-record(longin, "$(P)Fault")
-{
-	field(DTYP, "asynInt32")
-	field(INP,  "@asyn($(PORT),$(ADDR),1)FAULT")
-	field(SCAN, "I/O Intr")
-}
-
-record(stringin, "$(P)FaultStr")
-{
-	field(DTYP, "asynOctetRead")
-	field(INP,  "@asyn($(PORT),$(ADDR),1)FAULTSTR")
-	field(SCAN, "I/O Intr")
-}
-
-record(stringin, "$(P)FirmwareVersion")
-{
-	field(DTYP, "asynOctetRead")
-	field(INP,  "@asyn($(PORT),$(ADDR),1)FIRMWAREVERSION")
-	field(PINI, "1")
-}
-
-record(longin, "$(P)WarningTemperature")
-{
-    field(DTYP, "asynInt32")
-	field(INP,  "@asyn($(PORT),$(ADDR),1)WARNINGTEMPERATURE")
-	field(SCAN, "I/O Intr")
-}
-
-record(stringin, "$(P)WarningTemperatureStr")
-{
-    field(DTYP, "asynOctetRead")
-	field(INP,  "@asyn($(PORT),$(ADDR),1)WARNINGTEMPERATURESTR")
-	field(SCAN, "I/O Intr")
-}
-
-record(longin, "$(P)WarningHighLoad")
-{
-    field(DTYP, "asynInt32")
-	field(INP,  "@asyn($(PORT),$(ADDR),1)WARNINGHIGHLOAD")
-	field(SCAN, "I/O Intr")
-}
-
-record(stringin, "$(P)WarningHighLoadStr")
-{
-    field(DTYP, "asynOctetRead")
-	field(INP,  "@asyn($(PORT),$(ADDR),1)WARNINGHIGHLOADSTR")
-	field(SCAN, "I/O Intr")
-}
-
-record(longin, "$(P)WarningPurge")
-{
-    field(DTYP, "asynInt32")
-	field(INP,  "@asyn($(PORT),$(ADDR),1)WARNINGPURGE")
-	field(SCAN, "I/O Intr")
-}
-
-record(stringin, "$(P)WarningPurgeStr")
-{
-    field(DTYP, "asynOctetRead")
-	field(INP,  "@asyn($(PORT),$(ADDR),1)WARNINGPURGESTR")
-	field(SCAN, "I/O Intr")
-}
-
-record(ai, "$(P)StatorFrequency")
-{
-    field(DTYP, "asynInt32")
-	field(INP,  "@asyn($(PORT),$(ADDR),1)STATORFREQUENCY")
-	field(SCAN, "$(SCAN)")
-	field(PINI, "1")
-}
-
-record(ai, "$(P)ConverterTemperature")
-{
-    field(DTYP, "asynInt32")
-	field(INP,  "@asyn($(PORT),$(ADDR),1)CONVERTERTEMPERATURE")
-	field(SCAN, "I/O Intr")
-}
-
-record(ai, "$(P)MotorCurrent")
+record(ao, "$(P)Emission")
 {
     field(DTYP, "asynFloat64")
-	field(PREC, "1")
-	field(INP,  "@asyn($(PORT),$(ADDR),1)MOTORCURRENT")
-	field(SCAN, "I/O Intr")
+	field(PREC, "3")
+	field(EGU, "mA")
+	field(OUT,  "@asyn($(PORT),$(ADDR),1)EMISSION")
+	info("asyn:READBACK", "1")
 }
 
-record(ai, "$(P)PumpTemperature")
-{
-    field(DTYP, "asynInt32")
-	field(INP,  "@asyn($(PORT),$(ADDR),1)PUMPTEMPERATURE")
-	field(SCAN, "I/O Intr")
-}
-
-record(ai, "$(P)CircuitVoltage")
+record(waveform, "$(P)Massrange")
 {
     field(DTYP, "asynFloat64")
-	field(PREC, "1")
-	field(INP,  "@asyn($(PORT),$(ADDR),1)CIRCUITVOLTAGE")
-	field(SCAN, "I/O Intr")
+	field(PREC, "3")
+	field(EGU, "AMU")
+	field(NELM, 2)
+	field(OUT,  "@asyn($(PORT),$(ADDR),1)MASSRANGE")
+	info("asyn:READBACK", "1")
+}
+
+record(waveform, "$(P)Rawdata")
+{
+	field(FTVL, "FLOAT")
+	field(INP,  "@asyn($(PORT),$(ADDR),1)RAWDATA")
+}
+
+record(ao, "$(P)Multipliervolts")
+{
+    field(DTYP, "asynFloat64")
+	field(PREC, "3")
+	field(EGU, "AMU")
+	field(OUT,  "@asyn($(PORT),$(ADDR),1)MULTIPLIERVOLTS")
+	info("asyn:READBACK", "1")
+}
+
+record(ai, "$(P)Multipliergain")
+{
+    field(DTYP, "asynFloat64")
+	field(PREC, "3")
+	field(INP,  "@asyn($(PORT),$(ADDR),1)MULTIPLIERGAIN")
+}
+
+record(stringin, "$(P)Serialnumber")
+{
+	field(DTYP, "asynOctetRead")
+	field(INP,  "@asyn($(PORT),$(ADDR),1)Serialnumber")
 }

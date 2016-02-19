@@ -132,13 +132,13 @@ void CVQM_ITMS_Driver::addIOPort(const char* IOPortName, const char* DeviceAddre
 		createParam(NrInstalled(), ParamIndex);
 	}
 
-	callParamCallbacks(NrInstalled());
-
 	SDeviceConnectionInfo* DeviceConnectionInfo = new SDeviceConnectionInfo();
 	DeviceConnectionInfo->m_DeviceAddress = DeviceAddress;
 	bool isMaster = false;
 	SVQM_800_Error error = m_serviceWrapper->ConnectToDevice(*DeviceConnectionInfo, isMaster);
+	setStringParam(NrInstalled(), ParameterDefn::SERIALNUMBER, DeviceConnectionInfo->m_SerialNumber);
 
+	callParamCallbacks(NrInstalled());
 	m_Connections.back() = DeviceConnectionInfo;
 }
 
@@ -199,26 +199,13 @@ asynStatus CVQM_ITMS_Driver::readInt32(asynUser *pasynUser, epicsInt32 *value)
 	}
 	catch(CException const& E) {
 		// make sure we return an error state if there are comms problems
-		Status = ErrorHandler(TableIndex, E);
+		Status = E.Status();
 	}
 	callParamCallbacks(TableIndex);
 	return Status;
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////
-//																								//
-//	asynStatus CVQM_ITMS_Driver::readOctet(asynUser *pasynUser, char *value,				//
-//		size_t maxChars, size_t *nActual, int *eomReason)										//
-//																								//
-//	Description:																				//
-//		This method is invoked by the Asyn framework to read string values from the hardware.	//
-//		The only such is the firmware version.													//
-//		It is assumed the firmware version will not change while the software is running.		//
-//		So this method only needs to be invoked once on start-up.								//
-//																								//
-//////////////////////////////////////////////////////////////////////////////////////////////////
-asynStatus CVQM_ITMS_Driver::readOctet(asynUser *pasynUser, char *value, size_t maxChars,
-                                        size_t *nActual, int *eomReason)
+asynStatus CVQM_ITMS_Driver::readFloat64(asynUser *pasynUser, epicsFloat64 *value)
 {
 	int function = pasynUser->reason;
 	int TableIndex;
@@ -226,24 +213,29 @@ asynStatus CVQM_ITMS_Driver::readOctet(asynUser *pasynUser, char *value, size_t 
 	if (m_Instance == NULL)
 		// The IOC is exiting
 		return asynTimeout;
+
 	try {
 		ThrowException(pasynUser, getAddress(pasynUser, &TableIndex), __FUNCTION__, "Could not get address");
 		if ((TableIndex < 0) || (TableIndex > int(NrInstalled())))
 			throw CException(pasynUser, asynError, __FUNCTION__, "User / ITMS not configured");
+
 		epicsGuard < epicsMutex > guard ( *(m_Connections[TableIndex]->m_Mutex) );
 		if (m_Instance == NULL)
 			// The IOC is exiting
 			return asynTimeout;
-		Status = CVQM_ITMS_Base::readOctet(pasynUser, value, maxChars, nActual, eomReason);
+
+		if (function == Parameters(ParameterDefn::MULTIPLIERGAIN))
+		{
+			SVQM_800_Error Error = m_serviceWrapper->GetElectrometerGain(*value, *(m_Connections[TableIndex]));
+		}		
 	}
 	catch(CException const& E) {
 		// make sure we return an error state if there are comms problems
-		Status = ErrorHandler(TableIndex, E);
+		Status = E.Status();
 	}
 	callParamCallbacks(TableIndex);
 	return Status;
 }
-
 
 asynStatus CVQM_ITMS_Driver::readFloat32Array(asynUser *pasynUser, epicsFloat32 *value,
                                         size_t nElements, size_t *nIn)
@@ -283,29 +275,10 @@ asynStatus CVQM_ITMS_Driver::readFloat32Array(asynUser *pasynUser, epicsFloat32 
 	}
 	catch(CException const& E) {
 		// make sure we return an error state if there are comms problems
-		Status = ErrorHandler(TableIndex, E);
+		Status = E.Status();
 	}
 	callParamCallbacks(TableIndex);
 	return Status;
-}
-
-asynStatus CVQM_ITMS_Driver::ErrorHandler(int TableIndex, CException const& E)
-{
-	if (m_Instance == NULL)
-		// The IOC is exiting
-		return asynTimeout;
-
-	// Internal communication failure
-	// NB, Asyn 4-27 requires that the parameter status is success before the value can be set through callback.
-	setParamStatus(TableIndex, ParameterDefn::FAULT, asynSuccess, false);
-	setParamStatus(TableIndex, ParameterDefn::FAULTSTR, asynSuccess, false);
-	setIntegerParam(TableIndex, ParameterDefn::FAULT, 65, false);
-	setStringParam (TableIndex, ParameterDefn::FAULTSTR, "Internal communication timeout", false);
-	callParamCallbacks(TableIndex, false);
-
-	setParamStatus(TableIndex, ParameterDefn::FAULT, E.Status(), false);
-	setParamStatus(TableIndex, ParameterDefn::FAULTSTR, E.Status(), false);
-	return E.Status();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -345,7 +318,7 @@ asynStatus CVQM_ITMS_Driver::writeInt32(asynUser *pasynUser, epicsInt32 value)
 	}
 	catch(CException const& E) {
 		// make sure we return an error state if there are comms problems
-		Status = ErrorHandler(TableIndex, E);
+		Status = E.Status();
 	}
 	return Status;
 }
@@ -369,7 +342,7 @@ asynStatus CVQM_ITMS_Driver::writeFloat64(asynUser *pasynUser, epicsFloat64 valu
 		if (m_Instance == NULL)
 			// The IOC is exiting
 			return asynTimeout;
-		if (function == Parameters(ParameterDefn::DETECTOR))
+		if (function == Parameters(ParameterDefn::MULTIPLIERVOLTS))
 		{
 			SVQM_800_Error Error = m_serviceWrapper->SetLogicalInstrumentVoltageSetpoint(EMBIAS, value, *(m_Connections[TableIndex]));
 		}
@@ -381,7 +354,7 @@ asynStatus CVQM_ITMS_Driver::writeFloat64(asynUser *pasynUser, epicsFloat64 valu
 	}
 	catch(CException const& E) {
 		// make sure we return an error state if there are comms problems
-		Status = ErrorHandler(TableIndex, E);
+		Status = E.Status();
 	}
 	return Status;
 }
@@ -416,7 +389,7 @@ asynStatus CVQM_ITMS_Driver::writeFloat64Array(asynUser *pasynUser, epicsFloat64
 	}
 	catch(CException const& E) {
 		// make sure we return an error state if there are comms problems
-		Status = ErrorHandler(TableIndex, E);
+		Status = E.Status();
 	}
 	return Status;
 }
@@ -492,10 +465,8 @@ static void VQM_ITMSAddIOPort(const iocshArgBuf *args)
 		if (CVQM_ITMS_Driver::Instance())
 			CVQM_ITMS_Driver::Instance()->addIOPort(IOPortName, DeviceName);
 	}
-	catch(CVQM_ITMS_Driver::CException const& E) {
+	catch(CVQM_ITMS_Driver::CException const&) {
 		// make sure we return an error state if there are comms problems
-		if (CVQM_ITMS_Driver::Instance())
-			CVQM_ITMS_Driver::Instance()->ErrorHandler(int(CVQM_ITMS_Driver::Instance()->NrInstalled()), E);
 	}
 }
 

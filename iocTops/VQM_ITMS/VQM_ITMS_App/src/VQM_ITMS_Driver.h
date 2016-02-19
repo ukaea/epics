@@ -40,19 +40,17 @@ public:
     ~CVQM_ITMS_Driver();
 	void disconnect();
     virtual asynStatus readInt32(asynUser *pasynUser, epicsInt32 *value);
+    virtual asynStatus readFloat64(asynUser *pasynUser, epicsFloat64 *value);
     virtual asynStatus writeInt32(asynUser *pasynUser, epicsInt32 value);
     virtual asynStatus writeFloat64(asynUser *pasynUser, epicsFloat64 value);
     virtual asynStatus writeFloat64Array(asynUser *pasynUser, epicsFloat64 *value,
                                         size_t nElements);
     virtual asynStatus readFloat32Array(asynUser *pasynUser, epicsFloat32 *value,
                                         size_t nElements, size_t *nIn);
-    virtual asynStatus readOctet(asynUser *pasynUser, char *value, size_t maxChars,
-                                        size_t *nActual, int *eomReason);
 	void addIOPort(const char* IOPortName, const char* DeviceAddress);
 	static CVQM_ITMS_Driver* Instance() {
 		return m_Instance;
 	}
-	asynStatus ErrorHandler(int TableIndex, CException const& E);
 	size_t NrInstalled() {
 		return m_Connections.size()-1;
 	}

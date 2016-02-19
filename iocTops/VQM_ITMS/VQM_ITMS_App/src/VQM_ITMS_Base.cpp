@@ -23,11 +23,10 @@ const char* ParameterDefn::FILAMENT = "FILAMENT";
 const char* ParameterDefn::EMISSION = "EMISSION";
 const char* ParameterDefn::MASSRANGE = "MASSRANGE";
 const char* ParameterDefn::RAWDATA = "RAWDATA";
-const char* ParameterDefn::DETECTOR = "DETECTOR";
-const char* ParameterDefn::FAULT = "FAULT";
-const char* ParameterDefn::FAULTSTR = "FAULTSTR";
+const char* ParameterDefn::MULTIPLIERVOLTS = "MULTIPLIERVOLTS";
+const char* ParameterDefn::MULTIPLIERGAIN = "MULTIPLIERGAIN";
 const char* ParameterDefn::DISCONNECTED = "DISCONNECTED";
-const char* ParameterDefn::FIRMWAREVERSION = "FIRMWAREVERSION";
+const char* ParameterDefn::SERIALNUMBER = "SERIALNUMBER";
 const char* ParameterDefn::SOFTWAREVERSION = "SOFTWAREVERSION";
 const char* ParameterDefn::ASYNVERSION = "ASYNVERSION";
 
