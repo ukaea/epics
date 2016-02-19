@@ -41,12 +41,14 @@ public:
 	void disconnect();
     virtual asynStatus readInt32(asynUser *pasynUser, epicsInt32 *value);
     virtual asynStatus readFloat64(asynUser *pasynUser, epicsFloat64 *value);
+    virtual asynStatus readFloat64Array(asynUser *pasynUser, epicsFloat64 *value,
+                                        size_t nElements, size_t *nIn);
+    virtual asynStatus readFloat32Array(asynUser *pasynUser, epicsFloat32 *value,
+                                        size_t nElements, size_t *nIn);
     virtual asynStatus writeInt32(asynUser *pasynUser, epicsInt32 value);
     virtual asynStatus writeFloat64(asynUser *pasynUser, epicsFloat64 value);
     virtual asynStatus writeFloat64Array(asynUser *pasynUser, epicsFloat64 *value,
                                         size_t nElements);
-    virtual asynStatus readFloat32Array(asynUser *pasynUser, epicsFloat32 *value,
-                                        size_t nElements, size_t *nIn);
 	void addIOPort(const char* IOPortName, const char* DeviceAddress);
 	static CVQM_ITMS_Driver* Instance() {
 		return m_Instance;

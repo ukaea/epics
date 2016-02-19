@@ -196,6 +196,12 @@ asynStatus CVQM_ITMS_Driver::readInt32(asynUser *pasynUser, epicsInt32 *value)
 			// The IOC is exiting
 			return asynTimeout;
 		
+		if (function == Parameters(ParameterDefn::FILAMENT))
+		{
+			double dValue;
+			SVQM_800_Error Error = m_serviceWrapper->GetLogicalInstrumentVoltageSetpoint(dValue, FILAMENT, *(m_Connections[TableIndex]));
+			*value = int(dValue);
+		}
 	}
 	catch(CException const& E) {
 		// make sure we return an error state if there are comms problems
@@ -227,6 +233,10 @@ asynStatus CVQM_ITMS_Driver::readFloat64(asynUser *pasynUser, epicsFloat64 *valu
 		if (function == Parameters(ParameterDefn::MULTIPLIERGAIN))
 		{
 			SVQM_800_Error Error = m_serviceWrapper->GetElectrometerGain(*value, *(m_Connections[TableIndex]));
+		}		
+		if (function == Parameters(ParameterDefn::EMISSION))
+		{
+			SVQM_800_Error Error = m_serviceWrapper->GetFilamentEmissionCurrent(*value,  *(m_Connections[TableIndex]));
 		}		
 	}
 	catch(CException const& E) {
@@ -272,6 +282,42 @@ asynStatus CVQM_ITMS_Driver::readFloat32Array(asynUser *pasynUser, epicsFloat32 
 			*nIn = DenoisedRawData.size();
 		}
 		Status = CVQM_ITMS_Base::readFloat32Array(pasynUser, value, nElements, nIn);
+	}
+	catch(CException const& E) {
+		// make sure we return an error state if there are comms problems
+		Status = E.Status();
+	}
+	callParamCallbacks(TableIndex);
+	return Status;
+}
+
+asynStatus CVQM_ITMS_Driver::readFloat64Array(asynUser *pasynUser, epicsFloat64 *value,
+                                        size_t nElements, size_t *nIn)
+{
+	int function = pasynUser->reason;
+	int TableIndex;
+	asynStatus Status = asynSuccess;
+	if (m_Instance == NULL)
+		// The IOC is exiting
+		return asynTimeout;
+
+	try {
+		ThrowException(pasynUser, getAddress(pasynUser, &TableIndex), __FUNCTION__, "Could not get address");
+		if ((TableIndex < 0) || (TableIndex > int(NrInstalled())))
+			throw CException(pasynUser, asynError, __FUNCTION__, "User / ITMS not configured");
+		epicsGuard < epicsMutex > guard ( *(m_Connections[TableIndex]->m_Mutex) );
+		if (m_Instance == NULL)
+			// The IOC is exiting
+			return asynTimeout;
+
+		if (function == Parameters(ParameterDefn::MASSRANGE))
+		{
+			if ((nElements != 2) || (value[0] >= value[1]))
+				throw CException(pasynUser, asynError, __FUNCTION__, "Mass range: from, to");
+
+			SVQM_800_Error Error = m_serviceWrapper->GetScanRange(value[0], value[1], *(m_Connections[TableIndex]));
+		}
+		Status = CVQM_ITMS_Base::readFloat64Array(pasynUser, value, nElements, nIn);
 	}
 	catch(CException const& E) {
 		// make sure we return an error state if there are comms problems
