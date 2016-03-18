@@ -3,5 +3,5 @@
 # You should do a "gnumake clean uninstall install" in the application
 # top directory each time changes are made to this file
 
-EPICS_BASE=/home/franksen/src/epics-base/3-14-12-5
+EPICS_BASE=\EPICS/base
 -include $(TOP)/../configure/EPICS_BASE.$(EPICS_HOST_ARCH)

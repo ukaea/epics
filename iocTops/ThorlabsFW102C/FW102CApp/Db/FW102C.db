@@ -1,0 +1,46 @@
+#Database for FW102C IOC
+
+#Data records (monitoring and control)
+
+record(stringin, "FW102C:IOCNAME") {
+  field(DESC, "Thorlabs 102C Filter Wheel")
+  field(VAL, "Device FW102C")
+}
+
+record(waveform, "FW102C:IDN") {
+  field(DESC, "ID String")
+  field(DTYP, "stream")
+  field(NELM, "80")
+  field(FTVL, "CHAR")
+  field(INP, "@FW102C.proto idn DEVICEPORT")
+}
+
+record(ai, "FW102C:POS:MON") {
+  field(DESC, "Filter wheel position")
+  field(DTYP, "stream")
+  field(INP, "@FW102C.proto getPos DEVICEPORT")
+}
+
+record(ao, "FW102C:POS:SET") {
+  field(SDIS, "FW102C:POS:SET:Sync.PACT")
+  field(DTYP, "stream")
+  field(OUT, "@FW102C.proto setPos DEVICEPORT")
+}
+
+
+#Sequence records (execute inputs).
+
+record(seq, "FW102C:SEQ0") {
+  field(DESC, "Initialization sequence")
+  field(LNK1, "FW102C:IDN.PROC")
+  field(DLY1, "0.5")
+  field(PINI, "YES")
+}
+
+record(seq, "FW102C:SEQ1") {
+  field(DESC, "Read sequence")
+  field(LNK1, "FW102C:POS:MON.PROC")
+  field(DLY1, "0.5")
+  field(SCAN, "2 second")
+}
+
