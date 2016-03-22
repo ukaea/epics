@@ -1,7 +1,17 @@
-Release/4.1
-===========
+Release 4.1.2
+=============
 
-This is for EPICS V4 release 4.5
+The only change since release 4.1.1 is:
+
+Added libraries needed for static builds 
+----------------------------------------
+
+The missing ca and nt libraries needed for static builds have been added to
+each of the examples. 
+
+
+Release 4.1.1
+=============
 
 pvaClient is a synchronous API for pvAccess.
 

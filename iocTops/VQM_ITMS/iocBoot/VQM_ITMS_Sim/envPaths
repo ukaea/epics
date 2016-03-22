@@ -1,0 +1,5 @@
+epicsEnvSet("ARCH","win32-x86")
+epicsEnvSet("IOC","iocVQM_ITMS_Sim")
+epicsEnvSet("TOP","D:/EPICS/VQM_ITMS")
+epicsEnvSet("ASYN","D:/epics/support/asyn")
+epicsEnvSet("EPICS_BASE","D:/EPICS/base")
