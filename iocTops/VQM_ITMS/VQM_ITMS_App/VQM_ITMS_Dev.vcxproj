@@ -112,6 +112,7 @@ cd $(ProjectDir)
   <ItemGroup>
     <None Include="Db\Makefile" />
     <None Include="Db\SoftwareVersions.db" />
+    <None Include="Db\VQM_ITMS.Asyn4-26.db" />
     <None Include="Db\VQM_ITMS.db" />
     <None Include="O.Common\VQM_ITMS.dbd" />
     <None Include="src\Makefile" />

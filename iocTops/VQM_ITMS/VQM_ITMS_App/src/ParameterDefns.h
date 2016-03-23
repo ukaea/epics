@@ -33,11 +33,11 @@ struct epicsShareClass ParameterDefn
 	ParamUseCases	m_UseCase;
 	static const char* FILAMENT;
 	static const char* EMISSION;
-	static const char* MASSRANGE;
+	static const char* MASSFROM;
+	static const char* MASSTO;
 	static const char* RAWDATA;
 	static const char* DETECTOR;
 	static const char* FAULT;
-	static const char* FAULTSTR;
 	static const char* DISCONNECTED;
 	static const char* FIRMWAREVERSION;
 	static const char* SOFTWAREVERSION;
@@ -48,11 +48,11 @@ static ParameterDefn ParameterDefns[] =
 {
 	{ParameterDefn::FILAMENT, asynParamInt32, Both},
 	{ParameterDefn::EMISSION, asynParamFloat64, Both},
-	{ParameterDefn::DETECTOR, asynParamInt32, Both},
-	{ParameterDefn::MASSRANGE, asynParamFloat64Array, Both},
+	{ParameterDefn::DETECTOR, asynParamFloat64, Both},
+	{ParameterDefn::MASSFROM, asynParamFloat64, Both},
+	{ParameterDefn::MASSTO, asynParamFloat64, Both},
 	{ParameterDefn::RAWDATA, asynParamFloat32Array, Both},
 	{ParameterDefn::FAULT, asynParamInt32, Both},
-	{ParameterDefn::FAULTSTR, asynParamOctet, NotForSim},
 	{ParameterDefn::DISCONNECTED, asynParamInt32, NotForReal},
 	{ParameterDefn::FIRMWAREVERSION, asynParamOctet, Both},
 	{ParameterDefn::ASYNVERSION, asynParamOctet, Single},

@@ -21,11 +21,11 @@
 
 const char* ParameterDefn::FILAMENT = "FILAMENT";
 const char* ParameterDefn::EMISSION = "EMISSION";
-const char* ParameterDefn::MASSRANGE = "MASSRANGE";
+const char* ParameterDefn::MASSFROM = "MASSFROM";
+const char* ParameterDefn::MASSTO = "MASSTO";
 const char* ParameterDefn::RAWDATA = "RAWDATA";
 const char* ParameterDefn::DETECTOR = "DETECTOR";
 const char* ParameterDefn::FAULT = "FAULT";
-const char* ParameterDefn::FAULTSTR = "FAULTSTR";
 const char* ParameterDefn::DISCONNECTED = "DISCONNECTED";
 const char* ParameterDefn::FIRMWAREVERSION = "FIRMWAREVERSION";
 const char* ParameterDefn::SOFTWAREVERSION = "SOFTWAREVERSION";
@@ -85,7 +85,7 @@ CVQM_ITMS_Base::CVQM_ITMS_Base(const char *portName, int maxAddr, int paramTable
 
 int CVQM_ITMS_Base::Mask()
 {
-	return asynDrvUserMask | asynInt32Mask | asynFloat64Mask | asynOctetMask;
+	return asynDrvUserMask | asynInt32Mask | asynFloat64Mask | asynOctetMask | asynFloat32ArrayMask | asynFloat64ArrayMask;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -162,6 +162,6 @@ void CVQM_ITMS_Base::ParamDefaultValue(size_t list, size_t ParamIndex)
 		case asynParamOctet: 
 			setStringParam (list, ParamName, "");
 			break;
-		default: assert(false);
+//		default: assert(false);
 	}
 }

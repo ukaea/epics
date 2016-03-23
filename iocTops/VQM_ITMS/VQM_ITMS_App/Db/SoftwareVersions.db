@@ -18,17 +18,9 @@
 #####################################################################################################
 #																									#
 #	Field(s)																						#
-#		AsynVersion				Reads out the Asyn version.											#
 #		SoftwareVersion			Reads out the VQM_ITMS software version.						#
 #																									#
 #####################################################################################################
-
-record(stringin, "$(P)AsynVersion")
-{
-	field(DTYP, "asynOctetRead")
-	field(INP,  "@asyn($(PORT),0,1)ASYNVERSION")
-	field(PINI, "1")
-}
 
 record(stringin, "$(P)SoftwareVersion")
 {
