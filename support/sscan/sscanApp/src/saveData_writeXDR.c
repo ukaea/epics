@@ -197,7 +197,7 @@
 #include <dbEvent.h>
 #include <special.h>
 #include <cadef.h>
-#include <tsDefs.h>
+/*#include <tsDefs.h>*/
 #include <epicsMutex.h>
 #include <epicsMessageQueue.h>
 #include <epicsThread.h>

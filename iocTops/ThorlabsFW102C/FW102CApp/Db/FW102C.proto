@@ -1,0 +1,11 @@
+#Protocol file for FW102C device
+
+InTerminator="\r>";
+OutTerminator=CR;
+ExtraInput=Ignore;
+ReadTimeout=1500;
+
+idn           { out "*idn?"             ;in "*idn?\r%60c"        ; }
+getPos        { out "pos?"              ;in "pos?\r%d"           ; }
+setPos        { out "pos=%d"            ;in "pos=%d"             ; }
+
