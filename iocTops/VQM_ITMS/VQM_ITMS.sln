@@ -72,17 +72,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "configure", "configure", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "iocBoot", "iocBoot", "{73322DE2-4EF3-41A8-86BE-BB9C2EEFDE68}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "iocVQM_ITMS", "iocVQM_ITMS", "{13E0B500-742B-401B-AF78-3F6A0201436D}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "VQM_ITMS", "VQM_ITMS", "{13E0B500-742B-401B-AF78-3F6A0201436D}"
 	ProjectSection(SolutionItems) = preProject
-		iocBoot\iocVQM_ITMS_\dllPath.bat = iocBoot\iocVQM_ITMS_\dllPath.bat
-		iocBoot\iocVQM_ITMS_\envPaths = iocBoot\iocVQM_ITMS_\envPaths
-		iocBoot\iocVQM_ITMS_\Makefile = iocBoot\iocVQM_ITMS_\Makefile
-		iocBoot\iocVQM_ITMS_\st1.cmd = iocBoot\iocVQM_ITMS_\st1.cmd
-		iocBoot\iocVQM_ITMS_\st1.simulated.cmd = iocBoot\iocVQM_ITMS_\st1.simulated.cmd
-		iocBoot\iocVQM_ITMS_\st2.cmd = iocBoot\iocVQM_ITMS_\st2.cmd
-		iocBoot\iocVQM_ITMS_\st2.simulated.cmd = iocBoot\iocVQM_ITMS_\st2.simulated.cmd
-		iocBoot\iocVQM_ITMS_\st6.cmd = iocBoot\iocVQM_ITMS_\st6.cmd
-		iocBoot\iocVQM_ITMS_\st6.simulated.cmd = iocBoot\iocVQM_ITMS_\st6.simulated.cmd
+		iocBoot\VQM_ITMS\dllPath.bat = iocBoot\VQM_ITMS\dllPath.bat
+		iocBoot\VQM_ITMS\envPaths = iocBoot\VQM_ITMS\envPaths
+		iocBoot\VQM_ITMS\Makefile = iocBoot\VQM_ITMS\Makefile
+		iocBoot\VQM_ITMS\st1.cmd = iocBoot\VQM_ITMS\st1.cmd
+		iocBoot\VQM_ITMS\st1.simulated.cmd = iocBoot\VQM_ITMS\st1.simulated.cmd
+		iocBoot\VQM_ITMS\st2.cmd = iocBoot\VQM_ITMS\st2.cmd
+		iocBoot\VQM_ITMS\st2.simulated.cmd = iocBoot\VQM_ITMS\st2.simulated.cmd
+		iocBoot\VQM_ITMS\st6.cmd = iocBoot\VQM_ITMS\st6.cmd
+		iocBoot\VQM_ITMS\st6.simulated.cmd = iocBoot\VQM_ITMS\st6.simulated.cmd
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "caRepeater", "..\..\base-3.15.3\src\ca\client\caRepeater.vcxproj", "{5BCFEACD-AF21-4BF0-B130-14C814453F07}"
@@ -93,14 +93,14 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VQM_ITMS_Sim", "VQM_ITMS_Si
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "support", "support", "{0419E814-81A1-4054-B88C-0AACD53CAAAB}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "iocVQM_ITMS_Sim", "iocVQM_ITMS_Sim", "{8687A51C-BA97-4FFE-9B0B-55DACE994618}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "VQM_ITMS_Sim", "VQM_ITMS_Sim", "{8687A51C-BA97-4FFE-9B0B-55DACE994618}"
 	ProjectSection(SolutionItems) = preProject
-		iocBoot\iocVQM_ITMS_Sim\dllPath.bat = iocBoot\iocVQM_ITMS_Sim\dllPath.bat
-		iocBoot\iocVQM_ITMS_Sim\envPaths = iocBoot\iocVQM_ITMS_Sim\envPaths
-		iocBoot\iocVQM_ITMS_Sim\Makefile = iocBoot\iocVQM_ITMS_Sim\Makefile
-		iocBoot\iocVQM_ITMS_Sim\st1.simulator.cmd = iocBoot\iocVQM_ITMS_Sim\st1.simulator.cmd
-		iocBoot\iocVQM_ITMS_Sim\st2.simulator.cmd = iocBoot\iocVQM_ITMS_Sim\st2.simulator.cmd
-		iocBoot\iocVQM_ITMS_Sim\st6.simulator.cmd = iocBoot\iocVQM_ITMS_Sim\st6.simulator.cmd
+		iocBoot\VQM_ITMS_Sim\dllPath.bat = iocBoot\VQM_ITMS_Sim\dllPath.bat
+		iocBoot\VQM_ITMS_Sim\envPaths = iocBoot\VQM_ITMS_Sim\envPaths
+		iocBoot\VQM_ITMS_Sim\MakeFile = iocBoot\VQM_ITMS_Sim\MakeFile
+		iocBoot\VQM_ITMS_Sim\st1.simulator.cmd = iocBoot\VQM_ITMS_Sim\st1.simulator.cmd
+		iocBoot\VQM_ITMS_Sim\st2.simulator.cmd = iocBoot\VQM_ITMS_Sim\st2.simulator.cmd
+		iocBoot\VQM_ITMS_Sim\st6.simulator.cmd = iocBoot\VQM_ITMS_Sim\st6.simulator.cmd
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestScripts", "TestScripts", "{3B25DF17-DA76-4505-BB10-99F4E84DFFB1}"

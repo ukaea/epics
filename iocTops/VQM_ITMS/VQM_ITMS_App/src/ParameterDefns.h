@@ -33,12 +33,13 @@ struct epicsShareClass ParameterDefn
 	ParamUseCases	m_UseCase;
 	static const char* FILAMENT;
 	static const char* EMISSION;
-	static const char* MASSRANGE;
+	static const char* MASSFROM;
+	static const char* MASSTO;
 	static const char* RAWDATA;
-	static const char* MULTIPLIERVOLTS;
-	static const char* MULTIPLIERGAIN;
+	static const char* DETECTOR;
+	static const char* FAULT;
 	static const char* DISCONNECTED;
-	static const char* SERIALNUMBER;
+	static const char* FIRMWAREVERSION;
 	static const char* SOFTWAREVERSION;
 	static const char* ASYNVERSION;
 };
@@ -47,12 +48,13 @@ static ParameterDefn ParameterDefns[] =
 {
 	{ParameterDefn::FILAMENT, asynParamInt32, Both},
 	{ParameterDefn::EMISSION, asynParamFloat64, Both},
-	{ParameterDefn::MULTIPLIERVOLTS, asynParamFloat64, Both},
-	{ParameterDefn::MULTIPLIERGAIN, asynParamFloat64, Both},
-	{ParameterDefn::MASSRANGE, asynParamFloat64Array, Both},
+	{ParameterDefn::DETECTOR, asynParamFloat64, Both},
+	{ParameterDefn::MASSFROM, asynParamFloat64, Both},
+	{ParameterDefn::MASSTO, asynParamFloat64, Both},
 	{ParameterDefn::RAWDATA, asynParamFloat32Array, Both},
+	{ParameterDefn::FAULT, asynParamInt32, Both},
 	{ParameterDefn::DISCONNECTED, asynParamInt32, NotForReal},
-	{ParameterDefn::SERIALNUMBER, asynParamOctet, Both},
+	{ParameterDefn::FIRMWAREVERSION, asynParamOctet, Both},
 	{ParameterDefn::ASYNVERSION, asynParamOctet, Single},
 	{ParameterDefn::SOFTWAREVERSION, asynParamOctet, Single}
 };

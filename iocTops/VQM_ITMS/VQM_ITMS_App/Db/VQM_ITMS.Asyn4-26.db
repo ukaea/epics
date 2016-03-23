@@ -14,37 +14,43 @@
 #																									#
 #####################################################################################################
 
-record(ao, "$(P)Filament")
+record(longout, "$(P)Filament")
 {
 	field(DTYP, "asynInt32")
 	field(OUT,  "@asyn($(PORT),$(ADDR),1)FILAMENT")
-	info("asyn:READBACK", "1")
+#	info("asyn:READBACK", "1")
 }
 
 record(ao, "$(P)Emission")
 {
     field(DTYP, "asynFloat64")
 	field(OUT,  "@asyn($(PORT),$(ADDR),1)EMISSION")
-	info("asyn:READBACK", "1")
+#	info("asyn:READBACK", "1")
 }
 
 record(ao, "$(P)Detector")
 {
     field(DTYP, "asynFloat64")
 	field(OUT,  "@asyn($(PORT),$(ADDR),1)DETECTOR")
-	info("asyn:READBACK", "1")
+#	info("asyn:READBACK", "1")
 }
 
-record(ao, "$(P)MassRange")
+record(ao, "$(P)MassFrom")
 {
-    field(DTYP, "asynFloat64ArrayOut")
-	field(OUT,  "@asyn($(PORT),$(ADDR),1)MASSRANGE")
-    field(NELM, "2")
+    field(DTYP, "asynFloat64")
+	field(OUT,  "@asyn($(PORT),$(ADDR),1)MASSFROM")
 }
 
-record(ai, "$(P)RawData")
+record(ao, "$(P)MassTo")
+{
+    field(DTYP, "asynFloat64")
+	field(OUT,  "@asyn($(PORT),$(ADDR),1)MASSTO")
+}
+
+record(waveform, "$(P)RawData")
 {
     field(DTYP, "asynFloat32ArrayIn")
+    field(FTVL, "FLOAT")
 	field(INP,  "@asyn($(PORT),$(ADDR),1)RAWDATA")
 }
 
@@ -54,18 +60,3 @@ record(longin, "$(P)Fault")
 	field(INP,  "@asyn($(PORT),$(ADDR),1)FAULT")
 	field(SCAN, "I/O Intr")
 }
-
-record(stringin, "$(P)FaultStr")
-{
-	field(DTYP, "asynOctetRead")
-	field(INP,  "@asyn($(PORT),$(ADDR),1)FAULTSTR")
-	field(SCAN, "I/O Intr")
-}
-
-record(stringin, "$(P)FirmwareVersion")
-{
-	field(DTYP, "asynOctetRead")
-	field(INP,  "@asyn($(PORT),$(ADDR),1)FIRMWAREVERSION")
-	field(PINI, "1")
-}
-

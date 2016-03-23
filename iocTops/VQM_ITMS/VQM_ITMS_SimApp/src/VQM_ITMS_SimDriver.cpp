@@ -258,7 +258,7 @@ int CVQM_ITMS_SimPortDriver::UsedParams()
 void CVQM_ITMS_SimPortDriver::setDefaultValues(size_t TableIndex)
 {
 	// Not set here : FAULT
-	// Reset, FaultStr, WarningTemperatureStr, WarningHighLoadStr and WarningPurgeStr are not used.
+	// Reset, WarningTemperatureStr, WarningHighLoadStr and WarningPurgeStr are not used.
 
 	setIntegerParam(TableIndex, ParameterDefn::DISCONNECTED, 0);
 }

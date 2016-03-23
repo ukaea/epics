@@ -48,7 +48,7 @@ CVQM_ITMS_Driver* CVQM_ITMS_Driver::m_Instance;
 
 struct CVQM_ITMS_Driver::SDeviceConnectionInfo : public ::SDeviceConnectionInfo
 {
-	epicsMutex* m_Mutex;
+	epicsMutex m_Mutex;
 };
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -88,11 +88,11 @@ void CVQM_ITMS_Driver::disconnect()
 {
 	asynStatus overallstatus = asynSuccess;
 	for(size_t Index = 0; Index < NrInstalled(); Index++)
-		m_Connections[Index]->m_Mutex->lock();
+		m_Connections[Index]->m_Mutex.lock();
 	for(size_t Index = 0; Index < NrInstalled(); Index++)
 		m_serviceWrapper->DisconnectFromDevice(*(m_Connections[Index]));
 	for(size_t Index = 0; Index < NrInstalled(); Index++)
-		m_Connections[Index]->m_Mutex->unlock();
+		m_Connections[Index]->m_Mutex.unlock();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -110,10 +110,10 @@ void CVQM_ITMS_Driver::disconnect()
 //					e.g. COM1: (or /dev/ttyS0).													//
 //																								//
 //////////////////////////////////////////////////////////////////////////////////////////////////
-void CVQM_ITMS_Driver::addIOPort(const char* IOPortName, const char* DeviceAddress)
+void CVQM_ITMS_Driver::addIOPort(const char* DeviceAddress)
 {
 	if (int(NrInstalled()) >= maxAddr)
-		throw CException(pasynUserSelf, asynError, __FUNCTION__, "Too many pumps connected=" + std::string(IOPortName));
+		throw CException(pasynUserSelf, asynError, __FUNCTION__, "Too many pumps connected=" + std::string(DeviceAddress));
 
 	// If the new connection fails, the size of the vectors will still have increased.
 	// This means only the failing connection will be lost, and not all subsequent connections.
@@ -132,13 +132,13 @@ void CVQM_ITMS_Driver::addIOPort(const char* IOPortName, const char* DeviceAddre
 		createParam(NrInstalled(), ParamIndex);
 	}
 
+	callParamCallbacks(NrInstalled());
+
 	SDeviceConnectionInfo* DeviceConnectionInfo = new SDeviceConnectionInfo();
 	DeviceConnectionInfo->m_DeviceAddress = DeviceAddress;
 	bool isMaster = false;
 	SVQM_800_Error error = m_serviceWrapper->ConnectToDevice(*DeviceConnectionInfo, isMaster);
-	setStringParam(NrInstalled(), ParameterDefn::SERIALNUMBER, DeviceConnectionInfo->m_SerialNumber);
 
-	callParamCallbacks(NrInstalled());
 	m_Connections.back() = DeviceConnectionInfo;
 }
 
@@ -156,59 +156,12 @@ int CVQM_ITMS_Driver::UsedParams()
 	for (size_t ParamIndex = 0; ParamIndex < size_t(NUM_PARAMS); ParamIndex++)
 	{
 		if (ParameterDefns[ParamIndex].m_UseCase == NotForReal)
-			// Not implemented, because not meaningful for the simulater.
+			// Not implemented, because only meaningful for the simulater.
 			continue;
 		// But the Single parameter list is required.
 		UsedParams++;
 	}
 	return UsedParams;
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-//																								//
-//	asynStatus CVQM_ITMS_Driver::readInt32(asynUser *pasynUser, epicsInt32 *value)		//
-//																								//
-//	Description:																				//
-//		This method is invoked by the Asyn framework to read integer values from the hardware.	//
-//		It will normally be called for the FAULT variable which is set to poll once every		//
-//		5 seconds.																				//
-//																								//
-//		However, all the variables are read back from the I/O port in one go because			//
-//		that's how the ITMS controller interface works.											//
-//																								//
-//////////////////////////////////////////////////////////////////////////////////////////////////
-asynStatus CVQM_ITMS_Driver::readInt32(asynUser *pasynUser, epicsInt32 *value)
-{
-	int function = pasynUser->reason;
-	int TableIndex;
-	asynStatus Status = asynSuccess;
-	if (m_Instance == NULL)
-		// The IOC is exiting
-		return asynTimeout;
-
-	try {
-		ThrowException(pasynUser, getAddress(pasynUser, &TableIndex), __FUNCTION__, "Could not get address");
-		if ((TableIndex < 0) || (TableIndex > int(NrInstalled())))
-			throw CException(pasynUser, asynError, __FUNCTION__, "User / ITMS not configured");
-
-		epicsGuard < epicsMutex > guard ( *(m_Connections[TableIndex]->m_Mutex) );
-		if (m_Instance == NULL)
-			// The IOC is exiting
-			return asynTimeout;
-		
-		if (function == Parameters(ParameterDefn::FILAMENT))
-		{
-			double dValue;
-			SVQM_800_Error Error = m_serviceWrapper->GetLogicalInstrumentVoltageSetpoint(dValue, FILAMENT, *(m_Connections[TableIndex]));
-			*value = int(dValue);
-		}
-	}
-	catch(CException const& E) {
-		// make sure we return an error state if there are comms problems
-		Status = E.Status();
-	}
-	callParamCallbacks(TableIndex);
-	return Status;
 }
 
 asynStatus CVQM_ITMS_Driver::readFloat64(asynUser *pasynUser, epicsFloat64 *value)
@@ -219,29 +172,39 @@ asynStatus CVQM_ITMS_Driver::readFloat64(asynUser *pasynUser, epicsFloat64 *valu
 	if (m_Instance == NULL)
 		// The IOC is exiting
 		return asynTimeout;
-
 	try {
 		ThrowException(pasynUser, getAddress(pasynUser, &TableIndex), __FUNCTION__, "Could not get address");
 		if ((TableIndex < 0) || (TableIndex > int(NrInstalled())))
 			throw CException(pasynUser, asynError, __FUNCTION__, "User / ITMS not configured");
-
-		epicsGuard < epicsMutex > guard ( *(m_Connections[TableIndex]->m_Mutex) );
+		epicsGuard < epicsMutex > guard (m_Connections[TableIndex]->m_Mutex);
 		if (m_Instance == NULL)
 			// The IOC is exiting
 			return asynTimeout;
 
-		if (function == Parameters(ParameterDefn::MULTIPLIERGAIN))
+		if (function == Parameters(ParameterDefn::DETECTOR))
 		{
-			SVQM_800_Error Error = m_serviceWrapper->GetElectrometerGain(*value, *(m_Connections[TableIndex]));
-		}		
-		if (function == Parameters(ParameterDefn::EMISSION))
+			SVQM_800_Error Error = m_serviceWrapper->GetLogicalInstrumentCurrentVoltage(*value, EMBIAS, *(m_Connections[TableIndex]));
+		}
+		else if (function == Parameters(ParameterDefn::EMISSION))
 		{
-			SVQM_800_Error Error = m_serviceWrapper->GetFilamentEmissionCurrent(*value,  *(m_Connections[TableIndex]));
-		}		
+			SVQM_800_Error Error = m_serviceWrapper->GetFilamentEmissionCurrent(*value, *(m_Connections[TableIndex]));
+		}
+		else if (function == Parameters(ParameterDefn::MASSFROM))
+		{
+			double ToValue;
+			SVQM_800_Error Error = m_serviceWrapper->GetScanRange(*value, ToValue, *(m_Connections[TableIndex]));
+		}
+		else if (function == Parameters(ParameterDefn::MASSTO))
+		{
+			double FromValue;
+			SVQM_800_Error Error = m_serviceWrapper->GetScanRange(FromValue, *value, *(m_Connections[TableIndex]));
+		}
+		else
+			Status = CVQM_ITMS_Base::readFloat64(pasynUser, value);
 	}
 	catch(CException const& E) {
 		// make sure we return an error state if there are comms problems
-		Status = E.Status();
+		Status = ErrorHandler(TableIndex, E);
 	}
 	callParamCallbacks(TableIndex);
 	return Status;
@@ -260,7 +223,7 @@ asynStatus CVQM_ITMS_Driver::readFloat32Array(asynUser *pasynUser, epicsFloat32 
 		ThrowException(pasynUser, getAddress(pasynUser, &TableIndex), __FUNCTION__, "Could not get address");
 		if ((TableIndex < 0) || (TableIndex > int(NrInstalled())))
 			throw CException(pasynUser, asynError, __FUNCTION__, "User / ITMS not configured");
-		epicsGuard < epicsMutex > guard ( *(m_Connections[TableIndex]->m_Mutex) );
+		epicsGuard < epicsMutex > guard (m_Connections[TableIndex]->m_Mutex);
 		if (m_Instance == NULL)
 			// The IOC is exiting
 			return asynTimeout;
@@ -285,46 +248,25 @@ asynStatus CVQM_ITMS_Driver::readFloat32Array(asynUser *pasynUser, epicsFloat32 
 	}
 	catch(CException const& E) {
 		// make sure we return an error state if there are comms problems
-		Status = E.Status();
+		Status = ErrorHandler(TableIndex, E);
 	}
 	callParamCallbacks(TableIndex);
 	return Status;
 }
 
-asynStatus CVQM_ITMS_Driver::readFloat64Array(asynUser *pasynUser, epicsFloat64 *value,
-                                        size_t nElements, size_t *nIn)
+asynStatus CVQM_ITMS_Driver::ErrorHandler(int TableIndex, CException const& E)
 {
-	int function = pasynUser->reason;
-	int TableIndex;
-	asynStatus Status = asynSuccess;
 	if (m_Instance == NULL)
 		// The IOC is exiting
 		return asynTimeout;
 
-	try {
-		ThrowException(pasynUser, getAddress(pasynUser, &TableIndex), __FUNCTION__, "Could not get address");
-		if ((TableIndex < 0) || (TableIndex > int(NrInstalled())))
-			throw CException(pasynUser, asynError, __FUNCTION__, "User / ITMS not configured");
-		epicsGuard < epicsMutex > guard ( *(m_Connections[TableIndex]->m_Mutex) );
-		if (m_Instance == NULL)
-			// The IOC is exiting
-			return asynTimeout;
+	// Internal communication failure
+	// NB, Asyn 4-27 requires that the parameter status is success before the value can be set through callback.
+	setParamStatus(TableIndex, ParameterDefn::FAULT, asynSuccess, false);
+	callParamCallbacks(TableIndex, false);
 
-		if (function == Parameters(ParameterDefn::MASSRANGE))
-		{
-			if ((nElements != 2) || (value[0] >= value[1]))
-				throw CException(pasynUser, asynError, __FUNCTION__, "Mass range: from, to");
-
-			SVQM_800_Error Error = m_serviceWrapper->GetScanRange(value[0], value[1], *(m_Connections[TableIndex]));
-		}
-		Status = CVQM_ITMS_Base::readFloat64Array(pasynUser, value, nElements, nIn);
-	}
-	catch(CException const& E) {
-		// make sure we return an error state if there are comms problems
-		Status = E.Status();
-	}
-	callParamCallbacks(TableIndex);
-	return Status;
+	setParamStatus(TableIndex, ParameterDefn::FAULT, E.Status(), false);
+	return E.Status();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -352,7 +294,7 @@ asynStatus CVQM_ITMS_Driver::writeInt32(asynUser *pasynUser, epicsInt32 value)
 		ThrowException(pasynUser, getAddress(pasynUser, &TableIndex), __FUNCTION__, "Could not get address");
 		if ((TableIndex < 0) || (TableIndex >= int(NrInstalled())))
 			throw CException(pasynUser, asynError, __FUNCTION__, "User / ITMS not configured");
-		epicsGuard < epicsMutex > guard ( *(m_Connections[TableIndex]->m_Mutex) );
+		epicsGuard < epicsMutex > guard (m_Connections[TableIndex]->m_Mutex);
 		if (m_Instance == NULL)
 			// The IOC is exiting
 			return asynTimeout;
@@ -364,7 +306,7 @@ asynStatus CVQM_ITMS_Driver::writeInt32(asynUser *pasynUser, epicsInt32 value)
 	}
 	catch(CException const& E) {
 		// make sure we return an error state if there are comms problems
-		Status = E.Status();
+		Status = ErrorHandler(TableIndex, E);
 	}
 	return Status;
 }
@@ -384,11 +326,11 @@ asynStatus CVQM_ITMS_Driver::writeFloat64(asynUser *pasynUser, epicsFloat64 valu
 		ThrowException(pasynUser, getAddress(pasynUser, &TableIndex), __FUNCTION__, "Could not get address");
 		if ((TableIndex < 0) || (TableIndex >= int(NrInstalled())))
 			throw CException(pasynUser, asynError, __FUNCTION__, "User / ITMS not configured");
-		epicsGuard < epicsMutex > guard ( *(m_Connections[TableIndex]->m_Mutex) );
+		epicsGuard < epicsMutex > guard (m_Connections[TableIndex]->m_Mutex);
 		if (m_Instance == NULL)
 			// The IOC is exiting
 			return asynTimeout;
-		if (function == Parameters(ParameterDefn::MULTIPLIERVOLTS))
+		if (function == Parameters(ParameterDefn::DETECTOR))
 		{
 			SVQM_800_Error Error = m_serviceWrapper->SetLogicalInstrumentVoltageSetpoint(EMBIAS, value, *(m_Connections[TableIndex]));
 		}
@@ -396,46 +338,20 @@ asynStatus CVQM_ITMS_Driver::writeFloat64(asynUser *pasynUser, epicsFloat64 valu
 		{
 			SVQM_800_Error Error = m_serviceWrapper->SetFilamentEmissionCurrentSetpoint(value, *(m_Connections[TableIndex]));
 		}
-
-	}
-	catch(CException const& E) {
-		// make sure we return an error state if there are comms problems
-		Status = E.Status();
-	}
-	return Status;
-}
-
-asynStatus CVQM_ITMS_Driver::writeFloat64Array(asynUser *pasynUser, epicsFloat64 *value,
-                                        size_t nElements)
-{
-	if (m_Instance == NULL)
-		// The IOC is exiting
-		return asynTimeout;
-
-	asynStatus Status = asynSuccess;
-	int function = pasynUser->reason;
-	// Invoke the base class method to store the value in the database.
-	ThrowException(pasynUser, CVQM_ITMS_Base::writeFloat64Array(pasynUser, value, nElements), __FUNCTION__, "CVQM_ITMS_Base::writeFloat64Array");
-	int TableIndex = 0;
-	try {
-		ThrowException(pasynUser, getAddress(pasynUser, &TableIndex), __FUNCTION__, "Could not get address");
-		if ((TableIndex < 0) || (TableIndex >= int(NrInstalled())))
-			throw CException(pasynUser, asynError, __FUNCTION__, "User / ITMS not configured");
-		epicsGuard < epicsMutex > guard ( *(m_Connections[TableIndex]->m_Mutex) );
-		if (m_Instance == NULL)
-			// The IOC is exiting
-			return asynTimeout;
-		if (function == Parameters(ParameterDefn::MASSRANGE))
+		if (function == Parameters(ParameterDefn::MASSFROM))
 		{
-			if ((nElements != 2) || (value[0] >= value[1]))
-				throw CException(pasynUser, asynError, __FUNCTION__, "Mass range: from, to");
-
-			SVQM_800_Error Error = m_serviceWrapper->SetScanRange(value[0], value[1], *(m_Connections[TableIndex]));
+			double ToValue = getDoubleParam(TableIndex, ParameterDefn::MASSTO);
+			SVQM_800_Error Error = m_serviceWrapper->SetScanRange(value, ToValue, *(m_Connections[TableIndex]));
+		}
+		if (function == Parameters(ParameterDefn::MASSTO))
+		{
+			double FromValue = getDoubleParam(TableIndex, ParameterDefn::MASSFROM);
+			SVQM_800_Error Error = m_serviceWrapper->SetScanRange(FromValue, value, *(m_Connections[TableIndex]));
 		}
 	}
 	catch(CException const& E) {
 		// make sure we return an error state if there are comms problems
-		Status = E.Status();
+		Status = ErrorHandler(TableIndex, E);
 	}
 	return Status;
 }
@@ -443,7 +359,7 @@ asynStatus CVQM_ITMS_Driver::writeFloat64Array(asynUser *pasynUser, epicsFloat64
 static const iocshArg initArg0 = { "asynPortName", iocshArgString};
 static const iocshArg initArg1 = { "numTraps", iocshArgString};
 static const iocshArg * const initArgs[] = {&initArg0, &initArg1};
-static const iocshFuncDef initFuncDef = {"VQM_ITMSPortDriverConfigure",3,initArgs};
+static const iocshFuncDef initFuncDef = {"VQM_ITMSPortDriverConfigure",2,initArgs};
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 //																								//
@@ -487,10 +403,9 @@ static void VQM_ITMSPortDriverConfigure(const iocshArgBuf *args)
 	}
 }
 
-static const iocshArg addArg0 = { "IOPortName", iocshArgString};
-static const iocshArg addArg1 = { "DeviceName", iocshArgString};
-static const iocshArg * const addArgs[] = {&addArg0, &addArg1};
-static const iocshFuncDef addFuncDef = {"VQM_ITMSAddIOPort",2,addArgs};
+static const iocshArg addArg0 = { "DeviceName", iocshArgString};
+static const iocshArg * const addArgs[] = {&addArg0};
+static const iocshFuncDef addFuncDef = {"VQM_ITMSAddIOPort",1,addArgs};
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 //																								//
@@ -505,14 +420,15 @@ static const iocshFuncDef addFuncDef = {"VQM_ITMSAddIOPort",2,addArgs};
 static void VQM_ITMSAddIOPort(const iocshArgBuf *args)
 {
 	try {
-		const char* IOPortName = args[0].sval;
-		const char* DeviceName = args[1].sval;
+		const char* DeviceName = args[0].sval;
 		// Test the driver has been configured
 		if (CVQM_ITMS_Driver::Instance())
-			CVQM_ITMS_Driver::Instance()->addIOPort(IOPortName, DeviceName);
+			CVQM_ITMS_Driver::Instance()->addIOPort(DeviceName);
 	}
-	catch(CVQM_ITMS_Driver::CException const&) {
+	catch(CVQM_ITMS_Driver::CException const& E) {
 		// make sure we return an error state if there are comms problems
+		if (CVQM_ITMS_Driver::Instance())
+			CVQM_ITMS_Driver::Instance()->ErrorHandler(int(CVQM_ITMS_Driver::Instance()->NrInstalled()), E);
 	}
 }
 
