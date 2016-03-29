@@ -19,18 +19,27 @@
 #define epicsExportSharedSymbols
 #include "VQM_ITMS_Base.h"
 
-const char* ParameterDefn::FILAMENT = "FILAMENT";
 const char* ParameterDefn::EMISSION = "EMISSION";
+const char* ParameterDefn::FILAMENTBIAS = "FILAMENTBIAS";
+const char* ParameterDefn::REPELLERBIAS = "REPELLERBIAS";
+const char* ParameterDefn::ENTRYPLATE = "ENTRYPLATE";
+const char* ParameterDefn::PRESSUREPLATE = "PRESSUREPLATE";
+const char* ParameterDefn::CUPS = "CUPS";
+const char* ParameterDefn::TRANSITION = "TRANSITION";
+const char* ParameterDefn::EXITPLATE = "EXITPLATE";
+const char* ParameterDefn::EMSHIELD = "EMSHIELD";
+const char* ParameterDefn::EMBIAS = "EMBIAS";
+const char* ParameterDefn::RFAMP = "RFAMP";
+const char* ParameterDefn::MASSCAL = "MASSCAL";
+const char* ParameterDefn::ELECTROMETERGAIN = "ELECTROMETERGAIN";
 const char* ParameterDefn::MASSFROM = "MASSFROM";
 const char* ParameterDefn::MASSTO = "MASSTO";
 const char* ParameterDefn::RAWDATA = "RAWDATA";
-const char* ParameterDefn::DETECTOR = "DETECTOR";
 const char* ParameterDefn::FAULT = "FAULT";
 const char* ParameterDefn::DISCONNECTED = "DISCONNECTED";
 const char* ParameterDefn::FIRMWAREVERSION = "FIRMWAREVERSION";
 const char* ParameterDefn::SOFTWAREVERSION = "SOFTWAREVERSION";
 const char* ParameterDefn::ASYNVERSION = "ASYNVERSION";
-
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 //																								//
@@ -85,7 +94,7 @@ CVQM_ITMS_Base::CVQM_ITMS_Base(const char *portName, int maxAddr, int paramTable
 
 int CVQM_ITMS_Base::Mask()
 {
-	return asynDrvUserMask | asynInt32Mask | asynFloat64Mask | asynOctetMask | asynFloat32ArrayMask | asynFloat64ArrayMask;
+	return asynDrvUserMask | asynInt32Mask | asynFloat64Mask | asynOctetMask | asynFloat32ArrayMask;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

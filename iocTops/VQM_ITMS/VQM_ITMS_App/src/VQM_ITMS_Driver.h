@@ -29,12 +29,20 @@
 #include <vector>
 
 struct IServiceWrapper;
+struct SDeviceConnectionInfo;
+struct SVQM_800_Error;
 
 class CVQM_ITMS_Driver : public CVQM_ITMS_Base {
 public:
-	// NB, an MBBI string is limited to 40 charachters in EPICS.
-	static const size_t MaxEPICSMBBIStrLen = 16;
-	static const size_t BitsPerUInt16 = 16;
+	class CException : public CVQM_ITMS_Base::CException
+	{
+		asynStatus m_Status;
+	public:
+		CException(asynUser* AsynUser, SVQM_800_Error const& Error, const char* functionName);
+		asynStatus Status() const {
+			return m_Status;
+		}
+	};
 
     CVQM_ITMS_Driver(const char *AsynPortName, int numTraps);
     ~CVQM_ITMS_Driver();
@@ -48,20 +56,23 @@ public:
 	static CVQM_ITMS_Driver* Instance() {
 		return m_Instance;
 	}
-	asynStatus ErrorHandler(int TableIndex, CException const& E);
+	asynStatus ErrorHandler(int TableIndex, CVQM_ITMS_Base::CException const& E);
 	size_t NrInstalled() {
-		return m_Connections.size()-1;
+		return m_Mutexes.size();
 	}
 
                  
 protected:
 	static int UsedParams();
+	void ThrowException(SVQM_800_Error const& Error, const char* Function, bool ThrowIt = true);
 
 private:
-	struct SDeviceConnectionInfo;
 	IServiceWrapper* m_serviceWrapper;
 	// Each of these is associated with an octet I/O connection (i.e. serial or TCP port).
-	std::vector<SDeviceConnectionInfo*> m_Connections;
+    std::vector<epicsMutex*> m_Mutexes;
+	int m_nConnections;
+	SDeviceConnectionInfo* m_Connections;
+	std::map<int, int> m_ConnectionMap;
 	static CVQM_ITMS_Driver* m_Instance;
 };
 

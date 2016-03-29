@@ -31,12 +31,22 @@ struct epicsShareClass ParameterDefn
 	const char*		m_Name;
 	asynParamType	m_Type;
 	ParamUseCases	m_UseCase;
-	static const char* FILAMENT;
 	static const char* EMISSION;
+	static const char* FILAMENTBIAS;
+	static const char* REPELLERBIAS;
+	static const char* ENTRYPLATE;
+	static const char* PRESSUREPLATE;
+	static const char* CUPS;
+	static const char* TRANSITION;
+	static const char* EXITPLATE;
+	static const char* EMSHIELD;
+	static const char* EMBIAS;
+	static const char* RFAMP;
+	static const char* MASSCAL;
+	static const char* ELECTROMETERGAIN;
 	static const char* MASSFROM;
 	static const char* MASSTO;
 	static const char* RAWDATA;
-	static const char* DETECTOR;
 	static const char* FAULT;
 	static const char* DISCONNECTED;
 	static const char* FIRMWAREVERSION;
@@ -46,9 +56,19 @@ struct epicsShareClass ParameterDefn
 
 static ParameterDefn ParameterDefns[] =
 {
-	{ParameterDefn::FILAMENT, asynParamInt32, Both},
 	{ParameterDefn::EMISSION, asynParamFloat64, Both},
-	{ParameterDefn::DETECTOR, asynParamFloat64, Both},
+	{ParameterDefn::FILAMENTBIAS, asynParamFloat64, Both},
+	{ParameterDefn::REPELLERBIAS, asynParamFloat64, Both},
+	{ParameterDefn::ENTRYPLATE, asynParamFloat64, Both},
+	{ParameterDefn::PRESSUREPLATE, asynParamFloat64, Both},
+	{ParameterDefn::CUPS, asynParamFloat64, Both},
+	{ParameterDefn::TRANSITION, asynParamFloat64, Both},
+	{ParameterDefn::EXITPLATE, asynParamFloat64, Both},
+	{ParameterDefn::EMSHIELD, asynParamFloat64, Both},
+	{ParameterDefn::EMBIAS, asynParamFloat64, Both},
+	{ParameterDefn::RFAMP, asynParamFloat64, Both},
+	{ParameterDefn::MASSCAL, asynParamFloat64, Both},
+	{ParameterDefn::ELECTROMETERGAIN, asynParamFloat64, Both},
 	{ParameterDefn::MASSFROM, asynParamFloat64, Both},
 	{ParameterDefn::MASSTO, asynParamFloat64, Both},
 	{ParameterDefn::RAWDATA, asynParamFloat32Array, Both},

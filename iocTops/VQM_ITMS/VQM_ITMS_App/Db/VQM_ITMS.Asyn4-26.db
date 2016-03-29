@@ -14,13 +14,6 @@
 #																									#
 #####################################################################################################
 
-record(longout, "$(P)Filament")
-{
-	field(DTYP, "asynInt32")
-	field(OUT,  "@asyn($(PORT),$(ADDR),1)FILAMENT")
-#	info("asyn:READBACK", "1")
-}
-
 record(ao, "$(P)Emission")
 {
     field(DTYP, "asynFloat64")
@@ -28,11 +21,87 @@ record(ao, "$(P)Emission")
 #	info("asyn:READBACK", "1")
 }
 
-record(ao, "$(P)Detector")
+record(ao, "$(P)FilamentBias")
+{
+	field(DTYP, "asynFloat64")
+	field(OUT,  "@asyn($(PORT),$(ADDR),1)FILAMENTBIAS")
+#	info("asyn:READBACK", "1")
+}
+
+record(ao, "$(P)RepellerBias")
+{
+	field(DTYP, "asynFloat64")
+	field(OUT,  "@asyn($(PORT),$(ADDR),1)REPELLERBIAS")
+#	info("asyn:READBACK", "1")
+}
+
+record(ao, "$(P)EntryPlate")
+{
+	field(DTYP, "asynFloat64")
+	field(OUT,  "@asyn($(PORT),$(ADDR),1)ENTRYPLATE")
+#	info("asyn:READBACK", "1")
+}
+
+record(ao, "$(P)PressurePlate")
+{
+	field(DTYP, "asynFloat64")
+	field(OUT,  "@asyn($(PORT),$(ADDR),1)PRESSUREPLATE")
+#	info("asyn:READBACK", "1")
+}
+
+record(ao, "$(P)Cups")
+{
+	field(DTYP, "asynFloat64")
+	field(OUT,  "@asyn($(PORT),$(ADDR),1)CUPS")
+#	info("asyn:READBACK", "1")
+}
+
+record(ao, "$(P)Transition")
+{
+	field(DTYP, "asynFloat64")
+	field(OUT,  "@asyn($(PORT),$(ADDR),1)TRANSITION")
+#	info("asyn:READBACK", "1")
+}
+
+record(ao, "$(P)ExitPlate")
+{
+	field(DTYP, "asynFloat64")
+	field(OUT,  "@asyn($(PORT),$(ADDR),1)EXITPLATE")
+#	info("asyn:READBACK", "1")
+}
+
+record(ao, "$(P)EMShield")
 {
     field(DTYP, "asynFloat64")
-	field(OUT,  "@asyn($(PORT),$(ADDR),1)DETECTOR")
+	field(OUT,  "@asyn($(PORT),$(ADDR),1)EMSHIELD")
 #	info("asyn:READBACK", "1")
+}
+
+record(ao, "$(P)EMBias")
+{
+    field(DTYP, "asynFloat64")
+	field(OUT,  "@asyn($(PORT),$(ADDR),1)EMBIAS")
+#	info("asyn:READBACK", "1")
+}
+
+record(ao, "$(P)RFAmp")
+{
+    field(DTYP, "asynFloat64")
+	field(OUT,  "@asyn($(PORT),$(ADDR),1)RFAMP")
+#	info("asyn:READBACK", "1")
+}
+
+record(ao, "$(P)MassCal")
+{
+    field(DTYP, "asynFloat64")
+	field(OUT,  "@asyn($(PORT),$(ADDR),1)MASSCAL")
+#	info("asyn:READBACK", "1")
+}
+
+record(ai, "$(P)ElectrometerGain")
+{
+    field(DTYP, "asynFloat64")
+	field(INP,  "@asyn($(PORT),$(ADDR),1)ELECTROMETERGAIN")
 }
 
 record(ao, "$(P)MassFrom")
@@ -52,6 +121,7 @@ record(waveform, "$(P)RawData")
     field(DTYP, "asynFloat32ArrayIn")
     field(FTVL, "FLOAT")
 	field(INP,  "@asyn($(PORT),$(ADDR),1)RAWDATA")
+#	field(SCAN, "1 second")
 }
 
 record(longin, "$(P)Fault")

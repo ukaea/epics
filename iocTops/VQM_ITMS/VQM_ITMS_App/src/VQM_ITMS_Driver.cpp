@@ -46,11 +46,27 @@ static const int ASYN_TRACE_WARNING = ASYN_TRACE_ERROR;
 
 CVQM_ITMS_Driver* CVQM_ITMS_Driver::m_Instance;
 
-struct CVQM_ITMS_Driver::SDeviceConnectionInfo : public ::SDeviceConnectionInfo
+std::string wcstombs(std::wstring const& WideCharString)
 {
-	epicsMutex m_Mutex;
-};
+	char NBuf[CVQM_ITMS_Base::MaxEPICSStrLen];
+	memset(NBuf, 0, sizeof(NBuf));
+	::wcstombs(NBuf, WideCharString.c_str(), sizeof(NBuf)-1);
+	return NBuf;
+}
 
+std::wstring mbstowcs(std::string const& MultiByteString)
+{
+	wchar_t WBuf[CVQM_ITMS_Base::MaxEPICSStrLen];
+	memset(WBuf, 0, sizeof(WBuf));
+	::mbstowcs(WBuf, MultiByteString.c_str(), (sizeof(WBuf) - sizeof(wchar_t)) / sizeof(wchar_t));
+	return WBuf;
+}
+
+CVQM_ITMS_Driver::CException::CException(asynUser* AsynUser, SVQM_800_Error const& Error, const char* functionName) :
+	CVQM_ITMS_Base::CException(AsynUser, asynError, functionName, wcstombs(Error.m_ErrorString)) {
+			std::string message = "%s:%s ERROR: " + std::string(what()) + "%s\n";
+			asynPrint(AsynUser, ASYN_TRACE_ERROR, message.c_str(), __FILE__, functionName, AsynUser->errorMessage);
+		}
 //////////////////////////////////////////////////////////////////////////////////////////////////
 //																								//
 //	CVQM_ITMS_Driver::CVQM_ITMS_Driver(const char *asynPortName, int numTraps)	//
@@ -72,27 +88,40 @@ CVQM_ITMS_Driver::CVQM_ITMS_Driver(const char *asynPortName, int numTraps)
 					)
 {
 	m_serviceWrapper = CLIWrapperDLL::CreateServiceHandle();
+	ThrowException(m_serviceWrapper->GetValidConnections(m_nConnections, m_Connections), __FUNCTION__);
 	m_Instance = this;
 }
 
 CVQM_ITMS_Driver::~CVQM_ITMS_Driver()
 {
 	m_Instance = NULL;
-	CLIWrapperDLL::ReleaseServiceHandle(m_serviceWrapper);
 	disconnect();
-	for(size_t Index = 0; Index < NrInstalled(); Index++)
-		delete m_Connections[Index];
+	delete[] m_Connections;
+	CLIWrapperDLL::ReleaseServiceHandle(m_serviceWrapper);
 }
 
 void CVQM_ITMS_Driver::disconnect()
 {
 	asynStatus overallstatus = asynSuccess;
 	for(size_t Index = 0; Index < NrInstalled(); Index++)
-		m_Connections[Index]->m_Mutex.lock();
+		m_Mutexes[Index]->lock();
 	for(size_t Index = 0; Index < NrInstalled(); Index++)
-		m_serviceWrapper->DisconnectFromDevice(*(m_Connections[Index]));
+		ThrowException(m_serviceWrapper->DisconnectFromDevice(m_Connections[Index]), __FUNCTION__);
 	for(size_t Index = 0; Index < NrInstalled(); Index++)
-		m_Connections[Index]->m_Mutex.unlock();
+		m_Mutexes[Index]->unlock();
+	for(size_t Index = 0; Index < NrInstalled(); Index++)
+		delete m_Mutexes[Index];
+}
+
+void CVQM_ITMS_Driver::ThrowException(SVQM_800_Error const& Error, const char* Function, bool ThrowIt /*= true*/)
+{
+	if (Error.m_ErrorType == NO_ERRORS)
+		return;
+	if (ThrowIt)
+		throw CException(pasynUserSelf, Error, Function);
+	else
+		asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, wcstombs(Error.m_ErrorString).c_str(), __FILE__, Function);
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -113,12 +142,8 @@ void CVQM_ITMS_Driver::disconnect()
 void CVQM_ITMS_Driver::addIOPort(const char* DeviceAddress)
 {
 	if (int(NrInstalled()) >= maxAddr)
-		throw CException(pasynUserSelf, asynError, __FUNCTION__, "Too many pumps connected=" + std::string(DeviceAddress));
+		throw CVQM_ITMS_Base::CException(pasynUserSelf, asynError, __FUNCTION__, "Too many pumps connected=" + std::string(DeviceAddress));
 
-	// If the new connection fails, the size of the vectors will still have increased.
-	// This means only the failing connection will be lost, and not all subsequent connections.
-	m_Connections.push_back(NULL);
-		
 	for (size_t ParamIndex = 0; ParamIndex < size_t(NUM_PARAMS); ParamIndex++)
 	{
 		if (ParameterDefns[ParamIndex].m_UseCase == NotForReal)
@@ -134,12 +159,23 @@ void CVQM_ITMS_Driver::addIOPort(const char* DeviceAddress)
 
 	callParamCallbacks(NrInstalled());
 
-	SDeviceConnectionInfo* DeviceConnectionInfo = new SDeviceConnectionInfo();
-	DeviceConnectionInfo->m_DeviceAddress = DeviceAddress;
-	bool isMaster = false;
-	SVQM_800_Error error = m_serviceWrapper->ConnectToDevice(*DeviceConnectionInfo, isMaster);
+	int NewConnection = -1;
+	std::wstring DeviceAddressW = mbstowcs(DeviceAddress);
+	for (int Connection = 0; Connection < m_nConnections; Connection++)
+		if (m_Connections[Connection].m_DeviceAddress == DeviceAddressW)
+		{
+			NewConnection = Connection;
+			break;
+		}
+	if (NewConnection == -1)
+		CVQM_ITMS_Base::ThrowException(pasynUserSelf, asynError, __FUNCTION__, "Could not connect " + std::string(DeviceAddress));
+	m_ConnectionMap[NrInstalled()] = NewConnection;
 
-	m_Connections.back() = DeviceConnectionInfo;
+	bool isMaster = false;
+	ThrowException(m_serviceWrapper->ConnectToDevice(m_Connections[NewConnection], isMaster), __FUNCTION__);
+	// If the new connection fails, the size of the vectors will still have increased.
+	// This means only the failing connection will be lost, and not all subsequent connections.
+	m_Mutexes.push_back(new epicsMutex());
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -173,31 +209,81 @@ asynStatus CVQM_ITMS_Driver::readFloat64(asynUser *pasynUser, epicsFloat64 *valu
 		// The IOC is exiting
 		return asynTimeout;
 	try {
-		ThrowException(pasynUser, getAddress(pasynUser, &TableIndex), __FUNCTION__, "Could not get address");
+		CVQM_ITMS_Base::ThrowException(pasynUser, getAddress(pasynUser, &TableIndex), __FUNCTION__, "Could not get address");
 		if ((TableIndex < 0) || (TableIndex > int(NrInstalled())))
-			throw CException(pasynUser, asynError, __FUNCTION__, "User / ITMS not configured");
-		epicsGuard < epicsMutex > guard (m_Connections[TableIndex]->m_Mutex);
+			throw CVQM_ITMS_Base::CException(pasynUser, asynError, __FUNCTION__, "User / ITMS not configured");
+		epicsGuard < epicsMutex > guard (*m_Mutexes[TableIndex]);
 		if (m_Instance == NULL)
 			// The IOC is exiting
 			return asynTimeout;
 
-		if (function == Parameters(ParameterDefn::DETECTOR))
+		int Connection = m_ConnectionMap.find(TableIndex)->second;
+
+		if (function == Parameters(ParameterDefn::EMISSION))
 		{
-			SVQM_800_Error Error = m_serviceWrapper->GetLogicalInstrumentCurrentVoltage(*value, EMBIAS, *(m_Connections[TableIndex]));
+			ThrowException(m_serviceWrapper->GetFilamentEmissionCurrent(*value, m_Connections[Connection]), __FUNCTION__);
 		}
-		else if (function == Parameters(ParameterDefn::EMISSION))
+		else if (function == Parameters(ParameterDefn::FILAMENTBIAS))
 		{
-			SVQM_800_Error Error = m_serviceWrapper->GetFilamentEmissionCurrent(*value, *(m_Connections[TableIndex]));
+			ThrowException(m_serviceWrapper->GetLogicalInstrumentCurrentVoltage(*value, FILAMENTBIAS, m_Connections[Connection]), __FUNCTION__);
+		}
+		else if (function == Parameters(ParameterDefn::REPELLERBIAS))
+		{
+			ThrowException(m_serviceWrapper->GetLogicalInstrumentCurrentVoltage(*value, REPELLERBIAS, m_Connections[Connection]), __FUNCTION__);
+		}
+		else if (function == Parameters(ParameterDefn::ENTRYPLATE))
+		{
+			ThrowException(m_serviceWrapper->GetLogicalInstrumentCurrentVoltage(*value, ENTRYPLATE, m_Connections[Connection]), __FUNCTION__);
+		}
+		else if (function == Parameters(ParameterDefn::PRESSUREPLATE))
+		{
+			ThrowException(m_serviceWrapper->GetLogicalInstrumentCurrentVoltage(*value, PRESSUREPLATE, m_Connections[Connection]), __FUNCTION__);
+		}
+		else if (function == Parameters(ParameterDefn::CUPS))
+		{
+			ThrowException(m_serviceWrapper->GetLogicalInstrumentCurrentVoltage(*value, CUPS, m_Connections[Connection]), __FUNCTION__);
+		}
+		else if (function == Parameters(ParameterDefn::TRANSITION))
+		{
+			ThrowException(m_serviceWrapper->GetLogicalInstrumentCurrentVoltage(*value, TRANSITION, m_Connections[Connection]), __FUNCTION__);
+		}
+		else if (function == Parameters(ParameterDefn::EXITPLATE))
+		{
+			ThrowException(m_serviceWrapper->GetLogicalInstrumentCurrentVoltage(*value, EXITPLATE, m_Connections[Connection]), __FUNCTION__);
+		}
+		else if (function == Parameters(ParameterDefn::EMSHIELD))
+		{
+			ThrowException(m_serviceWrapper->GetLogicalInstrumentCurrentVoltage(*value, EMSHIELD, m_Connections[Connection]), __FUNCTION__);
+		}
+		else if (function == Parameters(ParameterDefn::EMBIAS))
+		{
+			ThrowException(m_serviceWrapper->GetLogicalInstrumentCurrentVoltage(*value, EMBIAS, m_Connections[Connection]), __FUNCTION__);
+		}
+		else if (function == Parameters(ParameterDefn::RFAMP))
+		{
+			ThrowException(m_serviceWrapper->GetLogicalInstrumentCurrentVoltage(*value, RFAMP, m_Connections[Connection]), __FUNCTION__);
+		}
+		else if (function == Parameters(ParameterDefn::MASSCAL))
+		{
+			float MassCalibrationFactor;
+			ThrowException(m_serviceWrapper->GetMassCalibrationFactor(MassCalibrationFactor, m_Connections[Connection]), __FUNCTION__); 
+			*value = MassCalibrationFactor;
+		}
+		else if (function == Parameters(ParameterDefn::ELECTROMETERGAIN))
+		{
+			ThrowException(m_serviceWrapper->GetElectrometerGain(*value, m_Connections[Connection]), __FUNCTION__); 
 		}
 		else if (function == Parameters(ParameterDefn::MASSFROM))
 		{
 			double ToValue;
-			SVQM_800_Error Error = m_serviceWrapper->GetScanRange(*value, ToValue, *(m_Connections[TableIndex]));
+			ThrowException(m_serviceWrapper->GetScanRange(*value, ToValue, m_Connections[Connection]), __FUNCTION__);
+			setDoubleParam(ParameterDefn::MASSTO, ToValue);
 		}
 		else if (function == Parameters(ParameterDefn::MASSTO))
 		{
 			double FromValue;
-			SVQM_800_Error Error = m_serviceWrapper->GetScanRange(FromValue, *value, *(m_Connections[TableIndex]));
+			ThrowException(m_serviceWrapper->GetScanRange(FromValue, *value, m_Connections[Connection]), __FUNCTION__);
+			setDoubleParam(ParameterDefn::MASSFROM, FromValue);
 		}
 		else
 			Status = CVQM_ITMS_Base::readFloat64(pasynUser, value);
@@ -220,14 +306,15 @@ asynStatus CVQM_ITMS_Driver::readFloat32Array(asynUser *pasynUser, epicsFloat32 
 		// The IOC is exiting
 		return asynTimeout;
 	try {
-		ThrowException(pasynUser, getAddress(pasynUser, &TableIndex), __FUNCTION__, "Could not get address");
+		CVQM_ITMS_Base::ThrowException(pasynUser, getAddress(pasynUser, &TableIndex), __FUNCTION__, "Could not get address");
 		if ((TableIndex < 0) || (TableIndex > int(NrInstalled())))
-			throw CException(pasynUser, asynError, __FUNCTION__, "User / ITMS not configured");
-		epicsGuard < epicsMutex > guard (m_Connections[TableIndex]->m_Mutex);
+			throw CVQM_ITMS_Base::CException(pasynUser, asynError, __FUNCTION__, "User / ITMS not configured");
+		epicsGuard < epicsMutex > guard (*m_Mutexes[TableIndex]);
 		if (m_Instance == NULL)
 			// The IOC is exiting
 			return asynTimeout;
 
+		int Connection = m_ConnectionMap.find(TableIndex)->second;
 		if (function == Parameters(ParameterDefn::RAWDATA))
 		{
 			int lastScanNumber;
@@ -236,15 +323,14 @@ asynStatus CVQM_ITMS_Driver::readFloat32Array(asynUser *pasynUser, epicsFloat32 
 			SAverageData averageData;
 			bool isValidData;
 			EnumGaugeState controllerState;
-			SVQM_800_Error Error = m_serviceWrapper->GetScanData(lastScanNumber, analyzedData, &headerDataPtr,
-                                            averageData, *(m_Connections[TableIndex]), isValidData, controllerState);
+			ThrowException(m_serviceWrapper->GetScanData(lastScanNumber, analyzedData, &headerDataPtr,
+                                            averageData, m_Connections[Connection], isValidData, controllerState), __FUNCTION__);
 
 			std::vector<double> const& DenoisedRawData = analyzedData.DenoisedRawData();
 			for(size_t Index = 0; Index < DenoisedRawData.size(); Index++)
 				value[Index] = float(DenoisedRawData[Index]);
 			*nIn = DenoisedRawData.size();
 		}
-		Status = CVQM_ITMS_Base::readFloat32Array(pasynUser, value, nElements, nIn);
 	}
 	catch(CException const& E) {
 		// make sure we return an error state if there are comms problems
@@ -254,7 +340,7 @@ asynStatus CVQM_ITMS_Driver::readFloat32Array(asynUser *pasynUser, epicsFloat32 
 	return Status;
 }
 
-asynStatus CVQM_ITMS_Driver::ErrorHandler(int TableIndex, CException const& E)
+asynStatus CVQM_ITMS_Driver::ErrorHandler(int TableIndex, CVQM_ITMS_Base::CException const& E)
 {
 	if (m_Instance == NULL)
 		// The IOC is exiting
@@ -288,20 +374,21 @@ asynStatus CVQM_ITMS_Driver::writeInt32(asynUser *pasynUser, epicsInt32 value)
 	asynStatus Status = asynSuccess;
 	int function = pasynUser->reason;
 	// Invoke the base class method to store the value in the database.
-	ThrowException(pasynUser, CVQM_ITMS_Base::writeInt32(pasynUser, value), __FUNCTION__, "CVQM_ITMS_Base::writeInt32");
+	CVQM_ITMS_Base::ThrowException(pasynUser, CVQM_ITMS_Base::writeInt32(pasynUser, value), __FUNCTION__, "CVQM_ITMS_Base::writeInt32");
 	int TableIndex = 0;
 	try {
-		ThrowException(pasynUser, getAddress(pasynUser, &TableIndex), __FUNCTION__, "Could not get address");
+		CVQM_ITMS_Base::ThrowException(pasynUser, getAddress(pasynUser, &TableIndex), __FUNCTION__, "Could not get address");
 		if ((TableIndex < 0) || (TableIndex >= int(NrInstalled())))
-			throw CException(pasynUser, asynError, __FUNCTION__, "User / ITMS not configured");
-		epicsGuard < epicsMutex > guard (m_Connections[TableIndex]->m_Mutex);
+			throw CVQM_ITMS_Base::CException(pasynUser, asynError, __FUNCTION__, "User / ITMS not configured");
+		epicsGuard < epicsMutex > guard (*m_Mutexes[TableIndex]);
 		if (m_Instance == NULL)
 			// The IOC is exiting
 			return asynTimeout;
-		if (function == Parameters(ParameterDefn::FILAMENT))
+		int Connection = m_ConnectionMap.find(TableIndex)->second;
+		if (function == Parameters(ParameterDefn::FILAMENTBIAS))
 		{
 			double dValue = value;
-			SVQM_800_Error Error = m_serviceWrapper->SetLogicalInstrumentVoltageSetpoint(FILAMENT, dValue, *(m_Connections[TableIndex]));
+			ThrowException(m_serviceWrapper->SetLogicalInstrumentVoltageSetpoint(FILAMENT, dValue, m_Connections[Connection]), __FUNCTION__);
 		}
 	}
 	catch(CException const& E) {
@@ -320,33 +407,34 @@ asynStatus CVQM_ITMS_Driver::writeFloat64(asynUser *pasynUser, epicsFloat64 valu
 	asynStatus Status = asynSuccess;
 	int function = pasynUser->reason;
 	// Invoke the base class method to store the value in the database.
-	ThrowException(pasynUser, CVQM_ITMS_Base::writeFloat64(pasynUser, value), __FUNCTION__, "CVQM_ITMS_Base::writeFloat64");
+	CVQM_ITMS_Base::ThrowException(pasynUser, CVQM_ITMS_Base::writeFloat64(pasynUser, value), __FUNCTION__, "CVQM_ITMS_Base::writeFloat64");
 	int TableIndex = 0;
 	try {
-		ThrowException(pasynUser, getAddress(pasynUser, &TableIndex), __FUNCTION__, "Could not get address");
+		CVQM_ITMS_Base::ThrowException(pasynUser, getAddress(pasynUser, &TableIndex), __FUNCTION__, "Could not get address");
 		if ((TableIndex < 0) || (TableIndex >= int(NrInstalled())))
-			throw CException(pasynUser, asynError, __FUNCTION__, "User / ITMS not configured");
-		epicsGuard < epicsMutex > guard (m_Connections[TableIndex]->m_Mutex);
+			throw CVQM_ITMS_Base::CException(pasynUser, asynError, __FUNCTION__, "User / ITMS not configured");
+		epicsGuard < epicsMutex > guard (*m_Mutexes[TableIndex]);
 		if (m_Instance == NULL)
 			// The IOC is exiting
 			return asynTimeout;
-		if (function == Parameters(ParameterDefn::DETECTOR))
+		int Connection = m_ConnectionMap.find(TableIndex)->second;
+		if (function == Parameters(ParameterDefn::EMBIAS))
 		{
-			SVQM_800_Error Error = m_serviceWrapper->SetLogicalInstrumentVoltageSetpoint(EMBIAS, value, *(m_Connections[TableIndex]));
+			ThrowException(m_serviceWrapper->SetLogicalInstrumentVoltageSetpoint(EMBIAS, value, m_Connections[Connection]), __FUNCTION__);
 		}
-		if (function == Parameters(ParameterDefn::EMISSION))
+		else if (function == Parameters(ParameterDefn::EMISSION))
 		{
-			SVQM_800_Error Error = m_serviceWrapper->SetFilamentEmissionCurrentSetpoint(value, *(m_Connections[TableIndex]));
+			ThrowException(m_serviceWrapper->SetFilamentEmissionCurrentSetpoint(value, m_Connections[Connection]), __FUNCTION__);
 		}
-		if (function == Parameters(ParameterDefn::MASSFROM))
+		else if (function == Parameters(ParameterDefn::MASSFROM))
 		{
 			double ToValue = getDoubleParam(TableIndex, ParameterDefn::MASSTO);
-			SVQM_800_Error Error = m_serviceWrapper->SetScanRange(value, ToValue, *(m_Connections[TableIndex]));
+			ThrowException(m_serviceWrapper->SetScanRange(value, ToValue, m_Connections[Connection]), __FUNCTION__);
 		}
-		if (function == Parameters(ParameterDefn::MASSTO))
+		else if (function == Parameters(ParameterDefn::MASSTO))
 		{
 			double FromValue = getDoubleParam(TableIndex, ParameterDefn::MASSFROM);
-			SVQM_800_Error Error = m_serviceWrapper->SetScanRange(FromValue, value, *(m_Connections[TableIndex]));
+			ThrowException(m_serviceWrapper->SetScanRange(FromValue, value, m_Connections[Connection]), __FUNCTION__);
 		}
 	}
 	catch(CException const& E) {

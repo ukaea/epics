@@ -12,8 +12,8 @@
 #define STRING_TYPE std::wstring
 #define CHAR_TYPE wchar_t
 #else
-#define STRING_TYPE std::string
-#define CHAR_TYPE char
+#define STRING_TYPE std::wstring
+#define CHAR_TYPE wchar_t
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////
