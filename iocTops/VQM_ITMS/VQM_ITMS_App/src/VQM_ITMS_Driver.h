@@ -63,6 +63,7 @@ public:
 
                  
 protected:
+	void StartScan(size_t TableIndex);
 	static int UsedParams();
 	void ThrowException(SVQM_800_Error const& Error, const char* Function, bool ThrowIt = true);
 
@@ -70,6 +71,7 @@ private:
 	IServiceWrapper* m_serviceWrapper;
 	// Each of these is associated with an octet I/O connection (i.e. serial or TCP port).
     std::vector<epicsMutex*> m_Mutexes;
+	std::vector<double> m_PeakArea;
 	int m_nConnections;
 	SDeviceConnectionInfo* m_Connections;
 	std::map<int, int> m_ConnectionMap;

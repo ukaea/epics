@@ -19,6 +19,7 @@
 #define epicsExportSharedSymbols
 #include "VQM_ITMS_Base.h"
 
+const char* ParameterDefn::SCANNING = "SCANNING";
 const char* ParameterDefn::EMISSION = "EMISSION";
 const char* ParameterDefn::FILAMENTBIAS = "FILAMENTBIAS";
 const char* ParameterDefn::REPELLERBIAS = "REPELLERBIAS";
@@ -35,6 +36,7 @@ const char* ParameterDefn::ELECTROMETERGAIN = "ELECTROMETERGAIN";
 const char* ParameterDefn::MASSFROM = "MASSFROM";
 const char* ParameterDefn::MASSTO = "MASSTO";
 const char* ParameterDefn::RAWDATA = "RAWDATA";
+const char* ParameterDefn::PEAKAREA = "PEAKAREA";
 const char* ParameterDefn::FAULT = "FAULT";
 const char* ParameterDefn::DISCONNECTED = "DISCONNECTED";
 const char* ParameterDefn::FIRMWAREVERSION = "FIRMWAREVERSION";
