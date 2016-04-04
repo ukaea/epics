@@ -39,6 +39,8 @@
 
 #include <stdlib.h>
 #include <stdexcept>
+#include <fstream>
+#include <sstream>
 
 #ifndef ASYN_TRACE_WARNING
 // Added with asyn4-22
@@ -107,7 +109,12 @@ void CVQM_ITMS_Driver::disconnect()
 	for(size_t Index = 0; Index < NrInstalled(); Index++)
 		m_Mutexes[Index]->lock();
 	for(size_t Index = 0; Index < NrInstalled(); Index++)
-		ThrowException(m_serviceWrapper->DisconnectFromDevice(m_Connections[Index]), __FUNCTION__);
+	{
+		bool isMaster = (m_Connections[Index].m_Availability == AVAILABLE);
+		if (isMaster)
+			SetGaugeState(Index, false, false);
+		ThrowException(m_serviceWrapper->DisconnectFromDevice(m_Connections[Index]), __FUNCTION__, false);
+	}
 	for(size_t Index = 0; Index < NrInstalled(); Index++)
 		m_Mutexes[Index]->unlock();
 	for(size_t Index = 0; Index < NrInstalled(); Index++)
@@ -174,6 +181,16 @@ void CVQM_ITMS_Driver::addIOPort(const char* DeviceAddress)
 
 	bool isMaster = (m_Connections[NewConnection].m_Availability == AVAILABLE);
 	ThrowException(m_serviceWrapper->ConnectToDevice(m_Connections[NewConnection], isMaster), __FUNCTION__);
+	if (isMaster)
+	{
+		SetGaugeState(NewConnection, true);
+		setIntegerParam(NrInstalled(), ParameterDefn::SCANNING, 1);
+	}
+	else
+	{
+		setIntegerParam(NrInstalled(), ParameterDefn::SCANNING, GetGaugeState(NewConnection));
+	}
+
 	// If the new connection fails, the size of the vectors will still have increased.
 	// This means only the failing connection will be lost, and not all subsequent connections.
 	m_Mutexes.push_back(new epicsMutex());
@@ -339,33 +356,43 @@ asynStatus CVQM_ITMS_Driver::readFloat32Array(asynUser *pasynUser, epicsFloat32 
 			setDoubleParam(TableIndex, ParameterDefn::EXITPLATE, headerDataPtr->ExitPlateVoltage());
 			setDoubleParam(TableIndex, ParameterDefn::EMSHIELD, headerDataPtr->ElectronMultiplierShieldVoltage());
 			setDoubleParam(TableIndex, ParameterDefn::EMBIAS, headerDataPtr->ElectronMultiplierVoltage());
-//			setDoubleParam(TableIndex, ParameterDefn::RFAMP, );
-//			setDoubleParam(TableIndex, ParameterDefn::MASSCAL, );
+			setDoubleParam(TableIndex, ParameterDefn::RFAMP, headerDataPtr->DDSAmplitude());
 			setDoubleParam(TableIndex, ParameterDefn::ELECTROMETERGAIN, headerDataPtr->ElectronMultiplierElectrometerGain());
-//			setDoubleParam(TableIndex, ParameterDefn::MASSFROM, headerDataPtr->MassAxis()->BeginAMU());
-//			setDoubleParam(TableIndex, ParameterDefn::MASSTO, headerDataPtr->MassAxis()->EndAMU());
+			setDoubleParam(TableIndex, ParameterDefn::MASSCAL, headerDataPtr->MassAxisCalibrationFactor());
+			setStringParam(TableIndex, ParameterDefn::FIRMWAREVERSION, wcstombs(headerDataPtr->FirmwareRevision()));
+			setStringParam(TableIndex, ParameterDefn::HARDWAREVERSION, wcstombs(headerDataPtr->HardwareRevision()));
+
+			const IMassAxis* MassAxis = headerDataPtr->MassAxis();
+			if (MassAxis)
+			{
+				setDoubleParam(TableIndex, ParameterDefn::MASSFROM, MassAxis->BeginAMU());
+				setDoubleParam(TableIndex, ParameterDefn::MASSTO, MassAxis->EndAMU());
+			}
 
 			std::vector<double> const& DenoisedRawData = analyzedData.DenoisedRawData();
 			m_PeakArea = analyzedData.PeakArea();
 
-			size_t ArraySize = __min(DenoisedRawData.size(), nElements);
-			float MaxValue = 0;
-			for(size_t Index = 0; Index < ArraySize; Index++)
+			size_t ArraySize = DenoisedRawData.size();
+			if (ArraySize != nElements)
 			{
-				value[Index] = float(DenoisedRawData[Index]);
-				MaxValue = __max(MaxValue, value[Index]);
+				asynPrint(pasynUser, ASYN_TRACE_WARNING, "Raw array size disrcepant % instead of %", ArraySize, nElements);
+				ArraySize = __min(ArraySize, nElements);
 			}
+			for(size_t Index = 0; Index < ArraySize; Index++)
+				value[Index] = float(DenoisedRawData[Index]);
 			*nIn = ArraySize;
 		}
 		else if (function == Parameters(ParameterDefn::PEAKAREA))
 		{
-			size_t ArraySize = __min(m_PeakArea.size(), nElements);
+			size_t ArraySize = m_PeakArea.size();
+			if (ArraySize != nElements)
+			{
+				asynPrint(pasynUser, ASYN_TRACE_WARNING, "Peak area array size disrcepant % instead of %", ArraySize, nElements);
+				ArraySize = __min(ArraySize, nElements);
+			}
 			float MaxValue = 0;
 			for(size_t Index = 0; Index < ArraySize; Index++)
-			{
 				value[Index] = float(m_PeakArea[Index]);
-				MaxValue = __max(MaxValue, value[Index]);
-			}
 			*nIn = ArraySize;
 		}
 	}
@@ -392,18 +419,16 @@ asynStatus CVQM_ITMS_Driver::ErrorHandler(int TableIndex, CVQM_ITMS_Base::CExcep
 	return E.Status();
 }
 
-void CVQM_ITMS_Driver::StartScan(size_t TableIndex)
+void CVQM_ITMS_Driver::SetGaugeState(int Connection, bool Scanning, bool ThrowIt /*= true */)
 {
-	setDoubleParam(ParameterDefn::FILAMENTBIAS, 30.0);
-	setDoubleParam(ParameterDefn::REPELLERBIAS, -53.0);
-	setDoubleParam(ParameterDefn::ENTRYPLATE, 130.0);
-	setDoubleParam(ParameterDefn::PRESSUREPLATE, 75.0);
-	setDoubleParam(ParameterDefn::CUPS, 27.0);
-	setDoubleParam(ParameterDefn::TRANSITION, -685.0);
-	setDoubleParam(ParameterDefn::EXITPLATE, 121.0);
-	setDoubleParam(ParameterDefn::EMSHIELD, 123.0);
-	setDoubleParam(ParameterDefn::EMBIAS, -857.0);
-	setDoubleParam(ParameterDefn::RFAMP, 0.45);
+	ThrowException(m_serviceWrapper->SetGaugeState(Scanning ? EnumGaugeState_SCAN : EnumGaugeState_OFF, m_Connections[Connection]), __FUNCTION__, ThrowIt);
+}
+
+bool CVQM_ITMS_Driver::GetGaugeState(int Connection)
+{
+	EnumGaugeState gaugeState;
+	ThrowException(m_serviceWrapper->GetGaugeState(gaugeState, m_Connections[Connection]), __FUNCTION__);
+	return (gaugeState == EnumGaugeState_SCAN);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -438,12 +463,7 @@ asynStatus CVQM_ITMS_Driver::writeInt32(asynUser *pasynUser, epicsInt32 value)
 
 		int Connection = m_ConnectionMap.find(TableIndex)->second;
 		if (function == Parameters(ParameterDefn::SCANNING))
-		{
-			if (value == 0)
-				ThrowException(m_serviceWrapper->StopScan(m_Connections[Connection]), __FUNCTION__);
-			if (value != 0)
-				ThrowException(m_serviceWrapper->StartScan(m_Connections[Connection]), __FUNCTION__);
-		}
+			SetGaugeState(Connection, value != 0);
 	}
 	catch(CException const& E) {
 		// make sure we return an error state if there are comms problems

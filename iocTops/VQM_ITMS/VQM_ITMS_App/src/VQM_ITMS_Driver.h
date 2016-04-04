@@ -63,9 +63,10 @@ public:
 
                  
 protected:
-	void StartScan(size_t TableIndex);
 	static int UsedParams();
 	void ThrowException(SVQM_800_Error const& Error, const char* Function, bool ThrowIt = true);
+	void SetGaugeState(int Connection, bool Scanning, bool ThrowIt = true);
+	bool GetGaugeState(int Connection);
 
 private:
 	IServiceWrapper* m_serviceWrapper;

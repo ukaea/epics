@@ -130,7 +130,7 @@ record(waveform, "$(P)RawData")
     field(DTYP, "asynFloat32ArrayIn")
     field(FTVL, "FLOAT")
 	field(INP,  "@asyn($(PORT),$(ADDR),1)RAWDATA")
-    field(NELM, "20000")
+    field(NELM, "7522")
 	field(SCAN, "1 second")
 }
 
@@ -139,7 +139,7 @@ record(waveform, "$(P)PeakArea")
     field(DTYP, "asynFloat32ArrayIn")
     field(FTVL, "FLOAT")
 	field(INP,  "@asyn($(PORT),$(ADDR),1)PEAKAREA")
-    field(NELM, "200")
+    field(NELM, "300")
 	field(SCAN, "1 second")
 }
 

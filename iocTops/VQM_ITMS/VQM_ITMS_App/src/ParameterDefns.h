@@ -52,6 +52,7 @@ struct epicsShareClass ParameterDefn
 	static const char* FAULT;
 	static const char* DISCONNECTED;
 	static const char* FIRMWAREVERSION;
+	static const char* HARDWAREVERSION;
 	static const char* SOFTWAREVERSION;
 	static const char* ASYNVERSION;
 };
@@ -79,6 +80,7 @@ static ParameterDefn ParameterDefns[] =
 	{ParameterDefn::FAULT, asynParamInt32, Both},
 	{ParameterDefn::DISCONNECTED, asynParamInt32, NotForReal},
 	{ParameterDefn::FIRMWAREVERSION, asynParamOctet, Both},
+	{ParameterDefn::HARDWAREVERSION, asynParamOctet, Both},
 	{ParameterDefn::ASYNVERSION, asynParamOctet, Single},
 	{ParameterDefn::SOFTWAREVERSION, asynParamOctet, Single}
 };

@@ -17,5 +17,6 @@ dbLoadRecords("../../VQM_ITMS_App/Db/SoftwareVersions.db", "P=$(ASYNPORT):,PORT=
 $(ASYN_VERSION_GE426=#) epicsEnvSet DB VQM_ITMS.Asyn4-26
 
 dbLoadRecords("../../VQM_ITMS_App/Db/$(DB=VQM_ITMS).db", "P=$(ASYNPORT1):,PORT=$(ASYNPORT),SCAN=$(SCANINT=5 second),ADDR=0")
+asynSetTraceMask($(ASYNPORT), 1, 0x21)
 
 iocInit

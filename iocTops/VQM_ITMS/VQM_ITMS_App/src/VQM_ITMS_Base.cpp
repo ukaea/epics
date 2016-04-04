@@ -40,6 +40,7 @@ const char* ParameterDefn::PEAKAREA = "PEAKAREA";
 const char* ParameterDefn::FAULT = "FAULT";
 const char* ParameterDefn::DISCONNECTED = "DISCONNECTED";
 const char* ParameterDefn::FIRMWAREVERSION = "FIRMWAREVERSION";
+const char* ParameterDefn::HARDWAREVERSION = "HARDWAREVERSION";
 const char* ParameterDefn::SOFTWAREVERSION = "SOFTWAREVERSION";
 const char* ParameterDefn::ASYNVERSION = "ASYNVERSION";
 
