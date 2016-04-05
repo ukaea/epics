@@ -21,7 +21,7 @@ asynSetOption("DEVICEPORT", 0, "clocal", "Y")
 asynSetOption("DEVICEPORT", 0, "crtscts", "N")
 
 ## Load record instances
-dbLoadRecords("db/FW102C.db")
+dbLoadRecords("db/FW102C.db","P=FW102C-1")
 
 
 ## Initialise IOC instance
