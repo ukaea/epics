@@ -183,6 +183,9 @@ void CVQM_ITMS_Driver::addIOPort(const char* DeviceAddress)
 	ThrowException(m_serviceWrapper->ConnectToDevice(m_Connections[NewConnection], isMaster), __FUNCTION__);
 	if (isMaster)
 	{
+		ThrowException(m_serviceWrapper->DataAnalysisSetAvgMode(Running_Avg, m_Connections[NewConnection]), __FUNCTION__);
+		// 100 / 85 gives 1 scan / sec
+		ThrowException(m_serviceWrapper->DataAnalysisSetNumAvgs(11, m_Connections[NewConnection]), __FUNCTION__);
 		SetGaugeState(NewConnection, true);
 		setIntegerParam(NrInstalled(), ParameterDefn::SCANNING, 1);
 	}
@@ -306,7 +309,7 @@ asynStatus CVQM_ITMS_Driver::readFloat64(asynUser *pasynUser, epicsFloat64 *valu
 		else
 			Status = CVQM_ITMS_Base::readFloat64(pasynUser, value);
 	}
-	catch(CException const& E) {
+	catch(CVQM_ITMS_Base::CException const& E) {
 		// make sure we return an error state if there are comms problems
 		Status = ErrorHandler(TableIndex, E);
 	}
@@ -338,14 +341,15 @@ asynStatus CVQM_ITMS_Driver::readFloat32Array(asynUser *pasynUser, epicsFloat32 
 		int Connection = m_ConnectionMap.find(TableIndex)->second;
 		if (function == Parameters(ParameterDefn::RAWDATA))
 		{
-			int lastScanNumber;
 			SAnalyzedData analyzedData;
 			IHeaderData* headerDataPtr;
 			SAverageData averageData;
 			bool isValidData;
 			EnumGaugeState controllerState;
-			ThrowException(m_serviceWrapper->GetScanData(lastScanNumber, analyzedData, &headerDataPtr,
+			int LastScanNumber;
+			ThrowException(m_serviceWrapper->GetScanData(LastScanNumber, analyzedData, &headerDataPtr,
                                             averageData, m_Connections[Connection], isValidData, controllerState), __FUNCTION__);
+			setIntegerParam(TableIndex, ParameterDefn::LASTSCANNUMBER, LastScanNumber);
 			setDoubleParam(TableIndex, ParameterDefn::EMISSION, headerDataPtr->EmissionCurrent());
 			setDoubleParam(TableIndex, ParameterDefn::FILAMENTBIAS, headerDataPtr->FilamentBiasVoltage());
 			setDoubleParam(TableIndex, ParameterDefn::REPELLERBIAS, headerDataPtr->RepellerVoltage());
@@ -396,7 +400,7 @@ asynStatus CVQM_ITMS_Driver::readFloat32Array(asynUser *pasynUser, epicsFloat32 
 			*nIn = ArraySize;
 		}
 	}
-	catch(CException const& E) {
+	catch(CVQM_ITMS_Base::CException const& E) {
 		// make sure we return an error state if there are comms problems
 		Status = ErrorHandler(TableIndex, E);
 	}
@@ -464,8 +468,10 @@ asynStatus CVQM_ITMS_Driver::writeInt32(asynUser *pasynUser, epicsInt32 value)
 		int Connection = m_ConnectionMap.find(TableIndex)->second;
 		if (function == Parameters(ParameterDefn::SCANNING))
 			SetGaugeState(Connection, value != 0);
+		if (function == Parameters(ParameterDefn::AVERAGES))
+			ThrowException(m_serviceWrapper->DataAnalysisSetNumAvgs(value, m_Connections[Connection]), __FUNCTION__);
 	}
-	catch(CException const& E) {
+	catch(CVQM_ITMS_Base::CException const& E) {
 		// make sure we return an error state if there are comms problems
 		Status = ErrorHandler(TableIndex, E);
 	}
@@ -548,7 +554,7 @@ asynStatus CVQM_ITMS_Driver::writeFloat64(asynUser *pasynUser, epicsFloat64 valu
 			ThrowException(m_serviceWrapper->SetScanRange(FromValue, value, m_Connections[Connection]), __FUNCTION__);
 		}
 	}
-	catch(CException const& E) {
+	catch(CVQM_ITMS_Base::CException const& E) {
 		// make sure we return an error state if there are comms problems
 		Status = ErrorHandler(TableIndex, E);
 	}

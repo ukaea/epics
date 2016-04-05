@@ -20,6 +20,8 @@
 #include "VQM_ITMS_Base.h"
 
 const char* ParameterDefn::SCANNING = "SCANNING";
+const char* ParameterDefn::AVERAGES = "AVERAGES";
+const char* ParameterDefn::LASTSCANNUMBER = "LASTSCANNUMBER";
 const char* ParameterDefn::EMISSION = "EMISSION";
 const char* ParameterDefn::FILAMENTBIAS = "FILAMENTBIAS";
 const char* ParameterDefn::REPELLERBIAS = "REPELLERBIAS";

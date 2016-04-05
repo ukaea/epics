@@ -21,6 +21,19 @@ record(bo, "$(P)Scanning")
 	info("asyn:READBACK", "1")
 }
 
+record(longout, "$(P)Averages")
+{
+    field(DTYP, "asynInt32")
+	field(OUT,  "@asyn($(PORT),$(ADDR),1)AVERAGES")
+}
+
+record(longin, "$(P)LastScanNumber")
+{
+    field(DTYP, "asynInt32")
+	field(INP,  "@asyn($(PORT),$(ADDR),1)LASTSCANNUMBER")
+	field(SCAN, "I/O Intr")
+}
+
 record(ao, "$(P)Emission")
 {
     field(DTYP, "asynFloat64")
