@@ -3,28 +3,40 @@
 #Data records (monitoring and control)
 
 record(stringin, "$(P):IOCNAME") {
-  field(DESC, "Thorlabs 102C Filter Wheel")
-  field(VAL, "Device FW102C")
+  field(DESC, "IOC Type")
+  field(VAL, "FW102C (Thorlabs 102C Filter Wheel)")
 }
 
 record(waveform, "$(P):IDN") {
-  field(DESC, "ID String")
+  field(DESC, "Device Type (SCPI IDN)")
   field(DTYP, "stream")
   field(NELM, "80")
   field(FTVL, "CHAR")
   field(INP, "@FW102C.proto idn DEVICEPORT")
 }
 
-record(ai, "$(P):POS:MON") {
-  field(DESC, "Filter wheel position")
+record(longin, "$(P):POS:MON") {
+  #Purpose
+  field(DESC, "Filter wheel position (actual)")
+
+  #Processing
   field(DTYP, "stream")
   field(INP, "@FW102C.proto getPos DEVICEPORT")
 }
 
-record(ao, "$(P):POS:SET") {
+record(longout, "$(P):POS:SET") {
+  #Purpose
+  field(DESC, "Filter wheel position (setting)")
+
+  #Limits
+  field(DRVL, "1")
+  field(DRVH, "6")
+
+  #Processing
   field(SDIS, "$(P):POS:SET:Sync.PACT")
   field(DTYP, "stream")
   field(OUT, "@FW102C.proto setPos DEVICEPORT")
+  field(FLNK, "$(P):POS:MON:Sync.PROC")
 }
 
 
