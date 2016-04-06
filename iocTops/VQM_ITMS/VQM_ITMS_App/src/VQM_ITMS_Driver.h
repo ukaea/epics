@@ -33,6 +33,8 @@ struct SDeviceConnectionInfo;
 struct SVQM_800_Error;
 
 class CVQM_ITMS_Driver : public CVQM_ITMS_Base {
+	class CThreadRunable;
+	friend class CThreadRunable;
 public:
 	class CException : public CVQM_ITMS_Base::CException
 	{
@@ -52,13 +54,14 @@ public:
     virtual asynStatus writeFloat64(asynUser *pasynUser, epicsFloat64 value);
     virtual asynStatus readFloat32Array(asynUser *pasynUser, epicsFloat32 *value,
                                         size_t nElements, size_t *nIn);
+	bool GetScanData(int TableIndex, std::vector<float>& RawData, std::vector<float>& PeakArea);
 	void addIOPort(const char* DeviceAddress);
 	static CVQM_ITMS_Driver* Instance() {
 		return m_Instance;
 	}
 	asynStatus ErrorHandler(int TableIndex, CVQM_ITMS_Base::CException const& E);
 	size_t NrInstalled() {
-		return m_Mutexes.size();
+		return m_Threads.size();
 	}
 
                  
@@ -71,7 +74,7 @@ protected:
 private:
 	IServiceWrapper* m_serviceWrapper;
 	// Each of these is associated with an octet I/O connection (i.e. serial or TCP port).
-    std::vector<epicsMutex*> m_Mutexes;
+	std::vector<CThreadRunable*> m_Threads;
 	int m_nConnections;
 	SDeviceConnectionInfo* m_Connections;
 	std::map<int, int> m_ConnectionMap;

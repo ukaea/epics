@@ -96,7 +96,7 @@ public:
 		ThrowException(pasynUserSelf, asynPortDriver::setDoubleParam(Parameters(ParamName), value), __FUNCTION__, ParamName);
 	}
 	void doCallbacksFloat32Array(std::vector<float> & value, const char* ParamName, size_t list) {
-		ThrowException(pasynUserSelf, asynPortDriver::doCallbacksFloat32Array(&(value[0]), value.size(), Parameters(ParameterDefn::PEAKAREA), list), __FUNCTION__, ParamName);
+		ThrowException(pasynUserSelf, asynPortDriver::doCallbacksFloat32Array(&(value[0]), value.size(), Parameters(ParamName), list), __FUNCTION__, ParamName);
 	}
 	void setStringParam(size_t list, const char* ParamName, std::string const& value, bool ThrowIt = true) {
 		checkParamStatus(list, ParamName);

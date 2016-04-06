@@ -70,6 +70,71 @@ CVQM_ITMS_Driver::CException::CException(asynUser* AsynUser, SVQM_800_Error cons
 			std::string message = "%s:%s ERROR: " + std::string(what()) + "%s\n";
 			asynPrint(AsynUser, ASYN_TRACE_ERROR, message.c_str(), __FILE__, functionName, AsynUser->errorMessage);
 		}
+
+class CVQM_ITMS_Driver::CThreadRunable : public epicsThreadRunable
+{
+	public:
+		CThreadRunable(CVQM_ITMS_Driver* This, const char* DeviceAddress, int TableIndex)
+		{
+			m_This = This;
+			m_TableIndex = TableIndex;
+			m_Exiting = false;
+			m_Thread = new epicsThread(*this, DeviceAddress, epicsThreadGetStackSize(epicsThreadStackSmall));
+		}
+		~CThreadRunable() {
+			delete m_Thread;
+		}
+
+		virtual void run () {
+			try {
+				while (!m_Exiting)
+					if (!m_This->GetScanData(m_TableIndex, m_RawData, m_PeakArea))
+						epicsThreadSleep(0.01);
+			}
+			catch(CVQM_ITMS_Base::CException const& E) {
+				// make sure we return an error state if there are comms problems
+				m_This->ErrorHandler(m_TableIndex, E);
+			}
+		}
+		void setExiting() {
+			m_Exiting = true;
+		}
+		void setRawDataSize(size_t RawDataSize) {
+			m_RawData.resize(RawDataSize);
+			if (m_PeakArea.size() != 0)
+				start();
+		}
+		size_t RawDataSize() const {
+			return m_RawData.size();
+		}
+		void setPeakAreaSize(size_t PeakAreaSize) {
+			m_PeakArea.resize(PeakAreaSize);
+		}
+		size_t PeakAreaSize() const {
+			return m_PeakArea.size();
+		}
+		void lock() {
+			m_Mutex.lock();
+		}
+		void unlock() {
+			m_Mutex.unlock();
+		}
+		void start() {
+			m_Thread->start();
+		}
+		operator epicsMutex&() {
+			return m_Mutex;
+		}
+	private:
+		CVQM_ITMS_Driver* m_This;
+		epicsThread* m_Thread;
+		epicsMutex m_Mutex;
+		int m_TableIndex;
+		volatile bool m_Exiting;		// Signals the listening thread to exit.
+		std::vector<float> m_PeakArea;
+		std::vector<float> m_RawData;
+};
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 //																								//
 //	CVQM_ITMS_Driver::CVQM_ITMS_Driver(const char *asynPortName, int numTraps)	//
@@ -107,7 +172,9 @@ void CVQM_ITMS_Driver::disconnect()
 {
 	asynStatus overallstatus = asynSuccess;
 	for(size_t Index = 0; Index < NrInstalled(); Index++)
-		m_Mutexes[Index]->lock();
+		m_Threads[Index]->setExiting();
+	for(size_t Index = 0; Index < NrInstalled(); Index++)
+		m_Threads[Index]->lock();
 	for(size_t Index = 0; Index < NrInstalled(); Index++)
 	{
 		bool isMaster = (m_Connections[Index].m_Availability == AVAILABLE);
@@ -116,9 +183,9 @@ void CVQM_ITMS_Driver::disconnect()
 		ThrowException(m_serviceWrapper->DisconnectFromDevice(m_Connections[Index]), __FUNCTION__, false);
 	}
 	for(size_t Index = 0; Index < NrInstalled(); Index++)
-		m_Mutexes[Index]->unlock();
+		m_Threads[Index]->unlock();
 	for(size_t Index = 0; Index < NrInstalled(); Index++)
-		delete m_Mutexes[Index];
+		delete m_Threads[Index];
 }
 
 void CVQM_ITMS_Driver::ThrowException(SVQM_800_Error const& Error, const char* Function, bool ThrowIt /*= true*/)
@@ -183,7 +250,7 @@ void CVQM_ITMS_Driver::addIOPort(const char* DeviceAddress)
 	ThrowException(m_serviceWrapper->ConnectToDevice(m_Connections[NewConnection], isMaster), __FUNCTION__);
 	if (isMaster)
 	{
-		ThrowException(m_serviceWrapper->DataAnalysisSetAvgMode(Running_Avg, m_Connections[NewConnection]), __FUNCTION__);
+		ThrowException(m_serviceWrapper->DataAnalysisSetAvgMode(Accumulator, m_Connections[NewConnection]), __FUNCTION__);
 		// 100 / 85 gives 1 scan / sec
 		ThrowException(m_serviceWrapper->DataAnalysisSetNumAvgs(11, m_Connections[NewConnection]), __FUNCTION__);
 		SetGaugeState(NewConnection, true);
@@ -196,7 +263,7 @@ void CVQM_ITMS_Driver::addIOPort(const char* DeviceAddress)
 
 	// If the new connection fails, the size of the vectors will still have increased.
 	// This means only the failing connection will be lost, and not all subsequent connections.
-	m_Mutexes.push_back(new epicsMutex());
+	m_Threads.push_back(new CThreadRunable(this, DeviceAddress, m_Threads.size()));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -233,7 +300,7 @@ asynStatus CVQM_ITMS_Driver::readFloat64(asynUser *pasynUser, epicsFloat64 *valu
 		CVQM_ITMS_Base::ThrowException(pasynUser, getAddress(pasynUser, &TableIndex), __FUNCTION__, "Could not get address");
 		if ((TableIndex < 0) || (TableIndex > int(NrInstalled())))
 			throw CVQM_ITMS_Base::CException(pasynUser, asynError, __FUNCTION__, "User / ITMS not configured");
-		epicsGuard < epicsMutex > guard (*m_Mutexes[TableIndex]);
+		epicsGuard < epicsMutex > guard (*m_Threads[TableIndex]);
 		if (m_Instance == NULL)
 			// The IOC is exiting
 			return asynTimeout;
@@ -317,6 +384,74 @@ asynStatus CVQM_ITMS_Driver::readFloat64(asynUser *pasynUser, epicsFloat64 *valu
 	return Status;
 }
 
+bool CVQM_ITMS_Driver::GetScanData(int TableIndex, std::vector<float>& RawData, std::vector<float>& PeakArea)
+{
+	if (m_Instance == NULL)
+		// The IOC is exiting
+		return false;
+
+	if ((TableIndex < 0) || (TableIndex > int(NrInstalled())))
+		throw CVQM_ITMS_Base::CException(pasynUserSelf, asynError, __FUNCTION__, "User / ITMS not configured");
+	epicsGuard < epicsMutex > guard (*m_Threads[TableIndex]);
+	if (m_Instance == NULL)
+		// The IOC is exiting
+		return false;
+
+	if (getIntegerParam(TableIndex, ParameterDefn::SCANNING) == 0)
+		return false;
+
+	int Connection = m_ConnectionMap.find(TableIndex)->second;
+	SAnalyzedData analyzedData;
+	IHeaderData* headerDataPtr;
+	SAverageData averageData;
+	bool isValidData;
+	EnumGaugeState controllerState;
+	int LastScanNumber;
+	SVQM_800_Error Error = m_serviceWrapper->GetScanData(LastScanNumber, analyzedData, &headerDataPtr,
+		averageData, m_Connections[Connection], isValidData, controllerState);
+	if ((Error.m_ErrorType != NO_ERRORS) || (!averageData.ValidScanDataIn()))
+		return false;
+
+
+	setIntegerParam(TableIndex, ParameterDefn::LASTSCANNUMBER, LastScanNumber);
+	setDoubleParam(TableIndex, ParameterDefn::EMISSION, headerDataPtr->EmissionCurrent());
+	setDoubleParam(TableIndex, ParameterDefn::FILAMENTBIAS, headerDataPtr->FilamentBiasVoltage());
+	setDoubleParam(TableIndex, ParameterDefn::REPELLERBIAS, headerDataPtr->RepellerVoltage());
+	setDoubleParam(TableIndex, ParameterDefn::ENTRYPLATE, headerDataPtr->EntryPlateVoltage());
+	setDoubleParam(TableIndex, ParameterDefn::PRESSUREPLATE, headerDataPtr->PressurePlateVoltage());
+	setDoubleParam(TableIndex, ParameterDefn::CUPS, headerDataPtr->CupsVoltage());
+	setDoubleParam(TableIndex, ParameterDefn::TRANSITION, headerDataPtr->TransitionVoltage());
+	setDoubleParam(TableIndex, ParameterDefn::EXITPLATE, headerDataPtr->ExitPlateVoltage());
+	setDoubleParam(TableIndex, ParameterDefn::EMSHIELD, headerDataPtr->ElectronMultiplierShieldVoltage());
+	setDoubleParam(TableIndex, ParameterDefn::EMBIAS, headerDataPtr->ElectronMultiplierVoltage());
+	setDoubleParam(TableIndex, ParameterDefn::RFAMP, headerDataPtr->DDSAmplitude());
+	setDoubleParam(TableIndex, ParameterDefn::ELECTROMETERGAIN, headerDataPtr->ElectronMultiplierElectrometerGain());
+	setDoubleParam(TableIndex, ParameterDefn::MASSCAL, headerDataPtr->MassAxisCalibrationFactor());
+	setStringParam(TableIndex, ParameterDefn::FIRMWAREVERSION, wcstombs(headerDataPtr->FirmwareRevision()));
+	setStringParam(TableIndex, ParameterDefn::HARDWAREVERSION, wcstombs(headerDataPtr->HardwareRevision()));
+	callParamCallbacks(TableIndex);
+
+	const IMassAxis* MassAxis = headerDataPtr->MassAxis();
+	if (MassAxis)
+	{
+		setDoubleParam(TableIndex, ParameterDefn::MASSFROM, MassAxis->BeginAMU());
+		setDoubleParam(TableIndex, ParameterDefn::MASSTO, MassAxis->EndAMU());
+	}
+
+	if (analyzedData.PeakArea().size() < PeakArea.size())
+		PeakArea.resize(analyzedData.PeakArea().size());
+	for(size_t Index = 0; Index < PeakArea.size(); Index++)
+		PeakArea[Index] = float(analyzedData.PeakArea()[Index]);
+	doCallbacksFloat32Array(PeakArea, ParameterDefn::PEAKAREA, TableIndex);
+
+	if (analyzedData.DenoisedRawData().size() < RawData.size())
+		RawData.resize(analyzedData.DenoisedRawData().size());
+	for(size_t Index = 0; Index < RawData.size(); Index++)
+		RawData[Index] = float(analyzedData.DenoisedRawData()[Index]);
+	doCallbacksFloat32Array(RawData, ParameterDefn::RAWDATA, TableIndex);
+	return true;
+}
+
 asynStatus CVQM_ITMS_Driver::readFloat32Array(asynUser *pasynUser, epicsFloat32 *value,
                                         size_t nElements, size_t *nIn)
 {
@@ -330,64 +465,29 @@ asynStatus CVQM_ITMS_Driver::readFloat32Array(asynUser *pasynUser, epicsFloat32 
 		CVQM_ITMS_Base::ThrowException(pasynUser, getAddress(pasynUser, &TableIndex), __FUNCTION__, "Could not get address");
 		if ((TableIndex < 0) || (TableIndex > int(NrInstalled())))
 			throw CVQM_ITMS_Base::CException(pasynUser, asynError, __FUNCTION__, "User / ITMS not configured");
-		epicsGuard < epicsMutex > guard (*m_Mutexes[TableIndex]);
+		epicsGuard < epicsMutex > guard (*m_Threads[TableIndex]);
 		if (m_Instance == NULL)
 			// The IOC is exiting
 			return asynTimeout;
 
-		if (getIntegerParam(TableIndex, ParameterDefn::SCANNING) == 0)
-			return asynSuccess;
-
 		int Connection = m_ConnectionMap.find(TableIndex)->second;
 		if (function == Parameters(ParameterDefn::RAWDATA))
 		{
-			SAnalyzedData analyzedData;
-			IHeaderData* headerDataPtr;
-			SAverageData averageData;
-			bool isValidData;
-			EnumGaugeState controllerState;
-			int LastScanNumber;
-			ThrowException(m_serviceWrapper->GetScanData(LastScanNumber, analyzedData, &headerDataPtr,
-                                            averageData, m_Connections[Connection], isValidData, controllerState), __FUNCTION__);
-			setIntegerParam(TableIndex, ParameterDefn::LASTSCANNUMBER, LastScanNumber);
-			setDoubleParam(TableIndex, ParameterDefn::EMISSION, headerDataPtr->EmissionCurrent());
-			setDoubleParam(TableIndex, ParameterDefn::FILAMENTBIAS, headerDataPtr->FilamentBiasVoltage());
-			setDoubleParam(TableIndex, ParameterDefn::REPELLERBIAS, headerDataPtr->RepellerVoltage());
-			setDoubleParam(TableIndex, ParameterDefn::ENTRYPLATE, headerDataPtr->EntryPlateVoltage());
-			setDoubleParam(TableIndex, ParameterDefn::PRESSUREPLATE, headerDataPtr->PressurePlateVoltage());
-			setDoubleParam(TableIndex, ParameterDefn::CUPS, headerDataPtr->CupsVoltage());
-			setDoubleParam(TableIndex, ParameterDefn::TRANSITION, headerDataPtr->TransitionVoltage());
-			setDoubleParam(TableIndex, ParameterDefn::EXITPLATE, headerDataPtr->ExitPlateVoltage());
-			setDoubleParam(TableIndex, ParameterDefn::EMSHIELD, headerDataPtr->ElectronMultiplierShieldVoltage());
-			setDoubleParam(TableIndex, ParameterDefn::EMBIAS, headerDataPtr->ElectronMultiplierVoltage());
-			setDoubleParam(TableIndex, ParameterDefn::RFAMP, headerDataPtr->DDSAmplitude());
-			setDoubleParam(TableIndex, ParameterDefn::ELECTROMETERGAIN, headerDataPtr->ElectronMultiplierElectrometerGain());
-			setDoubleParam(TableIndex, ParameterDefn::MASSCAL, headerDataPtr->MassAxisCalibrationFactor());
-			setStringParam(TableIndex, ParameterDefn::FIRMWAREVERSION, wcstombs(headerDataPtr->FirmwareRevision()));
-			setStringParam(TableIndex, ParameterDefn::HARDWAREVERSION, wcstombs(headerDataPtr->HardwareRevision()));
-
-			const IMassAxis* MassAxis = headerDataPtr->MassAxis();
-			if (MassAxis)
-			{
-				setDoubleParam(TableIndex, ParameterDefn::MASSFROM, MassAxis->BeginAMU());
-				setDoubleParam(TableIndex, ParameterDefn::MASSTO, MassAxis->EndAMU());
-			}
-
-			std::vector<float> PeakArea(analyzedData.PeakArea().size());
-			for(size_t Index = 0; Index < analyzedData.PeakArea().size(); Index++)
-				PeakArea[Index] = float(analyzedData.PeakArea()[Index]);
-			doCallbacksFloat32Array(PeakArea, ParameterDefn::PEAKAREA, TableIndex);
-
-			std::vector<double> const& DenoisedRawData = analyzedData.DenoisedRawData();
-			size_t ArraySize = DenoisedRawData.size();
-			if (ArraySize != nElements)
-			{
-				asynPrint(pasynUser, ASYN_TRACE_WARNING, "Raw array size disrcepant % instead of %", ArraySize, nElements);
-				ArraySize = __min(ArraySize, nElements);
-			}
-			for(size_t Index = 0; Index < ArraySize; Index++)
-				value[Index] = float(DenoisedRawData[Index]);
-			*nIn = ArraySize;
+			m_Threads[TableIndex]->setRawDataSize(nElements);
+			for(size_t Index = 0; Index < m_Threads[TableIndex]->RawDataSize(); Index++)
+				value[Index] = 0;
+			*nIn = m_Threads[TableIndex]->RawDataSize();
+			if (m_Threads[TableIndex]->PeakAreaSize() != 0)
+				m_Threads[TableIndex]->start();
+		}
+		if (function == Parameters(ParameterDefn::PEAKAREA))
+		{
+			m_Threads[TableIndex]->setPeakAreaSize(nElements);
+			for(size_t Index = 0; Index < m_Threads[TableIndex]->PeakAreaSize(); Index++)
+				value[Index] = 0;
+			*nIn = m_Threads[TableIndex]->PeakAreaSize();
+			if (m_Threads[TableIndex]->RawDataSize() != 0)
+				m_Threads[TableIndex]->start();
 		}
 	}
 	catch(CVQM_ITMS_Base::CException const& E) {
@@ -450,7 +550,7 @@ asynStatus CVQM_ITMS_Driver::writeInt32(asynUser *pasynUser, epicsInt32 value)
 		CVQM_ITMS_Base::ThrowException(pasynUser, getAddress(pasynUser, &TableIndex), __FUNCTION__, "Could not get address");
 		if ((TableIndex < 0) || (TableIndex >= int(NrInstalled())))
 			throw CVQM_ITMS_Base::CException(pasynUser, asynError, __FUNCTION__, "User / ITMS not configured");
-		epicsGuard < epicsMutex > guard (*m_Mutexes[TableIndex]);
+		epicsGuard < epicsMutex > guard (*m_Threads[TableIndex]);
 		if (m_Instance == NULL)
 			// The IOC is exiting
 			return asynTimeout;
@@ -483,7 +583,7 @@ asynStatus CVQM_ITMS_Driver::writeFloat64(asynUser *pasynUser, epicsFloat64 valu
 		CVQM_ITMS_Base::ThrowException(pasynUser, getAddress(pasynUser, &TableIndex), __FUNCTION__, "Could not get address");
 		if ((TableIndex < 0) || (TableIndex >= int(NrInstalled())))
 			throw CVQM_ITMS_Base::CException(pasynUser, asynError, __FUNCTION__, "User / ITMS not configured");
-		epicsGuard < epicsMutex > guard (*m_Mutexes[TableIndex]);
+		epicsGuard < epicsMutex > guard (*m_Threads[TableIndex]);
 		if (m_Instance == NULL)
 			// The IOC is exiting
 			return asynTimeout;
