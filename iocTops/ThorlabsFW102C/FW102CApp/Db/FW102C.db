@@ -28,6 +28,9 @@ record(longout, "$(P):POS:SET") {
   #Purpose
   field(DESC, "Filter wheel position (setting)")
 
+  #Security
+  field(ASG, "fw")
+
   #Limits
   field(DRVL, "1")
   field(DRVH, "6")

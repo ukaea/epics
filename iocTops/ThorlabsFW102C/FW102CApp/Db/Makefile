@@ -12,6 +12,7 @@ include $(TOP)/configure/CONFIG
 # databases, templates, substitutions like this
 DB += FW102C.db
 DB += FW102C.proto
+DB += FW102C.acf
 
 #----------------------------------------------------
 # If <anyname>.db template is not named <anyname>*.template add

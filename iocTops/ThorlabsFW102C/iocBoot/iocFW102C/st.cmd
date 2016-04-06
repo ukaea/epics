@@ -23,6 +23,11 @@ asynSetOption("DEVICEPORT", 0, "crtscts", "N")
 ## Load record instances
 dbLoadRecords("db/FW102C.db","P=FW102C-1")
 
+##Apply security
+#Replace X with name of CA client controlling this filter wheel
+asSetFilename("$(TOP)/db/FW102C.acf")
+asSetSubstitutions("masterclient=X")
+
 
 ## Initialise IOC instance
 cd "${TOP}/iocBoot/${IOC}"
