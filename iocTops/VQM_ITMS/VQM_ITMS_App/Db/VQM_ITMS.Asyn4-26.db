@@ -153,7 +153,7 @@ record(waveform, "$(P)PeakArea")
     field(FTVL, "FLOAT")
 	field(INP,  "@asyn($(PORT),$(ADDR),1)PEAKAREA")
     field(NELM, "300")
-	field(SCAN, "1 second")
+	field(SCAN, "I/O Intr")
 }
 
 record(longin, "$(P)Fault")

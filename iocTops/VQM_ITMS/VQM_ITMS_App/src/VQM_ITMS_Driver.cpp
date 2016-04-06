@@ -373,9 +373,12 @@ asynStatus CVQM_ITMS_Driver::readFloat32Array(asynUser *pasynUser, epicsFloat32 
 				setDoubleParam(TableIndex, ParameterDefn::MASSTO, MassAxis->EndAMU());
 			}
 
-			std::vector<double> const& DenoisedRawData = analyzedData.DenoisedRawData();
-			m_PeakArea = analyzedData.PeakArea();
+			std::vector<float> PeakArea(analyzedData.PeakArea().size());
+			for(size_t Index = 0; Index < analyzedData.PeakArea().size(); Index++)
+				PeakArea[Index] = float(analyzedData.PeakArea()[Index]);
+			doCallbacksFloat32Array(PeakArea, ParameterDefn::PEAKAREA, TableIndex);
 
+			std::vector<double> const& DenoisedRawData = analyzedData.DenoisedRawData();
 			size_t ArraySize = DenoisedRawData.size();
 			if (ArraySize != nElements)
 			{
@@ -384,19 +387,6 @@ asynStatus CVQM_ITMS_Driver::readFloat32Array(asynUser *pasynUser, epicsFloat32 
 			}
 			for(size_t Index = 0; Index < ArraySize; Index++)
 				value[Index] = float(DenoisedRawData[Index]);
-			*nIn = ArraySize;
-		}
-		else if (function == Parameters(ParameterDefn::PEAKAREA))
-		{
-			size_t ArraySize = m_PeakArea.size();
-			if (ArraySize != nElements)
-			{
-				asynPrint(pasynUser, ASYN_TRACE_WARNING, "Peak area array size disrcepant % instead of %", ArraySize, nElements);
-				ArraySize = __min(ArraySize, nElements);
-			}
-			float MaxValue = 0;
-			for(size_t Index = 0; Index < ArraySize; Index++)
-				value[Index] = float(m_PeakArea[Index]);
 			*nIn = ArraySize;
 		}
 	}

@@ -29,8 +29,6 @@
 #include "USSPacket.h"
 #include "ParameterDefns.h"
 
-#include <epicsThread.h>
-
 #define epicsExportSharedSymbols
 #include <epicsExport.h>
 
