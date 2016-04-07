@@ -33,6 +33,7 @@ struct epicsShareClass ParameterDefn
 	ParamUseCases	m_UseCase;
 	static const char* SCANNING;
 	static const char* AVERAGES;
+	static const char* AVERAGEMODE;
 	static const char* LASTSCANNUMBER;
 	static const char* EMISSION;
 	static const char* FILAMENTBIAS;
@@ -63,6 +64,7 @@ static ParameterDefn ParameterDefns[] =
 {
 	{ParameterDefn::SCANNING, asynParamInt32, Both},
 	{ParameterDefn::AVERAGES, asynParamInt32, Both},
+	{ParameterDefn::AVERAGEMODE, asynParamInt32, Both},
 	{ParameterDefn::LASTSCANNUMBER, asynParamInt32, Both},
 	{ParameterDefn::EMISSION, asynParamFloat64, Both},
 	{ParameterDefn::FILAMENTBIAS, asynParamFloat64, Both},

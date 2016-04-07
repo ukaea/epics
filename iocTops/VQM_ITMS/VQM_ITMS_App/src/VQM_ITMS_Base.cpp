@@ -21,6 +21,7 @@
 
 const char* ParameterDefn::SCANNING = "SCANNING";
 const char* ParameterDefn::AVERAGES = "AVERAGES";
+const char* ParameterDefn::AVERAGEMODE = "AVERAGEMODE";
 const char* ParameterDefn::LASTSCANNUMBER = "LASTSCANNUMBER";
 const char* ParameterDefn::EMISSION = "EMISSION";
 const char* ParameterDefn::FILAMENTBIAS = "FILAMENTBIAS";

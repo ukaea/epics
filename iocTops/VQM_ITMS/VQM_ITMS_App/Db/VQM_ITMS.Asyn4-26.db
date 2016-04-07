@@ -27,6 +27,20 @@ record(longout, "$(P)Averages")
 	field(OUT,  "@asyn($(PORT),$(ADDR),1)AVERAGES")
 }
 
+record(mbbo, "$(P)AverageMode")
+{
+    field(DTYP, "asynInt32")
+	field(OUT,  "@asyn($(PORT),$(ADDR),1)AVERAGEMODE")
+	field(ZRVL, "0")
+	field(ONVL, "1")
+	field(TWVL, "2")
+    field(THVL, "3")
+    field(ZRST, "OFF")
+    field(ONST, "Running_Avg")
+    field(TWST, "Cumulative_Moving_Avg")
+    field(THST, "Accumulator")
+}
+
 record(longin, "$(P)LastScanNumber")
 {
     field(DTYP, "asynInt32")

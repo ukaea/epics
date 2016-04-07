@@ -251,8 +251,11 @@ void CVQM_ITMS_Driver::addIOPort(const char* DeviceAddress)
 	if (isMaster)
 	{
 		ThrowException(m_serviceWrapper->DataAnalysisSetAvgMode(Accumulator, m_Connections[NewConnection]), __FUNCTION__);
-		// 100 / 85 gives 1 scan / sec
-		ThrowException(m_serviceWrapper->DataAnalysisSetNumAvgs(11, m_Connections[NewConnection]), __FUNCTION__);
+		setIntegerParam(NrInstalled(), ParameterDefn::AVERAGEMODE, Accumulator);
+		// 100 / 85 gives about 1 scan / sec
+		int Averages = 1000 / 85;
+		ThrowException(m_serviceWrapper->DataAnalysisSetNumAvgs(Averages, m_Connections[NewConnection]), __FUNCTION__);
+		setIntegerParam(NrInstalled(), ParameterDefn::AVERAGES, Averages);
 		SetGaugeState(NewConnection, true);
 		setIntegerParam(NrInstalled(), ParameterDefn::SCANNING, 1);
 	}
@@ -558,8 +561,10 @@ asynStatus CVQM_ITMS_Driver::writeInt32(asynUser *pasynUser, epicsInt32 value)
 		int Connection = m_ConnectionMap.find(TableIndex)->second;
 		if (function == Parameters(ParameterDefn::SCANNING))
 			SetGaugeState(Connection, value != 0);
-		if (function == Parameters(ParameterDefn::AVERAGES))
+		else if (function == Parameters(ParameterDefn::AVERAGES))
 			ThrowException(m_serviceWrapper->DataAnalysisSetNumAvgs(value, m_Connections[Connection]), __FUNCTION__);
+		else if (function == Parameters(ParameterDefn::AVERAGEMODE))
+			ThrowException(m_serviceWrapper->DataAnalysisSetAvgMode(EnumAvgMode(value), m_Connections[Connection]), __FUNCTION__);
 	}
 	catch(CVQM_ITMS_Base::CException const& E) {
 		// make sure we return an error state if there are comms problems
