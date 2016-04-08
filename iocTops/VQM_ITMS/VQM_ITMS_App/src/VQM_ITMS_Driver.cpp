@@ -232,8 +232,6 @@ void CVQM_ITMS_Driver::addIOPort(const char* DeviceAddress)
 		createParam(NrInstalled(), ParamIndex);
 	}
 
-	callParamCallbacks(NrInstalled());
-
 	int NewConnection = -1;
 	std::wstring DeviceAddressW = mbstowcs(DeviceAddress);
 	for (int Connection = 0; Connection < m_nConnections; Connection++)
@@ -264,6 +262,7 @@ void CVQM_ITMS_Driver::addIOPort(const char* DeviceAddress)
 		setIntegerParam(NrInstalled(), ParameterDefn::SCANNING, GetGaugeState(NewConnection));
 	}
 
+	callParamCallbacks(NrInstalled());
 	// If the new connection fails, the size of the vectors will still have increased.
 	// This means only the failing connection will be lost, and not all subsequent connections.
 	m_Threads.push_back(new CThreadRunable(this, DeviceAddress, m_Threads.size()));

@@ -18,6 +18,7 @@
 		<Item Name="FilalmentAndMultiplier.vi" Type="VI" URL="../FilalmentAndMultiplier.vi"/>
 		<Item Name="RF.vi" Type="VI" URL="../RF.vi"/>
 		<Item Name="ScanState.vi" Type="VI" URL="../ScanState.vi"/>
+		<Item Name="Spectrum.ico" Type="Document" URL="../Spectrum.ico"/>
 		<Item Name="Voltages.vi" Type="VI" URL="../Voltages.vi"/>
 		<Item Name="VQM_ITMS_GUI.vi" Type="VI" URL="../VQM_ITMS_GUI.vi"/>
 		<Item Name="VQM_RecordNames.vi" Type="VI" URL="../VQM_RecordNames.vi"/>
@@ -117,7 +118,9 @@
 				<Property Name="Bld_localDestDirType" Type="Str">relativeToCommon</Property>
 				<Property Name="Bld_modifyLibraryFile" Type="Bool">true</Property>
 				<Property Name="Bld_previewCacheID" Type="Str">{995BB6A3-6732-49E1-A32B-3F945C8F80DF}</Property>
-				<Property Name="Bld_version.build" Type="Int">1</Property>
+				<Property Name="Bld_supportedLanguage[0]" Type="Str">English</Property>
+				<Property Name="Bld_supportedLanguageCount" Type="Int">1</Property>
+				<Property Name="Bld_version.build" Type="Int">5</Property>
 				<Property Name="Bld_version.major" Type="Int">1</Property>
 				<Property Name="Destination[0].destName" Type="Str">VQM_ITMS_GUI.exe</Property>
 				<Property Name="Destination[0].path" Type="Path">../builds/NI_AB_PROJECTNAME.exe</Property>
@@ -126,7 +129,8 @@
 				<Property Name="Destination[1].destName" Type="Str">Support Directory</Property>
 				<Property Name="Destination[1].path" Type="Path">../builds/data</Property>
 				<Property Name="DestinationCount" Type="Int">2</Property>
-				<Property Name="Source[0].itemID" Type="Str">{806F8375-E4AB-4B6F-853E-149DB36E651E}</Property>
+				<Property Name="Exe_iconItemID" Type="Ref">/My Computer/Spectrum.ico</Property>
+				<Property Name="Source[0].itemID" Type="Str">{48C9FA0E-D81B-4C19-82A2-85FE70EF6C5A}</Property>
 				<Property Name="Source[0].type" Type="Str">Container</Property>
 				<Property Name="Source[1].destinationIndex" Type="Int">0</Property>
 				<Property Name="Source[1].itemID" Type="Ref">/My Computer/VQM_ITMS_GUI.vi</Property>
