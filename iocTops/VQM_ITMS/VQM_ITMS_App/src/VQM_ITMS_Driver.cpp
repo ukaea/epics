@@ -107,7 +107,7 @@ class CVQM_ITMS_Driver::CThreadRunable : public epicsThreadRunable
 		size_t RawDataSize() const {
 			return m_RawData.size();
 		}
-		void setPeakAreaSize(size_t PartialPressureSize) {
+		void setPartialPressureSize(size_t PartialPressureSize) {
 			m_PartialPressure.resize(PartialPressureSize);
 		}
 		size_t PartialPressureSize() const {
@@ -484,7 +484,7 @@ asynStatus CVQM_ITMS_Driver::readFloat32Array(asynUser *pasynUser, epicsFloat32 
 		}
 		if (function == Parameters(ParameterDefn::PARTIALPRESSURE))
 		{
-			m_Threads[TableIndex]->setPeakAreaSize(nElements);
+			m_Threads[TableIndex]->setPartialPressureSize(nElements);
 			for(size_t Index = 0; Index < m_Threads[TableIndex]->PartialPressureSize(); Index++)
 				value[Index] = 0;
 			*nIn = m_Threads[TableIndex]->PartialPressureSize();
