@@ -88,7 +88,7 @@ class CVQM_ITMS_Driver::CThreadRunable : public epicsThreadRunable
 		virtual void run () {
 			try {
 				while (!m_Exiting)
-					if (!m_This->GetScanData(m_TableIndex, m_RawData, m_PeakArea))
+					if (!m_This->GetScanData(m_TableIndex, m_RawData, m_PartialPressure))
 						epicsThreadSleep(0.01);
 			}
 			catch(CVQM_ITMS_Base::CException const& E) {
@@ -101,17 +101,17 @@ class CVQM_ITMS_Driver::CThreadRunable : public epicsThreadRunable
 		}
 		void setRawDataSize(size_t RawDataSize) {
 			m_RawData.resize(RawDataSize);
-			if (m_PeakArea.size() != 0)
+			if (m_PartialPressure.size() != 0)
 				start();
 		}
 		size_t RawDataSize() const {
 			return m_RawData.size();
 		}
-		void setPeakAreaSize(size_t PeakAreaSize) {
-			m_PeakArea.resize(PeakAreaSize);
+		void setPeakAreaSize(size_t PartialPressureSize) {
+			m_PartialPressure.resize(PartialPressureSize);
 		}
-		size_t PeakAreaSize() const {
-			return m_PeakArea.size();
+		size_t PartialPressureSize() const {
+			return m_PartialPressure.size();
 		}
 		void lock() {
 			m_Mutex.lock();
@@ -131,7 +131,7 @@ class CVQM_ITMS_Driver::CThreadRunable : public epicsThreadRunable
 		epicsMutex m_Mutex;
 		int m_TableIndex;
 		volatile bool m_Exiting;		// Signals the listening thread to exit.
-		std::vector<float> m_PeakArea;
+		std::vector<float> m_PartialPressure;
 		std::vector<float> m_RawData;
 };
 
@@ -386,7 +386,7 @@ asynStatus CVQM_ITMS_Driver::readFloat64(asynUser *pasynUser, epicsFloat64 *valu
 	return Status;
 }
 
-bool CVQM_ITMS_Driver::GetScanData(int TableIndex, std::vector<float>& RawData, std::vector<float>& PeakArea)
+bool CVQM_ITMS_Driver::GetScanData(int TableIndex, std::vector<float>& RawData, std::vector<float>& PartialPressure)
 {
 	if (m_Instance == NULL)
 		// The IOC is exiting
@@ -440,11 +440,11 @@ bool CVQM_ITMS_Driver::GetScanData(int TableIndex, std::vector<float>& RawData, 
 		setDoubleParam(TableIndex, ParameterDefn::MASSTO, MassAxis->EndAMU());
 	}
 
-	if (analyzedData.PeakArea().size() < PeakArea.size())
-		PeakArea.resize(analyzedData.PeakArea().size());
-	for(size_t Index = 0; Index < PeakArea.size(); Index++)
-		PeakArea[Index] = float(analyzedData.PeakArea()[Index]);
-	doCallbacksFloat32Array(PeakArea, ParameterDefn::PEAKAREA, TableIndex);
+	if (analyzedData.PeakArea().size() < PartialPressure.size())
+		PartialPressure.resize(analyzedData.PeakArea().size());
+	for(size_t Index = 0; Index < PartialPressure.size(); Index++)
+		PartialPressure[Index] = float(analyzedData.PeakArea()[Index]);
+	doCallbacksFloat32Array(PartialPressure, ParameterDefn::PARTIALPRESSURE, TableIndex);
 
 	if (analyzedData.DenoisedRawData().size() < RawData.size())
 		RawData.resize(analyzedData.DenoisedRawData().size());
@@ -479,15 +479,15 @@ asynStatus CVQM_ITMS_Driver::readFloat32Array(asynUser *pasynUser, epicsFloat32 
 			for(size_t Index = 0; Index < m_Threads[TableIndex]->RawDataSize(); Index++)
 				value[Index] = 0;
 			*nIn = m_Threads[TableIndex]->RawDataSize();
-			if (m_Threads[TableIndex]->PeakAreaSize() != 0)
+			if (m_Threads[TableIndex]->PartialPressureSize() != 0)
 				m_Threads[TableIndex]->start();
 		}
-		if (function == Parameters(ParameterDefn::PEAKAREA))
+		if (function == Parameters(ParameterDefn::PARTIALPRESSURE))
 		{
 			m_Threads[TableIndex]->setPeakAreaSize(nElements);
-			for(size_t Index = 0; Index < m_Threads[TableIndex]->PeakAreaSize(); Index++)
+			for(size_t Index = 0; Index < m_Threads[TableIndex]->PartialPressureSize(); Index++)
 				value[Index] = 0;
-			*nIn = m_Threads[TableIndex]->PeakAreaSize();
+			*nIn = m_Threads[TableIndex]->PartialPressureSize();
 			if (m_Threads[TableIndex]->RawDataSize() != 0)
 				m_Threads[TableIndex]->start();
 		}

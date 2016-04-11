@@ -51,7 +51,7 @@ struct epicsShareClass ParameterDefn
 	static const char* MASSFROM;
 	static const char* MASSTO;
 	static const char* RAWDATA;
-	static const char* PEAKAREA;
+	static const char* PARTIALPRESSURE;
 	static const char* FAULT;
 	static const char* DISCONNECTED;
 	static const char* FIRMWAREVERSION;
@@ -82,7 +82,7 @@ static ParameterDefn ParameterDefns[] =
 	{ParameterDefn::MASSFROM, asynParamFloat64, Both},
 	{ParameterDefn::MASSTO, asynParamFloat64, Both},
 	{ParameterDefn::RAWDATA, asynParamFloat32Array, Both},
-	{ParameterDefn::PEAKAREA, asynParamFloat32Array, Both},
+	{ParameterDefn::PARTIALPRESSURE, asynParamFloat32Array, Both},
 	{ParameterDefn::FAULT, asynParamInt32, Both},
 	{ParameterDefn::DISCONNECTED, asynParamInt32, NotForReal},
 	{ParameterDefn::FIRMWAREVERSION, asynParamOctet, Both},
