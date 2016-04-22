@@ -1,0 +1,37 @@
+#!/bin/sh
+# $Id: libVarianTurboPumpApp/InstallDriver 1.1 2015/06/03 14:10:31CST Ru Igarashi (igarasr) Exp  $
+# The equivalent of the original many-copied script
+#
+# This is a generated file. Do not modify this file.
+
+
+INSTALL_DELIMITER=_
+source /home/epics/Startup/startup.R3.14.12.sh 
+
+
+. $EPICS_LOCAL/buildScripts/install/Install-functions
+
+
+installDriver() {
+	#function					driver_name					version				revision
+	main_installDriver 			VarianTurboPump                   $(VERSION)			$(REVISION)
+}
+
+
+
+cmd=$0
+
+if [ "$1" == "" ] ; then
+	help
+	exit 1
+fi
+
+for i ; do
+	case "$i" in
+	help|\?|-help|-h)
+		help; exit 0 ;;
+	
+	VarianTurboPump) echo "installing"; installDriver ;;
+
+	esac
+done

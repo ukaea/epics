@@ -1,0 +1,60 @@
+#
+# Parse Error Code for models
+#    Varian TV550
+#    Agilent TVRP
+#
+record(bi, "$(P):Error:Code:0") {
+   field(DESC, "No Error")
+   field(INP, "$(P):Error:Code.B0 CP")
+   field(ZNAM, "Error")			field(ZSV, "MAJOR")
+   field(ONAM, "No Error")		field(OSV, "NO_ALARM")
+}
+
+record(bi, "$(P):Error:Code:1") {
+   field(DESC, "Overvoltage")
+   field(INP, "$(P):Error:Code.B1 CP")
+   field(ZNAM, "Voltage OK")		field(ZSV, "NO_ALARM")
+   field(ONAM, "Overvoltage")		field(OSV, "MAJOR")
+}
+
+record(bi, "$(P):Error:Code:2") {
+   field(DESC, "Short Circuit")
+   field(INP, "$(P):Error:Code.B2 CP")
+   field(ZNAM, "Circuit OK")		field(ZSV, "NO_ALARM")
+   field(ONAM, "Short Circuit")		field(OSV, "MAJOR")
+}
+
+record(bi, "$(P):Error:Code:3") {
+   field(DESC, "Check Connection")
+   field(INP, "$(P):Error:Code.B3 CP")
+   field(ZNAM, "Connection OK")		field(ZSV, "NO_ALARM")
+   field(ONAM, "Check Connection")	field(OSV, "MAJOR")
+}
+
+record(bi, "$(P):Error:Code:4") {
+   field(DESC, "Load Too High")
+   field(INP, "$(P):Error:Code.B4 CP")
+   field(ZNAM, "Load OK")		field(ZSV, "NO_ALARM")
+   field(ONAM, "Load Too High")		field(OSV, "MAJOR")
+}
+
+record(bi, "$(P):Error:Code:5") {
+   field(DESC, "System Override")
+   field(INP, "$(P):Error:Code.B5 CP")
+   field(ZNAM, "Normal")		field(ZSV, "NO_ALARM")
+   field(ONAM, "System Override")	field(OSV, "MAJOR")
+}
+
+record(bi, "$(P):Error:Code:6") {
+   field(DESC, "Pump Overtemp.")
+   field(INP, "$(P):Error:Code.B6 CP")
+   field(ZNAM, "Pump Temp. OK")		field(ZSV, "NO_ALARM")
+   field(ONAM, "Pump Overtemp.")	field(OSV, "MAJOR")
+}
+
+record(bi, "$(P):Error:Code:7") {
+   field(DESC, "Controller Overtemp.")
+   field(INP, "$(P):Error:Code.B7 CP")
+   field(ZNAM, "Contr. Temp. OK")	field(ZSV, "NO_ALARM")
+   field(ONAM, "Contr. Overtemp.")	field(OSV, "MAJOR")
+}

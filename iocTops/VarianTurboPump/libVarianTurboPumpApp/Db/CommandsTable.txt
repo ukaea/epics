@@ -1,0 +1,150 @@
+There are subtle (and not-so-subtle) difference between the command
+sets of the Varian/Agilent Turbopump controllers.  This table attempts
+to help sort those differences out, to help identify the common
+commands (which will go in the _Common files) and the unique ones
+(which will go into model specific files).
+
+Command			TV550  TV551  TPS  TV301  TVRP  TT304  TV81	Common?
+------------------------------------------------------------------------
+Start/Stop		000    000    000  000    000   000    000	Y
+Run at Low Speed	001    -      001  001    001   001    001	N
+Remote/Serial Config	107    008    008  008    107   008    008	N
+Soft Start		100    100    100  100    -     100    100	N
+R1 Set Point Type	-      101    101  101    101   101    101	N
+R1 Set Point Value	103    102    102  102    103   102    102		N
+Set Point Delay		104    103    103  103    104   103    103	N
+Set Point Signal
+   Activation Type	-      104    104  104    -     104    104	N
+Set Point Hysteresis	-      105    105  105    105   105    105	N
+Water Cooling		102    106    106  106    -     106    106	N
+Active Stop		-      107    107  107    -     107    107	N
+Baud Rate		108    108    108  108    108   108    108	Y
+Reset Pump Life/
+   Cycle Time/Cycle
+   Number Counters	109    109    109  109    -     109    109	N
+Interlock Type		-      110    110  110    110   110    110	N
+Analog Output Type	-      111    111  111    111   111    111	N
+Low Speed Frequency	-      -      117  117    -     117    117	N
+Rotational Frequency
+   Setting		106    120    120  120    -     120    120	N
+Maximum Rotational
+   Frequency		-      121    -    -      -     -      -	N
+Open/Close Vent Valve	-      122    122  122    -     122    122	N
+Vent Valve Operating
+   Mode			-      125    125  125    -     125    125	N
+Vent Valve Opening
+   Delay		-      126    126  126    -     126    126	N
+Gauge Set Point Type	-      -      -    -      -     136    -	N
+Gauge Set Point Value	-      -      -    -      -     137    -	N
+Gauge Set Point Delay	-      -      -    -      -     138    -	N
+Gauge Set Point Signal
+   Activation Type	-      -      -    -      -     139    -	N
+Gauge Set Point
+   Hysteresis		-      -      -    -      -     140    -	N
+External Fan
+   Configuration	-      -      -    -      -     143    -	N
+Turn External Fan
+   On/Off		-      -      -    -      -     144    -	N
+Vent Open Time		-      -      147  147    -     147    147	N
+Max. Allowed Power	-      -      155  155    -     155    155	N
+Gas Load Type		-      -      157  157    -     157    157	N
+Gauge Pressure Reading
+   Correction Factor	-      -      161  161    161   161    161	N
+R1 Set Point Pressure
+   Value		-      -      162  162    162   162    162	N
+Pressure Units		-      -      163  163    163   163    163	N
+Stop Speed Reading	-      -      167  167    -     167    167	N
+R2 Set Point Type	-      -      -    171    171   171    171	N
+R2 Set Point Value	-      -      -    172    172   172    172	N
+R2 Set Point Delay	-      -      -    173    173   173    173	N
+R2 Set Point Signal
+   Activation Type	-      -      -    174    174   174    174	N
+R2 Set Point Hysteresis	-      -      -    175    175   175    175	N
+R2 Set Point Pressure
+   Value		-      -      -    176    176   176    176	N
+Start Output Mode	-      -      -    -      -     177    -	N
+Gas Type		-      -      -    -      -     181    -	N
+Pump Pressure Reading
+   Correction Factor	-      -      -    -      -     182    -	N
+Pump Current		200    200    200  200    200   200    200	Y
+Pump Voltage		201    201    201  201    201   201    201	Y
+Pump Power		202    202    -    202    -     202    202	N
+Driving Frequency	203    203    -    203    203   203    203	N
+Pump Temperature	204    204    -    204    -     204    204	N
+Pump Status		205    205    -    205    205   205    205	N
+Error Code		206    206    206  206    206   206    206	Y
+R1 Set Point State	207    -      -    -      207   -      -	N
+R2 Set Point State	208    -      -    -      208   -      -	N
+Controller Heat Sink
+   Temperature		-      -      -    211    ?     211    211	N
+Controller Air
+   Temperature		-      -      216  216    -     216    216	N
+Pressure Reading 	-      -      224  224    224   224    224	N
+R1 Set Point State	-      -      -    -      221   -      -	N
+R2 Set Point State	-      -      -    -      225   -      -	N
+Rotation Frequency
+   (rpm)		-      -      226  226    -     226    226	N
+Gauge Status		-      -      -    -      -     257    -	N
+Gauge Power		-      -      -    -      -     267    -	N
+Cycle Time (min.)	300    300    300  300    -     300    300	N
+Cycle Number		301    301    301  301    -     301    301	N
+Pump Live (hr.)		302    302    302  302    -     302    302	N
+Tip-seal life		-      -      358  -      -     -      -	N
+CRC EPROM		400    400    400  400    -     400    400	N
+Boot CRC		-      -      401  -      -     -      -	N
+CRC Parameter		402    402    402  402    -     402    402	N
+CRC Parameter Structure	-      -      404  404    -     404    404	N
+Program Listing Code	-      -      406  -      -     -      -	N
+Parameter Listing Code	-      -      407  -      -     -      -	N
+Firmware Revision	-      -      -    -      408   -      -	N
+Serial Address		-      503    503  503    503   503    503	N
+Serial Type		-      504    504  504    504   504    504	N
+
+Notes
+-----
+The Remote Panel controller does have a Controller Heat Sink
+Temperature but the manual has no code for it, and it is not
+clear what it should be.  It also has two instances each for
+R1 and R2 set point status, code 221 and 225, which need to
+be verified.
+
+The V550 has a "Deat Time" parameter.  I have no idea what this
+refers to.  Its values suggest it is NOT the same as the "R1 Set
+Point Type".
+
+Model-specific files
+--------------------
+The protocols that are not common to all models are distributed
+to model-specific protocol files.  These are combined at
+compile-time to form the final protocol files.
+
+Adding Support for Another Model
+--------------------------------
+- Add a column to the table above, but do not update the "Common" column yet.
+- From that determine if there are any deviations from the existing
+   "Common" entries.  Make note of those.
+   - A "deviation" is a command in which two or more codes are used
+      by different models.
+   - "-" entries should be considered a code for this purpose
+- Update the "Common" column.
+- Copy the existing protocols affected by the deviations from 
+   Varian-Agilent_Common.protocol to all model-specific protocol files.
+- Remove the existing protocols affected by the deviations from
+   Varian-Agilent_Common.protocol.
+- If there are any commands in the new model that do not appear in
+   other models
+   - Add the corresponding protocols from the new model to all
+      model-specific protocol files, but do not add any conversion rules
+   - Add a corresponding record in Varian-Agilent_Turbopump.template
+- Create a new protocol file specific to the model
+   - You should probably copy from a protocol file that has the closest
+      matching list of supported commands.
+   - the suffix or extension of the filename must be .protocol
+   - pay attention to the event numbers: for each new command
+      apply the macro of either the Fast, Slow or Single-shot update event
+- Edit Makefile and add a "TEMPLATES +=" entry for the new model
+   - the suffix or extension of the filename must be .proto (not .protocol)
+- Determine which of the Error templates applies to the new controller
+   - edit that file and in the header add the new controller to the
+      list of supported controllers
+   - if none of the templates applies, create a new one

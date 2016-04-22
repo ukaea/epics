@@ -1,0 +1,387 @@
+4 0 0
+beginScreenProperties
+major 4
+minor 0
+release 0
+x 455
+y 92
+w 485
+h 195
+font "helvetica-medium-r-18.0"
+ctlFont "helvetica-medium-r-18.0"
+btnFont "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 60
+textColor index 14
+ctlFgColor1 index 14
+ctlFgColor2 index 0
+ctlBgColor1 index 0
+ctlBgColor2 index 14
+topShadowColor index 0
+botShadowColor index 14
+title "Communication Configuration"
+showGrid
+snapToGrid
+gridSize 5
+endScreenProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 280
+y 65
+w 75
+h 25
+controlPv "$(P):Gas:Type:rbk"
+font "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+limitsFromDb
+nullColor index 0
+useHexPrefix
+showUnits
+useAlarmBorder
+objType "monitors"
+endObjectProperties
+
+# (Menu Button)
+object activeMenuButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 185
+y 65
+w 90
+h 25
+fgColor index 14
+bgColor index 0
+inconsistentColor index 14
+topShadowColor index 0
+botShadowColor index 14
+controlPv "$(P):Gas:Type"
+font "helvetica-medium-r-18.0"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 90
+y 65
+w 90
+h 25
+font "helvetica-medium-r-18.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Gas Type:"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 5
+y 5
+w 186
+h 21
+font "helvetica-bold-r-18.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Gauge Configuration"
+}
+autoSize
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 280
+y 130
+w 75
+h 25
+controlPv "$(P):Pressure:Corr:Gauge:rbk"
+font "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+limitsFromDb
+nullColor index 0
+useHexPrefix
+showUnits
+useAlarmBorder
+objType "monitors"
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 185
+y 130
+w 90
+h 25
+controlPv "$(P):Pressure:Corr:Gauge"
+font "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 0
+editable
+motifWidget
+limitsFromDb
+nullColor index 0
+useHexPrefix
+objType "controls"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 5
+y 130
+w 175
+h 25
+font "helvetica-medium-r-18.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Pressure Correction:"
+}
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 370
+y 95
+w 75
+h 25
+controlPv "$(P):Pressure:Corr:rbk"
+font "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+limitsFromDb
+nullColor index 0
+useHexPrefix
+showUnits
+useAlarmBorder
+objType "monitors"
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 275
+y 95
+w 90
+h 25
+controlPv "$(P):Pressure:Corr"
+font "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 0
+editable
+motifWidget
+limitsFromDb
+nullColor index 0
+useHexPrefix
+objType "controls"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 95
+y 95
+w 175
+h 30
+font "helvetica-bold-r-14.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Pressure Correction"
+  "for Gas Type \"other\":"
+}
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 280
+y 160
+w 75
+h 25
+controlPv "$(P):Pressure:Units:rbk"
+font "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+limitsFromDb
+nullColor index 0
+useHexPrefix
+showUnits
+useAlarmBorder
+objType "monitors"
+endObjectProperties
+
+# (Menu Button)
+object activeMenuButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 185
+y 160
+w 90
+h 25
+fgColor index 14
+bgColor index 0
+inconsistentColor index 14
+topShadowColor index 0
+botShadowColor index 14
+controlPv "$(P):Pressure:Units"
+font "helvetica-medium-r-18.0"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 90
+y 160
+w 90
+h 25
+font "helvetica-medium-r-18.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Units:"
+}
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 200
+y 5
+w 75
+h 25
+controlPv "$(P):Gauge:Status"
+font "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+limitsFromDb
+nullColor index 0
+useHexPrefix
+showUnits
+useAlarmBorder
+objType "monitors"
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 310
+y 35
+w 75
+h 25
+controlPv "$(P):Gauge:Power"
+font "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+limitsFromDb
+nullColor index 0
+useHexPrefix
+showUnits
+useAlarmBorder
+objType "monitors"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 90
+y 35
+w 90
+h 25
+font "helvetica-medium-r-18.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Power:"
+}
+endObjectProperties
+
+# (Menu Button)
+object activeMenuButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 185
+y 35
+w 115
+h 25
+fgColor index 14
+bgColor index 0
+inconsistentColor index 14
+topShadowColor index 0
+botShadowColor index 14
+controlPv "$(P):Gauge:Power"
+font "helvetica-medium-r-18.0"
+endObjectProperties
+

@@ -1,0 +1,5 @@
+#!/bin/sh
+
+export EDMDATAFILES=.:opi:${EDMDATAFILES}
+
+/home/control/bin/edm -eolc -x -m P=TMPRU2025-01 VarianTurboPumpMain.edl &

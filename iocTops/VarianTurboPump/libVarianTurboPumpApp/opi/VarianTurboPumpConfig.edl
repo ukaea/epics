@@ -1,0 +1,754 @@
+4 0 0
+beginScreenProperties
+major 4
+minor 0
+release 0
+x 686
+y 290
+w 485
+h 305
+font "helvetica-medium-r-18.0"
+ctlFont "helvetica-medium-r-18.0"
+btnFont "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 60
+textColor index 14
+ctlFgColor1 index 14
+ctlFgColor2 index 0
+ctlBgColor1 index 0
+ctlBgColor2 index 14
+topShadowColor index 0
+botShadowColor index 14
+title "Controller Configuration"
+showGrid
+snapToGrid
+gridSize 5
+endScreenProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 5
+y 5
+w 218
+h 21
+font "helvetica-bold-r-18.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Controller Configuration"
+}
+autoSize
+endObjectProperties
+
+# (Menu Button)
+object activeMenuButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 280
+y 5
+w 120
+h 25
+fgColor index 14
+bgColor index 40
+inconsistentColor index 14
+topShadowColor index 0
+botShadowColor index 14
+controlPv "$(P):Ctrl:Mode"
+font "helvetica-medium-r-18.0"
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 405
+y 5
+w 75
+h 25
+controlPv "$(P):Ctrl:Mode:rbk"
+font "helvetica-medium-r-18.0"
+fgColor index 14
+fgAlarm
+bgColor index 0
+useDisplayBg
+limitsFromDb
+nullColor index 0
+useHexPrefix
+showUnits
+objType "monitors"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 5
+y 100
+w 120
+h 25
+font "helvetica-medium-r-18.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Low Speed:"
+}
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 235
+y 100
+w 75
+h 25
+controlPv "$(P):Freq:LowSpeed:rbk"
+font "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+limitsFromDb
+nullColor index 0
+useHexPrefix
+showUnits
+useAlarmBorder
+objType "monitors"
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 130
+y 105
+w 100
+h 20
+controlPv "$(P):Freq:LowSpeed"
+font "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 0
+editable
+motifWidget
+limitsFromDb
+nullColor index 0
+useHexPrefix
+objType "controls"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 50
+y 25
+w 86
+h 25
+font "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Soft Start:"
+}
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 215
+y 25
+w 75
+h 25
+controlPv "$(P):SoftStart:rbk"
+font "helvetica-medium-r-18.0"
+fgColor index 14
+fgAlarm
+bgColor index 0
+useDisplayBg
+limitsFromDb
+nullColor index 0
+useHexPrefix
+showUnits
+objType "monitors"
+endObjectProperties
+
+# (Menu Button)
+object activeMenuButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 140
+y 25
+w 70
+h 25
+fgColor index 14
+bgColor index 0
+inconsistentColor index 14
+topShadowColor index 0
+botShadowColor index 14
+controlPv "$(P):SoftStart"
+font "helvetica-medium-r-18.0"
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 215
+y 50
+w 75
+h 25
+controlPv "$(P):WaterCooled:rbk"
+font "helvetica-medium-r-18.0"
+fgColor index 14
+fgAlarm
+bgColor index 0
+useDisplayBg
+limitsFromDb
+nullColor index 0
+useHexPrefix
+showUnits
+objType "monitors"
+endObjectProperties
+
+# (Menu Button)
+object activeMenuButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 140
+y 50
+w 70
+h 25
+fgColor index 14
+bgColor index 0
+inconsistentColor index 14
+topShadowColor index 0
+botShadowColor index 14
+controlPv "$(P):WaterCooled"
+font "helvetica-medium-r-18.0"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 20
+y 50
+w 118
+h 25
+font "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Water-cooled:"
+}
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 215
+y 75
+w 75
+h 25
+controlPv "$(P):ActiveStop:rbk"
+font "helvetica-medium-r-18.0"
+fgColor index 14
+fgAlarm
+bgColor index 0
+useDisplayBg
+limitsFromDb
+nullColor index 0
+useHexPrefix
+showUnits
+objType "monitors"
+endObjectProperties
+
+# (Menu Button)
+object activeMenuButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 140
+y 75
+w 70
+h 25
+fgColor index 14
+bgColor index 0
+inconsistentColor index 14
+topShadowColor index 0
+botShadowColor index 14
+controlPv "$(P):ActiveStop"
+font "helvetica-medium-r-18.0"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 5
+y 75
+w 134
+h 25
+font "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Active Breaking:"
+}
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 235
+y 125
+w 75
+h 25
+controlPv "$(P):Freq:rbk"
+font "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+limitsFromDb
+nullColor index 0
+useHexPrefix
+showUnits
+useAlarmBorder
+objType "monitors"
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 130
+y 130
+w 100
+h 20
+controlPv "$(P):Freq"
+font "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 0
+editable
+motifWidget
+limitsFromDb
+nullColor index 0
+useHexPrefix
+objType "controls"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 5
+y 125
+w 122
+h 25
+font "helvetica-medium-r-18.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Normal Speed:"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 5
+y 150
+w 120
+h 25
+font "helvetica-medium-r-18.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Max. Speed:"
+}
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 235
+y 150
+w 75
+h 25
+controlPv "$(P):Freq:max:rbk"
+font "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+limitsFromDb
+nullColor index 0
+useHexPrefix
+showUnits
+useAlarmBorder
+objType "monitors"
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 130
+y 155
+w 100
+h 20
+controlPv "$(P):Freq:max"
+font "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 0
+editable
+motifWidget
+limitsFromDb
+nullColor index 0
+useHexPrefix
+objType "controls"
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 215
+y 225
+w 75
+h 25
+controlPv "$(P):ExtFan:rbk"
+font "helvetica-medium-r-18.0"
+fgColor index 14
+fgAlarm
+bgColor index 0
+useDisplayBg
+limitsFromDb
+nullColor index 0
+useHexPrefix
+showUnits
+objType "monitors"
+endObjectProperties
+
+# (Menu Button)
+object activeMenuButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 140
+y 225
+w 70
+h 25
+fgColor index 14
+bgColor index 0
+inconsistentColor index 14
+topShadowColor index 0
+botShadowColor index 14
+controlPv "$(P):ExtFan"
+font "helvetica-medium-r-18.0"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 30
+y 225
+w 105
+h 25
+font "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "External Fan:"
+}
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 265
+y 250
+w 75
+h 25
+controlPv "$(P):ExtFan:Config:rbk"
+font "helvetica-medium-r-18.0"
+fgColor index 14
+fgAlarm
+bgColor index 0
+useDisplayBg
+limitsFromDb
+nullColor index 0
+useHexPrefix
+showUnits
+objType "monitors"
+endObjectProperties
+
+# (Menu Button)
+object activeMenuButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 180
+y 250
+w 80
+h 25
+fgColor index 14
+bgColor index 0
+inconsistentColor index 14
+topShadowColor index 0
+botShadowColor index 14
+controlPv "$(P):ExtFan:Config"
+font "helvetica-medium-r-18.0"
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 215
+y 275
+w 75
+h 25
+controlPv "$(P):Gas:LoadType:rbk"
+font "helvetica-medium-r-18.0"
+fgColor index 14
+fgAlarm
+bgColor index 0
+useDisplayBg
+limitsFromDb
+nullColor index 0
+useHexPrefix
+showUnits
+objType "monitors"
+endObjectProperties
+
+# (Menu Button)
+object activeMenuButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 140
+y 275
+w 70
+h 25
+fgColor index 14
+bgColor index 0
+inconsistentColor index 14
+topShadowColor index 0
+botShadowColor index 14
+controlPv "$(P):Gas:LoadType"
+font "helvetica-medium-r-18.0"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 5
+y 275
+w 130
+h 25
+font "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Gas Load Type:"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 5
+y 250
+w 170
+h 25
+font "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "External Fan Config:"
+}
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 130
+y 200
+w 75
+h 25
+controlPv "$(P):Power:Limit"
+font "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+limitsFromDb
+nullColor index 0
+useHexPrefix
+showUnits
+useAlarmBorder
+objType "monitors"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 5
+y 200
+w 120
+h 25
+font "helvetica-medium-r-18.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Max. Power:"
+}
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 325
+y 175
+w 75
+h 25
+controlPv "$(P):StopSpeedRead:rbk"
+font "helvetica-medium-r-18.0"
+fgColor index 14
+fgAlarm
+bgColor index 0
+useDisplayBg
+limitsFromDb
+nullColor index 0
+useHexPrefix
+showUnits
+objType "monitors"
+endObjectProperties
+
+# (Menu Button)
+object activeMenuButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 225
+y 175
+w 95
+h 25
+fgColor index 14
+bgColor index 0
+inconsistentColor index 14
+topShadowColor index 0
+botShadowColor index 14
+controlPv "$(P):StopSpeedRead"
+font "helvetica-medium-r-18.0"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 5
+y 175
+w 220
+h 25
+font "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Read speed after stopped:"
+}
+endObjectProperties
+

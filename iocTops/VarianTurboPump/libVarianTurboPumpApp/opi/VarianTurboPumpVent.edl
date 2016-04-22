@@ -1,0 +1,280 @@
+4 0 0
+beginScreenProperties
+major 4
+minor 0
+release 0
+x 677
+y 253
+w 385
+h 125
+font "helvetica-medium-r-18.0"
+ctlFont "helvetica-medium-r-18.0"
+btnFont "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 60
+textColor index 14
+ctlFgColor1 index 14
+ctlFgColor2 index 0
+ctlBgColor1 index 0
+ctlBgColor2 index 14
+topShadowColor index 0
+botShadowColor index 14
+title "Communication Configuration"
+showGrid
+snapToGrid
+gridSize 5
+endScreenProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 5
+y 5
+w 94
+h 21
+font "helvetica-bold-r-18.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Vent Valve"
+}
+autoSize
+endObjectProperties
+
+# (Menu Button)
+object activeMenuButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 150
+y 40
+w 120
+h 25
+fgColor index 14
+bgColor index 0
+inconsistentColor index 14
+topShadowColor index 0
+botShadowColor index 14
+controlPv "$(P):VentValve:Mode"
+font "helvetica-medium-r-18.0"
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 275
+y 40
+w 100
+h 25
+controlPv "$(P):VentValve:Mode:rbk"
+font "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+limitsFromDb
+nullColor index 0
+useHexPrefix
+useAlarmBorder
+objType "monitors"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 15
+y 70
+w 127
+h 21
+font "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Opening Delay:"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 45
+y 95
+w 96
+h 21
+font "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Open Time:"
+}
+autoSize
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 215
+y 5
+w 100
+h 25
+controlPv "$(P):VentValve:rbk"
+font "helvetica-medium-r-18.0"
+fgColor index 14
+fgAlarm
+bgColor index 0
+useDisplayBg
+limitsFromDb
+nullColor index 0
+useHexPrefix
+objType "monitors"
+endObjectProperties
+
+# (Menu Button)
+object activeMenuButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 110
+y 5
+w 100
+h 25
+fgColor index 14
+fgAlarm
+bgColor index 40
+inconsistentColor index 14
+topShadowColor index 0
+botShadowColor index 14
+controlPv "$(P):VentValve"
+font "helvetica-medium-r-18.0"
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 275
+y 65
+w 100
+h 25
+controlPv "$(P):VentValve:Delay:rbk"
+font "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+limitsFromDb
+nullColor index 0
+useHexPrefix
+showUnits
+useAlarmBorder
+objType "monitors"
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 170
+y 70
+w 100
+h 20
+controlPv "$(P):VentValve:Delay"
+font "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 0
+editable
+motifWidget
+limitsFromDb
+nullColor index 0
+useHexPrefix
+objType "controls"
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 275
+y 90
+w 100
+h 25
+controlPv "$(P):VentValve:Time:rbk"
+font "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+limitsFromDb
+nullColor index 0
+useHexPrefix
+showUnits
+useAlarmBorder
+objType "monitors"
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 170
+y 95
+w 100
+h 20
+controlPv "$(P):VentValve:Time"
+font "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 0
+editable
+motifWidget
+limitsFromDb
+nullColor index 0
+useHexPrefix
+objType "controls"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 90
+y 45
+w 53
+h 21
+font "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Mode:"
+}
+autoSize
+endObjectProperties
+

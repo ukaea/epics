@@ -1,0 +1,219 @@
+4 0 0
+beginScreenProperties
+major 4
+minor 0
+release 0
+x 455
+y 92
+w 485
+h 135
+font "helvetica-medium-r-18.0"
+ctlFont "helvetica-medium-r-18.0"
+btnFont "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 60
+textColor index 14
+ctlFgColor1 index 14
+ctlFgColor2 index 0
+ctlBgColor1 index 0
+ctlBgColor2 index 14
+topShadowColor index 0
+botShadowColor index 14
+title "Communication Configuration"
+showGrid
+snapToGrid
+gridSize 5
+endScreenProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 5
+y 5
+w 82
+h 21
+font "helvetica-bold-r-18.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Counters"
+}
+autoSize
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 135
+y 30
+w 90
+h 25
+controlPv "$(P):Counters:CycleTime"
+font "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+limitsFromDb
+nullColor index 0
+useHexPrefix
+showUnits
+useAlarmBorder
+objType "monitors"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 5
+y 30
+w 125
+h 25
+font "helvetica-medium-r-18.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Cycle Time:"
+}
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 135
+y 55
+w 90
+h 25
+controlPv "$(P):Counters:CycleNum"
+font "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+limitsFromDb
+nullColor index 0
+useHexPrefix
+showUnits
+useAlarmBorder
+objType "monitors"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 5
+y 55
+w 125
+h 25
+font "helvetica-medium-r-18.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Cycle Number:"
+}
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 135
+y 80
+w 90
+h 25
+controlPv "$(P):Counters:Life"
+font "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+limitsFromDb
+nullColor index 0
+useHexPrefix
+showUnits
+useAlarmBorder
+objType "monitors"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 5
+y 80
+w 125
+h 25
+font "helvetica-medium-r-18.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Pump Life:"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 5
+y 105
+w 125
+h 25
+font "helvetica-medium-r-18.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Tip Seal Life:"
+}
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 135
+y 105
+w 90
+h 25
+controlPv "$(P):Counters:TipSeal"
+font "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+limitsFromDb
+nullColor index 0
+useHexPrefix
+showUnits
+useAlarmBorder
+objType "monitors"
+endObjectProperties
+

@@ -1,0 +1,365 @@
+Introduction
+------------
+The Varian-Agilent_Turbo module provides EPICS support for a
+number of Varian and Agilent turbomolecular pump controllers.
+So far it supports the following models (identifiers used by
+this modules are in "()"):
+   Turbo V550 (TV550)
+   Turbo V551 (TV551)
+   TPS-compact (TPS)
+   Turbo V301 (TV301)
+   TwisTorr 304 (TT304)
+   Turbo V Remote Panel (TVRP)
+   Turbo V81 (TV81)
+
+This module currently depends on the following synApps modules:
+   asyn
+   calc
+   sscan
+   stream
+
+This module does NOT contain the means to configure a serial
+port to RS-485, which some IOC's require.  For Moxa DA-662
+(and probably UC-7408), the CLS has the MoxaSerialMode module,
+which can be linked in for an iocsh command to reconfigure
+serial ports on those models.
+
+Because of the limited bandwidth of these devices, many of the
+input records are classed by one of three types update periods:
+fast, slow, and single-shot.  Fast updates are for critical or
+frequently changing feedback variables, such as voltage or
+status variables.  Slow updates are for PVs that can change but
+either do so infrequently or for which the timing of the update
+is not critical, such as configuration readbacks and temperature
+gauges.  Single-shot are updated only on demand.  The fast and
+slow updates are under the control of EPICS events records, with
+event numbers set by substitution macros to allow deployments
+to assign unique numbers when multiple devices are involved, or
+when the module is integrated with other software that also
+uses EPICS events.
+
+This version of this application is known to run with EPICS 3.14.12
+
+Terminology
+-----------
+In this document, the following tags will be used:
+<DRIVER> refers to the local installation of the baseline app.
+   For example, for the CLS EPICS 3.14.12 installation of
+   version 0.2 of VarianTurboPump, it would be
+      ${EPICS_LOCAL}/drivers/VarianTurboPump/0-2
+   or for the latest version,
+      ${EPICS_LOCAL}drivers/VarianTurboPump/latest
+<APP> refers to the name of the IOC application being built
+   with the templates, which could be a copy of the baseline
+   app or a larger app.
+<PVROOT> refers to the rootname for all PVs associated with
+   the application (e.g. if the motor set point PV is
+   SMTR2400-103:step the rootname would be SMTR2400-103).
+
+
+Building the Library and Standalone Application
+-----------------------------------------------
+Because this implementation is based entirely on the stream module
+and EPICS records, there is no library to build.  You can run
+streamApp directly from the stream module deployment, or you can
+use the standalone included in this module, or you can build
+your own application (particularly if you wish to add functionality).
+This section explains how to build the library and the standalone
+app.  See the next section on how to include the library in an
+a different application.
+
+A standalone application is provided in case you do not need to
+integrate the turbopump controls into an application that includes
+other software, and as a example of how to build an app with
+this module.
+
+In configure:
+- edit RELEASE
+   - modify the lines to match your versions of the following libs
+      STREAM=$(EPICS_BASE)/../modules/support/stream/2-4-1
+      SSCAN=$(EPICS_BASE)/../modules/support/sscan/2-6-6
+      ASYN=$(EPICS_BASE)/../modules/support/asyn/4-13
+      CALC=$(EPICS_BASE)/../modules/support/calc/2-8
+
+Build:
+        make clean uninstall
+	make
+
+This will generate libraries and template files for
+subsequent deployment, as well as a standalone app
+that you could either deploy or use as an example
+for another app.
+
+To add support for a currently unsupported controller, see instructions
+in libVarianTurboPumpApp/Db/CommandsTable.txt.
+
+
+Building an Application from this Library
+-----------------------------------------
+If you are building the controls into another application,
+you will need to perform the steps for configure/RELEASE and
+<APP>App/src.  Otherwise, skip to instructions for <APP>App/Db
+and do not bother using the subsequent bin and dbd files.
+
+Use EPICS' makeBaseApp.pl to generate the build tree.
+
+In configure:
+- edit RELEASE
+   - add and modify the lines
+      TURBO=<DRIVER>
+      STREAM=$(EPICS_BASE)/../modules/support/stream/2-4-1
+      SSCAN=$(EPICS_BASE)/../modules/support/sscan/2-6-6
+      ASYN=$(EPICS_BASE)/../modules/support/asyn/4-13
+      CALC=$(EPICS_BASE)/../modules/support/calc/2-8
+
+In <APP>App/src:
+- edit Makefile
+   - comment out anything regarding vxWorks
+   - if you want to build a statically linked executable, near the top add:
+         STATIC_BUILD = YES
+   - in the "DBD += ..." section, add
+         DBD += <APP>.dbd
+   - you can either add the following lines
+         <APP>_DBD += base.dbd
+         <APP>_DBD += VarianTurboSupport.dbd
+      or create a new file containing
+	 include base.dbd
+         include VarianTurboSupport.dbd
+   - add the following lines in the <APP>_LIBS definition section
+         <APP>_LIBS += stream
+         <APP>_LIBS += calc
+         <APP>_LIBS += sscan
+         <APP>_LIBS += asyn
+   - if you have compile time errors suggesting a problem with pthreads,
+      add the following line:
+         <APP>_SYS_LIBS += pthread
+      (to limit this to specific build target architectures, you may want
+      to wrap that line with 'ifeq ($(ARCH_CLASS),<ARCH_CLASS>)')
+
+In <APP>App/Db:
+- copy the following from <DRIVER>/templates/
+      Varian-Agilent_Turbopump.template
+- if you want to separate PVs for the error code bits, also copy any
+   of the following that is associated with the controller(s) you
+   will be controlling:
+      Varian-Agilent_ErrorA.template - for TV301, TV551, TPS, TT304, TV81
+      Varian-Agilent_ErrorB.template - for TV550, TVRP
+- this module uses EPICS events to trigger updates, and it provides
+   event records to do this.  Make note of any event numbers your
+   application already uses, and be sure to avoid using them when
+   you define the EVFAST and EVSLOW macros
+- if you intend on using the template as-is for the final db file,
+   edit the Makefile and add the lines
+      DB += Varian-Agilent_Turbopump.template
+   Otherwise, add target "DB +=" lines as you see fit.  The main macros
+   to substitute are
+      P - rootname or basename of all records
+      PORT - asyn port label
+      PROTO - the name of the protocol file
+      EVFAST - EPICS event number for fast updates
+      EVSLOW - EPICS event number for slow updates
+      EVSINGLE - EPICS event number for single-shot updates
+   - the values for the set of EV* macros should be different for each pump
+      (i.e. don't reuse any values)
+- if you decided on including the Varian-Agilent_Error*.template files,
+   add a DB += Varian-Agilent_Error... entry for each one
+- decide on where you want to put protocol files (typically "protocols")
+   and copy as many of the following from <DRIVER>/templates/ as you need:
+      Agilent_TT304.proto - for TwisTorr 304 controllers
+      Agilent_TVRP.proto - for Turbo V Remote Panel controllers
+      Varian_TPS.proto - for TPS-compact controllers
+      Varian_TV551.proto - for Turbo V551 controllers
+      Varian_TV550.proto - for Turbo V550 controllers
+      Varian_TV301.proto - for Turbo V301 controllers
+      Varian_TV81.proto - for Turbo V81 controllers
+
+In iocBoot,
+- go into subdir ioc<APP> (i.e. iocBoot/ioc<APP>)
+   - copy runScript.tpl from <DRIVER>/doc
+   - copy st.cmd.tpl from <DRIVER>/doc then edit it
+      - change the STREAM_PROTOCOL_PATH path to the deployed protocol directory
+      - change "VarianTurboPump.dbd" to your IOCapp's dbd file
+      - change the device name (i.e. /dev/ttyS1 to whatever you will use)
+      - change "moxaSerialModeSet(...)" to whatever command your
+         system uses to set the mode of your serial port
+      - change the baud rate to whatever you will use
+      - if you are not using VarianTurboPump.template directly, change
+         "VarianTurboPump.template" to your IOCapp's db file
+      - if you are using the Varian-Agilent_Error*.template's, and are
+         using them directly, for each controller, add lines like
+	    dbLoadRecords("../../db/Varian-Agilent_ErrorA.template", "P=TMP0000-E00-00")
+
+Deployment is site-dependent, so I won't go into much detail here.
+You will need the contents of bin, dbd, db, and the protocols
+directory.
+
+Running
+-------
+The provided run script template (runScript.tpl) and associated
+build instructions should generate a run script that is configured
+to run the application within the respective iocBoot directory.
+To run the app:
+cd <INSTALLDIR>/iocBoot/ioc<IOCHOSTNAME>
+./<RUNSCRIPT>
+Of course, if you wrote your own, the instructions will be different.
+
+Available EPICS PVs
+-------------------
+
+Note: not all PVs are supported by a given device.
+
+$(P):Start:rbk
+$(P):Start
+$(P):LowSpeed:rbk
+$(P):LowSpeed
+$(P):Ctrl:Mode:rbk
+$(P):Ctrl:Mode
+$(P):SoftStart:rbk
+$(P):SoftStart
+$(P):SetPoint:Type:rbk
+$(P):SetPoint:Type
+$(P):SetPoint:rbk
+$(P):SetPoint
+$(P):SetPoint:Pressure:rbk
+$(P):SetPoint:Pressure
+$(P):SetPoint:Delay:rbk
+$(P):SetPoint:Delay
+$(P):SetPoint:Signal:rbk
+$(P):SetPoint:Signal
+$(P):SetPoint:Hysteresis:rbk
+$(P):SetPoint:Hysteresis
+$(P):WaterCooled:rbk
+$(P):WaterCooled
+$(P):ActiveStop:rbk
+$(P):ActiveStop
+$(P):BaudRate:rbk
+$(P):BaudRate
+$(P):Counters:Reset
+$(P):InterlockType:rbk
+$(P):InterlockType
+$(P):AnalogOutType:rbk
+$(P):AnalogOutType
+$(P):Freq:LowSpeed:rbk
+$(P):Freq:LowSpeed
+$(P):Freq:rbk
+$(P):Freq
+$(P):Freq:fbk
+$(P):Freq:Driving
+$(P):Freq:max:rbk
+$(P):Freq:max
+$(P):VentValve:rbk
+$(P):VentValve
+$(P):VentValve:Mode:rbk
+$(P):VentValve:Mode
+$(P):VentValve:Delay:rbk
+$(P):VentValve:Delay
+$(P):VentValve:Time:rbk
+$(P):VentValve:Time
+$(P):SetPointG:Type:rbk
+$(P):SetPointG:Type
+$(P):SetPointG:rbk
+$(P):SetPointG
+$(P):SetPointG:Delay:rbk
+$(P):SetPointG:Delay
+$(P):SetPointG:Signal:rbk
+$(P):SetPointG:Signal
+$(P):SetPointG:Hysteresis:rbk
+$(P):SetPointG:Hysteresis
+$(P):ExtFan:Config:rbk
+$(P):ExtFan:Config
+$(P):ExtFan:rbk
+$(P):ExtFan
+$(P):Power:Limit
+$(P):Gas:LoadType:rbk
+$(P):Gas:LoadType
+$(P):Gas:Type:rbk
+$(P):Gas:Type
+$(P):Pressure:Corr:rbk
+$(P):Pressure:Corr
+$(P):Pressure:Corr:Gauge:rbk
+$(P):Pressure:Corr:Gauge
+$(P):Pressure:Units:rbk
+$(P):Pressure:Units
+$(P):StopSpeedRead:rbk
+$(P):StopSpeedRead
+$(P):SetPoint2:Type:rbk
+$(P):SetPoint2:Type
+$(P):SetPoint2:rbk
+$(P):SetPoint2
+$(P):SetPoint2:Pressure:rbk
+$(P):SetPoint2:Pressure
+$(P):SetPoint2:Delay:rbk
+$(P):SetPoint2:Delay
+$(P):SetPoint2:Signal:rbk
+$(P):SetPoint2:Signal
+$(P):SetPoint2:Hysteresis:rbk
+$(P):SetPoint2:Hysteresis
+$(P):StartOutput:Mode:rbk
+$(P):StartOutput:Mode
+$(P):Current
+$(P):Voltage
+$(P):Power
+$(P):Temp
+$(P):Temp:Air
+$(P):Temp:HeatSink
+$(P):Status
+$(P):Setpoint:State
+$(P):Setpoint2:State
+$(P):Pressure
+$(P):Gauge:Status
+$(P):Gauge:Power:rbk
+$(P):Gauge:Power
+$(P):Counters:CycleTime
+$(P):Counters:CycleNum
+$(P):Counters:Life
+$(P):Counters:TipSeal
+$(P):CRC:EPROM
+$(P):CRC:Boot
+$(P):CRC:Param
+$(P):CRC:Param:Struct
+$(P):CRC:Prog:List:Code
+$(P):CRC:Param:List:Code
+$(P):Firmware
+$(P):Serial:Address:rbk
+$(P):Serial:Address
+$(P):Serial:Type:rbk
+$(P):Serial:Type
+$(P):Error:Resp
+$(P):Error:Code
+$(P):Update:Fast.SCAN
+$(P):Update:Slow.SCAN
+$(P):Update
+
+And optionally (depending on whether you included
+Varian-Agilent_Error*.template in your build):
+$(P):Error:Code:0
+$(P):Error:Code:1
+$(P):Error:Code:2
+$(P):Error:Code:3
+$(P):Error:Code:4
+$(P):Error:Code:5
+$(P):Error:Code:6
+$(P):Error:Code:7
+
+Release Notes
+-------------
+Version 1.0.0
+Built up from Agilent_TPS driver written by Garth Steel.
+- fixed a few naming errors (mostly caused by typos in original documentation)
+- change/shortened PV names
+- shortened some protocol names
+- completed the TPS support in protocol file
+- added protocols for Varian TV550, Varian TV551, Varian T301, Agilent TVRP,
+   Agilent TT304, and Varian TV81.
+- expanded the db file to accomodate the above controllers
+- added documentation
+- added standalone/example app
+
+
+LICENSE
+-------
+See license.txt for CLSI licensing info.
+
+ToDo
+----
+- add protocol files for other Varian/Agilent turbopump controllers

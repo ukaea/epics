@@ -1,0 +1,1112 @@
+4 0 0
+beginScreenProperties
+major 4
+minor 0
+release 0
+x 1344
+y 216
+w 500
+h 745
+font "helvetica-medium-r-18.0"
+ctlFont "helvetica-medium-r-18.0"
+btnFont "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 60
+textColor index 14
+ctlFgColor1 index 14
+ctlFgColor2 index 0
+ctlBgColor1 index 0
+ctlBgColor2 index 14
+topShadowColor index 0
+botShadowColor index 14
+title "Varian/Agilent TurboPump Controller"
+showGrid
+snapToGrid
+gridSize 5
+endScreenProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 5
+y 610
+w 490
+h 110
+lineColor index 14
+fillColor index 0
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 20
+y 10
+w 400
+h 60
+font "helvetica-bold-r-24.0"
+fgColor index 14
+bgColor index 0
+value {
+  "TurboPump Controller:"
+  "$(P)"
+}
+endObjectProperties
+
+# (Button)
+object activeButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 20
+y 85
+w 90
+h 40
+fgColor index 14
+fgAlarm
+onColor index 15
+offColor index 18
+inconsistentColor index 35
+topShadowColor index 0
+botShadowColor index 14
+controlPv "$(P):Start"
+indicatorPv "$(P):Start:rbk"
+labelType "pvState"
+3d
+font "helvetica-medium-r-18.0"
+objType "controls"
+endObjectProperties
+
+# (Button)
+object activeButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 120
+y 85
+w 115
+h 40
+fgColor index 14
+fgAlarm
+onColor index 42
+offColor index 40
+inconsistentColor index 35
+topShadowColor index 0
+botShadowColor index 14
+controlPv "$(P):LowSpeed"
+indicatorPv "$(P):LowSpeed:rbk"
+labelType "pvState"
+3d
+font "helvetica-medium-r-18.0"
+objType "controls"
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 90
+y 145
+w 100
+h 25
+controlPv "$(P):Freq:fbk"
+font "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 3
+limitsFromDb
+nullColor index 0
+useHexPrefix
+showUnits
+objType "controls"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 15
+y 145
+w 70
+h 25
+font "helvetica-medium-r-18.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Speed:"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 360
+y 145
+w 100
+h 25
+controlPv "$(P):Freq:Driving"
+font "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 3
+limitsFromDb
+nullColor index 0
+useHexPrefix
+showUnits
+objType "controls"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 245
+y 145
+w 110
+h 25
+font "helvetica-medium-r-18.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Driving Freq.:"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 90
+y 180
+w 100
+h 25
+controlPv "$(P):Current"
+font "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 3
+limitsFromDb
+nullColor index 0
+useHexPrefix
+showUnits
+objType "controls"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 15
+y 180
+w 70
+h 25
+font "helvetica-medium-r-18.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Current:"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 90
+y 215
+w 100
+h 25
+controlPv "$(P):Voltage"
+font "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 3
+limitsFromDb
+nullColor index 0
+useHexPrefix
+showUnits
+objType "controls"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 15
+y 215
+w 70
+h 25
+font "helvetica-medium-r-18.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Voltage:"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 360
+y 180
+w 100
+h 25
+controlPv "$(P):Power"
+font "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 3
+limitsFromDb
+nullColor index 0
+useHexPrefix
+showUnits
+objType "controls"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 245
+y 180
+w 110
+h 25
+font "helvetica-medium-r-18.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Power:"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 20
+y 250
+w 110
+h 25
+font "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Temperature"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 70
+y 275
+w 85
+h 25
+controlPv "$(P):Temp"
+font "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 3
+limitsFromDb
+nullColor index 0
+useHexPrefix
+showUnits
+objType "controls"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 20
+y 275
+w 90
+h 25
+font "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Pump"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 180
+y 275
+w 90
+h 25
+font "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Air"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 205
+y 275
+w 85
+h 25
+controlPv "$(P):Temp:Air"
+font "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 3
+limitsFromDb
+nullColor index 0
+useHexPrefix
+showUnits
+objType "controls"
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 400
+y 275
+w 85
+h 25
+controlPv "$(P):Temp:HeatSink"
+font "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 3
+limitsFromDb
+nullColor index 0
+useHexPrefix
+showUnits
+objType "controls"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 315
+y 275
+w 85
+h 25
+font "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Heat Sink"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 270
+y 90
+w 85
+h 25
+controlPv "$(P):Status"
+font "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 3
+limitsFromDb
+nullColor index 0
+useHexPrefix
+objType "controls"
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 380
+y 725
+w 115
+h 15
+controlPv "$(P):Firmware"
+font "helvetica-medium-r-12.0"
+fgColor index 14
+fgAlarm
+bgColor index 0
+useDisplayBg
+limitsFromDb
+nullColor index 0
+useHexPrefix
+objType "monitors"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 315
+y 725
+w 55
+h 15
+font "helvetica-medium-r-12.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Firmware:"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 120
+y 695
+w 50
+h 20
+font "helvetica-bold-r-14.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Comm."
+}
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 180
+y 695
+w 120
+h 20
+controlPv "$(P):Error:Resp"
+font "helvetica-bold-r-14.0"
+fgColor index 14
+bgColor index 3
+limitsFromDb
+nullColor index 0
+useHexPrefix
+objType "monitors"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 15
+y 615
+w 90
+h 20
+font "helvetica-bold-r-14.0"
+fgColor index 14
+bgColor index 0
+value {
+  "Last Errors"
+}
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 35
+y 645
+w 110
+h 20
+controlPv "$(P):Error:Code:0"
+font "helvetica-bold-r-14.0"
+fgColor index 14
+fgAlarm
+bgColor index 95
+limitsFromDb
+nullColor index 0
+useHexPrefix
+objType "monitors"
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 150
+y 645
+w 110
+h 20
+controlPv "$(P):Error:Code:1"
+font "helvetica-bold-r-14.0"
+fgColor index 14
+fgAlarm
+bgColor index 95
+limitsFromDb
+nullColor index 0
+useHexPrefix
+objType "monitors"
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 265
+y 645
+w 110
+h 20
+controlPv "$(P):Error:Code:2"
+font "helvetica-bold-r-14.0"
+fgColor index 14
+fgAlarm
+bgColor index 95
+limitsFromDb
+nullColor index 0
+useHexPrefix
+objType "monitors"
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 380
+y 645
+w 110
+h 20
+controlPv "$(P):Error:Code:3"
+font "helvetica-bold-r-14.0"
+fgColor index 14
+fgAlarm
+bgColor index 95
+limitsFromDb
+nullColor index 0
+useHexPrefix
+objType "monitors"
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 35
+y 665
+w 110
+h 20
+controlPv "$(P):Error:Code:4"
+font "helvetica-bold-r-14.0"
+fgColor index 14
+fgAlarm
+bgColor index 95
+limitsFromDb
+nullColor index 0
+useHexPrefix
+objType "monitors"
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 150
+y 665
+w 110
+h 20
+controlPv "$(P):Error:Code:5"
+font "helvetica-bold-r-14.0"
+fgColor index 14
+fgAlarm
+bgColor index 95
+limitsFromDb
+nullColor index 0
+useHexPrefix
+objType "monitors"
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 265
+y 665
+w 110
+h 20
+controlPv "$(P):Error:Code:6"
+font "helvetica-bold-r-14.0"
+fgColor index 14
+fgAlarm
+bgColor index 95
+limitsFromDb
+nullColor index 0
+useHexPrefix
+objType "monitors"
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 380
+y 665
+w 110
+h 20
+controlPv "$(P):Error:Code:7"
+font "helvetica-bold-r-14.0"
+fgColor index 14
+fgAlarm
+bgColor index 95
+limitsFromDb
+nullColor index 0
+useHexPrefix
+objType "monitors"
+endObjectProperties
+
+# (Byte)
+object ByteClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 10
+y 645
+w 20
+h 70
+controlPv "$(P):Error:Code"
+lineColor index 14
+onColor index 20
+offColor index 15
+numBits 8
+endObjectProperties
+
+# (Embedded Window)
+object activePipClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 5
+y 375
+w 490
+h 230
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+displaySource "menu"
+filePv "LOC\\subscr=i:0"
+sizeOfs 5
+numDsps 9
+displayFileName {
+  0 "VarianTurboPumpConfig.edl"
+  1 "VarianTurboPumpSetPoint.edl"
+  2 "VarianTurboPumpSetPoint.edl"
+  3 "VarianTurboPumpSetPoint.edl"
+  4 "VarianTurboPumpVent.edl"
+  5 "VarianTurboPumpComm.edl"
+  6 "VarianTurboPumpIO.edl"
+  7 "VarianTurboPumpCounters.edl"
+  8 "VarianTurboPumpGauge.edl"
+}
+menuLabel {
+  0 "Configure"
+  1 "Relay 1 SetPoint"
+  2 "Relay 2 SetPoint"
+  3 "Gauge SetPoint"
+  4 "Vent"
+  5 "Communication"
+}
+symbols {
+  1 "SPNAME=Relay 1,SPN=''"
+  2 "SPNAME=Relay 2,SPN=2"
+  3 "SPNAME=Gauge,SPN=G"
+}
+endObjectProperties
+
+# (Message Button)
+object activeMessageButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 110
+y 350
+w 100
+h 25
+fgColor index 14
+onColor index 0
+offColor index 0
+topShadowColor index 0
+botShadowColor index 14
+controlPv "LOC\\subscr=i:0"
+pressValue "1"
+onLabel "Relay 1 SP"
+offLabel "Relay 1 SP"
+3d
+font "helvetica-medium-r-18.0"
+endObjectProperties
+
+# (Message Button)
+object activeMessageButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 210
+y 350
+w 100
+h 25
+fgColor index 14
+onColor index 0
+offColor index 0
+topShadowColor index 0
+botShadowColor index 14
+controlPv "LOC\\subscr=i:0"
+pressValue "2"
+onLabel "Relay 2 SP"
+offLabel "Relay 2 SP"
+3d
+font "helvetica-medium-r-18.0"
+endObjectProperties
+
+# (Message Button)
+object activeMessageButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 310
+y 350
+w 100
+h 25
+fgColor index 14
+onColor index 0
+offColor index 0
+topShadowColor index 0
+botShadowColor index 14
+controlPv "LOC\\subscr=i:0"
+pressValue "3"
+onLabel "Gauge SP"
+offLabel "Gauge SP"
+3d
+font "helvetica-medium-r-18.0"
+endObjectProperties
+
+# (Message Button)
+object activeMessageButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 210
+y 300
+w 100
+h 25
+fgColor index 14
+onColor index 0
+offColor index 0
+topShadowColor index 0
+botShadowColor index 14
+controlPv "LOC\\subscr=i:0"
+pressValue "4"
+onLabel "Vent"
+offLabel "Vent"
+3d
+font "helvetica-medium-r-18.0"
+endObjectProperties
+
+# (Message Button)
+object activeMessageButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 310
+y 325
+w 100
+h 25
+fgColor index 14
+onColor index 0
+offColor index 0
+topShadowColor index 0
+botShadowColor index 14
+controlPv "LOC\\subscr=i:0"
+pressValue "5"
+onLabel "Comm."
+offLabel "Comm."
+3d
+font "helvetica-medium-r-18.0"
+endObjectProperties
+
+# (Message Button)
+object activeMessageButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 10
+y 300
+w 100
+h 25
+fgColor index 14
+onColor index 0
+offColor index 0
+topShadowColor index 0
+botShadowColor index 14
+controlPv "LOC\\subscr=i:0"
+pressValue "0"
+onLabel "Configure"
+offLabel "Configure"
+3d
+font "helvetica-medium-r-18.0"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 175
+y 250
+w 210
+h 25
+font "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Controller Temperatures"
+}
+endObjectProperties
+
+# (Button)
+object activeButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 420
+y 300
+w 75
+h 45
+fgColor index 14
+fgAlarm
+onColor index 42
+offColor index 40
+inconsistentColor index 35
+topShadowColor index 0
+botShadowColor index 14
+controlPv "$(P):Update"
+labelType "pvState"
+3d
+font "helvetica-medium-r-18.0"
+objType "controls"
+endObjectProperties
+
+# (Message Button)
+object activeMessageButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 110
+y 300
+w 100
+h 25
+fgColor index 14
+onColor index 0
+offColor index 0
+topShadowColor index 0
+botShadowColor index 14
+controlPv "LOC\\subscr=i:0"
+pressValue "6"
+onLabel "I/O"
+offLabel "I/O"
+3d
+font "helvetica-medium-r-18.0"
+endObjectProperties
+
+# (Message Button)
+object activeMessageButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 310
+y 300
+w 100
+h 25
+fgColor index 14
+onColor index 0
+offColor index 0
+topShadowColor index 0
+botShadowColor index 14
+controlPv "LOC\\subscr=i:0"
+pressValue "7"
+onLabel "Counters"
+offLabel "Counters"
+3d
+font "helvetica-medium-r-18.0"
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 360
+y 215
+w 100
+h 25
+controlPv "$(P):Pressure"
+font "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 3
+limitsFromDb
+nullColor index 0
+useHexPrefix
+showUnits
+objType "controls"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 245
+y 215
+w 110
+h 25
+font "helvetica-medium-r-18.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Pressure:"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 10
+y 350
+w 95
+h 25
+font "helvetica-medium-r-18.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Setpoints:"
+}
+endObjectProperties
+
+# (Message Button)
+object activeMessageButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 10
+y 325
+w 100
+h 25
+fgColor index 14
+onColor index 0
+offColor index 0
+topShadowColor index 0
+botShadowColor index 14
+controlPv "LOC\\subscr=i:0"
+pressValue "8"
+onLabel "Gauge"
+offLabel "Gauge"
+3d
+font "helvetica-medium-r-18.0"
+endObjectProperties
+

@@ -1,0 +1,55 @@
+ExtraInput = Ignore;
+STX = \02;
+ADDR = \x80;
+ACK = \06;
+ETX = \03;
+ReplyTimeout = 500;
+
+#
+# These are protocols common to all models.
+#
+
+getStart {
+  out "\${STX}\${ADDR}0000\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}000%d\${ETX}%01<xor8>";
+}
+
+setStart {
+  out "\${STX}\${ADDR}0001%{0|1}\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}\${ACK}\${ETX}%01<xor8>";
+  @init { getStart;}
+}
+
+getBaudRate {
+  out "\${STX}\${ADDR}1080\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}108%d\${ETX}%01<xor8>";
+}
+
+setBaudRate {
+  out "\${STX}\${ADDR}1081%06d\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}\${ACK}\${ETX}%01<xor8>";
+  @init { getBaudRate;}
+}
+
+getCurrent {
+  out "\${STX}\${ADDR}2000\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}200%f\${ETX}%01<xor8>";
+}
+
+getVoltage {
+  out "\${STX}\${ADDR}2010\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}201%f\${ETX}%01<xor8>";
+}
+
+getErrorCode {
+  out "\${STX}\${ADDR}2060\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}206%d\${ETX}%01<xor8>";
+}
+
+#
+# This traps error responses
+# Be sure to set SCAN field to "I/O Intr"
+#
+trapErrors {
+  in  "\${STX}\${ADDR}%{\xff|\x15|\x32|\x33|\x34|\x35}\${ETX}%01<xor8>";
+}
