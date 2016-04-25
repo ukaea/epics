@@ -23,5 +23,5 @@ include $(TOP)/configure/RULES
 #----------------------------------------
 #  ADD RULES AFTER THIS LINE
 
-include $(EPICS_LOCAL)/drivers/makefileIncludes/cleanOpiMakefile.include
-include $(EPICS_LOCAL)/drivers/makefileIncludes/opiMakefile.include
+# include $(EPICS_LOCAL)/drivers/makefileIncludes/cleanOpiMakefile.include
+# include $(EPICS_LOCAL)/drivers/makefileIncludes/opiMakefile.include

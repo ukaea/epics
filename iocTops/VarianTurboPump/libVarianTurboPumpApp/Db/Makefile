@@ -25,9 +25,9 @@ include $(TOP)/configure/RULES
 #----------------------------------------
 #  ADD RULES AFTER THIS LINE
 
-include $(EPICS_LOCAL)/drivers/makefileIncludes/templateMakefile.include
+#include $(EPICS_LOCAL)/drivers/makefileIncludes/templateMakefile.include
 
 vpath %.protocol ..
 
 %.proto: %.protocol Varian-Agilent_Common.protocol
-	cat ../Varian-Agilent_Common.protocol $< > $@
+#	cat ../Varian-Agilent_Common.protocol $< > $@

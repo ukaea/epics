@@ -9,4 +9,4 @@ DIRS := $(DIRS) $(filter-out $(DIRS), $(wildcard *doc*))
 DIRS := $(DIRS) $(filter-out $(DIRS), $(wildcard *Doc*))
 include $(TOP)/configure/RULES_DIRS
 
-include $(EPICS_LOCAL)/drivers/makefileIncludes/InstallScriptMakefile.include
+# include $(EPICS_LOCAL)/drivers/makefileIncludes/InstallScriptMakefile.include

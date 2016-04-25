@@ -69,6 +69,6 @@ include $(TOP)/configure/RULES
 #  ADD RULES AFTER THIS LINE
 
 
-include $(EPICS_LOCAL)/drivers/makefileIncludes/dbdMakefile.include
-include $(EPICS_LOCAL)/drivers/makefileIncludes/libMakefile.include
-include $(EPICS_LOCAL)/drivers/makefileIncludes/includeMakefile.include
+# include $(EPICS_LOCAL)/drivers/makefileIncludes/dbdMakefile.include
+# include $(EPICS_LOCAL)/drivers/makefileIncludes/libMakefile.include
+# include $(EPICS_LOCAL)/drivers/makefileIncludes/includeMakefile.include
