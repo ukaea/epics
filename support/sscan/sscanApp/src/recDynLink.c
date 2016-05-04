@@ -42,8 +42,8 @@ of this distribution.
 #include <dbDefs.h>
 
 #include <dbAddr.h>
-/* #include <dbAccessDefs.h> */
-epicsShareFunc long epicsShareAPI dbNameToAddr(const char *pname,struct dbAddr *); 
+#include <dbAccessDefs.h>
+//epicsShareFunc long epicsShareAPI dbNameToAddr(const char *pname,struct dbAddr *); 
 
 #include <epicsPrint.h>
 #include <db_access.h>

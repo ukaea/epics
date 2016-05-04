@@ -22,14 +22,15 @@
 TEMPLATE_TOP=$(EPICS_BASE)/templates/makeBaseApp/top
 
 # If using the sequencer, point SNCSEQ at its top directory:
-#SNCSEQ=$(EPICS_BASE)/../support/seq
-STREAM=$(EPICS_BASE)/../support/stream
-CALC=$(EPICS_BASE)/..//support/calc
-SSCAN=$(EPICS_BASE)/../support/sscan
-ASYN=$(EPICS_BASE)/../support/asyn
+#SNCSEQ=$(EPICS_BASE)/../modules/soft/seq
+STREAM=\EPICS/support/stream
+CALC=\EPICS/support/calc
+SSCAN=\EPICS/support/sscan
+ASYN=\EPICS/support/asyn
+#MOXASERIAL=$(EPICS_BASE)/../local/drivers/MoxaSerialMode/1-0
 
 # EPICS_BASE usually appears last so other apps can override stuff:
-EPICS_BASE=/usr/local/epis/base
+EPICS_BASE=D:\EPICS/base
 
 # Set RULES here if you want to take build rules from somewhere
 # other than EPICS_BASE:

@@ -30,4 +30,4 @@ include $(TOP)/configure/RULES
 vpath %.protocol ..
 
 %.proto: %.protocol Varian-Agilent_Common.protocol
-#	cat ../Varian-Agilent_Common.protocol $< > $@
+	cat ../Varian-Agilent_Common.protocol $< > $@
