@@ -1,0 +1,49 @@
+# DO NOT EDIT: This file created by mkmf.pl
+
+AsynDriverInterface.d : ../devStream.h
+AsynDriverInterface.d : ../StreamBusInterface.h
+AsynDriverInterface.d : ../StreamError.h
+AsynDriverInterface.d : ../StreamBuffer.h
+AsynDriverInterface.d : \EPICS/base/include/epicsVersion.h
+AsynDriverInterface.d : \EPICS/base/include/epicsAssert.h
+AsynDriverInterface.d : \EPICS/base/include/epicsTime.h
+AsynDriverInterface.d : \EPICS/base/include/epicsTimer.h
+AsynDriverInterface.d : \EPICS/base/include/callback.h
+AsynDriverInterface.d : \EPICS/support/asyn/include/asynDriver.h
+AsynDriverInterface.d : \EPICS/support/asyn/include/asynOctet.h
+AsynDriverInterface.d : \EPICS/support/asyn/include/asynInt32.h
+AsynDriverInterface.d : \EPICS/support/asyn/include/asynUInt32Digital.h
+AsynDriverInterface.d : \EPICS/support/asyn/include/asynGpibDriver.h
+AsynDriverInterface.d : \EPICS/base/include/dbCommon.h
+AsynDriverInterface.d : \EPICS/base/include/dbScan.h
+AsynDriverInterface.d : \EPICS/base/include/devSup.h
+AsynDriverInterface.d : \EPICS/base/include/dbAccess.h
+AsynDriverInterface.d : \EPICS/base/include/shareLib.h
+AsynDriverInterface.d : \EPICS/base/include/compilerDependencies.h
+AsynDriverInterface.d : \EPICS/base/include/epicsTypes.h
+AsynDriverInterface.d : \EPICS/base/include/os/WIN32/osdTime.h
+AsynDriverInterface.d : \EPICS/base/include/epicsThread.h
+AsynDriverInterface.d : \EPICS/base/include/epicsStdio.h
+AsynDriverInterface.d : \EPICS/base/include/ellLib.h
+AsynDriverInterface.d : \EPICS/base/include/link.h
+AsynDriverInterface.d : \EPICS/base/include/epicsMutex.h
+AsynDriverInterface.d : \EPICS/base/include/menuScan.h
+AsynDriverInterface.d : \EPICS/base/include/errMdef.h
+AsynDriverInterface.d : \EPICS/base/include/dbDefs.h
+AsynDriverInterface.d : \EPICS/base/include/caeventmask.h
+AsynDriverInterface.d : \EPICS/base/include/dbFldTypes.h
+AsynDriverInterface.d : \EPICS/base/include/dbBase.h
+AsynDriverInterface.d : \EPICS/base/include/dbAddr.h
+AsynDriverInterface.d : \EPICS/base/include/dbLock.h
+AsynDriverInterface.d : \EPICS/base/include/dbAccessDefs.h
+AsynDriverInterface.d : \EPICS/base/include/dbLink.h
+AsynDriverInterface.d : \EPICS/base/include/dbCa.h
+AsynDriverInterface.d : \EPICS/base/include/db_field_log.h
+AsynDriverInterface.d : \EPICS/base/include/compiler/msvc/compilerSpecific.h
+AsynDriverInterface.d : \EPICS/base/include/epicsEvent.h
+AsynDriverInterface.d : \EPICS/base/include/os/WIN32/osdThread.h
+AsynDriverInterface.d : \EPICS/base/include/epicsTempFile.h
+AsynDriverInterface.d : \EPICS/base/include/os/WIN32/osdMutex.h
+AsynDriverInterface.d : \EPICS/base/include/os/WIN32/osdEvent.h
+
+
