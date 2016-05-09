@@ -11,6 +11,7 @@
 
 #include <sstream>
 
+#include <epicsGuard.h>
 #include <pv/thread.h>
 #include <pv/bitSetUtil.h>
 #include <pv/queue.h>
@@ -41,6 +42,7 @@ static Status notStartedStatus(Status::STATUSTYPE_ERROR,"not started");
 
 typedef Queue<MonitorElement> MonitorElementQueue;
 typedef std::tr1::shared_ptr<MonitorElementQueue> MonitorElementQueuePtr;
+typedef std::tr1::shared_ptr<MonitorRequester> MonitorRequesterPtr;
 
 
     
@@ -78,7 +80,7 @@ private:
     {
         return shared_from_this();
     }
-    MonitorRequester::shared_pointer monitorRequester;
+    MonitorRequester::weak_pointer monitorRequester;
     PVRecordPtr pvRecord;
     MonitorState state;
     PVCopyPtr pvCopy;
@@ -135,7 +137,7 @@ Status MonitorLocal::start()
 {
     if(pvRecord->getTraceLevel()>0)
     {
-        cout << "MonitorLocal::start() "  << endl;
+        cout << "MonitorLocal::start state " << state << endl;
     }
     {
         Lock xx(mutex);
@@ -143,28 +145,23 @@ Status MonitorLocal::start()
         if(state==active) return alreadyStartedStatus;
     }
     pvRecord->addListener(getPtrSelf(),pvCopy);
-    pvRecord->lock();
-    try {
-        Lock xx(mutex);
-        state = active;
-        queue->clear();
-        isGroupPut = false;
-        activeElement = queue->getFree();
-        activeElement->changedBitSet->clear();
-        activeElement->overrunBitSet->clear();
-        activeElement->changedBitSet->set(0);
-        releaseActiveElement();
-        pvRecord->unlock();
-    } catch(...) {
-        pvRecord->unlock();
-    }
+    epicsGuard <PVRecord> guard(*pvRecord);
+    Lock xx(mutex);
+    state = active;
+    queue->clear();
+    isGroupPut = false;
+    activeElement = queue->getFree();
+    activeElement->changedBitSet->clear();
+    activeElement->overrunBitSet->clear();
+    activeElement->changedBitSet->set(0);
+    releaseActiveElement();
     return Status::Ok;
 }
 
 Status MonitorLocal::stop()
 {
     if(pvRecord->getTraceLevel()>0){
-        cout << "MonitorLocal::stop() "  << endl;
+        cout << "MonitorLocal::stop state " << state << endl;
     }
     {
         Lock xx(mutex);
@@ -180,7 +177,7 @@ MonitorElementPtr MonitorLocal::poll()
 {
     if(pvRecord->getTraceLevel()>1)
     {
-        cout << "MonitorLocal::poll() "  << endl;
+        cout << "MonitorLocal::poll state  " << state << endl;
     }
     {
         Lock xx(queueMutex);
@@ -193,7 +190,7 @@ void MonitorLocal::release(MonitorElementPtr const & monitorElement)
 {
     if(pvRecord->getTraceLevel()>1)
     {
-        cout << "MonitorLocal::release() "  << endl;
+        cout << "MonitorLocal::release state  " << state << endl;
     }
     {
         Lock xx(queueMutex);
@@ -206,7 +203,7 @@ void MonitorLocal::releaseActiveElement()
 {
     if(pvRecord->getTraceLevel()>1)
     {
-        cout << "MonitorLocal::releaseActiveElement() "  << endl;
+        cout << "MonitorLocal::releaseActiveElement  state  " << state << endl;
     }
     {
         Lock xx(queueMutex);
@@ -221,7 +218,9 @@ void MonitorLocal::releaseActiveElement()
         activeElement->changedBitSet->clear();
         activeElement->overrunBitSet->clear();
     }
-    monitorRequester->monitorEvent(getPtrSelf());
+    MonitorRequesterPtr requester = monitorRequester.lock();
+    if(!requester.get()) return;
+    requester->monitorEvent(getPtrSelf());
     return;
 }
 
@@ -295,7 +294,7 @@ void MonitorLocal::endGroupPut(PVRecordPtr const & pvRecord)
 {
     if(pvRecord->getTraceLevel()>1)
     {
-        cout << "PVCopyMonitor::endGroupPut() dataChanged " << dataChanged << endl;
+        cout << "PVCopyMonitor::endGroupPut dataChanged " << dataChanged << endl;
     }
     if(state!=active) return;
     {
@@ -323,6 +322,8 @@ bool MonitorLocal::init(PVStructurePtr const & pvRequest)
     PVFieldPtr pvField;
     size_t queueSize = 2;
     PVStructurePtr pvOptions = pvRequest->getSubField<PVStructure>("record._options");
+    MonitorRequesterPtr requester = monitorRequester.lock();
+    if(!requester.get()) return false;
     if(pvOptions) {
         PVStringPtr pvString  = pvOptions->getSubField<PVString>("queueSize");
         if(pvString) {
@@ -333,7 +334,7 @@ bool MonitorLocal::init(PVStructurePtr const & pvRequest)
                 ss >> size;
                 queueSize = size;
             } catch (...) {
-                 monitorRequester->message("queueSize " +pvString->get() + " illegal",errorMessage);
+                 requester->message("queueSize " +pvString->get() + " illegal",errorMessage);
                  return false;
             }
         }
@@ -344,19 +345,19 @@ bool MonitorLocal::init(PVStructurePtr const & pvRequest)
             pvRecord->getPVRecordStructure()->getPVStructure(),
             pvRequest,"");
         if(!pvCopy) {
-            monitorRequester->message("illegal pvRequest",errorMessage);
+            requester->message("illegal pvRequest",errorMessage);
             return false;
         }
     } else {
         if(pvField->getField()->getType()!=structure) {
-            monitorRequester->message("illegal pvRequest",errorMessage);
+            requester->message("illegal pvRequest",errorMessage);
             return false;
         }
         pvCopy = PVCopy::create(
             pvRecord->getPVRecordStructure()->getPVStructure(),
             pvRequest,"field");
         if(!pvCopy) {
-            monitorRequester->message("illegal pvRequest",errorMessage);
+            requester->message("illegal pvRequest",errorMessage);
             return false;
         }
     }
@@ -370,7 +371,7 @@ bool MonitorLocal::init(PVStructurePtr const & pvRequest)
          monitorElementArray.push_back(monitorElement);
     }
     queue = MonitorElementQueuePtr(new MonitorElementQueue(monitorElementArray));
-    monitorRequester->monitorConnect(
+    requester->monitorConnect(
         Status::Ok,
         getPtrSelf(),
         pvCopy->getStructure());

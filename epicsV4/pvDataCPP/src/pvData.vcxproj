@@ -138,13 +138,13 @@
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q /D /R copy\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R factory\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R misc\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R monitor\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R property\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R copy\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R factory\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R misc\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R monitor\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R property\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R pvMisc\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R pvMisc\pv\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -165,13 +165,13 @@ xcopy /Y /Q /D /R pvMisc\*.h $(SolutionDir)include\pv &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q /D /R copy\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R factory\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R misc\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R monitor\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R property\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R copy\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R factory\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R misc\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R monitor\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R property\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R pvMisc\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R pvMisc\pv\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -191,13 +191,13 @@ xcopy /Y /Q /D /R pvMisc\*.h $(SolutionDir)include\pv &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q /D /R copy\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R factory\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R misc\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R monitor\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R property\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R copy\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R factory\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R misc\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R monitor\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R property\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R pvMisc\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R pvMisc\pv\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -218,13 +218,13 @@ xcopy /Y /Q /D /R pvMisc\*.h $(SolutionDir)include\pv &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q /D /R copy\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R factory\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R misc\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R monitor\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R property\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R copy\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R factory\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R misc\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R monitor\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R property\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R pvMisc\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R pvMisc\pv\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -248,13 +248,13 @@ xcopy /Y /Q /D /R pvMisc\*.h $(SolutionDir)include\pv &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q /D /R copy\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R factory\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R misc\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R monitor\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R property\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R copy\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R factory\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R misc\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R monitor\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R property\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R pvMisc\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R pvMisc\pv\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -279,13 +279,13 @@ xcopy /Y /Q /D /R pvMisc\*.h $(SolutionDir)include\pv &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q /D /R copy\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R factory\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R misc\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R monitor\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R property\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R copy\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R factory\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R misc\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R monitor\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R property\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R pvMisc\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R pvMisc\pv\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -309,13 +309,13 @@ xcopy /Y /Q /D /R pvMisc\*.h $(SolutionDir)include\pv &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q /D /R copy\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R factory\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R misc\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R monitor\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R property\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R copy\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R factory\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R misc\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R monitor\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R property\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R pvMisc\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R pvMisc\pv\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -340,13 +340,13 @@ xcopy /Y /Q /D /R pvMisc\*.h $(SolutionDir)include\pv &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q /D /R copy\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R factory\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R misc\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R monitor\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R property\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R copy\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R factory\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R misc\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R monitor\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R property\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R pvMisc\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R pvMisc\pv\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -396,46 +396,45 @@ xcopy /Y /Q /D /R pvMisc\*.h $(SolutionDir)include\pv &gt; NUL
     <ClCompile Include="pvMisc\bitSetUtil.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="copy\createRequest.h" />
-    <ClInclude Include="copy\pvCopy.h" />
-    <ClInclude Include="factory\factory.h" />
-    <ClInclude Include="misc\bitSet.h" />
-    <ClInclude Include="misc\byteBuffer.h" />
-    <ClInclude Include="misc\current_function.h" />
-    <ClInclude Include="misc\destroyable.h" />
-    <ClInclude Include="misc\epicsException.h" />
-    <ClInclude Include="misc\event.h" />
-    <ClInclude Include="misc\executor.h" />
-    <ClInclude Include="misc\localStaticLock.h" />
-    <ClInclude Include="misc\lock.h" />
-    <ClInclude Include="misc\messageQueue.h" />
-    <ClInclude Include="misc\noDefaultMethods.h" />
-    <ClInclude Include="misc\queue.h" />
-    <ClInclude Include="misc\requester.h" />
-    <ClInclude Include="misc\serialize.h" />
-    <ClInclude Include="misc\serializeHelper.h" />
-    <ClInclude Include="misc\sharedPtr.h" />
-    <ClInclude Include="misc\sharedVector.h" />
-    <ClInclude Include="misc\status.h" />
-    <ClInclude Include="misc\templateMeta.h" />
-    <ClInclude Include="misc\thread.h" />
-    <ClInclude Include="misc\timeFunction.h" />
-    <ClInclude Include="misc\timer.h" />
-    <ClInclude Include="misc\typeCast.h" />
-    <ClInclude Include="monitor\monitor.h" />
-    <ClInclude Include="monitor\monitorPlugin.h" />
-    <ClInclude Include="property\alarm.h" />
-    <ClInclude Include="property\control.h" />
-    <ClInclude Include="property\display.h" />
-    <ClInclude Include="property\pvAlarm.h" />
-    <ClInclude Include="property\pvControl.h" />
-    <ClInclude Include="property\pvDisplay.h" />
-    <ClInclude Include="property\pvEnumerated.h" />
-    <ClInclude Include="property\pvTimeStamp.h" />
-    <ClInclude Include="property\timeStamp.h" />
-    <ClInclude Include="pvMisc\bitSetUtil.h" />
+    <ClInclude Include="copy\pv\createRequest.h" />
+    <ClInclude Include="copy\pv\pvCopy.h" />
+    <ClInclude Include="factory\pv\factory.h" />
+    <ClInclude Include="misc\pv\bitSet.h" />
+    <ClInclude Include="misc\pv\byteBuffer.h" />
+    <ClInclude Include="misc\pv\current_function.h" />
+    <ClInclude Include="misc\pv\destroyable.h" />
+    <ClInclude Include="misc\pv\epicsException.h" />
+    <ClInclude Include="misc\pv\event.h" />
+    <ClInclude Include="misc\pv\executor.h" />
+    <ClInclude Include="misc\pv\localStaticLock.h" />
+    <ClInclude Include="misc\pv\lock.h" />
+    <ClInclude Include="misc\pv\messageQueue.h" />
+    <ClInclude Include="misc\pv\noDefaultMethods.h" />
+    <ClInclude Include="misc\pv\queue.h" />
+    <ClInclude Include="misc\pv\requester.h" />
+    <ClInclude Include="misc\pv\serialize.h" />
+    <ClInclude Include="misc\pv\serializeHelper.h" />
+    <ClInclude Include="misc\pv\sharedPtr.h" />
+    <ClInclude Include="misc\pv\sharedVector.h" />
+    <ClInclude Include="misc\pv\status.h" />
+    <ClInclude Include="misc\pv\templateMeta.h" />
+    <ClInclude Include="misc\pv\thread.h" />
+    <ClInclude Include="misc\pv\timeFunction.h" />
+    <ClInclude Include="misc\pv\timer.h" />
+    <ClInclude Include="misc\pv\typeCast.h" />
+    <ClInclude Include="monitor\pv\monitor.h" />
+    <ClInclude Include="monitor\pv\monitorPlugin.h" />
+    <ClInclude Include="property\pv\alarm.h" />
+    <ClInclude Include="property\pv\control.h" />
+    <ClInclude Include="property\pv\display.h" />
+    <ClInclude Include="property\pv\pvAlarm.h" />
+    <ClInclude Include="property\pv\pvControl.h" />
+    <ClInclude Include="property\pv\pvDisplay.h" />
+    <ClInclude Include="property\pv\pvEnumerated.h" />
+    <ClInclude Include="property\pv\pvTimeStamp.h" />
+    <ClInclude Include="property\pv\timeStamp.h" />
+    <ClInclude Include="pvMisc\pv\bitSetUtil.h" />
     <ClInclude Include="pv\convert.h" />
-    <ClInclude Include="pv\printer.h" />
     <ClInclude Include="pv\pvData.h" />
     <ClInclude Include="pv\pvIntrospect.h" />
     <ClInclude Include="pv\pvSubArrayCopy.h" />

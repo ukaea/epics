@@ -1,17 +1,17 @@
-Release 4.1.2
-=============
+pvaClientCPP - Release/4.2
+==========================
 
-The only change since release 4.1.1 is:
+PvaClientMultiChannel
+---------------------
 
-Added libraries needed for static builds 
-----------------------------------------
-
-The missing ca and nt libraries needed for static builds have been added to
-each of the examples. 
+checkConnected() now throws an exception if connect fails.
 
 
-Release 4.1.1
-=============
+
+pvaClientCPP - Release/4.1
+==========================
+
+This is for EPICS V4 release 4.5
 
 pvaClient is a synchronous API for pvAccess.
 

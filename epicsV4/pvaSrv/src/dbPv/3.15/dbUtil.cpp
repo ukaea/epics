@@ -449,8 +449,7 @@ void  DbUtil::getPropertyData(
             display.setLow(graphics.lower_disp_limit);
         }
         PVDisplay pvDisplay;
-        PVFieldPtr pvField = pvStructure->getSubField(displayString);
-        pvDisplay.attach(pvField);
+        pvDisplay.attach(pvStructure->getSubFieldT(displayString));
         pvDisplay.set(display);
     }
     if(propertyMask&controlBit) {
@@ -466,8 +465,7 @@ void  DbUtil::getPropertyData(
             control.setLow(graphics.lower_ctrl_limit);
         }
         PVControl pvControl;
-        PVFieldPtr pvField = pvStructure->getSubField(controlString);
-        pvControl.attach(pvField);
+        pvControl.attach(pvStructure->getSubFieldT(controlString));
         pvControl.set(control);
     }
     if(propertyMask&valueAlarmBit) {
@@ -798,7 +796,7 @@ Status  DbUtil::get(
     if((propertyMask&timeStampBit)!=0) {
         TimeStamp timeStamp;
         PVTimeStamp pvTimeStamp;
-        PVFieldPtr pvField = pvStructure->getSubField(timeStampString);
+        PVFieldPtr pvField = pvStructure->getSubFieldT(timeStampString);
         if(!pvTimeStamp.attach(pvField)) {
             throw std::logic_error("V3ChannelGet::get logic error");
         }
@@ -826,7 +824,7 @@ Status  DbUtil::get(
     if((propertyMask&alarmBit)!=0) {
         Alarm alarm;
         PVAlarm pvAlarm;
-        PVFieldPtr pvField = pvStructure->getSubField(alarmString);
+        PVFieldPtr pvField = pvStructure->getSubFieldT(alarmString);
         if(!pvAlarm.attach(pvField)) {
             throw std::logic_error("V3ChannelGet::get logic error");
         }
@@ -1034,7 +1032,7 @@ Status  DbUtil::put(
             pvIndex = static_pointer_cast<PVInt>(pvField);
         } else {
             PVStructurePtr pvEnum = static_pointer_cast<PVStructure>(pvField);
-            pvIndex = pvEnum->getSubField<PVInt>(indexString);
+            pvIndex = pvEnum->getSubFieldT<PVInt>(indexString);
         }
         if (dbChannelFinalDBFType(dbChan) == DBF_MENU) {
             requester->message("Not allowed to change a menu field",errorMessage);
@@ -1151,7 +1149,7 @@ Status  DbUtil::putField(
         PVIntPtr pvIndex;
         if(pvField->getField()->getType()==structure) {
             PVStructurePtr pvEnum = static_pointer_cast<PVStructure>(pvField);
-            pvIndex = pvEnum->getSubField<PVInt>(indexString);
+            pvIndex = pvEnum->getSubFieldT<PVInt>(indexString);
         } else {
             pvIndex = static_pointer_cast<PVInt>(pvField);
         }

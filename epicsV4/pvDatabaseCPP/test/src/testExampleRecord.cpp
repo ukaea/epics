@@ -10,6 +10,9 @@
 
 /* Author: Marty Kraimer */
 
+#include <epicsUnitTest.h>
+#include <testMain.h>
+
 #include <cstddef>
 #include <cstdlib>
 #include <cstddef>
@@ -27,6 +30,7 @@
 #include <pv/standardPVField.h>
 #include <pv/pvData.h>
 #include <pv/pvAccess.h>
+#define epicsExportSharedSymbols
 #include "powerSupply.h"
 
 #include <epicsExport.h>
@@ -37,7 +41,7 @@ using namespace epics::pvData;
 using namespace epics::pvAccess;
 using namespace epics::pvDatabase;
 
-
+static bool debug = false;
 
 
 void test()
@@ -57,7 +61,7 @@ void test()
         pvRecord->process();
         pvRecord->unlock();
     }
-    cout << "processed exampleDouble "  << endl;
+    if(debug) {cout << "processed exampleDouble "  << endl; }
     pvRecord->destroy();
     pvRecord.reset();
     recordName = "powerSupplyExample";
@@ -65,8 +69,9 @@ void test()
     PowerSupplyPtr psr;
     pvStructure = createPowerSupply();
     psr = PowerSupply::create("powerSupply",pvStructure);
-    if(psr.get()==NULL) {
-        cout << "PowerSupplyRecordTest::create failed" << endl;
+    testOk1(psr.get()!=0);
+    if(!psr) {
+        if(debug) {cout << "PowerSupplyRecordTest::create failed" << endl;}
         return;
     }
     pvStructure.reset();
@@ -78,17 +83,24 @@ void test()
         current = psr->getCurrent();
         psr->unlock();
     }
-    cout << "initial ";
-    cout << " voltage " << voltage ;
-    cout << " power " << power;
-    cout <<  " current " << current;
-    cout << endl;
+    if(debug ) {
+        cout << "initial ";
+        cout << " voltage " << voltage ;
+        cout << " power " << power;
+        cout <<  " current " << current;
+        cout << endl;
+    }
+    testOk1(psr->getVoltage()==0.0);
+    testOk1(psr->getPower()==0.0);
+    testOk1(psr->getCurrent()==0.0);
     voltage = 1.0;
     power = 1.0;
-    cout << "before put ";
-    cout << " voltage " << voltage ;
-    cout << " power " << power;
-    cout << endl;
+    if(debug) {
+        cout << "before put ";
+        cout << " voltage " << voltage ;
+        cout << " power " << power;
+        cout << endl;
+    }
     {
         psr->lock();
         psr->put(power,voltage);
@@ -97,21 +109,27 @@ void test()
     }
     {
         psr->lock();
-        cout << "after put ";
-        cout << " voltage " << psr->getVoltage() ;
-        cout << " power " << psr->getPower();
-        cout <<  " current " << psr->getCurrent();
-        cout << endl;
+        if(debug) {
+            cout << "after put ";
+            cout << " voltage " << psr->getVoltage() ;
+            cout << " power " << psr->getPower();
+            cout <<  " current " << psr->getCurrent();
+            cout << endl;
+        }
         psr->unlock();
     }
+    testOk1(psr->getVoltage()==1.0);
+    testOk1(psr->getPower()==1.0);
+    testOk1(psr->getCurrent()==1.0);
     PVDatabasePtr pvDatabase = PVDatabase::getMaster();
     pvDatabase->addRecord(psr);
     psr.reset();
     pvDatabase->destroy();
 }
 
-int main(int argc,char *argv[])
+MAIN(testExampleRecord)
 {
+    testPlan(7);
     test();
     return 0;
 }

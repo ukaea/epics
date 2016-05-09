@@ -38,6 +38,7 @@ DbPvGet::DbPvGet(
   dbPv(dbPv),
   channelGetRequester(channelGetRequester),
   process(false),
+  block(false),
   firstTime(true),
   propertyMask(0),
   beingDestroyed(false)

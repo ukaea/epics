@@ -8,43 +8,22 @@
  * @author mrk
  * @date 2015.03
  */
-#define epicsExportSharedSymbols
 
 #include <sstream>
 #include <pv/event.h>
-#include <pv/pvaClient.h>
 #include <pv/bitSetUtil.h>
 
+#define epicsExportSharedSymbols
+
+#include <pv/pvaClient.h>
+
 using std::tr1::static_pointer_cast;
+using std::tr1::dynamic_pointer_cast;
 using namespace epics::pvData;
 using namespace epics::pvAccess;
 using namespace std;
 
 namespace epics { namespace pvaClient {
-
-
-class ChannelMonitorRequester : public MonitorRequester
-{
-    PvaClientMonitor * pvaClientMonitor;
-public:
-    ChannelMonitorRequester(PvaClientMonitor * pvaClientMonitor)
-    : pvaClientMonitor(pvaClientMonitor) {}
-    string getRequesterName()
-    {return pvaClientMonitor->getRequesterName();}
-    void message(string const & message,MessageType messageType)
-    {pvaClientMonitor->message(message,messageType);}
-    void monitorConnect(
-        const Status& status,
-        Monitor::shared_pointer const & monitor,
-        StructureConstPtr const & structure)
-    {pvaClientMonitor->monitorConnect(status,monitor,structure);}
-    void monitorEvent(MonitorPtr const & monitor)
-    {
-         pvaClientMonitor->monitorEvent(monitor);
-    }
-    void unlisten(MonitorPtr const & monitor)
-    {pvaClientMonitor->unlisten();}
-};
 
 PvaClientMonitor::PvaClientMonitor(
         PvaClientPtr const &pvaClient,
@@ -112,7 +91,7 @@ void PvaClientMonitor::monitorEvent(MonitorPtr const & monitor)
     if(userWait) waitForEvent.signal();
 }
 
-void PvaClientMonitor::unlisten()
+void PvaClientMonitor::unlisten(MonitorPtr const & monitor)
 {
     destroy();
 }
@@ -148,7 +127,9 @@ void PvaClientMonitor::issueConnect()
             + " pvaClientMonitor already connected ";
         throw std::runtime_error(message);
     }
-    monitorRequester = ChannelMonitorRequester::shared_pointer(new ChannelMonitorRequester(this));
+    MonitorRequester::shared_pointer  monitorRequester =
+        dynamic_pointer_cast<MonitorRequester>(getPtrSelf());
+    //monitorRequester = ChannelMonitorRequester::shared_pointer(new ChannelMonitorRequester(this));
     connectState = connectActive;
     monitor = channel->createMonitor(monitorRequester,pvRequest);
 }
@@ -220,7 +201,8 @@ bool PvaClientMonitor::waitEvent(double secondsToWait)
 void PvaClientMonitor::releaseEvent()
 {
     if(isDestroyed) throw std::runtime_error("pvaClientMonitor was destroyed");
-    if(connectState!=monitorStarted) throw std::runtime_error("PvaClientMonitor::poll illegal state");
+    if(connectState!=monitorStarted) throw std::runtime_error(
+         "PvaClientMonitor::poll illegal state");
     if(!userPoll) throw std::runtime_error("PvaClientMonitor::releaseEvent did not call poll");
     userPoll = false;
     monitor->release(monitorElement);

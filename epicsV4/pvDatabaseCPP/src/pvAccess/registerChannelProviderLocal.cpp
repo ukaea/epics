@@ -26,6 +26,7 @@
 #include <epicsThread.h>
 #include <iocsh.h>
 #include <shareLib.h>
+#include <epicsExit.h>
 
 #include <pv/pvAccess.h>
 #include <pv/serverContext.h>
@@ -52,6 +53,9 @@ extern "C" void pvdbl(const iocshArgBuf *args)
     for(size_t i=0; i<xxx.size(); ++i) cout<< xxx[i] << endl;
 }
 
+static void channelProviderLocalExitHandler(void* /*pPrivate*/) {
+    getChannelProviderLocal()->destroy();
+}
 
 static void registerChannelProviderLocal(void)
 {
@@ -60,6 +64,7 @@ static void registerChannelProviderLocal(void)
         firstTime = 0;
         iocshRegister(&pvdblFuncDef, pvdbl);
         getChannelProviderLocal();
+        epicsAtExit(channelProviderLocalExitHandler, NULL);
     }
 }
 

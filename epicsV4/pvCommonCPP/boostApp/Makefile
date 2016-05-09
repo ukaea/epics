@@ -34,7 +34,7 @@ else
     INC += boost/config.hpp
     INC += boost/config/no_tr1/memory.hpp
     INC += boost/config/no_tr1/utility.hpp
-    INC += boost/config/platform/vxworks.hpp
+    INC_vxWorks += boost/config/platform/vxworks.hpp
     INC += boost/config/posix_features.hpp
     INC += boost/config/select_compiler_config.hpp
     INC += boost/config/select_platform_config.hpp
@@ -81,13 +81,17 @@ else
         INC += boost/atomic/detail/base.hpp
         INC += boost/atomic/detail/config.hpp
         INC += boost/atomic/detail/gcc-x86.hpp
+        INC += boost/atomic/detail/interlocked.hpp
         INC += boost/atomic/detail/lockpool.hpp
         INC += boost/atomic/detail/platform.hpp
         INC += boost/atomic/detail/type-classification.hpp
+        INC_WIN32 += boost/atomic/detail/windows.hpp
         INC += boost/atomic.hpp
+        INC_WIN32 += boost/config/compiler/visualc.hpp
         INC += boost/config/no_tr1/cmath.hpp
-        INC += boost/config/platform/linux.hpp
-        INC += boost/config/platform/win32.hpp
+        INC_cygwin32 += boost/config/platform/cygwin.hpp
+        INC_Linux += boost/config/platform/linux.hpp
+        INC_WIN32 += boost/config/platform/win32.hpp
         INC += boost/config/stdlib/libstdcpp3.hpp
         INC += boost/cstdint.hpp
         INC += boost/detail/container_fwd.hpp
@@ -189,6 +193,7 @@ else
         INC += boost/preprocessor/comma_if.hpp
         INC += boost/preprocessor/config/config.hpp
         INC += boost/preprocessor/control/detail/while.hpp
+        INC_WIN32 += boost/preprocessor/control/detail/msvc/while.hpp
         INC += boost/preprocessor/control/expr_iif.hpp
         INC += boost/preprocessor/control/if.hpp
         INC += boost/preprocessor/control/iif.hpp
@@ -264,6 +269,7 @@ else
         INC += boost/type_traits/detail/ice_not.hpp
         INC += boost/type_traits/detail/ice_or.hpp
         INC += boost/type_traits/detail/is_function_ptr_helper.hpp
+        INC += boost/type_traits/detail/is_function_ptr_tester.hpp
         INC += boost/type_traits/detail/is_mem_fun_pointer_impl.hpp
         INC += boost/type_traits/detail/size_t_trait_def.hpp
         INC += boost/type_traits/detail/size_t_trait_undef.hpp
@@ -297,8 +303,10 @@ else
         INC += boost/type_traits/is_same.hpp
         INC += boost/type_traits/is_scalar.hpp
         INC += boost/type_traits/is_union.hpp
+        INC += boost/type_traits/is_unsigned.hpp
         INC += boost/type_traits/is_void.hpp
         INC += boost/type_traits/is_volatile.hpp
+        INC += boost/type_traits/make_signed.hpp
         INC += boost/type_traits/remove_const.hpp
         INC += boost/type_traits/remove_cv.hpp
         INC += boost/type_traits/remove_reference.hpp
@@ -318,6 +326,7 @@ else
         INC += boost/utility/addressof.hpp
         INC += boost/utility/enable_if.hpp
         INC += boost/utility/swap.hpp
+        INC += boost/version.hpp
     endif
 
 endif

@@ -1,12 +1,12 @@
+// Copyright information and license terms for this software can be
+// found in the file LICENSE that is included with the distribution
+
+
+
 #ifndef CHANNELARCHIVERSERVICE_COMMON_H
 #define CHANNELARCHIVERSERVICE_COMMON_H
 
 /* common.h - channel archiver service types and utilities common to the server and client */
-/**
- * Copyright - See the COPYRIGHT that is included with this distribution.
- * EPICS exampleCPP is distributed subject to a Software License Agreement found
- * in file LICENSE that is included with this distribution.
- */
 
 #include <string>
 #include <vector>

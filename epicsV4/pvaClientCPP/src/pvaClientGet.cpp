@@ -8,9 +8,11 @@
  * @author mrk
  * @date 2015.02
  */
-#define epicsExportSharedSymbols
 
 #include <pv/event.h>
+
+#define epicsExportSharedSymbols
+
 #include <pv/pvaClient.h>
 
 using std::tr1::static_pointer_cast;

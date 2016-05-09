@@ -360,7 +360,6 @@ private:
     int numberFree;
     int numberUsed;
     int nextGetFree;
-    int nextSetUsed;
     int nextGetUsed;
     int nextReleaseUsed;
     epics::pvData::Mutex mutex;
@@ -369,7 +368,6 @@ private:
     epics::pvData::MonitorElementPtrArray elements;
     epics::pvData::MonitorElementPtr currentElement;
     epics::pvData::MonitorElementPtr nullElement;
-    epics::pvData::MonitorElementPtrArray elementArray;
 };
 
 class DbPvArray :

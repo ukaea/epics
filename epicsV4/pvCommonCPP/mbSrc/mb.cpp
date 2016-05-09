@@ -1,54 +1,84 @@
-#ifdef WITH_MICROBENCH
 
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(NOMINMAX)
 #define NOMINMAX
 #endif
 
 #include <time.h>
-#include <process.h>
-
 #include <map>
 #include <math.h>
 #include <cstdlib>
 #include <limits>
 #include <fstream>
+#include <iostream>
 #include <sstream>
-//#include <unistd.h>
 
 #include <iomanip>
 
-#include <epicsMutex.h>
-#include <epicsTime.h>
+#include <osiUnistd.h>
+#include <epicsStdio.h>
+#include <epicsTypes.h>
 
 #define epicsExportSharedSymbols
 #include "mb.h"
 
-MBMutexInitializer mbStaticMutexInitializer; // Note object here in the header.
+#ifdef WITH_MICROBENCH
 
 // TODO clean this up
 #if defined(__APPLE__)
 #include <mach/mach_time.h>
-uint64_t MBTime()
+epicsUInt64 MBTime()
 {
     return mach_absolute_time();
 }
-#else
-uint64_t MBTime()
+#elif defined(vxWorks) && (CPU_FAMILY == PPC)
+IMPORT void vxTimeBaseGet (UINT32 * pTbu, UINT32 * pTbl);
+epicsUInt64 MBTime()
 {
-	epicsTimeStamp TimeStamp;
-	epicsTimeGetCurrent(&TimeStamp);
-	return TimeStamp.secPastEpoch * 1000000000 + TimeStamp.nsec;
+    union {
+        UINT32 u32[2];
+        epicsUInt64 u64;
+    } t;
+    vxTimeBaseGet(&t.u32[0], &t.u32[1]);
+    // FIXME: The PPC timebase doesn't actually increment every 1ns.
+    // There is a machine-specific scaling factor to apply...
+    return t.u64;
+}
+#elif defined(_WIN32)
+#include <windows.h>
+static epicsUInt64 PerformanceFrequency;
+epicsUInt64 MBTime()
+{
+    LARGE_INTEGER count;
+    QueryPerformanceCounter(&count);
+    epicsUInt64 PerfTicks = static_cast<epicsUInt64>(count.QuadPart) * 1000000000;
+    return PerfTicks / PerformanceFrequency;
+}
+#else
+#include <sys/time.h>
+epicsUInt64 MBTime()
+{
+#ifdef CLOCK_REALTIME
+     struct timespec ts;
+     clock_gettime(CLOCK_REALTIME, &ts);
+     return static_cast<epicsUInt64>(ts.tv_sec) * 1000000000 + static_cast<epicsUInt64>(ts.tv_nsec);
+#else
+     struct timeval tv;
+     gettimeofday(&tv, NULL);
+     return static_cast<epicsUInt64>(tv.tv_sec) * 1000000000 + static_cast<epicsUInt64>(tv.tv_usec) * 1000;
+#endif
 }
 #endif
 
 #ifdef vxWorks
 #include <taskLib.h>
 #define GETPID() taskIdSelf()
+#elif defined(_WIN32)
+#define GETPID() GetCurrentProcessId()
 #else
 #define GETPID() getpid()
 #endif
 
-void MBPointAdd(MBEntity &e, std::ptrdiff_t id, uint8_t stage)
+void MBPointAdd(MBEntity &e, std::ptrdiff_t id, epicsUInt8 stage)
 {
     // no copy and no MBPoint init solution
     const std::size_t ix = e.pos.fetch_add(1);
@@ -58,7 +88,7 @@ void MBPointAdd(MBEntity &e, std::ptrdiff_t id, uint8_t stage)
 }
 
 // NOTE: requires that samples are ordered by iteration (not by stage!) first
-void MBCSVExport(MBEntity &e, uint8_t stageOnly, std::size_t skipFirstNSamples, std::ostream &o)
+void MBCSVExport(MBEntity &e, epicsUInt8 stageOnly, std::size_t skipFirstNSamples, std::ostream &o)
 {
     std::size_t iterationCount = 0;
     const std::size_t len = e.pos.load();
@@ -68,7 +98,7 @@ void MBCSVExport(MBEntity &e, uint8_t stageOnly, std::size_t skipFirstNSamples, 
         for (std::size_t i = 0; i < len; i++)
         {
             MBPoint& p = e.points[i];
-            o << p.id << ',' << static_cast<uint32_t>(p.stage) << ',' << static_cast<int64_t>(p.time) << std::endl;
+            o << p.id << ',' << static_cast<epicsUInt32>(p.stage) << ',' << static_cast<epicsInt64>(p.time) << std::endl;
         }
     }
     else
@@ -90,7 +120,7 @@ void MBCSVExport(MBEntity &e, uint8_t stageOnly, std::size_t skipFirstNSamples, 
             if (iterationCount <= skipFirstNSamples)
                 continue;
 
-            o << p.id << ',' << static_cast<uint32_t>(p.stage) << ',' << static_cast<int64_t>(p.time) << std::endl;
+            o << p.id << ',' << static_cast<epicsUInt32>(p.stage) << ',' << static_cast<epicsInt64>(p.time) << std::endl;
         }
     }
 }
@@ -109,7 +139,7 @@ void MBCSVImport(MBEntity &e, std::istream &i)
         std::istringstream is(line);
         MBPoint p;
         is >> p.id >> c;
-        uint32_t s; is >> s >> c; p.stage = s;
+        epicsUInt32 s; is >> s >> c; p.stage = s;
         is >> p.time;
         
         if (is.good() || is.eof())        
@@ -124,7 +154,7 @@ void MBCSVImport(MBEntity &e, std::istream &i)
 
 void MBNormalize(MBEntity &e)
 {
-    std::map<std::ptrdiff_t, uint64_t> lastTime;
+    std::map<std::ptrdiff_t, epicsUInt64> lastTime;
     
     const std::size_t len = e.pos.load(); 
     for (std::size_t i = 0; i < len; i++)
@@ -133,7 +163,7 @@ void MBNormalize(MBEntity &e)
         if (p.stage == 0)
             lastTime[p.id] = p.time;
             
-        std::map<std::ptrdiff_t, uint64_t>::iterator last = lastTime.find(p.id);
+        std::map<std::ptrdiff_t, epicsUInt64>::iterator last = lastTime.find(p.id);
         if (last == lastTime.end())
         {
             std::cerr << "no 0 stage for " << e.name << ", id = " << p.id << std::endl;
@@ -141,7 +171,7 @@ void MBNormalize(MBEntity &e)
         }
         else
         {
-            uint64_t lt = last->second;
+            epicsUInt64 lt = last->second;
             last->second = p.time;
             p.time -= lt;
         }
@@ -151,8 +181,8 @@ void MBNormalize(MBEntity &e)
 struct MBStatistics
 {
     std::size_t count;
-    uint64_t min;
-    uint64_t max;
+    epicsUInt64 min;
+    epicsUInt64 max;
     double sum;
 
     double mean;
@@ -160,14 +190,14 @@ struct MBStatistics
     
     MBStatistics() :
         count(0),
-        min(std::numeric_limits<uint64_t>::max()),
-        max(std::numeric_limits<uint64_t>::min()),
+        min(~static_cast<epicsUInt64>(0)),
+        max(0),
         sum(0.0),
         mean(0.0),
         stdev(0.0)
     {}
 
-    MBStatistics(uint64_t sample) :
+    MBStatistics(epicsUInt64 sample) :
         count(1),
         min(sample),
         max(sample),
@@ -177,7 +207,7 @@ struct MBStatistics
     {
     }
 
-    void addSample(uint64_t sample)
+    void addSample(epicsUInt64 sample)
     {
         count++;
         if (sample < min) min = sample;
@@ -190,7 +220,7 @@ struct MBStatistics
         mean = sum/(double)count;
     }
 
-    void addSamplePass2(uint64_t sample)
+    void addSamplePass2(epicsUInt64 sample)
     {
         double diff = sample - mean;
         stdev += diff*diff;
@@ -203,16 +233,16 @@ struct MBStatistics
 
 };
 
-typedef std::map<uint8_t, MBStatistics> StatsMapPerStage;
+typedef std::map<epicsUInt8, MBStatistics> StatsMapPerStage;
 
 // NOTE: requires that samples are ordered by iteration (not by stage!) first, i.e.
 // fist all the stages of iteration 0, then iteration 1, etc.
-void MBStats(MBEntity &e, uint8_t stageOnly, std::size_t skipFirstNSamples, std::ostream &o)
+void MBStats(MBEntity &e, epicsUInt8 stageOnly, std::size_t skipFirstNSamples, std::ostream &o)
 {
     MBNormalize(e);
     
     MBStatistics overallStats;
-    uint64_t iterationSum = 0;
+    epicsUInt64 iterationSum = 0;
 
     StatsMapPerStage stats;
     std::size_t iterationCount = 0;
@@ -325,11 +355,11 @@ void MBStats(MBEntity &e, uint8_t stageOnly, std::size_t skipFirstNSamples, std:
          i != stats.end();
          i++)
     {
-        o << "stage " << std::setw(3) << static_cast<uint32_t>(i->first)
+        o << "stage " << std::setw(3) << static_cast<epicsUInt32>(i->first)
                       << ": min = " << std::setw(9) << i->second.min
                       << ", max = " << std::setw(9) << i->second.max
-                      << ", mean = " << std::setw(9) << static_cast<uint64_t>(i->second.mean)
-                      << ", stdev = " << std::setw(9) << static_cast<uint64_t>(i->second.stdev) << std::endl;
+                      << ", mean = " << std::setw(9) << static_cast<epicsUInt64>(i->second.mean)
+                      << ", stdev = " << std::setw(9) << static_cast<epicsUInt64>(i->second.stdev) << std::endl;
     }
     
     o << std::string(80,'-') << std::endl;
@@ -337,128 +367,48 @@ void MBStats(MBEntity &e, uint8_t stageOnly, std::size_t skipFirstNSamples, std:
     o << "iteration"
                   << ": min = " << std::setw(9) << overallStats.min
                   << ", max = " << std::setw(9) << overallStats.max
-                  << ", mean = " << std::setw(9) << static_cast<uint64_t>(overallStats.mean)
-                  << ", stdev = " << std::setw(9) << static_cast<uint64_t>(overallStats.stdev) << std::endl;
+                  << ", mean = " << std::setw(9) << static_cast<epicsUInt64>(overallStats.mean)
+                  << ", stdev = " << std::setw(9) << static_cast<epicsUInt64>(overallStats.stdev) << std::endl;
     double ips = (1000000000L/overallStats.mean);
     double sdips = ips - (1000000000L/(overallStats.mean+overallStats.stdev));
     o << std::endl << std::setprecision(9) << ips << " +/- " << sdips << " iteration(s)/sec" << std::endl << std::endl;
 }
 
-typedef std::vector<MBEntity*> EntitiesVector;
-
-static int nifty_counter;
-static epicsMutex* MBMutex;
-
-// The counter is initialized at load-time, i.e., before any of the static objects are initialized.
-MBMutexInitializer::MBMutexInitializer ()
+MBEntity::~MBEntity()
 {
-    if (0 == nifty_counter++)
+    // skip if empty
+    if (this->pos)
     {
-        // Initialize static members.
-        MBMutex = new epicsMutex();
-    }
-}
-
-MBMutexInitializer::~MBMutexInitializer ()
-{
-    if (0 == --nifty_counter)
-    {
-        // Clean-up.
-        delete MBMutex;
-    }
-}
-
-class MutexLock {
-public:
-
-    explicit MutexLock(epicsMutex &m) :
-        mutexPtr(m),
-        locked(true)
-    {
-        mutexPtr.lock();
-    }
-
-    ~MutexLock()
-    {
-        unlock();
-    }
-
-    void lock()
-    {
-        if (!locked)
+        char fileName[1024];
+        char* path = getenv("MB_OUTPUT_DIR");
+        if (path == 0) path = const_cast<char*>(".");
+        epicsSnprintf(fileName, sizeof(fileName), "%s/mb_%s_%d.csv",
+            path, this->name, GETPID());
+        std::ofstream out(fileName);
+        if (out.is_open())
         {
-            mutexPtr.lock();
-            locked = true;
+            MBCSVExport(*this, 0, 0, out);
+            out.close();
         }
-    }
-    void unlock()
-    {
-        if (locked)
+        else
         {
-            mutexPtr.unlock();
-            locked = false;
+            std::cerr << "Failed to create file " << fileName
+                << ", skipping..." << std::endl;
         }
-    }
-
-private:
-    epicsMutex &mutexPtr;
-    bool locked;
-};
-
-
-void MBEntityRegister(MBEntity *e)
-{
-    MutexLock lock(*MBMutex);
-    static EntitiesVector MBEntities;
-
-    if (e)
-    {
-        MBEntities.push_back(e);
-    }
-    else
-    {
-        for(EntitiesVector::const_iterator i = MBEntities.begin();
-            i != MBEntities.end();
-            i++)
-        {
-            // skip empty entities
-            if ((*i)->pos)
-            {
-                char fileName[1024];
-                char* path = getenv("MB_OUTPUT_DIR");
-                if (path == 0) path = const_cast<char*>(".");
-                // NOTE: snprintf not used because of older VxWorks
-                sprintf(fileName, "%s/mb_%s_%d.csv", path, (*i)->name.c_str(), GETPID());
-                std::ofstream out(fileName);
-                if (out.is_open())
-                {
-                    MBCSVExport(*(*i), 0, 0, out);
-                    out.close();
-                }
-                else
-                {
-                    std::cerr << "failed to create a file " << fileName << ", skipping..." << std::endl;
-                }
-            }
-        }
-    }
-}
-
-void MBAtExit()
-{
-    MBEntityRegister(0);
-}
-
-
-void MBInit()
-{
-    MutexLock lock(*MBMutex);
-    static bool inited = false;
-    if (!inited)
-    {
-        inited = true;
-        atexit(MBAtExit);
     }
 }
 
 #endif
+// Need to export something here for Windows DLL builds
+
+void MBInit()
+{
+#ifdef WITH_MICROBENCH
+#ifdef _WIN32
+    LARGE_INTEGER freq;
+    QueryPerformanceFrequency(&freq);
+    PerformanceFrequency = freq.QuadPart;
+#endif
+#endif
+}
+

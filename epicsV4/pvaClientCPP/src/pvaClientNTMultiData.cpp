@@ -9,9 +9,11 @@
  * @date 2015.03
  */
 
-#define epicsExportSharedSymbols
-#include <pv/pvaClientMultiChannel.h>
 #include <epicsMath.h>
+
+#define epicsExportSharedSymbols
+
+#include <pv/pvaClientMultiChannel.h>
 
 using std::tr1::static_pointer_cast;
 using namespace epics::pvData;
@@ -153,23 +155,22 @@ void PvaClientNTMultiData::endDeltaTime()
     {
         PVStructurePtr pvst = topPVStructure[i];
         if(!pvst) {
-              unionValue[i] = PVUnionPtr();
+            unionValue[i] = PVUnionPtr();
         } else {
-              unionValue[i]->set(pvst->getSubField("value"));
-        }
-        if(gotAlarm)
-        {
-              severity[i] = pvst->getSubField<PVInt>("alarm.severity")->get();
-              status[i] = pvst->getSubField<PVInt>("alarm.status")->get();
-              message[i] = pvst->getSubField<PVString>("alarm.message")->get();
-        }
-        if(gotTimeStamp)
-        {
-              secondsPastEpoch[i] = pvst->getSubField<PVLong>("timeStamp.secondsPastEpoch")->get();
-              nanoseconds[i] = pvst->getSubField<PVInt>("timeStamp.nanoseconds")->get();
-              userTag[i] = pvst->getSubField<PVInt>("timeStamp.userTag")->get();
-        }
-             
+            unionValue[i]->set(pvst->getSubField("value"));
+            if(gotAlarm)
+            {
+                severity[i] = pvst->getSubField<PVInt>("alarm.severity")->get();
+                status[i] = pvst->getSubField<PVInt>("alarm.status")->get();
+                message[i] = pvst->getSubField<PVString>("alarm.message")->get();
+            }
+            if(gotTimeStamp)
+            {
+                secondsPastEpoch[i] = pvst->getSubField<PVLong>("timeStamp.secondsPastEpoch")->get();
+                nanoseconds[i] = pvst->getSubField<PVInt>("timeStamp.nanoseconds")->get();
+                userTag[i] = pvst->getSubField<PVInt>("timeStamp.userTag")->get();
+            }
+        } 
     }
 }
 

@@ -22,8 +22,6 @@ testInetAddressUtils_SYS_LIBS_WIN32 += ws2_32
 testHarness_SRCS += testInetAddressUtils.cpp
 TESTS += testInetAddressUtils
 
-TESTSCRIPTS_HOST += $(TESTS:%=%.t)
-
 #TESTPROD_HOST += loggerTest
 #loggerTest_SRCS += loggerTest.cpp
 #testHarness_SRCS += loggerTest.cpp
@@ -44,7 +42,17 @@ TESTSCRIPTS_HOST += $(TESTS:%=%.t)
 #testHarness_SRCS += namedLockPatternTest.cpp
 #TESTS += namedLockPatternTest
 
-#TESTPROD_HOST += configurationTest
-#configurationTest_SRCS += configurationTest.cpp
+TESTPROD_HOST += configurationTest
+configurationTest_SRCS += configurationTest.cpp
+configurationTest_SYS_LIBS_WIN32 += ws2_32
 #testHarness_SRCS += configurationTest.cpp
-#TESTS += configurationTest
+TESTS += configurationTest
+
+TESTPROD_HOST += testFairQueue
+testFairQueue_SRCS += testFairQueue
+TESTS += testFairQueue
+
+TESTPROD_HOST += testWildcard
+testWildcard = testWildcard.cpp
+testHarness_SRCS += testWildcard.cpp
+TESTS += testWildcard

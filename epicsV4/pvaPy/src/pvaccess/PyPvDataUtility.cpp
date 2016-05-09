@@ -25,6 +25,17 @@ void checkFieldExists(const std::string& fieldName, const epics::pvData::PVStruc
     }
 }
 
+void checkFieldPathExists(const std::string& fieldPath, const epics::pvData::PVStructurePtr& pvStructurePtr)
+{
+    std::vector<std::string> fieldNames = StringUtility::split(fieldPath);
+    epics::pvData::PVStructurePtr pvStructurePtr2 = getParentStructureForFieldPath(fieldNames, pvStructurePtr);
+    int nElements = fieldNames.size();
+    
+    // Last field in the path is what we want.
+    std::string fieldName = fieldNames[nElements-1];
+    checkFieldExists(fieldName, pvStructurePtr2);
+}
+
 //
 // Field retrieval
 //
@@ -76,6 +87,24 @@ epics::pvData::FieldConstPtr getField(const std::string& fieldName, const epics:
         throw FieldNotFound("Object does not have field " + fieldName);
     }
     return pvFieldPtr->getField();
+}
+
+epics::pvData::PVStructurePtr getParentStructureForFieldPath(const std::string& fieldPath, const epics::pvData::PVStructurePtr& pvStructurePtr)
+{
+    std::vector<std::string> fieldNames = StringUtility::split(fieldPath);
+    return getParentStructureForFieldPath(fieldNames, pvStructurePtr);
+}
+
+epics::pvData::PVStructurePtr getParentStructureForFieldPath(const std::vector<std::string>& fieldNames, const epics::pvData::PVStructurePtr& pvStructurePtr)
+{
+    // All path parts except for the last one must be structures
+    epics::pvData::PVStructurePtr pvStructurePtr2 = pvStructurePtr;
+    int nElements = fieldNames.size();
+    for (int i = 0; i < nElements-1; i++) {
+        std::string fieldName = fieldNames[i];
+        pvStructurePtr2 = getStructureField(fieldName, pvStructurePtr2);
+    }
+    return pvStructurePtr2;
 }
 
 epics::pvData::ScalarConstPtr getScalarField(const std::string& fieldName, const epics::pvData::PVStructurePtr& pvStructurePtr)
@@ -926,6 +955,13 @@ void addScalarFieldToDict(const std::string& fieldName, epics::pvData::ScalarTyp
     }
 }
 
+boost::python::object getScalarFieldAsPyObject(const std::string& fieldName, epics::pvData::ScalarType scalarType, const epics::pvData::PVStructurePtr& pvStructurePtr)
+{
+    boost::python::dict pyDict;
+    addScalarFieldToDict(fieldName, scalarType, pvStructurePtr, pyDict);
+    return pyDict[fieldName];
+}
+
 //
 // Add PV Scalar Array => PY {}
 // 
@@ -936,6 +972,14 @@ void addScalarArrayFieldToDict(const std::string& fieldName, epics::pvData::Scal
     pyDict[fieldName] = pyList;
 }
 
+boost::python::object getScalarArrayFieldAsPyObject(const std::string& fieldName, epics::pvData::ScalarType scalarType, const epics::pvData::PVStructurePtr& pvStructurePtr)
+{
+    boost::python::list pyList;
+    scalarArrayFieldToPyList(fieldName, pvStructurePtr, pyList);
+    return pyList;
+}
+
+
 //
 // Add PV Structure => PY {}
 // 
@@ -944,6 +988,13 @@ void addStructureFieldToDict(const std::string& fieldName, const epics::pvData::
     boost::python::dict pyDict2;
     structureFieldToPyDict(fieldName, pvStructurePtr, pyDict2);
     pyDict[fieldName] = pyDict2;
+}
+
+boost::python::object getStructureFieldAsPyObject(const std::string& fieldName, const epics::pvData::PVStructurePtr& pvStructurePtr)
+{
+    boost::python::dict pyDict;
+    structureFieldToPyDict(fieldName, pvStructurePtr, pyDict);
+    return pyDict;
 }
 
 //
@@ -961,6 +1012,13 @@ void addStructureArrayFieldToDict(const std::string& fieldName, const epics::pvD
         pyList.append(pyDict2);   
     }
     pyDict[fieldName] = pyList;
+}
+
+boost::python::object getStructureArrayFieldAsPyObject(const std::string& fieldName, const epics::pvData::PVStructurePtr& pvStructurePtr)
+{
+    boost::python::dict pyDict;
+    addStructureArrayFieldToDict(fieldName, pvStructurePtr, pyDict); 
+    return pyDict[fieldName];
 }
 
 //
@@ -997,6 +1055,13 @@ void addUnionFieldToDict(const std::string& fieldName, const epics::pvData::PVSt
     pyDict[fieldName] = pyTuple;
 }
 
+boost::python::object getUnionFieldAsPyObject(const std::string& fieldName, const epics::pvData::PVStructurePtr& pvStructurePtr)
+{
+    boost::python::dict pyDict;
+    addUnionFieldToDict(fieldName, pvStructurePtr, pyDict);
+    return pyDict[fieldName];
+}
+
 //
 // Add PV Union Array => PY {}
 // 
@@ -1028,6 +1093,13 @@ void addUnionArrayFieldToDict(const std::string& fieldName, const epics::pvData:
         pyList.append(pyTuple);
     }
     pyDict[fieldName] = pyList;
+}
+
+boost::python::object getUnionArrayFieldAsPyObject(const std::string& fieldName, const epics::pvData::PVStructurePtr& pvStructurePtr)
+{
+    boost::python::dict pyDict;
+    addUnionArrayFieldToDict(fieldName, pvStructurePtr, pyDict);
+    return pyDict[fieldName];
 }
 
 //
@@ -1787,7 +1859,65 @@ boost::python::dict extractUnionStructureDict(const boost::python::dict& pyDict)
     // We could not find union in the structure, simply use provided dict
     return pyDict;
 }
-        
+
+//
+// Return structure field as python object. Allow notation like 'x.y.z'
+// for the field path.
+//
+boost::python::object getFieldPathAsPyObject(const std::string& fieldPath, const epics::pvData::PVStructurePtr& pvStructurePtr)
+{
+    std::vector<std::string> fieldNames = StringUtility::split(fieldPath);
+    epics::pvData::PVStructurePtr pvStructurePtr2 = getParentStructureForFieldPath(fieldNames, pvStructurePtr);
+
+    // Last field in the path is what we want.
+    int nElements = fieldNames.size();
+    std::string fieldName = fieldNames[nElements-1];
+    epics::pvData::FieldConstPtr fieldPtr = getField(fieldName, pvStructurePtr2);
+    epics::pvData::Type type = fieldPtr->getType();
+    switch (type) {
+        case epics::pvData::scalar: {
+            epics::pvData::ScalarConstPtr scalarPtr = std::tr1::static_pointer_cast<const epics::pvData::Scalar>(fieldPtr);
+            epics::pvData::ScalarType scalarType = scalarPtr->getScalarType();
+            return getScalarFieldAsPyObject(fieldName, scalarType, pvStructurePtr2);
+        }
+        case epics::pvData::scalarArray: {
+            epics::pvData::ScalarArrayConstPtr scalarArrayPtr = std::tr1::static_pointer_cast<const epics::pvData::ScalarArray>(fieldPtr);
+            epics::pvData::ScalarType scalarType = scalarArrayPtr->getElementType();
+            return getScalarArrayFieldAsPyObject(fieldName, scalarType, pvStructurePtr2);
+        }
+        case epics::pvData::structure: {
+            return getStructureFieldAsPyObject(fieldName, pvStructurePtr2);
+        }
+        case epics::pvData::structureArray: {
+            return getStructureArrayFieldAsPyObject(fieldName, pvStructurePtr2);
+        }
+        case epics::pvData::union_: {
+            return getUnionFieldAsPyObject(fieldName, pvStructurePtr2);
+        }
+        case epics::pvData::unionArray: {
+            return getUnionArrayFieldAsPyObject(fieldName, pvStructurePtr2);
+        }
+        default: {
+            throw PvaException("Unrecognized field type: %d", type);
+        }
+    }
+}
+
+//
+// Set structure field from python object. Allow notation like 'x.y.z'
+// for the field path.
+//
+void setPyObjectToFieldPath(const boost::python::object& pyObject, const std::string& fieldPath, const epics::pvData::PVStructurePtr& pvStructurePtr)
+{
+    std::vector<std::string> fieldNames = StringUtility::split(fieldPath);
+    epics::pvData::PVStructurePtr pvStructurePtr2 = getParentStructureForFieldPath(fieldNames, pvStructurePtr);
+    int nElements = fieldNames.size();
+    
+    // Last field in the path is what we want.
+    std::string fieldName = fieldNames[nElements-1];
+    pyObjectToField(pyObject, fieldName, pvStructurePtr2);
+}
+
 } // namespace PyPvDataUtility
 
 

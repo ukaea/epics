@@ -40,6 +40,7 @@ DbPvGet::DbPvGet(
   channelGetRequester(channelGetRequester),
   dbAddr(dbAddr),
   process(false),
+  block(false),
   firstTime(true),
   propertyMask(0),
   beingDestroyed(false)

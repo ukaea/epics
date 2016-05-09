@@ -20,6 +20,7 @@
 #include <iostream>
 
 #include <iocsh.h>
+#include <epicsExit.h>
 
 #include <epicsExport.h>
 
@@ -35,21 +36,14 @@ using namespace epics::pvAccess;
 static const iocshFuncDef startPVAClientFuncDef = {
     "startPVAClient", 0, 0
 };
+
 extern "C" void startPVAClient(const iocshArgBuf *args)
 {
     ClientFactory::start();
 }
 
-static const iocshFuncDef stopPVAClientFuncDef = {
-    "stopPVAClient", 0, 0
-};
-extern "C" void stopPVAClient(const iocshArgBuf *args)
-{
-    ClientFactory::stop();
-}
 
-
-static void startPVAClientRegister(void)
+static void registerStartPVAClient(void)
 {
     static int firstTime = 1;
     if (firstTime) {
@@ -58,16 +52,7 @@ static void startPVAClientRegister(void)
     }
 }
 
-static void stopPVAClientRegister(void)
-{
-    static int firstTime = 1;
-    if (firstTime) {
-        firstTime = 0;
-        iocshRegister(&stopPVAClientFuncDef, stopPVAClient);
-    }
-}
 
 extern "C" {
-    epicsExportRegistrar(startPVAClientRegister);
-    epicsExportRegistrar(stopPVAClientRegister);
+    epicsExportRegistrar(registerStartPVAClient);
 }

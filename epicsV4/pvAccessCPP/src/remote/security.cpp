@@ -19,10 +19,10 @@ CAClientSecurityPlugin::shared_pointer CAClientSecurityPlugin::INSTANCE(new CACl
 CAClientSecurityPlugin::CAClientSecurityPlugin()
 {
     StructureConstPtr userAndHostStructure =
-            getFieldCreate()->createFieldBuilder()->
-            add("user", pvString)->
-            add("host", pvString)->
-            createStructure();
+        getFieldCreate()->createFieldBuilder()->
+        add("user", pvString)->
+        add("host", pvString)->
+        createStructure();
 
     m_userAndHost = getPVDataCreate()->createPVStructure(userAndHostStructure);
 
@@ -37,7 +37,7 @@ CAClientSecurityPlugin::CAClientSecurityPlugin()
         userName = buffer;
     // TODO more error handling
 
-    m_userAndHost->getSubField<PVString>("user")->put(userName);
+    m_userAndHost->getSubFieldT<PVString>("user")->put(userName);
 
     //
     // host name
@@ -48,21 +48,21 @@ CAClientSecurityPlugin::CAClientSecurityPlugin()
         hostName = buffer;
     // TODO more error handling
 
-    m_userAndHost->getSubField<PVString>("host")->put(buffer);
+    m_userAndHost->getSubFieldT<PVString>("host")->put(buffer);
 }
 
 
 void AuthNZHandler::handleResponse(osiSockAddr* responseFrom,
-                                    Transport::shared_pointer const & transport,
-                                    epics::pvData::int8 version,
-                                    epics::pvData::int8 command,
-                                    size_t payloadSize,
-                                    epics::pvData::ByteBuffer* payloadBuffer)
+                                   Transport::shared_pointer const & transport,
+                                   epics::pvData::int8 version,
+                                   epics::pvData::int8 command,
+                                   size_t payloadSize,
+                                   epics::pvData::ByteBuffer* payloadBuffer)
 {
     AbstractResponseHandler::handleResponse(responseFrom, transport, version, command, payloadSize, payloadBuffer);
 
     epics::pvData::PVField::shared_pointer data =
-            SerializationHelper::deserializeFull(payloadBuffer, transport.get());
+        SerializationHelper::deserializeFull(payloadBuffer, transport.get());
 
     transport->authNZMessage(data);
 }

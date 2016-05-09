@@ -9,12 +9,14 @@
  * @date 2015.02
  */
 
-#define epicsExportSharedSymbols
 #include <map>
-#include <pv/pvaClient.h>
 #include <pv/createRequest.h>
 #include <pv/clientFactory.h>
 #include <pv/caProvider.h>
+
+#define epicsExportSharedSymbols
+
+#include <pv/pvaClient.h>
 
 using std::tr1::static_pointer_cast;
 using namespace epics::pvData;
@@ -29,44 +31,6 @@ static const string pvaClientName = "pvaClient";
 static const string defaultProvider = "pva";
 static UnionConstPtr variantUnion = fieldCreate->createVariantUnion();
 
-namespace pvaClientPvt {
-
-    static size_t numberPvaClient = 0;
-    static bool firstTime = true;
-    static Mutex mutex;
-    
-    class StartStopClientFactory {
-    public:
-        static void PvaClientBeingConstructed()
-        {
-            bool saveFirst = false;
-            { 
-                 Lock xx(mutex);
-                 ++numberPvaClient;
-                 saveFirst = firstTime;
-                 firstTime = false;
-            }
-            if(saveFirst) {
-                ClientFactory::start();
-                CAClientFactory::start();
-            }
-        }
-    
-        static void PvaClientBeingDestroyed() {
-            size_t numLeft = 0;
-            {
-                 Lock xx(mutex);
-                 --numberPvaClient;
-                  numLeft = numberPvaClient;
-            }
-            if(numLeft<=0) {
-                ClientFactory::stop();
-                CAClientFactory::stop();
-            }
-        }
-    };
-
-} // namespace pvaClientPvt
 
 class PvaClientChannelCache
 {
@@ -139,20 +103,41 @@ size_t PvaClientChannelCache::cacheSize()
 
 }
 
-using namespace epics::pvaClient::pvaClientPvt;
-
-PvaClientPtr PvaClient::create()
+PvaClientPtr PvaClient::get(std::string const & providerNames)
 {
-    PvaClientPtr xx(new PvaClient());
-    StartStopClientFactory::PvaClientBeingConstructed();
-    return xx;
+    static  PvaClientPtr master;
+    static Mutex mutex;
+    Lock xx(mutex);
+    if(!master) {
+        master = PvaClientPtr(new PvaClient(providerNames));
+    }
+    return master;
 }
 
 
-PvaClient::PvaClient()
-:   pvaClientChannelCache(new PvaClientChannelCache()),
-    isDestroyed(false)
+PvaClient::PvaClient(std::string const & providerNames)
+:  pvaClientChannelCache(new PvaClientChannelCache()),
+   isDestroyed(false),
+   pvaStarted(false),
+   caStarted(false)
 {
+    stringstream ss(providerNames);
+    string providerName;
+    while (getline(ss, providerName, ' '))
+    {
+         ChannelProviderRegistry::shared_pointer registry(getChannelProviderRegistry());
+         if(providerName=="pva") {
+             ClientFactory::start();
+             pvaStarted = true;
+         } else if(providerName=="ca") {
+             CAClientFactory::start();
+             caStarted = true;
+         } else {
+             if(!registry->getProvider(providerName)) {
+                  cerr << "PvaClient::get provider " << providerName  << " not known" << endl;
+             }
+         }
+    }
 }
 
 PvaClient::~PvaClient() {
@@ -167,7 +152,8 @@ void PvaClient::destroy()
         isDestroyed = true;
     }
     pvaClientChannelCache.reset();
-    StartStopClientFactory::PvaClientBeingDestroyed();
+    if(pvaStarted) ClientFactory::stop();
+    if(caStarted) CAClientFactory::stop();
 }
 
 string PvaClient:: getRequesterName()

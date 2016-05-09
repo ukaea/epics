@@ -63,7 +63,6 @@ DbPvMonitor::DbPvMonitor(
   numberFree(queueSize),
   numberUsed(0),
   nextGetFree(0),
-  nextSetUsed(0),
   nextGetUsed(0),
   nextReleaseUsed(0),
   beingDestroyed(false),
@@ -80,12 +79,12 @@ bool DbPvMonitor::init(
     PVStructure::shared_pointer const &pvRequest)
 {
     string queueSizeString("record._options.queueSize");
-    PVFieldPtr pvField = pvRequest.get()->getSubField(queueSizeString);
-    if(pvField) {
+    {
         PVStringPtr pvString = pvRequest.get()->getSubField<PVString>(queueSizeString);
         if(pvString) {
              string value = pvString->get();
              queueSize = atoi(value.c_str());
+             numberFree = queueSize;
         }
     }
     propertyMask = dbUtil->getProperties(
@@ -176,15 +175,17 @@ Status DbPvMonitor::start()
         }
         if(isStarted) return Status::Ok;
         isStarted = true;
+        firstTime = true;
     }
-    currentElement = getFree();
-    if (!currentElement) {
+    if(!currentElement) {
+        currentElement = getFree();
+    }
+    if(!currentElement) {
         printf("dbPvMonitor::start will throw\n");
         throw std::logic_error(
             "dbPvMonitor::start no free queue element");
     }
-    BitSet::shared_pointer bitSet = currentElement->changedBitSet;
-    bitSet->clear();
+
     caMonitor.get()->start();
     return Status::Ok;
 }
@@ -259,15 +260,24 @@ void DbPvMonitor::eventCallback(const char *status)
        pvStructure,
        overrunBitSet,
        &caData);
-    int index = overrunBitSet->nextSetBit(0);
-    while(index>=0) {
-        bool wasSet = bitSet->get(index);
-        if(!wasSet) {
-            bitSet->set(index);
-            overrunBitSet->clear(index);
+
+    if(firstTime) {
+        firstTime = false;
+        bitSet->clear();
+        overrunBitSet->clear();
+        bitSet->set(0);
+    } else {
+        int index = overrunBitSet->nextSetBit(0);
+        while(index>=0) {
+            bool wasSet = bitSet->get(index);
+            if(!wasSet) {
+                bitSet->set(index);
+                overrunBitSet->clear(index);
+            }
+            index = overrunBitSet->nextSetBit(index+1);
         }
-        index = overrunBitSet->nextSetBit(index+1);
     }
+    
     if(bitSet->nextSetBit(0)>=0) {
         nextElement =getFree();
         if(nextElement) {
@@ -278,16 +288,9 @@ void DbPvMonitor::eventCallback(const char *status)
         }
     }
     dbScanUnlock(dbChannelRecord(dbPv->getDbChannel()));
-    if (firstTime) {
-        firstTime = false;
-        bitSet->clear();
-        bitSet->set(0);
-    }
     if(bitSet->nextSetBit(0)<0) return;
     if(!nextElement) return;
     numberUsed++;
-    nextSetUsed++;
-    if (nextSetUsed >= queueSize) nextSetUsed = 0;
     currentElement = nextElement;
     monitorRequester->monitorEvent(getPtrSelf());
 }

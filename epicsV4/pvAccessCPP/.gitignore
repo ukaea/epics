@@ -4,6 +4,7 @@ doc/
 include/
 db/
 dbd/
+html/
 documentation/html
 documentation/*.tag
 envPaths
@@ -11,3 +12,8 @@ configure/*.local
 !configure/ExampleRELEASE.local
 **/O.*
 QtC-*
+*.config
+*.creator
+*.files
+*.includes
+*.user

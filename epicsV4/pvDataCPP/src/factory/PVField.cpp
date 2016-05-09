@@ -12,6 +12,8 @@
 #include <string>
 #include <cstdio>
 
+#include <epicsMutex.h>
+
 #define epicsExportSharedSymbols
 #include <pv/lock.h>
 #include <pv/pvData.h>
@@ -24,8 +26,7 @@ using std::string;
 namespace epics { namespace pvData {
 
 PVField::PVField(FieldConstPtr field)
-: notImplemented("not implemented"),
-  parent(NULL),field(field),
+: parent(NULL),field(field),
   fieldOffset(0), nextFieldOffset(0),
   immutable(false)
 {

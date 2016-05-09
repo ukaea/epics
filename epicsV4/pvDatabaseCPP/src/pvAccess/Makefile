@@ -2,8 +2,6 @@
 
 SRC_DIRS += $(PVDATABASE_SRC)/pvAccess
 
-INC += channelProviderLocal.h
-
 DBD += registerChannelProviderLocal.dbd
 
 LIBSRCS += channelProviderLocal.cpp

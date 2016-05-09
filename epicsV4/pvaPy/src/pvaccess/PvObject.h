@@ -38,14 +38,17 @@ public:
     friend std::ostream& operator<<(std::ostream& out, const PvObject& pvObject);
     friend epics::pvData::PVStructurePtr& operator<<(epics::pvData::PVStructurePtr& pvStructurePtr, const PvObject& pvObject);
 
+    // Has field?
+    bool hasField(const std::string& fieldPath) const;
+
     // Object set/get
     void set(const boost::python::dict& pyDict);
     boost::python::dict get() const;
 
-    void setObject(const std::string& key, const boost::python::object& pyObject);
-    void setObject(const boost::python::object& pyObject);
-    boost::python::object getObject(const std::string& key) const;
-    boost::python::object getObject() const;
+    void setPyObject(const std::string& fieldPath, const boost::python::object& pyObject);
+    void setPyObject(const boost::python::object& pyObject);
+    boost::python::object getPyObject(const std::string& fieldPath) const;
+    boost::python::object getPyObject() const;
 
     // Boolean fields
     void setBoolean(const std::string& key, bool value);

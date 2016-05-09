@@ -8,3 +8,4 @@ html/
 **/O.*
 envPaths
 QtC-*
+*.orig

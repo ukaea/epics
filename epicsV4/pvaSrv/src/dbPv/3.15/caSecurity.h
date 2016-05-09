@@ -169,6 +169,10 @@ namespace epics {
     };
 
 
+    struct NoChannelException : public epics::pvAccess::SecurityException
+    {
+        NoChannelException() : SecurityException("No such channel") {}
+    };
 
     class epicsShareClass CAServerSecuritySession :
         public epics::pvAccess::SecuritySession
@@ -217,16 +221,11 @@ namespace epics {
                 return epics::pvAccess::ChannelSecuritySession::shared_pointer(
                             new CAServerChannelSecuritySession(channelName, m_user.c_str(), m_host)
                             );
-            } catch (epics::pvAccess::SecurityException &se) {
-
+            } catch (NoChannelException &nce) {
                 // allow channels that do not live in db (e.g. a server hosts 2 providers)
                 // TODO think about this, it is better to split servers
                 // additional case: server RPC service (channelName == "server")
-                const char * msg = se.what();
-                if (msg && strcmp(msg, "no such pv") == 0)
-                    return epics::pvAccess::NoSecurityPlugin::INSTANCE->createChannelSession(channelName);
-                else
-                    throw;
+                return epics::pvAccess::NoSecurityPlugin::INSTANCE->createChannelSession(channelName);
             }
         }
 

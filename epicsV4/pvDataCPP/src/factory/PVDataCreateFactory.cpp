@@ -8,7 +8,7 @@
  *  @author mrk
  */
 
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(NOMINMAX)
 #define NOMINMAX
 #endif
 
@@ -16,6 +16,8 @@
 #include <cstdlib>
 #include <string>
 #include <cstdio>
+
+#include <epicsMutex.h>
 
 #define epicsExportSharedSymbols
 #include <pv/lock.h>

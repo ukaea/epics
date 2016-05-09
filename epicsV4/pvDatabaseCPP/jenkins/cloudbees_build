@@ -17,11 +17,10 @@ DEFAULT_BASE=3.14.12.5
 BASE=${1:-${DEFAULT_BASE}}
 USE_MB=${2:-"MB_NO"}
 
-# Dependent module branches (empty = master)
-PVCOMMON_BRANCH="Release-4.1-"
-PVDATA_BRANCH="Release-5.0-"
-PVACCESS_BRANCH="Release-4.1-"
-PVASRV_BRANCH="Release-0.11-"
+# Dependent module branches (empty on master)
+PVCOMMON_BRANCH=""
+PVDATA_BRANCH=""
+PVACCESS_BRANCH=""
 
 ###########################################
 # Fetch and unpack dependencies
@@ -35,11 +34,10 @@ cd ${STUFF}
 wget -nv https://openepics.ci.cloudbees.com/job/Base-${BASE}_Build/lastSuccessfulBuild/artifact/base-${BASE}.CB-dist.tar.gz
 wget -nv https://openepics.ci.cloudbees.com/job/pvDataCPP_${PVDATA_BRANCH}Build/BASE=${BASE},USE_MB=MB_NO/lastSuccessfulBuild/artifact/pvData.CB-dist.tar.gz
 wget -nv https://openepics.ci.cloudbees.com/job/pvAccessCPP_${PVACCESS_BRANCH}Build/BASE=${BASE},USE_MB=${USE_MB}/lastSuccessfulBuild/artifact/pvAccess.CB-dist.tar.gz
-wget -nv https://openepics.ci.cloudbees.com/job/pvaSrvCPP_${PVASRV_BRANCH}Build/BASE=${BASE},USE_MB=MB_NO/lastSuccessfulBuild/artifact/pvaSrv.CB-dist.tar.gz
+
 tar -xzf base-${BASE}.CB-dist.tar.gz
 tar -xzf pvData.CB-dist.tar.gz
 tar -xzf pvAccess.CB-dist.tar.gz
-tar -xzf pvaSrv.CB-dist.tar.gz
 
 if [ "${USE_MB}" = "MB_YES" ]; then
     wget -nv https://openepics.ci.cloudbees.com/job/pvCommonCPP_${PVCOMMON_BRANCH}Build/BASE=${BASE},USE_MB=MB_YES/lastSuccessfulBuild/artifact/pvCommon.CB-dist.tar.gz
@@ -65,7 +63,7 @@ make distclean all
 ###########################################
 # Test
 
-# Currently no tests. See the file called README.
+make runtests
 
 ###########################################
 # Create distribution

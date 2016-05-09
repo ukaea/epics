@@ -1,30 +1,26 @@
 TOP = ..
 include $(TOP)/configure/CONFIG
 
-SRC = $(TOP)/src
-
-SRC_DIRS += $(SRC)/nt
-
-INC += nt.h
-INC += ntutils.h
-INC += ntid.h
-INC += ntfield.h
-INC += ntscalar.h
-INC += ntscalarArray.h
-INC += ntnameValue.h
-INC += nttable.h
-INC += ntmultiChannel.h
-INC += ntscalarMultiChannel.h
-INC += ntndarray.h
-INC += ntmatrix.h
-INC += ntenum.h
-INC += ntunion.h
-INC += ntaggregate.h
-INC += ntattribute.h
-INC += ntcontinuum.h
-INC += nthistogram.h
-INC += nturi.h
-INC += ntndarrayAttribute.h
+INC += pv/nt.h
+INC += pv/ntutils.h
+INC += pv/ntid.h
+INC += pv/ntfield.h
+INC += pv/ntscalar.h
+INC += pv/ntscalarArray.h
+INC += pv/ntnameValue.h
+INC += pv/nttable.h
+INC += pv/ntmultiChannel.h
+INC += pv/ntscalarMultiChannel.h
+INC += pv/ntndarray.h
+INC += pv/ntmatrix.h
+INC += pv/ntenum.h
+INC += pv/ntunion.h
+INC += pv/ntaggregate.h
+INC += pv/ntattribute.h
+INC += pv/ntcontinuum.h
+INC += pv/nthistogram.h
+INC += pv/nturi.h
+INC += pv/ntndarrayAttribute.h
 
 LIBSRCS += ntutils.cpp
 LIBSRCS += ntid.cpp

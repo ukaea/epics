@@ -96,6 +96,20 @@ epics::pvData::PVStructurePtr& operator<<(epics::pvData::PVStructurePtr& pvStruc
 }
 
 //
+// Has field?
+//
+bool PvObject::hasField(const std::string& fieldPath) const
+{
+    try {
+        PyPvDataUtility::checkFieldPathExists(fieldPath, pvStructurePtr);
+        return true;
+    }
+    catch (PvaException) {
+        return false;
+    }
+}
+
+//
 // Object set/get
 //
 void PvObject::set(const boost::python::dict& pyDict)
@@ -108,26 +122,26 @@ boost::python::dict PvObject::get() const
     return toDict();
 }
 
-void PvObject::setObject(const std::string& key, const boost::python::object& pyObject)
+void PvObject::setPyObject(const std::string& fieldPath, const boost::python::object& pyObject)
 {
-    PyPvDataUtility::pyObjectToField(pyObject, key, pvStructurePtr);
+    PyPvDataUtility::setPyObjectToFieldPath(pyObject, fieldPath, pvStructurePtr);
 }
 
-void PvObject::setObject(const boost::python::object& pyObject)
+void PvObject::setPyObject(const boost::python::object& pyObject)
 {
     std::string key = PyPvDataUtility::getValueOrSingleFieldName(pvStructurePtr);
-    setObject(key, pyObject);
+    setPyObject(key, pyObject);
 }
 
-boost::python::object PvObject::getObject(const std::string& key) const
+boost::python::object PvObject::getPyObject(const std::string& fieldPath) const
 {
-    return toDict()[key];
+    return PyPvDataUtility::getFieldPathAsPyObject(fieldPath, pvStructurePtr);
 }
 
-boost::python::object PvObject::getObject() const
+boost::python::object PvObject::getPyObject() const
 {
     std::string key = PyPvDataUtility::getValueOrSingleFieldName(pvStructurePtr);
-    return getObject(key);
+    return getPyObject(key);
 }
 
 // Boolean modifiers/accessors

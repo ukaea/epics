@@ -22,6 +22,15 @@ std::string toString(const char* s)
     }
     return "";
 }
+
+std::string toString(bool b) 
+{
+    if (b) {
+        return "true";
+    }
+    return "false";
+}
+
 std::string& leftTrim(std::string& s) 
 {
     s.erase(s.begin(), std::find_if(s.begin(), s.end(),
@@ -45,6 +54,23 @@ std::string trim(const std::string& s)
 {
     std::string s2 = s;
     return leftTrim(rightTrim(s2));
+}
+
+std::vector<std::string>& split(const std::string& s, char delimiter, std::vector<std::string>& elements)
+{
+    std::stringstream ss(s);
+    std::string item;
+    while (std::getline(ss, item, delimiter)) {
+        elements.push_back(trim(item));
+    }
+    return elements;
+}
+
+std::vector<std::string> split(const std::string& s, char delimiter)
+{
+    std::vector<std::string> elements;
+    split(s, delimiter, elements);
+    return elements;
 }
 
 } // namespace StringUtility

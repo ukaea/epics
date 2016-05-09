@@ -21,7 +21,7 @@
 #     EPICS4_DIR=/home/epicsv4
 #     PVCOMMON=${EPICS4_DIR}/pvCommonCPP
 #     PVDATA=${EPICS4_DIR}/pvDataCPP
-#     NORMATIVETYPES=${EPICS4_DIR}/normativeTypesCPP
+#     NORMATIVETYPES=${EPICSV4}/normativeTypesCPP
 #     PVACCESS=${EPICS4_DIR}/pvAccessCPP
 #Either create a RELEASE.local one level above the TOP for this module
 #OR copy ExampleRELEASE.local to RELEASE.local and edit it.

@@ -12,7 +12,7 @@
 ###########################################
 # Set EPICS Base version and upload target
 
-BASE=3.15.2
+BASE=3.15.3
 PUBLISH=${1:-DONT}
 
 ###########################################
@@ -24,8 +24,8 @@ rm -fr ${STUFF}
 mkdir -p ${STUFF}
 cd ${STUFF}
 
-wget -nv https://openepics.ci.cloudbees.com/job/Doxygen-1.8.3_Build/lastSuccessfulBuild/artifact/doxygen-1.8.3.CB-dist.tar.gz
-tar -xzf doxygen-1.8.3.CB-dist.tar.gz
+wget -nv https://openepics.ci.cloudbees.com/job/Doxygen-1.8.11_Build/lastSuccessfulBuild/artifact/doxygen-1.8.11.CB-dist.tar.gz
+tar -xzf doxygen-1.8.11.CB-dist.tar.gz
 
 ###########################################
 # Generate
@@ -45,7 +45,11 @@ doxygen
 if [ "${PUBLISH}" != "DONT" ]; then
     # Upload explicit dummy to ensure target directory exists
     echo "Created by CloudBees Jenkins upload job. Should be deleted as part of the job." > DUMMY
-    rsync -q -e ssh DUMMY epics-jenkins@web.sourceforge.net:/home/project-web/epics-pvdata/htdocs/docbuild/pvaSrv/${PUBLISH}/
+    rsync -q -e ssh DUMMY epics-jenkins@web.sourceforge.net:/home/project-web/epics-pvdata/htdocs/docbuild/pvaSrv/${PUBLISH}/DUMMY
 
     rsync -aqP --delete -e ssh documentation epics-jenkins@web.sourceforge.net:/home/project-web/epics-pvdata/htdocs/docbuild/pvaSrv/${PUBLISH}/
 fi
+###########################################
+# Publish
+
+rsync -aqP --delete -e ssh documentation epics-jenkins@web.sourceforge.net:/home/project-web/epics-pvdata/htdocs/docbuild/pvaSrv/tip

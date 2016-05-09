@@ -17,7 +17,7 @@
 #include <stdlib.h>
 
 #ifdef _WIN32
-#include <WinSock2.h>
+#include <winsock2.h>
 #else
 #include <sys/time.h>
 #endif
@@ -25,7 +25,7 @@
 #include <pv/event.h>
 
 using namespace std;
-using namespace std::tr1;
+namespace TR1 = std::tr1;
 using namespace epics::pvData;
 using namespace epics::pvAccess;
 
@@ -45,7 +45,7 @@ int runs = DEFAULT_RUNS;
 bool bulkMode = DEFAULT_BULK;
 int arraySize = DEFAULT_ARRAY_SIZE;          // 0 means scalar
 Mutex waitLoopPtrMutex;
-std::tr1::shared_ptr<Event> waitLoopEvent;
+TR1::shared_ptr<Event> waitLoopEvent;
 
 double timeOut = DEFAULT_TIMEOUT;
 string request(DEFAULT_REQUEST);
@@ -53,7 +53,7 @@ string request(DEFAULT_REQUEST);
 PVStructure::shared_pointer pvRequest;
 
 class RequesterImpl : public Requester,
-        public std::tr1::enable_shared_from_this<RequesterImpl>
+    public TR1::enable_shared_from_this<RequesterImpl>
 {
 public:
 
@@ -109,8 +109,8 @@ epicsTimeStamp startTime;
 void get_all()
 {
     for (vector<ChannelGet::shared_pointer>::const_iterator i = channelGetList.begin();
-         i != channelGetList.end();
-         i++)
+            i != channelGetList.end();
+            i++)
         (*i)->get();
 
     // we assume all channels are from the same provider
@@ -205,7 +205,7 @@ public:
                 else
                 {
                     printf("%d %d %d %d %.3f\n", channels, arraySize, iterations, runs, sum/runs);
-        
+
                     Lock guard(waitLoopPtrMutex);
                     waitLoopEvent->signal();	// all done
                 }
@@ -312,12 +312,12 @@ void runTest()
 
     vector<Channel::shared_pointer> channels;
     for (vector<string>::const_iterator i = channelNames.begin();
-         i != channelNames.end();
-         i++)
+            i != channelNames.end();
+            i++)
     {
-        shared_ptr<ChannelRequesterImpl> channelRequesterImpl(
-                        new ChannelRequesterImpl()
-                    );
+        TR1::shared_ptr<ChannelRequesterImpl> channelRequesterImpl(
+            new ChannelRequesterImpl()
+        );
         Channel::shared_pointer channel = provider->createChannel(*i, channelRequesterImpl);
         channels.push_back(channel);
     }
@@ -326,12 +326,12 @@ void runTest()
     bool differentConnectionsWarningIssued = false;
     string theRemoteAddress;
     for (vector<Channel::shared_pointer>::iterator i = channels.begin();
-         i != channels.end();
-         i++)
+            i != channels.end();
+            i++)
     {
         Channel::shared_pointer channel = *i;
-        shared_ptr<ChannelRequesterImpl> channelRequesterImpl =
-                dynamic_pointer_cast<ChannelRequesterImpl>(channel->getChannelRequester());
+        TR1::shared_ptr<ChannelRequesterImpl> channelRequesterImpl =
+            TR1::dynamic_pointer_cast<ChannelRequesterImpl>(channel->getChannelRequester());
         if (channelRequesterImpl->waitUntilConnected(5.0))
         {
             string remoteAddress = channel->getRemoteAddress();
@@ -344,16 +344,16 @@ void runTest()
                 if (!differentConnectionsWarningIssued)
                 {
                     std::cout << "not all channels are hosted by the same connection: " <<
-                                 theRemoteAddress << " != " << remoteAddress << std::endl;
+                              theRemoteAddress << " != " << remoteAddress << std::endl;
                     differentConnectionsWarningIssued = true;
                     // we assumes same connection (thread-safety)
                     exit(2);
                 }
             }
 
-            shared_ptr<ChannelGetRequesterImpl> getRequesterImpl(
-                            new ChannelGetRequesterImpl(channel->getChannelName())
-                        );
+            TR1::shared_ptr<ChannelGetRequesterImpl> getRequesterImpl(
+                new ChannelGetRequesterImpl(channel->getChannelName())
+            );
             ChannelGet::shared_pointer channelGet = channel->createChannelGet(getRequesterImpl, pvRequest);
             if (bulkMode) provider->flush();
 
@@ -383,7 +383,7 @@ void runTest()
     }
     epicsTimeGetCurrent(&startTime);
     get_all();
-    
+
     waitLoopEvent->wait();
 }
 
@@ -478,7 +478,7 @@ int main (int argc, char *argv[])
                         {
                             //printf("%d %d %d %d\n", channels, arraySize, iterations, runs);
                             runTest();
-                            
+
                             // wait a bit for a next test
                             epicsThreadSleep(1.0);
                         }

@@ -86,9 +86,9 @@ void DbGroupGet::get(bool lastRequest)
         if(alarm.getSeverity()>maxAlarm.getSeverity()) maxAlarm = alarm;
         convert->copy(pvValue,pvFields[i+2]);
     }
-    pvAlarm.attach(pvTop->getSubField("alarm"));
+    pvAlarm.attach(pvTop->getSubFieldT("alarm"));
     pvAlarm.set(maxAlarm);
-    pvTimeStamp.attach(pvTop->getSubField("timeStamp"));
+    pvTimeStamp.attach(pvTop->getSubFieldT("timeStamp"));
     timeStamp.getCurrent();
     pvTimeStamp.set(timeStamp);
     bitSet->clear();

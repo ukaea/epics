@@ -9,6 +9,9 @@
  */
 #include <string>
 #include <cstdio>
+#include <iostream>
+
+#include <epicsMutex.h>
 
 #define epicsExportSharedSymbols
 #include <pv/lock.h>
@@ -34,6 +37,9 @@ string getMessageTypeName(MessageType messageType)
     return messageTypeName[messageType];
 }
 
-
+void Requester::message(std::string const & message,MessageType messageType)
+{
+    std::cerr << "[" << getRequesterName() << "] message(" << message << ", " << getMessageTypeName(messageType) << ")\n";
+}
 
 }}

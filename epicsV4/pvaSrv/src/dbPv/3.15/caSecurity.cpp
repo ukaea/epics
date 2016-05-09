@@ -57,7 +57,7 @@ CAServerChannelSecuritySession::CAServerChannelSecuritySession(std::string const
 {
     m_dbChannel = dbChannel_create (channelName.c_str());
     if (!m_dbChannel)
-        throw SecurityException("failed to create dbChannel");
+        throw NoChannelException();
 
     long status = asAddClient(
             &m_asClientPvt,

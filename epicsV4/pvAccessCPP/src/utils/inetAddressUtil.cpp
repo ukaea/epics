@@ -9,10 +9,12 @@
 #include <cstdlib>
 #include <sstream>
 
-#include <pv/byteBuffer.h>
-#include <pv/epicsException.h>
 #include <osiSock.h>
 #include <ellLib.h>
+
+#include <pv/pvType.h>
+#include <pv/byteBuffer.h>
+#include <pv/epicsException.h>
 
 #define epicsExportSharedSymbols
 #include <pv/inetAddressUtil.h>
@@ -26,13 +28,14 @@ namespace pvAccess {
 void addDefaultBroadcastAddress(InetAddrVector* v, unsigned short p) {
     osiSockAddr pNewNode;
     pNewNode.ia.sin_family = AF_INET;
+    // TODO this does not work in case of no active interfaces, should return 127.0.0.1 then
     pNewNode.ia.sin_addr.s_addr = htonl(INADDR_BROADCAST);
     pNewNode.ia.sin_port = htons(p);
     v->push_back(pNewNode);
 }
 
-InetAddrVector* getBroadcastAddresses(SOCKET sock, 
-        unsigned short defaultPort) {
+InetAddrVector* getBroadcastAddresses(SOCKET sock,
+                                      unsigned short defaultPort) {
     ELLLIST as;
     ellInit(&as);
     osiSockAddr serverAddr;
@@ -47,6 +50,9 @@ InetAddrVector* getBroadcastAddresses(SOCKET sock,
         v->push_back(sn->addr);
     }
     ellFree(&as);
+    // add fallback address
+    if (!v->size())
+        addDefaultBroadcastAddress(v, defaultPort);
     return v;
 }
 
@@ -143,7 +149,7 @@ int32 parseInetAddress(const string & addr) {
 }
 
 InetAddrVector* getSocketAddressList(const std::string & list, int defaultPort,
-        const InetAddrVector* appendList) {
+                                     const InetAddrVector* appendList) {
     InetAddrVector* iav = new InetAddrVector();
 
     // skip leading spaces
@@ -170,13 +176,13 @@ InetAddrVector* getSocketAddressList(const std::string & list, int defaultPort,
 
     if(appendList!=NULL) {
         for(size_t i = 0; i<appendList->size(); i++)
-        	iav->push_back((*appendList)[i]);
+            iav->push_back((*appendList)[i]);
     }
     return iav;
 }
 
 string inetAddressToString(const osiSockAddr &addr,
-        bool displayPort, bool displayHex) {
+                           bool displayPort, bool displayHex) {
     stringstream saddr;
 
     int ipa = ntohl(addr.ia.sin_addr.s_addr);
@@ -187,7 +193,7 @@ string inetAddressToString(const osiSockAddr &addr,
     saddr<<((int)ipa&0xFF);
     if(displayPort) saddr<<":"<<ntohs(addr.ia.sin_port);
     if(displayHex) saddr<<" ("<<hex<<ntohl(addr.ia.sin_addr.s_addr)
-            <<")";
+                            <<")";
 
     return saddr.str();
 }
@@ -207,6 +213,322 @@ int getLoopbackNIF(osiSockAddr &loAddr, string const & localNIF, unsigned short 
     loAddr.ia.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
     return 1;
 }
+
+
+
+#include <osiSock.h>
+//#include <epicsAssert.h>
+#include <errlog.h>
+
+#if !defined(_WIN32)
+
+/*
+ * Determine the size of an ifreq structure
+ * Made difficult by the fact that addresses larger than the structure
+ * size may be returned from the kernel.
+ */
+static size_t ifreqSize ( struct ifreq *pifreq )
+{
+    size_t        size;
+
+    size = ifreq_size ( pifreq );
+    if ( size < sizeof ( *pifreq ) ) {
+        size = sizeof ( *pifreq );
+    }
+    return size;
+}
+
+/*
+ * Move to the next ifreq structure
+ */
+static struct ifreq * ifreqNext ( struct ifreq *pifreq )
+{
+    struct ifreq *ifr;
+
+    ifr = ( struct ifreq * )( ifreqSize (pifreq) + ( char * ) pifreq );
+    return ifr;
+}
+
+int discoverInterfaces(IfaceNodeVector &list, SOCKET socket, const osiSockAddr *pMatchAddr)
+{
+    static const unsigned           nelem = 100;
+    int                             status;
+    struct ifconf                   ifconf;
+    struct ifreq                    *pIfreqList;
+    struct ifreq                    *pIfreqListEnd;
+    struct ifreq                    *pifreq;
+    struct ifreq                    *pnextifreq;
+    int                             match;
+
+    /*
+     * use pool so that we avoid using too much stack space
+     *
+     * nelem is set to the maximum interfaces
+     * on one machine here
+     */
+    pIfreqList = (struct ifreq *) calloc ( nelem, sizeof(*pifreq) );
+    if (!pIfreqList) {
+        errlogPrintf ("discoverInterfaces(): no memory to complete request\n");
+        return -1;
+    }
+
+    ifconf.ifc_len = nelem * sizeof(*pifreq);
+    ifconf.ifc_req = pIfreqList;
+    status = socket_ioctl (socket, SIOCGIFCONF, &ifconf);
+    if (status < 0 || ifconf.ifc_len == 0) {
+        /*ifDepenDebugPrintf(("discoverInterfaces(): status: 0x08x, ifconf.ifc_len: %d\n", status, ifconf.ifc_len));*/
+        errlogPrintf ("discoverInterfaces(): unable to fetch network interface configuration\n");
+        free (pIfreqList);
+        return -1;
+    }
+
+    pIfreqListEnd = (struct ifreq *) (ifconf.ifc_len + (char *) pIfreqList);
+    pIfreqListEnd--;
+
+    for ( pifreq = pIfreqList; pifreq <= pIfreqListEnd; pifreq = pnextifreq ) {
+        uint32_t  current_ifreqsize;
+
+        /*
+         * find the next ifreq
+         */
+        pnextifreq = ifreqNext (pifreq);
+
+        /* determine ifreq size */
+        current_ifreqsize = ifreqSize ( pifreq );
+        /* copy current ifreq to aligned bufferspace (to start of pIfreqList buffer) */
+        memmove(pIfreqList, pifreq, current_ifreqsize);
+
+        /*ifDepenDebugPrintf (("discoverInterfaces(): found IFACE: %s len: 0x%x current_ifreqsize: 0x%x \n",
+            pIfreqList->ifr_name,
+            ifreq_size(pifreq),
+            current_ifreqsize));*/
+
+        /*
+         * If its not an internet interface then dont use it
+         */
+        if ( pIfreqList->ifr_addr.sa_family != AF_INET ) {
+            /*ifDepenDebugPrintf ( ("discoverInterfaces(): interface \"%s\" was not AF_INET\n", pIfreqList->ifr_name) );*/
+            continue;
+        }
+
+        /*
+         * if it isnt a wildcarded interface then look for
+         * an exact match
+         */
+        match = 0;
+        if ( pMatchAddr && pMatchAddr->sa.sa_family != AF_UNSPEC ) {
+            if ( pMatchAddr->sa.sa_family != AF_INET ) {
+                continue;
+            }
+            if ( pMatchAddr->ia.sin_addr.s_addr != htonl (INADDR_ANY) ) {
+                struct sockaddr_in *pInetAddr = (struct sockaddr_in *) &pIfreqList->ifr_addr;
+                if ( pInetAddr->sin_addr.s_addr != pMatchAddr->ia.sin_addr.s_addr ) {
+                    /*ifDepenDebugPrintf ( ("discoverInterfaces(): net intf \"%s\" didnt match\n", pIfreqList->ifr_name) );*/
+                    continue;
+                }
+                else
+                    match = 1;
+            }
+        }
+
+        status = socket_ioctl ( socket, SIOCGIFFLAGS, pIfreqList );
+        if ( status ) {
+            errlogPrintf ("discoverInterfaces(): net intf flags fetch for \"%s\" failed\n", pIfreqList->ifr_name);
+            continue;
+        }
+
+        /*
+         * dont bother with interfaces that have been disabled
+         */
+        if ( ! ( pIfreqList->ifr_flags & IFF_UP ) ) {
+            /*ifDepenDebugPrintf ( ("discoverInterfaces(): net intf \"%s\" was down\n", pIfreqList->ifr_name) );*/
+            continue;
+        }
+
+        /*
+         * dont use the loop back interface, unless it maches pMatchAddr
+         */
+        if (!match) {
+            if ( pIfreqList->ifr_flags & IFF_LOOPBACK ) {
+                /*ifDepenDebugPrintf ( ("discoverInterfaces(): ignoring loopback interface: \"%s\"\n", pIfreqList->ifr_name) );*/
+                continue;
+            }
+        }
+
+        ifaceNode node;
+        node.ifaceAddr.sa = pIfreqList->ifr_addr;
+
+        /*
+         * If this is an interface that supports
+         * broadcast fetch the broadcast address.
+         *
+         * Otherwise if this is a point to point
+         * interface then use the destination address.
+         *
+         * Otherwise CA will not query through the
+         * interface.
+         */
+        if ( pIfreqList->ifr_flags & IFF_BROADCAST ) {
+            status = socket_ioctl (socket, SIOCGIFBRDADDR, pIfreqList);
+            if ( status ) {
+                errlogPrintf ("discoverInterfaces(): net intf \"%s\": bcast addr fetch fail\n", pIfreqList->ifr_name);
+                continue;
+            }
+            node.ifaceBCast.sa = pIfreqList->ifr_broadaddr;
+            /*ifDepenDebugPrintf ( ( "found broadcast addr = %x\n", ntohl ( pNewNode->addr.ia.sin_addr.s_addr ) ) );*/
+        }
+#if defined (IFF_POINTOPOINT)
+        else if ( pIfreqList->ifr_flags & IFF_POINTOPOINT ) {
+            status = socket_ioctl ( socket, SIOCGIFDSTADDR, pIfreqList);
+            if ( status ) {
+                /*ifDepenDebugPrintf ( ("discoverInterfaces(): net intf \"%s\": pt to pt addr fetch fail\n", pIfreqList->ifr_name) );*/
+                continue;
+            }
+            node.ifaceBCast.sa = pIfreqList->ifr_dstaddr;
+        }
+#endif
+        else {
+            // if it is a match, accept the interface even if it does not support broadcast (i.e. 127.0.0.1)
+            if (match)
+                node.ifaceBCast.sa.sa_family = AF_UNSPEC;
+            else
+            {
+                /*ifDepenDebugPrintf ( ( "discoverInterfaces(): net intf \"%s\": not point to point or bcast?\n", pIfreqList->ifr_name ) );*/
+                continue;
+            }
+        }
+
+        /*ifDepenDebugPrintf ( ("discoverInterfaces(): net intf \"%s\" found\n", pIfreqList->ifr_name) );*/
+
+        list.push_back(node);
+    }
+
+    free ( pIfreqList );
+    return 0;
+}
+
+
+#else
+
+#define VC_EXTRALEAN
+#include <winsock2.h>
+#include <ws2tcpip.h>
+
+int discoverInterfaces(IfaceNodeVector &list, SOCKET socket, const osiSockAddr *pMatchAddr)
+{
+    int             	status;
+    INTERFACE_INFO      *pIfinfo;
+    INTERFACE_INFO      *pIfinfoList;
+    unsigned			nelem;
+    int					numifs;
+    DWORD				cbBytesReturned;
+    int					match;
+
+    /* only valid for winsock 2 and above
+    TODO resolve dllimport compilation problem and uncomment this check
+    if (wsaMajorVersion() < 2 ) {
+        fprintf(stderr, "Need to set EPICS_CA_AUTO_ADDR_LIST=NO for winsock 1\n");
+        return -1;
+    }
+    */
+
+    nelem = 100;
+    pIfinfoList = (INTERFACE_INFO *) calloc(nelem, sizeof(INTERFACE_INFO));
+    if(!pIfinfoList) {
+        return -1;
+    }
+
+    status = WSAIoctl (socket, SIO_GET_INTERFACE_LIST,
+                       NULL, 0,
+                       (LPVOID)pIfinfoList, nelem*sizeof(INTERFACE_INFO),
+                       &cbBytesReturned, NULL, NULL);
+
+    if (status != 0 || cbBytesReturned == 0) {
+        fprintf(stderr, "WSAIoctl SIO_GET_INTERFACE_LIST failed %d\n",WSAGetLastError());
+        free(pIfinfoList);
+        return -1;
+    }
+
+    numifs = cbBytesReturned/sizeof(INTERFACE_INFO);
+    for (pIfinfo = pIfinfoList; pIfinfo < (pIfinfoList+numifs); pIfinfo++) {
+
+        /*
+         * dont bother with interfaces that have been disabled
+         */
+        if (!(pIfinfo->iiFlags & IFF_UP)) {
+            continue;
+        }
+
+        /*
+         * If its not an internet interface then dont use it
+         * + work around WS2 bug
+         */
+        if (pIfinfo->iiAddress.Address.sa_family != AF_INET) {
+            if (pIfinfo->iiAddress.Address.sa_family == 0) {
+                pIfinfo->iiAddress.Address.sa_family = AF_INET;
+            }
+            else
+                continue;
+        }
+
+        /*
+         * if it isnt a wildcarded interface then look for
+         * an exact match
+         */
+        match = 0;
+        if (pMatchAddr && pMatchAddr->sa.sa_family != AF_UNSPEC) {
+            if (pIfinfo->iiAddress.Address.sa_family != pMatchAddr->sa.sa_family) {
+                continue;
+            }
+            if (pIfinfo->iiAddress.Address.sa_family != AF_INET) {
+                continue;
+            }
+            if (pMatchAddr->sa.sa_family != AF_INET) {
+                continue;
+            }
+            if (pMatchAddr->ia.sin_addr.s_addr != htonl(INADDR_ANY)) {
+                if (pIfinfo->iiAddress.AddressIn.sin_addr.s_addr != pMatchAddr->ia.sin_addr.s_addr) {
+                    continue;
+                }
+                else
+                    match = 1;
+            }
+        }
+
+        /*
+         * dont use the loop back interface, unless it maches pMatchAddr
+         */
+        if (!match) {
+            if (pIfinfo->iiFlags & IFF_LOOPBACK) {
+                continue;
+            }
+        }
+
+        ifaceNode node;
+        node.ifaceAddr.ia = pIfinfo->iiAddress.AddressIn;
+
+        if (pIfinfo->iiFlags & IFF_BROADCAST) {
+            const unsigned mask = pIfinfo->iiNetmask.AddressIn.sin_addr.s_addr;
+            const unsigned bcast = pIfinfo->iiBroadcastAddress.AddressIn.sin_addr.s_addr;
+            const unsigned addr = pIfinfo->iiAddress.AddressIn.sin_addr.s_addr;
+            unsigned result = (addr & mask) | (bcast &~mask);
+            node.ifaceBCast.ia.sin_family = AF_INET;
+            node.ifaceBCast.ia.sin_addr.s_addr = result;
+            node.ifaceBCast.ia.sin_port = htons ( 0 );
+        }
+        else {
+            node.ifaceBCast.ia = pIfinfo->iiBroadcastAddress.AddressIn;
+        }
+
+
+        list.push_back(node);
+    }
+
+    free (pIfinfoList);
+    return 0;
+}
+
+#endif
 
 }
 }

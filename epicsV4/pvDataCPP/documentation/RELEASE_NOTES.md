@@ -1,20 +1,7 @@
-Release 5.0.3
-=============
+Release 5.0
+===========
 
-The only change since release 5.0.2 is:
-
-Fixed buffer overflow in PVUnion::serialize() (issue #20)
----------------------------------------------------------
-
-A PVUnion whose stored value was null was serialized without checking 
-whether the buffer had sufficient capacity. This has been fixed by calling
-ensureBuffer().
-
-
-Release 5.0.2
-=============
-
-The main changes since release 4.0.3 are:
+The main changes since release 4.0 are:
 
 * Deprecated getXXXField() methods have been removed from PVStructure
 * Convert copy methods and equals operators (re)moved
@@ -28,7 +15,7 @@ The main changes since release 4.0.3 are:
 
 
 Deprecated getXXXField methods have been removed from PVStructure
------------------------------------------------------------------
+-------------------------------------------------------------------
 
 The following methods have been removed from PVStructure
 
@@ -154,8 +141,8 @@ This has been changed so the it returns a null pvStructure
 and provides an error.
 
 
-Release 4.0.3
-=============
+Release 4.0
+===========
 
 The main changes since release 3.0.2 are:
 

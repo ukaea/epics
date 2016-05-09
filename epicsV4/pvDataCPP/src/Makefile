@@ -3,9 +3,6 @@
 TOP = ..
 include $(TOP)/configure/CONFIG
 
-INSTALL_INCLUDE = $(INSTALL_LOCATION)/include/pv
-USR_INCLUDES += -I$(INSTALL_LOCATION)/include
-
 PVDATA_SRC = $(TOP)/src
 
 include $(PVDATA_SRC)/misc/Makefile
@@ -19,6 +16,9 @@ include $(PVDATA_SRC)/monitor/Makefile
 LIBRARY = pvData
 
 pvData_LIBS += Com
+
+# shared library ABI version.
+SHRLIB_VERSION ?= 5.0
 
 include $(TOP)/configure/RULES
 

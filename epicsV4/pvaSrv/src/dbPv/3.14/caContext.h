@@ -6,7 +6,7 @@
 /**
  * @author mrk
  */
-/* Marty Kraimer 2011.03 
+/* Marty Kraimer 2011.03
  * This creates a CA context the first time a thread calls
  * caContextCreate::create and then calls ca_attach_context
  * from checkContext if the caller is a thread that is not the
@@ -23,12 +23,13 @@
 
 #include <pv/lock.h>
 #include <pv/requester.h>
+#include <pv/sharedPtr.h>
 
 class caContext;
 typedef std::tr1::shared_ptr<caContext> caContextPtr;
 class caContextCreate;
 
-class caContext {
+class caContext : public std::tr1::enable_shared_from_this<caContext> {
 public:
     POINTER_DEFINITIONS(caContext);
     ~caContext();
@@ -41,7 +42,7 @@ private:
     epics::pvData::Mutex mutex;
     caContext(
        epics::pvData::RequesterPtr const & requester);
-    epics::pvData::RequesterPtr requester;
+    epics::pvData::Requester::weak_pointer requester;
     epicsThreadId threadId;
     struct ca_client_context *context;
     int referenceCount;

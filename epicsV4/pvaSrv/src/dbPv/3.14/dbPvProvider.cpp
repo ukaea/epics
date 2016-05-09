@@ -7,7 +7,7 @@
  * @author mrk
  */
 
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(NOMINMAX)
 #define NOMINMAX
 #endif
 
@@ -26,6 +26,7 @@
 #include <pv/noDefaultMethods.h>
 #include <pv/lock.h>
 
+#define epicsExportSharedSymbols
 #include "dbPv.h"
 #include "caSecurity.h"
 

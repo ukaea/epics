@@ -12,16 +12,16 @@
 ###########################################
 # Set EPICS Base version and upload target
 
-BASE=3.15.2
+BASE=3.15.3
 PUBLISH=${1:-DONT}
 
-# Dependent module branches
-PVCOMMON_BRANCH="Release-4.1-"
-PVDATA_BRANCH="Release-5.0-"
-PVACCESS_BRANCH="Release-4.1-"
-NORMATIVETYPES_BRANCH="Release-5.0-"
-PVACLIENT_BRANCH="Release-4.1-"
-PVAPY_BRANCH="Release-0.5-"
+# Dependent module branches (empty = master)
+PVCOMMON_BRANCH=""
+PVDATA_BRANCH=""
+PVACCESS_BRANCH=""
+NORMATIVETYPES_BRANCH=""
+PVACLIENT_BRANCH=""
+PVAPY_BRANCH=""
 
 ###########################################
 # Fetch and unpack dependencies
@@ -72,7 +72,7 @@ make doc
 if [ "${PUBLISH}" != "DONT" ]; then
     # Upload explicit dummy to ensure target directory exists
     echo "Created by CloudBees Jenkins upload job. Should be deleted as part of the job." > DUMMY
-    rsync -q -e ssh DUMMY epics-jenkins@web.sourceforge.net:/home/project-web/epics-pvdata/htdocs/docbuild/pvaPy/${PUBLISH}/DUMMY
+    rsync -q -e ssh DUMMY epics-jenkins@web.sourceforge.net:/home/project-web/epics-pvdata/htdocs/docbuild/pvaPy/${PUBLISH}/
 
     rsync -aqP --delete -e ssh documentation/sphinx/_build/html/ epics-jenkins@web.sourceforge.net:/home/project-web/epics-pvdata/htdocs/docbuild/pvaPy/${PUBLISH}/
 fi

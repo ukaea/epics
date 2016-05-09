@@ -147,17 +147,18 @@
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q /D /R ca\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R client\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R mb\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R pva\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R remote\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R remoteClient\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R rpcClient\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R rpcService\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R server\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R utils\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R v3ioc\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R ca\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R client\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R ioc\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R mb\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R pipelineService\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R pva\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R remote\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R remoteClient\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R rpcClient\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R rpcService\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R server\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R utils\pv\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -178,17 +179,18 @@ xcopy /Y /Q /D /R v3ioc\*.h $(SolutionDir)include\pv &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q /D /R ca\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R client\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R mb\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R pva\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R remote\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R remoteClient\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R rpcClient\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R rpcService\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R server\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R utils\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R v3ioc\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R ca\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R client\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R ioc\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R mb\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R pipelineService\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R pva\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R remote\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R remoteClient\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R rpcClient\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R rpcService\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R server\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R utils\pv\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -208,17 +210,18 @@ xcopy /Y /Q /D /R v3ioc\*.h $(SolutionDir)include\pv &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q /D /R ca\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R client\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R mb\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R pva\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R remote\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R remoteClient\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R rpcClient\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R rpcService\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R server\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R utils\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R v3ioc\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R ca\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R client\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R ioc\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R mb\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R pipelineService\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R pva\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R remote\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R remoteClient\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R rpcClient\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R rpcService\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R server\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R utils\pv\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -239,17 +242,18 @@ xcopy /Y /Q /D /R v3ioc\*.h $(SolutionDir)include\pv &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q /D /R ca\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R client\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R mb\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R pva\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R remote\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R remoteClient\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R rpcClient\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R rpcService\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R server\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R utils\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R v3ioc\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R ca\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R client\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R ioc\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R mb\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R pipelineService\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R pva\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R remote\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R remoteClient\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R rpcClient\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R rpcService\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R server\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R utils\pv\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -272,17 +276,18 @@ xcopy /Y /Q /D /R v3ioc\*.h $(SolutionDir)include\pv &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q /D /R ca\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R client\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R mb\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R pva\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R remote\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R remoteClient\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R rpcClient\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R rpcService\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R server\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R utils\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R v3ioc\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R ca\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R client\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R ioc\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R mb\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R pipelineService\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R pva\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R remote\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R remoteClient\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R rpcClient\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R rpcService\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R server\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R utils\pv\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -306,17 +311,18 @@ xcopy /Y /Q /D /R v3ioc\*.h $(SolutionDir)include\pv &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q /D /R ca\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R client\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R mb\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R pva\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R remote\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R remoteClient\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R rpcClient\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R rpcService\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R server\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R utils\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R v3ioc\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R ca\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R client\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R ioc\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R mb\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R pipelineService\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R pva\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R remote\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R remoteClient\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R rpcClient\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R rpcService\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R server\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R utils\pv\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -339,17 +345,18 @@ xcopy /Y /Q /D /R v3ioc\*.h $(SolutionDir)include\pv &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q /D /R ca\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R client\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R mb\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R pva\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R remote\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R remoteClient\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R rpcClient\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R rpcService\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R server\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R utils\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R v3ioc\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R ca\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R client\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R ioc\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R mb\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R pipelineService\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R pva\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R remote\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R remoteClient\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R rpcClient\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R rpcService\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R server\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R utils\pv\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -373,17 +380,18 @@ xcopy /Y /Q /D /R v3ioc\*.h $(SolutionDir)include\pv &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q /D /R ca\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R client\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R mb\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R pva\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R remote\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R remoteClient\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R rpcClient\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R rpcService\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R server\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R utils\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R v3ioc\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R ca\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R client\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R ioc\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R mb\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R pipelineService\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R pva\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R remote\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R remoteClient\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R rpcClient\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R rpcService\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R server\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R utils\pv\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -393,7 +401,11 @@ xcopy /Y /Q /D /R v3ioc\*.h $(SolutionDir)include\pv &gt; NUL
     <ClCompile Include="ca\caStatus.cpp" />
     <ClCompile Include="client\pvAccess.cpp" />
     <ClCompile Include="factory\ChannelAccessFactory.cpp" />
+    <ClCompile Include="ioc\PVAClientRegister.cpp" />
+    <ClCompile Include="ioc\PVAServerRegister.cpp" />
     <ClCompile Include="mb\pvAccessMB.cpp" />
+    <ClCompile Include="pipelineService\pipelineServer.cpp" />
+    <ClCompile Include="pipelineService\pipelineService.cpp" />
     <ClCompile Include="pva\clientFactory.cpp" />
     <ClCompile Include="pva\pvaVersion.cpp" />
     <ClCompile Include="remoteClient\clientContextImpl.cpp" />
@@ -424,48 +436,44 @@ xcopy /Y /Q /D /R v3ioc\*.h $(SolutionDir)include\pv &gt; NUL
     <ClCompile Include="utils\logger.cpp" />
     <ClCompile Include="utils\referenceCountingLock.cpp" />
     <ClCompile Include="utils\wildcard.cpp" />
-    <ClCompile Include="v3ioc\PVAClientRegister.cpp" />
-    <ClCompile Include="v3ioc\PVAServerRegister.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ca\caChannel.h" />
-    <ClInclude Include="ca\caProvider.h" />
-    <ClInclude Include="ca\caStatus.h" />
-    <ClInclude Include="client\pvAccess.h" />
-    <ClInclude Include="mb\pvAccessMB.h" />
-    <ClInclude Include="pva\clientFactory.h" />
-    <ClInclude Include="pva\pvaConstants.h" />
-    <ClInclude Include="pva\pvaVersion.h" />
-    <ClInclude Include="remoteClient\clientContextImpl.h" />
-    <ClInclude Include="remote\beaconHandler.h" />
-    <ClInclude Include="remote\blockingTCP.h" />
-    <ClInclude Include="remote\blockingUDP.h" />
-    <ClInclude Include="remote\channelSearchManager.h" />
-    <ClInclude Include="remote\codec.h" />
-    <ClInclude Include="remote\remote.h" />
-    <ClInclude Include="remote\security.h" />
-    <ClInclude Include="remote\serializationHelper.h" />
-    <ClInclude Include="remote\simpleChannelSearchManagerImpl.h" />
-    <ClInclude Include="remote\transportRegistry.h" />
-    <ClInclude Include="rpcClient\rpcClient.h" />
-    <ClInclude Include="rpcService\rpcServer.h" />
-    <ClInclude Include="rpcService\rpcService.h" />
-    <ClInclude Include="server\baseChannelRequester.h" />
-    <ClInclude Include="server\beaconEmitter.h" />
-    <ClInclude Include="server\beaconServerStatusProvider.h" />
-    <ClInclude Include="server\responseHandlers.h" />
-    <ClInclude Include="server\serverChannelImpl.h" />
-    <ClInclude Include="server\serverContext.h" />
-    <ClInclude Include="utils\configuration.h" />
-    <ClInclude Include="utils\hexDump.h" />
-    <ClInclude Include="utils\inetAddressUtil.h" />
-    <ClInclude Include="utils\introspectionRegistry.h" />
-    <ClInclude Include="utils\likely.h" />
-    <ClInclude Include="utils\logger.h" />
-    <ClInclude Include="utils\namedLockPattern.h" />
-    <ClInclude Include="utils\referenceCountingLock.h" />
-    <ClInclude Include="utils\wildcard.h" />
-    <ClInclude Include="v3ioc\syncChannelFind.h" />
+    <ClInclude Include="client\pv\pvAccess.h" />
+    <ClInclude Include="ioc\pv\syncChannelFind.h" />
+    <ClInclude Include="mb\pv\pvAccessMB.h" />
+    <ClInclude Include="pipelineService\pv\pipelineServer.h" />
+    <ClInclude Include="pipelineService\pv\pipelineService.h" />
+    <ClInclude Include="pva\pv\clientFactory.h" />
+    <ClInclude Include="pva\pv\pvaConstants.h" />
+    <ClInclude Include="pva\pv\pvaVersion.h" />
+    <ClInclude Include="remoteClient\pv\clientContextImpl.h" />
+    <ClInclude Include="remote\pv\beaconHandler.h" />
+    <ClInclude Include="remote\pv\blockingTCP.h" />
+    <ClInclude Include="remote\pv\blockingUDP.h" />
+    <ClInclude Include="remote\pv\channelSearchManager.h" />
+    <ClInclude Include="remote\pv\codec.h" />
+    <ClInclude Include="remote\pv\remote.h" />
+    <ClInclude Include="remote\pv\security.h" />
+    <ClInclude Include="remote\pv\serializationHelper.h" />
+    <ClInclude Include="remote\pv\simpleChannelSearchManagerImpl.h" />
+    <ClInclude Include="remote\pv\transportRegistry.h" />
+    <ClInclude Include="rpcClient\pv\rpcClient.h" />
+    <ClInclude Include="server\pv\baseChannelRequester.h" />
+    <ClInclude Include="server\pv\beaconEmitter.h" />
+    <ClInclude Include="server\pv\beaconServerStatusProvider.h" />
+    <ClInclude Include="server\pv\responseHandlers.h" />
+    <ClInclude Include="server\pv\serverChannelImpl.h" />
+    <ClInclude Include="server\pv\serverContext.h" />
+    <ClInclude Include="utils\pv\configuration.h" />
+    <ClInclude Include="utils\pv\fairQueue.h" />
+    <ClInclude Include="utils\pv\hexDump.h" />
+    <ClInclude Include="utils\pv\inetAddressUtil.h" />
+    <ClInclude Include="utils\pv\introspectionRegistry.h" />
+    <ClInclude Include="utils\pv\likely.h" />
+    <ClInclude Include="utils\pv\logger.h" />
+    <ClInclude Include="utils\pv\namedLockPattern.h" />
+    <ClInclude Include="utils\pv\referenceCountingLock.h" />
+    <ClInclude Include="utils\pv\wildcard.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\base-3.15.3\src\ca\client\ca.vcxproj">
@@ -482,17 +490,69 @@ xcopy /Y /Q /D /R v3ioc\*.h $(SolutionDir)include\pv &gt; NUL
     <None Include="ca\Makefile" />
     <None Include="client\Makefile" />
     <None Include="factory\Makefile" />
+    <None Include="ioc\Makefile" />
+    <None Include="ioc\PVAClientRegister.dbd" />
+    <None Include="ioc\PVAServerRegister.dbd" />
     <None Include="mb\Makefile" />
+    <None Include="pipelineService\Makefile" />
     <None Include="pva\Makefile" />
+    <CustomBuild Include="pva\pvaVersionNum.h%40">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
+md ($SolutionDir)include
+md ($SolutionDir)include\pv
+perl -CSD $(OutDir)\expandVars.pl -DEPICS_PVA_MAJOR_VERSION="4" -DEPICS_PVA_MINOR_VERSION="2" -DEPICS_PVA_MAINTENANCE_VERSION="0" -DEPICS_PVA_DEVELOPMENT_FLAG="1" -t ../.. -a $(OutDir)  pva\%(FileName).h@  $(SolutionDir)include\pv\pvaVersionNum.h
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
+md ($SolutionDir)include
+md ($SolutionDir)include\pv
+perl -CSD $(OutDir)\expandVars.pl -DEPICS_PVA_MAJOR_VERSION="4" -DEPICS_PVA_MINOR_VERSION="2" -DEPICS_PVA_MAINTENANCE_VERSION="0" -DEPICS_PVA_DEVELOPMENT_FLAG="1" -t ../.. -a $(OutDir)  pva\%(FileName).h@  $(SolutionDir)include\pv\pvaVersionNum.h
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
+md ($SolutionDir)include
+md ($SolutionDir)include\pv
+perl -CSD $(OutDir)\expandVars.pl -DEPICS_PVA_MAJOR_VERSION="4" -DEPICS_PVA_MINOR_VERSION="2" -DEPICS_PVA_MAINTENANCE_VERSION="0" -DEPICS_PVA_DEVELOPMENT_FLAG="1" -t ../.. -a $(OutDir)  pva\%(FileName).h@  $(SolutionDir)include\pv\pvaVersionNum.h
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
+md ($SolutionDir)include
+md ($SolutionDir)include\pv
+perl -CSD $(OutDir)\expandVars.pl -DEPICS_PVA_MAJOR_VERSION="4" -DEPICS_PVA_MINOR_VERSION="2" -DEPICS_PVA_MAINTENANCE_VERSION="0" -DEPICS_PVA_DEVELOPMENT_FLAG="1" -t ../.. -a $(OutDir)  pva\%(FileName).h@  $(SolutionDir)include\pv\pvaVersionNum.h
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">SET PERL5LIB=$(SolutionDir)lib\perl
+md ($SolutionDir)include
+md ($SolutionDir)include\pv
+perl -CSD $(OutDir)\expandVars.pl -DEPICS_PVA_MAJOR_VERSION="4" -DEPICS_PVA_MINOR_VERSION="2" -DEPICS_PVA_MAINTENANCE_VERSION="0" -DEPICS_PVA_DEVELOPMENT_FLAG="1" -t ../.. -a $(OutDir)  pva\%(FileName).h@  $(SolutionDir)include\pv\pvaVersionNum.h
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">SET PERL5LIB=$(SolutionDir)lib\perl
+md ($SolutionDir)include
+md ($SolutionDir)include\pv
+perl -CSD $(OutDir)\expandVars.pl -DEPICS_PVA_MAJOR_VERSION="4" -DEPICS_PVA_MINOR_VERSION="2" -DEPICS_PVA_MAINTENANCE_VERSION="0" -DEPICS_PVA_DEVELOPMENT_FLAG="1" -t ../.. -a $(OutDir)  pva\%(FileName).h@  $(SolutionDir)include\pv\pvaVersionNum.h
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'">SET PERL5LIB=$(SolutionDir)lib\perl
+md ($SolutionDir)include
+md ($SolutionDir)include\pv
+perl -CSD $(OutDir)\expandVars.pl -DEPICS_PVA_MAJOR_VERSION="4" -DEPICS_PVA_MINOR_VERSION="2" -DEPICS_PVA_MAINTENANCE_VERSION="0" -DEPICS_PVA_DEVELOPMENT_FLAG="1" -t ../.. -a $(OutDir)  pva\%(FileName).h@  $(SolutionDir)include\pv\pvaVersionNum.h
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">SET PERL5LIB=$(SolutionDir)lib\perl
+md ($SolutionDir)include
+md ($SolutionDir)include\pv
+perl -CSD $(OutDir)\expandVars.pl -DEPICS_PVA_MAJOR_VERSION="4" -DEPICS_PVA_MINOR_VERSION="2" -DEPICS_PVA_MAINTENANCE_VERSION="0" -DEPICS_PVA_DEVELOPMENT_FLAG="1" -t ../.. -a $(OutDir)  pva\%(FileName).h@  $(SolutionDir)include\pv\pvaVersionNum.h
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">($SolutionDir)include\pv\pvaVersionNum.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">($SolutionDir)include\pv\pvaVersionNum.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">($SolutionDir)include\pv\pvaVersionNum.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">($SolutionDir)include\pv\pvaVersionNum.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">($SolutionDir)include\pv\pvaVersionNum.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">($SolutionDir)include\pv\pvaVersionNum.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'">($SolutionDir)include\pv\pvaVersionNum.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">($SolutionDir)include\pv\pvaVersionNum.h</Outputs>
+    </CustomBuild>
     <None Include="remoteClient\Makefile" />
     <None Include="remote\Makefile" />
     <None Include="rpcClient\Makefile" />
     <None Include="rpcService\Makefile" />
     <None Include="server\Makefile" />
     <None Include="utils\Makefile" />
-    <None Include="v3ioc\Makefile" />
-    <None Include="v3ioc\PVAClientRegister.dbd" />
-    <None Include="v3ioc\PVAServerRegister.dbd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

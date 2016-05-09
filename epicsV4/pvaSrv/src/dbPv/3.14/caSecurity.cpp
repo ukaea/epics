@@ -56,7 +56,7 @@ CAServerChannelSecuritySession::CAServerChannelSecuritySession(std::string const
     struct dbAddr dbAddr;
     long result = dbNameToAddr(channelName.c_str(), &dbAddr);
     if (result != 0)
-        throw SecurityException("no such pv");
+        throw NoChannelException();
 
     long status = asAddClient(
             &m_asClientPvt,

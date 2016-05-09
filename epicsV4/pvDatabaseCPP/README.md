@@ -17,18 +17,18 @@ then just type:
 
     make
 
-If RELEASE.local does not exist then look at <b>configure/RELEASE</b>
-for directions for how to build.
+It can also be built by:
+
+    cp configure/ExampleRELEASE.local configure/RELEASE.local
+    edit configure/RELEASE.local
+    make
+
+
 
 Examples
 ------------
 
-The examples require the database in pvaDatabaseTestCPP.
-For example:
-
-    mrk> pwd
-    /home/epicsv4/pvaDatabaseTestCPP/database/iocBoot/exampleDatabase
-    mrk> ../../bin/linux-x86_64/exampleDatabase st.cmd 
+Examples are available in exampleCPP.
 
 Status
 ------

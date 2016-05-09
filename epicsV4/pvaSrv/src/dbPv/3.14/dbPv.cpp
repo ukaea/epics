@@ -133,7 +133,6 @@ ChannelGet::shared_pointer DbPv::createChannelGet(
         ChannelGetRequester::shared_pointer const &channelGetRequester,
         PVStructure::shared_pointer const &pvRequest)
 {
-    PVFieldPtr pvField = pvRequest->getSubField("getField");
     DbPvGet::shared_pointer dbPvGet(
         new DbPvGet(getPtrSelf(),channelGetRequester,*(dbAddr.get())));
     if(!dbPvGet->init(pvRequest)) {
@@ -150,7 +149,6 @@ ChannelPut::shared_pointer DbPv::createChannelPut(
         ChannelPutRequester::shared_pointer const &channelPutRequester,
         PVStructure::shared_pointer const &pvRequest)
 {
-    PVFieldPtr pvField = pvRequest->getSubField("putField");
     DbPvPut::shared_pointer dbPvPut(
           new DbPvPut(getPtrSelf(),channelPutRequester,*(dbAddr.get())));
     if(!dbPvPut->init(pvRequest)) {

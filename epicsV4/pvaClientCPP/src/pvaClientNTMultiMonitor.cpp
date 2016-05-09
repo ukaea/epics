@@ -9,12 +9,14 @@
  * @date 2015.03
  */
 
-#define epicsExportSharedSymbols
 #include <epicsThread.h>
-#include <pv/pvaClientMultiChannel.h>
 #include <pv/standardField.h>
 #include <pv/convert.h>
 #include <epicsMath.h>
+
+#define epicsExportSharedSymbols
+
+#include <pv/pvaClientMultiChannel.h>
 
 using std::tr1::static_pointer_cast;
 using namespace epics::pvData;

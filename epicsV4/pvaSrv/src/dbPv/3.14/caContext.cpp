@@ -6,7 +6,7 @@
 /**
  * @author mrk
  */
-/* Marty Kraimer 2011.03 
+/* Marty Kraimer 2011.03
  */
 
 #include <cstddef>
@@ -20,6 +20,7 @@
 #include <cadef.h>
 #include <db_access.h>
 #include <dbDefs.h>
+#include <errlog.h>
 
 #include "caContext.h"
 #include "dbPvDebug.h"
@@ -42,13 +43,14 @@ static void threadExitFunc(void *arg)
 {
     if(DbPvDebug::getLevel()>0) printf("caContext::threadExitFunc\n");
     caContext * context = static_cast<caContext * >(arg);
-    context->stop();
+    std::tr1::shared_ptr<caContext> self(context->shared_from_this());
+    self->stop();
 }
 
 } // extern "C"
 
 caContext::caContext(RequesterPtr const & requester)
-: 
+:
   requester(requester),
   threadId(epicsThreadGetIdSelf()),
   context(0),
@@ -77,22 +79,18 @@ void caContext::stop()
     epicsThreadId id = epicsThreadGetIdSelf();
     if(id!=threadId) {
         printf("caContext::stop not same thread\n");
-    	return;
-        //throw std::logic_error(String(
-        //   "caContext::stop not same thread"));
+        return;
     }
-    if(referenceCount!=0) {
-        printf("caContext::stop referenceCount != 0 value %d\n",
-            referenceCount);
-    	return;
-        //throw std::logic_error(String(
-        //   "caContext::stop referenceCount != 0"));
-    }
-    else
     {
-        caContextCreate::erase(threadId);
-        ca_context_destroy();
+        Lock xx(mutex);
+        if(referenceCount!=0) {
+            printf("caContext::stop referenceCount != 0 value %d\n",
+                   referenceCount);
+            return;
+        }
     }
+    caContextCreate::erase(threadId);
+    ca_context_destroy();
 }
 
 typedef std::list<epicsThreadId>::iterator threadListIter;
@@ -121,7 +119,9 @@ void caContext::release()
 void caContext::exception(string const &message)
 {
     Lock xx(mutex);
-    requester->message(message,errorMessage);
+    epics::pvData::RequesterPtr req(requester.lock());
+    if(req) req->message(message,errorMessage);
+    else errlogPrintf("caContext exception on dead PVA channel: %s\n", message.c_str());
 }
 
 typedef std::map<epicsThreadId,caContextPtr>::iterator contextMapIter;

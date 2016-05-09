@@ -17,11 +17,11 @@ DEFAULT_BASE=3.14.12.5
 BASE=${1:-${DEFAULT_BASE}}
 USE_MB=${2:-"MB_NO"}
 
-# Dependent module branches (empty = master)
-PVCOMMON_BRANCH="Release-4.1-"
-PVDATA_BRANCH="Release-5.0-"
-PVACCESS_BRANCH="Release-4.1-"
-NORMATIVETYPES_BRANCH="Release-5.0-"
+# Dependent module branches (empty on master)
+PVCOMMON_BRANCH=""
+PVDATA_BRANCH=""
+PVACCESS_BRANCH=""
+NORMATIVETYPES_BRANCH=""
 
 ###########################################
 # Fetch and unpack dependencies
@@ -65,7 +65,8 @@ make distclean all
 ###########################################
 # Test
 
-make runtests
+# no regression tests
+#make runtests
 
 ###########################################
 # Create distribution

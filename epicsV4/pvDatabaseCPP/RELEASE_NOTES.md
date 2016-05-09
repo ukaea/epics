@@ -1,3 +1,14 @@
+
+EPICS V4 release 4.6
+====================
+
+The examples are moved to exampleCPP
+
+The test is now a regression test the can be ran via
+
+     make runtests
+
+
 EPICS V4 release 4.5
 ====================
 
