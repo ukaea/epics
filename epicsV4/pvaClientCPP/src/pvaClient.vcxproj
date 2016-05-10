@@ -145,7 +145,7 @@
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q /D /R *.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -166,7 +166,7 @@ xcopy /Y /Q /D /R *.h $(SolutionDir)include\pv &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q /D /R *.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -188,7 +188,7 @@ xcopy /Y /Q /D /R *.h $(SolutionDir)include\pv &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q /D /R *.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -209,7 +209,7 @@ xcopy /Y /Q /D /R *.h $(SolutionDir)include\pv &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q /D /R *.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -234,7 +234,7 @@ xcopy /Y /Q /D /R *.h $(SolutionDir)include\pv &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q /D /R *.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -259,7 +259,7 @@ xcopy /Y /Q /D /R *.h $(SolutionDir)include\pv &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q /D /R *.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -285,7 +285,7 @@ xcopy /Y /Q /D /R *.h $(SolutionDir)include\pv &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q /D /R *.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -310,7 +310,7 @@ xcopy /Y /Q /D /R *.h $(SolutionDir)include\pv &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q /D /R *.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -318,8 +318,11 @@ xcopy /Y /Q /D /R *.h $(SolutionDir)include\pv &gt; NUL
     <ProjectReference Include="..\..\..\base-3.15.3\src\libCom\Com.vcxproj">
       <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\normativeTypesCPP\src\nt\nt.vcxproj">
+    <ProjectReference Include="..\..\normativeTypesCPP\src\nt.vcxproj">
       <Project>{ee16abbd-8c46-4901-9623-77b571fa180d}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\pvAccessCPP\src\pvAccess.vcxproj">
+      <Project>{44ecea7e-d805-49b6-8e89-62ec3994c1f3}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\pvDataCPP\src\pvData.vcxproj">
       <Project>{f4a51415-2981-42ee-87c7-f29d5805583e}</Project>

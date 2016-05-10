@@ -70,6 +70,12 @@
     <Filter Include="utils\pv">
       <UniqueIdentifier>{e0dac086-f926-4cdf-880c-5dae42127a60}</UniqueIdentifier>
     </Filter>
+    <Filter Include="rpcService\pv">
+      <UniqueIdentifier>{f56dc8bd-9c66-45d4-9c9e-bd47e19322df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ca\pv">
+      <UniqueIdentifier>{23a53357-5408-46e0-b1e7-ff1d0e78cfbb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ca\caChannel.cpp">
@@ -301,6 +307,21 @@
     </ClInclude>
     <ClInclude Include="utils\pv\wildcard.h">
       <Filter>utils\pv</Filter>
+    </ClInclude>
+    <ClInclude Include="rpcService\pv\rpcServer.h">
+      <Filter>rpcService\pv</Filter>
+    </ClInclude>
+    <ClInclude Include="rpcService\pv\rpcService.h">
+      <Filter>rpcService\pv</Filter>
+    </ClInclude>
+    <ClInclude Include="ca\pv\caChannel.h">
+      <Filter>ca\pv</Filter>
+    </ClInclude>
+    <ClInclude Include="ca\pv\caProvider.h">
+      <Filter>ca\pv</Filter>
+    </ClInclude>
+    <ClInclude Include="ca\pv\caStatus.h">
+      <Filter>ca\pv</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

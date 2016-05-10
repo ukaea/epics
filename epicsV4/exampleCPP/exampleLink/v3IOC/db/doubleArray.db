@@ -1,0 +1,6 @@
+record(waveform,"doubleArray") {
+    field(DESC, "Soft Waveform")
+    field(NELM,"5")
+    field(FTVL,"DOUBLE")
+}
+

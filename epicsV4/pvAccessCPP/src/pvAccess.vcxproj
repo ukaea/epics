@@ -438,6 +438,9 @@ xcopy /Y /Q /D /R utils\pv\*.h $(SolutionDir)include\pv &gt; NUL
     <ClCompile Include="utils\wildcard.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ca\pv\caChannel.h" />
+    <ClInclude Include="ca\pv\caProvider.h" />
+    <ClInclude Include="ca\pv\caStatus.h" />
     <ClInclude Include="client\pv\pvAccess.h" />
     <ClInclude Include="ioc\pv\syncChannelFind.h" />
     <ClInclude Include="mb\pv\pvAccessMB.h" />
@@ -458,6 +461,8 @@ xcopy /Y /Q /D /R utils\pv\*.h $(SolutionDir)include\pv &gt; NUL
     <ClInclude Include="remote\pv\simpleChannelSearchManagerImpl.h" />
     <ClInclude Include="remote\pv\transportRegistry.h" />
     <ClInclude Include="rpcClient\pv\rpcClient.h" />
+    <ClInclude Include="rpcService\pv\rpcServer.h" />
+    <ClInclude Include="rpcService\pv\rpcService.h" />
     <ClInclude Include="server\pv\baseChannelRequester.h" />
     <ClInclude Include="server\pv\beaconEmitter.h" />
     <ClInclude Include="server\pv\beaconServerStatusProvider.h" />
@@ -499,44 +504,28 @@ xcopy /Y /Q /D /R utils\pv\*.h $(SolutionDir)include\pv &gt; NUL
     <CustomBuild Include="pva\pvaVersionNum.h%40">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
-md ($SolutionDir)include
-md ($SolutionDir)include\pv
-perl -CSD $(OutDir)\expandVars.pl -DEPICS_PVA_MAJOR_VERSION="4" -DEPICS_PVA_MINOR_VERSION="2" -DEPICS_PVA_MAINTENANCE_VERSION="0" -DEPICS_PVA_DEVELOPMENT_FLAG="1" -t ../.. -a $(OutDir)  pva\%(FileName).h@  $(SolutionDir)include\pv\pvaVersionNum.h
+perl -CSD $(OutDir)expandVars.pl -DEPICS_PVA_MAJOR_VERSION="4" -DEPICS_PVA_MINOR_VERSION="2" -DEPICS_PVA_MAINTENANCE_VERSION="0" -DEPICS_PVA_DEVELOPMENT_FLAG="1" -t ../.. -a $(OutDir)  pva\%(FileName).h@  $(SolutionDir)include\pv\pvaVersionNum.h
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
-md ($SolutionDir)include
-md ($SolutionDir)include\pv
-perl -CSD $(OutDir)\expandVars.pl -DEPICS_PVA_MAJOR_VERSION="4" -DEPICS_PVA_MINOR_VERSION="2" -DEPICS_PVA_MAINTENANCE_VERSION="0" -DEPICS_PVA_DEVELOPMENT_FLAG="1" -t ../.. -a $(OutDir)  pva\%(FileName).h@  $(SolutionDir)include\pv\pvaVersionNum.h
+perl -CSD $(OutDir)expandVars.pl -DEPICS_PVA_MAJOR_VERSION="4" -DEPICS_PVA_MINOR_VERSION="2" -DEPICS_PVA_MAINTENANCE_VERSION="0" -DEPICS_PVA_DEVELOPMENT_FLAG="1" -t ../.. -a $(OutDir)  pva\%(FileName).h@  $(SolutionDir)include\pv\pvaVersionNum.h
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
-md ($SolutionDir)include
-md ($SolutionDir)include\pv
-perl -CSD $(OutDir)\expandVars.pl -DEPICS_PVA_MAJOR_VERSION="4" -DEPICS_PVA_MINOR_VERSION="2" -DEPICS_PVA_MAINTENANCE_VERSION="0" -DEPICS_PVA_DEVELOPMENT_FLAG="1" -t ../.. -a $(OutDir)  pva\%(FileName).h@  $(SolutionDir)include\pv\pvaVersionNum.h
+perl -CSD $(OutDir)expandVars.pl -DEPICS_PVA_MAJOR_VERSION="4" -DEPICS_PVA_MINOR_VERSION="2" -DEPICS_PVA_MAINTENANCE_VERSION="0" -DEPICS_PVA_DEVELOPMENT_FLAG="1" -t ../.. -a $(OutDir)  pva\%(FileName).h@  $(SolutionDir)include\pv\pvaVersionNum.h
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
-md ($SolutionDir)include
-md ($SolutionDir)include\pv
-perl -CSD $(OutDir)\expandVars.pl -DEPICS_PVA_MAJOR_VERSION="4" -DEPICS_PVA_MINOR_VERSION="2" -DEPICS_PVA_MAINTENANCE_VERSION="0" -DEPICS_PVA_DEVELOPMENT_FLAG="1" -t ../.. -a $(OutDir)  pva\%(FileName).h@  $(SolutionDir)include\pv\pvaVersionNum.h
+perl -CSD $(OutDir)expandVars.pl -DEPICS_PVA_MAJOR_VERSION="4" -DEPICS_PVA_MINOR_VERSION="2" -DEPICS_PVA_MAINTENANCE_VERSION="0" -DEPICS_PVA_DEVELOPMENT_FLAG="1" -t ../.. -a $(OutDir)  pva\%(FileName).h@  $(SolutionDir)include\pv\pvaVersionNum.h
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">SET PERL5LIB=$(SolutionDir)lib\perl
-md ($SolutionDir)include
-md ($SolutionDir)include\pv
-perl -CSD $(OutDir)\expandVars.pl -DEPICS_PVA_MAJOR_VERSION="4" -DEPICS_PVA_MINOR_VERSION="2" -DEPICS_PVA_MAINTENANCE_VERSION="0" -DEPICS_PVA_DEVELOPMENT_FLAG="1" -t ../.. -a $(OutDir)  pva\%(FileName).h@  $(SolutionDir)include\pv\pvaVersionNum.h
+perl -CSD $(OutDir)expandVars.pl -DEPICS_PVA_MAJOR_VERSION="4" -DEPICS_PVA_MINOR_VERSION="2" -DEPICS_PVA_MAINTENANCE_VERSION="0" -DEPICS_PVA_DEVELOPMENT_FLAG="1" -t ../.. -a $(OutDir)  pva\%(FileName).h@  $(SolutionDir)include\pv\pvaVersionNum.h
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">SET PERL5LIB=$(SolutionDir)lib\perl
-md ($SolutionDir)include
-md ($SolutionDir)include\pv
-perl -CSD $(OutDir)\expandVars.pl -DEPICS_PVA_MAJOR_VERSION="4" -DEPICS_PVA_MINOR_VERSION="2" -DEPICS_PVA_MAINTENANCE_VERSION="0" -DEPICS_PVA_DEVELOPMENT_FLAG="1" -t ../.. -a $(OutDir)  pva\%(FileName).h@  $(SolutionDir)include\pv\pvaVersionNum.h
+perl -CSD $(OutDir)expandVars.pl -DEPICS_PVA_MAJOR_VERSION="4" -DEPICS_PVA_MINOR_VERSION="2" -DEPICS_PVA_MAINTENANCE_VERSION="0" -DEPICS_PVA_DEVELOPMENT_FLAG="1" -t ../.. -a $(OutDir)  pva\%(FileName).h@  $(SolutionDir)include\pv\pvaVersionNum.h
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'">SET PERL5LIB=$(SolutionDir)lib\perl
-md ($SolutionDir)include
-md ($SolutionDir)include\pv
-perl -CSD $(OutDir)\expandVars.pl -DEPICS_PVA_MAJOR_VERSION="4" -DEPICS_PVA_MINOR_VERSION="2" -DEPICS_PVA_MAINTENANCE_VERSION="0" -DEPICS_PVA_DEVELOPMENT_FLAG="1" -t ../.. -a $(OutDir)  pva\%(FileName).h@  $(SolutionDir)include\pv\pvaVersionNum.h
+perl -CSD $(OutDir)expandVars.pl -DEPICS_PVA_MAJOR_VERSION="4" -DEPICS_PVA_MINOR_VERSION="2" -DEPICS_PVA_MAINTENANCE_VERSION="0" -DEPICS_PVA_DEVELOPMENT_FLAG="1" -t ../.. -a $(OutDir)  pva\%(FileName).h@  $(SolutionDir)include\pv\pvaVersionNum.h
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">SET PERL5LIB=$(SolutionDir)lib\perl
-md ($SolutionDir)include
-md ($SolutionDir)include\pv
-perl -CSD $(OutDir)\expandVars.pl -DEPICS_PVA_MAJOR_VERSION="4" -DEPICS_PVA_MINOR_VERSION="2" -DEPICS_PVA_MAINTENANCE_VERSION="0" -DEPICS_PVA_DEVELOPMENT_FLAG="1" -t ../.. -a $(OutDir)  pva\%(FileName).h@  $(SolutionDir)include\pv\pvaVersionNum.h
+perl -CSD $(OutDir)expandVars.pl -DEPICS_PVA_MAJOR_VERSION="4" -DEPICS_PVA_MINOR_VERSION="2" -DEPICS_PVA_MAINTENANCE_VERSION="0" -DEPICS_PVA_DEVELOPMENT_FLAG="1" -t ../.. -a $(OutDir)  pva\%(FileName).h@  $(SolutionDir)include\pv\pvaVersionNum.h
 </Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">($SolutionDir)include\pv\pvaVersionNum.h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">($SolutionDir)include\pv\pvaVersionNum.h</Outputs>

@@ -144,6 +144,7 @@
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
+xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R database\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R pvAccess\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R special\*.h $(SolutionDir)include\pv &gt; NUL
@@ -166,6 +167,7 @@ xcopy /Y /Q /D /R special\*.h $(SolutionDir)include\pv &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
+xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R database\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R pvAccess\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R special\*.h $(SolutionDir)include\pv &gt; NUL
@@ -189,6 +191,7 @@ xcopy /Y /Q /D /R special\*.h $(SolutionDir)include\pv &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
+xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R database\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R pvAccess\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R special\*.h $(SolutionDir)include\pv &gt; NUL
@@ -211,6 +214,7 @@ xcopy /Y /Q /D /R special\*.h $(SolutionDir)include\pv &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
+xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R database\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R pvAccess\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R special\*.h $(SolutionDir)include\pv &gt; NUL
@@ -237,6 +241,7 @@ xcopy /Y /Q /D /R special\*.h $(SolutionDir)include\pv &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
+xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R database\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R pvAccess\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R special\*.h $(SolutionDir)include\pv &gt; NUL
@@ -263,6 +268,7 @@ xcopy /Y /Q /D /R special\*.h $(SolutionDir)include\pv &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
+xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R database\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R pvAccess\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R special\*.h $(SolutionDir)include\pv &gt; NUL
@@ -290,6 +296,7 @@ xcopy /Y /Q /D /R special\*.h $(SolutionDir)include\pv &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
+xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R database\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R pvAccess\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R special\*.h $(SolutionDir)include\pv &gt; NUL
@@ -316,6 +323,7 @@ xcopy /Y /Q /D /R special\*.h $(SolutionDir)include\pv &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
+xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R database\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R pvAccess\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R special\*.h $(SolutionDir)include\pv &gt; NUL
@@ -372,6 +380,9 @@ xcopy /Y /Q /D /R special\*.h $(SolutionDir)include\pv &gt; NUL
     <ClInclude Include="database\pvDatabase.h" />
     <ClInclude Include="pvAccess\channelProviderLocal.h" />
     <ClInclude Include="pvAccess\pvCopyMonitor.h" />
+    <ClInclude Include="pv\channelProviderLocal.h" />
+    <ClInclude Include="pv\pvDatabase.h" />
+    <ClInclude Include="pv\traceRecord.h" />
     <ClInclude Include="special\recordList.h" />
     <ClInclude Include="special\traceRecord.h" />
   </ItemGroup>

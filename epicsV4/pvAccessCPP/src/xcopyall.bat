@@ -1,0 +1,13 @@
+xcopy /Y /Q /D /R ca\pv\*.h ..\..\include\pv > NUL
+xcopy /Y /Q /D /R client\pv\*.h ..\..\include\pv > NUL
+xcopy /Y /Q /D /R factory\pv\*.h ..\..\include\pv > NUL
+xcopy /Y /Q /D /R ioc\pv\*.h ..\..\include\pv > NUL
+xcopy /Y /Q /D /R mb\pv\*.h ..\..\include\pv > NUL
+xcopy /Y /Q /D /R pipelineService\pv\*.h ..\..\include\pv > NUL
+xcopy /Y /Q /D /R pva\pv\*.h ..\..\include\pv > NUL
+xcopy /Y /Q /D /R remote\pv\*.h ..\..\include\pv > NUL
+xcopy /Y /Q /D /R remoteClient\pv\*.h ..\..\include\pv > NUL
+xcopy /Y /Q /D /R rpcClient\pv\*.h ..\..\include\pv > NUL
+xcopy /Y /Q /D /R rpcService\pv\*.h ..\..\include\pv > NUL
+xcopy /Y /Q /D /R server\pv\*.h ..\..\include\pv > NUL
+xcopy /Y /Q /D /R utils\pv\*.h ..\..\include\pv > NUL

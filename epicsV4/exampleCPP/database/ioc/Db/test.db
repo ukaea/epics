@@ -1,0 +1,197 @@
+record(calc, "DBRcalc00")
+{
+        field(DESC, "Counter")
+        field(SCAN,"1 second")
+        field(CALC, "(A<B)?(A+C):D")
+        field(INPA, "calc00.VAL  NPP NMS")
+        field(INPB, "9")
+        field(INPC, "1")
+        field(INPD, "0")
+        field(EGU, "Counts")
+        field(HOPR, "10")
+        field(HIHI, "8")
+        field(HIGH, "6")
+        field(LOW, "4")
+        field(LOLO, "2")
+        field(HHSV, "MAJOR")
+        field(HSV, "MINOR")
+        field(LSV, "MINOR")
+        field(LLSV, "MAJOR")
+}
+
+record(longout,"DBRint00") {
+    field(VAL,"10")
+    field(HIGH,"90")
+    field(HSV,"MINOR")
+}
+
+record(longout,"DBRint01") {
+    field(VAL,"10")
+    field(HIGH,"90")
+    field(HSV,"MINOR")
+}
+
+record(ao,"DBRdouble00") {
+}
+
+record(ao,"DBRdouble01") {
+    field(PREC,"4")
+    field(EGUF,"11.0")
+    field(EGUL,"0.0")
+        field(EGU, "increment")
+        field(HIHI, "8")
+        field(HIGH, "6")
+        field(LOW, "4")
+        field(LOLO, "2")
+        field(HHSV, "MAJOR")
+        field(HSV, "MINOR")
+        field(LSV, "MINOR")
+        field(LLSV, "MAJOR")
+}
+
+record(ao,"DBRdouble02") { }
+record(ao,"DBRdouble03") { }
+record(ao,"DBRdouble04") { }
+record(ao,"DBRdouble05") { }
+record(ao,"DBRdouble06") { }
+record(ao,"DBRdouble07") { }
+record(ao,"DBRdouble08") { }
+record(ao,"DBRdouble09") { }
+
+record(stringout,"DBRstring00") {
+    field(VAL,"string value")
+}
+
+record(stringout,"DBRstring00") { }
+record(stringout,"DBRstring01") { }
+record(stringout,"DBRstring02") { }
+record(stringout,"DBRstring03") { }
+record(stringout,"DBRstring04") { }
+record(stringout,"DBRstring05") { }
+record(stringout,"DBRstring06") { }
+record(stringout,"DBRstring07") { }
+record(stringout,"DBRstring08") { }
+record(stringout,"DBRstring09") { }
+
+record(bo,"DBRbo00") {
+    field(ZNAM,"zero")
+    field(ONAM,"one")
+}
+
+record(mbbo,"DBRmbbo00") {
+    field(VAL,"1")
+    field(ZRVL,"0x0")
+    field(ONVL,"0x1")
+    field(TWVL,"0x2")
+    field(THVL,"0x3")
+    field(FRVL,"0x4")
+    field(FVVL,"0x5")
+    field(SXVL,"0x6")
+    field(SVVL,"0x7")
+    field(EIVL,"0x8")
+    field(NIVL,"0x9")
+    field(TEVL,"0xa")
+    field(ELVL,"0xb")
+    field(TVVL,"0xc")
+    field(TTVL,"0xd")
+    field(FTVL,"0xe")
+    field(FFVL,"0xf")
+}
+
+record(mbbi,"DBRmbbiwierd") {
+    field(VAL,"1")
+    field(ZRST,"1")
+    field(ONST,"10")
+    field(TWST,"100")
+    field(THST,"1000")
+    field(FRST,"10000")
+    field(FVST,"100000")
+    field(SXST,"1000000")
+    field(SVST,"10000000")
+}
+
+record(bo,"DBRbo01") {
+    field(ZNAM,"zero")
+    field(ONAM,"one")
+}
+
+record(mbbo,"DBRmbbo02") {
+    field(VAL,"1")
+    field(ZRST,"zero")
+    field(ONST,"one")
+    field(TWST,"two")
+    field(THST,"three")
+    field(FRST,"four")
+    field(FVST,"five")
+    field(SXST,"six")
+    field(SVST,"seven")
+    field(EIST,"eight")
+    field(NIST,"nine")
+    field(TEST,"ten")
+    field(ELST,"eleven")
+    field(TVST,"twelve")
+    field(TTST,"thirteen")
+    field(FTST,"fourteen")
+    field(FFST,"fifteen")
+    field(ZRVL,"0x0")
+    field(ONVL,"0x1")
+    field(TWVL,"0x2")
+    field(THVL,"0x3")
+    field(FRVL,"0x4")
+    field(FVVL,"0x5")
+    field(SXVL,"0x6")
+    field(SVVL,"0x7")
+    field(EIVL,"0x8")
+    field(NIVL,"0x9")
+    field(TEVL,"0xa")
+    field(ELVL,"0xb")
+    field(TVVL,"0xc")
+    field(TTVL,"0xd")
+    field(FTVL,"0xe")
+    field(FFVL,"0xf")
+}
+
+record(ao,"DBRao01") {
+    field(VAL,"1.9")
+    field(PREC,"4")
+    field(HIGH,"2.0")
+    field(HSV,"MINOR")
+}
+
+
+record(waveform,"DBRbyteArray01") {
+    field(DESC, "Soft Waveform")
+    field(NELM,"1000")
+    field(FTVL,"UCHAR")
+}
+
+
+record(waveform,"DBRshortArray01") {
+    field(DESC, "Soft Waveform")
+    field(NELM,"1000")
+    field(FTVL,"SHORT")
+}
+
+record(waveform,"DBRintArray01") {
+    field(DESC, "Soft Waveform")
+    field(NELM,"1000")
+    field(FTVL,"LONG")
+}
+
+record(waveform,"DBRstringArray01") {
+    field(DESC, "Soft Waveform")
+    field(NELM,"10")
+    field(FTVL,"STRING")
+}
+
+record(waveform,"DBRfloatArray01") {
+    field(DESC, "Soft Waveform")
+    field(NELM,"1000")
+    field(FTVL,"FLOAT")
+}
+
+record(waveform,"DBRdoubleArray01") {
+    field(DESC, "Soft Waveform")
+    field(NELM,"1000")
+    field(FTVL,"DOUBLE")
+}

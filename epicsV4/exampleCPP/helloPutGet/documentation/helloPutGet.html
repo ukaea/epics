@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+  <title>EPICS exampleCPP/helloPutGet</title>
+  <link rel="stylesheet" type="text/css"
+  href="http://epics-pvdata.sourceforge.net/base.css" />
+  <link rel="stylesheet" type="text/css"
+  href="http://epics-pvdata.sourceforge.net/epicsv4.css" />
+  <style type="text/css">
+/*<![CDATA[*/
+     .about { margin-left: 3em; margin-right: 3em; font-size: .83em}
+     table { margin-left: auto; margin-right: auto }
+     .diagram { text-align: center; margin: 2.5em 0 }
+     body { margin-right: 10% }
+/*]]>*/</style>
+
+ <!-- Script that generates the Table of Contents -->
+  <script type="text/javascript" src="http://epics-pvdata.sourceforge.net/script/tocgen.js"></script>
+
+</head>
+
+<body>
+
+<div class="head">
+<h1>EPICS exampleCPP/helloPutGet</h1>
+<h2 class="nocount">Release 4.2 - 2016.04.25</h2>
+
+<h2 class="nocount">Abstract</h2>
+<p>
+<b>helloPutGet</b> implements a simple channelRPC putGet.
+</p>
+  <!-- last para of Abstract is boilerplate reference to EPICS -->
+      <p>For more information about EPICS generally, please refer to the home page of the <a
+       href="http://www.aps.anl.gov/epics/">Experimental Physics and Industrial
+      Control System</a>.</p>
+
+
+</div> <!-- head -->
+
+<div id="toc">
+  <h2 class="nocount">Table of Contents</h2>
+</div>
+
+<!-- Place what you would like in the Table of Contents, inside the contents div -->
+<div id="contents" class="contents">	  
+<hr />
+
+<h2>Overview</h2>
+<p>The example implements a simple putGet that has a top level pvStructure:
+</p>
+<pre>
+structure
+    structure argument
+        string value
+    structure result
+        string value
+        time_t timeStamp
+            long secondsPastEpoch
+            int nanoseconds
+            int userTag
+</pre>
+<p>It is designed to be accessed via a channelPutGet request.
+The client sets argument.value
+When the record processes it sets result.value to "Hello " 
+concatenated with argument.value.
+Thus if the client sets argument.value equal to "World"
+result.value will be "Hello World".
+In addition the timeStamp is set to the time when process is called.</p>
+<p>
+The example can be run on linux as follows:</p>
+<h3>Server</h3>
+<pre>
+mrk&gt; pwd
+/home/epicsv4/master/exampleCPP/helloPutGet
+mrk&gt; bin/$EPICS_HOST_ARCH/helloPutGetMain
+</pre>
+<p>To start helloPutGet as part of a V3IOC:</p>
+<pre>
+mrk&gt; pwd
+/home/hg/exampleCPP/master/helloPutGet/iocBoot/helloPutGet
+mrk&gt; ../../../bin/$EPICS_HOST_ARCH/helloPutGet st.cmd
+</pre>
+<h3>Client</h3>
+<pre>
+mrk&gt; pwd
+/home/epicsv4/master/exampleCPP/helloPutGet
+mrk&gt; bin/$EPICS_HOST_ARCH/helloPutGetClient
+</pre>
+<h2>Directory Layout</h2>
+<p>
+The directory layout is:
+</p>
+<pre>
+helloPutGet
+    configure
+       ExampleRELEASE.local
+       ...
+    src
+       pv
+          helloPutGetRecord.h
+       helloPutGetRecord.cpp
+       helloPutGetInclude.dbd
+       helloPutGetMain.cpp
+       helloPutGetRegister.cpp
+       helloPutGetRegister.dbd
+       helloPutGetClient.cpp
+    ioc
+       Db
+          ...
+       src
+          helloPutGetInclude.dbd
+          helloPutGetMain.cpp
+   iocBoot
+      helloPutGet
+         st.cmd
+         ...
+</pre>
+where
+<dl>
+  <dt>ExampleRELEASE.local</dt>
+     <dd>
+     If you make a copy of helloPutGet and use it
+     to create a new server,
+    This is the file that must be copied to RELEASE.local
+     and edited.</dd>
+   <dt>helloPutGetRecord.h</dt>
+     <dd>The header file for helloPutGet.</dd>
+   <dt>helloPutGetRecord.cpp</dt>
+     <dd>The helloPutGet implementation.</dd>
+   <dt>helloPutGetMain.cpp</dt>
+     <dd>A main program that runs the example so that it can be accessed
+       by a pvAccess client.
+     </dd>
+   <dt>helloPutGetInclude.dbd</dt>
+     <dd>This has a register command so that the putGet can be started
+       on a V3 IOC via iocsh.
+      </dd>
+   <dt>helloPutGetRegister.cpp</dt>
+      <dd>This has the code to start the putGet via the following iocsh
+       command.
+         <pre>
+helloPutGetCreateRecord helloPutGet
+         </pre>
+       Multiple commands can be issued to create multiple putGet records.
+       </dd>
+   <dt>helloPutGetRegister.dbd</dt>
+       <dd>This is the file that is used to create the shell command
+        helloPutGetCreateRecord.
+       </dd>
+    <dt>helloPutGetClient.cpp</dt>
+       <dd>Client code to test helloPutGet</dd>
+
+   <dt>ioc</dt>
+     <dd>This is for building a V3 IOC application.</dd>
+   <dt>ioc/Db</dt>
+     <dd>This has template files for creating V3 records.</dd>
+   <dt>ioc/src</dt>
+     <dd>The files for running a V3 IOC.</dd>
+   <dt>iocBoot/helloPutGet</dt>
+      <dd>A place to start helloPutGet as part of a V3IOC.
+       It has a st.cmd file that starts the ioc and also starts pvAccess
+      and the example.</dd>
+</dl>
+<p>If only a main program is desired then the directory layout is:</p>
+<pre>
+helloPutGet
+    configure
+       ExampleRELEASE.local
+       ...
+    src
+       pv
+          helloPutGetRecord.h
+       code
+          helloPutGetRecord.cpp
+          helloPutGetMain.cpp
+</pre>
+<p>Thus if only a main program is required the directory layout is simple.</p>
+<p>Also many sites will want to build the src directory in an area
+separate from where the iocs are build.</p>
+<h2>helloPutGetRecord.h</h2>
+<p>The example resides in src
+The implementation is in helloPutGetRecord.cpp.
+</p>
+<p>The description consists of</p>
+<pre>
+class HelloPutGetRecord;
+typedef std::tr1::shared_ptr&lt;HelloPutGetRecord&gt; HelloPutGetRecordPtr;
+
+class HelloPutGetRecord :
+    public PVRecord
+{
+public:
+    POINTER_DEFINITIONS(HelloPutGetRecord);
+    static HelloPutGetRecordPtr create(
+        std::string const &amp; recordName);
+    virtual ~HelloPutGetRecord();
+    virtual void destroy();
+    virtual bool init();
+    virtual void process();
+private:
+    HelloPutGetRecord(std::string const &amp; recordName,
+        epics::pvData::PVStructurePtr const &amp; pvStructure);
+
+    epics::pvData::PVStringPtr pvArgumentValue;
+    epics::pvData::PVStringPtr pvResultValue;
+};
+</pre>
+<p>where</p>
+<dl>
+  <dt>create</dt>
+    <dd>This is example specific but each support could provide
+     a similar static method.
+    </dd>
+  <dt>~HelloPutGetRecord</dt>
+    <dd>The destructor must be declared virtual.</dd>
+  <dt>destroy</dt>
+     <dd>Called when the record is being destroyed.
+      This must call the base class destroy method.
+     </dd>
+  <dt>init</dt>
+    <dd>A method to initialize the support. It returns true
+    if initialization is successful and false if not.
+    NOTE that this is a virtual method of PVRecord itself.</dd>
+  <dt>process</dt>
+    <dd>
+     This again is a virtual method of PVRecord.
+    </dd>
+  <dt>HelloPutGet</dt>
+    <dd>For the example this is private.</dd>
+  <dt>pvValue</dt>
+    <dd>This is the field of the top level structure that process
+    accesses.
+    </dd>
+</dl>
+<p>The implementation of create method is:</p>
+<pre>
+HelloPutGetPtr HelloPutGet::create(
+    std::string const &amp; recordName)
+{
+    StandardFieldPtr standardField = getStandardField();
+    FieldCreatePtr fieldCreate = getFieldCreate();
+    PVDataCreatePtr pvDataCreate = getPVDataCreate();
+    StructureConstPtr  topStructure = fieldCreate-&gt;createFieldBuilder()-&gt;
+        addNestedStructure("argument")-&gt;
+            add("value",pvString)-&gt;
+            endNested()-&gt;
+        addNestedStructure("result") -&gt;
+            add("value",pvString) -&gt;
+            add("timeStamp",standardField-&gt;timeStamp()) -&gt;
+            endNested()-&gt;
+        createStructure();
+    PVStructurePtr pvStructure = pvDataCreate-&gt;createPVStructure(topStructure);
+
+    HelloPutGetPtr pvRecord(
+        new HelloPutGet(recordName,pvStructure));
+    if(!pvRecord-&gt;init()) pvRecord.reset();
+    return pvRecord;
+}
+</pre>
+This:
+<ul>
+   <li>Creates the top level structure.</li>
+   <li>Creates a HelloPutGetPtr via the constructor.</li>
+   <li>Calls init and if it fails resets the shared pointer.</li>
+   <li>Returns the shared pointer to the newly created record.</li>
+</ul>
+<p>The private constructor method is:</p>
+<pre>
+HelloPutGet::HelloPutGet(
+    std::string const &amp; recordName,
+    epics::pvData::PVStructurePtr const &amp; pvStructure)
+: PVRecord(recordName,pvStructure)
+{
+}
+</pre>
+The example is very simple. Note that it calls the base class constructor.
+<p>The destructor and destroy methods are:</p>
+<pre>
+HelloPutGet::~HelloPutGet()
+{
+}
+
+void HelloPutGet::destroy()
+{
+    PVRecord::destroy();
+}
+</pre>
+The destructor has nothing to do.
+The destroy method, which is virtual,  just calls the destroy method of the base class.
+A more complicated example can clean up any resources it used but must call the base
+class destroy method.
+<p>The implementation of init is:</p>
+<pre>
+bool HelloPutGet::init()
+{
+    initPVRecord();
+    PVFieldPtr pvField;
+    pvArgumentValue = getPVStructure()-&gt;getStringField("argument.value");
+    if(pvArgumentValue.get()==NULL) return false;
+    pvResultValue = getPVStructure()-&gt;getStringField("result.value");
+    if(pvResultValue.get()==NULL) return false;
+    return true;
+}
+</pre>
+<p>The implementation of process is:</p>
+<pre>
+void HelloPutGet::process()
+{
+    pvResultValue-&gt;put(String("Hello ") + pvArgumentValue-&gt;get());
+    PVRecord::process();
+}
+</pre>
+It gives a value to result.value and
+then sets the timeStamp to the current time.
+<h2>src/helloPutGetMain.cpp</h2>
+<p><b>NOTE:</b>
+This is a shorter version of the actual code.
+It shows the essential code.
+The actual example shows how create an additional record.
+</p>
+<p>The main program is:</p>
+<pre>
+int main(int argc,char *argv[])
+{
+    PVDatabasePtr master = PVDatabase::getMaster();
+    ChannelProviderLocalPtr channelProvider = getChannelProviderLocal();
+    PVRecordPtr pvRecord;
+    string recordName;
+
+    recordName = "helloPutGet";
+    pvRecord = HelloPutGetRecord::create(recordName);
+    master-&gt;addRecord(pvRecord);
+
+    ServerContext::shared_pointer ctx =
+        startPVAServer(PVACCESS_ALL_PROVIDERS,0,true,true);
+    cout &lt;&lt; "exampleLink\n";
+    string str;
+    while(true) {
+        cout &lt;&lt; "Type exit to stop: \n";
+        getline(cin,str);
+        if(str.compare("exit")==0) break;
+
+    }
+    ctx-&gt;destroy();
+    return 0;
+}
+</pre>
+This:
+<ul>
+  <li>Gets a pointer to the master database.</li>
+  <li>Creates the local Channel Provider. This starts the pvAccess server.</li>
+  <li>Creates record helloPutGet </li>
+  <li>creates records traceRecordPGRPC and recordListPGRPC</li>
+  <li>lists all the records</li>
+  <li>Runs forever until the user types exit on standard in.</li>
+</ul>
+
+</div> <!-- class="contents" -->
+</body>
+</html>
