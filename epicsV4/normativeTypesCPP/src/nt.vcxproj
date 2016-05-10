@@ -285,6 +285,28 @@ xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
       <Project>{f4a51415-2981-42ee-87c7-f29d5805583e}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pv\nt.h" />
+    <ClInclude Include="pv\ntaggregate.h" />
+    <ClInclude Include="pv\ntattribute.h" />
+    <ClInclude Include="pv\ntcontinuum.h" />
+    <ClInclude Include="pv\ntenum.h" />
+    <ClInclude Include="pv\ntfield.h" />
+    <ClInclude Include="pv\nthistogram.h" />
+    <ClInclude Include="pv\ntid.h" />
+    <ClInclude Include="pv\ntmatrix.h" />
+    <ClInclude Include="pv\ntmultiChannel.h" />
+    <ClInclude Include="pv\ntnameValue.h" />
+    <ClInclude Include="pv\ntndarray.h" />
+    <ClInclude Include="pv\ntndarrayAttribute.h" />
+    <ClInclude Include="pv\ntscalar.h" />
+    <ClInclude Include="pv\ntscalarArray.h" />
+    <ClInclude Include="pv\ntscalarMultiChannel.h" />
+    <ClInclude Include="pv\nttable.h" />
+    <ClInclude Include="pv\ntunion.h" />
+    <ClInclude Include="pv\nturi.h" />
+    <ClInclude Include="pv\ntutils.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

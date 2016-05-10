@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TrackFileAccess>false</TrackFileAccess>
+  </PropertyGroup>
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug_DLL|Win32">
       <Configuration>Debug_DLL</Configuration>
@@ -34,10 +37,31 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\base-3.15.3\src\libCom\Com.vcxproj">
+      <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\normativeTypesCPP\src\nt.vcxproj">
+      <Project>{ee16abbd-8c46-4901-9623-77b571fa180d}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\pvAccessCPP\src\pvAccess.vcxproj">
+      <Project>{44ecea7e-d805-49b6-8e89-62ec3994c1f3}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\pvDatabaseCPP\src\pvDatabase.vcxproj">
+      <Project>{664dc48a-2783-48f6-bcfb-da5fa36886f6}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\pvDataCPP\src\pvData.vcxproj">
+      <Project>{f4a51415-2981-42ee-87c7-f29d5805583e}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="powerSupplyRecord.cpp" />
+    <ClCompile Include="powerSupplyRegister.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{664DC48A-2783-48F6-BCFB-DA5FA36886F6}</ProjectGuid>
+    <ProjectGuid>{0A76D172-DD66-45A7-BABF-45DE4A0BB4BC}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>pvaSrv</RootNamespace>
+    <RootNamespace>HelloClient</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'" Label="Configuration">
@@ -135,17 +159,14 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\boostApp\boost\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;$(SolutionDir)include\pv</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
-</Command>
+      <Command>xcopy /Y /Q /D /R pv\*.h $(SolutionDir)\include\pv</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
@@ -155,17 +176,14 @@ xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\boostApp\boost\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;$(SolutionDir)include\pv</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
-</Command>
+      <Command>xcopy /Y /Q /D /R pv\*.h $(SolutionDir)\include\pv</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
@@ -174,19 +192,16 @@ xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\boostApp\boost\</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>EPICS_DLL_NO;WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;$(SolutionDir)include\pv</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
-</Command>
+      <Command>xcopy /Y /Q /D /R pv\*.h $(SolutionDir)\include\pv</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
@@ -195,18 +210,16 @@ xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\boostApp\boost\</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>EPICS_DLL_NO;WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;$(SolutionDir)include\pv</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
-</Command>
+      <Command>xcopy /Y /Q /D /R pv\*.h $(SolutionDir)\include\pv</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
@@ -218,7 +231,7 @@ xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\boostApp\boost\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;$(SolutionDir)include\pv</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -227,10 +240,7 @@ xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
-</Command>
+      <Command>xcopy /Y /Q /D /R pv\*.h $(SolutionDir)\include\pv</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
@@ -242,7 +252,7 @@ xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\boostApp\boost\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;$(SolutionDir)include\pv</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -251,10 +261,7 @@ xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
-</Command>
+      <Command>xcopy /Y /Q /D /R pv\*.h $(SolutionDir)\include\pv</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
@@ -266,20 +273,16 @@ xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>EPICS_DLL_NO;WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\boostApp\boost\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;$(SolutionDir)include\pv</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
-</Command>
+      <Command>xcopy /Y /Q /D /R pv\*.h $(SolutionDir)\include\pv</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">
@@ -291,77 +294,18 @@ xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>EPICS_DLL_NO;WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\boostApp\boost\</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;$(SolutionDir)include\pv</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
-</Command>
+      <Command>xcopy /Y /Q /D /R pv\*.h $(SolutionDir)\include\pv</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\base-3.15.3\src\libCom\Com.vcxproj">
-      <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\pvAccessCPP\src\pvAccess.vcxproj">
-      <Project>{44ecea7e-d805-49b6-8e89-62ec3994c1f3}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\pvDataCPP\src\pvData.vcxproj">
-      <Project>{f4a51415-2981-42ee-87c7-f29d5805583e}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="database\Makefile" />
-    <None Include="pvAccess\Makefile" />
-    <None Include="pvAccess\registerChannelProviderLocal.dbd" />
-    <None Include="special\Makefile" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="database\pvDatabase.cpp" />
-    <ClCompile Include="database\pvRecord.cpp" />
-    <ClCompile Include="pvAccess\channelLocal.cpp" />
-    <ClCompile Include="pvAccess\channelProviderLocal.cpp" />
-    <ClCompile Include="pvAccess\monitorFactory.cpp" />
-    <ClCompile Include="pvAccess\pvCopyMonitor.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="pvAccess\registerChannelProviderLocal.cpp" />
-    <ClCompile Include="special\recordList.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="special\traceRecord.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="database\pvDatabase.h" />
-    <ClInclude Include="pvAccess\channelProviderLocal.h" />
-    <ClInclude Include="pvAccess\pvCopyMonitor.h" />
-    <ClInclude Include="pv\channelProviderLocal.h" />
-    <ClInclude Include="pv\pvDatabase.h" />
-    <ClInclude Include="pv\traceRecord.h" />
-    <ClInclude Include="special\recordList.h" />
-    <ClInclude Include="special\traceRecord.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -21,4 +21,71 @@
     <ClCompile Include="ntunion.cpp" />
     <ClCompile Include="nturi.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Filter Include="pv">
+      <UniqueIdentifier>{dfd2732d-7609-4a13-9b4d-cf6f86e81bd0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pv\nt.h">
+      <Filter>pv</Filter>
+    </ClInclude>
+    <ClInclude Include="pv\ntutils.h">
+      <Filter>pv</Filter>
+    </ClInclude>
+    <ClInclude Include="pv\ntaggregate.h">
+      <Filter>pv</Filter>
+    </ClInclude>
+    <ClInclude Include="pv\ntattribute.h">
+      <Filter>pv</Filter>
+    </ClInclude>
+    <ClInclude Include="pv\ntcontinuum.h">
+      <Filter>pv</Filter>
+    </ClInclude>
+    <ClInclude Include="pv\ntenum.h">
+      <Filter>pv</Filter>
+    </ClInclude>
+    <ClInclude Include="pv\ntfield.h">
+      <Filter>pv</Filter>
+    </ClInclude>
+    <ClInclude Include="pv\nthistogram.h">
+      <Filter>pv</Filter>
+    </ClInclude>
+    <ClInclude Include="pv\ntid.h">
+      <Filter>pv</Filter>
+    </ClInclude>
+    <ClInclude Include="pv\ntmatrix.h">
+      <Filter>pv</Filter>
+    </ClInclude>
+    <ClInclude Include="pv\ntmultiChannel.h">
+      <Filter>pv</Filter>
+    </ClInclude>
+    <ClInclude Include="pv\ntnameValue.h">
+      <Filter>pv</Filter>
+    </ClInclude>
+    <ClInclude Include="pv\ntndarray.h">
+      <Filter>pv</Filter>
+    </ClInclude>
+    <ClInclude Include="pv\ntndarrayAttribute.h">
+      <Filter>pv</Filter>
+    </ClInclude>
+    <ClInclude Include="pv\ntscalar.h">
+      <Filter>pv</Filter>
+    </ClInclude>
+    <ClInclude Include="pv\ntscalarArray.h">
+      <Filter>pv</Filter>
+    </ClInclude>
+    <ClInclude Include="pv\ntscalarMultiChannel.h">
+      <Filter>pv</Filter>
+    </ClInclude>
+    <ClInclude Include="pv\nttable.h">
+      <Filter>pv</Filter>
+    </ClInclude>
+    <ClInclude Include="pv\ntunion.h">
+      <Filter>pv</Filter>
+    </ClInclude>
+    <ClInclude Include="pv\nturi.h">
+      <Filter>pv</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>

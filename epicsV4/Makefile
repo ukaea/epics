@@ -1,4 +1,4 @@
-default: base helloWorld
+default: base
 
 base : pvCommon pvData nt pvAccess pvaSrv pvDatabase pvaClient
 
@@ -25,9 +25,6 @@ pvDatabase : FORCE
 pvaClient : FORCE
 	make -C pvaClientCPP
 
-helloWorld : FORCE
-	make -C exampleCPP/HelloWorld
-
 archSrv : FORCE
 	make -C exampleCPP/ChannelArchiverService
 
@@ -41,9 +38,8 @@ clean :
 	make -C pvaSrv clean
 	make -C pvDatabaseCPP clean
 	make -C normativeTypesCPP clean
-	make -C exampleCPP/HelloWorld clean
 	make -C exampleCPP/ChannelArchiverService clean
-	if [ -e "pvaPy/configure/RELEASE.local" ]; then make -C pvaPy clean; fi
+	make -C pvaPy clean
 
 uninstall : 
 	make -C pvCommonCPP uninstall
@@ -52,9 +48,8 @@ uninstall :
 	make -C pvaSrv uninstall
 	make -C pvDatabaseCPP uninstall
 	make -C normativeTypesCPP uninstall
-	make -C exampleCPP/HelloWorld uninstall
 	make -C exampleCPP/ChannelArchiverService uninstall
-	if [ -e "pvaPy/configure/RELEASE.local" ]; then make -C pvaPy uninstall; fi
+	make -C pvaPy uninstall
 
 distclean : clean config_clean 
 
