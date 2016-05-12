@@ -117,6 +117,7 @@ cd $(ProjectDir)
     <None Include="O.Common\VQM_ITMS.dbd" />
     <None Include="src\Makefile" />
     <None Include="src\VQM\Libs\CLIWrapperDLL.dll" />
+    <None Include="src\VQM\Libs\CLIWrapperDLLd.dll" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\VQM\Include\IHeaderData.h" />
@@ -131,7 +132,14 @@ cd $(ProjectDir)
     <ClInclude Include="src\ParameterDefns.h" />
   </ItemGroup>
   <ItemGroup>
-    <Library Include="src\VQM\Libs\CLIWrapperDLL.lib" />
+    <Library Include="src\VQM\Libs\CLIWrapperDLL.lib">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
+    </Library>
+    <Library Include="src\VQM\Libs\CLIWrapperDLLd.lib">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
+    </Library>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{BAE6CE99-140A-4018-8BCB-9D63F54D6F07}</ProjectGuid>

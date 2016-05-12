@@ -13,7 +13,7 @@ private:
     std::vector<double> m_Residuals;
     std::vector<double> m_MassAxis;
     std::vector<double> m_DenoisedRawData;
-    std::vector<double> m_PartialPressure;
+    std::vector<double> m_PeakArea;
     std::vector<double> m_PeakGoodnessOfFit;
     std::vector<double> m_PeakFWHM;
     std::vector<double> m_PeakResolution;
@@ -42,7 +42,7 @@ public:
 	std::vector<double>& Residuals() { return m_Residuals; }
 	std::vector<double>& MassAxis() { return m_MassAxis; }
 	std::vector<double>& DenoisedRawData() { return m_DenoisedRawData; }
-	std::vector<double>& PeakArea() { return m_PartialPressure; }
+	std::vector<double>& PeakArea() { return m_PeakArea; }
 	std::vector<double>& PeakGoodnessOfFit() { return m_PeakGoodnessOfFit; }
 	std::vector<double>& PeakFWHM() { return m_PeakFWHM; }
 	std::vector<double>& PeakResolution() { return m_PeakResolution; }

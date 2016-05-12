@@ -300,7 +300,7 @@ asynStatus CVQM_ITMS_Driver::readFloat64(asynUser *pasynUser, epicsFloat64 *valu
 		return asynTimeout;
 	try {
 		CVQM_ITMS_Base::ThrowException(pasynUser, getAddress(pasynUser, &TableIndex), __FUNCTION__, "Could not get address");
-		if ((TableIndex < 0) || (TableIndex > int(NrInstalled())))
+		if ((TableIndex < 0) || (TableIndex >= int(NrInstalled())))
 			throw CVQM_ITMS_Base::CException(pasynUser, asynError, __FUNCTION__, "User / ITMS not configured");
 		epicsGuard < epicsMutex > guard (*m_Threads[TableIndex]);
 		if (m_Instance == NULL)
@@ -392,7 +392,7 @@ bool CVQM_ITMS_Driver::GetScanData(int TableIndex, std::vector<float>& RawData, 
 		// The IOC is exiting
 		return false;
 
-	if ((TableIndex < 0) || (TableIndex > int(NrInstalled())))
+	if ((TableIndex < 0) || (TableIndex >= int(NrInstalled())))
 		throw CVQM_ITMS_Base::CException(pasynUserSelf, asynError, __FUNCTION__, "User / ITMS not configured");
 	epicsGuard < epicsMutex > guard (*m_Threads[TableIndex]);
 	if (m_Instance == NULL)
@@ -465,7 +465,7 @@ asynStatus CVQM_ITMS_Driver::readFloat32Array(asynUser *pasynUser, epicsFloat32 
 		return asynTimeout;
 	try {
 		CVQM_ITMS_Base::ThrowException(pasynUser, getAddress(pasynUser, &TableIndex), __FUNCTION__, "Could not get address");
-		if ((TableIndex < 0) || (TableIndex > int(NrInstalled())))
+		if ((TableIndex < 0) || (TableIndex >= int(NrInstalled())))
 			throw CVQM_ITMS_Base::CException(pasynUser, asynError, __FUNCTION__, "User / ITMS not configured");
 		epicsGuard < epicsMutex > guard (*m_Threads[TableIndex]);
 		if (m_Instance == NULL)
