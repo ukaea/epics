@@ -12,6 +12,7 @@
 # Epics base directories
 
 EPICS_BASE_HOST_BIN = $(EPICS_BASE)/bin/$(EPICS_HOST_ARCH)
+
 EPICS_BASE_HOST_LIB = $(EPICS_BASE)/lib/$(EPICS_HOST_ARCH)
 ifdef T_A
   EPICS_BASE_LIB    = $(EPICS_BASE)/lib/$(T_A)
@@ -54,8 +55,10 @@ BASE_CPPFLAGS += $(OSITHREAD_DEFAULT_STACK_FLAGS_$(OSITHREAD_USE_DEFAULT_STACK))
 # Where to find the installed build tools
 #   Windows does not like commands with relative paths starting ../
 #   but the Perl scripts in TOP/src/tools are OK
+#   Be aware, the abspath function works correctly only on
+#   POSIX-format paths.
 
-TOOLS = $(abspath $(EPICS_BASE_HOST_BIN))
+TOOLS = $(abspath $(subst \,/,$(EPICS_BASE_HOST_BIN)))
 FIND_TOOL = $(firstword $(wildcard $(TOOLS)/$(1) $(TOP)/src/tools/$(1)))
 
 #---------------------------------------------------------------
@@ -91,8 +94,12 @@ LEX   = $(ELEX)
 
 #---------------------------------------------------------------
 # Our use of msi is incompatible with older versions
+# Choose appropriate variant
 
-MSI3_15 = $(EPICS_BASE_HOST_BIN)/msi
+MSI3_15_POSIX = $(EPICS_BASE_HOST_BIN)/msi
+MSI3_15_WINDOWS = $(subst /,\,$(MSI3_15_POSIX))
+MSI3_15 = $(MSI3_15_WINDOWS)
+
 
 #---------------------------------------------------------------
 # External tools and tool flags - must be in path or defined in application
