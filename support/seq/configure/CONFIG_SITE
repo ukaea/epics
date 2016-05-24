@@ -17,4 +17,7 @@
 RE2C = /EPICS/support/seq/re2c$(HOSTEXE)
 
 # Parser generator
-LEMON = $(call PATH_FILTER,$(INSTALL_HOST_BIN)/lemon$(HOSTEXE))
+# Choose appropriate variant
+LEMON_POSIX = $(call PATH_FILTER,$(INSTALL_HOST_BIN)/lemon$(HOSTEXE))
+LEMON_WINDOWS = $(call PATH_FILTER,$(subst /,\,$(INSTALL_HOST_BIN)/lemon$(HOSTEXE)))
+LEMON = $(LEMON_WINDOWS)
