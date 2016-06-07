@@ -8,7 +8,7 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 /*
- *      Revision-Id: anj@aps.anl.gov-20120412161350-htfzcjp2537pk1ip
+ *      Revision-Id: ralph.lange@gmx.de-20160526121456-m11iguebxazhmhfj
  *
  *      Author  Jeffrey O. Hill
  *              johill@lanl.gov
@@ -348,10 +348,8 @@ caStatus casDGClient::searchResponse ( const caHdrLargeArray & msg,
 //
 caStatus casDGClient::searchFailResponse ( const caHdrLargeArray * mp )
 {
-	int		status;
-
     epicsGuard < epicsMutex > guard ( this->mutex );
-    status = this->out.copyInHeader ( CA_PROTO_NOT_FOUND, 0,
+    this->out.copyInHeader ( CA_PROTO_NOT_FOUND, 0,
         mp->m_dataType, mp->m_count, mp->m_cid, mp->m_available, 0 );
 
 	this->out.commitMsg ();

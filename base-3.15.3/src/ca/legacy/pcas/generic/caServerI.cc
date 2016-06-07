@@ -8,7 +8,7 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 /*
- *      Revision-Id: anj@aps.anl.gov-20121130234247-8kua9rbosnhltlmq
+ *      Revision-Id: anj@aps.anl.gov-20160121182701-a9hne1odt8hfs00h
  *
  *      Author  Jeffrey O. Hill
  *              johill@lanl.gov
@@ -36,7 +36,7 @@
 static const char pVersionCAS[] = 
     "@(#) " EPICS_VERSION_STRING 
     ", CA Portable Server Library " 
-    "Date: Fri 2012-11-30 17:42:47 -0600";
+    "Date: Thu 2016-01-21 12:27:01 -0600";
 
 caServerI::caServerI ( caServer & tool ) :
     adapter (tool),
@@ -139,6 +139,39 @@ caStatus caServerI::attachInterface ( const caNetAddr & addrIn,
     }
 
     return S_cas_success;
+}
+
+void caServerI::addMCast(const osiSockAddr& addr)
+{
+#ifdef IP_ADD_MEMBERSHIP
+    epicsGuard < epicsMutex > locker ( this->mutex );
+    tsDLIter < casIntfOS > iter = this->intfList.firstIter ();
+    while ( iter.valid () ) {
+        struct ip_mreq mreq;
+
+        memset(&mreq, 0, sizeof(mreq));
+        mreq.imr_interface = iter->serverAddress().getSockIP().sin_addr;
+        mreq.imr_multiaddr = addr.ia.sin_addr;
+
+        if ( setsockopt ( iter->casDGIntfIO::getFD (), IPPROTO_IP,
+                          IP_ADD_MEMBERSHIP, (char *) &mreq,
+                          sizeof ( mreq ) ) < 0) {
+            struct sockaddr_in temp;
+            char name[40];
+            char sockErrBuf[64];
+            temp.sin_family = AF_INET;
+            temp.sin_addr = mreq.imr_multiaddr;
+            temp.sin_port = addr.ia.sin_port;
+            epicsSocketConvertErrnoToString (
+                sockErrBuf, sizeof ( sockErrBuf ) );
+            ipAddrToDottedIP (&temp, name, sizeof(name));
+            fprintf(stderr, "CAS: Socket mcast join %s failed with \"%s\"\n",
+                name, sockErrBuf );
+        }
+
+        iter++;
+    }
+#endif
 }
 
 void caServerI::sendBeacon ( ca_uint32_t beaconNo )

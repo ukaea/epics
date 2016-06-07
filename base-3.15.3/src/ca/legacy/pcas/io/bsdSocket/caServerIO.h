@@ -10,7 +10,7 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 //
-// Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd
+// Revision-Id: mdavidsaver@gmail.com-20160121171702-odot9q03t0dk1yjo
 //
 
 #ifndef caServerIOh
@@ -47,6 +47,8 @@ private:
 	virtual caStatus attachInterface (
         const caNetAddr & addr, bool autoBeaconAddr,
 		bool addConfigAddr ) = 0;
+
+    virtual void addMCast(const osiSockAddr&) = 0;
 };
 
 #endif // caServerIOh

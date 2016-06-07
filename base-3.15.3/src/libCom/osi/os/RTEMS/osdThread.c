@@ -6,7 +6,7 @@
 \*************************************************************************/
 /*
  * RTEMS osdThread.c
- *      Revision-Id: ralph.lange@gmx.de-20130328140329-46sjs0lyfs3h3un4
+ *      Revision-Id: anj@aps.anl.gov-20160223214326-8z1faazkfpn6fy1v
  *      Author: W. Eric Norum
  *              eric@cls.usask.ca
  *              (306) 966-6055
@@ -247,6 +247,9 @@ epicsThreadInit (void)
                 InterruptContextMessageDaemon, NULL);
     }
 }
+
+void epicsThreadRealtimeLock(void)
+{}
 
 /*
  * Create and start a new thread

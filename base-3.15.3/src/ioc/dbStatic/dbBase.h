@@ -6,7 +6,7 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
-/* Revision-Id: ralph.lange@gmx.de-20140522141802-3kazo98otzzbl7i3
+/* Revision-Id: ralph.lange@gmx.de-20160406133835-0xw6b044hcc77d8l
  *
  *      Current Author:         Marty Kraimer
  *      Date:                   03-19-92
@@ -165,8 +165,9 @@ typedef struct dbBase {
 	ELLLIST		functionList;
 	ELLLIST		variableList;
 	ELLLIST		bptList;
-	ELLLIST         filterList;
-	void		*pathPvt;
+    ELLLIST         filterList;
+    ELLLIST         guiGroupList;
+    void		*pathPvt;
 	struct dbPvd	*ppvd;
 	struct gphPvt	*pgpHash;
 	short		ignoreMissingMenus;

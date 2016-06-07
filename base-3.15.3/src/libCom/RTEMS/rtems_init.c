@@ -6,7 +6,7 @@
 \*************************************************************************/
 /*
  * RTEMS startup task for EPICS
- *  Revision-Id: anj@aps.anl.gov-20140925213412-lo1rca0dx74lzif7
+ *  Revision-Id: anj@aps.anl.gov-20160415223841-2mir14a4a5734m5m
  *      Author: W. Eric Norum
  *              eric.norum@usask.ca
  *              (306) 966-5394
@@ -528,6 +528,12 @@ Init (rtems_task_argument ignored)
     initConsole ();
     putenv ("TERM=xterm");
     putenv ("IOCSH_HISTSIZE=20");
+
+    /*
+     * Display some OS information
+     */
+    printf("\n***** RTEMS Version: %s *****\n",
+        rtems_get_version_string());
 
     /*
      * Start network

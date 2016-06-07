@@ -1,8 +1,9 @@
-# Revision-Id: jba@aps.anl.gov-20120831185254-irpn190wepwlu5tj
+# Revision-Id: anj@aps.anl.gov-20160225201340-h59p7126ryfjjxnu
 
 include $(CONFIG)/RULES
-include $(TOP)/configure/RULES_PYTHON
-include $(TOP)/configure/RULES_IDL
+-include $(TOP)/configure/RULES_PYTHON
+-include $(TOP)/configure/RULES_IDL
+
 ifdef BASE_3_15
-include $(TOP)/configure/RULES_JAVA
+  -include $(TOP)/configure/RULES_JAVA
 endif

@@ -4,7 +4,7 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 /*
- * Revision-Id: anj@aps.anl.gov-20110909221435-fdjubbxunee9gs44
+ * Revision-Id: mdavidsaver@gmail.com-20160112015907-45jqgvfwozgixufl
  *
  * Author: Eric Norum
  */
@@ -41,6 +41,7 @@ typedef socklen_t osiSocklen_t;
 #define SOCK_ECONNRESET ECONNRESET
 #define SOCK_ETIMEDOUT ETIMEDOUT
 #define SOCK_EADDRINUSE EADDRINUSE
+#define SOCK_EADDRNOTAVAIL EADDRNOTAVAIL
 #define SOCK_ECONNREFUSED ECONNREFUSED
 #define SOCK_ECONNABORTED ECONNABORTED
 #define SOCK_EINPROGRESS EINPROGRESS

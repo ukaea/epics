@@ -8,7 +8,7 @@
 \*************************************************************************/
 
 /*
- * Revision-Id: anj@aps.anl.gov-20150807144148-wtz7y6y5jobxwajq
+ * Revision-Id: ralph.lange@gmx.de-20160113162823-dtz30oikum7a9wsr
  *
  * Author: Jeff Hill
  */
@@ -16,11 +16,17 @@
 #ifndef INC_osdTime_H
 #define INC_osdTime_H
 
+/* MinGW only has a snippet time.h not protected against multiple inclusion */
+#if defined(__struct_timespec_defined)
+#define _TIMESPEC_DEFINED 1
+#endif
+
 #if ! defined(_MINGW) || ! defined(_TIMESPEC_DEFINED)
 #  if _MSC_VER >= 1900
 #    include <time.h>
 #  else
 
+#define __struct_timespec_defined 1
 #define _TIMESPEC_DEFINED 1
 struct timespec {
     time_t tv_sec; /* seconds since some epoch */

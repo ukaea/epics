@@ -6,7 +6,7 @@
 # EPICS BASE is distributed subject to a Software License Agreement found
 # in the file LICENSE that is included with this distribution. 
 #*************************************************************************
-# Revision-Id: ralph.lange@gmx.de-20151010161735-y2c1lvvmap373zcb
+# Revision-Id: anj@aps.anl.gov-20160513181208-5lq8zidy05hle7xe
 #
 #	Rules for making things specified in Makefile
 #
@@ -170,7 +170,13 @@ endif
 $(DIRECTORY_TARGETS) :
 	$(MKDIR) -p $@
 
-$(PRODNAME): $(INSTALL_LIB_INSTALLS)
+# Install LIB_INSTALLS libraries before linking executables
+$(TESTPRODNAME) $(PRODNAME): | $(INSTALL_LIB_INSTALLS)
+
+# Install built libraries too, unless Makefile says to wait
+ifneq ($(DELAY_INSTALL_LIBS),YES)
+$(TESTPRODNAME) $(PRODNAME): | $(INSTALL_LIBS) $(INSTALL_DLLSTUB_LIBS)
+endif
 
 # RELEASE file consistency checking
 checkRelease:
@@ -319,7 +325,9 @@ $(MODNAME): %$(MODEXT): %$(EXE)
 # Automated testing
 
 runtests: $(TESTSCRIPTS)
+ifneq (,$(findstring $(T_A),$(EPICS_HOST_ARCH) $(CROSS_COMPILER_RUNTEST_ARCHS)))
 	-$(PERL) -MTest::Harness -e 'runtests @ARGV if @ARGV;' $^
+endif
 
 testspec: $(TESTSCRIPTS)
 	@$(RM) $@
@@ -333,7 +341,9 @@ tapfiles: $(TESTSCRIPTS) $(TAPFILES)
 
 # A .tap file is the output from running the associated test script
 %.tap: %.t
+ifneq (,$(findstring $(T_A),$(EPICS_HOST_ARCH) $(CROSS_COMPILER_RUNTEST_ARCHS)))
 	-$(PERL) $< -tap > $@
+endif
 
 # If there's a perl test script (.plt) available, use it
 %.t: ../%.plt

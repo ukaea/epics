@@ -6,7 +6,7 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/* Revision-Id: anj@aps.anl.gov-20151013194139-q7ydoou2atcl1qdx */
+/* Revision-Id: ralph.lange@gmx.de-20160422150221-5yhuzxfry7jyt31e */
 
 /* Author:  Marty Kraimer Date:    13JUL95*/
 
@@ -34,7 +34,6 @@
 #include "dbStaticLib.h"
 #include "dbStaticPvt.h"
 #include "epicsExport.h"
-#include "guigroup.h"
 #include "link.h"
 #include "special.h"
 
@@ -48,6 +47,9 @@ epicsExportAddress(int,dbRecordsOnceOnly);
 
 epicsShareDef int dbBptNotMonotonic=0;
 epicsExportAddress(int,dbBptNotMonotonic);
+
+epicsShareDef int dbQuietMacroWarnings=0;
+epicsExportAddress(int,dbQuietMacroWarnings);
 
 /*private routines */
 static void yyerrorAbort(char *str);
@@ -68,6 +70,7 @@ static void dbRecordtypeEmpty(void);
 static void dbRecordtypeBody(void);
 static void dbRecordtypeFieldHead(char *name,char *type);
 static void dbRecordtypeFieldItem(char *name,char *value);
+static short findOrAddGuiGroup(const char *name);
 
 static void dbDevice(char *recordtype,char *linktype,
 	char *dsetname,char *choicestring);
@@ -230,6 +233,7 @@ static long dbReadCOM(DBBASE **ppdbbase,const char *filename, FILE *fp,
 	    free((void *)macPairs);
 	    mac_input_buffer = dbCalloc(MY_BUFFER_SIZE,sizeof(char));
 	}
+        macSuppressWarning(macHandle,dbQuietMacroWarnings);
     }
     pinputFile = dbCalloc(1,sizeof(inputFile));
     if(filename) {
@@ -320,10 +324,9 @@ static int db_yyinput(char *buf, int max_size)
 		if(fgetsRtn) {
 		    int exp = macExpandString(macHandle,mac_input_buffer,
 			my_buffer,MY_BUFFER_SIZE);
-		    if(exp < 0) {
-			errPrintf(0,__FILE__, __LINE__,
-			"macExpandString failed for file %s",
-			pinputFileNow->filename);
+		    if (exp < 0) {
+			fprintf(stderr, "Warning: '%s' line %d has undefined macros\n",
+			    pinputFileNow->filename, pinputFileNow->line_num+1);
 		    }
 		}
 	    } else {
@@ -492,7 +495,23 @@ static void dbRecordtypeFieldHead(char *name,char *type)
         yyerrorAbort("Illegal Field Type");
     pdbFldDes->field_type = i;
 }
-
+
+static short findOrAddGuiGroup(const char *name)
+{
+    dbGuiGroup *pdbGuiGroup;
+    GPHENTRY   *pgphentry;
+    pgphentry = gphFind(pdbbase->pgpHash, name, &pdbbase->guiGroupList);
+    if (!pgphentry) {
+        pdbGuiGroup = dbCalloc(1,sizeof(dbGuiGroup));
+        pdbGuiGroup->name = epicsStrDup(name);
+        ellAdd(&pdbbase->guiGroupList, &pdbGuiGroup->node);
+        pdbGuiGroup->key = ellCount(&pdbbase->guiGroupList);
+        pgphentry = gphAdd(pdbbase->pgpHash, pdbGuiGroup->name, &pdbbase->guiGroupList);
+        pgphentry->userPvt = pdbGuiGroup;
+    }
+    return ((dbGuiGroup *)pgphentry->userPvt)->key;
+}
+
 static void dbRecordtypeFieldItem(char *name,char *value)
 {
     dbFldDes		*pdbFldDes;
@@ -514,14 +533,7 @@ static void dbRecordtypeFieldItem(char *name,char *value)
         return;
     }
     if(strcmp(name,"promptgroup")==0) {
-        int	i;
-        for(i=0; i<GUI_NTYPES; i++) {
-            if(strcmp(value,pamapguiGroup[i].strvalue)==0) {
-                pdbFldDes->promptgroup = pamapguiGroup[i].value;
-                return;
-            }
-        }
-        yyerror("Illegal promptgroup. See guigroup.h for legal values");
+        pdbFldDes->promptgroup = findOrAddGuiGroup(value);
         return;
     }
     if(strcmp(name,"prompt")==0) {

@@ -84,6 +84,7 @@
     <ClCompile Include="epicsThreadTest.cpp" />
     <ClCompile Include="epicsTimerTest.cpp" />
     <ClCompile Include="epicsTimeTest.cpp" />
+    <ClCompile Include="epicsTimeZoneTest.c" />
     <ClCompile Include="epicsTypesTest.c" />
     <ClCompile Include="epicsUnitTestTest.c" />
     <ClCompile Include="fdmgrTest.c">

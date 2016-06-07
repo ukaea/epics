@@ -8,7 +8,7 @@
 \*************************************************************************/
 
 /*
- * Revision-Id: ralph.lange@gmx.de-20140827001435-ydepk096eb5c3k3s
+ * Revision-Id: anj@aps.anl.gov-20160223214326-8z1faazkfpn6fy1v
  *
  * Author: Jeff Hill
  * 
@@ -302,6 +302,10 @@ static unsigned osdPriorityMagFromPriorityOSI ( unsigned osiPriority, unsigned p
 
     return magnitude;
 }
+
+epicsShareFunc
+void epicsThreadRealtimeLock(void)
+{}
 
 /*
  * epicsThreadGetOsdPriorityValue ()

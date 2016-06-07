@@ -1,4 +1,4 @@
-# Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd
+# Revision-Id: anj@aps.anl.gov-20160224233929-xiy0bbg7lxg6wrq2
 
 ifdef T_A
 ifeq ($(findstring Host,$(VALID_BUILDS)),Host)
@@ -43,7 +43,11 @@ $(PYTHON_PACKAGE_PTH):
 %_wrap.c: ../%.i
 	$(SWIG) -python -o $@ $< 
 
+ifdef BASE_3_15
+clean:
+else
 clean::
+endif
 	@$(RM) *.py *.so *.pth
 
 endif
