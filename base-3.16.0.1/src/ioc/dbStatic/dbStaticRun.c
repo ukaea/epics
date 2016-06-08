@@ -25,141 +25,12 @@
 
 #define epicsExportSharedSymbols
 #include "dbBase.h"
+#include "dbCommon.h"
 #include "dbStaticLib.h"
 #include "dbStaticPvt.h"
 #include "devSup.h"
 #include "special.h"
 
-
-static char hex_digit_to_ascii[16]={'0','1','2','3','4','5','6','7','8','9',
-		'a','b','c','d','e','f'};
-
-static void ulongToHexString(epicsUInt32 source,char *pdest)
-{
-    epicsUInt32  val,temp;
-    char  digit[10];
-    int	  i,j;
-
-    if(source==0) {
-	strcpy(pdest,"0x0");
-	return;
-    }
-    *pdest++ = '0'; *pdest++ = 'x';
-    val = source;
-    for(i=0; val!=0; i++) {
-	temp = val/16;
-	digit[i] = hex_digit_to_ascii[val - temp*16];
-	val = temp;
-    }
-    for(j=i-1; j>=0; j--) {
-	*pdest++ = digit[j];
-    }
-    *pdest = 0;
-    return;
-}
-
-static double delta[2] = {1e-6, 1e-15};
-static int precision[2] = {6, 14};
-static void realToString(double value, char *preturn, int isdouble)
-{
-    double	absvalue;
-    int		logval,prec;
-    size_t  end;
-    char	tstr[30];
-    char	*ptstr = &tstr[0];
-    int		round;
-    int		ise = FALSE;
-    char	*loce = NULL;
-
-    if (value == 0) {
-        strcpy(preturn, "0");
-        return;
-    }
-
-    absvalue = value < 0 ? -value : value;
-    if (absvalue < (double)INT_MAX) {
-        epicsInt32 intval = (epicsInt32) value;
-        double diff = value - intval;
-
-        if (diff < 0) diff = -diff;
-        if (diff < absvalue * delta[isdouble]) {
-            cvtLongToString(intval, preturn);
-            return;
-        }
-    }
-
-    /*Now starts the hard cases*/
-    if (value < 0) {
-        *preturn++ = '-';
-        value = -value;
-    }
-
-    logval = (int)log10(value);
-    if (logval > 6 || logval < -2) {
-        int nout;
-
-        ise = TRUE;
-        prec = precision[isdouble];
-        nout = sprintf(ptstr, "%.*e", prec, value);
-        loce = strchr(ptstr, 'e');
-
-        if (!loce) {
-            ptstr[nout] = 0;
-            strcpy(preturn, ptstr);
-            return;
-        }
-
-        *loce++ = 0;
-    } else {
-        prec = precision[isdouble] - logval;
-        if ( prec < 0) prec = 0;
-        sprintf(ptstr, "%.*f", prec, value);
-    }
-
-    if (prec > 0) {
-        end = strlen(ptstr) - 1;
-        round = FALSE;
-        while (end > 0) {
-            if (tstr[end] == '.') {end--; break;}
-            if (tstr[end] == '0') {end--; continue;}
-            if (!round && end < precision[isdouble]) break;
-            if (!round && tstr[end] < '8') break;
-            if (tstr[end-1] == '.') {
-                if (round) end = end-2;
-                break;
-            }
-            if (tstr[end-1] != '9') break;
-            round = TRUE;
-            end--;
-        }
-        tstr[end+1] = 0;
-        while (round) {
-            if (tstr[end] < '9') {tstr[end]++; break;}
-            if (end == 0) { *preturn++ = '1'; tstr[end] = '0'; break;}
-            tstr[end--] = '0';
-        }
-    }
-    strcpy(preturn, &tstr[0]);
-    if (ise) {
-        if (!(strchr(preturn, '.'))) strcat(preturn, ".0");
-        strcat(preturn, "e");
-        strcat(preturn, loce);
-    }
-}
-
-static void floatToString(float value,char *preturn)
-{
-    realToString((double)value,preturn,0);
-    return;
-}
-
-static void doubleToString(double value,char *preturn)
-{
-    realToString(value,preturn,1);
-    return;
-}
-
-
 static long do_nothing(struct dbCommon *precord) { return 0; }
 
 /* Dummy DSXT used for soft device supports */
@@ -198,7 +69,7 @@ long dbAllocRecord(DBENTRY *pdbentry,const char *precordName)
     dbRecordNode	*precnode = pdbentry->precnode;
     dbFldDes		*pflddes;
     int			i;
-    char		*precord;
+    dbCommon		*precord;
     char		*pfield;
     
     if(!pdbRecordType) return(S_dbLib_recordTypeNotFound);
@@ -209,24 +80,25 @@ long dbAllocRecord(DBENTRY *pdbentry,const char *precordName)
 	    precordName, pdbRecordType->name);
 	return(S_dbLib_noRecSup);
     }
-    precnode->precord = dbCalloc(1,pdbRecordType->rec_size);
-    precord = (char *)precnode->precord;
+    precord = dbCalloc(1, pdbRecordType->rec_size);
+    precnode->precord = precord;
     pflddes = pdbRecordType->papFldDes[0];
     if(!pflddes) {
 	epicsPrintf("dbAllocRecord pflddes for NAME not found\n");
 	return(S_dbLib_flddesNotFound);
     }
-    if(strlen(precordName)>=pflddes->size) {
+    assert(pflddes->offset == 0);
+    assert(pflddes->size == sizeof(precord->name));
+    if(strlen(precordName) >= sizeof(precord->name)) {
 	epicsPrintf("dbAllocRecord: NAME(%s) too long\n",precordName);
 	return(S_dbLib_nameLength);
     }
-    pfield = precord + pflddes->offset;
-    strcpy(pfield,precordName);
+    strcpy(precord->name, precordName);
     for(i=1; i<pdbRecordType->no_fields; i++) {
 
 	pflddes = pdbRecordType->papFldDes[i];
 	if(!pflddes) continue;
-	pfield = precord + pflddes->offset;
+	pfield = (char*)precord + pflddes->offset;
 	pdbentry->pfield = (void *)pfield;
 	pdbentry->pflddes = pflddes;
 	pdbentry->indfield = i;
@@ -270,9 +142,9 @@ long dbAllocRecord(DBENTRY *pdbentry,const char *precordName)
 
 		plink->type = CONSTANT;
 		if(pflddes->initial) {
-		    plink->value.constantStr =
+		    plink->text =
 			dbCalloc(strlen(pflddes->initial)+1,sizeof(char));
-		    strcpy(plink->value.constantStr,pflddes->initial);
+		    strcpy(plink->text,pflddes->initial);
 		}
 	    }
 	    break;
@@ -478,95 +350,7 @@ epicsShareFunc int dbIsDefaultValue(DBENTRY *pdbentry)
     }
     return(FALSE);
 }
-
-char *dbGetStringNum(DBENTRY *pdbentry)
-{
-    dbFldDes  	*pflddes = pdbentry->pflddes;
-    void	*pfield = pdbentry->pfield;
-    char	*message;
-    unsigned char cvttype;
 
-    if(!pdbentry->message) pdbentry->message = dbCalloc(1,50);
-    message = pdbentry->message;
-    cvttype = pflddes->base;
-    switch (pflddes->field_type) {
-    case DBF_CHAR:
-	if(cvttype==CT_DECIMAL)
-	    cvtCharToString(*(char*)pfield, message);
-	else
-	    ulongToHexString((epicsUInt32)(*(char*)pfield),message);
-	break;
-    case DBF_UCHAR:
-	if(cvttype==CT_DECIMAL)
-	    cvtUcharToString(*(unsigned char*)pfield, message);
-	else
-	    ulongToHexString((epicsUInt32)(*(unsigned char*)pfield),message);
-	break;
-    case DBF_SHORT:
-	if(cvttype==CT_DECIMAL)
-	    cvtShortToString(*(short*)pfield, message);
-	else
-	    ulongToHexString((epicsUInt32)(*(short*)pfield),message);
-	break;
-    case DBF_USHORT:
-    case DBF_ENUM:
-	if(cvttype==CT_DECIMAL)
-	    cvtUshortToString(*(unsigned short*)pfield, message); 
-	else
-	    ulongToHexString((epicsUInt32)(*(unsigned short*)pfield),message);
-	break;
-    case DBF_LONG:
-	if(cvttype==CT_DECIMAL) 
-	    cvtLongToString(*(epicsInt32*)pfield, message);
-	else
-	    ulongToHexString((epicsUInt32)(*(epicsInt32*)pfield), message);
-	break;
-    case DBF_ULONG:
-	if(cvttype==CT_DECIMAL)
-	    cvtUlongToString(*(epicsUInt32 *)pfield, message);
-	else
-	    ulongToHexString(*(epicsUInt32*)pfield, message);
-	break;
-    case DBF_FLOAT:
-	floatToString(*(float *)pfield,message);
-	break;
-    case DBF_DOUBLE:
-	doubleToString(*(double *)pfield,message);
-	break;
-    case DBF_MENU: {
-	    dbMenu	*pdbMenu = (dbMenu *)pflddes->ftPvt;
-	    short	choice_ind;
-	    char	*pchoice;
-
-	    if(!pfield) {strcpy(message,"Field not found"); return(message);}
-	    choice_ind = *((short *) pdbentry->pfield);
-	    if(!pdbMenu || choice_ind<0 || choice_ind>=pdbMenu->nChoice)
-		return(NULL);
-	    pchoice = pdbMenu->papChoiceValue[choice_ind];
-	    strcpy(message, pchoice);
-	}
-	break;
-    case DBF_DEVICE: {
-	    dbDeviceMenu	*pdbDeviceMenu;
-	    char		*pchoice;
-	    short		choice_ind;
-
-	    if(!pfield) {strcpy(message,"Field not found"); return(message);}
-	    pdbDeviceMenu = dbGetDeviceMenu(pdbentry);
-	    if(!pdbDeviceMenu) return(NULL);
-	    choice_ind = *((short *) pdbentry->pfield);
-	    if(choice_ind<0 || choice_ind>=pdbDeviceMenu->nChoice)
-		return(NULL);
-	    pchoice = pdbDeviceMenu->papChoice[choice_ind];
-	    strcpy(message, pchoice);
-	}
-	break;
-    default:
-	return(NULL);
-    }
-    return (message);
-}
-
 long dbPutStringNum(DBENTRY *pdbentry,const char *pstring)
 {
     dbFldDes  	*pflddes = pdbentry->pflddes;

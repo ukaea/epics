@@ -15,19 +15,35 @@
 #include "dbmf.h"
 #include "epicsUnitTest.h"
 #include "osiFileName.h"
+#include "osiUnistd.h"
 #include "registry.h"
+#include "epicsEvent.h"
 
 #define epicsExportSharedSymbols
 #include "dbAccess.h"
 #include "dbBase.h"
+#include "dbChannel.h"
+#include "dbEvent.h"
 #include "dbStaticLib.h"
 #include "dbUnitTest.h"
 #include "initHooks.h"
 #include "iocInit.h"
 
+static dbEventCtx testEvtCtx;
+static epicsMutexId testEvtLock;
+static ELLLIST testEvtList; /* holds testMonitor::node */
+
+struct testMonitor {
+    ELLNODE node;
+    dbEventSubscription sub;
+    epicsEventId event;
+    unsigned count;
+};
+
 void testdbPrepare(void)
 {
-    /* No-op at the moment */
+    if(!testEvtLock)
+        testEvtLock = epicsMutexMustCreate();
 }
 
 void testdbReadDatabase(const char* file,
@@ -37,19 +53,35 @@ void testdbReadDatabase(const char* file,
     if(!path)
         path = "." OSI_PATH_LIST_SEPARATOR ".." OSI_PATH_LIST_SEPARATOR
                 "../O.Common" OSI_PATH_LIST_SEPARATOR "O.Common";
-    if(dbReadDatabase(&pdbbase, file, path, substitutions))
-        testAbort("Failed to load test database\ndbReadDatabase(%s,%s,%s)",
-                  file, path, substitutions);
+    if(dbReadDatabase(&pdbbase, file, path, substitutions)) {
+        char buf[100];
+        const char *cwd = getcwd(buf, sizeof(buf));
+        if(!cwd)
+            cwd = "<directory too long>";
+        testAbort("Failed to load test database\ndbReadDatabase(%s,%s,%s)\n from: \"%s\"",
+                  file, path, substitutions, cwd);
+    }
 }
 
 void testIocInitOk(void)
 {
     if(iocBuildIsolated() || iocRun())
         testAbort("Failed to start up test database");
+    if(!(testEvtCtx=db_init_events()))
+        testAbort("Failed to initialize test dbEvent context");
+    if(DB_EVENT_OK!=db_start_events(testEvtCtx, "CAS-test", NULL, NULL, epicsThreadPriorityCAServerLow))
+        testAbort("Failed to start test dbEvent context");
 }
 
 void testIocShutdownOk(void)
 {
+    epicsMutexMustLock(testEvtLock);
+    if(ellCount(&testEvtList))
+        testDiag("Warning, testing monitors still active at testIocShutdownOk()");
+    epicsMutexUnlock(testEvtLock);
+
+    db_close_events(testEvtCtx);
+    testEvtCtx = NULL;
     if(iocShutdown())
         testAbort("Failed to shutdown test database");
 }
@@ -199,3 +231,90 @@ dbCommon* testdbRecordPtr(const char* pv)
 
     return addr.precord;
 }
+
+static
+void testmonupdate(void *user_arg, struct dbChannel *chan,
+                   int eventsRemaining, struct db_field_log *pfl)
+{
+    testMonitor *mon = user_arg;
+
+    epicsMutexMustLock(testEvtLock);
+    mon->count++;
+    epicsMutexUnlock(testEvtLock);
+    epicsEventMustTrigger(mon->event);
+}
+
+testMonitor* testMonitorCreate(const char* pvname, unsigned mask, unsigned opt)
+{
+    long status;
+    testMonitor *mon;
+    dbChannel *chan;
+    assert(testEvtCtx);
+
+    mon = callocMustSucceed(1, sizeof(*mon), "testMonitorCreate");
+
+    mon->event = epicsEventMustCreate(epicsEventEmpty);
+
+    chan = dbChannelCreate(pvname);
+    if(!chan)
+        testAbort("testMonitorCreate - dbChannelCreate(\"%s\") fails", pvname);
+    if(!!(status=dbChannelOpen(chan)))
+        testAbort("testMonitorCreate - dbChannelOpen(\"%s\") fails w/ %ld", pvname, status);
+
+    mon->sub = db_add_event(testEvtCtx, chan, &testmonupdate, mon, mask);
+    if(!mon->sub)
+        testAbort("testMonitorCreate - db_add_event(\"%s\") fails", pvname);
+
+    db_event_enable(mon->sub);
+
+    epicsMutexMustLock(testEvtLock);
+    ellAdd(&testEvtList, &mon->node);
+    epicsMutexUnlock(testEvtLock);
+
+    return mon;
+}
+
+void testMonitorDestroy(testMonitor *mon)
+{
+    if(!mon) return;
+
+    db_event_disable(mon->sub);
+
+    epicsMutexMustLock(testEvtLock);
+    ellDelete(&testEvtList, &mon->node);
+    epicsMutexUnlock(testEvtLock);
+
+    db_cancel_event(mon->sub);
+
+    epicsEventDestroy(mon->event);
+
+    free(mon);
+}
+
+void testMonitorWait(testMonitor *mon)
+{
+    static const double delay = 60.0;
+
+    switch(epicsEventWaitWithTimeout(mon->event, delay))
+    {
+    case epicsEventOK:
+        return;
+    case epicsEventWaitTimeout:
+    default:
+        testAbort("testMonitorWait() exceeded %g second timeout", delay);
+    }
+}
+
+unsigned testMonitorCount(testMonitor *mon, unsigned reset)
+{
+    unsigned count;
+    epicsMutexMustLock(testEvtLock);
+    count = mon->count;
+    if(reset) {
+        mon->count = 0;
+        epicsEventWaitWithTimeout(mon->event, 0); /* clear the event */
+    }
+    epicsMutexUnlock(testEvtLock);
+    return count;
+}
+

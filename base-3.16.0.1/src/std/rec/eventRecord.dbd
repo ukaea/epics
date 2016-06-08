@@ -3,14 +3,15 @@
 #     National Laboratory.
 # Copyright (c) 2002 The Regents of the University of California, as
 #     Operator of Los Alamos National Laboratory.
-# EPICS BASE is distributed subject to a Software License Agreement found
-# in file LICENSE that is included with this distribution.
+# EPICS BASE Versions 3.13.7
+# and higher are distributed subject to a Software License Agreement found
+# in file LICENSE that is included with this distribution. 
 #*************************************************************************
 recordtype(event) {
 	include "dbCommon.dbd" 
 	field(VAL,DBF_STRING) {
 		prompt("Event Name To Post")
-		promptgroup("40 - Input")
+		promptgroup(GUI_INPUTS)
 		special(SPC_MOD)
 		asl(ASL0)
 		size(40)
@@ -24,12 +25,12 @@ recordtype(event) {
 	}
 	field(INP,DBF_INLINK) {
 		prompt("Input Specification")
-		promptgroup("40 - Input")
+		promptgroup(GUI_INPUTS)
 		interest(1)
 	}
 	field(SIOL,DBF_INLINK) {
 		prompt("Sim Input Specifctn")
-		promptgroup("90 - Simulate")
+		promptgroup(GUI_INPUTS)
 		interest(1)
 	}
 	field(SVAL,DBF_STRING) {
@@ -38,7 +39,7 @@ recordtype(event) {
 	}
 	field(SIML,DBF_INLINK) {
 		prompt("Sim Mode Location")
-		promptgroup("90 - Simulate")
+		promptgroup(GUI_INPUTS)
 		interest(1)
 	}
 	field(SIMM,DBF_MENU) {
@@ -48,7 +49,7 @@ recordtype(event) {
 	}
 	field(SIMS,DBF_MENU) {
 		prompt("Sim mode Alarm Svrty")
-		promptgroup("90 - Simulate")
+		promptgroup(GUI_INPUTS)
 		interest(2)
 		menu(menuAlarmSevr)
 	}

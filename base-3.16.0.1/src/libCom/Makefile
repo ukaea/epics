@@ -9,8 +9,13 @@
 TOP = ../..
 include $(TOP)/configure/CONFIG
 
+# Uncomment this to remove the (benign) valgrind helper stubs
+#USR_CFLAGS += -DNVALGRIND
+
 SRC = $(TOP)/src
 LIBCOM = $(SRC)/libCom
+
+INC += valgrind/valgrind.h
 
 include $(LIBCOM)/as/Makefile
 include $(LIBCOM)/bucketLib/Makefile
@@ -44,11 +49,6 @@ LIBRARY=Com
 Com_SYS_LIBS_WIN32 = ws2_32 advapi32 user32
 
 Com_RCS = Com.rc
-
-ifeq ($(T_A),$(EPICS_HOST_ARCH))
-  # Antelope & flex are needed to finish libCom
-  DELAY_INSTALL_LIBS = YES
-endif
 
 include $(TOP)/configure/RULES
 

@@ -7,7 +7,7 @@
 # in file LICENSE that is included with this distribution. 
 #*************************************************************************
 #
-#  Revision-Id: anj@aps.anl.gov-20150308202607-klpbx0rulsvudgn1
+#  Revision-Id: anj@aps.anl.gov-20160302202053-p9abnqo31fkb7qt3
 #
 #  CONFIG_COMMON
 #
@@ -39,10 +39,6 @@ BUILD_ARCHS = $(EPICS_HOST_ARCH) $(CROSS1) $(CROSS2)
 # Default for perl if it's on the PATH,
 # otherwise override this in os/CONFIG_SITE.<host_arch>.Common
 PERL = perl -CSD
-
-#-------------------------------------------------------
-# dbst based database optimization default
-DB_OPT = NO
 
 #-------------------------------------------------------
 # Check configure/RELEASE file for consistency
@@ -85,6 +81,7 @@ IOCS_APPL_TOP               = $(shell $(FULLPATHNAME) $(INSTALL_LOCATION))
 # Make echo output - suppress echoing if make's '-s' flag is set
 NOP = :
 ECHO = @$(if $(findstring s,$(patsubst T_A=%,,$(MAKEFLAGS))),$(NOP),echo)
+QUIET_FLAG := $(if $(findstring s,$(MAKEFLAGS)),-q,)
 
 #-------------------------------------------------------
 ifdef T_A
@@ -333,6 +330,14 @@ COMPILE.cpp = $(CCC) $(CPPFLAGS) $(CXXFLAGS) $(INCLUDES)
 #--------------------------------------------------
 # C preprocessor command
 PREPROCESS.cpp = $(CPP) $(CPPFLAGS) $(INCLUDES) $< > $@
+
+#--------------------------------------------------
+# genVersion header defaults
+
+# C macro name
+GENVERSIONMACRO = VCSVERSION
+# C macro default value (empty to use date+time)
+GENVERSIONDEFAULT =
 
 #--------------------------------------------------
 # Header dependency file generation

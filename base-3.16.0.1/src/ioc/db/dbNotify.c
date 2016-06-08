@@ -25,7 +25,6 @@
 #include "ellLib.h"
 #include "epicsAssert.h"
 #include "epicsEvent.h"
-#include "epicsExit.h"
 #include "epicsMutex.h"
 #include "epicsString.h"
 #include "epicsThread.h"
@@ -107,6 +106,15 @@ static void notifyCallback(CALLBACK *pcallback);
     assert((listnode)->isOnList); \
     ellDelete((list),&((listnode)->node)); \
     (listnode)->isOnList=0; \
+}
+
+static void notifyFree(void *raw)
+{
+    notifyPvt *pnotifyPvt = raw;
+    assert(pnotifyPvt->magic==MAGIC);
+    epicsEventDestroy(pnotifyPvt->cancelEvent);
+    epicsEventDestroy(pnotifyPvt->userCallbackEvent);
+    free(pnotifyPvt);
 }
 
 static void notifyInit(processNotify *ppn)
@@ -301,7 +309,7 @@ static void notifyCallback(CALLBACK *pcallback)
 
 void dbProcessNotifyExit(void)
 {
-    assert(ellCount(&pnotifyGlobal->freeList)==0);
+    ellFree2(&pnotifyGlobal->freeList, &notifyFree);
     epicsMutexDestroy(pnotifyGlobal->lock);
     free(pnotifyGlobal);
     pnotifyGlobal = NULL;

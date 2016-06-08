@@ -6,7 +6,7 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/*	Revision-Id: anj@aps.anl.gov-20160428235603-tolq640kth8kul9n
+/*	Revision-Id: anj@aps.anl.gov-20160227001626-wlsw8d3vufgej2f4
  *	Author:	Roger A. Cole
  *	Date:	07-20-91
  *
@@ -40,7 +40,7 @@ typedef struct envParam {
 } ENV_PARAM;
 
 /*
- * bldEnvData.pl looks for "epicsShareExtern const ENV_PARAM <name>;"
+ * bldEnvData looks for "epicsShareExtern const ENV_PARAM"
  */
 epicsShareExtern const ENV_PARAM EPICS_CA_ADDR_LIST;
 epicsShareExtern const ENV_PARAM EPICS_CA_CONN_TMO;
@@ -58,9 +58,6 @@ epicsShareExtern const ENV_PARAM EPICS_CAS_SERVER_PORT;
 epicsShareExtern const ENV_PARAM EPICS_CA_BEACON_PERIOD; /* deprecated */
 epicsShareExtern const ENV_PARAM EPICS_CAS_BEACON_PERIOD;
 epicsShareExtern const ENV_PARAM EPICS_CAS_BEACON_PORT;
-epicsShareExtern const ENV_PARAM EPICS_BUILD_COMPILER_CLASS;
-epicsShareExtern const ENV_PARAM EPICS_BUILD_OS_CLASS;
-epicsShareExtern const ENV_PARAM EPICS_BUILD_TARGET_ARCH;
 epicsShareExtern const ENV_PARAM EPICS_TIMEZONE;
 epicsShareExtern const ENV_PARAM EPICS_TS_NTP_INET;
 epicsShareExtern const ENV_PARAM EPICS_IOC_LOG_PORT;
@@ -72,6 +69,7 @@ epicsShareExtern const ENV_PARAM EPICS_CMD_PROTO_PORT;
 epicsShareExtern const ENV_PARAM EPICS_AR_PORT;
 epicsShareExtern const ENV_PARAM IOCSH_PS1;
 epicsShareExtern const ENV_PARAM IOCSH_HISTSIZE;
+epicsShareExtern const ENV_PARAM IOCSH_HISTEDIT_DISABLE;
 
 epicsShareExtern const ENV_PARAM *env_param_list[];
 

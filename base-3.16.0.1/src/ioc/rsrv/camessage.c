@@ -1112,7 +1112,7 @@ unsigned    cid
  * casAccessRightsCB()
  *
  * If access right state changes then inform the client.
- * asLock is held
+ *
  */
 static void casAccessRightsCB(ASCLIENTPVT ascpvt, asClientStatus type)
 {
@@ -1567,9 +1567,6 @@ static void sendAllUpdateAS ( struct client *client )
         }
         else if ( pciu->state == rsrvCS_inServiceUpdatePendAR ) {
              access_rights_reply ( pciu );
-        }
-        else if ( pciu->state == rsrvCS_shutdown ) {
-            /* no-op */
         }
         else {
             errlogPrintf (
@@ -2050,15 +2047,10 @@ static int clear_channel_reply ( caHdrLargeArray *mp,
      if ( pciu->state == rsrvCS_inService ||
             pciu->state == rsrvCS_pendConnectResp  ) {
         ellDelete ( &client->chanList, &pciu->node );
-        pciu->state = rsrvCS_shutdown;
      }
      else if ( pciu->state == rsrvCS_inServiceUpdatePendAR ||
             pciu->state == rsrvCS_pendConnectRespUpdatePendAR ) {
         ellDelete ( &client->chanPendingUpdateARList, &pciu->node );
-        pciu->state = rsrvCS_shutdown;
-     }
-     else if ( pciu->state == rsrvCS_shutdown ) {
-         /* no-op */
      }
      else {
         epicsMutexUnlock( client->chanListLock );

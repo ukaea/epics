@@ -6,7 +6,7 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
-/* Revision-Id: ralph.lange@gmx.de-20160406133835-0xw6b044hcc77d8l
+/* Revision-Id: anj@aps.anl.gov-20150203063823-b14ezxhd055z09fm
  *
  *      Current Author:         Marty Kraimer
  *      Date:                   03-19-92
@@ -76,8 +76,9 @@ typedef struct dbFldDes{  /* field description */
     short	indRecordType;	/*within dbRecordType.papFldDes */
     short	special;	/*Special processing requirements	*/
     dbfType	field_type;	/*Field type as defined in dbFldTypes.h */
-    unsigned int    process_passive:1;/*should dbPutField process passive	*/
-    unsigned int    prop:1;/*field is a metadata, post DBE_PROPERTY on change*/
+    unsigned int process_passive:1;/*should dbPutField process passive	*/
+    unsigned int prop:1;/*field is a metadata, post DBE_PROPERTY on change*/
+    unsigned int isDevLink:1;  /* true for INP/OUT fields */
     ctType	base;		/*base for integer to string conversions*/
     short	promptgroup;	/*prompt, i.e. gui group		*/
     short   interest;	/*interest level			*/
@@ -165,9 +166,8 @@ typedef struct dbBase {
 	ELLLIST		functionList;
 	ELLLIST		variableList;
 	ELLLIST		bptList;
-    ELLLIST         filterList;
-    ELLLIST         guiGroupList;
-    void		*pathPvt;
+	ELLLIST         filterList;
+	void		*pathPvt;
 	struct dbPvd	*ppvd;
 	struct gphPvt	*pgpHash;
 	short		ignoreMissingMenus;

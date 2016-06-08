@@ -26,14 +26,14 @@ use Text::Wrap;
 
 my $tool = basename($0);
 
-our ($opt_h, $opt_q, $opt_t, $opt_s, $opt_c);
+our ($opt_h, $opt_q);
 our $opt_o = 'envData.c';
 
 $Getopt::Std::OUTPUT_HELP_VERSION = 1;
 $Text::Wrap::columns = 75;
 
-&HELP_MESSAGE unless getopts('ho:qt:s:c:') && @ARGV == 1;
-&HELP_MESSAGE if $opt_h;
+HELP_MESSAGE() unless getopts('ho:q') && @ARGV == 1;
+HELP_MESSAGE() if $opt_h;
 
 my $config   = AbsPath(shift);
 my $env_defs = AbsPath('../env/envDefs.h');
@@ -52,31 +52,16 @@ while (<SRC>) {
 }
 close SRC;
 
-# A list of configure/CONFIG_* files to read
+# Read the values from the CONFIG_ENV and CONFIG_SITE_ENV files
 #
-my @configs = ("$config/CONFIG_ENV", "$config/CONFIG_SITE_ENV");
+my $config_env      = "$config/CONFIG_ENV";
+my $config_site_env = "$config/CONFIG_SITE_ENV";
 
-if ($opt_t) {
-    my $config_arch_env = "$config/os/CONFIG_SITE_ENV.$opt_t";
-    push @configs, $config_arch_env
-        if -f $config_arch_env;
-}
+my %values;
+readReleaseFiles($config_env, \%values);
+readReleaseFiles($config_site_env, \%values);
 
-my @sources = ($env_defs, @configs);
-
-# Get values from the config files
-#
-my (%values, @dummy);
-readRelease($_, \%values, \@dummy) foreach @configs;
-expandRelease(\%values);
-
-# Get values from the command-line
-#
-$values{EPICS_BUILD_COMPILER_CLASS} = $opt_c if $opt_c;
-$values{EPICS_BUILD_OS_CLASS} = $opt_s if $opt_s;
-$values{EPICS_BUILD_TARGET_ARCH} = $opt_t if $opt_t;
-
-# Warn about vars with no configured value
+# Warn about any vars with no value
 #
 my @undefs = grep {!exists $values{$_}} @vars;
 warn "$tool: No value given for $_\n" foreach @undefs;
@@ -88,13 +73,13 @@ print "Generating $opt_o\n" unless $opt_q;
 open OUT, '>', $opt_o
     or die "$tool: Cannot create $opt_o: $!\n";
 
-my $sources = join "\n", map {" *   $_"} @sources;
-
 print OUT << "END";
 /* Generated file $opt_o
  *
  * Created from
-$sources
+ *   $env_defs
+ *   $config_env
+ *   $config_site_env
  */
 
 #include <stddef.h>
@@ -103,23 +88,18 @@ $sources
 
 END
 
-# Define a default value for each named parameter
+# Define all parameters, giving variable name and default value
 #
 foreach my $var (@vars) {
-    my $default = $values{$var};
-    if (defined $default) {
-        $default =~ s/^"//;
-        $default =~ s/"$//;
-    }
-    else {
-        $default = '';
-    }
+    my $default = $values{$var} || '';
+    $default =~ s/^"//;
+    $default =~ s/"$//;
 
     print OUT "epicsShareDef const ENV_PARAM $var =\n",
               "    {\"$var\", \"$default\"};\n";
 }
 
-# Also provide a list of all defined parameters
+# Now create a list of all those parameters
 #
 print OUT "\n",
     "epicsShareDef const ENV_PARAM* env_param_list[] = {\n",
@@ -132,9 +112,6 @@ sub HELP_MESSAGE {
         "  -h       Help: Print this message\n",
         "  -q       Quiet: Only print errors\n",
         "  -o file  Output filename, default is $opt_o\n",
-        "  -t arch  Target architecture \$(T_A) name\n",
-        "  -s os    Operating system \$(OS_CLASS)\n",
-        "  -c comp  Compiler class \$(CMPLR_CLASS)\n",
         "\n";
 
     exit 1;

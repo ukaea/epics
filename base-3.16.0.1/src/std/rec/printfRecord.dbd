@@ -28,7 +28,7 @@ recordtype(printf) {
     }
     field(SIZV,DBF_USHORT) {
         prompt("Size of VAL buffer")
-        promptgroup("30 - Action")
+        promptgroup(GUI_OUTPUT)
         special(SPC_NOMOD)
         interest(1)
         initial("41")
@@ -39,69 +39,69 @@ recordtype(printf) {
     }
     field(OUT,DBF_OUTLINK) {
         prompt("Output Specification")
-        promptgroup("50 - Output")
+        promptgroup(GUI_OUTPUT)
         interest(1)
     }
     field(FMT,DBF_STRING) {
         prompt("Format String")
-        promptgroup("30 - Action")
+        promptgroup(GUI_CALC)
         pp(TRUE)
         size(81)
     }
     field(IVLS,DBF_STRING) {
         prompt("Invalid Link String")
-        promptgroup("30 - Action")
+        promptgroup(GUI_CALC)
         size(16)
         initial("LNK")
     }
     field(INP0,DBF_INLINK) {
         prompt("Input 0")
-        promptgroup("40 - Input")
+        promptgroup(GUI_INPUTS)
         interest(1)
     }
     field(INP1,DBF_INLINK) {
         prompt("Input 1")
-        promptgroup("40 - Input")
+        promptgroup(GUI_INPUTS)
         interest(1)
     }
     field(INP2,DBF_INLINK) {
         prompt("Input 2")
-        promptgroup("40 - Input")
+        promptgroup(GUI_INPUTS)
         interest(1)
     }
     field(INP3,DBF_INLINK) {
         prompt("Input 3")
-        promptgroup("40 - Input")
+        promptgroup(GUI_INPUTS)
         interest(1)
     }
     field(INP4,DBF_INLINK) {
         prompt("Input 4")
-        promptgroup("40 - Input")
+        promptgroup(GUI_INPUTS)
         interest(1)
     }
     field(INP5,DBF_INLINK) {
         prompt("Input 5")
-        promptgroup("40 - Input")
+        promptgroup(GUI_INPUTS)
         interest(1)
     }
     field(INP6,DBF_INLINK) {
         prompt("Input 6")
-        promptgroup("40 - Input")
+        promptgroup(GUI_INPUTS)
         interest(1)
     }
     field(INP7,DBF_INLINK) {
         prompt("Input 7")
-        promptgroup("40 - Input")
+        promptgroup(GUI_INPUTS)
         interest(1)
     }
     field(INP8,DBF_INLINK) {
         prompt("Input 8")
-        promptgroup("40 - Input")
+        promptgroup(GUI_INPUTS)
         interest(1)
     }
     field(INP9,DBF_INLINK) {
         prompt("Input 9")
-        promptgroup("40 - Input")
+        promptgroup(GUI_INPUTS)
         interest(1)
     }
     %/* Number of INPx fields defined */

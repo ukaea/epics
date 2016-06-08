@@ -13,7 +13,10 @@
 #include "epicsExit.h"
 
 int analogMonitorTest(void);
+int compressTest(void);
 int arrayOpTest(void);
+int asTest(void);
+int linkRetargetLinkTest(void);
 
 void epicsRunRecordTests(void)
 {
@@ -21,7 +24,13 @@ void epicsRunRecordTests(void)
 
     runTest(analogMonitorTest);
 
+    runTest(compressTest);
+
     runTest(arrayOpTest);
+
+    runTest(asTest);
+
+    runTest(linkRetargetLinkTest);
 
     epicsExit(0);   /* Trigger test harness */
 }

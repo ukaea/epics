@@ -7,7 +7,7 @@
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
 /*
- *  Revision-Id: anj@aps.anl.gov-20130607230838-ekme7b6x10q1vxks
+ *  Revision-Id: mdavidsaver@gmail.com-20150818144620-szweeawa0850jvzz
  *
  *
  *                    L O S  A L A M O S
@@ -39,6 +39,7 @@
 #include "dbCAC.h"
 #include "dbChannel.h"
 #include "dbChannelIO.h"
+#include "dbChannelNOOP.h"
 #include "dbPutNotifyBlocker.h"
 
 class dbService : public cacService {
@@ -61,9 +62,16 @@ cacContext & dbService::contextCreate (
         mutualExclusion, notify );
 }
 
+extern "C" int dbServiceIsolate;
+int dbServiceIsolate = 0;
+
 extern "C" void dbServiceIOInit ()
 {
-    caInstallDefaultService ( dbs );
+    static int init=0;
+    if(!init) {
+        caInstallDefaultService ( dbs );
+        init=1;
+    }
 }
 
 dbBaseIO::dbBaseIO () {}
@@ -72,7 +80,8 @@ dbContext::dbContext ( epicsMutex & cbMutexIn,
         epicsMutex & mutexIn, cacContextNotify & notifyIn ) :
     readNotifyCache ( mutexIn ), ctx ( 0 ),
     stateNotifyCacheSize ( 0 ), mutex ( mutexIn ), cbMutex ( cbMutexIn ),
-    notify ( notifyIn ), pNetContext ( 0 ), pStateNotifyCache ( 0 )
+    notify ( notifyIn ), pNetContext ( 0 ), pStateNotifyCache ( 0 ),
+    isolated(dbServiceIsolate)
 {
 }
 
@@ -92,7 +101,10 @@ cacChannel & dbContext::createChannel (
 
     dbChannel *dbch = dbChannel_create ( pName );
     if ( ! dbch ) {
-        if ( ! this->pNetContext.get() ) {
+        if ( isolated ) {
+            return *new dbChannelNOOP(pName, notifyIn);
+
+        } else if ( ! this->pNetContext.get() ) {
             this->pNetContext.reset (
                 & this->notify.createNetworkContext (
                     this->mutex, this->cbMutex ) );
@@ -142,7 +154,8 @@ void dbContext::callStateNotify ( struct dbChannel * dbch,
         const struct db_field_log * pfl,
         cacStateNotify & notifyIn )
 {
-    unsigned long size = dbr_size_n ( type, count );
+    long realcount = (count==0)?dbChannelElements(dbch):count;
+    unsigned long size = dbr_size_n ( type, realcount );
 
     if ( type > INT_MAX ) {
         epicsGuard < epicsMutex > guard ( this->mutex );
@@ -169,8 +182,13 @@ void dbContext::callStateNotify ( struct dbChannel * dbch,
         this->stateNotifyCacheSize = size;
     }
     void *pvfl = (void *) pfl;
-    int status = dbChannel_get ( dbch, static_cast <int> ( type ),
-                    this->pStateNotifyCache, static_cast <int> ( count ), pvfl );
+    int status;
+    if(count==0) /* fetch actual number of elements (dynamic array) */
+        status = dbChannel_get_count( dbch, static_cast <int> ( type ),
+                        this->pStateNotifyCache, &realcount, pvfl );
+    else /* fetch requested number of elements, truncated or zero padded */
+        status = dbChannel_get( dbch, static_cast <int> ( type ),
+                        this->pStateNotifyCache, realcount, pvfl );
     if ( status ) {
         epicsGuard < epicsMutex > guard ( this->mutex );
         notifyIn.exception ( guard, ECA_GETFAIL,
@@ -178,7 +196,7 @@ void dbContext::callStateNotify ( struct dbChannel * dbch,
     }
     else {
         epicsGuard < epicsMutex > guard ( this->mutex );
-        notifyIn.current ( guard, type, count, this->pStateNotifyCache );
+        notifyIn.current ( guard, type, realcount, this->pStateNotifyCache );
     }
 }
 

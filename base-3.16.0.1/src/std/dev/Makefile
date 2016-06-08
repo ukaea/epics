@@ -66,7 +66,6 @@ dbRecStd_SRCS += devSoSoftCallback.c
 
 dbRecStd_SRCS += devTimestamp.c
 dbRecStd_SRCS += devStdio.c
-dbRecStd_SRCS += devEnviron.c
 
 dbRecStd_SRCS += asSubRecordFunctions.c
 

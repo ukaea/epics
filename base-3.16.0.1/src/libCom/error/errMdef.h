@@ -7,7 +7,7 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 /* Error Handling definitions */
-/* Revision-Id: anj@aps.anl.gov-20140801225553-7l7l0axieumf6gnp */
+/* Revision-Id: anj@aps.anl.gov-20141202212509-e9yui7n227cc85rk */
 /*
  *      Author:          Marty Kraimer
  *      Date:            6-1-90
@@ -50,6 +50,7 @@ extern "C" {
 #define M_gddFuncTbl	(526 <<16) /*gdd jump table*/
 #define M_stdlib        (527 <<16) /*EPICS Standard library*/
 #define M_pool          (528 <<16) /*Thread pool*/
+#define M_time          (529 <<16) /*epicsTime*/
 
 epicsShareFunc void epicsShareAPI errSymLookup(long status, char *pBuf, unsigned bufLength);
 epicsShareFunc void epicsShareAPI errSymTest(unsigned short modnum, unsigned short begErrNum, unsigned short endErrNum);

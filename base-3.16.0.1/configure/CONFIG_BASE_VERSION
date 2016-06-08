@@ -7,7 +7,7 @@
 # in the file LICENSE that is included with this distribution. 
 #*************************************************************************
 #
-#  Revision-Id: ralph.lange@gmx.de-20160527065404-a6foa02xcqr75617
+#  Revision-Id: anj@aps.anl.gov-20160303233643-xudb5va0ym317opr
 #
 #  EPICS Version information
 #
@@ -17,23 +17,34 @@
 # EPICS_SITE_VERSION is defined in CONFIG_SITE for sites that want a local
 # version number to be included in the reported version string.
 
-# In 3.15 we still define BASE_3_14 so "ifdef BASE_3_14" means
-# 3.14 or later, but "ifeq ($(BASE_3_14),YES)" means 3.14 only.
+# We define BASE_3_14 and BASE_3_15 as NO and BASE_3_16 as YES, so
+#   ifdef BASE_3_14
+#       true for 3.14 or later
+#   ifdef BASE_3_15
+#       true for 3.15 or later
+#   ifeq ($(BASE_3_14),YES)
+#       true for 3.14.x only
+#   ifeq ($(BASE_3_15),YES)
+#       true for 3.15 only
+#   ifeq ($(BASE_3_16),YES)
+#       true for 3.16 only.
+
 BASE_3_14 = NO
-BASE_3_15 = YES
+BASE_3_15 = NO
+BASE_3_16 = YES
 
 # EPICS_VERSION must be a number >0 and <256
 EPICS_VERSION = 3
 
 # EPICS_REVISION must be a number >=0 and <256 
-EPICS_REVISION = 15
+EPICS_REVISION = 16
 
 # EPICS_MODIFICATION must be a number >=0 and <256 
-EPICS_MODIFICATION = 4
+EPICS_MODIFICATION = 0
 
 # EPICS_PATCH_LEVEL must be a number (win32 resource file requirement)
 # Not included if zero
-EPICS_PATCH_LEVEL = 0
+EPICS_PATCH_LEVEL = 1
 
 # This will end in -DEV between official releases
 #EPICS_DEV_SNAPSHOT=-DEV
@@ -61,4 +72,4 @@ EPICS_SHORT_VERSION=$(EPICS_VERSION).$(EPICS_REVISION).$(EPICS_MODIFICATION)$(EP
 EPICS_VERSION_NUMBER=$(EPICS_SHORT_VERSION)$(EPICS_DEV_SNAPSHOT)$(EPICS_SITE_VSTRING)
 EPICS_VERSION_STRING="EPICS Version $(EPICS_VERSION_NUMBER)"
 
-COMMIT_DATE="\$Date: Fri 2016-05-27 08:54:04 +0200$"
+COMMIT_DATE="\$Date: Thu 2016-03-03 17:36:43 -0600$"

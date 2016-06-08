@@ -3,41 +3,42 @@
 #     National Laboratory.
 # Copyright (c) 2002 The Regents of the University of California, as
 #     Operator of Los Alamos National Laboratory.
-# EPICS BASE is distributed subject to a Software License Agreement found
-# in file LICENSE that is included with this distribution.
+# EPICS BASE Versions 3.13.7
+# and higher are distributed subject to a Software License Agreement found
+# in file LICENSE that is included with this distribution. 
 #*************************************************************************
 recordtype(bo) {
 	include "dbCommon.dbd" 
 	field(VAL,DBF_ENUM) {
 		prompt("Current Value")
-		promptgroup("50 - Output")
+                promptgroup(GUI_OUTPUT)
 		asl(ASL0)
 		pp(TRUE)
 	}
 	field(OMSL,DBF_MENU) {
 		prompt("Output Mode Select")
-		promptgroup("50 - Output")
+		promptgroup(GUI_OUTPUT)
 		interest(1)
 		menu(menuOmsl)
 	}
 	field(DOL,DBF_INLINK) {
 		prompt("Desired Output Loc")
-		promptgroup("40 - Input")
+		promptgroup(GUI_OUTPUT)
 		interest(1)
 	}
 	field(OUT,DBF_OUTLINK) {
 		prompt("Output Specification")
-		promptgroup("50 - Output")
+		promptgroup(GUI_OUTPUT)
 		interest(1)
 	}
 	field(HIGH,DBF_DOUBLE) {
 		prompt("Seconds to Hold High")
-		promptgroup("30 - Action")
+		promptgroup(GUI_OUTPUT)
 		interest(1)
 	}
 	field(ZNAM,DBF_STRING) {
 		prompt("Zero Name")
-		promptgroup("80 - Display")
+		promptgroup(GUI_DISPLAY)
 		pp(TRUE)
 		interest(1)
 		size(26)
@@ -45,7 +46,7 @@ recordtype(bo) {
 	}
 	field(ONAM,DBF_STRING) {
 		prompt("One Name")
-		promptgroup("80 - Display")
+		promptgroup(GUI_DISPLAY)
 		pp(TRUE)
 		interest(1)
 		size(26)
@@ -79,21 +80,21 @@ recordtype(bo) {
 	}
 	field(ZSV,DBF_MENU) {
 		prompt("Zero Error Severity")
-		promptgroup("70 - Alarm")
+		promptgroup(GUI_ALARMS)
 		pp(TRUE)
 		interest(1)
 		menu(menuAlarmSevr)
 	}
 	field(OSV,DBF_MENU) {
 		prompt("One Error Severity")
-		promptgroup("70 - Alarm")
+		promptgroup(GUI_ALARMS)
 		pp(TRUE)
 		interest(1)
 		menu(menuAlarmSevr)
 	}
 	field(COSV,DBF_MENU) {
 		prompt("Change of State Sevr")
-		promptgroup("70 - Alarm")
+		promptgroup(GUI_ALARMS)
 		pp(TRUE)
 		interest(1)
 		menu(menuAlarmSevr)
@@ -119,12 +120,12 @@ recordtype(bo) {
 	}
 	field(SIOL,DBF_OUTLINK) {
 		prompt("Sim Output Specifctn")
-		promptgroup("90 - Simulate")
+		promptgroup(GUI_INPUTS)
 		interest(1)
 	}
 	field(SIML,DBF_INLINK) {
 		prompt("Sim Mode Location")
-		promptgroup("90 - Simulate")
+		promptgroup(GUI_INPUTS)
 		interest(1)
 	}
 	field(SIMM,DBF_MENU) {
@@ -134,19 +135,19 @@ recordtype(bo) {
 	}
 	field(SIMS,DBF_MENU) {
 		prompt("Sim mode Alarm Svrty")
-		promptgroup("90 - Simulate")
+		promptgroup(GUI_INPUTS)
 		interest(2)
 		menu(menuAlarmSevr)
 	}
 	field(IVOA,DBF_MENU) {
 		prompt("INVALID outpt action")
-		promptgroup("50 - Output")
+		promptgroup(GUI_OUTPUT)
 		interest(2)
 		menu(menuIvoa)
 	}
 	field(IVOV,DBF_USHORT) {
 		prompt("INVALID output value")
-		promptgroup("50 - Output")
+		promptgroup(GUI_OUTPUT)
 		interest(2)
 	}
 }

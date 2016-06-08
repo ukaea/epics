@@ -8,7 +8,7 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 
-/* Revision-Id: mdavidsaver@gmail.com-20160513133126-sqgiezpacqhavh1i */
+/* Revision-Id: anj@aps.anl.gov-20160303193948-6uzauyrc5y25pugy */
 /*
  *      Author:		Jeff Hill 
  *      Date:       04-05-94 
@@ -23,13 +23,17 @@
 #include "osiSock.h"
 #include "epicsAssert.h"
 #include "errlog.h"
+#include "epicsThread.h"
 
 #ifdef DEBUG
 #   define ifDepenDebugPrintf(argsInParen) printf argsInParen
 #else
 #   define ifDepenDebugPrintf(argsInParen)
 #endif
-    
+
+static osiSockAddr      osiLocalAddrResult;
+static epicsThreadOnceId osiLocalAddrId = EPICS_THREAD_ONCE_INIT;
+
 /*
  * Determine the size of an ifreq structure
  * Made difficult by the fact that addresses larger than the structure
@@ -73,21 +77,6 @@ epicsShareFunc void epicsShareAPI osiSockDiscoverBroadcastAddresses
     struct ifreq                    *pifreq;
     struct ifreq                    *pnextifreq;
     osiSockAddrNode                 *pNewNode;
-
-    if ( pMatchAddr->sa.sa_family == AF_INET  ) {
-        if ( pMatchAddr->ia.sin_addr.s_addr == htonl (INADDR_LOOPBACK) ) {
-            pNewNode = (osiSockAddrNode *) calloc (1, sizeof (*pNewNode) );
-            if ( pNewNode == NULL ) {
-                errlogPrintf ( "osiSockDiscoverBroadcastAddresses(): no memory available for configuration\n" );
-                return;
-            }
-            pNewNode->addr.ia.sin_family = AF_INET;
-            pNewNode->addr.ia.sin_port = htons ( 0 );
-            pNewNode->addr.ia.sin_addr.s_addr = htonl (INADDR_LOOPBACK);
-            ellAdd ( pList, &pNewNode->node );
-            return;
-        }
-    }
      
     /*
      * use pool so that we avoid using too much stack space
@@ -115,6 +104,7 @@ epicsShareFunc void epicsShareAPI osiSockDiscoverBroadcastAddresses
 
     for ( pifreq = pIfreqList; pifreq <= pIfreqListEnd; pifreq = pnextifreq ) {
         uint32_t  current_ifreqsize;
+        struct sockaddr_in if_addr;
 
         /*
          * find the next ifreq
@@ -138,6 +128,7 @@ epicsShareFunc void epicsShareAPI osiSockDiscoverBroadcastAddresses
              ifDepenDebugPrintf ( ("osiSockDiscoverBroadcastAddresses(): interface \"%s\" was not AF_INET\n", pIfreqList->ifr_name) );
              continue;
         }
+        if_addr = *(struct sockaddr_in *)&pIfreqList->ifr_addr;
 
         /*
          * if it isnt a wildcarded interface then look for
@@ -148,8 +139,7 @@ epicsShareFunc void epicsShareAPI osiSockDiscoverBroadcastAddresses
                 continue;
             }
             if ( pMatchAddr->ia.sin_addr.s_addr != htonl (INADDR_ANY) ) {
-                 struct sockaddr_in *pInetAddr = (struct sockaddr_in *) &pIfreqList->ifr_addr;
-                 if ( pInetAddr->sin_addr.s_addr != pMatchAddr->ia.sin_addr.s_addr ) {
+                 if ( if_addr.sin_addr.s_addr != pMatchAddr->ia.sin_addr.s_addr ) {
                      ifDepenDebugPrintf ( ("osiSockDiscoverBroadcastAddresses(): net intf \"%s\" didnt match\n", pIfreqList->ifr_name) );
                      continue;
                  }
@@ -161,20 +151,13 @@ epicsShareFunc void epicsShareAPI osiSockDiscoverBroadcastAddresses
             errlogPrintf ("osiSockDiscoverBroadcastAddresses(): net intf flags fetch for \"%s\" failed\n", pIfreqList->ifr_name);
             continue;
         }
-        
+        ifDepenDebugPrintf ( ("osiSockDiscoverBroadcastAddresses(): net intf \"%s\" flags: %x\n", pIfreqList->ifr_name, pIfreqList->ifr_flags) );
+
         /*
          * dont bother with interfaces that have been disabled
          */
         if ( ! ( pIfreqList->ifr_flags & IFF_UP ) ) {
              ifDepenDebugPrintf ( ("osiSockDiscoverBroadcastAddresses(): net intf \"%s\" was down\n", pIfreqList->ifr_name) );
-             continue;
-        }
-
-        /*
-         * dont use the loop back interface 
-         */
-        if ( pIfreqList->ifr_flags & IFF_LOOPBACK ) {
-             ifDepenDebugPrintf ( ("osiSockDiscoverBroadcastAddresses(): ignoring loopback interface: \"%s\"\n", pIfreqList->ifr_name) );
              continue;
         }
 
@@ -196,22 +179,14 @@ epicsShareFunc void epicsShareAPI osiSockDiscoverBroadcastAddresses
          * interface.
          */
         if ( pIfreqList->ifr_flags & IFF_BROADCAST ) {
-            osiSockAddr baddr;
             status = socket_ioctl (socket, SIOCGIFBRDADDR, pIfreqList);
             if ( status ) {
                 errlogPrintf ("osiSockDiscoverBroadcastAddresses(): net intf \"%s\": bcast addr fetch fail\n", pIfreqList->ifr_name);
                 free ( pNewNode );
                 continue;
             }
-            baddr.sa = pIfreqList->ifr_broadaddr;
-            if (baddr.ia.sin_family==AF_INET && baddr.ia.sin_addr.s_addr != INADDR_ANY) {
-                pNewNode->addr.sa = pIfreqList->ifr_broadaddr;
-                ifDepenDebugPrintf ( ( "found broadcast addr = %x\n", ntohl ( baddr.ia.sin_addr.s_addr ) ) );
-            } else {
-                ifDepenDebugPrintf ( ( "Ignoring broadcast addr = \n", ntohl ( baddr.ia.sin_addr.s_addr ) ) );
-                free ( pNewNode );
-                continue;
-            }
+            pNewNode->addr.sa = pIfreqList->ifr_broadaddr;
+            ifDepenDebugPrintf ( ( "found broadcast addr = %x\n", ntohl ( pNewNode->addr.ia.sin_addr.s_addr ) ) );
         }
 #if defined (IFF_POINTOPOINT)
         else if ( pIfreqList->ifr_flags & IFF_POINTOPOINT ) {
@@ -222,6 +197,22 @@ epicsShareFunc void epicsShareAPI osiSockDiscoverBroadcastAddresses
                 continue;
             }
             pNewNode->addr.sa = pIfreqList->ifr_dstaddr;
+        }
+#endif
+#if defined(__linux__)
+        /* On Linux, even though the 'lo' interface doesn't set IFF_BROADCAST
+         * a broadcast route often exists.  Assume that sending to 127.255.255.255
+         * reaches all local listeners.
+         *
+         *   $ ip route show table local scope link dev lo
+         *   broadcast 127.0.0.0  proto kernel  src 127.0.0.1
+         *   broadcast 127.255.255.255  proto kernel  src 127.0.0.1
+         */
+        else if ( pIfreqList->ifr_flags & IFF_LOOPBACK && if_addr.sin_addr.s_addr == htonl(INADDR_LOOPBACK) ) {
+            memset(&pNewNode->addr.ia, 0, sizeof(pNewNode->addr.ia));
+            pNewNode->addr.ia.sin_family = AF_INET;
+            pNewNode->addr.ia.sin_addr.s_addr = htonl(0x7fffffff);
+            ifDepenDebugPrintf ( ( "assume loopback broadcast addr = %x\n", ntohl ( pNewNode->addr.ia.sin_addr.s_addr ) ) );
         }
 #endif
         else {
@@ -244,11 +235,11 @@ epicsShareFunc void epicsShareAPI osiSockDiscoverBroadcastAddresses
 /*
  * osiLocalAddr ()
  */
-epicsShareFunc osiSockAddr epicsShareAPI osiLocalAddr (SOCKET socket)
+static void osiLocalAddrOnce (void *raw)
 {
-    static const unsigned   nelem = 100;
-    static char             init = 0;
-    static osiSockAddr      addr;
+    SOCKET *psocket = raw;
+    const unsigned          nelem = 100;
+    osiSockAddr             addr;
     int                     status;
     struct ifconf           ifconf;
     struct ifreq            *pIfreqList;
@@ -256,22 +247,18 @@ epicsShareFunc osiSockAddr epicsShareAPI osiLocalAddr (SOCKET socket)
     struct ifreq            *pIfreqListEnd;
     struct ifreq            *pnextifreq;
 
-    if ( init ) {
-        return addr;
-    }
-
     memset ( (void *) &addr, '\0', sizeof ( addr ) );
     addr.sa.sa_family = AF_UNSPEC;
     
     pIfreqList = (struct ifreq *) calloc ( nelem, sizeof(*pIfreqList) );
     if ( ! pIfreqList ) {
         errlogPrintf ( "osiLocalAddr(): no memory to complete request\n" );
-        return addr;
+        goto fail;
     }
  
     ifconf.ifc_len = nelem * sizeof ( *pIfreqList );
     ifconf.ifc_req = pIfreqList;
-    status = socket_ioctl ( socket, SIOCGIFCONF, &ifconf );
+    status = socket_ioctl ( *psocket, SIOCGIFCONF, &ifconf );
     if ( status < 0 || ifconf.ifc_len == 0 ) {
         char sockErrBuf[64];
         epicsSocketConvertErrnoToString ( 
@@ -279,8 +266,7 @@ epicsShareFunc osiSockAddr epicsShareAPI osiLocalAddr (SOCKET socket)
         errlogPrintf (
             "osiLocalAddr(): SIOCGIFCONF ioctl failed because \"%s\"\n",
             sockErrBuf );
-        free ( pIfreqList );
-        return addr;
+        goto fail;
     }
     
     pIfreqListEnd = (struct ifreq *) ( ifconf.ifc_len + (char *) ifconf.ifc_req );
@@ -307,7 +293,7 @@ epicsShareFunc osiSockAddr epicsShareAPI osiLocalAddr (SOCKET socket)
 
         addrCpy.sa = pIfreqList->ifr_addr;
 
-        status = socket_ioctl ( socket, SIOCGIFFLAGS, pIfreqList );
+        status = socket_ioctl ( *psocket, SIOCGIFFLAGS, pIfreqList );
         if ( status < 0 ) {
             errlogPrintf ( "osiLocalAddr(): net intf flags fetch for %s failed\n", pIfreqList->ifr_name );
             continue;
@@ -328,11 +314,26 @@ epicsShareFunc osiSockAddr epicsShareAPI osiLocalAddr (SOCKET socket)
 
         ifDepenDebugPrintf ( ("osiLocalAddr(): net intf %s found\n", pIfreqList->ifr_name) );
 
-        init = 1;
-        addr = addrCpy;
-        break;
+        osiLocalAddrResult = addrCpy;
+        free ( pIfreqList );
+        return;
     }
 
+    errlogPrintf (
+        "osiLocalAddr(): only loopback found\n");
+fail:
+    /* fallback to loopback */
+    memset ( (void *) &addr, '\0', sizeof ( addr ) );
+    addr.ia.sin_family = AF_INET;
+    addr.ia.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
+    osiLocalAddrResult = addr;
+
     free ( pIfreqList );
-    return addr;
+}
+
+
+epicsShareFunc osiSockAddr epicsShareAPI osiLocalAddr (SOCKET socket)
+{
+    epicsThreadOnce(&osiLocalAddrId, osiLocalAddrOnce, &socket);
+    return osiLocalAddrResult;
 }

@@ -10,19 +10,19 @@ recordtype(mbbiDirect) {
     include "dbCommon.dbd" 
     field(VAL,DBF_USHORT) {
         prompt("Current Value")
-        promptgroup("40 - Input")
+        promptgroup(GUI_INPUTS)
         asl(ASL0)
         pp(TRUE)
     }
     field(NOBT,DBF_SHORT) {
         prompt("Number of Bits")
-        promptgroup("40 - Input")
+        promptgroup(GUI_MBB)
         special(SPC_NOMOD)
         interest(1)
     }
     field(INP,DBF_INLINK) {
         prompt("Input Specification")
-        promptgroup("40 - Input")
+        promptgroup(GUI_MBB)
         interest(1)
     }
     field(RVAL,DBF_ULONG) {
@@ -46,12 +46,12 @@ recordtype(mbbiDirect) {
     }
     field(SHFT,DBF_USHORT) {
         prompt("Shift")
-        promptgroup("40 - Input")
+        promptgroup(GUI_MBB)
         interest(1)
     }
     field(SIOL,DBF_INLINK) {
         prompt("Sim Input Specifctn")
-        promptgroup("90 - Simulate")
+        promptgroup(GUI_MBB)
         interest(1)
     }
     field(SVAL,DBF_ULONG) {
@@ -59,7 +59,7 @@ recordtype(mbbiDirect) {
     }
     field(SIML,DBF_INLINK) {
         prompt("Sim Mode Location")
-        promptgroup("90 - Simulate")
+        promptgroup(GUI_MBB)
         interest(1)
     }
     field(SIMM,DBF_MENU) {
@@ -69,7 +69,7 @@ recordtype(mbbiDirect) {
     }
     field(SIMS,DBF_MENU) {
         prompt("Sim mode Alarm Svrty")
-        promptgroup("90 - Simulate")
+        promptgroup(GUI_MBB)
         interest(2)
         menu(menuAlarmSevr)
     }

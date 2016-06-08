@@ -333,12 +333,6 @@ cac::~cac ()
 
     this->ipToAEngine.release ();
 
-    // clean-up the list of un-notified msg objects
-    while ( msgForMultiplyDefinedPV * msg = this->msgMultiPVList.get() ) {
-        msg->~msgForMultiplyDefinedPV ();
-        this->mdpvFreeList.release ( msg );
-    }
-
     errlogFlush ();
 
     osiSockRelease ();
@@ -612,8 +606,6 @@ void cac::transferChanToVirtCircuit (
             msgForMultiplyDefinedPV * pMsg = new ( this->mdpvFreeList )
                 msgForMultiplyDefinedPV ( this->ipToAEngine,
                     *this, pChan->pName ( guard ), acc );
-            // cac keeps a list of these objects for proper clean-up in ~cac
-            this->msgMultiPVList.add ( *pMsg );
             // It is possible for the ioInitiate call below to
             // call the callback directly if queue quota is exceeded.
             // This callback takes the callback lock and therefore we
@@ -1305,8 +1297,6 @@ void cac::pvMultiplyDefinedNotify ( msgForMultiplyDefinedPV & mfmdpv,
         epicsGuard < epicsMutex > guard ( this->mutex );
         this->exception ( mgr.cbGuard, guard, ECA_DBLCHNL, buf, __FILE__, __LINE__ );
     }
-    // remove from the list and delete msg object
-    this->msgMultiPVList.remove ( mfmdpv );
     mfmdpv.~msgForMultiplyDefinedPV ();
     this->mdpvFreeList.release ( & mfmdpv );
 }

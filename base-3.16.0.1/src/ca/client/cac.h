@@ -237,7 +237,6 @@ private:
     resTable < tcpiiu, caServerID > serverTable;
     tsDLList < tcpiiu > circuitList;
     tsDLList < SearchDest > searchDestList;
-    tsDLList < msgForMultiplyDefinedPV > msgMultiPVList;
     tsFreeList
         < class tcpiiu, 32, epicsMutexNOOP >
             freeListVirtualCircuit;

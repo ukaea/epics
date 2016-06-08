@@ -10,26 +10,37 @@ TOP=../../../..
 
 include $(TOP)/configure/CONFIG
 
+# Allow access to private headers in db/
+USR_CPPFLAGS = -I ../..
+
 TESTLIBRARY = dbTestIoc
 
 dbTestIoc_SRCS += arrRecord.c
 dbTestIoc_SRCS += xRecord.c
 dbTestIoc_SRCS += dbLinkdset.c
+dbTestIoc_SRCS += devx.c
 dbTestIoc_LIBS = dbCore ca Com
 
 TARGETS += $(COMMON_DIR)/dbTestIoc.dbd
-DBDDEPENDS_FILES += dbTestIoc.dbd$(DEP)
 dbTestIoc_DBD += menuGlobal.dbd
 dbTestIoc_DBD += menuConvert.dbd
 dbTestIoc_DBD += menuScan.dbd
 #dbTestIoc_DBD += arrRecord.dbd
 dbTestIoc_DBD += xRecord.dbd
+dbTestIoc_DBD += arrRecord.dbd
+dbTestIoc_DBD += devx.dbd
 dbTestIoc_DBD += dbLinkdset.dbd
 TESTFILES += $(COMMON_DIR)/dbTestIoc.dbd ../xRecord.db
 
 testHarness_SRCS += dbTestIoc_registerRecordDeviceDriver.cpp
 
 PROD_LIBS = dbTestIoc dbCore ca Com
+
+TESTPROD_HOST += dbScanTest
+dbScanTest_SRCS += dbScanTest.c
+dbScanTest_SRCS += dbTestIoc_registerRecordDeviceDriver.cpp
+testHarness_SRCS += dbScanTest.c
+TESTS += dbScanTest
 
 TESTPROD_HOST += dbShutdownTest
 dbShutdownTest_SRCS += dbShutdownTest.c
@@ -42,7 +53,7 @@ dbPutLinkTest_SRCS += dbPutLinkTest.c
 dbPutLinkTest_SRCS += dbTestIoc_registerRecordDeviceDriver.cpp
 testHarness_SRCS += dbPutLinkTest.c
 TESTS += dbPutLinkTest
-TESTFILES += ../dbPutLinkTest.db
+TESTFILES += ../dbPutLinkTest.db ../dbBadLink.db
 
 TESTPROD_HOST += dbLockTest
 dbLockTest_SRCS += dbLockTest.c
@@ -50,6 +61,14 @@ dbLockTest_SRCS += dbTestIoc_registerRecordDeviceDriver.cpp
 testHarness_SRCS += dbLockTest.c
 TESTS += dbLockTest
 TESTFILES += ../dbLockTest.db
+
+TESTPROD_HOST += dbStressTest
+dbStressTest_SRCS += dbStressLock.c
+dbStressTest_SRCS += dbTestIoc_registerRecordDeviceDriver.cpp
+dbStressTest_SYS_LIBS_solaris += rt
+dbStressTest_SYS_LIBS_Linux += rt
+TESTS += dbStressTest
+TESTFILES += ../dbStressLock.db
 
 TESTPROD_HOST += testdbConvert
 testdbConvert_SRCS += testdbConvert.c
@@ -76,21 +95,23 @@ dbCaStatsTest_SRCS += dbCaStatsTest.c
 dbCaStatsTest_SRCS += dbTestIoc_registerRecordDeviceDriver.cpp
 testHarness_SRCS += dbCaStatsTest.c
 TESTS += dbCaStatsTest
-TESTFILES += ../dbCaStatsTest.db
+TESTFILES += ../dbCaStats.db
 
-TARGETS += $(COMMON_DIR)/scanIoTest.dbd
-DBDDEPENDS_FILES += scanIoTest.dbd$(DEP)
-scanIoTest_DBD += menuGlobal.dbd
-scanIoTest_DBD += menuConvert.dbd
+TESTPROD_HOST += dbCaLinkTest
+dbCaLinkTest_SRCS += dbCaLinkTest.c
+dbCaLinkTest_SRCS += dbCACTest.cpp
+dbCaLinkTest_SRCS += dbTestIoc_registerRecordDeviceDriver.cpp
+testHarness_SRCS += dbCaLinkTest.c
+testHarness_SRCS += dbCACTest.cpp
+TESTS += dbCaLinkTest
+TESTFILES += ../dbCaLinkTest1.db ../dbCaLinkTest2.db ../dbCaLinkTest3.db
+
 scanIoTest_DBD += menuScan.dbd
-scanIoTest_DBD += yRecord.dbd
 TESTPROD_HOST += scanIoTest
 scanIoTest_SRCS += scanIoTest.c
-scanIoTest_REGRDDFLAGS = -l
-scanIoTest_SRCS += scanIoTest_registerRecordDeviceDriver.cpp
+scanIoTest_SRCS += dbTestIoc_registerRecordDeviceDriver.cpp
 testHarness_SRCS += scanIoTest.c
-testHarness_SRCS += scanIoTest_registerRecordDeviceDriver.cpp
-TESTFILES += $(COMMON_DIR)/scanIoTest.dbd ../scanIoTest.db
+TESTFILES += ../scanIoTest.db
 TESTS += scanIoTest
 
 TESTPROD_HOST += dbChannelTest
@@ -100,7 +121,6 @@ testHarness_SRCS += dbChannelTest.c
 TESTS += dbChannelTest
 
 TARGETS += $(COMMON_DIR)/dbChArrTest.dbd
-DBDDEPENDS_FILES += dbChArrTest.dbd$(DEP)
 dbChArrTest_DBD += arrRecord.dbd
 TESTPROD_HOST += dbChArrTest
 dbChArrTest_SRCS += dbChArrTest.cpp
@@ -148,6 +168,10 @@ TESTSCRIPTS_HOST += $(TESTS:%=%.t)
 include $(TOP)/configure/RULES
 
 arrRecord$(DEP): $(COMMON_DIR)/arrRecord.h
-xRecord$(DEP): $(COMMON_DIR)/xRecord.h
+dbCaLinkTest$(DEP): $(COMMON_DIR)/xRecord.h $(COMMON_DIR)/arrRecord.h
 dbPutLinkTest$(DEP): $(COMMON_DIR)/xRecord.h
-scanIoTest$(DEP): $(COMMON_DIR)/yRecord.h
+dbStressLock$(DEP): $(COMMON_DIR)/xRecord.h
+devx$(DEP): $(COMMON_DIR)/xRecord.h
+scanIoTest$(DEP): $(COMMON_DIR)/xRecord.h
+xRecord$(DEP): $(COMMON_DIR)/xRecord.h
+

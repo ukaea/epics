@@ -87,10 +87,10 @@ long dbcar(char *precordname, int level)
                 !dbIsAlias(pdbentry)) {
                 pdbRecordType = pdbentry->precordType;
                 precord = (dbCommon *)pdbentry->precnode->precord;
+                dbScanLock(precord);
                 for (j=0; j<pdbRecordType->no_links; j++) {
                     pdbFldDes = pdbRecordType->papFldDes[pdbRecordType->link_ind[j]];
                     plink = (DBLINK *)((char *)precord + pdbFldDes->offset);
-                    dbLockSetGblLock();
                     if (plink->type == CA_LINK) {
                         ncalinks++;
                         pca = (caLink *)plink->value.pv_link.pvt;
@@ -135,8 +135,8 @@ long dbcar(char *precordname, int level)
                             }
                         }
                     }
-                    dbLockSetGblUnlock();
                 }
+                dbScanUnlock(precord);
                 if (precordname) goto done;
             }
             status = dbNextRecord(pdbentry);
@@ -189,10 +189,8 @@ void dbcaStats(int *pchans, int *pdiscon)
                     dbFldDes *pdbFldDes = pdbRecordType->papFldDes[i];
                     plink = (DBLINK *)((char *)precord + pdbFldDes->offset);
                     if (plink->type == CA_LINK) {
-                        caLink *pca = (caLink *)plink->value.pv_link.pvt;
-
                         ncalinks++;
-                        if (pca && pca->chid && ca_state(pca->chid) == cs_conn) {
+                        if (dbCaIsLinkConnected(plink)) {
                             nconnected++;
                         }
                     }

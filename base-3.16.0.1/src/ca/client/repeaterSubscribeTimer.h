@@ -70,6 +70,7 @@ private:
     repeaterTimerNotify & iiu;
     epicsMutex & cbMutex;
     cacContextNotify & ctxNotify;
+    mutable epicsMutex stateMutex;
     unsigned attempts;
     bool registered;
     bool once;

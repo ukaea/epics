@@ -7,7 +7,7 @@
 # and higher are distributed subject to a Software License Agreement found
 # in file LICENSE that is included with this distribution. 
 #*************************************************************************
-# Revision-Id: jba@aps.anl.gov-20120821143837-dbqmr6vpdipqcrgn
+# Revision-Id: anj@aps.anl.gov-20150724205938-56noqp2dwanc3h51
 #
 
 
@@ -113,7 +113,7 @@ buildclean:
 
 ifdef JAVA_DIRECTORY_TARGETS
 $(JAVA_DIRECTORY_TARGETS):
-	$(MKDIR) -p $@
+	$(MKDIR) $@
 endif
 
 $(COMMON_JAVAINC):$(JAVAINC_CLASSFILES)

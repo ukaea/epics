@@ -20,8 +20,8 @@ our $opt_o = 'epicsVersion.h';
 
 $Getopt::Std::OUTPUT_HELP_VERSION = 1;
 
-&HELP_MESSAGE unless getopts('ho:qv:') && @ARGV == 1;
-&HELP_MESSAGE if $opt_h;
+HELP_MESSAGE() unless getopts('ho:qv:') && @ARGV == 1;
+HELP_MESSAGE() if $opt_h;
 
 my ($infile) = @ARGV;
 
@@ -47,11 +47,8 @@ map {
     die "$tool: Variable missing from $infile" unless defined $_;
 } $ver, $rev, $mod, $patch, $snapshot, $commit_date;
 
-$commit_date =~ s/^\$\Date: Thu 2016-04-28 18:58:07 -0500\$$/\1/;
-
 my $ver_str = "$ver.$rev.$mod";
 $ver_str .= ".$patch" if $patch > 0;
-my $ver_short = $ver_str;
 $ver_str .= $snapshot if $snapshot ne '';
 $ver_str .= "-$opt_v" if $opt_v;
 
@@ -74,15 +71,10 @@ print $OUT <<"END";
 #define EPICS_PATCH_LEVEL    $patch
 #define EPICS_DEV_SNAPSHOT   "$snapshot"
 #define EPICS_SITE_VERSION   "$opt_v"
-
-#define EPICS_VERSION_SHORT  "$ver_short"
-#define EPICS_VERSION_FULL   "$ver_str"
 #define EPICS_VERSION_STRING "EPICS $ver_str"
 #define epicsReleaseVersion  "EPICS R$ver_str $commit_date"
 
-#ifndef VERSION_INT
-#  define VERSION_INT(V,R,M,P) ( ((V)<<24) | ((R)<<16) | ((M)<<8) | (P))
-#endif
+#define VERSION_INT(V,R,M,P) ( ((V)<<24) | ((R)<<16) | ((M)<<8) | (P))
 #define EPICS_VERSION_INT VERSION_INT($ver, $rev, $mod, $patch)
 
 #endif /* INC_${obase}_H */

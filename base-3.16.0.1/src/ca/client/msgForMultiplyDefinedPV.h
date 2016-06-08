@@ -33,7 +33,6 @@
 
 #include "ipAddrToAsciiAsynchronous.h"
 #include "tsFreeList.h"
-#include "tsDLList.h"
 #include "compilerDependencies.h"
 
 #ifdef msgForMultiplyDefinedPVh_epicsExportSharedSymbols
@@ -48,9 +47,7 @@ public:
         const char * pAcc, const char * pRej ) = 0;
 };
 
-class msgForMultiplyDefinedPV :
-        public ipAddrToAsciiCallBack,
-        public tsDLNode < msgForMultiplyDefinedPV >  {
+class msgForMultiplyDefinedPV : public ipAddrToAsciiCallBack {
 public:
     msgForMultiplyDefinedPV ( ipAddrToAsciiEngine & engine,
         callbackForMultiplyDefinedPV &, const char * pChannelName, 
@@ -65,8 +62,8 @@ private:
     ipAddrToAsciiTransaction & dnsTransaction;
     callbackForMultiplyDefinedPV & cb;
     void transactionComplete ( const char * pHostName );
-    msgForMultiplyDefinedPV ( const msgForMultiplyDefinedPV & );
-    msgForMultiplyDefinedPV & operator = ( const msgForMultiplyDefinedPV & );
+	msgForMultiplyDefinedPV ( const msgForMultiplyDefinedPV & );
+	msgForMultiplyDefinedPV & operator = ( const msgForMultiplyDefinedPV & );
     void operator delete ( void * );
 };
 

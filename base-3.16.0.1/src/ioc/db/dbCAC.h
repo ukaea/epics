@@ -8,7 +8,7 @@
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
 /*
- *  Revision-Id: anj@aps.anl.gov-20150409205316-0j4fztr1joby8v9c
+ *  Revision-Id: anj@aps.anl.gov-20150728192206-lc1anh0krfn4eouz
  *
  *
  *                    L O S  A L A M O S
@@ -205,6 +205,7 @@ private:
     cacContextNotify & notify;
     epics_auto_ptr < cacContext > pNetContext;
     char * pStateNotifyCache;
+    bool isolated;
 
     cacChannel & createChannel (
         epicsGuard < epicsMutex > &,

@@ -33,13 +33,13 @@
 <h1>EPICS Base Release Procedures &amp; Checklist</h1>
 
 <blockquote>
-  <p>Date: Fri 2015-05-15 10:06:06 -0500<br />
+  <p>Date: Thu 2016-03-03 17:19:50 -0600<br />
     Authors: Andrew Johnson &lt;anj@aps.anl.gov&gt;<br />
-    Revision-Id: anj@aps.anl.gov-20150515150606-wwlurwdkpiupgwlf</p>
+    Revision-Id: anj@aps.anl.gov-20160303231950-4t89bnbmaxc1rgp1</p>
 </blockquote>
 
 <p>This document describes the procedures and provides a checklist of tasks
-that should be performed when creating new releases of EPICS Base.</p>
+that should be performed when creating production releases of EPICS Base.</p>
 
 <h3>The Release Process</h3>
 
@@ -141,17 +141,17 @@ relevent roles unless the Release Manager designates otherwise:</p>
       <td>Tag the module in Bazaar, using these tag conventions:
         <ul>
           <li>
-            <tt>R3.15.3-pre<i>n</i></tt>
+            <tt>R3.16.1-pre<i>n</i></tt>
             &mdash; pre-release tag
             </li>
           <li>
-            <tt>R3.15.3-rc<i>n</i></tt>
+            <tt>R3.16.1-rc<i>n</i></tt>
             &mdash; release candidate tag, note the <tt>rc</tt> is now
             lower-case</li>
         </ul>
         <blockquote><tt>
-          cd ~/base/mirror-3.15<br />
-          bzr tag R3.15.3-rc<i>n</i>
+          cd ~/base/mirror-3.16<br />
+          bzr tag R3.16.1-rc<i>n</i>
           </tt></blockquote>
         </td>
       </tr>
@@ -163,10 +163,10 @@ relevent roles unless the Release Manager designates otherwise:</p>
         <blockquote><tt>
           cd ~/base<br />
           bzr export --keywords=publish
-            --root=base-3.15.3-rc<i>n</i>
-            -r tag:R3.15.3-rc<i>n</i>
-            base-3.15.3-rc<i>n</i>.tar.gz
-            mirror-3.15
+            --root=base-3.16.1-rc<i>n</i>
+            -r tag:R3.16.1-rc<i>n</i>
+            base-3.16.1-rc<i>n</i>.tar.gz
+            mirror-3.16
           </tt></blockquote>
         This requires that the Bazaar keywords plugin is installed and
         configured properly.
@@ -279,8 +279,8 @@ relevent roles unless the Release Manager designates otherwise:</p>
       <td>Release Manager</td>
       <td>Tag the module in Bazaar:
         <blockquote><tt>
-          cd ~/base/mirror-3.15<br />
-          bzr tag R3.15.3</i>
+          cd ~/base/mirror-3.16<br />
+          bzr tag R3.16.1</i>
           </tt></blockquote>
         </td>
       </tr>
@@ -292,10 +292,10 @@ relevent roles unless the Release Manager designates otherwise:</p>
         <blockquote><tt>
           cd ~/base<br />
           bzr export --keywords=publish
-            --root=base-3.15.3
-            -r tag:R3.15.3
-            base-3.15.3.tar.gz
-            mirror-3.15
+            --root=base-3.16.1
+            -r tag:R3.16.1
+            base-3.16.1.tar.gz
+            mirror-3.16
           </tt></blockquote>
         This requires that the Bazaar keywords plugin is installed and
         configured properly.

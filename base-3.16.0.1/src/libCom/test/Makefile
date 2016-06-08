@@ -98,7 +98,6 @@ TESTS += epicsTimeTest
 
 TESTPROD_HOST += epicsTimeZoneTest
 epicsTimeZoneTest_SRCS += epicsTimeZoneTest.c
-libComTestHarness_SRCS_RTEMS += epicsTimeZoneTest.c
 TESTS += epicsTimeZoneTest
 
 TESTPROD_HOST += epicsThreadTest

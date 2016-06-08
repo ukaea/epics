@@ -8,7 +8,7 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/* Revision-Id: anj@aps.anl.gov-20160223214326-8z1faazkfpn6fy1v */
+/* Revision-Id: anj@aps.anl.gov-20160229194818-ets7s9c1f4ahxdb0 */
 /*
  *      Original Author: Marty Kraimer
  *      Date:            06-01-91
@@ -86,6 +86,14 @@ static void initDatabase(void);
 static void initialProcess(void);
 static void exitDatabase(void *dummy);
 
+/*
+ * Iterate through all record instances (but not aliases),
+ * calling a function for each one.
+ */
+typedef void (*recIterFunc)(dbRecordType *rtyp, dbCommon *prec, void *user);
+
+static void iterateRecords(recIterFunc func, void *user);
+
 int dbThreadRealtimeLock = 1;
 epicsExportAddress(int, dbThreadRealtimeLock);
 
@@ -128,6 +136,11 @@ static int iocBuild_1(void)
     return 0;
 }
 
+static void prepareLinks(dbRecordType *rtyp, dbCommon *prec, void *junk)
+{
+    dbInitRecordLinks(rtyp, prec);
+}
+
 static int iocBuild_2(void)
 {
     initHookAnnounce(initHookAfterCaLinkInit);
@@ -139,12 +152,14 @@ static int iocBuild_2(void)
     initHookAnnounce(initHookAfterInitRecSup);
 
     initDevSup();
-    initHookAnnounce(initHookAfterInitDevSup);
+    initHookAnnounce(initHookAfterInitDevSup); /* used by autosave pass 0 */
+
+    iterateRecords(prepareLinks, NULL);
 
     dbLockInitRecords(pdbbase);
     initDatabase();
     dbBkptInit();
-    initHookAnnounce(initHookAfterInitDatabase);
+    initHookAnnounce(initHookAfterInitDatabase); /* used by autosave pass 1 */
 
     finishDevSup();
     initHookAnnounce(initHookAfterFinishDevSup);
@@ -425,12 +440,6 @@ static void finishDevSup(void)
         }
     }
 }
-
-/*
- * Iterate through all record instances (but not aliases),
- * calling a function for each one.
- */
-typedef void (*recIterFunc)(dbRecordType *rtyp, dbCommon *prec, void *user);
 
 static void iterateRecords(recIterFunc func, void *user)
 {
@@ -494,10 +503,9 @@ static void doResolveLinks(dbRecordType *pdbRecordType, dbCommon *precord,
     /* For all the links in the record type... */
     for (j = 0; j < pdbRecordType->no_links; j++) {
         dbFldDes *pdbFldDes = papFldDes[link_ind[j]];
-        DBLINK *plink = (DBLINK *)((char *)precord + pdbFldDes->offset);
+        DBLINK *plink = (DBLINK*)((char*)precord + pdbFldDes->offset);
 
-        if (ellCount(&precord->rdes->devList) > 0 &&
-            (strcmp(pdbFldDes->name, "INP") == 0 || strcmp(pdbFldDes->name, "OUT") == 0)) {
+        if (ellCount(&precord->rdes->devList) > 0 && pdbFldDes->isDevLink) {
             devSup *pdevSup = dbDTYPtoDevSup(pdbRecordType, precord->dtyp);
 
             if (pdevSup) {
@@ -508,8 +516,7 @@ static void doResolveLinks(dbRecordType *pdbRecordType, dbCommon *precord,
             }
         }
 
-        if (plink->type == PV_LINK)
-            dbInitLink(precord, plink, pdbFldDes->field_type);
+        dbInitLink(plink, pdbFldDes->field_type);
     }
 }
 
@@ -634,13 +641,12 @@ static void doCloseLinks(dbRecordType *pdbRecordType, dbCommon *precord,
                 dbScanLock(precord);
                 locked = 1;
             }
-            dbCaRemoveLink(plink);
-            plink->type = CONSTANT;
+            dbCaRemoveLink(NULL, plink);
 
         } else if (plink->type == DB_LINK) {
             /* free link, but don't split lockset like dbDbRemoveLink() */
             free(plink->value.pv_link.pvt);
-            plink->type = CONSTANT;
+            plink->type = PV_LINK;
         }
     }
 
@@ -665,11 +671,6 @@ static void doFreeRecord(dbRecordType *pdbRecordType, dbCommon *precord,
     void *user)
 {
     int j;
-    struct rset *prset = pdbRecordType->prset;
-
-    if (!prset) return;         /* unlikely */
-
-    epicsMutexDestroy(precord->mlok);
 
     for (j = 0; j < pdbRecordType->no_links; j++) {
         dbFldDes *pdbFldDes =
@@ -678,6 +679,9 @@ static void doFreeRecord(dbRecordType *pdbRecordType, dbCommon *precord,
 
         dbFreeLinkContents(plink);
     }
+
+    epicsMutexDestroy(precord->mlok);
+    free(precord->ppnr); /* may be allocated in dbNotify.c */
 }
 
 int iocShutdown(void)
@@ -689,7 +693,7 @@ int iocShutdown(void)
         scanStop();
         callbackStop();
     }
-    dbCaShutdown();
+    dbCaShutdown(); /* must be before dbFreeRecord and dbChannelExit */
     if (iocBuildMode==buildIsolated) {
         /* free resources */
         scanCleanup();

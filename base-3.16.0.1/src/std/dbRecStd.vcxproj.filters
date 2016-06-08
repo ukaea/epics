@@ -278,9 +278,6 @@
     <ClCompile Include="rec\printfRecord.c">
       <Filter>rec</Filter>
     </ClCompile>
-    <ClCompile Include="dev\devEnviron.c">
-      <Filter>dev</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="O.Common\aiRecord.dbd">

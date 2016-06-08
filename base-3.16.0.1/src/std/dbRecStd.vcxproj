@@ -57,7 +57,6 @@
     <ClCompile Include="dev\devBoSoftRaw.c" />
     <ClCompile Include="dev\devCalcoutSoft.c" />
     <ClCompile Include="dev\devCalcoutSoftCallback.c" />
-    <ClCompile Include="dev\devEnviron.c" />
     <ClCompile Include="dev\devEventSoft.c" />
     <ClCompile Include="dev\devGeneralTime.c" />
     <ClCompile Include="dev\devHistogramSoft.c" />

@@ -39,7 +39,6 @@
 #include "dbChannel.h"
 #include "dbCommon.h"
 #include "dbEvent.h"
-#include "dbLock.h"
 #include "dbNotify.h"
 #include "dbStaticLib.h"
 #include "recSup.h"
@@ -154,30 +153,28 @@ int dbChannel_get_count(
     * in the dbAccess.c dbGet() and getOptions() routines.
     */
 
-    dbScanLock(dbChannelRecord(chan));
-
     switch(buffer_type) {
     case(oldDBR_STRING):
-        status = dbChannelGet(chan, DBR_STRING, pbuffer, &zero, nRequest, pfl);
+        status = dbChannelGetField(chan, DBR_STRING, pbuffer, &zero, nRequest, pfl);
         break;
 /*  case(oldDBR_INT): */
     case(oldDBR_SHORT):
-        status = dbChannelGet(chan, DBR_SHORT, pbuffer, &zero, nRequest, pfl);
+        status = dbChannelGetField(chan, DBR_SHORT, pbuffer, &zero, nRequest, pfl);
         break;
     case(oldDBR_FLOAT):
-        status = dbChannelGet(chan, DBR_FLOAT, pbuffer, &zero, nRequest, pfl);
+        status = dbChannelGetField(chan, DBR_FLOAT, pbuffer, &zero, nRequest, pfl);
         break;
     case(oldDBR_ENUM):
-        status = dbChannelGet(chan, DBR_ENUM, pbuffer, &zero, nRequest, pfl);
+        status = dbChannelGetField(chan, DBR_ENUM, pbuffer, &zero, nRequest, pfl);
         break;
     case(oldDBR_CHAR):
-        status = dbChannelGet(chan, DBR_CHAR, pbuffer, &zero, nRequest, pfl);
+        status = dbChannelGetField(chan, DBR_CHAR, pbuffer, &zero, nRequest, pfl);
         break;
     case(oldDBR_LONG):
-        status = dbChannelGet(chan, DBR_LONG, pbuffer, &zero, nRequest, pfl);
+        status = dbChannelGetField(chan, DBR_LONG, pbuffer, &zero, nRequest, pfl);
         break;
     case(oldDBR_DOUBLE):
-        status = dbChannelGet(chan, DBR_DOUBLE, pbuffer, &zero, nRequest, pfl);
+        status = dbChannelGetField(chan, DBR_DOUBLE, pbuffer, &zero, nRequest, pfl);
         break;
 
     case(oldDBR_STS_STRING):
@@ -190,10 +187,10 @@ int dbChannel_get_count(
             } newSt;
 
             options = DBR_STATUS;
-            status = dbChannelGet(chan, DBR_STRING, &newSt, &options, &zero, pfl);
+            status = dbChannelGetField(chan, DBR_STRING, &newSt, &options, &zero, pfl);
             pold->status = newSt.status;
             pold->severity = newSt.severity;
-            status = dbChannelGet(chan, DBR_STRING, pold->value, &zero,
+            status = dbChannelGetField(chan, DBR_STRING, pold->value, &zero,
                 nRequest, pfl);
         }
         break;
@@ -206,10 +203,10 @@ int dbChannel_get_count(
             } newSt;
 
             options = DBR_STATUS;
-            status = dbChannelGet(chan, DBR_SHORT, &newSt, &options, &zero, pfl);
+            status = dbChannelGetField(chan, DBR_SHORT, &newSt, &options, &zero, pfl);
             pold->status = newSt.status;
             pold->severity = newSt.severity;
-            status = dbChannelGet(chan, DBR_SHORT, &pold->value, &zero,
+            status = dbChannelGetField(chan, DBR_SHORT, &pold->value, &zero,
                 nRequest, pfl);
         }
         break;
@@ -221,10 +218,10 @@ int dbChannel_get_count(
             } newSt;
 
             options = DBR_STATUS;
-            status = dbChannelGet(chan, DBR_FLOAT, &newSt, &options, &zero, pfl);
+            status = dbChannelGetField(chan, DBR_FLOAT, &newSt, &options, &zero, pfl);
             pold->status = newSt.status;
             pold->severity = newSt.severity;
-            status = dbChannelGet(chan, DBR_FLOAT, &pold->value, &zero,
+            status = dbChannelGetField(chan, DBR_FLOAT, &pold->value, &zero,
                 nRequest, pfl);
         }
         break;
@@ -236,10 +233,10 @@ int dbChannel_get_count(
             } newSt;
 
             options = DBR_STATUS;
-            status = dbChannelGet(chan, DBR_ENUM, &newSt, &options, &zero, pfl);
+            status = dbChannelGetField(chan, DBR_ENUM, &newSt, &options, &zero, pfl);
             pold->status = newSt.status;
             pold->severity = newSt.severity;
-            status = dbChannelGet(chan, DBR_ENUM, &pold->value, &zero,
+            status = dbChannelGetField(chan, DBR_ENUM, &pold->value, &zero,
                 nRequest, pfl);
         }
         break;
@@ -251,10 +248,10 @@ int dbChannel_get_count(
             } newSt;
 
             options = DBR_STATUS;
-            status = dbChannelGet(chan, DBR_UCHAR, &newSt, &options, &zero, pfl);
+            status = dbChannelGetField(chan, DBR_UCHAR, &newSt, &options, &zero, pfl);
             pold->status = newSt.status;
             pold->severity = newSt.severity;
-            status = dbChannelGet(chan, DBR_UCHAR, &pold->value, &zero,
+            status = dbChannelGetField(chan, DBR_UCHAR, &pold->value, &zero,
                 nRequest, pfl);
         }
         break;
@@ -266,10 +263,10 @@ int dbChannel_get_count(
             } newSt;
 
             options = DBR_STATUS;
-            status = dbChannelGet(chan, DBR_LONG, &newSt, &options, &zero, pfl);
+            status = dbChannelGetField(chan, DBR_LONG, &newSt, &options, &zero, pfl);
             pold->status = newSt.status;
             pold->severity = newSt.severity;
-            status = dbChannelGet(chan, DBR_LONG, &pold->value, &zero,
+            status = dbChannelGetField(chan, DBR_LONG, &pold->value, &zero,
                 nRequest, pfl);
         }
         break;
@@ -281,11 +278,11 @@ int dbChannel_get_count(
             } newSt;
 
             options = DBR_STATUS;
-            status = dbChannelGet(chan, DBR_DOUBLE, &newSt, &options, &zero, pfl);
+            status = dbChannelGetField(chan, DBR_DOUBLE, &newSt, &options, &zero, pfl);
             pold->status = newSt.status;
             pold->severity = newSt.severity;
             options = 0;
-            status = dbChannelGet(chan, DBR_DOUBLE, &pold->value, &options,
+            status = dbChannelGetField(chan, DBR_DOUBLE, &pold->value, &options,
                 nRequest, pfl);
         }
         break;
@@ -299,12 +296,12 @@ int dbChannel_get_count(
             } newSt;
 
             options = DBR_STATUS | DBR_TIME;
-            status = dbChannelGet(chan, DBR_STRING, &newSt, &options, &zero, pfl);
+            status = dbChannelGetField(chan, DBR_STRING, &newSt, &options, &zero, pfl);
             pold->status = newSt.status;
             pold->severity = newSt.severity;
             pold->stamp = newSt.time;         /* structure copy */
             options = 0;
-            status = dbChannelGet(chan, DBR_STRING, pold->value, &options,
+            status = dbChannelGetField(chan, DBR_STRING, pold->value, &options,
                     nRequest, pfl);
         }
         break;
@@ -318,12 +315,12 @@ int dbChannel_get_count(
             } newSt;
 
             options = DBR_STATUS | DBR_TIME;
-            status = dbChannelGet(chan, DBR_SHORT, &newSt, &options, &zero, pfl);
+            status = dbChannelGetField(chan, DBR_SHORT, &newSt, &options, &zero, pfl);
             pold->status = newSt.status;
             pold->severity = newSt.severity;
             pold->stamp = newSt.time;         /* structure copy */
             options = 0;
-            status = dbChannelGet(chan, DBR_SHORT, &pold->value, &options,
+            status = dbChannelGetField(chan, DBR_SHORT, &pold->value, &options,
                 nRequest, pfl);
         }
         break;
@@ -336,12 +333,12 @@ int dbChannel_get_count(
             } newSt;
 
             options = DBR_STATUS | DBR_TIME;
-            status = dbChannelGet(chan, DBR_FLOAT, &newSt, &options, &zero, pfl);
+            status = dbChannelGetField(chan, DBR_FLOAT, &newSt, &options, &zero, pfl);
             pold->status = newSt.status;
             pold->severity = newSt.severity;
             pold->stamp = newSt.time;         /* structure copy */
             options = 0;
-            status = dbChannelGet(chan, DBR_FLOAT, &pold->value, &options,
+            status = dbChannelGetField(chan, DBR_FLOAT, &pold->value, &options,
                 nRequest, pfl);
         }
         break;
@@ -354,12 +351,12 @@ int dbChannel_get_count(
             } newSt;
 
             options = DBR_STATUS | DBR_TIME;
-            status = dbChannelGet(chan, DBR_ENUM, &newSt, &options, &zero, pfl);
+            status = dbChannelGetField(chan, DBR_ENUM, &newSt, &options, &zero, pfl);
             pold->status = newSt.status;
             pold->severity = newSt.severity;
             pold->stamp = newSt.time;         /* structure copy */
             options = 0;
-            status = dbChannelGet(chan, DBR_ENUM, &pold->value, &options,
+            status = dbChannelGetField(chan, DBR_ENUM, &pold->value, &options,
                 nRequest, pfl);
         }
         break;
@@ -372,12 +369,12 @@ int dbChannel_get_count(
             } newSt;
 
             options = DBR_STATUS | DBR_TIME;
-            status = dbChannelGet(chan, DBR_CHAR, &newSt, &options, &zero, pfl);
+            status = dbChannelGetField(chan, DBR_CHAR, &newSt, &options, &zero, pfl);
             pold->status = newSt.status;
             pold->severity = newSt.severity;
             pold->stamp = newSt.time;         /* structure copy */
             options = 0;
-            status = dbChannelGet(chan, DBR_CHAR, &pold->value, &options,
+            status = dbChannelGetField(chan, DBR_CHAR, &pold->value, &options,
                 nRequest, pfl);
         }
         break;
@@ -390,12 +387,12 @@ int dbChannel_get_count(
             } newSt;
 
             options = DBR_STATUS | DBR_TIME;
-            status = dbChannelGet(chan, DBR_LONG, &newSt, &options, &zero, pfl);
+            status = dbChannelGetField(chan, DBR_LONG, &newSt, &options, &zero, pfl);
             pold->status = newSt.status;
             pold->severity = newSt.severity;
             pold->stamp = newSt.time;         /* structure copy */
             options = 0;
-            status = dbChannelGet(chan, DBR_LONG, &pold->value, &options,
+            status = dbChannelGetField(chan, DBR_LONG, &pold->value, &options,
                 nRequest, pfl);
         }
         break;
@@ -408,12 +405,12 @@ int dbChannel_get_count(
             } newSt;
 
             options = DBR_STATUS | DBR_TIME;
-            status = dbChannelGet(chan, DBR_DOUBLE, &newSt, &options, &zero, pfl);
+            status = dbChannelGetField(chan, DBR_DOUBLE, &newSt, &options, &zero, pfl);
             pold->status = newSt.status;
             pold->severity = newSt.severity;
             pold->stamp = newSt.time;         /* structure copy */
             options = 0;
-            status = dbChannelGet(chan, DBR_DOUBLE, &pold->value, &options,
+            status = dbChannelGetField(chan, DBR_DOUBLE, &pold->value, &options,
                 nRequest, pfl);
         }
         break;
@@ -431,7 +428,7 @@ int dbChannel_get_count(
             } newSt;
 
             options = DBR_STATUS | DBR_UNITS | DBR_GR_LONG | DBR_AL_LONG;
-            status = dbChannelGet(chan, DBR_SHORT, &newSt, &options, &zero, pfl);
+            status = dbChannelGetField(chan, DBR_SHORT, &newSt, &options, &zero, pfl);
             pold->status = newSt.status;
             pold->severity = newSt.severity;
             strncpy(pold->units, newSt.units, MAX_UNITS_SIZE);
@@ -443,7 +440,7 @@ int dbChannel_get_count(
             pold->lower_warning_limit = newSt.lower_warning_limit;
             pold->lower_alarm_limit = newSt.lower_alarm_limit;
             options = 0;
-            status = dbChannelGet(chan, DBR_SHORT, &pold->value, &options,
+            status = dbChannelGetField(chan, DBR_SHORT, &pold->value, &options,
                 nRequest, pfl);
         }
         break;
@@ -460,7 +457,7 @@ int dbChannel_get_count(
 
             options = DBR_STATUS | DBR_UNITS | DBR_PRECISION | DBR_GR_DOUBLE |
                 DBR_AL_DOUBLE;
-            status = dbChannelGet(chan, DBR_FLOAT, &newSt, &options, &zero, pfl);
+            status = dbChannelGetField(chan, DBR_FLOAT, &newSt, &options, &zero, pfl);
             pold->status = newSt.status;
             pold->severity = newSt.severity;
             pold->precision = (dbr_short_t) newSt.precision.dp;
@@ -473,7 +470,7 @@ int dbChannel_get_count(
             pold->upper_warning_limit = epicsConvertDoubleToFloat(newSt.upper_warning_limit);
             pold->lower_warning_limit = epicsConvertDoubleToFloat(newSt.lower_warning_limit);
             options = 0;
-            status = dbChannelGet(chan, DBR_FLOAT, &pold->value, &options,
+            status = dbChannelGetField(chan, DBR_FLOAT, &pold->value, &options,
                 nRequest, pfl);
         }
         break;
@@ -489,7 +486,7 @@ int dbChannel_get_count(
             } newSt;
 
             options = DBR_STATUS | DBR_UNITS | DBR_GR_LONG | DBR_AL_LONG;
-            status = dbChannelGet(chan, DBR_UCHAR, &newSt, &options, &zero, pfl);
+            status = dbChannelGetField(chan, DBR_UCHAR, &newSt, &options, &zero, pfl);
             pold->status = newSt.status;
             pold->severity = newSt.severity;
             strncpy(pold->units, newSt.units, MAX_UNITS_SIZE);
@@ -501,7 +498,7 @@ int dbChannel_get_count(
             pold->lower_warning_limit = newSt.lower_warning_limit;
             pold->lower_alarm_limit = newSt.lower_alarm_limit;
             options = 0;
-            status = dbChannelGet(chan, DBR_UCHAR, &pold->value, &options,
+            status = dbChannelGetField(chan, DBR_UCHAR, &pold->value, &options,
                 nRequest, pfl);
         }
         break;
@@ -516,7 +513,7 @@ int dbChannel_get_count(
             } newSt;
 
             options = DBR_STATUS | DBR_UNITS | DBR_GR_LONG | DBR_AL_LONG;
-            status = dbChannelGet(chan, DBR_LONG, &newSt, &options, &zero, pfl);
+            status = dbChannelGetField(chan, DBR_LONG, &newSt, &options, &zero, pfl);
             pold->status = newSt.status;
             pold->severity = newSt.severity;
             strncpy(pold->units, newSt.units, MAX_UNITS_SIZE);
@@ -528,7 +525,7 @@ int dbChannel_get_count(
             pold->lower_warning_limit = newSt.lower_warning_limit;
             pold->lower_alarm_limit = newSt.lower_alarm_limit;
             options = 0;
-            status = dbChannelGet(chan, DBR_LONG, &pold->value, &options,
+            status = dbChannelGetField(chan, DBR_LONG, &pold->value, &options,
                 nRequest, pfl);
         }
         break;
@@ -545,7 +542,7 @@ int dbChannel_get_count(
 
             options = DBR_STATUS | DBR_UNITS | DBR_PRECISION | DBR_GR_DOUBLE |
                 DBR_AL_DOUBLE;
-            status = dbChannelGet(chan, DBR_DOUBLE, &newSt, &options, &zero, pfl);
+            status = dbChannelGetField(chan, DBR_DOUBLE, &newSt, &options, &zero, pfl);
             pold->status = newSt.status;
             pold->severity = newSt.severity;
             pold->precision = (dbr_short_t) newSt.precision.dp;
@@ -558,7 +555,7 @@ int dbChannel_get_count(
             pold->lower_warning_limit = newSt.lower_warning_limit;
             pold->lower_alarm_limit = newSt.lower_alarm_limit;
             options = 0;
-            status = dbChannelGet(chan, DBR_DOUBLE, &pold->value, &options,
+            status = dbChannelGetField(chan, DBR_DOUBLE, &pold->value, &options,
                 nRequest, pfl);
         }
         break;
@@ -577,7 +574,7 @@ int dbChannel_get_count(
 
             options = DBR_STATUS | DBR_UNITS | DBR_GR_LONG | DBR_CTRL_LONG |
                 DBR_AL_LONG;
-            status = dbChannelGet(chan, DBR_SHORT, &newSt, &options, &zero, pfl);
+            status = dbChannelGetField(chan, DBR_SHORT, &newSt, &options, &zero, pfl);
             pold->status = newSt.status;
             pold->severity = newSt.severity;
             strncpy(pold->units, newSt.units, MAX_UNITS_SIZE);
@@ -591,7 +588,7 @@ int dbChannel_get_count(
             pold->upper_ctrl_limit = newSt.upper_ctrl_limit;
             pold->lower_ctrl_limit = newSt.lower_ctrl_limit;
             options = 0;
-            status = dbChannelGet(chan, DBR_SHORT, &pold->value, &options,
+            status = dbChannelGetField(chan, DBR_SHORT, &pold->value, &options,
                 nRequest, pfl);
         }
         break;
@@ -609,7 +606,7 @@ int dbChannel_get_count(
 
             options = DBR_STATUS | DBR_UNITS | DBR_PRECISION | DBR_GR_DOUBLE |
                 DBR_CTRL_DOUBLE | DBR_AL_DOUBLE;
-            status = dbChannelGet(chan, DBR_FLOAT, &newSt, &options, &zero, pfl);
+            status = dbChannelGetField(chan, DBR_FLOAT, &newSt, &options, &zero, pfl);
             pold->status = newSt.status;
             pold->severity = newSt.severity;
             pold->precision = (dbr_short_t) newSt.precision.dp;
@@ -624,7 +621,7 @@ int dbChannel_get_count(
             pold->upper_ctrl_limit = epicsConvertDoubleToFloat(newSt.upper_ctrl_limit);
             pold->lower_ctrl_limit = epicsConvertDoubleToFloat(newSt.lower_ctrl_limit);
             options = 0;
-            status = dbChannelGet(chan, DBR_FLOAT, &pold->value, &options,
+            status = dbChannelGetField(chan, DBR_FLOAT, &pold->value, &options,
                 nRequest, pfl);
         }
         break;
@@ -641,7 +638,7 @@ int dbChannel_get_count(
             memset(pold, '\0', sizeof(struct dbr_ctrl_enum));
             /* first get status and severity */
             options = DBR_STATUS | DBR_ENUM_STRS;
-            status = dbChannelGet(chan, DBR_ENUM, &newSt, &options, &zero, pfl);
+            status = dbChannelGetField(chan, DBR_ENUM, &newSt, &options, &zero, pfl);
             pold->status = newSt.status;
             pold->severity = newSt.severity;
             no_str = newSt.no_str;
@@ -651,7 +648,7 @@ int dbChannel_get_count(
                 strncpy(pold->strs[i], newSt.strs[i], sizeof(pold->strs[i]));
             /*now get values*/
             options = 0;
-            status = dbChannelGet(chan, DBR_ENUM, &pold->value, &options,
+            status = dbChannelGetField(chan, DBR_ENUM, &pold->value, &options,
                 nRequest, pfl);
         }
         break;
@@ -668,7 +665,7 @@ int dbChannel_get_count(
 
             options = DBR_STATUS | DBR_UNITS | DBR_GR_LONG | DBR_CTRL_LONG |
                 DBR_AL_LONG;
-            status = dbChannelGet(chan, DBR_UCHAR, &newSt, &options, &zero, pfl);
+            status = dbChannelGetField(chan, DBR_UCHAR, &newSt, &options, &zero, pfl);
             pold->status = newSt.status;
             pold->severity = newSt.severity;
             strncpy(pold->units, newSt.units, MAX_UNITS_SIZE);
@@ -682,7 +679,7 @@ int dbChannel_get_count(
             pold->upper_ctrl_limit = newSt.upper_ctrl_limit;
             pold->lower_ctrl_limit = newSt.lower_ctrl_limit;
             options = 0;
-            status = dbChannelGet(chan, DBR_UCHAR, &pold->value, &options,
+            status = dbChannelGetField(chan, DBR_UCHAR, &pold->value, &options,
                 nRequest, pfl);
         }
         break;
@@ -699,7 +696,7 @@ int dbChannel_get_count(
 
             options = DBR_STATUS | DBR_UNITS | DBR_GR_LONG | DBR_CTRL_LONG |
                 DBR_AL_LONG;
-            status = dbChannelGet(chan, DBR_LONG, &newSt, &options, &zero, pfl);
+            status = dbChannelGetField(chan, DBR_LONG, &newSt, &options, &zero, pfl);
             pold->status = newSt.status;
             pold->severity = newSt.severity;
             strncpy(pold->units, newSt.units, MAX_UNITS_SIZE);
@@ -713,7 +710,7 @@ int dbChannel_get_count(
             pold->upper_ctrl_limit = newSt.upper_ctrl_limit;
             pold->lower_ctrl_limit = newSt.lower_ctrl_limit;
             options = 0;
-            status = dbChannelGet(chan, DBR_LONG, &pold->value, &options,
+            status = dbChannelGetField(chan, DBR_LONG, &pold->value, &options,
                 nRequest, pfl);
         }
         break;
@@ -731,7 +728,7 @@ int dbChannel_get_count(
 
             options = DBR_STATUS | DBR_UNITS | DBR_PRECISION | DBR_GR_DOUBLE |
                 DBR_CTRL_DOUBLE | DBR_AL_DOUBLE;
-            status = dbChannelGet(chan, DBR_DOUBLE, &newSt, &options, &zero, pfl);
+            status = dbChannelGetField(chan, DBR_DOUBLE, &newSt, &options, &zero, pfl);
             pold->status = newSt.status;
             pold->severity = newSt.severity;
             pold->precision = (dbr_short_t) newSt.precision.dp;
@@ -746,7 +743,7 @@ int dbChannel_get_count(
             pold->upper_ctrl_limit = newSt.upper_ctrl_limit;
             pold->lower_ctrl_limit = newSt.lower_ctrl_limit;
             options = 0;
-            status = dbChannelGet(chan, DBR_DOUBLE, &pold->value, &options,
+            status = dbChannelGetField(chan, DBR_DOUBLE, &pold->value, &options,
                 nRequest, pfl);
         }
         break;
@@ -759,13 +756,13 @@ int dbChannel_get_count(
             } newSt;
 
             options = DBR_STATUS;
-            status = dbChannelGet(chan, DBR_STRING, &newSt, &options, &zero, pfl);
+            status = dbChannelGetField(chan, DBR_STRING, &newSt, &options, &zero, pfl);
             pold->status = newSt.status;
             pold->severity = newSt.severity;
             pold->ackt = newSt.ackt;
             pold->acks = newSt.acks;
             options = 0;
-            status = dbChannelGet(chan, DBR_STRING, pold->value,
+            status = dbChannelGetField(chan, DBR_STRING, pold->value,
                 &options, nRequest, pfl);
         }
         break;
@@ -794,12 +791,8 @@ int dbChannel_get_count(
         }
         break;
     default:
-        status = -1;
-        break;
+        return -1;
     }
-
-    dbScanUnlock(dbChannelRecord(chan));
-
     if (status) return -1;
     return 0;
 }

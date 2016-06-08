@@ -273,7 +273,7 @@ information on these fields.
     include "dbCommon.dbd" 
     field(VAL,DBF_DOUBLE) {
         prompt("Desired Output")
-        promptgroup("50 - Output")
+        promptgroup(GUI_OUTPUT)
         asl(ASL0)
         pp(TRUE)
     }
@@ -282,40 +282,40 @@ information on these fields.
     }
     field(OUT,DBF_OUTLINK) {
         prompt("Output Specification")
-        promptgroup("50 - Output")
+        promptgroup(GUI_OUTPUT)
         interest(1)
     }
     field(OROC,DBF_DOUBLE) {
         prompt("Output Rate of Change")
-        promptgroup("50 - Output")
+        promptgroup(GUI_OUTPUT)
         interest(1)
     }
     field(DOL,DBF_INLINK) {
         prompt("Desired Output Loc")
-        promptgroup("40 - Input")
+        promptgroup(GUI_OUTPUT)
         interest(1)
     }
     field(OMSL,DBF_MENU) {
         prompt("Output Mode Select")
-        promptgroup("50 - Output")
+        promptgroup(GUI_OUTPUT)
         interest(1)
         menu(menuOmsl)
     }
     field(OIF,DBF_MENU) {
         prompt("Out Full/Incremental")
-        promptgroup("50 - Output")
+        promptgroup(GUI_OUTPUT)
         interest(1)
         menu(aoOIF)
     }
     field(PREC,DBF_SHORT) {
         prompt("Display Precision")
-        promptgroup("80 - Display")
+        promptgroup(GUI_DISPLAY)
         interest(1)
-        prop(YES)
+		prop(YES)
     }
     field(LINR,DBF_MENU) {
         prompt("Linearization")
-        promptgroup("60 - Convert")
+        promptgroup(GUI_CONVERT)
         special(SPC_LINCONV)
         pp(TRUE)
         interest(1)
@@ -323,24 +323,24 @@ information on these fields.
     }
     field(EGUF,DBF_DOUBLE) {
         prompt("Eng Units Full")
-        promptgroup("60 - Convert")
+        promptgroup(GUI_CONVERT)
         special(SPC_LINCONV)
         pp(TRUE)
         interest(1)
     }
     field(EGUL,DBF_DOUBLE) {
         prompt("Eng Units Low")
-        promptgroup("60 - Convert")
+        promptgroup(GUI_CONVERT)
         special(SPC_LINCONV)
         pp(TRUE)
         interest(1)
     }
     field(EGU,DBF_STRING) {
         prompt("Engineering Units")
-        promptgroup("80 - Display")
+        promptgroup(GUI_DISPLAY)
         interest(1)
         size(16)
-        prop(YES)
+		prop(YES)
     }
     field(ROFF,DBF_ULONG) {
         prompt("Raw Offset")
@@ -349,128 +349,128 @@ information on these fields.
     }
     field(EOFF,DBF_DOUBLE) {
         prompt("EGU to Raw Offset")
-        promptgroup("60 - Convert")
+        promptgroup(GUI_CONVERT)
         pp(TRUE)
         interest(2)
     }
     field(ESLO,DBF_DOUBLE) {
         prompt("EGU to Raw Slope")
-        promptgroup("60 - Convert")
+        promptgroup(GUI_CONVERT)
         pp(TRUE)
         interest(2)
         initial("1")
     }
     field(DRVH,DBF_DOUBLE) {
         prompt("Drive High Limit")
-        promptgroup("30 - Action")
+        promptgroup(GUI_OUTPUT)
         pp(TRUE)
         interest(1)
-        prop(YES)
+		prop(YES)
     }
     field(DRVL,DBF_DOUBLE) {
         prompt("Drive Low Limit")
-        promptgroup("30 - Action")
+        promptgroup(GUI_OUTPUT)
         pp(TRUE)
         interest(1)
-        prop(YES)
+		prop(YES)
     }
     field(HOPR,DBF_DOUBLE) {
         prompt("High Operating Range")
-        promptgroup("80 - Display")
+        promptgroup(GUI_DISPLAY)
         interest(1)
-        prop(YES)
+		prop(YES)
     }
     field(LOPR,DBF_DOUBLE) {
         prompt("Low Operating Range")
-        promptgroup("80 - Display")
+        promptgroup(GUI_DISPLAY)
         interest(1)
-        prop(YES)
+		prop(YES)
     }
     field(AOFF,DBF_DOUBLE) {
         prompt("Adjustment Offset")
-        promptgroup("60 - Convert")
+        promptgroup(GUI_CONVERT)
         pp(TRUE)
         interest(1)
     }
     field(ASLO,DBF_DOUBLE) {
         prompt("Adjustment Slope")
-        promptgroup("60 - Convert")
+        promptgroup(GUI_CONVERT)
         pp(TRUE)
         interest(1)
     }
     field(HIHI,DBF_DOUBLE) {
         prompt("Hihi Alarm Limit")
-        promptgroup("70 - Alarm")
+        promptgroup(GUI_ALARMS)
         pp(TRUE)
         interest(1)
-        prop(YES)
+		prop(YES)
     }
     field(LOLO,DBF_DOUBLE) {
         prompt("Lolo Alarm Limit")
-        promptgroup("70 - Alarm")
+        promptgroup(GUI_ALARMS)
         pp(TRUE)
         interest(1)
-        prop(YES)
+		prop(YES)
     }
     field(HIGH,DBF_DOUBLE) {
         prompt("High Alarm Limit")
-        promptgroup("70 - Alarm")
+        promptgroup(GUI_ALARMS)
         pp(TRUE)
         interest(1)
-        prop(YES)
+		prop(YES)
     }
     field(LOW,DBF_DOUBLE) {
         prompt("Low Alarm Limit")
-        promptgroup("70 - Alarm")
+        promptgroup(GUI_ALARMS)
         pp(TRUE)
         interest(1)
-        prop(YES)
+		prop(YES)
     }
     field(HHSV,DBF_MENU) {
         prompt("Hihi Severity")
-        promptgroup("70 - Alarm")
+        promptgroup(GUI_ALARMS)
         pp(TRUE)
         interest(1)
-        prop(YES)
+		prop(YES)
         menu(menuAlarmSevr)
     }
     field(LLSV,DBF_MENU) {
         prompt("Lolo Severity")
-        promptgroup("70 - Alarm")
+        promptgroup(GUI_ALARMS)
         pp(TRUE)
         interest(1)
-        prop(YES)
+		prop(YES)
         menu(menuAlarmSevr)
     }
     field(HSV,DBF_MENU) {
         prompt("High Severity")
-        promptgroup("70 - Alarm")
+        promptgroup(GUI_ALARMS)
         pp(TRUE)
         interest(1)
-        prop(YES)
+		prop(YES)
         menu(menuAlarmSevr)
     }
     field(LSV,DBF_MENU) {
         prompt("Low Severity")
-        promptgroup("70 - Alarm")
+        promptgroup(GUI_ALARMS)
         pp(TRUE)
         interest(1)
-        prop(YES)
+		prop(YES)
         menu(menuAlarmSevr)
     }
     field(HYST,DBF_DOUBLE) {
         prompt("Alarm Deadband")
-        promptgroup("70 - Alarm")
+        promptgroup(GUI_ALARMS)
         interest(1)
     }
     field(ADEL,DBF_DOUBLE) {
         prompt("Archive Deadband")
-        promptgroup("80 - Display")
+        promptgroup(GUI_DISPLAY)
         interest(1)
     }
     field(MDEL,DBF_DOUBLE) {
         prompt("Monitor Deadband")
-        promptgroup("80 - Display")
+        promptgroup(GUI_DISPLAY)
         interest(1)
     }
     field(RVAL,DBF_LONG) {
@@ -529,12 +529,12 @@ information on these fields.
     }
     field(SIOL,DBF_OUTLINK) {
         prompt("Sim Output Specifctn")
-        promptgroup("90 - Simulate")
+        promptgroup(GUI_INPUTS)
         interest(1)
     }
     field(SIML,DBF_INLINK) {
         prompt("Sim Mode Location")
-        promptgroup("90 - Simulate")
+        promptgroup(GUI_INPUTS)
         interest(1)
     }
     field(SIMM,DBF_MENU) {
@@ -544,19 +544,19 @@ information on these fields.
     }
     field(SIMS,DBF_MENU) {
         prompt("Sim mode Alarm Svrty")
-        promptgroup("90 - Simulate")
+        promptgroup(GUI_INPUTS)
         interest(2)
         menu(menuAlarmSevr)
     }
     field(IVOA,DBF_MENU) {
         prompt("INVALID output action")
-        promptgroup("50 - Output")
+        promptgroup(GUI_OUTPUT)
         interest(2)
         menu(menuIvoa)
     }
     field(IVOV,DBF_DOUBLE) {
         prompt("INVALID output value")
-        promptgroup("50 - Output")
+        promptgroup(GUI_OUTPUT)
         interest(2)
     }
     field(OMOD,DBF_UCHAR) {

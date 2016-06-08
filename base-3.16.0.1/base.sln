@@ -47,9 +47,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "epicsRunLibComTests", "src\libCom\test\epicsRunLibComTests.vcxproj", "{FD088109-0D8F-48AA-B23D-17693F119F15}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "startup", "startup", "{39C4B21C-6CD2-4827-AEE1-829C3A28FFA9}"
-	ProjectSection(SolutionItems) = preProject
-		startup\win32.bat = startup\win32.bat
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "configure", "configure", "{B87B5C3A-63E9-437B-BC46-73B363858F3C}"
 EndProject
@@ -273,7 +270,6 @@ Global
 		{3D039C8A-8B8D-4408-B1F7-BF1878D50315}.Release_LIB|Win32.Build.0 = Release_LIB|Win32
 		{3D039C8A-8B8D-4408-B1F7-BF1878D50315}.Release_LIB|X64.ActiveCfg = Release_LIB|X64
 		{3D039C8A-8B8D-4408-B1F7-BF1878D50315}.Release_LIB|X64.Build.0 = Release_LIB|X64
-		{81908E69-60C8-48F8-99FA-EE73DD9E3787}.Debug DLL|Win32.ActiveCfg = Debug_LIB|X64
 		{81908E69-60C8-48F8-99FA-EE73DD9E3787}.Debug_DLL|Win32.ActiveCfg = Debug_DLL|Win32
 		{81908E69-60C8-48F8-99FA-EE73DD9E3787}.Debug_DLL|Win32.Build.0 = Debug_DLL|Win32
 		{81908E69-60C8-48F8-99FA-EE73DD9E3787}.Debug_DLL|X64.ActiveCfg = Debug_DLL|X64

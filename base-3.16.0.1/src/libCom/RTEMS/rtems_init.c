@@ -6,7 +6,7 @@
 \*************************************************************************/
 /*
  * RTEMS startup task for EPICS
- *  Revision-Id: anj@aps.anl.gov-20160415223841-2mir14a4a5734m5m
+ *  Revision-Id: mdavidsaver@gmail.com-20160215172922-b3mf4nmlp6n8zmwx
  *      Author: W. Eric Norum
  *              eric.norum@usask.ca
  *              (306) 966-5394
@@ -18,8 +18,10 @@
 #include <time.h>
 #include <errno.h>
 #include <fcntl.h>
+#include <unistd.h>
 #include <sys/termios.h>
 #include <sys/types.h>
+#include <sys/stat.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -331,8 +333,50 @@ initialize_remote_filesystem(char **argv, int hasLocalFilesystem)
             argv[1] = abspath;
         }
     }
+    errlogPrintf("nfsMount(\"%s\", \"%s\", \"%s\")\n",
+                 server_name, server_path, mount_point);
     nfsMount(server_name, server_path, mount_point);
 #endif
+}
+
+static
+char rtems_etc_hosts[] = "127.0.0.1       localhost\n";
+
+/* If it doesn't already exist, create /etc/hosts with an entry for 'localhost' */
+static
+void fixup_hosts(void)
+{
+    FILE *fp;
+    int ret;
+    struct stat STAT;
+
+    ret=stat("/etc/hosts", &STAT);
+    if(ret==0)
+    {
+        return; /* already exists, assume file */
+    } else if(errno!=ENOENT) {
+        perror("error: fixup_hosts stat /etc/hosts");
+        return;
+    }
+
+    ret = mkdir("/etc", 0775);
+    if(ret!=0 && errno!=EEXIST)
+    {
+        perror("error: fixup_hosts create /etc");
+        return;
+    }
+
+    if((fp=fopen("/etc/hosts", "w"))==NULL)
+    {
+        perror("error: fixup_hosts create /etc/hosts");
+    }
+
+    if(fwrite(rtems_etc_hosts, 1, sizeof(rtems_etc_hosts)-1, fp)!=sizeof(rtems_etc_hosts)-1)
+    {
+        perror("error: failed to write /etc/hosts");
+    }
+
+    fclose(fp);
 }
 
 /*
@@ -361,6 +405,8 @@ set_directory (const char *commandline)
     directoryPath[l+1] = '\0';
     if (chdir (directoryPath) < 0)
         LogFatal ("Can't set initial directory(%s): %s\n", directoryPath, strerror(errno));
+    else
+        errlogPrintf("chdir(\"%s\")\n", directoryPath);
     free(directoryPath);
 }
 
@@ -530,12 +576,6 @@ Init (rtems_task_argument ignored)
     putenv ("IOCSH_HISTSIZE=20");
 
     /*
-     * Display some OS information
-     */
-    printf("\n***** RTEMS Version: %s *****\n",
-        rtems_get_version_string());
-
-    /*
      * Start network
      */
     if ((cp = getenv("EPICS_TS_NTP_INET")) != NULL)
@@ -552,6 +592,7 @@ Init (rtems_task_argument ignored)
     printf("\n***** Initializing network *****\n");
     rtems_bsdnet_initialize_network();
     initialize_remote_filesystem(argv, initialize_local_filesystem(argv));
+    fixup_hosts();
 
     /*
      * More environment: iocsh prompt and hostname
@@ -608,11 +649,13 @@ Init (rtems_task_argument ignored)
     /*
      * Run the EPICS startup script
      */
-    printf ("***** Starting EPICS application *****\n");
+    printf ("***** Preparing EPICS application *****\n");
     iocshRegisterRTEMS ();
     set_directory (argv[1]);
     epicsEnvSet ("IOC_STARTUP_SCRIPT", argv[1]);
     atexit(exitHandler);
+    errlogFlush();
+    printf ("***** Starting EPICS application *****\n");
     i = main ((sizeof argv / sizeof argv[0]) - 1, argv);
     printf ("***** IOC application terminating *****\n");
     epicsThreadSleep(1.0);

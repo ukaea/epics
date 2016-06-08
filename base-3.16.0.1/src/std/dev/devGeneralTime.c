@@ -3,7 +3,7 @@
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
 
-/* Revision-Id: anj@aps.anl.gov-20131217185404-wng3r3ldfeefnu61 */
+/* Revision-Id: anj@aps.anl.gov-20141202212509-e9yui7n227cc85rk */
 /*
  *   Original Author:	Sheng Peng, ORNL / SNS Project
  *   Date:		07/2004
@@ -37,7 +37,7 @@ static int getCurrentTime(double * pseconds)
 {
     epicsTimeStamp ts;
 
-    if (epicsTimeERROR != epicsTimeGetCurrent(&ts)) {
+    if (epicsTimeOK == epicsTimeGetCurrent(&ts)) {
         *pseconds = ts.secPastEpoch + ((double)(ts.nsec)) * 1e-9;
         return 0;
     }

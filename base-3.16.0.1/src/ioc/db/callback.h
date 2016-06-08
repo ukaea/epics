@@ -7,7 +7,7 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/* Revision-Id: anj@aps.anl.gov-20150716164829-xmy3jksagq4szgk5 */
+/* Revision-Id: anj@aps.anl.gov-20150716165440-l03z7z44h3nb2eyy */
 
 /* includes for general purpose callback tasks		*/
 /*
@@ -47,14 +47,16 @@ typedef struct callbackPvt {
 
 typedef void    (*CALLBACKFUNC)(struct callbackPvt*);
 
-#define callbackSetCallback(PFUN,PCALLBACK)\
-( (PCALLBACK)->callback = (PFUN) )
-#define callbackSetPriority(PRIORITY,PCALLBACK)\
-( (PCALLBACK)->priority = (PRIORITY) )
-#define callbackSetUser(USER,PCALLBACK)\
-( (PCALLBACK)->user = (void *)(USER) )
-#define callbackGetUser(USER,PCALLBACK)\
-( (USER) = (void *)((CALLBACK *)(PCALLBACK))->user )
+#define callbackSetCallback(PFUN, PCALLBACK) \
+    ( (PCALLBACK)->callback = (PFUN) )
+#define callbackSetPriority(PRIORITY, PCALLBACK) \
+    ( (PCALLBACK)->priority = (PRIORITY) )
+#define callbackGetPriority(PRIORITY, PCALLBACK) \
+    ( (PRIORITY) = (PCALLBACK)->priority )
+#define callbackSetUser(USER, PCALLBACK) \
+    ( (PCALLBACK)->user = (void *) (USER) )
+#define callbackGetUser(USER, PCALLBACK) \
+    ( (USER) = (PCALLBACK)->user )
 
 epicsShareFunc void callbackInit(void);
 epicsShareFunc void callbackStop(void);

@@ -8,18 +8,21 @@
 # in file LICENSE that is included with this distribution. 
 #*************************************************************************
 #
-# Revision-Id: anj@aps.anl.gov-20160513181208-5lq8zidy05hle7xe
+# Revision-Id: anj@aps.anl.gov-20150421200924-461ulfwn21snhmzq
 #
 # Convert configure/RELEASE file(s) into something else.
 #
 
 use strict;
+use warnings;
+
+use Cwd qw(cwd);
+use Getopt::Std;
+$Getopt::Std::STANDARD_HELP_VERSION = 1;
 
 use FindBin qw($Bin);
 use lib ("$Bin/../../lib/perl", $Bin);
 
-use Cwd qw(cwd);
-use Getopt::Std;
 use EPICS::Path;
 use EPICS::Release;
 
@@ -27,8 +30,7 @@ use vars qw($arch $top $iocroot $root);
 
 our ($opt_a, $opt_t, $opt_T);
 
-$Getopt::Std::OUTPUT_HELP_VERSION = 1;
-getopts('a:t:T:') or &HELP_MESSAGE;
+getopts('a:t:T:') or HELP_MESSAGE();
 
 my $cwd = UnixPath(cwd());
 
@@ -63,7 +65,7 @@ if ($opt_t) {
     }
 }
 
-&HELP_MESSAGE unless @ARGV == 1;
+HELP_MESSAGE() unless @ARGV == 1;
 
 my $outfile = $ARGV[0];
 
@@ -75,17 +77,17 @@ my @apps   = ('TOP');   # Records the order of definitions in RELEASE file
 my $relfile = "$top/configure/RELEASE";
 die "Can't find $relfile" unless (-f $relfile);
 readReleaseFiles($relfile, \%macros, \@apps, $arch);
-expandRelease(\%macros);
+expandRelease(\%macros, \@apps);
 
 
 # This is a perl switch statement:
 for ($outfile) {
-    m/releaseTops/       and do { &releaseTops;         last; };
-    m/dllPath\.bat/      and do { &dllPath;             last; };
-    m/relPaths\.sh/      and do { &relPaths;            last; };
-    m/cdCommands/        and do { &cdCommands;          last; };
-    m/envPaths/          and do { &envPaths;            last; };
-    m/checkRelease/      and do { &checkRelease;        last; };
+    m/releaseTops/       and do { releaseTops();         last; };
+    m/dllPath\.bat/      and do { dllPath();             last; };
+    m/relPaths\.sh/      and do { relPaths();            last; };
+    m/cdCommands/        and do { cdCommands();          last; };
+    m/envPaths/          and do { envPaths();            last; };
+    m/checkRelease/      and do { checkRelease();        last; };
     die "Output file type \'$outfile\' not supported";
 }
 
@@ -134,7 +136,6 @@ sub relPaths {
 }
 
 sub binDirs {
-    die "Architecture not set (use -a option)\n" unless ($arch);
     my @includes = grep !m/^ (RULES | TEMPLATE_TOP) $/x, @apps;
     my @path;
     foreach my $app (@includes) {
@@ -159,19 +160,20 @@ sub cdCommands {
     
     my $startup = $cwd;
     $startup =~ s/^$root/$iocroot/o if ($opt_t);
-    $startup =~ s/([\\"])/\\\1/g; # escape back-slashes and double-quotes
+    $startup =~ s/([\\"])/\\$1/g; # escape back-slashes and double-quotes
     
     print OUT "startup = \"$startup\"\n";
     
     my $ioc = $cwd;
     $ioc =~ s/^.*\///;  # iocname is last component of directory name
     
+    print OUT "putenv(\"ARCH=$arch\")\n";
     print OUT "putenv(\"IOC=$ioc\")\n";
     
     foreach my $app (@includes) {
         my $iocpath = my $path = $macros{$app};
         $iocpath =~ s/^$root/$iocroot/o if ($opt_t);
-        $iocpath =~ s/([\\"])/\\\1/g; # escape back-slashes and double-quotes
+        $iocpath =~ s/([\\"])/\\$1/g; # escape back-slashes and double-quotes
         my $app_lc = lc($app);
         print OUT "$app_lc = \"$iocpath\"\n"
             if (-d $path);
@@ -188,6 +190,7 @@ sub cdCommands {
 # Include parentheses anyway in case CEXP users want to use this.
 #
 sub envPaths {
+    die "Architecture not set (use -a option)" unless ($arch);
     my @includes = grep !m/^ (RULES | TEMPLATE_TOP) $/x, @apps;
     
     unlink($outfile);
@@ -196,12 +199,13 @@ sub envPaths {
     my $ioc = $cwd;
     $ioc =~ s/^.*\///;  # iocname is last component of directory name
     
+    print OUT "epicsEnvSet(\"ARCH\",\"$arch\")\n";
     print OUT "epicsEnvSet(\"IOC\",\"$ioc\")\n";
     
     foreach my $app (@includes) {
         my $iocpath = my $path = $macros{$app};
         $iocpath =~ s/^$root/$iocroot/o if ($opt_t);
-        $iocpath =~ s/([\\"])/\\\1/g; # escape back-slashes and double-quotes
+        $iocpath =~ s/([\\"])/\\$1/g; # escape back-slashes and double-quotes
         print OUT "epicsEnvSet(\"$app\",\"$iocpath\")\n" if (-d $path);
     }
     close OUT;
@@ -215,13 +219,13 @@ sub checkRelease {
     delete $macros{RULES};
     delete $macros{TOP};
     delete $macros{TEMPLATE_TOP};
-
+    
     while (my ($app, $path) = each %macros) {
         my %check = (TOP => $path);
         my @order = ();
         my $relfile = "$path/configure/RELEASE";
         readReleaseFiles($relfile, \%check, \@order, $arch);
-        expandRelease(\%check);
+        expandRelease(\%check, \@order);
         delete $check{TOP};
         delete $check{EPICS_HOST_ARCH};
         
@@ -238,35 +242,7 @@ sub checkRelease {
             }
         }
     }
-
-    my @modules = @apps;
-    my $app = shift @modules;
-    my $latest = AbsPath($macros{$app});
-    my %paths = ($latest => $app);
-    foreach $app (@modules) {
-        my $path = AbsPath($macros{$app});
-        if ($path ne $latest && exists $paths{$path}) {
-            my $prev = $paths{$path};
-            print "\n" unless ($status);
-            print "This application's RELEASE file(s) define\n";
-            print "\t$app = $macros{$app}\n";
-            print "after but not adjacent to\n\t$prev = $macros{$prev}\n";
-            print "both of which resolve to $path\n"
-                if $path ne $macros{$app} || $path ne $macros{$prev};
-            $status = 2;
-        }
-        $paths{$path} = $app;
-        $latest = $path;
-    }
-    if ($status == 2) {
-        print "Module definitions that share paths must be grouped together.\n";
-        print "Either remove a definition, or move it to a line immediately\n";
-        print "above or below the other(s).\n";
-        print "Any non-module definitions belong in configure/CONFIG_SITE.\n";
-        $status = 1;
-    }
-
-    print "\n" if $status;
+    print "\n" if ($status);
     exit $status;
 }
 

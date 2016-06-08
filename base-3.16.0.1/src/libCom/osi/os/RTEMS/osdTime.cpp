@@ -6,7 +6,7 @@
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
 /*
- * Revision-Id: anj@aps.anl.gov-20160229230703-14q14h3tjubcli3a
+ * Revision-Id: anj@aps.anl.gov-20160301001528-v0aw3nf9l6r1s5z9
  *
  * Author: W. Eric Norum
  */
@@ -123,7 +123,7 @@ int epicsTime_gmtime ( const time_t *pAnsiTime, struct tm *pTM )
         return epicsTimeOK;
     }
     else {
-        return epicsTimeERROR;
+        return errno;
     }
 }
 
@@ -134,7 +134,7 @@ int epicsTime_localtime ( const time_t *clock, struct tm *result )
         return epicsTimeOK;
     }
     else {
-        return epicsTimeERROR;
+        return errno;
     }
 }
 

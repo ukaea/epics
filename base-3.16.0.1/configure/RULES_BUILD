@@ -6,7 +6,7 @@
 # EPICS BASE is distributed subject to a Software License Agreement found
 # in the file LICENSE that is included with this distribution. 
 #*************************************************************************
-# Revision-Id: anj@aps.anl.gov-20160513181208-5lq8zidy05hle7xe
+# Revision-Id: anj@aps.anl.gov-20160227001626-wlsw8d3vufgej2f4
 #
 #	Rules for making things specified in Makefile
 #
@@ -168,15 +168,9 @@ ifdef RES
 endif
 
 $(DIRECTORY_TARGETS) :
-	$(MKDIR) -p $@
+	$(MKDIR) $@
 
-# Install LIB_INSTALLS libraries before linking executables
-$(TESTPRODNAME) $(PRODNAME): | $(INSTALL_LIB_INSTALLS)
-
-# Install built libraries too, unless Makefile says to wait
-ifneq ($(DELAY_INSTALL_LIBS),YES)
-$(TESTPRODNAME) $(PRODNAME): | $(INSTALL_LIBS) $(INSTALL_DLLSTUB_LIBS)
-endif
+$(PRODNAME): $(INSTALL_LIB_INSTALLS)
 
 # RELEASE file consistency checking
 checkRelease:
@@ -325,9 +319,7 @@ $(MODNAME): %$(MODEXT): %$(EXE)
 # Automated testing
 
 runtests: $(TESTSCRIPTS)
-ifneq (,$(findstring $(T_A),$(EPICS_HOST_ARCH) $(CROSS_COMPILER_RUNTEST_ARCHS)))
 	-$(PERL) -MTest::Harness -e 'runtests @ARGV if @ARGV;' $^
-endif
 
 testspec: $(TESTSCRIPTS)
 	@$(RM) $@
@@ -341,9 +333,7 @@ tapfiles: $(TESTSCRIPTS) $(TAPFILES)
 
 # A .tap file is the output from running the associated test script
 %.tap: %.t
-ifneq (,$(findstring $(T_A),$(EPICS_HOST_ARCH) $(CROSS_COMPILER_RUNTEST_ARCHS)))
 	-$(PERL) $< -tap > $@
-endif
 
 # If there's a perl test script (.plt) available, use it
 %.t: ../%.plt
@@ -355,6 +345,14 @@ endif
 %.t: %$(EXE) $(TOOLS)/makeTestfile.pl
 	@$(RM) $@
 	$(PERL) $(TOOLS)/makeTestfile.pl $@ $<
+
+#---------------------------------------------------------------
+# Generate header with version number from VCS
+
+ifneq ($(GENVERSION),)
+$(COMMON_DIR)/$(GENVERSION): FORCE
+	$(GENVERSIONHEADER) -t $(TOP) -N $(GENVERSIONMACRO) -V "$(GENVERSIONDEFAULT)" $@
+endif
 
 #---------------------------------------------------------------
 # Install rules for BIN_INSTALLS and LIB_INSTALLS
@@ -489,7 +487,7 @@ $(INSTALL_TEMPLATES_SUBDIR)/%: %
 .PRECIOUS: $(COMMON_INC)
 
 .PHONY: all host inc build install clean rebuild buildInstall build_clean
-.PHONY: runtests tapfiles checkRelease warnRelease noCheckRelease
+.PHONY: runtests tapfiles checkRelease warnRelease noCheckRelease FORCE
 
 endif # BASE_RULES_BUILD
 #	EOF RULES_BUILD

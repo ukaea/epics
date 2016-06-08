@@ -66,6 +66,8 @@ void repeaterSubscribeTimer::shutdown (
 epicsTimerNotify::expireStatus repeaterSubscribeTimer::
     expire ( const epicsTime & /* currentTime */ )
 {
+    epicsGuard < epicsMutex > guard ( this->stateMutex );
+    
     static const unsigned nTriesToMsg = 50;
     if ( this->attempts > nTriesToMsg && ! this->once ) {
         callbackManager mgr ( this->ctxNotify, this->cbMutex );
@@ -92,12 +94,15 @@ epicsTimerNotify::expireStatus repeaterSubscribeTimer::
 
 void repeaterSubscribeTimer::show ( unsigned /* level */ ) const
 {
+    epicsGuard < epicsMutex > guard ( this->stateMutex );
+    
     ::printf ( "repeater subscribe timer: attempts=%u registered=%u once=%u\n",
         this->attempts, this->registered, this->once );
 }
 
 void repeaterSubscribeTimer::confirmNotify ()
 {
+    epicsGuard < epicsMutex > guard ( this->stateMutex );
     this->registered = true;
 }
 

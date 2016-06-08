@@ -12,9 +12,10 @@ long link_test_extend(struct dbCommon *junk)
 static dsxt xrecextend = {&link_test_extend, &link_test_extend};
 
 static
-long link_test_init(int junk)
+long link_test_init(int pass)
 {
-    devExtend(&xrecextend);
+    if (pass == 0)
+        devExtend(&xrecextend);
     return 0;
 }
 
@@ -28,7 +29,6 @@ long link_test_noop(void *junk)
     static dset devxLTest ## LTYPE = {4, NULL, &link_test_init, &link_test_noop, &link_test_noop}; \
     epicsExportAddress(dset, devxLTest ## LTYPE);
 
-DEFDSET(Soft)
 DEFDSET(VME_IO)
 DEFDSET(CAMAC_IO)
 DEFDSET(AB_IO)

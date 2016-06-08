@@ -6,7 +6,7 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/* Revision-Id: anj@aps.anl.gov-20150716164829-xmy3jksagq4szgk5
+/* Revision-Id: anj@aps.anl.gov-20150716165440-l03z7z44h3nb2eyy
  *
  *      Author:         Marty Kraimer
  *      Date:           07-17-91
@@ -39,9 +39,10 @@ struct ioscan_head;
 typedef struct ioscan_head *IOSCANPVT;
 typedef struct event_list *EVENTPVT;
 
-typedef void (*io_scan_complete)(void *usr, IOSCANPVT, int prio);
-
 struct dbCommon;
+
+typedef void (*io_scan_complete)(void *usr, IOSCANPVT, int prio);
+typedef void (*once_complete)(void *usr, struct dbCommon*);
 
 epicsShareFunc long scanInit(void);
 epicsShareFunc void scanRun(void);
@@ -55,7 +56,8 @@ epicsShareFunc void post_event(int event) EPICS_DEPRECATED;
 epicsShareFunc void scanAdd(struct dbCommon *);
 epicsShareFunc void scanDelete(struct dbCommon *);
 epicsShareFunc double scanPeriod(int scan);
-epicsShareFunc void scanOnce(struct dbCommon *);
+epicsShareFunc int scanOnce(struct dbCommon *);
+epicsShareFunc int scanOnceCallback(struct dbCommon *, once_complete cb, void *usr);
 epicsShareFunc int scanOnceSetQueueSize(int size);
 
 /*print periodic lists*/
@@ -69,6 +71,7 @@ epicsShareFunc int scanpiol(void);
 
 epicsShareFunc void scanIoInit(IOSCANPVT *ppios);
 epicsShareFunc unsigned int scanIoRequest(IOSCANPVT pios);
+epicsShareFunc unsigned int scanIoImmediate(IOSCANPVT pios, int prio);
 epicsShareFunc void scanIoSetComplete(IOSCANPVT, io_scan_complete, void *usr);
 
 #ifdef __cplusplus
