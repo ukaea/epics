@@ -30,17 +30,23 @@
 
 struct IServiceWrapper;
 struct SDeviceConnectionInfo;
-struct SVQM_800_Error;
 
 class CVQM_ITMS_Driver : public CVQM_ITMS_Base {
 	class CThreadRunable;
 	friend class CThreadRunable;
 public:
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	//																								//
+	//	class CLeyboldTurboPortDriver::CException : public std::runtime_error						//
+	//	Description:																				//
+	//		If an error ocurrs, an object of this type is thrown.									//
+	//																								//
+	//////////////////////////////////////////////////////////////////////////////////////////////////
 	class CException : public CVQM_ITMS_Base::CException
 	{
 		asynStatus m_Status;
 	public:
-		CException(asynUser* AsynUser, SVQM_800_Error const& Error, const char* functionName);
+		CException(asynUser* AsynUser, asynStatus Status, const char* functionName, std::string const& what);
 		asynStatus Status() const {
 			return m_Status;
 		}
@@ -67,16 +73,14 @@ public:
                  
 protected:
 	static int UsedParams();
-	void ThrowException(SVQM_800_Error const& Error, const char* Function, bool ThrowIt = true);
+	void ThrowException(asynUser* pasynUser, asynStatus Status, const char* Function, std::string const& what, bool ThrowIt = true) const;
 	void SetGaugeState(int Connection, bool Scanning, bool ThrowIt = true);
 	bool GetGaugeState(int Connection);
 
 private:
-	IServiceWrapper* m_serviceWrapper;
 	// Each of these is associated with an octet I/O connection (i.e. serial or TCP port).
 	std::vector<CThreadRunable*> m_Threads;
 	int m_nConnections;
-	SDeviceConnectionInfo* m_Connections;
 	std::map<int, int> m_ConnectionMap;
 	static CVQM_ITMS_Driver* m_Instance;
 };

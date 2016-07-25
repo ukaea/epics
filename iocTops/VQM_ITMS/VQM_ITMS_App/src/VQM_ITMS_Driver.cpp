@@ -28,12 +28,6 @@
 
 #include <epicsThread.h>
 
-#include <IServiceWrapper.h>
-#include <SVQM_800_Error.h>
-#include <SAnalyzedData.h>
-#include <SAverageData.h>
-#include <IHeaderData.H>
-
 #define epicsExportSharedSymbols
 #include <epicsExport.h>
 
@@ -49,9 +43,9 @@ static const int ASYN_TRACE_WARNING = ASYN_TRACE_ERROR;
 
 CVQM_ITMS_Driver* CVQM_ITMS_Driver::m_Instance;
 
-CVQM_ITMS_Driver::CException::CException(asynUser* AsynUser, SVQM_800_Error const& Error, const char* functionName) :
-	CVQM_ITMS_Base::CException(AsynUser, asynError, functionName, wcstombs(Error.m_ErrorString)) {
-			std::string message = "%s:%s ERROR: " + std::string(what()) + "%s\n";
+CVQM_ITMS_Driver::CException::CException(asynUser* AsynUser, asynStatus Status, const char* functionName, std::string const& what) :
+	CVQM_ITMS_Base::CException(AsynUser, asynError, functionName, what) {
+			std::string message = "%s:%s ERROR: " + std::string(what) + "%s\n";
 			asynPrint(AsynUser, ASYN_TRACE_ERROR, message.c_str(), __FILE__, functionName, AsynUser->errorMessage);
 		}
 
