@@ -9,6 +9,9 @@
     <None Include="Scripts\camonitor.py">
       <Filter>Scripts</Filter>
     </None>
+    <None Include="src\VQM_ITMS_Include.dbd">
+      <Filter>Src</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Src">

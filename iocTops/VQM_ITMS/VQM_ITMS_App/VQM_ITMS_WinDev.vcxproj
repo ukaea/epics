@@ -35,7 +35,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\VQM_ITMS_Main.cpp" />
+    <ClCompile Include="O.Common\VQM_ITMS__registerRecordDeviceDriver.cpp" />
     <ClCompile Include="src\VQM_ITMS_WinDriver.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -57,59 +57,9 @@
     <ProjectReference Include="VQM_ITMS_Base.vcxproj">
       <Project>{55524934-9b02-4455-ba3c-badfb72ffaec}</Project>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <CustomBuild Include="src\VQM_ITMS_Include.dbd">
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">cd src
-SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/VQM_ITMS.dbd VQM_ITMS_Include.dbd
-cd $(ProjectDir)
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">cd src
-SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/VQM_ITMS.dbd VQM_ITMS_Include.dbd
-cd $(ProjectDir)
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">cd src
-SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/VQM_ITMS.dbd VQM_ITMS_Include.dbd
-cd $(ProjectDir)
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">cd src
-SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/VQM_ITMS.dbd VQM_ITMS_Include.dbd
-cd $(ProjectDir)
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">cd src
-SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/VQM_ITMS.dbd VQM_ITMS_Include.dbd
-cd $(ProjectDir)
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">cd src
-SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/VQM_ITMS.dbd VQM_ITMS_Include.dbd
-cd $(ProjectDir)
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">cd src
-SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/VQM_ITMS.dbd VQM_ITMS_Include.dbd
-cd $(ProjectDir)
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">cd src
-SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD -o ../O.Common/VQM_ITMS.dbd VQM_ITMS_Include.dbd
-cd $(ProjectDir)
-</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common/VQM_ITMS.dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">O.Common/VQM_ITMS.dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common/VQM_ITMS.dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">O.Common/VQM_ITMS.dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">O.Common/VQM_ITMS.dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">O.Common/VQM_ITMS.dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">O.Common/VQM_ITMS.dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">O.Common/VQM_ITMS.dbd</Outputs>
-      <FileType>Document</FileType>
-    </CustomBuild>
+    <ProjectReference Include="VQM_ITMS_Dev.vcxproj">
+      <Project>{bae6ce99-140a-4018-8bcb-9d63f54d6f07}</Project>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Db\Makefile" />
@@ -257,9 +207,8 @@ cd $(ProjectDir)
       </AdditionalLibraryDirectories>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-</Command>
+      <Command>
+      </Command>
     </PreBuildEvent>
     <PostBuildEvent />
     <PostBuildEvent>
@@ -284,9 +233,8 @@ if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
       </AdditionalLibraryDirectories>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-</Command>
+      <Command>
+      </Command>
     </PreBuildEvent>
     <PostBuildEvent />
     <PostBuildEvent>
@@ -310,9 +258,8 @@ if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-</Command>
+      <Command>
+      </Command>
     </PreBuildEvent>
     <PostBuildEvent />
     <PostBuildEvent>
@@ -336,9 +283,8 @@ if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-</Command>
+      <Command>
+      </Command>
     </PreBuildEvent>
     <PostBuildEvent />
     <PostBuildEvent>
@@ -365,9 +311,8 @@ if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-</Command>
+      <Command>
+      </Command>
     </PreBuildEvent>
     <PostBuildEvent />
     <PostBuildEvent>
@@ -394,9 +339,8 @@ if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-</Command>
+      <Command>
+      </Command>
     </PreBuildEvent>
     <PostBuildEvent />
     <PostBuildEvent>
@@ -424,9 +368,8 @@ if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-</Command>
+      <Command>
+      </Command>
     </PreBuildEvent>
     <PostBuildEvent />
     <PostBuildEvent>
@@ -454,9 +397,8 @@ if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-</Command>
+      <Command>
+      </Command>
     </PreBuildEvent>
     <PostBuildEvent />
     <PostBuildEvent>

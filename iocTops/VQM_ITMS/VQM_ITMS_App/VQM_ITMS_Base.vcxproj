@@ -49,9 +49,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="O.Common\VQM_ITMS__registerRecordDeviceDriver.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="src\VQM_ITMS_Base.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -176,8 +173,6 @@
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-if not exist O.Common md O.Common
-if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
 SET PERL5LIB=$(SolutionDir)lib\perl
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\VQM_ITMS__registerRecordDeviceDriver.cpp src\VQM_ITMS_Include.dbd  VQM_ITMS__registerRecordDeviceDriver  $(SolutionDir)
 </Command>
@@ -207,8 +202,6 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Com
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-if not exist O.Common md O.Common
-if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
 SET PERL5LIB=$(SolutionDir)lib\perl
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\VQM_ITMS__registerRecordDeviceDriver.cpp src\VQM_ITMS_Include.dbd  VQM_ITMS__registerRecordDeviceDriver  $(SolutionDir)
 </Command>
@@ -237,8 +230,6 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Com
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-if not exist O.Common md O.Common
-if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
 SET PERL5LIB=$(SolutionDir)lib\perl
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\VQM_ITMS__registerRecordDeviceDriver.cpp src\VQM_ITMS_Include.dbd  VQM_ITMS__registerRecordDeviceDriver  $(SolutionDir)
 </Command>
@@ -266,8 +257,6 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Com
     </Link>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-if not exist O.Common md O.Common
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
 SET PERL5LIB=$(SolutionDir)lib\perl
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\VQM_ITMS__registerRecordDeviceDriver.cpp src\VQM_ITMS_Include.dbd  VQM_ITMS__registerRecordDeviceDriver  $(SolutionDir)
@@ -300,8 +289,6 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Com
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-if not exist O.Common md O.Common
-if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
 SET PERL5LIB=$(SolutionDir)lib\perl
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\VQM_ITMS__registerRecordDeviceDriver.cpp src\VQM_ITMS_Include.dbd  VQM_ITMS__registerRecordDeviceDriver  $(SolutionDir)
 </Command>
@@ -332,8 +319,6 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Com
     </Link>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-if not exist O.Common md O.Common
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
 SET PERL5LIB=$(SolutionDir)lib\perl
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\VQM_ITMS__registerRecordDeviceDriver.cpp src\VQM_ITMS_Include.dbd  VQM_ITMS__registerRecordDeviceDriver  $(SolutionDir)
@@ -367,8 +352,6 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Com
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-if not exist O.Common md O.Common
-if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
 SET PERL5LIB=$(SolutionDir)lib\perl
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\VQM_ITMS__registerRecordDeviceDriver.cpp src\VQM_ITMS_Include.dbd  VQM_ITMS__registerRecordDeviceDriver  $(SolutionDir)
 </Command>
@@ -400,8 +383,6 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Com
     </Link>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-if not exist O.Common md O.Common
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
 SET PERL5LIB=$(SolutionDir)lib\perl
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\VQM_ITMS__registerRecordDeviceDriver.cpp src\VQM_ITMS_Include.dbd  VQM_ITMS__registerRecordDeviceDriver  $(SolutionDir)
