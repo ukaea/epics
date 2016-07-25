@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="src\VQM_ITMS_Driver.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\VQM\Include\IHeaderData.h">
+      <Filter>Src\VQM\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VQM\Include\IServiceWrapper.h">
+      <Filter>Src\VQM\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VQM\Include\SVQM_800_Error.h">
+      <Filter>Src\VQM\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VQM\Include\SAnalyzedData.h">
+      <Filter>Src\VQM\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VQM\Include\SAverageData.h">
+      <Filter>Src\VQM\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VQM\Include\SComboFileData.h">
+      <Filter>Src\VQM\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ParameterDefns.h">
+      <Filter>Src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VQM\Include\SRawConnectionOptions.h">
+      <Filter>Src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VQM_ITMS_Driver.h">
+      <Filter>Src</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\VQM\Libs\CLIWrapperDLL.dll">
+      <Filter>Src\VQM\Libs</Filter>
+    </None>
+    <None Include="src\VQM\Libs\CLIWrapperDLLd.dll">
+      <Filter>Src\VQM\Libs</Filter>
+    </None>
+    <None Include="Db\SoftwareVersions.db">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="Db\VQM_ITMS.Asyn4-26.db">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="Db\VQM_ITMS.db">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="Db\Makefile">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="src\Makefile">
+      <Filter>Src</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="src\VQM\Libs\CLIWrapperDLLd.lib">
+      <Filter>Src\VQM\Libs</Filter>
+    </Library>
+    <Library Include="src\VQM\Libs\CLIWrapperDLL.lib">
+      <Filter>Src\VQM\Libs</Filter>
+    </Library>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Src">
+      <UniqueIdentifier>{7845b4a7-f46f-4e61-8292-34ac159a8f1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\VQM">
+      <UniqueIdentifier>{78768a2b-a6c5-4199-9a52-7d57a9a7495e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\VQM\Libs">
+      <UniqueIdentifier>{3b6be410-98cf-499e-9a2f-5428ee3fffaa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\VQM\Include">
+      <UniqueIdentifier>{2be71132-34aa-416b-82a6-e7453f3af215}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Db">
+      <UniqueIdentifier>{b433b273-5394-436c-a82f-99da5d0ebc12}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="src\VQM_ITMS_Include.dbd">
+      <Filter>Src</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>
