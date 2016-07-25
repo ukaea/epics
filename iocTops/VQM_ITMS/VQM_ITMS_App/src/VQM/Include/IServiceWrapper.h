@@ -23,8 +23,6 @@
 enum EConnectionType { UNCONNECTED, VQM_830, VQM_835 };
 enum EAvailabilityType { AVAILABLE, IN_USE, UNAVAILABLE };
 enum EServiceConnectionType { LOCALHOST, TCP };
-enum EAutotuneEMBiasTargetPeakHeightLocal { Longer_EM_Life_8na, Normal_20na, High_Sensitivity_50na };
-enum EAutotuneTypeLocal { NORMAL, QUICK, DIAGNOSTIC };
 
 //Maps to the list of logical instruments.
 enum EnumLogicalInstruments { FILAMENT = 0, FILAMENTBIAS, REPELLERBIAS, ENTRYPLATE, PRESSUREPLATE, CUPS, TRANSITION, EXITPLATE, EMSHIELD, EMBIAS, RFAMP };
@@ -46,7 +44,7 @@ enum EnumErrorType { NO_ERRORS = 0, NET_EXCEPTION, NO_CONTROLLERS_FOUND, COMMUNI
 
 //Data Analysis
 enum EnumAvgMode { Off = 0, Running_Avg = 1, Cumulative_Moving_Avg = 2, Accumulator = 3 };
-//enum EnumPressureSource { EnumPressureSource_None = 0, _390_TPMK, _307_350_01mA, _307_350_1mA, _307_350_10mA, _354015, _354019_354075, _360_370, _358 };
+enum EnumPressureSource { EnumPressureSource_None = 0, _390_TPMK, _307_350_01mA, _307_350_1mA, _307_350_10mA, _354015, _354019_354075, _360_370, _358 };
 enum EnumLoggingOptions { EnumLoggingOptions_None = 0, EnumLoggingOptions_Averaging, EnumLoggingOptions_Analysis, EnumLoggingOptions_Timing, EnumLoggingOptions_All };
 enum EnumThresholdRule { EnumThresholdRule_HYBRID = 0, EnumThresholdRule_MINMAX, EnumThresholdRule_SURE, EnumThresholdRule_UNIVERSAL };
 
@@ -230,8 +228,7 @@ public:
 	virtual SVQM_800_Error DataAnalysisClearAvgHistory(const SDeviceConnectionInfo& connectInfo) = 0;
 	virtual SVQM_800_Error DataAnalysisSetAvgMode(EnumAvgMode mode, const SDeviceConnectionInfo& connectInfo) = 0;
 	virtual SVQM_800_Error DataAnalysisSetNumAvgs(int numAverages, const SDeviceConnectionInfo& connectInfo) = 0;
-	//virtual SVQM_800_Error DataAnalysisSetPressureSource(EnumPressureSource source, const SDeviceConnectionInfo& connectInfo) = 0;
-	virtual SVQM_800_Error DataAnalysisSetPressureSource(STRING_TYPE* source, const SDeviceConnectionInfo& connectInfo) = 0;
+	virtual SVQM_800_Error DataAnalysisSetPressureSource(EnumPressureSource source, const SDeviceConnectionInfo& connectInfo) = 0;
 	virtual SVQM_800_Error DataAnalysisEnableLogging(EnumLoggingOptions loggingOption, const SDeviceConnectionInfo& connectInfo) = 0;
 	virtual SVQM_800_Error DataAnalysisSetHighMassIndex(int highMass, const SDeviceConnectionInfo& connectInfo) = 0;
 	/*
@@ -241,9 +238,9 @@ public:
 	/*
 	 Autotune functions.
 	 */
-	virtual SVQM_800_Error StartAutotune(const CHAR_TYPE* logFileName, const SDeviceConnectionInfo& connectInfo, EAutotuneTypeLocal mode, EAutotuneEMBiasTargetPeakHeightLocal targetPeakHeight) = 0;
+	virtual SVQM_800_Error StartAutotune(const CHAR_TYPE* logFileName, const SDeviceConnectionInfo& connectInfo, bool normalMode = true) = 0;
 	virtual SVQM_800_Error CancelAutotune(const SDeviceConnectionInfo& connectInfo) = 0;
-	virtual SVQM_800_Error GetAutotuneStatus(EnumAutotuneStatus& status, int& percentDone, double& emBias, double& repeller, double& exitPlate, double& shield, double& rfamp, double& filCurrent, const SDeviceConnectionInfo& connectInfo) = 0;
+	virtual SVQM_800_Error GetAutotuneStatus(EnumAutotuneStatus& status, int& percentDone, double& emBias, double& repeller, double& exitPlate, double& shield, double& rfamp, const SDeviceConnectionInfo& connectInfo) = 0;
 	/*
 	 Set the scan range. The resultant range values can be different and are returned from this function.
 	 */

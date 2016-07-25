@@ -4,9 +4,6 @@
     <ClCompile Include="src\VQM_ITMS_Driver.cpp">
       <Filter>Src</Filter>
     </ClCompile>
-    <ClCompile Include="O.Common\VQM_ITMS__registerRecordDeviceDriver.cpp">
-      <Filter>O.Common</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\VQM\Include\IHeaderData.h">
@@ -83,10 +80,6 @@
     </Filter>
     <Filter Include="Db">
       <UniqueIdentifier>{b433b273-5394-436c-a82f-99da5d0ebc12}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="O.Common">
-      <UniqueIdentifier>{f19ded30-84a8-4f36-a3f7-625573eae182}</UniqueIdentifier>
-      <SourceControlFiles>False</SourceControlFiles>
     </Filter>
   </ItemGroup>
 </Project>

@@ -4,6 +4,9 @@
     <ClCompile Include="src\VQM_ITMS_Main.cpp">
       <Filter>Src</Filter>
     </ClCompile>
+    <ClCompile Include="O.Common\VQM_ITMS__registerRecordDeviceDriver.cpp">
+      <Filter>O.Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\camonitor.py">
@@ -19,6 +22,10 @@
     </Filter>
     <Filter Include="Scripts">
       <UniqueIdentifier>{5eeb07a9-210f-4535-b901-6973a97a258d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="O.Common">
+      <UniqueIdentifier>{5ca79112-8cb3-45af-baef-a80fdf98066c}</UniqueIdentifier>
+      <SourceControlFiles>False</SourceControlFiles>
     </Filter>
   </ItemGroup>
 </Project>

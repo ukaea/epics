@@ -35,7 +35,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="O.Common\VQM_ITMS__registerRecordDeviceDriver.cpp" />
     <ClCompile Include="src\VQM_ITMS_WinDriver.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -56,9 +55,6 @@
     </ProjectReference>
     <ProjectReference Include="VQM_ITMS_Base.vcxproj">
       <Project>{55524934-9b02-4455-ba3c-badfb72ffaec}</Project>
-    </ProjectReference>
-    <ProjectReference Include="VQM_ITMS_Dev.vcxproj">
-      <Project>{bae6ce99-140a-4018-8bcb-9d63f54d6f07}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

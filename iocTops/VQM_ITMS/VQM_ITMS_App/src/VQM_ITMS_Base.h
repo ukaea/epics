@@ -153,6 +153,8 @@ protected:
 	// Each parameter is associated with an int handle.
 	// This structure is used in order to address them by name, which is more convenient.
 	std::map<std::string, int> m_Parameters;
+	static std::string wcstombs(std::wstring const& WideCharString);
+	static std::wstring mbstowcs(std::string const& MultiByteString);
 
 private:
 

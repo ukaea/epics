@@ -35,7 +35,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="O.Common\VQM_ITMS__registerRecordDeviceDriver.cpp" />
     <ClCompile Include="src\VQM_ITMS_Driver.cpp" />
   </ItemGroup>
   <ItemGroup>

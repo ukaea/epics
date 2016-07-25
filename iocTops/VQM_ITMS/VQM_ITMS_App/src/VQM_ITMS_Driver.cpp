@@ -49,22 +49,6 @@ static const int ASYN_TRACE_WARNING = ASYN_TRACE_ERROR;
 
 CVQM_ITMS_Driver* CVQM_ITMS_Driver::m_Instance;
 
-std::string wcstombs(std::wstring const& WideCharString)
-{
-	char NBuf[CVQM_ITMS_Base::MaxEPICSStrLen];
-	memset(NBuf, 0, sizeof(NBuf));
-	::wcstombs(NBuf, WideCharString.c_str(), sizeof(NBuf)-1);
-	return NBuf;
-}
-
-std::wstring mbstowcs(std::string const& MultiByteString)
-{
-	wchar_t WBuf[CVQM_ITMS_Base::MaxEPICSStrLen];
-	memset(WBuf, 0, sizeof(WBuf));
-	::mbstowcs(WBuf, MultiByteString.c_str(), (sizeof(WBuf) - sizeof(wchar_t)) / sizeof(wchar_t));
-	return WBuf;
-}
-
 CVQM_ITMS_Driver::CException::CException(asynUser* AsynUser, SVQM_800_Error const& Error, const char* functionName) :
 	CVQM_ITMS_Base::CException(AsynUser, asynError, functionName, wcstombs(Error.m_ErrorString)) {
 			std::string message = "%s:%s ERROR: " + std::string(what()) + "%s\n";
