@@ -33,6 +33,9 @@
     <ClInclude Include="src\VQM_ITMS_Driver.h">
       <Filter>Src</Filter>
     </ClInclude>
+    <ClInclude Include="src\VQM_ITMS_WinDriver.h">
+      <Filter>Src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\VQM\Libs\CLIWrapperDLL.dll">

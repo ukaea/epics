@@ -4,6 +4,9 @@
     <ClCompile Include="src\VQM_ITMS_Driver.cpp">
       <Filter>Src</Filter>
     </ClCompile>
+    <ClCompile Include="Src\DeviceWrapper.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ParameterDefns.h">
@@ -13,6 +16,9 @@
       <Filter>Src</Filter>
     </ClInclude>
     <ClInclude Include="src\VQM_ITMS_Driver.h">
+      <Filter>Src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DeviceWrapper.h">
       <Filter>Src</Filter>
     </ClInclude>
   </ItemGroup>

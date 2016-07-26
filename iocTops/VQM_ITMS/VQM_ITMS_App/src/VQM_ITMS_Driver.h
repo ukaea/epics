@@ -28,8 +28,14 @@
 #include <string>
 #include <vector>
 
+#ifdef BUILD_WITH_SDK
 struct IServiceWrapper;
+#define DeviceWrapper IServiceWrapper
 struct SDeviceConnectionInfo;
+struct SVQM_800_Error;
+#else
+class DeviceWrapper;
+#endif
 
 class CVQM_ITMS_Driver : public CVQM_ITMS_Base {
 	class CThreadRunable;
@@ -46,7 +52,11 @@ public:
 	{
 		asynStatus m_Status;
 	public:
+#ifdef BUILD_WITH_SDK
+		CException(asynUser* AsynUser, SVQM_800_Error const& Error, const char* functionName);
+#else
 		CException(asynUser* AsynUser, asynStatus Status, const char* functionName, std::string const& what);
+#endif
 		asynStatus Status() const {
 			return m_Status;
 		}
@@ -73,14 +83,24 @@ public:
                  
 protected:
 	static int UsedParams();
+#ifdef BUILD_WITH_SDK
+	void ThrowException(SVQM_800_Error const& Error, const char* Function, bool ThrowIt = true);
+#else
 	void ThrowException(asynUser* pasynUser, asynStatus Status, const char* Function, std::string const& what, bool ThrowIt = true) const;
+#endif
 	void SetGaugeState(int Connection, bool Scanning, bool ThrowIt = true);
 	bool GetGaugeState(int Connection);
 
 private:
+	DeviceWrapper* m_serviceWrapper;
 	// Each of these is associated with an octet I/O connection (i.e. serial or TCP port).
 	std::vector<CThreadRunable*> m_Threads;
 	int m_nConnections;
+#ifdef BUILD_WITH_SDK
+	SDeviceConnectionInfo* m_Connections;
+#else
+	std::vector<asynUser*> m_Connections;
+#endif
 	std::map<int, int> m_ConnectionMap;
 	static CVQM_ITMS_Driver* m_Instance;
 };

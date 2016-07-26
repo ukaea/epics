@@ -35,6 +35,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Src\DeviceWrapper.cpp" />
     <ClCompile Include="src\VQM_ITMS_Driver.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -65,6 +66,7 @@
     <None Include="src\Makefile" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\DeviceWrapper.h" />
     <ClInclude Include="src\VQM\Include\SRawConnectionOptions.h" />
     <ClInclude Include="src\VQM_ITMS_Driver.h" />
     <ClInclude Include="src\ParameterDefns.h" />
