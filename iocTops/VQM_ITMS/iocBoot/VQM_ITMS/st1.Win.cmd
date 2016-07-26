@@ -6,12 +6,10 @@ VQM_ITMS__registerRecordDeviceDriver pdbbase
 
 epicsEnvSet ASYNPORT $(ASYNPORT=VQM_ITMS)
 epicsEnvSet ASYNPORT1 $(ASYNPORT1=$(ASYNPORT):1)
-epicsEnvSet IOPORT VQM
 
 # Configure asyn communication port, first
 VQM_ITMSPortDriverConfigure($(ASYNPORT), 1)
-drvAsynSerialPortConfigure($(IOPORT):1, $(COMPORT1="COM5"), 0, 0, 0)
-VQM_ITMSAddIOPort($(IOPORT):1)
+VQM_ITMSAddIOPort($(COMPORT1="COM5"))
 
 ## Load record instances
 dbLoadRecords("../../VQM_ITMS_App/Db/SoftwareVersions.db", "P=$(ASYNPORT):,PORT=$(ASYNPORT)")

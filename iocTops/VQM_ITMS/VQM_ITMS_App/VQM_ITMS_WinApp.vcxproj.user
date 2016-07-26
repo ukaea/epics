@@ -15,7 +15,7 @@ IPPORT4=localhost:5069
 IPPORT5=localhost:5070</LocalDebuggerEnvironment>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
-    <LocalDebuggerCommandArguments>..\..\iocBoot\VQM_ITMS\st1.cmd</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>..\..\iocBoot\VQM_ITMS\st1.Win.cmd</LocalDebuggerCommandArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
     <LocalDebuggerEnvironment>$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
@@ -25,7 +25,7 @@ IPPORT5=localhost:5070</LocalDebuggerEnvironment>
     <DevPartner_Instrumented_Type> /NMbcOn</DevPartner_Instrumented_Type>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
-    <LocalDebuggerCommandArguments>..\..\iocBoot\iocVQM_ITMS\st6.simulated.cmd</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>..\..\iocBoot\VQM_ITMS\st1.Win.cmd</LocalDebuggerCommandArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
     <LocalDebuggerEnvironment>COMPORT1=COM1:
@@ -45,7 +45,7 @@ $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
     <LocalDebuggerEnvironment>$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-    <LocalDebuggerCommandArguments>..\..\iocBoot\VQM_ITMS\st1.cmd</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>..\..\iocBoot\VQM_ITMS\st1.Win.cmd</LocalDebuggerCommandArguments>
     <LocalDebuggerWorkingDirectory>$(ProjectDir)\Scripts</LocalDebuggerWorkingDirectory>
     <DevPartner_IsInstrumented>1</DevPartner_IsInstrumented>
     <DevPartner_Instrumented_Type> /NMbcOn</DevPartner_Instrumented_Type>
@@ -63,19 +63,21 @@ IPPORT4=localhost:5069
 IPPORT5=localhost:5070
 $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-    <LocalDebuggerCommandArguments>..\..\iocBoot\iocVQM_ITMS\st6.cmd</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>..\..\iocBoot\VQM_ITMS\st1.Win.cmd</LocalDebuggerCommandArguments>
     <LocalDebuggerWorkingDirectory>$(ProjectDir)\Scripts</LocalDebuggerWorkingDirectory>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
     <LocalDebuggerWorkingDirectory>$(ProjectDir)\TestScripts</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <LocalDebuggerCommandArguments>..\..\iocBoot\VQM_ITMS\st1.Win.cmd</LocalDebuggerCommandArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">
     <LocalDebuggerWorkingDirectory>$(ProjectDir)\TestScripts</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <LocalDebuggerCommandArguments>..\..\iocBoot\VQM_ITMS\st1.Win.cmd</LocalDebuggerCommandArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
-    <LocalDebuggerCommandArguments>..\..\iocBoot\VQM_ITMS\st1.cmd</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>..\..\iocBoot\VQM_ITMS\st1.Win.cmd</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <LocalDebuggerWorkingDirectory>$(ProjectDir)\Scripts</LocalDebuggerWorkingDirectory>
     <LocalDebuggerEnvironment>EPICS_CA_MAX_ARRAY_BYTES=100000</LocalDebuggerEnvironment>
@@ -83,7 +85,7 @@ $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
     <LocalDebuggerEnvironment>EPICS_CA_MAX_ARRAY_BYTES=100000</LocalDebuggerEnvironment>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-    <LocalDebuggerCommandArguments>..\..\iocBoot\VQM_ITMS\st1.cmd</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>..\..\iocBoot\VQM_ITMS\st1.Win.cmd</LocalDebuggerCommandArguments>
     <LocalDebuggerWorkingDirectory>$(ProjectDir)\Scripts</LocalDebuggerWorkingDirectory>
   </PropertyGroup>
 </Project>

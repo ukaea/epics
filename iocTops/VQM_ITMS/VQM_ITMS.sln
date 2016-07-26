@@ -78,6 +78,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "VQM_ITMS", "VQM_ITMS", "{13
 		iocBoot\VQM_ITMS\envPaths = iocBoot\VQM_ITMS\envPaths
 		iocBoot\VQM_ITMS\Makefile = iocBoot\VQM_ITMS\Makefile
 		iocBoot\VQM_ITMS\st1.cmd = iocBoot\VQM_ITMS\st1.cmd
+		iocBoot\VQM_ITMS\st1.Win.cmd = iocBoot\VQM_ITMS\st1.Win.cmd
 		iocBoot\VQM_ITMS\st1.simulated.cmd = iocBoot\VQM_ITMS\st1.simulated.cmd
 		iocBoot\VQM_ITMS\st2.cmd = iocBoot\VQM_ITMS\st2.cmd
 		iocBoot\VQM_ITMS\st2.simulated.cmd = iocBoot\VQM_ITMS\st2.simulated.cmd
