@@ -1,4 +1,4 @@
-#include <string>
+#include <queue>
 
 enum EnumAvgMode { Off = 0, Running_Avg = 1, Cumulative_Moving_Avg = 2, Accumulator = 3 };
 //Maps to the list of logical instruments.
@@ -24,11 +24,11 @@ public:
 //                                            SAverageData& averageData, const SDeviceConnectionInfo& connectInfo, bool& isValidData, EnumGaugeState& controllerState) = 0;
 	asynStatus SetGaugeState(EnumGaugeState gaugeState, asynUser* IOUser);
 	asynStatus GetGaugeState(EnumGaugeState& gaugeState, asynUser* IOUser);
+	asynStatus read(asynUser* IOUser);
 private:
-	asynStatus write(asynUser* IOUser, std::string const& WritePacket);
-	asynStatus writeRead(asynUser* IOUser, std::string const& WritePacket);
+	asynStatus write(asynUser* IOUser, std::string const& WritePacket) const;
 	std::string EnumToText(EnumLogicalInstruments logicalInstrumentEnum) const;
 
 private:
-	std::string m_ReadBuffer;
+	std::queue<char> m_ReadBuffer;
 };

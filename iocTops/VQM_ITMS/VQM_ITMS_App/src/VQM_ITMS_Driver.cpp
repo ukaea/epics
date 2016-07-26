@@ -359,6 +359,8 @@ bool CVQM_ITMS_Driver::GetScanData(int TableIndex, std::vector<float>& RawData, 
 
 	if (getIntegerParam(TableIndex, ParameterDefn::SCANNING) == 0)
 		return false;
+
+	m_serviceWrapper->read(m_Connections[TableIndex]);
 /*
 	IHeaderData* headerDataPtr;
 	bool isValidData;
