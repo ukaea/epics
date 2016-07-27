@@ -1,3 +1,6 @@
+#include <epicsEvent.h>
+#include <epicsMutex.h>
+
 #include <queue>
 
 enum EnumAvgMode { Off = 0, Running_Avg = 1, Cumulative_Moving_Avg = 2, Accumulator = 3 };
@@ -7,9 +10,20 @@ enum EnumGaugeState { EnumGaugeState_OFF = 0, EnumGaugeState_STANDBY, EnumGaugeS
 
 #include <asynDriver.h>
 
+class IHeaderData;
+
 class DeviceWrapper
 {
 public:
+	struct InstrumentVoltage {
+		double m_Min;
+		double m_Current;
+		double m_Max;
+		InstrumentVoltage() {
+			m_Min = 0; m_Current = 0; m_Max = 0;
+		}
+	};
+	DeviceWrapper(asynUser* IOUser);
 	asynStatus DataAnalysisSetAvgMode(EnumAvgMode mode, asynUser* IOUser);
 	asynStatus DataAnalysisSetNumAvgs(int numAverages, asynUser* IOUser);
 	asynStatus GetFilamentEmissionCurrent(double& value, asynUser* IOUser) const;
@@ -18,17 +32,31 @@ public:
 	asynStatus SetLogicalInstrumentVoltageSetpoint(EnumLogicalInstruments logicalInstrumentEnum, double& value, asynUser* IOUser);
 	asynStatus GetMassCalibrationFactor(float& value, asynUser* IOUser) const;	
 	asynStatus GetElectrometerGain(double& value, asynUser* IOUser) const;
-	asynStatus GetScanRange(double& lowerRange, double& upperRange, asynUser* IOUser) const;
+	asynStatus GetScanRange(double& lowerRange, double& upperRange, asynUser* IOUser);
 	asynStatus SetScanRange(double& lowerRange, double& upperRange, asynUser* IOUser);
-//	asynStatus GetScanData(int& lastScanNumber, SAnalyzedData& analyzedData, IHeaderData** headerDataPtr,
-//                                            SAverageData& averageData, const SDeviceConnectionInfo& connectInfo, bool& isValidData, EnumGaugeState& controllerState) = 0;
+	asynStatus GetLogicalInstrumentMinMaxVoltage(double& min, double& max, EnumLogicalInstruments logicalInstrumentEnum, asynUser* IOUser) const;
+	asynStatus GetScanData(int& lastScanNumber, IHeaderData** headerDataPtr,
+                                            asynUser* IOUser, bool& isValidData, EnumGaugeState& controllerState);
 	asynStatus SetGaugeState(EnumGaugeState gaugeState, asynUser* IOUser);
 	asynStatus GetGaugeState(EnumGaugeState& gaugeState, asynUser* IOUser);
-	asynStatus read(asynUser* IOUser);
 private:
+	size_t FindMarkerPos(std::string const& HeaderData, size_t Offset, const char* FirstMarker, const char* SecondMarker);
 	asynStatus write(asynUser* IOUser, std::string const& WritePacket) const;
+	asynStatus DeviceWrapper::writeRead(asynUser* IOUser, std::string const& WritePacket, std::string& ReadPacket) const;
+	asynStatus DeviceWrapper::readTill(asynUser* IOUser, std::string& ReadPacket, std::string const& Termination) const;
+	asynStatus DeviceWrapper::read(asynUser* IOUser, std::vector<char>& ReadPacket) const;
 	std::string EnumToText(EnumLogicalInstruments logicalInstrumentEnum) const;
-
 private:
-	std::queue<char> m_ReadBuffer;
+	EnumGaugeState m_GaugeState;
+	InstrumentVoltage m_Filament;
+	InstrumentVoltage m_Repeller;
+	InstrumentVoltage m_EntryPlate;
+	InstrumentVoltage m_PressurePlate;
+	InstrumentVoltage m_Cups;
+	InstrumentVoltage m_Transition;
+	InstrumentVoltage m_ExitPlate;
+	InstrumentVoltage m_EMShield;
+	InstrumentVoltage m_EMBias;
+	InstrumentVoltage m_RFAmp;
+	mutable epicsMutex m_Mutex;
 };

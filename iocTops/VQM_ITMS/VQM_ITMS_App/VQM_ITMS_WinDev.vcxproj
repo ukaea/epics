@@ -75,7 +75,6 @@
     <ClInclude Include="src\VQM\Include\SVQM_800_Error.h" />
     <ClInclude Include="src\VQM_ITMS_Driver.h" />
     <ClInclude Include="src\ParameterDefns.h" />
-    <ClInclude Include="src\VQM_ITMS_WinDriver.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="src\VQM\Libs\CLIWrapperDLL.lib">

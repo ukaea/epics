@@ -239,7 +239,7 @@ void CVQM_ITMS_Driver::addIOPort(const char* DeviceAddress)
 		int Averages = 1000 / 85;
 		ThrowException(m_serviceWrapper->DataAnalysisSetNumAvgs(Averages, m_Connections[NewConnection]), __FUNCTION__);
 		setIntegerParam(NrInstalled(), ParameterDefn::AVERAGES, Averages);
-		SetGaugeState(NewConnection, true);
+		SetGaugeState(NewConnection, false);
 		setIntegerParam(NrInstalled(), ParameterDefn::SCANNING, 1);
 	}
 	else

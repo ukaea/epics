@@ -135,6 +135,7 @@ CVQM_ITMS_Driver::CVQM_ITMS_Driver(const char *asynPortName, int numTraps)
 					)
 {
 	m_Instance = this;
+	m_serviceWrapper = NULL;
 }
 
 CVQM_ITMS_Driver::~CVQM_ITMS_Driver()
@@ -152,7 +153,7 @@ void CVQM_ITMS_Driver::disconnect()
 		m_Threads[Index]->lock();
 	for(size_t Index = 0; Index < NrInstalled(); Index++)
 	{
-		SetGaugeState(Index, false, false);
+		SetGaugeState(m_Connections[Index], false, false);
 		asynStatus status = pasynOctetSyncIO->disconnect(m_Connections[Index]);
 		if (overallstatus == asynSuccess)
 			overallstatus = status;
@@ -161,6 +162,7 @@ void CVQM_ITMS_Driver::disconnect()
 		m_Threads[Index]->unlock();
 	for(size_t Index = 0; Index < NrInstalled(); Index++)
 		delete m_Threads[Index];
+	delete m_serviceWrapper;
 }
 
 void CVQM_ITMS_Driver::ThrowException(asynUser* pasynUser, asynStatus Status, const char* Function, std::string const& what, bool ThrowIt) const
@@ -211,18 +213,21 @@ void CVQM_ITMS_Driver::addIOPort(const char* DeviceAddress)
 	// Connect to the I/O port.
 	ThrowException(pasynUserSelf, pasynOctetSyncIO->connect(DeviceAddress, int(NrInstalled()), &IOUser, NULL), __FUNCTION__, "connecting to IO port=" + std::string(DeviceAddress));
 
+	m_serviceWrapper = new DeviceWrapper(IOUser);
+
 	ThrowException(IOUser, m_serviceWrapper->DataAnalysisSetAvgMode(Accumulator, IOUser), __FUNCTION__, "DataAnalysisSetAvgMode");
 	setIntegerParam(NrInstalled(), ParameterDefn::AVERAGEMODE, Accumulator);
 	// 100 / 85 gives about 1 scan / sec
 	int Averages = 1000 / 85;
 	ThrowException(IOUser, m_serviceWrapper->DataAnalysisSetNumAvgs(Averages, IOUser), "DataAnalysisSetNumAvgs", __FUNCTION__);
 	setIntegerParam(NrInstalled(), ParameterDefn::AVERAGES, Averages);
-	SetGaugeState(NrInstalled(), true);
+	SetGaugeState(IOUser, true);
 	setIntegerParam(NrInstalled(), ParameterDefn::SCANNING, 1);
 
 	callParamCallbacks(NrInstalled());
 	// If the new connection fails, the size of the vectors will still have increased.
 	// This means only the failing connection will be lost, and not all subsequent connections.
+	m_Connections.push_back(IOUser);
 	m_Threads.push_back(new CThreadRunable(this, DeviceAddress, m_Threads.size()));
 }
 
@@ -265,72 +270,70 @@ asynStatus CVQM_ITMS_Driver::readFloat64(asynUser *pasynUser, epicsFloat64 *valu
 			// The IOC is exiting
 			return asynTimeout;
 
-		int Connection = m_ConnectionMap.find(TableIndex)->second;
-
 		if (function == Parameters(ParameterDefn::EMISSION))
 		{
-			ThrowException(m_Connections[Connection], m_serviceWrapper->GetFilamentEmissionCurrent(*value, m_Connections[Connection]), __FUNCTION__, "GetFilamentEmissionCurrent");
+			ThrowException(m_Connections[TableIndex], m_serviceWrapper->GetFilamentEmissionCurrent(*value, m_Connections[TableIndex]), __FUNCTION__, "GetFilamentEmissionCurrent");
 		}
 		else if (function == Parameters(ParameterDefn::FILAMENTBIAS))
 		{
-			ThrowException(m_Connections[Connection], m_serviceWrapper->GetLogicalInstrumentCurrentVoltage(*value, FILAMENTBIAS, m_Connections[Connection]), __FUNCTION__, "GetLogicalInstrumentCurrentVoltage FILAMENTBIAS");
+			ThrowException(m_Connections[TableIndex], m_serviceWrapper->GetLogicalInstrumentCurrentVoltage(*value, FILAMENTBIAS, m_Connections[TableIndex]), __FUNCTION__, "GetLogicalInstrumentCurrentVoltage FILAMENTBIAS");
 		}
 		else if (function == Parameters(ParameterDefn::REPELLERBIAS))
 		{
-			ThrowException(m_Connections[Connection], m_serviceWrapper->GetLogicalInstrumentCurrentVoltage(*value, REPELLERBIAS, m_Connections[Connection]), __FUNCTION__, "GetLogicalInstrumentCurrentVoltage REPELLERBIAS");
+			ThrowException(m_Connections[TableIndex], m_serviceWrapper->GetLogicalInstrumentCurrentVoltage(*value, REPELLERBIAS, m_Connections[TableIndex]), __FUNCTION__, "GetLogicalInstrumentCurrentVoltage REPELLERBIAS");
 		}
 		else if (function == Parameters(ParameterDefn::ENTRYPLATE))
 		{
-			ThrowException(m_Connections[Connection], m_serviceWrapper->GetLogicalInstrumentCurrentVoltage(*value, ENTRYPLATE, m_Connections[Connection]), __FUNCTION__, "GetLogicalInstrumentCurrentVoltage ENTRYPLATE");
+			ThrowException(m_Connections[TableIndex], m_serviceWrapper->GetLogicalInstrumentCurrentVoltage(*value, ENTRYPLATE, m_Connections[TableIndex]), __FUNCTION__, "GetLogicalInstrumentCurrentVoltage ENTRYPLATE");
 		}
 		else if (function == Parameters(ParameterDefn::PRESSUREPLATE))
 		{
-			ThrowException(m_Connections[Connection], m_serviceWrapper->GetLogicalInstrumentCurrentVoltage(*value, PRESSUREPLATE, m_Connections[Connection]), __FUNCTION__, "GetLogicalInstrumentCurrentVoltage PRESSUREPLATE");
+			ThrowException(m_Connections[TableIndex], m_serviceWrapper->GetLogicalInstrumentCurrentVoltage(*value, PRESSUREPLATE, m_Connections[TableIndex]), __FUNCTION__, "GetLogicalInstrumentCurrentVoltage PRESSUREPLATE");
 		}
 		else if (function == Parameters(ParameterDefn::CUPS))
 		{
-			ThrowException(m_Connections[Connection], m_serviceWrapper->GetLogicalInstrumentCurrentVoltage(*value, CUPS, m_Connections[Connection]), __FUNCTION__, "GetLogicalInstrumentCurrentVoltage CUPS");
+			ThrowException(m_Connections[TableIndex], m_serviceWrapper->GetLogicalInstrumentCurrentVoltage(*value, CUPS, m_Connections[TableIndex]), __FUNCTION__, "GetLogicalInstrumentCurrentVoltage CUPS");
 		}
 		else if (function == Parameters(ParameterDefn::TRANSITION))
 		{
-			ThrowException(m_Connections[Connection], m_serviceWrapper->GetLogicalInstrumentCurrentVoltage(*value, TRANSITION, m_Connections[Connection]), __FUNCTION__, "GetLogicalInstrumentCurrentVoltage TRANSITION");
+			ThrowException(m_Connections[TableIndex], m_serviceWrapper->GetLogicalInstrumentCurrentVoltage(*value, TRANSITION, m_Connections[TableIndex]), __FUNCTION__, "GetLogicalInstrumentCurrentVoltage TRANSITION");
 		}
 		else if (function == Parameters(ParameterDefn::EXITPLATE))
 		{
-			ThrowException(m_Connections[Connection], m_serviceWrapper->GetLogicalInstrumentCurrentVoltage(*value, EXITPLATE, m_Connections[Connection]), __FUNCTION__, "GetLogicalInstrumentCurrentVoltage EXITPLATE");
+			ThrowException(m_Connections[TableIndex], m_serviceWrapper->GetLogicalInstrumentCurrentVoltage(*value, EXITPLATE, m_Connections[TableIndex]), __FUNCTION__, "GetLogicalInstrumentCurrentVoltage EXITPLATE");
 		}
 		else if (function == Parameters(ParameterDefn::EMSHIELD))
 		{
-			ThrowException(m_Connections[Connection], m_serviceWrapper->GetLogicalInstrumentCurrentVoltage(*value, EMSHIELD, m_Connections[Connection]), __FUNCTION__, "GetLogicalInstrumentCurrentVoltage EMSHIELD");
+			ThrowException(m_Connections[TableIndex], m_serviceWrapper->GetLogicalInstrumentCurrentVoltage(*value, EMSHIELD, m_Connections[TableIndex]), __FUNCTION__, "GetLogicalInstrumentCurrentVoltage EMSHIELD");
 		}
 		else if (function == Parameters(ParameterDefn::EMBIAS))
 		{
-			ThrowException(m_Connections[Connection], m_serviceWrapper->GetLogicalInstrumentCurrentVoltage(*value, EMBIAS, m_Connections[Connection]), __FUNCTION__, "GetLogicalInstrumentCurrentVoltage EMBIAS");
+			ThrowException(m_Connections[TableIndex], m_serviceWrapper->GetLogicalInstrumentCurrentVoltage(*value, EMBIAS, m_Connections[TableIndex]), __FUNCTION__, "GetLogicalInstrumentCurrentVoltage EMBIAS");
 		}
 		else if (function == Parameters(ParameterDefn::RFAMP))
 		{
-			ThrowException(m_Connections[Connection], m_serviceWrapper->GetLogicalInstrumentCurrentVoltage(*value, RFAMP, m_Connections[Connection]), __FUNCTION__, "GetLogicalInstrumentCurrentVoltage RFAMP");
+			ThrowException(m_Connections[TableIndex], m_serviceWrapper->GetLogicalInstrumentCurrentVoltage(*value, RFAMP, m_Connections[TableIndex]), __FUNCTION__, "GetLogicalInstrumentCurrentVoltage RFAMP");
 		}
 		else if (function == Parameters(ParameterDefn::MASSCAL))
 		{
 			float MassCalibrationFactor = 0;
-			ThrowException(m_Connections[Connection], m_serviceWrapper->GetMassCalibrationFactor(MassCalibrationFactor, m_Connections[Connection]), __FUNCTION__, "GetMassCalibrationFactor"); 
+			ThrowException(m_Connections[TableIndex], m_serviceWrapper->GetMassCalibrationFactor(MassCalibrationFactor, m_Connections[TableIndex]), __FUNCTION__, "GetMassCalibrationFactor"); 
 			*value = MassCalibrationFactor;
 		}
 		else if (function == Parameters(ParameterDefn::ELECTROMETERGAIN))
 		{
-			ThrowException(m_Connections[Connection], m_serviceWrapper->GetElectrometerGain(*value, m_Connections[Connection]), __FUNCTION__, "GetElectrometerGain"); 
+			ThrowException(m_Connections[TableIndex], m_serviceWrapper->GetElectrometerGain(*value, m_Connections[TableIndex]), __FUNCTION__, "GetElectrometerGain"); 
 		}
 		else if (function == Parameters(ParameterDefn::MASSFROM))
 		{
 			double ToValue = 0;
-			ThrowException(m_Connections[Connection], m_serviceWrapper->GetScanRange(*value, ToValue, m_Connections[Connection]), __FUNCTION__, "GetScanRange To");
+			ThrowException(m_Connections[TableIndex], m_serviceWrapper->GetScanRange(*value, ToValue, m_Connections[TableIndex]), __FUNCTION__, "GetScanRange To");
 			setDoubleParam(ParameterDefn::MASSTO, ToValue);
 		}
 		else if (function == Parameters(ParameterDefn::MASSTO))
 		{
 			double FromValue = 0;
-			ThrowException(m_Connections[Connection], m_serviceWrapper->GetScanRange(FromValue, *value, m_Connections[Connection]), __FUNCTION__, "GetScanRange From");
+			ThrowException(m_Connections[TableIndex], m_serviceWrapper->GetScanRange(FromValue, *value, m_Connections[TableIndex]), __FUNCTION__, "GetScanRange From");
 			setDoubleParam(ParameterDefn::MASSFROM, FromValue);
 		}
 		else
@@ -360,16 +363,15 @@ bool CVQM_ITMS_Driver::GetScanData(int TableIndex, std::vector<float>& RawData, 
 	if (getIntegerParam(TableIndex, ParameterDefn::SCANNING) == 0)
 		return false;
 
-	m_serviceWrapper->read(m_Connections[TableIndex]);
-/*
 	IHeaderData* headerDataPtr;
 	bool isValidData;
 	EnumGaugeState controllerState;
 	int LastScanNumber;
-	ThrowException(m_Connections[TableIndex], m_serviceWrapper->GetScanData(LastScanNumber, analyzedData, &headerDataPtr,
-		averageData, m_Connections[Connection], isValidData, controllerState);
+	ThrowException(m_Connections[TableIndex], m_serviceWrapper->GetScanData(LastScanNumber, &headerDataPtr,
+		m_Connections[TableIndex], isValidData, controllerState), __FUNCTION__, "GetScanData");
 
 
+/*
 	setIntegerParam(TableIndex, ParameterDefn::LASTSCANNUMBER, LastScanNumber);
 	setDoubleParam(TableIndex, ParameterDefn::EMISSION, headerDataPtr->EmissionCurrent());
 	setDoubleParam(TableIndex, ParameterDefn::FILAMENTBIAS, headerDataPtr->FilamentBiasVoltage());
@@ -428,7 +430,6 @@ asynStatus CVQM_ITMS_Driver::readFloat32Array(asynUser *pasynUser, epicsFloat32 
 			// The IOC is exiting
 			return asynTimeout;
 
-		int Connection = m_ConnectionMap.find(TableIndex)->second;
 		if (function == Parameters(ParameterDefn::RAWDATA))
 		{
 			m_Threads[TableIndex]->setRawDataSize(nElements);
@@ -471,15 +472,15 @@ asynStatus CVQM_ITMS_Driver::ErrorHandler(int TableIndex, CVQM_ITMS_Base::CExcep
 	return E.Status();
 }
 
-void CVQM_ITMS_Driver::SetGaugeState(int Connection, bool Scanning, bool ThrowIt /*= true */)
+void CVQM_ITMS_Driver::SetGaugeState(asynUser* IOUser, bool Scanning, bool ThrowIt /*= true */)
 {
-	ThrowException(m_Connections[Connection], m_serviceWrapper->SetGaugeState(Scanning ? EnumGaugeState_SCAN : EnumGaugeState_OFF, m_Connections[Connection]), __FUNCTION__, "SetGaugeState", ThrowIt);
+	ThrowException(IOUser, m_serviceWrapper->SetGaugeState(Scanning ? EnumGaugeState_SCAN : EnumGaugeState_OFF, IOUser), __FUNCTION__, "SetGaugeState", ThrowIt);
 }
 
-bool CVQM_ITMS_Driver::GetGaugeState(int Connection)
+bool CVQM_ITMS_Driver::GetGaugeState(int TableIndex)
 {
 	EnumGaugeState gaugeState;
-	ThrowException(m_Connections[Connection], m_serviceWrapper->GetGaugeState(gaugeState, m_Connections[Connection]), __FUNCTION__, "GetGaugeState");
+	ThrowException(m_Connections[TableIndex], m_serviceWrapper->GetGaugeState(gaugeState, m_Connections[TableIndex]), __FUNCTION__, "GetGaugeState");
 	return (gaugeState == EnumGaugeState_SCAN);
 }
 
@@ -513,13 +514,12 @@ asynStatus CVQM_ITMS_Driver::writeInt32(asynUser *pasynUser, epicsInt32 value)
 			// The IOC is exiting
 			return asynTimeout;
 
-		int Connection = m_ConnectionMap.find(TableIndex)->second;
 		if (function == Parameters(ParameterDefn::SCANNING))
-			SetGaugeState(Connection, value != 0);
+			SetGaugeState(m_Connections[TableIndex], value != 0);
 		else if (function == Parameters(ParameterDefn::AVERAGES))
-			ThrowException(m_Connections[Connection], m_serviceWrapper->DataAnalysisSetNumAvgs(value, m_Connections[Connection]), __FUNCTION__, "DataAnalysisSetNumAvgs");
+			ThrowException(m_Connections[TableIndex], m_serviceWrapper->DataAnalysisSetNumAvgs(value, m_Connections[TableIndex]), __FUNCTION__, "DataAnalysisSetNumAvgs");
 		else if (function == Parameters(ParameterDefn::AVERAGEMODE))
-			ThrowException(m_Connections[Connection], m_serviceWrapper->DataAnalysisSetAvgMode(EnumAvgMode(value), m_Connections[Connection]), __FUNCTION__, "DataAnalysisSetAvgMode");
+			ThrowException(m_Connections[TableIndex], m_serviceWrapper->DataAnalysisSetAvgMode(EnumAvgMode(value), m_Connections[TableIndex]), __FUNCTION__, "DataAnalysisSetAvgMode");
 	}
 	catch(CVQM_ITMS_Base::CException const& E) {
 		// make sure we return an error state if there are comms problems
@@ -547,61 +547,60 @@ asynStatus CVQM_ITMS_Driver::writeFloat64(asynUser *pasynUser, epicsFloat64 valu
 		if (m_Instance == NULL)
 			// The IOC is exiting
 			return asynTimeout;
-		int Connection = m_ConnectionMap.find(TableIndex)->second;
 
 		if (function == Parameters(ParameterDefn::EMISSION))
 		{
-			ThrowException(m_Connections[Connection], m_serviceWrapper->SetFilamentEmissionCurrentSetpoint(value, m_Connections[Connection]), __FUNCTION__, "SetFilamentEmissionCurrentSetpoint");
+			ThrowException(m_Connections[TableIndex], m_serviceWrapper->SetFilamentEmissionCurrentSetpoint(value, m_Connections[TableIndex]), __FUNCTION__, "SetFilamentEmissionCurrentSetpoint");
 		}
 		else if (function == Parameters(ParameterDefn::FILAMENTBIAS))
 		{
-			ThrowException(m_Connections[Connection], m_serviceWrapper->SetLogicalInstrumentVoltageSetpoint(FILAMENTBIAS, value, m_Connections[Connection]), __FUNCTION__, "SetLogicalInstrumentVoltageSetpoint FILAMENTBIAS");
+			ThrowException(m_Connections[TableIndex], m_serviceWrapper->SetLogicalInstrumentVoltageSetpoint(FILAMENTBIAS, value, m_Connections[TableIndex]), __FUNCTION__, "SetLogicalInstrumentVoltageSetpoint FILAMENTBIAS");
 		}
 		else if (function == Parameters(ParameterDefn::REPELLERBIAS))
 		{
-			ThrowException(m_Connections[Connection], m_serviceWrapper->SetLogicalInstrumentVoltageSetpoint(REPELLERBIAS, value, m_Connections[Connection]), __FUNCTION__, "SetLogicalInstrumentVoltageSetpoint REPELLERBIAS");
+			ThrowException(m_Connections[TableIndex], m_serviceWrapper->SetLogicalInstrumentVoltageSetpoint(REPELLERBIAS, value, m_Connections[TableIndex]), __FUNCTION__, "SetLogicalInstrumentVoltageSetpoint REPELLERBIAS");
 		}
 		else if (function == Parameters(ParameterDefn::ENTRYPLATE))
 		{
-			ThrowException(m_Connections[Connection], m_serviceWrapper->SetLogicalInstrumentVoltageSetpoint(ENTRYPLATE, value, m_Connections[Connection]), __FUNCTION__, "SetLogicalInstrumentVoltageSetpoint ENTRYPLATE");
+			ThrowException(m_Connections[TableIndex], m_serviceWrapper->SetLogicalInstrumentVoltageSetpoint(ENTRYPLATE, value, m_Connections[TableIndex]), __FUNCTION__, "SetLogicalInstrumentVoltageSetpoint ENTRYPLATE");
 		}
 		else if (function == Parameters(ParameterDefn::PRESSUREPLATE))
 		{
-			ThrowException(m_Connections[Connection], m_serviceWrapper->SetLogicalInstrumentVoltageSetpoint(PRESSUREPLATE, value, m_Connections[Connection]), __FUNCTION__, "SetLogicalInstrumentVoltageSetpoint PRESSUREPLATE");
+			ThrowException(m_Connections[TableIndex], m_serviceWrapper->SetLogicalInstrumentVoltageSetpoint(PRESSUREPLATE, value, m_Connections[TableIndex]), __FUNCTION__, "SetLogicalInstrumentVoltageSetpoint PRESSUREPLATE");
 		}
 		else if (function == Parameters(ParameterDefn::CUPS))
 		{
-			ThrowException(m_Connections[Connection], m_serviceWrapper->SetLogicalInstrumentVoltageSetpoint(CUPS, value, m_Connections[Connection]), __FUNCTION__, "SetLogicalInstrumentVoltageSetpoint CUPS");
+			ThrowException(m_Connections[TableIndex], m_serviceWrapper->SetLogicalInstrumentVoltageSetpoint(CUPS, value, m_Connections[TableIndex]), __FUNCTION__, "SetLogicalInstrumentVoltageSetpoint CUPS");
 		}
 		else if (function == Parameters(ParameterDefn::TRANSITION))
 		{
-			ThrowException(m_Connections[Connection], m_serviceWrapper->SetLogicalInstrumentVoltageSetpoint(TRANSITION, value, m_Connections[Connection]), __FUNCTION__, "SetLogicalInstrumentVoltageSetpoint TRANSITION");
+			ThrowException(m_Connections[TableIndex], m_serviceWrapper->SetLogicalInstrumentVoltageSetpoint(TRANSITION, value, m_Connections[TableIndex]), __FUNCTION__, "SetLogicalInstrumentVoltageSetpoint TRANSITION");
 		}
 		else if (function == Parameters(ParameterDefn::EXITPLATE))
 		{
-			ThrowException(m_Connections[Connection], m_serviceWrapper->SetLogicalInstrumentVoltageSetpoint(EXITPLATE, value, m_Connections[Connection]), __FUNCTION__, "SetLogicalInstrumentVoltageSetpoint EXITPLATE");
+			ThrowException(m_Connections[TableIndex], m_serviceWrapper->SetLogicalInstrumentVoltageSetpoint(EXITPLATE, value, m_Connections[TableIndex]), __FUNCTION__, "SetLogicalInstrumentVoltageSetpoint EXITPLATE");
 		}
 		else if (function == Parameters(ParameterDefn::EMSHIELD))
 		{
-			ThrowException(m_Connections[Connection], m_serviceWrapper->SetLogicalInstrumentVoltageSetpoint(EMSHIELD, value, m_Connections[Connection]), __FUNCTION__, "SetLogicalInstrumentVoltageSetpoint EMSHIELD");
+			ThrowException(m_Connections[TableIndex], m_serviceWrapper->SetLogicalInstrumentVoltageSetpoint(EMSHIELD, value, m_Connections[TableIndex]), __FUNCTION__, "SetLogicalInstrumentVoltageSetpoint EMSHIELD");
 		}
 		else if (function == Parameters(ParameterDefn::EMBIAS))
 		{
-			ThrowException(m_Connections[Connection], m_serviceWrapper->SetLogicalInstrumentVoltageSetpoint(EMBIAS, value, m_Connections[Connection]), __FUNCTION__, "SetLogicalInstrumentVoltageSetpoint EMBIAS");
+			ThrowException(m_Connections[TableIndex], m_serviceWrapper->SetLogicalInstrumentVoltageSetpoint(EMBIAS, value, m_Connections[TableIndex]), __FUNCTION__, "SetLogicalInstrumentVoltageSetpoint EMBIAS");
 		}
 		else if (function == Parameters(ParameterDefn::RFAMP))
 		{
-			ThrowException(m_Connections[Connection], m_serviceWrapper->SetLogicalInstrumentVoltageSetpoint(RFAMP, value, m_Connections[Connection]), __FUNCTION__, "SetLogicalInstrumentVoltageSetpoint RFAMP");
+			ThrowException(m_Connections[TableIndex], m_serviceWrapper->SetLogicalInstrumentVoltageSetpoint(RFAMP, value, m_Connections[TableIndex]), __FUNCTION__, "SetLogicalInstrumentVoltageSetpoint RFAMP");
 		}
 		else if (function == Parameters(ParameterDefn::MASSFROM))
 		{
 			double ToValue = getDoubleParam(TableIndex, ParameterDefn::MASSTO);
-			ThrowException(m_Connections[Connection], m_serviceWrapper->SetScanRange(value, ToValue, m_Connections[Connection]), __FUNCTION__, "SetScanRange TO");
+			ThrowException(m_Connections[TableIndex], m_serviceWrapper->SetScanRange(value, ToValue, m_Connections[TableIndex]), __FUNCTION__, "SetScanRange TO");
 		}
 		else if (function == Parameters(ParameterDefn::MASSTO))
 		{
 			double FromValue = getDoubleParam(TableIndex, ParameterDefn::MASSFROM);
-			ThrowException(m_Connections[Connection], m_serviceWrapper->SetScanRange(FromValue, value, m_Connections[Connection]), __FUNCTION__, "SetScanRange FROM");
+			ThrowException(m_Connections[TableIndex], m_serviceWrapper->SetScanRange(FromValue, value, m_Connections[TableIndex]), __FUNCTION__, "SetScanRange FROM");
 		}
 	}
 	catch(CVQM_ITMS_Base::CException const& E) {

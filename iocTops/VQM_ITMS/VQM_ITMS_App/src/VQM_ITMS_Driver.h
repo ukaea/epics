@@ -85,11 +85,12 @@ protected:
 	static int UsedParams();
 #ifdef BUILD_WITH_SDK
 	void ThrowException(SVQM_800_Error const& Error, const char* Function, bool ThrowIt = true);
+	void SetGaugeState(int Connection, bool Scanning, bool ThrowIt = true);
 #else
 	void ThrowException(asynUser* pasynUser, asynStatus Status, const char* Function, std::string const& what, bool ThrowIt = true) const;
+	void SetGaugeState(asynUser* IOUser, bool Scanning, bool ThrowIt = true);
 #endif
-	void SetGaugeState(int Connection, bool Scanning, bool ThrowIt = true);
-	bool GetGaugeState(int Connection);
+	bool GetGaugeState(int TableIndex);
 
 private:
 	DeviceWrapper* m_serviceWrapper;
@@ -98,10 +99,10 @@ private:
 	int m_nConnections;
 #ifdef BUILD_WITH_SDK
 	SDeviceConnectionInfo* m_Connections;
+	std::map<int, int> m_ConnectionMap;
 #else
 	std::vector<asynUser*> m_Connections;
 #endif
-	std::map<int, int> m_ConnectionMap;
 	static CVQM_ITMS_Driver* m_Instance;
 };
 
