@@ -32,10 +32,10 @@
 struct IServiceWrapper;
 #define DeviceWrapper IServiceWrapper
 struct SDeviceConnectionInfo;
-struct SVQM_800_Error;
 #else
-class DeviceWrapper;
+struct DeviceWrapper;
 #endif
+struct SVQM_800_Error;
 
 class CVQM_ITMS_Driver : public CVQM_ITMS_Base {
 	class CThreadRunable;
@@ -43,20 +43,17 @@ class CVQM_ITMS_Driver : public CVQM_ITMS_Base {
 public:
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 	//																								//
-	//	class CLeyboldTurboPortDriver::CException : public std::runtime_error						//
+	//	class CVQM_ITMS_Driver::CException : public CVQM_ITMS_Base::CException						//
 	//	Description:																				//
 	//		If an error ocurrs, an object of this type is thrown.									//
 	//																								//
 	//////////////////////////////////////////////////////////////////////////////////////////////////
-	class CException : public CVQM_ITMS_Base::CException
+	class CException : public ::CException
 	{
 		asynStatus m_Status;
 	public:
-#ifdef BUILD_WITH_SDK
 		CException(asynUser* AsynUser, SVQM_800_Error const& Error, const char* functionName);
-#else
 		CException(asynUser* AsynUser, asynStatus Status, const char* functionName, std::string const& what);
-#endif
 		asynStatus Status() const {
 			return m_Status;
 		}
@@ -75,7 +72,7 @@ public:
 	static CVQM_ITMS_Driver* Instance() {
 		return m_Instance;
 	}
-	asynStatus ErrorHandler(int TableIndex, CVQM_ITMS_Base::CException const& E);
+	asynStatus ErrorHandler(int TableIndex, ::CException const& E);
 	size_t NrInstalled() {
 		return m_Threads.size();
 	}
@@ -83,8 +80,8 @@ public:
                  
 protected:
 	static int UsedParams();
-#ifdef BUILD_WITH_SDK
 	void ThrowException(SVQM_800_Error const& Error, const char* Function, bool ThrowIt = true);
+#ifdef BUILD_WITH_SDK
 	void SetGaugeState(int Connection, bool Scanning, bool ThrowIt = true);
 #else
 	void ThrowException(asynUser* pasynUser, asynStatus Status, const char* Function, std::string const& what, bool ThrowIt = true) const;

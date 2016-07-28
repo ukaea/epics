@@ -180,20 +180,3 @@ void CVQM_ITMS_Base::ParamDefaultValue(size_t list, size_t ParamIndex)
 //		default: assert(false);
 	}
 }
-
-std::string CVQM_ITMS_Base::wcstombs(std::wstring const& WideCharString)
-{
-	char NBuf[CVQM_ITMS_Base::MaxEPICSStrLen];
-	memset(NBuf, 0, sizeof(NBuf));
-	::wcstombs(NBuf, WideCharString.c_str(), sizeof(NBuf)-1);
-	return NBuf;
-}
-
-std::wstring CVQM_ITMS_Base::mbstowcs(std::string const& MultiByteString)
-{
-	wchar_t WBuf[CVQM_ITMS_Base::MaxEPICSStrLen];
-	memset(WBuf, 0, sizeof(WBuf));
-	::mbstowcs(WBuf, MultiByteString.c_str(), (sizeof(WBuf) - sizeof(wchar_t)) / sizeof(wchar_t));
-	return WBuf;
-}
-

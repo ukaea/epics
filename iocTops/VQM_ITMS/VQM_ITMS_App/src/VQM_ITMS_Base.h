@@ -20,6 +20,7 @@
 #define VQM_ITMS_BASE_H
 
 #include "ParameterDefns.h"
+#include "Exception.h"
 
 #ifdef epicsExportSharedSymbols
 #define VQM_ITMS_BaseepicsExportSharedSymbols
@@ -29,7 +30,6 @@
 #include <asynPortDriver.h>
 #include <envDefs.h>
 
-#include <stdexcept>
 #include <string>
 #include <map>
 #include <vector>
@@ -43,29 +43,6 @@
 class epicsShareClass CVQM_ITMS_Base : public asynPortDriver
 {
 public:
-	//////////////////////////////////////////////////////////////////////////////////////////////////
-	//																								//
-	//	class CVQM_ITMSPortDriver::CException : public std::runtime_error						//
-	//	Description:																				//
-	//		If an error ocurrs, an object of this type is thrown.									//
-	//																								//
-	//////////////////////////////////////////////////////////////////////////////////////////////////
-	class CException : public std::runtime_error
-	{
-		asynStatus m_Status;
-	public:
-		CException(asynUser* AsynUser, asynStatus Status, const char* functionName, std::string const& what) : std::runtime_error(what) {
-			std::string message = "%s:%s ERROR: " + what + "%s\n";
-			asynPrint(AsynUser, ASYN_TRACE_ERROR, message.c_str(), __FILE__, functionName, AsynUser->errorMessage);
-			m_Status = Status;
-		}
-		asynStatus Status() const {
-			return m_Status;
-		}
-	};
-
-	// NB, a string is limited to 40 charachters in EPICS.
-	static const size_t MaxEPICSStrLen = 40;
 
     CVQM_ITMS_Base(const char *portName, int maxAddr, int paramTableSize);
     void createParam(size_t list, size_t ParamIndex);
@@ -153,8 +130,6 @@ protected:
 	// Each parameter is associated with an int handle.
 	// This structure is used in order to address them by name, which is more convenient.
 	std::map<std::string, int> m_Parameters;
-	static std::string wcstombs(std::wstring const& WideCharString);
-	static std::wstring mbstowcs(std::string const& MultiByteString);
 
 private:
 

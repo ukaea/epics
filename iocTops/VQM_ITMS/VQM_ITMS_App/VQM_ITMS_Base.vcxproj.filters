@@ -9,6 +9,9 @@
     <ClCompile Include="src\VQM_ITMS_Base.cpp">
       <Filter>Src</Filter>
     </ClCompile>
+    <ClCompile Include="src\Exception.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\VQM_ITMS_Base.h">

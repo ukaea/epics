@@ -1,4 +1,5 @@
 #include "DeviceWrapper.h"
+#include "Exception.h"
 
 #include <asynOctetSyncIO.h>
 #include <asynOctet.h>
@@ -33,9 +34,10 @@ void FromString(std::string const& String, double& value)
 
 DeviceWrapper::DeviceWrapper(asynUser* IOUser)
 {
-	pasynOctetSyncIO->flush(IOUser);
-	pasynOctetSyncIO->setOutputEos(IOUser, "\r", 1);
-	pasynOctetSyncIO->setInputEos(IOUser, "\r", 1);
+	epicsGuard < epicsMutex > guard (m_Mutex);
+	ThrowException(IOUser, pasynOctetSyncIO->flush(IOUser), __FUNCTION__, "flush");
+	ThrowException(IOUser, pasynOctetSyncIO->setOutputEos(IOUser, "\r", 1), __FUNCTION__, "setOutputEos");
+	ThrowException(IOUser, pasynOctetSyncIO->setInputEos(IOUser, "\r", 1), __FUNCTION__, "setInputEos");
 	write(IOUser, "INST MSP");
 	std::string ErrResponse;
 	writeRead(IOUser, "SYST:ERR:ALL?", ErrResponse);
@@ -54,39 +56,48 @@ DeviceWrapper::DeviceWrapper(asynUser* IOUser)
 	write(IOUser, "INST FIL");
 	write(IOUser, "SOUR:MODE ADJ");
 	writeRead(IOUser, "SYST:ERR:ALL?", ErrResponse);
-	GetLogicalInstrumentMinMaxVoltage(m_Filament.m_Min, m_Filament.m_Max, FILAMENTBIAS, IOUser);
-	GetLogicalInstrumentMinMaxVoltage(m_Repeller.m_Min, m_Repeller.m_Max, REPELLERBIAS, IOUser);
-	GetLogicalInstrumentMinMaxVoltage(m_EntryPlate.m_Min, m_EntryPlate.m_Max, ENTRYPLATE, IOUser);
-	GetLogicalInstrumentMinMaxVoltage(m_PressurePlate.m_Min, m_PressurePlate.m_Max, PRESSUREPLATE, IOUser);
-	GetLogicalInstrumentMinMaxVoltage(m_Cups.m_Min, m_Cups.m_Max, CUPS, IOUser);
-	GetLogicalInstrumentMinMaxVoltage(m_Transition.m_Min, m_Transition.m_Max, TRANSITION, IOUser);
-	GetLogicalInstrumentMinMaxVoltage(m_ExitPlate.m_Min, m_ExitPlate.m_Max, EXITPLATE, IOUser);
-	GetLogicalInstrumentMinMaxVoltage(m_EMShield.m_Min, m_EMShield.m_Max, EMSHIELD, IOUser);
-	GetLogicalInstrumentMinMaxVoltage(m_EMBias.m_Min, m_EMBias.m_Max, EMBIAS, IOUser);
-	GetLogicalInstrumentMinMaxVoltage(m_RFAmp.m_Min, m_RFAmp.m_Max, RFAMP, IOUser);
+	GetLogicalInstrumentMinMaxVoltage(FILAMENTBIAS, IOUser);
+	GetLogicalInstrumentMinMaxVoltage(REPELLERBIAS, IOUser);
+	GetLogicalInstrumentMinMaxVoltage(ENTRYPLATE, IOUser);
+	GetLogicalInstrumentMinMaxVoltage(PRESSUREPLATE, IOUser);
+	GetLogicalInstrumentMinMaxVoltage(CUPS, IOUser);
+	GetLogicalInstrumentMinMaxVoltage(TRANSITION, IOUser);
+	GetLogicalInstrumentMinMaxVoltage(EXITPLATE, IOUser);
+	GetLogicalInstrumentMinMaxVoltage(EMSHIELD, IOUser);
+	GetLogicalInstrumentMinMaxVoltage(EMBIAS, IOUser);
+	GetLogicalInstrumentMinMaxVoltage(RFAMP, IOUser);
+	std::string AMUResponse;
+	writeRead(IOUser, "CONF:AMU?", AMUResponse);
+	// +9.28392E-01,+1.47596E+02
+	size_t CommaPos = FindMarkerPos(AMUResponse, 0, ",");
+	std::string lowerRange = AMUResponse.substr(0, CommaPos-1);
+	FromString(lowerRange, m_lowerRange);
+	std::string upperRange = AMUResponse.substr(CommaPos+1);
+	FromString(upperRange, m_upperRange);
 }
 
-asynStatus DeviceWrapper::DataAnalysisSetAvgMode(EnumAvgMode mode, asynUser* IOUser)
+SVQM_800_Error DeviceWrapper::DataAnalysisSetAvgMode(EnumAvgMode mode, asynUser* IOUser)
 {
-	return asynSuccess;
+	return SVQM_800_Error();
 }
 
-asynStatus DeviceWrapper::DataAnalysisSetNumAvgs(int numAverages, asynUser* IOUser)
+SVQM_800_Error DeviceWrapper::DataAnalysisSetNumAvgs(int numAverages, asynUser* IOUser)
 {
-	return asynSuccess;
+	return SVQM_800_Error();
 }
 
-asynStatus DeviceWrapper::GetFilamentEmissionCurrent(double& value, asynUser* IOUser) const
+SVQM_800_Error DeviceWrapper::GetFilamentEmissionCurrent(double& value, asynUser* IOUser) const
 {
-	return asynSuccess;
+	value = m_EmissionCurrent;
+	return SVQM_800_Error();
 }
 
-asynStatus DeviceWrapper::SetFilamentEmissionCurrentSetpoint(double& value, asynUser* IOUser)
+SVQM_800_Error DeviceWrapper::SetFilamentEmissionCurrentSetpoint(double& value, asynUser* IOUser)
 {
-	asynStatus status = write(IOUser, "INST FIL");
-	if (status == asynSuccess)
-		status = write(IOUser, "SOUR CURR " + ToString(value));
-	return status;
+	epicsGuard < epicsMutex > guard (m_Mutex);
+	write(IOUser, "INST FIL");
+	write(IOUser, "SOUR CURR " + ToString(value));
+	return SVQM_800_Error();
 }
 
 
@@ -110,132 +121,209 @@ std::string DeviceWrapper::EnumToText(EnumLogicalInstruments logicalInstrumentEn
 	return "";
 }
 
-asynStatus DeviceWrapper::GetLogicalInstrumentMinMaxVoltage(double& min, double& max, EnumLogicalInstruments logicalInstrumentEnum, asynUser* IOUser) const
+SVQM_800_Error DeviceWrapper::GetLogicalInstrumentMinMaxVoltage(EnumLogicalInstruments logicalInstrumentEnum, asynUser* IOUser)
 {
-	asynStatus status = write(IOUser, EnumToText(logicalInstrumentEnum));
+	epicsGuard < epicsMutex > guard (m_Mutex);
+	double Min, Max;
+	write(IOUser, EnumToText(logicalInstrumentEnum));
 	std::string MaxResponse, MinResponse;
-	if (status == asynSuccess)
-		status = writeRead(IOUser, "SOUR:VOLT? MAX", MaxResponse);
-	FromString(MaxResponse, max);
-	if (status == asynSuccess)
-		status = writeRead(IOUser, "SOUR:VOLT? MIN", MinResponse);
-	FromString(MinResponse, min);
-	return status;
+	writeRead(IOUser, "SOUR:VOLT? MAX", MaxResponse);
+	FromString(MaxResponse, Max);
+	writeRead(IOUser, "SOUR:VOLT? MIN", MinResponse);
+	FromString(MinResponse, Min);
+	m_InstrumentVoltages[logicalInstrumentEnum].m_Min = Min;
+	m_InstrumentVoltages[logicalInstrumentEnum].m_Max = Max;
+	return SVQM_800_Error();
 }
 
-asynStatus DeviceWrapper::GetLogicalInstrumentCurrentVoltage(double& value, EnumLogicalInstruments logicalInstrumentEnum, asynUser* IOUser) const
+SVQM_800_Error DeviceWrapper::GetLogicalInstrumentCurrentVoltage(double& value, EnumLogicalInstruments logicalInstrumentEnum, asynUser* IOUser) const
 {
-//	asynStatus status = write(IOUser, EnumToText(logicalInstrumentEnum) + ";SOUR:VOLT?");
-	return asynSuccess;
+	std::map<EnumLogicalInstruments, InstrumentVoltage>::const_iterator Iter = m_InstrumentVoltages.find(logicalInstrumentEnum);
+	if (Iter == m_InstrumentVoltages.end())
+		return SVQM_800_Error(NO_ANALYZED_DATA, L"Instrument not found", L"GetLogicalInstrumentCurrentVoltage");
+	return SVQM_800_Error();
 }
 
-asynStatus DeviceWrapper::SetLogicalInstrumentVoltageSetpoint(EnumLogicalInstruments logicalInstrumentEnum, double& value, asynUser* IOUser)
+SVQM_800_Error DeviceWrapper::SetLogicalInstrumentVoltageSetpoint(EnumLogicalInstruments logicalInstrumentEnum, double& value, asynUser* IOUser)
 {
-	asynStatus status = write(IOUser, EnumToText(logicalInstrumentEnum));
-	if (status != asynSuccess)
-		return status;
-	status = write(IOUser, "SOUR:VOLT");
-	return status;
+	epicsGuard < epicsMutex > guard (m_Mutex);
+	write(IOUser, EnumToText(logicalInstrumentEnum));
+	write(IOUser, "SOUR:VOLT");
+	return SVQM_800_Error();
 }
 
-asynStatus DeviceWrapper::GetMassCalibrationFactor(float& value, asynUser* IOUser) const
+SVQM_800_Error DeviceWrapper::GetMassCalibrationFactor(float& value, asynUser* IOUser) const
 {
-	return asynSuccess;
+	return SVQM_800_Error();
 }
 
-asynStatus DeviceWrapper::GetElectrometerGain(double& value, asynUser* IOUser) const
+SVQM_800_Error DeviceWrapper::GetElectrometerGain(double& value, asynUser* IOUser) const
 {
-	return asynSuccess;
+	return SVQM_800_Error();
 }
 
-asynStatus DeviceWrapper::GetScanRange(double& lowerRange, double& upperRange, asynUser* IOUser)
+SVQM_800_Error DeviceWrapper::GetScanRange(double& lowerRange, double& upperRange, asynUser* IOUser)
 {
-	std::string AMUResponse;
-	asynStatus status = writeRead(IOUser, "CONF:AMU?", AMUResponse);
-	return status;
+	lowerRange = m_lowerRange;
+	upperRange = m_upperRange;
+	return SVQM_800_Error();
 }
 
-asynStatus DeviceWrapper::SetScanRange(double& lowerRange, double& upperRange, asynUser* IOUser)
+SVQM_800_Error DeviceWrapper::SetScanRange(double& lowerRange, double& upperRange, asynUser* IOUser)
 {
-	return write(IOUser, "CONF:AMU " + ToString(lowerRange) + "," + ToString(upperRange));
+	epicsGuard < epicsMutex > guard (m_Mutex);
+	write(IOUser, "CONF:AMU " + ToString(lowerRange) + "," + ToString(upperRange));
+	return SVQM_800_Error();
 }
 
 //	asynStatus GetScanData(int& lastScanNumber, SAnalyzedData& analyzedData, IHeaderData** headerDataPtr,
 //                                            SAverageData& averageData, const SDeviceConnectionInfo& connectInfo, bool& isValidData, EnumGaugeState& controllerState) = 0;
-asynStatus DeviceWrapper::SetGaugeState(EnumGaugeState gaugeState, asynUser* IOUser)
+SVQM_800_Error DeviceWrapper::SetGaugeState(EnumGaugeState gaugeState, asynUser* IOUser)
 {
-	asynStatus status = write(IOUser, "INST MSP");
+	epicsGuard < epicsMutex > guard (m_Mutex);
+	write(IOUser, "INST MSP");
 	switch (gaugeState)
 	{
 	case EnumGaugeState_OFF :
-		if (status == asynSuccess)
-			status = write (IOUser, "OUTP OFF");
+		write (IOUser, "OUTP OFF");
 		break;
 	case EnumGaugeState_STANDBY :
-		status = write (IOUser, "SOUR:MODE STANDBY");
-		if (status == asynSuccess)
-			status = write (IOUser, "OUTP ON");
+		write (IOUser, "SOUR:MODE STANDBY");
+		write (IOUser, "OUTP ON");
 		break;
 	case EnumGaugeState_ON :
-		status = write (IOUser, "OUTP ON");
+		write (IOUser, "OUTP ON");
 		break;
 	case EnumGaugeState_SCAN :
-		status = write (IOUser, "OUTP ON");
-		if (status == asynSuccess)
-			status = write (IOUser, "FORM:ALL 1,0");
-		if (status == asynSuccess)
-			status = write (IOUser, "INIT:CONT ON");
+		write (IOUser, "OUTP ON");
+		write (IOUser, "FORM:ALL 1,0");
+		write (IOUser, "INIT:CONT ON");
 		break;
 	default: _ASSERT(false);
 	}
-	return status;
+	return SVQM_800_Error();
 }
 
-asynStatus DeviceWrapper::GetGaugeState(EnumGaugeState& gaugeState, asynUser* IOUser)
+SVQM_800_Error DeviceWrapper::GetGaugeState(EnumGaugeState& gaugeState, asynUser* IOUser)
 {
-	asynStatus status = write(IOUser, "INST MSP");
+	epicsGuard < epicsMutex > guard (m_Mutex);
+	write(IOUser, "INST MSP");
 	std::string OUTPResponse, INITResponse;
 	int OUTPValue = 0, INITValue;
-	if (status == asynSuccess)
-		status = writeRead(IOUser, "OUTP?", OUTPResponse);
+	writeRead(IOUser, "OUTP?", OUTPResponse);
 	FromString(OUTPResponse, OUTPValue);
-	if (status == asynSuccess)
-		status = writeRead(IOUser, "INIT:CONT?", INITResponse);
+	writeRead(IOUser, "INIT:CONT?", INITResponse);
 	FromString(INITResponse, INITValue);
-	return status;
+	return SVQM_800_Error();
 }
 
-asynStatus DeviceWrapper::GetScanData(int& lastScanNumber, IHeaderData** headerDataPtr, asynUser* IOUser, bool& isValidData, EnumGaugeState& controllerState)
+SVQM_800_Error DeviceWrapper::GetTSETingsValues(std::string const&  TSETingsValues)
 {
+	// enum EnumLogicalInstruments { FILAMENT = 0, FILAMENTBIAS, REPELLERBIAS, ENTRYPLATE, PRESSUREPLATE, CUPS, TRANSITION, EXITPLATE, EMSHIELD, EMBIAS, RFAMP };
+
+	//								  RepellerBias  Emission    FilamentBias   No idea     EntryPlate   PressurePlate Cups        Transition   ExitPlate     RFAmp       EMShield     EMBias      no idea      no idea
+	// (MEASurement=TSETtings (VALues -5.29913E+01,+7.50000E-05,+3.09385E+01,+2.83090E+00,+1.30018E+02,+7.50945E+01,+2.69785E+01,-6.85262E+02,+1.21151E+02,+4.50000E-01,+1.23000E+02,-8.58475E+02,+1.90069E-08,+9.99999E-10))
+	size_t FirstCommaPos = 0, SecondCommaPos = FindMarkerPos(TSETingsValues, FirstCommaPos, ",");
+	std::string RepellerBias = TSETingsValues.substr(FirstCommaPos, SecondCommaPos-FirstCommaPos-1);
+	FromString(RepellerBias, m_InstrumentVoltages[REPELLERBIAS].m_Current);
+
+	FirstCommaPos = SecondCommaPos; SecondCommaPos = FindMarkerPos(TSETingsValues, FirstCommaPos+1, ",");
+	std::string EmissionCurrent = TSETingsValues.substr(FirstCommaPos, SecondCommaPos-FirstCommaPos-1);
+	FromString(EmissionCurrent, m_EmissionCurrent);
+
+	FirstCommaPos = SecondCommaPos; SecondCommaPos = FindMarkerPos(TSETingsValues, FirstCommaPos+1, ",");
+	std::string FilamentBias = TSETingsValues.substr(FirstCommaPos, SecondCommaPos-FirstCommaPos-1);
+	FromString(FilamentBias, m_InstrumentVoltages[FILAMENTBIAS].m_Current);
+
+	// No idea (+2.83090E+00)
+	FirstCommaPos = SecondCommaPos; SecondCommaPos = FindMarkerPos(TSETingsValues, FirstCommaPos+1, ",");
+
+	FirstCommaPos = SecondCommaPos; SecondCommaPos = FindMarkerPos(TSETingsValues, FirstCommaPos+1, ",");
+	std::string EntryPlate = TSETingsValues.substr(FirstCommaPos, SecondCommaPos-FirstCommaPos-1);
+	FromString(EntryPlate, m_InstrumentVoltages[ENTRYPLATE].m_Current);
+
+	FirstCommaPos = SecondCommaPos; SecondCommaPos = FindMarkerPos(TSETingsValues, FirstCommaPos+1, ",");
+	std::string PressurePlate = TSETingsValues.substr(FirstCommaPos, SecondCommaPos-FirstCommaPos-1);
+	FromString(PressurePlate, m_InstrumentVoltages[PRESSUREPLATE].m_Current);
+
+	FirstCommaPos = SecondCommaPos; SecondCommaPos = FindMarkerPos(TSETingsValues, FirstCommaPos+1, ",");
+	std::string Cups = TSETingsValues.substr(FirstCommaPos, SecondCommaPos-FirstCommaPos-1);
+	FromString(Cups, m_InstrumentVoltages[CUPS].m_Current);
+
+	FirstCommaPos = SecondCommaPos; SecondCommaPos = FindMarkerPos(TSETingsValues, FirstCommaPos+1, ",");
+	std::string Transition = TSETingsValues.substr(FirstCommaPos, SecondCommaPos-FirstCommaPos-1);
+	FromString(Transition, m_InstrumentVoltages[TRANSITION].m_Current);
+
+	FirstCommaPos = SecondCommaPos; SecondCommaPos = FindMarkerPos(TSETingsValues, FirstCommaPos+1, ",");
+	std::string ExitPlate = TSETingsValues.substr(FirstCommaPos, SecondCommaPos-FirstCommaPos-1);
+	FromString(Transition, m_InstrumentVoltages[EXITPLATE].m_Current);
+
+	FirstCommaPos = SecondCommaPos; SecondCommaPos = FindMarkerPos(TSETingsValues, FirstCommaPos+1, ",");
+	std::string RFAmp = TSETingsValues.substr(FirstCommaPos, SecondCommaPos-FirstCommaPos-1);
+	FromString(RFAmp, m_InstrumentVoltages[RFAMP].m_Current);
+
+	FirstCommaPos = SecondCommaPos; SecondCommaPos = FindMarkerPos(TSETingsValues, FirstCommaPos+1, ",");
+	std::string EMShield = TSETingsValues.substr(FirstCommaPos, SecondCommaPos-FirstCommaPos-1);
+	FromString(EMShield, m_InstrumentVoltages[EMSHIELD].m_Current);
+
+	FirstCommaPos = SecondCommaPos; SecondCommaPos = FindMarkerPos(TSETingsValues, FirstCommaPos+1, ",");
+	std::string EMBias = TSETingsValues.substr(FirstCommaPos, SecondCommaPos-FirstCommaPos-1);
+	FromString(EMBias, m_InstrumentVoltages[EMBIAS].m_Current);
+	return SVQM_800_Error();
+}
+
+SVQM_800_Error DeviceWrapper::GetScanData(int& lastScanNumber, SAnalyzedData& analyzedData, IHeaderData** headerDataPtr,
+                               SAverageData& averageData, asynUser* IOUser, bool& isValidData, EnumGaugeState& controllerState)
+{
+	epicsGuard < epicsMutex > guard (m_Mutex);
 	std::vector<char> ReadPacket;
 	std::string HeaderData;
-	asynStatus status = write(IOUser, "fetc?");
-	if (status == asynSuccess)
-		status = pasynOctetSyncIO->setInputEos(IOUser, "", 0);
-	if (status == asynSuccess)
-		status = readTill(IOUser, HeaderData, "   ");
+	write(IOUser, "fetc?");
+	ThrowException(IOUser, pasynOctetSyncIO->setInputEos(IOUser, "", 0), __FUNCTION__, "setInputEos");
+	readTill(IOUser, HeaderData, "   ");
 
-	size_t VALuesPos = FindMarkerPos(HeaderData, 0, "CURVe (", "VALues #");
+	size_t IDPos = FindMarkerPos(HeaderData, 0, "(DIF (VERSion 1999.0) IDENtify", "(ID \"");
+	size_t QuotePos = FindMarkerPos(HeaderData, IDPos, "\"");
+	m_HeaderData.m_MID = mbstowcs(HeaderData.substr(IDPos, QuotePos-IDPos));
+
+	size_t DESignPos = FindMarkerPos(HeaderData, QuotePos, "DESign \"");
+
+	// (DIF (VERSion 1999.0) IDENtify (DATE 2016,07,25 TIME 13,55,09.737 UUT (ID "835A0405"  DESign "0A,03.001.01301"))
+	size_t CommaPos = FindMarkerPos(HeaderData, DESignPos, ",");
+	QuotePos = FindMarkerPos(HeaderData, CommaPos, "\"");
+	m_HeaderData.m_HardwareRevision = mbstowcs(HeaderData.substr(DESignPos, CommaPos-DESignPos-1));
+	m_HeaderData.m_FirmwareRevision = mbstowcs(HeaderData.substr(CommaPos, QuotePos-CommaPos-1));
+
+	// enum EnumLogicalInstruments { FILAMENT = 0, FILAMENTBIAS, REPELLERBIAS, ENTRYPLATE, PRESSUREPLATE, CUPS, TRANSITION, EXITPLATE, EMSHIELD, EMBIAS, RFAMP };
+	//								  RepellerBias  Emission    FilamentBias   No idea     EntryPlate   PressurePlate Cups        Transition   ExitPlate     RFAmp       EMShield     no idea     no idea      no idea
+	// (MEASurement=TSETtings (VALues -5.29913E+01,+7.50000E-05,+3.09385E+01,+2.83090E+00,+1.30018E+02,+7.50945E+01,+2.69785E+01,-6.85262E+02,+1.21151E+02,+4.50000E-01,+1.23000E+02,-8.58475E+02,+1.90069E-08,+9.99999E-10))
+	size_t VALuesPos = FindMarkerPos(HeaderData, QuotePos, "DATA (MEASurement=TSETtings (VALues ");
+	size_t CloseBracketPos = FindMarkerPos(HeaderData, VALuesPos, "))");
+	std::string TSETingsValues = HeaderData.substr(VALuesPos, CloseBracketPos-VALuesPos-2);
+	SVQM_800_Error Error = GetTSETingsValues(TSETingsValues);
+
+	VALuesPos = FindMarkerPos(HeaderData, CloseBracketPos, "CURVe (", "VALues #");
 	int VALues = 0;
-	if (VALuesPos  == std::string::npos)
-	{
-		if (status == asynSuccess)
-			status = asynError;
-	}
-	else
-		FromString(HeaderData.substr(VALuesPos), VALues);
+	FromString(HeaderData.substr(VALuesPos), VALues);
 
-	ReadPacket.resize(VALues);
-	if (status == asynSuccess)
-		status = read(IOUser, ReadPacket);
+	ReadPacket.resize(VALues*4);
+	read(IOUser, ReadPacket);
 	pasynOctetSyncIO->setInputEos(IOUser, "\r", 1);
-	_ASSERT(status == asynSuccess);
-	return status;
+	*headerDataPtr = &m_HeaderData;
+	return Error;
+}
+
+size_t DeviceWrapper::FindMarkerPos(std::string const& HeaderData, size_t Offset, const char* FirstMarker)
+{
+	size_t FirstMarkerPos = HeaderData.find(FirstMarker, Offset);
+	if (FirstMarkerPos != std::string::npos)
+		FirstMarkerPos += strlen(FirstMarker);
+	return FirstMarkerPos;
 }
 
 size_t DeviceWrapper::FindMarkerPos(std::string const& HeaderData, size_t Offset, const char* FirstMarker, const char* SecondMarker)
 {
-	size_t FirstMarkerPos = HeaderData.find(FirstMarker, Offset);
+	size_t FirstMarkerPos = FindMarkerPos(HeaderData, Offset, FirstMarker);
 	size_t SecondMarkerPos = std::string::npos;
 	if (FirstMarkerPos != std::string::npos)
 	{
@@ -247,72 +335,80 @@ size_t DeviceWrapper::FindMarkerPos(std::string const& HeaderData, size_t Offset
 	return SecondMarkerPos;
 }
 
-asynStatus DeviceWrapper::write(asynUser* IOUser, std::string const& WritePacket) const
+void DeviceWrapper::write(asynUser* IOUser, std::string const& WritePacket) const
 {
 	epicsGuard < epicsMutex > guard (m_Mutex);
 	size_t nBytesOut;
 	// NB, *don't* pass pasynUser to this function - it has the wrong type and will cause an access violation.
-	asynStatus status = pasynOctetSyncIO->write(IOUser,
-		WritePacket.c_str(), WritePacket.size(), 
-		TimeOut, &nBytesOut);
-	return status;
+	ThrowException(IOUser, pasynOctetSyncIO->write(IOUser, WritePacket.c_str(), WritePacket.size(), TimeOut, &nBytesOut), __FUNCTION__, "write");
 }
 
-asynStatus DeviceWrapper::writeRead(asynUser* IOUser, std::string const& WritePacket, std::string& ReadPacket) const
+void DeviceWrapper::writeRead(asynUser* IOUser, std::string const& WritePacket, std::string& ReadPacket) const
 {
 	epicsGuard < epicsMutex > guard (m_Mutex);
 	size_t nBytesIn;
 	int eomReason = ASYN_EOM_CNT;
 	char Buf[1024];
 	// NB, *don't* pass pasynUser to this function - it has the wrong type and will cause an access violation.
-	asynStatus Status = write(IOUser, WritePacket);
+	write(IOUser, WritePacket);
 	ReadPacket.clear();
-	while ((Status == asynSuccess) && (eomReason == ASYN_EOM_CNT))
+	while (eomReason == ASYN_EOM_CNT)
 	{
-		Status = pasynOctetSyncIO->read(IOUser, Buf, sizeof(Buf), TimeOut, &nBytesIn, &eomReason);
+		ThrowException(IOUser, pasynOctetSyncIO->read(IOUser, Buf, sizeof(Buf), TimeOut, &nBytesIn, &eomReason), __FUNCTION__, "read");
 		for(size_t Byte = 0; Byte < nBytesIn; Byte++)
 			ReadPacket.push_back(Buf[Byte]);
 	}
-	return Status;
 }
 
-asynStatus DeviceWrapper::readTill(asynUser* IOUser, std::string& ReadPacket, std::string const& Termination) const
+void DeviceWrapper::readTill(asynUser* IOUser, std::string& ReadPacket, std::string const& Termination) const
 {
 	epicsGuard < epicsMutex > guard (m_Mutex);
 	size_t nBytesIn;
 	int eomReason = ASYN_EOM_CNT;
 	char Buf;
 	ReadPacket.clear();
-	asynStatus Status = asynSuccess;
 	// NB, *don't* pass pasynUser to this function - it has the wrong type and will cause an access violation.
-	while ((Status == asynSuccess) && 
-		   ((ReadPacket.size() < Termination.size()) ||
-		    (ReadPacket.substr(ReadPacket.size()-Termination.size(), Termination.size()) != Termination)))
+	while ((ReadPacket.size() < Termination.size()) ||
+		   (ReadPacket.substr(ReadPacket.size()-Termination.size(), Termination.size()) != Termination))
 	{
-		Status = pasynOctetSyncIO->read(IOUser, &Buf, sizeof(Buf), TimeOut, &nBytesIn, &eomReason);
-		_ASSERT(Status == asynSuccess);
+		ThrowException(IOUser, pasynOctetSyncIO->read(IOUser, &Buf, sizeof(Buf), TimeOut, &nBytesIn, &eomReason), __FUNCTION__, "read");
 		ReadPacket += Buf;
 	}
-	return Status;
 }
 
-asynStatus DeviceWrapper::read(asynUser* IOUser, std::vector<char>& ReadPacket) const
+void DeviceWrapper::read(asynUser* IOUser, std::vector<char>& ReadPacket) const
 {
 	epicsGuard < epicsMutex > guard (m_Mutex);
 	size_t nBytesIn;
 	int eomReason = ASYN_EOM_CNT;
 	// NB, *don't* pass pasynUser to this function - it has the wrong type and will cause an access violation.
-	asynStatus Status = pasynOctetSyncIO->read(IOUser, &(ReadPacket[0]), ReadPacket.size(), TimeOut, &nBytesIn, &eomReason);
+	ThrowException(IOUser, pasynOctetSyncIO->read(IOUser, &(ReadPacket[0]), ReadPacket.size(), TimeOut, &nBytesIn, &eomReason), __FUNCTION__, "read");
+	_ASSERT(eomReason == ASYN_EOM_CNT);
 #ifdef _DEBUG
 	size_t ExtraData = 0;
 	char Buf;
-	while ((Status == asynSuccess) && (eomReason == ASYN_EOM_CNT))
+	do
 	{
 		asynStatus Status = pasynOctetSyncIO->read(IOUser, &Buf, sizeof(Buf), 0.01, &nBytesIn, &eomReason);
 		ExtraData += nBytesIn;
 	}
-	_ASSERT(nBytesIn == 0);
-	_ASSERT(Status == asynSuccess);
-#endif
-	return Status;
+	while (eomReason == ASYN_EOM_CNT);
+	_ASSERT(ExtraData == 0);
+#endif*/
 }
+
+DeviceWrapper::CException::CException(asynUser* AsynUser, asynStatus Status, const char* functionName, std::string const& what) :
+	std::runtime_error(what) 
+{
+	std::string message = "%s:%s ERROR: " + what + "%s\n";
+	asynPrint(AsynUser, ASYN_TRACE_ERROR, message.c_str(), __FILE__, functionName, AsynUser->errorMessage);
+	m_Status = Status;
+}
+
+void DeviceWrapper::ThrowException(asynUser* pasynUser, asynStatus Status, const char* Function, std::string const& what) const
+{
+	if (Status == asynSuccess)
+		return;
+	throw CException(pasynUser, Status, Function, what);
+}
+

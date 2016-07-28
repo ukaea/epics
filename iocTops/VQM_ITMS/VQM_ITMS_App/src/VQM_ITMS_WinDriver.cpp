@@ -51,10 +51,18 @@ static const int ASYN_TRACE_WARNING = ASYN_TRACE_ERROR;
 CVQM_ITMS_Driver* CVQM_ITMS_Driver::m_Instance;
 
 CVQM_ITMS_Driver::CException::CException(asynUser* AsynUser, SVQM_800_Error const& Error, const char* functionName) :
-	CVQM_ITMS_Base::CException(AsynUser, asynError, functionName, wcstombs(Error.m_ErrorString)) {
-			std::string message = "%s:%s ERROR: " + std::string(what()) + "%s\n";
-			asynPrint(AsynUser, ASYN_TRACE_ERROR, message.c_str(), __FILE__, functionName, AsynUser->errorMessage);
-		}
+	::CException(AsynUser, asynError, functionName, wcstombs(Error.m_ErrorString)) 
+{
+	std::string message = "%s:%s ERROR: " + std::string(what()) + "%s\n";
+	asynPrint(AsynUser, ASYN_TRACE_ERROR, message.c_str(), __FILE__, functionName, AsynUser->errorMessage);
+}
+
+CVQM_ITMS_Driver::CException::CException(asynUser* AsynUser, asynStatus Status, const char* functionName, std::string const& what) :
+	::CException(AsynUser, asynError, functionName, what) 
+{
+		std::string message = "%s:%s ERROR: " + std::string(what) + "%s\n";
+		asynPrint(AsynUser, ASYN_TRACE_ERROR, message.c_str(), __FILE__, functionName, AsynUser->errorMessage);
+}
 
 class CVQM_ITMS_Driver::CThreadRunable : public epicsThreadRunable
 {
@@ -76,7 +84,7 @@ class CVQM_ITMS_Driver::CThreadRunable : public epicsThreadRunable
 					if (!m_This->GetScanData(m_TableIndex, m_RawData, m_PartialPressure))
 						epicsThreadSleep(0.01);
 			}
-			catch(CVQM_ITMS_Base::CException const& E) {
+			catch(::CException const& E) {
 				// make sure we return an error state if there are comms problems
 				m_This->ErrorHandler(m_TableIndex, E);
 			}
@@ -202,7 +210,7 @@ void CVQM_ITMS_Driver::ThrowException(SVQM_800_Error const& Error, const char* F
 void CVQM_ITMS_Driver::addIOPort(const char* DeviceAddress)
 {
 	if (int(NrInstalled()) >= maxAddr)
-		throw CVQM_ITMS_Base::CException(pasynUserSelf, asynError, __FUNCTION__, "Too many pumps connected=" + std::string(DeviceAddress));
+		throw CException(pasynUserSelf, asynError, __FUNCTION__, "Too many pumps connected=" + std::string(DeviceAddress));
 
 	for (size_t ParamIndex = 0; ParamIndex < size_t(NUM_PARAMS); ParamIndex++)
 	{
@@ -239,7 +247,7 @@ void CVQM_ITMS_Driver::addIOPort(const char* DeviceAddress)
 		int Averages = 1000 / 85;
 		ThrowException(m_serviceWrapper->DataAnalysisSetNumAvgs(Averages, m_Connections[NewConnection]), __FUNCTION__);
 		setIntegerParam(NrInstalled(), ParameterDefn::AVERAGES, Averages);
-		SetGaugeState(NewConnection, false);
+		SetGaugeState(NewConnection, true);
 		setIntegerParam(NrInstalled(), ParameterDefn::SCANNING, 1);
 	}
 	else
@@ -286,7 +294,7 @@ asynStatus CVQM_ITMS_Driver::readFloat64(asynUser *pasynUser, epicsFloat64 *valu
 	try {
 		CVQM_ITMS_Base::ThrowException(pasynUser, getAddress(pasynUser, &TableIndex), __FUNCTION__, "Could not get address");
 		if ((TableIndex < 0) || (TableIndex >= int(NrInstalled())))
-			throw CVQM_ITMS_Base::CException(pasynUser, asynError, __FUNCTION__, "User / ITMS not configured");
+			throw CException(pasynUser, asynError, __FUNCTION__, "User / ITMS not configured");
 		epicsGuard < epicsMutex > guard (*m_Threads[TableIndex]);
 		if (m_Instance == NULL)
 			// The IOC is exiting
@@ -363,7 +371,7 @@ asynStatus CVQM_ITMS_Driver::readFloat64(asynUser *pasynUser, epicsFloat64 *valu
 		else
 			Status = CVQM_ITMS_Base::readFloat64(pasynUser, value);
 	}
-	catch(CVQM_ITMS_Base::CException const& E) {
+	catch(::CException const& E) {
 		// make sure we return an error state if there are comms problems
 		Status = ErrorHandler(TableIndex, E);
 	}
@@ -378,7 +386,7 @@ bool CVQM_ITMS_Driver::GetScanData(int TableIndex, std::vector<float>& RawData, 
 		return false;
 
 	if ((TableIndex < 0) || (TableIndex >= int(NrInstalled())))
-		throw CVQM_ITMS_Base::CException(pasynUserSelf, asynError, __FUNCTION__, "User / ITMS not configured");
+		throw CException(pasynUserSelf, asynError, __FUNCTION__, "User / ITMS not configured");
 	epicsGuard < epicsMutex > guard (*m_Threads[TableIndex]);
 	if (m_Instance == NULL)
 		// The IOC is exiting
@@ -451,7 +459,7 @@ asynStatus CVQM_ITMS_Driver::readFloat32Array(asynUser *pasynUser, epicsFloat32 
 	try {
 		CVQM_ITMS_Base::ThrowException(pasynUser, getAddress(pasynUser, &TableIndex), __FUNCTION__, "Could not get address");
 		if ((TableIndex < 0) || (TableIndex >= int(NrInstalled())))
-			throw CVQM_ITMS_Base::CException(pasynUser, asynError, __FUNCTION__, "User / ITMS not configured");
+			throw CException(pasynUser, asynError, __FUNCTION__, "User / ITMS not configured");
 		epicsGuard < epicsMutex > guard (*m_Threads[TableIndex]);
 		if (m_Instance == NULL)
 			// The IOC is exiting
@@ -477,7 +485,7 @@ asynStatus CVQM_ITMS_Driver::readFloat32Array(asynUser *pasynUser, epicsFloat32 
 				m_Threads[TableIndex]->start();
 		}
 	}
-	catch(CVQM_ITMS_Base::CException const& E) {
+	catch(::CException const& E) {
 		// make sure we return an error state if there are comms problems
 		Status = ErrorHandler(TableIndex, E);
 	}
@@ -485,7 +493,7 @@ asynStatus CVQM_ITMS_Driver::readFloat32Array(asynUser *pasynUser, epicsFloat32 
 	return Status;
 }
 
-asynStatus CVQM_ITMS_Driver::ErrorHandler(int TableIndex, CVQM_ITMS_Base::CException const& E)
+asynStatus CVQM_ITMS_Driver::ErrorHandler(int TableIndex, ::CException const& E)
 {
 	if (m_Instance == NULL)
 		// The IOC is exiting
@@ -536,7 +544,7 @@ asynStatus CVQM_ITMS_Driver::writeInt32(asynUser *pasynUser, epicsInt32 value)
 	try {
 		CVQM_ITMS_Base::ThrowException(pasynUser, getAddress(pasynUser, &TableIndex), __FUNCTION__, "Could not get address");
 		if ((TableIndex < 0) || (TableIndex >= int(NrInstalled())))
-			throw CVQM_ITMS_Base::CException(pasynUser, asynError, __FUNCTION__, "User / ITMS not configured");
+			throw CException(pasynUser, asynError, __FUNCTION__, "User / ITMS not configured");
 		epicsGuard < epicsMutex > guard (*m_Threads[TableIndex]);
 		if (m_Instance == NULL)
 			// The IOC is exiting
@@ -550,7 +558,7 @@ asynStatus CVQM_ITMS_Driver::writeInt32(asynUser *pasynUser, epicsInt32 value)
 		else if (function == Parameters(ParameterDefn::AVERAGEMODE))
 			ThrowException(m_serviceWrapper->DataAnalysisSetAvgMode(EnumAvgMode(value), m_Connections[Connection]), __FUNCTION__);
 	}
-	catch(CVQM_ITMS_Base::CException const& E) {
+	catch(::CException const& E) {
 		// make sure we return an error state if there are comms problems
 		Status = ErrorHandler(TableIndex, E);
 	}
@@ -571,7 +579,7 @@ asynStatus CVQM_ITMS_Driver::writeFloat64(asynUser *pasynUser, epicsFloat64 valu
 	try {
 		CVQM_ITMS_Base::ThrowException(pasynUser, getAddress(pasynUser, &TableIndex), __FUNCTION__, "Could not get address");
 		if ((TableIndex < 0) || (TableIndex >= int(NrInstalled())))
-			throw CVQM_ITMS_Base::CException(pasynUser, asynError, __FUNCTION__, "User / ITMS not configured");
+			throw CException(pasynUser, asynError, __FUNCTION__, "User / ITMS not configured");
 		epicsGuard < epicsMutex > guard (*m_Threads[TableIndex]);
 		if (m_Instance == NULL)
 			// The IOC is exiting
@@ -633,7 +641,7 @@ asynStatus CVQM_ITMS_Driver::writeFloat64(asynUser *pasynUser, epicsFloat64 valu
 			ThrowException(m_serviceWrapper->SetScanRange(FromValue, value, m_Connections[Connection]), __FUNCTION__);
 		}
 	}
-	catch(CVQM_ITMS_Base::CException const& E) {
+	catch(::CException const& E) {
 		// make sure we return an error state if there are comms problems
 		Status = ErrorHandler(TableIndex, E);
 	}

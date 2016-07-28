@@ -157,7 +157,7 @@ record(waveform, "$(P)RawData")
     field(DTYP, "asynFloat32ArrayIn")
     field(FTVL, "FLOAT")
 	field(INP,  "@asyn($(PORT),$(ADDR),1)RAWDATA")
-    field(NELM, "7522")
+    field(NELM, "7233")
 	field(PINI, "1")
 	field(SCAN, "I/O Intr")
 }
