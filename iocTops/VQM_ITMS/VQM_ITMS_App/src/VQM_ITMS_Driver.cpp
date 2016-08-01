@@ -150,6 +150,7 @@ CVQM_ITMS_Driver::CVQM_ITMS_Driver(const char *asynPortName, int numTraps)
 	m_Instance = this;
 #ifdef BUILD_WITH_SDK
 	m_serviceWrapper = CLIWrapperDLL::CreateServiceHandle();
+	ThrowException(m_serviceWrapper->GetValidConnections(m_nConnections, m_Connections), __FUNCTION__);
 #else
 	m_serviceWrapper = new IServiceWrapper();
 #endif
@@ -440,6 +441,9 @@ bool CVQM_ITMS_Driver::GetScanData(int Connection, std::vector<float>& RawData, 
 	setDoubleParam(Connection, ParameterDefn::MASSCAL, headerDataPtr->MassAxisCalibrationFactor());
 	setStringParam(Connection, ParameterDefn::FIRMWAREVERSION, wcstombs(headerDataPtr->FirmwareRevision()));
 	setStringParam(Connection, ParameterDefn::HARDWAREVERSION, wcstombs(headerDataPtr->HardwareRevision()));
+/*	INoiseData const* NoiseDataPtr = headerDataPtr->NoiseData();
+	int NoiseSamples = NoiseDataPtr->NSamples();
+	std::vector<float> NoiseData(NoiseSamples);*/
 	callParamCallbacks(Connection);
 
 	if (AnalyzedData.PeakArea().size() < PartialPressure.size())

@@ -8,6 +8,7 @@
 
 #include <epicsEvent.h>
 #include <epicsMutex.h>
+#include <aitTypes.h>
 
 #include <queue>
 #include <map>
@@ -64,6 +65,7 @@ public:
 	};
 	IServiceWrapper() {
 	}
+	~IServiceWrapper();
 	SVQM_800_Error ConnectToDevice(asynUser* IOUser, bool isMaster);
 	SVQM_800_Error DataAnalysisSetAvgMode(EnumAvgMode mode, asynUser* IOUser);
 	SVQM_800_Error DataAnalysisSetNumAvgs(int numAverages, asynUser* IOUser);
@@ -85,41 +87,34 @@ private:
 	size_t FindMarkerPos(std::string const& HeaderData, size_t Offset, const char* FirstMarker, const char* SecondMarker);
 	void write(asynUser* IOUser, std::string const& WritePacket) const;
 	void writeRead(asynUser* IOUser, std::string const& WritePacket, std::string& ReadPacket) const;
-	void readTill(asynUser* IOUser, std::string& ReadPacket, std::string const& Termination) const;
-	void read(asynUser* IOUser, std::vector<char>& ReadPacket) const;
+	void readTill(asynUser* IOUser, std::string& ReadPacket, std::string const& Termination, int AdditionalChars) const;
+	void read(asynUser* IOUser, std::string& ReadPacket) const;
+	void read(asynUser* IOUser, std::vector<aitUint16>& ReadPacket) const;
+	int CheckExtraData(asynUser* IOUser);
 	std::string EnumToText(EnumLogicalInstruments logicalInstrumentEnum) const;
 	SVQM_800_Error GetTSETingsValues(GaugeState& GaugeState, std::string const&  TSETingsValues);
 	void ThrowException(asynUser* pasynUser, asynStatus Status, const char* Function, std::string const& what) const;
 	GaugeState const& getGaugeState(asynUser* IOUser) const {
-		std::map<asynUser*, GaugeState>::const_iterator Iter = m_GaugeStates.find(IOUser);
-		return Iter->second;
+		std::map<asynUser*, GaugeState*>::const_iterator Iter = m_GaugeStates.find(IOUser);
+		return *(Iter->second);
 	}
 	GaugeState& getGaugeState(asynUser* IOUser) {
-		std::map<asynUser*, GaugeState>::iterator Iter = m_GaugeStates.find(IOUser);
-		return Iter->second;
+		std::map<asynUser*, GaugeState*>::iterator Iter = m_GaugeStates.find(IOUser);
+		return *(Iter->second);
 	}
 
 private:
 	struct GaugeState
 	{
-		GaugeState() {
-			m_Mutex = new epicsMutex;
-		}
-		~GaugeState() {
-			delete m_Mutex;
-		}
 		IHeaderData m_HeaderData;
 		EnumGaugeState m_GaugeState;
 		double m_lowerRange;
 		double m_upperRange;
 		double m_EmissionCurrent;
 		std::map<EnumLogicalInstruments, InstrumentVoltage> m_InstrumentVoltages;
-		mutable epicsMutex* m_Mutex;
-		epicsMutex& Mutex() const {
-			return *m_Mutex;
-		}
+		mutable epicsMutex m_Mutex;
 	};
-	std::map<asynUser*, GaugeState> m_GaugeStates;
+	std::map<asynUser*, GaugeState*> m_GaugeStates;
 };
 
 #endif // ISERVIVEWRAPPER_H_INCLUDED

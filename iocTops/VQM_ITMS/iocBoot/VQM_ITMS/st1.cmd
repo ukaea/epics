@@ -2,7 +2,7 @@
 
 ## Register all support components
 dbLoadDatabase ("../../dbd/VQM_ITMS.dbd")
-VQM_ITMS__registerRecordDeviceDriver pdbbase
+VQM_ITMS_registerRecordDeviceDriver pdbbase
 
 epicsEnvSet ASYNPORT $(ASYNPORT=VQM_ITMS)
 epicsEnvSet ASYNPORT1 $(ASYNPORT1=$(ASYNPORT):1)
