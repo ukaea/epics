@@ -22,11 +22,6 @@
 #include "ParameterDefns.h"
 #include "Exception.h"
 
-#ifdef epicsExportSharedSymbols
-#define VQM_ITMS_BaseepicsExportSharedSymbols
-#undef epicsExportSharedSymbols
-#endif
-
 #include <asynPortDriver.h>
 #include <envDefs.h>
 
@@ -34,13 +29,7 @@
 #include <map>
 #include <vector>
 
-#ifdef VQM_ITMS_BaseepicsExportSharedSymbols
-#undef VQM_ITMS_BaseepicsExportSharedSymbols
-#define epicsExportSharedSymbols
-#include <shareLib.h>
-#endif
-
-class epicsShareClass CVQM_ITMS_Base : public asynPortDriver
+class CVQM_ITMS_Base : public asynPortDriver
 {
 public:
 

@@ -35,7 +35,7 @@ void FromString(std::string const& String, double& value)
 
 SVQM_800_Error IServiceWrapper::ConnectToDevice(asynUser* IOUser, bool isMaster)
 {
-	epicsGuard < epicsMutex > guard (m_Mutex);
+	epicsGuard < epicsMutex > guard (getGaugeState(IOUser).Mutex());
 	ThrowException(IOUser, pasynOctetSyncIO->flush(IOUser), __FUNCTION__, "flush");
 	ThrowException(IOUser, pasynOctetSyncIO->setOutputEos(IOUser, "\r", 1), __FUNCTION__, "setOutputEos");
 	ThrowException(IOUser, pasynOctetSyncIO->setInputEos(IOUser, "\r", 1), __FUNCTION__, "setInputEos");
@@ -52,7 +52,7 @@ SVQM_800_Error IServiceWrapper::ConnectToDevice(asynUser* IOUser, bool isMaster)
 	write(IOUser, "SYST:DATE " + std::string(Date));
 	write(IOUser, "SYST:TIME " + std::string(TimeOfDay));
 	write(IOUser, "STAT:OPER:CONT:NTR 32767");
-	GetGaugeState(m_GaugeState, IOUser);
+	GetGaugeState(m_GaugeStates[IOUser].m_GaugeState, IOUser);
 	SetGaugeState(EnumGaugeState_OFF, IOUser);
 	write(IOUser, "INST FIL");
 	write(IOUser, "SOUR:MODE ADJ");
@@ -72,9 +72,9 @@ SVQM_800_Error IServiceWrapper::ConnectToDevice(asynUser* IOUser, bool isMaster)
 	// +9.28392E-01,+1.47596E+02
 	size_t CommaPos = FindMarkerPos(AMUResponse, 0, ",");
 	std::string lowerRange = AMUResponse.substr(0, CommaPos-1);
-	FromString(lowerRange, m_lowerRange);
+	FromString(lowerRange, m_GaugeStates[IOUser].m_lowerRange);
 	std::string upperRange = AMUResponse.substr(CommaPos+1);
-	FromString(upperRange, m_upperRange);
+	FromString(upperRange, m_GaugeStates[IOUser].m_upperRange);
 	return SVQM_800_Error();
 }
 
@@ -90,13 +90,13 @@ SVQM_800_Error IServiceWrapper::DataAnalysisSetNumAvgs(int numAverages, asynUser
 
 SVQM_800_Error IServiceWrapper::GetFilamentEmissionCurrent(double& value, asynUser* IOUser) const
 {
-	value = m_EmissionCurrent;
+	value = getGaugeState(IOUser).m_EmissionCurrent;
 	return SVQM_800_Error();
 }
 
 SVQM_800_Error IServiceWrapper::SetFilamentEmissionCurrentSetpoint(double& value, asynUser* IOUser)
 {
-	epicsGuard < epicsMutex > guard (m_Mutex);
+	epicsGuard < epicsMutex > guard (m_GaugeStates[IOUser].Mutex());
 	write(IOUser, "INST FIL");
 	write(IOUser, "SOUR CURR " + ToString(value));
 	return SVQM_800_Error();
@@ -125,7 +125,8 @@ std::string IServiceWrapper::EnumToText(EnumLogicalInstruments logicalInstrument
 
 SVQM_800_Error IServiceWrapper::GetLogicalInstrumentMinMaxVoltage(EnumLogicalInstruments logicalInstrumentEnum, asynUser* IOUser)
 {
-	epicsGuard < epicsMutex > guard (m_Mutex);
+	GaugeState& GaugeState = getGaugeState(IOUser);
+	epicsGuard < epicsMutex > guard (GaugeState.Mutex());
 	double Min, Max;
 	write(IOUser, EnumToText(logicalInstrumentEnum));
 	std::string MaxResponse, MinResponse;
@@ -133,22 +134,24 @@ SVQM_800_Error IServiceWrapper::GetLogicalInstrumentMinMaxVoltage(EnumLogicalIns
 	FromString(MaxResponse, Max);
 	writeRead(IOUser, "SOUR:VOLT? MIN", MinResponse);
 	FromString(MinResponse, Min);
-	m_InstrumentVoltages[logicalInstrumentEnum].m_Min = Min;
-	m_InstrumentVoltages[logicalInstrumentEnum].m_Max = Max;
+	GaugeState.m_InstrumentVoltages[logicalInstrumentEnum].m_Min = Min;
+	GaugeState.m_InstrumentVoltages[logicalInstrumentEnum].m_Max = Max;
 	return SVQM_800_Error();
 }
 
 SVQM_800_Error IServiceWrapper::GetLogicalInstrumentCurrentVoltage(double& value, EnumLogicalInstruments logicalInstrumentEnum, asynUser* IOUser) const
 {
-	std::map<EnumLogicalInstruments, InstrumentVoltage>::const_iterator Iter = m_InstrumentVoltages.find(logicalInstrumentEnum);
-	if (Iter == m_InstrumentVoltages.end())
+	GaugeState const& GaugeState = getGaugeState(IOUser);
+	std::map<EnumLogicalInstruments, InstrumentVoltage>::const_iterator Iter = GaugeState.m_InstrumentVoltages.find(logicalInstrumentEnum);
+	if (Iter == GaugeState.m_InstrumentVoltages.end())
 		return SVQM_800_Error(NO_ANALYZED_DATA, L"Instrument not found", L"GetLogicalInstrumentCurrentVoltage");
 	return SVQM_800_Error();
 }
 
 SVQM_800_Error IServiceWrapper::SetLogicalInstrumentVoltageSetpoint(EnumLogicalInstruments logicalInstrumentEnum, double& value, asynUser* IOUser)
 {
-	epicsGuard < epicsMutex > guard (m_Mutex);
+	GaugeState& GaugeState = getGaugeState(IOUser);
+	epicsGuard < epicsMutex > guard (GaugeState.Mutex());
 	write(IOUser, EnumToText(logicalInstrumentEnum));
 	write(IOUser, "SOUR:VOLT");
 	return SVQM_800_Error();
@@ -166,14 +169,16 @@ SVQM_800_Error IServiceWrapper::GetElectrometerGain(double& value, asynUser* IOU
 
 SVQM_800_Error IServiceWrapper::GetScanRange(double& lowerRange, double& upperRange, asynUser* IOUser)
 {
-	lowerRange = m_lowerRange;
-	upperRange = m_upperRange;
+	GaugeState const& GaugeState = getGaugeState(IOUser);
+	lowerRange = GaugeState.m_lowerRange;
+	upperRange = GaugeState.m_upperRange;
 	return SVQM_800_Error();
 }
 
 SVQM_800_Error IServiceWrapper::SetScanRange(double& lowerRange, double& upperRange, asynUser* IOUser)
 {
-	epicsGuard < epicsMutex > guard (m_Mutex);
+	GaugeState& GaugeState = getGaugeState(IOUser);
+	epicsGuard < epicsMutex > guard (GaugeState.Mutex());
 	write(IOUser, "CONF:AMU " + ToString(lowerRange) + "," + ToString(upperRange));
 	return SVQM_800_Error();
 }
@@ -182,7 +187,8 @@ SVQM_800_Error IServiceWrapper::SetScanRange(double& lowerRange, double& upperRa
 //                                            SAverageData& averageData, const SDeviceConnectionInfo& connectInfo, bool& isValidData, EnumGaugeState& controllerState) = 0;
 SVQM_800_Error IServiceWrapper::SetGaugeState(EnumGaugeState gaugeState, asynUser* IOUser)
 {
-	epicsGuard < epicsMutex > guard (m_Mutex);
+	GaugeState& GaugeState = getGaugeState(IOUser);
+	epicsGuard < epicsMutex > guard (GaugeState.Mutex());
 	write(IOUser, "INST MSP");
 	switch (gaugeState)
 	{
@@ -206,9 +212,10 @@ SVQM_800_Error IServiceWrapper::SetGaugeState(EnumGaugeState gaugeState, asynUse
 	return SVQM_800_Error();
 }
 
-SVQM_800_Error IServiceWrapper::GetGaugeState(EnumGaugeState& gaugeState, asynUser* IOUser)
+SVQM_800_Error IServiceWrapper::GetGaugeState(EnumGaugeState& gaugeState, asynUser* IOUser) const
 {
-	epicsGuard < epicsMutex > guard (m_Mutex);
+	GaugeState const& GaugeState = getGaugeState(IOUser);
+	epicsGuard < epicsMutex > guard (GaugeState.Mutex());
 	write(IOUser, "INST MSP");
 	std::string OUTPResponse, INITResponse;
 	int OUTPValue = 0, INITValue;
@@ -219,7 +226,7 @@ SVQM_800_Error IServiceWrapper::GetGaugeState(EnumGaugeState& gaugeState, asynUs
 	return SVQM_800_Error();
 }
 
-SVQM_800_Error IServiceWrapper::GetTSETingsValues(std::string const&  TSETingsValues)
+SVQM_800_Error IServiceWrapper::GetTSETingsValues(GaugeState& GaugeState, std::string const&  TSETingsValues)
 {
 	// enum EnumLogicalInstruments { FILAMENT = 0, FILAMENTBIAS, REPELLERBIAS, ENTRYPLATE, PRESSUREPLATE, CUPS, TRANSITION, EXITPLATE, EMSHIELD, EMBIAS, RFAMP };
 
@@ -227,57 +234,58 @@ SVQM_800_Error IServiceWrapper::GetTSETingsValues(std::string const&  TSETingsVa
 	// (MEASurement=TSETtings (VALues -5.29913E+01,+7.50000E-05,+3.09385E+01,+2.83090E+00,+1.30018E+02,+7.50945E+01,+2.69785E+01,-6.85262E+02,+1.21151E+02,+4.50000E-01,+1.23000E+02,-8.58475E+02,+1.90069E-08,+9.99999E-10))
 	size_t FirstCommaPos = 0, SecondCommaPos = FindMarkerPos(TSETingsValues, FirstCommaPos, ",");
 	std::string RepellerBias = TSETingsValues.substr(FirstCommaPos, SecondCommaPos-FirstCommaPos-1);
-	FromString(RepellerBias, m_InstrumentVoltages[REPELLERBIAS].m_Current);
+	FromString(RepellerBias, GaugeState.m_InstrumentVoltages[REPELLERBIAS].m_Current);
 
 	FirstCommaPos = SecondCommaPos; SecondCommaPos = FindMarkerPos(TSETingsValues, FirstCommaPos+1, ",");
 	std::string EmissionCurrent = TSETingsValues.substr(FirstCommaPos, SecondCommaPos-FirstCommaPos-1);
-	FromString(EmissionCurrent, m_EmissionCurrent);
+	FromString(EmissionCurrent, GaugeState.m_EmissionCurrent);
 
 	FirstCommaPos = SecondCommaPos; SecondCommaPos = FindMarkerPos(TSETingsValues, FirstCommaPos+1, ",");
 	std::string FilamentBias = TSETingsValues.substr(FirstCommaPos, SecondCommaPos-FirstCommaPos-1);
-	FromString(FilamentBias, m_InstrumentVoltages[FILAMENTBIAS].m_Current);
+	FromString(FilamentBias, GaugeState.m_InstrumentVoltages[FILAMENTBIAS].m_Current);
 
 	// No idea (+2.83090E+00)
 	FirstCommaPos = SecondCommaPos; SecondCommaPos = FindMarkerPos(TSETingsValues, FirstCommaPos+1, ",");
 
 	FirstCommaPos = SecondCommaPos; SecondCommaPos = FindMarkerPos(TSETingsValues, FirstCommaPos+1, ",");
 	std::string EntryPlate = TSETingsValues.substr(FirstCommaPos, SecondCommaPos-FirstCommaPos-1);
-	FromString(EntryPlate, m_InstrumentVoltages[ENTRYPLATE].m_Current);
+	FromString(EntryPlate, GaugeState.m_InstrumentVoltages[ENTRYPLATE].m_Current);
 
 	FirstCommaPos = SecondCommaPos; SecondCommaPos = FindMarkerPos(TSETingsValues, FirstCommaPos+1, ",");
 	std::string PressurePlate = TSETingsValues.substr(FirstCommaPos, SecondCommaPos-FirstCommaPos-1);
-	FromString(PressurePlate, m_InstrumentVoltages[PRESSUREPLATE].m_Current);
+	FromString(PressurePlate, GaugeState.m_InstrumentVoltages[PRESSUREPLATE].m_Current);
 
 	FirstCommaPos = SecondCommaPos; SecondCommaPos = FindMarkerPos(TSETingsValues, FirstCommaPos+1, ",");
 	std::string Cups = TSETingsValues.substr(FirstCommaPos, SecondCommaPos-FirstCommaPos-1);
-	FromString(Cups, m_InstrumentVoltages[CUPS].m_Current);
+	FromString(Cups, GaugeState.m_InstrumentVoltages[CUPS].m_Current);
 
 	FirstCommaPos = SecondCommaPos; SecondCommaPos = FindMarkerPos(TSETingsValues, FirstCommaPos+1, ",");
 	std::string Transition = TSETingsValues.substr(FirstCommaPos, SecondCommaPos-FirstCommaPos-1);
-	FromString(Transition, m_InstrumentVoltages[TRANSITION].m_Current);
+	FromString(Transition, GaugeState.m_InstrumentVoltages[TRANSITION].m_Current);
 
 	FirstCommaPos = SecondCommaPos; SecondCommaPos = FindMarkerPos(TSETingsValues, FirstCommaPos+1, ",");
 	std::string ExitPlate = TSETingsValues.substr(FirstCommaPos, SecondCommaPos-FirstCommaPos-1);
-	FromString(Transition, m_InstrumentVoltages[EXITPLATE].m_Current);
+	FromString(Transition, GaugeState.m_InstrumentVoltages[EXITPLATE].m_Current);
 
 	FirstCommaPos = SecondCommaPos; SecondCommaPos = FindMarkerPos(TSETingsValues, FirstCommaPos+1, ",");
 	std::string RFAmp = TSETingsValues.substr(FirstCommaPos, SecondCommaPos-FirstCommaPos-1);
-	FromString(RFAmp, m_InstrumentVoltages[RFAMP].m_Current);
+	FromString(RFAmp, GaugeState.m_InstrumentVoltages[RFAMP].m_Current);
 
 	FirstCommaPos = SecondCommaPos; SecondCommaPos = FindMarkerPos(TSETingsValues, FirstCommaPos+1, ",");
 	std::string EMShield = TSETingsValues.substr(FirstCommaPos, SecondCommaPos-FirstCommaPos-1);
-	FromString(EMShield, m_InstrumentVoltages[EMSHIELD].m_Current);
+	FromString(EMShield, GaugeState.m_InstrumentVoltages[EMSHIELD].m_Current);
 
 	FirstCommaPos = SecondCommaPos; SecondCommaPos = FindMarkerPos(TSETingsValues, FirstCommaPos+1, ",");
 	std::string EMBias = TSETingsValues.substr(FirstCommaPos, SecondCommaPos-FirstCommaPos-1);
-	FromString(EMBias, m_InstrumentVoltages[EMBIAS].m_Current);
+	FromString(EMBias, GaugeState.m_InstrumentVoltages[EMBIAS].m_Current);
 	return SVQM_800_Error();
 }
 
 SVQM_800_Error IServiceWrapper::GetScanData(int& lastScanNumber, SAnalyzedData& analyzedData, IHeaderData** headerDataPtr,
                                SAverageData& averageData, asynUser* IOUser, bool& isValidData, EnumGaugeState& controllerState)
 {
-	epicsGuard < epicsMutex > guard (m_Mutex);
+	GaugeState& GaugeState = getGaugeState(IOUser);
+	epicsGuard < epicsMutex > guard (GaugeState.Mutex());
 	std::vector<char> ReadPacket;
 	std::string HeaderData;
 	write(IOUser, "fetc?");
@@ -286,15 +294,15 @@ SVQM_800_Error IServiceWrapper::GetScanData(int& lastScanNumber, SAnalyzedData& 
 
 	size_t IDPos = FindMarkerPos(HeaderData, 0, "(DIF (VERSion 1999.0) IDENtify", "(ID \"");
 	size_t QuotePos = FindMarkerPos(HeaderData, IDPos, "\"");
-	m_HeaderData.m_MID = mbstowcs(HeaderData.substr(IDPos, QuotePos-IDPos));
+	GaugeState.m_HeaderData.m_MID = mbstowcs(HeaderData.substr(IDPos, QuotePos-IDPos));
 
 	size_t DESignPos = FindMarkerPos(HeaderData, QuotePos, "DESign \"");
 
 	// (DIF (VERSion 1999.0) IDENtify (DATE 2016,07,25 TIME 13,55,09.737 UUT (ID "835A0405"  DESign "0A,03.001.01301"))
 	size_t CommaPos = FindMarkerPos(HeaderData, DESignPos, ",");
 	QuotePos = FindMarkerPos(HeaderData, CommaPos, "\"");
-	m_HeaderData.m_HardwareRevision = mbstowcs(HeaderData.substr(DESignPos, CommaPos-DESignPos-1));
-	m_HeaderData.m_FirmwareRevision = mbstowcs(HeaderData.substr(CommaPos, QuotePos-CommaPos-1));
+	GaugeState.m_HeaderData.m_HardwareRevision = mbstowcs(HeaderData.substr(DESignPos, CommaPos-DESignPos-1));
+	GaugeState.m_HeaderData.m_FirmwareRevision = mbstowcs(HeaderData.substr(CommaPos, QuotePos-CommaPos-1));
 
 	// enum EnumLogicalInstruments { FILAMENT = 0, FILAMENTBIAS, REPELLERBIAS, ENTRYPLATE, PRESSUREPLATE, CUPS, TRANSITION, EXITPLATE, EMSHIELD, EMBIAS, RFAMP };
 	//								  RepellerBias  Emission    FilamentBias   No idea     EntryPlate   PressurePlate Cups        Transition   ExitPlate     RFAmp       EMShield     no idea     no idea      no idea
@@ -302,7 +310,7 @@ SVQM_800_Error IServiceWrapper::GetScanData(int& lastScanNumber, SAnalyzedData& 
 	size_t VALuesPos = FindMarkerPos(HeaderData, QuotePos, "DATA (MEASurement=TSETtings (VALues ");
 	size_t CloseBracketPos = FindMarkerPos(HeaderData, VALuesPos, "))");
 	std::string TSETingsValues = HeaderData.substr(VALuesPos, CloseBracketPos-VALuesPos-2);
-	SVQM_800_Error Error = GetTSETingsValues(TSETingsValues);
+	SVQM_800_Error Error = GetTSETingsValues(GaugeState, TSETingsValues);
 
 	VALuesPos = FindMarkerPos(HeaderData, CloseBracketPos, "CURVe (", "VALues #");
 	int VALues = 0;
@@ -311,7 +319,7 @@ SVQM_800_Error IServiceWrapper::GetScanData(int& lastScanNumber, SAnalyzedData& 
 	ReadPacket.resize(VALues*4);
 	read(IOUser, ReadPacket);
 	pasynOctetSyncIO->setInputEos(IOUser, "\r", 1);
-	*headerDataPtr = &m_HeaderData;
+	*headerDataPtr = &GaugeState.m_HeaderData;
 	return Error;
 }
 
@@ -339,7 +347,7 @@ size_t IServiceWrapper::FindMarkerPos(std::string const& HeaderData, size_t Offs
 
 void IServiceWrapper::write(asynUser* IOUser, std::string const& WritePacket) const
 {
-	epicsGuard < epicsMutex > guard (m_Mutex);
+	epicsGuard < epicsMutex > guard (getGaugeState(IOUser).Mutex());
 	size_t nBytesOut;
 	// NB, *don't* pass pasynUser to this function - it has the wrong type and will cause an access violation.
 	ThrowException(IOUser, pasynOctetSyncIO->write(IOUser, WritePacket.c_str(), WritePacket.size(), TimeOut, &nBytesOut), __FUNCTION__, "write");
@@ -347,7 +355,7 @@ void IServiceWrapper::write(asynUser* IOUser, std::string const& WritePacket) co
 
 void IServiceWrapper::writeRead(asynUser* IOUser, std::string const& WritePacket, std::string& ReadPacket) const
 {
-	epicsGuard < epicsMutex > guard (m_Mutex);
+	epicsGuard < epicsMutex > guard (getGaugeState(IOUser).Mutex());
 	size_t nBytesIn;
 	int eomReason = ASYN_EOM_CNT;
 	char Buf[1024];
@@ -364,7 +372,7 @@ void IServiceWrapper::writeRead(asynUser* IOUser, std::string const& WritePacket
 
 void IServiceWrapper::readTill(asynUser* IOUser, std::string& ReadPacket, std::string const& Termination) const
 {
-	epicsGuard < epicsMutex > guard (m_Mutex);
+	epicsGuard < epicsMutex > guard (getGaugeState(IOUser).Mutex());
 	size_t nBytesIn;
 	int eomReason = ASYN_EOM_CNT;
 	char Buf;
@@ -380,7 +388,7 @@ void IServiceWrapper::readTill(asynUser* IOUser, std::string& ReadPacket, std::s
 
 void IServiceWrapper::read(asynUser* IOUser, std::vector<char>& ReadPacket) const
 {
-	epicsGuard < epicsMutex > guard (m_Mutex);
+	epicsGuard < epicsMutex > guard (getGaugeState(IOUser).Mutex());
 	size_t nBytesIn;
 	int eomReason = ASYN_EOM_CNT;
 	// NB, *don't* pass pasynUser to this function - it has the wrong type and will cause an access violation.

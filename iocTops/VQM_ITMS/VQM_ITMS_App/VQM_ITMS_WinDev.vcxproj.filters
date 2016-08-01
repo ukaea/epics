@@ -4,6 +4,12 @@
     <ClCompile Include="src\VQM_ITMS_Driver.cpp">
       <Filter>Src</Filter>
     </ClCompile>
+    <ClCompile Include="src\Exception.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VQM_ITMS_Base.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\VQM\Include\IHeaderData.h">
@@ -31,6 +37,12 @@
       <Filter>Src</Filter>
     </ClInclude>
     <ClInclude Include="src\VQM_ITMS_Driver.h">
+      <Filter>Src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Exception.h">
+      <Filter>Src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VQM_ITMS_Base.h">
       <Filter>Src</Filter>
     </ClInclude>
   </ItemGroup>
@@ -78,5 +90,10 @@
     <Filter Include="Db">
       <UniqueIdentifier>{b433b273-5394-436c-a82f-99da5d0ebc12}</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="src\VQM_ITMS_Include.dbd">
+      <Filter>Src</Filter>
+    </CustomBuild>
   </ItemGroup>
 </Project>

@@ -12,9 +12,6 @@
     <None Include="Scripts\camonitor.py">
       <Filter>Scripts</Filter>
     </None>
-    <None Include="src\VQM_ITMS_Include.dbd">
-      <Filter>Src</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Src">
@@ -27,5 +24,10 @@
       <UniqueIdentifier>{5ca79112-8cb3-45af-baef-a80fdf98066c}</UniqueIdentifier>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="src\VQM_ITMS_Include.dbd">
+      <Filter>Src</Filter>
+    </CustomBuild>
   </ItemGroup>
 </Project>

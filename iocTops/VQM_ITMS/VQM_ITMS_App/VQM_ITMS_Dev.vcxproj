@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TrackFileAccess>false</TrackFileAccess>
+  </PropertyGroup>
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug_DLL|Win32">
       <Configuration>Debug_DLL</Configuration>
@@ -35,7 +38,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Exception.cpp" />
     <ClCompile Include="src\VQM\CrossPlatform\IServiceWrapper.cpp" />
+    <ClCompile Include="src\VQM_ITMS_Base.cpp" />
     <ClCompile Include="src\VQM_ITMS_Driver.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -54,9 +59,6 @@
     <ProjectReference Include="..\..\..\base-3.15.4\src\std\dbRecStd.vcxproj">
       <Project>{3b0e3542-cb89-4ffa-b004-eac882b3f277}</Project>
     </ProjectReference>
-    <ProjectReference Include="VQM_ITMS_Base.vcxproj">
-      <Project>{55524934-9b02-4455-ba3c-badfb72ffaec}</Project>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Db\Makefile" />
@@ -70,6 +72,7 @@
     <ClInclude Include="Src\VQM\CrossPlatform\IHeaderData.h" />
     <ClInclude Include="src\VQM\CrossPlatform\IServiceWrapper.h" />
     <ClInclude Include="src\VQM\Include\SRawConnectionOptions.h" />
+    <ClInclude Include="src\VQM_ITMS_Base.h" />
     <ClInclude Include="src\VQM_ITMS_Driver.h" />
     <ClInclude Include="src\ParameterDefns.h" />
   </ItemGroup>
