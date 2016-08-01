@@ -1,12 +1,13 @@
-#include "DeviceWrapper.h"
-#include "Exception.h"
-
 #include <asynOctetSyncIO.h>
 #include <asynOctet.h>
 
 #include <epicsGuard.h>
 
 #include <sstream>
+
+#define epicsExportSharedSymbols
+#include "IServiceWrapper.h"
+#include "../../Exception.h"
 
 #ifdef _DEBUG
 // Infinite timeout, convenient for debugging.
@@ -32,7 +33,7 @@ void FromString(std::string const& String, double& value)
 	value = atof(String.c_str());
 }
 
-DeviceWrapper::DeviceWrapper(asynUser* IOUser)
+SVQM_800_Error IServiceWrapper::ConnectToDevice(asynUser* IOUser, bool isMaster)
 {
 	epicsGuard < epicsMutex > guard (m_Mutex);
 	ThrowException(IOUser, pasynOctetSyncIO->flush(IOUser), __FUNCTION__, "flush");
@@ -74,25 +75,26 @@ DeviceWrapper::DeviceWrapper(asynUser* IOUser)
 	FromString(lowerRange, m_lowerRange);
 	std::string upperRange = AMUResponse.substr(CommaPos+1);
 	FromString(upperRange, m_upperRange);
+	return SVQM_800_Error();
 }
 
-SVQM_800_Error DeviceWrapper::DataAnalysisSetAvgMode(EnumAvgMode mode, asynUser* IOUser)
+SVQM_800_Error IServiceWrapper::DataAnalysisSetAvgMode(EnumAvgMode mode, asynUser* IOUser)
 {
 	return SVQM_800_Error();
 }
 
-SVQM_800_Error DeviceWrapper::DataAnalysisSetNumAvgs(int numAverages, asynUser* IOUser)
+SVQM_800_Error IServiceWrapper::DataAnalysisSetNumAvgs(int numAverages, asynUser* IOUser)
 {
 	return SVQM_800_Error();
 }
 
-SVQM_800_Error DeviceWrapper::GetFilamentEmissionCurrent(double& value, asynUser* IOUser) const
+SVQM_800_Error IServiceWrapper::GetFilamentEmissionCurrent(double& value, asynUser* IOUser) const
 {
 	value = m_EmissionCurrent;
 	return SVQM_800_Error();
 }
 
-SVQM_800_Error DeviceWrapper::SetFilamentEmissionCurrentSetpoint(double& value, asynUser* IOUser)
+SVQM_800_Error IServiceWrapper::SetFilamentEmissionCurrentSetpoint(double& value, asynUser* IOUser)
 {
 	epicsGuard < epicsMutex > guard (m_Mutex);
 	write(IOUser, "INST FIL");
@@ -101,7 +103,7 @@ SVQM_800_Error DeviceWrapper::SetFilamentEmissionCurrentSetpoint(double& value, 
 }
 
 
-std::string DeviceWrapper::EnumToText(EnumLogicalInstruments logicalInstrumentEnum) const
+std::string IServiceWrapper::EnumToText(EnumLogicalInstruments logicalInstrumentEnum) const
 {
 	switch(logicalInstrumentEnum)
 	{
@@ -121,7 +123,7 @@ std::string DeviceWrapper::EnumToText(EnumLogicalInstruments logicalInstrumentEn
 	return "";
 }
 
-SVQM_800_Error DeviceWrapper::GetLogicalInstrumentMinMaxVoltage(EnumLogicalInstruments logicalInstrumentEnum, asynUser* IOUser)
+SVQM_800_Error IServiceWrapper::GetLogicalInstrumentMinMaxVoltage(EnumLogicalInstruments logicalInstrumentEnum, asynUser* IOUser)
 {
 	epicsGuard < epicsMutex > guard (m_Mutex);
 	double Min, Max;
@@ -136,7 +138,7 @@ SVQM_800_Error DeviceWrapper::GetLogicalInstrumentMinMaxVoltage(EnumLogicalInstr
 	return SVQM_800_Error();
 }
 
-SVQM_800_Error DeviceWrapper::GetLogicalInstrumentCurrentVoltage(double& value, EnumLogicalInstruments logicalInstrumentEnum, asynUser* IOUser) const
+SVQM_800_Error IServiceWrapper::GetLogicalInstrumentCurrentVoltage(double& value, EnumLogicalInstruments logicalInstrumentEnum, asynUser* IOUser) const
 {
 	std::map<EnumLogicalInstruments, InstrumentVoltage>::const_iterator Iter = m_InstrumentVoltages.find(logicalInstrumentEnum);
 	if (Iter == m_InstrumentVoltages.end())
@@ -144,7 +146,7 @@ SVQM_800_Error DeviceWrapper::GetLogicalInstrumentCurrentVoltage(double& value, 
 	return SVQM_800_Error();
 }
 
-SVQM_800_Error DeviceWrapper::SetLogicalInstrumentVoltageSetpoint(EnumLogicalInstruments logicalInstrumentEnum, double& value, asynUser* IOUser)
+SVQM_800_Error IServiceWrapper::SetLogicalInstrumentVoltageSetpoint(EnumLogicalInstruments logicalInstrumentEnum, double& value, asynUser* IOUser)
 {
 	epicsGuard < epicsMutex > guard (m_Mutex);
 	write(IOUser, EnumToText(logicalInstrumentEnum));
@@ -152,24 +154,24 @@ SVQM_800_Error DeviceWrapper::SetLogicalInstrumentVoltageSetpoint(EnumLogicalIns
 	return SVQM_800_Error();
 }
 
-SVQM_800_Error DeviceWrapper::GetMassCalibrationFactor(float& value, asynUser* IOUser) const
+SVQM_800_Error IServiceWrapper::GetMassCalibrationFactor(float& value, asynUser* IOUser) const
 {
 	return SVQM_800_Error();
 }
 
-SVQM_800_Error DeviceWrapper::GetElectrometerGain(double& value, asynUser* IOUser) const
+SVQM_800_Error IServiceWrapper::GetElectrometerGain(double& value, asynUser* IOUser) const
 {
 	return SVQM_800_Error();
 }
 
-SVQM_800_Error DeviceWrapper::GetScanRange(double& lowerRange, double& upperRange, asynUser* IOUser)
+SVQM_800_Error IServiceWrapper::GetScanRange(double& lowerRange, double& upperRange, asynUser* IOUser)
 {
 	lowerRange = m_lowerRange;
 	upperRange = m_upperRange;
 	return SVQM_800_Error();
 }
 
-SVQM_800_Error DeviceWrapper::SetScanRange(double& lowerRange, double& upperRange, asynUser* IOUser)
+SVQM_800_Error IServiceWrapper::SetScanRange(double& lowerRange, double& upperRange, asynUser* IOUser)
 {
 	epicsGuard < epicsMutex > guard (m_Mutex);
 	write(IOUser, "CONF:AMU " + ToString(lowerRange) + "," + ToString(upperRange));
@@ -178,7 +180,7 @@ SVQM_800_Error DeviceWrapper::SetScanRange(double& lowerRange, double& upperRang
 
 //	asynStatus GetScanData(int& lastScanNumber, SAnalyzedData& analyzedData, IHeaderData** headerDataPtr,
 //                                            SAverageData& averageData, const SDeviceConnectionInfo& connectInfo, bool& isValidData, EnumGaugeState& controllerState) = 0;
-SVQM_800_Error DeviceWrapper::SetGaugeState(EnumGaugeState gaugeState, asynUser* IOUser)
+SVQM_800_Error IServiceWrapper::SetGaugeState(EnumGaugeState gaugeState, asynUser* IOUser)
 {
 	epicsGuard < epicsMutex > guard (m_Mutex);
 	write(IOUser, "INST MSP");
@@ -204,7 +206,7 @@ SVQM_800_Error DeviceWrapper::SetGaugeState(EnumGaugeState gaugeState, asynUser*
 	return SVQM_800_Error();
 }
 
-SVQM_800_Error DeviceWrapper::GetGaugeState(EnumGaugeState& gaugeState, asynUser* IOUser)
+SVQM_800_Error IServiceWrapper::GetGaugeState(EnumGaugeState& gaugeState, asynUser* IOUser)
 {
 	epicsGuard < epicsMutex > guard (m_Mutex);
 	write(IOUser, "INST MSP");
@@ -217,7 +219,7 @@ SVQM_800_Error DeviceWrapper::GetGaugeState(EnumGaugeState& gaugeState, asynUser
 	return SVQM_800_Error();
 }
 
-SVQM_800_Error DeviceWrapper::GetTSETingsValues(std::string const&  TSETingsValues)
+SVQM_800_Error IServiceWrapper::GetTSETingsValues(std::string const&  TSETingsValues)
 {
 	// enum EnumLogicalInstruments { FILAMENT = 0, FILAMENTBIAS, REPELLERBIAS, ENTRYPLATE, PRESSUREPLATE, CUPS, TRANSITION, EXITPLATE, EMSHIELD, EMBIAS, RFAMP };
 
@@ -272,7 +274,7 @@ SVQM_800_Error DeviceWrapper::GetTSETingsValues(std::string const&  TSETingsValu
 	return SVQM_800_Error();
 }
 
-SVQM_800_Error DeviceWrapper::GetScanData(int& lastScanNumber, SAnalyzedData& analyzedData, IHeaderData** headerDataPtr,
+SVQM_800_Error IServiceWrapper::GetScanData(int& lastScanNumber, SAnalyzedData& analyzedData, IHeaderData** headerDataPtr,
                                SAverageData& averageData, asynUser* IOUser, bool& isValidData, EnumGaugeState& controllerState)
 {
 	epicsGuard < epicsMutex > guard (m_Mutex);
@@ -313,7 +315,7 @@ SVQM_800_Error DeviceWrapper::GetScanData(int& lastScanNumber, SAnalyzedData& an
 	return Error;
 }
 
-size_t DeviceWrapper::FindMarkerPos(std::string const& HeaderData, size_t Offset, const char* FirstMarker)
+size_t IServiceWrapper::FindMarkerPos(std::string const& HeaderData, size_t Offset, const char* FirstMarker)
 {
 	size_t FirstMarkerPos = HeaderData.find(FirstMarker, Offset);
 	if (FirstMarkerPos != std::string::npos)
@@ -321,7 +323,7 @@ size_t DeviceWrapper::FindMarkerPos(std::string const& HeaderData, size_t Offset
 	return FirstMarkerPos;
 }
 
-size_t DeviceWrapper::FindMarkerPos(std::string const& HeaderData, size_t Offset, const char* FirstMarker, const char* SecondMarker)
+size_t IServiceWrapper::FindMarkerPos(std::string const& HeaderData, size_t Offset, const char* FirstMarker, const char* SecondMarker)
 {
 	size_t FirstMarkerPos = FindMarkerPos(HeaderData, Offset, FirstMarker);
 	size_t SecondMarkerPos = std::string::npos;
@@ -335,7 +337,7 @@ size_t DeviceWrapper::FindMarkerPos(std::string const& HeaderData, size_t Offset
 	return SecondMarkerPos;
 }
 
-void DeviceWrapper::write(asynUser* IOUser, std::string const& WritePacket) const
+void IServiceWrapper::write(asynUser* IOUser, std::string const& WritePacket) const
 {
 	epicsGuard < epicsMutex > guard (m_Mutex);
 	size_t nBytesOut;
@@ -343,7 +345,7 @@ void DeviceWrapper::write(asynUser* IOUser, std::string const& WritePacket) cons
 	ThrowException(IOUser, pasynOctetSyncIO->write(IOUser, WritePacket.c_str(), WritePacket.size(), TimeOut, &nBytesOut), __FUNCTION__, "write");
 }
 
-void DeviceWrapper::writeRead(asynUser* IOUser, std::string const& WritePacket, std::string& ReadPacket) const
+void IServiceWrapper::writeRead(asynUser* IOUser, std::string const& WritePacket, std::string& ReadPacket) const
 {
 	epicsGuard < epicsMutex > guard (m_Mutex);
 	size_t nBytesIn;
@@ -360,7 +362,7 @@ void DeviceWrapper::writeRead(asynUser* IOUser, std::string const& WritePacket, 
 	}
 }
 
-void DeviceWrapper::readTill(asynUser* IOUser, std::string& ReadPacket, std::string const& Termination) const
+void IServiceWrapper::readTill(asynUser* IOUser, std::string& ReadPacket, std::string const& Termination) const
 {
 	epicsGuard < epicsMutex > guard (m_Mutex);
 	size_t nBytesIn;
@@ -376,7 +378,7 @@ void DeviceWrapper::readTill(asynUser* IOUser, std::string& ReadPacket, std::str
 	}
 }
 
-void DeviceWrapper::read(asynUser* IOUser, std::vector<char>& ReadPacket) const
+void IServiceWrapper::read(asynUser* IOUser, std::vector<char>& ReadPacket) const
 {
 	epicsGuard < epicsMutex > guard (m_Mutex);
 	size_t nBytesIn;
@@ -397,7 +399,7 @@ void DeviceWrapper::read(asynUser* IOUser, std::vector<char>& ReadPacket) const
 #endif*/
 }
 
-DeviceWrapper::CException::CException(asynUser* AsynUser, asynStatus Status, const char* functionName, std::string const& what) :
+IServiceWrapper::CException::CException(asynUser* AsynUser, asynStatus Status, const char* functionName, std::string const& what) :
 	std::runtime_error(what) 
 {
 	std::string message = "%s:%s ERROR: " + what + "%s\n";
@@ -405,7 +407,7 @@ DeviceWrapper::CException::CException(asynUser* AsynUser, asynStatus Status, con
 	m_Status = Status;
 }
 
-void DeviceWrapper::ThrowException(asynUser* pasynUser, asynStatus Status, const char* Function, std::string const& what) const
+void IServiceWrapper::ThrowException(asynUser* pasynUser, asynStatus Status, const char* Function, std::string const& what) const
 {
 	if (Status == asynSuccess)
 		return;

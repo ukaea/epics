@@ -1,8 +1,26 @@
+#ifndef ISERVIVEWRAPPER_H_INCLUDED
+#define ISERVIVEWRAPPER_H_INCLUDED
+
+#ifdef epicsExportSharedSymbols
+#define IServiceWrapperepicsExportSharedSymbols
+#undef epicsExportSharedSymbols
+#endif
+
 #include <epicsEvent.h>
 #include <epicsMutex.h>
 
 #include <queue>
 #include <map>
+
+#ifdef IServiceWrapperepicsExportSharedSymbols
+#define epicsExportSharedSymbols
+#undef IServiceWrapperepicsExportSharedSymbols
+#include <shareLib.h>
+#endif
+
+#include "SVQM_800_Error.h"
+
+#include "IHeaderData.h"
 
 enum EnumAvgMode { Off = 0, Running_Avg = 1, Cumulative_Moving_Avg = 2, Accumulator = 3 };
 //Maps to the list of logical instruments.
@@ -12,113 +30,10 @@ enum EnumPressureSource { EnumPressureSource_None = 0, _390_TPMK, _307_350_01mA,
 
 #include <asynDriver.h>
 
-//List of error types.
-enum EnumErrorType { NO_ERRORS = 0, NET_EXCEPTION, NO_CONTROLLERS_FOUND, COMMUNICATION_EXCEPTION,\
-        INSUFFICIENT_PRIVELEGES, NO_HEADER_DATA, NO_CONNECTION_TO_SERVICE, FAILED_TO_CONNECT_TO_CONTROLLER,\
-        NO_MORE_AVAILABLE_SERVICES, NO_SERVICES_INSTALLED, SERVICE_FAILED_TO_START, CANNOT_CONNECT_TO_SERVICE, UNKNOWN_SERVICE_CONNECTION_ERROR,\
-        INVALID_PATH,\
-        CONTROLLER_ERRORS,\
-        NO_ANALYZED_DATA,\
-        UNKNOWN_ERROR,\
-        LABVIEW_EXCEPTION,\
-		INVALID_CONNECTION_DEVICE,\
-		INVALID_SCAN_COUNT};
-
-struct SVQM_800_Error
-{
-public:
-	EnumErrorType m_ErrorType;
-	std::wstring m_ErrorString;
-	std::wstring m_ErrorTroubleShooting;
-
-	SVQM_800_Error(EnumErrorType errorType = NO_ERRORS)
-	{
-		m_ErrorType = errorType;
-	}
-
-	SVQM_800_Error(EnumErrorType errorType, const std::wstring& errorString, const std::wstring& errorTroubleShooting)
-	{
-		m_ErrorType = errorType;
-		m_ErrorString = errorString;
-		m_ErrorTroubleShooting = errorTroubleShooting;
-	}
-};
-
-struct IHeaderData
-{
-	friend struct DeviceWrapper;
-public:
-	double EmissionCurrent() const {
-		return m_EmissionCurrent;
-	}
-	double FilamentBiasVoltage() const {
-		return m_FilamentBiasVoltage;
-	}
-	double RepellerVoltage() const {
-		return m_RepellerVoltage;
-	}
-	double EntryPlateVoltage() const {
-		return m_EntryPlateVoltage;
-	}
-	double PressurePlateVoltage() const {
-		return m_PressurePlateVoltage;
-	}
-	double CupsVoltage() const {
-		return m_CupsVoltage;
-	}
-	double TransitionVoltage() const {
-		return m_TransitionVoltage;
-	}
-	double ExitPlateVoltage() const {
-		return m_ExitPlateVoltage;
-	}
-	double ElectronMultiplierShieldVoltage() const {
-		return m_ElectronMultiplierShieldVoltage;
-	}
-	double ElectronMultiplierVoltage() const {
-		return m_ElectronMultiplierVoltage;
-	}
-	double DDSAmplitude() const {
-		return m_DDSAmplitude;
-	}
-	double ElectronMultiplierElectrometerGain() const {
-		return m_ElectronMultiplierElectrometerGain;
-	}
-	double MassAxisCalibrationFactor() const {
-		return m_MassAxisCalibrationFactor;
-	}
-	std::wstring FirmwareRevision() const {
-		return m_FirmwareRevision;
-	}
-	std::wstring HardwareRevision() const {
-		return m_HardwareRevision;
-	}
-	std::wstring MID() {
-		return m_MID;
-	}
-private:
-	double m_EmissionCurrent;
-	double m_FilamentBiasVoltage;
-	double m_RepellerVoltage;
-	double m_EntryPlateVoltage;
-	double m_PressurePlateVoltage;
-	double m_CupsVoltage;
-	double m_TransitionVoltage;
-	double m_ExitPlateVoltage;
-	double m_ElectronMultiplierShieldVoltage;
-	double m_ElectronMultiplierVoltage;
-	double m_DDSAmplitude;
-	double m_ElectronMultiplierElectrometerGain;
-	double m_MassAxisCalibrationFactor;
-	std::wstring m_FirmwareRevision;
-	std::wstring m_HardwareRevision;
-	std::wstring m_MID;
-};
-
 struct SAnalyzedData;
 struct SAverageData;
 
-struct DeviceWrapper
+struct epicsShareClass IServiceWrapper
 {
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 	//																								//
@@ -145,7 +60,9 @@ public:
 			m_Min = 0; m_Current = 0; m_Max = 0;
 		}
 	};
-	DeviceWrapper(asynUser* IOUser);
+	IServiceWrapper() {
+	}
+	SVQM_800_Error ConnectToDevice(asynUser* IOUser, bool isMaster);
 	SVQM_800_Error DataAnalysisSetAvgMode(EnumAvgMode mode, asynUser* IOUser);
 	SVQM_800_Error DataAnalysisSetNumAvgs(int numAverages, asynUser* IOUser);
 	SVQM_800_Error GetFilamentEmissionCurrent(double& value, asynUser* IOUser) const;
@@ -167,16 +84,22 @@ private:
 	void write(asynUser* IOUser, std::string const& WritePacket) const;
 	void writeRead(asynUser* IOUser, std::string const& WritePacket, std::string& ReadPacket) const;
 	void readTill(asynUser* IOUser, std::string& ReadPacket, std::string const& Termination) const;
-	void DeviceWrapper::read(asynUser* IOUser, std::vector<char>& ReadPacket) const;
+	void read(asynUser* IOUser, std::vector<char>& ReadPacket) const;
 	std::string EnumToText(EnumLogicalInstruments logicalInstrumentEnum) const;
 	SVQM_800_Error GetTSETingsValues(std::string const&  TSETingsValues);
 	void ThrowException(asynUser* pasynUser, asynStatus Status, const char* Function, std::string const& what) const;
 private:
-	IHeaderData m_HeaderData;
-	EnumGaugeState m_GaugeState;
-	double m_lowerRange;
-	double m_upperRange;
-	double m_EmissionCurrent;
-	std::map<EnumLogicalInstruments, InstrumentVoltage> m_InstrumentVoltages;
-	mutable epicsMutex m_Mutex;
+	struct GaugueState
+	{
+		IHeaderData m_HeaderData;
+		EnumGaugeState m_GaugeState;
+		double m_lowerRange;
+		double m_upperRange;
+		double m_EmissionCurrent;
+		std::map<EnumLogicalInstruments, InstrumentVoltage> m_InstrumentVoltages;
+		mutable epicsMutex m_Mutex;
+	};
+	std::map<asynUser*, GaugueState> m_GaugueStates;
 };
+
+#endif // ISERVIVEWRAPPER_H_INCLUDED

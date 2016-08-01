@@ -28,13 +28,8 @@
 #include <string>
 #include <vector>
 
-#ifdef BUILD_WITH_SDK
 struct IServiceWrapper;
-#define DeviceWrapper IServiceWrapper
 struct SDeviceConnectionInfo;
-#else
-struct DeviceWrapper;
-#endif
 struct SVQM_800_Error;
 
 class CVQM_ITMS_Driver : public CVQM_ITMS_Base {
@@ -67,12 +62,12 @@ public:
     virtual asynStatus writeFloat64(asynUser *pasynUser, epicsFloat64 value);
     virtual asynStatus readFloat32Array(asynUser *pasynUser, epicsFloat32 *value,
                                         size_t nElements, size_t *nIn);
-	bool GetScanData(int TableIndex, std::vector<float>& RawData, std::vector<float>& PartialPressure);
+	bool GetScanData(int Connection, std::vector<float>& RawData, std::vector<float>& PartialPressure);
 	void addIOPort(const char* DeviceAddress);
 	static CVQM_ITMS_Driver* Instance() {
 		return m_Instance;
 	}
-	asynStatus ErrorHandler(int TableIndex, ::CException const& E);
+	asynStatus ErrorHandler(int Connection, ::CException const& E);
 	size_t NrInstalled() {
 		return m_Threads.size();
 	}
@@ -81,16 +76,12 @@ public:
 protected:
 	static int UsedParams();
 	void ThrowException(SVQM_800_Error const& Error, const char* Function, bool ThrowIt = true);
-#ifdef BUILD_WITH_SDK
-	void SetGaugeState(int Connection, bool Scanning, bool ThrowIt = true);
-#else
 	void ThrowException(asynUser* pasynUser, asynStatus Status, const char* Function, std::string const& what, bool ThrowIt = true) const;
-	void SetGaugeState(asynUser* IOUser, bool Scanning, bool ThrowIt = true);
-#endif
-	bool GetGaugeState(int TableIndex);
+	void SetGaugeState(int Connection, bool Scanning, bool ThrowIt = true);
+	bool GetGaugeState(int Connection);
 
 private:
-	DeviceWrapper* m_serviceWrapper;
+	IServiceWrapper* m_serviceWrapper;
 	// Each of these is associated with an octet I/O connection (i.e. serial or TCP port).
 	std::vector<CThreadRunable*> m_Threads;
 	int m_nConnections;
