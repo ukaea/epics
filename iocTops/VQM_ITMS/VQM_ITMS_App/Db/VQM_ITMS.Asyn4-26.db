@@ -129,13 +129,14 @@ record(ai, "$(P)MassCal")
 {
     field(DTYP, "asynFloat64")
 	field(INP,  "@asyn($(PORT),$(ADDR),1)MASSCAL")
-	field(PINI, "1")
+	field(SCAN, "I/O Intr")
 }
 
 record(ai, "$(P)ElectrometerGain")
 {
     field(DTYP, "asynFloat64")
 	field(INP,  "@asyn($(PORT),$(ADDR),1)ELECTROMETERGAIN")
+	field(SCAN, "I/O Intr")
 }
 
 record(ao, "$(P)MassFrom")
@@ -176,5 +177,19 @@ record(longin, "$(P)Fault")
 {
 	field(DTYP, "asynInt32")
 	field(INP,  "@asyn($(PORT),$(ADDR),1)FAULT")
+	field(SCAN, "I/O Intr")
+}
+
+record(stringin, "$(P)FirmwareVersion")
+{
+	field(DTYP, "asynOctetRead")
+	field(INP,  "@asyn($(PORT),$(ADDR),1)FIRMWAREVERSION")
+	field(SCAN, "I/O Intr")
+}
+
+record(stringin, "$(P)HarwareVersion")
+{
+	field(DTYP, "asynOctetRead")
+	field(INP,  "@asyn($(PORT),$(ADDR),1)HARDWAREVERSION")
 	field(SCAN, "I/O Intr")
 }

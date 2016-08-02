@@ -8,7 +8,7 @@
 
 #include <epicsEvent.h>
 #include <epicsMutex.h>
-#include <aitTypes.h>
+#include <epicsTypes.h>
 
 #include <queue>
 #include <map>
@@ -63,8 +63,7 @@ public:
 			m_Min = 0; m_Current = 0; m_Max = 0;
 		}
 	};
-	IServiceWrapper() {
-	}
+	IServiceWrapper();
 	~IServiceWrapper();
 	SVQM_800_Error ConnectToDevice(asynUser* IOUser, bool isMaster);
 	SVQM_800_Error DataAnalysisSetAvgMode(EnumAvgMode mode, asynUser* IOUser);
@@ -85,14 +84,15 @@ public:
 private:
 	size_t FindMarkerPos(std::string const& HeaderData, size_t Offset, const char* FirstMarker);
 	size_t FindMarkerPos(std::string const& HeaderData, size_t Offset, const char* FirstMarker, const char* SecondMarker);
+	bool GrabScanData(asynUser* IOUser, GaugeState& GaugeState, EnumGaugeState& controllerState);
 	void write(asynUser* IOUser, std::string const& WritePacket) const;
 	void writeRead(asynUser* IOUser, std::string const& WritePacket, std::string& ReadPacket) const;
 	void readTill(asynUser* IOUser, std::string& ReadPacket, std::string const& Termination, int AdditionalChars) const;
 	void read(asynUser* IOUser, std::string& ReadPacket) const;
-	void read(asynUser* IOUser, std::vector<aitUint16>& ReadPacket) const;
+	void read(asynUser* IOUser, std::vector<epicsUInt16>& ReadPacket) const;
 	int CheckExtraData(asynUser* IOUser);
 	std::string EnumToText(EnumLogicalInstruments logicalInstrumentEnum) const;
-	SVQM_800_Error GetTSETingsValues(GaugeState& GaugeState, std::string const&  TSETingsValues);
+	void GetTSETingsValues(GaugeState& GaugeState, std::string const&  TSETingsValues);
 	void ThrowException(asynUser* pasynUser, asynStatus Status, const char* Function, std::string const& what) const;
 	GaugeState const& getGaugeState(asynUser* IOUser) const {
 		std::map<asynUser*, GaugeState*>::const_iterator Iter = m_GaugeStates.find(IOUser);
@@ -106,12 +106,30 @@ private:
 private:
 	struct GaugeState
 	{
+		GaugeState();
 		IHeaderData m_HeaderData;
+		EnumAvgMode m_AvgMode;
+		int	m_numAverages; 
+		int m_lastScanNumber;
 		EnumGaugeState m_GaugeState;
 		double m_lowerRange;
 		double m_upperRange;
 		double m_EmissionCurrent;
 		std::map<EnumLogicalInstruments, InstrumentVoltage> m_InstrumentVoltages;
+		std::vector<epicsUInt16> m_NoisePacket;
+		std::vector<epicsUInt16> m_DataPacket;
+		std::vector<size_t> m_SegmentBoundaries;
+		float AverageNoise() const;
+		int FindRawPt(size_t Segment, size_t ScaledPt) {
+			size_t LowRawPt = m_SegmentBoundaries[Segment];
+			size_t HighSegment = Segment+1;
+			size_t HighRawPt = m_SegmentBoundaries[HighSegment];
+			size_t SegmentRange = HighRawPt - LowRawPt;
+			size_t LowScaledPt = size_t(Segment * (m_upperRange - m_lowerRange) / m_SegmentBoundaries.size());
+			size_t HighScaledPt = size_t(HighSegment * (m_upperRange - m_lowerRange) / m_SegmentBoundaries.size());
+			return m_SegmentBoundaries[Segment] + SegmentRange * (ScaledPt - LowScaledPt) / (HighScaledPt - LowScaledPt);
+		}
+
 		mutable epicsMutex m_Mutex;
 	};
 	std::map<asynUser*, GaugeState*> m_GaugeStates;

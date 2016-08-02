@@ -23,7 +23,7 @@
 
 enum ParamUseCases
 {
-	Single, NotForSim, NotForReal, Both
+	Single, Both
 };
 
 struct epicsShareClass ParameterDefn
@@ -84,7 +84,6 @@ static ParameterDefn ParameterDefns[] =
 	{ParameterDefn::RAWDATA, asynParamFloat32Array, Both},
 	{ParameterDefn::PARTIALPRESSURE, asynParamFloat32Array, Both},
 	{ParameterDefn::FAULT, asynParamInt32, Both},
-	{ParameterDefn::DISCONNECTED, asynParamInt32, NotForReal},
 	{ParameterDefn::FIRMWAREVERSION, asynParamOctet, Both},
 	{ParameterDefn::HARDWAREVERSION, asynParamOctet, Both},
 	{ParameterDefn::ASYNVERSION, asynParamOctet, Single},

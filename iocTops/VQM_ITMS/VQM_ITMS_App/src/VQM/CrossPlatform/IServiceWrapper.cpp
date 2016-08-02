@@ -2,7 +2,7 @@
 #include <asynOctet.h>
 
 #include <epicsGuard.h>
-#include <aitConvert.h>
+#include <epicsTypes.h>
 
 #include <sstream>
 
@@ -11,6 +11,8 @@
 #include "../../Exception.h"
 
 #include "../../VQM/Include/SAnalyzedData.h"
+
+#include "FIR-filter-class/filt.h"
 
 #ifdef _DEBUG
 // Infinite timeout, convenient for debugging.
@@ -42,6 +44,26 @@ void FromString(std::string const& String, double& value)
 	value = atof(String.c_str());
 }
 
+IServiceWrapper::GaugeState::GaugeState()
+{
+	static const size_t NrSegments = 30;
+	static const int SegmentSizes[NrSegments] = {
+		1333, 924, 706, 571, 480, 414, 364, 324, 293, 266, 245, 227, 210, 197, 184, 174, 165, 156, 148, 141, 135, 129, 123, 119, 110, 106, 102, 100, 96, 90
+	};
+
+	int Accumulation = 0;
+	m_SegmentBoundaries.assign(NrSegments+1, 0);
+	for(size_t Segment = 0; Segment < m_SegmentBoundaries.size(); Segment++)
+	{
+		m_SegmentBoundaries[Segment] = Accumulation;
+		Accumulation += SegmentSizes[Segment];
+	}
+}
+
+IServiceWrapper::IServiceWrapper()
+{
+}
+
 IServiceWrapper::~IServiceWrapper()
 {
 	for(std::map<asynUser*, GaugeState*>::iterator Iter = m_GaugeStates.begin(); Iter != m_GaugeStates.end(); Iter++)
@@ -51,7 +73,10 @@ IServiceWrapper::~IServiceWrapper()
 SVQM_800_Error IServiceWrapper::ConnectToDevice(asynUser* IOUser, bool isMaster)
 {
 	if (m_GaugeStates[IOUser] == NULL)
+	{
 		m_GaugeStates[IOUser] = new GaugeState;
+		m_GaugeStates[IOUser]->m_lastScanNumber = 0;
+	}
 	epicsGuard < epicsMutex > guard (m_GaugeStates[IOUser]->m_Mutex);
 	ThrowException(IOUser, pasynOctetSyncIO->flush(IOUser), __FUNCTION__, "flush");
 	ThrowException(IOUser, pasynOctetSyncIO->setOutputEos(IOUser, "\r", 1), __FUNCTION__, "setOutputEos");
@@ -92,16 +117,19 @@ SVQM_800_Error IServiceWrapper::ConnectToDevice(asynUser* IOUser, bool isMaster)
 	FromString(lowerRange, m_GaugeStates[IOUser]->m_lowerRange);
 	std::string upperRange = AMUResponse.substr(CommaPos+1);
 	FromString(upperRange, m_GaugeStates[IOUser]->m_upperRange);
+
 	return SVQM_800_Error();
 }
 
 SVQM_800_Error IServiceWrapper::DataAnalysisSetAvgMode(EnumAvgMode mode, asynUser* IOUser)
 {
+	getGaugeState(IOUser).m_AvgMode = mode;
 	return SVQM_800_Error();
 }
 
 SVQM_800_Error IServiceWrapper::DataAnalysisSetNumAvgs(int numAverages, asynUser* IOUser)
 {
+	getGaugeState(IOUser).m_numAverages = numAverages; 
 	return SVQM_800_Error();
 }
 
@@ -162,6 +190,7 @@ SVQM_800_Error IServiceWrapper::GetLogicalInstrumentCurrentVoltage(double& value
 	std::map<EnumLogicalInstruments, InstrumentVoltage>::const_iterator Iter = GaugeState.m_InstrumentVoltages.find(logicalInstrumentEnum);
 	if (Iter == GaugeState.m_InstrumentVoltages.end())
 		return SVQM_800_Error(NO_ANALYZED_DATA, L"Instrument not found", L"GetLogicalInstrumentCurrentVoltage");
+	value = Iter->second.m_Current;
 	return SVQM_800_Error();
 }
 
@@ -176,6 +205,7 @@ SVQM_800_Error IServiceWrapper::SetLogicalInstrumentVoltageSetpoint(EnumLogicalI
 
 SVQM_800_Error IServiceWrapper::GetMassCalibrationFactor(float& value, asynUser* IOUser) const
 {
+	value = float(getGaugeState(IOUser).m_HeaderData.m_MassAxisCalibrationFactor);
 	return SVQM_800_Error();
 }
 
@@ -200,8 +230,6 @@ SVQM_800_Error IServiceWrapper::SetScanRange(double& lowerRange, double& upperRa
 	return SVQM_800_Error();
 }
 
-//	asynStatus GetScanData(int& lastScanNumber, SAnalyzedData& analyzedData, IHeaderData** headerDataPtr,
-//                                            SAverageData& averageData, const SDeviceConnectionInfo& connectInfo, bool& isValidData, EnumGaugeState& controllerState) = 0;
 SVQM_800_Error IServiceWrapper::SetGaugeState(EnumGaugeState gaugeState, asynUser* IOUser)
 {
 	GaugeState& GaugeState = getGaugeState(IOUser);
@@ -243,23 +271,26 @@ SVQM_800_Error IServiceWrapper::GetGaugeState(EnumGaugeState& gaugeState, asynUs
 	return SVQM_800_Error();
 }
 
-SVQM_800_Error IServiceWrapper::GetTSETingsValues(GaugeState& GaugeState, std::string const&  TSETingsValues)
+void IServiceWrapper::GetTSETingsValues(GaugeState& GaugeState, std::string const&  TSETingsValues)
 {
 	// enum EnumLogicalInstruments { FILAMENT = 0, FILAMENTBIAS, REPELLERBIAS, ENTRYPLATE, PRESSUREPLATE, CUPS, TRANSITION, EXITPLATE, EMSHIELD, EMBIAS, RFAMP };
 
-	//								  RepellerBias  Emission    FilamentBias   No idea     EntryPlate   PressurePlate Cups        Transition   ExitPlate     RFAmp       EMShield     EMBias      no idea      no idea
+	//								  RepellerBias  Emission    FilamentBias   No idea     EntryPlate   PressurePlate Cups        Transition   ExitPlate     RFAmp       EMShield     EMBias      ElectrometerGain  no idea
 	// (MEASurement=TSETtings (VALues -5.29913E+01,+7.50000E-05,+3.09385E+01,+2.83090E+00,+1.30018E+02,+7.50945E+01,+2.69785E+01,-6.85262E+02,+1.21151E+02,+4.50000E-01,+1.23000E+02,-8.58475E+02,+1.90069E-08,+9.99999E-10))
 	size_t FirstCommaPos = 0, SecondCommaPos = FindMarkerPos(TSETingsValues, FirstCommaPos, ",");
 	std::string RepellerBias = TSETingsValues.substr(FirstCommaPos, SecondCommaPos-FirstCommaPos-1);
 	FromString(RepellerBias, GaugeState.m_InstrumentVoltages[REPELLERBIAS].m_Current);
+	GaugeState.m_HeaderData.m_RepellerVoltage = GaugeState.m_InstrumentVoltages[REPELLERBIAS].m_Current;
 
 	FirstCommaPos = SecondCommaPos; SecondCommaPos = FindMarkerPos(TSETingsValues, FirstCommaPos+1, ",");
 	std::string EmissionCurrent = TSETingsValues.substr(FirstCommaPos, SecondCommaPos-FirstCommaPos-1);
 	FromString(EmissionCurrent, GaugeState.m_EmissionCurrent);
+	GaugeState.m_HeaderData.m_EmissionCurrent = GaugeState.m_EmissionCurrent;
 
 	FirstCommaPos = SecondCommaPos; SecondCommaPos = FindMarkerPos(TSETingsValues, FirstCommaPos+1, ",");
 	std::string FilamentBias = TSETingsValues.substr(FirstCommaPos, SecondCommaPos-FirstCommaPos-1);
 	FromString(FilamentBias, GaugeState.m_InstrumentVoltages[FILAMENTBIAS].m_Current);
+	GaugeState.m_HeaderData.m_FilamentBiasVoltage = GaugeState.m_InstrumentVoltages[FILAMENTBIAS].m_Current;
 
 	// No idea (+2.83090E+00)
 	FirstCommaPos = SecondCommaPos; SecondCommaPos = FindMarkerPos(TSETingsValues, FirstCommaPos+1, ",");
@@ -267,43 +298,51 @@ SVQM_800_Error IServiceWrapper::GetTSETingsValues(GaugeState& GaugeState, std::s
 	FirstCommaPos = SecondCommaPos; SecondCommaPos = FindMarkerPos(TSETingsValues, FirstCommaPos+1, ",");
 	std::string EntryPlate = TSETingsValues.substr(FirstCommaPos, SecondCommaPos-FirstCommaPos-1);
 	FromString(EntryPlate, GaugeState.m_InstrumentVoltages[ENTRYPLATE].m_Current);
+	GaugeState.m_HeaderData.m_EntryPlateVoltage = GaugeState.m_InstrumentVoltages[ENTRYPLATE].m_Current;
 
 	FirstCommaPos = SecondCommaPos; SecondCommaPos = FindMarkerPos(TSETingsValues, FirstCommaPos+1, ",");
 	std::string PressurePlate = TSETingsValues.substr(FirstCommaPos, SecondCommaPos-FirstCommaPos-1);
 	FromString(PressurePlate, GaugeState.m_InstrumentVoltages[PRESSUREPLATE].m_Current);
+	GaugeState.m_HeaderData.m_PressurePlateVoltage = GaugeState.m_InstrumentVoltages[PRESSUREPLATE].m_Current;
 
 	FirstCommaPos = SecondCommaPos; SecondCommaPos = FindMarkerPos(TSETingsValues, FirstCommaPos+1, ",");
 	std::string Cups = TSETingsValues.substr(FirstCommaPos, SecondCommaPos-FirstCommaPos-1);
 	FromString(Cups, GaugeState.m_InstrumentVoltages[CUPS].m_Current);
+	GaugeState.m_HeaderData.m_CupsVoltage = GaugeState.m_InstrumentVoltages[CUPS].m_Current;
 
 	FirstCommaPos = SecondCommaPos; SecondCommaPos = FindMarkerPos(TSETingsValues, FirstCommaPos+1, ",");
 	std::string Transition = TSETingsValues.substr(FirstCommaPos, SecondCommaPos-FirstCommaPos-1);
 	FromString(Transition, GaugeState.m_InstrumentVoltages[TRANSITION].m_Current);
+	GaugeState.m_HeaderData.m_TransitionVoltage = GaugeState.m_InstrumentVoltages[TRANSITION].m_Current;
 
 	FirstCommaPos = SecondCommaPos; SecondCommaPos = FindMarkerPos(TSETingsValues, FirstCommaPos+1, ",");
 	std::string ExitPlate = TSETingsValues.substr(FirstCommaPos, SecondCommaPos-FirstCommaPos-1);
-	FromString(Transition, GaugeState.m_InstrumentVoltages[EXITPLATE].m_Current);
+	FromString(ExitPlate, GaugeState.m_InstrumentVoltages[EXITPLATE].m_Current);
+	GaugeState.m_HeaderData.m_ExitPlateVoltage = GaugeState.m_InstrumentVoltages[EXITPLATE].m_Current;
 
 	FirstCommaPos = SecondCommaPos; SecondCommaPos = FindMarkerPos(TSETingsValues, FirstCommaPos+1, ",");
 	std::string RFAmp = TSETingsValues.substr(FirstCommaPos, SecondCommaPos-FirstCommaPos-1);
 	FromString(RFAmp, GaugeState.m_InstrumentVoltages[RFAMP].m_Current);
+	GaugeState.m_HeaderData.m_DDSAmplitude = GaugeState.m_InstrumentVoltages[RFAMP].m_Current;
 
 	FirstCommaPos = SecondCommaPos; SecondCommaPos = FindMarkerPos(TSETingsValues, FirstCommaPos+1, ",");
 	std::string EMShield = TSETingsValues.substr(FirstCommaPos, SecondCommaPos-FirstCommaPos-1);
 	FromString(EMShield, GaugeState.m_InstrumentVoltages[EMSHIELD].m_Current);
+	GaugeState.m_HeaderData.m_ElectronMultiplierShieldVoltage = GaugeState.m_InstrumentVoltages[EMSHIELD].m_Current;
 
 	FirstCommaPos = SecondCommaPos; SecondCommaPos = FindMarkerPos(TSETingsValues, FirstCommaPos+1, ",");
 	std::string EMBias = TSETingsValues.substr(FirstCommaPos, SecondCommaPos-FirstCommaPos-1);
 	FromString(EMBias, GaugeState.m_InstrumentVoltages[EMBIAS].m_Current);
-	return SVQM_800_Error();
+	GaugeState.m_HeaderData.m_ElectronMultiplierVoltage = GaugeState.m_InstrumentVoltages[EMBIAS].m_Current;
+
+	FirstCommaPos = SecondCommaPos; SecondCommaPos = FindMarkerPos(TSETingsValues, FirstCommaPos+1, ",");
+	std::string ElectrometetrGain = TSETingsValues.substr(FirstCommaPos, SecondCommaPos-FirstCommaPos-1);
+	FromString(ElectrometetrGain, GaugeState.m_HeaderData.m_ElectronMultiplierElectrometerGain);
 }
 
-SVQM_800_Error IServiceWrapper::GetScanData(int& lastScanNumber, SAnalyzedData& analyzedData, IHeaderData** headerDataPtr,
-                               SAverageData& averageData, asynUser* IOUser, bool& isValidData, EnumGaugeState& controllerState)
+bool IServiceWrapper::GrabScanData(asynUser* IOUser, GaugeState& GaugeState, EnumGaugeState& controllerState)
 {
-	GaugeState& GaugeState = getGaugeState(IOUser);
 	epicsGuard < epicsMutex > guard (GaugeState.m_Mutex);
-	std::vector<aitUint16> NoisePacket, DataPacket;
 	std::string FirstHeader;
 	write(IOUser, "fetc?");
 	ThrowException(IOUser, pasynOctetSyncIO->setInputEos(IOUser, "", 0), __FUNCTION__, "setInputEos");
@@ -328,7 +367,7 @@ SVQM_800_Error IServiceWrapper::GetScanData(int& lastScanNumber, SAnalyzedData& 
 	size_t VALuesPos = FindMarkerPos(FirstHeader, QuotePos, "DATA (MEASurement=TSETtings (VALues ");
 	size_t CloseBracketPos = FindMarkerPos(FirstHeader, VALuesPos, "))");
 	std::string TSETingsValues = FirstHeader.substr(VALuesPos, CloseBracketPos-VALuesPos-2);
-	SVQM_800_Error Error = GetTSETingsValues(GaugeState, TSETingsValues);
+	GetTSETingsValues(GaugeState, TSETingsValues);
 
 	size_t DIMNoisePos = FindMarkerPos(FirstHeader, CloseBracketPos, "DIMension=NOISe", "NSAMples #H");
 	size_t SpacePos = FindMarkerPos(FirstHeader, DIMNoisePos, " ");
@@ -336,14 +375,15 @@ SVQM_800_Error IServiceWrapper::GetScanData(int& lastScanNumber, SAnalyzedData& 
 	int NoiseSamples;
 	FromHexString(NoiseSamplesStr, NoiseSamples);
 
+	// DIMension=NOISe (TYPE EXPLicit UNITs "COUNt") DATA (NSAMples #H0000017e BLINe +0.00000E+00 RMSNoise +0.00000E+00 CURVe (DATE 2016,08,02 TIME 09,23,10.659 VALues #3764   
 	size_t  NoiseValuesPos = FindMarkerPos(FirstHeader, DIMNoisePos, "VALues #3");
 	std::string NoiseVALuesStr = FirstHeader.substr(NoiseValuesPos);
 	int NoiseValues;
 	FromString(NoiseVALuesStr, NoiseValues);
-	_ASSERT(NoiseValues==NoiseSamples*sizeof(aitUint16));
+	_ASSERT(NoiseValues==NoiseSamples*sizeof(epicsUInt16));
 
-	NoisePacket.resize(NoiseSamples);
-	read(IOUser, NoisePacket);
+	GaugeState.m_NoisePacket.resize(NoiseSamples);
+	read(IOUser, GaugeState.m_NoisePacket);
 
 	std::string SecondHeader;
 	readTill(IOUser, SecondHeader, "DIMension=COUNt (TYPE EXPLicit UNITs \"COUNt\") DATA (", 0);
@@ -353,9 +393,16 @@ SVQM_800_Error IServiceWrapper::GetScanData(int& lastScanNumber, SAnalyzedData& 
 	//		DATA (TSOurce "IMMediate" OTCounter #H00000000 BOCounter #H00001d26 CVALue +6.13000E+05 BAMu +9.28392E-01 EAMu +1.22370E+02 BSEGment #H01 ESEGment #H12 NSAMples #H00001c41 BLINe +0.00000E+00 RMSNoise +0.00000E+00
 	//			CURVe (DATE 2016,08,01 TIME 15,38,19.539 VALues #514466 
 
-	size_t DIMDataPos = FindMarkerPos(SecondHeader, 0, "DIMension=COUNt", "NSAMples #H");
-	SpacePos = FindMarkerPos(SecondHeader, DIMDataPos, " ");
-	std::string DataSamplesStr = SecondHeader.substr(DIMDataPos, SpacePos-DIMDataPos-1);
+	size_t DIMDataPos = FindMarkerPos(SecondHeader, 0, "DIMension=COUNt");
+	size_t CVALuePos = FindMarkerPos(SecondHeader, DIMDataPos, "CVALue ");
+	SpacePos = FindMarkerPos(SecondHeader, CVALuePos, " "); 
+	std::string CVALueStr = SecondHeader.substr(CVALuePos, SpacePos-CVALuePos-1);
+	FromString(CVALueStr, GaugeState.m_HeaderData.m_MassAxisCalibrationFactor);
+	GaugeState.m_HeaderData.m_MassAxisCalibrationFactor /= 1000;
+
+	size_t NSAMplesPos = FindMarkerPos(SecondHeader, DIMDataPos, "NSAMples #H");
+	SpacePos = FindMarkerPos(SecondHeader, NSAMplesPos, " ");
+	std::string DataSamplesStr = SecondHeader.substr(NSAMplesPos, SpacePos-NSAMplesPos-1);
 	int DataSamples;
 	FromHexString(DataSamplesStr, DataSamples);
 
@@ -363,31 +410,95 @@ SVQM_800_Error IServiceWrapper::GetScanData(int& lastScanNumber, SAnalyzedData& 
 	std::string DataVALuesStr = SecondHeader.substr(DataValuesPos);
 	int DataValues;
 	FromString(DataVALuesStr, DataValues);
-	_ASSERT(DataValues==DataSamples*sizeof(aitUint16));
+	_ASSERT(DataValues==DataSamples*sizeof(epicsUInt16));
 
-	DataPacket.resize(DataSamples);
-	read(IOUser, DataPacket);
-
-	analyzedData.DenoisedRawData().resize(DataSamples);
-	for(size_t Sample = 0; Sample < analyzedData.DenoisedRawData().size(); Sample++)
-	{
-		aitUint16 HostOrder = DataPacket[Sample];
-//		aitFromNetOrder16(&HostOrder, &(DataPacket[Sample]));
-		analyzedData.DenoisedRawData()[Sample] = HostOrder;
-	}
+	GaugeState.m_DataPacket.resize(DataSamples);
+	read(IOUser, GaugeState.m_DataPacket);
 
 	std::string DiscardedTerminator;
 	readTill(IOUser, DiscardedTerminator, " )))", 0);
 	_ASSERT(DiscardedTerminator==" )))");
+	GaugeState.m_lastScanNumber++;
+	return true;
+}
+
+float IServiceWrapper::GaugeState::AverageNoise() const
+{
+	float AverageNoise = 0;
+	for (size_t Sample = 0; Sample < m_NoisePacket.size(); Sample++)
+		AverageNoise += m_NoisePacket[Sample];
+	AverageNoise /= m_NoisePacket.size();
+	return AverageNoise;
+}
+
+SVQM_800_Error IServiceWrapper::GetScanData(int& lastScanNumber, SAnalyzedData& analyzedData, IHeaderData** headerDataPtr,
+                               SAverageData& averageData, asynUser* IOUser, bool& isValidData, EnumGaugeState& controllerState)
+{
+	GaugeState& GaugeState = getGaugeState(IOUser);
+	isValidData = true;
+
+	analyzedData.DenoisedRawData().assign(analyzedData.DenoisedRawData().size(), 0);
+
+	if (GaugeState.m_AvgMode == Off)
+	{
+		isValidData = GrabScanData(IOUser, GaugeState, controllerState);
+		float AverageNoise = GaugeState.AverageNoise();
+		for(size_t Sample = 0; Sample < analyzedData.DenoisedRawData().size(); Sample++)
+			analyzedData.DenoisedRawData()[Sample] = GaugeState.m_DataPacket[Sample] - AverageNoise;
+	}
+	else if (GaugeState.m_AvgMode == Accumulator)
+	{
+		for(int ScanNum = 0; ScanNum < GaugeState.m_numAverages; ScanNum++)
+		{
+			isValidData = GrabScanData(IOUser, GaugeState, controllerState);
+			analyzedData.DenoisedRawData().resize(GaugeState.m_DataPacket.size());
+			float AverageNoise = GaugeState.AverageNoise();
+			for(size_t Sample = 0; Sample < analyzedData.DenoisedRawData().size(); Sample++)
+				analyzedData.DenoisedRawData()[Sample] += GaugeState.m_DataPacket[Sample] - AverageNoise;
+		}
+		for(size_t Sample = 0; Sample < analyzedData.DenoisedRawData().size(); Sample++)
+			analyzedData.DenoisedRawData()[Sample] /= GaugeState.m_numAverages;
+	}
+	else if (GaugeState.m_AvgMode == Cumulative_Moving_Avg)
+	{
+		isValidData = GrabScanData(IOUser, GaugeState, controllerState);
+		analyzedData.DenoisedRawData().resize(GaugeState.m_DataPacket.size());
+		float AverageNoise = GaugeState.AverageNoise();
+		for(size_t Sample = 0; Sample < analyzedData.DenoisedRawData().size(); Sample++)
+			analyzedData.DenoisedRawData()[Sample] = 
+				((GaugeState.m_numAverages  - 1) * analyzedData.DenoisedRawData()[Sample] + GaugeState.m_DataPacket[Sample] - AverageNoise) / GaugeState.m_numAverages;
+	}
+	lastScanNumber = GaugeState.m_lastScanNumber;
 
 #ifdef _DEBUG
 //	CheckExtraData(IOUser);
 #endif
-	analyzedData.PeakArea().resize(size_t(GaugeState.m_upperRange - GaugeState.m_lowerRange));
+	static const double DAQFreq = 100E3;
+	static const double Transition = 10E3;
+	// http://homepages.which.net/~paul.hills/Circuits/MercurySwitchFilter/FIR.html
+	Filter Filter(LPF, int(0.5 + 3.3 * DAQFreq / Transition), DAQFreq, Transition);
+	for(size_t Sample = 0; Sample < analyzedData.DenoisedRawData().size(); Sample++)
+	{
+		int Error_Flag = Filter.get_error_flag();
+		_ASSERT(Error_Flag == 0);
+	 	analyzedData.DenoisedRawData()[Sample] = Filter.do_sample( analyzedData.DenoisedRawData()[Sample] );
+	}
+
+	analyzedData.PeakArea().assign(size_t(GaugeState.m_upperRange - GaugeState.m_lowerRange), 0);
 	pasynOctetSyncIO->setInputEos(IOUser, "\r", 1);
 	*headerDataPtr = &GaugeState.m_HeaderData;
-
-	return Error;
+	size_t Segment = 0;
+	size_t RawPt = 0;
+	for(size_t MassPt = 0; MassPt < analyzedData.PeakArea().size(); MassPt++)
+	{
+		while ((Segment < GaugeState.m_SegmentBoundaries.size()-1) && (RawPt >= GaugeState.m_SegmentBoundaries[Segment+1]))
+			Segment++;
+		size_t LowRawPt = GaugeState.FindRawPt(Segment, MassPt);
+		size_t HighRawPt = GaugeState.FindRawPt(Segment, MassPt+1);
+		for (RawPt = LowRawPt; RawPt < HighRawPt; RawPt++)
+			analyzedData.PeakArea()[MassPt] += analyzedData.DenoisedRawData()[RawPt];
+	}
+	return SVQM_800_Error();
 }
 
 size_t IServiceWrapper::FindMarkerPos(std::string const& HeaderData, size_t Offset, const char* FirstMarker)
@@ -461,13 +572,13 @@ void IServiceWrapper::readTill(asynUser* IOUser, std::string& ReadPacket, std::s
 	}
 }
 
-void IServiceWrapper::read(asynUser* IOUser, std::vector<aitUint16>& ReadPacket) const
+void IServiceWrapper::read(asynUser* IOUser, std::vector<epicsUInt16>& ReadPacket) const
 {
 	epicsGuard < epicsMutex > guard (getGaugeState(IOUser).m_Mutex);
 	size_t nBytesIn;
 	int eomReason = ASYN_EOM_CNT;
 	// NB, *don't* pass pasynUser to this function - it has the wrong type and will cause an access violation.
-	ThrowException(IOUser, pasynOctetSyncIO->read(IOUser, reinterpret_cast<char*>(&(ReadPacket[0])), ReadPacket.size()*sizeof(aitUint16), TimeOut, &nBytesIn, &eomReason), __FUNCTION__, "read");
+	ThrowException(IOUser, pasynOctetSyncIO->read(IOUser, reinterpret_cast<char*>(&(ReadPacket[0])), ReadPacket.size()*sizeof(epicsUInt16), TimeOut, &nBytesIn, &eomReason), __FUNCTION__, "read");
 	_ASSERT(eomReason == ASYN_EOM_CNT);
 }
 

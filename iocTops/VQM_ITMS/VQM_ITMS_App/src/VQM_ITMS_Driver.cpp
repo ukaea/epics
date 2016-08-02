@@ -229,9 +229,6 @@ void CVQM_ITMS_Driver::addIOPort(const char* DeviceAddress)
 
 	for (size_t ParamIndex = 0; ParamIndex < size_t(NUM_PARAMS); ParamIndex++)
 	{
-		if (ParameterDefns[ParamIndex].m_UseCase == NotForReal)
-			// Not used by the 'real' IOC
-			continue;
 		if (ParameterDefns[ParamIndex].m_UseCase == Single)
 			// Single instance parameter
 			continue;
@@ -297,9 +294,6 @@ int CVQM_ITMS_Driver::UsedParams()
 	int UsedParams = 0;
 	for (size_t ParamIndex = 0; ParamIndex < size_t(NUM_PARAMS); ParamIndex++)
 	{
-		if (ParameterDefns[ParamIndex].m_UseCase == NotForReal)
-			// Not implemented, because only meaningful for the simulater.
-			continue;
 		// But the Single parameter list is required.
 		UsedParams++;
 	}

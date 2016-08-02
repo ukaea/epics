@@ -13,6 +13,9 @@
     <ClCompile Include="src\VQM_ITMS_Base.cpp">
       <Filter>Src</Filter>
     </ClCompile>
+    <ClCompile Include="src\VQM\CrossPlatform\FIR-filter-class\filt.cpp">
+      <Filter>Src\VQM\CrossPlaform\FIR-filter-class</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ParameterDefns.h">
@@ -35,6 +38,9 @@
     </ClInclude>
     <ClInclude Include="src\VQM_ITMS_Base.h">
       <Filter>Src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VQM\CrossPlatform\FIR-filter-class\filt.h">
+      <Filter>Src\VQM\CrossPlaform\FIR-filter-class</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -69,6 +75,9 @@
     </Filter>
     <Filter Include="Src\VQM\Include">
       <UniqueIdentifier>{00ef670e-1e9e-448f-bcf9-b88c7b3be290}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\VQM\CrossPlaform\FIR-filter-class">
+      <UniqueIdentifier>{e3915f60-b074-4955-bf21-53b2461f452e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
