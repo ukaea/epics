@@ -1,15 +1,20 @@
 #ifndef IHEADERDATA_H_INCLUDED
 #define IHEADERDATA_H_INCLUDED
 
+#include <string>
+
 struct IHeaderData
 {
-	friend struct IServiceWrapper;
+	friend class GaugeDAQ;
 public:
 	double EmissionCurrent() const {
 		return m_EmissionCurrent;
 	}
 	double FilamentBiasVoltage() const {
 		return m_FilamentBiasVoltage;
+	}
+    double FilamentPower() const {
+		return m_FilamentPower;
 	}
 	double RepellerVoltage() const {
 		return m_RepellerVoltage;
@@ -56,6 +61,7 @@ public:
 private:
 	double m_EmissionCurrent;
 	double m_FilamentBiasVoltage;
+	double m_FilamentPower;
 	double m_RepellerVoltage;
 	double m_EntryPlateVoltage;
 	double m_PressurePlateVoltage;

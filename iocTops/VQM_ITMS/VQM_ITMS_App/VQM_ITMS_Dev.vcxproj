@@ -40,6 +40,7 @@
   <ItemGroup>
     <ClCompile Include="src\Exception.cpp" />
     <ClCompile Include="src\VQM\CrossPlatform\FIR-filter-class\filt.cpp" />
+    <ClCompile Include="src\VQM\CrossPlatform\GaugeDAQ.cpp" />
     <ClCompile Include="src\VQM\CrossPlatform\IServiceWrapper.cpp" />
     <ClCompile Include="src\VQM_ITMS_Base.cpp" />
     <ClCompile Include="src\VQM_ITMS_Driver.cpp" />
@@ -71,6 +72,7 @@
   <ItemGroup>
     <ClInclude Include="src\Exception.h" />
     <ClInclude Include="src\VQM\CrossPlatform\FIR-filter-class\filt.h" />
+    <ClInclude Include="src\VQM\CrossPlatform\GaugeDAQ.h" />
     <ClInclude Include="Src\VQM\CrossPlatform\IHeaderData.h" />
     <ClInclude Include="src\VQM\CrossPlatform\IServiceWrapper.h" />
     <ClInclude Include="src\VQM\Include\SRawConnectionOptions.h" />

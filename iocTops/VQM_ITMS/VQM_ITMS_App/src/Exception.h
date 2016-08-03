@@ -1,3 +1,6 @@
+#ifndef EXCEPTION_H_INCLUDED
+#define EXCEPTION_H_INCLUDED
+
 #ifdef epicsExportSharedSymbols
 #define VQM_ExceptionepicsExportSharedSymbols
 #undef epicsExportSharedSymbols
@@ -39,3 +42,10 @@ static const size_t MaxEPICSStrLen = 40;
 std::string epicsShareFunc wcstombs(std::wstring const& WideCharString);
 
 std::wstring epicsShareFunc mbstowcs(std::string const& MultiByteString);
+
+std::string ToString(double value);
+void FromString(std::string const& String, int& value);
+void FromHexString(std::string const& String, int& value);
+void FromString(std::string const& String, double& value);
+
+#endif //EXCEPTION_H_INCLUDED

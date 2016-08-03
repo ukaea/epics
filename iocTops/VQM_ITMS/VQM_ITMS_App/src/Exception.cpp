@@ -1,6 +1,8 @@
 #define epicsExportSharedSymbols
 #include "Exception.h"
 
+#include <sstream>
+
 std::string wcstombs(std::wstring const& WideCharString)
 {
 	char NBuf[MaxEPICSStrLen];
@@ -16,3 +18,27 @@ std::wstring mbstowcs(std::string const& MultiByteString)
 	::mbstowcs(WBuf, MultiByteString.c_str(), (sizeof(WBuf) - sizeof(wchar_t)) / sizeof(wchar_t));
 	return WBuf;
 }
+
+std::string ToString(double value)
+{
+	std::ostringstream o;
+	o << value;
+	return o.str ();
+}
+
+void FromString(std::string const& String, int& value)
+{
+	value = atoi(String.c_str());
+}
+
+void FromHexString(std::string const& String, int& value)
+{
+	char* EndPtr;
+	value = strtoul(String.c_str(), &EndPtr, 16);
+}
+
+void FromString(std::string const& String, double& value)
+{
+	value = atof(String.c_str());
+}
+

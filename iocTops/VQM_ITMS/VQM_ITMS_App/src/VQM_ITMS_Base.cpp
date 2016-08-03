@@ -25,6 +25,7 @@ const char* ParameterDefn::AVERAGEMODE = "AVERAGEMODE";
 const char* ParameterDefn::LASTSCANNUMBER = "LASTSCANNUMBER";
 const char* ParameterDefn::EMISSION = "EMISSION";
 const char* ParameterDefn::FILAMENTBIAS = "FILAMENTBIAS";
+const char* ParameterDefn::FILAMENTPOWER = "FILAMENTPOWER";
 const char* ParameterDefn::REPELLERBIAS = "REPELLERBIAS";
 const char* ParameterDefn::ENTRYPLATE = "ENTRYPLATE";
 const char* ParameterDefn::PRESSUREPLATE = "PRESSUREPLATE";

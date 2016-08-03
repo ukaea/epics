@@ -317,61 +317,7 @@ asynStatus CVQM_ITMS_Driver::readFloat64(asynUser *pasynUser, epicsFloat64 *valu
 			// The IOC is exiting
 			return asynTimeout;
 
-		if (function == Parameters(ParameterDefn::EMISSION))
-		{
-			ThrowException(m_serviceWrapper->GetFilamentEmissionCurrent(*value, m_Connections[Connection]), __FUNCTION__, "GetFilamentEmissionCurrent");
-		}
-		else if (function == Parameters(ParameterDefn::FILAMENTBIAS))
-		{
-			ThrowException(m_serviceWrapper->GetLogicalInstrumentCurrentVoltage(*value, FILAMENTBIAS, m_Connections[Connection]), __FUNCTION__, "GetLogicalInstrumentCurrentVoltage FILAMENTBIAS");
-		}
-		else if (function == Parameters(ParameterDefn::REPELLERBIAS))
-		{
-			ThrowException(m_serviceWrapper->GetLogicalInstrumentCurrentVoltage(*value, REPELLERBIAS, m_Connections[Connection]), __FUNCTION__, "GetLogicalInstrumentCurrentVoltage REPELLERBIAS");
-		}
-		else if (function == Parameters(ParameterDefn::ENTRYPLATE))
-		{
-			ThrowException(m_serviceWrapper->GetLogicalInstrumentCurrentVoltage(*value, ENTRYPLATE, m_Connections[Connection]), __FUNCTION__, "GetLogicalInstrumentCurrentVoltage ENTRYPLATE");
-		}
-		else if (function == Parameters(ParameterDefn::PRESSUREPLATE))
-		{
-			ThrowException(m_serviceWrapper->GetLogicalInstrumentCurrentVoltage(*value, PRESSUREPLATE, m_Connections[Connection]), __FUNCTION__, "GetLogicalInstrumentCurrentVoltage PRESSUREPLATE");
-		}
-		else if (function == Parameters(ParameterDefn::CUPS))
-		{
-			ThrowException(m_serviceWrapper->GetLogicalInstrumentCurrentVoltage(*value, CUPS, m_Connections[Connection]), __FUNCTION__, "GetLogicalInstrumentCurrentVoltage CUPS");
-		}
-		else if (function == Parameters(ParameterDefn::TRANSITION))
-		{
-			ThrowException(m_serviceWrapper->GetLogicalInstrumentCurrentVoltage(*value, TRANSITION, m_Connections[Connection]), __FUNCTION__, "GetLogicalInstrumentCurrentVoltage TRANSITION");
-		}
-		else if (function == Parameters(ParameterDefn::EXITPLATE))
-		{
-			ThrowException(m_serviceWrapper->GetLogicalInstrumentCurrentVoltage(*value, EXITPLATE, m_Connections[Connection]), __FUNCTION__, "GetLogicalInstrumentCurrentVoltage EXITPLATE");
-		}
-		else if (function == Parameters(ParameterDefn::EMSHIELD))
-		{
-			ThrowException(m_serviceWrapper->GetLogicalInstrumentCurrentVoltage(*value, EMSHIELD, m_Connections[Connection]), __FUNCTION__, "GetLogicalInstrumentCurrentVoltage EMSHIELD");
-		}
-		else if (function == Parameters(ParameterDefn::EMBIAS))
-		{
-			ThrowException(m_serviceWrapper->GetLogicalInstrumentCurrentVoltage(*value, EMBIAS, m_Connections[Connection]), __FUNCTION__, "GetLogicalInstrumentCurrentVoltage EMBIAS");
-		}
-		else if (function == Parameters(ParameterDefn::RFAMP))
-		{
-			ThrowException(m_serviceWrapper->GetLogicalInstrumentCurrentVoltage(*value, RFAMP, m_Connections[Connection]), __FUNCTION__, "GetLogicalInstrumentCurrentVoltage RFAMP");
-		}
-		else if (function == Parameters(ParameterDefn::MASSCAL))
-		{
-			float MassCalibrationFactor = 0;
-			ThrowException(m_serviceWrapper->GetMassCalibrationFactor(MassCalibrationFactor, m_Connections[Connection]), __FUNCTION__, "GetMassCalibrationFactor"); 
-			*value = MassCalibrationFactor;
-		}
-		else if (function == Parameters(ParameterDefn::ELECTROMETERGAIN))
-		{
-			ThrowException(m_serviceWrapper->GetElectrometerGain(*value, m_Connections[Connection]), __FUNCTION__, "GetElectrometerGain"); 
-		}
-		else if (function == Parameters(ParameterDefn::MASSFROM))
+		if (function == Parameters(ParameterDefn::MASSFROM))
 		{
 			double ToValue = 0;
 			ThrowException(m_serviceWrapper->GetScanRange(*value, ToValue, m_Connections[Connection]), __FUNCTION__, "GetScanRange To");
@@ -410,18 +356,19 @@ bool CVQM_ITMS_Driver::GetScanData(int Connection, std::vector<float>& RawData, 
 	if (getIntegerParam(Connection, ParameterDefn::SCANNING) == 0)
 		return false;
 
-	IHeaderData* headerDataPtr;
+	IHeaderData const* headerDataPtr;
 	bool isValidData;
 	EnumGaugeState controllerState;
 	int LastScanNumber;
 	SAnalyzedData AnalyzedData;
 	SAverageData AverageData;
-	ThrowException(m_serviceWrapper->GetScanData(LastScanNumber, AnalyzedData, &headerDataPtr,
+	ThrowException(m_serviceWrapper->GetScanData(LastScanNumber, AnalyzedData, const_cast<IHeaderData**>(&headerDataPtr),
 		AverageData, m_Connections[Connection], isValidData, controllerState), __FUNCTION__, "GetScanData");
 
 	setIntegerParam(Connection, ParameterDefn::LASTSCANNUMBER, LastScanNumber);
 	setDoubleParam(Connection, ParameterDefn::EMISSION, headerDataPtr->EmissionCurrent());
 	setDoubleParam(Connection, ParameterDefn::FILAMENTBIAS, headerDataPtr->FilamentBiasVoltage());
+	setDoubleParam(Connection, ParameterDefn::FILAMENTPOWER, headerDataPtr->FilamentPower());
 	setDoubleParam(Connection, ParameterDefn::REPELLERBIAS, headerDataPtr->RepellerVoltage());
 	setDoubleParam(Connection, ParameterDefn::ENTRYPLATE, headerDataPtr->EntryPlateVoltage());
 	setDoubleParam(Connection, ParameterDefn::PRESSUREPLATE, headerDataPtr->PressurePlateVoltage());
@@ -593,10 +540,6 @@ asynStatus CVQM_ITMS_Driver::writeFloat64(asynUser *pasynUser, epicsFloat64 valu
 		if (function == Parameters(ParameterDefn::EMISSION))
 		{
 			ThrowException(m_serviceWrapper->SetFilamentEmissionCurrentSetpoint(value, m_Connections[Connection]), __FUNCTION__, "SetFilamentEmissionCurrentSetpoint");
-		}
-		else if (function == Parameters(ParameterDefn::FILAMENTBIAS))
-		{
-			ThrowException(m_serviceWrapper->SetLogicalInstrumentVoltageSetpoint(FILAMENTBIAS, value, m_Connections[Connection]), __FUNCTION__, "SetLogicalInstrumentVoltageSetpoint FILAMENTBIAS");
 		}
 		else if (function == Parameters(ParameterDefn::REPELLERBIAS))
 		{

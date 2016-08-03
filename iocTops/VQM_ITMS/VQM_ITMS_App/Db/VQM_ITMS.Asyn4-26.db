@@ -62,6 +62,13 @@ record(ao, "$(P)FilamentBias")
 	info("asyn:READBACK", "1")
 }
 
+record(ai, "$(P)FilamentPower")
+{
+	field(DTYP, "asynFloat64")
+	field(OUT,  "@asyn($(PORT),$(ADDR),1)FILAMENTPOWER")
+	field(SCAN, "I/O Intr")
+}
+
 record(ao, "$(P)RepellerBias")
 {
 	field(DTYP, "asynFloat64")

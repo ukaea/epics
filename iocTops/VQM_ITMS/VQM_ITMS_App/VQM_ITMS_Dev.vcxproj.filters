@@ -16,6 +16,9 @@
     <ClCompile Include="src\VQM\CrossPlatform\FIR-filter-class\filt.cpp">
       <Filter>Src\VQM\CrossPlaform\FIR-filter-class</Filter>
     </ClCompile>
+    <ClCompile Include="src\VQM\CrossPlatform\GaugeDAQ.cpp">
+      <Filter>Src\VQM\CrossPlaform</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ParameterDefns.h">
@@ -41,6 +44,9 @@
     </ClInclude>
     <ClInclude Include="src\VQM\CrossPlatform\FIR-filter-class\filt.h">
       <Filter>Src\VQM\CrossPlaform\FIR-filter-class</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VQM\CrossPlatform\GaugeDAQ.h">
+      <Filter>Src\VQM\CrossPlaform</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

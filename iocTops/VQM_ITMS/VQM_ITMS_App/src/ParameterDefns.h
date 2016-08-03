@@ -37,6 +37,7 @@ struct epicsShareClass ParameterDefn
 	static const char* LASTSCANNUMBER;
 	static const char* EMISSION;
 	static const char* FILAMENTBIAS;
+	static const char* FILAMENTPOWER;
 	static const char* REPELLERBIAS;
 	static const char* ENTRYPLATE;
 	static const char* PRESSUREPLATE;
@@ -68,6 +69,7 @@ static ParameterDefn ParameterDefns[] =
 	{ParameterDefn::LASTSCANNUMBER, asynParamInt32, Both},
 	{ParameterDefn::EMISSION, asynParamFloat64, Both},
 	{ParameterDefn::FILAMENTBIAS, asynParamFloat64, Both},
+	{ParameterDefn::FILAMENTPOWER, asynParamFloat64, Both},
 	{ParameterDefn::REPELLERBIAS, asynParamFloat64, Both},
 	{ParameterDefn::ENTRYPLATE, asynParamFloat64, Both},
 	{ParameterDefn::PRESSUREPLATE, asynParamFloat64, Both},
