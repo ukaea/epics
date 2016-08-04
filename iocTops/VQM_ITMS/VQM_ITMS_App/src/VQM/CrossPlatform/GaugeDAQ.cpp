@@ -5,7 +5,7 @@
 
 #ifdef _DEBUG
 // Infinite timeout, convenient for debugging.
-const double TimeOut = -1;
+const double TimeOut = 5;
 #else
 const double TimeOut = 5;
 #endif
@@ -13,18 +13,6 @@ const double TimeOut = 5;
 GaugeDAQ::GaugeDAQ(asynUser* IOUser)
 {
 	m_IOUser = IOUser;
-	static const size_t NrSegments = 30;
-	static const int SegmentSizes[NrSegments] = {
-		1333, 924, 706, 571, 480, 414, 364, 324, 293, 266, 245, 227, 210, 197, 184, 174, 165, 156, 148, 141, 135, 129, 123, 119, 110, 106, 102, 100, 96, 90
-	};
-
-	int Accumulation = 0;
-	m_SegmentBoundaries.assign(NrSegments+1, SegmentBoundary());
-	for(size_t Segment = 0; Segment < m_SegmentBoundaries.size(); Segment++)
-	{
-		m_SegmentBoundaries[Segment].m_RawPoint = Accumulation;
-		Accumulation += SegmentSizes[Segment];
-	}
 	m_lastScanNumber = 0;
 	connect();
 }
@@ -63,14 +51,8 @@ void GaugeDAQ::connect()
 	GetLogicalInstrumentMinMaxVoltage(EMSHIELD);
 	GetLogicalInstrumentMinMaxVoltage(EMBIAS);
 	GetLogicalInstrumentMinMaxVoltage(RFAMP);
-	std::string AMUResponse;
-	writeRead("CONF:AMU?", AMUResponse);
-	// +9.28392E-01,+1.47596E+02
-	size_t CommaPos = FindMarkerPos(AMUResponse, 0, ",");
-	std::string lowerRange = AMUResponse.substr(0, CommaPos-1);
-	FromString(lowerRange, m_lowerRange);
-	std::string upperRange = AMUResponse.substr(CommaPos+1);
-	FromString(upperRange, m_upperRange);
+	GetScanRange();
+	write("INST MSP;:FORM:ALL 0,1");
 }
 
 EnumGaugeState GaugeDAQ::GetGaugeState() const
@@ -78,7 +60,7 @@ EnumGaugeState GaugeDAQ::GetGaugeState() const
 	epicsGuard < epicsMutex > guard (m_Mutex);
 	write("INST MSP");
 	std::string OUTPResponse, INITResponse;
-	int OUTPValue = 0, INITValue = 0;
+	size_t OUTPValue = 0, INITValue = 0;
 	writeRead("OUTP?", OUTPResponse);
 	FromString(OUTPResponse, OUTPValue);
 	writeRead("INIT:CONT?", INITResponse);
@@ -182,10 +164,25 @@ void GaugeDAQ::SetLogicalInstrumentVoltageSetpoint(EnumLogicalInstruments logica
 	write("SOUR:VOLT");
 }
 
+void GaugeDAQ::GetScanRange()
+{
+	epicsGuard < epicsMutex > guard (m_Mutex);
+	std::string AMUResponse;
+	writeRead("CONF:AMU?", AMUResponse);
+	// +9.28392E-01,+1.47596E+02
+	size_t CommaPos = FindMarkerPos(AMUResponse, 0, ",");
+	std::string lowerRange = AMUResponse.substr(0, CommaPos-1);
+	FromString(lowerRange, m_lowerRange);
+	std::string upperRange = AMUResponse.substr(CommaPos+1);
+	FromString(upperRange, m_upperRange);
+}
+
 void GaugeDAQ::SetScanRange(double lowerRange, double upperRange)
 {
 	epicsGuard < epicsMutex > guard (m_Mutex);
-	write("CONF:AMU " + ToString(lowerRange) + "," + ToString(upperRange));
+	std::string ErrResponse;
+	writeRead("CONF:AMU " + ToString(lowerRange) + "," + ToString(upperRange), ErrResponse);
+	GetScanRange();
 }
 
 void GaugeDAQ::GetTSETingsValues(std::string const&  TSETingsValues)
@@ -206,7 +203,6 @@ void GaugeDAQ::GetTSETingsValues(std::string const&  TSETingsValues)
 	std::string FilamentBias = TSETingsValues.substr(FirstCommaPos, SecondCommaPos-FirstCommaPos-1);
 	FromString(FilamentBias, m_HeaderData.m_FilamentBiasVoltage);
 
-	// No idea (+2.83090E+00)
 	FirstCommaPos = SecondCommaPos; SecondCommaPos = FindMarkerPos(TSETingsValues, FirstCommaPos+1, ",");
 	std::string FilamentPower = TSETingsValues.substr(FirstCommaPos, SecondCommaPos-FirstCommaPos-1);
 	FromString(FilamentPower, m_HeaderData.m_FilamentPower);
@@ -248,6 +244,25 @@ void GaugeDAQ::GetTSETingsValues(std::string const&  TSETingsValues)
 	FromString(ElectrometetrGain, m_HeaderData.m_ElectronMultiplierElectrometerGain);
 }
 
+void GaugeDAQ::WorkoutSegments(size_t DataSamples)
+{
+	static const size_t MaxNrSegments = 30;
+	static const int SegmentSizes[MaxNrSegments] = {
+		1333, 924, 706, 571, 480, 414, 364, 324, 293, 266, 245, 227, 210, 197, 184, 174, 165, 156, 148, 141, 135, 129, 123, 119, 110, 106, 102, 100, 96, 90
+	};
+
+	size_t Accumulation = 0;
+	m_SegmentBoundaries.clear();
+	for(size_t Segment = 0; Segment < MaxNrSegments; Segment++)
+	{
+		SegmentBoundary SegmentBoundary(Accumulation, m_lowerRange + Segment * (m_upperRange - m_lowerRange) / MaxNrSegments);
+		m_SegmentBoundaries.push_back(SegmentBoundary);
+		Accumulation += size_t(SegmentSizes[Segment]);
+		if (Accumulation > DataSamples)
+			break;
+	}
+}
+
 bool GaugeDAQ::GrabScanData()
 {
 	epicsGuard < epicsMutex > guard (m_Mutex);
@@ -269,8 +284,6 @@ bool GaugeDAQ::GrabScanData()
 	m_HeaderData.m_HardwareRevision = mbstowcs(FirstHeader.substr(DESignPos, CommaPos-DESignPos-1));
 	m_HeaderData.m_FirmwareRevision = mbstowcs(FirstHeader.substr(CommaPos, QuotePos-CommaPos-1));
 
-	// enum EnumLogicalInstruments { FILAMENT = 0, FILAMENTBIAS, REPELLERBIAS, ENTRYPLATE, PRESSUREPLATE, CUPS, TRANSITION, EXITPLATE, EMSHIELD, EMBIAS, RFAMP };
-	//								  RepellerBias  Emission    FilamentBias   No idea     EntryPlate   PressurePlate Cups        Transition   ExitPlate     RFAmp       EMShield     no idea     no idea      no idea
 	// (MEASurement=TSETtings (VALues -5.29913E+01,+7.50000E-05,+3.09385E+01,+2.83090E+00,+1.30018E+02,+7.50945E+01,+2.69785E+01,-6.85262E+02,+1.21151E+02,+4.50000E-01,+1.23000E+02,-8.58475E+02,+1.90069E-08,+9.99999E-10))
 	size_t VALuesPos = FindMarkerPos(FirstHeader, QuotePos, "DATA (MEASurement=TSETtings (VALues ");
 	size_t CloseBracketPos = FindMarkerPos(FirstHeader, VALuesPos, "))");
@@ -280,13 +293,13 @@ bool GaugeDAQ::GrabScanData()
 	size_t DIMNoisePos = FindMarkerPos(FirstHeader, CloseBracketPos, "DIMension=NOISe", "NSAMples #H");
 	size_t SpacePos = FindMarkerPos(FirstHeader, DIMNoisePos, " ");
 	std::string NoiseSamplesStr = FirstHeader.substr(DIMNoisePos, SpacePos-DIMNoisePos-1);
-	int NoiseSamples;
+	size_t NoiseSamples;
 	FromHexString(NoiseSamplesStr, NoiseSamples);
 
 	// DIMension=NOISe (TYPE EXPLicit UNITs "COUNt") DATA (NSAMples #H0000017e BLINe +0.00000E+00 RMSNoise +0.00000E+00 CURVe (DATE 2016,08,02 TIME 09,23,10.659 VALues #3764   
 	size_t  NoiseValuesPos = FindMarkerPos(FirstHeader, DIMNoisePos, "VALues #3");
 	std::string NoiseVALuesStr = FirstHeader.substr(NoiseValuesPos);
-	int NoiseValues;
+	size_t NoiseValues;
 	FromString(NoiseVALuesStr, NoiseValues);
 	_ASSERT(NoiseValues==NoiseSamples*sizeof(epicsUInt16));
 
@@ -302,21 +315,31 @@ bool GaugeDAQ::GrabScanData()
 	//			CURVe (DATE 2016,08,01 TIME 15,38,19.539 VALues #514466 
 
 	size_t DIMDataPos = FindMarkerPos(SecondHeader, 0, "DIMension=COUNt");
+
 	size_t CVALuePos = FindMarkerPos(SecondHeader, DIMDataPos, "CVALue ");
 	SpacePos = FindMarkerPos(SecondHeader, CVALuePos, " "); 
 	std::string CVALueStr = SecondHeader.substr(CVALuePos, SpacePos-CVALuePos-1);
 	FromString(CVALueStr, m_HeaderData.m_MassAxisCalibrationFactor);
 	m_HeaderData.m_MassAxisCalibrationFactor /= 1000;
 
+	size_t BAMuPos = FindMarkerPos(SecondHeader, CVALuePos, "BAMu ");
+	SpacePos = FindMarkerPos(SecondHeader, BAMuPos, " "); 
+	std::string BAMuStr = SecondHeader.substr(BAMuPos, SpacePos-BAMuPos-1);
+	FromString(BAMuStr, m_lowerRange);
+	size_t EAMuPos = FindMarkerPos(SecondHeader, CVALuePos, "EAMu ");
+	SpacePos = FindMarkerPos(SecondHeader, EAMuPos, " "); 
+	std::string EAMuStr = SecondHeader.substr(EAMuPos, SpacePos-EAMuPos-1);
+	FromString(EAMuStr, m_upperRange);
+
 	size_t NSAMplesPos = FindMarkerPos(SecondHeader, DIMDataPos, "NSAMples #H");
 	SpacePos = FindMarkerPos(SecondHeader, NSAMplesPos, " ");
 	std::string DataSamplesStr = SecondHeader.substr(NSAMplesPos, SpacePos-NSAMplesPos-1);
-	int DataSamples;
+	size_t DataSamples;
 	FromHexString(DataSamplesStr, DataSamples);
 
 	size_t  DataValuesPos = FindMarkerPos(SecondHeader, DIMDataPos, "VALues #5");
 	std::string DataVALuesStr = SecondHeader.substr(DataValuesPos);
-	int DataValues;
+	size_t DataValues;
 	FromString(DataVALuesStr, DataValues);
 	_ASSERT(DataValues==DataSamples*sizeof(epicsUInt16));
 
@@ -326,8 +349,7 @@ bool GaugeDAQ::GrabScanData()
 	std::string DiscardedTerminator;
 	readTill(DiscardedTerminator, " )))", 0);
 	_ASSERT(DiscardedTerminator==" )))");
-	for(size_t Segment = 0; Segment < m_SegmentBoundaries.size(); Segment++)
-		m_SegmentBoundaries[Segment].m_ScaledPoint = m_lowerRange + Segment * (m_upperRange - m_lowerRange) / (m_SegmentBoundaries.size()-1);
+	WorkoutSegments(DataSamples);
 	m_lastScanNumber++;
 	return true;
 }
@@ -345,7 +367,7 @@ int GaugeDAQ::FindRawPt(size_t& Segment, size_t ScaledPt) const
 		size_t RawRange = m_SegmentBoundaries[Segment+1].m_RawPoint - m_SegmentBoundaries[Segment].m_RawPoint;
 		RawPt += size_t(RawRange * (ScaledPt - m_SegmentBoundaries[Segment].m_ScaledPoint) / ScaledRange);
 	}
-	return RawPt;
+	return RawPt >= 0 ? RawPt : 0;
 }
 
 float GaugeDAQ::AverageNoise() const
@@ -431,10 +453,20 @@ void GaugeDAQ::readTill(std::string& ReadPacket, std::string const& Termination,
 void GaugeDAQ::read(std::vector<epicsUInt16>& ReadPacket) const
 {
 	epicsGuard < epicsMutex > guard (m_Mutex);
-	size_t nBytesIn;
+	size_t nTotalBytes = 0;
 	int eomReason = ASYN_EOM_CNT;
-	// NB, *don't* pass pasynUser to this function - it has the wrong type and will cause an access violation.
-	ThrowException(pasynOctetSyncIO->read(m_IOUser, reinterpret_cast<char*>(&(ReadPacket[0])), ReadPacket.size()*sizeof(epicsUInt16), TimeOut, &nBytesIn, &eomReason), __FUNCTION__, "read");
+	asynStatus Status = asynTimeout;
+	while (Status == asynTimeout)
+	{
+		// NB, *don't* pass pasynUser to this function - it has the wrong type and will cause an access violation.
+		size_t nBytesIn;
+		Status = pasynOctetSyncIO->read(m_IOUser, reinterpret_cast<char*>(&(ReadPacket[0]))+nTotalBytes, ReadPacket.size()*sizeof(epicsUInt16)-nTotalBytes, 0.1, &nBytesIn, &eomReason);
+		nTotalBytes += nBytesIn; 
+		if ((Status == asynTimeout) && (nTotalBytes < ReadPacket.size()*sizeof(epicsUInt16)))
+			write("fetc?");
+	}
+
+	ThrowException(Status, __FUNCTION__, "read");
 	_ASSERT(eomReason == ASYN_EOM_CNT);
 }
 

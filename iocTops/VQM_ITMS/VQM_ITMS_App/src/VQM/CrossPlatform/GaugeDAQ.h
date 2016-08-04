@@ -54,6 +54,10 @@ public:
 	double upperRange() const {
 		return m_upperRange;
 	}
+	void GetScanRange(double& lowerRange, double& upperRange) const {
+		lowerRange = m_lowerRange;
+		upperRange = m_upperRange;
+	}
 	void SetScanRange(double lowerRange, double upperRange);
 	bool GrabScanData();
 	float AverageNoise() const;
@@ -76,6 +80,8 @@ public:
 
 private:
 	void connect();
+	void WorkoutSegments(size_t DataSamples);
+	void GetScanRange();
 	void GetTSETingsValues(std::string const&  TSETingsValues);
 	size_t FindMarkerPos(std::string const& HeaderData, size_t Offset, const char* FirstMarker) const;
 	size_t FindMarkerPos(std::string const& HeaderData, size_t Offset, const char* FirstMarker, const char* SecondMarker) const;
@@ -97,7 +103,9 @@ private:
 		}
 	};
 	struct SegmentBoundary {
-		SegmentBoundary() {
+		SegmentBoundary(size_t RawPoint, double ScaledPoint) {
+			m_RawPoint = RawPoint;
+			m_ScaledPoint = ScaledPoint;
 		}
 		size_t m_RawPoint;
 		double m_ScaledPoint;

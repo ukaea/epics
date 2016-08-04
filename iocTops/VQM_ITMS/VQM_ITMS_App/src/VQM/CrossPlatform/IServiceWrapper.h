@@ -37,7 +37,7 @@ public:
 	SVQM_800_Error DataAnalysisSetNumAvgs(int numAverages, asynUser* IOUser);
 	SVQM_800_Error SetFilamentEmissionCurrentSetpoint(double value, asynUser* IOUser);
 	SVQM_800_Error SetLogicalInstrumentVoltageSetpoint(EnumLogicalInstruments logicalInstrumentEnum, double& value, asynUser* IOUser);
-	SVQM_800_Error GetScanRange(double& lowerRange, double& upperRange, asynUser* IOUser);
+	SVQM_800_Error GetScanRange(double& lowerRange, double& upperRange, asynUser* IOUser) const;
 	SVQM_800_Error SetScanRange(double& lowerRange, double& upperRange, asynUser* IOUser);
 	SVQM_800_Error GetLogicalInstrumentMinMaxVoltage(EnumLogicalInstruments logicalInstrumentEnum, asynUser* IOUser);
 	SVQM_800_Error GetScanData(int& lastScanNumber, SAnalyzedData& analyzedData, IHeaderData** headerDataPtr,

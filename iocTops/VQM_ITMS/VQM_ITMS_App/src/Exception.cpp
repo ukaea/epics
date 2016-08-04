@@ -26,12 +26,12 @@ std::string ToString(double value)
 	return o.str ();
 }
 
-void FromString(std::string const& String, int& value)
+void FromString(std::string const& String, size_t& value)
 {
 	value = atoi(String.c_str());
 }
 
-void FromHexString(std::string const& String, int& value)
+void FromHexString(std::string const& String, size_t& value)
 {
 	char* EndPtr;
 	value = strtoul(String.c_str(), &EndPtr, 16);

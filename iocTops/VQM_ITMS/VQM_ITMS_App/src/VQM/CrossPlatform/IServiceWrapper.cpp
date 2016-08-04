@@ -74,11 +74,9 @@ SVQM_800_Error IServiceWrapper::SetLogicalInstrumentVoltageSetpoint(EnumLogicalI
 	return SVQM_800_Error();
 }
 
-SVQM_800_Error IServiceWrapper::GetScanRange(double& lowerRange, double& upperRange, asynUser* IOUser)
+SVQM_800_Error IServiceWrapper::GetScanRange(double& lowerRange, double& upperRange, asynUser* IOUser) const
 {
-	GaugeDAQ const& GaugeDAQ = getGaugeDAQ(IOUser);
-	lowerRange = GaugeDAQ.lowerRange();
-	upperRange = GaugeDAQ.upperRange();
+	getGaugeDAQ(IOUser).GetScanRange(lowerRange, upperRange);
 	return SVQM_800_Error();
 }
 
@@ -90,12 +88,13 @@ SVQM_800_Error IServiceWrapper::SetScanRange(double& lowerRange, double& upperRa
 
 SVQM_800_Error IServiceWrapper::SetGaugeState(EnumGaugeState gaugeState, asynUser* IOUser)
 {
-	GaugeDAQ& GaugeDAQ = getGaugeDAQ(IOUser);
+	getGaugeDAQ(IOUser).SetGaugeState(gaugeState);
 	return SVQM_800_Error();
 }
 
 SVQM_800_Error IServiceWrapper::GetGaugeState(EnumGaugeState& gaugeState, asynUser* IOUser) const
 {
+	gaugeState = getGaugeDAQ(IOUser).GetGaugeState();
 	return SVQM_800_Error();
 }
 
@@ -137,6 +136,7 @@ SVQM_800_Error IServiceWrapper::GetScanData(int& lastScanNumber, SAnalyzedData& 
 				((GaugeDAQ.numAverages() - 1) * analyzedData.DenoisedRawData()[Sample] + GaugeDAQ.DataPacket(Sample) - AverageNoise) / GaugeDAQ.numAverages();
 	}
 	lastScanNumber = GaugeDAQ.lastScanNumber();
+	controllerState = EnumGaugeState_SCAN;
 
 #ifdef _DEBUG
 //	CheckExtraData(IOUser);

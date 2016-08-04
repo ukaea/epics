@@ -23,7 +23,7 @@
 
 enum ParamUseCases
 {
-	Single, Both
+	Single, Instance
 };
 
 struct epicsShareClass ParameterDefn
@@ -63,31 +63,31 @@ struct epicsShareClass ParameterDefn
 
 static ParameterDefn ParameterDefns[] =
 {
-	{ParameterDefn::SCANNING, asynParamInt32, Both},
-	{ParameterDefn::AVERAGES, asynParamInt32, Both},
-	{ParameterDefn::AVERAGEMODE, asynParamInt32, Both},
-	{ParameterDefn::LASTSCANNUMBER, asynParamInt32, Both},
-	{ParameterDefn::EMISSION, asynParamFloat64, Both},
-	{ParameterDefn::FILAMENTBIAS, asynParamFloat64, Both},
-	{ParameterDefn::FILAMENTPOWER, asynParamFloat64, Both},
-	{ParameterDefn::REPELLERBIAS, asynParamFloat64, Both},
-	{ParameterDefn::ENTRYPLATE, asynParamFloat64, Both},
-	{ParameterDefn::PRESSUREPLATE, asynParamFloat64, Both},
-	{ParameterDefn::CUPS, asynParamFloat64, Both},
-	{ParameterDefn::TRANSITION, asynParamFloat64, Both},
-	{ParameterDefn::EXITPLATE, asynParamFloat64, Both},
-	{ParameterDefn::EMSHIELD, asynParamFloat64, Both},
-	{ParameterDefn::EMBIAS, asynParamFloat64, Both},
-	{ParameterDefn::RFAMP, asynParamFloat64, Both},
-	{ParameterDefn::MASSCAL, asynParamFloat64, Both},
-	{ParameterDefn::ELECTROMETERGAIN, asynParamFloat64, Both},
-	{ParameterDefn::MASSFROM, asynParamFloat64, Both},
-	{ParameterDefn::MASSTO, asynParamFloat64, Both},
-	{ParameterDefn::RAWDATA, asynParamFloat32Array, Both},
-	{ParameterDefn::PARTIALPRESSURE, asynParamFloat32Array, Both},
-	{ParameterDefn::FAULT, asynParamInt32, Both},
-	{ParameterDefn::FIRMWAREVERSION, asynParamOctet, Both},
-	{ParameterDefn::HARDWAREVERSION, asynParamOctet, Both},
+	{ParameterDefn::SCANNING, asynParamInt32, Instance},
+	{ParameterDefn::AVERAGES, asynParamInt32, Instance},
+	{ParameterDefn::AVERAGEMODE, asynParamInt32, Instance},
+	{ParameterDefn::LASTSCANNUMBER, asynParamInt32, Instance},
+	{ParameterDefn::EMISSION, asynParamFloat64, Instance},
+	{ParameterDefn::FILAMENTBIAS, asynParamFloat64, Instance},
+	{ParameterDefn::FILAMENTPOWER, asynParamFloat64, Instance},
+	{ParameterDefn::REPELLERBIAS, asynParamFloat64, Instance},
+	{ParameterDefn::ENTRYPLATE, asynParamFloat64, Instance},
+	{ParameterDefn::PRESSUREPLATE, asynParamFloat64, Instance},
+	{ParameterDefn::CUPS, asynParamFloat64, Instance},
+	{ParameterDefn::TRANSITION, asynParamFloat64, Instance},
+	{ParameterDefn::EXITPLATE, asynParamFloat64, Instance},
+	{ParameterDefn::EMSHIELD, asynParamFloat64, Instance},
+	{ParameterDefn::EMBIAS, asynParamFloat64, Instance},
+	{ParameterDefn::RFAMP, asynParamFloat64, Instance},
+	{ParameterDefn::MASSCAL, asynParamFloat64, Instance},
+	{ParameterDefn::ELECTROMETERGAIN, asynParamFloat64, Instance},
+	{ParameterDefn::MASSFROM, asynParamFloat64, Instance},
+	{ParameterDefn::MASSTO, asynParamFloat64, Instance},
+	{ParameterDefn::RAWDATA, asynParamFloat32Array, Instance},
+	{ParameterDefn::PARTIALPRESSURE, asynParamFloat32Array, Instance},
+	{ParameterDefn::FAULT, asynParamInt32, Instance},
+	{ParameterDefn::FIRMWAREVERSION, asynParamOctet, Instance},
+	{ParameterDefn::HARDWAREVERSION, asynParamOctet, Instance},
 	{ParameterDefn::ASYNVERSION, asynParamOctet, Single},
 	{ParameterDefn::SOFTWAREVERSION, asynParamOctet, Single}
 };

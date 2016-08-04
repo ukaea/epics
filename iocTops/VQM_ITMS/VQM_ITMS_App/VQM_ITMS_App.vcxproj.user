@@ -18,7 +18,7 @@ IPPORT5=localhost:5070</LocalDebuggerEnvironment>
     <LocalDebuggerCommandArguments>..\..\iocBoot\VQM_ITMS\st1.cmd</LocalDebuggerCommandArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
-    <LocalDebuggerEnvironment>$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
+    <LocalDebuggerEnvironment>EPICS_CA_MAX_ARRAY_BYTES=30000</LocalDebuggerEnvironment>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <LocalDebuggerWorkingDirectory>$(ProjectDir)\Scripts</LocalDebuggerWorkingDirectory>
     <DevPartner_IsInstrumented>1</DevPartner_IsInstrumented>
@@ -43,7 +43,7 @@ $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
     <LocalDebuggerWorkingDirectory>$(ProjectDir)\Scripts</LocalDebuggerWorkingDirectory>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
-    <LocalDebuggerEnvironment>$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
+    <LocalDebuggerEnvironment>EPICS_CA_MAX_ARRAY_BYTES=100000</LocalDebuggerEnvironment>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <LocalDebuggerCommandArguments>..\..\iocBoot\VQM_ITMS\st1.cmd</LocalDebuggerCommandArguments>
     <LocalDebuggerWorkingDirectory>$(ProjectDir)\Scripts</LocalDebuggerWorkingDirectory>
