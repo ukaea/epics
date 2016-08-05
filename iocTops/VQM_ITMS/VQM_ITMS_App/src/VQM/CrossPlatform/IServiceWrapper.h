@@ -33,9 +33,11 @@ public:
 	IServiceWrapper();
 	~IServiceWrapper();
 	SVQM_800_Error ConnectToDevice(asynUser* IOUser, bool isMaster);
+	SVQM_800_Error GetExtendedRangeCapabilities(bool& isExtendedRange, asynUser* IOUser) const;
 	SVQM_800_Error DataAnalysisSetAvgMode(EnumAvgMode mode, asynUser* IOUser);
 	SVQM_800_Error DataAnalysisSetNumAvgs(int numAverages, asynUser* IOUser);
 	SVQM_800_Error SetFilamentEmissionCurrentSetpoint(double value, asynUser* IOUser);
+	SVQM_800_Error SetElectrometerGainSetpoint(double value, asynUser* IOUser);
 	SVQM_800_Error SetLogicalInstrumentVoltageSetpoint(EnumLogicalInstruments logicalInstrumentEnum, double& value, asynUser* IOUser);
 	SVQM_800_Error GetScanRange(double& lowerRange, double& upperRange, asynUser* IOUser) const;
 	SVQM_800_Error SetScanRange(double& lowerRange, double& upperRange, asynUser* IOUser);

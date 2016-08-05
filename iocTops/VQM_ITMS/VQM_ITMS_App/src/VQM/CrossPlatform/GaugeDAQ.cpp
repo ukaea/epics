@@ -2,18 +2,25 @@
 
 #include <asynOctetSyncIO.h>
 #include <epicsGuard.h>
+#include <epicsTime.h>
 
 #ifdef _DEBUG
 // Infinite timeout, convenient for debugging.
-const double TimeOut = 5;
+const double TimeOut = -1;
 #else
 const double TimeOut = 5;
 #endif
+
+const size_t GaugeDAQ::MaxNrSegments = 30;
+const int GaugeDAQ::SegmentSizes[] = {
+	1333, 924, 706, 571, 480, 414, 364, 324, 293, 266, 245, 227, 210, 197, 184, 174, 165, 156, 148, 141, 135, 129, 123, 119, 110, 106, 102, 100, 96, 90
+};
 
 GaugeDAQ::GaugeDAQ(asynUser* IOUser)
 {
 	m_IOUser = IOUser;
 	m_lastScanNumber = 0;
+	m_RawData.resize(1);
 	connect();
 }
 
@@ -53,6 +60,12 @@ void GaugeDAQ::connect()
 	GetLogicalInstrumentMinMaxVoltage(RFAMP);
 	GetScanRange();
 	write("INST MSP;:FORM:ALL 0,1");
+}
+
+bool GaugeDAQ::GetExtendedRangeCapabilities() const
+{
+	// TODO
+	return false;
 }
 
 EnumGaugeState GaugeDAQ::GetGaugeState() const
@@ -95,6 +108,13 @@ void GaugeDAQ::SetGaugeState(EnumGaugeState gaugeState)
 	}
 }
 
+void GaugeDAQ::DataAnalysisSetAvgMode(EnumAvgMode AvgMode)
+{
+	while (m_AvgMode == Running_Avg)
+		m_RawData.resize(1);
+	m_AvgMode = AvgMode;
+}
+
 void GaugeDAQ::GetLogicalInstrumentMinMaxVoltage(EnumLogicalInstruments logicalInstrumentEnum)
 {
 	epicsGuard < epicsMutex > guard (m_Mutex);
@@ -114,6 +134,12 @@ void GaugeDAQ::SetFilamentEmissionCurrentSetpoint(double value)
 	epicsGuard < epicsMutex > guard (m_Mutex);
 	write("INST FIL");
 	write("SOUR CURR " + ToString(value));
+}
+
+void GaugeDAQ::SetElectrometerGainSetpoint(double value)
+{
+	epicsGuard < epicsMutex > guard (m_Mutex);
+	// TODO
 }
 
 std::string GaugeDAQ::EnumToText(EnumLogicalInstruments logicalInstrumentEnum) const
@@ -244,26 +270,24 @@ void GaugeDAQ::GetTSETingsValues(std::string const&  TSETingsValues)
 	FromString(ElectrometetrGain, m_HeaderData.m_ElectronMultiplierElectrometerGain);
 }
 
-void GaugeDAQ::WorkoutSegments(size_t DataSamples)
+void GaugeDAQ::WorkoutSegments()
 {
-	static const size_t MaxNrSegments = 30;
-	static const int SegmentSizes[MaxNrSegments] = {
-		1333, 924, 706, 571, 480, 414, 364, 324, 293, 266, 245, 227, 210, 197, 184, 174, 165, 156, 148, 141, 135, 129, 123, 119, 110, 106, 102, 100, 96, 90
-	};
+	bool ExtendedRangeCapabilities = GetExtendedRangeCapabilities();
 
 	size_t Accumulation = 0;
 	m_SegmentBoundaries.clear();
-	for(size_t Segment = 0; Segment < MaxNrSegments; Segment++)
+	size_t NrSegments = ExtendedRangeCapabilities ? 20 : MaxNrSegments;
+	double upperRange = ExtendedRangeCapabilities ? 300 : 145;
+	double lowerRange = 1;
+	for(size_t Segment = 0; Segment < NrSegments; Segment++)
 	{
-		SegmentBoundary SegmentBoundary(Accumulation, m_lowerRange + Segment * (m_upperRange - m_lowerRange) / MaxNrSegments);
+		SegmentBoundary SegmentBoundary(Accumulation, lowerRange + Segment * (upperRange - lowerRange) / NrSegments);
 		m_SegmentBoundaries.push_back(SegmentBoundary);
 		Accumulation += size_t(SegmentSizes[Segment]);
-		if (Accumulation > DataSamples)
-			break;
 	}
 }
 
-bool GaugeDAQ::GrabScanData()
+void GaugeDAQ::GrabScanData()
 {
 	epicsGuard < epicsMutex > guard (m_Mutex);
 	std::string FirstHeader;
@@ -303,8 +327,8 @@ bool GaugeDAQ::GrabScanData()
 	FromString(NoiseVALuesStr, NoiseValues);
 	_ASSERT(NoiseValues==NoiseSamples*sizeof(epicsUInt16));
 
-	m_NoisePacket.resize(NoiseSamples);
-	read(m_NoisePacket);
+	m_NoiseData.resize(NoiseSamples);
+	read(m_NoiseData);
 
 	std::string SecondHeader;
 	readTill(SecondHeader, "DIMension=COUNt (TYPE EXPLicit UNITs \"COUNt\") DATA (", 0);
@@ -343,15 +367,25 @@ bool GaugeDAQ::GrabScanData()
 	FromString(DataVALuesStr, DataValues);
 	_ASSERT(DataValues==DataSamples*sizeof(epicsUInt16));
 
-	m_DataPacket.resize(DataSamples);
-	read(m_DataPacket);
+	while (m_AvgMode == Running_Avg)
+	{
+		while (m_RawData.size() >= m_numAverages)
+			m_RawData.pop_front();
+		if (m_RawData.size() < m_numAverages)
+			m_RawData.push_back(std::vector<epicsUInt16>(DataSamples));
+	}
+
+	m_RawData.back().resize(DataSamples);
+	read(m_RawData.back());
 
 	std::string DiscardedTerminator;
 	readTill(DiscardedTerminator, " )))", 0);
 	_ASSERT(DiscardedTerminator==" )))");
-	WorkoutSegments(DataSamples);
+	WorkoutSegments();
+#ifdef _DEBUG
+//	CheckExtraData(IOUser);
+#endif
 	m_lastScanNumber++;
-	return true;
 }
 
 int GaugeDAQ::FindRawPt(size_t& Segment, size_t ScaledPt) const
@@ -373,9 +407,9 @@ int GaugeDAQ::FindRawPt(size_t& Segment, size_t ScaledPt) const
 float GaugeDAQ::AverageNoise() const
 {
 	float AverageNoise = 0;
-	for (size_t Sample = 0; Sample < m_NoisePacket.size(); Sample++)
-		AverageNoise += m_NoisePacket[Sample];
-	AverageNoise /= m_NoisePacket.size();
+	for (size_t Sample = 0; Sample < m_NoiseData.size(); Sample++)
+		AverageNoise += m_NoiseData[Sample];
+	AverageNoise /= m_NoiseData.size();
 	return AverageNoise;
 }
 
@@ -456,17 +490,21 @@ void GaugeDAQ::read(std::vector<epicsUInt16>& ReadPacket) const
 	size_t nTotalBytes = 0;
 	int eomReason = ASYN_EOM_CNT;
 	asynStatus Status = asynTimeout;
-	while (Status == asynTimeout)
+	epicsTime StartTime = epicsTime::getCurrent ();
+	while (nTotalBytes < ReadPacket.size()*sizeof(epicsUInt16))
 	{
-		// NB, *don't* pass pasynUser to this function - it has the wrong type and will cause an access violation.
 		size_t nBytesIn;
 		Status = pasynOctetSyncIO->read(m_IOUser, reinterpret_cast<char*>(&(ReadPacket[0]))+nTotalBytes, ReadPacket.size()*sizeof(epicsUInt16)-nTotalBytes, 0.1, &nBytesIn, &eomReason);
 		nTotalBytes += nBytesIn; 
-		if ((Status == asynTimeout) && (nTotalBytes < ReadPacket.size()*sizeof(epicsUInt16)))
+		if (Status == asynTimeout)
+		{
+			if ((TimeOut != -1) && (epicsTime::getCurrent() - StartTime > TimeOut) && (nTotalBytes < ReadPacket.size()*sizeof(epicsUInt16)))
+				ThrowException(Status, __FUNCTION__, "read");
 			write("fetc?");
+		}
+		else
+			ThrowException(Status, __FUNCTION__, "read");
 	}
-
-	ThrowException(Status, __FUNCTION__, "read");
 	_ASSERT(eomReason == ASYN_EOM_CNT);
 }
 

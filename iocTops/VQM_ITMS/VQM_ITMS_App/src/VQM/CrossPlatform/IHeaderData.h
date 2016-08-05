@@ -7,6 +7,23 @@ struct IHeaderData
 {
 	friend class GaugeDAQ;
 public:
+	IHeaderData() {
+		m_EmissionCurrent = 0;
+		m_FilamentBiasVoltage = 0;
+		m_FilamentPower = 0;
+		m_RepellerVoltage = 0;
+		m_EntryPlateVoltage = 0;
+		m_PressurePlateVoltage = 0;
+		m_CupsVoltage = 0;
+		m_TransitionVoltage = 0;
+		m_ExitPlateVoltage = 0;
+		m_ElectronMultiplierShieldVoltage = 0;
+		m_ElectronMultiplierVoltage = 0;
+		m_DDSAmplitude = 0;
+		m_ElectronMultiplierElectrometerGain = 0;
+		m_MassAxisCalibrationFactor = 1; // Used to set the mass segments axis
+		m_TotalPressure = 0;
+	}
 	double EmissionCurrent() const {
 		return m_EmissionCurrent;
 	}
@@ -49,6 +66,9 @@ public:
 	double MassAxisCalibrationFactor() const {
 		return m_MassAxisCalibrationFactor;
 	}
+    double TotalPressure() const {
+		return m_TotalPressure;
+	}
 	std::wstring FirmwareRevision() const {
 		return m_FirmwareRevision;
 	}
@@ -73,6 +93,7 @@ private:
 	double m_DDSAmplitude;
 	double m_ElectronMultiplierElectrometerGain;
 	double m_MassAxisCalibrationFactor;
+	double m_TotalPressure;
 	std::wstring m_FirmwareRevision;
 	std::wstring m_HardwareRevision;
 	std::wstring m_MID;

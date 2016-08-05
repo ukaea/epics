@@ -14,17 +14,34 @@
 #																									#
 #####################################################################################################
 
-record(bo, "$(P)Scanning")
+record(mbbo, "$(P)Scanning")
 {
-    field(DTYP, "asynInt32")
+	field(DESC, "Scanning")
+	field(DTYP, "asynInt32")
 	field(OUT,  "@asyn($(PORT),$(ADDR),1)SCANNING")
 	info("asyn:READBACK", "1")
+	field(ZRVL, "0")
+	field(ONVL, "1")
+	field(TWVL, "2")
+    field(THVL, "3")
+    field(FRVL, "4")
+	field(FVVL, "5")
+	field(SXVL, "6");
+    field(ZRST, "OFF")
+    field(ONST, "STANDBY")
+    field(TWST, "ON")
+    field(THST, "SCAN")
+    field(FRST, "EXTTRIG")
+    field(FRST, "EXTTRIGOFF")
+	field(FRST, "CALIBRATE")
+	field(VAL, 3)
 }
 
 record(longout, "$(P)Averages")
 {
     field(DTYP, "asynInt32")
 	field(OUT,  "@asyn($(PORT),$(ADDR),1)AVERAGES")
+	field(VAL, 12)
 }
 
 record(mbbo, "$(P)AverageMode")
@@ -39,6 +56,7 @@ record(mbbo, "$(P)AverageMode")
     field(ONST, "Running_Avg")
     field(TWST, "Cumulative_Moving_Avg")
     field(THST, "Accumulator")
+	field(VAL, 3)
 }
 
 record(longin, "$(P)LastScanNumber")
@@ -139,11 +157,11 @@ record(ai, "$(P)MassCal")
 	field(SCAN, "I/O Intr")
 }
 
-record(ai, "$(P)ElectrometerGain")
+record(ao, "$(P)ElectrometerGain")
 {
     field(DTYP, "asynFloat64")
 	field(INP,  "@asyn($(PORT),$(ADDR),1)ELECTROMETERGAIN")
-	field(SCAN, "I/O Intr")
+	info("asyn:READBACK", "1")
 }
 
 record(ao, "$(P)MassFrom")
@@ -178,6 +196,12 @@ record(waveform, "$(P)PartialPressure")
     field(NELM, "300")
 	field(PINI, "1")
 	field(SCAN, "I/O Intr")
+}
+
+record(ao, "$(P)TotalPressure")
+{
+    field(DTYP, "asynFloat64")
+	field(OUT,  "@asyn($(PORT),$(ADDR),1)TOTALPRESSURE")
 }
 
 record(longin, "$(P)Fault")

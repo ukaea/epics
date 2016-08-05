@@ -101,6 +101,7 @@
 			<Item Name="mscorlib" Type="VI" URL="mscorlib">
 				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
 			</Item>
+			<Item Name="Versions.vi" Type="VI" URL="../Versions.vi"/>
 		</Item>
 		<Item Name="Build Specifications" Type="Build">
 			<Item Name="VQM_ITMS_GUI" Type="EXE">

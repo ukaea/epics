@@ -73,11 +73,12 @@ public:
 
                  
 protected:
+	void callParamCallbacks(size_t Connection, std::vector<float>& RawData, std::vector<float>& PartialPressure);
 	static int UsedParams();
 	void ThrowException(SVQM_800_Error const& Error, const char* Function, bool ThrowIt = true);
 	void ThrowException(asynUser* pasynUser, asynStatus Status, const char* Function, std::string const& what, bool ThrowIt = true) const;
-	void SetGaugeState(int Connection, bool Scanning, bool ThrowIt = true);
-	bool GetGaugeState(int Connection);
+	void SetGaugeState(int Connection, int GaugeState, bool ThrowIt = true);
+	int GetGaugeState(int Connection);
 
 private:
 	IServiceWrapper* m_serviceWrapper;

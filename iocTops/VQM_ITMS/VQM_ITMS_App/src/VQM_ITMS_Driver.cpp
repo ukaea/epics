@@ -81,8 +81,8 @@ class CVQM_ITMS_Driver::CThreadRunable : public epicsThreadRunable
 		virtual void run () {
 			try {
 				while (!m_Exiting)
-					if (!m_This->GetScanData(m_Connection, m_RawData, m_PartialPressure))
-						epicsThreadSleep(0.01);
+					if (m_This->GetScanData(m_Connection, m_RawData, m_PartialPressure))
+						m_This->callParamCallbacks(m_Connection, m_RawData, m_PartialPressure);
 			}
 			catch(::CException const& E) {
 				// make sure we return an error state if there are comms problems
@@ -179,7 +179,7 @@ void CVQM_ITMS_Driver::disconnect()
 		m_Threads[Index]->lock();
 	for(size_t Index = 0; Index < NrInstalled(); Index++)
 	{
-		SetGaugeState(Index, false, false);
+		SetGaugeState(Index, EnumGaugeState_OFF, false);
 #ifndef BUILD_WITH_SDK
 		asynStatus status = pasynOctetSyncIO->disconnect(m_Connections[Index]);
 		if (overallstatus == asynSuccess)
@@ -267,23 +267,11 @@ void CVQM_ITMS_Driver::addIOPort(const char* DeviceAddress)
 	m_Connections.push_back(IOUser);
 #endif
 	ThrowException(m_serviceWrapper->ConnectToDevice(m_Connections[NewConnection], isMaster), __FUNCTION__);
+	// TODO
+	bool isExtendedRange = false;
+	ThrowException(m_serviceWrapper->GetExtendedRangeCapabilities(isExtendedRange, m_Connections[NewConnection]), __FUNCTION__);
 
-	if (isMaster)
-	{
-		ThrowException(m_serviceWrapper->DataAnalysisSetAvgMode(Accumulator, m_Connections[NewConnection]), __FUNCTION__);
-		setIntegerParam(NrInstalled(), ParameterDefn::AVERAGEMODE, Accumulator);
-		// 100 / 85 gives about 1 scan / sec
-		int Averages = 1000 / 85;
-		ThrowException(m_serviceWrapper->DataAnalysisSetNumAvgs(Averages, m_Connections[NewConnection]), __FUNCTION__);
-		setIntegerParam(NrInstalled(), ParameterDefn::AVERAGES, Averages);
-		SetGaugeState(NewConnection, true);
-		setIntegerParam(NrInstalled(), ParameterDefn::SCANNING, 1);
-	}
-	else
-	{
-		setIntegerParam(NrInstalled(), ParameterDefn::SCANNING, GetGaugeState(NewConnection));
-	}
-	callParamCallbacks(NrInstalled());
+	CVQM_ITMS_Base::callParamCallbacks(NrInstalled());
 	// If the new connection fails, the size of the vectors will still have increased.
 	// This means only the failing connection will be lost, and not all subsequent connections.
 	m_Threads.push_back(new CThreadRunable(this, DeviceAddress, m_Threads.size()));
@@ -316,64 +304,68 @@ bool CVQM_ITMS_Driver::GetScanData(int Connection, std::vector<float>& RawData, 
 
 	if ((Connection < 0) || (Connection >= int(NrInstalled())))
 		throw CException(pasynUserSelf, asynError, __FUNCTION__, "User / ITMS not configured");
-	{
-		epicsGuard < epicsMutex > guard (*m_Threads[Connection]);
-		if (m_Instance == NULL)
-			// The IOC is exiting
-			return false;
 
-		if (getIntegerParam(Connection, ParameterDefn::SCANNING) == 0)
-			return false;
+	epicsGuard < epicsMutex > guard (*m_Threads[Connection]);
+	if (m_Instance == NULL)
+		// The IOC is exiting
+		return false;
 
-		IHeaderData const* headerDataPtr;
-		bool isValidData;
-		EnumGaugeState controllerState;
-		int LastScanNumber;
-		SAnalyzedData AnalyzedData;
-		SAverageData AverageData;
-		ThrowException(m_serviceWrapper->GetScanData(LastScanNumber, AnalyzedData, const_cast<IHeaderData**>(&headerDataPtr),
-			AverageData, m_Connections[Connection], isValidData, controllerState), __FUNCTION__, "GetScanData");
+//	if (getIntegerParam(Connection, ParameterDefn::SCANNING) == 0)
+//		return false;
 
-		setIntegerParam(Connection, ParameterDefn::SCANNING, (controllerState==EnumGaugeState_SCAN));
-		setIntegerParam(Connection, ParameterDefn::LASTSCANNUMBER, LastScanNumber);
-		setDoubleParam(Connection, ParameterDefn::EMISSION, headerDataPtr->EmissionCurrent());
-		setDoubleParam(Connection, ParameterDefn::FILAMENTBIAS, headerDataPtr->FilamentBiasVoltage());
-		setDoubleParam(Connection, ParameterDefn::FILAMENTPOWER, headerDataPtr->FilamentPower());
-		setDoubleParam(Connection, ParameterDefn::REPELLERBIAS, headerDataPtr->RepellerVoltage());
-		setDoubleParam(Connection, ParameterDefn::ENTRYPLATE, headerDataPtr->EntryPlateVoltage());
-		setDoubleParam(Connection, ParameterDefn::PRESSUREPLATE, headerDataPtr->PressurePlateVoltage());
-		setDoubleParam(Connection, ParameterDefn::CUPS, headerDataPtr->CupsVoltage());
-		setDoubleParam(Connection, ParameterDefn::TRANSITION, headerDataPtr->TransitionVoltage());
-		setDoubleParam(Connection, ParameterDefn::EXITPLATE, headerDataPtr->ExitPlateVoltage());
-		setDoubleParam(Connection, ParameterDefn::EMSHIELD, headerDataPtr->ElectronMultiplierShieldVoltage());
-		setDoubleParam(Connection, ParameterDefn::EMBIAS, headerDataPtr->ElectronMultiplierVoltage());
-		setDoubleParam(Connection, ParameterDefn::RFAMP, headerDataPtr->DDSAmplitude());
-		setDoubleParam(Connection, ParameterDefn::MASSCAL, headerDataPtr->MassAxisCalibrationFactor());
-		setDoubleParam(Connection, ParameterDefn::ELECTROMETERGAIN, headerDataPtr->ElectronMultiplierElectrometerGain());
-		setStringParam(Connection, ParameterDefn::FIRMWAREVERSION, wcstombs(headerDataPtr->FirmwareRevision()));
-		setStringParam(Connection, ParameterDefn::HARDWAREVERSION, wcstombs(headerDataPtr->HardwareRevision()));
-		double lowerRange, upperRange;
-		ThrowException(m_serviceWrapper->GetScanRange(lowerRange, upperRange, m_Connections[Connection]), __FUNCTION__, "GetScanRange");
-		setDoubleParam(Connection, ParameterDefn::MASSFROM, lowerRange);
-		setDoubleParam(Connection, ParameterDefn::MASSTO, upperRange);
-		/*	INoiseData const* NoiseDataPtr = headerDataPtr->NoiseData();
-		int NoiseSamples = NoiseDataPtr->NSamples();
-		std::vector<float> NoiseData(NoiseSamples);*/
+	IHeaderData const* headerDataPtr;
+	bool isValidData;
+	EnumGaugeState controllerState;
+	int LastScanNumber;
+	SAnalyzedData AnalyzedData;
+	SAverageData AverageData;
+	ThrowException(m_serviceWrapper->GetScanData(LastScanNumber, AnalyzedData, const_cast<IHeaderData**>(&headerDataPtr),
+		AverageData, m_Connections[Connection], isValidData, controllerState), __FUNCTION__, "GetScanData");
 
-		if (AnalyzedData.PeakArea().size() < PartialPressure.size())
-			PartialPressure.resize(AnalyzedData.PeakArea().size());
-		for(size_t Index = 0; Index < PartialPressure.size(); Index++)
-			PartialPressure[Index] = float(AnalyzedData.PeakArea()[Index]);
+	setIntegerParam(Connection, ParameterDefn::SCANNING, controllerState);
+	setIntegerParam(Connection, ParameterDefn::LASTSCANNUMBER, LastScanNumber);
+	setDoubleParam(Connection, ParameterDefn::EMISSION, headerDataPtr->EmissionCurrent());
+	setDoubleParam(Connection, ParameterDefn::FILAMENTBIAS, headerDataPtr->FilamentBiasVoltage());
+	setDoubleParam(Connection, ParameterDefn::FILAMENTPOWER, headerDataPtr->FilamentPower());
+	setDoubleParam(Connection, ParameterDefn::REPELLERBIAS, headerDataPtr->RepellerVoltage());
+	setDoubleParam(Connection, ParameterDefn::ENTRYPLATE, headerDataPtr->EntryPlateVoltage());
+	setDoubleParam(Connection, ParameterDefn::PRESSUREPLATE, headerDataPtr->PressurePlateVoltage());
+	setDoubleParam(Connection, ParameterDefn::CUPS, headerDataPtr->CupsVoltage());
+	setDoubleParam(Connection, ParameterDefn::TRANSITION, headerDataPtr->TransitionVoltage());
+	setDoubleParam(Connection, ParameterDefn::EXITPLATE, headerDataPtr->ExitPlateVoltage());
+	setDoubleParam(Connection, ParameterDefn::EMSHIELD, headerDataPtr->ElectronMultiplierShieldVoltage());
+	setDoubleParam(Connection, ParameterDefn::EMBIAS, headerDataPtr->ElectronMultiplierVoltage());
+	setDoubleParam(Connection, ParameterDefn::RFAMP, headerDataPtr->DDSAmplitude());
+	setDoubleParam(Connection, ParameterDefn::MASSCAL, headerDataPtr->MassAxisCalibrationFactor());
+	setDoubleParam(Connection, ParameterDefn::ELECTROMETERGAIN, headerDataPtr->ElectronMultiplierElectrometerGain());
+	setStringParam(Connection, ParameterDefn::FIRMWAREVERSION, wcstombs(headerDataPtr->FirmwareRevision()));
+	setStringParam(Connection, ParameterDefn::HARDWAREVERSION, wcstombs(headerDataPtr->HardwareRevision()));
+	setDoubleParam(Connection, ParameterDefn::TOTALPRESSURE, headerDataPtr->TotalPressure());
+	double lowerRange, upperRange;
+	ThrowException(m_serviceWrapper->GetScanRange(lowerRange, upperRange, m_Connections[Connection]), __FUNCTION__, "GetScanRange");
+	setDoubleParam(Connection, ParameterDefn::MASSFROM, lowerRange);
+	setDoubleParam(Connection, ParameterDefn::MASSTO, upperRange);
+	/*	INoiseData const* NoiseDataPtr = headerDataPtr->NoiseData();
+	int NoiseSamples = NoiseDataPtr->NSamples();
+	std::vector<float> NoiseData(NoiseSamples);*/
 
-		if (AnalyzedData.DenoisedRawData().size() < RawData.size())
-			RawData.resize(AnalyzedData.DenoisedRawData().size());
-		for(size_t Index = 0; Index < RawData.size(); Index++)
-			RawData[Index] = float(AnalyzedData.DenoisedRawData()[Index]);
-	}
-	callParamCallbacks(Connection);
+	if (AnalyzedData.PeakArea().size() < PartialPressure.size())
+		PartialPressure.resize(AnalyzedData.PeakArea().size());
+	for(size_t Index = 0; Index < PartialPressure.size(); Index++)
+		PartialPressure[Index] = float(AnalyzedData.PeakArea()[Index]);
+
+	if (AnalyzedData.DenoisedRawData().size() < RawData.size())
+		RawData.resize(AnalyzedData.DenoisedRawData().size());
+	for(size_t Index = 0; Index < RawData.size(); Index++)
+		RawData[Index] = float(AnalyzedData.DenoisedRawData()[Index]);
+	return true;
+}
+
+void CVQM_ITMS_Driver::callParamCallbacks(size_t Connection, std::vector<float>& RawData, std::vector<float>& PartialPressure)
+{
+	CVQM_ITMS_Base::callParamCallbacks(Connection);
 	doCallbacksFloat32Array(PartialPressure, ParameterDefn::PARTIALPRESSURE, Connection);
 	doCallbacksFloat32Array(RawData, ParameterDefn::RAWDATA, Connection);
-	return true;
 }
 
 asynStatus CVQM_ITMS_Driver::readFloat32Array(asynUser *pasynUser, epicsFloat32 *value,
@@ -421,22 +413,22 @@ asynStatus CVQM_ITMS_Driver::ErrorHandler(int Connection, ::CException const& E)
 	// Internal communication failure
 	// NB, Asyn 4-27 requires that the parameter status is success before the value can be set through callback.
 	setParamStatus(Connection, ParameterDefn::FAULT, asynSuccess, false);
-	callParamCallbacks(Connection, false);
+	CVQM_ITMS_Base::callParamCallbacks(Connection, false);
 
 	setParamStatus(Connection, ParameterDefn::FAULT, E.Status(), false);
 	return E.Status();
 }
 
-void CVQM_ITMS_Driver::SetGaugeState(int Connection, bool Scanning, bool ThrowIt /*= true */)
+void CVQM_ITMS_Driver::SetGaugeState(int Connection, int GaugeState, bool ThrowIt /*= true */)
 {
-	ThrowException(m_serviceWrapper->SetGaugeState(Scanning ? EnumGaugeState_SCAN : EnumGaugeState_OFF, m_Connections[Connection]), __FUNCTION__, ThrowIt);
+	ThrowException(m_serviceWrapper->SetGaugeState(EnumGaugeState(GaugeState), m_Connections[Connection]), __FUNCTION__, ThrowIt);
 }
 
-bool CVQM_ITMS_Driver::GetGaugeState(int Connection)
+int CVQM_ITMS_Driver::GetGaugeState(int Connection)
 {
 	EnumGaugeState gaugeState;
 	ThrowException(m_serviceWrapper->GetGaugeState(gaugeState, m_Connections[Connection]), __FUNCTION__, "GetGaugeState");
-	return (gaugeState == EnumGaugeState_SCAN);
+	return gaugeState;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -503,7 +495,11 @@ asynStatus CVQM_ITMS_Driver::writeFloat64(asynUser *pasynUser, epicsFloat64 valu
 			// The IOC is exiting
 			return asynTimeout;
 
-		if (function == Parameters(ParameterDefn::EMISSION))
+		if (function == Parameters(ParameterDefn::ELECTROMETERGAIN))
+		{
+			ThrowException(m_serviceWrapper->SetElectrometerGainSetpoint(value, m_Connections[Connection]), __FUNCTION__, "SetElectrometerGainSetpoint");
+		}
+		else if (function == Parameters(ParameterDefn::EMISSION))
 		{
 			ThrowException(m_serviceWrapper->SetFilamentEmissionCurrentSetpoint(value, m_Connections[Connection]), __FUNCTION__, "SetFilamentEmissionCurrentSetpoint");
 		}

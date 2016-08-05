@@ -41,6 +41,7 @@ const char* ParameterDefn::MASSFROM = "MASSFROM";
 const char* ParameterDefn::MASSTO = "MASSTO";
 const char* ParameterDefn::RAWDATA = "RAWDATA";
 const char* ParameterDefn::PARTIALPRESSURE = "PARTIALPRESSURE";
+const char* ParameterDefn::TOTALPRESSURE = "TOTALPRESSURE";
 const char* ParameterDefn::FAULT = "FAULT";
 const char* ParameterDefn::DISCONNECTED = "DISCONNECTED";
 const char* ParameterDefn::FIRMWAREVERSION = "FIRMWAREVERSION";

@@ -7,6 +7,7 @@
 
 #include <map>
 #include <vector>
+#include <deque>
 
 enum EnumAvgMode { Off = 0, Running_Avg = 1, Cumulative_Moving_Avg = 2, Accumulator = 3 };
 enum EnumGaugeState { EnumGaugeState_OFF = 0, EnumGaugeState_STANDBY, EnumGaugeState_ON, EnumGaugeState_SCAN, EnumGaugeState_EXTERNAL_TRIGGER_SCANNING, EnumGaugeState_EXTERNAL_TRIGGER_OFF };
@@ -15,6 +16,8 @@ enum EnumLogicalInstruments { FILAMENT = 0, FILAMENTBIAS, REPELLERBIAS, ENTRYPLA
 class GaugeDAQ
 {
 public:
+	static const size_t MaxNrSegments;
+	static const int SegmentSizes[];
 	struct InstrumentVoltage {
 		double m_Min;
 		double m_Max;
@@ -22,13 +25,20 @@ public:
 			m_Min = 0; m_Max = 0;
 		}
 	};
+	struct SegmentBoundary {
+		SegmentBoundary(size_t RawPoint, double ScaledPoint) {
+			m_RawPoint = RawPoint;
+			m_ScaledPoint = ScaledPoint;
+		}
+		size_t m_RawPoint;
+		double m_ScaledPoint;
+	};
 	GaugeDAQ(asynUser* IOUser);
+	bool GetExtendedRangeCapabilities() const;
 	EnumGaugeState GetGaugeState() const;
 	void SetGaugeState(EnumGaugeState gaugeState);
 	void GetLogicalInstrumentMinMaxVoltage(EnumLogicalInstruments logicalInstrumentEnum);
-	void DataAnalysisSetAvgMode(EnumAvgMode mode) {
-		m_AvgMode = mode;
-	}
+	void DataAnalysisSetAvgMode(EnumAvgMode AvgMode);
 	EnumAvgMode AvgMode() const {
 		return m_AvgMode;
 	}
@@ -42,6 +52,7 @@ public:
 		return m_EmissionCurrent;
 	}
 	void SetFilamentEmissionCurrentSetpoint(double value);
+	void SetElectrometerGainSetpoint(double value);
 	double GetLogicalInstrumentCurrentVoltage(EnumLogicalInstruments logicalInstrumentEnum) const;
 	void SetLogicalInstrumentVoltageSetpoint(EnumLogicalInstruments logicalInstrumentEnum, double& value);
 	double GetElectrometerGain() const {
@@ -59,16 +70,21 @@ public:
 		upperRange = m_upperRange;
 	}
 	void SetScanRange(double lowerRange, double upperRange);
-	bool GrabScanData();
+	void GrabScanData();
 	float AverageNoise() const;
-	std::vector<epicsUInt16> const& NoisePacket() const {
-		return m_NoisePacket;
+	std::vector<epicsUInt16> const& NoiseData() const {
+		return m_NoiseData;
 	}
-	std::vector<epicsUInt16> const& DataPacket() const {
-		return m_DataPacket;
+	std::deque<std::vector<epicsUInt16> > const& RawData() const {
+		return m_RawData;
 	}
-	epicsUInt16 DataPacket(size_t Sample) const {
-		return m_DataPacket[Sample];
+	epicsUInt16 RawData(size_t Sample) const {
+		return m_RawData.front()[Sample];
+	}
+	size_t RawDataSize() const {
+		if (m_RawData.size() == 0)
+			return 0;
+		return m_RawData.front().size();
 	}
 	int lastScanNumber() const {
 		return m_lastScanNumber;
@@ -77,10 +93,13 @@ public:
 	IHeaderData const& HeaderData() {
 		return m_HeaderData;
 	}
+	std::vector<SegmentBoundary> const& SegmentBoundaries() const {
+		return m_SegmentBoundaries;
+	}
 
 private:
 	void connect();
-	void WorkoutSegments(size_t DataSamples);
+	void WorkoutSegments();
 	void GetScanRange();
 	void GetTSETingsValues(std::string const&  TSETingsValues);
 	size_t FindMarkerPos(std::string const& HeaderData, size_t Offset, const char* FirstMarker) const;
@@ -102,21 +121,13 @@ private:
 			return m_Status;
 		}
 	};
-	struct SegmentBoundary {
-		SegmentBoundary(size_t RawPoint, double ScaledPoint) {
-			m_RawPoint = RawPoint;
-			m_ScaledPoint = ScaledPoint;
-		}
-		size_t m_RawPoint;
-		double m_ScaledPoint;
-	};
 	asynUser* m_IOUser;
 	std::vector<SegmentBoundary> m_SegmentBoundaries;
-	std::vector<epicsUInt16> m_NoisePacket;
-	std::vector<epicsUInt16> m_DataPacket;
+	std::vector<epicsUInt16> m_NoiseData;
+	std::deque<std::vector<epicsUInt16> > m_RawData;
 	IHeaderData m_HeaderData;
 	EnumAvgMode m_AvgMode;
-	int	m_numAverages; 
+	size_t	m_numAverages; 
 	int m_lastScanNumber;
 	EnumGaugeState m_GaugeState;
 	double m_lowerRange;

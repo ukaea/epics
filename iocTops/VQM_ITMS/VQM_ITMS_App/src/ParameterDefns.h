@@ -53,6 +53,7 @@ struct epicsShareClass ParameterDefn
 	static const char* MASSTO;
 	static const char* RAWDATA;
 	static const char* PARTIALPRESSURE;
+	static const char* TOTALPRESSURE;
 	static const char* FAULT;
 	static const char* DISCONNECTED;
 	static const char* FIRMWAREVERSION;

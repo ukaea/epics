@@ -43,6 +43,12 @@ SVQM_800_Error IServiceWrapper::ConnectToDevice(asynUser* IOUser, bool isMaster)
 	return SVQM_800_Error();
 }
 
+SVQM_800_Error IServiceWrapper::GetExtendedRangeCapabilities(bool& isExtendedRange, asynUser* IOUser) const
+{
+	isExtendedRange = getGaugeDAQ(IOUser).GetExtendedRangeCapabilities();
+	return SVQM_800_Error();
+}
+
 SVQM_800_Error IServiceWrapper::DataAnalysisSetAvgMode(EnumAvgMode mode, asynUser* IOUser)
 {
 	getGaugeDAQ(IOUser).DataAnalysisSetAvgMode(mode);
@@ -58,6 +64,12 @@ SVQM_800_Error IServiceWrapper::DataAnalysisSetNumAvgs(int numAverages, asynUser
 SVQM_800_Error IServiceWrapper::SetFilamentEmissionCurrentSetpoint(double value, asynUser* IOUser)
 {
 	getGaugeDAQ(IOUser).SetFilamentEmissionCurrentSetpoint(value);
+	return SVQM_800_Error();
+}
+
+SVQM_800_Error IServiceWrapper::SetElectrometerGainSetpoint(double value, asynUser* IOUser)
+{
+	getGaugeDAQ(IOUser).SetElectrometerGainSetpoint(value);
 	return SVQM_800_Error();
 }
 
@@ -102,54 +114,68 @@ SVQM_800_Error IServiceWrapper::GetScanData(int& lastScanNumber, SAnalyzedData& 
                                SAverageData& averageData, asynUser* IOUser, bool& isValidData, EnumGaugeState& controllerState)
 {
 	GaugeDAQ& GaugeDAQ = getGaugeDAQ(IOUser);
-	isValidData = true;
 
-	analyzedData.DenoisedRawData().assign(analyzedData.DenoisedRawData().size(), 0);
+	analyzedData.DenoisedRawData().assign(GaugeDAQ.RawDataSize(), 0);
 
+	float AverageNoise = GaugeDAQ.AverageNoise();
 	if (GaugeDAQ.AvgMode() == Off)
 	{
-		isValidData = GaugeDAQ.GrabScanData();
-		float AverageNoise = GaugeDAQ.AverageNoise();
+		GaugeDAQ.GrabScanData();
 		for(size_t Sample = 0; Sample < analyzedData.DenoisedRawData().size(); Sample++)
-			analyzedData.DenoisedRawData()[Sample] = GaugeDAQ.DataPacket(Sample) - AverageNoise;
+			analyzedData.DenoisedRawData()[Sample] = GaugeDAQ.RawData(Sample) - AverageNoise;
+	}
+	else if (GaugeDAQ.AvgMode() == Running_Avg)
+	{
+		for(size_t Sample = 0; Sample < analyzedData.DenoisedRawData().size(); Sample++)
+			analyzedData.DenoisedRawData()[Sample] = 0;
+		std::deque<std::vector<epicsUInt16> > const& RawData = GaugeDAQ.RawData();
+
+		for (size_t ScanNo = 0; ScanNo < RawData.size(); ScanNo++)
+		{
+			for(size_t Sample = 0; Sample < analyzedData.DenoisedRawData().size(); Sample++)
+				analyzedData.DenoisedRawData()[Sample] += RawData[ScanNo][Sample] - AverageNoise;
+		}
 	}
 	else if (GaugeDAQ.AvgMode() == Accumulator)
 	{
 		for(int ScanNum = 0; ScanNum < GaugeDAQ.numAverages(); ScanNum++)
 		{
-			isValidData = GaugeDAQ.GrabScanData();
-			analyzedData.DenoisedRawData().resize(GaugeDAQ.DataPacket().size());
-			float AverageNoise = GaugeDAQ.AverageNoise();
+			GaugeDAQ.GrabScanData();
 			for(size_t Sample = 0; Sample < analyzedData.DenoisedRawData().size(); Sample++)
-				analyzedData.DenoisedRawData()[Sample] += GaugeDAQ.DataPacket(Sample) - AverageNoise;
+				analyzedData.DenoisedRawData()[Sample] += GaugeDAQ.RawData(Sample) - AverageNoise;
 		}
 		for(size_t Sample = 0; Sample < analyzedData.DenoisedRawData().size(); Sample++)
 			analyzedData.DenoisedRawData()[Sample] /= GaugeDAQ.numAverages();
 	}
 	else if (GaugeDAQ.AvgMode() == Cumulative_Moving_Avg)
 	{
-		isValidData = GaugeDAQ.GrabScanData();
-		analyzedData.DenoisedRawData().resize(GaugeDAQ.DataPacket().size());
-		float AverageNoise = GaugeDAQ.AverageNoise();
+		GaugeDAQ.GrabScanData();
 		for(size_t Sample = 0; Sample < analyzedData.DenoisedRawData().size(); Sample++)
 			analyzedData.DenoisedRawData()[Sample] = 
-				((GaugeDAQ.numAverages() - 1) * analyzedData.DenoisedRawData()[Sample] + GaugeDAQ.DataPacket(Sample) - AverageNoise) / GaugeDAQ.numAverages();
+				((GaugeDAQ.numAverages() - 1) * analyzedData.DenoisedRawData()[Sample] + GaugeDAQ.RawData(Sample) - AverageNoise) / GaugeDAQ.numAverages();
 	}
 	lastScanNumber = GaugeDAQ.lastScanNumber();
 	controllerState = EnumGaugeState_SCAN;
 
-#ifdef _DEBUG
-//	CheckExtraData(IOUser);
-#endif
-	static const double DAQFreq = 100E3;
-	static const double Transition = 10E3;
-	// http://homepages.which.net/~paul.hills/Circuits/MercurySwitchFilter/FIR.html
-	Filter Filter(LPF, int(0.5 + 3.3 * DAQFreq / Transition), DAQFreq, Transition);
-	for(size_t Sample = 0; Sample < analyzedData.DenoisedRawData().size(); Sample++)
+	for (size_t Segment = 0; Segment < GaugeDAQ.SegmentBoundaries().size(); Segment++)
 	{
-		int Error_Flag = Filter.get_error_flag();
-		_ASSERT(Error_Flag == 0);
-	 	analyzedData.DenoisedRawData()[Sample] = Filter.do_sample( analyzedData.DenoisedRawData()[Sample] );
+		// http://homepages.which.net/~paul.hills/Circuits/MercurySwitchFilter/FIR.html
+		double DAQFreq = GaugeDAQ.SegmentSizes[Segment] / 0.004;
+		static const double Transition = 10E3;
+		int Taps = int(0.5 + 3.3 * DAQFreq / Transition);
+		int FirstSample = GaugeDAQ.SegmentBoundaries()[Segment].m_RawPoint - Taps;
+		if (FirstSample < 0)
+			FirstSample = 0;
+		int LastSample = analyzedData.DenoisedRawData().size();
+		if (Segment+1 < GaugeDAQ.SegmentBoundaries().size())
+			LastSample =  GaugeDAQ.SegmentBoundaries()[Segment+1].m_RawPoint;
+		Filter Filter(LPF, Taps, DAQFreq, Transition);
+		for(int Sample = FirstSample; Sample < LastSample; Sample++)
+		{
+			int Error_Flag = Filter.get_error_flag();
+			_ASSERT(Error_Flag == 0);
+	 		analyzedData.DenoisedRawData()[Sample] = Filter.do_sample( analyzedData.DenoisedRawData()[Sample] );
+		}
 	}
 
 	analyzedData.PeakArea().assign(size_t(GaugeDAQ.upperRange() - GaugeDAQ.lowerRange()), 0);
@@ -164,6 +190,7 @@ SVQM_800_Error IServiceWrapper::GetScanData(int& lastScanNumber, SAnalyzedData& 
 		for (RawPt = LowRawPt; RawPt < HighRawPt; RawPt++)
 			analyzedData.PeakArea()[MassPt] += analyzedData.DenoisedRawData()[RawPt];
 	}
+	isValidData = true;
 	return SVQM_800_Error();
 }
 
