@@ -89,7 +89,7 @@ public:
 	int lastScanNumber() const {
 		return m_lastScanNumber;
 	}
-	int FindRawPt(size_t& Segment, size_t ScaledPt) const;
+	int FindRawPt(size_t& Segment, double ScaledPt) const;
 	IHeaderData const& HeaderData() {
 		return m_HeaderData;
 	}

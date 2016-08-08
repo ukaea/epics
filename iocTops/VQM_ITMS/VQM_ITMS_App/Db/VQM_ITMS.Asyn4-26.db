@@ -26,7 +26,7 @@ record(mbbo, "$(P)Scanning")
     field(THVL, "3")
     field(FRVL, "4")
 	field(FVVL, "5")
-	field(SXVL, "6");
+	field(SXVL, "6")
     field(ZRST, "OFF")
     field(ONST, "STANDBY")
     field(TWST, "ON")
@@ -160,7 +160,7 @@ record(ai, "$(P)MassCal")
 record(ao, "$(P)ElectrometerGain")
 {
     field(DTYP, "asynFloat64")
-	field(INP,  "@asyn($(PORT),$(ADDR),1)ELECTROMETERGAIN")
+	field(OUT,  "@asyn($(PORT),$(ADDR),1)ELECTROMETERGAIN")
 	info("asyn:READBACK", "1")
 }
 
@@ -198,10 +198,11 @@ record(waveform, "$(P)PartialPressure")
 	field(SCAN, "I/O Intr")
 }
 
-record(ao, "$(P)TotalPressure")
+record(ai, "$(P)TotalPressure")
 {
     field(DTYP, "asynFloat64")
-	field(OUT,  "@asyn($(PORT),$(ADDR),1)TOTALPRESSURE")
+	field(INP,  "@asyn($(PORT),$(ADDR),1)TOTALPRESSURE")
+	field(SCAN, "I/O Intr")
 }
 
 record(longin, "$(P)Fault")

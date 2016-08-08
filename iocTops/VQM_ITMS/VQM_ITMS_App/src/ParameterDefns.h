@@ -86,6 +86,7 @@ static ParameterDefn ParameterDefns[] =
 	{ParameterDefn::MASSTO, asynParamFloat64, Instance},
 	{ParameterDefn::RAWDATA, asynParamFloat32Array, Instance},
 	{ParameterDefn::PARTIALPRESSURE, asynParamFloat32Array, Instance},
+	{ParameterDefn::TOTALPRESSURE, asynParamFloat64, Instance},
 	{ParameterDefn::FAULT, asynParamInt32, Instance},
 	{ParameterDefn::FIRMWAREVERSION, asynParamOctet, Instance},
 	{ParameterDefn::HARDWAREVERSION, asynParamOctet, Instance},

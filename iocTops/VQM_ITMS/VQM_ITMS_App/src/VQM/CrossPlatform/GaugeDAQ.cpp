@@ -21,6 +21,15 @@ GaugeDAQ::GaugeDAQ(asynUser* IOUser)
 	m_IOUser = IOUser;
 	m_lastScanNumber = 0;
 	m_RawData.resize(1);
+
+	m_AvgMode = Off;
+	m_numAverages = 1; 
+	m_lastScanNumber = 0;
+	m_GaugeState = EnumGaugeState_OFF;
+	m_lowerRange = 0;
+	m_upperRange = 0;
+	m_EmissionCurrent = 0;
+
 	connect();
 }
 
@@ -43,8 +52,8 @@ void GaugeDAQ::connect()
 	write("SYST:DATE " + std::string(Date));
 	write("SYST:TIME " + std::string(TimeOfDay));
 	write("STAT:OPER:CONT:NTR 32767");
-	m_GaugeState = GetGaugeState();
 	SetGaugeState(EnumGaugeState_OFF);
+	m_GaugeState = GetGaugeState();
 	write("INST FIL");
 	write("SOUR:MODE ADJ");
 	writeRead("SYST:ERR:ALL?", ErrResponse);
@@ -59,6 +68,7 @@ void GaugeDAQ::connect()
 	GetLogicalInstrumentMinMaxVoltage(EMBIAS);
 	GetLogicalInstrumentMinMaxVoltage(RFAMP);
 	GetScanRange();
+	WorkoutSegments();
 	write("INST MSP;:FORM:ALL 0,1");
 }
 
@@ -276,9 +286,11 @@ void GaugeDAQ::WorkoutSegments()
 
 	size_t Accumulation = 0;
 	m_SegmentBoundaries.clear();
-	size_t NrSegments = ExtendedRangeCapabilities ? 20 : MaxNrSegments;
+	size_t NrSegments = ExtendedRangeCapabilities ? MaxNrSegments : 20;
 	double upperRange = ExtendedRangeCapabilities ? 300 : 145;
 	double lowerRange = 1;
+	upperRange *= m_HeaderData.m_MassAxisCalibrationFactor;
+	lowerRange *= m_HeaderData.m_MassAxisCalibrationFactor;
 	for(size_t Segment = 0; Segment < NrSegments; Segment++)
 	{
 		SegmentBoundary SegmentBoundary(Accumulation, lowerRange + Segment * (upperRange - lowerRange) / NrSegments);
@@ -294,7 +306,8 @@ void GaugeDAQ::GrabScanData()
 	write("fetc?");
 	ThrowException(pasynOctetSyncIO->setInputEos(m_IOUser, "", 0), __FUNCTION__, "setInputEos");
 	readTill(FirstHeader, "CURVe", 0);
-	readTill(FirstHeader, "VALues #3", 6);
+	if (m_GaugeState != EnumGaugeState_OFF)
+		readTill(FirstHeader, "VALues #3", 6);
 
 	size_t IDPos = FindMarkerPos(FirstHeader, 0, "(DIF (VERSion 1999.0) IDENtify", "(ID \"");
 	size_t QuotePos = FindMarkerPos(FirstHeader, IDPos, "\"");
@@ -314,21 +327,25 @@ void GaugeDAQ::GrabScanData()
 	std::string TSETingsValues = FirstHeader.substr(VALuesPos, CloseBracketPos-VALuesPos-2);
 	GetTSETingsValues(TSETingsValues);
 
-	size_t DIMNoisePos = FindMarkerPos(FirstHeader, CloseBracketPos, "DIMension=NOISe", "NSAMples #H");
-	size_t SpacePos = FindMarkerPos(FirstHeader, DIMNoisePos, " ");
-	std::string NoiseSamplesStr = FirstHeader.substr(DIMNoisePos, SpacePos-DIMNoisePos-1);
-	size_t NoiseSamples;
-	FromHexString(NoiseSamplesStr, NoiseSamples);
+	size_t SpacePos;
+	if (m_GaugeState != EnumGaugeState_OFF)
+	{
+		size_t DIMNoisePos = FindMarkerPos(FirstHeader, CloseBracketPos, "DIMension=NOISe", "NSAMples #H");
+		SpacePos = FindMarkerPos(FirstHeader, DIMNoisePos, " ");
+		std::string NoiseSamplesStr = FirstHeader.substr(DIMNoisePos, SpacePos-DIMNoisePos-1);
+		size_t NoiseSamples;
+		FromHexString(NoiseSamplesStr, NoiseSamples);
 
-	// DIMension=NOISe (TYPE EXPLicit UNITs "COUNt") DATA (NSAMples #H0000017e BLINe +0.00000E+00 RMSNoise +0.00000E+00 CURVe (DATE 2016,08,02 TIME 09,23,10.659 VALues #3764   
-	size_t  NoiseValuesPos = FindMarkerPos(FirstHeader, DIMNoisePos, "VALues #3");
-	std::string NoiseVALuesStr = FirstHeader.substr(NoiseValuesPos);
-	size_t NoiseValues;
-	FromString(NoiseVALuesStr, NoiseValues);
-	_ASSERT(NoiseValues==NoiseSamples*sizeof(epicsUInt16));
+		// DIMension=NOISe (TYPE EXPLicit UNITs "COUNt") DATA (NSAMples #H0000017e BLINe +0.00000E+00 RMSNoise +0.00000E+00 CURVe (DATE 2016,08,02 TIME 09,23,10.659 VALues #3764   
+		size_t  NoiseValuesPos = FindMarkerPos(FirstHeader, DIMNoisePos, "VALues #3");
+		std::string NoiseVALuesStr = FirstHeader.substr(NoiseValuesPos);
+		size_t NoiseValues;
+		FromString(NoiseVALuesStr, NoiseValues);
+		_ASSERT(NoiseValues==NoiseSamples*sizeof(epicsUInt16));
 
-	m_NoiseData.resize(NoiseSamples);
-	read(m_NoiseData);
+		m_NoiseData.resize(NoiseSamples);
+		read(m_NoiseData);
+	}
 
 	std::string SecondHeader;
 	readTill(SecondHeader, "DIMension=COUNt (TYPE EXPLicit UNITs \"COUNt\") DATA (", 0);
@@ -388,7 +405,7 @@ void GaugeDAQ::GrabScanData()
 	m_lastScanNumber++;
 }
 
-int GaugeDAQ::FindRawPt(size_t& Segment, size_t ScaledPt) const
+int GaugeDAQ::FindRawPt(size_t& Segment, double ScaledPt) const
 {
 	while((Segment > 0) && (m_SegmentBoundaries[Segment].m_ScaledPoint > ScaledPt))
 		Segment--;

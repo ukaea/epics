@@ -185,8 +185,8 @@ SVQM_800_Error IServiceWrapper::GetScanData(int& lastScanNumber, SAnalyzedData& 
 	size_t RawPt = 0;
 	for(size_t MassPt = 0; MassPt < analyzedData.PeakArea().size(); MassPt++)
 	{
-		size_t LowRawPt = GaugeDAQ.FindRawPt(Segment, MassPt);
-		size_t HighRawPt = GaugeDAQ.FindRawPt(Segment, MassPt+1);
+		size_t LowRawPt = GaugeDAQ.FindRawPt(Segment, MassPt-0.5);
+		size_t HighRawPt = GaugeDAQ.FindRawPt(Segment, MassPt+0.5);
 		for (RawPt = LowRawPt; RawPt < HighRawPt; RawPt++)
 			analyzedData.PeakArea()[MassPt] += analyzedData.DenoisedRawData()[RawPt];
 	}
