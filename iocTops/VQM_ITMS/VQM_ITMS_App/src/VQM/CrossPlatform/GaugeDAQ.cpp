@@ -12,8 +12,9 @@ const double TimeOut = 5;
 #endif
 
 const size_t GaugeDAQ::MaxNrSegments = 30;
-const int GaugeDAQ::SegmentSizes[] = {
-	1333, 924, 706, 571, 480, 414, 364, 324, 293, 266, 245, 227, 210, 197, 184, 174, 165, 156, 148, 141, 135, 129, 123, 119, 110, 106, 102, 100, 96, 90
+size_t GaugeDAQ::SegmentSizes[GaugeDAQ::MaxNrSegments] = {
+//	#H0535,#H039c,#H02c2,#H023b,#H01e0,#H019e,#H016c,#H0144,#H0125,#H010a,#H00f5,#H00e3,#H00d2,#H00c5,#H00b8,#H00ae,#H00a5,#H009c,#H0094,#H008d,#H0087,#H0081,#H007b,#H0077,#H0073,#H006e,#H006a,#H0066,#H0064,#H0060
+	1333,     924,   706,   571,   480,   414,   364,   324,   293,   266,   245,   227,   210,   197,   184,   174,   165,   156,   148,   141,   135,   129,   123,   119,   115,   110,   106,   102,   100,    96
 };
 
 GaugeDAQ::GaugeDAQ(asynUser* IOUser)
@@ -221,6 +222,39 @@ void GaugeDAQ::SetScanRange(double lowerRange, double upperRange)
 	GetScanRange();
 }
 
+void GaugeDAQ::WorkoutSegments()
+{
+	bool ExtendedRangeCapabilities = GetExtendedRangeCapabilities();
+
+	size_t Accumulation = 0;
+	m_SegmentBoundaries.clear();
+	size_t NrSegments = ExtendedRangeCapabilities ? MaxNrSegments : 20;
+	double upperRange = ExtendedRangeCapabilities ? 300 : 145;
+	double lowerRange = 1;
+	upperRange *= m_HeaderData.m_MassAxisCalibrationFactor;
+	lowerRange *= m_HeaderData.m_MassAxisCalibrationFactor;
+	for(size_t Segment = 0; Segment < NrSegments; Segment++)
+	{
+		SegmentBoundary SegmentBoundary(Accumulation, lowerRange + Segment * (upperRange - lowerRange) / NrSegments);
+		m_SegmentBoundaries.push_back(SegmentBoundary);
+		Accumulation += size_t(SegmentSizes[Segment]);
+	}
+}
+
+void GaugeDAQ::GetIDENtifyValues(std::string const& IDENtify)
+{
+	// (DIF (VERSion 1999.0) IDENtify (DATE 2016,07,25 TIME 13,55,09.737 UUT (ID "835A0405"  DESign "0A,03.001.01301"))
+	size_t IDPos = FindMarkerPos(IDENtify, 0, "ID \"");
+	m_HeaderData.m_MID = mbstowcs(IDENtify.substr(0, IDPos));
+
+	size_t DESignPos = FindMarkerPos(IDENtify, IDPos, "DESign \"");
+
+	size_t CommaPos = FindMarkerPos(IDENtify, DESignPos, ",");
+	size_t QuotePos = FindMarkerPos(IDENtify, CommaPos, "\"");
+	m_HeaderData.m_HardwareRevision = mbstowcs(IDENtify.substr(DESignPos, CommaPos-DESignPos-1));
+	m_HeaderData.m_FirmwareRevision = mbstowcs(IDENtify.substr(CommaPos, QuotePos-CommaPos-1));
+}
+
 void GaugeDAQ::GetTSETingsValues(std::string const&  TSETingsValues)
 {
 	// enum EnumLogicalInstruments { FILAMENT = 0, FILAMENTBIAS, REPELLERBIAS, ENTRYPLATE, PRESSUREPLATE, CUPS, TRANSITION, EXITPLATE, EMSHIELD, EMBIAS, RFAMP };
@@ -280,23 +314,41 @@ void GaugeDAQ::GetTSETingsValues(std::string const&  TSETingsValues)
 	FromString(ElectrometetrGain, m_HeaderData.m_ElectronMultiplierElectrometerGain);
 }
 
-void GaugeDAQ::WorkoutSegments()
+void GaugeDAQ::GetSEGMentValues(std::string const&  MEASurementSEGMentValues)
 {
-	bool ExtendedRangeCapabilities = GetExtendedRangeCapabilities();
-
-	size_t Accumulation = 0;
-	m_SegmentBoundaries.clear();
-	size_t NrSegments = ExtendedRangeCapabilities ? MaxNrSegments : 20;
-	double upperRange = ExtendedRangeCapabilities ? 300 : 145;
-	double lowerRange = 1;
-	upperRange *= m_HeaderData.m_MassAxisCalibrationFactor;
-	lowerRange *= m_HeaderData.m_MassAxisCalibrationFactor;
-	for(size_t Segment = 0; Segment < NrSegments; Segment++)
+	// MEASurement=SEGMent (VALues #H0535,#H039c,#H02c2,#H023b,#H01e0,#H019e,#H016c,#H0144,#H0125,#H010a,#H00f5,#H00e3,#H00d2,#H00c5,#H00b8,#H00ae,#H00a5,#H009c,#H0094,#H008d,#H0087,#H0081,#H007b,#H0077,#H0073,#H006e,#H006a,#H0066,#H0064,#H0060)
+	size_t CommaPos = 0;
+	for(size_t Segment = 0; Segment < GaugeDAQ::MaxNrSegments; Segment++)
 	{
-		SegmentBoundary SegmentBoundary(Accumulation, lowerRange + Segment * (upperRange - lowerRange) / NrSegments);
-		m_SegmentBoundaries.push_back(SegmentBoundary);
-		Accumulation += size_t(SegmentSizes[Segment]);
+		size_t HashHPos = MEASurementSEGMentValues.find("#H", CommaPos);
+		CommaPos = MEASurementSEGMentValues.find(',', HashHPos);
+		std::string SegmentValue = MEASurementSEGMentValues.substr(HashHPos, CommaPos-HashHPos+1);
+		FromHexString(SegmentValue, SegmentSizes[Segment]);
 	}
+}
+
+size_t GaugeDAQ::GetDATAAMUValues(std::string const&  DATAAMUValues)
+{
+	size_t SpacePos = FindMarkerPos(DATAAMUValues, 0, " "); 
+	std::string CVALueStr = DATAAMUValues.substr(0, SpacePos-1);
+	FromString(CVALueStr, m_HeaderData.m_MassAxisCalibrationFactor);
+	m_HeaderData.m_MassAxisCalibrationFactor /= 1000;
+
+	size_t BAMuPos = FindMarkerPos(DATAAMUValues, SpacePos, "BAMu ");
+	SpacePos = FindMarkerPos(DATAAMUValues, BAMuPos, " "); 
+	std::string BAMuStr = DATAAMUValues.substr(BAMuPos, SpacePos-BAMuPos-1);
+	FromString(BAMuStr, m_lowerRange);
+	size_t EAMuPos = FindMarkerPos(DATAAMUValues, SpacePos, "EAMu ");
+	SpacePos = FindMarkerPos(DATAAMUValues, EAMuPos, " "); 
+	std::string EAMuStr = DATAAMUValues.substr(EAMuPos, SpacePos-EAMuPos-1);
+	FromString(EAMuStr, m_upperRange);
+
+	size_t NSAMplesPos = FindMarkerPos(DATAAMUValues, SpacePos, "NSAMples #H");
+	SpacePos = FindMarkerPos(DATAAMUValues, NSAMplesPos, " ");
+	std::string DataSamplesStr = DATAAMUValues.substr(NSAMplesPos, SpacePos-NSAMplesPos-1);
+	size_t DataSamples;
+	FromHexString(DataSamplesStr, DataSamples);
+	return DataSamples;
 }
 
 void GaugeDAQ::GrabScanData()
@@ -306,32 +358,49 @@ void GaugeDAQ::GrabScanData()
 	write("fetc?");
 	ThrowException(pasynOctetSyncIO->setInputEos(m_IOUser, "", 0), __FUNCTION__, "setInputEos");
 	readTill(FirstHeader, "CURVe", 0);
-	if (m_GaugeState != EnumGaugeState_OFF)
+	if (m_GaugeState == EnumGaugeState_OFF)
+		readTill(FirstHeader, "VALues #5", 6);
+	else
 		readTill(FirstHeader, "VALues #3", 6);
 
-	size_t IDPos = FindMarkerPos(FirstHeader, 0, "(DIF (VERSion 1999.0) IDENtify", "(ID \"");
-	size_t QuotePos = FindMarkerPos(FirstHeader, IDPos, "\"");
-	m_HeaderData.m_MID = mbstowcs(FirstHeader.substr(IDPos, QuotePos-IDPos));
-
-	size_t DESignPos = FindMarkerPos(FirstHeader, QuotePos, "DESign \"");
-
-	// (DIF (VERSion 1999.0) IDENtify (DATE 2016,07,25 TIME 13,55,09.737 UUT (ID "835A0405"  DESign "0A,03.001.01301"))
-	size_t CommaPos = FindMarkerPos(FirstHeader, DESignPos, ",");
-	QuotePos = FindMarkerPos(FirstHeader, CommaPos, "\"");
-	m_HeaderData.m_HardwareRevision = mbstowcs(FirstHeader.substr(DESignPos, CommaPos-DESignPos-1));
-	m_HeaderData.m_FirmwareRevision = mbstowcs(FirstHeader.substr(CommaPos, QuotePos-CommaPos-1));
+	// (DIF (VERSion 1999.0) IDENtify (DATE 2016,07,25 TIME 13,55,05.321 UUT (ID "835A0405"  DESign "0A,03.001.01301")
+	size_t IDENtifyPos = FindMarkerPos(FirstHeader, 0, "(DIF (VERSion 1999.0) IDENtify (");
+	size_t CloseBracketPos = FindMarkerPos(FirstHeader, IDENtifyPos, "))");
+	std::string IDENtify = FirstHeader.substr(IDENtifyPos, CloseBracketPos-IDENtifyPos-2);
+	GetIDENtifyValues(IDENtify);
 
 	// (MEASurement=TSETtings (VALues -5.29913E+01,+7.50000E-05,+3.09385E+01,+2.83090E+00,+1.30018E+02,+7.50945E+01,+2.69785E+01,-6.85262E+02,+1.21151E+02,+4.50000E-01,+1.23000E+02,-8.58475E+02,+1.90069E-08,+9.99999E-10))
-	size_t VALuesPos = FindMarkerPos(FirstHeader, QuotePos, "DATA (MEASurement=TSETtings (VALues ");
-	size_t CloseBracketPos = FindMarkerPos(FirstHeader, VALuesPos, "))");
-	std::string TSETingsValues = FirstHeader.substr(VALuesPos, CloseBracketPos-VALuesPos-2);
-	GetTSETingsValues(TSETingsValues);
+	size_t MEASurementTSETtingsPos = FindMarkerPos(FirstHeader, CloseBracketPos, "DATA (MEASurement=TSETtings (VALues ");
+	CloseBracketPos = FindMarkerPos(FirstHeader, MEASurementTSETtingsPos, "))");
+	std::string MEASurementTSETtingsValues = FirstHeader.substr(MEASurementTSETtingsPos, CloseBracketPos-MEASurementTSETtingsPos-2);
+	GetTSETingsValues(MEASurementTSETtingsValues);
 
-	size_t SpacePos;
-	if (m_GaugeState != EnumGaugeState_OFF)
+	// DATA (CVALue +6.13000E+05 BAMu +9.28392E-01 EAMu +1.22370E+02 BSEGment #H01 ESEGment #H12 NSAMples #H00001c41 
+	size_t DataCVALuePos = FindMarkerPos(FirstHeader, CloseBracketPos, "DATA (CVALue ");
+	size_t MEASurementSEGMentPos = FindMarkerPos(FirstHeader, DataCVALuePos, "MEASurement=SEGMent (VALues ");
+
+	std::string DataAMUValues = FirstHeader.substr(DataCVALuePos, MEASurementSEGMentPos-DataCVALuePos);
+	size_t DataSamples = GetDATAAMUValues(DataAMUValues);
+
+	// MEASurement=SEGMent (VALues #H0535,#H039c,#H02c2,#H023b,#H01e0,#H019e,#H016c,#H0144,#H0125,#H010a,#H00f5,#H00e3,#H00d2,#H00c5,#H00b8,#H00ae,#H00a5,#H009c,#H0094,#H008d,#H0087,#H0081,#H007b,#H0077,#H0073,#H006e,#H006a,#H0066,#H0064,#H0060)
+	CloseBracketPos = FindMarkerPos(FirstHeader, MEASurementSEGMentPos, ")");
+	std::string MEASurementSEGMentValues = FirstHeader.substr(MEASurementSEGMentPos, CloseBracketPos-MEASurementSEGMentPos-1);
+	GetSEGMentValues(MEASurementSEGMentValues);
+
+
+	if (m_GaugeState == EnumGaugeState_OFF)
 	{
-		size_t DIMNoisePos = FindMarkerPos(FirstHeader, CloseBracketPos, "DIMension=NOISe", "NSAMples #H");
-		SpacePos = FindMarkerPos(FirstHeader, DIMNoisePos, " ");
+		size_t  DataValuesPos = FindMarkerPos(FirstHeader, MEASurementSEGMentPos, "VALues #5");
+		std::string DataVALuesStr = FirstHeader.substr(DataValuesPos);
+		size_t DataValues;
+		FromString(DataVALuesStr, DataValues);
+		_ASSERT(DataValues==DataSamples*sizeof(epicsUInt16));
+	}
+	else
+	{
+		std::string SecondHeader;
+		size_t DIMNoisePos = FindMarkerPos(FirstHeader, CloseBracketPos, "DIMension=NOISe"); // , "NSAMples #H"
+		size_t SpacePos = FindMarkerPos(FirstHeader, DIMNoisePos, " ");
 		std::string NoiseSamplesStr = FirstHeader.substr(DIMNoisePos, SpacePos-DIMNoisePos-1);
 		size_t NoiseSamples;
 		FromHexString(NoiseSamplesStr, NoiseSamples);
@@ -345,44 +414,20 @@ void GaugeDAQ::GrabScanData()
 
 		m_NoiseData.resize(NoiseSamples);
 		read(m_NoiseData);
+
+		// DIMension=COUNt (TYPE EXPLicit UNITs "COUNt") 
+		//		DATA (TSOurce "IMMediate" OTCounter #H00000000 BOCounter #H00001d26 CVALue +6.13000E+05 BAMu +9.28392E-01 EAMu +1.22370E+02 BSEGment #H01 ESEGment #H12 NSAMples #H00001c41 BLINe +0.00000E+00 RMSNoise +0.00000E+00
+		//			CURVe (DATE 2016,08,01 TIME 15,38,19.539 VALues #514466 
+		readTill(SecondHeader, "DIMension=COUNt (TYPE EXPLicit UNITs \"COUNt\") DATA (", 0);
+		readTill(SecondHeader, "VALues #5", 6);
+		size_t DimensionCOUNtPos = FindMarkerPos(SecondHeader, 0, "DIMension=COUNt");
+		size_t  DataValuesPos = FindMarkerPos(SecondHeader, DimensionCOUNtPos, "VALues #5");
+		std::string DataVALuesStr = SecondHeader.substr(DataValuesPos);
+		size_t DataValues;
+		FromString(DataVALuesStr, DataValues);
+		_ASSERT(DataValues==DataSamples*sizeof(epicsUInt16));
 	}
 
-	std::string SecondHeader;
-	readTill(SecondHeader, "DIMension=COUNt (TYPE EXPLicit UNITs \"COUNt\") DATA (", 0);
-	readTill(SecondHeader, "VALues #5", 6);
-
-	// DIMension=COUNt (TYPE EXPLicit UNITs "COUNt") 
-	//		DATA (TSOurce "IMMediate" OTCounter #H00000000 BOCounter #H00001d26 CVALue +6.13000E+05 BAMu +9.28392E-01 EAMu +1.22370E+02 BSEGment #H01 ESEGment #H12 NSAMples #H00001c41 BLINe +0.00000E+00 RMSNoise +0.00000E+00
-	//			CURVe (DATE 2016,08,01 TIME 15,38,19.539 VALues #514466 
-
-	size_t DIMDataPos = FindMarkerPos(SecondHeader, 0, "DIMension=COUNt");
-
-	size_t CVALuePos = FindMarkerPos(SecondHeader, DIMDataPos, "CVALue ");
-	SpacePos = FindMarkerPos(SecondHeader, CVALuePos, " "); 
-	std::string CVALueStr = SecondHeader.substr(CVALuePos, SpacePos-CVALuePos-1);
-	FromString(CVALueStr, m_HeaderData.m_MassAxisCalibrationFactor);
-	m_HeaderData.m_MassAxisCalibrationFactor /= 1000;
-
-	size_t BAMuPos = FindMarkerPos(SecondHeader, CVALuePos, "BAMu ");
-	SpacePos = FindMarkerPos(SecondHeader, BAMuPos, " "); 
-	std::string BAMuStr = SecondHeader.substr(BAMuPos, SpacePos-BAMuPos-1);
-	FromString(BAMuStr, m_lowerRange);
-	size_t EAMuPos = FindMarkerPos(SecondHeader, CVALuePos, "EAMu ");
-	SpacePos = FindMarkerPos(SecondHeader, EAMuPos, " "); 
-	std::string EAMuStr = SecondHeader.substr(EAMuPos, SpacePos-EAMuPos-1);
-	FromString(EAMuStr, m_upperRange);
-
-	size_t NSAMplesPos = FindMarkerPos(SecondHeader, DIMDataPos, "NSAMples #H");
-	SpacePos = FindMarkerPos(SecondHeader, NSAMplesPos, " ");
-	std::string DataSamplesStr = SecondHeader.substr(NSAMplesPos, SpacePos-NSAMplesPos-1);
-	size_t DataSamples;
-	FromHexString(DataSamplesStr, DataSamples);
-
-	size_t  DataValuesPos = FindMarkerPos(SecondHeader, DIMDataPos, "VALues #5");
-	std::string DataVALuesStr = SecondHeader.substr(DataValuesPos);
-	size_t DataValues;
-	FromString(DataVALuesStr, DataValues);
-	_ASSERT(DataValues==DataSamples*sizeof(epicsUInt16));
 
 	while (m_AvgMode == Running_Avg)
 	{
@@ -430,26 +475,12 @@ float GaugeDAQ::AverageNoise() const
 	return AverageNoise;
 }
 
-size_t GaugeDAQ::FindMarkerPos(std::string const& HeaderData, size_t Offset, const char* FirstMarker) const
+size_t GaugeDAQ::FindMarkerPos(std::string const& HeaderData, size_t Offset, const char* Marker) const
 {
-	size_t FirstMarkerPos = HeaderData.find(FirstMarker, Offset);
-	if (FirstMarkerPos != std::string::npos)
-		FirstMarkerPos += strlen(FirstMarker);
-	return FirstMarkerPos;
-}
-
-size_t GaugeDAQ::FindMarkerPos(std::string const& HeaderData, size_t Offset, const char* FirstMarker, const char* SecondMarker) const
-{
-	size_t FirstMarkerPos = FindMarkerPos(HeaderData, Offset, FirstMarker);
-	size_t SecondMarkerPos = std::string::npos;
-	if (FirstMarkerPos != std::string::npos)
-	{
-		FirstMarkerPos += strlen(FirstMarker);
-		SecondMarkerPos = HeaderData.find(SecondMarker, FirstMarkerPos);
-		if (SecondMarkerPos != std::string::npos)
-			SecondMarkerPos += strlen(SecondMarker);
-	}
-	return SecondMarkerPos;
+	size_t MarkerPos = HeaderData.find(Marker, Offset);
+	if (MarkerPos != std::string::npos)
+		MarkerPos += strlen(Marker);
+	return MarkerPos;
 }
 
 void GaugeDAQ::write(std::string const& WritePacket) const

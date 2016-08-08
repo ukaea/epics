@@ -46,6 +46,7 @@ const char* ParameterDefn::FAULT = "FAULT";
 const char* ParameterDefn::DISCONNECTED = "DISCONNECTED";
 const char* ParameterDefn::FIRMWAREVERSION = "FIRMWAREVERSION";
 const char* ParameterDefn::HARDWAREVERSION = "HARDWAREVERSION";
+const char* ParameterDefn::MACHINEID = "MACHINEID";
 const char* ParameterDefn::SOFTWAREVERSION = "SOFTWAREVERSION";
 const char* ParameterDefn::ASYNVERSION = "ASYNVERSION";
 

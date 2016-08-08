@@ -17,7 +17,7 @@ class GaugeDAQ
 {
 public:
 	static const size_t MaxNrSegments;
-	static const int SegmentSizes[];
+	static size_t SegmentSizes[];
 	struct InstrumentVoltage {
 		double m_Min;
 		double m_Max;
@@ -101,9 +101,11 @@ private:
 	void connect();
 	void WorkoutSegments();
 	void GetScanRange();
-	void GetTSETingsValues(std::string const&  TSETingsValues);
-	size_t FindMarkerPos(std::string const& HeaderData, size_t Offset, const char* FirstMarker) const;
-	size_t FindMarkerPos(std::string const& HeaderData, size_t Offset, const char* FirstMarker, const char* SecondMarker) const;
+	void GetIDENtifyValues(std::string const& IDENtify);
+	void GetTSETingsValues(std::string const&  MEASurementTSETtingsValues);
+	void GetSEGMentValues(std::string const&  MEASurementSEGMentValues);
+	size_t GetDATAAMUValues(std::string const&  DATAAMUValues);
+	size_t FindMarkerPos(std::string const& HeaderData, size_t Offset, const char* Marker) const;
 	void ThrowException(asynStatus Status, const char* Function, std::string const& what) const;
 	void write(std::string const& WritePacket) const;
 	void writeRead(std::string const& WritePacket, std::string& ReadPacket) const;
