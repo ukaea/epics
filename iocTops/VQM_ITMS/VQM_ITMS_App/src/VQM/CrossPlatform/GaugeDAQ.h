@@ -36,6 +36,9 @@ public:
 	GaugeDAQ(asynUser* IOUser);
 	bool GetExtendedRangeCapabilities() const;
 	EnumGaugeState GetGaugeState() const;
+	EnumGaugeState GaugeState() const {
+		return m_GaugeState;
+	}
 	void SetGaugeState(EnumGaugeState gaugeState);
 	void GetLogicalInstrumentMinMaxVoltage(EnumLogicalInstruments logicalInstrumentEnum);
 	void DataAnalysisSetAvgMode(EnumAvgMode AvgMode);
@@ -111,7 +114,7 @@ private:
 	void writeRead(std::string const& WritePacket, std::string& ReadPacket) const;
 	void readTill(std::string& ReadPacket, std::string const& Termination, int AdditionalChars) const;
 	void read(std::string& ReadPacket) const;
-	void read(std::vector<epicsUInt16>& ReadPacket) const;
+	template<class T> void read(std::vector<T>& ReadPacket) const;
 	int CheckExtraData();
 
 	class CException : public std::runtime_error
@@ -126,6 +129,7 @@ private:
 	asynUser* m_IOUser;
 	std::vector<SegmentBoundary> m_SegmentBoundaries;
 	std::vector<epicsUInt16> m_NoiseData;
+	std::vector<epicsFloat32> m_ScanVector;
 	std::deque<std::vector<epicsUInt16> > m_RawData;
 	IHeaderData m_HeaderData;
 	EnumAvgMode m_AvgMode;

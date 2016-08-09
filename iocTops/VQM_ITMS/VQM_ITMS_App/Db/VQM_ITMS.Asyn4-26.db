@@ -34,14 +34,12 @@ record(mbbo, "$(P)Scanning")
     field(FRST, "EXTTRIG")
     field(FRST, "EXTTRIGOFF")
 	field(FRST, "CALIBRATE")
-	field(VAL, 3)
 }
 
 record(longout, "$(P)Averages")
 {
     field(DTYP, "asynInt32")
 	field(OUT,  "@asyn($(PORT),$(ADDR),1)AVERAGES")
-	field(VAL, 12)
 }
 
 record(mbbo, "$(P)AverageMode")
@@ -56,7 +54,6 @@ record(mbbo, "$(P)AverageMode")
     field(ONST, "Running_Avg")
     field(TWST, "Cumulative_Moving_Avg")
     field(THST, "Accumulator")
-	field(VAL, 3)
 }
 
 record(longin, "$(P)LastScanNumber")

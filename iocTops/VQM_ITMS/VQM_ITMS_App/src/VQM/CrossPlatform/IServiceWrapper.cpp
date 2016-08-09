@@ -111,7 +111,7 @@ SVQM_800_Error IServiceWrapper::GetGaugeState(EnumGaugeState& gaugeState, asynUs
 }
 
 SVQM_800_Error IServiceWrapper::GetScanData(int& lastScanNumber, SAnalyzedData& analyzedData, IHeaderData** headerDataPtr,
-                               SAverageData& averageData, asynUser* IOUser, bool& isValidData, EnumGaugeState& controllerState)
+	SAverageData& averageData, asynUser* IOUser, bool& isValidData, EnumGaugeState& controllerState)
 {
 	GaugeDAQ& GaugeDAQ = getGaugeDAQ(IOUser);
 
@@ -152,44 +152,47 @@ SVQM_800_Error IServiceWrapper::GetScanData(int& lastScanNumber, SAnalyzedData& 
 		GaugeDAQ.GrabScanData();
 		for(size_t Sample = 0; Sample < analyzedData.DenoisedRawData().size(); Sample++)
 			analyzedData.DenoisedRawData()[Sample] = 
-				((GaugeDAQ.numAverages() - 1) * analyzedData.DenoisedRawData()[Sample] + GaugeDAQ.RawData(Sample) - AverageNoise) / GaugeDAQ.numAverages();
+			((GaugeDAQ.numAverages() - 1) * analyzedData.DenoisedRawData()[Sample] + GaugeDAQ.RawData(Sample) - AverageNoise) / GaugeDAQ.numAverages();
 	}
 	lastScanNumber = GaugeDAQ.lastScanNumber();
-	controllerState = EnumGaugeState_SCAN;
+	controllerState = GaugeDAQ.GaugeState();
 
-	for (size_t Segment = 0; Segment < GaugeDAQ.SegmentBoundaries().size(); Segment++)
+	if (controllerState == EnumGaugeState_SCAN)
 	{
-		// http://homepages.which.net/~paul.hills/Circuits/MercurySwitchFilter/FIR.html
-		double DAQFreq = GaugeDAQ.SegmentSizes[Segment] / 0.004;
-		static const double Transition = 10E3;
-		int Taps = int(0.5 + 3.3 * DAQFreq / Transition);
-		int FirstSample = GaugeDAQ.SegmentBoundaries()[Segment].m_RawPoint - Taps;
-		if (FirstSample < 0)
-			FirstSample = 0;
-		int LastSample = analyzedData.DenoisedRawData().size();
-		if (Segment+1 < GaugeDAQ.SegmentBoundaries().size())
-			LastSample =  GaugeDAQ.SegmentBoundaries()[Segment+1].m_RawPoint;
-		Filter Filter(LPF, Taps, DAQFreq, Transition);
-		for(int Sample = FirstSample; Sample < LastSample; Sample++)
+		for (size_t Segment = 0; Segment < GaugeDAQ.SegmentBoundaries().size(); Segment++)
 		{
-			int Error_Flag = Filter.get_error_flag();
-			_ASSERT(Error_Flag == 0);
-	 		analyzedData.DenoisedRawData()[Sample] = Filter.do_sample( analyzedData.DenoisedRawData()[Sample] );
+			// http://homepages.which.net/~paul.hills/Circuits/MercurySwitchFilter/FIR.html
+			double DAQFreq = GaugeDAQ.SegmentSizes[Segment] / 0.004;
+			static const double Transition = 10E3;
+			int Taps = int(0.5 + 3.3 * DAQFreq / Transition);
+			int FirstSample = GaugeDAQ.SegmentBoundaries()[Segment].m_RawPoint - Taps;
+			if (FirstSample < 0)
+				FirstSample = 0;
+			int LastSample = analyzedData.DenoisedRawData().size();
+			if (Segment+1 < GaugeDAQ.SegmentBoundaries().size())
+				LastSample =  GaugeDAQ.SegmentBoundaries()[Segment+1].m_RawPoint;
+			Filter Filter(LPF, Taps, DAQFreq, Transition);
+			for(int Sample = FirstSample; Sample < LastSample; Sample++)
+			{
+				int Error_Flag = Filter.get_error_flag();
+				_ASSERT(Error_Flag == 0);
+				analyzedData.DenoisedRawData()[Sample] = Filter.do_sample( analyzedData.DenoisedRawData()[Sample] );
+			}
+		}
+
+		analyzedData.PeakArea().assign(size_t(GaugeDAQ.upperRange() - GaugeDAQ.lowerRange()), 0);
+		pasynOctetSyncIO->setInputEos(IOUser, "\r", 1);
+		size_t Segment = 0;
+		size_t RawPt = 0;
+		for(size_t MassPt = 0; MassPt < analyzedData.PeakArea().size(); MassPt++)
+		{
+			size_t LowRawPt = GaugeDAQ.FindRawPt(Segment, MassPt-0.5);
+			size_t HighRawPt = GaugeDAQ.FindRawPt(Segment, MassPt+0.5);
+			for (RawPt = LowRawPt; RawPt < HighRawPt; RawPt++)
+				analyzedData.PeakArea()[MassPt] += analyzedData.DenoisedRawData()[RawPt];
 		}
 	}
-
-	analyzedData.PeakArea().assign(size_t(GaugeDAQ.upperRange() - GaugeDAQ.lowerRange()), 0);
-	pasynOctetSyncIO->setInputEos(IOUser, "\r", 1);
 	*headerDataPtr = const_cast<IHeaderData*>(&GaugeDAQ.HeaderData());
-	size_t Segment = 0;
-	size_t RawPt = 0;
-	for(size_t MassPt = 0; MassPt < analyzedData.PeakArea().size(); MassPt++)
-	{
-		size_t LowRawPt = GaugeDAQ.FindRawPt(Segment, MassPt-0.5);
-		size_t HighRawPt = GaugeDAQ.FindRawPt(Segment, MassPt+0.5);
-		for (RawPt = LowRawPt; RawPt < HighRawPt; RawPt++)
-			analyzedData.PeakArea()[MassPt] += analyzedData.DenoisedRawData()[RawPt];
-	}
 	isValidData = true;
 	return SVQM_800_Error();
 }

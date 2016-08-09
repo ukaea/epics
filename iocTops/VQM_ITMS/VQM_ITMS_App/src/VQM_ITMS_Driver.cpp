@@ -364,8 +364,10 @@ bool CVQM_ITMS_Driver::GetScanData(int Connection, std::vector<float>& RawData, 
 void CVQM_ITMS_Driver::callParamCallbacks(size_t Connection, std::vector<float>& RawData, std::vector<float>& PartialPressure)
 {
 	CVQM_ITMS_Base::callParamCallbacks(Connection);
-	doCallbacksFloat32Array(PartialPressure, ParameterDefn::PARTIALPRESSURE, Connection);
-	doCallbacksFloat32Array(RawData, ParameterDefn::RAWDATA, Connection);
+	if (PartialPressure.size() > 0)
+		doCallbacksFloat32Array(PartialPressure, ParameterDefn::PARTIALPRESSURE, Connection);
+	if (RawData.size() > 0)
+		doCallbacksFloat32Array(RawData, ParameterDefn::RAWDATA, Connection);
 }
 
 asynStatus CVQM_ITMS_Driver::readFloat32Array(asynUser *pasynUser, epicsFloat32 *value,
@@ -462,7 +464,7 @@ asynStatus CVQM_ITMS_Driver::writeInt32(asynUser *pasynUser, epicsInt32 value)
 			return asynTimeout;
 
 		if (function == Parameters(ParameterDefn::SCANNING))
-			SetGaugeState(Connection, value != 0);
+			SetGaugeState(Connection, value);
 		else if (function == Parameters(ParameterDefn::AVERAGES))
 			ThrowException(m_serviceWrapper->DataAnalysisSetNumAvgs(value, m_Connections[Connection]), __FUNCTION__, "DataAnalysisSetNumAvgs");
 		else if (function == Parameters(ParameterDefn::AVERAGEMODE))

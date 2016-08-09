@@ -89,6 +89,8 @@ EnumGaugeState GaugeDAQ::GetGaugeState() const
 	FromString(OUTPResponse, OUTPValue);
 	writeRead("INIT:CONT?", INITResponse);
 	FromString(INITResponse, INITValue);
+	if ((OUTPValue == 1) && (INITValue == 0))
+		return EnumGaugeState_STANDBY;
 	if ((OUTPValue == 0) && (INITValue == 0))
 		return EnumGaugeState_OFF;
 	return EnumGaugeState_SCAN;
@@ -117,6 +119,7 @@ void GaugeDAQ::SetGaugeState(EnumGaugeState gaugeState)
 		break;
 	default: _ASSERT(false);
 	}
+	m_GaugeState = gaugeState;
 }
 
 void GaugeDAQ::DataAnalysisSetAvgMode(EnumAvgMode AvgMode)
@@ -358,7 +361,7 @@ void GaugeDAQ::GrabScanData()
 	write("fetc?");
 	ThrowException(pasynOctetSyncIO->setInputEos(m_IOUser, "", 0), __FUNCTION__, "setInputEos");
 	readTill(FirstHeader, "CURVe", 0);
-	if (m_GaugeState == EnumGaugeState_OFF)
+	if ((m_GaugeState == EnumGaugeState_OFF) || (m_GaugeState == EnumGaugeState_STANDBY))
 		readTill(FirstHeader, "VALues #5", 6);
 	else
 		readTill(FirstHeader, "VALues #3", 6);
@@ -379,7 +382,7 @@ void GaugeDAQ::GrabScanData()
 	size_t DataCVALuePos = FindMarkerPos(FirstHeader, CloseBracketPos, "DATA (CVALue ");
 	size_t MEASurementSEGMentPos = FindMarkerPos(FirstHeader, DataCVALuePos, "MEASurement=SEGMent (VALues ");
 
-	std::string DataAMUValues = FirstHeader.substr(DataCVALuePos, MEASurementSEGMentPos-DataCVALuePos);
+	std::string DataAMUValues = FirstHeader.substr(DataCVALuePos, MEASurementSEGMentPos-DataCVALuePos-strlen("MEASurement=SEGMent (VALues ")-1);
 	size_t DataSamples = GetDATAAMUValues(DataAMUValues);
 
 	// MEASurement=SEGMent (VALues #H0535,#H039c,#H02c2,#H023b,#H01e0,#H019e,#H016c,#H0144,#H0125,#H010a,#H00f5,#H00e3,#H00d2,#H00c5,#H00b8,#H00ae,#H00a5,#H009c,#H0094,#H008d,#H0087,#H0081,#H007b,#H0077,#H0073,#H006e,#H006a,#H0066,#H0064,#H0060)
@@ -394,7 +397,9 @@ void GaugeDAQ::GrabScanData()
 		std::string DataVALuesStr = FirstHeader.substr(DataValuesPos);
 		size_t DataValues;
 		FromString(DataVALuesStr, DataValues);
-		_ASSERT(DataValues==DataSamples*sizeof(epicsUInt16));
+		_ASSERT(DataValues==DataSamples*sizeof(epicsFloat32));
+		m_ScanVector.resize(DataSamples);
+		read(m_ScanVector);
 	}
 	else
 	{
@@ -426,19 +431,17 @@ void GaugeDAQ::GrabScanData()
 		size_t DataValues;
 		FromString(DataVALuesStr, DataValues);
 		_ASSERT(DataValues==DataSamples*sizeof(epicsUInt16));
+		while (m_AvgMode == Running_Avg)
+		{
+			while (m_RawData.size() >= m_numAverages)
+				m_RawData.pop_front();
+			if (m_RawData.size() < m_numAverages)
+				m_RawData.push_back(std::vector<epicsUInt16>(DataSamples));
+		}
+		m_RawData.back().resize(DataSamples);
+		read(m_RawData.back());
 	}
 
-
-	while (m_AvgMode == Running_Avg)
-	{
-		while (m_RawData.size() >= m_numAverages)
-			m_RawData.pop_front();
-		if (m_RawData.size() < m_numAverages)
-			m_RawData.push_back(std::vector<epicsUInt16>(DataSamples));
-	}
-
-	m_RawData.back().resize(DataSamples);
-	read(m_RawData.back());
 
 	std::string DiscardedTerminator;
 	readTill(DiscardedTerminator, " )))", 0);
@@ -532,21 +535,21 @@ void GaugeDAQ::readTill(std::string& ReadPacket, std::string const& Termination,
 	}
 }
 
-void GaugeDAQ::read(std::vector<epicsUInt16>& ReadPacket) const
+template<class T> void GaugeDAQ::read(std::vector<T>& ReadPacket) const
 {
 	epicsGuard < epicsMutex > guard (m_Mutex);
 	size_t nTotalBytes = 0;
 	int eomReason = ASYN_EOM_CNT;
 	asynStatus Status = asynTimeout;
 	epicsTime StartTime = epicsTime::getCurrent ();
-	while (nTotalBytes < ReadPacket.size()*sizeof(epicsUInt16))
+	while (nTotalBytes < ReadPacket.size()*sizeof(T))
 	{
 		size_t nBytesIn;
-		Status = pasynOctetSyncIO->read(m_IOUser, reinterpret_cast<char*>(&(ReadPacket[0]))+nTotalBytes, ReadPacket.size()*sizeof(epicsUInt16)-nTotalBytes, 0.1, &nBytesIn, &eomReason);
+		Status = pasynOctetSyncIO->read(m_IOUser, reinterpret_cast<char*>(&(ReadPacket[0]))+nTotalBytes, ReadPacket.size()*sizeof(T)-nTotalBytes, 0.1, &nBytesIn, &eomReason);
 		nTotalBytes += nBytesIn; 
 		if (Status == asynTimeout)
 		{
-			if ((TimeOut != -1) && (epicsTime::getCurrent() - StartTime > TimeOut) && (nTotalBytes < ReadPacket.size()*sizeof(epicsUInt16)))
+			if ((TimeOut != -1) && (epicsTime::getCurrent() - StartTime > TimeOut) && (nTotalBytes < ReadPacket.size()*sizeof(T)))
 				ThrowException(Status, __FUNCTION__, "read");
 			write("fetc?");
 		}
