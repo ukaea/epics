@@ -75,7 +75,7 @@ public:
 	std::wstring HardwareRevision() const {
 		return m_HardwareRevision;
 	}
-	std::wstring MID() {
+	std::wstring MID() const {
 		return m_MID;
 	}
 private:

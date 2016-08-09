@@ -340,6 +340,7 @@ bool CVQM_ITMS_Driver::GetScanData(int Connection, std::vector<float>& RawData, 
 	setDoubleParam(Connection, ParameterDefn::ELECTROMETERGAIN, headerDataPtr->ElectronMultiplierElectrometerGain());
 	setStringParam(Connection, ParameterDefn::FIRMWAREVERSION, wcstombs(headerDataPtr->FirmwareRevision()));
 	setStringParam(Connection, ParameterDefn::HARDWAREVERSION, wcstombs(headerDataPtr->HardwareRevision()));
+	setStringParam(Connection, ParameterDefn::MACHINEID, wcstombs(headerDataPtr->MID()));
 	setDoubleParam(Connection, ParameterDefn::TOTALPRESSURE, headerDataPtr->TotalPressure());
 	double lowerRange, upperRange;
 	ThrowException(m_serviceWrapper->GetScanRange(lowerRange, upperRange, m_Connections[Connection]), __FUNCTION__, "GetScanRange");

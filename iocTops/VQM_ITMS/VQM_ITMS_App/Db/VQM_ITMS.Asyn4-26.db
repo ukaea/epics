@@ -209,6 +209,13 @@ record(longin, "$(P)Fault")
 	field(SCAN, "I/O Intr")
 }
 
+record(stringin, "$(P)MachineID")
+{
+	field(DTYP, "asynOctetRead")
+	field(INP,  "@asyn($(PORT),$(ADDR),1)MACHINEID")
+	field(SCAN, "I/O Intr")
+}
+
 record(stringin, "$(P)FirmwareVersion")
 {
 	field(DTYP, "asynOctetRead")
@@ -216,7 +223,7 @@ record(stringin, "$(P)FirmwareVersion")
 	field(SCAN, "I/O Intr")
 }
 
-record(stringin, "$(P)HarwareVersion")
+record(stringin, "$(P)HardwareVersion")
 {
 	field(DTYP, "asynOctetRead")
 	field(INP,  "@asyn($(PORT),$(ADDR),1)HARDWAREVERSION")
