@@ -39,7 +39,7 @@ void GaugeDAQ::connect()
 {
 	epicsGuard < epicsMutex > guard (m_Mutex);
 	ThrowException(pasynOctetSyncIO->setInputEos(m_IOUser, "", 0), __FUNCTION__, "setInputEos");
-	CheckExtraData();
+	Flush();
 	ThrowException(pasynOctetSyncIO->setOutputEos(m_IOUser, "\r", 1), __FUNCTION__, "setOutputEos");
 	ThrowException(pasynOctetSyncIO->setInputEos(m_IOUser, "\r", 1), __FUNCTION__, "setInputEos");
 	write("INST MSP");
@@ -56,6 +56,7 @@ void GaugeDAQ::connect()
 	write("SYST:TIME " + std::string(TimeOfDay));
 	write("STAT:OPER:CONT:NTR 32767");
 	SetGaugeState(EnumGaugeState_OFF);
+	m_GaugeState = GetGaugeState();
 	write("INST FIL");
 	write("SOUR:MODE ADJ");
 	writeRead("SYST:ERR:ALL?", ErrResponse);
@@ -70,7 +71,8 @@ void GaugeDAQ::connect()
 	GetLogicalInstrumentMinMaxVoltage(EMBIAS);
 	GetLogicalInstrumentMinMaxVoltage(RFAMP);
 	GetScanRange();
-	WorkoutSegments();
+	write("INST MSP;:FORM:ALL 0,1");
+	GrabScanData();
 	SetGaugeState(EnumGaugeState_SCAN);
 	m_GaugeState = GetGaugeState();
 }
@@ -101,6 +103,7 @@ EnumGaugeState GaugeDAQ::GetGaugeState() const
 void GaugeDAQ::SetGaugeState(EnumGaugeState gaugeState)
 {
 	epicsGuard < epicsMutex > guard (m_Mutex);
+	write("INST MSP");
 	switch (gaugeState)
 	{
 	case EnumGaugeState_OFF :
@@ -114,8 +117,8 @@ void GaugeDAQ::SetGaugeState(EnumGaugeState gaugeState)
 		write ("OUTP ON");
 		break;
 	case EnumGaugeState_SCAN :
-		write ("INST MSP;:OUTP ON");
-		write ("INST MSP;:FORM:ALL 1,0");
+		write ("OUTP ON");
+		write ("FORM:ALL 1,0");
 		write ("INIT:CONT ON");
 		break;
 	default: _ASSERT(false);
@@ -234,7 +237,7 @@ void GaugeDAQ::WorkoutSegments()
 	size_t NrSegments = ExtendedRangeCapabilities ? MaxNrSegments : 19;
 	for(size_t Segment = 0; Segment < NrSegments; Segment++)
 	{
-		SegmentBoundary SegmentBoundary(Accumulation, m_lowerRange + Segment * (m_upperRange - m_lowerRange) / NrSegments);
+		SegmentBoundary SegmentBoundary(Accumulation, m_lowerRange + Segment * (m_upperRange - m_lowerRange) / (NrSegments-1));
 		m_SegmentBoundaries.push_back(SegmentBoundary);
 		Accumulation += size_t(SegmentSizes[Segment]);
 	}
@@ -322,7 +325,7 @@ void GaugeDAQ::GetSEGMentValues(std::string const&  MEASurementSEGMentValues)
 	{
 		size_t HashHPos = MEASurementSEGMentValues.find("#H", CommaPos);
 		CommaPos = MEASurementSEGMentValues.find(',', HashHPos);
-		std::string SegmentValue = MEASurementSEGMentValues.substr(HashHPos, CommaPos-HashHPos+1);
+		std::string SegmentValue = MEASurementSEGMentValues.substr(HashHPos+2, CommaPos-HashHPos-2);
 		FromHexString(SegmentValue, SegmentSizes[Segment]);
 	}
 }
@@ -393,6 +396,12 @@ void GaugeDAQ::GrabScanData()
 		_ASSERT(DataValues==DataSamples*sizeof(epicsFloat32));
 		m_ScanVector.resize(DataSamples);
 		read(m_ScanVector);
+		FILE* CSVFile=fopen("ScanVector.csv", "wt");
+		for (size_t Sample=0;Sample<m_ScanVector.size();Sample++)
+			fprintf(CSVFile, "%f\n", m_ScanVector[Sample]);
+		fclose(CSVFile);
+		_ASSERT(fabs(m_ScanVector.front()-m_lowerRange) < 0.001);
+		_ASSERT(fabs(m_ScanVector.back()-m_upperRange) < 0.01);
 	}
 	else
 	{
@@ -446,11 +455,12 @@ void GaugeDAQ::GrabScanData()
 	std::string DiscardedTerminator;
 	readTill(DiscardedTerminator, " )))", 0);
 	_ASSERT(DiscardedTerminator==" )))");
-	WorkoutSegments();
+	ThrowException(pasynOctetSyncIO->setInputEos(m_IOUser, "\r", 1), __FUNCTION__, "setInputEos");
 #ifdef _DEBUG
 //	size_t ExtraData = CheckExtraData(IOUser);
 //	_ASSERT(ExtraData == 0);
 #endif
+	WorkoutSegments();
 	m_lastScanNumber++;
 }
 
@@ -467,10 +477,18 @@ int GaugeDAQ::FindRawPt(size_t& Segment, double ScaledPt) const
 		size_t RawRange = m_SegmentBoundaries[Segment+1].m_RawPoint - m_SegmentBoundaries[Segment].m_RawPoint;
 		RawPt += size_t(RawRange * (ScaledPt - m_SegmentBoundaries[Segment].m_ScaledPoint) / ScaledRange);
 	}
+	bool OutOfRange = false;
 	if (RawPt < 0)
+	{
+		OutOfRange = true;
 		RawPt = 0;
+	}
 	if (RawPt >= int(RawDataSize()))
+	{
+		OutOfRange = true;
 		RawPt = RawDataSize()-1;
+	}
+	_ASSERT((OutOfRange) || (m_ScanVector[RawPt]==ScaledPt));
 	return RawPt;
 }
 
@@ -582,7 +600,7 @@ template<class T> void GaugeDAQ::read(std::vector<T>& ReadPacket) const
 	_ASSERT(eomReason == ASYN_EOM_CNT);
 }
 
-int GaugeDAQ::CheckExtraData()
+int GaugeDAQ::Flush()
 {
 	size_t ExtraData = 0;
 	size_t nBytesIn;
@@ -594,6 +612,7 @@ int GaugeDAQ::CheckExtraData()
 		ExtraData += nBytesIn;
 	}
 	while (nBytesIn > 0);
+	pasynOctetSyncIO->flush(m_IOUser);
 	return ExtraData;
 }
 

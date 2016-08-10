@@ -177,20 +177,21 @@ SVQM_800_Error IServiceWrapper::GetScanData(int& lastScanNumber, SAnalyzedData& 
 			{
 				int Error_Flag = Filter.get_error_flag();
 				_ASSERT(Error_Flag == 0);
-				analyzedData.DenoisedRawData()[Sample] = Filter.do_sample( analyzedData.DenoisedRawData()[Sample] );
+				double DenoisedRawData = Filter.do_sample( analyzedData.DenoisedRawData()[Sample] );
+				if (Sample >= GaugeDAQ.SegmentBoundaries()[Segment].m_RawPoint)
+					analyzedData.DenoisedRawData()[Sample] = Filter.do_sample( analyzedData.DenoisedRawData()[Sample] );
 			}
 		}
 
 		analyzedData.PeakArea().assign(size_t(GaugeDAQ.upperRange() - GaugeDAQ.lowerRange()), 0);
-		pasynOctetSyncIO->setInputEos(IOUser, "\r", 1);
 		size_t Segment = 0;
 		size_t RawPt = 0;
-		for(size_t MassPt = 0; MassPt < analyzedData.PeakArea().size(); MassPt++)
+		for(size_t MassPt = 1; MassPt <= analyzedData.PeakArea().size(); MassPt++)
 		{
 			size_t LowRawPt = GaugeDAQ.FindRawPt(Segment, MassPt-0.5);
 			size_t HighRawPt = GaugeDAQ.FindRawPt(Segment, MassPt+0.5);
 			for (RawPt = LowRawPt; RawPt <= HighRawPt; RawPt++)
-				analyzedData.PeakArea()[MassPt] += analyzedData.DenoisedRawData()[RawPt];
+				analyzedData.PeakArea()[MassPt-1] += analyzedData.DenoisedRawData()[RawPt];
 		}
 	}
 	*headerDataPtr = const_cast<IHeaderData*>(&GaugeDAQ.HeaderData());

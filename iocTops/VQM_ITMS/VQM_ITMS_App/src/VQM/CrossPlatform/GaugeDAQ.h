@@ -115,7 +115,7 @@ private:
 	void readTill(std::string& ReadPacket, std::string const& Termination, int AdditionalChars) const;
 	void read(std::string& ReadPacket) const;
 	template<class T> void read(std::vector<T>& ReadPacket) const;
-	int CheckExtraData();
+	int Flush();
 
 	class CException : public std::runtime_error
 	{
