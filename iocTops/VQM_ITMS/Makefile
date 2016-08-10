@@ -3,7 +3,7 @@ TOP = .
 include $(TOP)/configure/CONFIG
 
 # First because dependency
-DIRS := VQM_ITMSApp
+DIRS := VQM_ITMS_App
 
 DIRS := $(DIRS) $(filter-out $(DIRS), configure)
 DIRS := $(DIRS) $(filter-out $(DIRS), $(wildcard *App))
