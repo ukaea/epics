@@ -24,7 +24,7 @@ GaugeDAQ::GaugeDAQ(asynUser* IOUser)
 	m_lastScanNumber = 0;
 	m_RawData.resize(1);
 
-	m_AvgMode = Off;
+	m_AvgMode = Accumulator;
 	m_numAverages = 1; 
 	m_lastScanNumber = 0;
 	m_GaugeState = EnumGaugeState_OFF;
@@ -226,21 +226,6 @@ void GaugeDAQ::SetScanRange(double lowerRange, double upperRange)
 	std::string ErrResponse;
 	writeRead("CONF:AMU " + ToString(lowerRange) + "," + ToString(upperRange), ErrResponse);
 	GetScanRange();
-}
-
-void GaugeDAQ::WorkoutSegments()
-{
-	bool ExtendedRangeCapabilities = GetExtendedRangeCapabilities();
-
-	size_t Accumulation = 0;
-	m_SegmentBoundaries.clear();
-	size_t NrSegments = ExtendedRangeCapabilities ? MaxNrSegments : 19;
-	for(size_t Segment = 0; Segment < NrSegments; Segment++)
-	{
-		SegmentBoundary SegmentBoundary(Accumulation, m_lowerRange + Segment * (m_upperRange - m_lowerRange) / (NrSegments-1));
-		m_SegmentBoundaries.push_back(SegmentBoundary);
-		Accumulation += size_t(SegmentSizes[Segment]);
-	}
 }
 
 void GaugeDAQ::GetIDENtifyValues(std::string const& IDENtify)
@@ -460,35 +445,15 @@ void GaugeDAQ::GrabScanData()
 //	size_t ExtraData = CheckExtraData(IOUser);
 //	_ASSERT(ExtraData == 0);
 #endif
-	WorkoutSegments();
 	m_lastScanNumber++;
 }
 
-int GaugeDAQ::FindRawPt(size_t& Segment, double ScaledPt) const
+size_t GaugeDAQ::FindRawPt(size_t& RawPt, double ScaledPt) const
 {
-	while((Segment > 0) && (m_SegmentBoundaries[Segment].m_ScaledPoint > ScaledPt))
-		Segment--;
-	while((Segment < m_SegmentBoundaries.size()-1) && (m_SegmentBoundaries[Segment+1].m_ScaledPoint <= ScaledPt))
-		Segment++;
-	int RawPt = m_SegmentBoundaries[Segment].m_RawPoint;
-	if (Segment < m_SegmentBoundaries.size()-1)
-	{
-		double ScaledRange = m_SegmentBoundaries[Segment+1].m_ScaledPoint - m_SegmentBoundaries[Segment].m_ScaledPoint;
-		size_t RawRange = m_SegmentBoundaries[Segment+1].m_RawPoint - m_SegmentBoundaries[Segment].m_RawPoint;
-		RawPt += size_t(RawRange * (ScaledPt - m_SegmentBoundaries[Segment].m_ScaledPoint) / ScaledRange);
-	}
-	bool OutOfRange = false;
-	if (RawPt < 0)
-	{
-		OutOfRange = true;
-		RawPt = 0;
-	}
-	if (RawPt >= int(RawDataSize()))
-	{
-		OutOfRange = true;
-		RawPt = RawDataSize()-1;
-	}
-	_ASSERT((OutOfRange) || (m_ScanVector[RawPt]==ScaledPt));
+	while ((RawPt+1 < m_ScanVector.size()) && (m_ScanVector[RawPt+1] < ScaledPt))
+		RawPt++;
+	while ((RawPt > 0) && (m_ScanVector[RawPt] > ScaledPt))
+		RawPt--;
 	return RawPt;
 }
 

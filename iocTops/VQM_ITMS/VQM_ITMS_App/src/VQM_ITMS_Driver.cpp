@@ -323,6 +323,8 @@ bool CVQM_ITMS_Driver::GetScanData(int Connection, std::vector<float>& RawData, 
 		AverageData, m_Connections[Connection], isValidData, controllerState), __FUNCTION__, "GetScanData");
 
 	setIntegerParam(Connection, ParameterDefn::SCANNING, controllerState);
+	setIntegerParam(Connection, ParameterDefn::AVERAGES, AverageData.BuffersAverage());
+	setIntegerParam(Connection, ParameterDefn::AVERAGEMODE, AverageData.AveragingModeInput());
 	setIntegerParam(Connection, ParameterDefn::LASTSCANNUMBER, LastScanNumber);
 	setDoubleParam(Connection, ParameterDefn::EMISSION, headerDataPtr->EmissionCurrent());
 	setDoubleParam(Connection, ParameterDefn::FILAMENTBIAS, headerDataPtr->FilamentBiasVoltage());

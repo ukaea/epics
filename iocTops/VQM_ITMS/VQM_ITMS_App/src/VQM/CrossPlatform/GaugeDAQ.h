@@ -92,17 +92,13 @@ public:
 	int lastScanNumber() const {
 		return m_lastScanNumber;
 	}
-	int FindRawPt(size_t& Segment, double ScaledPt) const;
+	size_t FindRawPt(size_t& RawPt, double ScaledPt) const;
 	IHeaderData const& HeaderData() {
 		return m_HeaderData;
-	}
-	std::vector<SegmentBoundary> const& SegmentBoundaries() const {
-		return m_SegmentBoundaries;
 	}
 
 private:
 	void connect();
-	void WorkoutSegments();
 	void GetScanRange();
 	void GetIDENtifyValues(std::string const& IDENtify);
 	void GetTSETingsValues(std::string const&  MEASurementTSETtingsValues);
@@ -127,7 +123,6 @@ private:
 		}
 	};
 	asynUser* m_IOUser;
-	std::vector<SegmentBoundary> m_SegmentBoundaries;
 	std::vector<epicsUInt16> m_NoiseData;
 	std::vector<epicsFloat32> m_ScanVector;
 	std::deque<std::vector<epicsUInt16> > m_RawData;

@@ -10,6 +10,7 @@
 #include "../../Exception.h"
 
 #include "../../VQM/Include/SAnalyzedData.h"
+#include "../../VQM/Include/SAverageData.h"
 
 #include "FIR-filter-class/filt.h"
 
@@ -156,31 +157,31 @@ SVQM_800_Error IServiceWrapper::GetScanData(int& lastScanNumber, SAnalyzedData& 
 
 	if (controllerState == EnumGaugeState_SCAN)
 	{
-		for (size_t Segment = 0; Segment < GaugeDAQ.SegmentBoundaries().size(); Segment++)
+		size_t ThisSegmentBoundary = 0, NextSegmentBoundary;
+		for (size_t Segment = 0; Segment < GaugeDAQ.MaxNrSegments; Segment++)
 		{
 			// http://homepages.which.net/~paul.hills/Circuits/MercurySwitchFilter/FIR.html
-			double DAQFreq = GaugeDAQ.SegmentSizes[Segment] / 0.004;
+			double DAQFreq = GaugeDAQ.SegmentSizes[Segment] / 0.002;
 			static const double Transition = 10E3;
 			int Taps = int(0.5 + 3.3 * DAQFreq / Transition);
-			int FirstSample = GaugeDAQ.SegmentBoundaries()[Segment].m_RawPoint - Taps;
+			int FirstSample = ThisSegmentBoundary - Taps;
 			if (FirstSample < 0)
 				FirstSample = 0;
 			size_t LastSample = analyzedData.DenoisedRawData().size();
-			if (Segment+1 < GaugeDAQ.SegmentBoundaries().size())
-			{
-				size_t RawPoint = GaugeDAQ.SegmentBoundaries()[Segment+1].m_RawPoint;
-				if (RawPoint <= LastSample)
-					LastSample =  GaugeDAQ.SegmentBoundaries()[Segment+1].m_RawPoint;
-			}
+			NextSegmentBoundary = ThisSegmentBoundary + GaugeDAQ.SegmentSizes[Segment];
+			size_t RawPoint = NextSegmentBoundary;
+			if (RawPoint <= LastSample)
+				LastSample =  NextSegmentBoundary;
 			Filter Filter(LPF, Taps, DAQFreq, Transition);
 			for(size_t Sample = FirstSample; Sample < LastSample; Sample++)
 			{
 				int Error_Flag = Filter.get_error_flag();
 				_ASSERT(Error_Flag == 0);
 				double DenoisedRawData = Filter.do_sample( analyzedData.DenoisedRawData()[Sample] );
-				if (Sample >= GaugeDAQ.SegmentBoundaries()[Segment].m_RawPoint)
+				if (Sample >= ThisSegmentBoundary)
 					analyzedData.DenoisedRawData()[Sample] = Filter.do_sample( analyzedData.DenoisedRawData()[Sample] );
 			}
+			ThisSegmentBoundary = NextSegmentBoundary;
 		}
 
 		analyzedData.PeakArea().assign(size_t(GaugeDAQ.upperRange() - GaugeDAQ.lowerRange()), 0);
@@ -188,14 +189,16 @@ SVQM_800_Error IServiceWrapper::GetScanData(int& lastScanNumber, SAnalyzedData& 
 		size_t RawPt = 0;
 		for(size_t MassPt = 1; MassPt <= analyzedData.PeakArea().size(); MassPt++)
 		{
-			size_t LowRawPt = GaugeDAQ.FindRawPt(Segment, MassPt-0.5);
-			size_t HighRawPt = GaugeDAQ.FindRawPt(Segment, MassPt+0.5);
+			size_t LowRawPt = GaugeDAQ.FindRawPt(RawPt, MassPt-0.5);
+			size_t HighRawPt = GaugeDAQ.FindRawPt(RawPt, MassPt+0.5);
 			for (RawPt = LowRawPt; RawPt <= HighRawPt; RawPt++)
 				analyzedData.PeakArea()[MassPt-1] += analyzedData.DenoisedRawData()[RawPt];
 		}
 	}
 	*headerDataPtr = const_cast<IHeaderData*>(&GaugeDAQ.HeaderData());
 	isValidData = true;
+	averageData.SetValues(isValidData, GaugeDAQ.numAverages(), 0, 0, EnumPressureSource_None, GaugeDAQ.AvgMode());
+	
 	return SVQM_800_Error();
 }
 
