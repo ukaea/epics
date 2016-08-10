@@ -71,7 +71,6 @@ void GaugeDAQ::connect()
 	GetLogicalInstrumentMinMaxVoltage(EMBIAS);
 	GetLogicalInstrumentMinMaxVoltage(RFAMP);
 	GetScanRange();
-	write("INST MSP;:FORM:ALL 0,1");
 	GrabScanData();
 	SetGaugeState(EnumGaugeState_SCAN);
 	m_GaugeState = GetGaugeState();
@@ -108,6 +107,7 @@ void GaugeDAQ::SetGaugeState(EnumGaugeState gaugeState)
 	{
 	case EnumGaugeState_OFF :
 		write ("OUTP OFF");
+		write("FORM:ALL 0,1");
 		break;
 	case EnumGaugeState_STANDBY :
 		write ("SOUR:MODE STANDBY");

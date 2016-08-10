@@ -83,6 +83,8 @@ class CVQM_ITMS_Driver::CThreadRunable : public epicsThreadRunable
 				while (!m_Exiting)
 					if (m_This->GetScanData(m_Connection, m_RawData, m_PartialPressure))
 						m_This->callParamCallbacks(m_Connection, m_RawData, m_PartialPressure);
+					else
+						epicsThreadSleep(0.010);
 			}
 			catch(::CException const& E) {
 				// make sure we return an error state if there are comms problems
@@ -310,8 +312,10 @@ bool CVQM_ITMS_Driver::GetScanData(int Connection, std::vector<float>& RawData, 
 		// The IOC is exiting
 		return false;
 
-//	if (getIntegerParam(Connection, ParameterDefn::SCANNING) == 0)
-//		return false;
+#ifdef BUILD_WITH_SDK
+	if (getIntegerParam(Connection, ParameterDefn::SCANNING) < EnumGaugeState_SCAN)
+		return false;
+#endif
 
 	IHeaderData const* headerDataPtr;
 	bool isValidData;
