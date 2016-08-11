@@ -125,7 +125,7 @@ void GaugeDAQ::SetGaugeState(EnumGaugeState gaugeState)
 		write ("FORM:ALL 1,0");
 		write ("INIT:CONT ON");
 		break;
-	default: _ASSERT(false);
+	default: assert(false);
 	}
 }
 
@@ -178,7 +178,7 @@ std::string GaugeDAQ::EnumToText(EnumLogicalInstruments logicalInstrumentEnum) c
 		case EMSHIELD : return "INST EMSH"; break;
 		case EMBIAS : return "INST EMUL"; break;
 		case RFAMP : return "INST DDS"; break;
-		default : _ASSERT(false);
+		default : assert(false);
 	}
 	return "";
 }
@@ -199,7 +199,7 @@ double GaugeDAQ::GetLogicalInstrumentCurrentVoltage(EnumLogicalInstruments logic
 		case EMSHIELD:		value = m_HeaderData.ElectronMultiplierShieldVoltage(); break;
 		case EMBIAS:		value = m_HeaderData.ElectronMultiplierVoltage(); break;
 		case RFAMP:			value = m_HeaderData.DDSAmplitude(); break;
-		default: _ASSERT(false);
+		default: assert(false);
 	}
 	return value;
 }
@@ -382,15 +382,15 @@ void GaugeDAQ::GrabScanData()
 		std::string DataVALuesStr = FirstHeader.substr(DataValuesPos);
 		size_t DataValues;
 		FromString(DataVALuesStr, DataValues);
-		_ASSERT(DataValues==DataSamples*sizeof(epicsFloat32));
+		assert(DataValues==DataSamples*sizeof(epicsFloat32));
 		m_ScanVector.resize(DataSamples);
 		read(m_ScanVector);
 		FILE* CSVFile=fopen("ScanVector.csv", "wt");
 		for (size_t Sample=0;Sample<m_ScanVector.size();Sample++)
 			fprintf(CSVFile, "%f\n", m_ScanVector[Sample]);
 		fclose(CSVFile);
-		_ASSERT(fabs(m_ScanVector.front()-m_lowerRange) < 0.001);
-		_ASSERT(fabs(m_ScanVector.back()-m_upperRange) < 0.01);
+		assert(fabs(m_ScanVector.front()-m_lowerRange) < 0.001);
+		assert(fabs(m_ScanVector.back()-m_upperRange) < 0.01);
 	}
 	else
 	{
@@ -407,7 +407,7 @@ void GaugeDAQ::GrabScanData()
 		std::string NoiseVALuesStr = FirstHeader.substr(NoiseValuesPos);
 		size_t NoiseValues;
 		FromString(NoiseVALuesStr, NoiseValues);
-		_ASSERT(NoiseValues==NoiseSamples*sizeof(epicsUInt16));
+		assert(NoiseValues==NoiseSamples*sizeof(epicsUInt16));
 
 		m_NoiseData.resize(NoiseSamples);
 		read(m_NoiseData);
@@ -428,7 +428,7 @@ void GaugeDAQ::GrabScanData()
 		std::string DataVALuesStr = SecondHeader.substr(DataValuesPos);
 		size_t DataValues;
 		FromString(DataVALuesStr, DataValues);
-		_ASSERT(DataValues==DataSamples*sizeof(epicsUInt16));
+		assert(DataValues==DataSamples*sizeof(epicsUInt16));
 		while (m_AvgMode == Running_Avg)
 		{
 			while (m_RawData.size() >= m_numAverages)
@@ -443,11 +443,11 @@ void GaugeDAQ::GrabScanData()
 
 	std::string DiscardedTerminator;
 	readTill(DiscardedTerminator, " )))", 0);
-	_ASSERT(DiscardedTerminator==" )))");
+	assert(DiscardedTerminator==" )))");
 	ThrowException(pasynOctetSyncIO->setInputEos(m_IOUser, "\r", 1), __FUNCTION__, "setInputEos");
 #ifdef _DEBUG
 //	size_t ExtraData = CheckExtraData(IOUser);
-//	_ASSERT(ExtraData == 0);
+//	assert(ExtraData == 0);
 #endif
 	m_lastScanNumber++;
 }
@@ -505,7 +505,7 @@ void GaugeDAQ::read(std::string& ReadPacket) const
 		for(size_t Byte = 0; Byte < nBytesIn; Byte++)
 			ReadPacket.push_back(Buf[Byte]);
 	}
-	_ASSERT(eomReason == ASYN_EOM_EOS);
+	assert(eomReason == ASYN_EOM_EOS);
 }
 
 void GaugeDAQ::writeRead(std::string const& WritePacket, std::string& ReadPacket) const
@@ -566,7 +566,7 @@ template<class T> void GaugeDAQ::read(std::vector<T>& ReadPacket) const
 		else
 			ThrowException(Status, __FUNCTION__, "read");
 	}
-	_ASSERT(eomReason == ASYN_EOM_CNT);
+	assert(eomReason == ASYN_EOM_CNT);
 }
 
 int GaugeDAQ::Flush()
