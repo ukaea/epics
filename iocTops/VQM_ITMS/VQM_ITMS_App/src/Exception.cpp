@@ -3,7 +3,7 @@
 
 #include <sstream>
 
-std::string wcstombs(std::wstring const& WideCharString)
+std::string Wcstombs(std::wstring const& WideCharString)
 {
 	char NBuf[MaxEPICSStrLen];
 	memset(NBuf, 0, sizeof(NBuf));
@@ -11,7 +11,7 @@ std::string wcstombs(std::wstring const& WideCharString)
 	return NBuf;
 }
 
-std::wstring mbstowcs(std::string const& MultiByteString)
+std::wstring Mbstowcs(std::string const& MultiByteString)
 {
 	wchar_t WBuf[MaxEPICSStrLen];
 	memset(WBuf, 0, sizeof(WBuf));

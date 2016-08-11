@@ -29,7 +29,7 @@
 #include <epicsThread.h>
 
 #include <IServiceWrapper.h>
-#include <IHeaderData.H>
+#include <IHeaderData.h>
 #include <SVQM_800_Error.h>
 #include "VQM/Include/SAnalyzedData.h"
 #include "VQM/Include/SAverageData.h"
@@ -50,7 +50,7 @@ static const int ASYN_TRACE_WARNING = ASYN_TRACE_ERROR;
 CVQM_ITMS_Driver* CVQM_ITMS_Driver::m_Instance;
 
 CVQM_ITMS_Driver::CException::CException(asynUser* AsynUser, SVQM_800_Error const& Error, const char* functionName) :
-	::CException(AsynUser, asynError, functionName, wcstombs(Error.m_ErrorString)) 
+	::CException(AsynUser, asynError, functionName, Wcstombs(Error.m_ErrorString)) 
 {
 	std::string message = "%s:%s ERROR: " + std::string(what()) + "%s\n";
 	asynPrint(AsynUser, ASYN_TRACE_ERROR, message.c_str(), __FILE__, functionName, AsynUser->errorMessage);
@@ -213,7 +213,7 @@ void CVQM_ITMS_Driver::ThrowException(SVQM_800_Error const& Error, const char* F
 	if (ThrowIt)
 		throw CException(pasynUserSelf, Error, Function);
 	else
-		asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, wcstombs(Error.m_ErrorString).c_str(), __FILE__, Function);
+		asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, Wcstombs(Error.m_ErrorString).c_str(), __FILE__, Function);
 
 }
 
@@ -249,7 +249,7 @@ void CVQM_ITMS_Driver::addIOPort(const char* DeviceAddress)
 
 #ifdef BUILD_WITH_SDK
 	int NewConnection = -1;
-	std::wstring DeviceAddressW = mbstowcs(DeviceAddress);
+	std::wstring DeviceAddressW = Mbstowcs(DeviceAddress);
 	for (int Connection = 0; Connection < m_nConnections; Connection++)
 		if (m_Connections[Connection].m_DeviceAddress == DeviceAddressW)
 		{
@@ -344,9 +344,9 @@ bool CVQM_ITMS_Driver::GetScanData(int Connection, std::vector<float>& RawData, 
 	setDoubleParam(Connection, ParameterDefn::RFAMP, headerDataPtr->DDSAmplitude());
 	setDoubleParam(Connection, ParameterDefn::MASSCAL, headerDataPtr->MassAxisCalibrationFactor());
 	setDoubleParam(Connection, ParameterDefn::ELECTROMETERGAIN, headerDataPtr->ElectronMultiplierElectrometerGain());
-	setStringParam(Connection, ParameterDefn::FIRMWAREVERSION, wcstombs(headerDataPtr->FirmwareRevision()));
-	setStringParam(Connection, ParameterDefn::HARDWAREVERSION, wcstombs(headerDataPtr->HardwareRevision()));
-	setStringParam(Connection, ParameterDefn::MACHINEID, wcstombs(headerDataPtr->MID()));
+	setStringParam(Connection, ParameterDefn::FIRMWAREVERSION, Wcstombs(headerDataPtr->FirmwareRevision()));
+	setStringParam(Connection, ParameterDefn::HARDWAREVERSION, Wcstombs(headerDataPtr->HardwareRevision()));
+	setStringParam(Connection, ParameterDefn::MACHINEID, Wcstombs(headerDataPtr->MID()));
 	setDoubleParam(Connection, ParameterDefn::TOTALPRESSURE, headerDataPtr->TotalPressure());
 	double lowerRange, upperRange;
 	ThrowException(m_serviceWrapper->GetScanRange(lowerRange, upperRange, m_Connections[Connection]), __FUNCTION__, "GetScanRange");

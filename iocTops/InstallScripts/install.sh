@@ -32,6 +32,6 @@ fi
 #pyepics
 if [ ! -d $INSTALL_PATH/extensions/src/pyepics ]; 
 then
-    ./epics_pyepics_3-2-4_install.sh $INSTALL_PATH
+    ./epics_pyepics_3-2-5_install.sh $INSTALL_PATH
 fi
 

@@ -35,8 +35,8 @@ export PYEPICS_LIBCA=${EPICS_ROOT}/base/lib/${EPICS_HOST_ARCH}/libca.so
 mkdir -p $INSTALL_PATH/extensions/src
 
 # install pyepics
-PYEPICS_DOWNLOAD="pyepics-3.2.4.tar.gz"
-PYEPICS_DIRECTORY="pyepics-3.2.4"
+PYEPICS_DOWNLOAD="pyepics-3.2.5.tar.gz"
+PYEPICS_DIRECTORY="pyepics-3.2.5"
 wget --tries=3 --timeout=10  http://cars9.uchicago.edu/software/python/pyepics3/src/$PYEPICS_DOWNLOAD
 tar xzvf $PYEPICS_DOWNLOAD -C $INSTALL_PATH/extensions/src
 

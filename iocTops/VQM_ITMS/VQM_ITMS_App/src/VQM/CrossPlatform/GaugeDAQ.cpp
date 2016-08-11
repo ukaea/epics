@@ -3,6 +3,10 @@
 #include <asynOctetSyncIO.h>
 #include <epicsGuard.h>
 #include <epicsTime.h>
+#include <epicsAssert.h>
+
+#include <string.h>
+#include <math.h>
 
 #ifdef _DEBUG
 // Infinite timeout, convenient for debugging.
@@ -233,14 +237,14 @@ void GaugeDAQ::GetIDENtifyValues(std::string const& IDENtify)
 	// (DIF (VERSion 1999.0) IDENtify (DATE 2016,07,25 TIME 13,55,09.737 UUT (ID "835A0405"  DESign "0A,03.001.01301"))
 	size_t IDPos = FindMarkerPos(IDENtify, 0, "ID \"");
 	size_t QuotePos = FindMarkerPos(IDENtify, IDPos, "\"");
-	m_HeaderData.m_MID = mbstowcs(IDENtify.substr(IDPos, QuotePos-IDPos-1));
+	m_HeaderData.m_MID = Mbstowcs(IDENtify.substr(IDPos, QuotePos-IDPos-1));
 
 	size_t DESignPos = FindMarkerPos(IDENtify, IDPos, "DESign \"");
 
 	size_t CommaPos = FindMarkerPos(IDENtify, DESignPos, ",");
 	QuotePos = FindMarkerPos(IDENtify, CommaPos, "\"");
-	m_HeaderData.m_HardwareRevision = mbstowcs(IDENtify.substr(DESignPos, CommaPos-DESignPos-1));
-	m_HeaderData.m_FirmwareRevision = mbstowcs(IDENtify.substr(CommaPos, QuotePos-CommaPos-1));
+	m_HeaderData.m_HardwareRevision = Mbstowcs(IDENtify.substr(DESignPos, CommaPos-DESignPos-1));
+	m_HeaderData.m_FirmwareRevision = Mbstowcs(IDENtify.substr(CommaPos, QuotePos-CommaPos-1));
 }
 
 void GaugeDAQ::GetTSETingsValues(std::string const&  TSETingsValues)

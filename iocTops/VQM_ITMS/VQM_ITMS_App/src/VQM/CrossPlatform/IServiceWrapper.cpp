@@ -4,6 +4,7 @@
 
 #include <epicsTypes.h>
 #include <epicsGuard.h>
+#include <epicsAssert.h>
 
 #define epicsExportSharedSymbols
 #include "IServiceWrapper.h"
@@ -168,11 +169,12 @@ SVQM_800_Error IServiceWrapper::GetScanData(int& lastScanNumber, SAnalyzedData& 
 				int Taps = int(0.5 + 3.3 * DAQFreq / Transition);
 				int FirstSample = ThisSegmentBoundary - Taps;
 				NextSegmentBoundary = ThisSegmentBoundary + GaugeDAQ.SegmentSizes[Segment];
-				int LastSample = __min(NextSegmentBoundary, analyzedData.DenoisedRawData().size());
 				Filter Filter(LPF, Taps, DAQFreq, Transition);
-				for(int Sample = FirstSample; Sample < LastSample; Sample++)
+				for(int Sample = FirstSample; Sample < int(NextSegmentBoundary); Sample++)
 				{
-					_ASSERT(Filter.get_error_flag() == 0);
+					if (Sample == int(analyzedData.DenoisedRawData().size()))
+						break;
+					assert(Filter.get_error_flag() == 0);
 					double DenoisedRawData = (Sample >= 0) ? analyzedData.DenoisedRawData()[Sample] : 0;
 					DenoisedRawData = Filter.do_sample( DenoisedRawData );
 					if ((Sample >= 0) && (Sample < int(NextSegmentBoundary)))
@@ -182,7 +184,6 @@ SVQM_800_Error IServiceWrapper::GetScanData(int& lastScanNumber, SAnalyzedData& 
 			}
 
 			analyzedData.PeakArea().assign(size_t(GaugeDAQ.upperRange() - GaugeDAQ.lowerRange()), 0);
-			size_t Segment = 0;
 			size_t RawPt = 0;
 			for(size_t ScaledPt = 0; ScaledPt < analyzedData.PeakArea().size(); ScaledPt++)
 			{
