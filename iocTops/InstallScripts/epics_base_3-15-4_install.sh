@@ -34,7 +34,7 @@ INSTALL_PATH="/usr/local/epics";
 if [ $# -ge 1 ]; then INSTALL_PATH=$1; fi
 echo "Base install path "$INSTALL_PATH
 
-BASE_VERSION="3.15.3";
+BASE_VERSION="3.15.4";
 if [ $# -ge 2 ]; then BASE_VERSION=$2; fi
 echo "Base version "$BASE_VERSION
 
