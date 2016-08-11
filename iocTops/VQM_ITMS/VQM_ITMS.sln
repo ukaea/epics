@@ -91,14 +91,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "support", "support", "{0419E814-81A1-4054-B88C-0AACD53CAAAB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "VQM_ITMS_Sim", "VQM_ITMS_Sim", "{8687A51C-BA97-4FFE-9B0B-55DACE994618}"
-	ProjectSection(SolutionItems) = preProject
-		iocBoot\VQM_ITMS_Sim\dllPath.bat = iocBoot\VQM_ITMS_Sim\dllPath.bat
-		iocBoot\VQM_ITMS_Sim\envPaths = iocBoot\VQM_ITMS_Sim\envPaths
-		iocBoot\VQM_ITMS_Sim\MakeFile = iocBoot\VQM_ITMS_Sim\MakeFile
-		iocBoot\VQM_ITMS_Sim\st1.simulator.cmd = iocBoot\VQM_ITMS_Sim\st1.simulator.cmd
-		iocBoot\VQM_ITMS_Sim\st2.simulator.cmd = iocBoot\VQM_ITMS_Sim\st2.simulator.cmd
-		iocBoot\VQM_ITMS_Sim\st6.simulator.cmd = iocBoot\VQM_ITMS_Sim\st6.simulator.cmd
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{4E2E628F-A8C1-488D-811D-964B40C89879}"
 	ProjectSection(SolutionItems) = preProject
