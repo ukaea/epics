@@ -1,6 +1,4 @@
 include "base.dbd"
-include "menuScan.dbd"
 include "asyn.dbd"
-registrar(drvAsynIPPortRegisterCommands)
 registrar(drvAsynSerialPortRegisterCommands)
 registrar(VQM_ITMSRegistrar)
