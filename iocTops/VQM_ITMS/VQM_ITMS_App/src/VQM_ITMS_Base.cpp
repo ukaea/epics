@@ -122,7 +122,7 @@ void CVQM_ITMS_Base::createParam(size_t list, size_t ParamIndex)
 	const char* ParamName = ParameterDefns[ParamIndex].m_Name;
 	asynStatus Status = asynPortDriver::createParam(int(list), ParamName, ParameterDefns[ParamIndex].m_Type, &index);
 	if (Status != asynSuccess)
-		throw CException(pasynUserSelf, Status, __FUNCTION__, ParamName);
+		throw CException(pasynUserSelf, Status, __FILE__, __FUNCTION__, ParamName);
 	m_Parameters[ParamName] = index;
 	ParamDefaultValue(list, ParamIndex);
 }
@@ -133,7 +133,7 @@ void CVQM_ITMS_Base::createParam(size_t ParamIndex)
 	const char* ParamName = ParameterDefns[ParamIndex].m_Name;
 	asynStatus Status = asynPortDriver::createParam(ParamName, ParameterDefns[ParamIndex].m_Type, &index);
 	if (Status != asynSuccess)
-		throw CException(pasynUserSelf, Status, __FUNCTION__, ParamName);
+		throw CException(pasynUserSelf, Status, __FILE__, __FUNCTION__, ParamName);
 	m_Parameters[ParamName] = index;
 	ParamDefaultValue(ParamIndex);
 }

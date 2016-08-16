@@ -80,7 +80,8 @@ $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
     <LocalDebuggerCommandArguments>..\..\iocBoot\VQM_ITMS\st1.Win.cmd</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <LocalDebuggerWorkingDirectory>$(ProjectDir)\Scripts</LocalDebuggerWorkingDirectory>
-    <LocalDebuggerEnvironment>EPICS_CA_MAX_ARRAY_BYTES=100000</LocalDebuggerEnvironment>
+    <LocalDebuggerEnvironment>EPICS_CA_MAX_ARRAY_BYTES=30000
+COMPORT1=COM3</LocalDebuggerEnvironment>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
     <LocalDebuggerEnvironment>EPICS_CA_MAX_ARRAY_BYTES=100000</LocalDebuggerEnvironment>

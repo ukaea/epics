@@ -2,6 +2,15 @@
 #include "Exception.h"
 
 #include <sstream>
+#include <stdlib.h>
+
+CException::CException(asynUser* AsynUser, asynStatus Status, const char* File, const char* functionName, std::string const& what) :
+	std::runtime_error(what) 
+{
+	std::string message = "%s:%s ERROR: " + what + "%s %d\n";
+	asynPrint(AsynUser, ASYN_TRACE_ERROR, message.c_str(), File, functionName, AsynUser->errorMessage, Status);
+	m_Status = Status;
+}
 
 std::string Wcstombs(std::wstring const& WideCharString)
 {

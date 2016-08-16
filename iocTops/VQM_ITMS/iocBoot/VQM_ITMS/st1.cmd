@@ -1,4 +1,4 @@
-#!../../bin/_TARGETARCH_/VQM_ITMS
+#!../../bin/linux-x86_64-debug/VQM_ITMS_App
 
 ## Register all support components
 dbLoadDatabase ("../../dbd/VQM_ITMS.dbd")
@@ -10,7 +10,7 @@ epicsEnvSet IOPORT VQM
 
 # Configure asyn communication port, first
 VQM_ITMSPortDriverConfigure($(ASYNPORT), 1)
-drvAsynSerialPortConfigure($(IOPORT):1, $(COMPORT1="COM5"), 0, 0, 0)
+drvAsynSerialPortConfigure($(IOPORT):1, $(COMPORT1="/dev/ttyS2"), 0, 0, 0)
 VQM_ITMSAddIOPort($(IOPORT):1)
 
 ## Load record instances

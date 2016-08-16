@@ -14,6 +14,8 @@
 
 #include <stdexcept>
 #include <string>
+#include <stdlib.h>
+#include<string.h>
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 //																								//
@@ -26,11 +28,7 @@ class CException : public std::runtime_error
 {
 	asynStatus m_Status;
 public:
-	CException(asynUser* AsynUser, asynStatus Status, const char* functionName, std::string const& what) : std::runtime_error(what) {
-		std::string message = "%s:%s ERROR: " + what + "%s\n";
-		asynPrint(AsynUser, ASYN_TRACE_ERROR, message.c_str(), __FILE__, functionName, AsynUser->errorMessage);
-		m_Status = Status;
-	}
+	CException(asynUser* AsynUser, asynStatus Status, const char* File, const char* functionName, std::string const& what);
 	asynStatus Status() const {
 		return m_Status;
 	}

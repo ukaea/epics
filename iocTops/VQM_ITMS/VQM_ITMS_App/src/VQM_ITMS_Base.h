@@ -37,19 +37,17 @@ public:
     void createParam(size_t list, size_t ParamIndex);
     void createParam(size_t ParamIndex);
 	void checkParamStatus(size_t list, const char* ParamName) {
-#ifdef _DEBUG
+#ifndef NDEBUG
 		// NB Asyn 4-27 requires the parameter status to be clear before the value can be set.
 		// Let's be sure that is the case, because it is a silent fail otherwise.
 		asynStatus Status = getParamStatus(list, ParamName);
 		if (Status != asynSuccess)
-			throw CException(pasynUserSelf, Status, __FUNCTION__, ParamName);
+			throw CException(pasynUserSelf, Status, __FILE__, __FUNCTION__, ParamName);
 #endif
 	}
     void setIntegerParam(size_t list, const char* ParamName, int value, bool ThrowIt = true) {
 		checkParamStatus(list, ParamName);
-		asynStatus Status = asynPortDriver::setIntegerParam(int(list), Parameters(ParamName), value);
-		if (Status != asynSuccess)
-			throw CException(pasynUserSelf, Status, __FUNCTION__, ParamName);
+		ThrowException(pasynUserSelf, asynPortDriver::setIntegerParam(int(list), Parameters(ParamName), value), __FUNCTION__, ParamName);
 	}
     void setIntegerParam(const char* ParamName, int value) {
 		ThrowException(pasynUserSelf, asynPortDriver::setIntegerParam(Parameters(ParamName), value), __FUNCTION__, ParamName);
@@ -95,20 +93,20 @@ public:
 	int Parameters(std::string const& ParamName) const {
 		std::map<std::string, int>::const_iterator Iter = m_Parameters.find(ParamName);
 		if (Iter == m_Parameters.end())
-			throw CException(pasynUserSelf, asynError, __FUNCTION__, ParamName);
+			throw CException(pasynUserSelf, asynError, __FILE__, __FUNCTION__, ParamName);
 		return Iter->second;
 	}
 	void callParamCallbacks(size_t list, bool ThrowIt = true) {
 		asynStatus Status = asynPortDriver::callParamCallbacks(int(list));
 		if (Status != asynSuccess)
-			throw CException(pasynUserSelf, Status, __FUNCTION__, "callParamCallbacks");
+			throw CException(pasynUserSelf, Status, __FILE__, __FUNCTION__, "callParamCallbacks");
 	}
 protected:
 	void ThrowException(asynUser* pasynUser, asynStatus Status, const char* Function, std::string const& what, bool ThrowIt = true) const {
 		if (Status == asynSuccess)
 			return;
 		if (ThrowIt)
-			throw CException(pasynUser, Status, __FUNCTION__, "callParamCallbacks");
+			throw CException(pasynUser, Status, __FILE__, __FUNCTION__, "callParamCallbacks");
 		else
 			asynPrint(pasynUser, ASYN_TRACE_ERROR, what.c_str(), __FILE__, Function, pasynUser->errorMessage);
 	}
