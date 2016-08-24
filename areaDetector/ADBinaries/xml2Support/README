@@ -1,0 +1,12 @@
+The files in this directory come from:
+
+*.h, header files libxml2 2.9.1 source distribution. These files were located in the $PREFIX/include directory
+after installing the package on windows. 
+
+The library files in os/win32-x86-static were compiled on a windows 7 machine
+
+The library files in os/win32-x86-dynamic were compiled on a windows 7 machine
+
+The library files in windows-x64-static were compiled on a windows 7 machine
+
+The library files in os/windows-x64-dynamic were compiled on a windows 7 machine

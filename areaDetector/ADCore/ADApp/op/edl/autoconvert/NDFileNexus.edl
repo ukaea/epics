@@ -1,0 +1,426 @@
+4 0 0
+beginScreenProperties
+major 4
+minor 0
+release 0
+x 370
+y 303
+w 1070
+h 575
+font "helvetica-medium-r-18.0"
+ctlFont "helvetica-medium-r-8.0"
+btnFont "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 4
+textColor index 14
+ctlFgColor1 index 30
+ctlFgColor2 index 32
+ctlBgColor1 index 34
+ctlBgColor2 index 35
+topShadowColor index 37
+botShadowColor index 44
+snapToGrid
+gridSize 5
+endScreenProperties
+
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 360
+y 5
+w 360
+h 26
+
+beginGroup
+
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 360
+y 5
+w 359
+h 25
+lineColor index 2
+fill
+fillColor index 2
+lineWidth 0
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 432
+y 6
+w 216
+h 25
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+fgColor index 54
+useDisplayBg
+value {
+ "$(P)$(R)"
+}
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 5
+y 40
+w 380
+h 530
+
+beginGroup
+
+# (Embedded Window)
+object activePipClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 5
+y 40
+w 380
+h 530
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+noScroll
+displaySource "file"
+file "	composite file NDPluginBase.edl"
+sizeOfs 5
+numDsps 0
+endObjectProperties
+
+endGroup
+
+visPv ""
+visMin "A"
+visMax "1"
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 390
+y 450
+w 675
+h 110
+
+beginGroup
+
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 589
+y 454
+w 469
+h 99
+lineColor index 20
+fill
+fillColor index 20
+lineWidth 0
+visPv "CALC\\\{(A)\}($(P)$(R)FileTemplateValid)"
+visMin 0
+visMax 1
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 390
+y 450
+w 675
+h 110
+lineColor index 14
+fillColor index 14
+lineWidth 0
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 406
+y 458
+w 635
+h 91
+
+beginGroup
+
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 591
+y 481
+w 450
+h 20
+controlPv "$(P)$(R)TemplateFilePath"
+font "helvetica-medium-r-8.0"
+smartRefresh
+fastUpdate
+fgColor index 14
+bgColor index 51
+editable
+autoHeight
+format "string"
+motifWidget
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 591
+y 458
+w 450
+h 18
+controlPv "$(P)$(R)TemplateFilePath_RBV"
+font "helvetica-medium-r-8.0"
+smartRefresh
+fastUpdate
+fgColor index 54
+bgColor index 4
+autoHeight
+format "string"
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 591
+y 529
+w 450
+h 20
+controlPv "$(P)$(R)TemplateFileName"
+font "helvetica-medium-r-8.0"
+smartRefresh
+fastUpdate
+fgColor index 14
+bgColor index 51
+editable
+autoHeight
+format "string"
+motifWidget
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 591
+y 506
+w 450
+h 18
+controlPv "$(P)$(R)TemplateFileName_RBV"
+font "helvetica-medium-r-8.0"
+smartRefresh
+fastUpdate
+fgColor index 54
+bgColor index 4
+autoHeight
+format "string"
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 406
+y 481
+w 176
+h 20
+font "helvetica-medium-r-8.0"
+fontAlign "right"
+fgColor index 14
+useDisplayBg
+value {
+ "Template file path"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 406
+y 529
+w 176
+h 20
+font "helvetica-medium-r-8.0"
+fontAlign "right"
+fgColor index 14
+useDisplayBg
+value {
+ "Template file name"
+}
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+
+endGroup
+
+endObjectProperties
+
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 390
+y 40
+w 675
+h 405
+
+beginGroup
+
+# (Embedded Window)
+object activePipClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 390
+y 40
+w 675
+h 405
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+noScroll
+displaySource "file"
+file "	composite file NDFileBase.edl"
+sizeOfs 5
+numDsps 0
+endObjectProperties
+
+endGroup
+
+visPv ""
+visMin "A"
+visMax "1"
+endObjectProperties
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 360
+y 5
+w 360
+h 26
+
+beginGroup
+
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 390
+y 450
+w 675
+h 110
+
+beginGroup
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 406
+y 458
+w 635
+h 91
+
+beginGroup
+
+
+endGroup
+
+endObjectProperties
+
+
+endGroup
+
+endObjectProperties
+
+

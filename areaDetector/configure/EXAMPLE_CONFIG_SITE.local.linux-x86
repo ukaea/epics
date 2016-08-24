@@ -1,0 +1,22 @@
+# Define the location of the hdf5, sz, and GraphicsMagick libraries
+HDF5         = /usr/local32
+HDF5_LIB     = $(HDF5)/lib
+HDF5_INCLUDE = -I$(HDF5)/include
+
+SZIP           = /usr/local32
+SZIP_LIB       = $(SZIP)/lib
+SZIP_INCLUDE   = -I$(SZIP)/include
+
+GRAPHICS_MAGICK         = /usr/local32
+GRAPHICS_MAGICK_LIB     = $(GRAPHICS_MAGICK)/lib
+GRAPHICS_MAGICK_INCLUDE = -I$(GRAPHICS_MAGICK)/include/GraphicsMagick
+
+STATIC_BUILD=YES
+
+# Optionally define the location of the boost libraries.  
+# These are only needed for the ADCore/pluginTests unit tests
+# BOOST must be defined if it is to be used
+# BOOST_LIB and BOOST_LIB variables should not be defined if using the boost system library in a default location
+BOOST         = /usr
+#BOOST_LIB     = $(BOOST)/lib
+#BOOST_INCLUDE = -I$(BOOST)/include
