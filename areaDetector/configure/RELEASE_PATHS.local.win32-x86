@@ -1,0 +1,10 @@
+# This file is included after RELEASE_PATHS.local, and can override any of the definitions for a specific
+# EPICS target architecture
+
+SUPPORT       = \EPICS/support
+AREA_DETECTOR = \EPICS/areaDetector
+EPICS_BASE    = \EPICS/base
+
+# If CONFIG_SITE.local defines EPICS_V4=YES then define the path here
+EV4_BASE      = \EPICS/epicsV4
+STATIC_BUILD  = NO
