@@ -13,28 +13,28 @@ TEMPLATE_TOP=$(EPICS_BASE)/templates/makeBaseApp/top
 # GraphicsMagick is required for NDFileMagick and the URL driver.
 USE_GRAPHICSMAGICK=YES
 
-SUPPORT=/corvette/home/epics/devel
+SUPPORT=\EPICS/support
 -include $(TOP)/../configure/SUPPORT.$(EPICS_HOST_ARCH)
 
 # ASYN is needed for base classes 
-ASYN=$(SUPPORT)/asyn-4-21
+ASYN=$(SUPPORT)/asyn
 
 # CALC is needed for scalcout record that SSCAN uses
-CALC=$(SUPPORT)/calc-3-0
+CALC=$(SUPPORT)/calc
 
 # BUSY is needed for busy record
-BUSY=$(SUPPORT)/busy-1-4
+BUSY=$(SUPPORT)/busy
 
 # SSCAN is needed for scanning threshold on Pilatus and general scanning
-SSCAN=$(SUPPORT)/sscan-2-8-1
+SSCAN=$(SUPPORT)/sscan
 
 #AUTOSAVE is needed for save_restore
-AUTOSAVE=$(SUPPORT)/autosave-5-0
+AUTOSAVE=$(SUPPORT)/autosave
 
-AREA_DETECTOR=$(SUPPORT)/areaDetector-1-9-1
+AREA_DETECTOR=$(SUPPORT)/areaDetector
 
 # EPICS_BASE usually appears last so other apps can override stuff:
-EPICS_BASE=/corvette/usr/local/epics/base-3.14.12.3
+EPICS_BASE=\EPICS/base
 -include $(TOP)/../configure/EPICS_BASE.$(EPICS_HOST_ARCH)
 
 #Capfast users may need the following definitions
