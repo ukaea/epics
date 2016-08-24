@@ -1,0 +1,8 @@
+This IOC can run on Linux and Windows  
+
+To run on Windows with st.cmd.win32 run edit Makefile to set ARCH to win32-x86, 
+then run "make clean", "make".  That will create envPaths.  Copy that file to envPaths.win32.
+
+To run on Linux with st.cmd.linux run edit Makefile to set ARCH to linux-x86, 
+then run "make clean", "make".  That will create envPaths.  Copy that file to envPaths.linux.
+

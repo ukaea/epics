@@ -1,0 +1,3 @@
+medm -x -macro "P=13MAR345_1:, R=cam1:" mar345.adl &
+../../bin/linux-x86/mar345App st.cmd
+

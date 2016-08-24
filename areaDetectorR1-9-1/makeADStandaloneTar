@@ -1,0 +1,8 @@
+./makeADStandaloneTar_ARCH win32-x86
+./makeADStandaloneTar_ARCH windows-x64
+./makeADStandaloneTar_ARCH cygwin-x86
+./makeADStandaloneTar_ARCH linux-x86
+./makeADStandaloneTar_ARCH linux-x86-gcc43
+./makeADStandaloneTar_ARCH linux-x86_64
+./makeADStandaloneTar_ARCH linux-x86_64-gcc42
+./makeADStandaloneTar_ARCH darwin-x86

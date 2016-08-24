@@ -1,0 +1,66 @@
+******** SERVER HELP ********
+
+======== BASIC CAMERA CONTOLS =======
+'GetAvailableCameras' => return available camera names
+'GetCurrentCam'       => return current camera name
+'Open;CameraName'     => open the camera with the name 'CameraName'
+    ; ex: 'Open;QuadIS9000'
+'Close'               => close the current camera
+'Snap'                => acquire one frame
+'Start'               => start a live acquisition
+'Stop'                => stop the current live acquisition
+'Abort'               => abort the current camera exposition and stop the live acquisition
+
+======== SAVING IMAGES =======
+'SetAutoSave;i'     => Enable(i=1)/Disable(i=0) the image saving after each acquisition using 'Snap' or 'Start'
+'GetFilePath'       => return the current path used for saving image to disk
+    PATH = 'FileDirectory\FileName_FileNumber.FileFormat'
+    Note: 'FileNumber' is automatically incremented but can be forced using 'SetFileNumber;x'
+'GetFileDir'        => get the current saving FileDirectory
+'GetFileName'       => get the current saving FileName
+'GetFileNumber'     => get the current saving FileNumber
+'GetFileFormat'     => get the current saving FileFormat
+'GetTagTxt'         => get the current saving FileTagTxt
+'SetFileDir;str'    => set the current saving FileDirectory
+'SetFileName;str'   => set the current saving FileName
+'SetFileNumber;str' => set the current saving FileNumber
+'SetFileFormat;str' => set the current saving FileFormat
+'SetTagTxt;str'     => set the current saving FileTagTxt
+    Add some text to the 'DESCRIPTION' TIFF tag of the image file (while saving using 'AutoSave')
+ 
+    Example: 'How to acquire and save my images'
+    >>> 'SetFileDir;C:\TestImages'
+    >>> 'SetFileName;toto'
+    >>> 'SetFileNumber;99'
+    >>> 'SetFileFormat;tiff'
+    >>> 'SetTagTxt; run1 sample334 Cu@(40kV,35uA)'
+    >>> 'SetAutoSave;1'
+    >>> 'Snap'
+    >>> 'Snap'
+    >>>  ...
+    As soon as 'Snap' has returned, you can send a new 'Snap' command
+
+    Note1: Between two 'Snap' you can change the Tiff tag or the saving path
+    Note2: 'FileNumber' is automatically incremented
+
+======== CAMERA SETUP =======
+'SetExpoMS'  => Set exposure in Millisec; ex: 'SetExpoMS;100'
+'GetMode'    => return the current camera mode { L=int8; RGB=3xint8; I16=int16; I=int32, F=float32 }
+'GetSize'    => return the current camera size
+'GetSizeMax' => return the current camera maximum size
+'GetName'    => return the current camera name
+'GetStatus'  => return the current camera acquisition status; False if not acquiring
+'GetOptions' => return all the current camera options
+'Get...'     => return the current value of a camera option
+    ex: 'GetBinning'
+    ex: 'GetExposure'
+    ex: 'GetVideoGain'
+'Set...'     => set a camera option value; use 'GetOptions' to get a list of the camera option names
+    ex: 'SetBinning;(2,2)'
+    ex: 'SetExposure;(100,Second)'
+    ex: 'SetVideoGain;30'
+    Note: for MultiCamera options you can add ';camera_id' to the cmd to drive one specific sub-camera
+    ex: 'SetBinning;(2,2);1'  to set the binning of the sub-camera number 1
+    ex: 'GetBinning;2' to get the current binning value of the sub-camera 2
+
+

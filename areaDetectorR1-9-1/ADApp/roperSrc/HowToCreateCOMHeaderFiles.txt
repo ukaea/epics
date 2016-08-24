@@ -1,0 +1,10 @@
+- Create a new project in Visual Studio, of type "MFC Application".
+
+- Use the menu "Project/Import Class/MFC Class from TypeLib" and then 
+  select the appropriate type library (e.g. Roper Scientific WinX/32 type library), 
+  and then the class you want to use, e.g. ExpSetup2.
+
+- Visual Studio automatically creates a C++ header file, in this case CExpSetup2.h.  
+  This header file creates a new C++ class which is derived from the COleDispatchDriver class.  
+  In this case it provides methods for all functions in the ExpSetup2 interface.
+
