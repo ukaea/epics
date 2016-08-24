@@ -1,0 +1,34 @@
+#RELEASE Location of external products
+# Run "gnumake clean uninstall install" in the application
+# top directory each time this file is changed.
+
+# Note:
+# asyn and synApps are assumed to be installed in a directory tree $(SUPPORT)
+# areaDetector is assumed to be installed in a directory tree $(AREA_DETECTOR)
+# EPICS base is assumed to be installed in a directory tree $(EPICS_BASE)
+# $(SUPPORT), $(AREA_DETECTOR), and $(EPICS_BASE) must be defined in RELEASE_PATHS.local or
+# RELEASE_PATHS.local.$(EPICS_HOST_ARCH).
+
+TEMPLATE_TOP=$(EPICS_BASE)/templates/makeBaseApp/top
+
+# If you don't want to install into $(TOP) then
+# define INSTALL_LOCATION_APP here
+#INSTALL_LOCATION_APP=<fullpathname>
+
+# ASYN is needed for base classes 
+ASYN=$(SUPPORT)/asyn-4-28
+
+# Binaries and include files for Windows
+ADBINARIES=$(AREA_DETECTOR)/ADBinaries
+
+# ADCORE for base classes and plugins
+ADCORE=$(AREA_DETECTOR)/ADCore
+
+PVCOMMON=$(EV4_BASE)/pvCommonCPP
+PVACCESS=$(EV4_BASE)/pvAccessCPP
+PVDATA=$(EV4_BASE)/pvDataCPP
+PVDATABASE=$(EV4_BASE)/pvDatabaseCPP
+NORMATIVETYPES=$(EV4_BASE)/normativeTypesCPP
+
+-include $(AREA_DETECTOR)/configure/RELEASE_LIBS.local.$(EPICS_HOST_ARCH)
+

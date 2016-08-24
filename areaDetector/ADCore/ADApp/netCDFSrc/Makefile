@@ -10,6 +10,13 @@ LIBRARY_IOC = netCDF
 NETCDF = $(TOP)/ADApp/netCDFSrc
 USR_CFLAGS += -DHAVE_CONFIG_H
 
+ifeq (win32-x86, $(findstring win32-x86, $(T_A)))
+  ifeq ($(STATIC_BUILD), NO)
+USR_CFLAGS_WIN32 += -DDLL_NETCDF
+USR_CFLAGS_WIN32 += -DDLL_EXPORT
+   endif
+ endif
+
 SRC_DIRS += $(NETCDF)/inc
 INC += netcdf.h
 
