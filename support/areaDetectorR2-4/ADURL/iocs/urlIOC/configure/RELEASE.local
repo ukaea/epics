@@ -1,0 +1,12 @@
+#RELEASE Location of external products
+# Run "gnumake clean uninstall install" in the application
+# top directory each time this file is changed.
+
+ADURL=$(TOP)/../..
+ADCORE=$(AREA_DETECTOR)/ADCore
+CALC=$(SUPPORT)/calc
+SSCAN=$(SUPPORT)/sscan
+BUSY=$(SUPPORT)/busy
+ASYN=$(SUPPORT)/asyn
+AUTOSAVE=$(SUPPORT)/autosave
+ADBINARIES=$(AREA_DETECTOR)/ADBinaries

@@ -2,7 +2,7 @@
 # EPICS target architecture
 
 SUPPORT       = \EPICS/support
-AREA_DETECTOR = \EPICS/areaDetector
+AREA_DETECTOR = $(SUPPORT)/areaDetector
 EPICS_BASE    = \EPICS/base
 
 # If CONFIG_SITE.local defines EPICS_V4=YES then define the path here
