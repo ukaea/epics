@@ -1,0 +1,3 @@
+[submodule "iocTops/VQM_ITMS/VQM_ITMS_App/src/VQM/VQMCP"]
+	path = iocTops/VQM_ITMS/VQM_ITMS_App/src/VQM/VQMCP
+	url = git@git.ccfe.ac.uk:pheest/VQMCP.git
