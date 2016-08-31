@@ -1,11 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="src\VQM_ITMS_Driver.cpp">
       <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\VQM\CrossPlatform\IServiceWrapper.cpp">
-      <Filter>Src\VQM\CrossPlaform</Filter>
     </ClCompile>
     <ClCompile Include="src\Exception.cpp">
       <Filter>Src</Filter>
@@ -13,11 +10,17 @@
     <ClCompile Include="src\VQM_ITMS_Base.cpp">
       <Filter>Src</Filter>
     </ClCompile>
-    <ClCompile Include="src\VQM\CrossPlatform\FIR-filter-class\filt.cpp">
-      <Filter>Src\VQM\CrossPlaform\FIR-filter-class</Filter>
+    <ClCompile Include="src\VQM\VQMCP\GaugeDAQ.cpp">
+      <Filter>Src\VQM\VQMCP</Filter>
     </ClCompile>
-    <ClCompile Include="src\VQM\CrossPlatform\GaugeDAQ.cpp">
-      <Filter>Src\VQM\CrossPlaform</Filter>
+    <ClCompile Include="src\VQM\VQMCP\IServiceWrapper.cpp">
+      <Filter>Src\VQM\VQMCP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VQM\VQMCP\FIR-filter-class\devel.cpp">
+      <Filter>Src\VQM\VQMCP\FIR-filter-class</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VQM\VQMCP\FIR-filter-class\filt.cpp">
+      <Filter>Src\VQM\VQMCP\FIR-filter-class</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -30,23 +33,26 @@
     <ClInclude Include="src\Exception.h">
       <Filter>Src</Filter>
     </ClInclude>
-    <ClInclude Include="src\VQM\CrossPlatform\IServiceWrapper.h">
-      <Filter>Src\VQM\CrossPlaform</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\VQM\CrossPlatform\IHeaderData.h">
-      <Filter>Src\VQM\CrossPlaform</Filter>
-    </ClInclude>
     <ClInclude Include="src\VQM\Include\SRawConnectionOptions.h">
       <Filter>Src\VQM\Include</Filter>
     </ClInclude>
     <ClInclude Include="src\VQM_ITMS_Base.h">
       <Filter>Src</Filter>
     </ClInclude>
-    <ClInclude Include="src\VQM\CrossPlatform\FIR-filter-class\filt.h">
-      <Filter>Src\VQM\CrossPlaform\FIR-filter-class</Filter>
+    <ClInclude Include="src\VQM\VQMCP\GaugeDAQ.h">
+      <Filter>Src\VQM\VQMCP</Filter>
     </ClInclude>
-    <ClInclude Include="src\VQM\CrossPlatform\GaugeDAQ.h">
-      <Filter>Src\VQM\CrossPlaform</Filter>
+    <ClInclude Include="src\VQM\VQMCP\IHeaderData.h">
+      <Filter>Src\VQM\VQMCP</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VQM\VQMCP\IServiceWrapper.h">
+      <Filter>Src\VQM\VQMCP</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VQM\VQMCP\SVQM_800_Error.h">
+      <Filter>Src\VQM\VQMCP</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VQM\VQMCP\FIR-filter-class\filt.h">
+      <Filter>Src\VQM\VQMCP\FIR-filter-class</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -65,6 +71,15 @@
     <None Include="src\Makefile">
       <Filter>Src</Filter>
     </None>
+    <None Include="src\VQM\VQMCP\Makefile">
+      <Filter>Src\VQM\VQMCP</Filter>
+    </None>
+    <None Include="src\VQM\VQMCP\FIR-filter-class\Makefile">
+      <Filter>Src\VQM\VQMCP\FIR-filter-class</Filter>
+    </None>
+    <None Include="src\VQM\VQMCP\FIR-filter-class\README">
+      <Filter>Src\VQM\VQMCP\FIR-filter-class</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Src">
@@ -76,14 +91,14 @@
     <Filter Include="Src\VQM">
       <UniqueIdentifier>{35a497ed-7dc0-4a0a-8fb5-36aad8a54df7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Src\VQM\CrossPlaform">
-      <UniqueIdentifier>{d5e79079-ce62-442a-aaf9-2e3a42b70487}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Src\VQM\Include">
       <UniqueIdentifier>{00ef670e-1e9e-448f-bcf9-b88c7b3be290}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Src\VQM\CrossPlaform\FIR-filter-class">
-      <UniqueIdentifier>{e3915f60-b074-4955-bf21-53b2461f452e}</UniqueIdentifier>
+    <Filter Include="Src\VQM\VQMCP">
+      <UniqueIdentifier>{d5e79079-ce62-442a-aaf9-2e3a42b70487}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\VQM\VQMCP\FIR-filter-class">
+      <UniqueIdentifier>{7be6ced3-c853-4056-9eb7-d3e79f0fbbb2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
