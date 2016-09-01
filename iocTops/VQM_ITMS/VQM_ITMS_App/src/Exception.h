@@ -1,21 +1,12 @@
 #ifndef EXCEPTION_H_INCLUDED
 #define EXCEPTION_H_INCLUDED
 
-#ifdef epicsExportSharedSymbols
-#define VQM_ExceptionepicsExportSharedSymbols
-#undef epicsExportSharedSymbols
-#endif
-#include <asynPortDriver.h>
-#ifdef VQM_ExceptionepicsExportSharedSymbols
-#undef VQM_ExceptionepicsExportSharedSymbols
-#define epicsExportSharedSymbols
-#include <shareLib.h>
-#endif
-
 #include <stdexcept>
 #include <string>
 #include <stdlib.h>
-#include<string.h>
+#include <string.h>
+
+#include <asynDriver.h>
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 //																								//
@@ -37,9 +28,9 @@ public:
 // NB, a string is limited to 40 charachters in EPICS.
 static const size_t MaxEPICSStrLen = 40;
 
-std::string epicsShareFunc Wcstombs(std::wstring const& WideCharString);
+std::string Wcstombs(std::wstring const& WideCharString);
 
-std::wstring epicsShareFunc Mbstowcs(std::string const& MultiByteString);
+std::wstring Mbstowcs(std::string const& MultiByteString);
 
 std::string ToString(double value);
 void FromString(std::string const& String, size_t& value);

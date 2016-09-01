@@ -54,6 +54,24 @@
     <ClInclude Include="src\VQM\VQMCP\FIR-filter-class\filt.h">
       <Filter>Src\VQM\VQMCP\FIR-filter-class</Filter>
     </ClInclude>
+    <ClInclude Include="src\VQM\Include\IHeaderData.h">
+      <Filter>Src\VQM\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VQM\Include\IServiceWrapper.h">
+      <Filter>Src\VQM\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VQM\Include\SAnalyzedData.h">
+      <Filter>Src\VQM\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VQM\Include\SAverageData.h">
+      <Filter>Src\VQM\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VQM\Include\SComboFileData.h">
+      <Filter>Src\VQM\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VQM\Include\SVQM_800_Error.h">
+      <Filter>Src\VQM\Include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Db\SoftwareVersions.db">
@@ -79,6 +97,9 @@
     </None>
     <None Include="src\VQM\VQMCP\FIR-filter-class\README">
       <Filter>Src\VQM\VQMCP\FIR-filter-class</Filter>
+    </None>
+    <None Include="src\VQM\Include\Makefile">
+      <Filter>Src\VQM\Include</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
