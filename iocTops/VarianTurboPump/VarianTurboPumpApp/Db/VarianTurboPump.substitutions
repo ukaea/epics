@@ -1,31 +1,15 @@
-file Varian-Agilent_Turbopump.template
+file CCFE_VTP.template
 {
 	pattern
 	{ P		PORT	PROTO		EVFAST	EVSLOW	EVSINGLE }
-	{ TMPRU2025-01	L1	Agilent_TT304	33	32	31	}
-	{ TMPRU2025-02	L2	Agilent_TVRP	36	35	34	}
-	{ TMPRU2025-03	L3	Varian_TPS	39	38	37	}
-	{ TMPRU2025-04	L4	Varian_TV551	42	41	40	}
-	{ TMPRU2025-05	L5	Varian_TV550	45	44	43	}
-	{ TMPRU2025-06	L6	Varian_TV301	48	47	46	}
-	{ TMPRU2025-07	L7	Varian_TV81	51	50	49	}
+	{ TMPRU2025-08	L8	Agilent_TT2300	54	53	52	}
 }
 
 file Varian-Agilent_ErrorA.template
 {
 	pattern
 	{ P		}
-	{ TMPRU2025-01	}
-	{ TMPRU2025-03	}
-	{ TMPRU2025-04	}
-	{ TMPRU2025-06	}
-	{ TMPRU2025-07	}
+	{ TMPRU2025-08  }
 }
 
-file Varian-Agilent_ErrorB.template
-{
-	pattern
-	{ P		}
-	{ TMPRU2025-02	}
-	{ TMPRU2025-05	}
-}
+

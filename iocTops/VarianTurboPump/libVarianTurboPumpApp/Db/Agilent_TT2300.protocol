@@ -1,0 +1,617 @@
+#
+# These are protocols specific to the Agilent TwisTorr 2300
+#
+
+getLowSpeed {
+  out "\${STX}\${ADDR}0010\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}001%d\${ETX}%01<xor8>";
+}
+
+setLowSpeed {
+  wait 0;
+#  out "\${STX}\${ADDR}0011%{0|1}\${ETX}%01<xor8>";
+#  in  "\${STX}\${ADDR}\${ACK}\${ETX}%01<xor8>";
+#  @init { getLowSpeed;}
+}
+
+# There are spaces between the data and the ETX, which the protocol parser
+# must be told to ignore.
+getCtrlMode {
+  out "\${STX}\${ADDR}0080\${ETX}%01<xor8>";
+#  in  "\${STX}\${ADDR}0080%d%*9[\x20]\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}0080%d%*[^\${ETX}]\${ETX}%01<xor8>";
+}
+
+setCtrlMode {
+  wait 0;
+#  out "\${STX}\${ADDR}0081%{0|1}\${ETX}%01<xor8>";
+#  in  "\${STX}\${ADDR}\${ACK}\${ETX}%01<xor8>";
+#  @init { getCtrlMode;}
+}
+
+getSoftStart {
+  out "\${STX}\${ADDR}1000\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}100%d\${ETX}%01<xor8>";
+}
+
+setSoftStart {
+  wait 0;
+#  out "\${STX}\${ADDR}1001%{0|1}\${ETX}%01<xor8>";
+#  in  "\${STX}\${ADDR}\${ACK}\${ETX}%01<xor8>";
+#  @init { getSoftStart;}
+}
+
+getSP1Type {
+  out "\${STX}\${ADDR}1010\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}101%d\${ETX}%01<xor8>";
+}
+
+setSP1Type {
+  wait 0;
+#  out "\${STX}\${ADDR}1011%06d\${ETX}%01<xor8>";
+#  in  "\${STX}\${ADDR}\${ACK}\${ETX}%01<xor8>";
+#  @init { getSP1Type;}
+}
+
+getSetPoint {
+  out "\${STX}\${ADDR}1020\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}102%d\${ETX}%01<xor8>";
+}
+
+setSetPoint {
+  wait 0;
+#  out "\${STX}\${ADDR}1021%06d\${ETX}%01<xor8>";
+#  in  "\${STX}\${ADDR}\${ACK}\${ETX}%01<xor8>";
+#  @init { getSetPoint;}
+}
+
+getSP1Delay {
+  out "\${STX}\${ADDR}1030\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}103%d\${ETX}%01<xor8>";
+}
+
+setSP1Delay {
+  wait 0;
+#  out "\${STX}\${ADDR}1031%06d\${ETX}%01<xor8>";
+#  in  "\${STX}\${ADDR}\${ACK}\${ETX}%01<xor8>";
+#  @init { getSP1Delay;}
+}
+
+getSP1Signal {
+  out "\${STX}\${ADDR}1040\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}104%d\${ETX}%01<xor8>";
+}
+
+setSP1Signal {
+  wait 0;
+#  out "\${STX}\${ADDR}1041%{0|1}\${ETX}%01<xor8>";
+#  in  "\${STX}\${ADDR}\${ACK}\${ETX}%01<xor8>";
+#  @init { getSP1Signal;}
+}
+
+getSP1Hyst {
+  out "\${STX}\${ADDR}1050\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}105%d\${ETX}%01<xor8>";
+}
+
+setSP1Hyst {
+  wait 0;
+#  out "\${STX}\${ADDR}1051%06d\${ETX}%01<xor8>";
+#  in  "\${STX}\${ADDR}\${ACK}\${ETX}%01<xor8>";
+#  @init { getSP1Hyst;}
+}
+
+getWaterCooled {
+  out "\${STX}\${ADDR}1060\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}106%d\${ETX}%01<xor8>";
+}
+
+setWaterCooled {
+  wait 0;
+#  out "\${STX}\${ADDR}1061%{0|1}\${ETX}%01<xor8>";
+#  in  "\${STX}\${ADDR}\${ACK}\${ETX}%01<xor8>";
+#  @init { getWaterCooled;}
+}
+
+getActiveStop {
+  out "\${STX}\${ADDR}1070\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}107%d\${ETX}%01<xor8>";
+}
+
+setActiveStop {
+  wait 0;
+#  out "\${STX}\${ADDR}1071%{0|1}\${ETX}%01<xor8>";
+#  in  "\${STX}\${ADDR}\${ACK}\${ETX}%01<xor8>";
+#  @init { getActiveStop;}
+}
+
+setResetCounters {
+  # code 109 not supported
+  wait 0;
+}
+
+getInterlockType {
+  out "\${STX}\${ADDR}1100\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}110%d\${ETX}%01<xor8>";
+}
+
+setInterlockType {
+  wait 0;
+#  out "\${STX}\${ADDR}1101%{0|1}\${ETX}%01<xor8>";
+#  in  "\${STX}\${ADDR}\${ACK}\${ETX}%01<xor8>";
+#  @init { getInterlockType;}
+}
+
+getAnalogOutType {
+  out "\${STX}\${ADDR}1110\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}111%d\${ETX}%01<xor8>";
+}
+
+setAnalogOutType {
+  wait 0;
+#  out "\${STX}\${ADDR}1111%06d\${ETX}%01<xor8>";
+#  in  "\${STX}\${ADDR}\${ACK}\${ETX}%01<xor8>";
+#  @init { getAnalogOutType;}
+}
+
+getLowSpeedFreq {
+  out "\${STX}\${ADDR}1170\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}117%d\${ETX}%01<xor8>";
+}
+
+setLowSpeedFreq {
+  wait 0;
+#  out "\${STX}\${ADDR}1171%06d\${ETX}%01<xor8>";
+#  in  "\${STX}\${ADDR}\${ACK}\${ETX}%01<xor8>";
+#  @init { getLowSpeedFreq;}
+}
+
+getRotFreq {
+  out "\${STX}\${ADDR}1200\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}120%d\${ETX}%01<xor8>";
+}
+
+setRotFreq {
+  wait 0;
+#  out "\${STX}\${ADDR}1201%06d\${ETX}%01<xor8>";
+#  in  "\${STX}\${ADDR}\${ACK}\${ETX}%01<xor8>";
+#  @init { getRotFreq;}
+}
+
+getMaxRotFreq {
+  # code 121 not supported
+  wait 0;
+}
+
+setMaxRotFreq {
+  # code 121 not supported
+  wait 0;
+}
+
+getVentValve {
+  out "\${STX}\${ADDR}1220\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}122%d\${ETX}%01<xor8>";
+}
+
+setVentValve {
+  wait 0;
+#  out "\${STX}\${ADDR}1221%{0|1}\${ETX}%01<xor8>";
+#  in  "\${STX}\${ADDR}\${ACK}\${ETX}%01<xor8>";
+#  @init { getVentValve;}
+}
+
+getVentValveMode {
+  out "\${STX}\${ADDR}1250\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}125%d\${ETX}%01<xor8>";
+}
+
+setVentValveMode {
+  wait 0;
+#  out "\${STX}\${ADDR}1251%{0|1}\${ETX}%01<xor8>";
+# in  "\${STX}\${ADDR}\${ACK}\${ETX}%01<xor8>";
+#  @init { getVentValveMode;}
+}
+
+getVentValveDelay {
+  out "\${STX}\${ADDR}1260\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}126%d\${ETX}%01<xor8>";
+}
+
+setVentValveDelay {
+  wait 0;
+#  out "\${STX}\${ADDR}1261%06d\${ETX}%01<xor8>";
+#  in  "\${STX}\${ADDR}\${ACK}\${ETX}%01<xor8>";
+#  @init { getVentValveDelay;}
+}
+
+getGaugeSPType {
+  # code 136 not supported
+  wait 0;
+}
+
+setGaugeSPType {
+  # code 136 not supported
+  wait 0;
+}
+
+getGaugeSP {
+  # code 137 not supported
+  wait 0;
+}
+
+setGaugeSP {
+  # code 137 not supported
+  wait 0;
+}
+
+getGaugeSPDelay {
+  # code 138 not supported
+  wait 0;
+}
+
+setGaugeSPDelay {
+  # code 138 not supported
+  wait 0;
+}
+
+getGaugeSPSignal {
+  # code 139 not supported
+  wait 0;
+}
+
+setGaugeSPSignal {
+  # code 139 not supported
+  wait 0;
+}
+
+getGaugeSPHyst {
+  # code 140 not supported
+  wait 0;
+}
+
+setGaugeSPHyst {
+  # code 140 not supported
+  wait 0;
+}
+
+getExtFanConfig {
+  out "\${STX}\${ADDR}1430\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}143%d\${ETX}%01<xor8>";
+}
+
+setExtFanConfig {
+  wait 0;
+#  out "\${STX}\${ADDR}1431%06d\${ETX}%01<xor8>";
+#  in  "\${STX}\${ADDR}\${ACK}\${ETX}%01<xor8>";
+#  @init { getExtFanConfig;}
+}
+
+getExtFan {
+  out "\${STX}\${ADDR}1440\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}144%d\${ETX}%01<xor8>";
+}
+
+setExtFan {
+  wait 0;
+#  out "\${STX}\${ADDR}1441%{0|1}\${ETX}%01<xor8>";
+#  in  "\${STX}\${ADDR}\${ACK}\${ETX}%01<xor8>";
+#  @init { getExtFan;}
+}
+
+getVentOpenTime {
+  out "\${STX}\${ADDR}1470\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}147%d\${ETX}%01<xor8>";
+}
+
+setVentOpenTime {
+  wait 0;
+#  out "\${STX}\${ADDR}1471%06d\${ETX}%01<xor8>";
+#  in  "\${STX}\${ADDR}\${ACK}\${ETX}%01<xor8>";
+#  @init { getVentOpenTime;}
+}
+
+getPowerLimit {
+  out "\${STX}\${ADDR}1550\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}155%d\${ETX}%01<xor8>";
+}
+
+getLoadtype {
+  out "\${STX}\${ADDR}1570\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}157%d\${ETX}%01<xor8>";
+}
+
+setLoadtype {
+  wait 0;
+#  out "\${STX}\${ADDR}1571%06d\${ETX}%01<xor8>";
+#  in  "\${STX}\${ADDR}\${ACK}\${ETX}%01<xor8>";
+#  @init { getLoadType;}
+}
+
+getGaugePCorr {
+  # code 161 not supported
+  wait 0;
+}
+
+setGaugePCorr {
+  # code 161 not supported
+  wait 0;
+}
+
+getSP1Press {
+  # code 162 not supported
+  wait 0;
+}
+
+setSP1Press {
+  # code 162 not supported
+  wait 0;
+}
+
+getPressUnits {
+  # code 163 not supported
+  wait 0;
+}
+
+setPressUnits {
+  # code 163 not supported
+  wait 0;
+}
+
+getStopSpeedRead {
+  out "\${STX}\${ADDR}1670\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}167%d\${ETX}%01<xor8>";
+}
+
+setStopSpeedRead {
+  wait 0;
+#  out "\${STX}\${ADDR}1671%{0|1}\${ETX}%01<xor8>";
+#  in  "\${STX}\${ADDR}\${ACK}\${ETX}%01<xor8>";
+#  @init { getStopSpeedRead;}
+}
+
+getSP2Type {
+  # code 171 not supported
+  wait 0;
+}
+
+setSP2Type {
+  # code 171 not supported
+  wait 0;
+}
+
+getSetPoint2 {
+  # code 172 not supported
+  wait 0;
+}
+
+setSetPoint2 {
+  # code 172 not supported
+  wait 0;
+}
+
+getSP2Delay {
+  # code 173 not supported
+  wait 0;
+}
+
+setSP2Delay {
+  # code 173 not supported
+  wait 0;
+}
+
+getSP2Signal {
+  # code 174 not supported
+  wait 0;
+}
+
+setSP2Signal {
+  # code 174 not supported
+  wait 0;
+}
+
+getSP2Hyst {
+  # code 175 not supported
+  wait 0;
+}
+
+setSP2Hyst {
+  # code 175 not supported
+  wait 0;
+}
+
+getSP2Press {
+  # code 176 not supported
+  wait 0;
+}
+
+setSP2Press {
+  # code 176 not supported
+  wait 0;
+}
+
+getStartOutMode {
+  # code 177 not supported
+  wait 0;
+}
+
+setStartOutMode {
+  # code 177 not supported
+  wait 0;
+}
+
+getGasType {
+  # code 181 not supported
+  wait 0;
+}
+
+setGasType {
+  # code 181 not supported
+  wait 0;
+}
+
+getOtherGCorr {
+  # code 182 not supported
+  wait 0;
+}
+
+setOtherGCorr {
+  # code 182 not supported
+  wait 0;
+}
+
+getPower {
+  out "\${STX}\${ADDR}2020\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}202%f\${ETX}%01<xor8>";
+}
+
+getDrivingFreq {
+  out "\${STX}\${ADDR}2030\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}203%f\${ETX}%01<xor8>";
+}
+
+getTemperature {
+  out "\${STX}\${ADDR}2040\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}204%f\${ETX}%01<xor8>";
+}
+
+getStatus {
+  out "\${STX}\${ADDR}2050\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}205%d\${ETX}%01<xor8>";
+}
+
+getSP1State {
+  # code 207 not supported
+  wait 0;
+}
+
+getSP2State {
+  # code 208 not supported
+  wait 0;
+}
+
+getHeatSinkTemp {
+  out "\${STX}\${ADDR}2110\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}211%f\${ETX}%01<xor8>";
+}
+
+getAirTemp {
+  # code 216 not supported
+  wait 0;
+}
+
+getSP1StateA {
+  # code 221 not supported
+  wait 0;
+}
+
+
+getPressure{  
+  # code 224 not supported
+  wait 0;
+}
+
+getSP2StateA {
+  # code 225 not supported
+  wait 0;
+}
+
+getFreq {
+  # neither code 226 nor code 232 supported
+  wait 0;
+#  out "\${STX}\${ADDR}2320\${ETX}%01<xor8>";
+#  in  "\${STX}\${ADDR}2320%f\${ETX}%01<xor8>";
+}
+
+getGaugeStatus {
+  # code 257 not supported
+  wait 0;
+}
+
+getGaugePower {
+  # code 267 not supported
+  wait 0;
+}
+
+setGaugePower {
+  # code 267 not supported
+  wait 0;
+}
+
+getCycleTime {
+  out "\${STX}\${ADDR}3000\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}300%d\${ETX}%01<xor8>";
+}
+
+getCycleNumber {
+  out "\${STX}\${ADDR}3010\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}301%d\${ETX}%01<xor8>";
+}
+
+getLife {
+  out "\${STX}\${ADDR}3020\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}302%d\${ETX}%01<xor8>";
+}
+
+getTipSealLife {
+  # code 358 not supported
+  wait 0;
+}
+
+getCRCEPROM {
+  out "\${STX}\${ADDR}4000\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}4000%[^\${ETX}]\${ETX}%01<xor8>";
+}
+
+getBootCRC {
+  # code 401 not supported
+  wait 0;
+}
+
+getCRCPar {
+  out "\${STX}\${ADDR}4020\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}4020%[^\${ETX}]\${ETX}%01<xor8>";
+}
+
+getCRCParStruct {
+  out "\${STX}\${ADDR}4040\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}4040%[^\${ETX}]\${ETX}%01<xor8>";
+}
+
+getProgListCode {
+  # code 406 not supported
+  wait 0;
+}
+
+getParListCode {
+  # code 407 not supported
+  wait 0;
+}
+
+getFirmwareRev {
+  # code 408 not supported
+  wait 0;
+}
+
+getSerialAddr {
+  out "\${STX}\${ADDR}5030\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}503%d\${ETX}%01<xor8>";
+}
+
+setSerialAddr {
+  wait 0;
+#  out "\${STX}\${ADDR}5031%06d\${ETX}%01<xor8>";
+#  in  "\${STX}\${ADDR}\${ACK}\${ETX}%01<xor8>";
+#  @init { getSerialAddr;}
+}
+
+getSerialType {
+  out "\${STX}\${ADDR}5040\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}504%d\${ETX}%01<xor8>";
+}
+
+setSerialType {
+  wait 0;
+#  out "\${STX}\${ADDR}5041%{0|1}\${ETX}%01<xor8>";
+#  in  "\${STX}\${ADDR}\${ACK}\${ETX}%01<xor8>";
+#  @init { getSerialType;}
+}
