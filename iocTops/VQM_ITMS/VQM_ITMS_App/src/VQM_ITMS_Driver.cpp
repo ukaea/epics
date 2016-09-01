@@ -160,7 +160,8 @@ CVQM_ITMS_Driver::CVQM_ITMS_Driver(const char *asynPortName, int numTraps)
 	m_Instance = this;
 #ifdef BUILD_WITH_SDK
 	m_serviceWrapper = CLIWrapperDLL::CreateServiceHandle();
-	ThrowException(m_serviceWrapper->GetValidConnections(m_nConnections, m_Connections), __FUNCTION__);
+	if (m_serviceWrapper)
+		ThrowException(m_serviceWrapper->GetValidConnections(m_nConnections, m_Connections), __FUNCTION__, false);
 #else
 	m_serviceWrapper = new IServiceWrapper();
 #endif
