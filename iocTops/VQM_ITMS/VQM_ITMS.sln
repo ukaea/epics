@@ -85,9 +85,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "support", "support", "{0419E814-81A1-4054-B88C-0AACD53CAAAB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{4E2E628F-A8C1-488D-811D-964B40C89879}"
-	ProjectSection(SolutionItems) = preProject
-		VQM_ITMS_App\Scripts\camonitor.py = VQM_ITMS_App\Scripts\camonitor.py
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VQM_ITMS_Dev", "VQM_ITMS_App\VQM_ITMS_Dev.vcxproj", "{BAE6CE99-140A-4018-8BCB-9D63F54D6F07}"
 EndProject
