@@ -19,14 +19,13 @@
 #define ParameterDefns_H
 
 #include <asynParamType.h>
-#include <shareLib.h>
 
 enum ParamUseCases
 {
 	Single, Instance
 };
 
-struct epicsShareClass ParameterDefn
+struct ParameterDefn
 {
 	const char*		m_Name;
 	asynParamType	m_Type;

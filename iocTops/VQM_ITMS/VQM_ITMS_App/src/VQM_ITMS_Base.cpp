@@ -16,7 +16,6 @@
 //																									//
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#define epicsExportSharedSymbols
 #include "VQM_ITMS_Base.h"
 
 const char* ParameterDefn::SCANNING = "SCANNING";

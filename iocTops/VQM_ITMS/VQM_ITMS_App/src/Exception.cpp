@@ -1,4 +1,3 @@
-#define epicsExportSharedSymbols
 #include "Exception.h"
 
 #include <sstream>

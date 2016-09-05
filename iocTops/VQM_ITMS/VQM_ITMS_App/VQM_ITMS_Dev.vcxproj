@@ -78,13 +78,20 @@
     <None Include="Db\VQM_ITMS.Asyn4-26.db" />
     <None Include="Db\VQM_ITMS.db" />
     <None Include="src\Makefile" />
+    <None Include="src\VQM\Include\Makefile" />
     <None Include="src\VQM\VQMCP\FIR-filter-class\Makefile" />
     <None Include="src\VQM\VQMCP\FIR-filter-class\README" />
     <None Include="src\VQM\VQMCP\Makefile" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Exception.h" />
+    <ClInclude Include="src\VQM\Include\IHeaderData.h" />
+    <ClInclude Include="src\VQM\Include\IServiceWrapper.h" />
+    <ClInclude Include="src\VQM\Include\SAnalyzedData.h" />
+    <ClInclude Include="src\VQM\Include\SAverageData.h" />
+    <ClInclude Include="src\VQM\Include\SComboFileData.h" />
     <ClInclude Include="src\VQM\Include\SRawConnectionOptions.h" />
+    <ClInclude Include="src\VQM\Include\SVQM_800_Error.h" />
     <ClInclude Include="src\VQM\VQMCP\FIR-filter-class\filt.h" />
     <ClInclude Include="src\VQM\VQMCP\GaugeDAQ.h" />
     <ClInclude Include="src\VQM\VQMCP\IHeaderData.h" />
