@@ -18,7 +18,6 @@ setLowSpeed {
 # must be told to ignore.
 getCtrlMode {
   out "\${STX}\${ADDR}0080\${ETX}%01<xor8>";
-#  in  "\${STX}\${ADDR}0080%d%*9[\x20]\${ETX}%01<xor8>";
   in  "\${STX}\${ADDR}0080%d%*[^\${ETX}]\${ETX}%01<xor8>";
 }
 
@@ -42,8 +41,9 @@ setSoftStart {
 }
 
 getSP1Type {
-  out "\${STX}\${ADDR}1010\${ETX}%01<xor8>";
-  in  "\${STX}\${ADDR}101%d\${ETX}%01<xor8>";
+  wait 0;
+#  out "\${STX}\${ADDR}1010\${ETX}%01<xor8>";
+#  in  "\${STX}\${ADDR}101%d\${ETX}%01<xor8>";
 }
 
 setSP1Type {
@@ -54,8 +54,9 @@ setSP1Type {
 }
 
 getSetPoint {
-  out "\${STX}\${ADDR}1020\${ETX}%01<xor8>";
-  in  "\${STX}\${ADDR}102%d\${ETX}%01<xor8>";
+  wait 0;
+#  out "\${STX}\${ADDR}1020\${ETX}%01<xor8>";
+#  in  "\${STX}\${ADDR}102%d\${ETX}%01<xor8>";
 }
 
 setSetPoint {
@@ -66,8 +67,9 @@ setSetPoint {
 }
 
 getSP1Delay {
-  out "\${STX}\${ADDR}1030\${ETX}%01<xor8>";
-  in  "\${STX}\${ADDR}103%d\${ETX}%01<xor8>";
+  wait 0;
+#  out "\${STX}\${ADDR}1030\${ETX}%01<xor8>";
+#  in  "\${STX}\${ADDR}103%d\${ETX}%01<xor8>";
 }
 
 setSP1Delay {
@@ -78,8 +80,9 @@ setSP1Delay {
 }
 
 getSP1Signal {
-  out "\${STX}\${ADDR}1040\${ETX}%01<xor8>";
-  in  "\${STX}\${ADDR}104%d\${ETX}%01<xor8>";
+  wait 0;
+#  out "\${STX}\${ADDR}1040\${ETX}%01<xor8>";
+#  in  "\${STX}\${ADDR}104%d\${ETX}%01<xor8>";
 }
 
 setSP1Signal {
@@ -90,8 +93,9 @@ setSP1Signal {
 }
 
 getSP1Hyst {
-  out "\${STX}\${ADDR}1050\${ETX}%01<xor8>";
-  in  "\${STX}\${ADDR}105%d\${ETX}%01<xor8>";
+  wait 0;
+#  out "\${STX}\${ADDR}1050\${ETX}%01<xor8>";
+#  in  "\${STX}\${ADDR}105%d\${ETX}%01<xor8>";
 }
 
 setSP1Hyst {
@@ -102,8 +106,9 @@ setSP1Hyst {
 }
 
 getWaterCooled {
-  out "\${STX}\${ADDR}1060\${ETX}%01<xor8>";
-  in  "\${STX}\${ADDR}106%d\${ETX}%01<xor8>";
+  wait 0;
+#  out "\${STX}\${ADDR}1060\${ETX}%01<xor8>";
+#  in  "\${STX}\${ADDR}106%d\${ETX}%01<xor8>";
 }
 
 setWaterCooled {
@@ -131,8 +136,9 @@ setResetCounters {
 }
 
 getInterlockType {
-  out "\${STX}\${ADDR}1100\${ETX}%01<xor8>";
-  in  "\${STX}\${ADDR}110%d\${ETX}%01<xor8>";
+  wait 0;
+#  out "\${STX}\${ADDR}1100\${ETX}%01<xor8>";
+#  in  "\${STX}\${ADDR}110%d\${ETX}%01<xor8>";
 }
 
 setInterlockType {
@@ -143,8 +149,9 @@ setInterlockType {
 }
 
 getAnalogOutType {
-  out "\${STX}\${ADDR}1110\${ETX}%01<xor8>";
-  in  "\${STX}\${ADDR}111%d\${ETX}%01<xor8>";
+  wait 0;
+#  out "\${STX}\${ADDR}1110\${ETX}%01<xor8>";
+#  in  "\${STX}\${ADDR}111%d\${ETX}%01<xor8>";
 }
 
 setAnalogOutType {
@@ -179,18 +186,19 @@ setRotFreq {
 }
 
 getMaxRotFreq {
-  # code 121 not supported
+  # code 121 not used
   wait 0;
 }
 
 setMaxRotFreq {
-  # code 121 not supported
+  # code 121 not used
   wait 0;
 }
 
 getVentValve {
-  out "\${STX}\${ADDR}1220\${ETX}%01<xor8>";
-  in  "\${STX}\${ADDR}122%d\${ETX}%01<xor8>";
+  wait 0;
+#  out "\${STX}\${ADDR}1220\${ETX}%01<xor8>";
+#  in  "\${STX}\${ADDR}122%d\${ETX}%01<xor8>";
 }
 
 setVentValve {
@@ -201,8 +209,9 @@ setVentValve {
 }
 
 getVentValveMode {
-  out "\${STX}\${ADDR}1250\${ETX}%01<xor8>";
-  in  "\${STX}\${ADDR}125%d\${ETX}%01<xor8>";
+  wait 0;
+#  out "\${STX}\${ADDR}1250\${ETX}%01<xor8>";
+#  in  "\${STX}\${ADDR}125%d\${ETX}%01<xor8>";
 }
 
 setVentValveMode {
@@ -213,8 +222,9 @@ setVentValveMode {
 }
 
 getVentValveDelay {
-  out "\${STX}\${ADDR}1260\${ETX}%01<xor8>";
-  in  "\${STX}\${ADDR}126%d\${ETX}%01<xor8>";
+  wait 0;
+#  out "\${STX}\${ADDR}1260\${ETX}%01<xor8>";
+#  in  "\${STX}\${ADDR}126%d\${ETX}%01<xor8>";
 }
 
 setVentValveDelay {
@@ -275,8 +285,9 @@ setGaugeSPHyst {
 }
 
 getExtFanConfig {
-  out "\${STX}\${ADDR}1430\${ETX}%01<xor8>";
-  in  "\${STX}\${ADDR}143%d\${ETX}%01<xor8>";
+  wait 0;
+#  out "\${STX}\${ADDR}1430\${ETX}%01<xor8>";
+#  in  "\${STX}\${ADDR}143%d\${ETX}%01<xor8>";
 }
 
 setExtFanConfig {
@@ -287,8 +298,9 @@ setExtFanConfig {
 }
 
 getExtFan {
-  out "\${STX}\${ADDR}1440\${ETX}%01<xor8>";
-  in  "\${STX}\${ADDR}144%d\${ETX}%01<xor8>";
+  wait 0;
+#  out "\${STX}\${ADDR}1440\${ETX}%01<xor8>";
+#  in  "\${STX}\${ADDR}144%d\${ETX}%01<xor8>";
 }
 
 setExtFan {
@@ -299,8 +311,9 @@ setExtFan {
 }
 
 getVentOpenTime {
-  out "\${STX}\${ADDR}1470\${ETX}%01<xor8>";
-  in  "\${STX}\${ADDR}147%d\${ETX}%01<xor8>";
+  wait 0;
+#  out "\${STX}\${ADDR}1470\${ETX}%01<xor8>";
+#  in  "\${STX}\${ADDR}147%d\${ETX}%01<xor8>";
 }
 
 setVentOpenTime {
@@ -311,13 +324,15 @@ setVentOpenTime {
 }
 
 getPowerLimit {
-  out "\${STX}\${ADDR}1550\${ETX}%01<xor8>";
-  in  "\${STX}\${ADDR}155%d\${ETX}%01<xor8>";
+  wait 0;
+#  out "\${STX}\${ADDR}1550\${ETX}%01<xor8>";
+#  in  "\${STX}\${ADDR}155%d\${ETX}%01<xor8>";
 }
 
 getLoadtype {
-  out "\${STX}\${ADDR}1570\${ETX}%01<xor8>";
-  in  "\${STX}\${ADDR}157%d\${ETX}%01<xor8>";
+  wait 0;
+#  out "\${STX}\${ADDR}1570\${ETX}%01<xor8>";
+#  in  "\${STX}\${ADDR}157%d\${ETX}%01<xor8>";
 }
 
 setLoadtype {
@@ -593,8 +608,9 @@ getFirmwareRev {
 }
 
 getSerialAddr {
-  out "\${STX}\${ADDR}5030\${ETX}%01<xor8>";
-  in  "\${STX}\${ADDR}503%d\${ETX}%01<xor8>";
+  wait 0;
+#  out "\${STX}\${ADDR}5030\${ETX}%01<xor8>";
+#  in  "\${STX}\${ADDR}503%d\${ETX}%01<xor8>";
 }
 
 setSerialAddr {

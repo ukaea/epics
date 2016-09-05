@@ -1,4 +1,4 @@
-# 
+#
 # Records for Agilent TwisTorr 2300 Pump Controller
 #
 # Macro Definitions:
@@ -126,178 +126,6 @@ record(bi, "$(P):SoftStart:rbk") {
 #   field(LNK2, "$(P):SoftStart:rbk.PROC")
 #}
 
-record(mbbi, "$(P):SetPoint:Type:rbk") {
-   field(DESC, "Relay 2 Speed set point type")
-   field(DTYP, "stream")
-   field(INP,  "@$(PROTO).proto getSP1Type $(PORT)")
-   field(ZRST, "Frequency") field(ZRVL, "0") 
-   field(ONST, "Power")     field (ONVL, "1")
-   field(TWST, "Time")      field (TWVL, "2")
-   field(THST, "Normal")    field (THVL, "3")
-   field(FRST, "Pressure")  field (FRVL, "4")
-   #field(SCAN, "Event")
-   #field(EVNT, "$(EVSINGLE)")
-}
-
-#record(mbbo, "$(P):SetPoint:Type") {
-#   field(DESC, "Relay 1 Speed set point type")
-#   field(DTYP, "stream")
-#   field(OUT,  "@$(PROTO).proto setSP1Type $(PORT)")
-#   field(ZRST, "Frequency") 
-#   field(ONST, "Power")
-#   field(TWST, "Time")
-#   field(THST, "Normal")
-#   field(FRST, "Pressure")
-#   field(FLNK, "$(P):SetPoint:Type:upd")
-#}
-
-#record(seq, "$(P):SetPoint:Type:upd") {
-#   field(DESC, "Update RBK after setting")
-#   field(DOL1, "1")
-#   field(DLY1, "0.5")
-#   field(LNK1, "$(P):SetPoint:Type:rbk.PROC")
-#   field(DOL2, "1")
-#   field(DLY2, "2.0")
-#   field(LNK2, "$(P):SetPoint:Type:rbk.PROC")
-#}
-
-record(ai, "$(P):SetPoint:rbk") {
-   field(DESC, "Relay 1 Speed set point")
-   field(DTYP, "stream")
-   field(INP,  "@$(PROTO).proto getSetPoint $(PORT)")
-   #field(SCAN, "Event")
-   #field(EVNT, "$(EVSINGLE)")
-}
-
-#record(ao, "$(P):SetPoint") {
-#   field(DESC, "Relay 1 Speed set point")
-#   field(DTYP, "stream")
-#   field(OUT,  "@$(PROTO).proto setSetPoint $(PORT)")
-#   field(FLNK, "$(P):SetPoint:upd")
-#}
-
-#record(seq, "$(P):SetPoint:upd") {
-#   field(DESC, "Update RBK after setting")
-#   field(DOL1, "1")
-#   field(DLY1, "0.5")
-#   field(LNK1, "$(P):SetPoint:rbk.PROC")
-#   field(DOL2, "1")
-#   field(DLY2, "2.0")
-#   field(LNK2, "$(P):SetPoint:rbk.PROC")
-#}
-
-record(ai, "$(P):SetPoint:Delay:rbk") {
-   field(DESC, "Relay 1 Speed delay")
-   field(DTYP, "stream")
-   field(INP,  "@$(PROTO).proto getSP1Delay $(PORT)")
-   field(EGU, "s")
-   #field(SCAN, "Event")
-   #field(EVNT, "$(EVSINGLE)")
-}
-
-#record(ao, "$(P):SetPoint:Delay") {
-#   field(DESC, "Relay 1 Speed delay")
-#   field(DTYP, "stream")
-#   field(EGU, "s")
-#   field(OUT,  "@$(PROTO).proto setSP1Delay $(PORT)")
-#   field(FLNK, "$(P):SetPoint:Delay:upd")
-#}
-
-#record(seq, "$(P):SetPoint:Delay:upd") {
-#   field(DESC, "Update RBK after setting")
-#   field(DOL1, "1")
-#   field(DLY1, "0.5")
-#   field(LNK1, "$(P):SetPoint:Delay:rbk.PROC")
-#   field(DOL2, "1")
-#   field(DLY2, "2.0")
-#   field(LNK2, "$(P):SetPoint:Delay:rbk.PROC")
-#}
-
-record(bi, "$(P):SetPoint:Signal:rbk") {
-   field(DESC, "Relay 1 Speed Signal Type")
-   field(DTYP, "stream")
-   field(INP,  "@$(PROTO).proto getSP1Signal $(PORT)")
-   field(ZNAM, "High")
-   field(ONAM, "Low")
-   #field(SCAN, "Event")
-   #field(EVNT, "$(EVSINGLE)")
-}
-
-#record(bo, "$(P):SetPoint:Signal") {
-#   field(DESC, "Relay 1 Speed Signal Type")
-#   field(DTYP, "stream")
-#   field(OUT,  "@$(PROTO).proto setSP1Signal $(PORT)")
-#   field(ZNAM, "High")
-#   field(ONAM, "Low")
-#   field(FLNK, "$(P):SetPoint:Signal:upd")
-#}
-
-#record(seq, "$(P):SetPoint:Signal:upd") {
-#   field(DESC, "Update RBK after setting")
-#   field(DOL1, "1")
-#   field(DLY1, "0.5")
-#   field(LNK1, "$(P):SetPoint:Signal:rbk.PROC")
-#   field(DOL2, "1")
-#   field(DLY2, "2.0")
-#   field(LNK2, "$(P):SetPoint:Signal:rbk.PROC")
-#}
-
-record(ai, "$(P):SetPoint:Hyst:rbk") {
-   field(DESC, "Relay 1 Speed Hysteresis")
-   field(DTYP, "stream")
-   field(INP,  "@$(PROTO).proto getSP1Hyst $(PORT)")
-   field(EGU, "%")
-   #field(SCAN, "Event")
-   #field(EVNT, "$(EVSINGLE)")
-}
-
-#record(ao, "$(P):SetPoint:Hyst") {
-#   field(DESC, "Relay 1 Speed Hysteresis")
-#   field(DTYP, "stream")
-#   field(EGU, "%")
-#   field(OUT,  "@$(PROTO).proto setSP1Hyst $(PORT)")
-#   field(FLNK, "$(P):SetPoint:Hyst:upd")
-#}
-
-#record(seq, "$(P):SetPoint:Hyst:upd") {
-#   field(DESC, "Update RBK after setting")
-#   field(DOL1, "1")
-#   field(DLY1, "0.5")
-#   field(LNK1, "$(P):SetPoint:Hyst:rbk.PROC")
-#   field(DOL2, "1")
-#   field(DLY2, "2.0")
-#   field(LNK2, "$(P):SetPoint:Hyst:rbk.PROC")
-#}
-
-record(bi, "$(P):WaterCooled:rbk") {
-   field(DESC, "Water Cooled Operation")
-   field(DTYP, "stream")
-   field(INP,  "@$(PROTO).proto getWaterCooled $(PORT)")
-   field(ZNAM, "No")
-   field(ONAM, "Yes")
-   #field(SCAN, "Event")
-   #field(EVNT, "$(EVSINGLE)")
-}
-
-#record(bo, "$(P):WaterCooled") {
-#   field(DESC, "Water Cooled Operation")
-#   field(DTYP, "stream")
-#   field(OUT,  "@$(PROTO).proto setWaterCooled $(PORT)")
-#   field(ZNAM, "No")
-#   field(ONAM, "Yes")
-#   field(FLNK, "$(P):WaterCooled:upd")
-#}
-
-#record(seq, "$(P):WaterCooled:upd") {
-#   field(DESC, "Update RBK after setting")
-#   field(DOL1, "1")
-#   field(DLY1, "0.5")
-#   field(LNK1, "$(P):WaterCooled:rbk.PROC")
-#   field(DOL2, "1")
-#   field(DLY2, "2.0")
-#   field(LNK2, "$(P):WaterCooled:rbk.PROC")
-#}
-
 record(bi, "$(P):ActiveStop:rbk") {
    field(DESC, "Active Breaking")
    field(DTYP, "stream")
@@ -360,68 +188,6 @@ record(mbbi, "$(P):BaudRate:rbk") {
 #   field(DOL2, "1")
 #   field(DLY2, "2.0")
 #   field(LNK2, "$(P):BaudRate:rbk.PROC")
-#}
-
-record(mbbi, "$(P):InterlockType:rbk") {
-   field(DESC, "Interlock type for Interlocked Op.")
-   field(DTYP, "stream")
-   field(INP,  "@$(PROTO).proto getInterlockType $(PORT)")
-   field(ZRST, "Impulse")
-   field(ONST, "Continuous")
-   #field(SCAN, "Event")
-   #field(EVNT, "$(EVSINGLE)")
-}
-
-#record(mbbo, "$(P):InterlockType") {
-#   field(DESC, "Interlock type for Interlocked Op.")
-#   field(DTYP, "stream")
-#   field(OUT,  "@$(PROTO).proto setInterlockType $(PORT)")
-#   field(ZRST, "Impulse")
-#   field(ONST, "Continuous")
-#   field(FLNK, "$(P):InterlockType:upd")
-#}
-
-#record(seq, "$(P):InterlockType:upd") {
-#   field(DESC, "Update RBK after setting")
-#   field(DOL1, "1")
-#   field(DLY1, "0.5")
-#   field(LNK1, "$(P):InterlockType:rbk.PROC")
-#   field(DOL2, "1")
-#   field(DLY2, "2.0")
-#   field(LNK2, "$(P):InterlockType:rbk.PROC")
-#}
-
-record(mbbi, "$(P):AnalogOutType:rbk") {
-   field(DESC, "Variable for Analog Output")
-   field(DTYP, "stream")
-   field(INP,  "@$(PROTO).proto getAnalogOutType $(PORT)")
-   field(ZRST, "Frequency") field(ZRVL, "0") 
-   field(ONST, "Power")     field (ONVL, "1")
-   field(TWST, "Temperature")      field (TWVL, "2")
-   field(THST, "Pressure")      field (THVL, "3")
-   #field(SCAN, "Event")
-   #field(EVNT, "$(EVSINGLE)")
-}
-
-#record(mbbo, "$(P):AnalogOutType") {
-#   field(DESC, "Variable for Analog Output")
-#   field(DTYP, "stream")
-#   field(OUT,  "@$(PROTO).proto setAnalogOutType $(PORT)")
-#   field(ZRST, "Frequency") 
-#   field(ONST, "Power")
-#   field(TWST, "Temperature")
-#   field(THST, "Pressure")
-#   field(FLNK, "$(P):AnalogOutType:upd")
-#}
-
-#record(seq, "$(P):AnalogOutType:upd") {
-#   field(DESC, "Update RBK after setting")
-#   field(DOL1, "1")
-#   field(DLY1, "0.5")
-#   field(LNK1, "$(P):AnalogOutType:rbk.PROC")
-#   field(DOL2, "1")
-#   field(DLY2, "2.0")
-#   field(LNK2, "$(P):AnalogOutType:rbk.PROC")
 #}
 
 record(ai, "$(P):Freq:LowSpeed:rbk") {
@@ -497,230 +263,6 @@ record(ai, "$(P):Freq:Driving") {
    field(SCAN, "Event")
    field(EVNT, "$(EVFAST)")
 }
-
-#record(seq, "$(P):Freq:Driving:upd") {
-#   field(DESC, "Update RBK after setting")
-#   field(DOL1, "1")
-#   field(DLY1, "0.5")
-#   field(LNK1, "$(P):Freq:Driving:rbk.PROC")
-#   field(DOL2, "1")
-#   field(DLY2, "2.0")
-#   field(LNK2, "$(P):Freq:Driving:rbk.PROC")
-#}
-
-record(bi, "$(P):VentValve:rbk") {
-   field(DESC, "Open/Close Vent Valve")
-   field(DTYP, "stream")
-   field(INP,  "@$(PROTO).proto getVentValve $(PORT)")
-   field(ZNAM, "Closed")
-   field(ONAM, "Open")
-   #field(SCAN, "Event")
-   #field(EVNT, "$(EVSINGLE)")
-   field(ZSV, "NO_ALARM")
-   field(OSV, "MAJOR")
-}
-
-#record(bo, "$(P):VentValve") {
-#   field(DESC, "Open/Close Vent Valve")
-#   field(DTYP, "stream")
-#   field(OUT,  "@$(PROTO).proto setVentValve $(PORT)")
-#   field(ZNAM, "Closed")
-#   field(ONAM, "Open")
-#   field(ZSV, "NO_ALARM")
-#   field(OSV, "MAJOR")
-#   field(FLNK, "$(P):VentValve:upd")
-#}
-
-#record(seq, "$(P):VentValve:upd") {
-#   field(DESC, "Update RBK after setting")
-#   field(DOL1, "1")
-#   field(DLY1, "0.5")
-#   field(LNK1, "$(P):VentValve:rbk.PROC")
-#   field(DOL2, "1")
-#   field(DLY2, "2.0")
-#   field(LNK2, "$(P):VentValve:rbk.PROC")
-#}
-
-record(bi, "$(P):VentValve:Mode:rbk") {
-   field(DESC, "Vent Valve Operating Mode")
-   field(DTYP, "stream")
-   field(INP,  "@$(PROTO).proto getVentValveMode $(PORT)")
-   field(ZNAM, "Automatic")
-   field(ONAM, "Command")
-   #field(SCAN, "Event")
-   #field(EVNT, "$(EVSINGLE)")
-}
-
-#record(bo, "$(P):VentValve:Mode") {
-#   field(DESC, "Vent Valve Operating Mode")
-#   field(DTYP, "stream")
-#   field(OUT,  "@$(PROTO).proto setVentValveMode $(PORT)")
-#   field(ZNAM, "Automatic")
-#   field(ONAM, "Command")
-#   field(FLNK, "$(P):VentValve:Mode:upd")
-#}
-
-#record(seq, "$(P):VentValve:Mode:upd") {
-#   field(DESC, "Update RBK after setting")
-#   field(DOL1, "1")
-#   field(DLY1, "0.5")
-#   field(LNK1, "$(P):VentValve:Mode:rbk.PROC")
-#   field(DOL2, "1")
-#   field(DLY2, "2.0")
-#   field(LNK2, "$(P):VentValve:Mode:rbk.PROC")
-#}
-
-record(ai, "$(P):VentValve:Delay:rbk") {
-   field(DESC, "Vent Valve Opening Delay")
-   field(DTYP, "stream")
-   field(INP,  "@$(PROTO).proto getVentValveDelay $(PORT)")
-   field(EGU, "x0.2 s")
-   #field(SCAN, "Event")
-   #field(EVNT, "$(EVSINGLE)")
-}
-
-#record(ao, "$(P):VentValve:Delay") {
-#   field(DESC, "Vent Valve Opening Delay")
-#   field(DTYP, "stream")
-#   field(OUT,  "@$(PROTO).proto setVentValveDelay $(PORT)")
-#   field(EGU, "x0.2 s")
-#   field(FLNK, "$(P):VentValve:Delay:upd")
-#}
-
-#record(seq, "$(P):VentValve:Delay:upd") {
-#   field(DESC, "Update RBK after setting")
-#   field(DOL1, "1")
-#   field(DLY1, "0.5")
-#   field(LNK1, "$(P):VentValve:Delay:rbk.PROC")
-#   field(DOL2, "1")
-#   field(DLY2, "2.0")
-#   field(LNK2, "$(P):VentValve:Delay:rbk.PROC")
-#}
-
-record(ai, "$(P):VentValve:Time:rbk") {
-   field(DESC, "Vent Valve Open Time")
-   field(DTYP, "stream")
-   field(INP,  "@$(PROTO).proto getVentOpenTime $(PORT)")
-   field(EGU, "x0.2 s")
-   #field(SCAN, "Event")
-   #field(EVNT, "$(EVSINGLE)")
-}
-
-#record(ao, "$(P):VentValve:Time") {
-#   field(DESC, "Vent Valve Open Time")
-#   field(DTYP, "stream")
-#   field(OUT,  "@$(PROTO).proto setVentOpenTime $(PORT)")
-#   field(EGU, "x0.2 s")
-#   field(FLNK, "$(P):VentValve:Time:upd")
-#}
-
-#record(seq, "$(P):VentValve:Time:upd") {
-#   field(DESC, "Update RBK after setting")
-#   field(DOL1, "1")
-#   field(DLY1, "0.5")
-#   field(LNK1, "$(P):VentValve:Time:rbk.PROC")
-#   field(DOL2, "1")
-#   field(DLY2, "2.0")
-#   field(LNK2, "$(P):VentValve:Time:rbk.PROC")
-#}
-
-record(mbbi, "$(P):ExtFan:Config:rbk") {
-   field(DESC, "External Fan Configuration")
-   field(DTYP, "stream")
-   field(INP,  "@$(PROTO).proto getExtFanConfig $(PORT)")
-   field(ZRST, "On")		field(ZRVL, "0") 
-   field(ONST, "Auto")		field(ONVL, "1")
-   field(TWST, "Serial")	field(TWVL, "2")
-   #field(SCAN, "Event")
-   #field(EVNT, "$(EVSINGLE)")
-}
-
-#record(mbbo, "$(P):ExtFan:Config") {
-#   field(DESC, "External Fan Configuration")
-#   field(DTYP, "stream")
-#   field(OUT,  "@$(PROTO).proto setExtFanConfig $(PORT)")
-#   field(ZRST, "On")
-#   field(ONST, "Auto")
-#   field(TWST, "Serial")
-#   field(FLNK, "$(P):ExtFan:Config:upd")
-#}
-
-#record(seq, "$(P):ExtFan:Config:upd") {
-#   field(DESC, "Update RBK after setting")
-#   field(DOL1, "1")
-#   field(DLY1, "0.5")
-#   field(LNK1, "$(P):ExtFan:Config:rbk.PROC")
-#   field(DOL2, "1")
-#   field(DLY2, "2.0")
-#   field(LNK2, "$(P):ExtFan:Config:rbk.PROC")
-#}
-
-record(bi, "$(P):ExtFan:rbk") {
-   field(DESC, "External Fan On/Off")
-   field(DTYP, "stream")
-   field(INP,  "@$(PROTO).proto getExtFan $(PORT)")
-   field(ZNAM, "Off")
-   field(ONAM, "On")
-   #field(SCAN, "Event")
-   #field(EVNT, "$(EVSINGLE)")
-}
-
-#record(bo, "$(P):ExtFan") {
-#   field(DESC, "External Fan On/Off")
-#   field(DTYP, "stream")
-#   field(OUT,  "@$(PROTO).proto setExtFan $(PORT)")
-#   field(ZNAM, "Off")
-#   field(ONAM, "On")
-#   field(FLNK, "$(P):ExtFan:upd")
-#}
-
-#record(seq, "$(P):ExtFan:upd") {
-#   field(DESC, "Update RBK after setting")
-#   field(DOL1, "1")
-#   field(DLY1, "0.5")
-#   field(LNK1, "$(P):ExtFan:rbk.PROC")
-#   field(DOL2, "1")
-#   field(DLY2, "2.0")
-#   field(LNK2, "$(P):ExtFan:rbk.PROC")
-#}
-
-record(ai, "$(P):Power:Limit") {
-   field(DESC, "Max. Allowable Power")
-   field(DTYP, "stream")
-   field(EGU, "W")
-   field(INP,  "@$(PROTO).proto getPowerLimit $(PORT)")
-   #field(SCAN, "Event")
-   #field(EVNT, "$(EVSINGLE)")
-}
-
-record(mbbi, "$(P):Gas:LoadType:rbk") {
-   field(DESC, "Gas Load Type for Power Limit")
-   field(DTYP, "stream")
-   field(INP,  "@$(PROTO).proto getLoadType $(PORT)")
-   field(ZRST, "N2")		field(ZRVL, "0") 
-   field(ONST, "Ar")		field(ONVL, "1")
-   #field(SCAN, "Event")
-   #field(EVNT, "$(EVSINGLE)")
-}
-
-#record(mbbo, "$(P):Gas:LoadType") {
-#   field(DESC, "Gas Load Type for Power Limit")
-#   field(DTYP, "stream")
-#   field(OUT,  "@$(PROTO).proto setLoadType $(PORT)")
-#   field(ZRST, "N2")
-#   field(ONST, "Ar")
-#   field(FLNK, "$(P):Gas:LoadType:upd")
-#}
-
-#record(seq, "$(P):Gas:LoadType:upd") {
-#   field(DESC, "Update RBK after setting")
-#   field(DOL1, "1")
-#   field(DLY1, "0.5")
-#   field(LNK1, "$(P):Gas:LoadType:rbk.PROC")
-#   field(DOL2, "1")
-#   field(DLY2, "2.0")
-#   field(LNK2, "$(P):Gas:LoadType:rbk.PROC")
-#}
 
 record(bi, "$(P):StopSpeedRead:rbk") {
    field(DESC, "Enable Speed Readings after Stop")
@@ -868,31 +410,6 @@ record(stringin, "$(P):CRC:Param:Struct") {
    #field(EVNT, "$(EVSINGLE)")
 }
 
-record(longin, "$(P):Serial:Address:rbk") {
-   field(DESC, "Serial Comm. Address")
-   field(DTYP, "stream")
-   field(INP,  "@$(PROTO).proto getSerialAddr $(PORT)")
-   #field(SCAN, "Event")
-   #field(EVNT, "$(EVSINGLE)")
-}
-
-#record(longout, "$(P):Serial:Address") {
-#   field(DESC, "Serial Comm. Address")
-#   field(DTYP, "stream")
-#   field(OUT,  "@$(PROTO).proto setSerialAddr $(PORT)")
-#   field(FLNK, "$(P):Serial:Address:upd")
-#}
-
-#record(seq, "$(P):Serial:Address:upd") {
-#   field(DESC, "Update RBK after setting")
-#   field(DOL1, "1")
-#   field(DLY1, "0.5")
-#   field(LNK1, "$(P):Serial:Address:rbk.PROC")
-#   field(DOL2, "1")
-#   field(DLY2, "2.0")
-#   field(LNK2, "$(P):Serial:Address:rbk.PROC")
-#}
-
 record(mbbi, "$(P):Serial:Type:rbk") {
    field(DESC, "Serial Comm. Type")
    field(DTYP, "stream")
@@ -993,6 +510,7 @@ record(longout, "$(P):Update:slow:prev") {
 
 # Now the series of single-shot sequences.
 # ":Update:0" sets it up, ":Update:L" cleans up
+# Record processed in order of ascending Window Code.
 record(seq, "$(P):Update:0") {
    field(PINI, "1")
    field(DOL1, "$(P):Update:fast.SCAN")
@@ -1006,109 +524,31 @@ record(seq, "$(P):Update:0") {
    field(LNKA, "$(P):Update:1.PROC PP")
 }
 record(seq, "$(P):Update:1") {
-   field(LNK3, "$(P):Ctrl:Mode:rbk.PROC")
-   field(LNK4, "$(P):SoftStart:rbk.PROC")
-   field(LNK5, "$(P):SetPoint:Type:rbk.PROC")
-   field(LNK6, "$(P):SetPoint:rbk.PROC")
-   field(LNK8, "$(P):SetPoint:Delay:rbk.PROC")
+   field(LNK1, "$(P):Ctrl:Mode:rbk.PROC")
+   field(LNK2, "$(P):SoftStart:rbk.PROC")
+   field(LNK3, "$(P):ActiveStop:rbk.PROC")
+   field(LNK4, "$(P):BaudRate:rbk.PROC")
+   field(LNK5, "$(P):Freq:LowSpeed:rbk.PROC")
+   field(LNK6, "$(P):Freq:rbk.PROC")
+   field(LNK7, "$(P):StopSpeedRead:rbk.PROC")
+   field(LNK8, "$(P):CRC:EPROM.PROC")
+   field(LNK9, "$(P):CRC:Param.PROC")
    field(LNKA, "$(P):Update:2.PROC")
-   #field(DLY2, "0.1")
-   #field(DLY3, "0.1")
+   field(DLY2, "0.1")
+   field(DLY3, "0.1")
    field(DLY4, "0.1")
    field(DLY5, "0.1")
    field(DLY6, "0.1")
    field(DLY7, "0.1")
    field(DLY8, "0.1")
+   field(DLY9, "0.1")
    field(DLYA, "0.1")
 }
 record(seq, "$(P):Update:2") {
-   field(LNK1, "$(P):SetPoint:Signal:rbk.PROC")
-   field(LNK2, "$(P):SetPoint:Hyst:rbk.PROC")
-   field(LNK3, "$(P):WaterCooled:rbk.PROC")
-   field(LNK4, "$(P):ActiveStop:rbk.PROC")
-   field(LNK5, "$(P):BaudRate:rbk.PROC")
-   field(LNK6, "$(P):InterlockType:rbk.PROC")
-   field(LNK7, "$(P):AnalogOutType:rbk.PROC")
-   field(LNK8, "$(P):Freq:LowSpeed:rbk.PROC")
-   field(LNKA, "$(P):Update:3.PROC")
-   field(DLY2, "0.1")
-   field(DLY3, "0.1")
-   field(DLY4, "0.1")
-   field(DLY5, "0.1")
-   field(DLY6, "0.1")
-   field(DLY7, "0.1")
-   field(DLY8, "0.1")
-   field(DLYA, "0.1")
-}
-record(seq, "$(P):Update:3") {
-   field(LNK1, "$(P):Freq:rbk.PROC")
-   field(LNK3, "$(P):VentValve:rbk.PROC")
-   field(LNK4, "$(P):VentValve:Mode:rbk.PROC")
-   field(LNK5, "$(P):VentValve:Delay:rbk.PROC")
-   field(LNK6, "$(P):VentValve:Time:rbk.PROC")
-   field(LNKA, "$(P):Update:4.PROC")
-   field(DLY2, "0.1")
-   field(DLY3, "0.1")
-   field(DLY4, "0.1")
-   field(DLY5, "0.1")
-   field(DLY6, "0.1")
-   field(DLY7, "0.1")
-   field(DLY8, "0.1")
-   field(DLYA, "0.1")
-}
-record(seq, "$(P):Update:4") {
-   field(LNK4, "$(P):ExtFan:Config:rbk.PROC")
-   field(LNK5, "$(P):ExtFan:rbk.PROC")
-   field(LNK6, "$(P):Gas:LoadType:rbk.PROC")
-   field(LNKA, "$(P):Update:5.PROC")
-   field(DLY2, "0.1")
-   field(DLY3, "0.1")
-   field(DLY4, "0.1")
-   field(DLY5, "0.1")
-   field(DLY6, "0.1")
-   field(DLY7, "0.1")
-   field(DLY8, "0.1")
-   field(DLYA, "0.1")
-}
-record(seq, "$(P):Update:5") {
-   field(LNK3, "$(P):StopSpeedRead:rbk.PROC")
-   field(LNKA, "$(P):Update:6.PROC")
-   field(DLY2, "0.1")
-   field(DLY3, "0.1")
-   field(DLY4, "0.1")
-   field(DLY5, "0.1")
-   field(DLY6, "0.1")
-   field(DLY7, "0.1")
-   field(DLY8, "0.1")
-   field(DLYA, "0.1")
-}
-record(seq, "$(P):Update:6") {
-   field(LNK4, "$(P):Serial:Address:rbk.PROC")
-   field(LNK5, "$(P):Serial:Type:rbk.PROC")
-   field(LNK6, "$(P):Power:Limit.PROC")
-   field(LNK7, "$(P):CRC:EPROM.PROC")
-   field(LNKA, "$(P):Update:7.PROC")
-   field(DLY2, "0.1")
-   field(DLY3, "0.1")
-   field(DLY4, "0.1")
-   field(DLY5, "0.1")
-   field(DLY6, "0.1")
-   field(DLY7, "0.1")
-   field(DLY8, "0.1")
-   field(DLYA, "0.1")
-}
-record(seq, "$(P):Update:7") {
-   field(LNK1, "$(P):CRC:Param.PROC")
-   field(LNK2, "$(P):CRC:Param:Struct.PROC")
-   field(LNK6, "$(P):Serial:Address:rbk.PROC")
+   field(LNK1, "$(P):CRC:Param:Struct.PROC")
+   field(LNK2, "$(P):Serial:Type:rbk.PROC")
    field(LNKA, "$(P):Update:L.PROC")
    field(DLY2, "0.1")
-   field(DLY3, "0.1")
-   field(DLY4, "0.1")
-   field(DLY5, "0.1")
-   field(DLY6, "0.1")
-   field(DLY7, "0.1")
-   field(DLY8, "0.1")
    field(DLYA, "0.1")
 }
 record(seq, "$(P):Update:L") {
