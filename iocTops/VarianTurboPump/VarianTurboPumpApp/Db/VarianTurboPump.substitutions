@@ -2,14 +2,14 @@ file CCFE_VTP.template
 {
 	pattern
 	{ P		PORT	PROTO		EVFAST	EVSLOW	EVSINGLE }
-	{ TMPRU2025-08	L8	Agilent_TT2300	54	53	52	}
+	{ TST-2296-TT2300-1	L8	Agilent_TT2300	54	53	52	}
 }
 
 file Varian-Agilent_ErrorA.template
 {
 	pattern
 	{ P		}
-	{ TMPRU2025-08  }
+	{ TST-2296-TT2300-1  }
 }
 
 

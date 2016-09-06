@@ -23,6 +23,7 @@ record(bi, "$(P):Start:rbk") {
 
 #record(bo, "$(P):Start") {
 #   field(DESC, "Start/Stop")
+#   field(ASG, "vtp")
 #   field(DTYP, "stream")
 #   field(OUT,  "@$(PROTO).proto setStart $(PORT)")
 #   field(ZNAM, "Stopped")
@@ -52,6 +53,7 @@ record(bi, "$(P):LowSpeed:rbk") {
 
 #record(bo, "$(P):LowSpeed") {
 #   field(DESC, "Run at Low Speed")
+#   field(ASG, "vtp")
 #  field(DTYP, "stream")
 #  field(OUT,  "@$(PROTO).proto setLowSpeed $(PORT)")
 #   field(ZNAM, "High Speed")
@@ -80,6 +82,7 @@ record(bi, "$(P):Ctrl:Mode:rbk") {
 
 #record(bo, "$(P):Ctrl:Mode") {
 #   field(DESC, "Control Input Mode")
+#   field(ASG, "vtp")
 #   field(DTYP, "stream")
 #   field(OUT,  "@$(PROTO).proto setCtrlMode $(PORT)") 
 #   field(ZNAM, "Serial")
@@ -109,6 +112,7 @@ record(bi, "$(P):SoftStart:rbk") {
 
 #record(bo, "$(P):SoftStart") {
 #   field(DESC, "Soft Start (after long shutdown")
+#   field(ASG, "vtp")
 #   field(DTYP, "stream")
 #   field(OUT,  "@$(PROTO).proto setSoftStart $(PORT)") 
 #   field(ZNAM, "No")
@@ -138,6 +142,7 @@ record(bi, "$(P):ActiveStop:rbk") {
 
 #record(bo, "$(P):ActiveStop") {
 #   field(DESC, "Active Breaking")
+#   field(ASG, "vtp")
 #   field(DTYP, "stream")
 #   field(OUT,  "@$(PROTO).proto setActiveStop $(PORT)")
 #   field(ZNAM, "No")
@@ -170,6 +175,7 @@ record(mbbi, "$(P):BaudRate:rbk") {
 
 #record(mbbo, "$(P):BaudRate") {
 #   field(DESC, "Baud Rate")
+#   field(ASG, "vtp")
 #   field(DTYP, "stream")
 #   field(OUT, "@$(PROTO).proto setBaudRate $(PORT)")
 #   field(ZRST, "600")
@@ -201,6 +207,7 @@ record(ai, "$(P):Freq:LowSpeed:rbk") {
 
 #record(ao, "$(P):Freq:LowSpeed") {
 #   field(DESC, "Low Speed Set Point")
+#   field(ASG, "vtp")
 #   field(DTYP, "stream")
 #   field(OUT,  "@$(PROTO).proto setLowSpeedFreq $(PORT)")
 #   field(EGU, "Hz")
@@ -228,6 +235,7 @@ record(ai, "$(P):Freq:rbk") {
 
 #record(ao, "$(P):Freq") {
 #   field(DESC, "Normal Speed Set Point")
+#   field(ASG, "vtp")
 #   field(DTYP, "stream")
 #   field(OUT,  "@$(PROTO).proto setRotFreq $(PORT)")
 #   field(EGU, "Hz")
@@ -276,6 +284,7 @@ record(bi, "$(P):StopSpeedRead:rbk") {
 
 #record(bo, "$(P):StopSpeedRead") {
 #   field(DESC, "Enable Speed Readings after Stop")
+#   field(ASG, "vtp")
 #   field(DTYP, "stream")
 #   field(OUT,  "@$(PROTO).proto setStopSpeedRead $(PORT)")
 #   field(ZNAM, "Disabled")
@@ -422,6 +431,7 @@ record(mbbi, "$(P):Serial:Type:rbk") {
 
 #record(mbbo, "$(P):Serial:Type") {
 #   field(DESC, "Serial Comm. Type")
+#   field(ASG, "vtp")
 #   field(DTYP, "stream")
 #   field(OUT,  "@$(PROTO).proto setSerialType $(PORT)")
 #   field(ZRST, "RS-232")

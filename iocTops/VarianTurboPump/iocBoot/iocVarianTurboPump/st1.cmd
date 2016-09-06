@@ -1,9 +1,6 @@
-#!../../bin/linux-armv5teb/VarianTurboPump
 
 ## You may have to change VarianTurboPump to something else
 ## everywhere it appears in this file
-
-#< envPaths
 
 epicsEnvSet IOCSH_PS1 "Varian-Agilent Turbopump> "
 epicsEnvSet STREAM_PROTOCOL_PATH ".:../../db"
@@ -11,9 +8,6 @@ epicsEnvSet STREAM_PROTOCOL_PATH ".:../../db"
 ## Register all support components
 dbLoadDatabase("../../dbd/VarianTurboPump.dbd",0,0)
 VarianTurboPump_registerRecordDeviceDriver(pdbbase) 
-#MoxaSerialSupport_registerRecordDeviceDriver(pdbbase) 
-
-#moxaSerialModeSet( "COM2", "rs232")
 
 drvAsynSerialPortConfigure ("L8","COM2")
 asynSetOption ("L8", 0, "baud", "9600")
@@ -26,7 +20,11 @@ asynSetOption ("L8", 0, "crtscts", "N")
 ## Load record instances
 dbLoadRecords("../../db/VarianTurboPump.db")
 
+## Apply security
+#Replace X with name of CA client controlling this pump
+asSetFilename("/VarianTurboPump/db/CCFE_VTP.acf")
+asSetSubstitutions("client=X")
+
+## Initialise IOC instance
 iocInit()
 
-## Start any sequence programs
-#seq sncVarianTurboPump

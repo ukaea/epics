@@ -25,6 +25,7 @@ include $(TOP)/configure/CONFIG
 #Specific Turbopump Solution
 DB += VarianTurboPump.db
 DB_INSTALLS += Agilent_TT2300.proto
+DB += CCFE_VTP.acf
 
 
 #----------------------------------------------------
