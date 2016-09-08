@@ -21,25 +21,25 @@ record(bi, "$(P):Start:rbk") {
    field(EVNT, "$(EVSLOW)")
 }
 
-#record(bo, "$(P):Start") {
-#   field(DESC, "Start/Stop")
-#   field(ASG, "vtp")
-#   field(DTYP, "stream")
-#   field(OUT,  "@$(PROTO).proto setStart $(PORT)")
-#   field(ZNAM, "Stopped")
-#   field(ONAM, "Running")
-#   field(FLNK, "$(P):Start:upd")
-#}
+record(bo, "$(P):Start") {
+   field(DESC, "Start/Stop")
+   field(ASG, "vtp")
+   field(DTYP, "stream")
+   field(OUT,  "@$(PROTO).proto setStart $(PORT)")
+   field(ZNAM, "Stopped")
+   field(ONAM, "Running")
+   field(FLNK, "$(P):Start:upd")
+}
 
-#record(seq, "$(P):Start:upd") {
-#   field(DESC, "Update RBK after setting")
-#   field(DOL1, "1")
-#   field(DLY1, "0.5")
-#   field(LNK1, "$(P):Start:rbk.PROC")
-#   field(DOL2, "1")
-#   field(DLY2, "2.0")
-#   field(LNK2, "$(P):Start:rbk.PROC")
-#}
+record(seq, "$(P):Start:upd") {
+   field(DESC, "Update RBK after setting")
+   field(DOL1, "1")
+   field(DLY1, "0.5")
+   field(LNK1, "$(P):Start:rbk.PROC")
+   field(DOL2, "1")
+   field(DLY2, "2.0")
+   field(LNK2, "$(P):Start:rbk.PROC")
+}
 
 record(bi, "$(P):LowSpeed:rbk") {
    field(DESC, "Run at Low Speed")
@@ -333,12 +333,12 @@ record(ai, "$(P):Power") {
 }
 
 record(ai, "$(P):Temp") {
-   field(DESC, "Pump Temperature")
+   field(DESC, "Pump Bearing Temperature")
    field(DTYP, "stream")
    field(INP,  "@$(PROTO).proto getTemperature $(PORT)")
    field(EGU, "C")
    field(PREC, "1")
-   field(FLNK, "$(P):Temp")
+   #field(FLNK, "$(P):Temp")
    field(SCAN, "Event")
    field(EVNT, "$(EVSLOW)")
 }
@@ -349,6 +349,17 @@ record(ai, "$(P):Temp:HeatSink") {
    field(INP,  "@$(PROTO).proto getHeatSinkTemp $(PORT)")
    field(EGU, "C")
    field(PREC, "1")
+   field(SCAN, "Event")
+   field(EVNT, "$(EVSLOW)")
+}
+
+record(ai, "$(P):Temp:Body") {
+   field(DESC, "Pump Body Temperature")
+   field(DTYP, "stream")
+   field(INP,  "@$(PROTO).proto getBodyTemp $(PORT)")
+   field(EGU, "C")
+   field(PREC, "1")
+   #field(FLNK, "$(P):Temp:Body")
    field(SCAN, "Event")
    field(EVNT, "$(EVSLOW)")
 }
@@ -415,6 +426,22 @@ record(stringin, "$(P):CRC:Param:Struct") {
    field(DESC, "CRC Parameter Structure")
    field(DTYP, "stream")
    field(INP,  "@$(PROTO).proto getCRCParStruct $(PORT)")
+   #field(SCAN, "Event")
+   #field(EVNT, "$(EVSINGLE)")
+}
+
+record(stringin, "$(P):Listing:Program") {
+   field(DESC, "Program Listing code and revision")
+   field(DTYP, "stream")
+   field(INP,  "@$(PROTO).proto getProgListCode $(PORT)")
+   #field(SCAN, "Event")
+   #field(EVNT, "$(EVSINGLE)")
+}
+
+record(stringin, "$(P):Listing:Parameter") {
+   field(DESC, "Program Listing code and revision")
+   field(DTYP, "stream")
+   field(INP,  "@$(PROTO).proto getParListCode $(PORT)")
    #field(SCAN, "Event")
    #field(EVNT, "$(EVSINGLE)")
 }
@@ -556,9 +583,13 @@ record(seq, "$(P):Update:1") {
 }
 record(seq, "$(P):Update:2") {
    field(LNK1, "$(P):CRC:Param:Struct.PROC")
-   field(LNK2, "$(P):Serial:Type:rbk.PROC")
+   field(LNK2, "$(P):Listing:Program.PROC")
+   field(LNK3, "$(P):Listing:Parameter.PROC")
+   field(LNK4, "$(P):Serial:Type:rbk.PROC")
    field(LNKA, "$(P):Update:L.PROC")
    field(DLY2, "0.1")
+   field(DLY3, "0.1")
+   field(DLY4, "0.1")
    field(DLYA, "0.1")
 }
 record(seq, "$(P):Update:L") {

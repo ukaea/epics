@@ -15,10 +15,9 @@ getStart {
 }
 
 setStart {
-  wait 0;
-#  out "\${STX}\${ADDR}0001%{0|1}\${ETX}%01<xor8>";
-#  in  "\${STX}\${ADDR}\${ACK}\${ETX}%01<xor8>";
-#  @init { getStart;}
+  out "\${STX}\${ADDR}0001%{0|1}\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}\${ACK}\${ETX}%01<xor8>";
+  @init { getStart;}
 }
 
 getBaudRate {

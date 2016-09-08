@@ -519,6 +519,10 @@ getSP1StateA {
   wait 0;
 }
 
+getBodyTemp {
+  out "\${STX}\${ADDR}2220\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}222%f\${ETX}%01<xor8>";
+}
 
 getPressure{  
   # code 224 not supported
@@ -593,12 +597,13 @@ getCRCParStruct {
 }
 
 getProgListCode {
-  # code 406 not supported
-  wait 0;
+  out "\${STX}\${ADDR}4060\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}4060%[^\${ETX}]\${ETX}%01<xor8>";
 }
 
 getParListCode {
-  # code 407 not supported
+  out "\${STX}\${ADDR}4070\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}4070%[^\${ETX}]\${ETX}%01<xor8>";
   wait 0;
 }
 
