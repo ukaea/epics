@@ -1,1 +1,0 @@
-SU19184 Minor changes, concerned with changing the value of Running.
