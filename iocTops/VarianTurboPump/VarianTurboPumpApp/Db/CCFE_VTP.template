@@ -70,23 +70,25 @@ record(bi, "$(P):LowSpeed:rbk") {
 #   field(LNK2, "$(P):LowSpeed:rbk.PROC")
 #}
 
-record(bi, "$(P):Ctrl:Mode:rbk") {
+record(mbbi, "$(P):Ctrl:Mode:rbk") {
    field(DESC, "Control Input Mode")
    field(DTYP, "stream")
    field(INP,  "@$(PROTO).proto getCtrlMode $(PORT)") 
-   field(ZNAM, "Serial")
-   field(ONAM, "Remote")
+   field(ZRST, "Serial")
+   field(ONST, "Remote")
+   field(TWST, "Front Panel")
    #field(SCAN, "Event")
    #field(EVNT, "$(EVSINGLE)")
 }
 
-#record(bo, "$(P):Ctrl:Mode") {
+#record(mbbo, "$(P):Ctrl:Mode") {
 #   field(DESC, "Control Input Mode")
 #   field(ASG, "vtp")
 #   field(DTYP, "stream")
 #   field(OUT,  "@$(PROTO).proto setCtrlMode $(PORT)") 
-#   field(ZNAM, "Serial")
-#   field(ONAM, "Remote")
+#   field(ZRST, "Serial")
+#   field(ONST, "Remote")
+#   field(TWST, "Front Panel")
 #   field(FLNK, "$(P):Ctrl:Mode:upd")
 #}
 
