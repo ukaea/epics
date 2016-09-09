@@ -186,13 +186,15 @@ setRotFreq {
 }
 
 getMaxRotFreq {
-  # code 121 not used
-  wait 0;
+  out "\${STX}\${ADDR}1210\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}121%d\${ETX}%01<xor8>";
 }
 
 setMaxRotFreq {
-  # code 121 not used
   wait 0;
+#  out "\${STX}\${ADDR}1211%06d\${ETX}%01<xor8>";
+#  in  "\${STX}\${ADDR}\${ACK}\${ETX}%01<xor8>";
+#  @init { getRotFreq;}
 }
 
 getVentValve {

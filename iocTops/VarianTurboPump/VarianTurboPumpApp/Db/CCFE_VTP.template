@@ -252,6 +252,34 @@ record(ai, "$(P):Freq:rbk") {
 #   field(LNK2, "$(P):Freq:rbk.PROC")
 #}
 
+record(ai, "$(P):Freq:Max:rbk") {
+   field(DESC, "Maximum Speed Set Point")
+   field(DTYP, "stream")
+   field(INP,  "@$(PROTO).proto getMaxRotFreq $(PORT)")
+   field(EGU, "Hz")
+   #field(SCAN, "Event")
+   #field(EVNT, "$(EVSINGLE)")
+}
+
+#record(ao, "$(P):Freq:Max") {
+#   field(DESC, "Maximum Speed Set Point")
+#   field(ASG, "vtp")
+#   field(DTYP, "stream")
+#   field(OUT,  "@$(PROTO).proto setMaxRotFreq $(PORT)")
+#   field(EGU, "Hz")
+#   field(FLNK, "$(P):Freq:Max:upd")
+#}
+
+#record(seq, "$(P):Freq:Max:upd") {
+#   field(DESC, "Update RBK after setting")
+#   field(DOL1, "1")
+#   field(DLY1, "0.5")
+#   field(LNK1, "$(P):Freq:Max:rbk.PROC")
+#   field(DOL2, "1")
+#   field(DLY2, "2.0")
+#   field(LNK2, "$(P):Freq:Max:rbk.PROC")
+#}
+
 #record(ai, "$(P):Freq:fbk") {
 #   field(DESC, "Rotation Rate")
 #   field(DTYP, "stream")
@@ -567,9 +595,9 @@ record(seq, "$(P):Update:1") {
    field(LNK4, "$(P):BaudRate:rbk.PROC")
    field(LNK5, "$(P):Freq:LowSpeed:rbk.PROC")
    field(LNK6, "$(P):Freq:rbk.PROC")
-   field(LNK7, "$(P):StopSpeedRead:rbk.PROC")
-   field(LNK8, "$(P):CRC:EPROM.PROC")
-   field(LNK9, "$(P):CRC:Param.PROC")
+   field(LNK7, "$(P):Freq:Max:rbk.PROC")
+   field(LNK8, "$(P):StopSpeedRead:rbk.PROC")
+   field(LNK9, "$(P):CRC:EPROM.PROC")
    field(LNKA, "$(P):Update:2.PROC")
    field(DLY2, "0.1")
    field(DLY3, "0.1")
@@ -582,10 +610,11 @@ record(seq, "$(P):Update:1") {
    field(DLYA, "0.1")
 }
 record(seq, "$(P):Update:2") {
-   field(LNK1, "$(P):CRC:Param:Struct.PROC")
-   field(LNK2, "$(P):Listing:Program.PROC")
-   field(LNK3, "$(P):Listing:Parameter.PROC")
-   field(LNK4, "$(P):Serial:Type:rbk.PROC")
+   field(LNK1, "$(P):CRC:Param.PROC")
+   field(LNK2, "$(P):CRC:Param:Struct.PROC")
+   field(LNK3, "$(P):Listing:Program.PROC")
+   field(LNK4, "$(P):Listing:Parameter.PROC")
+   field(LNK5, "$(P):Serial:Type:rbk.PROC")
    field(LNKA, "$(P):Update:L.PROC")
    field(DLY2, "0.1")
    field(DLY3, "0.1")
