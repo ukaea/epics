@@ -1,0 +1,16 @@
+###############################################################################
+#Access Security for Varian Turbo Pump IOC
+###############################################################################
+
+HAG(master) {$(client)}
+
+ASG(DEFAULT) {
+    RULE(1,READ)
+}
+
+ASG(vtp) {
+    RULE(1,READ)
+    RULE(1,WRITE) {
+        HAG(master)
+    }
+}
