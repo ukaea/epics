@@ -33,12 +33,22 @@ if [ ! -f /etc/redhat-release ]; then
 	# dependencies
 	apt-get -y install re2c
 else
-	if $(uname -a | grep 'x86_64'); then
-		yum -y install http://ftp.scientificlinux.org/linux/extra/dag/packages/re2c/re2c-0.13.2-1.el5.rf.x86_64.rpm
-	else
-		yum -y install http://ftp.scientificlinux.org/linux/extra/dag/packages/re2c/re2c-0.13.2-1.el5.rf.i386.rpm
-	fi
+	# 32 or 64bit?
+	case `uname -m` in
+		i[3456789]86|x86|i86pc)
+			#special case for SL6 /x86
+			yum -y install http://ftp.scientificlinux.org/linux/extra/dag/packages/re2c/re2c-0.13.2-1.el5.rf.i386.rpm
+		;;
+		x86_64|amd64|AMD64)
+			yum -y install re2c
+		;;
+		*)
+			echo "Unknown architecture `uname -m`."
+			exit 1
+		;;
+	esac
 fi
+
 # seq
 SEQ_DOWNLOAD="seq-"$SEQ_VER".tar.gz"
 SEQ_DIRECTORY="seq-"$SEQ_VER
