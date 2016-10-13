@@ -1,2 +1,2 @@
-EPICS_BASE=\EPICS/base
-PVDATA = \EPICS/epicsV4/pvDataCPP
+EPICS_BASE=\epics/base
+PVDATA = \epics/epicsV4/pvDataCPP

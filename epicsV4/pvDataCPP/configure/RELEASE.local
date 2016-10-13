@@ -18,5 +18,5 @@
 #
 # Create a file RELEASE.local pointing to your PVCOMMON
 # and EPICS_BASE build directories, e.g.
-PVCOMMON = \EPICS/epicsV4/pvCommonCPP
-EPICS_BASE = \EPICS/base
+PVCOMMON = \epics/epicsV4/pvCommonCPP
+EPICS_BASE = \epics/base

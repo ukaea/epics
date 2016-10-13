@@ -45,6 +45,8 @@ then
 
     # install dependencies
     apt-get -y install build-essential g++ libreadline-dev
+else
+	yum -y install readline-devel
 fi
 
 # base
