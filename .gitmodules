@@ -1,3 +1,4 @@
 [submodule "iocTops/VQM_ITMS"]
 	path = iocTops/VQM_ITMS
-	url = git@git.ccfe.ac.uk:pheest/VQM_ITMS.git
+	url = http://git.ccfe.ac.uk/pheest/VQM_ITMS.git
+	ignore = untracked
