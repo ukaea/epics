@@ -355,7 +355,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ioc", "ioc", "{EF39695B-1B5
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{5DBB25FF-8B6B-48D2-8B18-B96CE8548C3F}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "exampleDatabase", "exampleCPP\database\ioc\src\exampleDatabase.vcxproj", "{E272B0A2-BFF8-4C3D-ACBB-50181CE3054A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "exampleDatabaseMain", "exampleCPP\database\ioc\src\exampleDatabaseMain.vcxproj", "{E272B0A2-BFF8-4C3D-ACBB-50181CE3054A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
