@@ -32,6 +32,8 @@
 #include <pv/pvAccess.h>
 #define epicsExportSharedSymbols
 #include "powerSupply.h"
+#include "recordClient.h"
+#include "listener.h"
 
 #include <epicsExport.h>
 
@@ -42,9 +44,10 @@ using namespace epics::pvAccess;
 using namespace epics::pvDatabase;
 
 static bool debug = false;
+static int traceLevel = 0;
 
 
-void test()
+static void test()
 {
     StandardPVFieldPtr standardPVField = getStandardPVField();
     string properties;
@@ -55,26 +58,29 @@ void test()
     recordName = "exampleDouble";
     PVStructurePtr pvStructure;
     pvStructure = standardPVField->scalar(scalarType,properties);
-    PVRecordPtr pvRecord = PVRecord::create(recordName,pvStructure);
+    PVRecordPtr exampleRecord = PVRecord::create(recordName,pvStructure);
+    exampleRecord->setTraceLevel(traceLevel);
+    RecordClientPtr exampleRecordClient(RecordClient::create(exampleRecord));
+    ListenerPtr exampleListener(Listener::create(exampleRecord));
     {
-        pvRecord->lock();
-        pvRecord->process();
-        pvRecord->unlock();
+        exampleRecord->lock();
+        exampleRecord->process();
+        exampleRecord->unlock();
     }
     if(debug) {cout << "processed exampleDouble "  << endl; }
-    pvRecord->destroy();
-    pvRecord.reset();
+    exampleRecord->destroy();
     recordName = "powerSupplyExample";
-    pvStructure.reset();
     PowerSupplyPtr psr;
     pvStructure = createPowerSupply();
     psr = PowerSupply::create("powerSupply",pvStructure);
+    psr->setTraceLevel(traceLevel);
+    RecordClientPtr psrRecordClient(RecordClient::create(psr));
+    ListenerPtr psrListener(Listener::create(psr));
     testOk1(psr.get()!=0);
     if(!psr) {
         if(debug) {cout << "PowerSupplyRecordTest::create failed" << endl;}
         return;
     }
-    pvStructure.reset();
     double voltage,power,current;
     {
         psr->lock();
@@ -121,10 +127,7 @@ void test()
     testOk1(psr->getVoltage()==1.0);
     testOk1(psr->getPower()==1.0);
     testOk1(psr->getCurrent()==1.0);
-    PVDatabasePtr pvDatabase = PVDatabase::getMaster();
-    pvDatabase->addRecord(psr);
-    psr.reset();
-    pvDatabase->destroy();
+    psr->destroy();
 }
 
 MAIN(testExampleRecord)

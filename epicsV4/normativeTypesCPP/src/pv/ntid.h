@@ -1,7 +1,7 @@
-/**
- * Copyright - See the COPYRIGHT that is included with this distribution.
- * This software is distributed subject to a Software License Agreement found
- * in file LICENSE that is included with this distribution.
+/* ntid.h */
+/*
+ * Copyright information and license terms for this software can be
+ * found in the file LICENSE that is included with the distribution
  */
 #ifndef NTID_H
 #define NTID_H

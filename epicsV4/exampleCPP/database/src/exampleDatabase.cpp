@@ -1,7 +1,7 @@
-// Copyright information and license terms for this software can be
-// found in the file LICENSE that is included with the distribution
-
-/*exampleDatabase.cpp */
+/*
+ * Copyright information and license terms for this software can be
+ * found in the file LICENSE that is included with the distribution
+ */
 
 /**
  * @author mrk
@@ -31,7 +31,9 @@
 #define epicsExportSharedSymbols
 #include <pv/exampleDatabase.h>
 #include <pv/exampleHelloRecord.h>
-#include <pv/exampleHelloRPC.h>
+#include <pv/exampleHelloRPCRecord.h>
+#include <pv/traceRecord.h>
+#include <pv/removeRecord.h>
 
 using namespace std;
 using std::tr1::static_pointer_cast;
@@ -176,8 +178,6 @@ static void createRecords(
 void ExampleDatabase::create()
 {
     PVDatabasePtr master = PVDatabase::getMaster();
-    PVRecordPtr pvRecord;
-    string recordName;
     bool result(false);
     createRecords(master,pvBoolean,"PVRboolean");
     createRecords(master,pvByte,"PVRbyte");
@@ -197,6 +197,10 @@ void ExampleDatabase::create()
     createRecords(master,pvDouble,"PVRdouble03");
     createRecords(master,pvDouble,"PVRdouble04");
     createRecords(master,pvDouble,"PVRdouble05");
+    result = master->addRecord(TraceRecord::create("PVRtraceRecord"));
+    if(!result) cout<< "record PVRtraceRecord not added\n";
+    result = master->addRecord(RemoveRecord::create("PVRremoveRecord"));
+    if(!result) cout<< "record PVRremoveRecord not added\n";
 
     NTEnumBuilderPtr ntEnumBuilder = NTEnum::createBuilder();
     PVStructurePtr pvStructure = ntEnumBuilder->
@@ -208,7 +212,8 @@ void ExampleDatabase::create()
     choices[1] = "one";
     PVStringArrayPtr pvChoices = pvStructure->getSubField<PVStringArray>("value.choices");
     pvChoices->replace(freeze(choices));
-    master->addRecord(PVRecord::create("PVRenum",pvStructure));
+    result = master->addRecord(PVRecord::create("PVRenum",pvStructure));
+    if(!result) cout<< "record PVRenum not added\n";
 
     createStructureArrayRecord(master,"PVRstructureArray");
     createRestrictedUnionRecord(master,"PVRrestrictedUnion");
@@ -216,11 +221,9 @@ void ExampleDatabase::create()
     createRestrictedUnionArrayRecord(master,"PVRrestrictedUnionArray");
     createVariantUnionArrayRecord(master,"PVRvariantUnionArray");
     createDumbPowerSupplyRecord(master,"PVRdumbPowerSupply");
-    recordName = "PVRhelloPutGet";
-    result = master->addRecord(ExampleHelloRecord::create(recordName));
-    if(!result) cout<< "record " << recordName << " not added" << endl;
-    recordName = "helloRPC";
-    result = master->addRecord(ExampleHelloRPC::create(recordName));
-    if(!result) cout<< "record " << recordName << " not added" << endl;
+    result = master->addRecord(ExampleHelloRecord::create("PVRhelloPutGet"));
+    if(!result) cout<< "record PVRhelloPutGet not added\n";
+    result = master->addRecord(ExampleHelloRPCRecord::create("PVRhelloRPC"));
+    if(!result) cout<< "record PVRhelloRPC not added\n";
 }
 

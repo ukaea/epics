@@ -1,8 +1,17 @@
-## Release 0.6 ()
+## Release 0.6 (2016/08/29)
 
 - added support for channel putGet() and getPut() operations
-- added PvObject support for field path notation (e.g, 'x.y.z')
-- added PvObject support for __getitem__, __setitem__, __contains__ 
+- introduced PvObject support for field path notation (e.g, 'x.y.z')
+- introduced PvObject support for __getitem__, __setitem__, __contains__
+- new constructor for PvObject allows optional value dictionary
+- added PvObject support for retrieving numeric scalar arrays as
+  read-only numpy arrays (requires compiling with Boost.NumPy)
+- added ability to specify PV request in RPC client code
+- fixed PvObject type ID issues
+- reworked monitor code to allow two processing modes: immediate processing
+  and processing in a separate thread (requires copying/queueing monitor data);
+  the processing thread mode now utilizes monitor requester callbacks, and
+  unnecessary monitor polling when monitor queue is full has been eliminated
 
 ## Release 0.5 (2015/10/08)
 

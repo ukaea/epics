@@ -1,13 +1,13 @@
-// Copyright information and license terms for this software can be
-// found in the file LICENSE that is included with the distribution
+/*
+ * Copyright information and license terms for this software can be
+ * found in the file LICENSE that is included with the distribution
+ */
 
-/*pvaClientTestPutGet.cpp */
 
 /**
  * @author mrk
  */
 
-/* Author: Marty Kraimer */
 
 #include <iostream>
 
@@ -35,12 +35,12 @@ int main(int argc,char *argv[])
     try {
         PvaClientPutPtr put = pva->channel("doubleArray",provider,5.0)->put();
         PvaClientPutDataPtr putData = put->getData();
-        PvaClientMonitorPtr monitor = pva->channel("exampleLink")->monitor("");
+        PvaClientMonitorPtr monitor = pva->channel("exampleMonitorLink")->monitor("");
         PvaClientMonitorDataPtr pvaData = monitor->getData();
         if(!monitor->waitEvent(0.0)) {
             cout << "waitEvent returned false. Why???\n";
         } else {
-            cout << "exampleLink\n" << pvaData->getPVStructure() << endl;
+            cout << "exampleMonitorLink\n" << pvaData->getPVStructure() << endl;
             monitor->releaseEvent();
         }
         {
@@ -53,7 +53,7 @@ int main(int argc,char *argv[])
         if(!monitor->waitEvent(0.0)) {
             cout<< "waitEvent returned false. Why???\n";
         } else {
-            cout << "exampleLink\n" << pvaData->getPVStructure() << endl;
+            cout << "exampleMonitorLink\n" << pvaData->getPVStructure() << endl;
             monitor->releaseEvent();
         }
         {
@@ -66,7 +66,7 @@ int main(int argc,char *argv[])
         if(!monitor->waitEvent(0.0)) {
             cout<< "waitEvent returned false. Why???\n";
         } else {
-            cout << "exampleLink\n" << pvaData->getPVStructure() << endl;
+            cout << "exampleMonitorLink\n" << pvaData->getPVStructure() << endl;
             monitor->releaseEvent();
         }
     } catch (std::runtime_error e) {

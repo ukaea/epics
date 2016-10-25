@@ -13,6 +13,8 @@
 int testExampleRecord(void);
 int testPVCopy(void);
 int testPVRecord(void);
+int testLocalProvider(void);
+int testPVAServer(void);
 
 void pvDatabaseAllTests(void)
 {
@@ -22,5 +24,7 @@ void pvDatabaseAllTests(void)
     runTest(testExampleRecord);
     runTest(testPVCopy);
     runTest(testPVRecord);
+    runTest(testLocalProvider);
+    runTest(testPVAServer);
 }
 

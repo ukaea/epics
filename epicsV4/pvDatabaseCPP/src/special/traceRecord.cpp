@@ -44,19 +44,10 @@ TraceRecord::TraceRecord(
     std::string const & recordName,
     epics::pvData::PVStructurePtr const & pvStructure)
 : PVRecord(recordName,pvStructure),
-  pvDatabase(PVDatabase::getMaster()),
-  isDestroyed(false)
+  pvDatabase(PVDatabase::getMaster())
 {
 }
 
-TraceRecord::~TraceRecord()
-{
-}
-
-void TraceRecord::destroy()
-{
-    PVRecord::destroy();
-}
 
 bool TraceRecord::init()
 {

@@ -1,7 +1,7 @@
-// Copyright information and license terms for this software can be
-// found in the file LICENSE that is included with the distribution
-
-/*examplePvaClientMonitor.cpp */
+/*
+ * Copyright information and license terms for this software can be
+ * found in the file LICENSE that is included with the distribution
+ */
 
 /**
  * @author mrk
@@ -52,8 +52,9 @@ static void exampleMonitor(PvaClientPtr const &pva,string const & recordName,str
 int main(int argc,char *argv[])
 {
     cout << "_____examplePvaClientMonitor starting_______\n";
-    PvaClientPtr pva = PvaClient::get("pva ca");
     try {
+        PvaClientPtr pva = PvaClient::get("pva ca");
+//PvaClient::setDebug(true);
         exampleMonitor(pva,"PVRdouble","pva");
         PvaClientChannelPtr pvaChannel = pva->createChannel("DBRdouble00","ca");
         pvaChannel->issueConnect();
@@ -66,10 +67,10 @@ int main(int argc,char *argv[])
         } else {
              cout << "DBRdouble00 not found\n";
         }
+        cout << "_____examplePvaClientMonitor done_______\n";
     } catch (std::runtime_error e) {
             cerr << "exception " << e.what() << endl;
             return 1;
     }
-    cout << "_____examplePvaClientMonitor done_______\n";;
     return 0;
 }

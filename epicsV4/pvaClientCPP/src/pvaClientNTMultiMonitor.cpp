@@ -26,14 +26,12 @@ using namespace std;
 
 namespace epics { namespace pvaClient { 
 
-static FieldCreatePtr fieldCreate = getFieldCreate();
-
 PvaClientNTMultiMonitorPtr PvaClientNTMultiMonitor::create(
     PvaClientMultiChannelPtr const &pvaMultiChannel,
          PvaClientChannelArray const &pvaClientChannelArray,
          epics::pvData::PVStructurePtr const &  pvRequest)
 {
-    UnionConstPtr u = fieldCreate->createVariantUnion();
+    UnionConstPtr u = getFieldCreate()->createVariantUnion();
     PvaClientNTMultiMonitorPtr pvaClientNTMultiMonitor(
          new PvaClientNTMultiMonitor(u,pvaMultiChannel,pvaClientChannelArray,pvRequest));
     return pvaClientNTMultiMonitor;
@@ -54,25 +52,15 @@ PvaClientNTMultiMonitor::PvaClientNTMultiMonitor(
            pvaClientMultiChannel,
            pvaClientChannelArray,
            pvRequest)),
-  isConnected(false),
-  isDestroyed(false)
+  isConnected(false)
 {
+    if(PvaClient::getDebug()) cout<< "PvaClientNTMultiMonitor::PvaClientNTMultiMonitor()\n";
 }
 
 
 PvaClientNTMultiMonitor::~PvaClientNTMultiMonitor()
 {
-    destroy();
-}
-
-void PvaClientNTMultiMonitor::destroy()
-{
-    {
-        Lock xx(mutex);
-        if(isDestroyed) return;
-        isDestroyed = true;
-    }
-    pvaClientChannelArray.clear();
+    if(PvaClient::getDebug()) cout<< "PvaClientNTMultiMonitor::~PvaClientNTMultiMonitor()\n";
 }
 
 

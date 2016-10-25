@@ -1,8 +1,7 @@
 /* nttable.h */
-/**
- * Copyright - See the COPYRIGHT that is included with this distribution.
- * This software is distributed subject to a Software License Agreement found
- * in file LICENSE that is included with this distribution.
+/*
+ * Copyright information and license terms for this software can be
+ * found in the file LICENSE that is included with the distribution
  */
 #ifndef NTTABLE_H
 #define NTTABLE_H

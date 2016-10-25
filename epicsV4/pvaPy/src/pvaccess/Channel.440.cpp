@@ -38,7 +38,6 @@ Channel::Channel(const std::string& channelName, PvProvider::ProviderType provid
     monitorRequester(new ChannelMonitorRequesterImpl(channelName)),
     monitor(),
     monitorThreadDone(true),
-    pvObjectMonitorQueue(),
     subscriberMap(),
     subscriberMutex(),
     monitorElementProcessingMutex(),
@@ -53,9 +52,10 @@ Channel::Channel(const Channel& c) :
     channel(c.channel),
     monitorRequester(c.monitorRequester),
     monitorThreadDone(true),
-    pvObjectMonitorQueue(),
     subscriberMap(),
     subscriberMutex(),
+    monitorElementProcessingMutex(),
+    monitorThreadMutex(),
     monitorThreadExitEvent(),
     timeout(DefaultTimeout)
 {
@@ -479,13 +479,13 @@ ChannelMonitorRequesterImpl* Channel::getMonitorRequester()
 
 void Channel::subscribe(const std::string& subscriberName, const boost::python::object& pySubscriber)
 {
-    //epics::pvData::Lock lock(subscriberMutex);
+    epics::pvData::Lock lock(subscriberMutex);
     subscriberMap[subscriberName] = pySubscriber;
 }
 
 void Channel::unsubscribe(const std::string& subscriberName)
 {
-    //epics::pvData::Lock lock(subscriberMutex);
+    epics::pvData::Lock lock(subscriberMutex);
     boost::python::object pySubscriber = subscriberMap[subscriberName];
     std::map<std::string,boost::python::object>::const_iterator iterator = subscriberMap.find(subscriberName);
     if (iterator == subscriberMap.end()) {
@@ -497,10 +497,15 @@ void Channel::unsubscribe(const std::string& subscriberName)
 
 void Channel::callSubscribers(PvObject& pvObject)
 {
-    //epics::pvData::Lock lock(subscriberMutex);
+    std::map<std::string,boost::python::object> subscriberMap2;
+    {
+        epics::pvData::Lock lock(subscriberMutex);
+        subscriberMap2 = subscriberMap;
+    }
+
 
     std::map<std::string,boost::python::object>::iterator iter;
-    for (iter = subscriberMap.begin(); iter != subscriberMap.end(); iter++) {
+    for (iter = subscriberMap2.begin(); iter != subscriberMap2.end(); iter++) {
         std::string subscriberName = iter->first;
         boost::python::object pySubscriber = iter->second;
 
@@ -572,10 +577,9 @@ void Channel::stopMonitor()
     monitor->stop();
     logger.debug("Monitor stopped, waiting for thread exit");
     ChannelMonitorRequesterImpl* monitorRequester = getMonitorRequester();
-    monitorRequester->cancelGetQueuedPvObject();
+    logger.debug("Stopping requester");
+    monitorRequester->stop();
     monitorThreadExitEvent.wait(getTimeout());
-    logger.debug("Clearing requester queue");
-    monitorRequester->clearPvObjectQueue();
 }
 
 bool Channel::isMonitorThreadDone() const

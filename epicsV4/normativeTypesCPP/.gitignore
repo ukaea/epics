@@ -7,3 +7,4 @@ configure/*.local
 html/
 **/O.*
 **/**/O.*
+QtC-*

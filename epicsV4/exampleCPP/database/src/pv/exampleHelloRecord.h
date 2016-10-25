@@ -1,7 +1,7 @@
-// Copyright information and license terms for this software can be
-// found in the file LICENSE that is included with the distribution
-
-/* exampleHelloRecord.h */
+/*
+ * Copyright information and license terms for this software can be
+ * found in the file LICENSE that is included with the distribution
+ */
 
 /**
  * @author mrk
@@ -33,17 +33,29 @@ namespace epics { namespace exampleCPP { namespace database {
 class ExampleHelloRecord;
 typedef std::tr1::shared_ptr<ExampleHelloRecord> ExampleHelloRecordPtr;
 
+/**
+ * @brief A PVRecord that implements a hello service accessed via a channelPutGet request.
+ *
+ */
 class epicsShareClass ExampleHelloRecord :
     public epics::pvDatabase::PVRecord
 {
 public:
     POINTER_DEFINITIONS(ExampleHelloRecord);
+    /**
+     * @brief Create an instance of ExampleHelloRecord.
+     *
+     * @param recordName The name of the record.
+     * @return The new instance.
+     */
     static ExampleHelloRecordPtr create(
         std::string const & recordName);
-    virtual ~ExampleHelloRecord();
-    virtual void destroy();
-    virtual bool init();
+    /**
+     *  @brief Implement hello semantics.
+     */
     virtual void process();
+    virtual ~ExampleHelloRecord() {}
+    virtual bool init() {return false;}
 private:
     ExampleHelloRecord(std::string const & recordName,
         epics::pvData::PVStructurePtr const & pvStructure);

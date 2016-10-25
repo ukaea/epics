@@ -33,6 +33,6 @@ Examples are available in exampleCPP.
 Status
 ------
 
-* The API is for EPICS Version 4 release 4.5.0
+* The API is for EPICS Version 4 release 4.6.0
 
 

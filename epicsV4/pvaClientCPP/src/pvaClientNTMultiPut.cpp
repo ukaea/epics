@@ -25,10 +25,6 @@ using namespace std;
 
 namespace epics { namespace pvaClient { 
 
-static ConvertPtr convert = getConvert();
-static FieldCreatePtr fieldCreate = getFieldCreate();
-static PVDataCreatePtr pvDataCreate = getPVDataCreate();
-
 PvaClientNTMultiPutPtr PvaClientNTMultiPut::create(
     PvaClientMultiChannelPtr const &pvaMultiChannel,
     PvaClientChannelArray const &pvaClientChannelArray)
@@ -45,25 +41,15 @@ PvaClientNTMultiPut::PvaClientNTMultiPut(
   nchannel(pvaClientChannelArray.size()),
   unionValue(shared_vector<epics::pvData::PVUnionPtr>(nchannel,PVUnionPtr())),
   value(shared_vector<epics::pvData::PVFieldPtr>(nchannel,PVFieldPtr())),
-  isConnected(false),
-  isDestroyed(false)
+  isConnected(false)
 {
+     if(PvaClient::getDebug()) cout<< "PvaClientNTMultiPut::PvaClientNTMultiPut()\n";
 }
 
 
 PvaClientNTMultiPut::~PvaClientNTMultiPut()
 {
-    destroy();
-}
-
-void PvaClientNTMultiPut::destroy()
-{
-    {
-        Lock xx(mutex);
-        if(isDestroyed) return;
-        isDestroyed = true;
-    }
-    pvaClientChannelArray.clear();
+    if(PvaClient::getDebug()) cout<< "PvaClientNTMultiPut::~PvaClientNTMultiPut()\n";
 }
 
 void PvaClientNTMultiPut::connect()
@@ -103,6 +89,8 @@ void PvaClientNTMultiPut::connect()
                throw std::runtime_error(message);
          }
     }
+    FieldCreatePtr fieldCreate = getFieldCreate();
+    PVDataCreatePtr pvDataCreate = getPVDataCreate();
     for(size_t i=0; i<nchannel; ++i)
     {
          if(isConnected[i]) {

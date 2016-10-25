@@ -1,7 +1,7 @@
-// Copyright information and license terms for this software can be
-// found in the file LICENSE that is included with the distribution
-
-/*examplePvaClientNTMulti.cpp */
+/*
+ * Copyright information and license terms for this software can be
+ * found in the file LICENSE that is included with the distribution
+ */
 
 /**
  * @author mrk
@@ -98,7 +98,6 @@ static void example(
              if(!isConnected[i]) cout << channelNames[i] << " ";
          }
          cout << endl;
-         multiChannel->destroy();
          return;
     }
     PvaClientNTMultiGetPtr multiGet(multiChannel->createNTGet());
@@ -128,30 +127,35 @@ static void example(
 int main(int argc,char *argv[])
 {
     cout << "_____examplePvaClientNTMulti starting_______\n";
-    PvaClientPtr pva = PvaClient::get("pva ca");
-    size_t num = 4;
-    shared_vector<string> channelNames(num);
-    channelNames[0] = "PVRdouble";
-    channelNames[1] = "PVRstring";
-    channelNames[2] = "PVRdoubleArray";
-    channelNames[3] = "PVRstringArray";
-    shared_vector<const string> names(freeze(channelNames));
-    example(pva,"pva",names);
-    PvaClientChannelPtr pvaChannel = pva->createChannel("DBRdouble00","ca");
-    pvaChannel->issueConnect();
-    Status status = pvaChannel->waitConnect(1.0);
-    if(status.isOK()) {
-        channelNames = shared_vector<string>(num);
-        channelNames[0] = "DBRdouble01";
-        channelNames[1] = "DBRstring01";
-        channelNames[2] = "DBRdoubleArray01";
-        channelNames[3] = "DBRstringArray01";
-        names = freeze(channelNames);
+    try {
+        PvaClientPtr pva = PvaClient::get("pva ca");
+        size_t num = 4;
+        shared_vector<string> channelNames(num);
+        channelNames[0] = "PVRdouble";
+        channelNames[1] = "PVRstring";
+        channelNames[2] = "PVRdoubleArray";
+        channelNames[3] = "PVRstringArray";
+        shared_vector<const string> names(freeze(channelNames));
         example(pva,"pva",names);
-        example(pva,"ca",names);
-    } else {
-         cout << "DBRdouble00 not found\n";
+        PvaClientChannelPtr pvaChannel = pva->createChannel("DBRdouble00","pva");
+        pvaChannel->issueConnect();
+        Status status = pvaChannel->waitConnect(1.0);
+        if(status.isOK()) {
+            channelNames = shared_vector<string>(num);
+            channelNames[0] = "DBRdouble01";
+            channelNames[1] = "DBRstring01";
+            channelNames[2] = "DBRdoubleArray01";
+            channelNames[3] = "DBRstringArray01";
+            names = freeze(channelNames);
+            example(pva,"pva",names);
+            example(pva,"ca",names);
+        } else {
+            cout << "DBRdouble00 not found\n";
+        }
+        cout << "_____examplePvaClientNTMulti done_______\n";
+    } catch (std::runtime_error e) {
+        cout << "exception " << e.what() << endl;
+        return 1;
     }
-    cout << "_____examplePvaClientNTMulti done_______\n";
     return 0;
 }

@@ -1,7 +1,6 @@
-/**
- * Copyright - See the COPYRIGHT that is included with this distribution.
- * EPICS pvData is distributed subject to a Software License Agreement found
- * in file LICENSE that is included with this distribution.
+/*
+ * Copyright information and license terms for this software can be
+ * found in the file LICENSE that is included with the distribution
  */
 /* Author:  Michael Davidsaver */
 
@@ -30,6 +29,13 @@
 using std::string;
 
 namespace {
+    // Mangle value to be printable as per print_convolute<>
+    template<typename T>
+    inline
+    typename epics::pvData::detail::print_convolute<T>::return_t
+    print(T v) {
+        return epics::pvData::detail::print_convolute<T>::op(v);
+    }
 
     template<typename T>
     struct testequal {
@@ -55,24 +61,24 @@ namespace {
                 //actual = ::epics::pvData::detail::cast_helper<TO,FROM>::op(inp);
             } catch(std::runtime_error& e) {
                 msg<<"Failed to cast "
-                   <<inp<<" ("<<typeid(FROM).name()<<") -> "
-                   <<expect<<" ("<<typeid(TO).name()<<")\n Error: "
+                   <<print(inp)<<" ("<<typeid(FROM).name()<<") -> "
+                   <<print(expect)<<" ("<<typeid(TO).name()<<")\n Error: "
                    <<typeid(e).name()<<"("<<e.what()<<")";
                 testFail("%s", msg.str().c_str());
                 return;
             }
             if(!testequal<TO>::op(actual, expect)) {
                 msg<<"Failed cast gives unexpected value "
-                   <<inp<<" ("<<typeid(FROM).name()<<") -> "
-                   <<expect<<" ("<<typeid(TO).name()<<") yields: "
-                   <<actual;
+                   <<print(inp)<<" ("<<typeid(FROM).name()<<") -> "
+                   <<print(expect)<<" ("<<typeid(TO).name()<<") yields: "
+                   <<print(actual);
                 testFail("%s", msg.str().c_str());
                 return;
             }
             msg<<"cast "
-               <<inp<<" ("<<typeid(FROM).name()<<") -> "
-               <<expect<<" ("<<typeid(TO).name()<<") yields: "
-               <<actual;
+               <<print(inp)<<" ("<<typeid(FROM).name()<<") -> "
+               <<print(expect)<<" ("<<typeid(TO).name()<<") yields: "
+               <<print(actual);
             testPass("%s", msg.str().c_str());
             return;
         }
@@ -87,14 +93,14 @@ namespace {
             try {
                 actual = ::epics::pvData::castUnsafe<TO,FROM>(inp);
                 msg<<"Failed to generate expected error "
-                   <<inp<<" ("<<typeid(FROM).name()<<") -> ("
+                   <<print(inp)<<" ("<<typeid(FROM).name()<<") -> ("
                    <<typeid(TO).name()<<") yields: "
                    <<actual;
                 testFail("%s", msg.str().c_str());
                 return;
             } catch(std::runtime_error& e) {
                 msg<<"Got expected error "
-                   <<inp<<" ("<<typeid(FROM).name()<<") -> ("
+                   <<print(inp)<<" ("<<typeid(FROM).name()<<") -> ("
                    <<typeid(TO).name()<<") fails with: "
                    <<e.what();
                 testPass("%s", msg.str().c_str());

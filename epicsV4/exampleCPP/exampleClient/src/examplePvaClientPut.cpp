@@ -1,7 +1,7 @@
-// Copyright information and license terms for this software can be
-// found in the file LICENSE that is included with the distribution
-
-/*examplePvaClientPut.cpp */
+/*
+ * Copyright information and license terms for this software can be
+ * found in the file LICENSE that is included with the distribution
+ */
 
 /**
  * @author mrk
@@ -88,15 +88,14 @@ static void examplePVFieldPut(PvaClientPtr const &pva,string const & channelName
 int main(int argc,char *argv[])
 {
     cout << "_____examplePvaClientPut starting_______\n";
-    PvaClientPtr pva = PvaClient::get("pva ca");
     try {
+        PvaClientPtr pva = PvaClient::get("pva ca");
         exampleDouble(pva,"PVRdouble","pva");
         exampleDoubleArray(pva,"PVRdoubleArray","pva");
         examplePVFieldPut(pva,"PVRint","pva");
         PvaClientChannelPtr pvaChannel = pva->createChannel("DBRdouble00","ca");
         pvaChannel->issueConnect();
         Status status = pvaChannel->waitConnect(1.0);
-        pvaChannel->destroy();
         if(status.isOK()) {
             exampleDouble(pva,"DBRdouble00","pva");
             exampleDouble(pva,"DBRdouble00","ca");

@@ -1,7 +1,7 @@
-// Copyright information and license terms for this software can be
-// found in the file LICENSE that is included with the distribution
-
-/* arrayPerformance.h */
+/*
+ * Copyright information and license terms for this software can be
+ * found in the file LICENSE that is included with the distribution
+ */
 
 /**
  * @author mrk
@@ -43,9 +43,8 @@ public:
         std::string const & recordName,
         size_t size,
         double delay);
-    virtual bool init();
     virtual void process();
-    virtual void destroy();
+    virtual bool init() { return false;}
     virtual void run();
     void startThread();
     void stop();
@@ -56,7 +55,6 @@ private:
         double delay);
     size_t size;
     double delay;
-    bool isDestroyed;
     std::auto_ptr<epicsThread> thread;
     epics::pvData::Event runStop;
     epics::pvData::Event runReturn;

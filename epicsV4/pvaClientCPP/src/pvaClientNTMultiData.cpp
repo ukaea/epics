@@ -23,9 +23,6 @@ using namespace std;
 
 namespace epics { namespace pvaClient { 
 
-static PVDataCreatePtr pvDataCreate = getPVDataCreate();
-
-
 PvaClientNTMultiDataPtr PvaClientNTMultiData::create(
     epics::pvData::UnionConstPtr const & u,
     PvaClientMultiChannelPtr const &pvaMultiChannel,
@@ -45,15 +42,16 @@ PvaClientNTMultiData::PvaClientNTMultiData(
   pvaClientChannelArray(pvaClientChannelArray),
   nchannel(pvaClientChannelArray.size()),
   gotAlarm(false),
-  gotTimeStamp(false),
-  isDestroyed(false)
+  gotTimeStamp(false)
 {
+    if(PvaClient::getDebug()) cout<< "PvaClientNTMultiData::PvaClientNTMultiData()\n";
     PVFieldPtr pvValue = pvRequest->getSubField("field.value");
     if(!pvValue) {
         throw std::runtime_error("pvRequest did not specify value");
     }
     topPVStructure.resize(nchannel);
     unionValue.resize(nchannel);
+    PVDataCreatePtr pvDataCreate = getPVDataCreate();
     for(size_t i=0; i< nchannel; ++i) {
          topPVStructure[i] = PVStructurePtr();
          unionValue[i] = pvDataCreate->createPVUnion(u);
@@ -88,18 +86,9 @@ PvaClientNTMultiData::PvaClientNTMultiData(
 
 PvaClientNTMultiData::~PvaClientNTMultiData()
 {
-    destroy();
+    if(PvaClient::getDebug()) cout<< "PvaClientNTMultiData::~PvaClientNTMultiData()\n";
 }
 
-void PvaClientNTMultiData::destroy()
-{
-    {
-        Lock xx(mutex);
-        if(isDestroyed) return;
-        isDestroyed = true;
-    }
-    pvaClientChannelArray.clear();
-}
 
 void PvaClientNTMultiData::setStructure(StructureConstPtr const & structure,size_t index)
 {
@@ -182,7 +171,7 @@ TimeStamp PvaClientNTMultiData::getTimeStamp()
 
 NTMultiChannelPtr PvaClientNTMultiData::getNTMultiChannel()
 {
-    PVStructurePtr pvStructure = pvDataCreate->createPVStructure(ntMultiChannelStructure);
+    PVStructurePtr pvStructure = getPVDataCreate()->createPVStructure(ntMultiChannelStructure);
     NTMultiChannelPtr ntMultiChannel = NTMultiChannel::wrap(pvStructure);
     ntMultiChannel->getChannelName()->replace(pvaClientMultiChannel->getChannelNames());
     shared_vector<epics::pvData::PVUnionPtr> val(nchannel);

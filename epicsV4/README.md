@@ -1,115 +1,120 @@
+# EPICS V4 Release 4.6.0 C++ Bundle Read-Me
 
-EPICS VERSION 4 C++ IMPLEMENTATION README
-=========================================
+This README provides a guide to building the EPICS V4 C++ modules from this
+packaged release.
 
-This README is a guide to the build of the C++ implementation of EPICS Version 4. 
+Authors:
+ * David Hickin, Diamond
+ * Andrew Johnson, Argonne National Laboratory
 
-Status: This README is up-to-date with respect to release v4.5.0.1 of EPICS Version 4.
+## Prerequisites
 
-Auth:  
-Dave Hickin, Diamond, 28-Oct-2015  
+The EPICS V4 C++ Release Bundle is provided as source code, and must be built
+for the specific set of target architectures needed.
 
-Mod:  
-Dave Hickin, Diamond, 28-Jan-2016  
-Update for 4.5.0.1.  
+The bundle requires recent versions of following software:
 
+1. EPICS Base (3.14.12.x or 3.15.x) already built
+2. Standard development tools as required for EPICS Base
+3. Doxygen (optional, for generating documentation)
 
-Prerequisites
--------------
-
-The EPICS V4 C++ bundle requires recent versions of the following
-software:
-
-1. EPICS Base (v3.14.12 or 3.15)
-2. Standard development tools (gcc, make, etc.)
- 
 The pvAccess for Python package, pvaPy, requires:
 
-1. Python development header files/libraries (v2.6.6) 
-2. Boost (v1.41.0); must have the boost_python library built.
-3. autoconf
+1. Python development header files/libraries (v2.6.6 or later)
+2. Boost (v1.41 or later) with Boost.Python
+3. Boost.NumPy (optional, for use with NumPy)
 4. Sphinx (optional, for generating documentation)
- 
-The Channel Archiver Service requires:
-
-1. the EPICS Channel Archiver.
- 
-
-Build
------
-
-More detailed build instructions can be found in the
-[Getting started guide](http://epics-pvdata.sourceforge.net/gettingStarted.html).
-
-Building uses the "make" utility and the EPICS base build system.
-For more information on the EPICS build system consult the
-[Application Development guide](http://www.aps.anl.gov/epics/base/R3-14/12-docs/AppDevGuide.pdf).
-
-The build system needs the location of the prerequisites for each module.
-The easiest way to do this is to create a file called RELEASE.local in the top-level
-directory, and to it add lines of the form:
-
-    EV4_BASE=/path/to/epics4
-    PVDATABASE=$(EV4_BASE)/pvDatabaseCPP
-    PVASRV=$(EV4_BASE)/pvaSrv
-    PVACCESS=$(EV4_BASE)/pvAccessCPP
-    NORMATIVETYPES=$(EV4_BASE)/normativeTypesCPP
-    PVDATA=$(EV4_BASE)/pvDataCPP
-    PVCOMMON=$(EV4_BASE)/pvCommonCPP
-    EPICS_BASE=/path/to/epics/base
-
-where each line points to the location of the respective EPICS Version 4 module.
-Add your paths to the EPICS base (EPICS\_BASE) and the location of the bundle (EV4\_BASE).
-An example (ExampleRelease.local) is included in the bundle.
-
-With this in place, to build type:
-
-    make
-
-A bash configration script is provided for building on Linux. In which case
-the following will work:
-
-    make EPICS_BASE=/path/to/epics/base make configure
-    make
-
-This will build everything except pvaPy and the Channel Archiver Service.
-
-To build pvaPy, having first built the other modules as above, from the top
-directory cd into the pvaPy directory, configure and build:
-
-    cd pvaPy
-    EPICS_BASE=/path/to/epics/base EPICS4_dir=/path/to/epics4 make configure
-    make
-
-To build the Channel Archiver Service, place the line:
-
-    ARCHIVER=/path/to/channel_archiver
-
-in RELEASE.local. Then:
-
-    cd exampleCPP/ChannelArchiverService
-    make 
 
 
-Further information
-===================
+## Building EPICS V4
 
-For the individual modules, consult the documentation in each one. In 
-particular:
+This bundle automates the steps of configuring and building the individual
+sub-modules that make up the C++ implementation of EPICS V4. The modules
+themselves rely on the EPICS Base build system. Detailed documentation of the
+EPICS Base build facility can be found in the [EPICS Application Developers
+Guide](http://www.aps.anl.gov/epics/base/R3-15/4-docs/AppDevGuide/node5.html).
+
+Simple builds of the bundle can be achieved on most operating systems with a
+single command, specifying the path to EPICS Base as a parameter:
+
+    make EPICS_BASE=/path/to/epics/base
+
+This will create configuration files for each module and build them in order. If
+you have a computer with multiple CPUs you can make use of GNUmake's ability to
+compile different parts in parallel on different CPUs by adding the `-j` flag;
+on Windows you should use `-j8` for example on an 8-CPU box since GNUmake's load
+detection doesn't work very well. With EPICS Base 3.14.12.x on Windows the
+parallel build rules don't work properly though so `-j` should not be used.
+
+It is only necessary to give the `EPICS_BASE=...` argument the first time you run `make`; for any subsequent commands you can omit that as it will be saved in a file `RELEASE.<host-arch>.Common` that gets created on the first run.
+
+Some additional make commands that may be useful are:
+
+* `make host` - This only builds for the host operating system, avoiding any cross-compiled architectures that the EPICS Base installation might be configured for. See the Manual Configuration section below for an alternative to using this target though.
+* `make doxygen` - Run the `doxygen` tool on all sub-modules that use this to generate reference documents. Excludes the pvaPy and exampleCPP modules.
+* `make runtests` - This executes all of the self-test programs that are delivered in the EPICS V4 C++ modules.
+* `make clean` - Delete intermediate files which are not required after the build has finished for all architectures built on this host. This may be useful on systems where disk space is tight.
+* `make distclean` - Delete all generated files for all architectures, including installed headers, binaries and library files. This also removes the file that saves the location of EPICS Base, so after running this the next build must specify the `EPICS_BASE=...` argument again.
+
+
+### Building the Python API (pvaPy)
+
+This bundle includes a copy of the pvaPy python module, but the build commands above will not compile it (pvaPy cannot be built on Microsoft Windows at all). To configure and build pvaPy after the above build has completed:
+
+    make python
+
+If you only want to build EPICS V4 for the python API, you can avoid compiling some of the modules in the first step above by just running
+
+    make EPICS_BASE=/path/to/epics/base python
+
+If you use the Python library NumPy and have the Boost.NumPy package installed, you can build pvaPy with NumPy support by adding the path to that package on either of the above command-lines:
+
+    make python BOOST_NUMPY=/path/to/boost/numpy
+
+or
+
+    make EPICS_BASE=/path/to/epics/base BOOST_NUMPY=/path/to/boost/numpy python
+
+After building pvaPy you can also generate the related reference documentation if you have the Sphinx Python documentation generator installed:
+
+    make sphinx
+
+
+### Manually Configuring Target Architectures
+
+In many cases the automated configuration steps described above will be
+sufficient to build the standard C++ modules. However in some circumstances a
+manual configuration step may be needed first to control which embedded
+cross-compiled target architectures get built. If your copy of EPICS Base is
+configured to also compile for unsupported VxWorks targets (i.e. any version
+earlier than VxWorks 6.8) you will have to exclude those targets from the build.
+To do that, create a file called `CONFIG_SITE.local` in the top-level bundle
+directory that overrides the `CROSS_COMPILER_TARGET_ARCHS` variable as
+appropriate.
+
+For example
+
+    # CONFIG_SITE.local
+    CROSS_COMPILER_TARGET_ARCHS = vxWorks-ppc32
+
+explicitly configures the build for only the vxWorks-ppc32 target architecture (in addition to the host architecture), while
+
+    # CONFIG_SITE.local
+    CROSS_COMPILER_TARGET_ARCHS = \
+        $(filter-out vxWorks-68040,$(CROSS_COMPILER_TARGET_ARCHS))
+
+removes just the vxWorks-68040 cross-target from the set provided by EPICS Base.
+
+
+## Further Information
+
+For information about the individual modules, consult the documentation that comes with each one. In particular these files
 
 * README.md
-* RELEASE_VERSIONS.md
-* The documentation directory
+* documentation/RELEASE_NOTES.md
+* Other files in the documentation directory
 
-For more information visit the
-[EPICS V4 website](http://epics-pvdata.sourceforge.net).
-
-In particular:
-
-* [Getting started guide](http://epics-pvdata.sourceforge.net/gettingStarted.html) - 
-  for detailed build instructions and where to go next.
-* [Developer guide](http://epics-pvdata.sourceforge.net/informative/developerGuide/developerGuide.html) -
-  currently under development.
-* [Documentation page](http://epics-pvdata.sourceforge.net/literature.html) -
-  Overview documents and doxygen for the various modules.
-
+Additional information about EPICS V4 can be found on the
+[EPICS V4 Website](http://epics-pvdata.sourceforge.net/)
+and its
+[Documentation page](http://epics-pvdata.sourceforge.net/literature.html)

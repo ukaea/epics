@@ -1,7 +1,7 @@
-// Copyright information and license terms for this software can be
-// found in the file LICENSE that is included with the distribution
-
-/* powerSupplyRecord.h */
+/*
+ * Copyright information and license terms for this software can be
+ * found in the file LICENSE that is included with the distribution
+ */
 
 /**
  * @author mrk
@@ -42,14 +42,15 @@ public:
     POINTER_DEFINITIONS(PowerSupplyRecord);
     static PowerSupplyRecordPtr create(
         std::string const & recordName);
-    virtual ~PowerSupplyRecord();
-    virtual void destroy();
-    virtual bool init();
+    virtual ~PowerSupplyRecord() {}
+    virtual bool init() {return false;}
     virtual void process();
     
 private:
     PowerSupplyRecord(std::string const & recordName,
         epics::pvData::PVStructurePtr const & pvStructure);
+    void initPvt();
+
     epics::pvData::PVDoublePtr pvCurrent;
     epics::pvData::PVDoublePtr pvPower;
     epics::pvData::PVDoublePtr pvVoltage;

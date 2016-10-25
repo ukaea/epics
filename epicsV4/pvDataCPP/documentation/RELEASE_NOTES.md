@@ -1,7 +1,125 @@
-Release 5.0
-===========
+Release 6.0.1
+=============
 
-The main changes since release 4.0 are:
+The changes since release 6.0.0 are:
+
+* Fix "Problem building pvDataCPP for win32-x86-mingw" (issue #42)
+* In src/misc/bitSet.cpp #include <algorithm> required for MSVS 2015
+* In testApp/misc/testTypeCast.cpp print (u)int8 values as integers
+* Minor documentation updates
+
+Release 6.0.0
+=============
+
+The main changes since release 5.0.4 are:
+
+* Linux shared library version added
+* Headers have been moved into pv directories
+* Bitset functions declared const where possible
+* Bitset::swap added
+* Requester::message has default implementation
+* Serialization/deserialization helpers added
+* Non-template getSubField char* overload added
+* MonitorPlugin deprecated
+* Field name validation performed
+* Now builds for Cygwin and MinGW targets
+* Fix for debug build issue.
+* New license file replaces LICENSE and COPYRIGHT
+
+Shared library version added
+----------------------------
+
+Linux shared library version numbers have been added by setting SHRLIB_VERSION
+(to 6.0 in this case). So shared object will be libpvData.so.6.0 instead of
+libpvData.so.
+
+Headers have been moved into pv directories
+-------------------------------------------
+
+E.g. src/property/alarm.h -> src/property/pv/alarm.h
+
+This facilitates using some IDEs such as Qt Creator.
+
+Requester::message has default implementation
+---------------------------------------------
+
+Requester::message is no longer pure virtual. Default implementation sends
+string to std::cerr.
+
+Serialization/deserialization helpers added
+-------------------------------------------
+
+A helper function, serializeToVector, has been added which serializes a 
+Serializable object into a standard vector of UInt8s.
+
+Similarly a function deserializeFromVector deserializes a standard vector into
+a Deserializable object.
+
+A function deserializeFromBuffer deserializes a ByteBuffer into a 
+Deserializable object.
+
+Field name validation performed
+-------------------------------
+
+On creating a Structure or Union the field names are now validated.
+
+Valid characters for a field name are upper or lowercase letters, numbers and
+underscores and intial numbers are invalid, i.e. names must be of the form
+[A-Za-z_][A-Za-z0-9_]*.
+
+Now builds for Cygwin and MinGW targets
+---------------------------------------
+
+Includes cross-compiling MinGW on Linux.
+
+
+Release 5.0.4
+=============
+
+The changes since release 5.0.3 are:
+
+* Fixed bitset serialization (issue #24)
+* Fixed truncation in BitSet::or_and (issue #27)
+
+Fixed bitset serialization (issue #24)
+--------------------------------------
+
+C++ bitset serialization was not consistent with the C++ deserialization and
+Java code in some instances (depending on the endianness of the serializer and
+deserializer) when the number of bits was 56-63 modulo 64. C++ serialization
+has been fixed.
+
+Fix exposed issue in deserialization on 32-bit platforms which
+has also been corrected. 
+
+Fixed truncation in BitSet::or_and (issue #27)
+----------------------------------------------
+
+If n, n1 and n2 words are used to store the values of the bitsets bitset,
+bitset1 and bitset2 respectively then max(n, min(n1,n2)) words are needed
+to store bitset.or_(bitset1, bitset2).
+
+Previously min(n1,n2) words were used and the result would be truncated in
+some instances. This has been fixed.
+
+
+Release 5.0.3
+=============
+
+The only change since release 5.0.2 is:
+
+Fixed buffer overflow in PVUnion::serialize() (issue #20)
+---------------------------------------------------------
+
+A PVUnion whose stored value was null was serialized without checking 
+whether the buffer had sufficient capacity. This has been fixed by calling
+ensureBuffer().
+
+
+Release 5.0.2
+=============
+
+The main changes since release 4.0.3 are:
 
 * Deprecated getXXXField() methods have been removed from PVStructure
 * Convert copy methods and equals operators (re)moved
@@ -15,7 +133,7 @@ The main changes since release 4.0 are:
 
 
 Deprecated getXXXField methods have been removed from PVStructure
--------------------------------------------------------------------
+-----------------------------------------------------------------
 
 The following methods have been removed from PVStructure
 
@@ -141,8 +259,8 @@ This has been changed so the it returns a null pvStructure
 and provides an error.
 
 
-Release 4.0
-===========
+Release 4.0.3
+=============
 
 The main changes since release 3.0.2 are:
 

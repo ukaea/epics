@@ -1,7 +1,8 @@
-// Copyright information and license terms for this software can be
-// found in the file LICENSE that is included with the distribution
+/*
+ * Copyright information and license terms for this software can be
+ * found in the file LICENSE that is included with the distribution
+ */
 
-/* helloPutGetRecord.h */
 /**
  * @author mrk
  * @date 2013.04.02
@@ -39,13 +40,14 @@ public:
     POINTER_DEFINITIONS(HelloPutGetRecord);
     static HelloPutGetRecordPtr create(
         std::string const & recordName);
-    virtual ~HelloPutGetRecord();
-    virtual void destroy();
-    virtual bool init();
+    virtual ~HelloPutGetRecord() {}
+    virtual bool init() {return false;}
     virtual void process();
 private:
     HelloPutGetRecord(std::string const & recordName,
         epics::pvData::PVStructurePtr const & pvStructure);
+
+    void initPvt();
 
     epics::pvData::PVStringPtr pvArgumentValue;
     epics::pvData::PVStringPtr pvResultValue;

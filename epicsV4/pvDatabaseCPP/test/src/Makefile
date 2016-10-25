@@ -18,4 +18,13 @@ testExampleRecord_SRCS += testExampleRecord.cpp
 testHarness_SRCS += testExampleRecord.cpp
 TESTS += testExampleRecord
 
+TESTPROD_HOST += testLocalProvider
+testLocalProvider_SRCS += testLocalProvider.cpp
+testHarness_SRCS += testLocalProvider.cpp
+TESTS += testLocalProvider
 
+
+TESTPROD_HOST += testPVAServer
+testPVAServer_SRCS += testPVAServer.cpp
+testHarness_SRCS += testPVAServer.cpp
+TESTS += testPVAServer

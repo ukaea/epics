@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+  <title>EPICS exampleCPP/exampleClient</title>
+  <link rel="stylesheet" type="text/css"
+  href="http://epics-pvdata.sourceforge.net/base.css" />
+  <link rel="stylesheet" type="text/css"
+  href="http://epics-pvdata.sourceforge.net/epicsv4.css" />
+  <style type="text/css">
+/*<![CDATA[*/
+     .about { margin-left: 3em; margin-right: 3em; font-size: .83em}
+     table { margin-left: auto; margin-right: auto }
+     .diagram { text-align: center; margin: 2.5em 0 }
+     body { margin-right: 10% }
+/*]]>*/</style>
+
+ <!-- Script that generates the Table of Contents -->
+  <script type="text/javascript" src="http://epics-pvdata.sourceforge.net/script/tocgen.js"></script>
+
+</head>
+
+<body>
+
+<div class="head">
+<h1>EPICS exampleCPP/exampleClient</h1>
+<h2 class="nocount">2016.08.29</h2>
+
+<h2 class="nocount">Abstract</h2>
+<p>
+<b>exampleClient</b> has examples for <b>pvaClientCPP</b>
+</p>
+<p>
+<a
+      href="http://epics-pvdata.sourceforge.net/informative/developerGuide/developerGuide.html">
+      developerGuide.html
+</a> 
+Provides tutorial information on how to use pvaClient.
+Many of the examples are adapted from the examples shown here.
+</p>
+
+</div> <!-- head -->
+
+<div id="toc">
+  <h2 class="nocount">Table of Contents</h2>
+</div>
+
+<!-- Place what you would like in the Table of Contents, inside the contents div -->
+<div id="contents" class="contents">	  
+<hr />
+
+<h2>examplePvaClientGet</h2>
+<p>This has a number of examples:</p>
+<dl>
+   <dt>exampleDouble</dt>
+      <dd>
+         This shows both a short and long way to get data from a scalar channel.
+         The short way throws an execption if the request fails.
+         The long way allows the client more control of looking for problems and blocking.
+     </dd>
+   <dt>exampleDoubleArray</dt>
+      <dd>
+         Like exampleDouble except the data is a scalarArray.
+     </dd>
+   <dt>exampleCADouble</dt>
+      <dd>
+         This is like exampleDouble except it uses provider <b>ca</b>.
+     </dd>
+   <dt>exampleCADoubleArray</dt>
+      <dd>
+         This is like exampleDoubleArray except it uses provider <b>ca</b>.
+     </dd>
+   <dt>examplePowerSupply</dt>
+      <dd>
+       This is an example of getting data from a channel that does not
+        have a value field.
+     </dd>
+</dl>
+<h2>examplePvaClientMonitor</h2>
+<p>This is an example of creating a monitor on a channel.
+It monitors a scalar double field.
+It also issues puts to the same channel so that it can make the monitors occur.
+</p>
+<h2>examplePvaClientPut</h2>
+<p>This has the folllowing examples:</p>
+<dl>
+   <dt>examplePut</dt>
+     <dd>This shows use of get, put, and monitor.</dd>
+   <dt>examplePVFieldPut</dt>
+     <dd>This does a put and then a get.</dd>
+</dl>
+<h2>examplePvaClientProcess</h2>
+<p>This example makes a process request to a channel.</p>
+
+<h2>examplePvaClientMultiDouble</h2>
+<p>This is an example of using pvaClientMultiChannel,
+pvaClientMultiGetDouble, pvaClientMultiPutDouble, and pvaClientMultiMonitorDouble.
+</p>
+<h2>examplePvaClientNTMulti</h2>
+<p>This is an example of using pvaClientMultiChannel to get data as an NTMultiChannel.</p>
+<h2>helloWorldPutGet</h2>
+<p>This is an example of issuing a channelPutGet.</p>
+<h2>helloWorldRPC</h2>
+<p>This is an example of issuing a PvaClientRPC request.
+It does <b>not</b> use pva.</p>
+
+<h2>getForever</h2>
+<p>This example uses pvaClientGet. It supports help as follows:</p>
+<pre>
+mrk> pwd
+/home/epicsv4/release4_6/exampleCPP/exampleClient
+mrk> bin/$EPICS_HOST_ARCH/getForever -help
+provider channelName  debug
+default
+pva PVRdouble false
+mrk> 
+</pre>
+The arguments are:
+<dl>
+   <dt>provider</dt>
+     <dd>
+      This can be either <b>pva</b> or <b>ca</b>.
+      <b>ca</b> only works if channelName is a accessable via the ca network protocol,
+      e. g. it is the name of a DBRecord in a V3 IOC.
+     </dd>
+   <dt>channelName</dt>
+     <dd>
+       The name of the channel.
+     </dd>
+   <dt>debug</dt>
+     <dd>
+      If true then debug messages are displayed/
+     </dd>
+</dl>
+<p>When run an attempt is made to connect to channelName, create a pvaClientGet,
+and a get is issued. If any of these fails an error message is issued and the process
+terminates.
+</p>
+<p>If successful the result of the get is shown and then the process waits for
+input from the console. If exit is entered the process terminates.
+</p>
+<p>
+If the get fails, e. g. the channel has disconnected since the last get,
+an error message is displayed and the process terminates.
+If the get is successful then the result is displayed and the process again waits for
+console input.
+</p>
+<p>
+Note that if a channel disconnects and reconnects between gets the process should continuue
+to work.
+</p>
+
+<h2>monitorForever</h2>
+<p>This example uses pvaClientMonitor. It supports help as follows:</p>
+<pre>
+mrk> pwd
+/home/epicsv4/release4_6/exampleCPP/exampleClient
+mrk> bin/$EPICS_HOST_ARCH/monitorForever -help
+provider channelName  debug
+default
+pva PVRdouble false
+mrk> 
+</pre>
+The arguments are:
+<dl>
+   <dt>provider</dt>
+     <dd>
+      This can be either <b>pva</b> or <b>ca</b>.
+      <b>ca</b> only works if channelName is a accessable via the ca network protocol,
+      e. g. it is the name of a DBRecord in a V3 IOC.
+     </dd>
+   <dt>channelName</dt>
+     <dd>
+       The name of the channel.
+     </dd>
+   <dt>debug</dt>
+     <dd>
+      If true then debug messages are displayed/
+     </dd>
+</dl>
+<p>When run an attempt is made to connect to channelName, create a pvaClientMonitor, and starts monitoring.
+If any of these fail an error message is issued and the process
+terminates.
+</p>
+<p>If successful then output is displayed for each monitor event.
+The process also waits for
+input from the console.
+If exit is entered the process terminates.
+If unlisten was called since the last console intput a message is displayed
+and the process terminates, otherwise the process continues.
+</p>
+<p>
+Note that if a channel disconnects and reconnects between console input
+the process should continuue to work.
+</p>
+
+<h2>testRAII, testRAIIMultiDouble, and testRAIINTMulti</h2>
+<p>These were created to help test if pvaClientCPP properly implements RAII,
+e. g, Resource Allocation Is Initialization.
+</p>
+
+</div> <!-- class="contents" -->
+</body>
+</html>

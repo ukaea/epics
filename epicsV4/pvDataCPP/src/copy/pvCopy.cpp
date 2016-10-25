@@ -1,8 +1,7 @@
 /* pvCopy.cpp */
-/**
- * Copyright - See the COPYRIGHT that is included with this distribution.
- * EPICS pvData is distributed subject to a Software License Agreement found
- * in file LICENSE that is included with this distribution.
+/*
+ * Copyright information and license terms for this software can be
+ * found in the file LICENSE that is included with the distribution
  */
 /**
  * @author Marty Kraimer
@@ -83,7 +82,7 @@ PVCopyPtr PVCopy::create(
             pvStructure = pvRequest->getSubField<PVStructure>(structureName);
             if(!pvStructure) return NULLPVCopy;
         }
-    } else if(pvStructure->getSubField("field")) {
+    } else if(pvStructure->getSubField<PVStructure>("field")) {
         pvStructure = pvRequest->getSubField<PVStructure>("field");
     }
     PVCopyPtr pvCopy = PVCopyPtr(new PVCopy(pvMaster));
@@ -444,9 +443,7 @@ CopyNodePtr PVCopy::createStructureNodes(
         string fieldName = copyPVField->getFieldName();
         
         PVStructurePtr requestPVStructure = pvFromRequest->getSubField<PVStructure>(fieldName);
-        PVStructurePtr pvSubFieldOptions;
-        PVFieldPtr pvField = requestPVStructure->getSubField("_options");
-        if(pvField) pvSubFieldOptions = static_pointer_cast<PVStructure>(pvField);
+        PVStructurePtr pvSubFieldOptions = requestPVStructure->getSubField<PVStructure>("_options");
         PVFieldPtr pvMasterField;
         PVFieldPtrArray const & pvMasterFields = pvMasterStructure->getPVFields();
         for(size_t j=0; i<pvMasterFields.size(); j++ ) {

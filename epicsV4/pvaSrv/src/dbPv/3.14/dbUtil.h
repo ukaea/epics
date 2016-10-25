@@ -1,7 +1,6 @@
 /**
- * Copyright - See the COPYRIGHT that is included with this distribution.
- * EPICS pvData is distributed subject to a Software License Agreement found
- * in file LICENSE that is included with this distribution.
+ * Copyright information and license terms for this software can be
+ * found in the file LICENSE that is included with the distribution.
  */
 /**
  * @author mrk
@@ -73,7 +72,8 @@ public:
         bool processDefault);
     epics::pvData::PVStructurePtr createPVStructure(
         epics::pvData::Requester::shared_pointer const &requester,
-        int mask,DbAddr &dbAddr);
+        int mask,DbAddr &dbAddr,
+        epics::pvData::PVStructure::shared_pointer const &pvRequest);
     void getPropertyData(
         epics::pvData::Requester::shared_pointer const &requester,
         int mask,DbAddr &dbAddr,
@@ -97,6 +97,35 @@ public:
         DbAddr &dbAddr);
 private:
     DbUtil();
+
+    void getPropertyData(
+        epics::pvData::Requester::shared_pointer const &requester,
+        int mask,
+        DbAddr &dbAddr,
+        epics::pvData::PVStructurePtr const &pvStructure,
+        epics::pvData::BitSet::shared_pointer const &bitSet);
+
+    void getDisplayData(
+        epics::pvData::Requester::shared_pointer const &requester,
+        int mask,
+        DbAddr &dbAddr,
+        epics::pvData::PVStructurePtr const &pvStructure,
+        epics::pvData::BitSet::shared_pointer const &bitSet);
+
+    void getControlData(
+        epics::pvData::Requester::shared_pointer const &requester,
+        int mask,
+        DbAddr &dbAddr,
+        epics::pvData::PVStructurePtr const &pvStructure,
+        epics::pvData::BitSet::shared_pointer const &bitSet);
+
+    void getValueAlarmData(
+        epics::pvData::Requester::shared_pointer const &requester,
+        int mask,
+        DbAddr &dbAddr,
+        epics::pvData::PVStructurePtr const &pvStructure,
+        epics::pvData::BitSet::shared_pointer const &bitSet);
+
     epics::pvData::PVStructurePtr  nullPVStructure;
     std::string recordString;
     std::string processString;
@@ -117,6 +146,7 @@ private:
     std::string highAlarmLimitString;
     std::string allString;
     std::string indexString;
+    std::string choicesString;
 };
 
 }}

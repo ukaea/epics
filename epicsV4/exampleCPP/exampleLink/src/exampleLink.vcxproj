@@ -61,11 +61,17 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="exampleLinkRecord.cpp" />
-    <ClCompile Include="exampleLinkRegister.cpp" />
+    <ClCompile Include="doubleArrayRecord.cpp" />
+    <ClCompile Include="doubleArrayRegister.cpp" />
+    <ClCompile Include="exampleGetLinkRecord.cpp" />
+    <ClCompile Include="exampleGetLinkRegister.cpp" />
+    <ClCompile Include="exampleMonitorLinkRecord.cpp" />
+    <ClCompile Include="exampleMonitorLinkRegister.cpp" />
+    <ClCompile Include="examplePutLinkRecord.cpp" />
+    <ClCompile Include="examplePutLinkRegister.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="exampleLinkRegister.dbd" />
+    <None Include="Makefile" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{38CF027F-2738-4A70-9F4B-4A19AB004147}</ProjectGuid>

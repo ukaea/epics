@@ -1,7 +1,7 @@
-// Copyright information and license terms for this software can be
-// found in the file LICENSE that is included with the distribution
-
-/* longArrayGet.cpp */
+/*
+ * Copyright information and license terms for this software can be
+ * found in the file LICENSE that is included with the distribution
+ */
 
 /**
  * @author mrk
@@ -108,14 +108,12 @@ void LongArrayGet::run()
             if(numChannelGet>=iterBetweenCreateChannelGet) createGet = true;
         }
         if(createGet) {
-             pvaGet->destroy();
              pvaGet = pvaChannel->createGet("value,timeStamp,alarm");
              numChannelGet = 0;
         }
         ++numChannelCreate;
         if(iterBetweenCreateChannel!=0) {
             if(numChannelCreate>=iterBetweenCreateChannel) {
-                pvaChannel->destroy();
                 pvaChannel = pva->createChannel(channelName,providerName);
                 pvaGet = pvaChannel->createGet("value,timeStamp,alarm");
                 numChannelCreate = 0;

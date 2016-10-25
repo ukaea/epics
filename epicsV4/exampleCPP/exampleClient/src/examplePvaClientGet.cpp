@@ -1,15 +1,15 @@
-// Copyright information and license terms for this software can be
-// found in the file LICENSE that is included with the distribution
-
-/*examplePvaClientGet.cpp */
+/*
+ * Copyright information and license terms for this software can be
+ * found in the file LICENSE that is included with the distribution
+ */
 
 /**
  * @author mrk
  */
 
 /* Author: Marty Kraimer */
-
 #include <iostream>
+#include <epicsThread.h>
 
 #include <pv/pvaClient.h>
 
@@ -28,7 +28,6 @@ static void exampleDouble(PvaClientPtr const &pva,string const & channelName,str
     cout << "as double " << value << endl;
     cout << "repeat short way\n";
     value =  pva->channel(channelName,providerName,2.0)->get()->getData()->getDouble();
-    
     cout << "as double " << value << endl;
     cout << "long way\n";
     PvaClientChannelPtr pvaChannel = pva->createChannel(channelName,providerName);
@@ -42,12 +41,15 @@ static void exampleDouble(PvaClientPtr const &pva,string const & channelName,str
     PvaClientGetDataPtr pvaData = pvaGet->getData();
     value = pvaData->getDouble();
     cout << "as double " << value << endl;
-    pvaChannel->destroy();
+    cout << "__exampleDouble__ returning\n";
 }
 
 static void exampleDoubleArray(PvaClientPtr const &pva,string const & channelName,string const & providerName)
 {
-    cout << "__exampleDoubleArray__  channelName " << channelName << " providerName " << providerName << endl;
+    cout << "__exampleDoubleArray__  channelName " 
+         << channelName 
+         << " providerName " 
+         << providerName << endl;
     shared_vector<const double> value;
     cout << "short way\n";
     value =  pva->channel(channelName,providerName,2.0)->get()->getData()->getDoubleArray();
@@ -58,25 +60,25 @@ static void exampleDoubleArray(PvaClientPtr const &pva,string const & channelNam
    
     cout << "long way\n";
     PvaClientChannelPtr pvaChannel = pva->createChannel(channelName,providerName);
-    pvaChannel->connect(2.0);
+    pvaChannel->connect();
     PvaClientGetPtr pvaGet = pvaChannel->createGet();
     PvaClientGetDataPtr pvaData = pvaGet->getData();
     value = pvaData->getDoubleArray();
     cout << "as doubleArray " << value << endl;
-    pvaChannel->destroy();
+    cout << "__exampleDoubleArray__ returning\n";
 }
 
 int main(int argc,char *argv[])
 {
     cout << "_____examplePvaClientGet starting_______\n";
-    PvaClientPtr pva= PvaClient::get("pva ca");
     try {
+        PvaClientPtr pva= PvaClient::get("pva ca");
+//PvaClient::setDebug(true);
         exampleDouble(pva,"PVRdouble","pva");
         exampleDoubleArray(pva,"PVRdoubleArray","pva");
         PvaClientChannelPtr pvaChannel = pva->createChannel("DBRdouble00","ca");
         pvaChannel->issueConnect();
         Status status = pvaChannel->waitConnect(1.0);
-        pvaChannel->destroy();
         if(status.isOK()) {
             exampleDouble(pva,"DBRdouble00","pva");
             exampleDouble(pva,"DBRdouble00","ca");

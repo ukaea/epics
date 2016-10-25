@@ -53,44 +53,28 @@ PvaClientMultiChannel::PvaClientMultiChannel(
   numConnected(0),
   pvaClientChannelArray(PvaClientChannelArray(numChannel,PvaClientChannelPtr())),
   isConnected(shared_vector<epics::pvData::boolean>(numChannel,false)),
-  createRequest(CreateRequest::create()),
-  isDestroyed(false)
+  createRequest(CreateRequest::create())
 {
+    if(PvaClient::getDebug()) cout<< "PvaClientMultiChannel::PvaClientMultiChannel()\n";
 }
 
 PvaClientMultiChannel::~PvaClientMultiChannel()
 {
-    destroy();
-}
-
-void PvaClientMultiChannel::destroy()
-{
-    {
-        Lock xx(mutex);
-        if(isDestroyed) return;
-        isDestroyed = true;
-    }
-    pvaClientChannelArray.clear();
+    if(PvaClient::getDebug()) cout<< "PvaClientMultiChannel::~PvaClientMultiChannel()\n";
 }
 
 void PvaClientMultiChannel::checkConnected()
 {
-    if(numConnected==0){
-        Status status = connect(3.0);
-        if(status.isOK()) return;
-        throw std::runtime_error("pvaClientMultiChannel connect failure");
-    }
+    if(numConnected==0) connect();
 }
 
 epics::pvData::shared_vector<const string> PvaClientMultiChannel::getChannelNames()
 {
-    if(isDestroyed) throw std::runtime_error("pvaClientMultiChannel was destroyed");
     return channelName;
 }
 
 Status PvaClientMultiChannel::connect(double timeout)
 {
-    if(isDestroyed) throw std::runtime_error("pvaClientMultiChannel was destroyed");
     for(size_t i=0; i< numChannel; ++i) {
         pvaClientChannelArray[i] = pvaClient->createChannel(channelName[i],providerName);
         pvaClientChannelArray[i]->issueConnect();
@@ -119,13 +103,11 @@ Status PvaClientMultiChannel::connect(double timeout)
 
 bool PvaClientMultiChannel::allConnected()
 {
-    if(isDestroyed) throw std::runtime_error("pvaClientMultiChannel was destroyed");
     return (numConnected==numChannel) ? true : false;
 }
 
 bool PvaClientMultiChannel::connectionChange()
 {
-    if(isDestroyed) throw std::runtime_error("pvaClientMultiChannel was destroyed");
     for(size_t i=0; i<numChannel; ++i) {
          PvaClientChannelPtr pvaClientChannel = pvaClientChannelArray[i];
          Channel::shared_pointer channel = pvaClientChannel->getChannel();
@@ -138,7 +120,6 @@ bool PvaClientMultiChannel::connectionChange()
 
 epics::pvData::shared_vector<epics::pvData::boolean>  PvaClientMultiChannel::getIsConnected()
 {
-    if(isDestroyed) throw std::runtime_error("pvaClientMultiChannel was destroyed");
     for(size_t i=0; i<numChannel; ++i) {
          PvaClientChannelPtr pvaClientChannel = pvaClientChannelArray[i];
          if(!pvaClientChannel) {
@@ -154,13 +135,11 @@ epics::pvData::shared_vector<epics::pvData::boolean>  PvaClientMultiChannel::get
 
 PvaClientChannelArray PvaClientMultiChannel::getPvaClientChannelArray()
 {
-    if(isDestroyed) throw std::runtime_error("pvaClientMultiChannel was destroyed");
     return pvaClientChannelArray;
 }
 
 PvaClientPtr PvaClientMultiChannel::getPvaClient()
 {
-    if(isDestroyed) throw std::runtime_error("pvaClientMultiChannel was destroyed");
     return pvaClient;
 }
 
@@ -169,34 +148,29 @@ PvaClientPtr PvaClientMultiChannel::getPvaClient()
 PvaClientMultiGetDoublePtr PvaClientMultiChannel::createGet()
 {
     checkConnected();
-    return PvaClientMultiGetDouble::create(getPtrSelf(),pvaClientChannelArray);
+    return PvaClientMultiGetDouble::create(shared_from_this(),pvaClientChannelArray);
 }
 
 
 PvaClientMultiPutDoublePtr PvaClientMultiChannel::createPut()
 {
     checkConnected();
-    return PvaClientMultiPutDouble::create(getPtrSelf(),pvaClientChannelArray);
+    return PvaClientMultiPutDouble::create(shared_from_this(),pvaClientChannelArray);
 }
 
 
 PvaClientMultiMonitorDoublePtr PvaClientMultiChannel::createMonitor()
 {
     checkConnected();
-     return PvaClientMultiMonitorDouble::create(getPtrSelf(), pvaClientChannelArray);
+     return PvaClientMultiMonitorDouble::create(shared_from_this(), pvaClientChannelArray);
 }
 
 PvaClientNTMultiPutPtr PvaClientMultiChannel::createNTPut()
 {
     checkConnected();
-    return PvaClientNTMultiPut::create(getPtrSelf(), pvaClientChannelArray);
+    return PvaClientNTMultiPut::create(shared_from_this(), pvaClientChannelArray);
 }
 
-
-PvaClientNTMultiGetPtr PvaClientMultiChannel::createNTGet()
-{
-    return createNTGet("value,alarm,timeStamp");
-}
 
 PvaClientNTMultiGetPtr PvaClientMultiChannel::createNTGet(std::string const &request)
 {
@@ -207,13 +181,7 @@ PvaClientNTMultiGetPtr PvaClientMultiChannel::createNTGet(std::string const &req
              + createRequest->getMessage();
         throw std::runtime_error(message);
     }
-    return PvaClientNTMultiGet::create(getPtrSelf(), pvaClientChannelArray,pvRequest);
-}
-
-
-PvaClientNTMultiMonitorPtr PvaClientMultiChannel::createNTMonitor()
-{
-    return createNTMonitor("value,alarm,timeStamp");
+    return PvaClientNTMultiGet::create(shared_from_this(), pvaClientChannelArray,pvRequest);
 }
 
 PvaClientNTMultiMonitorPtr PvaClientMultiChannel::createNTMonitor(std::string const &request)
@@ -225,7 +193,7 @@ PvaClientNTMultiMonitorPtr PvaClientMultiChannel::createNTMonitor(std::string co
              + createRequest->getMessage();
         throw std::runtime_error(message);
     }
-    return PvaClientNTMultiMonitor::create(getPtrSelf(), pvaClientChannelArray,pvRequest);
+    return PvaClientNTMultiMonitor::create(shared_from_this(), pvaClientChannelArray,pvRequest);
 }
 
 

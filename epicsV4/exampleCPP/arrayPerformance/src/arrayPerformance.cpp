@@ -1,7 +1,7 @@
-// Copyright information and license terms for this software can be
-// found in the file LICENSE that is included with the distribution
-
-/* arrayPerformance.cpp */
+/*
+ * Copyright information and license terms for this software can be
+ * found in the file LICENSE that is included with the distribution
+ */
 
 /**
  * @author mrk
@@ -30,10 +30,7 @@ ArrayPerformancePtr ArrayPerformance::create(
          pvLong,"value,timeStamp,alarm");
     ArrayPerformancePtr arrayPerformance(
         new ArrayPerformance(recordName,pvStructure,size,delay));
-    if(!arrayPerformance->init()) {
-         arrayPerformance.reset();
-         return arrayPerformance;
-    }
+    arrayPerformance->initPVRecord();
     return arrayPerformance;
 }
 
@@ -54,29 +51,14 @@ ArrayPerformance::ArrayPerformance(
     double delay)
 : PVRecord(recordName,pvStructure),
   size(size),
-  delay(delay),
-  isDestroyed(false)
+  delay(delay)
 {
 }
 
-
-
-bool ArrayPerformance::init()
-{
-    initPVRecord();
-    return true;
-}
 
 void ArrayPerformance::process()
 {
     PVRecord::process();
-}
-
-void ArrayPerformance::destroy()
-{
-    if(isDestroyed) return;
-    isDestroyed = true;
-    PVRecord::destroy();
 }
 
 void ArrayPerformance::stop()

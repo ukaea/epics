@@ -1,7 +1,6 @@
-/**
- * Copyright - See the COPYRIGHT that is included with this distribution.
- * This software is distributed subject to a Software License Agreement found
- * in file LICENSE that is included with this distribution.
+/*
+ * Copyright information and license terms for this software can be
+ * found in the file LICENSE that is included with the distribution
  */
 
 #include <epicsUnitTest.h>
@@ -48,7 +47,6 @@ void test_builder()
     testOk(valueField.get() != 0, "value is enum");
 
     std::cout << *structure << std::endl;
-
 }
 
 void test_ntunion()
@@ -159,11 +157,43 @@ void test_wrap()
     testOk(ptr.get() != 0, "wrapUnsafe OK");
 }
 
+
+void test_variant_union()
+{
+    StructureConstPtr structure = NTUnion::createBuilder()->
+            addDescriptor()->
+            addAlarm()->
+            addTimeStamp()->
+            createStructure();
+    testOk1(structure->getField<Union>("value")->isVariant());
+}
+
+void test_regular_union()
+{
+    UnionConstPtr u = getFieldCreate()->createFieldBuilder()->
+        add("x", pvDouble)->
+        add("i", pvInt)->
+        createUnion();
+
+    StructureConstPtr structure = NTUnion::createBuilder()->
+            value(u)->
+            addDescriptor()->
+            addAlarm()->
+            addTimeStamp()->
+            createStructure();
+    testOk1(!structure->getField<Union>("value")->isVariant());
+    testOk1(structure->getField<Union>("value") == u);
+}
+
+
+
 MAIN(testNTUnion) {
-    testPlan(29);
+    testPlan(32);
     test_builder();
     test_ntunion();
     test_wrap();
+    test_variant_union();
+    test_regular_union();
     return testDone();
 }
 

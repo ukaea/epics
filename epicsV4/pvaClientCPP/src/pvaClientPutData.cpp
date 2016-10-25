@@ -28,14 +28,13 @@ namespace epics { namespace pvaClient {
 
 class PvaClientPostHandlerPvt: public PostHandler
 {
-    PvaClientPutData * easyData;
+    PvaClientPutData * putData;
     size_t fieldNumber;
 public:
-    PvaClientPostHandlerPvt(PvaClientPutData *easyData,size_t fieldNumber)
-    : easyData(easyData),fieldNumber(fieldNumber){}
-    void postPut() { easyData->postPut(fieldNumber);}
+    PvaClientPostHandlerPvt(PvaClientPutData *putData,size_t fieldNumber)
+    : putData(putData),fieldNumber(fieldNumber){}
+    void postPut() { putData->postPut(fieldNumber);}
 };
-
 
 typedef std::tr1::shared_ptr<PVArray> PVArrayPtr;
 static ConvertPtr convert = getConvert();

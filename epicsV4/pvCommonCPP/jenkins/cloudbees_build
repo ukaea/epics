@@ -6,16 +6,23 @@
 #
 # Author: Ralph Lange <ralph.lange@gmx.de>
 # Copyright (C) 2013 Helmholtz-Zentrum Berlin für Materialien und Energie GmbH
-# Copyright (C) 2014-2015 ITER Organization.
+# Copyright (C) 2014-2016 ITER Organization.
 # All rights reserved. Use is subject to license terms.
 
+installTool () {
+    local module=$1
+    local version=$2
+
+    wget -nv https://openepics.ci.cloudbees.com/job/${module}-${version}_Build/lastSuccessfulBuild/artifact/${module,,}-${version}.CB-dist.tar.gz
+    tar -xzf ${module,,}-${version}.CB-dist.tar.gz
+}
+
 ###########################################
-# Determine EPICS Base version
+# Defaults for EPICS Base and MB
 
-DEFAULT_BASE=3.14.12.5
-
-BASE=${1:-${DEFAULT_BASE}}
-USE_MB=${2:-"MB_YES"}
+DEFAULT_BASE=3.15.4
+BASE=${BASE:-${DEFAULT_BASE}}
+MB=${MB:-"NO_MICROBENCH"}
 
 ###########################################
 # Fetch and unpack dependencies
@@ -26,8 +33,8 @@ rm -fr ${STUFF}
 mkdir -p ${STUFF}
 cd ${STUFF}
 
-wget -nv https://openepics.ci.cloudbees.com/job/Base-${BASE}_Build/lastSuccessfulBuild/artifact/base-${BASE}.CB-dist.tar.gz
-tar -xzf base-${BASE}.CB-dist.tar.gz
+installTool Boost 1.61.0
+installTool Base ${BASE}
 
 ###########################################
 # Build
@@ -43,10 +50,12 @@ cat > configure/RELEASE.local << EOF
 EPICS_BASE=${EPICS_BASE}
 EOF
 
-# Set WITH_MICROBENCH so the testBoost program is built
-cat > configure/CONFIG_SITE.local << EOF
-WITH_MICROBENCH=1
-EOF
+if [ "${MB}" = "WITH_MICROBENCH" ]; then
+	# must use TAB characters here
+	cat > configure/CONFIG_SITE.local <<- EOF
+	WITH_MICROBENCH=1
+	EOF
+fi
 
 make distclean all
 
@@ -60,4 +69,4 @@ done
 ###########################################
 # Create distribution
 
-tar czf pvCommon.CB-dist.tar.gz lib include COPYRIGHT LICENSE
+tar czf pvCommon.CB-dist.tar.gz lib include LICENSE

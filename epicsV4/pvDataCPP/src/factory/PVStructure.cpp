@@ -1,8 +1,7 @@
 /*PVStructure.cpp*/
-/**
- * Copyright - See the COPYRIGHT that is included with this distribution.
- * EPICS pvData is distributed subject to a Software License Agreement found
- * in file LICENSE that is included with this distribution.
+/*
+ * Copyright information and license terms for this software can be
+ * found in the file LICENSE that is included with the distribution
  */
 /**
  *  @author mrk
@@ -104,9 +103,9 @@ const PVFieldPtrArray & PVStructure::getPVFields() const
     return pvFields;
 }
 
-PVFieldPtr  PVStructure::getSubField(string const &fieldName) const
+PVFieldPtr  PVStructure::getSubField(const char * fieldName) const
 {
-    PVField * field = getSubFieldImpl(fieldName.c_str(), false);
+    PVField * field = getSubFieldImpl(fieldName, false);
     if (field)
        return field->shared_from_this();
     else

@@ -3,3 +3,4 @@
 SRC_DIRS += $(PVDATABASE_SRC)/special
 
 LIBSRCS += traceRecord.cpp
+LIBSRCS += removeRecord.cpp

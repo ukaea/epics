@@ -109,6 +109,7 @@ MonitorLocal::~MonitorLocal()
     {
         cout << "MonitorLocal::~MonitorLocal()" << endl;
     }
+    destroy();
 }
 
 void MonitorLocal::destroy()
@@ -121,16 +122,11 @@ void MonitorLocal::destroy()
         Lock xx(mutex);
         if(state==destroyed) return;
     }
-    if(pvCopy) pvCopy->destroy();
+    if(state==active) stop();
     {
         Lock xx(mutex);
         state = destroyed;
     }
-    {
-         Lock xx(queueMutex);
-         queue.reset();
-    }
-    pvCopy.reset();
 }
 
 Status MonitorLocal::start()
@@ -219,7 +215,7 @@ void MonitorLocal::releaseActiveElement()
         activeElement->overrunBitSet->clear();
     }
     MonitorRequesterPtr requester = monitorRequester.lock();
-    if(!requester.get()) return;
+    if(!requester) return;
     requester->monitorEvent(getPtrSelf());
     return;
 }
@@ -313,6 +309,14 @@ void MonitorLocal::unlisten(PVRecordPtr const & pvRecord)
     {
         cout << "PVCopyMonitor::unlisten\n";
     }
+    MonitorRequesterPtr requester = monitorRequester.lock();
+    if(requester) {
+        if(pvRecord->getTraceLevel()>1)
+        {
+            cout << "PVCopyMonitor::unlisten calling requester->unlisten\n";
+        }
+        requester->unlisten(getPtrSelf());
+    }
     pvRecord->removeListener(getPtrSelf(),pvCopy);
 }
 
@@ -323,7 +327,7 @@ bool MonitorLocal::init(PVStructurePtr const & pvRequest)
     size_t queueSize = 2;
     PVStructurePtr pvOptions = pvRequest->getSubField<PVStructure>("record._options");
     MonitorRequesterPtr requester = monitorRequester.lock();
-    if(!requester.get()) return false;
+    if(!requester) return false;
     if(pvOptions) {
         PVStringPtr pvString  = pvOptions->getSubField<PVString>("queueSize");
         if(pvString) {
@@ -429,7 +433,7 @@ MonitorFactoryPtr getMonitorFactory()
     static Mutex mutex;
     Lock xx(mutex);
 
-    if(monitorFactoryPtr.get()==NULL) {
+    if(!monitorFactoryPtr) {
         monitorFactoryPtr = MonitorFactoryPtr(
             new MonitorFactory());
     }

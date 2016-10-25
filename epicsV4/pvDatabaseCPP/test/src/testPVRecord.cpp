@@ -48,7 +48,6 @@ static PVRecordPtr createScalar(
 {
     PVStructurePtr pvStructure = getStandardPVField()->scalar(scalarType,properties);
     PVRecordPtr pvRecord = PVRecord::create(recordName,pvStructure);
-    pvStructure.reset();
     return pvRecord;
 }
 

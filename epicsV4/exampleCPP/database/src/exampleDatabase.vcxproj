@@ -47,6 +47,9 @@
     <ProjectReference Include="..\..\..\pvAccessCPP\src\pvAccess.vcxproj">
       <Project>{44ecea7e-d805-49b6-8e89-62ec3994c1f3}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\pvaClientCPP\src\pvaClient.vcxproj">
+      <Project>{8d26cd6b-5c39-445f-83de-aa45465fa3ce}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\pvDatabaseCPP\src\pvDatabase.vcxproj">
       <Project>{664dc48a-2783-48f6-bcfb-da5fa36886f6}</Project>
     </ProjectReference>
@@ -57,7 +60,8 @@
   <ItemGroup>
     <ClCompile Include="exampleDatabase.cpp" />
     <ClCompile Include="exampleHelloRecord.cpp" />
-    <ClCompile Include="exampleHelloRPC.cpp" />
+    <ClCompile Include="exampleHelloRPCClient.cpp" />
+    <ClCompile Include="exampleHelloRPCRecord.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="exampleDatabaseRegister.dbd" />

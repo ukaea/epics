@@ -15,8 +15,12 @@ then just type:
 
     make
 
-If RELEASE.local does not exist then look at <b>configure/RELEASE</b>
-for directions for how to build.
+It can also be built by:
+
+    cp configure/ExampleRELEASE.local configure/RELEASE.local
+    edit configure/RELEASE.local
+    make
+
 
 Examples
 ------------
@@ -26,7 +30,7 @@ Project exampleCPP has examples for pvaClientCPP
 Status
 ------
 
-* The API is for EPICS Version 4 release 4.5.0
+* The API is for EPICS Version 4 release 4.6.0
 * Everything defined in pvaClient.h is ready but see below for remaining work.
 * Everything defined in pvaClientMultiChannel.h is ready but see below for remaining work.
 
@@ -34,7 +38,7 @@ Status
 pvaClientChannel
 ---------------
 
-Channel::getField and channelArray are not supported for release 4.5
+Channel::getField and channelArray are not supported for release 4.6
 
 pvaClientMultiChannel
 ---------------

@@ -1,3 +1,47 @@
+Release 5.1.2
+=============
+
+The main changes since release 5.1.1 are:
+
+* NTUnionBuilder: Add missing value() function
+* Updated document: Now document all Normative Types
+
+
+Release 5.1.1
+=============
+
+The main changes since release 5.0 are:
+
+* Linux shared library version added
+* Headers and source locations have changed
+* Missing is_a implementations added
+* NTAttribute::addTags() is now non-virtual
+* New license file replaces LICENSE and COPYRIGHT
+
+Shared library version added
+----------------------------
+
+Linux shared library version numbers have been added by setting SHRLIB_VERSION
+(to 5.1 in this case). So shared object will be libnt.so.5.1 instead of
+libpvData.so.
+
+Headers and source locations have changed
+-----------------------------------------
+
+Source has moved out of nt directory directly into src.
+
+Headers have been moved into a pv directory. This facilitates using some IDEs
+such as Qt Creator.
+
+src/nt/ntscalar.cpp -> src/ntscalar.cpp
+src/nt/ntscalar.h   -> src/pv/ntscalar.h
+
+Missing is_a implementations added
+----------------------------------
+
+is_a(PVStructurePtr const &) implementation has been added for each type.
+
+
 Release 5.0
 ===========
 

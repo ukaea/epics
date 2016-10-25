@@ -39,23 +39,25 @@ PVDatabase::PVDatabase()
 
 PVDatabase::~PVDatabase()
 {
+    destroy();
 }
 
 void PVDatabase::destroy()
 {
-    epicsGuard<epics::pvData::Mutex> guard(mutex);
-    if(isDestroyed) {
-        return;
+    {
+        epicsGuard<epics::pvData::Mutex> guard(mutex);
+        if(isDestroyed) {
+            return;
+        }
+        isDestroyed = true;
     }
-    isDestroyed = true;
-    PVRecordMap::iterator iter;
-    while(true) {
-        iter = recordMap.begin();
-        if(iter==recordMap.end()) break;
+    for(PVRecordMap::iterator iter = recordMap.begin(); iter != recordMap.end(); iter++) {
         PVRecordPtr pvRecord = (*iter).second;
-        recordMap.erase(iter);
-        if(pvRecord.get()!=NULL) pvRecord->destroy();
+        if(pvRecord) {
+             pvRecord->destroy();
+        }
     }
+    recordMap.clear();
 }
 
 void PVDatabase::lock() {
@@ -78,27 +80,6 @@ PVRecordPtr PVDatabase::findRecord(string const& recordName)
          return (*iter).second;
     }
     return xxx;
-}
-
-PVStringArrayPtr PVDatabase::getRecordNames()
-{
-    epicsGuard<epics::pvData::Mutex> guard(mutex);
-    PVStringArrayPtr xxx;
-    if(isDestroyed) {
-        return xxx;
-    }
-    PVStringArrayPtr pvStringArray = static_pointer_cast<PVStringArray>
-        (getPVDataCreate()->createPVScalarArray(pvString));
-    size_t len = recordMap.size();
-    shared_vector<string> names(len);
-    PVRecordMap::iterator iter;
-    size_t i = 0;
-    for(iter = recordMap.begin(); iter!=recordMap.end(); ++iter) {
-        names[i++] = (*iter).first;
-    }
-    shared_vector<const string> temp(freeze(names));
-    pvStringArray->replace(temp);
-    return pvStringArray;
 }
 
 bool PVDatabase::addRecord(PVRecordPtr const & record)
@@ -128,10 +109,31 @@ bool PVDatabase::removeRecord(PVRecordPtr const & record)
     if(iter!=recordMap.end())  {
         PVRecordPtr pvRecord = (*iter).second;
         recordMap.erase(iter);
-        if(pvRecord.get()!=NULL) pvRecord->destroy();
+        if(pvRecord) pvRecord->destroy();
         return true;
     }
     return false;
+}
+
+PVStringArrayPtr PVDatabase::getRecordNames()
+{
+    epicsGuard<epics::pvData::Mutex> guard(mutex);
+    PVStringArrayPtr xxx;
+    if(isDestroyed) {
+        return xxx;
+    }
+    PVStringArrayPtr pvStringArray = static_pointer_cast<PVStringArray>
+        (getPVDataCreate()->createPVScalarArray(pvString));
+    size_t len = recordMap.size();
+    shared_vector<string> names(len);
+    PVRecordMap::iterator iter;
+    size_t i = 0;
+    for(iter = recordMap.begin(); iter!=recordMap.end(); ++iter) {
+        names[i++] = (*iter).first;
+    }
+    shared_vector<const string> temp(freeze(names));
+    pvStringArray->replace(temp);
+    return pvStringArray;
 }
 
 }}

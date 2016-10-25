@@ -1,8 +1,7 @@
 /* pvData.h */
-/**
- * Copyright - See the COPYRIGHT that is included with this distribution.
- * EPICS pvData is distributed subject to a Software License Agreement found
- * in file LICENSE that is included with this distribution.
+/*
+ * Copyright information and license terms for this software can be
+ * found in the file LICENSE that is included with the distribution
  */
 /**
  *  @author mrk
@@ -702,7 +701,12 @@ public:
      * @param fieldName The name of the field.
      * @return Pointer to the field or null if field does not exist.
      */
-    PVFieldPtr getSubField(std::string const &fieldName) const;
+    FORCE_INLINE PVFieldPtr getSubField(std::string const &fieldName) const
+    {
+        return getSubField(fieldName.c_str());
+    }
+
+    PVFieldPtr getSubField(const char *fieldName) const;
 
     /**
      * Get a subfield with the specified name.

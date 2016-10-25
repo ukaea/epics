@@ -52,6 +52,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="device.cpp" />
     <ClCompile Include="exampleRPC.cpp" />
     <ClCompile Include="exampleRPCRegister.cpp" />
   </ItemGroup>

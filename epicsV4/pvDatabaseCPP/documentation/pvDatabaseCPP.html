@@ -36,7 +36,7 @@
 
 <div class="head">
 <h1>pvDatabaseCPP</h1>
-<h2 class="nocount">Release 4.2 - 2016.01.12</h2>
+<h2 class="nocount">Release 4.2.1 - 2016-08-26</h2>
 
 
 <h2 class="nocount">Abstract</h2>
@@ -60,175 +60,109 @@ The minimum that an extension must provide is a top level PVStructure and a proc
   <h2 class="nocount">Table of Contents</h2>
 </div>
 
-<!-- Place what you would like in the Table of Contents, inside the contents div -->
-
 <div id="contents" class="contents">	  
 <hr />
 
-<h2>Introduction</h2>
-<h3>Overview</h3>
-<p>The main purpose of this project to make it easier to implement services that are accessed via pvAccess.
+<h2>Overview</h2>
+<p>
+pvDatabaseCPP is one of the components of 
+<a href="http://epics-pvdata.sourceforge.net">
+EPICS Version 4
+</a>
+</p>
+<p>This document is only a guide to help locate code and documentation related to pvDatabaseCPP
 </p>
 <p>
-This project supplies a complete implementation of the server side of pvAccess,
-which has the provider name <b>local</b>.
+It is intended for developers that want to use pvDatabaseCPP.
 </p>
-<p>
-A service must provide a top level PVStructure and a process method.
-A service can be run as a main process or can be part of a V3 IOC.
-Thus services can be developed that interact with V3 records, asynDriver,
-areaDetector, etc.
+<h2>Developer Guide</h2>
+<p>A guide for developers is available at
+<a
+href="http://epics-pvdata.sourceforge.net/informative/developerGuide/developerGuide.html">
+developerGuide
+</a>
+</p>
+<p>This guide discusses all the components that are part of an <b>EPICS V4</b> release.
+Some understanding of the components and how they are related is necessary in order to
+develop code that uses pvDatabaseCPP.
+In particular read everything related to pvDatabase.
+</p>
+<p>The developerGuide discusses code in a way that applies to both CPP and C++.
+For the descriptions of the CPP specific code consult the next section.
 </p>
 
-<p>A brief description of a pvDatabase is that it is a set of network accessible, smart,
-memory resident records.
-Each record has data composed of a top level PVStructure.
-Each record has a name which is the channelName for pvAccess.
-A local Channel Provider implements the complete ChannelProvider and
-Channel interfaces as defined by pvAccess.
-The local provider provides access to the records in the pvDatabase.
-This local provider is accessed by the remote pvAccess server.
-A record is smart because code can be attached to a record, which is accessed via a method named process.</p>
+<h2>doxygen</h2>
+<p>doxygen documentation is available at
+<a
+href="./html/index.html">doxgen</a>
+</p>
 
-<p>This document describes components that provide the following features:</p>
+<h2>pvDatabaseCPP</h2>
+<p>pvDatabaseCPP itself has the following implementations of a <b>PVRecord</b></p>
 <dl>
-  <dt>database</dt>
-     <dd>This encapsulates the concept of a database of memory resident smart records.
-        The two main components are:
-       <dl>
-          <dt>pvRecord</dt>
-             <dd>This encapsulates the concept of a smart record. It can be processed.
-             Changes to field values can be trapped. A record can be locked.</dd>
-          <dt>pvDatabase</dt>
-              <dd>This is a database of pvRecords.
-               Records can be added and removed from a database.</dd>
-       </dl>
-     </dd>
-  <dt>pvAccess</dt>
-     <dd>This is a complete implementation of ChannelProvider and Channel
-       as defined by pvAccess.
-       It is used by the server side of pvAccess to attach to pvRecords.
-       </dd>
-   <dt>Main and V3IOC</dt>
-      <dd>The pvDatabase can be provided via a Main program or can be part
-       of a V3IOC. In the later case the IOC has both a database of V3 Records
-      and a pvDatabase.</dd>
+    <dt>RemoveRecord.cpp</dt>
+      <dd>
+         This is the code that is used to delete another record in the same <b>IOC</b>.
+      </dd>
+    <dt>TraceRecord.cpp</dt>
+      <dd>
+         This is the code that is used to set the trace level
+         in another record in the same <b>IOC</b>.
+      </dd>
 </dl>
-<p>Base classes make it easy to create record instances.
-The code attached to each record must create the top
-level PVStructure and the following three methods:</p>
-<dl>
-  <dt>init</dt>
-    <dd>This is a method for initializing the support.
-     It returns true if successful and false otherwise.
-    </dd>
-  <dt>process</dt>
-    <dd>This is what makes a record smart.
-     </dd>
-  <dt>destroy</dt>
-     <dd>This releases and resources used by the implementation.</dd>
-</dl>
-<p>Doxygen documentation is available at <a
-href="./html/index.html">doxygenDoc</a></p>
-<h3>Getting started</h3>
-<p>The first step is to build pvDatabaseCPP as described in the next section.</p>
-<p>A separate project <b>exampleCPP</b> has examples for <b>pvDatabaseCPP</b>
-and for <b>pvaClientCPP</b>.
-See it for examples.
+<h2>exampleCPP</h2>
+<p>Example code is available as part of this release.
+<a
+href="http://epics-pvdata.sourceforge.net/docbuild/exampleCPP/tip/documentation/exampleCPP.html">
+exampleCPP
+</a>
+</p>
+<p>In particular look at the example code mentioned in the following sub-sections.
 </p>
 
-<h3>Features Required for localChannelProvider</h3>
-<dl>
-   <dt>copy and monitor</dt>
-      <dd>pvDataCPP provides facilities copy and monitor.
-         This facilities allow a client to access an arbitrary subset
-          of the fields in the top level structure associated with a channel,
-        and to monitor changes in the top level structure.
-        pvDatabaseCPP uses what pvDataCPP provides and has code that
-       associates these facilities with a PVRecord.
-       </dd>
-   <dt>PVRecord and PVDatabase</dt>
-      <dd>Defined below.</dd>
-   <dt>The localChannelProvider itself</dt>
+<h3>database</h3>
+<p>This has many examples of how to create both soft records and records that implement
+other functionality.</p>
+<dl> 
+   <dt>exampleDatabase.cpp</dt>
      <dd>
-       The localChannelProvider accesses data from PVRecords.
-     It implements all channel methods except channelRPC,
-      which is implemented by pvAccessCPP.
+      This shows how to create soft records of each pvData type.<br />
+      In addition shows how to create instances of the following two records.
+     </dd>
+   <dt>exampleHelloRecord.cpp</dt>
+     <dd>
+       This is a simple "hello world" that is intentended to be used via a channelPutGet request.
+     </dd>
+   <dt>exampleHelloRPC.cpp</dt>
+     <dd>
+       This is a simple "hello world" that is intentended to be used via a channelRPC request.
+     </dd>
+   <dt>exampleDatabaseMain.cpp</dt>
+     <dd>
+      This shows how to create a standalone IOC.
+     </dd>
+   <dt>ioc and iocBoot</dt>
+     <dd>
+      This has code and examples to create a V3 IOC which also has a PVDatabase.
      </dd>
 </dl>
-<h3>Features Required for pvRecord</h3>
-<dl>
-  <dt>PVDatabase</dt>
-      <dd>This holds a set of PVRecords.
-         It has methods to find, add, and remove records.</dd>
-  <dt>PVRecord</dt>
-     <dd>This, and a set of related interfaces, provides the following:
-        <dl>
-           <dt>Access to top level PVStructure</dt>
-             <dd>PVRecord is a wrapper on a top level pvStructure.</dd>
-           <dt>Record locking</dt>
-              <dd>A record can be locked and unlocked.
-              A record must be locked whenever data in the pvStructure is accessed.
-               </dd>
-           <dt>Trapping data changes</dt>
-             <dd>A client can request to be notified when data in the pvStructure
-              is modified.
-             It can do this on a field by field basis.</dd>
-            <dt>A method named process</dt>
-             <dd>
-               <p>The process method is called when a pvAccess client requests that a record be processed.
-                  If a top level timeStamp field exists,
-                  the default process method just sets the timeStamp to the currect time.
-                  A service is created by implementing process and providing a top level PVStructure.
-                </p>
-             </dd>
-        </dl>
+<h3>exampleLink</h3>
+<p>This shows how to implement a record that has a link to another record</p>
+<dl> 
+  <dt>exampleMonitorLinkRecord</dt>
+     <dd>
+      This creates a monitor link to another record.
+     </dd>
+  <dt>exampleGetLinkRecord</dt>
+     <dd>
+      This creates a get link to another record.
+     </dd>
+  <dt>examplePutLinkRecord</dt>
+     <dd>
+      This creates a put link to another record.
      </dd>
 </dl>
 
-<h2>Building pvDatabaseCPP</h2>
-<p>
-If a proper <b>RELEASE.local</b> is present one directory level above <b>pvDatabaseCPP</b>.
-</p>
-<p>
-Just type:
-</p>
-<pre>
-make
-</pre>
-<p>
-An example of a proper <b>RELEASE.local</b> is:
-</p>
-<pre>
-EPICS4_DIR=/home/epicsv4/master
-EXAMPLE=${EPICS4_DIR}/exampleCPP
-PVDATABASE=${EPICS4_DIR}/pvDatabaseCPP
-PVACLIENT=${EPICS4_DIR}/pvaClientCPP
-PVASRV=${EPICS4_DIR}/pvaSrv
-PVACCESS=${EPICS4_DIR}/pvAccessCPP
-NORMATIVETYPES=${EPICS4_DIR}/normativeTypesCPP
-PVDATA=${EPICS4_DIR}/pvDataCPP
-PVCOMMON=${EPICS4_DIR}/pvCommonCPP
-
-EPICS_BASE=/home/install/epics/base
-</pre>
-
-<p>pvDatabaseCPP can also be built if a file RELEASE.local exists in directory configure.
-To create one do the following:</p>
-<pre>
-mrk&gt; pwd
-/home/hg/pvDatabaseCPP/configure
-mrk&gt; cp ExampleRELEASE.local RELEASE.local
-</pre>
-<p>Then edit <b>RELEASE.local</b> so that it has the correct location of each
-product pvDatabaseCPP requires.
-Than at the top level just execute <b>make</b>:</p>
-<pre>
-mrk&gt; cd ..
-mrk&gt; pwd
-/home/epicsv4/master/pvDatabaseCPP
-mrk&gt; make
-</pre>
 <h2>iocshell commands</h2>
 <p>Shell commands are made available via the standard DBD include mechanism
 provided by iocCore.
@@ -251,656 +185,6 @@ pvDatabaseCPP
 </dl>
 <p>In addition any code that implements a PVRecord must implement an ioc command.
 Look at any of the examples in <b>exampleCPP</b> to see how to implement shell commands.</p>
-
-<h2>database</h2>
-<h3>src/database</h3>
-<p>This Directory has the following files:</p>
-<dl>
-   <dt>pvDatabase.h</dt>
-     <dd>
-      This is what is described in this section.
-     </dd>
-   <dt>pvDatabase.cpp</dt>
-     <dd>
-       The implementation of PVDatabase.
-     </dd>
-   <dt>pvRecord.cpp</dt>
-     <dd>
-       The implementation of the base class for PVRecord.
-       It can also implement record instances with a process
-       method does nothing.
-       This can be used to create a "dumb" record where all changes are
-       done by clients.
-     </dd>
-</dl>
-<h3>src/special</h3>
-<p>This directory has the following files:</p>
-<dl>
-   <dt>traceRecord.h</dt>
-     <dd>This implements a PVRecord that can set the trace level for
-     another record. See below for a discussion of trace level.</dd>
-
-</dl>
-<h3>pvDatabase.h</h3>
-<p>The classes in pvDatabase.h describe a database of memory resident
-smart records.
-It describes the following classes:</p>
-<dl>
-   <dt>PVRecord</dt>
-     <dd>This provides the methods required by localChannelProvider to implement Channel.</dd>
-   <dt>PVRecordField</dt>
-   <dt>PVRecordStructure</dt>
-     <dd>These wrap PVField and PVStructure so that pvCopy and monitor
-        can be implemented.</dd>
-   <dt>PVRecordClient</dt>
-      <dd>This is called by anything that accesses PVRecord.</dd>
-   <dt>PVListener</dt>
-      <dd>This is implemented by anything that wants to trap calls to PVRecord::message.</dd>
-   <dt>PVDatabase</dt>
-      <dd>This is a database of PVRecords.</dd>
-</dl>
-<p>Each class is described in a separate subsection.</p>
-<h3>C++ namespace and typedefs</h3>
-<pre>
-namespace epics { namespace pvDatabase {
-
-class PVRecord;
-typedef std::tr1::shared_ptr&lt;PVRecord&gt; PVRecordPtr;
-typedef std::map&lt;epics::pvData::String,PVRecordPtr&gt; PVRecordMap;
-
-class PVRecordField;
-typedef std::tr1::shared_ptr&lt;PVRecordField&gt; PVRecordFieldPtr;
-typedef std::vector&lt;PVRecordFieldPtr&gt; PVRecordFieldPtrArray;
-typedef std::tr1::shared_ptr&lt;PVRecordFieldPtrArray&gt; PVRecordFieldPtrArrayPtr;
-
-class PVRecordStructure;
-typedef std::tr1::shared_ptr&lt;PVRecordStructure&gt; PVRecordStructurePtr;
-
-class PVRecordClient;
-typedef std::tr1::shared_ptr&lt;PVRecordClient&gt; PVRecordClientPtr;
-
-class PVListener;
-typedef std::tr1::shared_ptr&lt;PVListener&gt; PVListenerPtr;
-
-class PVDatabase;
-typedef std::tr1::shared_ptr&lt;PVDatabase&gt; PVDatabasePtr;
-</pre>
-
-<h3>class PVRecord</h3>
-<p>NOTES:</p>
-<ul>
-    <li>This section uses the name record instead of "an instance of PVRecord".</li>
-    <li>Most clients will access a record via the local channel provider,
-       i. e. via pvAccess.
-        Thus this section is mainly of interest to 
-      the local channel provider and record implementers.</li>
-    <li>Most readers will not care about most of the PVRecord methods.
-       Most of the methods are used by the pvAccess code.
-      Service implementers will mostly be interested in methods init and process.
-      These are described first.
-    </li>
-</ul>
-<h4>PVRecord Methods</h4>
-<pre>
-class PVRecord
-     public std::tr1::enable_shared_from_this&lt;PVRecord&gt;
-{
-public:
-    POINTER_DEFINITIONS(PVRecord);
-
-    virtual bool init() ;
-    virtual void start() {}
-    virtual void process() {}
-    virtual void destroy();
-
-    static PVRecordPtr create(
-        std::string const &amp; recordName,
-        epics::pvData::PVStructurePtr const &amp; pvStructure);
-    virtual ~PVRecord();
-    std::string getRecordName();
-    PVRecordStructurePtr getPVRecordStructure();
-    PVRecordFieldPtr findPVRecordField(
-        epics::pvData::PVFieldPtr const &amp; pvField);
-    void lock();
-    void unlock();
-    bool tryLock();
-    void lockOtherRecord(PVRecordPtr const &amp; otherRecord);
-    bool addPVRecordClient(PVRecordClientPtr const &amp; pvRecordClient);
-    bool removePVRecordClient(PVRecordClientPtr const &amp; pvRecordClient);
-    void detachClients();
-    bool addListener(PVListenerPtr const &amp; pvListener);
-    bool removeListener(PVListenerPtr const &amp; pvListener);
-    void beginGroupPut();
-    void endGroupPut();
-    int getTraceLevel();
-    void setTraceLevel(int level);
-protected:
-    PVRecord(
-        std::string const &amp; recordName,
-        epics::pvData::PVStructurePtr const &amp; pvStructure);
-    void initPVRecord();
-    epics::pvData::PVStructurePtr getPVStructure();
-    PVRecordPtr getPtrSelf()
-    {
-        return shared_from_this();
-    }
-private:
-...
-}
-</pre>
-<p>The methods are:</p>
-<dl>
-   <dt>init</dt>
-     <dd>Virtual method.
-      Derived classes must implement this method.
-       This method Must call initPVRecord.
-     </dd>
-   <dt>start</dt>
-     <dd>Virtual method.
-       Optional method for derived class.
-       It is called before record is added to database.
-       The base method does nothing.
-     </dd>
-   <dt>process</dt>
-     <dd>Virtual method.
-      Derived classes usually implement this method.
-       It implements the semantics for the record.
-      The base implementation does nothing.
-      </dd>
-   <dt>destroy</dt>
-      <dd>Virtual method.
-       Optional method for derived class.
-       If the derived class implements this it
-       must call the base class destroy method after it
-      has released any resources it uses.</dd>   
-   <dt>create</dt>
-     <dd>Static method to create dumb records,
-      i.e. records with a process method that does nothing.
-     A derived class should have it's own static create method.
-     </dd>
-   <dt>~PVRecord</dt>
-     <dd>The destructor which must be virtual. A derived class must also have
-       a virtual destructor.</dd>
-   <dt>getRecordName</dt>
-     <dd>Return the recordName.</dd>
-   <dt>getPVRecordStructure</dt>
-     <dd>Get the top level PVStructure.</dd>
-   <dt>findPVRecordField</dt>
-     <dd>Given a PVFieldPtr return the PVRecordFieldPtr for the field.</dd>
-   <dt>lock</dt>
-   <dt>unlock</dt>
-     <dd>Lock and Unlock the record.
-        Any code accessing the data in the record or calling other PVRecord methods
-        must have the record locked.</dd>
-   <dt>tryLock</dt>
-      <dd>If true then just like lock.
-       If false client can not access record.
-       A client can try to simultaneously hold the lock for more than two records
-       by calling this method. But must be willing to accept failure.
-       </dd>
-   <dt>lockOtherRecord</dt>
-      <dd>A client that holds the lock for one record can lock one other record.
-        A client must not call this if the client already has the lock for
-        more then one record.
-      </dd>
-   <dt>addPVRecordClient</dt>
-     <dd>Every client that accesses the record must call this so that the client can be notified when the record is deleted.</dd>
-   <dt>removePVRecordClient</dt>
-     <dd>Client is no longer accessing the record.</dd>
-   <dt>detachClients</dt>
-     <dd>Ask all clients to detach from the record</dd>
-   <dt>addListener</dt>
-     <dd>Add a PVListener. This must be called before calling pvRecordField.addListener.</dd>
-   <dt>removeListener</dt>
-     <dd>Removes a listener. The listener will also be removed from all fields to which it is attached.</dd>
-   <dt>beginGroupPut</dt>
-     <dd>Begin a group of puts.
-     This results in all registered PVListeners being called</dd>
-   <dt>endGroupPut</dt>
-     <dd>End a group of puts.
-       This results in all registered PVListeners being called.</dd>
-   <dt>getTraceLevel</dt>
-      <dd>This can be used for debugging. There are currently three 
-      levels that are used by existing code.
-      <dl>
-         <dt>0</dt>
-            <dd>Produce no trace messages.</dd>
-         <dt>1</dt>
-            <dd>Issue a message to std::cout whenever anything is created
-            or destroyed.</dd>
-         <dt>2</dt>
-            <dd>In addition to lifetime messages also issue a message
-            whenever the record is accessed by pvAccess client.</dd>
-      </dl>
-      </dd>
-   <dt>setTraceLevel</dt>
-      <dd>Set the trace level. Note that special, described below.
-       provides a record support that allows a pvAccess client
-       to set the trace level of a record.</dd>
-</dl>
-<p>The protected methods are:</p>
-<dl>
-   <dt>PVRecord</dt>
-     <dd>The constructor. It requires a recordName and a top level PVStructure.</dd>
-   <dt>initPVRecord</dt>
-     <dd>This method must be called by derived class.</dd>
-   <dt>getPVStructure</dt>
-     <dd>Called by derived class.</dd>
-</dl>
-<h3>class PVRecordField</h3>
-<pre>
-class PVRecordField {
-     public virtual epics::pvData::PostHandler,
-     public std::tr1::enable_shared_from_this&lt;PVRecordField&gt;
-public:
-    POINTER_DEFINITIONS(PVRecordField);
-    PVRecordField(
-        epics::pvData::PVFieldPtr const &amp; pvField,
-        PVRecordStructurePtr const &amp;parent,
-        PVRecordPtr const &amp; pvRecord);
-    virtual ~PVRecordField();
-    virtual void destroy();
-    PVRecordStructurePtr getParent();
-    epics::pvData::PVFieldPtr getPVField();
-    std::string getFullFieldName();
-    std::string getFullName();
-    PVRecordPtr getPVRecord();
-    bool addListener(PVListenerPtr const &amp; pvListener);
-    virtual void removeListener(PVListenerPtr const &amp; pvListener);
-    virtual void postPut();
-protected:
-    PVRecordFieldPtr getPtrSelf()
-    {
-        return shared_from_this();
-    }
-    virtual void init();
-    virtual void postParent(PVRecordFieldPtr const &amp; subField);
-    virtual void postSubField();
-private:
-...
-};
-</pre>
-<p>When PVRecord is created it creates a PVRecordField for every field in the PVStructure
-that holds the data. It has the following methods:
-</p>
-
-<dl>
-   <dt>PVRecordField</dt>
-     <dd>The constructor.</dd>
-   <dt>~PVRecordField</dt>
-     <dd>The destructor.</dd>
-   <dt>destroy</dt>
-     <dd>Called by PVRecordStructure when it's destroy method is called.</dd>
-   <dt>getParent</dt>
-     <dd>Get the parent PVRecordStructure for this field.</dd>
-   <dt>getPVField</dt>
-     <dd>Get the PVField associated with this PVRecordField.</dd>
-   <dt>getFullFieldName</dt>
-     <dd>This gets the full name of the field, i.e. field,field,..</dd>
-   <dt>getFullName</dt>
-     <dd>This gets recordName plus the full name of the field, i.e. recordName.field,field,..</dd>
-   <dt>getPVRecord</dt>
-     <dd>Returns the PVRecord to which this field belongs.</dd>
-   <dt>addListener</dt>
-     <dd>Add A PVListener to this field.
-       Whenever this field or any subfield if this field is modified the listener will be notified.
-       PVListener is described below.
-       Before a listener can call addListener it must first call PVRecord.registerListener.</dd>
-   <dt>removeListener</dt>
-     <dd>Remove a PVListener.</dd>
-   <dt>postPut</dt>
-     <dd>This is called by the code that implements the data interface.
-        It is called whenever the put method is called.</dd>
-</dl>
-<h3>class PVRecordStructure</h3>
-<pre>
-class PVRecordStructure : public PVRecordField {
-public:
-    POINTER_DEFINITIONS(PVRecordStructure);
-    PVRecordStructure(
-        epics::pvData::PVStructurePtr const &amp; pvStructure,
-        PVRecordStructurePtr const &amp; parent,
-        PVRecordPtr const &amp; pvRecord);
-    virtual ~PVRecordStructure();
-    virtual void destroy();
-    PVRecordFieldPtrArrayPtr getPVRecordFields();
-    epics::pvData::PVStructurePtr getPVStructure();
-    virtual void removeListener(PVListenerPtr const &amp; pvListener);
-    virtual void postPut();
-protected:
-    virtual void init();
-private:
-...
-};
-</pre>
-<p>When PVRecord is created it creates a PVRecordStructure for every structure field in the PVStructure
-that holds the data. It has the following methods:
-</p>
-<dl>
-   <dt>PVRecordStructure</dt>
-     <dd>The constructor.</dd>
-   <dt>~PVRecordStructure</dt>
-     <dd>The destructor.</dd>
-   <dt>getPVRecordFields</dt>
-     <dd>Get the PVRecordField array for the subfields</dd>
-   <dt>getPVStructure</dt>
-     <dd>Get the PVStructure for this field.</dd>
-   <dt>removeListener</dt>
-     <dd>Remove a PVListener.</dd>
-   <dt>postPut</dt>
-     <dd>This is called by the code that implements the data interface.
-        It is called whenever the put method is called.</dd>
-</dl>
-<h3>class PVRecordClient</h3>
-<pre>
-class PVRecordClient {
-    POINTER_DEFINITIONS(PVRecordClient);
-    virtual ~PVRecordClient();
-    virtual void detach(PVRecordPtr const &amp; pvRecord);
-};
-</pre>
-<p>where</p>
-<dl>
-   <dt>~PVRecordClient</dt>
-     <dd>The destructor.</dd>
-   <dt>detach</dt>
-     <dd>The record is being removed from the master database,</dd>
-</dl>
-<h3>class PVListener</h3>
-<pre>
-class PVListener {
-    virtual public PVRecordClient
-public:
-    POINTER_DEFINITIONS(PVListener);
-    virtual ~PVListener();
-    virtual void dataPut(PVRecordFieldPtr const &amp; pvRecordField) = 0;
-    virtual void dataPut(
-        PVRecordStructurePtr const &amp;
-        requested,PVRecordFieldPtr const &amp; pvRecordField) = 0;
-    virtual void beginGroupPut(PVRecordPtr const &amp; pvRecord) = 0;
-    virtual void endGroupPut(PVRecordPtr const &amp; pvRecord) = 0;
-    virtual void unlisten(PVRecordPtr const &amp; pvRecord);
-};
-</pre>
-<p>where</p>
-<dl>
-   <dt>~PVListener</dt>
-     <dd>The destructor.</dd>
-   <dt>dataPut(PVRecordFieldPtr const &amp; pvRecordField)</dt>
-     <dd>pvField has been modified.
-        This is called if the listener has called PVRecordField::addListener for pvRecordField.</dd>
-   <dt>dataPut(
-        PVRecordStructurePtr const &amp;
-        requested,PVRecordFieldPtr const &amp; pvRecordField)</dt>
-     <dd>pvField has been modified.
-         Requested is the field to which the requester issued a pvField-&amp;addListener.
-         This is called if the listener has called PVRecordField-&amp;addListener for requested.</dd>
-   <dt>beginGroupPut</dt>
-     <dd>A related set of changes is being started.</dd>
-   <dt>endGroupPut</dt>
-     <dd>A related set of changes is done.</dd>
-   <dt>unlisten</dt>
-     <dd>The record is being destroyed. The listener must release all
-     access to the record.</dd>
-</dl>
-<h3>class PVDatabase</h3>
-<pre>
-class PVDatabase : virtual public epics::pvData::Requester {
-public:
-    POINTER_DEFINITIONS(PVDatabase);
-    static PVDatabasePtr getMaster();
-    virtual ~PVDatabase();
-    virtual void destroy();
-    PVRecordPtr findRecord(std::string const&amp; recordName);
-    bool addRecord(PVRecordPtr const &amp; record);
-    epics::pvData::PVStringArrayPtr getRecordNames();
-    bool removeRecord(PVRecordPtr const &amp; record);
-private:
-    PVDatabase();
-};
-</pre>
-<p>where</p>
-<dl>
-   <dt>getMaster</dt>
-     <dd>Get the master database. This is the database that localChannelProvider access.</dd>
-   <dt>~PVDatabase</dt>
-     <dd>The destructor.</dd>
-   <dt>destroy</dt>
-     <dd>This is called by remote channelAccess when process exits.
-       This destroys and removes all records in the PVDatabase.</dd>
-   <dt>findRecord</dt>
-     <dd>Find a record. An empty pointer is returned if the record is not in the database.</dd>
-   <dt>addRecord</dt>
-     <dd>Add a record to the database.
-        If the record already exists it is not modified and false is returned.</dd>
-   <dt>getRecordNames</dt>
-     <dd>Returns an array of all the record names.</dd>
-   <dt>removeRecord</dt>
-     <dd>Remove a record from the database.
-       If the record was not in the database false is returned.</dd>
-</dl>
-<h2>pvAccess</h2>
-<p>This is code that provides an implementation of channelProvider as
-defined by pvAccess.
-It provides access to PVRecords and is accessed by the server side of remote pvAccess.
-It uses the copy and monitor facilities from pvDataCPP and connects
-them to a PVRecord.
-</p>
-<p>The implementation is a complete implementation of channelProvider
-and channel.</p>
-<p>The following provides a brief description of each channel method that
-is implemented.</p>
-<h3>channelProcessLocal</h3>
-<p>Implements channelProcess.</p>
-<h3>channelGetLocal</h3>
-<p>Implements channelGet.</p>
-<h3>channelPutLocal</h3>
-<p>Implements channelPut.</p>
-<h3>channelPutGetLocal</h3>
-<p>Implements channelPutGet.</p>
-<h3>channelArrayLocal</h3>
-<p>Implements channelArray.</p>
-<h3>ChannelRPCLocal</h3>
-<p>Implements channelRPC.</p>
-<h3>MonitorLocal</h3>
-<p>This is the code that implements monitors on changes to fields of a PVRecord.
-Because it is called by pvAccess client (monitor methods) and by
-PVRecord (when postPut is called), it must be careful to prevent deadlocks.
-The implementation is via class MonitorLocal (implemented in monitorFactory.cpp)
-and PVCopyMonitor.
-MonitorLocal is the interface between pvAccess and PVCopyMonitor.
-PVCopyMonitor is the interface between MonitorLocal and PVRecord.
-MonitorLocal manages a MonitorElement queue.
-While monitoring is active (between start and stop) it keeps an active element
-for use by PVCopyMonitor.
-While monitoring is active PVCopyMonitor updates the active monitor element whenever
-a postPut is issued to any field being monitored.
-</p>
-<p>The following two sections provide a few more details about MonitorLocal
-and PVCopyMonitor.</p>
-<h4>MonitorLocal</h4>
-<p>MonitorLocal implements the following abstract base classes:</p>
-<dl>
-  <dt>Monitor</dt>
-     <dd>This is described by pvDataCPP.
-     It has methods start, stop, poll, and release.
-      These methods are called by the pvAccess client
-     </dd>
-  <dt>PVCopyMonitorRequester</dt>
-     <dd>This has methods releaseActiveElement and unlisten.
-      These methods are called by PVCopyMonitor.
-     </dd>
-</dl>
-MonitorLocal manages the following:
-<dl>
-  <dt>MonitorElementQueue</dt>
-    <dd>This is a queue of monitor elements.
-     A Queue is implemented by pvDataCPP and used by MonitorLocal.
-     It is a finite queue.
-     A monitor element is described by pvDataCPP.
-     It has fields pvStructure, changedBitSet, and overrunBitSet.
-     The pvStructure holds data for a subset of the fields in a PVRecord.
-     The changedBitSet and overrunBitSet describe changes between
-      monitor event.
-      MonitorLocal creates an instance of PVCopy (implemented by pvDataCPP),
-      which manages the interaction between the set of fields being
-      monitored and the fields in the top level PVStructure of the PVRecord.
-      pvCopy is also used to create the pvStructure for each monitor element.
-      </dd>
-  <dt>activeElement</dt>
-    <dd>Whenever monitoring is active monitorLocal
-     keeps an active element for use by pvCopyMonitor.
-     It changes the active element based on calls to poll (by the
-     client) and calls to releaseActiveElement (by pvCopyMonitor).
-     If there are no free element when releaseActiveElement is
-     called the current active element is returned.
-     If a free element is available the client is notified that a new
-      monitor element is available and the free element becomes the
-    active element.
-    </dd>
-</dl>
-<p>A brief description on each method in MonitorLocal is:</p>
-<dl>
-   <dt>start</dt>
-     <dd>
-        Called by client.
-        With a lock held it clears the monitorElement queue
-       and allocates an active element.
-      With no lock held calls pvCopyMonitor-&gt;startMonitoring(activeElement)
-     </dd>
-   <dt>stop</dt>
-      <dd>
-        Called by client.
-      With no lock held calls pvCopyMonitor-&gt;stopMonitoring(activeElement)
-      </dd>
-   <dt>poll</dt>
-      <dd>
-        Called by client.
-       With a lock held it calls queue-&gt;getUsed();
-      </dd>
-   <dt>release</dt>
-      <dd>
-        Called by client.
-       With a lock held it calls queue-&gt;releaseUsed();
-      </dd>
-   <dt>releaseActiveElement</dt>
-      <dd>
-       Called by PVCopyMonitor with no locks held.
-       With a lock held it tries to get a new free element.
-       If it can't it just returns the current active element.
-       Otherwise it does the following.
-       Using the activeElement it updates the pvStructure
-        and compresses the changed and overrun bitSet.
-       It then calls queue-&gt;setUsed(activeElement);
-       It then sets the active element to the new free element.
-        With no lock held it calls monitorRequester-&gt;monitorEvent(getPtrSelf())
-       and finally returns the new active element,
-      </dd>
-   <dt>unlisten</dt>
-      <dd>
-       With no lock held it calls monitorRequester-&gt;unlisten(getPtrSelf());
-      </dd>
-</dl>
-<h4>PVCopyMonitor</h4>
-<p>
-pvCopyMonitor is the code that manages changes to
-fields in the record.
-It is called by PVRecord whenever a postPut is issued to a field.
-pvCopyMonitor uses the active monitor element provided by monitorFactory.
-Note that this method is called with the record locked.
-It only modifies the changedBitSet and overrunBitSet of the
-active element but never modifies the pvStructure.
-</p>
-<p>A brief description of the pvCopyMonitor methods is:</p>
-<dl>
-  <dt>startMonitoring</dt>
-     <dd>With no lock held it sets its monitorElement to the
-     startElement passed by monitorLocal and calls pvRecord-&gt;addListener(getPtrSelf()).
-     It locks the pvRecord.
-      It calls calls addListener for every field in the record that is being
-      monitored.
-     It clears the overrun and changed bit sets.
-     It sets bit 0 of the changed bit set and calls
-     pvCopyMonitorRequester-&gt;releaseActiveElement();
-     Thus the client will get the initial values for every field being monitored.
-     The record is unlocked and the method returns to the caller.
-      </dd>
-  <dt>stopMonitoring</dt>
-     <dd>
-      With no lock held it calls pvRecord-&gt;removeListener(getPtrSelf());
-     </dd>
-  <dt>dataPut</dt>
-     <dd>
-      This is called because of a call to postPut.
-      It is called with the record locked.
-      It updates the changed and overrun bitSets.
-      It isGroupPut is false it calls
-      pvCopyMonitorRequester-&gt;releaseActiveElement().
-      Otherwise it sets dataChanged true.
-     </dd>
-  <dt>beginGroupPut</dt>
-     <dd>
-      With a lock held it
-      sets isGroupPut true and dataChanged false.
-     </dd>
-  <dt>endGroupPut</dt>
-     <dd>
-      With a lock held it sets isGroupPut false.
-      With no lock held and dataChanged true it calls
-      pvCopyMonitorRequester-&gt;releaseActiveElement()
-     </dd>
-  <dt>unlisten</dt>
-     <dd>
-      Just calls pvCopyMonitorRequester-&gt;unlisten();
-     </dd>
-</dl>
-
-<h2>special</h2>
-<p>This section provides <b>traceRecord</b> which implements a PVRecord that allows a client to set
-the trace level of another PVRecord. It follows the pattern of a channelPutGet
-record:</p>
-<pre>
-traceRecord
-    structure argument
-        string recordName 
-        int level 0
-    structure result
-        string status 
-</pre>
-where:
-<dl>
-   <dt>recordName</dt>
-     <dd>The name of the record to set the trace level.</dd>
-   <dt>level</dt>
-      <dd>The level to set. The meaning is:
-        <dl>
-          <dt>0</dt>
-             <dd>No trace messages generated</dd>
-          <dt>1</dt>
-           <dd>Lifecycle messages will be generated.
-            This all channel create and destroy instances will be shown.</dd>
-          <dt>2</dt>
-            <dd>In addition to lifecycle messages a message will be generated
-             for each get and put request.</dd>
-          <dt>&gt;2</dt>
-            <dd>Currently no definition</dd>
-        </dl>
-     </dd>
-   <dt>result</dt>
-      <dd>The result of a cannelPutGet request</dd>
-</dl>
-<p>testExampleServerMain.cpp has an example of how to create a traceRecord:</p>
-<pre>
-PVDatabasePtr master = PVDatabase::getMaster();
-PVRecordPtr pvRecord;
-String recordName;
-bool result(false);
-recordName = "traceRecordPGRPC";
-pvRecord = TraceRecord::create(recordName);
-result = master-&gt;addRecord(pvRecord);
-if(!result) cout&lt;&lt; "record " &lt;&lt; recordName &lt;&lt; " not added" &lt;&lt; endl;
-</pre>
-
 
 </div>
 </body>

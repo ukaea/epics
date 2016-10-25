@@ -47,37 +47,30 @@ This directory has the following files:
 
 This directory has the following files:
 
-### exampleHelloRecord.cpp
-   
+* exampleHelloRecord.cpp
 Code for an example PVRecord that is accessed via channelPutGet.
 
-### exampleHelloRPC.cpp
-   
+* exampleHelloRPC.cpp  
 Code for an example that is accesed via channelRPC.
 
-### exampleDatabase.cpp 
-  
+* exampleDatabase.cpp 
 Code that creates many PVRecords.    
 Most are soft records but also exampleHello and exampleHelloRPC.
 
-### exampleDatabaseInclude.dbd and exampleDatabaseRegister.cpp
- 
+* exampleDatabaseInclude.dbd and exampleDatabaseRegister.cpp
 Code that allows the PVRecords to be part of a V3 IOC.
 
-### exampleDatabaseMain.cpp
-
+* exampleDatabaseMain.cpp
 Code that allows the PVRecords to be available via a standalone main program.
 
 ## database/ioc
 
 Code that allows the database to be part of a V3 IOC.
 
-### database/ioc/Db
-
-
+##  database/ioc/Db
 Files for creating V3 DBRecords
 
-### database/ioc/src
+## database/ioc/src
 
 * exampleDatabaseMain.cpp   
 Standard file for a V3 IOC.

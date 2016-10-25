@@ -1,8 +1,7 @@
 /* ntunion.h */
-/**
- * Copyright - See the COPYRIGHT that is included with this distribution.
- * This software is distributed subject to a Software License Agreement found
- * in file LICENSE that is included with this distribution.
+/*
+ * Copyright information and license terms for this software can be
+ * found in the file LICENSE that is included with the distribution
  */
 #ifndef NTUNION_H
 #define NTUNION_H
@@ -40,6 +39,14 @@ namespace detail {
     {
     public:
         POINTER_DEFINITIONS(NTUnionBuilder);
+
+        /**
+         * Specifies the union for the value field.
+         * If this is not called then a variant union is the default.
+         * @param unionType  the introspection object for the union value field
+         * @return this      instance of  NTUnionBuilder
+         */
+        shared_pointer value(epics::pvData::UnionConstPtr unionType);
 
         /**
          * Adds descriptor field to the NTUnion.

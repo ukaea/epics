@@ -26,27 +26,18 @@ using namespace std;
 
 namespace epics { namespace pvaClient { 
 
-static FieldCreatePtr fieldCreate = getFieldCreate(); 
-static const string pvaClientName = "pvaClient";
-static const string defaultProvider = "pva";
-static UnionConstPtr variantUnion = fieldCreate->createVariantUnion();
 
-
-class PvaClientChannelCache
+class epicsShareClass PvaClientChannelCache
 {
 public:
     PvaClientChannelCache(){}
     ~PvaClientChannelCache(){
-         destroy();
+         if(PvaClient::getDebug()) cout << "PvaClientChannelCache::~PvaClientChannelCache\n";
      }
-    void destroy() {
-       pvaClientChannelMap.clear();
-    }
     PvaClientChannelPtr getChannel(
         string const & channelName,
         string const & providerName);
     void addChannel(PvaClientChannelPtr const & pvaClientChannel);
-    void removeChannel(string const & channelName,string const & providerName);
     void showCache();
     size_t cacheSize();
 private:
@@ -68,17 +59,12 @@ void PvaClientChannelCache::addChannel(PvaClientChannelPtr const & pvaClientChan
      Channel::shared_pointer channel = pvaClientChannel->getChannel();
      string name = channel->getChannelName()
          + channel->getProvider()->getProviderName();
-     pvaClientChannelMap.insert(std::pair<string,PvaClientChannelPtr>(
-         name,pvaClientChannel));
-}
-
-void PvaClientChannelCache::removeChannel(
-        string const & channelName,
-        string const & providerName)
-{
-    string name = channelName + providerName;
     map<string,PvaClientChannelPtr>::iterator iter = pvaClientChannelMap.find(name);
-    if(iter!=pvaClientChannelMap.end()) pvaClientChannelMap.erase(iter);
+    if(iter!=pvaClientChannelMap.end()) {
+        throw std::runtime_error("pvaClientChannelCache::addChannel channel already cached");
+    }
+    pvaClientChannelMap.insert(std::pair<string,PvaClientChannelPtr>(
+         name,pvaClientChannel));
 }
 
 void PvaClientChannelCache::showCache()
@@ -91,10 +77,8 @@ void PvaClientChannelCache::showCache()
          string channelName = channel->getChannelName();
          string providerName = channel->getProvider()->getProviderName();
          cout << "channel " << channelName << " provider " << providerName << endl;
-         cout << "  get and put cacheSize " << pvaChannel->cacheSize() << endl;
          pvaChannel->showCache();
-    }
-    
+    } 
 }
 
 size_t PvaClientChannelCache::cacheSize()
@@ -102,6 +86,8 @@ size_t PvaClientChannelCache::cacheSize()
     return pvaClientChannelMap.size();
 
 }
+
+bool PvaClient::debug = false;
 
 PvaClientPtr PvaClient::get(std::string const & providerNames)
 {
@@ -117,7 +103,6 @@ PvaClientPtr PvaClient::get(std::string const & providerNames)
 
 PvaClient::PvaClient(std::string const & providerNames)
 :  pvaClientChannelCache(new PvaClientChannelCache()),
-   isDestroyed(false),
    pvaStarted(false),
    caStarted(false)
 {
@@ -141,19 +126,21 @@ PvaClient::PvaClient(std::string const & providerNames)
 }
 
 PvaClient::~PvaClient() {
-    destroy();
-}
-
-void PvaClient::destroy()
-{
-    {
-        Lock xx(mutex);
-        if(isDestroyed) return;
-        isDestroyed = true;
+    if(PvaClient::debug) {
+        cout<< "PvaClient::~PvaClient()\n"
+            << "pvaChannel cache:\n";
+        showCache();
     }
-    pvaClientChannelCache.reset();
-    if(pvaStarted) ClientFactory::stop();
-    if(caStarted) CAClientFactory::stop();
+    if(pvaStarted){
+        if(PvaClient::debug) cout<< "calling ClientFactory::stop()\n";
+        ClientFactory::stop();
+        if(PvaClient::debug) cout<< "after calling ClientFactory::stop()\n";
+    }
+    if(caStarted) {
+        if(PvaClient::debug) cout<< "calling CAClientFactory::stop()\n";
+        CAClientFactory::stop();
+        if(PvaClient::debug) cout<< "after calling CAClientFactory::stop()\n";
+    }
 }
 
 string PvaClient:: getRequesterName()
@@ -194,7 +181,7 @@ PvaClientChannelPtr PvaClient::channel(
 
 PvaClientChannelPtr PvaClient::createChannel(string const & channelName, string const & providerName)
 {
-     return PvaClientChannel::create(getPtrSelf(),channelName,providerName);
+     return PvaClientChannel::create(shared_from_this(),channelName,providerName);
 }
 
 void PvaClient::setRequester(RequesterPtr const & requester)
@@ -204,12 +191,16 @@ void PvaClient::setRequester(RequesterPtr const & requester)
 
 void PvaClient::clearRequester()
 {
-    requester = Requester::weak_pointer();
+    requester.reset();
 }
 
 void PvaClient::showCache()
 {
-    pvaClientChannelCache->showCache();
+    if(pvaClientChannelCache->cacheSize()>=1) {
+        pvaClientChannelCache->showCache();
+    } else {
+         cout << "pvaClientChannelCache is empty\n";
+    }
 }
 
 

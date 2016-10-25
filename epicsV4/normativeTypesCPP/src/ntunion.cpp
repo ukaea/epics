@@ -1,8 +1,7 @@
 /* ntunion.cpp */
-/**
- * Copyright - See the COPYRIGHT that is included with this distribution.
- * This software is distributed subject to a Software License Agreement found
- * in file LICENSE that is included with this distribution.
+/*
+ * Copyright information and license terms for this software can be
+ * found in the file LICENSE that is included with the distribution
  */
 
 #define epicsExportSharedSymbols
@@ -18,6 +17,12 @@ static NTFieldPtr ntField = NTField::get();
 
 namespace detail {
 
+
+NTUnionBuilder::shared_pointer NTUnionBuilder::value(UnionConstPtr unionType)
+{
+    valueType = unionType;
+    return shared_from_this();
+}
 
 StructureConstPtr NTUnionBuilder::createStructure()
 {

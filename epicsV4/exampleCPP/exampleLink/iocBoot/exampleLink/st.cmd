@@ -12,4 +12,7 @@ dbLoadRecords("db/ai.db","name=exampleLinkAI");
 cd ${TOP}/iocBoot/${IOC}
 iocInit()
 startPVAServer local
-exampleLinkCreateRecord
+doubleArrayCreateRecord
+exampleMonitorLinkCreateRecord
+exampleGetLinkCreateRecord
+examplePutLinkCreateRecord

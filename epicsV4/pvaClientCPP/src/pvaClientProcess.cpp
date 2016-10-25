@@ -22,26 +22,63 @@ using namespace std;
 
 namespace epics { namespace pvaClient {
 
-
 class ChannelProcessRequesterImpl : public ChannelProcessRequester
 {
-    PvaClientProcess * pvaClientProcess;
+    PvaClientProcess::weak_pointer pvaClientProcess;
+    PvaClient::weak_pointer pvaClient;
 public:
-    ChannelProcessRequesterImpl(PvaClientProcess * pvaClientProcess)
-    : pvaClientProcess(pvaClientProcess) {}
-    string getRequesterName()
-    {return pvaClientProcess->getRequesterName();}
-    void message(string const & message,MessageType messageType)
-    {pvaClientProcess->message(message,messageType);}
-    void channelProcessConnect(
+    ChannelProcessRequesterImpl(
+        PvaClientProcessPtr const & pvaClientProcess,
+        PvaClientPtr const &pvaClient)
+    : pvaClientProcess(pvaClientProcess),
+      pvaClient(pvaClient)
+    {}
+    virtual ~ChannelProcessRequesterImpl() {
+        if(PvaClient::getDebug()) std::cout << "~ChannelProcessRequesterImpl" << std::endl;
+    }
+
+    virtual std::string getRequesterName() {
+        PvaClientProcessPtr clientProcess(pvaClientProcess.lock());
+        if(!clientProcess) return string("clientProcess is null");
+        return clientProcess->getRequesterName();
+    }
+
+    virtual void message(std::string const & message, epics::pvData::MessageType messageType) {
+        PvaClientProcessPtr clientProcess(pvaClientProcess.lock());
+        if(!clientProcess) return;
+        clientProcess->message(message,messageType);
+    }
+
+    virtual void channelProcessConnect(
         const Status& status,
         ChannelProcess::shared_pointer const & channelProcess)
-    {pvaClientProcess->channelProcessConnect(status,channelProcess);}
-    void processDone(
+    {
+        PvaClientProcessPtr clientProcess(pvaClientProcess.lock());
+        if(!clientProcess) return;
+        clientProcess->channelProcessConnect(status,channelProcess);  
+    }
+
+    virtual void processDone(
         const Status& status,
-        ChannelProcess::shared_pointer const & channelProcess)
-    {pvaClientProcess->processDone(status,channelProcess);}
+        ChannelProcess::shared_pointer const & ChannelProcess)
+    {
+        PvaClientProcessPtr clientProcess(pvaClientProcess.lock());
+        if(!clientProcess) return;
+        clientProcess->processDone(status,ChannelProcess);
+    }
 };
+
+PvaClientProcessPtr PvaClientProcess::create(
+        PvaClientPtr const &pvaClient,
+        Channel::shared_pointer const & channel,
+        PVStructurePtr const &pvRequest)
+{
+    PvaClientProcessPtr epv(new PvaClientProcess(pvaClient,channel,pvRequest));
+    epv->channelProcessRequester = ChannelProcessRequesterImplPtr(
+        new ChannelProcessRequesterImpl(epv,pvaClient));
+    return epv;
+}
+
 
 PvaClientProcess::PvaClientProcess(
         PvaClientPtr const &pvaClient,
@@ -50,15 +87,16 @@ PvaClientProcess::PvaClientProcess(
 : pvaClient(pvaClient),
   channel(channel),
   pvRequest(pvRequest),
-  isDestroyed(false),
   connectState(connectIdle),
   processState(processIdle)
 {
+    if(PvaClient::getDebug()) cout<< "PvaClientProcess::PvaClientProcess()\n";
 }
 
 PvaClientProcess::~PvaClientProcess()
 {
-    destroy();
+    if(PvaClient::getDebug()) cout<< "PvaClientProcess::~PvaClientProcess()\n";
+    channelProcess->destroy();
 }
 
 // from ChannelProcessRequester
@@ -71,7 +109,6 @@ string PvaClientProcess::getRequesterName()
 
 void PvaClientProcess::message(string const & message,MessageType messageType)
 {
-    if(isDestroyed) throw std::runtime_error("pvaClientProcess was destroyed");
     PvaClientPtr yyy = pvaClient.lock();
     if(!yyy) throw std::runtime_error("pvaClient was destroyed");
     yyy->message(message, messageType);
@@ -81,8 +118,8 @@ void PvaClientProcess::channelProcessConnect(
     const Status& status,
     ChannelProcess::shared_pointer const & channelProcess)
 {
-    if(isDestroyed) return;
     channelProcessConnectStatus = status;
+    connectState = connected;
     this->channelProcess = channelProcess;
     waitForConnect.signal();
     
@@ -92,27 +129,13 @@ void PvaClientProcess::processDone(
     const Status& status,
     ChannelProcess::shared_pointer const & channelProcess)
 {
-    if(isDestroyed) return;
     channelProcessStatus = status;
+    processState = processComplete;
     waitForProcess.signal();
-}
-
-
-// from PvaClientProcess
-void PvaClientProcess::destroy()
-{
-    {
-        Lock xx(mutex);
-        if(isDestroyed) return;
-        isDestroyed = true;
-    }
-    if(channelProcess) channelProcess->destroy();
-    channelProcess.reset();
 }
 
 void PvaClientProcess::connect()
 {
-    if(isDestroyed) throw std::runtime_error("pvaClientProcess was destroyed");
     issueConnect();
     Status status = waitConnect();
     if(status.isOK()) return;
@@ -123,33 +146,33 @@ void PvaClientProcess::connect()
 
 void PvaClientProcess::issueConnect()
 {
-    if(isDestroyed) throw std::runtime_error("pvaClientProcess was destroyed");
     if(connectState!=connectIdle) {
         string message = string("channel ") + channel->getChannelName()
             + " pvaClientProcess already connected ";
         throw std::runtime_error(message);
     }
-    processRequester = ChannelProcessRequester::shared_pointer(new ChannelProcessRequesterImpl(this));
     connectState = connectActive;
-    channelProcess = channel->createChannelProcess(processRequester,pvRequest);
+    channelProcess = channel->createChannelProcess(channelProcessRequester,pvRequest);
 }
 
 Status PvaClientProcess::waitConnect()
 {
-    if(isDestroyed) throw std::runtime_error("pvaClientProcess was destroyed");
+    if(connectState==connected) {
+         if(!channelProcessConnectStatus.isOK()) connectState = connectIdle;
+         return channelProcessConnectStatus;
+    }
     if(connectState!=connectActive) {
         string message = string("channel ") + channel->getChannelName()
             + " pvaClientProcess illegal connect state ";
         throw std::runtime_error(message);
     }
     waitForConnect.wait();
-    connectState = channelProcessConnectStatus.isOK() ? connected : connectIdle;
+    if(!channelProcessConnectStatus.isOK()) connectState = connectIdle;
     return channelProcessConnectStatus;
 }
 
 void PvaClientProcess::process()
 {
-    if(isDestroyed) throw std::runtime_error("pvaClientProcess was destroyed");
     issueProcess();
     Status status = waitProcess();
     if(status.isOK()) return;
@@ -160,7 +183,6 @@ void PvaClientProcess::process()
 
 void PvaClientProcess::issueProcess()
 {
-    if(isDestroyed) throw std::runtime_error("pvaClientProcess was destroyed");
     if(connectState==connectIdle) connect();
     if(processState!=processIdle) {
         string message = string("channel ") + channel->getChannelName()
@@ -173,7 +195,10 @@ void PvaClientProcess::issueProcess()
 
 Status PvaClientProcess::waitProcess()
 {
-    if(isDestroyed) throw std::runtime_error("pvaClientProcess was destroyed");
+    if(processState==processComplete) {
+        processState = processIdle;
+        return channelProcessStatus;
+    }
     if(processState!=processActive){
         string message = string("channel ") + channel->getChannelName()
             + " PvaClientProcess::waitProcess llegal process state";
@@ -182,15 +207,6 @@ Status PvaClientProcess::waitProcess()
     waitForProcess.wait();
     processState = processIdle;
     return channelProcessStatus;
-}
-
-PvaClientProcessPtr PvaClientProcess::create(
-        PvaClientPtr const &pvaClient,
-        Channel::shared_pointer const & channel,
-        PVStructurePtr const &pvRequest)
-{
-    PvaClientProcessPtr epv(new PvaClientProcess(pvaClient,channel,pvRequest));
-    return epv;
 }
 
 }}

@@ -67,15 +67,16 @@ class epicsShareClass MonitorFactory
 public:
     POINTER_DEFINITIONS(MonitorFactory);
     /**
-     * Destructor
+     * @brief Destructor
      */
     virtual ~MonitorFactory();
     /**
-     * Destroy the monitor factory.
+     * @brief Destroy the monitor factory.
      */
     virtual void destroy();
     /** 
-     * Create a monitor on a record.
+     * @brief Create a monitor on a record.
+     *
      * This is called by the local channel provider.
      * @param pvRecord The record to monitor.
      * @param monitorRequester The client callback.
@@ -100,6 +101,7 @@ private:
 
 epicsShareFunc ChannelProviderLocalPtr getChannelProviderLocal();
 
+
 /**
  * @brief ChannelProvider for PVDatabase.
  *
@@ -112,21 +114,22 @@ class epicsShareClass ChannelProviderLocal :
 public:
     POINTER_DEFINITIONS(ChannelProviderLocal);
     /**
-     * Destructor
+     * @brief Destructor
      */
     virtual ~ChannelProviderLocal();
     /**
-     * Destroy the channel provider.
+     * @brief Destroy the channel provider.
+     *
      * Probably never called.
      */
     virtual void destroy();
     /**
-     * Returns the channel provider name.
+     * @brief Returns the channel provider name.
      * @return <b>local</b>
      */
     virtual  std::string getProviderName();
     /**
-     * Returns either a null channelFind or a channelFind for records in the PVDatabase.
+     * @brief Returns either a null channelFind or a channelFind for records in the PVDatabase.
      * @param channelName The name of the channel desired.
      * @param channelFindRequester The client callback.
      * @return shared pointer to ChannelFind.
@@ -141,8 +144,9 @@ public:
         std::string const &channelName,
         epics::pvAccess::ChannelFindRequester::shared_pointer const & channelFindRequester);
     /** 
-     * Calls method channelListRequester::channelListResult which provides the
-     * caller with a list of the record names on the PVDatabase.
+     * @brief Calls method channelListRequester::channelListResult.
+     *
+     * This provides the caller with a list of the record names on the PVDatabase.
      * A record name is the same as a channel name.
      * @param channelListRequester The client callback.
      * @return shared pointer to ChannelFind.
@@ -151,7 +155,8 @@ public:
     virtual epics::pvAccess::ChannelFind::shared_pointer channelList(
         epics::pvAccess::ChannelListRequester::shared_pointer const & channelListRequester);
     /**
-     * Create a channel for a record.
+     * @brief Create a channel for a record.
+     *
      * This method just calls the next method with a address of "".
      * @param channelName The name of the channel desired.
      * @param channelRequester The client callback.
@@ -163,7 +168,7 @@ public:
         epics::pvAccess::ChannelRequester::shared_pointer const &channelRequester,
         short priority);
     /**
-     * Create a channel for a record.
+     * @brief Create a channel for a record.
      * @param channelName The name of the channel desired.
      * @param channelRequester The callback to call with the result.
      * @param priority The priority.
@@ -218,11 +223,12 @@ public:
         PVRecordPtr const & pvRecord
     );
     /** 
-     * Destructor
+     * @brief Destructor
      */
     virtual ~ChannelLocal();
     /** 
-     * Destroy the channel.
+     * @brief Destroy the channel.
+     *
      * It cleans up all resources used to access the record.
      * Note that this assumes that client has destroyed any objects that
      * have been created for the  channel like channelGet, etc.
@@ -230,12 +236,20 @@ public:
      */
     virtual void destroy();
     /** 
-     * Get the requester name.
+     * @brief Detach from the record.
+     *
+     * This is called when a record is being removed from the database.
+     * Calls destroy.
+     * @param pvRecord The record being destroyed.
+     */
+    virtual void detach(PVRecordPtr const &pvRecord);
+    /** 
+     * @brief Get the requester name.
      * @return returns the name of the channel requester.
      */
     virtual std::string getRequesterName();
     /** 
-     * Passes the message to the channel requester.
+     * @brief Passes the message to the channel requester.
      * @param message The message.
      * @param messageType The message type.
      */
@@ -243,7 +257,7 @@ public:
         std::string const & message,
         epics::pvData::MessageType messageType);
     /** 
-     * Get the channel provider
+     * @brief Get the channel provider
      * @return The provider.
      */
     virtual epics::pvAccess::ChannelProvider::shared_pointer getProvider()
@@ -251,7 +265,7 @@ public:
         return provider;
     }
     /** 
-     * Get the remote address
+     * @brief Get the remote address
      * @return <b>local</b>
      */
     virtual std::string getRemoteAddress();
@@ -261,22 +275,23 @@ public:
      */
     virtual epics::pvAccess::Channel::ConnectionState getConnectionState();
     /** 
-     * Get the channel name.
+     * @brief Get the channel name.
      * @return the record name.
      */
     virtual std::string getChannelName();
     /** 
-     * Get the channel requester
+     * @brief Get the channel requester
      * @return The channel requester.
      */
     virtual epics::pvAccess::ChannelRequester::shared_pointer getChannelRequester();
     /** 
-     * Is the channel connected?
-     * @return true
+     * @brief Is the channel connected?
+     * @return true.
      */
     virtual bool isConnected();
     /** 
-     * Get the introspection interface for subField.
+     * @brief Get the introspection interface for subField.
+     *
      * The introspection interface is given via GetFieldRequester::getDone.
      * @param requester The client callback.
      * @param subField The subField of the record.
@@ -294,8 +309,8 @@ public:
     virtual epics::pvAccess::AccessRights getAccessRights(
         epics::pvData::PVField::shared_pointer const &pvField);
     /** 
-     * Create a channelProcess.
-     * See pvAccess.html for details.
+     * @brief Create a channelProcess.
+     *
      * @param requester The client callback.
      * @param pvRequest The options specified by the client.
      * @return A shared pointer to the newly created implementation.
@@ -305,8 +320,8 @@ public:
         epics::pvAccess::ChannelProcessRequester::shared_pointer const &requester,
         epics::pvData::PVStructurePtr const &pvRequest);
     /** 
-     * Create a channelGet.
-     * See pvAccess.html for details.
+     * @brief Create a channelGet.
+     * 
      * @param requester The client callback.
      * @param pvRequest The options specified by the client.
      * @return A shared pointer to the newly created implementation.
@@ -316,8 +331,8 @@ public:
         epics::pvAccess::ChannelGetRequester::shared_pointer const &requester,
         epics::pvData::PVStructurePtr const &pvRequest);
     /** 
-     * Create a channelPut.
-     * See pvAccess.html for details.
+     * @brief Create a channelPut.
+     *
      * @param requester The client callback.
      * @param pvRequest The options specified by the client.
      * @return A shared pointer to the newly created implementation.
@@ -327,8 +342,8 @@ public:
         epics::pvAccess::ChannelPutRequester::shared_pointer const &requester,
         epics::pvData::PVStructurePtr const &pvRequest);
     /** 
-     * Create a channelPutGet.
-     * See pvAccess.html for details.
+     * @brief Create a channelPutGet.
+     * 
      * @param requester The client callback.
      * @param pvRequest The options specified by the client.
      * @return A shared pointer to the newly created implementation.
@@ -338,10 +353,9 @@ public:
         epics::pvAccess::ChannelPutGetRequester::shared_pointer const &requester,
         epics::pvData::PVStructurePtr const &pvRequest);
     /** 
-     * Create a channelRPC.
-     * This is not implemented because pvAccessCPP implements channelRPC.
-     * The server side of remote pvAccess implements a channel provider
-     * just for channelRPC.
+     * @brief Create a channelRPC.
+     *
+     * The PVRecord must implement <b>getService</b> or an empty shared pointer is returned.
      * @param requester The client callback
      * @param pvRequest The options specified by the client.
      * @return null.
@@ -350,8 +364,8 @@ public:
         epics::pvAccess::ChannelRPCRequester::shared_pointer const &requester,
         epics::pvData::PVStructurePtr const &pvRequest);
     /** 
-     * Create a monitor.
-     * See pvAccess.html for details.
+     * @brief Create a monitor.
+     * 
      * @param requester The client callback.
      * @param pvRequest The options specified by the client.
      * @return A shared pointer to the newly created implementation.
@@ -361,8 +375,8 @@ public:
         epics::pvData::MonitorRequester::shared_pointer const &requester,
         epics::pvData::PVStructurePtr const &pvRequest);
     /** 
-     * Create a channelArray.
-     * See pvAccess.html for details.
+     * @brief Create a channelArray.
+     * 
      * @param requester The client callback.
      * @param pvRequest The options specified by the client.
      * @return A shared pointer to the newly created implementation.
@@ -372,31 +386,25 @@ public:
         epics::pvAccess::ChannelArrayRequester::shared_pointer const &requester,
         epics::pvData::PVStructurePtr const &pvRequest);
     /** 
-     *  calls printInfo(std::cout);
+     *  @brief calls printInfo(std::cout);
      */
     virtual void printInfo();
     /** 
-     * displays a message
-     * "ChannelLocal provides access to a record in the local PVDatabase".
+     * @brief displays a message
+     * 
      * @param out the stream on which the message is displayed.
      */
     virtual void printInfo(std::ostream& out);
-    /** 
-     * This is called when a record is being removed from the database.
-     * Calls destroy.
-     * @param pvRecord The record being destroyed.
-     */
-    virtual void detach(PVRecordPtr const &pvRecord);
 protected:
     shared_pointer getPtrSelf()
     {
         return shared_from_this();
     }
 private:
+    epics::pvAccess::ChannelRequester::shared_pointer requester;
     ChannelProviderLocalPtr provider;
-    epics::pvAccess::ChannelRequester::weak_pointer requester;
     PVRecordPtr pvRecord;
-    bool beingDestroyed;
+    bool isDestroyed;
     epics::pvData::Mutex mutex;
 };
 

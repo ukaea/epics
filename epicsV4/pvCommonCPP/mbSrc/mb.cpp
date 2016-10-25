@@ -1,3 +1,5 @@
+// Copyright information and license terms for this software can be
+// found in the file LICENSE that is included with the distribution
 
 #if defined(_WIN32) && !defined(NOMINMAX)
 #define NOMINMAX

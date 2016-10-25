@@ -1,7 +1,6 @@
 /**
- * Copyright - See the COPYRIGHT that is included with this distribution.
- * EPICS pvData is distributed subject to a Software License Agreement found
- * in file LICENSE that is included with this distribution.
+ * Copyright information and license terms for this software can be
+ * found in the file LICENSE that is included with the distribution.
  */
 /**
  * @author mrk
@@ -91,14 +90,23 @@ void DbPv::init()
         default:
           break;
     }
-    if(scalarType!=pvBoolean) {
-        bool isArray = (paddr->no_elements>1) ? true : false;
+    bool isArray = (paddr->no_elements>1) ? true : false;
+    if(scalarType==pvString) {
+        if(isArray) {
+            recordField = standardField->scalarArray(scalarType,
+                "value,timeStamp,alarm");
+        } else {
+            recordField = standardField->scalar(scalarType,
+                "value,timeStamp,alarm");
+        }
+    }
+    else if(scalarType!=pvBoolean) {
         if(isArray) {
             recordField = standardField->scalarArray(scalarType,
                 "value,timeStamp,alarm,display");
         } else {
             recordField = standardField->scalar(scalarType,
-                "value,timeStamp,alarm,display,control");
+                "value,timeStamp,alarm,display,control,valueAlarm");
         }
     }
 }

@@ -53,7 +53,7 @@ public:
     }
     virtual  ChannelProvider::shared_pointer newInstance()
     {
-        return channelProvider;
+        throw std::logic_error("newInstance not Implemented");
     }
 private:
     LocalChannelProviderFactory(
@@ -68,7 +68,7 @@ ChannelProviderLocalPtr getChannelProviderLocal()
     static ChannelProviderLocalPtr channelProviderLocal;
     static Mutex mutex;
     Lock xx(mutex);
-    if(channelProviderLocal.get()==NULL) {
+    if(!channelProviderLocal) {
         channelProviderLocal = ChannelProviderLocalPtr(
             new ChannelProviderLocal());
         ChannelProvider::shared_pointer xxx =
@@ -76,7 +76,7 @@ ChannelProviderLocalPtr getChannelProviderLocal()
         channelProviderLocal->channelFinder =
             SyncChannelFind::shared_pointer(new SyncChannelFind(xxx));
         LocalChannelProviderFactoryPtr factory(LocalChannelProviderFactory::create(channelProviderLocal));
-        registerChannelProviderFactory(factory);
+        
     }
     return channelProviderLocal;
 }
@@ -89,7 +89,6 @@ ChannelProviderLocal::ChannelProviderLocal()
 
 ChannelProviderLocal::~ChannelProviderLocal()
 {
-    // TODO should I call destroy() here
     destroy();
 }
 
@@ -99,6 +98,7 @@ void ChannelProviderLocal::destroy()
     if(beingDestroyed) return;
     beingDestroyed = true;
     pvDatabase->destroy();
+    pvDatabase.reset();
 }
 
 string ChannelProviderLocal::getProviderName()
@@ -112,7 +112,7 @@ ChannelFind::shared_pointer ChannelProviderLocal::channelFind(
 {
     Lock xx(mutex);
     PVRecordPtr pvRecord = pvDatabase->findRecord(channelName);
-    if(pvRecord.get()!=NULL) {
+    if(pvRecord) {
         channelFindRequester->channelFindResult(
             Status::Ok,
             channelFinder,
@@ -146,18 +146,9 @@ Channel::shared_pointer ChannelProviderLocal::createChannel(
     ChannelRequester::shared_pointer  const &channelRequester,
     short priority)
 {
-    return createChannel(channelName,channelRequester,priority,"");
-}
-
-Channel::shared_pointer ChannelProviderLocal::createChannel(
-    string const & channelName,
-    ChannelRequester::shared_pointer  const &channelRequester,
-    short priority,
-    string const &address)
-{
     Lock xx(mutex);
     PVRecordPtr pvRecord = pvDatabase->findRecord(channelName);
-    if(pvRecord.get()!=NULL) {
+    if(pvRecord) {
         ChannelLocalPtr channel(new ChannelLocal(
             getPtrSelf(),channelRequester,pvRecord));
         channelRequester->channelCreated(
@@ -171,6 +162,17 @@ Channel::shared_pointer ChannelProviderLocal::createChannel(
         notFoundStatus,
         Channel::shared_pointer());
     return Channel::shared_pointer();
+    
+}
+
+Channel::shared_pointer ChannelProviderLocal::createChannel(
+    string const & channelName,
+    ChannelRequester::shared_pointer  const &channelRequester,
+    short priority,
+    string const &address)
+{
+    if(!address.empty()) throw std::invalid_argument("address not allowed for local implementation");
+    return createChannel(channelName, channelRequester, priority);
 }
 
 }}

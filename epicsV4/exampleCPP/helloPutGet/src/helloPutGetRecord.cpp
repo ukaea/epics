@@ -1,7 +1,8 @@
-// Copyright information and license terms for this software can be
-// found in the file LICENSE that is included with the distribution
+/*
+ * Copyright information and license terms for this software can be
+ * found in the file LICENSE that is included with the distribution
+ */
 
-/* helloPutGet.cpp */
 /**
  * @author mrk
  * @date 2013.04.02
@@ -39,7 +40,7 @@ HelloPutGetRecordPtr HelloPutGetRecord::create(
 
     HelloPutGetRecordPtr pvRecord(
         new HelloPutGetRecord(recordName,pvStructure));
-    if(!pvRecord->init()) pvRecord.reset();
+    pvRecord->initPvt();
     return pvRecord;
 }
 
@@ -50,25 +51,14 @@ HelloPutGetRecord::HelloPutGetRecord(
 {
 }
 
-HelloPutGetRecord::~HelloPutGetRecord()
-{
-}
 
-void HelloPutGetRecord::destroy()
+void HelloPutGetRecord::initPvt()
 {
-    PVRecord::destroy();
-}
-
-bool HelloPutGetRecord::init()
-{
-    
     initPVRecord();
     pvArgumentValue = getPVStructure()->getSubField<PVString>("argument.value");
-    if(pvArgumentValue.get()==NULL) return false;
     pvResultValue = getPVStructure()->getSubField<PVString>("result.value");
-    if(pvResultValue.get()==NULL) return false;
-    return true;
 }
+
 
 void HelloPutGetRecord::process()
 {

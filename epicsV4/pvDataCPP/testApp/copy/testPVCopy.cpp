@@ -1,8 +1,7 @@
 /*testPVCopyMain.cpp */
-/**
- * Copyright - See the COPYRIGHT that is included with this distribution.
- * EPICS pvData is distributed subject to a Software License Agreement found
- * in file LICENSE that is included with this distribution.
+/*
+ * Copyright information and license terms for this software can be
+ * found in the file LICENSE that is included with the distribution
  */
 /**
  * @author mrk
@@ -41,21 +40,18 @@ static void testPVScalar(
     PVCopyPtr const & pvCopy)
 {
     PVStructurePtr pvStructureCopy;
-    PVFieldPtr pvField;
     PVScalarPtr pvValueMaster;
     PVScalarPtr pvValueCopy;
     BitSetPtr bitSet;
     size_t offset;
     ConvertPtr convert = getConvert();
 
-    pvField = pvMaster->getSubField(valueNameMaster);
-    pvValueMaster = static_pointer_cast<PVScalar>(pvField);
+    pvValueMaster = pvMaster->getSubField<PVScalar>(valueNameMaster);
     convert->fromDouble(pvValueMaster,.04);
     StructureConstPtr structure = pvCopy->getStructure();
     if(debug) { cout << "structure from copy" << endl << *structure << endl; }
     pvStructureCopy = pvCopy->createPVStructure();
-    pvField = pvStructureCopy->getSubField(valueNameCopy);
-    pvValueCopy = static_pointer_cast<PVScalar>(pvField);
+    pvValueCopy = pvStructureCopy->getSubField<PVScalar>(valueNameCopy);
     bitSet = BitSetPtr(new BitSet(pvStructureCopy->getNumberFields()));
     pvCopy->initCopy(pvStructureCopy, bitSet);
     if(debug) { cout << "after initCopy pvValueCopy " << convert->toDouble(pvValueCopy); }

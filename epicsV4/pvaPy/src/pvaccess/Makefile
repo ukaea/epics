@@ -8,6 +8,7 @@ include $(TOP)/configure/CONFIG
 
 USR_CXXFLAGS += -DPVA_API_VERSION=$(PVA_API_VERSION)
 USR_CXXFLAGS += -DPVA_RPC_API_VERSION=$(PVA_RPC_API_VERSION)
+USR_CXXFLAGS += -DHAVE_BOOST_NUM_PY=$(HAVE_BOOST_NUM_PY)
 
 USR_CXXFLAGS += $(PVA_PY_CPPFLAGS)
 USR_LDFLAGS  += $(PVA_PY_LDFLAGS)
@@ -85,6 +86,7 @@ pvaccess_SRCS += InvalidRequest.cpp
 pvaccess_SRCS += InvalidState.cpp
 pvaccess_SRCS += NtTable.cpp
 pvaccess_SRCS += NtType.cpp
+pvaccess_SRCS += ObjectAlreadyExists.cpp
 pvaccess_SRCS += ObjectNotFound.cpp
 pvaccess_SRCS += PvaClient.cpp
 pvaccess_SRCS += PvaConstants.cpp

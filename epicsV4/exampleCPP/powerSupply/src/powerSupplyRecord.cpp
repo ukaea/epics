@@ -1,7 +1,7 @@
-// Copyright information and license terms for this software can be
-// found in the file LICENSE that is included with the distribution
-
-/* powerSupply.cpp */
+/*
+ * Copyright information and license terms for this software can be
+ * found in the file LICENSE that is included with the distribution
+ */
 
 /**
  * @author mrk
@@ -46,7 +46,7 @@ PowerSupplyRecordPtr PowerSupplyRecord::create(
     PVStructurePtr pvStructure = pvDataCreate->createPVStructure(topStructure);
     PowerSupplyRecordPtr pvRecord(
         new PowerSupplyRecord(recordName,pvStructure));
-    if(!pvRecord->init()) pvRecord.reset();
+    pvRecord->initPvt();
     return pvRecord;
 }
 
@@ -57,50 +57,20 @@ PowerSupplyRecord::PowerSupplyRecord(
 {
 }
 
-PowerSupplyRecord::~PowerSupplyRecord()
-{
-}
 
-void PowerSupplyRecord::destroy()
-{
-    PVRecord::destroy();
-}
-
-bool PowerSupplyRecord::init()
+void PowerSupplyRecord::initPvt()
 {
     initPVRecord();
     PVStructurePtr pvStructure = getPVStructure();
     PVFieldPtr pvField;
-    bool result;
     pvField = pvStructure->getSubField("alarm");
-    if(!pvField) {
-        cerr << "no alarm" << endl;
-        return false;
-    }
-    result = pvAlarm.attach(pvField);
-    if(!result) {
-        cerr << "no alarm" << endl;
-        return false;
-    }
+    pvAlarm.attach(pvField);
     pvCurrent = pvStructure->getSubField<PVDouble>("current.value");
-    if(!pvCurrent) {
-        cerr << "no current\n";
-        return false;
-    }
     pvVoltage = pvStructure->getSubField<PVDouble>("voltage.value");
-    if(!pvVoltage) {
-        cerr << "no current\n";
-        return false;
-    }
     pvPower = pvStructure->getSubField<PVDouble>("power.value");
-    if(!pvPower) {
-        cerr << "no power\n";
-        return false;
-    }
     alarm.setMessage("bad voltage");
     alarm.setSeverity(majorAlarm);
     pvAlarm.set(alarm);
-    return true;
 }
 
 void PowerSupplyRecord::process()

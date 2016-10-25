@@ -1,7 +1,6 @@
-/**
- * Copyright - See the COPYRIGHT that is included with this distribution.
- * EPICS pvData is distributed subject to a Software License Agreement found
- * in file LICENSE that is included with this distribution.
+/*
+ * Copyright information and license terms for this software can be
+ * found in the file LICENSE that is included with the distribution
  */
 /** C++ Template meta programming helpers
  */
@@ -11,7 +10,9 @@
 // gently nudge the compiler to inline our wrappers
 // Warning: Only use this when the template body is *small*.
 //          You have been warned!
-#if defined(__GNUC__) && __GNUC__>=3
+#if defined(__MINGW32__) 
+# define FORCE_INLINE inline
+#elif defined(__GNUC__) && __GNUC__>=3
 # define FORCE_INLINE __attribute__((always_inline)) inline
 #elif defined(_MSC_VER)
 # define FORCE_INLINE __forceinline

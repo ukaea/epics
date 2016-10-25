@@ -1,7 +1,8 @@
-// Copyright information and license terms for this software can be
-// found in the file LICENSE that is included with the distribution
+/*
+ * Copyright information and license terms for this software can be
+ * found in the file LICENSE that is included with the distribution
+ */
 
-/*exampleDatabaseMain.cpp */
 /**
  * @author mrk
  */
@@ -47,7 +48,5 @@ int main(int argc,char *argv[])
 
     }
     ctx->destroy();
-epicsThreadSleep(3.0); // should not be necessary
-//    channelProvider->destroy();
     return 0;
 }

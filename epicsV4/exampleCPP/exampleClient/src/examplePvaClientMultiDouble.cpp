@@ -1,7 +1,7 @@
-// Copyright information and license terms for this software can be
-// found in the file LICENSE that is included with the distribution
-
-/*examplePvaClientMultiDouble.cpp */
+/*
+ * Copyright information and license terms for this software can be
+ * found in the file LICENSE that is included with the distribution
+ */
 
 /**
  * @author mrk
@@ -25,7 +25,8 @@ static void example(
 {
     cout << "_example provider " << provider << " channels " << channelNames << "_\n";
     size_t num = channelNames.size();
-    PvaClientMultiChannelPtr multiChannel(PvaClientMultiChannel::create(pva,channelNames,provider));
+    PvaClientMultiChannelPtr multiChannel(
+        PvaClientMultiChannel::create(pva,channelNames,provider));
     Status status = multiChannel->connect();
     if(!status.isSuccess()) {
          cout << "Did not connect: ";
@@ -34,7 +35,6 @@ static void example(
              if(!isConnected[i]) cout << channelNames[i] << " ";
          }
          cout << endl;
-         multiChannel->destroy();
          return;
     }
     PvaClientMultiGetDoublePtr multiGet(multiChannel->createGet());
@@ -53,14 +53,14 @@ static void example(
              result = multiMonitor->poll();
         }
     }
-    multiChannel->destroy();
 }
 
 int main(int argc,char *argv[])
 {
     cout << "_____examplePvaClientMultiDouble starting_______\n";
-    PvaClientPtr pva = PvaClient::get("pva ca");
     try {
+        PvaClientPtr pva = PvaClient::get("pva ca");
+//PvaClient::setDebug(true);
         size_t num = 5;
         shared_vector<string> channelNames(num);
         channelNames[0] = "PVRdouble01";
@@ -70,7 +70,7 @@ int main(int argc,char *argv[])
         channelNames[4] = "PVRdouble05";
         shared_vector<const string> names(freeze(channelNames));
         example(pva,"pva",names);
-        PvaClientChannelPtr pvaChannel = pva->createChannel("DBRdouble00","ca");
+        PvaClientChannelPtr pvaChannel = pva->createChannel("DBRdouble00","pva");
         pvaChannel->issueConnect();
         Status status = pvaChannel->waitConnect(1.0);
         if(status.isOK()) {
@@ -83,10 +83,10 @@ int main(int argc,char *argv[])
             names = freeze(channelNames);
             example(pva,"pva",names);
             example(pva,"ca",names);
-    } else {
-         cout << "DBRdouble00 not found\n";
-    }
-    cout << "_____examplePvaClientMultiDouble done_______\n";
+        } else {
+            cout << "DBRdouble00 not found\n";
+        }
+        cout << "_____examplePvaClientMultiDouble done_______\n";
      } catch (std::runtime_error e) {
         cout << "exception " << e.what() << endl;
         return 1;
