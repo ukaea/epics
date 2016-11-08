@@ -7,6 +7,7 @@
  * in the file LICENSE that is included with this distribution.            *
  ***************************************************************************
  */
+#define _WINSOCKAPI_
 
 #include <string.h>
 #include <errlog.h>
@@ -978,13 +979,15 @@ asynOctetGetOutputEos(void *pvt, asynUser *pasynUser, char *eos, int eossize, in
 }
 
 static asynOctet octetMethods = { 
-    .write        = asynOctetWrite, 
-    .read         = asynOctetRead, 
-    .flush        = asynOctetFlush,
-    .setInputEos  = asynOctetSetInputEos,
-    .getInputEos  = asynOctetGetInputEos,
-    .setOutputEos = asynOctetSetOutputEos,
-    .getOutputEos = asynOctetGetOutputEos,
+    asynOctetWrite, 
+	asynOctetRead, 
+    asynOctetFlush,
+	NULL,
+	NULL,
+    asynOctetSetInputEos,
+    asynOctetGetInputEos,
+    asynOctetSetOutputEos,
+    asynOctetGetOutputEos,
 };
 
 /*
@@ -1114,8 +1117,7 @@ asynInt32Read(void *pvt, asynUser *pasynUser, epicsInt32 *value)
 }
 
 static asynInt32 int32Methods = {
-    .write  = asynInt32Write,
-    .read   = asynInt32Read,
+    asynInt32Write, asynInt32Read,
 };
 
 /*
@@ -1156,9 +1158,9 @@ asynDrvUserDestroy(void *drvPvt, asynUser *pasynUser)
 }
 
 static asynDrvUser drvUserMethods = {
-    .create  = asynDrvUserCreate,
-    .getType = asynDrvUserGetType,
-    .destroy = asynDrvUserDestroy,
+    asynDrvUserCreate,
+    asynDrvUserGetType,
+    asynDrvUserDestroy,
 };
 
 /*
