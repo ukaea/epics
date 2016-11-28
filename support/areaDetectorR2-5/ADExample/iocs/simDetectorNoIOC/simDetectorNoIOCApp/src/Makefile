@@ -10,25 +10,18 @@ ifeq (vxWorks,$(findstring vxWorks, $(T_A)))
 CODE_CXXFLAGS=
 endif
 
+ifeq ($(EPICS_LIBCOM_ONLY),YES)
+  USR_CXXFLAGS += -DEPICS_LIBCOM_ONLY
+endif
+
 PROD_IOC_Linux  += simDetectorNoIOCApp
 PROD_IOC_WIN32  += simDetectorNoIOCApp
-PROD_IOC_Darwin  += simDetectorNoIOCApp
+PROD_IOC_Darwin += simDetectorNoIOCApp
 PROD_SRCS += simDetectorNoIOC.cpp
 
 PROD_LIBS += simDetector
 
-ifeq ($(EPICS_LIBCOM_ONLY),YES)
-  PROD_LIBS += ADBase
-  PROD_LIBS += NDPlugin
-  PROD_LIBS += netCDF
-  ifneq (vxWorks, $(findstring vxWorks, $(T_A)))
-    PROD_LIBS += NeXus
-  endif
-  PROD_LIBS += asyn
-  PROD_LIBS += Com
-else
-  include $(ADCORE)/ADApp/commonDriverMakefile
-endif
+include $(ADCORE)/ADApp/commonDriverMakefile
 
 USR_INCLUDES += $(HDF5_INCLUDE)
 USR_INCLUDES += $(SZ_INCLUDE)

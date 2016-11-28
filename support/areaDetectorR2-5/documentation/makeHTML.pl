@@ -29,14 +29,17 @@ use File::Path;
           "./ADAndor/documentation",
           "./ADAndor3/documentation",
           "./ADBruker/documentation",
+          "./ADCameraLink/documentation",
           "./ADDexela/documentation",
           "./ADExample/documentation",
           "./ADFastCCD/documentation",
           "./ADFireWireWin/documentation",
+          "./ADLambda/documentation",
           "./ADLightField/documentation",
 #          "./ADMerlin/documentation",
           "./ADMythen/documentation",
           "./ADPICam/documentation",
+          "./ADPCO/documentation",
           "./ADPSL/documentation",
           "./ADPerkinElmer/documentation",
           "./ADPilatus/documentation",
@@ -51,6 +54,7 @@ use File::Path;
           "./ADmar345/documentation",
           "./ADmarCCD/documentation",
           "./ADnED/documentation",
+          "./NDDriverStdArrays/documentation",
           );
 
 foreach $dir (@subdirs) {

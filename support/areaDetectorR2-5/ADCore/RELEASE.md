@@ -11,9 +11,6 @@ http://cars.uchicago.edu/software/epics/areaDetector.html.
 Tagged source code releases from R2-0 onward can be obtained at 
 https://github.com/areaDetector/ADCore/releases.
 
-Tagged prebuilt binaries from R2-0 onward can be obtained at
-http://cars.uchicago.edu/software/pub/ADCore.
-
 The versions of EPICS base, asyn, and other synApps modules used for each release can be obtained from 
 the EXAMPLE_RELEASE_PATHS.local, EXAMPLE_RELEASE_LIBS.local, and EXAMPLE_RELEASE_PRODS.local
 files respectively, in the configure/ directory of the appropriate release of the 
@@ -22,9 +19,110 @@ files respectively, in the configure/ directory of the appropriate release of th
 
 Release Notes
 =============
-
-R2-5 (May XXX, 2016)
+R2-6 (December XXX, 2016)
 ========================
+
+### NDPluginROI
+* Added CollapseDims to optionally collapse (remove) output array dimensions whose value is
+  1.  For example an output array that would normally be dimensions [1, 256, 256] would be
+  [256, 256] if CollapseDims=Enable.
+
+### NDArrayBase.template
+* Added new longout record NDimensions and new waveform record Dimensions to control the NDArray
+  dimensions.  These were needed for NDDriverStdArrays, and may be useful for other drivers.
+  Previously there were only input records (NDimensions_RBV and Dimensions_RBV) 
+  for these parameters.
+
+
+R2-5 (October 28, 2016)
+========================
+### ADSupport
+* Added a new repository ADSupport to areaDetector.  This module contains the source code for all 3rd party
+  libraries used by ADCore.  The libraries that were previously built in ADCore have been moved
+  to this new repository.  These are ADCore/ADApp/netCDFSrc, nexusSrc, and tiffSupport/tiffSrc, and
+  tiffSupport/jpegSrc.  ADSupport also replaces the ADBinaries repository.  ADBinaries contained prebuilt
+  libraries for Windows for xml2, GraphicsMagick, and HDF5.  It was becoming too difficult to maintain
+  these prebuilt libraries to work with different versions of Visual Studio, and also with 32/64 bit, 
+  static dynamic, debug/release, and to work with MinGW.  These libraries are now built from source code
+  using the EPICS build system in ADSupport.
+* The libraries in ADSupport can be built for Windows (Visual Studio or MinGW, 32/64 bit, static/dynamic), 
+  Linux (currently Intel architectures only, 32/64 bit), Darwin, and vxWorks 
+  (currently big-endian 32-bit architectures only).  
+* Previously the only file saving plugin that was supported on vxWorks was netCDF.  Now all file saving 
+  plugins are supported on vxWorks 6.x (TIFF, JPEG, netCDF, HDF5, Nexus).  HDF5 and Nexus are not supported
+  on vxWorks 5.x because the compiler is too old.
+* All 3rd party libraries are now optional.  For each library XXX there are now 4 Makefile variables that control
+  support for that library.  XXX can be JPEG, TIFF, NEXUS, NETCDF, HDF5, XML2, SZIP, and ZLIB.
+  - WITH_XXX   If this is YES then drivers or plugins that use this library will be built.  If NO then
+    drivers and plugins that use this library will not be built.
+  - XXX_EXTERNAL  If this is YES then the library is not built in ADSupport, but is rather assumed to be found
+    external to the EPICS build system.  If this is NO then the XXX library will be built in ADSupport.
+  - XXX_DIR  If this is defined and XXX_EXTERNAL=YES then the build system will search this directory for the 
+    XXX library.
+  - XXX_INCLUDE If this is defined then the build system will search this directory for the include files for
+    the XXX library.
+* ADSupport does not currently include support for GraphicsMagick.  This means that GraphicsMagick is not
+  currently supported on Windows.  It can be used on Linux and Darwin if it is installed external to areaDetector
+  and GRAPHICSMAGICK_EXTERNAL=YES.
+* All EPICS modules except base and asyn are now optional.  Previously 
+  commonDriverSupport.dbd included "calcSupport.dbd", "sscanSupport.dbd", etc.
+  These dbd and libraries are now only included if they are defined in a RELEASE
+  file.
+
+
+### NDPluginPva
+* New plugin for exporting NDArrays as EPICS V4 NTNDArrays.  It has an embedded EPICSv4 server to serve the NTNDArrays
+  to V4 clients.
+  When used with pvaDriver it provides a mechanism for distributing plugin processing across multiple  processes 
+  and multiple machines. Thanks to Bruno Martins for this.
+
+### pvaDriver
+* New driver for importing an EPICS V4 NTNDArray into areaDetector.  It works by creating a monitor on the 
+  specified PV and doing plugin callbacks each time the array changes.  
+  When used with NDPluginPva it provides a mechanism for distributing plugin processing across multiple processes 
+  and multiple machines.  Thanks to Bruno Martins for this.
+
+### NDFileHDF5
+* Added support for Single Writer Multiple Reader (SWMR).  This allows HDF5 files to be read while they are still be
+  written.  This feature was added in HDF5 1.10.0-patch1, so this release or higher is required to use the 
+  SWMR support in this plugin.
+  The file plugin allows selecting whether SWMR support is enabled, and it is disabled by default.
+  Files written with SWMR support enabled can only be read by programs built with HDF 1.10 or higher, so SWMR should not
+  be enabled if older clients are to read the files.  SWMR is only supported on local, GPFS, and Lustre file systems. 
+  It is not supported on NFS or SMB file systems, for example.  Thanks to Alan Greer for this.
+  * NOTE: we discovered shortly before releasing ADSupport R1-0 and ADCore R2-5 that the
+    Single Writer Multiple Reader (SWMR) support in HDF5 1.10.0-patch1 was broken.
+    It can return errors if any of the datasets are of type H5_C_S1 (fixed length strings).
+    We were able to reproduce the errors with a simple C program, and sent that to the HDF Group.
+    They quickly produced a new unreleased version of HDF5 called 1.10-swmr-fixes that fixed the problem.
+
+    The HDF5 Group plans to release 1.10.1, hopefully before the end of 2016.  That should be
+    the first official release that will correctly support SWMR.
+
+    As of the R1-0 release ADSupport contains 2 branches. 
+    - master contains the HDF5 1.10.0-patch1 release from the HDF5 Group with only the minor changes
+      required to build with the EPICS build system, and to work on vxWorks and mingw.
+      These changes are documented in README.epics.  This version should not be used with SWMR
+      support enabled because of the known problems described above.
+    - swmr-fixes contains the 1.10-swmr-fixes code that the HDF Group provided.
+      We had to make some changes to this code to get it to work on Windows.
+      It is not an official release, but does appear to correctly support SWMR.
+      Users who would like to begin to use SWMR before HDF5 1.10.1 is released can use
+      this branch, but must be aware that it is not officially supported. 
+
+* NDAttributes of type NDAttrString are now saved as 1-D array of strings (HDF5 type H5T_C_S1) rather
+  than a 2-D array of 8-bit integers (HDF5 type H5T_NATIVE_CHAR), which is the datatype used prior to R2-5.  
+  H5T_NATIVE_CHAR is really intended to be an integer data type, and so most HDF5 utilities (h5dump, HDFView, etc.) display
+  these attributes by default as an array of integer numbers rather than as a string.  
+
+### NDPosPlugin
+* New plugin attach positional information to NDArrays in the form of NDAttributes. This plugin accepts an XML
+  description of the position data and then attaches each position to NDArrays as they are passed through the plugin.
+  Each position can contain a set of index values and each index is attached as a separate NDAttribute.  
+  The plugin operates using a FIFO and new positions can be added to the queue while the plugin is actively 
+  attaching position data.  When used in conjunction with the HDF5
+  writer it is possible to store NDArrays in an arbitrary pattern within a multi-dimensional dataset.
+
 ### NDPluginDriver
 * Added the ability to change the QueueSize of a plugin at run-time. This can be very useful,
   particularly for file plugins where an acquisition of N frames is overflowing the queue,
@@ -36,14 +134,13 @@ R2-5 (May XXX, 2016)
   so the limits on total number of arrays and total memory defined in the constructor will be obeyed.
   This is very important in preventing system freezes if the user accidentally tries allocate all the
   system memory, which can effectively crash the computer.
-
-### Added a new start() method that must be called after the plugin object is created.  This requires
+* Added a new start() method that must be called after the plugin object is created.  This requires
   a small change to all plugins.  The plugins in ADCore/ADApp/pluginSrc can be used as examples.  This
   change was required to prevent a race condition when the plugin only existed for a very short
   time, which happens in the unit tests in ADCore/ADApp/pluginsTests.
 
 ### NDPluginTimeSeries
-* New plugin to for time-series data.  The plugin accepts input arrays of dimensions
+* New plugin for time-series data.  The plugin accepts input arrays of dimensions
   [NumSignals] or [NumSignals, NewTimePoints].  The plugin creates NumSignals 1-D
   arrays of dimension [NumTimPoints], each of which is the time-series for one signal.
   On each callback the new time points are appended to the existing time series arrays.
@@ -52,7 +149,7 @@ R2-5 (May XXX, 2016)
   NumTimePoints points have been received, at which point acquisition stops and further
   callbacks are ignorred.  In Circular Buffer mode when NumTimePoints samples are received
   then acquisition continues with the new time points replacing the oldest ones in the
-  circular buffer.  In this mode the export NDArrays and waveforms always contain the latest 
+  circular buffer.  In this mode the exported NDArrays and waveforms always contain the latest 
   NumTimePoints samples, with the first element of the array containing the oldest time
   point and the last element containing the most recent time point.    
 * This plugin is used by R7-0 and later of the 
@@ -73,13 +170,13 @@ R2-5 (May XXX, 2016)
 * The FFT algorithm requires that the input array dimensions be a power of 2, but the plugin
   will pad the array to the next larger power of 2 if the input array does not meet this
   requirement.  
-*  The simDetector test application in 
+* The simDetector test application in 
   [areaDetector/ADExample](https://github.com/areaDetector/ADExample) 
   has a new simulation mode that generates images based on the sums and/or products of 4 sine waves.
   This application is useful for testing and demonstrating the NDPluginFFT plugin.
 
 ### NDPluginStats and NDPluginROIStat
-* Added waveform record containing NDArray timetstamps to time series data arrays. Thanks to
+* Added waveform record containing NDArray timestamps to time series data arrays. Thanks to
   Stuart Wilkins for this.
 
 ### NDPluginCircularBuff
@@ -94,15 +191,6 @@ R2-5 (May XXX, 2016)
 
 ### NDArrayBase.template, NDPluginDriver.cpp
 * Set ArrayCallbacks.VAL to 1 so array callbacks are enabled by default.
-
-### NDFileHDF5
-* Added capability to save NDAttributes of type NDAttrString as a 1-D array of strings (HDF5 type H5T_C_S1) rather
-  than a 2-D array of 8-bit integers (HDF5 type H5T_NATIVE_CHAR), which is the datatype used prior to R2-5.  
-  H5T_NATIVE_CHAR is really
-  intended to be an integer data type, and so most HDF5 utilities (h5dump, HDFView, etc.) display
-  these attributes by default as an array of integer numbers rather than as a string.  There is a new
-  PV StrAttrDataType that controls which data type is used.  The default is "Char" which is backwards
-  compatible and uses H5T_NATIVE_CHAR.  "String" selects H5T_C_S1.
 
 ### NDPluginBase.template
 * Changed QueueSize from longin to longout, because the plugin queue size can now be changed at runtime.

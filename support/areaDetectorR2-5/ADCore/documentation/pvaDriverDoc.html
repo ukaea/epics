@@ -29,18 +29,21 @@
     Introduction</h2>
   <p>
     This is an <a href="http://www.aps.anl.gov/epics/">EPICS</a> <a href="areaDetector.html">
-    areaDetector</a> driver for importing an EPICSv4 NTNDArray via pvAccess into areaDetector. It
-    does so by creating a monitor on the specified PV.
+      areaDetector</a> driver for importing an EPICSv4 NTNDArray via pvAccess into areaDetector.
+    It does so by creating a monitor on the specified PV.
   </p>
   <p>
     This driver inherits from <a href="areaDetectorDoc.html#ADDriver">ADDriver</a>.
-    It implements just a handful of the parameters in <a href="areaDetectorDoxygenHTML/asyn_n_d_array_driver_8h.html">
+    It implements some of the parameters in <a href="areaDetectorDoxygenHTML/asyn_n_d_array_driver_8h.html">
       asynNDArrayDriver.h</a> and in <a href="areaDetectorDoxygenHTML/_a_d_driver_8h.html">
         ADArrayDriver.h</a>, namely:
   </p>
   <ul>
     <li>ADManufacturer</li>
     <li>ADModel</li>
+    <li>ADAcquire</li>
+    <li>ADImageMode</li>
+    <li>ADNumImages</li>
     <li>ADMaxSizeX and ADMaxSizeY</li>
     <li>ADMinX and ADMinY</li>
     <li>ADBinX and ADBinY</li>
@@ -51,8 +54,8 @@
     <li>NDDataType and NDColorMode</li>
     <li>NDArrayCounter</li>
   </ul>
-  <p>  
-    It also implements a few parameters that are specific to the pvAccess driver. 
+  <p>
+    It also implements a few parameters that are specific to the pvAccess driver.</p>
   <h2 id="Driver_parameters">
     pvAccess driver specific parameters</h2>
   <p>
@@ -96,8 +99,8 @@
           $(P)$(R)OverrunCounter<br />
           $(P)$(R)OverrunCounter_RBV</td>
         <td>
-          ao<br />
-          ai</td>
+          longout<br />
+          longin</td>
       </tr>
       <tr>
         <td>
@@ -105,14 +108,16 @@
         <td>
           asynOctet</td>
         <td>
-          r/o</td>
+          r/w</td>
         <td>
-          Name of the PV being monitored</td>
+          Name of the PV to monitor. This can be changed a run-time.</td>
         <td>
           PV_NAME</td>
         <td>
+          $(P)$(R)PvName<br />
           $(P)$(R)PvName_RBV</td>
         <td>
+          waveform<br />
           waveform</td>
       </tr>
       <tr>
@@ -136,9 +141,9 @@
   <h2 id="Configuration">
     Configuration</h2>
   <p>
-    The pvaDriver driver is created with the pvaDriverConfig command, either from
-    C/C++ or from the EPICS IOC shell.</p>
-  <pre>int pvaDriverConfig(const char *portName,
+    The pvaDriver driver is created with the pvaDriverConfig command, either from C/C++
+    or from the EPICS IOC shell.</p>
+  <pre>int pvaDriverConfig(const char *portName, const char *pvName,
                       int maxSizeX, int maxSizeY, int dataType,
                       int maxBuffers, size_t maxMemory,
                       int priority, int stackSize)
@@ -151,11 +156,17 @@
   <p>
     For details on the meaning of the other parameters to this function refer to the
     detailed documentation on the pvaDriverConfig function in the <a href="areaDetectorDoxygenHTML/pva_driver_8cpp.html">
-      pvaDriver.cpp documentation</a> and in the documentation for the constructor
-    for the <a href="areaDetectorDoxygenHTML/classpva_driver.html">pvaDriver class</a>.
+      pvaDriver.cpp documentation</a> and in the documentation for the constructor for
+    the <a href="areaDetectorDoxygenHTML/classpva_driver.html">pvaDriver class</a>.
   </p>
   <p>
     There is an example IOC boot directory and startup script provided with areaDetector.
   </p>
+  <p>
+    The following MEDM screen for the pvaDriver.
+  </p>
+  <div style="text-align: center; margin-top: 2em; margin-bottom: 2em">
+    <img alt="ADPvaDriver.png" src="ADPvaDriver.png" />
+  </div>
 </body>
 </html>

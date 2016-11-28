@@ -6,22 +6,16 @@ DIRS := $(DIRS) $(filter-out $(DIRS), $(wildcard *Db*))
 
 DIRS += ADSrc
 
-DIRS += netCDFSrc
-
-DIRS += nexusSrc
-
-DIRS += tiffSupport
-
 DIRS += pluginSrc
-pluginSrc_DEPEND_DIRS += ADSrc netCDFSrc nexusSrc tiffSupport
+pluginSrc_DEPEND_DIRS += ADSrc
 
 DIRS += pluginTests
-pluginTests_DEPEND_DIRS += ADSrc pluginSrc
+pluginTests_DEPEND_DIRS += pluginSrc
 
-ifeq ($(EPICS_V4), YES)
+ifeq ($(WITH_EPICS_V4), YES)
   DIRS += ntndArrayConverterSrc
+  ntndArrayConverterSrc_DEPEND_DIRS += ADSrc
   DIRS += pvaDriverSrc
-  pvaDriverSrc_DEPEND_DIRS += pluginSrc
   pvaDriverSrc_DEPEND_DIRS += ntndArrayConverterSrc
   pluginSrc_DEPEND_DIRS += ntndArrayConverterSrc
 endif

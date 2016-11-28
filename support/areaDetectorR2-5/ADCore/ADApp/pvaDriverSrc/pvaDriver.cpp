@@ -8,7 +8,6 @@
  * Created:  April 10, 2015
  *
  */
-#include <epicsExport.h>
 #include <epicsThread.h>
 #include <iocsh.h>
 
@@ -19,6 +18,8 @@
 #include <ntndArrayConverter.h>
 
 #include <ADDriver.h>
+
+#include <epicsExport.h>
 #include "pvaDriver.h"
 
 //#define DEFAULT_REQUEST "record[queueSize=100]field()"
@@ -53,15 +54,17 @@ static const char *driverName = "pvaDriver";
 pvaDriver::pvaDriver (const char *portName, const char *pvName,
         int maxBuffers, size_t maxMemory, int priority, int stackSize)
 
-    : ADDriver(portName, 1, 3, maxBuffers, maxMemory, 0, 0, ASYN_CANBLOCK, 1,
+    : ADDriver(portName, 1, NUM_PVA_DRIVER_PARAMS, maxBuffers, maxMemory, 0, 0, ASYN_CANBLOCK, 1,
             priority, stackSize),
       m_pvName(pvName), m_request(DEFAULT_REQUEST),
       m_priority(ChannelProvider::PRIORITY_DEFAULT),
+      m_channel(),
       m_thisPtr(tr1::shared_ptr<pvaDriver>(this))
 {
     int status = asynSuccess;
     const char *functionName = "pvaDriver";
 
+    lock();
     createParam(PVAOverrunCounterString,     asynParamInt32, &PVAOverrunCounter);
     createParam(PVAPvNameString,             asynParamOctet, &PVAPvName);
     createParam(PVAPvConnectionStatusString, asynParamInt32, &PVAPvConnectionStatus);
@@ -96,9 +99,8 @@ pvaDriver::pvaDriver (const char *portName, const char *pvName,
     {
         ClientFactory::start();
         m_provider = getChannelProviderRegistry()->getProvider("pva");
-        m_channel = m_provider->createChannel(m_pvName, m_thisPtr, m_priority);
         m_pvRequest = CreateRequest::create()->createRequest(m_request);
-        m_monitor = m_channel->createMonitor(m_thisPtr, m_pvRequest);
+        connectPv();
     }
     catch (exception &ex)
     {
@@ -106,6 +108,26 @@ pvaDriver::pvaDriver (const char *portName, const char *pvName,
                 "%s::%s exception initializing monitor: %s\n",
                 driverName, functionName, ex.what());
     }
+    unlock();
+}
+
+asynStatus pvaDriver::connectPv()
+{
+    static const char *functionName = "connectPv";
+    try
+    {
+        if (m_channel) m_channel->destroy();
+        m_channel = m_provider->createChannel(m_pvName, m_thisPtr, m_priority);
+        m_monitor = m_channel->createMonitor(m_thisPtr, m_pvRequest);
+    }
+    catch (exception &ex)
+    {
+        asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
+                "%s::%s exception initializing monitor: %s\n",
+                driverName, functionName, ex.what());
+        return asynError;
+    }
+    return asynSuccess;
 }
 
 string pvaDriver::getRequesterName (void)
@@ -171,17 +193,14 @@ void pvaDriver::monitorConnect (Status const & status,
                     driverName, functionName);
             return;
         }
-
-        asynPrint(pasynUserSelf, ASYN_TRACE_FLOW,
-                "%s::%s starting monitor\n",
-                driverName, functionName);
-        monitor->start();
     }
 }
 
 void pvaDriver::monitorEvent (MonitorPtr const & monitor)
 {
     const char *functionName = "monitorEvent";
+    int acquire;
+
     asynPrint(pasynUserSelf, ASYN_TRACE_FLOW,
             "%s::%s Event!\n",
             driverName, functionName);
@@ -192,13 +211,19 @@ void pvaDriver::monitorEvent (MonitorPtr const & monitor)
         asynPrint(pasynUserSelf, ASYN_TRACE_FLOW,
                  "%s::%s update!\n",
                  driverName, functionName);
-
+        
         if(!update->overrunBitSet->isEmpty())
         {
             int overrunCounter;
             getIntegerParam(PVAOverrunCounter, &overrunCounter);
             setIntegerParam(PVAOverrunCounter, overrunCounter + 1);
             callParamCallbacks();
+        }
+        
+        getIntegerParam(ADAcquire, &acquire);
+        if (acquire == 0) {
+            monitor->release(update);
+            continue;
         }
 
         NTNDArrayConverter converter(NTNDArray::wrap(update->pvStructurePtr));
@@ -284,16 +309,115 @@ void pvaDriver::monitorEvent (MonitorPtr const & monitor)
 
         // Update the counters after doCallbacksGenericPointer()
         int imageCounter;
-        getIntegerParam(NDArrayCounter, &imageCounter);
-        setIntegerParam(NDArrayCounter, imageCounter+1);
+        int arrayCounter;
+        int imageMode;
+        int numImages;
+        getIntegerParam(NDArrayCounter, &arrayCounter);
+        setIntegerParam(NDArrayCounter, arrayCounter+1);
         getIntegerParam(ADNumImagesCounter, &imageCounter);
-        setIntegerParam(ADNumImagesCounter, imageCounter+1);
+        imageCounter++;
+        setIntegerParam(ADNumImagesCounter, imageCounter);
+
+        // See if acquisition should stop
+        getIntegerParam(ADImageMode, &imageMode);
+        if (imageMode == ADImageMultiple) {
+            getIntegerParam(ADNumImages, &numImages);
+            if (imageCounter >= numImages) setIntegerParam(ADAcquire, 0);
+        }    
+        if (imageMode == ADImageSingle) setIntegerParam(ADAcquire, 0);
         callParamCallbacks();
 
         pImage->release();
         monitor->release(update);
     }
     unlock();
+}
+
+/** Called when asyn clients call pasynInt32->write().
+  * This function performs actions for some parameters.
+  * For all parameters it sets the value in the parameter library and calls any registered callbacks..
+  * \param[in] pasynUser pasynUser structure that encodes the reason and address.
+  * \param[in] value Value to write. */
+asynStatus pvaDriver::writeInt32(asynUser *pasynUser, epicsInt32 value)
+{
+    int function = pasynUser->reason;
+    asynStatus status = asynSuccess;
+    int acquire;
+    static const char *functionName = "writeInt32";
+
+    getIntegerParam(ADAcquire, &acquire);
+    
+   /* Set the parameter in the parameter library. */
+    status = (asynStatus) setIntegerParam(function, value);
+
+    if (function == ADAcquire){
+        if (value == 1){
+            setIntegerParam(ADNumImagesCounter, 0);
+            m_monitor->start();
+        }
+        else {
+            m_monitor->stop();
+        }
+    } else {
+        // If this parameter belongs to a base class call its method
+        if (function < FIRST_PVA_DRIVER_PARAM)
+            status = ADDriver::writeInt32(pasynUser, value);
+    }
+    
+    // Do callbacks so higher layers see any changes
+    status = (asynStatus) callParamCallbacks();
+    
+    if (status) 
+        epicsSnprintf(pasynUser->errorMessage, pasynUser->errorMessageSize, 
+                  "%s:%s: status=%d, function=%d, value=%d", 
+                  driverName, functionName, status, function, value);
+    else        
+        asynPrint(pasynUser, ASYN_TRACEIO_DRIVER, 
+              "%s:%s: function=%d, value=%d\n", 
+              driverName, functionName, function, value);
+    return status;
+}
+
+/** Called when asyn clients call pasynOctet->write().
+  * This function performs actions for some parameters, including AttributesFile.
+  * For all parameters it sets the value in the parameter library and calls any registered callbacks..
+  * \param[in] pasynUser pasynUser structure that encodes the reason and address.
+  * \param[in] value Address of the string to write.
+  * \param[in] nChars Number of characters to write.
+  * \param[out] nActual Number of characters actually written. */
+asynStatus pvaDriver::writeOctet(asynUser *pasynUser, const char *value, size_t nChars, size_t *nActual)
+{
+  int function = pasynUser->reason;
+  asynStatus status = asynSuccess;
+  const char *functionName = "writeOctet";
+
+  // Set the parameter in the parameter library.
+  status = (asynStatus)setStringParam(function, (char *)value);
+  if (status != asynSuccess) return(status);
+
+  if (function == PVAPvName){
+     m_pvName = value;
+     status = connectPv();
+  } 
+  else if (function < FIRST_PVA_DRIVER_PARAM) {
+      /* If this parameter belongs to a base class call its method */
+      status = ADDriver::writeOctet(pasynUser, value, nChars, nActual);
+  }
+
+  // Do callbacks so higher layers see any changes
+  callParamCallbacks();
+
+  if (status){
+    epicsSnprintf(pasynUser->errorMessage, pasynUser->errorMessageSize,
+                  "%s:%s: status=%d, function=%d, value=%s",
+                  driverName, functionName, status, function, value);
+  } else {
+    asynPrint(pasynUser, ASYN_TRACEIO_DRIVER,
+              "%s:%s: function=%d, value=%s\n",
+              driverName, functionName, function, value);
+  }
+  *nActual = nChars;
+  return status;
 }
 
 void pvaDriver::report (FILE *fp, int details)
