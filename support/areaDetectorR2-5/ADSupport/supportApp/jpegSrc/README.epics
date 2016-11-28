@@ -1,0 +1,11 @@
+This directory contains the jpeg code (9b).  
+It has been slightly modified to build under the EPICS build system.
+
+The following source files were modified.
+
+jmorecfg.h
+  Windows version define EXTERN and GLOBAL appropriately for DLLs
+  vxWorks version don't redefine UINT8, UINT16, INT16, INT32 
+
+Makefile  
+  This is completely new.
