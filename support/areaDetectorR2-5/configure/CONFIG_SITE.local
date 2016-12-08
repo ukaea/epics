@@ -1,0 +1,98 @@
+# To build the IOC applications set BUILD_IOCS to YES
+# Otherwise set it to NO
+BUILD_IOCS=YES
+
+# To build areaDetector so that it only depends on libCom and asyn set the following flag
+#EPICS_LIBCOM_ONLY=YES
+
+# Configure which 3rd party libraries to use and where to find them.
+# For each library XXX the following definitions are used:
+# WITH_XXX      Build the plugins and drivers that require this library.
+#               Build the source code for this library in ADSupport if XXX_EXTERNAL=NO.
+# XXX_EXTERNAL  If NO then build the source code for this library in ADSupport.
+# XXX_INCLUDE   If XXX_EXTERNAL=YES then this is the path to the include files for XXX.
+#               However, if XXX is a system library whose include files are in a 
+#               standard include search path then do not define XXX_INCLUDE.
+# XXX_LIB       If XXX_EXTERNAL=YES then this is the path to the library files for XXX.
+#               However, if XXX is a system library whose library files in a 
+#               standard library search path then do not define XXX_LIB.
+
+# The default defined here is appropriate for most Linux systems.
+
+# BOOST is required for the ADCore/pluginTests unit tests
+WITH_BOOST     = NO
+#BOOST_LIB     =
+#BOOST_INCLUDE =
+
+# EPICS_V4 is required for NDPluginPva and pvaDriver
+WITH_EPICS_V4  = NO
+
+# GraphicsMagick is required for NDFileMagick and the URL driver.
+WITH_GRAPHICSMAGICK     = YES
+GRAPHICSMAGICK_EXTERNAL = YES
+GRAPHICS_MAGICK_INCLUDE = -I$(ADBINARIES)/magickSupport/os/WIN32
+GRAPHICS_MAGICK_LIB     =$(ADBINARIES)/magickSupport
+
+# HDF5 is required for the NDFileHDF5 and NDFileNexus plugins
+WITH_HDF5     = YES
+HDF5_EXTERNAL = YES
+#HDF5_INCLUDE =-I$(ADBINARIES)/hdf5Support/os/WIN32
+#HDF5_LIB     =
+
+# JPEG is required for the NDFileJPEG and NDFileTIFF plugins
+WITH_JPEG     = NO
+JPEG_EXTERNAL = NO
+#JPEG_INCLUDE =$(ADBINARIES)/supportApp/jpegSrc/os/default
+#JPEG_LIB     =
+
+# JPEG is required for the NDFileNetCDF plugin
+WITH_NETCDF     = YES
+NETCDF_EXTERNAL = NO
+#NETCDF_INCLUDE =
+#NETCDF_LIB     =$(ADSUPPORT)\supportApp\netCDFSrc\os\default
+
+# NEXUS is required for the NDFileNexus plugin
+WITH_NEXUS     = YES
+NEXUS_EXTERNAL = NO
+#NEXUS_INCLUDE =
+#NEXUS_LIB     =
+
+# OPENCV is required for the ADPluginEdge plugin
+WITH_OPENCV     = NO
+OPENCV_EXTERNAL = YES
+#OPENCV_INCLUDE =
+#OPENCV_LIB     =
+
+# SZIP is required for the NDFileHDF5 and NDFileNexus plugins.  
+# This may be optional in the future.
+WITH_SZIP     = YES
+SZIP_EXTERNAL = YES
+#SZIP_INCLUDE =
+#SZIP_LIB     =
+
+# TIFF is required for the NDFileTIFF plugin.
+WITH_TIFF     = YES
+TIFF_EXTERNAL = YES
+#TIFF_INCLUDE =
+#TIFF_LIB     =
+
+# XML2 is required for the NDFileHDF5 and NDFileNexus plugins.  
+WITH_XML2     = YES
+XML2_EXTERNAL = NO
+#XML2_INCLUDE  = -I$(ADBINARIES)/xml2Support/os/WIN32
+#XML2_LIB     =
+
+# ZLIB is required for the NDFileHDF5 and NDFileNexus plugins.  
+# This may be optional in the future.
+WITH_ZLIB     = YES
+ZLIB_EXTERNAL = YES
+#ZLIB_INCLUDE =
+#ZLIB_LIB     =
+
+# The definitions above can be overridden in the following files.
+# The files are searched in this order, with the last definition being used.
+#    CONFIG_SITE.local.$(OS_CLASS)
+#    CONFIG_SITE.local.$(EPICS_HOST_ARCH) 
+#    CONFIG_SITE.local.$(EPICS_HOST_ARCH).$(T_A)
+
+
