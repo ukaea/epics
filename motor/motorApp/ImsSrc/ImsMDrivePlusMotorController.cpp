@@ -28,8 +28,8 @@
 #include <asynOctetSyncIO.h>
 #include <motorRecord.h>
 
-#include "ImsMDrivePlusMotorController.h"
 #include <epicsExport.h>
+#include "ImsMDrivePlusMotorController.h"
 
 ////////////////////////////////////////////////////////
 //! @ImsMDrivePlusMotorController()

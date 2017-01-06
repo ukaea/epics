@@ -717,19 +717,19 @@ cd $(ProjectDir)
     <None Include="ni1014\drvNi1014.dbd" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\base-3.15.4\src\ca\client\ca.vcxproj">
+    <ProjectReference Include="..\..\..\base-3.15.5\src\ca\client\ca.vcxproj">
       <Project>{02caf068-a7fc-463e-aa7e-72eeaf665826}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\base-3.15.4\src\ca\legacy\pcas\cas.vcxproj">
+    <ProjectReference Include="..\..\..\base-3.15.5\src\ca\legacy\pcas\cas.vcxproj">
       <Project>{1d35ffaf-078a-4a9f-8f63-d62e9c7b3928}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\base-3.15.4\src\ioc\dbCore.vcxproj">
+    <ProjectReference Include="..\..\..\base-3.15.5\src\ioc\dbCore.vcxproj">
       <Project>{440c585d-ad66-4738-941c-a87a1817a9be}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\base-3.15.4\src\libCom\Com.vcxproj">
+    <ProjectReference Include="..\..\..\base-3.15.5\src\libCom\Com.vcxproj">
       <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\base-3.15.4\src\std\dbRecStd.vcxproj">
+    <ProjectReference Include="..\..\..\base-3.15.5\src\std\dbRecStd.vcxproj">
       <Project>{3b0e3542-cb89-4ffa-b004-eac882b3f277}</Project>
     </ProjectReference>
   </ItemGroup>
