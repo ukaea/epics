@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="io">
+      <UniqueIdentifier>{6d894fc6-611a-4771-9e83-e57964919865}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generic">
+      <UniqueIdentifier>{b1640823-e017-4249-bc99-99d0a7a53db8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generic\Header Files">
+      <UniqueIdentifier>{507ce637-75f9-46cf-b7cb-454ab359353e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generic\Source Files">
+      <UniqueIdentifier>{c68eda81-204e-40ff-89a9-44e0b1436606}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generic\st">
+      <UniqueIdentifier>{f8a95d45-d657-489d-9fcf-ddc3831c18fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generic\st\Source Files">
+      <UniqueIdentifier>{2a29331c-a3c1-4741-87cb-6023f009bc9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generic\st\Header Files">
+      <UniqueIdentifier>{19fc5b62-cc00-4103-b453-fa2b50f95a67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generic\mt">
+      <UniqueIdentifier>{6aa23b3d-5dce-48c7-bc93-cb892f7d5fe2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="io\bsdSocket">
+      <UniqueIdentifier>{df396d01-03d9-4875-9e94-aaa8ba5fb40a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="io\bsdSocket\Source Files">
+      <UniqueIdentifier>{e3f3392d-3eb9-4403-a5c6-2208f03d00df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="io\bsdSocket\Header Files">
+      <UniqueIdentifier>{e2947740-2f68-49b8-b767-efe373dca857}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="generic\beaconAnomalyGovernor.h">
+      <Filter>Generic\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="generic\beaconTimer.h">
+      <Filter>Generic\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="generic\caHdrLargeArray.h">
+      <Filter>Generic\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="generic\caNetAddr.h">
+      <Filter>Generic\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="generic\casAddr.h">
+      <Filter>Generic\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="generic\casAsyncIOI.h">
+      <Filter>Generic\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="generic\casAsyncPVAttachIOI.h">
+      <Filter>Generic\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="generic\casAsyncPVExistIOI.h">
+      <Filter>Generic\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="generic\casAsyncReadIOI.h">
+      <Filter>Generic\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="generic\casAsyncWriteIOI.h">
+      <Filter>Generic\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="generic\casChannelI.h">
+      <Filter>Generic\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="generic\casCoreClient.h">
+      <Filter>Generic\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="generic\casCtx.h">
+      <Filter>Generic\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="generic\casCtxIL.h">
+      <Filter>Generic\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="generic\casdef.h">
+      <Filter>Generic\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="generic\casDGClient.h">
+      <Filter>Generic\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="generic\caServerDefs.h">
+      <Filter>Generic\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="generic\caServerI.h">
+      <Filter>Generic\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="generic\casEvent.h">
+      <Filter>Generic\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="generic\casEventMask.h">
+      <Filter>Generic\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="generic\casEventRegistry.h">
+      <Filter>Generic\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="generic\casEventSys.h">
+      <Filter>Generic\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="generic\casMonEvent.h">
+      <Filter>Generic\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="generic\casMonitor.h">
+      <Filter>Generic\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="generic\casOpaqueAddrIL.h">
+      <Filter>Generic\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="generic\casPVI.h">
+      <Filter>Generic\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="generic\casStrmClient.h">
+      <Filter>Generic\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="generic\chanIntfForPV.h">
+      <Filter>Generic\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="generic\channelDestroyEvent.h">
+      <Filter>Generic\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="generic\clientBufMemoryManager.h">
+      <Filter>Generic\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="generic\inBuf.h">
+      <Filter>Generic\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="generic\ioBlocked.h">
+      <Filter>Generic\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="generic\outBuf.h">
+      <Filter>Generic\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="generic\st\casDGEvWakeup.h">
+      <Filter>Generic\st\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="generic\st\casDGIntfOS.h">
+      <Filter>Generic\st\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="generic\st\casDGIOWakeup.h">
+      <Filter>Generic\st\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="generic\st\casIntfOS.h">
+      <Filter>Generic\st\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="generic\st\casOSD.h">
+      <Filter>Generic\st\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="generic\st\casStreamOS.h">
+      <Filter>Generic\st\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="generic\st\osiMutexCAS.h">
+      <Filter>Generic\st\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="io\bsdSocket\casDGIntfIO.h">
+      <Filter>io\bsdSocket\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="io\bsdSocket\caServerIO.h">
+      <Filter>io\bsdSocket\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="io\bsdSocket\ipIgnoreEntry.h">
+      <Filter>io\bsdSocket\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="io\bsdSocket\casIntfIO.h">
+      <Filter>io\bsdSocket\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="io\bsdSocket\casIOD.h">
+      <Filter>io\bsdSocket\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="io\bsdSocket\casStreamIO.h">
+      <Filter>io\bsdSocket\Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="generic\mt\ioBlocked.cc">
+      <Filter>Generic\mt</Filter>
+    </ClCompile>
+    <ClCompile Include="generic\st\casDGIntfOS.cc">
+      <Filter>Generic\st\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="generic\st\ioBlocked.cc">
+      <Filter>Generic\st\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="generic\st\caServerOS.cc">
+      <Filter>Generic\st\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="generic\st\casStreamOS.cc">
+      <Filter>Generic\st\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="io\bsdSocket\casDGIntfIO.cc">
+      <Filter>io\bsdSocket\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="io\bsdSocket\caServerIO.cc">
+      <Filter>io\bsdSocket\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="io\bsdSocket\casIntfIO.cc">
+      <Filter>io\bsdSocket\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="io\bsdSocket\casStreamIO.cc">
+      <Filter>io\bsdSocket\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="io\bsdSocket\ipIgnoreEntry.cpp">
+      <Filter>io\bsdSocket\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="generic\st\casIntfOS.cc">
+      <Filter>Generic\st\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="generic\beaconAnomalyGovernor.cc">
+      <Filter>Generic\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="generic\templateInstances.cpp">
+      <Filter>Generic\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="generic\beaconTimer.cc">
+      <Filter>Generic\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="generic\caNetAddr.cc">
+      <Filter>Generic\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="generic\casAsyncIOI.cc">
+      <Filter>Generic\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="generic\casAsyncPVAttachIO.cc">
+      <Filter>Generic\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="generic\casAsyncPVAttachIOI.cpp">
+      <Filter>Generic\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="generic\casAsyncPVExistIO.cc">
+      <Filter>Generic\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="generic\casAsyncPVExistIOI.cpp">
+      <Filter>Generic\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="generic\casAsyncReadIO.cc">
+      <Filter>Generic\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="generic\casAsyncReadIOI.cc">
+      <Filter>Generic\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="generic\casAsyncWriteIO.cc">
+      <Filter>Generic\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="generic\casAsyncWriteIOI.cpp">
+      <Filter>Generic\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="generic\casBufferFactory.cpp">
+      <Filter>Generic\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="generic\casChannel.cc">
+      <Filter>Generic\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="generic\casChannelI.cc">
+      <Filter>Generic\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="generic\casCoreClient.cc">
+      <Filter>Generic\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="generic\casCtx.cc">
+      <Filter>Generic\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="generic\casDGClient.cc">
+      <Filter>Generic\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="generic\caServer.cc">
+      <Filter>Generic\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="generic\caServerI.cc">
+      <Filter>Generic\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="generic\casEventMask.cc">
+      <Filter>Generic\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="generic\casEventSys.cc">
+      <Filter>Generic\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="generic\casMonEvent.cc">
+      <Filter>Generic\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="generic\casMonitor.cc">
+      <Filter>Generic\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="generic\casOpaqueAddr.cc">
+      <Filter>Generic\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="generic\casPV.cc">
+      <Filter>Generic\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="generic\casPVI.cc">
+      <Filter>Generic\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="generic\casStrmClient.cc">
+      <Filter>Generic\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="generic\chanIntfForPV.cc">
+      <Filter>Generic\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="generic\channelDestroyEvent.cpp">
+      <Filter>Generic\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="generic\clientBufMemoryManager.cpp">
+      <Filter>Generic\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="generic\inBuf.cc">
+      <Filter>Generic\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="generic\outBuf.cc">
+      <Filter>Generic\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="generic\pvAttachReturn.cc">
+      <Filter>Generic\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="generic\pvExistReturn.cc">
+      <Filter>Generic\Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="build\cas.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
