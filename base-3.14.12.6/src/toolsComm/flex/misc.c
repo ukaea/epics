@@ -34,11 +34,6 @@
  * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  */
 
-#ifndef lint
-static char rcsid[] =
-    "@(#) Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd (LBL)";
-#endif
-
 #include <ctype.h>
 #include "flexdef.h"
 #include <assert.h>

@@ -1,8 +1,5 @@
 # CONFIG.Common.solaris-x86-gnu
 #
-# Revision-Id: anj@aps.anl.gov-20140425215128-ck6jveiqp6r49sv2
-# This file is maintained by the build community.
-#
 # Definitions for solaris-x86 gnu compiler target archs
 # Sites may override these definitions in CONFIG_SITE.Common.solaris-x86-gnu
 #-------------------------------------------------------

@@ -5,7 +5,7 @@
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
 
-/* Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd
+/*
  * Author: Andrew Johnson
  *
  * Unit test module which generates output in the Test Anything Protocol
@@ -210,7 +210,7 @@ int testDone(void) {
 
 /* Our test harness, for RTEMS and vxWorks */
 
-static void harnessExit(void *dummy) {
+void testHarnessExit(void *dummy) {
     epicsTimeStamp ended;
     int Faulty;
 
@@ -247,7 +247,7 @@ static void harnessExit(void *dummy) {
 
 void testHarness(void) {
     epicsThreadOnce(&onceFlag, testOnce, NULL);
-    epicsAtExit(harnessExit, NULL);
+    epicsAtExit(testHarnessExit, NULL);
     Harness = 1;
     Programs = 0;
     Tests = 0;

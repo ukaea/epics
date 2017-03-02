@@ -7,8 +7,6 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 /*
- *      Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd
- *
  *      General hash table templates for fast indexing of resources
  *      of any base resource type and any resource identifier type. Fast 
  *      indexing is implemented with a hash lookup. The identifier type 

@@ -8,10 +8,7 @@
 \*************************************************************************/
 
 /*
- * Revision-Id: anj@aps.anl.gov-20150217195913-1qy9lqc0dn4h689m
- *
  *  Author: Jeffrey O. Hill
- *
  */
 
 #include <stddef.h>
@@ -622,6 +619,7 @@ static void destroyAllChannels (
 
         epicsMutexMustLock ( client->chanListLock );
         pciu = (struct channel_in_use *) ellGet ( pList );
+        if(pciu) pciu->state = rsrvCS_shutdown;
         epicsMutexUnlock ( client->chanListLock );
 
         if ( ! pciu ) {

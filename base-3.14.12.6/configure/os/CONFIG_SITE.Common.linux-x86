@@ -1,7 +1,5 @@
 # CONFIG_SITE.Common.linux-x86
 #
-# Revision-Id: jba@aps.anl.gov-20130725154926-szg53grbkd982szq
-#
 # Site Specific definitions for linux-x86 target
 # Only the local epics system manager should modify this file
 

@@ -9,8 +9,6 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 
-/* Revision-Id: anj@aps.anl.gov-20131120222110-3o0wgh76u652ad4e */
-
 /* recMbbiDirect.c - Record Support routines for mbboDirect records */
 /*
  *      Original Author: Bob Dalesio and Matthew Needes 10-07-93

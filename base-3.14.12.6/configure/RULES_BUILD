@@ -6,7 +6,6 @@
 # EPICS BASE is distributed subject to a Software License Agreement found
 # in the file LICENSE that is included with this distribution. 
 #*************************************************************************
-# Revision-Id: anj@aps.anl.gov-20150220213457-lwjg2sx5vf4bpfk1
 #
 #	Rules for making things specified in Makefile
 #
@@ -69,6 +68,8 @@ endif
 
 all:	install
 
+-include $(CONFIG)/RULES_FILE_TYPE
+
 -include $(CONFIG)/RULES.Db
 
 -include $(CONFIG)/RULES_JAVA
@@ -90,13 +91,17 @@ include $(CONFIG)/RULES_TARGET
 PRODTARGETS += $(PRODNAME) $(MUNCHNAME) $(CTDT_SRCS) $(CTDT_OBJS) $(NMS)
 
 #---------------------------------------------------------------
-#   Generate a test specification if any tests are defined.
+#   Test specifications and test result files
 #
 ifneq (,$(strip $(TESTS)))
 TARGETS += testspec
 endif
 
+# Enable testing if this host can run tests on the current target
+ifneq (,$(findstring $(T_A),$(EPICS_HOST_ARCH) $(CROSS_COMPILER_RUNTEST_ARCHS)))
+RUNTESTS_ENABLED = YES
 TAPFILES += $(TESTSCRIPTS:.t=.tap)
+endif
 
 #---------------------------------------------------------------
 #   Libraries 
@@ -109,8 +114,6 @@ LIBTARGETS += $(LIBNAME) $(INSTALL_LIBS) \
 
 $(INSTALL_LIBS): $(INSTALL_SHRLIBS)  $(INSTALL_DLL_LINK_LIBS)  $(INSTALL_LOADABLE_SHRLIBS)
 
-
--include $(CONFIG)/RULES_FILE_TYPE
 
 #	Main targets
 
@@ -338,7 +341,9 @@ $(MODNAME): %$(MODEXT): %$(EXE)
 	$(LINK.mod)
 
 runtests: $(TESTSCRIPTS)
+ifdef RUNTESTS_ENABLED
 	-$(PERL) -MTest::Harness -e 'runtests @ARGV if @ARGV;' $^
+endif
 
 testspec: $(TESTSCRIPTS)
 	@$(RM) $@
@@ -351,7 +356,9 @@ tapfiles: $(TESTSCRIPTS) $(TAPFILES)
 
 # A .tap file is the output from running the associated test script
 %.tap: %.t
+ifdef RUNTESTS_ENABLED
 	-$(PERL) $< -tap > $@
+endif
 
 # If there's a perl test script (.plt) available, use it
 %.t: ../%.plt

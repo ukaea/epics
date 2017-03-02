@@ -7,8 +7,6 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 
-/* Revision-Id: anj@aps.anl.gov-20131120222110-3o0wgh76u652ad4e */
-
 /* recHistogram.c - Record Support Routines for Histogram records */
 /*
  *      Author:      Janet Anderson
@@ -136,8 +134,8 @@ static long wdogInit(histogramRecord *prec)
      if(prec->wdog==NULL && prec->sdel>0) {
           /* initialize a watchdog timer */
           pcallback = (myCallback *)(calloc(1,sizeof(myCallback)));
+          if (!pcallback) return -1;
           pcallback->prec = prec;
-	  if(!pcallback) return -1;
           callbackSetCallback(wdogCallback,&pcallback->callback);
           callbackSetUser(pcallback,&pcallback->callback);
           callbackSetPriority(priorityLow,&pcallback->callback);

@@ -24,7 +24,6 @@ int epicsEnvTest(void);
 int epicsErrlogTest(void);
 int epicsCalcTest(void);
 int epicsEventTest(void);
-int epicsExceptionTest(void);
 int epicsMathTest(void);
 int epicsMessageQueueTest(void);
 int epicsMutexTest(void);
@@ -34,6 +33,9 @@ int epicsThreadOnceTest(void);
 int epicsThreadPriorityTest(void);
 int epicsThreadPrivateTest(void);
 int epicsTimeTest(void);
+#ifdef __rtems__
+int epicsTimeZoneTest(void);
+#endif
 int macLibTest(void);
 int macEnvExpandTest(void);
 int ringPointerTest(void);
@@ -69,8 +71,6 @@ void epicsRunLibComTests(void)
 
     runTest(epicsEventTest);
 
-    runTest(epicsExceptionTest);
-
     runTest(epicsMathTest);
 
     runTest(epicsMessageQueueTest);
@@ -89,6 +89,10 @@ void epicsRunLibComTests(void)
 
     runTest(epicsTimeTest);
 
+#ifdef __rtems__
+    runTest(epicsTimeZoneTest);
+#endif
+
     runTest(macLibTest);
 
     runTest(macEnvExpandTest);
@@ -104,7 +108,12 @@ void epicsRunLibComTests(void)
     runTest(taskwdTest);
 
     /*
-     * Exit must come last as it never returns
+     * Report now in case epicsExitTest dies
+     */
+    testHarnessDone();
+
+    /*
+     * epicsExitTest must come last as it never returns
      */
     runTest(epicsExitTest);
 }

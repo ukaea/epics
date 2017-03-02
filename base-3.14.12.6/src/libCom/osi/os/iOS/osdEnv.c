@@ -6,13 +6,10 @@
 
 /* osdEnv.c */
 /*
- * Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd
- *
  * Author: Eric Norum
  *   Date: May 7, 2001
  *
  * Routines to modify/display environment variables and EPICS parameters
- *
  */
 
 #include <string.h>

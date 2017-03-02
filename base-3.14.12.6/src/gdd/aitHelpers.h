@@ -13,9 +13,6 @@
 /*
  * Authors: Jeff Hill and Jim Kowalkowski
  * Date: 6/20/96
- *
- * Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd
- *
  */
 
 #include <string.h>

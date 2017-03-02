@@ -6,7 +6,6 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/* Revision-Id: anj@aps.anl.gov-20150320213414-o6xoyymx7xnhywo7 */
 
 /* aoRecord.c - Record Support Routines for Analog Output records */
 /*

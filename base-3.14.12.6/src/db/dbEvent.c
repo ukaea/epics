@@ -8,7 +8,7 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 /* dbEvent.c */
-/* Revision-Id: johill@lanl.gov-20111019180700-7u25j7zwo2w1894n */
+
 /* routines for scheduling events to lower priority tasks via the RT kernel */
 /*
  *  Author:     Jeffrey O. Hill 
@@ -916,6 +916,7 @@ static void event_task (void *pParm)
 {
     struct event_user * const evUser = (struct event_user *) pParm;
     struct event_que * ev_que;
+    unsigned char pendexit;
 
     /* init hook */
     if (evUser->init_func) {
@@ -957,9 +958,10 @@ static void event_task (void *pParm)
             event_read (ev_que);
             epicsMutexMustLock ( evUser->lock );
         }
+        pendexit = evUser->pendexit;
         epicsMutexUnlock ( evUser->lock );
 
-    } while( ! evUser->pendexit );
+    } while( ! pendexit );
 
     epicsMutexDestroy(evUser->firstque.writelock);
 

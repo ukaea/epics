@@ -8,16 +8,6 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 /*
- *  Revision-Id: johill@lanl.gov-20130516183331-ccgep7u4xccqzaw3
- *
- *
- *                    L O S  A L A M O S
- *              Los Alamos National Laboratory
- *               Los Alamos, New Mexico 87545
- *
- *  Copyright, 1986, The Regents of the University of California.
- *
- *
  *	Author Jeffrey O. Hill
  *	johill@lanl.gov
  *	505 665 1831
@@ -33,6 +23,8 @@
 #   define dbCACh_restore_epicsExportSharedSymbols
 #   undef epicsExportSharedSymbols
 #endif
+
+#include "stdlib.h"
 
 #include "tsDLList.h"
 #include "tsFreeList.h"
@@ -136,7 +128,9 @@ public:
     void show ( unsigned level ) const;
 private:
     struct cacheElem_t {
+        size_t size;
         struct cacheElem_t * pNext;
+        char buf[1];
     };
     unsigned long _readNotifyCacheSize;
     cacheElem_t * _pReadNotifyCache;

@@ -8,7 +8,6 @@
 
 /*
  * Dummy version -- use if application does not provide its own version
- *  Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd
  */
 #include "epicsRtemsInitHooks.h"
 

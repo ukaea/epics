@@ -6,7 +6,6 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/* Revision-Id: ralph.lange@gmx.de-20140801152055-0gm1bl7f1i1a2546 */
 
 /* aiRecord.c - Record Support Routines for Analog Input records */
 /*

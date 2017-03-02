@@ -7,8 +7,6 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 /* recGbl.c */
-/* Revision-Id: anj@aps.anl.gov-20130913165718-nz75kavfqj9pv93v */
-
 /*
  *      Author:          Marty Kraimer
  *      Date:            11-7-90
@@ -167,7 +165,8 @@ int  epicsShareAPI recGblInitConstantLink(
     if(!plink->value.constantStr) return(FALSE);
     switch(dbftype) {
     case DBF_STRING:
-	strcpy((char *)pdest,plink->value.constantStr);
+        strncpy((char *)pdest, plink->value.constantStr, MAX_STRING_SIZE - 1);
+        ((char *)pdest)[MAX_STRING_SIZE - 1] = 0;
 	break;
     case DBF_CHAR : {
 	epicsInt16 value;
@@ -313,11 +312,11 @@ static void getMaxRangeValues(short field_type, double *pupper_limit,
 {
     switch(field_type){
     case DBF_CHAR:
-        *pupper_limit = -128.0;
-        *plower_limit = 127.0;
+        *pupper_limit = (double) CHAR_MAX;
+        *plower_limit = (double) CHAR_MIN;
         break;
     case DBF_UCHAR:
-        *pupper_limit = 255.0;
+        *pupper_limit = (double) UCHAR_MAX;
         *plower_limit = 0.0;
         break;
     case DBF_SHORT:

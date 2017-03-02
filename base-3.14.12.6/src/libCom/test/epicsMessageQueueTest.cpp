@@ -7,8 +7,6 @@
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
 /*
- *      Revision-Id: anj@aps.anl.gov-20150310231411-yh7mda6bgi5ibfof
- *
  *      Author  W. Eric Norum
  */
 #include <stdio.h>

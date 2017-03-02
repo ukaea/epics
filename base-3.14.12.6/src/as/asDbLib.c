@@ -29,9 +29,8 @@
 #include "dbEvent.h"
 #include "dbCommon.h"
 #include "recSup.h"
-#include "asLib.h"
-
 #define epicsExportSharedSymbols
+#include "asLib.h"
 #include "asCa.h"
 #include "asDbLib.h"
 

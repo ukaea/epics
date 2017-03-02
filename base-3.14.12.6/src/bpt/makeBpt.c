@@ -7,7 +7,7 @@
 * and higher are distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/*  Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd
+/*
  *	Author: Marty Kraimer
  *	Date:	9/28/95
  *	Replacement for old bldCvtTable

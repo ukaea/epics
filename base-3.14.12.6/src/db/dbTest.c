@@ -7,7 +7,6 @@
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
 
-/* Revision-Id: anj@aps.anl.gov-20130801231018-kb01bi3no4ej5ily */
 /* database access test subroutines */
 
 #include <stddef.h>
@@ -336,7 +335,6 @@ long epicsShareAPI dbpf(const char *pname,const char *pvalue)
 {
     DBADDR addr;
     long status;
-    epicsUInt16 value;
     short dbrType;
     long n = 1;
 
@@ -348,16 +346,7 @@ long epicsShareAPI dbpf(const char *pname,const char *pvalue)
     if (nameToAddr(pname, &addr))
         return -1;
 
-    /* For enumerated types must allow for ENUM rather than string */
-    /* If entire field is digits then use DBR_ENUM else DBR_STRING */
-    if (addr.dbr_field_type == DBR_ENUM && *pvalue &&
-        strspn(pvalue,"0123456789") == strlen(pvalue)) {
-
-        sscanf(pvalue, "%hu", &value);
-        pvalue = (char *) &value;
-        dbrType = DBR_ENUM;
-    }
-    else if (addr.no_elements > 1 &&
+    if (addr.no_elements > 1 &&
         (addr.dbr_field_type == DBR_CHAR || addr.dbr_field_type == DBR_UCHAR)) {
         dbrType = addr.dbr_field_type;
         n = strlen(pvalue) + 1;
@@ -961,7 +950,9 @@ static void printBuffer(
         }
         else {
             for (i = 0; i < no_elements; i+= MAXLINE - 5) {
-                sprintf(pmsg, " \"%.*s\"", MAXLINE - 5, (char *)pbuffer + i);
+                int width = no_elements - i;
+                if (width > MAXLINE - 5) width = MAXLINE - 5;
+                sprintf(pmsg, " \"%.*s\"", width, (char *)pbuffer + i);
                 if (i + MAXLINE - 5 < no_elements) strcat(pmsg, " +");
                 dbpr_msgOut(pMsgBuff, tab_size);
             }

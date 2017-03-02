@@ -11,7 +11,6 @@
 # in file LICENSE that is included with this distribution. 
 #*************************************************************************
 
-# Revision-Id: anj@aps.anl.gov-20130123132907-fi34uue1k4b3kig8
 #
 #  Author: Ralph Lange
 #

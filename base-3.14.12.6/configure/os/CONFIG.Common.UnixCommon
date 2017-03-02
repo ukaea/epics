@@ -1,7 +1,5 @@
 # CONFIG.Common.UnixCommon
 #
-# Revision-Id: anj@aps.anl.gov-20130710190751-ogbyoj47fych51ep
-#
 #  Contains definitions common to all Unix target archs
 #
 #  This file is maintained by the build community.

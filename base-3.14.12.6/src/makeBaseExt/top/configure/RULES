@@ -1,5 +1,9 @@
-# Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd
+# extensions/configure/RULES
 
 include $(CONFIG)/RULES
-include $(TOP)/configure/RULES_PYTHON
-include $(TOP)/configure/RULES_IDL
+-include $(TOP)/configure/RULES_PYTHON
+-include $(TOP)/configure/RULES_IDL
+
+ifdef BASE_3_15
+  -include $(TOP)/configure/RULES_JAVA
+endif

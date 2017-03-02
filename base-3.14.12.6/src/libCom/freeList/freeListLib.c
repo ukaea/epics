@@ -7,9 +7,7 @@
 * and higher are distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/* Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd */
 /* Author:  Marty Kraimer Date:    04-19-94 */
-
 
 #include <string.h>
 #include <stdlib.h>
@@ -148,6 +146,10 @@ epicsShareFunc void epicsShareAPI freeListCleanup(void *pvt)
 epicsShareFunc size_t epicsShareAPI freeListItemsAvail(void *pvt)
 {
     FREELISTPVT *pfl = pvt;
-    return pfl->nBlocksAvailable;
+    size_t nBlocksAvailable;
+    epicsMutexMustLock(pfl->lock);
+    nBlocksAvailable = pfl->nBlocksAvailable;
+    epicsMutexUnlock(pfl->lock);
+    return nBlocksAvailable;
 }
 

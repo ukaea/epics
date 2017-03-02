@@ -1,7 +1,5 @@
 # CONFIG_COMPAT
 #
-# Revision-Id: anj@aps.anl.gov-20101014190140-s9gxgtnoyhbck6id
-#
 # Convert old HOST_ARCH environment variable to
 # new EPICS_HOST_ARCH environment variable 
 #-------------------------------------------------------

@@ -8,7 +8,6 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 /* dbAccessDefs.h	*/
-/* Revision-Id: anj@aps.anl.gov-20150217202920-ordl4rw8sr0rzlnk */
 
 #ifndef INCdbAccessDefsh
 #define INCdbAccessDefsh

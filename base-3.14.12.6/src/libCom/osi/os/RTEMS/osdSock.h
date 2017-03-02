@@ -5,7 +5,6 @@
 \*************************************************************************/
 /*
  * RTEMS osdSock.h
- *	Revision-Id: anj@aps.anl.gov-20110909221435-fdjubbxunee9gs44
  *      Author: W. Eric Norum
  *              eric@cls.usask.ca
  *              (306) 966-6055

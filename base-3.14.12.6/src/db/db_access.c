@@ -7,8 +7,6 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 
-/* Revision-Id: anj@aps.anl.gov-20101027182656-gkrwdp20hdmf08nj */
-
 /* Interface between old database access and new
  *
  *      Author:          Marty Kraimer
@@ -36,10 +34,12 @@
 #define db_accessHFORdb_accessC
 #include "db_access.h"
 #undef db_accessHFORdb_accessC
+
 #define epicsExportSharedSymbols
 #include "dbNotify.h"
 #include "dbAccessDefs.h"
 #include "dbEvent.h"
+#include "dbLock.h"
 #include "db_access_routines.h"
 
 #ifndef NULL
@@ -181,6 +181,8 @@ int epicsShareAPI db_get_field_and_count(
     * very important and must correspond to the order of processing
     * in the dbAccess.c dbGet() and getOptions() routines.
     */
+
+    dbScanLock(paddr->precord);
 
     switch(buffer_type) {
     case(oldDBR_STRING):
@@ -820,8 +822,12 @@ int epicsShareAPI db_get_field_and_count(
         }
         break;
     default:
-        return -1;
+        status = -1;
+        break;
     }
+
+    dbScanUnlock(paddr->precord);
+
     if (status) return -1;
     return 0;
 }

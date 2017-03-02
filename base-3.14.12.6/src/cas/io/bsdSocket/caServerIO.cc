@@ -7,10 +7,7 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 //
-// Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd
-//
 // verify connection state prior to doing anything in this file
-//
 //
 
 #include <ctype.h>

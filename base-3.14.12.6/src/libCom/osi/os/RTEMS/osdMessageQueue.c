@@ -8,8 +8,6 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 /*
- *      Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd
- *
  *      Author  W. Eric Norum
  *              norume@aps.anl.gov
  *              630 252 4793
@@ -169,7 +167,7 @@ static int receiveMessage(
                 return -1;
         }
         rsize = receiveMessage(id, id->localBuf, id->maxSize, wait, delay);
-        if ((rsize < 0) || (rsize > size))
+        if (rsize > size)
             return -1;
         memcpy(buffer, id->localBuf, rsize);
     }

@@ -29,10 +29,10 @@
 #include "caerr.h"
 #include "caeventmask.h"
 #include "alarm.h"
-#include "epicsStdio.h"
+#include "epicsStdioRedirect.h"
 
-#include "asLib.h"
 #include "epicsExport.h"
+#include "asLib.h"
 #include "asDbLib.h"
 #include "asCa.h"
 
@@ -225,7 +225,7 @@ static void asCaTask(void)
     }
 }
     
-void asCaStart(void)
+void epicsShareAPI asCaStart(void)
 {
     if(asCaDebug) printf("asCaStart called\n");
     if(firstTime) {
@@ -249,7 +249,7 @@ void asCaStart(void)
     epicsMutexUnlock(asCaTaskLock);
 }
 
-void asCaStop(void)
+void epicsShareAPI asCaStop(void)
 {
     if(threadid==0) return;
     if(asCaDebug) printf("asCaStop called\n");
@@ -260,9 +260,9 @@ void asCaStop(void)
     epicsMutexUnlock(asCaTaskLock);
 }
 
-int ascar(int level) { return ascarFP(stdout,level);}
+int epicsShareAPI ascar(int level) { return ascarFP(stdout,level);}
 
-int ascarFP(FILE *fp,int level)
+int epicsShareAPI ascarFP(FILE *fp,int level)
 {
     ASG                *pasg;
     int  n=0,nbad=0;
@@ -303,7 +303,7 @@ int ascarFP(FILE *fp,int level)
     return(0);
 }
 
-void ascaStats(int *pchans, int *pdiscon)
+void epicsShareAPI ascaStats(int *pchans, int *pdiscon)
 {
     ASG *pasg;
     int n = 0;

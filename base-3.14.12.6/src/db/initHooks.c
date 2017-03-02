@@ -6,7 +6,6 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/* Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd */
 /*
  *      Authors:        Benjamin Franksen (BESY) and Marty Kraimer
  *      Date:           06-01-91
@@ -123,7 +122,7 @@ const char *initHookName(int state)
         "initHookAfterInterruptAccept",
         "initHookAtEnd"
     };
-    if (state < 0 || state > NELEMENTS(stateName)) {
+    if (state < 0 || state >= NELEMENTS(stateName)) {
         return "Not an initHookState";
     }
     return stateName[state];

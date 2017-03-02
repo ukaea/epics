@@ -9,10 +9,7 @@
 \*************************************************************************/
 
 /*
- *  Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd
- *
  *  Author: Jeff O. Hill
- *
  */
 
 #include <climits>
@@ -52,9 +49,9 @@ void SingletonUntyped :: incrRefCount ( PBuild pBuild )
 
 void SingletonUntyped :: decrRefCount ( PDestroy pDestroy )
 {
-    assert ( _refCount > 0 );
     epicsGuard < epicsMutex > 
         guard ( *pEPICSSigletonMutex );
+    assert ( _refCount > 0 );
     _refCount--;
     if ( _refCount == 0 ) {
         ( *pDestroy ) ( _pInstance );

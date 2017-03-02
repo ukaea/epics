@@ -68,6 +68,11 @@ epicsTimeTest_SRCS += epicsTimeTest.cpp
 testHarness_SRCS += epicsTimeTest.cpp
 TESTS += epicsTimeTest
 
+TESTPROD_HOST += epicsTimeZoneTest
+epicsTimeZoneTest_SRCS += epicsTimeZoneTest.c
+rtemsTestHarness_SRCS += epicsTimeZoneTest.c
+TESTS += epicsTimeZoneTest
+
 TESTPROD_HOST += epicsThreadTest
 epicsThreadTest_SRCS += epicsThreadTest.cpp
 testHarness_SRCS += epicsThreadTest.cpp
@@ -117,11 +122,6 @@ TESTPROD_HOST += epicsMutexTest
 epicsMutexTest_SRCS += epicsMutexTest.cpp
 testHarness_SRCS += epicsMutexTest.cpp
 TESTS += epicsMutexTest
-
-TESTPROD_HOST += epicsExceptionTest
-epicsExceptionTest_SRCS += epicsExceptionTest.cpp
-testHarness_SRCS += epicsExceptionTest.cpp
-TESTS += epicsExceptionTest
 
 TESTPROD_HOST += macEnvExpandTest
 macEnvExpandTest_SRCS += macEnvExpandTest.c
