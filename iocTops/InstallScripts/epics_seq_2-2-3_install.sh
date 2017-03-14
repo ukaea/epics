@@ -26,7 +26,7 @@ echo "Seq version "$SEQ_VER
 
 if [ ! -d $INSTALL_PATH/base ]; 
 then
-    ./epics_base_3-15-3_install.sh $INSTALL_PATH
+    ./epics_base_3-15-4_install.sh $INSTALL_PATH
 fi
 
 if [ ! -f /etc/redhat-release ]; then
