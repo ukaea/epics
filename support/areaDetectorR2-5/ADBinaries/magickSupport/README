@@ -1,0 +1,12 @@
+The files in the os/WIN32 directory were built with MS Visual Studio 2008 from
+GraphicsMagick-1.3.12.  This was done in the VisualMagick subdirectory.  Two
+builds were done: one for the WIN32 and a second for x64.  The resulting .lib
+files were copied to the os/WIN32 and os/WIN32/x64 directories.
+
+HOWEVER, this worked fine for the x64 build.  But for the 32-bit build linking
+of applications failed when using the files built with 2008.  By building with 
+2005 again it worked.  This needs to be tracked down.
+
+The header files were copied from the magick and magick++ directories.  I think
+they were copied from the Windows distribution, not the Linux distribution, but
+they should be the same.
