@@ -4,6 +4,11 @@
 SUPPORT       = \epics/support
 AREA_DETECTOR = $(SUPPORT)/areaDetector
 EPICS_BASE    = \epics/base
+ASYN          = $(SUPPORT)/asyn
+CALC          = $(SUPPORT)/calc
+BUSY          = $(SUPPORT)/busy
+SSCAN         = $(SUPPORT)/sscan
+AUTOSAVE      = $(SUPPORT)/autosave
 
 # If CONFIG_SITE.local defines EPICS_V4=YES then define the path here
 EV4_BASE      = \epics/epicsV4

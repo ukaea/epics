@@ -30,7 +30,7 @@ echo "Asyn version "$ASYN_VER
 # base
 if [ ! -d $INSTALL_PATH/base ]; 
 then
-    ./epics_base_3-15-4_install.sh $INSTALL_PATH
+    ./epics_base_3-15-5_install.sh $INSTALL_PATH
 fi
 
 # seq

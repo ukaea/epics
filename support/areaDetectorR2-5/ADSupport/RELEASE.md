@@ -13,6 +13,15 @@ files respectively, in the configure/ directory of the appropriate release of th
 Release Notes
 =============
 
+R1-1 (February 19, 2017)
+========================
+* Fixed a problem with XML2 on vxWorks.  xml2Src/os/vxWorks/config.h was previously defining HAVE_ZLIB_H.
+  However, on vxWorks we do have zlib.h, but xmlIO.c requires the dup() function to use zlib, and vxWorks 
+  does not have dup(), at least not in 6.9.4.  Fix is not to define HAVE_ZLIB_H.
+* The HDF5 Group has not yet released 1.10.1, and is now estimating sometime after March 1, 2017.  
+  ADSupport thus still has 2 branches as discussed in the R1-0 release notes below.
+
+
 R1-0 (October 28, 2016)
 ========================
 Initial release.  The versions of each support library are:

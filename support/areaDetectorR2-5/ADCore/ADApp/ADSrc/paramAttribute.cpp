@@ -9,6 +9,7 @@
  */
 
 #include <string.h>
+#include <string>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -121,7 +122,7 @@ paramAttribute::~paramAttribute()
 int paramAttribute::updateValue()
 {
     int status = asynSuccess;
-    char stringValue[MAX_ATTRIBUTE_STRING_SIZE] = "";
+    std::string stringValue = "";
     epicsInt32 i32Value=0;
     epicsFloat64 f64Value=0.;
     static const char *functionName = "updateValue";
@@ -139,13 +140,13 @@ int paramAttribute::updateValue()
             break;
         case paramAttrTypeString:
             status = this->pDriver->getStringParam(this->paramAddr, this->paramId,
-                                                MAX_ATTRIBUTE_STRING_SIZE, stringValue);
+                                                stringValue);
             this->setValue(stringValue);
             break;
         default:
             break;
     }
-    if (status) {
+    if (status && status != asynParamUndefined) {
         asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
             "%s:%s: ERROR reading parameter attribute value, name=%s, source=%s, type=%d\n",
             driverName, functionName, this->getName(), this->getSource(), this->paramType);

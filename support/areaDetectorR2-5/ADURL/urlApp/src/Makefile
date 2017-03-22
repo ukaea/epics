@@ -3,12 +3,16 @@ include $(TOP)/configure/CONFIG
 #----------------------------------------
 #  ADD MACRO DEFINITIONS AFTER THIS LINE
 
-ifeq ($(USE_GRAPHICSMAGICK), YES)
+ifeq ($(WITH_GRAPHICSMAGICK), YES)
   # The following gets rid of the -fno-implicit-templates flag on vxWorks, 
   # so we get automatic template instantiation.
   # This is what we want for miscellaneous/asynPortDriver.cpp
   ifeq (vxWorks,$(findstring vxWorks, $(T_A)))
     CODE_CXXFLAGS=
+  endif
+
+  ifdef GRAPHICS_MAGICK_INCLUDE
+    USR_INCLUDES += $(GRAPHICS_MAGICK_INCLUDE)
   endif
 
   LIBRARY_IOC_Linux = URLDriver

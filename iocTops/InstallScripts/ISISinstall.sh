@@ -25,7 +25,7 @@ if [ -z "$*" ]; then INSTALL_PATH=$DEFAULT_INSTALL_PATH; else INSTALL_PATH=$1;fi
 # base
 if [ ! -d $INSTALL_PATH/base ]; 
 then
-    ./epics_base_3-15-4_install.sh $INSTALL_PATH 3.14.12.3
+    ./epics_base_3-15-5_install.sh $INSTALL_PATH 3.14.12.3
 fi
 
 # seq

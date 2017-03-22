@@ -34,8 +34,8 @@ GRAPHICS_MAGICK_INCLUDE = -I$(ADBINARIES)/magickSupport/os/WIN32
 GRAPHICS_MAGICK_LIB     =$(ADBINARIES)/magickSupport
 
 # HDF5 is required for the NDFileHDF5 and NDFileNexus plugins
-WITH_HDF5     = YES
-HDF5_EXTERNAL = YES
+WITH_HDF5     = NO
+HDF5_EXTERNAL = NO
 #HDF5_INCLUDE =-I$(ADBINARIES)/hdf5Support/os/WIN32
 #HDF5_LIB     =
 
@@ -46,13 +46,13 @@ JPEG_EXTERNAL = NO
 #JPEG_LIB     =
 
 # JPEG is required for the NDFileNetCDF plugin
-WITH_NETCDF     = YES
+WITH_NETCDF     = NO
 NETCDF_EXTERNAL = NO
 #NETCDF_INCLUDE =
 #NETCDF_LIB     =$(ADSUPPORT)\supportApp\netCDFSrc\os\default
 
 # NEXUS is required for the NDFileNexus plugin
-WITH_NEXUS     = YES
+WITH_NEXUS     = NO
 NEXUS_EXTERNAL = NO
 #NEXUS_INCLUDE =
 #NEXUS_LIB     =
@@ -65,27 +65,27 @@ OPENCV_EXTERNAL = YES
 
 # SZIP is required for the NDFileHDF5 and NDFileNexus plugins.  
 # This may be optional in the future.
-WITH_SZIP     = YES
-SZIP_EXTERNAL = YES
+WITH_SZIP     = NO
+SZIP_EXTERNAL = NO
 #SZIP_INCLUDE =
 #SZIP_LIB     =
 
 # TIFF is required for the NDFileTIFF plugin.
-WITH_TIFF     = YES
-TIFF_EXTERNAL = YES
+WITH_TIFF     = NO
+TIFF_EXTERNAL = NO
 #TIFF_INCLUDE =
 #TIFF_LIB     =
 
 # XML2 is required for the NDFileHDF5 and NDFileNexus plugins.  
-WITH_XML2     = YES
+WITH_XML2     = NO
 XML2_EXTERNAL = NO
 #XML2_INCLUDE  = -I$(ADBINARIES)/xml2Support/os/WIN32
 #XML2_LIB     =
 
 # ZLIB is required for the NDFileHDF5 and NDFileNexus plugins.  
 # This may be optional in the future.
-WITH_ZLIB     = YES
-ZLIB_EXTERNAL = YES
+WITH_ZLIB     = NO
+ZLIB_EXTERNAL = NO
 #ZLIB_INCLUDE =
 #ZLIB_LIB     =
 

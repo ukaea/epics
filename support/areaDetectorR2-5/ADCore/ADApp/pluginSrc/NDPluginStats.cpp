@@ -28,6 +28,11 @@
 #define MAX(A,B) (A)>(B)?(A):(B)
 #define MIN(A,B) (A)<(B)?(A):(B)
 
+/* Some systems do not define M_PI in math.h */
+#ifndef M_PI
+  #define M_PI 3.14159265358979323846
+#endif
+
 static const char *driverName="NDPluginStats";
 
 template <typename epicsType>
@@ -52,10 +57,17 @@ asynStatus NDPluginStats::doComputeHistogramT(NDArray *pArray)
     nElements = arrayInfo.nElements;
     scale = this->histogramSize / (histMax - histMin);
 
+    this->histBelow = 0;
+    this->histAbove = 0;
     for (i=0; i<nElements; i++) {
         value = (double)pData[i];
         bin = (int)(((value - histMin) * scale) + 0.5);
-        if ((bin >= 0) && (bin < (int)this->histogramSize)) this->histogram[bin]++;
+        if ((bin < 0) || (value < histMin))
+            this->histBelow++;
+        else if ((bin > this->histogramSize-1) || (value > histMax))
+            this->histAbove++;
+        else 
+            this->histogram[bin]++;
     }
 
     entropy = 0;
@@ -186,18 +198,21 @@ template <typename epicsType>
 asynStatus NDPluginStats::doComputeCentroidT(NDArray *pArray)
 {
     epicsType *pData = (epicsType *)pArray->pData;
-    double value, *pValue, *pThresh, centroidTotal;
+    double value, *pValue, *pThresh, varX, varY, varXY;
     size_t ix, iy;
+    /*Raw moments */
+    double M00 = 0.0;
+    double M10 = 0.0, M01 = 0.0;
+    double M20 = 0.0, M02 = 0.0, M11 = 0.0;
+    double M30 = 0.0, M03 = 0.0;
+    double M40 = 0.0, M04 = 0.0;
+    /*Central moments */
+    double mu20, mu02, mu11, mu30, mu03, mu40, mu04;
 
     if (pArray->ndims > 2) return(asynError);
     
     getDoubleParam (NDPluginStatsCentroidThreshold,  &this->centroidThreshold);
     this->unlock();
-    this->centroidX = 0;
-    this->centroidY = 0;
-    this->sigmaX = 0;
-    this->sigmaY = 0;
-    this->sigmaXY = 0;
     memset(this->profileX[profAverage], 0, this->profileSizeX*sizeof(double));  
     memset(this->profileY[profAverage], 0, this->profileSizeY*sizeof(double));
     memset(this->profileX[profThreshold], 0, this->profileSizeX*sizeof(double));  
@@ -211,42 +226,69 @@ asynStatus NDPluginStats::doComputeCentroidT(NDArray *pArray)
             if (value >= this->centroidThreshold) {
                 this->profileX[profThreshold][ix] += value;
                 this->profileY[profThreshold][iy] += value;
-                this->sigmaXY += value * ix * iy;
+                M11 += value * ix * iy;
             }
         }
     }
 
     /* Normalize the average profiles and compute the centroid from them */
-    this->centroidX = 0;
-    this->sigmaX = 0;
-    centroidTotal = 0;
     pValue  = this->profileX[profAverage];
     pThresh = this->profileX[profThreshold];
     for (ix=0; ix<this->profileSizeX; ix++, pValue++, pThresh++) {
-        this->centroidX += *pThresh * ix;
-        this->sigmaX    += *pThresh * ix * ix;
-        centroidTotal   += *pThresh;
+        M00 += *pThresh;
+        M10 += *pThresh * ix;
+        M20 += *pThresh * ix * ix;
+        M30 += *pThresh * ix * ix * ix;
+        M40 += *pThresh * ix * ix * ix * ix;
         *pValue  /= this->profileSizeY;
         *pThresh /= this->profileSizeY;
     }
-    this->centroidY = 0;
-    this->sigmaY = 0;
     pValue  = this->profileY[profAverage];
     pThresh = this->profileY[profThreshold];
     for (iy=0; iy<this->profileSizeY; iy++, pValue++, pThresh++) {
-        this->centroidY += *pThresh * iy;
-        this->sigmaY    += *pThresh * iy * iy;
+        M01 += *pThresh * iy;
+        M02 += *pThresh * iy * iy;
+        M03 += *pThresh * iy * iy * iy;
+        M04 += *pThresh * iy * iy * iy * iy;
         *pValue  /= this->profileSizeX;
         *pThresh /= this->profileSizeX;
-   }
-   if (centroidTotal > 0.) {
-        this->centroidX /= centroidTotal;
-        this->centroidY /= centroidTotal;
-        this->sigmaX  = sqrt((this->sigmaX  / centroidTotal) - (this->centroidX * this->centroidX));
-        this->sigmaY  = sqrt((this->sigmaY  / centroidTotal) - (this->centroidY * this->centroidY));
-        this->sigmaXY =      (this->sigmaXY / centroidTotal) - (this->centroidX * this->centroidY);
-        if ((this->sigmaX !=0) && (this->sigmaY != 0)) 
-            this->sigmaXY /= (this->sigmaX * this->sigmaY);
+    }
+
+    if (M00 > 0.) {
+        /* Calculate central moments */
+        mu20 = M20 - (M10 * M10) / M00;
+        mu02 = M02 - (M01 * M01) / M00;
+        mu11 = M11 - (M10 * M01) / M00;
+        mu30 = M30 - ((3 * M10 * M20) / M00) + ((2 * M10 * M10 * M10) / (M00 * M00));
+        mu03 = M03 - ((3 * M01 * M02) / M00) + ((2 * M01 * M01 * M01) / (M00 * M00));
+        mu40 = M40 - ((4 * M30 * M10) / M00) + ((6 * M20 * M10 * M10) / (M00 * M00)) -
+             (3 * M10 * M10 * M10 * M10) / (M00 * M00 * M00);
+        mu04 = M04 - ((4 * M03 * M01) / M00) + ((6 * M02 * M01 * M01) / (M00 * M00)) -
+             (3 * M01 * M01 * M01 * M01) / (M00 * M00 * M00);
+        /* Calculate variances */
+        varX  = mu20 / M00;
+        varY  = mu02 / M00;
+        varXY = mu11 / M00;
+        /* Scientific output parameters */
+        this->centroidTotal = M00;
+        this->centroidX = M10 / M00;
+        this->centroidY = M01 / M00;
+        /* Calculate sigmas */
+        this->sigmaX = sqrt(varX);
+        this->sigmaY = sqrt(varY);
+        if ((this->sigmaX != 0) && (this->sigmaY != 0)){
+            this->sigmaXY = varXY / (this->sigmaX * this->sigmaY);
+            this->skewX = mu30  / (M00 * pow(varX, 3.0/2.0));
+            this->skewY = mu03  / (M00 * pow(varY, 3.0/2.0));
+            this->kurtosisX = (mu40 / (M00 * pow(varX, 2.0))) - 3.0;
+            this->kurtosisY = (mu04 / (M00 * pow(varY, 2.0))) - 3.0;
+        }
+        /* Calculate orientation and eccentricity */
+        this->orientation = 0.5 * atan2((2.0 * varXY), (varX - varY));
+        /* Orientation in degrees*/
+        this->orientation  = this->orientation * 180 / M_PI;
+        this->eccentricity = ((mu20 - mu02) * (mu20 - mu02) - 4 * mu11 * mu11) /
+                             ((mu20 + mu02) * (mu20 + mu02));
     }
     this->lock();
     return(asynSuccess);
@@ -393,12 +435,19 @@ void NDPluginStats::doTimeSeriesCallbacks()
     doCallbacksFloat64Array(this->timeSeries[TSSigmaValue], currentPoint, NDPluginStatsTSSigmaValue, 0);
     doCallbacksFloat64Array(this->timeSeries[TSTotal],      currentPoint, NDPluginStatsTSTotal, 0);
     doCallbacksFloat64Array(this->timeSeries[TSNet],        currentPoint, NDPluginStatsTSNet, 0);
-    doCallbacksFloat64Array(this->timeSeries[TSCentroidX],  currentPoint, NDPluginStatsTSCentroidX, 0);
-    doCallbacksFloat64Array(this->timeSeries[TSCentroidY],  currentPoint, NDPluginStatsTSCentroidY, 0);
-    doCallbacksFloat64Array(this->timeSeries[TSSigmaX],     currentPoint, NDPluginStatsTSSigmaX, 0);
-    doCallbacksFloat64Array(this->timeSeries[TSSigmaY],     currentPoint, NDPluginStatsTSSigmaY, 0);
-    doCallbacksFloat64Array(this->timeSeries[TSSigmaXY],    currentPoint, NDPluginStatsTSSigmaXY, 0);
-    doCallbacksFloat64Array(this->timeSeries[TSTimestamp],  currentPoint, NDPluginStatsTSTimestamp, 0);
+    doCallbacksFloat64Array(this->timeSeries[TSCentroidTotal],  currentPoint, NDPluginStatsTSCentroidTotal, 0);
+    doCallbacksFloat64Array(this->timeSeries[TSCentroidX],      currentPoint, NDPluginStatsTSCentroidX, 0);
+    doCallbacksFloat64Array(this->timeSeries[TSCentroidY],      currentPoint, NDPluginStatsTSCentroidY, 0);
+    doCallbacksFloat64Array(this->timeSeries[TSSigmaX],         currentPoint, NDPluginStatsTSSigmaX, 0);
+    doCallbacksFloat64Array(this->timeSeries[TSSigmaY],         currentPoint, NDPluginStatsTSSigmaY, 0);
+    doCallbacksFloat64Array(this->timeSeries[TSSigmaXY],        currentPoint, NDPluginStatsTSSigmaXY, 0);
+    doCallbacksFloat64Array(this->timeSeries[TSSkewX],          currentPoint, NDPluginStatsTSSkewX, 0);
+    doCallbacksFloat64Array(this->timeSeries[TSSkewY],          currentPoint, NDPluginStatsTSSkewY, 0);
+    doCallbacksFloat64Array(this->timeSeries[TSKurtosisX],      currentPoint, NDPluginStatsTSKurtosisX, 0);
+    doCallbacksFloat64Array(this->timeSeries[TSKurtosisY],      currentPoint, NDPluginStatsTSKurtosisY, 0);
+    doCallbacksFloat64Array(this->timeSeries[TSEccentricity],   currentPoint, NDPluginStatsTSEccentricity, 0);
+    doCallbacksFloat64Array(this->timeSeries[TSOrientation],    currentPoint, NDPluginStatsTSOrientation, 0);
+    doCallbacksFloat64Array(this->timeSeries[TSTimestamp],      currentPoint, NDPluginStatsTSTimestamp, 0);
 }
 
 
@@ -526,11 +575,18 @@ void NDPluginStats::processCallbacks(NDArray *pArray)
 
     if (computeCentroid) {
         doComputeCentroid(pArray);
-        setDoubleParam(NDPluginStatsCentroidX,   this->centroidX);
-        setDoubleParam(NDPluginStatsCentroidY,   this->centroidY);
-        setDoubleParam(NDPluginStatsSigmaX,      this->sigmaX);
-        setDoubleParam(NDPluginStatsSigmaY,      this->sigmaY);
-        setDoubleParam(NDPluginStatsSigmaXY,     this->sigmaXY);
+        setDoubleParam(NDPluginStatsCentroidTotal, this->centroidTotal);
+        setDoubleParam(NDPluginStatsCentroidX,     this->centroidX);
+        setDoubleParam(NDPluginStatsCentroidY,     this->centroidY);
+        setDoubleParam(NDPluginStatsSigmaX,        this->sigmaX);
+        setDoubleParam(NDPluginStatsSigmaY,        this->sigmaY);
+        setDoubleParam(NDPluginStatsSigmaXY,       this->sigmaXY);
+        setDoubleParam(NDPluginStatsSkewX,         this->skewX);
+        setDoubleParam(NDPluginStatsSkewY,         this->skewY);
+        setDoubleParam(NDPluginStatsKurtosisX,     this->kurtosisX);
+        setDoubleParam(NDPluginStatsKurtosisY,     this->kurtosisY);
+        setDoubleParam(NDPluginStatsEccentricity,  this->eccentricity);
+        setDoubleParam(NDPluginStatsOrientation,   this->orientation);
     }
          
     if (computeProfiles) {
@@ -543,6 +599,8 @@ void NDPluginStats::processCallbacks(NDArray *pArray)
         getDoubleParam (NDPluginStatsHistMax,  &this->histMax);
         doComputeHistogram(pArray);
         setDoubleParam(NDPluginStatsHistEntropy, this->histEntropy);
+        setIntegerParam(NDPluginStatsHistBelow, this->histBelow);
+        setIntegerParam(NDPluginStatsHistAbove, this->histAbove);
         doCallbacksFloat64Array(this->histogram, this->histogramSize, NDPluginStatsHistArray, 0);
     }
     
@@ -560,12 +618,19 @@ void NDPluginStats::processCallbacks(NDArray *pArray)
         timeSeries[TSSigmaValue][currentTSPoint]  = pStats->sigma;
         timeSeries[TSTotal][currentTSPoint]       = pStats->total;
         timeSeries[TSNet][currentTSPoint]         = pStats->net;
-        timeSeries[TSCentroidX][currentTSPoint]   = this->centroidX;
-        timeSeries[TSCentroidY][currentTSPoint]   = this->centroidY;
-        timeSeries[TSSigmaX][currentTSPoint]      = this->sigmaX;
-        timeSeries[TSSigmaY][currentTSPoint]      = this->sigmaY;
-        timeSeries[TSSigmaXY][currentTSPoint]     = this->sigmaXY;
-        timeSeries[TSTimestamp][currentTSPoint]   = pArray->timeStamp;
+        timeSeries[TSCentroidTotal][currentTSPoint]   = this->centroidTotal;
+        timeSeries[TSCentroidX][currentTSPoint]       = this->centroidX;
+        timeSeries[TSCentroidY][currentTSPoint]       = this->centroidY;
+        timeSeries[TSSigmaX][currentTSPoint]          = this->sigmaX;
+        timeSeries[TSSigmaY][currentTSPoint]          = this->sigmaY;
+        timeSeries[TSSigmaXY][currentTSPoint]         = this->sigmaXY;
+        timeSeries[TSSkewX][currentTSPoint]           = this->skewX;
+        timeSeries[TSSkewY][currentTSPoint]           = this->skewY;
+        timeSeries[TSKurtosisX][currentTSPoint]       = this->kurtosisX;
+        timeSeries[TSKurtosisY][currentTSPoint]       = this->kurtosisY;
+        timeSeries[TSEccentricity][currentTSPoint]    = this->eccentricity;
+        timeSeries[TSOrientation][currentTSPoint]     = this->orientation;
+        timeSeries[TSTimestamp][currentTSPoint]       = pArray->timeStamp;
         currentTSPoint++;
         setIntegerParam(NDPluginStatsTSCurrentPoint, currentTSPoint);
         if (currentTSPoint >= numTSPoints) {
@@ -769,11 +834,18 @@ NDPluginStats::NDPluginStats(const char *portName, int queueSize, int blockingCa
     /* Centroid */
     createParam(NDPluginStatsComputeCentroidString,   asynParamInt32,      &NDPluginStatsComputeCentroid);
     createParam(NDPluginStatsCentroidThresholdString, asynParamFloat64,    &NDPluginStatsCentroidThreshold);
+    createParam(NDPluginStatsCentroidTotalString,     asynParamFloat64,    &NDPluginStatsCentroidTotal);
     createParam(NDPluginStatsCentroidXString,         asynParamFloat64,    &NDPluginStatsCentroidX);
     createParam(NDPluginStatsCentroidYString,         asynParamFloat64,    &NDPluginStatsCentroidY);
     createParam(NDPluginStatsSigmaXString,            asynParamFloat64,    &NDPluginStatsSigmaX);
     createParam(NDPluginStatsSigmaYString,            asynParamFloat64,    &NDPluginStatsSigmaY);
     createParam(NDPluginStatsSigmaXYString,           asynParamFloat64,    &NDPluginStatsSigmaXY);
+    createParam(NDPluginStatsSkewXString,             asynParamFloat64,    &NDPluginStatsSkewX);
+    createParam(NDPluginStatsSkewYString,             asynParamFloat64,    &NDPluginStatsSkewY);
+    createParam(NDPluginStatsKurtosisXString,         asynParamFloat64,    &NDPluginStatsKurtosisX);
+    createParam(NDPluginStatsKurtosisYString,         asynParamFloat64,    &NDPluginStatsKurtosisY);
+    createParam(NDPluginStatsEccentricityString,      asynParamFloat64,    &NDPluginStatsEccentricity);
+    createParam(NDPluginStatsOrientationString,       asynParamFloat64,    &NDPluginStatsOrientation);
 
     /* Time series */
     createParam(NDPluginStatsTSControlString,         asynParamInt32,        &NDPluginStatsTSControl);
@@ -790,11 +862,18 @@ NDPluginStats::NDPluginStats(const char *portName, int queueSize, int blockingCa
     createParam(NDPluginStatsTSSigmaValueString,      asynParamFloat64Array, &NDPluginStatsTSSigmaValue);
     createParam(NDPluginStatsTSTotalString,           asynParamFloat64Array, &NDPluginStatsTSTotal);
     createParam(NDPluginStatsTSNetString,             asynParamFloat64Array, &NDPluginStatsTSNet);
+    createParam(NDPluginStatsTSCentroidTotalString,   asynParamFloat64Array, &NDPluginStatsTSCentroidTotal);
     createParam(NDPluginStatsTSCentroidXString,       asynParamFloat64Array, &NDPluginStatsTSCentroidX);
     createParam(NDPluginStatsTSCentroidYString,       asynParamFloat64Array, &NDPluginStatsTSCentroidY);
     createParam(NDPluginStatsTSSigmaXString,          asynParamFloat64Array, &NDPluginStatsTSSigmaX);
     createParam(NDPluginStatsTSSigmaYString,          asynParamFloat64Array, &NDPluginStatsTSSigmaY);
     createParam(NDPluginStatsTSSigmaXYString,         asynParamFloat64Array, &NDPluginStatsTSSigmaXY);
+    createParam(NDPluginStatsTSSkewXString,           asynParamFloat64Array, &NDPluginStatsTSSkewX);
+    createParam(NDPluginStatsTSSkewYString,           asynParamFloat64Array, &NDPluginStatsTSSkewY);
+    createParam(NDPluginStatsTSKurtosisXString,       asynParamFloat64Array, &NDPluginStatsTSKurtosisX);
+    createParam(NDPluginStatsTSKurtosisYString,       asynParamFloat64Array, &NDPluginStatsTSKurtosisY);
+    createParam(NDPluginStatsTSEccentricityString,    asynParamFloat64Array, &NDPluginStatsTSEccentricity);
+    createParam(NDPluginStatsTSOrientationString,     asynParamFloat64Array, &NDPluginStatsTSOrientation);
     createParam(NDPluginStatsTSTimestampString,       asynParamFloat64Array, &NDPluginStatsTSTimestamp);
 
     /* Profiles */
@@ -817,6 +896,8 @@ NDPluginStats::NDPluginStats(const char *portName, int queueSize, int blockingCa
     createParam(NDPluginStatsHistSizeString,          asynParamInt32,         &NDPluginStatsHistSize);
     createParam(NDPluginStatsHistMinString,           asynParamFloat64,       &NDPluginStatsHistMin);
     createParam(NDPluginStatsHistMaxString,           asynParamFloat64,       &NDPluginStatsHistMax);
+    createParam(NDPluginStatsHistBelowString,         asynParamInt32,         &NDPluginStatsHistBelow);
+    createParam(NDPluginStatsHistAboveString,         asynParamInt32,         &NDPluginStatsHistAbove);
     createParam(NDPluginStatsHistEntropyString,       asynParamFloat64,       &NDPluginStatsHistEntropy);
     createParam(NDPluginStatsHistArrayString,         asynParamFloat64Array,  &NDPluginStatsHistArray);
 

@@ -13,6 +13,7 @@ $(PROD_NAME)_DBD += NDFileNull.dbd
 
 ifeq ($(WITH_EPICS_V4),YES)
   $(PROD_NAME)_DBD += NDPluginPva.dbd
+  $(PROD_NAME)_DBD += PVAServerRegister.dbd
   PROD_LIBS += ntndArrayConverter
   PROD_LIBS += nt
   PROD_LIBS += pvDatabase
@@ -55,7 +56,7 @@ ifeq ($(WITH_JPEG),YES)
     PROD_LIBS += jpeg
   else
     ifdef JPEG_LIB
-      hdf5_DIR     = $(jpeg_LIB)
+      jpeg_DIR     = $(JPEG_LIB)
       PROD_LIBS     += jpeg
     else
       PROD_SYS_LIBS += jpeg

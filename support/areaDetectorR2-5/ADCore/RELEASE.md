@@ -19,19 +19,167 @@ files respectively, in the configure/ directory of the appropriate release of th
 
 Release Notes
 =============
-R2-6 (December XXX, 2016)
+R2-6 (February 19, 2017)
 ========================
 
-### NDPluginROI
-* Added CollapseDims to optionally collapse (remove) output array dimensions whose value is
-  1.  For example an output array that would normally be dimensions [1, 256, 256] would be
-  [256, 256] if CollapseDims=Enable.
+### NDPluginDriver, NDPluginBase.template, NDPluginBase.adl
+* If blockCallbacks is non-zero in constructor then it no longer creates a processing thread.
+  This saves resources if the plugin will only be used in blocking mode.  If the plugin is changed
+  to non-blocking mode at runtime then the thread will be created then.
+* Added new parameter NDPluginExecutionTime and new ai record ExecutionTime_RBV.  This gives the execution
+  time in ms the last time the plugin ran.  It works both with BlockingCallbacks=Yes and No.  It is very
+  convenient for measuring the performance of the plugin without having to run the detector at high
+  frame rates.
 
 ### NDArrayBase.template
 * Added new longout record NDimensions and new waveform record Dimensions to control the NDArray
   dimensions.  These were needed for NDDriverStdArrays, and may be useful for other drivers.
   Previously there were only input records (NDimensions_RBV and Dimensions_RBV) 
   for these parameters.
+
+### NDPluginSupport.dbd
+* Build this file in Makefile, remove from source so it is easier to maintain correctly.
+
+### NDPluginROI
+* Added CollapseDims to optionally collapse (remove) output array dimensions whose value is 1.
+  For example an output array that would normally have dimensions [1, 256, 256] would be
+  [256, 256] if CollapseDims=Enable.
+  
+### pluginTests
+* Added ROIPluginWrapper.cpp to test the CollapseDims behavior in NDPluginROI.
+
+### NDPluginTransform
+* Set the NDArraySize[X,Y,Z] parameters appropriately after the transformation.  This is also done
+  by the ROI plugin, and is convenient for clients to see the sizes, since the transform can
+  swap the X and Y dimensions. 
+
+### NDPluginOverlay
+* Added new Ellipse shape to draw elliptical or circular overlays.
+* Improved efficiency by only computing the coordinates of the overlay pixels when the overlay
+  definition changes or the image format changes.  The pixel coordinates are saved in a list.
+  This is particularly important for the new Ellipse shape because it uses trigonometric functions 
+  to compute the pixel coordinates. When neither the overlay definition or the image format changes 
+  it now just sets the pixel values for each pixel in the list.
+* Added CenterX and CenterY parameter for each overlay.  One can now specify the overlay location
+  either by PositionX and PositionY, which defines the position of the upper left corner of the
+  overlay, or by CenterX and CenterY, which define the location of the center of the overlay.
+  If CenterX/Y is changed then PositionX/Y will automatically update, and vice-versa.
+* Changed the meaning of SizeX and SizeY for the Cross overlay shape.  Previously the total size
+  of a Cross overlay was SizeX\*2 and SizeY\*2.  It is now SizeX and SizeY.  This makes it consistent
+  with the Rectangle and Overlay shapes, i.e. drawing each of these shapes with the same PositionX
+  and SizeX/Y will result in shapes that overlap in the expected manner.
+* Slightly changed the meaning of SizeX/Y for the Cross and Rectangle shapes.  Previously the total
+  size of the overlay was SizeX and SizeY.  Now it is SizeX+1 and SizeY+1, i.e. the overlay extends
+  +-SizeX/2 and +-SizeY/2 pixels from the center pixel.  This preserves symmetry when WidthX/Y is 1,
+  and the previous behavior is difficult to duplicate for the Ellipse shape.
+
+### NDPluginStats
+* Extensions to compute Centroid
+  * Added calculations of 3rd and 4th order image moments, this provides skewness and kurtosis.
+  * Added eccentricity and orientation calculations.
+* Changed Histogram.
+  * Previously the documentation stated that all values less than or equal to HistMin will 
+    be in the first bin of the histogram, and all values greater than or equal to histMax will 
+    be in last bin of the histogram.  This was never actually implemented; values outside the range
+    HistMin:HistMax were not included in the histogram at all.
+  * Rather than change the code to be consistent with the documentation two new records were added,
+    HistBelow and HistAbove.  HistBelow contains the number of values less than HistMin,
+    while HistAbove contains the number of values greater than HistMax.  This was done
+    because adding a large number of values to the first and last bins of the histogram would change
+    the entropy calculation, and also make histogram plots hard to scale nicely.
+
+### NDPluginPos
+* Added NDPos.adl medm file.
+* Removed NDPosPlugin.dbd from NDPluginSupport.dbd because it can only be built if WITH_XML2 is set.
+
+### NDPluginPva
+* The pvaServer is no longer started in the plugin code, because that would result in running multiple servers
+  if multiple NDPluginPva plugins were loaded.  Now the command "startPVAServer" must be added to the IOC startup
+  script if any NDPluginPva plugins are being used.
+
+### NDPluginFile
+* If the NDArray contains an attribute named FilePluginClose and the attribute value is non-zero then
+  the current file will be closed.
+
+### NDFileTIFF
+* If there is an NDAttribute of type NDAttrString named TIFFImageDescription then this attribute is written 
+  to the TIFFTAG_IMAGEDESCRIPTION tag in the TIFF file.  Note that it will also be written to a user
+  tag in the TIFF file, as with all other NDAttributes.  This is OK because some data processing code
+  may expect to find the information in one location or the other.
+* Added documentation on how the plugin writes NDAttributes to the TIFF file.
+
+### NDAttribute
+* Removed the line `#define MAX_ATTRIBUTE_STRING_SIZE 256` from NDAttribute.h because it creates the
+  false impression that there is a limit on the size of string attributes.  There is not.
+  Some drivers and plugins may need to limit the size, but they should do this with local definitions.
+  The following files were changed to use local definitions, with these symbolic names and values:
+
+  | File                           | Symbolic name             | Value |
+  | ------------------------------ | ------------------------- | ----- |
+  | NDFileHDF5AttributeDataset.cpp | MAX_ATTRIBUTE_STRING_SIZE | 256   |
+  | NDFileNetCDF.cpp               | MAX_ATTRIBUTE_STRING_SIZE | 256   |
+  | NDFileTIFF.cpp                 | STRING_BUFFER_SIZE        | 2048  |
+
+### paramAttribute
+* Changed to read string parameters using the asynPortDriver::getStringParam(int index, std::string&amp;) 
+  method that was added in asyn R4-31.  This removes the requirement that paramAttribute specify a maximum
+  string parameters size, there is now no limit.
+  
+### PVAttribute
+* Fixed problem where a PV that disconnected and reconnected would cause multiple CA subscriptions.
+  Note that if the data type of the PV changes on reconnect that the data may not be correct because
+  the data type of a PVAttribute is not allowed to change.  The application must be restarted in this
+  case.
+  
+### asynNDArrayDriver, NDArrayBase.template, NDPluginBase.adl, ADSetup.adl, all plugin adl files
+* Added 2 new parameters: NDADCoreVersion, NDDriverVersion and new stringin records ADCoreVersion_RBV and
+  DriverVersion_RBV.  These show the version of ADCore and of the driver or plugin that the IOC was
+  built with.  Because NDPluginBase.adl grew larger all of the other plugin adl files have changed
+  their layouts.
+
+### ADDriver, ADBase.template, ADSetup.adl
+* Added 3 new parameters: ADSerialNumber, ADFirmwareVersion, and ADSDKVersion and new stringin records 
+  SerialNumber_RBV, FirmwareVersion_RBV, and SDKVersion_RBV. These show the serial number and firmware
+  version of the detector, and the version of the vendor SDK library that the IOC was built with.
+  Because ADSetup.adl grew larger all driver adl files need to change their layouts.  This has been done
+  for ADBase.adl in ADCore.  New releases of driver modules will have the changed layouts.
+
+### pvaDriver
+* Moved the driver into its own repository areaDetector/pvaDriver.  The new repository contains
+  both the driver library from ADCore and the example IOC that was previously in ADExample.
+  
+### NDArray.cpp
+* Print the reference count in the report() method.
+
+### iocBoot/EXAMPLE_commonPlugins.cmd
+* Add commented out line to call startPVAServer if the EPICS V4 NDPva plugin is loaded.
+  Previously the plugin itself called startPVAServer, but this can result in the function 
+  being called multiple times, which is not allowed.
+
+### Viewers/ImageJ
+* Improvements to EPICS_AD_Viewer.java 
+  * Automatically set the contrast when a new window is created. This eliminates the need to 
+    manually set the contrast when changing image size, data type, and color mode in many cases.
+  * When the image window is automatically closed and reopened because the size, data type, 
+    or color mode changes the new window is now positioned in the same location as the window 
+    that was closed.
+* New ImageJ plugin called GaussianProfiler.java.  It was written by Noumane Laanait when he
+  was at the APS (currently at ORNL).  This is similar to the standard ImageJ Plot Profile tool in Live
+  mode, but it also fits a Gaussian peak to the profile, and prints the fit parameters centroid, FWHM,
+  amplitude, and background.  It is very useful for focusing x-ray beams, etc.
+* New ImageJ plugin called EPICS_AD_Controller.java.  This plugin allows using the ImageJ ROI tools
+  (rectangle and oval) to graphically define the following:
+  * The readout region of the detector/camera
+  * The position and size of an ROI (NDPluginROI)
+  * The position and size of an overlay (NDPluginOverlay)
+
+  The plugin chain can include an NDPluginTransform plugin which changes the image orientation and an
+  NDPluginROI plugin that changes the binning, size, and X/Y axes directions.  The plugin corrects
+  for these transformations when defining the target object.  Chris Roehrig from the APS wrote an
+  earlier version of this plugin.
+
+### Dependencies
+* This release requires asyn R4-31 or later because it uses new features in asynPortDriver.
 
 
 R2-5 (October 28, 2016)

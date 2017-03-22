@@ -1,0 +1,193 @@
+make: Entering directory 'D:/epics/support/areaDetector'
+make -C \epics/support/areaDetector/ADSupport install 
+make[1]: Entering directory 'D:/epics/support/areaDetector/ADSupport'
+make -C ./configure install 
+make[2]: Entering directory 'D:/epics/support/areaDetector/ADSupport/configure'
+make -C O.win32-x86-static -f ../Makefile TOP=../.. \
+    T_A=win32-x86-static install
+make[3]: Entering directory 'D:/epics/support/areaDetector/ADSupport/configure/O.win32-x86-static'
+perl -CSD D:/epics/base/bin/win32-x86-static/convertRelease.pl checkRelease
+make[3]: Leaving directory 'D:/epics/support/areaDetector/ADSupport/configure/O.win32-x86-static'
+make[2]: Leaving directory 'D:/epics/support/areaDetector/ADSupport/configure'
+make -C ./supportApp install 
+make[2]: Entering directory 'D:/epics/support/areaDetector/ADSupport/supportApp'
+make -C ./netCDFSrc install 
+make[3]: Entering directory 'D:/epics/support/areaDetector/ADSupport/supportApp/netCDFSrc'
+make -C O.win32-x86-static -f ../Makefile TOP=../../.. \
+    T_A=win32-x86-static install
+make[4]: Entering directory 'D:/epics/support/areaDetector/ADSupport/supportApp/netCDFSrc/O.win32-x86-static'
+make[4]: Nothing to be done for 'install'.
+make[4]: Leaving directory 'D:/epics/support/areaDetector/ADSupport/supportApp/netCDFSrc/O.win32-x86-static'
+make[3]: Leaving directory 'D:/epics/support/areaDetector/ADSupport/supportApp/netCDFSrc'
+make -C ./jpegSrc install 
+make[3]: Entering directory 'D:/epics/support/areaDetector/ADSupport/supportApp/jpegSrc'
+make -C O.win32-x86-static -f ../Makefile TOP=../../.. \
+    T_A=win32-x86-static install
+make[4]: Entering directory 'D:/epics/support/areaDetector/ADSupport/supportApp/jpegSrc/O.win32-x86-static'
+make[4]: Nothing to be done for 'install'.
+make[4]: Leaving directory 'D:/epics/support/areaDetector/ADSupport/supportApp/jpegSrc/O.win32-x86-static'
+make[3]: Leaving directory 'D:/epics/support/areaDetector/ADSupport/supportApp/jpegSrc'
+make -C ./zlibSrc install 
+make[3]: Entering directory 'D:/epics/support/areaDetector/ADSupport/supportApp/zlibSrc'
+make -C O.win32-x86-static -f ../Makefile TOP=../../.. \
+    T_A=win32-x86-static install
+make[4]: Entering directory 'D:/epics/support/areaDetector/ADSupport/supportApp/zlibSrc/O.win32-x86-static'
+make[4]: Nothing to be done for 'install'.
+make[4]: Leaving directory 'D:/epics/support/areaDetector/ADSupport/supportApp/zlibSrc/O.win32-x86-static'
+make[3]: Leaving directory 'D:/epics/support/areaDetector/ADSupport/supportApp/zlibSrc'
+make -C ./tiffSrc install 
+make[3]: Entering directory 'D:/epics/support/areaDetector/ADSupport/supportApp/tiffSrc'
+make -C O.win32-x86-static -f ../Makefile TOP=../../.. \
+    T_A=win32-x86-static install
+make[4]: Entering directory 'D:/epics/support/areaDetector/ADSupport/supportApp/tiffSrc/O.win32-x86-static'
+make[4]: Nothing to be done for 'install'.
+make[4]: Leaving directory 'D:/epics/support/areaDetector/ADSupport/supportApp/tiffSrc/O.win32-x86-static'
+make[3]: Leaving directory 'D:/epics/support/areaDetector/ADSupport/supportApp/tiffSrc'
+make -C ./xml2Src install 
+make[3]: Entering directory 'D:/epics/support/areaDetector/ADSupport/supportApp/xml2Src'
+make -C O.win32-x86-static -f ../Makefile TOP=../../.. \
+    T_A=win32-x86-static install
+make[4]: Entering directory 'D:/epics/support/areaDetector/ADSupport/supportApp/xml2Src/O.win32-x86-static'
+make[4]: Nothing to be done for 'install'.
+make[4]: Leaving directory 'D:/epics/support/areaDetector/ADSupport/supportApp/xml2Src/O.win32-x86-static'
+make[3]: Leaving directory 'D:/epics/support/areaDetector/ADSupport/supportApp/xml2Src'
+make -C ./szipSrc install 
+make[3]: Entering directory 'D:/epics/support/areaDetector/ADSupport/supportApp/szipSrc'
+make -C O.win32-x86-static -f ../Makefile TOP=../../.. \
+    T_A=win32-x86-static install
+make[4]: Entering directory 'D:/epics/support/areaDetector/ADSupport/supportApp/szipSrc/O.win32-x86-static'
+make[4]: Nothing to be done for 'install'.
+make[4]: Leaving directory 'D:/epics/support/areaDetector/ADSupport/supportApp/szipSrc/O.win32-x86-static'
+make[3]: Leaving directory 'D:/epics/support/areaDetector/ADSupport/supportApp/szipSrc'
+make -C ./hdf5Src install 
+make[3]: Entering directory 'D:/epics/support/areaDetector/ADSupport/supportApp/hdf5Src'
+make -C O.win32-x86-static -f ../Makefile TOP=../../.. \
+    T_A=win32-x86-static install
+make[4]: Entering directory 'D:/epics/support/areaDetector/ADSupport/supportApp/hdf5Src/O.win32-x86-static'
+make[4]: Nothing to be done for 'install'.
+make[4]: Leaving directory 'D:/epics/support/areaDetector/ADSupport/supportApp/hdf5Src/O.win32-x86-static'
+make[3]: Leaving directory 'D:/epics/support/areaDetector/ADSupport/supportApp/hdf5Src'
+make -C ./nexusSrc install 
+make[3]: Entering directory 'D:/epics/support/areaDetector/ADSupport/supportApp/nexusSrc'
+make -C O.win32-x86-static -f ../Makefile TOP=../../.. \
+    T_A=win32-x86-static install
+make[4]: Entering directory 'D:/epics/support/areaDetector/ADSupport/supportApp/nexusSrc/O.win32-x86-static'
+make[4]: Nothing to be done for 'install'.
+make[4]: Leaving directory 'D:/epics/support/areaDetector/ADSupport/supportApp/nexusSrc/O.win32-x86-static'
+make[3]: Leaving directory 'D:/epics/support/areaDetector/ADSupport/supportApp/nexusSrc'
+make[2]: Leaving directory 'D:/epics/support/areaDetector/ADSupport/supportApp'
+make[1]: Leaving directory 'D:/epics/support/areaDetector/ADSupport'
+make -C \epics/support/areaDetector/ADCore install 
+make[1]: Entering directory 'D:/epics/support/areaDetector/ADCore'
+make -C ./configure install 
+make[2]: Entering directory 'D:/epics/support/areaDetector/ADCore/configure'
+make -C O.win32-x86-static -f ../Makefile TOP=../.. \
+    T_A=win32-x86-static install
+make[3]: Entering directory 'D:/epics/support/areaDetector/ADCore/configure/O.win32-x86-static'
+perl -CSD D:/epics/base/bin/win32-x86-static/convertRelease.pl checkRelease
+make[3]: Leaving directory 'D:/epics/support/areaDetector/ADCore/configure/O.win32-x86-static'
+make[2]: Leaving directory 'D:/epics/support/areaDetector/ADCore/configure'
+make -C ./ADApp install 
+make[2]: Entering directory 'D:/epics/support/areaDetector/ADCore/ADApp'
+make -C ./Db install 
+make[3]: Entering directory 'D:/epics/support/areaDetector/ADCore/ADApp/Db'
+make -C O.win32-x86-static -f ../Makefile TOP=../../.. \
+    T_A=win32-x86-static install
+make[4]: Entering directory 'D:/epics/support/areaDetector/ADCore/ADApp/Db/O.win32-x86-static'
+make[4]: Nothing to be done for 'install'.
+make[4]: Leaving directory 'D:/epics/support/areaDetector/ADCore/ADApp/Db/O.win32-x86-static'
+make[3]: Leaving directory 'D:/epics/support/areaDetector/ADCore/ADApp/Db'
+make -C ./ADSrc install 
+make[3]: Entering directory 'D:/epics/support/areaDetector/ADCore/ADApp/ADSrc'
+make -C O.win32-x86-static -f ../Makefile TOP=../../.. \
+    T_A=win32-x86-static install
+make[4]: Entering directory 'D:/epics/support/areaDetector/ADCore/ADApp/ADSrc/O.win32-x86-static'
+make[4]: Nothing to be done for 'install'.
+make[4]: Leaving directory 'D:/epics/support/areaDetector/ADCore/ADApp/ADSrc/O.win32-x86-static'
+make[3]: Leaving directory 'D:/epics/support/areaDetector/ADCore/ADApp/ADSrc'
+make -C ./pluginSrc install 
+make[3]: Entering directory 'D:/epics/support/areaDetector/ADCore/ADApp/pluginSrc'
+make -C O.win32-x86-static -f ../Makefile TOP=../../.. \
+    T_A=win32-x86-static install
+make[4]: Entering directory 'D:/epics/support/areaDetector/ADCore/ADApp/pluginSrc/O.win32-x86-static'
+make[4]: Nothing to be done for 'install'.
+make[4]: Leaving directory 'D:/epics/support/areaDetector/ADCore/ADApp/pluginSrc/O.win32-x86-static'
+make[3]: Leaving directory 'D:/epics/support/areaDetector/ADCore/ADApp/pluginSrc'
+make -C ./pluginTests install 
+make[3]: Entering directory 'D:/epics/support/areaDetector/ADCore/ADApp/pluginTests'
+make -C O.win32-x86-static -f ../Makefile TOP=../../.. \
+    T_A=win32-x86-static install
+make[4]: Entering directory 'D:/epics/support/areaDetector/ADCore/ADApp/pluginTests/O.win32-x86-static'
+make[4]: Nothing to be done for 'install'.
+make[4]: Leaving directory 'D:/epics/support/areaDetector/ADCore/ADApp/pluginTests/O.win32-x86-static'
+make[3]: Leaving directory 'D:/epics/support/areaDetector/ADCore/ADApp/pluginTests'
+make[2]: Leaving directory 'D:/epics/support/areaDetector/ADCore/ADApp'
+make[1]: Leaving directory 'D:/epics/support/areaDetector/ADCore'
+make -C \epics/support/areaDetector/ADURL install 
+make[1]: Entering directory 'D:/epics/support/areaDetector/ADURL'
+make -C ./configure install 
+make[2]: Entering directory 'D:/epics/support/areaDetector/ADURL/configure'
+make -C O.win32-x86-static -f ../Makefile TOP=../.. \
+    T_A=win32-x86-static install
+make[3]: Entering directory 'D:/epics/support/areaDetector/ADURL/configure/O.win32-x86-static'
+perl -CSD D:/epics/base/bin/win32-x86-static/convertRelease.pl checkRelease
+make[3]: Leaving directory 'D:/epics/support/areaDetector/ADURL/configure/O.win32-x86-static'
+make[2]: Leaving directory 'D:/epics/support/areaDetector/ADURL/configure'
+make -C ./urlApp install 
+make[2]: Entering directory 'D:/epics/support/areaDetector/ADURL/urlApp'
+make -C ./src install 
+make[3]: Entering directory 'D:/epics/support/areaDetector/ADURL/urlApp/src'
+make -C O.win32-x86-static -f ../Makefile TOP=../../.. \
+    T_A=win32-x86-static install
+make[4]: Entering directory 'D:/epics/support/areaDetector/ADURL/urlApp/src/O.win32-x86-static'
+make[4]: Nothing to be done for 'install'.
+make[4]: Leaving directory 'D:/epics/support/areaDetector/ADURL/urlApp/src/O.win32-x86-static'
+make[3]: Leaving directory 'D:/epics/support/areaDetector/ADURL/urlApp/src'
+make -C ./Db install 
+make[3]: Entering directory 'D:/epics/support/areaDetector/ADURL/urlApp/Db'
+make -C O.win32-x86-static -f ../Makefile TOP=../../.. \
+    T_A=win32-x86-static install
+make[4]: Entering directory 'D:/epics/support/areaDetector/ADURL/urlApp/Db/O.win32-x86-static'
+make[4]: Nothing to be done for 'install'.
+make[4]: Leaving directory 'D:/epics/support/areaDetector/ADURL/urlApp/Db/O.win32-x86-static'
+make[3]: Leaving directory 'D:/epics/support/areaDetector/ADURL/urlApp/Db'
+make[2]: Leaving directory 'D:/epics/support/areaDetector/ADURL/urlApp'
+make -C ./iocs install 
+make[2]: Entering directory 'D:/epics/support/areaDetector/ADURL/iocs'
+make -C ./urlIOC install 
+make[3]: Entering directory 'D:/epics/support/areaDetector/ADURL/iocs/urlIOC'
+make -C ./configure install 
+make[4]: Entering directory 'D:/epics/support/areaDetector/ADURL/iocs/urlIOC/configure'
+make -C O.win32-x86-static -f ../Makefile TOP=../.. \
+    T_A=win32-x86-static install
+make[5]: Entering directory 'D:/epics/support/areaDetector/ADURL/iocs/urlIOC/configure/O.win32-x86-static'
+perl -CSD D:/epics/base/bin/win32-x86-static/convertRelease.pl checkRelease
+make[5]: Leaving directory 'D:/epics/support/areaDetector/ADURL/iocs/urlIOC/configure/O.win32-x86-static'
+make[4]: Leaving directory 'D:/epics/support/areaDetector/ADURL/iocs/urlIOC/configure'
+make -C ./urlAPP install 
+make[4]: Entering directory 'D:/epics/support/areaDetector/ADURL/iocs/urlIOC/urlAPP'
+make -C ./src install 
+make[5]: Entering directory 'D:/epics/support/areaDetector/ADURL/iocs/urlIOC/urlAPP/src'
+make -C O.win32-x86-static -f ../Makefile TOP=../../.. \
+    T_A=win32-x86-static install
+make[6]: Entering directory 'D:/epics/support/areaDetector/ADURL/iocs/urlIOC/urlAPP/src/O.win32-x86-static'
+make[6]: *** No rule to make target '../../../lib/win32-x86-static/GraphicsMagick++.lib', needed by 'URLDriverApp.exe'.  Stop.
+make[6]: Leaving directory 'D:/epics/support/areaDetector/ADURL/iocs/urlIOC/urlAPP/src/O.win32-x86-static'
+\epics/base/configure/RULES_ARCHS:58: recipe for target 'install.win32-x86-static' failed
+make[5]: *** [install.win32-x86-static] Error 2
+make[5]: Leaving directory 'D:/epics/support/areaDetector/ADURL/iocs/urlIOC/urlAPP/src'
+\epics/base/configure/RULES_DIRS:84: recipe for target 'src.install' failed
+make[4]: *** [src.install] Error 2
+make[4]: Leaving directory 'D:/epics/support/areaDetector/ADURL/iocs/urlIOC/urlAPP'
+\epics/base/configure/RULES_DIRS:84: recipe for target 'urlAPP.install' failed
+make[3]: *** [urlAPP.install] Error 2
+make[3]: Leaving directory 'D:/epics/support/areaDetector/ADURL/iocs/urlIOC'
+\epics/base/configure/RULES_DIRS:84: recipe for target 'urlIOC.install' failed
+make[2]: *** [urlIOC.install] Error 2
+make[2]: Leaving directory 'D:/epics/support/areaDetector/ADURL/iocs'
+\epics/base/configure/RULES_DIRS:84: recipe for target 'iocs.install' failed
+make[1]: *** [iocs.install] Error 2
+make[1]: Leaving directory 'D:/epics/support/areaDetector/ADURL'
+\epics/base/configure/RULES_DIRS:84: recipe for target '\epics/support/areaDetector/ADURL.install' failed
+make: *** [\epics/support/areaDetector/ADURL.install] Error 2
+make: Leaving directory 'D:/epics/support/areaDetector'

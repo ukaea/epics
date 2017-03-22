@@ -17,6 +17,7 @@
 #define NDPluginDriverQueueFreeString           "QUEUE_FREE"            /**< (asynInt32,    r/w) Free queue elements */
 #define NDPluginDriverEnableCallbacksString     "ENABLE_CALLBACKS"      /**< (asynInt32,    r/w) Enable callbacks from driver (1=Yes, 0=No) */
 #define NDPluginDriverBlockingCallbacksString   "BLOCKING_CALLBACKS"    /**< (asynInt32,    r/w) Callbacks block (1=Yes, 0=No) */
+#define NDPluginDriverExecutionTimeString       "EXECUTION_TIME"        /**< (asynFloat64,  r/o) The last execution time (milliseconds) */
 #define NDPluginDriverMinCallbackTimeString     "MIN_CALLBACK_TIME"     /**< (asynFloat64,  r/w) Minimum time between calling processCallbacks 
                                                                          *  to execute plugin code */
 
@@ -56,23 +57,27 @@ protected:
     int NDPluginDriverQueueFree;
     int NDPluginDriverEnableCallbacks;
     int NDPluginDriverBlockingCallbacks;
+    int NDPluginDriverExecutionTime;
     int NDPluginDriverMinCallbackTime;
     #define LAST_NDPLUGIN_PARAM NDPluginDriverMinCallbackTime
 
 private:
     virtual asynStatus setArrayInterrupt(int connect);
+    void createCallbackThread();
     
     /* The asyn interfaces we access as a client */
     void *asynGenericPointerInterruptPvt;
 
     /* Our data */
+    bool pluginStarted;
+    int threadStackSize;
     asynUser *pasynUserGenericPointer;          /**< asynUser for connecting to NDArray driver */
     void *asynGenericPointerPvt;                /**< Handle for connecting to NDArray driver */
     asynGenericPointer *pasynGenericPointer;    /**< asyn interface for connecting to NDArray driver */
     bool connectedToArrayPort;
-    epicsMessageQueueId msgQId;
-    epicsThread * pThread;
     epicsEvent *pThreadStartedEvent;
+    epicsThread *pThread;
+    epicsMessageQueueId msgQId;
     epicsTimeStamp lastProcessTime;
     int dimsPrev[ND_ARRAY_MAX_DIMS];
     int newQueueSize_;
