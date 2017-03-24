@@ -128,9 +128,11 @@ ifeq ($(WITH_GRAPHICSMAGICK), YES)
     GraphicsMagick_DIR     = $(GRAPHICS_MAGICK_LIB)
     GraphicsMagick++_DIR   = $(GRAPHICS_MAGICK_LIB)
     GraphicsMagickWand_DIR = $(GRAPHICS_MAGICK_LIB)
-    LIB_LIBS               += GraphicsMagick++ GraphicsMagickWand GraphicsMagick
+    LIB_LIBS               += CORE_Magick++ CORE_Magick CORE_coders CORE_jbig CORE_jp2 CORE_bzlib CORE_zlib CORE_png CORE_libxml CORE_tiff CORE_webp CORE_lcms CORE_ttf CORE_wmf CORE_filters
+# CORE_wand CORE_Magick
   else
-    LIB_SYS_LIBS           += GraphicsMagick++ GraphicsMagickWand GraphicsMagick
+    LIB_SYS_LIBS           += CORE_Magick++ CORE_Magick CORE_coders CORE_jbig CORE_jp2 CORE_bzlib CORE_zlib CORE_png CORE_libxml CORE_tiff CORE_webp CORE_lcms CORE_ttf CORE_wmf CORE_filters
+# CORE_wand CORE_Magick
   endif
   # The following system libraries must be installed to use GraphicsMagick
   LIB_SYS_LIBS_Linux    += gomp X11 png12 bz2 Xext freetype 
