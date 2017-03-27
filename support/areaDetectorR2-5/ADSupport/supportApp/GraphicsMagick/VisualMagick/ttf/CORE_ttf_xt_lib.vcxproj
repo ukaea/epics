@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>CORE_ttf</ProjectName>
+    <ProjectGuid>{57CD7F0E-D3C6-4914-83AE-315BA04EA555}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <OmitFramePointers>true</OmitFramePointers>
+      <Optimization>Full</Optimization>
+      <AdditionalIncludeDirectories>..\..;..\..\xlib;..\..\Magick++\lib;..\..\zlib;..\..\bzlib;..\..\jpeg;..\..\lcms\src;..\..\lcms\include;..\..\ttf\include;..\..\webp\src;..\..\webp\src\dec;..\..\webp\src\demux;..\..\webp\src\dsp;..\..\webp\src\enc;..\..\webp\src\mux;..\..\webp\src\utils;..\..\webp\src\webp;..\..\libxml\include;..\..\libxml\include\libxml;..\..\ttf;..\..\ttf\builds;..\..\ttf\builds\windows;..\..\ttf\include;..\..\ttf\src;..\..\ttf\src\autofit;..\..\ttf\src\base;..\..\ttf\src\bdf;..\..\ttf\src\cache;..\..\ttf\src\cff;..\..\ttf\src\cid;..\..\ttf\src\gzip;..\..\ttf\src\lzw;..\..\ttf\src\pcf;..\..\ttf\src\pfr;..\..\ttf\src\psaux;..\..\ttf\src\pshinter;..\..\ttf\src\psnames;..\..\ttf\src\raster;..\..\ttf\src\sfnt;..\..\ttf\src\smooth;..\..\ttf\src\truetype;..\..\ttf\src\type1;..\..\ttf\src\type42;..\..\ttf\src\winfonts;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_LIB;_TTFLIB_;FT2_BUILD_LIBRARY;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Lib>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OmitFramePointers>false</OmitFramePointers>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..;..\..\xlib;..\..\Magick++\lib;..\..\zlib;..\..\bzlib;..\..\jpeg;..\..\lcms\src;..\..\lcms\include;..\..\ttf\include;..\..\webp\src;..\..\webp\src\dec;..\..\webp\src\demux;..\..\webp\src\dsp;..\..\webp\src\enc;..\..\webp\src\mux;..\..\webp\src\utils;..\..\webp\src\webp;..\..\libxml\include;..\..\libxml\include\libxml;..\..\ttf;..\..\ttf\builds;..\..\ttf\builds\windows;..\..\ttf\include;..\..\ttf\src;..\..\ttf\src\autofit;..\..\ttf\src\base;..\..\ttf\src\bdf;..\..\ttf\src\cache;..\..\ttf\src\cff;..\..\ttf\src\cid;..\..\ttf\src\gzip;..\..\ttf\src\lzw;..\..\ttf\src\pcf;..\..\ttf\src\pfr;..\..\ttf\src\psaux;..\..\ttf\src\pshinter;..\..\ttf\src\psnames;..\..\ttf\src\raster;..\..\ttf\src\sfnt;..\..\ttf\src\smooth;..\..\ttf\src\truetype;..\..\ttf\src\type1;..\..\ttf\src\type42;..\..\ttf\src\winfonts;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_LIB;_TTFLIB_;FT2_BUILD_LIBRARY;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Lib>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\ttf\builds\windows\ftdebug.c" />
+    <ClCompile Include="..\..\ttf\src\autofit\autofit.c" />
+    <ClCompile Include="..\..\ttf\src\base\ftbase.c" />
+    <ClCompile Include="..\..\ttf\src\base\ftbbox.c" />
+    <ClCompile Include="..\..\ttf\src\base\ftbitmap.c" />
+    <ClCompile Include="..\..\ttf\src\base\ftfntfmt.c" />
+    <ClCompile Include="..\..\ttf\src\base\ftfstype.c" />
+    <ClCompile Include="..\..\ttf\src\base\ftgasp.c" />
+    <ClCompile Include="..\..\ttf\src\base\ftglyph.c" />
+    <ClCompile Include="..\..\ttf\src\base\ftgxval.c" />
+    <ClCompile Include="..\..\ttf\src\base\ftinit.c" />
+    <ClCompile Include="..\..\ttf\src\base\ftlcdfil.c" />
+    <ClCompile Include="..\..\ttf\src\base\ftmm.c" />
+    <ClCompile Include="..\..\ttf\src\base\ftotval.c" />
+    <ClCompile Include="..\..\ttf\src\base\ftpatent.c" />
+    <ClCompile Include="..\..\ttf\src\base\ftpfr.c" />
+    <ClCompile Include="..\..\ttf\src\base\ftstroke.c" />
+    <ClCompile Include="..\..\ttf\src\base\ftsynth.c" />
+    <ClCompile Include="..\..\ttf\src\base\ftsystem.c" />
+    <ClCompile Include="..\..\ttf\src\base\fttype1.c" />
+    <ClCompile Include="..\..\ttf\src\base\ftwinfnt.c" />
+    <ClCompile Include="..\..\ttf\src\bdf\bdf.c" />
+    <ClCompile Include="..\..\ttf\src\cache\ftcache.c" />
+    <ClCompile Include="..\..\ttf\src\cff\cff.c" />
+    <ClCompile Include="..\..\ttf\src\cid\type1cid.c" />
+    <ClCompile Include="..\..\ttf\src\gzip\ftgzip.c" />
+    <ClCompile Include="..\..\ttf\src\lzw\ftlzw.c" />
+    <ClCompile Include="..\..\ttf\src\pcf\pcf.c" />
+    <ClCompile Include="..\..\ttf\src\pfr\pfr.c" />
+    <ClCompile Include="..\..\ttf\src\psaux\psaux.c" />
+    <ClCompile Include="..\..\ttf\src\pshinter\pshinter.c" />
+    <ClCompile Include="..\..\ttf\src\psnames\psmodule.c" />
+    <ClCompile Include="..\..\ttf\src\raster\raster.c" />
+    <ClCompile Include="..\..\ttf\src\sfnt\sfnt.c" />
+    <ClCompile Include="..\..\ttf\src\smooth\smooth.c" />
+    <ClCompile Include="..\..\ttf\src\truetype\truetype.c" />
+    <ClCompile Include="..\..\ttf\src\type1\type1.c" />
+    <ClCompile Include="..\..\ttf\src\type42\type42.c" />
+    <ClCompile Include="..\..\ttf\src\winfonts\winfnt.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ttf.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\ttf\include\ft2build.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

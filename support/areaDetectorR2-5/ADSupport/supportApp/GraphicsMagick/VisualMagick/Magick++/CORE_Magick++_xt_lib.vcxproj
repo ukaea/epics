@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>CORE_Magick++</ProjectName>
+    <ProjectGuid>{055517C9-0A16-49EB-938A-FF2CFF783B99}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <OmitFramePointers>true</OmitFramePointers>
+      <Optimization>Full</Optimization>
+      <AdditionalIncludeDirectories>..\..;..\..\xlib;..\..\Magick++\lib;..\..\zlib;..\..\bzlib;..\..\jpeg;..\..\lcms\src;..\..\lcms\include;..\..\ttf\include;..\..\webp\src;..\..\webp\src\dec;..\..\webp\src\demux;..\..\webp\src\dsp;..\..\webp\src\enc;..\..\webp\src\mux;..\..\webp\src\utils;..\..\webp\src\webp;..\..\libxml\include;..\..\libxml\include\libxml;..\..\Magick++;..\..\Magick++\demo;..\..\Magick++\lib;..\..\Magick++\lib\Magick++;..\..\Magick++\tests;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_LIB;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Lib>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OmitFramePointers>false</OmitFramePointers>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..;..\..\xlib;..\..\Magick++\lib;..\..\zlib;..\..\bzlib;..\..\jpeg;..\..\lcms\src;..\..\lcms\include;..\..\ttf\include;..\..\webp\src;..\..\webp\src\dec;..\..\webp\src\demux;..\..\webp\src\dsp;..\..\webp\src\enc;..\..\webp\src\mux;..\..\webp\src\utils;..\..\webp\src\webp;..\..\libxml\include;..\..\libxml\include\libxml;..\..\Magick++;..\..\Magick++\demo;..\..\Magick++\lib;..\..\Magick++\lib\Magick++;..\..\Magick++\tests;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_LIB;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Lib>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Magick++\lib\Blob.cpp" />
+    <ClCompile Include="..\..\Magick++\lib\BlobRef.cpp" />
+    <ClCompile Include="..\..\Magick++\lib\CoderInfo.cpp" />
+    <ClCompile Include="..\..\Magick++\lib\Color.cpp" />
+    <ClCompile Include="..\..\Magick++\lib\Drawable.cpp" />
+    <ClCompile Include="..\..\Magick++\lib\Exception.cpp" />
+    <ClCompile Include="..\..\Magick++\lib\Functions.cpp" />
+    <ClCompile Include="..\..\Magick++\lib\Geometry.cpp" />
+    <ClCompile Include="..\..\Magick++\lib\Image.cpp" />
+    <ClCompile Include="..\..\Magick++\lib\ImageRef.cpp" />
+    <ClCompile Include="..\..\Magick++\lib\Montage.cpp" />
+    <ClCompile Include="..\..\Magick++\lib\Options.cpp" />
+    <ClCompile Include="..\..\Magick++\lib\Pixels.cpp" />
+    <ClCompile Include="..\..\Magick++\lib\STL.cpp" />
+    <ClCompile Include="..\..\Magick++\lib\Thread.cpp" />
+    <ClCompile Include="..\..\Magick++\lib\TypeMetric.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Magick++\lib\Magick++\Blob.h" />
+    <ClInclude Include="..\..\Magick++\lib\Magick++\BlobRef.h" />
+    <ClInclude Include="..\..\Magick++\lib\Magick++\CoderInfo.h" />
+    <ClInclude Include="..\..\Magick++\lib\Magick++\Color.h" />
+    <ClInclude Include="..\..\Magick++\lib\Magick++\Drawable.h" />
+    <ClInclude Include="..\..\Magick++\lib\Magick++\Exception.h" />
+    <ClInclude Include="..\..\Magick++\lib\Magick++\Functions.h" />
+    <ClInclude Include="..\..\Magick++\lib\Magick++\Geometry.h" />
+    <ClInclude Include="..\..\Magick++\lib\Magick++\Image.h" />
+    <ClInclude Include="..\..\Magick++\lib\Magick++\ImageRef.h" />
+    <ClInclude Include="..\..\Magick++\lib\Magick++\Include.h" />
+    <ClInclude Include="..\..\Magick++\lib\Magick++\Montage.h" />
+    <ClInclude Include="..\..\Magick++\lib\Magick++\Options.h" />
+    <ClInclude Include="..\..\Magick++\lib\Magick++\Pixels.h" />
+    <ClInclude Include="..\..\Magick++\lib\Magick++\STL.h" />
+    <ClInclude Include="..\..\Magick++\lib\Magick++\Thread.h" />
+    <ClInclude Include="..\..\Magick++\lib\Magick++\TypeMetric.h" />
+    <ClInclude Include="..\..\Magick++\lib\Magick++.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

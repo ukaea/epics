@@ -1,0 +1,188 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>UTIL_IMDisplay</ProjectName>
+    <ProjectGuid>{52432CE5-C700-48CE-9D90-45D5DE17B7F0}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>Static</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>Static</UseOfMfc>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <OmitFramePointers>true</OmitFramePointers>
+      <Optimization>Full</Optimization>
+      <AdditionalIncludeDirectories>..\..\..;..\..\..\xlib;..\..\..\Magick++\lib;..\..\..\;..\..\..\magick;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_MBCS;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>windowscodecs.lib</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OmitFramePointers>false</OmitFramePointers>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\..;..\..\..\xlib;..\..\..\Magick++\lib;..\..\..\;..\..\..\magick;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_MBCS;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>windowscodecs.lib</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\win2k\IMDisplay\ChildFrm.cpp" />
+    <ClCompile Include="..\..\..\win2k\IMDisplay\IMDisplay.cpp" />
+    <ClCompile Include="..\..\..\win2k\IMDisplay\IMDisplayDoc.cpp" />
+    <ClCompile Include="..\..\..\win2k\IMDisplay\IMDisplayView.cpp" />
+    <ClCompile Include="..\..\..\win2k\IMDisplay\MainFrm.cpp" />
+    <ClCompile Include="..\..\..\win2k\IMDisplay\ResizeDialog.cpp" />
+    <ClCompile Include="..\..\..\win2k\IMDisplay\RollDialog.cpp" />
+    <ClCompile Include="..\..\..\win2k\IMDisplay\RotateDialog.cpp" />
+    <ClCompile Include="..\..\..\win2k\IMDisplay\ShearDialog.cpp" />
+    <ClCompile Include="..\..\..\win2k\IMDisplay\StdAfx.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\win2k\IMDisplay\ChildFrm.h" />
+    <ClInclude Include="..\..\..\win2k\IMDisplay\IMDisplay.h" />
+    <ClInclude Include="..\..\..\win2k\IMDisplay\IMDisplayDoc.h" />
+    <ClInclude Include="..\..\..\win2k\IMDisplay\IMDisplayView.h" />
+    <ClInclude Include="..\..\..\win2k\IMDisplay\MainFrm.h" />
+    <ClInclude Include="..\..\..\win2k\IMDisplay\ResizeDialog.h" />
+    <ClInclude Include="..\..\..\win2k\IMDisplay\Resource.h" />
+    <ClInclude Include="..\..\..\win2k\IMDisplay\RollDialog.h" />
+    <ClInclude Include="..\..\..\win2k\IMDisplay\RotateDialog.h" />
+    <ClInclude Include="..\..\..\win2k\IMDisplay\ShearDialog.h" />
+    <ClInclude Include="..\..\..\win2k\IMDisplay\StdAfx.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\..\win2k\IMDisplay\IMDisplay.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\bzlib\CORE_bzlib_xt_lib.vcxproj">
+      <Project>{2bee02cb-bae8-4b48-9d07-4d102a0827bd}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\..\coders\CORE_coders_xt_lib.vcxproj">
+      <Project>{dcfe05fb-91fa-4885-be8c-e3f19d156ac3}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\..\filters\CORE_filters_xt_lib.vcxproj">
+      <Project>{bb4263f7-6587-4d6b-9d8d-610072e7b119}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\..\jbig\CORE_jbig_xt_lib.vcxproj">
+      <Project>{56ed8a40-51a5-49ef-bee1-10a4ef0c11df}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\..\jp2\CORE_jp2_xt_lib.vcxproj">
+      <Project>{8d4d1e05-54b0-4861-a657-3eeafefebbe2}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\..\jpeg\CORE_jpeg_xt_lib.vcxproj">
+      <Project>{d5b667d9-4a72-4ccb-aaf6-8ba2c433edd6}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\..\lcms\CORE_lcms_xt_lib.vcxproj">
+      <Project>{e2b6d5e1-7383-4dca-ba1c-05b8f2c44e4e}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\..\libxml\CORE_libxml_xt_lib.vcxproj">
+      <Project>{8b797ed0-1330-469e-99c8-6d6669921412}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Magick++\CORE_Magick++_xt_lib.vcxproj">
+      <Project>{055517c9-0a16-49eb-938a-ff2cff783b99}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\..\magick\CORE_magick_xt_lib.vcxproj">
+      <Project>{8f881d50-14c0-4d6d-a47a-086c73bb7da3}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\..\png\CORE_png_xt_lib.vcxproj">
+      <Project>{bf6e0ff5-5886-4845-b21d-b82d631bec00}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\..\tiff\CORE_tiff_xt_lib.vcxproj">
+      <Project>{e3c6d871-83ec-4f64-815a-afd9e6b63eda}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ttf\CORE_ttf_xt_lib.vcxproj">
+      <Project>{57cd7f0e-d3c6-4914-83ae-315ba04ea555}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\..\wand\CORE_wand_xt_lib.vcxproj">
+      <Project>{f0eb7b22-ecde-4de3-8caf-ae540635a581}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\..\webp\CORE_webp_xt_lib.vcxproj">
+      <Project>{b483cdc5-37fa-4580-861c-ae28e823781b}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\..\wmf\CORE_wmf_xt_lib.vcxproj">
+      <Project>{d8ce3982-3e41-47a0-9f32-138728b45b6d}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\..\xlib\CORE_xlib_xt_lib.vcxproj">
+      <Project>{f857bc9b-07fc-4d21-b0d2-70d39ec779d4}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\..\zlib\CORE_zlib_xt_lib.vcxproj">
+      <Project>{c4c77088-9772-4f2c-898b-653acb53b11a}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

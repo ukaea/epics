@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{640de621-74d3-43f0-9d4f-b22856f562cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include">
+      <UniqueIdentifier>{529e4dd2-8c8f-4e33-9f84-fe74fdf92dc1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="resource">
+      <UniqueIdentifier>{c59864ab-3cca-4bb3-a581-1dff35dd0677}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\wmf\src\api.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\wmf\src\bbuf.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\wmf\src\meta.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\wmf\src\player.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\wmf\src\recorder.c">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\wmf\src\api.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\wmf\src\bbuf.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\wmf\src\metadefs.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\wmf\src\player.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\wmf\src\recorder.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\wmf\src\wmfdefs.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\wmf\src\xml.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\wmf\wmfconfig.h">
+      <Filter>include</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>CORE_tiff</ProjectName>
+    <ProjectGuid>{E3C6D871-83EC-4F64-815A-AFD9E6B63EDA}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <OmitFramePointers>true</OmitFramePointers>
+      <Optimization>Full</Optimization>
+      <AdditionalIncludeDirectories>..\..;..\..\xlib;..\..\Magick++\lib;..\..\zlib;..\..\bzlib;..\..\jpeg;..\..\lcms\src;..\..\lcms\include;..\..\ttf\include;..\..\webp\src;..\..\webp\src\dec;..\..\webp\src\demux;..\..\webp\src\dsp;..\..\webp\src\enc;..\..\webp\src\mux;..\..\webp\src\utils;..\..\webp\src\webp;..\..\libxml\include;..\..\libxml\include\libxml;..\..\tiff;..\..\tiff\libtiff;..\..\tiff\port;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_LIB;_TIFFLIB_;CHECK_JPEG_YCBCR_SUBSAMPLING;DEFAULT_EXTRASAMPLE_AS_ALPHA;STRIPCHOP_DEFAULT=TIFF_STRIPCHOP;LOGLUV_SUPPORT;NEXT_SUPPORT;THUNDER_SUPPORT;LZW_SUPPORT;PACKBITS_SUPPORT;CCITT_SUPPORT;TIF_PLATFORM_CONSOLE;FILLODER_LSB2MSB;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Lib>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OmitFramePointers>false</OmitFramePointers>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..;..\..\xlib;..\..\Magick++\lib;..\..\zlib;..\..\bzlib;..\..\jpeg;..\..\lcms\src;..\..\lcms\include;..\..\ttf\include;..\..\webp\src;..\..\webp\src\dec;..\..\webp\src\demux;..\..\webp\src\dsp;..\..\webp\src\enc;..\..\webp\src\mux;..\..\webp\src\utils;..\..\webp\src\webp;..\..\libxml\include;..\..\libxml\include\libxml;..\..\tiff;..\..\tiff\libtiff;..\..\tiff\port;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_LIB;_TIFFLIB_;CHECK_JPEG_YCBCR_SUBSAMPLING;DEFAULT_EXTRASAMPLE_AS_ALPHA;STRIPCHOP_DEFAULT=TIFF_STRIPCHOP;LOGLUV_SUPPORT;NEXT_SUPPORT;THUNDER_SUPPORT;LZW_SUPPORT;PACKBITS_SUPPORT;CCITT_SUPPORT;TIF_PLATFORM_CONSOLE;FILLODER_LSB2MSB;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Lib>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\tiff\libtiff\tif_aux.c" />
+    <ClCompile Include="..\..\tiff\libtiff\tif_close.c" />
+    <ClCompile Include="..\..\tiff\libtiff\tif_codec.c" />
+    <ClCompile Include="..\..\tiff\libtiff\tif_color.c" />
+    <ClCompile Include="..\..\tiff\libtiff\tif_compress.c" />
+    <ClCompile Include="..\..\tiff\libtiff\tif_dir.c" />
+    <ClCompile Include="..\..\tiff\libtiff\tif_dirinfo.c" />
+    <ClCompile Include="..\..\tiff\libtiff\tif_dirread.c" />
+    <ClCompile Include="..\..\tiff\libtiff\tif_dirwrite.c" />
+    <ClCompile Include="..\..\tiff\libtiff\tif_dumpmode.c" />
+    <ClCompile Include="..\..\tiff\libtiff\tif_error.c" />
+    <ClCompile Include="..\..\tiff\libtiff\tif_extension.c" />
+    <ClCompile Include="..\..\tiff\libtiff\tif_fax3.c" />
+    <ClCompile Include="..\..\tiff\libtiff\tif_fax3sm.c" />
+    <ClCompile Include="..\..\tiff\libtiff\tif_flush.c" />
+    <ClCompile Include="..\..\tiff\libtiff\tif_getimage.c" />
+    <ClCompile Include="..\..\tiff\libtiff\tif_jbig.c" />
+    <ClCompile Include="..\..\tiff\libtiff\tif_jpeg.c" />
+    <ClCompile Include="..\..\tiff\libtiff\tif_jpeg_12.c" />
+    <ClCompile Include="..\..\tiff\libtiff\tif_luv.c" />
+    <ClCompile Include="..\..\tiff\libtiff\tif_lzma.c" />
+    <ClCompile Include="..\..\tiff\libtiff\tif_lzw.c" />
+    <ClCompile Include="..\..\tiff\libtiff\tif_next.c" />
+    <ClCompile Include="..\..\tiff\libtiff\tif_ojpeg.c" />
+    <ClCompile Include="..\..\tiff\libtiff\tif_open.c" />
+    <ClCompile Include="..\..\tiff\libtiff\tif_packbits.c" />
+    <ClCompile Include="..\..\tiff\libtiff\tif_pixarlog.c" />
+    <ClCompile Include="..\..\tiff\libtiff\tif_predict.c" />
+    <ClCompile Include="..\..\tiff\libtiff\tif_print.c" />
+    <ClCompile Include="..\..\tiff\libtiff\tif_read.c" />
+    <ClCompile Include="..\..\tiff\libtiff\tif_strip.c" />
+    <ClCompile Include="..\..\tiff\libtiff\tif_swab.c" />
+    <ClCompile Include="..\..\tiff\libtiff\tif_thunder.c" />
+    <ClCompile Include="..\..\tiff\libtiff\tif_tile.c" />
+    <ClCompile Include="..\..\tiff\libtiff\tif_unix.c" />
+    <ClCompile Include="..\..\tiff\libtiff\tif_version.c" />
+    <ClCompile Include="..\..\tiff\libtiff\tif_warning.c" />
+    <ClCompile Include="..\..\tiff\libtiff\tif_write.c" />
+    <ClCompile Include="..\..\tiff\libtiff\tif_zip.c" />
+    <ClCompile Include="..\..\tiff\port\snprintf.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\tiff\libtiff\libtiff.def" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="tiff.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\tiff\libtiff\t4.h" />
+    <ClInclude Include="..\..\tiff\libtiff\tiff.h" />
+    <ClInclude Include="..\..\tiff\libtiff\tiffconf.h" />
+    <ClInclude Include="..\..\tiff\libtiff\tiffconf.vc.h" />
+    <ClInclude Include="..\..\tiff\libtiff\tiffconf.wince.h" />
+    <ClInclude Include="..\..\tiff\libtiff\tiffio.h" />
+    <ClInclude Include="..\..\tiff\libtiff\tiffiop.h" />
+    <ClInclude Include="..\..\tiff\libtiff\tiffvers.h" />
+    <ClInclude Include="..\..\tiff\libtiff\tif_config.h" />
+    <ClInclude Include="..\..\tiff\libtiff\tif_config.vc.h" />
+    <ClInclude Include="..\..\tiff\libtiff\tif_config.wince.h" />
+    <ClInclude Include="..\..\tiff\libtiff\tif_dir.h" />
+    <ClInclude Include="..\..\tiff\libtiff\tif_fax3.h" />
+    <ClInclude Include="..\..\tiff\libtiff\tif_predict.h" />
+    <ClInclude Include="..\..\tiff\libtiff\uvcode.h" />
+    <ClInclude Include="..\..\tiff\port\libport.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

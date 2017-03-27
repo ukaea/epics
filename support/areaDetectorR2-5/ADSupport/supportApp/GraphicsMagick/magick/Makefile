@@ -1,0 +1,96 @@
+TOP = ../../..
+include $(TOP)/configure/CONFIG
+
+LIBRARY = CORE_Magick
+
+USR_CFLAGS_WIN32 += -DWIN32
+USR_CFLAGS_WIN32 += -D_VISUALC_
+
+USR_CFLAGS += -DNeedFunctionPrototypes
+USR_CFLAGS += -D_MAGICKLIB_
+
+USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick
+
+LIB_SRCS += analyze.c
+LIB_SRCS += animate.c
+LIB_SRCS += annotate.c
+LIB_SRCS += attribute.c
+LIB_SRCS += average.c
+LIB_SRCS += bit_stream.c
+LIB_SRCS += blob.c
+LIB_SRCS += cdl.c
+LIB_SRCS += channel.c
+LIB_SRCS += color.c
+LIB_SRCS += colormap.c
+LIB_SRCS += colorspace.c
+LIB_SRCS += color_lookup.c
+LIB_SRCS += command.c
+LIB_SRCS += compare.c
+LIB_SRCS += composite.c
+LIB_SRCS += compress.c
+LIB_SRCS += confirm_access.c
+LIB_SRCS += constitute.c
+LIB_SRCS += decorate.c
+LIB_SRCS += delegate.c
+LIB_SRCS += deprecate.c
+LIB_SRCS += describe.c
+LIB_SRCS += display.c
+LIB_SRCS += draw.c
+LIB_SRCS += effect.c
+LIB_SRCS += enhance.c
+LIB_SRCS += enum_strings.c
+LIB_SRCS += error.c
+LIB_SRCS += export.c
+LIB_SRCS += floats.c
+LIB_SRCS += fx.c
+LIB_SRCS += gem.c
+LIB_SRCS += gradient.c
+LIB_SRCS += hclut.c
+LIB_SRCS += image.c
+LIB_SRCS += import.c
+LIB_SRCS += list.c
+LIB_SRCS += locale.c
+LIB_SRCS += log.c
+LIB_SRCS += magic.c
+LIB_SRCS += magick.c
+LIB_SRCS += magick_endian.c
+LIB_SRCS += map.c
+LIB_SRCS += memory.c
+LIB_SRCS += module.c
+LIB_SRCS += monitor.c
+LIB_SRCS += montage.c
+LIB_SRCS += nt_base.c
+LIB_SRCS += nt_feature.c
+LIB_SRCS += omp_data_view.c
+LIB_SRCS += operator.c
+LIB_SRCS += paint.c
+LIB_SRCS += pixel_cache.c
+LIB_SRCS += pixel_iterator.c
+LIB_SRCS += plasma.c
+LIB_SRCS += PreRvIcccm.c
+LIB_SRCS += profile.c
+LIB_SRCS += quantize.c
+LIB_SRCS += random.c
+LIB_SRCS += registry.c
+LIB_SRCS += render.c
+LIB_SRCS += resize.c
+LIB_SRCS += resource.c
+LIB_SRCS += segment.c
+LIB_SRCS += semaphore.c
+LIB_SRCS += shear.c
+LIB_SRCS += signature.c
+LIB_SRCS += static.c
+LIB_SRCS += statistics.c
+LIB_SRCS += tempfile.c
+LIB_SRCS += texture.c
+LIB_SRCS += timer.c
+LIB_SRCS += transform.c
+LIB_SRCS += tsd.c
+LIB_SRCS += type.c
+LIB_SRCS += unix_port.c
+LIB_SRCS += utility.c
+LIB_SRCS += version.c
+LIB_SRCS += widget.c
+LIB_SRCS += xwindow.c
+
+include $(TOP)/configure/RULES

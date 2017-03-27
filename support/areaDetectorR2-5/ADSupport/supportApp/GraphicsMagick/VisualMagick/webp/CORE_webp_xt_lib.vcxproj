@@ -1,0 +1,226 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>CORE_webp</ProjectName>
+    <ProjectGuid>{B483CDC5-37FA-4580-861C-AE28E823781B}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <OmitFramePointers>true</OmitFramePointers>
+      <Optimization>Full</Optimization>
+      <AdditionalIncludeDirectories>..\..;..\..\xlib;..\..\Magick++\lib;..\..\zlib;..\..\bzlib;..\..\jpeg;..\..\lcms\src;..\..\lcms\include;..\..\ttf\include;..\..\webp\src;..\..\webp\src\dec;..\..\webp\src\demux;..\..\webp\src\dsp;..\..\webp\src\enc;..\..\webp\src\mux;..\..\webp\src\utils;..\..\webp\src\webp;..\..\libxml\include;..\..\libxml\include\libxml;..\..\webp;..\..\webp\src;..\..\webp\src\dec;..\..\webp\src\demux;..\..\webp\src\dsp;..\..\webp\src\enc;..\..\webp\src\mux;..\..\webp\src\utils;..\..\webp\src\webp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_LIB;_WEBPLIB_;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Lib>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OmitFramePointers>false</OmitFramePointers>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..;..\..\xlib;..\..\Magick++\lib;..\..\zlib;..\..\bzlib;..\..\jpeg;..\..\lcms\src;..\..\lcms\include;..\..\ttf\include;..\..\webp\src;..\..\webp\src\dec;..\..\webp\src\demux;..\..\webp\src\dsp;..\..\webp\src\enc;..\..\webp\src\mux;..\..\webp\src\utils;..\..\webp\src\webp;..\..\libxml\include;..\..\libxml\include\libxml;..\..\webp;..\..\webp\src;..\..\webp\src\dec;..\..\webp\src\demux;..\..\webp\src\dsp;..\..\webp\src\enc;..\..\webp\src\mux;..\..\webp\src\utils;..\..\webp\src\webp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_LIB;_WEBPLIB_;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Lib>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\webp\src\dec\alpha.c" />
+    <ClCompile Include="..\..\webp\src\dec\buffer.c" />
+    <ClCompile Include="..\..\webp\src\dec\frame.c" />
+    <ClCompile Include="..\..\webp\src\dec\idec.c" />
+    <ClCompile Include="..\..\webp\src\dec\io.c" />
+    <ClCompile Include="..\..\webp\src\dec\quant.c" />
+    <ClCompile Include="..\..\webp\src\dec\tree.c" />
+    <ClCompile Include="..\..\webp\src\dec\vp8.c" />
+    <ClCompile Include="..\..\webp\src\dec\vp8l.c" />
+    <ClCompile Include="..\..\webp\src\dec\webp.c" />
+    <ClCompile Include="..\..\webp\src\demux\anim_decode.c" />
+    <ClCompile Include="..\..\webp\src\demux\demux.c" />
+    <ClCompile Include="..\..\webp\src\dsp\alpha_processing.c" />
+    <ClCompile Include="..\..\webp\src\dsp\alpha_processing_mips_dsp_r2.c" />
+    <ClCompile Include="..\..\webp\src\dsp\alpha_processing_sse2.c" />
+    <ClCompile Include="..\..\webp\src\dsp\alpha_processing_sse41.c" />
+    <ClCompile Include="..\..\webp\src\dsp\argb.c" />
+    <ClCompile Include="..\..\webp\src\dsp\argb_mips_dsp_r2.c" />
+    <ClCompile Include="..\..\webp\src\dsp\argb_sse2.c" />
+    <ClCompile Include="..\..\webp\src\dsp\cost.c" />
+    <ClCompile Include="..\..\webp\src\dsp\cost_mips32.c" />
+    <ClCompile Include="..\..\webp\src\dsp\cost_mips_dsp_r2.c" />
+    <ClCompile Include="..\..\webp\src\dsp\cost_sse2.c" />
+    <ClCompile Include="..\..\webp\src\dsp\cpu.c" />
+    <ClCompile Include="..\..\webp\src\dsp\dec.c" />
+    <ClCompile Include="..\..\webp\src\dsp\dec_clip_tables.c" />
+    <ClCompile Include="..\..\webp\src\dsp\dec_mips32.c" />
+    <ClCompile Include="..\..\webp\src\dsp\dec_mips_dsp_r2.c" />
+    <ClCompile Include="..\..\webp\src\dsp\dec_msa.c" />
+    <ClCompile Include="..\..\webp\src\dsp\dec_neon.c" />
+    <ClCompile Include="..\..\webp\src\dsp\dec_sse2.c" />
+    <ClCompile Include="..\..\webp\src\dsp\dec_sse41.c" />
+    <ClCompile Include="..\..\webp\src\dsp\enc.c" />
+    <ClCompile Include="..\..\webp\src\dsp\enc_avx2.c" />
+    <ClCompile Include="..\..\webp\src\dsp\enc_mips32.c" />
+    <ClCompile Include="..\..\webp\src\dsp\enc_mips_dsp_r2.c" />
+    <ClCompile Include="..\..\webp\src\dsp\enc_neon.c" />
+    <ClCompile Include="..\..\webp\src\dsp\enc_sse2.c" />
+    <ClCompile Include="..\..\webp\src\dsp\enc_sse41.c" />
+    <ClCompile Include="..\..\webp\src\dsp\filters.c" />
+    <ClCompile Include="..\..\webp\src\dsp\filters_mips_dsp_r2.c" />
+    <ClCompile Include="..\..\webp\src\dsp\filters_sse2.c" />
+    <ClCompile Include="..\..\webp\src\dsp\lossless.c" />
+    <ClCompile Include="..\..\webp\src\dsp\lossless_enc.c" />
+    <ClCompile Include="..\..\webp\src\dsp\lossless_enc_mips32.c" />
+    <ClCompile Include="..\..\webp\src\dsp\lossless_enc_mips_dsp_r2.c" />
+    <ClCompile Include="..\..\webp\src\dsp\lossless_enc_neon.c" />
+    <ClCompile Include="..\..\webp\src\dsp\lossless_enc_sse2.c" />
+    <ClCompile Include="..\..\webp\src\dsp\lossless_enc_sse41.c" />
+    <ClCompile Include="..\..\webp\src\dsp\lossless_mips_dsp_r2.c" />
+    <ClCompile Include="..\..\webp\src\dsp\lossless_neon.c" />
+    <ClCompile Include="..\..\webp\src\dsp\lossless_sse2.c" />
+    <ClCompile Include="..\..\webp\src\dsp\rescaler.c" />
+    <ClCompile Include="..\..\webp\src\dsp\rescaler_mips32.c" />
+    <ClCompile Include="..\..\webp\src\dsp\rescaler_mips_dsp_r2.c" />
+    <ClCompile Include="..\..\webp\src\dsp\rescaler_neon.c" />
+    <ClCompile Include="..\..\webp\src\dsp\rescaler_sse2.c" />
+    <ClCompile Include="..\..\webp\src\dsp\upsampling.c" />
+    <ClCompile Include="..\..\webp\src\dsp\upsampling_mips_dsp_r2.c" />
+    <ClCompile Include="..\..\webp\src\dsp\upsampling_neon.c" />
+    <ClCompile Include="..\..\webp\src\dsp\upsampling_sse2.c" />
+    <ClCompile Include="..\..\webp\src\dsp\yuv.c" />
+    <ClCompile Include="..\..\webp\src\dsp\yuv_mips32.c" />
+    <ClCompile Include="..\..\webp\src\dsp\yuv_mips_dsp_r2.c" />
+    <ClCompile Include="..\..\webp\src\dsp\yuv_sse2.c" />
+    <ClCompile Include="..\..\webp\src\enc\alpha.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)alpha.2.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)alpha.2.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\webp\src\enc\analysis.c" />
+    <ClCompile Include="..\..\webp\src\enc\backward_references.c" />
+    <ClCompile Include="..\..\webp\src\enc\config.c" />
+    <ClCompile Include="..\..\webp\src\enc\cost.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)cost.2.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)cost.2.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\webp\src\enc\delta_palettization.c" />
+    <ClCompile Include="..\..\webp\src\enc\filter.c" />
+    <ClCompile Include="..\..\webp\src\enc\frame.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)frame.2.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)frame.2.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\webp\src\enc\histogram.c" />
+    <ClCompile Include="..\..\webp\src\enc\iterator.c" />
+    <ClCompile Include="..\..\webp\src\enc\near_lossless.c" />
+    <ClCompile Include="..\..\webp\src\enc\picture.c" />
+    <ClCompile Include="..\..\webp\src\enc\picture_csp.c" />
+    <ClCompile Include="..\..\webp\src\enc\picture_psnr.c" />
+    <ClCompile Include="..\..\webp\src\enc\picture_rescale.c" />
+    <ClCompile Include="..\..\webp\src\enc\picture_tools.c" />
+    <ClCompile Include="..\..\webp\src\enc\quant.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)quant.2.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)quant.2.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\webp\src\enc\syntax.c" />
+    <ClCompile Include="..\..\webp\src\enc\token.c" />
+    <ClCompile Include="..\..\webp\src\enc\tree.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)tree.2.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)tree.2.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\webp\src\enc\vp8l.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)vp8l.2.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)vp8l.2.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\webp\src\enc\webpenc.c" />
+    <ClCompile Include="..\..\webp\src\mux\anim_encode.c" />
+    <ClCompile Include="..\..\webp\src\mux\muxedit.c" />
+    <ClCompile Include="..\..\webp\src\mux\muxinternal.c" />
+    <ClCompile Include="..\..\webp\src\mux\muxread.c" />
+    <ClCompile Include="..\..\webp\src\utils\bit_reader.c" />
+    <ClCompile Include="..\..\webp\src\utils\bit_writer.c" />
+    <ClCompile Include="..\..\webp\src\utils\color_cache.c" />
+    <ClCompile Include="..\..\webp\src\utils\filters.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)filters.2.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)filters.2.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\webp\src\utils\huffman.c" />
+    <ClCompile Include="..\..\webp\src\utils\huffman_encode.c" />
+    <ClCompile Include="..\..\webp\src\utils\quant_levels.c" />
+    <ClCompile Include="..\..\webp\src\utils\quant_levels_dec.c" />
+    <ClCompile Include="..\..\webp\src\utils\random.c" />
+    <ClCompile Include="..\..\webp\src\utils\rescaler.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)rescaler.2.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)rescaler.2.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\webp\src\utils\thread.c" />
+    <ClCompile Include="..\..\webp\src\utils\utils.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\webp\src\dec\common.h" />
+    <ClInclude Include="..\..\webp\src\dsp\common_sse2.h" />
+    <ClInclude Include="..\..\webp\src\dsp\mips_macro.h" />
+    <ClInclude Include="..\..\webp\src\dsp\msa_macro.h" />
+    <ClInclude Include="..\..\webp\src\enc\delta_palettization.h" />
+    <ClInclude Include="..\..\webp\src\webp\decode.h" />
+    <ClInclude Include="..\..\webp\src\webp\demux.h" />
+    <ClInclude Include="..\..\webp\src\webp\encode.h" />
+    <ClInclude Include="..\..\webp\src\webp\extras.h" />
+    <ClInclude Include="..\..\webp\src\webp\mux.h" />
+    <ClInclude Include="..\..\webp\src\webp\mux_types.h" />
+    <ClInclude Include="..\..\webp\src\webp\types.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

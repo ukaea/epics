@@ -1,0 +1,104 @@
+#ifdef COPYRIGHT
+;
+; Copyright (C) 2003 - 2011 GraphicsMagick Group
+;
+; This program is covered by multiple licenses, which are described in
+; Copyright.txt. You should have received a copy of Copyright.txt with this
+; package; otherwise see http://www.graphicsmagick.org/www/Copyright.html.
+;
+#endif
+
+#ifdef MagickStaticPackage
+  #define MagickPackageType "static"
+  #define MagickAppDirectory "{app}"
+  #define MagickLibDirectory "{app}"
+  #define MagickConfigDirectory "{app}"
+#else
+  #define MagickPackageType "dll"
+  #define MagickAppDirectory "{app}"
+  #define MagickLibDirectory "{app}"
+  #define MagickConfigDirectory "{app}"
+  #define MagickCodersDirectory "{app}"
+  #define MagickFiltersDirectory "{app}"
+#endif
+
+#include "version.isx"
+
+[Setup]
+#include "setup.isx"
+
+; Optional Tasks
+[Tasks]
+#ifdef MSVCProprietary
+  #include "tasks-desktopicon.isx"
+#endif
+#include "tasks-update-path.isx"
+#ifdef MSVCProprietary
+  #include "tasks-extensions.isx"
+#endif
+#ifdef MagickDynamicPackage
+; Checkbox item to include development headers and libraries
+;  #include "tasks-install-devel.isx"
+;
+; Checkbox item to install PerlMagick
+  #if InstallPerlMagick
+    #include "tasks-install-perlmagick.isx"
+  #endif
+#endif
+#ifdef MSVCProprietary
+  #include "tasks-install-com.isx"
+#endif
+
+; Windows registry settings
+[Registry]
+#include "registry-application.isx"
+#ifdef MSVCProprietary
+  #include "registry-associations.isx"
+#endif
+
+[Files]
+#include "files-base.isx"
+#include "files-configs.isx"
+#include "files-documentation.isx"
+#include "files-licenses.isx"
+#ifdef MagickDynamicPackage
+; Install DLLs
+  #include "files-dlls.isx"
+;
+; Install PerlMagick
+  #if InstallPerlMagick
+    #include "files-perlmagick.isx"
+  #endif
+;
+; Install development headers and libraries
+;  #include "files-development.isx"
+#endif
+#ifdef MSVCProprietary
+  #include "files-com.isx"
+#endif
+
+[Icons]
+#include "icons-associate.isx"
+
+[Run]
+#include "run-pathtool.isx"
+
+#ifdef MagickDynamicPackage
+  #if InstallPerlMagick
+    #include "run-ppm.isx"
+  #endif
+#endif
+#ifdef MSVCProprietary
+  #include "run-register-com.isx"
+#endif
+
+[UninstallRun]
+#include "uninstallrun-pathtool.isx"
+#ifdef MagickDynamicPackage
+  #if InstallPerlMagick
+    #include "uninstallrun-ppm.isx"
+  #endif
+#endif
+#ifdef MSVCProprietary
+  #include "uninstallrun-unregister-com.isx"
+#endif

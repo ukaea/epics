@@ -1,6 +1,6 @@
 TOP = ../../..
 include $(TOP)/configure/CONFIG
 
-include Makefile.am
+DIRS += src
 
 include $(TOP)/configure/RULES_DIRS
