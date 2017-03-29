@@ -18,7 +18,7 @@ SRC = $(TTF)/src
 include $(SRC)/autofit/Makefile
 include $(SRC)/base/Makefile
 include $(SRC)/cache/Makefile
-include $(SRC)/gzip/Makefile
+#include $(SRC)/gzip/Makefile
 include $(SRC)/lzw/Makefile
 include $(SRC)/pcf/Makefile
 include $(SRC)/pfr/Makefile

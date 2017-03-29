@@ -8,6 +8,13 @@ include $(TOP)/configure/CONFIG
 ifeq ($(WITH_GRAPHICSMAGICK),YES)
   ifeq ($(GRAPHICSMAGICK_EXTERNAL),NO)
 
+    DIRS += filters
+    DIRS += wmf
+    DIRS += webp
+    DIRS += png
+    DIRS += jp2
+    DIRS += jbig
+    DIRS += coders
     DIRS += lcms
     DIRS += bzlib
     DIRS += ttf

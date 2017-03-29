@@ -10,6 +10,9 @@ ifeq ($(WITH_GRAPHICSMAGICK), YES)
   PROD_IOC_cygwin32 += $(PROD_NAME)
   PROD_IOC_Darwin   += $(PROD_NAME)
 
+  USR_CXXFLAGS_WIN32 += -DWIN32
+  USR_CXXFLAGS_WIN32 += -D_VISUALC_
+
   # <name>.dbd will be created from <name>Include.dbd
   DBD += $(PROD_NAME).dbd
   $(PROD_NAME)_DBD += URLDriverSupport.dbd

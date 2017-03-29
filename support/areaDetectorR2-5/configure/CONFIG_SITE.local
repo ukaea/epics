@@ -71,8 +71,8 @@ SZIP_EXTERNAL = NO
 #SZIP_LIB     =
 
 # TIFF is required for the NDFileTIFF plugin.
-WITH_TIFF     = NO
-TIFF_EXTERNAL = YES
+WITH_TIFF     = YES
+TIFF_EXTERNAL = NO
 #TIFF_INCLUDE =
 #TIFF_LIB     =
 
