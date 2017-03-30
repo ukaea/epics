@@ -12,7 +12,7 @@ USR_CFLAGS += -DFT2_BUILD_LIBRARY
 
 TTF = $(TOP)/supportApp/GraphicsMagick/ttf
 
-USR_INCLUDES += -I$(TTF)/inc
+USR_INCLUDES += -I$(TTF)/include
 SRC = $(TTF)/src
 
 include $(SRC)/autofit/Makefile

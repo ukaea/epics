@@ -11,6 +11,7 @@ USR_CFLAGS += -D_MAGICKLIB_
 
 USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick
 USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick/lcms/include
+USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick/ttf/include
 
 ifeq ($(SHARED_LIBRARIES),YES)
   USR_CFLAGS_WIN32 += -D_DLL
