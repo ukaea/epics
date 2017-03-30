@@ -17,8 +17,8 @@ endif
 
 USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick
 USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick/wmf
-USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick/wmf/inc
-USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick/ttf/inc
+USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick/wmf/include
+USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick/ttf/include
 
 LIB_SRCS += api.c
 LIB_SRCS += bbuf.c

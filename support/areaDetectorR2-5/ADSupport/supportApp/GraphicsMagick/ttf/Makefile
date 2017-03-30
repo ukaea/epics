@@ -2,7 +2,7 @@ TOP = ../../..
 include $(TOP)/configure/CONFIG
 
 DIRS += builds
-DIRS += inc
+#DIRS += include
 DIRS += src
 
 include $(TOP)/configure/RULES_DIRS

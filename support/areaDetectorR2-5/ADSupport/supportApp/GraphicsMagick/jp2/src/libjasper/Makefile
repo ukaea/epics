@@ -26,9 +26,8 @@ USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick
 
 LIBJASPER = $(TOP)/supportApp/GraphicsMagick/jp2/src/libJasper
 
-USR_INCLUDES += -I$(LIBJASPER)/inc
+USR_INCLUDES += -I$(LIBJASPER)/include
 
-#include $(LIBJASPER)/inc/Makefile
 include $(LIBJASPER)/base/Makefile
 include $(LIBJASPER)/jp2/Makefile
 include $(LIBJASPER)/jpc/Makefile

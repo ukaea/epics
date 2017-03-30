@@ -16,12 +16,12 @@ endif
 
 USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick
 USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick/jbig/libjbig
-USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick/jp2/src/libjasper/inc
+USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick/jp2/src/libjasper/include
 USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick/bzlib
 USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick/png
 USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick/webp/src
-USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick/ttf/inc
-USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick/wmf/inc
+USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick/ttf/include
+USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick/wmf/include
 
 LIB_SRCS += art.c
 LIB_SRCS += avi.c

@@ -15,7 +15,7 @@ else
   USR_CFLAGS_WIN32 += -D_LIB
 endif
 
-USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick/lcms/inc
+USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick/lcms/include
 
 LIB_SRCS += cmsalpha.c
 LIB_SRCS += cmscam02.c

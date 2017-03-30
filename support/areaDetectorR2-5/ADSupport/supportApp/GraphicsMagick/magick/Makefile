@@ -10,7 +10,7 @@ USR_CFLAGS += -DNeedFunctionPrototypes
 USR_CFLAGS += -D_MAGICKLIB_
 
 USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick
-USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick/lcms/inc
+USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick/lcms/include
 
 ifeq ($(SHARED_LIBRARIES),YES)
   USR_CFLAGS_WIN32 += -D_DLL
