@@ -11,7 +11,24 @@ USR_CXXFLAGS += -DNeedFunctionPrototypes
 USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick
 USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick/lcms/inc
 
-# INC += Magick++.h
+INC += Magick++.h
+INC += Magick++/Include.h
+INC += Magick++/Image.h
+INC += Magick++/Pixels.h
+INC += Magick++/STL.h
+INC += Magick++/Blob.h
+INC += Magick++/Color.h
+INC += Magick++/Drawable.h
+INC += Magick++/BlobRef.h
+INC += Magick++/CoderInfo.h
+INC += Magick++/Exception.h
+INC += Magick++/Geometry.h
+INC += Magick++/ImageRef.h
+INC += Magick++/Functions.h
+INC += Magick++/Montage.h
+INC += Magick++/Options.h
+INC += Magick++/Thread.h
+INC += Magick++/TypeMetric.h
 
 LIB_SRCS += Blob.cpp
 LIB_SRCS += BlobRef.cpp

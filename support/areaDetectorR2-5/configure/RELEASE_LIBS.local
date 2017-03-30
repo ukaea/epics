@@ -18,7 +18,6 @@ ASYN=$(SUPPORT)/asyn
 
 # ADSupport is needed by ADCore plugins
 ADSUPPORT = $(AREA_DETECTOR)/ADSupport
-ADBINARIES=$(AREA_DETECTOR)/ADBinaries
 
 # ADCORE for base classes and plugins
 ADCORE=$(AREA_DETECTOR)/ADCore

@@ -11,6 +11,7 @@ USR_CXXFLAGS += -DNeedFunctionPrototypes
 
 USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick
 USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick/wmf/inc
+USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick/ttf/inc
 
 LIB_SRCS += api.c
 LIB_SRCS += bbuf.c

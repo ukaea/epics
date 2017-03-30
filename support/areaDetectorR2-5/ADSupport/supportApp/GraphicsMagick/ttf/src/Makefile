@@ -34,6 +34,8 @@ include $(SRC)/type1/Makefile
 include $(SRC)/cid/Makefile
 include $(SRC)/type42/Makefile
 include $(SRC)/winfonts/Makefile
+include $(SRC)/bdf/Makefile
+include $(SRC)/cff/Makefile
 
 # LIB_RCS = ttf.rc
 # D:\downloads\GraphicsMagick\GraphicsMagick-1.3.25\VisualMagick\ttf\ttf.rc

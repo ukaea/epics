@@ -1,18 +1,8 @@
-TOP = ../../../../..
-include $(TOP)/configure/CONFIG
+# This is a Makefile fragment (dsp), see webp/src
 
-LIBRARY = CORE_webp
+SRC_DIRS += $(WEBPSRC)/dsp
 
-USR_CFLAGS_WIN32 += -DWIN32
-USR_CFLAGS_WIN32 += -D_VISUALC_
-
-USR_CFLAGS += -DNeedFunctionPrototypes
-USR_CFLAGS += -D_MAGICKLIB_
-USR_CFLAGS += -D_WEBPLIB_
-
-USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick
-
-LIB_SRCS += rescaler.c
+LIB_SRCS += rescalerdsp.c
 LIB_SRCS += rescaler_mips32.c
 LIB_SRCS += rescaler_mips_dsp_r2.c
 LIB_SRCS += rescaler_neon.c
@@ -27,7 +17,7 @@ LIB_SRCS += lossless_enc_sse41.c
 LIB_SRCS += lossless_mips_dsp_r2.c
 LIB_SRCS += lossless_neon.c
 LIB_SRCS += lossless_sse2.c
-LIB_SRCS += filters.c
+LIB_SRCS += filtersdsp.c
 LIB_SRCS += filters_mips_dsp_r2.c
 LIB_SRCS += filters_sse2.c
 LIB_SRCS += enc.c
@@ -37,7 +27,7 @@ LIB_SRCS += enc_mips_dsp_r2.c
 LIB_SRCS += enc_neon.c
 LIB_SRCS += enc_sse2.c
 LIB_SRCS += enc_sse41.c
-LIB_SRCS += cost.c
+LIB_SRCS += costdsp.c
 LIB_SRCS += cost_mips32.c
 LIB_SRCS += cost_mips_dsp_r2.c
 LIB_SRCS += cost_sse2.c
@@ -65,5 +55,3 @@ LIB_SRCS += yuv.c
 LIB_SRCS += yuv_mips32.c
 LIB_SRCS += yuv_mips_dsp_r2.c
 LIB_SRCS += yuv_sse2.c
-
-include $(TOP)/configure/RULES

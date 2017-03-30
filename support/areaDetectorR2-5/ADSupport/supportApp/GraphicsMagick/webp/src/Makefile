@@ -7,16 +7,18 @@ USR_CFLAGS_WIN32 += -DWIN32
 USR_CFLAGS_WIN32 += -D_VISUALC_
 
 USR_CFLAGS += -DNeedFunctionPrototypes
-USR_CFLAGS += -D_MAGICKLIB_
 USR_CFLAGS += -D_WEBPLIB_
 
 USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick
 
-DIRS += dec
-DIRS += demux
-DIRS += dsp
-DIRS += enc
-DIRS += mux
-DIRS += utils
+WEBP = $(TOP)/supportApp/GraphicsMagick/webp
+WEBPSRC = $(WEBP)/src
 
-include $(TOP)/configure/RULES_DIRS
+include $(WEBPSRC)/dec/Makefile
+include $(WEBPSRC)/demux/Makefile
+include $(WEBPSRC)/dsp/Makefile
+include $(WEBPSRC)/enc/Makefile
+include $(WEBPSRC)/mux/Makefile
+include $(WEBPSRC)/utils/Makefile
+
+include $(TOP)/configure/RULES
