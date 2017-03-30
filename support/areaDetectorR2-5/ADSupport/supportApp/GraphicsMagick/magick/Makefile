@@ -12,6 +12,12 @@ USR_CFLAGS += -D_MAGICKLIB_
 USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick
 USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick/lcms/inc
 
+ifeq ($(SHARED_LIBRARIES),YES)
+  USR_CFLAGS_WIN32 += -D_DLL
+else
+  USR_CFLAGS_WIN32 += -D_LIB
+endif
+
 # Here overriding the default header file install location.
 # This allows Magick++ headers files (at $(INSTALL_LOCATION)/include/Magick++) to
 # include magick header files at relative path e.g. "magick/magick_config.h

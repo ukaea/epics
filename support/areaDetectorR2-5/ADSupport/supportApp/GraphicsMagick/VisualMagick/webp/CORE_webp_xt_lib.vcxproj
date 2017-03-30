@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="Debug|Win32">
-      <Configuration>Debug</Configuration>
+    <ProjectConfiguration Include="Debug_LIB|Win32">
+      <Configuration>Debug_LIB</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|Win32">
-      <Configuration>Release</Configuration>
+    <ProjectConfiguration Include="Release_LIB|Win32">
+      <Configuration>Release_LIB</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
@@ -16,26 +16,26 @@
     <Keyword>Win32Proj</Keyword>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
   </PropertyGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <PrecompiledHeader>
@@ -56,7 +56,7 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
     </Lib>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <PrecompiledHeader>
@@ -144,21 +144,21 @@
     <ClCompile Include="..\..\webp\src\dsp\yuv_mips_dsp_r2.c" />
     <ClCompile Include="..\..\webp\src\dsp\yuv_sse2.c" />
     <ClCompile Include="..\..\webp\src\enc\alpha.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)alpha.2.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)alpha.2.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">$(IntDir)alpha.2.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">$(IntDir)alpha.2.obj</ObjectFileName>
     </ClCompile>
     <ClCompile Include="..\..\webp\src\enc\analysis.c" />
     <ClCompile Include="..\..\webp\src\enc\backward_references.c" />
     <ClCompile Include="..\..\webp\src\enc\config.c" />
     <ClCompile Include="..\..\webp\src\enc\cost.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)cost.2.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)cost.2.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">$(IntDir)cost.2.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">$(IntDir)cost.2.obj</ObjectFileName>
     </ClCompile>
     <ClCompile Include="..\..\webp\src\enc\delta_palettization.c" />
     <ClCompile Include="..\..\webp\src\enc\filter.c" />
     <ClCompile Include="..\..\webp\src\enc\frame.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)frame.2.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)frame.2.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">$(IntDir)frame.2.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">$(IntDir)frame.2.obj</ObjectFileName>
     </ClCompile>
     <ClCompile Include="..\..\webp\src\enc\histogram.c" />
     <ClCompile Include="..\..\webp\src\enc\iterator.c" />
@@ -169,18 +169,18 @@
     <ClCompile Include="..\..\webp\src\enc\picture_rescale.c" />
     <ClCompile Include="..\..\webp\src\enc\picture_tools.c" />
     <ClCompile Include="..\..\webp\src\enc\quant.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)quant.2.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)quant.2.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">$(IntDir)quant.2.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">$(IntDir)quant.2.obj</ObjectFileName>
     </ClCompile>
     <ClCompile Include="..\..\webp\src\enc\syntax.c" />
     <ClCompile Include="..\..\webp\src\enc\token.c" />
     <ClCompile Include="..\..\webp\src\enc\tree.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)tree.2.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)tree.2.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">$(IntDir)tree.2.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">$(IntDir)tree.2.obj</ObjectFileName>
     </ClCompile>
     <ClCompile Include="..\..\webp\src\enc\vp8l.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)vp8l.2.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)vp8l.2.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">$(IntDir)vp8l.2.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">$(IntDir)vp8l.2.obj</ObjectFileName>
     </ClCompile>
     <ClCompile Include="..\..\webp\src\enc\webpenc.c" />
     <ClCompile Include="..\..\webp\src\mux\anim_encode.c" />
@@ -191,8 +191,8 @@
     <ClCompile Include="..\..\webp\src\utils\bit_writer.c" />
     <ClCompile Include="..\..\webp\src\utils\color_cache.c" />
     <ClCompile Include="..\..\webp\src\utils\filters.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)filters.2.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)filters.2.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">$(IntDir)filters.2.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">$(IntDir)filters.2.obj</ObjectFileName>
     </ClCompile>
     <ClCompile Include="..\..\webp\src\utils\huffman.c" />
     <ClCompile Include="..\..\webp\src\utils\huffman_encode.c" />
@@ -200,8 +200,8 @@
     <ClCompile Include="..\..\webp\src\utils\quant_levels_dec.c" />
     <ClCompile Include="..\..\webp\src\utils\random.c" />
     <ClCompile Include="..\..\webp\src\utils\rescaler.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)rescaler.2.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)rescaler.2.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">$(IntDir)rescaler.2.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">$(IntDir)rescaler.2.obj</ObjectFileName>
     </ClCompile>
     <ClCompile Include="..\..\webp\src\utils\thread.c" />
     <ClCompile Include="..\..\webp\src\utils\utils.c" />

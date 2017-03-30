@@ -3,13 +3,20 @@ include $(TOP)/configure/CONFIG
 
 LIBRARY = CORE_wmf
 
-USR_CXXFLAGS_WIN32 += -DWIN32
-USR_CXXFLAGS_WIN32 += -D_VISUALC_
-USR_CXXFLAGS_WIN32 += -DHAVE_CONFIG_H
+USR_CFLAGS_WIN32 += -DWIN32
+USR_CFLAGS_WIN32 += -D_VISUALC_
+USR_CFLAGS_WIN32 += -DHAVE_CONFIG_H
 
 USR_CXXFLAGS += -DNeedFunctionPrototypes
 
+ifeq ($(SHARED_LIBRARIES),YES)
+  USR_CFLAGS_WIN32 += -D_DLL
+else
+  USR_CFLAGS_WIN32 += -D_LIB
+endif
+
 USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick
+USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick/wmf
 USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick/wmf/inc
 USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick/ttf/inc
 

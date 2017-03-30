@@ -16,6 +16,12 @@ USR_CFLAGS += -DEXCLUDE_PGX_SUPPORT
 
 USR_CFLAGS += -DNeedFunctionPrototypes
 
+ifeq ($(SHARED_LIBRARIES),YES)
+  USR_CFLAGS_WIN32 += -D_DLL
+else
+  USR_CFLAGS_WIN32 += -D_LIB
+endif
+
 USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick
 
 LIBJASPER = $(TOP)/supportApp/GraphicsMagick/jp2/src/libJasper

@@ -8,6 +8,12 @@ USR_CXXFLAGS_WIN32 += -D_VISUALC_
 
 USR_CXXFLAGS += -DNeedFunctionPrototypes
 
+ifeq ($(SHARED_LIBRARIES),YES)
+  USR_CXXFLAGS_WIN32 += -D_DLL
+else
+  USR_CXXFLAGS_WIN32 += -D_LIB
+endif
+
 USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick
 USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick/lcms/inc
 

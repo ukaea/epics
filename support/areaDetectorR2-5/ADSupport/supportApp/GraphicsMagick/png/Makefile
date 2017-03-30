@@ -12,6 +12,12 @@ USR_CFLAGS += -DPNG_NO_MODULEDEF
 
 USR_CFLAGS_WIN32 += -D__WIN32DLL__
 
+ifeq ($(SHARED_LIBRARIES),YES)
+  USR_CFLAGS_WIN32 += -D_DLL
+else
+  USR_CFLAGS_WIN32 += -D_LIB
+endif
+
 LIB_SRCS +=png.c
 #D:\downloads\GraphicsMagick\GraphicsMagick-1.3.25\VisualMagick\png\png.rc
 LIB_SRCS += pngerror.c
