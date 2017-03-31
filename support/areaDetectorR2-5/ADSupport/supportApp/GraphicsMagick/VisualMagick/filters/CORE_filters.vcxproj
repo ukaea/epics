@@ -44,25 +44,25 @@
     <ConfigurationType>StaticLibrary</ConfigurationType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -104,9 +104,9 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <OmitFramePointers>true</OmitFramePointers>
       <Optimization>Full</Optimization>
-      <AdditionalIncludeDirectories>..\..;..\..\xlib;..\..\Magick++\lib;..\..\bzlib;..\..\jpeg;..\..\lcms\src;..\..\lcms\include;..\..\ttf\include;..\..\webp\src;..\..\webp\src\dec;..\..\webp\src\demux;..\..\webp\src\dsp;..\..\webp\src\enc;..\..\webp\src\mux;..\..\webp\src\utils;..\..\webp\src\webp;..\..\libxml\include;..\..\libxml\include\libxml;..\..\filters;..\..\wmf;..\..\wmf\include;..\..\tiff;..\..\tiff\libtiff;..\..\png;..\..\fpx;..\..\fpx\basics;..\..\fpx\fpx;..\..\fpx\jpeg;..\..\fpx\ole;..\..\fpx\ri_image;..\..\jbig;..\..\jbig\libjbig;..\..\jp2;..\..\jp2\src;..\..\jp2\src\libjasper;..\..\jp2\src\libjasper\base;..\..\jp2\src\libjasper\include;..\..\jp2\src\libjasper\include\jasper;..\..\jp2\src\libjasper\jp2;..\..\jp2\src\libjasper\jpc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalIncludeDirectories>../..;../../lcms/inc</AdditionalIncludeDirectories>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -114,6 +114,7 @@
     </ResourceCompile>
     <Lib>
       <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetMachine>MachineX86</TargetMachine>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
@@ -125,9 +126,9 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <OmitFramePointers>true</OmitFramePointers>
       <Optimization>Full</Optimization>
-      <AdditionalIncludeDirectories>..\..;..\..\xlib;..\..\Magick++\lib;..\..\bzlib;..\..\jpeg;..\..\lcms\src;..\..\lcms\include;..\..\ttf\include;..\..\webp\src;..\..\webp\src\dec;..\..\webp\src\demux;..\..\webp\src\dsp;..\..\webp\src\enc;..\..\webp\src\mux;..\..\webp\src\utils;..\..\webp\src\webp;..\..\libxml\include;..\..\libxml\include\libxml;..\..\filters;..\..\wmf;..\..\wmf\include;..\..\tiff;..\..\tiff\libtiff;..\..\png;..\..\fpx;..\..\fpx\basics;..\..\fpx\fpx;..\..\fpx\jpeg;..\..\fpx\ole;..\..\fpx\ri_image;..\..\jbig;..\..\jbig\libjbig;..\..\jp2;..\..\jp2\src;..\..\jp2\src\libjasper;..\..\jp2\src\libjasper\base;..\..\jp2\src\libjasper\include;..\..\jp2\src\libjasper\include\jasper;..\..\jp2\src\libjasper\jp2;..\..\jp2\src\libjasper\jpc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <AdditionalIncludeDirectories>../..;../../lcms/inc</AdditionalIncludeDirectories>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -146,9 +147,9 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <OmitFramePointers>true</OmitFramePointers>
       <Optimization>Full</Optimization>
-      <AdditionalIncludeDirectories>..\..;..\..\xlib;..\..\Magick++\lib;..\..\bzlib;..\..\jpeg;..\..\lcms\src;..\..\lcms\include;..\..\ttf\include;..\..\webp\src;..\..\webp\src\dec;..\..\webp\src\demux;..\..\webp\src\dsp;..\..\webp\src\enc;..\..\webp\src\mux;..\..\webp\src\utils;..\..\webp\src\webp;..\..\libxml\include;..\..\libxml\include\libxml;..\..\filters;..\..\wmf;..\..\wmf\include;..\..\tiff;..\..\tiff\libtiff;..\..\png;..\..\fpx;..\..\fpx\basics;..\..\fpx\fpx;..\..\fpx\jpeg;..\..\fpx\ole;..\..\fpx\ri_image;..\..\jbig;..\..\jbig\libjbig;..\..\jp2;..\..\jp2\src;..\..\jp2\src\libjasper;..\..\jp2\src\libjasper\base;..\..\jp2\src\libjasper\include;..\..\jp2\src\libjasper\include\jasper;..\..\jp2\src\libjasper\jp2;..\..\jp2\src\libjasper\jpc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalIncludeDirectories>../..;../../lcms/inc</AdditionalIncludeDirectories>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -156,6 +157,7 @@
     </ResourceCompile>
     <Lib>
       <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetMachine>MachineX64</TargetMachine>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
@@ -167,9 +169,9 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <OmitFramePointers>true</OmitFramePointers>
       <Optimization>Full</Optimization>
-      <AdditionalIncludeDirectories>..\..;..\..\xlib;..\..\Magick++\lib;..\..\bzlib;..\..\jpeg;..\..\lcms\src;..\..\lcms\include;..\..\ttf\include;..\..\webp\src;..\..\webp\src\dec;..\..\webp\src\demux;..\..\webp\src\dsp;..\..\webp\src\enc;..\..\webp\src\mux;..\..\webp\src\utils;..\..\webp\src\webp;..\..\libxml\include;..\..\libxml\include\libxml;..\..\filters;..\..\wmf;..\..\wmf\include;..\..\tiff;..\..\tiff\libtiff;..\..\png;..\..\fpx;..\..\fpx\basics;..\..\fpx\fpx;..\..\fpx\jpeg;..\..\fpx\ole;..\..\fpx\ri_image;..\..\jbig;..\..\jbig\libjbig;..\..\jp2;..\..\jp2\src;..\..\jp2\src\libjasper;..\..\jp2\src\libjasper\base;..\..\jp2\src\libjasper\include;..\..\jp2\src\libjasper\include\jasper;..\..\jp2\src\libjasper\jp2;..\..\jp2\src\libjasper\jpc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <AdditionalIncludeDirectories>../..;../../lcms/inc</AdditionalIncludeDirectories>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -188,9 +190,9 @@
       <OmitFramePointers>false</OmitFramePointers>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..;..\..\xlib;..\..\Magick++\lib;..\..\bzlib;..\..\jpeg;..\..\lcms\src;..\..\lcms\include;..\..\ttf\include;..\..\webp\src;..\..\webp\src\dec;..\..\webp\src\demux;..\..\webp\src\dsp;..\..\webp\src\enc;..\..\webp\src\mux;..\..\webp\src\utils;..\..\webp\src\webp;..\..\libxml\include;..\..\libxml\include\libxml;..\..\filters;..\..\wmf;..\..\wmf\include;..\..\tiff;..\..\tiff\libtiff;..\..\png;..\..\fpx;..\..\fpx\basics;..\..\fpx\fpx;..\..\fpx\jpeg;..\..\fpx\ole;..\..\fpx\ri_image;..\..\jbig;..\..\jbig\libjbig;..\..\jp2;..\..\jp2\src;..\..\jp2\src\libjasper;..\..\jp2\src\libjasper\base;..\..\jp2\src\libjasper\include;..\..\jp2\src\libjasper\include\jasper;..\..\jp2\src\libjasper\jp2;..\..\jp2\src\libjasper\jpc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalIncludeDirectories>../..;../../lcms/inc</AdditionalIncludeDirectories>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -198,6 +200,7 @@
     </ResourceCompile>
     <Lib>
       <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetMachine>MachineX86</TargetMachine>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
@@ -209,9 +212,9 @@
       <OmitFramePointers>false</OmitFramePointers>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..;..\..\xlib;..\..\Magick++\lib;..\..\bzlib;..\..\jpeg;..\..\lcms\src;..\..\lcms\include;..\..\ttf\include;..\..\webp\src;..\..\webp\src\dec;..\..\webp\src\demux;..\..\webp\src\dsp;..\..\webp\src\enc;..\..\webp\src\mux;..\..\webp\src\utils;..\..\webp\src\webp;..\..\libxml\include;..\..\libxml\include\libxml;..\..\filters;..\..\wmf;..\..\wmf\include;..\..\tiff;..\..\tiff\libtiff;..\..\png;..\..\fpx;..\..\fpx\basics;..\..\fpx\fpx;..\..\fpx\jpeg;..\..\fpx\ole;..\..\fpx\ri_image;..\..\jbig;..\..\jbig\libjbig;..\..\jp2;..\..\jp2\src;..\..\jp2\src\libjasper;..\..\jp2\src\libjasper\base;..\..\jp2\src\libjasper\include;..\..\jp2\src\libjasper\include\jasper;..\..\jp2\src\libjasper\jp2;..\..\jp2\src\libjasper\jpc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <AdditionalIncludeDirectories>../..;../../lcms/inc</AdditionalIncludeDirectories>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -230,9 +233,9 @@
       <OmitFramePointers>false</OmitFramePointers>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..;..\..\xlib;..\..\Magick++\lib;..\..\bzlib;..\..\jpeg;..\..\lcms\src;..\..\lcms\include;..\..\ttf\include;..\..\webp\src;..\..\webp\src\dec;..\..\webp\src\demux;..\..\webp\src\dsp;..\..\webp\src\enc;..\..\webp\src\mux;..\..\webp\src\utils;..\..\webp\src\webp;..\..\libxml\include;..\..\libxml\include\libxml;..\..\filters;..\..\wmf;..\..\wmf\include;..\..\tiff;..\..\tiff\libtiff;..\..\png;..\..\fpx;..\..\fpx\basics;..\..\fpx\fpx;..\..\fpx\jpeg;..\..\fpx\ole;..\..\fpx\ri_image;..\..\jbig;..\..\jbig\libjbig;..\..\jp2;..\..\jp2\src;..\..\jp2\src\libjasper;..\..\jp2\src\libjasper\base;..\..\jp2\src\libjasper\include;..\..\jp2\src\libjasper\include\jasper;..\..\jp2\src\libjasper\jp2;..\..\jp2\src\libjasper\jpc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalIncludeDirectories>../..;../../lcms/inc</AdditionalIncludeDirectories>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -240,6 +243,7 @@
     </ResourceCompile>
     <Lib>
       <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetMachine>MachineX64</TargetMachine>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
@@ -251,9 +255,9 @@
       <OmitFramePointers>false</OmitFramePointers>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..;..\..\xlib;..\..\Magick++\lib;..\..\bzlib;..\..\jpeg;..\..\lcms\src;..\..\lcms\include;..\..\ttf\include;..\..\webp\src;..\..\webp\src\dec;..\..\webp\src\demux;..\..\webp\src\dsp;..\..\webp\src\enc;..\..\webp\src\mux;..\..\webp\src\utils;..\..\webp\src\webp;..\..\libxml\include;..\..\libxml\include\libxml;..\..\filters;..\..\wmf;..\..\wmf\include;..\..\tiff;..\..\tiff\libtiff;..\..\png;..\..\fpx;..\..\fpx\basics;..\..\fpx\fpx;..\..\fpx\jpeg;..\..\fpx\ole;..\..\fpx\ri_image;..\..\jbig;..\..\jbig\libjbig;..\..\jp2;..\..\jp2\src;..\..\jp2\src\libjasper;..\..\jp2\src\libjasper\base;..\..\jp2\src\libjasper\include;..\..\jp2\src\libjasper\include\jasper;..\..\jp2\src\libjasper\jp2;..\..\jp2\src\libjasper\jpc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <AdditionalIncludeDirectories>../..;../../lcms/inc</AdditionalIncludeDirectories>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -265,6 +269,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\filters\analyze.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\magick\CORE_magick.vcxproj">
+      <Project>{8f881d50-14c0-4d6d-a47a-086c73bb7da3}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\ttf\CORE_ttf.vcxproj">
+      <Project>{57cd7f0e-d3c6-4914-83ae-315ba04ea555}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

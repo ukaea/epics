@@ -18,6 +18,7 @@ USR_CFLAGS += -DNeedFunctionPrototypes
 
 ifeq ($(SHARED_LIBRARIES),YES)
   USR_CFLAGS_WIN32 += -D_DLL
+  USR_CFLAGS += _MAGICKMOD_
 else
   USR_CFLAGS_WIN32 += -D_LIB
 endif

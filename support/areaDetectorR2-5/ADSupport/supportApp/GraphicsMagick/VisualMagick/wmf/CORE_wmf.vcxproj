@@ -35,8 +35,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>CORE_ttf</ProjectName>
-    <ProjectGuid>{57CD7F0E-D3C6-4914-83AE-315BA04EA555}</ProjectGuid>
+    <ProjectName>CORE_wmf</ProjectName>
+    <ProjectGuid>{D8CE3982-3E41-47A0-9F32-138728B45B6D}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -104,9 +104,9 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <OmitFramePointers>true</OmitFramePointers>
       <Optimization>Full</Optimization>
-      <AdditionalIncludeDirectories>..\..;..\..\xlib;..\..\Magick++\lib;..\..\bzlib;..\..\jpeg;..\..\lcms\src;..\..\lcms\include;..\..\ttf\include;..\..\webp\src;..\..\webp\src\dec;..\..\webp\src\demux;..\..\webp\src\dsp;..\..\webp\src\enc;..\..\webp\src\mux;..\..\webp\src\utils;..\..\webp\src\webp;..\..\libxml\include;..\..\libxml\include\libxml;..\..\ttf;..\..\ttf\builds;..\..\ttf\builds\windows;..\..\ttf\include;..\..\ttf\src;..\..\ttf\src\autofit;..\..\ttf\src\base;..\..\ttf\src\bdf;..\..\ttf\src\cache;..\..\ttf\src\cff;..\..\ttf\src\cid;..\..\ttf\src\gzip;..\..\ttf\src\lzw;..\..\ttf\src\pcf;..\..\ttf\src\pfr;..\..\ttf\src\psaux;..\..\ttf\src\pshinter;..\..\ttf\src\psnames;..\..\ttf\src\raster;..\..\ttf\src\sfnt;..\..\ttf\src\smooth;..\..\ttf\src\truetype;..\..\ttf\src\type1;..\..\ttf\src\type42;..\..\ttf\src\winfonts;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_LIB;_TTFLIB_;FT2_BUILD_LIBRARY;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_LIB;HAVE_CONFIG_H;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalIncludeDirectories>../../;../../wmf;../../wmf/include;../../ttf/include</AdditionalIncludeDirectories>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -114,6 +114,7 @@
     </ResourceCompile>
     <Lib>
       <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetMachine>MachineX86</TargetMachine>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
@@ -125,9 +126,9 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <OmitFramePointers>true</OmitFramePointers>
       <Optimization>Full</Optimization>
-      <AdditionalIncludeDirectories>..\..;..\..\xlib;..\..\Magick++\lib;..\..\bzlib;..\..\jpeg;..\..\lcms\src;..\..\lcms\include;..\..\ttf\include;..\..\webp\src;..\..\webp\src\dec;..\..\webp\src\demux;..\..\webp\src\dsp;..\..\webp\src\enc;..\..\webp\src\mux;..\..\webp\src\utils;..\..\webp\src\webp;..\..\libxml\include;..\..\libxml\include\libxml;..\..\ttf;..\..\ttf\builds;..\..\ttf\builds\windows;..\..\ttf\include;..\..\ttf\src;..\..\ttf\src\autofit;..\..\ttf\src\base;..\..\ttf\src\bdf;..\..\ttf\src\cache;..\..\ttf\src\cff;..\..\ttf\src\cid;..\..\ttf\src\gzip;..\..\ttf\src\lzw;..\..\ttf\src\pcf;..\..\ttf\src\pfr;..\..\ttf\src\psaux;..\..\ttf\src\pshinter;..\..\ttf\src\psnames;..\..\ttf\src\raster;..\..\ttf\src\sfnt;..\..\ttf\src\smooth;..\..\ttf\src\truetype;..\..\ttf\src\type1;..\..\ttf\src\type42;..\..\ttf\src\winfonts;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_LIB;_TTFLIB_;FT2_BUILD_LIBRARY;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_DLL;HAVE_CONFIG_H;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <AdditionalIncludeDirectories>../../;../../wmf;../../wmf/include;../../ttf/include</AdditionalIncludeDirectories>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -146,9 +147,9 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <OmitFramePointers>true</OmitFramePointers>
       <Optimization>Full</Optimization>
-      <AdditionalIncludeDirectories>..\..;..\..\xlib;..\..\Magick++\lib;..\..\bzlib;..\..\jpeg;..\..\lcms\src;..\..\lcms\include;..\..\ttf\include;..\..\webp\src;..\..\webp\src\dec;..\..\webp\src\demux;..\..\webp\src\dsp;..\..\webp\src\enc;..\..\webp\src\mux;..\..\webp\src\utils;..\..\webp\src\webp;..\..\libxml\include;..\..\libxml\include\libxml;..\..\ttf;..\..\ttf\builds;..\..\ttf\builds\windows;..\..\ttf\include;..\..\ttf\src;..\..\ttf\src\autofit;..\..\ttf\src\base;..\..\ttf\src\bdf;..\..\ttf\src\cache;..\..\ttf\src\cff;..\..\ttf\src\cid;..\..\ttf\src\gzip;..\..\ttf\src\lzw;..\..\ttf\src\pcf;..\..\ttf\src\pfr;..\..\ttf\src\psaux;..\..\ttf\src\pshinter;..\..\ttf\src\psnames;..\..\ttf\src\raster;..\..\ttf\src\sfnt;..\..\ttf\src\smooth;..\..\ttf\src\truetype;..\..\ttf\src\type1;..\..\ttf\src\type42;..\..\ttf\src\winfonts;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_LIB;_TTFLIB_;FT2_BUILD_LIBRARY;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_LIB;HAVE_CONFIG_H;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalIncludeDirectories>../../;../../wmf;../../wmf/include;../../ttf/include</AdditionalIncludeDirectories>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -156,6 +157,7 @@
     </ResourceCompile>
     <Lib>
       <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetMachine>MachineX64</TargetMachine>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
@@ -167,9 +169,9 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <OmitFramePointers>true</OmitFramePointers>
       <Optimization>Full</Optimization>
-      <AdditionalIncludeDirectories>..\..;..\..\xlib;..\..\Magick++\lib;..\..\bzlib;..\..\jpeg;..\..\lcms\src;..\..\lcms\include;..\..\ttf\include;..\..\webp\src;..\..\webp\src\dec;..\..\webp\src\demux;..\..\webp\src\dsp;..\..\webp\src\enc;..\..\webp\src\mux;..\..\webp\src\utils;..\..\webp\src\webp;..\..\libxml\include;..\..\libxml\include\libxml;..\..\ttf;..\..\ttf\builds;..\..\ttf\builds\windows;..\..\ttf\include;..\..\ttf\src;..\..\ttf\src\autofit;..\..\ttf\src\base;..\..\ttf\src\bdf;..\..\ttf\src\cache;..\..\ttf\src\cff;..\..\ttf\src\cid;..\..\ttf\src\gzip;..\..\ttf\src\lzw;..\..\ttf\src\pcf;..\..\ttf\src\pfr;..\..\ttf\src\psaux;..\..\ttf\src\pshinter;..\..\ttf\src\psnames;..\..\ttf\src\raster;..\..\ttf\src\sfnt;..\..\ttf\src\smooth;..\..\ttf\src\truetype;..\..\ttf\src\type1;..\..\ttf\src\type42;..\..\ttf\src\winfonts;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_LIB;_TTFLIB_;FT2_BUILD_LIBRARY;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_DLL;HAVE_CONFIG_H;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <AdditionalIncludeDirectories>../../;../../wmf;../../wmf/include;../../ttf/include</AdditionalIncludeDirectories>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -188,9 +190,9 @@
       <OmitFramePointers>false</OmitFramePointers>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..;..\..\xlib;..\..\Magick++\lib;..\..\bzlib;..\..\jpeg;..\..\lcms\src;..\..\lcms\include;..\..\ttf\include;..\..\webp\src;..\..\webp\src\dec;..\..\webp\src\demux;..\..\webp\src\dsp;..\..\webp\src\enc;..\..\webp\src\mux;..\..\webp\src\utils;..\..\webp\src\webp;..\..\libxml\include;..\..\libxml\include\libxml;..\..\ttf;..\..\ttf\builds;..\..\ttf\builds\windows;..\..\ttf\include;..\..\ttf\src;..\..\ttf\src\autofit;..\..\ttf\src\base;..\..\ttf\src\bdf;..\..\ttf\src\cache;..\..\ttf\src\cff;..\..\ttf\src\cid;..\..\ttf\src\gzip;..\..\ttf\src\lzw;..\..\ttf\src\pcf;..\..\ttf\src\pfr;..\..\ttf\src\psaux;..\..\ttf\src\pshinter;..\..\ttf\src\psnames;..\..\ttf\src\raster;..\..\ttf\src\sfnt;..\..\ttf\src\smooth;..\..\ttf\src\truetype;..\..\ttf\src\type1;..\..\ttf\src\type42;..\..\ttf\src\winfonts;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_LIB;_TTFLIB_;FT2_BUILD_LIBRARY;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_LIB;HAVE_CONFIG_H;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalIncludeDirectories>../../;../../wmf;../../wmf/include;../../ttf/include</AdditionalIncludeDirectories>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -198,6 +200,7 @@
     </ResourceCompile>
     <Lib>
       <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetMachine>MachineX86</TargetMachine>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
@@ -209,9 +212,9 @@
       <OmitFramePointers>false</OmitFramePointers>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..;..\..\xlib;..\..\Magick++\lib;..\..\bzlib;..\..\jpeg;..\..\lcms\src;..\..\lcms\include;..\..\ttf\include;..\..\webp\src;..\..\webp\src\dec;..\..\webp\src\demux;..\..\webp\src\dsp;..\..\webp\src\enc;..\..\webp\src\mux;..\..\webp\src\utils;..\..\webp\src\webp;..\..\libxml\include;..\..\libxml\include\libxml;..\..\ttf;..\..\ttf\builds;..\..\ttf\builds\windows;..\..\ttf\include;..\..\ttf\src;..\..\ttf\src\autofit;..\..\ttf\src\base;..\..\ttf\src\bdf;..\..\ttf\src\cache;..\..\ttf\src\cff;..\..\ttf\src\cid;..\..\ttf\src\gzip;..\..\ttf\src\lzw;..\..\ttf\src\pcf;..\..\ttf\src\pfr;..\..\ttf\src\psaux;..\..\ttf\src\pshinter;..\..\ttf\src\psnames;..\..\ttf\src\raster;..\..\ttf\src\sfnt;..\..\ttf\src\smooth;..\..\ttf\src\truetype;..\..\ttf\src\type1;..\..\ttf\src\type42;..\..\ttf\src\winfonts;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_LIB;_TTFLIB_;FT2_BUILD_LIBRARY;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_DLL;HAVE_CONFIG_H;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <AdditionalIncludeDirectories>../../;../../wmf;../../wmf/include;../../ttf/include</AdditionalIncludeDirectories>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -230,9 +233,9 @@
       <OmitFramePointers>false</OmitFramePointers>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..;..\..\xlib;..\..\Magick++\lib;..\..\bzlib;..\..\jpeg;..\..\lcms\src;..\..\lcms\include;..\..\ttf\include;..\..\webp\src;..\..\webp\src\dec;..\..\webp\src\demux;..\..\webp\src\dsp;..\..\webp\src\enc;..\..\webp\src\mux;..\..\webp\src\utils;..\..\webp\src\webp;..\..\libxml\include;..\..\libxml\include\libxml;..\..\ttf;..\..\ttf\builds;..\..\ttf\builds\windows;..\..\ttf\include;..\..\ttf\src;..\..\ttf\src\autofit;..\..\ttf\src\base;..\..\ttf\src\bdf;..\..\ttf\src\cache;..\..\ttf\src\cff;..\..\ttf\src\cid;..\..\ttf\src\gzip;..\..\ttf\src\lzw;..\..\ttf\src\pcf;..\..\ttf\src\pfr;..\..\ttf\src\psaux;..\..\ttf\src\pshinter;..\..\ttf\src\psnames;..\..\ttf\src\raster;..\..\ttf\src\sfnt;..\..\ttf\src\smooth;..\..\ttf\src\truetype;..\..\ttf\src\type1;..\..\ttf\src\type42;..\..\ttf\src\winfonts;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_LIB;_TTFLIB_;FT2_BUILD_LIBRARY;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_LIB;HAVE_CONFIG_H;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalIncludeDirectories>../../;../../wmf;../../wmf/include;../../ttf/include</AdditionalIncludeDirectories>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -240,6 +243,7 @@
     </ResourceCompile>
     <Lib>
       <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetMachine>MachineX64</TargetMachine>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
@@ -251,9 +255,9 @@
       <OmitFramePointers>false</OmitFramePointers>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..;..\..\xlib;..\..\Magick++\lib;..\..\bzlib;..\..\jpeg;..\..\lcms\src;..\..\lcms\include;..\..\ttf\include;..\..\webp\src;..\..\webp\src\dec;..\..\webp\src\demux;..\..\webp\src\dsp;..\..\webp\src\enc;..\..\webp\src\mux;..\..\webp\src\utils;..\..\webp\src\webp;..\..\libxml\include;..\..\libxml\include\libxml;..\..\ttf;..\..\ttf\builds;..\..\ttf\builds\windows;..\..\ttf\include;..\..\ttf\src;..\..\ttf\src\autofit;..\..\ttf\src\base;..\..\ttf\src\bdf;..\..\ttf\src\cache;..\..\ttf\src\cff;..\..\ttf\src\cid;..\..\ttf\src\gzip;..\..\ttf\src\lzw;..\..\ttf\src\pcf;..\..\ttf\src\pfr;..\..\ttf\src\psaux;..\..\ttf\src\pshinter;..\..\ttf\src\psnames;..\..\ttf\src\raster;..\..\ttf\src\sfnt;..\..\ttf\src\smooth;..\..\ttf\src\truetype;..\..\ttf\src\type1;..\..\ttf\src\type42;..\..\ttf\src\winfonts;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_LIB;_TTFLIB_;FT2_BUILD_LIBRARY;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_DLL;HAVE_CONFIG_H;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <AdditionalIncludeDirectories>../../;../../wmf;../../wmf/include;../../ttf/include</AdditionalIncludeDirectories>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -264,51 +268,21 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\ttf\builds\windows\ftdebug.c" />
-    <ClCompile Include="..\..\ttf\src\autofit\autofit.c" />
-    <ClCompile Include="..\..\ttf\src\base\ftbase.c" />
-    <ClCompile Include="..\..\ttf\src\base\ftbbox.c" />
-    <ClCompile Include="..\..\ttf\src\base\ftbitmap.c" />
-    <ClCompile Include="..\..\ttf\src\base\ftfntfmt.c" />
-    <ClCompile Include="..\..\ttf\src\base\ftfstype.c" />
-    <ClCompile Include="..\..\ttf\src\base\ftgasp.c" />
-    <ClCompile Include="..\..\ttf\src\base\ftglyph.c" />
-    <ClCompile Include="..\..\ttf\src\base\ftgxval.c" />
-    <ClCompile Include="..\..\ttf\src\base\ftinit.c" />
-    <ClCompile Include="..\..\ttf\src\base\ftlcdfil.c" />
-    <ClCompile Include="..\..\ttf\src\base\ftmm.c" />
-    <ClCompile Include="..\..\ttf\src\base\ftotval.c" />
-    <ClCompile Include="..\..\ttf\src\base\ftpatent.c" />
-    <ClCompile Include="..\..\ttf\src\base\ftpfr.c" />
-    <ClCompile Include="..\..\ttf\src\base\ftstroke.c" />
-    <ClCompile Include="..\..\ttf\src\base\ftsynth.c" />
-    <ClCompile Include="..\..\ttf\src\base\ftsystem.c" />
-    <ClCompile Include="..\..\ttf\src\base\fttype1.c" />
-    <ClCompile Include="..\..\ttf\src\base\ftwinfnt.c" />
-    <ClCompile Include="..\..\ttf\src\bdf\bdf.c" />
-    <ClCompile Include="..\..\ttf\src\cache\ftcache.c" />
-    <ClCompile Include="..\..\ttf\src\cff\cff.c" />
-    <ClCompile Include="..\..\ttf\src\cid\type1cid.c" />
-    <ClCompile Include="..\..\ttf\src\gzip\ftgzip.c" />
-    <ClCompile Include="..\..\ttf\src\lzw\ftlzw.c" />
-    <ClCompile Include="..\..\ttf\src\pcf\pcf.c" />
-    <ClCompile Include="..\..\ttf\src\pfr\pfr.c" />
-    <ClCompile Include="..\..\ttf\src\psaux\psaux.c" />
-    <ClCompile Include="..\..\ttf\src\pshinter\pshinter.c" />
-    <ClCompile Include="..\..\ttf\src\psnames\psmodule.c" />
-    <ClCompile Include="..\..\ttf\src\raster\raster.c" />
-    <ClCompile Include="..\..\ttf\src\sfnt\sfnt.c" />
-    <ClCompile Include="..\..\ttf\src\smooth\smooth.c" />
-    <ClCompile Include="..\..\ttf\src\truetype\truetype.c" />
-    <ClCompile Include="..\..\ttf\src\type1\type1.c" />
-    <ClCompile Include="..\..\ttf\src\type42\type42.c" />
-    <ClCompile Include="..\..\ttf\src\winfonts\winfnt.c" />
+    <ClCompile Include="..\..\wmf\src\api.c" />
+    <ClCompile Include="..\..\wmf\src\bbuf.c" />
+    <ClCompile Include="..\..\wmf\src\meta.c" />
+    <ClCompile Include="..\..\wmf\src\player.c" />
+    <ClCompile Include="..\..\wmf\src\recorder.c" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="ttf.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\ttf\include\ft2build.h" />
+    <ClInclude Include="..\..\wmf\src\api.h" />
+    <ClInclude Include="..\..\wmf\src\bbuf.h" />
+    <ClInclude Include="..\..\wmf\src\metadefs.h" />
+    <ClInclude Include="..\..\wmf\src\player.h" />
+    <ClInclude Include="..\..\wmf\src\recorder.h" />
+    <ClInclude Include="..\..\wmf\src\wmfdefs.h" />
+    <ClInclude Include="..\..\wmf\src\xml.h" />
+    <ClInclude Include="..\..\wmf\wmfconfig.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

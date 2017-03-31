@@ -17,6 +17,7 @@ ifeq ($(WITH_XML2),YES)
     ifeq ($(SHARED_LIBRARIES),YES)
       USR_CFLAGS_WIN32 += -DPIC -DNOLIBTOOL
     endif
+    xml2_SYS_LIBS_WIN32 += ws2_32
 
     # Need _REENTRANT flag on Linux for threads to build correctly
     USR_CFLAGS_Linux += -D_REENTRANT

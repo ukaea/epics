@@ -10,6 +10,15 @@ USR_CFLAGS += -DNeedFunctionPrototypes
 USR_CFLAGS += -D_TTFLIB_
 USR_CFLAGS += -DFT2_BUILD_LIBRARY
 
+_DEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_DLL;_MAGICKMOD_;_TTFLIB_;FT2_BUILD_LIBRARY;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)
+
+ifeq ($(SHARED_LIBRARIES),YES)
+  USR_CXXFLAGS_WIN32 += -D_DLL
+  USR_CXXFLAGS_WIN32 += -D_MAGICKMOD_
+else
+  USR_CXXFLAGS_WIN32 += -D_LIB
+endif
+
 TTF = $(TOP)/supportApp/GraphicsMagick/ttf
 
 USR_INCLUDES += -I$(TTF)/include

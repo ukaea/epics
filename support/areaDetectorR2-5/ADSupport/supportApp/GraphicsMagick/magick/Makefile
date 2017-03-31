@@ -15,6 +15,7 @@ USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick/ttf/include
 
 ifeq ($(SHARED_LIBRARIES),YES)
   USR_CFLAGS_WIN32 += -D_DLL
+  USR_CFLAGS_WIN32 += -D_MAGICKMOD_
 else
   USR_CFLAGS_WIN32 += -D_LIB
 endif

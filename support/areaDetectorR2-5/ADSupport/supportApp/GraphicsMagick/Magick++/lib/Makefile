@@ -15,7 +15,8 @@ else
 endif
 
 USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick
-USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick/lcms/inc
+USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick/lcms/include
+USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick/Magick++/lib
 
 INC += Magick++.h
 INC += Magick++/Include.h

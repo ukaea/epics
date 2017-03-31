@@ -10,6 +10,9 @@
     <Filter Include="resource">
       <UniqueIdentifier>{c59864ab-3cca-4bb3-a581-1dff35dd0677}</UniqueIdentifier>
     </Filter>
+    <Filter Include="include\libwmf">
+      <UniqueIdentifier>{37959964-9399-4ad9-9714-9c73d6a8a916}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\wmf\src\api.c">
@@ -30,28 +33,28 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\wmf\src\api.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\wmf\src\bbuf.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\wmf\src\metadefs.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\wmf\src\player.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\wmf\src\recorder.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\wmf\src\wmfdefs.h">
-      <Filter>include</Filter>
+      <Filter>include\libwmf</Filter>
     </ClInclude>
     <ClInclude Include="..\..\wmf\src\xml.h">
-      <Filter>include</Filter>
+      <Filter>include\libwmf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\wmf\src\bbuf.h">
+      <Filter>include\libwmf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\wmf\src\metadefs.h">
+      <Filter>include\libwmf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\wmf\src\player.h">
+      <Filter>include\libwmf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\wmf\src\recorder.h">
+      <Filter>include\libwmf</Filter>
     </ClInclude>
     <ClInclude Include="..\..\wmf\wmfconfig.h">
-      <Filter>include</Filter>
+      <Filter>include\libwmf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\wmf\src\wmfdefs.h">
+      <Filter>include\libwmf</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
