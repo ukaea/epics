@@ -59,11 +59,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="png.rc">
-      <Filter>src</Filter>
-    </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="..\..\png\png.h">
       <Filter>include</Filter>
     </ClInclude>
@@ -85,5 +80,10 @@
     <ClInclude Include="..\..\png\pngstruct.h">
       <Filter>include</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\png\png.rc">
+      <Filter>src</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

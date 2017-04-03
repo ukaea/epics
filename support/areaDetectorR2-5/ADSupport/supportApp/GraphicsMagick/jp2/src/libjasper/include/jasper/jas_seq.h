@@ -183,18 +183,18 @@ typedef jas_matrix_t jas_seq_t;
 	(max((matrix)->numrows_, (matrix)->numcols_))
 
 /* Create a matrix with the specified dimensions. */
-jas_matrix_t *jas_matrix_create(int numrows, int numcols);
+JAS_EXTERN jas_matrix_t *jas_matrix_create(int numrows, int numcols);
 
 /* Destroy a matrix. */
-void jas_matrix_destroy(jas_matrix_t *matrix);
+JAS_EXTERN void jas_matrix_destroy(jas_matrix_t *matrix);
 
 /* Resize a matrix.  The previous contents of the matrix are lost. */
-int jas_matrix_resize(jas_matrix_t *matrix, int numrows, int numcols);
+JAS_EXTERN int jas_matrix_resize(jas_matrix_t *matrix, int numrows, int numcols);
 
 int jas_matrix_output(jas_matrix_t *matrix, FILE *out);
 
 /* Create a matrix that references part of another matrix. */
-void jas_matrix_bindsub(jas_matrix_t *mat0, jas_matrix_t *mat1, int r0, int c0,
+JAS_EXTERN void jas_matrix_bindsub(jas_matrix_t *mat0, jas_matrix_t *mat1, int r0, int c0,
   int r1, int c1);
 
 /* Create a matrix that is a reference to a row of another matrix. */
@@ -206,20 +206,20 @@ void jas_matrix_bindsub(jas_matrix_t *mat0, jas_matrix_t *mat1, int r0, int c0,
   (jas_matrix_bindsub((mat0), (mat1), 0, (c), (mat1)->numrows_ - 1, (c)))
 
 /* Clip the values of matrix elements to the specified range. */
-void jas_matrix_clip(jas_matrix_t *matrix, jas_seqent_t minval,
+JAS_EXTERN void jas_matrix_clip(jas_matrix_t *matrix, jas_seqent_t minval,
   jas_seqent_t maxval);
 
 /* Arithmetic shift left of all elements in a matrix. */
-void jas_matrix_asl(jas_matrix_t *matrix, int n);
+JAS_EXTERN void jas_matrix_asl(jas_matrix_t *matrix, int n);
 
 /* Arithmetic shift right of all elements in a matrix. */
-void jas_matrix_asr(jas_matrix_t *matrix, int n);
+JAS_EXTERN void jas_matrix_asr(jas_matrix_t *matrix, int n);
 
 /* Almost-but-not-quite arithmetic shift right of all elements in a matrix. */
-void jas_matrix_divpow2(jas_matrix_t *matrix, int n);
+JAS_EXTERN void jas_matrix_divpow2(jas_matrix_t *matrix, int n);
 
 /* Set all elements of a matrix to the specified value. */
-void jas_matrix_setall(jas_matrix_t *matrix, jas_seqent_t val);
+JAS_EXTERN void jas_matrix_setall(jas_matrix_t *matrix, jas_seqent_t val);
 
 /* The spacing between rows of a matrix. */
 #define	jas_matrix_rowstep(matrix) \
@@ -230,9 +230,9 @@ void jas_matrix_setall(jas_matrix_t *matrix, jas_seqent_t val);
 	(((matrix)->numrows_ > 1) ? (jas_matrix_rowstep(matrix)) : (1))
 
 /* Compare two matrices for equality. */
-int jas_matrix_cmp(jas_matrix_t *mat0, jas_matrix_t *mat1);
+JAS_EXTERN int jas_matrix_cmp(jas_matrix_t *mat0, jas_matrix_t *mat1);
 
-jas_matrix_t *jas_matrix_copy(jas_matrix_t *x);
+JAS_EXTERN jas_matrix_t *jas_matrix_copy(jas_matrix_t *x);
 
 jas_matrix_t *jas_matrix_input(FILE *);
 
@@ -240,9 +240,9 @@ jas_matrix_t *jas_matrix_input(FILE *);
 * Functions/macros for 2-D sequence class.
 \******************************************************************************/
 
-jas_seq2d_t *jas_seq2d_copy(jas_seq2d_t *x);
+JAS_EXTERN jas_seq2d_t *jas_seq2d_copy(jas_seq2d_t *x);
 
-jas_matrix_t *jas_seq2d_create(int xstart, int ystart, int xend, int yend);
+JAS_EXTERN jas_matrix_t *jas_seq2d_create(int xstart, int ystart, int xend, int yend);
 
 #define	jas_seq2d_destroy(s) \
 	jas_matrix_destroy(s)
@@ -270,7 +270,7 @@ jas_matrix_t *jas_seq2d_create(int xstart, int ystart, int xend, int yend);
 	  (s)->xend_ = (s)->xstart_ + (s)->numcols_, \
 	  (s)->yend_ = (s)->ystart_ + (s)->numrows_)
 
-void jas_seq2d_bindsub(jas_matrix_t *s, jas_matrix_t *s1, int xstart,
+JAS_EXTERN void jas_seq2d_bindsub(jas_matrix_t *s, jas_matrix_t *s1, int xstart,
   int ystart, int xend, int yend);
 
 /******************************************************************************\

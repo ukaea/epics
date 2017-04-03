@@ -19,5 +19,5 @@ USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick
 #INC += jbig.h
 LIB_SRCS += jbig.c
 LIB_SRCS += jbig_tab.c
-
+LIB_RCS +=  jbig.rc
 include $(TOP)/configure/RULES

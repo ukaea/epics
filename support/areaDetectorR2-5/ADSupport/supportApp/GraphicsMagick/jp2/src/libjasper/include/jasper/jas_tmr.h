@@ -92,9 +92,9 @@ typedef int jas_tmr_t;
 
 #endif
 
-void jas_tmr_start(jas_tmr_t *tmr);
-void jas_tmr_stop(jas_tmr_t *tmr);
-double jas_tmr_get(jas_tmr_t *tmr);
+JAS_EXTERN void jas_tmr_start(jas_tmr_t *tmr);
+JAS_EXTERN void jas_tmr_stop(jas_tmr_t *tmr);
+JAS_EXTERN double jas_tmr_get(jas_tmr_t *tmr);
 
 #ifdef __cplusplus
 }

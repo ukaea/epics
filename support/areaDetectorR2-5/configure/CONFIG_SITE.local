@@ -34,7 +34,7 @@ GRAPHICSMAGICK_EXTERNAL = NO
 #GRAPHICS_MAGICK_LIB     =$(ADBINARIES)/magickSupport
 
 # HDF5 is required for the NDFileHDF5 and NDFileNexus plugins
-WITH_HDF5     = YES
+WITH_HDF5     = NO
 HDF5_EXTERNAL = NO
 #HDF5_INCLUDE =
 #HDF5_LIB     =
@@ -59,7 +59,7 @@ NEXUS_EXTERNAL = NO
 
 # OPENCV is required for the ADPluginEdge plugin
 WITH_OPENCV     = NO
-OPENCV_EXTERNAL = YES
+OPENCV_EXTERNAL = NO
 #OPENCV_INCLUDE =
 #OPENCV_LIB     =
 

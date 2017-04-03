@@ -378,6 +378,9 @@
     <ClInclude Include="..\..\webp\src\webp\mux_types.h" />
     <ClInclude Include="..\..\webp\src\webp\types.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\webp\src\utils\libwebp.rc" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

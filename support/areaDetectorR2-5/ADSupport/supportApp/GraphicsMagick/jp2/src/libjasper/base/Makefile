@@ -16,3 +16,4 @@ LIB_SRCS += jas_string.c
 LIB_SRCS += jas_tmr.c
 LIB_SRCS += jas_tvp.c
 LIB_SRCS += jas_version.c
+LIB_RCS += jp2.rc

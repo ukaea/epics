@@ -35,16 +35,16 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="bzlib.rc">
-      <Filter>src</Filter>
-    </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="..\..\bzlib\bzlib.h">
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="..\..\bzlib\bzlib_private.h">
       <Filter>include</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\bzlib\bzlib.rc">
+      <Filter>src</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

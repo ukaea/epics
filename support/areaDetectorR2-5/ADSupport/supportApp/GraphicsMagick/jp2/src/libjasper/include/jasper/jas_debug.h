@@ -96,16 +96,16 @@ extern "C" {
 #endif
 
 /* Get the library debug level. */
-int jas_getdbglevel(void);
+JAS_EXTERN int jas_getdbglevel(void);
 
 /* Set the library debug level. */
-int jas_setdbglevel(int dbglevel);
+JAS_EXTERN int jas_setdbglevel(int dbglevel);
 
 /* Perform formatted output to standard error. */
-int jas_eprintf(const char *fmt, ...);
+JAS_EXTERN int jas_eprintf(const char *fmt, ...);
 
 /* Dump memory to a stream. */
-int jas_memdump(FILE *out, void *data, size_t len);
+JAS_EXTERN int jas_memdump(FILE *out, void *data, size_t len);
 
 #ifdef __cplusplus
 }

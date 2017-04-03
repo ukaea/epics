@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="..\..\..\jpegSrc\cderror.h" />
+    <ClInclude Include="..\..\..\jpegSrc\cdjpeg.h" />
+    <ClInclude Include="..\..\..\jpegSrc\jdct.h" />
+    <ClInclude Include="..\..\..\jpegSrc\jinclude.h" />
+    <ClInclude Include="..\..\..\jpegSrc\jmemsys.h" />
+    <ClInclude Include="..\..\..\jpegSrc\jpegint.h" />
+    <ClInclude Include="..\..\..\jpegSrc\jversion.h" />
+    <ClInclude Include="..\..\..\jpegSrc\transupp.h" />
+    <ClInclude Include="..\..\..\jpegSrc\os\default\jerror.h">
+      <Filter>os\default</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\jpegSrc\os\default\jpeglib.h">
+      <Filter>os\default</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\jpegSrc\os\WIN32\jconfig.h">
+      <Filter>os\WIN32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\jpegSrc\os\WIN32\jmorecfg.h">
+      <Filter>os\WIN32</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\jpegSrc\cdjpeg.c" />
+    <ClCompile Include="..\..\..\jpegSrc\cjpeg.c" />
+    <ClCompile Include="..\..\..\jpegSrc\ckconfig.c" />
+    <ClCompile Include="..\..\..\jpegSrc\djpeg.c" />
+    <ClCompile Include="..\..\..\jpegSrc\example.c" />
+    <ClCompile Include="..\..\..\jpegSrc\jaricom.c" />
+    <ClCompile Include="..\..\..\jpegSrc\jcapimin.c" />
+    <ClCompile Include="..\..\..\jpegSrc\jcapistd.c" />
+    <ClCompile Include="..\..\..\jpegSrc\jcarith.c" />
+    <ClCompile Include="..\..\..\jpegSrc\jccoefct.c" />
+    <ClCompile Include="..\..\..\jpegSrc\jccolor.c" />
+    <ClCompile Include="..\..\..\jpegSrc\jcdctmgr.c" />
+    <ClCompile Include="..\..\..\jpegSrc\jchuff.c" />
+    <ClCompile Include="..\..\..\jpegSrc\jcinit.c" />
+    <ClCompile Include="..\..\..\jpegSrc\jcmainct.c" />
+    <ClCompile Include="..\..\..\jpegSrc\jcmarker.c" />
+    <ClCompile Include="..\..\..\jpegSrc\jcmaster.c" />
+    <ClCompile Include="..\..\..\jpegSrc\jcomapi.c" />
+    <ClCompile Include="..\..\..\jpegSrc\jcparam.c" />
+    <ClCompile Include="..\..\..\jpegSrc\jcprepct.c" />
+    <ClCompile Include="..\..\..\jpegSrc\jcsample.c" />
+    <ClCompile Include="..\..\..\jpegSrc\jctrans.c" />
+    <ClCompile Include="..\..\..\jpegSrc\jdapimin.c" />
+    <ClCompile Include="..\..\..\jpegSrc\jdapistd.c" />
+    <ClCompile Include="..\..\..\jpegSrc\jdarith.c" />
+    <ClCompile Include="..\..\..\jpegSrc\jdatadst.c" />
+    <ClCompile Include="..\..\..\jpegSrc\jdatasrc.c" />
+    <ClCompile Include="..\..\..\jpegSrc\jdcoefct.c" />
+    <ClCompile Include="..\..\..\jpegSrc\jdcolor.c" />
+    <ClCompile Include="..\..\..\jpegSrc\jddctmgr.c" />
+    <ClCompile Include="..\..\..\jpegSrc\jdhuff.c" />
+    <ClCompile Include="..\..\..\jpegSrc\jdinput.c" />
+    <ClCompile Include="..\..\..\jpegSrc\jdmainct.c" />
+    <ClCompile Include="..\..\..\jpegSrc\jdmarker.c" />
+    <ClCompile Include="..\..\..\jpegSrc\jdmaster.c" />
+    <ClCompile Include="..\..\..\jpegSrc\jdmerge.c" />
+    <ClCompile Include="..\..\..\jpegSrc\jdpostct.c" />
+    <ClCompile Include="..\..\..\jpegSrc\jdsample.c" />
+    <ClCompile Include="..\..\..\jpegSrc\jdtrans.c" />
+    <ClCompile Include="..\..\..\jpegSrc\jerror.c" />
+    <ClCompile Include="..\..\..\jpegSrc\jfdctflt.c" />
+    <ClCompile Include="..\..\..\jpegSrc\jfdctfst.c" />
+    <ClCompile Include="..\..\..\jpegSrc\jfdctint.c" />
+    <ClCompile Include="..\..\..\jpegSrc\jidctflt.c" />
+    <ClCompile Include="..\..\..\jpegSrc\jidctfst.c" />
+    <ClCompile Include="..\..\..\jpegSrc\jidctint.c" />
+    <ClCompile Include="..\..\..\jpegSrc\jmemansi.c" />
+    <ClCompile Include="..\..\..\jpegSrc\jmemdos.c" />
+    <ClCompile Include="..\..\..\jpegSrc\jmemmac.c" />
+    <ClCompile Include="..\..\..\jpegSrc\jmemmgr.c" />
+    <ClCompile Include="..\..\..\jpegSrc\jmemname.c" />
+    <ClCompile Include="..\..\..\jpegSrc\jmemnobs.c" />
+    <ClCompile Include="..\..\..\jpegSrc\jpegtran.c" />
+    <ClCompile Include="..\..\..\jpegSrc\jquant1.c" />
+    <ClCompile Include="..\..\..\jpegSrc\jquant2.c" />
+    <ClCompile Include="..\..\..\jpegSrc\jutils.c" />
+    <ClCompile Include="..\..\..\jpegSrc\rdbmp.c" />
+    <ClCompile Include="..\..\..\jpegSrc\rdcolmap.c" />
+    <ClCompile Include="..\..\..\jpegSrc\rdgif.c" />
+    <ClCompile Include="..\..\..\jpegSrc\rdjpgcom.c" />
+    <ClCompile Include="..\..\..\jpegSrc\rdppm.c" />
+    <ClCompile Include="..\..\..\jpegSrc\rdrle.c" />
+    <ClCompile Include="..\..\..\jpegSrc\rdswitch.c" />
+    <ClCompile Include="..\..\..\jpegSrc\rdtarga.c" />
+    <ClCompile Include="..\..\..\jpegSrc\transupp.c" />
+    <ClCompile Include="..\..\..\jpegSrc\wrbmp.c" />
+    <ClCompile Include="..\..\..\jpegSrc\wrgif.c" />
+    <ClCompile Include="..\..\..\jpegSrc\wrjpgcom.c" />
+    <ClCompile Include="..\..\..\jpegSrc\wrppm.c" />
+    <ClCompile Include="..\..\..\jpegSrc\wrrle.c" />
+    <ClCompile Include="..\..\..\jpegSrc\wrtarga.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\jpegSrc\Makefile" />
+    <None Include="..\..\..\jpegSrc\README" />
+    <None Include="..\..\..\jpegSrc\README.epics" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="os">
+      <UniqueIdentifier>{94bbd8d2-7414-4694-971f-49efd1f38989}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="os\default">
+      <UniqueIdentifier>{fb0b5af2-2121-4231-870b-2120307dc749}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="os\WIN32">
+      <UniqueIdentifier>{d1fe9a91-02c4-4d5c-9d7a-54970450fd87}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

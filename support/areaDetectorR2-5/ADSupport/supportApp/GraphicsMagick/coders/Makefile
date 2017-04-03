@@ -127,5 +127,7 @@ LIB_SRCS += xtrn.c
 LIB_SRCS += xwd.c
 LIB_SRCS += yuv.c
 
+LIB_LIBS += CORE_bzlib CORE_jbig CORE_jp2 CORE_magick CORE_png CORE_ttf CORE_webp CORE_wmf jpeg zlib xml2 tiff
+LIB_SYS_LIBS_WIN32 += User32 Gdi32 OleAut32
 
 include $(TOP)/configure/RULES

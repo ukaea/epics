@@ -176,4 +176,7 @@ LIB_SRCS += version.c
 LIB_SRCS += widget.c
 LIB_SRCS += xwindow.c
 
+LIB_LIBS += CORE_bzlib CORE_lcms CORE_ttf zlib
+LIB_SYS_LIBS_WIN32 += Advapi32 User32 Gdi32
+
 include $(TOP)/configure/RULES

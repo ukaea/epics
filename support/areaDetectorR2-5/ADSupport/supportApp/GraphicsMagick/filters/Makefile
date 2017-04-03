@@ -20,4 +20,6 @@ USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick/lcms/inc
 
 LIB_SRCS += analyze.c
 
+LIB_LIBS += CORE_magick CORE_ttf
+
 include $(TOP)/configure/RULES

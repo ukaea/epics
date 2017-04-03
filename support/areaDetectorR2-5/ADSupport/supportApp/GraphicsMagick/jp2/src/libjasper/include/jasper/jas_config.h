@@ -11,6 +11,23 @@
 /* If configure is being used, this symbol will be defined automatically
   at this point in the configuration header file. */
 
+#if defined(WIN32) || defined(WIN64)
+# if defined(_DLL) && !defined(_LIB)
+#   if !defined(_EXPORT)
+#     pragma message( "JAS compiling as DLL import" ) 
+#     define JAS_EXTERN __declspec(dllimport)
+#   else
+#     pragma message( "JAS compiling as DLL export" ) 
+#     define JAS_EXTERN extern __declspec(dllexport)
+#   endif
+# else
+#   pragma message( "JAS compiling as library" ) 
+#   define JAS_EXTERN extern
+# endif
+#else
+#   define JAS_EXTERN extern
+#endif
+
 /* The preprocessor symbol JAS_WIN_MSVC_BUILD should not be defined
   unless the JasPer software is being built under Microsoft Windows
   using Microsoft Visual C. */

@@ -25,6 +25,23 @@ typedef void *gzFile; // This is all that was obtained from zlib.h
 
 #include <libwmf/types.h>
 
+#if defined(WIN32) || defined(WIN64)
+# if defined(_DLL) && !defined(_LIB)
+#   if !defined(_EXPORT)
+#     pragma message( "WMF compiling as DLL import" ) 
+#     define WMF_EXTERN __declspec(dllimport)
+#   else
+#     pragma message( "WMF compiling as DLL export" ) 
+#     define WMF_EXTERN extern __declspec(dllexport)
+#   endif
+# else
+#   pragma message( "WMF compiling as library" ) 
+#   define WMF_EXTERN extern
+# endif
+#else
+#   define WMF_EXTERN extern
+#endif
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -32,72 +49,72 @@ extern "C" {
 /**
  * Initializes library
  */
-extern wmf_error_t wmf_api_create (wmfAPI**,unsigned long,wmfAPI_Options*);
+WMF_EXTERN wmf_error_t wmf_api_create (wmfAPI**,unsigned long,wmfAPI_Options*);
 
 /**
  * Possibly completes output, and otherwise frees all allocated memory
  */
-extern wmf_error_t wmf_api_destroy (wmfAPI*);
+WMF_EXTERN wmf_error_t wmf_api_destroy (wmfAPI*);
 
 /**
  * Initializes library - 'lite' interface only
  */
-extern wmf_error_t wmf_lite_create (wmfAPI**,unsigned long,wmfAPI_Options*);
+WMF_EXTERN wmf_error_t wmf_lite_create (wmfAPI**,unsigned long,wmfAPI_Options*);
 
 /**
  * Possibly completes output, and otherwise frees all allocated memory - 'lite' interface only
  */
-extern wmf_error_t wmf_lite_destroy (wmfAPI*);
+WMF_EXTERN wmf_error_t wmf_lite_destroy (wmfAPI*);
 
 /**
  * Reads the header of the current metafile
  */
-extern wmf_error_t wmf_header_read (wmfAPI*);
+WMF_EXTERN wmf_error_t wmf_header_read (wmfAPI*);
 
 /**
  * Scans the current metafile to determine bounding box and resources
  */
-extern wmf_error_t wmf_scan (wmfAPI*,unsigned long,wmfD_Rect*);
+WMF_EXTERN wmf_error_t wmf_scan (wmfAPI*,unsigned long,wmfD_Rect*);
 
 /**
  * Plays the current metafile, calling exporter graphics procedures
  */
-extern wmf_error_t wmf_play (wmfAPI*,unsigned long,wmfD_Rect*);
+WMF_EXTERN wmf_error_t wmf_play (wmfAPI*,unsigned long,wmfD_Rect*);
 
 /**
  * Supplies a width and height for the current metafile
  */
-extern wmf_error_t wmf_size (wmfAPI*,float*,float*);
+WMF_EXTERN wmf_error_t wmf_size (wmfAPI*,float*,float*);
 
 /**
  * Supplies a display (integer-) width and height for the current metafile
  */
-extern wmf_error_t wmf_display_size (wmfAPI*,unsigned int*,unsigned int*,double,double);
+WMF_EXTERN wmf_error_t wmf_display_size (wmfAPI*,unsigned int*,unsigned int*,double,double);
 
 /**
  * Sets user defines input stream functions for reading a metafile
  */
-extern wmf_error_t wmf_bbuf_input (wmfAPI*,wmfRead,wmfSeek,wmfTell,void*);
+WMF_EXTERN wmf_error_t wmf_bbuf_input (wmfAPI*,wmfRead,wmfSeek,wmfTell,void*);
 
 /**
  * Opens a file as the current metafile
  */
-extern wmf_error_t wmf_file_open (wmfAPI*,const char*);
+WMF_EXTERN wmf_error_t wmf_file_open (wmfAPI*,const char*);
 
 /**
  * Closes the file corresponding to the current metafile
  */
-extern wmf_error_t wmf_file_close (wmfAPI*);
+WMF_EXTERN wmf_error_t wmf_file_close (wmfAPI*);
 
 /**
  * Specifies an array of unsigned char as the current metafile
  */
-extern wmf_error_t wmf_mem_open (wmfAPI*,unsigned char*,long);
+WMF_EXTERN wmf_error_t wmf_mem_open (wmfAPI*,unsigned char*,long);
 
 /**
  * Disassociates array corresponding to the current metafile
  */
-extern wmf_error_t wmf_mem_close (wmfAPI*);
+WMF_EXTERN wmf_error_t wmf_mem_close (wmfAPI*);
 
 /* wmf_stream_create: set FILE stream to 0 to write to memory;
  * wmf_stream_destroy: returns pointer to memory, if not a FILE stream
@@ -116,12 +133,12 @@ extern wmfStream* wmf_stream_create (wmfAPI*,FILE*);
 /**
  * Finalizes compressed character output file stream
  */
-extern void wmf_ztream_destroy (wmfAPI*,wmfStream*,char**,unsigned long*);
+WMF_EXTERN void wmf_ztream_destroy (wmfAPI*,wmfStream*,char**,unsigned long*);
 
 /**
  * Finalizes uncompressed character output file stream
  */
-extern void wmf_stream_destroy (wmfAPI*,wmfStream*,char**,unsigned long*);
+WMF_EXTERN void wmf_stream_destroy (wmfAPI*,wmfStream*,char**,unsigned long*);
 
 /**
  * Formatted print to character output file stream
@@ -131,27 +148,27 @@ extern int wmf_stream_printf (wmfAPI*,wmfStream*,char*,...);
 /**
  * malloc() & attach to library's memory manager
  */
-extern void* wmf_malloc (wmfAPI*,size_t);
+WMF_EXTERN void* wmf_malloc (wmfAPI*,size_t);
 
 /**
  * calloc() & attach to library's memory manager
  */
-extern void* wmf_calloc (wmfAPI*,size_t,size_t);
+WMF_EXTERN void* wmf_calloc (wmfAPI*,size_t,size_t);
 
 /**
  * realloc() memory attached to library's memory manager
  */
-extern void* wmf_realloc (wmfAPI*,void*,size_t);
+WMF_EXTERN void* wmf_realloc (wmfAPI*,void*,size_t);
 
 /**
  * free() memory attached to library's memory manager
  */
-extern void wmf_free (wmfAPI*,void*);
+WMF_EXTERN void wmf_free (wmfAPI*,void*);
 
 /**
  * Detach memory from library's memory manager
  */
-extern void  wmf_detach (wmfAPI*,void*);
+WMF_EXTERN void  wmf_detach (wmfAPI*,void*);
 
 /**
  * strdup() & attach to library's memory manager
@@ -176,7 +193,7 @@ extern unsigned long wmf_strbuf_grow (wmfAPI*);
 /**
  * Initializes the metafile player (called by wmf_api_create())
  */
-extern wmf_error_t wmf_player_init (wmfAPI*);
+WMF_EXTERN wmf_error_t wmf_player_init (wmfAPI*);
 
 /**
  * Returns the Aldus Checksum of the metafile's header
@@ -248,22 +265,22 @@ extern int wmf_stream_reset (void*);
 /**
  * Writes message to error stream (use WMF_ERROR macro)
  */
-extern void wmf_error (wmfAPI*,char*,int,char*);
+WMF_EXTERN void wmf_error (wmfAPI*,char*,int,char*);
 
 /**
  * Writes message to debug stream (use WMF_DEBUG macro)
  */
-extern void wmf_debug (wmfAPI*,char*,int,char*);
+WMF_EXTERN void wmf_debug (wmfAPI*,char*,int,char*);
 
 /**
  * Formatted print to debug stream
  */
-extern void wmf_printf (wmfAPI*,char*,...);
+WMF_EXTERN void wmf_printf (wmfAPI*,char*,...);
 
 /**
  * Asserts on zero expression (use WMF_ASSERT macro)
  */
-extern void wmf_assert (wmfAPI*,char*,int);
+WMF_EXTERN void wmf_assert (wmfAPI*,char*,int);
 
 /**
  * Outputs library-specific command-line options
@@ -273,43 +290,43 @@ extern char* wmf_help (void);
 /**
  * Sets drawing origin in device coordinates
  */
-extern void wmf_set_viewport_origin (wmfAPI*,wmfD_Coord);
+WMF_EXTERN void wmf_set_viewport_origin (wmfAPI*,wmfD_Coord);
 
 /**
  * Sets call-back function, called after every metafile record
  */
-extern void wmf_status_function (wmfAPI*,void*,wmfStatus);
+WMF_EXTERN void wmf_status_function (wmfAPI*,void*,wmfStatus);
 
 /**
  * Writes to --wmf-write file (which may be WMF or home-made wmfxml)
  */
-extern void wmf_write (wmfAPI*,unsigned long,unsigned int,const char*,
+WMF_EXTERN void wmf_write (wmfAPI*,unsigned long,unsigned int,const char*,
 		       char**,const unsigned char*,unsigned long);
 
 /**
  * Open --wmf-write file (which may be WMF or home-made wmfxml)
  */
-extern void wmf_write_begin (wmfAPI*,const char*);
+WMF_EXTERN void wmf_write_begin (wmfAPI*,const char*);
 
 /**
  * Close --wmf-write file (which may be WMF or home-made wmfxml)
  */
-extern void wmf_write_end (wmfAPI*);
+WMF_EXTERN void wmf_write_end (wmfAPI*);
 
 /**
  * Initialize a wmfAttributes structure
  */
-extern void wmf_attr_new (wmfAPI*,wmfAttributes*);
+WMF_EXTERN void wmf_attr_new (wmfAPI*,wmfAttributes*);
 
 /**
  * Clear/Empty a wmfAttributes structure
  */
-extern void wmf_attr_clear (wmfAPI*,wmfAttributes*);
+WMF_EXTERN void wmf_attr_clear (wmfAPI*,wmfAttributes*);
 
 /**
  * Free memory associated with a wmfAttributes structure
  */
-extern void wmf_attr_free (wmfAPI*,wmfAttributes*);
+WMF_EXTERN void wmf_attr_free (wmfAPI*,wmfAttributes*);
 
 /**
  * Add an name&value to a wmfAttributes structure; returns ptr to value-in-list
@@ -324,7 +341,7 @@ extern const char * wmf_attr_query (wmfAPI*,wmfAttributes*,const char*);
 /**
  * Load wmfxml file and wmf_mem_open() it
  */
-extern wmf_error_t wmf_wmfxml_import (wmfAPI*,const char*);
+WMF_EXTERN wmf_error_t wmf_wmfxml_import (wmfAPI*,const char*);
 
 #ifdef __cplusplus
 }

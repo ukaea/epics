@@ -17,14 +17,14 @@ USR_CFLAGS += -DBZ_EXPORT
 
 INC += bzlib.h
 
-SRCS += blocksort.c
-SRCS += bzlib.c
-SRCS += compress.c
-SRCS += crctable.c
-SRCS += decompress.c
-SRCS += huffman.c
-SRCS += randtable.c
-SRCS_WIN32 += bzlib.rc
+LIB_SRCS += blocksort.c
+LIB_SRCS += bzlib.c
+LIB_SRCS += compress.c
+LIB_SRCS += crctable.c
+LIB_SRCS += decompress.c
+LIB_SRCS += huffman.c
+LIB_SRCS += randtable.c
+LIB_RCS  += bzlib.rc
 
 
 include $(TOP)/configure/RULES

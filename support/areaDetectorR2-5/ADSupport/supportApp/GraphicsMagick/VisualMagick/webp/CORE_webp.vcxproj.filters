@@ -30,150 +30,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\webp\src\dec\vp8.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\webp\src\dec\webp.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\webp\src\dsp\lossless_enc.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\webp\src\dsp\lossless_enc_mips32.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\webp\src\dsp\lossless_enc_mips_dsp_r2.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\webp\src\dsp\lossless_enc_neon.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\webp\src\dsp\lossless_enc_sse2.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\webp\src\dsp\lossless_enc_sse41.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\webp\src\dsp\lossless_mips_dsp_r2.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\webp\src\dsp\lossless_neon.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\webp\src\dsp\lossless_sse2.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\webp\src\dsp\rescaler_mips32.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\webp\src\dsp\rescaler_mips_dsp_r2.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\webp\src\dsp\rescaler_neon.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\webp\src\dsp\rescaler_sse2.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\webp\src\dsp\upsampling.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\webp\src\dsp\upsampling_mips_dsp_r2.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\webp\src\dsp\upsampling_neon.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\webp\src\dsp\upsampling_sse2.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\webp\src\dsp\yuv.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\webp\src\dsp\yuv_mips32.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\webp\src\dsp\yuv_mips_dsp_r2.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\webp\src\dsp\yuv_sse2.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\webp\src\enc\near_lossless.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\webp\src\enc\picture.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\webp\src\enc\picture_csp.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\webp\src\enc\picture_psnr.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\webp\src\enc\picture_rescale.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\webp\src\enc\picture_tools.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\webp\src\enc\syntax.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\webp\src\enc\token.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\webp\src\enc\webpenc.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\webp\src\mux\muxedit.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\webp\src\mux\muxinternal.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\webp\src\mux\muxread.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\webp\src\utils\quant_levels.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\webp\src\utils\quant_levels_dec.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\webp\src\utils\random.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\webp\src\utils\thread.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\webp\src\utils\utils.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\webp\src\dec\quantdec.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\webp\src\dec\treedec.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\webp\src\dec\vp8ldec.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\webp\src\enc\quantenc.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\webp\src\enc\treeenc.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\webp\src\enc\vp8lenc.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\webp\src\dsp\rescalerdsp.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\webp\src\utils\rescalerutils.c">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\webp\src\dsp\alpha_processing.c">
       <Filter>src\dsp</Filter>
     </ClCompile>
@@ -339,6 +195,150 @@
     <ClCompile Include="..\..\webp\src\dsp\lossless.c">
       <Filter>src\dsp</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\webp\src\dsp\lossless_enc.c">
+      <Filter>src\dsp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\webp\src\dsp\lossless_enc_mips32.c">
+      <Filter>src\dsp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\webp\src\dsp\lossless_enc_mips_dsp_r2.c">
+      <Filter>src\dsp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\webp\src\dsp\lossless_enc_neon.c">
+      <Filter>src\dsp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\webp\src\dsp\lossless_enc_sse2.c">
+      <Filter>src\dsp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\webp\src\dsp\lossless_enc_sse41.c">
+      <Filter>src\dsp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\webp\src\dsp\lossless_mips_dsp_r2.c">
+      <Filter>src\dsp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\webp\src\dsp\lossless_neon.c">
+      <Filter>src\dsp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\webp\src\dsp\lossless_sse2.c">
+      <Filter>src\dsp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\webp\src\mux\muxedit.c">
+      <Filter>src\mux</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\webp\src\mux\muxinternal.c">
+      <Filter>src\mux</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\webp\src\mux\muxread.c">
+      <Filter>src\mux</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\webp\src\enc\near_lossless.c">
+      <Filter>src\enc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\webp\src\enc\picture.c">
+      <Filter>src\enc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\webp\src\enc\picture_csp.c">
+      <Filter>src\enc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\webp\src\enc\picture_psnr.c">
+      <Filter>src\enc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\webp\src\enc\picture_rescale.c">
+      <Filter>src\enc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\webp\src\enc\picture_tools.c">
+      <Filter>src\enc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\webp\src\utils\quant_levels.c">
+      <Filter>src\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\webp\src\utils\quant_levels_dec.c">
+      <Filter>src\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\webp\src\dec\quantdec.c">
+      <Filter>src\dec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\webp\src\enc\quantenc.c">
+      <Filter>src\enc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\webp\src\utils\random.c">
+      <Filter>src\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\webp\src\dsp\rescaler_mips32.c">
+      <Filter>src\dsp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\webp\src\dsp\rescaler_mips_dsp_r2.c">
+      <Filter>src\dsp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\webp\src\dsp\rescaler_neon.c">
+      <Filter>src\dsp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\webp\src\dsp\rescaler_sse2.c">
+      <Filter>src\dsp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\webp\src\dsp\rescalerdsp.c">
+      <Filter>src\dsp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\webp\src\utils\rescalerutils.c">
+      <Filter>src\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\webp\src\enc\syntax.c">
+      <Filter>src\enc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\webp\src\utils\thread.c">
+      <Filter>src\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\webp\src\enc\token.c">
+      <Filter>src\enc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\webp\src\dec\treedec.c">
+      <Filter>src\dec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\webp\src\enc\treeenc.c">
+      <Filter>src\enc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\webp\src\dsp\upsampling.c">
+      <Filter>src\dsp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\webp\src\dsp\upsampling_mips_dsp_r2.c">
+      <Filter>src\dsp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\webp\src\dsp\upsampling_neon.c">
+      <Filter>src\dsp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\webp\src\dsp\upsampling_sse2.c">
+      <Filter>src\dsp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\webp\src\utils\utils.c">
+      <Filter>src\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\webp\src\dec\vp8.c">
+      <Filter>src\dec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\webp\src\dec\vp8ldec.c">
+      <Filter>src\dec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\webp\src\enc\vp8lenc.c">
+      <Filter>src\enc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\webp\src\dec\webp.c">
+      <Filter>src\dec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\webp\src\enc\webpenc.c">
+      <Filter>src\enc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\webp\src\dsp\yuv.c">
+      <Filter>src\dsp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\webp\src\dsp\yuv_mips32.c">
+      <Filter>src\dsp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\webp\src\dsp\yuv_mips_dsp_r2.c">
+      <Filter>src\dsp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\webp\src\dsp\yuv_sse2.c">
+      <Filter>src\dsp</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\webp\src\dec\common.h">
@@ -377,5 +377,10 @@
     <ClInclude Include="..\..\webp\src\webp\types.h">
       <Filter>include</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\webp\src\utils\libwebp.rc">
+      <Filter>src\utils</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

@@ -106,7 +106,7 @@
       <Optimization>Full</Optimization>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_LIB;_MAGICKLIB_;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>../../;../../lcms/include;../../ttf/include;../../bzlib;../../../../include/os/WIN32;../../../../include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../;../../lcms/include;../../ttf/include;../../bzlib;../../../zlibSrc/os/default;../../../zlibSrc/os/WIN32</AdditionalIncludeDirectories>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -128,7 +128,7 @@
       <Optimization>Full</Optimization>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_DLL;_MAGICKLIB_;_MAGICKMOD_;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <AdditionalIncludeDirectories>../../;../../lcms/include;../../ttf/include;../../bzlib;../../../../include/os/WIN32;../../../../include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../;../../lcms/include;../../ttf/include;../../bzlib;../../../zlibSrc/os/default;../../../zlibSrc/os/WIN32</AdditionalIncludeDirectories>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -137,10 +137,7 @@
     <Lib>
       <SuppressStartupBanner>true</SuppressStartupBanner>
     </Lib>
-    <Link>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;zlib.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\..\..\lib\win32-x86</AdditionalLibraryDirectories>
-    </Link>
+    <Link />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">
     <ClCompile>
@@ -153,7 +150,7 @@
       <Optimization>Full</Optimization>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_LIB;_MAGICKLIB_;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>../../;../../lcms/include;../../ttf/include;../../bzlib;../../../../include/os/WIN32;../../../../include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../;../../lcms/include;../../ttf/include;../../bzlib;../../../zlibSrc/os/default;../../../zlibSrc/os/WIN32</AdditionalIncludeDirectories>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -175,7 +172,7 @@
       <Optimization>Full</Optimization>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_DLL;_MAGICKLIB_;_MAGICKMOD_;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <AdditionalIncludeDirectories>../../;../../lcms/include;../../ttf/include;../../bzlib;../../../../include/os/WIN32;../../../../include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../;../../lcms/include;../../ttf/include;../../bzlib;../../../zlibSrc/os/default;../../../zlibSrc/os/WIN32</AdditionalIncludeDirectories>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -184,10 +181,7 @@
     <Lib>
       <SuppressStartupBanner>true</SuppressStartupBanner>
     </Lib>
-    <Link>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;zlib.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\..\..\lib\win32-x86</AdditionalLibraryDirectories>
-    </Link>
+    <Link />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
     <ClCompile>
@@ -200,7 +194,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_LIB;_MAGICKLIB_;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalIncludeDirectories>../../;../../lcms/include;../../ttf/include;../../bzlib;../../../../include/os/WIN32;../../../../include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../;../../lcms/include;../../ttf/include;../../bzlib;../../../zlibSrc/os/default;../../../zlibSrc/os/WIN32</AdditionalIncludeDirectories>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -222,7 +216,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_DLL;_MAGICKLIB_;_MAGICKMOD_;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <AdditionalIncludeDirectories>../../;../../lcms/include;../../ttf/include;../../bzlib;../../../../include/os/WIN32;../../../../include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../;../../lcms/include;../../ttf/include;../../bzlib;../../../zlibSrc/os/default;../../../zlibSrc/os/WIN32</AdditionalIncludeDirectories>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -231,10 +225,7 @@
     <Lib>
       <SuppressStartupBanner>true</SuppressStartupBanner>
     </Lib>
-    <Link>
-      <AdditionalLibraryDirectories>..\..\..\..\lib\win32-x86-debug</AdditionalLibraryDirectories>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;zlib.lib</AdditionalDependencies>
-    </Link>
+    <Link />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
     <ClCompile>
@@ -247,7 +238,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_LIB;_MAGICKLIB_;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalIncludeDirectories>../../;../../lcms/include;../../ttf/include;../../bzlib;../../../../include/os/WIN32;../../../../include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../;../../lcms/include;../../ttf/include;../../bzlib;../../../zlibSrc/os/default;../../../zlibSrc/os/WIN32</AdditionalIncludeDirectories>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -269,7 +260,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_DLL;_MAGICKLIB_;_MAGICKMOD_;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <AdditionalIncludeDirectories>../../;../../lcms/include;../../ttf/include;../../bzlib;../../../../include/os/WIN32;../../../../include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../;../../lcms/include;../../ttf/include;../../bzlib;../../../zlibSrc/os/default;../../../zlibSrc/os/WIN32</AdditionalIncludeDirectories>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -278,10 +269,7 @@
     <Lib>
       <SuppressStartupBanner>true</SuppressStartupBanner>
     </Lib>
-    <Link>
-      <AdditionalLibraryDirectories>..\..\..\..\lib\win32-x86-debug</AdditionalLibraryDirectories>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;zlib.lib</AdditionalDependencies>
-    </Link>
+    <Link />
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\magick\analyze.c" />
@@ -468,6 +456,9 @@
     </ProjectReference>
     <ProjectReference Include="..\ttf\CORE_ttf.vcxproj">
       <Project>{57cd7f0e-d3c6-4914-83ae-315ba04ea555}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\zlib\CORE_zlib.vcxproj">
+      <Project>{c4c77088-9772-4f2c-898b-653acb53b11a}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

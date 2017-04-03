@@ -309,10 +309,10 @@
     <ClCompile Include="..\..\ttf\src\winfonts\winfnt.c" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="ttf.rc" />
+    <ClInclude Include="..\..\ttf\include\ft2build.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\ttf\include\ft2build.h" />
+    <ResourceCompile Include="..\..\ttf\src\base\ttf.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

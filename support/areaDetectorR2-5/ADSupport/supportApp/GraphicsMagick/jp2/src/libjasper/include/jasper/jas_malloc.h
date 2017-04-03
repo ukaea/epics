@@ -104,16 +104,16 @@ extern "C" {
 #if !defined(DEBUG_MEMALLOC)
 
 /* Allocate memory. */
-void *jas_malloc(size_t size);
+JAS_EXTERN void *jas_malloc(size_t size);
 
 /* Free memory. */
-void jas_free(void *ptr);
+JAS_EXTERN void jas_free(void *ptr);
 
 /* Resize a block of allocated memory. */
-void *jas_realloc(void *ptr, size_t size);
+JAS_EXTERN void *jas_realloc(void *ptr, size_t size);
 
 /* Allocate a block of memory and initialize the contents to zero. */
-void *jas_calloc(size_t nmemb, size_t size);
+JAS_EXTERN void *jas_calloc(size_t nmemb, size_t size);
 
 #endif
 

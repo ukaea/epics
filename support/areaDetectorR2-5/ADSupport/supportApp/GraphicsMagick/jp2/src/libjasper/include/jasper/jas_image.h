@@ -298,17 +298,17 @@ typedef struct {
 \******************************************************************************/
 
 /* Create an image. */
-jas_image_t *jas_image_create(int numcmpts,
+JAS_EXTERN jas_image_t *jas_image_create(int numcmpts,
   jas_image_cmptparm_t *cmptparms, jas_clrspc_t clrspc);
 
 /* Create an "empty" image. */
-jas_image_t *jas_image_create0(void);
+JAS_EXTERN jas_image_t *jas_image_create0(void);
 
 /* Clone an image. */
-jas_image_t *jas_image_copy(jas_image_t *image);
+JAS_EXTERN jas_image_t *jas_image_copy(jas_image_t *image);
 
 /* Deallocate any resources associated with an image. */
-void jas_image_destroy(jas_image_t *image);
+JAS_EXTERN void jas_image_destroy(jas_image_t *image);
 
 /* Get the width of the image in units of the image reference grid. */
 #define jas_image_width(image) \
@@ -401,36 +401,36 @@ void jas_image_destroy(jas_image_t *image);
 
 /* Get the raw size of an image (i.e., the nominal size of the image without
   any compression. */
-uint_fast32_t jas_image_rawsize(jas_image_t *image);
+JAS_EXTERN uint_fast32_t jas_image_rawsize(jas_image_t *image);
 
 /* Create an image from a stream in some specified format. */
-jas_image_t *jas_image_decode(jas_stream_t *in, int fmt, char *optstr);
+JAS_EXTERN jas_image_t *jas_image_decode(jas_stream_t *in, int fmt, char *optstr);
 
 /* Write an image to a stream in a specified format. */
-int jas_image_encode(jas_image_t *image, jas_stream_t *out, int fmt,
+JAS_EXTERN int jas_image_encode(jas_image_t *image, jas_stream_t *out, int fmt,
   char *optstr);
 
 /* Read a rectangular region of an image component. */
 /* The position and size of the rectangular region to be read is specified
 relative to the component's coordinate system. */
-int jas_image_readcmpt(jas_image_t *image, int cmptno,
+JAS_EXTERN int jas_image_readcmpt(jas_image_t *image, int cmptno,
   jas_image_coord_t x, jas_image_coord_t y, jas_image_coord_t width, jas_image_coord_t height,
   jas_matrix_t *data);
 
 /* Write a rectangular region of an image component. */
-int jas_image_writecmpt(jas_image_t *image, int cmptno,
+JAS_EXTERN int jas_image_writecmpt(jas_image_t *image, int cmptno,
   jas_image_coord_t x, jas_image_coord_t y, jas_image_coord_t width, jas_image_coord_t height,
   jas_matrix_t *data);
 
 /* Delete a component from an image. */
-void jas_image_delcmpt(jas_image_t *image, int cmptno);
+JAS_EXTERN void jas_image_delcmpt(jas_image_t *image, int cmptno);
 
 /* Add a component to an image. */
-int jas_image_addcmpt(jas_image_t *image, int cmptno,
+JAS_EXTERN int jas_image_addcmpt(jas_image_t *image, int cmptno,
   jas_image_cmptparm_t *cmptparm);
 
 /* Copy a component from one image to another. */
-int jas_image_copycmpt(jas_image_t *dstimage, int dstcmptno,
+JAS_EXTERN int jas_image_copycmpt(jas_image_t *dstimage, int dstcmptno,
   jas_image_t *srcimage, int srccmptno);
 
 #define	JAS_IMAGE_CDT_GETSGND(dtype) (((dtype) >> 7) & 1)
@@ -441,61 +441,61 @@ int jas_image_copycmpt(jas_image_t *dstimage, int dstcmptno,
 #define	jas_image_cmptdtype(image, cmptno) \
 	(JAS_IMAGE_CDT_SETSGND((image)->cmpts_[cmptno]->sgnd_) | JAS_IMAGE_CDT_SETPREC((image)->cmpts_[cmptno]->prec_))
 
-int jas_image_depalettize(jas_image_t *image, int cmptno, int numlutents,
+JAS_EXTERN int jas_image_depalettize(jas_image_t *image, int cmptno, int numlutents,
   int_fast32_t *lutents, int dtype, int newcmptno);
 
-int jas_image_readcmptsample(jas_image_t *image, int cmptno, int x, int y);
-void jas_image_writecmptsample(jas_image_t *image, int cmptno, int x, int y,
+JAS_EXTERN int jas_image_readcmptsample(jas_image_t *image, int cmptno, int x, int y);
+JAS_EXTERN void jas_image_writecmptsample(jas_image_t *image, int cmptno, int x, int y,
   int_fast32_t v);
 
-int jas_image_getcmptbytype(jas_image_t *image, int ctype);
+JAS_EXTERN int jas_image_getcmptbytype(jas_image_t *image, int ctype);
 
 /******************************************************************************\
 * Image format-related operations.
 \******************************************************************************/
 
 /* Clear the table of image formats. */
-void jas_image_clearfmts(void);
+JAS_EXTERN void jas_image_clearfmts(void);
 
 /* Add entry to table of image formats. */
-int jas_image_addfmt(int id, char *name, char *ext, char *desc,
+JAS_EXTERN int jas_image_addfmt(int id, char *name, char *ext, char *desc,
   jas_image_fmtops_t *ops);
 
 /* Get the ID for the image format with the specified name. */
-int jas_image_strtofmt(char *s);
+JAS_EXTERN int jas_image_strtofmt(char *s);
 
 /* Get the name of the image format with the specified ID. */
-char *jas_image_fmttostr(int fmt);
+JAS_EXTERN char *jas_image_fmttostr(int fmt);
 
 /* Lookup image format information by the format ID. */
-jas_image_fmtinfo_t *jas_image_lookupfmtbyid(int id);
+JAS_EXTERN jas_image_fmtinfo_t *jas_image_lookupfmtbyid(int id);
 
 /* Lookup image format information by the format name. */
-jas_image_fmtinfo_t *jas_image_lookupfmtbyname(const char *name);
+JAS_EXTERN jas_image_fmtinfo_t *jas_image_lookupfmtbyname(const char *name);
 
 /* Guess the format of an image file based on its name. */
-int jas_image_fmtfromname(char *filename);
+JAS_EXTERN int jas_image_fmtfromname(char *filename);
 
 /* Get the format of image data in a stream. */
-int jas_image_getfmt(jas_stream_t *in);
+JAS_EXTERN int jas_image_getfmt(jas_stream_t *in);
 
 
 #define	jas_image_cmprof(image)	((image)->cmprof_)
-int jas_image_ishomosamp(jas_image_t *image);
-int jas_image_sampcmpt(jas_image_t *image, int cmptno, int newcmptno,
+JAS_EXTERN int jas_image_ishomosamp(jas_image_t *image);
+JAS_EXTERN int jas_image_sampcmpt(jas_image_t *image, int cmptno, int newcmptno,
   jas_image_coord_t ho, jas_image_coord_t vo, jas_image_coord_t hs,
   jas_image_coord_t vs, int sgnd, int prec);
-int jas_image_writecmpt2(jas_image_t *image, int cmptno, jas_image_coord_t x,
+JAS_EXTERN int jas_image_writecmpt2(jas_image_t *image, int cmptno, jas_image_coord_t x,
   jas_image_coord_t y, jas_image_coord_t width, jas_image_coord_t height,
   long *buf);
-int jas_image_readcmpt2(jas_image_t *image, int cmptno, jas_image_coord_t x,
+JAS_EXTERN int jas_image_readcmpt2(jas_image_t *image, int cmptno, jas_image_coord_t x,
   jas_image_coord_t y, jas_image_coord_t width, jas_image_coord_t height,
   long *buf);
 
 #define	jas_image_setcmprof(image, cmprof) ((image)->cmprof_ = cmprof)
-jas_image_t *jas_image_chclrspc(jas_image_t *image, jas_cmprof_t *outprof,
+JAS_EXTERN jas_image_t *jas_image_chclrspc(jas_image_t *image, jas_cmprof_t *outprof,
   int intent);
-void jas_image_dump(jas_image_t *image, FILE *out);
+JAS_EXTERN void jas_image_dump(jas_image_t *image, FILE *out);
 
 /******************************************************************************\
 * Image format-dependent operations.

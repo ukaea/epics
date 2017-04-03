@@ -373,32 +373,32 @@ typedef struct {
 	jas_iccattrvalops_t ops;
 } jas_iccattrvalinfo_t;
 
-jas_iccprof_t *jas_iccprof_load(jas_stream_t *in);
-int jas_iccprof_save(jas_iccprof_t *prof, jas_stream_t *out);
-void jas_iccprof_destroy(jas_iccprof_t *prof);
-jas_iccattrval_t *jas_iccprof_getattr(jas_iccprof_t *prof,
+JAS_EXTERN jas_iccprof_t *jas_iccprof_load(jas_stream_t *in);
+JAS_EXTERN int jas_iccprof_save(jas_iccprof_t *prof, jas_stream_t *out);
+JAS_EXTERN void jas_iccprof_destroy(jas_iccprof_t *prof);
+JAS_EXTERN jas_iccattrval_t *jas_iccprof_getattr(jas_iccprof_t *prof,
   jas_iccattrname_t name);
-int jas_iccprof_setattr(jas_iccprof_t *prof, jas_iccattrname_t name,
+JAS_EXTERN int jas_iccprof_setattr(jas_iccprof_t *prof, jas_iccattrname_t name,
   jas_iccattrval_t *val);
-void jas_iccprof_dump(jas_iccprof_t *prof, FILE *out);
-jas_iccprof_t *jas_iccprof_copy(jas_iccprof_t *prof);
-int jas_iccprof_gethdr(jas_iccprof_t *prof, jas_icchdr_t *hdr);
-int jas_iccprof_sethdr(jas_iccprof_t *prof, jas_icchdr_t *hdr);
+JAS_EXTERN void jas_iccprof_dump(jas_iccprof_t *prof, FILE *out);
+JAS_EXTERN jas_iccprof_t *jas_iccprof_copy(jas_iccprof_t *prof);
+JAS_EXTERN int jas_iccprof_gethdr(jas_iccprof_t *prof, jas_icchdr_t *hdr);
+JAS_EXTERN int jas_iccprof_sethdr(jas_iccprof_t *prof, jas_icchdr_t *hdr);
 
-void jas_iccattrval_destroy(jas_iccattrval_t *attrval);
-void jas_iccattrval_dump(jas_iccattrval_t *attrval, FILE *out);
-int jas_iccattrval_allowmodify(jas_iccattrval_t **attrval);
-jas_iccattrval_t *jas_iccattrval_clone(jas_iccattrval_t *attrval);
-jas_iccattrval_t *jas_iccattrval_create(jas_iccuint32_t type);
+JAS_EXTERN void jas_iccattrval_destroy(jas_iccattrval_t *attrval);
+JAS_EXTERN void jas_iccattrval_dump(jas_iccattrval_t *attrval, FILE *out);
+JAS_EXTERN int jas_iccattrval_allowmodify(jas_iccattrval_t **attrval);
+JAS_EXTERN jas_iccattrval_t *jas_iccattrval_clone(jas_iccattrval_t *attrval);
+JAS_EXTERN jas_iccattrval_t *jas_iccattrval_create(jas_iccuint32_t type);
 
-void jas_iccattrtab_dump(jas_iccattrtab_t *attrtab, FILE *out);
+JAS_EXTERN void jas_iccattrtab_dump(jas_iccattrtab_t *attrtab, FILE *out);
 
 extern uchar jas_iccprofdata_srgb[];
 extern int jas_iccprofdata_srgblen;
 extern uchar jas_iccprofdata_sgray[];
 extern int jas_iccprofdata_sgraylen;
-jas_iccprof_t *jas_iccprof_createfrombuf(uchar *buf, int len);
-jas_iccprof_t *jas_iccprof_createfromclrspc(int clrspc);
+JAS_EXTERN jas_iccprof_t *jas_iccprof_createfrombuf(uchar *buf, int len);
+JAS_EXTERN jas_iccprof_t *jas_iccprof_createfromclrspc(int clrspc);
 
 #ifdef __cplusplus
 }

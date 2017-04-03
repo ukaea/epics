@@ -269,11 +269,11 @@
     <ClCompile Include="..\..\bzlib\randtable.c" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="bzlib.rc" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="..\..\bzlib\bzlib.h" />
     <ClInclude Include="..\..\bzlib\bzlib_private.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\bzlib\bzlib.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

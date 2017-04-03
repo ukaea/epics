@@ -257,4 +257,9 @@
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\jp2\src\libjasper\base\jp2.rc">
+      <Filter>src</Filter>
+    </ResourceCompile>
+  </ItemGroup>
 </Project>

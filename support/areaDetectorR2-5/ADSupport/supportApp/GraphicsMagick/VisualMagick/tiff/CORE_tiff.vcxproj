@@ -35,30 +35,30 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>CORE_wmf</ProjectName>
-    <ProjectGuid>{D8CE3982-3E41-47A0-9F32-138728B45B6D}</ProjectGuid>
+    <ProjectName>CORE_tiff</ProjectName>
+    <ProjectGuid>{E3C6D871-83EC-4F64-815A-AFD9E6B63EDA}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'" Label="Configuration">
@@ -70,10 +70,10 @@
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'" Label="PropertySheets">
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'" Label="PropertySheets">
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'" Label="PropertySheets">
@@ -82,10 +82,10 @@
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'" Label="PropertySheets">
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'" Label="PropertySheets">
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'" Label="PropertySheets">
@@ -104,31 +104,9 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <OmitFramePointers>true</OmitFramePointers>
       <Optimization>Full</Optimization>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_LIB;HAVE_CONFIG_H;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_LIB;_TIFFLIB_;CHECK_JPEG_YCBCR_SUBSAMPLING;DEFAULT_EXTRASAMPLE_AS_ALPHA;STRIPCHOP_DEFAULT=TIFF_STRIPCHOP;LOGLUV_SUPPORT;NEXT_SUPPORT;THUNDER_SUPPORT;LZW_SUPPORT;PACKBITS_SUPPORT;CCITT_SUPPORT;TIF_PLATFORM_CONSOLE;FILLODER_LSB2MSB;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>../../;../../wmf;../../wmf/include;../../ttf/include</AdditionalIncludeDirectories>
-    </ClCompile>
-    <ResourceCompile>
-      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <Culture>0x0409</Culture>
-    </ResourceCompile>
-    <Lib>
-      <SuppressStartupBanner>true</SuppressStartupBanner>
-      <TargetMachine>MachineX86</TargetMachine>
-    </Lib>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
-      <SuppressStartupBanner>true</SuppressStartupBanner>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <OmitFramePointers>true</OmitFramePointers>
-      <Optimization>Full</Optimization>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;_EXPORT;_DLL;HAVE_CONFIG_H;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <AdditionalIncludeDirectories>../../;../../wmf;../../wmf/include;../../ttf/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../tiffSrc/os/WIN32;../../../tiffSrc/os/default</AdditionalIncludeDirectories>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -147,9 +125,9 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <OmitFramePointers>true</OmitFramePointers>
       <Optimization>Full</Optimization>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_LIB;HAVE_CONFIG_H;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_LIB;_TIFFLIB_;CHECK_JPEG_YCBCR_SUBSAMPLING;DEFAULT_EXTRASAMPLE_AS_ALPHA;STRIPCHOP_DEFAULT=TIFF_STRIPCHOP;LOGLUV_SUPPORT;NEXT_SUPPORT;THUNDER_SUPPORT;LZW_SUPPORT;PACKBITS_SUPPORT;CCITT_SUPPORT;TIF_PLATFORM_CONSOLE;FILLODER_LSB2MSB;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>../../;../../wmf;../../wmf/include;../../ttf/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../tiffSrc/os/WIN32;../../../tiffSrc/os/default</AdditionalIncludeDirectories>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -157,7 +135,27 @@
     </ResourceCompile>
     <Lib>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <TargetMachine>MachineX64</TargetMachine>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <OmitFramePointers>true</OmitFramePointers>
+      <Optimization>Full</Optimization>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_LIB;_TIFFLIB_;CHECK_JPEG_YCBCR_SUBSAMPLING;DEFAULT_EXTRASAMPLE_AS_ALPHA;STRIPCHOP_DEFAULT=TIFF_STRIPCHOP;LOGLUV_SUPPORT;NEXT_SUPPORT;THUNDER_SUPPORT;LZW_SUPPORT;PACKBITS_SUPPORT;CCITT_SUPPORT;TIF_PLATFORM_CONSOLE;FILLODER_LSB2MSB;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalIncludeDirectories>../../../tiffSrc/os/WIN32;../../../tiffSrc/os/default</AdditionalIncludeDirectories>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Lib>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
@@ -169,9 +167,9 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <OmitFramePointers>true</OmitFramePointers>
       <Optimization>Full</Optimization>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;_EXPORT;_DLL;HAVE_CONFIG_H;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <AdditionalIncludeDirectories>../../;../../wmf;../../wmf/include;../../ttf/include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_LIB;_TIFFLIB_;CHECK_JPEG_YCBCR_SUBSAMPLING;DEFAULT_EXTRASAMPLE_AS_ALPHA;STRIPCHOP_DEFAULT=TIFF_STRIPCHOP;LOGLUV_SUPPORT;NEXT_SUPPORT;THUNDER_SUPPORT;LZW_SUPPORT;PACKBITS_SUPPORT;CCITT_SUPPORT;TIF_PLATFORM_CONSOLE;FILLODER_LSB2MSB;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalIncludeDirectories>../../../tiffSrc/os/WIN32;../../../tiffSrc/os/default</AdditionalIncludeDirectories>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -190,31 +188,9 @@
       <OmitFramePointers>false</OmitFramePointers>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_LIB;HAVE_CONFIG_H;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../../../tiffSrc/os/WIN32;../../../tiffSrc/os/default</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_LIB;_TIFFLIB_;CHECK_JPEG_YCBCR_SUBSAMPLING;DEFAULT_EXTRASAMPLE_AS_ALPHA;STRIPCHOP_DEFAULT=TIFF_STRIPCHOP;LOGLUV_SUPPORT;NEXT_SUPPORT;THUNDER_SUPPORT;LZW_SUPPORT;PACKBITS_SUPPORT;CCITT_SUPPORT;TIF_PLATFORM_CONSOLE;FILLODER_LSB2MSB;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalIncludeDirectories>../../;../../wmf;../../wmf/include;../../ttf/include</AdditionalIncludeDirectories>
-    </ClCompile>
-    <ResourceCompile>
-      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <Culture>0x0409</Culture>
-    </ResourceCompile>
-    <Lib>
-      <SuppressStartupBanner>true</SuppressStartupBanner>
-      <TargetMachine>MachineX86</TargetMachine>
-    </Lib>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
-      <SuppressStartupBanner>true</SuppressStartupBanner>
-      <OmitFramePointers>false</OmitFramePointers>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;_EXPORT;_DLL;HAVE_CONFIG_H;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <AdditionalIncludeDirectories>../../;../../wmf;../../wmf/include;../../ttf/include</AdditionalIncludeDirectories>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -233,9 +209,9 @@
       <OmitFramePointers>false</OmitFramePointers>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_LIB;HAVE_CONFIG_H;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_LIB;_TIFFLIB_;CHECK_JPEG_YCBCR_SUBSAMPLING;DEFAULT_EXTRASAMPLE_AS_ALPHA;STRIPCHOP_DEFAULT=TIFF_STRIPCHOP;LOGLUV_SUPPORT;NEXT_SUPPORT;THUNDER_SUPPORT;LZW_SUPPORT;PACKBITS_SUPPORT;CCITT_SUPPORT;TIF_PLATFORM_CONSOLE;FILLODER_LSB2MSB;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalIncludeDirectories>../../;../../wmf;../../wmf/include;../../ttf/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../tiffSrc/os/WIN32;../../../tiffSrc/os/default</AdditionalIncludeDirectories>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -243,7 +219,27 @@
     </ResourceCompile>
     <Lib>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <TargetMachine>MachineX64</TargetMachine>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OmitFramePointers>false</OmitFramePointers>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_LIB;_TIFFLIB_;CHECK_JPEG_YCBCR_SUBSAMPLING;DEFAULT_EXTRASAMPLE_AS_ALPHA;STRIPCHOP_DEFAULT=TIFF_STRIPCHOP;LOGLUV_SUPPORT;NEXT_SUPPORT;THUNDER_SUPPORT;LZW_SUPPORT;PACKBITS_SUPPORT;CCITT_SUPPORT;TIF_PLATFORM_CONSOLE;FILLODER_LSB2MSB;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalIncludeDirectories>../../../tiffSrc/os/WIN32;../../../tiffSrc/os/default</AdditionalIncludeDirectories>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Lib>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
@@ -255,9 +251,9 @@
       <OmitFramePointers>false</OmitFramePointers>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;_EXPORT;_DLL;HAVE_CONFIG_H;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <AdditionalIncludeDirectories>../../;../../wmf;../../wmf/include;../../ttf/include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_LIB;_TIFFLIB_;CHECK_JPEG_YCBCR_SUBSAMPLING;DEFAULT_EXTRASAMPLE_AS_ALPHA;STRIPCHOP_DEFAULT=TIFF_STRIPCHOP;LOGLUV_SUPPORT;NEXT_SUPPORT;THUNDER_SUPPORT;LZW_SUPPORT;PACKBITS_SUPPORT;CCITT_SUPPORT;TIF_PLATFORM_CONSOLE;FILLODER_LSB2MSB;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalIncludeDirectories>../../../tiffSrc/os/WIN32;../../../tiffSrc/os/default</AdditionalIncludeDirectories>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -268,125 +264,97 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\wmf\src\api.c" />
-    <ClCompile Include="..\..\wmf\src\api\api.c">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\..\wmf\src\api\bbuf.c">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\..\wmf\src\api\meta.c">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\..\wmf\src\api\stream.c">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\..\wmf\src\bbuf.c" />
-    <ClCompile Include="..\..\wmf\src\font.c">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\..\wmf\src\io-wmf.c">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\..\wmf\src\meta.c" />
-    <ClCompile Include="..\..\wmf\src\player.c" />
-    <ClCompile Include="..\..\wmf\src\recorder.c" />
-    <ClCompile Include="..\..\wmf\src\stream.c">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\..\wmf\src\wmf.c">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\..\wmf\src\xml.c" />
+    <ClInclude Include="..\..\..\tiffSrc\os\default\tiff.h" />
+    <ClInclude Include="..\..\..\tiffSrc\os\default\tiffio.h" />
+    <ClInclude Include="..\..\..\tiffSrc\os\default\tiffvers.h" />
+    <ClInclude Include="..\..\..\tiffSrc\os\WIN32\tiffconf.h" />
+    <ClInclude Include="..\..\..\tiffSrc\os\WIN32\tiffconf.vc.h" />
+    <ClInclude Include="..\..\..\tiffSrc\os\WIN32\tif_config.h" />
+    <ClInclude Include="..\..\..\tiffSrc\os\WIN32\tif_config.vc.h" />
+    <ClInclude Include="..\..\..\tiffSrc\t4.h" />
+    <ClInclude Include="..\..\..\tiffSrc\tiffiop.h" />
+    <ClInclude Include="..\..\..\tiffSrc\tif_dir.h" />
+    <ClInclude Include="..\..\..\tiffSrc\tif_fax3.h" />
+    <ClInclude Include="..\..\..\tiffSrc\tif_predict.h" />
+    <ClInclude Include="..\..\..\tiffSrc\uvcode.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\wmf\include\libwmf\api.h" />
-    <ClInclude Include="..\..\wmf\include\libwmf\canvas.h" />
-    <ClInclude Include="..\..\wmf\include\libwmf\color.h" />
-    <ClInclude Include="..\..\wmf\include\libwmf\defs.h" />
-    <ClInclude Include="..\..\wmf\include\libwmf\eps.h" />
-    <ClInclude Include="..\..\wmf\include\libwmf\fig.h" />
-    <ClInclude Include="..\..\wmf\include\libwmf\font.h" />
-    <ClInclude Include="..\..\wmf\include\libwmf\foreign.h" />
-    <ClInclude Include="..\..\wmf\include\libwmf\fund.h" />
-    <ClInclude Include="..\..\wmf\include\libwmf\gd.h" />
-    <ClInclude Include="..\..\wmf\include\libwmf\ipa.h" />
-    <ClInclude Include="..\..\wmf\include\libwmf\macro.h" />
-    <ClInclude Include="..\..\wmf\include\libwmf\plot.h" />
-    <ClInclude Include="..\..\wmf\include\libwmf\svg.h" />
-    <ClInclude Include="..\..\wmf\include\libwmf\template.h" />
-    <ClInclude Include="..\..\wmf\include\libwmf\types.h" />
-    <ClInclude Include="..\..\wmf\include\libwmf\x.h" />
-    <ClInclude Include="..\..\wmf\src\api\api.h" />
-    <ClInclude Include="..\..\wmf\src\api\bbuf.h" />
-    <ClInclude Include="..\..\wmf\src\api\stream.h" />
-    <ClInclude Include="..\..\wmf\src\font.h" />
-    <ClInclude Include="..\..\wmf\src\stream.h" />
+    <None Include="..\..\..\tiffSrc\COPYRIGHT" />
+    <None Include="..\..\..\tiffSrc\Makefile" />
+    <None Include="..\..\..\tiffSrc\README" />
+    <None Include="..\..\..\tiffSrc\README.epics" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\wmf\include\libwmf\Makefile.am" />
-    <None Include="..\..\wmf\include\libwmf\Makefile.in" />
-    <None Include="..\..\wmf\src\api\Makefile.am" />
-    <None Include="..\..\wmf\src\api\Makefile.in" />
-    <None Include="..\..\wmf\src\Makefile" />
-    <None Include="..\..\wmf\src\Makefile.am" />
-    <None Include="..\..\wmf\src\Makefile.in" />
+    <ClCompile Include="..\..\..\tiffSrc\mkg3states.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tiffSrc\tif_aux.c" />
+    <ClCompile Include="..\..\..\tiffSrc\tif_close.c" />
+    <ClCompile Include="..\..\..\tiffSrc\tif_codec.c" />
+    <ClCompile Include="..\..\..\tiffSrc\tif_color.c" />
+    <ClCompile Include="..\..\..\tiffSrc\tif_compress.c" />
+    <ClCompile Include="..\..\..\tiffSrc\tif_dir.c" />
+    <ClCompile Include="..\..\..\tiffSrc\tif_dirinfo.c" />
+    <ClCompile Include="..\..\..\tiffSrc\tif_dirread.c" />
+    <ClCompile Include="..\..\..\tiffSrc\tif_dirwrite.c" />
+    <ClCompile Include="..\..\..\tiffSrc\tif_dumpmode.c" />
+    <ClCompile Include="..\..\..\tiffSrc\tif_error.c" />
+    <ClCompile Include="..\..\..\tiffSrc\tif_extension.c" />
+    <ClCompile Include="..\..\..\tiffSrc\tif_fax3.c" />
+    <ClCompile Include="..\..\..\tiffSrc\tif_fax3sm.c" />
+    <ClCompile Include="..\..\..\tiffSrc\tif_flush.c" />
+    <ClCompile Include="..\..\..\tiffSrc\tif_getimage.c" />
+    <ClCompile Include="..\..\..\tiffSrc\tif_jbig.c" />
+    <ClCompile Include="..\..\..\tiffSrc\tif_jpeg.c" />
+    <ClCompile Include="..\..\..\tiffSrc\tif_jpeg_12.c" />
+    <ClCompile Include="..\..\..\tiffSrc\tif_luv.c" />
+    <ClCompile Include="..\..\..\tiffSrc\tif_lzma.c" />
+    <ClCompile Include="..\..\..\tiffSrc\tif_lzw.c" />
+    <ClCompile Include="..\..\..\tiffSrc\tif_next.c" />
+    <ClCompile Include="..\..\..\tiffSrc\tif_ojpeg.c" />
+    <ClCompile Include="..\..\..\tiffSrc\tif_open.c" />
+    <ClCompile Include="..\..\..\tiffSrc\tif_packbits.c" />
+    <ClCompile Include="..\..\..\tiffSrc\tif_pixarlog.c" />
+    <ClCompile Include="..\..\..\tiffSrc\tif_predict.c" />
+    <ClCompile Include="..\..\..\tiffSrc\tif_print.c" />
+    <ClCompile Include="..\..\..\tiffSrc\tif_read.c" />
+    <ClCompile Include="..\..\..\tiffSrc\tif_stream.cpp" />
+    <ClCompile Include="..\..\..\tiffSrc\tif_strip.c" />
+    <ClCompile Include="..\..\..\tiffSrc\tif_swab.c" />
+    <ClCompile Include="..\..\..\tiffSrc\tif_thunder.c" />
+    <ClCompile Include="..\..\..\tiffSrc\tif_tile.c" />
+    <ClCompile Include="..\..\..\tiffSrc\tif_unix.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tiffSrc\tif_version.c" />
+    <ClCompile Include="..\..\..\tiffSrc\tif_vxWorks.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tiffSrc\tif_warning.c" />
+    <ClCompile Include="..\..\..\tiffSrc\tif_win32.c" />
+    <ClCompile Include="..\..\..\tiffSrc\tif_write.c" />
+    <ClCompile Include="..\..\..\tiffSrc\tif_zip.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

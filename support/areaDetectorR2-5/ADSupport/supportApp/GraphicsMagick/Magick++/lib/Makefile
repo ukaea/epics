@@ -54,4 +54,6 @@ LIB_SRCS += STL.cpp
 LIB_SRCS += Thread.cpp
 LIB_SRCS += TypeMetric.cpp
 
+LIB_LIBS += CORE_Magick
+
 include $(TOP)/configure/RULES

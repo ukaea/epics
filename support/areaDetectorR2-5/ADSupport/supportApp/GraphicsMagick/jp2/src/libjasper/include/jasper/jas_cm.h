@@ -224,7 +224,7 @@ typedef struct {
 /* Create a profile. */
 
 /* Destroy a profile. */
-void jas_cmprof_destroy(jas_cmprof_t *prof);
+JAS_EXTERN void jas_cmprof_destroy(jas_cmprof_t *prof);
 
 #if 0
 typedef int_fast32_t jas_cmattrname_t;
@@ -240,24 +240,24 @@ int jas_cm_prof_setattr(jas_cm_prof_t *prof, jas_cm_attrname_t name, void *val);
 void *jas_cm_prof_getattr(jas_cm_prof_t *prof, jas_cm_attrname_t name);
 #endif
 
-jas_cmxform_t *jas_cmxform_create(jas_cmprof_t *inprof, jas_cmprof_t *outprof,
+JAS_EXTERN jas_cmxform_t *jas_cmxform_create(jas_cmprof_t *inprof, jas_cmprof_t *outprof,
   jas_cmprof_t *proofprof, int op, int intent, int optimize);
 
-void jas_cmxform_destroy(jas_cmxform_t *xform);
+JAS_EXTERN void jas_cmxform_destroy(jas_cmxform_t *xform);
 
 /* Apply a transform to data. */
-int jas_cmxform_apply(jas_cmxform_t *xform, jas_cmpixmap_t *in,
+JAS_EXTERN int jas_cmxform_apply(jas_cmxform_t *xform, jas_cmpixmap_t *in,
   jas_cmpixmap_t *out);
 
 int jas_cxform_optimize(jas_cmxform_t *xform, int optimize);
 
-int jas_clrspc_numchans(int clrspc);
-jas_cmprof_t *jas_cmprof_createfromiccprof(jas_iccprof_t *iccprof);
-jas_cmprof_t *jas_cmprof_createfromclrspc(int clrspc);
-jas_iccprof_t *jas_iccprof_createfromcmprof(jas_cmprof_t *prof);
+JAS_EXTERN int jas_clrspc_numchans(int clrspc);
+JAS_EXTERN jas_cmprof_t *jas_cmprof_createfromiccprof(jas_iccprof_t *iccprof);
+JAS_EXTERN jas_cmprof_t *jas_cmprof_createfromclrspc(int clrspc);
+JAS_EXTERN jas_iccprof_t *jas_iccprof_createfromcmprof(jas_cmprof_t *prof);
 
 #define	jas_cmprof_clrspc(prof) ((prof)->clrspc)
-jas_cmprof_t *jas_cmprof_copy(jas_cmprof_t *prof);
+JAS_EXTERN jas_cmprof_t *jas_cmprof_copy(jas_cmprof_t *prof);
 
 #ifdef __cplusplus
 }

@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="os">
+      <UniqueIdentifier>{5d17fbed-a2b8-44d3-8db3-df1c6a3ce0dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="os\default">
+      <UniqueIdentifier>{2ec2803a-6e46-4e04-b810-4cf14f68335c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\xml2Src\buf.c" />
+    <ClCompile Include="..\..\..\xml2Src\c14n.c" />
+    <ClCompile Include="..\..\..\xml2Src\catalog.c" />
+    <ClCompile Include="..\..\..\xml2Src\chvalid.c" />
+    <ClCompile Include="..\..\..\xml2Src\debugXML.c" />
+    <ClCompile Include="..\..\..\xml2Src\dict.c" />
+    <ClCompile Include="..\..\..\xml2Src\DOCBparser.c" />
+    <ClCompile Include="..\..\..\xml2Src\encoding.c" />
+    <ClCompile Include="..\..\..\xml2Src\entities.c" />
+    <ClCompile Include="..\..\..\xml2Src\error.c" />
+    <ClCompile Include="..\..\..\xml2Src\globals.c" />
+    <ClCompile Include="..\..\..\xml2Src\hash.c" />
+    <ClCompile Include="..\..\..\xml2Src\HTMLparser.c" />
+    <ClCompile Include="..\..\..\xml2Src\HTMLtree.c" />
+    <ClCompile Include="..\..\..\xml2Src\legacy.c" />
+    <ClCompile Include="..\..\..\xml2Src\list.c" />
+    <ClCompile Include="..\..\..\xml2Src\nanoftp.c" />
+    <ClCompile Include="..\..\..\xml2Src\nanohttp.c" />
+    <ClCompile Include="..\..\..\xml2Src\parser.c" />
+    <ClCompile Include="..\..\..\xml2Src\parserInternals.c" />
+    <ClCompile Include="..\..\..\xml2Src\pattern.c" />
+    <ClCompile Include="..\..\..\xml2Src\relaxng.c" />
+    <ClCompile Include="..\..\..\xml2Src\runsuite.c" />
+    <ClCompile Include="..\..\..\xml2Src\runtest.c" />
+    <ClCompile Include="..\..\..\xml2Src\runxmlconf.c" />
+    <ClCompile Include="..\..\..\xml2Src\SAX.c" />
+    <ClCompile Include="..\..\..\xml2Src\SAX2.c" />
+    <ClCompile Include="..\..\..\xml2Src\schematron.c" />
+    <ClCompile Include="..\..\..\xml2Src\testapi.c" />
+    <ClCompile Include="..\..\..\xml2Src\testAutomata.c" />
+    <ClCompile Include="..\..\..\xml2Src\testC14N.c" />
+    <ClCompile Include="..\..\..\xml2Src\testchar.c" />
+    <ClCompile Include="..\..\..\xml2Src\testdict.c" />
+    <ClCompile Include="..\..\..\xml2Src\testdso.c" />
+    <ClCompile Include="..\..\..\xml2Src\testHTML.c" />
+    <ClCompile Include="..\..\..\xml2Src\testlimits.c" />
+    <ClCompile Include="..\..\..\xml2Src\testModule.c" />
+    <ClCompile Include="..\..\..\xml2Src\testReader.c" />
+    <ClCompile Include="..\..\..\xml2Src\testrecurse.c" />
+    <ClCompile Include="..\..\..\xml2Src\testRegexp.c" />
+    <ClCompile Include="..\..\..\xml2Src\testRelax.c" />
+    <ClCompile Include="..\..\..\xml2Src\testSAX.c" />
+    <ClCompile Include="..\..\..\xml2Src\testSchemas.c" />
+    <ClCompile Include="..\..\..\xml2Src\testThreads.c" />
+    <ClCompile Include="..\..\..\xml2Src\testThreadsWin32.c" />
+    <ClCompile Include="..\..\..\xml2Src\testURI.c" />
+    <ClCompile Include="..\..\..\xml2Src\testXPath.c" />
+    <ClCompile Include="..\..\..\xml2Src\threads.c" />
+    <ClCompile Include="..\..\..\xml2Src\tree.c" />
+    <ClCompile Include="..\..\..\xml2Src\trio.c" />
+    <ClCompile Include="..\..\..\xml2Src\trionan.c" />
+    <ClCompile Include="..\..\..\xml2Src\triostr.c" />
+    <ClCompile Include="..\..\..\xml2Src\uri.c" />
+    <ClCompile Include="..\..\..\xml2Src\valid.c" />
+    <ClCompile Include="..\..\..\xml2Src\xinclude.c" />
+    <ClCompile Include="..\..\..\xml2Src\xlink.c" />
+    <ClCompile Include="..\..\..\xml2Src\xmlcatalog.c" />
+    <ClCompile Include="..\..\..\xml2Src\xmlIO.c" />
+    <ClCompile Include="..\..\..\xml2Src\xmllint.c" />
+    <ClCompile Include="..\..\..\xml2Src\xmlmemory.c" />
+    <ClCompile Include="..\..\..\xml2Src\xmlmodule.c" />
+    <ClCompile Include="..\..\..\xml2Src\xmlreader.c" />
+    <ClCompile Include="..\..\..\xml2Src\xmlregexp.c" />
+    <ClCompile Include="..\..\..\xml2Src\xmlsave.c" />
+    <ClCompile Include="..\..\..\xml2Src\xmlschemas.c" />
+    <ClCompile Include="..\..\..\xml2Src\xmlschemastypes.c" />
+    <ClCompile Include="..\..\..\xml2Src\xmlstring.c" />
+    <ClCompile Include="..\..\..\xml2Src\xmlunicode.c" />
+    <ClCompile Include="..\..\..\xml2Src\xmlwriter.c" />
+    <ClCompile Include="..\..\..\xml2Src\xpath.c" />
+    <ClCompile Include="..\..\..\xml2Src\xpointer.c" />
+    <ClCompile Include="..\..\..\xml2Src\xzlib.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\xml2Src\buf.h" />
+    <ClInclude Include="..\..\..\xml2Src\elfgcchack.h" />
+    <ClInclude Include="..\..\..\xml2Src\enc.h" />
+    <ClInclude Include="..\..\..\xml2Src\libxml.h" />
+    <ClInclude Include="..\..\..\xml2Src\save.h" />
+    <ClInclude Include="..\..\..\xml2Src\timsort.h" />
+    <ClInclude Include="..\..\..\xml2Src\trio.h" />
+    <ClInclude Include="..\..\..\xml2Src\triodef.h" />
+    <ClInclude Include="..\..\..\xml2Src\trionan.h" />
+    <ClInclude Include="..\..\..\xml2Src\triop.h" />
+    <ClInclude Include="..\..\..\xml2Src\triostr.h" />
+    <ClInclude Include="..\..\..\xml2Src\xzlib.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\xml2Src\AUTHORS" />
+    <None Include="..\..\..\xml2Src\COPYING" />
+    <None Include="..\..\..\xml2Src\Copyright" />
+    <None Include="..\..\..\xml2Src\Makefile" />
+    <None Include="..\..\..\xml2Src\README" />
+    <None Include="..\..\..\xml2Src\README.epics" />
+  </ItemGroup>
+</Project>
