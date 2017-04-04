@@ -1,7 +1,7 @@
 TOP = ../../../..
 include $(TOP)/configure/CONFIG
 
-LIBRARY = CORE_Magick++
+LIBRARY = Magick++
 
 USR_CXXFLAGS_WIN32 += -DWIN32
 USR_CXXFLAGS_WIN32 += -D_VISUALC_
@@ -54,6 +54,6 @@ LIB_SRCS += STL.cpp
 LIB_SRCS += Thread.cpp
 LIB_SRCS += TypeMetric.cpp
 
-LIB_LIBS += CORE_Magick
+LIB_LIBS += Magick
 
 include $(TOP)/configure/RULES

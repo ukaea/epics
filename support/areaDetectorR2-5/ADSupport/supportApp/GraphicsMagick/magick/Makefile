@@ -1,7 +1,7 @@
 TOP = ../../..
 include $(TOP)/configure/CONFIG
 
-LIBRARY = CORE_Magick
+LIBRARY = Magick
 
 USR_CFLAGS_WIN32 += -DWIN32
 USR_CFLAGS_WIN32 += -D_VISUALC_
@@ -176,7 +176,7 @@ LIB_SRCS += version.c
 LIB_SRCS += widget.c
 LIB_SRCS += xwindow.c
 
-LIB_LIBS += CORE_bzlib CORE_lcms CORE_ttf zlib
+LIB_LIBS += bzlib lcms ttf zlib
 LIB_SYS_LIBS_WIN32 += Advapi32 User32 Gdi32
 
 include $(TOP)/configure/RULES

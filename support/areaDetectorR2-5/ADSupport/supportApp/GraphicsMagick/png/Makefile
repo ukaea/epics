@@ -1,7 +1,7 @@
 TOP = ../../..
 include $(TOP)/configure/CONFIG
 
-LIBRARY = CORE_png
+LIBRARY = png
 
 USR_CFLAGS_WIN32 += -DWIN32
 USR_CFLAGS_WIN32 += -D_VISUALC_
@@ -39,6 +39,6 @@ LIB_SRCS += pngread.c
 
 LIB_RCS  += png.rc
 
-LIB_LIBS += CORE_bzlib zlib
+LIB_LIBS += bzlib zlib
 
 include $(TOP)/configure/RULES

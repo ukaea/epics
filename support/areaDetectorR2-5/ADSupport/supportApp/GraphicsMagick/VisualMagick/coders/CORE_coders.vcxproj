@@ -137,9 +137,7 @@
     <Lib>
       <SuppressStartupBanner>true</SuppressStartupBanner>
     </Lib>
-    <Link>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;tiff.lib;jpeg.lib;zlib.lib;xml2.lib</AdditionalDependencies>
-    </Link>
+    <Link />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">
     <ClCompile>
@@ -183,9 +181,7 @@
     <Lib>
       <SuppressStartupBanner>true</SuppressStartupBanner>
     </Lib>
-    <Link>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;tiff.lib;jpeg.lib;zlib.lib;xml2.lib</AdditionalDependencies>
-    </Link>
+    <Link />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
     <ClCompile>
@@ -230,7 +226,6 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
     </Lib>
     <Link>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;tiff.lib;jpeg.lib;zlib.lib;xml2.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\..\..\..\lib\win32-x86</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -276,9 +271,7 @@
     <Lib>
       <SuppressStartupBanner>true</SuppressStartupBanner>
     </Lib>
-    <Link>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;tiff.lib;jpeg.lib;zlib.lib;xml2.lib</AdditionalDependencies>
-    </Link>
+    <Link />
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\coders\art.c" />
@@ -395,11 +388,20 @@
     <ProjectReference Include="..\jp2\CORE_jp2.vcxproj">
       <Project>{8d4d1e05-54b0-4861-a657-3eeafefebbe2}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\jpeg\CORE_jpeg.vcxproj">
+      <Project>{d5b667d9-4a72-4ccb-aaf6-8ba2c433edd6}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\libxml\CORE_libxml.vcxproj">
+      <Project>{8b797ed0-1330-469e-99c8-6d6669921412}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\magick\CORE_magick.vcxproj">
       <Project>{8f881d50-14c0-4d6d-a47a-086c73bb7da3}</Project>
     </ProjectReference>
     <ProjectReference Include="..\png\CORE_png.vcxproj">
       <Project>{bf6e0ff5-5886-4845-b21d-b82d631bec00}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\tiff\CORE_tiff.vcxproj">
+      <Project>{e3c6d871-83ec-4f64-815a-afd9e6b63eda}</Project>
     </ProjectReference>
     <ProjectReference Include="..\ttf\CORE_ttf.vcxproj">
       <Project>{57cd7f0e-d3c6-4914-83ae-315ba04ea555}</Project>
@@ -409,6 +411,9 @@
     </ProjectReference>
     <ProjectReference Include="..\wmf\CORE_wmf.vcxproj">
       <Project>{d8ce3982-3e41-47a0-9f32-138728b45b6d}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\zlib\CORE_zlib.vcxproj">
+      <Project>{c4c77088-9772-4f2c-898b-653acb53b11a}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

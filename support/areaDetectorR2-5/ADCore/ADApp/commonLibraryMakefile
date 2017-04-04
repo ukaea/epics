@@ -125,11 +125,9 @@ endif
 # The following libraries are only needed for GraphicsMagick
 ifeq ($(WITH_GRAPHICSMAGICK), YES)
   ifeq ($(GRAPHICSMAGICK_EXTERNAL),NO)
-    LIB_LIBS               += CORE_Magick++ CORE_Magick CORE_coders CORE_jbig CORE_jp2 CORE_bzlib CORE_png CORE_webp CORE_lcms CORE_ttf CORE_wmf CORE_filters
-# CORE_wand CORE_Magick
+    LIB_LIBS               += Magick++ Magick coders jbig jp2 bzlib png webp lcms ttf wmf filters
   else
-    LIB_SYS_LIBS           += CORE_Magick++ CORE_Magick CORE_coders CORE_jbig CORE_jp2 CORE_bzlib CORE_png CORE_webp CORE_lcms CORE_ttf CORE_wmf CORE_filters
-# CORE_wand CORE_Magick
+    LIB_SYS_LIBS           += Magick++ Magick coders jbig jp2 bzlib png webp lcms ttf wmf filters
   endif
   # The following system libraries must be installed to use GraphicsMagick
   LIB_SYS_LIBS_Linux    += gomp X11 png12 bz2 Xext freetype 

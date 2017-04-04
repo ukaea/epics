@@ -1,7 +1,7 @@
 TOP = ../../..
 include $(TOP)/configure/CONFIG
 
-LIBRARY = CORE_filters
+LIBRARY = filters
 
 USR_CFLAGS_WIN32 += -DWIN32
 USR_CFLAGS_WIN32 += -D_VISUALC_
@@ -20,6 +20,6 @@ USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick/lcms/inc
 
 LIB_SRCS += analyze.c
 
-LIB_LIBS += CORE_magick CORE_ttf
+LIB_LIBS += magick ttf
 
 include $(TOP)/configure/RULES

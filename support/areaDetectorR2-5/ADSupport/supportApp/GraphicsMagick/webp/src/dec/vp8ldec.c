@@ -15,13 +15,14 @@
 #include <stdlib.h>
 
 #include "./alphai.h"
-#include "./vp8li.h"
+#include "../enc/vp8li.h"
 #include "../dsp/dsp.h"
 #include "../dsp/lossless.h"
 #include "../dsp/yuv.h"
 #include "../utils/endian_inl.h"
 #include "../utils/huffman.h"
 #include "../utils/utils.h"
+#include "../dec/vp8li.h"
 
 #define NUM_ARGB_CACHE_ROWS          16
 

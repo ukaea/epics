@@ -1,7 +1,7 @@
 TOP = ../../..
 include $(TOP)/configure/CONFIG
 
-LIBRARY = CORE_bzlib
+LIBRARY = bzlib
 
 USR_CFLAGS_WIN32 += -DWIN32
 USR_CFLAGS_WIN32 += -D_VISUALC_

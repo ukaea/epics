@@ -16,11 +16,13 @@
 
 #include <string.h>     // for memcpy()
 #include "./common.h"
-#include "./vp8li.h"
+#include "../enc/vp8li.h"
 #include "../utils/bit_reader.h"
 #include "../utils/random.h"
 #include "../utils/thread.h"
 #include "../dsp/dsp.h"
+#include "../dec/decode_vp8.h"
+#include "../dec/webpi.h"
 
 #ifdef __cplusplus
 extern "C" {
