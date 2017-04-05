@@ -46,6 +46,8 @@ then
     # install dependencies
     apt-get -y install build-essential g++ libreadline-dev
 else
+	yum makecache fast
+	systemctl stop packagekit
 	yum -y install readline-devel
 fi
 
@@ -57,7 +59,8 @@ else
 fi
 
 BASE_DIRECTORY="base-"$BASE_VERSION
-wget --tries=3 --timeout=10 http://aps.anl.gov/epics/download/base/$BASE_DOWNLOAD
+
+wget --tries=3 --timeout=10 https://www.aps.anl.gov/epics/download/base/$BASE_DOWNLOAD
 mkdir -p $INSTALL_PATH
 tar xzvf $BASE_DOWNLOAD -C $INSTALL_PATH
 rm -f $BASE_DOWNLOAD

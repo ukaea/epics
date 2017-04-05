@@ -20,7 +20,7 @@ INSTALL_PATH="/usr/local/epics";
 if [ $# -ge 1 ]; then INSTALL_PATH=$1; fi
 echo "Seq install path "$INSTALL_PATH
 
-SEQ_VER="2.1.15"
+SEQ_VER="2.2.4"
 if [ $# -ge 2 ]; then SEQ_VER=$2; fi
 echo "Seq version "$SEQ_VER
 
@@ -53,17 +53,20 @@ fi
 SEQ_DOWNLOAD="seq-"$SEQ_VER".tar.gz"
 SEQ_DIRECTORY="seq-"$SEQ_VER
 wget --tries=3 --timeout=10  http://www-csr.bessy.de/control/SoftDist/sequencer/releases/$SEQ_DOWNLOAD
-SUPPORT_PATH=$INSTALL_PATH/support/seq
-mkdir -p $SUPPORT_PATH
-tar xzvf $SEQ_DOWNLOAD -C $SUPPORT_PATH
+
+SUPPORT_PATH=$INSTALL_PATH/support
+ASYN_PATH=$SUPPORT_PATH/seq
+
+mkdir -p $ASYN_PATH
+tar xzvf $SEQ_DOWNLOAD -C $ASYN_PATH
 rm $SEQ_DOWNLOAD
 
 #symbolic link
-rm -f $SUPPORT_PATH/current
-ln -s $SUPPORT_PATH/$SEQ_DIRECTORY $SUPPORT_PATH/current
+rm -f $ASYN_PATH/current
+ln -s $ASYN_PATH/$SEQ_DIRECTORY $ASYN_PATH/current
 
-chmod 666 $SUPPORT_PATH/current/configure/RELEASE
-sed -i -e "/^EPICS_BASE\s*=/ s,=.*,=$INSTALL_PATH/base," $SUPPORT_PATH/current/configure/RELEASE
+chmod 666 $ASYN_PATH/current/configure/RELEASE
+sed -i -e "/^EPICS_BASE\s*=/ s,=.*,=$INSTALL_PATH/base," $ASYN_PATH/current/configure/RELEASE
 
-make -C $SUPPORT_PATH/current install
+make -C $ASYN_PATH/current install
 

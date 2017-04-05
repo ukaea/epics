@@ -24,9 +24,9 @@ if [ -z "$*" ]; then INSTALL_PATH=$DEFAULT_INSTALL_PATH; else INSTALL_PATH=$1;fi
 # dependencies
 
 # asyn
-if [ ! -d $INSTALL_PATH/support/asyn ]; 
+if [ ! -d $INSTALL_PATH/support/areaDetector ]; 
 then
-    ./epics_asyn_4-28_install.sh $INSTALL_PATH
+    ./epics_areadetector_1-9-1_install.sh $INSTALL_PATH
 fi
 
 #pyepics
@@ -35,3 +35,7 @@ then
     ./epics_pyepics_3-2-5_install.sh $INSTALL_PATH
 fi
 
+if [ ! -d $EPICS_ROOT/extensions/src/medm ];
+then
+	./epics_medm_3-1-11_install.sh $EPICS_ROOT
+fi
