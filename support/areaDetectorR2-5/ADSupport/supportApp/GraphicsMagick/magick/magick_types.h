@@ -103,13 +103,23 @@ extern "C" {
   typedef unsigned int magick_uint32_t;
 #  define MAGICK_UINT32_F ""
 
-  typedef signed long  magick_int64_t;
+#ifdef __LP64__
+	typedef signed long  magick_int64_t;
 #  define MAGICK_INT64_F "l"
   typedef unsigned long magick_uint64_t;
 #  define MAGICK_UINT64_F "l"
 
   typedef unsigned long magick_uintmax_t;
 #  define MAGICK_UINTMAX_F "l"
+#else
+  typedef signed long long  magick_int64_t;
+#  define MAGICK_INT64_F "ll"
+  typedef unsigned long long magick_uint64_t;
+#  define MAGICK_UINT64_F "ll"
+
+  typedef unsigned long long magick_uintmax_t;
+#  define MAGICK_UINTMAX_F "ll"
+#endif // __LP64__
 
   typedef unsigned long magick_uintptr_t;
 #  define MAGICK_UINTPTR_F "l"

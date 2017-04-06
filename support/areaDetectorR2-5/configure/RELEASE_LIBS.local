@@ -14,7 +14,7 @@
 #INSTALL_LOCATION_APP=<fullpathname>
 
 # ASYN is needed for base classes 
-ASYN=$(SUPPORT)/asyn
+#ASYN=$(SUPPORT)/asyn
 
 # ADSupport is needed by ADCore plugins
 ADSUPPORT = $(AREA_DETECTOR)/ADSupport

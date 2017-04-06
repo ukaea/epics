@@ -3,9 +3,16 @@ include $(TOP)/configure/CONFIG
 
 LIBRARY = wmf
 
-USR_CFLAGS_WIN32 += -DWIN32
+ifeq (windows-x64, $(findstring windows-x64, $(T_A)))
+  USR_CFLAGS_WIN32 += -DWIN64
+endif
+
+ifeq (win32-x86, $(findstring win32-x86, $(T_A)))
+  USR_CFLAGS_WIN32 += -DWIN32
+endif
+
 USR_CFLAGS_WIN32 += -D_VISUALC_
-USR_CFLAGS_WIN32 += -DHAVE_CONFIG_H
+USR_CFLAGS       += -DHAVE_CONFIG_H
 USR_CFLAGS       += -D_EXPORT
 
 ifeq ($(SHARED_LIBRARIES),YES)

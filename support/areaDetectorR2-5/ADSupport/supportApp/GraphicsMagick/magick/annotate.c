@@ -59,27 +59,11 @@
 #    undef interface  /* Remove interface define */
 #  endif
 
-#  if defined(HAVE_FT2BUILD_H)
-     /*
-       Modern FreeType2 installs require that <ft2build.h> be included
-       before including other FreeType2 headers.  Including
-       <ft2build.h> establishes definitions used by other FreeType2
-       headers.
-     */
 #    include <ft2build.h>
 #    include FT_FREETYPE_H
 #    include FT_GLYPH_H
 #    include FT_OUTLINE_H
 #    include FT_BBOX_H
-#  else
-     /*
-       Very old way to include FreeType2
-     */
-#    include <freetype/freetype.h>
-#    include <freetype/ftglyph.h>
-#    include <freetype/ftoutln.h>
-#    include <freetype/ftbbox.h>
-#  endif /* defined(HAVE_FT2BUILD_H) */
 
 #endif /* defined(HasTTF) */
 

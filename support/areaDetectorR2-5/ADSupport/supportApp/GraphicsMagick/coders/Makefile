@@ -3,7 +3,14 @@ include $(TOP)/configure/CONFIG
 
 LIBRARY = coders
 
-USR_CFLAGS_WIN32 += -DWIN32
+ifeq (windows-x64, $(findstring windows-x64, $(T_A)))
+  USR_CFLAGS_WIN32 += -DWIN64
+endif
+
+ifeq (win32-x86, $(findstring win32-x86, $(T_A)))
+  USR_CFLAGS_WIN32 += -DWIN32
+endif
+
 USR_CFLAGS_WIN32 += -D_VISUALC_
 
 USR_CFLAGS += -DNeedFunctionPrototypes
@@ -13,6 +20,8 @@ ifeq ($(SHARED_LIBRARIES),YES)
 else
   USR_CFLAGS_WIN32 += -D_LIB
 endif
+
+USR_CFLAGS += -DHAVE_VSNPRINTF
 
 USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick
 USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick/jbig/libjbig

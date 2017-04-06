@@ -3,23 +3,34 @@ include $(TOP)/configure/CONFIG
 
 LIBRARY = ttf
 
-USR_CFLAGS_WIN32 += -DWIN32
+ifeq (windows-x64, $(findstring windows-x64, $(T_A)))
+  USR_CFLAGS_WIN32 += -DWIN64
+endif
+
+ifeq (win32-x86, $(findstring win32-x86, $(T_A)))
+  USR_CFLAGS_WIN32 += -DWIN32
+endif
+
 USR_CFLAGS_WIN32 += -D_VISUALC_
 
 USR_CFLAGS += -DNeedFunctionPrototypes
 USR_CFLAGS += -D_TTFLIB_
 USR_CFLAGS += -DFT2_BUILD_LIBRARY
+USR_CFLAGS += -DFT_USE_T1CID
+USR_CFLAGS += -DHAVE_FT2BUILD_H
+
 
 ifeq ($(SHARED_LIBRARIES),YES)
-  USR_FLAGS_WIN32 += -D_DLL
-  USR_CFLAGS_WIN32 += -D_MAGICKMOD_
+  USR_FLAGS += -D_DLL
+  USR_CFLAGS += -D_MAGICKMOD_
 else
-  USR_CFLAGS_WIN32 += -D_LIB
+  USR_CFLAGS += -D_LIB
 endif
 
 TTF = $(TOP)/supportApp/GraphicsMagick/ttf
 
 USR_INCLUDES += -I$(TTF)/include
+
 SRC = $(TTF)/src
 
 include $(SRC)/autofit/Makefile
@@ -35,7 +46,6 @@ include $(SRC)/psnames/Makefile
 include $(SRC)/raster/Makefile
 include $(SRC)/sfnt/Makefile
 include $(SRC)/smooth/Makefile
-include $(SRC)/sfnt/Makefile
 include $(SRC)/truetype/Makefile
 include $(SRC)/type1/Makefile
 include $(SRC)/cid/Makefile

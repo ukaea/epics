@@ -122,116 +122,15 @@ make[4]: Entering directory `/media/sf_epics/support/areaDetectorR2-5/ADSupport/
 make -C O.linux-x86_64 -f ../Makefile TOP=../../../.. \
     T_A=linux-x86_64 install
 make[5]: Entering directory `/media/sf_epics/support/areaDetectorR2-5/ADSupport/supportApp/GraphicsMagick/magick/O.linux-x86_64'
-/usr/bin/gcc  -D_GNU_SOURCE -D_DEFAULT_SOURCE            -D_X86_64_  -DUNIX  -Dlinux     -O3 -g   -Wall     -DNeedFunctionPrototypes -D_MAGICKLIB_  -mtune=generic     -m64 -fPIC -I. -I../O.Common -I. -I. -I.. -I../../../../include/magick/compiler/gcc -I../../../../include/magick/os/Linux -I../../../../include/magick       -I/usr/local/epics/base/include/compiler/gcc -I/usr/local/epics/base/include/os/Linux -I/usr/local/epics/base/include   -I/usr/local/epics/support/asyn/current/include   -I/usr/local/epics/support/calc/current/include   -I/usr/local/epics/support/busy/current/include   -I/usr/local/epics/support/sscan/current/include  -I/usr/local/epics/support/autosave/current/include/os/Linux -I/usr/local/epics/support/autosave/current/include     -I/usr/local/epics/support/areaDetector/current/ADSupport/include/os/Linux -I/usr/local/epics/support/areaDetector/current/ADSupport/include   -I/usr/local/epics/support/areaDetector/current/ADCore/include                       -I../../../../supportApp/GraphicsMagick -I../../../../supportApp/GraphicsMagick/lcms/include -I../../../../supportApp/GraphicsMagick/ttf/include    -MM -MF annotate.d  ../annotate.c
-make[5]: Leaving directory `/media/sf_epics/support/areaDetectorR2-5/ADSupport/supportApp/GraphicsMagick/magick/O.linux-x86_64'
-make[5]: Entering directory `/media/sf_epics/support/areaDetectorR2-5/ADSupport/supportApp/GraphicsMagick/magick/O.linux-x86_64'
-/usr/bin/gcc  -D_GNU_SOURCE -D_DEFAULT_SOURCE            -D_X86_64_  -DUNIX  -Dlinux     -O3 -g   -Wall     -DNeedFunctionPrototypes -D_MAGICKLIB_  -mtune=generic     -m64 -fPIC -I. -I../O.Common -I. -I. -I.. -I../../../../include/magick/compiler/gcc -I../../../../include/magick/os/Linux -I../../../../include/magick       -I/usr/local/epics/base/include/compiler/gcc -I/usr/local/epics/base/include/os/Linux -I/usr/local/epics/base/include   -I/usr/local/epics/support/asyn/current/include   -I/usr/local/epics/support/calc/current/include   -I/usr/local/epics/support/busy/current/include   -I/usr/local/epics/support/sscan/current/include  -I/usr/local/epics/support/autosave/current/include/os/Linux -I/usr/local/epics/support/autosave/current/include     -I/usr/local/epics/support/areaDetector/current/ADSupport/include/os/Linux -I/usr/local/epics/support/areaDetector/current/ADSupport/include   -I/usr/local/epics/support/areaDetector/current/ADCore/include                       -I../../../../supportApp/GraphicsMagick -I../../../../supportApp/GraphicsMagick/lcms/include -I../../../../supportApp/GraphicsMagick/ttf/include    -c ../analyze.c
-In file included from ../../../../supportApp/GraphicsMagick/magick/studio.h:205:0,
-                 from ../analyze.c:17:
-/usr/local/epics/support/areaDetector/current/ADSupport/include/magick/magick_types.h:95:11: error: stray ‘@’ in program
-   typedef @INT8_T@   magick_int8_t;
-           ^
-/usr/local/epics/support/areaDetector/current/ADSupport/include/magick/magick_types.h:95:18: error: stray ‘@’ in program
-   typedef @INT8_T@   magick_int8_t;
-                  ^
-/usr/local/epics/support/areaDetector/current/ADSupport/include/magick/magick_types.h:95:3: error: unknown type name ‘INT8_T’
-   typedef @INT8_T@   magick_int8_t;
-   ^
-/usr/local/epics/support/areaDetector/current/ADSupport/include/magick/magick_types.h:96:11: error: stray ‘@’ in program
-   typedef @UINT8_T@  magick_uint8_t;
-           ^
-/usr/local/epics/support/areaDetector/current/ADSupport/include/magick/magick_types.h:96:19: error: stray ‘@’ in program
-   typedef @UINT8_T@  magick_uint8_t;
-                   ^
-/usr/local/epics/support/areaDetector/current/ADSupport/include/magick/magick_types.h:96:3: error: unknown type name ‘UINT8_T’
-   typedef @UINT8_T@  magick_uint8_t;
-   ^
-/usr/local/epics/support/areaDetector/current/ADSupport/include/magick/magick_types.h:98:11: error: stray ‘@’ in program
-   typedef @INT16_T@  magick_int16_t;
-           ^
-/usr/local/epics/support/areaDetector/current/ADSupport/include/magick/magick_types.h:98:19: error: stray ‘@’ in program
-   typedef @INT16_T@  magick_int16_t;
-                   ^
-/usr/local/epics/support/areaDetector/current/ADSupport/include/magick/magick_types.h:98:3: error: unknown type name ‘INT16_T’
-   typedef @INT16_T@  magick_int16_t;
-   ^
-/usr/local/epics/support/areaDetector/current/ADSupport/include/magick/magick_types.h:99:11: error: stray ‘@’ in program
-   typedef @UINT16_T@ magick_uint16_t;
-           ^
-/usr/local/epics/support/areaDetector/current/ADSupport/include/magick/magick_types.h:99:20: error: stray ‘@’ in program
-   typedef @UINT16_T@ magick_uint16_t;
-                    ^
-/usr/local/epics/support/areaDetector/current/ADSupport/include/magick/magick_types.h:99:3: error: unknown type name ‘UINT16_T’
-   typedef @UINT16_T@ magick_uint16_t;
-   ^
-/usr/local/epics/support/areaDetector/current/ADSupport/include/magick/magick_types.h:101:11: error: stray ‘@’ in program
-   typedef @INT32_T@  magick_int32_t;
-           ^
-/usr/local/epics/support/areaDetector/current/ADSupport/include/magick/magick_types.h:101:19: error: stray ‘@’ in program
-   typedef @INT32_T@  magick_int32_t;
-                   ^
-/usr/local/epics/support/areaDetector/current/ADSupport/include/magick/magick_types.h:101:3: error: unknown type name ‘INT32_T’
-   typedef @INT32_T@  magick_int32_t;
-   ^
-/usr/local/epics/support/areaDetector/current/ADSupport/include/magick/magick_types.h:103:11: error: stray ‘@’ in program
-   typedef @UINT32_T@ magick_uint32_t;
-           ^
-/usr/local/epics/support/areaDetector/current/ADSupport/include/magick/magick_types.h:103:20: error: stray ‘@’ in program
-   typedef @UINT32_T@ magick_uint32_t;
-                    ^
-/usr/local/epics/support/areaDetector/current/ADSupport/include/magick/magick_types.h:103:3: error: unknown type name ‘UINT32_T’
-   typedef @UINT32_T@ magick_uint32_t;
-   ^
-/usr/local/epics/support/areaDetector/current/ADSupport/include/magick/magick_types.h:106:11: error: stray ‘@’ in program
-   typedef @INT64_T@  magick_int64_t;
-           ^
-/usr/local/epics/support/areaDetector/current/ADSupport/include/magick/magick_types.h:106:19: error: stray ‘@’ in program
-   typedef @INT64_T@  magick_int64_t;
-                   ^
-/usr/local/epics/support/areaDetector/current/ADSupport/include/magick/magick_types.h:106:3: error: unknown type name ‘INT64_T’
-   typedef @INT64_T@  magick_int64_t;
-   ^
-/usr/local/epics/support/areaDetector/current/ADSupport/include/magick/magick_types.h:108:11: error: stray ‘@’ in program
-   typedef @UINT64_T@ magick_uint64_t;
-           ^
-/usr/local/epics/support/areaDetector/current/ADSupport/include/magick/magick_types.h:108:20: error: stray ‘@’ in program
-   typedef @UINT64_T@ magick_uint64_t;
-                    ^
-/usr/local/epics/support/areaDetector/current/ADSupport/include/magick/magick_types.h:108:3: error: unknown type name ‘UINT64_T’
-   typedef @UINT64_T@ magick_uint64_t;
-   ^
-/usr/local/epics/support/areaDetector/current/ADSupport/include/magick/magick_types.h:111:11: error: stray ‘@’ in program
-   typedef @UINTMAX_T@ magick_uintmax_t;
-           ^
-/usr/local/epics/support/areaDetector/current/ADSupport/include/magick/magick_types.h:111:21: error: stray ‘@’ in program
-   typedef @UINTMAX_T@ magick_uintmax_t;
-                     ^
-/usr/local/epics/support/areaDetector/current/ADSupport/include/magick/magick_types.h:111:3: error: unknown type name ‘UINTMAX_T’
-   typedef @UINTMAX_T@ magick_uintmax_t;
-   ^
-/usr/local/epics/support/areaDetector/current/ADSupport/include/magick/magick_types.h:114:11: error: stray ‘@’ in program
-   typedef @UINTPTR_T@ magick_uintptr_t;
-           ^
-/usr/local/epics/support/areaDetector/current/ADSupport/include/magick/magick_types.h:114:21: error: stray ‘@’ in program
-   typedef @UINTPTR_T@ magick_uintptr_t;
-                     ^
-/usr/local/epics/support/areaDetector/current/ADSupport/include/magick/magick_types.h:114:3: error: unknown type name ‘UINTPTR_T’
-   typedef @UINTPTR_T@ magick_uintptr_t;
-   ^
-../analyze.c: In function ‘GetImageBoundingBox’:
-../analyze.c:97:20: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘__attribute__’ before ‘p’
-         * restrict p;
-                    ^
-../analyze.c:97:20: error: ‘p’ undeclared (first use in this function)
-../analyze.c:97:20: note: each undeclared identifier is reported only once for each function it appears in
-../analyze.c: In function ‘AllocateDepthMap’:
-../analyze.c:292:7: warning: assignment from incompatible pointer type [enabled by default]
-   map = MagickAllocateArray(unsigned char *, MaxMap+1, sizeof(magick_uint8_t));
-       ^
-../analyze.c:293:11: warning: comparison of distinct pointer types lacks a cast [enabled by default]
-   if (map != (unsigned char *) NULL)
-           ^
-make[5]: *** [analyze.o] Error 1
+Installing generic include file ../../../../include/magick/magick_config.h
+/usr/bin/gcc  -D_GNU_SOURCE -D_DEFAULT_SOURCE            -D_X86_64_  -DUNIX  -Dlinux     -O3 -g   -Wall     -DNeedFunctionPrototypes -D_MAGICKLIB_ -DHAVE_VSNPRINTF  -mtune=generic     -m64 -fPIC -I. -I../O.Common -I. -I. -I.. -I../../../../include/magick/compiler/gcc -I../../../../include/magick/os/Linux -I../../../../include/magick       -I/usr/local/epics/base/include/compiler/gcc -I/usr/local/epics/base/include/os/Linux -I/usr/local/epics/base/include   -I/usr/local/epics/support/asyn/current/include   -I/usr/local/epics/support/calc/current/include   -I/usr/local/epics/support/busy/current/include   -I/usr/local/epics/support/sscan/current/include  -I/usr/local/epics/support/autosave/current/include/os/Linux -I/usr/local/epics/support/autosave/current/include     -I/usr/local/epics/support/areaDetector/current/ADSupport/include/os/Linux -I/usr/local/epics/support/areaDetector/current/ADSupport/include   -I/usr/local/epics/support/areaDetector/current/ADCore/include                       -I../../../../supportApp/GraphicsMagick -I../../../../supportApp/GraphicsMagick/lcms/include -I../../../../supportApp/GraphicsMagick/ttf/include    -c ../animate.c
+In file included from ../../../../supportApp/GraphicsMagick/magick/studio.h:44:0,
+                 from ../animate.c:38:
+/usr/local/epics/support/areaDetector/current/ADSupport/include/magick/magick_config.h:4:32: fatal error: magic_config_Linux.h: No such file or directory
+ #include "magic_config_Linux.h"
+                                ^
+compilation terminated.
+make[5]: *** [animate.o] Error 1
 make[5]: Leaving directory `/media/sf_epics/support/areaDetectorR2-5/ADSupport/supportApp/GraphicsMagick/magick/O.linux-x86_64'
 make[4]: *** [install.linux-x86_64] Error 2
 make[4]: Leaving directory `/media/sf_epics/support/areaDetectorR2-5/ADSupport/supportApp/GraphicsMagick/magick'

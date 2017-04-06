@@ -3,7 +3,14 @@ include $(TOP)/configure/CONFIG
 
 LIBRARY = Magick
 
-USR_CFLAGS_WIN32 += -DWIN32
+ifeq (windows-x64, $(findstring windows-x64, $(T_A)))
+  USR_CFLAGS_WIN32 += -DWIN64
+endif
+
+ifeq (win32-x86, $(findstring win32-x86, $(T_A)))
+  USR_CFLAGS_WIN32 += -DWIN32
+endif
+
 USR_CFLAGS_WIN32 += -D_VISUALC_
 
 USR_CFLAGS += -DNeedFunctionPrototypes
@@ -20,11 +27,15 @@ else
   USR_CFLAGS_WIN32 += -D_LIB
 endif
 
+USR_CFLAGS += -DHAVE_VSNPRINTF
+
 # Here overriding the default header file install location.
 # This allows Magick++ headers files (at $(INSTALL_LOCATION)/include/Magick++) to
 # include magick header files at relative path e.g. "magick/magick_config.h
 INSTALL_INCLUDE           = $(INSTALL_LOCATION)/include/magick
 INC += magick_config.h
+INC += magick_config_Win32.h
+INC += magick_config_Linux.h
 INC += api.h
 INC += enum_strings.h
 INC += common.h
@@ -94,7 +105,9 @@ INC += utility.h
 INC += version.h
 
 
-LIB_SRCS += analyze.c
+LIB_SRCS_DEFAULT += analyze_Linux.c
+LIB_SRCS_WIN32 += analyze_Win32.c
+
 LIB_SRCS += animate.c
 LIB_SRCS += annotate.c
 LIB_SRCS += attribute.c

@@ -301,7 +301,117 @@
     <ClCompile Include="..\..\ttf\src\pshinter\pshinter.c" />
     <ClCompile Include="..\..\ttf\src\psnames\psmodule.c" />
     <ClCompile Include="..\..\ttf\src\raster\raster.c" />
+    <ClCompile Include="..\..\ttf\src\sfnt\pngshim.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\ttf\src\sfnt\sfdriver.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\ttf\src\sfnt\sfnt.c" />
+    <ClCompile Include="..\..\ttf\src\sfnt\sfntpic.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\ttf\src\sfnt\sfobjs.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\ttf\src\sfnt\ttbdf.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\ttf\src\sfnt\ttcmap.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\ttf\src\sfnt\ttkern.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\ttf\src\sfnt\ttload.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\ttf\src\sfnt\ttmtx.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\ttf\src\sfnt\ttpost.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\ttf\src\sfnt\ttsbit.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\ttf\src\smooth\smooth.c" />
     <ClCompile Include="..\..\ttf\src\truetype\truetype.c" />
     <ClCompile Include="..\..\ttf\src\type1\type1.c" />
@@ -309,7 +419,125 @@
     <ClCompile Include="..\..\ttf\src\winfonts\winfnt.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\ttf\include\freetype\config\ftconfig.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\config\ftheader.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\config\ftmodule.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\config\ftoption.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\config\ftstdlib.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\freetype.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\ftadvanc.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\ftautoh.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\ftbbox.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\ftbdf.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\ftbitmap.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\ftbzip2.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\ftcache.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\ftcffdrv.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\ftchapters.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\ftcid.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\fterrdef.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\fterrors.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\ftfntfmt.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\ftgasp.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\ftglyph.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\ftgxval.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\ftgzip.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\ftimage.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\ftincrem.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\ftlcdfil.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\ftlist.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\ftlzw.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\ftmac.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\ftmm.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\ftmodapi.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\ftmoderr.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\ftotval.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\ftoutln.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\ftpfr.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\ftrender.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\ftsizes.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\ftsnames.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\ftstroke.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\ftsynth.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\ftsystem.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\fttrigon.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\ftttdrv.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\fttypes.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\ftwinfnt.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\internal\autohint.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\internal\ftcalc.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\internal\ftdebug.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\internal\ftdriver.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\internal\ftgloadr.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\internal\ftmemory.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\internal\ftobjs.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\internal\ftpic.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\internal\ftrfork.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\internal\ftserv.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\internal\ftstream.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\internal\fttrace.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\internal\ftvalid.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\internal\internal.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\internal\psaux.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\internal\pshints.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\internal\services\svbdf.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\internal\services\svcid.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\internal\services\svfntfmt.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\internal\services\svgldict.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\internal\services\svgxval.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\internal\services\svkern.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\internal\services\svmm.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\internal\services\svotval.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\internal\services\svpfr.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\internal\services\svpostnm.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\internal\services\svprop.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\internal\services\svpscmap.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\internal\services\svpsinfo.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\internal\services\svsfnt.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\internal\services\svttcmap.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\internal\services\svtteng.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\internal\services\svttglyf.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\internal\services\svwinfnt.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\internal\sfnt.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\internal\t1types.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\internal\tttypes.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\t1tables.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\ttnameid.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\tttables.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\tttags.h" />
+    <ClInclude Include="..\..\ttf\include\freetype\ttunpat.h" />
     <ClInclude Include="..\..\ttf\include\ft2build.h" />
+    <ClInclude Include="..\..\ttf\src\sfnt\pngshim.h" />
+    <ClInclude Include="..\..\ttf\src\sfnt\sfdriver.h" />
+    <ClInclude Include="..\..\ttf\src\sfnt\sferrors.h" />
+    <ClInclude Include="..\..\ttf\src\sfnt\sfntpic.h" />
+    <ClInclude Include="..\..\ttf\src\sfnt\sfobjs.h" />
+    <ClInclude Include="..\..\ttf\src\sfnt\ttbdf.h" />
+    <ClInclude Include="..\..\ttf\src\sfnt\ttcmap.h" />
+    <ClInclude Include="..\..\ttf\src\sfnt\ttcmapc.h" />
+    <ClInclude Include="..\..\ttf\src\sfnt\ttkern.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\ttf\src\sfnt\ttload.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\ttf\src\sfnt\ttmtx.h" />
+    <ClInclude Include="..\..\ttf\src\sfnt\ttpost.h" />
+    <ClInclude Include="..\..\ttf\src\sfnt\ttsbit.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\..\ttf\src\base\ttf.rc" />
