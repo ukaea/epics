@@ -3,10 +3,15 @@ include $(TOP)/configure/CONFIG
 
 LIBRARY = Magick++
 
-USR_CXXFLAGS_WIN32 += -DWIN32
-USR_CXXFLAGS_WIN32 += -D_VISUALC_
+ifeq (windows-x64, $(findstring windows-x64, $(T_A)))
+  USR_CXXFLAGS_WIN32 += -DWIN64
+endif
 
-USR_CXXFLAGS += -DNeedFunctionPrototypes
+ifeq (win32-x86, $(findstring win32-x86, $(T_A)))
+  USR_CXXFLAGS_WIN32 += -DWIN32
+endif
+
+USR_CXXFLAGS_WIN32 += -D_VISUALC_
 
 ifeq ($(SHARED_LIBRARIES),YES)
   USR_CXXFLAGS_WIN32 += -D_DLL

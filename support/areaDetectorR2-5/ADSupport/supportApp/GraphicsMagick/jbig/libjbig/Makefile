@@ -13,8 +13,6 @@ endif
 
 USR_CFLAGS_WIN32 += -D_VISUALC_
 
-USR_CFLAGS += -DNeedFunctionPrototypes
-
 ifeq ($(SHARED_LIBRARIES),YES)
   USR_CFLAGS_WIN32 += -D_DLL
 else

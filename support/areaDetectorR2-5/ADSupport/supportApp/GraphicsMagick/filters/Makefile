@@ -13,7 +13,6 @@ endif
 
 USR_CFLAGS_WIN32 += -D_VISUALC_
 
-USR_CFLAGS += -DNeedFunctionPrototypes
 USR_CFLAGS += -D_MAGICKLIB_
 
 ifeq ($(SHARED_LIBRARIES),YES)

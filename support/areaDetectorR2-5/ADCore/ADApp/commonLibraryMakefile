@@ -128,10 +128,10 @@ ifeq ($(WITH_GRAPHICSMAGICK), YES)
     LIB_LIBS               += Magick++ Magick coders jbig jp2 bzlib png webp lcms ttf wmf filters
   else
     LIB_SYS_LIBS           += Magick++ Magick coders jbig jp2 bzlib png webp lcms ttf wmf filters
+    # The following system libraries must be installed to use GraphicsMagick
+    LIB_SYS_LIBS_Linux    += gomp X11 png12 bz2 Xext freetype 
+    LIB_SYS_LIBS_Darwin   += png bz2
   endif
-  # The following system libraries must be installed to use GraphicsMagick
-  LIB_SYS_LIBS_Linux    += gomp X11 png12 bz2 Xext freetype 
-  LIB_SYS_LIBS_Darwin   += png bz2
 endif
 
 ifeq ($(EPICS_LIBCOM_ONLY),YES)

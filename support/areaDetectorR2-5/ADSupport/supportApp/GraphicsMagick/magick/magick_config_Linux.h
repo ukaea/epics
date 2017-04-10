@@ -32,13 +32,17 @@
 #define GM_BUILD_CXXFLAGS "-pthread"
 
 /* Host identification triplet */
+#ifdef __LP64__
 #define GM_BUILD_HOST "x86_64-unknown-linux-gnu"
+#else
+#define GM_BUILD_HOST "i686-pc-linux-gnu"
+#endif
 
 /* LDFLAGS used for linking */
 #define GM_BUILD_LDFLAGS ""
 
 /* LIBS used for linking */
-#define GM_BUILD_LIBS "-ltiff -lfreetype -ljpeg -lpng15 -lXext -lSM -lICE -lX11 -llzma -lbz2 -lxml2 -lz -lm -lgomp -lpthread"
+#define GM_BUILD_LIBS "-lfreetype -ljpeg -lpng12 -lXext -lSM -lICE -lX11 -lbz2 -lxml2 -lz -lm -lgomp -lpthread"
 
 /* Define if C++ compiler supports __func__ */
 #define HAS_CPP__func__ 1
@@ -326,25 +330,25 @@
 #define HAVE_TEMPLATES /**/
 
 /* Define to 1 if you have the <tiffconf.h> header file. */
-#define HAVE_TIFFCONF_H 1
+/* #undef HAVE_TIFFCONF_H */
 
 /* Define to 1 if you have the `TIFFIsCODECConfigured' function. */
-#define HAVE_TIFFISCODECCONFIGURED 1
+/* #undef HAVE_TIFFISCODECCONFIGURED */
 
 /* Define to 1 if you have the `TIFFMergeFieldInfo' function. */
-#define HAVE_TIFFMERGEFIELDINFO 1
+/* #undef HAVE_TIFFMERGEFIELDINFO */
 
 /* Define to 1 if you have the `TIFFSetErrorHandlerExt' function. */
-#define HAVE_TIFFSETERRORHANDLEREXT 1
+/* #undef HAVE_TIFFSETERRORHANDLEREXT */
 
 /* Define to 1 if you have the `TIFFSetTagExtender' function. */
-#define HAVE_TIFFSETTAGEXTENDER 1
+/* #undef HAVE_TIFFSETTAGEXTENDER */
 
 /* Define to 1 if you have the `TIFFSetWarningHandlerExt' function. */
-#define HAVE_TIFFSETWARNINGHANDLEREXT 1
+/* #undef HAVE_TIFFSETWARNINGHANDLEREXT */
 
 /* Define to 1 if you have the `TIFFSwabArrayOfTriples' function. */
-#define HAVE_TIFFSWABARRAYOFTRIPLES 1
+/* #undef HAVE_TIFFSWABARRAYOFTRIPLES */
 
 /* Define to 1 if you have the `times' function. */
 #define HAVE_TIMES 1
@@ -404,7 +408,7 @@
 /* #undef HasLTDL */
 
 /* Define if you have lzma compression library */
-#define HasLZMA 1
+/* #undef HasLZMA */
 
 /* Define if you have PNG library */
 #define HasPNG 1
@@ -416,7 +420,7 @@
 #define HasSharedMemory 1
 
 /* Define if you have TIFF library */
-#define HasTIFF 1
+/* #undef HasTIFF */
 
 /* Define if you have TRIO vsnprintf replacement library */
 /* #undef HasTRIO */
@@ -455,13 +459,13 @@
 /* #undef MAGICK_PHYSICAL_MEMORY_COMMAND */
 
 /* Target Host CPU */
-#define MAGICK_TARGET_CPU x86_64
+#define MAGICK_TARGET_CPU i686
 
 /* Target Host OS */
 #define MAGICK_TARGET_OS linux-gnu
 
 /* Target Host Vendor */
-#define MAGICK_TARGET_VENDOR unknown
+#define MAGICK_TARGET_VENDOR pc
 
 /* define if the compiler lacks ios::binary */
 /* #undef MISSING_STD_IOS_BINARY */
@@ -543,7 +547,7 @@
 #define SIZEOF_SIGNED_INT 4
 
 /* The size of `signed long', as computed by sizeof. */
-#define SIZEOF_SIGNED_LONG 8
+#define SIZEOF_SIGNED_LONG 4
 
 /* The size of `signed long long', as computed by sizeof. */
 #define SIZEOF_SIGNED_LONG_LONG 8
@@ -552,16 +556,16 @@
 #define SIZEOF_SIGNED_SHORT 2
 
 /* The size of `size_t', as computed by sizeof. */
-#define SIZEOF_SIZE_T 8
+#define SIZEOF_SIZE_T 4
 
 /* The size of `unsigned int', as computed by sizeof. */
 #define SIZEOF_UNSIGNED_INT 4
 
 /* The size of `unsigned int*', as computed by sizeof. */
-#define SIZEOF_UNSIGNED_INTP 8
+#define SIZEOF_UNSIGNED_INTP 4
 
 /* The size of `unsigned long', as computed by sizeof. */
-#define SIZEOF_UNSIGNED_LONG 8
+#define SIZEOF_UNSIGNED_LONG 4
 
 /* The size of `unsigned long long', as computed by sizeof. */
 #define SIZEOF_UNSIGNED_LONG_LONG 8
@@ -621,7 +625,7 @@
 #endif
 
 /* Number of bits in a file offset, on hosts where this is settable. */
-/* #undef _FILE_OFFSET_BITS */
+#define _FILE_OFFSET_BITS 64
 
 /* Define to 1 to make fseeko visible on some hosts (e.g. glibc 2.2). */
 /* #undef _LARGEFILE_SOURCE */

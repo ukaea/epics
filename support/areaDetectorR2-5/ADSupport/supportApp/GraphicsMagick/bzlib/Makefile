@@ -19,7 +19,6 @@ else
   USR_CFLAGS_WIN32 += -D_LIB
 endif
 
-USR_CFLAGS += -DNeedFunctionPrototypes
 USR_CFLAGS += -DBZ_EXPORT
 
 INC += bzlib.h

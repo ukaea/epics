@@ -145,10 +145,10 @@ ifeq ($(WITH_GRAPHICSMAGICK), YES)
     PROD_LIBS               += Magick++ Magick coders jbig jp2 bzlib png webp lcms ttf wmf filters
   else
     PROD_SYS_LIBS           += Magick++ Magick coders jbig jp2 bzlib png webp lcms ttf wmf filters
+    PROD_SYS_LIBS_Linux    += gomp X11 png12 bz2 Xext freetype 
+    PROD_SYS_LIBS_Darwin   += png bz2
   endif
   # The following system libraries must be installed to use GraphicsMagick
-  PROD_SYS_LIBS_Linux    += gomp X11 png12 bz2 Xext freetype 
-  PROD_SYS_LIBS_Darwin   += png bz2
 endif
 
 
