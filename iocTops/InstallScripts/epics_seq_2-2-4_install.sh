@@ -16,17 +16,17 @@ fi
 set -e
 
 # get installation directory from command line argument
-INSTALL_PATH="/usr/local/epics"; 
-if [ $# -ge 1 ]; then INSTALL_PATH=$1; fi
-echo "Seq install path "$INSTALL_PATH
+EPICS_ROOT="/usr/local/epics"; 
+if [ $# -ge 1 ]; then EPICS_ROOT=$1; fi
+echo "Seq install path "$EPICS_ROOT
 
 SEQ_VER="2.2.4"
 if [ $# -ge 2 ]; then SEQ_VER=$2; fi
 echo "Seq version "$SEQ_VER
 
-if [ ! -d $INSTALL_PATH/base ]; 
+if [ ! -d $EPICS_ROOT/base ]; 
 then
-    ./epics_base_3-15-5_install.sh $INSTALL_PATH
+    ./epics_base_3-15-5_install.sh $EPICS_ROOT
 fi
 
 if [ ! -f /etc/redhat-release ]; then
@@ -54,7 +54,7 @@ SEQ_DOWNLOAD="seq-"$SEQ_VER".tar.gz"
 SEQ_DIRECTORY="seq-"$SEQ_VER
 wget --tries=3 --timeout=10  http://www-csr.bessy.de/control/SoftDist/sequencer/releases/$SEQ_DOWNLOAD
 
-SUPPORT_PATH=$INSTALL_PATH/support
+SUPPORT_PATH=$EPICS_ROOT/support
 ASYN_PATH=$SUPPORT_PATH/seq
 
 mkdir -p $ASYN_PATH
@@ -66,7 +66,7 @@ rm -f $ASYN_PATH/current
 ln -s $ASYN_PATH/$SEQ_DIRECTORY $ASYN_PATH/current
 
 chmod 666 $ASYN_PATH/current/configure/RELEASE
-sed -i -e "/^EPICS_BASE\s*=/ s,=.*,=$INSTALL_PATH/base," $ASYN_PATH/current/configure/RELEASE
+sed -i -e "/^EPICS_BASE\s*=/ s,=.*,=$EPICS_ROOT/base," $ASYN_PATH/current/configure/RELEASE
 
 make -C $ASYN_PATH/current install
 

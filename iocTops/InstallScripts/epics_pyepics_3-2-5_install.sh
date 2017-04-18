@@ -17,8 +17,8 @@ if [ "$(id -u)" != "0" ]; then
 fi
 
 # get installation directory from command line argument
-DEFAULT_INSTALL_PATH="/usr/local/epics"
-if [ -z "$*" ]; then INSTALL_PATH=$DEFAULT_INSTALL_PATH; else INSTALL_PATH=$1;fi
+DEFAULT_EPICS_ROOT="/usr/local/epics"
+if [ -z "$*" ]; then EPICS_ROOT=$DEFAULT_EPICS_ROOT; else EPICS_ROOT=$1;fi
 
 # terminate script after first line that fails
 set -e
@@ -32,24 +32,24 @@ fi
 export PYEPICS_LIBCA=${EPICS_ROOT}/base/lib/${EPICS_HOST_ARCH}/libca.so
 
 # Make directory if not exist
-mkdir -p $INSTALL_PATH/extensions/src
+mkdir -p $EPICS_ROOT/extensions/src
 
 # install pyepics
 PYEPICS_DOWNLOAD="pyepics-3.2.5.tar.gz"
 PYEPICS_DIRECTORY="pyepics-3.2.5"
 wget --tries=3 --timeout=10  http://cars9.uchicago.edu/software/python/pyepics3/src/$PYEPICS_DOWNLOAD
-tar xzvf $PYEPICS_DOWNLOAD -C $INSTALL_PATH/extensions/src
+tar xzvf $PYEPICS_DOWNLOAD -C $EPICS_ROOT/extensions/src
 
-pushd $INSTALL_PATH/extensions/src/$PYEPICS_DIRECTORY
+pushd $EPICS_ROOT/extensions/src/$PYEPICS_DIRECTORY
 sudo python setup.py install
 popd
 rm $PYEPICS_DOWNLOAD
 
 #symbolic link
-rm -f $INSTALL_PATH/extensions/src/pyepics
-ln -s $INSTALL_PATH/extensions/src/$PYEPICS_DIRECTORY $INSTALL_PATH/extensions/src/pyepics
+rm -f $EPICS_ROOT/extensions/src/pyepics
+ln -s $EPICS_ROOT/extensions/src/$PYEPICS_DIRECTORY $EPICS_ROOT/extensions/src/pyepics
 
 # set environment variables
-echo -e \# pyepics >> $INSTALL_PATH/siteEnv
-echo -e PYEPICS_LIBCA=\${EPICS_ROOT}/base/lib/\${EPICS_HOST_ARCH}/libca.so >> $INSTALL_PATH/siteEnv
+echo -e \# pyepics >> $EPICS_ROOT/siteEnv
+echo -e PYEPICS_LIBCA=\${EPICS_ROOT}/base/lib/\${EPICS_HOST_ARCH}/libca.so >> $EPICS_ROOT/siteEnv
 

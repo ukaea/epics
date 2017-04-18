@@ -57,6 +57,20 @@ then
 	./epics_autosave_5-7-1_install.sh $EPICS_ROOT
 fi
 
+USRLOCALPATH=/usr/local
+IMAGEJ_PATH=$USRLOCALPATH/ImageJ
+if [ ! -d $IMAGEJ_PATH ];
+then
+	# ImageJ
+	# see https://imagej.nih.gov/ij/docs/install/linux.html
+	IMAGEJ_DOWNLOAD=ij150-linux64-java8.zip
+
+	wget --tries=3 --timeout=10 http://wsr.imagej.net/distros/linux/$IMAGEJ_DOWNLOAD
+	unzip $IMAGEJ_DOWNLOAD -d $USRLOCALPATH
+	chmod u=rwx,g=rwx,o=rx $IMAGEJ_PATH
+	rm $IMAGEJ_DOWNLOAD
+fi
+
 #So the environment is set for this shell - $EPICS_HOST_ARCH is exported.
 . $EPICS_ROOT/siteEnv
 
@@ -88,35 +102,24 @@ fi
 
 # areadetector
 #AREADETECTOR_DOWNLOAD="areaDetectorR1-9-1.tgz"
-#AREADETECTOR_DIRECTORY="areaDetectorR1-9-1"
+AREADETECTOR_DIRECTORY="areaDetectorR2-6"
 
 #wget --tries=3 --timeout=10 http://cars.uchicago.edu/software/pub/$AREADETECTOR_DOWNLOAD
 
 SUPPORT_PATH=$EPICS_ROOT/support
 AREADETECTOR_PATH=$SUPPORT_PATH/areaDetector
 
-mkdir -p $SUPPORT_PATH
 mkdir -p $AREADETECTOR_PATH
 
-cp /media/sf_epics/support/areaDetector $AREADETECTOR_PATH/current
+cp -r /media/sf_epics/support/$AREADETECTOR_DIRECTORY $AREADETECTOR_PATH
 
 #tar xzvf $AREADETECTOR_DOWNLOAD -C $AREADETECTOR_PATH
 #rm $AREADETECTOR_DOWNLOAD
 
-# ImageJ
-# see https://imagej.nih.gov/ij/docs/install/linux.html
-IMAGEJ_DOWNLOAD=ij150-linux64-java8.zip
-USRLOCALPATH=/usr/local
-IMAGEJ_PATH=$USRLOCALPATH/ImageJ
-
-wget --tries=3 --timeout=10 http://wsr.imagej.net/distros/linux/$IMAGEJ_DOWNLOAD
-unzip $IMAGEJ_DOWNLOAD -d $USRLOCALPATH
-chmod u=rwx,g=rwx,o=rx $IMAGEJ_PATH
-rm $IMAGEJ_DOWNLOAD
 
 #symbolic link
 rm -f $AREADETECTOR_PATH/current
-#ln -s $AREADETECTOR_PATH/$AREADETECTOR_DIRECTORY $AREADETECTOR_PATH/current
+ln -s $AREADETECTOR_PATH/$AREADETECTOR_DIRECTORY $AREADETECTOR_PATH/current
 #ln -s /media/sf_epics/support/areaDetector $AREADETECTOR_PATH/current
 EPICS_BASE=$EPICS_ROOT/base
 # hack RELEASE_PATHS file
@@ -135,7 +138,7 @@ EPICS_BASE=$EPICS_ROOT/base
 #echo "URLDriverApp st.cmd" >> $AREADETECTOR_PATH/current/iocBoot/iocURLDriver/start_epics
 
 # build
-make -C $AREADETECTOR_PATH/current install
+make -C $AREADETECTOR_PATH/current install > /media/sf_epics/support/$AREADETECTOR_DIRECTORY/BuildLogs/$AREADETECTOR_DIRECTORY.$EPICS_HOST_ARCH.log
 
 #environment variable - both for now and for new shell.
 echo -e \# areaDetector >> $EPICS_ROOT/siteEnv

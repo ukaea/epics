@@ -18,31 +18,31 @@ fi
 set -e
 
 # get installation directory from command line argument
-DEFAULT_INSTALL_PATH="/usr/local/epics"
-if [ -z "$*" ]; then INSTALL_PATH=$DEFAULT_INSTALL_PATH; else INSTALL_PATH=$1;fi
+DEFAULT_EPICS_ROOT="/usr/local/epics"
+if [ -z "$*" ]; then EPICS_ROOT=$DEFAULT_EPICS_ROOT; else EPICS_ROOT=$1;fi
 
 # dependencies
 # base
-if [ ! -d $INSTALL_PATH/base ]; 
+if [ ! -d $EPICS_ROOT/base ]; 
 then
-    ./epics_base_3-15-5_install.sh $INSTALL_PATH 3.14.12.3
+    ./epics_base_3-15-5_install.sh $EPICS_ROOT 3.14.12.3
 fi
 
 # seq
-if [ ! -d $INSTALL_PATH/support/seq ]; 
+if [ ! -d $EPICS_ROOT/support/seq ]; 
 then
-    ./epics_seq_2-2-4_install.sh $INSTALL_PATH 2.1.11
+    ./epics_seq_2-2-4_install.sh $EPICS_ROOT 2.1.11
 fi
 
 # asyn
-if [ ! -d $INSTALL_PATH/support/asyn ]; 
+if [ ! -d $EPICS_ROOT/support/asyn ]; 
 then
-    ./epics_asyn_4-28_install.sh $INSTALL_PATH 4-19
+    ./epics_asyn_4-28_install.sh $EPICS_ROOT 4-19
 fi
 
 #pyepics
-if [ ! -d $INSTALL_PATH/extensions/src/pyepics ]; 
+if [ ! -d $EPICS_ROOT/extensions/src/pyepics ]; 
 then
-    ./epics_pyepics_3-2-5_install.sh $INSTALL_PATH
+    ./epics_pyepics_3-2-5_install.sh $EPICS_ROOT
 fi
 

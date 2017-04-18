@@ -18,9 +18,9 @@ fi
 set -e
 
 # get installation directory from command line argument
-INSTALL_PATH="/usr/local/epics"; 
-if [ $# -ge 1 ]; then INSTALL_PATH=$1; fi
-echo "Asyn install path "$INSTALL_PATH
+EPICS_ROOT="/usr/local/epics"; 
+if [ $# -ge 1 ]; then EPICS_ROOT=$1; fi
+echo "Asyn install path "$EPICS_ROOT
 
 ASYN_VER="4-31";
 if [ $# -ge 2 ]; then ASYN_VER=$2; fi
@@ -28,13 +28,13 @@ echo "Asyn version "$ASYN_VER
 
 # dependencies
 # base
-if [ ! -d $INSTALL_PATH/base ]; 
+if [ ! -d $EPICS_ROOT/base ]; 
 then
-    ./epics_base_3-15-5_install.sh $INSTALL_PATH
+    ./epics_base_3-15-5_install.sh $EPICS_ROOT
 fi
 
 # seq
-if [ ! -d $INSTALL_PATH/support/seq ]; 
+if [ ! -d $EPICS_ROOT/support/seq ]; 
 then
     ./epics_seq_2-2-4_install.sh $INSTALLATH
 fi
@@ -45,7 +45,7 @@ ASYN_DOWNLOAD="asyn"$ASYN_VER".tar.gz"
 ASYN_DIRECTORY="asyn"$ASYN_VER
 wget --tries=3 --timeout=10  http://www.aps.anl.gov/epics/download/modules/$ASYN_DOWNLOAD
 
-SUPPORT_PATH=$INSTALL_PATH/support
+SUPPORT_PATH=$EPICS_ROOT/support
 ASYN_PATH=$SUPPORT_PATH/asyn
 
 mkdir -p $ASYN_PATH
@@ -57,8 +57,8 @@ rm -f $ASYN_PATH/current
 ln -s $ASYN_PATH/$ASYN_DIRECTORY $ASYN_PATH/current
 
 chmod 666 $ASYN_PATH/current/configure/RELEASE
-sed -i -e "/^SUPPORT\s*=/ s,=.*,=$INSTALL_PATH/support," $ASYN_PATH/current/configure/RELEASE
-sed -i -e "/^EPICS_BASE\s*=/ s,=.*,=$INSTALL_PATH/base," $ASYN_PATH/current/configure/RELEASE
+sed -i -e "/^SUPPORT\s*=/ s,=.*,=$EPICS_ROOT/support," $ASYN_PATH/current/configure/RELEASE
+sed -i -e "/^EPICS_BASE\s*=/ s,=.*,=$EPICS_ROOT/base," $ASYN_PATH/current/configure/RELEASE
 sed -i -e "/^SNCSEQ\s*=/ s,=.*,=$SUPPORT_PATH/seq/current," $ASYN_PATH/current/configure/RELEASE
 
 make -C $ASYN_PATH/current install

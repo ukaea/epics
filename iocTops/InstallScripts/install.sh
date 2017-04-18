@@ -18,21 +18,21 @@ fi
 set -e
 
 # get installation directory from command line argument
-DEFAULT_INSTALL_PATH="/usr/local/epics"
-if [ -z "$*" ]; then INSTALL_PATH=$DEFAULT_INSTALL_PATH; else INSTALL_PATH=$1;fi
+DEFAULT_EPICS_ROOT="/usr/local/epics"
+if [ -z "$*" ]; then EPICS_ROOT=$DEFAULT_EPICS_ROOT; else EPICS_ROOT=$1;fi
 
 # dependencies
 
 # asyn
-if [ ! -d $INSTALL_PATH/support/areaDetector ]; 
+if [ ! -d $EPICS_ROOT/support/areaDetector ]; 
 then
-    ./epics_areadetector_2-6_install.sh $INSTALL_PATH
+    ./epics_areadetector_2-6_install.sh $EPICS_ROOT
 fi
 
 #pyepics
-if [ ! -d $INSTALL_PATH/extensions/src/pyepics ]; 
+if [ ! -d $EPICS_ROOT/extensions/src/pyepics ]; 
 then
-    ./epics_pyepics_3-2-5_install.sh $INSTALL_PATH
+    ./epics_pyepics_3-2-5_install.sh $EPICS_ROOT
 fi
 
 if [ ! -d $EPICS_ROOT/extensions/src/medm ];
