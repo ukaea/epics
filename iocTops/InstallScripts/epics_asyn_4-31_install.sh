@@ -39,43 +39,6 @@ then
     ./epics_seq_2-2-4_install.sh $INSTALLATH
 fi
 
-if [ ! -f /etc/redhat-release ]; then
-	# required by libusb
-	apt-get -y install libudev-devel
-else
-	yum -y install libudev-devel
-fi
-
-
-# NB, at least v16 is required by the Asyn build. Newer versions seem not to be available packaged.
-# See http://www.linuxfromscratch.org/blfs/view/svn/general/libusb.html
-LIBUSB_DOWNLOAD=libusb-1.0.20.tar.bz2
-LIBUSB_DIRECTORY=libusb-1.0.20
-
-rm -f $LIBUSB_DOWNLOAD
-
-wget --tries=3 --timeout=10  http://downloads.sourceforge.net/libusb/$LIBUSB_DOWNLOAD
-tar xvf $LIBUSB_DOWNLOAD
-
-cd $LIBUSB_DIRECTORY
-
-# 32 or 64bit?
-case `uname -m` in
-	i[3456789]86|x86|i86pc)
-		./configure --prefix=/usr --disable-static && make -j1
-	;;
-	x86_64|amd64|AMD64)
-		./configure --prefix=/usr --disable-static --libdir=/usr/lib64 && make -j1
-	;;
-	*)
-		echo "Unknown architecture `uname -m`."
-		exit 1
-	;;
-esac
-
-make install
-cd ..
-
 
 # asyn
 ASYN_DOWNLOAD="asyn"$ASYN_VER".tar.gz"
@@ -92,10 +55,6 @@ rm $ASYN_DOWNLOAD
 #symbolic link
 rm -f $ASYN_PATH/current
 ln -s $ASYN_PATH/$ASYN_DIRECTORY $ASYN_PATH/current
-
-#enable USB Test and Measurement Class
-chmod 666 $ASYN_PATH/current/configure/CONFIG_SITE
-sed -i -e "s/#DRV_USBTMC=YES/DRV_USBTMC=YES/" $ASYN_PATH/current/configure/CONFIG_SITE
 
 chmod 666 $ASYN_PATH/current/configure/RELEASE
 sed -i -e "/^SUPPORT\s*=/ s,=.*,=$INSTALL_PATH/support," $ASYN_PATH/current/configure/RELEASE

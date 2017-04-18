@@ -17,15 +17,33 @@ if [ -z "$*" ]; then EPICS_ROOT=$DEFAULT_EPICS_ROOT; else EPICS_ROOT=$1;fi
 # terminate script after first line that fails
 set -e
 
-apt-get -y install libxmu-dev
+# dependencies
+# base
+if [ ! -d $EPICS_ROOT/base ]; 
+then
+    ./epics_base_3-15-5_install.sh $EPICS_ROOT
+fi
+  
+#So the environment is set for this shell - $EPICS_HOST_ARCH is exported.
+. $EPICS_ROOT/siteEnv
+
+if [ ! -f /etc/redhat-release ];
+then
+    apt-get -y install libxmu-dev
+    apt-get -y install build-essential libmotif-dev x11proto-print-dev libxp-dev libxmu-dev libxpm-dev xfonts-100dpi
+fi
+#else
+#    yum -y install build-essential libmotif-dev x11proto-print-dev libxp-dev libxmu-dev libxpm-dev xfonts-100dpi
+#fi
 
 # medm
-MEDM_DOWNLOAD="medm3_1_11.tar.gz"
-MEDM_DIRECTORY="medm3_1_11"
-apt-get -y install build-essential libmotif-dev x11proto-print-dev libxp-dev libxmu-dev libxpm-dev xfonts-100dpi
+MEDM_DOWNLOAD="medm3_1_7.tar.gz"
+MEDM_DIRECTORY="medm3_1_7"
+
 wget --tries=3 --timeout=10  http://www.aps.anl.gov/epics/EpicsDocumentation/ExtensionsManuals/MEDM/medmfonts.ali.txt
-cat medmfonts.ali.txt >> /usr/share/fonts/X11/misc/fonts.alias
-rm -f medmfonts.ali.txt
+#cat medmfonts.ali.txt >> /usr/share/fonts/X11/misc/fonts.alias
+#rm -f medmfonts.ali.txt
+
 wget --tries=3 --timeout=10  http://www.aps.anl.gov/epics/download/extensions/$MEDM_DOWNLOAD
 tar xzvf $MEDM_DOWNLOAD -C $EPICS_ROOT/extensions/src
 rm -f $MEDM_DOWNLOAD

@@ -30,9 +30,9 @@ case `uname -m` in
 esac
 
 # get installation directory from command line argument
-INSTALL_PATH="/usr/local/epics"; 
-if [ $# -ge 1 ]; then INSTALL_PATH=$1; fi
-echo "Base install path "$INSTALL_PATH
+DEFAULT_EPICS_ROOT="/usr/local/epics"
+if [ -z "$*" ]; then EPICS_ROOT=$DEFAULT_EPICS_ROOT; else EPICS_ROOT=$1;fi
+echo "Base install path "$EPICS_ROOT
 
 BASE_VERSION="3.15.5";
 if [ $# -ge 2 ]; then BASE_VERSION=$2; fi
@@ -46,8 +46,9 @@ then
     # install dependencies
     apt-get -y install build-essential g++ libreadline-dev
 else
+	yum -y update
 	yum makecache fast
-	systemctl stop packagekit
+	#systemctl stop packagekit
 	yum -y install readline-devel
 fi
 
@@ -61,28 +62,40 @@ fi
 BASE_DIRECTORY="base-"$BASE_VERSION
 
 wget --tries=3 --timeout=10 https://www.aps.anl.gov/epics/download/base/$BASE_DOWNLOAD
-mkdir -p $INSTALL_PATH
-tar xzvf $BASE_DOWNLOAD -C $INSTALL_PATH
+mkdir -p $EPICS_ROOT
+tar xzvf $BASE_DOWNLOAD -C $EPICS_ROOT
 rm -f $BASE_DOWNLOAD
-make -C $INSTALL_PATH/$BASE_DIRECTORY install
-ln -s $INSTALL_PATH/$BASE_DIRECTORY $INSTALL_PATH/base
+make -C $EPICS_ROOT/$BASE_DIRECTORY install
+ln -s $EPICS_ROOT/$BASE_DIRECTORY $EPICS_ROOT/base
 
 # set environment variables
-touch $INSTALL_PATH/siteEnv
-echo \# main EPICS env var >> $INSTALL_PATH/siteEnv
+touch $EPICS_ROOT/siteEnv
+echo \# main EPICS env var >> $EPICS_ROOT/siteEnv
 
 
-echo export EPICS_HOST_ARCH=$EPICS_ARCH >> $INSTALL_PATH/siteEnv
-echo export EPICS_ROOT=$INSTALL_PATH >> $INSTALL_PATH/siteEnv
-echo export EPICS_BASE=$INSTALL_PATH/base >> $INSTALL_PATH/siteEnv
-echo export PATH=\${PATH}:\${EPICS_ROOT}/base/bin/\${EPICS_HOST_ARCH} >> $INSTALL_PATH/siteEnv
-echo "" >> $INSTALL_PATH/siteEnv
-chmod a+x $INSTALL_PATH/siteEnv
+echo export EPICS_HOST_ARCH=$EPICS_ARCH >> $EPICS_ROOT/siteEnv
+echo export EPICS_ROOT=$EPICS_ROOT >> $EPICS_ROOT/siteEnv
+echo export EPICS_BASE=$EPICS_ROOT/base >> $EPICS_ROOT/siteEnv
+echo export PATH=\${PATH}:\${EPICS_ROOT}/base/bin/\${EPICS_HOST_ARCH} >> $EPICS_ROOT/siteEnv
+echo "" >> $EPICS_ROOT/siteEnv
+chmod a+x $EPICS_ROOT/siteEnv
 
 # This sets the environment variables following a reboot.
 if [ ! -f /etc/redhat-release ];
 then
-	./bashrc.sh $INSTALL_PATH
+    . ./bashrc.sh $EPICS_ROOT
 else
-	su -c './bashrc.sh $INSTALL_PATH' $USERNAME
+    su -c './bashrc.sh $EPICS_ROOT' $USERNAME
 fi
+
+# extensions top
+EXTENSION_TOP_DOWNLOAD="extensionsTop_20120904.tar.gz"
+EXTENSION_CONFIG_DOWNLOAD="extensionsConfig_20040406.tar.gz"
+EXTENSION_DIRECTORY="extensions"
+wget --tries=3 --timeout=10 http://www.aps.anl.gov/epics/download/extensions/$EXTENSION_CONFIG_DOWNLOAD
+tar xzvf $EXTENSION_CONFIG_DOWNLOAD -C $EPICS_ROOT 
+rm -f $EXTENSION_CONFIG_DOWNLOAD
+wget --tries=3 --timeout=10 http://www.aps.anl.gov/epics/download/extensions/$EXTENSION_TOP_DOWNLOAD
+tar xzvf $EXTENSION_TOP_DOWNLOAD -C $EPICS_ROOT 
+rm -f $EXTENSION_TOP_DOWNLOAD
+make -C $EPICS_ROOT/$EXTENSION_DIRECTORY install

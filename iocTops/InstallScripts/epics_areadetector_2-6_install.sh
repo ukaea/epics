@@ -57,15 +57,17 @@ then
 	./epics_autosave_5-7-1_install.sh $EPICS_ROOT
 fi
 
+#So the environment is set for this shell - $EPICS_HOST_ARCH is exported.
+. $EPICS_ROOT/siteEnv
 
 # dependencies
-#if [ ! -f /etc/redhat-release ];
-#then
-#	apt-get -y install libx11-dev
+if [ ! -f /etc/redhat-release ];
+then
+	apt-get -y install libx11-dev
+	apt-get -y install libxext-dev
 #	apt-get -y install libxml2-dev
 #	apt-get -y install libpng12-dev
 #	apt-get -y install libbz2-dev
-#	apt-get -y install libxext-dev
 #	apt-get -y install freetype*
 #	apt-get -y install libjpeg-dev
 #used by URLDriver in areaDetector
@@ -78,7 +80,7 @@ fi
 #	yum -y install libXext
 #	yum -y install freetype*
 #	yum -y install libjpeg
-#fi
+fi
 
 # see http://superuser.com/questions/428553/install-compiled-binary-in-non-standard-environment
 # but I shouldn't need to do this..!
@@ -96,6 +98,8 @@ AREADETECTOR_PATH=$SUPPORT_PATH/areaDetector
 mkdir -p $SUPPORT_PATH
 mkdir -p $AREADETECTOR_PATH
 
+cp /media/sf_epics/support/areaDetector $AREADETECTOR_PATH/current
+
 #tar xzvf $AREADETECTOR_DOWNLOAD -C $AREADETECTOR_PATH
 #rm $AREADETECTOR_DOWNLOAD
 
@@ -111,10 +115,10 @@ chmod u=rwx,g=rwx,o=rx $IMAGEJ_PATH
 rm $IMAGEJ_DOWNLOAD
 
 #symbolic link
-#rm -f $AREADETECTOR_PATH/current
+rm -f $AREADETECTOR_PATH/current
 #ln -s $AREADETECTOR_PATH/$AREADETECTOR_DIRECTORY $AREADETECTOR_PATH/current
-ln -s /media/sf_epics/support/areaDetector $AREADETECTOR_PATH/current
-
+#ln -s /media/sf_epics/support/areaDetector $AREADETECTOR_PATH/current
+EPICS_BASE=$EPICS_ROOT/base
 # hack RELEASE_PATHS file
 #sed -i -e "/^SUPPORT\s*=/ s,=.*,=$SUPPORT_PATH," $AREADETECTOR_PATH/current/configure/RELEASE
 #sed -i -e "/^AREA_DETECTOR\s*=/ s,=.*,=$AREADETECTOR_PATH/current," $AREADETECTOR_PATH/current/configure/RELEASE

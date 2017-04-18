@@ -26,7 +26,7 @@ if [ -z "$*" ]; then INSTALL_PATH=$DEFAULT_INSTALL_PATH; else INSTALL_PATH=$1;fi
 # asyn
 if [ ! -d $INSTALL_PATH/support/areaDetector ]; 
 then
-    ./epics_areadetector_1-9-1_install.sh $INSTALL_PATH
+    ./epics_areadetector_2-6_install.sh $INSTALL_PATH
 fi
 
 #pyepics

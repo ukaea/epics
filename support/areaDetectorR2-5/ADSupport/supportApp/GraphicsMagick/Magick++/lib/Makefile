@@ -61,4 +61,6 @@ LIB_SRCS += TypeMetric.cpp
 
 LIB_LIBS += Magick
 
+LIB_SYS_LIBS_Linux += Xext
+
 include $(TOP)/configure/RULES

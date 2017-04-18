@@ -13,6 +13,7 @@ ifeq ($(WITH_GRAPHICSMAGICK), YES)
   
   # <name>_registerRecordDeviceDriver.cpp will be created from <name>.dbd
   $(PROD_NAME)_SRCS += URLDriverApp_registerRecordDeviceDriver.cpp URLDriverAppMain.cpp
+  $(PROD_NAME)_SYS_LIBS_Linux += X11
 
   PROD_LIBS += URLDriver
 

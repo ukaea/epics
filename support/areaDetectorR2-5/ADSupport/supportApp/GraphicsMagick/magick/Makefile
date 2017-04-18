@@ -188,7 +188,9 @@ LIB_SRCS += version.c
 LIB_SRCS += widget.c
 LIB_SRCS += xwindow.c
 
-LIB_LIBS += bzlib lcms ttf zlib
+LIB_LIBS += bzlib lcms ttf zlib coders filters
+
 LIB_SYS_LIBS_WIN32 += Advapi32 User32 Gdi32
+LIB_SYS_LIBS_Linux += Xext
 
 include $(TOP)/configure/RULES

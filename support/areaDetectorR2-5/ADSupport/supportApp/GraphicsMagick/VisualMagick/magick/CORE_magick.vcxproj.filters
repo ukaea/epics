@@ -12,9 +12,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\magick\analyze.c">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\magick\animate.c">
       <Filter>src</Filter>
     </ClCompile>
@@ -253,6 +250,12 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\magick\xwindow.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\magick\analyze_Linux.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\magick\analyze_Win32.c">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
