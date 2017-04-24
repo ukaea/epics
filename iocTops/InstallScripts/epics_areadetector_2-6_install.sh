@@ -112,6 +112,8 @@ AREADETECTOR_PATH=$SUPPORT_PATH/areaDetector
 mkdir -p $AREADETECTOR_PATH
 
 cp -r /media/sf_epics/support/$AREADETECTOR_DIRECTORY $AREADETECTOR_PATH
+chmod -R 775 $AREADETECTOR_PATH
+chmod -R 777 $AREADETECTOR_PATH/$AREADETECTOR_DIRECTORY/ADURL/iocs/urlIOC/iocBoot/iocURLDriver
 
 #tar xzvf $AREADETECTOR_DOWNLOAD -C $AREADETECTOR_PATH
 #rm $AREADETECTOR_DOWNLOAD
@@ -133,12 +135,10 @@ EPICS_BASE=$EPICS_ROOT/base
 #sed -i -e "/^AUTOSAVE\s*=/ s,=.*,=$SUPPORT_PATH/autosave/current," $AREADETECTOR_PATH/current/configure/RELEASE
 
 # These hacks fix typos in the scripts
-#sed -i -e "s/{URLDriverConfig/URLDriverConfig/" $AREADETECTOR_PATH/current/iocBoot/iocURLDriver/st.cmd
-#echo "medm -x -macro \"P=13URL1:, R=cam1:\" URLDriver.adl &" > $AREADETECTOR_PATH/current/iocBoot/iocURLDriver/start_epics
 #echo "URLDriverApp st.cmd" >> $AREADETECTOR_PATH/current/iocBoot/iocURLDriver/start_epics
 
 # build
-make -C $AREADETECTOR_PATH/current install > /media/sf_epics/support/$AREADETECTOR_DIRECTORY/BuildLogs/$AREADETECTOR_DIRECTORY.$EPICS_HOST_ARCH.log
+make -C $AREADETECTOR_PATH/current install > /media/sf_epics/support/$AREADETECTOR_DIRECTORY/BuildLogs/$AREADETECTOR_DIRECTORY.$EPICS_HOST_ARCH.log 2>&1
 
 #environment variable - both for now and for new shell.
 echo -e \# areaDetector >> $EPICS_ROOT/siteEnv
@@ -146,6 +146,5 @@ export AREA_DETECTOR=$AREADETECTOR_PATH/current
 echo export AREA_DETECTOR=$AREA_DETECTOR >> $EPICS_ROOT/siteEnv
 
 # add to binaries to PATH
-echo export PATH=\${PATH}:$AREA_DETECTOR/bin/\${EPICS_HOST_ARCH} >> $EPICS_ROOT/siteEnv
+echo export PATH=\${PATH}:$AREA_DETECTOR/ADURL/iocs/urlIOC/bin/\${EPICS_HOST_ARCH} >> $EPICS_ROOT/siteEnv
 echo export PATH=\${PATH}:$IMAGEJ_PATH >> $EPICS_ROOT/siteEnv
-echo export EPICS_DISPLAY_PATH=\${EPICS_DISPLAY_PATH}:\${AREA_DETECTOR}/ADApp/op/adl

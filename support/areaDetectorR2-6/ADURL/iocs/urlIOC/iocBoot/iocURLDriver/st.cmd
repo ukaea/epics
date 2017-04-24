@@ -40,6 +40,10 @@ dbLoadRecords("$(ADCORE)/db/NDStdArrays.template", "P=$(PREFIX),R=image1:,PORT=I
 # Load all other plugins using commonPlugins.cmd
 < $(ADCORE)/iocBoot/commonPlugins.cmd
 
+# In addition to paths set in commonPlugins.cmd
+set_requestfile_path("$(CALC)/calcApp/Db")
+set_requestfile_path("$(ADURL)/urlApp/Db")
+
 asynSetTraceIOMask("$(PORT)",0,2)
 #asynSetTraceMask("$(PORT)",0,255)
 

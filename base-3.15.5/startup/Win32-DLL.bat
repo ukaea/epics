@@ -1,1 +1,1 @@
-call win32.bat x86-DLL
+call %~dp0win32.bat x86-DLL

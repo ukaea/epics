@@ -1687,265 +1687,267 @@ static void AddConfigurePath(MagickMap path_map, unsigned int *path_index,
 }
 
 MagickExport void *GetConfigureBlob(const char *filename,char *path,
-  size_t *length,ExceptionInfo *exception)
+	size_t *length,ExceptionInfo *exception)
 {
-  MagickMap
-    path_map;
+	MagickMap
+		path_map;
 
-  MagickMapIterator
-    path_map_iterator;
+	MagickMapIterator
+		path_map_iterator;
 
-  const char
-    *key;
+	const char
+		*key;
 
-  unsigned char
-    *blob=0;
+	unsigned char
+		*blob=0;
 
-  unsigned int
-    logging,
-    path_index=0;
+	unsigned int
+		logging,
+		path_index=0;
 
-  assert(filename != (const char *) NULL);
-  assert(path != (char *) NULL);
-  assert(length != (size_t *) NULL);
-  assert(exception != (ExceptionInfo *) NULL);
+	char
+		list_separator[2],
+		*search_path=0;
 
-  logging=IsEventLogging();
+	assert(filename != (const char *) NULL);
+	assert(path != (char *) NULL);
+	assert(length != (size_t *) NULL);
+	assert(exception != (ExceptionInfo *) NULL);
 
-  (void) strlcpy(path,filename,MaxTextExtent);
-  path_map=MagickMapAllocateMap(MagickMapCopyString,MagickMapDeallocateString);
+	logging=1; // IsEventLogging();
 
-  {
-    /*
-      Allow the configuration file search path to be explicitly
-      specified.
-    */
-    const char
-      *magick_configure_path = getenv("MAGICK_CONFIGURE_PATH");
-    if ( magick_configure_path )
-      {
-        const char
-          *end = NULL,
-          *start = magick_configure_path;
-        
-        end=start+strlen(start);
-        while ( start < end )
-          {
-            char
-              buffer[MaxTextExtent];
-            
-            const char
-              *separator;
-            
-            int
-              string_length;
-            
-            separator = strchr(start,DirectoryListSeparator);
-            if (separator)
-              string_length=separator-start;
-            else
-              string_length=end-start;
-            if (string_length > MaxTextExtent-1)
-              string_length = MaxTextExtent-1;
-            (void) strlcpy(buffer,start,string_length+1);
-            if (buffer[string_length-1] != DirectorySeparator[0])
-              (void) strlcat(buffer,DirectorySeparator,sizeof(buffer));
-            AddConfigurePath(path_map,&path_index,buffer,exception);
-            start += string_length+1;
-          }
-      }
-  }
+#ifdef __LP64__
+	printf("__LP64__ is defined\n");
+#else
+	printf("__LP64__ is not defined\n");
+#endif
+
+	printf("sizeof(size_t) = %d\n", sizeof(size_t));
+	printf("sizeof(void*) = %d\n", sizeof(void*));
+
+	(void) strlcpy(path,filename,MaxTextExtent);
+	path_map=MagickMapAllocateMap(MagickMapCopyString,MagickMapDeallocateString);
+
+	{
+		/*
+		Allow the configuration file search path to be explicitly
+		specified.
+		*/
+		const char
+			*magick_configure_path = getenv("MAGICK_CONFIGURE_PATH");
+		if ( magick_configure_path )
+		{
+			const char
+				*end = NULL,
+				*start = magick_configure_path;
+
+			end=start+strlen(start);
+			while ( start < end )
+			{
+				char
+					buffer[MaxTextExtent];
+
+				const char
+					*separator;
+
+				int
+					string_length;
+
+				separator = strchr(start,DirectoryListSeparator);
+				if (separator)
+					string_length=separator-start;
+				else
+					string_length=end-start;
+				if (string_length > MaxTextExtent-1)
+					string_length = MaxTextExtent-1;
+				(void) strlcpy(buffer,start,string_length+1);
+				if (buffer[string_length-1] != DirectorySeparator[0])
+					(void) strlcat(buffer,DirectorySeparator,sizeof(buffer));
+				AddConfigurePath(path_map,&path_index,buffer,exception);
+				start += string_length+1;
+			}
+		}
+	}
 
 #if defined(UseInstalledMagick)
 
 # if defined(MagickShareConfigPath)
-  AddConfigurePath(path_map,&path_index,MagickShareConfigPath,exception);
+	AddConfigurePath(path_map,&path_index,MagickShareConfigPath,exception);
 # endif /* defined(MagickShareConfigPath) */
 
 # if defined(MagickLibConfigPath)
-  AddConfigurePath(path_map,&path_index,MagickLibConfigPath,exception);
+	AddConfigurePath(path_map,&path_index,MagickLibConfigPath,exception);
 # endif /* defined(MagickLibConfigPath) */
 
 # if defined(MSWINDOWS) && !(defined(MagickLibConfigPath) || defined(MagickShareConfigPath))
-  {
-    char
-      *registry_key,
-      *key_value;
+	{
+		char
+			*registry_key,
+			*key_value;
 
-    /*
-      Locate file via registry key.
-    */
-    registry_key="ConfigurePath";
-    key_value=NTRegistryKeyLookup(registry_key);
-    if (key_value == (char *) NULL)
-      {
-        ThrowException(exception,ConfigureError,RegistryKeyLookupFailed,registry_key);
-        return 0;
-      }
+		/*
+		Locate file via registry key.
+		*/
+		registry_key="ConfigurePath";
+		key_value=NTRegistryKeyLookup(registry_key);
+		if (key_value == (char *) NULL)
+		{
+			ThrowException(exception,ConfigureError,RegistryKeyLookupFailed,registry_key);
+			return 0;
+		}
 
-    FormatString(path,"%.1024s%s",key_value,DirectorySeparator);
-    AddConfigurePath(path_map,&path_index,path,exception);
-  }
+		FormatString(path,"%.1024s%s",key_value,DirectorySeparator);
+		AddConfigurePath(path_map,&path_index,path,exception);
+	}
 #  endif /* defined(MSWINDOWS) */
 
 #else /* !defined(UseInstalledMagick) */
 
-  {
-    const char
-      *magick_home;
-    
-    /*
-      Search under MAGICK_HOME.
-    */
-    magick_home=getenv("MAGICK_HOME");
-    if (magick_home)
-      {
-#if defined(POSIX)
-        FormatString(path,"%.1024s/share/%s/",magick_home,
-          MagickShareConfigSubDir);
-        AddConfigurePath(path_map,&path_index,path,exception);
+	{
+		const char
+			*magick_home;
 
-        FormatString(path,"%.1024s/lib/%s/",magick_home,
-          MagickLibConfigSubDir);
-        AddConfigurePath(path_map,&path_index,path,exception);
+		/*
+		Search under MAGICK_HOME.
+		*/
+		magick_home=getenv("MAGICK_HOME");
+		if (magick_home)
+		{
+#if defined(POSIX)
+			FormatString(path,"%.1024s/share/%s/",magick_home,
+				MagickShareConfigSubDir);
+			AddConfigurePath(path_map,&path_index,path,exception);
+
+			FormatString(path,"%.1024s/lib/%s/",magick_home,
+				MagickLibConfigSubDir);
+			AddConfigurePath(path_map,&path_index,path,exception);
 #else
-        FormatString(path,"%.1024s%s",magick_home,
-          DirectorySeparator);
-        AddConfigurePath(path_map,&path_index,path,exception);
+			FormatString(path,"%.1024s%s",magick_home,
+				DirectorySeparator);
+			AddConfigurePath(path_map,&path_index,path,exception);
 #endif /* defined(POSIX) */
-      }
-    }
+		}
+	}
 
-  if (getenv("HOME") != (char *) NULL)
-    {
-      /*
-        Search $HOME/.magick.
-      */
-      FormatString(path,"%.1024s%s%s",getenv("HOME"),
-        *getenv("HOME") == '/' ? "/.magick" : "",DirectorySeparator);
-      AddConfigurePath(path_map,&path_index,path,exception);
-    }
+	if (getenv("HOME") != (char *) NULL)
+	{
+		/*
+		Search $HOME/.magick.
+		*/
+		FormatString(path,"%.1024s%s%s",getenv("HOME"),
+			*getenv("HOME") == '/' ? "/.magick" : "",DirectorySeparator);
+		AddConfigurePath(path_map,&path_index,path,exception);
+	}
 
-  if (*SetClientPath((char *) NULL) != '\0')
-    {
+	if (*SetClientPath((char *) NULL) != '\0')
+	{
 #if defined(POSIX)
-      char
-        prefix[MaxTextExtent];
+		char
+			prefix[MaxTextExtent];
 
-      /*
-        Search based on executable directory if directory is known.
-      */
-      (void) strlcpy(prefix,SetClientPath((char *) NULL),MaxTextExtent);
-      ChopPathComponents(prefix,1);
+		/*
+		Search based on executable directory if directory is known.
+		*/
+		(void) strlcpy(prefix,SetClientPath((char *) NULL),MaxTextExtent);
+		ChopPathComponents(prefix,1);
 
-      FormatString(path,"%.1024s/lib/%s/",prefix,MagickLibConfigSubDir);
-      AddConfigurePath(path_map,&path_index,path,exception);
+		FormatString(path,"%.1024s/lib/%s/",prefix,MagickLibConfigSubDir);
+		AddConfigurePath(path_map,&path_index,path,exception);
 
-      FormatString(path,"%.1024s/share/%s/",prefix,MagickShareConfigSubDir);
-      AddConfigurePath(path_map,&path_index,path,exception);
+		FormatString(path,"%.1024s/share/%s/",prefix,MagickShareConfigSubDir);
+		AddConfigurePath(path_map,&path_index,path,exception);
 #else /* defined(POSIX) */
-      FormatString(path,"%.1024s%s",SetClientPath((char *) NULL),
-        DirectorySeparator);
-      AddConfigurePath(path_map,&path_index,path,exception);
+		FormatString(path,"%.1024s%s",SetClientPath((char *) NULL),
+			DirectorySeparator);
+		AddConfigurePath(path_map,&path_index,path,exception);
 #endif /* !defined(POSIX) */
-    }
+	}
 
-  /*
-    Search current directory.
-  */
-  AddConfigurePath(path_map,&path_index,"",exception);
+	/*
+	Search current directory.
+	*/
+	AddConfigurePath(path_map,&path_index,"",exception);
 #endif /* !defined(UseInstalledMagick) */
 
-  path_map_iterator=MagickMapAllocateIterator(path_map);
+	path_map_iterator=MagickMapAllocateIterator(path_map);
 
-  if (logging)
-    {
-      char
-        list_separator[2],
-        *search_path=0;
-
-      list_separator[0]=DirectoryListSeparator;
-      list_separator[1]='\0';
-      while(MagickMapIterateNext(path_map_iterator,&key))
-        {
-          if (search_path)
-            (void) ConcatenateString(&search_path,list_separator);
-          (void) ConcatenateString(&search_path,
-            (const char *) MagickMapDereferenceIterator(path_map_iterator,0));
-        }
-      
-      (void) LogMagickEvent(ConfigureEvent,GetMagickModule(),
-         "Searching for file \"%s\" in path \"%s\"",filename,search_path);
-
-      MagickFreeMemory(search_path);
-      MagickMapIterateToFront(path_map_iterator);
-    }
-
-  while(MagickMapIterateNext(path_map_iterator,&key))
-    {
-      char
-        test_path[MaxTextExtent];
-
-      FILE
-        *file;
-
-      FormatString(test_path,"%.1024s%.256s",
-        (const char *)MagickMapDereferenceIterator(path_map_iterator,0),
-        filename);
-
-      file=fopen(test_path,"rb");
-      if (file )
-        {
-          if (logging)
-            (void) LogMagickEvent(ConfigureEvent,GetMagickModule(),
-              "Found: %.1024s",test_path);
-          (void) strcpy(path,test_path);
-          (void) MagickFseek(file,0L,SEEK_END);
-          *length=MagickFtell(file); /* FIXME: ftell returns long, but size_t may be unsigned */
-          if (*length > 0)
-            {
-              (void) MagickFseek(file,0L,SEEK_SET);
-              blob=MagickAllocateMemory(unsigned char *,(*length)+1);
-              if (blob)
-                {
-                  *length=fread((void  *)blob, 1, *length, file);
-                  blob[*length]='\0';
-                }
-            }
-          (void) fclose(file);
-          if (blob)
-            break;
-        }
-
-      if (logging)
+	list_separator[0]=DirectoryListSeparator;
+	list_separator[1]='\0';
+	while(MagickMapIterateNext(path_map_iterator,&key))
 	{
-	  (void) LogMagickEvent(ConfigureEvent,GetMagickModule(),
-				"Tried: %.1024s [%.1024s]",test_path,
-				strerror(errno));
-	  errno=0;
+		if (search_path)
+			(void) ConcatenateString(&search_path,list_separator);
+		(void) ConcatenateString(&search_path,
+			(const char *) MagickMapDereferenceIterator(path_map_iterator,0));
 	}
-    }
-  MagickMapDeallocateIterator(path_map_iterator);
-  MagickMapDeallocateMap(path_map);
 
-  if (blob)
-    return(blob);
+	(void) LogMagickEvent(ConfigureEvent,GetMagickModule(),
+		"Searching for file \"%s\" in path \"%s\"",filename,search_path);
+
+	MagickFreeMemory(search_path);
+	MagickMapIterateToFront(path_map_iterator);
+
+	while(MagickMapIterateNext(path_map_iterator,&key))
+	{
+		char
+			test_path[MaxTextExtent];
+
+		FILE
+			*file;
+
+		FormatString(test_path,"%.1024s%.256s",
+			(const char *)MagickMapDereferenceIterator(path_map_iterator,0),
+			filename);
+
+		file=fopen(test_path,"rb");
+		if (file )
+		{
+			if (logging)
+				(void) LogMagickEvent(ConfigureEvent,GetMagickModule(),
+				"Found: %.1024s",test_path);
+			(void) strcpy(path,test_path);
+			(void) MagickFseek(file,0L,SEEK_END);
+			*length=MagickFtell(file); /* FIXME: ftell returns long, but size_t may be unsigned */
+			if (*length > 0)
+			{
+				(void) MagickFseek(file,0L,SEEK_SET);
+				blob=MagickAllocateMemory(unsigned char *,(*length)+1);
+				if (blob)
+				{
+					*length=fread((void  *)blob, 1, *length, file);
+					blob[*length]='\0';
+				}
+			}
+			(void) fclose(file);
+			if (blob)
+				break;
+		}
+
+		printf("Tried: %.1024s [%.1024s]\n", test_path, strerror(errno));
+		errno=0;
+	}
+	MagickMapDeallocateIterator(path_map_iterator);
+	MagickMapDeallocateMap(path_map);
+
+	if (blob)
+		return(blob);
 
 #if defined(MSWINDOWS)
-  {
-    void
-      *resource;
+	{
+		void
+			*resource;
 
-    resource=NTResourceToBlob(filename);
-    if (resource)
-      return resource;
-  }
+		resource=NTResourceToBlob(filename);
+		if (resource)
+			return resource;
+	}
 #endif /* defined(MSWINDOWS) */
 
-  ThrowException(exception,ConfigureError,UnableToAccessConfigureFile,
-    filename);
+	fprintf(stderr, "Searched for file \"%s\" in path \"%s\"\n", filename,search_path);
+	ThrowException(exception,ConfigureError,UnableToAccessConfigureFile,
+		filename);
 
-  return 0;
+	return 0;
 }
 
 /*

@@ -31,7 +31,7 @@ endif
 
 USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick
 
-LIBJASPER = $(TOP)/supportApp/GraphicsMagick/jp2/src/libJasper
+LIBJASPER = $(TOP)/supportApp/GraphicsMagick/jp2/src/libjasper
 
 USR_INCLUDES += -I$(LIBJASPER)/include
 

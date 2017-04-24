@@ -47,6 +47,9 @@ rm $AUTOSAVE_DOWNLOAD
 rm -f $AUTOSAVE_PATH/current
 ln -s $AUTOSAVE_PATH/$AUTOSAVE_DIRECTORY $AUTOSAVE_PATH/current
 
+# This variable is required by the areaDetector module
+echo export AUTOSAVE=$AUTOSAVE_PATH/current >> $EPICS_ROOT/siteEnv
+
 # hack the 'RELEASE' file to put the settings we want.
 chmod 666 $AUTOSAVE_PATH/current/configure/RELEASE
 sed -i -e "/^EPICS_BASE\s*=/ s,=.*,=$EPICS_ROOT/base," $AUTOSAVE_PATH/current/configure/RELEASE

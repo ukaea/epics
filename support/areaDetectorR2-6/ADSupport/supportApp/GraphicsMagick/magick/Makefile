@@ -21,12 +21,12 @@ USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick/ttf/include
 
 ifeq ($(SHARED_LIBRARIES),YES)
   USR_CFLAGS_WIN32 += -D_DLL
-  USR_CFLAGS_WIN32 += -D_MAGICKMOD_
 else
   USR_CFLAGS_WIN32 += -D_LIB
 endif
 
 USR_CFLAGS += -DHAVE_VSNPRINTF
+USR_CFLAGS += -D_MAGICKMOD_
 
 # Here overriding the default header file install location.
 # This allows Magick++ headers files (at $(INSTALL_LOCATION)/include/Magick++) to
@@ -188,7 +188,7 @@ LIB_SRCS += version.c
 LIB_SRCS += widget.c
 LIB_SRCS += xwindow.c
 
-LIB_LIBS += bzlib lcms ttf zlib coders filters
+LIB_LIBS += bzlib lcms ttf zlib
 
 LIB_SYS_LIBS_WIN32 += Advapi32 User32 Gdi32
 LIB_SYS_LIBS_Linux += Xext

@@ -134,7 +134,7 @@ LIB_SRCS += xtrn.c
 LIB_SRCS += xwd.c
 LIB_SRCS += yuv.c
 
-LIB_LIBS += bzlib jbig jp2 magick png ttf webp wmf jpeg zlib xml2 tiff
+LIB_LIBS += bzlib jbig jp2 Magick png ttf webp wmf jpeg zlib xml2 tiff
 LIB_SYS_LIBS_WIN32 += User32 Gdi32 OleAut32
 
 include $(TOP)/configure/RULES

@@ -76,14 +76,24 @@ echo \# main EPICS env var >> $EPICS_ROOT/siteEnv
 echo export EPICS_HOST_ARCH=$EPICS_ARCH >> $EPICS_ROOT/siteEnv
 echo export EPICS_ROOT=$EPICS_ROOT >> $EPICS_ROOT/siteEnv
 echo export EPICS_BASE=$EPICS_ROOT/base >> $EPICS_ROOT/siteEnv
-echo export PATH=\${PATH}:\${EPICS_ROOT}/base/bin/\${EPICS_HOST_ARCH} >> $EPICS_ROOT/siteEnv
+echo export PATH=\${PATH}:\${EPICS_ROOT}/base/bin/\${EPICS_HOST_ARCH}:\${EPICS_ROOT}/extensions/bin/\${EPICS_HOST_ARCH} >> $EPICS_ROOT/siteEnv
+
+echo \# channel access >> $EPICS_ROOT/siteEnv
+echo export EPICS_CA_MAX_ARRAY_BYTES=100000000 >> $EPICS_ROOT/siteEnv
+# See http://www.aps.anl.gov/epics/tech-talk/2009/msg00924.php
+echo export EPICS_CA_AUTO_ADDR_LIST=NO >> $EPICS_ROOT/siteEnv
+echo export EPICS_CA_ADDR_LIST=127.0.0.1 >> $EPICS_ROOT/siteEnv
+
 echo "" >> $EPICS_ROOT/siteEnv
 chmod a+x $EPICS_ROOT/siteEnv
+
+# This sets the environment variables for this shell, now.
+. $EPICS_ROOT/siteEnv
 
 # This sets the environment variables following a reboot.
 if [ ! -f /etc/redhat-release ];
 then
-    . ./bashrc.sh $EPICS_ROOT
+    ./bashrc.sh $EPICS_ROOT
 else
     su -c './bashrc.sh $EPICS_ROOT' $USERNAME
 fi
