@@ -418,7 +418,7 @@ extern int vsnprintf(char *s, size_t n, const char *format, va_list ap);
 
 #if defined(_MAGICKMOD_)
 #  undef BuildMagickModules
-#  define BuildMagickModules
+// #  define BuildMagickModules
 #endif
 
 /*

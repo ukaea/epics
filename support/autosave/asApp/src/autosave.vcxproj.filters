@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <None Include="asInclude.dbd" />
+    <None Include="asSupport.dbd" />
+    <None Include="Makefile" />
+    <None Include="test.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="asMain.cpp" />
+    <ClCompile Include="asVerify.c" />
+    <ClCompile Include="configMenuSub.c" />
+    <ClCompile Include="dbrestore.c" />
+    <ClCompile Include="fGetDateStr.c" />
+    <ClCompile Include="initHooks.c" />
+    <ClCompile Include="save_restore.c" />
+    <ClCompile Include="verify.c" />
+    <ClCompile Include="os\WIN32\osdNfs.c">
+      <Filter>os\WIN32</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="configMenuClient.h" />
+    <ClInclude Include="fGetDateStr.h" />
+    <ClInclude Include="save_restore.h" />
+    <ClInclude Include="tr_dirent.h" />
+    <ClInclude Include="os\WIN32\osdNfs.h">
+      <Filter>os\WIN32</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="os">
+      <UniqueIdentifier>{402c1dea-f444-4dab-9288-21a335b777fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="os\WIN32">
+      <UniqueIdentifier>{97cc38f0-3d44-4aae-8188-95fa0db84588}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

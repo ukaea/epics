@@ -126,7 +126,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <OmitFramePointers>true</OmitFramePointers>
       <Optimization>Full</Optimization>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_DLL;_MAGICKLIB_;_MAGICKMOD_;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_DLL;_MAGICKLIB_;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <AdditionalIncludeDirectories>../../;../../lcms/include;../../ttf/include;../../bzlib;../../../zlibSrc/os/default;../../../zlibSrc/os/WIN32</AdditionalIncludeDirectories>
     </ClCompile>
@@ -170,7 +170,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <OmitFramePointers>true</OmitFramePointers>
       <Optimization>Full</Optimization>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_DLL;_MAGICKLIB_;_MAGICKMOD_;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_DLL;_MAGICKLIB_;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <AdditionalIncludeDirectories>../../;../../lcms/include;../../ttf/include;../../bzlib;../../../zlibSrc/os/default;../../../zlibSrc/os/WIN32</AdditionalIncludeDirectories>
     </ClCompile>
@@ -214,7 +214,7 @@
       <OmitFramePointers>false</OmitFramePointers>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_DLL;_MAGICKLIB_;_MAGICKMOD_;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_DLL;_MAGICKLIB_;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <AdditionalIncludeDirectories>../../;../../lcms/include;../../ttf/include;../../bzlib;../../../zlibSrc/os/default;../../../zlibSrc/os/WIN32</AdditionalIncludeDirectories>
     </ClCompile>
@@ -226,6 +226,9 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
     </Lib>
     <Link />
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
     <ClCompile>
@@ -258,7 +261,7 @@
       <OmitFramePointers>false</OmitFramePointers>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_DLL;_MAGICKLIB_;_MAGICKMOD_;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_DLL;_MAGICKLIB_;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <AdditionalIncludeDirectories>../../;../../lcms/include;../../ttf/include;../../bzlib;../../../zlibSrc/os/default;../../../zlibSrc/os/WIN32</AdditionalIncludeDirectories>
     </ClCompile>
@@ -270,6 +273,9 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
     </Lib>
     <Link />
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\magick\analyze_Linux.c">
@@ -460,6 +466,9 @@
   <ItemGroup>
     <ProjectReference Include="..\bzlib\CORE_bzlib.vcxproj">
       <Project>{2bee02cb-bae8-4b48-9d07-4d102a0827bd}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\coders\CORE_coders.vcxproj">
+      <Project>{dcfe05fb-91fa-4885-be8c-e3f19d156ac3}</Project>
     </ProjectReference>
     <ProjectReference Include="..\lcms\CORE_lcms.vcxproj">
       <Project>{e2b6d5e1-7383-4dca-ba1c-05b8f2c44e4e}</Project>

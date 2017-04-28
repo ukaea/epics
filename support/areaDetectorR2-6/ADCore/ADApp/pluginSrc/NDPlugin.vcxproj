@@ -1,0 +1,494 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug_DLL|Win32">
+      <Configuration>Debug_DLL</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug_DLL|x64">
+      <Configuration>Debug_DLL</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug_LIB|Win32">
+      <Configuration>Debug_LIB</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug_LIB|x64">
+      <Configuration>Debug_LIB</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_DLL|Win32">
+      <Configuration>Release_DLL</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_DLL|x64">
+      <Configuration>Release_DLL</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_LIB|Win32">
+      <Configuration>Release_LIB</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_LIB|x64">
+      <Configuration>Release_LIB</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\base-3.15.5\src\ca\client\ca.vcxproj">
+      <Project>{02caf068-a7fc-463e-aa7e-72eeaf665826}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\base-3.15.5\src\ioc\dbCore.vcxproj">
+      <Project>{440c585d-ad66-4738-941c-a87a1817a9be}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\base-3.15.5\src\libCom\Com.vcxproj">
+      <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\base-3.15.5\src\std\softIoc\softIoc.vcxproj">
+      <Project>{0df29c1b-6c17-4d60-8b78-27fe8714dc11}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\asyn4-31\asyn\asyn.vcxproj">
+      <Project>{c3ea0ff7-6039-4884-ba91-7b4619befea5}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\ADSupport\supportApp\GraphicsMagick\VisualMagick\jpeg\CORE_jpeg.vcxproj">
+      <Project>{d5b667d9-4a72-4ccb-aaf6-8ba2c433edd6}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\ADSupport\supportApp\GraphicsMagick\VisualMagick\libxml\CORE_libxml.vcxproj">
+      <Project>{8b797ed0-1330-469e-99c8-6d6669921412}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\ADSupport\supportApp\GraphicsMagick\VisualMagick\Magick++\CORE_Magick++.vcxproj">
+      <Project>{055517c9-0a16-49eb-938a-ff2cff783b99}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\ADSupport\supportApp\GraphicsMagick\VisualMagick\tiff\CORE_tiff.vcxproj">
+      <Project>{e3c6d871-83ec-4f64-815a-afd9e6b63eda}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\ADSupport\supportApp\hdf5Src\hdf5.vcxproj">
+      <Project>{a1c1777e-50d2-47dc-91bb-3b328362214a}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\ADSupport\supportApp\netCDFSrc\netCDF.vcxproj">
+      <Project>{39a57a7c-0399-40d5-bf95-2940fc941e4d}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\ADSupport\supportApp\nexusSrc\NeXus.vcxproj">
+      <Project>{575a12dd-9181-465b-b0e1-c3bf5b3d9171}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\ADSrc\ADBase.vcxproj">
+      <Project>{77cbc12c-ae16-40ef-a286-a61535f45a99}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="colorMaps.h" />
+    <ClInclude Include="fft.h" />
+    <ClInclude Include="NDArrayRing.h" />
+    <ClInclude Include="NDFileHDF5.h" />
+    <ClInclude Include="NDFileHDF5AttributeDataset.h" />
+    <ClInclude Include="NDFileHDF5Dataset.h" />
+    <ClInclude Include="NDFileHDF5Layout.h" />
+    <ClInclude Include="NDFileHDF5LayoutXML.h" />
+    <ClInclude Include="NDFileHDF5VersionCheck.h" />
+    <ClInclude Include="NDFileJPEG.h" />
+    <ClInclude Include="NDFileMagick.h" />
+    <ClInclude Include="NDFileNetCDF.h" />
+    <ClInclude Include="NDFileNexus.h" />
+    <ClInclude Include="NDFileNull.h" />
+    <ClInclude Include="NDFileTIFF.h" />
+    <ClInclude Include="NDPluginAttribute.h" />
+    <ClInclude Include="NDPluginCircularBuff.h" />
+    <ClInclude Include="NDPluginColorConvert.h" />
+    <ClInclude Include="NDPluginDriver.h" />
+    <ClInclude Include="NDPluginFFT.h" />
+    <ClInclude Include="NDPluginFile.h" />
+    <ClInclude Include="NDPluginOverlay.h" />
+    <ClInclude Include="NDPluginOverlayTextFont.h" />
+    <ClInclude Include="NDPluginProcess.h" />
+    <ClInclude Include="NDPluginPva.h" />
+    <ClInclude Include="NDPluginROI.h" />
+    <ClInclude Include="NDPluginROIStat.h" />
+    <ClInclude Include="NDPluginStats.h" />
+    <ClInclude Include="NDPluginStdArrays.h" />
+    <ClInclude Include="NDPluginTimeSeries.h" />
+    <ClInclude Include="NDPluginTransform.h" />
+    <ClInclude Include="NDPosPlugin.h" />
+    <ClInclude Include="NDPosPluginFileReader.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="fft.c" />
+    <ClCompile Include="NDArrayRing.cpp" />
+    <ClCompile Include="NDFileDummy.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="NDFileHDF5.cpp" />
+    <ClCompile Include="NDFileHDF5AttributeDataset.cpp" />
+    <ClCompile Include="NDFileHDF5Dataset.cpp" />
+    <ClCompile Include="NDFileHDF5Layout.cpp" />
+    <ClCompile Include="NDFileHDF5LayoutXML.cpp" />
+    <ClCompile Include="NDFileJPEG.cpp" />
+    <ClCompile Include="NDFileMagick.cpp" />
+    <ClCompile Include="NDFileNetCDF.cpp" />
+    <ClCompile Include="NDFileNexus.cpp" />
+    <ClCompile Include="NDFileNull.cpp" />
+    <ClCompile Include="NDFileTIFF.cpp" />
+    <ClCompile Include="NDPluginAttribute.cpp" />
+    <ClCompile Include="NDPluginCircularBuff.cpp" />
+    <ClCompile Include="NDPluginColorConvert.cpp" />
+    <ClCompile Include="NDPluginDriver.cpp" />
+    <ClCompile Include="NDPluginFFT.cpp" />
+    <ClCompile Include="NDPluginFile.cpp" />
+    <ClCompile Include="NDPluginOverlay.cpp" />
+    <ClCompile Include="NDPluginOverlayTextFont.cpp" />
+    <ClCompile Include="NDPluginProcess.cpp" />
+    <ClCompile Include="NDPluginPva.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="NDPluginROI.cpp" />
+    <ClCompile Include="NDPluginROIStat.cpp" />
+    <ClCompile Include="NDPluginStats.cpp" />
+    <ClCompile Include="NDPluginStdArrays.cpp" />
+    <ClCompile Include="NDPluginTimeSeries.cpp" />
+    <ClCompile Include="NDPluginTransform.cpp" />
+    <ClCompile Include="NDPosPlugin.cpp" />
+    <ClCompile Include="NDPosPluginFileReader.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Makefile" />
+    <None Include="NDFileHDF5.dbd" />
+    <None Include="NDFileJPEG.dbd" />
+    <None Include="NDFileMagick.dbd" />
+    <None Include="NDFileNetCDF.dbd" />
+    <None Include="NDFileNexus.dbd" />
+    <None Include="NDFileNull.dbd" />
+    <None Include="NDFileTIFF.dbd" />
+    <None Include="NDPluginAttribute.dbd" />
+    <None Include="NDPluginCircularBuff.dbd" />
+    <None Include="NDPluginColorConvert.dbd" />
+    <None Include="NDPluginFFT.dbd" />
+    <None Include="NDPluginOverlay.dbd" />
+    <None Include="NDPluginProcess.dbd" />
+    <None Include="NDPluginPva.dbd" />
+    <None Include="NDPluginROI.dbd" />
+    <None Include="NDPluginROIStat.dbd" />
+    <None Include="NDPluginStats.dbd" />
+    <None Include="NDPluginStdArrays.dbd" />
+    <None Include="NDPluginTimeSeries.dbd" />
+    <None Include="NDPluginTransform.dbd" />
+    <None Include="NDPosPlugin.dbd" />
+    <None Include="tiff_test.pro" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{98DFF6EA-747C-4964-A11F-7ABB34B314F4}</ProjectGuid>
+    <RootNamespace>NDPlugin</RootNamespace>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
+    <SccAuxPath>
+    </SccAuxPath>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\..\ADSupport\include\os\WIN32;..\..\..\ADSupport\supportApp\xml2Src\os\default;..\..\..\ADSupport\supportApp\GraphicsMagick\Magick++\lib;..\..\..\ADSupport\supportApp\GraphicsMagick;$(SolutionDir)include\os\win32;$(SolutionDir)include;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;H5_BUILT_AS_DYNAMIC_LIB;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS;</PreprocessorDefinitions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DisableSpecificWarnings>4244;4267;4251</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib;Winmm.lib</AdditionalDependencies>
+    </Link>
+    <PreBuildEvent>
+      <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
+if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
+if not exist O.Common md O.Common
+xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
+</Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q  /D .\O.Common\*.DBD $(SolutionDir)DBD &gt; NUL</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\..\ADSupport\include\os\WIN32;..\..\..\ADSupport\supportApp\xml2Src\os\default;..\..\..\ADSupport\supportApp\GraphicsMagick\Magick++\lib;..\..\..\ADSupport\supportApp\GraphicsMagick;$(SolutionDir)include\os\win32;$(SolutionDir)include;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;H5_BUILT_AS_DYNAMIC_LIB;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS;</PreprocessorDefinitions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DisableSpecificWarnings>4244;4267;4251</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib;Winmm.lib</AdditionalDependencies>
+    </Link>
+    <PreBuildEvent>
+      <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
+if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
+if not exist O.Common md O.Common
+xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
+</Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q  /D .\O.Common\*.DBD $(SolutionDir)DBD &gt; NUL</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\..\ADSupport\include\os\WIN32;..\..\..\ADSupport\supportApp\xml2Src\os\default;..\..\..\ADSupport\supportApp\GraphicsMagick\Magick++\lib;..\..\..\ADSupport\supportApp\GraphicsMagick;$(SolutionDir)include\os\win32;$(SolutionDir)include;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS;_WIN32_WINNT=0X0503</PreprocessorDefinitions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DisableSpecificWarnings>4244;4267</DisableSpecificWarnings>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <PreBuildEvent>
+      <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
+if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
+if not exist O.Common md O.Common
+xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
+</Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q  /D .\O.Common\*.DBD $(SolutionDir)DBD &gt; NUL</Command>
+    </PostBuildEvent>
+    <Lib>
+      <AdditionalDependencies>Winmm.lib</AdditionalDependencies>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\..\ADSupport\include\os\WIN32;..\..\..\ADSupport\supportApp\xml2Src\os\default;..\..\..\ADSupport\supportApp\GraphicsMagick\Magick++\lib;..\..\..\ADSupport\supportApp\GraphicsMagick;$(SolutionDir)include\os\win32;$(SolutionDir)include;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DisableSpecificWarnings>4244;4267</DisableSpecificWarnings>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <PreBuildEvent>
+      <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
+if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
+if not exist O.Common md O.Common
+xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
+</Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q  /D .\O.Common\*.DBD $(SolutionDir)DBD &gt; NUL</Command>
+    </PostBuildEvent>
+    <Lib>
+      <AdditionalDependencies>Winmm.lib</AdditionalDependencies>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>..\..\..\ADSupport\include\os\WIN32;..\..\..\ADSupport\supportApp\xml2Src\os\default;..\..\..\ADSupport\supportApp\GraphicsMagick\Magick++\lib;..\..\..\ADSupport\supportApp\GraphicsMagick;$(SolutionDir)include\os\win32;$(SolutionDir)include;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;H5_BUILT_AS_DYNAMIC_LIB;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS;</PreprocessorDefinitions>
+      <DisableSpecificWarnings>4244;4267;4251</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib;Winmm.lib</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q  /D .\O.Common\*.DBD $(SolutionDir)DBD &gt; NUL</Command>
+    </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
+if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
+if not exist O.Common md O.Common
+xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
+</Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;H5_BUILT_AS_DYNAMIC_LIB;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS;</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\..\ADSupport\include\os\WIN32;..\..\..\ADSupport\supportApp\xml2Src\os\default;..\..\..\ADSupport\supportApp\GraphicsMagick\Magick++\lib;..\..\..\ADSupport\supportApp\GraphicsMagick;$(SolutionDir)include\os\win32;$(SolutionDir)include;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4244;4267;4251</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib;Winmm.lib</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q  /D .\O.Common\*.DBD $(SolutionDir)DBD &gt; NUL</Command>
+    </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
+if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
+if not exist O.Common md O.Common
+xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
+</Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>..\..\..\ADSupport\include\os\WIN32;..\..\..\ADSupport\supportApp\xml2Src\os\default;..\..\..\ADSupport\supportApp\GraphicsMagick\Magick++\lib;..\..\..\ADSupport\supportApp\GraphicsMagick;$(SolutionDir)include\os\win32;$(SolutionDir)include;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS;_WIN32_WINNT=0X0503</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <DisableSpecificWarnings>4244;4267</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q  /D .\O.Common\*.DBD $(SolutionDir)DBD &gt; NUL</Command>
+    </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
+if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
+if not exist O.Common md O.Common
+xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
+</Command>
+    </PreBuildEvent>
+    <Lib>
+      <AdditionalDependencies>Winmm.lib</AdditionalDependencies>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\..\ADSupport\include\os\WIN32;..\..\..\ADSupport\supportApp\xml2Src\os\default;..\..\..\ADSupport\supportApp\GraphicsMagick\Magick++\lib;..\..\..\ADSupport\supportApp\GraphicsMagick;$(SolutionDir)include\os\win32;$(SolutionDir)include;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4244;4267</DisableSpecificWarnings>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q  /D .\O.Common\*.DBD $(SolutionDir)DBD &gt; NUL</Command>
+    </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
+if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
+if not exist O.Common md O.Common
+xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
+</Command>
+    </PreBuildEvent>
+    <Lib>
+      <AdditionalDependencies>Winmm.lib</AdditionalDependencies>
+    </Lib>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

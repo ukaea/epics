@@ -32,7 +32,8 @@
 %
 %
 */
-
+
+
 /*
   Include declarations.
 */
@@ -62,7 +63,8 @@
 #if defined(HasBZLIB)
 #  include "bzlib.h"
 #endif
-
+
+
 /*
   Define declarations.
 */
@@ -187,7 +189,8 @@ static int SyncBlob(Image *image);
 #    define putc putc_unlocked
 #  endif
 #endif
-
+
+
 static const char *BlobStreamTypeToString(StreamType stream_type)
 {
   const char
@@ -219,7 +222,8 @@ static const char *BlobStreamTypeToString(StreamType stream_type)
   }
   return type_string;
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -270,7 +274,8 @@ static inline size_t ReadBlobStream(Image *image,const size_t length,
     image->blob->eof=True;
   return available;
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -334,7 +339,8 @@ static inline size_t WriteBlobStream(Image *image,const size_t length,
     image->blob->length=image->blob->offset;
   return length;
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -381,7 +387,8 @@ MagickExport void AttachBlob(BlobInfo *blob_info,const void *blob,
 #endif
   blob_info->data=(unsigned char *) blob;
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -414,7 +421,8 @@ MagickExport MagickBool BlobIsSeekable(const Image *image)
   return ((image->blob->type == FileStream) ||
           (image->blob->type == BlobStream));
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -497,7 +505,8 @@ MagickExport MagickPassFail BlobReserveSize(Image *image, magick_off_t size)
 
   return status;
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -621,7 +630,8 @@ MagickExport MagickPassFail BlobToFile(const char *filename,const void *blob,
     }
   return status;
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -769,7 +779,8 @@ MagickExport Image *BlobToImage(const ImageInfo *image_info,const void *blob,
   (void) LogMagickEvent(BlobEvent,GetMagickModule(), "Leaving BlobToImage");
   return(image);
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -820,7 +831,8 @@ MagickExport BlobInfo *CloneBlobInfo(const BlobInfo *blob_info)
   UnlockSemaphoreInfo(clone_info->semaphore);
   return(clone_info);
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -965,7 +977,8 @@ MagickExport void CloseBlob(Image *image)
   image->blob->type=UndefinedStream;
   image->blob->status=(status != 0);
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -1034,7 +1047,8 @@ MagickExport void DestroyBlob(Image *image)
       image->blob=(BlobInfo *) NULL;
     }
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -1089,7 +1103,8 @@ MagickExport void DestroyBlobInfo(BlobInfo *blob)
         }
     }
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -1139,7 +1154,8 @@ MagickExport void DetachBlob(BlobInfo *blob_info)
 #endif
   blob_info->data=(unsigned char *) NULL;
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -1205,7 +1221,8 @@ MagickExport int EOFBlob(const Image *image)
   }
   return(image->blob->eof);
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -1350,7 +1367,8 @@ MagickExport void *FileToBlob(const char *filename,size_t *length,
     }
   return(blob);
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -1382,7 +1400,8 @@ MagickExport FILE *GetBlobFileHandle(const Image *image)
   assert(image->blob != (const BlobInfo *) NULL);
   return (image->blob->handle.std);
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -1418,7 +1437,8 @@ MagickExport void GetBlobInfo(BlobInfo *blob_info)
   UnlockSemaphoreInfo(blob_info->semaphore);
   blob_info->signature=MagickSignature;
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -1451,7 +1471,8 @@ MagickExport MagickBool GetBlobIsOpen(const Image *image)
 
   return (image->blob->type != UndefinedStream ? MagickTrue : MagickFalse);
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -1522,7 +1543,8 @@ MagickExport magick_off_t GetBlobSize(const Image *image)
     }
   return(offset);
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -1552,7 +1574,8 @@ MagickExport int GetBlobStatus(const Image *image)
   assert(image->signature == MagickSignature);
   return(image->blob->status);
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -1586,7 +1609,8 @@ MagickExport unsigned char *GetBlobStreamData(const Image *image)
     return 0;
   return(image->blob->data);
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -1620,7 +1644,8 @@ MagickExport MagickBool GetBlobTemporary(const Image *image)
   assert(image->blob->signature == MagickSignature);
   return (image->blob->temporary != MagickFalse);
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -1687,269 +1712,268 @@ static void AddConfigurePath(MagickMap path_map, unsigned int *path_index,
 }
 
 MagickExport void *GetConfigureBlob(const char *filename,char *path,
-	size_t *length,ExceptionInfo *exception)
+  size_t *length,ExceptionInfo *exception)
 {
-	MagickMap
-		path_map;
+  MagickMap
+    path_map;
 
-	MagickMapIterator
-		path_map_iterator;
+  MagickMapIterator
+    path_map_iterator;
 
-	const char
-		*key;
+  const char
+    *key;
 
-	unsigned char
-		*blob=0;
+  unsigned char
+    *blob=0;
 
-	unsigned int
-		logging,
-		path_index=0;
+  unsigned int
+    logging,
+    path_index=0;
 
-	char
-		list_separator[2],
-		*search_path=0;
+  assert(filename != (const char *) NULL);
+  assert(path != (char *) NULL);
+  assert(length != (size_t *) NULL);
+  assert(exception != (ExceptionInfo *) NULL);
 
-	assert(filename != (const char *) NULL);
-	assert(path != (char *) NULL);
-	assert(length != (size_t *) NULL);
-	assert(exception != (ExceptionInfo *) NULL);
+  logging=IsEventLogging();
 
-	logging=1; // IsEventLogging();
+  (void) strlcpy(path,filename,MaxTextExtent);
+  path_map=MagickMapAllocateMap(MagickMapCopyString,MagickMapDeallocateString);
 
-#ifdef __LP64__
-	printf("__LP64__ is defined\n");
-#else
-	printf("__LP64__ is not defined\n");
-#endif
-
-	printf("sizeof(size_t) = %d\n", sizeof(size_t));
-	printf("sizeof(void*) = %d\n", sizeof(void*));
-
-	(void) strlcpy(path,filename,MaxTextExtent);
-	path_map=MagickMapAllocateMap(MagickMapCopyString,MagickMapDeallocateString);
-
-	{
-		/*
-		Allow the configuration file search path to be explicitly
-		specified.
-		*/
-		const char
-			*magick_configure_path = getenv("MAGICK_CONFIGURE_PATH");
-		if ( magick_configure_path )
-		{
-			const char
-				*end = NULL,
-				*start = magick_configure_path;
-
-			end=start+strlen(start);
-			while ( start < end )
-			{
-				char
-					buffer[MaxTextExtent];
-
-				const char
-					*separator;
-
-				int
-					string_length;
-
-				separator = strchr(start,DirectoryListSeparator);
-				if (separator)
-					string_length=separator-start;
-				else
-					string_length=end-start;
-				if (string_length > MaxTextExtent-1)
-					string_length = MaxTextExtent-1;
-				(void) strlcpy(buffer,start,string_length+1);
-				if (buffer[string_length-1] != DirectorySeparator[0])
-					(void) strlcat(buffer,DirectorySeparator,sizeof(buffer));
-				AddConfigurePath(path_map,&path_index,buffer,exception);
-				start += string_length+1;
-			}
-		}
-	}
+  {
+    /*
+      Allow the configuration file search path to be explicitly
+      specified.
+    */
+    const char
+      *magick_configure_path = getenv("MAGICK_CONFIGURE_PATH");
+    if ( magick_configure_path )
+      {
+        const char
+          *end = NULL,
+          *start = magick_configure_path;
+        
+        end=start+strlen(start);
+        while ( start < end )
+          {
+            char
+              buffer[MaxTextExtent];
+            
+            const char
+              *separator;
+            
+            int
+              string_length;
+            
+            separator = strchr(start,DirectoryListSeparator);
+            if (separator)
+              string_length=separator-start;
+            else
+              string_length=end-start;
+            if (string_length > MaxTextExtent-1)
+              string_length = MaxTextExtent-1;
+            (void) strlcpy(buffer,start,string_length+1);
+            if (buffer[string_length-1] != DirectorySeparator[0])
+              (void) strlcat(buffer,DirectorySeparator,sizeof(buffer));
+            AddConfigurePath(path_map,&path_index,buffer,exception);
+            start += string_length+1;
+          }
+      }
+  }
 
 #if defined(UseInstalledMagick)
 
 # if defined(MagickShareConfigPath)
-	AddConfigurePath(path_map,&path_index,MagickShareConfigPath,exception);
+  AddConfigurePath(path_map,&path_index,MagickShareConfigPath,exception);
 # endif /* defined(MagickShareConfigPath) */
 
 # if defined(MagickLibConfigPath)
-	AddConfigurePath(path_map,&path_index,MagickLibConfigPath,exception);
+  AddConfigurePath(path_map,&path_index,MagickLibConfigPath,exception);
 # endif /* defined(MagickLibConfigPath) */
 
 # if defined(MSWINDOWS) && !(defined(MagickLibConfigPath) || defined(MagickShareConfigPath))
-	{
-		char
-			*registry_key,
-			*key_value;
+  {
+    char
+      *registry_key,
+      *key_value;
 
-		/*
-		Locate file via registry key.
-		*/
-		registry_key="ConfigurePath";
-		key_value=NTRegistryKeyLookup(registry_key);
-		if (key_value == (char *) NULL)
-		{
-			ThrowException(exception,ConfigureError,RegistryKeyLookupFailed,registry_key);
-			return 0;
-		}
+    /*
+      Locate file via registry key.
+    */
+    registry_key="ConfigurePath";
+    key_value=NTRegistryKeyLookup(registry_key);
+    if (key_value == (char *) NULL)
+      {
+        ThrowException(exception,ConfigureError,RegistryKeyLookupFailed,registry_key);
+        return 0;
+      }
 
-		FormatString(path,"%.1024s%s",key_value,DirectorySeparator);
-		AddConfigurePath(path_map,&path_index,path,exception);
-	}
+    FormatString(path,"%.1024s%s",key_value,DirectorySeparator);
+    AddConfigurePath(path_map,&path_index,path,exception);
+  }
 #  endif /* defined(MSWINDOWS) */
 
 #else /* !defined(UseInstalledMagick) */
 
-	{
-		const char
-			*magick_home;
-
-		/*
-		Search under MAGICK_HOME.
-		*/
-		magick_home=getenv("MAGICK_HOME");
-		if (magick_home)
-		{
+  {
+    const char
+      *magick_home;
+    
+    /*
+      Search under MAGICK_HOME.
+    */
+    magick_home=getenv("MAGICK_HOME");
+    if (magick_home)
+      {
 #if defined(POSIX)
-			FormatString(path,"%.1024s/share/%s/",magick_home,
-				MagickShareConfigSubDir);
-			AddConfigurePath(path_map,&path_index,path,exception);
+        FormatString(path,"%.1024s/share/%s/",magick_home,
+          MagickShareConfigSubDir);
+        AddConfigurePath(path_map,&path_index,path,exception);
 
-			FormatString(path,"%.1024s/lib/%s/",magick_home,
-				MagickLibConfigSubDir);
-			AddConfigurePath(path_map,&path_index,path,exception);
+        FormatString(path,"%.1024s/lib/%s/",magick_home,
+          MagickLibConfigSubDir);
+        AddConfigurePath(path_map,&path_index,path,exception);
 #else
-			FormatString(path,"%.1024s%s",magick_home,
-				DirectorySeparator);
-			AddConfigurePath(path_map,&path_index,path,exception);
+        FormatString(path,"%.1024s%s",magick_home,
+          DirectorySeparator);
+        AddConfigurePath(path_map,&path_index,path,exception);
 #endif /* defined(POSIX) */
-		}
-	}
+      }
+    }
 
-	if (getenv("HOME") != (char *) NULL)
-	{
-		/*
-		Search $HOME/.magick.
-		*/
-		FormatString(path,"%.1024s%s%s",getenv("HOME"),
-			*getenv("HOME") == '/' ? "/.magick" : "",DirectorySeparator);
-		AddConfigurePath(path_map,&path_index,path,exception);
-	}
+  if (getenv("HOME") != (char *) NULL)
+    {
+      /*
+        Search $HOME/.magick.
+      */
+      FormatString(path,"%.1024s%s%s",getenv("HOME"),
+        *getenv("HOME") == '/' ? "/.magick" : "",DirectorySeparator);
+      AddConfigurePath(path_map,&path_index,path,exception);
+    }
 
-	if (*SetClientPath((char *) NULL) != '\0')
-	{
+  if (*SetClientPath((char *) NULL) != '\0')
+    {
 #if defined(POSIX)
-		char
-			prefix[MaxTextExtent];
+      char
+        prefix[MaxTextExtent];
 
-		/*
-		Search based on executable directory if directory is known.
-		*/
-		(void) strlcpy(prefix,SetClientPath((char *) NULL),MaxTextExtent);
-		ChopPathComponents(prefix,1);
+      /*
+        Search based on executable directory if directory is known.
+      */
+      (void) strlcpy(prefix,SetClientPath((char *) NULL),MaxTextExtent);
+      ChopPathComponents(prefix,1);
 
-		FormatString(path,"%.1024s/lib/%s/",prefix,MagickLibConfigSubDir);
-		AddConfigurePath(path_map,&path_index,path,exception);
+      FormatString(path,"%.1024s/lib/%s/",prefix,MagickLibConfigSubDir);
+      AddConfigurePath(path_map,&path_index,path,exception);
 
-		FormatString(path,"%.1024s/share/%s/",prefix,MagickShareConfigSubDir);
-		AddConfigurePath(path_map,&path_index,path,exception);
+      FormatString(path,"%.1024s/share/%s/",prefix,MagickShareConfigSubDir);
+      AddConfigurePath(path_map,&path_index,path,exception);
 #else /* defined(POSIX) */
-		FormatString(path,"%.1024s%s",SetClientPath((char *) NULL),
-			DirectorySeparator);
-		AddConfigurePath(path_map,&path_index,path,exception);
+      FormatString(path,"%.1024s%s",SetClientPath((char *) NULL),
+        DirectorySeparator);
+      AddConfigurePath(path_map,&path_index,path,exception);
 #endif /* !defined(POSIX) */
-	}
+    }
 
-	/*
-	Search current directory.
-	*/
-	AddConfigurePath(path_map,&path_index,"",exception);
+  /*
+    Search current directory.
+  */
+  AddConfigurePath(path_map,&path_index,"",exception);
 #endif /* !defined(UseInstalledMagick) */
 
-	path_map_iterator=MagickMapAllocateIterator(path_map);
+  path_map_iterator=MagickMapAllocateIterator(path_map);
 
-	list_separator[0]=DirectoryListSeparator;
-	list_separator[1]='\0';
-	while(MagickMapIterateNext(path_map_iterator,&key))
+  if (logging)
+    {
+      char
+        list_separator[2],
+        *search_path=0;
+
+      list_separator[0]=DirectoryListSeparator;
+      list_separator[1]='\0';
+      while(MagickMapIterateNext(path_map_iterator,&key))
+        {
+          if (search_path)
+            (void) ConcatenateString(&search_path,list_separator);
+          (void) ConcatenateString(&search_path,
+            (const char *) MagickMapDereferenceIterator(path_map_iterator,0));
+        }
+      
+      (void) LogMagickEvent(ConfigureEvent,GetMagickModule(),
+         "Searching for file \"%s\" in path \"%s\"",filename,search_path);
+
+      MagickFreeMemory(search_path);
+      MagickMapIterateToFront(path_map_iterator);
+    }
+
+  while(MagickMapIterateNext(path_map_iterator,&key))
+    {
+      char
+        test_path[MaxTextExtent];
+
+      FILE
+        *file;
+
+      FormatString(test_path,"%.1024s%.256s",
+        (const char *)MagickMapDereferenceIterator(path_map_iterator,0),
+        filename);
+
+      file=fopen(test_path,"rb");
+      if (file )
+        {
+          if (logging)
+            (void) LogMagickEvent(ConfigureEvent,GetMagickModule(),
+              "Found: %.1024s",test_path);
+          (void) strcpy(path,test_path);
+          (void) MagickFseek(file,0L,SEEK_END);
+          *length=MagickFtell(file); /* FIXME: ftell returns long, but size_t may be unsigned */
+          if (*length > 0)
+            {
+              (void) MagickFseek(file,0L,SEEK_SET);
+              blob=MagickAllocateMemory(unsigned char *,(*length)+1);
+              if (blob)
+                {
+                  *length=fread((void  *)blob, 1, *length, file);
+                  blob[*length]='\0';
+                }
+            }
+          (void) fclose(file);
+          if (blob)
+            break;
+        }
+
+      if (logging)
 	{
-		if (search_path)
-			(void) ConcatenateString(&search_path,list_separator);
-		(void) ConcatenateString(&search_path,
-			(const char *) MagickMapDereferenceIterator(path_map_iterator,0));
+	  (void) LogMagickEvent(ConfigureEvent,GetMagickModule(),
+				"Tried: %.1024s [%.1024s]",test_path,
+				strerror(errno));
+	  errno=0;
 	}
+    }
+  MagickMapDeallocateIterator(path_map_iterator);
+  MagickMapDeallocateMap(path_map);
 
-	(void) LogMagickEvent(ConfigureEvent,GetMagickModule(),
-		"Searching for file \"%s\" in path \"%s\"",filename,search_path);
-
-	MagickFreeMemory(search_path);
-	MagickMapIterateToFront(path_map_iterator);
-
-	while(MagickMapIterateNext(path_map_iterator,&key))
-	{
-		char
-			test_path[MaxTextExtent];
-
-		FILE
-			*file;
-
-		FormatString(test_path,"%.1024s%.256s",
-			(const char *)MagickMapDereferenceIterator(path_map_iterator,0),
-			filename);
-
-		file=fopen(test_path,"rb");
-		if (file )
-		{
-			if (logging)
-				(void) LogMagickEvent(ConfigureEvent,GetMagickModule(),
-				"Found: %.1024s",test_path);
-			(void) strcpy(path,test_path);
-			(void) MagickFseek(file,0L,SEEK_END);
-			*length=MagickFtell(file); /* FIXME: ftell returns long, but size_t may be unsigned */
-			if (*length > 0)
-			{
-				(void) MagickFseek(file,0L,SEEK_SET);
-				blob=MagickAllocateMemory(unsigned char *,(*length)+1);
-				if (blob)
-				{
-					*length=fread((void  *)blob, 1, *length, file);
-					blob[*length]='\0';
-				}
-			}
-			(void) fclose(file);
-			if (blob)
-				break;
-		}
-
-		printf("Tried: %.1024s [%.1024s]\n", test_path, strerror(errno));
-		errno=0;
-	}
-	MagickMapDeallocateIterator(path_map_iterator);
-	MagickMapDeallocateMap(path_map);
-
-	if (blob)
-		return(blob);
+  if (blob)
+    return(blob);
 
 #if defined(MSWINDOWS)
-	{
-		void
-			*resource;
+  {
+    void
+      *resource;
 
-		resource=NTResourceToBlob(filename);
-		if (resource)
-			return resource;
-	}
+    resource=NTResourceToBlob(filename);
+    if (resource)
+      return resource;
+  }
 #endif /* defined(MSWINDOWS) */
 
-	fprintf(stderr, "Searched for file \"%s\" in path \"%s\"\n", filename,search_path);
-	ThrowException(exception,ConfigureError,UnableToAccessConfigureFile,
-		filename);
+  ThrowException(exception,ConfigureError,UnableToAccessConfigureFile,
+    filename);
 
-	return 0;
+  return 0;
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -2125,7 +2149,8 @@ MagickExport void *ImageToBlob(const ImageInfo *image_info,Image *image,
                           "Exiting ImageToBlob");
   return(blob);
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -2220,7 +2245,8 @@ MagickExport MagickPassFail ImageToFile(Image *image,const char *filename,
   MagickFreeMemory(buffer);
   return(i < length);
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -2324,7 +2350,8 @@ MagickExport void *MapBlob(int file,const MapMode mode,magick_off_t offset,
   return((void *) NULL);
 #endif
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -2375,7 +2402,8 @@ MagickExport void MSBOrderLong(unsigned char *buffer,const size_t length)
     buffer+=2;
   }
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -2420,7 +2448,8 @@ MagickExport void MSBOrderShort(unsigned char *p,const size_t length)
     *p++=(unsigned char) c;
   }
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -2838,7 +2867,8 @@ MagickExport MagickPassFail OpenBlob(const ImageInfo *image_info,Image *image,
     }
   return MagickPass;
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -2893,7 +2923,8 @@ MagickExport Image *PingBlob(const ImageInfo *image_info,const void *blob,
   DestroyImageInfo(clone_info);
   return(image);
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -3057,7 +3088,8 @@ MagickExport size_t ReadBlob(Image *image,const size_t length,void *data)
   }
   return(count);
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -3109,7 +3141,8 @@ MagickExport  size_t ReadBlobZC(Image *image,const size_t length,void **data)
   assert(*data != (void *) NULL);
   return ReadBlob(image,length,*data);
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -3173,7 +3206,8 @@ MagickExport int ReadBlobByte(Image *image)
     }
   return(EOF);
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -3224,7 +3258,8 @@ MagickExport double ReadBlobLSBDouble(Image * image)
 
   return (dbl_buffer.d);
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -3274,7 +3309,8 @@ MagickExport size_t ReadBlobLSBDoubles(Image *image, size_t octets, double *data
 
   return octets_read;
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -3324,7 +3360,8 @@ MagickExport magick_uint32_t ReadBlobLSBLong(Image *image)
   value|=buffer[0];
   return(value & 0xffffffff);
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -3375,7 +3412,8 @@ MagickExport magick_int32_t ReadBlobLSBSignedLong(Image *image)
   value.uint32&=0xffffffff;
   return value.int32;
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -3427,7 +3465,8 @@ MagickExport size_t ReadBlobLSBLongs(Image *image, size_t octets,
 
   return octets_read;
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -3475,7 +3514,8 @@ MagickExport magick_uint16_t ReadBlobLSBShort(Image *image)
   value|=buffer[0];
   return(value & 0xffff);
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -3524,7 +3564,8 @@ MagickExport magick_int16_t ReadBlobLSBSignedShort(Image *image)
   value.uint16&=0xffff;
   return value.int16;
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -3575,7 +3616,8 @@ MagickExport float ReadBlobLSBFloat(Image * image)
 
   return (flt_buffer.f);
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -3625,7 +3667,8 @@ MagickExport size_t ReadBlobLSBFloats(Image *image, size_t octets, float *data)
 
   return octets_read;
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -3676,7 +3719,8 @@ MagickExport float ReadBlobMSBFloat(Image * image)
 
   return (flt_buffer.f);
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -3726,7 +3770,8 @@ MagickExport size_t ReadBlobMSBFloats(Image *image, size_t octets, float *data)
 
   return octets_read;
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -3777,7 +3822,8 @@ MagickExport double ReadBlobMSBDouble(Image * image)
 
   return (dbl_buffer.d);
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -3827,7 +3873,8 @@ MagickExport size_t ReadBlobMSBDoubles(Image *image, size_t octets, double *data
 
   return octets_read;
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -3878,7 +3925,8 @@ MagickExport magick_uint32_t ReadBlobMSBLong(Image *image)
   value|=buffer[3];
   return(value & 0xffffffff);
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -3930,7 +3978,8 @@ MagickExport magick_int32_t ReadBlobMSBSignedLong(Image *image)
   value.uint32&=0xffffffff;
   return value.int32;
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -3978,7 +4027,8 @@ MagickExport magick_uint16_t ReadBlobMSBShort(Image *image)
   value|=buffer[1];
   return(value & 0xffff);
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -4027,7 +4077,8 @@ MagickExport magick_int16_t ReadBlobMSBSignedShort(Image *image)
   value.uint16&=0xffff;
   return value.int16;
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -4079,7 +4130,8 @@ MagickExport size_t ReadBlobMSBShorts(Image *image, size_t octets,
 
   return octets_read;
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -4140,7 +4192,8 @@ MagickExport char *ReadBlobString(Image *image,char *string)
   string[i]='\0';
   return(string);
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -4177,7 +4230,8 @@ MagickExport BlobInfo *ReferenceBlob(BlobInfo *blob)
   UnlockSemaphoreInfo(blob->semaphore);
   return(blob);
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -4296,7 +4350,8 @@ MagickExport magick_off_t SeekBlob(Image *image,const magick_off_t offset,
   }
   return(image->blob->offset);
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -4329,7 +4384,8 @@ MagickExport void SetBlobClosable(Image *image, MagickBool closeable)
   assert(image->blob != (const BlobInfo *) NULL);
   image->blob->exempt = (closeable != MagickFalse);
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -4363,7 +4419,8 @@ MagickExport void SetBlobTemporary(Image *image, MagickBool isTemporary)
   assert(image->blob != (const BlobInfo *) NULL);
   image->blob->temporary = isTemporary;
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -4448,7 +4505,8 @@ static int SyncBlob(Image *image)
   }
   return(status);
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -4514,7 +4572,8 @@ MagickExport magick_off_t TellBlob(const Image *image)
   }
   return(offset);
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -4560,7 +4619,8 @@ MagickExport MagickPassFail UnmapBlob(void *map,const size_t length)
   return(MagickFail);
 #endif
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -4691,7 +4751,8 @@ MagickExport size_t WriteBlob(Image *image,const size_t length,const void *data)
   }
   return(count);
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -4747,7 +4808,8 @@ MagickExport size_t WriteBlobByte(Image *image,const magick_uint8_t value)
     }
 
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -4841,7 +4903,8 @@ MagickExport MagickPassFail WriteBlobFile(Image *image,const char *filename)
     }
   return status;
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -4884,7 +4947,8 @@ MagickExport size_t WriteBlobLSBLong(Image *image,const magick_uint32_t value)
   buffer[3]=(unsigned char) (value >> 24);
   return(WriteBlob(image,4,buffer));
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -4931,7 +4995,8 @@ MagickExport size_t WriteBlobLSBSignedLong(Image *image,const magick_int32_t val
   buffer[3]=(unsigned char) (uvalue.uint32 >> 24);
   return(WriteBlob(image,4,buffer));
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -4972,7 +5037,8 @@ MagickExport size_t WriteBlobLSBShort(Image *image,const magick_uint16_t value)
   buffer[1]=(unsigned char) (value >> 8);
   return(WriteBlob(image,2,buffer));
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -5017,7 +5083,8 @@ MagickExport size_t WriteBlobLSBSignedShort(Image *image,const magick_int16_t va
   buffer[1]=(unsigned char) (uvalue.uint16 >> 8);
   return(WriteBlob(image,2,buffer));
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -5069,7 +5136,8 @@ MagickExport size_t ReadBlobLSBShorts(Image *image, size_t octets,
 
   return octets_read;
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -5119,7 +5187,8 @@ MagickExport size_t WriteBlobMSBLong(Image *image,const magick_uint32_t value)
     count=WriteBlob(image,4,buffer);
   return count;
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -5174,7 +5243,8 @@ MagickExport size_t WriteBlobMSBSignedLong(Image *image,const magick_int32_t val
     count=WriteBlob(image,4,buffer);
   return count;
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -5226,7 +5296,8 @@ MagickExport size_t ReadBlobMSBLongs(Image *image, size_t octets,
 
   return octets_read;
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -5267,7 +5338,8 @@ MagickExport size_t WriteBlobMSBShort(Image *image,const magick_uint16_t value)
   buffer[1]=(unsigned char) value;
   return(WriteBlob(image,2,buffer));
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -5312,7 +5384,8 @@ MagickExport size_t WriteBlobMSBSignedShort(Image *image,const magick_int16_t va
   buffer[1]=(unsigned char) uvalue.uint16;
   return(WriteBlob(image,2,buffer));
 }
-
+
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %

@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <None Include="Makefile" />
+    <None Include="mdautils-src.tar.gz" />
+    <None Include="scanparmRecord.dbd" />
+    <None Include="scanProg.st" />
+    <None Include="sscanInclude.dbd" />
+    <None Include="sscanProgressSupport.dbd" />
+    <None Include="sscanRecord.dbd" />
+    <None Include="sscanSupport.dbd" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="recDynLink.c" />
+    <ClCompile Include="req_file.c" />
+    <ClCompile Include="saveData.c" />
+    <ClCompile Include="saveData_writeXDR.c" />
+    <ClCompile Include="saveDataWin32.c" />
+    <ClCompile Include="scanparmRecord.c" />
+    <ClCompile Include="sscanMain.cpp" />
+    <ClCompile Include="sscanRecord.c" />
+    <ClCompile Include="writeXDR.c" />
+    <ClCompile Include="xdr_lib.c" />
+    <ClCompile Include="xdr_stdio.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="recDynLink.h" />
+    <ClInclude Include="req_file.h" />
+    <ClInclude Include="seqPVmacros.h" />
+    <ClInclude Include="writeXDR.h" />
+    <ClInclude Include="xdr_lib.h" />
+    <ClInclude Include="xdr_stdio.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="menuSscan.dbd" />
+  </ItemGroup>
+</Project>

@@ -328,6 +328,56 @@
     <ClInclude Include="..\..\..\xml2Src\elfgcchack.h" />
     <ClInclude Include="..\..\..\xml2Src\enc.h" />
     <ClInclude Include="..\..\..\xml2Src\libxml.h" />
+    <ClInclude Include="..\..\..\xml2Src\os\default\libxml\c14n.h" />
+    <ClInclude Include="..\..\..\xml2Src\os\default\libxml\catalog.h" />
+    <ClInclude Include="..\..\..\xml2Src\os\default\libxml\chvalid.h" />
+    <ClInclude Include="..\..\..\xml2Src\os\default\libxml\debugXML.h" />
+    <ClInclude Include="..\..\..\xml2Src\os\default\libxml\dict.h" />
+    <ClInclude Include="..\..\..\xml2Src\os\default\libxml\DOCBparser.h" />
+    <ClInclude Include="..\..\..\xml2Src\os\default\libxml\encoding.h" />
+    <ClInclude Include="..\..\..\xml2Src\os\default\libxml\entities.h" />
+    <ClInclude Include="..\..\..\xml2Src\os\default\libxml\globals.h" />
+    <ClInclude Include="..\..\..\xml2Src\os\default\libxml\hash.h" />
+    <ClInclude Include="..\..\..\xml2Src\os\default\libxml\HTMLparser.h" />
+    <ClInclude Include="..\..\..\xml2Src\os\default\libxml\HTMLtree.h" />
+    <ClInclude Include="..\..\..\xml2Src\os\default\libxml\list.h" />
+    <ClInclude Include="..\..\..\xml2Src\os\default\libxml\nanoftp.h" />
+    <ClInclude Include="..\..\..\xml2Src\os\default\libxml\nanohttp.h" />
+    <ClInclude Include="..\..\..\xml2Src\os\default\libxml\parser.h" />
+    <ClInclude Include="..\..\..\xml2Src\os\default\libxml\parserInternals.h" />
+    <ClInclude Include="..\..\..\xml2Src\os\default\libxml\pattern.h" />
+    <ClInclude Include="..\..\..\xml2Src\os\default\libxml\relaxng.h" />
+    <ClInclude Include="..\..\..\xml2Src\os\default\libxml\SAX.h" />
+    <ClInclude Include="..\..\..\xml2Src\os\default\libxml\SAX2.h" />
+    <ClInclude Include="..\..\..\xml2Src\os\default\libxml\schemasInternals.h" />
+    <ClInclude Include="..\..\..\xml2Src\os\default\libxml\schematron.h" />
+    <ClInclude Include="..\..\..\xml2Src\os\default\libxml\threads.h" />
+    <ClInclude Include="..\..\..\xml2Src\os\default\libxml\tree.h" />
+    <ClInclude Include="..\..\..\xml2Src\os\default\libxml\uri.h" />
+    <ClInclude Include="..\..\..\xml2Src\os\default\libxml\valid.h" />
+    <ClInclude Include="..\..\..\xml2Src\os\default\libxml\xinclude.h" />
+    <ClInclude Include="..\..\..\xml2Src\os\default\libxml\xlink.h" />
+    <ClInclude Include="..\..\..\xml2Src\os\default\libxml\xmlautomata.h" />
+    <ClInclude Include="..\..\..\xml2Src\os\default\libxml\xmlerror.h" />
+    <ClInclude Include="..\..\..\xml2Src\os\default\libxml\xmlexports.h" />
+    <ClInclude Include="..\..\..\xml2Src\os\default\libxml\xmlIO.h" />
+    <ClInclude Include="..\..\..\xml2Src\os\default\libxml\xmlmemory.h" />
+    <ClInclude Include="..\..\..\xml2Src\os\default\libxml\xmlmodule.h" />
+    <ClInclude Include="..\..\..\xml2Src\os\default\libxml\xmlreader.h" />
+    <ClInclude Include="..\..\..\xml2Src\os\default\libxml\xmlregexp.h" />
+    <ClInclude Include="..\..\..\xml2Src\os\default\libxml\xmlsave.h" />
+    <ClInclude Include="..\..\..\xml2Src\os\default\libxml\xmlschemas.h" />
+    <ClInclude Include="..\..\..\xml2Src\os\default\libxml\xmlschemastypes.h" />
+    <ClInclude Include="..\..\..\xml2Src\os\default\libxml\xmlstring.h" />
+    <ClInclude Include="..\..\..\xml2Src\os\default\libxml\xmlunicode.h" />
+    <ClInclude Include="..\..\..\xml2Src\os\default\libxml\xmlversion.h" />
+    <ClInclude Include="..\..\..\xml2Src\os\default\libxml\xmlwriter.h" />
+    <ClInclude Include="..\..\..\xml2Src\os\default\libxml\xpath.h" />
+    <ClInclude Include="..\..\..\xml2Src\os\default\libxml\xpathInternals.h" />
+    <ClInclude Include="..\..\..\xml2Src\os\default\libxml\xpointer.h" />
+    <ClInclude Include="..\..\..\xml2Src\os\WIN32\config.h" />
+    <ClInclude Include="..\..\..\xml2Src\os\WIN32\win32config.h" />
+    <ClInclude Include="..\..\..\xml2Src\os\WIN32\wsockcompat.h" />
     <ClInclude Include="..\..\..\xml2Src\save.h" />
     <ClInclude Include="..\..\..\xml2Src\timsort.h" />
     <ClInclude Include="..\..\..\xml2Src\trio.h" />
@@ -407,7 +457,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <OmitFramePointers>true</OmitFramePointers>
       <Optimization>Full</Optimization>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_LIB;_XMLLIB_;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_LIB;_XMLLIB_;LIBXML_FTP_ENABLED;LIBXML_HTTP_ENABLED;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <AdditionalIncludeDirectories>../../../xml2Src/os/WIN32;../../../xml2Src/os/default</AdditionalIncludeDirectories>
     </ClCompile>
@@ -428,7 +478,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <OmitFramePointers>true</OmitFramePointers>
       <Optimization>Full</Optimization>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_LIB;_XMLLIB_;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_LIB;_XMLLIB_;LIBXML_FTP_ENABLED;LIBXML_HTTP_ENABLED;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <AdditionalIncludeDirectories>../../../xml2Src/os/WIN32;../../../xml2Src/os/default</AdditionalIncludeDirectories>
     </ClCompile>
@@ -449,7 +499,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <OmitFramePointers>true</OmitFramePointers>
       <Optimization>Full</Optimization>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_LIB;_XMLLIB_;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;LIBXML_FTP_ENABLED;LIBXML_HTTP_ENABLED;_VISUALC_;NeedFunctionPrototypes;_LIB;_XMLLIB_;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <AdditionalIncludeDirectories>../../../xml2Src/os/WIN32;../../../xml2Src/os/default</AdditionalIncludeDirectories>
     </ClCompile>
@@ -470,7 +520,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <OmitFramePointers>true</OmitFramePointers>
       <Optimization>Full</Optimization>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_LIB;_XMLLIB_;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;LIBXML_FTP_ENABLED;LIBXML_HTTP_ENABLED;_VISUALC_;NeedFunctionPrototypes;_LIB;_XMLLIB_;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <AdditionalIncludeDirectories>../../../xml2Src/os/WIN32;../../../xml2Src/os/default</AdditionalIncludeDirectories>
     </ClCompile>
@@ -492,7 +542,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>../../../xml2Src/os/WIN32;../../../xml2Src/os/default</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_LIB;_XMLLIB_;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;LIBXML_FTP_ENABLED;LIBXML_HTTP_ENABLED;_LIB;_XMLLIB_;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <ResourceCompile>
@@ -512,7 +562,7 @@
       <OmitFramePointers>false</OmitFramePointers>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_LIB;_XMLLIB_;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;LIBXML_FTP_ENABLED;LIBXML_HTTP_ENABLED;_LIB;_XMLLIB_;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <AdditionalIncludeDirectories>../../../xml2Src/os/WIN32;../../../xml2Src/os/default</AdditionalIncludeDirectories>
     </ClCompile>
@@ -544,6 +594,9 @@
     <Lib>
       <SuppressStartupBanner>true</SuppressStartupBanner>
     </Lib>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
     <ClCompile>
@@ -565,6 +618,9 @@
     <Lib>
       <SuppressStartupBanner>true</SuppressStartupBanner>
     </Lib>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

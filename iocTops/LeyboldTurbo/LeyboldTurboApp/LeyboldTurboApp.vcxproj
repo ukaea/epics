@@ -45,7 +45,7 @@
     <ProjectReference Include="..\..\..\base-3.15.5\src\std\softIoc\softIoc.vcxproj">
       <Project>{0df29c1b-6c17-4d60-8b78-27fe8714dc11}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\support\asyn4-28\asyn\asyn.vcxproj">
+    <ProjectReference Include="..\..\..\support\asyn4-31\asyn\asyn.vcxproj">
       <Project>{c3ea0ff7-6039-4884-ba91-7b4619befea5}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\base-3.15.5\src\ioc\dbCore.vcxproj">

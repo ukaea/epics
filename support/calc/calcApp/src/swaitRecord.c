@@ -104,11 +104,11 @@
 #include <postfix.h>
 #include <menuYesNo.h>
 
+#include "recDynLink.h"
+#include <epicsExport.h>
 #define GEN_SIZE_OFFSET
 #include "swaitRecord.h"
 #undef  GEN_SIZE_OFFSET
-#include "recDynLink.h"
-#include <epicsExport.h>
 
 #include <epicsVersion.h>
 #ifndef EPICS_VERSION_INT

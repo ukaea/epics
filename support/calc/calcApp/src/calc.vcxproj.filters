@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="aCalcoutRecord.c" />
+    <ClCompile Include="aCalcPerform.c" />
+    <ClCompile Include="aCalcPostfix.c" />
+    <ClCompile Include="arrayTest.c" />
+    <ClCompile Include="calcUtil.c" />
+    <ClCompile Include="devaCalcoutSoft.c" />
+    <ClCompile Include="devsCalcoutSoft.c" />
+    <ClCompile Include="interp.c" />
+    <ClCompile Include="myFreeListLib.c" />
+    <ClCompile Include="sCalcoutRecord.c" />
+    <ClCompile Include="sCalcPerform.c" />
+    <ClCompile Include="sCalcPostfix.c" />
+    <ClCompile Include="sseqRecord.c" />
+    <ClCompile Include="subAve.c" />
+    <ClCompile Include="swaitRecord.c" />
+    <ClCompile Include="test_sCalc.c" />
+    <ClCompile Include="transformRecord.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="aCalcoutRecord.dbd" />
+    <None Include="calcSupport_withSNCSEQ.dbd" />
+    <None Include="cat.pl" />
+    <None Include="editSseq.dbd" />
+    <None Include="editSseq.st" />
+    <None Include="Makefile" />
+    <None Include="README" />
+    <None Include="sCalcoutRecord.dbd" />
+    <None Include="sseqRecord.dbd" />
+    <None Include="swaitRecord.dbd" />
+    <None Include="test_aCalc.py" />
+    <None Include="test_sCalc.py" />
+    <None Include="transformRecord.dbd" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="aCalcPostfix.h" />
+    <ClInclude Include="aCalcPostfixPvt.h" />
+    <ClInclude Include="adjustment.h" />
+    <ClInclude Include="myFreeList.h" />
+    <ClInclude Include="sCalcPostfix.h" />
+    <ClInclude Include="sCalcPostfixPvt.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="calcSupport_LOCAL.dbd" />
+    <CustomBuild Include="calcSupport_withSSCAN.dbd" />
+  </ItemGroup>
+</Project>

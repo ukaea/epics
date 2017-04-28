@@ -1,0 +1,177 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="inc">
+      <UniqueIdentifier>{dbe6b142-db0e-4ca3-8bf0-76ad9ffdac61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libsrc">
+      <UniqueIdentifier>{b1e749c7-6c88-49f8-9cc4-e354d5967db4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libdispatch">
+      <UniqueIdentifier>{74eef1aa-4efe-4cf0-a79d-fb86bd9ed633}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="liblib">
+      <UniqueIdentifier>{cffb1ee3-3075-4617-aca8-666420e604af}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="inc\ceconstraints.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\err_macros.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\fbits.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\nc.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\nc_logging.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\nc_tests.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\nc_uri.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\nc3dispatch.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\ncbytes.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\ncdimscale.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\ncdispatch.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\nchashmap.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\ncio.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\nclist.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\netcdf_f.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\netcdf_par.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\utf8proc.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="libsrc\ncx.h">
+      <Filter>libsrc</Filter>
+    </ClInclude>
+    <ClInclude Include="libsrc\onstack.h">
+      <Filter>libsrc</Filter>
+    </ClInclude>
+    <ClInclude Include="libsrc\pstdint.h">
+      <Filter>libsrc</Filter>
+    </ClInclude>
+    <ClInclude Include="libsrc\rnd.h">
+      <Filter>libsrc</Filter>
+    </ClInclude>
+    <ClInclude Include="libsrc\utf8proc_data.h">
+      <Filter>libsrc</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="libsrc\attr.c">
+      <Filter>libsrc</Filter>
+    </ClCompile>
+    <ClCompile Include="libsrc\dim.c">
+      <Filter>libsrc</Filter>
+    </ClCompile>
+    <ClCompile Include="libsrc\ffio.c">
+      <Filter>libsrc</Filter>
+    </ClCompile>
+    <ClCompile Include="libsrc\lookup3.c">
+      <Filter>libsrc</Filter>
+    </ClCompile>
+    <ClCompile Include="libsrc\nc.c">
+      <Filter>libsrc</Filter>
+    </ClCompile>
+    <ClCompile Include="libsrc\nc3dispatch.c">
+      <Filter>libsrc</Filter>
+    </ClCompile>
+    <ClCompile Include="libsrc\nclistmgr.c">
+      <Filter>libsrc</Filter>
+    </ClCompile>
+    <ClCompile Include="libsrc\ncx.c">
+      <Filter>libsrc</Filter>
+    </ClCompile>
+    <ClCompile Include="libsrc\posixio.c">
+      <Filter>libsrc</Filter>
+    </ClCompile>
+    <ClCompile Include="libsrc\putget.c">
+      <Filter>libsrc</Filter>
+    </ClCompile>
+    <ClCompile Include="libsrc\string.c">
+      <Filter>libsrc</Filter>
+    </ClCompile>
+    <ClCompile Include="libsrc\utf8proc.c">
+      <Filter>libsrc</Filter>
+    </ClCompile>
+    <ClCompile Include="libsrc\v1hpg.c">
+      <Filter>libsrc</Filter>
+    </ClCompile>
+    <ClCompile Include="libsrc\var.c">
+      <Filter>libsrc</Filter>
+    </ClCompile>
+    <ClCompile Include="libdispatch\att.c">
+      <Filter>libdispatch</Filter>
+    </ClCompile>
+    <ClCompile Include="libdispatch\copy.c">
+      <Filter>libdispatch</Filter>
+    </ClCompile>
+    <ClCompile Include="libdispatch\dim1.c">
+      <Filter>libdispatch</Filter>
+    </ClCompile>
+    <ClCompile Include="libdispatch\dispatch.c">
+      <Filter>libdispatch</Filter>
+    </ClCompile>
+    <ClCompile Include="libdispatch\error.c">
+      <Filter>libdispatch</Filter>
+    </ClCompile>
+    <ClCompile Include="libdispatch\file.c">
+      <Filter>libdispatch</Filter>
+    </ClCompile>
+    <ClCompile Include="libdispatch\nc_uri.c">
+      <Filter>libdispatch</Filter>
+    </ClCompile>
+    <ClCompile Include="libdispatch\nc4.c">
+      <Filter>libdispatch</Filter>
+    </ClCompile>
+    <ClCompile Include="libdispatch\ncbytes.c">
+      <Filter>libdispatch</Filter>
+    </ClCompile>
+    <ClCompile Include="libdispatch\nchashmap.c">
+      <Filter>libdispatch</Filter>
+    </ClCompile>
+    <ClCompile Include="libdispatch\nclist.c">
+      <Filter>libdispatch</Filter>
+    </ClCompile>
+    <ClCompile Include="libdispatch\nclog.c">
+      <Filter>libdispatch</Filter>
+    </ClCompile>
+    <ClCompile Include="libdispatch\parallel.c">
+      <Filter>libdispatch</Filter>
+    </ClCompile>
+    <ClCompile Include="libdispatch\v2i.c">
+      <Filter>libdispatch</Filter>
+    </ClCompile>
+    <ClCompile Include="libdispatch\var1.c">
+      <Filter>libdispatch</Filter>
+    </ClCompile>
+    <ClCompile Include="liblib\stub.c">
+      <Filter>liblib</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

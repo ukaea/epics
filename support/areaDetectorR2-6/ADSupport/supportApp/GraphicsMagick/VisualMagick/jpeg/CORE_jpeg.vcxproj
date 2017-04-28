@@ -337,7 +337,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <OmitFramePointers>true</OmitFramePointers>
       <Optimization>Full</Optimization>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;DLL_EXPORT;DLL_JPEG;_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <AdditionalIncludeDirectories>../../../jpegSrc/os/WIN32;../../../jpegSrc/os/default</AdditionalIncludeDirectories>
     </ClCompile>
@@ -358,7 +358,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <OmitFramePointers>true</OmitFramePointers>
       <Optimization>Full</Optimization>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;DLL_EXPORT;DLL_JPEG;_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <AdditionalIncludeDirectories>../../../jpegSrc/os/WIN32;../../../jpegSrc/os/default</AdditionalIncludeDirectories>
     </ClCompile>
@@ -432,6 +432,9 @@
     <Lib>
       <SuppressStartupBanner>true</SuppressStartupBanner>
     </Lib>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
     <ClCompile>
@@ -453,6 +456,9 @@
     <Lib>
       <SuppressStartupBanner>true</SuppressStartupBanner>
     </Lib>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

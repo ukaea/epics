@@ -1,0 +1,535 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug_DLL|Win32">
+      <Configuration>Debug_DLL</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug_DLL|x64">
+      <Configuration>Debug_DLL</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug_LIB|Win32">
+      <Configuration>Debug_LIB</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug_LIB|x64">
+      <Configuration>Debug_LIB</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_DLL|Win32">
+      <Configuration>Release_DLL</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_DLL|x64">
+      <Configuration>Release_DLL</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_LIB|Win32">
+      <Configuration>Release_LIB</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_LIB|x64">
+      <Configuration>Release_LIB</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\base-3.15.5\src\ioc\dbCore.vcxproj">
+      <Project>{440c585d-ad66-4738-941c-a87a1817a9be}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\base-3.15.5\src\libCom\Com.vcxproj">
+      <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\asyn4-31\asyn\asyn.vcxproj">
+      <Project>{c3ea0ff7-6039-4884-ba91-7b4619befea5}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\sscan\sscanApp\src\sscan.vcxproj">
+      <Project>{bc5f994e-1bfe-4c94-bf8d-86077ef84ed7}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="aCalcoutRecord.c" />
+    <ClCompile Include="aCalcPerform.c" />
+    <ClCompile Include="aCalcPostfix.c" />
+    <ClCompile Include="arrayTest.c" />
+    <ClCompile Include="calcUtil.c" />
+    <ClCompile Include="devaCalcoutSoft.c" />
+    <ClCompile Include="devsCalcoutSoft.c" />
+    <ClCompile Include="interp.c" />
+    <ClCompile Include="myFreeListLib.c" />
+    <ClCompile Include="sCalcoutRecord.c" />
+    <ClCompile Include="sCalcPerform.c" />
+    <ClCompile Include="sCalcPostfix.c" />
+    <ClCompile Include="sseqRecord.c" />
+    <ClCompile Include="subAve.c" />
+    <ClCompile Include="swaitRecord.c" />
+    <ClCompile Include="test_sCalc.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="transformRecord.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="aCalcoutRecord.dbd" />
+    <CustomBuild Include="calcSupport_LOCAL.dbd">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">cd O.Common
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD -MExtUtils::Command -e cat ../calcSupport_LOCAL.dbd ../calcSupport_withSSCAN.dbd &gt; calcSupport.dbd
+cd ..
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">cd O.Common
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD -MExtUtils::Command -e cat ../calcSupport_LOCAL.dbd ../calcSupport_withSSCAN.dbd &gt; calcSupport.dbd
+cd ..
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">cd O.Common
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD -MExtUtils::Command -e cat ../calcSupport_LOCAL.dbd ../calcSupport_withSSCAN.dbd &gt; calcSupport.dbd
+cd ..
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">cd O.Common
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD -MExtUtils::Command -e cat ../calcSupport_LOCAL.dbd ../calcSupport_withSSCAN.dbd &gt; calcSupport.dbd
+cd ..
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">cd O.Common
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD -MExtUtils::Command -e cat ../calcSupport_LOCAL.dbd ../calcSupport_withSSCAN.dbd &gt; calcSupport.dbd
+cd ..
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">cd O.Common
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD -MExtUtils::Command -e cat ../calcSupport_LOCAL.dbd ../calcSupport_withSSCAN.dbd &gt; calcSupport.dbd
+cd ..
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">cd O.Common
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD -MExtUtils::Command -e cat ../calcSupport_LOCAL.dbd ../calcSupport_withSSCAN.dbd &gt; calcSupport.dbd
+cd ..
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">cd O.Common
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD -MExtUtils::Command -e cat ../calcSupport_LOCAL.dbd ../calcSupport_withSSCAN.dbd &gt; calcSupport.dbd
+cd ..
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common\calcSupport.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">O.Common\calcSupport.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common\calcSupport.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">O.Common\calcSupport.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">O.Common\calcSupport.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">O.Common\calcSupport.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">O.Common\calcSupport.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">O.Common\calcSupport.dbd</Outputs>
+    </CustomBuild>
+    <None Include="calcSupport_withSNCSEQ.dbd" />
+    <CustomBuild Include="calcSupport_withSSCAN.dbd">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
+cd O.Common
+perl -CSD -MExtUtils::Command -e cat ../calcSupport_LOCAL.dbd ../calcSupport_withSSCAN.dbd &gt; calc.dbd
+cd ..
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
+cd O.Common
+perl -CSD -MExtUtils::Command -e cat ../calcSupport_LOCAL.dbd ../calcSupport_withSSCAN.dbd &gt; calc.dbd
+cd ..
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
+cd O.Common
+perl -CSD -MExtUtils::Command -e cat ../calcSupport_LOCAL.dbd ../calcSupport_withSSCAN.dbd &gt; calc.dbd
+cd ..
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
+cd O.Common
+perl -CSD -MExtUtils::Command -e cat ../calcSupport_LOCAL.dbd ../calcSupport_withSSCAN.dbd &gt; calc.dbd
+cd ..
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
+cd O.Common
+perl -CSD -MExtUtils::Command -e cat ../calcSupport_LOCAL.dbd ../calcSupport_withSSCAN.dbd &gt; calc.dbd
+cd ..
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
+cd O.Common
+perl -CSD -MExtUtils::Command -e cat ../calcSupport_LOCAL.dbd ../calcSupport_withSSCAN.dbd &gt; calc.dbd
+cd ..
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
+cd O.Common
+perl -CSD -MExtUtils::Command -e cat ../calcSupport_LOCAL.dbd ../calcSupport_withSSCAN.dbd &gt; calc.dbd
+cd ..
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
+cd O.Common
+perl -CSD -MExtUtils::Command -e cat ../calcSupport_LOCAL.dbd ../calcSupport_withSSCAN.dbd &gt; calc.dbd
+cd ..
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'"> O.Common\calc.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'"> O.Common\calc.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'"> O.Common\calc.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'"> O.Common\calc.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'"> O.Common\calc.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'"> O.Common\calc.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'"> O.Common\calc.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'"> O.Common\calc.dbd</Outputs>
+    </CustomBuild>
+    <None Include="cat.pl" />
+    <None Include="editSseq.dbd" />
+    <None Include="editSseq.st" />
+    <None Include="Makefile" />
+    <None Include="README" />
+    <None Include="sCalcoutRecord.dbd" />
+    <None Include="sseqRecord.dbd" />
+    <None Include="swaitRecord.dbd" />
+    <None Include="test_aCalc.py" />
+    <None Include="test_sCalc.py" />
+    <None Include="transformRecord.dbd" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="aCalcPostfix.h" />
+    <ClInclude Include="aCalcPostfixPvt.h" />
+    <ClInclude Include="adjustment.h" />
+    <ClInclude Include="myFreeList.h" />
+    <ClInclude Include="sCalcPostfix.h" />
+    <ClInclude Include="sCalcPostfixPvt.h" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{704A182E-FAEA-4E59-B5F4-9DC799F4556A}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>busy</RootNamespace>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
+    <SccAuxPath>
+    </SccAuxPath>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.;$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <PreBuildEvent>
+      <Command>if not exist O.Common md O.Common
+if not exist $(SolutionDir)include md $(SolutionDir)include
+if not exist $(SolutionDir)dbd md exist $(SolutionDir)dbd
+
+xcopy /Y /Q /D /R  *.dbd  $(SolutionDir)dbd &gt; NUL
+
+</Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q /D /R  O.Common\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R  O.Common\*.dbd  $(SolutionDir)dbd &gt; NUL
+</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.;$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <PreBuildEvent>
+      <Command>if not exist O.Common md O.Common
+if not exist $(SolutionDir)include md $(SolutionDir)include
+if not exist $(SolutionDir)dbd md exist $(SolutionDir)dbd
+
+xcopy /Y /Q /D /R  *.dbd  $(SolutionDir)dbd &gt; NUL
+
+</Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q /D /R  O.Common\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R  O.Common\*.dbd  $(SolutionDir)dbd &gt; NUL
+</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.;$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <PreBuildEvent>
+      <Command>if not exist O.Common md O.Common
+if not exist $(SolutionDir)include md $(SolutionDir)include
+if not exist $(SolutionDir)dbd md exist $(SolutionDir)dbd
+
+xcopy /Y /Q /D /R  *.dbd  $(SolutionDir)dbd &gt; NUL
+
+</Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q /D /R  O.Common\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R  O.Common\*.dbd  $(SolutionDir)dbd &gt; NUL
+</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.;$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <PreBuildEvent>
+      <Command>if not exist O.Common md O.Common
+if not exist $(SolutionDir)include md $(SolutionDir)include
+if not exist $(SolutionDir)dbd md exist $(SolutionDir)dbd
+
+xcopy /Y /Q /D /R  *.dbd  $(SolutionDir)dbd &gt; NUL
+
+</Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q /D /R  O.Common\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R  O.Common\*.dbd  $(SolutionDir)dbd &gt; NUL
+</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.;$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <PreBuildEvent>
+      <Command>if not exist O.Common md O.Common
+if not exist $(SolutionDir)include md $(SolutionDir)include
+if not exist $(SolutionDir)dbd md exist $(SolutionDir)dbd
+
+xcopy /Y /Q /D /R  *.dbd  $(SolutionDir)dbd &gt; NUL
+
+</Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q /D /R  O.Common\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R  O.Common\*.dbd  $(SolutionDir)dbd &gt; NUL
+</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.;$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <PreBuildEvent>
+      <Command>if not exist O.Common md O.Common
+if not exist $(SolutionDir)include md $(SolutionDir)include
+if not exist $(SolutionDir)dbd md exist $(SolutionDir)dbd
+
+xcopy /Y /Q /D /R  *.dbd  $(SolutionDir)dbd &gt; NUL
+
+</Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q /D /R  O.Common\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R  O.Common\*.dbd  $(SolutionDir)dbd &gt; NUL
+</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.;$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <PreBuildEvent>
+      <Command>if not exist O.Common md O.Common
+if not exist $(SolutionDir)include md $(SolutionDir)include
+if not exist $(SolutionDir)dbd md exist $(SolutionDir)dbd
+
+xcopy /Y /Q /D /R  *.dbd  $(SolutionDir)dbd &gt; NUL
+
+</Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q /D /R  O.Common\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R  O.Common\*.dbd  $(SolutionDir)dbd &gt; NUL
+</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.;$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <PreBuildEvent>
+      <Command>if not exist O.Common md O.Common
+if not exist $(SolutionDir)include md $(SolutionDir)include
+if not exist $(SolutionDir)dbd md exist $(SolutionDir)dbd
+
+xcopy /Y /Q /D /R  *.dbd  $(SolutionDir)dbd &gt; NUL
+
+</Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q /D /R  O.Common\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R  O.Common\*.dbd  $(SolutionDir)dbd &gt; NUL
+</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

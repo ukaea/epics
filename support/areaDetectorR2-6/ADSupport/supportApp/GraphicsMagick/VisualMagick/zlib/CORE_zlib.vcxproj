@@ -178,7 +178,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <OmitFramePointers>true</OmitFramePointers>
       <Optimization>Full</Optimization>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_LIB;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;ZLIB_DLL;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_LIB;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <AdditionalIncludeDirectories>../../../zlibSrc/os/WIN32;../../../zlibSrc/os/default</AdditionalIncludeDirectories>
     </ClCompile>
@@ -198,7 +198,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <OmitFramePointers>true</OmitFramePointers>
       <Optimization>Full</Optimization>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_LIB;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;ZLIB_DLL;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_LIB;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <AdditionalIncludeDirectories>../../../zlibSrc/os/WIN32;../../../zlibSrc/os/default</AdditionalIncludeDirectories>
     </ClCompile>
@@ -269,6 +269,9 @@
     <Lib>
       <SuppressStartupBanner>true</SuppressStartupBanner>
     </Lib>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
     <ClCompile>
@@ -289,6 +292,9 @@
     <Lib>
       <SuppressStartupBanner>true</SuppressStartupBanner>
     </Lib>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

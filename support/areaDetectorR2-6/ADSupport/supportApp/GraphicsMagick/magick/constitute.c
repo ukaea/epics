@@ -1528,7 +1528,7 @@ MagickExport Image *ReadImage(const ImageInfo *image_info,
                 ThrowException(exception,MissingDelegateError,
                                NoDecodeDelegateForThisImageFormat,clone_info->magick);
               }
-            else if (IsAccessibleAndNotEmpty(clone_info->filename))
+			else if (IsAccessibleAndNotEmpty(clone_info->filename))
               {
                 errno=0;
                 ThrowException(exception,MissingDelegateError,

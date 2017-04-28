@@ -126,7 +126,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <OmitFramePointers>true</OmitFramePointers>
       <Optimization>Full</Optimization>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_DLL;_MAGICKMOD_;_PNGLIB_;__WIN32DLL__;__WIN32__;__FLAT__;PNG_BUILD_DLL;PNG_NO_MODULEDEF;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_DLL;_PNGLIB_;__WIN32DLL__;__WIN32__;__FLAT__;PNG_BUILD_DLL;PNG_NO_MODULEDEF;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <AdditionalIncludeDirectories>../../../zlibSrc/os/default;../../../zlibSrc/os/WIN32</AdditionalIncludeDirectories>
     </ClCompile>
@@ -141,7 +141,6 @@
     <Link>
       <AdditionalLibraryDirectories>
       </AdditionalLibraryDirectories>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;zlib.lib</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>
@@ -179,7 +178,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <OmitFramePointers>true</OmitFramePointers>
       <Optimization>Full</Optimization>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_DLL;_MAGICKMOD_;_PNGLIB_;__WIN32DLL__;__WIN32__;__FLAT__;PNG_BUILD_DLL;PNG_NO_MODULEDEF;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_DLL;_PNGLIB_;__WIN32DLL__;__WIN32__;__FLAT__;PNG_BUILD_DLL;PNG_NO_MODULEDEF;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <AdditionalIncludeDirectories>../../../zlibSrc/os/default;../../../zlibSrc/os/WIN32</AdditionalIncludeDirectories>
     </ClCompile>
@@ -226,7 +225,7 @@
       <OmitFramePointers>false</OmitFramePointers>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_DLL;_MAGICKMOD_;_PNGLIB_;__WIN32DLL__;__WIN32__;__FLAT__;PNG_BUILD_DLL;PNG_NO_MODULEDEF;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_DLL;_PNGLIB_;__WIN32DLL__;__WIN32__;__FLAT__;PNG_BUILD_DLL;PNG_NO_MODULEDEF;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <AdditionalIncludeDirectories>../../../zlibSrc/os/default;../../../zlibSrc/os/WIN32</AdditionalIncludeDirectories>
     </ClCompile>
@@ -240,6 +239,7 @@
     <Link>
       <AdditionalLibraryDirectories>
       </AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
@@ -273,7 +273,7 @@
       <OmitFramePointers>false</OmitFramePointers>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_DLL;_MAGICKMOD_;_PNGLIB_;__WIN32DLL__;__WIN32__;__FLAT__;PNG_BUILD_DLL;PNG_NO_MODULEDEF;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_DLL;_PNGLIB_;__WIN32DLL__;__WIN32__;__FLAT__;PNG_BUILD_DLL;PNG_NO_MODULEDEF;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <AdditionalIncludeDirectories>../../../zlibSrc/os/default;../../../zlibSrc/os/WIN32</AdditionalIncludeDirectories>
     </ClCompile>
@@ -287,6 +287,7 @@
     <Link>
       <AdditionalLibraryDirectories>
       </AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

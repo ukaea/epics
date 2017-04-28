@@ -223,6 +223,9 @@
     <Lib>
       <SuppressStartupBanner>true</SuppressStartupBanner>
     </Lib>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
     <ClCompile>
@@ -266,6 +269,9 @@
     <Lib>
       <SuppressStartupBanner>true</SuppressStartupBanner>
     </Lib>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Magick++\lib\Blob.cpp" />

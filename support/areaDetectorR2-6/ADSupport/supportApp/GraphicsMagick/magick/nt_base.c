@@ -802,16 +802,19 @@ MagickExport void *NTdlopen(const char *filename)
   UINT
     errorMode;
 
+	DWORD Err = GetLastError();
   // Set error mode so that dialog box is not displayed on error.
   errorMode=SetErrorMode(SEM_FAILCRITICALERRORS|SEM_NOOPENFILEERRORBOX);
 
   // Load library via name
   handle=(void *) LoadLibrary(filename);
+  Err = GetLastError();
 
   // If library failed to load, but a search path is defined, then
   // attempt to load library via search path.
   if ((handle == (void *) NULL) && (NTslsearchpath != NULL))
     {
+	  DWORD Err = GetLastError();
       p=NTslsearchpath;
       index=0;
       while (index < MaxPathElements)

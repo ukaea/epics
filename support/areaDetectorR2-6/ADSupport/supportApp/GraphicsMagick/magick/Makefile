@@ -13,8 +13,6 @@ endif
 
 USR_CFLAGS_WIN32 += -D_VISUALC_
 
-USR_CFLAGS += -D_MAGICKLIB_
-
 USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick
 USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick/lcms/include
 USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick/ttf/include
@@ -23,10 +21,11 @@ ifeq ($(SHARED_LIBRARIES),YES)
   USR_CFLAGS_WIN32 += -D_DLL
 else
   USR_CFLAGS_WIN32 += -D_LIB
+
 endif
 
+USR_CFLAGS += -D_MAGICKLIB_
 USR_CFLAGS += -DHAVE_VSNPRINTF
-USR_CFLAGS += -D_MAGICKMOD_
 
 # Here overriding the default header file install location.
 # This allows Magick++ headers files (at $(INSTALL_LOCATION)/include/Magick++) to

@@ -1,0 +1,485 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TrackFileAccess>false</TrackFileAccess>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug_DLL|Win32">
+      <Configuration>Debug_DLL</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug_DLL|x64">
+      <Configuration>Debug_DLL</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug_LIB|Win32">
+      <Configuration>Debug_LIB</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug_LIB|x64">
+      <Configuration>Debug_LIB</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_DLL|Win32">
+      <Configuration>Release_DLL</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_DLL|x64">
+      <Configuration>Release_DLL</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_LIB|Win32">
+      <Configuration>Release_LIB</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_LIB|x64">
+      <Configuration>Release_LIB</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\base-3.15.5\src\std\softIoc\softIoc.vcxproj">
+      <Project>{0df29c1b-6c17-4d60-8b78-27fe8714dc11}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\asyn4-31\asyn\asyn.vcxproj">
+      <Project>{c3ea0ff7-6039-4884-ba91-7b4619befea5}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\base-3.15.5\src\ioc\dbCore.vcxproj">
+      <Project>{440c585d-ad66-4738-941c-a87a1817a9be}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\base-3.15.5\src\libCom\Com.vcxproj">
+      <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\base-3.15.5\src\std\dbRecStd.vcxproj">
+      <Project>{3b0e3542-cb89-4ffa-b004-eac882b3f277}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ADCore\ADApp\ADSrc\ADBase.vcxproj">
+      <Project>{77cbc12c-ae16-40ef-a286-a61535f45a99}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ADSupport\supportApp\GraphicsMagick\VisualMagick\Magick++\CORE_Magick++.vcxproj">
+      <Project>{055517c9-0a16-49eb-938a-ff2cff783b99}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ADSupport\supportApp\GraphicsMagick\VisualMagick\magick\CORE_magick.vcxproj">
+      <Project>{8f881d50-14c0-4d6d-a47a-086c73bb7da3}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Db\Makefile" />
+    <None Include="Db\SoftwareVersions.db" />
+    <None Include="src\Makefile" />
+    <CustomBuild Include="src\URLDriverSupport.dbd">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">cd src
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)dbdExpand.pl  -o ../O.Common/URLDriverApp.dbd -I$(SolutionDir)DBD URLDriverSupport.dbd base.dbd ADSupport.dbd NDPluginSupport.dbd NDFileNull.dbd NDFileNetCDF.dbd NDFileTIFF.dbd NDFileJPEG.dbd NDFileNexus.dbd NDFileHDF5.dbd NDFileMagick.dbd asyn.dbd asSupport.dbd busySupport.dbd calcSupport.dbd sscanSupport.dbd
+
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">cd src
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)dbdExpand.pl  -o ../O.Common/URLDriverApp.dbd -I$(SolutionDir)DBD URLDriverSupport.dbd base.dbd ADSupport.dbd NDPluginSupport.dbd NDFileNull.dbd NDFileNetCDF.dbd NDFileTIFF.dbd NDFileJPEG.dbd NDFileNexus.dbd NDFileHDF5.dbd NDFileMagick.dbd asyn.dbd asSupport.dbd busySupport.dbd calcSupport.dbd sscanSupport.dbd
+
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">cd src
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)dbdExpand.pl  -o ../O.Common/URLDriverApp.dbd -I$(SolutionDir)DBD URLDriverSupport.dbd base.dbd ADSupport.dbd NDPluginSupport.dbd NDFileNull.dbd NDFileNetCDF.dbd NDFileTIFF.dbd NDFileJPEG.dbd NDFileNexus.dbd NDFileHDF5.dbd NDFileMagick.dbd asyn.dbd asSupport.dbd busySupport.dbd calcSupport.dbd sscanSupport.dbd
+
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">cd src
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)dbdExpand.pl  -o ../O.Common/URLDriverApp.dbd -I$(SolutionDir)DBD URLDriverSupport.dbd base.dbd ADSupport.dbd NDPluginSupport.dbd NDFileNull.dbd NDFileNetCDF.dbd NDFileTIFF.dbd NDFileJPEG.dbd NDFileNexus.dbd NDFileHDF5.dbd NDFileMagick.dbd asyn.dbd asSupport.dbd busySupport.dbd calcSupport.dbd sscanSupport.dbd
+
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">cd src
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)dbdExpand.pl  -o ../O.Common/URLDriverApp.dbd -I$(SolutionDir)DBD URLDriverSupport.dbd base.dbd ADSupport.dbd NDPluginSupport.dbd NDFileNull.dbd NDFileNetCDF.dbd NDFileTIFF.dbd NDFileJPEG.dbd NDFileNexus.dbd NDFileHDF5.dbd NDFileMagick.dbd asyn.dbd asSupport.dbd busySupport.dbd calcSupport.dbd sscanSupport.dbd
+
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">cd src
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)dbdExpand.pl  -o ../O.Common/URLDriverApp.dbd -I$(SolutionDir)DBD URLDriverSupport.dbd base.dbd ADSupport.dbd NDPluginSupport.dbd NDFileNull.dbd NDFileNetCDF.dbd NDFileTIFF.dbd NDFileJPEG.dbd NDFileNexus.dbd NDFileHDF5.dbd NDFileMagick.dbd asyn.dbd asSupport.dbd busySupport.dbd calcSupport.dbd sscanSupport.dbd
+
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">cd src
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)dbdExpand.pl  -o ../O.Common/URLDriverApp.dbd -I$(SolutionDir)DBD URLDriverSupport.dbd base.dbd ADSupport.dbd NDPluginSupport.dbd NDFileNull.dbd NDFileNetCDF.dbd NDFileTIFF.dbd NDFileJPEG.dbd NDFileNexus.dbd NDFileHDF5.dbd NDFileMagick.dbd asyn.dbd asSupport.dbd busySupport.dbd calcSupport.dbd sscanSupport.dbd
+
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">cd src
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)dbdExpand.pl  -o ../O.Common/URLDriverApp.dbd -I$(SolutionDir)DBD URLDriverSupport.dbd base.dbd ADSupport.dbd NDPluginSupport.dbd NDFileNull.dbd NDFileNetCDF.dbd NDFileTIFF.dbd NDFileJPEG.dbd NDFileNexus.dbd NDFileHDF5.dbd NDFileMagick.dbd asyn.dbd asSupport.dbd busySupport.dbd calcSupport.dbd sscanSupport.dbd
+
+cd $(ProjectDir)
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common\URLDriverApp.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">O.Common\URLDriverApp.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common\URLDriverApp.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">O.Common\URLDriverApp.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">O.Common\URLDriverApp.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">O.Common\URLDriverApp.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">O.Common\URLDriverApp.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">O.Common\URLDriverApp.dbd</Outputs>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\URLDriver.cpp" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{A07A2021-121C-4C5C-8AEF-49E8006FF4B0}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>WithAsyn</RootNamespace>
+    <SccProjectName>Svn</SccProjectName>
+    <SccLocalPath>Svn</SccLocalPath>
+    <SccProvider>SubversionScc</SccProvider>
+    <SccAuxPath>Svn</SccAuxPath>
+    <ProjectName>URLDriver</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\ADSupport\supportApp\GraphicsMagick;..\..\ADSupport\supportApp\GraphicsMagick\Magick++\lib;$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DisableSpecificWarnings>4251</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
+    </Link>
+    <PreBuildEvent>
+      <Command>if not exist O.Common md O.Common
+if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
+</Command>
+    </PreBuildEvent>
+    <PostBuildEvent />
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\ADSupport\supportApp\GraphicsMagick;..\..\ADSupport\supportApp\GraphicsMagick\Magick++\lib;$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DisableSpecificWarnings>4251</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
+    </Link>
+    <PreBuildEvent>
+      <Command>if not exist O.Common md O.Common
+if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
+</Command>
+    </PreBuildEvent>
+    <PostBuildEvent />
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\ADSupport\supportApp\GraphicsMagick;..\..\ADSupport\supportApp\GraphicsMagick\Magick++\lib;$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <TreatWarningAsError>true</TreatWarningAsError>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib</AdditionalDependencies>
+    </Link>
+    <PreBuildEvent>
+      <Command>if not exist O.Common md O.Common
+if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
+</Command>
+    </PreBuildEvent>
+    <PostBuildEvent />
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\ADSupport\supportApp\GraphicsMagick;..\..\ADSupport\supportApp\GraphicsMagick\Magick++\lib;$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <TreatWarningAsError>true</TreatWarningAsError>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib</AdditionalDependencies>
+    </Link>
+    <PreBuildEvent>
+      <Command>if not exist O.Common md O.Common
+if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
+</Command>
+    </PreBuildEvent>
+    <PostBuildEvent />
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\ADSupport\supportApp\GraphicsMagick;..\..\ADSupport\supportApp\GraphicsMagick\Magick++\lib;$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DisableSpecificWarnings>4251</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <PreBuildEvent>
+      <Command>if not exist O.Common md O.Common
+if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
+</Command>
+    </PreBuildEvent>
+    <PostBuildEvent />
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\ADSupport\supportApp\GraphicsMagick;..\..\ADSupport\supportApp\GraphicsMagick\Magick++\lib;$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DisableSpecificWarnings>4251</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <PreBuildEvent>
+      <Command>if not exist O.Common md O.Common
+if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
+</Command>
+    </PreBuildEvent>
+    <PostBuildEvent />
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\ADSupport\supportApp\GraphicsMagick;..\..\ADSupport\supportApp\GraphicsMagick\Magick++\lib;$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <TreatWarningAsError>true</TreatWarningAsError>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib</AdditionalDependencies>
+    </Link>
+    <PreBuildEvent>
+      <Command>if not exist O.Common md O.Common
+if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
+</Command>
+    </PreBuildEvent>
+    <PostBuildEvent />
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\ADSupport\supportApp\GraphicsMagick;..\..\ADSupport\supportApp\GraphicsMagick\Magick++\lib;$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <TreatWarningAsError>true</TreatWarningAsError>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib</AdditionalDependencies>
+    </Link>
+    <PreBuildEvent>
+      <Command>if not exist O.Common md O.Common
+if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
+</Command>
+    </PreBuildEvent>
+    <PostBuildEvent />
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;NDEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
+    </ClCompile>
+    <PreBuildEvent>
+      <Command>if not exist O.Common md O.Common
+if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\ADURL__registerRecordDeviceDriver.cpp src\ADURL_Include.dbd  ADURL__registerRecordDeviceDriver  $(SolutionDir)
+</Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
+    </ClCompile>
+    <PreBuildEvent>
+      <Command>if not exist O.Common md O.Common
+if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\ADURL__registerRecordDeviceDriver.cpp src\ADURL_Include.dbd  ADURL__registerRecordDeviceDriver  $(SolutionDir)
+</Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

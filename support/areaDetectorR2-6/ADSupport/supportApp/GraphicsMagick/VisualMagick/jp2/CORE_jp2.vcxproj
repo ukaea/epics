@@ -234,6 +234,7 @@
     <Link>
       <ModuleDefinitionFile>
       </ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
@@ -281,6 +282,7 @@
     <Link>
       <ModuleDefinitionFile>
       </ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

@@ -2050,7 +2050,7 @@ TagToCoderModuleName(const char *tag,char *module_name)
     (void) strlcpy(module_name,tag,MaxTextExtent);
   else
     {
-#  if defined(_DEBUG)
+#  if 0 //defined(_DEBUG)
       FormatString(module_name,"IM_MOD_DB_%.1024s_.dll",tag);
 #  else
       FormatString(module_name,"IM_MOD_RL_%.1024s_.dll",tag);
