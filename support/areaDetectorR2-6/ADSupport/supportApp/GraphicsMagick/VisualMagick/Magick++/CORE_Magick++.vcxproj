@@ -312,6 +312,9 @@
     <ClInclude Include="..\..\Magick++\lib\Magick++.h" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\coders\CORE_coders.vcxproj">
+      <Project>{dcfe05fb-91fa-4885-be8c-e3f19d156ac3}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\magick\CORE_magick.vcxproj">
       <Project>{8f881d50-14c0-4d6d-a47a-086c73bb7da3}</Project>
     </ProjectReference>

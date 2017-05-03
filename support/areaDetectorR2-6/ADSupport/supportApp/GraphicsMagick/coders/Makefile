@@ -17,6 +17,7 @@ ifeq ($(SHARED_LIBRARIES),YES)
   USR_CFLAGS_WIN32 += -D_DLL
 else
   USR_CFLAGS_WIN32 += -D_LIB
+  USR_CFLAGS += -DLIBXML_STATIC
 endif
 
 USR_CFLAGS += -DHAVE_VSNPRINTF
@@ -29,6 +30,8 @@ USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick/png
 USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick/webp/src
 USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick/ttf/include
 USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick/wmf/include
+
+INC += static.h
 
 LIB_SRCS += art.c
 LIB_SRCS += avi.c
@@ -133,6 +136,7 @@ LIB_SRCS += xpm.c
 LIB_SRCS += xtrn.c
 LIB_SRCS += xwd.c
 LIB_SRCS += yuv.c
+LIB_SRCS += static.c
 
 LIB_LIBS += bzlib jbig jp2 Magick png ttf webp wmf jpeg zlib xml2 tiff
 LIB_SYS_LIBS_WIN32 += User32 Gdi32 OleAut32

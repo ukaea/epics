@@ -22,6 +22,9 @@
 #include "NDPluginFile.h"
 #include "NDFileMagick.h"
 
+#define _MAGICKLIB_
+#include <static.h>
+
 static const char *driverName = "NDFileMagick";
 
 static CompressionType compressionTypes[] = {NoCompression, BZipCompression, FaxCompression, Group4Compression, 

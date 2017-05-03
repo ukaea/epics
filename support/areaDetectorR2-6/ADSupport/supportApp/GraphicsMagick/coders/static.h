@@ -294,10 +294,12 @@ extern ModuleExport void
   UnregisterXTRNImage(void),
 #endif
   UnregisterXWDImage(void),
-  UnregisterYUVImage(void);
+  UnregisterYUVImage(void),
+  RegisterStaticModules(void),
+  UnregisterStaticModules(void);
 
-extern unsigned int
-  AnalyzeImage(Image **,const int,char**);
+//extern unsigned int
+//  AnalyzeImage(Image **,const int,char**);
 
 #endif /* !defined(BuildMagickModules) */
 

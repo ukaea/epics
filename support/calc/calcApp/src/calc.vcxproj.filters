@@ -32,7 +32,6 @@
     <None Include="swaitRecord.dbd" />
     <None Include="test_aCalc.py" />
     <None Include="test_sCalc.py" />
-    <None Include="transformRecord.dbd" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="aCalcPostfix.h" />
@@ -45,5 +44,6 @@
   <ItemGroup>
     <CustomBuild Include="calcSupport_LOCAL.dbd" />
     <CustomBuild Include="calcSupport_withSSCAN.dbd" />
+    <CustomBuild Include="transformRecord.dbd" />
   </ItemGroup>
 </Project>

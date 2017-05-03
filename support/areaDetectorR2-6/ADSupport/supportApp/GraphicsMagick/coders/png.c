@@ -72,7 +72,6 @@
 #include "magick/quantize.h"
 #include "magick/resource.h"
 #include "magick/semaphore.h"
-#include "magick/static.h"
 #include "magick/tempfile.h"
 #include "magick/transform.h"
 #include "magick/utility.h"

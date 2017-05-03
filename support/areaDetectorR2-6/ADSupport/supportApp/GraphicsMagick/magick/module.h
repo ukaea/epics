@@ -62,9 +62,7 @@ extern MagickExport MagickPassFail
 extern MagickExport void
   DestroyModuleInfo(void),
   DestroyMagickModules(void),
-  InitializeMagickModules(void),
-  RegisterStaticModules(void),
-  UnregisterStaticModules(void);
+  InitializeMagickModules(void);
 
 #endif /* defined(MAGICK_IMPLEMENTATION) */
 

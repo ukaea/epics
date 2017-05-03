@@ -24,6 +24,9 @@ using namespace std;
 #include "Magick++/Options.h"
 #include "Magick++/ImageRef.h"
 
+#define _MAGICKLIB_
+#include "../../coders/static.h"
+
 #define AbsoluteValue(x)  ((x) < 0 ? -(x) : (x))
 
 // MagickDLLDeclExtern const std::string Magick::borderGeometryDefault = "6x6+0+0";
@@ -4115,6 +4118,7 @@ void Magick::MagickPlusPlusDestroyMagick(void)
 void MagickDLLDecl Magick::InitializeMagick(const char *path_)
 {
   MagickLib::InitializeMagick(path_);
+  RegisterStaticModules();          /* Register all static modules */
   if (!magick_initialized)
     {
       magick_initialized=true;
@@ -4149,5 +4153,6 @@ Magick::MagickCleanUp::MagickCleanUp ( void )
 
 Magick::MagickCleanUp::~MagickCleanUp ( void )
 {
-  MagickPlusPlusDestroyMagick();
+	UnregisterStaticModules();
+	MagickPlusPlusDestroyMagick();
 }

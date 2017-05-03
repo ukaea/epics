@@ -479,7 +479,7 @@ ExecuteModuleProcess(const char *tag,Image **image,
   /*
     Try to locate and execute a static module.
   */
-  status=ExecuteStaticModuleProcess(tag,image,argc,argv);
+//  status=ExecuteStaticModuleProcess(tag,image,argc,argv);
   if (status != MagickFail)
     return (status);
 #endif

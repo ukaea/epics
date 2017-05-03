@@ -31,13 +31,14 @@
 %
 %
 */
+#define _MAGICKLIB_
 
 /*
   Include declarations.
 */
 #include "magick/studio.h"
 #include "magick/module.h"
-#include "magick/static.h"
+#include "static.h"
 #include "magick/utility.h"
 
 /*
@@ -87,8 +88,8 @@ MagickExport unsigned int ExecuteModuleProcess(const char *tag,
   unsigned int
     (*method)(Image **,const int,char **) = 0;
 
-  if (LocaleCompare("analyze",tag) == 0)
-    method=AnalyzeImage;
+//  if (LocaleCompare("analyze",tag) == 0)
+//    method=AnalyzeImage;
 
   if (method)
     {

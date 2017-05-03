@@ -173,7 +173,6 @@ LIB_SRCS += segment.c
 LIB_SRCS += semaphore.c
 LIB_SRCS += shear.c
 LIB_SRCS += signature.c
-LIB_SRCS += static.c
 LIB_SRCS += statistics.c
 LIB_SRCS += tempfile.c
 LIB_SRCS += texture.c

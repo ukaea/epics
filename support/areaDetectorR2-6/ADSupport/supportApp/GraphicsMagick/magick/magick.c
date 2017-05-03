@@ -272,7 +272,7 @@ DestroyMagickInfoList(void)
 #endif /* defined(SupportMagickModules) */
 
 #if !defined(BuildMagickModules)
-  UnregisterStaticModules();
+//  UnregisterStaticModules();
 #endif /* !defined(BuildMagickModules) */
 
   /*
@@ -1235,9 +1235,9 @@ InitializeMagickInfoList(void)
   module_semaphore=AllocateSemaphoreInfo();
 #endif /* #if defined(SupportMagickModules) */
 
-//#if !defined(BuildMagickModules)
-  RegisterStaticModules();          /* Register all static modules */
-//#endif /* !defined(BuildMagickModules) */
+#if !defined(BuildMagickModules)
+//  RegisterStaticModules();          /* Register all static modules */
+#endif /* !defined(BuildMagickModules) */
 
 #if defined(SupportMagickModules)
   InitializeMagickModules();        /* Module loader */
