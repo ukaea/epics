@@ -35,7 +35,7 @@ then
     ./epics_pyepics_3-2-5_install.sh $EPICS_ROOT
 fi
 
-if [ ! -d $EPICS_ROOT/extensions/src/medm ];
-then
-	./epics_medm_3-1-11_install.sh $EPICS_ROOT
-fi
+#if [ ! -d $EPICS_ROOT/extensions/src/medm ];
+#then
+#	./epics_medm_3-1-11_install.sh $EPICS_ROOT
+#fi

@@ -29,6 +29,8 @@ then
     ./epics_sscan_2-10_install.sh $EPICS_ROOT
 fi
 
+#So the environment is set for this shell - $EPICS_HOST_ARCH is exported.
+. $EPICS_ROOT/siteEnv
 
 # calc
 CALC_DOWNLOAD="R3-6-1.tar.gz"

@@ -29,6 +29,9 @@ then
     ./epics_seq_2-2-4_install.sh $EPICS_ROOT
 fi
 
+#So the environment is set for this shell - $EPICS_HOST_ARCH is exported.
+. $EPICS_ROOT/siteEnv
+
 # sscan
 SSCAN_DOWNLOAD="sscan_R2-10.tar.gz"
 SSCAN_DIRECTORY="sscan-2-10"

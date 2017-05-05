@@ -39,6 +39,8 @@ then
     ./epics_seq_2-2-4_install.sh $INSTALLATH
 fi
 
+#So the environment is set for this shell - $EPICS_HOST_ARCH is exported.
+. $EPICS_ROOT/siteEnv
 
 # asyn
 ASYN_DOWNLOAD="asyn"$ASYN_VER".tar.gz"

@@ -30,6 +30,9 @@ then
     ./epics_base_3-15-5_install.sh $EPICS_ROOT
 fi
 
+#So the environment is set for this shell - $EPICS_HOST_ARCH is exported.
+. $EPICS_ROOT/siteEnv
+
 # autosave
 AUTOSAVE_DOWNLOAD="R5-7-1.tar.gz"
 AUTOSAVE_DIRECTORY="autosave-R5-7-1"

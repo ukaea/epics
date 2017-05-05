@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">
     <LocalDebuggerCommandArguments>..\iocBoot\iocVQM_ITMS\st1.simulated.cmd</LocalDebuggerCommandArguments>
@@ -18,7 +18,7 @@ IPPORT5=localhost:5070</LocalDebuggerEnvironment>
     <LocalDebuggerCommandArguments>st.cmd.win32</LocalDebuggerCommandArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
-    <LocalDebuggerEnvironment>EPICS_CA_MAX_ARRAY_BYTES=3000000
+    <LocalDebuggerEnvironment>EPICS_CA_MAX_ARRAY_BYTES=20000000
 MAGICK_DEBUG=configure,exception
 $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
@@ -30,14 +30,14 @@ $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
     <LocalDebuggerCommandArguments>st.cmd.win32</LocalDebuggerCommandArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
-    <LocalDebuggerEnvironment>EPICS_CA_MAX_ARRAY_BYTES=3000000
+    <LocalDebuggerEnvironment>EPICS_CA_MAX_ARRAY_BYTES=20000000
 MAGICK_DEBUG=configure,exception
 $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <LocalDebuggerWorkingDirectory>..\iocBoot\iocURLDriver</LocalDebuggerWorkingDirectory>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
-    <LocalDebuggerEnvironment>EPICS_CA_MAX_ARRAY_BYTES=3000000
+    <LocalDebuggerEnvironment>EPICS_CA_MAX_ARRAY_BYTES=20000000
 MAGICK_DEBUG=configure,exception
 $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
@@ -47,7 +47,7 @@ $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
     <DevPartner_Instrumented_Type> /NMbcOn</DevPartner_Instrumented_Type>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
-    <LocalDebuggerEnvironment>EPICS_CA_MAX_ARRAY_BYTES=3000000
+    <LocalDebuggerEnvironment>EPICS_CA_MAX_ARRAY_BYTES=20000000
 MAGICK_DEBUG=configure,exception
 $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
@@ -58,7 +58,7 @@ $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
     <LocalDebuggerWorkingDirectory>..\iocBoot\iocURLDriver</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <LocalDebuggerCommandArguments>st.cmd.win32</LocalDebuggerCommandArguments>
-    <LocalDebuggerEnvironment>EPICS_CA_MAX_ARRAY_BYTES=3000000
+    <LocalDebuggerEnvironment>EPICS_CA_MAX_ARRAY_BYTES=20000000
 MAGICK_DEBUG=configure,exception
 $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
   </PropertyGroup>
@@ -66,7 +66,7 @@ $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
     <LocalDebuggerWorkingDirectory>..\iocBoot\iocURLDriver</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <LocalDebuggerCommandArguments>st.cmd.win32</LocalDebuggerCommandArguments>
-    <LocalDebuggerEnvironment>EPICS_CA_MAX_ARRAY_BYTES=3000000
+    <LocalDebuggerEnvironment>EPICS_CA_MAX_ARRAY_BYTES=20000000
 MAGICK_DEBUG=configure,exception
 $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
   </PropertyGroup>
@@ -74,12 +74,12 @@ $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
     <LocalDebuggerCommandArguments>st.cmd.win32</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <LocalDebuggerWorkingDirectory>..\iocBoot\iocURLDriver</LocalDebuggerWorkingDirectory>
-    <LocalDebuggerEnvironment>EPICS_CA_MAX_ARRAY_BYTES=3000000
+    <LocalDebuggerEnvironment>EPICS_CA_MAX_ARRAY_BYTES=20000000
 MAGICK_DEBUG=configure,exception
 $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
-    <LocalDebuggerEnvironment>EPICS_CA_MAX_ARRAY_BYTES=3000000
+    <LocalDebuggerEnvironment>EPICS_CA_MAX_ARRAY_BYTES=20000000
 MAGICK_DEBUG=configure,exception
 $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>

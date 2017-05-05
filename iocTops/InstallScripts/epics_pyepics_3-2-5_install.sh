@@ -29,6 +29,9 @@ then
 	sudo apt-get -y install python python-numpy python-setuptools
 fi
 
+#So the environment is set for this shell - $EPICS_HOST_ARCH is exported.
+. $EPICS_ROOT/siteEnv
+
 export PYEPICS_LIBCA=${EPICS_ROOT}/base/lib/${EPICS_HOST_ARCH}/libca.so
 
 # Make directory if not exist

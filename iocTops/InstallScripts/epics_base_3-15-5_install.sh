@@ -18,10 +18,10 @@ set -e
 # 32 or 64bit?
 case `uname -m` in
   i[3456789]86|x86|i86pc)
-    EPICS_ARCH='linux-x86'
+    export EPICS_HOST_ARCH='linux-x86'
     ;;
   x86_64|amd64|AMD64)
-    EPICS_ARCH='linux-x86_64'
+    export EPICS_HOST_ARCH='linux-x86_64-debug'
     ;;
   *)
     echo "Unknown architecture `uname -m`."
@@ -73,10 +73,11 @@ touch $EPICS_ROOT/siteEnv
 echo \# main EPICS env var >> $EPICS_ROOT/siteEnv
 
 
-echo export EPICS_HOST_ARCH=$EPICS_ARCH >> $EPICS_ROOT/siteEnv
+echo export EPICS_HOST_ARCH=$EPICS_HOST_ARCH >> $EPICS_ROOT/siteEnv
 echo export EPICS_ROOT=$EPICS_ROOT >> $EPICS_ROOT/siteEnv
 echo export EPICS_BASE=$EPICS_ROOT/base >> $EPICS_ROOT/siteEnv
 echo export PATH=\${PATH}:\${EPICS_ROOT}/base/bin/\${EPICS_HOST_ARCH}:\${EPICS_ROOT}/extensions/bin/\${EPICS_HOST_ARCH} >> $EPICS_ROOT/siteEnv
+echo ulimit -c unlimited >> $EPICS_ROOT/siteEnv
 
 echo \# channel access >> $EPICS_ROOT/siteEnv
 echo export EPICS_CA_MAX_ARRAY_BYTES=100000000 >> $EPICS_ROOT/siteEnv

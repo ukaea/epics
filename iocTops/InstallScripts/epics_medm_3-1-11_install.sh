@@ -36,6 +36,9 @@ fi
 #    yum -y install build-essential libmotif-dev x11proto-print-dev libxp-dev libxmu-dev libxpm-dev xfonts-100dpi
 #fi
 
+#So the environment is set for this shell - $EPICS_HOST_ARCH is exported.
+. $EPICS_ROOT/siteEnv
+
 # medm
 MEDM_DOWNLOAD="medm3_1_7.tar.gz"
 MEDM_DIRECTORY="medm3_1_7"

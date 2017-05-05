@@ -33,21 +33,11 @@ if [ ! -f /etc/redhat-release ]; then
 	# dependencies
 	apt-get -y install re2c
 else
-	# 32 or 64bit?
-	case `uname -m` in
-		i[3456789]86|x86|i86pc)
-			#special case for SL6 /x86
-			yum -y install http://ftp.scientificlinux.org/linux/extra/dag/packages/re2c/re2c-0.13.2-1.el5.rf.i386.rpm
-		;;
-		x86_64|amd64|AMD64)
-			yum -y install re2c
-		;;
-		*)
-			echo "Unknown architecture `uname -m`."
-			exit 1
-		;;
-	esac
+	yum -y install re2c
 fi
+
+#So the environment is set for this shell - $EPICS_HOST_ARCH is exported.
+. $EPICS_ROOT/siteEnv
 
 # seq
 SEQ_DOWNLOAD="seq-"$SEQ_VER".tar.gz"

@@ -29,6 +29,9 @@ then
     . ./epics_asyn_4-31_install.sh $EPICS_ROOT
 fi
 
+#So the environment is set for this shell - $EPICS_HOST_ARCH is exported.
+. $EPICS_ROOT/siteEnv
+
 # busy
 BUSY_DOWNLOAD="busy_R1-6-1.tar.gz"
 BUSY_DIRECTORY="busy-1-6-1"

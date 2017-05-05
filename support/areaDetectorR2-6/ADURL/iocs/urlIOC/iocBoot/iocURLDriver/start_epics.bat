@@ -24,6 +24,7 @@ PATH=%PATH%;..\..\..\..\..\..\calc\bin\%EPICS_HOST_ARCH%
 REM for sscan.dll
 PATH=%PATH%;..\..\..\..\..\..\sscan\bin\%EPICS_HOST_ARCH%
 
+SET MAGICK_DEBUG=configure,exception
 ..\..\bin\%EPICS_HOST_ARCH%\URLDriverApp st.cmd.win32
 
 
