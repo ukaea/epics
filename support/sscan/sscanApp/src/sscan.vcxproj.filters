@@ -3,11 +3,9 @@
   <ItemGroup>
     <None Include="Makefile" />
     <None Include="mdautils-src.tar.gz" />
-    <None Include="scanparmRecord.dbd" />
     <None Include="scanProg.st" />
     <None Include="sscanInclude.dbd" />
     <None Include="sscanProgressSupport.dbd" />
-    <None Include="sscanRecord.dbd" />
     <None Include="sscanSupport.dbd" />
   </ItemGroup>
   <ItemGroup>
@@ -33,5 +31,7 @@
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="menuSscan.dbd" />
+    <CustomBuild Include="sscanRecord.dbd" />
+    <CustomBuild Include="scanparmRecord.dbd" />
   </ItemGroup>
 </Project>

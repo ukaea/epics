@@ -53,7 +53,7 @@
     <ProjectReference Include="..\..\..\..\base-3.15.5\src\std\dbRecStd.vcxproj">
       <Project>{3b0e3542-cb89-4ffa-b004-eac882b3f277}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\ADCore\ADApp\ADSrc\ADBase.vcxproj">
+    <ProjectReference Include="..\..\ADCore\ADApp\ADBase.vcxproj">
       <Project>{77cbc12c-ae16-40ef-a286-a61535f45a99}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\ADSupport\supportApp\GraphicsMagick\VisualMagick\coders\CORE_coders.vcxproj">
@@ -68,56 +68,66 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Db\Makefile" />
-    <None Include="Db\SoftwareVersions.db" />
+    <None Include="Db\URLDriver.template">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">copy .\db\%(FileName).template $(SolutionDir)db
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">$(SolotionDir)db\(%FileName).db</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">copy .\db\%(FileName).template $(SolutionDir)db
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">$(SolotionDir)db\(%FileName).db</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">copy .\db\%(FileName).template $(SolutionDir)db
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">$(SolotionDir)db\(%FileName).db</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">copy .\db\%(FileName).template $(SolutionDir)db
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">$(SolotionDir)db\(%FileName).db</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">$(SolotionDir)db\(%FileName).db</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">$(SolotionDir)db\(%FileName).db</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">$(SolotionDir)db\(%FileName).db</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">$(SolotionDir)db\(%FileName).db</Outputs>
+      <FileType>Document</FileType>
+    </None>
     <None Include="src\Makefile" />
     <CustomBuild Include="src\URLDriverSupport.dbd">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">cd src
 SET PERL5LIB=$(SolutionDir)lib\perl
 perl -CSD $(OutDir)dbdExpand.pl  -o ../O.Common/URLDriverApp.dbd -I$(SolutionDir)DBD URLDriverSupport.dbd base.dbd ADSupport.dbd NDPluginSupport.dbd NDFileNull.dbd NDFileNetCDF.dbd NDFileTIFF.dbd NDFileJPEG.dbd NDFileNexus.dbd NDFileHDF5.dbd NDFileMagick.dbd asyn.dbd asSupport.dbd busySupport.dbd calcSupport.dbd sscanSupport.dbd
-
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">cd src
 SET PERL5LIB=$(SolutionDir)lib\perl
 perl -CSD $(OutDir)dbdExpand.pl  -o ../O.Common/URLDriverApp.dbd -I$(SolutionDir)DBD URLDriverSupport.dbd base.dbd ADSupport.dbd NDPluginSupport.dbd NDFileNull.dbd NDFileNetCDF.dbd NDFileTIFF.dbd NDFileJPEG.dbd NDFileNexus.dbd NDFileHDF5.dbd NDFileMagick.dbd asyn.dbd asSupport.dbd busySupport.dbd calcSupport.dbd sscanSupport.dbd
-
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">cd src
 SET PERL5LIB=$(SolutionDir)lib\perl
 perl -CSD $(OutDir)dbdExpand.pl  -o ../O.Common/URLDriverApp.dbd -I$(SolutionDir)DBD URLDriverSupport.dbd base.dbd ADSupport.dbd NDPluginSupport.dbd NDFileNull.dbd NDFileNetCDF.dbd NDFileTIFF.dbd NDFileJPEG.dbd NDFileNexus.dbd NDFileHDF5.dbd NDFileMagick.dbd asyn.dbd asSupport.dbd busySupport.dbd calcSupport.dbd sscanSupport.dbd
-
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">cd src
 SET PERL5LIB=$(SolutionDir)lib\perl
 perl -CSD $(OutDir)dbdExpand.pl  -o ../O.Common/URLDriverApp.dbd -I$(SolutionDir)DBD URLDriverSupport.dbd base.dbd ADSupport.dbd NDPluginSupport.dbd NDFileNull.dbd NDFileNetCDF.dbd NDFileTIFF.dbd NDFileJPEG.dbd NDFileNexus.dbd NDFileHDF5.dbd NDFileMagick.dbd asyn.dbd asSupport.dbd busySupport.dbd calcSupport.dbd sscanSupport.dbd
-
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">cd src
 SET PERL5LIB=$(SolutionDir)lib\perl
 perl -CSD $(OutDir)dbdExpand.pl  -o ../O.Common/URLDriverApp.dbd -I$(SolutionDir)DBD URLDriverSupport.dbd base.dbd ADSupport.dbd NDPluginSupport.dbd NDFileNull.dbd NDFileNetCDF.dbd NDFileTIFF.dbd NDFileJPEG.dbd NDFileNexus.dbd NDFileHDF5.dbd NDFileMagick.dbd asyn.dbd asSupport.dbd busySupport.dbd calcSupport.dbd sscanSupport.dbd
-
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">cd src
 SET PERL5LIB=$(SolutionDir)lib\perl
 perl -CSD $(OutDir)dbdExpand.pl  -o ../O.Common/URLDriverApp.dbd -I$(SolutionDir)DBD URLDriverSupport.dbd base.dbd ADSupport.dbd NDPluginSupport.dbd NDFileNull.dbd NDFileNetCDF.dbd NDFileTIFF.dbd NDFileJPEG.dbd NDFileNexus.dbd NDFileHDF5.dbd NDFileMagick.dbd asyn.dbd asSupport.dbd busySupport.dbd calcSupport.dbd sscanSupport.dbd
-
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">cd src
 SET PERL5LIB=$(SolutionDir)lib\perl
 perl -CSD $(OutDir)dbdExpand.pl  -o ../O.Common/URLDriverApp.dbd -I$(SolutionDir)DBD URLDriverSupport.dbd base.dbd ADSupport.dbd NDPluginSupport.dbd NDFileNull.dbd NDFileNetCDF.dbd NDFileTIFF.dbd NDFileJPEG.dbd NDFileNexus.dbd NDFileHDF5.dbd NDFileMagick.dbd asyn.dbd asSupport.dbd busySupport.dbd calcSupport.dbd sscanSupport.dbd
-
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">cd src
 SET PERL5LIB=$(SolutionDir)lib\perl
 perl -CSD $(OutDir)dbdExpand.pl  -o ../O.Common/URLDriverApp.dbd -I$(SolutionDir)DBD URLDriverSupport.dbd base.dbd ADSupport.dbd NDPluginSupport.dbd NDFileNull.dbd NDFileNetCDF.dbd NDFileTIFF.dbd NDFileJPEG.dbd NDFileNexus.dbd NDFileHDF5.dbd NDFileMagick.dbd asyn.dbd asSupport.dbd busySupport.dbd calcSupport.dbd sscanSupport.dbd
-
 cd $(ProjectDir)
 </Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common\URLDriverApp.dbd</Outputs>
@@ -252,11 +262,16 @@ cd $(ProjectDir)
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
+if not exist $(SolutionDir)db md $(SolutionDir)db
+if not exist $(SolutionDir)iocs/urlIOC/DBD md $(SolutionDir)iocs\urlIOC\DBD
+xcopy /Y /Q /D /R Db\*.template $(SolutionDir)db &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent />
     <PostBuildEvent>
-      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
+      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
+xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)iocs\urlIOC\dbd
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
@@ -279,11 +294,16 @@ if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
+if not exist $(SolutionDir)db md $(SolutionDir)db
+if not exist $(SolutionDir)iocs/urlIOC/DBD md $(SolutionDir)iocs\urlIOC\DBD
+xcopy /Y /Q /D /R Db\*.template $(SolutionDir)db &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent />
     <PostBuildEvent>
-      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
+      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
+xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)iocs\urlIOC\dbd
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
@@ -305,11 +325,16 @@ if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
+if not exist $(SolutionDir)db md $(SolutionDir)db
+if not exist $(SolutionDir)iocs/urlIOC/DBD md $(SolutionDir)iocs\urlIOC\DBD
+xcopy /Y /Q /D /R Db\*.template $(SolutionDir)db &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent />
     <PostBuildEvent>
-      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
+      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
+xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)iocs\urlIOC\dbd
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
@@ -331,11 +356,16 @@ if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
+if not exist $(SolutionDir)db md $(SolutionDir)db
+if not exist $(SolutionDir)iocs/urlIOC/DBD md $(SolutionDir)iocs\urlIOC\DBD
+xcopy /Y /Q /D /R Db\*.template $(SolutionDir)db &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent />
     <PostBuildEvent>
-      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
+      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
+xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)iocs\urlIOC\dbd
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
@@ -360,11 +390,16 @@ if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
+if not exist $(SolutionDir)db md $(SolutionDir)db
+if not exist $(SolutionDir)iocs/urlIOC/DBD md $(SolutionDir)iocs\urlIOC\DBD
+xcopy /Y /Q /D /R Db\*.template $(SolutionDir)db &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent />
     <PostBuildEvent>
-      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
+      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
+xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)iocs\urlIOC\dbd
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
@@ -389,11 +424,16 @@ if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
+if not exist $(SolutionDir)db md $(SolutionDir)db
+if not exist $(SolutionDir)iocs/urlIOC/DBD md $(SolutionDir)iocs\urlIOC\DBD
+xcopy /Y /Q /D /R Db\*.template $(SolutionDir)db &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent />
     <PostBuildEvent>
-      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
+      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
+xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)iocs\urlIOC\dbd
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
@@ -419,11 +459,16 @@ if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
+if not exist $(SolutionDir)db md $(SolutionDir)db
+if not exist $(SolutionDir)iocs/urlIOC/DBD md $(SolutionDir)iocs\urlIOC\DBD
+xcopy /Y /Q /D /R Db\*.template $(SolutionDir)db &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent />
     <PostBuildEvent>
-      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
+      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
+xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)iocs\urlIOC\dbd
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">
@@ -449,11 +494,16 @@ if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
+if not exist $(SolutionDir)db md $(SolutionDir)db
+if not exist $(SolutionDir)iocs/urlIOC/DBD md $(SolutionDir)iocs\urlIOC\DBD
+xcopy /Y /Q /D /R Db\*.template $(SolutionDir)db &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent />
     <PostBuildEvent>
-      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
+      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
+xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)iocs\urlIOC\dbd
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

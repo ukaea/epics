@@ -387,6 +387,11 @@
     <ClInclude Include="..\..\..\xml2Src\triostr.h" />
     <ClInclude Include="..\..\..\xml2Src\xzlib.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\zlib\CORE_zlib.vcxproj">
+      <Project>{c4c77088-9772-4f2c-898b-653acb53b11a}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectName>CORE_libxml</ProjectName>
     <ProjectGuid>{8B797ED0-1330-469E-99C8-6D6669921412}</ProjectGuid>
@@ -457,9 +462,9 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <OmitFramePointers>true</OmitFramePointers>
       <Optimization>Full</Optimization>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;_LIB;_XMLLIB_;LIBXML_FTP_ENABLED;LIBXML_HTTP_ENABLED;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;_LIB;_XMLLIB_;HAVE_ZLIB_H;LIBXML_FTP_ENABLED;LIBXML_HTTP_ENABLED;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>../../../xml2Src/os/WIN32;../../../xml2Src/os/default</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../xml2Src/os/WIN32;../../../xml2Src/os/default;../../../zlibSrc/os/WIN32;../../../zlibSrc/os/default</AdditionalIncludeDirectories>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -478,9 +483,9 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <OmitFramePointers>true</OmitFramePointers>
       <Optimization>Full</Optimization>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;_LIB;_XMLLIB_;LIBXML_FTP_ENABLED;LIBXML_HTTP_ENABLED;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;_LIB;_XMLLIB_;HAVE_ZLIB_H;LIBXML_FTP_ENABLED;LIBXML_HTTP_ENABLED;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>../../../xml2Src/os/WIN32;../../../xml2Src/os/default</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../xml2Src/os/WIN32;../../../xml2Src/os/default;../../../zlibSrc/os/WIN32;../../../zlibSrc/os/default</AdditionalIncludeDirectories>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -499,9 +504,9 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <OmitFramePointers>true</OmitFramePointers>
       <Optimization>Full</Optimization>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;LIBXML_FTP_ENABLED;LIBXML_HTTP_ENABLED;_VISUALC_;_LIB;_XMLLIB_;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;HAVE_ZLIB_H;LIBXML_FTP_ENABLED;LIBXML_HTTP_ENABLED;_VISUALC_;_LIB;_XMLLIB_;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>../../../xml2Src/os/WIN32;../../../xml2Src/os/default</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../xml2Src/os/WIN32;../../../xml2Src/os/default;../../../zlibSrc/os/WIN32;../../../zlibSrc/os/default</AdditionalIncludeDirectories>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -520,9 +525,9 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <OmitFramePointers>true</OmitFramePointers>
       <Optimization>Full</Optimization>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;LIBXML_FTP_ENABLED;LIBXML_HTTP_ENABLED;_VISUALC_;_LIB;_XMLLIB_;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;HAVE_ZLIB_H;LIBXML_FTP_ENABLED;LIBXML_HTTP_ENABLED;_VISUALC_;_LIB;_XMLLIB_;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>../../../xml2Src/os/WIN32;../../../xml2Src/os/default</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../xml2Src/os/WIN32;../../../xml2Src/os/default;../../../zlibSrc/os/WIN32;../../../zlibSrc/os/default</AdditionalIncludeDirectories>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -541,8 +546,8 @@
       <OmitFramePointers>false</OmitFramePointers>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../../../xml2Src/os/WIN32;../../../xml2Src/os/default</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;LIBXML_FTP_ENABLED;LIBXML_HTTP_ENABLED;_LIB;_XMLLIB_;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../../../xml2Src/os/WIN32;../../../xml2Src/os/default;../../../zlibSrc/os/WIN32;../../../zlibSrc/os/default</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;HAVE_ZLIB_H;LIBXML_FTP_ENABLED;LIBXML_HTTP_ENABLED;_LIB;_XMLLIB_;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <ResourceCompile>
@@ -562,9 +567,9 @@
       <OmitFramePointers>false</OmitFramePointers>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;LIBXML_FTP_ENABLED;LIBXML_HTTP_ENABLED;_LIB;_XMLLIB_;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;HAVE_ZLIB_H;LIBXML_FTP_ENABLED;LIBXML_HTTP_ENABLED;_LIB;_XMLLIB_;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalIncludeDirectories>../../../xml2Src/os/WIN32;../../../xml2Src/os/default</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../xml2Src/os/WIN32;../../../xml2Src/os/default;../../../zlibSrc/os/WIN32;../../../zlibSrc/os/default</AdditionalIncludeDirectories>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -583,9 +588,9 @@
       <OmitFramePointers>false</OmitFramePointers>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;LIBXML_FTP_ENABLED;LIBXML_HTTP_ENABLED;PIC;NOLIBTOOL;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;LIBXML_FTP_ENABLED;LIBXML_HTTP_ENABLED;HAVE_ZLIB_H;PIC;NOLIBTOOL;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalIncludeDirectories>../../../xml2Src/os/WIN32;../../../xml2Src/os/default</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../xml2Src/os/WIN32;../../../xml2Src/os/default;../../../zlibSrc/os/WIN32;../../../zlibSrc/os/default</AdditionalIncludeDirectories>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -607,9 +612,9 @@
       <OmitFramePointers>false</OmitFramePointers>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;LIBXML_FTP_ENABLED;LIBXML_HTTP_ENABLED;PIC;NOLIBTOOL;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;LIBXML_FTP_ENABLED;LIBXML_HTTP_ENABLED;HAVE_ZLIB_H;PIC;NOLIBTOOL;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalIncludeDirectories>../../../xml2Src/os/WIN32;../../../xml2Src/os/default</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../xml2Src/os/WIN32;../../../xml2Src/os/default;../../../zlibSrc/os/WIN32;../../../zlibSrc/os/default</AdditionalIncludeDirectories>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>

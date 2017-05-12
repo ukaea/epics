@@ -69,7 +69,7 @@
     <ProjectReference Include="..\..\..\..\..\sscan\sscanApp\src\sscan.vcxproj">
       <Project>{bc5f994e-1bfe-4c94-bf8d-86077ef84ed7}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\ADCore\ADApp\ADSrc\ADBase.vcxproj">
+    <ProjectReference Include="..\..\..\..\ADCore\ADApp\ADBase.vcxproj">
       <Project>{77cbc12c-ae16-40ef-a286-a61535f45a99}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\ADCore\ADApp\pluginSrc\NDPlugin.vcxproj">
@@ -258,16 +258,13 @@
     </Link>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
 SET PERL5LIB=$(SolutionDir)lib\perl
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl   -o O.Common/URLDriverApp_registerRecordDeviceDriver.cpp $(SolutionDir)DBD/URLDriverApp.dbd URLDriverApp_registerRecordDeviceDriver D:/epics/support/areaDetector/ADURL/iocs/urlIOC
 
 </Command>
     </PreBuildEvent>
     <PostBuildEvent />
-    <PostBuildEvent>
-      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
-    </PostBuildEvent>
+    <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
     <ClCompile>
@@ -286,16 +283,13 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl   -o O.Common/URLDriverApp_regi
     </Link>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
 SET PERL5LIB=$(SolutionDir)lib\perl
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl   -o O.Common/URLDriverApp_registerRecordDeviceDriver.cpp $(SolutionDir)DBD/URLDriverApp.dbd URLDriverApp_registerRecordDeviceDriver D:/epics/support/areaDetector/ADURL/iocs/urlIOC
 
 </Command>
     </PreBuildEvent>
     <PostBuildEvent />
-    <PostBuildEvent>
-      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
-    </PostBuildEvent>
+    <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
     <ClCompile>
@@ -315,16 +309,13 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl   -o O.Common/URLDriverApp_regi
     </Link>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
 SET PERL5LIB=$(SolutionDir)lib\perl
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl   -o O.Common/URLDriverApp_registerRecordDeviceDriver.cpp $(SolutionDir)DBD/URLDriverApp.dbd URLDriverApp_registerRecordDeviceDriver D:/epics/support/areaDetector/ADURL/iocs/urlIOC
 
 </Command>
     </PreBuildEvent>
     <PostBuildEvent />
-    <PostBuildEvent>
-      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
-    </PostBuildEvent>
+    <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
     <ClCompile>
@@ -344,16 +335,13 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl   -o O.Common/URLDriverApp_regi
     </Link>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
 SET PERL5LIB=$(SolutionDir)lib\perl
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl   -o O.Common/URLDriverApp_registerRecordDeviceDriver.cpp $(SolutionDir)DBD/URLDriverApp.dbd URLDriverApp_registerRecordDeviceDriver D:/epics/support/areaDetector/ADURL/iocs/urlIOC
 
 </Command>
     </PreBuildEvent>
     <PostBuildEvent />
-    <PostBuildEvent>
-      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
-    </PostBuildEvent>
+    <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
     <ClCompile>
@@ -375,16 +363,13 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl   -o O.Common/URLDriverApp_regi
     </Link>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
 SET PERL5LIB=$(SolutionDir)lib\perl
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl   -o O.Common/URLDriverApp_registerRecordDeviceDriver.cpp $(SolutionDir)DBD/URLDriverApp.dbd URLDriverApp_registerRecordDeviceDriver D:/epics/support/areaDetector/ADURL/iocs/urlIOC
 
 </Command>
     </PreBuildEvent>
     <PostBuildEvent />
-    <PostBuildEvent>
-      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
-    </PostBuildEvent>
+    <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
     <ClCompile>
@@ -407,16 +392,13 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl   -o O.Common/URLDriverApp_regi
     </Link>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
 SET PERL5LIB=$(SolutionDir)lib\perl
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl   -o O.Common/URLDriverApp_registerRecordDeviceDriver.cpp $(SolutionDir)DBD/URLDriverApp.dbd URLDriverApp_registerRecordDeviceDriver D:/epics/support/areaDetector/ADURL/iocs/urlIOC
 
 </Command>
     </PreBuildEvent>
     <PostBuildEvent />
-    <PostBuildEvent>
-      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
-    </PostBuildEvent>
+    <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
     <ClCompile>
@@ -439,16 +421,13 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl   -o O.Common/URLDriverApp_regi
     </Link>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
 SET PERL5LIB=$(SolutionDir)lib\perl
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl   -o O.Common/URLDriverApp_registerRecordDeviceDriver.cpp $(SolutionDir)DBD/URLDriverApp.dbd URLDriverApp_registerRecordDeviceDriver D:/epics/support/areaDetector/ADURL/iocs/urlIOC
 
 </Command>
     </PreBuildEvent>
     <PostBuildEvent />
-    <PostBuildEvent>
-      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
-    </PostBuildEvent>
+    <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">
     <ClCompile>
@@ -472,16 +451,13 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl   -o O.Common/URLDriverApp_regi
     </Link>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
 SET PERL5LIB=$(SolutionDir)lib\perl
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl   -o O.Common/URLDriverApp_registerRecordDeviceDriver.cpp $(SolutionDir)DBD/URLDriverApp.dbd URLDriverApp_registerRecordDeviceDriver D:/epics/support/areaDetector/ADURL/iocs/urlIOC
 
 </Command>
     </PreBuildEvent>
     <PostBuildEvent />
-    <PostBuildEvent>
-      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
-    </PostBuildEvent>
+    <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>

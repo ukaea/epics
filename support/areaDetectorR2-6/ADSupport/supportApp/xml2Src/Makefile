@@ -12,6 +12,11 @@ ifeq ($(WITH_XML2),YES)
 
     USR_CFLAGS += -DLIBXML_FTP_ENABLED
     USR_CFLAGS += -DLIBXML_HTTP_ENABLED
+    ifeq ($(WITH_ZLIB),YES)
+      ifeq ($(ZLIB_EXTERNAL),NO)
+        USR_CFLAGS_WIN32 += -DHAVE_ZLIB_H
+      endif # ($(ZLIB_EXTERNAL),NO)
+    endif # ($(WITH_ZLIB),YES)
 
     USR_CFLAGS_WIN32 += -DWIN32
     ifeq ($(SHARED_LIBRARIES),YES)

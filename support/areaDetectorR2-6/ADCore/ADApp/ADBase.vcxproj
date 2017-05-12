@@ -35,65 +35,114 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ADDriver.cpp" />
-    <ClCompile Include="asynNDArrayDriver.cpp" />
-    <ClCompile Include="functAttribute.cpp" />
-    <ClCompile Include="myAttributeFunctions.cpp" />
-    <ClCompile Include="myTimeStampSource.cpp" />
-    <ClCompile Include="NDArray.cpp" />
-    <ClCompile Include="NDArrayPool.cpp" />
-    <ClCompile Include="NDAttribute.cpp" />
-    <ClCompile Include="NDAttributeList.cpp" />
-    <ClCompile Include="paramAttribute.cpp" />
-    <ClCompile Include="parseAreaPrefixes.c" />
-    <ClCompile Include="PVAttribute.cpp" />
-    <ClCompile Include="tinystr.cpp" />
-    <ClCompile Include="tinyxml.cpp" />
-    <ClCompile Include="tinyxmlerror.cpp" />
-    <ClCompile Include="tinyxmlparser.cpp" />
+    <ClCompile Include="ADSrc\ADDriver.cpp" />
+    <ClCompile Include="ADSrc\asynNDArrayDriver.cpp" />
+    <ClCompile Include="ADSrc\functAttribute.cpp" />
+    <ClCompile Include="ADSrc\myAttributeFunctions.cpp" />
+    <ClCompile Include="ADSrc\myTimeStampSource.cpp" />
+    <ClCompile Include="ADSrc\NDArray.cpp" />
+    <ClCompile Include="ADSrc\NDArrayPool.cpp" />
+    <ClCompile Include="ADSrc\NDAttribute.cpp" />
+    <ClCompile Include="ADSrc\NDAttributeList.cpp" />
+    <ClCompile Include="ADSrc\paramAttribute.cpp" />
+    <ClCompile Include="ADSrc\parseAreaPrefixes.c" />
+    <ClCompile Include="ADSrc\PVAttribute.cpp" />
+    <ClCompile Include="ADSrc\tinystr.cpp" />
+    <ClCompile Include="ADSrc\tinyxml.cpp" />
+    <ClCompile Include="ADSrc\tinyxmlerror.cpp" />
+    <ClCompile Include="ADSrc\tinyxmlparser.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ADCoreVersion.h" />
-    <ClInclude Include="ADDriver.h" />
-    <ClInclude Include="asynNDArrayDriver.h" />
-    <ClInclude Include="functAttribute.h" />
-    <ClInclude Include="NDArray.h" />
-    <ClInclude Include="NDAttribute.h" />
-    <ClInclude Include="NDAttributeList.h" />
-    <ClInclude Include="paramAttribute.h" />
-    <ClInclude Include="PVAttribute.h" />
-    <ClInclude Include="tinystr.h" />
-    <ClInclude Include="tinyxml.h" />
+    <ClInclude Include="ADSrc\ADCoreVersion.h" />
+    <ClInclude Include="ADSrc\ADDriver.h" />
+    <ClInclude Include="ADSrc\asynNDArrayDriver.h" />
+    <ClInclude Include="ADSrc\functAttribute.h" />
+    <ClInclude Include="ADSrc\NDArray.h" />
+    <ClInclude Include="ADSrc\NDAttribute.h" />
+    <ClInclude Include="ADSrc\NDAttributeList.h" />
+    <ClInclude Include="ADSrc\paramAttribute.h" />
+    <ClInclude Include="ADSrc\PVAttribute.h" />
+    <ClInclude Include="ADSrc\tinystr.h" />
+    <ClInclude Include="ADSrc\tinyxml.h" />
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="ADSupport.dbd">
-      <FileType>Document</FileType>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
-    </CustomBuild>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\base-3.15.5\src\ca\client\ca.vcxproj">
+    <ProjectReference Include="..\..\..\..\base-3.15.5\src\ca\client\ca.vcxproj">
       <Project>{02caf068-a7fc-463e-aa7e-72eeaf665826}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\base-3.15.5\src\ioc\dbCore.vcxproj">
+    <ProjectReference Include="..\..\..\..\base-3.15.5\src\ioc\dbCore.vcxproj">
       <Project>{440c585d-ad66-4738-941c-a87a1817a9be}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\base-3.15.5\src\libCom\Com.vcxproj">
+    <ProjectReference Include="..\..\..\..\base-3.15.5\src\libCom\Com.vcxproj">
       <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\base-3.15.5\src\std\softIoc\softIoc.vcxproj">
+    <ProjectReference Include="..\..\..\..\base-3.15.5\src\std\softIoc\softIoc.vcxproj">
       <Project>{0df29c1b-6c17-4d60-8b78-27fe8714dc11}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\asyn4-31\asyn\asyn.vcxproj">
+    <ProjectReference Include="..\..\..\asyn4-31\asyn\asyn.vcxproj">
       <Project>{c3ea0ff7-6039-4884-ba91-7b4619befea5}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ADSrc\ADSupport.dbd" />
+    <None Include="Db\ADBase.template" />
+    <None Include="Db\ADBase_settings.req" />
+    <None Include="Db\ADPrefixes.template" />
+    <None Include="Db\Makefile" />
+    <None Include="Db\NDArrayBase.template" />
+    <None Include="Db\NDArrayBase_settings.req" />
+    <None Include="Db\NDAttribute.template" />
+    <None Include="Db\NDAttributeN.template" />
+    <None Include="Db\NDAttributeN_settings.req" />
+    <None Include="Db\NDAttribute_settings.req" />
+    <None Include="Db\NDCircularBuff.template" />
+    <None Include="Db\NDCircularBuff_settings.req" />
+    <None Include="Db\NDColorConvert.template" />
+    <None Include="Db\NDColorConvert_settings.req" />
+    <None Include="Db\NDFFT.template" />
+    <None Include="Db\NDFFT_settings.req" />
+    <None Include="Db\NDFile.template" />
+    <None Include="Db\NDFileHDF5.template" />
+    <None Include="Db\NDFileHDF5_settings.req" />
+    <None Include="Db\NDFileJPEG.template" />
+    <None Include="Db\NDFileJPEG_settings.req" />
+    <None Include="Db\NDFileMagick.template" />
+    <None Include="Db\NDFileMagick_settings.req" />
+    <None Include="Db\NDFileNetCDF.template" />
+    <None Include="Db\NDFileNetCDF_settings.req" />
+    <None Include="Db\NDFileNexus.template" />
+    <None Include="Db\NDFileNexus_settings.req" />
+    <None Include="Db\NDFileTIFF.template" />
+    <None Include="Db\NDFileTIFF_settings.req" />
+    <None Include="Db\NDFile_settings.req" />
+    <None Include="Db\NDOverlay.template" />
+    <None Include="Db\NDOverlayN.template" />
+    <None Include="Db\NDOverlayN_settings.req" />
+    <None Include="Db\NDOverlay_settings.req" />
+    <None Include="Db\NDPluginBase.template" />
+    <None Include="Db\NDPluginBase_settings.req" />
+    <None Include="Db\NDPluginFile_settings.req" />
+    <None Include="Db\NDPosPlugin.template" />
+    <None Include="Db\NDProcess.template" />
+    <None Include="Db\NDProcess_settings.req" />
+    <None Include="Db\NDPva.template" />
+    <None Include="Db\NDPva_settings.req" />
+    <None Include="Db\NDROI.template" />
+    <None Include="Db\NDROIStat.template" />
+    <None Include="Db\NDROIStat8.template" />
+    <None Include="Db\NDROIStatN.template" />
+    <None Include="Db\NDROIStatN_settings.req" />
+    <None Include="Db\NDROIStat_settings.req" />
+    <None Include="Db\NDROI_settings.req" />
+    <None Include="Db\NDStats.template" />
+    <None Include="Db\NDStats_settings.req" />
+    <None Include="Db\NDStdArrays.template" />
+    <None Include="Db\NDStdArrays_settings.req" />
+    <None Include="Db\NDTimeSeries.template" />
+    <None Include="Db\NDTimeSeriesN.template" />
+    <None Include="Db\NDTimeSeriesN_settings.req" />
+    <None Include="Db\NDTimeSeries_settings.req" />
+    <None Include="Db\NDTransform.template" />
+    <None Include="Db\NDTransform_settings.req" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{77CBC12C-AE16-40EF-A286-A61535F45A99}</ProjectGuid>
@@ -194,15 +243,15 @@
     </Link>
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
+if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
 if not exist O.Common md O.Common
-xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R ADSrc\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R ADSrc\*.dbd $(SolutionDir)DBD &gt; NUL
+xcopy /Y /Q /D /R Db\*.template $(SolutionDir)db &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-xcopy /Y /Q  /D .\O.Common\*.h $(SolutionDir)include &gt; NUL
+      <Command>xcopy /Y /Q  /D .\O.Common\*.h $(SolutionDir)include &gt; NUL
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -220,15 +269,16 @@ xcopy /Y /Q  /D .\O.Common\*.h $(SolutionDir)include &gt; NUL
     </Link>
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
+if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
+if not exist  ..\db md  ..\db
 if not exist O.Common md O.Common
-xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R ADSrc\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R ADSrc\*.dbd $(SolutionDir)DBD &gt; NUL
+xcopy /Y /Q /D /R Db\*.template ..\db &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
+      <Command>xcopy /Y /Q  /D .\O.Common\*.h $(SolutionDir)include &gt; NUL
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -246,15 +296,15 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
     </Link>
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
+if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
 if not exist O.Common md O.Common
-xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R ADSrc\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R ADSrc\*.dbd $(SolutionDir)DBD &gt; NUL
+xcopy /Y /Q /D /R Db\*.template $(SolutionDir)db &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
+      <Command>xcopy /Y /Q  /D .\O.Common\*.h $(SolutionDir)include &gt; NUL
 </Command>
     </PostBuildEvent>
     <Lib>
@@ -275,15 +325,15 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
     </Link>
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
+if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
 if not exist O.Common md O.Common
-xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R ADSrc\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R ADSrc\*.dbd $(SolutionDir)DBD &gt; NUL
+xcopy /Y /Q /D /R Db\*.template $(SolutionDir)db &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
+      <Command>xcopy /Y /Q  /D .\O.Common\*.h $(SolutionDir)include &gt; NUL
 </Command>
     </PostBuildEvent>
     <Lib>
@@ -306,16 +356,16 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib;Winmm.lib</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
+      <Command>xcopy /Y /Q  /D .\O.Common\*.h $(SolutionDir)include &gt; NUL
 </Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
+if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
 if not exist O.Common md O.Common
-xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R ADSrc\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R ADSrc\*.dbd $(SolutionDir)DBD &gt; NUL
+xcopy /Y /Q /D /R Db\*.template $(SolutionDir)db &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -335,16 +385,16 @@ xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib;Winmm.lib</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
+      <Command>xcopy /Y /Q  /D .\O.Common\*.h $(SolutionDir)include &gt; NUL
 </Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
+if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
 if not exist O.Common md O.Common
-xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R ADSrc\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R ADSrc\*.dbd $(SolutionDir)DBD &gt; NUL
+xcopy /Y /Q /D /R Db\*.template $(SolutionDir)db &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -364,16 +414,16 @@ xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PostBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
+      <Command>xcopy /Y /Q  /D .\O.Common\*.h $(SolutionDir)include &gt; NUL
 </Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
+if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
 if not exist O.Common md O.Common
-xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R ADSrc\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R ADSrc\*.dbd $(SolutionDir)DBD &gt; NUL
+xcopy /Y /Q /D /R Db\*.template $(SolutionDir)db &gt; NUL
 </Command>
     </PreBuildEvent>
     <Lib>
@@ -396,16 +446,16 @@ xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PostBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
+      <Command>xcopy /Y /Q  /D .\O.Common\*.h $(SolutionDir)include &gt; NUL
 </Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
+if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
 if not exist O.Common md O.Common
-xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R ADSrc\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R ADSrc\*.dbd $(SolutionDir)DBD &gt; NUL
+xcopy /Y /Q /D /R Db\*.template $(SolutionDir)db &gt; NUL
 </Command>
     </PreBuildEvent>
     <Lib>

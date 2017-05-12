@@ -20,16 +20,12 @@
     <ClCompile Include="transformRecord.c" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="aCalcoutRecord.dbd" />
     <None Include="calcSupport_withSNCSEQ.dbd" />
     <None Include="cat.pl" />
     <None Include="editSseq.dbd" />
     <None Include="editSseq.st" />
     <None Include="Makefile" />
     <None Include="README" />
-    <None Include="sCalcoutRecord.dbd" />
-    <None Include="sseqRecord.dbd" />
-    <None Include="swaitRecord.dbd" />
     <None Include="test_aCalc.py" />
     <None Include="test_sCalc.py" />
   </ItemGroup>
@@ -45,5 +41,9 @@
     <CustomBuild Include="calcSupport_LOCAL.dbd" />
     <CustomBuild Include="calcSupport_withSSCAN.dbd" />
     <CustomBuild Include="transformRecord.dbd" />
+    <CustomBuild Include="sseqRecord.dbd" />
+    <CustomBuild Include="swaitRecord.dbd" />
+    <CustomBuild Include="sCalcoutRecord.dbd" />
+    <CustomBuild Include="aCalcoutRecord.dbd" />
   </ItemGroup>
 </Project>

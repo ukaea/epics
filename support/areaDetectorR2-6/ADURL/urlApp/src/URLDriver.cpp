@@ -391,7 +391,6 @@ URLDriver::URLDriver(const char *portName, int maxBuffers, size_t maxMemory,
 
     /* Initialize GraphicsMagick */
     InitializeMagick(NULL);
-	RegisterStaticModules();          /* Register all static modules */
 
     /* Create the epicsEvents for signaling to the acquisition task when acquisition starts and stops */
     this->startEventId = epicsEventCreate(epicsEventEmpty);

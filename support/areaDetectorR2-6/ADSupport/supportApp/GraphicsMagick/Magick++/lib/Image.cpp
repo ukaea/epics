@@ -4118,7 +4118,9 @@ void Magick::MagickPlusPlusDestroyMagick(void)
 void MagickDLLDecl Magick::InitializeMagick(const char *path_)
 {
   MagickLib::InitializeMagick(path_);
-  RegisterStaticModules();          /* Register all static modules */
+#if !defined(BuildMagickModules)
+	RegisterStaticModules();          /* Register all static modules */
+#endif /* !defined(BuildMagickModules) */
   if (!magick_initialized)
     {
       magick_initialized=true;
@@ -4153,6 +4155,8 @@ Magick::MagickCleanUp::MagickCleanUp ( void )
 
 Magick::MagickCleanUp::~MagickCleanUp ( void )
 {
+#if !defined(BuildMagickModules)
 	UnregisterStaticModules();
+#endif /* !defined(BuildMagickModules) */
 	MagickPlusPlusDestroyMagick();
 }
