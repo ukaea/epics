@@ -8,11 +8,6 @@ include $(TOP)/configure/CONFIG
 USR_CXXFLAGS_Linux += -DH5_NO_DEPRECATED_SYMBOLS -DH5Dopen_vers=2 -DH5Gcreate_vers=2
 USR_CFLAGS_Linux   += -DH5_NO_DEPRECATED_SYMBOLS -DH5Dopen_vers=2 -DH5Gcreate_vers=2
 
-ifeq ($(SHARED_LIBRARIES), YES)
-   USR_CXXFLAGS_WIN32 += -DH5_BUILT_AS_DYNAMIC_LIB
-   USR_CFLAGS_WIN32 += -DH5_BUILT_AS_DYNAMIC_LIB
-endif
-
 # The plugin-test executable with the actual unittests depend on the boost 
 # unittest framework so we can only build it if boost has been configured
 ifeq ($(WITH_BOOST),YES)
@@ -29,11 +24,10 @@ ifeq ($(WITH_BOOST),YES)
     ADTestUtility_SRCS += HDF5PluginWrapper.cpp
     ADTestUtility_SRCS += HDF5FileReader.cpp
   endif
-  ifeq ($(WITH_XML2),YES)
-    ADTestUtility_SRCS += PosPluginWrapper.cpp
-  endif
+  ADTestUtility_SRCS += PosPluginWrapper.cpp
   ADTestUtility_SRCS += TimeSeriesPluginWrapper.cpp
   ADTestUtility_SRCS += FFTPluginWrapper.cpp
+  ADTestUtility_SRCS += AttrPlotPluginWrapper.cpp
   ADTestUtility_SRCS += ROIPluginWrapper.cpp
   ADTestUtility_SRCS += OverlayPluginWrapper.cpp
 
@@ -46,18 +40,16 @@ ifeq ($(WITH_BOOST),YES)
     plugin-test_SRCS += test_NDFileHDF5AttributeDataset.cpp
     plugin-test_SRCS += test_NDFileHDF5ExtraDimensions.cpp
   endif
-  ifeq ($(WITH_XML2),YES)
-    plugin-test_SRCS += test_NDPosPlugin.cpp
-  endif
+  plugin-test_SRCS += test_NDPosPlugin.cpp
   plugin-test_SRCS += test_NDPluginTimeSeries.cpp
   plugin-test_SRCS += test_NDPluginFFT.cpp
+  plugin-test_SRCS += test_NDPluginAttrPlot.cpp
   plugin-test_SRCS += test_NDPluginROI.cpp
   plugin-test_SRCS += test_NDPluginOverlay.cpp
 
   # Add tests for new plugins like this:
   #plugin-test_SRCS += test_<plugin name>.cpp
   
-  plugin-test_LIBS += ADTestUtility
   ifdef BOOST_LIB
     boost_unit_test_framework_DIR=$(BOOST_LIB)
     plugin-test_LIBS += boost_unit_test_framework
@@ -65,22 +57,31 @@ ifeq ($(WITH_BOOST),YES)
     plugin-test_SYS_LIBS += boost_unit_test_framework
   endif
 
+  # Link order matters when doing a static build
+  plugin-test_LIBS += ADTestUtility
+
   USR_INCLUDES += $(HDF5_INCLUDE)
   USR_INCLUDES += $(SZ_INCLUDE)
   USR_INCLUDES += $(XML2_INCLUDE)
   USR_INCLUDES += $(BOOST_INCLUDE)
 
+  ifeq ($(BOOST_USE_STATIC_LINK),YES)
+	USR_CXXFLAGS_Linux += -DBOOST_USE_STATIC_LINK
+	USR_CFLAGS_Linux += -DBOOST_USE_STATIC_LINK
+  endif
 endif
 
-ifeq ($(WITH_HDF5),YES)
-  USR_INCLUDES += $(HDF5_INCLUDE)
-  PROD += test_SWMR_works
-  PROD += test_SWMR_fail
-  PROD += test_SWMR_fail_min
-  test_SWMR_works_SRCS += test_SWMR_works.c
-  test_SWMR_fail_SRCS  += test_SWMR_fail.c
-  test_SWMR_fail_min_SRCS  += test_SWMR_fail_min.c
-endif
+## hdf5-1.10.1 seems to have fixed these SWMR problems
+## We keep the test files but don't  build them for now
+#ifeq ($(WITH_HDF5),YES)
+#  USR_INCLUDES += $(HDF5_INCLUDE)
+#  PROD += test_SWMR_works
+#  PROD += test_SWMR_fail
+#  PROD += test_SWMR_fail_min
+#  test_SWMR_works_SRCS += test_SWMR_works.c
+#  test_SWMR_fail_SRCS  += test_SWMR_fail.c
+#  test_SWMR_fail_min_SRCS  += test_SWMR_fail_min.c
+#endif
 
 include $(TOP)/ADApp/commonDriverMakefile
 

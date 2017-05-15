@@ -4,13 +4,6 @@ include $(TOP)/configure/CONFIG
 #  ADD MACRO DEFINITIONS AFTER THIS LINE
 #=============================
 
-USR_CXXFLAGS_WIN32 += -DWIN32
-USR_CXXFLAGS_WIN32 += -D_VISUALC_
-
-ifeq ($(SHARED_LIBRARIES), YES)
-   USR_CXXFLAGS_WIN32 += -DH5_BUILT_AS_DYNAMIC_LIB
-endif
-
 LIBRARY_IOC += NDPlugin
 DBD         += NDPluginSupport.dbd
 
@@ -39,6 +32,10 @@ INC      += NDPluginFFT.h
 LIB_SRCS += NDPluginFFT.cpp
 LIB_SRCS += fft.c
 
+NDPluginSupport_DBD += NDPluginGather.dbd
+INC      += NDPluginGather.h
+LIB_SRCS += NDPluginGather.cpp
+
 NDPluginSupport_DBD += NDPluginOverlay.dbd
 INC      += NDPluginOverlay.h
 INC      += NDPluginOverlayTextFont.h
@@ -57,6 +54,10 @@ NDPluginSupport_DBD += NDPluginROIStat.dbd
 INC      += NDPluginROIStat.h
 LIB_SRCS += NDPluginROIStat.cpp
 
+NDPluginSupport_DBD += NDPluginScatter.dbd
+INC      += NDPluginScatter.h
+LIB_SRCS += NDPluginScatter.cpp
+
 NDPluginSupport_DBD += NDPluginStats.dbd
 INC      += NDPluginStats.h
 LIB_SRCS += NDPluginStats.cpp
@@ -73,13 +74,15 @@ NDPluginSupport_DBD += NDPluginTransform.dbd
 INC      += NDPluginTransform.h
 LIB_SRCS += NDPluginTransform.cpp
 
-ifeq ($(WITH_XML2),YES)
-  DBD      += NDPosPlugin.dbd
-  INC      += NDPosPlugin.h
-  INC      += NDPosPluginFileReader.h
-  LIB_SRCS += NDPosPlugin.cpp 
-  LIB_SRCS += NDPosPluginFileReader.cpp
-endif
+NDPluginSupport_DBD += NDPluginAttrPlot.dbd
+INC      += NDPluginAttrPlot.h CircularBuffer.h
+LIB_SRCS += NDPluginAttrPlot.cpp
+
+DBD      += NDPosPlugin.dbd
+INC      += NDPosPlugin.h
+INC      += NDPosPluginFileReader.h
+LIB_SRCS += NDPosPlugin.cpp 
+LIB_SRCS += NDPosPluginFileReader.cpp
 
 INC      += NDPluginFile.h
 LIB_SRCS += NDPluginFile.cpp
@@ -158,6 +161,11 @@ endif
 
 NDPlugin_SYS_LIBS_WIN32 += ws2_32
 NDPlugin_SYS_LIBS_WIN32 += user32
+
+# This tests the problem with forward referencing class sortedListElement if it is
+# forwarded referenced in NDPluginDriver.h and defined in NDPluginDriver.cpp
+#LIB_SRCS += test_forward_reference.cpp
+
 
 # The following gets rid of the -fno-implicit-templates flag on vxWorks, 
 # so we get automatic template instantiation.
