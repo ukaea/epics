@@ -4,6 +4,13 @@ include $(TOP)/configure/CONFIG
 #  ADD MACRO DEFINITIONS AFTER THIS LINE
 #=============================
 
+USR_CXXFLAGS_WIN32 += -DWIN32
+USR_CXXFLAGS_WIN32 += -D_VISUALC_
+
+ifeq ($(SHARED_LIBRARIES), YES)
+   USR_CXXFLAGS_WIN32 += -DH5_BUILT_AS_DYNAMIC_LIB
+endif
+
 LIBRARY_IOC += NDPlugin
 DBD         += NDPluginSupport.dbd
 

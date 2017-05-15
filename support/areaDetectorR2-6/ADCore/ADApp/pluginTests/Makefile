@@ -8,6 +8,11 @@ include $(TOP)/configure/CONFIG
 USR_CXXFLAGS_Linux += -DH5_NO_DEPRECATED_SYMBOLS -DH5Dopen_vers=2 -DH5Gcreate_vers=2
 USR_CFLAGS_Linux   += -DH5_NO_DEPRECATED_SYMBOLS -DH5Dopen_vers=2 -DH5Gcreate_vers=2
 
+ifeq ($(SHARED_LIBRARIES), YES)
+   USR_CXXFLAGS_WIN32 += -DH5_BUILT_AS_DYNAMIC_LIB
+   USR_CFLAGS_WIN32 += -DH5_BUILT_AS_DYNAMIC_LIB
+endif
+
 # The plugin-test executable with the actual unittests depend on the boost 
 # unittest framework so we can only build it if boost has been configured
 ifeq ($(WITH_BOOST),YES)
