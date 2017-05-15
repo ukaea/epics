@@ -3646,37 +3646,7 @@ mkdir O.Common
 make -C O.linux-x86_64-debug -f ../Makefile TOP=../../.. \
 	    T_A=linux-x86_64-debug install
 make[4]: Entering directory `/usr/local/epics/support/areaDetector/areaDetectorR2-6/ADCore/ADApp/Db/O.linux-x86_64-debug'
-Installing template file ../../../db/NDArrayBase.template
-mkdir ../../../db
-Installing template file ../../../db/ADBase.template
-Installing template file ../../../db/ADPrefixes.template
-Installing template file ../../../db/NDAttribute.template
-Installing template file ../../../db/NDAttributeN.template
-Installing template file ../../../db/NDCircularBuff.template
-Installing template file ../../../db/NDColorConvert.template
-Installing template file ../../../db/NDFFT.template
-Installing template file ../../../db/NDFile.template
-Installing template file ../../../db/NDFileHDF5.template
-Installing template file ../../../db/NDFileJPEG.template
-Installing template file ../../../db/NDFileMagick.template
-Installing template file ../../../db/NDFileNetCDF.template
-Installing template file ../../../db/NDFileNexus.template
-Installing template file ../../../db/NDFileTIFF.template
-Installing template file ../../../db/NDOverlay.template
-Installing template file ../../../db/NDOverlayN.template
-Installing template file ../../../db/NDPluginBase.template
-Installing template file ../../../db/NDPosPlugin.template
-Installing template file ../../../db/NDProcess.template
-Installing template file ../../../db/NDPva.template
-Installing template file ../../../db/NDROI.template
-Installing template file ../../../db/NDROIStat.template
-Installing template file ../../../db/NDROIStatN.template
-Installing template file ../../../db/NDROIStat8.template
-Installing template file ../../../db/NDStats.template
-Installing template file ../../../db/NDStdArrays.template
-Installing template file ../../../db/NDTimeSeries.template
-Installing template file ../../../db/NDTimeSeriesN.template
-Installing template file ../../../db/NDTransform.template
+make[4]: Nothing to be done for `install'.
 make[4]: Leaving directory `/usr/local/epics/support/areaDetector/areaDetectorR2-6/ADCore/ADApp/Db/O.linux-x86_64-debug'
 make[3]: Leaving directory `/usr/local/epics/support/areaDetector/areaDetectorR2-6/ADCore/ADApp/Db'
 make -C ./ADSrc install 

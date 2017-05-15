@@ -35,6 +35,8 @@ MAGICK_DEBUG=configure,exception
 $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <LocalDebuggerWorkingDirectory>..\iocBoot\iocURLDriver</LocalDebuggerWorkingDirectory>
+    <DevPartner_IsInstrumented>1</DevPartner_IsInstrumented>
+    <DevPartner_Instrumented_Type> /NMbcOn</DevPartner_Instrumented_Type>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
     <LocalDebuggerEnvironment>EPICS_CA_MAX_ARRAY_BYTES=20000000
@@ -53,6 +55,8 @@ $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <LocalDebuggerCommandArguments>st.cmd.win32</LocalDebuggerCommandArguments>
     <LocalDebuggerWorkingDirectory>..\iocBoot\iocURLDriver</LocalDebuggerWorkingDirectory>
+    <DevPartner_IsInstrumented>1</DevPartner_IsInstrumented>
+    <DevPartner_Instrumented_Type> /NMbcOn</DevPartner_Instrumented_Type>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
     <LocalDebuggerWorkingDirectory>..\iocBoot\iocURLDriver</LocalDebuggerWorkingDirectory>
