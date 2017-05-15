@@ -315,6 +315,7 @@ NDFileJPEG::NDFileJPEG(const char *portName, int queueSize, int blockingCallback
 
     createParam(NDFileJPEGQualityString, asynParamInt32, &NDFileJPEGQuality);
     
+    jpeg_set_defaults(&this->jpegInfo);
     jpeg_create_compress(&this->jpegInfo);
     this->jpegInfo.err = jpeg_std_error(&this->jpegErr);
 
