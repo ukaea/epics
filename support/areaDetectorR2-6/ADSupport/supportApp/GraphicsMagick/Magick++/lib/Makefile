@@ -15,6 +15,7 @@ USR_CXXFLAGS_WIN32 += -D_VISUALC_
 
 ifeq ($(SHARED_LIBRARIES),YES)
   USR_CXXFLAGS_WIN32 += -D_DLL
+  USR_CXXFLAGS_WIN32 += -D_MAGICKDLL_
 else
   USR_CXXFLAGS_WIN32 += -D_LIB
 endif
@@ -60,6 +61,7 @@ LIB_SRCS += Thread.cpp
 LIB_SRCS += TypeMetric.cpp
 
 LIB_LIBS += Magick
+LIB_LIBS += coders
 
 LIB_SYS_LIBS_Linux += Xext
 

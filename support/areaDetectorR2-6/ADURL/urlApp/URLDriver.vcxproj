@@ -53,7 +53,7 @@
     <ProjectReference Include="..\..\..\..\base-3.15.5\src\std\dbRecStd.vcxproj">
       <Project>{3b0e3542-cb89-4ffa-b004-eac882b3f277}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\ADCore\ADApp\ADBase.vcxproj">
+    <ProjectReference Include="..\..\ADCore\ADApp\ADSrc\ADBase.vcxproj">
       <Project>{77cbc12c-ae16-40ef-a286-a61535f45a99}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\ADSupport\supportApp\GraphicsMagick\VisualMagick\coders\CORE_coders.vcxproj">
@@ -262,7 +262,7 @@ cd $(ProjectDir)
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-if not exist $(SolutionDir)db md $(SolutionDir)db
+if not exist $(SolutionDir)Db md $(SolutionDir)db
 if not exist $(SolutionDir)iocs/urlIOC/DBD md $(SolutionDir)iocs\urlIOC\DBD
 xcopy /Y /Q /D /R Db\*.template $(SolutionDir)db &gt; NUL
 </Command>
@@ -294,7 +294,7 @@ xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)iocs\urlIOC\dbd
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-if not exist $(SolutionDir)db md $(SolutionDir)db
+if not exist $(SolutionDir)Db md $(SolutionDir)db
 if not exist $(SolutionDir)iocs/urlIOC/DBD md $(SolutionDir)iocs\urlIOC\DBD
 xcopy /Y /Q /D /R Db\*.template $(SolutionDir)db &gt; NUL
 </Command>
@@ -325,7 +325,7 @@ xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)iocs\urlIOC\dbd
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-if not exist $(SolutionDir)db md $(SolutionDir)db
+if not exist $(SolutionDir)Db md $(SolutionDir)db
 if not exist $(SolutionDir)iocs/urlIOC/DBD md $(SolutionDir)iocs\urlIOC\DBD
 xcopy /Y /Q /D /R Db\*.template $(SolutionDir)db &gt; NUL
 </Command>
@@ -356,7 +356,7 @@ xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)iocs\urlIOC\dbd
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-if not exist $(SolutionDir)db md $(SolutionDir)db
+if not exist $(SolutionDir)Db md $(SolutionDir)db
 if not exist $(SolutionDir)iocs/urlIOC/DBD md $(SolutionDir)iocs\urlIOC\DBD
 xcopy /Y /Q /D /R Db\*.template $(SolutionDir)db &gt; NUL
 </Command>
@@ -390,7 +390,7 @@ xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)iocs\urlIOC\dbd
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-if not exist $(SolutionDir)db md $(SolutionDir)db
+if not exist $(SolutionDir)Db md $(SolutionDir)db
 if not exist $(SolutionDir)iocs/urlIOC/DBD md $(SolutionDir)iocs\urlIOC\DBD
 xcopy /Y /Q /D /R Db\*.template $(SolutionDir)db &gt; NUL
 </Command>
@@ -424,7 +424,7 @@ xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)iocs\urlIOC\dbd
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-if not exist $(SolutionDir)db md $(SolutionDir)db
+if not exist $(SolutionDir)Db md $(SolutionDir)db
 if not exist $(SolutionDir)iocs/urlIOC/DBD md $(SolutionDir)iocs\urlIOC\DBD
 xcopy /Y /Q /D /R Db\*.template $(SolutionDir)db &gt; NUL
 </Command>
@@ -459,7 +459,7 @@ xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)iocs\urlIOC\dbd
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-if not exist $(SolutionDir)db md $(SolutionDir)db
+if not exist $(SolutionDir)Db md $(SolutionDir)db
 if not exist $(SolutionDir)iocs/urlIOC/DBD md $(SolutionDir)iocs\urlIOC\DBD
 xcopy /Y /Q /D /R Db\*.template $(SolutionDir)db &gt; NUL
 </Command>
@@ -494,7 +494,7 @@ xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)iocs\urlIOC\dbd
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-if not exist $(SolutionDir)db md $(SolutionDir)db
+if not exist $(SolutionDir)Db md $(SolutionDir)db
 if not exist $(SolutionDir)iocs/urlIOC/DBD md $(SolutionDir)iocs\urlIOC\DBD
 xcopy /Y /Q /D /R Db\*.template $(SolutionDir)db &gt; NUL
 </Command>

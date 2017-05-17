@@ -1,3 +1,7 @@
+if "%EPICS_HOST_ARCH%"=="" (
+	call %~dp0\..\..\..\base\startup\win32.bat x86-debug-DLL
+)
+
 pushd %~dp0..\..\..\base
 make
 popd

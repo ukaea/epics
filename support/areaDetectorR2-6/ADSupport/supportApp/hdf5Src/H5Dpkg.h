@@ -5,12 +5,10 @@
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
- * the files COPYING and Copyright.html.  COPYING can be found at the root   *
- * of the source code distribution tree; Copyright.html can be found at the  *
- * root level of an installed copy of the electronic HDF5 document set and   *
- * is linked from the top-level documents page.  It can also be found at     *
- * http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have          *
- * access to either file, you may request a copy from help@hdfgroup.org.     *
+ * the COPYING file, which can be found at the root of the source code       *
+ * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * If you do not have access to either file, you may request a copy from     *
+ * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*
@@ -459,8 +457,6 @@ typedef struct H5D_shared_t {
     H5D_dcpl_cache_t    dcpl_cache;     /* Cached DCPL values */
     H5O_layout_t        layout;         /* Data layout                  */
     hbool_t             checked_filters;/* TRUE if dataset passes can_apply check */
-    H5O_t              *oh;             /* Pointer to dataset's object header, pinned */
-    hbool_t             is_swimming;    /* TRUE if dataset has SWMR access enabled */
 
     /* Cached dataspace info */
     unsigned            ndims;          /* The dataset's dataspace rank */
@@ -478,8 +474,7 @@ typedef struct H5D_shared_t {
         H5D_rdcc_t      chunk;          /* Information about chunked data */
     } cache;
 
-    H5D_append_flush_t  append_flush;	/* Append flush property information */
-
+    H5D_append_flush_t  append_flush;   /* Append flush property information */
     char                *extfile_prefix; /* expanded external file prefix */
 } H5D_shared_t;
 
@@ -565,7 +560,6 @@ H5_DLLVAR const H5D_chunk_ops_t H5D_COPS_BT2[1];
 /* The v2 B-tree class for indexing chunked datasets with >1 unlimited dimensions */
 H5_DLLVAR const H5B2_class_t H5D_BT2[1];
 H5_DLLVAR const H5B2_class_t H5D_BT2_FILT[1];
-
 
 
 /******************************/
@@ -781,6 +775,7 @@ H5_DLL htri_t H5D__mpio_opt_possible(const H5D_io_info_t *io_info,
 H5_DLL herr_t H5D__layout_version_test(hid_t did, unsigned *version);
 H5_DLL herr_t H5D__layout_contig_size_test(hid_t did, hsize_t *size);
 H5_DLL herr_t H5D__layout_idx_type_test(hid_t did, H5D_chunk_index_t *idx_type);
+H5_DLL herr_t H5D__layout_type_test(hid_t did, H5D_layout_t *layout_type);
 H5_DLL herr_t H5D__current_cache_size_test(hid_t did, size_t *nbytes_used, int *nused);
 #endif /* H5D_TESTING */
 

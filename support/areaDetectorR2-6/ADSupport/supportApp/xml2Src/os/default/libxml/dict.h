@@ -20,8 +20,14 @@
 /*
  * The dictionary.
  */
-__XML_EXTERNC typedef struct _xmlDict xmlDict;
-__XML_EXTERNC typedef xmlDict *xmlDictPtr;
+#ifdef __cplusplus
+extern "C" {
+#endif
+  typedef struct _xmlDict xmlDict;
+  typedef xmlDict *xmlDictPtr;
+#ifdef __cplusplus
+}
+#endif
 
 #include <limits.h>
 #include <libxml/xmlversion.h>

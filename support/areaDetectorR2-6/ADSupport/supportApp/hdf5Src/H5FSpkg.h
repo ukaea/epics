@@ -5,12 +5,10 @@
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
- * the files COPYING and Copyright.html.  COPYING can be found at the root   *
- * of the source code distribution tree; Copyright.html can be found at the  *
- * root level of an installed copy of the electronic HDF5 document set and   *
- * is linked from the top-level documents page.  It can also be found at     *
- * http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have          *
- * access to either file, you may request a copy from help@hdfgroup.org.     *
+ * the COPYING file, which can be found at the root of the source code       *
+ * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * If you do not have access to either file, you may request a copy from     *
+ * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*
@@ -65,18 +63,18 @@
                                                                               \
     /* Free space header specific fields */                                   \
     + 1 /* Client ID */                                                       \
-    + H5F_SIZEOF_SIZE(f) /* Total free space tracked */                       \
-    + H5F_SIZEOF_SIZE(f) /* Total # of sections tracked */                    \
-    + H5F_SIZEOF_SIZE(f) /* # of serializable sections tracked */             \
-    + H5F_SIZEOF_SIZE(f) /* # of ghost sections tracked */                    \
+    + (unsigned)H5F_SIZEOF_SIZE(f) /* Total free space tracked */                       \
+    + (unsigned)H5F_SIZEOF_SIZE(f) /* Total # of sections tracked */                    \
+    + (unsigned)H5F_SIZEOF_SIZE(f) /* # of serializable sections tracked */             \
+    + (unsigned)H5F_SIZEOF_SIZE(f) /* # of ghost sections tracked */                    \
     + 2 /* Number of section classes */                                       \
     + 2 /* Shrink percent */                                                  \
     + 2 /* Expand percent */                                                  \
     + 2 /* Size of address space for sections (log2 of value) */              \
-    + H5F_SIZEOF_SIZE(f) /* Max. size of section to track */                  \
-    + H5F_SIZEOF_ADDR(f) /* Address of serialized free space sections */      \
-    + H5F_SIZEOF_SIZE(f) /* Size of serialized free space sections used */    \
-    + H5F_SIZEOF_SIZE(f) /* Allocated size of serialized free space sections */ \
+    + (unsigned)H5F_SIZEOF_SIZE(f) /* Max. size of section to track */                  \
+    + (unsigned)H5F_SIZEOF_ADDR(f) /* Address of serialized free space sections */      \
+    + (unsigned)H5F_SIZEOF_SIZE(f) /* Size of serialized free space sections used */    \
+    + (unsigned)H5F_SIZEOF_SIZE(f) /* Allocated size of serialized free space sections */ \
     )
 
 /* Size of the free space serialized sections on disk */
@@ -85,7 +83,7 @@
     H5FS_METADATA_PREFIX_SIZE                                                 \
                                                                               \
     /* Free space serialized sections specific fields */                      \
-    + H5F_SIZEOF_ADDR(f) /* Address of free space header for these sections */ \
+    + (unsigned)H5F_SIZEOF_ADDR(f) /* Address of free space header for these sections */ \
     )
 
 
@@ -187,8 +185,8 @@ struct H5FS_t {
                                 /* must be either H5C__NO_FLAGS_SET (i.e r/w)  */
 				/* or H5AC__READ_ONLY_FLAG (i.e. r/o).         */
     size_t max_cls_serial_size; /* Max. additional size of serialized form of section */
-    hsize_t    threshold;      	/* Threshold for alignment              */
     hsize_t    alignment;      	/* Alignment                            */
+    hsize_t    align_thres;     /* Threshold for alignment              */
 
 
 /* Memory data structures (not stored directly) */
@@ -199,12 +197,6 @@ struct H5FS_t {
 /*****************************/
 /* Package Private Variables */
 /*****************************/
-
-/* H5FS header inherits cache-like properties from H5AC */
-H5_DLLVAR const H5AC_class_t H5AC_FSPACE_HDR[1];
-
-/* H5FS section info inherits cache-like properties from H5AC */
-H5_DLLVAR const H5AC_class_t H5AC_FSPACE_SINFO[1];
 
 /* Declare a free list to manage the H5FS_node_t struct */
 H5FL_EXTERN(H5FS_node_t);

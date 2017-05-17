@@ -15,12 +15,13 @@ ifeq ($(WITH_XML2),YES)
     ifeq ($(WITH_ZLIB),YES)
       ifeq ($(ZLIB_EXTERNAL),NO)
         USR_CFLAGS_WIN32 += -DHAVE_ZLIB_H
+        LIB_LIBS += zlib
       endif # ($(ZLIB_EXTERNAL),NO)
     endif # ($(WITH_ZLIB),YES)
 
     USR_CFLAGS_WIN32 += -DWIN32
     ifeq ($(SHARED_LIBRARIES),YES)
-      USR_CFLAGS_WIN32 += -DPIC -DNOLIBTOOL
+      USR_CFLAGS += -DPIC -DNOLIBTOOL
     endif
     xml2_SYS_LIBS_WIN32 += ws2_32
 

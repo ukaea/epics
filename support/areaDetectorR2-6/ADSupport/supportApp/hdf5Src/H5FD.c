@@ -5,12 +5,10 @@
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
- * the files COPYING and Copyright.html.  COPYING can be found at the root   *
- * of the source code distribution tree; Copyright.html can be found at the  *
- * root level of an installed copy of the electronic HDF5 document set and   *
- * is linked from the top-level documents page.  It can also be found at     *
- * http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have          *
- * access to either file, you may request a copy from help@hdfgroup.org.     *
+ * the COPYING file, which can be found at the root of the source code       *
+ * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * If you do not have access to either file, you may request a copy from     *
+ * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*
@@ -498,8 +496,7 @@ H5FD_sb_encode(H5FD_t *file, char *name/*out*/, uint8_t *buf)
     FUNC_ENTER_NOAPI(FAIL)
 
     HDassert(file && file->cls);
-    if(file->cls->sb_encode &&
-            (file->cls->sb_encode)(file, name/*out*/, buf/*out*/) < 0)
+    if(file->cls->sb_encode && (file->cls->sb_encode)(file, name/*out*/, buf/*out*/) < 0)
 	HGOTO_ERROR(H5E_VFL, H5E_CANTINIT, FAIL, "driver sb_encode request failed")
 
 done:
@@ -811,6 +808,9 @@ H5FD_open(const char *name, unsigned flags, hid_t fapl_id, haddr_t maxaddr)
     if(NULL == (file = (driver->open)(name, flags, fapl_id, maxaddr)))
 	HGOTO_ERROR(H5E_VFL, H5E_CANTINIT, NULL, "open failed")
 
+    /* Set the file access flags */
+    file->access_flags = flags;
+
     /*
      * Fill in public fields. We must increment the reference count on the
      * driver ID to prevent it from being freed while this file is open.
@@ -839,10 +839,6 @@ H5FD_open(const char *name, unsigned flags, hid_t fapl_id, haddr_t maxaddr)
     /* Start with base address set to 0 */
     /* (This will be changed later, when the superblock is located) */
     file->base_addr = 0;
-
-    /* Check for SWMR reader access */
-    if(flags & H5F_ACC_SWMR_READ)
-        file->swmr_read = TRUE;
 
     /* Set return value */
     ret_value = file;
@@ -1532,7 +1528,7 @@ herr_t
 H5FDread(H5FD_t *file, H5FD_mem_t type, hid_t dxpl_id, haddr_t addr, size_t size,
 	 void *buf/*out*/)
 {
-    H5P_genplist_t *dxpl;               /* DXPL object */
+    H5FD_io_info_t fdio_info;           /* File driver I/O object */
     herr_t      ret_value = SUCCEED;    /* Return value */
 
     FUNC_ENTER_API(FAIL)
@@ -1551,13 +1547,24 @@ H5FDread(H5FD_t *file, H5FD_mem_t type, hid_t dxpl_id, haddr_t addr, size_t size
     if(!buf)
 	HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "null result buffer")
 
-    /* Get the DXPL plist object for DXPL ID */
-    if(NULL == (dxpl = (H5P_genplist_t *)H5I_object(dxpl_id)))
-        HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "can't get property list")
+    /* Set up the file driver I/O info object */
+    fdio_info.file = file;
+    if(H5FD_MEM_DRAW == type) {
+        if(NULL == (fdio_info.meta_dxpl = (H5P_genplist_t *)H5I_object(H5AC_ind_read_dxpl_id)))
+            HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "can't get property list")
+        if(NULL == (fdio_info.raw_dxpl = (H5P_genplist_t *)H5I_object(dxpl_id)))
+            HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "can't get property list")
+    } /* end if */
+    else {
+        if(NULL == (fdio_info.meta_dxpl = (H5P_genplist_t *)H5I_object(dxpl_id)))
+            HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "can't get property list")
+        if(NULL == (fdio_info.raw_dxpl = (H5P_genplist_t *)H5I_object(H5AC_rawdata_dxpl_id)))
+            HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "can't get property list")
+    } /* end else */
 
     /* Do the real work */
     /* (Note compensating for base address addition in internal routine) */
-    if(H5FD_read(file, dxpl, type, addr - file->base_addr, size, buf) < 0)
+    if(H5FD_read(&fdio_info, type, addr - file->base_addr, size, buf) < 0)
 	HGOTO_ERROR(H5E_VFL, H5E_READERROR, FAIL, "file read request failed")
 
 done:
@@ -1586,7 +1593,7 @@ herr_t
 H5FDwrite(H5FD_t *file, H5FD_mem_t type, hid_t dxpl_id, haddr_t addr, size_t size,
 	  const void *buf)
 {
-    H5P_genplist_t *dxpl;               /* DXPL object */
+    H5FD_io_info_t fdio_info;           /* File driver I/O object */
     herr_t      ret_value = SUCCEED;    /* Return value */
 
     FUNC_ENTER_API(FAIL)
@@ -1604,13 +1611,24 @@ H5FDwrite(H5FD_t *file, H5FD_mem_t type, hid_t dxpl_id, haddr_t addr, size_t siz
     if(!buf)
 	HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "null buffer")
 
-    /* Get the DXPL plist object for DXPL ID */
-    if(NULL == (dxpl = (H5P_genplist_t *)H5I_object(dxpl_id)))
-        HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "can't get property list")
+    /* Set up the file driver I/O info object */
+    fdio_info.file = file;
+    if(H5FD_MEM_DRAW == type) {
+        if(NULL == (fdio_info.meta_dxpl = (H5P_genplist_t *)H5I_object(H5AC_ind_read_dxpl_id)))
+            HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "can't get property list")
+        if(NULL == (fdio_info.raw_dxpl = (H5P_genplist_t *)H5I_object(dxpl_id)))
+            HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "can't get property list")
+    } /* end if */
+    else {
+        if(NULL == (fdio_info.meta_dxpl = (H5P_genplist_t *)H5I_object(dxpl_id)))
+            HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "can't get property list")
+        if(NULL == (fdio_info.raw_dxpl = (H5P_genplist_t *)H5I_object(H5AC_rawdata_dxpl_id)))
+            HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "can't get property list")
+    } /* end else */
 
     /* The real work */
     /* (Note compensating for base address addition in internal routine) */
-    if(H5FD_write(file, dxpl, type, addr - file->base_addr, size, buf) < 0)
+    if(H5FD_write(&fdio_info, type, addr - file->base_addr, size, buf) < 0)
 	HGOTO_ERROR(H5E_VFL, H5E_WRITEERROR, FAIL, "file write request failed")
 
 done:
@@ -1638,12 +1656,12 @@ done:
  *-------------------------------------------------------------------------
  */
 herr_t
-H5FDflush(H5FD_t *file, hid_t dxpl_id, unsigned closing)
+H5FDflush(H5FD_t *file, hid_t dxpl_id, hbool_t closing)
 {
     herr_t ret_value = SUCCEED;       /* Return value */
 
     FUNC_ENTER_API(FAIL)
-    H5TRACE3("e", "*xiIu", file, dxpl_id, closing);
+    H5TRACE3("e", "*xib", file, dxpl_id, closing);
 
     /* Check args */
     if(!file || !file->cls)
@@ -1677,7 +1695,7 @@ done:
  *-------------------------------------------------------------------------
  */
 herr_t
-H5FD_flush(H5FD_t *file, hid_t dxpl_id, unsigned closing)
+H5FD_flush(H5FD_t *file, hid_t dxpl_id, hbool_t closing)
 {
     herr_t      ret_value = SUCCEED;       /* Return value */
 
@@ -2034,3 +2052,27 @@ H5FD_get_base_addr(const H5FD_t *file)
     FUNC_LEAVE_NOAPI(file->base_addr)
 } /* end H5FD_get_base_addr() */
 
+
+/*--------------------------------------------------------------------------
+ * Function:    H5FD_set_paged_aggr
+ *
+ * Purpose:     Set "paged_aggr" for the file.
+ *
+ * Return:      Non-negative if succeed; negative if fails.
+ *
+ * Programmer:  Vailin Choi; April 2013
+ *
+ *--------------------------------------------------------------------------
+ */
+herr_t
+H5FD_set_paged_aggr(H5FD_t *file, hbool_t paged)
+{
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
+
+    HDassert(file);
+
+    /* Indicate whether paged aggregation for handling file space is enabled or not */
+    file->paged_aggr = paged;
+
+    FUNC_LEAVE_NOAPI(SUCCEED)
+} /* end H5FD_set_paged_aggr() */

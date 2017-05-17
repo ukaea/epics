@@ -5,12 +5,10 @@
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
- * the files COPYING and Copyright.html.  COPYING can be found at the root   *
- * of the source code distribution tree; Copyright.html can be found at the  *
- * root level of an installed copy of the electronic HDF5 document set and   *
- * is linked from the top-level documents page.  It can also be found at     *
- * http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have          *
- * access to either file, you may request a copy from help@hdfgroup.org.     *
+ * the COPYING file, which can be found at the root of the source code       *
+ * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * If you do not have access to either file, you may request a copy from     *
+ * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /****************/
@@ -155,10 +153,6 @@ H5O__dset_free_copy_file_udata(void *_udata)
     /* Release copy of dataset's filter pipeline, if it was set */
     if(udata->common.src_pline)
         H5O_msg_free(H5O_PLINE_ID, udata->common.src_pline);
-
-    /* Release copy of dataset's layout, if it was set */
-    if(udata->src_layout)
-        H5O_msg_free(H5O_LAYOUT_ID, udata->src_layout);
 
     /* Release space for 'copy file' user data */
     udata = H5FL_FREE(H5D_copy_file_ud_t, udata);
@@ -465,7 +459,7 @@ H5O__dset_flush(void *_obj_ptr, hid_t dxpl_id)
         HGOTO_ERROR(H5E_DATASET, H5E_BADTYPE, FAIL, "not a dataset")
 
     if(H5D__flush_real(dset, dxpl_id) < 0)
-	HDONE_ERROR(H5E_DATASET, H5E_WRITEERROR, FAIL, "unable to flush cached dataset info")
+        HDONE_ERROR(H5E_DATASET, H5E_WRITEERROR, FAIL, "unable to flush cached dataset info")
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)

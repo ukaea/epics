@@ -5,12 +5,10 @@
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
- * the files COPYING and Copyright.html.  COPYING can be found at the root   *
- * of the source code distribution tree; Copyright.html can be found at the  *
- * root level of an installed copy of the electronic HDF5 document set and   *
- * is linked from the top-level documents page.  It can also be found at     *
- * http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have          *
- * access to either file, you may request a copy from help@hdfgroup.org.     *
+ * the COPYING file, which can be found at the root of the source code       *
+ * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * If you do not have access to either file, you may request a copy from     *
+ * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /****************/
@@ -308,37 +306,37 @@ done:
 
 
 /*-------------------------------------------------------------------------
- * Function:	H5Dclose
+ * Function:    H5Dclose
  *
- * Purpose:	Closes access to a dataset (DATASET_ID) and releases
- *		resources used by it. It is illegal to subsequently use that
- *		same dataset ID in calls to other dataset functions.
+ * Purpose:     Closes access to a dataset (DATASET_ID) and releases
+ *              resources used by it. It is illegal to subsequently use that
+ *              same dataset ID in calls to other dataset functions.
  *
- * Return:	Non-negative on success/Negative on failure
+ * Return:      Non-negative on success/Negative on failure
  *
- * Programmer:	Robb Matzke
- *		Thursday, December  4, 1997
+ * Programmer:  Robb Matzke
+ *              Thursday, December  4, 1997
  *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5Dclose(hid_t dset_id)
 {
-    herr_t       ret_value = SUCCEED;   /* Return value */
+    herr_t  ret_value = SUCCEED;    /* Return value                     */
 
     FUNC_ENTER_API(FAIL)
     H5TRACE1("e", "i", dset_id);
 
     /* Check args */
     if(NULL == H5I_object_verify(dset_id, H5I_DATASET))
-	HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a dataset")
+        HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a dataset")
 
     /*
      * Decrement the counter on the dataset.  It will be freed if the count
      * reaches zero.  
      */
     if(H5I_dec_app_ref_always_close(dset_id) < 0)
-	HGOTO_ERROR(H5E_DATASET, H5E_CANTDEC, FAIL, "can't decrement count on dataset ID")
+        HGOTO_ERROR(H5E_DATASET, H5E_CANTDEC, FAIL, "can't decrement count on dataset ID")
 
 done:
     FUNC_LEAVE_API(ret_value)
@@ -379,7 +377,7 @@ H5Dget_space(hid_t dset_id)
 
 done:
     FUNC_LEAVE_API(ret_value)
-}
+} /* end H5Dget_space() */
 
 
 /*-------------------------------------------------------------------------
@@ -415,7 +413,7 @@ H5Dget_space_status(hid_t dset_id, H5D_space_status_t *allocation)
 
 done:
     FUNC_LEAVE_API(ret_value)
-}
+} /* H5Dget_space_status() */
 
 
 /*-------------------------------------------------------------------------
@@ -916,7 +914,7 @@ H5Dset_extent(hid_t dset_id, const hsize_t size[])
 done:
         FUNC_LEAVE_API(ret_value)
 } /* end H5Dset_extent() */
- 
+
 
 /*-------------------------------------------------------------------------
  * Function:    H5Dflush
@@ -1001,7 +999,8 @@ done:
  *
  * Return:      Non-negative on success, negative on failure
  *
- * Programmer:  Vailin Choi; Feb 2015
+ * Programmer:  Vailin Choi
+ *              Feb 2015
  *
  *-------------------------------------------------------------------------
  */
@@ -1021,24 +1020,26 @@ H5Dformat_convert(hid_t dset_id)
     switch(dset->shared->layout.type) {
 	case H5D_CHUNKED:
 	    /* Convert the chunk indexing type to version 1 B-tree if not */
-	    if(dset->shared->layout.u.chunk.idx_type != H5D_CHUNK_IDX_BTREE) {
-		    if((H5D__format_convert(dset, H5AC_ind_read_dxpl_id)) < 0)
-		        HGOTO_ERROR(H5E_DATASET, H5E_CANTLOAD, FAIL, "unable to downgrade chunk indexing type for dataset")
-	    }
+	    if(dset->shared->layout.u.chunk.idx_type != H5D_CHUNK_IDX_BTREE)
+                if((H5D__format_convert(dset, H5AC_ind_read_dxpl_id)) < 0)
+                    HGOTO_ERROR(H5E_DATASET, H5E_CANTLOAD, FAIL, "unable to downgrade chunk indexing type for dataset")
 	    break;
 
 	case H5D_CONTIGUOUS:
 	case H5D_COMPACT:
 	    /* Downgrade the layout version to 3 if greater than 3 */
-	    if(dset->shared->layout.version > H5O_LAYOUT_VERSION_DEFAULT) {
-		    if((H5D__format_convert(dset, H5AC_ind_read_dxpl_id)) < 0)
-		        HGOTO_ERROR(H5E_DATASET, H5E_CANTLOAD, FAIL, "unable to downgrade layout version for dataset")
-	    }
+	    if(dset->shared->layout.version > H5O_LAYOUT_VERSION_DEFAULT)
+                if((H5D__format_convert(dset, H5AC_ind_read_dxpl_id)) < 0)
+                    HGOTO_ERROR(H5E_DATASET, H5E_CANTLOAD, FAIL, "unable to downgrade layout version for dataset")
 	    break;
 
 	case H5D_VIRTUAL:
 	    /* Nothing to do even though layout is version 4 */
 	    break;
+
+        case H5D_LAYOUT_ERROR:
+        case H5D_NLAYOUTS:
+            HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "invalid dataset layout type")
 
 	default: 
 	    HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "unknown dataset layout type")
@@ -1056,7 +1057,8 @@ done:
  *
  * Return:      Non-negative on success, negative on failure
  *
- * Programmer:  Vailin Choi; Feb 2015
+ * Programmer:  Vailin Choi
+ *              Feb 2015
  *
  *-------------------------------------------------------------------------
  */
@@ -1077,9 +1079,11 @@ H5Dget_chunk_index_type(hid_t did, H5D_chunk_index_t *idx_type)
     if(dset->shared->layout.type != H5D_CHUNKED)
         HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "dataset is not chunked")
 
-    if(idx_type) /* Get the chunk indexing type */
+    /* Get the chunk indexing type */
+    if(idx_type)
         *idx_type = dset->shared->layout.u.chunk.idx_type;
 
 done:
     FUNC_LEAVE_API(ret_value)
 } /* H5Dget_chunk_index_type() */
+

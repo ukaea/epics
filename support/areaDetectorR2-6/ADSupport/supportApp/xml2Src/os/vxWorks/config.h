@@ -3,6 +3,8 @@
 
 /* Need iocLib.h on vxWorks for dup() function */
 #include <ioLib.h>
+/* Need version.h to determine what version of vxWorks this is */
+#include <version.h>
 
 /* Type cast for the gethostbyname() argument */
 #define GETHOSTBYNAME_ARG_CAST /**/
@@ -174,8 +176,32 @@
 /* Define to 1 if you have the <signal.h> header file. */
 #define HAVE_SIGNAL_H 1
 
-/* Define to 1 if you have the `snprintf' function. */
-#define HAVE_SNPRINTF 1
+#if _WRS_VXWORKS_MAJOR > 5
+
+  /* Define to 1 if you have the `snprintf' function. */
+  #define HAVE_SNPRINTF 1
+
+  /* Define to 1 if you have the `vsnprintf' function. */
+  #define HAVE_VSNPRINTF 1
+
+  /* Whether va_copy() is available */
+  #define HAVE_VA_COPY 1
+
+  /* Define to 1 if you have the <stdint.h> header file. */
+  #define HAVE_STDINT_H 1
+
+#else
+
+  /* vxWorks 5 */
+  #include <epicsStdio.h>
+
+  /* Whether __va_copy() is available */
+  #define HAVE___VA_COPY 1
+  
+  #define snprintf epicsSnprintf
+  #define vsnprintf epicsVsnprintf
+
+#endif
 
 /* Define to 1 if you have the `sprintf' function. */
 #define HAVE_SPRINTF 1
@@ -191,9 +217,6 @@
 
 /* Define to 1 if you have the <stdarg.h> header file. */
 #define HAVE_STDARG_H 1
-
-/* Define to 1 if you have the <stdint.h> header file. */
-#define HAVE_STDINT_H 1
 
 /* Define to 1 if you have the <stdlib.h> header file. */
 #define HAVE_STDLIB_H 1
@@ -254,14 +277,8 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #define HAVE_UNISTD_H 1
 
-/* Whether va_copy() is available */
-#define HAVE_VA_COPY 1
-
 /* Define to 1 if you have the `vfprintf' function. */
 #define HAVE_VFPRINTF 1
-
-/* Define to 1 if you have the `vsnprintf' function. */
-#define HAVE_VSNPRINTF 1
 
 /* Define to 1 if you have the `vsprintf' function. */
 #define HAVE_VSPRINTF 1
@@ -273,9 +290,6 @@
 
 /* Define to 1 if you have the `_stat' function. */
 /* #undef HAVE__STAT */
-
-/* Whether __va_copy() is available */
-/* #undef HAVE___VA_COPY */
 
 /* Define as const if the declaration of iconv() needs const. */
 #define ICONV_CONST 

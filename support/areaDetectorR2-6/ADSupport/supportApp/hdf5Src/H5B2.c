@@ -5,12 +5,10 @@
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
- * the files COPYING and Copyright.html.  COPYING can be found at the root   *
- * of the source code distribution tree; Copyright.html can be found at the  *
- * root level of an installed copy of the electronic HDF5 document set and   *
- * is linked from the top-level documents page.  It can also be found at     *
- * http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have          *
- * access to either file, you may request a copy from help@hdfgroup.org.     *
+ * the COPYING file, which can be found at the root of the source code       *
+ * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * If you do not have access to either file, you may request a copy from     *
+ * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*-------------------------------------------------------------------------
@@ -290,7 +288,7 @@ H5B2_insert(H5B2_t *bt2, hid_t dxpl_id, void *udata)
     hdr = bt2->hdr;
 
     /* Insert the record */
-    if(H5B2__insert_hdr(hdr, dxpl_id, udata) < 0)
+    if(H5B2__insert(hdr, dxpl_id, udata) < 0)
         HGOTO_ERROR(H5E_BTREE, H5E_CANTINSERT, FAIL, "unable to insert record into B-tree")
 
 done:
@@ -355,7 +353,7 @@ H5B2_update(H5B2_t *bt2, hid_t dxpl_id, void *udata, H5B2_modify_t op, void *op_
 
     /* Use insert algorithm if nodes to leaf full */
     if(H5B2_UPDATE_INSERT_CHILD_FULL == status) {
-        if(H5B2__insert_hdr(hdr, dxpl_id, udata) < 0)
+        if(H5B2__insert(hdr, dxpl_id, udata) < 0)
             HGOTO_ERROR(H5E_BTREE, H5E_CANTINSERT, FAIL, "unable to insert record into B-tree")
     } /* end if */
     else if(H5B2_UPDATE_SHADOW_DONE == status || H5B2_UPDATE_INSERT_DONE == status) {
@@ -512,22 +510,22 @@ H5B2_find(H5B2_t *bt2, hid_t dxpl_id, void *udata, H5B2_found_t op,
             HGOTO_ERROR(H5E_BTREE, H5E_CANTCOMPARE, FAIL, "can't compare btree2 records")
         if(cmp < 0)
             HGOTO_DONE(FALSE) 	/* Less than the least record--not found */ 
-        else if(cmp == 0) { /* Record is found */
-	        if(op && (op)(hdr->min_native_rec, op_data) < 0)
+	else if(cmp == 0) { /* Record is found */
+	    if(op && (op)(hdr->min_native_rec, op_data) < 0)
                 HGOTO_ERROR(H5E_BTREE, H5E_NOTFOUND, FAIL, "'found' callback failed for B-tree find operation")
-	        HGOTO_DONE(TRUE)
-	    } /* end if */
+	    HGOTO_DONE(TRUE)
+	} /* end if */
     } /* end if */
     if(hdr->max_native_rec != NULL) {
-	    if((hdr->cls->compare)(udata, hdr->max_native_rec, &cmp) < 0)
+	if((hdr->cls->compare)(udata, hdr->max_native_rec, &cmp) < 0)
             HGOTO_ERROR(H5E_BTREE, H5E_CANTCOMPARE, FAIL, "can't compare btree2 records")
         if(cmp > 0)
             HGOTO_DONE(FALSE) 	/* Less than the least record--not found */ 
-	    else if(cmp == 0) { /* Record is found */
-	        if(op && (op)(hdr->max_native_rec, op_data) < 0)
+	else if(cmp == 0) { /* Record is found */
+	    if(op && (op)(hdr->max_native_rec, op_data) < 0)
                 HGOTO_ERROR(H5E_BTREE, H5E_NOTFOUND, FAIL, "'found' callback failed for B-tree find operation")
-	        HGOTO_DONE(TRUE)
-	    } /* end if */
+	    HGOTO_DONE(TRUE)
+	} /* end if */
     } /* end if */
 
     /* Current depth of the tree */
@@ -545,7 +543,7 @@ H5B2_find(H5B2_t *bt2, hid_t dxpl_id, void *udata, H5B2_found_t op,
         H5B2_node_ptr_t next_node_ptr;      /* Node pointer info for next node */
 
         /* Lock B-tree current node */
-        if(NULL == (internal = H5B2__protect_internal(hdr, dxpl_id, curr_node_ptr.addr, parent, curr_node_ptr.node_nrec, depth, H5AC__READ_ONLY_FLAG)))
+        if(NULL == (internal = H5B2__protect_internal(hdr, dxpl_id, parent, &curr_node_ptr, depth, FALSE, H5AC__READ_ONLY_FLAG)))
             HGOTO_ERROR(H5E_BTREE, H5E_CANTPROTECT, FAIL, "unable to load B-tree internal node")
 
         /* Unpin parent if necessary */
@@ -556,8 +554,7 @@ H5B2_find(H5B2_t *bt2, hid_t dxpl_id, void *udata, H5B2_found_t op,
         } /* end if */
 
         /* Locate node pointer for child */
-        if(H5B2__locate_record(hdr->cls, internal->nrec, hdr->nat_off, internal->int_native, 
-                               udata, &idx, &cmp) < 0) {
+        if(H5B2__locate_record(hdr->cls, internal->nrec, hdr->nat_off, internal->int_native, udata, &idx, &cmp) < 0) {
             /* Unlock current node before failing */
             H5AC_unprotect(hdr->f, dxpl_id, H5AC_BT2_INT, curr_node_ptr.addr, internal, H5AC__NO_FLAGS_SET);
             HGOTO_ERROR(H5E_BTREE, H5E_CANTCOMPARE, FAIL, "can't compare btree2 records")
@@ -624,7 +621,7 @@ H5B2_find(H5B2_t *bt2, hid_t dxpl_id, void *udata, H5B2_found_t op,
         H5B2_leaf_t *leaf;          /* Pointer to leaf node in B-tree */
 
         /* Lock B-tree leaf node */
-        if(NULL == (leaf = H5B2__protect_leaf(hdr, dxpl_id, curr_node_ptr.addr, parent, curr_node_ptr.node_nrec, H5AC__READ_ONLY_FLAG)))
+        if(NULL == (leaf = H5B2__protect_leaf(hdr, dxpl_id, parent, &curr_node_ptr, FALSE, H5AC__READ_ONLY_FLAG)))
             HGOTO_ERROR(H5E_BTREE, H5E_CANTPROTECT, FAIL, "unable to protect B-tree leaf node")
 
         /* Unpin parent if necessary */
@@ -635,12 +632,11 @@ H5B2_find(H5B2_t *bt2, hid_t dxpl_id, void *udata, H5B2_found_t op,
         } /* end if */
 
         /* Locate record */
-        if(H5B2__locate_record(hdr->cls, leaf->nrec, hdr->nat_off, leaf->leaf_native, 
-                               udata, &idx, &cmp) < 0) {
-            /* unlock current node before failing */
+        if(H5B2__locate_record(hdr->cls, leaf->nrec, hdr->nat_off, leaf->leaf_native, udata, &idx, &cmp) < 0) {
+            /* Unlock current node before failing */
             H5AC_unprotect(hdr->f, dxpl_id, H5AC_BT2_LEAF, curr_node_ptr.addr, leaf, H5AC__NO_FLAGS_SET);
             HGOTO_ERROR(H5E_BTREE, H5E_CANTCOMPARE, FAIL, "can't compare btree2 records")
-        }
+        } /* end if */
 
         if(cmp != 0) {
             /* Unlock leaf node */
@@ -767,7 +763,7 @@ H5B2_index(H5B2_t *bt2, hid_t dxpl_id, H5_iter_order_t order, hsize_t idx,
         unsigned u;                         /* Local index variable */
 
         /* Lock B-tree current node */
-        if(NULL == (internal = H5B2__protect_internal(hdr, dxpl_id, curr_node_ptr.addr, parent, curr_node_ptr.node_nrec, depth, H5AC__READ_ONLY_FLAG)))
+        if(NULL == (internal = H5B2__protect_internal(hdr, dxpl_id, parent, &curr_node_ptr, depth, FALSE, H5AC__READ_ONLY_FLAG)))
             HGOTO_ERROR(H5E_BTREE, H5E_CANTPROTECT, FAIL, "unable to load B-tree internal node")
 
         /* Unpin parent if necessary */
@@ -854,7 +850,7 @@ H5B2_index(H5B2_t *bt2, hid_t dxpl_id, H5_iter_order_t order, hsize_t idx,
         H5B2_leaf_t *leaf;          /* Pointer to leaf node in B-tree */
 
         /* Lock B-tree leaf node */
-        if(NULL == (leaf = H5B2__protect_leaf(hdr, dxpl_id, curr_node_ptr.addr, parent, curr_node_ptr.node_nrec, H5AC__READ_ONLY_FLAG)))
+        if(NULL == (leaf = H5B2__protect_leaf(hdr, dxpl_id, parent, &curr_node_ptr, FALSE, H5AC__READ_ONLY_FLAG)))
             HGOTO_ERROR(H5E_BTREE, H5E_CANTPROTECT, FAIL, "unable to protect B-tree leaf node")
 
         /* Unpin parent if necessary */
@@ -1014,9 +1010,9 @@ H5B2_remove_by_idx(H5B2_t *bt2, hid_t dxpl_id, H5_iter_order_t order,
     if(hdr->depth > 0) {
         hbool_t depth_decreased = FALSE;  /* Flag to indicate whether the depth of the B-tree decreased */
 
-        if(H5B2__remove_internal_by_idx(hdr, dxpl_id, &depth_decreased, NULL,
-                NULL, hdr->depth, &(hdr->cache_info), NULL, &hdr->root,
-                H5B2_POS_ROOT, idx, op, op_data) < 0)
+        if(H5B2__remove_internal_by_idx(hdr, dxpl_id, &depth_decreased, NULL, NULL,
+                hdr->depth, &(hdr->cache_info), NULL, &hdr->root, H5B2_POS_ROOT,
+                idx, op, op_data) < 0)
             HGOTO_ERROR(H5E_BTREE, H5E_CANTDELETE, FAIL, "unable to remove record from B-tree internal node")
 
         /* Check for decreasing the depth of the B-tree */
@@ -1210,7 +1206,7 @@ H5B2_modify(H5B2_t *bt2, hid_t dxpl_id, void *udata, H5B2_modify_t op,
         H5B2_node_ptr_t next_node_ptr;      /* Node pointer info for next node */
 
         /* Lock B-tree current node */
-        if(NULL == (internal = H5B2__protect_internal(hdr, dxpl_id, curr_node_ptr.addr, parent, curr_node_ptr.node_nrec, depth, H5AC__NO_FLAGS_SET)))
+        if(NULL == (internal = H5B2__protect_internal(hdr, dxpl_id, parent, &curr_node_ptr, depth, FALSE, H5AC__NO_FLAGS_SET)))
             HGOTO_ERROR(H5E_BTREE, H5E_CANTPROTECT, FAIL, "unable to load B-tree internal node")
 
         /* Unpin parent if necessary */
@@ -1221,12 +1217,11 @@ H5B2_modify(H5B2_t *bt2, hid_t dxpl_id, void *udata, H5B2_modify_t op,
         } /* end if */
 
         /* Locate node pointer for child */
-        if(H5B2__locate_record(hdr->cls, internal->nrec, hdr->nat_off, internal->int_native, 
-                               udata, &idx, &cmp) < 0) {
-            /* Unlock current node */
+        if(H5B2__locate_record(hdr->cls, internal->nrec, hdr->nat_off, internal->int_native, udata, &idx, &cmp) < 0) {
+            /* Unlock current node before failing */
             H5AC_unprotect(hdr->f, dxpl_id, H5AC_BT2_INT, curr_node_ptr.addr, internal, H5AC__NO_FLAGS_SET);
             HGOTO_ERROR(H5E_BTREE, H5E_CANTCOMPARE, FAIL, "can't compare btree2 records")
-        }
+        } /* end if */
 
         if(cmp > 0)
             idx++;
@@ -1299,7 +1294,7 @@ H5B2_modify(H5B2_t *bt2, hid_t dxpl_id, void *udata, H5B2_modify_t op,
         hbool_t changed = FALSE;/* Whether the 'modify' callback changed the record */
 
         /* Lock B-tree leaf node */
-        if(NULL == (leaf = H5B2__protect_leaf(hdr, dxpl_id, curr_node_ptr.addr, parent, curr_node_ptr.node_nrec, H5AC__NO_FLAGS_SET)))
+        if(NULL == (leaf = H5B2__protect_leaf(hdr, dxpl_id, parent, &curr_node_ptr, FALSE, H5AC__NO_FLAGS_SET)))
             HGOTO_ERROR(H5E_BTREE, H5E_CANTPROTECT, FAIL, "unable to protect B-tree leaf node")
 
         /* Unpin parent if necessary */
@@ -1310,11 +1305,11 @@ H5B2_modify(H5B2_t *bt2, hid_t dxpl_id, void *udata, H5B2_modify_t op,
         } /* end if */
 
         /* Locate record */
-        if(H5B2__locate_record(hdr->cls, leaf->nrec, hdr->nat_off, leaf->leaf_native, 
-                               udata, &idx, &cmp) < 0) {
+        if(H5B2__locate_record(hdr->cls, leaf->nrec, hdr->nat_off, leaf->leaf_native, udata, &idx, &cmp) < 0) {
+            /* Unlock current node before failing */
             H5AC_unprotect(hdr->f, dxpl_id, H5AC_BT2_LEAF, curr_node_ptr.addr, leaf, H5AC__NO_FLAGS_SET);
             HGOTO_ERROR(H5E_BTREE, H5E_CANTCOMPARE, FAIL, "can't compare btree2 records")
-        }
+        } /* end if */
 
         if(cmp != 0) {
             /* Unlock leaf node */
@@ -1567,7 +1562,7 @@ done:
  *-------------------------------------------------------------------------
  */
 herr_t
-H5B2_depend(H5AC_info_t *parent_entry, H5B2_t *bt2)
+H5B2_depend(H5B2_t *bt2, hid_t dxpl_id, H5AC_proxy_entry_t *parent)
 {
     /* Local variables */
     H5B2_hdr_t  *hdr = bt2->hdr;        /* Header for B-tree */
@@ -1575,47 +1570,37 @@ H5B2_depend(H5AC_info_t *parent_entry, H5B2_t *bt2)
 
     FUNC_ENTER_NOAPI(SUCCEED)
 
-#ifdef QAK
-HDfprintf(stderr, "%s: Called\n", FUNC);
-#endif /* QAK */
-
     /*
      * Check arguments.
-     *
-     * At present, this function is only used to setup a flush dependency
-     * between an object header proxy and the v2 B-tree header when
-     * the B-tree is being used to index a chunked data set.
-     *
-     * Make sure that the parameters are congruent with this.
      */
     HDassert(bt2);
     HDassert(hdr);
-    HDassert(parent_entry);
-    HDassert(parent_entry->magic == H5C__H5C_CACHE_ENTRY_T_MAGIC);
-    HDassert(parent_entry->type);
-    HDassert(parent_entry->type->id == H5AC_OHDR_PROXY_ID);
-    HDassert(hdr->parent == NULL || hdr->parent == parent_entry);
+    HDassert(parent);
+    HDassert(hdr->parent == NULL || hdr->parent == parent);
 
     /*
-     * Check to see if the flush dependency between the object header proxy
+     * Check to see if the flush dependency between the parent
      * and the v2 B-tree header has already been setup.  If it hasn't, then
      * set it up.
      */
     if(NULL == hdr->parent) {
+        /* Sanity check */
+        HDassert(hdr->top_proxy);
+
         /* Set the shared v2 B-tree header's file context for this operation */
-        bt2->hdr->f = bt2->f;
+        hdr->f = bt2->f;
 
-        /* Set up flush dependency between parent entry and B-tree header */
-        if(H5B2__create_flush_depend(parent_entry, (H5AC_info_t *)hdr) < 0)
-            HGOTO_ERROR(H5E_BTREE, H5E_CANTDEPEND, FAIL, "unable to create flush dependency on file metadata")
-
-	hdr->parent = parent_entry;
+        /* Add the v2 B-tree as a child of the parent (proxy) */
+        if(H5AC_proxy_entry_add_child(parent, hdr->f, dxpl_id, hdr->top_proxy) < 0)
+            HGOTO_ERROR(H5E_BTREE, H5E_CANTSET, FAIL, "unable to add v2 B-tree as child of proxy")
+	hdr->parent = parent;
     } /* end if */
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5B2_depend() */
 
+
 /*-------------------------------------------------------------------------
  * Function:    H5B2_patch_file
  *
@@ -1633,10 +1618,6 @@ H5B2_patch_file(H5B2_t *bt2, H5F_t *f)
 {
     FUNC_ENTER_NOAPI_NOINIT_NOERR
 
-#ifdef QAK
-HDfprintf(stderr, "%s: Called\n", FUNC);
-#endif /* QAK */
-
     /*
      * Check arguments.
      */
@@ -1648,3 +1629,4 @@ HDfprintf(stderr, "%s: Called\n", FUNC);
 
     FUNC_LEAVE_NOAPI(SUCCEED)
 } /* H5B2_patch_file() */
+

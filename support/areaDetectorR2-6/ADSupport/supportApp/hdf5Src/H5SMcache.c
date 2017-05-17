@@ -5,12 +5,10 @@
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
- * the files COPYING and Copyright.html.  COPYING can be found at the root   *
- * of the source code distribution tree; Copyright.html can be found at the  *
- * root level of an installed copy of the electronic HDF5 document set and   *
- * is linked from the top-level documents page.  It can also be found at     *
- * http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have          *
- * access to either file, you may request a copy from help@hdfgroup.org.     *
+ * the COPYING file, which can be found at the root of the source code       *
+ * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * If you do not have access to either file, you may request a copy from     *
+ * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*-------------------------------------------------------------------------
@@ -58,26 +56,20 @@
 /********************/
 
 /* Metadata cache (H5AC) callbacks */
-static herr_t H5SM__cache_table_get_load_size(const void *image_ptr, void *udata, 
-    size_t *image_len, size_t *actual_len,
-    hbool_t *compressed_ptr, size_t *compressed_image_len_ptr);
+static herr_t H5SM__cache_table_get_initial_load_size(void *udata, size_t *image_len);
 static htri_t H5SM__cache_table_verify_chksum(const void *image_ptr, size_t len, void *udata_ptr);
 static void *H5SM__cache_table_deserialize(const void *image, size_t len,
     void *udata, hbool_t *dirty); 
-static herr_t H5SM__cache_table_image_len(const void *thing, size_t *image_len,
-    hbool_t *compressed_ptr, size_t *compressed_image_len_ptr);
+static herr_t H5SM__cache_table_image_len(const void *thing, size_t *image_len);
 static herr_t H5SM__cache_table_serialize(const H5F_t *f, void *image,
     size_t len, void *thing); 
 static herr_t H5SM__cache_table_free_icr(void *thing);
 
-static herr_t H5SM__cache_list_get_load_size(const void *image_ptr, void *udata, 
-    size_t *image_len, size_t *actual_len,
-    hbool_t *compressed_ptr, size_t *compressed_image_len_ptr);
+static herr_t H5SM__cache_list_get_initial_load_size(void *udata, size_t *image_len);
 static htri_t H5SM__cache_list_verify_chksum(const void *image_ptr, size_t len, void *udata_ptr);
 static void *H5SM__cache_list_deserialize(const void *image, size_t len,
     void *udata, hbool_t *dirty); 
-static herr_t H5SM__cache_list_image_len(const void *thing, size_t *image_len,
-    hbool_t *compressed_ptr, size_t *compressed_image_len_ptr);
+static herr_t H5SM__cache_list_image_len(const void *thing, size_t *image_len);
 static herr_t H5SM__cache_list_serialize(const H5F_t *f, void *image,
     size_t len, void *thing);
 static herr_t H5SM__cache_list_free_icr(void *thing);
@@ -93,7 +85,8 @@ const H5AC_class_t H5AC_SOHM_TABLE[1] = {{
     "shared message table",             /* Metadata client name (for debugging) */
     H5FD_MEM_SOHM_TABLE,                /* File space memory type for client */
     H5AC__CLASS_NO_FLAGS_SET,           /* Client class behavior flags */
-    H5SM__cache_table_get_load_size,    /* 'get_load_size' callback */
+    H5SM__cache_table_get_initial_load_size,    /* 'get_initial_load_size' callback */
+    NULL,				/* 'get_final_load_size' callback */
     H5SM__cache_table_verify_chksum,	/* 'verify_chksum' callback */
     H5SM__cache_table_deserialize,      /* 'deserialize' callback */
     H5SM__cache_table_image_len,        /* 'image_len' callback */
@@ -101,7 +94,6 @@ const H5AC_class_t H5AC_SOHM_TABLE[1] = {{
     H5SM__cache_table_serialize,        /* 'serialize' callback */
     NULL,                               /* 'notify' callback */
     H5SM__cache_table_free_icr,         /* 'free_icr' callback */
-    NULL,			        /* 'clear' callback */
     NULL,                               /* 'fsf_size' callback */
 }};
 
@@ -110,7 +102,8 @@ const H5AC_class_t H5AC_SOHM_LIST[1] = {{
     "shared message list",              /* Metadata client name (for debugging) */
     H5FD_MEM_SOHM_TABLE,                /* File space memory type for client */
     H5AC__CLASS_NO_FLAGS_SET,           /* Client class behavior flags */
-    H5SM__cache_list_get_load_size,     /* 'get_load_size' callback */
+    H5SM__cache_list_get_initial_load_size,     /* 'get_initial_load_size' callback */
+    NULL,				/* 'get_final_load_size' callback */
     H5SM__cache_list_verify_chksum,	/* 'verify_chksum' callback */
     H5SM__cache_list_deserialize,       /* 'deserialize' callback */
     H5SM__cache_list_image_len,         /* 'image_len' callback */
@@ -118,7 +111,6 @@ const H5AC_class_t H5AC_SOHM_LIST[1] = {{
     H5SM__cache_list_serialize,         /* 'serialize' callback */
     NULL,                               /* 'notify' callback */
     H5SM__cache_list_free_icr,          /* 'free_icr' callback */
-    NULL,			        /* 'clear' callback */
     NULL,                               /* 'fsf_size' callback */
 }};
 
@@ -135,11 +127,10 @@ const H5AC_class_t H5AC_SOHM_LIST[1] = {{
 
 
 /*-------------------------------------------------------------------------
- * Function:    H5SM__cache_table_get_load_size()
+ * Function:    H5SM__cache_table_get_initial_load_size()
  *
  * Purpose:	Return the size of the master table of Shared Object Header 
- *		Message indexes on disk.  As this cache client doesn't use 
- *		speculative reads, this value should be accurate.
+ *		Message indexes on disk.
  *
  * Return:      Success:        SUCCEED
  *              Failure:        FAIL
@@ -150,11 +141,8 @@ const H5AC_class_t H5AC_SOHM_LIST[1] = {{
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5SM__cache_table_get_load_size(const void *_image, void *_udata, 
-    size_t *image_len, size_t *actual_len,
-    hbool_t H5_ATTR_UNUSED *compressed_ptr, size_t H5_ATTR_UNUSED *compressed_image_len_ptr)
+H5SM__cache_table_get_initial_load_size(void *_udata, size_t *image_len)
 {
-    const uint8_t *image = (const uint8_t *)_image;       			 /* Pointer into raw data buffer */
     const H5SM_table_cache_ud_t *udata = (const H5SM_table_cache_ud_t *)_udata;  /* User data for callback */
 
     FUNC_ENTER_STATIC_NOERR
@@ -164,15 +152,11 @@ H5SM__cache_table_get_load_size(const void *_image, void *_udata,
     HDassert(udata->f);
     HDassert(image_len);
 
-    if(image == NULL)
-	*image_len = H5SM_TABLE_SIZE(udata->f);
-    else {
-	HDassert(actual_len);
-        HDassert(*actual_len == *image_len);
-    }
+    /* Set the image length size */
+    *image_len = H5SM_TABLE_SIZE(udata->f);
 
     FUNC_LEAVE_NOAPI(SUCCEED)
-} /* end H5SM__cache_table_get_load_size() */
+} /* end H5SM__cache_table_get_initial_load_size() */
 
 
 /*-------------------------------------------------------------------------
@@ -309,7 +293,6 @@ H5SM__cache_table_deserialize(const void *_image, size_t len, void *_udata,
 
 	/* Compute the size of a list index for this SOHM index */
         table->indexes[u].list_size = H5SM_LIST_SIZE(f, table->indexes[u].list_max);
-	table->indexes[u].list_size = H5SM_LIST_SIZE(f, table->indexes[u].list_max);
     } /* end for */
 
     /* checksum verification already done in verify_chksum cb */
@@ -348,8 +331,7 @@ done:
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5SM__cache_table_image_len(const void *_thing, size_t *image_len,
-    hbool_t H5_ATTR_UNUSED *compressed_ptr, size_t H5_ATTR_UNUSED *compressed_image_len_ptr)
+H5SM__cache_table_image_len(const void *_thing, size_t *image_len)
 {
     const H5SM_master_table_t *table = (const H5SM_master_table_t *)_thing;     /* Shared message table to query */
 
@@ -365,10 +347,6 @@ H5SM__cache_table_image_len(const void *_thing, size_t *image_len,
 
     FUNC_LEAVE_NOAPI(SUCCEED)
 } /* end H5SM__cache_table_image_len() */
-
-/***************************************/
-/* no H5SM_cache_table_pre_serialize() */
-/***************************************/
 
 
 /*-------------------------------------------------------------------------
@@ -498,7 +476,7 @@ done:
 
 
 /*-------------------------------------------------------------------------
- * Function:    H5SM__cache_list_get_load_size()
+ * Function:    H5SM__cache_list_get_initial_load_size()
  *
  * Purpose:	Return the on disk size of list of SOHM messages.  In this case,
  *		we simply look up the size in the user data, and return that value
@@ -513,11 +491,8 @@ done:
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5SM__cache_list_get_load_size(const void *_image, void *_udata, 
-    size_t *image_len, size_t *actual_len,
-    hbool_t H5_ATTR_UNUSED *compressed_ptr, size_t H5_ATTR_UNUSED *compressed_image_len_ptr)
+H5SM__cache_list_get_initial_load_size(void *_udata, size_t *image_len)
 {
-    const uint8_t *image = (const uint8_t *)_image;       			/* Pointer into raw data buffer */
     const H5SM_list_cache_ud_t *udata = (const H5SM_list_cache_ud_t *)_udata;  	/* User data for callback */
 
     FUNC_ENTER_STATIC_NOERR
@@ -528,15 +503,11 @@ H5SM__cache_list_get_load_size(const void *_image, void *_udata,
     HDassert(udata->header->list_size > 0);
     HDassert(image_len);
 
-    if(image == NULL)
-	*image_len = udata->header->list_size;
-    else {
-	HDassert(actual_len);
-        HDassert(*actual_len == *image_len);
-    }
+    /* Set the image length size */
+    *image_len = udata->header->list_size;
 
     FUNC_LEAVE_NOAPI(SUCCEED)
-} /* end H5SM__cache_list_get_load_size() */
+} /* end H5SM__cache_list_get_initial_load_size() */
 
 
 /*-------------------------------------------------------------------------
@@ -682,8 +653,7 @@ done:
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5SM__cache_list_image_len(const void *_thing, size_t *image_len,
-    hbool_t H5_ATTR_UNUSED *compressed_ptr, size_t H5_ATTR_UNUSED *compressed_image_len_ptr)
+H5SM__cache_list_image_len(const void *_thing, size_t *image_len)
 {
     const H5SM_list_t *list = (const H5SM_list_t *)_thing;      /* Shared message list to query */
 
@@ -700,10 +670,6 @@ H5SM__cache_list_image_len(const void *_thing, size_t *image_len,
 
     FUNC_LEAVE_NOAPI(SUCCEED)
 } /* end H5SM__cache_list_image_len() */
-
-/**************************************/
-/* no H5SM_cache_list_pre_serialize() */
-/**************************************/
 
 
 /*-------------------------------------------------------------------------

@@ -5,12 +5,10 @@
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
- * the files COPYING and Copyright.html.  COPYING can be found at the root   *
- * of the source code distribution tree; Copyright.html can be found at the  *
- * root level of an installed copy of the electronic HDF5 document set and   *
- * is linked from the top-level documents page.  It can also be found at     *
- * http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have          *
- * access to either file, you may request a copy from help@hdfgroup.org.     *
+ * the COPYING file, which can be found at the root of the source code       *
+ * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * If you do not have access to either file, you may request a copy from     *
+ * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /* Programmer: 	Quincey Koziol <koziol@hdfgroup.org>
@@ -659,7 +657,7 @@ H5D__earray_crt_dbg_context(H5F_t *f, hid_t dxpl_id, haddr_t obj_addr)
         HGOTO_ERROR(H5E_DATASET, H5E_CANTGET, NULL, "can't get layout info")
 
     /* close the object header */
-    if(H5O_close(&obj_loc) < 0)
+    if(H5O_close(&obj_loc, NULL) < 0)
         HGOTO_ERROR(H5E_DATASET, H5E_CANTCLOSEOBJ, NULL, "can't close object header")
 
     /* Create user data */
@@ -678,7 +676,7 @@ done:
 
         /* Close object header */
         if(obj_opened) {
-            if(H5O_close(&obj_loc) < 0)
+            if(H5O_close(&obj_loc, NULL) < 0)
                 HDONE_ERROR(H5E_DATASET, H5E_CANTCLOSEOBJ, NULL, "can't close object header")
         } /* end if */
     } /* end if */
@@ -734,8 +732,9 @@ H5D__earray_dst_dbg_context(void *_dbg_ctx)
 static herr_t
 H5D__earray_idx_depend(const H5D_chk_idx_info_t *idx_info)
 {
+    H5O_t *oh = NULL;                   /* Object header */
     H5O_loc_t oloc;                     /* Temporary object header location for dataset */
-    H5O_proxy_t *oh_proxy = NULL;       /* Dataset's object header proxy */
+    H5AC_proxy_entry_t *oh_proxy;       /* Dataset's object header proxy */
     herr_t ret_value = SUCCEED;         /* Return value */
 
     FUNC_ENTER_STATIC
@@ -757,18 +756,22 @@ H5D__earray_idx_depend(const H5D_chk_idx_info_t *idx_info)
     oloc.file = idx_info->f;
     oloc.addr = idx_info->storage->u.earray.dset_ohdr_addr;
 
-    /* Pin the dataset's object header proxy */
-    if(NULL == (oh_proxy = H5O_pin_flush_dep_proxy(&oloc, idx_info->dxpl_id)))
-        HGOTO_ERROR(H5E_DATASET, H5E_CANTPIN, FAIL, "unable to pin dataset object header proxy")
+    /* Get header */
+    if(NULL == (oh = H5O_protect(&oloc, idx_info->dxpl_id, H5AC__READ_ONLY_FLAG, TRUE)))
+        HGOTO_ERROR(H5E_DATASET, H5E_CANTPROTECT, FAIL, "unable to protect object header")
+
+    /* Retrieve the dataset's object header proxy */
+    if(NULL == (oh_proxy = H5O_get_proxy(oh)))
+        HGOTO_ERROR(H5E_DATASET, H5E_CANTGET, FAIL, "unable to get dataset object header proxy")
 
     /* Make the extensible array a child flush dependency of the dataset's object header */
-    if(H5EA_depend((H5AC_info_t *)oh_proxy, idx_info->storage->u.earray.ea) < 0)
-        HGOTO_ERROR(H5E_DATASET, H5E_CANTDEPEND, FAIL, "unable to create flush dependency on object header")
+    if(H5EA_depend(idx_info->storage->u.earray.ea, idx_info->dxpl_id, oh_proxy) < 0)
+        HGOTO_ERROR(H5E_DATASET, H5E_CANTDEPEND, FAIL, "unable to create flush dependency on object header proxy")
 
 done:
-    /* Unpin the dataset's object header proxy */
-    if(oh_proxy && H5O_unpin_flush_dep_proxy(oh_proxy) < 0)
-        HDONE_ERROR(H5E_DATASET, H5E_CANTUNPIN, FAIL, "unable to unpin dataset object header proxy")
+    /* Release the object header from the cache */
+    if(oh && H5O_unprotect(&oloc, idx_info->dxpl_id, oh, H5AC__NO_FLAGS_SET) < 0)
+        HDONE_ERROR(H5E_DATASET, H5E_CANTUNPROTECT, FAIL, "unable to release object header")
 
     FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5D__earray_idx_depend() */
@@ -1132,11 +1135,11 @@ H5D__earray_idx_get_addr(const H5D_chk_idx_info_t *idx_info, H5D_chunk_ud_t *uda
         H5VM_swizzle_coords(hsize_t, swizzled_coords, idx_info->layout->u.earray.unlim_dim);
 
         /* Calculate the index of this chunk */
-        idx = H5VM_chunk_index(ndims, swizzled_coords, idx_info->layout->u.earray.swizzled_dim, idx_info->layout->u.earray.swizzled_down_chunks);
+        idx = H5VM_chunk_index(ndims, swizzled_coords, idx_info->layout->u.earray.swizzled_dim, idx_info->layout->u.earray.swizzled_max_down_chunks);
     } /* end if */
     else {
         /* Calculate the index of this chunk */
-        idx = H5VM_array_offset_pre((idx_info->layout->ndims - 1), idx_info->layout->down_chunks, udata->common.scaled);
+        idx = H5VM_array_offset_pre((idx_info->layout->ndims - 1), idx_info->layout->max_down_chunks, udata->common.scaled);
     } /* end else */
 
     udata->chunk_idx = idx;
@@ -1197,7 +1200,8 @@ H5D__earray_idx_resize(H5O_layout_chunk_t *layout)
 
     /* "Swizzle" constant dimensions for this dataset */
     if(layout->u.earray.unlim_dim > 0) {
-        hsize_t swizzled_chunks[H5O_LAYOUT_NDIMS];    /* Swizzled form of # of chunks in each dimension */
+        hsize_t swizzled_chunks[H5O_LAYOUT_NDIMS];      /* Swizzled form of # of chunks in each dimension */
+        hsize_t swizzled_max_chunks[H5O_LAYOUT_NDIMS];  /* Swizzled form of max # of chunks in each dimension */
 
         /* Get the swizzled chunk dimensions */
         HDmemcpy(layout->u.earray.swizzled_dim, layout->dim, (layout->ndims - 1) * sizeof(layout->dim[0]));
@@ -1210,12 +1214,21 @@ H5D__earray_idx_resize(H5O_layout_chunk_t *layout)
         /* Get the swizzled "down" sizes for each dimension */
         if(H5VM_array_down((layout->ndims - 1), swizzled_chunks, layout->u.earray.swizzled_down_chunks) < 0)
             HGOTO_ERROR(H5E_DATASET, H5E_CANTSET, FAIL, "can't compute swizzled 'down' chunk size value")
+
+        /* Get the swizzled max number of chunks in each dimension */
+        HDmemcpy(swizzled_max_chunks, layout->max_chunks, (layout->ndims - 1) * sizeof(swizzled_max_chunks[0]));
+        H5VM_swizzle_coords(hsize_t, swizzled_max_chunks, layout->u.earray.unlim_dim);
+
+        /* Get the swizzled max "down" sizes for each dimension */
+        if(H5VM_array_down((layout->ndims - 1), swizzled_max_chunks, layout->u.earray.swizzled_max_down_chunks) < 0)
+            HGOTO_ERROR(H5E_DATASET, H5E_CANTSET, FAIL, "can't compute swizzled 'down' chunk size value")
     } /* end if */
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5D__earray_idx_resize() */
 
+
 /*-------------------------------------------------------------------------
  * Function:	H5D__earray_idx_iterate_cb
  *
@@ -1262,7 +1275,7 @@ H5D__earray_idx_iterate_cb(hsize_t H5_ATTR_UNUSED idx, const void *_elmt, void *
         udata->chunk_rec.scaled[curr_dim]++;
 
         /* Check if we went off the end of the current dimension */
-        if(udata->chunk_rec.scaled[curr_dim] >= udata->common.layout->chunks[curr_dim]) {
+        if(udata->chunk_rec.scaled[curr_dim] >= udata->common.layout->max_chunks[curr_dim]) {
             /* Reset coordinate & move to next faster dimension */
             udata->chunk_rec.scaled[curr_dim] = 0;
             curr_dim--;
@@ -1384,10 +1397,13 @@ H5D__earray_idx_remove(const H5D_chk_idx_info_t *idx_info, H5D_chunk_common_ud_t
     HDassert(udata);
 
     /* Check if the extensible array is open yet */
-    if(NULL == idx_info->storage->u.earray.ea)
+    if(NULL == idx_info->storage->u.earray.ea) {
         /* Open the extensible array in file */
         if(H5D__earray_idx_open(idx_info) < 0)
             HGOTO_ERROR(H5E_DATASET, H5E_CANTOPENOBJ, FAIL, "can't open extensible array")
+    } else  /* Patch the top level file pointer contained in ea if needed */
+        if(H5EA_patch_file(idx_info->storage->u.earray.ea, idx_info->f) < 0)
+            HGOTO_ERROR(H5E_DATASET, H5E_CANTOPENOBJ, FAIL, "can't patch earray file pointer")
 
     /* Set convenience pointer to extensible array structure */
     ea = idx_info->storage->u.earray.ea;
@@ -1405,11 +1421,11 @@ H5D__earray_idx_remove(const H5D_chk_idx_info_t *idx_info, H5D_chunk_common_ud_t
         H5VM_swizzle_coords(hsize_t, swizzled_coords, idx_info->layout->u.earray.unlim_dim);
 
         /* Calculate the index of this chunk */
-        idx = H5VM_chunk_index(ndims, swizzled_coords, idx_info->layout->u.earray.swizzled_dim, idx_info->layout->u.earray.swizzled_down_chunks);
+        idx = H5VM_chunk_index(ndims, swizzled_coords, idx_info->layout->u.earray.swizzled_dim, idx_info->layout->u.earray.swizzled_max_down_chunks);
     } /* end if */
     else {
         /* Calculate the index of this chunk */
-        idx = H5VM_array_offset_pre((idx_info->layout->ndims - 1), idx_info->layout->down_chunks, udata->scaled);
+        idx = H5VM_array_offset_pre((idx_info->layout->ndims - 1), idx_info->layout->max_down_chunks, udata->scaled);
     } /* end else */
 
     /* Check for filters on chunks */
@@ -1801,6 +1817,11 @@ H5D__earray_idx_dest(const H5D_chk_idx_info_t *idx_info)
 
     /* Check if the extensible array is open */
     if(idx_info->storage->u.earray.ea) {
+
+	/* Patch the top level file pointer contained in ea if needed */
+        if(H5EA_patch_file(idx_info->storage->u.earray.ea, idx_info->f) < 0)
+            HGOTO_ERROR(H5E_DATASET, H5E_CANTOPENOBJ, FAIL, "can't patch earray file pointer")
+
         /* Close extensible array */
         if(H5EA_close(idx_info->storage->u.earray.ea, idx_info->dxpl_id) < 0)
             HGOTO_ERROR(H5E_DATASET, H5E_CANTCLOSEOBJ, FAIL, "unable to close extensible array")

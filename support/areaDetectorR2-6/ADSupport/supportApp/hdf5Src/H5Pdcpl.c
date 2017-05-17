@@ -5,12 +5,10 @@
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
- * the files COPYING and Copyright.html.  COPYING can be found at the root   *
- * of the source code distribution tree; Copyright.html can be found at the  *
- * root level of an installed copy of the electronic HDF5 document set and   *
- * is linked from the top-level documents page.  It can also be found at     *
- * http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have          *
- * access to either file, you may request a copy from help@hdfgroup.org.     *
+ * the COPYING file, which can be found at the root of the source code       *
+ * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * If you do not have access to either file, you may request a copy from     *
+ * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*-------------------------------------------------------------------------
@@ -772,12 +770,6 @@ H5P__dcrt_layout_cmp(const void *_layout1, const void *_layout2,
     if(layout1->type < layout2->type)
         HGOTO_DONE(-1)
     if(layout1->type > layout2->type)
-        HGOTO_DONE(1)
-
-    /* Check for different layout version */
-    if(layout1->version < layout2->version)
-        HGOTO_DONE(-1)
-    if(layout1->version > layout2->version)
         HGOTO_DONE(1)
 
     /* Compare non-dataset-specific fields in layout info */
@@ -1650,14 +1642,6 @@ H5P__dcrt_ext_file_list_cmp(const void *_efl1, const void *_efl2,
     HDassert(efl1);
     HDassert(efl2);
     HDassert(size == sizeof(H5O_efl_t));
-
-    /* Check the heap address of external file lists */
-    if(H5F_addr_defined(efl1->heap_addr) || H5F_addr_defined(efl2->heap_addr)) {
-        if(!H5F_addr_defined(efl1->heap_addr) && H5F_addr_defined(efl2->heap_addr)) HGOTO_DONE(-1);
-        if(H5F_addr_defined(efl1->heap_addr) && !H5F_addr_defined(efl2->heap_addr)) HGOTO_DONE(1);
-        if((cmp_value = H5F_addr_cmp(efl1->heap_addr, efl2->heap_addr)) != 0)
-            HGOTO_DONE(cmp_value);
-    } /* end if */
 
     /* Check the number of allocated efl entries */
     if(efl1->nalloc < efl2->nalloc) HGOTO_DONE(-1);

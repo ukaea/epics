@@ -47,8 +47,10 @@
     <ClCompile Include="H5A.c" />
     <ClCompile Include="H5Abtree2.c" />
     <ClCompile Include="H5AC.c" />
+    <ClCompile Include="H5ACdbg.c" />
     <ClCompile Include="H5AClog.c" />
     <ClCompile Include="H5ACmpio.c" />
+    <ClCompile Include="H5ACproxy_entry.c" />
     <ClCompile Include="H5Adense.c" />
     <ClCompile Include="H5Adeprec.c" />
     <ClCompile Include="H5Aint.c" />
@@ -59,14 +61,24 @@
     <ClCompile Include="H5B2dbg.c" />
     <ClCompile Include="H5B2hdr.c" />
     <ClCompile Include="H5B2int.c" />
+    <ClCompile Include="H5B2internal.c" />
+    <ClCompile Include="H5B2leaf.c" />
     <ClCompile Include="H5B2stat.c" />
     <ClCompile Include="H5B2test.c" />
     <ClCompile Include="H5Bcache.c" />
     <ClCompile Include="H5Bdbg.c" />
     <ClCompile Include="H5C.c" />
+    <ClCompile Include="H5Cdbg.c" />
+    <ClCompile Include="H5Cepoch.c" />
     <ClCompile Include="H5checksum.c" />
+    <ClCompile Include="H5Cimage.c" />
+    <ClCompile Include="H5Clog.c" />
     <ClCompile Include="H5Cmpio.c" />
+    <ClCompile Include="H5Cprefetched.c" />
+    <ClCompile Include="H5Cquery.c" />
     <ClCompile Include="H5CS.c" />
+    <ClCompile Include="H5Ctag.c" />
+    <ClCompile Include="H5Ctest.c" />
     <ClCompile Include="H5D.c" />
     <ClCompile Include="H5dbg.c" />
     <ClCompile Include="H5Dbtree.c" />
@@ -78,6 +90,16 @@
     <ClCompile Include="H5Ddeprec.c" />
     <ClCompile Include="H5Dearray.c" />
     <ClCompile Include="H5Defl.c" />
+    <ClCompile Include="H5detect.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="H5Dfarray.c" />
     <ClCompile Include="H5Dfill.c" />
     <ClCompile Include="H5Dint.c" />
@@ -147,6 +169,7 @@
     <ClCompile Include="H5FSdbg.c" />
     <ClCompile Include="H5Fsfile.c" />
     <ClCompile Include="H5FSint.c" />
+    <ClCompile Include="H5Fspace.c" />
     <ClCompile Include="H5FSsection.c" />
     <ClCompile Include="H5FSstat.c" />
     <ClCompile Include="H5FStest.c" />
@@ -180,7 +203,6 @@
     <ClCompile Include="H5HFhdr.c" />
     <ClCompile Include="H5HFhuge.c" />
     <ClCompile Include="H5HFiblock.c" />
-    <ClCompile Include="H5HFint.c" />
     <ClCompile Include="H5HFiter.c" />
     <ClCompile Include="H5HFman.c" />
     <ClCompile Include="H5HFsection.c" />
@@ -204,7 +226,16 @@
     <ClCompile Include="H5L.c" />
     <ClCompile Include="H5Lexternal.c" />
     <ClCompile Include="H5lib_settings.c" />
-    <ClCompile Include="H5make_libsettings.c" />
+    <ClCompile Include="H5make_libsettings.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="H5MF.c" />
     <ClCompile Include="H5MFaggr.c" />
     <ClCompile Include="H5MFdbg.c" />
@@ -220,6 +251,7 @@
     <ClCompile Include="H5Obogus.c" />
     <ClCompile Include="H5Obtreek.c" />
     <ClCompile Include="H5Ocache.c" />
+    <ClCompile Include="H5Ocache_image.c" />
     <ClCompile Include="H5Ochunk.c" />
     <ClCompile Include="H5Ocont.c" />
     <ClCompile Include="H5Ocopy.c" />
@@ -239,7 +271,16 @@
     <ClCompile Include="H5Oname.c" />
     <ClCompile Include="H5Onull.c" />
     <ClCompile Include="H5Opline.c" />
-    <ClCompile Include="H5Oproxy.c" />
+    <ClCompile Include="H5Oproxy.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="H5Orefcount.c" />
     <ClCompile Include="H5Osdspace.c" />
     <ClCompile Include="H5Oshared.c" />
@@ -249,6 +290,7 @@
     <ClCompile Include="H5Ounknown.c" />
     <ClCompile Include="H5P.c" />
     <ClCompile Include="H5Pacpl.c" />
+    <ClCompile Include="H5PB.c" />
     <ClCompile Include="H5Pdapl.c" />
     <ClCompile Include="H5Pdcpl.c" />
     <ClCompile Include="H5Pdeprec.c" />

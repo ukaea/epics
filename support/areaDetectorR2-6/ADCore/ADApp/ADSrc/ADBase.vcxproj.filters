@@ -1,0 +1,240 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="ADDriver.cpp" />
+    <ClCompile Include="asynNDArrayDriver.cpp" />
+    <ClCompile Include="functAttribute.cpp" />
+    <ClCompile Include="myAttributeFunctions.cpp" />
+    <ClCompile Include="myTimeStampSource.cpp" />
+    <ClCompile Include="NDArray.cpp" />
+    <ClCompile Include="NDArrayPool.cpp" />
+    <ClCompile Include="NDAttribute.cpp" />
+    <ClCompile Include="NDAttributeList.cpp" />
+    <ClCompile Include="paramAttribute.cpp" />
+    <ClCompile Include="parseAreaPrefixes.c" />
+    <ClCompile Include="PVAttribute.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ADCoreVersion.h" />
+    <ClInclude Include="ADDriver.h" />
+    <ClInclude Include="asynNDArrayDriver.h" />
+    <ClInclude Include="functAttribute.h" />
+    <ClInclude Include="NDArray.h" />
+    <ClInclude Include="NDAttribute.h" />
+    <ClInclude Include="NDAttributeList.h" />
+    <ClInclude Include="paramAttribute.h" />
+    <ClInclude Include="PVAttribute.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ADSupport.dbd" />
+    <None Include="..\Db\ADBase.template">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\ADBase_settings.req">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\ADPrefixes.template">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\Makefile">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDArrayBase.template">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDArrayBase_settings.req">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDAttribute.template">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDAttribute_settings.req">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDAttributeN.template">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDAttributeN_settings.req">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDAttrPlot.template">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDAttrPlotAttr.template">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDAttrPlotData.template">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDCircularBuff.template">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDCircularBuff_settings.req">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDColorConvert.template">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDColorConvert_settings.req">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDFFT.template">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDFFT_settings.req">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDFile.template">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDFile_settings.req">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDFileHDF5.template">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDFileHDF5_settings.req">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDFileJPEG.template">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDFileJPEG_settings.req">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDFileMagick.template">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDFileMagick_settings.req">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDFileNetCDF.template">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDFileNetCDF_settings.req">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDFileNexus.template">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDFileNexus_settings.req">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDFileTIFF.template">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDFileTIFF_settings.req">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDGather.template">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDGather_settings.req">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDGatherN.template">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDGatherN_settings.req">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDOverlay.template">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDOverlay_settings.req">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDOverlayN.template">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDOverlayN_settings.req">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDPluginBase.template">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDPluginBase_settings.req">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDPluginFile_settings.req">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDPosPlugin.template">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDProcess.template">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDProcess_settings.req">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDPva.template">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDPva_settings.req">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDROI.template">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDROI_settings.req">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDROIStat.template">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDROIStat_settings.req">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDROIStat8.template">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDROIStatN.template">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDROIStatN_settings.req">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDScatter.template">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDScatter_settings.req">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDStats.template">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDStats_settings.req">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDStdArrays.template">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDStdArrays_settings.req">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDTimeSeries.template">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDTimeSeries_settings.req">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDTimeSeriesN.template">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDTimeSeriesN_settings.req">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDTransform.template">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="..\Db\NDTransform_settings.req">
+      <Filter>Db</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Db">
+      <UniqueIdentifier>{dfcc68ba-63e1-43e7-bebe-ba0b4b9aa21a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

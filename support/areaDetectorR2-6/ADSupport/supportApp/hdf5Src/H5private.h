@@ -5,12 +5,10 @@
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
- * the files COPYING and Copyright.html.  COPYING can be found at the root   *
- * of the source code distribution tree; Copyright.html can be found at the  *
- * root level of an installed copy of the electronic HDF5 document set and   *
- * is linked from the top-level documents page.  It can also be found at     *
- * http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have          *
- * access to either file, you may request a copy from help@hdfgroup.org.     *
+ * the COPYING file, which can be found at the root of the source code       *
+ * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * If you do not have access to either file, you may request a copy from     *
+ * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /* Programmer:  Robb Matzke <matzke@llnl.gov>
@@ -657,6 +655,9 @@ typedef struct {
 #ifndef HDatol
     #define HDatol(S)    atol(S)
 #endif /* HDatol */
+#ifndef HDatoll
+    #define HDatoll(S)   atoll(S)
+#endif /* HDatol */
 #ifndef HDbsearch
     #define HDbsearch(K,B,N,Z,F)  bsearch(K,B,N,Z,F)
 #endif /* HDbsearch */
@@ -810,7 +811,8 @@ H5_DLL H5_ATTR_CONST int Nflock(int fd, int operation);
     /* NOTE: flock(2) is not present on all POSIX systems.
      * If it is not present, we try a flock() equivalent based on
      * fcntl(2), then fall back to a function that always fails if
-     * it is not present at all.
+     * it is not present at all (Windows uses a separate Wflock()
+     * function).
      */
     #if defined(H5_HAVE_FLOCK)
         #define HDflock(F,L)    flock(F,L)
@@ -1029,6 +1031,15 @@ typedef off_t               h5_stat_size_t;
 #ifndef HDlink
     #define HDlink(OLD,NEW)    link(OLD,NEW)
 #endif /* HDlink */
+#ifndef HDllround
+    #define HDllround(V)     llround(V)
+#endif /* HDround */
+#ifndef HDllroundf
+    #define HDllroundf(V)    llroundf(V)
+#endif /* HDllroundf */
+#ifndef HDllroundl
+    #define HDllroundl(V)    llroundl(V)
+#endif /* HDllroundl */
 #ifndef HDlocaleconv
     #define HDlocaleconv()    localeconv()
 #endif /* HDlocaleconv */
@@ -1044,6 +1055,15 @@ typedef off_t               h5_stat_size_t;
 #ifndef HDlongjmp
     #define HDlongjmp(J,N)    longjmp(J,N)
 #endif /* HDlongjmp */
+#ifndef HDlround
+    #define HDlround(V)     lround(V)
+#endif /* HDround */
+#ifndef HDlroundf
+    #define HDlroundf(V)    lroundf(V)
+#endif /* HDlroundf */
+#ifndef HDlroundl
+    #define HDlroundl(V)    lroundl(V)
+#endif /* HDroundl */
 #ifndef HDlseek
     #define HDlseek(F,O,W)  lseek(F,O,W)
 #endif /* HDlseek */
@@ -1093,6 +1113,9 @@ typedef off_t               h5_stat_size_t;
 #ifndef HDmodf
     #define HDmodf(X,Y)    modf(X,Y)
 #endif /* HDmodf */
+#ifndef HDnanosleep
+    #define HDnanosleep(N, O)    nanosleep(N, O)
+#endif /* HDnanosleep */
 #ifndef HDopen
     #ifdef _O_BINARY
         #define HDopen(S,F,M)    open(S,F|_O_BINARY,M)
@@ -1118,7 +1141,12 @@ typedef off_t               h5_stat_size_t;
 #ifndef HDpow
     #define HDpow(X,Y)    pow(X,Y)
 #endif /* HDpow */
-/* printf() variable arguments */
+#ifndef HDpowf
+    #define HDpowf(X,Y)   powf(X,Y)
+#endif /* HDpowf */
+#ifndef HDprintf
+    #define HDprintf(...)   HDfprintf(stdout, __VA_ARGS__)
+#endif /* HDprintf */
 #ifndef HDputc
     #define HDputc(C,F)    putc(C,F)
 #endif /* HDputc*/
@@ -1180,6 +1208,15 @@ typedef off_t               h5_stat_size_t;
 #ifndef HDrewinddir
     #define HDrewinddir(D)    rewinddir(D)
 #endif /* HDrewinddir */
+#ifndef HDround
+    #define HDround(V)    round(V)
+#endif /* HDround */
+#ifndef HDroundf
+    #define HDroundf(V)    roundf(V)
+#endif /* HDroundf */
+#ifndef HDroundl
+    #define HDroundl(V)    roundl(V)
+#endif /* HDroundl */
 #ifndef HDrmdir
     #define HDrmdir(S)    rmdir(S)
 #endif /* HDrmdir */
@@ -1347,7 +1384,13 @@ typedef off_t               h5_stat_size_t;
 #ifndef HDstrtol
     #define HDstrtol(S,R,N)    strtol(S,R,N)
 #endif /* HDstrtol */
-H5_DLL int64_t HDstrtoll (const char *s, const char **rest, int base);
+#ifndef HDstrtoll
+    #ifdef H5_HAVE_STRTOLL
+        #define HDstrtoll(S,R,N)  strtoll(S,R,N)
+    #else
+        H5_DLL int64_t HDstrtoll (const char *s, const char **rest, int base);
+    #endif /* H5_HAVE_STRTOLL */
+#endif /* HDstrtoll */
 #ifndef HDstrtoul
     #define HDstrtoul(S,R,N)  strtoul(S,R,N)
 #endif /* HDstrtoul */
@@ -1515,7 +1558,7 @@ extern char *strdup(const char *s);
 #define H5_CHECK_OVERFLOW(var, vartype, casttype) \
 {                                                 \
     casttype _tmp_overflow = (casttype)(var);     \
-    assert((var) == (vartype)_tmp_overflow);      \
+    HDassert((var) == (vartype)_tmp_overflow);      \
 }
 #else /* NDEBUG */
 #define H5_CHECK_OVERFLOW(var, vartype, casttype)
@@ -1529,7 +1572,7 @@ extern char *strdup(const char *s);
 {                                                       \
     srctype _tmp_src = (srctype)(src);  \
     dsttype _tmp_dst = (dsttype)(_tmp_src);  \
-    assert(_tmp_src == (srctype)_tmp_dst);   \
+    HDassert(_tmp_src == (srctype)_tmp_dst);   \
     (dst) = _tmp_dst;                             \
 }
 
@@ -1540,8 +1583,8 @@ extern char *strdup(const char *s);
 {                                                       \
     srctype _tmp_src = (srctype)(src);  \
     dsttype _tmp_dst = (dsttype)(_tmp_src);  \
-    assert(_tmp_src >= 0);   \
-    assert(_tmp_src == _tmp_dst);   \
+    HDassert(_tmp_src >= 0);   \
+    HDassert(_tmp_src == _tmp_dst);   \
     (dst) = _tmp_dst;                             \
 }
 
@@ -1552,8 +1595,8 @@ extern char *strdup(const char *s);
 {                                                       \
     srctype _tmp_src = (srctype)(src);  \
     dsttype _tmp_dst = (dsttype)(_tmp_src);  \
-    assert(_tmp_dst >= 0);   \
-    assert(_tmp_src == (srctype)_tmp_dst);   \
+    HDassert(_tmp_dst >= 0);   \
+    HDassert(_tmp_src == (srctype)_tmp_dst);   \
     (dst) = _tmp_dst;                             \
 }
 
@@ -1561,8 +1604,8 @@ extern char *strdup(const char *s);
 {                                                       \
     srctype _tmp_src = (srctype)(src);  \
     dsttype _tmp_dst = (dsttype)(_tmp_src);  \
-    assert(_tmp_src >= 0);   \
-    assert(_tmp_src == (srctype)_tmp_dst);   \
+    HDassert(_tmp_src >= 0);   \
+    HDassert(_tmp_src == (srctype)_tmp_dst);   \
     (dst) = _tmp_dst;                             \
 }
 
@@ -1934,7 +1977,7 @@ extern hbool_t H5_MPEinit_g;   /* Has the MPE Library been initialized? */
                                                                               \
         if(!func_check) {                                                     \
             /* Check function naming status */                                \
-            HDassert(asrt);                                                   \
+            HDassert(asrt && "Function naming conventions are incorrect - check H5_IS_API|PUB|PRIV|PKG macros in H5private.h (this is usually due to an incorrect number of underscores)");                                                   \
                                                                               \
             /* Don't check again */                                           \
             func_check = TRUE;                                                \
@@ -2562,6 +2605,8 @@ H5_DLL uint32_t H5_hash_string(const char *str);
 
 /* Time related routines */
 H5_DLL time_t H5_make_time(struct tm *tm);
+H5_DLL void H5_nanosleep(uint64_t nanosec);
+H5_DLL double H5_get_time(void);
 
 /* Functions for building paths, etc. */
 H5_DLL herr_t   H5_build_extpath(const char *name, char **extpath /*out*/);

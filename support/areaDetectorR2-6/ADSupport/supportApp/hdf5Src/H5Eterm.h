@@ -5,12 +5,10 @@
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
- * the files COPYING and Copyright.html.  COPYING can be found at the root   *
- * of the source code distribution tree; Copyright.html can be found at the  *
- * root level of an installed copy of the electronic HDF5 document set and   *
- * is linked from the top-level documents page.  It can also be found at     *
- * http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have          *
- * access to either file, you may request a copy from help@hdfgroup.org.     *
+ * the COPYING file, which can be found at the root of the source code       *
+ * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * If you do not have access to either file, you may request a copy from     *
+ * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /* Generated automatically by bin/make_err -- do not edit */
@@ -40,6 +38,7 @@ H5E_ATTR_g=
 H5E_IO_g=    
 H5E_EFL_g=    
 H5E_TST_g=    
+H5E_PAGEBUF_g=    
 H5E_FSPACE_g=    
 H5E_DATASET_g=    
 H5E_STORAGE_g=    
@@ -158,6 +157,7 @@ H5E_NOIDS_g=
 
 /* Cache related errors */    
 H5E_CANTFLUSH_g=    
+H5E_CANTUNSERIALIZE_g=    
 H5E_CANTSERIALIZE_g=    
 H5E_CANTTAG_g=    
 H5E_CANTLOAD_g=    
@@ -170,7 +170,11 @@ H5E_CANTUNPROTECT_g=
 H5E_CANTPIN_g=    
 H5E_CANTUNPIN_g=    
 H5E_CANTMARKDIRTY_g=    
+H5E_CANTMARKCLEAN_g=    
+H5E_CANTMARKUNSERIALIZED_g=    
+H5E_CANTMARKSERIALIZED_g=    
 H5E_CANTDIRTY_g=    
+H5E_CANTCLEAN_g=    
 H5E_CANTEXPUNGE_g=    
 H5E_CANTRESIZE_g=    
 H5E_CANTDEPEND_g=    

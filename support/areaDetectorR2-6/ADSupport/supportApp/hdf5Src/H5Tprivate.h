@@ -5,12 +5,10 @@
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
- * the files COPYING and Copyright.html.  COPYING can be found at the root   *
- * of the source code distribution tree; Copyright.html can be found at the  *
- * root level of an installed copy of the electronic HDF5 document set and   *
- * is linked from the top-level documents page.  It can also be found at     *
- * http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have          *
- * access to either file, you may request a copy from help@hdfgroup.org.     *
+ * the COPYING file, which can be found at the root of the source code       *
+ * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * If you do not have access to either file, you may request a copy from     *
+ * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*
@@ -120,6 +118,7 @@ H5_DLL struct H5O_loc_t *H5T_oloc(H5T_t *dt);
 H5_DLL H5G_name_t *H5T_nameof(H5T_t *dt);
 H5_DLL htri_t H5T_is_immutable(const H5T_t *dt);
 H5_DLL htri_t H5T_is_named(const H5T_t *dt);
+H5_DLL herr_t H5T_convert_committed_datatype(H5T_t *dt, H5F_t *f);
 H5_DLL htri_t H5T_is_relocatable(const H5T_t *dt);
 H5_DLL H5T_path_t *H5T_path_find(const H5T_t *src, const H5T_t *dst,
     const char *name, H5T_conv_t func, hid_t dxpl_id, hbool_t is_api);
@@ -137,6 +136,7 @@ H5_DLL htri_t H5T_is_sensible(const H5T_t *dt);
 H5_DLL uint32_t H5T_hash(H5F_t * file, const H5T_t *dt);
 H5_DLL herr_t H5T_set_latest_version(H5T_t *dt);
 H5_DLL herr_t H5T_patch_file(H5T_t *dt, H5F_t *f);
+H5_DLL herr_t H5T_patch_vlen_file(H5T_t *dt, H5F_t *f);
 H5_DLL htri_t H5T_is_variable_str(const H5T_t *dt);
 
 /* Reference specific functions */

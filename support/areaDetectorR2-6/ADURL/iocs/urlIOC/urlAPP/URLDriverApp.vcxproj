@@ -69,7 +69,7 @@
     <ProjectReference Include="..\..\..\..\..\sscan\sscanApp\src\sscan.vcxproj">
       <Project>{bc5f994e-1bfe-4c94-bf8d-86077ef84ed7}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\ADCore\ADApp\ADBase.vcxproj">
+    <ProjectReference Include="..\..\..\..\ADCore\ADApp\ADSrc\ADBase.vcxproj">
       <Project>{77cbc12c-ae16-40ef-a286-a61535f45a99}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\ADCore\ADApp\pluginSrc\NDPlugin.vcxproj">

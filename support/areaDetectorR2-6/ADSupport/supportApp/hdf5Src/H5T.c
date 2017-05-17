@@ -5,12 +5,10 @@
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
- * the files COPYING and Copyright.html.  COPYING can be found at the root   *
- * of the source code distribution tree; Copyright.html can be found at the  *
- * root level of an installed copy of the electronic HDF5 document set and   *
- * is linked from the top-level documents page.  It can also be found at     *
- * http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have          *
- * access to either file, you may request a copy from help@hdfgroup.org.     *
+ * the COPYING file, which can be found at the root of the source code       *
+ * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * If you do not have access to either file, you may request a copy from     *
+ * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*
@@ -3038,8 +3036,10 @@ H5T__create(H5T_class_t type, size_t size)
                     subtype = H5T_NATIVE_INT_g;
                 else if(sizeof(long) == size)
                     subtype = H5T_NATIVE_LONG_g;
+#if H5_SIZEOF_LONG != H5_SIZEOF_LONG_LONG
                 else if(sizeof(long long) == size)
                     subtype = H5T_NATIVE_LLONG_g;
+#endif /* H5_SIZEOF_LONG != H5_SIZEOF_LONG_LONG */
                 else
                     HGOTO_ERROR(H5E_DATATYPE, H5E_CANTINIT, NULL, "no applicable native integer type")
                 if(NULL == (dt = H5T__alloc()))
@@ -3525,7 +3525,7 @@ H5T__free(H5T_t *dt)
             HGOTO_ERROR(H5E_DATATYPE, H5E_CANTRELEASE, FAIL, "can't decrement count for object")
         if(H5FO_delete(dt->sh_loc.file, H5AC_ind_read_dxpl_id, dt->sh_loc.u.loc.oh_addr) < 0)
             HGOTO_ERROR(H5E_DATATYPE, H5E_CANTRELEASE, FAIL, "can't remove datatype from list of open objects")
-        if(H5O_close(&dt->oloc) < 0)
+        if(H5O_close(&dt->oloc, NULL) < 0)
             HGOTO_ERROR(H5E_DATATYPE, H5E_CANTINIT, FAIL, "unable to close data type object header")
         dt->shared->state = H5T_STATE_NAMED;
     } /* end if */
@@ -3604,7 +3604,6 @@ done:
 herr_t
 H5T_close(H5T_t *dt)
 {
-    hbool_t 	corked;			/* Whether the named datatype is corked or not */
     herr_t      ret_value = SUCCEED;   	/* Return value */
 
     FUNC_ENTER_NOAPI(FAIL)
@@ -3617,12 +3616,13 @@ H5T_close(H5T_t *dt)
     if(dt->shared->state != H5T_STATE_OPEN || dt->shared->fo_count == 0) {
 	/* Uncork cache entries with object address tag for named datatype only */
 	if(dt->shared->state == H5T_STATE_OPEN && dt->shared->fo_count == 0) {
+            hbool_t 	corked;			/* Whether the named datatype is corked or not */
+
 	    if(H5AC_cork(dt->oloc.file, dt->oloc.addr, H5AC__GET_CORKED, &corked) < 0)
-		HGOTO_ERROR(H5E_ATOM, H5E_SYSTEM, FAIL, "unable to retrieve an object's cork status")
-	    if(corked) {
+		HGOTO_ERROR(H5E_DATATYPE, H5E_CANTGET, FAIL, "unable to retrieve an object's cork status")
+	    if(corked)
 		if(H5AC_cork(dt->oloc.file, dt->oloc.addr, H5AC__UNCORK, NULL) < 0)
-		    HGOTO_ERROR(H5E_OHDR, H5E_SYSTEM, FAIL, "unable to uncork an object")
-	    } /* end if */
+		    HGOTO_ERROR(H5E_DATATYPE, H5E_CANTUNCORK, FAIL, "unable to uncork an object")
 	} /* end if */
 
         if(H5T__free(dt) < 0)
@@ -3645,7 +3645,7 @@ H5T_close(H5T_t *dt)
             /* Check reference count for this object in the top file */
             if(H5FO_top_count(dt->sh_loc.file, dt->sh_loc.u.loc.oh_addr) == 0) {
                 /* Close object location for named datatype */
-                if(H5O_close(&dt->oloc) < 0)
+                if(H5O_close(&dt->oloc, NULL) < 0)
                     HGOTO_ERROR(H5E_DATATYPE, H5E_CANTINIT, FAIL, "unable to close")
             } /* end if */
             else
@@ -5002,6 +5002,49 @@ H5T_is_named(const H5T_t *dt)
 done:
     FUNC_LEAVE_NOAPI(ret_value)
 }
+
+/*-------------------------------------------------------------------------
+ * Function:    H5T_convert_committed_datatype
+ *
+ * Purpose:     To convert the committed datatype "dt" to a transient embedded
+ *		type if the file location associated with the committed datatype is 
+ *		different from the parameter "f".  
+ *		"f" is the file location where the dataset or attribute will be created.
+ *
+ * Notes:       See HDFFV-9940
+ *
+ * Return:      Success:        non-negative
+ *              Failure:        negative
+ *
+ * Programmer:  Vailin Choi; June 2016
+ *
+ *-------------------------------------------------------------------------
+ */
+herr_t
+H5T_convert_committed_datatype(H5T_t *dt, H5F_t *f)
+{
+    herr_t      ret_value = SUCCEED;       /* Return value */
+
+    FUNC_ENTER_NOAPI(FAIL)
+
+    HDassert(dt);
+    HDassert(f);
+
+    if(H5T_is_named(dt) && (dt->sh_loc.file != f)) {
+       HDassert(dt->sh_loc.type == H5O_SHARE_TYPE_COMMITTED);
+
+        H5O_msg_reset_share(H5O_DTYPE_ID, dt);
+        if(H5O_loc_free(&dt->oloc) < 0)
+            HGOTO_ERROR(H5E_DATATYPE, H5E_CANTRESET, FAIL, "unable to initialize location")
+        if(H5G_name_free(&dt->path) < 0)
+            HGOTO_ERROR(H5E_DATATYPE, H5E_CANTOPENOBJ, FAIL, "unable to reset path")
+
+        dt->shared->state = H5T_STATE_TRANSIENT;
+    }
+
+done:
+    FUNC_LEAVE_NOAPI(ret_value)
+}   /* end H5T_convert_committed_datatype() */
 
 
 /*--------------------------------------------------------------------------

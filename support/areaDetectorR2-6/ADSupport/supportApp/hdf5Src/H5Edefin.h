@@ -5,12 +5,10 @@
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
- * the files COPYING and Copyright.html.  COPYING can be found at the root   *
- * of the source code distribution tree; Copyright.html can be found at the  *
- * root level of an installed copy of the electronic HDF5 document set and   *
- * is linked from the top-level documents page.  It can also be found at     *
- * http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have          *
- * access to either file, you may request a copy from help@hdfgroup.org.     *
+ * the COPYING file, which can be found at the root of the source code       *
+ * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * If you do not have access to either file, you may request a copy from     *
+ * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /* Generated automatically by bin/make_err -- do not edit */
@@ -39,6 +37,7 @@ hid_t H5E_ATTR_g           = FAIL;      /* Attribute */
 hid_t H5E_IO_g             = FAIL;      /* Low-level I/O */
 hid_t H5E_EFL_g            = FAIL;      /* External file list */
 hid_t H5E_TST_g            = FAIL;      /* Ternary Search Trees */
+hid_t H5E_PAGEBUF_g        = FAIL;      /* Page Buffering */
 hid_t H5E_FSPACE_g         = FAIL;      /* Free Space Manager */
 hid_t H5E_DATASET_g        = FAIL;      /* Dataset */
 hid_t H5E_STORAGE_g        = FAIL;      /* Data storage */
@@ -156,6 +155,7 @@ hid_t H5E_NOIDS_g          = FAIL;      /* Out of IDs for group */
 
 /* Cache related errors */
 hid_t H5E_CANTFLUSH_g      = FAIL;      /* Unable to flush data from cache */
+hid_t H5E_CANTUNSERIALIZE_g = FAIL;      /* Unable to mark metadata as unserialized */
 hid_t H5E_CANTSERIALIZE_g  = FAIL;      /* Unable to serialize data from cache */
 hid_t H5E_CANTTAG_g        = FAIL;      /* Unable to tag metadata in the cache */
 hid_t H5E_CANTLOAD_g       = FAIL;      /* Unable to load metadata into cache */
@@ -168,7 +168,11 @@ hid_t H5E_CANTUNPROTECT_g  = FAIL;      /* Unable to unprotect metadata */
 hid_t H5E_CANTPIN_g        = FAIL;      /* Unable to pin cache entry */
 hid_t H5E_CANTUNPIN_g      = FAIL;      /* Unable to un-pin cache entry */
 hid_t H5E_CANTMARKDIRTY_g  = FAIL;      /* Unable to mark a pinned entry as dirty */
+hid_t H5E_CANTMARKCLEAN_g  = FAIL;      /* Unable to mark a pinned entry as clean */
+hid_t H5E_CANTMARKUNSERIALIZED_g = FAIL;      /* Unable to mark an entry as unserialized */
+hid_t H5E_CANTMARKSERIALIZED_g = FAIL;      /* Unable to mark an entry as serialized */
 hid_t H5E_CANTDIRTY_g      = FAIL;      /* Unable to mark metadata as dirty */
+hid_t H5E_CANTCLEAN_g      = FAIL;      /* Unable to mark metadata as clean */
 hid_t H5E_CANTEXPUNGE_g    = FAIL;      /* Unable to expunge a metadata cache entry */
 hid_t H5E_CANTRESIZE_g     = FAIL;      /* Unable to resize a metadata cache entry */
 hid_t H5E_CANTDEPEND_g     = FAIL;      /* Unable to create a flush dependency */

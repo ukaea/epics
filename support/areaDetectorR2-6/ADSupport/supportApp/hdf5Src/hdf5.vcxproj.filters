@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <None Include="ACKNOWLEDGMENTS" />
@@ -146,7 +146,6 @@
     <ClCompile Include="H5HFhdr.c" />
     <ClCompile Include="H5HFhuge.c" />
     <ClCompile Include="H5HFiblock.c" />
-    <ClCompile Include="H5HFint.c" />
     <ClCompile Include="H5HFiter.c" />
     <ClCompile Include="H5HFman.c" />
     <ClCompile Include="H5HFsection.c" />
@@ -302,6 +301,22 @@
     <ClCompile Include="os\WIN32\H5Tinit_win64.c">
       <Filter>os\WIN32</Filter>
     </ClCompile>
+    <ClCompile Include="H5Cdbg.c" />
+    <ClCompile Include="H5B2leaf.c" />
+    <ClCompile Include="H5Cimage.c" />
+    <ClCompile Include="H5ACdbg.c" />
+    <ClCompile Include="H5ACproxy_entry.c" />
+    <ClCompile Include="H5B2internal.c" />
+    <ClCompile Include="H5Cepoch.c" />
+    <ClCompile Include="H5Clog.c" />
+    <ClCompile Include="H5Cprefetched.c" />
+    <ClCompile Include="H5Cquery.c" />
+    <ClCompile Include="H5Ctag.c" />
+    <ClCompile Include="H5Ctest.c" />
+    <ClCompile Include="H5detect.c" />
+    <ClCompile Include="H5Fspace.c" />
+    <ClCompile Include="H5Ocache_image.c" />
+    <ClCompile Include="H5PB.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="H5ACmodule.h" />

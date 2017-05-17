@@ -5,12 +5,10 @@
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
- * the files COPYING and Copyright.html.  COPYING can be found at the root   *
- * of the source code distribution tree; Copyright.html can be found at the  *
- * root level of an installed copy of the electronic HDF5 document set and   *
- * is linked from the top-level documents page.  It can also be found at     *
- * http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have          *
- * access to either file, you may request a copy from help@hdfgroup.org.     *
+ * the COPYING file, which can be found at the root of the source code       *
+ * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * If you do not have access to either file, you may request a copy from     *
+ * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*
@@ -94,10 +92,10 @@ extern "C" {
 /* Version numbers */
 #define H5_VERS_MAJOR	1	/* For major interface/format changes  	     */
 #define H5_VERS_MINOR	10	/* For minor interface/format changes  	     */
-#define H5_VERS_RELEASE	0	/* For tweaks, bug-fixes, or development     */
-#define H5_VERS_SUBRELEASE "patch1"	/* For pre-releases like snap0       */
+#define H5_VERS_RELEASE	1	/* For tweaks, bug-fixes, or development     */
+#define H5_VERS_SUBRELEASE ""	/* For pre-releases like snap0       */
 				/* Empty string for real releases.           */
-#define H5_VERS_INFO    "HDF5 library version: 1.10.0-patch1"      /* Full version string */
+#define H5_VERS_INFO    "HDF5 library version: 1.10.1"      /* Full version string */
 
 #define H5check()	H5check_version(H5_VERS_MAJOR,H5_VERS_MINOR,	      \
 				        H5_VERS_RELEASE)
@@ -194,28 +192,21 @@ H5_GCC_DIAG_ON(long-long)
 /*
  * File addresses have their own types.
  */
-#if H5_SIZEOF_INT64_T>=8
-    typedef uint64_t                haddr_t;
-#   define HADDR_UNDEF              ((haddr_t)(int64_t)(-1))
-#   define H5_SIZEOF_HADDR_T        H5_SIZEOF_INT64_T
-#   ifdef H5_HAVE_PARALLEL
-#       define HADDR_AS_MPI_TYPE    MPI_LONG_LONG_INT
-#   endif  /* H5_HAVE_PARALLEL */
-#elif H5_SIZEOF_INT>=8
+#if H5_SIZEOF_INT >= 8
     typedef unsigned                haddr_t;
 #   define HADDR_UNDEF              ((haddr_t)(-1))
 #   define H5_SIZEOF_HADDR_T        H5_SIZEOF_INT
 #   ifdef H5_HAVE_PARALLEL
 #       define HADDR_AS_MPI_TYPE    MPI_UNSIGNED
 #   endif  /* H5_HAVE_PARALLEL */
-#elif H5_SIZEOF_LONG>=8
+#elif H5_SIZEOF_LONG >= 8
     typedef unsigned long           haddr_t;
 #   define HADDR_UNDEF              ((haddr_t)(long)(-1))
 #   define H5_SIZEOF_HADDR_T        H5_SIZEOF_LONG
 #   ifdef H5_HAVE_PARALLEL
 #       define HADDR_AS_MPI_TYPE    MPI_UNSIGNED_LONG
 #   endif  /* H5_HAVE_PARALLEL */
-#elif H5_SIZEOF_LONG_LONG>=8
+#elif H5_SIZEOF_LONG_LONG >= 8
     typedef unsigned long long      haddr_t;
 #   define HADDR_UNDEF              ((haddr_t)(long long)(-1))
 #   define H5_SIZEOF_HADDR_T        H5_SIZEOF_LONG_LONG
@@ -225,11 +216,11 @@ H5_GCC_DIAG_ON(long-long)
 #else
 #   error "nothing appropriate for haddr_t"
 #endif
-#if H5_SIZEOF_HADDR_T ==H5_SIZEOF_INT
+#if H5_SIZEOF_HADDR_T == H5_SIZEOF_INT
 #   define H5_PRINTF_HADDR_FMT  "%u"
-#elif H5_SIZEOF_HADDR_T ==H5_SIZEOF_LONG
+#elif H5_SIZEOF_HADDR_T == H5_SIZEOF_LONG
 #   define H5_PRINTF_HADDR_FMT  "%lu"
-#elif H5_SIZEOF_HADDR_T ==H5_SIZEOF_LONG_LONG
+#elif H5_SIZEOF_HADDR_T == H5_SIZEOF_LONG_LONG
 #   define H5_PRINTF_HADDR_FMT  "%" H5_PRINTF_LL_WIDTH "u"
 #else
 #   error "nothing appropriate for H5_PRINTF_HADDR_FMT"

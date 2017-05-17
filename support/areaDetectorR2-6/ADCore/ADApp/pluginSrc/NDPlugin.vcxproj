@@ -74,7 +74,7 @@
     <ProjectReference Include="..\..\..\ADSupport\supportApp\nexusSrc\NeXus.vcxproj">
       <Project>{575a12dd-9181-465b-b0e1-c3bf5b3d9171}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\ADBase.vcxproj">
+    <ProjectReference Include="..\ADSrc\ADBase.vcxproj">
       <Project>{77cbc12c-ae16-40ef-a286-a61535f45a99}</Project>
     </ProjectReference>
   </ItemGroup>

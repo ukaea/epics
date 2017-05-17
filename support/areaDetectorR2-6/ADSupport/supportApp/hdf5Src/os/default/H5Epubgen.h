@@ -5,12 +5,10 @@
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
- * the files COPYING and Copyright.html.  COPYING can be found at the root   *
- * of the source code distribution tree; Copyright.html can be found at the  *
- * root level of an installed copy of the electronic HDF5 document set and   *
- * is linked from the top-level documents page.  It can also be found at     *
- * http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have          *
- * access to either file, you may request a copy from help@hdfgroup.org.     *
+ * the COPYING file, which can be found at the root of the source code       *
+ * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * If you do not have access to either file, you may request a copy from     *
+ * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /* Generated automatically by bin/make_err -- do not edit */
@@ -46,6 +44,7 @@ extern "C" {
 #define H5E_IO               (H5OPEN H5E_IO_g)
 #define H5E_EFL              (H5OPEN H5E_EFL_g)
 #define H5E_TST              (H5OPEN H5E_TST_g)
+#define H5E_PAGEBUF          (H5OPEN H5E_PAGEBUF_g)
 #define H5E_FSPACE           (H5OPEN H5E_FSPACE_g)
 #define H5E_DATASET          (H5OPEN H5E_DATASET_g)
 #define H5E_STORAGE          (H5OPEN H5E_STORAGE_g)
@@ -79,6 +78,7 @@ H5_DLLVAR hid_t H5E_ATTR_g;          /* Attribute */
 H5_DLLVAR hid_t H5E_IO_g;            /* Low-level I/O */
 H5_DLLVAR hid_t H5E_EFL_g;           /* External file list */
 H5_DLLVAR hid_t H5E_TST_g;           /* Ternary Search Trees */
+H5_DLLVAR hid_t H5E_PAGEBUF_g;       /* Page Buffering */
 H5_DLLVAR hid_t H5E_FSPACE_g;        /* Free Space Manager */
 H5_DLLVAR hid_t H5E_DATASET_g;       /* Dataset */
 H5_DLLVAR hid_t H5E_STORAGE_g;       /* Data storage */
@@ -267,6 +267,7 @@ H5_DLLVAR hid_t H5E_NOIDS_g;         /* Out of IDs for group */
 
 /* Cache related errors */
 #define H5E_CANTFLUSH        (H5OPEN H5E_CANTFLUSH_g)
+#define H5E_CANTUNSERIALIZE  (H5OPEN H5E_CANTUNSERIALIZE_g)
 #define H5E_CANTSERIALIZE    (H5OPEN H5E_CANTSERIALIZE_g)
 #define H5E_CANTTAG          (H5OPEN H5E_CANTTAG_g)
 #define H5E_CANTLOAD         (H5OPEN H5E_CANTLOAD_g)
@@ -279,7 +280,11 @@ H5_DLLVAR hid_t H5E_NOIDS_g;         /* Out of IDs for group */
 #define H5E_CANTPIN          (H5OPEN H5E_CANTPIN_g)
 #define H5E_CANTUNPIN        (H5OPEN H5E_CANTUNPIN_g)
 #define H5E_CANTMARKDIRTY    (H5OPEN H5E_CANTMARKDIRTY_g)
+#define H5E_CANTMARKCLEAN    (H5OPEN H5E_CANTMARKCLEAN_g)
+#define H5E_CANTMARKUNSERIALIZED (H5OPEN H5E_CANTMARKUNSERIALIZED_g)
+#define H5E_CANTMARKSERIALIZED (H5OPEN H5E_CANTMARKSERIALIZED_g)
 #define H5E_CANTDIRTY        (H5OPEN H5E_CANTDIRTY_g)
+#define H5E_CANTCLEAN        (H5OPEN H5E_CANTCLEAN_g)
 #define H5E_CANTEXPUNGE      (H5OPEN H5E_CANTEXPUNGE_g)
 #define H5E_CANTRESIZE       (H5OPEN H5E_CANTRESIZE_g)
 #define H5E_CANTDEPEND       (H5OPEN H5E_CANTDEPEND_g)
@@ -289,6 +294,7 @@ H5_DLLVAR hid_t H5E_NOIDS_g;         /* Out of IDs for group */
 #define H5E_CANTCORK         (H5OPEN H5E_CANTCORK_g)
 #define H5E_CANTUNCORK       (H5OPEN H5E_CANTUNCORK_g)
 H5_DLLVAR hid_t H5E_CANTFLUSH_g;     /* Unable to flush data from cache */
+H5_DLLVAR hid_t H5E_CANTUNSERIALIZE_g; /* Unable to mark metadata as unserialized */
 H5_DLLVAR hid_t H5E_CANTSERIALIZE_g; /* Unable to serialize data from cache */
 H5_DLLVAR hid_t H5E_CANTTAG_g;       /* Unable to tag metadata in the cache */
 H5_DLLVAR hid_t H5E_CANTLOAD_g;      /* Unable to load metadata into cache */
@@ -301,7 +307,11 @@ H5_DLLVAR hid_t H5E_CANTUNPROTECT_g; /* Unable to unprotect metadata */
 H5_DLLVAR hid_t H5E_CANTPIN_g;       /* Unable to pin cache entry */
 H5_DLLVAR hid_t H5E_CANTUNPIN_g;     /* Unable to un-pin cache entry */
 H5_DLLVAR hid_t H5E_CANTMARKDIRTY_g; /* Unable to mark a pinned entry as dirty */
+H5_DLLVAR hid_t H5E_CANTMARKCLEAN_g; /* Unable to mark a pinned entry as clean */
+H5_DLLVAR hid_t H5E_CANTMARKUNSERIALIZED_g; /* Unable to mark an entry as unserialized */
+H5_DLLVAR hid_t H5E_CANTMARKSERIALIZED_g; /* Unable to mark an entry as serialized */
 H5_DLLVAR hid_t H5E_CANTDIRTY_g;     /* Unable to mark metadata as dirty */
+H5_DLLVAR hid_t H5E_CANTCLEAN_g;     /* Unable to mark metadata as clean */
 H5_DLLVAR hid_t H5E_CANTEXPUNGE_g;   /* Unable to expunge a metadata cache entry */
 H5_DLLVAR hid_t H5E_CANTRESIZE_g;    /* Unable to resize a metadata cache entry */
 H5_DLLVAR hid_t H5E_CANTDEPEND_g;    /* Unable to create a flush dependency */

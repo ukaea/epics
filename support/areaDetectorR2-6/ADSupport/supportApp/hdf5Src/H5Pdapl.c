@@ -5,12 +5,10 @@
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
- * the files COPYING and Copyright.html.  COPYING can be found at the root   *
- * of the source code distribution tree; Copyright.html can be found at the  *
- * root level of an installed copy of the electronic HDF5 document set and   *
- * is linked from the top-level documents page.  It can also be found at     *
- * http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have          *
- * access to either file, you may request a copy from help@hdfgroup.org.     *
+ * the COPYING file, which can be found at the root of the source code       *
+ * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * If you do not have access to either file, you may request a copy from     *
+ * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*-------------------------------------------------------------------------
@@ -87,8 +85,6 @@
 #define H5D_ACS_EFILE_PREFIX_COPY               H5P__dapl_efile_pref_copy
 #define H5D_ACS_EFILE_PREFIX_CMP                H5P__dapl_efile_pref_cmp
 #define H5D_ACS_EFILE_PREFIX_CLOSE              H5P__dapl_efile_pref_close
-
-
 
 /******************/
 /* Local Typedefs */
@@ -1107,10 +1103,10 @@ done:
 herr_t
 H5Pset_append_flush(hid_t plist_id, unsigned ndims, const hsize_t *boundary, H5D_append_cb_t func, void *udata)
 {
-    H5P_genplist_t *plist;      	/* property list pointer */
-    H5D_append_flush_t info;
-    unsigned u;				/* local index variable */
-    herr_t ret_value = SUCCEED;   	/* return value */
+    H5P_genplist_t *plist;      	/* Property list pointer */
+    H5D_append_flush_t info;            /* Property for append flush parameters */
+    unsigned u;				/* Local index variable */
+    herr_t ret_value = SUCCEED;   	/* Return value */
 
     FUNC_ENTER_API(FAIL)
     H5TRACE5("e", "iIu*hx*x", plist_id, ndims, boundary, func, udata);
@@ -1121,7 +1117,7 @@ H5Pset_append_flush(hid_t plist_id, unsigned ndims, const hsize_t *boundary, H5D
     if(ndims > H5S_MAX_RANK)
         HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "dimensionality is too large")
     if(!boundary)
-	    HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "no boundary dimensions specified")
+        HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "no boundary dimensions specified")
 
     /* Check if the callback function is NULL and the user data is non-NULL.
      * This is almost certainly an error as the user data will not be used. */

@@ -5,12 +5,10 @@
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
- * the files COPYING and Copyright.html.  COPYING can be found at the root   *
- * of the source code distribution tree; Copyright.html can be found at the  *
- * root level of an installed copy of the electronic HDF5 document set and   *
- * is linked from the top-level documents page.  It can also be found at     *
- * http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have          *
- * access to either file, you may request a copy from help@hdfgroup.org.     *
+ * the COPYING file, which can be found at the root of the source code       *
+ * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * If you do not have access to either file, you may request a copy from     *
+ * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #define H5A_FRIEND		/*suppress error about including H5Apkg   */
@@ -128,6 +126,9 @@ H5O_attr_decode(H5F_t *f, hid_t dxpl_id, H5O_t *open_oh, unsigned H5_ATTR_UNUSED
     H5A_t		*attr = NULL;
     H5S_extent_t	*extent;	/*extent dimensionality information  */
     size_t		name_len;   	/*attribute name length */
+    size_t		dt_size;   	/* Datatype size */
+    hssize_t		sds_size;   	/* Signed Dataspace size */
+    hsize_t		ds_size;   	/* Dataspace size */
     unsigned            flags = 0;      /* Attribute flags */
     H5A_t		*ret_value = NULL;      /* Return value */
 
@@ -199,7 +200,7 @@ H5O_attr_decode(H5F_t *f, hid_t dxpl_id, H5O_t *open_oh, unsigned H5_ATTR_UNUSED
 
     /* Decode attribute's dataspace extent */
     if((extent = (H5S_extent_t *)(H5O_MSG_SDSPACE->decode)(f, dxpl_id, open_oh,
-        ((flags & H5O_ATTR_FLAG_SPACE_SHARED) ? H5O_MSG_FLAG_SHARED : 0), ioflags, p)) == NULL)
+            ((flags & H5O_ATTR_FLAG_SPACE_SHARED) ? H5O_MSG_FLAG_SHARED : 0), ioflags, p)) == NULL)
         HGOTO_ERROR(H5E_ATTR, H5E_CANTDECODE, NULL, "can't decode attribute dataspace")
 
     /* Copy the extent information to the dataspace */
@@ -217,8 +218,19 @@ H5O_attr_decode(H5F_t *f, hid_t dxpl_id, H5O_t *open_oh, unsigned H5_ATTR_UNUSED
     else
         p += attr->shared->ds_size;
 
+    /* Get the datatype's size */
+    if(0 == (dt_size = H5T_get_size(attr->shared->dt)))
+        HGOTO_ERROR(H5E_ATTR, H5E_CANTGET, NULL, "unable to get datatype size")
+
+    /* Get the datatype & dataspace sizes */
+    if(0 == (dt_size = H5T_get_size(attr->shared->dt)))
+        HGOTO_ERROR(H5E_ATTR, H5E_CANTGET, NULL, "unable to get datatype size")
+    if((sds_size = H5S_GET_EXTENT_NPOINTS(attr->shared->ds)) < 0)
+        HGOTO_ERROR(H5E_ATTR, H5E_CANTGET, NULL, "unable to get dataspace size")
+    ds_size = (hsize_t)sds_size;
+
     /* Compute the size of the data */
-    H5_CHECKED_ASSIGN(attr->shared->data_size, size_t, H5S_GET_EXTENT_NPOINTS(attr->shared->ds) * H5T_get_size(attr->shared->dt), hsize_t);
+    H5_CHECKED_ASSIGN(attr->shared->data_size, size_t, ds_size * (hsize_t)dt_size, hsize_t);
 
     /* Go get the data */
     if(attr->shared->data_size) {

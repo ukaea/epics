@@ -5,12 +5,10 @@
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
- * the files COPYING and Copyright.html.  COPYING can be found at the root   *
- * of the source code distribution tree; Copyright.html can be found at the  *
- * root level of an installed copy of the electronic HDF5 document set and   *
- * is linked from the top-level documents page.  It can also be found at     *
- * http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have          *
- * access to either file, you may request a copy from help@hdfgroup.org.     *
+ * the COPYING file, which can be found at the root of the source code       *
+ * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * If you do not have access to either file, you may request a copy from     *
+ * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*
@@ -204,8 +202,6 @@ H5_DLL herr_t H5P_get_filter(const struct H5Z_filter_info_t *filter,
 #ifdef H5P_TESTING
 H5_DLL char *H5P_get_class_path_test(hid_t pclass_id);
 H5_DLL hid_t H5P_open_class_path_test(const char *path);
-H5_DLL herr_t H5P_reset_external_file_test(hid_t dcpl_id);
-H5_DLL herr_t H5P_reset_layout_test(hid_t dcpl_id);
 #endif /* H5P_TESTING */
 
 #endif /* _H5Ppkg_H */

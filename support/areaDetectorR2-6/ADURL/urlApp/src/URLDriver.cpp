@@ -23,9 +23,6 @@ using namespace Magick;
 
 #include "ADDriver.h"
 
-#define _MAGICKLIB_
-#include <static.h>
-
 #include <epicsExport.h>
 
 static const char *driverName = "URLDriver";

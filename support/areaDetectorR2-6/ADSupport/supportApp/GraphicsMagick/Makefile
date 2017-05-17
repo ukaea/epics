@@ -24,7 +24,7 @@ ifeq ($(WITH_GRAPHICSMAGICK),YES)
     DIRS += magick
     magick_DEPEND_DIRS += bzlib lcms ttf
     DIRS += Magick++
-    Magick++_DEPEND_DIRS += magick
+    Magick++_DEPEND_DIRS += magick coders
 
   endif # ($(GRAPHICSMAGICK_EXTERNAL),NO)
 endif # ($(WITH_GRAPHICSMAGICK),YES)

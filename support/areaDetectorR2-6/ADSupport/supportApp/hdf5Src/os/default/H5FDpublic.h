@@ -5,12 +5,10 @@
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
- * the files COPYING and Copyright.html.  COPYING can be found at the root   *
- * of the source code distribution tree; Copyright.html can be found at the  *
- * root level of an installed copy of the electronic HDF5 document set and   *
- * is linked from the top-level documents page.  It can also be found at     *
- * http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have          *
- * access to either file, you may request a copy from help@hdfgroup.org.     *
+ * the COPYING file, which can be found at the root of the source code       *
+ * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * If you do not have access to either file, you may request a copy from     *
+ * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*
@@ -239,6 +237,19 @@ typedef enum H5F_mem_t	H5FD_mem_t;
      * driver supports the single-writer/multiple-readers I/O pattern.
      */
 #define H5FD_FEAT_SUPPORTS_SWMR_IO      0x00001000
+    /*
+     * Defining H5FD_FEAT_USE_ALLOC_SIZE for a VFL driver
+     * means that the library will just pass the allocation size to the
+     * the driver's allocation callback which will eventually handle alignment.
+     * This is specifically used for the multi/split driver.
+     */
+#define H5FD_FEAT_USE_ALLOC_SIZE	0x00002000
+    /*
+     * Defining H5FD_FEAT_PAGED_AGGR for a VFL driver
+     * means that the driver needs special file space mapping for paged aggregation.
+     * This is specifically used for the multi/split driver.
+     */
+#define H5FD_FEAT_PAGED_AGGR		0x00004000
 
 /* Forward declaration */
 typedef struct H5FD_t H5FD_t;
@@ -277,7 +288,7 @@ typedef struct H5FD_class_t {
                     haddr_t addr, size_t size, void *buffer);
     herr_t  (*write)(H5FD_t *file, H5FD_mem_t type, hid_t dxpl,
                      haddr_t addr, size_t size, const void *buffer);
-    herr_t  (*flush)(H5FD_t *file, hid_t dxpl_id, unsigned closing);
+    herr_t  (*flush)(H5FD_t *file, hid_t dxpl_id, hbool_t closing);
     herr_t  (*truncate)(H5FD_t *file, hid_t dxpl_id, hbool_t closing);
     herr_t  (*lock)(H5FD_t *file, hbool_t rw);
     herr_t  (*unlock)(H5FD_t *file);
@@ -299,15 +310,15 @@ struct H5FD_t {
     hid_t               driver_id;      /*driver ID for this file   */
     const H5FD_class_t *cls;            /*constant class info       */
     unsigned long       fileno;         /* File 'serial' number     */
+    unsigned            access_flags;   /* File access flags (from create or open) */
     unsigned long       feature_flags;  /* VFL Driver feature Flags */
     haddr_t             maxaddr;        /* For this file, overrides class */
     haddr_t             base_addr;      /* Base address for HDF5 data w/in file */
-    hbool_t     	swmr_read;	/* Whether the file is open for SWMR read access */
-					/* Information from file open flags, for SWMR access */
 
     /* Space allocation management fields */
     hsize_t             threshold;      /* Threshold for alignment  */
     hsize_t             alignment;      /* Allocation alignment     */
+    hbool_t             paged_aggr;     /* Paged aggregation for file space is enabled or not */
 };
 
 /* Define enum for the source of file image callbacks */
@@ -360,7 +371,7 @@ H5_DLL herr_t H5FDread(H5FD_t *file, H5FD_mem_t type, hid_t dxpl_id,
                        haddr_t addr, size_t size, void *buf/*out*/);
 H5_DLL herr_t H5FDwrite(H5FD_t *file, H5FD_mem_t type, hid_t dxpl_id,
                         haddr_t addr, size_t size, const void *buf);
-H5_DLL herr_t H5FDflush(H5FD_t *file, hid_t dxpl_id, unsigned closing);
+H5_DLL herr_t H5FDflush(H5FD_t *file, hid_t dxpl_id, hbool_t closing);
 H5_DLL herr_t H5FDtruncate(H5FD_t *file, hid_t dxpl_id, hbool_t closing);
 H5_DLL herr_t H5FDlock(H5FD_t *file, hbool_t rw);
 H5_DLL herr_t H5FDunlock(H5FD_t *file);

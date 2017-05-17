@@ -5,12 +5,10 @@
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
- * the files COPYING and Copyright.html.  COPYING can be found at the root   *
- * of the source code distribution tree; Copyright.html can be found at the  *
- * root level of an installed copy of the electronic HDF5 document set and   *
- * is linked from the top-level documents page.  It can also be found at     *
- * http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have          *
- * access to either file, you may request a copy from help@hdfgroup.org.     *
+ * the COPYING file, which can be found at the root of the source code       *
+ * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * If you do not have access to either file, you may request a copy from     *
+ * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*-------------------------------------------------------------------------
@@ -97,7 +95,7 @@ typedef struct H5FL_reg_node_t {
 
 /* Data structure for free list of blocks */
 typedef struct H5FL_reg_head_t {
-    unsigned init;      /* Whether the free list has been initialized */
+    hbool_t init;       /* Whether the free list has been initialized */
     unsigned allocated; /* Number of blocks allocated */
     unsigned onlist;    /* Number of blocks on free list */
     const char *name;   /* Name of the type */
@@ -166,9 +164,9 @@ typedef struct H5FL_blk_node_t {
 
 /* Data structure for priority queue of native block free lists */
 typedef struct H5FL_blk_head_t {
-    unsigned init;         /* Whether the free list has been initialized */
-    unsigned allocated;    /* Number of blocks allocated */
-    unsigned onlist;       /* Number of blocks on free list */
+    hbool_t init;       /* Whether the free list has been initialized */
+    unsigned allocated; /* Number of blocks allocated */
+    unsigned onlist;    /* Number of blocks on free list */
     size_t list_mem;    /* Amount of memory in block on free list */
     const char *name;   /* Name of the type */
     H5FL_blk_node_t *head;  /* Pointer to first free list in queue */
@@ -237,7 +235,7 @@ typedef struct H5FL_arr_node_t {
 
 /* Data structure for free list of array blocks */
 typedef struct H5FL_arr_head_t {
-    unsigned init;         /* Whether the free list has been initialized */
+    hbool_t init;          /* Whether the free list has been initialized */
     unsigned allocated;    /* Number of blocks allocated */
     size_t list_mem;       /* Amount of memory in block on free list */
     const char *name;      /* Name of the type */
@@ -354,7 +352,7 @@ typedef struct H5FL_fac_node_t H5FL_fac_node_t;
 
 /* Data structure for free list block factory */
 typedef struct H5FL_fac_head_t {
-    unsigned init;      /* Whether the free list has been initialized */
+    hbool_t init;       /* Whether the free list has been initialized */
     unsigned allocated; /* Number of blocks allocated */
     unsigned onlist;    /* Number of blocks on free list */
     size_t size;        /* Size of the blocks in the list */

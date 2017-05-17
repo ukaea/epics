@@ -5,12 +5,10 @@
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
- * the files COPYING and Copyright.html.  COPYING can be found at the root   *
- * of the source code distribution tree; Copyright.html can be found at the  *
- * root level of an installed copy of the electronic HDF5 document set and   *
- * is linked from the top-level documents page.  It can also be found at     *
- * http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have          *
- * access to either file, you may request a copy from help@hdfgroup.org.     *
+ * the COPYING file, which can be found at the root of the source code       *
+ * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * If you do not have access to either file, you may request a copy from     *
+ * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*-------------------------------------------------------------------------
@@ -127,8 +125,6 @@ H5_DLL herr_t H5HF_op(H5HF_t *fh, hid_t dxpl_id, const void *id,
 H5_DLL herr_t H5HF_remove(H5HF_t *fh, hid_t dxpl_id, const void *id);
 H5_DLL herr_t H5HF_close(H5HF_t *fh, hid_t dxpl_id);
 H5_DLL herr_t H5HF_delete(H5F_t *f, hid_t dxpl_id, haddr_t fh_addr);
-H5_DLL herr_t H5HF_depend(H5AC_info_t *parent_entry, H5HF_t *fh);
-H5_DLL herr_t H5HF_undepend(H5AC_info_t *parent_entry, H5HF_t *fh);
 
 /* Statistics routines */
 H5_DLL herr_t H5HF_stat_info(const H5HF_t *fh, H5HF_stat_t *stats);

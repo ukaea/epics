@@ -5,12 +5,10 @@
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
- * the files COPYING and Copyright.html.  COPYING can be found at the root   *
- * of the source code distribution tree; Copyright.html can be found at the  *
- * root level of an installed copy of the electronic HDF5 document set and   *
- * is linked from the top-level documents page.  It can also be found at     *
- * http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have          *
- * access to either file, you may request a copy from help@hdfgroup.org.     *
+ * the COPYING file, which can be found at the root of the source code       *
+ * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * If you do not have access to either file, you may request a copy from     *
+ * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*-------------------------------------------------------------------------
@@ -339,8 +337,7 @@ H5A__dense_fnd_cb(const H5A_t *attr, hbool_t *took_ownership, void *_user_attr)
  *-------------------------------------------------------------------------
  */
 H5A_t *
-H5A_dense_open(H5F_t *f, hid_t dxpl_id, const H5O_ainfo_t *ainfo,
-    const char *name)
+H5A_dense_open(H5F_t *f, hid_t dxpl_id, const H5O_ainfo_t *ainfo, const char *name)
 {
     H5A_bt2_ud_common_t udata;          /* User data for v2 B-tree modify */
     H5HF_t *fheap = NULL;               /* Fractal heap handle */
@@ -889,8 +886,8 @@ done:
  *-------------------------------------------------------------------------
  */
 herr_t
-H5A_dense_rename(H5F_t *f, hid_t dxpl_id, const H5O_ainfo_t *ainfo,
-    const char *old_name, const char *new_name)
+H5A_dense_rename(H5F_t *f, hid_t dxpl_id, const H5O_ainfo_t *ainfo, const char *old_name,
+    const char *new_name)
 {
     H5A_bt2_ud_common_t udata;          /* User data for v2 B-tree modify */
     H5HF_t *fheap = NULL;               /* Fractal heap handle */
@@ -1141,9 +1138,8 @@ done:
  *-------------------------------------------------------------------------
  */
 herr_t
-H5A_dense_iterate(H5F_t *f, hid_t dxpl_id, hid_t loc_id,
-    const H5O_ainfo_t *ainfo, H5_index_t idx_type, H5_iter_order_t order,
-    hsize_t skip, hsize_t *last_attr,
+H5A_dense_iterate(H5F_t *f, hid_t dxpl_id, hid_t loc_id, const H5O_ainfo_t *ainfo,
+    H5_index_t idx_type, H5_iter_order_t order, hsize_t skip, hsize_t *last_attr,
     const H5A_attr_iter_op_t *attr_op, void *op_data)
 {
     H5HF_t *fheap = NULL;               /* Fractal heap handle */
@@ -1344,8 +1340,7 @@ done:
  *-------------------------------------------------------------------------
  */
 herr_t
-H5A_dense_remove(H5F_t *f, hid_t dxpl_id, const H5O_ainfo_t *ainfo,
-    const char *name)
+H5A_dense_remove(H5F_t *f, hid_t dxpl_id, const H5O_ainfo_t *ainfo, const char *name)
 {
     H5A_bt2_ud_rm_t udata;              /* User data for v2 B-tree record removal */
     H5HF_t *fheap = NULL;               /* Fractal heap handle */
@@ -1695,8 +1690,7 @@ done:
  *-------------------------------------------------------------------------
  */
 htri_t
-H5A_dense_exists(H5F_t *f, hid_t dxpl_id, const H5O_ainfo_t *ainfo,
-    const char *name)
+H5A_dense_exists(H5F_t *f, hid_t dxpl_id, const H5O_ainfo_t *ainfo, const char *name)
 {
     H5A_bt2_ud_common_t udata;          /* User data for v2 B-tree modify */
     H5HF_t *fheap = NULL;               /* Fractal heap handle */

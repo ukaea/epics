@@ -5,12 +5,10 @@
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
- * the files COPYING and Copyright.html.  COPYING can be found at the root   *
- * of the source code distribution tree; Copyright.html can be found at the  *
- * root level of an installed copy of the electronic HDF5 document set and   *
- * is linked from the top-level documents page.  It can also be found at     *
- * http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have          *
- * access to either file, you may request a copy from help@hdfgroup.org.     *
+ * the COPYING file, which can be found at the root of the source code       *
+ * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * If you do not have access to either file, you may request a copy from     *
+ * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /****************/
@@ -944,7 +942,7 @@ H5allocate_memory(size_t size, hbool_t clear)
 {
     void *ret_value = NULL;
 
-    FUNC_ENTER_API_NOINIT;
+    FUNC_ENTER_API_NOINIT
     H5TRACE2("*x", "zb", size, clear);
 
     if(clear)
@@ -985,7 +983,7 @@ H5resize_memory(void *mem, size_t size)
 {
     void *ret_value = NULL;
 
-    FUNC_ENTER_API_NOINIT;
+    FUNC_ENTER_API_NOINIT
     H5TRACE2("*x", "*xz", mem, size);
 
     ret_value = H5MM_realloc(mem, size);
@@ -1009,7 +1007,7 @@ H5resize_memory(void *mem, size_t size)
 herr_t
 H5free_memory(void *mem)
 {
-    FUNC_ENTER_API_NOINIT;
+    FUNC_ENTER_API_NOINIT
     H5TRACE1("e", "*x", mem);
 
     /* At this time, it is impossible for this to fail. */

@@ -5,12 +5,10 @@
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
- * the files COPYING and Copyright.html.  COPYING can be found at the root   *
- * of the source code distribution tree; Copyright.html can be found at the  *
- * root level of an installed copy of the electronic HDF5 document set and   *
- * is linked from the top-level documents page.  It can also be found at     *
- * http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have          *
- * access to either file, you may request a copy from help@hdfgroup.org.     *
+ * the COPYING file, which can be found at the root of the source code       *
+ * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * If you do not have access to either file, you may request a copy from     *
+ * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*-------------------------------------------------------------------------
@@ -50,6 +48,7 @@ static herr_t H5O_oh_tag(const H5O_loc_t *oloc, hid_t dxpl_id, haddr_t *tag);
 /*************/
 /* Functions */
 /*************/
+
 
 
 /*-------------------------------------------------------------------------
@@ -161,7 +160,7 @@ H5O_oh_tag(const H5O_loc_t *oloc, hid_t dxpl_id, haddr_t *tag)
     HDassert(oloc);
 
     /* Get object header for object */
-    if(NULL == (oh = H5O_protect(oloc, dxpl_id, H5AC__READ_ONLY_FLAG)))
+    if(NULL == (oh = H5O_protect(oloc, dxpl_id, H5AC__READ_ONLY_FLAG, FALSE)))
         HGOTO_ERROR(H5E_OHDR, H5E_CANTPROTECT, FAIL, "unable to protect object's object header")
 
     /* Get object header's address (i.e. the tag value for this object) */
@@ -199,7 +198,7 @@ H5Orefresh(hid_t oid)
     H5TRACE1("e", "i", oid);
 
     /* Check args */
-    if((oloc = H5O_get_loc(oid)) == NULL)
+    if(NULL == (oloc = H5O_get_loc(oid)))
         HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not an object")
 
     /* Private function */
@@ -234,37 +233,36 @@ done:
 herr_t
 H5O_refresh_metadata(hid_t oid, H5O_loc_t oloc, hid_t dxpl_id)
 {
-    H5G_loc_t obj_loc;
-    H5O_loc_t obj_oloc;
-    H5G_name_t obj_path;
     hbool_t objs_incr = FALSE;          /* Whether the object count in the file was incremented */
     herr_t ret_value = SUCCEED;         /* Return value */
 
     FUNC_ENTER_NOAPI(FAIL)
 
-    /* If the file is opened with write access, 
-       no need to perform refresh actions. */
-    if(H5F_INTENT(oloc.file) & H5F_ACC_RDWR)
-	HGOTO_DONE(SUCCEED)
+    /* If the file is opened with write access, no need to perform refresh actions. */
+    if(!(H5F_INTENT(oloc.file) & H5F_ACC_RDWR)) {
+        H5G_loc_t obj_loc;
+        H5O_loc_t obj_oloc;
+        H5G_name_t obj_path;
 
-    /* Create empty object location */
-    obj_loc.oloc = &obj_oloc;
-    obj_loc.path = &obj_path;
-    H5G_loc_reset(&obj_loc);
+        /* Create empty object location */
+        obj_loc.oloc = &obj_oloc;
+        obj_loc.path = &obj_path;
+        H5G_loc_reset(&obj_loc);
 
-    /* "Fake" another open object in the file, so that it doesn't get closed
-     *  if this object is the only thing holding the file open.
-     */
-    H5F_incr_nopen_objs(oloc.file);
-    objs_incr = TRUE;
+        /* "Fake" another open object in the file, so that it doesn't get closed
+         *  if this object is the only thing holding the file open.
+         */
+        H5F_incr_nopen_objs(oloc.file);
+        objs_incr = TRUE;
 
-    /* Close object & evict its metadata */
-    if((H5O_refresh_metadata_close(oid, oloc, &obj_loc, dxpl_id)) < 0)
-        HGOTO_ERROR(H5E_OHDR, H5E_CANTLOAD, FAIL, "unable to refresh object")
+        /* Close object & evict its metadata */
+        if((H5O_refresh_metadata_close(oid, oloc, &obj_loc, dxpl_id)) < 0)
+            HGOTO_ERROR(H5E_OHDR, H5E_CANTLOAD, FAIL, "unable to refresh object")
 
-    /* Re-open the object, re-fetching its metadata */
-    if((H5O_refresh_metadata_reopen(oid, &obj_loc, dxpl_id, FALSE)) < 0)
-        HGOTO_ERROR(H5E_OHDR, H5E_CANTLOAD, FAIL, "unable to refresh object")
+        /* Re-open the object, re-fetching its metadata */
+        if((H5O_refresh_metadata_reopen(oid, &obj_loc, dxpl_id, FALSE)) < 0)
+            HGOTO_ERROR(H5E_OHDR, H5E_CANTLOAD, FAIL, "unable to refresh object")
+    } /* end if */
 
 done:
     if(objs_incr)
@@ -296,9 +294,9 @@ done:
 herr_t
 H5O_refresh_metadata_close(hid_t oid, H5O_loc_t oloc, H5G_loc_t *obj_loc, hid_t dxpl_id)
 {
-    haddr_t tag = 0;
-    hbool_t corked;
-    herr_t ret_value = SUCCEED;
+    haddr_t tag = 0;            /* Tag for object */
+    hbool_t corked = FALSE;     /* Whether object's metadata is corked */
+    herr_t ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_NOAPI(FAIL)
     
@@ -311,10 +309,9 @@ H5O_refresh_metadata_close(hid_t oid, H5O_loc_t oloc, H5G_loc_t *obj_loc, hid_t 
     } /* end if */
 
     /* Get object's type */
-    if(H5I_get_type(oid) == H5I_DATASET) {
+    if(H5I_get_type(oid) == H5I_DATASET)
 	if(H5D_mult_refresh_close(oid, dxpl_id) < 0)
 	    HGOTO_ERROR(H5E_DATASET, H5E_CANTOPENOBJ, FAIL, "unable to prepare refresh for dataset")
-    }
 
     /* Retrieve tag for object */
     if(H5O_oh_tag(&oloc, dxpl_id, &tag) < 0)
@@ -364,8 +361,8 @@ herr_t
 H5O_refresh_metadata_reopen(hid_t oid, H5G_loc_t *obj_loc, hid_t dxpl_id, hbool_t start_swmr)
 {
     void *object = NULL;        /* Dataset for this operation */
-    H5I_type_t type;
-    herr_t ret_value = SUCCEED;
+    H5I_type_t type;            /* Type of object for the ID */
+    herr_t ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_NOAPI(FAIL)
 
@@ -374,28 +371,24 @@ H5O_refresh_metadata_reopen(hid_t oid, H5G_loc_t *obj_loc, hid_t dxpl_id, hbool_
 
     switch(type) {
         case(H5I_GROUP):
-
             /* Re-open the group */
             if(NULL == (object = H5G_open(obj_loc, dxpl_id)))
                 HGOTO_ERROR(H5E_SYM, H5E_CANTOPENOBJ, FAIL, "unable to open group")
             break;
 
         case(H5I_DATATYPE):
-
             /* Re-open the named datatype */
             if(NULL == (object = H5T_open(obj_loc, dxpl_id)))
                 HGOTO_ERROR(H5E_DATATYPE, H5E_CANTOPENOBJ, FAIL, "unable to open named datatype")
             break;
 
         case(H5I_DATASET):
-
             /* Re-open the dataset */
             if(NULL == (object = H5D_open(obj_loc, H5P_DATASET_ACCESS_DEFAULT, dxpl_id)))
                 HGOTO_ERROR(H5E_DATASET, H5E_CANTOPENOBJ, FAIL, "unable to open dataset")
-	    if(!start_swmr) { /* No need to handle multiple opens when H5Fstart_swmr_write() */
-		if(H5D_mult_refresh_reopen(object, dxpl_id) < 0)
+	    if(!start_swmr) /* No need to handle multiple opens when H5Fstart_swmr_write() */
+		if(H5D_mult_refresh_reopen((H5D_t *)object, dxpl_id) < 0)
 		    HGOTO_ERROR(H5E_DATASET, H5E_CANTOPENOBJ, FAIL, "unable to finish refresh for dataset")
-	    }
             break;
 
         case(H5I_UNINIT):
@@ -414,7 +407,6 @@ H5O_refresh_metadata_reopen(hid_t oid, H5G_loc_t *obj_loc, hid_t dxpl_id, hbool_
         default:
             HGOTO_ERROR(H5E_ARGS, H5E_CANTRELEASE, FAIL, "not a valid file object ID (dataset, group, or datatype)")
         break;
-
     } /* end switch */
 
     /* Re-register ID for the object */

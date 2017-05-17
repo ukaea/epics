@@ -5,12 +5,10 @@
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
- * the files COPYING and Copyright.html.  COPYING can be found at the root   *
- * of the source code distribution tree; Copyright.html can be found at the  *
- * root level of an installed copy of the electronic HDF5 document set and   *
- * is linked from the top-level documents page.  It can also be found at     *
- * http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have          *
- * access to either file, you may request a copy from help@hdfgroup.org.     *
+ * the COPYING file, which can be found at the root of the source code       *
+ * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * If you do not have access to either file, you may request a copy from     *
+ * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*
@@ -243,7 +241,7 @@ H5T__vlen_set_loc(const H5T_t *dt, H5F_t *f, H5T_loc_t loc)
                  * of an address in this file, plus 4 bytes for the size of a heap
                  * ID.  Memory size is different
                  */
-                dt->shared->size = 4 + H5F_SIZEOF_ADDR(f) + 4;
+                dt->shared->size = 4 + (size_t)H5F_SIZEOF_ADDR(f) + 4;
 
                 /* Set up the function pointers to access the VL information on disk */
                 /* VL sequences and VL strings are stored identically on disk, so use the same functions */
@@ -801,7 +799,7 @@ H5T_vlen_disk_getptr(void H5_ATTR_UNUSED *vl)
 static htri_t
 H5T_vlen_disk_isnull(const H5F_t *f, void *_vl)
 {
-    uint8_t *vl=(uint8_t *)_vl; /* Pointer to the disk VL information */
+    uint8_t *vl = (uint8_t *)_vl; /* Pointer to the disk VL information */
     haddr_t addr;               /* Sequence's heap address */
 
     FUNC_ENTER_NOAPI_NOINIT_NOERR
@@ -810,12 +808,12 @@ H5T_vlen_disk_isnull(const H5F_t *f, void *_vl)
     HDassert(vl);
 
     /* Skip the sequence's length */
-    vl+=4;
+    vl += 4;
 
     /* Get the heap address */
-    H5F_addr_decode(f,(const uint8_t **)&vl,&addr);
+    H5F_addr_decode(f, (const uint8_t **)&vl, &addr);
 
-    FUNC_LEAVE_NOAPI(addr==0 ? TRUE : FALSE)
+    FUNC_LEAVE_NOAPI(addr == 0 ? TRUE : FALSE)
 }   /* end H5T_vlen_disk_isnull() */
 
 

@@ -5,12 +5,10 @@
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
- * the files COPYING and Copyright.html.  COPYING can be found at the root   *
- * of the source code distribution tree; Copyright.html can be found at the  *
- * root level of an installed copy of the electronic HDF5 document set and   *
- * is linked from the top-level documents page.  It can also be found at     *
- * http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have          *
- * access to either file, you may request a copy from help@hdfgroup.org.     *
+ * the COPYING file, which can be found at the root of the source code       *
+ * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * If you do not have access to either file, you may request a copy from     *
+ * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*
@@ -137,7 +135,6 @@ typedef struct H5FA_hdr_t {
     haddr_t addr;                       /* Address of header in file                                    */
     size_t size;                        /* Size of header in file                                       */
     H5F_t *f;                           /* Pointer to file for fixed array                              */
-    hbool_t swmr_write;                 /* Flag indicating the file is opened with SWMR-write access    */
     size_t file_rc;                     /* Reference count of files using array header                  */
     hbool_t pending_delete;             /* Array is pending deletion                                    */
     size_t sizeof_addr;                 /* Size of file addresses                                       */
@@ -146,32 +143,27 @@ typedef struct H5FA_hdr_t {
     /* Client information (not stored) */
     void *cb_ctx;                       /* Callback context */
 
-    /* Flush depencency parent information (not stored) */
-    haddr_t fd_parent_addr;             /* Address of flush dependency parent,
-                                         * if any.  This field is initialized
-                                         * to HADDR_UNDEF.  If the fixed
-                                         * array is being used to index a 
-                                         * chunked data set and the dataset
-                                         * metadata is modified by a SWMR 
-                                         * writer, this field will be set equal
-                                         * to the object header proxy that is 
-                                         * the flush dependency parent of the
-                                         * fixed array header.
-                                         *
-                                         * The field is used to avoid duplicate
-                                         * setups of the flush dependency 
-                                         * relationship, and to allow the 
-                                         * fixed array header to destroy
-                                         * the flush dependency on receipt of 
-                                         * an eviction notification from the
-                                         * metadata cache.
-                                         */
-
-    H5AC_info_t *fd_parent_ptr;		    /* Pointer to flush dependency parent,
-                                         * if it exists, otherwise NULL.  (See
-                                         * comment for fd_parent_addr above for
-                                         * further details)
-                                         */
+    /* SWMR / Flush dependency information (not stored) */
+    hbool_t swmr_write;                 /* Flag indicating the file is opened with SWMR-write access    */
+    H5AC_proxy_entry_t *top_proxy;      /* 'Top' proxy cache entry for all array entries */
+    void *parent;		        /* Pointer to 'top' proxy flush dependency
+                                         * parent, if it exists, otherwise NULL.
+                                         * If the fixed array is being used
+                                         * to index a chunked dataset and the
+                                         * dataset metadata is modified by a
+                                         * SWMR writer, this field will be set
+                                         * equal to the object header proxy
+                                         * that is the flush dependency parent
+                                         * of the fixed array header.
+ 					 *
+ 					 * The field is used to avoid duplicate
+					 * setups of the flush dependency 
+					 * relationship, and to allow the 
+					 * fixed array header to destroy
+					 * the flush dependency on receipt of 
+					 * an eviction notification from the
+					 * metadata cache.
+					 */
 } H5FA_hdr_t;
 
 /* The fixed array data block information */
@@ -185,6 +177,9 @@ typedef struct H5FA_dblock_t {
 
     /* Internal array information (not stored) */
     H5FA_hdr_t    *hdr;            /* Shared array header info                              */
+
+    /* SWMR / Flush dependency information (not stored) */
+    H5AC_proxy_entry_t *top_proxy;      /* 'Top' proxy cache entry for all array entries */
 
     /* Computed/cached values (not stored) */
     haddr_t     addr;               /* Address of this data block on disk                   */
@@ -208,6 +203,9 @@ typedef struct H5FA_dbk_page_t {
 
     /* Internal array information (not stored) */
     H5FA_hdr_t    *hdr;         /* Shared array header info                     */
+
+    /* SWMR / Flush dependency information (not stored) */
+    H5AC_proxy_entry_t *top_proxy;      /* 'Top' proxy cache entry for all array entries */
 
     /* Computed/cached values (not stored) */
     haddr_t     addr;           /* Address of this data block page on disk      */
@@ -248,15 +246,6 @@ typedef struct H5FA_dblk_page_cache_ud_t {
 /*****************************/
 /* Package Private Variables */
 /*****************************/
-
-/* H5FA header inherits cache-like properties from H5AC */
-H5_DLLVAR const H5AC_class_t H5AC_FARRAY_HDR[1];
-
-/* H5FA data block inherits cache-like properties from H5AC */
-H5_DLLVAR const H5AC_class_t H5AC_FARRAY_DBLOCK[1];
-
-/* H5FA data block page inherits cache-like properties from H5AC */
-H5_DLLVAR const H5AC_class_t H5AC_FARRAY_DBLK_PAGE[1];
 
 /* Internal fixed array testing class */
 H5_DLLVAR const H5FA_class_t H5FA_CLS_TEST[1];
