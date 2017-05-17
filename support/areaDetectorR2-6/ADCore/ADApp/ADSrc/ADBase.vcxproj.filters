@@ -57,15 +57,6 @@
     <None Include="..\Db\NDAttributeN_settings.req">
       <Filter>Db</Filter>
     </None>
-    <None Include="..\Db\NDAttrPlot.template">
-      <Filter>Db</Filter>
-    </None>
-    <None Include="..\Db\NDAttrPlotAttr.template">
-      <Filter>Db</Filter>
-    </None>
-    <None Include="..\Db\NDAttrPlotData.template">
-      <Filter>Db</Filter>
-    </None>
     <None Include="..\Db\NDCircularBuff.template">
       <Filter>Db</Filter>
     </None>
@@ -126,18 +117,6 @@
     <None Include="..\Db\NDFileTIFF_settings.req">
       <Filter>Db</Filter>
     </None>
-    <None Include="..\Db\NDGather.template">
-      <Filter>Db</Filter>
-    </None>
-    <None Include="..\Db\NDGather_settings.req">
-      <Filter>Db</Filter>
-    </None>
-    <None Include="..\Db\NDGatherN.template">
-      <Filter>Db</Filter>
-    </None>
-    <None Include="..\Db\NDGatherN_settings.req">
-      <Filter>Db</Filter>
-    </None>
     <None Include="..\Db\NDOverlay.template">
       <Filter>Db</Filter>
     </None>
@@ -193,12 +172,6 @@
       <Filter>Db</Filter>
     </None>
     <None Include="..\Db\NDROIStatN_settings.req">
-      <Filter>Db</Filter>
-    </None>
-    <None Include="..\Db\NDScatter.template">
-      <Filter>Db</Filter>
-    </None>
-    <None Include="..\Db\NDScatter_settings.req">
       <Filter>Db</Filter>
     </None>
     <None Include="..\Db\NDStats.template">
