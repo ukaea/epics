@@ -417,11 +417,9 @@
     <ClInclude Include="H5B2module.h" />
     <ClInclude Include="H5B2pkg.h" />
     <ClInclude Include="H5B2private.h" />
-    <ClInclude Include="H5B2public.h" />
     <ClInclude Include="H5Bmodule.h" />
     <ClInclude Include="H5Bpkg.h" />
     <ClInclude Include="H5Bprivate.h" />
-    <ClInclude Include="H5Bpublic.h" />
     <ClInclude Include="H5Cmodule.h" />
     <ClInclude Include="H5config.h" />
     <ClInclude Include="H5Cpkg.h" />
@@ -455,22 +453,18 @@
     <ClInclude Include="H5FSmodule.h" />
     <ClInclude Include="H5FSpkg.h" />
     <ClInclude Include="H5FSprivate.h" />
-    <ClInclude Include="H5FSpublic.h" />
     <ClInclude Include="H5Gmodule.h" />
     <ClInclude Include="H5Gpkg.h" />
     <ClInclude Include="H5Gprivate.h" />
     <ClInclude Include="H5HFmodule.h" />
     <ClInclude Include="H5HFpkg.h" />
     <ClInclude Include="H5HFprivate.h" />
-    <ClInclude Include="H5HFpublic.h" />
     <ClInclude Include="H5HGmodule.h" />
     <ClInclude Include="H5HGpkg.h" />
     <ClInclude Include="H5HGprivate.h" />
-    <ClInclude Include="H5HGpublic.h" />
     <ClInclude Include="H5HLmodule.h" />
     <ClInclude Include="H5HLpkg.h" />
     <ClInclude Include="H5HLprivate.h" />
-    <ClInclude Include="H5HLpublic.h" />
     <ClInclude Include="H5HPprivate.h" />
     <ClInclude Include="H5Imodule.h" />
     <ClInclude Include="H5Ipkg.h" />
@@ -643,20 +637,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib</AdditionalDependencies>
     </Link>
-    <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)include md $(SolutionDir)include
-
-xcopy /Y /Q /D /R  *.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R  .\os\default\*.h  $(SolutionDir)include\os\default &gt; NUL
-xcopy /Y /Q /D /R  .\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-
-</Command>
-    </PreBuildEvent>
-    <PostBuildEvent>
-      <Command>xcopy /Y /Q /D /R  O.Common\*.h  $(SolutionDir)include &gt; NUL
-</Command>
-    </PostBuildEvent>
+    <PreBuildEvent />
+    <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
     <ClCompile>
@@ -670,20 +652,8 @@ xcopy /Y /Q /D /R  .\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib</AdditionalDependencies>
     </Link>
-    <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)include md $(SolutionDir)include
-
-xcopy /Y /Q /D /R  *.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R  .\os\default\*.h  $(SolutionDir)include\os\default &gt; NUL
-xcopy /Y /Q /D /R  .\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-
-</Command>
-    </PreBuildEvent>
-    <PostBuildEvent>
-      <Command>xcopy /Y /Q /D /R  O.Common\*.h  $(SolutionDir)include &gt; NUL
-</Command>
-    </PostBuildEvent>
+    <PreBuildEvent />
+    <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
     <ClCompile>
@@ -697,20 +667,8 @@ xcopy /Y /Q /D /R  .\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
-    <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)include md $(SolutionDir)include
-
-xcopy /Y /Q /D /R  *.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R  .\os\default\*.h  $(SolutionDir)include\os\default &gt; NUL
-xcopy /Y /Q /D /R  .\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-
-</Command>
-    </PreBuildEvent>
-    <PostBuildEvent>
-      <Command>xcopy /Y /Q /D /R  O.Common\*.h  $(SolutionDir)include &gt; NUL
-</Command>
-    </PostBuildEvent>
+    <PreBuildEvent />
+    <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
     <ClCompile>
@@ -724,20 +682,8 @@ xcopy /Y /Q /D /R  .\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
-    <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)include md $(SolutionDir)include
-
-xcopy /Y /Q /D /R  *.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R  .\os\default\*.h  $(SolutionDir)include\os\default &gt; NUL
-xcopy /Y /Q /D /R  .\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-
-</Command>
-    </PreBuildEvent>
-    <PostBuildEvent>
-      <Command>xcopy /Y /Q /D /R  O.Common\*.h  $(SolutionDir)include &gt; NUL
-</Command>
-    </PostBuildEvent>
+    <PreBuildEvent />
+    <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
     <ClCompile>
@@ -755,20 +701,8 @@ xcopy /Y /Q /D /R  .\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib</AdditionalDependencies>
     </Link>
-    <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)include md $(SolutionDir)include
-
-xcopy /Y /Q /D /R  *.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R  .\os\default\*.h  $(SolutionDir)include\os\default &gt; NUL
-xcopy /Y /Q /D /R  .\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-
-</Command>
-    </PreBuildEvent>
-    <PostBuildEvent>
-      <Command>xcopy /Y /Q /D /R  O.Common\*.h  $(SolutionDir)include &gt; NUL
-</Command>
-    </PostBuildEvent>
+    <PreBuildEvent />
+    <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
     <ClCompile>
@@ -786,20 +720,8 @@ xcopy /Y /Q /D /R  .\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib</AdditionalDependencies>
     </Link>
-    <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)include md $(SolutionDir)include
-
-xcopy /Y /Q /D /R  *.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R  .\os\default\*.h  $(SolutionDir)include\os\default &gt; NUL
-xcopy /Y /Q /D /R  .\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-
-</Command>
-    </PreBuildEvent>
-    <PostBuildEvent>
-      <Command>xcopy /Y /Q /D /R  O.Common\*.h  $(SolutionDir)include &gt; NUL
-</Command>
-    </PostBuildEvent>
+    <PreBuildEvent />
+    <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
     <ClCompile>
@@ -817,20 +739,8 @@ xcopy /Y /Q /D /R  .\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
-    <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)include md $(SolutionDir)include
-
-xcopy /Y /Q /D /R  *.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R  .\os\default\*.h  $(SolutionDir)include\os\default &gt; NUL
-xcopy /Y /Q /D /R  .\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-
-</Command>
-    </PreBuildEvent>
-    <PostBuildEvent>
-      <Command>xcopy /Y /Q /D /R  O.Common\*.h  $(SolutionDir)include &gt; NUL
-</Command>
-    </PostBuildEvent>
+    <PreBuildEvent />
+    <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">
     <ClCompile>
@@ -848,20 +758,8 @@ xcopy /Y /Q /D /R  .\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
-    <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)include md $(SolutionDir)include
-
-xcopy /Y /Q /D /R  *.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R  .\os\default\*.h  $(SolutionDir)include\os\default &gt; NUL
-xcopy /Y /Q /D /R  .\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-
-</Command>
-    </PreBuildEvent>
-    <PostBuildEvent>
-      <Command>xcopy /Y /Q /D /R  O.Common\*.h  $(SolutionDir)include &gt; NUL
-</Command>
-    </PostBuildEvent>
+    <PreBuildEvent />
+    <PostBuildEvent />
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
