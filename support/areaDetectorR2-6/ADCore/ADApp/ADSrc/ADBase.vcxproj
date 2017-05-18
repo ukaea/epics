@@ -240,10 +240,10 @@
     </Link>
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
+if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
 if not exist O.Common md O.Common
 xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R *.dbd $(SolutionDir)DBD &gt; NUL
+xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R ..\Db\*.template $(SolutionDir)db &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -266,12 +266,11 @@ xcopy /Y /Q /D /R ..\Db\*.template $(SolutionDir)db &gt; NUL
     </Link>
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
-if not exist  ..\db md  ..\db
+if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
 if not exist O.Common md O.Common
 xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R *.dbd $(SolutionDir)DBD &gt; NUL
-xcopy /Y /Q /D /R ..\Db\*.template ..\db &gt; NUL
+xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R ..\Db\*.template $(SolutionDir)db &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -293,10 +292,10 @@ xcopy /Y /Q /D /R ..\Db\*.template ..\db &gt; NUL
     </Link>
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
+if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
 if not exist O.Common md O.Common
 xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R *.dbd $(SolutionDir)DBD &gt; NUL
+xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R ..\Db\*.template $(SolutionDir)db &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -322,10 +321,10 @@ xcopy /Y /Q /D /R ..\Db\*.template $(SolutionDir)db &gt; NUL
     </Link>
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
+if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
 if not exist O.Common md O.Common
 xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R *.dbd $(SolutionDir)DBD &gt; NUL
+xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R ..\Db\*.template $(SolutionDir)db &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -358,10 +357,10 @@ xcopy /Y /Q /D /R ..\Db\*.template $(SolutionDir)db &gt; NUL
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
+if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
 if not exist O.Common md O.Common
 xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R *.dbd $(SolutionDir)DBD &gt; NUL
+xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R ..\Db\*.template $(SolutionDir)db &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -387,10 +386,10 @@ xcopy /Y /Q /D /R ..\Db\*.template $(SolutionDir)db &gt; NUL
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
+if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
 if not exist O.Common md O.Common
 xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R *.dbd $(SolutionDir)DBD &gt; NUL
+xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R ..\Db\*.template $(SolutionDir)db &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -416,10 +415,10 @@ xcopy /Y /Q /D /R ..\Db\*.template $(SolutionDir)db &gt; NUL
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
+if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
 if not exist O.Common md O.Common
 xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R *.dbd $(SolutionDir)DBD &gt; NUL
+xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R ..\Db\*.template $(SolutionDir)db &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -448,10 +447,10 @@ xcopy /Y /Q /D /R ..\Db\*.template $(SolutionDir)db &gt; NUL
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
+if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
 if not exist O.Common md O.Common
 xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R *.dbd $(SolutionDir)DBD &gt; NUL
+xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R ..\Db\*.template $(SolutionDir)db &gt; NUL
 </Command>
     </PreBuildEvent>
