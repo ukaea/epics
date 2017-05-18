@@ -158,7 +158,7 @@ endif
 ifdef SZIP_INCLUDE
   USR_INCLUDES += -I$(SZIP_INCLUDE)
 endif
-ifdef XML2_INCLUDE
+ifeq ($(XML2_EXTERNAL), YES)
   USR_INCLUDES += -I$(XML2_INCLUDE)
 endif
 

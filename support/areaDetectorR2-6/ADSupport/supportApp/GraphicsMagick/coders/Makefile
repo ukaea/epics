@@ -31,10 +31,6 @@ USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick/webp/src
 USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick/ttf/include
 USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick/wmf/include
 
-ifdef XML2_INCLUDE
-  USR_INCLUDES += -I$(XML2_INCLUDE)
-endif
-
 INC += static.h
 
 LIB_SRCS += art.c
@@ -143,9 +139,10 @@ LIB_SRCS += yuv.c
 LIB_SRCS += static.c
 
 LIB_LIBS += bzlib jbig jp2 Magick png ttf webp wmf jpeg zlib tiff
-ifeq ($(XML2_EXTERNAL),NO)
+ifeq ($(XML2_EXTERNAL), NO)
   LIB_LIBS += xml2
 else
+  USR_INCLUDES += -I$(XML2_INCLUDE)
   ifdef XML2_LIB
     xml2_DIR     = $(XML2_LIB)
     LIB_LIBS     += xml2

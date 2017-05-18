@@ -126,7 +126,7 @@ ifeq ($(WITH_XML2),YES)
     LIB_SRCS += xpointer.c
     LIB_SRCS += xmlstring.c
 
-  endif # ($(XML2_EXTERNAL),NO)
+  endif # ($(XML2_EXTERNAL), NO)
 endif # ($(WITH_XML2),YES)
 
 
