@@ -63,7 +63,7 @@ else
   endif
 endif
 ifdef XML2_INCLUDE
-  USR_INCLUDES += $(XML2_INCLUDE)
+  USR_INCLUDES += -I$(XML2_INCLUDE)
 endif
 
 # Install commonDriverMakefile and commonLibraryMakefile in top-level cfg directory.
