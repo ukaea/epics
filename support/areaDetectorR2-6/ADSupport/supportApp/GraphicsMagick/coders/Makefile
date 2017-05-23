@@ -31,6 +31,13 @@ USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick/webp/src
 USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick/ttf/include
 USR_INCLUDES += -I$(TOP)/supportApp/GraphicsMagick/wmf/include
 
+# Needed for files like win32config.h
+USR_INCLUDES_DEFAULT += -I$(TOP)/supportApp/xml2Src/os/default
+USR_INCLUDES_LINUX += -I$(TOP)/supportApp/xml2Src/os/Linux
+USR_INCLUDES_DARWIN += -I$(TOP)/supportApp/xml2Src/os/Darwin
+USR_INCLUDES_VXWORKS += -I$(TOP)/supportApp/xml2Src/os/vxWorks
+USR_INCLUDES_WIN32 += -I$(TOP)/supportApp/xml2Src/os/WIN32
+
 INC += static.h
 
 LIB_SRCS += art.c

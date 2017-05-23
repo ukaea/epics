@@ -38,13 +38,13 @@ PROJECT_NAME           = areaDetector
 # could be handy for archiving the generated documentation or if some version
 # control system is used.
 
-PROJECT_NUMBER         = 2-7
+PROJECT_NUMBER         = 3-0
 
 # Using the PROJECT_BRIEF tag one can provide an optional one line description
 # for a project that appears at the top of each page and should give viewer a
 # quick idea about the purpose of the project. Keep the description short.
 
-PROJECT_BRIEF          =
+PROJECT_BRIEF          = EPICS areaDetector framework
 
 # With the PROJECT_LOGO tag one can specify an logo or icon that is included in
 # the documentation. The maximum height of the logo should not exceed 55 pixels
@@ -683,7 +683,7 @@ CITE_BIB_FILES         =
 # messages are off.
 # The default value is: NO.
 
-QUIET                  = NO
+QUIET                  = YES
 
 # The WARNINGS tag can be used to turn on/off the warning messages that are
 # generated to standard error ( stderr) by doxygen. If WARNINGS is set to YES
@@ -752,9 +752,8 @@ INPUT                  = ../../asyn/asyn/asynPortDriver/asynPortDriver.cpp \
                          ../ADCameraLink/cameralinkApp/src \
                          ../ADCore/ADApp/ADSrc \
                          ../ADCore/ADApp/pluginSrc \
-                         ../ADCore/ADApp/pvaDriverSrc \
                          ../ADCore/ADApp/ntndArrayConverterSrc \
-                         ../ADCSimDetector/ADCSimDetectorApp/ADCSimDetectorSrc \
+                         ../ADCSimDetector/ADCSimDetectorApp/src \
                          ../ADDexela/dexelaApp/src \
                          ../ADFastCCD/FastCCDApp/src \
                          ../ADFireWireWin/firewireWinApp/src \
@@ -779,7 +778,7 @@ INPUT                  = ../../asyn/asyn/asynPortDriver/asynPortDriver.cpp \
                          ../ADmar345/mar345App/src \
                          ../ADmarCCD/marCCDApp/src \
                          ../ADnED/ADnEDApp/src \
-                         ../ADSimDetector/simDetectorApp/simDetectorSrc \
+                         ../ADSimDetector/simDetectorApp/src \
                          ../aravisGigE/aravisGigEApp/src \
                          ../ffmpegServer/ffmpegServerApp/src \
                          ../ffmpegViewer/ffmpegViewer/ \
@@ -2140,7 +2139,7 @@ DOT_NUM_THREADS        = 0
 # The default value is: Helvetica.
 # This tag requires that the tag HAVE_DOT is set to YES.
 
-DOT_FONTNAME           = FreeSans
+DOT_FONTNAME           = Helvetica
 
 # The DOT_FONTSIZE tag can be used to set the size (in points) of the font of
 # dot graphs.

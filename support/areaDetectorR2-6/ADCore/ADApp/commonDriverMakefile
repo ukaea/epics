@@ -64,16 +64,14 @@ ifeq ($(WITH_JPEG),YES)
   endif
 endif
 
-ifeq ($(WITH_XML2),YES)
-  ifeq ($(XML2_EXTERNAL),NO)
-    PROD_LIBS += xml2
+ifeq ($(XML2_EXTERNAL),NO)
+  PROD_LIBS += xml2
+else
+  ifdef XML2_LIB
+    xml2_DIR     = $(XML2_LIB)
+    PROD_LIBS     += xml2
   else
-    ifdef XML2_LIB
-      xml2_DIR     = $(XML2_LIB)
-      PROD_LIBS     += xml2
-    else
-      PROD_SYS_LIBS += xml2
-    endif
+    PROD_SYS_LIBS += xml2
   endif
 endif
 
@@ -103,7 +101,7 @@ ifeq ($(WITH_HDF5),YES)
       PROD_SYS_LIBS += hdf5
     endif
   endif
-  ifeq ($(HDF5_STATIC_BUILD), NO)
+  ifeq ($(SHARED_LIBRARIES),YES)
     USR_CXXFLAGS_WIN32    += -DH5_BUILT_AS_DYNAMIC_LIB
     USR_CFLAGS_WIN32      += -DH5_BUILT_AS_DYNAMIC_LIB
   else

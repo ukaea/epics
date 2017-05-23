@@ -77,9 +77,8 @@ TIFF_EXTERNAL = NO
 #TIFF_LIB     =
 
 # XML2 is required for the NDFileHDF5 and NDFileNexus plugins.  
-WITH_XML2     = YES
-XML2_EXTERNAL = YES
-XML2_INCLUDE = /usr/include/libxml2
+XML2_EXTERNAL = NO
+#XML2_INCLUDE = /usr/include/libxml2
 #XML2_LIB     = /usr/local/lib
 
 # ZLIB is required for the NDFileHDF5 and NDFileNexus plugins.  
