@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="os">
@@ -15,6 +15,9 @@
     </Filter>
     <Filter Include="os\WIN32\libxml">
       <UniqueIdentifier>{9ab4258c-bddb-4688-81c2-b5b8c039f6bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="os\Linux">
+      <UniqueIdentifier>{d0464b89-24bf-4b60-9e1e-1fb6d775ced3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -253,6 +256,15 @@
     </ClInclude>
     <ClInclude Include="..\..\..\xml2Src\os\WIN32\wsockcompat.h">
       <Filter>os\WIN32\libxml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\xml2Src\os\Linux\config.h">
+      <Filter>os\Linux</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\xml2Src\os\Linux\config_32.h">
+      <Filter>os\Linux</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\xml2Src\os\Linux\config_64.h">
+      <Filter>os\Linux</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

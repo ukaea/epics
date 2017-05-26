@@ -104,7 +104,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <OmitFramePointers>true</OmitFramePointers>
       <Optimization>Full</Optimization>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;LIBXML_STATIC;NeedFunctionPrototypes;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;LIBXML_STATIC;NeedFunctionPrototypes;LIBXML_HTTP_ENABLED;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <AdditionalIncludeDirectories>../..;../../jbig/libjbig;../../jp2/src/libjasper/include;../../bzlib;../../png;../../webp/src;../../ttf/include;../../wmf/include;../../../jpegSrc/os/WIN32;../../../jpegSrc/os/default;../../../zlibSrc/os/WIN32;../../../zlibSrc/os/default;../../../xml2Src/os/WIN32;../../../xml2Src/os/default;../../../tiffSrc/os/WIN32;../../../tiffSrc/os/default</AdditionalIncludeDirectories>
     </ClCompile>
@@ -126,7 +126,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <OmitFramePointers>true</OmitFramePointers>
       <Optimization>Full</Optimization>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;LIBXML_HTTP_ENABLED;_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <AdditionalIncludeDirectories>../..;../../jbig/libjbig;../../jp2/src/libjasper/include;../../bzlib;../../png;../../webp/src;../../ttf/include;../../wmf/include;../../../jpegSrc/os/WIN32;../../../jpegSrc/os/default;../../../zlibSrc/os/WIN32;../../../zlibSrc/os/default;../../../xml2Src/os/WIN32;../../../xml2Src/os/default;../../../tiffSrc/os/WIN32;../../../tiffSrc/os/default</AdditionalIncludeDirectories>
     </ClCompile>
@@ -148,7 +148,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <OmitFramePointers>true</OmitFramePointers>
       <Optimization>Full</Optimization>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;LIBXML_STATIC;NeedFunctionPrototypes;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;LIBXML_STATIC;NeedFunctionPrototypes;LIBXML_HTTP_ENABLED;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <AdditionalIncludeDirectories>../..;../../jbig/libjbig;../../jp2/src/libjasper/include;../../bzlib;../../png;../../webp/src;../../ttf/include;../../wmf/include;../../../jpegSrc/os/WIN32;../../../jpegSrc/os/default;../../../zlibSrc/os/WIN32;../../../zlibSrc/os/default;../../../xml2Src/os/WIN32;../../../xml2Src/os/default;../../../tiffSrc/os/WIN32;../../../tiffSrc/os/default</AdditionalIncludeDirectories>
     </ClCompile>
@@ -170,7 +170,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <OmitFramePointers>true</OmitFramePointers>
       <Optimization>Full</Optimization>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;LIBXML_HTTP_ENABLED;_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <AdditionalIncludeDirectories>../..;../../jbig/libjbig;../../jp2/src/libjasper/include;../../bzlib;../../png;../../webp/src;../../ttf/include;../../wmf/include;../../../jpegSrc/os/WIN32;../../../jpegSrc/os/default;../../../zlibSrc/os/WIN32;../../../zlibSrc/os/default;../../../xml2Src/os/WIN32;../../../xml2Src/os/default;../../../tiffSrc/os/WIN32;../../../tiffSrc/os/default</AdditionalIncludeDirectories>
     </ClCompile>
@@ -192,7 +192,7 @@
       <OmitFramePointers>false</OmitFramePointers>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;LIBXML_STATIC;NeedFunctionPrototypes;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;LIBXML_STATIC;NeedFunctionPrototypes;LIBXML_HTTP_ENABLED;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <AdditionalIncludeDirectories>../..;../../jbig/libjbig;../../jp2/src/libjasper/include;../../bzlib;../../png;../../webp/src;../../ttf/include;../../wmf/include;../../../jpegSrc/os/WIN32;../../../jpegSrc/os/default;../../../zlibSrc/os/WIN32;../../../zlibSrc/os/default;../../../xml2Src/os/WIN32;../../../xml2Src/os/default;../../../tiffSrc/os/WIN32;../../../tiffSrc/os/default</AdditionalIncludeDirectories>
     </ClCompile>
@@ -214,7 +214,7 @@
       <OmitFramePointers>false</OmitFramePointers>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;LIBXML_HTTP_ENABLED;NeedFunctionPrototypes;_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <AdditionalIncludeDirectories>../..;../../jbig/libjbig;../../jp2/src/libjasper/include;../../bzlib;../../png;../../webp/src;../../ttf/include;../../wmf/include;../../../jpegSrc/os/WIN32;../../../jpegSrc/os/default;../../../zlibSrc/os/WIN32;../../../zlibSrc/os/default;../../../xml2Src/os/WIN32;../../../xml2Src/os/default;../../../tiffSrc/os/WIN32;../../../tiffSrc/os/default</AdditionalIncludeDirectories>
     </ClCompile>
@@ -239,7 +239,7 @@
       <OmitFramePointers>false</OmitFramePointers>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;LIBXML_STATIC;NeedFunctionPrototypes;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;LIBXML_STATIC;NeedFunctionPrototypes;LIBXML_HTTP_ENABLED;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <AdditionalIncludeDirectories>../..;../../jbig/libjbig;../../jp2/src/libjasper/include;../../bzlib;../../png;../../webp/src;../../ttf/include;../../wmf/include;../../../jpegSrc/os/WIN32;../../../jpegSrc/os/default;../../../zlibSrc/os/WIN32;../../../zlibSrc/os/default;../../../xml2Src/os/WIN32;../../../xml2Src/os/default;../../../tiffSrc/os/WIN32;../../../tiffSrc/os/default</AdditionalIncludeDirectories>
     </ClCompile>
@@ -261,7 +261,7 @@
       <OmitFramePointers>false</OmitFramePointers>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;LIBXML_HTTP_ENABLED;NeedFunctionPrototypes;_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <AdditionalIncludeDirectories>../..;../../jbig/libjbig;../../jp2/src/libjasper/include;../../bzlib;../../png;../../webp/src;../../ttf/include;../../wmf/include;../../../jpegSrc/os/WIN32;../../../jpegSrc/os/default;../../../zlibSrc/os/WIN32;../../../zlibSrc/os/default;../../../xml2Src/os/WIN32;../../../xml2Src/os/default;../../../tiffSrc/os/WIN32;../../../tiffSrc/os/default</AdditionalIncludeDirectories>
     </ClCompile>
