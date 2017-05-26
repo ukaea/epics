@@ -256,7 +256,7 @@ static unsigned int IsCINEON(const unsigned char *magick,const size_t length)
 \
   if (!IS_UNDEFINED_ASCII(member)) \
     { \
-      (void) strncpy(buffer_,member,Min(sizeof(member),MaxTextExtent)); \
+      (void) strncpy(buffer_,member,Min(sizeof(member),MaxTextExtent-1)); \
       buffer_[Min(sizeof(member),MaxTextExtent-1)]='\0';             \
       (void) SetImageAttribute(image,name,buffer_); \
       LogSetImageAttribute(name,buffer_); \

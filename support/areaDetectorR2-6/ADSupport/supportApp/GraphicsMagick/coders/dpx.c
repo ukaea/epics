@@ -3260,9 +3260,9 @@ STATIC void WriteRowSamples(const sample_t *samples,
     *definition_value_; \
 \
   if ((definition_value_=AccessDefinition(image_info,"dpx",key+4))) \
-    (void) strncpy(member,definition_value_,sizeof(member)); \
+    (void) strncpy(member,definition_value_,sizeof(member)-1); \
   else if ((attribute_=GetImageAttribute(image,key))) \
-    (void) strncpy(member,attribute_->value,sizeof(member)); \
+    (void) strncpy(member,attribute_->value,sizeof(member)-1); \
   else \
     SET_UNDEFINED_ASCII(member); \
 }

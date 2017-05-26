@@ -21,7 +21,7 @@ case `uname -m` in
     export EPICS_HOST_ARCH='linux-x86'
     ;;
   x86_64|amd64|AMD64)
-    export EPICS_HOST_ARCH='linux-x86_64-debug'
+    export EPICS_HOST_ARCH='linux-x86_64'
     ;;
   *)
     echo "Unknown architecture `uname -m`."

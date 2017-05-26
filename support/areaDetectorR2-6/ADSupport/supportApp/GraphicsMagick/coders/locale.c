@@ -154,7 +154,7 @@ static unsigned int ReadConfigureFile(Image *image,const char *basename,
         while ((LocaleNCompare(q,"->",2) != 0) && (*q != '\0'))
           MagickGetToken(q,&q,token,token_max_length);
         length=Min(q-p-2,MaxTextExtent-1);
-        (void) strncpy(comment,p+1,length);
+        (void) strncpy(comment,p+1,sizeof(comment)-1);
         comment[length]='\0';
         (void) SetImageAttribute(image,"[LocaleComment]",comment);
         (void) SetImageAttribute(image,"[LocaleComment]","\n");
@@ -243,7 +243,7 @@ static unsigned int ReadConfigureFile(Image *image,const char *basename,
         for (p=q; (*q != '<') && (*q != '\0'); q++)
           { /* nada */ };
         {
-          (void) strncpy(message,p,(size_t)(q-p));
+          (void) strncpy(message,p,sizeof(message)-1);
           message[q-p]='\0';
           Strip(message);
           (void) strlcat(locale,message,sizeof(locale));

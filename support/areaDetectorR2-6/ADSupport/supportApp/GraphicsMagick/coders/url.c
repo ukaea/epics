@@ -125,8 +125,8 @@ static Image *ReadURLImage(const ImageInfo *image_info,ExceptionInfo *exception)
   ImageInfo
     *clone_info;
 
-  void
-    *context;
+  xmlNanoHTTPCtxtPtr
+    context;
 
   ConfirmAccessMode
     access_mode=UndefinedConfirmAccessMode;
@@ -181,7 +181,7 @@ static Image *ReadURLImage(const ImageInfo *image_info,ExceptionInfo *exception)
 
           type=(char *) NULL;
           context=xmlNanoHTTPOpen(filename,&type);
-          if (context != (void *) NULL)
+          if (context != NULL)
             {
               while ((bytes=xmlNanoHTTPRead(context,buffer,MaxBufferExtent)) > 0)
                 (void) fwrite(buffer,bytes,1,file);

@@ -102,7 +102,7 @@ static Image *ReadGRADIENTImage(const ImageInfo *image_info,
   (void) SetImage(image,OpaqueOpacity);
   (void) strlcpy(image->filename,image_info->filename,MaxTextExtent);
   (void) strlcpy(colorname,image_info->filename,MaxTextExtent);
-  (void) sscanf(image_info->filename,"%[^-]",colorname);
+  (void) sscanf(image_info->filename,"%2052[^-]",colorname);
   if (!QueryColorDatabase(colorname,&start_color,exception))
     {
       DestroyImage(image);

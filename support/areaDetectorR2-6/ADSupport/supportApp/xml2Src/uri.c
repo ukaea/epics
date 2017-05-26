@@ -2224,10 +2224,10 @@ xmlBuildRelativeURI (const xmlChar * URI, const xmlChar * base)
 	val = xmlStrdup((xmlChar *)ref->path);
 	goto done;
     }
-    if (ref->path == NULL) {
-        ref->path = (char *) "/";
-	remove_path = 1;
-    }
+//    if (ref->path == NULL) {
+//        ref->path = (char *) "/";
+//	remove_path = 1;
+//    }
 
     /*
      * At this point (at last!) we can compare the two paths

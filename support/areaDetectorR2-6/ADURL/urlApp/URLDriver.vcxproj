@@ -261,9 +261,9 @@ cd $(ProjectDir)
     </Link>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
+if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
 if not exist $(SolutionDir)Db md $(SolutionDir)db
-if not exist $(SolutionDir)iocs/urlIOC/DBD md $(SolutionDir)iocs\urlIOC\DBD
+if not exist $(SolutionDir)iocs/urlIOC/dbd md $(SolutionDir)iocs\urlIOC\dbd
 xcopy /Y /Q /D /R Db\*.template $(SolutionDir)db &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -293,9 +293,9 @@ xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)iocs\urlIOC\dbd
     </Link>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
+if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
 if not exist $(SolutionDir)Db md $(SolutionDir)db
-if not exist $(SolutionDir)iocs/urlIOC/DBD md $(SolutionDir)iocs\urlIOC\DBD
+if not exist $(SolutionDir)iocs/urlIOC/dbd md $(SolutionDir)iocs\urlIOC\dbd
 xcopy /Y /Q /D /R Db\*.template $(SolutionDir)db &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -324,9 +324,9 @@ xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)iocs\urlIOC\dbd
     </Link>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
+if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
 if not exist $(SolutionDir)Db md $(SolutionDir)db
-if not exist $(SolutionDir)iocs/urlIOC/DBD md $(SolutionDir)iocs\urlIOC\DBD
+if not exist $(SolutionDir)iocs/urlIOC/dbd md $(SolutionDir)iocs\urlIOC\dbd
 xcopy /Y /Q /D /R Db\*.template $(SolutionDir)db &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -355,9 +355,9 @@ xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)iocs\urlIOC\dbd
     </Link>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
+if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
 if not exist $(SolutionDir)Db md $(SolutionDir)db
-if not exist $(SolutionDir)iocs/urlIOC/DBD md $(SolutionDir)iocs\urlIOC\DBD
+if not exist $(SolutionDir)iocs/urlIOC/dbd md $(SolutionDir)iocs\urlIOC\dbd
 xcopy /Y /Q /D /R Db\*.template $(SolutionDir)db &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -389,9 +389,9 @@ xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)iocs\urlIOC\dbd
     </Link>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
+if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
 if not exist $(SolutionDir)Db md $(SolutionDir)db
-if not exist $(SolutionDir)iocs/urlIOC/DBD md $(SolutionDir)iocs\urlIOC\DBD
+if not exist $(SolutionDir)iocs/urlIOC/dbd md $(SolutionDir)iocs\urlIOC\dbd
 xcopy /Y /Q /D /R Db\*.template $(SolutionDir)db &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -423,9 +423,9 @@ xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)iocs\urlIOC\dbd
     </Link>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
+if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
 if not exist $(SolutionDir)Db md $(SolutionDir)db
-if not exist $(SolutionDir)iocs/urlIOC/DBD md $(SolutionDir)iocs\urlIOC\DBD
+if not exist $(SolutionDir)iocs/urlIOC/dbd md $(SolutionDir)iocs\urlIOC\dbd
 xcopy /Y /Q /D /R Db\*.template $(SolutionDir)db &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -458,9 +458,9 @@ xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)iocs\urlIOC\dbd
     </Link>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
+if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
 if not exist $(SolutionDir)Db md $(SolutionDir)db
-if not exist $(SolutionDir)iocs/urlIOC/DBD md $(SolutionDir)iocs\urlIOC\DBD
+if not exist $(SolutionDir)iocs/urlIOC/dbd md $(SolutionDir)iocs\urlIOC\dbd
 xcopy /Y /Q /D /R Db\*.template $(SolutionDir)db &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -493,9 +493,9 @@ xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)iocs\urlIOC\dbd
     </Link>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
+if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
 if not exist $(SolutionDir)Db md $(SolutionDir)db
-if not exist $(SolutionDir)iocs/urlIOC/DBD md $(SolutionDir)iocs\urlIOC\DBD
+if not exist $(SolutionDir)iocs/urlIOC/dbd md $(SolutionDir)iocs\urlIOC\dbd
 xcopy /Y /Q /D /R Db\*.template $(SolutionDir)db &gt; NUL
 </Command>
     </PreBuildEvent>

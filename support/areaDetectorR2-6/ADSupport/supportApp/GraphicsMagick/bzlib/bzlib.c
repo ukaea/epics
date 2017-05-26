@@ -235,13 +235,16 @@ void add_pair_to_block ( EState* s )
          s->block[s->nblock] = (UChar)ch; s->nblock++;
          break;
       default:
-         s->inUse[s->state_in_len-4] = True;
+		  if (s->state_in_len >= 4)
+		  {
+		 s->inUse[s->state_in_len-4] = True;
          s->block[s->nblock] = (UChar)ch; s->nblock++;
          s->block[s->nblock] = (UChar)ch; s->nblock++;
          s->block[s->nblock] = (UChar)ch; s->nblock++;
          s->block[s->nblock] = (UChar)ch; s->nblock++;
          s->block[s->nblock] = ((UChar)(s->state_in_len-4));
          s->nblock++;
+		  }
          break;
    }
 }

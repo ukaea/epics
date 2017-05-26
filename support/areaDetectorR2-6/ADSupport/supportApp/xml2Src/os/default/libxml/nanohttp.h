@@ -15,9 +15,44 @@
 
 #ifdef LIBXML_HTTP_ENABLED
 
+#ifdef HAVE_ZLIB_H
+#include <zlib.h>
+#endif
+
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+typedef struct xmlNanoHTTPCtxt {
+    char *protocol;	/* the protocol name */
+    char *hostname;	/* the host name */
+    int port;		/* the port */
+    char *path;		/* the path within the URL */
+    char *query;	/* the query string */
+    int fd;		/* the file descriptor for the socket */
+    int state;		/* WRITE / READ / CLOSED */
+    char *out;		/* buffer sent (zero terminated) */
+    char *outptr;	/* index within the buffer sent */
+    char *in;		/* the receiving buffer */
+    char *content;	/* the start of the content */
+    char *inptr;	/* the next byte to read from network */
+    char *inrptr;	/* the next byte to give back to the client */
+    int inlen;		/* len of the input buffer */
+    int last;		/* return code for last operation */
+    int returnValue;	/* the protocol return value */
+    int version;        /* the protocol version */
+    int ContentLength;  /* specified content length from HTTP header */
+    char *contentType;	/* the MIME type for the input */
+    char *location;	/* the new URL in case of redirect */
+    char *authHeader;	/* contents of {WWW,Proxy}-Authenticate header */
+    char *encoding;	/* encoding extracted from the contentType */
+    char *mimeType;	/* Mime-Type extracted from the contentType */
+#ifdef HAVE_ZLIB_H
+    z_stream *strm;	/* Zlib stream object */
+    int usesGzip;	/* "Content-Encoding: gzip" was detected */
+#endif
+} xmlNanoHTTPCtxt, *xmlNanoHTTPCtxtPtr;
+
 XMLPUBFUN void XMLCALL
 	xmlNanoHTTPInit		(void);
 XMLPUBFUN void XMLCALL
@@ -35,7 +70,7 @@ XMLPUBFUN void * XMLCALL
 				 char **contentType,
 				 const char *headers,
 				 int   ilen);
-XMLPUBFUN void * XMLCALL
+XMLPUBFUN xmlNanoHTTPCtxtPtr XMLCALL
 	xmlNanoHTTPMethodRedir	(const char *URL,
 				 const char *method,
 				 const char *input,
@@ -43,7 +78,7 @@ XMLPUBFUN void * XMLCALL
 				 char **redir,
 				 const char *headers,
 				 int   ilen);
-XMLPUBFUN void * XMLCALL
+XMLPUBFUN xmlNanoHTTPCtxtPtr XMLCALL
 	xmlNanoHTTPOpen		(const char *URL,
 				 char **contentType);
 XMLPUBFUN void * XMLCALL
