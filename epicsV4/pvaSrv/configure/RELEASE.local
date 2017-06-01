@@ -1,4 +1,0 @@
-PVACCESS = \epics/epicsV4/pvAccessCPP
-PVDATA = \epics/epicsV4/pvDataCPP
-PVCOMMON = \epics/epicsV4/pvCommonCPP
-EPICS_BASE = \epics/base

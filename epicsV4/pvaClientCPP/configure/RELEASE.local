@@ -1,9 +1,0 @@
-
-TEMPLATE_TOP=$(EPICS_BASE)/templates/makeBaseApp/top
-
-EPICS_BASE=\epics/base
-V4BASE=\epics/epicsV4
-PVCOMMON=${V4BASE}/pvCommonCPP
-PVDATA=${V4BASE}/pvDataCPP
-NORMATIVETYPES=${V4BASE}/normativeTypesCPP
-PVACCESS=${V4BASE}/pvAccessCPP
