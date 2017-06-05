@@ -24,6 +24,24 @@ PATH=%PATH%;..\..\..\..\..\..\calc\bin\%EPICS_HOST_ARCH%
 REM for sscan.dll
 PATH=%PATH%;..\..\..\..\..\..\sscan\bin\%EPICS_HOST_ARCH%
 
+REM for pvdata.dll
+PATH=%PATH%;..\..\..\..\..\..\sscan\bin\%EPICS_HOST_ARCH%
+
+REM for sscan.dll
+PATH=%PATH%;..\..\..\..\..\..\sscan\bin\%EPICS_HOST_ARCH%
+
+REM for pvData.dll
+PATH=%PATH%;..\..\..\..\..\..\..\epicsv4\pvdataCPP\bin\%EPICS_HOST_ARCH%
+
+REM for nt.dll
+PATH=%PATH%;..\..\..\..\..\..\..\epicsv4\normativeTypesCPP\bin\%EPICS_HOST_ARCH%
+
+REM for pvDatabase.dll
+PATH=%PATH%;..\..\..\..\..\..\..\epicsv4\pvDatabaseCPP\bin\%EPICS_HOST_ARCH%
+
+REM for pvDatabase.dll
+PATH=%PATH%;..\..\..\..\..\..\..\epicsv4\pvAccessCPP\bin\%EPICS_HOST_ARCH%
+
 SET MAGICK_DEBUG=configure,exception
 ..\..\bin\%EPICS_HOST_ARCH%\URLDriverApp st.cmd.win32
 

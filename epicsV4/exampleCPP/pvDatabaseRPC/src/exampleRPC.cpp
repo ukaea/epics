@@ -10,14 +10,13 @@
 
 #include <pv/standardField.h>
 
-#define epicsExportSharedSymbols
-#include <pv/exampleRPC.h>
-
 #include <pv/standardField.h>
 #include <pv/standardPVField.h>
 
 #include <epicsThread.h>
 
+#define epicsExportSharedSymbols
+#include <pv/exampleRPC.h>
 
 using namespace epics::pvData;
 using namespace epics::pvDatabase;
@@ -95,12 +94,12 @@ static StructureConstPtr makeRecordStructure()
 
 PVStructurePtr AbortService::request(
     PVStructure::shared_pointer const & args
-) throw (epics::pvAccess::RPCRequestException)
+)
 {
     try {
         pvRecord->getDevice()->abort();
     }
-    catch (IllegalOperationException & e) {
+    catch (std::runtime_error & e) {
         throw epics::pvAccess::RPCRequestException(
             Status::STATUSTYPE_ERROR,e.what());
     }
@@ -110,7 +109,7 @@ PVStructurePtr AbortService::request(
 
 PVStructurePtr ConfigureService::request(
     PVStructure::shared_pointer const & args
-) throw (epics::pvAccess::RPCRequestException)
+)
 {
     PVStructureArrayPtr valueField = args->getSubField<PVStructureArray>("value");
     if (valueField.get() == 0)
@@ -145,7 +144,7 @@ PVStructurePtr ConfigureService::request(
     try {
         pvRecord->getDevice()->configure(newPoints);
     }
-    catch (IllegalOperationException & e) {
+    catch (std::runtime_error & e) {
         throw epics::pvAccess::RPCRequestException(
             Status::STATUSTYPE_ERROR,e.what());
     }
@@ -154,12 +153,12 @@ PVStructurePtr ConfigureService::request(
 
 PVStructurePtr RunService::request(
     PVStructure::shared_pointer const & args
-) throw (epics::pvAccess::RPCRequestException)
+)
 {
     try {
         pvRecord->getDevice()->runScan();
     }
-    catch (IllegalOperationException & e) {
+    catch (std::runtime_error & e) {
         throw epics::pvAccess::RPCRequestException(
             Status::STATUSTYPE_ERROR,e.what());
     }
@@ -169,12 +168,12 @@ PVStructurePtr RunService::request(
 
 PVStructurePtr PauseService::request(
     PVStructure::shared_pointer const & args
-) throw (epics::pvAccess::RPCRequestException)
+)
 {
     try {
         pvRecord->getDevice()->pause();
     }
-    catch (IllegalOperationException & e) {
+    catch (std::runtime_error & e) {
         throw epics::pvAccess::RPCRequestException(
             Status::STATUSTYPE_ERROR,e.what());
     }
@@ -183,12 +182,12 @@ PVStructurePtr PauseService::request(
 
 PVStructurePtr ResumeService::request(
     PVStructure::shared_pointer const & args
-) throw (epics::pvAccess::RPCRequestException)
+)
 {
     try {
         pvRecord->getDevice()->resume();
     }
-    catch (IllegalOperationException & e) {
+    catch (std::runtime_error & e) {
         throw epics::pvAccess::RPCRequestException(
             Status::STATUSTYPE_ERROR,e.what());
     }
@@ -197,12 +196,12 @@ PVStructurePtr ResumeService::request(
 
 PVStructurePtr StopService::request(
     PVStructure::shared_pointer const & args
-) throw (epics::pvAccess::RPCRequestException)
+)
 {
     try {
         pvRecord->getDevice()->stopScan();
     }
-    catch (IllegalOperationException & e) {
+    catch (std::runtime_error & e) {
         throw epics::pvAccess::RPCRequestException(
             Status::STATUSTYPE_ERROR,e.what());
     }
@@ -222,13 +221,13 @@ int RewindService::getRequestedSteps(PVStructurePtr const & args)
 
 PVStructurePtr RewindService::request(
     PVStructure::shared_pointer const & args
-) throw (epics::pvAccess::RPCRequestException)
+)
 {
     int n = getRequestedSteps(args);
     try {
         pvRecord->getDevice()->rewind(n);
     }
-    catch (IllegalOperationException & e) {
+    catch (std::runtime_error & e) {
         throw epics::pvAccess::RPCRequestException(
             Status::STATUSTYPE_ERROR,e.what());
     }
@@ -351,7 +350,8 @@ void ExampleRPC::update(int flags)
     catch(...)
     {
         unlock();
-        throw;
+        throw epics::pvAccess::RPCRequestException(
+            Status::STATUSTYPE_ERROR,"update error");
     }
     unlock();
 }
@@ -490,7 +490,7 @@ void ExampleRPC::process()
             pvTimeStamp_sp.set(timeStamp);
         }
     }
-    catch (IllegalOperationException & o)
+    catch (std::runtime_error & o)
     {
         // If write to device fails restore values
         Point sp = device->getPositionSetpoint();

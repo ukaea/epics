@@ -25,9 +25,9 @@ static void exampleProcess(PvaClientPtr const &pva)
     PvaClientChannelPtr channel = pva->channel("PVRdouble");
     PvaClientProcessPtr process = channel->createProcess();
     process->process();
-    cout <<  channel->get("field()")->getData()->showChanged(cout) << endl;
+    channel->get("field()")->getData()->showChanged(cout) << endl;
     process->process();
-    cout <<  channel->get("field()")->getData()->showChanged(cout) << endl;
+    channel->get("field()")->getData()->showChanged(cout) << endl;
 }
 
 

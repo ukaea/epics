@@ -34,6 +34,10 @@ pushd %~dp0..\..\autosave
 call make.bat
 popd
 
+pushd %~dp0..\..\..\epicsV4
+make.exe  -j4 -O EPICS_BASE=\epics/base
+popd
+
 pushd %~dp0..
 call make.bat clean uninstall > NUL
 call make.bat > %~dp0areaDetectorR-2-6.%EPICS_HOST_ARCH%.log 2>&1
