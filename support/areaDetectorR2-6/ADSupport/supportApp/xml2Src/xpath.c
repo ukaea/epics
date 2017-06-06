@@ -3090,7 +3090,6 @@ xmlXPathPopExternal (xmlXPathParserContextPtr ctxt) {
 static void
 xmlXPathFormatNumber(double number, char buffer[], int buffersize)
 {
-	char work[100];
     switch (xmlXPathIsInf(number)) {
     case 1:
 	if (buffersize > (int)sizeof("Infinity"))
@@ -3107,6 +3106,7 @@ xmlXPathFormatNumber(double number, char buffer[], int buffersize)
 	} else if (number == 0 && xmlXPathGetSign(number) != 0) {
 	    snprintf(buffer, buffersize, "0");
 	} else if (number == ((int) number)) {
+	    char work[30];
 	    char *ptr, *cur;
 	    int value = (int) number;
 
@@ -3136,6 +3136,7 @@ xmlXPathFormatNumber(double number, char buffer[], int buffersize)
 	      Note that this dimension is slightly (a few characters)
 	      larger than actually necessary.
 	    */
+	    char work[DBL_DIG + EXPONENT_DIGITS + 3 + LOWER_DOUBLE_EXP];
 	    int integer_place, fraction_place;
 	    char *ptr;
 	    char *after_fraction;
@@ -10016,7 +10017,7 @@ xmlXPathParseNameComplex(xmlXPathParserContextPtr ctxt, int qualified) {
 	    xmlChar *buffer;
 	    int max = len * 2;
 
-            if (len > XML_MAX_NAMELEN) {
+            if (len > XML_MAX_NAME_LENGTH) {
                 XP_ERRORNULL(XPATH_EXPR_ERROR);
             }
 	    buffer = (xmlChar *) xmlMallocAtomic(max * sizeof(xmlChar));

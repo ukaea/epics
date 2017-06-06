@@ -11,28 +11,31 @@ ifeq ($(WITH_GRAPHICSMAGICK), YES)
     CODE_CXXFLAGS=
   endif
 
-  ifdef GRAPHICS_MAGICK_INCLUDE
-    USR_INCLUDES += $(GRAPHICS_MAGICK_INCLUDE)
+  ifeq ($(GRAPHICSMAGICK_PREFIX_SYMBOLS),YES)
+    USR_CXXFLAGS += -DPREFIX_MAGICK_SYMBOLS
   endif
 
-ifeq (windows-x64, $(findstring windows-x64, $(T_A)))
-  USR_CXXFLAGS_WIN32 += -DWIN64
-endif
+  ifdef GRAPHICSMAGICK_INCLUDE
+    USR_INCLUDES += $(GRAPHICSMAGICK_INCLUDE)
+  endif
 
-ifeq (win32-x86, $(findstring win32-x86, $(T_A)))
-  USR_CXXFLAGS_WIN32 += -DWIN32
-endif
-
-ifeq ($(SHARED_LIBRARIES),YES)
-  USR_CXXFLAGS_WIN32 += -D_DLL
-else
-  USR_CXXFLAGS_WIN32 += -D_LIB
-endif
-
+  ifeq (windows-x64, $(findstring windows-x64, $(T_A)))
+    USR_CXXFLAGS_WIN32 += -DWIN64
+  endif
+ 
+  ifeq (win32-x86, $(findstring win32-x86, $(T_A)))
+    USR_CXXFLAGS_WIN32 += -DWIN32
+  endif
+ 
+  ifeq ($(SHARED_LIBRARIES),YES)
+    USR_CXXFLAGS_WIN32 += -D_DLL
+  else
+    USR_CXXFLAGS_WIN32 += -D_LIB
+  endif
+  
   USR_CXXFLAGS_WIN32 += -D_VISUALC_
 
   LIBRARY_IOC = URLDriver
-  
   LIB_SRCS += URLDriver.cpp
 
   DBD += URLDriverSupport.dbd

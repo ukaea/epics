@@ -3259,7 +3259,7 @@ MSLStartElement(void *context,const xmlChar *name,
 
                           if (value[len-1] == '%') {
                             char  tmp[100];
-                            (void) strncpy(tmp, value, sizeof(tmp)-1);
+                            (void) strncpy(tmp, value, (size_t) (len-1));
                             opac = MagickAtoI( tmp );
                             opac = (int)(MaxRGB * ((float)opac/100));
                           } else

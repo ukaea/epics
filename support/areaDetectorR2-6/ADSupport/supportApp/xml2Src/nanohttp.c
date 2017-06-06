@@ -128,6 +128,36 @@
 #define XML_NANO_HTTP_READ	2
 #define XML_NANO_HTTP_NONE	4
 
+typedef struct xmlNanoHTTPCtxt {
+    char *protocol;	/* the protocol name */
+    char *hostname;	/* the host name */
+    int port;		/* the port */
+    char *path;		/* the path within the URL */
+    char *query;	/* the query string */
+    SOCKET fd;		/* the file descriptor for the socket */
+    int state;		/* WRITE / READ / CLOSED */
+    char *out;		/* buffer sent (zero terminated) */
+    char *outptr;	/* index within the buffer sent */
+    char *in;		/* the receiving buffer */
+    char *content;	/* the start of the content */
+    char *inptr;	/* the next byte to read from network */
+    char *inrptr;	/* the next byte to give back to the client */
+    int inlen;		/* len of the input buffer */
+    int last;		/* return code for last operation */
+    int returnValue;	/* the protocol return value */
+    int version;        /* the protocol version */
+    int ContentLength;  /* specified content length from HTTP header */
+    char *contentType;	/* the MIME type for the input */
+    char *location;	/* the new URL in case of redirect */
+    char *authHeader;	/* contents of {WWW,Proxy}-Authenticate header */
+    char *encoding;	/* encoding extracted from the contentType */
+    char *mimeType;	/* Mime-Type extracted from the contentType */
+#ifdef HAVE_ZLIB_H
+    z_stream *strm;	/* Zlib stream object */
+    int usesGzip;	/* "Content-Encoding: gzip" was detected */
+#endif
+} xmlNanoHTTPCtxt, *xmlNanoHTTPCtxtPtr;
+
 static int initialized = 0;
 static char *proxy = NULL;	 /* the proxy name if any */
 static int proxyPort;	/* the proxy port if any */
@@ -1193,12 +1223,10 @@ xmlNanoHTTPConnectHost(const char *host, int port)
  *     The contentType, if provided must be freed by the caller
  */
 
-xmlNanoHTTPCtxtPtr
+void*
 xmlNanoHTTPOpen(const char *URL, char **contentType) {
-	xmlNanoHTTPCtxtPtr ret;
     if (contentType != NULL) *contentType = NULL;
-	ret = xmlNanoHTTPMethod(URL, NULL, NULL, contentType, NULL, 0);
-    return(ret);
+    return(xmlNanoHTTPMethod(URL, NULL, NULL, contentType, NULL, 0));
 }
 
 /**
@@ -1316,7 +1344,7 @@ xmlNanoHTTPClose(void *ctx) {
  *     The contentType, or redir, if provided must be freed by the caller
  */
 
-xmlNanoHTTPCtxtPtr
+void*
 xmlNanoHTTPMethodRedir(const char *URL, const char *method, const char *input,
                   char **contentType, char **redir,
 		  const char *headers, int ilen ) {
@@ -1551,7 +1579,7 @@ retry:
 	       ctxt->returnValue);
 #endif
 
-    return ctxt;
+    return((void *) ctxt);
 }
 
 /**
@@ -1574,9 +1602,8 @@ retry:
 void*
 xmlNanoHTTPMethod(const char *URL, const char *method, const char *input,
                   char **contentType, const char *headers, int ilen) {
-	void* ret = xmlNanoHTTPMethodRedir(URL, method, input, contentType,
-		                  NULL, headers, ilen);
-    return(ret);
+    return(xmlNanoHTTPMethodRedir(URL, method, input, contentType,
+		                  NULL, headers, ilen));
 }
 
 /**

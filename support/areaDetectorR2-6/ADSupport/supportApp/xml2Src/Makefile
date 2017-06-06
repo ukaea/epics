@@ -9,8 +9,6 @@ ifeq ($(XML2_EXTERNAL),NO)
 
   LIBRARY = xml2
 
-  USR_CFLAGS += -DLIBXML_FTP_ENABLED
-  USR_CFLAGS += -DLIBXML_HTTP_ENABLED
   ifeq ($(WITH_ZLIB),YES)
     ifeq ($(ZLIB_EXTERNAL),NO)
       USR_CFLAGS_WIN32 += -DHAVE_ZLIB_H
@@ -96,8 +94,11 @@ ifeq ($(XML2_EXTERNAL),NO)
   LIB_SRCS += HTMLtree.c
   LIB_SRCS += legacy.c
   LIB_SRCS += list.c
-  LIB_SRCS += nanoftp.c
-  LIB_SRCS += nanohttp.c
+  # nanoftp and nanohttp won't build on vxWorks.  They are only needed for GraphicsMagick
+  ifneq (vxWorks, $(OS_CLASS))
+    LIB_SRCS += nanoftp.c
+    LIB_SRCS += nanohttp.c
+  endif
   LIB_SRCS += parser.c
   LIB_SRCS += parserInternals.c
   LIB_SRCS += pattern.c
@@ -125,7 +126,7 @@ ifeq ($(XML2_EXTERNAL),NO)
   LIB_SRCS += xpointer.c
   LIB_SRCS += xmlstring.c
 
-endif # ($(XML2_EXTERNAL), NO)
+endif # ($(XML2_EXTERNAL),NO)
 
 
 include $(TOP)/configure/RULES

@@ -565,7 +565,7 @@ xmlNanoFTPParseResponse(char *buf, int len) {
 static int
 xmlNanoFTPGetMore(void *ctx) {
     xmlNanoFTPCtxtPtr ctxt = (xmlNanoFTPCtxtPtr) ctx;
-    int len=0;
+    int len;
     int size;
 
     if ((ctxt == NULL) || (ctxt->controlFd == INVALID_SOCKET)) return(-1);
@@ -587,12 +587,7 @@ xmlNanoFTPGetMore(void *ctx) {
 #endif
 	return(-1);
     }
-    if ((ctxt->controlBufIndex > ctxt->controlBufUsed) ||
-		(ctxt->controlBufIndex < 0) ||
-		(ctxt->controlBufIndex >= FTP_BUF_SIZE) ||
-		(ctxt->controlBufUsed >= FTP_BUF_SIZE) ||
-		(ctxt->controlBufUsed - ctxt->controlBufIndex >= FTP_BUF_SIZE))
-	{
+    if (ctxt->controlBufIndex > ctxt->controlBufUsed) {
 #ifdef DEBUG_FTP
         xmlGenericError(xmlGenericErrorContext,
 		"xmlNanoFTPGetMore : controlBufIndex > controlBufUsed %d > %d\n",
@@ -605,10 +600,10 @@ xmlNanoFTPGetMore(void *ctx) {
      * First pack the control buffer
      */
     if (ctxt->controlBufIndex > 0) {
-		memmove(&ctxt->controlBuf[0], &ctxt->controlBuf[ctxt->controlBufIndex],
-			ctxt->controlBufUsed - ctxt->controlBufIndex);
-		ctxt->controlBufUsed -= ctxt->controlBufIndex;
-		ctxt->controlBufIndex = 0;
+	memmove(&ctxt->controlBuf[0], &ctxt->controlBuf[ctxt->controlBufIndex],
+		ctxt->controlBufUsed - ctxt->controlBufIndex);
+	ctxt->controlBufUsed -= ctxt->controlBufIndex;
+	ctxt->controlBufIndex = 0;
     }
     size = FTP_BUF_SIZE - ctxt->controlBufUsed;
     if (size == 0) {
@@ -622,8 +617,8 @@ xmlNanoFTPGetMore(void *ctx) {
     /*
      * Read the amount left on the control connection
      */
-    if ((ctxt->controlBufIndex >= 0) && (ctxt->controlBufIndex+size < sizeof(ctxt->controlBuf)) && ((len = recv(ctxt->controlFd, &ctxt->controlBuf[ctxt->controlBufIndex],
-		    size, 0)) < 0)) {
+    if ((len = recv(ctxt->controlFd, &ctxt->controlBuf[ctxt->controlBufIndex],
+		    size, 0)) < 0) {
 	__xmlIOErr(XML_FROM_FTP, 0, "recv failed");
 	closesocket(ctxt->controlFd); ctxt->controlFd = INVALID_SOCKET;
         ctxt->controlFd = INVALID_SOCKET;
@@ -635,8 +630,7 @@ xmlNanoFTPGetMore(void *ctx) {
 	   ctxt->controlBufUsed, ctxt->controlBufUsed + len);
 #endif
     ctxt->controlBufUsed += len;
-	if ((ctxt->controlBufUsed >= 0) && (ctxt->controlBufUsed < sizeof(ctxt->controlBuf)))
-		ctxt->controlBuf[ctxt->controlBufUsed] = 0;
+    ctxt->controlBuf[ctxt->controlBufUsed] = 0;
 
     return(len);
 }
@@ -1805,7 +1799,7 @@ xmlNanoFTPList(void *ctx, ftpListCallback callback, void *userData,
 	    continue;
 	}
 
-	if ((indx >= 0) && (len = recv(ctxt->dataFd, &buf[indx], sizeof(buf) - (indx + 1), 0)) < 0) {
+	if ((len = recv(ctxt->dataFd, &buf[indx], sizeof(buf) - (indx + 1), 0)) < 0) {
 	    __xmlIOErr(XML_FROM_FTP, 0, "recv");
 	    closesocket(ctxt->dataFd); ctxt->dataFd = INVALID_SOCKET;
 	    ctxt->dataFd = INVALID_SOCKET;
