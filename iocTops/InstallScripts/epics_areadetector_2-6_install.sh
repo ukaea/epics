@@ -137,6 +137,7 @@ EPICS_BASE=$EPICS_ROOT/base
 # These hacks fix typos in the scripts
 #echo "URLDriverApp st.cmd" >> $AREADETECTOR_PATH/current/iocBoot/iocURLDriver/start_epics
 
+make -C $AREADETECTOR_PATH/current clean uninstall
 # build
 make -C $AREADETECTOR_PATH/current install > /media/sf_epics/support/$AREADETECTOR_DIRECTORY/BuildLogs/$AREADETECTOR_DIRECTORY.$EPICS_HOST_ARCH.log 2>&1
 
