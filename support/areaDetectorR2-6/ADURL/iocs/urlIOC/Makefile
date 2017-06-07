@@ -3,5 +3,5 @@ TOP = .
 include $(TOP)/configure/CONFIG
 DIRS := configure
 DIRS := iocBoot
-DIRS := urlAPP
+DIRS := urlApp
 include $(TOP)/configure/RULES_TOP
