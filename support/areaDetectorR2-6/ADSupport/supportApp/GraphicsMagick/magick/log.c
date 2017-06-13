@@ -396,8 +396,8 @@ InitializeLogInfoPost(void)
       Set override logging flags using the value of MAGICK_DEBUG if it
       is set in the environment.
     */
-    if ((p=getenv("MAGICK_DEBUG")) != (const char *) NULL)
-      (void) SetLogEventMask(p);
+//    if ((p=getenv("MAGICK_DEBUG")) != (const char *) NULL)
+//      (void) SetLogEventMask(p);
   }
 
   return MagickPass;
