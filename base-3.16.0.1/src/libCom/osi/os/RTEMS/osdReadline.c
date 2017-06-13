@@ -5,7 +5,6 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
-/* Revision-Id: mdavidsaver@gmail.com-20151228213658-vodi74hb0z3dmi9z */
 /* Author:  Eric Norum Date: 12DEC2001 */
 
 /*

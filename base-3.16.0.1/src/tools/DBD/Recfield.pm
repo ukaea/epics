@@ -12,6 +12,8 @@ our %field_types = (
     DBF_USHORT   => $RXuintx,
     DBF_LONG     => $RXintx,
     DBF_ULONG    => $RXuintx,
+    DBF_INT64    => $RXintx,
+    DBF_UINT64   => $RXuintx,
     DBF_FLOAT    => $RXnum,
     DBF_DOUBLE   => $RXnum,
     DBF_ENUM     => qr/.*/,
@@ -27,7 +29,7 @@ our %field_types = (
 our %field_attrs = (
     asl         => qr/^ASL[01]$/,
     initial     => qr/^.*$/,
-    promptgroup => qr/^GUI_\w+$/,
+    promptgroup => qr/^.*$/,
     prompt      => qr/^.*$/,
     special     => qr/^(?:SPC_\w+|\d{3,})$/,
     pp          => qr/^(?:TRUE|FALSE)$/,
@@ -37,6 +39,35 @@ our %field_attrs = (
     extra       => qr/^.*$/,
     menu        => qr/^$RXident$/o,
     prop        => qr/^(?:YES|NO)$/
+);
+
+# Convert old promptgroups into new-style
+my %promptgroupMap = (
+    GUI_COMMON   => '10 - Common',
+    GUI_ALARMS   => '70 - Alarm',
+    GUI_BITS1    => '41 - Bits (1)',
+    GUI_BITS2    => '42 - Bits (2)',
+    GUI_CALC     => '30 - Action',
+    GUI_CLOCK    => '30 - Action',
+    GUI_COMPRESS => '30 - Action',
+    GUI_CONVERT  => '60 - Convert',
+    GUI_DISPLAY  => '80 - Display',
+    GUI_HIST     => '30 - Action',
+    GUI_INPUTS   => '40 - Input',
+    GUI_LINKS    => '40 - Link',
+    GUI_MBB      => '30 - Action',
+    GUI_MOTOR    => '30 - Action',
+    GUI_OUTPUT   => '50 - Output',
+    GUI_PID      => '30 - Action',
+    GUI_PULSE    => '30 - Action',
+    GUI_SELECT   => '40 - Input',
+    GUI_SEQ1     => '51 - Output (1)',
+    GUI_SEQ2     => '52 - Output (2)',
+    GUI_SEQ3     => '53 - Output (3)',
+    GUI_SUB      => '30 - Action',
+    GUI_TIMER    => '30 - Action',
+    GUI_WAVE     => '30 - Action',
+    GUI_SCAN     => '20 - Scan',
 );
 
 sub new {
@@ -74,6 +105,8 @@ sub number {
 
 sub add_attribute {
     my ($this, $attr, $value) = @_;
+    $value = $promptgroupMap{$value}
+        if $attr eq 'promptgroup' && exists $promptgroupMap{$value};
     my $match = $field_attrs{$attr};
     if (defined $match) {
         dieContext("Bad value '$value' for field attribute '$attr'")
@@ -283,6 +316,43 @@ sub legal_value {
 
 sub toDeclaration {
     return shift->SUPER::toDeclaration("epicsUInt32");
+}
+
+
+################################################################################
+
+package DBD::Recfield::DBF_INT64;
+
+use DBD::Base;
+@ISA = qw(DBD::Recfield);
+
+sub legal_value {
+    my ($this, $value) = @_;
+    $value =~ s/^ ( $RXhex | $RXoct ) $/ oct($1) /xe;
+    return ($value =~ m/^ $RXint $/x);
+}
+
+sub toDeclaration {
+    return shift->SUPER::toDeclaration("epicsInt64");
+}
+
+
+################################################################################
+
+package DBD::Recfield::DBF_UINT64;
+
+use DBD::Base;
+@ISA = qw(DBD::Recfield);
+
+sub legal_value {
+    my ($this, $value) = @_;
+    $value =~ s/^ ( $RXhex | $RXoct ) $/ oct($1) /xe;
+    return ($value =~ m/^ $RXuint $/x and
+            $value >= 0);
+}
+
+sub toDeclaration {
+    return shift->SUPER::toDeclaration("epicsUInt64");
 }
 
 

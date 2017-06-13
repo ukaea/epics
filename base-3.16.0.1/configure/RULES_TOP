@@ -6,9 +6,6 @@
 # EPICS BASE is distributed subject to a Software License Agreement found
 # in the file LICENSE that is included with this distribution.
 #*************************************************************************
-#
-# Revision-Id: anj@aps.anl.gov-20150311210829-vaf5o8k5jpihkuz1
-#
 
 include $(CONFIG)/RULES_DIRS
 
@@ -60,6 +57,7 @@ help:
 	@echo "                      Cannot be used within an O.<arch> dir"
 	@echo "     rebuild        - Same as clean install"
 	@echo "     archclean      - Removes O.<arch> dirs but not O.Common dir"
+	@echo "     runtests       - Run self-tests, summarize results"
 	@echo "\"Partial\" build targets supported by Makefiles:"
 	@echo "     host           - Builds and installs $(EPICS_HOST_ARCH) only."
 	@echo "     inc$(DIVIDER)<arch>     - Installs <arch> only header files."

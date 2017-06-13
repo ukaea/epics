@@ -4,7 +4,6 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/* Revision-Id: anj@aps.anl.gov-20121112194523-kr5r7zyjov14kd6b */
 /*
  *      Author: Andrew Johnson
  *      Date:   28 Sept 2012
@@ -31,18 +30,13 @@ static long write_string(printfRecord *prec)
         len = 1;
     }
 
-    if (plink->type != CA_LINK)
-        return dbPutLink(plink, dtyp, prec->val, len);
+    status = dbPutLinkAsync(plink, dtyp, prec->val, len);
+    if (!status)
+        prec->pact = TRUE;
+    else if (status == S_db_noLSET)
+        status = dbPutLink(plink, dtyp, prec->val, len);
 
-    status = dbCaPutLinkCallback(plink, dtyp, prec->val, len,
-        dbCaCallbackProcess, plink);
-    if (status) {
-        recGblSetSevr(prec, LINK_ALARM, INVALID_ALARM);
-        return status;
-    }
-
-    prec->pact = TRUE;
-    return 0;
+    return status;
 }
 
 printfdset devPrintfSoftCallback = {

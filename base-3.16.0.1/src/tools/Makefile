@@ -23,6 +23,7 @@ PERL_MODULES += DBD/Base.pm
 PERL_MODULES += DBD/Breaktable.pm
 PERL_MODULES += DBD/Device.pm
 PERL_MODULES += DBD/Driver.pm
+PERL_MODULES += DBD/Link.pm
 PERL_MODULES += DBD/Function.pm
 PERL_MODULES += DBD/Menu.pm
 PERL_MODULES += DBD/Output.pm
@@ -46,6 +47,7 @@ PERL_SCRIPTS += makeTestfile.pl
 PERL_SCRIPTS += mkmf.pl
 PERL_SCRIPTS += munch.pl
 PERL_SCRIPTS += replaceVAR.pl
+PERL_SCRIPTS += tap-to-junit-xml.pl
 PERL_SCRIPTS += useManifestTool.pl
 PERL_SCRIPTS += genVersionHeader.pl
 

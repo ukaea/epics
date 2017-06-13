@@ -1,5 +1,3 @@
-
-
 /*************************************************************************\
 * Copyright (c) 2002 The University of Chicago, as Operator of Argonne
 *     National Laboratory.
@@ -9,9 +7,6 @@
 * and higher are distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-//
-// Revision-Id: mdavidsaver@gmail.com-20160121171702-odot9q03t0dk1yjo
-//
 
 #ifndef caServerIOh
 #define caServerIOh

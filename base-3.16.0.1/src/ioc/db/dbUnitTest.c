@@ -12,6 +12,8 @@
 
 #include <string.h>
 
+#define EPICS_PRIVATE_API
+
 #include "dbmf.h"
 #include "epicsUnitTest.h"
 #include "osiFileName.h"
@@ -36,6 +38,7 @@ static ELLLIST testEvtList; /* holds testMonitor::node */
 struct testMonitor {
     ELLNODE node;
     dbEventSubscription sub;
+    dbChannel *chan;
     epicsEventId event;
     unsigned count;
 };
@@ -89,6 +92,7 @@ void testIocShutdownOk(void)
 void testdbCleanup(void)
 {
     dbFreeBase(pdbbase);
+    db_cleanup_events();
     initHookFree();
     registryFree();
     pdbbase = NULL;
@@ -106,8 +110,8 @@ long testdbVPutField(const char* pv, short dbrType, va_list ap)
     DBADDR addr;
     union anybuf pod;
 
-    if(dbNameToAddr(pv, &addr)) {
-        testFail("Missing PV %s", pv);
+    if (dbNameToAddr(pv, &addr)) {
+        testFail("Missing PV \"%s\"", pv);
         return S_dbLib_recNotFound;
     }
 
@@ -130,6 +134,8 @@ long testdbVPutField(const char* pv, short dbrType, va_list ap)
     OP(DBR_USHORT, int, uInt16);
     OP(DBR_LONG, int, int32);
     OP(DBR_ULONG, unsigned int, uInt32);
+    OP(DBR_INT64, long long, int64);
+    OP(DBR_UINT64, unsigned long long, uInt64);
     OP(DBR_FLOAT, double, float32);
     OP(DBR_DOUBLE, double, float64);
     OP(DBR_ENUM, int, enum16);
@@ -152,7 +158,7 @@ void testdbPutFieldOk(const char* pv, short dbrType, ...)
     ret = testdbVPutField(pv, dbrType, ap);
     va_end(ap);
 
-    testOk(ret==0, "dbPutField(%s, %d, ...) == %ld", pv, dbrType, ret);
+    testOk(ret==0, "dbPutField(\"%s\", %d, ...) -> %#lx (%s)", pv, dbrType, ret, errSymMsg(ret));
 }
 
 void testdbPutFieldFail(long status, const char* pv, short dbrType, ...)
@@ -164,10 +170,8 @@ void testdbPutFieldFail(long status, const char* pv, short dbrType, ...)
     ret = testdbVPutField(pv, dbrType, ap);
     va_end(ap);
 
-    if(ret==status)
-        testPass("dbPutField(\"%s\", %d, ...) == %ld", pv, dbrType, status);
-    else
-        testFail("dbPutField(\"%s\", %d, ...) != %ld (%ld)", pv, dbrType, status, ret);
+    testOk(ret==status, "dbPutField(\"%s\", %d, ...) -> %#lx (%s) == %#lx (%s)",
+           pv, dbrType, status, errSymMsg(status), ret, errSymMsg(ret));
 }
 
 void testdbGetFieldEqual(const char* pv, short dbrType, ...)
@@ -187,13 +191,16 @@ void testdbVGetFieldEqual(const char* pv, short dbrType, va_list ap)
     long status;
 
     if(dbNameToAddr(pv, &addr)) {
-        testFail("Missing PV %s", pv);
+        testFail("Missing PV \"%s\"", pv);
         return;
     }
 
     status = dbGetField(&addr, dbrType, pod.bytes, NULL, &nReq, NULL);
-    if(status) {
-        testFail("dbGetField(\"%s\",%d,...) returns %ld", pv, dbrType, status);
+    if (status) {
+        testFail("dbGetField(\"%s\", %d, ...) -> %#lx (%s)", pv, dbrType, status, errSymMsg(status));
+        return;
+    } else if(nReq==0) {
+        testFail("dbGetField(\"%s\", %d, ...) -> zero length", pv, dbrType);
         return;
     }
 
@@ -215,19 +222,106 @@ void testdbVGetFieldEqual(const char* pv, short dbrType, va_list ap)
     OP(DBR_USHORT, int, uInt16, "%d");
     OP(DBR_LONG, int, int32, "%d");
     OP(DBR_ULONG, unsigned int, uInt32, "%u");
+    OP(DBR_INT64, long long, int64, "%lld");
+    OP(DBR_UINT64, unsigned long long, uInt64, "%llu");
     OP(DBR_FLOAT, double, float32, "%e");
     OP(DBR_DOUBLE, double, float64, "%e");
     OP(DBR_ENUM, int, enum16, "%d");
 #undef OP
+    default:
+        testFail("dbGetField(\"%s\", %d) -> unsupported dbf", pv, dbrType);
     }
+}
+
+void testdbPutArrFieldOk(const char* pv, short dbrType, unsigned long count, const void *pbuf)
+{
+    DBADDR addr;
+    long status;
+
+    if (dbNameToAddr(pv, &addr)) {
+        testFail("Missing PV \"%s\"", pv);
+        return;
+    }
+
+    status = dbPutField(&addr, dbrType, pbuf, count);
+
+    testOk(status==0, "dbPutField(\"%s\", dbr=%d, count=%lu, ...) -> %ld", pv, dbrType, count, status);
+}
+
+void testdbGetArrFieldEqual(const char* pv, short dbfType, long nRequest, unsigned long cnt, const void *pbufraw)
+{
+    DBADDR addr;
+    const long vSize = dbValueSize(dbfType);
+    const long nStore = vSize * nRequest;
+    long status;
+    char *gbuf, *gstore;
+    const char *pbuf = pbufraw;
+
+    if(dbNameToAddr(pv, &addr)) {
+        testFail("Missing PV \"%s\"", pv);
+        return;
+    }
+
+    gbuf = gstore = malloc(nStore);
+    if(!gbuf && nStore!=0) { /* note that malloc(0) is allowed to return NULL on success */
+        testFail("Allocation failed esize=%ld total=%ld", vSize, nStore);
+        return;
+    }
+
+    status = dbGetField(&addr, dbfType, gbuf, NULL, &nRequest, NULL);
+    if (status) {
+        testFail("dbGetField(\"%s\", %d, ...) -> %#lx", pv, dbfType, status);
+
+    } else {
+        unsigned match = nRequest==cnt;
+        long n, N = nRequest < cnt ? nRequest : cnt;
+
+        if(!match)
+            testDiag("Length mis-match.  expected=%lu actual=%lu", cnt, nRequest);
+
+        for(n=0; n<N; n++, gbuf+=vSize, pbuf+=vSize) {
+
+            switch(dbfType) {
+            case DBR_STRING: {
+                const char *expect = (const char*)pbuf,
+                           *actual = (const char*)gbuf;
+                /* expected (pbuf) is allowed to omit storage for trailing nils for last element */
+                unsigned int eq = strncmp(expect, actual, MAX_STRING_SIZE)==0 && actual[MAX_STRING_SIZE-1]=='\0';
+                match &= eq;
+                if(!eq)
+                    testDiag("[%lu] = expected=\"%s\" actual=\"%s\"", n, expect, actual);
+                break;
+            }
+#define OP(DBR,Type,pat) case DBR: {Type expect = *(Type*)pbuf, actual = *(Type*)gbuf; assert(vSize==sizeof(Type)); match &= expect==actual; \
+    if(expect!=actual) testDiag("[%lu] expected=" pat " actual=" pat, n, expect, actual); break;}
+
+            OP(DBR_CHAR, char, "%c");
+            OP(DBR_UCHAR, unsigned char, "%u");
+            OP(DBR_SHORT, short, "%d");
+            OP(DBR_USHORT, unsigned short, "%u");
+            OP(DBR_LONG, int, "%d");
+            OP(DBR_ULONG, unsigned int, "%u");
+            OP(DBR_INT64, long long, "%lld");
+            OP(DBR_UINT64, unsigned long long, "%llu");
+            OP(DBR_FLOAT, float, "%e");
+            OP(DBR_DOUBLE, double, "%e");
+            OP(DBR_ENUM, int, "%d");
+#undef OP
+            }
+        }
+
+        testOk(match, "dbGetField(\"%s\", dbrType=%d, nRequest=%ld ...) match", pv, dbfType, nRequest);
+    }
+
+    free(gstore);
 }
 
 dbCommon* testdbRecordPtr(const char* pv)
 {
     DBADDR addr;
 
-    if(dbNameToAddr(pv, &addr))
-        testAbort("Missing record %s", pv);
+    if (dbNameToAddr(pv, &addr))
+        testAbort("Missing record \"%s\"", pv);
 
     return addr.precord;
 }
@@ -255,7 +349,7 @@ testMonitor* testMonitorCreate(const char* pvname, unsigned mask, unsigned opt)
 
     mon->event = epicsEventMustCreate(epicsEventEmpty);
 
-    chan = dbChannelCreate(pvname);
+    chan = mon->chan = dbChannelCreate(pvname);
     if(!chan)
         testAbort("testMonitorCreate - dbChannelCreate(\"%s\") fails", pvname);
     if(!!(status=dbChannelOpen(chan)))
@@ -285,6 +379,8 @@ void testMonitorDestroy(testMonitor *mon)
     epicsMutexUnlock(testEvtLock);
 
     db_cancel_event(mon->sub);
+
+    dbChannelDelete(mon->chan);
 
     epicsEventDestroy(mon->event);
 

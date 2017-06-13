@@ -13,6 +13,7 @@ use DBD::Base;
 use DBD::Breaktable;
 use DBD::Device;
 use DBD::Driver;
+use DBD::Link;
 use DBD::Menu;
 use DBD::Recordtype;
 use DBD::Recfield;
@@ -26,6 +27,7 @@ sub OutputDBD {
     OutputMenus($out, $dbd->menus);
     OutputRecordtypes($out, $dbd->recordtypes);
     OutputDrivers($out, $dbd->drivers);
+    OutputLinks($out, $dbd->links);
     OutputRegistrars($out, $dbd->registrars);
     OutputFunctions($out, $dbd->functions);
     OutputVariables($out, $dbd->variables);
@@ -78,6 +80,13 @@ sub OutputDrivers {
         foreach keys %{$drivers};
 }
 
+sub OutputLinks {
+    my ($out, $links) = @_;
+    while (my ($name, $link) = each %{$links}) {
+        printf $out "link(%s, %s)\n", $link->key, $name;
+    }
+}
+
 sub OutputRegistrars {
     my ($out, $registrars) = @_;
     printf $out "registrar(%s)\n", $_
@@ -101,7 +110,7 @@ sub OutputBreaktables {
     my ($out, $breaktables) = @_;
     while (my ($name, $breaktable) = each %{$breaktables}) {
         printf $out "breaktable(\"%s\") {\n", $name;
-        printf $out "    point(%s, %s)\n", @{$_}
+        printf $out "    %s, %s\n", @{$_}
             foreach $breaktable->points;
         print $out "}\n";
     }

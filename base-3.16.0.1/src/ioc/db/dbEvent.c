@@ -9,6 +9,7 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
+/* dbEvent.c */
 
 /*
  *  Author: Jeffrey O. Hill <johill@lanl.gov>
@@ -318,6 +319,22 @@ fail:
         epicsEventDestroy (evUser->pexitsem);
     freeListFree(dbevEventUserFreeList,evUser);
     return NULL;
+}
+
+
+epicsShareFunc void db_cleanup_events(void)
+{
+    freeListCleanup(dbevEventUserFreeList);
+    dbevEventUserFreeList = NULL;
+
+    freeListCleanup(dbevEventQueueFreeList);
+    dbevEventQueueFreeList = NULL;
+
+    freeListCleanup(dbevEventSubscriptionFreeList);
+    dbevEventSubscriptionFreeList = NULL;
+
+    freeListCleanup(dbevFieldLogFreeList);
+    dbevFieldLogFreeList = NULL;
 }
 
 /*

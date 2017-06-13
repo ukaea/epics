@@ -454,6 +454,8 @@ static short mapDBFToDBR[DBF_NTYPES] =
     /* DBF_USHORT   => */DBR_USHORT,
     /* DBF_LONG     => */DBR_LONG,
     /* DBF_ULONG    => */DBR_ULONG,
+    /* DBF_INT64    => */DBR_INT64,
+    /* DBF_UINT64   => */DBR_UINT64,
     /* DBF_FLOAT    => */DBR_FLOAT,
     /* DBF_DOUBLE   => */DBR_DOUBLE,
     /* DBF_ENUM,    => */DBR_ENUM,
@@ -509,7 +511,7 @@ dbChannel * dbChannelCreate(const char *name)
     paddr->dbr_field_type = mapDBFToDBR[dbfType];
 
     if (paddr->special == SPC_DBADDR) {
-        struct rset *prset = dbGetRset(paddr);
+        rset *prset = dbGetRset(paddr);
 
         /* Let record type modify paddr */
         if (prset && prset->cvt_dbaddr) {
@@ -531,7 +533,7 @@ dbChannel * dbChannelCreate(const char *name)
                 paddr->dbr_field_type = DBR_CHAR;
             } else if (dbfType >= DBF_INLINK && dbfType <= DBF_FWDLINK) {
                 /* Clients see a char array, but keep original dbfType */
-                paddr->no_elements = PVNAME_STRINGSZ + 12;
+                paddr->no_elements = PVLINK_STRINGSZ;
                 paddr->field_size = 1;
                 paddr->dbr_field_type = DBR_CHAR;
             } else {

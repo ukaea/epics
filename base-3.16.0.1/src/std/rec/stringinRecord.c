@@ -7,8 +7,6 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 
-/* Revision-Id: anj@aps.anl.gov-20131120222110-3o0wgh76u652ad4e */
-
 /* recStringin.c - Record Support Routines for Stringin records */
 /*
  *      Author: 	Janet Anderson
@@ -42,8 +40,8 @@
 /* Create RSET - Record Support Entry Table*/
 #define report NULL
 #define initialize NULL
-static long init_record(stringinRecord *, int);
-static long process(stringinRecord *);
+static long init_record(struct dbCommon *, int);
+static long process(struct dbCommon *);
 #define special NULL
 #define get_value NULL
 #define cvt_dbaddr NULL
@@ -92,44 +90,45 @@ static void monitor(stringinRecord *);
 static long readValue(stringinRecord *);
 
 
-static long init_record(stringinRecord *prec, int pass)
+static long init_record(struct dbCommon *pcommon, int pass)
 {
+    struct stringinRecord *prec = (struct stringinRecord *)pcommon;
     STATIC_ASSERT(sizeof(prec->oval)==sizeof(prec->val));
-    struct stringindset *pdset;
-    long status;
+    struct stringindset *pdset = (struct stringindset *) prec->dset;
 
-    if (pass==0) return(0);
+    if (pass==0)
+        return 0;
 
-    if (prec->siml.type == CONSTANT) {
-	recGblInitConstantLink(&prec->siml,DBF_USHORT,&prec->simm);
+    recGblInitConstantLink(&prec->siml, DBF_USHORT, &prec->simm);
+    recGblInitConstantLink(&prec->siol, DBF_STRING, prec->sval);
+
+    if (!pdset) {
+        recGblRecordError(S_dev_noDSET, prec, "stringin: init_record");
+        return S_dev_noDSET;
     }
 
-    /* stringin.siol must be a CONSTANT or a PV_LINK or a DB_LINK */
-    if (prec->siol.type == CONSTANT) {
-        recGblInitConstantLink(&prec->siol,DBF_STRING,prec->sval);
-    } 
-
-    if(!(pdset = (struct stringindset *)(prec->dset))) {
-	recGblRecordError(S_dev_noDSET,(void *)prec,"stringin: init_record");
-	return(S_dev_noDSET);
-    }
     /* must have read_stringin function defined */
-    if( (pdset->number < 5) || (pdset->read_stringin == NULL) ) {
-	recGblRecordError(S_dev_missingSup,(void *)prec,"stringin: init_record");
-	return(S_dev_missingSup);
+    if ((pdset->number < 5) || (pdset->read_stringin == NULL)) {
+        recGblRecordError(S_dev_missingSup, prec, "stringin: init_record");
+        return S_dev_missingSup;
     }
-    if( pdset->init_record ) {
-	if((status=(*pdset->init_record)(prec))) return(status);
+
+    if (pdset->init_record) {
+        long status = pdset->init_record(prec);
+
+        if (status)
+            return status;
     }
-    strcpy(prec->oval,prec->val);
-    return(0);
+    strcpy(prec->oval, prec->val);
+    return 0;
 }
 
 /*
  */
-static long process(stringinRecord *prec)
+static long process(struct dbCommon *pcommon)
 {
-	struct stringindset	*pdset = (struct stringindset *)(prec->dset);
+    struct stringinRecord *prec = (struct stringinRecord *)pcommon;
+    struct stringindset  *pdset = (struct stringindset *)(prec->dset);
 	long		 status;
 	unsigned char    pact=prec->pact;
 

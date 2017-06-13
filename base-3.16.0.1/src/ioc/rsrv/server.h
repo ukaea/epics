@@ -99,12 +99,25 @@ typedef struct client {
   char                  disconnect; /* disconnect detected */
 } client;
 
+/* Channel state shows which struct client list a
+ * channel_in_us::node is in.
+ *
+ * client::chanList
+ *   rsrvCS_pendConnectResp, rsrvCS_inService
+ * client::chanPendingUpdateARList
+ *   rsrvCS_pendConnectRespUpdatePendAR, rsrvCS_inServiceUpdatePendAR
+ * Not in any list
+ *   rsrvCS_shutdown
+ *
+ * rsrvCS_invalid is not used
+ */
 enum rsrvChanState {
     rsrvCS_invalid,
     rsrvCS_pendConnectResp,
     rsrvCS_inService,
     rsrvCS_pendConnectRespUpdatePendAR,
-    rsrvCS_inServiceUpdatePendAR
+    rsrvCS_inServiceUpdatePendAR,
+    rsrvCS_shutdown
 };
 
 /*
@@ -154,7 +167,7 @@ enum ctl {ctlInit, ctlRun, ctlPause, ctlExit};
 /*  NOTE: external used so they remember the state across loads */
 #ifdef  GLBLSOURCE
 #   define GLBLTYPE
-#   define GLBLTYPE_INIT(A)
+#   define GLBLTYPE_INIT(A) = A
 #else
 #   define GLBLTYPE extern
 #   define GLBLTYPE_INIT(A)
@@ -172,8 +185,7 @@ enum ctl {ctlInit, ctlRun, ctlPause, ctlExit};
 
 GLBLTYPE int                CASDEBUG;
 GLBLTYPE unsigned short     ca_server_port, ca_udp_port, ca_beacon_port;
-GLBLTYPE ELLLIST            clientQ; /* (TCP clients) locked by clientQlock */
-GLBLTYPE ELLLIST            clientQudp; /* locked by clientQlock */
+GLBLTYPE ELLLIST            clientQ             GLBLTYPE_INIT(ELLLIST_INIT);
 GLBLTYPE ELLLIST            servers; /* rsrv_iface_config::node, read-only after rsrv_init() */
 GLBLTYPE ELLLIST            beaconAddrList;
 GLBLTYPE SOCKET             beaconSocket;

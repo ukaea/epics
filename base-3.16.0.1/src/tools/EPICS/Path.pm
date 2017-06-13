@@ -5,8 +5,6 @@
 # in file LICENSE that is included with this distribution.
 #*************************************************************************
 
-# Revision-Id: anj@aps.anl.gov-20150415230126-t3dhjjwvv94etm0o
-
 package EPICS::Path;
 require 5.000;
 require Exporter;

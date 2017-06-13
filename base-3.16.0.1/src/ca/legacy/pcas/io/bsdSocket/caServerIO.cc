@@ -7,10 +7,7 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 //
-// Revision-Id: mdavidsaver@gmail.com-20160121171702-odot9q03t0dk1yjo
-//
 // verify connection state prior to doing anything in this file
-//
 //
 
 #include <ctype.h>

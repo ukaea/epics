@@ -63,12 +63,15 @@ print $out (<< "END");
 /* Generated from $file */
 
 #include <string.h>
-
+#ifndef USE_TYPED_RSET
+#  define USE_TYPED_RSET
+#endif
 #include "compilerDependencies.h"
 #include "epicsStdlib.h"
 #include "iocsh.h"
 #include "iocshRegisterCommon.h"
 #include "registryCommon.h"
+#include "recSup.h"
 
 END
 
@@ -94,7 +97,7 @@ if (%rectypes) {
 
     if (@rtypnames) {
         # Declare the record support entry tables
-        print $out wrap('epicsShareExtern rset ', '    ',
+        print $out wrap('epicsShareExtern typed_rset ', '    ',
             join(', ', map {"*pvar_rset_${_}RSET"} @rtypnames)), ";\n\n";
 
         # Declare the RecordSizeOffset functions
@@ -110,7 +113,7 @@ if (%rectypes) {
         # List of pointers to each RSET and RecordSizeOffset function
         print $out "static const recordTypeLocation rtl[] = {\n";
         print $out join(",\n", map {
-                "    {pvar_rset_${_}RSET, pvar_func_${_}RecordSizeOffset}"
+                "    {(struct typed_rset *)pvar_rset_${_}RSET, pvar_func_${_}RecordSizeOffset}"
             } @rtypnames);
         print $out "\n};\n\n";
     }
@@ -156,6 +159,20 @@ if (%drivers) {
     # List of pointers to each drvet
     print $out "static struct drvet *drvsl[] = {\n";
     print $out join(",\n", map {"    pvar_drvet_$_"} @drivers);
+    print $out "};\n\n";
+}
+
+my %links = %{$dbd->links};
+if (%links) {
+    my @links = sort keys %links;
+
+    # Declare the link interfaces
+    print $out wrap('epicsShareExtern jlif ', '    ',
+        join(', ', map {"*pvar_jlif_$_"} @links)), ";\n\n";
+
+    # List of pointers to each link interface
+    print $out "static struct jlif *jlifsl[] = {\n";
+    print $out join(",\n", map {"    pvar_jlif_$_"} @links);
     print $out "};\n\n";
 }
 
@@ -232,6 +249,10 @@ END
 
 print $out (<< 'END') if %drivers;
     registerDrivers(pbase, NELEMENTS(drvsl), driverSupportNames, drvsl);
+END
+
+print $out (<< 'END') if %links;
+    registerJLinks(pbase, NELEMENTS(jlifsl), jlifsl);
 END
 
 print $out (<< "END") for @registrars;

@@ -14,9 +14,12 @@
 
 int analogMonitorTest(void);
 int compressTest(void);
+int recMiscTest(void);
 int arrayOpTest(void);
 int asTest(void);
 int linkRetargetLinkTest(void);
+int linkInitTest(void);
+int asyncSoftTest(void);
 
 void epicsRunRecordTests(void)
 {
@@ -26,11 +29,17 @@ void epicsRunRecordTests(void)
 
     runTest(compressTest);
 
+    runTest(recMiscTest);
+
     runTest(arrayOpTest);
 
     runTest(asTest);
 
     runTest(linkRetargetLinkTest);
+
+    runTest(linkInitTest);
+
+    runTest(asyncSoftTest);
 
     epicsExit(0);   /* Trigger test harness */
 }

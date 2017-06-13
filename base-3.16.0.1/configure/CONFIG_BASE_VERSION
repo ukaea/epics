@@ -4,10 +4,8 @@
 # Copyright (c) 2002 The Regents of the University of California, as
 #     Operator of Los Alamos National Laboratory.
 # EPICS BASE is distributed subject to a Software License Agreement found
-# in the file LICENSE that is included with this distribution. 
+# in the file LICENSE that is included with this distribution.
 #*************************************************************************
-#
-#  Revision-Id: anj@aps.anl.gov-20160303233643-xudb5va0ym317opr
 #
 #  EPICS Version information
 #
@@ -36,15 +34,15 @@ BASE_3_16 = YES
 # EPICS_VERSION must be a number >0 and <256
 EPICS_VERSION = 3
 
-# EPICS_REVISION must be a number >=0 and <256 
+# EPICS_REVISION must be a number >=0 and <256
 EPICS_REVISION = 16
 
-# EPICS_MODIFICATION must be a number >=0 and <256 
-EPICS_MODIFICATION = 0
+# EPICS_MODIFICATION must be a number >=0 and <256
+EPICS_MODIFICATION = 1
 
 # EPICS_PATCH_LEVEL must be a number (win32 resource file requirement)
 # Not included if zero
-EPICS_PATCH_LEVEL = 1
+EPICS_PATCH_LEVEL = 0
 
 # This will end in -DEV between official releases
 #EPICS_DEV_SNAPSHOT=-DEV
@@ -72,4 +70,5 @@ EPICS_SHORT_VERSION=$(EPICS_VERSION).$(EPICS_REVISION).$(EPICS_MODIFICATION)$(EP
 EPICS_VERSION_NUMBER=$(EPICS_SHORT_VERSION)$(EPICS_DEV_SNAPSHOT)$(EPICS_SITE_VSTRING)
 EPICS_VERSION_STRING="EPICS Version $(EPICS_VERSION_NUMBER)"
 
-COMMIT_DATE="\$Date: Thu 2016-03-03 17:36:43 -0600$"
+# Provide this in case anyone is still using the old name
+COMMIT_DATE="-no-date-"

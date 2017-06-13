@@ -16,10 +16,7 @@
 #endif
 
 /*
- *  Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd
- *
  *  Author: Jeffrey O. Hill
- *
  */
 
 template < class T > class epicsGuardRelease;
@@ -30,6 +27,7 @@ template < class T > class epicsGuardRelease;
 template < class T >
 class epicsGuard {
 public:
+    typedef epicsGuardRelease<T> release_t;
     epicsGuard ( T & );
     void assertIdenticalMutex ( const T & ) const;
     ~epicsGuard ();
@@ -46,6 +44,7 @@ private:
 template < class T >
 class epicsGuardRelease {
 public:
+    typedef epicsGuard<T> guard_t;
     epicsGuardRelease ( epicsGuard < T > & );
     ~epicsGuardRelease ();
 private:

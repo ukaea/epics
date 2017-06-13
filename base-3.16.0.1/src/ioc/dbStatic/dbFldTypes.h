@@ -7,8 +7,7 @@
 * and higher are distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/* Revision-Id: anj@aps.anl.gov-20101005192737-disfz3vs0f3fiixd
- *
+/*
  *      Author:          Marty Kraimer
  *      Date:            6-1-90
  */
@@ -30,6 +29,8 @@ typedef enum {
 	DBF_USHORT,
 	DBF_LONG,
 	DBF_ULONG,
+	DBF_INT64,
+	DBF_UINT64,
 	DBF_FLOAT,
 	DBF_DOUBLE,
 	DBF_ENUM,
@@ -57,6 +58,8 @@ epicsShareDef mapdbfType pamapdbfType[DBF_NTYPES] = {
 	{"DBF_USHORT",DBF_USHORT},
 	{"DBF_LONG",DBF_LONG},
 	{"DBF_ULONG",DBF_ULONG},
+	{"DBF_INT64",DBF_INT64},
+	{"DBF_UINT64",DBF_UINT64},
 	{"DBF_FLOAT",DBF_FLOAT},
 	{"DBF_DOUBLE",DBF_DOUBLE},
 	{"DBF_ENUM",DBF_ENUM},
@@ -77,6 +80,8 @@ epicsShareDef mapdbfType pamapdbfType[DBF_NTYPES] = {
 #define DBR_USHORT      DBF_USHORT
 #define DBR_LONG        DBF_LONG
 #define DBR_ULONG       DBF_ULONG
+#define DBR_INT64       DBF_INT64
+#define DBR_UINT64      DBF_UINT64
 #define DBR_FLOAT       DBF_FLOAT
 #define DBR_DOUBLE      DBF_DOUBLE
 #define DBR_ENUM        DBF_ENUM

@@ -6,8 +6,6 @@
 # in file LICENSE that is included with this distribution.
 #*************************************************************************
 
-# Revision-Id: anj@aps.anl.gov-20150421200924-461ulfwn21snhmzq
-
 use strict;
 use warnings;
 

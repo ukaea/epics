@@ -190,6 +190,8 @@ void dbScanLock(dbCommon *precord)
     lockRecord * const lr = precord->lset;
     lockSet *ls;
 
+    assert(lr);
+
     ls = dbLockGetRef(lr);
     assert(epicsAtomicGetIntT(&ls->refcount)>0);
 
@@ -328,7 +330,7 @@ int dbLockUpdateRefs(dbLocker *locker, int update)
 }
 
 void dbLockerPrepare(struct dbLocker *locker,
-                struct dbCommon **precs,
+                struct dbCommon * const *precs,
                 size_t nrecs)
 {
     size_t i;
@@ -348,7 +350,7 @@ void dbLockerPrepare(struct dbLocker *locker,
     dbLockUpdateRefs(locker, 1);
 }
 
-dbLocker *dbLockerAlloc(dbCommon **precs,
+dbLocker *dbLockerAlloc(dbCommon * const *precs,
                         size_t nrecs,
                         unsigned int flags)
 {
@@ -563,11 +565,9 @@ void dbLockCleanupRecords(dbBase *pdbbase)
 
     forEachRecord(NULL, pdbbase, &freeLockRecord);
     if(ellCount(&lockSetsActive)) {
-        errlogMessage("Warning: dbLockCleanupRecords() leaking lockSets\n");
+        printf("Warning: dbLockCleanupRecords() leaking lockSets\n");
         dblsr(NULL,2);
     }
-
-    assert(ellCount(&lockSetsActive)==0);
 
 #ifndef LOCKSET_NOFREE
     while((cur=ellGet(&lockSetsFree))!=NULL) {

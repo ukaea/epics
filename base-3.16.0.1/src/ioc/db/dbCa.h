@@ -33,8 +33,7 @@ epicsShareFunc long dbCaAddLink(struct dbLocker *locker, struct link *plink, sho
 epicsShareFunc void dbCaRemoveLink(struct dbLocker *locker, struct link *plink);
 
 epicsShareFunc long dbCaGetLink(struct link *plink,
-    short dbrType, void *pbuffer, epicsEnum16 *pstat, epicsEnum16 *psevr,
-    long *nRequest);
+    short dbrType, void *pbuffer, long *nRequest);
 
 epicsShareFunc long dbCaGetAttributes(const struct link *plink,
     dbCaCallback callback, void *userPvt);
@@ -49,6 +48,7 @@ extern struct ca_client_context * dbCaClientContext;
 
 #ifdef EPICS_DBCA_PRIVATE_API
 epicsShareFunc void dbCaSync(void);
+epicsShareFunc unsigned long dbCaGetUpdateCount(struct link *plink);
 #endif
 
 /* These macros are for backwards compatibility */

@@ -7,7 +7,6 @@
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
 /* dbAccessDefs.h	*/
-/* Revision-Id: anj@aps.anl.gov-20150302160648-eb0ws9phnpq42hq6 */
 
 #ifndef INCdbAccessDefsh
 #define INCdbAccessDefsh
@@ -21,6 +20,7 @@
 #include "epicsTime.h"
 #include "dbBase.h"
 #include "dbAddr.h"
+#include "recSup.h"
 
 #ifdef INCLdb_accessh_epicsExportSharedSymbols
 #   define epicsExportSharedSymbols
@@ -182,6 +182,7 @@ struct dbr_alDouble     {DBRalDouble};
 #define S_db_badChoice 	(M_dbAccess|13) /*Illegal choice*/
 #define S_db_badField 	(M_dbAccess|15) /*Illegal field value*/
 #define S_db_lsetLogic 	(M_dbAccess|17) /*Logic error generating lock sets*/
+#define S_db_noLSET     (M_dbAccess|21) /*No link support table or entry*/
 #define S_db_noRSET 	(M_dbAccess|31) /*missing record support entry table*/
 #define S_db_noSupport 	(M_dbAccess|33) /*RSET or DSXT routine not defined*/
 #define S_db_BadSub 	(M_dbAccess|35) /*Subroutine not found*/
@@ -203,7 +204,7 @@ struct dbr_alDouble     {DBRalDouble};
 #define S_db_bufFull    (M_dbAccess|68) /*Buffer full*/
 
 epicsShareFunc long dbPutSpecial(struct dbAddr *paddr,int pass);
-epicsShareFunc struct rset * dbGetRset(const struct dbAddr *paddr);
+epicsShareFunc rset * dbGetRset(const struct dbAddr *paddr);
 epicsShareFunc long dbPutAttribute(
     const char *recordTypename,const char *name,const char*value);
 epicsShareFunc int dbIsValueField(const struct dbFldDes *pdbFldDes);

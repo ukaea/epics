@@ -26,6 +26,7 @@
 #include "epicsEvent.h"
 #include "epicsMutex.h"
 #include "epicsStdio.h"
+#include "epicsString.h"
 #include "epicsThread.h"
 #include "epicsTime.h"
 #include "errlog.h"
@@ -324,29 +325,10 @@ unsigned            lineno
 static int bad_udp_cmd_action ( caHdrLargeArray *mp,
                        void *pPayload, struct client *pClient )
 {
-    log_header ("invalid (damaged?) request code from UDP",
-        pClient, mp, pPayload, 0);
+    if (CASDEBUG > 0)
+        log_header ("invalid (damaged?) request code from UDP",
+                    pClient, mp, pPayload, 0);
     return RSRV_ERROR;
-}
-
-/*
- * udp_echo_action()
- */
-static int udp_echo_action ( caHdrLargeArray *mp,
-                           void *pPayload, struct client *pClient )
-{
-    char *pPayloadOut;
-    int status;
-    SEND_LOCK ( pClient );
-    status = cas_copy_in_header ( pClient, mp->m_cmmd, mp->m_postsize,
-        mp->m_dataType, mp->m_count, mp->m_cid, mp->m_available,
-        ( void * ) &pPayloadOut );
-    if ( status == ECA_NORMAL ) {
-        memcpy ( pPayloadOut, pPayload, mp->m_postsize );
-        cas_commit_msg ( pClient, mp->m_postsize );
-    }
-    SEND_UNLOCK ( pClient );
-    return RSRV_OK;
 }
 
 /*
@@ -378,6 +360,13 @@ static int tcp_version_action ( caHdrLargeArray *mp, void *pPayload,
     double tmp;
     unsigned epicsPriorityNew;
     unsigned epicsPrioritySelf;
+
+    client->minor_version_number = mp->m_count;
+
+    if (!CA_VSUPPORTED(mp->m_count)) {
+        DLOG ( 2, ( "CAS: Ignore version from unsupported client %u\n", mp->m_count ) );
+        return RSRV_ERROR;
+    }
 
     if ( mp->m_dataType > CA_PROTO_PRIORITY_MAX ) {
         return RSRV_ERROR;
@@ -465,16 +454,6 @@ static void no_read_access_event ( struct client *pClient,
     int status;
 
     /*
-     * continue to return an exception
-     * on failure to pre v41 clients
-     */
-    if ( ! CA_V41 ( pClient->minor_version_number ) ) {
-        send_err ( &pevext->msg, ECA_GETFAIL, pClient,
-            RECORD_NAME ( pevext->pciu->dbch ) );
-        return;
-    }
-
-    /*
      * New clients recv the status of the
      * operation directly to the
      * event/put/get callback.
@@ -513,7 +492,6 @@ static void read_reply ( void *pArg, struct dbChannel *dbch,
     struct channel_in_use *pciu = pevext->pciu;
     const int readAccess = asCheckGet ( pciu->asClientPVT );
     int status;
-    int v41;
     int autosize;
     int local_fl = 0;
     long item_count;
@@ -522,23 +500,7 @@ static void read_reply ( void *pArg, struct dbChannel *dbch,
 
     SEND_LOCK ( pClient );
 
-    /*
-     * New clients recv the status of the
-     * operation directly to the
-     * event/put/get callback.
-     *
-     * The m_cid field in the protocol
-     * header is abused to carry the status,
-     * but get calls still use the
-     * m_cid field to identify the channel
-     */
-    v41 = CA_V41 ( pClient->minor_version_number );
-    if ( v41 ) {
-        cid = ECA_NORMAL;
-    }
-    else {
-        cid = pciu->cid;
-    }
+    cid = ECA_NORMAL;
 
     /* If the client has requested a zero element count we interpret this as a
      * request for all avaiable elements.  In this case we initialise the
@@ -589,35 +551,22 @@ static void read_reply ( void *pArg, struct dbChannel *dbch,
     if (local_fl) db_delete_field_log(pfl);
 
     if ( status < 0 ) {
-        /*
-         * I cant wait to redesign this protocol from scratch!
-         */
-        if ( ! v41 ) {
-            /*
-             * old client & plain get
-             * continue to return an exception
-             * on failure
-             */
-            send_err ( &pevext->msg, ECA_GETFAIL, pClient, RECORD_NAME ( dbch ) );
+        /* Clients recv the status of the operation directly to the
+         * event/put/get callback.  (from CA_V41())
+         *
+         * Fetched value is set to zero in case they use it even when the
+         * status indicates failure -- unless the client selected autosizing
+         * data, in which case they'd better know what they're doing!
+         *
+         * The m_cid field in the protocol header is abused to carry the
+         * status */
+        if (autosize) {
+            payload_size = dbr_size_n(pevext->msg.m_dataType, 0);
+            cas_set_header_count(pClient, 0);
         }
-        else {
-            /* New clients recv the status of the operation directly to the
-             * event/put/get callback.
-             *
-             * Fetched value is set to zero in case they use it even when the
-             * status indicates failure -- unless the client selected autosizing
-             * data, in which case they'd better know what they're doing!
-             *
-             * The m_cid field in the protocol header is abused to carry the
-             * status */
-            if (autosize) {
-                payload_size = dbr_size_n(pevext->msg.m_dataType, 0);
-                cas_set_header_count(pClient, 0);
-            }
-            memset ( pPayload, 0, payload_size );
-            cas_set_header_cid ( pClient, ECA_GETFAIL );
-            cas_commit_msg ( pClient, payload_size );
-        }
+        memset ( pPayload, 0, payload_size );
+        cas_set_header_cid ( pClient, ECA_GETFAIL );
+        cas_commit_msg ( pClient, payload_size );
     }
     else {
         int cacStatus = caNetConvert (
@@ -663,11 +612,10 @@ static void read_reply ( void *pArg, struct dbChannel *dbch,
 static int read_action ( caHdrLargeArray *mp, void *pPayloadIn, struct client *pClient )
 {
     struct channel_in_use *pciu = MPTOPCIU ( mp );
-    const int readAccess = asCheckGet ( pciu->asClientPVT );
+    int readAccess;
     ca_uint32_t payloadSize;
     void *pPayload;
     int status;
-    int v41;
     int local_fl = 0;
     db_field_log *pfl = NULL;
 
@@ -675,6 +623,7 @@ static int read_action ( caHdrLargeArray *mp, void *pPayloadIn, struct client *p
         logBadId ( pClient, mp, 0 );
         return RSRV_ERROR;
     }
+    readAccess = asCheckGet ( pciu->asClientPVT );
 
     SEND_LOCK ( pClient );
 
@@ -698,14 +647,8 @@ static int read_action ( caHdrLargeArray *mp, void *pPayloadIn, struct client *p
     /*
      * verify read access
      */
-    v41 = CA_V41 ( pClient->minor_version_number );
     if ( ! readAccess ) {
-        if ( v41 ) {
-            status = ECA_NORDACCESS;
-        }
-        else{
-            status = ECA_GETFAIL;
-        }
+        status = ECA_NORDACCESS;
         send_err ( mp, status,
             pClient, RECORD_NAME ( pciu->dbch ) );
         SEND_UNLOCK ( pClient );
@@ -748,7 +691,7 @@ static int read_action ( caHdrLargeArray *mp, void *pPayloadIn, struct client *p
      */
     if ( mp->m_dataType == DBR_STRING && mp->m_count == 1 ) {
         char * pStr = (char *) pPayload;
-        size_t strcnt = strlen ( pStr );
+        size_t strcnt = epicsStrnLen( pStr, payloadSize );
         if ( strcnt < payloadSize ) {
             payloadSize = ( ca_uint32_t ) ( strcnt + 1u );
         }
@@ -774,6 +717,10 @@ static int read_notify_action ( caHdrLargeArray *mp, void *pPayload, struct clie
 {
     struct channel_in_use *pciu;
     struct event_ext evext;
+
+    if ( INVALID_DB_REQ(mp->m_dataType) ) {
+        return RSRV_ERROR;
+    }
 
     pciu = MPTOPCIU ( mp );
     if ( !pciu ) {
@@ -807,7 +754,6 @@ static int write_action ( caHdrLargeArray *mp,
                         void *pPayload, struct client *client )
 {
     struct channel_in_use   *pciu;
-    int                     v41;
     int                     status;
     long                    dbStatus;
     void                    *asWritePvt;
@@ -819,13 +765,7 @@ static int write_action ( caHdrLargeArray *mp,
     }
 
     if(!rsrvCheckPut(pciu)){
-        v41 = CA_V41(client->minor_version_number);
-        if(v41){
-            status = ECA_NOWTACCESS;
-        }
-        else{
-            status = ECA_PUTFAIL;
-        }
+        status = ECA_NOWTACCESS;
         SEND_LOCK(client);
         send_err(
             mp,
@@ -883,7 +823,7 @@ static int write_action ( caHdrLargeArray *mp,
 static int host_name_action ( caHdrLargeArray *mp, void *pPayload,
     struct client *client )
 {
-    size_t                  size;
+    ca_uint32_t             size;
     char                    *pName;
     char                    *pMalloc;
     int                     chanCount;
@@ -907,9 +847,9 @@ static int host_name_action ( caHdrLargeArray *mp, void *pPayload,
     }
 
     pName = (char *) pPayload;
-    size = strlen(pName)+1;
-    if (size > 512) {
-        log_header ( "bad (very long) host name",
+    size = epicsStrnLen(pName, mp->m_postsize)+1;
+    if (size > 512 || size > mp->m_postsize) {
+        log_header ( "bad (very long) host name", 
             client, mp, pPayload, 0 );
         SEND_LOCK(client);
         send_err(
@@ -962,7 +902,7 @@ static int host_name_action ( caHdrLargeArray *mp, void *pPayload,
 static int client_name_action ( caHdrLargeArray *mp, void *pPayload,
     struct client *client )
 {
-    size_t                  size;
+    ca_uint32_t             size;
     char                    *pName;
     char                    *pMalloc;
     int                     chanCount;
@@ -986,9 +926,9 @@ static int client_name_action ( caHdrLargeArray *mp, void *pPayload,
     }
 
     pName = (char *) pPayload;
-    size = strlen(pName)+1;
-    if (size > 512) {
-        log_header ("a very long user name was specified",
+    size = epicsStrnLen(pName, mp->m_postsize)+1;
+    if (size > 512 || size > mp->m_postsize) {
+        log_header ("a very long user name was specified", 
             client, mp, pPayload, 0);
         SEND_LOCK(client);
         send_err(
@@ -1112,7 +1052,7 @@ unsigned    cid
  * casAccessRightsCB()
  *
  * If access right state changes then inform the client.
- *
+ * asLock is held
  */
 static void casAccessRightsCB(ASCLIENTPVT ascpvt, asClientStatus type)
 {
@@ -1190,18 +1130,9 @@ static void casAccessRightsCB(ASCLIENTPVT ascpvt, asClientStatus type)
 static void access_rights_reply ( struct channel_in_use * pciu )
 {
     unsigned        ar;
-    int             v41;
     int             status;
 
     assert ( pciu->client->proto!=IPPROTO_UDP );
-
-    /*
-     * noop if this is an old client
-     */
-    v41 = CA_V41 ( pciu->client->minor_version_number );
-    if ( ! v41 ){
-        return;
-    }
 
     ar = 0; /* none */
     if ( asCheckGet ( pciu->asClientPVT ) ) {
@@ -1229,39 +1160,38 @@ static void access_rights_reply ( struct channel_in_use * pciu )
  */
 static void claim_ciu_reply ( struct channel_in_use * pciu )
 {
-    int v42 = CA_V42 ( pciu->client->minor_version_number );
+    int status;
+    ca_uint32_t nElem;
+    long dbElem;
+
     access_rights_reply ( pciu );
-    if ( v42 ) {
-        int status;
-        ca_uint32_t nElem;
-        long dbElem;
-        SEND_LOCK ( pciu->client );
-        dbElem = dbChannelFinalElements(pciu->dbch);
-        if ( dbElem < 0 ) {
-            nElem = 0;
-        }
-        else {
-            if ( ! CA_V49 ( pciu->client->minor_version_number ) ) {
-                if ( dbElem >= 0xffff ) {
-                    nElem = 0xfffe;
-                }
-                else {
-                    nElem = (ca_uint32_t) dbElem;
-                }
+
+    SEND_LOCK ( pciu->client );
+    dbElem = dbChannelFinalElements(pciu->dbch);
+    if ( dbElem < 0 ) {
+        nElem = 0;
+    }
+    else {
+        if ( ! CA_V49 ( pciu->client->minor_version_number ) ) {
+            if ( dbElem >= 0xffff ) {
+                nElem = 0xfffe;
             }
             else {
                 nElem = (ca_uint32_t) dbElem;
             }
         }
-        status = cas_copy_in_header (
-            pciu->client, CA_PROTO_CREATE_CHAN, 0u,
-            dbChannelFinalCAType(pciu->dbch), nElem, pciu->cid,
-            pciu->sid, NULL );
-        if ( status == ECA_NORMAL ) {
-            cas_commit_msg ( pciu->client, 0u );
+        else {
+            nElem = (ca_uint32_t) dbElem;
         }
-        SEND_UNLOCK(pciu->client);
     }
+    status = cas_copy_in_header (
+        pciu->client, CA_PROTO_CREATE_CHAN, 0u,
+        dbChannelFinalCAType(pciu->dbch), nElem, pciu->cid,
+        pciu->sid, NULL );
+    if ( status == ECA_NORMAL ) {
+        cas_commit_msg ( pciu->client, 0u );
+    }
+    SEND_UNLOCK(pciu->client);
 }
 
 /*
@@ -1272,6 +1202,8 @@ static int claim_ciu_action ( caHdrLargeArray *mp,
 {
     int status;
     struct channel_in_use *pciu;
+    struct dbChannel *dbch;
+    char *pName = (char *) pPayload;
 
     /*
      * The available field is used (abused)
@@ -1281,83 +1213,48 @@ static int claim_ciu_action ( caHdrLargeArray *mp,
      */
     client->minor_version_number = mp->m_available;
 
-    if (CA_V44(client->minor_version_number)) {
-        struct dbChannel *dbch;
-        char *pName = (char *) pPayload;
+    if (!CA_V44(client->minor_version_number))
+        return RSRV_ERROR; /* shouldn't actually get here due to VSUPPORTED test in camessage() */
 
-        /*
-         * check the sanity of the message
-         */
-        if (mp->m_postsize<=1) {
-            log_header ( "empty PV name in UDP search request?",
-                client, mp, pPayload, 0 );
-            return RSRV_OK;
-        }
-        pName[mp->m_postsize-1] = '\0';
-
-        dbch = dbChannel_create (pName);
-        if (!dbch) {
-            return RSRV_OK;
-        }
-
-        DLOG ( 2, ("CAS: claim_ciu_action found '%s', type %d, count %d\n",
-            pName, dbChannelCAType(dbch), dbChannelElements(dbch)) );
-
-        pciu = casCreateChannel (
-                client,
-                dbch,
-                mp->m_cid);
-        if (!pciu) {
-            log_header ("no memory to create new channel",
-                client, mp, pPayload, 0);
-            SEND_LOCK(client);
-            send_err(mp,
-                ECA_ALLOCMEM,
-                client,
-                RECORD_NAME(dbch));
-            SEND_UNLOCK(client);
-            dbChannelDelete(dbch);
-            return RSRV_ERROR;
-        }
+    /*
+     * check the sanity of the message
+     */
+    if (mp->m_postsize<=1) {
+        log_header ( "empty PV name in UDP search request?",
+            client, mp, pPayload, 0 );
+        return RSRV_OK;
     }
-    else {
-        epicsMutexMustLock(client->chanListLock);
-        /*
-         * clients which dont claim their
-         * channel in use block prior to
-         * timeout must reconnect
-         */
-        pciu = MPTOPCIU(mp);
-        if(!pciu){
-            errlogPrintf("CAS: client timeout disconnect id=%d\n",
-                mp->m_cid);
-            epicsMutexUnlock(client->chanListLock);
-            SEND_LOCK(client);
-            send_err(
-                mp,
-                ECA_INTERNAL,
-                client,
-                "old connect protocol timed out");
-            SEND_UNLOCK(client);
-            return RSRV_ERROR;
-        }
+    pName[mp->m_postsize-1] = '\0';
 
-        /*
-         * remove channel in use block from
-         * the UDP client where it could time
-         * out and place it on the client
-         * who is claiming it
-         */
-        ellDelete(
-            &client->chanList,
-            &pciu->node);
-        epicsMutexUnlock(client->chanListLock);
+    dbch = dbChannel_create (pName);
+    if (!dbch) {
+        SEND_LOCK(client);
+        status = cas_copy_in_header ( client,
+                                      CA_PROTO_CREATE_CH_FAIL, 0, 0, 0, mp->m_cid, 0, NULL );
+        if (status == ECA_NORMAL)
+            cas_commit_msg ( client, 0u );
+        SEND_UNLOCK(client);
+        return RSRV_OK;
+    }
 
-        epicsMutexMustLock(client->chanListLock);
-        pciu->state = rsrvCS_pendConnectResp;
-        pciu->client = client;
-        ellAdd(&client->chanList, &pciu->node);
-        epicsMutexUnlock(client->chanListLock);
+    DLOG ( 2, ("CAS: claim_ciu_action found '%s', type %d, count %d\n",
+        pName, dbChannelCAType(dbch), dbChannelElements(dbch)) );
+
+    pciu = casCreateChannel (
+            client,
+            dbch,
+            mp->m_cid);
+    if (!pciu) {
+        log_header ("no memory to create new channel",
+            client, mp, pPayload, 0);
+        SEND_LOCK(client);
+        send_err(mp,
+            ECA_ALLOCMEM,
+            client,
+            RECORD_NAME(dbch));
+        SEND_UNLOCK(client);
+        dbChannelDelete(dbch);
+        return RSRV_ERROR;
     }
 
     /*
@@ -1567,6 +1464,9 @@ static void sendAllUpdateAS ( struct client *client )
         }
         else if ( pciu->state == rsrvCS_inServiceUpdatePendAR ) {
              access_rights_reply ( pciu );
+        }
+        else if ( pciu->state == rsrvCS_shutdown ) {
+            /* no-op */
         }
         else {
             errlogPrintf (
@@ -1884,6 +1784,10 @@ static int event_add_action (caHdrLargeArray *mp, void *pPayload, struct client 
     struct channel_in_use *pciu;
     struct event_ext *pevext;
 
+    if ( INVALID_DB_REQ(mp->m_dataType) ) {
+        return RSRV_ERROR;
+    }
+
     pciu = MPTOPCIU ( mp );
     if ( ! pciu ) {
         logBadId ( client, mp, pPayload );
@@ -2047,10 +1951,15 @@ static int clear_channel_reply ( caHdrLargeArray *mp,
      if ( pciu->state == rsrvCS_inService ||
             pciu->state == rsrvCS_pendConnectResp  ) {
         ellDelete ( &client->chanList, &pciu->node );
+        pciu->state = rsrvCS_shutdown;
      }
      else if ( pciu->state == rsrvCS_inServiceUpdatePendAR ||
             pciu->state == rsrvCS_pendConnectRespUpdatePendAR ) {
         ellDelete ( &client->chanPendingUpdateARList, &pciu->node );
+        pciu->state = rsrvCS_shutdown;
+     }
+     else if ( pciu->state == rsrvCS_shutdown ) {
+         /* no-op */
      }
      else {
         epicsMutexUnlock( client->chanListLock );
@@ -2202,14 +2111,18 @@ static void search_fail_reply ( caHdrLargeArray *mp, void *pPayload, struct clie
  */
 static int udp_version_action ( caHdrLargeArray *mp, void *pPayload, struct client *client )
 {
-    if ( mp->m_count != 0 ) {
-        client->minor_version_number = mp->m_count;
-        if ( CA_V411 ( mp->m_count ) ) {
-            client->seqNoOfReq = mp->m_cid;
-        }
-        else {
-            client->seqNoOfReq = 0;
-        }
+    client->minor_version_number = mp->m_count;
+
+    if (!CA_VSUPPORTED(mp->m_count)) {
+        DLOG ( 2, ( "CAS: Ignore version from unsupported client %u\n", mp->m_count ) );
+        return RSRV_ERROR;
+    }
+
+    if ( CA_V411 ( mp->m_count ) ) {
+        client->seqNoOfReq = mp->m_cid;
+    }
+    else {
+        client->seqNoOfReq = 0;
     }
     return RSRV_OK;
 }
@@ -2253,6 +2166,11 @@ static int search_reply_udp ( caHdrLargeArray *mp, void *pPayload, struct client
     size_t          spaceNeeded;
     size_t          reasonableMonitorSpace = 10;
 
+    if (!CA_VSUPPORTED(mp->m_count)) {
+        DLOG ( 2, ( "CAS: Ignore search from unsupported client %u\n", mp->m_count ) );
+        return RSRV_ERROR;
+    }
+
     /*
      * check the sanity of the message
      */
@@ -2266,8 +2184,6 @@ static int search_reply_udp ( caHdrLargeArray *mp, void *pPayload, struct client
     /* Exit quickly if channel not on this node */
     if (dbChannelTest(pName)) {
         DLOG ( 2, ( "CAS: Lookup for channel \"%s\" failed\n", pPayLoad ) );
-        if (mp->m_dataType == DOREPLY)
-            search_fail_reply ( mp, pPayload, client );
         return RSRV_OK;
     }
 
@@ -2279,10 +2195,7 @@ static int search_reply_udp ( caHdrLargeArray *mp, void *pPayload, struct client
     spaceNeeded = sizeof (struct channel_in_use) +
         reasonableMonitorSpace * sizeof (struct event_ext);
     if ( ! ( osiSufficentSpaceInPool(spaceNeeded) || spaceAvailOnFreeList ) ) {
-        SEND_LOCK(client);
-        send_err ( mp, ECA_ALLOCMEM, client, "Server memory exhausted" );
-        SEND_UNLOCK(client);
-        return RSRV_OK;
+        return RSRV_ERROR;
     }
 
     /*
@@ -2301,36 +2214,8 @@ static int search_reply_udp ( caHdrLargeArray *mp, void *pPayload, struct client
         type = ca_server_port;
     }
     else {
-        struct dbChannel *dbch;
-        struct channel_in_use   *pchannel;
-
-        dbch = dbChannel_create(pName);
-        if (!dbch) {
-            DLOG ( 2, ( "CAS: dbChannel Test of \"%s\" OK but Create failed\n", pName ) );
-            if (mp->m_dataType == DOREPLY)
-                search_fail_reply ( mp, pPayload, client );
-            return RSRV_OK;
-        }
-        pchannel = casCreateChannel ( client, dbch, mp->m_cid );
-        if (!pchannel) {
-            SEND_LOCK(client);
-            send_err ( mp, ECA_ALLOCMEM, client,
-                RECORD_NAME ( dbch ) );
-            SEND_UNLOCK ( client );
-            dbChannelDelete(dbch);
-            return RSRV_OK;
-        }
-        sid = pchannel->sid;
-        if ( dbChannelFinalElements(dbch) < 0 ) {
-            count = 0;
-        }
-        else if ( dbChannelFinalElements(dbch) > 0xffff ) {
-            count = 0xfffe;
-        }
-        else {
-            count = (ca_uint16_t) dbChannelFinalElements(dbch);
-        }
-        type = (ca_uint16_t) dbChannelFinalCAType(dbch);
+        /* shouldn't actually get here due to VSUPPORTED test */
+        return RSRV_ERROR;
     }
 
     SEND_LOCK ( client );
@@ -2367,6 +2252,11 @@ static int search_reply_tcp (
     int             spaceAvailOnFreeList;
     size_t          spaceNeeded;
     size_t          reasonableMonitorSpace = 10;
+
+    if (!CA_VSUPPORTED(mp->m_count)) {
+        DLOG ( 2, ( "CAS: Ignore search from unsupported client %u\n", mp->m_count ) );
+        return RSRV_ERROR;
+    }
 
     /*
      * check the sanity of the message
@@ -2480,7 +2370,7 @@ static const pProtoStubUDP udpJumpTable[] =
     bad_udp_cmd_action,
     bad_udp_cmd_action,
     bad_udp_cmd_action,
-    udp_echo_action,
+    bad_udp_cmd_action,
     bad_udp_cmd_action,
     bad_udp_cmd_action,
     bad_udp_cmd_action,
@@ -2551,15 +2441,37 @@ int camessage ( struct client *client )
             pBody = ( void * ) ( mp + 1 );
         }
 
+        /* ignore deprecated clients, but let newer clients identify themselves. */
+        if (msg.m_cmmd!=CA_PROTO_VERSION && !CA_VSUPPORTED(client->minor_version_number)) {
+            if (client->proto==IPPROTO_TCP) {
+                /* log and error for too old clients, but keep the connection open to avoid a
+                 * re-connect loop.
+                 */
+                send_err ( &msg, ECA_DEFUNCT, client,
+                    "CAS: Client version %u too old", client->minor_version_number );
+                log_header ( "CAS: Client version too old",
+                    client, &msg, 0, nmsg );
+                client->recvBytesToDrain = msgsize - bytes_left;
+                client->recv.stk = client->recv.cnt;
+                status = RSRV_OK;
+            } else {
+                /* silently ignore UDP from old clients */
+                status = RSRV_ERROR;
+            }
+            break;
+        }
+
         /*
          * disconnect clients that dont send 8 byte
          * aligned payloads
          */
         if ( msgsize & 0x7 ) {
-            send_err ( &msg, ECA_INTERNAL, client,
-                "CAS: Missaligned protocol rejected" );
-            log_header ( "CAS: Missaligned protocol rejected",
-                client, &msg, 0, nmsg );
+            if (client->proto==IPPROTO_TCP) {
+                send_err ( &msg, ECA_INTERNAL, client,
+                    "CAS: Missaligned protocol rejected" );
+                log_header ( "CAS: Missaligned protocol rejected",
+                    client, &msg, 0, nmsg );
+            }
             status = RSRV_ERROR;
             break;
         }
@@ -2573,11 +2485,13 @@ int camessage ( struct client *client )
         if ( msgsize > client->recv.maxstk ) {
             casExpandRecvBuffer ( client, msgsize );
             if ( msgsize > client->recv.maxstk ) {
-                send_err ( &msg, ECA_TOLARGE, client,
-                    "CAS: Server unable to load large request message. Max bytes=%lu",
-                    rsrvSizeofLargeBufTCP );
-                log_header ( "CAS: server unable to load large request message",
-                    client, &msg, 0, nmsg );
+                if (client->proto==IPPROTO_TCP) {
+                    send_err ( &msg, ECA_TOLARGE, client,
+                        "CAS: Server unable to load large request message. Max bytes=%lu",
+                        rsrvSizeofLargeBufTCP );
+                    log_header ( "CAS: server unable to load large request message",
+                        client, &msg, 0, nmsg );
+                }
                 assert ( client->recv.cnt <= client->recv.maxstk );
                 assert ( msgsize >= bytes_left );
                 client->recvBytesToDrain = msgsize - bytes_left;

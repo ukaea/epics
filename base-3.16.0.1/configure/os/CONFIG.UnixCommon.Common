@@ -1,8 +1,5 @@
 # CONFIG.UnixCommon.Common
 #
-# Revision-Id: anj@aps.anl.gov-20150724205938-56noqp2dwanc3h51
-# This file is maintained by the build community.
-#
 # Definitions common to unix hosts
 # Sites may override these definitions in CONFIG_SITE.UnixCommon.Common
 #-------------------------------------------------------

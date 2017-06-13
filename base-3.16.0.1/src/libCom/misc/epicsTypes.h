@@ -6,7 +6,6 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
-/* Revision-Id: anj@aps.anl.gov-20141031222648-91qr9d8ibdqn4wvl  */
 
 /*
  *      Author:     Jeff Hill
@@ -83,6 +82,8 @@ typedef union epics_any {
     epicsEnum16     enum16;
     epicsInt32      int32;
     epicsUInt32     uInt32;
+    epicsInt64      int64;
+    epicsUInt64     uInt64;
     epicsFloat32    float32;
     epicsFloat64    float64;
     epicsString     string;

@@ -8,7 +8,6 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 /* devHistogramSoft.c */
-/* base/src/dev Revision-Id: anj@aps.anl.gov-20120707205431-1m9acu6bgu55d1tc */
 /*
  *      Author:		Janet Anderson
  *      Date:		07/02/91
@@ -52,21 +51,9 @@ epicsExportAddress(dset,devHistogramSoft);
 
 static long init_record(histogramRecord	*prec)
 {
-    /* histogram.svl must be a CONSTANT or a PV_LINK or a DB_LINK or a CA_LINK*/
-    switch (prec->svl.type) {
-    case (CONSTANT) :
-        if(recGblInitConstantLink(&prec->svl,DBF_DOUBLE,&prec->sgnl))
-            prec->udf = FALSE;
-	break;
-    case (PV_LINK) :
-    case (DB_LINK) :
-    case (CA_LINK) :
-	break;
-    default :
-	recGblRecordError(S_db_badField,(void *)prec,
-		"devHistogramSoft (init_record) Illegal SVL field");
-	return(S_db_badField);
-    }
+    if (recGblInitConstantLink(&prec->svl,DBF_DOUBLE,&prec->sgnl))
+        prec->udf = FALSE;
+
     return 0;
 }
 

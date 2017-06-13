@@ -6,7 +6,7 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-
+/* recGbl.c */
 /*
  *      Author:          Marty Kraimer
  *                       Andrew Johnson <anj@aps.anl.gov>
@@ -17,6 +17,7 @@
 #include <string.h>
 #include <limits.h>
 
+#include "alarm.h"
 #include "dbDefs.h"
 #include "epicsMath.h"
 #include "epicsPrint.h"
@@ -30,7 +31,6 @@
 #include "dbAccessDefs.h"
 #include "dbAddr.h"
 #include "dbBase.h"
-#include "dbCa.h"
 #include "dbCommon.h"
 #include "dbEvent.h"
 #include "db_field_log.h"
@@ -120,6 +120,8 @@ void recGblGetPrec(const struct dbAddr *paddr, long *precision)
     case DBF_USHORT:
     case DBF_LONG:
     case DBF_ULONG:
+    case DBF_INT64:
+    case DBF_UINT64:
         *precision = 0;
         break;
 
@@ -214,7 +216,27 @@ int recGblSetSevr(void *precord, epicsEnum16 new_stat, epicsEnum16 new_sevr)
     }
     return FALSE;
 }
-
+
+void recGblInheritSevr(int msMode, void *precord, epicsEnum16 stat,
+    epicsEnum16 sevr)
+{
+    switch (msMode) {
+    case pvlOptNMS:
+	break;
+    case pvlOptMSI:
+        if (sevr < INVALID_ALARM)
+	    break;
+	/* Fall through */
+    case pvlOptMS:
+	recGblSetSevr(precord, LINK_ALARM, sevr);
+	break;
+    case pvlOptMSS:
+        recGblSetSevr(precord, stat, sevr);
+	break;
+    }
+}
+
+
 void recGblFwdLink(void *precord)
 {
     dbCommon *pdbc = precord;
@@ -236,7 +258,7 @@ void recGblGetTimeStamp(void *pvoid)
     dbCommon* prec = (dbCommon*)pvoid;
     struct link *plink = &prec->tsel;
 
-    if (plink->type != CONSTANT) {
+    if (!dbLinkIsConstant(plink)) {
         struct pv_link *ppv_link = &plink->value.pv_link;
 
         if (ppv_link->pvlMask & pvlOptTSELisTime) {
@@ -325,7 +347,15 @@ static void getMaxRangeValues(short field_type, double *pupper_limit,
         *plower_limit = -2147483648.0;
         break;
     case DBF_ULONG:
-        *pupper_limit = (double) 0xffffffffU;
+        *pupper_limit = 4294967295.0;
+        *plower_limit = 0.0;
+        break;
+    case DBF_INT64:
+        *pupper_limit = 9223372036854775808.0;
+        *plower_limit = -9223372036854775808.0;
+        break;
+    case DBF_UINT64:
+        *pupper_limit = 18446744073709551615.0;
         *plower_limit = 0.0;
         break;
     case DBF_FLOAT:

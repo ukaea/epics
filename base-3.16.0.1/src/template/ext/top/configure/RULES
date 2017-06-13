@@ -1,4 +1,4 @@
-# Revision-Id: anj@aps.anl.gov-20160225201340-h59p7126ryfjjxnu
+# extensions/configure/RULES
 
 include $(CONFIG)/RULES
 -include $(TOP)/configure/RULES_PYTHON

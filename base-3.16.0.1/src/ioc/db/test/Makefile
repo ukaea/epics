@@ -18,17 +18,21 @@ TESTLIBRARY = dbTestIoc
 dbTestIoc_SRCS += arrRecord.c
 dbTestIoc_SRCS += xRecord.c
 dbTestIoc_SRCS += dbLinkdset.c
+dbTestIoc_SRCS += xLink.c
 dbTestIoc_SRCS += devx.c
+dbTestIoc_SRCS += jlinkz.c
 dbTestIoc_LIBS = dbCore ca Com
 
 TARGETS += $(COMMON_DIR)/dbTestIoc.dbd
+DBDDEPENDS_FILES += dbTestIoc.dbd$(DEP)
 dbTestIoc_DBD += menuGlobal.dbd
 dbTestIoc_DBD += menuConvert.dbd
 dbTestIoc_DBD += menuScan.dbd
-#dbTestIoc_DBD += arrRecord.dbd
 dbTestIoc_DBD += xRecord.dbd
 dbTestIoc_DBD += arrRecord.dbd
+dbTestIoc_DBD += xLink.dbd
 dbTestIoc_DBD += devx.dbd
+dbTestIoc_DBD += jlinkz.dbd
 dbTestIoc_DBD += dbLinkdset.dbd
 TESTFILES += $(COMMON_DIR)/dbTestIoc.dbd ../xRecord.db
 
@@ -53,7 +57,7 @@ dbPutLinkTest_SRCS += dbPutLinkTest.c
 dbPutLinkTest_SRCS += dbTestIoc_registerRecordDeviceDriver.cpp
 testHarness_SRCS += dbPutLinkTest.c
 TESTS += dbPutLinkTest
-TESTFILES += ../dbPutLinkTest.db ../dbBadLink.db
+TESTFILES += ../dbPutLinkTest.db ../dbPutLinkTestJ.db ../dbBadLink.db
 
 TESTPROD_HOST += dbLockTest
 dbLockTest_SRCS += dbLockTest.c
@@ -106,7 +110,6 @@ testHarness_SRCS += dbCACTest.cpp
 TESTS += dbCaLinkTest
 TESTFILES += ../dbCaLinkTest1.db ../dbCaLinkTest2.db ../dbCaLinkTest3.db
 
-scanIoTest_DBD += menuScan.dbd
 TESTPROD_HOST += scanIoTest
 scanIoTest_SRCS += scanIoTest.c
 scanIoTest_SRCS += dbTestIoc_registerRecordDeviceDriver.cpp
@@ -121,6 +124,7 @@ testHarness_SRCS += dbChannelTest.c
 TESTS += dbChannelTest
 
 TARGETS += $(COMMON_DIR)/dbChArrTest.dbd
+DBDDEPENDS_FILES += dbChArrTest.dbd$(DEP)
 dbChArrTest_DBD += arrRecord.dbd
 TESTPROD_HOST += dbChArrTest
 dbChArrTest_SRCS += dbChArrTest.cpp
@@ -151,7 +155,21 @@ recGblCheckDeadbandTest_SRCS += dbTestIoc_registerRecordDeviceDriver.cpp
 testHarness_SRCS += recGblCheckDeadbandTest.c
 TESTS += recGblCheckDeadbandTest
 
-# The testHarness runs all the test programs in a known working order.
+TESTPROD_HOST += testPutGetTest
+testPutGetTest_SRCS += dbPutGetTest.c
+testPutGetTest_SRCS += dbTestIoc_registerRecordDeviceDriver.cpp
+testHarness_SRCS += dbPutGetTest.c
+TESTFILES += ../dbPutGetTest.db
+TESTS += testPutGetTest
+
+TESTPROD_HOST += dbStaticTest
+dbStaticTest_SRCS += dbStaticTest.c
+dbStaticTest_SRCS += dbTestIoc_registerRecordDeviceDriver.cpp
+testHarness_SRCS += dbStaticTest.c
+TESTFILES += ../dbStaticTest.db
+TESTS += dbStaticTest
+
+# This runs all the test programs in a known working order:
 testHarness_SRCS += epicsRunDbTests.c
 
 dbTestHarness_SRCS += $(testHarness_SRCS)

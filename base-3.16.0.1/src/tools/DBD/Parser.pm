@@ -13,6 +13,7 @@ use DBD::Base;
 use DBD::Breaktable;
 use DBD::Device;
 use DBD::Driver;
+use DBD::Link;
 use DBD::Menu;
 use DBD::Recordtype;
 use DBD::Recfield;
@@ -36,6 +37,11 @@ sub ParseDBD {
             print "Driver: $1\n" if $debug;
             my ($driver_name) = unquote($1);
             $dbd->add(DBD::Driver->new($driver_name));
+        }
+        elsif (m/\G link \s* \( \s* $RXstr \s*, \s* $RXstr \s* \)/oxgc) {
+            print "Link $1, $2\n" if $debug;
+            my ($key, $lset) = unquote($1, $2);
+            $dbd->add(DBD::Link->new($key, $lset));
         }
         elsif (m/\G registrar \s* \( \s* $RXstr \s* \)/oxgc) {
             print "Registrar: $1\n" if $debug;
@@ -235,10 +241,21 @@ sub parse_record {
     my ($dbd, $record_type, $record_name) = @_;
     pushContext("record($record_type, $record_name)");
     my $rtyp = $dbd->recordtype($record_type);
-    dieContext("No recordtype named '$record_type'")
-        unless defined $rtyp;
-    my $rec = DBD::Record->new($rtyp, $record_name); # FIXME: Merge duplicates
-    while(1) {
+    my $rec = $dbd->record($record_name);
+    if (defined $rec) {
+        my $otyp = $rec->recordtype;
+        my $otyp_name = $otyp->name;
+        $rtyp = $otyp if $record_type eq '*';
+        dieContext("A(n) $otyp_name record '$record_name' already exists")
+            unless $otyp == $rtyp;
+    } else {
+        dieContext("No record exists named '$record_name'")
+            if $record_type eq '*';
+        dieContext("No recordtype exists named '$record_type'")
+            unless defined $rtyp;
+        $rec = DBD::Record->new($rtyp, $record_name);
+    }
+    while (1) {
         parseCommon($rec);
         if (m/\G field \s* \( \s* $RXstr \s* , \s* $RXstr \s* \)/oxgc) {
             print " Record-Field: $1, $2\n" if $debug;

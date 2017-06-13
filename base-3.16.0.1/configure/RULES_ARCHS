@@ -6,9 +6,6 @@
 # EPICS BASE is distributed subject to a Software License Agreement found
 # in the file LICENSE that is included with this distribution. 
 #*************************************************************************
-#
-# Revision-Id: anj@aps.anl.gov-20150311210829-vaf5o8k5jpihkuz1
-#
 
 all: install
 host: install$(DIVIDER)$(EPICS_HOST_ARCH)
@@ -17,7 +14,7 @@ ACTIONS = inc
 ACTIONS += build
 ACTIONS += install
 ACTIONS += buildInstall
-ACTIONS += runtests tapfiles
+ACTIONS += runtests tapfiles clean-tests test-results junitfiles
 
 actionArchTargets = $(foreach action, $(ACTIONS), \
     $(addprefix $(action)$(DIVIDER), $(BUILD_ARCHS)))

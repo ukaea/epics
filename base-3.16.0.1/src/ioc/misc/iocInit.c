@@ -8,7 +8,6 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/* Revision-Id: anj@aps.anl.gov-20160229194818-ets7s9c1f4ahxdb0 */
 /*
  *      Original Author: Marty Kraimer
  *      Date:            06-01-91
@@ -23,10 +22,12 @@
 #include <errno.h>
 #include <limits.h>
 
+#include "dbBase.h"
 #include "dbDefs.h"
 #include "ellLib.h"
 #include "envDefs.h"
 #include "epicsExit.h"
+#include "epicsGeneralTime.h"
 #include "epicsPrint.h"
 #include "epicsSignal.h"
 #include "epicsThread.h"
@@ -66,6 +67,7 @@
 #include "recSup.h"
 #include "registryDeviceSupport.h"
 #include "registryDriverSupport.h"
+#include "registryJLinks.h"
 #include "registryRecordType.h"
 #include "rsrv.h"
 
@@ -78,6 +80,7 @@ static enum {
 
 /* define forward references*/
 static int checkDatabase(dbBase *pdbbase);
+static void checkGeneralTime(void);
 static void initDrvSup(void);
 static void initRecSup(void);
 static void initDevSup(void);
@@ -129,6 +132,7 @@ static int iocBuild_1(void)
     coreRelease();
     iocState = iocBuilding;
 
+    checkGeneralTime();
     taskwdInit();
     callbackInit();
     initHookAnnounce(initHookAfterCallbackInit);
@@ -354,6 +358,22 @@ static int checkDatabase(dbBase *pdbbase)
     return 0;
 }
 
+static void checkGeneralTime(void)
+{
+    epicsTimeStamp ts;
+
+    epicsTimeGetCurrent(&ts);
+    if (ts.secPastEpoch < 2*24*60*60) {
+        static const char * const tsfmt = "%Y-%m-%d %H:%M:%S.%09f";
+        char buff[40];
+
+        epicsTimeToStrftime(buff, sizeof(buff), tsfmt, &ts);
+        errlogPrintf("iocInit: Time provider has not yet synchronized.\n");
+    }
+
+    epicsTimeGetEvent(&ts, 1);  /* Prime gtPvt.lastEventProvider for ISRs */
+}
+
 
 static void initDrvSup(void) /* Locate all driver support entry tables */
 {
@@ -383,7 +403,7 @@ static void initRecSup(void)
          pdbRecordType = (dbRecordType *)ellNext(&pdbRecordType->node)) {
         recordTypeLocation *precordTypeLocation =
             registryRecordTypeFind(pdbRecordType->name);
-        struct rset *prset;
+        rset *prset;
 
         if (!precordTypeLocation) {
             errlogPrintf("iocInit record support for %s not found\n",
@@ -468,13 +488,12 @@ static void iterateRecords(recIterFunc func, void *user)
 static void doInitRecord0(dbRecordType *pdbRecordType, dbCommon *precord,
     void *user)
 {
-    struct rset *prset = pdbRecordType->prset;
+    rset *prset = pdbRecordType->prset;
     devSup *pdevSup;
 
     if (!prset) return;         /* unlikely */
 
     precord->rset = prset;
-    precord->rdes = pdbRecordType;
     precord->mlok = epicsMutexMustCreate();
     ellInit(&precord->mlis);
 
@@ -523,7 +542,7 @@ static void doResolveLinks(dbRecordType *pdbRecordType, dbCommon *precord,
 static void doInitRecord1(dbRecordType *pdbRecordType, dbCommon *precord,
     void *user)
 {
-    struct rset *prset = pdbRecordType->prset;
+    rset *prset = pdbRecordType->prset;
 
     if (!prset) return;         /* unlikely */
 
@@ -636,17 +655,14 @@ static void doCloseLinks(dbRecordType *pdbRecordType, dbCommon *precord,
             pdbRecordType->papFldDes[pdbRecordType->link_ind[j]];
         DBLINK *plink = (DBLINK *)((char *)precord + pdbFldDes->offset);
 
-        if (plink->type == CA_LINK) {
+        if (plink->type == CA_LINK ||
+            plink->type == JSON_LINK ||
+            (plink->type == DB_LINK && iocBuildMode == buildIsolated)) {
             if (!locked) {
                 dbScanLock(precord);
                 locked = 1;
             }
-            dbCaRemoveLink(NULL, plink);
-
-        } else if (plink->type == DB_LINK) {
-            /* free link, but don't split lockset like dbDbRemoveLink() */
-            free(plink->value.pv_link.pvt);
-            plink->type = PV_LINK;
+            dbRemoveLink(NULL, plink);
         }
     }
 

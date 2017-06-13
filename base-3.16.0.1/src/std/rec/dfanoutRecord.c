@@ -5,8 +5,6 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 
-/* Revision-Id: ralph.lange@gmx.de-20140730083624-ms46zlp6umx3vhg8 */
-
 /* recDfanout.c - Record Support Routines for Dfanout records */
 /*
  * Original Author: 	Matt Bickley   (Sometime in 1994)
@@ -47,15 +45,15 @@
 /* Create RSET - Record Support Entry Table*/
 #define report NULL
 #define initialize NULL
-static long init_record(dfanoutRecord *, int);
-static long process(dfanoutRecord *);
+static long init_record(struct dbCommon *, int);
+static long process(struct dbCommon *);
 #define special NULL
 #define get_value NULL
 #define cvt_dbaddr NULL
 #define get_array_info NULL
 #define put_array_info NULL
 static long get_units(DBADDR *, char *);
-static long get_precision(DBADDR *, long *);
+static long get_precision(const DBADDR *, long *);
 #define get_enum_str NULL
 #define get_enum_strs NULL
 #define put_enum_str NULL
@@ -93,26 +91,31 @@ static void push_values(dfanoutRecord *);
 #define OUT_ARG_MAX 8
 
 
-static long init_record(dfanoutRecord *prec, int pass)
+static long init_record(struct dbCommon *pcommon, int pass)
 {
-    if (pass==0) return(0);
+    struct dfanoutRecord *prec = (struct dfanoutRecord *)pcommon;
+    if (pass==0)
+        return 0;
 
-    recGblInitConstantLink(&prec->sell,DBF_USHORT,&prec->seln);
+    recGblInitConstantLink(&prec->sell, DBF_USHORT, &prec->seln);
+
     /* get the initial value dol is a constant*/
-    if(recGblInitConstantLink(&prec->dol,DBF_DOUBLE,&prec->val))
-	    prec->udf = isnan(prec->val);
-    return(0);
+    if (recGblInitConstantLink(&prec->dol, DBF_DOUBLE, &prec->val))
+        prec->udf = isnan(prec->val);
+
+    return 0;
 }
 
-static long process(dfanoutRecord *prec)
+static long process(struct dbCommon *pcommon)
 {
+    struct dfanoutRecord *prec = (struct dfanoutRecord *)pcommon;
     long status=0;
 
-    if (!prec->pact
-    && (prec->dol.type != CONSTANT)
-    && (prec->omsl == menuOmslclosed_loop)){
-	status = dbGetLink(&(prec->dol),DBR_DOUBLE,&(prec->val),0,0);
-	if(prec->dol.type!=CONSTANT && RTN_SUCCESS(status))
+    if (!prec->pact &&
+        !dbLinkIsConstant(&prec->dol) &&
+        prec->omsl == menuOmslclosed_loop) {
+        status = dbGetLink(&prec->dol, DBR_DOUBLE, &prec->val, 0, 0);
+        if (!dbLinkIsConstant(&prec->dol) && !status)
             prec->udf = isnan(prec->val);
     }
     prec->pact = TRUE;
@@ -139,7 +142,7 @@ static long get_units(DBADDR *paddr,char *units)
     return(0);
 }
 
-static long get_precision(DBADDR *paddr,long *precision)
+static long get_precision(const DBADDR *paddr,long *precision)
 {
     dfanoutRecord *prec=(dfanoutRecord *)paddr->precord;
 

@@ -94,7 +94,7 @@ static db_field_log* filter(void* pvt, dbChannel *chan, db_field_log *pfl)
 {
     myStruct *my = (myStruct*) pvt;
     struct dbCommon *prec;
-    struct rset *prset;
+    rset *prset;
     long start = my->start;
     long end = my->end;
     long nTarget = 0;
@@ -215,16 +215,13 @@ static chfPluginIf pif = {
 
 static void arrShutdown(void* ignore)
 {
-    freeListCleanup(myStructFreeList);
+    if(myStructFreeList)
+        freeListCleanup(myStructFreeList);
+    myStructFreeList = NULL;
 }
 
 static void arrInitialize(void)
 {
-    static int firstTime = 1;
-
-    if (!firstTime) return;
-    firstTime = 0;
-
     if (!myStructFreeList)
         freeListInitPvt(&myStructFreeList, sizeof(myStruct), 64);
 

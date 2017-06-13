@@ -7,8 +7,6 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 
-/* Revision-Id: anj@aps.anl.gov-20131217185404-wng3r3ldfeefnu61 */
-
 /* recLongin.c - Record Support Routines for Longin records */
 /*
  *      Author: 	Janet Anderson
@@ -44,8 +42,8 @@
 /* Create RSET - Record Support Entry Table*/
 #define report NULL
 #define initialize NULL
-static long init_record(longinRecord *, int);
-static long process(longinRecord *);
+static long init_record(struct dbCommon *, int);
+static long process(struct dbCommon *);
 #define special NULL
 #define get_value NULL
 #define cvt_dbaddr NULL
@@ -96,44 +94,45 @@ static void monitor(longinRecord *prec);
 static long readValue(longinRecord *prec);
 
 
-static long init_record(longinRecord *prec, int pass)
+static long init_record(struct dbCommon *pcommon, int pass)
 {
-    struct longindset *pdset;
-    long status;
+    struct longinRecord *prec = (struct longinRecord *)pcommon;
+    struct longindset *pdset = (struct longindset *) prec->dset;
 
-    if (pass==0) return(0);
+    if (pass==0)
+        return(0);
 
-    /* longin.siml must be a CONSTANT or a PV_LINK or a DB_LINK */
-    if (prec->siml.type == CONSTANT) {
-	recGblInitConstantLink(&prec->siml,DBF_USHORT,&prec->simm);
+    recGblInitConstantLink(&prec->siml, DBF_USHORT, &prec->simm);
+    recGblInitConstantLink(&prec->siol, DBF_LONG, &prec->sval);
+
+    if (!pdset) {
+        recGblRecordError(S_dev_noDSET, prec, "longin: init_record");
+        return S_dev_noDSET;
     }
 
-    /* longin.siol must be a CONSTANT or a PV_LINK or a DB_LINK */
-    if (prec->siol.type == CONSTANT) {
-	recGblInitConstantLink(&prec->siol,DBF_LONG,&prec->sval);
-    }
-
-    if(!(pdset = (struct longindset *)(prec->dset))) {
-	recGblRecordError(S_dev_noDSET,(void *)prec,"longin: init_record");
-	return(S_dev_noDSET);
-    }
     /* must have read_longin function defined */
-    if( (pdset->number < 5) || (pdset->read_longin == NULL) ) {
-	recGblRecordError(S_dev_missingSup,(void *)prec,"longin: init_record");
-	return(S_dev_missingSup);
+    if ((pdset->number < 5) || (pdset->read_longin == NULL)) {
+        recGblRecordError(S_dev_missingSup, prec, "longin: init_record");
+        return S_dev_missingSup;
     }
-    if( pdset->init_record ) {
-	if((status=(*pdset->init_record)(prec))) return(status);
+
+    if (pdset->init_record) {
+        long status = pdset->init_record(prec);
+
+        if (status)
+            return status;
     }
+
     prec->mlst = prec->val;
     prec->alst = prec->val;
     prec->lalm = prec->val;
-    return(0);
+    return 0;
 }
 
-static long process(longinRecord *prec)
+static long process(struct dbCommon *pcommon)
 {
-	struct longindset	*pdset = (struct longindset *)(prec->dset);
+    struct longinRecord *prec = (struct longinRecord *)pcommon;
+    struct longindset  *pdset = (struct longindset *)(prec->dset);
 	long		 status;
 	unsigned char    pact=prec->pact;
 	epicsTimeStamp   timeLast;

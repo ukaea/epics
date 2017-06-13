@@ -6,8 +6,7 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/* Revision-Id: anj@aps.anl.gov-20160225201340-h59p7126ryfjjxnu
- *
+/*
  * Subroutines used to convert an infix expression to a postfix expression
  *
  *      Original Author: Bob Dalesio

@@ -6,7 +6,7 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/*	Revision-Id: anj@aps.anl.gov-20160227001626-wlsw8d3vufgej2f4
+/*
  *	Author:	Roger A. Cole
  *	Date:	07-20-91
  *
@@ -40,7 +40,7 @@ typedef struct envParam {
 } ENV_PARAM;
 
 /*
- * bldEnvData looks for "epicsShareExtern const ENV_PARAM"
+ * bldEnvData.pl looks for "epicsShareExtern const ENV_PARAM <name>;"
  */
 epicsShareExtern const ENV_PARAM EPICS_CA_ADDR_LIST;
 epicsShareExtern const ENV_PARAM EPICS_CA_CONN_TMO;
@@ -48,8 +48,10 @@ epicsShareExtern const ENV_PARAM EPICS_CA_AUTO_ADDR_LIST;
 epicsShareExtern const ENV_PARAM EPICS_CA_REPEATER_PORT;
 epicsShareExtern const ENV_PARAM EPICS_CA_SERVER_PORT;
 epicsShareExtern const ENV_PARAM EPICS_CA_MAX_ARRAY_BYTES;
+epicsShareExtern const ENV_PARAM EPICS_CA_AUTO_ARRAY_BYTES;
 epicsShareExtern const ENV_PARAM EPICS_CA_MAX_SEARCH_PERIOD;
 epicsShareExtern const ENV_PARAM EPICS_CA_NAME_SERVERS;
+epicsShareExtern const ENV_PARAM EPICS_CA_MCAST_TTL;
 epicsShareExtern const ENV_PARAM EPICS_CAS_INTF_ADDR_LIST;
 epicsShareExtern const ENV_PARAM EPICS_CAS_IGNORE_ADDR_LIST;
 epicsShareExtern const ENV_PARAM EPICS_CAS_AUTO_BEACON_ADDR_LIST;
@@ -58,6 +60,9 @@ epicsShareExtern const ENV_PARAM EPICS_CAS_SERVER_PORT;
 epicsShareExtern const ENV_PARAM EPICS_CA_BEACON_PERIOD; /* deprecated */
 epicsShareExtern const ENV_PARAM EPICS_CAS_BEACON_PERIOD;
 epicsShareExtern const ENV_PARAM EPICS_CAS_BEACON_PORT;
+epicsShareExtern const ENV_PARAM EPICS_BUILD_COMPILER_CLASS;
+epicsShareExtern const ENV_PARAM EPICS_BUILD_OS_CLASS;
+epicsShareExtern const ENV_PARAM EPICS_BUILD_TARGET_ARCH;
 epicsShareExtern const ENV_PARAM EPICS_TIMEZONE;
 epicsShareExtern const ENV_PARAM EPICS_TS_NTP_INET;
 epicsShareExtern const ENV_PARAM EPICS_IOC_LOG_PORT;

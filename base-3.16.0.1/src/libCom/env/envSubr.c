@@ -7,7 +7,7 @@
 * and higher are distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/*	Revision-Id: mdavidsaver@gmail.com-20160112015908-cixv2x1gsq3mp9fl
+/*
  *	Author:	Roger A. Cole
  *	Date:	07-20-91
  */

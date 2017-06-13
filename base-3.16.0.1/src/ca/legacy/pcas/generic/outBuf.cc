@@ -7,8 +7,6 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 /*
- *      Revision-Id: anj@aps.anl.gov-20120412161350-htfzcjp2537pk1ip
- *
  *      Author  Jeffrey O. Hill
  *              johill@lanl.gov
  *              505 665 1831
@@ -61,7 +59,7 @@ caStatus outBuf::allocRawMsg ( bufSizeT msgsize, void **ppMsg )
     msgsize = CA_MESSAGE_ALIGN ( msgsize );
 
     if ( msgsize > this->bufSize ) {
-        this->expandBuffer ();
+        this->expandBuffer (msgsize);
         if ( msgsize > this->bufSize ) {
             return S_cas_hugeRequest;
         }
@@ -318,11 +316,17 @@ void outBuf::show (unsigned level) const
     }
 }
 
-void outBuf::expandBuffer ()
+void outBuf::expandBuffer (bufSizeT needed)
 {
-    bufSizeT max = this->memMgr.maxSize();
-    if ( this->bufSize < max  ) {
-        casBufferParm bufParm = this->memMgr.allocate ( max );
+    if (needed > bufSize) {
+        casBufferParm bufParm;
+        try {
+            bufParm = this->memMgr.allocate ( needed );
+        } catch (std::bad_alloc& e) {
+            // caller must check that buffer size has expended
+            return;
+        }
+
         memcpy ( bufParm.pBuf, this->pBuf, this->stack );
         this->memMgr.release ( this->pBuf, this->bufSize );
         this->pBuf = bufParm.pBuf;

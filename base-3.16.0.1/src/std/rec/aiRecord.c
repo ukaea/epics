@@ -6,7 +6,6 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
-/* Revision-Id: anj@aps.anl.gov-20140925213412-lo1rca0dx74lzif7 */
 
 /* aiRecord.c - Record Support Routines for Analog Input records */
 /*
@@ -48,15 +47,15 @@
 /* Create RSET - Record Support Entry Table*/
 #define report NULL
 #define initialize NULL
-static long init_record(void *, int);
-static long process(void *);
+static long init_record(struct dbCommon *, int);
+static long process(struct dbCommon *);
 static long special(DBADDR *, int);
 #define get_value NULL
 #define cvt_dbaddr NULL
 #define get_array_info NULL
 #define put_array_info NULL
 static long get_units(DBADDR *, char *);
-static long get_precision(DBADDR *, long *);
+static long get_precision(const DBADDR *, long *);
 #define get_enum_str NULL
 #define get_enum_strs NULL
 #define put_enum_str NULL
@@ -103,23 +102,16 @@ static void convert(aiRecord *prec);
 static void monitor(aiRecord *prec);
 static long readValue(aiRecord *prec);
 
-static long init_record(void *precord,int pass)
+static long init_record(struct dbCommon *pcommon, int pass)
 {
-    aiRecord	*prec = (aiRecord *)precord;
+    struct aiRecord *prec = (struct aiRecord *)pcommon;
     aidset	*pdset;
     double	eoff = prec->eoff, eslo = prec->eslo;
 
     if (pass==0) return(0);
 
-    /* ai.siml must be a CONSTANT or a PV_LINK or a DB_LINK */
-    if (prec->siml.type == CONSTANT) {
-	recGblInitConstantLink(&prec->siml,DBF_USHORT,&prec->simm);
-    }
-
-    /* ai.siol must be a CONSTANT or a PV_LINK or a DB_LINK */
-    if (prec->siol.type == CONSTANT) {
-	recGblInitConstantLink(&prec->siol,DBF_DOUBLE,&prec->sval);
-    }
+    recGblInitConstantLink(&prec->siml,DBF_USHORT,&prec->simm);
+    recGblInitConstantLink(&prec->siol,DBF_DOUBLE,&prec->sval);
 
     if(!(pdset = (aidset *)(prec->dset))) {
 	recGblRecordError(S_dev_noDSET,(void *)prec,"ai: init_record");
@@ -151,10 +143,10 @@ static long init_record(void *precord,int pass)
     return(0);
 }
 
-static long process(void *precord)
+static long process(struct dbCommon *pcommon)
 {
-	aiRecord	*prec = (aiRecord *)precord;
-	aidset		*pdset = (aidset *)(prec->dset);
+    struct aiRecord *prec = (struct aiRecord *)pcommon;
+    aidset		*pdset = (aidset *)(prec->dset);
 	long		 status;
 	unsigned char    pact=prec->pact;
         epicsTimeStamp	 timeLast;
@@ -238,7 +230,7 @@ static long get_units(DBADDR *paddr, char *units)
     return(0);
 }
 
-static long get_precision(DBADDR *paddr, long *precision)
+static long get_precision(const DBADDR *paddr, long *precision)
 {
     aiRecord	*prec=(aiRecord *)paddr->precord;
 

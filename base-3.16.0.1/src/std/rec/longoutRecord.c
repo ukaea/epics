@@ -7,7 +7,6 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 
-/* Revision-Id: anj@aps.anl.gov-20131217185404-wng3r3ldfeefnu61 */
 /*
  * Author: 	Janet Anderson
  * Date:	9/23/91
@@ -40,8 +39,8 @@
 /* Create RSET - Record Support Entry Table*/
 #define report NULL
 #define initialize NULL
-static long init_record(longoutRecord *, int);
-static long process(longoutRecord *);
+static long init_record(struct dbCommon *, int);
+static long process(struct dbCommon *);
 #define special NULL
 #define get_value NULL
 #define cvt_dbaddr NULL
@@ -92,41 +91,47 @@ static void monitor(longoutRecord *prec);
 static long writeValue(longoutRecord *prec);
 static void convert(longoutRecord *prec, epicsInt32 value);
 
-
-static long init_record(longoutRecord *prec, int pass)
+static long init_record(struct dbCommon *pcommon, int pass)
 {
-    struct longoutdset *pdset;
-    long status=0;
+    struct longoutRecord *prec = (struct longoutRecord *)pcommon;
+    struct longoutdset *pdset = (struct longoutdset *) prec->dset;
 
-    if (pass==0) return(0);
-    if (prec->siml.type == CONSTANT) {
-	recGblInitConstantLink(&prec->siml,DBF_USHORT,&prec->simm);
+    if (pass==0)
+        return 0;
+
+    recGblInitConstantLink(&prec->siml, DBF_USHORT, &prec->simm);
+
+    if (!pdset) {
+        recGblRecordError(S_dev_noDSET, prec, "longout: init_record");
+        return S_dev_noDSET;
     }
-    if(!(pdset = (struct longoutdset *)(prec->dset))) {
-	recGblRecordError(S_dev_noDSET,(void *)prec,"longout: init_record");
-	return(S_dev_noDSET);
-    }
+
     /* must have  write_longout functions defined */
-    if( (pdset->number < 5) || (pdset->write_longout == NULL) ) {
-	recGblRecordError(S_dev_missingSup,(void *)prec,"longout: init_record");
-	return(S_dev_missingSup);
+    if ((pdset->number < 5) || (pdset->write_longout == NULL)) {
+        recGblRecordError(S_dev_missingSup, prec, "longout: init_record");
+        return S_dev_missingSup;
     }
-    if (prec->dol.type == CONSTANT) {
-	if(recGblInitConstantLink(&prec->dol,DBF_LONG,&prec->val))
-	    prec->udf=FALSE;
+
+    if (recGblInitConstantLink(&prec->dol, DBF_LONG, &prec->val))
+        prec->udf=FALSE;
+
+    if (pdset->init_record) {
+        long status = pdset->init_record(prec);
+
+        if (status)
+            return status;
     }
-    if( pdset->init_record ) {
-	if((status=(*pdset->init_record)(prec))) return(status);
-    }
+
     prec->mlst = prec->val;
     prec->alst = prec->val;
     prec->lalm = prec->val;
-    return(0);
+    return 0;
 }
 
-static long process(longoutRecord *prec)
+static long process(struct dbCommon *pcommon)
 {
-	struct longoutdset	*pdset = (struct longoutdset *)(prec->dset);
+    struct longoutRecord *prec = (struct longoutRecord *)pcommon;
+    struct longoutdset  *pdset = (struct longoutdset *)(prec->dset);
 	long		 status=0;
 	epicsInt32	 value;
 	unsigned char    pact=prec->pact;
@@ -137,11 +142,10 @@ static long process(longoutRecord *prec)
 		return(S_dev_missingSup);
 	}
 	if (!prec->pact) {
-		if((prec->dol.type != CONSTANT)
-                && (prec->omsl == menuOmslclosed_loop)) {
-			status = dbGetLink(&(prec->dol),DBR_LONG,
-				&value,0,0);
-			if (prec->dol.type!=CONSTANT && RTN_SUCCESS(status))
+		if (!dbLinkIsConstant(&prec->dol) &&
+                    prec->omsl == menuOmslclosed_loop) {
+                        status = dbGetLink(&prec->dol, DBR_LONG, &value, 0, 0);
+			if (!dbLinkIsConstant(&prec->dol) && !status)
 				prec->udf=FALSE;
 		}
 		else {

@@ -1,4 +1,4 @@
-REM @ECHO OFF
+@ECHO OFF
 REM *************************************************************************
 REM  Copyright (c) 2002 The University of Chicago, as Operator of Argonne
 REM      National Laboratory.
@@ -8,7 +8,6 @@ REM  EPICS BASE Versions 3.13.7
 REM  and higher are distributed subject to a Software License Agreement found
 REM  in file LICENSE that is included with this distribution.
 REM *************************************************************************
-REM  Revision-Id: jba@aps.anl.gov-20110419162804-n948b5t79d7ctygo
 REM
 REM  Site-specific EPICS environment settings
 REM 
@@ -21,6 +20,10 @@ REM ======================================================
 REM ======================================================
 REM   ---------------- WINDOWS ---------------------------
 REM ======================================================
+REM ----- WIN95 -----
+REM set PATH=C:\WINDOWS;C:\WINDOWS\COMMAND
+REM ----- WINNT, WIN2000  -----
+REM set PATH=C:\WINNT;C:\WINNT\SYSTEM32
 REM ----- WINXP, Vista, Windows 7 -----
 set PATH=C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\SYSTEM32\Wbem
 
@@ -35,15 +38,8 @@ REM    --------------- mingw make ------------------------
 REM set PATH=C:\mingw-make\bin;%PATH%
 REM set PATH=C:\mingw-make82-3\bin;%PATH%
 
-if %PROCESSOR_ARCHITECTURE%==AMD64 goto 64BIT
-set PROGRAM_FILES=C:\Program Files
-goto continue
-:64BIT
-set PROGRAM_FILES=C:\Program Files (x86)
-:continue
-
 REM   --------------- gnuwin32 make ----------------------
-set PATH=%PROGRAM_FILES%\gnuwin32\bin;%PATH%
+set PATH=C:\gnuwin32\bin;%PATH%
 
 REM ======================================================
 REM ---------------- cygwin tools ------------------------
@@ -74,75 +70,19 @@ REM set INCLUDE=C:\Program Files\Microsoft SDKs\Windows\v7.0\include;%INCLUDE%
 REM set LIBPATH=C:\Program Files\Microsoft SDKs\Windows\v7.0\lib;%LIBPATH%
 REM set     LIB=C:\Program Files\Microsoft SDKs\Windows\v7.0\lib;%LIB%
 
-REM    ----- Visual Studio 2010 -----
+REM    ----- Visual Studion 2010 -----
 REM --  windows-x64 ---
-if "%1"=="" goto X86
-if "%1"=="x86" goto X86
-if "%1"=="x86-debug" goto X86
-if "%1"=="x86-DLL" goto X86
-if "%1"=="x86-debug-DLL" goto X86
-
-if "%1"=="x64" goto X64
-if "%1"=="x64-debug" goto X64
-if "%1"=="x64-DLL" goto X64
-if "%1"=="x64-debug-DLL" goto X64
-
-echo Invalid configuration
-goto ERREXIT
-
-:X64
-
-call "%PROGRAM_FILES%\Microsoft Visual Studio 10.0\VC\vcvarsall.bat" amd64
-if "%1"=="x64-DLL" goto X64DLL
-if "%1"=="x64-debug" goto X64DEBUG
-if "%1"=="x64-debug-DLL" goto X64DEBUGDLL
-
-set EPICS_HOST_ARCH=windows-x64-static
-goto CONTINUE
-
-:X64DEBUG
-set EPICS_HOST_ARCH=windows-x64-static-debug
-goto CONTINUE
-
-:X64DLL
-set EPICS_HOST_ARCH=windows-x64
-goto CONTINUE
-
-
-:X64DEBUGDLL
-set EPICS_HOST_ARCH=windows-x64-debug
-goto CONTINUE
-
-
+REM call "C:\Program files\Microsoft Visual Studio 10.0\VC\vcvarsall.bat" x64
 REM --  win32-x86 ---
-:X86
-call "%PROGRAM_FILES%\Microsoft Visual Studio 10.0\VC\vcvarsall.bat" x86
-if "%1"=="x86-DLL" goto X86DLL
-if "%1"=="x86-debug" goto X86DEBUG
-if "%1"=="x86-debug-DLL" goto X86DEBUGDLL
-
-set EPICS_HOST_ARCH=win32-x86-static
-goto CONTINUE
-
-:X86DEBUG
-set EPICS_HOST_ARCH=win32-x86-debug-static
-goto CONTINUE
-
-:X86DLL
-set EPICS_HOST_ARCH=win32-x86
-goto CONTINUE
-
-:X86DEBUGDLL
-set EPICS_HOST_ARCH=win32-x86-debug
-goto CONTINUE
-
-:CONTINUE
+call "C:\Program files\Microsoft Visual Studio 10.0\VC\vcvarsall.bat" x86
 
 REM ======================================================
 REM --------------- EPICS --------------------------------
 REM ======================================================
-echo setting EPICS paths.
-set PATH=%PATH%;%~dp0..\bin\%EPICS_HOST_ARCH%
+REM set EPICS_HOST_ARCH=windows-x64
+set EPICS_HOST_ARCH=win32-x86
+set PATH=%PATH%;G:\epics\base\bin\%EPICS_HOST_ARCH%
+set PATH=%PATH%;G:\epics\extensions\bin\%EPICS_HOST_ARCH%
 
 REM ======================================================
 REM ------- OPTIONAL ENVIRONMENT VARIABLES FOLLOW --------
@@ -159,7 +99,7 @@ REM set HOME=c:/users/jba
 REM ======================================================
 REM ------------------- Bazaar ---------------------------
 REM ======================================================
-REM set PATH=%PATH%;C:\Program files\Bazaar
+set PATH=%PATH%;C:\Program files\Bazaar
 
 REM ======================================================
 REM ----------------- GNU make flags ---------------------
@@ -205,4 +145,3 @@ REM set EX_VER=14.00
 REM set PATH=%PATH%;C:\Exceed%EX_VER%\XDK\
 REM set PATH=%PATH%;C:\Program Files\Hummingbird\Connectivity\%EX_VER%\Exceed\
 
-:ERREXIT

@@ -9,7 +9,6 @@
 \*************************************************************************/
 
 /*
- * Revision-Id: mdavidsaver@gmail.com-20150818144620-t2udvj0tagzyeukm
  * Auther Jeff Hill
  */
 

@@ -7,8 +7,6 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 
-/* Revision-Id: anj@aps.anl.gov-20131217185404-wng3r3ldfeefnu61 */
-
 /* recBo.c - Record Support Routines for Binary Output records */
 /*
  *      Original Author: Bob Dalesio
@@ -45,18 +43,18 @@
 /* Create RSET - Record Support Entry Table*/
 #define report NULL
 #define initialize NULL
-static long init_record(boRecord *, int);
-static long process(boRecord *);
+static long init_record(struct dbCommon *, int);
+static long process(struct dbCommon *);
 #define special NULL
 #define get_value NULL
 #define cvt_dbaddr NULL
 #define get_array_info NULL
 #define put_array_info NULL
 static long get_units(DBADDR *, char *);
-static long get_precision(DBADDR *, long *);
-static long get_enum_str(DBADDR *, char *);
-static long get_enum_strs(DBADDR *, struct dbr_enumStrs *);
-static long put_enum_str(DBADDR *, char *);
+static long get_precision(const DBADDR *, long *);
+static long get_enum_str(const DBADDR *, char *);
+static long get_enum_strs(const DBADDR *, struct dbr_enumStrs *);
+static long put_enum_str(const DBADDR *, const char *);
 #define get_graphic_double NULL
 static long get_control_double(DBADDR *, struct dbr_ctrlDouble *);
 #define get_alarm_double NULL
@@ -130,46 +128,43 @@ static void myCallbackFunc(CALLBACK *arg)
     dbScanUnlock((struct dbCommon *)prec);
 }
 
-static long init_record(boRecord *prec,int pass)
+static long init_record(struct dbCommon *pcommon,int pass)
 {
-    struct bodset *pdset;
-    long status=0;
+    struct boRecord *prec = (struct boRecord *)pcommon;
+    struct bodset *pdset = (struct bodset *) prec->dset;
+    unsigned short ival = 0;
+    long status = 0;
     myCallback *pcallback;
 
-    if (pass==0) return(0);
+    if (pass == 0)
+        return 0;
 
-    /* bo.siml must be a CONSTANT or a PV_LINK or a DB_LINK */
-    if (prec->siml.type == CONSTANT) {
-	recGblInitConstantLink(&prec->siml,DBF_USHORT,&prec->simm);
+    recGblInitConstantLink(&prec->siml, DBF_USHORT, &prec->simm);
+
+    if (!pdset) {
+        recGblRecordError(S_dev_noDSET, prec, "bo: init_record");
+        return S_dev_noDSET;
     }
 
-    if(!(pdset = (struct bodset *)(prec->dset))) {
-	recGblRecordError(S_dev_noDSET,(void *)prec,"bo: init_record");
-	return(S_dev_noDSET);
-    }
     /* must have  write_bo functions defined */
-    if( (pdset->number < 5) || (pdset->write_bo == NULL) ) {
-	recGblRecordError(S_dev_missingSup,(void *)prec,"bo: init_record");
-	return(S_dev_missingSup);
+    if ((pdset->number < 5) || (pdset->write_bo == NULL)) {
+        recGblRecordError(S_dev_missingSup, prec, "bo: init_record");
+        return S_dev_missingSup;
     }
+
     /* get the initial value */
-    if (prec->dol.type == CONSTANT) {
-	unsigned short ival = 0;
-
-	if(recGblInitConstantLink(&prec->dol,DBF_USHORT,&ival)) {
-	    if (ival  == 0)  prec->val = 0;
-	    else  prec->val = 1;
-	    prec->udf = FALSE;
-	}
+    if (recGblInitConstantLink(&prec->dol, DBF_USHORT, &ival)) {
+        prec->val = !!ival;
+        prec->udf = FALSE;
     }
 
-    pcallback = (myCallback *)(calloc(1,sizeof(myCallback)));
-    prec->rpvt = (void *)pcallback;
-    callbackSetCallback(myCallbackFunc,&pcallback->callback);
-    callbackSetUser(pcallback,&pcallback->callback);
-    pcallback->precord = (struct dbCommon *)prec;
+    pcallback = (myCallback *) calloc(1, sizeof(myCallback));
+    prec->rpvt = pcallback;
+    callbackSetCallback(myCallbackFunc, &pcallback->callback);
+    callbackSetUser(pcallback, &pcallback->callback);
+    pcallback->precord = (struct dbCommon *) prec;
 
-    if( pdset->init_record ) {
+    if (pdset->init_record) {
 	status=(*pdset->init_record)(prec);
 	if(status==0) {
 		if(prec->rval==0) prec->val = 0;
@@ -191,9 +186,10 @@ static long init_record(boRecord *prec,int pass)
     return(status);
 }
 
-static long process(boRecord *prec)
+static long process(struct dbCommon *pcommon)
 {
-	struct bodset	*pdset = (struct bodset *)(prec->dset);
+    struct boRecord *prec = (struct boRecord *)pcommon;
+    struct bodset  *pdset = (struct bodset *)(prec->dset);
 	long		 status=0;
 	unsigned char    pact=prec->pact;
 
@@ -203,7 +199,8 @@ static long process(boRecord *prec)
 		return(S_dev_missingSup);
 	}
         if (!prec->pact) {
-		if ((prec->dol.type != CONSTANT) && (prec->omsl == menuOmslclosed_loop)){
+                if (!dbLinkIsConstant(&prec->dol) &&
+                    prec->omsl == menuOmslclosed_loop) {
 			unsigned short val;
 
 			prec->pact = TRUE;
@@ -283,7 +280,7 @@ static long get_units(DBADDR *paddr, char *units)
     return(0);
 }
 
-static long get_precision(DBADDR *paddr, long *precision)
+static long get_precision(const DBADDR *paddr, long *precision)
 {
     if(dbGetFieldIndex(paddr) == indexof(HIGH))
         *precision = boHIGHprecision;
@@ -302,7 +299,7 @@ static long get_control_double(DBADDR *paddr,struct dbr_ctrlDouble *pcd)
     return(0);
 }
 
-static long get_enum_str(DBADDR *paddr, char *pstring)
+static long get_enum_str(const DBADDR *paddr, char *pstring)
 {
     boRecord	*prec=(boRecord *)paddr->precord;
     int                 index;
@@ -324,7 +321,7 @@ static long get_enum_str(DBADDR *paddr, char *pstring)
     return(0);
 }
 
-static long get_enum_strs(DBADDR *paddr,struct dbr_enumStrs *pes)
+static long get_enum_strs(const DBADDR *paddr,struct dbr_enumStrs *pes)
 {
     boRecord	*prec=(boRecord *)paddr->precord;
 
@@ -337,7 +334,7 @@ static long get_enum_strs(DBADDR *paddr,struct dbr_enumStrs *pes)
     if(*prec->onam!=0) pes->no_str=2;
     return(0);
 }
-static long put_enum_str(DBADDR *paddr, char *pstring)
+static long put_enum_str(const DBADDR *paddr, const char *pstring)
 {
     boRecord     *prec=(boRecord *)paddr->precord;
 

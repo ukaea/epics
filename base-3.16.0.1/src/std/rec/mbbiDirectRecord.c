@@ -9,8 +9,6 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 
-/* Revision-Id: anj@aps.anl.gov-20131217185404-wng3r3ldfeefnu61 */
-
 /* mbbiDirectRecord.c - Record Support routines for mbboDirect records */
 /*
  *      Original Authors: Bob Dalesio and Matthew Needes
@@ -44,8 +42,8 @@
 /* Create RSET - Record Support Entry Table*/
 #define report NULL
 #define initialize NULL
-static long init_record(mbbiDirectRecord *, int);
-static long process(mbbiDirectRecord *);
+static long init_record(struct dbCommon *, int);
+static long process(struct dbCommon *);
 #define special NULL
 #define get_value NULL
 #define cvt_dbaddr NULL
@@ -96,8 +94,9 @@ static long readValue(mbbiDirectRecord *);
 
 #define NUM_BITS 16
 
-static long init_record(mbbiDirectRecord *prec, int pass)
+static long init_record(struct dbCommon *pcommon, int pass)
 {
+    struct mbbiDirectRecord *prec = (struct mbbiDirectRecord *)pcommon;
     struct mbbidset *pdset = (struct mbbidset *) prec->dset;
     long status = 0;
 
@@ -114,15 +113,12 @@ static long init_record(mbbiDirectRecord *prec, int pass)
         return S_dev_missingSup;
     }
 
-    if (prec->siml.type == CONSTANT)
-        recGblInitConstantLink(&prec->siml, DBF_USHORT, &prec->simm);
+    recGblInitConstantLink(&prec->siml, DBF_USHORT, &prec->simm);
+    recGblInitConstantLink(&prec->siol, DBF_USHORT, &prec->sval);
 
-    if (prec->siol.type == CONSTANT)
-        recGblInitConstantLink(&prec->siol, DBF_USHORT, &prec->sval);
-
-    /* Initialize MASK if the user didn't */
-    if (prec->mask == 0)
-        prec->mask = (1 << prec->nobt) - 1;
+    /* Initialize MASK if the user set NOBT instead */
+    if (prec->mask == 0 && prec->nobt <= 32)
+        prec->mask = ((epicsUInt64) 1u << prec->nobt) - 1;
 
     if (pdset->init_record) {
         status = pdset->init_record(prec);
@@ -142,8 +138,9 @@ static long init_record(mbbiDirectRecord *prec, int pass)
     return status;
 }
 
-static long process(mbbiDirectRecord *prec)
+static long process(struct dbCommon *pcommon)
 {
+    struct mbbiDirectRecord *prec = (struct mbbiDirectRecord *)pcommon;
     struct mbbidset *pdset = (struct mbbidset *) prec->dset;
     long status;
     int pact = prec->pact;

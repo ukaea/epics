@@ -50,15 +50,15 @@
 /* Create RSET - Record Support Entry Table*/
 #define report NULL
 #define initialize NULL
-static long init_record(aaoRecord *, int);
-static long process(aaoRecord *);
+static long init_record(struct dbCommon *, int);
+static long process(struct dbCommon *);
 #define special NULL
 #define get_value NULL
 static long cvt_dbaddr(DBADDR *);
 static long get_array_info(DBADDR *, long *, long *);
 static long put_array_info(DBADDR *, long);
 static long get_units(DBADDR *, char *);
-static long get_precision(DBADDR *, long *);
+static long get_precision(const DBADDR *, long *);
 #define get_enum_str NULL
 #define get_enum_strs NULL
 #define put_enum_str NULL
@@ -100,10 +100,11 @@ struct aaodset { /* aao dset */
 static void monitor(aaoRecord *);
 static long writeValue(aaoRecord *);
 
-static long init_record(aaoRecord *prec, int pass)
+static long init_record(struct dbCommon *pcommon, int pass)
 {
-    long status;
+    struct aaoRecord *prec = (struct aaoRecord *)pcommon;
     struct aaodset *pdset = (struct aaodset *)(prec->dset);
+    long status;
 
     /* must have dset defined */
     if (!pdset) {
@@ -140,10 +141,7 @@ static long init_record(aaoRecord *prec, int pass)
         return 0;
     }
 
-    /* SIML must be a CONSTANT or a PV_LINK or a DB_LINK */
-    if (prec->siml.type == CONSTANT) {
-        recGblInitConstantLink(&prec->siml,DBF_USHORT,&prec->simm);
-    }
+    recGblInitConstantLink(&prec->siml,DBF_USHORT,&prec->simm);
 
     /* must have write_aao function defined */
     if (pdset->number < 5 || pdset->write_aao == NULL) {
@@ -153,8 +151,9 @@ static long init_record(aaoRecord *prec, int pass)
     return 0;
 }
 
-static long process(aaoRecord *prec)
+static long process(struct dbCommon *pcommon)
 {
+    struct aaoRecord *prec = (struct aaoRecord *)pcommon;
     struct aaodset *pdset = (struct aaodset *)(prec->dset);
     long status;
     unsigned char pact = prec->pact;
@@ -228,7 +227,7 @@ static long get_units(DBADDR *paddr, char *units)
     return 0;
 }
 
-static long get_precision(DBADDR *paddr, long *precision)
+static long get_precision(const DBADDR *paddr, long *precision)
 {
     aaoRecord *prec = (aaoRecord *)paddr->precord;
 

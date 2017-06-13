@@ -6,8 +6,6 @@
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
 /*
- * Revision-Id: anj@aps.anl.gov-20160301001528-v0aw3nf9l6r1s5z9
- *
  * Author: W. Eric Norum
  */
 #define __BSD_VISIBLE 1

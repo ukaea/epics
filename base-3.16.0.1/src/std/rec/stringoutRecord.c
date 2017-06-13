@@ -7,8 +7,6 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 
-/* Revision-Id: anj@aps.anl.gov-20131217185404-wng3r3ldfeefnu61 */
-
 /* recStringout.c - Record Support Routines for Stringout records */
 /*
  * Author: 	Janet Anderson
@@ -44,8 +42,8 @@
 /* Create RSET - Record Support Entry Table*/
 #define report NULL
 #define initialize NULL
-static long init_record(stringoutRecord *, int);
-static long process(stringoutRecord *);
+static long init_record(struct dbCommon *, int);
+static long process(struct dbCommon *);
 #define special NULL
 #define get_value NULL
 #define cvt_dbaddr NULL
@@ -94,42 +92,47 @@ static void monitor(stringoutRecord *);
 static long writeValue(stringoutRecord *);
 
 
-static long init_record(stringoutRecord *prec, int pass)
+static long init_record(struct dbCommon *pcommon, int pass)
 {
+    struct stringoutRecord *prec = (struct stringoutRecord *)pcommon;
     STATIC_ASSERT(sizeof(prec->oval)==sizeof(prec->val));
-    struct stringoutdset *pdset;
-    long status=0;
+    struct stringoutdset *pdset = (struct stringoutdset *) prec->dset;
 
-    if (pass==0) return(0);
+    if (pass==0)
+        return 0;
 
-    if (prec->siml.type == CONSTANT) {
-	recGblInitConstantLink(&prec->siml,DBF_USHORT,&prec->simm);
+    recGblInitConstantLink(&prec->siml, DBF_USHORT, &prec->simm);
+
+    if (!pdset) {
+        recGblRecordError(S_dev_noDSET, prec, "stringout: init_record");
+        return S_dev_noDSET;
     }
 
-    if(!(pdset = (struct stringoutdset *)(prec->dset))) {
-	recGblRecordError(S_dev_noDSET,(void *)prec,"stringout: init_record");
-	return(S_dev_noDSET);
-    }
     /* must have  write_stringout functions defined */
-    if( (pdset->number < 5) || (pdset->write_stringout == NULL) ) {
-	recGblRecordError(S_dev_missingSup,(void *)prec,"stringout: init_record");
-	return(S_dev_missingSup);
+    if ((pdset->number < 5) || (pdset->write_stringout == NULL)) {
+        recGblRecordError(S_dev_missingSup, prec, "stringout: init_record");
+        return S_dev_missingSup;
     }
+
     /* get the initial value dol is a constant*/
-    if (prec->dol.type == CONSTANT){
-	if(recGblInitConstantLink(&prec->dol,DBF_STRING,prec->val))
-	    prec->udf=FALSE;
+    if (recGblInitConstantLink(&prec->dol, DBF_STRING, prec->val))
+        prec->udf = FALSE;
+
+    if (pdset->init_record) {
+        long status = pdset->init_record(prec);
+
+        if(status)
+            return status;
     }
-    if( pdset->init_record ) {
-	if((status=(*pdset->init_record)(prec))) return(status);
-    }
-    strcpy(prec->oval,prec->val);
-    return(0);
+
+    strcpy(prec->oval, prec->val);
+    return 0;
 }
 
-static long process(stringoutRecord *prec)
+static long process(struct dbCommon *pcommon)
 {
-	struct stringoutdset	*pdset = (struct stringoutdset *)(prec->dset);
+    struct stringoutRecord *prec = (struct stringoutRecord *)pcommon;
+    struct stringoutdset  *pdset = (struct stringoutdset *)(prec->dset);
 	long		 status=0;
 	unsigned char    pact=prec->pact;
 
@@ -138,13 +141,13 @@ static long process(stringoutRecord *prec)
 		recGblRecordError(S_dev_missingSup,(void *)prec,"write_stringout");
 		return(S_dev_missingSup);
 	}
-        if (!prec->pact
-        && (prec->dol.type != CONSTANT)
-        && (prec->omsl == menuOmslclosed_loop)) {
-		status = dbGetLink(&(prec->dol),
-			DBR_STRING,prec->val,0,0);
-		if(prec->dol.type!=CONSTANT && RTN_SUCCESS(status)) prec->udf=FALSE;
-	}
+        if (!prec->pact &&
+            !dbLinkIsConstant(&prec->dol) &&
+            prec->omsl == menuOmslclosed_loop) {
+                status = dbGetLink(&prec->dol, DBR_STRING, prec->val, 0, 0);
+                if (!dbLinkIsConstant(&prec->dol) && !status)
+                    prec->udf=FALSE;
+        }
 
         if(prec->udf == TRUE ){
                 recGblSetSevr(prec,UDF_ALARM,prec->udfs);

@@ -6,7 +6,6 @@
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
-/* Revision-Id: anj@aps.anl.gov-20160229194818-ets7s9c1f4ahxdb0 */
 
 #include <stdio.h>
 #include <stddef.h>
@@ -18,6 +17,7 @@
 
 #include "cantProceed.h"
 #include "cvtFast.h"
+#include "epicsAssert.h"
 #include "dbDefs.h"
 #include "dbmf.h"
 #include "ellLib.h"
@@ -31,7 +31,6 @@
 #include "postfix.h"
 
 #define DBFLDTYPES_GBLSOURCE
-#define GUIGROUPS_GBLSOURCE
 #define SPECIAL_GBLSOURCE
 
 #define epicsExportSharedSymbols
@@ -41,11 +40,11 @@
 #include "dbStaticPvt.h"
 #include "devSup.h"
 #include "drvSup.h"
-#include "guigroup.h"
 #include "link.h"
 #include "special.h"
 
 #include "dbCommon.h"
+#include "dbJLink.h"
 
 int dbStaticDebug = 0;
 static char *pNullString = "";
@@ -67,6 +66,7 @@ epicsShareDef maplinkType pamaplinkType[LINK_NTYPES] = {
 	{"GPIB_IO",GPIB_IO},
 	{"BITBUS_IO",BITBUS_IO},
 	{"MACRO_LINK",MACRO_LINK},
+	{"JSON_LINK",JSON_LINK},
         {"PN_LINK",PN_LINK},
 	{"DB_LINK",DB_LINK},
 	{"CA_LINK",CA_LINK},
@@ -121,6 +121,10 @@ void dbFreeLinkContents(struct link *plink)
 	case CONSTANT: free((void *)plink->value.constantStr); break;
 	case MACRO_LINK: free((void *)plink->value.macro_link.macroStr); break;
 	case PV_LINK: free((void *)plink->value.pv_link.pvname); break;
+	case JSON_LINK:
+	    dbJLinkFree(plink->value.json.jlink);
+	    parm = plink->value.json.string;
+	    break;
 	case VME_IO: parm = plink->value.vmeio.parm; break;
 	case CAMAC_IO: parm = plink->value.camacio.parm; break;
 	case AB_IO: parm = plink->value.abio.parm; break;
@@ -230,7 +234,7 @@ void dbMsgPrint(DBENTRY *pdbentry, const char *fmt, ...)
     va_end(args);
 }
 
-static void ulongToHexString(epicsUInt32 source,char *pdest)
+static void ulongToHexString(epicsUInt32 source, char *pdest)
 {
     static const char hex_digit_to_ascii[16] = "0123456789abcdef";
     epicsUInt32 val,temp;
@@ -433,6 +437,7 @@ dbBase * dbAllocBase(void)
     ellInit(&pdbbase->variableList);
     ellInit(&pdbbase->bptList);
     ellInit(&pdbbase->filterList);
+    ellInit(&pdbbase->guiGroupList);
     gphInitPvt(&pdbbase->pgpHash,256);
     dbPvdInitPvt(pdbbase);
     return (pdbbase);
@@ -444,8 +449,6 @@ void dbFreeBase(dbBase *pdbbase)
     dbRecordType	*pdbRecordType;
     dbRecordType	*pdbRecordTypeNext;
     dbFldDes	*	pdbFldDes;
-    dbRecordNode 	*pdbRecordNode;
-    dbRecordNode 	*pdbRecordNodeNext;
     dbRecordAttribute	*pAttribute;
     dbRecordAttribute	*pAttributeNext;
     devSup		*pdevSup;
@@ -456,140 +459,150 @@ void dbFreeBase(dbBase *pdbbase)
     dbVariableDef       *pvarNext;
     drvSup		*pdrvSup;
     drvSup		*pdrvSupNext;
+    linkSup		*plinkSup;
     brkTable		*pbrkTable;
     brkTable		*pbrkTableNext;
-    chFilterPlugin      *pfilt;
-    chFilterPlugin      *pfiltNext;
+    chFilterPlugin  *pfilt;
+    chFilterPlugin  *pfiltNext;
+    dbGuiGroup      *pguiGroup;
+    dbGuiGroup      *pguiGroupNext;
     int			i;
     DBENTRY		dbentry;
-
+    long status;
 
     dbInitEntry(pdbbase,&dbentry);
-    pdbRecordType = (dbRecordType *)ellFirst(&pdbbase->recordTypeList);
-    while(pdbRecordType) {
-	pdbRecordNode = (dbRecordNode *)ellFirst(&pdbRecordType->recList);
-	while(pdbRecordNode) {
-	    pdbRecordNodeNext = (dbRecordNode *)ellNext(&pdbRecordNode->node);
-	    if(!dbFindRecord(&dbentry,pdbRecordNode->recordname))
-		dbDeleteRecord(&dbentry);
-	    pdbRecordNode = pdbRecordNodeNext;
-	}
-	pdbRecordType = (dbRecordType *)ellNext(&pdbRecordType->node);
+    status = dbFirstRecordType(&dbentry);
+    while(!status) {
+        /* dbDeleteRecord() will remove alias or real record node.
+         * For real record nodes, also removes the nodes of all aliases.
+         * This complicates safe traversal, so we re-start iteration
+         * from the first record after each call.
+         */
+        while((status = dbFirstRecord(&dbentry))==0) {
+            dbDeleteRecord(&dbentry);
+        }
+        assert(status==S_dbLib_recNotFound);
+        status = dbNextRecordType(&dbentry);
     }
     dbFinishEntry(&dbentry);
     pdbRecordType = (dbRecordType *)ellFirst(&pdbbase->recordTypeList);
     while(pdbRecordType) {
-	for(i=0; i<pdbRecordType->no_fields; i++) {
-	    pdbFldDes = pdbRecordType->papFldDes[i];
-	    free((void *)pdbFldDes->prompt);
-	    free((void *)pdbFldDes->name);
-	    free((void *)pdbFldDes->extra);
-	    free((void *)pdbFldDes->initial);
-	    if(pdbFldDes->field_type==DBF_DEVICE && pdbFldDes->ftPvt) {
-		dbDeviceMenu *pdbDeviceMenu;
+        for(i=0; i<pdbRecordType->no_fields; i++) {
+            pdbFldDes = pdbRecordType->papFldDes[i];
+            free((void *)pdbFldDes->prompt);
+            free((void *)pdbFldDes->name);
+            free((void *)pdbFldDes->extra);
+            free((void *)pdbFldDes->initial);
+            if(pdbFldDes->field_type==DBF_DEVICE && pdbFldDes->ftPvt) {
+                dbDeviceMenu *pdbDeviceMenu;
 
-		pdbDeviceMenu = (dbDeviceMenu *)pdbFldDes->ftPvt;
-		free((void *)pdbDeviceMenu->papChoice);
-		free((void *)pdbDeviceMenu);
-		pdbFldDes->ftPvt=0;
-	    }
-	    free((void *)pdbFldDes);
-	}
-	pdevSup = (devSup *)ellFirst(&pdbRecordType->devList);
-	while(pdevSup) {
-	    pdevSupNext = (devSup *)ellNext(&pdevSup->node);
-	    ellDelete(&pdbRecordType->devList,&pdevSup->node);
-	    free((void *)pdevSup->name);
-	    free((void *)pdevSup->choice);
-	    free((void *)pdevSup);
-	    pdevSup = pdevSupNext;
-	}
-	ptext = (dbText *)ellFirst(&pdbRecordType->cdefList);
-	while(ptext) {
-	    ptextNext = (dbText *)ellNext(&ptext->node);
-	    ellDelete(&pdbRecordType->cdefList,&ptext->node);
-	    free((void *)ptext->text);
-	    free((void *)ptext);
-	    ptext = ptextNext;
-	}
-	pAttribute =
-	    (dbRecordAttribute *)ellFirst(&pdbRecordType->attributeList);
-	while(pAttribute) {
-	    pAttributeNext = (dbRecordAttribute *)ellNext(&pAttribute->node);
-	    ellDelete(&pdbRecordType->attributeList,&pAttribute->node);
-	    free((void *)pAttribute->name);
-	    free((void *)pAttribute->pdbFldDes);
-	    free(pAttribute);
-	    pAttribute = pAttributeNext;
-	}
-	pdbRecordTypeNext = (dbRecordType *)ellNext(&pdbRecordType->node);
-	gphDelete(pdbbase->pgpHash,pdbRecordType->name,&pdbbase->recordTypeList);
-	ellDelete(&pdbbase->recordTypeList,&pdbRecordType->node);
-	free((void *)pdbRecordType->name);
-	free((void *)pdbRecordType->link_ind);
-	free((void *)pdbRecordType->papsortFldName);
-	free((void *)pdbRecordType->sortFldInd);
-	free((void *)pdbRecordType->papFldDes);
-	free((void *)pdbRecordType);
-	pdbRecordType = pdbRecordTypeNext;
+                pdbDeviceMenu = (dbDeviceMenu *)pdbFldDes->ftPvt;
+                free((void *)pdbDeviceMenu->papChoice);
+                free((void *)pdbDeviceMenu);
+                pdbFldDes->ftPvt=0;
+            }
+            free((void *)pdbFldDes);
+        }
+        pdevSup = (devSup *)ellFirst(&pdbRecordType->devList);
+        while(pdevSup) {
+            pdevSupNext = (devSup *)ellNext(&pdevSup->node);
+            ellDelete(&pdbRecordType->devList,&pdevSup->node);
+            free((void *)pdevSup->name);
+            free((void *)pdevSup->choice);
+            free((void *)pdevSup);
+            pdevSup = pdevSupNext;
+        }
+        ptext = (dbText *)ellFirst(&pdbRecordType->cdefList);
+        while(ptext) {
+            ptextNext = (dbText *)ellNext(&ptext->node);
+            ellDelete(&pdbRecordType->cdefList,&ptext->node);
+            free((void *)ptext->text);
+            free((void *)ptext);
+            ptext = ptextNext;
+        }
+        pAttribute =
+                (dbRecordAttribute *)ellFirst(&pdbRecordType->attributeList);
+        while(pAttribute) {
+            pAttributeNext = (dbRecordAttribute *)ellNext(&pAttribute->node);
+            ellDelete(&pdbRecordType->attributeList,&pAttribute->node);
+            free((void *)pAttribute->name);
+            free((void *)pAttribute->pdbFldDes);
+            free(pAttribute);
+            pAttribute = pAttributeNext;
+        }
+        pdbRecordTypeNext = (dbRecordType *)ellNext(&pdbRecordType->node);
+        gphDelete(pdbbase->pgpHash,pdbRecordType->name,&pdbbase->recordTypeList);
+        ellDelete(&pdbbase->recordTypeList,&pdbRecordType->node);
+        free((void *)pdbRecordType->name);
+        free((void *)pdbRecordType->link_ind);
+        free((void *)pdbRecordType->papsortFldName);
+        free((void *)pdbRecordType->sortFldInd);
+        free((void *)pdbRecordType->papFldDes);
+        free((void *)pdbRecordType);
+        pdbRecordType = pdbRecordTypeNext;
     }
     pdbMenu = (dbMenu *)ellFirst(&pdbbase->menuList);
     while(pdbMenu) {
-	pdbMenuNext = (dbMenu *)ellNext(&pdbMenu->node);
-	gphDelete(pdbbase->pgpHash,pdbMenu->name,&pdbbase->menuList);
-	ellDelete(&pdbbase->menuList,&pdbMenu->node);
-	for(i=0; i< pdbMenu->nChoice; i++) {
-	    free((void *)pdbMenu->papChoiceName[i]);
-	    free((void *)pdbMenu->papChoiceValue[i]);
-	}
-	free((void *)pdbMenu->papChoiceName);
-	free((void *)pdbMenu->papChoiceValue);
-	free((void *)pdbMenu ->name);
-	free((void *)pdbMenu);
-	pdbMenu = pdbMenuNext;
+        pdbMenuNext = (dbMenu *)ellNext(&pdbMenu->node);
+        gphDelete(pdbbase->pgpHash,pdbMenu->name,&pdbbase->menuList);
+        ellDelete(&pdbbase->menuList,&pdbMenu->node);
+        for(i=0; i< pdbMenu->nChoice; i++) {
+            free((void *)pdbMenu->papChoiceName[i]);
+            free((void *)pdbMenu->papChoiceValue[i]);
+        }
+        free((void *)pdbMenu->papChoiceName);
+        free((void *)pdbMenu->papChoiceValue);
+        free((void *)pdbMenu ->name);
+        free((void *)pdbMenu);
+        pdbMenu = pdbMenuNext;
     }
     pdrvSup = (drvSup *)ellFirst(&pdbbase->drvList);
     while(pdrvSup) {
-	pdrvSupNext = (drvSup *)ellNext(&pdrvSup->node);
-	ellDelete(&pdbbase->drvList,&pdrvSup->node);
-	free((void *)pdrvSup->name);
-	free((void *)pdrvSup);
-	pdrvSup = pdrvSupNext;
+        pdrvSupNext = (drvSup *)ellNext(&pdrvSup->node);
+        ellDelete(&pdbbase->drvList,&pdrvSup->node);
+        free((void *)pdrvSup->name);
+        free((void *)pdrvSup);
+        pdrvSup = pdrvSupNext;
+    }
+    while ((plinkSup = (linkSup *) ellGet(&pdbbase->linkList))) {
+        free(plinkSup->jlif_name);
+        free(plinkSup->name);
+        free(plinkSup);
     }
     ptext = (dbText *)ellFirst(&pdbbase->registrarList);
     while(ptext) {
-	ptextNext = (dbText *)ellNext(&ptext->node);
-	ellDelete(&pdbbase->registrarList,&ptext->node);
-	free((void *)ptext->text);
-	free((void *)ptext);
-	ptext = ptextNext;
+        ptextNext = (dbText *)ellNext(&ptext->node);
+        ellDelete(&pdbbase->registrarList,&ptext->node);
+        free((void *)ptext->text);
+        free((void *)ptext);
+        ptext = ptextNext;
     }
     ptext = (dbText *)ellFirst(&pdbbase->functionList);
     while(ptext) {
-	ptextNext = (dbText *)ellNext(&ptext->node);
-	ellDelete(&pdbbase->functionList,&ptext->node);
-	free((void *)ptext->text);
-	free((void *)ptext);
-	ptext = ptextNext;
+        ptextNext = (dbText *)ellNext(&ptext->node);
+        ellDelete(&pdbbase->functionList,&ptext->node);
+        free((void *)ptext->text);
+        free((void *)ptext);
+        ptext = ptextNext;
     }
     pvar = (dbVariableDef *)ellFirst(&pdbbase->variableList);
     while(pvar) {
-	pvarNext = (dbVariableDef *)ellNext(&pvar->node);
-	ellDelete(&pdbbase->variableList,&pvar->node);
-	free((void *)pvar->name);
+        pvarNext = (dbVariableDef *)ellNext(&pvar->node);
+        ellDelete(&pdbbase->variableList,&pvar->node);
+        free((void *)pvar->name);
         free((void *)pvar->type);
-	free((void *)pvar);
-	pvar = pvarNext;
+        free((void *)pvar);
+        pvar = pvarNext;
     }
     pbrkTable = (brkTable *)ellFirst(&pdbbase->bptList);
     while(pbrkTable) {
-	pbrkTableNext = (brkTable *)ellNext(&pbrkTable->node);
-	gphDelete(pdbbase->pgpHash,pbrkTable->name,&pdbbase->bptList);
-	ellDelete(&pdbbase->bptList,&pbrkTable->node);
-	free(pbrkTable->name);
-	free((void *)pbrkTable->paBrkInt);
-	free((void *)pbrkTable);
-	pbrkTable = pbrkTableNext;
+        pbrkTableNext = (brkTable *)ellNext(&pbrkTable->node);
+        gphDelete(pdbbase->pgpHash,pbrkTable->name,&pdbbase->bptList);
+        ellDelete(&pdbbase->bptList,&pbrkTable->node);
+        free(pbrkTable->name);
+        free((void *)pbrkTable->paBrkInt);
+        free((void *)pbrkTable);
+        pbrkTable = pbrkTableNext;
     }
     pfilt = (chFilterPlugin *)ellFirst(&pdbbase->filterList);
     while(pfilt) {
@@ -599,6 +612,15 @@ void dbFreeBase(dbBase *pdbbase)
             (*pfilt->fif->priv_free)(pfilt->puser);
         free(pfilt);
         pfilt = pfiltNext;
+    }
+    pguiGroup = (dbGuiGroup *)ellFirst(&pdbbase->guiGroupList);
+    while (pguiGroup) {
+        pguiGroupNext = (dbGuiGroup *)ellNext(&pguiGroup->node);
+        gphDelete(pdbbase->pgpHash, pguiGroup->name, &pdbbase->guiGroupList);
+        ellDelete(&pdbbase->guiGroupList, &pguiGroup->node);
+        free(pguiGroup->name);
+        free((void *)pguiGroup);
+        pguiGroup = pguiGroupNext;
     }
     gphFreeMem(pdbbase->pgpHash);
     dbPvdFreeMem(pdbbase);
@@ -752,6 +774,31 @@ static long dbAddOnePath (DBBASE *pdbbase, const char *path, unsigned length)
     pdbPathNode->directory[length] = '\0';
     ellAdd(ppathList, &pdbPathNode->node);
     return 0;
+}
+
+char *dbGetPromptGroupNameFromKey(DBBASE *pdbbase, const short key)
+{
+    dbGuiGroup *pdbGuiGroup;
+
+    if (!pdbbase) return NULL;
+    for (pdbGuiGroup = (dbGuiGroup *)ellFirst(&pdbbase->guiGroupList);
+        pdbGuiGroup; pdbGuiGroup = (dbGuiGroup *)ellNext(&pdbGuiGroup->node)) {
+        if (pdbGuiGroup->key == key) return pdbGuiGroup->name;
+    }
+    return NULL;
+}
+
+short dbGetPromptGroupKeyFromName(DBBASE *pdbbase, const char *name)
+{
+    GPHENTRY   *pgphentry;
+
+    if (!pdbbase) return 0;
+    pgphentry = gphFind(pdbbase->pgpHash, name, &pdbbase->guiGroupList);
+    if (!pgphentry) {
+        return 0;
+    } else {
+        return ((dbGuiGroup*)pgphentry->userPvt)->key;
+    }
 }
 
 
@@ -953,16 +1000,11 @@ long dbWriteRecordTypeFP(
 		fprintf(fp,"\t\tprompt(\"%s\")\n",pdbFldDes->prompt);
 	    if(pdbFldDes->initial)
 		fprintf(fp,"\t\tinitial(\"%s\")\n",pdbFldDes->initial);
-	    if(pdbFldDes->promptgroup) {
-		for(j=0; j<GUI_NTYPES; j++) {
-		    if(pamapguiGroup[j].value == pdbFldDes->promptgroup) {
-			fprintf(fp,"\t\tpromptgroup(%s)\n",
-				pamapguiGroup[j].strvalue);
-			break;
-		    }
-		}
-	    }
-	    if(pdbFldDes->special) {
+        if (pdbFldDes->promptgroup) {
+            fprintf(fp,"\t\tpromptgroup(\"%s\")\n",
+                    dbGetPromptGroupNameFromKey(pdbbase, pdbFldDes->promptgroup));
+        }
+        if(pdbFldDes->special) {
 		if(pdbFldDes->special >= SPC_NTYPES) {
 		    fprintf(fp,"\t\tspecial(%d)\n",pdbFldDes->special);
 		} else for(j=0; j<SPC_NTYPES; j++) {
@@ -1066,6 +1108,21 @@ long dbWriteDriverFP(DBBASE *pdbbase,FILE *fp)
 	fprintf(fp,"driver(%s)\n",pdrvSup->name);
     }
     return(0);
+}
+
+long dbWriteLinkFP(DBBASE *pdbbase, FILE *fp)
+{
+    linkSup *plinkSup;
+
+    if (!pdbbase) {
+	fprintf(stderr, "pdbbase not specified\n");
+	return -1;
+    }
+    for (plinkSup = (linkSup *) ellFirst(&pdbbase->linkList);
+        plinkSup; plinkSup = (linkSup *) ellNext(&plinkSup->node)) {
+	fprintf(fp, "link(%s,%s)\n", plinkSup->name, plinkSup->jlif_name);
+    }
+    return 0;
 }
 
 long dbWriteRegistrarFP(DBBASE *pdbbase,FILE *fp)
@@ -1389,7 +1446,6 @@ long dbCreateRecord(DBENTRY *pdbentry,const char *precordName)
     dbFldDes		*pdbFldDes;
     PVDENTRY       	*ppvd;
     ELLLIST           	*preclist = NULL;
-    dbRecordNode       	*precnode = NULL;
     dbRecordNode       	*pNewRecNode = NULL;
     long		status = 0;
 
@@ -1397,7 +1453,7 @@ long dbCreateRecord(DBENTRY *pdbentry,const char *precordName)
     /*Get size of NAME field*/
     pdbFldDes = precordType->papFldDes[0];
     if(!pdbFldDes || (strcmp(pdbFldDes->name,"NAME")!=0))
-	return(S_dbLib_nameLength);
+        return(S_dbLib_nameLength);
     if((int)strlen(precordName)>=pdbFldDes->size) return(S_dbLib_nameLength);
     /* clear callers entry */
     zeroDbentry(pdbentry);
@@ -1412,18 +1468,7 @@ long dbCreateRecord(DBENTRY *pdbentry,const char *precordName)
     if((status = dbAllocRecord(pdbentry,precordName))) return(status);
     pNewRecNode->recordname = dbRecordName(pdbentry);
     ellInit(&pNewRecNode->infoList);
-    /* install record node in list in sorted postion */
-    status = dbFirstRecord(pdbentry);
-    while(status==0) {
-        if(strcmp(precordName,dbGetRecordName(pdbentry)) < 0) break;
-        status = dbNextRecord(pdbentry);
-    }
-    if(status==0) {
-        precnode = pdbentry->precnode;
-	ellInsert(preclist,ellPrevious(&precnode->node),&pNewRecNode->node);
-    } else {
-        ellAdd(preclist,&pNewRecNode->node);
-    }
+    ellAdd(preclist, &pNewRecNode->node);
     pdbentry->precnode = pNewRecNode;
     ppvd = dbPvdAdd(pdbentry->pdbbase,precordType,pNewRecNode);
     if(!ppvd) {errMessage(-1,"Logic Err: Could not add to PVD");return(-1);}
@@ -1601,52 +1646,6 @@ char * dbGetRecordName(DBENTRY *pdbentry)
     return precnode->recordname;
 }
 
-long dbRenameRecord(DBENTRY *pdbentry,const char *newName)
-{
-    dbBase		*pdbbase = pdbentry->pdbbase;
-    dbRecordType	*precordType = pdbentry->precordType;
-    dbFldDes		*pdbFldDes;
-    dbRecordNode	*precnode = pdbentry->precnode;
-    PVDENTRY		*ppvd;
-    ELLLIST		*preclist;
-    dbRecordNode	*plistnode;
-    long		status;
-    DBENTRY		dbentry;
-
-    if(!precordType) return(S_dbLib_recordTypeNotFound);
-    /*Get size of NAME field*/
-    pdbFldDes = precordType->papFldDes[0];
-    if(!pdbFldDes || (strcmp(pdbFldDes->name,"NAME")!=0))
-	return(S_dbLib_nameLength);
-    if((int)strlen(newName)>=pdbFldDes->size) return(S_dbLib_nameLength);
-    if (!precnode || dbIsAlias(pdbentry)) return S_dbLib_recNotFound;
-    dbInitEntry(pdbentry->pdbbase,&dbentry);
-    status = dbFindRecord(&dbentry,newName);
-    dbFinishEntry(&dbentry);
-    if(!status) return(S_dbLib_recExists);
-    dbPvdDelete(pdbbase,precnode);
-    pdbentry->pflddes = precordType->papFldDes[0];
-    if((status = dbGetFieldAddress(pdbentry))) return(status);
-    strcpy(pdbentry->pfield,newName);
-    ppvd = dbPvdAdd(pdbbase,precordType,precnode);
-    if(!ppvd) {errMessage(-1,"Logic Err: Could not add to PVD");return(-1);}
-    /*remove from record list and reinstall in sorted order*/
-    preclist = &precordType->recList;
-    ellDelete(preclist,&precnode->node);
-    plistnode = (dbRecordNode *)ellFirst(preclist);
-    while(plistnode) {
-	pdbentry->precnode =  plistnode;
-	if(strcmp(newName,dbGetRecordName(pdbentry)) >=0) break;
-	plistnode = (dbRecordNode *)ellNext(&plistnode->node);
-    }
-    if(plistnode)
-	ellInsert(preclist,ellPrevious(&plistnode->node),&precnode->node);
-    else
-	ellAdd(preclist,&precnode->node);
-    /*Leave pdbentry pointing to newly renamed record*/
-    return(dbFindRecord(pdbentry,newName));
-}
-
 long dbVisibleRecord(DBENTRY *pdbentry)
 {
     dbRecordNode	*precnode = pdbentry->precnode;
@@ -1680,9 +1679,10 @@ long dbCreateAlias(DBENTRY *pdbentry, const char *alias)
     dbRecordNode	*pnewnode;
     PVDENTRY    	*ppvd;
     ELLLIST     	*preclist = NULL;
-    long		status;
-
     if (!precordType) return S_dbLib_recordTypeNotFound;
+    /* alias of alias still references actual record */
+    while(precnode && (precnode->flags&DBRN_FLAGS_ISALIAS))
+        precnode = precnode->aliasedRecnode;
     if (!precnode) return S_dbLib_recNotFound;
     zeroDbentry(pdbentry);
     if (!dbFindRecord(pdbentry, alias)) return S_dbLib_recExists;
@@ -1692,26 +1692,24 @@ long dbCreateAlias(DBENTRY *pdbentry, const char *alias)
     pnewnode = dbCalloc(1, sizeof(dbRecordNode));
     pnewnode->recordname = epicsStrDup(alias);
     pnewnode->precord = precnode->precord;
+    pnewnode->aliasedRecnode = precnode;
     pnewnode->flags = DBRN_FLAGS_ISALIAS;
-    if (!(precnode->flags & DBRN_FLAGS_ISALIAS))
-        precnode->flags |= DBRN_FLAGS_HASALIAS;
+    precnode->flags |= DBRN_FLAGS_HASALIAS;
     ellInit(&pnewnode->infoList);
-    /* install record node in list in sorted postion */
-    status = dbFirstRecord(pdbentry);
-    while (!status) {
-        if (strcmp(alias, dbGetRecordName(pdbentry)) < 0) break;
-        status = dbNextRecord(pdbentry);
-    }
-    if (!status) {
-        precnode = pdbentry->precnode;
-        ellInsert(preclist, ellPrevious(&precnode->node), &pnewnode->node);
-    } else {
-        ellAdd(preclist, &pnewnode->node);
-    }
+    ellAdd(preclist, &pnewnode->node);
     precordType->no_aliases++;
     pdbentry->precnode = pnewnode;
     ppvd = dbPvdAdd(pdbentry->pdbbase, precordType, pnewnode);
     if (!ppvd) {errMessage(-1,"Logic Err: Could not add to PVD");return(-1);}
+    return 0;
+}
+
+int dbFollowAlias(DBENTRY *pdbentry)
+{
+    if(!pdbentry->precnode)
+        return S_dbLib_recNotFound;
+    if(pdbentry->precnode->aliasedRecnode)
+        pdbentry->precnode = pdbentry->precnode->aliasedRecnode;
     return 0;
 }
 
@@ -1895,6 +1893,8 @@ char * dbGetString(DBENTRY *pdbentry)
     case DBF_ENUM:
     case DBF_LONG:
     case DBF_ULONG:
+    case DBF_INT64:
+    case DBF_UINT64:
     case DBF_FLOAT:
     case DBF_DOUBLE:
     case DBF_MENU:
@@ -1917,6 +1917,9 @@ char * dbGetString(DBENTRY *pdbentry)
 	    } else {
 		dbMsgCpy(pdbentry, "");
 	    }
+	    break;
+	case JSON_LINK:
+	    dbMsgCpy(pdbentry, plink->value.json.string);
 	    break;
         case PN_LINK:
             dbMsgPrint(pdbentry, "%s%s",
@@ -2013,6 +2016,9 @@ char * dbGetString(DBENTRY *pdbentry)
 		    dbMsgCpy(pdbentry, "");
 		}
 		break;
+	    case JSON_LINK:
+		dbMsgCpy(pdbentry, plink->value.json.string);
+		break;
 	    case PV_LINK:
 	    case CA_LINK:
 	    case DB_LINK: {
@@ -2052,60 +2058,72 @@ char *dbGetStringNum(DBENTRY *pdbentry)
     cvttype = pflddes->base;
     switch (pflddes->field_type) {
     case DBF_CHAR:
-        if (cvttype==CT_DECIMAL)
-            cvtCharToString(*(char*)pfield, message);
+        if (cvttype == CT_DECIMAL)
+            cvtCharToString(*(char *) pfield, message);
         else
-            ulongToHexString((epicsUInt32)(*(char*)pfield),message);
+            ulongToHexString(*(char *) pfield, message);
         break;
     case DBF_UCHAR:
         if (cvttype==CT_DECIMAL)
-            cvtUcharToString(*(unsigned char*)pfield, message);
+            cvtUcharToString(*(epicsUInt8 *) pfield, message);
         else
-            ulongToHexString((epicsUInt32)(*(unsigned char*)pfield),message);
+            ulongToHexString(*(epicsUInt8 *) pfield, message);
         break;
     case DBF_SHORT:
         if (cvttype==CT_DECIMAL)
-            cvtShortToString(*(short*)pfield, message);
+            cvtShortToString(*(epicsInt16 *) pfield, message);
         else
-            ulongToHexString((epicsUInt32)(*(short*)pfield),message);
+            ulongToHexString(*(epicsInt16 *) pfield, message);
         break;
     case DBF_USHORT:
     case DBF_ENUM:
         if (cvttype==CT_DECIMAL)
-            cvtUshortToString(*(unsigned short*)pfield, message);
+            cvtUshortToString(*(epicsUInt16 *) pfield, message);
         else
-            ulongToHexString((epicsUInt32)(*(unsigned short*)pfield),message);
+            ulongToHexString(*(epicsUInt16 *) pfield, message);
         break;
     case DBF_LONG:
         if (cvttype==CT_DECIMAL)
-            cvtLongToString(*(epicsInt32*)pfield, message);
+            cvtLongToString(*(epicsInt32 *) pfield, message);
         else
-            ulongToHexString((epicsUInt32)(*(epicsInt32*)pfield), message);
+            ulongToHexString(*(epicsInt32 *) pfield, message);
         break;
     case DBF_ULONG:
         if (cvttype==CT_DECIMAL)
-            cvtUlongToString(*(epicsUInt32 *)pfield, message);
+            cvtUlongToString(*(epicsUInt32 *) pfield, message);
         else
-            ulongToHexString(*(epicsUInt32*)pfield, message);
+            ulongToHexString(*(epicsUInt32 *) pfield, message);
+        break;
+    case DBF_INT64:
+        if (cvttype==CT_DECIMAL)
+            cvtInt64ToString(*(epicsInt64 *) pfield, message);
+        else
+            cvtInt64ToHexString(*(epicsInt64 *) pfield, message);
+        break;
+    case DBF_UINT64:
+        if (cvttype==CT_DECIMAL)
+            cvtUInt64ToString(*(epicsUInt32 *) pfield, message);
+        else
+            cvtUInt64ToHexString(*(epicsUInt32 *) pfield, message);
         break;
     case DBF_FLOAT:
-        floatToString(*(float *)pfield,message);
+        floatToString(*(epicsFloat32 *) pfield, message);
         break;
     case DBF_DOUBLE:
-        doubleToString(*(double *)pfield,message);
+        doubleToString(*(epicsFloat64 *) pfield, message);
         break;
     case DBF_MENU:
         {
-            dbMenu	*pdbMenu = (dbMenu *)pflddes->ftPvt;
-            short	choice_ind;
-            char	*pchoice;
+            dbMenu *pdbMenu = (dbMenu *)pflddes->ftPvt;
+            epicsEnum16 choice_ind;
+            char *pchoice;
 
             if (!pfield) {
                 dbMsgCpy(pdbentry, "Field not found");
                 return message;
             }
-            choice_ind = *((short *) pdbentry->pfield);
-            if (!pdbMenu || choice_ind<0 || choice_ind>=pdbMenu->nChoice)
+            choice_ind = *((epicsEnum16 *) pdbentry->pfield);
+            if (!pdbMenu || choice_ind < 0 || choice_ind >= pdbMenu->nChoice)
                 return NULL;
             pchoice = pdbMenu->papChoiceValue[choice_ind];
             dbMsgCpy(pdbentry, pchoice);
@@ -2113,9 +2131,9 @@ char *dbGetStringNum(DBENTRY *pdbentry)
         break;
     case DBF_DEVICE:
         {
-            dbDeviceMenu	*pdbDeviceMenu;
-            char		*pchoice;
-            short		choice_ind;
+            dbDeviceMenu *pdbDeviceMenu;
+            epicsEnum16 choice_ind;
+            char *pchoice;
 
             if (!pfield) {
                 dbMsgCpy(pdbentry, "Field not found");
@@ -2124,7 +2142,7 @@ char *dbGetStringNum(DBENTRY *pdbentry)
             pdbDeviceMenu = dbGetDeviceMenu(pdbentry);
             if (!pdbDeviceMenu)
                 return NULL;
-            choice_ind = *((short *) pdbentry->pfield);
+            choice_ind = *((epicsEnum16 *) pdbentry->pfield);
             if (choice_ind<0 || choice_ind>=pdbDeviceMenu->nChoice)
                 return NULL;
             pchoice = pdbDeviceMenu->papChoice[choice_ind];
@@ -2169,6 +2187,7 @@ long dbInitRecordLinks(dbRecordType *rtyp, struct dbCommon *prec)
          */
         case CONSTANT: plink->value.constantStr = NULL; break;
         case PV_LINK:  plink->value.pv_link.pvname = callocMustSucceed(1, 1, "init PV_LINK"); break;
+        case JSON_LINK: plink->value.json.string = pNullString; break;
         case VME_IO: plink->value.vmeio.parm = pNullString; break;
         case CAMAC_IO: plink->value.camacio.parm = pNullString; break;
         case AB_IO: plink->value.abio.parm = pNullString; break;
@@ -2182,7 +2201,7 @@ long dbInitRecordLinks(dbRecordType *rtyp, struct dbCommon *prec)
         if(!plink->text)
             continue;
 
-        if(dbParseLink(plink->text, pflddes->field_type, &link_info)!=0) {
+        if(dbParseLink(plink->text, pflddes->field_type, &link_info, 0)!=0) {
             /* This was already parsed once when ->text was set.
              * Any syntax error messages were printed at that time.
              */
@@ -2201,7 +2220,17 @@ long dbInitRecordLinks(dbRecordType *rtyp, struct dbCommon *prec)
     return 0;
 }
 
-long dbParseLink(const char *str, short ftype, dbLinkInfo *pinfo)
+void dbFreeLinkInfo(dbLinkInfo *pinfo)
+{
+    if (pinfo->ltype == JSON_LINK) {
+        dbJLinkFree(pinfo->jlink);
+        pinfo->jlink = NULL;
+    }
+    free(pinfo->target);
+    pinfo->target = NULL;
+}
+
+long dbParseLink(const char *str, short ftype, dbLinkInfo *pinfo, unsigned opts)
 {
     char *pstr;
     size_t len;
@@ -2234,6 +2263,15 @@ long dbParseLink(const char *str, short ftype, dbLinkInfo *pinfo)
     /* Store the stripped string */
     memcpy(pstr, str, len);
     pstr[len] = '\0';
+
+    /* Check for braces => JSON */
+    if (*str == '{' && str[len-1] == '}') {
+        if (dbJLinkParse(str, len, ftype, &pinfo->jlink, opts))
+            goto fail;
+
+        pinfo->ltype = JSON_LINK;
+        return 0;
+    }
 
     /* Check for other HW link types */
     if (*pstr == '#') {
@@ -2282,17 +2320,21 @@ long dbParseLink(const char *str, short ftype, dbLinkInfo *pinfo)
             /* RF_IO, the string isn't needed at all */
             free(pinfo->target);
             pinfo->target = NULL;
-        } else {
-            /* missing parm when required, or found parm when not expected */
-            free(pinfo->target);
-            pinfo->target = NULL;
-            return S_dbLib_badField;
         }
+        else goto fail;
+
         return 0;
     }
 
     /* Link is a constant if empty or it holds just a number */
     if (len == 0 || epicsParseDouble(pstr, &value, NULL) == 0) {
+        pinfo->ltype = CONSTANT;
+        return 0;
+    }
+
+    /* Link may be an array constant */
+    if (pstr[0] == '[' && pstr[len-1] == ']' &&
+        (strchr(pstr, ',') || strchr(pstr, '"'))) {
         pinfo->ltype = CONSTANT;
         return 0;
     }
@@ -2329,27 +2371,28 @@ long dbParseLink(const char *str, short ftype, dbLinkInfo *pinfo)
 
     return 0;
 fail:
-    free(pinfo->target);
+    dbFreeLinkInfo(pinfo);
     return S_dbLib_badField;
 }
 
 long dbCanSetLink(DBLINK *plink, dbLinkInfo *pinfo, devSup *devsup)
 {
-    /* consume allocated string pinfo->target on failure */
+    /* Release pinfo resources on failure */
+    int expected_type = devsup ? devsup->link_type : CONSTANT;
 
-    int link_type = CONSTANT;
-    if(devsup)
-        link_type = devsup->link_type;
-    if(link_type==pinfo->ltype)
+    if (pinfo->ltype == expected_type)
         return 0;
-    switch(pinfo->ltype) {
+
+    switch (pinfo->ltype) {
     case CONSTANT:
+    case JSON_LINK:
     case PV_LINK:
-        if(link_type==CONSTANT || link_type==PV_LINK)
+        if (expected_type == CONSTANT ||
+            expected_type == JSON_LINK ||
+            expected_type == PV_LINK)
             return 0;
     default:
-        free(pinfo->target);
-        pinfo->target = NULL;
+        dbFreeLinkInfo(pinfo);
         return 1;
     }
 }
@@ -2374,10 +2417,23 @@ void dbSetLinkPV(DBLINK *plink, dbLinkInfo *pinfo)
 }
 
 static
+void dbSetLinkJSON(DBLINK *plink, dbLinkInfo *pinfo)
+{
+    plink->type = JSON_LINK;
+    plink->value.json.string = pinfo->target;
+    plink->value.json.jlink = pinfo->jlink;
+
+    pinfo->target = NULL;
+    pinfo->jlink = NULL;
+}
+
+static
 void dbSetLinkHW(DBLINK *plink, dbLinkInfo *pinfo)
 {
-
     switch(pinfo->ltype) {
+    case JSON_LINK:
+        plink->value.json.string = pinfo->target;
+        break;
     case INST_IO:
         plink->value.instio.string = pinfo->target;
         break;
@@ -2453,36 +2509,39 @@ void dbSetLinkHW(DBLINK *plink, dbLinkInfo *pinfo)
 
 long dbSetLink(DBLINK *plink, dbLinkInfo *pinfo, devSup *devsup)
 {
-    int ret = 0;
-    int link_type = CONSTANT;
+    int expected_type = devsup ? devsup->link_type : CONSTANT;
 
-    if(devsup)
-        link_type = devsup->link_type;
-
-    if(link_type==CONSTANT || link_type==PV_LINK) {
-        switch(pinfo->ltype) {
+    if (expected_type == CONSTANT ||
+        expected_type == JSON_LINK ||
+        expected_type == PV_LINK) {
+        switch (pinfo->ltype) {
         case CONSTANT:
             dbFreeLinkContents(plink);
-            dbSetLinkConst(plink, pinfo); break;
+            dbSetLinkConst(plink, pinfo);
+            break;
         case PV_LINK:
             dbFreeLinkContents(plink);
-            dbSetLinkPV(plink, pinfo); break;
+            dbSetLinkPV(plink, pinfo);
+            break;
+        case JSON_LINK:
+            dbFreeLinkContents(plink);
+            dbSetLinkJSON(plink, pinfo);
+            break;
         default:
             errlogMessage("Warning: dbSetLink: forgot to test with dbCanSetLink() or logic error");
             goto fail; /* can't assign HW link */
         }
-
-    } else if(link_type==pinfo->ltype) {
+    }
+    else if (expected_type == pinfo->ltype) {
         dbFreeLinkContents(plink);
         dbSetLinkHW(plink, pinfo);
-
-    } else
+    }
+    else
         goto fail;
 
-    return ret;
+    return 0;
 fail:
-    free(pinfo->target);
-    pinfo->target = NULL;
+    dbFreeLinkInfo(pinfo);
     return S_dbLib_badField;
 }
 
@@ -2505,7 +2564,10 @@ long dbPutString(DBENTRY *pdbentry,const char *pstring)
     switch (pflddes->field_type) {
     case DBF_STRING:
 	if(!pfield) return(S_dbLib_fieldNotFound);
-	strncpy((char *)pfield, pstring,pflddes->size);
+	if(strlen(pstring) >= (size_t)pflddes->size) return S_dbLib_strLen;
+	strncpy((char *)pfield, pstring, pflddes->size-1);
+        ((char *)pfield)[pflddes->size-1] = 0;
+
 	if((pflddes->special == SPC_CALC) && !stringHasMacro) {
 	    char  rpcl[RPCL_LEN];
 	    short err;
@@ -2516,15 +2578,16 @@ long dbPutString(DBENTRY *pdbentry,const char *pstring)
 			      calcErrorStr(err), pstring);
 	    }
 	}
-	if((short)strlen(pstring) >= pflddes->size) status = S_dbLib_strLen;
 	break;
 
     case DBF_CHAR:
     case DBF_SHORT:
     case DBF_LONG:
+    case DBF_INT64:
     case DBF_UCHAR:
     case DBF_USHORT:
     case DBF_ULONG:
+    case DBF_UINT64:
     case DBF_ENUM:
     case DBF_FLOAT:
     case DBF_DOUBLE:
@@ -2538,15 +2601,28 @@ long dbPutString(DBENTRY *pdbentry,const char *pstring)
     case DBF_FWDLINK: {
             dbLinkInfo link_info;
             DBLINK *plink = (DBLINK *)pfield;
+            DBENTRY infoentry;
+            unsigned opts = 0;
 
-            status = dbParseLink(pstring, pflddes->field_type, &link_info);
+            if(pdbentry->precnode && ellCount(&pdbentry->precnode->infoList)) {
+                dbCopyEntryContents(pdbentry, &infoentry);
+
+                if(dbFindInfo(&infoentry, "base:lsetDebug")==0 && epicsStrCaseCmp(dbGetInfoString(&infoentry), "YES")==0)
+                    opts |= LINK_DEBUG_LSET;
+                if(dbFindInfo(&infoentry, "base:jlinkDebug")==0 && epicsStrCaseCmp(dbGetInfoString(&infoentry), "YES")==0)
+                    opts |= LINK_DEBUG_JPARSE;
+
+                dbFinishEntry(&infoentry);
+            }
+
+            status = dbParseLink(pstring, pflddes->field_type, &link_info, opts);
             if (status) break;
 
             if (plink->type==CONSTANT && plink->value.constantStr==NULL) {
                 /* links not yet initialized by dbInitRecordLinks() */
                 free(plink->text);
                 plink->text = epicsStrDup(pstring);
-                free(link_info.target);
+                dbFreeLinkInfo(&link_info);
             } else {
                 /* assignment after init (eg. autosave restore) */
                 struct dbCommon *prec = pdbentry->precnode->precord;
@@ -2573,189 +2649,6 @@ long dbPutString(DBENTRY *pdbentry,const char *pstring)
 	dbFinishEntry(&dbentry);
     }
     return(status);
-}
-
-char * dbVerify(DBENTRY *pdbentry,const char *pstring)
-{
-    dbFldDes  	*pflddes = pdbentry->pflddes;
-    char	*message;
-    int		stringHasMacro=FALSE;
-
-    stringHasMacro = strstr(pstring,"$(") || strstr(pstring,"${");
-    message = getpMessage(pdbentry);
-    if(!pflddes) {strcpy(message,"fldDes not found"); return(message);}
-    if(strstr(pstring,"$(") || strstr(pstring,"${")) return(NULL);
-    switch (pflddes->field_type) {
-    case DBF_STRING: {
-	    size_t length;
-
-	    length=strlen(pstring);
-	    if(length>=pflddes->size) {
-		sprintf(message,"string to big. max=%hd",pflddes->size);
-		return(message);
-	    }
-	    if((pflddes->special == SPC_CALC) && !stringHasMacro) {
-		char  rpcl[RPCL_LEN];
-		short err;
-		long  status;
-
-		status = postfix(pstring,rpcl,&err);
-		if(status)  {
-		    sprintf(message,"%s in CALC expression '%s'",
-			    calcErrorStr(err), pstring);
-		    return(message);
-		}
-	    }
-	}
-	return(NULL);
-    case DBF_CHAR :
-    case DBF_SHORT :
-    case DBF_LONG:{
-	    long  value;
-	    char  *endp;
-
-	    value = strtol(pstring,&endp,0);
-	    if(*endp!=0) {
-		strcpy(message,"not an integer number");
-		return(message);
-	    }
-	    switch (pflddes->field_type) {
-	    case DBF_CHAR :
-		if(value<-128 || value>127) {
-		    strcpy(message,"must have -128<=value<=127");
-		    return(message);
-		}
-		return(NULL);
-	    case DBF_SHORT :
-		if(value<-32768 || value>32767) {
-		    strcpy(message,"must have -32768<=value<=32767");
-		    return(message);
-		}
-		return(NULL);
-	    case DBF_LONG : return(NULL);
-	    default:
-		errPrintf(-1,__FILE__, __LINE__,"Logic Error\n");
-		return(NULL);
-	    }
-	}
-    case DBF_UCHAR:
-    case DBF_USHORT:
-    case DBF_ULONG:
-    case DBF_ENUM:{
-	    unsigned long  value;
-	    char  *endp;
-
-	    if(strchr(pstring,'-')) {
-		strcpy(message,"not an unsigned number");
-		return(message);
-	    }
-	    value = strtoul(pstring,&endp,0);
-	    if(*endp!=0) {
-		strcpy(message,"not an integer number");
-		return(message);
-	    }
-	    switch (pflddes->field_type) {
-	    case DBF_UCHAR :
-		if(value>255) {
-		    strcpy(message,"must have 0<=value<=255");
-		    return(message);
-		}
-		return(NULL);
-	    case DBF_ENUM:
-	    case DBF_USHORT :
-		if(value>65535) {
-		    strcpy(message,"must have 0<=value<=65535");
-		    return(message);
-		}
-		return(NULL);
-	    case DBF_ULONG : return(NULL);
-	    default:
-		errPrintf(-1,__FILE__, __LINE__,"Logic Error\n");
-		return(NULL);
-	    }
-	}
-    case DBF_FLOAT:
-    case DBF_DOUBLE: {
-	    char  *endp;
-
-	    (void) epicsStrtod(pstring,&endp);
-	    if(*endp!=0) {
-		strcpy(message,"not a number");
-		return(message);
-	    }
-	    return(NULL);
-	}
-    case DBF_MENU: {
-	    dbMenu	*pdbMenu = (dbMenu *)pflddes->ftPvt;
-	    char	*pchoice;
-	    int		i;
-
-	    if(!pdbMenu) return(NULL);
-	    for (i = 0; i < pdbMenu->nChoice; i++) {
-		if(!(pchoice = pdbMenu->papChoiceValue[i])) continue;
-		if(strcmp(pchoice, pstring) == 0) {
-		    return(NULL);
-		}
-	    }
-	}
-	strcpy(message,"Not a valid menu choice");
-	return (message);
-    case DBF_DEVICE: {
-	    dbDeviceMenu	*pdbDeviceMenu;
-	    char		*pchoice;
-	    int			i;
-
-	    pdbDeviceMenu = dbGetDeviceMenu(pdbentry);
-	    if(!pdbDeviceMenu) return(NULL);
-	    if(pdbDeviceMenu->nChoice == 0) return(NULL);
-	    for (i = 0; i < pdbDeviceMenu->nChoice; i++) {
-		if (!(pchoice = pdbDeviceMenu->papChoice[i]))
-		    continue;
-		if (strcmp(pchoice, pstring) == 0) {
-		    return(NULL);
-		}
-	    }
-	}
-	strcpy(message,"Not a valid menu choice");
-	return (message);
-    case DBF_INLINK:
-    case DBF_OUTLINK:
-    case DBF_FWDLINK:
-	return(NULL);
-    default: break;
-    }
-    strcpy(message,"Not a valid field type");
-    return (message);
-}
-
-char *dbGetRange(DBENTRY *pdbentry)
-{
-    dbFldDes  	*pflddes = pdbentry->pflddes;
-    char		*message;
-
-    message = getpMessage(pdbentry);
-    if(!pflddes) {strcpy(message,"fldDes not found"); return(message);}
-    switch (pflddes->field_type) {
-    case DBF_STRING: {strcpy(message,"STRING"); return(message);}
-    case DBF_CHAR : {strcpy(message,"CHAR"); return(message);}
-    case DBF_SHORT : {strcpy(message,"SHORT");return(message);}
-    case DBF_LONG: {strcpy(message,"LONG"); return(message);}
-    case DBF_UCHAR: {strcpy(message,"UCHAR");return(message);}
-    case DBF_USHORT:{strcpy(message,"USHORT");return(message);}
-    case DBF_ULONG:{strcpy(message,"ULONG:");return(message);}
-    case DBF_ENUM: {strcpy(message,"ENUM");return(message);}
-    case DBF_FLOAT: {strcpy(message,"FLOAT");return(message);}
-    case DBF_DOUBLE: {strcpy(message,"DOUBLE");return(message);}
-    case DBF_MENU: {strcpy(message,"MENU");return(message);}
-    case DBF_DEVICE: {strcpy(message,"DEVICE");return(message);}
-    case DBF_INLINK: {strcpy(message,"INLINK");return(message);}
-    case DBF_OUTLINK: {strcpy(message,"OUTLINK");return(message);}
-    case DBF_FWDLINK: {strcpy(message,"FWDLINK");return(message);}
-    default:
-	errPrintf(-1,__FILE__, __LINE__,"Logic Error\n");
-    }
-    strcpy(message,"Not a valid field type");
-    return (message);
 }
 
 long dbFirstInfo(DBENTRY *pdbentry)
@@ -3074,6 +2967,12 @@ char * dbGetRelatedField(DBENTRY *psave)
     return(rtnval);
 }
 
+linkSup* dbFindLinkSup(dbBase *pdbbase, const char *name) {
+    GPHENTRY *pgph = gphFind(pdbbase->pgpHash,name,&pdbbase->linkList);
+    if (!pgph) return NULL;
+    return (linkSup *) pgph->userPvt;
+}
+
 int  dbGetNLinks(DBENTRY *pdbentry)
 {
     dbRecordType	*precordType = pdbentry->precordType;
@@ -3124,67 +3023,6 @@ int  dbGetLinkType(DBENTRY *pdbentry)
 	}
     }
     return(-1);
-}
-
-long  dbCvtLinkToConstant(DBENTRY *pdbentry)
-{
-    dbFldDes	*pflddes;
-    DBLINK	*plink;
-
-    dbGetFieldAddress(pdbentry);
-    pflddes = pdbentry->pflddes;
-    if(!pflddes) return(-1);
-    plink = (DBLINK *)pdbentry->pfield;
-    if(!plink) return(-1);
-    switch (pflddes->field_type) {
-    case DBF_INLINK:
-    case DBF_OUTLINK:
-    case DBF_FWDLINK:
-	if(plink->type == CONSTANT) return(0);
-	if(plink->type != PV_LINK) return(S_dbLib_badLink);
-	free((void *)plink->value.pv_link.pvname);
-	plink->value.pv_link.pvname = NULL;
-	plink->type = CONSTANT;
-	if(pflddes->initial) {
-	    plink->value.constantStr =
-		dbCalloc(strlen(pflddes->initial)+1,sizeof(char));
-	    strcpy(plink->value.constantStr,pflddes->initial);
-	} else {
-	    plink->value.constantStr = NULL;
-	}
-	return(0);
-    default:
-	epicsPrintf("dbCvtLinkToConstant called for non link field\n");
-    }
-    return(S_dbLib_badLink);
-}
-
-long  dbCvtLinkToPvlink(DBENTRY *pdbentry)
-{
-    dbFldDes	*pflddes;
-    DBLINK	*plink;
-
-    dbGetFieldAddress(pdbentry);
-    pflddes = pdbentry->pflddes;
-    if(!pflddes) return(-1);
-    if(!pdbentry->precnode || !pdbentry->precnode->precord) return(-1);
-    plink = (DBLINK *)pdbentry->pfield;
-    if(!plink) return(-1);
-    switch (pflddes->field_type) {
-    case DBF_INLINK:
-    case DBF_OUTLINK:
-    case DBF_FWDLINK:
-	if(plink->type == PV_LINK) return(0);
-	if(plink->type != CONSTANT) return(S_dbLib_badLink);
-	free(plink->value.constantStr);
-	plink->type = PV_LINK;
-	plink->value.pv_link.pvlMask = 0;
-	plink->value.pv_link.pvname = 0;
-	return(0);
-    default:
-	epicsPrintf("dbCvtLinkToPvlink called for non link field\n");
-    }
-    return(S_dbLib_badLink);
 }
 
 void  dbDumpPath(DBBASE *pdbbase)
@@ -3265,7 +3103,7 @@ void dbDumpRecordType(DBBASE *pdbbase,const char *recordTypeName)
 	printf("\n");
 	printf("indvalFlddes %d name %s\n",pdbRecordType->indvalFlddes,
 	    pdbRecordType->pvalFldDes->name);
-	printf("struct rset * %p rec_size %d\n",
+    printf("rset * %p rec_size %d\n",
 	    (void *)pdbRecordType->prset,pdbRecordType->rec_size);
 	if(recordTypeName) break;
     }
@@ -3323,14 +3161,9 @@ void  dbDumpField(
 	    if(!pdbFldDes->promptgroup) {
 		printf("\t    promptgroup: %d\n",pdbFldDes->promptgroup);
 	    } else {
-		for(j=0; j<GUI_NTYPES; j++) {
-		    if(pamapguiGroup[j].value == pdbFldDes->promptgroup) {
-			printf("\t    promptgroup: %s\n",
-				pamapguiGroup[j].strvalue);
-			break;
-		    }
-		}
-	    }
+            printf("\t    promptgroup: %s\n",
+                    dbGetPromptGroupNameFromKey(pdbbase, pdbFldDes->promptgroup));
+        }
 	    printf("\t       interest: %hd\n", pdbFldDes->interest);
 	    printf("\t       as_level: %d\n",pdbFldDes->as_level);
             printf("\t        initial: %s\n",
@@ -3425,6 +3258,15 @@ void  dbDumpDriver(DBBASE *pdbbase)
 	return;
     }
     dbWriteDriverFP(pdbbase,stdout);
+}
+
+void  dbDumpLink(DBBASE *pdbbase)
+{
+    if(!pdbbase) {
+	fprintf(stderr,"pdbbase not specified\n");
+	return;
+    }
+    dbWriteLinkFP(pdbbase,stdout);
 }
 
 void  dbDumpRegistrar(DBBASE *pdbbase)

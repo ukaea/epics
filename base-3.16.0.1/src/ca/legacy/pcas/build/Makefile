@@ -53,7 +53,6 @@ LIBSRCS += outBuf.cc
 LIBSRCS += casCtx.cc 
 LIBSRCS += casEventMask.cc
 LIBSRCS += ioBlocked.cc
-LIBSRCS += casBufferFactory.cc
 LIBSRCS += pvExistReturn.cc
 LIBSRCS += pvAttachReturn.cc
 LIBSRCS += caNetAddr.cc
@@ -79,8 +78,6 @@ ifeq ($(VX_GNU_VERSION), 4.1.2)
   casStreamOS_CXXFLAGS_vxWorks-ppc604_long = -O0
   casStreamOS_CXXFLAGS_vxWorks-ppc604 = -O0
 endif
-
-LIBSRCS_vxWorks += templateInstances.cpp
 
 LIBRARY = cas
 cas_LIBS = ca gdd Com

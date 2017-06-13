@@ -8,8 +8,6 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 /*
- *  Revision-Id: mdavidsaver@gmail.com-20160121221423-my31bd5o3vbmsuz8
- *
  *  tell CA clients this a server has joined the network
  *
  *  Author: Jeffrey O. Hill

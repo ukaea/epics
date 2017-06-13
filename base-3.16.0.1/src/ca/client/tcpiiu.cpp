@@ -26,6 +26,9 @@
 
 #include <stdexcept>
 #include <string>
+
+#include <stdlib.h>
+
 #include "errlog.h"
 
 #define epicsExportSharedSymbols
@@ -44,12 +47,7 @@
 
 using namespace std;
 
-#if 0
-const unsigned mSecPerSec = 1000u;
-const unsigned uSecPerSec = 1000u * mSecPerSec;
-#endif
-
-tcpSendThread::tcpSendThread ( 
+tcpSendThread::tcpSendThread (
         class tcpiiu & iiuIn, const char * pName, 
         unsigned stackSize, unsigned priority ) :
     thread ( *this, pName, stackSize, priority ), iiu ( iiuIn )
@@ -692,7 +690,7 @@ tcpiiu::tcpiiu (
     curDataBytes ( 0ul ),
     comBufMemMgr ( comBufMemMgrIn ),
     cacRef ( cac ),
-    pCurData ( cac.allocateSmallBufferTCP () ),
+    pCurData ( (char*) freeListMalloc(this->cacRef.tcpSmallRecvBufFreeList) ),
     pSearchDest ( pSearchDestIn ),
     mutex ( mutexIn ),
     cbMutex ( cbMutexIn ),
@@ -716,9 +714,12 @@ tcpiiu::tcpiiu (
     socketHasBeenClosed ( false ),
     unresponsiveCircuit ( false )
 {
+    if(!pCurData)
+        throw std::bad_alloc();
+
     this->sock = epicsSocketCreate ( AF_INET, SOCK_STREAM, IPPROTO_TCP );
     if ( this->sock == INVALID_SOCKET ) {
-        cac.releaseSmallBufferTCP ( this->pCurData );
+        freeListFree(this->cacRef.tcpSmallRecvBufFreeList, this->pCurData);
         char sockErrBuf[64];
         epicsSocketConvertErrnoToString ( 
             sockErrBuf, sizeof ( sockErrBuf ) );
@@ -806,28 +807,6 @@ tcpiiu::tcpiiu (
             this->socketLibrarySendBufferSize = static_cast < unsigned > ( nBytes );
         }
     }
-
-#   if 0
-    //
-    // windows has a really strange implementation of thess options
-    // and we can avoid the need for this by using pthread_kill on unix
-    //
-    {
-        struct timeval timeout;
-        double pollInterval = connectionTimeout / 8.0;
-        timeout.tv_sec = static_cast < long > ( pollInterval );
-        timeout.tv_usec = static_cast < long > 
-            ( ( pollInterval - timeout.tv_sec ) * uSecPerSec );
-        // intentionally ignore status as we dont expect that all systems
-        // will accept this request
-        setsockopt ( this->sock, SOL_SOCKET, SO_SNDTIMEO,
-                ( char * ) & timeout, sizeof ( timeout ) );
-        // intentionally ignore status as we dont expect that all systems
-        // will accept this request
-        setsockopt ( this->sock, SOL_SOCKET, SO_RCVTIMEO,
-                ( char * ) & timeout, sizeof ( timeout ) );
-    }
-#   endif
 
     if ( isNameService() ) {
         pSearchDest->setCircuit ( this );
@@ -1050,11 +1029,14 @@ tcpiiu :: ~tcpiiu ()
 
     // free message body cache
     if ( this->pCurData ) {
-        if ( this->curDataMax == MAX_TCP ) {
-            this->cacRef.releaseSmallBufferTCP ( this->pCurData );
+        if ( this->curDataMax <= MAX_TCP ) {
+            freeListFree(this->cacRef.tcpSmallRecvBufFreeList, this->pCurData);
+        }
+        else if ( this->cacRef.tcpLargeRecvBufFreeList ) {
+            freeListFree(this->cacRef.tcpLargeRecvBufFreeList, this->pCurData);
         }
         else {
-            this->cacRef.releaseLargeBufferTCP ( this->pCurData );
+            free ( this->pCurData );
         }
     }
 }
@@ -1224,18 +1206,46 @@ bool tcpiiu::processIncoming (
         // make sure we have a large enough message body cache
         //
         if ( this->curMsg.m_postsize > this->curDataMax ) {
-            if ( this->curDataMax == MAX_TCP && 
-                    this->cacRef.largeBufferSizeTCP() >= this->curMsg.m_postsize ) {
-                char * pBuf = this->cacRef.allocateLargeBufferTCP ();
-                if ( pBuf ) {
-                    this->cacRef.releaseSmallBufferTCP ( this->pCurData );
-                    this->pCurData = pBuf;
-                    this->curDataMax = this->cacRef.largeBufferSizeTCP ();
+            assert (this->curMsg.m_postsize > MAX_TCP);
+
+            char * newbuf = NULL;
+            arrayElementCount newsize;
+
+            if ( !this->cacRef.tcpLargeRecvBufFreeList ) {
+                // round size up to multiple of 4K
+                newsize = ((this->curMsg.m_postsize-1)|0xfff)+1;
+
+                if ( this->curDataMax <= MAX_TCP ) {
+                    // small -> large
+                    newbuf = (char*)malloc(newsize);
+
+                } else {
+                    // expand large to larger
+                    newbuf = (char*)realloc(this->pCurData, newsize);
                 }
-                else {
-                    this->printFormated ( mgr.cbGuard,
-                        "CAC: not enough memory for message body cache (ignoring response message)\n");
+
+            } else if ( this->curMsg.m_postsize <= this->cacRef.maxRecvBytesTCP ) {
+                newbuf = (char*) freeListMalloc(this->cacRef.tcpLargeRecvBufFreeList);
+                newsize = this->cacRef.maxRecvBytesTCP;
+
+            }
+
+            if ( newbuf) {
+                if (this->curDataMax <= MAX_TCP) {
+                    freeListFree(this->cacRef.tcpSmallRecvBufFreeList, this->pCurData );
+
+                } else if (this->cacRef.tcpLargeRecvBufFreeList) {
+                    freeListFree(this->cacRef.tcpLargeRecvBufFreeList, this->pCurData );
+
+                } else {
+                    // called realloc()
                 }
+                this->pCurData = newbuf;
+                this->curDataMax = newsize;
+
+            } else {
+                this->printFormated ( mgr.cbGuard,
+                    "CAC: not enough memory for message body cache (ignoring response message)\n");
             }
         }
 
@@ -1453,7 +1463,7 @@ void tcpiiu::readNotifyRequest ( epicsGuard < epicsMutex > & guard,
     }
     arrayElementCount maxBytes;
     if ( CA_V49 ( this->minorProtocolVersion ) ) {
-        maxBytes = this->cacRef.largeBufferSizeTCP ();
+        maxBytes = 0xfffffff0;
     }
     else {
         maxBytes = MAX_TCP;
@@ -1564,7 +1574,7 @@ void tcpiiu::subscriptionRequest (
         guard, CA_V413(this->minorProtocolVersion) );
     arrayElementCount maxBytes;
     if ( CA_V49 ( this->minorProtocolVersion ) ) {
-        maxBytes = this->cacRef.largeBufferSizeTCP ();
+        maxBytes = 0xfffffff0;
     }
     else {
         maxBytes = MAX_TCP;
@@ -1611,7 +1621,7 @@ void tcpiiu::subscriptionUpdateRequest (
         guard, CA_V413(this->minorProtocolVersion) );
     arrayElementCount maxBytes;
     if ( CA_V49 ( this->minorProtocolVersion ) ) {
-        maxBytes = this->cacRef.largeBufferSizeTCP ();
+        maxBytes = 0xfffffff0;
     }
     else {
         maxBytes = MAX_TCP;

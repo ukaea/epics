@@ -8,8 +8,6 @@
 \*************************************************************************/
  
 /*
- * Revision-Id: anj@aps.anl.gov-20120919201313-gflqn4uc1csuqtxw
- *
  *      Author:	John Winans
  *      Date:	09-21-92
  */
@@ -38,15 +36,15 @@ static void processCallback(CALLBACK *arg);
 /* Create RSET - Record Support Entry Table*/
 #define report NULL
 #define initialize NULL
-static long init_record(seqRecord *prec, int pass);
-static long process(seqRecord *prec);
+static long init_record(struct dbCommon *prec, int pass);
+static long process(struct dbCommon *prec);
 #define special NULL
 #define get_value NULL
 #define cvt_dbaddr NULL
 #define get_array_info NULL
 #define put_array_info NULL
 static long get_units(DBADDR *, char *);
-static long get_precision(dbAddr *paddr, long *);
+static long get_precision(const DBADDR *paddr, long *);
 #define get_enum_str NULL
 #define get_enum_strs NULL
 #define put_enum_str NULL
@@ -103,8 +101,9 @@ typedef struct seqRecPvt {
 } seqRecPvt;
 
 
-static long init_record(seqRecord *prec, int pass)
+static long init_record(struct dbCommon *pcommon, int pass)
 {
+    struct seqRecord *prec = (struct seqRecord *)pcommon;
     int index;
     linkGrp *grp;
     seqRecPvt *pseqRecPvt;
@@ -118,13 +117,11 @@ static long init_record(seqRecord *prec, int pass)
     callbackSetUser(pseqRecPvt, &pseqRecPvt->callback);
     prec->dpvt = pseqRecPvt;
 
-    if (prec->sell.type == CONSTANT)
-        recGblInitConstantLink(&prec->sell, DBF_USHORT, &prec->seln);
+    recGblInitConstantLink(&prec->sell, DBF_USHORT, &prec->seln);
 
     grp = (linkGrp *) &prec->dly0;
     for (index = 0; index < NUM_LINKS; index++, grp++) {
-        if (grp->dol.type == CONSTANT)
-            recGblInitConstantLink(&grp->dol, DBF_DOUBLE, &grp->dov);
+        recGblInitConstantLink(&grp->dol, DBF_DOUBLE, &grp->dov);
     }
 
     prec->oldn = prec->seln;
@@ -132,8 +129,9 @@ static long init_record(seqRecord *prec, int pass)
     return 0;
 }
 
-static long process(seqRecord *prec)
+static long process(struct dbCommon *pcommon)
 {
+    struct seqRecord *prec = (struct seqRecord *)pcommon;
     seqRecPvt *pcb = (seqRecPvt *) prec->dpvt;
     linkGrp *pgrp;
     epicsUInt16 lmask;
@@ -150,8 +148,7 @@ static long process(seqRecord *prec)
         lmask = (1 << NUM_LINKS) - 1;
     else {
         /* Get SELN value */
-        if (prec->sell.type != CONSTANT)
-            dbGetLink(&prec->sell, DBR_USHORT, &prec->seln, 0, 0);
+        dbGetLink(&prec->sell, DBR_USHORT, &prec->seln, 0, 0);
 
         if (prec->selm == seqSELM_Specified) {
             int grpn = prec->seln + prec->offs;
@@ -185,7 +182,8 @@ static long process(seqRecord *prec)
     pgrp = (linkGrp *) &prec->dly0;
     for (i = 0; lmask; lmask >>= 1) {
         if ((lmask & 1) &&
-            (pgrp->lnk.type != CONSTANT || pgrp->dol.type != CONSTANT)) {
+            (!dbLinkIsConstant(&pgrp->lnk) ||
+             !dbLinkIsConstant(&pgrp->dol))) {
             pcb->grps[i++] = pgrp;
         }
         pgrp++;
@@ -208,7 +206,7 @@ static void processNextLink(seqRecord *prec)
 
     if (pgrp == NULL) {
         /* None left, finish up. */
-        prec->rset->process(prec);
+        prec->rset->process((dbCommon *)prec);
         return;
     }
 
@@ -299,7 +297,7 @@ static long get_units(DBADDR *paddr, char *units)
     return 0;
 }
 
-static long get_precision(dbAddr *paddr, long *pprecision)
+static long get_precision(const DBADDR *paddr, long *pprecision)
 {
     seqRecord *prec = (seqRecord *) paddr->precord;
     int fieldOffset = dbGetFieldIndex(paddr) - indexof(DLY1);

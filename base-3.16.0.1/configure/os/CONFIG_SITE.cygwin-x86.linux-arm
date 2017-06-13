@@ -1,7 +1,5 @@
 # CONFIG_SITE.cygwin-x86.linux-arm
 #
-# Revision-Id: anj@aps.anl.gov-20160226171937-zchhsqtv8rqvopoi
-#
 # Site specific definitions for cygwin-x86 host - linux-arm target builds
 #-------------------------------------------------------
 

@@ -7,7 +7,6 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 
-/* Revision-Id: anj@aps.anl.gov-20131217185404-wng3r3ldfeefnu61 */
 /*
  *      Original Author: Bob Dalesio
  *      Date:            12-20-88
@@ -41,8 +40,8 @@
 /* Create RSET - Record Support Entry Table*/
 #define report NULL
 #define initialize NULL
-static long init_record(fanoutRecord *, int);
-static long process(fanoutRecord *);
+static long init_record(struct dbCommon *, int);
+static long process(struct dbCommon *);
 #define special NULL
 #define get_value NULL
 #define cvt_dbaddr NULL
@@ -79,9 +78,9 @@ rset fanoutRSET = {
 };
 epicsExportAddress(rset,fanoutRSET);
 
-static long init_record(fanoutRecord *prec, int pass)
+static long init_record(struct dbCommon *pcommon, int pass)
 {
-
+    struct fanoutRecord *prec = (struct fanoutRecord *)pcommon;
     if (pass == 0)
         return 0;
 
@@ -89,8 +88,9 @@ static long init_record(fanoutRecord *prec, int pass)
     return 0;
 }
 
-static long process(fanoutRecord *prec)
+static long process(struct dbCommon *pcommon)
 {
+    struct fanoutRecord *prec = (struct fanoutRecord *)pcommon;
     struct link *plink;
     epicsUInt16 seln, events;
     int         i;
@@ -106,8 +106,7 @@ static long process(fanoutRecord *prec)
     case fanoutSELM_All:
         plink = &prec->lnk0;
         for (i = 0; i < NLINKS; i++, plink++) {
-            if (plink->type != CONSTANT)
-                dbScanFwdLink(plink);
+            dbScanFwdLink(plink);
         }
         break;
 
@@ -134,7 +133,7 @@ static long process(fanoutRecord *prec)
             break;
         plink = &prec->lnk0;
         for (i = 0; i < NLINKS; i++, seln >>= 1, plink++) {
-            if (seln & 1 && plink->type != CONSTANT)
+            if (seln & 1)
                 dbScanFwdLink(plink);
         }
         break;
