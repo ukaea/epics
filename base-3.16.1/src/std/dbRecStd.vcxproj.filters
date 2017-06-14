@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="rec">
@@ -14,6 +14,9 @@
     <Filter Include="O.Common">
       <UniqueIdentifier>{da2481dd-3f26-49e2-8daa-9ea910fe8dfe}</UniqueIdentifier>
       <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="link">
+      <UniqueIdentifier>{ac3482dc-fa07-448a-9459-83a645c89f36}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -278,6 +281,33 @@
     <ClCompile Include="rec\printfRecord.c">
       <Filter>rec</Filter>
     </ClCompile>
+    <ClCompile Include="link\lnkCalc.c">
+      <Filter>link</Filter>
+    </ClCompile>
+    <ClCompile Include="link\lnkConst.c">
+      <Filter>link</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devEnviron.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devI64inSoft.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devI64inSoftCallback.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devI64outSoft.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devI64outSoftCallback.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="rec\int64inRecord.c">
+      <Filter>rec</Filter>
+    </ClCompile>
+    <ClCompile Include="rec\int64outRecord.c">
+      <Filter>rec</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="O.Common\aiRecord.dbd">
@@ -397,10 +427,36 @@
     <CustomBuild Include="filters\filters.dbd.pod">
       <Filter>filters</Filter>
     </CustomBuild>
+    <CustomBuild Include="link\links.dbd.pod">
+      <Filter>link</Filter>
+    </CustomBuild>
+    <CustomBuild Include="rec\int64inRecord.dbd.pod">
+      <Filter>rec</Filter>
+    </CustomBuild>
+    <CustomBuild Include="rec\int64outRecord.dbd.pod">
+      <Filter>rec</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <None Include="O.Common\filters.dbd">
       <Filter>O.Common</Filter>
     </None>
+    <None Include="link\Makefile">
+      <Filter>link</Filter>
+    </None>
+    <None Include="dev\Makefile">
+      <Filter>dev</Filter>
+    </None>
+    <None Include="rec\Makefile">
+      <Filter>rec</Filter>
+    </None>
+    <None Include="rec\RULES">
+      <Filter>rec</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="dev\softDevIoc.rc">
+      <Filter>dev</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

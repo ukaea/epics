@@ -57,7 +57,6 @@
     <ClCompile Include="epicsEnvTest.c" />
     <ClCompile Include="epicsErrlogTest.c" />
     <ClCompile Include="epicsEventTest.cpp" />
-    <ClCompile Include="epicsExceptionTest.cpp" />
     <ClCompile Include="epicsExitTest.c" />
     <ClCompile Include="epicsInlineTest1.c" />
     <ClCompile Include="epicsInlineTest2.c" />
@@ -97,6 +96,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="ipAddrToAsciiTest.cpp" />
     <ClCompile Include="macDefExpandTest.c" />
     <ClCompile Include="macLibTest.c" />
     <ClCompile Include="ringBytesTest.c" />

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TrackFileAccess>false</TrackFileAccess>
@@ -98,7 +98,6 @@
     <ClCompile Include="generic\casAsyncReadIOI.cc" />
     <ClCompile Include="generic\casAsyncWriteIO.cc" />
     <ClCompile Include="generic\casAsyncWriteIOI.cpp" />
-    <ClCompile Include="generic\casBufferFactory.cpp" />
     <ClCompile Include="generic\casChannel.cc" />
     <ClCompile Include="generic\casChannelI.cc" />
     <ClCompile Include="generic\casCoreClient.cc" />
@@ -145,7 +144,6 @@
     <ClCompile Include="generic\st\casIntfOS.cc" />
     <ClCompile Include="generic\st\casStreamOS.cc" />
     <ClCompile Include="generic\st\ioBlocked.cc" />
-    <ClCompile Include="generic\templateInstances.cpp" />
     <ClCompile Include="io\bsdSocket\casDGIntfIO.cc" />
     <ClCompile Include="io\bsdSocket\caServerIO.cc" />
     <ClCompile Include="io\bsdSocket\casIntfIO.cc" />

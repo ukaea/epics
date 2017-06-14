@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TrackFileAccess>false</TrackFileAccess>
@@ -79,13 +79,17 @@
     <ClCompile Include="db\dbCaTest.c" />
     <ClCompile Include="db\dbChannel.c" />
     <ClCompile Include="db\dbChannelIO.cpp" />
+    <ClCompile Include="db\dbConstLink.c" />
     <ClCompile Include="db\dbContext.cpp" />
     <ClCompile Include="db\dbContextReadNotifyCache.cpp" />
     <ClCompile Include="db\dbConvert.c" />
+    <ClCompile Include="db\dbConvertJSON.c" />
+    <ClCompile Include="db\dbDbLink.c" />
     <ClCompile Include="db\dbEvent.c" />
     <ClCompile Include="db\dbExtractArray.c" />
     <ClCompile Include="db\dbFastLinkConv.c" />
     <ClCompile Include="db\dbIocRegister.c" />
+    <ClCompile Include="db\dbJLink.c" />
     <ClCompile Include="db\dbLink.c" />
     <ClCompile Include="db\dbLock.c" />
     <ClCompile Include="db\dbNotify.c" />
@@ -100,7 +104,6 @@
     <ClCompile Include="db\db_test.c" />
     <ClCompile Include="db\initHooks.c" />
     <ClCompile Include="db\recGbl.c" />
-    <ClCompile Include="db\templateInstances.cpp" />
     <ClCompile Include="misc\dlload.c" />
     <ClCompile Include="misc\epicsRelease.c" />
     <ClCompile Include="misc\iocInit.c" />
@@ -122,6 +125,7 @@
     <ClCompile Include="registry\registryDriverSupport.c" />
     <ClCompile Include="registry\registryFunction.c" />
     <ClCompile Include="registry\registryIocRegister.c" />
+    <ClCompile Include="registry\registryJLinks.c" />
     <ClCompile Include="registry\registryRecordType.c" />
     <ClCompile Include="rsrv\camessage.c" />
     <ClCompile Include="rsrv\camsgtask.c" />
@@ -160,13 +164,20 @@
     <ClInclude Include="db\dbCaTest.h" />
     <ClInclude Include="db\dbChannel.h" />
     <ClInclude Include="db\dbChannelIO.h" />
+    <ClInclude Include="db\dbChannelNOOP.h" />
+    <ClInclude Include="db\dbCommonPvt.h" />
+    <ClInclude Include="db\dbConstLink.h" />
     <ClInclude Include="db\dbConvert.h" />
     <ClInclude Include="db\dbConvertFast.h" />
+    <ClInclude Include="db\dbConvertJSON.h" />
+    <ClInclude Include="db\dbDbLink.h" />
     <ClInclude Include="db\dbEvent.h" />
     <ClInclude Include="db\dbExtractArray.h" />
     <ClInclude Include="db\dbIocRegister.h" />
+    <ClInclude Include="db\dbJLink.h" />
     <ClInclude Include="db\dbLink.h" />
     <ClInclude Include="db\dbLock.h" />
+    <ClInclude Include="db\dbLockPvt.h" />
     <ClInclude Include="db\dbNotify.h" />
     <ClInclude Include="db\dbPutNotifyBlocker.h" />
     <ClInclude Include="db\dbScan.h" />
@@ -189,6 +200,7 @@
     <ClInclude Include="registry\registryDriverSupport.h" />
     <ClInclude Include="registry\registryFunction.h" />
     <ClInclude Include="registry\registryIocRegister.h" />
+    <ClInclude Include="registry\registryJLinks.h" />
     <ClInclude Include="registry\registryRecordType.h" />
     <ClInclude Include="rsrv\rsrv.h" />
     <ClInclude Include="rsrv\rsrvIocRegister.h" />
@@ -1190,6 +1202,11 @@ cd $(ProjectDir)
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'">O.Common\%(Filename).h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">O.Common\%(Filename).h</Outputs>
     </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="db\Makefile" />
+    <None Include="db\RULES" />
+    <None Include="registry\Makefile" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{440C585D-AD66-4738-941C-A87A1817A9BE}</ProjectGuid>

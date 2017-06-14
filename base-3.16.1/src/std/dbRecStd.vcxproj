@@ -57,9 +57,14 @@
     <ClCompile Include="dev\devBoSoftRaw.c" />
     <ClCompile Include="dev\devCalcoutSoft.c" />
     <ClCompile Include="dev\devCalcoutSoftCallback.c" />
+    <ClCompile Include="dev\devEnviron.c" />
     <ClCompile Include="dev\devEventSoft.c" />
     <ClCompile Include="dev\devGeneralTime.c" />
     <ClCompile Include="dev\devHistogramSoft.c" />
+    <ClCompile Include="dev\devI64inSoft.c" />
+    <ClCompile Include="dev\devI64inSoftCallback.c" />
+    <ClCompile Include="dev\devI64outSoft.c" />
+    <ClCompile Include="dev\devI64outSoftCallback.c" />
     <ClCompile Include="dev\devLiSoft.c" />
     <ClCompile Include="dev\devLiSoftCallback.c" />
     <ClCompile Include="dev\devLoSoft.c" />
@@ -93,6 +98,8 @@
     <ClCompile Include="filters\dbnd.c" />
     <ClCompile Include="filters\sync.c" />
     <ClCompile Include="filters\ts.c" />
+    <ClCompile Include="link\lnkCalc.c" />
+    <ClCompile Include="link\lnkConst.c" />
     <ClCompile Include="rec\aaiRecord.c" />
     <ClCompile Include="rec\aaoRecord.c" />
     <ClCompile Include="rec\aiRecord.c" />
@@ -107,6 +114,8 @@
     <ClCompile Include="rec\eventRecord.c" />
     <ClCompile Include="rec\fanoutRecord.c" />
     <ClCompile Include="rec\histogramRecord.c" />
+    <ClCompile Include="rec\int64inRecord.c" />
+    <ClCompile Include="rec\int64outRecord.c" />
     <ClCompile Include="rec\longinRecord.c" />
     <ClCompile Include="rec\longoutRecord.c" />
     <ClCompile Include="rec\lsiRecord.c" />
@@ -2139,7 +2148,167 @@ cd $(ProjectDir)
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <CustomBuild Include="link\links.dbd.pod">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">cd link
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">cd link
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">cd link
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">cd link
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">cd link
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">cd link
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'">cd link
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">cd link
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+cd $(ProjectDir)
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common\%(FileName)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">O.Common\%(FileName)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common\%(FileName)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">O.Common\%(FileName)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">O.Common\%(FileName)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">O.Common\%(FileName)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'">O.Common\%(FileName)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">O.Common\%(FileName)</Outputs>
+    </CustomBuild>
+    <None Include="dev\Makefile" />
+    <None Include="link\Makefile" />
     <None Include="O.Common\filters.dbd" />
+    <CustomBuild Include="rec\int64inRecord.dbd.pod">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">cd rec
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">cd rec
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">cd rec
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">cd rec
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">cd rec
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">cd rec
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'">cd rec
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">cd rec
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+cd $(ProjectDir)
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common\%(Filename)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">O.Common\%(Filename)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common\%(Filename)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">O.Common\%(Filename)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">O.Common\%(Filename)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">O.Common\%(Filename)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'">O.Common\%(Filename)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">O.Common\%(Filename)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="rec\int64outRecord.dbd.pod">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">cd rec
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">cd rec
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">cd rec
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">cd rec
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">cd rec
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">cd rec
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'">cd rec
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">cd rec
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+cd $(ProjectDir)
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common\%(Filename)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">O.Common\%(Filename)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common\%(Filename)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">O.Common\%(Filename)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">O.Common\%(Filename)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">O.Common\%(Filename)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'">O.Common\%(Filename)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">O.Common\%(Filename)</Outputs>
+    </CustomBuild>
+    <None Include="rec\Makefile" />
+    <None Include="rec\RULES" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="dev\softDevIoc.rc" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{3B0E3542-CB89-4FFA-B004-EAC882B3F277}</ProjectGuid>
@@ -2263,6 +2432,9 @@ xcopy /Y /Q /D /R dev\*.dbd $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R rec\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>
+    </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
     <ClCompile>
@@ -2301,6 +2473,9 @@ xcopy /Y /Q /D /R dev\*.dbd $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R rec\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>
+    </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|X64'">
     <ClCompile>
@@ -2338,6 +2513,9 @@ xcopy /Y /Q /D /R dev\*.dbd $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R rec\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>
+    </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|X64'">
     <ClCompile>
@@ -2376,6 +2554,9 @@ xcopy /Y /Q /D /R dev\*.dbd $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R rec\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>
+    </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
     <ClCompile>
@@ -2415,6 +2596,9 @@ xcopy /Y /Q /D /R dev\*.dbd $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R rec\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>
+    </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
     <ClCompile>
@@ -2455,6 +2639,9 @@ xcopy /Y /Q /D /R dev\*.dbd $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R rec\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>
+    </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'">
     <ClCompile>
@@ -2494,6 +2681,9 @@ xcopy /Y /Q /D /R dev\*.dbd $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R rec\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>
+    </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">
     <ClCompile>
@@ -2534,6 +2724,9 @@ xcopy /Y /Q /D /R dev\*.dbd $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R rec\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>
+    </ResourceCompile>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

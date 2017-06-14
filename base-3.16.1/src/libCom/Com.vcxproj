@@ -63,7 +63,6 @@
     <ClCompile Include="calc\calcPerform.c" />
     <ClCompile Include="calc\postfix.c" />
     <ClCompile Include="cvtFast\cvtFast.c" />
-    <ClCompile Include="cxxTemplates\epicsOnce.cpp" />
     <ClCompile Include="cxxTemplates\epicsSingletonBase.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
@@ -83,6 +82,7 @@
     </ClCompile>
     <ClCompile Include="dbmf\dbmf.c" />
     <ClCompile Include="ellLib\ellLib.c" />
+    <ClCompile Include="ellLib\ellSort.c" />
     <ClCompile Include="env\envSubr.c" />
     <ClCompile Include="error\errlog.c" />
     <ClCompile Include="error\errSymLib.c" />
@@ -255,10 +255,8 @@
     <ClInclude Include="cppStd\epicsMemory.h" />
     <ClInclude Include="cvtFast\cvtFast.h" />
     <ClInclude Include="cxxTemplates\epicsGuard.h" />
-    <ClInclude Include="cxxTemplates\epicsOnce.h" />
     <ClInclude Include="cxxTemplates\epicsSingleton.h" />
     <ClInclude Include="cxxTemplates\resourceLib.h" />
-    <ClInclude Include="cxxTemplates\tsBTree.h" />
     <ClInclude Include="cxxTemplates\tsDLList.h" />
     <ClInclude Include="cxxTemplates\tsFreeList.h" />
     <ClInclude Include="cxxTemplates\tsMinMax.h" />
@@ -541,6 +539,7 @@ move /Y lex.yy.c O.Common\asLib_lex.c
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|X64'">O.Common\asLib_lex.c</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|X64'">O.Common\asLib_lex.c</Outputs>
     </CustomBuild>
+    <None Include="ellLib\Makefile" />
     <None Include="freeList\freeList.html" />
     <None Include="gpHash\gpHash.html" />
     <CustomBuild Include="misc\makeEpicsVersion.pl">

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Resource Files">
@@ -106,9 +106,6 @@
     </ClCompile>
     <ClCompile Include="cvtFast\cvtFast.c">
       <Filter>CvtFast</Filter>
-    </ClCompile>
-    <ClCompile Include="cxxTemplates\epicsOnce.cpp">
-      <Filter>cxxTemplates</Filter>
     </ClCompile>
     <ClCompile Include="cxxTemplates\epicsSingletonBase.cpp">
       <Filter>cxxTemplates</Filter>
@@ -425,6 +422,9 @@
     <ClCompile Include="osi\epicsReadline.c">
       <Filter>osi</Filter>
     </ClCompile>
+    <ClCompile Include="ellLib\ellSort.c">
+      <Filter>ellLib</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bucketLib\bucketLib.h">
@@ -451,16 +451,10 @@
     <ClInclude Include="cxxTemplates\epicsGuard.h">
       <Filter>cxxTemplates</Filter>
     </ClInclude>
-    <ClInclude Include="cxxTemplates\epicsOnce.h">
-      <Filter>cxxTemplates</Filter>
-    </ClInclude>
     <ClInclude Include="cxxTemplates\epicsSingleton.h">
       <Filter>cxxTemplates</Filter>
     </ClInclude>
     <ClInclude Include="cxxTemplates\resourceLib.h">
-      <Filter>cxxTemplates</Filter>
-    </ClInclude>
-    <ClInclude Include="cxxTemplates\tsBTree.h">
       <Filter>cxxTemplates</Filter>
     </ClInclude>
     <ClInclude Include="cxxTemplates\tsDLList.h">
@@ -803,6 +797,9 @@
     </None>
     <None Include="osi\TODOfuture">
       <Filter>osi</Filter>
+    </None>
+    <None Include="ellLib\Makefile">
+      <Filter>ellLib</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

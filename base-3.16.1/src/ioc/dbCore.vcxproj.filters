@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Resource Files">
@@ -131,9 +131,6 @@
     <ClCompile Include="db\recGbl.c">
       <Filter>db</Filter>
     </ClCompile>
-    <ClCompile Include="db\templateInstances.cpp">
-      <Filter>db</Filter>
-    </ClCompile>
     <ClCompile Include="dbStatic\dbStaticLib.c">
       <Filter>dbStatic</Filter>
     </ClCompile>
@@ -217,6 +214,21 @@
     </ClCompile>
     <ClCompile Include="db\dbUnitTest.c">
       <Filter>db</Filter>
+    </ClCompile>
+    <ClCompile Include="db\dbConstLink.c">
+      <Filter>db</Filter>
+    </ClCompile>
+    <ClCompile Include="db\dbConvertJSON.c">
+      <Filter>db</Filter>
+    </ClCompile>
+    <ClCompile Include="db\dbDbLink.c">
+      <Filter>db</Filter>
+    </ClCompile>
+    <ClCompile Include="db\dbJLink.c">
+      <Filter>db</Filter>
+    </ClCompile>
+    <ClCompile Include="registry\registryJLinks.c">
+      <Filter>registry</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -403,6 +415,30 @@
     <ClInclude Include="db\dbUnitTest.h">
       <Filter>db</Filter>
     </ClInclude>
+    <ClInclude Include="db\dbChannelNOOP.h">
+      <Filter>db</Filter>
+    </ClInclude>
+    <ClInclude Include="db\dbCommonPvt.h">
+      <Filter>db</Filter>
+    </ClInclude>
+    <ClInclude Include="db\dbConstLink.h">
+      <Filter>db</Filter>
+    </ClInclude>
+    <ClInclude Include="db\dbConvertJSON.h">
+      <Filter>db</Filter>
+    </ClInclude>
+    <ClInclude Include="db\dbDbLink.h">
+      <Filter>db</Filter>
+    </ClInclude>
+    <ClInclude Include="db\dbJLink.h">
+      <Filter>db</Filter>
+    </ClInclude>
+    <ClInclude Include="db\dbLockPvt.h">
+      <Filter>db</Filter>
+    </ClInclude>
+    <ClInclude Include="registry\registryJLinks.h">
+      <Filter>registry</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="dbtemplate\dbLoadTemplate_lex.l">
@@ -468,5 +504,16 @@
     <CustomBuild Include="db\menuPost.dbd">
       <Filter>db</Filter>
     </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="db\Makefile">
+      <Filter>db</Filter>
+    </None>
+    <None Include="db\RULES">
+      <Filter>db</Filter>
+    </None>
+    <None Include="registry\Makefile">
+      <Filter>registry</Filter>
+    </None>
   </ItemGroup>
 </Project>
