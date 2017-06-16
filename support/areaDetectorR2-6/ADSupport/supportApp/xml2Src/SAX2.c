@@ -1870,7 +1870,7 @@ xmlSAX2TextNode(xmlParserCtxtPtr ctxt, const xmlChar *str, int len) {
 	if ((len < (int) (2 * sizeof(void *))) &&
 	    (ctxt->options & XML_PARSE_COMPACT)) {
 	    /* store the string in the node overriding properties and nsDef */
-	    xmlChar *tmp = (xmlChar *) (ret->properties);
+	    xmlChar *tmp = (xmlChar *) &(ret->properties);
 	    memcpy(tmp, str, len);
 	    tmp[len] = 0;
 	    intern = tmp;

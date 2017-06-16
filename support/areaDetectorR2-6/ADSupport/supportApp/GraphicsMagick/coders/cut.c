@@ -369,8 +369,6 @@ static Image *ReadCUTImage(const ImageInfo *image_info,ExceptionInfo *exception)
 
 
   i=(long) strlen(clone_info->filename);
-  if (i > sizeof(clone_info->filename)-strlen(".PAL")-1)
-	  i = sizeof(clone_info->filename)-strlen(".PAL")-1;
   j=i;
   while (--i>0)
     {

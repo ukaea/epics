@@ -8,12 +8,15 @@
  *
  */
 
-#include <pv/device.h>
+
 
 #include <epicsThread.h>
 
 #include <cmath>
 #include <sstream>
+
+#define epicsExportSharedSymbols
+#include <pv/device.h>
 
 namespace epics { namespace exampleCPP { namespace exampleRPC {
 
@@ -169,7 +172,7 @@ void Device::setSetpoint(Point sp)
     {
         std::stringstream ss;
         ss << "Cannot set position setpoint unless device is IDLE. State is " << toString(state);
-        throw IllegalOperationException(ss.str());
+        throw std::runtime_error(ss.str());
     }
     setSetpointImpl(sp);
 }
@@ -210,7 +213,7 @@ void Device::configure(const std::vector<Point> & newPoints)
     {
         std::stringstream ss;
         ss << "Cannot configure device unless it is IDLE. State is " << toString(state);
-        throw IllegalOperationException(ss.str());
+        throw std::runtime_error(ss.str());
 
     }
     std::cout << "Configure" << std::endl;
@@ -228,7 +231,7 @@ void Device::runScan()
     {
         std::stringstream ss;
         ss << "Cannot run device unless it is READY. State is " << toString(state);
-        throw IllegalOperationException(ss.str());
+        throw std::runtime_error(ss.str());
     }
     std::cout << "Run" << std::endl;
     index = 0;
@@ -242,7 +245,7 @@ void Device::pause()
     {
         std::stringstream ss;
         ss << "Cannot pause device unless it is RUNNING. State is " << toString(state);
-        throw IllegalOperationException(ss.str());
+        throw std::runtime_error(ss.str());
     }
     std::cout << "Pause" << std::endl;
     setStateImpl(PAUSED);
@@ -255,7 +258,7 @@ void Device::resume()
     {
         std::stringstream ss;
         ss << "Cannot resume device unless it is PAUSED. State is " << toString(state);
-        throw IllegalOperationException(ss.str());
+        throw std::runtime_error(ss.str());
     }
     std::cout << "Resume" << std::endl;
     setStateImpl(RUNNING);
@@ -279,7 +282,7 @@ void Device::stopScan()
         {
             std::stringstream ss;
             ss << "Cannot stop device unless it is RUNNING, PAUSED or READY. State is " << toString(state);
-            throw IllegalOperationException(ss.str());
+            throw std::runtime_error(ss.str());
         }
     }
 }
@@ -295,7 +298,7 @@ void Device::rewind(int n)
         {
             std::stringstream ss;
             ss << "Rewind argument cannot be negative. Argument is " << n;
-            throw IllegalOperationException(ss.str());
+            throw std::runtime_error(ss.str());
         }
         if (n > 0)
         {
@@ -313,7 +316,7 @@ void Device::rewind(int n)
             {
             std::stringstream ss;
             ss << "Cannot rewind device unless it is RUNNING or PAUSED. State is " << toString(state);
-            throw IllegalOperationException(ss.str());
+            throw std::runtime_error(ss.str());
         }
     }
 }

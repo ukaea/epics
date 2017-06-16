@@ -77,7 +77,7 @@ public:
  
     epics::pvData::PVStructurePtr request(
         epics::pvData::PVStructure::shared_pointer const & args
-    ) throw (epics::pvAccess::RPCRequestException);
+    );
 private:
     AbortService(ExampleRPCPtr const & pvRecord)
     : pvRecord(pvRecord)
@@ -102,7 +102,7 @@ public:
  
     epics::pvData::PVStructurePtr request(
         epics::pvData::PVStructure::shared_pointer const & args
-    ) throw (epics::pvAccess::RPCRequestException);
+    );
 private:
     ConfigureService(ExampleRPCPtr const & pvRecord)
     : pvRecord(pvRecord)
@@ -127,7 +127,7 @@ public:
  
     epics::pvData::PVStructurePtr request(
         epics::pvData::PVStructure::shared_pointer const & args
-    ) throw (epics::pvAccess::RPCRequestException);
+    );
 private:
     RunService(ExampleRPCPtr const & pvRecord)
     : pvRecord(pvRecord)
@@ -137,7 +137,7 @@ private:
     ExampleRPCPtr pvRecord;
 };
 
-class PauseService :
+class epicsShareClass PauseService :
     public virtual epics::pvAccess::RPCService
 {
 public:
@@ -151,7 +151,7 @@ public:
  
     epics::pvData::PVStructurePtr request(
         epics::pvData::PVStructure::shared_pointer const & args
-    ) throw (epics::pvAccess::RPCRequestException);
+    );
 private:
     PauseService(ExampleRPCPtr const & pvRecord)
     : pvRecord(pvRecord)
@@ -161,7 +161,7 @@ private:
     ExampleRPCPtr pvRecord;
 };
 
-class ResumeService :
+class epicsShareClass ResumeService :
     public virtual epics::pvAccess::RPCService
 {
 public:
@@ -175,7 +175,7 @@ public:
  
     epics::pvData::PVStructurePtr request(
         epics::pvData::PVStructure::shared_pointer const & args
-    ) throw (epics::pvAccess::RPCRequestException);
+    );
 private:
     ResumeService(ExampleRPCPtr const & pvRecord)
     : pvRecord(pvRecord)
@@ -185,7 +185,7 @@ private:
     ExampleRPCPtr pvRecord;
 };
 
-class StopService :
+class epicsShareClass StopService :
     public virtual epics::pvAccess::RPCService
 {
 public:
@@ -199,7 +199,7 @@ public:
  
     epics::pvData::PVStructurePtr request(
         epics::pvData::PVStructure::shared_pointer const & args
-    ) throw (epics::pvAccess::RPCRequestException);
+    );
 private:
     StopService(ExampleRPCPtr const & pvRecord)
     : pvRecord(pvRecord)
@@ -209,7 +209,7 @@ private:
     ExampleRPCPtr pvRecord;
 };
 
-class RewindService :
+class epicsShareClass RewindService :
     public virtual epics::pvAccess::RPCService
 {
 public:
@@ -223,7 +223,7 @@ public:
  
     epics::pvData::PVStructurePtr request(
         epics::pvData::PVStructure::shared_pointer const & args
-    ) throw (epics::pvAccess::RPCRequestException);
+    );
 
 private:
     int getRequestedSteps(epics::pvData::PVStructurePtr const & args);
@@ -237,7 +237,7 @@ private:
     ExampleRPCPtr pvRecord;
 };
 
-class ScanService :
+class epicsShareClass ScanService :
     public epics::pvAccess::RPCServiceAsync,
     public std::tr1::enable_shared_from_this<ScanService>
 {

@@ -141,16 +141,15 @@ asynStatus asynNDArrayDriver::createFilePath(const char *path, int pathDepth)
     }
 
     // Skip over any more delimiters
-    while ((path[i] == '/' || path[i] == '\\') && i < MAX_FILENAME_LEN-1) {
+    while ((path[i] == '/' || path[i] == '\\') && i < MAX_FILENAME_LEN) {
         nextDir[i] = path[i];
         ++i;
     }
     nextDir[i] = 0;
 
     // Now, tokenise the path - first making a copy because strtok is destructive
-    strncpy(directory, &path[i], MAX_FILENAME_LEN-1);
-	directory[MAX_FILENAME_LEN-1]=0; // Make sure null terminated,
-	num_parts = 0;
+    strcpy(directory, &path[i] );
+    num_parts = 0;
     parts[num_parts] = strtok_r( directory, "\\/", &saveptr);
     while ( parts[num_parts] != NULL ) {
         parts[++num_parts] = strtok_r(NULL, "\\/", &saveptr);
@@ -164,15 +163,13 @@ asynStatus asynNDArrayDriver::createFilePath(const char *path, int pathDepth)
 
     // Loop through parts creating directories
     for ( i = 0; i < num_parts && result != asynError; i++ ) {
-        strncat(nextDir, parts[i], MAX_PATH_PARTS-1);
-		nextDir[MAX_FILENAME_LEN-1]=0; // Make sure null terminated.
+        strcat(nextDir, parts[i]);
         if ( i >= pathDepth ) {
             if(MKDIR(nextDir, 0777) != 0 && errno != EEXIST) {
                 result = asynError;
             }
         }
-		if (strlen(nextDir) < MAX_FILENAME_LEN-2)
-			strcat(nextDir, delim);
+        strcat(nextDir, delim);
    }
 
     return result;

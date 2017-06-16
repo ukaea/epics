@@ -22,8 +22,6 @@ ADSUPPORT = $(AREA_DETECTOR)/ADSupport
 # ADCORE for base classes and plugins
 ADCORE=$(AREA_DETECTOR)/ADCore
 
-ADURL=$(AREA_DETECTOR)/ADURL
-
 #ADSIMDETECTOR=$(AREA_DETECTOR)/ADSimDetector
 
 # V4 modules.

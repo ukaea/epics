@@ -25,7 +25,7 @@ class  ChannelStateChangeRequester :
 public:
     POINTER_DEFINITIONS(ChannelStateChangeRequester);
     ChannelStateChangeRequester()
-    : connected(true)
+    : connected(false)
      {}
     virtual void channelStateChange(PvaClientChannelPtr const & channel, bool isConnected )
     {
@@ -39,18 +39,21 @@ int main(int argc,char *argv[])
 {
     string provider("pva");
     string channelName("DBRdouble00");
+    string request("value,alarm,timeStamp");
     bool debug(false);
     if(argc==2 && string(argv[1])==string("-help")) {
-        cout << "provider channelName  debug" << endl;
+        cout << "provider channelName request debug" << endl;
         cout << "default" << endl;
-        cout << provider << " " <<  channelName << " "
-             << (debug ? "true" : "false") << endl;
+        cout << provider << " " <<  channelName
+             << " " << '"' << request << '"'
+             << " " << (debug ? "true" : "false") << endl;
         return 0;
     }
     if(argc>1) provider = argv[1];
     if(argc>2) channelName = argv[2];
-    if(argc>3) {
-        string value(argv[3]);
+    if(argc>3) request = argv[3];
+    if(argc>4) {
+        string value(argv[4]);
         if(value=="true") debug = true;
     }
     bool pvaSrv(((provider.find("pva")==string::npos) ? false : true));
@@ -63,23 +66,31 @@ int main(int argc,char *argv[])
          << " pvaSrv " << (pvaSrv ? "true" : "false")
          << " caSrv " << (caSrv ? "true" : "false")
          << " channelName " <<  channelName
+         << " request " << request
          << " debug " << (debug ? "true" : "false") << endl;
 
-    cout << "_____getForever starting__ "
-         << " provider " << provider 
-         << " channelName " << channelName 
-         << endl;
+    cout << "_____getForever starting__\n";
     try {
         PvaClientPtr pva= PvaClient::get(provider);
         if(debug) PvaClient::setDebug(true);
-        PvaClientChannelPtr channel(pva->channel(channelName,provider));
+        PvaClientChannelPtr channel(pva->channel(channelName,provider,0.0));
         ChannelStateChangeRequester::shared_pointer stateChangeRequester(
             new ChannelStateChangeRequester());
         channel->setStateChangeRequester(stateChangeRequester);
+        PvaClientGetPtr pvaClientGet;
         while(true) {
             if(stateChangeRequester->isConnected()) {
-                double value = channel->get()->getData()->getDouble();
-                cout << "value " << value << endl;
+                if(!pvaClientGet) {
+                      pvaClientGet = channel->createGet(request);
+                }
+                pvaClientGet->get();
+                PvaClientGetDataPtr data = pvaClientGet->getData();
+                BitSetPtr bitSet =  data->getChangedBitSet();
+                if(bitSet->cardinality()>0) {
+                    cout << "changed\n";
+                    data->showChanged(cout);
+                    cout << "bitSet " << *bitSet << endl;
+                }
             } else {
                 cout <<"did not issue get because connection lost\n";
             }

@@ -5145,14 +5145,10 @@ xmlSnprintfElements(char *buf, int size, xmlNodePtr node, int glob) {
     int len;
 
     if (node == NULL) return;
-	if (size<=0)
-		return;
     if (glob) strcat(buf, "(");
     cur = node;
     while (cur != NULL) {
 	len = strlen(buf);
-	if (len<=0)
-		return;
 	if (size - len < 50) {
 	    if ((size - len > 4) && (buf[len - 1] != '.'))
 		strcat(buf, " ...");

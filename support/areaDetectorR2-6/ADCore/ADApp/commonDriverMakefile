@@ -101,7 +101,7 @@ ifeq ($(WITH_HDF5),YES)
       PROD_SYS_LIBS += hdf5
     endif
   endif
-  ifeq ($(SHARED_LIBRARIES),YES)
+  ifeq ($(HDF5_STATIC_BUILD), NO)
     USR_CXXFLAGS_WIN32    += -DH5_BUILT_AS_DYNAMIC_LIB
     USR_CFLAGS_WIN32      += -DH5_BUILT_AS_DYNAMIC_LIB
   else
@@ -138,17 +138,23 @@ endif
 
 # The following libraries are only needed for GraphicsMagick
 ifeq ($(WITH_GRAPHICSMAGICK), YES)
-  ifeq ($(GRAPHICSMAGICK_EXTERNAL),NO)
   $(PROD_NAME)_DBD += NDFileMagick.dbd
-    PROD_LIBS               += Magick++ Magick coders jbig jp2 bzlib png webp lcms ttf wmf filters
+  ifeq ($(GRAPHICSMAGICK_EXTERNAL),NO)
+    PROD_LIBS               += Magick++ coders Magick jbig jp2 bzlib png webp lcms ttf wmf filters
   else
-    PROD_SYS_LIBS           += Magick++ Magick coders jbig jp2 bzlib png webp lcms ttf wmf filters
-    PROD_SYS_LIBS_Linux    += gomp X11 png12 bz2 Xext freetype 
+    ifdef GRAPHICS_MAGICK_LIB
+      GraphicsMagick_DIR     = $(GRAPHICS_MAGICK_LIB)
+      GraphicsMagick++_DIR   = $(GRAPHICS_MAGICK_LIB)
+      GraphicsMagickWand_DIR = $(GRAPHICS_MAGICK_LIB)
+      PROD_LIBS             += GraphicsMagick++ coders GraphicsMagick jbig jp2 bzlib png webp lcms ttf wmf filters
+    else
+      PROD_SYS_LIBS         += GraphicsMagick++ coders GraphicsMagick jbig bz2 png webp lcms ttf wmf filters
+    endif
+    # The following system libraries must be installed to use GraphicsMagick
+    PROD_SYS_LIBS_Linux    += gomp X11 Xext freetype 
     PROD_SYS_LIBS_Darwin   += png bz2
   endif
-  # The following system libraries must be installed to use GraphicsMagick
 endif
-
 
 ifdef ADPLUGINEDGE
   $(PROD_NAME)_DBD  += NDPluginEdge.dbd

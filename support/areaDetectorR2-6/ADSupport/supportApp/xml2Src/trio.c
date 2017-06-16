@@ -1834,8 +1834,7 @@ TRIO_ARGS5((type, format, parameters, arglist, argarray),
 			    usedEntries[currentParam] += 1;
 			    parameters[pos].type = FORMAT_USER_DEFINED;
 			    currentParam++;
-				if (currentParam < MAX_PARAMETERS)
-					indices[currentParam] = pos;
+			    indices[currentParam] = pos;
 			    if (currentParam > maxParam)
 			      maxParam = currentParam;
 			  }
@@ -5162,7 +5161,7 @@ TrioGetCollation(TRIO_NOARGS)
     {
       k = 0;
       first[0] = (char)i;
-      for (j = 0; (j < MAX_CHARACTER_CLASS) && (k < MAX_CHARACTER_CLASS-1); j++)
+      for (j = 0; j < MAX_CHARACTER_CLASS; j++)
 	{
 	  second[0] = (char)j;
 	  if (trio_equal_locale(first, second))

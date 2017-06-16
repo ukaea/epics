@@ -17,6 +17,10 @@ BUILD_IOCS=YES
 #               However, if XXX is a system library whose library files in a 
 #               standard library search path then do not define XXX_LIB.
 
+# The exception to the above is XML2. 
+# As of ADCORE R3-0 libxml2 is required for ADCore so WITH_XML2 is not supported
+# but the other XML2 flags are supported.
+
 # The default defined here is appropriate for most Linux systems.
 
 # BOOST is required for the ADCore/pluginTests unit tests
@@ -24,14 +28,23 @@ WITH_BOOST     = NO
 #BOOST_LIB     =
 #BOOST_INCLUDE =
 
+# Uncomment this line if you want to use STATIC Linking when building
+# ADCore/pluginTests unit tests.
+#BOOST_USE_STATIC_LINK=YES
+
 # EPICS_V4 is required for NDPluginPva and pvaDriver
 WITH_EPICS_V4  = NO
 
 # GraphicsMagick is required for NDFileMagick and the URL driver.
 WITH_GRAPHICSMAGICK     = YES
 GRAPHICSMAGICK_EXTERNAL = NO
-#GRAPHICS_MAGICK_INCLUDE = -I$(ADBINARIES)/magickSupport/os/WIN32
-#GRAPHICS_MAGICK_LIB     =$(ADBINARIES)/magickSupport
+# GraphicsMagick defines many global symbols, and one of these (SetImage) conflicts with a symbol
+# in the Andor vendor library.  GraphickMagick provides a solution by allowing all external library
+# symbols to be prefixed with "Gm".  Enable using this by default.  However, if a system library
+# is used it may not be built with this option so this line should be commented out.
+GRAPHICSMAGICK_PREFIX_SYMBOLS = YES
+#GRAPHICSMAGICK_INCLUDE =
+#GRAPHICSMAGICK_LIB     =
 
 # HDF5 is required for the NDFileHDF5 and NDFileNexus plugins
 WITH_HDF5     = YES
@@ -76,10 +89,10 @@ TIFF_EXTERNAL = NO
 #TIFF_INCLUDE =
 #TIFF_LIB     =
 
-# XML2 is required for the NDFileHDF5 and NDFileNexus plugins.  
+# XML2 is required for ADCore so there is no WITH_XML2.  
 XML2_EXTERNAL = NO
-#XML2_INCLUDE = /usr/include/libxml2
-#XML2_LIB     = /usr/local/lib
+#XML2_INCLUDE =
+#XML2_LIB     =
 
 # ZLIB is required for the NDFileHDF5 and NDFileNexus plugins.  
 # This may be optional in the future.

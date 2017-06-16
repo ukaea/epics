@@ -32,13 +32,14 @@ static void exampleDouble(PvaClientPtr const &pva,string const & channelName,str
     PvaClientMonitorPtr monitor = pva->channel(channelName,providerName,2.0)->monitor("value");
     PvaClientMonitorDataPtr monitorData = monitor->getData();
     putData->putDouble(3.0); put->put();
-    cout <<  channel->get("field(value)")->getData()->showChanged(cout) << endl;
+    channel->get("field(value)")->getData()->showChanged(cout) << endl;
     putData->putDouble(4.0); put->put();
-    cout <<  channel->get("field(value)")->getData()->showChanged(cout) << endl;
+    channel->get("field(value)")->getData()->showChanged(cout) << endl;
     if(!monitor->waitEvent()) {
            cout << "waitEvent returned false. Why???";
     } else while(true) {
-         cout << "monitor changed\n" << monitorData->showChanged(cout);
+         cout << "monitor changed\n";
+         monitorData->showChanged(cout);
          monitor->releaseEvent();
          if(!monitor->poll()) break;
     }
@@ -56,15 +57,16 @@ static void exampleDoubleArray(PvaClientPtr const &pva,string const & channelNam
     shared_vector<double> data(num,0);
     for(size_t i=0; i<num; ++i) data[i] = .1*i;
     putData->putDoubleArray(freeze(data)); put->put();
-    cout <<  channel->get("field(value)")->getData()->showChanged(cout) << endl;
+    channel->get("field(value)")->getData()->showChanged(cout) << endl;
     data = shared_vector<double>(num,0);
     for(size_t i=0; i<num; ++i) data[i] = .1*(i + 1);
     putData->putDoubleArray(freeze(data)); put->put();
-    cout <<  channel->get("field(value)")->getData()->showChanged(cout) << endl;
+    channel->get("field(value)")->getData()->showChanged(cout) << endl;
     if(!monitor->waitEvent()) {
            cout << "waitEvent returned false. Why???";
     } else while(true) {
-         cout << "monitor changed\n" << monitorData->showChanged(cout);
+         cout << "monitor changed\n";
+         monitorData->showChanged(cout);
          monitor->releaseEvent();
          if(!monitor->poll()) break;
     }
@@ -79,9 +81,9 @@ static void examplePVFieldPut(PvaClientPtr const &pva,string const & channelName
     PvaClientPutDataPtr putData = put->getData();
     PVScalarPtr pvScalar = static_pointer_cast<PVScalar>(putData->getValue());
     convert->fromDouble(pvScalar,1.0); put->put();
-    cout <<  channel->get("field(value)")->getData()->showChanged(cout) << endl;
+    channel->get("field(value)")->getData()->showChanged(cout) << endl;
     convert->fromDouble(pvScalar,2.0); put->put();
-    cout <<  channel->get("field(value)")->getData()->showChanged(cout) << endl;
+    channel->get("field(value)")->getData()->showChanged(cout) << endl;
 }
 
 
