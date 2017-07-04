@@ -18,11 +18,14 @@ DIRS += szipSrc
 DIRS += hdf5Src
 hdf5Src_DEPEND_DIRS += szipSrc zlibSrc
 
+DIRS += hdf5_hlSrc
+hdf5_hlSrc_DEPEND_DIRS += hdf5Src
+
 DIRS += nexusSrc
 nexusSrc_DEPEND_DIRS += hdf5Src
 
-DIRS += GraphicsMagick
-GraphicsMagick_DEPEND_DIRS += tiffSrc zlibSrc xml2Src jpegSrc
+DIRS += GraphicsMagickSrc
+GraphicsMagickSrc_DEPEND_DIRS += tiffSrc zlibSrc xml2Src jpegSrc
 
 include $(TOP)/configure/RULES_DIRS
 

@@ -1,4 +1,4 @@
-#medm -x -macro "P=13URL1:, R=cam1:" URLDriver.adl &
+medm -x -macro "P=13URL1:, R=cam1:" URLDriver.adl &
 export MAGICK_DEBUG=configure,exception
 ../../bin/$EPICS_HOST_ARCH/URLDriverApp st.cmd.linux
 
