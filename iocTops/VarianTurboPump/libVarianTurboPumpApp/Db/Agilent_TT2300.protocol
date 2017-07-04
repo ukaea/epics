@@ -9,9 +9,9 @@ getLowSpeed {
 
 setLowSpeed {
   wait 0;
-#  out "\${STX}\${ADDR}0011%{0|1}\${ETX}%01<xor8>";
-#  in  "\${STX}\${ADDR}\${ACK}\${ETX}%01<xor8>";
-#  @init { getLowSpeed;}
+  out "\${STX}\${ADDR}0011%{0|1}\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}\${ACK}\${ETX}%01<xor8>";
+  @init { getLowSpeed;}
 }
 
 # There are spaces between the data and the ETX, which the protocol parser
@@ -35,9 +35,9 @@ getSoftStart {
 
 setSoftStart {
   wait 0;
-#  out "\${STX}\${ADDR}1001%{0|1}\${ETX}%01<xor8>";
-#  in  "\${STX}\${ADDR}\${ACK}\${ETX}%01<xor8>";
-#  @init { getSoftStart;}
+  out "\${STX}\${ADDR}1001%{0|1}\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}\${ACK}\${ETX}%01<xor8>";
+  @init { getSoftStart;}
 }
 
 getSP1Type {
@@ -125,9 +125,9 @@ getActiveStop {
 
 setActiveStop {
   wait 0;
-#  out "\${STX}\${ADDR}1071%{0|1}\${ETX}%01<xor8>";
-#  in  "\${STX}\${ADDR}\${ACK}\${ETX}%01<xor8>";
-#  @init { getActiveStop;}
+  out "\${STX}\${ADDR}1071%{0|1}\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}\${ACK}\${ETX}%01<xor8>";
+  @init { getActiveStop;}
 }
 
 setResetCounters {
@@ -310,6 +310,19 @@ setExtFan {
 #  out "\${STX}\${ADDR}1441%{0|1}\${ETX}%01<xor8>";
 #  in  "\${STX}\${ADDR}\${ACK}\${ETX}%01<xor8>";
 #  @init { getExtFan;}
+}
+
+getPurgeValvePos {
+  wait 0;
+  out "\${STX}\${ADDR}1450\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}145%d\${ETX}%01<xor8>";
+}
+
+setPurgeValvePos {
+  wait 0;
+  out "\${STX}\${ADDR}1451%{0|1}\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}\${ACK}\${ETX}%01<xor8>";
+  @init { getPurgeValvePos;}
 }
 
 getVentOpenTime {
