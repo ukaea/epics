@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{599cb54d-8cb3-4263-9b83-f202377204a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include">
+      <UniqueIdentifier>{f49d6753-ab5f-4709-b9ce-f4df6bfc3b53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="resource">
+      <UniqueIdentifier>{eb7121f7-68c1-4006-ae48-eaccd3b4396f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\coders\art.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\avi.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\avs.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\bmp.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\cals.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\caption.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\cineon.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\clipboard.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\cmyk.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\cut.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\dcm.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\dcraw.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\dib.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\dps.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\dpx.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\emf.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\ept.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\fax.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\fits.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\fpx.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\gif.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\gradient.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\gray.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\hdf.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\histogram.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\hrz.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\html.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\icon.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\identity.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\info.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\jbig.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\jnx.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\jp2.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\jpeg.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\label.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\locale.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\logo.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\mac.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\map.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\mat.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\matte.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\meta.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\miff.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\mono.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\mpc.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\mpeg.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\mpr.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\msl.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\mtv.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\mvg.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\null.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\otb.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\palm.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\pcd.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\pcl.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\pcx.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\pdb.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\pdf.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\pict.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\pix.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\plasma.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\png.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\pnm.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\preview.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\ps.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\ps2.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\ps3.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\psd.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\pwp.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\rgb.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\rla.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\rle.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\sct.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\sfw.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\sgi.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\stegano.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\sun.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\svg.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\tga.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\tiff.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\tile.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\tim.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\topol.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\ttf.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\txt.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\uil.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\url.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\uyvy.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\vicar.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\vid.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\viff.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\wbmp.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\webp.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\wmf.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\wpg.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\x.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\xbm.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\xc.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\xcf.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\xpm.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\xtrn.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\xwd.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\yuv.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coders\static.c">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\coders\static.h">
+      <Filter>include</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

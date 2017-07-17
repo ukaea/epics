@@ -1,4 +1,9 @@
 medm -x -macro "P=13URL1:, R=cam1:" URLDriver.adl &
 export MAGICK_DEBUG=configure,exception
+if [ ! -f envPaths.linux ]
+then
+	cp envPaths envPaths.linux
+fi
+
 ../../bin/$EPICS_HOST_ARCH/URLDriverApp st.cmd.linux
 

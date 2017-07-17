@@ -1,5 +1,5 @@
 if "%EPICS_HOST_ARCH%"=="" (
-	call %~dp0\..\..\..\..\..\..\..\..\base\startup\win32.bat
+	set EPICS_HOST_ARCH=win32-x86-static
 )
 
 caput -S 13URL1:cam1:URL1 http://192.168.0.10/cgi-bin/camera?resolution=640

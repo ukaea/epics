@@ -75,7 +75,7 @@
     <ProjectReference Include="..\..\..\..\asyn4-31\asyn\asyn.vcxproj">
       <Project>{c3ea0ff7-6039-4884-ba91-7b4619befea5}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\ADSupport\supportApp\GraphicsMagick\VisualMagick\libxml\CORE_libxml.vcxproj">
+    <ProjectReference Include="..\..\..\ADSupport\supportApp\GraphicsMagickSrc\VisualMagick\libxml\CORE_libxml.vcxproj">
       <Project>{8b797ed0-1330-469e-99c8-6d6669921412}</Project>
     </ProjectReference>
   </ItemGroup>

@@ -26,7 +26,7 @@ if [ -z "$*" ]; then EPICS_ROOT=$DEFAULT_EPICS_ROOT; else EPICS_ROOT=$1;fi
 # asyn
 if [ ! -d $EPICS_ROOT/support/areaDetector ]; 
 then
-    ./epics_areadetector_2-6_install.sh $EPICS_ROOT
+    ./epics_areadetector_3-1_install.sh $EPICS_ROOT
 fi
 
 #pyepics

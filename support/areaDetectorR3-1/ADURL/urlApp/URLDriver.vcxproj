@@ -56,13 +56,13 @@
     <ProjectReference Include="..\..\ADCore\ADApp\ADSrc\ADBase.vcxproj">
       <Project>{77cbc12c-ae16-40ef-a286-a61535f45a99}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\ADSupport\supportApp\GraphicsMagick\VisualMagick\coders\CORE_coders.vcxproj">
+    <ProjectReference Include="..\..\ADSupport\supportApp\GraphicsMagickSrc\VisualMagick\coders\CORE_coders.vcxproj">
       <Project>{dcfe05fb-91fa-4885-be8c-e3f19d156ac3}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\ADSupport\supportApp\GraphicsMagick\VisualMagick\Magick++\CORE_Magick++.vcxproj">
+    <ProjectReference Include="..\..\ADSupport\supportApp\GraphicsMagickSrc\VisualMagick\Magick++\CORE_Magick++.vcxproj">
       <Project>{055517c9-0a16-49eb-938a-ff2cff783b99}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\ADSupport\supportApp\GraphicsMagick\VisualMagick\magick\CORE_magick.vcxproj">
+    <ProjectReference Include="..\..\ADSupport\supportApp\GraphicsMagickSrc\VisualMagick\magick\CORE_magick.vcxproj">
       <Project>{8f881d50-14c0-4d6d-a47a-086c73bb7da3}</Project>
     </ProjectReference>
   </ItemGroup>
@@ -249,7 +249,7 @@ cd $(ProjectDir)
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\ADSupport\supportApp\GraphicsMagick;..\..\ADSupport\supportApp\GraphicsMagick\coders;..\..\ADSupport\supportApp\GraphicsMagick\Magick++\lib;$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\ADSupport\supportApp\GraphicsMagickSrc;..\..\ADSupport\supportApp\GraphicsMagickSrc\coders;..\..\ADSupport\supportApp\GraphicsMagickSrc\Magick++\lib;$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <DisableSpecificWarnings>4251</DisableSpecificWarnings>
     </ClCompile>
@@ -281,7 +281,7 @@ xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)iocs\urlIOC\dbd
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\ADSupport\supportApp\GraphicsMagick;..\..\ADSupport\supportApp\GraphicsMagick\coders;..\..\ADSupport\supportApp\GraphicsMagick\Magick++\lib;$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\ADSupport\supportApp\GraphicsMagickSrc;..\..\ADSupport\supportApp\GraphicsMagickSrc\coders;..\..\ADSupport\supportApp\GraphicsMagickSrc\Magick++\lib;$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <DisableSpecificWarnings>4251</DisableSpecificWarnings>
     </ClCompile>
@@ -313,7 +313,7 @@ xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)iocs\urlIOC\dbd
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\ADSupport\supportApp\GraphicsMagick;..\..\ADSupport\supportApp\GraphicsMagick\coders;..\..\ADSupport\supportApp\GraphicsMagick\Magick++\lib;$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\ADSupport\supportApp\GraphicsMagickSrc;..\..\ADSupport\supportApp\GraphicsMagickSrc\coders;..\..\ADSupport\supportApp\GraphicsMagickSrc\Magick++\lib;$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -344,7 +344,7 @@ xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)iocs\urlIOC\dbd
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\ADSupport\supportApp\GraphicsMagick;..\..\ADSupport\supportApp\GraphicsMagick\coders;..\..\ADSupport\supportApp\GraphicsMagick\Magick++\lib;$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\ADSupport\supportApp\GraphicsMagickSrc;..\..\ADSupport\supportApp\GraphicsMagickSrc\coders;..\..\ADSupport\supportApp\GraphicsMagickSrc\Magick++\lib;$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -377,7 +377,7 @@ xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)iocs\urlIOC\dbd
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\ADSupport\supportApp\GraphicsMagick;..\..\ADSupport\supportApp\GraphicsMagick\coders;..\..\ADSupport\supportApp\GraphicsMagick\Magick++\lib;$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\ADSupport\supportApp\GraphicsMagickSrc;..\..\ADSupport\supportApp\GraphicsMagickSrc\coders;..\..\ADSupport\supportApp\GraphicsMagickSrc\Magick++\lib;$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <DisableSpecificWarnings>4251</DisableSpecificWarnings>
     </ClCompile>
@@ -411,7 +411,7 @@ xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)iocs\urlIOC\dbd
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\ADSupport\supportApp\GraphicsMagick;..\..\ADSupport\supportApp\GraphicsMagick\coders;..\..\ADSupport\supportApp\GraphicsMagick\Magick++\lib;$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\ADSupport\supportApp\GraphicsMagickSrc;..\..\ADSupport\supportApp\GraphicsMagickSrc\coders;..\..\ADSupport\supportApp\GraphicsMagickSrc\Magick++\lib;$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <DisableSpecificWarnings>4251</DisableSpecificWarnings>
     </ClCompile>
@@ -445,7 +445,7 @@ xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)iocs\urlIOC\dbd
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\ADSupport\supportApp\GraphicsMagick;..\..\ADSupport\supportApp\GraphicsMagick\coders;..\..\ADSupport\supportApp\GraphicsMagick\Magick++\lib;$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\ADSupport\supportApp\GraphicsMagickSrc;..\..\ADSupport\supportApp\GraphicsMagickSrc\coders;..\..\ADSupport\supportApp\GraphicsMagickSrc\Magick++\lib;$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -480,7 +480,7 @@ xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)iocs\urlIOC\dbd
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\ADSupport\supportApp\GraphicsMagick;..\..\ADSupport\supportApp\GraphicsMagick\coders;..\..\ADSupport\supportApp\GraphicsMagick\Magick++\lib;$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\ADSupport\supportApp\GraphicsMagickSrc;..\..\ADSupport\supportApp\GraphicsMagickSrc\coders;..\..\ADSupport\supportApp\GraphicsMagickSrc\Magick++\lib;$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>

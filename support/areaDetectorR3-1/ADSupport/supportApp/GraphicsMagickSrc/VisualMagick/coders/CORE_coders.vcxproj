@@ -1,0 +1,430 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug_DLL|Win32">
+      <Configuration>Debug_DLL</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug_DLL|x64">
+      <Configuration>Debug_DLL</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug_LIB|Win32">
+      <Configuration>Debug_LIB</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug_LIB|x64">
+      <Configuration>Debug_LIB</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_DLL|Win32">
+      <Configuration>Release_DLL</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_DLL|x64">
+      <Configuration>Release_DLL</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_LIB|Win32">
+      <Configuration>Release_LIB</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_LIB|x64">
+      <Configuration>Release_LIB</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>CORE_coders</ProjectName>
+    <ProjectGuid>{DCFE05FB-91FA-4885-BE8C-E3F19D156AC3}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <OmitFramePointers>true</OmitFramePointers>
+      <Optimization>Full</Optimization>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;LIBXML_STATIC;NeedFunctionPrototypes;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalIncludeDirectories>../..;../../jbig/libjbig;../../jp2/src/libjasper/include;../../bzlib;../../png;../../webp/src;../../ttf/include;../../wmf/include;../../../jpegSrc/os/WIN32;../../../jpegSrc/os/default;../../../zlibSrc/os/WIN32;../../../zlibSrc/os/default;../../../xml2Src/os/WIN32;../../../xml2Src/os/default;../../../tiffSrc/os/WIN32;../../../tiffSrc/os/default</AdditionalIncludeDirectories>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Lib>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <OmitFramePointers>true</OmitFramePointers>
+      <Optimization>Full</Optimization>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <AdditionalIncludeDirectories>../..;../../jbig/libjbig;../../jp2/src/libjasper/include;../../bzlib;../../png;../../webp/src;../../ttf/include;../../wmf/include;../../../jpegSrc/os/WIN32;../../../jpegSrc/os/default;../../../zlibSrc/os/WIN32;../../../zlibSrc/os/default;../../../xml2Src/os/WIN32;../../../xml2Src/os/default;../../../tiffSrc/os/WIN32;../../../tiffSrc/os/default</AdditionalIncludeDirectories>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Lib>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Lib>
+    <Link />
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <OmitFramePointers>true</OmitFramePointers>
+      <Optimization>Full</Optimization>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;LIBXML_STATIC;NeedFunctionPrototypes;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalIncludeDirectories>../..;../../jbig/libjbig;../../jp2/src/libjasper/include;../../bzlib;../../png;../../webp/src;../../ttf/include;../../wmf/include;../../../jpegSrc/os/WIN32;../../../jpegSrc/os/default;../../../zlibSrc/os/WIN32;../../../zlibSrc/os/default;../../../xml2Src/os/WIN32;../../../xml2Src/os/default;../../../tiffSrc/os/WIN32;../../../tiffSrc/os/default</AdditionalIncludeDirectories>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Lib>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <OmitFramePointers>true</OmitFramePointers>
+      <Optimization>Full</Optimization>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <AdditionalIncludeDirectories>../..;../../jbig/libjbig;../../jp2/src/libjasper/include;../../bzlib;../../png;../../webp/src;../../ttf/include;../../wmf/include;../../../jpegSrc/os/WIN32;../../../jpegSrc/os/default;../../../zlibSrc/os/WIN32;../../../zlibSrc/os/default;../../../xml2Src/os/WIN32;../../../xml2Src/os/default;../../../tiffSrc/os/WIN32;../../../tiffSrc/os/default</AdditionalIncludeDirectories>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Lib>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Lib>
+    <Link />
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OmitFramePointers>false</OmitFramePointers>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;LIBXML_STATIC;NeedFunctionPrototypes;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalIncludeDirectories>../..;../../jbig/libjbig;../../jp2/src/libjasper/include;../../bzlib;../../png;../../webp/src;../../ttf/include;../../wmf/include;../../../jpegSrc/os/WIN32;../../../jpegSrc/os/default;../../../zlibSrc/os/WIN32;../../../zlibSrc/os/default;../../../xml2Src/os/WIN32;../../../xml2Src/os/default;../../../tiffSrc/os/WIN32;../../../tiffSrc/os/default</AdditionalIncludeDirectories>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Lib>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OmitFramePointers>false</OmitFramePointers>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <AdditionalIncludeDirectories>../..;../../jbig/libjbig;../../jp2/src/libjasper/include;../../bzlib;../../png;../../webp/src;../../ttf/include;../../wmf/include;../../../jpegSrc/os/WIN32;../../../jpegSrc/os/default;../../../zlibSrc/os/WIN32;../../../zlibSrc/os/default;../../../xml2Src/os/WIN32;../../../xml2Src/os/default;../../../tiffSrc/os/WIN32;../../../tiffSrc/os/default</AdditionalIncludeDirectories>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Lib>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Lib>
+    <Link>
+      <AdditionalLibraryDirectories>..\..\..\..\lib\win32-x86</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OmitFramePointers>false</OmitFramePointers>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;LIBXML_STATIC;NeedFunctionPrototypes;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalIncludeDirectories>../..;../../jbig/libjbig;../../jp2/src/libjasper/include;../../bzlib;../../png;../../webp/src;../../ttf/include;../../wmf/include;../../../jpegSrc/os/WIN32;../../../jpegSrc/os/default;../../../zlibSrc/os/WIN32;../../../zlibSrc/os/default;../../../xml2Src/os/WIN32;../../../xml2Src/os/default;../../../tiffSrc/os/WIN32;../../../tiffSrc/os/default</AdditionalIncludeDirectories>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Lib>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OmitFramePointers>false</OmitFramePointers>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;NeedFunctionPrototypes;_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <AdditionalIncludeDirectories>../..;../../jbig/libjbig;../../jp2/src/libjasper/include;../../bzlib;../../png;../../webp/src;../../ttf/include;../../wmf/include;../../../jpegSrc/os/WIN32;../../../jpegSrc/os/default;../../../zlibSrc/os/WIN32;../../../zlibSrc/os/default;../../../xml2Src/os/WIN32;../../../xml2Src/os/default;../../../tiffSrc/os/WIN32;../../../tiffSrc/os/default</AdditionalIncludeDirectories>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Lib>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Lib>
+    <Link />
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\coders\art.c" />
+    <ClCompile Include="..\..\coders\avi.c" />
+    <ClCompile Include="..\..\coders\avs.c" />
+    <ClCompile Include="..\..\coders\bmp.c" />
+    <ClCompile Include="..\..\coders\cals.c" />
+    <ClCompile Include="..\..\coders\caption.c" />
+    <ClCompile Include="..\..\coders\cineon.c" />
+    <ClCompile Include="..\..\coders\clipboard.c" />
+    <ClCompile Include="..\..\coders\cmyk.c" />
+    <ClCompile Include="..\..\coders\cut.c" />
+    <ClCompile Include="..\..\coders\dcm.c" />
+    <ClCompile Include="..\..\coders\dcraw.c" />
+    <ClCompile Include="..\..\coders\dib.c" />
+    <ClCompile Include="..\..\coders\dps.c" />
+    <ClCompile Include="..\..\coders\dpx.c" />
+    <ClCompile Include="..\..\coders\emf.c" />
+    <ClCompile Include="..\..\coders\ept.c" />
+    <ClCompile Include="..\..\coders\fax.c" />
+    <ClCompile Include="..\..\coders\fits.c" />
+    <ClCompile Include="..\..\coders\fpx.c" />
+    <ClCompile Include="..\..\coders\gif.c" />
+    <ClCompile Include="..\..\coders\gradient.c" />
+    <ClCompile Include="..\..\coders\gray.c" />
+    <ClCompile Include="..\..\coders\hdf.c" />
+    <ClCompile Include="..\..\coders\histogram.c" />
+    <ClCompile Include="..\..\coders\hrz.c" />
+    <ClCompile Include="..\..\coders\html.c" />
+    <ClCompile Include="..\..\coders\icon.c" />
+    <ClCompile Include="..\..\coders\identity.c" />
+    <ClCompile Include="..\..\coders\info.c" />
+    <ClCompile Include="..\..\coders\jbig.c" />
+    <ClCompile Include="..\..\coders\jnx.c" />
+    <ClCompile Include="..\..\coders\jp2.c" />
+    <ClCompile Include="..\..\coders\jpeg.c" />
+    <ClCompile Include="..\..\coders\label.c" />
+    <ClCompile Include="..\..\coders\locale.c" />
+    <ClCompile Include="..\..\coders\logo.c" />
+    <ClCompile Include="..\..\coders\mac.c" />
+    <ClCompile Include="..\..\coders\map.c" />
+    <ClCompile Include="..\..\coders\mat.c" />
+    <ClCompile Include="..\..\coders\matte.c" />
+    <ClCompile Include="..\..\coders\meta.c" />
+    <ClCompile Include="..\..\coders\miff.c" />
+    <ClCompile Include="..\..\coders\mono.c" />
+    <ClCompile Include="..\..\coders\mpc.c" />
+    <ClCompile Include="..\..\coders\mpeg.c" />
+    <ClCompile Include="..\..\coders\mpr.c" />
+    <ClCompile Include="..\..\coders\msl.c" />
+    <ClCompile Include="..\..\coders\mtv.c" />
+    <ClCompile Include="..\..\coders\mvg.c" />
+    <ClCompile Include="..\..\coders\null.c" />
+    <ClCompile Include="..\..\coders\otb.c" />
+    <ClCompile Include="..\..\coders\palm.c" />
+    <ClCompile Include="..\..\coders\pcd.c" />
+    <ClCompile Include="..\..\coders\pcl.c" />
+    <ClCompile Include="..\..\coders\pcx.c" />
+    <ClCompile Include="..\..\coders\pdb.c" />
+    <ClCompile Include="..\..\coders\pdf.c" />
+    <ClCompile Include="..\..\coders\pict.c" />
+    <ClCompile Include="..\..\coders\pix.c" />
+    <ClCompile Include="..\..\coders\plasma.c" />
+    <ClCompile Include="..\..\coders\png.c" />
+    <ClCompile Include="..\..\coders\pnm.c" />
+    <ClCompile Include="..\..\coders\preview.c" />
+    <ClCompile Include="..\..\coders\ps.c" />
+    <ClCompile Include="..\..\coders\ps2.c" />
+    <ClCompile Include="..\..\coders\ps3.c" />
+    <ClCompile Include="..\..\coders\psd.c" />
+    <ClCompile Include="..\..\coders\pwp.c" />
+    <ClCompile Include="..\..\coders\rgb.c" />
+    <ClCompile Include="..\..\coders\rla.c" />
+    <ClCompile Include="..\..\coders\rle.c" />
+    <ClCompile Include="..\..\coders\sct.c" />
+    <ClCompile Include="..\..\coders\sfw.c" />
+    <ClCompile Include="..\..\coders\sgi.c" />
+    <ClCompile Include="..\..\coders\static.c" />
+    <ClCompile Include="..\..\coders\stegano.c" />
+    <ClCompile Include="..\..\coders\sun.c" />
+    <ClCompile Include="..\..\coders\svg.c" />
+    <ClCompile Include="..\..\coders\tga.c" />
+    <ClCompile Include="..\..\coders\tiff.c" />
+    <ClCompile Include="..\..\coders\tile.c" />
+    <ClCompile Include="..\..\coders\tim.c" />
+    <ClCompile Include="..\..\coders\topol.c" />
+    <ClCompile Include="..\..\coders\ttf.c" />
+    <ClCompile Include="..\..\coders\txt.c" />
+    <ClCompile Include="..\..\coders\uil.c" />
+    <ClCompile Include="..\..\coders\url.c" />
+    <ClCompile Include="..\..\coders\uyvy.c" />
+    <ClCompile Include="..\..\coders\vicar.c" />
+    <ClCompile Include="..\..\coders\vid.c" />
+    <ClCompile Include="..\..\coders\viff.c" />
+    <ClCompile Include="..\..\coders\wbmp.c" />
+    <ClCompile Include="..\..\coders\webp.c" />
+    <ClCompile Include="..\..\coders\wmf.c" />
+    <ClCompile Include="..\..\coders\wpg.c" />
+    <ClCompile Include="..\..\coders\x.c" />
+    <ClCompile Include="..\..\coders\xbm.c" />
+    <ClCompile Include="..\..\coders\xc.c" />
+    <ClCompile Include="..\..\coders\xcf.c" />
+    <ClCompile Include="..\..\coders\xpm.c" />
+    <ClCompile Include="..\..\coders\xtrn.c" />
+    <ClCompile Include="..\..\coders\xwd.c" />
+    <ClCompile Include="..\..\coders\yuv.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\bzlib\CORE_bzlib.vcxproj">
+      <Project>{2bee02cb-bae8-4b48-9d07-4d102a0827bd}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\jbig\CORE_jbig.vcxproj">
+      <Project>{56ed8a40-51a5-49ef-bee1-10a4ef0c11df}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\jp2\CORE_jp2.vcxproj">
+      <Project>{8d4d1e05-54b0-4861-a657-3eeafefebbe2}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\jpeg\CORE_jpeg.vcxproj">
+      <Project>{d5b667d9-4a72-4ccb-aaf6-8ba2c433edd6}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\libxml\CORE_libxml.vcxproj">
+      <Project>{8b797ed0-1330-469e-99c8-6d6669921412}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\magick\CORE_magick.vcxproj">
+      <Project>{8f881d50-14c0-4d6d-a47a-086c73bb7da3}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\png\CORE_png.vcxproj">
+      <Project>{bf6e0ff5-5886-4845-b21d-b82d631bec00}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\tiff\CORE_tiff.vcxproj">
+      <Project>{e3c6d871-83ec-4f64-815a-afd9e6b63eda}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\ttf\CORE_ttf.vcxproj">
+      <Project>{57cd7f0e-d3c6-4914-83ae-315ba04ea555}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\webp\CORE_webp.vcxproj">
+      <Project>{b483cdc5-37fa-4580-861c-ae28e823781b}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\wmf\CORE_wmf.vcxproj">
+      <Project>{d8ce3982-3e41-47a0-9f32-138728b45b6d}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\zlib\CORE_zlib.vcxproj">
+      <Project>{c4c77088-9772-4f2c-898b-653acb53b11a}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\coders\static.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

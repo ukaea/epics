@@ -12,3 +12,5 @@ AUTOSAVE      = $(SUPPORT)/autosave
 
 # If CONFIG_SITE.local defines EPICS_V4=YES then define the path here
 EV4_BASE      = \epics/epicsV4
+
+-include $(AREA_DETECTOR)/configure/RELEASE_PATHS.local.$(EPICS_HOST_ARCH)

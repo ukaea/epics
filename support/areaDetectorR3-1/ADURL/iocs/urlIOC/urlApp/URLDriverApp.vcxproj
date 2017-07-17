@@ -75,52 +75,52 @@
     <ProjectReference Include="..\..\..\..\ADCore\ADApp\pluginSrc\NDPlugin.vcxproj">
       <Project>{98dff6ea-747c-4964-a11f-7abb34b314f4}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\ADSupport\supportApp\GraphicsMagick\VisualMagick\bzlib\CORE_bzlib.vcxproj">
+    <ProjectReference Include="..\..\..\..\ADSupport\supportApp\GraphicsMagickSrc\VisualMagick\bzlib\CORE_bzlib.vcxproj">
       <Project>{2bee02cb-bae8-4b48-9d07-4d102a0827bd}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\ADSupport\supportApp\GraphicsMagick\VisualMagick\coders\CORE_coders.vcxproj">
+    <ProjectReference Include="..\..\..\..\ADSupport\supportApp\GraphicsMagickSrc\VisualMagick\coders\CORE_coders.vcxproj">
       <Project>{dcfe05fb-91fa-4885-be8c-e3f19d156ac3}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\ADSupport\supportApp\GraphicsMagick\VisualMagick\filters\CORE_filters.vcxproj">
+    <ProjectReference Include="..\..\..\..\ADSupport\supportApp\GraphicsMagickSrc\VisualMagick\filters\CORE_filters.vcxproj">
       <Project>{bb4263f7-6587-4d6b-9d8d-610072e7b119}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\ADSupport\supportApp\GraphicsMagick\VisualMagick\jbig\CORE_jbig.vcxproj">
+    <ProjectReference Include="..\..\..\..\ADSupport\supportApp\GraphicsMagickSrc\VisualMagick\jbig\CORE_jbig.vcxproj">
       <Project>{56ed8a40-51a5-49ef-bee1-10a4ef0c11df}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\ADSupport\supportApp\GraphicsMagick\VisualMagick\jp2\CORE_jp2.vcxproj">
+    <ProjectReference Include="..\..\..\..\ADSupport\supportApp\GraphicsMagickSrc\VisualMagick\jp2\CORE_jp2.vcxproj">
       <Project>{8d4d1e05-54b0-4861-a657-3eeafefebbe2}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\ADSupport\supportApp\GraphicsMagick\VisualMagick\jpeg\CORE_jpeg.vcxproj">
+    <ProjectReference Include="..\..\..\..\ADSupport\supportApp\GraphicsMagickSrc\VisualMagick\jpeg\CORE_jpeg.vcxproj">
       <Project>{d5b667d9-4a72-4ccb-aaf6-8ba2c433edd6}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\ADSupport\supportApp\GraphicsMagick\VisualMagick\lcms\CORE_lcms.vcxproj">
+    <ProjectReference Include="..\..\..\..\ADSupport\supportApp\GraphicsMagickSrc\VisualMagick\lcms\CORE_lcms.vcxproj">
       <Project>{e2b6d5e1-7383-4dca-ba1c-05b8f2c44e4e}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\ADSupport\supportApp\GraphicsMagick\VisualMagick\libxml\CORE_libxml.vcxproj">
+    <ProjectReference Include="..\..\..\..\ADSupport\supportApp\GraphicsMagickSrc\VisualMagick\libxml\CORE_libxml.vcxproj">
       <Project>{8b797ed0-1330-469e-99c8-6d6669921412}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\ADSupport\supportApp\GraphicsMagick\VisualMagick\Magick++\CORE_Magick++.vcxproj">
+    <ProjectReference Include="..\..\..\..\ADSupport\supportApp\GraphicsMagickSrc\VisualMagick\Magick++\CORE_Magick++.vcxproj">
       <Project>{055517c9-0a16-49eb-938a-ff2cff783b99}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\ADSupport\supportApp\GraphicsMagick\VisualMagick\magick\CORE_magick.vcxproj">
+    <ProjectReference Include="..\..\..\..\ADSupport\supportApp\GraphicsMagickSrc\VisualMagick\magick\CORE_magick.vcxproj">
       <Project>{8f881d50-14c0-4d6d-a47a-086c73bb7da3}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\ADSupport\supportApp\GraphicsMagick\VisualMagick\png\CORE_png.vcxproj">
+    <ProjectReference Include="..\..\..\..\ADSupport\supportApp\GraphicsMagickSrc\VisualMagick\png\CORE_png.vcxproj">
       <Project>{bf6e0ff5-5886-4845-b21d-b82d631bec00}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\ADSupport\supportApp\GraphicsMagick\VisualMagick\tiff\CORE_tiff.vcxproj">
+    <ProjectReference Include="..\..\..\..\ADSupport\supportApp\GraphicsMagickSrc\VisualMagick\tiff\CORE_tiff.vcxproj">
       <Project>{e3c6d871-83ec-4f64-815a-afd9e6b63eda}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\ADSupport\supportApp\GraphicsMagick\VisualMagick\ttf\CORE_ttf.vcxproj">
+    <ProjectReference Include="..\..\..\..\ADSupport\supportApp\GraphicsMagickSrc\VisualMagick\ttf\CORE_ttf.vcxproj">
       <Project>{57cd7f0e-d3c6-4914-83ae-315ba04ea555}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\ADSupport\supportApp\GraphicsMagick\VisualMagick\webp\CORE_webp.vcxproj">
+    <ProjectReference Include="..\..\..\..\ADSupport\supportApp\GraphicsMagickSrc\VisualMagick\webp\CORE_webp.vcxproj">
       <Project>{b483cdc5-37fa-4580-861c-ae28e823781b}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\ADSupport\supportApp\GraphicsMagick\VisualMagick\wmf\CORE_wmf.vcxproj">
+    <ProjectReference Include="..\..\..\..\ADSupport\supportApp\GraphicsMagickSrc\VisualMagick\wmf\CORE_wmf.vcxproj">
       <Project>{d8ce3982-3e41-47a0-9f32-138728b45b6d}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\ADSupport\supportApp\GraphicsMagick\VisualMagick\zlib\CORE_zlib.vcxproj">
+    <ProjectReference Include="..\..\..\..\ADSupport\supportApp\GraphicsMagickSrc\VisualMagick\zlib\CORE_zlib.vcxproj">
       <Project>{c4c77088-9772-4f2c-898b-653acb53b11a}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\ADSupport\supportApp\hdf5Src\hdf5.vcxproj">

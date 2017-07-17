@@ -66,7 +66,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "makeBpt", "..\..\..\base-3.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "support", "support", "{0419E814-81A1-4054-B88C-0AACD53CAAAB}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "areaDetectorR2-6", "areaDetectorR2-6", "{B4C01990-91CA-4F74-95B2-90F7286BCCF9}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "areaDetectorR3-1", "areaDetectorR3-1", "{B4C01990-91CA-4F74-95B2-90F7286BCCF9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ADURL", "ADURL", "{A26F1C8E-2B8E-4D85-8B4E-799905A7BB43}"
 EndProject
@@ -76,7 +76,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "urlIOC", "urlIOC", "{A5236B
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "urlAPP", "urlAPP", "{7B41D864-863A-410A-8A50-6322BC88746D}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "URLDriverApp", "iocs\urlIOC\urlAPP\URLDriverApp.vcxproj", "{B113F023-4E72-48D0-9DE0-F6BFF5CAC62A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "URLDriverApp", "iocs\urlIOC\urlApp\URLDriverApp.vcxproj", "{B113F023-4E72-48D0-9DE0-F6BFF5CAC62A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "urlApp", "urlApp", "{C6D31DE6-C1C3-4378-A005-34DED5D99E49}"
 EndProject
@@ -84,41 +84,41 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "URLDriver", "urlApp\URLDriv
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ADSupport", "ADSupport", "{0E746B6F-00AD-449C-9575-03AA410EB23A}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GraphicsMagick", "GraphicsMagick", "{661DDC1C-3156-48A2-80CD-605B81CCA86C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GraphicsMagickSrc", "GraphicsMagickSrc", "{661DDC1C-3156-48A2-80CD-605B81CCA86C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "VisualMagick", "VisualMagick", "{7ED86CF4-02D8-4E11-9B8B-0454B502DAA0}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CORE_bzlib", "..\ADSupport\supportApp\GraphicsMagick\VisualMagick\bzlib\CORE_bzlib.vcxproj", "{2BEE02CB-BAE8-4B48-9D07-4D102A0827BD}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CORE_bzlib", "..\ADSupport\supportApp\GraphicsMagickSrc\VisualMagick\bzlib\CORE_bzlib.vcxproj", "{2BEE02CB-BAE8-4B48-9D07-4D102A0827BD}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CORE_coders", "..\ADSupport\supportApp\GraphicsMagick\VisualMagick\coders\CORE_coders.vcxproj", "{DCFE05FB-91FA-4885-BE8C-E3F19D156AC3}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CORE_coders", "..\ADSupport\supportApp\GraphicsMagickSrc\VisualMagick\coders\CORE_coders.vcxproj", "{DCFE05FB-91FA-4885-BE8C-E3F19D156AC3}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CORE_filters", "..\ADSupport\supportApp\GraphicsMagick\VisualMagick\filters\CORE_filters.vcxproj", "{BB4263F7-6587-4D6B-9D8D-610072E7B119}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CORE_filters", "..\ADSupport\supportApp\GraphicsMagickSrc\VisualMagick\filters\CORE_filters.vcxproj", "{BB4263F7-6587-4D6B-9D8D-610072E7B119}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CORE_jbig", "..\ADSupport\supportApp\GraphicsMagick\VisualMagick\jbig\CORE_jbig.vcxproj", "{56ED8A40-51A5-49EF-BEE1-10A4EF0C11DF}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CORE_jbig", "..\ADSupport\supportApp\GraphicsMagickSrc\VisualMagick\jbig\CORE_jbig.vcxproj", "{56ED8A40-51A5-49EF-BEE1-10A4EF0C11DF}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CORE_jp2", "..\ADSupport\supportApp\GraphicsMagick\VisualMagick\jp2\CORE_jp2.vcxproj", "{8D4D1E05-54B0-4861-A657-3EEAFEFEBBE2}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CORE_jp2", "..\ADSupport\supportApp\GraphicsMagickSrc\VisualMagick\jp2\CORE_jp2.vcxproj", "{8D4D1E05-54B0-4861-A657-3EEAFEFEBBE2}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CORE_lcms", "..\ADSupport\supportApp\GraphicsMagick\VisualMagick\lcms\CORE_lcms.vcxproj", "{E2B6D5E1-7383-4DCA-BA1C-05B8F2C44E4E}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CORE_lcms", "..\ADSupport\supportApp\GraphicsMagickSrc\VisualMagick\lcms\CORE_lcms.vcxproj", "{E2B6D5E1-7383-4DCA-BA1C-05B8F2C44E4E}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CORE_magick", "..\ADSupport\supportApp\GraphicsMagick\VisualMagick\magick\CORE_magick.vcxproj", "{8F881D50-14C0-4D6D-A47A-086C73BB7DA3}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CORE_magick", "..\ADSupport\supportApp\GraphicsMagickSrc\VisualMagick\magick\CORE_magick.vcxproj", "{8F881D50-14C0-4D6D-A47A-086C73BB7DA3}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CORE_Magick++", "..\ADSupport\supportApp\GraphicsMagick\VisualMagick\Magick++\CORE_Magick++.vcxproj", "{055517C9-0A16-49EB-938A-FF2CFF783B99}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CORE_Magick++", "..\ADSupport\supportApp\GraphicsMagickSrc\VisualMagick\Magick++\CORE_Magick++.vcxproj", "{055517C9-0A16-49EB-938A-FF2CFF783B99}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CORE_png", "..\ADSupport\supportApp\GraphicsMagick\VisualMagick\png\CORE_png.vcxproj", "{BF6E0FF5-5886-4845-B21D-B82D631BEC00}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CORE_png", "..\ADSupport\supportApp\GraphicsMagickSrc\VisualMagick\png\CORE_png.vcxproj", "{BF6E0FF5-5886-4845-B21D-B82D631BEC00}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CORE_ttf", "..\ADSupport\supportApp\GraphicsMagick\VisualMagick\ttf\CORE_ttf.vcxproj", "{57CD7F0E-D3C6-4914-83AE-315BA04EA555}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CORE_ttf", "..\ADSupport\supportApp\GraphicsMagickSrc\VisualMagick\ttf\CORE_ttf.vcxproj", "{57CD7F0E-D3C6-4914-83AE-315BA04EA555}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CORE_webp", "..\ADSupport\supportApp\GraphicsMagick\VisualMagick\webp\CORE_webp.vcxproj", "{B483CDC5-37FA-4580-861C-AE28E823781B}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CORE_webp", "..\ADSupport\supportApp\GraphicsMagickSrc\VisualMagick\webp\CORE_webp.vcxproj", "{B483CDC5-37FA-4580-861C-AE28E823781B}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CORE_wmf", "..\ADSupport\supportApp\GraphicsMagick\VisualMagick\wmf\CORE_wmf.vcxproj", "{D8CE3982-3E41-47A0-9F32-138728B45B6D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CORE_wmf", "..\ADSupport\supportApp\GraphicsMagickSrc\VisualMagick\wmf\CORE_wmf.vcxproj", "{D8CE3982-3E41-47A0-9F32-138728B45B6D}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CORE_libxml", "..\ADSupport\supportApp\GraphicsMagick\VisualMagick\libxml\CORE_libxml.vcxproj", "{8B797ED0-1330-469E-99C8-6D6669921412}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CORE_libxml", "..\ADSupport\supportApp\GraphicsMagickSrc\VisualMagick\libxml\CORE_libxml.vcxproj", "{8B797ED0-1330-469E-99C8-6D6669921412}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CORE_tiff", "..\ADSupport\supportApp\GraphicsMagick\VisualMagick\tiff\CORE_tiff.vcxproj", "{E3C6D871-83EC-4F64-815A-AFD9E6B63EDA}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CORE_tiff", "..\ADSupport\supportApp\GraphicsMagickSrc\VisualMagick\tiff\CORE_tiff.vcxproj", "{E3C6D871-83EC-4F64-815A-AFD9E6B63EDA}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CORE_jpeg", "..\ADSupport\supportApp\GraphicsMagick\VisualMagick\jpeg\CORE_jpeg.vcxproj", "{D5B667D9-4A72-4CCB-AAF6-8BA2C433EDD6}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CORE_jpeg", "..\ADSupport\supportApp\GraphicsMagickSrc\VisualMagick\jpeg\CORE_jpeg.vcxproj", "{D5B667D9-4A72-4CCB-AAF6-8BA2C433EDD6}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CORE_zlib", "..\ADSupport\supportApp\GraphicsMagick\VisualMagick\zlib\CORE_zlib.vcxproj", "{C4C77088-9772-4F2C-898B-653ACB53B11A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CORE_zlib", "..\ADSupport\supportApp\GraphicsMagickSrc\VisualMagick\zlib\CORE_zlib.vcxproj", "{C4C77088-9772-4F2C-898B-653ACB53B11A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "bzlib", "bzlib", "{70C08225-F674-4E79-A237-3B127EBFE97D}"
 EndProject
@@ -1019,9 +1019,9 @@ Global
 		{D5B667D9-4A72-4CCB-AAF6-8BA2C433EDD6} = {F9B3E6C2-C70B-43CF-8381-AA97EA117044}
 		{C4C77088-9772-4F2C-898B-653ACB53B11A} = {CB325354-3A04-4948-9E31-50A8754AA822}
 		{5AC8D97E-E50B-4280-B7AB-541A6725A26E} = {9E79E287-83E2-4322-A014-9ACA80A1A48C}
+		{77CBC12C-AE16-40EF-A286-A61535F45A99} = {5AC8D97E-E50B-4280-B7AB-541A6725A26E}
 		{E2C160E0-B9FF-4E8E-92B3-FD898011155D} = {5AC8D97E-E50B-4280-B7AB-541A6725A26E}
 		{F00FDECF-9B2D-46DB-9E9B-E58B5EFCE42F} = {5AC8D97E-E50B-4280-B7AB-541A6725A26E}
-		{77CBC12C-AE16-40EF-A286-A61535F45A99} = {5AC8D97E-E50B-4280-B7AB-541A6725A26E}
 		{98DFF6EA-747C-4964-A11F-7ABB34B314F4} = {E2C160E0-B9FF-4E8E-92B3-FD898011155D}
 		{A1C1777E-50D2-47DC-91BB-3B328362214A} = {944D37EB-CA44-4C68-928A-E669406F6EFD}
 		{C30F7D75-9FCE-40E5-ADB0-AF5E9355DAEE} = {944D37EB-CA44-4C68-928A-E669406F6EFD}

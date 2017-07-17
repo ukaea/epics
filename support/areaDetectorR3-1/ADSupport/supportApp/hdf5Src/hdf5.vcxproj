@@ -516,7 +516,7 @@
     <ClInclude Include="os\WIN32\H5pubconf.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GraphicsMagick\VisualMagick\zlib\CORE_zlib.vcxproj">
+    <ProjectReference Include="..\GraphicsMagickSrc\VisualMagick\zlib\CORE_zlib.vcxproj">
       <Project>{c4c77088-9772-4f2c-898b-653acb53b11a}</Project>
     </ProjectReference>
     <ProjectReference Include="..\szipSrc\szip.vcxproj">

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{640de621-74d3-43f0-9d4f-b22856f562cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include">
+      <UniqueIdentifier>{529e4dd2-8c8f-4e33-9f84-fe74fdf92dc1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="resource">
+      <UniqueIdentifier>{c59864ab-3cca-4bb3-a581-1dff35dd0677}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\libwmf">
+      <UniqueIdentifier>{37959964-9399-4ad9-9714-9c73d6a8a916}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\api">
+      <UniqueIdentifier>{4222326f-19a3-446d-ae31-ab5d3d0c57dd}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\wmf\src\api.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\wmf\src\bbuf.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\wmf\src\meta.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\wmf\src\player.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\wmf\src\recorder.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\wmf\src\font.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\wmf\src\io-wmf.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\wmf\src\stream.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\wmf\src\wmf.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\wmf\src\xml.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\wmf\src\api\api.c">
+      <Filter>src\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\wmf\src\api\bbuf.c">
+      <Filter>src\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\wmf\src\api\meta.c">
+      <Filter>src\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\wmf\src\api\stream.c">
+      <Filter>src\api</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\wmf\src\font.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\wmf\src\stream.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\wmf\src\api\api.h">
+      <Filter>src\api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\wmf\src\api\bbuf.h">
+      <Filter>src\api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\wmf\src\api\stream.h">
+      <Filter>src\api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\wmf\include\libwmf\api.h">
+      <Filter>include\libwmf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\wmf\include\libwmf\canvas.h">
+      <Filter>include\libwmf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\wmf\include\libwmf\color.h">
+      <Filter>include\libwmf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\wmf\include\libwmf\defs.h">
+      <Filter>include\libwmf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\wmf\include\libwmf\eps.h">
+      <Filter>include\libwmf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\wmf\include\libwmf\fig.h">
+      <Filter>include\libwmf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\wmf\include\libwmf\font.h">
+      <Filter>include\libwmf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\wmf\include\libwmf\foreign.h">
+      <Filter>include\libwmf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\wmf\include\libwmf\fund.h">
+      <Filter>include\libwmf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\wmf\include\libwmf\gd.h">
+      <Filter>include\libwmf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\wmf\include\libwmf\ipa.h">
+      <Filter>include\libwmf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\wmf\include\libwmf\macro.h">
+      <Filter>include\libwmf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\wmf\include\libwmf\plot.h">
+      <Filter>include\libwmf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\wmf\include\libwmf\svg.h">
+      <Filter>include\libwmf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\wmf\include\libwmf\template.h">
+      <Filter>include\libwmf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\wmf\include\libwmf\types.h">
+      <Filter>include\libwmf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\wmf\include\libwmf\x.h">
+      <Filter>include\libwmf</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\wmf\src\Makefile">
+      <Filter>src</Filter>
+    </None>
+    <None Include="..\..\wmf\src\Makefile.am">
+      <Filter>src</Filter>
+    </None>
+    <None Include="..\..\wmf\src\Makefile.in">
+      <Filter>src</Filter>
+    </None>
+    <None Include="..\..\wmf\src\api\Makefile.am">
+      <Filter>src\api</Filter>
+    </None>
+    <None Include="..\..\wmf\src\api\Makefile.in">
+      <Filter>src\api</Filter>
+    </None>
+    <None Include="..\..\wmf\include\libwmf\Makefile.am">
+      <Filter>include\libwmf</Filter>
+    </None>
+    <None Include="..\..\wmf\include\libwmf\Makefile.in">
+      <Filter>include\libwmf</Filter>
+    </None>
+  </ItemGroup>
+</Project>

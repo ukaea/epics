@@ -1,34 +1,35 @@
-call ..\..\..\..\..\..\..\..\base\startup\win32.bat x86
+set EPICS_HOST_ARCH=win32-x86-static
 pushd ..
 call start_epics.bat
 popd
 timeout 30
 
-call ..\..\..\..\..\..\..\..\base\startup\win32.bat x86-DLL
+set EPICS_HOST_ARCH=win32-x86
 pushd ..
 call start_epics.bat
 popd
 timeout 30
 
-call ..\..\..\..\..\..\..\..\base\startup\win32.bat x86-debug-DLL
+set EPICS_HOST_ARCH=win32-x86-debug
 pushd ..
 call start_epics.bat
 popd
 timeout 30
 
-call ..\..\..\..\..\..\..\..\base\startup\win32.bat x64
+set EPICS_HOST_ARCH=win32-x86-debug-static
 pushd ..
 call start_epics.bat
 popd
 timeout 30
 
-call ..\..\..\..\..\..\..\..\base\startup\win32.bat x64-DLL
+set EPICS_HOST_ARCH=windows-x64
 pushd ..
 call start_epics.bat
 popd
 timeout 30
 
-call ..\..\..\..\..\..\..\..\base\startup\win32.bat x64-debug-DLL
+set EPICS_HOST_ARCH=windows-x64-debug
 pushd ..
 call start_epics.bat
 popd
+

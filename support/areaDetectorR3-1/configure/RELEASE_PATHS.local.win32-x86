@@ -1,4 +1,0 @@
-# This file is included after RELEASE_PATHS.local, and can override any of the definitions for a specific
-# EPICS target architecture
-
-STATIC_BUILD  = NO
