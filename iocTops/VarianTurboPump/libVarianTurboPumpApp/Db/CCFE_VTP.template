@@ -51,24 +51,24 @@ record(bi, "$(P):LowSpeed:rbk") {
    field(EVNT, "$(EVSLOW)")
 }
 
-#record(bo, "$(P):LowSpeed") {
-#   field(DESC, "Run at Low Speed")
-#   field(ASG, "vtp")
-#  field(DTYP, "stream")
-#  field(OUT,  "@$(PROTO).proto setLowSpeed $(PORT)")
-#   field(ZNAM, "High Speed")
-#   field(ONAM, "Low Speed")
-#}
+record(bo, "$(P):LowSpeed") {
+   field(DESC, "Run at Low Speed")
+   field(ASG, "vtp")
+  field(DTYP, "stream")
+  field(OUT,  "@$(PROTO).proto setLowSpeed $(PORT)")
+   field(ZNAM, "High Speed")
+   field(ONAM, "Low Speed")
+}
 
-#record(seq, "$(P):LowSpeed:upd") {
-#   field(DESC, "Update RBK after setting")
-#   field(DOL1, "1")
-#   field(DLY1, "0.5")
-#   field(LNK1, "$(P):LowSpeed:rbk.PROC")
-#   field(DOL2, "1")
-#   field(DLY2, "2.0")
-#   field(LNK2, "$(P):LowSpeed:rbk.PROC")
-#}
+record(seq, "$(P):LowSpeed:upd") {
+   field(DESC, "Update RBK after setting")
+   field(DOL1, "1")
+   field(DLY1, "0.5")
+   field(LNK1, "$(P):LowSpeed:rbk.PROC")
+   field(DOL2, "1")
+   field(DLY2, "2.0")
+   field(LNK2, "$(P):LowSpeed:rbk.PROC")
+}
 
 record(mbbi, "$(P):Ctrl:Mode:rbk") {
    field(DESC, "Control Input Mode")
@@ -112,25 +112,25 @@ record(bi, "$(P):SoftStart:rbk") {
    #field(EVNT, "$(EVSINGLE)")
 }
 
-#record(bo, "$(P):SoftStart") {
-#   field(DESC, "Soft Start (after long shutdown")
-#   field(ASG, "vtp")
-#   field(DTYP, "stream")
-#   field(OUT,  "@$(PROTO).proto setSoftStart $(PORT)") 
-#   field(ZNAM, "No")
-#   field(ONAM, "Yes")
-#   field(FLNK, "$(P):SoftStart:upd")
-#}
+record(bo, "$(P):SoftStart") {
+   field(DESC, "Soft Start (after long shutdown")
+   field(ASG, "vtp")
+   field(DTYP, "stream")
+   field(OUT,  "@$(PROTO).proto setSoftStart $(PORT)") 
+   field(ZNAM, "No")
+   field(ONAM, "Yes")
+   field(FLNK, "$(P):SoftStart:upd")
+}
 
-#record(seq, "$(P):SoftStart:upd") {
-#   field(DESC, "Update RBK after setting")
-#   field(DOL1, "1")
-#   field(DLY1, "0.5")
-#   field(LNK1, "$(P):SoftStart:rbk.PROC")
-#   field(DOL2, "1")
-#   field(DLY2, "2.0")
-#   field(LNK2, "$(P):SoftStart:rbk.PROC")
-#}
+record(seq, "$(P):SoftStart:upd") {
+   field(DESC, "Update RBK after setting")
+   field(DOL1, "1")
+   field(DLY1, "0.5")
+   field(LNK1, "$(P):SoftStart:rbk.PROC")
+   field(DOL2, "1")
+   field(DLY2, "2.0")
+   field(LNK2, "$(P):SoftStart:rbk.PROC")
+}
 
 record(bi, "$(P):ActiveStop:rbk") {
    field(DESC, "Active Breaking")
@@ -142,25 +142,25 @@ record(bi, "$(P):ActiveStop:rbk") {
    #field(EVNT, "$(EVSINGLE)")
 }
 
-#record(bo, "$(P):ActiveStop") {
-#   field(DESC, "Active Breaking")
-#   field(ASG, "vtp")
-#   field(DTYP, "stream")
-#   field(OUT,  "@$(PROTO).proto setActiveStop $(PORT)")
-#   field(ZNAM, "No")
-#   field(ONAM, "Yes")
-#   field(FLNK, "$(P):ActiveStop:upd")
-#}
+record(bo, "$(P):ActiveStop") {
+   field(DESC, "Active Breaking")
+   field(ASG, "vtp")
+   field(DTYP, "stream")
+   field(OUT,  "@$(PROTO).proto setActiveStop $(PORT)")
+   field(ZNAM, "No")
+   field(ONAM, "Yes")
+   field(FLNK, "$(P):ActiveStop:upd")
+}
 
-#record(seq, "$(P):ActiveStop:upd") {
-#   field(DESC, "Update RBK after setting")
-#   field(DOL1, "1")
-#   field(DLY1, "0.5")
-#   field(LNK1, "$(P):ActiveStop:rbk.PROC")
-#   field(DOL2, "1")
-#   field(DLY2, "2.0")
-#   field(LNK2, "$(P):ActiveStop:rbk.PROC")
-#}
+record(seq, "$(P):ActiveStop:upd") {
+   field(DESC, "Update RBK after setting")
+   field(DOL1, "1")
+   field(DLY1, "0.5")
+   field(LNK1, "$(P):ActiveStop:rbk.PROC")
+   field(DOL2, "1")
+   field(DLY2, "2.0")
+   field(LNK2, "$(P):ActiveStop:rbk.PROC")
+}
 
 record(mbbi, "$(P):BaudRate:rbk") {
    field(DESC, "Baud Rate")
@@ -506,27 +506,65 @@ record(mbbi, "$(P):Serial:Type:rbk") {
 #   field(LNK2, "$(P):Serial:Type:rbk.PROC")
 #}
 
+record(bi, "$(P):PurgeValvePos:rbk") {
+   field(DESC, "Purge Valve Position")
+   field(DTYP, "stream")
+   field(INP,  "@$(PROTO).proto getPurgeValvePos $(PORT)")
+   field(ZNAM, "Closed")
+   field(ONAM, "Open")
+   #field(SCAN, "Event")
+   #field(EVNT, "$(EVSINGLE)")
+}
+
+record(bo, "$(P):PurgeValvePos") {
+   field(DESC, "Purge Valve Position")
+   field(ASG, "vtp")
+   field(DTYP, "stream")
+   field(OUT,  "@$(PROTO).proto setPurgeValvePos $(PORT)")
+   field(ZNAM, "Close")
+   field(ONAM, "Open")
+   #Force valve position to 1
+   field(PINI, "YES")
+   field(DOL, "Open")
+   field(OMSL, "closed_loop")
+   #Force readback
+   field(FLNK, "$(P):PurgeValvePos:upd")
+}
+
+record(seq, "$(P):PurgeValvePos:upd") {
+   field(DESC, "Update RBK after setting")
+   field(DOL1, "1")
+   field(DLY1, "0.5")
+   field(LNK1, "$(P):PurgeValvePos:rbk.PROC")
+   field(DOL2, "1")
+   field(DLY2, "2.0")
+   field(LNK2, "$(P):PurgeValvePos:rbk.PROC")
+}
+
 #
 # Error handling
 #
-record(mbbi, "$(P):Error:Resp") {
-   field(DESC, "Last Request Error Response")
-   field(DTYP, "stream")
-   field(SCAN, "I/O Intr")
-   field(INP,  "@$(PROTO).proto trapErrors $(PORT)")
-   field(ZRST, "No Error")		field(ZRVL, "0xff")
-   field(ONST, "Command Failed")	field(ONVL, "0x15")
-   field(TWST, "Unknown Command Code")	field(TWVL, "0x32")
-   field(THST, "Wrong Data Type")	field(THVL, "0x33")
-   field(FRST, "Out of Range")		field(FRVL, "0x34")
-   field(FVST, "Command Disabled")	field(FVVL, "0x35")
-   field(FLNK, "$(P):Error:Code")
-}
+
+#record(mbbi, "$(P):Error:Resp") {
+#   field(DESC, "Last Request Error Response")
+#   field(DTYP, "stream")
+#   field(SCAN, "I/O Intr")
+#   field(INP,  "@$(PROTO).proto trapErrors $(PORT)")
+#   field(ZRST, "No Error")		field(ZRVL, "0xff")
+#   field(ONST, "Command Failed")	field(ONVL, "0x15")
+#   field(TWST, "Unknown Command Code")	field(TWVL, "0x32")
+#   field(THST, "Wrong Data Type")	field(THVL, "0x33")
+#   field(FRST, "Out of Range")		field(FRVL, "0x34")
+#   field(FVST, "Command Disabled")	field(FVVL, "0x35")
+#   field(FLNK, "$(P):Error:Code")
+#}
 
 record(mbbiDirect, "$(P):Error:Code") {
    field(DESC, "Error Code")
    field(DTYP, "stream")
    field(INP,  "@$(PROTO).proto getErrorCode $(PORT)")
+   field(SCAN, "Event")
+   field(EVNT, "$(EVFAST)")
 }
 
 #
@@ -617,10 +655,12 @@ record(seq, "$(P):Update:2") {
    field(LNK3, "$(P):Listing:Program.PROC")
    field(LNK4, "$(P):Listing:Parameter.PROC")
    field(LNK5, "$(P):Serial:Type:rbk.PROC")
+   field(LNK6, "$(P):PurgeValvePos:rbk.PROC")
    field(LNKA, "$(P):Update:L.PROC")
    field(DLY2, "0.1")
    field(DLY3, "0.1")
    field(DLY4, "0.1")
+   field(DLY5, "0.1")
    field(DLYA, "0.1")
 }
 record(seq, "$(P):Update:L") {

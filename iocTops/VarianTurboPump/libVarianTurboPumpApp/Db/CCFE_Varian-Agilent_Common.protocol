@@ -51,6 +51,6 @@ getErrorCode {
 # This traps error responses
 # Be sure to set SCAN field to "I/O Intr"
 #
-trapErrors {
-  in  "\${STX}\${ADDR}%{\xff|\x15|\x32|\x33|\x34|\x35}\${ETX}%01<xor8>";
-}
+#trapErrors {
+# in  "\${STX}\${ADDR}%{\xff|\x15|\x32|\x33|\x34|\x35}\${ETX}%01<xor8>";
+#}

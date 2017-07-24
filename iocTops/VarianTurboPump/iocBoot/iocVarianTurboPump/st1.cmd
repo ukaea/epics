@@ -18,7 +18,8 @@ asynSetOption ("L8", 0, "clocal", "N")
 asynSetOption ("L8", 0, "crtscts", "N")
 
 ## Load record instances
-dbLoadRecords("../../db/VarianTurboPump.db")
+#Replace TST-2296-TT2300-1 with name for this IOC instance
+dbLoadRecords("../../db/VarianTurboPump.db","DVC=TST-2296-TT2300-1")
 
 ## Apply security
 #Replace X with name of CA client controlling this pump

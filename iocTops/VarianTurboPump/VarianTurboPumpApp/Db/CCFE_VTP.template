@@ -544,24 +544,27 @@ record(seq, "$(P):PurgeValvePos:upd") {
 #
 # Error handling
 #
-record(mbbi, "$(P):Error:Resp") {
-   field(DESC, "Last Request Error Response")
-   field(DTYP, "stream")
-   field(SCAN, "I/O Intr")
-   field(INP,  "@$(PROTO).proto trapErrors $(PORT)")
-   field(ZRST, "No Error")		field(ZRVL, "0xff")
-   field(ONST, "Command Failed")	field(ONVL, "0x15")
-   field(TWST, "Unknown Command Code")	field(TWVL, "0x32")
-   field(THST, "Wrong Data Type")	field(THVL, "0x33")
-   field(FRST, "Out of Range")		field(FRVL, "0x34")
-   field(FVST, "Command Disabled")	field(FVVL, "0x35")
-   field(FLNK, "$(P):Error:Code")
-}
+
+#record(mbbi, "$(P):Error:Resp") {
+#   field(DESC, "Last Request Error Response")
+#   field(DTYP, "stream")
+#   field(SCAN, "I/O Intr")
+#   field(INP,  "@$(PROTO).proto trapErrors $(PORT)")
+#   field(ZRST, "No Error")		field(ZRVL, "0xff")
+#   field(ONST, "Command Failed")	field(ONVL, "0x15")
+#   field(TWST, "Unknown Command Code")	field(TWVL, "0x32")
+#   field(THST, "Wrong Data Type")	field(THVL, "0x33")
+#   field(FRST, "Out of Range")		field(FRVL, "0x34")
+#   field(FVST, "Command Disabled")	field(FVVL, "0x35")
+#   field(FLNK, "$(P):Error:Code")
+#}
 
 record(mbbiDirect, "$(P):Error:Code") {
    field(DESC, "Error Code")
    field(DTYP, "stream")
    field(INP,  "@$(PROTO).proto getErrorCode $(PORT)")
+   field(SCAN, "Event")
+   field(EVNT, "$(EVFAST)")
 }
 
 #
