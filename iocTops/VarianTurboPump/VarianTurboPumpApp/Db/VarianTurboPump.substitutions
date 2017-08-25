@@ -1,15 +1,15 @@
 file CCFE_VTP.template
 {
 	pattern
-	{ P		PORT	PROTO		EVFAST	EVSLOW	EVSINGLE }
-	{ TST-2296-TT2300-1	L8	Agilent_TT2300	54	53	52	}
+	{ P	PORT	PROTO		EVFAST	EVSLOW	EVSINGLE }
+	{ \$(DVC)	L8	Agilent_TT2300	54	53	52	}
 }
 
 file Varian-Agilent_ErrorA.template
 {
 	pattern
 	{ P		}
-	{ TST-2296-TT2300-1  }
+	{ \$(DVC)	}
 }
 
 
