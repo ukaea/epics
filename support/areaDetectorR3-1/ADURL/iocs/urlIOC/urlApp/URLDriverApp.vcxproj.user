@@ -43,7 +43,7 @@ $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
 MAGICK_DEBUG=configure,exception
 $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-    <LocalDebuggerCommandArguments>st.cmd.win32</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>st.cmd.windows</LocalDebuggerCommandArguments>
     <LocalDebuggerWorkingDirectory>..\iocBoot\iocURLDriver</LocalDebuggerWorkingDirectory>
     <DevPartner_IsInstrumented>1</DevPartner_IsInstrumented>
     <DevPartner_Instrumented_Type> /NMbcOn</DevPartner_Instrumented_Type>
