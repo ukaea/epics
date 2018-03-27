@@ -525,7 +525,7 @@ record(bo, "$(P):PurgeValvePos") {
    field(ONAM, "Open")
    #Force valve position to 1
    field(PINI, "YES")
-   field(DOL, "Open")
+   field(DOL, 1)
    field(OMSL, "closed_loop")
    #Force readback
    field(FLNK, "$(P):PurgeValvePos:upd")

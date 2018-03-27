@@ -1,0 +1,26 @@
+VTP IOC OPERATING INSTRUCTIONS
+==============================
+
+The Varian Turbo Pump (VTP) Input Output Controllers (IOCs) allow monitoring and control of multiple Agilent Turbo-V 2300 turbo-pumps, namely: TT01, TT02, TT03, TT04, NT07, and NT10.
+
+
+Starting the IOCs
+-----------------
+
+On the desktop, double-click the "JET-VTPs" shortcut.
+
+This will run any of the VTP IOCs that are not already running. (If none are running, runs them all).
+
+Each IOC runs in its own Windows Command Prompt window.
+
+
+Stopping the IOCs
+-----------------
+
+In the Windows Command Prompt window for an IOC, type "exit". This will gracefully stop the IOC.
+
+You may now close the Command Prompt window.
+
+Each IOC must be stopped individually.
+
+
