@@ -322,7 +322,6 @@ setPurgeValvePos {
   wait 0;
   out "\${STX}\${ADDR}1451%{0|1}\${ETX}%01<xor8>";
   in  "\${STX}\${ADDR}\${ACK}\${ETX}%01<xor8>";
-  @init { getPurgeValvePos;}
 }
 
 getVentOpenTime {
