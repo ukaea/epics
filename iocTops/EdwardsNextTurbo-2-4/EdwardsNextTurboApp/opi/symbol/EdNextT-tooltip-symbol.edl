@@ -1,0 +1,98 @@
+4 0 1
+beginScreenProperties
+major 4
+minor 0
+release 1
+x 247
+y 708
+w 800
+h 50
+font "arial-medium-r-18.0"
+ctlFont "arial-medium-r-18.0"
+btnFont "arial-medium-r-18.0"
+fgColor index 14
+bgColor index 58
+textColor index 14
+ctlFgColor1 index 14
+ctlFgColor2 index 0
+ctlBgColor1 index 0
+ctlBgColor2 index 14
+topShadowColor index 0
+botShadowColor index 14
+title "Tooltip"
+endScreenProperties
+
+# (Lines)
+object activeLineClass
+beginObjectProperties
+major 4
+minor 0
+release 1
+x 1
+y 1
+w 795
+h 48
+lineColor index 1
+fillColor index 0
+lineWidth 2
+visMax "shortname top shadow"
+numPoints 3
+xPoints {
+  0 1
+  1 1
+  2 796
+}
+yPoints {
+  0 49
+  1 1
+  2 1
+}
+endObjectProperties
+
+# (Lines)
+object activeLineClass
+beginObjectProperties
+major 4
+minor 0
+release 1
+x 2
+y 2
+w 797
+h 47
+lineColor index 11
+fillColor index 0
+lineWidth 2
+visMax "shortname bottom shadow"
+numPoints 3
+xPoints {
+  0 2
+  1 799
+  2 799
+}
+yPoints {
+  0 49
+  1 49
+  2 2
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 2
+y 2
+w 800
+h 40
+font "arial-medium-r-10.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "$(text)"
+}
+endObjectProperties
+

@@ -1,0 +1,59 @@
+#!$(INSTALL)/bin/$(ARCH)/example_EdwardsNextTurbo
+
+cd "$(INSTALL)"
+
+# Load binaries on architectures that need to do so.
+# VXWORKS_ONLY, LINUX_ONLY and RTEMS_ONLY are macros that resolve
+# to a comment symbol on architectures that are not the current
+# build architecture, so they can be used liberally to do architecture
+# specific things. Alternatively, you can include an architecture
+# specific file.
+$(VXWORKS_ONLY)ld < bin/$(ARCH)/example_EdwardsNextTurbo.munch
+
+$(LINUX_ONLY)epicsEnvSet(EPICS_CA_REPEATER_PORT,"6065")
+$(LINUX_ONLY)epicsEnvSet(EPICS_CA_SERVER_PORT,"6064")
+
+$(VXWORKS_ONLY)epicsEnvSet("STREAM_PROTOCOL_DIR","$(EDWARDSNEXTTURBO)/data")
+$(LINUX_ONLY)epicsEnvSet("STREAM_PROTOCOL_PATH","$(EDWARDSNEXTTURBO)/data")
+
+# Register all support components
+dbLoadDatabase("dbd/example_EdwardsNextTurbo.dbd")
+example_EdwardsNextTurbo_registerRecordDeviceDriver(pdbbase)
+
+#
+# drvAsynIPPortConfigure("portName","hostInfo",priority,noAutoConnect,noProcessEos)
+#
+# portName - The portName that gets registered with asynManager.
+# hostInfo - The Internet host name, port number and optional IP protocol of the device.
+# 		- TCP - the default, UDP, UDP*, HTTP, COM.
+# priority - Priority at which the asyn I/O thread will run. If this is zero or missing, then epicsThreadPriorityMedium is used.
+# noAutoConnect - Zero or missing indicates that portThread should automatically connect. Non-zero if explicit connect command must be issued.
+# noProcessEos - If 0 then asynInterposeEosConfig is called specifying both processEosIn and processEosOut.
+#
+#drvAsynSerialPortConfigure("TS-VA-TURBO-01", "/dev/ttyS0", 100, 0, 0)
+# This is for MOXA Terminal Server ts0012.cs in the vacuum lab 
+# on the controls development network.
+drvAsynIPPortConfigure("TS-VA-TURBO-01","172.23.241.12:7001",0,0,0)
+#asynSetOption("TS-VA-TURBO-01", 0, "baud", "9600")
+#asynSetOption("TS-VA-TURBO-01", 0, "parity", "none")
+#asynSetOption("TS-VA-TURBO-01", 0, "bits", "8")
+#asynSetOption("TS-VA-TURBO-01", 0, "stop", "1")
+
+# Load record instances
+#dbLoadRecords("db/<filename>.db","<List of macros, e.g. user=xxx>")
+dbLoadRecords("db/example_EdwardsNextTurbo.db")
+
+# Set this to see messages from mySub
+#mySubDebug 1
+
+# for debugging...
+# errors only
+#asynSetTraceMask("TS-VA-TURBO-01",0,0x01)
+# full trace
+#asynSetTraceMask("TS-VA-TURBO-01",-1,0x9) 
+#asynSetTraceIOMask("TS-VA-TURBO-01",-1,0x2) 
+
+iocInit()
+
+# Start any sequence programs
+#seq sncExample,"user=xxx"

@@ -32,10 +32,11 @@ fi
 #So the environment is set for this shell - $EPICS_HOST_ARCH is exported.
 . $EPICS_ROOT/siteEnv
 
+
 # sscan
 SSCAN_DOWNLOAD="sscan_R2-10.tar.gz"
 SSCAN_DIRECTORY="sscan-2-10"
-wget --tries=3 --timeout=10 http://www.aps.anl.gov/bcda/synApps/tar/$SSCAN_DOWNLOAD
+wget --tries=3 --timeout=10 https://epics.anl.gov/bcda/synApps/tar/$SSCAN_DOWNLOAD
 
 SUPPORT_PATH=$EPICS_ROOT/support
 SSCAN_PATH=$SUPPORT_PATH/sscan

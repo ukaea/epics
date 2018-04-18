@@ -1,0 +1,186 @@
+# File EdNxtT.proto
+#
+# Stream Device protocol file for the Edwards nEXT Turbomolecular pumps.
+#
+# Set terminal server to 9600 Baud, 8 bits, 1 stop, no parity with no handshaking.
+#
+# The controller can be set to use RS232 or RS485 - we have tested with RS232.
+#
+# This protocol file is co-dependent on the template as it uses record names.
+#
+# Keep the filename short because it appears in EPICS record INP fields in 
+# the protocol call and can easily overflow some
+# field string length limit (approx 64 characters at present???)
+#
+# The protocol commands are described (rather tersely) in sections 3.7.4-3.7.6 
+# on pp.41-44 of the Instruction Manual B800-00-880 Revision C Original, 2011
+# covering nEXT240, nEXT300 and nEXT400 series models.  Much more specific 
+# information is given under section 4, Operation, and 5.5 Fault finding
+# with details of the replies.  Notation is described in Table 17 on p.43-44 and return codes in Table 18 
+# on p.44 (and not Table 16 as is incorrectly stated in Table 17 - a typo?).
+#
+# Keep the protocol names relatively short because otherwise run up against string length limit
+# for protocol calls in INP fields.
+#
+# The pump controller has a limit of 80 characters on the length of a serial message.
+# The Instruction Manual RevC mentions several times something it calls the Serial Enable interlock - the connection
+# must be made correctly or the controller will ignore serial commands.
+#
+# The controller has its own ideas about sharing between its digital parallel interface control and 
+# serial control - it powers up in parallel control.  If it sees a start over serial, it then goes into
+# serial mode and locks out parallel control.  We seem to see that serial control can also be locked out.
+#
+# The device always responds to a complete message - with data, status or error information.
+# If it receives characters between stop and start characters it will ignore them.
+# The device will only accept another message once it has responded to the previous one.
+#
+# All command letters must be upper case.  The device can respond with upper and lower case characters.
+#
+
+Terminator = "\r";
+
+ExtraInput = Ignore;
+
+
+#############################################
+# COMMANDS TO VIEW STATUS AND A FEW TO SET SOME PARAMETERS. (GETS AND SETS).
+#
+# Listed in order of the command numbers used by the device to avoid duplication.
+#
+# Get the model/software version info, including designated full speed of the motor.
+# Section 5.5.10 on p.76 of Instruction Manual RevC.
+# Stream device parsing seems to be greedy when it comes to string matching - a simple %s format eats all the semicolon
+# field separators in the reply from the device into the match, and matches all the fields and separators as a single string.
+# Since the field strings are not fixed width, are forced to use slightly more complicated format converter to pick out the data.
+# We get away without this in most of the other protocols because they are using numeric format converters, not string,
+# so the parser does not get confused.
+getVersionModel { out "?S851"; in "=S851 %(\$1:VSN:MODEL.VAL)[^;];%(\$1:VSN:DSP.VAL)[^;];%(\$1:VSN:FULLSPEED:RPS.VAL)f" ; }
+
+# Get the speed and system status. 
+# Section 4.5.7 on p. 60 of Instruction Manual RevC.
+getSpeedSts { out "?V852"; in "=V852 %(\$1:STS:MOTORSPEED:RPS.VAL)d;%(\$1:STS:SYSTEMSTATUS.VAL)X" ; }
+# Needed this for debugging.
+getHexSts { out "?V852"; in "=V852 %s"; }
+
+# Get/Set the Timeout period length setting (in minutes).
+# Section 4.1.6 on p. 54 of Instruction Manual RevC.
+getTimeoutPrd { out "?S854" ; in "=S854 %u" ; }
+setTimeoutPrd { out "!S854 %02u" ; in "*S854 %(\$1:RTN:LASTCMD.VAL)u" ; }
+
+# Get power maximum limit setting.
+# Section 4.1.1 on p. 51 of Instruction Manual RevC.
+getPowerMax {out "?S855" ; in "=S855 %d" ; }
+
+# Get/Set the Normal Speed Setting.
+# Section 4.1.5 on p. 53 of Instruction Manual RevC.
+getNormalSpeed { out "?S856" ; in "=S856 %u" ; }
+setNormalSpeed { out "!S856 %03u" ; in "*S856 %(\$1:RTN:LASTCMD.VAL)u" ; }
+
+# Get/Set the Standby Speed Setting.
+# Section 4.1.4 on p. 53 of Instruction Manual RevC.
+getStandbySpeed { out "?S857" ; in "=S857 %u" ; } 
+setStandbySpeed { out "!S857 %03u" ; in "*S857 %(\$1:RTN:LASTCMD.VAL)u" ; } 
+
+# Get the temperature status parameters.
+# Section 4.5.5 on p. 59 of Instruction Manual RevC.
+getTempSts { out "?V859"; in "=V859 %(\$1:STS:MOTORTEMP.VAL)d;%(\$1:STS:CONTROLLERTEMP.VAL)d" ; }
+
+# Get electrical readings.  The reply is in units of 0.1 V, A and W respectively.
+# Section 4.5.6 on p. 60 of Instruction Manual RevC.
+getElecSts { out, "?V860" ; in "=V860 %(\$1:STS:DVOLTAGE.VAL)d;%(\$1:STS:DCURRENT.VAL)d;%(\$1:STS:DPOWER.VAL)d" ; }
+
+# Get the boot loader version.
+# Section 5.5.10 on p.76 of Instruction Manual RevC.
+getVersionBoot { out "?S868" ; in "=S868 %s" ; }
+
+# Get/Set the Timeout Enabled flag.
+# Section 4.1.6 on p. 54 of Instruction Manual RevC.
+getTimeoutEna { out "?S870" ; in "=S870 %u" ; }
+setTimeoutEna { out "!S870 %1b" ; in "*S870 %(\$1:RTN:LASTCMD.VAL)u" ; } 
+
+# Get the overview service status info.
+# Section 5.5.2 on p. 72 of Instruction Manual RevC.
+getSvcSts {out "?V881"; in "=V881 %(\$1:SVC:SVCSTATUS.VAL)X" ; }
+
+# There seems to be a mistake in the Instruction Manual RevC as the variable number given in the request and the reply are different.
+# We are guessing they should be the same and that the variable numbers are in the same order as the sections in this
+# part of the Instruction Manual RevC.
+# Section 5.5.3 on p. 72 of Instruction Manual RevC.
+getSvcCtlr {out "?V882";  in "=V882 %(\$1:SVC:RUNTIME:CTLR.VAL)u;%(\$1:SVC:SVCTIME:CTLR.VAL)u" ; }
+
+# Get the pump service status time parameters.
+# Section 5.5.4 on p. 72 of Instruction Manual RevC.
+getSvcPump { out "?V883"; in "=V883 %(\$1:SVC:RUNTIME:PUMP.VAL)u;%(\$1:SVC:SVCTIME:PUMP.VAL)u" ; }
+
+# Get the pump service status start-stop cycle parameters.
+# Section 5.5.5 on p. 72 of Instruction Manual RevC.
+getSvcCycle { out "?V884"; in "=V884 %(\$1:SVC:RUNCYCLE:PUMP.VAL)u;%(\$1:SVC:SVCCYCLE:PUMP.VAL)u" ; }
+
+# Get the bearing service status time parameters.
+# Section 5.5.6 on p. 73 of Instruction Manual RevC.
+getSvcBrng { out "?V885"; in "=V885 %(\$1:SVC:RUNTIME:BEARING.VAL)u;%(\$1:SVC:SVCTIME:BEARING.VAL)u" ; }
+
+# Get the oil cartridge service status parameters.
+# Section 5.5.7 on p. 73 of Instruction Manual RevC.
+getSvcOil { out "?V886"; in "=V886 %(\$1:SVC:RUNTIME:OIL.VAL)u;%(\$1:SVC:SVCTIME:OIL.VAL)u" ; }
+
+# END OF GETS AND SETS.
+#############################################
+# START OF ACTIVE COMMANDS THAT CHANGE THE PUMP STATE.
+#
+# See p. 59 of the Instruction Manual RevC.
+#
+# The manual looks odd for the start command - it seems to say the return code is always, one, but
+# that would be invalid against the standard table 18 on p. 44.
+# All the other commands in this section of the manual return a standard return code.
+# Therefore guess this is a copy/paste typo in the manual and treat it as a standard return code until we understand
+# otherwise.
+
+# Start the pump.
+# Section 4.5.2 on p. 59 of Instruction Manual RevC.
+doStartPump { out "!C852 1" ; in "*C852 %(\$1:RTN:LASTCMD.VAL)u" ; }
+
+# Stop the pump.
+# Section 4.5.4 on p. 59 of Instruction Manual RevC.
+doStopPump { out "!C852 0" ; in "*C852 %(\$1:RTN:LASTCMD.VAL)u" ; }
+
+# Go to Standby speed.
+# Section 4.5.3 on p. 59 of Instruction Manual RevC.
+doStandbySpeed { out "!C869 1" ; in "*C869 %(\$1:RTN:LASTCMD.VAL)u" ; }
+
+# Go from Standby speed to Full speed.  Note there is no command to "Go to normal speed".
+# Section 4.5.3 on p. 59 of Instruction Manual RevC.
+doFullSpeed { out "!C869 0" ; in "*C869 %(\$1:RTN:LASTCMD.VAL)u" ; }
+
+# END ACTIVE COMMANDS THAT CHANGE THE PUMP STATE.
+#############################################
+# START OF ACTIVE COMMANDS FOR SERVICING.
+#
+# The protocol commands are described in section 7.3 of the Service
+# Manual B800-00-840 Revision B, 2010 on p. 18.  We only have an
+# extract of this manual.  BL05I requested this feature be added
+# because it takes two people and involves lifting the floor to access
+# the pump follow the manual reset feature.  They accepted the
+# provisos that EPICS will support anyone doing this at any time and
+# that it will not be possible to test the feature against a real pump
+# until next time it is required for real.
+#
+# The same comment applies to these two commands as about the Start command above:
+# The manual entry for the return code appears to be suspect.  Have no way to test
+# it, so just treat it like the start command in terms of return code.
+#
+
+# Reset the bearing service status time parameter.  This should only
+# be done immediately following the bearing having been changed by
+# trained personnel.
+# Section 7.3 on p. 18 of Service Manual RevB.
+doResetSvcBrng { out "!C885 1" ; in "*C885 %(\$1:RTN:LASTCMD.VAL)u" ; }
+
+# Reset the oil cartridge service time status parameter.  This should
+# only be done immediately following the oil cartridge having been
+# changed by trained personnel.
+# Section 7.3 on p. 18 of Service Manual RevB.
+doResetSvcOil { out "!C886 1" ; in "*C886 %(\$1:RTN:LASTCMD.VAL)u" ; }
+
+# END OF ACTIVE COMMANDS FOR SERVICING.
+#############################################

@@ -1,0 +1,1864 @@
+4 0 1
+beginScreenProperties
+major 4
+minor 0
+release 1
+x 1245
+y 207
+w 500
+h 400
+font "arial-medium-r-18.0"
+ctlFont "arial-medium-r-18.0"
+btnFont "arial-medium-r-18.0"
+fgColor index 14
+bgColor index 3
+textColor index 14
+ctlFgColor1 index 14
+ctlFgColor2 index 0
+ctlBgColor1 index 0
+ctlBgColor2 index 14
+topShadowColor index 0
+botShadowColor index 14
+showGrid
+gridSize 5
+endScreenProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 0
+y 0
+w 500
+h 35
+lineColor index 3
+fill
+fillColor index 53
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 5
+y 125
+w 100
+h 20
+font "arial-bold-r-14.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Current"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 5
+y 10
+w 200
+h 20
+font "arial-bold-r-18.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "$(P)"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 5
+y 210
+w 100
+h 30
+font "arial-bold-r-14.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "At speed I/L"
+  "setpoint"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 5
+y 185
+w 100
+h 20
+font "arial-bold-r-14.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Standby"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 355
+y 5
+w 140
+h 30
+font "arial-bold-r-12.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  " Edwards nEXT Turbo"
+  "Pump Controller"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 190
+y 10
+w 135
+h 20
+font "arial-bold-r-18.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Turbo Control"
+}
+endObjectProperties
+
+# (Exit Button)
+object activeExitButtonClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 380
+y 360
+w 100
+h 25
+fgColor index 46
+bgColor index 3
+topShadowColor index 0
+botShadowColor index 14
+label "EXIT"
+font "arial-bold-r-16.0"
+3d
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 120
+y 95
+w 100
+h 20
+font "arial-bold-r-14.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Revs per sec"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 120
+y 75
+w 220
+h 20
+font "arial-bold-r-14.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Motor Speed"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 240
+y 95
+w 100
+h 20
+font "arial-bold-r-14.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Percent of full"
+}
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 20
+y 360
+w 100
+h 25
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 20
+y 360
+w 100
+h 25
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+font "arial-medium-r-18.0"
+button3Popup
+invisible
+buttonLabel "Control Status Tooltip "
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "EdNextT-tooltip-symbol.edl"
+}
+symbols {
+  0 "text=\"Bring up System Status screen.\""
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 20
+y 360
+w 100
+h 25
+fgColor index 43
+bgColor index 3
+topShadowColor index 0
+botShadowColor index 14
+font "arial-medium-r-16.0"
+buttonLabel "Status"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "EdNextTStatus.edl"
+}
+symbols {
+  0 "P=$(P)"
+}
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 5
+y 260
+w 100
+h 20
+font "arial-bold-r-14.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Last Error"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 5
+y 155
+w 100
+h 20
+font "arial-bold-r-14.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Full"
+}
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 20
+y 305
+w 80
+h 25
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 20
+y 305
+w 80
+h 25
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+font "arial-medium-r-18.0"
+button3Popup
+invisible
+buttonLabel "Control Start Tooltip "
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "EdNextT-tooltip-symbol.edl"
+}
+symbols {
+  0 "text=\"Start the pump - accelerate to full or standby speed -only available if not in parallel control mode.\""
+}
+endObjectProperties
+
+# (Message Button)
+object activeMessageButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 20
+y 305
+w 80
+h 25
+fgColor index 25
+onColor index 3
+offColor index 3
+topShadowColor index 0
+botShadowColor index 14
+controlPv "$(P):ACN:STARTPUMP.PROC"
+pressValue "1"
+onLabel "Start"
+offLabel "Start"
+3d
+font "arial-medium-r-18.0"
+endObjectProperties
+
+endGroup
+
+visPv "$(P):PMS:STARTSTOPENABLE"
+visMin "0.5"
+visMax "1.5"
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 140
+y 305
+w 80
+h 25
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 140
+y 305
+w 80
+h 25
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+font "arial-medium-r-18.0"
+button3Popup
+invisible
+buttonLabel "Control GoFull Tooltip "
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "EdNextT-tooltip-symbol.edl"
+}
+symbols {
+  0 "text=\"Go to Full pump speed - come off Standby.\""
+}
+endObjectProperties
+
+# (Message Button)
+object activeMessageButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 140
+y 305
+w 80
+h 25
+fgColor index 25
+onColor index 3
+offColor index 3
+topShadowColor index 0
+botShadowColor index 14
+controlPv "$(P):ACN:FULL.PROC"
+pressValue "1"
+onLabel "Full"
+offLabel "Full"
+3d
+font "arial-medium-r-16.0"
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 250
+y 305
+w 80
+h 25
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 250
+y 305
+w 80
+h 25
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+font "arial-medium-r-18.0"
+button3Popup
+invisible
+buttonLabel "Control GoStandby Tooltip "
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "EdNextT-tooltip-symbol.edl"
+}
+symbols {
+  0 "text=\"Go to Standby pump speed.\""
+}
+endObjectProperties
+
+# (Message Button)
+object activeMessageButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 250
+y 305
+w 80
+h 25
+fgColor index 25
+onColor index 3
+offColor index 3
+topShadowColor index 0
+botShadowColor index 14
+controlPv "$(P):ACN:STANDBY.PROC"
+pressValue "1"
+onLabel "Standby"
+offLabel "Standby"
+3d
+font "arial-medium-r-16.0"
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 380
+y 305
+w 80
+h 25
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 380
+y 305
+w 80
+h 25
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+font "arial-medium-r-18.0"
+button3Popup
+invisible
+buttonLabel "Control Stop Tooltip "
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "EdNextT-tooltip-symbol.edl"
+}
+symbols {
+  0 "text=\"Stop the pump - decelerate to zero - only works if not in parallel control mode.\""
+}
+endObjectProperties
+
+# (Message Button)
+object activeMessageButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 380
+y 305
+w 80
+h 25
+fgColor index 25
+onColor index 3
+offColor index 3
+topShadowColor index 0
+botShadowColor index 14
+controlPv "$(P):ACN:STOPPUMP.PROC"
+pressValue "1"
+onLabel "Stop"
+offLabel "Stop"
+3d
+font "arial-medium-r-16.0"
+endObjectProperties
+
+endGroup
+
+visPv "$(P):PMS:STARTSTOPENABLE"
+visMin "0.5"
+visMax "1.5"
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 240
+y 155
+w 100
+h 16
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 240
+y 155
+w 100
+h 16
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+font "arial-medium-r-18.0"
+button3Popup
+invisible
+buttonLabel "Control FullPercent Tooltip "
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "EdNextT-tooltip-symbol.edl"
+}
+symbols {
+  0 "text=\"Full speed is 100% by defintion.\""
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 240
+y 155
+w 100
+h 16
+font "arial-medium-r-14.0"
+fgColor index 14
+bgColor index 6
+value {
+  "100 %"
+}
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 120
+y 155
+w 100
+h 16
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 120
+y 155
+w 100
+h 16
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+font "arial-medium-r-18.0"
+button3Popup
+invisible
+buttonLabel "Control FullRPS Tooltip "
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "EdNextT-tooltip-symbol.edl"
+}
+symbols {
+  0 "text=\"Full speed of this model of pump.\""
+}
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 5
+release 0
+x 120
+y 155
+w 100
+h 16
+controlPv "$(P):VSN:FULLSPEED:RPS"
+font "arial-medium-r-14.0"
+fgColor index 16
+fgAlarm
+bgColor index 10
+autoHeight
+limitsFromDb
+nullColor index 0
+smartRefresh
+useHexPrefix
+showUnits
+useAlarmBorder
+newPos
+objType "monitors"
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 120
+y 185
+w 100
+h 16
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 120
+y 185
+w 100
+h 16
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+font "arial-medium-r-18.0"
+button3Popup
+invisible
+buttonLabel "Control StandbyRPS Tooltip "
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "EdNextT-tooltip-symbol.edl"
+}
+symbols {
+  0 "text=\"Calculated Standby speed of pump as currently defined.\""
+}
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 5
+release 0
+x 120
+y 185
+w 100
+h 16
+controlPv "$(P):RBV:STANDBYSPEED:RPS"
+font "arial-medium-r-14.0"
+fgColor index 16
+fgAlarm
+bgColor index 10
+autoHeight
+limitsFromDb
+nullColor index 0
+smartRefresh
+useHexPrefix
+showUnits
+useAlarmBorder
+newPos
+objType "monitors"
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 120
+y 215
+w 100
+h 16
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 120
+y 215
+w 100
+h 16
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+font "arial-medium-r-18.0"
+button3Popup
+invisible
+buttonLabel "Control NormalRPS Tooltip "
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "EdNextT-tooltip-symbol.edl"
+}
+symbols {
+  0 "text=\"Calculated Normal speed of the pump as currently defined.\""
+}
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 5
+release 0
+x 120
+y 215
+w 100
+h 16
+controlPv "$(P):RBV:NORMALSPEED:RPS"
+font "arial-medium-r-14.0"
+fgColor index 16
+fgAlarm
+bgColor index 10
+autoHeight
+limitsFromDb
+nullColor index 0
+smartRefresh
+useHexPrefix
+showUnits
+useAlarmBorder
+newPos
+objType "monitors"
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 120
+y 125
+w 100
+h 16
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 120
+y 125
+w 100
+h 16
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+font "arial-medium-r-18.0"
+button3Popup
+invisible
+buttonLabel "Control CurrentRPS Tooltip "
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "EdNextT-tooltip-symbol.edl"
+}
+symbols {
+  0 "text=\"Current speed of the pump as reported by controller.\""
+}
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 5
+release 0
+x 120
+y 125
+w 100
+h 16
+controlPv "$(P):STS:MOTORSPEED:RPS"
+font "arial-medium-r-14.0"
+fgColor index 16
+fgAlarm
+bgColor index 10
+autoHeight
+limitsFromDb
+nullColor index 0
+smartRefresh
+useHexPrefix
+showUnits
+useAlarmBorder
+newPos
+objType "monitors"
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 240
+y 125
+w 100
+h 16
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 240
+y 125
+w 100
+h 16
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+font "arial-medium-r-18.0"
+button3Popup
+invisible
+buttonLabel "Control CurrentPercent Tooltip "
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "EdNextT-tooltip-symbol.edl"
+}
+symbols {
+  0 "text=\"Calculated current percentage of Full speed of the pump.\""
+}
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 5
+release 0
+x 240
+y 125
+w 100
+h 16
+controlPv "$(P):STS:MOTORSPEED:PC"
+font "arial-medium-r-14.0"
+fgColor index 16
+fgAlarm
+bgColor index 10
+autoHeight
+limitsFromDb
+nullColor index 0
+smartRefresh
+useHexPrefix
+showUnits
+useAlarmBorder
+newPos
+objType "monitors"
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 240
+y 185
+w 100
+h 16
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 240
+y 185
+w 100
+h 16
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+font "arial-medium-r-18.0"
+button3Popup
+invisible
+buttonLabel "Control StandbyPercent Tooltip "
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "EdNextT-tooltip-symbol.edl"
+}
+symbols {
+  0 "text=\"Definition of Standby speed of pump.\""
+}
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 5
+release 0
+x 240
+y 185
+w 100
+h 16
+controlPv "$(P):RBV:STANDBYSPEED:PC"
+font "arial-medium-r-14.0"
+fgColor index 16
+fgAlarm
+bgColor index 10
+autoHeight
+limitsFromDb
+nullColor index 0
+smartRefresh
+useHexPrefix
+showUnits
+useAlarmBorder
+newPos
+objType "monitors"
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 240
+y 215
+w 100
+h 16
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 240
+y 215
+w 100
+h 16
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+font "arial-medium-r-18.0"
+button3Popup
+invisible
+buttonLabel "Control NormalPercent Tooltip "
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "EdNextT-tooltip-symbol.edl"
+}
+symbols {
+  0 "text=\"Definition of Normal speed of pump.\""
+}
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 5
+release 0
+x 240
+y 215
+w 100
+h 16
+controlPv "$(P):RBV:NORMALSPEED:PC"
+font "arial-medium-r-14.0"
+fgColor index 16
+fgAlarm
+bgColor index 10
+autoHeight
+limitsFromDb
+nullColor index 0
+smartRefresh
+useHexPrefix
+showUnits
+useAlarmBorder
+newPos
+objType "monitors"
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 120
+y 260
+w 220
+h 16
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 120
+y 260
+w 220
+h 16
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+font "arial-medium-r-18.0"
+button3Popup
+invisible
+buttonLabel "Control LastReturn Tooltip "
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "EdNextT-tooltip-symbol.edl"
+}
+symbols {
+  0 "text=\"Return code from controller from last command.\""
+}
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 120
+y 260
+w 220
+h 16
+controlPv "$(P):RTN:LASTCMD"
+fgColor index 16
+fgAlarm
+bgColor index 10
+fill
+font "arial-medium-r-14.0"
+fontAlign "center"
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 5
+y 45
+w 127
+h 28
+font "arial-medium-r-12.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Enable/Disable EPICS"
+  "comms to controller."
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 365
+y 45
+w 118
+h 28
+font "arial-medium-r-12.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Please disable when"
+  "pump disconnected."
+}
+autoSize
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 180
+y 45
+w 130
+h 25
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 180
+y 45
+w 130
+h 25
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+font "arial-medium-r-18.0"
+button3Popup
+invisible
+buttonLabel "Control EnabaleDisable Tooltip "
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "EdNextT-tooltip-symbol.edl"
+}
+symbols {
+  0 "text=\"Enable/Disable polling controller for data update - disable when controller not present.\""
+}
+endObjectProperties
+
+# (Button)
+object activeButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 180
+y 45
+w 130
+h 25
+fgColor index 25
+onColor index 20
+offColor index 3
+inconsistentColor index 3
+topShadowColor index 1
+botShadowColor index 11
+controlPv "$(P):DISABLE"
+3d
+font "arial-bold-r-14.0"
+objType "controls"
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 350
+y 210
+w 60
+h 25
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 350
+y 210
+w 60
+h 25
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+font "arial-medium-r-18.0"
+button3Popup
+invisible
+buttonLabel "Control SetNormal Tooltip "
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "EdNextT-tooltip-symbol.edl"
+}
+symbols {
+  0 "text=\"Set definition of Normal speed as percentage of Full..\""
+}
+endObjectProperties
+
+# (Textentry)
+object TextentryClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 350
+y 210
+w 60
+h 25
+controlPv "$(P):SET:NORMALSPEED"
+fgColor index 25
+fgAlarm
+bgColor index 3
+fill
+font "arial-medium-r-12.0"
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 350
+y 180
+w 60
+h 25
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 350
+y 180
+w 60
+h 25
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+font "arial-medium-r-18.0"
+button3Popup
+invisible
+buttonLabel "Control SetStandby Tooltip "
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "EdNextT-tooltip-symbol.edl"
+}
+symbols {
+  0 "text=\"Set definition of Standby speed as percentage of Full..\""
+}
+endObjectProperties
+
+# (Textentry)
+object TextentryClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 350
+y 180
+w 60
+h 25
+controlPv "$(P):SET:STANDBYSPEED"
+fgColor index 25
+fgAlarm
+bgColor index 3
+fill
+font "arial-medium-r-12.0"
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 420
+y 215
+w 55
+h 15
+
+beginGroup
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 450
+y 215
+w 25
+h 15
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 450
+y 215
+w 25
+h 15
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+font "arial-medium-r-18.0"
+button3Popup
+invisible
+buttonLabel "Control NormalPercentHi Tooltip "
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "EdNextT-tooltip-symbol.edl"
+}
+symbols {
+  0 "text=\"Highest allowed Normal percentage speed of pump.\""
+}
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 5
+release 0
+x 450
+y 215
+w 25
+h 15
+controlPv "$(P):RBV:NORMALSPEED:PC.HIHI"
+font "arial-medium-r-12.0"
+fgColor index 14
+bgColor index 3
+limitsFromDb
+nullColor index 0
+smartRefresh
+useHexPrefix
+newPos
+objType "monitors"
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 445
+y 215
+w 5
+h 15
+font "arial-medium-r-12.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "-"
+}
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 420
+y 215
+w 25
+h 15
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 420
+y 215
+w 25
+h 15
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+font "arial-medium-r-18.0"
+button3Popup
+invisible
+buttonLabel "Control NormalPercentLo Tooltip "
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "EdNextT-tooltip-symbol.edl"
+}
+symbols {
+  0 "text=\"Lowest allowed Normal percentage speed of pump.\""
+}
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 5
+release 0
+x 420
+y 215
+w 25
+h 15
+controlPv "$(P):RBV:NORMALSPEED:PC.LOLO"
+font "arial-medium-r-12.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 3
+limitsFromDb
+nullColor index 0
+smartRefresh
+useHexPrefix
+newPos
+objType "monitors"
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 420
+y 185
+w 55
+h 15
+
+beginGroup
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 450
+y 185
+w 25
+h 15
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 450
+y 185
+w 25
+h 15
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+font "arial-medium-r-18.0"
+button3Popup
+invisible
+buttonLabel "Control StandbyPercentLo Tooltip "
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "EdNextT-tooltip-symbol.edl"
+}
+symbols {
+  0 "text=\"Highest allowed Standby percentage speed of pump.\""
+}
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 5
+release 0
+x 450
+y 185
+w 25
+h 15
+controlPv "$(P):RBV:STANDBYSPEED:PC.HIHI"
+font "arial-medium-r-12.0"
+fgColor index 14
+bgColor index 3
+limitsFromDb
+nullColor index 0
+smartRefresh
+useHexPrefix
+newPos
+objType "monitors"
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 445
+y 185
+w 5
+h 15
+font "arial-medium-r-12.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "-"
+}
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 420
+y 185
+w 25
+h 15
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 420
+y 185
+w 25
+h 15
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+font "arial-medium-r-18.0"
+button3Popup
+invisible
+buttonLabel "Control StandbyPercentLo Tooltip "
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "EdNextT-tooltip-symbol.edl"
+}
+symbols {
+  0 "text=\"Lowest allowed Standby percentage speed of pump.\""
+}
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 5
+release 0
+x 420
+y 185
+w 25
+h 15
+controlPv "$(P):RBV:STANDBYSPEED:PC.LOLO"
+font "arial-medium-r-12.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 3
+limitsFromDb
+nullColor index 0
+smartRefresh
+useHexPrefix
+newPos
+objType "monitors"
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 348
+y 95
+w 60
+h 20
+font "arial-bold-r-14.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Set %"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 420
+y 95
+w 60
+h 20
+font "arial-bold-r-14.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Range"
+}
+endObjectProperties
+

@@ -1,0 +1,3875 @@
+4 0 1
+beginScreenProperties
+major 4
+minor 0
+release 1
+x 882
+y 172
+w 620
+h 600
+font "arial-medium-r-18.0"
+ctlFont "arial-medium-r-18.0"
+btnFont "arial-medium-r-18.0"
+fgColor index 14
+bgColor index 3
+textColor index 14
+ctlFgColor1 index 14
+ctlFgColor2 index 0
+ctlBgColor1 index 0
+ctlBgColor2 index 14
+topShadowColor index 0
+botShadowColor index 14
+title "$(P) - Edwards Turbo Pump Status"
+showGrid
+gridSize 5
+endScreenProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 0
+y 0
+w 620
+h 37
+lineColor index 3
+fill
+fillColor index 53
+lineWidth 0
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 10
+y 45
+w 275
+h 16
+font "arial-bold-r-14.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Status Flag Description"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 5
+y 10
+w 200
+h 20
+font "arial-bold-r-18.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "$(P)"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 435
+y 45
+w 70
+h 32
+font "arial-bold-r-14.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Reserved"
+  "Word"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 210
+y 10
+w 300
+h 20
+font "arial-bold-r-18.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "System Status"
+}
+endObjectProperties
+
+# (Exit Button)
+object activeExitButtonClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 500
+y 560
+w 100
+h 25
+fgColor index 46
+bgColor index 3
+topShadowColor index 0
+botShadowColor index 14
+label "EXIT"
+font "arial-bold-r-16.0"
+3d
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 480
+y 5
+w 140
+h 30
+font "arial-bold-r-12.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  " Edwards nEXT Turbo "
+  "Pump Controller"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 260
+y 460
+w 100
+h 20
+font "arial-medium-r-14.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Current"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 260
+y 440
+w 100
+h 20
+font "arial-medium-r-14.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Voltage"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 260
+y 480
+w 100
+h 20
+font "arial-medium-r-14.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Power"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 10
+y 460
+w 100
+h 20
+font "arial-medium-r-14.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Controller"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 10
+y 440
+w 100
+h 20
+font "arial-medium-r-14.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Motor"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 285
+y 45
+w 45
+h 32
+font "arial-bold-r-14.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Status"
+  "Flags"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 340
+y 45
+w 45
+h 32
+font "arial-bold-r-14.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Status"
+  "Word"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 120
+y 420
+w 100
+h 16
+font "arial-bold-r-14.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Temperature"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 10
+y 420
+w 100
+h 16
+font "arial-bold-r-14.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Item"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 370
+y 420
+w 100
+h 16
+font "arial-bold-r-14.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Reading"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 260
+y 420
+w 100
+h 16
+font "arial-bold-r-14.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Item"
+}
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 80
+y 560
+w 100
+h 25
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 4
+release 0
+x 80
+y 560
+w 100
+h 25
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+font "arial-medium-r-18.0"
+button3Popup
+invisible
+buttonLabel "Status Service Tooltip "
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "EdNextT-tooltip-symbol.edl"
+}
+symbols {
+  0 "text=\"Bring up Service Status screen\""
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 4
+release 0
+x 80
+y 560
+w 100
+h 25
+fgColor index 43
+bgColor index 3
+topShadowColor index 0
+botShadowColor index 14
+font "arial-medium-r-16.0"
+buttonLabel "Service"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "EdNextTService.edl"
+}
+symbols {
+  0 "P=$(P)"
+}
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 10
+y 505
+w 100
+h 20
+font "arial-medium-r-14.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Period"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 260
+y 525
+w 100
+h 20
+font "arial-medium-r-14.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Status Code"
+}
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 465
+y 80
+w 20
+h 320
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 4
+release 0
+x 465
+y 80
+w 20
+h 320
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+font "arial-medium-r-18.0"
+button3Popup
+invisible
+buttonLabel "Bit Labels 16-31 Tooltip "
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "EdNextT-tooltip-symbol.edl"
+}
+symbols {
+  0 "text=\"Bit number labels\""
+}
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 465
+y 80
+w 20
+h 320
+
+beginGroup
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 465
+y 80
+w 20
+h 20
+font "arial-bold-r-14.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "16"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 465
+y 100
+w 20
+h 20
+font "arial-bold-r-14.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "17"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 465
+y 120
+w 20
+h 20
+font "arial-bold-r-14.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "18"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 465
+y 140
+w 20
+h 20
+font "arial-bold-r-14.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "19"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 465
+y 160
+w 20
+h 20
+font "arial-bold-r-14.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "20"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 465
+y 260
+w 20
+h 20
+font "arial-bold-r-14.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "25"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 465
+y 240
+w 20
+h 20
+font "arial-bold-r-14.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "24"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 465
+y 220
+w 20
+h 20
+font "arial-bold-r-14.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "23"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 465
+y 200
+w 20
+h 20
+font "arial-bold-r-14.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "22"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 465
+y 180
+w 20
+h 20
+font "arial-bold-r-14.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "21"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 465
+y 340
+w 20
+h 20
+font "arial-bold-r-14.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "29"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 465
+y 320
+w 20
+h 20
+font "arial-bold-r-14.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "28"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 465
+y 300
+w 20
+h 20
+font "arial-bold-r-14.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "27"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 465
+y 280
+w 20
+h 20
+font "arial-bold-r-14.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "26"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 465
+y 380
+w 20
+h 20
+font "arial-bold-r-14.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "31"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 465
+y 360
+w 20
+h 20
+font "arial-bold-r-14.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "30"
+}
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 435
+y 80
+w 20
+h 320
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 4
+release 0
+x 435
+y 80
+w 20
+h 320
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+font "arial-medium-r-18.0"
+button3Popup
+invisible
+buttonLabel "Reserved Status Word Tooltip 16-31"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "EdNextT-tooltip-symbol.edl"
+}
+symbols {
+  0 "text=\"Upper 16 bits of system status word - Reserved by Edwards\""
+}
+endObjectProperties
+
+# (Byte)
+object ByteClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 435
+y 80
+w 20
+h 320
+controlPv "$(P):CLC:SYSTEMSTATUS:RESERVED"
+lineColor index 14
+onColor index 15
+offColor index 19
+endian "little"
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 370
+y 80
+w 20
+h 320
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 4
+release 0
+x 370
+y 80
+w 20
+h 320
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+font "arial-medium-r-18.0"
+button3Popup
+invisible
+buttonLabel "Bit Labels 0-15 Tooltip "
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "EdNextT-tooltip-symbol.edl"
+}
+symbols {
+  0 "text=\"Bit number labels\""
+}
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 370
+y 80
+w 20
+h 320
+
+beginGroup
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 370
+y 80
+w 20
+h 20
+font "arial-bold-r-14.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "0"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 370
+y 100
+w 20
+h 20
+font "arial-bold-r-14.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "1"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 370
+y 120
+w 20
+h 20
+font "arial-bold-r-14.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "2"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 370
+y 140
+w 20
+h 20
+font "arial-bold-r-14.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "3"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 370
+y 160
+w 20
+h 20
+font "arial-bold-r-14.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "4"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 370
+y 260
+w 20
+h 20
+font "arial-bold-r-14.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "9"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 370
+y 240
+w 20
+h 20
+font "arial-bold-r-14.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "8"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 370
+y 220
+w 20
+h 20
+font "arial-bold-r-14.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "7"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 370
+y 200
+w 20
+h 20
+font "arial-bold-r-14.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "6"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 370
+y 180
+w 20
+h 20
+font "arial-bold-r-14.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "5"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 370
+y 340
+w 20
+h 20
+font "arial-bold-r-14.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "13"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 370
+y 320
+w 20
+h 20
+font "arial-bold-r-14.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "12"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 370
+y 300
+w 20
+h 20
+font "arial-bold-r-14.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "11"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 370
+y 280
+w 20
+h 20
+font "arial-bold-r-14.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "10"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 370
+y 380
+w 20
+h 20
+font "arial-bold-r-14.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "15"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 370
+y 360
+w 20
+h 20
+font "arial-bold-r-14.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "14"
+}
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 340
+y 80
+w 20
+h 320
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 4
+release 0
+x 340
+y 80
+w 20
+h 320
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+font "arial-medium-r-18.0"
+button3Popup
+invisible
+buttonLabel "Status Word Tooltip - 0-15"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "EdNextT-tooltip-symbol.edl"
+}
+symbols {
+  0 "text=\"Lower 16 bits of system status word\""
+}
+endObjectProperties
+
+# (Byte)
+object ByteClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 340
+y 80
+w 20
+h 320
+controlPv "$(P):STS:SYSTEMSTATUS"
+lineColor index 14
+onColor index 15
+offColor index 19
+endian "little"
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 510
+y 80
+w 80
+h 320
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 4
+release 0
+x 510
+y 80
+w 80
+h 320
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+font "arial-medium-r-18.0"
+button3Popup
+invisible
+buttonLabel "Status Reserved Tooltip "
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "EdNextT-tooltip-symbol.edl"
+}
+symbols {
+  0 "text=\"Description of reserved status info.\""
+}
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 510
+y 80
+w 80
+h 320
+
+beginGroup
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 510
+y 380
+w 80
+h 20
+font "arial-medium-r-14.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Reserved"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 510
+y 360
+w 80
+h 20
+font "arial-medium-r-14.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Reserved"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 510
+y 340
+w 80
+h 20
+font "arial-medium-r-14.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Reserved"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 510
+y 320
+w 80
+h 20
+font "arial-medium-r-14.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Reserved"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 510
+y 300
+w 80
+h 20
+font "arial-medium-r-14.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Reserved"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 510
+y 280
+w 80
+h 20
+font "arial-medium-r-14.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Reserved"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 510
+y 260
+w 80
+h 20
+font "arial-medium-r-14.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Reserved"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 510
+y 240
+w 80
+h 20
+font "arial-medium-r-14.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Reserved"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 510
+y 220
+w 80
+h 20
+font "arial-medium-r-14.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Reserved"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 510
+y 200
+w 80
+h 20
+font "arial-medium-r-14.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Reserved"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 510
+y 180
+w 80
+h 20
+font "arial-medium-r-14.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Reserved"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 510
+y 160
+w 80
+h 20
+font "arial-medium-r-14.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Reserved"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 510
+y 140
+w 80
+h 20
+font "arial-medium-r-14.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Reserved"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 510
+y 120
+w 80
+h 20
+font "arial-medium-r-14.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Reserved"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 510
+y 100
+w 80
+h 20
+font "arial-medium-r-14.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Reserved"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 510
+y 80
+w 80
+h 20
+font "arial-medium-r-14.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Reserved"
+}
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 10
+y 80
+w 275
+h 320
+
+beginGroup
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 150
+y 140
+w 70
+h 20
+font "arial-medium-r-14.0"
+fgColor index 14
+bgColor index 22
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 10
+y 80
+w 275
+h 20
+controlPv "$(P):STS:SYSTEMSTATUS:FAILED.DESC"
+fgColor index 14
+fgAlarm
+bgColor index 3
+font "arial-medium-r-14.0"
+fontAlign "right"
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 10
+y 100
+w 275
+h 20
+controlPv "$(P):STS:SYSTEMSTATUS:STOPPED.DESC"
+fgColor index 14
+fgAlarm
+bgColor index 3
+font "arial-medium-r-14.0"
+fontAlign "right"
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 10
+y 120
+w 275
+h 20
+controlPv "$(P):STS:SYSTEMSTATUS:NORMAL.DESC"
+fgColor index 14
+fgAlarm
+bgColor index 3
+font "arial-medium-r-14.0"
+fontAlign "right"
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 75
+y 140
+w 140
+h 20
+controlPv "$(P):STS:SYSTEMSTATUS:VENTCLOSED.DESC"
+fgColor index 14
+fgAlarm
+bgColor index 3
+font "arial-medium-r-14.0"
+fontAlign "right"
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 10
+y 160
+w 275
+h 20
+controlPv "$(P):STS:SYSTEMSTATUS:STARTING.DESC"
+fgColor index 14
+fgAlarm
+bgColor index 3
+fill
+font "arial-medium-r-14.0"
+fontAlign "right"
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 10
+y 260
+w 275
+h 20
+controlPv "$(P):STS:SYSTEMSTATUS:SERIALCTRL.DESC"
+fgColor index 14
+fgAlarm
+bgColor index 3
+fill
+font "arial-medium-r-14.0"
+fontAlign "right"
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 10
+y 240
+w 275
+h 20
+controlPv "$(P):STS:SYSTEMSTATUS:PARALLEL.DESC"
+fgColor index 14
+fgAlarm
+bgColor index 3
+fill
+font "arial-medium-r-14.0"
+fontAlign "right"
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 10
+y 220
+w 275
+h 20
+controlPv "$(P):STS:SYSTEMSTATUS:HALF.DESC"
+fgColor index 14
+fgAlarm
+bgColor index 3
+fill
+font "arial-medium-r-14.0"
+fontAlign "right"
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 10
+y 200
+w 275
+h 20
+controlPv "$(P):STS:SYSTEMSTATUS:STANDBY.DESC"
+fgColor index 14
+fgAlarm
+bgColor index 3
+fill
+font "arial-medium-r-14.0"
+fontAlign "right"
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 10
+y 180
+w 275
+h 20
+controlPv "$(P):STS:SYSTEMSTATUS:SERIALENA.DESC"
+fgColor index 14
+fgAlarm
+bgColor index 3
+fill
+font "arial-medium-r-14.0"
+fontAlign "right"
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 10
+y 380
+w 275
+h 20
+controlPv "$(P):STS:SYSTEMSTATUS:SERIALILK.DESC"
+fgColor index 14
+fgAlarm
+bgColor index 3
+fill
+font "arial-medium-r-14.0"
+fontAlign "right"
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 10
+y 360
+w 275
+h 20
+controlPv "$(P):STS:SYSTEMSTATUS:THERMISTOR.DESC"
+fgColor index 14
+fgAlarm
+bgColor index 3
+fill
+font "arial-medium-r-14.0"
+fontAlign "right"
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 10
+y 340
+w 275
+h 20
+controlPv "$(P):STS:SYSTEMSTATUS:HWTRIP.DESC"
+fgColor index 14
+fgAlarm
+bgColor index 3
+fill
+font "arial-medium-r-14.0"
+fontAlign "right"
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 10
+y 320
+w 275
+h 20
+controlPv "$(P):STS:SYSTEMSTATUS:TIMER.DESC"
+fgColor index 14
+fgAlarm
+bgColor index 3
+fill
+font "arial-medium-r-14.0"
+fontAlign "right"
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 10
+y 300
+w 275
+h 20
+controlPv "$(P):STS:SYSTEMSTATUS:UPLOAD.DESC"
+fgColor index 14
+fgAlarm
+bgColor index 3
+fill
+font "arial-medium-r-14.0"
+fontAlign "right"
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 10
+y 280
+w 275
+h 20
+controlPv "$(P):STS:SYSTEMSTATUS:CONTROLLERSW.DESC"
+fgColor index 14
+fgAlarm
+bgColor index 3
+fill
+font "arial-medium-r-14.0"
+fontAlign "right"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 220
+y 140
+w 65
+h 20
+font "arial-medium-r-14.0"
+fgColor index 14
+bgColor index 17
+value {
+  "/ Open?"
+}
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 490
+y 480
+w 100
+h 16
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 4
+release 0
+x 490
+y 480
+w 100
+h 16
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+font "arial-medium-r-18.0"
+button3Popup
+invisible
+buttonLabel "Status MaxPower Tooltip "
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "EdNextT-tooltip-symbol.edl"
+}
+symbols {
+  0 "text=\"Maximum power limit.\""
+}
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 6
+release 0
+x 490
+y 480
+w 100
+h 16
+controlPv "$(P):RBV:POWER:MAX"
+font "arial-medium-r-14.0"
+fgColor index 16
+fgAlarm
+bgColor index 10
+autoHeight
+limitsFromDb
+nullColor index 0
+smartRefresh
+useHexPrefix
+showUnits
+useAlarmBorder
+newPos
+objType "monitors"
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 310
+y 80
+w 20
+h 320
+
+beginGroup
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 310
+y 80
+w 20
+h 20
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 4
+release 0
+x 310
+y 80
+w 20
+h 20
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+font "arial-medium-r-18.0"
+button3Popup
+invisible
+buttonLabel "Status Failed Tooltip"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "EdNextT-tooltip-symbol.edl"
+}
+symbols {
+  0 "text=\"System failure detected - if red light consult manual.\""
+}
+endObjectProperties
+
+# (Byte)
+object ByteClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 310
+y 80
+w 20
+h 20
+controlPv "$(P):STS:SYSTEMSTATUS:FAILED"
+lineColor index 14
+onColor index 20
+offColor index 19
+endian "little"
+numBits 1
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 310
+y 100
+w 20
+h 20
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 4
+release 0
+x 310
+y 100
+w 20
+h 20
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+font "arial-medium-r-18.0"
+button3Popup
+invisible
+buttonLabel "Status Stopped Tooltip"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "EdNextT-tooltip-symbol.edl"
+}
+symbols {
+  0 "text=\"Motor below stopped speed.\""
+}
+endObjectProperties
+
+# (Byte)
+object ByteClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 310
+y 100
+w 20
+h 20
+controlPv "$(P):STS:SYSTEMSTATUS:STOPPED"
+lineColor index 14
+onColor index 20
+offColor index 19
+endian "little"
+numBits 1
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 310
+y 120
+w 20
+h 20
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 4
+release 0
+x 310
+y 120
+w 20
+h 20
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+font "arial-medium-r-18.0"
+button3Popup
+invisible
+buttonLabel "Status Normal Tooltip"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "EdNextT-tooltip-symbol.edl"
+}
+symbols {
+  0 "text=\"Motor at or above normal speed.\""
+}
+endObjectProperties
+
+# (Byte)
+object ByteClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 310
+y 120
+w 20
+h 20
+controlPv "$(P):STS:SYSTEMSTATUS:NORMAL"
+lineColor index 14
+onColor index 15
+offColor index 19
+endian "little"
+numBits 1
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 310
+y 140
+w 20
+h 20
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 4
+release 0
+x 310
+y 140
+w 20
+h 20
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+font "arial-medium-r-18.0"
+button3Popup
+invisible
+buttonLabel "Vent CLosed Tooltip"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "EdNextT-tooltip-symbol.edl"
+}
+symbols {
+  0 "text=\"Vent Valve open (green) or closed (red)\""
+}
+endObjectProperties
+
+# (Byte)
+object ByteClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 310
+y 140
+w 20
+h 20
+controlPv "$(P):STS:SYSTEMSTATUS:VENTCLOSED"
+lineColor index 14
+onColor index 22
+offColor index 17
+endian "little"
+numBits 1
+endObjectProperties
+
+endGroup
+
+visPv "$(P):PMS:VENTENABLE"
+visMin "0.5"
+visMax "1.5"
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 310
+y 180
+w 20
+h 20
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 4
+release 0
+x 310
+y 180
+w 20
+h 20
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+font "arial-medium-r-18.0"
+button3Popup
+invisible
+buttonLabel "Serial Enable Tooltip"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "EdNextT-tooltip-symbol.edl"
+}
+symbols {
+  0 "text=\"This must be active (green light) for RS232 control to work.\""
+}
+endObjectProperties
+
+# (Byte)
+object ByteClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 310
+y 180
+w 20
+h 20
+controlPv "$(P):STS:SYSTEMSTATUS:SERIALENA"
+lineColor index 14
+onColor index 15
+offColor index 19
+endian "little"
+numBits 1
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 310
+y 200
+w 20
+h 20
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 4
+release 0
+x 310
+y 200
+w 20
+h 20
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+font "arial-medium-r-18.0"
+button3Popup
+invisible
+buttonLabel "Status Standby Tooltip"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "EdNextT-tooltip-symbol.edl"
+}
+symbols {
+  0 "text=\"Standby active - motor at Standby Speed.\""
+}
+endObjectProperties
+
+# (Byte)
+object ByteClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 310
+y 200
+w 20
+h 20
+controlPv "$(P):STS:SYSTEMSTATUS:STANDBY"
+lineColor index 14
+onColor index 15
+offColor index 19
+endian "little"
+numBits 1
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 310
+y 220
+w 20
+h 20
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 4
+release 0
+x 310
+y 220
+w 20
+h 20
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+font "arial-medium-r-18.0"
+button3Popup
+invisible
+buttonLabel "Status Half Tooltip"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "EdNextT-tooltip-symbol.edl"
+}
+symbols {
+  0 "text=\"Motor at half speed or more.\""
+}
+endObjectProperties
+
+# (Byte)
+object ByteClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 310
+y 220
+w 20
+h 20
+controlPv "$(P):STS:SYSTEMSTATUS:HALF"
+lineColor index 14
+onColor index 15
+offColor index 19
+endian "little"
+numBits 1
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 310
+y 240
+w 20
+h 20
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 4
+release 0
+x 310
+y 240
+w 20
+h 20
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+font "arial-medium-r-18.0"
+button3Popup
+invisible
+buttonLabel "Status Parallel Tooltip"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "EdNextT-tooltip-symbol.edl"
+}
+symbols {
+  0 "text=\"Exclusive Parallel Interface Control Mode active - RS232 can only monitor - Default at power up.\""
+}
+endObjectProperties
+
+# (Byte)
+object ByteClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 310
+y 240
+w 20
+h 20
+controlPv "$(P):STS:SYSTEMSTATUS:PARALLEL"
+lineColor index 14
+onColor index 15
+offColor index 19
+endian "little"
+numBits 1
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 310
+y 260
+w 20
+h 20
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 4
+release 0
+x 310
+y 260
+w 20
+h 20
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+font "arial-medium-r-18.0"
+button3Popup
+invisible
+buttonLabel "Status Serial Control Tooltip"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "EdNextT-tooltip-symbol.edl"
+}
+symbols {
+  0 "text=\"Exclusive Serial Control Mode active - Controller has acted on Serial start command - Parallel Interface ignored.\""
+}
+endObjectProperties
+
+# (Byte)
+object ByteClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 310
+y 260
+w 20
+h 20
+controlPv "$(P):STS:SYSTEMSTATUS:SERIALCTRL"
+lineColor index 14
+onColor index 15
+offColor index 19
+endian "little"
+numBits 1
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 310
+y 280
+w 20
+h 20
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 4
+release 0
+x 310
+y 280
+w 20
+h 20
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+font "arial-medium-r-18.0"
+button3Popup
+invisible
+buttonLabel "Status Software Control Tooltip"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "EdNextT-tooltip-symbol.edl"
+}
+symbols {
+  0 "text=\"Controller software internal software mismatch (red light).\""
+}
+endObjectProperties
+
+# (Byte)
+object ByteClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 310
+y 280
+w 20
+h 20
+controlPv "$(P):STS:SYSTEMSTATUS:CONTROLLERSW"
+lineColor index 14
+onColor index 20
+offColor index 19
+endian "little"
+numBits 1
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 310
+y 300
+w 20
+h 20
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 4
+release 0
+x 310
+y 300
+w 20
+h 20
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+font "arial-medium-r-18.0"
+button3Popup
+invisible
+buttonLabel "Status Upload Tooltip"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "EdNextT-tooltip-symbol.edl"
+}
+symbols {
+  0 "text=\"Upload incomplete - Controller failed internal config/calib op (red light).\""
+}
+endObjectProperties
+
+# (Byte)
+object ByteClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 310
+y 300
+w 20
+h 20
+controlPv "$(P):STS:SYSTEMSTATUS:UPLOAD"
+lineColor index 14
+onColor index 20
+offColor index 19
+endian "little"
+numBits 1
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 310
+y 320
+w 20
+h 20
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 4
+release 0
+x 310
+y 320
+w 20
+h 20
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+font "arial-medium-r-18.0"
+button3Popup
+invisible
+buttonLabel "Status Timer Tooltip"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "EdNextT-tooltip-symbol.edl"
+}
+symbols {
+  0 "text=\"Timer expired - Failed to reach half speed within timer allowed (red light).\""
+}
+endObjectProperties
+
+# (Byte)
+object ByteClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 310
+y 320
+w 20
+h 20
+controlPv "$(P):STS:SYSTEMSTATUS:TIMER"
+lineColor index 14
+onColor index 20
+offColor index 19
+endian "little"
+numBits 1
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 310
+y 340
+w 20
+h 20
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 4
+release 0
+x 310
+y 340
+w 20
+h 20
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+font "arial-medium-r-18.0"
+button3Popup
+invisible
+buttonLabel "Status Tooltip"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "EdNextT-tooltip-symbol.edl"
+}
+symbols {
+  0 "text=\"Hardware trip - Overspeed or Overcurrent trip active (red light).\""
+}
+endObjectProperties
+
+# (Byte)
+object ByteClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 310
+y 340
+w 20
+h 20
+controlPv "$(P):STS:SYSTEMSTATUS:HWTRIP"
+lineColor index 14
+onColor index 20
+offColor index 19
+endian "little"
+numBits 1
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 310
+y 360
+w 20
+h 20
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 4
+release 0
+x 310
+y 360
+w 20
+h 20
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+font "arial-medium-r-18.0"
+button3Popup
+invisible
+buttonLabel "Status Thermistor Tooltip"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "EdNextT-tooltip-symbol.edl"
+}
+symbols {
+  0 "text=\"Thermistor error - internal temperature management system problem (red light).\""
+}
+endObjectProperties
+
+# (Byte)
+object ByteClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 310
+y 360
+w 20
+h 20
+controlPv "$(P):STS:SYSTEMSTATUS:THERMISTOR"
+lineColor index 14
+onColor index 20
+offColor index 19
+endian "little"
+numBits 1
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 310
+y 380
+w 20
+h 20
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 4
+release 0
+x 310
+y 380
+w 20
+h 20
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+font "arial-medium-r-18.0"
+button3Popup
+invisible
+buttonLabel "Status Serial Interlock Tooltip"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "EdNextT-tooltip-symbol.edl"
+}
+symbols {
+  0 "text=\"Serial Control Mode is active (green light).\""
+}
+endObjectProperties
+
+# (Byte)
+object ByteClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 310
+y 380
+w 20
+h 20
+controlPv "$(P):STS:SYSTEMSTATUS:SERIALILK"
+lineColor index 14
+onColor index 20
+offColor index 19
+endian "little"
+numBits 1
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 310
+y 160
+w 20
+h 20
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 4
+release 0
+x 310
+y 160
+w 20
+h 20
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+font "arial-medium-r-18.0"
+button3Popup
+invisible
+buttonLabel "Status MaxPower Tooltip "
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "EdNextT-tooltip-symbol.edl"
+}
+symbols {
+  0 "text=\"Start in progress or run in progress - motor is running or ramping.\""
+}
+endObjectProperties
+
+# (Byte)
+object ByteClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 310
+y 160
+w 20
+h 20
+controlPv "$(P):STS:SYSTEMSTATUS:STARTING"
+lineColor index 14
+onColor index 15
+offColor index 19
+endian "little"
+numBits 1
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 370
+y 440
+w 100
+h 16
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 4
+release 0
+x 370
+y 440
+w 100
+h 16
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+font "arial-medium-r-18.0"
+button3Popup
+invisible
+buttonLabel "Status Voltage Tooltip "
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "EdNextT-tooltip-symbol.edl"
+}
+symbols {
+  0 "text=\"Link voltage in Volts.\""
+}
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 6
+release 0
+x 370
+y 440
+w 100
+h 16
+controlPv "$(P):STS:VOLTAGE"
+font "arial-medium-r-14.0"
+fgColor index 16
+fgAlarm
+bgColor index 10
+autoHeight
+limitsFromDb
+nullColor index 0
+smartRefresh
+useHexPrefix
+showUnits
+useAlarmBorder
+newPos
+objType "monitors"
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 370
+y 460
+w 100
+h 16
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 4
+release 0
+x 370
+y 460
+w 100
+h 16
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+font "arial-medium-r-18.0"
+button3Popup
+invisible
+buttonLabel "Status Current Tooltip "
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "EdNextT-tooltip-symbol.edl"
+}
+symbols {
+  0 "text=\"Link current in Amps.\""
+}
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 6
+release 0
+x 370
+y 460
+w 100
+h 16
+controlPv "$(P):STS:CURRENT"
+font "arial-medium-r-14.0"
+fgColor index 16
+fgAlarm
+bgColor index 10
+autoHeight
+limitsFromDb
+nullColor index 0
+smartRefresh
+useHexPrefix
+showUnits
+useAlarmBorder
+newPos
+objType "monitors"
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 370
+y 480
+w 100
+h 16
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 4
+release 0
+x 370
+y 480
+w 100
+h 16
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+font "arial-medium-r-18.0"
+button3Popup
+invisible
+buttonLabel "Status Power Tooltip "
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "EdNextT-tooltip-symbol.edl"
+}
+symbols {
+  0 "text=\"Link Power in Watts.\""
+}
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 6
+release 0
+x 370
+y 480
+w 100
+h 16
+controlPv "$(P):STS:POWER"
+font "arial-medium-r-14.0"
+fgColor index 16
+fgAlarm
+bgColor index 10
+autoHeight
+limitsFromDb
+nullColor index 0
+smartRefresh
+useHexPrefix
+showUnits
+useAlarmBorder
+newPos
+objType "monitors"
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 10
+y 140
+w 275
+h 20
+font "arial-medium-r-14.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 3
+visPv "$(P):PMS:VENTENABLE"
+visInvert
+visMin "0.5"
+visMax "1.5"
+value {
+  "Feature not in use on this pump."
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 490
+y 420
+w 100
+h 16
+font "arial-bold-r-14.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Limit"
+}
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 120
+y 440
+w 100
+h 16
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 4
+release 0
+x 120
+y 440
+w 100
+h 16
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+font "arial-medium-r-18.0"
+button3Popup
+invisible
+buttonLabel "Status MotorTemp Tooltip "
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "EdNextT-tooltip-symbol.edl"
+}
+symbols {
+  0 "text=\"Motor temperature in degrees C reported by the controller.\""
+}
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 6
+release 0
+x 120
+y 440
+w 100
+h 16
+controlPv "$(P):STS:MOTORTEMP"
+font "arial-medium-r-14.0"
+fgColor index 16
+fgAlarm
+bgColor index 10
+autoHeight
+limitsFromDb
+nullColor index 0
+smartRefresh
+useHexPrefix
+showUnits
+useAlarmBorder
+newPos
+objType "monitors"
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 120
+y 460
+w 100
+h 16
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 4
+release 0
+x 120
+y 460
+w 100
+h 16
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+font "arial-medium-r-18.0"
+button3Popup
+invisible
+buttonLabel "Status ControllerTemp Tooltip "
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "EdNextT-tooltip-symbol.edl"
+}
+symbols {
+  0 "text=\"Controller temperature in degrees C reported by the controller.\""
+}
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 6
+release 0
+x 120
+y 460
+w 100
+h 16
+controlPv "$(P):STS:CONTROLLERTEMP"
+font "arial-medium-r-14.0"
+fgColor index 16
+fgAlarm
+bgColor index 10
+autoHeight
+limitsFromDb
+nullColor index 0
+smartRefresh
+useHexPrefix
+showUnits
+useAlarmBorder
+newPos
+objType "monitors"
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 120
+y 505
+w 100
+h 16
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 4
+release 0
+x 120
+y 505
+w 100
+h 16
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+font "arial-medium-r-18.0"
+button3Popup
+invisible
+buttonLabel "Status TimeoutPeriod Tooltip "
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "EdNextT-tooltip-symbol.edl"
+}
+symbols {
+  0 "text=\"Timeout in minutes - how long pump gets to achieve desired level before it is considered a fault.\""
+}
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 6
+release 0
+x 120
+y 505
+w 100
+h 16
+controlPv "$(P):RBV:TIMEOUT:PERIOD"
+font "arial-medium-r-14.0"
+fgColor index 16
+fgAlarm
+bgColor index 10
+autoHeight
+limitsFromDb
+nullColor index 0
+smartRefresh
+useHexPrefix
+showUnits
+useAlarmBorder
+newPos
+objType "monitors"
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 120
+y 525
+w 100
+h 16
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 4
+release 0
+x 120
+y 525
+w 100
+h 16
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+font "arial-medium-r-18.0"
+button3Popup
+invisible
+buttonLabel "Status TimeoutEnable Tooltip "
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "EdNextT-tooltip-symbol.edl"
+}
+symbols {
+  0 "text=\"Whether the timeout is enabled or disabled - it is always enabled during a ramp but programme can ask controller to enable to start counting down to error.\""
+}
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 6
+release 0
+x 120
+y 525
+w 100
+h 16
+controlPv "$(P):RBV:TIMEOUT:ENABLED"
+font "arial-medium-r-14.0"
+fgColor index 16
+fgAlarm
+bgColor index 10
+autoHeight
+limitsFromDb
+nullColor index 0
+smartRefresh
+useHexPrefix
+useAlarmBorder
+newPos
+objType "monitors"
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 370
+y 525
+w 150
+h 16
+
+beginGroup
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 4
+release 0
+x 370
+y 525
+w 150
+h 16
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+font "arial-medium-r-18.0"
+button3Popup
+invisible
+buttonLabel "Status StatusCode Tooltip "
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "EdNextT-tooltip-symbol.edl"
+}
+symbols {
+  0 "text=\"Status Code string reported by controller - the IOC has decoded this to provide much of the information indicated on this screen.\""
+}
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 370
+y 525
+w 150
+h 16
+controlPv "$(P):RBV:HEXSTS"
+fgColor index 16
+fgAlarm
+bgColor index 10
+fill
+font "arial-medium-r-14.0"
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 10
+y 525
+w 100
+h 20
+font "arial-medium-r-14.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "(En/Dis)abled"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 120
+y 485
+w 100
+h 16
+font "arial-bold-r-14.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Timeout"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 10
+y 485
+w 100
+h 16
+font "arial-bold-r-14.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Item"
+}
+endObjectProperties
+
+# (Shell Command)
+object shellCmdClass
+beginObjectProperties
+major 4
+minor 3
+release 0
+x 220
+y 560
+w 130
+h 25
+fgColor index 43
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-medium-r-18.0"
+buttonLabel "Manual"
+numCmds 5
+commandLabel {
+  0 "nEXT Instruction Manual Issue D (2013)"
+  1 "nEXT Service Manual Issue B (2010) Timer Reset"
+  2 "nEXT Instruction Manual Issue C (2011)"
+  3 "nEXT Instruction Manual Issue A (2009)"
+  4 "nEXT Service Manual Issue B (2010)"
+}
+command {
+  0 "launch_EdwardsNextTurbo_manualviewer.sh Edwards_nEXT_B80000880_InstructionManual_IssueD_2013.pdf&"
+  1 "launch_EdwardsNextTurbo_manualviewer.sh Edwards_nEXT_B80000840_ServiceManual_IssueB_2010_Extract_Ch7TimeReset.pdf&"
+  2 "launch_EdwardsNextTurbo_manualviewer.sh Edwards_nEXT_B80000880_InstructionManual_IssueC_2011.pdf&"
+  3 "launch_EdwardsNextTurbo_manualviewer.sh Edwards_nEXT_B80000880_InstructionManual_IssueA_2009.pdf&"
+  4 "launch_EdwardsNextTurbo_manualviewer.sh Edwards_nEXT_B80000840_ServiceManual_IssueB_2010.pdf&"
+}
+endObjectProperties
+

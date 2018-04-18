@@ -1,0 +1,4 @@
+Tested with EPICS R3.14.12.3 over RS232 against Edwards nEXT Turbomolecular pump reporting:
+Pump Model nEXT-P2 
+Firmware   D39649602C
+Bootloader D37479601C

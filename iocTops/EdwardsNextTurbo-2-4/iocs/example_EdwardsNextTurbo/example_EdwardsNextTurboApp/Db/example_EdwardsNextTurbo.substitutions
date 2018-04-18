@@ -1,0 +1,5 @@
+file EdwardsNextTurbo.template
+{
+pattern { P, port }
+{ TS-VA-TURBO-01, TS-VA-TURBO-01 }
+}

@@ -35,7 +35,8 @@ fi
 # busy
 BUSY_DOWNLOAD="busy_R1-6-1.tar.gz"
 BUSY_DIRECTORY="busy-1-6-1"
-wget --tries=3 --timeout=10  http://www.aps.anl.gov/bcda/synApps/tar/$BUSY_DOWNLOAD
+wget --tries=3 --timeout=10 https://epics.anl.gov/bcda/synApps/tar/$BUSY_DOWNLOAD
+
 BUSY_PATH=$EPICS_ROOT/support/busy
 mkdir -p $BUSY_PATH
 tar xzvf $BUSY_DOWNLOAD -C $BUSY_PATH
