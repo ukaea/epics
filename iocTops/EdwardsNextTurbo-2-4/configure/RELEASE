@@ -24,20 +24,20 @@
 TEMPLATE_TOP=$(EPICS_BASE)/templates/makeBaseApp/top
 
 # Support Area
-SUPPORT=/dls_sw/prod/R3.14.12.3/support
+SUPPORT=\epics/support
 #WORKSUPPORT=/dls_sw/prod/R3.14.12.3/support
 
 # Support Modules
 ##ASYN=	  $(SUPPORT)/asyn/4-21
-ASYN=	  $(SUPPORT)/asyn/4-26
+ASYN=	  $(SUPPORT)/asyn
 
 ##STREAMS=  $(SUPPORT)/streamDevice/2-5dls2
-STREAMS=  $(SUPPORT)/streamDevice/2-5dls4
+STREAMS=  $(SUPPORT)/stream
 
-CALC=	  $(SUPPORT)/calc/3-1
+CALC=	  $(SUPPORT)/calc
 
 # EPICS_BASE usually appears last so other apps can override stuff:
-EPICS_BASE=/dls_sw/epics/R3.14.12.3/base
+EPICS_BASE=\epics/base
 
 # Set RULES here if you want to take build rules from somewhere
 # other than EPICS_BASE:
