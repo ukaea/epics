@@ -30,20 +30,6 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 0
-y 0
-w 350
-h 60
-
-beginGroup
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
 x 127
 y 2
 w 107
@@ -144,24 +130,6 @@ value {
  "Driver file I/O"
 }
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 0
-y 0
-w 350
-h 60
-
-beginGroup
-
 # (Group)
 object activeGroupClass
 beginObjectProperties
@@ -215,21 +183,11 @@ topShadowColor index 2
 botShadowColor index 12
 font "helvetica-medium-r-10.0"
 icon
-numPvs 2
-numDsps 1
+numPvs 0
+numDsps 0
 displayFileName {
-  0 /home/oxygen/MOONEY/epics/git/areaDetector/ADCore/ADApp/op/adl/NDFile.edl
 }
 menuLabel {
-  0 
-}
-symbols {
-  0 "P=$(P),R=$(R)"
 }
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
 

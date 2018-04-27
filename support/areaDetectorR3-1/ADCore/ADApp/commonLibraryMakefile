@@ -3,7 +3,7 @@
 LIB_LIBS += ADBase
 LIB_LIBS += asyn
 
-ifeq ($(WITH_EPICS_V4),YES)
+ifeq ($(WITH_PVA),YES)
   LIB_LIBS += ntndArrayConverter
   LIB_LIBS += nt
   LIB_LIBS += pvDatabase
@@ -108,6 +108,19 @@ ifeq ($(WITH_HDF5),YES)
   else
     USR_CXXFLAGS_WIN32    += -DH5_BUILT_AS_STATIC_LIB
     USR_CFLAGS_WIN32      += -DH5_BUILT_AS_STATIC_LIB
+  endif
+endif
+
+ifeq ($(WITH_BLOSC),YES)
+  ifeq ($(BLOSC_EXTERNAL),NO)
+    LIB_LIBS += blosc
+  else
+    ifdef BLOSC_LIB
+      blosc_DIR     = $(BLOSC_LIB)
+      LIB_LIBS     += blosc
+    else
+      LIB_SYS_LIBS += blosc
+    endif
   endif
 endif
 

@@ -27,12 +27,25 @@ Release Notes
 Each submodule contains detailed release notes for each release of that submodule.  The release notes below
 only provide a short summary of the most significant items from the submodules.
 
+R3-2 (January 28, 2018)
+----
+* Requirements:
+  - ADCore R3-2
+  - ADSupport R1-4 or higher
+  - asyn R4-32 or higher
+  - EPICS base 3.14.12.4 or higher
+* Added the blosc compression library to ADSupport and to the NDFileHDF5 writer in ADCore.
+* Added capability to automatically convert medm adl files to edm edl, caQtDM ui, and CSS-BOY opi files.
+  This is done by running make in the yyyAPP/op/ directory.  The files are placed in the edl/autoconvert
+  ui/autoconvert, and opi/autoconvert directories.  This will keep these files up to date with the medm files.
+
+
 R3-1 (July 3, 2017)
 ----
 * Requirements:
   - ADCore R3-1
   - ADSupport R1-3 or higher
-  - asyn R4-31 or higher
+  - asyn R4-32 or higher
   - EPICS base 3.14.12.4 or higher
 * Added GraphicsMagick to ADSupport.
 * Changed ADCore to allow building with GraphicsMagick either from ADSupport or using a system library.
@@ -65,7 +78,7 @@ ffmpegServer | R1-0 (initial tag)
   will require ADCore R3-0
 
 
-R2-6 (February 22, 2016)
+R2-6 (February 22, 2017)
 ----
 * Requirements
   - ADCore R2-6

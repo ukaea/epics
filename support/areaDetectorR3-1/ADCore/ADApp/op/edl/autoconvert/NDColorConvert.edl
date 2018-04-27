@@ -6,7 +6,7 @@ release 0
 x 193
 y 91
 w 390
-h 640
+h 665
 font "helvetica-medium-r-18.0"
 ctlFont "helvetica-medium-r-8.0"
 btnFont "helvetica-medium-r-18.0"
@@ -46,9 +46,9 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 87
+x 0
 y 6
-w 216
+w 390
 h 25
 font "helvetica-medium-r-8.0"
 fontAlign "center"
@@ -68,7 +68,7 @@ release 0
 x 5
 y 40
 w 380
-h 530
+h 555
 
 beginGroup
 
@@ -81,14 +81,14 @@ release 0
 x 5
 y 40
 w 380
-h 530
+h 555
 fgColor index 14
 bgColor index 0
 topShadowColor index 0
 botShadowColor index 14
 noScroll
 displaySource "file"
-file "	composite file NDPluginBase.edl"
+file "NDPluginBase.edl"
 sizeOfs 5
 numDsps 0
 endObjectProperties
@@ -100,20 +100,6 @@ visMin "A"
 visMax "1"
 endObjectProperties
 
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 5
-y 575
-w 380
-h 60
-
-beginGroup
-
-
 # (Rectangle)
 object activeRectangleClass
 beginObjectProperties
@@ -121,7 +107,7 @@ major 4
 minor 0
 release 0
 x 5
-y 575
+y 600
 w 380
 h 60
 lineColor index 14
@@ -129,29 +115,15 @@ fillColor index 14
 lineWidth 0
 endObjectProperties
 
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 12
-y 583
-w 366
-h 20
-
-beginGroup
-
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
 major 4
 minor 0
 release 0
-x 12
-y 583
-w 150
+x 22
+y 608
+w 140
 h 20
 font "helvetica-medium-r-8.0"
 fontAlign "right"
@@ -169,7 +141,7 @@ major 4
 minor 0
 release 0
 x 278
-y 584
+y 609
 w 100
 h 18
 controlPv "$(P)$(R)ColorModeOut_RBV"
@@ -179,17 +151,12 @@ fastUpdate
 fgColor index 54
 bgColor index 4
 autoHeight
-format decimal
+format "string"
 nullColor index 32
 useHexPrefix
 objType "controls"
 newPos
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
 
 # (Static Text)
 object activeXTextClass
@@ -198,7 +165,7 @@ major 4
 minor 0
 release 0
 x 12
-y 608
+y 633
 w 150
 h 20
 font "helvetica-medium-r-8.0"
@@ -217,7 +184,7 @@ major 4
 minor 0
 release 0
 x 278
-y 609
+y 634
 w 100
 h 18
 controlPv "$(P)$(R)FalseColor_RBV"
@@ -227,68 +194,12 @@ fastUpdate
 fgColor index 54
 bgColor index 4
 autoHeight
-format decimal
+format "string"
 nullColor index 32
 useHexPrefix
 objType "controls"
 newPos
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 5
-y 575
-w 380
-h 60
-
-beginGroup
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 12
-y 583
-w 366
-h 20
-
-beginGroup
-
-
-# (Menu Button)
-object activeMenuButtonClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 172
-y 583
-w 100
-h 20
-fgColor index 14
-bgColor index 51
-inconsistentColor index 12
-topShadowColor index 2
-botShadowColor index 12
-controlPv "$(P)$(R)ColorModeOut"
-indicatorPv "$(P)$(R)ColorModeOut"
-font "helvetica-medium-r-10.0"
-endObjectProperties
-
-endGroup
-
-endObjectProperties
-
 
 # (Menu Button)
 object activeMenuButtonClass
@@ -305,13 +216,28 @@ bgColor index 51
 inconsistentColor index 12
 topShadowColor index 2
 botShadowColor index 12
+controlPv "$(P)$(R)ColorModeOut"
+indicatorPv "$(P)$(R)ColorModeOut"
+font "helvetica-medium-r-10.0"
+endObjectProperties
+
+# (Menu Button)
+object activeMenuButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 172
+y 633
+w 100
+h 20
+fgColor index 14
+bgColor index 51
+inconsistentColor index 12
+topShadowColor index 2
+botShadowColor index 12
 controlPv "$(P)$(R)FalseColor"
 indicatorPv "$(P)$(R)FalseColor"
 font "helvetica-medium-r-10.0"
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
 

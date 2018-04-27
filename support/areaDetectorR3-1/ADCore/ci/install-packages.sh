@@ -35,7 +35,7 @@ if [[ $USE_EPICS_DEV == "YES" ]]; then
   EPICS_BASE=/usr/lib/epics
 else
   cd external
-  wget -nv https://www.aps.anl.gov/epics/download/base/base-3.15.5.tar.gz
+  wget -nv https://epics.anl.gov/download/base/base-3.15.5.tar.gz
   tar -zxf base-3.15.5.tar.gz
   ln -s base-3.15.5 epics_base
   make -sj -C epics_base/
@@ -45,7 +45,7 @@ fi
 
 # Set these flags appropriately
 echo "EPICS_BASE = "     $EPICS_BASE         >  configure/RELEASE.local
-echo "ASYN=`pwd`/external/asyn-R4-31"        >> configure/RELEASE.local
+echo "ASYN=`pwd`/external/asyn-R4-32"        >> configure/RELEASE.local
 echo "ADSUPPORT=`pwd`/external/ADSupport"    >> configure/RELEASE.local
 echo "WITH_BOOST     ="  $WITH_BOOST         >> configure/CONFIG_SITE.linux-x86_64.Common
 echo "BOOST_EXTERNAL ="  $BOOST_EXTERNAL     >> configure/CONFIG_SITE.linux-x86_64.Common
@@ -64,6 +64,9 @@ echo "WITH_SZIP = "      $WITH_SZIP          >> configure/CONFIG_SITE.linux-x86_
 echo "SZIP_EXTERNAL = "  $SZIP_EXTERNAL      >> configure/CONFIG_SITE.linux-x86_64.Common
 echo "WITH_ZLIB = "      $WITH_ZLIB          >> configure/CONFIG_SITE.linux-x86_64.Common
 echo "ZLIB_EXTERNAL = "  $ZLIB_EXTERNAL      >> configure/CONFIG_SITE.linux-x86_64.Common
+echo "HOST_OPT=NO"                           >> configure/CONFIG_SITE.linux-x86_64.Common 
+echo "USR_CXXFLAGS_Linux=--coverage"         >> configure/CONFIG_SITE.linux-x86_64.Common 
+echo "USR_LDFLAGS_Linux=--coverage"          >> configure/CONFIG_SITE.linux-x86_64.Common 
 
 echo "======= configure/RELEASE.local ========================================="
 cat configure/RELEASE.local
@@ -103,11 +106,11 @@ gem install coveralls-lcov
 cd external
 
 # Install asyn 
-wget -nv https://github.com/epics-modules/asyn/archive/R4-31.tar.gz
-tar -zxf R4-31.tar.gz
-echo "EPICS_BASE="$EPICS_BASE > asyn-R4-31/configure/RELEASE
-#echo "EPICS_LIBCOM_ONLY=YES" >> asyn-R4-31/configure/CONFIG_SITE
-make -sj -C asyn-R4-31/
+wget -nv https://github.com/epics-modules/asyn/archive/R4-32.tar.gz
+tar -zxf R4-32.tar.gz
+echo "EPICS_BASE="$EPICS_BASE > asyn-R4-32/configure/RELEASE
+#echo "EPICS_LIBCOM_ONLY=YES" >> asyn-R4-32/configure/CONFIG_SITE
+make -sj -C asyn-R4-32/
 
 # Install ADSupport
 git clone https://github.com/areaDetector/ADSupport.git

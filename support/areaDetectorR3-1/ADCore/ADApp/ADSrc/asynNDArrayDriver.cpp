@@ -55,29 +55,23 @@
 
 static const char *driverName = "asynNDArrayDriver";
 
-/** Checks whether the directory specified NDFilePath parameter exists.
+/** Checks whether the directory specified exists.
   * 
-  * This is a convenience function that determinesthe directory specified NDFilePath parameter exists.
-  * It sets the value of NDFilePathExists to 0 (does not exist) or 1 (exists).  
-  * It also adds a trailing '/' character to the path if one is not present.
-  * Returns a error status if the directory does not exist.
+  * This is a convenience function that determines the directory specified exists.
+  * It adds a trailing '/' or '\' character to the path if one is not present.
+  * It returns true if the directory exists and false if it does not
   */
-asynStatus asynNDArrayDriver::checkPath()
+bool asynNDArrayDriver::checkPath(std::string &filePath)
 {
-    /* Formats a complete file name from the components defined in NDStdDriverParams */
-    asynStatus status = asynError;
-    char filePath[MAX_FILENAME_LEN];
     char lastChar;
-    int hasTerminator=0;
     struct stat buff;
     int istat;
     size_t len;
     int isDir=0;
-    int pathExists=0;
+    bool pathExists=false;
     
-    getStringParam(NDFilePath, sizeof(filePath), filePath);
-    len = strlen(filePath);
-    if (len == 0) return asynSuccess;
+    len = filePath.size();
+    if (len == 0) return false;
     /* If the path contains a trailing '/' or '\' remove it, because Windows won't find
      * the directory if it has that trailing character */
     lastChar = filePath[len-1];
@@ -87,21 +81,37 @@ asynStatus asynNDArrayDriver::checkPath()
     if (lastChar == '/') 
 #endif
     {
-        filePath[len-1] = 0;
-        len--;
-        hasTerminator=1;
+        filePath.resize(len-1);
     }
-    istat = stat(filePath, &buff);
+    istat = stat(filePath.c_str(), &buff);
     if (!istat) isDir = (S_IFDIR & buff.st_mode);
     if (!istat && isDir) {
-        pathExists = 1;
-        status = asynSuccess;
+        pathExists = true;
     }
-    /* If the path did not have a trailing terminator then add it if there is room */
-    if (!hasTerminator) {
-        if (len < MAX_FILENAME_LEN-2) strcat(filePath, delim);
-        setStringParam(NDFilePath, filePath);
-    }
+    /* Add a terminator even if it did not have one originally */
+    filePath.append(delim);
+    return pathExists;   
+}
+
+
+/** Checks whether the directory specified NDFilePath parameter exists.
+  * 
+  * This is a convenience function that determines the directory specified NDFilePath parameter exists.
+  * It sets the value of NDFilePathExists to 0 (does not exist) or 1 (exists).  
+  * It also adds a trailing '/' character to the path if one is not present.
+  * Returns a error status if the directory does not exist.
+  */
+asynStatus asynNDArrayDriver::checkPath()
+{
+    asynStatus status;
+    std::string filePath;
+    int pathExists;
+    
+    getStringParam(NDFilePath, filePath);
+    if (filePath.size() == 0) return asynSuccess;
+    pathExists = checkPath(filePath);
+    status = pathExists ? asynSuccess : asynError;
+    setStringParam(NDFilePath, filePath);
     setIntegerParam(NDFilePathExists, pathExists);
     return status;   
 }
@@ -113,7 +123,7 @@ asynStatus asynNDArrayDriver::checkPath()
                       pathDepth = 0 create no directories
                       pathDepth = 1 create all directories needed (i.e. only assume root directory exists).
                       pathDepth = 2  Assume 1 directory below the root directory exists
-                      pathDepth = -1 Assume all but one direcory exists
+                      pathDepth = -1 Assume all but one directory exists
                       pathDepth = -2 Assume all but two directories exist.
 */
 asynStatus asynNDArrayDriver::createFilePath(const char *path, int pathDepth)
@@ -680,7 +690,7 @@ void asynNDArrayDriver::report(FILE *fp, int details)
 asynNDArrayDriver::asynNDArrayDriver(const char *portName, int maxAddr, int maxBuffers,
                                      size_t maxMemory, int interfaceMask, int interruptMask,
                                      int asynFlags, int autoConnect, int priority, int stackSize)
-    : asynPortDriver(portName, maxAddr, 0, 
+    : asynPortDriver(portName, maxAddr, 
                      interfaceMask | asynInt32Mask | asynFloat64Mask | asynOctetMask | asynInt32ArrayMask | asynGenericPointerMask | asynDrvUserMask, 
                      interruptMask | asynInt32Mask | asynFloat64Mask | asynOctetMask | asynInt32ArrayMask | asynGenericPointerMask,
                      asynFlags, autoConnect, priority, stackSize),

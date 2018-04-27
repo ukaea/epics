@@ -1,4 +1,4 @@
-ADCore Releases
+-ADCore Releases
 ===============
 
 The latest untagged master branch can be obtained at
@@ -19,6 +19,101 @@ files respectively, in the configure/ directory of the appropriate release of th
 
 Release Notes
 =============
+
+R3-2 (January 28, 2018)
+======================
+### NDPluginStats
+* Previously the X axis for the histogram plot was just the histogram bin number.
+  Added code to compute an array of intensity values and a new HistHistogramX_RBV waveform record which
+  contains the intensity values for the X axis of the histogram plot.
+  This uses a new NDPlotXY.adl medm screen which accepts both X and Y waveform records to plot.
+### NDPluginFile
+* Changed the way that capture mode is implemented.
+  Previously it created NumCapture NDArrays using the "new" operator.
+  As NDArrays arrived it copied the data and attributes into these arrays.
+  This had several problems:
+  - The NDArrays were not allocated from the NDArrayPool, so memory limits were not enforced.
+  - Because they were not allocated from the NDArrayPool if they were passed to other functions
+    or plugins there would be problems with attempts to call NDArray::reserve() or release().
+  - The copy operation is inefficient and not a good idea.
+
+  The change was to simply allocate an array of NumCapture pointers.  As NDArrays arrive
+  their reference count is incremented with reserve() and the pointer is copied to the array.
+  After the files are written the cleanup routine now simply decrements the reference counter
+  with release(), rather than having to delete the NDArray.
+  The new scheme is much cleaner.  It will require setting the memory and array limits
+  for the NDArrayPool to be large enough to buffer NumCapture frames, whereas previously
+  this would not have been required.  It may thus require some changes to startup scripts.
+### NDFileHDF5
+* Added support for blosc compression library.  The compressors include blosclz, lz4, lz4hc, snappy, zlib, and zstd.
+  There is also support for ByteSuffle and BitShuffle.
+  ADSupport now contains the blosc library, so it is available for most architectures.  
+  The build flags WITH_BLOSC, BLOSC_EXTERNAL, and BLOSC_LIB have been added, similar to other optional libraries.
+  Thanks to Xiaoqiang Wang for this addition.
+* Changed all output records in NDFileHDF.template to have PINI=YES.  This is how other plugins all work.
+### NDPluginOverlay
+* Improved the behavior when changing the size of an overlay. Previously the Position was always preserved when 
+  the Size was changed. This was not the desired behavior when the user had set the Center rather than Position.
+  Now the code remembers whether Position or Center was last set, and preserves the appropriate value when 
+  the Size is changed.
+* Overlays were previously constrained to fit insize the image on X=0 and Y=0 edges.  However, the user may want part of 
+  the overlay to be outside the image area. The location of the overlay can now be set anywhere, including negative positions.
+  Each pixel in the overlay is now only added if it is within the image area.
+* Fixed problems with incorrect drawing and crashing if part of an overlay was outside the image area.
+* Removed rounding when setting the center from the position or the position from the center.
+  This was causing the location to change when setting the same center or position.
+* Changed the cross overlay so that it is drawn symmetrically with the same number of pixels on each side of the center.
+  This means the actual size is 2*Size/2 + 1, which will be Size+1 if Size is even.
+### asynNDArrayDriver
+* Added a second checkPath() method which takes an std::string argument for the path to check.
+  It adds the  appropriate terminator if not present, but does not set the NDFilePath parameter.
+  This new method is now used by the existing checkPath() method, but can also be used by other code.
+### Operator displays (medm, edm, caQtDM, CSS-BOY)
+* Fixed medm files in several ways:
+  - Text graphics widget sizes are set to the actual size of the text.  medm will display text outside the widget if it
+    is not large enough, but other display managers will not.
+  - Text update widgets were set to the correct datatype.  medm will display an enum widget as a string even if
+    the datatype is set to "decimal" rather than "string", but other display managers will not.
+  - Text widgets in titles that use macros (e.g. $(P)$(R)) were set to be as large as possible so they can display
+    long PV names with display managers that won't display text outside of the widget.
+* Added ADApp/op/Makefile.  This Makefile runs the conversion tools to convert the medm adl files to edl for edm,
+  ui for caQtDM, and opi for CSS-BOY.  A RULES_OPI file was added to synApps/support/configure to support this.
+  If that RULES_OPI file is not found the Makefile does nothing. If the RULES_OPI file is found then a CONFIG_SITE
+  file in synApps/configure or in EPICS base must define these symbols:
+  - ADL2EDL is the path to adl2edl for edm
+  - ADL2UI is the path to adl2ui for caQtDM
+  - CSS is the path to css.  It must be a recent version that supports the command 
+```
+   css -nosplash -application org.csstudio.opibuilder.adl2boy.application
+```
+* The edl/autoconvert, ui/autoconvert, and opi/autoconvert directories contain new conversions of all of the medm files.
+* The edl, ui, and opi directories are intended to contain manually tweaked versions of the files.  Many of the
+  files in these directories have been removed, either because they were actually old autoconverted files, or because
+  they are obsolete and the new autoconverted files are better.
+### commonDriverMakefile
+* The variable PROD_NAME has been replaced with DBD_NAME.  This makes it clear that this variable is used to
+  specify the name of the application DBD file.  It allows different architectures to use different DBD file 
+  names.  For backwards compatibility if PROD_NAME is specified and DBD_NAME is not then DBD_NAME will be
+  set to PROD_NAME.
+### NDFileTIFF
+* Improved asynTrace debugging.
+### NDPluginAttrPlot
+* Bug fix, start the plugin in the constructor.
+### NDPluginROIStat
+* Fixed array delete at end of processCallbacks().
+### ntndArrayConvert.cpp
+* Minor fix to work with EPICS 7.
+### NDPluginDriver
+* Force queueSize to be >=1 when creating queues in createCallbackThreads.  Was crashing when autosave value was 0.
+### NDScatter.template
+* Removed SCAN=I/O Intr for an output record which was a mistake and could cause crashes.
+### pluginTests/Makefile
+* Fixed errors with extra parentheses that were preventing include USR_INCLUDES directories from being added.
+### XML_schema/NDAttributes.xsd
+* Removed the "when" attribute, this is not supported in NDAttributes XML files, only in NDFileHDF5 layout XML files.
+### EPICS V4 (pvAccess)
+* Changed the Makefile variable from WITH_EPICS_V4 to WITH_PVA.  This is more consistent with the EPICS 7
+  release, where the V4 name is no longer used.
 
 R3-1 (July 3, 2017)
 ======================
@@ -904,7 +999,7 @@ epicsTimeStamp epicsTS;  /**< The epicsTimeStamp; this is set with
 ### NDPluginROI. 
 * Make 3-D [X, Y, 1] arrays be converted to 2-D even if they are not RGB3. 
 
-###NDPluginStats. 
+### NDPluginStats. 
 * Fixed bug if a dimension was 1; this bug was introduced when changing dimensions to size_t. 
 
 ### NDFileNetCDF. 

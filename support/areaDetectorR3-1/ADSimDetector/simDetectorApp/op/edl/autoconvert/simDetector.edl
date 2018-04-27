@@ -6,7 +6,7 @@ release 0
 x 144
 y 119
 w 715
-h 735
+h 850
 font "helvetica-medium-r-18.0"
 ctlFont "helvetica-medium-r-8.0"
 btnFont "helvetica-medium-r-18.0"
@@ -24,48 +24,15 @@ gridSize 5
 endScreenProperties
 
 
-# (Static Text)
-object activeXTextClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 399
-y 645
-w 160
-h 20
-font "helvetica-medium-r-8.0"
-fontAlign "right"
-fgColor index 14
-useDisplayBg
-value {
- "Simulation setup"
-}
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 100
-y 4
-w 500
-h 26
-
-beginGroup
-
-
 # (Rectangle)
 object activeRectangleClass
 beginObjectProperties
 major 4
 minor 0
 release 0
-x 100
+x 0
 y 4
-w 499
+w 714
 h 24
 lineColor index 2
 fill
@@ -79,9 +46,9 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 158
+x 0
 y 5
-w 384
+w 715
 h 25
 font "helvetica-medium-r-8.0"
 fontAlign "center"
@@ -92,11 +59,6 @@ value {
 }
 endObjectProperties
 
-endGroup
-
-endObjectProperties
-
-
 # (Group)
 object activeGroupClass
 beginObjectProperties
@@ -106,7 +68,7 @@ release 0
 x 5
 y 35
 w 350
-h 215
+h 340
 
 beginGroup
 
@@ -119,14 +81,14 @@ release 0
 x 5
 y 35
 w 350
-h 215
+h 340
 fgColor index 14
 bgColor index 0
 topShadowColor index 0
 botShadowColor index 14
 noScroll
 displaySource "file"
-file "	composite file ADSetup.edl"
+file "ADSetup.edl"
 sizeOfs 5
 numDsps 0
 endObjectProperties
@@ -145,7 +107,7 @@ major 4
 minor 0
 release 0
 x 5
-y 340
+y 465
 w 350
 h 380
 
@@ -158,7 +120,7 @@ major 4
 minor 0
 release 0
 x 5
-y 340
+y 465
 w 350
 h 380
 fgColor index 14
@@ -167,7 +129,7 @@ topShadowColor index 0
 botShadowColor index 14
 noScroll
 displaySource "file"
-file "	composite file ADReadout.edl"
+file "ADReadout.edl"
 sizeOfs 5
 numDsps 0
 endObjectProperties
@@ -188,7 +150,7 @@ release 0
 x 360
 y 570
 w 350
-h 60
+h 110
 
 beginGroup
 
@@ -201,14 +163,14 @@ release 0
 x 360
 y 570
 w 350
-h 60
+h 110
 fgColor index 14
 bgColor index 0
 topShadowColor index 0
 botShadowColor index 14
 noScroll
 displaySource "file"
-file "	composite file ADAttrFile.edl"
+file "ADAttrFile.edl"
 sizeOfs 5
 numDsps 0
 endObjectProperties
@@ -249,7 +211,7 @@ topShadowColor index 0
 botShadowColor index 14
 noScroll
 displaySource "file"
-file "	composite file ADShutter.edl"
+file "ADShutter.edl"
 sizeOfs 5
 numDsps 0
 endObjectProperties
@@ -268,7 +230,7 @@ major 4
 minor 0
 release 0
 x 5
-y 255
+y 380
 w 350
 h 80
 
@@ -281,7 +243,7 @@ major 4
 minor 0
 release 0
 x 5
-y 255
+y 380
 w 350
 h 80
 fgColor index 14
@@ -290,7 +252,7 @@ topShadowColor index 0
 botShadowColor index 14
 noScroll
 displaySource "file"
-file "	composite file ADPlugins.edl"
+file "ADPlugins.edl"
 sizeOfs 5
 numDsps 0
 endObjectProperties
@@ -301,34 +263,6 @@ visPv ""
 visMin "A"
 visMax "1"
 endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 360
-y 205
-w 350
-h 360
-
-beginGroup
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 487
-y 207
-w 105
-h 21
-
-beginGroup
-
 
 # (Rectangle)
 object activeRectangleClass
@@ -345,11 +279,6 @@ fill
 fillColor index 2
 lineWidth 0
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
 
 # (Rectangle)
 object activeRectangleClass
@@ -372,9 +301,9 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 467
+x 510
 y 208
-w 157
+w 70
 h 20
 font "helvetica-medium-r-8.0"
 fontAlign "center"
@@ -598,9 +527,9 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 376
+x 366
 y 304
-w 160
+w 170
 h 20
 font "helvetica-medium-r-8.0"
 fontAlign "right"
@@ -634,20 +563,6 @@ useHexPrefix
 objType "controls"
 newPos
 endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 364
-y 329
-w 340
-h 229
-
-beginGroup
-
 
 # (Static Text)
 object activeXTextClass
@@ -735,20 +650,6 @@ objType "controls"
 newPos
 endObjectProperties
 
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 383
-y 463
-w 214
-h 20
-
-beginGroup
-
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -792,25 +693,6 @@ objType "controls"
 newPos
 endObjectProperties
 
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 453
-y 393
-w 203
-h 40
-
-beginGroup
-
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -829,20 +711,6 @@ value {
  "Acquire"
 }
 endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 530
-y 393
-w 126
-h 40
-
-beginGroup
-
 
 # (Static Text)
 object activeXTextClass
@@ -889,30 +757,6 @@ visMin 0
 visMax 1
 endObjectProperties
 
-endGroup
-
-endObjectProperties
-
-
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 383
-y 438
-w 305
-h 20
-
-beginGroup
-
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -950,45 +794,12 @@ fgColor index 54
 fgAlarm
 bgColor index 2
 autoHeight
-format decimal
+format "string"
 nullColor index 32
 useHexPrefix
 objType "controls"
 newPos
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 393
-y 488
-w 303
-h 20
-
-beginGroup
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 530
-y 488
-w 166
-h 20
-
-beginGroup
-
 
 # (Text Control)
 object activeXTextDspClass
@@ -1040,11 +851,6 @@ objType "controls"
 newPos
 endObjectProperties
 
-endGroup
-
-endObjectProperties
-
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -1063,25 +869,6 @@ value {
  "Image counter"
 }
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 423
-y 513
-w 207
-h 20
-
-beginGroup
-
 
 # (Static Text)
 object activeXTextClass
@@ -1125,11 +912,6 @@ useHexPrefix
 objType "controls"
 newPos
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
 
 # (Static Text)
 object activeXTextClass
@@ -1175,106 +957,24 @@ objType "controls"
 newPos
 endObjectProperties
 
-endGroup
-
-endObjectProperties
-
-
-endGroup
-
-endObjectProperties
-
-
-# (Related Display)
-object relatedDisplayClass
+# (Static Text)
+object activeXTextClass
 beginObjectProperties
 major 4
 minor 0
 release 0
-x 567
-y 645
-w 70
+x 410
+y 690
+w 160
 h 20
+font "helvetica-medium-r-8.0"
+fontAlign "right"
 fgColor index 14
-bgColor index 51
-topShadowColor index 2
-botShadowColor index 12
-font "helvetica-medium-r-10.0"
-icon
-numPvs 2
-numDsps 1
-displayFileName {
-  0 /home/oxygen/MOONEY/epics/git/areaDetector/ADCore/ADApp/op/adl/simDetectorSetup.edl
-}
-menuLabel {
-  0 Simulation setup
-}
-symbols {
-  0 "P=$(P),R=$(R)"
+useDisplayBg
+value {
+ "Simulation setup"
 }
 endObjectProperties
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 100
-y 4
-w 500
-h 26
-
-beginGroup
-
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 360
-y 205
-w 350
-h 360
-
-beginGroup
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 487
-y 207
-w 105
-h 21
-
-beginGroup
-
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 364
-y 329
-w 340
-h 229
-
-beginGroup
-
 
 # (Menu Button)
 object activeMenuButtonClass
@@ -1315,50 +1015,6 @@ controlPv "$(P)$(R)TriggerMode"
 indicatorPv "$(P)$(R)TriggerMode"
 font "helvetica-medium-r-10.0"
 endObjectProperties
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 383
-y 463
-w 214
-h 20
-
-beginGroup
-
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 453
-y 393
-w 203
-h 40
-
-beginGroup
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 530
-y 393
-w 126
-h 40
-
-beginGroup
-
 
 # (Message Button)
 object activeMessageButtonClass
@@ -1410,88 +1066,6 @@ useEnumNumeric
 font "helvetica-medium-r-10.0"
 endObjectProperties
 
-endGroup
-
-endObjectProperties
-
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 383
-y 438
-w 305
-h 20
-
-beginGroup
-
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 393
-y 488
-w 303
-h 20
-
-beginGroup
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 530
-y 488
-w 166
-h 20
-
-beginGroup
-
-
-endGroup
-
-endObjectProperties
-
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 423
-y 513
-w 207
-h 20
-
-beginGroup
-
-
-endGroup
-
-endObjectProperties
-
-
 # (Menu Button)
 object activeMenuButtonClass
 beginObjectProperties
@@ -1512,13 +1086,27 @@ indicatorPv "$(P)$(R)ArrayCallbacks"
 font "helvetica-medium-r-10.0"
 endObjectProperties
 
-endGroup
-
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 578
+y 690
+w 70
+h 20
+fgColor index 14
+bgColor index 51
+topShadowColor index 2
+botShadowColor index 12
+font "helvetica-medium-r-10.0"
+icon
+numPvs 0
+numDsps 0
+displayFileName {
+}
+menuLabel {
+}
 endObjectProperties
-
-
-endGroup
-
-endObjectProperties
-
 

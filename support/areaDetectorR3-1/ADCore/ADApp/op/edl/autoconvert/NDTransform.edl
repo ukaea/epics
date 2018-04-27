@@ -3,10 +3,10 @@ beginScreenProperties
 major 4
 minor 0
 release 0
-x 512
-y 111
+x 469
+y 30
 w 390
-h 715
+h 765
 font "helvetica-medium-r-18.0"
 ctlFont "helvetica-medium-r-8.0"
 btnFont "helvetica-medium-r-18.0"
@@ -30,9 +30,9 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 5
+x 0
 y 5
-w 379
+w 389
 h 24
 lineColor index 2
 fill
@@ -46,9 +46,9 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 10
+x 0
 y 6
-w 370
+w 390
 h 25
 font "helvetica-medium-r-8.0"
 fontAlign "center"
@@ -68,7 +68,7 @@ release 0
 x 5
 y 40
 w 380
-h 530
+h 555
 
 beginGroup
 
@@ -81,14 +81,14 @@ release 0
 x 5
 y 40
 w 380
-h 530
+h 555
 fgColor index 14
 bgColor index 0
 topShadowColor index 0
 botShadowColor index 14
 noScroll
 displaySource "file"
-file "	composite file NDPluginBase.edl"
+file "NDPluginBase.edl"
 sizeOfs 5
 numDsps 0
 endObjectProperties
@@ -100,20 +100,6 @@ visMin "A"
 visMax "1"
 endObjectProperties
 
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 5
-y 575
-w 380
-h 135
-
-beginGroup
-
-
 # (Rectangle)
 object activeRectangleClass
 beginObjectProperties
@@ -121,9 +107,9 @@ major 4
 minor 0
 release 0
 x 5
-y 575
+y 600
 w 380
-h 135
+h 160
 lineColor index 13
 fillColor index 13
 lineWidth 0
@@ -136,7 +122,7 @@ major 4
 minor 0
 release 0
 x 15
-y 582
+y 607
 w 140
 h 20
 font "helvetica-medium-r-8.0"
@@ -154,7 +140,7 @@ major 4
 minor 0
 release 0
 x 282
-y 611
+y 636
 w 13
 h 19
 
@@ -168,7 +154,7 @@ major 4
 minor 0
 release 0
 x 293
-y 611
+y 636
 w 2
 h 19
 lineColor index 53
@@ -180,8 +166,8 @@ xPoints  {
 1 294
 }
 yPoints  {
-0 612
-1 629
+0 637
+1 654
 }
 endObjectProperties
 
@@ -192,7 +178,7 @@ major 4
 minor 0
 release 0
 x 282
-y 611
+y 636
 w 13
 h 2
 lineColor index 53
@@ -204,8 +190,8 @@ xPoints  {
 1 283
 }
 yPoints  {
-0 612
-1 612
+0 637
+1 637
 }
 endObjectProperties
 
@@ -216,7 +202,7 @@ major 4
 minor 0
 release 0
 x 283
-y 618
+y 643
 w 12
 h 2
 lineColor index 53
@@ -228,8 +214,8 @@ xPoints  {
 1 284
 }
 yPoints  {
-0 619
-1 619
+0 644
+1 644
 }
 endObjectProperties
 
@@ -245,7 +231,7 @@ major 4
 minor 0
 release 0
 x 282
-y 638
+y 663
 w 19
 h 13
 
@@ -259,7 +245,7 @@ major 4
 minor 0
 release 0
 x 282
-y 638
+y 663
 w 19
 h 2
 lineColor index 53
@@ -271,8 +257,8 @@ xPoints  {
 1 300
 }
 yPoints  {
-0 639
-1 639
+0 664
+1 664
 }
 endObjectProperties
 
@@ -283,7 +269,7 @@ major 4
 minor 0
 release 0
 x 282
-y 638
+y 663
 w 2
 h 13
 lineColor index 53
@@ -295,8 +281,8 @@ xPoints  {
 1 283
 }
 yPoints  {
-0 639
-1 650
+0 664
+1 675
 }
 endObjectProperties
 
@@ -307,7 +293,7 @@ major 4
 minor 0
 release 0
 x 289
-y 638
+y 663
 w 2
 h 12
 lineColor index 53
@@ -319,8 +305,8 @@ xPoints  {
 1 290
 }
 yPoints  {
-0 639
-1 649
+0 664
+1 674
 }
 endObjectProperties
 
@@ -336,7 +322,7 @@ major 4
 minor 0
 release 0
 x 282
-y 659
+y 684
 w 13
 h 19
 
@@ -350,7 +336,7 @@ major 4
 minor 0
 release 0
 x 282
-y 659
+y 684
 w 2
 h 19
 lineColor index 53
@@ -362,8 +348,8 @@ xPoints  {
 1 283
 }
 yPoints  {
-0 677
-1 660
+0 702
+1 685
 }
 endObjectProperties
 
@@ -374,7 +360,7 @@ major 4
 minor 0
 release 0
 x 282
-y 676
+y 701
 w 13
 h 2
 lineColor index 53
@@ -386,8 +372,8 @@ xPoints  {
 1 294
 }
 yPoints  {
-0 677
-1 677
+0 702
+1 702
 }
 endObjectProperties
 
@@ -398,7 +384,7 @@ major 4
 minor 0
 release 0
 x 282
-y 669
+y 694
 w 12
 h 2
 lineColor index 53
@@ -410,8 +396,8 @@ xPoints  {
 1 293
 }
 yPoints  {
-0 670
-1 670
+0 695
+1 695
 }
 endObjectProperties
 
@@ -427,7 +413,7 @@ major 4
 minor 0
 release 0
 x 282
-y 687
+y 712
 w 19
 h 13
 
@@ -441,7 +427,7 @@ major 4
 minor 0
 release 0
 x 282
-y 698
+y 723
 w 19
 h 2
 lineColor index 53
@@ -453,8 +439,8 @@ xPoints  {
 1 283
 }
 yPoints  {
-0 699
-1 699
+0 724
+1 724
 }
 endObjectProperties
 
@@ -465,7 +451,7 @@ major 4
 minor 0
 release 0
 x 299
-y 687
+y 712
 w 2
 h 13
 lineColor index 53
@@ -477,8 +463,8 @@ xPoints  {
 1 300
 }
 yPoints  {
-0 699
-1 688
+0 724
+1 713
 }
 endObjectProperties
 
@@ -489,7 +475,7 @@ major 4
 minor 0
 release 0
 x 292
-y 688
+y 713
 w 2
 h 12
 lineColor index 53
@@ -501,8 +487,8 @@ xPoints  {
 1 293
 }
 yPoints  {
-0 699
-1 689
+0 724
+1 714
 }
 endObjectProperties
 
@@ -517,9 +503,9 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 200
-y 610
-w 77
+x 217
+y 635
+w 60
 h 20
 font "helvetica-medium-r-8.0"
 fontAlign "right"
@@ -536,9 +522,9 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 200
-y 635
-w 77
+x 167
+y 660
+w 110
 h 20
 font "helvetica-medium-r-8.0"
 fontAlign "right"
@@ -555,9 +541,9 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 200
-y 660
-w 77
+x 157
+y 685
+w 120
 h 20
 font "helvetica-medium-r-8.0"
 fontAlign "right"
@@ -574,9 +560,9 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 200
-y 685
-w 77
+x 157
+y 710
+w 120
 h 20
 font "helvetica-medium-r-8.0"
 fontAlign "right"
@@ -593,9 +579,9 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 20
-y 610
-w 77
+x 57
+y 635
+w 40
 h 20
 font "helvetica-medium-r-8.0"
 fontAlign "right"
@@ -612,9 +598,9 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 20
-y 635
-w 77
+x 47
+y 660
+w 50
 h 20
 font "helvetica-medium-r-8.0"
 fontAlign "right"
@@ -631,9 +617,9 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 20
-y 660
-w 77
+x 37
+y 685
+w 60
 h 20
 font "helvetica-medium-r-8.0"
 fontAlign "right"
@@ -650,9 +636,9 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 20
-y 685
-w 77
+x 37
+y 710
+w 60
 h 20
 font "helvetica-medium-r-8.0"
 fontAlign "right"
@@ -670,7 +656,7 @@ major 4
 minor 0
 release 0
 x 102
-y 611
+y 636
 w 13
 h 19
 
@@ -684,7 +670,7 @@ major 4
 minor 0
 release 0
 x 102
-y 611
+y 636
 w 2
 h 19
 lineColor index 53
@@ -696,8 +682,8 @@ xPoints  {
 1 103
 }
 yPoints  {
-0 612
-1 629
+0 637
+1 654
 }
 endObjectProperties
 
@@ -708,7 +694,7 @@ major 4
 minor 0
 release 0
 x 102
-y 611
+y 636
 w 13
 h 2
 lineColor index 53
@@ -720,8 +706,8 @@ xPoints  {
 1 114
 }
 yPoints  {
-0 612
-1 612
+0 637
+1 637
 }
 endObjectProperties
 
@@ -732,7 +718,7 @@ major 4
 minor 0
 release 0
 x 102
-y 618
+y 643
 w 12
 h 2
 lineColor index 53
@@ -744,8 +730,8 @@ xPoints  {
 1 113
 }
 yPoints  {
-0 619
-1 619
+0 644
+1 644
 }
 endObjectProperties
 
@@ -761,7 +747,7 @@ major 4
 minor 0
 release 0
 x 102
-y 638
+y 663
 w 19
 h 13
 
@@ -775,7 +761,7 @@ major 4
 minor 0
 release 0
 x 102
-y 638
+y 663
 w 19
 h 2
 lineColor index 53
@@ -787,8 +773,8 @@ xPoints  {
 1 103
 }
 yPoints  {
-0 639
-1 639
+0 664
+1 664
 }
 endObjectProperties
 
@@ -799,7 +785,7 @@ major 4
 minor 0
 release 0
 x 119
-y 638
+y 663
 w 2
 h 13
 lineColor index 53
@@ -811,8 +797,8 @@ xPoints  {
 1 120
 }
 yPoints  {
-0 639
-1 650
+0 664
+1 675
 }
 endObjectProperties
 
@@ -823,7 +809,7 @@ major 4
 minor 0
 release 0
 x 112
-y 638
+y 663
 w 2
 h 12
 lineColor index 53
@@ -835,8 +821,8 @@ xPoints  {
 1 113
 }
 yPoints  {
-0 639
-1 649
+0 664
+1 674
 }
 endObjectProperties
 
@@ -852,7 +838,7 @@ major 4
 minor 0
 release 0
 x 102
-y 659
+y 684
 w 13
 h 19
 
@@ -866,7 +852,7 @@ major 4
 minor 0
 release 0
 x 113
-y 659
+y 684
 w 2
 h 19
 lineColor index 53
@@ -878,8 +864,8 @@ xPoints  {
 1 114
 }
 yPoints  {
-0 677
-1 660
+0 702
+1 685
 }
 endObjectProperties
 
@@ -890,7 +876,7 @@ major 4
 minor 0
 release 0
 x 102
-y 676
+y 701
 w 13
 h 2
 lineColor index 53
@@ -902,8 +888,8 @@ xPoints  {
 1 103
 }
 yPoints  {
-0 677
-1 677
+0 702
+1 702
 }
 endObjectProperties
 
@@ -914,7 +900,7 @@ major 4
 minor 0
 release 0
 x 103
-y 669
+y 694
 w 12
 h 2
 lineColor index 53
@@ -926,8 +912,8 @@ xPoints  {
 1 104
 }
 yPoints  {
-0 670
-1 670
+0 695
+1 695
 }
 endObjectProperties
 
@@ -943,7 +929,7 @@ major 4
 minor 0
 release 0
 x 102
-y 687
+y 712
 w 19
 h 13
 
@@ -957,7 +943,7 @@ major 4
 minor 0
 release 0
 x 102
-y 698
+y 723
 w 19
 h 2
 lineColor index 53
@@ -969,8 +955,8 @@ xPoints  {
 1 120
 }
 yPoints  {
-0 699
-1 699
+0 724
+1 724
 }
 endObjectProperties
 
@@ -981,7 +967,7 @@ major 4
 minor 0
 release 0
 x 102
-y 687
+y 712
 w 2
 h 13
 lineColor index 53
@@ -993,8 +979,8 @@ xPoints  {
 1 103
 }
 yPoints  {
-0 699
-1 688
+0 724
+1 713
 }
 endObjectProperties
 
@@ -1005,7 +991,7 @@ major 4
 minor 0
 release 0
 x 109
-y 688
+y 713
 w 2
 h 12
 lineColor index 53
@@ -1017,8 +1003,8 @@ xPoints  {
 1 110
 }
 yPoints  {
-0 699
-1 689
+0 724
+1 714
 }
 endObjectProperties
 
@@ -1027,23 +1013,98 @@ endGroup
 endObjectProperties
 
 
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
+# (Static Text)
+object activeXTextClass
 beginObjectProperties
 major 4
 minor 0
 release 0
-x 5
-y 575
-w 380
-h 135
+x 10
+y 735
+w 170
+h 20
+font "helvetica-medium-r-8.0"
+fgColor index 14
+useDisplayBg
+value {
+ "Output array size"
+}
+endObjectProperties
 
-beginGroup
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 251
+y 736
+w 61
+h 18
+controlPv "$(P)$(R)ArraySizeY_RBV"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 54
+bgColor index 4
+autoHeight
+format decimal
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
 
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 317
+y 736
+w 61
+h 18
+controlPv "$(P)$(R)ArraySizeZ_RBV"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 54
+bgColor index 4
+autoHeight
+format decimal
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 185
+y 736
+w 61
+h 18
+controlPv "$(P)$(R)ArraySizeX_RBV"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 54
+bgColor index 4
+autoHeight
+format decimal
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
 
 # (Menu Button)
 object activeMenuButtonClass
@@ -1052,7 +1113,7 @@ major 4
 minor 0
 release 0
 x 160
-y 582
+y 607
 w 120
 h 20
 fgColor index 14
@@ -1071,7 +1132,7 @@ major 4
 minor 0
 release 0
 x 282
-y 611
+y 636
 w 13
 h 19
 
@@ -1089,7 +1150,7 @@ major 4
 minor 0
 release 0
 x 282
-y 638
+y 663
 w 19
 h 13
 
@@ -1107,7 +1168,7 @@ major 4
 minor 0
 release 0
 x 282
-y 659
+y 684
 w 13
 h 19
 
@@ -1125,7 +1186,7 @@ major 4
 minor 0
 release 0
 x 282
-y 687
+y 712
 w 19
 h 13
 
@@ -1143,7 +1204,7 @@ major 4
 minor 0
 release 0
 x 102
-y 611
+y 636
 w 13
 h 19
 
@@ -1161,7 +1222,7 @@ major 4
 minor 0
 release 0
 x 102
-y 638
+y 663
 w 19
 h 13
 
@@ -1179,7 +1240,7 @@ major 4
 minor 0
 release 0
 x 102
-y 659
+y 684
 w 13
 h 19
 
@@ -1197,16 +1258,11 @@ major 4
 minor 0
 release 0
 x 102
-y 687
+y 712
 w 19
 h 13
 
 beginGroup
-
-
-endGroup
-
-endObjectProperties
 
 
 endGroup

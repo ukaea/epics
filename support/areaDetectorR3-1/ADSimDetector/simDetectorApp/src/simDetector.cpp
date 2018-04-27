@@ -798,13 +798,9 @@ void simDetector::simTask()
 
         if (arrayCallbacks) {
           /* Call the NDArray callback */
-          /* Must release the lock here, or we can get into a deadlock, because we can
-           * block on the plugin lock, and the plugin can be calling us */
-          this->unlock();
           asynPrint(this->pasynUserSelf, ASYN_TRACE_FLOW,
                     "%s:%s: calling imageData callback\n", driverName, functionName);
           doCallbacksGenericPointer(pImage, NDArrayData, 0);
-          this->lock();
         }
 
         /* See if acquisition is done */
@@ -1010,7 +1006,7 @@ void simDetector::report(FILE *fp, int details)
 simDetector::simDetector(const char *portName, int maxSizeX, int maxSizeY, NDDataType_t dataType,
                          int maxBuffers, size_t maxMemory, int priority, int stackSize)
 
-    : ADDriver(portName, 1, NUM_SIM_DETECTOR_PARAMS, maxBuffers, maxMemory,
+    : ADDriver(portName, 1, 0, maxBuffers, maxMemory,
                0, 0, /* No interfaces beyond those set in ADDriver.cpp */
                0, 1, /* ASYN_CANBLOCK=0, ASYN_MULTIDEVICE=0, autoConnect=1 */
                priority, stackSize),

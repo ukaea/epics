@@ -41,7 +41,9 @@
 #define METADATA_NDIMS 1
 #define MAX_LAYOUT_LEN 1048576
 
-enum HDF5Compression_t {HDF5CompressNone=0, HDF5CompressNumBits, HDF5CompressSZip, HDF5CompressZlib};
+enum HDF5Compression_t {HDF5CompressNone=0, HDF5CompressNumBits, HDF5CompressSZip, HDF5CompressZlib, HDF5CompressBlosc};
+/* Filter ID officially assigned to blosc */
+#define FILTER_BLOSC 32001
 
 #define DIMSREPORTSIZE 512
 #define DIMNAMESIZE 40
@@ -55,6 +57,7 @@ enum HDF5Compression_t {HDF5CompressNone=0, HDF5CompressNumBits, HDF5CompressSZi
 #endif
 
 static const char *driverName = "NDFileHDF5";
+static const char *uniqueIDName = "NDArrayUniqueId";
 
 // Not required if SWMR is not supported
 #if H5_VERSION_GE(1,9,178)
@@ -1758,6 +1761,9 @@ asynStatus NDFileHDF5::writeInt32(asynUser *pasynUser, epicsInt32 value)
       case HDF5CompressZlib:
         filterId = H5Z_FILTER_DEFLATE;
         break;
+      case HDF5CompressBlosc:
+        filterId = FILTER_BLOSC;
+        break;
       default:
         filterId = H5Z_FILTER_NONE;
         status = asynError;
@@ -2021,6 +2027,9 @@ NDFileHDF5::NDFileHDF5(const char *portName, int queueSize, int blockingCallback
   this->createParam(str_NDFileHDF5_nbitsOffset,     asynParamInt32,   &NDFileHDF5_nbitsOffset);
   this->createParam(str_NDFileHDF5_szipNumPixels,   asynParamInt32,   &NDFileHDF5_szipNumPixels);
   this->createParam(str_NDFileHDF5_zCompressLevel,  asynParamInt32,   &NDFileHDF5_zCompressLevel);
+  this->createParam(str_NDFileHDF5_bloscShuffleType,   asynParamInt32,   &NDFileHDF5_bloscShuffleType);
+  this->createParam(str_NDFileHDF5_bloscCompressor,    asynParamInt32,   &NDFileHDF5_bloscCompressor);
+  this->createParam(str_NDFileHDF5_bloscCompressLevel, asynParamInt32,   &NDFileHDF5_bloscCompressLevel);
   this->createParam(str_NDFileHDF5_dimAttDatasets,  asynParamInt32,   &NDFileHDF5_dimAttDatasets);
   this->createParam(str_NDFileHDF5_layoutErrorMsg,  asynParamOctet,   &NDFileHDF5_layoutErrorMsg);
   this->createParam(str_NDFileHDF5_layoutValid,     asynParamInt32,   &NDFileHDF5_layoutValid);
@@ -2059,6 +2068,9 @@ NDFileHDF5::NDFileHDF5(const char *portName, int queueSize, int blockingCallback
   setIntegerParam(NDFileHDF5_nbitsOffset,     0);
   setIntegerParam(NDFileHDF5_szipNumPixels,   16);
   setIntegerParam(NDFileHDF5_zCompressLevel,  6);
+  setIntegerParam(NDFileHDF5_bloscShuffleType, 1);
+  setIntegerParam(NDFileHDF5_bloscCompressor, 0);
+  setIntegerParam(NDFileHDF5_bloscCompressLevel, 5);
   setIntegerParam(NDFileHDF5_dimAttDatasets,  0);
   setStringParam (NDFileHDF5_layoutErrorMsg,  "");
   setIntegerParam(NDFileHDF5_layoutValid,     1);
@@ -2604,45 +2616,69 @@ asynStatus NDFileHDF5::writeAttributeDataset(hdf5::When_t whenToSave, int positi
   asynStatus status = asynSuccess;
   NDAttribute *ndAttr = NULL;
   int flush = 0;
+  NDFileHDF5AttributeDataset *uniqueIDNode = NULL;
   static const char *functionName = "writeAttributeDataset";
+
+  // Check if we need to force a flush of the datasets
+  if (checkForSWMRMode()){
+    int numCaptured = 0;
+    this->lock();
+    getIntegerParam(NDFileNumCaptured, &numCaptured);
+    this->unlock();
+    int chunking = 0;
+    int mdchunking[MAXEXTRADIMS];
+    for (int index = 0; index < MAXEXTRADIMS; index++){
+      mdchunking[index] = 0;
+    }
+    // Check the chunking value
+    calculateAttributeChunking(&chunking, mdchunking);
+    // Check if we should flush
+    if ((numCaptured+1) % chunking == 0){
+      // Mark the dataset for flushing
+      flush = 1;
+    }
+  }
 
   for (std::list<NDFileHDF5AttributeDataset*>::iterator it_node = attrList.begin(); it_node != attrList.end(); ++it_node){
     NDFileHDF5AttributeDataset *hdfAttrNode = *it_node;
     // find the named attribute in the NDAttributeList
-    ndAttr = this->pFileAttributes->find(hdfAttrNode->getName().c_str());
-    if (ndAttr == NULL){
-      asynPrint(this->pasynUserSelf, ASYN_TRACE_WARNING,
-        "%s::%s WARNING: NDAttribute named \'%s\' not found\n",
-        driverName, functionName, hdfAttrNode->getName().c_str());
-      continue;
-    }
+    // We do not want to write the unique ID attribute at this stage
+    if (strcmp(uniqueIDName, hdfAttrNode->getName().c_str())){
+      ndAttr = this->pFileAttributes->find(hdfAttrNode->getName().c_str());
+      if (ndAttr == NULL){
+        asynPrint(this->pasynUserSelf, ASYN_TRACE_WARNING,
+          "%s::%s WARNING: NDAttribute named \'%s\' not found\n",
+          driverName, functionName, hdfAttrNode->getName().c_str());
+        continue;
+      }
 
-    // Check if we need to force a flush of the dataset
-    if (checkForSWMRMode()){
-      int numCaptured = 0;
-      this->lock();
-      getIntegerParam(NDFileNumCaptured, &numCaptured);
-      this->unlock();
-      int chunking = 0;
-      int mdchunking[MAXEXTRADIMS];
-      for (int index = 0; index < MAXEXTRADIMS; index++){
-        mdchunking[index] = 0;
+      if (positionMode == 1){
+        int indexValue = isAttributeIndex(hdfAttrNode->getName());
+        hdfAttrNode->writeAttributeDataset(whenToSave, offsets, ndAttr, flush, indexValue);
+      } else {
+        hdfAttrNode->writeAttributeDataset(whenToSave, ndAttr, flush);
       }
-      // Check the chunking value
-      calculateAttributeChunking(&chunking, mdchunking);
-      // Check if we should flush
-      if ((numCaptured+1) % chunking == 0){
-        // Mark the dataset for flushing
-        flush = 1;
-      }
-    }
-    if (positionMode == 1){
-      int indexValue = isAttributeIndex(hdfAttrNode->getName());
-      hdfAttrNode->writeAttributeDataset(whenToSave, offsets, ndAttr, flush, indexValue);
-    } else {
-      hdfAttrNode->writeAttributeDataset(whenToSave, ndAttr, flush);
+    } else{
+      // Keep the unique ID node ready to write it as the last attribute
+      uniqueIDNode = *it_node;
     }
   }
+
+  // Now locate and write the unique ID attribute ensuring it is the last attribute written
+  ndAttr = this->pFileAttributes->find(uniqueIDName);
+  if (ndAttr == NULL || uniqueIDNode == NULL){
+    asynPrint(this->pasynUserSelf, ASYN_TRACE_WARNING,
+      "%s::%s WARNING: NDAttribute named \'NDArrayUniqueId\' not found\n",
+      driverName, functionName);
+  } else {
+    if (positionMode == 1){
+      int indexValue = isAttributeIndex(uniqueIDName);
+      uniqueIDNode->writeAttributeDataset(whenToSave, offsets, ndAttr, flush, indexValue);
+    } else {
+      uniqueIDNode->writeAttributeDataset(whenToSave, ndAttr, flush);
+    }
+  }
+
   return status;
 }
 
@@ -2948,6 +2984,9 @@ asynStatus NDFileHDF5::configureCompression()
   int nbitPrecision = 0;
   int nbitOffset = 0;
   int zLevel = 0;
+  int bloscShuffle = 0;
+  int bloscCompressor = 0;
+  int bloscLevel = 0;
   static const char * functionName = "configureCompression";
 
   this->lock();
@@ -2956,6 +2995,9 @@ asynStatus NDFileHDF5::configureCompression()
   getIntegerParam(NDFileHDF5_nbitsPrecision, &nbitPrecision);
   getIntegerParam(NDFileHDF5_szipNumPixels, &szipNumPixels);
   getIntegerParam(NDFileHDF5_zCompressLevel, &zLevel);
+  getIntegerParam(NDFileHDF5_bloscShuffleType, &bloscShuffle);
+  getIntegerParam(NDFileHDF5_bloscCompressor, &bloscCompressor);
+  getIntegerParam(NDFileHDF5_bloscCompressLevel, &bloscLevel);
   this->unlock();
   switch (compressionScheme)
   {
@@ -2990,6 +3032,16 @@ asynStatus NDFileHDF5::configureCompression()
                 "%s::%s Setting zlib compression filter level=%d\n",
                 driverName, functionName, zLevel);
       H5Pset_deflate(this->cparms, zLevel);
+      break;
+    case HDF5CompressBlosc:
+      {
+           /* 0 to 3 (inclusive) param slots are reserved. */
+          unsigned int cds[7];
+          cds[4] = bloscLevel;
+          cds[5] = bloscShuffle;
+          cds[6] = bloscCompressor;
+          H5Pset_filter(this->cparms, FILTER_BLOSC, H5Z_FLAG_OPTIONAL, 7, cds);
+      }
       break;
   }
   return status;

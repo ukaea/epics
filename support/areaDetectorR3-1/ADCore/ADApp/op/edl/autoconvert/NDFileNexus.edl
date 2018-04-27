@@ -3,10 +3,10 @@ beginScreenProperties
 major 4
 minor 0
 release 0
-x 370
-y 303
+x 236
+y 152
 w 1070
-h 575
+h 600
 font "helvetica-medium-r-18.0"
 ctlFont "helvetica-medium-r-8.0"
 btnFont "helvetica-medium-r-18.0"
@@ -24,29 +24,15 @@ gridSize 5
 endScreenProperties
 
 
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 360
-y 5
-w 360
-h 26
-
-beginGroup
-
-
 # (Rectangle)
 object activeRectangleClass
 beginObjectProperties
 major 4
 minor 0
 release 0
-x 360
+x 0
 y 5
-w 359
+w 1069
 h 25
 lineColor index 2
 fill
@@ -60,9 +46,9 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 432
+x 0
 y 6
-w 216
+w 1070
 h 25
 font "helvetica-medium-r-8.0"
 fontAlign "center"
@@ -73,11 +59,6 @@ value {
 }
 endObjectProperties
 
-endGroup
-
-endObjectProperties
-
-
 # (Group)
 object activeGroupClass
 beginObjectProperties
@@ -87,7 +68,7 @@ release 0
 x 5
 y 40
 w 380
-h 530
+h 555
 
 beginGroup
 
@@ -100,14 +81,14 @@ release 0
 x 5
 y 40
 w 380
-h 530
+h 555
 fgColor index 14
 bgColor index 0
 topShadowColor index 0
 botShadowColor index 14
 noScroll
 displaySource "file"
-file "	composite file NDPluginBase.edl"
+file "NDPluginBase.edl"
 sizeOfs 5
 numDsps 0
 endObjectProperties
@@ -118,20 +99,6 @@ visPv ""
 visMin "A"
 visMax "1"
 endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 390
-y 450
-w 675
-h 110
-
-beginGroup
-
 
 # (Rectangle)
 object activeRectangleClass
@@ -166,20 +133,6 @@ lineColor index 14
 fillColor index 14
 lineWidth 0
 endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 406
-y 458
-w 635
-h 91
-
-beginGroup
-
 
 # (Text Control)
 object activeXTextDspClass
@@ -319,16 +272,6 @@ value {
 }
 endObjectProperties
 
-endGroup
-
-endObjectProperties
-
-
-endGroup
-
-endObjectProperties
-
-
 # (Group)
 object activeGroupClass
 beginObjectProperties
@@ -358,7 +301,7 @@ topShadowColor index 0
 botShadowColor index 14
 noScroll
 displaySource "file"
-file "	composite file NDFileBase.edl"
+file "NDFileBase.edl"
 sizeOfs 5
 numDsps 0
 endObjectProperties
@@ -369,58 +312,4 @@ visPv ""
 visMin "A"
 visMax "1"
 endObjectProperties
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 360
-y 5
-w 360
-h 26
-
-beginGroup
-
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 390
-y 450
-w 675
-h 110
-
-beginGroup
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 406
-y 458
-w 635
-h 91
-
-beginGroup
-
-
-endGroup
-
-endObjectProperties
-
-
-endGroup
-
-endObjectProperties
-
 

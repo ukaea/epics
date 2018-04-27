@@ -3,8 +3,8 @@ beginScreenProperties
 major 4
 minor 0
 release 0
-x 121
-y 104
+x 650
+y 108
 w 1140
 h 425
 font "helvetica-medium-r-18.0"
@@ -30,32 +30,18 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 336
+x 0
 y 8
-w 468
+w 1140
 h 25
 font "helvetica-medium-r-8.0"
 fontAlign "center"
-fgColor index 14
+fgColor index 53
 useDisplayBg
 value {
  "$(P) $(R)$(ROI1)-$(R)$(ROI8)"
 }
 endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 5
-y 60
-w 135
-h 219
-
-beginGroup
-
 
 # (Static Text)
 object activeXTextClass
@@ -63,9 +49,9 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 5
+x 57
 y 60
-w 135
+w 30
 h 20
 font "helvetica-medium-r-8.0"
 fontAlign "center"
@@ -82,9 +68,9 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 5
+x 17
 y 84
-w 135
+w 110
 h 20
 font "helvetica-medium-r-8.0"
 fontAlign "center"
@@ -101,9 +87,9 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 5
+x 17
 y 109
-w 135
+w 110
 h 20
 font "helvetica-medium-r-8.0"
 fontAlign "center"
@@ -120,9 +106,9 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 5
+x 17
 y 134
-w 135
+w 110
 h 20
 font "helvetica-medium-r-8.0"
 fontAlign "center"
@@ -139,9 +125,9 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 5
+x 17
 y 159
-w 135
+w 110
 h 20
 font "helvetica-medium-r-8.0"
 fontAlign "center"
@@ -158,9 +144,9 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 5
+x 17
 y 184
-w 135
+w 110
 h 20
 font "helvetica-medium-r-8.0"
 fontAlign "center"
@@ -177,9 +163,9 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 5
+x 17
 y 209
-w 135
+w 110
 h 20
 font "helvetica-medium-r-8.0"
 fontAlign "center"
@@ -196,9 +182,9 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 5
+x 17
 y 234
-w 135
+w 110
 h 20
 font "helvetica-medium-r-8.0"
 fontAlign "center"
@@ -215,9 +201,9 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 5
+x 17
 y 259
-w 135
+w 110
 h 20
 font "helvetica-medium-r-8.0"
 fontAlign "center"
@@ -227,11 +213,6 @@ value {
  "$(R)$(ROI8)"
 }
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
 
 # (Static Text)
 object activeXTextClass
@@ -250,20 +231,6 @@ value {
  "Counts"
 }
 endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 691
-y 60
-w 75
-h 219
-
-beginGroup
-
 
 # (Static Text)
 object activeXTextClass
@@ -483,25 +450,6 @@ objType "controls"
 newPos
 endObjectProperties
 
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 611
-y 60
-w 75
-h 219
-
-beginGroup
-
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -720,25 +668,6 @@ objType "controls"
 newPos
 endObjectProperties
 
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 771
-y 60
-w 75
-h 219
-
-beginGroup
-
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -956,25 +885,6 @@ useHexPrefix
 objType "controls"
 newPos
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 526
-y 60
-w 80
-h 219
-
-beginGroup
-
 
 # (Static Text)
 object activeXTextClass
@@ -1202,25 +1112,6 @@ objType "controls"
 newPos
 endObjectProperties
 
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 467
-y 60
-w 54
-h 219
-
-beginGroup
-
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -1447,25 +1338,6 @@ objType "controls"
 newPos
 endObjectProperties
 
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 408
-y 60
-w 54
-h 219
-
-beginGroup
-
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -1474,7 +1346,7 @@ minor 0
 release 0
 x 412
 y 60
-w 50
+w 40
 h 20
 font "helvetica-medium-r-8.0"
 fgColor index 14
@@ -1691,25 +1563,6 @@ useHexPrefix
 objType "controls"
 newPos
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 349
-y 60
-w 54
-h 219
-
-beginGroup
-
 
 # (Static Text)
 object activeXTextClass
@@ -1937,25 +1790,6 @@ objType "controls"
 newPos
 endObjectProperties
 
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 290
-y 60
-w 54
-h 219
-
-beginGroup
-
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -1964,7 +1798,7 @@ minor 0
 release 0
 x 294
 y 60
-w 50
+w 40
 h 20
 font "helvetica-medium-r-8.0"
 fgColor index 14
@@ -2182,25 +2016,6 @@ objType "controls"
 newPos
 endObjectProperties
 
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 145
-y 60
-w 60
-h 217
-
-beginGroup
-
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -2219,25 +2034,6 @@ value {
 }
 endObjectProperties
 
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 210
-y 60
-w 75
-h 219
-
-beginGroup
-
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -2246,7 +2042,7 @@ minor 0
 release 0
 x 225
 y 60
-w 50
+w 40
 h 20
 font "helvetica-medium-r-8.0"
 fgColor index 14
@@ -2463,25 +2259,6 @@ useHexPrefix
 objType "controls"
 newPos
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 851
-y 60
-w 75
-h 219
-
-beginGroup
-
 
 # (Static Text)
 object activeXTextClass
@@ -2700,11 +2477,6 @@ useHexPrefix
 objType "controls"
 newPos
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
 
 # (Static Text)
 object activeXTextClass
@@ -2943,20 +2715,6 @@ value {
 }
 endObjectProperties
 
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 1071
-y 60
-w 60
-h 219
-
-beginGroup
-
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -2975,25 +2733,6 @@ value {
  "Plot"
 }
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 380
-y 286
-w 380
-h 130
-
-beginGroup
-
 
 # (Rectangle)
 object activeRectangleClass
@@ -3045,20 +2784,6 @@ value {
 }
 endObjectProperties
 
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 451
-y 368
-w 225
-h 20
-
-beginGroup
-
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -3102,25 +2827,6 @@ objType "controls"
 newPos
 endObjectProperties
 
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 491
-y 393
-w 240
-h 20
-
-beginGroup
-
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -3138,11 +2844,6 @@ value {
  "Read rate"
 }
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
 
 # (Text Control)
 object activeXTextDspClass
@@ -3162,26 +2863,12 @@ fgColor index 54
 fgAlarm
 bgColor index 12
 autoHeight
-format decimal
+format "string"
 nullColor index 32
 useHexPrefix
 objType "controls"
 newPos
 endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 421
-y 343
-w 225
-h 20
-
-beginGroup
-
 
 # (Text Control)
 object activeXTextDspClass
@@ -3227,191 +2914,6 @@ value {
  "Number of points"
 }
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 5
-y 60
-w 135
-h 219
-
-beginGroup
-
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 691
-y 60
-w 75
-h 219
-
-beginGroup
-
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 611
-y 60
-w 75
-h 219
-
-beginGroup
-
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 771
-y 60
-w 75
-h 219
-
-beginGroup
-
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 526
-y 60
-w 80
-h 219
-
-beginGroup
-
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 467
-y 60
-w 54
-h 219
-
-beginGroup
-
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 408
-y 60
-w 54
-h 219
-
-beginGroup
-
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 349
-y 60
-w 54
-h 219
-
-beginGroup
-
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 290
-y 60
-w 54
-h 219
-
-beginGroup
-
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 145
-y 60
-w 60
-h 217
-
-beginGroup
-
 
 # (Menu Button)
 object activeMenuButtonClass
@@ -3573,47 +3075,6 @@ indicatorPv "$(P)$(R)$(ROI8)Use"
 font "helvetica-medium-r-10.0"
 endObjectProperties
 
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 210
-y 60
-w 75
-h 219
-
-beginGroup
-
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 851
-y 60
-w 75
-h 219
-
-beginGroup
-
-
-endGroup
-
-endObjectProperties
-
-
 # (Related Display)
 object relatedDisplayClass
 beginObjectProperties
@@ -3630,16 +3091,11 @@ topShadowColor index 2
 botShadowColor index 12
 font "helvetica-medium-r-10.0"
 icon
-numPvs 2
-numDsps 1
+numPvs 0
+numDsps 0
 displayFileName {
-  0 adl/NDROIStatN.edl
 }
 menuLabel {
-  0 ROIStat full
-}
-symbols {
-  0 "P=$(P),R=$(R),ROI=$(ROI1)"
 }
 endObjectProperties
 
@@ -3659,16 +3115,11 @@ topShadowColor index 2
 botShadowColor index 12
 font "helvetica-medium-r-10.0"
 icon
-numPvs 2
-numDsps 1
+numPvs 0
+numDsps 0
 displayFileName {
-  0 adl/NDROIStatN.edl
 }
 menuLabel {
-  0 ROIStat full
-}
-symbols {
-  0 "P=$(P),R=$(R),ROI=$(ROI2)"
 }
 endObjectProperties
 
@@ -3688,16 +3139,11 @@ topShadowColor index 2
 botShadowColor index 12
 font "helvetica-medium-r-10.0"
 icon
-numPvs 2
-numDsps 1
+numPvs 0
+numDsps 0
 displayFileName {
-  0 adl/NDROIStatN.edl
 }
 menuLabel {
-  0 ROIStat full
-}
-symbols {
-  0 "P=$(P),R=$(R),ROI=$(ROI3)"
 }
 endObjectProperties
 
@@ -3717,16 +3163,11 @@ topShadowColor index 2
 botShadowColor index 12
 font "helvetica-medium-r-10.0"
 icon
-numPvs 2
-numDsps 1
+numPvs 0
+numDsps 0
 displayFileName {
-  0 adl/NDROIStatN.edl
 }
 menuLabel {
-  0 ROIStat full
-}
-symbols {
-  0 "P=$(P),R=$(R),ROI=$(ROI4)"
 }
 endObjectProperties
 
@@ -3746,16 +3187,11 @@ topShadowColor index 2
 botShadowColor index 12
 font "helvetica-medium-r-10.0"
 icon
-numPvs 2
-numDsps 1
+numPvs 0
+numDsps 0
 displayFileName {
-  0 adl/NDROIStatN.edl
 }
 menuLabel {
-  0 ROIStat full
-}
-symbols {
-  0 "P=$(P),R=$(R),ROI=$(ROI5)"
 }
 endObjectProperties
 
@@ -3775,16 +3211,11 @@ topShadowColor index 2
 botShadowColor index 12
 font "helvetica-medium-r-10.0"
 icon
-numPvs 2
-numDsps 1
+numPvs 0
+numDsps 0
 displayFileName {
-  0 adl/NDROIStatN.edl
 }
 menuLabel {
-  0 ROIStat full
-}
-symbols {
-  0 "P=$(P),R=$(R),ROI=$(ROI6)"
 }
 endObjectProperties
 
@@ -3804,16 +3235,11 @@ topShadowColor index 2
 botShadowColor index 12
 font "helvetica-medium-r-10.0"
 icon
-numPvs 2
-numDsps 1
+numPvs 0
+numDsps 0
 displayFileName {
-  0 adl/NDROIStatN.edl
 }
 menuLabel {
-  0 ROIStat full
-}
-symbols {
-  0 "P=$(P),R=$(R),ROI=$(ROI7)"
 }
 endObjectProperties
 
@@ -3833,31 +3259,13 @@ topShadowColor index 2
 botShadowColor index 12
 font "helvetica-medium-r-10.0"
 icon
-numPvs 2
-numDsps 1
+numPvs 0
+numDsps 0
 displayFileName {
-  0 adl/NDROIStatN.edl
 }
 menuLabel {
-  0 ROIStat full
-}
-symbols {
-  0 "P=$(P),R=$(R),ROI=$(ROI8)"
 }
 endObjectProperties
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 1071
-y 60
-w 60
-h 219
-
-beginGroup
-
 
 # (Related Display)
 object relatedDisplayClass
@@ -3875,28 +3283,11 @@ topShadowColor index 2
 botShadowColor index 12
 font "helvetica-medium-r-10.0"
 icon
-numPvs 10
-numDsps 5
+numPvs 0
+numDsps 0
 displayFileName {
-  0 adl/NDTimeSeries.edl
-  1 adl/NDTimeSeries.edl
-  2 adl/NDTimeSeries.edl
-  3 adl/NDTimeSeries.edl
-  4 adl/NDTimeSeries.edl
 }
 menuLabel {
-  0 Time series minimum
-  1 Time series maximum
-  2 Time series mean
-  3 Time series total
-  4 Time series net
-}
-symbols {
-  0 "P=$(P),R=$(R),PLT=$(ROI1)TSMinValue"
-  1 "P=$(P),R=$(R),PLT=$(ROI1)TSMaxValue"
-  2 "P=$(P),R=$(R),PLT=$(ROI1)TSMeanValue"
-  3 "P=$(P),R=$(R),PLT=$(ROI1)TSTotal"
-  4 "P=$(P),R=$(R),PLT=$(ROI1)TSNet"
 }
 endObjectProperties
 
@@ -3916,28 +3307,11 @@ topShadowColor index 2
 botShadowColor index 12
 font "helvetica-medium-r-10.0"
 icon
-numPvs 10
-numDsps 5
+numPvs 0
+numDsps 0
 displayFileName {
-  0 adl/NDTimeSeries.edl
-  1 adl/NDTimeSeries.edl
-  2 adl/NDTimeSeries.edl
-  3 adl/NDTimeSeries.edl
-  4 adl/NDTimeSeries.edl
 }
 menuLabel {
-  0 Time series minimum
-  1 Time series maximum
-  2 Time series mean
-  3 Time series total
-  4 Time series net
-}
-symbols {
-  0 "P=$(P),R=$(R),PLT=$(ROI2)TSMinValue"
-  1 "P=$(P),R=$(R),PLT=$(ROI2)TSMaxValue"
-  2 "P=$(P),R=$(R),PLT=$(ROI2)TSMeanValue"
-  3 "P=$(P),R=$(R),PLT=$(ROI2)TSTotal"
-  4 "P=$(P),R=$(R),PLT=$(ROI2)TSNet"
 }
 endObjectProperties
 
@@ -3957,28 +3331,11 @@ topShadowColor index 2
 botShadowColor index 12
 font "helvetica-medium-r-10.0"
 icon
-numPvs 10
-numDsps 5
+numPvs 0
+numDsps 0
 displayFileName {
-  0 adl/NDTimeSeries.edl
-  1 adl/NDTimeSeries.edl
-  2 adl/NDTimeSeries.edl
-  3 adl/NDTimeSeries.edl
-  4 adl/NDTimeSeries.edl
 }
 menuLabel {
-  0 Time series minimum
-  1 Time series maximum
-  2 Time series mean
-  3 Time series total
-  4 Time series net
-}
-symbols {
-  0 "P=$(P),R=$(R),PLT=$(ROI3)TSMinValue"
-  1 "P=$(P),R=$(R),PLT=$(ROI3)TSMaxValue"
-  2 "P=$(P),R=$(R),PLT=$(ROI3)TSMeanValue"
-  3 "P=$(P),R=$(R),PLT=$(ROI3)TSTotal"
-  4 "P=$(P),R=$(R),PLT=$(ROI3)TSNet"
 }
 endObjectProperties
 
@@ -3998,28 +3355,11 @@ topShadowColor index 2
 botShadowColor index 12
 font "helvetica-medium-r-10.0"
 icon
-numPvs 10
-numDsps 5
+numPvs 0
+numDsps 0
 displayFileName {
-  0 adl/NDTimeSeries.edl
-  1 adl/NDTimeSeries.edl
-  2 adl/NDTimeSeries.edl
-  3 adl/NDTimeSeries.edl
-  4 adl/NDTimeSeries.edl
 }
 menuLabel {
-  0 Time series minimum
-  1 Time series maximum
-  2 Time series mean
-  3 Time series total
-  4 Time series net
-}
-symbols {
-  0 "P=$(P),R=$(R),PLT=$(ROI4)TSMinValue"
-  1 "P=$(P),R=$(R),PLT=$(ROI4)TSMaxValue"
-  2 "P=$(P),R=$(R),PLT=$(ROI4)TSMeanValue"
-  3 "P=$(P),R=$(R),PLT=$(ROI4)TSTotal"
-  4 "P=$(P),R=$(R),PLT=$(ROI4)TSNet"
 }
 endObjectProperties
 
@@ -4039,28 +3379,11 @@ topShadowColor index 2
 botShadowColor index 12
 font "helvetica-medium-r-10.0"
 icon
-numPvs 10
-numDsps 5
+numPvs 0
+numDsps 0
 displayFileName {
-  0 adl/NDTimeSeries.edl
-  1 adl/NDTimeSeries.edl
-  2 adl/NDTimeSeries.edl
-  3 adl/NDTimeSeries.edl
-  4 adl/NDTimeSeries.edl
 }
 menuLabel {
-  0 Time series minimum
-  1 Time series maximum
-  2 Time series mean
-  3 Time series total
-  4 Time series net
-}
-symbols {
-  0 "P=$(P),R=$(R),PLT=$(ROI5)TSMinValue"
-  1 "P=$(P),R=$(R),PLT=$(ROI5)TSMaxValue"
-  2 "P=$(P),R=$(R),PLT=$(ROI5)TSMeanValue"
-  3 "P=$(P),R=$(R),PLT=$(ROI5)TSTotal"
-  4 "P=$(P),R=$(R),PLT=$(ROI5)TSNet"
 }
 endObjectProperties
 
@@ -4080,28 +3403,11 @@ topShadowColor index 2
 botShadowColor index 12
 font "helvetica-medium-r-10.0"
 icon
-numPvs 10
-numDsps 5
+numPvs 0
+numDsps 0
 displayFileName {
-  0 adl/NDTimeSeries.edl
-  1 adl/NDTimeSeries.edl
-  2 adl/NDTimeSeries.edl
-  3 adl/NDTimeSeries.edl
-  4 adl/NDTimeSeries.edl
 }
 menuLabel {
-  0 Time series minimum
-  1 Time series maximum
-  2 Time series mean
-  3 Time series total
-  4 Time series net
-}
-symbols {
-  0 "P=$(P),R=$(R),PLT=$(ROI6)TSMinValue"
-  1 "P=$(P),R=$(R),PLT=$(ROI6)TSMaxValue"
-  2 "P=$(P),R=$(R),PLT=$(ROI6)TSMeanValue"
-  3 "P=$(P),R=$(R),PLT=$(ROI6)TSTotal"
-  4 "P=$(P),R=$(R),PLT=$(ROI6)TSNet"
 }
 endObjectProperties
 
@@ -4121,28 +3427,11 @@ topShadowColor index 2
 botShadowColor index 12
 font "helvetica-medium-r-10.0"
 icon
-numPvs 10
-numDsps 5
+numPvs 0
+numDsps 0
 displayFileName {
-  0 adl/NDTimeSeries.edl
-  1 adl/NDTimeSeries.edl
-  2 adl/NDTimeSeries.edl
-  3 adl/NDTimeSeries.edl
-  4 adl/NDTimeSeries.edl
 }
 menuLabel {
-  0 Time series minimum
-  1 Time series maximum
-  2 Time series mean
-  3 Time series total
-  4 Time series net
-}
-symbols {
-  0 "P=$(P),R=$(R),PLT=$(ROI7)TSMinValue"
-  1 "P=$(P),R=$(R),PLT=$(ROI7)TSMaxValue"
-  2 "P=$(P),R=$(R),PLT=$(ROI7)TSMeanValue"
-  3 "P=$(P),R=$(R),PLT=$(ROI7)TSTotal"
-  4 "P=$(P),R=$(R),PLT=$(ROI7)TSNet"
 }
 endObjectProperties
 
@@ -4162,79 +3451,13 @@ topShadowColor index 2
 botShadowColor index 12
 font "helvetica-medium-r-10.0"
 icon
-numPvs 10
-numDsps 5
+numPvs 0
+numDsps 0
 displayFileName {
-  0 adl/NDTimeSeries.edl
-  1 adl/NDTimeSeries.edl
-  2 adl/NDTimeSeries.edl
-  3 adl/NDTimeSeries.edl
-  4 adl/NDTimeSeries.edl
 }
 menuLabel {
-  0 Time series minimum
-  1 Time series maximum
-  2 Time series mean
-  3 Time series total
-  4 Time series net
-}
-symbols {
-  0 "P=$(P),R=$(R),PLT=$(ROI8)TSMinValue"
-  1 "P=$(P),R=$(R),PLT=$(ROI8)TSMaxValue"
-  2 "P=$(P),R=$(R),PLT=$(ROI8)TSMeanValue"
-  3 "P=$(P),R=$(R),PLT=$(ROI8)TSTotal"
-  4 "P=$(P),R=$(R),PLT=$(ROI8)TSNet"
 }
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 380
-y 286
-w 380
-h 130
-
-beginGroup
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 451
-y 368
-w 225
-h 20
-
-beginGroup
-
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 491
-y 393
-w 240
-h 20
-
-beginGroup
-
 
 # (Menu Button)
 object activeMenuButtonClass
@@ -4280,11 +3503,6 @@ offLabel "Read"
 useEnumNumeric
 font "helvetica-medium-r-10.0"
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
 
 # (Message Button)
 object activeMessageButtonClass
@@ -4360,27 +3578,4 @@ offLabel "Start"
 useEnumNumeric
 font "helvetica-medium-r-10.0"
 endObjectProperties
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 421
-y 343
-w 225
-h 20
-
-beginGroup
-
-
-endGroup
-
-endObjectProperties
-
-
-endGroup
-
-endObjectProperties
-
 
