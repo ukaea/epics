@@ -2,14 +2,6 @@
 
 # copyright (c) Tessella 2014
 
-# This script install sscan 2.9
-# It assumes EPICS base is already installed and that
-# the environment variable EPICS_ROOT is set and points to the installation directory.
-#
-# Usage:
-# sudo -s
-# source ./epics_sscan_2-9_install.sh
-
 # check if user has right permissions
 if [ "$(id -u)" != "0" ]; then
 	echo "Sorry, you are not root. Please try again using sudo."
@@ -59,5 +51,5 @@ sed -i -e "/^EPICS_BASE\s*=/ s,=.*,=$EPICS_ROOT/base," $SSCAN_PATH/current/confi
 sed -i -e "/^SNCSEQ\s*=/ s,=.*,=$SUPPORT_PATH/seq/current," $SSCAN_PATH/current/configure/RELEASE
     
 # build
-make -C $SSCAN_PATH/current install
+make -j2 -O -C $SSCAN_PATH/current install
 

@@ -2,14 +2,6 @@
 
 # copyright (c) Tessella 2014
 
-# This script install autosave 5.4
-# It assumes EPICS base is already installed and that
-# the environment variable EPICS_ROOT is set and points to the installation directory.
-#
-# Usage:
-# sudo -s
-# source ./epics_auto_5-4_install.sh
-
 # check if user has right permissions
 if [ "$(id -u)" != "0" ]; then
 	echo "Sorry, you are not root. Please try again using sudo."
@@ -58,5 +50,5 @@ chmod 666 $AUTOSAVE_PATH/current/configure/RELEASE
 sed -i -e "/^EPICS_BASE\s*=/ s,=.*,=$EPICS_ROOT/base," $AUTOSAVE_PATH/current/configure/RELEASE
 
 # build
-make -C $AUTOSAVE_PATH/current install
+make -j2 -O -C $AUTOSAVE_PATH/current install
 

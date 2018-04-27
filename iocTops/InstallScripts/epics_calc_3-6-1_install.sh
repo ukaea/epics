@@ -2,14 +2,6 @@
 
 # copyright (c) Tessella 2014
 
-# This script install calc 3.4
-# It assumes EPICS base is already installed and that
-# the environment variable EPICS_ROOT is set and points to the installation directory.
-#
-# Usage:
-# sudo -s
-# source ./epics_calc_3-4_install.sh
-
 # check if user has right permissions
 if [ "$(id -u)" != "0" ]; then
 	echo "Sorry, you are not root. Please try again using sudo."
@@ -59,5 +51,5 @@ sed -i -e "/^EPICS_BASE\s*=/ s,=.*,=$EPICS_ROOT/base," $CALC_PATH/current/config
 sed -i -e "/^SSCAN\s*=/ s,=.*,=$SUPPORT_PATH/sscan/current," $CALC_PATH/current/configure/RELEASE
 sed -i -e "/^SNCSEQ\s*=/ s,=.*,=$SUPPORT_PATH/seq/current," $CALC_PATH/current/configure/RELEASE
 # build
-make -C $CALC_PATH/current install
+make -j2 -O -C $CALC_PATH/current install
 

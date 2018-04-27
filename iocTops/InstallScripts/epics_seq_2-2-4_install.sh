@@ -58,5 +58,5 @@ ln -s $ASYN_PATH/$SEQ_DIRECTORY $ASYN_PATH/current
 chmod 666 $ASYN_PATH/current/configure/RELEASE
 sed -i -e "/^EPICS_BASE\s*=/ s,=.*,=$EPICS_ROOT/base," $ASYN_PATH/current/configure/RELEASE
 
-make -C $ASYN_PATH/current install
+make -j2 -O -C $ASYN_PATH/current install
 

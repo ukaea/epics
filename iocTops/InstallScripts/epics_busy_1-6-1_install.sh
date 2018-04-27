@@ -2,14 +2,6 @@
 
 # copyright (c) Tessella 2014
 
-# This script install busy 1.6
-# It assumes EPICS base is already installed and that
-# the environment variable EPICS_ROOT is set and points to the installation directory.
-#
-# Usage:
-# sudo -s
-# source ./epics_busy_1-6_install.sh
-
 # check if user has right permissions
 if [ "$(id -u)" != "0" ]; then
 	echo "Sorry, you are not root. Please try again using sudo."
@@ -26,7 +18,7 @@ if [ -z "$*" ]; then EPICS_ROOT=$DEFAULT_EPICS_ROOT; else EPICS_ROOT=$1;fi
 # asyn
 if [ ! -d $EPICS_ROOT/support/asyn ]; 
 then
-    . ./epics_asyn_4-31_install.sh $EPICS_ROOT
+    . ./epics_asyn_4-33_install.sh $EPICS_ROOT
 fi
 
 #So the environment is set for this shell - $EPICS_HOST_ARCH is exported.
@@ -52,5 +44,5 @@ sed -i -e "s|SUPPORT=/corvette/home/epics/devel|SUPPORT=$EPICS_ROOT/support|g" $
 sed -i -e "s|ASYN=\$(SUPPORT)/asyn-4-17|ASYN=\$(SUPPORT)/asyn/current|g" $BUSY_PATH/current/configure/RELEASE
 sed -i -e "s|EPICS_BASE=/corvette/usr/local/epics/base-3.14.12.1|EPICS_BASE=$EPICS_ROOT/base|g" $BUSY_PATH/current/configure/RELEASE
 
-make -C $BUSY_PATH/current install
+make -j2 -O -C $BUSY_PATH/current install
 
