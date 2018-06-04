@@ -81,26 +81,26 @@ record(mbbi, "$(P):Ctrl:Mode:rbk") {
    #field(EVNT, "$(EVSINGLE)")
 }
 
-#record(mbbo, "$(P):Ctrl:Mode") {
-#   field(DESC, "Control Input Mode")
-#   field(ASG, "vtp")
-#   field(DTYP, "stream")
-#   field(OUT,  "@$(PROTO).proto setCtrlMode $(PORT)") 
-#   field(ZRST, "Serial")
-#   field(ONST, "Remote")
-#   field(TWST, "Front Panel")
-#   field(FLNK, "$(P):Ctrl:Mode:upd")
-#}
+record(mbbo, "$(P):Ctrl:Mode") {
+   field(DESC, "Control Input Mode")
+   field(ASG, "vtp")
+   field(DTYP, "stream")
+   field(OUT,  "@$(PROTO).proto setCtrlMode $(PORT)") 
+   field(ZRST, "Serial")
+   field(ONST, "Remote")
+   field(TWST, "Front Panel")
+   field(FLNK, "$(P):Ctrl:Mode:upd")
+}
 
-#record(seq, "$(P):Ctrl:Mode:upd") {
-#   field(DESC, "Update RBK after setting")
-#   field(DOL1, "1")
-#   field(DLY1, "0.5")
-#   field(LNK1, "$(P):Ctrl:Mode:rbk.PROC")
-#   field(DOL2, "1")
-#   field(DLY2, "2.0")
-#   field(LNK2, "$(P):Ctrl:Mode:rbk.PROC")
-#}
+record(seq, "$(P):Ctrl:Mode:upd") {
+   field(DESC, "Update RBK after setting")
+   field(DOL1, "1")
+   field(DLY1, "0.5")
+   field(LNK1, "$(P):Ctrl:Mode:rbk.PROC")
+   field(DOL2, "1")
+   field(DLY2, "2.0")
+   field(LNK2, "$(P):Ctrl:Mode:rbk.PROC")
+}
 
 record(bi, "$(P):SoftStart:rbk") {
    field(DESC, "Soft Start (after long shutdown")
@@ -131,6 +131,153 @@ record(seq, "$(P):SoftStart:upd") {
    field(DLY2, "2.0")
    field(LNK2, "$(P):SoftStart:rbk.PROC")
 }
+
+record(mbbi, "$(P):SetPoint:Type:rbk") {
+   field(DESC, "Set Point Reference Quantity")
+   field(DTYP, "stream")
+   field(INP,  "@Agilent_TT2300.proto getSP1Type $(PORT)")
+   field(ZRST, "Frequency") field(ZRVL, "0") 
+   field(ONST, "Power")     field (ONVL, "1")
+   field(TWST, "Time")      field (TWVL, "2")
+   field(THST, "Normal")    field (THVL, "3")
+   #field(SCAN, "Event")
+   #field(EVNT, "EVSINGLE")
+}
+
+record(mbbo, "$(P):SetPoint:Type") {
+   field(DESC, "Set Point Reference Quantity")
+   field(ASG, "vtp")
+   field(DTYP, "stream")
+   field(OUT,  "@Agilent_TT2300.proto setSP1Type $(PORT)")
+   field(ZRST, "Frequency") 
+   field(ONST, "Power")
+   field(TWST, "Time")
+   field(THST, "Normal")
+   field(FLNK, "$(P):SetPoint:Type:upd")
+}
+
+record(seq, "$(P):SetPoint:Type:upd") {
+   field(DESC, "Update RBK after setting")
+   field(DOL1, "1")
+   field(DLY1, "0.5")
+   field(LNK1, "$(P):SetPoint:Type:rbk.PROC")
+   field(DOL2, "1")
+   field(DLY2, "2.0")
+   field(LNK2, "$(P):SetPoint:Type:rbk.PROC")
+}
+
+record(ai, "$(P):SetPoint:rbk") {
+   field(DESC, "Set Point Threshold")
+   field(DTYP, "stream")
+   field(INP,  "@Agilent_TT2300.proto getSetPoint $(PORT)")
+   #field(SCAN, "Event")
+   #field(EVNT, "EVSINGLE")
+}
+
+record(ao, "$(P):SetPoint") {
+   field(DESC, "Set Point Threshold")
+   field(ASG, "vtp")
+   field(DTYP, "stream")
+   field(OUT,  "@Agilent_TT2300.proto setSetPoint $(PORT)")
+   field(FLNK, "$(P):SetPoint:upd")
+}
+
+record(seq, "$(P):SetPoint:upd") {
+   field(DESC, "Update RBK after setting")
+   field(DOL1, "1")
+   field(DLY1, "0.5")
+   field(LNK1, "$(P):SetPoint:rbk.PROC")
+   field(DOL2, "1")
+   field(DLY2, "2.0")
+   field(LNK2, "$(P):SetPoint:rbk.PROC")
+}
+
+record(ai, "$(P):SetPoint:Delay:rbk") {
+   field(DESC, "Set Point Delay")
+   field(DTYP, "stream")
+   field(INP,  "@Agilent_TT2300.proto getSP1Delay $(PORT)")
+   field(EGU, "s")
+   #field(SCAN, "Event")
+   #field(EVNT, "EVSINGLE")
+}
+
+record(ao, "$(P):SetPoint:Delay") {
+   field(DESC, "Set Point Delay")
+   field(ASG, "vtp")
+   field(DTYP, "stream")
+   field(EGU, "s")
+   field(OUT,  "@Agilent_TT2300.proto setSP1Delay $(PORT)")
+   field(FLNK, "$(P):SetPoint:Delay:upd")
+}
+
+record(seq, "$(P):SetPoint:Delay:upd") {
+   field(DESC, "Update RBK after setting")
+   field(DOL1, "1")
+   field(DLY1, "0.5")
+   field(LNK1, "$(P):SetPoint:Delay:rbk.PROC")
+   field(DOL2, "1")
+   field(DLY2, "2.0")
+   field(LNK2, "$(P):SetPoint:Delay:rbk.PROC")
+}
+
+record(bi, "$(P):SetPoint:Signal:rbk") {
+   field(DESC, "Set Point Output Logic")
+   field(DTYP, "stream")
+   field(INP,  "@Agilent_TT2300.proto getSP1Signal $(PORT)")
+   field(ZNAM, "High")
+   field(ONAM, "Low")
+   #field(SCAN, "Event")
+   #field(EVNT, "EVSINGLE")
+}
+
+record(bo, "$(P):SetPoint:Signal") {
+   field(DESC, "Set Point Output Logic")
+   field(ASG, "vtp")
+   field(DTYP, "stream")
+   field(OUT,  "@Agilent_TT2300.proto setSP1Signal $(PORT)")
+   field(ZNAM, "High")
+   field(ONAM, "Low")
+   field(FLNK, "$(P):SetPoint:Signal:upd")
+}
+
+record(seq, "$(P):SetPoint:Signal:upd") {
+   field(DESC, "Update RBK after setting")
+   field(DOL1, "1")
+   field(DLY1, "0.5")
+   field(LNK1, "$(P):SetPoint:Signal:rbk.PROC")
+   field(DOL2, "1")
+   field(DLY2, "2.0")
+   field(LNK2, "$(P):SetPoint:Signal:rbk.PROC")
+}
+
+record(ai, "$(P):SetPoint:Hyst:rbk") {
+   field(DESC, "Set Point Hysteresis")
+   field(DTYP, "stream")
+   field(INP,  "@Agilent_TT2300.proto getSP1Hyst $(PORT)")
+   field(EGU, "%")
+   #field(SCAN, "Event")
+   #field(EVNT, "EVSINGLE")
+}
+
+record(ao, "$(P):SetPoint:Hyst") {
+   field(DESC, "Set Point Hysteresis")
+   field(ASG, "vtp")
+   field(DTYP, "stream")
+   field(EGU, "%")
+   field(OUT,  "@Agilent_TT2300.proto setSP1Hyst $(PORT)")
+   field(FLNK, "$(P):SetPoint:Hyst:upd")
+}
+
+record(seq, "$(P):SetPoint:Hyst:upd") {
+   field(DESC, "Update RBK after setting")
+   field(DOL1, "1")
+   field(DLY1, "0.5")
+   field(LNK1, "$(P):SetPoint:Hyst:rbk.PROC")
+   field(DOL2, "1")
+   field(DLY2, "2.0")
+   field(LNK2, "$(P):SetPoint:Hyst:rbk.PROC")
+}
+
 
 record(bi, "$(P):ActiveStop:rbk") {
    field(DESC, "Active Breaking")
@@ -656,11 +803,26 @@ record(seq, "$(P):Update:2") {
    field(LNK4, "$(P):Listing:Parameter.PROC")
    field(LNK5, "$(P):Serial:Type:rbk.PROC")
    field(LNK6, "$(P):PurgeValvePos:rbk.PROC")
-   field(LNKA, "$(P):Update:L.PROC")
+   field(LNKA, "$(P):Update:3.PROC")
    field(DLY2, "0.1")
    field(DLY3, "0.1")
    field(DLY4, "0.1")
    field(DLY5, "0.1")
+   field(DLYA, "0.1")
+}
+record(seq, "$(P):Update:3") {
+   field(LNK1, "$(DVC):SetPoint:Type:rbk.PROC")
+   field(LNK2, "$(DVC):SetPoint:rbk.PROC")
+   field(LNK3, "$(DVC):SetPoint:Delay:rbk.PROC")
+   field(LNK4, "$(DVC):SetPoint:Signal:rbk.PROC")
+   field(LNK5, "$(DVC):SetPoint:Hyst:rbk.PROC")
+   field(LNKA, "$(DVC):Update:L.PROC")
+   field(DLY2, "0.1")
+   field(DLY3, "0.1")
+   field(DLY4, "0.1")
+   field(DLY5, "0.1")
+   field(DLY6, "0.1")
+   field(DLY7, "0.1")
    field(DLYA, "0.1")
 }
 record(seq, "$(P):Update:L") {
