@@ -811,12 +811,12 @@ record(seq, "$(P):Update:2") {
    field(DLYA, "0.1")
 }
 record(seq, "$(P):Update:3") {
-   field(LNK1, "$(DVC):SetPoint:Type:rbk.PROC")
-   field(LNK2, "$(DVC):SetPoint:rbk.PROC")
-   field(LNK3, "$(DVC):SetPoint:Delay:rbk.PROC")
-   field(LNK4, "$(DVC):SetPoint:Signal:rbk.PROC")
-   field(LNK5, "$(DVC):SetPoint:Hyst:rbk.PROC")
-   field(LNKA, "$(DVC):Update:L.PROC")
+   field(LNK1, "$(P):SetPoint:Type:rbk.PROC")
+   field(LNK2, "$(P):SetPoint:rbk.PROC")
+   field(LNK3, "$(P):SetPoint:Delay:rbk.PROC")
+   field(LNK4, "$(P):SetPoint:Signal:rbk.PROC")
+   field(LNK5, "$(P):SetPoint:Hyst:rbk.PROC")
+   field(LNKA, "$(P):Update:L.PROC")
    field(DLY2, "0.1")
    field(DLY3, "0.1")
    field(DLY4, "0.1")
