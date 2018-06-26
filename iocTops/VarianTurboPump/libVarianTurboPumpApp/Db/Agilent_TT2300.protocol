@@ -23,9 +23,9 @@ getCtrlMode {
 
 setCtrlMode {
   wait 0;
-#  out "\${STX}\${ADDR}0081%{0|1}\${ETX}%01<xor8>";
-#  in  "\${STX}\${ADDR}\${ACK}\${ETX}%01<xor8>";
-#  @init { getCtrlMode;}
+  out "\${STX}\${ADDR}0081%{0|1|2}\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}\${ACK}\${ETX}%01<xor8>";
+  @init { getCtrlMode;}
 }
 
 getSoftStart {
@@ -42,67 +42,67 @@ setSoftStart {
 
 getSP1Type {
   wait 0;
-#  out "\${STX}\${ADDR}1010\${ETX}%01<xor8>";
-#  in  "\${STX}\${ADDR}101%d\${ETX}%01<xor8>";
+  out "\${STX}\${ADDR}1010\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}101%d\${ETX}%01<xor8>";
 }
 
 setSP1Type {
   wait 0;
-#  out "\${STX}\${ADDR}1011%06d\${ETX}%01<xor8>";
-#  in  "\${STX}\${ADDR}\${ACK}\${ETX}%01<xor8>";
-#  @init { getSP1Type;}
+  out "\${STX}\${ADDR}1011%06d\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}\${ACK}\${ETX}%01<xor8>";
+  @init { getSP1Type;}
 }
 
 getSetPoint {
   wait 0;
-#  out "\${STX}\${ADDR}1020\${ETX}%01<xor8>";
-#  in  "\${STX}\${ADDR}102%d\${ETX}%01<xor8>";
+  out "\${STX}\${ADDR}1020\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}102%d\${ETX}%01<xor8>";
 }
 
 setSetPoint {
   wait 0;
-#  out "\${STX}\${ADDR}1021%06d\${ETX}%01<xor8>";
-#  in  "\${STX}\${ADDR}\${ACK}\${ETX}%01<xor8>";
-#  @init { getSetPoint;}
+  out "\${STX}\${ADDR}1021%06d\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}\${ACK}\${ETX}%01<xor8>";
+  @init { getSetPoint;}
 }
 
 getSP1Delay {
   wait 0;
-#  out "\${STX}\${ADDR}1030\${ETX}%01<xor8>";
-#  in  "\${STX}\${ADDR}103%d\${ETX}%01<xor8>";
+  out "\${STX}\${ADDR}1030\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}103%d\${ETX}%01<xor8>";
 }
 
 setSP1Delay {
   wait 0;
-#  out "\${STX}\${ADDR}1031%06d\${ETX}%01<xor8>";
-#  in  "\${STX}\${ADDR}\${ACK}\${ETX}%01<xor8>";
-#  @init { getSP1Delay;}
+  out "\${STX}\${ADDR}1031%06d\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}\${ACK}\${ETX}%01<xor8>";
+  @init { getSP1Delay;}
 }
 
 getSP1Signal {
   wait 0;
-#  out "\${STX}\${ADDR}1040\${ETX}%01<xor8>";
-#  in  "\${STX}\${ADDR}104%d\${ETX}%01<xor8>";
+  out "\${STX}\${ADDR}1040\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}104%d\${ETX}%01<xor8>";
 }
 
 setSP1Signal {
   wait 0;
-#  out "\${STX}\${ADDR}1041%{0|1}\${ETX}%01<xor8>";
-#  in  "\${STX}\${ADDR}\${ACK}\${ETX}%01<xor8>";
-#  @init { getSP1Signal;}
+  out "\${STX}\${ADDR}1041%{0|1}\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}\${ACK}\${ETX}%01<xor8>";
+  @init { getSP1Signal;}
 }
 
 getSP1Hyst {
   wait 0;
-#  out "\${STX}\${ADDR}1050\${ETX}%01<xor8>";
-#  in  "\${STX}\${ADDR}105%d\${ETX}%01<xor8>";
+  out "\${STX}\${ADDR}1050\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}105%d\${ETX}%01<xor8>";
 }
 
 setSP1Hyst {
   wait 0;
-#  out "\${STX}\${ADDR}1051%06d\${ETX}%01<xor8>";
-#  in  "\${STX}\${ADDR}\${ACK}\${ETX}%01<xor8>";
-#  @init { getSP1Hyst;}
+  out "\${STX}\${ADDR}1051%06d\${ETX}%01<xor8>";
+  in  "\${STX}\${ADDR}\${ACK}\${ETX}%01<xor8>";
+  @init { getSP1Hyst;}
 }
 
 getWaterCooled {
