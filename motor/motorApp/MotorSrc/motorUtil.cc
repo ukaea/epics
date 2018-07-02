@@ -2,10 +2,6 @@
 FILENAME...     motorUtil.cc
 USAGE...        Motor Record Utility Support.
 
-Version:        $Revision: 17100 $
-Modified By:    $Author: kpetersn $
-Last Modified:  $Date: 2013-11-13 21:43:36 +0000 (Wed, 13 Nov 2013) $
-HeadURL:        $URL: https://subversion.xray.aps.anl.gov/synApps/motor/trunk/motorApp/MotorSrc/motorUtil.cc $
 */
 
 

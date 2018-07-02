@@ -3,10 +3,6 @@ FILENAME...	devOms.cc
 USAGE... Device level support for OMS VME8 and VME44 models.
 
 
-Version:        $Revision: 10834 $
-Modified By:    $Author: sluiter $
-Last Modified:  $Date: 2010-04-29 18:04:39 +0100 (Thu, 29 Apr 2010) $
-HeadURL:        $URL: https://subversion.xray.aps.anl.gov/synApps/motor/trunk/motorApp/OmsSrc/devOms.cc $
 */
 
 /*

@@ -2,9 +2,6 @@
 FILENAME...	devPC6K.cc
 USAGE...	Motor record device level support for Parker Compumotor drivers
 
-Version:	$Revision: 1.4 $
-Modified By:	$Author: sluiter $
-Last Modified:	$Date: 2008-03-14 20:19:43 $
 */
 
 /*
@@ -40,6 +37,7 @@ Last Modified:	$Date: 2008-03-14 20:19:43 $
 
 #include <string.h>
 #include <math.h>
+#include <errlog.h>
 #include "motorRecord.h"
 #include "motor.h"
 #include "motordevCom.h"

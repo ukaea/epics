@@ -23,7 +23,7 @@
 /* Version number names similar to those provide by base
  * These macros are always numeric */
 #define ASYN_VERSION       4
-#define ASYN_REVISION     31
+#define ASYN_REVISION     33
 #define ASYN_MODIFICATION  0
 
 #ifdef __cplusplus
@@ -125,6 +125,7 @@ typedef struct asynManager {
     asynStatus (*unlockPort)(asynUser *pasynUser);
     asynStatus (*queueLockPort)(asynUser *pasynUser);
     asynStatus (*queueUnlockPort)(asynUser *pasynUser);
+    asynStatus (*setQueueLockPortTimeout)(asynUser *pasynUser, double timeout);
     asynStatus (*canBlock)(asynUser *pasynUser,int *yesNo);
     asynStatus (*getAddr)(asynUser *pasynUser,int *addr);
     asynStatus (*getPortName)(asynUser *pasynUser,const char **pportName);

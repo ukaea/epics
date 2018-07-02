@@ -44,7 +44,7 @@
   * scanned records. */
 class testErrors : public asynPortDriver {
 public:
-    testErrors(const char *portName);
+    testErrors(const char *portName, int canBlock);
                  
     /* These are the methods that we override from asynPortDriver */
     virtual asynStatus writeInt32(asynUser *pasynUser, epicsInt32 value);
@@ -73,7 +73,6 @@ public:
 protected:
     /** Values used for pasynUser->reason, and indexes into the parameter library. */
     int P_StatusReturn;
-    #define FIRST_COMMAND P_StatusReturn
     int P_AlarmStatus;
     int P_AlarmSeverity;
     int P_EnumOrder;
@@ -91,7 +90,6 @@ protected:
     int P_Int32ArrayValue;
     int P_Float32ArrayValue;
     int P_Float64ArrayValue;
-    #define LAST_COMMAND P_Float64ArrayValue
  
 private:
     /* Our data */
@@ -103,6 +101,7 @@ private:
     int uint32EnumSeverities_[MAX_UINT32_ENUMS];
     epicsEventId eventId_;
     void setEnums();
+    asynStatus setStatusAndSeverity(asynUser *pasynUser);
     epicsInt8     int8ArrayValue_   [MAX_ARRAY_POINTS];
     epicsInt16    int16ArrayValue_  [MAX_ARRAY_POINTS];
     epicsInt32    int32ArrayValue_  [MAX_ARRAY_POINTS];
@@ -112,7 +111,3 @@ private:
         asynStatus doReadArray(asynUser *pasynUser, epicsType *value, 
                            size_t nElements, size_t *nIn, int paramIndex, epicsType *pValue);
 };
-
-
-#define NUM_PARAMS (int)(&LAST_COMMAND - &FIRST_COMMAND + 1)
-

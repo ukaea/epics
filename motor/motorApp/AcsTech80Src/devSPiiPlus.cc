@@ -2,9 +2,6 @@
 FILENAME...	devSPiiPlus.cc
 USAGE...	Motor record device level support for ACS Tech80 SPiiPlus
 
-Version:	$Revision: 1.3 $
-Modified By:	$Author: sullivan $
-Last Modified:	$Date: 2008-05-21 21:18:52 $
 */
 
 /*
@@ -40,6 +37,7 @@ Last Modified:	$Date: 2008-05-21 21:18:52 $
 
 #include <string.h>
 #include <math.h>
+#include <errlog.h>
 #include "motorRecord.h"
 #include "motor.h"
 #include "motordevCom.h"

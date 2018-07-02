@@ -2,10 +2,6 @@
 FILENAME...     XPSMotorDriver.cpp
 USAGE...        Newport XPS EPICS asyn motor device driver
 
-Version:        $Revision: 19717 $
-Modified By:    $Author: sluiter $
-Last Modified:  $Date: 2009-12-09 10:21:24 -0600 (Wed, 09 Dec 2009) $
-HeadURL:        $URL: https://subversion.xor.aps.anl.gov/synApps/trunk/support/motor/vstub/motorApp/NewportSrc/XPSMotorDriver.cpp $
 */
 
 /*
@@ -359,6 +355,8 @@ asynStatus XPSAxis::home(double min_velocity, double max_velocity, double accele
     return asynError;
   }
   moving_ = true;
+
+  setIntegerParam(pC_->motorStatusProblem_, 0);
 
   return asynSuccess;
 }
@@ -1059,8 +1057,8 @@ asynStatus XPSAxis::getPositionCompare()
       maxPosition = minPosition;
       minPosition = temp;
     }
-    setDoubleParam(pC_->XPSPositionCompareMinPosition_,  XPSPositionToMotorRecPosition(minPosition));
-    setDoubleParam(pC_->XPSPositionCompareMaxPosition_,  XPSPositionToMotorRecPosition(maxPosition));
+//    setDoubleParam(pC_->XPSPositionCompareMinPosition_,  XPSPositionToMotorRecPosition(minPosition));
+//    setDoubleParam(pC_->XPSPositionCompareMaxPosition_,  XPSPositionToMotorRecPosition(maxPosition));
     setDoubleParam(pC_->XPSPositionCompareStepSize_,     fabs(XPSStepToMotorRecStep(stepSize)));
   } 
   status = PositionerPositionCompareAquadBWindowedGet(pollSocket_, positionerName_, &minPosition, &maxPosition, &enable);
@@ -1071,8 +1069,8 @@ asynStatus XPSAxis::getPositionCompare()
       maxPosition = minPosition;
       minPosition = temp;
     }
-    setDoubleParam(pC_->XPSPositionCompareMinPosition_,  XPSPositionToMotorRecPosition(minPosition));
-    setDoubleParam(pC_->XPSPositionCompareMaxPosition_,  XPSPositionToMotorRecPosition(maxPosition));
+//    setDoubleParam(pC_->XPSPositionCompareMinPosition_,  XPSPositionToMotorRecPosition(minPosition));
+//    setDoubleParam(pC_->XPSPositionCompareMaxPosition_,  XPSPositionToMotorRecPosition(maxPosition));
   } 
   asynPrint(pasynUser_, ASYN_TRACE_FLOW,
             "%s:%s: set XPS %s, axis %d "

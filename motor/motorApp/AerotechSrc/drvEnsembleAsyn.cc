@@ -2,10 +2,6 @@
 FILENAME... drvEnsembleAsyn.cc
 USAGE...    Motor record asyn driver level support for Aerotech Ensemble.
 
-Version:        $Revision: 19106 $
-Modified By:    $Author: sluiter $
-Last Modified:  $Date: 2015-03-13 15:05:28 +0000 (Fri, 13 Mar 2015) $
-HeadURL:        $URL: https://subversion.xray.aps.anl.gov/synApps/motor/trunk/motorApp/AerotechSrc/drvEnsembleAsyn.cc $
 */
 
 /*
@@ -68,6 +64,7 @@ in file LICENSE that is included with this distribution.
 * .19 09-11-14 rls - sendAndReceive() diagnostic message added when controller returns NAK. 
 * .20 11-24-14 rls - Moved "WAIT MODE NOWAIT" from EnsembleAsynConfig to motorAxisSetInteger 
 *                    where torque is enabled/disabled. 
+* .21 10-14-15 rls - Use "ReverseDirec" parameter to set "HomeSetup" parameter.
 */
 
 
@@ -208,9 +205,6 @@ static motorEnsemble_t drv = {NULL, NULL, motorEnsembleLogMsg, 0, {0, 0}};
 static int numEnsembleControllers;
 /* Pointer to array of controller structures */
 static EnsembleController *pEnsembleController=NULL;
-
-#define MAX(a,b) ((a)>(b)? (a): (b))
-#define MIN(a,b) ((a)<(b)? (a): (b))
 
 static void motorAxisReportAxis(AXIS_HDL pAxis, int level)
 {
@@ -439,6 +433,8 @@ static int motorAxisSetInteger(AXIS_HDL pAxis, motorAxisParam_t function, int va
             sprintf(outputBuff, "ENABLE @%d", pAxis->axis);
         }
         ret_status = sendAndReceive(pAxis->pController, outputBuff, inputBuff, sizeof(inputBuff));
+        /* Set indicator to force status update when Enable does not work. */
+        motorParam->setInteger(pAxis->params, motorAxisPowerOn, value);
 
         /* Prevent ASCII interpreter from blocking during MOVEABS/INC commands. */
         ret_status = sendAndReceive(pAxis->pController, (char *) "WAIT MODE NOWAIT", inputBuff, sizeof(inputBuff));
@@ -531,7 +527,7 @@ static int motorAxisHome(AXIS_HDL pAxis, double min_velocity, double max_velocit
     int ret_status;
     char inputBuff[BUFFER_SIZE], outputBuff[BUFFER_SIZE];
     epicsUInt32 hparam;
-    int axis;
+    int axis, posdir;
 
     if (pAxis == NULL || pAxis->pController == NULL)
         return (MOTOR_AXIS_ERROR);
@@ -552,8 +548,9 @@ static int motorAxisHome(AXIS_HDL pAxis, double min_velocity, double max_velocit
         sprintf(outputBuff, "SETPARM @%d, %d, %.*f", axis, PARAMETERID_HomeRampRate, pAxis->maxDigits,
                 acceleration * fabs(pAxis->stepSize)); /* HomeAccelDecelRate */
 
+    posdir = (forwards == (int) pAxis->ReverseDirec); /* Adjust home direction for Reverse Direction paramter. */
     hparam = pAxis->homeDirection;
-    if (forwards == 1)
+    if (posdir == 1)
         hparam |= 0x00000001;
     else
         hparam &= 0xFFFFFFFE;

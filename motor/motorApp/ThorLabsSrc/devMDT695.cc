@@ -3,9 +3,6 @@ FILENAME...	devMDT695.cc
 USAGE...	Motor record device level support for ThorLabs Piezo Control
                 Module (MDT695)
 
-Version:	$Revision: 1.2 $
-Modified By:	$Author: sluiter $
-Last Modified:	$Date: 2008-03-14 20:23:45 $
 */
 
 /*
@@ -41,6 +38,7 @@ Last Modified:	$Date: 2008-03-14 20:23:45 $
 
 #include <string.h>
 #include <math.h>
+#include <errlog.h>
 #include "motorRecord.h"
 #include "motor.h"
 #include "motordevCom.h"

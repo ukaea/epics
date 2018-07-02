@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.5"/>
-<title>asyn: /home/epics/devel/asyn-R4-31/testAsynPortDriverApp/src/testAsynPortDriver.h File Reference</title>
+<title>asyn: /home/epics/devel/asyn-R4-33/testAsynPortDriverApp/src/testAsynPortDriver.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">asyn
-   &#160;<span id="projectnumber">4-31</span>
+   &#160;<span id="projectnumber">4-33</span>
    </div>
   </td>
  </tr>
@@ -42,7 +42,7 @@
   </div>
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_43e0a1f539e00dcfa1a6bc4d4fee4fc2.html">home</a></li><li class="navelem"><a class="el" href="dir_bbcee0182bc5c2661aaa6f18622fbb14.html">epics</a></li><li class="navelem"><a class="el" href="dir_0ef8950203d68a04aee5ad478f0402d9.html">devel</a></li><li class="navelem"><a class="el" href="dir_f1487a860b8f97e83f68dc64f3b97c94.html">asyn-R4-31</a></li><li class="navelem"><a class="el" href="dir_997c8b779e9be9b81a70daa197c74bfe.html">testAsynPortDriverApp</a></li><li class="navelem"><a class="el" href="dir_3c8609d1a5d25807aa60821567c6be2c.html">src</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_43e0a1f539e00dcfa1a6bc4d4fee4fc2.html">home</a></li><li class="navelem"><a class="el" href="dir_bbcee0182bc5c2661aaa6f18622fbb14.html">epics</a></li><li class="navelem"><a class="el" href="dir_0ef8950203d68a04aee5ad478f0402d9.html">devel</a></li><li class="navelem"><a class="el" href="dir_ed5029b1796846fc54fe60c85889c125.html">asyn-R4-33</a></li><li class="navelem"><a class="el" href="dir_f9893fe8e461f168f74391c25e2a5b16.html">testAsynPortDriverApp</a></li><li class="navelem"><a class="el" href="dir_9f30c9c41c5bb2077bcd2cdb2440f6be.html">src</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -101,50 +101,8 @@ Macros</h2></td></tr>
 <tr class="separator:aa14583f1d4e770224b96109c80f47da8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af11f0dabb4a23e2ccbe630f32aa3bdff"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="test_asyn_port_driver_8h.html#af11f0dabb4a23e2ccbe630f32aa3bdff">P_MeanValueString</a>&#160;&#160;&#160;&quot;SCOPE_MEAN_VALUE&quot;           /* asynFloat64,  r/o */</td></tr>
 <tr class="separator:af11f0dabb4a23e2ccbe630f32aa3bdff"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5445fa2bb50ab57a46549103492658a4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="test_asyn_port_driver_8h.html#a5445fa2bb50ab57a46549103492658a4">FIRST_SCOPE_COMMAND</a>&#160;&#160;&#160;P_Run</td></tr>
-<tr class="separator:a5445fa2bb50ab57a46549103492658a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae1d34c3ac13fa128cec995ef6a94b205"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="test_asyn_port_driver_8h.html#ae1d34c3ac13fa128cec995ef6a94b205">LAST_SCOPE_COMMAND</a>&#160;&#160;&#160;P_MeanValue</td></tr>
-<tr class="separator:ae1d34c3ac13fa128cec995ef6a94b205"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac56b41b3b25b1857858d2b5eb45a52ad"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="test_asyn_port_driver_8h.html#ac56b41b3b25b1857858d2b5eb45a52ad">NUM_SCOPE_PARAMS</a>&#160;&#160;&#160;(&amp;<a class="el" href="test_asyn_port_driver_8h.html#ae1d34c3ac13fa128cec995ef6a94b205">LAST_SCOPE_COMMAND</a> - &amp;<a class="el" href="test_asyn_port_driver_8h.html#a5445fa2bb50ab57a46549103492658a4">FIRST_SCOPE_COMMAND</a> + 1)</td></tr>
-<tr class="separator:ac56b41b3b25b1857858d2b5eb45a52ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
-<a class="anchor" id="a5445fa2bb50ab57a46549103492658a4"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define FIRST_SCOPE_COMMAND&#160;&#160;&#160;P_Run</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="ae1d34c3ac13fa128cec995ef6a94b205"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAST_SCOPE_COMMAND&#160;&#160;&#160;P_MeanValue</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="ac56b41b3b25b1857858d2b5eb45a52ad"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define NUM_SCOPE_PARAMS&#160;&#160;&#160;(&amp;<a class="el" href="test_asyn_port_driver_8h.html#ae1d34c3ac13fa128cec995ef6a94b205">LAST_SCOPE_COMMAND</a> - &amp;<a class="el" href="test_asyn_port_driver_8h.html#a5445fa2bb50ab57a46549103492658a4">FIRST_SCOPE_COMMAND</a> + 1)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a class="anchor" id="af955d2b74e82ae0f6b7de8fdfba572a7"></a>
 <div class="memitem">
 <div class="memproto">

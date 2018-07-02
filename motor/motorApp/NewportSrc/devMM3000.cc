@@ -2,9 +2,6 @@
 FILENAME...	devMM3000.cc
 USAGE...	Motor record device level support for Newport MM3000.
 
-Version:	$Revision: 1.4 $
-Modified By:	$Author: sluiter $
-Last Modified:	$Date: 2008-03-14 20:17:14 $
 */
 
 /*
@@ -43,6 +40,8 @@ Last Modified:	$Date: 2008-03-14 20:17:14 $
 
 
 #include <string.h>
+#include <stdlib.h>
+#include <errlog.h>
 #include "motorRecord.h"
 #include "motor.h"
 #include "motordevCom.h"

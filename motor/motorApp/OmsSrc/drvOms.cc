@@ -2,10 +2,6 @@
 FILENAME...     drvOms.cc
 USAGE...        Driver level support for OMS models VME8, VME44, VS4 and VX2.
 
-Version:        $Revision: 19357 $
-Modified By:    $Author: sluiter $
-Last Modified:  $Date: 2015-05-07 14:34:18 +0100 (Thu, 07 May 2015) $
-HeadURL:        $URL: https://subversion.xray.aps.anl.gov/synApps/motor/trunk/motorApp/OmsSrc/drvOms.cc $
 */
 
 /*
@@ -114,6 +110,8 @@ HeadURL:        $URL: https://subversion.xray.aps.anl.gov/synApps/motor/trunk/mo
 #include        <epicsInterrupt.h>
 #include        <epicsExit.h>
 #include        <epicsEvent.h>
+#include        <errlog.h>
+#include        <stdlib.h>
 
 #include        "motor.h"
 #include        "drvOms.h"
@@ -924,7 +922,7 @@ static int motorIsrEnable(int card)
         long status;
         status = pdevLibVirtualOS->pDevConnectInterruptVME(
                                                           omsInterruptVector + card,
-#if LT_EPICSBASE(3,14,8)
+#if LT_EPICSBASE(3,14,8,0)
                                                           (void (*)()) motorIsr,
 #else
                                                           (void (*)(void *)) motorIsr,
@@ -1172,16 +1170,16 @@ static int motor_init()
             irqdata->irqEnable = FALSE;
             pmotor->control = IRQ_RESET_ID;
 
-            send_mess(card_index, "EF", (char) NULL);
-            send_mess(card_index, ERROR_CLEAR, (char) NULL);
-            send_mess(card_index, STOP_ALL, (char) NULL);
+            send_mess(card_index, "EF", (char*) NULL);
+            send_mess(card_index, ERROR_CLEAR, (char*) NULL);
+            send_mess(card_index, STOP_ALL, (char*) NULL);
 
-            send_mess(card_index, GET_IDENT, (char) NULL);
+            send_mess(card_index, GET_IDENT, (char*) NULL);
 
             recv_mess(card_index, (char *) pmotorState->ident, 1);
             Debug(3, "Identification = %s\n", pmotorState->ident);
 
-            send_mess(card_index, ALL_POS, (char) NULL);
+            send_mess(card_index, ALL_POS, (char*) NULL);
             recv_mess(card_index, axis_pos, 1);
 
             for (total_axis = 0, pos_ptr = epicsStrtok_r(axis_pos, ",", &tok_save);

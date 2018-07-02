@@ -46,7 +46,7 @@ static const char *driverName = "asynPortDriver";
   * and dynamic-length strings. */
 class paramList {
 public:
-    paramList(int nVals, class asynPortDriver *pPort);
+    paramList(class asynPortDriver *pPort);
     ~paramList();
     paramVal* getParameter(int index);
     asynStatus createParam(const char *name, asynParamType type, int *index);
@@ -57,7 +57,7 @@ public:
     asynStatus setDouble(int index, double value);
     asynStatus setString(int index, const char *string);
     asynStatus setString(int index, const std::string& string);
-    asynStatus getInteger(int index, int *value);
+    asynStatus getInteger(int index, epicsInt32 *value);
     asynStatus getUInt32(int index, epicsUInt32 *value, epicsUInt32 mask);
     asynStatus getDouble(int index, double *value);
     asynStatus getString(int index, int maxChars, char *value);
@@ -83,17 +83,15 @@ private:
     asynStatus octetCallback(int command, int addr);
     void registerParameterChange(paramVal *param, int index);
 
-    unsigned maxParams;
     asynPortDriver *pasynPortDriver;
     std::vector<unsigned> flags;
     std::vector<paramVal*> vals;
 };
 
 /** Constructor for paramList class.
-  * \param[in] nValues Number of parameters in the list.
   * \param[in] pPort Pointer to asynPortDriver port for this paramList. */
-paramList::paramList(int nValues, asynPortDriver *pPort)
-    : maxParams(nValues), pasynPortDriver(pPort)
+paramList::paramList(asynPortDriver *pPort)
+    : pasynPortDriver(pPort)
 {}
 
 /** Destructor for paramList class; frees resources allocated in constructor */
@@ -125,17 +123,12 @@ asynStatus paramList::setFlag(int index)
   */
 asynStatus paramList::createParam(const char *name, asynParamType type, int *index)
 {
-    static const char *functionName = "createParam";
+    //static const char *functionName = "createParam";
 
     if (this->findParam(name, index) == asynSuccess) return asynParamAlreadyExists;
 
     std::auto_ptr<paramVal> param(new paramVal(name, type));
 
-    if (this->vals.size() == maxParams) {
-        asynPrint(pasynPortDriver->pasynUserSelf, ASYN_TRACE_WARNING,
-                  "%s:%s %s Warning: parameter count for port is too low.  This will fail with older asynPortDriver.\n",
-                  driverName, functionName, pasynPortDriver->portName);
-    }
     vals.push_back(param.get());
     flags.reserve(vals.size());
     param.release();
@@ -275,7 +268,7 @@ asynStatus paramList::setString(int index, const std::string& value)
   * \param[out] value Address of value to get.
   * \return Returns asynParamBadIndex if the index is not valid, asynParamWrongType if the parameter type is not asynParamInt32,
   * or asynParamUndefined if the value has not been defined. */
-asynStatus paramList::getInteger(int index, int *value)
+asynStatus paramList::getInteger(int index, epicsInt32 *value)
 {
     asynStatus status;
     *value = 0;
@@ -940,6 +933,24 @@ asynStatus asynPortDriver::getParamName(int list, int index, const char **name)
     return this->params[list]->getName(index, name);
 }
 
+/** Returns the asynParamType of a parameter in the parameter library*
+  * \param[in] index Parameter number
+  * \param[out] type Parameter type */
+asynStatus asynPortDriver::getParamType(          int index, asynParamType *type)
+{
+  return this->getParamType(0, index, type);
+}
+
+/** Returns the asynParamType of a parameter in the parameter library
+  * \param[in] list The parameter list number.  Must be < maxAddr passed to asynPortDriver::asynPortDriver.
+  * \param[in] index Parameter number
+  * \param[out] type Parameter type */
+asynStatus asynPortDriver::getParamType(int list, int index, asynParamType *type)
+{
+  *type = this->params[list]->getParameter(index)->type;
+  return asynSuccess;
+}
+
 /** Reports errors when setting parameters.  
   * \param[in] status The error status.
   * \param[in] index The parameter number
@@ -1359,7 +1370,7 @@ void asynPortDriver::reportGetParamErrors(asynStatus status, int index, int list
   * Calls getIntegerParam(0, index, value) i.e. for parameter list 0.
   * \param[in] index The parameter number 
   * \param[out] value Address of value to get. */
-asynStatus asynPortDriver::getIntegerParam(int index, int *value)
+asynStatus asynPortDriver::getIntegerParam(int index, epicsInt32 *value)
 {
     return this->getIntegerParam(0, index, value);
 }
@@ -1369,7 +1380,7 @@ asynStatus asynPortDriver::getIntegerParam(int index, int *value)
   * \param[in] list The parameter list number.  Must be < maxAddr passed to asynPortDriver::asynPortDriver.
   * \param[in] index The parameter number 
   * \param[out] value Address of value to get. */
-asynStatus asynPortDriver::getIntegerParam(int list, int index, int *value)
+asynStatus asynPortDriver::getIntegerParam(int list, int index, epicsInt32 *value)
 {
     asynStatus status;
     static const char *functionName = "getIntegerParam";
@@ -3219,8 +3230,6 @@ static asynDrvUser ifaceDrvUser = {
                Often it is 1 (which is the minimum), but some drivers, for example a 
                16-channel D/A or A/D would support values &gt; 1. 
                This controls the number of parameter tables that are created.
-  * \param[in] paramTableSize The number of parameters that this driver supports.
-               This controls the size of the parameter tables.
   * \param[in] interfaceMask Bit mask defining the asyn interfaces that this driver supports.
                 The bit mask values are defined in asynPortDriver.h, e.g. asynInt32Mask.
   * \param[in] interruptMask Bit mask definining the asyn interfaces that can generate interrupts (callbacks).
@@ -3234,7 +3243,34 @@ static asynDrvUser ifaceDrvUser = {
                If it is 0 then the default value of epicsThreadGetStackSize(epicsThreadStackMedium)
                will be assigned by asynManager.
   */
+asynPortDriver::asynPortDriver(const char *portNameIn, int maxAddrIn, int interfaceMask, int interruptMask,
+                               int asynFlags, int autoConnect, int priority, int stackSize)
+{
+    initialize(portNameIn, maxAddrIn, interfaceMask, interruptMask, asynFlags,
+               autoConnect, priority, stackSize);
+}
+
+/** Legacy constructor for the asynPortDriver class
+ * (DEPRECATED - please use the one above instead).
+ *
+ * asynPortDriver >=R4-32 handles the table size automatically. Thus the
+ * paramTableSize parameter has been removed from the constructor.
+ * This constructor is provided for backwards compatibility. Users should
+ * switch to using the constructor ASAP.
+ */
 asynPortDriver::asynPortDriver(const char *portNameIn, int maxAddrIn, int paramTableSize, int interfaceMask, int interruptMask,
+                               int asynFlags, int autoConnect, int priority, int stackSize)
+{
+    initialize(portNameIn, maxAddrIn, interfaceMask, interruptMask, asynFlags,
+               autoConnect, priority, stackSize);
+}
+
+/** The following function is required to initialize from two constructors. Once
+ * we can rely on C++11 this code can be moved back into the primary
+ * constructor. The secondary constructor can then be converted into
+ * a delegating constructor.
+ */
+void asynPortDriver::initialize(const char *portNameIn, int maxAddrIn, int interfaceMask, int interruptMask,
                                int asynFlags, int autoConnect, int priority, int stackSize)
 {
     asynStatus status;
@@ -3252,7 +3288,7 @@ asynPortDriver::asynPortDriver(const char *portNameIn, int maxAddrIn, int paramT
     this->maxAddr = maxAddrIn;
     params.resize(maxAddr);
     for (addr=0; addr<maxAddr; addr++) {
-        this->params[addr] = new paramList(paramTableSize, this);
+        this->params[addr] = new paramList(this);
     }
 
     /* If maxAddr > 1 then set the ASYN_MULTIDEVICE flag even if the caller neglected to set it */
@@ -3290,12 +3326,11 @@ asynPortDriver::asynPortDriver(const char *portNameIn, int maxAddrIn, int paramT
     
     /* The following asynPrint will be governed by the global trace mask since asynUser is not yet connected to port */
     asynPrint(this->pasynUserSelf, ASYN_TRACE_FLOW,
-        "%s:%s: creating port %s maxAddr=%d, paramTableSize=%d\n"
+        "%s:%s: creating port %s maxAddr=%d\n"
         "    interfaceMask=0x%X, interruptMask=0x%X\n"
         "    asynFlags=0x%X, autoConnect=%d, priority=%d, stackSize=%d\n",
-        driverName, functionName, this->portName, this->maxAddr, paramTableSize, 
-        interfaceMask, interruptMask, 
-        asynFlags, autoConnect, priority, stackSize);
+        driverName, functionName, this->portName, this->maxAddr, interfaceMask,
+	interruptMask, asynFlags, autoConnect, priority, stackSize);
 
      /* Set addresses of asyn interfaces */
     if (interfaceMask & asynCommonMask)         pInterfaces->common.pinterface        = (void *)&ifaceCommon;

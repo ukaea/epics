@@ -2,10 +2,6 @@
 FILENAME...	AerotechRegister.cc
 USAGE...	Register Aerotech motor device driver shell commands.
 
-Version:        $Revision: 19330 $
-Modified By:    $Author: sluiter $
-Last Modified:  $Date: 2015-04-30 15:31:32 +0100 (Thu, 30 Apr 2015) $
-HeadURL:        $URL: https://subversion.xray.aps.anl.gov/synApps/motor/trunk/motorApp/AerotechSrc/AerotechRegister.cc $
 */
 
 /*****************************************************************
@@ -50,7 +46,7 @@ static const iocshArg ensembleAsynConfigArg3 = {"Number of Axes", iocshArgInt};
 static const iocshArg ensembleAsynConfigArg4 = {"Moving poll rate", iocshArgInt};
 static const iocshArg ensembleAsynConfigArg5 = {"Idle poll rate", iocshArgInt};
 
-static const iocshArg * const EnsembleAsynSetupArgs[2] = {&ensembleAsynSetupArg0};
+static const iocshArg * const EnsembleAsynSetupArgs[1] = {&ensembleAsynSetupArg0};
 static const iocshArg * const EnsembleAsynConfigArgs[6] = {&ensembleAsynConfigArg0, 
     &ensembleAsynConfigArg1,
     &ensembleAsynConfigArg2,

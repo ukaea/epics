@@ -1,9 +1,5 @@
 # FILENAME...   motorRecord.dbd
 
-# Version:       $Revision: 19129 $
-# Modified By:   $Author: sluiter $
-# Last Modified: $Date: 2015-03-13 20:29:07 +0000 (Fri, 13 Mar 2015) $
-# HeadURL:       $URL: https://subversion.xray.aps.anl.gov/synApps/motor/trunk/motorApp/MotorSrc/motorRecord.dbd $
 
 # Experimental Physics and Industrial Control System (EPICS)
 
@@ -590,11 +586,6 @@ recordtype(motor) {
                 special(SPC_NOMOD)
                 initial("1")
         }
-        field(LDMV,DBF_SHORT) {
-                prompt("Last Done moving value")
-                special(SPC_NOMOD)
-                initial("1")
-        }
         field(MOVN,DBF_SHORT) {
                 prompt("Motor is moving")
                 special(SPC_NOMOD)
@@ -796,5 +787,9 @@ recordtype(motor) {
 		prompt("Sync position")
 		pp(TRUE)
 		interest(1)
+	}
+	field(IGSET,DBF_SHORT) {
+		prompt("Ignore SET field")
+		interest(2)
 	}
 }

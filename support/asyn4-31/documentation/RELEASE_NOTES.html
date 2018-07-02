@@ -7,8 +7,210 @@
 <body xml:lang="en">
   <div style="text-align: center">
     <h1>
-      asynDriver: Asynchronous Driver Support - Release Notes</h1>
+      asynDriver: Release Notes</h1>
   </div>
+  <div style="text-align: center">
+    <hr />
+    <h2>
+      Release 4-33</h2>
+    <h2>
+      January 27, 2018</h2>
+  </div>
+  <h3>
+    devAsynFloat64.c</h3>
+  <ul>
+    <li>Added support for ASLO/AOFF scaling and SMOO value smoothing to the float64 device
+      support for ai and ao records. SMOO only applies to ai records. devAsynFloat64 directly
+      writes to the record's VAL/OVAL fields, so the conversion routines in the record
+      that use RVAL/VAL don't work.</li>
+  </ul>
+  <h3>
+    devAsynInt32.c, devAsynUInt32Digital.c, devAsynFloat64.c, devAsynOctet.c</h3>
+  <ul>
+    <li>Fixed a problem with output records that have the asyn:READBACK info tag, i.e.
+      output records that update on callbacks from the driver. Previously it did not correctly
+      distinguish between record processing due to a driver callback (in which case it
+      should not call the driver) and normal record processing (in which case the driver
+      should be called). A new test application, testOutputCallbackApp, was added to test
+      this. It allows testing all combinations of the following 6 settings for all 4 of
+      these device support files:
+      <ol>
+        <li>Synchronous driver, i.e. ASYN_CANBLOCK not set.</li>
+        <li>Asynchronous driver, i.e. ASYN_CANBLOCK is set.</li>
+        <li>Driver callback is done in the write() operation.</li>
+        <li>Driver callback is done in a separate thread. The callbacks are triggered with
+          the TriggerCallbacks record.</li>
+        <li>Single callback is done in each operation.</li>
+        <li>Multiple callbacks are done in each operation. The NumCallbacks record selects
+          the number of callbacks.</li>
+      </ol>
+      The callback values are the following. For the longout records (asynInt32 and asynUInt32Digital)
+      and the ao record (asynFloat64) the callback value is N+1 where N the current record
+      value. Thus if one writes 10 to the longout record and NumCallbacks is 5 it will
+      immediately do callbacks with the values 11, 12, 13, 14, 15. For the bo record the
+      value toggles between 0 and 1 for each callback. For the stringout record the value
+      is a string with the format "Value=N". N increments by 1 on each callback as for
+      the longout records. For each output record there is a corresponding input record
+      with SCAN=I/O Intr. If the test is working correctly the output records should always
+      have the same values as the input records. </li>
+  </ul>
+  <h3>
+    devAsynOctet.c</h3>
+  <ul>
+    <li>Fixed bug where the record alarm status was not set correctly if a write or read
+      failed with a synchronous driver.</li>
+  </ul>
+  <h3>
+    asynManager.c</h3>
+  <ul>
+    <li>Improved error messages from autoconnect attempts. Messages are now printed only
+      when the autoconnect status changes, rather than each time there is a failure. Thanks
+      to Ben Franksen for this.</li>
+  </ul>
+  <h3>
+    drvAsynIPServerPort.c</h3>
+  <ul>
+    <li>Changed the logic so it creates maxClients drvAsynIPPort drivers at initialization
+      rather than on-demand when clients connect. This makes it possible to use these
+      ports before iocInit, which is much more useful. They can be used in input and output
+      links in EPICS records, for example. This change should be backwards compatible,
+      since it was transparent when the ports were created.</li>
+    <li>The first drvAsynIPPort created is now named PORT_NAME:0 rather than PORT_NAME:1,
+      where PORT_NAME is the name of the drvAsynIPServer port created by this driver.
+      This might break backwards compatibility, but clients were normally getting the
+      name from a callback, so probably not.</li>
+    <li>Set the socket option SO_REUSEADDR when creating the listening socket. Previously
+      if a client was connected and the IOC exited it could not be restarted again immediately.
+      One needed to wait for the operating system to time out the connection. This change
+      allows the IOC to be run again with the same listening port immediately, without
+      waiting for the operating system timeout.</li>
+    <li>Added an exit handler to close the listen socket and delete the private structure.
+    </li>
+    <li>Improved the report() function so it shows all the drvAsynIPPort drivers that
+      were created.</li>
+  </ul>
+  <h3>
+    testIPServerApp</h3>
+  <ul>
+    <li>Added a new datbase testIPServer1.db for testing the enhancements to drvAsynIPServerPort.
+      It contains a stringin record and a stringout record that use the drvAsynIPPort
+      created by drvAsynIPServerPort.</li>
+    <li>Added a new startup script, iocBoot/ioctestIPServer/st.cmd.testIPServer1 which
+      creates a drvAsynIPServerPort called P5001 on localhost:5001. It loads the testIPServer1.db
+      database connected to the drvAsynIPPort created by P5001, called P5001:0. One can
+      telnet to port 5001 on the IOC computer. All text typed in the telnet session will
+      go into the stringin record. Text written to the stringout record will appear in
+      the telnet session.</li>
+  </ul>
+  <h3>
+    drvVXI11.c</h3>
+  <ul>
+    <li>Improved error messages from connection attempts. Messages are now printed only
+      when the connection status changes, rather than each time there is a connection
+      failure. Thanks to Ben Franksen for this.</li>
+  </ul>
+  <h3>
+    testErrorsApp</h3>
+  <ul>
+    <li>Previously the user-defined alarm status and severity were only set on callbacks,
+      i.e. input records with SCAN=I/O Intr and output records with info tag asyn:READBACK=1.
+      Now all calls to the read() and write() methods in each interface also return the
+      user-defined alarm status and severity in pasynUser.</li>
+  </ul>
+  <h3>
+    asynPortClient</h3>
+  <ul>
+    <li>Fixed typo in constructor for asynUInt32DigitalClient, it was calling asynInt32SyncIO-&gt;connect
+      rather than asynUInt32DigitalClient-&gt;connect.</li>
+  </ul>
+  <h3>
+    OPI screens</h3>
+  <ul>
+    <li>Added new opi/Makefile. This automatically converts all opi/medm/*.adl files into
+      corresponding files in edm/autoconvert, caqtdm/autoconvert, and boy/autoconvert.
+      It uses new RULES_OPI and CONFIG_SITE.linux-x86_64 files in synApps/support/configure
+      directory. The upper-level edm, caqtdm, and boy directories should be used only
+      for manually tweaked files.</li>
+    <li>The medm adl files were improved to make the autoconverted files work better.
+      The size of text graphics and text update widgets were set to the actual text size,
+      and text update widgets were set to the correct datatype, e.g. string type for enum
+      PVs. </li>
+  </ul>
+  <h3>
+    Documentation</h3>
+  <ul>
+    <li>asynDriver.html has been improved. All level 3 headings are now links in the Contents
+      at the start of the file. This makes it much easier to find a particular topic and
+      jump to it quickly. Many of the test applications are now documented, including
+      medm screen shots to show how they work.</li>
+  </ul>
+  <div style="text-align: center">
+    <hr />
+    <h2>
+      Release 4-32</h2>
+    <h2>
+      September 15, 2017</h2>
+  </div>
+  <h3>
+    asynManager.c</h3>
+  <ul>
+    <li>Fixes to queueLockPort() which is used by the asynXXXSyncIO interfaces.
+      <ul>
+        <li>Previously queueLockPort() did not specify a timeout value or timeout callback
+          function in the call to pasynManager-&gt;queueRequest().</li>
+        <li>This meant that if a port disconnected while a lock request was queued it would
+          hang until the port reconnected. For example, calls to the asynXXXSyncIO functions
+          would not return until the port reconnected.</li>
+        <li>Added a timeout callback for the queueRequest in queueLockPort(). This callback
+          function prints a warning message with ASYN_TRACE_WARNING. It sets the psynUser-&gt;auxStatus
+          field to asynTimeout so that queueLockPort() detects an error and returns an error
+          status without locking the port. Callers must be sure to check the return status
+          of queueLockPort and not call any port driver functions if it does. This was already
+          done in all of the asynXXXSyncIO functions.</li>
+        <li>The timeout for the queueLockPort queue request is determined as follows
+          <ul>
+            <li>Each port now has a queueLockPortTimeout value. This is set to a default of 2.0
+              seconds when the port is created.</li>
+            <li>This can be changed with a new iocsh command
+              <pre>asynSetQueueLockPortTimeout(portName, timeout)</pre>
+            </li>
+            <li>If the pasynUser->timeout that is passed for a particular I/O operation is larger
+              than the port timeout value this larger value is used instead.</li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li>In traceVprintIOSource if the traceIOMask is 0 or traceTruncateSize &le; 0 output
+      a newline, otherwise output is garbled</li>
+  </ul>
+  <h3>
+    asynPortDriver</h3>
+  <ul>
+    <li>Replaced "int" with "epicsInt32" in many places for consistency and to avoid compiler
+      warnings on some architectures. Thanks to Scott Baily for this.</li>
+    <li>Added new asynPortDriver::getParamType() methods. Thanks to Mark Davis for this.</li>
+    <li>Added a new asynPortDriver constructor that removes the paramTableSize argument.
+      Marked the previous constructor as EPICS_DEPRECATED. Added a new initialize() method
+      that both constructors call to do the actual work. Changed all of the asynPortDriver
+      example programs and unit test programs to use the new constructor. Thanks to Martin
+      Konrad for this.</li>
+  </ul>
+  <h3>
+    Test application *Main.cpp files</h3>
+  <ul>
+    <li>The main programs in all of the test applications have been updated to the version
+      in the template files in EPICS base 3.15.5. This includes a call to epicsExit()
+      after the iocsh() returns. This is needed for epicsAtExit to work correctly on some
+      platforms, including Windows.</li>
+  </ul>
+  <h3>
+    Files in configure/ directories</h3>
+  <ul>
+    <li>The Makefile, CONFIG, CONFIG_SITE, and RULES* files in configure/, makeSupport/top/configure/,
+      and documentation/HowToDoSerial/AB300/configure/ have been updated to the versions
+      in the template files in EPICS base 3.15.5. The new versions are better suited to
+      site-specific customization.</li>
+  </ul>
   <div style="text-align: center">
     <hr />
     <h2>

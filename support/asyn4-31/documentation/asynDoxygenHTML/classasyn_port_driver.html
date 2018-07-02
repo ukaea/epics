@@ -18,7 +18,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">asyn
-   &#160;<span id="projectnumber">4-31</span>
+   &#160;<span id="projectnumber">4-33</span>
    </div>
   </td>
  </tr>
@@ -46,6 +46,7 @@
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="#friends">Friends</a> &#124;
 <a href="classasyn_port_driver-members.html">List of all members</a>  </div>
@@ -70,9 +71,12 @@ Inheritance diagram for asynPortDriver:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:acf77e873fc4fdbd8d07154ef80dc38b8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classasyn_port_driver.html#acf77e873fc4fdbd8d07154ef80dc38b8">asynPortDriver</a> (const char *<a class="el" href="classasyn_port_driver.html#a8ddf9106f0496dcdaa47dd9a2255fd6b">portName</a>, int <a class="el" href="classasyn_port_driver.html#a0d13d8094512a71769a7d71b83d324cc">maxAddr</a>, int paramTableSize, int interfaceMask, int interruptMask, int asynFlags, int autoConnect, int priority, int stackSize)</td></tr>
-<tr class="memdesc:acf77e873fc4fdbd8d07154ef80dc38b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for the <a class="el" href="classasyn_port_driver.html" title="Base class for asyn port drivers; handles most of the bookkeeping for writing an asyn port driver wit...">asynPortDriver</a> class.  <a href="#acf77e873fc4fdbd8d07154ef80dc38b8">More...</a><br/></td></tr>
-<tr class="separator:acf77e873fc4fdbd8d07154ef80dc38b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7646f2d6e8d29ce1a9071719b59cf03"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classasyn_port_driver.html#ad7646f2d6e8d29ce1a9071719b59cf03">asynPortDriver</a> (const char *<a class="el" href="classasyn_port_driver.html#a8ddf9106f0496dcdaa47dd9a2255fd6b">portName</a>, int <a class="el" href="classasyn_port_driver.html#a0d13d8094512a71769a7d71b83d324cc">maxAddr</a>, int interfaceMask, int interruptMask, int asynFlags, int autoConnect, int priority, int stackSize)</td></tr>
+<tr class="memdesc:ad7646f2d6e8d29ce1a9071719b59cf03"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for the <a class="el" href="classasyn_port_driver.html" title="Base class for asyn port drivers; handles most of the bookkeeping for writing an asyn port driver wit...">asynPortDriver</a> class.  <a href="#ad7646f2d6e8d29ce1a9071719b59cf03">More...</a><br/></td></tr>
+<tr class="separator:ad7646f2d6e8d29ce1a9071719b59cf03"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab864d5f98ec3c33e0e513de0d82c34af"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classasyn_port_driver.html#ab864d5f98ec3c33e0e513de0d82c34af">asynPortDriver</a> (const char *<a class="el" href="classasyn_port_driver.html#a8ddf9106f0496dcdaa47dd9a2255fd6b">portName</a>, int <a class="el" href="classasyn_port_driver.html#a0d13d8094512a71769a7d71b83d324cc">maxAddr</a>, int paramTableSize, int interfaceMask, int interruptMask, int asynFlags, int autoConnect, int priority, int stackSize) EPICS_DEPRECATED</td></tr>
+<tr class="memdesc:ab864d5f98ec3c33e0e513de0d82c34af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Legacy constructor for the <a class="el" href="classasyn_port_driver.html" title="Base class for asyn port drivers; handles most of the bookkeeping for writing an asyn port driver wit...">asynPortDriver</a> class (DEPRECATED - please use the one above instead).  <a href="#ab864d5f98ec3c33e0e513de0d82c34af">More...</a><br/></td></tr>
+<tr class="separator:ab864d5f98ec3c33e0e513de0d82c34af"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a74f2e1d0b2abfe03aa9bbe06391c521d"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classasyn_port_driver.html#a74f2e1d0b2abfe03aa9bbe06391c521d">~asynPortDriver</a> ()</td></tr>
 <tr class="memdesc:a74f2e1d0b2abfe03aa9bbe06391c521d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor for <a class="el" href="classasyn_port_driver.html" title="Base class for asyn port drivers; handles most of the bookkeeping for writing an asyn port driver wit...">asynPortDriver</a> class; frees resources allocated when port driver is created.  <a href="#a74f2e1d0b2abfe03aa9bbe06391c521d">More...</a><br/></td></tr>
 <tr class="separator:a74f2e1d0b2abfe03aa9bbe06391c521d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -241,6 +245,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:abba1da45d9b3a520ea0cfdb6e01a9ed3"><td class="memItemLeft" align="right" valign="top">virtual asynStatus&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classasyn_port_driver.html#abba1da45d9b3a520ea0cfdb6e01a9ed3">getParamName</a> (int list, int index, const char **name)</td></tr>
 <tr class="memdesc:abba1da45d9b3a520ea0cfdb6e01a9ed3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the name of a parameter in the parameter library.  <a href="#abba1da45d9b3a520ea0cfdb6e01a9ed3">More...</a><br/></td></tr>
 <tr class="separator:abba1da45d9b3a520ea0cfdb6e01a9ed3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad100fe332d8233b1f6d9f948bd03116a"><td class="memItemLeft" align="right" valign="top">virtual asynStatus&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classasyn_port_driver.html#ad100fe332d8233b1f6d9f948bd03116a">getParamType</a> (int index, <a class="el" href="asyn_param_type_8h.html#aa744baae4016b0caa9910b448ccbc456">asynParamType</a> *type)</td></tr>
+<tr class="memdesc:ad100fe332d8233b1f6d9f948bd03116a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the asynParamType of a parameter in the parameter library*.  <a href="#ad100fe332d8233b1f6d9f948bd03116a">More...</a><br/></td></tr>
+<tr class="separator:ad100fe332d8233b1f6d9f948bd03116a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70a716ec22439cad11617d87c805afae"><td class="memItemLeft" align="right" valign="top">virtual asynStatus&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classasyn_port_driver.html#a70a716ec22439cad11617d87c805afae">getParamType</a> (int list, int index, <a class="el" href="asyn_param_type_8h.html#aa744baae4016b0caa9910b448ccbc456">asynParamType</a> *type)</td></tr>
+<tr class="memdesc:a70a716ec22439cad11617d87c805afae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the asynParamType of a parameter in the parameter library.  <a href="#a70a716ec22439cad11617d87c805afae">More...</a><br/></td></tr>
+<tr class="separator:a70a716ec22439cad11617d87c805afae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a650762bf3bcd0384a9a6ce300aa3ec5e"><td class="memItemLeft" align="right" valign="top">virtual asynStatus&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classasyn_port_driver.html#a650762bf3bcd0384a9a6ce300aa3ec5e">setParamStatus</a> (int index, asynStatus status)</td></tr>
 <tr class="memdesc:a650762bf3bcd0384a9a6ce300aa3ec5e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the status for a parameter in the parameter library.  <a href="#a650762bf3bcd0384a9a6ce300aa3ec5e">More...</a><br/></td></tr>
 <tr class="separator:a650762bf3bcd0384a9a6ce300aa3ec5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -337,12 +347,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a538bff636ce4bc66c1362a657f7bbc0d"><td class="memItemLeft" align="right" valign="top">virtual asynStatus&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classasyn_port_driver.html#a538bff636ce4bc66c1362a657f7bbc0d">setStringParam</a> (int list, int index, const std::string &amp;value)</td></tr>
 <tr class="memdesc:a538bff636ce4bc66c1362a657f7bbc0d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the value for a string in the parameter library.  <a href="#a538bff636ce4bc66c1362a657f7bbc0d">More...</a><br/></td></tr>
 <tr class="separator:a538bff636ce4bc66c1362a657f7bbc0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a366ffed61b558f99911ab6f4292ba7bb"><td class="memItemLeft" align="right" valign="top">virtual asynStatus&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classasyn_port_driver.html#a366ffed61b558f99911ab6f4292ba7bb">getIntegerParam</a> (int index, int *value)</td></tr>
-<tr class="memdesc:a366ffed61b558f99911ab6f4292ba7bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the value for an integer from the parameter library.  <a href="#a366ffed61b558f99911ab6f4292ba7bb">More...</a><br/></td></tr>
-<tr class="separator:a366ffed61b558f99911ab6f4292ba7bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abb474605f2e2724b0d4323bd164b407a"><td class="memItemLeft" align="right" valign="top">virtual asynStatus&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classasyn_port_driver.html#abb474605f2e2724b0d4323bd164b407a">getIntegerParam</a> (int list, int index, int *value)</td></tr>
-<tr class="memdesc:abb474605f2e2724b0d4323bd164b407a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the value for an integer from the parameter library.  <a href="#abb474605f2e2724b0d4323bd164b407a">More...</a><br/></td></tr>
-<tr class="separator:abb474605f2e2724b0d4323bd164b407a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a02ccf13885271b2cb0ad1fb5a8018f63"><td class="memItemLeft" align="right" valign="top">virtual asynStatus&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classasyn_port_driver.html#a02ccf13885271b2cb0ad1fb5a8018f63">getIntegerParam</a> (int index, epicsInt32 *value)</td></tr>
+<tr class="memdesc:a02ccf13885271b2cb0ad1fb5a8018f63"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the value for an integer from the parameter library.  <a href="#a02ccf13885271b2cb0ad1fb5a8018f63">More...</a><br/></td></tr>
+<tr class="separator:a02ccf13885271b2cb0ad1fb5a8018f63"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a380dbf094243b8260b647e1f390e2e1a"><td class="memItemLeft" align="right" valign="top">virtual asynStatus&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classasyn_port_driver.html#a380dbf094243b8260b647e1f390e2e1a">getIntegerParam</a> (int list, int index, epicsInt32 *value)</td></tr>
+<tr class="memdesc:a380dbf094243b8260b647e1f390e2e1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the value for an integer from the parameter library.  <a href="#a380dbf094243b8260b647e1f390e2e1a">More...</a><br/></td></tr>
+<tr class="separator:a380dbf094243b8260b647e1f390e2e1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a67232d15dd10d3e0d33289cdd9a4124e"><td class="memItemLeft" align="right" valign="top">virtual asynStatus&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classasyn_port_driver.html#a67232d15dd10d3e0d33289cdd9a4124e">getUIntDigitalParam</a> (int index, epicsUInt32 *value, epicsUInt32 mask)</td></tr>
 <tr class="memdesc:a67232d15dd10d3e0d33289cdd9a4124e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the value for an UInt32Digital parameter from the parameter library.  <a href="#a67232d15dd10d3e0d33289cdd9a4124e">More...</a><br/></td></tr>
 <tr class="separator:a67232d15dd10d3e0d33289cdd9a4124e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -406,6 +416,12 @@ Public Attributes</h2></td></tr>
 <tr class="memdesc:a0d13d8094512a71769a7d71b83d324cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">The maximum asyn address (addr) supported by this driver.  <a href="#a0d13d8094512a71769a7d71b83d324cc">More...</a><br/></td></tr>
 <tr class="separator:a0d13d8094512a71769a7d71b83d324cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:a230cae9924570dc696bc031cadb9394e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classasyn_port_driver.html#a230cae9924570dc696bc031cadb9394e">initialize</a> (const char *portNameIn, int maxAddrIn, int interfaceMask, int interruptMask, int asynFlags, int autoConnect, int priority, int stackSize)</td></tr>
+<tr class="memdesc:a230cae9924570dc696bc031cadb9394e"><td class="mdescLeft">&#160;</td><td class="mdescRight">The following function is required to initialize from two constructors.  <a href="#a230cae9924570dc696bc031cadb9394e">More...</a><br/></td></tr>
+<tr class="separator:a230cae9924570dc696bc031cadb9394e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
 <tr class="memitem:a3d701fd7f49ab07da6c5edf3429cdfe5"><td class="memItemLeft" align="right" valign="top">asynUser *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classasyn_port_driver.html#a3d701fd7f49ab07da6c5edf3429cdfe5">pasynUserSelf</a></td></tr>
@@ -423,7 +439,84 @@ Friends</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Base class for asyn port drivers; handles most of the bookkeeping for writing an asyn port driver with standard asyn interfaces and a parameter library. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="acf77e873fc4fdbd8d07154ef80dc38b8"></a>
+<a class="anchor" id="ad7646f2d6e8d29ce1a9071719b59cf03"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">asynPortDriver::asynPortDriver </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>portNameIn</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>maxAddrIn</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>interfaceMask</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>interruptMask</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>asynFlags</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>autoConnect</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>priority</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>stackSize</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Constructor for the <a class="el" href="classasyn_port_driver.html" title="Base class for asyn port drivers; handles most of the bookkeeping for writing an asyn port driver wit...">asynPortDriver</a> class. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">portNameIn</td><td>The name of the asyn port driver to be created. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">maxAddrIn</td><td>The maximum number of asyn addr addresses this driver supports. Often it is 1 (which is the minimum), but some drivers, for example a 16-channel D/A or A/D would support values &gt; 1. This controls the number of parameter tables that are created. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">interfaceMask</td><td>Bit mask defining the asyn interfaces that this driver supports. The bit mask values are defined in <a class="el" href="asyn_port_driver_8h.html">asynPortDriver.h</a>, e.g. asynInt32Mask. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">interruptMask</td><td>Bit mask definining the asyn interfaces that can generate interrupts (callbacks). The bit mask values are defined in <a class="el" href="asyn_port_driver_8h.html">asynPortDriver.h</a>, e.g. asynInt8ArrayMask. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">asynFlags</td><td>Flags when creating the asyn port driver; includes ASYN_CANBLOCK and ASYN_MULTIDEVICE. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">autoConnect</td><td>The autoConnect flag for the asyn port driver. 1 if the driver should autoconnect. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">priority</td><td>The thread priority for the asyn port driver thread if ASYN_CANBLOCK is set in asynFlags. If it is 0 then the default value of epicsThreadPriorityMedium will be assigned by asynManager. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">stackSize</td><td>The stack size for the asyn port driver thread if ASYN_CANBLOCK is set in asynFlags. If it is 0 then the default value of epicsThreadGetStackSize(epicsThreadStackMedium) will be assigned by asynManager. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="ab864d5f98ec3c33e0e513de0d82c34af"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -489,21 +582,8 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Constructor for the <a class="el" href="classasyn_port_driver.html" title="Base class for asyn port drivers; handles most of the bookkeeping for writing an asyn port driver wit...">asynPortDriver</a> class. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">portNameIn</td><td>The name of the asyn port driver to be created. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">maxAddrIn</td><td>The maximum number of asyn addr addresses this driver supports. Often it is 1 (which is the minimum), but some drivers, for example a 16-channel D/A or A/D would support values &gt; 1. This controls the number of parameter tables that are created. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">paramTableSize</td><td>The number of parameters that this driver supports. This controls the size of the parameter tables. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">interfaceMask</td><td>Bit mask defining the asyn interfaces that this driver supports. The bit mask values are defined in <a class="el" href="asyn_port_driver_8h.html">asynPortDriver.h</a>, e.g. asynInt32Mask. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">interruptMask</td><td>Bit mask definining the asyn interfaces that can generate interrupts (callbacks). The bit mask values are defined in <a class="el" href="asyn_port_driver_8h.html">asynPortDriver.h</a>, e.g. asynInt8ArrayMask. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">asynFlags</td><td>Flags when creating the asyn port driver; includes ASYN_CANBLOCK and ASYN_MULTIDEVICE. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">autoConnect</td><td>The autoConnect flag for the asyn port driver. 1 if the driver should autoconnect. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">priority</td><td>The thread priority for the asyn port driver thread if ASYN_CANBLOCK is set in asynFlags. If it is 0 then the default value of epicsThreadPriorityMedium will be assigned by asynManager. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">stackSize</td><td>The stack size for the asyn port driver thread if ASYN_CANBLOCK is set in asynFlags. If it is 0 then the default value of epicsThreadGetStackSize(epicsThreadStackMedium) will be assigned by asynManager. </td></tr>
-  </table>
-  </dd>
-</dl>
+<p>Legacy constructor for the <a class="el" href="classasyn_port_driver.html" title="Base class for asyn port drivers; handles most of the bookkeeping for writing an asyn port driver wit...">asynPortDriver</a> class (DEPRECATED - please use the one above instead). </p>
+<p><a class="el" href="classasyn_port_driver.html" title="Base class for asyn port drivers; handles most of the bookkeeping for writing an asyn port driver wit...">asynPortDriver</a> &gt;=R4-32 handles the table size automatically. Thus the paramTableSize parameter has been removed from the constructor. This constructor is provided for backwards compatibility. Users should switch to using the constructor ASAP. </p>
 
 </div>
 </div>
@@ -636,7 +716,7 @@ Friends</h2></td></tr>
 <p>Calls paramList::callCallbacks(addr) for a specific parameter list. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The parameter list number. Must be &lt; maxAddr passed to <a class="el" href="classasyn_port_driver.html#acf77e873fc4fdbd8d07154ef80dc38b8" title="Constructor for the asynPortDriver class. ">asynPortDriver::asynPortDriver</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The parameter list number. Must be &lt; maxAddr passed to <a class="el" href="classasyn_port_driver.html#ad7646f2d6e8d29ce1a9071719b59cf03" title="Constructor for the asynPortDriver class. ">asynPortDriver::asynPortDriver</a>. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">addr</td><td>The asyn address to be used in the callback. Typically the same value as list. </td></tr>
   </table>
   </dd>
@@ -773,7 +853,7 @@ Friends</h2></td></tr>
 <p>Clears the interrupt mask in the parameter library Calls <a class="el" href="classparam_list.html#a9cb7ad5429ddbd7ff63cf1e99d72ad03" title="Clears the UInt32Interrupt in the parameter library. ">paramList::clearUInt32Interrupt</a> (index, mask) for the parameter list indexed by list. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The parameter list number. Must be &lt; maxAddr passed to <a class="el" href="classasyn_port_driver.html#acf77e873fc4fdbd8d07154ef80dc38b8" title="Constructor for the asynPortDriver class. ">asynPortDriver::asynPortDriver</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The parameter list number. Must be &lt; maxAddr passed to <a class="el" href="classasyn_port_driver.html#ad7646f2d6e8d29ce1a9071719b59cf03" title="Constructor for the asynPortDriver class. ">asynPortDriver::asynPortDriver</a>. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">index</td><td>The parameter number </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">mask</td><td>Interrupt mask. </td></tr>
   </table>
@@ -913,7 +993,7 @@ Friends</h2></td></tr>
 <p>Calls paramList::addParam (name, index) for the parameter list indexed by list. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The parameter list number. Must be &lt; maxAddr passed to <a class="el" href="classasyn_port_driver.html#acf77e873fc4fdbd8d07154ef80dc38b8" title="Constructor for the asynPortDriver class. ">asynPortDriver::asynPortDriver</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The parameter list number. Must be &lt; maxAddr passed to <a class="el" href="classasyn_port_driver.html#ad7646f2d6e8d29ce1a9071719b59cf03" title="Constructor for the asynPortDriver class. ">asynPortDriver::asynPortDriver</a>. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">name</td><td>Parameter name </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">type</td><td>Parameter type </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">index</td><td>Parameter number </td></tr>
@@ -1584,7 +1664,7 @@ Friends</h2></td></tr>
 <p>Calls <a class="el" href="classparam_list.html#a50e1f02b63daeb7a934b717f83db0fc0" title="Finds a parameter in the parameter library. ">paramList::findParam</a> (name, index) for the parameter list indexed by list. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The parameter list number. Must be &lt; maxAddr passed to <a class="el" href="classasyn_port_driver.html#acf77e873fc4fdbd8d07154ef80dc38b8" title="Constructor for the asynPortDriver class. ">asynPortDriver::asynPortDriver</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The parameter list number. Must be &lt; maxAddr passed to <a class="el" href="classasyn_port_driver.html#ad7646f2d6e8d29ce1a9071719b59cf03" title="Constructor for the asynPortDriver class. ">asynPortDriver::asynPortDriver</a>. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">name</td><td>Parameter name </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">index</td><td>Parameter number </td></tr>
   </table>
@@ -1667,7 +1747,7 @@ Friends</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Returns asynError if the address is &gt; maxAddr value passed to <a class="el" href="classasyn_port_driver.html#acf77e873fc4fdbd8d07154ef80dc38b8" title="Constructor for the asynPortDriver class. ">asynPortDriver::asynPortDriver</a>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns asynError if the address is &gt; maxAddr value passed to <a class="el" href="classasyn_port_driver.html#ad7646f2d6e8d29ce1a9071719b59cf03" title="Constructor for the asynPortDriver class. ">asynPortDriver::asynPortDriver</a>. </dd></dl>
 
 </div>
 </div>
@@ -1825,7 +1905,7 @@ Friends</h2></td></tr>
 <p>Calls <a class="el" href="classparam_list.html#a4851347f00ef1ed6a0e1fc7e8ab2dd63" title="Returns the value for a double from the parameter library. ">paramList::getDouble</a> (index, value) for the parameter list indexed by list. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The parameter list number. Must be &lt; maxAddr passed to <a class="el" href="classasyn_port_driver.html#acf77e873fc4fdbd8d07154ef80dc38b8" title="Constructor for the asynPortDriver class. ">asynPortDriver::asynPortDriver</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The parameter list number. Must be &lt; maxAddr passed to <a class="el" href="classasyn_port_driver.html#ad7646f2d6e8d29ce1a9071719b59cf03" title="Constructor for the asynPortDriver class. ">asynPortDriver::asynPortDriver</a>. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">index</td><td>The parameter number </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">value</td><td>Address of value to get. </td></tr>
   </table>
@@ -1892,7 +1972,7 @@ Friends</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a366ffed61b558f99911ab6f4292ba7bb"></a>
+<a class="anchor" id="a02ccf13885271b2cb0ad1fb5a8018f63"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -1908,7 +1988,7 @@ Friends</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">int *&#160;</td>
+          <td class="paramtype">epicsInt32 *&#160;</td>
           <td class="paramname"><em>value</em>&#160;</td>
         </tr>
         <tr>
@@ -1936,7 +2016,7 @@ Friends</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="abb474605f2e2724b0d4323bd164b407a"></a>
+<a class="anchor" id="a380dbf094243b8260b647e1f390e2e1a"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -1958,7 +2038,7 @@ Friends</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">int *&#160;</td>
+          <td class="paramtype">epicsInt32 *&#160;</td>
           <td class="paramname"><em>value</em>&#160;</td>
         </tr>
         <tr>
@@ -1975,10 +2055,10 @@ Friends</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Returns the value for an integer from the parameter library. </p>
-<p>Calls <a class="el" href="classparam_list.html#a46156258d7eb8324fb58254fe9ce4b58" title="Returns the value for an integer from the parameter library. ">paramList::getInteger</a> (index, value) for the parameter list indexed by list. </p>
+<p>Calls <a class="el" href="classparam_list.html#af83b25e39e89e135a601cebd49feaa43" title="Returns the value for an integer from the parameter library. ">paramList::getInteger</a> (index, value) for the parameter list indexed by list. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The parameter list number. Must be &lt; maxAddr passed to <a class="el" href="classasyn_port_driver.html#acf77e873fc4fdbd8d07154ef80dc38b8" title="Constructor for the asynPortDriver class. ">asynPortDriver::asynPortDriver</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The parameter list number. Must be &lt; maxAddr passed to <a class="el" href="classasyn_port_driver.html#ad7646f2d6e8d29ce1a9071719b59cf03" title="Constructor for the asynPortDriver class. ">asynPortDriver::asynPortDriver</a>. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">index</td><td>The parameter number </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">value</td><td>Address of value to get. </td></tr>
   </table>
@@ -2182,7 +2262,7 @@ Friends</h2></td></tr>
 <p>Calls paramList::getAlarmSeverity(index, status) for the parameter list indexed by list. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The parameter list number. Must be &lt; maxAddr passed to <a class="el" href="classasyn_port_driver.html#acf77e873fc4fdbd8d07154ef80dc38b8" title="Constructor for the asynPortDriver class. ">asynPortDriver::asynPortDriver</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The parameter list number. Must be &lt; maxAddr passed to <a class="el" href="classasyn_port_driver.html#ad7646f2d6e8d29ce1a9071719b59cf03" title="Constructor for the asynPortDriver class. ">asynPortDriver::asynPortDriver</a>. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">index</td><td>The parameter number </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">alarmSeverity</td><td>Address of status to get. </td></tr>
   </table>
@@ -2277,7 +2357,7 @@ Friends</h2></td></tr>
 <p>Calls paramList::getAlarmStatus(index, status) for the parameter list indexed by list. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The parameter list number. Must be &lt; maxAddr passed to <a class="el" href="classasyn_port_driver.html#acf77e873fc4fdbd8d07154ef80dc38b8" title="Constructor for the asynPortDriver class. ">asynPortDriver::asynPortDriver</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The parameter list number. Must be &lt; maxAddr passed to <a class="el" href="classasyn_port_driver.html#ad7646f2d6e8d29ce1a9071719b59cf03" title="Constructor for the asynPortDriver class. ">asynPortDriver::asynPortDriver</a>. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">index</td><td>The parameter number </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">alarmStatus</td><td>Address of status to get. </td></tr>
   </table>
@@ -2372,7 +2452,7 @@ Friends</h2></td></tr>
 <p>Calls <a class="el" href="classparam_list.html#a06c00189483c97d46e2319a661c439c7" title="Returns the name of a parameter from the parameter library. ">paramList::getName</a> (index, name) for the parameter list indexed by list. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The parameter list number. Must be &lt; maxAddr passed to <a class="el" href="classasyn_port_driver.html#acf77e873fc4fdbd8d07154ef80dc38b8" title="Constructor for the asynPortDriver class. ">asynPortDriver::asynPortDriver</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The parameter list number. Must be &lt; maxAddr passed to <a class="el" href="classasyn_port_driver.html#ad7646f2d6e8d29ce1a9071719b59cf03" title="Constructor for the asynPortDriver class. ">asynPortDriver::asynPortDriver</a>. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">index</td><td>Parameter number </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">name</td><td>Parameter name </td></tr>
   </table>
@@ -2467,9 +2547,102 @@ Friends</h2></td></tr>
 <p>Calls paramList::setStatus(index, status) for the parameter list indexed by list. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The parameter list number. Must be &lt; maxAddr passed to <a class="el" href="classasyn_port_driver.html#acf77e873fc4fdbd8d07154ef80dc38b8" title="Constructor for the asynPortDriver class. ">asynPortDriver::asynPortDriver</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The parameter list number. Must be &lt; maxAddr passed to <a class="el" href="classasyn_port_driver.html#ad7646f2d6e8d29ce1a9071719b59cf03" title="Constructor for the asynPortDriver class. ">asynPortDriver::asynPortDriver</a>. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">index</td><td>The parameter number </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">paramStatus</td><td>Address of status to get. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="ad100fe332d8233b1f6d9f948bd03116a"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">asynStatus asynPortDriver::getParamType </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="asyn_param_type_8h.html#aa744baae4016b0caa9910b448ccbc456">asynParamType</a> *&#160;</td>
+          <td class="paramname"><em>type</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the asynParamType of a parameter in the parameter library*. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">index</td><td>Parameter number </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">type</td><td>Parameter type </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a70a716ec22439cad11617d87c805afae"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">asynStatus asynPortDriver::getParamType </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>list</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="asyn_param_type_8h.html#aa744baae4016b0caa9910b448ccbc456">asynParamType</a> *&#160;</td>
+          <td class="paramname"><em>type</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the asynParamType of a parameter in the parameter library. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The parameter list number. Must be &lt; maxAddr passed to <a class="el" href="classasyn_port_driver.html#ad7646f2d6e8d29ce1a9071719b59cf03" title="Constructor for the asynPortDriver class. ">asynPortDriver::asynPortDriver</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">index</td><td>Parameter number </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">type</td><td>Parameter type </td></tr>
   </table>
   </dd>
 </dl>
@@ -2575,7 +2748,7 @@ Friends</h2></td></tr>
 <p>Calls <a class="el" href="classparam_list.html#a891e60b55c76e720dd825c81b97958e9" title="Returns the value for a string from the parameter library. ">paramList::getString</a> (index, maxChars, value) for the parameter list indexed by list. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The parameter list number. Must be &lt; maxAddr passed to <a class="el" href="classasyn_port_driver.html#acf77e873fc4fdbd8d07154ef80dc38b8" title="Constructor for the asynPortDriver class. ">asynPortDriver::asynPortDriver</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The parameter list number. Must be &lt; maxAddr passed to <a class="el" href="classasyn_port_driver.html#ad7646f2d6e8d29ce1a9071719b59cf03" title="Constructor for the asynPortDriver class. ">asynPortDriver::asynPortDriver</a>. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">index</td><td>The parameter number </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">maxChars</td><td>Maximum number of characters to return. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">value</td><td>Address of value to get. </td></tr>
@@ -2671,7 +2844,7 @@ Friends</h2></td></tr>
 <p>Calls <a class="el" href="classparam_list.html#a891e60b55c76e720dd825c81b97958e9" title="Returns the value for a string from the parameter library. ">paramList::getString</a> (index, value) for the parameter list indexed by list. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The parameter list number. Must be &lt; maxAddr passed to <a class="el" href="classasyn_port_driver.html#acf77e873fc4fdbd8d07154ef80dc38b8" title="Constructor for the asynPortDriver class. ">asynPortDriver::asynPortDriver</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The parameter list number. Must be &lt; maxAddr passed to <a class="el" href="classasyn_port_driver.html#ad7646f2d6e8d29ce1a9071719b59cf03" title="Constructor for the asynPortDriver class. ">asynPortDriver::asynPortDriver</a>. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">index</td><td>The parameter number </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">value</td><td>String value to get. </td></tr>
   </table>
@@ -2810,7 +2983,7 @@ Friends</h2></td></tr>
 <p>Gets the interrupt mask and reason in the parameter library Calls <a class="el" href="classparam_list.html#a2b40b46c0399af6c7bba3a545b5c3452" title="Returns the UInt32Interrupt from the parameter library. ">paramList::getUInt32Interrupt</a> (index, mask, reason) for the parameter list indexed by list. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The parameter list number. Must be &lt; maxAddr passed to <a class="el" href="classasyn_port_driver.html#acf77e873fc4fdbd8d07154ef80dc38b8" title="Constructor for the asynPortDriver class. ">asynPortDriver::asynPortDriver</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The parameter list number. Must be &lt; maxAddr passed to <a class="el" href="classasyn_port_driver.html#ad7646f2d6e8d29ce1a9071719b59cf03" title="Constructor for the asynPortDriver class. ">asynPortDriver::asynPortDriver</a>. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">index</td><td>The parameter number </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">mask</td><td>Interrupt mask. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">reason</td><td>Interrupt reason. </td></tr>
@@ -2919,13 +3092,86 @@ Friends</h2></td></tr>
 <p>Calls <a class="el" href="classparam_list.html#a8fe749d2526682c9e96b34f2dbb48a00" title="Returns the value for an integer from the parameter library. ">paramList::getUInt32</a> (index, value, mask) for the parameter list indexed by list. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The parameter list number. Must be &lt; maxAddr passed to <a class="el" href="classasyn_port_driver.html#acf77e873fc4fdbd8d07154ef80dc38b8" title="Constructor for the asynPortDriver class. ">asynPortDriver::asynPortDriver</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The parameter list number. Must be &lt; maxAddr passed to <a class="el" href="classasyn_port_driver.html#ad7646f2d6e8d29ce1a9071719b59cf03" title="Constructor for the asynPortDriver class. ">asynPortDriver::asynPortDriver</a>. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">index</td><td>The parameter number </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">value</td><td>Address of value to get. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">mask</td><td>The mask to apply when getting the value. </td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a class="anchor" id="a230cae9924570dc696bc031cadb9394e"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void asynPortDriver::initialize </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>portNameIn</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>maxAddrIn</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>interfaceMask</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>interruptMask</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>asynFlags</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>autoConnect</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>priority</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>stackSize</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The following function is required to initialize from two constructors. </p>
+<p>Once we can rely on C++11 this code can be moved back into the primary constructor. The secondary constructor can then be converted into a delegating constructor. </p>
 
 </div>
 </div>
@@ -3720,7 +3966,7 @@ Friends</h2></td></tr>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">status</td><td>The error status. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">index</td><td>The parameter number </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The parameter list number. Must be &lt; maxAddr passed to <a class="el" href="classasyn_port_driver.html#acf77e873fc4fdbd8d07154ef80dc38b8" title="Constructor for the asynPortDriver class. ">asynPortDriver::asynPortDriver</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The parameter list number. Must be &lt; maxAddr passed to <a class="el" href="classasyn_port_driver.html#ad7646f2d6e8d29ce1a9071719b59cf03" title="Constructor for the asynPortDriver class. ">asynPortDriver::asynPortDriver</a>. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">functionName</td><td>The name of the function that generated the error </td></tr>
   </table>
   </dd>
@@ -3820,7 +4066,7 @@ Friends</h2></td></tr>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">status</td><td>The error status. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">index</td><td>The parameter number </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The parameter list number. Must be &lt; maxAddr passed to <a class="el" href="classasyn_port_driver.html#acf77e873fc4fdbd8d07154ef80dc38b8" title="Constructor for the asynPortDriver class. ">asynPortDriver::asynPortDriver</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The parameter list number. Must be &lt; maxAddr passed to <a class="el" href="classasyn_port_driver.html#ad7646f2d6e8d29ce1a9071719b59cf03" title="Constructor for the asynPortDriver class. ">asynPortDriver::asynPortDriver</a>. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">functionName</td><td>The name of the function that generated the error </td></tr>
   </table>
   </dd>
@@ -3914,7 +4160,7 @@ Friends</h2></td></tr>
 <p>Calls <a class="el" href="classparam_list.html#afefeefad32cbcb03592d3531be974d29" title="Sets the value for a double in the parameter library. ">paramList::setDouble</a> (index, value) for the parameter list indexed by list. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The parameter list number. Must be &lt; maxAddr passed to <a class="el" href="classasyn_port_driver.html#acf77e873fc4fdbd8d07154ef80dc38b8" title="Constructor for the asynPortDriver class. ">asynPortDriver::asynPortDriver</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The parameter list number. Must be &lt; maxAddr passed to <a class="el" href="classasyn_port_driver.html#ad7646f2d6e8d29ce1a9071719b59cf03" title="Constructor for the asynPortDriver class. ">asynPortDriver::asynPortDriver</a>. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">index</td><td>The parameter number </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>Value to set. </td></tr>
   </table>
@@ -4060,7 +4306,7 @@ Friends</h2></td></tr>
 <p>Calls <a class="el" href="classparam_list.html#ac9b677e6f1c3f74e83fb76ffc70b3be3" title="Sets the value for an integer in the parameter library. ">paramList::setInteger</a> (index, value) for the parameter list indexed by list. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The parameter list number. Must be &lt; maxAddr passed to <a class="el" href="classasyn_port_driver.html#acf77e873fc4fdbd8d07154ef80dc38b8" title="Constructor for the asynPortDriver class. ">asynPortDriver::asynPortDriver</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The parameter list number. Must be &lt; maxAddr passed to <a class="el" href="classasyn_port_driver.html#ad7646f2d6e8d29ce1a9071719b59cf03" title="Constructor for the asynPortDriver class. ">asynPortDriver::asynPortDriver</a>. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">index</td><td>The parameter number </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>Value to set. </td></tr>
   </table>
@@ -4257,7 +4503,7 @@ Friends</h2></td></tr>
 <p>Calls paramList::setAlarmSeverity(index, status) for the parameter list indexed by list. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The parameter list number. Must be &lt; maxAddr passed to <a class="el" href="classasyn_port_driver.html#acf77e873fc4fdbd8d07154ef80dc38b8" title="Constructor for the asynPortDriver class. ">asynPortDriver::asynPortDriver</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The parameter list number. Must be &lt; maxAddr passed to <a class="el" href="classasyn_port_driver.html#ad7646f2d6e8d29ce1a9071719b59cf03" title="Constructor for the asynPortDriver class. ">asynPortDriver::asynPortDriver</a>. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">index</td><td>The parameter number </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">alarmSeverity</td><td>Severity to set. </td></tr>
   </table>
@@ -4352,7 +4598,7 @@ Friends</h2></td></tr>
 <p>Calls paramList::setAlarmStatus(index, status) for the parameter list indexed by list. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The parameter list number. Must be &lt; maxAddr passed to <a class="el" href="classasyn_port_driver.html#acf77e873fc4fdbd8d07154ef80dc38b8" title="Constructor for the asynPortDriver class. ">asynPortDriver::asynPortDriver</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The parameter list number. Must be &lt; maxAddr passed to <a class="el" href="classasyn_port_driver.html#ad7646f2d6e8d29ce1a9071719b59cf03" title="Constructor for the asynPortDriver class. ">asynPortDriver::asynPortDriver</a>. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">index</td><td>The parameter number </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">alarmStatus</td><td>Status to set. </td></tr>
   </table>
@@ -4447,7 +4693,7 @@ Friends</h2></td></tr>
 <p>Calls paramList::setStatus(index, status) for the parameter list indexed by list. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The parameter list number. Must be &lt; maxAddr passed to <a class="el" href="classasyn_port_driver.html#acf77e873fc4fdbd8d07154ef80dc38b8" title="Constructor for the asynPortDriver class. ">asynPortDriver::asynPortDriver</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The parameter list number. Must be &lt; maxAddr passed to <a class="el" href="classasyn_port_driver.html#ad7646f2d6e8d29ce1a9071719b59cf03" title="Constructor for the asynPortDriver class. ">asynPortDriver::asynPortDriver</a>. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">index</td><td>The parameter number </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">paramStatus</td><td>Status to set. </td></tr>
   </table>
@@ -4542,7 +4788,7 @@ Friends</h2></td></tr>
 <p>Calls <a class="el" href="classparam_list.html#afbd657062854b28751627288d0501b43" title="Sets the value for a string in the parameter library. ">paramList::setString</a> (index, value) for the parameter list indexed by list. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The parameter list number. Must be &lt; maxAddr passed to <a class="el" href="classasyn_port_driver.html#acf77e873fc4fdbd8d07154ef80dc38b8" title="Constructor for the asynPortDriver class. ">asynPortDriver::asynPortDriver</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The parameter list number. Must be &lt; maxAddr passed to <a class="el" href="classasyn_port_driver.html#ad7646f2d6e8d29ce1a9071719b59cf03" title="Constructor for the asynPortDriver class. ">asynPortDriver::asynPortDriver</a>. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">index</td><td>The parameter number </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>Address of value to set. </td></tr>
   </table>
@@ -4637,7 +4883,7 @@ Friends</h2></td></tr>
 <p>Calls <a class="el" href="classparam_list.html#afbd657062854b28751627288d0501b43" title="Sets the value for a string in the parameter library. ">paramList::setString</a> (index, value) for the parameter list indexed by list. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The parameter list number. Must be &lt; maxAddr passed to <a class="el" href="classasyn_port_driver.html#acf77e873fc4fdbd8d07154ef80dc38b8" title="Constructor for the asynPortDriver class. ">asynPortDriver::asynPortDriver</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The parameter list number. Must be &lt; maxAddr passed to <a class="el" href="classasyn_port_driver.html#ad7646f2d6e8d29ce1a9071719b59cf03" title="Constructor for the asynPortDriver class. ">asynPortDriver::asynPortDriver</a>. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">index</td><td>The parameter number </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>String value to set. </td></tr>
   </table>
@@ -4776,7 +5022,7 @@ Friends</h2></td></tr>
 <p>Sets the interrupt mask and reason in the parameter library Calls <a class="el" href="classparam_list.html#a30ca684031570cacd8a5ff1f118524f9" title="Sets the value of the UInt32Interrupt in the parameter library. ">paramList::setUInt32Interrupt</a> (index, mask, reason) for the parameter list indexed by list. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The parameter list number. Must be &lt; maxAddr passed to <a class="el" href="classasyn_port_driver.html#acf77e873fc4fdbd8d07154ef80dc38b8" title="Constructor for the asynPortDriver class. ">asynPortDriver::asynPortDriver</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The parameter list number. Must be &lt; maxAddr passed to <a class="el" href="classasyn_port_driver.html#ad7646f2d6e8d29ce1a9071719b59cf03" title="Constructor for the asynPortDriver class. ">asynPortDriver::asynPortDriver</a>. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">index</td><td>The parameter number </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">mask</td><td>Interrupt mask. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">reason</td><td>Interrupt reason. </td></tr>
@@ -4885,7 +5131,7 @@ Friends</h2></td></tr>
 <p>Calls paramList::setUIntDigitalParam(list, index, value, valueMask, 0) for the parameter list indexed by list. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The parameter list number. Must be &lt; maxAddr passed to <a class="el" href="classasyn_port_driver.html#acf77e873fc4fdbd8d07154ef80dc38b8" title="Constructor for the asynPortDriver class. ">asynPortDriver::asynPortDriver</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The parameter list number. Must be &lt; maxAddr passed to <a class="el" href="classasyn_port_driver.html#ad7646f2d6e8d29ce1a9071719b59cf03" title="Constructor for the asynPortDriver class. ">asynPortDriver::asynPortDriver</a>. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">index</td><td>The parameter number </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>Value to set. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">valueMask</td><td>The mask to use when setting the value. </td></tr>
@@ -5007,7 +5253,7 @@ Friends</h2></td></tr>
 <p>Calls <a class="el" href="classparam_list.html#ac9b677e6f1c3f74e83fb76ffc70b3be3" title="Sets the value for an integer in the parameter library. ">paramList::setInteger</a> (index, value) for the parameter list indexed by list. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The parameter list number. Must be &lt; maxAddr passed to <a class="el" href="classasyn_port_driver.html#acf77e873fc4fdbd8d07154ef80dc38b8" title="Constructor for the asynPortDriver class. ">asynPortDriver::asynPortDriver</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The parameter list number. Must be &lt; maxAddr passed to <a class="el" href="classasyn_port_driver.html#ad7646f2d6e8d29ce1a9071719b59cf03" title="Constructor for the asynPortDriver class. ">asynPortDriver::asynPortDriver</a>. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">index</td><td>The parameter number </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>Value to set </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">valueMask</td><td>The mask to use when setting the value. </td></tr>
@@ -5813,8 +6059,8 @@ Friends</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>/home/epics/devel/asyn-R4-31/asyn/asynPortDriver/<a class="el" href="asyn_port_driver_8h_source.html">asynPortDriver.h</a></li>
-<li>/home/epics/devel/asyn-R4-31/asyn/asynPortDriver/<a class="el" href="asyn_port_driver_8cpp.html">asynPortDriver.cpp</a></li>
+<li>/home/epics/devel/asyn-R4-33/asyn/asynPortDriver/<a class="el" href="asyn_port_driver_8h_source.html">asynPortDriver.h</a></li>
+<li>/home/epics/devel/asyn-R4-33/asyn/asynPortDriver/<a class="el" href="asyn_port_driver_8cpp.html">asynPortDriver.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

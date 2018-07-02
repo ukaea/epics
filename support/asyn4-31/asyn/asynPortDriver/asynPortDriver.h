@@ -40,8 +40,10 @@ typedef void (*userTimeStampFunction)(void *userPvt, epicsTimeStamp *pTimeStamp)
   * with standard asyn interfaces and a parameter library. */
 class epicsShareClass asynPortDriver {
 public:
-    asynPortDriver(const char *portName, int maxAddr, int paramTableSize, int interfaceMask, int interruptMask,
+    asynPortDriver(const char *portName, int maxAddr, int interfaceMask, int interruptMask,
                    int asynFlags, int autoConnect, int priority, int stackSize);
+    asynPortDriver(const char *portName, int maxAddr, int paramTableSize, int interfaceMask, int interruptMask,
+                   int asynFlags, int autoConnect, int priority, int stackSize) EPICS_DEPRECATED;
     virtual ~asynPortDriver();
     virtual asynStatus lock();
     virtual asynStatus unlock();
@@ -118,6 +120,8 @@ public:
     virtual asynStatus findParam(int list, const char *name, int *index);
     virtual asynStatus getParamName(          int index, const char **name);
     virtual asynStatus getParamName(int list, int index, const char **name);
+    virtual asynStatus getParamType(          int index, asynParamType *type);
+    virtual asynStatus getParamType(int list, int index, asynParamType *type);
     virtual asynStatus setParamStatus(          int index, asynStatus status);
     virtual asynStatus setParamStatus(int list, int index, asynStatus status);
     virtual asynStatus getParamStatus(          int index, asynStatus *status);
@@ -150,8 +154,8 @@ public:
     virtual asynStatus setStringParam(int list, int index, const char *value);
     virtual asynStatus setStringParam(          int index, const std::string& value);
     virtual asynStatus setStringParam(int list, int index, const std::string& value);
-    virtual asynStatus getIntegerParam(          int index, int * value);
-    virtual asynStatus getIntegerParam(int list, int index, int * value);
+    virtual asynStatus getIntegerParam(          int index, epicsInt32 * value);
+    virtual asynStatus getIntegerParam(int list, int index, epicsInt32 * value);
     virtual asynStatus getUIntDigitalParam(          int index, epicsUInt32 *value, epicsUInt32 mask);
     virtual asynStatus getUIntDigitalParam(int list, int index, epicsUInt32 *value, epicsUInt32 mask);
     virtual asynStatus getDoubleParam(          int index, double * value);
@@ -176,6 +180,8 @@ public:
     void callbackTask();
 
 protected:
+    void initialize(const char *portNameIn, int maxAddrIn, int interfaceMask, int interruptMask, int asynFlags,
+                    int autoConnect, int priority, int stackSize);
     asynUser *pasynUserSelf;    /**< asynUser connected to ourselves for asynTrace */
     asynStandardInterfaces asynStdInterfaces;   /**< The asyn interfaces this driver implements */
 

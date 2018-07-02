@@ -2,10 +2,6 @@
 FILENAME...     motorRecord.cc
 USAGE...        Motor Record Support.
 
-Version:        $Revision: 19129 $
-Modified By:    $Author: sluiter $
-Last Modified:  $Date: 2015-03-13 20:29:07 +0000 (Fri, 13 Mar 2015) $
-HeadURL:        $URL: https://subversion.xray.aps.anl.gov/synApps/motor/trunk/motorApp/MotorSrc/motorRecord.cc $
 */
 
 /*
@@ -184,9 +180,15 @@ HeadURL:        $URL: https://subversion.xray.aps.anl.gov/synApps/motor/trunk/mo
  *                  - Reversed order of issuing SET_VEL_BASE and SET_VELOCITY commands. Fixes MAXv
  *                    command errors.
  * .71 02-25-15 rls - Fix for excessive motor record forward link processing.
- * 
  * .72 03-13-15 rls - Changed RDBL to set RRBV rather than DRBV.
- * 
+ * .73 02-15-16 rls - JOGF/R soft limit error check was using the wrong coordinate sytem limits.
+ *                    Changed error checks from dial to user limits.
+ * .74 09-28-16 rls - Reverted .71 FLNK change. Except for the condition that DMOV == FALSE, FLNK
+ *                    processing was standard. If processing is needed on a DMOV false to true
+ *                    transition, a new motor record field should be added.
+ * .75 05-18-17 rls - Stop motor if URIP is Yes and RDBL read returns an error. 
+ * .76 04-04-18 rls - If URIP is Yes and RDBL is inaccessible (e.g., CA server is down), do not start
+ *                    a new target position move (sans Home search or Jog). 
  */                                                          
 
 #define VERSION 6.10
@@ -468,7 +470,7 @@ static void callbackFunc(struct callback *pcb)
     {
         pmr->mip &= ~MIP_DELAY_REQ;     /* Turn off REQ. */
         pmr->mip |= MIP_DELAY_ACK;      /* Turn on ACK. */
-#if LT_EPICSBASE(3,14,10)
+#if LT_EPICSBASE(3,14,10,0)
 	scanOnce(pmr);
 #else
 	scanOnce((struct dbCommon *) pmr);
@@ -787,7 +789,7 @@ static long postProcess(motorRecord * pmr)
             double vbase = pmr->vbas / fabs(pmr->mres);
             double hpos = 0;
             double hvel =  pmr->hvel / fabs(pmr->mres);
-            double acc = (hvel - vbase) / pmr->accl;
+            double acc = (hvel - vbase) > 0 ? ((hvel - vbase)/ pmr->accl): (hvel / pmr->accl);
 
             motor_cmnd command;
 
@@ -859,7 +861,7 @@ static long postProcess(motorRecord * pmr)
 
             if (pmr->mip & MIP_JOG_STOP)
             {
-                double acc = (vel - vbase) / pmr->accl;
+                double acc = (vel - vbase) > 0 ? ((vel - vbase)/ pmr->accl) : (vel / pmr->accl);
 
                 if (vel <= vbase)
                     vel = vbase + 1;
@@ -876,7 +878,7 @@ static long postProcess(motorRecord * pmr)
             else
             {
                 double bvel = pmr->bvel / fabs(pmr->mres);
-                double bacc = (bvel - vbase) / pmr->bacc;
+                double bacc = (bvel - vbase) > 0 ? ((bvel - vbase)/ pmr->bacc) : (bvel / pmr->bacc);
 
                 if (bvel <= vbase)
                     bvel = vbase + 1;
@@ -912,7 +914,7 @@ static long postProcess(motorRecord * pmr)
         /* First part of jog done. Do backlash correction. */
         double bvel = pmr->bvel / fabs(pmr->mres);
         double vbase = pmr->vbas / fabs(pmr->mres);
-        double bacc = (bvel - vbase) / pmr->bacc;
+        double bacc = (bvel - vbase) > 0 ? ((bvel - vbase)/ pmr->bacc) : (bvel / pmr->bacc);
         double bpos = (pmr->dval - pmr->bdst) / pmr->mres;
 
         /* Use if encoder or ReadbackLink is in use. */
@@ -1122,8 +1124,7 @@ LOGIC:
             ENDIF
             IF a limit switch is activated, OR, a load-position command is in progress (MIP = MIP_LOAD_P)
                 Set MIP to DONE and MARK it.
-            ELSE
-                Initialize delay ticks.
+            ELSE IF Done Moving (DMOV) is TRUE
                 IF process delay acknowledged is true, OR, ticks <= 0.
                     Clear process delay request and ack. indicators in MIP field.
                     Mark MIP as changed.
@@ -1168,10 +1169,10 @@ Exit:
     Update record timestamp, call recGblGetTimeStamp().
     Process alarms, call alarm_sub().
     Monitor changes to record fields, call monitor().
-    IF Done Moving field (DMOV) is TRUE, AND, Last Done Moving (LDMV) was False.
+ 
+    IF Done Moving field (DMOV) is TRUE
         Process the forward-scan-link record, call recGblFwdLink().
     ENDIF
-    Update Last Done Moving (LDMV).
     Set Processing Active indicator field (PACT) false.
     Exit.
 
@@ -1313,7 +1314,7 @@ static long process(dbCommon *arg)
                 pmr->mip = MIP_DONE;
                 MARK(M_MIP);
             }
-            else
+            else if (pmr->dmov == TRUE)
             {
                 mmap_bits.All = pmr->mmap; /* Initialize for MARKED. */
 
@@ -1371,8 +1372,8 @@ enter_do_work:
     else
     {
         if (pmr->mip & MIP_JOG)
-            pmr->lvio = (pmr->jogf && (pmr->drbv > pmr->dhlm - pmr->jvel)) ||
-                        (pmr->jogr && (pmr->drbv < pmr->dllm + pmr->jvel));
+            pmr->lvio = (pmr->jogf && (pmr->rbv > pmr->hlm - pmr->jvel)) ||
+                        (pmr->jogr && (pmr->rbv < pmr->llm + pmr->jvel));
         else if (pmr->mip & MIP_HOME)
             pmr->lvio = false;  /* Disable soft-limit error check during home search. */
     }
@@ -1380,7 +1381,7 @@ enter_do_work:
     if (pmr->lvio != old_lvio)
     {
         MARK(M_LVIO);
-        if (pmr->lvio && !pmr->set)
+        if (pmr->lvio && (!pmr->set && !pmr->igset))
         {
             pmr->stop = 1;
             MARK(M_STOP);
@@ -1411,9 +1412,8 @@ process_exit:
     alarm_sub(pmr);                     /* If we've violated alarm limits, yell. */
     monitor(pmr);               /* If values have changed, broadcast them. */
 
-    if (pmr->dmov != 0 && pmr->ldmv == 0)   /* Test for False to True transition. */
+    if (pmr->dmov != 0)
         recGblFwdLink(pmr);                 /* Process the forward-scan-link record. */
-    pmr->ldmv = pmr->dmov;
 
     pmr->pact = 0;
     Debug(4, "process:---------------------- end; motor \"%s\"\n", pmr->name);
@@ -1630,6 +1630,8 @@ LOGIC:
 
             IF this is not a retry.
                 Reset retry counter and mark RCNT for dbposting.
+            ELSE
+                Process retry based on retry mode (RMOD).
             ENDIF
             
             IF (relative move indicator is OFF, AND, sign of absolute move
@@ -1641,16 +1643,23 @@ LOGIC:
                 Set preferred direction indicator OFF.
             ENDIF
             
-            IF the dial DIFF is within the retry deadband.
-                IF MIP state is DONE.
-                    Update last target positions.
-                    Terminate move. Set DMOV TRUE.
-                ENDIF               
-                NORMAL RETURN.
+            Process soft-travel limit.
+ 
+            IF URIP is set to Yes
+                Test and set indicator on RDBL access in case it is a CA link that is down.
+            ENDIF
+            IF soft-travel limit error, OR, RDBL CA server disconnect error.
+                Restore previous target positions.
+                IF MIP indicates this is a retry.
+                    Set MIP to Done.
+                ENDIF
+                IF MIP indicates Done Moving and DMOV is False
+                    Set DMOV true.
+                ENDIF
             ENDIF
             ....
             ....
-            IF motion in progress indicator is false.
+            IF motion in progress indicator (MIP) is Done or Retry.
                 Set MIP MOVE indicator ON and mark for posting.
                 IF DMOV is TRUE.
                     Set DMOV to FALSE and mark for posting.
@@ -1795,9 +1804,13 @@ static RTN_STATUS do_work(motorRecord * pmr, CALLBACK_VALUE proc_ind)
             /* Cancel any operations. */
             if (pmr->mip & MIP_HOME)
                 clear_buttons(pmr);
-            
-            pmr->mip = MIP_STOP;
-            MARK(M_MIP);
+
+            if (!(pmr->mip & MIP_DELAY_REQ)) {
+               /* When we wait for DLY, keep it. */
+               /* Otherwise the record may lock up */
+                pmr->mip = MIP_STOP;     
+                MARK(M_MIP);
+            }
             INIT_MSG();
             WRITE_MSG(STOP_AXIS, NULL);
             SEND_MSG();
@@ -1871,7 +1884,7 @@ static RTN_STATUS do_work(motorRecord * pmr, CALLBACK_VALUE proc_ind)
             WRITE_MSG(SET_ENC_RATIO, ep_mp);
             SEND_MSG();
         }
-        if (pmr->set)
+        if (pmr->set && !pmr->igset)
         {
             pmr->pp = TRUE;
             INIT_MSG();
@@ -1938,7 +1951,7 @@ static RTN_STATUS do_work(motorRecord * pmr, CALLBACK_VALUE proc_ind)
 
                 vbase = pmr->vbas / fabs(pmr->mres);
                 hvel  = pmr->hvel / fabs(pmr->mres);
-                acc   = (hvel - vbase) / pmr->accl;
+                acc   = (hvel - vbase) > 0 ? ((hvel - vbase) / pmr->accl) : (hvel / pmr->accl);
                 hpos = 0;
 
                 INIT_MSG();
@@ -1977,8 +1990,8 @@ static RTN_STATUS do_work(motorRecord * pmr, CALLBACK_VALUE proc_ind)
             /* check for limit violation */
             if ((pmr->dhlm == pmr->dllm) && (pmr->dllm == 0.0))
                 ;
-            else if ((pmr->jogf && (pmr->dval > pmr->dhlm - pmr->jvel)) ||
-                     (pmr->jogr && (pmr->dval < pmr->dllm + pmr->jvel)))
+            else if ((pmr->jogf && (pmr->val > pmr->hlm - pmr->jvel)) ||
+                     (pmr->jogr && (pmr->val < pmr->llm + pmr->jvel)))
             {
                 pmr->lvio = 1;
                 MARK(M_LVIO);
@@ -2085,7 +2098,7 @@ static RTN_STATUS do_work(motorRecord * pmr, CALLBACK_VALUE proc_ind)
     if (pmr->val != pmr->lval)
     {
         MARK(M_VAL);
-        if (set && !pmr->foff)
+        if ((set && !pmr->igset) && !pmr->foff)
         {
             /*
              * Act directly on .val. and return. User wants to redefine .val
@@ -2135,7 +2148,7 @@ static RTN_STATUS do_work(motorRecord * pmr, CALLBACK_VALUE proc_ind)
 
         pmr->rdif = NINT(pmr->diff / pmr->mres);
         MARK(M_RDIF);
-        if (set)
+        if (set && !pmr->igset)
         {
             if ((pmr->mip & MIP_LOAD_P) == 0) /* Test for LOAD_POS completion. */
                 load_pos(pmr);
@@ -2150,19 +2163,19 @@ static RTN_STATUS do_work(motorRecord * pmr, CALLBACK_VALUE proc_ind)
             double newpos = pmr->dval / pmr->mres;      /* where to go     */
             double vbase = pmr->vbas / fabs(pmr->mres); /* base speed      */
             double vel = pmr->velo / fabs(pmr->mres);   /* normal speed    */
-            double acc = (vel - vbase) / pmr->accl;     /* normal accel.   */
+            double acc = (vel - vbase) > 0 ? ((vel - vbase) / pmr->accl) : (vel / pmr->accl);     /* normal accel.   */
             /*
              * 'bpos' is one backlash distance away from 'newpos'.
              */
             double bpos = (pmr->dval - pmr->bdst) / pmr->mres;
             double bvel = pmr->bvel / fabs(pmr->mres);  /* backlash speed  */
-            double bacc = (bvel - vbase) / pmr->bacc;   /* backlash accel. */
+            double bacc = (bvel - vbase) > 0 ? ((bvel - vbase) / pmr->bacc) : (bvel / pmr->bacc);   /* backlash accel. */
             bool use_rel, preferred_dir, too_small;
             double relpos = pmr->diff / pmr->mres;
             double relbpos = ((pmr->dval - pmr->bdst) - pmr->drbv) / pmr->mres;
             double rbdst1 = 1.0 + (fabs(pmr->bdst) / fabs(pmr->mres));
             long rdbdpos = NINT(pmr->rdbd / fabs(pmr->mres)); /* retry deadband steps */
-            long rpos, npos;
+            long rpos, npos, rtnstat;
             msta_field msta;
             msta.All = pmr->msta;
 
@@ -2281,9 +2294,23 @@ static RTN_STATUS do_work(motorRecord * pmr, CALLBACK_VALUE proc_ind)
                 }
             }
 
+            if (pmr->urip == motorUEIP_Yes)
+            {
+                double test_drbv;
+                rtnstat = dbGetLink(&(pmr->rdbl), DBR_DOUBLE, &test_drbv, 0, 0 );
+                if (RTN_SUCCESS(rtnstat))
+                    rtnstat = TRUE;
+                else
+                    rtnstat = FALSE;
+            }
+            else
+                rtnstat = TRUE;
+
             if (pmr->lvio != old_lvio)
                 MARK(M_LVIO);
-            if (pmr->lvio)
+
+            /* Test for travel limit violation, OR, URIP is True, but CA server is disconnected.*/
+            if (pmr->lvio || rtnstat == FALSE)
             {
                 pmr->val = pmr->lval;
                 MARK(M_VAL);
@@ -2455,7 +2482,6 @@ static long special(DBADDR *paddr, int after)
                 if (pmr->dmov == TRUE)
                 {
                     pmr->dmov = FALSE;
-                    pmr->ldmv = pmr->dmov;
                     db_post_events(pmr, &pmr->dmov, DBE_VAL_LOG);
                 }
                 return(OK);
@@ -3577,7 +3603,16 @@ static void process_motor_info(motorRecord * pmr, bool initcall)
 
         rtnstat = dbGetLink(&(pmr->rdbl), DBR_DOUBLE, &rdblvalue, 0, 0 );
         if (!RTN_SUCCESS(rtnstat))
+        {
             Debug(3, "process_motor_info: error reading RDBL link.\n");
+            if (pmr->mip != MIP_DONE)
+            {
+                /* Error reading RDBL - stop move. */
+                clear_buttons(pmr);
+                pmr->stop = 1;
+                MARK(M_STOP);
+            }
+        }
         else
         {
             pmr->rrbv = NINT((rdblvalue * pmr->rres) / pmr->mres);
@@ -4047,6 +4082,8 @@ static void syncTargetPosition(motorRecord *pmr)
 {
     int dir = (pmr->dir == motorDIR_Pos) ? 1 : -1;
     msta_field msta;
+    double rdblvalue;
+    long rtnstat;
 
     msta.All = pmr->msta;
 
@@ -4056,13 +4093,28 @@ static void syncTargetPosition(motorRecord *pmr)
         pmr->rrbv = pmr->rep;
         pmr->drbv = pmr->rrbv * pmr->eres;
     }
+    else if (pmr->urip)
+    {
+        /* user wants us to use the readback link */
+        rtnstat = dbGetLink(&(pmr->rdbl), DBR_DOUBLE, &rdblvalue, 0, 0 );
+        if (!RTN_SUCCESS(rtnstat))
+            printf("%s: syncTargetPosition: error reading RDBL link.\n", pmr->name);
+        else
+        {
+            pmr->rrbv = NINT((rdblvalue * pmr->rres) / pmr->mres);
+            pmr->drbv = pmr->rrbv * pmr->mres;
+        }
+    }
     else
     {
         pmr->rrbv = pmr->rmp;
         pmr->drbv = pmr->rrbv * pmr->mres;
     }
+    MARK(M_RRBV);
+    MARK(M_DRBV);
     pmr->rbv = pmr->drbv * dir + pmr->off;
-    
+    MARK(M_RBV);
+
     pmr->val  = pmr->lval = pmr->rbv ;
     MARK(M_VAL);
     pmr->dval = pmr->ldvl = pmr->drbv;

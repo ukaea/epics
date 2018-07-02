@@ -3,10 +3,6 @@ FILENAME...	devIM483PL.cc
 USAGE...	Motor record device level support for Intelligent Motion
 		Systems, Inc. IM483(I/IE).
 
-Version:	$Revision: 16590 $
-Modified By:	$Author: sluiter $
-Last Modified:	$Date: 2013-06-17 15:20:08 +0100 (Mon, 17 Jun 2013) $
-HeadURL:	$URL: https://subversion.xray.aps.anl.gov/synApps/motor/trunk/motorApp/ImsSrc/devIM483PL.cc $
 */
 
 /*
@@ -45,6 +41,7 @@ HeadURL:	$URL: https://subversion.xray.aps.anl.gov/synApps/motor/trunk/motorApp/
  */
 
 #include <string.h>
+#include <errlog.h>
 #include "motorRecord.h"
 #include "motor.h"
 #include "motordevCom.h"

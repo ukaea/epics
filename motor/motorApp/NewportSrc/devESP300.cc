@@ -2,10 +2,6 @@
 FILENAME...	devESP300.cc
 USAGE...	Motor record device level support for Newport ESP300.
 
-Version:        $Revision$
-Modified By:    $Author$
-Last Modified:  $Date$
-HeadURL:        $URL$
 */
 
 /*
@@ -42,6 +38,7 @@ HeadURL:        $URL$
 
 #include <string.h>
 #include <math.h>
+#include <errlog.h>
 #include "motorRecord.h"
 #include "motor.h"
 #include "motordevCom.h"
@@ -243,7 +240,7 @@ static RTN_STATUS ESP300_build_trans(motor_cmnd command, double *parms, struct m
 	    sprintf(buff, "%.2dVA%f;", axis, cntrl_units);
 	    break;
 	case SET_ACCEL:
-	    sprintf(buff, "%.2dAC%f;", axis, cntrl_units);
+	    sprintf(buff, "%.2dAC%f;%.2dAG%f;", axis, cntrl_units, axis, cntrl_units);
 	    break;
 	case GO:
 	    /* 

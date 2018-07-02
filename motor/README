@@ -1,3 +1,12 @@
+Notice
+======
+
+This file was historically used to document changes to the motor module that
+were relevant to developers.  It is largely obsolete now that the motor module
+has moved github.  It will not be updated in the future and is likely to move
+to the documentation directory.
+
+
 Motor Module R6-10 Release Notes
 ===============================================================================
 
@@ -147,16 +156,8 @@ Known Problems
 Modification Log for R6-10
 ==========================
 
-1) Alexander Aulin Söderqvist (Cosylab) reported illogical motor record FLNK
-        processing. Corrected FLNK processing so that recGblFwdLink() is only
-        called on a False to True transition of DMOV. Added "Last Done Moving
-        Value" field (LDMV) to the database definition.
-
-        Files modified: motorApp/MotorSrc/motorRecord.cc
-                        motorApp/MotorSrc/motorRecord.dbd
-
-2) Fix for OMS controllers not have the correct deceleration rate at the end
-        of a JOG. Bug introduced with item #9 under R6-6.
+2) Fix for OMS controllers that do not have the correct deceleration rate at
+        the end of a JOG. Bug introduced with item #9 under R6-6.
 
         File modified: OmsSrc/devOmsCom.cc
 
@@ -186,6 +187,38 @@ Modification Log for R6-10
 			motorApp/AerotechSrc/devAerotech.dbd
 			motorApp/NewportSrc/Makefile
 			motorApp/NewportSrc/devNewport.dbd
+
+5) Márcio Paduan Donadio (LNLS) fixed a bug with SYNC field processing. SYNC
+        was being ignored when URIP == True.
+
+	Files modified:	syncTargetPosition() in motorRecord.cc
+
+6) Kevin Peterson discovered an initialization bug when the motor record is
+        configured to do retries. When configured to do retries, the motor
+        record issues incremental rather than absolute moves. If the motor
+        behaves badly (e.g., a piezo stiction motor) the controller's absolute
+        step count can be far from its' absolute readback position. The motor
+        record initialization logic that determines how the target positions
+        are initialized at boot-up was not taking into consideration whether
+        or not the motor record is configured to do retries, and therefore,
+        whether or not absolute or incremental moves were issued by the motor
+        record. With this release, if the motor record is configured to do
+        retries, then the controller's absolute position is ignored (because
+        the controller's absolute position was "corrupted" by retries) and the
+        autosave/restore position is used to set the controllers position.
+
+        Switching between retries on and off (relative vs. absolute moves)
+        between reboots will cause unpredictable results and is not covered
+        by this bug fix.
+
+	Files modified:	motor_init_record_com() in MotorSrc/motordevCom.cc
+	                init_controller()       in MotorSrc/devMotorAsyn.c
+        
+7) The MAXv User's Manual specifies that "The IRQ interrupt level range is
+        0x010-0x111 (IRQ2-7)...". The appropriate error check has been added to
+        the MAXvSetup() call.
+
+	File modified:	OmsSrc/drvMAXv.cc
 
 
 Modification Log for R6-9

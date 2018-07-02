@@ -14,16 +14,16 @@ SUPPORT=\epics/support
 
 # If any motor controller communication mechanism besides the VME backplane is
 # required, then ASYN must be defined.
-# Recommended ASYN release: R4-21
+# Recommended ASYN release: R4-23
 ASYN=$(SUPPORT)/asyn
 
-# Need the sequencer and the bust record for the MM4005 and XPS trajectory scanning
-# Recommended SNCSEQ release: R2-1-12
+# Need the sequencer and the busy record for the MM4005 and XPS trajectory scanning
+# Recommended SNCSEQ release: R2.1.16
 SNCSEQ=$(SUPPORT)/seq
-# Recommended BUSY release: R1-5
+# Recommended BUSY release: R1-6
 BUSY=$(SUPPORT)/busy
 
-# Recommended EPICS release: R3.14.12.1
+# Recommended EPICS release: R3.14.12.4
 EPICS_BASE=\epics/base
 -include $(TOP)/../configure/EPICS_BASE.$(EPICS_HOST_ARCH)
 
@@ -34,7 +34,7 @@ EPICS_BASE=\epics/base
 # <motor>/motorExApp.  To build examples, the top Makefile,
 # <motor>/Makefile must also be edited.
 
-# Recommended IPAC release: R2-11
+# Recommended IPAC release: R2-12
 IPAC=$(SUPPORT)/ipac
 
 # The following is only needed for the motor examples in iocBoot.

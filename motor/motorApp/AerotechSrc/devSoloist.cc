@@ -2,10 +2,6 @@
 * FILENAME... devSoloist.cc
 * USAGE... Motor record device level support for Aerotech Soloist.
 *
-* Version:        $Revision: 10834 $
-* Modified By:    $Author: sluiter $
-* Last Modified:  $Date: 2010-04-29 18:04:39 +0100 (Thu, 29 Apr 2010) $
-* HeadURL:        $URL: https://subversion.xray.aps.anl.gov/synApps/motor/trunk/motorApp/AerotechSrc/devSoloist.cc $
 *
 */
 
@@ -44,6 +40,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
+#include <errlog.h>
 #include "motorRecord.h"
 #include "motor.h"
 #include "motordevCom.h"

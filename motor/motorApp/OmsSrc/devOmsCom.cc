@@ -2,10 +2,6 @@
 FILENAME...     devOmsCom.cc
 USAGE...        Data and functions common to all OMS device level support.
 
-Version:        $Revision: 19104 $
-Modified By:    $Author: sluiter $
-Last Modified:  $Date: 2015-03-13 14:59:54 +0000 (Fri, 13 Mar 2015) $
-HeadURL:        $URL: https://subversion.xray.aps.anl.gov/synApps/motor/trunk/motorApp/OmsSrc/devOmsCom.cc $
 */
 
 /*
@@ -82,6 +78,7 @@ HeadURL:        $URL: https://subversion.xray.aps.anl.gov/synApps/motor/trunk/mo
 #include <epicsThread.h>
 #include <epicsString.h>
 #include <dbAccess.h>
+#include <stdlib.h>
 
 #include "motorRecord.h"
 #include "motor.h"
@@ -267,7 +264,7 @@ RTN_STATUS oms_build_trans(motor_cmnd command, double *parms, struct motorRecord
                     char respbuf[10];
 
                     (*tabptr->getmsg)(card, respbuf, -1);
-                    (*tabptr->sendmsg)(card, "RB\r", (char) NULL);
+                    (*tabptr->sendmsg)(card, "RB\r", (char*) NULL);
                     (*tabptr->getmsg)(card, respbuf, 1);
                     if (sscanf(respbuf, "%x", &response) == 0)
                         response = 0;   /* Force an error. */

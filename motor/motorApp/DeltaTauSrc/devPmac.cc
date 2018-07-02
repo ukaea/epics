@@ -2,9 +2,6 @@
 FILENAME...	devPmac.cc
 USAGE... Device level support for Delta Tau PMAC.
 
-Version:	$Revision: 1.5 $
-Modified By:	$Author: sluiter $
-Last Modified:	$Date: 2008-03-14 20:09:01 $
 */
 
 /*
@@ -41,6 +38,7 @@ Last Modified:	$Date: 2008-03-14 20:09:01 $
 
 #include <string.h>
 #include <math.h>
+#include <errlog.h>
 #include "motorRecord.h"
 #include "motor.h"
 #include "motordevCom.h"

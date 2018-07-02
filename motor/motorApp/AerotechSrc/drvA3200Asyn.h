@@ -2,10 +2,6 @@
 FILENAME...     drvA3200Asyn.h
 USAGE... This file contains Aerotech A3200 Asyn driver "include" information.
 
-Version:        $Revision: 19330 $
-Modified By:    $Author: sluiter $
-Last Modified:  $Date: 2015-04-30 15:31:32 +0100 (Thu, 30 Apr 2015) $
-HeadURL:        $URL: https://subversion.xray.aps.anl.gov/synApps/motor/trunk/motorApp/AerotechSrc/drvA3200Asyn.h $
 */
 
 /*
