@@ -31,16 +31,20 @@ start tt04.bat
 timeout 2 > nul
 )
 
-find "VTPIOC:NT07" runIOCs_tmp.txt > nul
-if not %errorlevel% == 0 (
-start nt07.bat
-timeout 2 > nul
-)
+REM Removed running of VTP IOCs for pumps NT07 and NT10
+REM because these Agilent turbopumps now replaced by
+REM Edwards turbopumps. (MHC 02 Jul 2018).
 
-find "VTPIOC:NT10" runIOCs_tmp.txt > nul
-if not %errorlevel% == 0 (
-start nt10.bat
-timeout 2 > nul
-)
+REM find "VTPIOC:NT07" runIOCs_tmp.txt > nul
+REM if not %errorlevel% == 0 (
+REM start nt07.bat
+REM timeout 2 > nul
+REM )
+
+REM find "VTPIOC:NT10" runIOCs_tmp.txt > nul
+REM if not %errorlevel% == 0 (
+REM start nt10.bat
+REM timeout 2 > nul
+REM )
 
 exit

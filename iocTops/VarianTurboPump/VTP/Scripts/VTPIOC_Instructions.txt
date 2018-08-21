@@ -1,7 +1,7 @@
 VTP IOC OPERATING INSTRUCTIONS
 ==============================
 
-The Varian Turbo Pump (VTP) Input Output Controllers (IOCs) allow monitoring and control of multiple Agilent Turbo-V 2300 turbo-pumps, namely: TT01, TT02, TT03, TT04, NT07, and NT10.
+The Varian Turbo Pump (VTP) Input Output Controllers (IOCs) allow monitoring and control of multiple Agilent Turbo-V 2300 turbo-pumps, namely: TT01, TT02, TT03, and TT04.
 
 
 Starting the IOCs
