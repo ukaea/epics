@@ -152,6 +152,10 @@ typedef struct xmlNanoHTTPCtxt {
     char *authHeader;	/* contents of {WWW,Proxy}-Authenticate header */
     char *encoding;	/* encoding extracted from the contentType */
     char *mimeType;	/* Mime-Type extracted from the contentType */
+	char *boundaryName; /* for mjpeg streams, the name of the frame boundary header */
+	int frameSize;	/* for mjpeg streams, the size of the image */
+	xmlNanoFrameStates frameState;
+	int bytesOfFrame; /* form mjpeg streams, byte count within the image */
 #ifdef HAVE_ZLIB_H
     z_stream *strm;	/* Zlib stream object */
     int usesGzip;	/* "Content-Encoding: gzip" was detected */
@@ -400,6 +404,7 @@ xmlNanoHTTPNewCtxt(const char *URL) {
     ret->returnValue = 0;
     ret->fd = INVALID_SOCKET;
     ret->ContentLength = -1;
+	ret->frameSize = -1; /* infinite frame size */
 
     xmlNanoHTTPScanURL(ret, URL);
 
@@ -425,6 +430,7 @@ xmlNanoHTTPFreeCtxt(xmlNanoHTTPCtxtPtr ctxt) {
     if (ctxt->contentType != NULL) xmlFree(ctxt->contentType);
     if (ctxt->encoding != NULL) xmlFree(ctxt->encoding);
     if (ctxt->mimeType != NULL) xmlFree(ctxt->mimeType);
+	if (ctxt->boundaryName != NULL) xmlFree(ctxt->boundaryName);
     if (ctxt->location != NULL) xmlFree(ctxt->location);
     if (ctxt->authHeader != NULL) xmlFree(ctxt->authHeader);
 #ifdef HAVE_ZLIB_H
@@ -512,6 +518,111 @@ xmlNanoHTTPSend(xmlNanoHTTPCtxtPtr ctxt, const char *xmt_ptr, int outlen)
     return total_sent;
 }
 
+static void xmlReadLn(xmlNanoHTTPCtxtPtr ctxt)
+{
+	while ((*ctxt->inrptr != '\r') && (*ctxt->inrptr != '\n') && (ctxt->inptr > ctxt->inrptr))
+		ctxt->inrptr++;
+	if (((*ctxt->inrptr == '\r') || (*ctxt->inrptr == '\n')) && (ctxt->inptr > ctxt->inrptr))
+	{
+		*ctxt->inrptr = 0;
+		ctxt->inrptr++;
+	}
+	if ((*ctxt->inrptr == '\n') && (ctxt->inptr > ctxt->inrptr))
+		ctxt->inrptr++;
+}
+
+static int
+xmlNanoHTTPDataAvailable(xmlNanoHTTPCtxtPtr ctxt) {
+	return ctxt->inptr - ctxt->inrptr;
+}
+
+static int
+xmlNanoHTTPFrameAvailable	(xmlNanoHTTPCtxtPtr ctxt) {
+	return ((ctxt->frameState == FoundStart) && (ctxt->bytesOfFrame + xmlNanoHTTPDataAvailable(ctxt) >= ctxt->frameSize));
+}
+
+int
+xmlNanoHTTPFrameState	(void *ctx) {
+	xmlNanoHTTPCtxtPtr ctxt = (xmlNanoHTTPCtxtPtr) ctx;
+	return ctxt->frameState;
+}
+
+int
+xmlNanoHTTPStreaming	(void *ctx) {
+	xmlNanoHTTPCtxtPtr ctxt = (xmlNanoHTTPCtxtPtr) ctx;
+	return (ctxt->boundaryName != NULL);
+}
+
+static void xmlParseJpegHeader(xmlNanoHTTPCtxtPtr ctxt)
+{
+	int boundaryNameLen = strlen(ctxt->boundaryName);
+	const int contentTypeLen = strlen("Content-Type:");
+	const char* boundaryName = NULL;
+	const char* contentLength = NULL;
+	ctxt->frameState = Idle;
+	if (xmlNanoHTTPDataAvailable(ctxt) > boundaryNameLen)
+	{
+		if (ctxt->inrptr[0] == '\r')
+			ctxt->inrptr++;
+		if (ctxt->inrptr[0] == '\n')
+			ctxt->inrptr++;
+		if ((ctxt->inrptr[0] == '-') && (ctxt->inrptr[1] == '-'))
+			ctxt->inrptr += 2;
+		boundaryName = ctxt->inrptr;
+		ctxt->inrptr += boundaryNameLen;
+		xmlReadLn(ctxt);
+	}
+	if ((boundaryName) && (xmlStrncmp(ctxt->boundaryName, boundaryName, boundaryNameLen) == 0)) {
+		const char* contentType = NULL;
+		const int contentLengthLen = strlen("Content-length:");
+		if (xmlNanoHTTPDataAvailable(ctxt) > contentTypeLen)
+		{
+			ctxt->inrptr += contentTypeLen;
+			if (ctxt->inrptr[0] == ' ')
+				/* Some cameras have a space after the colon */
+				ctxt->inrptr++;
+			contentType = ctxt->inrptr;
+			xmlReadLn(ctxt);
+			if (ctxt->contentType)
+			{
+				xmlFree(ctxt->contentType);
+				ctxt->contentType = NULL;
+			}
+			ctxt->contentType = xmlMemStrdup(contentType);
+			if (xmlNanoHTTPDataAvailable(ctxt) > contentLengthLen)
+			{
+				ctxt->inrptr += contentLengthLen;
+				if (ctxt->inrptr[0] == ':')
+					/* Some cameras have a space before the colon. */
+					ctxt->inrptr++;
+				contentLength = ctxt->inrptr;
+			}
+		}
+		if (contentLength)
+		{
+			short SOI;
+			ctxt->frameSize = strtol(contentLength, NULL, 10);
+			xmlReadLn(ctxt);
+			xmlReadLn(ctxt); /* 2 end-of-lines here. */
+			if (ctxt->last < 0)
+				ctxt->last = 0;
+			if (xmlNanoHTTPDataAvailable(ctxt) >= sizeof(short))
+			{
+				SOI = *(short*)ctxt->inrptr;
+				if (SOI == (short)0xD8FF)
+					ctxt->frameState = FoundStart;
+				else
+				{
+					ctxt->frameState = Error;
+					__xmlIOErr(XML_FROM_HTTP, XML_ERR_INVALID_ENCODING, "Missing SOI in JPEG");
+				}
+			}
+		}
+	}
+	if (!contentLength)
+		ctxt->frameState = Error;
+}
+
 /**
  * xmlNanoHTTPRecv:
  * @ctxt:  an HTTP context
@@ -546,7 +657,7 @@ xmlNanoHTTPRecv(xmlNanoHTTPCtxtPtr ctxt)
         }
         if (ctxt->inrptr > ctxt->in + XML_NANO_HTTP_CHUNK) {
             int delta = ctxt->inrptr - ctxt->in;
-            int len = ctxt->inptr - ctxt->inrptr;
+            int len = xmlNanoHTTPDataAvailable(ctxt);
 
             memmove(ctxt->in, ctxt->inrptr, len);
             ctxt->inrptr -= delta;
@@ -572,12 +683,9 @@ xmlNanoHTTPRecv(xmlNanoHTTPCtxtPtr ctxt)
             ctxt->inrptr = ctxt->in + d_inrptr;
         }
         ctxt->last = recv(ctxt->fd, ctxt->inptr, XML_NANO_HTTP_CHUNK, 0);
-        if (ctxt->last > 0) {
+        if (ctxt->last >= 0) {
             ctxt->inptr += ctxt->last;
             return (ctxt->last);
-        }
-        if (ctxt->last == 0) {
-            return (0);
         }
         if (ctxt->last == -1) {
             switch (socket_errno()) {
@@ -748,6 +856,20 @@ xmlNanoHTTPScanAnswer(xmlNanoHTTPCtxtPtr ctxt, const char *line) {
 	if (ctxt->mimeType != NULL)
 	    xmlFree(ctxt->mimeType);
 	ctxt->mimeType = (char *) xmlStrndup(mime, last - mime);
+	if (strcmp(ctxt->mimeType, "multipart/x-mixed-replace") == 0)
+	{
+		// Some cameras have 'boundary =<boundaryname>', some have 'boundary=<boundaryname>'.
+		// Moreover, some cameras have 'boundary =--<boundaryname>'.
+		const char* boundaryName = xmlStrstr(BAD_CAST ctxt->contentType, BAD_CAST "boundary");
+		if (boundaryName != NULL)
+			boundaryName = xmlStrstr(BAD_CAST boundaryName, BAD_CAST "=");
+		if (boundaryName!= NULL) {
+			boundaryName += 1; /* discard '=' char */
+			if ((strlen(boundaryName) >= 2) && (boundaryName[0] == '-') && (boundaryName[1] == '-'))
+				boundaryName += 2;
+			ctxt->boundaryName = xmlMemStrdup(boundaryName);
+		}
+	}
 	charset = xmlStrstr(BAD_CAST ctxt->contentType, BAD_CAST "charset=");
 	if (charset != NULL) {
 	    charset += 8;
@@ -1281,30 +1403,87 @@ xmlNanoHTTPRead(void *ctx, void *dest, int len) {
 
         ctxt->strm->next_out = dest;
         ctxt->strm->avail_out = len;
-	ctxt->strm->avail_in = ctxt->inptr - ctxt->inrptr;
+		ctxt->strm->avail_in = xmlNanoHTTPDataAvailable(ctxt);
 
         while (ctxt->strm->avail_out > 0 &&
 	       (ctxt->strm->avail_in > 0 || xmlNanoHTTPRecv(ctxt) > 0)) {
             orig_avail_in = ctxt->strm->avail_in =
-			    ctxt->inptr - ctxt->inrptr - bytes_read;
+			    xmlNanoHTTPDataAvailable(ctxt) - bytes_read;
             ctxt->strm->next_in = BAD_CAST (ctxt->inrptr + bytes_read);
 
             z_ret = inflate(ctxt->strm, Z_NO_FLUSH);
             bytes_read += orig_avail_in - ctxt->strm->avail_in;
 
             if (z_ret != Z_OK) break;
-	}
+		}
 
         ctxt->inrptr += bytes_read;
         return(len - ctxt->strm->avail_out);
     }
 #endif
 
-    while (ctxt->inptr - ctxt->inrptr < len) {
-        if (xmlNanoHTTPRecv(ctxt) <= 0) break;
+    while (xmlNanoHTTPDataAvailable(ctxt) < len) {
+		if (xmlNanoHTTPFrameAvailable(ctxt))
+			break;
+        if (xmlNanoHTTPRecv(ctxt) <= 0)
+			break;
     }
-    if (ctxt->inptr - ctxt->inrptr < len)
-        len = ctxt->inptr - ctxt->inrptr;
+	if (len > xmlNanoHTTPDataAvailable(ctxt))
+		len = xmlNanoHTTPDataAvailable(ctxt);
+	if ((xmlNanoHTTPStreaming(ctxt)) && (len > 0))
+	{
+		int Index;
+		if (ctxt->frameState == Error)
+		{
+			const char* boundaryName = xmlMemStr(ctxt->inrptr, ctxt->boundaryName, len);
+			if (boundaryName)
+			{
+				ctxt->frameState = Idle;
+				ctxt->inrptr = boundaryName;
+			}
+		}
+		if ((ctxt->frameState == Idle) || (ctxt->frameState == Complete))
+		{
+			ctxt->bytesOfFrame = 0;
+			xmlParseJpegHeader(ctxt);
+			if (len > xmlNanoHTTPDataAvailable(ctxt))
+				len = xmlNanoHTTPDataAvailable(ctxt);
+		}
+
+		if (ctxt->frameState == FoundStart)
+		{
+			ctxt->bytesOfFrame += len;
+			if (ctxt->bytesOfFrame >= ctxt->frameSize)
+			{
+				int partOfNextFrame = ctxt->bytesOfFrame - ctxt->frameSize;
+				const char* EOI = (short*)(ctxt->inptr-partOfNextFrame-sizeof(short));
+				if (*(short*)EOI != (short)0xD9FF)
+				{
+					EOI = NULL;
+					for (Index = 0; Index < xmlNanoHTTPDataAvailable(ctxt); Index++)
+					{
+						const char*Found = ctxt->inrptr+Index;
+						if (*(short*)Found==(short)0xD9FF)
+						{
+							EOI = Found;
+							break;
+						}
+					}
+				}
+				if (EOI)
+				{
+					len = (EOI - ctxt->inrptr) + sizeof(short);
+					ctxt->frameState = Complete;
+				}
+				else
+				{
+					__xmlIOErr(XML_FROM_HTTP, XML_ERR_INVALID_ENCODING, "Missing EOI in JPEG");
+					ctxt->frameState = Error;
+				}
+			}
+		}
+	}
+
     memcpy(dest, ctxt->inrptr, len);
     ctxt->inrptr += len;
     return(len);

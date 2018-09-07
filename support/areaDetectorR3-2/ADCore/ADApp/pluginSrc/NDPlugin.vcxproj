@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TrackFileAccess>false</TrackFileAccess>
+  </PropertyGroup>
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug_DLL|Win32">
       <Configuration>Debug_DLL</Configuration>
@@ -47,7 +50,7 @@
     <ProjectReference Include="..\..\..\..\..\base-3.15.5\src\std\softIoc\softIoc.vcxproj">
       <Project>{0df29c1b-6c17-4d60-8b78-27fe8714dc11}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\asyn4-31\asyn\asyn.vcxproj">
+    <ProjectReference Include="..\..\..\..\asyn4-33\asyn\asyn.vcxproj">
       <Project>{c3ea0ff7-6039-4884-ba91-7b4619befea5}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\ADSupport\supportApp\GraphicsMagickSrc\VisualMagick\coders\CORE_coders.vcxproj">
@@ -179,14 +182,17 @@
     <None Include="NDFileNull.dbd" />
     <None Include="NDFileTIFF.dbd" />
     <None Include="NDPluginAttribute.dbd" />
+    <None Include="NDPluginAttrPlot.dbd" />
     <None Include="NDPluginCircularBuff.dbd" />
     <None Include="NDPluginColorConvert.dbd" />
     <None Include="NDPluginFFT.dbd" />
+    <None Include="NDPluginGather.dbd" />
     <None Include="NDPluginOverlay.dbd" />
     <None Include="NDPluginProcess.dbd" />
     <None Include="NDPluginPva.dbd" />
     <None Include="NDPluginROI.dbd" />
     <None Include="NDPluginROIStat.dbd" />
+    <None Include="NDPluginScatter.dbd" />
     <None Include="NDPluginStats.dbd" />
     <None Include="NDPluginStdArrays.dbd" />
     <None Include="NDPluginTimeSeries.dbd" />
@@ -302,7 +308,8 @@ xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl   -I../O.Common -I$(SolutionDir)include -I../O.Common -I$(SolutionDir)DBD -o O.Common\NDPluginSupport.dbd NDPluginAttribute.dbd NDPluginCircularBuff.dbd NDPluginColorConvert.dbd NDPluginFFT.dbd NDPluginOverlay.dbd NDPluginProcess.dbd NDPluginROI.dbd NDPluginROIStat.dbd NDPluginStats.dbd NDPluginStdArrays.dbd NDPluginTimeSeries.dbd NDPluginTransform.dbd
+perl -CSD $(OutDir)dbdExpand.pl   -I../O.Common -I$(SolutionDir)include -I../O.Common -I$(SolutionDir)DBD -o O.Common\NDPluginSupport.dbd NDPluginAttribute.dbd NDPluginCircularBuff.dbd NDPluginColorConvert.dbd NDPluginFFT.dbd NDPluginGather.dbd NDPluginOverlay.dbd NDPluginProcess.dbd NDPluginROI.dbd NDPluginROIStat.dbd NDPluginScatter.dbd NDPluginStats.dbd NDPluginStdArrays.dbd NDPluginTimeSeries.dbd NDPluginTransform.dbd NDPluginAttrPlot.dbd
+
 
 xcopy /Y /Q  /D .\O.Common\*.DBD $(SolutionDir)DBD &gt; NUL</Command>
     </PostBuildEvent>
@@ -330,7 +337,8 @@ xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl   -I../O.Common -I$(SolutionDir)include -I../O.Common -I$(SolutionDir)DBD -o O.Common\NDPluginSupport.dbd NDPluginAttribute.dbd NDPluginCircularBuff.dbd NDPluginColorConvert.dbd NDPluginFFT.dbd NDPluginOverlay.dbd NDPluginProcess.dbd NDPluginROI.dbd NDPluginROIStat.dbd NDPluginStats.dbd NDPluginStdArrays.dbd NDPluginTimeSeries.dbd NDPluginTransform.dbd
+perl -CSD $(OutDir)dbdExpand.pl   -I../O.Common -I$(SolutionDir)include -I../O.Common -I$(SolutionDir)DBD -o O.Common\NDPluginSupport.dbd NDPluginAttribute.dbd NDPluginCircularBuff.dbd NDPluginColorConvert.dbd NDPluginFFT.dbd NDPluginGather.dbd NDPluginOverlay.dbd NDPluginProcess.dbd NDPluginROI.dbd NDPluginROIStat.dbd NDPluginScatter.dbd NDPluginStats.dbd NDPluginStdArrays.dbd NDPluginTimeSeries.dbd NDPluginTransform.dbd NDPluginAttrPlot.dbd
+
 
 xcopy /Y /Q  /D .\O.Common\*.DBD $(SolutionDir)DBD &gt; NUL</Command>
     </PostBuildEvent>
@@ -358,7 +366,8 @@ xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl   -I../O.Common -I$(SolutionDir)include -I../O.Common -I$(SolutionDir)DBD -o O.Common\NDPluginSupport.dbd NDPluginAttribute.dbd NDPluginCircularBuff.dbd NDPluginColorConvert.dbd NDPluginFFT.dbd NDPluginOverlay.dbd NDPluginProcess.dbd NDPluginROI.dbd NDPluginROIStat.dbd NDPluginStats.dbd NDPluginStdArrays.dbd NDPluginTimeSeries.dbd NDPluginTransform.dbd
+perl -CSD $(OutDir)dbdExpand.pl   -I../O.Common -I$(SolutionDir)include -I../O.Common -I$(SolutionDir)DBD -o O.Common\NDPluginSupport.dbd NDPluginAttribute.dbd NDPluginCircularBuff.dbd NDPluginColorConvert.dbd NDPluginFFT.dbd NDPluginGather.dbd NDPluginOverlay.dbd NDPluginProcess.dbd NDPluginROI.dbd NDPluginROIStat.dbd NDPluginScatter.dbd NDPluginStats.dbd NDPluginStdArrays.dbd NDPluginTimeSeries.dbd NDPluginTransform.dbd NDPluginAttrPlot.dbd
+
 
 xcopy /Y /Q  /D .\O.Common\*.DBD $(SolutionDir)DBD &gt; NUL</Command>
     </PostBuildEvent>
@@ -389,7 +398,8 @@ xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl   -I../O.Common -I$(SolutionDir)include -I../O.Common -I$(SolutionDir)DBD -o O.Common\NDPluginSupport.dbd NDPluginAttribute.dbd NDPluginCircularBuff.dbd NDPluginColorConvert.dbd NDPluginFFT.dbd NDPluginOverlay.dbd NDPluginProcess.dbd NDPluginROI.dbd NDPluginROIStat.dbd NDPluginStats.dbd NDPluginStdArrays.dbd NDPluginTimeSeries.dbd NDPluginTransform.dbd
+perl -CSD $(OutDir)dbdExpand.pl   -I../O.Common -I$(SolutionDir)include -I../O.Common -I$(SolutionDir)DBD -o O.Common\NDPluginSupport.dbd NDPluginAttribute.dbd NDPluginCircularBuff.dbd NDPluginColorConvert.dbd NDPluginFFT.dbd NDPluginGather.dbd NDPluginOverlay.dbd NDPluginProcess.dbd NDPluginROI.dbd NDPluginROIStat.dbd NDPluginScatter.dbd NDPluginStats.dbd NDPluginStdArrays.dbd NDPluginTimeSeries.dbd NDPluginTransform.dbd NDPluginAttrPlot.dbd
+
 
 xcopy /Y /Q  /D .\O.Common\*.DBD $(SolutionDir)DBD &gt; NUL</Command>
     </PostBuildEvent>
@@ -414,7 +424,8 @@ xcopy /Y /Q  /D .\O.Common\*.DBD $(SolutionDir)DBD &gt; NUL</Command>
     </Link>
     <PostBuildEvent>
       <Command>SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl   -I../O.Common -I$(SolutionDir)include -I../O.Common -I$(SolutionDir)DBD -o O.Common\NDPluginSupport.dbd NDPluginAttribute.dbd NDPluginCircularBuff.dbd NDPluginColorConvert.dbd NDPluginFFT.dbd NDPluginOverlay.dbd NDPluginProcess.dbd NDPluginROI.dbd NDPluginROIStat.dbd NDPluginStats.dbd NDPluginStdArrays.dbd NDPluginTimeSeries.dbd NDPluginTransform.dbd
+perl -CSD $(OutDir)dbdExpand.pl   -I../O.Common -I$(SolutionDir)include -I../O.Common -I$(SolutionDir)DBD -o O.Common\NDPluginSupport.dbd NDPluginAttribute.dbd NDPluginCircularBuff.dbd NDPluginColorConvert.dbd NDPluginFFT.dbd NDPluginGather.dbd NDPluginOverlay.dbd NDPluginProcess.dbd NDPluginROI.dbd NDPluginROIStat.dbd NDPluginScatter.dbd NDPluginStats.dbd NDPluginStdArrays.dbd NDPluginTimeSeries.dbd NDPluginTransform.dbd NDPluginAttrPlot.dbd
+
 
 xcopy /Y /Q  /D .\O.Common\*.DBD $(SolutionDir)DBD &gt; NUL</Command>
     </PostBuildEvent>
@@ -445,7 +456,8 @@ xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
     </Link>
     <PostBuildEvent>
       <Command>SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl   -I../O.Common -I$(SolutionDir)include -I../O.Common -I$(SolutionDir)DBD -o O.Common\NDPluginSupport.dbd NDPluginAttribute.dbd NDPluginCircularBuff.dbd NDPluginColorConvert.dbd NDPluginFFT.dbd NDPluginOverlay.dbd NDPluginProcess.dbd NDPluginROI.dbd NDPluginROIStat.dbd NDPluginStats.dbd NDPluginStdArrays.dbd NDPluginTimeSeries.dbd NDPluginTransform.dbd
+perl -CSD $(OutDir)dbdExpand.pl   -I../O.Common -I$(SolutionDir)include -I../O.Common -I$(SolutionDir)DBD -o O.Common\NDPluginSupport.dbd NDPluginAttribute.dbd NDPluginCircularBuff.dbd NDPluginColorConvert.dbd NDPluginFFT.dbd NDPluginGather.dbd NDPluginOverlay.dbd NDPluginProcess.dbd NDPluginROI.dbd NDPluginROIStat.dbd NDPluginScatter.dbd NDPluginStats.dbd NDPluginStdArrays.dbd NDPluginTimeSeries.dbd NDPluginTransform.dbd NDPluginAttrPlot.dbd
+
 
 xcopy /Y /Q  /D .\O.Common\*.DBD $(SolutionDir)DBD &gt; NUL</Command>
     </PostBuildEvent>
@@ -476,7 +488,8 @@ xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
     </Link>
     <PostBuildEvent>
       <Command>SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl   -I../O.Common -I$(SolutionDir)include -I../O.Common -I$(SolutionDir)DBD -o O.Common\NDPluginSupport.dbd NDPluginAttribute.dbd NDPluginCircularBuff.dbd NDPluginColorConvert.dbd NDPluginFFT.dbd NDPluginOverlay.dbd NDPluginProcess.dbd NDPluginROI.dbd NDPluginROIStat.dbd NDPluginStats.dbd NDPluginStdArrays.dbd NDPluginTimeSeries.dbd NDPluginTransform.dbd
+perl -CSD $(OutDir)dbdExpand.pl   -I../O.Common -I$(SolutionDir)include -I../O.Common -I$(SolutionDir)DBD -o O.Common\NDPluginSupport.dbd NDPluginAttribute.dbd NDPluginCircularBuff.dbd NDPluginColorConvert.dbd NDPluginFFT.dbd NDPluginGather.dbd NDPluginOverlay.dbd NDPluginProcess.dbd NDPluginROI.dbd NDPluginROIStat.dbd NDPluginScatter.dbd NDPluginStats.dbd NDPluginStdArrays.dbd NDPluginTimeSeries.dbd NDPluginTransform.dbd NDPluginAttrPlot.dbd
+
 
 xcopy /Y /Q  /D .\O.Common\*.DBD $(SolutionDir)DBD &gt; NUL</Command>
     </PostBuildEvent>
@@ -510,7 +523,8 @@ xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
     </Link>
     <PostBuildEvent>
       <Command>SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl   -I../O.Common -I$(SolutionDir)include -I../O.Common -I$(SolutionDir)DBD -o O.Common\NDPluginSupport.dbd NDPluginAttribute.dbd NDPluginCircularBuff.dbd NDPluginColorConvert.dbd NDPluginFFT.dbd NDPluginOverlay.dbd NDPluginProcess.dbd NDPluginROI.dbd NDPluginROIStat.dbd NDPluginStats.dbd NDPluginStdArrays.dbd NDPluginTimeSeries.dbd NDPluginTransform.dbd
+perl -CSD $(OutDir)dbdExpand.pl   -I../O.Common -I$(SolutionDir)include -I../O.Common -I$(SolutionDir)DBD -o O.Common\NDPluginSupport.dbd NDPluginAttribute.dbd NDPluginCircularBuff.dbd NDPluginColorConvert.dbd NDPluginFFT.dbd NDPluginGather.dbd NDPluginOverlay.dbd NDPluginProcess.dbd NDPluginROI.dbd NDPluginROIStat.dbd NDPluginScatter.dbd NDPluginStats.dbd NDPluginStdArrays.dbd NDPluginTimeSeries.dbd NDPluginTransform.dbd NDPluginAttrPlot.dbd
+
 
 xcopy /Y /Q  /D .\O.Common\*.DBD $(SolutionDir)DBD &gt; NUL</Command>
     </PostBuildEvent>

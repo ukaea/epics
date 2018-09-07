@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TrackFileAccess>false</TrackFileAccess>
+  </PropertyGroup>
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug_DLL|Win32">
       <Configuration>Debug_DLL</Configuration>
@@ -384,7 +387,7 @@ xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
     <ProjectReference Include="..\..\..\base-3.15.5\src\libCom\Com.vcxproj">
       <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\support\asyn4-31\asyn\asyn.vcxproj">
+    <ProjectReference Include="..\..\..\support\asyn4-33\asyn\asyn.vcxproj">
       <Project>{c3ea0ff7-6039-4884-ba91-7b4619befea5}</Project>
     </ProjectReference>
   </ItemGroup>
