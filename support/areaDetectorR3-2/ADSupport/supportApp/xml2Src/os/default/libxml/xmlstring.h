@@ -58,9 +58,6 @@ XMLPUBFUN const xmlChar * XMLCALL
                 xmlStrstr                (const xmlChar *str,
                                          const xmlChar *val);
 XMLPUBFUN const xmlChar * XMLCALL
-				xmlMemstr				(const char *mem, const char *str, int size);
-
-XMLPUBFUN const xmlChar * XMLCALL
                 xmlStrcasestr            (const xmlChar *str,
                                          const xmlChar *val);
 XMLPUBFUN int XMLCALL

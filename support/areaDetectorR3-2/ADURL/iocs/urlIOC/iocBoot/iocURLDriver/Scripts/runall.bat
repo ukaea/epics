@@ -1,4 +1,7 @@
 set TOP=/epics/support/areaDetector/ADURL/iocs/urlIOC
+set ADCORE=/epics/support/areaDetector/ADCore
+set ADURL=/epics/support/areaDetector/ADURL
+
 set EPICS_HOST_ARCH=win32-x86-static
 pushd ..
 call start_epics.bat

@@ -1541,7 +1541,7 @@ void Magick::Image::read ( const std::string &imageSpec_ )
   GetExceptionInfo( &exceptionInfo );
   MagickLib::Image* image =
     ReadImage(imageInfo(), &exceptionInfo );
-  if (image && image->client_data)
+  if ((image && image->client_data) && (imageInfo()->file == NULL))
 	  imageInfo()->file = static_cast<FILE*>(image->client_data);
 
   // Ensure that multiple image frames were not read.

@@ -355,20 +355,6 @@ xmlStrstr(const xmlChar *str, const xmlChar *val) {
     return(NULL);
 }
 
-const char *
-xmlMemStr(const char *mem, const char *str, int size)
-{
-	const char *p;
-	int strSize = xmlStrlen(str);
-
-	for (p = mem; p <= (mem-strSize+size); p++)
-	{
-		if (memcmp(p, str, strSize) == 0)
-			return p; /* found */
-	}
-	return NULL;
-}
-
 /**
  * xmlStrcasestr:
  * @str:  the xmlChar * array (haystack)

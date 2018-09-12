@@ -71,7 +71,7 @@ XMLPUBFUN int XMLCALL
 	xmlNanoHTTPRead		(void *ctx,
 				 void *dest,
 				 int len);
-XMLPUBFUN int XMLCALL
+XMLPUBFUN xmlNanoFrameStates XMLCALL
 	xmlNanoHTTPFrameState	(void *ctx);
 XMLPUBFUN int XMLCALL
 	xmlNanoHTTPStreaming	(void *ctx);

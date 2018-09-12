@@ -518,6 +518,14 @@ xmlNanoHTTPSend(xmlNanoHTTPCtxtPtr ctxt, const char *xmt_ptr, int outlen)
     return total_sent;
 }
 
+/**
+ * xmlReadLn:
+ * @ctxt:  an HTTP context
+ *
+ * To parse the mjpeg frame boundary header, we need to parse text.
+ * The text lines has <CR><LF> termination.
+ */
+
 static void xmlReadLn(xmlNanoHTTPCtxtPtr ctxt)
 {
 	while ((*ctxt->inrptr != '\r') && (*ctxt->inrptr != '\n') && (ctxt->inptr > ctxt->inrptr))
@@ -531,27 +539,71 @@ static void xmlReadLn(xmlNanoHTTPCtxtPtr ctxt)
 		ctxt->inrptr++;
 }
 
+/**
+ * xmlNanoHTTPDataAvailable:
+ * @ctxt:  an HTTP context
+ *
+ * Utility function, returns the size of the currently-available buffereed data.
+ */
 static int
 xmlNanoHTTPDataAvailable(xmlNanoHTTPCtxtPtr ctxt) {
 	return ctxt->inptr - ctxt->inrptr;
 }
 
+/**
+ * xmlNanoHTTPDataAvailable:
+ * @ctxt:  an HTTP context
+ *
+ * Is there currently a jpeg frame available in the data buffer?
+ */
 static int
 xmlNanoHTTPFrameAvailable	(xmlNanoHTTPCtxtPtr ctxt) {
-	return ((ctxt->frameState == FoundStart) && (ctxt->bytesOfFrame + xmlNanoHTTPDataAvailable(ctxt) >= ctxt->frameSize));
+	if (ctxt->frameState != FoundStart)
+		return 0;
+	if (ctxt->frameSize > ctxt->bytesOfFrame + xmlNanoHTTPDataAvailable(ctxt))
+		return 0;
+	return 1;
 }
 
-int
+/**
+ * xmlNanoHTTPDataAvailable:
+ * @ctx:  an HTTP context
+ *
+ * Returns (enum) the jpeg frame state.
+ */
+xmlNanoFrameStates
 xmlNanoHTTPFrameState	(void *ctx) {
 	xmlNanoHTTPCtxtPtr ctxt = (xmlNanoHTTPCtxtPtr) ctx;
+	if (!ctxt)
+		return Idle;
 	return ctxt->frameState;
 }
 
+/**
+ * xmlNanoHTTPDataAvailable:
+ * @ctx:  an HTTP context
+ *
+ * Returns (bool) the jpeg frame state.
+ */
 int
 xmlNanoHTTPStreaming	(void *ctx) {
 	xmlNanoHTTPCtxtPtr ctxt = (xmlNanoHTTPCtxtPtr) ctx;
+	if (!ctxt)
+		return 0;
 	return (ctxt->boundaryName != NULL);
 }
+
+/**
+ * xmlParseJpegHeader:
+ * @ctxt:  an HTTP context
+ *
+ * The mjpeg frame boundary header is text, and looks like:
+ * --<boundaryname>
+ * Content-Type: image/jpeg
+ * Content-length: 12345
+ * The (m)jpeg frame size needs to be extracted from the content-length.
+ * NB, this function consumes some bytes of data, and therefore changes ctxt->inrptr.
+ */
 
 static void xmlParseJpegHeader(xmlNanoHTTPCtxtPtr ctxt)
 {
@@ -600,16 +652,15 @@ static void xmlParseJpegHeader(xmlNanoHTTPCtxtPtr ctxt)
 		}
 		if (contentLength)
 		{
-			short SOI;
+			unsigned short SOI;
 			ctxt->frameSize = strtol(contentLength, NULL, 10);
 			xmlReadLn(ctxt);
 			xmlReadLn(ctxt); /* 2 end-of-lines here. */
-			if (ctxt->last < 0)
-				ctxt->last = 0;
-			if (xmlNanoHTTPDataAvailable(ctxt) >= sizeof(short))
+			if (xmlNanoHTTPDataAvailable(ctxt) >= sizeof(unsigned short))
 			{
+				const unsigned short SOIMarker = ntohs(0xFFD8u);
 				SOI = *(short*)ctxt->inrptr;
-				if (SOI == (short)0xD8FF)
+				if (SOI == SOIMarker)
 					ctxt->frameState = FoundStart;
 				else
 				{
@@ -621,6 +672,67 @@ static void xmlParseJpegHeader(xmlNanoHTTPCtxtPtr ctxt)
 	}
 	if (!contentLength)
 		ctxt->frameState = Error;
+}
+
+/**
+ * xmlLocateJpegBoundary:
+ * @ctxt:  an HTTP context
+ *
+ * The (m)jpeg frame boundary information provides the size of the jpeg frame.
+ * But the size can be incorrect if bytes are missed because e.g. the software halts at a brekpoint.
+ * These is a need to provide corrective error recovery, for this reason.
+ * The jpeg frame begins with an SOI marker and ends with an EOI marker (0xFFD9u in network byte order).
+ * This function works with the state machine attribute, ctxt->frameState.
+ */
+
+static int xmlLocateJpegBoundary(xmlNanoHTTPCtxtPtr ctxt, int len)
+{
+	if (ctxt->frameState != FoundStart)
+	{
+		/* Start of new frame */
+		ctxt->bytesOfFrame = 0;
+		xmlParseJpegHeader(ctxt);
+		if (len > xmlNanoHTTPDataAvailable(ctxt))
+			len = xmlNanoHTTPDataAvailable(ctxt);
+	}
+	if (ctxt->frameState == FoundStart)
+	{
+		int bytesOfFrame = ctxt->bytesOfFrame + len;
+		if (bytesOfFrame >= ctxt->frameSize)
+		{
+			int partOfNextFrame = bytesOfFrame - ctxt->frameSize;
+			const unsigned short EOIMarker = ntohs(0xFFD9u);
+			const char* EOI = (ctxt->inrptr+len)-partOfNextFrame-sizeof(unsigned short);
+			if (*(const unsigned short*)EOI != EOIMarker)
+			{
+				/* OK, the marker isn't where it was expected.
+				 * We need to seek where it might be */
+				int Index;
+				EOI = NULL;
+				for (Index = 0; Index < len; Index++)
+				{
+					const char* Found = ctxt->inrptr+Index;
+					if (*(const unsigned short*)Found==EOIMarker)
+					{
+						EOI = Found;
+						break;
+					}
+				}
+			}
+			if (EOI)
+			{
+				len = (EOI - ctxt->inrptr) + sizeof(unsigned short);
+				ctxt->frameState = Complete;
+			}
+			else
+			{
+				__xmlIOErr(XML_FROM_HTTP, XML_ERR_INVALID_ENCODING, "Missing EOI in JPEG");
+				ctxt->frameState = Error;
+			}
+		}
+		ctxt->bytesOfFrame += len;
+	}
+	return len;
 }
 
 /**
@@ -858,6 +970,9 @@ xmlNanoHTTPScanAnswer(xmlNanoHTTPCtxtPtr ctxt, const char *line) {
 	ctxt->mimeType = (char *) xmlStrndup(mime, last - mime);
 	if (strcmp(ctxt->mimeType, "multipart/x-mixed-replace") == 0)
 	{
+		// The mjepg startup header looks like:
+		// Content-Type: multipart/x-mixed-replace; boundary=<boundaryname>
+		// 
 		// Some cameras have 'boundary =<boundaryname>', some have 'boundary=<boundaryname>'.
 		// Moreover, some cameras have 'boundary =--<boundaryname>'.
 		const char* boundaryName = xmlStrstr(BAD_CAST ctxt->contentType, BAD_CAST "boundary");
@@ -1431,58 +1546,7 @@ xmlNanoHTTPRead(void *ctx, void *dest, int len) {
 	if (len > xmlNanoHTTPDataAvailable(ctxt))
 		len = xmlNanoHTTPDataAvailable(ctxt);
 	if ((xmlNanoHTTPStreaming(ctxt)) && (len > 0))
-	{
-		int Index;
-		if (ctxt->frameState == Error)
-		{
-			const char* boundaryName = xmlMemStr(ctxt->inrptr, ctxt->boundaryName, len);
-			if (boundaryName)
-			{
-				ctxt->frameState = Idle;
-				ctxt->inrptr = boundaryName;
-			}
-		}
-		if ((ctxt->frameState == Idle) || (ctxt->frameState == Complete))
-		{
-			ctxt->bytesOfFrame = 0;
-			xmlParseJpegHeader(ctxt);
-			if (len > xmlNanoHTTPDataAvailable(ctxt))
-				len = xmlNanoHTTPDataAvailable(ctxt);
-		}
-
-		if (ctxt->frameState == FoundStart)
-		{
-			ctxt->bytesOfFrame += len;
-			if (ctxt->bytesOfFrame >= ctxt->frameSize)
-			{
-				int partOfNextFrame = ctxt->bytesOfFrame - ctxt->frameSize;
-				const char* EOI = (short*)(ctxt->inptr-partOfNextFrame-sizeof(short));
-				if (*(short*)EOI != (short)0xD9FF)
-				{
-					EOI = NULL;
-					for (Index = 0; Index < xmlNanoHTTPDataAvailable(ctxt); Index++)
-					{
-						const char*Found = ctxt->inrptr+Index;
-						if (*(short*)Found==(short)0xD9FF)
-						{
-							EOI = Found;
-							break;
-						}
-					}
-				}
-				if (EOI)
-				{
-					len = (EOI - ctxt->inrptr) + sizeof(short);
-					ctxt->frameState = Complete;
-				}
-				else
-				{
-					__xmlIOErr(XML_FROM_HTTP, XML_ERR_INVALID_ENCODING, "Missing EOI in JPEG");
-					ctxt->frameState = Error;
-				}
-			}
-		}
-	}
+		len = xmlLocateJpegBoundary(ctxt, len);
 
     memcpy(dest, ctxt->inrptr, len);
     ctxt->inrptr += len;
