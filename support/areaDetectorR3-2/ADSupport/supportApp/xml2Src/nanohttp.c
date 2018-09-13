@@ -1538,9 +1538,9 @@ xmlNanoHTTPRead(void *ctx, void *dest, int len) {
 #endif
 
     while (xmlNanoHTTPDataAvailable(ctxt) < len) {
-		if (xmlNanoHTTPFrameAvailable(ctxt))
-			break;
         if (xmlNanoHTTPRecv(ctxt) <= 0)
+			break;
+		if (xmlNanoHTTPFrameAvailable(ctxt))
 			break;
     }
 	if (len > xmlNanoHTTPDataAvailable(ctxt))
