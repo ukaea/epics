@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="O.Common\LeyboldTurbo_registerRecordDeviceDriver.cpp">
@@ -9,8 +9,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="LeyboldTurbo.bat" />
-    <None Include="LeyboldTurbo.py" />
     <None Include="Scripts\camonitor.py">
       <Filter>Scripts</Filter>
     </None>
@@ -19,6 +17,30 @@
     </None>
     <None Include="Scripts\SetRunning.py">
       <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\JET_Offline_LeyboldTurboApp.bat">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\JETcamonitor.bat">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\JETLeyboldTurboApp.bat">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\JETMappings.bat">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\JETReset.bat">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\JETSetRunning.bat">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\LeyboldTurboApp.py">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\Windows\camonitor1.bat">
+      <Filter>Scripts\Windows</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -31,6 +53,9 @@
     </Filter>
     <Filter Include="Scripts">
       <UniqueIdentifier>{5eeb07a9-210f-4535-b901-6973a97a258d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Windows">
+      <UniqueIdentifier>{031e22b1-2f78-430b-ba29-71f1fc46d3a6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

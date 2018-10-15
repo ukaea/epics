@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Resource Files">
@@ -13,7 +13,7 @@
       <UniqueIdentifier>{f19b6948-4535-47d5-a8c3-1f537ec15532}</UniqueIdentifier>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
-    <Filter Include="db">
+    <Filter Include="Db">
       <UniqueIdentifier>{fef0bd38-19ac-4984-803b-3bf69909b6aa}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -30,16 +30,16 @@
       <Filter>O.Common</Filter>
     </None>
     <None Include="Db\LeyboldTurbo.db">
-      <Filter>db</Filter>
+      <Filter>Db</Filter>
     </None>
     <None Include="src\Makefile">
       <Filter>src</Filter>
     </None>
     <None Include="Db\LeyboldTurbo.Asyn4-26.db">
-      <Filter>db</Filter>
+      <Filter>Db</Filter>
     </None>
     <None Include="Db\SoftwareVersions.db">
-      <Filter>db</Filter>
+      <Filter>Db</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
