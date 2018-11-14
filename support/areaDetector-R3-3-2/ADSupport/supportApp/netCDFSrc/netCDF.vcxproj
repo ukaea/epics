@@ -41,34 +41,144 @@
     <ClInclude Include="inc\ceconstraints.h" />
     <ClInclude Include="inc\err_macros.h" />
     <ClInclude Include="inc\fbits.h" />
+    <ClInclude Include="inc\hdf4dispatch.h" />
     <ClInclude Include="inc\nc.h" />
     <ClInclude Include="inc\nc3dispatch.h" />
+    <ClInclude Include="inc\nc3internal.h" />
+    <ClInclude Include="inc\nc4dispatch.h" />
+    <ClInclude Include="inc\nc4internal.h" />
+    <ClInclude Include="inc\ncauth.h" />
+    <ClInclude Include="inc\ncaux.h" />
     <ClInclude Include="inc\ncbytes.h" />
+    <ClInclude Include="inc\ncconfigure.h" />
+    <ClInclude Include="inc\ncdap.h" />
     <ClInclude Include="inc\ncdimscale.h" />
     <ClInclude Include="inc\ncdispatch.h" />
+    <ClInclude Include="inc\ncexternl.h" />
+    <ClInclude Include="inc\ncfilter.h" />
     <ClInclude Include="inc\nchashmap.h" />
-    <ClInclude Include="inc\ncio.h" />
     <ClInclude Include="inc\nclist.h" />
+    <ClInclude Include="inc\nclistmap.h" />
+    <ClInclude Include="inc\nclog.h" />
+    <ClInclude Include="inc\ncoffsets.h" />
+    <ClInclude Include="inc\ncrc.h" />
+    <ClInclude Include="inc\nctestserver.h" />
+    <ClInclude Include="inc\nctime.h" />
+    <ClInclude Include="inc\ncuri.h" />
+    <ClInclude Include="inc\ncutf8.h" />
+    <ClInclude Include="inc\ncwinpath.h" />
+    <ClInclude Include="inc\nc_hashmap.h" />
     <ClInclude Include="inc\nc_logging.h" />
     <ClInclude Include="inc\nc_tests.h" />
-    <ClInclude Include="inc\nc_uri.h" />
+    <ClInclude Include="inc\netcdf.h" />
     <ClInclude Include="inc\netcdf_f.h" />
+    <ClInclude Include="inc\netcdf_mem.h" />
+    <ClInclude Include="inc\netcdf_meta.h" />
     <ClInclude Include="inc\netcdf_par.h" />
-    <ClInclude Include="inc\utf8proc.h" />
+    <ClInclude Include="inc\onstack.h" />
+    <ClInclude Include="inc\rnd.h" />
+    <ClInclude Include="inc\XGetopt.h" />
+    <ClInclude Include="libdispatch\utf8proc.h" />
+    <ClInclude Include="libsrc\ncio.h" />
     <ClInclude Include="libsrc\ncx.h" />
-    <ClInclude Include="libsrc\onstack.h" />
     <ClInclude Include="libsrc\pstdint.h" />
-    <ClInclude Include="libsrc\rnd.h" />
-    <ClInclude Include="libsrc\utf8proc_data.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="libdispatch\att.c" />
-    <ClCompile Include="libdispatch\copy.c" />
-    <ClCompile Include="libdispatch\dim1.c" />
-    <ClCompile Include="libdispatch\dispatch.c" />
-    <ClCompile Include="libdispatch\error.c" />
-    <ClCompile Include="libdispatch\file.c" />
-    <ClCompile Include="libdispatch\nc4.c">
+    <ClCompile Include="libdispatch\datt.c" />
+    <ClCompile Include="libdispatch\dattget.c" />
+    <ClCompile Include="libdispatch\dattinq.c" />
+    <ClCompile Include="libdispatch\dattput.c" />
+    <ClCompile Include="libdispatch\dauth.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="libdispatch\dcompound.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="libdispatch\dcopy.c" />
+    <ClCompile Include="libdispatch\ddim.c" />
+    <ClCompile Include="libdispatch\ddispatch.c" />
+    <ClCompile Include="libdispatch\denum.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="libdispatch\derror.c" />
+    <ClCompile Include="libdispatch\dfile.c" />
+    <ClCompile Include="libdispatch\dfilter.c" />
+    <ClCompile Include="libdispatch\dgroup.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="libdispatch\dinternal.c" />
+    <ClCompile Include="libdispatch\doffsets.c" />
+    <ClCompile Include="libdispatch\dopaque.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="libdispatch\dparallel.c" />
+    <ClCompile Include="libdispatch\drc.c" />
+    <ClCompile Include="libdispatch\dstring.c" />
+    <ClCompile Include="libdispatch\dtype.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="libdispatch\dutf8.c" />
+    <ClCompile Include="libdispatch\dutil.c" />
+    <ClCompile Include="libdispatch\dv2i.c" />
+    <ClCompile Include="libdispatch\dvar.c" />
+    <ClCompile Include="libdispatch\dvarget.c" />
+    <ClCompile Include="libdispatch\dvarinq.c" />
+    <ClCompile Include="libdispatch\dvarput.c" />
+    <ClCompile Include="libdispatch\dvlen.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="libdispatch\dwinpath.c" />
+    <ClCompile Include="libdispatch\nc.c" />
+    <ClCompile Include="libdispatch\ncaux.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
@@ -81,7 +191,11 @@
     <ClCompile Include="libdispatch\ncbytes.c" />
     <ClCompile Include="libdispatch\nchashmap.c" />
     <ClCompile Include="libdispatch\nclist.c" />
-    <ClCompile Include="libdispatch\nclog.c">
+    <ClCompile Include="libdispatch\nclistmgr.c" />
+    <ClCompile Include="libdispatch\nclog.c" />
+    <ClCompile Include="libdispatch\nctime.c" />
+    <ClCompile Include="libdispatch\ncuri.c" />
+    <ClCompile Include="libdispatch\test_ncuri.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
@@ -91,9 +205,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="libdispatch\nc_uri.c" />
-    <ClCompile Include="libdispatch\parallel.c" />
-    <ClCompile Include="libdispatch\v2i.c">
+    <ClCompile Include="libdispatch\test_pathcvt.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
@@ -103,8 +215,18 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="libdispatch\var1.c" />
-    <ClCompile Include="liblib\stub.c" />
+    <ClCompile Include="libdispatch\utf8proc.c" />
+    <ClCompile Include="libdispatch\utf8proc_data.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="liblib\nc_initialize.c" />
     <ClCompile Include="libsrc\attr.c" />
     <ClCompile Include="libsrc\dim.c" />
     <ClCompile Include="libsrc\ffio.c">
@@ -118,16 +240,37 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="libsrc\lookup3.c" />
-    <ClCompile Include="libsrc\nc.c" />
+    <ClCompile Include="libsrc\memio.c" />
+    <ClCompile Include="libsrc\mmapio.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="libsrc\nc3dispatch.c" />
-    <ClCompile Include="libsrc\nclistmgr.c" />
+    <ClCompile Include="libsrc\nc3internal.c" />
+    <ClCompile Include="libsrc\ncio.c" />
+    <ClCompile Include="libsrc\ncstdio.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="libsrc\ncx.c" />
+    <ClCompile Include="libsrc\nc_hashmap.c" />
     <ClCompile Include="libsrc\posixio.c" />
     <ClCompile Include="libsrc\putget.c" />
-    <ClCompile Include="libsrc\string.c" />
-    <ClCompile Include="libsrc\utf8proc.c" />
     <ClCompile Include="libsrc\v1hpg.c" />
     <ClCompile Include="libsrc\var.c" />
+    <ClCompile Include="libsrc\XGetopt.c" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{39A57A7C-0399-40D5-BF95-2940FC941E4D}</ProjectGuid>
@@ -235,7 +378,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;DLL_NETCDF;DLL_EXPORT;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;DLL_NETCDF;DLL_EXPORT;EPICS_CALL_DLL;EPICS_BUILD_DLL;HAVE_CONFIG_H;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>.\os\WIN32;.\os\default;.\inc;.\libsrc;$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -250,7 +393,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;DLL_NETCDF;DLL_EXPORT;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;DLL_NETCDF;DLL_EXPORT;EPICS_CALL_DLL;EPICS_BUILD_DLL;HAVE_CONFIG_H;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>.\os\WIN32;.\os\default;.\inc;.\libsrc;$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -265,7 +408,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;HAVE_CONFIG_H;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>.\os\WIN32;.\os\default;.\inc;.\libsrc;$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
@@ -280,7 +423,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;HAVE_CONFIG_H;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>.\os\WIN32;.\os\default;.\inc;.\libsrc;$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
@@ -297,7 +440,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;DLL_NETCDF;DLL_EXPORT;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;DLL_NETCDF;DLL_EXPORT;EPICS_CALL_DLL;EPICS_BUILD_DLL;HAVE_CONFIG_H;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>.\os\WIN32;.\os\default;.\inc;.\libsrc;$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -316,7 +459,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;DLL_NETCDF;DLL_EXPORT;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;DLL_NETCDF;DLL_EXPORT;EPICS_CALL_DLL;EPICS_BUILD_DLL;HAVE_CONFIG_H;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>.\os\WIN32;.\os\default;.\inc;.\libsrc;$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -335,7 +478,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;HAVE_CONFIG_H;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>.\os\WIN32;.\os\default;.\inc;.\libsrc;$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
@@ -354,7 +497,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;HAVE_CONFIG_H;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>.\os\WIN32;.\os\default;.\inc;.\libsrc;$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
