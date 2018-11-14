@@ -34,17 +34,11 @@ public:
     virtual asynStatus closeFile();
 
 private:
-    TIFF *output;
+    TIFF *tiff;
     NDColorMode_t colorMode;
     int *pAttributeId;
     NDAttributeList *pFileAttributes;
-    TIFFFieldInfo **fieldInfo_;
     int numAttributes_;
-
-    static const int TIFFTAG_START_;
-    static const int TIFFTAG_END_;
-
-    asynStatus populateAsciiFieldInfo(TIFFFieldInfo *fieldInfo, int fieldTag, const char *tagName);
 
 };
 

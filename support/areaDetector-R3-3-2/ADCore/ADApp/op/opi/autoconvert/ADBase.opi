@@ -9,12 +9,12 @@
   <background_color>
     <color red="187" green="187" blue="187" />
   </background_color>
-  <boy_version>5.1.0.201801081728</boy_version>
+  <boy_version>5.1.0</boy_version>
   <foreground_color>
     <color red="0" green="0" blue="0" />
   </foreground_color>
   <grid_space>5</grid_space>
-  <height>935</height>
+  <height>970</height>
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
@@ -95,7 +95,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color red="0" green="128" blue="255" />
     </border_color>
-    <border_style>3</border_style>
+    <border_style>0</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -111,7 +111,7 @@ $(pv_value)</tooltip>
     </macros>
     <name>Linking Container</name>
     <opi_file>ADSetup.opi</opi_file>
-    <resize_behaviour>0</resize_behaviour>
+    <resize_behaviour>2</resize_behaviour>
     <rules />
     <scale_options>
       <width_scalable>true</width_scalable>
@@ -134,7 +134,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color red="0" green="128" blue="255" />
     </border_color>
-    <border_style>3</border_style>
+    <border_style>0</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -150,7 +150,7 @@ $(pv_value)</tooltip>
     </macros>
     <name>Linking Container</name>
     <opi_file>ADShutter.opi</opi_file>
-    <resize_behaviour>0</resize_behaviour>
+    <resize_behaviour>2</resize_behaviour>
     <rules />
     <scale_options>
       <width_scalable>true</width_scalable>
@@ -173,7 +173,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color red="0" green="128" blue="255" />
     </border_color>
-    <border_style>3</border_style>
+    <border_style>0</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -189,7 +189,7 @@ $(pv_value)</tooltip>
     </macros>
     <name>Linking Container</name>
     <opi_file>ADAttrFile.opi</opi_file>
-    <resize_behaviour>0</resize_behaviour>
+    <resize_behaviour>2</resize_behaviour>
     <rules />
     <scale_options>
       <width_scalable>true</width_scalable>
@@ -202,7 +202,7 @@ $(pv_value)</tooltip>
     <widget_type>Linking Container</widget_type>
     <width>350</width>
     <x>360</x>
-    <y>820</y>
+    <y>855</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.linkingContainer" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -212,7 +212,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color red="0" green="128" blue="255" />
     </border_color>
-    <border_style>3</border_style>
+    <border_style>0</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -228,7 +228,7 @@ $(pv_value)</tooltip>
     </macros>
     <name>Linking Container</name>
     <opi_file>ADDriverFile.opi</opi_file>
-    <resize_behaviour>0</resize_behaviour>
+    <resize_behaviour>2</resize_behaviour>
     <rules />
     <scale_options>
       <width_scalable>true</width_scalable>
@@ -240,8 +240,8 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Linking Container</widget_type>
     <width>350</width>
-    <x>360</x>
-    <y>755</y>
+    <x>5</x>
+    <y>850</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.linkingContainer" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -251,7 +251,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color red="0" green="128" blue="255" />
     </border_color>
-    <border_style>3</border_style>
+    <border_style>0</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -267,7 +267,7 @@ $(pv_value)</tooltip>
     </macros>
     <name>Linking Container</name>
     <opi_file>ADReadout.opi</opi_file>
-    <resize_behaviour>0</resize_behaviour>
+    <resize_behaviour>2</resize_behaviour>
     <rules />
     <scale_options>
       <width_scalable>true</width_scalable>
@@ -290,7 +290,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color red="0" green="128" blue="255" />
     </border_color>
-    <border_style>3</border_style>
+    <border_style>0</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -300,13 +300,13 @@ $(pv_value)</tooltip>
       <color red="0" green="0" blue="0" />
     </foreground_color>
     <group_name></group_name>
-    <height>405</height>
+    <height>480</height>
     <macros>
       <include_parent_macros>true</include_parent_macros>
     </macros>
     <name>Linking Container</name>
     <opi_file>ADCollect.opi</opi_file>
-    <resize_behaviour>0</resize_behaviour>
+    <resize_behaviour>2</resize_behaviour>
     <rules />
     <scale_options>
       <width_scalable>true</width_scalable>
@@ -329,7 +329,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color red="0" green="128" blue="255" />
     </border_color>
-    <border_style>3</border_style>
+    <border_style>0</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -345,7 +345,7 @@ $(pv_value)</tooltip>
     </macros>
     <name>Linking Container</name>
     <opi_file>ADPlugins.opi</opi_file>
-    <resize_behaviour>0</resize_behaviour>
+    <resize_behaviour>2</resize_behaviour>
     <rules />
     <scale_options>
       <width_scalable>true</width_scalable>
@@ -368,7 +368,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color red="0" green="128" blue="255" />
     </border_color>
-    <border_style>3</border_style>
+    <border_style>0</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -378,13 +378,13 @@ $(pv_value)</tooltip>
       <color red="0" green="0" blue="0" />
     </foreground_color>
     <group_name></group_name>
-    <height>135</height>
+    <height>160</height>
     <macros>
       <include_parent_macros>true</include_parent_macros>
     </macros>
     <name>Linking Container</name>
     <opi_file>ADBuffers.opi</opi_file>
-    <resize_behaviour>0</resize_behaviour>
+    <resize_behaviour>2</resize_behaviour>
     <rules />
     <scale_options>
       <width_scalable>true</width_scalable>
@@ -397,7 +397,7 @@ $(pv_value)</tooltip>
     <widget_type>Linking Container</widget_type>
     <width>350</width>
     <x>360</x>
-    <y>615</y>
+    <y>690</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />

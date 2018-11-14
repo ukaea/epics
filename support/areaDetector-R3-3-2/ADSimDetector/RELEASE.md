@@ -34,6 +34,16 @@ files respectively, in the configure/ directory of the appropriate release of th
 Release Notes
 =============
 
+R2-8 (July 1, 2018)
+===================
+* Changed Makefile to use addprefix to add -I to user-defined include file directory paths
+* Fixed so it builds OK if WITH_HDF5=NO.
+* Changed simDetector.adl to have the new records from ADCore R3-3.
+* Updated the edl, ui, and opi autoconvert directories to contain the conversions
+  from the most recent adl files and improved converters.
+* Fixed comments in the files in the iocBoot directories.  Thanks to Lewis Muir for this.
+
+
 R2-7 (January 28, 2018)
 ========================
 * Fixed simDetectorNoIOCApp/src/Makefile so it handles external locations of HDF, SZIP, and XML2 correctly.

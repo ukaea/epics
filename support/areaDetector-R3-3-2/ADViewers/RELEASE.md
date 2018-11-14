@@ -12,9 +12,46 @@ https://github.com/areaDetector/ADViewers/releases .
 
 Release Notes
 =============
+
+R1-2 (November 11, 2018)
+======================
+### EPICS_NTNDA_Viewer
+* Changed connection management to use callbacks rather than polling.  Thanks to Marty Kraimer for this.
+* Previously this viewer was incorrectly treating signed 8-bit and 16-bit images as unsigned.
+  Changed so that signed 8-bit and 16-bit data are now converted to float, so ImageJ correctly displays
+  negative values.
+  Conversion to float is required because the ImageJ ByteProcessor and ShortProcessor
+  only support unsigned integers.
+* Improved the status messages in the display to show when the display is stopped, and when connect and
+  disconnect events occur.
+### EPICS_AD_Viewer
+* Previously this viewer was incorrectly treating signed 8-bit and 16-bit images as unsigned.
+  Changed so that signed 8-bit and 16-bit data are now converted to float, so ImageJ correctly displays
+  negative values. 
+  Conversion to float is required because the ImageJ ByteProcessor and ShortProcessor
+  only support unsigned integers.
+
+
+R1-1 (October 4, 2018)
+======================
+### EPICS_NTNDAViewer
+* Found a serious bug in epics-pvaclient-4.3.1.jar.  A destroy() function was not being called when it should have been.
+  The result was that when the NTNDArray was not reachable (i.e. IOC not running) the broadcast search requests added
+  additional copies of the same PV with time.  This caused the request to grow in size until it required many
+  packets.  The network was thus flooded with broadcast packets if the ImageJ plugin ran for many hours or days without
+  being able to connect to the IOC.  This was sufficient to cause VME IOCs on the subnet to be 95% CPU bound just processing 
+  these broadcast packets.
+* Fixed the logic in connectPV() when a connect attempt failed.  This was also incorrect, and could contribute to the above
+  problem.
+
+* Marty Kraimer fixed the problem in epics-pvaclient-4.3.2.jar, which is now included in this release of ADViewer.
+
+### pvAccess jar files
+* All of the other pvAccess jar files were updated to the latest versions.
+
+
 R1-0 (July 1, 2017)
 ======================
-
 ### Initial release.  
 * Prior to the release of [ADCore](https://github.com/areaDetector/ADCore) R3-0 the code in ADViewers
   was in the Viewers subdirectory of ADCore.
@@ -55,6 +92,7 @@ R1-0 (July 1, 2017)
   Note that ArrayCounter_RBV will also change if the user manually changes ArrayCounter, for example by
   setting it back to 0.  This will also cause ImageJ to display the image, when it would not have done 
   so previously.  This should not be a problem.
+
 
 ADCore R2-6 and earlier
 ==================
