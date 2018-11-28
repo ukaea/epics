@@ -6,7 +6,8 @@ caput 13SIM1:cam1:ImageMode "Continuous"
 caput 13SIM1:cam1:ArrayCallbacks "Enable"
 caput -S 13SIM1:cam1:NDAttributesFile "./test5_attributes.xml"
 caput 13SIM1:cam1:Acquire 1
-caput 13SIM1:HDF1:EnableCallbacks Enable
+caput 13SIM1:HDF1:EnableCallbacks "Enable"
+caput 13SIM1:image1:EnableCallbacks "Enable"
 caput -S 13SIM1:HDF1:FilePath "./"
 caput -S 13SIM1:HDF1:FileName "test5"
 caput -S 13SIM1:HDF1:FileTemplate "%s%s_%3.3d.h5"
@@ -16,6 +17,9 @@ caput 13SIM1:HDF1:FileNumber 1
 caput 13SIM1:HDF1:FileWriteMode "Stream"
 caput 13SIM1:HDF1:NumCapture "0"
 caput 13SIM1:HDF1:Capture 1
+caget 13SIM1:HDF1:XMLValid_RBV
+caget -S 13SIM1:HDF1:XMLErrorMsg_RBV
+
 sleep 3
 caput 13SIM1:HDF1:Capture 0
 sleep 5

@@ -1,0 +1,562 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>NDDriverStdArrays driver</title>
+  <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type" />
+</head>
+<body>
+  <div style="text-align: center">
+    <h1>
+      NDDriverStdArrays areaDetector driver</h1>
+    <h2>
+      November 21, 2016</h2>
+    <h2>
+      Mark Rivers</h2>
+    <h2>
+      University of Chicago</h2>
+  </div>
+  <h2>
+    Table of Contents</h2>
+  <ul>
+    <li><a href="#Introduction">Introduction</a></li>
+    <li><a href="#StandardParameters">Standard driver parameters</a></li>
+    <li><a href="#DriverParameters">NDDriverStdArrays specific driver parameters</a></li>
+    <li><a href="#Configuration">Configuration</a></li>
+    <li><a href="#MEDM_screens">MEDM screens</a></li>
+    <li><a href="#UnitTests">Unit tests</a></li>
+  </ul>
+  <h2 id="Introduction" style="text-align: left">
+    Introduction</h2>
+  <p>
+    This is an <a href="http://www.aps.anl.gov/epics/">EPICS</a> <a href="areaDetector.html">
+      areaDetector</a> driver that allows any EPICS Channel Access client to create
+    NDArrays in an areaDetector IOC. It is the logical inverse of the <a href="NDPluginStdArrays.html">
+      NDPluginStdArrays</a>, which converts NDArrays in an IOC into standard EPICS waveform
+    records for use by Channel Access clients. The NDPluginStdArrays plugin also writes
+    to additional records to describe the array structure. The NDDriverStdArrays driver
+    receives EPICS waveform records from Channel Access clients and converts them to
+    an NDArray in the IOC. The clients must also write to additional EPICS records to
+    define the structure of the NDArray. It is similar in concept to the <a href="pvaDriverDoc.html">
+      pvaDriver</a> which receives EPICS V4 NTNDArrays over the network and converts
+    them to NDArrays in the IOC. pvaDriver only works with EPICS V4 PVAccess clients,
+    while NDDriverStdArrays works with EPICS V3 Channel Access clients.
+  </p>
+  <p>
+    NDDriverStdArrays is based on an earlier driver called ADSoft written by David Vine
+    from LBNL. This driver generalizes ADSoft to support any number of dimensions and
+    any input waveform data type.</p>
+  <p>
+    One use-case for this driver may be to receive data from the EPICS sscan record.
+    By putting such data into an areaDetector IOC it could then be saved with the standard
+    file saving plugins. It could also be processed with ROI plugins, and then visualized
+    with the standard areaDetector viewers like ImageJ.</p>
+  <p>
+    This driver inherits from <a href="areaDetectorDoc.html#ADDriver">ADDriver</a>.
+    It implements many of the parameters in <a href="areaDetectorDoxygenHTML/asyn_n_d_array_driver_8h.html">
+      asynNDArrayDriver.h</a> and in <a href="areaDetectorDoxygenHTML/_a_d_driver_8h.html">
+        ADArrayDriver.h</a>. It also implements a number of parameters that are specific
+    to this driver. The <a href="areaDetectorDoxygenHTML/class_n_d_driver_std_arrays.html">
+      NDDriverStdArrays class documentation</a> describes this class in detail.</p>
+  <p>
+    The driver receives 1-D arrays, normally from an EPICS waveform record. The NDimensions
+    record controls the actual number of dimensions to use when creating the NDArray.
+    The Dimensions array record controls the actual size of each of the NDimensions
+    dimensions. The only limit on the number of dimensions is the ND_ARRAY_MAX_DIMENSIONS
+    value defined in ADCore. This is normally 10. The ColorMode record can be used to
+    define the color mode (Mono, Bayer, RGB1, RGB2, or RGB3) of the NDArray. This does
+    not affect the operation of the driver, so the data in the waveform record must
+    be in the correct order for the specified color mode.</p>
+  <p>
+    The data type of the NDArray is controlled by the DataType record. It can be any
+    of the datatypes Int8, UInt8, Int16, UInt16, Int32, UInt32, Float32, or Float64.
+    The datatype (FTVL) of the EPICS waveform record can also be any of the types CHAR,
+    UCHAR, SHORT, USHORT, LONG, ULONG, FLOAT, or DOUBLE. The DTYP of the waveform record
+    can be any of asynInt8ArrayWfOut, asynInt16ArrayWfOut, asynInt32ArrayWfOut, asynFloat32ArrayWfOut,
+    or asynFloat64ArrayWfOut. The driver does any required type conversion between the
+    waveform record data and the NDArray data.</p>
+  <p>
+    The driver has 2 modes of operation, AppendMode=Disable and AppendMode=Enable. When
+    AppendMode is Disable then each write to the waveform record will generate a complete
+    NDArray. The first element of the waveform record will be placed in the first element
+    of the NDArray. Generally the number of elements written should be equal to the
+    total number of elements in the NDArray. If it is greater then excess elements will
+    be discarded. If it is fewer then the NDArray will be zero-padded.</p>
+  <p>
+    When AppendMode=Enable then the waveform record can contain just part of the NDArray
+    data, and data can be appended by multiple writes to the waveform record to construct
+    the complete NDArray. In append mode the following records are used to control the
+    operation of the driver. These records have no effect if AppendMode=Disable.</p>
+  <ul>
+    <li>NewArray This record must be processed before sending data for a new NDArray.</li>
+    <li>NextElement This record can be used to define the location in the NDArray in which
+      to write the data on the next waveform record write. It is set to 0 when NewArray
+      is processed, and is incremented by the number of elements in the waveform record
+      each time the waveform record is written. Thus if the data are being written in
+      the logical order of the NDArray then this record does not need to be written. This
+      record is useful when the should not be written in the natural order of the NDArray
+      data.</li>
+    <li>Stride This record can be used to define the increment in the NDArray index for
+      each successive element in the waveform record. Data is copied from the waveform
+      record to the NDArray as follows:
+      <pre>
+        NDArray[NextElement + i*Stride] = waveform[i]
+    </pre>
+      The default value of Stride is 1.</li>
+    <li>ArrayComplete This record must be processed to tell the driver that the NDArray
+      is complete and that no more waveform records will be written to this NDArray.</li>
+  </ul>
+  <p>
+    The CallbackMode record controls when the driver does callbacks to plugins. In append
+    mode it may not be desireable to do callbacks each time the waveform record is written,
+    since that could happen thousands of times per second if only small parts of the
+    NDArray are written on each call. The CallbackMode record has 3 choices:</p>
+  <ul>
+    <li>OnUpdate The callbacks will be done each time the NDArray is updated, i.e. each
+      time the waveform record is written.</li>
+    <li>OnComplete The callbacks will be done when the NDArray is complete. This is equivalent
+      to OnUpdate when AppendMode=Disable, but when AppendMode=Enable then the callbacks
+      will only happen after the ArrayComplete record is processed.</li>
+    <li>OnCommand The callbacks are only called when the DoCallbacks record is processed.
+      This allows Channel Access clients to control when the callbacks are done. The DoCallbacks
+      record will also cause the callbacks to be done when CallbackMode is OnUpdate or
+      OnComplete.</li>
+  </ul>
+  <h2 id="StandardParameters" style="text-align: left">
+    Standard areaDetector parameters</h2>
+  <p>
+    The following table describes how the NDDriverStdArrays driver implements some of
+    the standard driver parameters. The Acquire, ImageMode, NumImages, ImageCounter,
+    and ArrayCallbacks records are handled in the standard way. The trigger, temperature,
+    acquire time, and gain related records are not implemented.
+  </p>
+  <table border="1" cellpadding="2" cellspacing="2" style="text-align: left">
+    <tbody>
+      <tr>
+        <td align="center" colspan="3">
+          <b>Implementation of Parameters in asynNDArrayDriver.h and ADDriver.h, and EPICS Record
+            Definitions in ADBase.template and NDFile.template</b> </td>
+      </tr>
+      <tr>
+        <th>
+          Parameter index variable </th>
+        <th>
+          EPICS record name </th>
+        <th>
+          Description </th>
+      </tr>
+      <tr>
+        <td>
+          NDNDimensions </td>
+        <td>
+          $(P)$(R)NDimensions </td>
+        <td>
+          The number of dimensions in the NDArray to be created. Must be set before the waveform
+          record is written.</td>
+      </tr>
+      <tr>
+        <td>
+          NDDimensions </td>
+        <td>
+          $(P)$(R)Dimensions </td>
+        <td>
+          An array containing the dimensions of the NDArray to be created. Must be set before
+          the waveform record is written.</td>
+      </tr>
+      <tr>
+        <td>
+          NDDataType </td>
+        <td>
+          $(P)$(R)DataType </td>
+        <td>
+          The data type of the NDArray to be created. Must be set before the waveform record
+          is written.</td>
+      </tr>
+      <tr>
+        <td>
+          NDColorMode </td>
+        <td>
+          $(P)$(R)ColorMode </td>
+        <td>
+          The color mode of the NDArray to be created. Must be set before the waveform record
+          is written.</td>
+      </tr>
+      <tr>
+        <td>
+          N.A. </td>
+        <td>
+          $(P)$(R)ArraySize[N], N=0, 9. </td>
+        <td>
+          The $(P)$(R)Dimensions[0-9] values, extracted with a subarray record. These allow
+          for display of the NDArray dimensions.</td>
+      </tr>
+      <tr>
+        <td>
+          N.A. </td>
+        <td>
+          $(P)$(R)ArraySize[N]_RBV, N=0, 9. </td>
+        <td>
+          The $(P)$(R)Dimensions_RB[0-9] values, extracted with a subarray record. These allow
+          for display of the dimensions of the currently defined data in the NDArray. These
+          will increment when AppendMode=Enable.</td>
+      </tr>
+    </tbody>
+  </table>
+  <h2 id="DriverParameters">
+    NDDriverStdArrays specific driver parameters</h2>
+  <p>
+    The NDDriverStdArrays driver implements the following parameters in addition to
+    those in asynNDArrayDriver.h and ADDriver.h. The database file is NDDriverStdArrays.template.
+  </p>
+  <table border="1" cellpadding="2" cellspacing="2" style="text-align: left">
+    <tbody>
+      <tr>
+        <td align="center" colspan="7">
+          <b>Parameter Definitions in NDDriverStdArrays.h and EPICS Record Definitions</b>
+        </td>
+      </tr>
+      <tr>
+        <th>
+          Parameter index variable </th>
+        <th>
+          asyn interface </th>
+        <th>
+          Access </th>
+        <th>
+          Description </th>
+        <th>
+          drvInfo string </th>
+        <th>
+          EPICS record name </th>
+        <th>
+          EPICS record type </th>
+      </tr>
+      <tr>
+        <td>
+          NDSA_AppendMode </td>
+        <td>
+          asynInt32 </td>
+        <td>
+          r/w </td>
+        <td>
+          Append mode. Choices are Disable (0) and Enable (1). See the description above.
+        </td>
+        <td>
+          NDSA_APPEND_MODE </td>
+        <td>
+          $(P)$(R)AppendMode
+          <br />
+          $(P)$(R)AppendMode_RBV </td>
+        <td>
+          bo
+          <br />
+          bi </td>
+      </tr>
+      <tr>
+        <td>
+          NDSA_NumElements </td>
+        <td>
+          asynInt32 </td>
+        <td>
+          r/o </td>
+        <td>
+          The total number of elements in the NDArray. </td>
+        <td>
+          NDSA_NUM_ELEMENTS </td>
+        <td>
+          $(P)$(R)NumElements_RBV</td>
+        <td>
+          longin</td>
+      </tr>
+      <tr>
+        <td>
+          NDSA_NextElement </td>
+        <td>
+          asynInt32 </td>
+        <td>
+          r/w </td>
+        <td>
+          The next element in the NDArray to write to when AppendMode=Enable. See the description
+          above. </td>
+        <td>
+          NDSA_NEXT_ELEMENT </td>
+        <td>
+          $(P)$(R)NextElement
+          <br />
+          $(P)$(R)NextElement_RBV</td>
+        <td>
+          longout
+          <br />
+          longin</td>
+      </tr>
+      <tr>
+        <td>
+          NDSA_Stride </td>
+        <td>
+          asynInt32 </td>
+        <td>
+          r/w </td>
+        <td>
+          The stride to use for the NDArray index when copying data from the waveform record
+          to the NDArray. See the description above. </td>
+        <td>
+          NDSA_STRIDE </td>
+        <td>
+          $(P)$(R)Stride
+          <br />
+          $(P)$(R)Stride_RBV</td>
+        <td>
+          longout
+          <br />
+          longin</td>
+      </tr>
+      <tr>
+        <td>
+          NDSA_FillValue </td>
+        <td>
+          asynFloat64 </td>
+        <td>
+          r/w </td>
+        <td>
+          The fill value to use for the NDArray. The NDArray is set to FillValue when AppendMode=Enable
+          and NewArray is processed, or when AppendMode=Disable and the number of elements
+          in the waveform record is fewer than the number of elements in the NDArray.</td>
+        <td>
+          NDSA_FILL_VALUE </td>
+        <td>
+          $(P)$(R)FillValue</td>
+        <td>
+          ao</td>
+      </tr>
+      <tr>
+        <td>
+          NDSA_NewArray </td>
+        <td>
+          asynInt32 </td>
+        <td>
+          r/w </td>
+        <td>
+          Tell the driver to start a new NDArray when AppendMode=Enable. See the description
+          above. </td>
+        <td>
+          NDSA_NEW_ARRAY </td>
+        <td>
+          $(P)$(R)NewArray</td>
+        <td>
+          bo</td>
+      </tr>
+      <tr>
+        <td>
+          NDSA_ArrayComplete </td>
+        <td>
+          asynInt32 </td>
+        <td>
+          r/w </td>
+        <td>
+          Tell the driver that the current NDArray is complete when AppendMode=Enable. See
+          the description above. </td>
+        <td>
+          NDSA_ARRAY_COMPLETE </td>
+        <td>
+          $(P)$(R)ArrayComplete</td>
+        <td>
+          bo</td>
+      </tr>
+      <tr>
+        <td>
+          NDSA_CallbackMode </td>
+        <td>
+          asynInt32 </td>
+        <td>
+          r/w </td>
+        <td>
+          Callback mode. See the description above. Choices are:<br />
+          0: OnUpdate
+          <br />
+          1: OnComplete
+          <br />
+          2: OnCommand
+          <br />
+        </td>
+        <td>
+          NDSA_CALLBACK_MODE </td>
+        <td>
+          $(P)$(R)CallbackMode
+          <br />
+          $(P)$(R)CallbackMode_RBV </td>
+        <td>
+          mbbo
+          <br />
+          mbbi </td>
+      </tr>
+      <tr>
+        <td>
+          NDSA_DoCallbacks </td>
+        <td>
+          asynInt32 </td>
+        <td>
+          r/w </td>
+        <td>
+          Processing this record forces the driver to do callbacks to plugins. </td>
+        <td>
+          NDSA_DO_CALLBACKS </td>
+        <td>
+          $(P)$(R)DoCallbacks</td>
+        <td>
+          bo</td>
+      </tr>
+      <tr>
+        <td>
+          N.A. </td>
+        <td>
+          N.A. </td>
+        <td>
+          r/w </td>
+        <td>
+          This record can periodically process the DoCallbacks record by setting is SCAN field.
+          It is disabled when $(P)$(R)Acquire is 0. </td>
+        <td>
+          N.A. </td>
+        <td>
+          $(P)$(R)DoCallbacksScan</td>
+        <td>
+          bo</td>
+      </tr>
+      <tr>
+        <td>
+          NDSA_ArrayData </td>
+        <td>
+          asynXXXArray </td>
+        <td>
+          r/w </td>
+        <td>
+          Waveform record containing the input data. The database requires 3 additional macros
+          for this record:
+          <br />
+          TYPE The asyn interface XXX (XXX=Int8, Int16, Int32, Float32, or Float64)
+          <br />
+          FTVL The waveform record FTVL field (SHORT, USHORT, etc.)
+          <br />
+          NELEMENTS The total number of elements in the waveform record</td>
+        <td>
+          NDSA_ARRAY_DATA </td>
+        <td>
+          $(P)$(R)ArrayIn</td>
+        <td>
+          waveform</td>
+      </tr>
+    </tbody>
+  </table>
+  <h2 id="Configuration">
+    Configuration</h2>
+  <p>
+    The NDDriverStdArrays driver is created with the NDDriverStdArraysConfig command,
+    either from C/C++ or from the EPICS IOC shell.</p>
+  <pre>NDDriverStdArraysConfig(const char *portName,
+              int maxBuffers, size_t maxMemory, 
+              int priority, int stackSize)
+  </pre>
+  <p>
+    There an example IOC boot directory and startup script (<a href="nd_std_arrays_st_cmd.html">iocBoot/iocNDDriverStdArrays/st.cmd)</a>
+    provided with areaDetector.
+  </p>
+  <h2 id="MEDM_screens" style="text-align: left">
+    MEDM screens</h2>
+  <p>
+    The following show the MEDM screens that are used to control the NDDriverStdArrays
+    driver.</p>
+  <p>
+    <code>NDDriverStdArrays.adl</code> is the screen used to control this driver.
+  </p>
+  <div style="text-align: center">
+    <h3 style="text-align: center">
+      NDDriverStdArrays.adl</h3>
+    <img alt="NDDriverStdArrays.png" src="NDDriverStdArrays.png" /></div>
+  <h2 id="UnitTests" style="text-align: left">
+    Unit tests</h2>
+  <p>
+    The src/Python_tests and src/IDL_tests directories contain a number of tests of
+    the driver. The IDL tests are run by opening IDL and typing for example:</p>
+  <pre>IDL> .run MonoOverwrite
+    </pre>
+  <p>
+    The Python tests can all be run by typing:</p>
+  <pre>python test_NDDriverStdArrays.py
+    </pre>
+  <p>
+    Individual tests can be run by typing for example:</p>
+  <pre>python test_NDDriverStdArrays.py TestNDDriverStdArrays.testDataTypes
+  </pre>
+  <p>
+    When running the tests it is useful to be displaying the images, for example in
+    ImageJ. It is helpful to press the ImageJ "Auto" contrast button as the tests are
+    run, since they have different data ranges.</p>
+  <p>
+    test_NDDriverStdArrays.py contains the following tests:</p>
+  <ul>
+    <li><b>testDataTypes</b> This test creates NDArrays of size 256x768 for each allowed
+      NDArray data type and corresponding Python data type. It writes the complete array
+      with a single channel access write to the waveform record, i.e. with AppendMode=Disable.
+      After writing each array it reads it back to verify that the data read matches the
+      data written. </li>
+    <li><b>testDataTypesAppend</b> This test is the same as testDataTypes except that
+      the data are written with AppendMode=Enable. Each channel access write to the waveform
+      record writes "ystep" rows of the image. "ystep" is set to 1 in the code, but can
+      be edited to test writing multiple rows at once. After writing each complete array
+      it reads it back to verify that the data read matches the data written. </li>
+    <li><b>testContinuousMono</b> This test writes 50 NDArrays of size 500x800 with ImageMode=Continuous,
+      ColorMode=Mono, and AppendMode=Disable. The images are a 2-D damped sine wave, where
+      the frequency increases with each successive image. After writing each complete
+      array it reads it back to verify that the data read matches the data written.
+    </li>
+    <li><b>testContinuousRGB1</b> This test writes 20 NDArrays of size 3x600x800 with
+      ImageMode=Continuous ColorMode=RGB1, and AppendMode=Disable. The images are a 2-D
+      damped sine wave, where the frequency increases with each successive image and where
+      the red, green, and blue images have different frequencies. After writing each complete
+      array it reads it back to verify that the data read matches the data written.
+    </li>
+    <li><b>testScanPoint</b> This test simulates collecting 2-D scan data for 4 detectors
+      with size 100x200. The data are collected with AppendMode=Enable. The data are appended
+      to the NDArray one "pixel" at a time, i.e. the waveform record is has 4 elements,
+      one for each detector. At the end of the scan the test configures the ROI1: plugin
+      to select each of the 4 detectors in turn and processes the DoCallbacks record.
+      This can display each of the detectors in succession in the ImageJ plugin, for example.
+    </li>
+    <li><b>testScanPointReverse</b> This is the same as testScanPoint except that the
+      data are collected in reverse order, i.e. from element [99,199] backwards to element
+      [0,0]. It thus tests the use of NextElement.</li>
+    <li><b>testScanLine</b> This test simulates collecting 2-D scan data for 4 detectors
+      with size 400x600. The data are collected with AppendMode=Enable. The data are appended
+      to the NDArray one "detector line" at a time, i.e. the waveform record is has 400
+      elements, containing the data for one detector for one row of the scan. The NDArray
+      can be one of the following shapes:
+      <ul>
+        <li>[4,400,600] This is "detector interleaved&quot;, and called detIndex=0.&nbsp;
+          This is the default.</li>
+        <li>[400,4,600] This is "row interleaved", and called detIndex=1.</li>
+        <li>[400,600,4] This is "plane interleaved", and called detIndex=2.</li>
+      </ul>
+      At the end of the scan the test configures the ROI1: plugin to select each of the
+      4 detectors in turn and processes the DoCallbacks record. This can display each
+      of the detectors in succession in the ImageJ plugin, for example.
+      <li><b>testScanLineIndex1</b> This is the same as testScanLine, but with detIndex=1.
+        <li><b>testScanLineIndex2</b>This is the same as testScanLine, but with detIndex=2.
+  </ul>
+  <p>
+    The following shows the NDPluginROI medm screen configured to select the 4'th detector
+    in the NDArray. Note that the plugin has the CollapseDims PV enabled. This results
+    in output arrays of dimensions [100, 200], rather than [1, 100, 200] which would
+    be the case if CollapseDims was disabled.</p>
+  <div style="text-align: center">
+    <h3 style="text-align: center">
+      NDROI.adl</h3>
+    <img alt="NDSA_testScanPoint_ROI4.png" src="NDSA_testScanPoint_ROI4.png" /></div>
+  <p>
+    The following shows the ImageJ screen displaying the output of the 4'th detector
+    via ROI4. The NDPluginStdArrays was set to have ROI4 as its array input.</p>
+  <div style="text-align: center">
+    <h3 style="text-align: center">
+      ImageJ display</h3>
+    <img alt="NDSA_testScanPoint_ROI4_ImageJ.png" src="NDSA_testScanPoint_ROI4_ImageJ.png" /></div>
+</body>
+</html>

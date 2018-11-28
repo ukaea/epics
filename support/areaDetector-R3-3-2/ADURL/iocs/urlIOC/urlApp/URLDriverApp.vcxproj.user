@@ -18,13 +18,13 @@ IPPORT5=localhost:5070</LocalDebuggerEnvironment>
     <LocalDebuggerCommandArguments>st.cmd.windows</LocalDebuggerCommandArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
-    <LocalDebuggerEnvironment>EPICS_CA_MAX_ARRAY_BYTES=20000000
-MAGICK_DEBUG=configure,exception
-TOP=/epics/support/areaDetectorR3-2/ADURL/iocs/urlIOC
-ADURL=/epics/support/areaDetectorR3-2/ADURL
-ADCore=/epics/support/areaDetectorR3-2/ADCore
-AUTOSAVE=/epics/support/autosave
-CALC=/epics/support/calc
+    <LocalDebuggerEnvironment>set EPICS_CA_MAX_ARRAY_BYTES=20000000
+set MAGICK_DEBUG=configure,exception
+set TOP=/epics/support/areaDetectorR3-2/ADURL/iocs/urlIOC
+set ADURL=/epics/support/areaDetectorR3-2/ADURL
+set ADCORE=/epics/support/areaDetectorR3-2/ADCore
+set AUTOSAVE=/epics/support/autosave
+set CALC=/epics/support/calc
 $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <LocalDebuggerWorkingDirectory>..\iocBoot\iocURLDriver</LocalDebuggerWorkingDirectory>
@@ -35,13 +35,13 @@ $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
     <LocalDebuggerCommandArguments>st.cmd.windows</LocalDebuggerCommandArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
-    <LocalDebuggerEnvironment>EPICS_CA_MAX_ARRAY_BYTES=20000000
-MAGICK_DEBUG=configure,exception
-TOP=/epics/support/areaDetectorR3-2/ADURL/iocs/urlIOC
-ADURL=/epics/support/areaDetectorR3-2/ADURL
-ADCore=/epics/support/areaDetectorR3-2/ADCore
-AUTOSAVE=/epics/support/autosave
-CALC=/epics/support/calc
+    <LocalDebuggerEnvironment>set EPICS_CA_MAX_ARRAY_BYTES=20000000
+set MAGICK_DEBUG=configure,exception
+set TOP=/epics/support/areaDetectorR3-2/ADURL/iocs/urlIOC
+set ADURL=/epics/support/areaDetectorR3-2/ADURL
+set ADCORE=/epics/support/areaDetectorR3-2/ADCore
+set AUTOSAVE=/epics/support/autosave
+set CALC=/epics/support/calc
 $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <LocalDebuggerWorkingDirectory>..\iocBoot\iocURLDriver</LocalDebuggerWorkingDirectory>
@@ -49,13 +49,13 @@ $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
     <DevPartner_Instrumented_Type> /NMbcOn</DevPartner_Instrumented_Type>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
-    <LocalDebuggerEnvironment>EPICS_CA_MAX_ARRAY_BYTES=20000000
-MAGICK_DEBUG=configure,exception
-TOP=/epics/support/areaDetectorR3-2/ADURL/iocs/urlIOC
-ADURL=/epics/support/areaDetectorR3-2/ADURL
-ADCore=/epics/support/areaDetectorR3-2/ADCore
-AUTOSAVE=/epics/support/autosave
-CALC=/epics/support/calc
+    <LocalDebuggerEnvironment>set EPICS_CA_MAX_ARRAY_BYTES=20000000
+set MAGICK_DEBUG=configure,exception
+set TOP=/epics/support/areaDetectorR3-2/ADURL/iocs/urlIOC
+set ADURL=/epics/support/areaDetectorR3-2/ADURL
+set ADCORE=/epics/support/areaDetectorR3-2/ADCore
+set AUTOSAVE=/epics/support/autosave
+set CALC=/epics/support/calc
 $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <LocalDebuggerCommandArguments>st.cmd.windows</LocalDebuggerCommandArguments>
@@ -64,13 +64,13 @@ $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
     <DevPartner_Instrumented_Type> /NMbcOn</DevPartner_Instrumented_Type>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
-    <LocalDebuggerEnvironment>EPICS_CA_MAX_ARRAY_BYTES=20000000
-MAGICK_DEBUG=configure,exception
-TOP=/epics/support/areaDetectorR3-2/ADURL/iocs/urlIOC
-ADURL=/epics/support/areaDetectorR3-2/ADURL
-ADCore=/epics/support/areaDetectorR3-2/ADCore
-AUTOSAVE=/epics/support/autosave
-CALC=/epics/support/calc
+    <LocalDebuggerEnvironment>set EPICS_CA_MAX_ARRAY_BYTES=20000000
+set MAGICK_DEBUG=configure,exception
+set TOP=/epics/support/areaDetectorR3-2/ADURL/iocs/urlIOC
+set ADURL=/epics/support/areaDetectorR3-2/ADURL
+set ADCORE=/epics/support/areaDetectorR3-2/ADCore
+set AUTOSAVE=/epics/support/autosave
+set CALC=/epics/support/calc
 $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <LocalDebuggerCommandArguments>st.cmd.windows</LocalDebuggerCommandArguments>
@@ -82,49 +82,49 @@ $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
     <LocalDebuggerWorkingDirectory>..\iocBoot\iocURLDriver</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <LocalDebuggerCommandArguments>st.cmd.windows</LocalDebuggerCommandArguments>
-    <LocalDebuggerEnvironment>EPICS_CA_MAX_ARRAY_BYTES=20000000
-MAGICK_DEBUG=configure,exception
-TOP=/epics/support/areaDetectorR3-2/ADURL/iocs/urlIOC
-ADURL=/epics/support/areaDetectorR3-2/ADURL
-ADCore=/epics/support/areaDetectorR3-2/ADCore
-AUTOSAVE=/epics/support/autosave
-CALC=/epics/support/calc
+    <LocalDebuggerEnvironment>set EPICS_CA_MAX_ARRAY_BYTES=20000000
+set MAGICK_DEBUG=configure,exception
+set TOP=/epics/support/areaDetectorR3-2/ADURL/iocs/urlIOC
+set ADURL=/epics/support/areaDetectorR3-2/ADURL
+set ADCORE=/epics/support/areaDetectorR3-2/ADCore
+set AUTOSAVE=/epics/support/autosave
+set CALC=/epics/support/calc
 $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">
     <LocalDebuggerWorkingDirectory>..\iocBoot\iocURLDriver</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <LocalDebuggerCommandArguments>st.cmd.windows</LocalDebuggerCommandArguments>
-    <LocalDebuggerEnvironment>EPICS_CA_MAX_ARRAY_BYTES=20000000
-MAGICK_DEBUG=configure,exception
-TOP=/epics/support/areaDetectorR3-2/ADURL/iocs/urlIOC
-ADURL=/epics/support/areaDetectorR3-2/ADURL
-ADCore=/epics/support/areaDetectorR3-2/ADCore
-AUTOSAVE=/epics/support/autosave
-CALC=/epics/support/calc
+    <LocalDebuggerEnvironment>set EPICS_CA_MAX_ARRAY_BYTES=20000000
+set MAGICK_DEBUG=configure,exception
+set TOP=/epics/support/areaDetectorR3-2/ADURL/iocs/urlIOC
+set ADURL=/epics/support/areaDetectorR3-2/ADURL
+set ADCORE=/epics/support/areaDetectorR3-2/ADCore
+set AUTOSAVE=/epics/support/autosave
+set CALC=/epics/support/calc
 $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
     <LocalDebuggerCommandArguments>st.cmd.windows</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <LocalDebuggerWorkingDirectory>..\iocBoot\iocURLDriver</LocalDebuggerWorkingDirectory>
-    <LocalDebuggerEnvironment>EPICS_CA_MAX_ARRAY_BYTES=20000000
-MAGICK_DEBUG=configure,exception
-TOP=/epics/support/areaDetectorR3-2/ADURL/iocs/urlIOC
-ADURL=/epics/support/areaDetectorR3-2/ADURL
-ADCore=/epics/support/areaDetectorR3-2/ADCore
-AUTOSAVE=/epics/support/autosave
-CALC=/epics/support/calc
+    <LocalDebuggerEnvironment>set EPICS_CA_MAX_ARRAY_BYTES=20000000
+set MAGICK_DEBUG=configure,exception
+set TOP=/epics/support/areaDetectorR3-2/ADURL/iocs/urlIOC
+set ADURL=/epics/support/areaDetectorR3-2/ADURL
+set ADCORE=/epics/support/areaDetectorR3-2/ADCore
+set AUTOSAVE=/epics/support/autosave
+set CALC=/epics/support/calc
 $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
-    <LocalDebuggerEnvironment>EPICS_CA_MAX_ARRAY_BYTES=20000000
-MAGICK_DEBUG=configure,exception
-TOP=/epics/support/areaDetectorR3-2/ADURL/iocs/urlIOC
-ADURL=/epics/support/areaDetectorR3-2/ADURL
-ADCore=/epics/support/areaDetectorR3-2/ADCore
-AUTOSAVE=/epics/support/autosave
-CALC=/epics/support/calc
+    <LocalDebuggerEnvironment>set EPICS_CA_MAX_ARRAY_BYTES=20000000
+set MAGICK_DEBUG=configure,exception
+set TOP=/epics/support/areaDetectorR3-2/ADURL/iocs/urlIOC
+set ADURL=/epics/support/areaDetectorR3-2/ADURL
+set ADCORE=/epics/support/areaDetectorR3-2/ADCore
+set AUTOSAVE=/epics/support/autosave
+set CALC=/epics/support/calc
 $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <LocalDebuggerCommandArguments>st.cmd.windows</LocalDebuggerCommandArguments>

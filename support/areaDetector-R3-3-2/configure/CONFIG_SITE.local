@@ -32,8 +32,20 @@ WITH_BOOST     = NO
 # ADCore/pluginTests unit tests.
 #BOOST_USE_STATIC_LINK=YES
 
-# EPICS_V4 is required for NDPluginPva and pvaDriver
-WITH_EPICS_V4  = NO
+# EPICS PVA is required for NDPluginPva, pvaDriver, and qsrv
+WITH_PVA  = NO
+
+# WITH_QSRV controls whether IOCs are built with support for qsrv.
+# This is separate from WITH_PVA to allow PVA to be enabled but QSRV to be disabled.
+# This is needed on 3.14.12 where PVA is supported but QSRV is not.
+# Note that if WITH_QSRV=YES then WITH_PVA must also be YES
+WITH_QSRV = NO
+
+# BLOSC is required to use the blosc compressors in the HDF5 plugin
+WITH_BLOSC     = NO
+BLOSC_EXTERNAL = NO
+#BLOSC_INCLUDE =
+#BLOSC_LIB     =
 
 # GraphicsMagick is required for NDFileMagick and the URL driver.
 WITH_GRAPHICSMAGICK     = YES
@@ -59,7 +71,7 @@ JPEG_EXTERNAL = NO
 #JPEG_LIB     =
 
 # JPEG is required for the NDFileNetCDF plugin
-WITH_NETCDF     = YES
+WITH_NETCDF     = NO
 NETCDF_EXTERNAL = NO
 #NETCDF_INCLUDE =
 #NETCDF_LIB     =
@@ -72,7 +84,7 @@ NEXUS_EXTERNAL = NO
 
 # OPENCV is required for the ADPluginEdge plugin
 WITH_OPENCV     = NO
-OPENCV_EXTERNAL = NO
+OPENCV_EXTERNAL = YES
 #OPENCV_INCLUDE =
 #OPENCV_LIB     =
 

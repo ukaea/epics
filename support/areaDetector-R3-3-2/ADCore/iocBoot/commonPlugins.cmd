@@ -159,7 +159,7 @@ dbLoadRecords("$(AUTOSAVE)/asApp/Db/save_restoreStatus.db", "P=$(PREFIX)")
 
 # Optional: load sseq record for acquisition sequence
 #dbLoadRecords("$(CALC)/calcApp/Db/sseqRecord.db", "P=$(PREFIX), S=AcquireSequence")
-#set_requestfile_path("$(CALC)/calcApp/Db")
+set_requestfile_path("$(CALC)/calcApp/Db")
 
 # Optional: load devIocStats records (requires DEVIOCSTATS module)
 #dbLoadRecords("$(DEVIOCSTATS)/db/iocAdminSoft.db", "IOC=$(PREFIX)")

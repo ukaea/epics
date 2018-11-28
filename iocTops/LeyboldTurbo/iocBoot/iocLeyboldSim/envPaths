@@ -1,4 +1,4 @@
-epicsEnvSet("ARCH","win32-x86")
+epicsEnvSet("ARCH","win32-x86-static")
 epicsEnvSet("IOC","iocLeyboldSim")
 epicsEnvSet("TOP","D:/EPICS/LeyboldTurbo")
 epicsEnvSet("ASYN","D:/epics/support/asyn")
