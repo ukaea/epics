@@ -92,6 +92,15 @@
     <ClCompile Include="PiRegister.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="devPIE517.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="drvPIE517.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PIE517Register.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="devPIMotor.dbd">
@@ -127,6 +136,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PIC630Register.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="drvPIE517.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
