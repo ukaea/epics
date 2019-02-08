@@ -22,4 +22,4 @@ caget -S 13URL1:HDF1:XMLErrorMsg_RBV
 sleep 3
 caput 13URL1:HDF1:Capture 0
 sleep 5
-h5dump test5_001.h5 > test5_001.txt
+h5dump JETcam1.h5 > JETcam1.txt

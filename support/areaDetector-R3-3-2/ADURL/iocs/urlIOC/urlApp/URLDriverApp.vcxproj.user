@@ -20,9 +20,9 @@ IPPORT5=localhost:5070</LocalDebuggerEnvironment>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
     <LocalDebuggerEnvironment>set EPICS_CA_MAX_ARRAY_BYTES=20000000
 set MAGICK_DEBUG=configure,exception
-set TOP=/epics/support/areaDetectorR3-2/ADURL/iocs/urlIOC
-set ADURL=/epics/support/areaDetectorR3-2/ADURL
-set ADCORE=/epics/support/areaDetectorR3-2/ADCore
+set TOP=/epics/support/areaDetectorR3-3-2/ADURL/iocs/urlIOC
+set ADURL=/epics/support/areaDetectorR3-3-2/ADURL
+set ADCORE=/epics/support/areaDetectorR3-3-2/ADCore
 set AUTOSAVE=/epics/support/autosave
 set CALC=/epics/support/calc
 $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
@@ -37,9 +37,9 @@ $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
     <LocalDebuggerEnvironment>set EPICS_CA_MAX_ARRAY_BYTES=20000000
 set MAGICK_DEBUG=configure,exception
-set TOP=/epics/support/areaDetectorR3-2/ADURL/iocs/urlIOC
-set ADURL=/epics/support/areaDetectorR3-2/ADURL
-set ADCORE=/epics/support/areaDetectorR3-2/ADCore
+set TOP=/epics/support/areaDetectorR3-3-2/ADURL/iocs/urlIOC
+set ADURL=/epics/support/areaDetectorR3-3-2/ADURL
+set ADCORE=/epics/support/areaDetectorR3-3-2/ADCore
 set AUTOSAVE=/epics/support/autosave
 set CALC=/epics/support/calc
 $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
@@ -51,9 +51,9 @@ $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
     <LocalDebuggerEnvironment>set EPICS_CA_MAX_ARRAY_BYTES=20000000
 set MAGICK_DEBUG=configure,exception
-set TOP=/epics/support/areaDetectorR3-2/ADURL/iocs/urlIOC
-set ADURL=/epics/support/areaDetectorR3-2/ADURL
-set ADCORE=/epics/support/areaDetectorR3-2/ADCore
+set TOP=/epics/support/areaDetectorR3-3-2/ADURL/iocs/urlIOC
+set ADURL=/epics/support/areaDetectorR3-3-2/ADURL
+set ADCORE=/epics/support/areaDetectorR3-3-2/ADCore
 set AUTOSAVE=/epics/support/autosave
 set CALC=/epics/support/calc
 $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
@@ -66,9 +66,9 @@ $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
     <LocalDebuggerEnvironment>set EPICS_CA_MAX_ARRAY_BYTES=20000000
 set MAGICK_DEBUG=configure,exception
-set TOP=/epics/support/areaDetectorR3-2/ADURL/iocs/urlIOC
-set ADURL=/epics/support/areaDetectorR3-2/ADURL
-set ADCORE=/epics/support/areaDetectorR3-2/ADCore
+set TOP=/epics/support/areaDetectorR3-3-2/ADURL/iocs/urlIOC
+set ADURL=/epics/support/areaDetectorR3-3-2/ADURL
+set ADCORE=/epics/support/areaDetectorR3-3-2/ADCore
 set AUTOSAVE=/epics/support/autosave
 set CALC=/epics/support/calc
 $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
@@ -84,9 +84,9 @@ $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
     <LocalDebuggerCommandArguments>st.cmd.windows</LocalDebuggerCommandArguments>
     <LocalDebuggerEnvironment>set EPICS_CA_MAX_ARRAY_BYTES=20000000
 set MAGICK_DEBUG=configure,exception
-set TOP=/epics/support/areaDetectorR3-2/ADURL/iocs/urlIOC
-set ADURL=/epics/support/areaDetectorR3-2/ADURL
-set ADCORE=/epics/support/areaDetectorR3-2/ADCore
+set TOP=/epics/support/areaDetectorR3-3-2/ADURL/iocs/urlIOC
+set ADURL=/epics/support/areaDetectorR3-3-2/ADURL
+set ADCORE=/epics/support/areaDetectorR3-3-2/ADCore
 set AUTOSAVE=/epics/support/autosave
 set CALC=/epics/support/calc
 $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
@@ -97,9 +97,9 @@ $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
     <LocalDebuggerCommandArguments>st.cmd.windows</LocalDebuggerCommandArguments>
     <LocalDebuggerEnvironment>set EPICS_CA_MAX_ARRAY_BYTES=20000000
 set MAGICK_DEBUG=configure,exception
-set TOP=/epics/support/areaDetectorR3-2/ADURL/iocs/urlIOC
-set ADURL=/epics/support/areaDetectorR3-2/ADURL
-set ADCORE=/epics/support/areaDetectorR3-2/ADCore
+set TOP=/epics/support/areaDetectorR3-3-2/ADURL/iocs/urlIOC
+set ADURL=/epics/support/areaDetectorR3-3-2/ADURL
+set ADCORE=/epics/support/areaDetectorR3-3-2/ADCore
 set AUTOSAVE=/epics/support/autosave
 set CALC=/epics/support/calc
 $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
@@ -110,9 +110,9 @@ $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
     <LocalDebuggerWorkingDirectory>..\iocBoot\iocURLDriver</LocalDebuggerWorkingDirectory>
     <LocalDebuggerEnvironment>set EPICS_CA_MAX_ARRAY_BYTES=20000000
 set MAGICK_DEBUG=configure,exception
-set TOP=/epics/support/areaDetectorR3-2/ADURL/iocs/urlIOC
-set ADURL=/epics/support/areaDetectorR3-2/ADURL
-set ADCORE=/epics/support/areaDetectorR3-2/ADCore
+set TOP=/epics/support/areaDetectorR3-3-2/ADURL/iocs/urlIOC
+set ADURL=/epics/support/areaDetectorR3-3-2/ADURL
+set ADCORE=/epics/support/areaDetectorR3-3-2/ADCore
 set AUTOSAVE=/epics/support/autosave
 set CALC=/epics/support/calc
 $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
@@ -120,9 +120,9 @@ $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
     <LocalDebuggerEnvironment>set EPICS_CA_MAX_ARRAY_BYTES=20000000
 set MAGICK_DEBUG=configure,exception
-set TOP=/epics/support/areaDetectorR3-2/ADURL/iocs/urlIOC
-set ADURL=/epics/support/areaDetectorR3-2/ADURL
-set ADCORE=/epics/support/areaDetectorR3-2/ADCore
+set TOP=/epics/support/areaDetectorR3-3-2/ADURL/iocs/urlIOC
+set ADURL=/epics/support/areaDetectorR3-3-2/ADURL
+set ADCORE=/epics/support/areaDetectorR3-3-2/ADCore
 set AUTOSAVE=/epics/support/autosave
 set CALC=/epics/support/calc
 $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
