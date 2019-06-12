@@ -20,9 +20,6 @@ LeyboldSimAddIOPort($(IOPORT):2)
 ## Load record instances
 dbLoadRecords("../../LeyboldTurboApp/Db/SoftwareVersions.db", "P=$(ASYNSIMPORT):,PORT=$(ASYNSIMPORT)")
 
-
-$(ASYN_VERSION_GE426=#) epicsEnvSet SIMDB LeyboldSim.Asyn4-26
-
 dbLoadRecords("../../LeyboldSimApp/Db/$(SIMDB=LeyboldSim).db", "P=$(ASYNSIMPORT1):,PORT=$(ASYNSIMPORT),ADDR=0")
 asynSetTraceMask($(IOPORT):1, 0, 0x21)
 

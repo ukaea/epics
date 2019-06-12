@@ -16,8 +16,6 @@ LeyboldTurboAddIOPort($(IOPORT):2)
 
 ## Load record instances
 
-$(ASYN_VERSION_GE426=#) epicsEnvSet DB LeyboldTurbo.Asyn4-26
-
 dbLoadRecords("../../LeyboldTurboApp/Db/SoftwareVersions.db", "P=$(ASYNPORT):,PORT=$(ASYNPORT)")
 asynSetTraceMask($(IOPORT):1, 0, 0x21)
 
