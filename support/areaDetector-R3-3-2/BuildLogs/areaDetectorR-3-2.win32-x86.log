@@ -1,2 +1,328 @@
-'make.bat' is not recognized as an internal or external command,
-operable program or batch file.
+make.exe -C \epics\support/areaDetector-R3-3-2/ADSupport install 
+make.exe -C ./configure install 
+make.exe -C ./supportApp install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../.. \
+    T_A=win32-x86 install
+make.exe -C ./netCDFSrc install 
+make.exe -C ./jpegSrc install 
+make.exe -C ./zlibSrc install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe[3]: Entering directory 'D:/epics/support/areaDetector-R3-3-2/ADSupport/configure/O.win32-x86'
+perl -CSD D:/epics/base/bin/win32-x86/convertRelease.pl checkRelease
+make.exe[3]: Leaving directory 'D:/epics/support/areaDetector-R3-3-2/ADSupport/configure/O.win32-x86'
+make.exe -C ./szipSrc install 
+make.exe[4]: Nothing to be done for 'install'.
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe -C ./bloscSrc install 
+make.exe -C ./tiffSrc install 
+make.exe -C ./xml2Src install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe[4]: Nothing to be done for 'install'.
+make.exe -C ./hdf5Src install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe -C ./GraphicsMagickSrc install 
+make.exe -C ./bzlib install 
+make.exe -C ./lcms install 
+make.exe -C ./ttf install 
+make.exe -C ./src install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../../.. \
+    T_A=win32-x86 install
+make.exe -C ./builds install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../../../.. \
+    T_A=win32-x86 install
+make.exe -C ./windows install 
+make.exe -C ./src install 
+make.exe -C ./wmf install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../../../../.. \
+    T_A=win32-x86 install
+make.exe -C ./hdf5_hlSrc install 
+make.exe -C ./src install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../../../.. \
+    T_A=win32-x86 install
+make.exe[7]: Nothing to be done for 'install'.
+make.exe -C ./webp install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../../../.. \
+    T_A=win32-x86 install
+make.exe -C ./src install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../../../.. \
+    T_A=win32-x86 install
+make.exe -C ./nexusSrc install 
+make.exe -C ./png install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../../.. \
+    T_A=win32-x86 install
+make.exe[4]: Nothing to be done for 'install'.
+make.exe -C ./jp2 install 
+make.exe -C ./jbig install 
+make.exe -C ./src install 
+make.exe -C ./libjbig install 
+make.exe -C ./libjasper install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../../../.. \
+    T_A=win32-x86 install
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../../../../.. \
+    T_A=win32-x86 install
+make.exe -C ./magick install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../../.. \
+    T_A=win32-x86 install
+make.exe -C ./filters install 
+make.exe -C ./coders install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../../.. \
+    T_A=win32-x86 install
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../../.. \
+    T_A=win32-x86 install
+make.exe[5]: Nothing to be done for 'install'.
+make.exe -C ./Magick++ install 
+make.exe -C ./lib install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../../../.. \
+    T_A=win32-x86 install
+make.exe -C \epics\support/areaDetector-R3-3-2/ADCore install 
+make.exe -C ./configure install 
+make.exe -C ./ADApp install 
+make.exe -C ./Db install 
+make.exe -C ./ADSrc install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../.. \
+    T_A=win32-x86 install
+make.exe -C ./op install 
+make.exe[3]: Nothing to be done for 'install'.
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe[3]: Entering directory 'D:/epics/support/areaDetector-R3-3-2/ADCore/configure/O.win32-x86'
+perl -CSD D:/epics/base/bin/win32-x86/convertRelease.pl checkRelease
+make.exe[3]: Leaving directory 'D:/epics/support/areaDetector-R3-3-2/ADCore/configure/O.win32-x86'
+make.exe[4]: Nothing to be done for 'install'.
+make.exe -C ./pluginSrc install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe -C ./pluginTests install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe[4]: Nothing to be done for 'install'.
+make.exe -C \epics\support/areaDetector-R3-3-2/ADSimDetector install 
+make.exe -C \epics\support/areaDetector-R3-3-2/ADAndor install 
+make.exe -C \epics\support/areaDetector-R3-3-2/ADPICam install 
+make.exe -C \epics\support/areaDetector-R3-3-2/ADPvCam install 
+make.exe -C ./configure install 
+make.exe -C ./configure install 
+make.exe -C ./configure install 
+make.exe -C ./configure install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../.. \
+    T_A=win32-x86 install
+make.exe -C O.win32-x86 -f ../Makefile TOP=../.. \
+    T_A=win32-x86 install
+make.exe -C O.win32-x86 -f ../Makefile TOP=../.. \
+    T_A=win32-x86 install
+make.exe -C O.win32-x86 -f ../Makefile TOP=../.. \
+    T_A=win32-x86 install
+make.exe[3]: Entering directory 'D:/epics/support/areaDetector-R3-3-2/ADAndor/configure/O.win32-x86'
+perl -CSD D:/epics/base/bin/win32-x86/convertRelease.pl checkRelease
+make.exe[3]: Leaving directory 'D:/epics/support/areaDetector-R3-3-2/ADAndor/configure/O.win32-x86'
+make.exe -C ./andorSupport install 
+make.exe[3]: Entering directory 'D:/epics/support/areaDetector-R3-3-2/ADPICam/configure/O.win32-x86'
+perl -CSD D:/epics/base/bin/win32-x86/convertRelease.pl checkRelease
+make.exe[3]: Leaving directory 'D:/epics/support/areaDetector-R3-3-2/ADPICam/configure/O.win32-x86'
+make.exe[3]: Entering directory 'D:/epics/support/areaDetector-R3-3-2/ADPvCam/configure/O.win32-x86'
+perl -CSD D:/epics/base/bin/win32-x86/convertRelease.pl checkRelease
+make.exe[3]: Leaving directory 'D:/epics/support/areaDetector-R3-3-2/ADPvCam/configure/O.win32-x86'
+make.exe -C ./PICamSupport install 
+make.exe -C ./pvcamSupport install 
+make.exe[3]: Entering directory 'D:/epics/support/areaDetector-R3-3-2/ADSimDetector/configure/O.win32-x86'
+perl -CSD D:/epics/base/bin/win32-x86/convertRelease.pl checkRelease
+make.exe[3]: Leaving directory 'D:/epics/support/areaDetector-R3-3-2/ADSimDetector/configure/O.win32-x86'
+make.exe -C ./simDetectorApp install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=..//.. \
+    T_A=win32-x86 install
+make.exe -C O.win32-x86 -f ../Makefile TOP=../.. \
+    T_A=win32-x86 install
+make.exe -C ./src install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../.. \
+    T_A=win32-x86 install
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe[3]: Nothing to be done for 'install'.
+make.exe[3]: Nothing to be done for 'install'.
+make.exe -C ./pvcamApp install 
+make.exe -C ./andorApp install 
+make.exe[3]: Nothing to be done for 'install'.
+make.exe -C ./PICamApp install 
+make.exe -C ./src install 
+make.exe -C ./src install 
+make.exe -C ./src install 
+make.exe -C ./Db install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe[4]: Nothing to be done for 'install'.
+make.exe -C ./Db install 
+make.exe -C ./Db install 
+make.exe -C ./Db install 
+make.exe[4]: Nothing to be done for 'install'.
+make.exe -C ./op install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe[3]: Nothing to be done for 'install'.
+make.exe -C ./iocs install 
+make.exe[4]: Nothing to be done for 'install'.
+make.exe -C ./iocs install 
+make.exe -C ./simDetectorNoIOC install 
+make.exe[4]: Nothing to be done for 'install'.
+make.exe -C ./iocs install 
+make.exe[4]: Nothing to be done for 'install'.
+make.exe -C ./iocs install 
+make.exe -C ./andorIOC install 
+make.exe -C ./configure install 
+make.exe -C ./PICamIOC install 
+make.exe -C ./pvcamIOC install 
+make.exe -C ./configure install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../.. \
+    T_A=win32-x86 install
+make.exe -C ./configure install 
+make.exe -C ./configure install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../.. \
+    T_A=win32-x86 install
+make.exe -C O.win32-x86 -f ../Makefile TOP=../.. \
+    T_A=win32-x86 install
+make.exe -C O.win32-x86 -f ../Makefile TOP=../.. \
+    T_A=win32-x86 install
+make.exe[5]: Entering directory 'D:/epics/support/areaDetector-R3-3-2/ADSimDetector/iocs/simDetectorNoIOC/configure/O.win32-x86'
+perl -CSD D:/epics/base/bin/win32-x86/convertRelease.pl checkRelease
+make.exe[5]: Leaving directory 'D:/epics/support/areaDetector-R3-3-2/ADSimDetector/iocs/simDetectorNoIOC/configure/O.win32-x86'
+make.exe -C ./simDetectorNoIOCApp install 
+make.exe[5]: Entering directory 'D:/epics/support/areaDetector-R3-3-2/ADAndor/iocs/andorIOC/configure/O.win32-x86'
+perl -CSD D:/epics/base/bin/win32-x86/convertRelease.pl checkRelease
+make.exe[5]: Leaving directory 'D:/epics/support/areaDetector-R3-3-2/ADAndor/iocs/andorIOC/configure/O.win32-x86'
+make.exe -C ./andorApp install 
+make.exe[5]: Entering directory 'D:/epics/support/areaDetector-R3-3-2/ADPICam/iocs/PICamIOC/configure/O.win32-x86'
+perl -CSD D:/epics/base/bin/win32-x86/convertRelease.pl checkRelease
+make.exe -C ./src install 
+make.exe[5]: Leaving directory 'D:/epics/support/areaDetector-R3-3-2/ADPICam/iocs/PICamIOC/configure/O.win32-x86'
+make.exe -C ./PICamApp install 
+make.exe[5]: Entering directory 'D:/epics/support/areaDetector-R3-3-2/ADPvCam/iocs/pvcamIOC/configure/O.win32-x86'
+perl -CSD D:/epics/base/bin/win32-x86/convertRelease.pl checkRelease
+make.exe[5]: Leaving directory 'D:/epics/support/areaDetector-R3-3-2/ADPvCam/iocs/pvcamIOC/configure/O.win32-x86'
+make.exe -C ./pvcamApp install 
+make.exe -C ./src install 
+make.exe -C ./src install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe -C ./src install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe[6]: Nothing to be done for 'install'.
+make.exe -C ./simDetectorIOC install 
+make.exe -C ./configure install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../.. \
+    T_A=win32-x86 install
+make.exe[6]: Nothing to be done for 'install'.
+make.exe -C ./iocBoot install 
+make.exe[6]: Nothing to be done for 'install'.
+make.exe[6]: Nothing to be done for 'install'.
+make.exe -C ./iocBoot install 
+make.exe -C ./iocBoot install 
+make.exe -C ./iocAndor install 
+make.exe -C ./iocPICam install 
+make.exe -C ./iocPvCam install 
+make.exe[5]: Entering directory 'D:/epics/support/areaDetector-R3-3-2/ADSimDetector/iocs/simDetectorIOC/configure/O.win32-x86'
+perl -CSD D:/epics/base/bin/win32-x86/convertRelease.pl checkRelease
+make.exe[5]: Leaving directory 'D:/epics/support/areaDetector-R3-3-2/ADSimDetector/iocs/simDetectorIOC/configure/O.win32-x86'
+make.exe -C ./simDetectorApp install 
+make.exe[5]: Nothing to be done for 'install'.
+make.exe -C ./iocBoot install 
+make.exe[5]: Nothing to be done for 'install'.
+make.exe[5]: Nothing to be done for 'install'.
+make.exe -C \epics\support/areaDetector-R3-3-2/ADURL install 
+make.exe[1]: Entering directory 'D:/epics/support/areaDetector-R3-3-2/ADURL'
+EPICS/Release.pm: Undefined macro $(SUPPORT) used 
+EPICS/Release.pm: Undefined macro $(SUPPORT) used 
+EPICS/Release.pm: Undefined macro $(SUPPORT) used 
+make.exe[1]: Leaving directory 'D:/epics/support/areaDetector-R3-3-2/ADURL'
+make.exe -C ./Db install 
+make.exe -C ./src install 
+make.exe -C ./configure install 
+make.exe -C ./iocSimDetector install 
+make.exe[2]: Entering directory 'D:/epics/support/areaDetector-R3-3-2/ADURL/configure'
+EPICS/Release.pm: Undefined macro $(SUPPORT) used 
+EPICS/Release.pm: Undefined macro $(SUPPORT) used 
+make.exe[2]: Leaving directory 'D:/epics/support/areaDetector-R3-3-2/ADURL/configure'
+make.exe -C O.win32-x86 -f ../Makefile TOP=../.. \
+    T_A=win32-x86 install
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe[5]: Nothing to be done for 'install'.
+make.exe -C ./iocHDF5Test install 
+make.exe[3]: Entering directory 'D:/epics/support/areaDetector-R3-3-2/ADURL/configure/O.win32-x86'
+EPICS/Release.pm: Undefined macro $(SUPPORT) used 
+EPICS/Release.pm: Undefined macro $(SUPPORT) used 
+make.exe[3]: Leaving directory 'D:/epics/support/areaDetector-R3-3-2/ADURL/configure/O.win32-x86'
+make.exe[5]: Nothing to be done for 'install'.
+make.exe -C ./urlApp install 
+make.exe[6]: Nothing to be done for 'install'.
+make.exe[3]: Entering directory 'D:/epics/support/areaDetector-R3-3-2/ADURL/configure/O.win32-x86'
+perl -CSD D:/epics/base/bin/win32-x86/convertRelease.pl checkRelease
+EPICS/Release.pm: Undefined macro $(SUPPORT) used 
+EPICS/Release.pm: Undefined macro $(SUPPORT) used 
+make.exe[3]: Leaving directory 'D:/epics/support/areaDetector-R3-3-2/ADURL/configure/O.win32-x86'
+make.exe[2]: Entering directory 'D:/epics/support/areaDetector-R3-3-2/ADURL/urlApp'
+EPICS/Release.pm: Undefined macro $(SUPPORT) used 
+EPICS/Release.pm: Undefined macro $(SUPPORT) used 
+EPICS/Release.pm: Undefined macro $(SUPPORT) used 
+make.exe[2]: Leaving directory 'D:/epics/support/areaDetector-R3-3-2/ADURL/urlApp'
+make.exe -C ./src install 
+make.exe -C ./Db install 
+make.exe[3]: Entering directory 'D:/epics/support/areaDetector-R3-3-2/ADURL/urlApp/src'
+EPICS/Release.pm: Undefined macro $(SUPPORT) used 
+EPICS/Release.pm: Undefined macro $(SUPPORT) used 
+EPICS/Release.pm: Undefined macro $(SUPPORT) used 
+EPICS/Release.pm: Undefined macro $(SUPPORT) used 
+make.exe[3]: Leaving directory 'D:/epics/support/areaDetector-R3-3-2/ADURL/urlApp/src'
+make.exe[3]: Entering directory 'D:/epics/support/areaDetector-R3-3-2/ADURL/urlApp/Db'
+EPICS/Release.pm: Undefined macro $(SUPPORT) used 
+EPICS/Release.pm: Undefined macro $(SUPPORT) used 
+make.exe[3]: Leaving directory 'D:/epics/support/areaDetector-R3-3-2/ADURL/urlApp/Db'
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe[4]: Entering directory 'D:/epics/support/areaDetector-R3-3-2/ADURL/urlApp/Db/O.win32-x86'
+EPICS/Release.pm: Undefined macro $(SUPPORT) used 
+EPICS/Release.pm: Undefined macro $(SUPPORT) used 
+EPICS/Release.pm: Undefined macro $(SUPPORT) used 
+make.exe[4]: Leaving directory 'D:/epics/support/areaDetector-R3-3-2/ADURL/urlApp/Db/O.win32-x86'
+make.exe[4]: Entering directory 'D:/epics/support/areaDetector-R3-3-2/ADURL/urlApp/src/O.win32-x86'
+EPICS/Release.pm: Undefined macro $(SUPPORT) used 
+EPICS/Release.pm: Undefined macro $(SUPPORT) used 
+make.exe[4]: Leaving directory 'D:/epics/support/areaDetector-R3-3-2/ADURL/urlApp/src/O.win32-x86'
+make.exe[6]: Nothing to be done for 'install'.
+make.exe[4]: Nothing to be done for 'install'.
+make.exe[4]: Nothing to be done for 'install'.

@@ -92,7 +92,7 @@ goto ERREXIT
 
 :X64
 
-call "%PROGRAM_FILES%\Microsoft Visual Studio 10.0\VC\vcvarsall.bat" amd64
+call "%PROGRAM_FILES%\Microsoft Visual Studio\2017\Professional\VC\Auxiliary\Build\vcvarsall.bat" x86_x64
 if "%1"=="x64-DLL" goto X64DLL
 if "%1"=="x64-debug" goto X64DEBUG
 if "%1"=="x64-debug-DLL" goto X64DEBUGDLL
@@ -116,7 +116,7 @@ goto CONTINUE
 
 REM --  win32-x86 ---
 :X86
-call "%PROGRAM_FILES%\Microsoft Visual Studio 10.0\VC\vcvarsall.bat" x86
+call "%PROGRAM_FILES%\Microsoft Visual Studio\2017\Professional\VC\Auxiliary\Build\vcvarsall.bat" x86
 if "%1"=="x86-DLL" goto X86DLL
 if "%1"=="x86-debug" goto X86DEBUG
 if "%1"=="x86-debug-DLL" goto X86DEBUGDLL
