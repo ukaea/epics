@@ -16,3 +16,9 @@
 [submodule "support/areaDetector-R3-3-2/ADPICam"]
 	path = support/areaDetector-R3-3-2/ADPICam
 	url = https://git.ccfe.ac.uk/DATAnet/adpicam
+[submodule "iocTops/tspd-adq"]
+	path = iocTops/tspd-adq
+	url = https://git.ccfe.ac.uk/DATAnet/tspd-adq
+[submodule "support/nds3_epics"]
+	path = support/nds3_epics
+	url = https://git.ccfe.ac.uk/DATAnet/nds3_epics

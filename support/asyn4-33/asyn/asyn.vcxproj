@@ -516,6 +516,9 @@ xcopy /Y /Q /D /R .\devEpics\*.dbd   $(SolutionDir)dbd &gt; NUL
     <ClInclude Include="miscellaneous\asynInterposeEos.h" />
     <ClInclude Include="miscellaneous\asynInterposeFlush.h" />
     <ClInclude Include="miscellaneous\asynShellCommands.h" />
+    <ClInclude Include="vxi11\drvVxi11.h" />
+    <ClInclude Include="vxi11\osiRpc.h" />
+    <ClInclude Include="vxi11\vxi11.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="asynDriver\asynManager.c" />
@@ -654,6 +657,20 @@ xcopy /Y /Q /D /R .\devEpics\*.dbd   $(SolutionDir)dbd &gt; NUL
     <ClCompile Include="miscellaneous\asynInterposeFlush.c" />
     <ClCompile Include="miscellaneous\asynShellCommands.c" />
     <ClCompile Include="ni1014\drvNi1014.c" />
+    <ClCompile Include="vxi11\drvVxi11.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="vxi11\drvVxi11Win32.c" />
+    <ClCompile Include="vxi11\E2050Reboot.c" />
+    <ClCompile Include="vxi11\E5810Reboot.c" />
+    <ClCompile Include="vxi11\TDS3000Reboot.c" />
   </ItemGroup>
   <ItemGroup>
     <None Include="asynRecord\asynRecord.db" />
@@ -735,6 +752,9 @@ cd $(ProjectDir)
     <None Include="libusb-1.0\MS64\dll\libusb-1.0.pdb" />
     <None Include="miscellaneous\asyn.dbd" />
     <None Include="ni1014\drvNi1014.dbd" />
+    <None Include="vxi11\drvVxi11.dbd" />
+    <None Include="vxi11\vxi11core.rpcl" />
+    <None Include="vxi11\vxi11intr.rpcl" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\base-3.15.5\src\ca\client\ca.vcxproj">

@@ -65,6 +65,9 @@
     <Filter Include="libusb-1.0\MS64\static">
       <UniqueIdentifier>{7e79a89e-cce7-4bd7-95ef-50137d2e15a6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="vxi11">
+      <UniqueIdentifier>{1b658f76-3317-456e-a55e-60cc4f2dd88e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="asynDriver\asynDriver.h">
@@ -234,6 +237,15 @@
     </ClInclude>
     <ClInclude Include="libusb-1.0\libusb.h">
       <Filter>libusb-1.0</Filter>
+    </ClInclude>
+    <ClInclude Include="vxi11\drvVxi11.h">
+      <Filter>vxi11</Filter>
+    </ClInclude>
+    <ClInclude Include="vxi11\osiRpc.h">
+      <Filter>vxi11</Filter>
+    </ClInclude>
+    <ClInclude Include="vxi11\vxi11.h">
+      <Filter>vxi11</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -444,6 +456,21 @@
     <ClCompile Include="interfaces\asynOptionSyncIO.c">
       <Filter>interfaces</Filter>
     </ClCompile>
+    <ClCompile Include="vxi11\drvVxi11.c">
+      <Filter>vxi11</Filter>
+    </ClCompile>
+    <ClCompile Include="vxi11\drvVxi11Win32.c">
+      <Filter>vxi11</Filter>
+    </ClCompile>
+    <ClCompile Include="vxi11\E2050Reboot.c">
+      <Filter>vxi11</Filter>
+    </ClCompile>
+    <ClCompile Include="vxi11\E5810Reboot.c">
+      <Filter>vxi11</Filter>
+    </ClCompile>
+    <ClCompile Include="vxi11\TDS3000Reboot.c">
+      <Filter>vxi11</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="asynRecord\asynRecord.db">
@@ -529,6 +556,15 @@
     </None>
     <None Include="libusb-1.0\MS64\dll\libusb-1.0.pdb">
       <Filter>libusb-1.0\MS64\dll</Filter>
+    </None>
+    <None Include="vxi11\drvVxi11.dbd">
+      <Filter>vxi11</Filter>
+    </None>
+    <None Include="vxi11\vxi11core.rpcl">
+      <Filter>vxi11</Filter>
+    </None>
+    <None Include="vxi11\vxi11intr.rpcl">
+      <Filter>vxi11</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

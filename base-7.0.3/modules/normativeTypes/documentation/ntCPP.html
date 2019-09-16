@@ -1,0 +1,2989 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+  <title>EPICS normativeTypesCPP</title>
+  <link rel="stylesheet" type="text/css"
+  href="http://epics-pvdata.sourceforge.net/base.css" />
+  <link rel="stylesheet" type="text/css"
+  href="http://epics-pvdata.sourceforge.net/epicsv4.css" />
+  <style type="text/css">
+  /*<![CDATA[*/
+     .about { margin-left: 3em; margin-right: 3em; font-size: .83em}
+     table { margin-left: auto; margin-right: auto }
+     .diagram { text-align: center; margin: 2.5em 0 }
+     span.opt { color: grey }
+     span.nterm { font-style:italic }
+     span.term { font-family:courier }
+     span.user { font-family:courier }
+     span.user:before { content:"<" }
+     span.user:after { content:">" }
+     .nonnorm { font-style:italic }
+     p.ed { color: #AA0000 }
+     span.ed { color: #AA0000 }
+     p.ed.priv { display: inline; }
+     span.ed.priv { display: inline; }
+  /*]]>*/</style>
+  <!-- Script that generates the Table of Contents -->
+  <script type="text/javascript"
+  src="http://epics-pvdata.sourceforge.net/script/tocgen.js">
+  </script>
+</head>
+<body>
+
+<div class="head">
+<h1>EPICS normativeTypesCPP</h1>
+
+<h2 class="nocount">Release 5.2.1 - December 2018</h2>
+  <dl>
+    <dt>Editors:</dt>
+   <dd> Marty Kraimer<br />
+      Matej Sekoranja, CosyLab<br />
+      David Hickin, Diamond Light Source
+      </dd>
+  </dl>
+
+<p class="copyright">This software is published under the terms of
+the <a href="http://epics-pvdata.sourceforge.net/LICENSE.html">EPICS
+Open license.</a></p>
+
+<hr />
+</div>
+
+<h2 class="nocount">Abstract</h2>
+
+<p>EPICS Version 4 provides efficient
+storage, access, and communication, of memory resident structured data.
+The EPICS V4 Normative Types are a collection of structured data types
+that can be used by the application level of EPICS V4 network endpoints,
+to interoperably exchange scientific data.
+normativeTypesCPP is the C++ implementation.
+It is one part of the set of related products in the EPICS
+V4 control system programming environment:<br />
+<a href="http://epics-pvdata.sourceforge.net/relatedDocumentsV4.html">relatedDocumentsV4.html</a>
+</p>
+
+
+<h2 class="nocount">Status of this Document</h2>
+
+<p>This is the 14-December-2017 version for the 5.2.0 release of the
+C++ implementation of normativeTypes.
+</p>
+
+
+<p>RELEASE_NOTES.md provides changes since the last release.
+TODO.md describes things to do before the next release.
+</p>
+
+
+
+<div id="toc">
+<h2 class="nocount" style="page-break-before: always">Table of Contents</h2>
+</div>
+<div id="contents" class="contents">
+
+
+<h2>Introduction</h2>
+
+<p>This manual assumes that the reader is familiar with the material in
+<a
+href="http://epics-pvdata.sourceforge.net/docbuild/pvDataCPP/tip/documentation/pvDataCPP.html"
+>
+pvDataCPP.html
+</a>
+</p>
+<p>At present the following Normative Types are implemented:</p>
+<ul>
+  <li><b>NTScalar</b></li>
+  <li><b>NTScalarArray</b></li>
+  <li><b>NTEnum</b></li>
+  <li><b>NTMatrix</b></li>
+  <li><b>NTURI</b></li>
+  <li><b>NTNameValue</b></li>
+  <li><b>NTTable</b></li>
+  <li><b>NTAttribute</b></li>
+  <li><b>NTMultiChannel</b></li>
+  <li><b>NTNDArray</b></li>
+  <li><b>NTContinuum</b></li>
+  <li><b>NTHistogram</b></li>
+  <li><b>NTAggregate</b></li>
+</ul>
+
+<p>There is also additional support for NTAttributes which are extended as required by NTNDArray.</p>
+
+<p>Thus normativeTypesCPP implements fully the <a href="http://epics-pvdata.sourceforge.net/alpha/normativeTypes/normativeTypes_20150316.html">
+March 16 2015</a> version the Normative Types Specification.</p>
+
+<p>Each Normative Type consists of a set of mandatory fields, a set of optional fields,
+and any arbitrary number of additional fields.
+The mandatory and optional fields are meant for use by standard tools such
+as Display Managers and Alarm Handlers.
+The additional fields are for specialized tools.
+</p>
+<p>
+A helper class NTField is provided to enforce the proper implementation  of property fields as defined by pvData.
+A property field is normally associated with a field that has the name "value".
+The property fields currently used are alarm, timeStamp, display, control, and alarmLimit.
+In addition pvData defines a standard structure for a field that represents
+enumerated values.
+NTField has methods associated with each of these.
+</p>
+<p>An include file "nt.h" includes all the other header files that are provided by ntCPP.
+</p>
+<p>The next section gives an overview of the library. The following sections describe NTField and then the Normative Type classes, starting with features common to all classes, then support in the Normative Type classes for property fields. Finally the classes for each Normative Type are described.
+</p>
+
+<h2>Overview (Informative)</h2>
+
+
+
+<h3>Normative Type classes</h3>
+
+<p>For each Normative Type there is a corresponding wrapper class that provides a convenient API for manipulating a <code>PVStructure</code> conformant to the given Normative Type.</p>
+
+<p>The class names match the names of the Normative Types, so the wrapper class for NTScalar is <code>NTScalar</code>.</p>
+
+<p>Each wrapper class provides functions for identifying the Normative Type of a <code>Structure</code> or <code>PVStructure</code> and validating conformance.</p>
+
+<p>The wrapper classes can create wrappers around an existing <code>PVStructure</code>. They can also, through a builder class, create a conformant <code>Structure</code> or <code>PVStructure</code> or create a wrapper around a new, conformant <code>PVStructure</code>. Builders will create all required fields and can also create optional and additional fields and handle any choices in the definition of the structure, such as the <code>ScalarType</code> of a NTScalar.</p>
+
+<p>The builder for each class is named in an obvious way, so for example the builder for <code>NTScalar</code> is <code>NTScalarBuilder</code>.</p>
+
+<p>As usual in EPICS V4 C++ libraries extensive use is made of shared pointers and these can be dealt with via typedefs. So for NTScalar we have <code>NTScalarPtr</code> and <code>NTScalarBuilderPtr</code>.</p>
+
+<p>In the following examples it is assumed that the namespaces <code>epics::pvData</code>
+, <code>epics::nt</code> and <code>std</code> are used.</p>
+<br/>
+
+<h3>Creating Normative Types</h3>
+
+<h4>Creating a builder class</h4>
+
+<p>Each Normative Type wrapper has a static <code>createBuilder()</code> function which creates a builder for the Normative Type. The following creates a builder class for an NTScalar:</p>
+
+<pre>    NTScalarBuilderPtr builder = NTScalar::createBuilder();
+</pre>
+<br/>
+
+<h4>Creating Structures, PVStructures and wrappers</h4>
+
+<p>Each Normative Type builder has <code>createStructure()</code> and <code>createPVStructure()</code> functions which respectively create a <code>Structure</code> or <code>PVStructure</code> conformant to the Normative Type. The builders also each have a <code>create()</code> function which creates a new conformant <code>PVStructure</code> and returns a wrapper around it.</p>
+
+<p>The following creates a <code>Structure</code>, a <code>PVStructure</code> and a wrapper class instance for NTEnum:</p>
+
+<pre>    StructureConstPtr structure   = NTEnum::createBuilder()-&gt;createStructure();
+    PVStructurePtr    pvStructure = NTEnum::createBuilder()-&gt;createPVStructure();
+    NTEnumPtr         wrapper     = NTEnum::createBuilder()-&gt;create();
+</pre>
+
+<p>The structures created by the above functions will have all required fields of the Normative Type. Unless requested to do so the builder will not include any optional or additional fields. The mechanism for doing this is described below.</p>
+
+<p>The above three methods cause a builder to be reset, so any additional information supplied, such adding optional or additional fields, is lost at this point.</p>
+<br/>
+
+<h4>Types requiring information before construction</h4>
+
+<p>Some Normative Types require information to be supplied before a conformant <code>Structure</code> or <code>PVStructure</code> can be constructed. Good examples are the types NTScalar and NTScalarArray which require the <code>ScalarType</code> to be supplied:
+</p>
+
+<pre>    NTScalarPtr      scalar = NTScalar::createBuilder()-&gt;value(pvDouble)-&gt;create();
+    NTScalarArrayPtr array  = NTScalarArray::createBuilder()-&gt;value(pvString)-&gt;create();
+</pre>
+
+<p>This produces wrappers around the following <code>PVStructure</code>s:
+</p>
+
+<pre>epics:nt/NTScalar:1.0 
+    double value 0
+
+epics:nt/NTScalarArray:1.0 
+    string[] value []
+</pre>
+
+<p>In the above cases not specifying a <code>ScalarType</code> causes an exception (<code>std::runtime_error</code>) to be thrown. </p>
+
+<p>The same is true for NTNameValue and NTHistogram.</p>
+
+<p>See individual types for more information.</p>
+
+<br/>
+
+
+
+<h4>Optional fields</h4>
+
+<p>Each builder has functions for adding optional fields to the constructed structure. Each returns the builder so that methods can be chained.</p>
+
+<p>The following will produce a wrapper for a NTScalar with <code>descriptor</code>, <code>alarm</code>, <code>timeStamp</code>, <code>display</code> and <code>control</code> fields:</p>
+<pre>    NTScalarPtr scalar = NTScalar::createBuilder()-&gt;
+        value(pvDouble)-&gt;
+        addDescriptor()-&gt;
+        addAlarm()-&gt;
+        addTimeStamp()-&gt;
+        addDisplay()-&gt;
+        addControl()-&gt;
+        create();</pre>
+
+<p>The names of the add methods are in each case "add" plus the name of the field (with case suitably adjusted). So <code>addAlarm()</code> adds the <code>alarm</code> field.</p>
+
+<p>The order of the fields in the created structure is that laid out in the Normative Types specification, not the order that the functions are called.</p>
+
+<p>The optional fields selected in the builder are reset by calling <code>create()</code>, <code>createStructure()</code> or <code>createPVStructure()</code>.</p>
+
+<br/>
+
+
+
+<h4>Additional fields</h4>
+
+<p>Each builder has an <code>add()</code> function for adding additional fields to the constructed structure. For example</p>
+
+<pre>    PVStructurePtr pvStructure = NTScalar::createBuilder()-&gt;
+        value(pvDouble)-&gt;
+        add("tags", getFieldCreate()-&gt;createScalarArray(pvString))-&gt;
+        createPVStructure();</pre>
+
+<p>produces</p>
+
+<pre>epics:nt/NTScalar:1.0 
+    double value 0
+    string[] tags []</pre>
+
+<p>Again, each function returns the builder so that methods can be chained</p>
+
+<p>Currently the second argument to <code>add</code> can only be a <code>Field</code> (a <code>ScalarType</code> , for example, is not possible).</p>
+
+
+<p>The order of the additional fields is the order that the <code>add()</code> functions are called, but, as required by the Normative Types specification, the additional fields will follow the required fields and any optional fields, regardless of whether an <code>add</code> function call comes before or after a call to add an optional field.</p>
+
+<p>The additional fields selected in the builder are reset by calling <code>create()</code>, <code>createStructure()</code> or <code>createPVStructure()</code>.</p>
+
+
+<br/>
+
+<h4>Other type-dependent builder options</h4>
+
+<p>Some types have additional builder functions:</p>
+
+<ul>
+<li>As mentioned <code>NTScalar</code>, <code>NTScalarArray</code>, <code>NTNameValue</code> and <code>NTHistogram</code> require the <code>ScalarType</code> of their <code>value</code> fields to be specified through their builder's <code>value()</code> function.</li>
+
+<li><code>Similarly NTScalarMultiChannel</code> has a <code>value</code> field whose <code>ScalarType</code> is set via a <code>value()</code> function. (It however defaults to a "double".) 
+</li>
+
+<li>NTUnion has a <code>value()</code> function which set the union type of its union <code>value</code> field. NTMultiChannel  has a <code>value()</code> function which sets the type of its union array <code>value</code> field. (Default is a variant union in each case.)
+</li>
+<li>NTTable has an <code>addColumn()</code> function which adds a column to the table.
+</li>
+<li>NTURI has <code>addQueryString()</code>, <code>addQueryDouble()</code> and <code>addQueryInt()</code>
+functions which add fields to the query field.
+</li>
+</ul>
+
+<p>These are all reset by calling <code>create()</code>, <code>createStructure()</code> or <code>createPVStructure()</code>.</p>
+
+<p>They are described in the corresponding section for each type.</p>
+
+<br/>
+
+
+<h3>Checking and Wrapping Existing Structures</h3>
+
+<p>[ In the following <code>structure</code> is a <code>StructureConstPtr</code>, <code>pvStructure</code> is a 
+<code>PVStructurePtr</code>. ]</p>
+
+<h4>Checking for compatible type ID</h4>
+
+<p>Each Normative Type wrapper has a static <code>is_a()</code> function which looks at the type ID and tests whether this is consistent with the given Normative Type.</p>
+
+<p>The following tests whether <code>structure</code> reports to be an NTScalar:</p>
+
+<pre>    if (!NTScalar::is_a(structure))
+        cout &lt;&lt; "Structure's ID does not report to be an NTScalar" &lt;&lt; endl;
+</pre>
+
+<p>Similarly for <code>pvStructure</code>:</p>
+
+<pre>    if (!NTScalar::is_a(pvStructure))
+        cout &lt;&lt; "PVStructure's ID does not report to be an NTScalar" &lt;&lt; endl;
+</pre>
+<br/>
+
+
+<h4>Checking for compatible introspection type</h4>
+
+
+<p>Each Normative Type wrapper has a static <code>isCompatible()</code> function which tests for compatibility based on introspection data only.
+</p>
+
+<p>The following tests whether <code>structure</code> is compatible with the definition of NTEnum:</p>
+
+<pre>    if (!NTEnum::isCompatible(structure))
+        cout &lt;&lt; "Structure is not compatible with NTEnum" &lt;&lt; endl;
+</pre>
+
+<p>Similarly for <code>pvStructure</code>:</p>
+
+<pre>    if (!NTEnum::is_a(pvStructure))
+        cout &lt;&lt; "PVStructure is not compatible with NTEnum" &lt;&lt; endl;
+</pre>
+<br/>
+
+<h4>Wrapping a PVStructure (without checks)</h4>
+
+<p>Each Normative Type wrapper has a static <code>wrapUnsafe()</code> function which creates a wrapper around an existing <code>PVStructure</code>.
+</p>
+
+<p>The following creates an NTScalarArray wrapper around an existing <code>pvStructure</code>:</p>
+
+<pre>    NTScalarArrayPtr array = NTScalarArray::wrapUnsafe(pvStructure);</pre>
+
+<p>If <code>isCompatible()</code> returns true, the Normative Type wrapper functions may be safely called.</p>
+
+<br/>
+
+<h4>Wrapping a PVStructure (with checks)</h4>
+
+<p>Each Normative Type wrapper also has a static <code>wrap()</code> function which checks checks compatibility. It is equivalent to calling <code>isCompatible()</code> and returning <code>wrapUnsafe()</code> if <code>true</code> or a null pointer
+if <code>false</code>:
+</p>
+
+<pre>    NTScalarArrayPtr array = NTScalarArray::wrap(pvStructure);
+    if (!array.get())
+        cout &lt;&lt; "PVStructure is not compatible with NTScalarArray." &lt;&lt; endl;</pre>
+<br/>
+
+<h4>Checking validity of a PVStructure</h4>
+
+<p>Each Normative Types wrapper's <code>isCompatible()</code> function only checks the introspection data.</p>
+
+<p>To perform any checks on the <code>PVStructure</code>'s value data use the wrapper's (non-static) <code>isValid()</code> function.</p>
+
+<p>For example</p>
+<pre>    NTTablePtr table = NTTable::wrap(pvStructure);
+    if (table.get() &amp;&amp; table-&gt;isValid())
+        cout &lt;&lt; "Table is valid" &lt;&lt; endl;
+</pre>
+<p> will check that a <code>PVStructure</code> is both compatible with NTTable and that it is valid in terms of its value data. In the case of NTTable the checks are that the columns are of equal length and the number of labels matches the number of columns.</p>
+<p>For many types there is no appropriate check to be made on the value data. The function just returns true in this case.</p>
+<br/>
+
+
+
+<h3>Normative Type Wrapper Functions</h3>
+
+<h4>Getting PVStructures</h4>
+
+<p>Each Normative Type wrapper has a <code>getPVStructure()</code> function which returns the wrapped <code>PVStructure</code>.</p>
+<pre>    NTScalarPtr scalar = NTScalar::createBuilder()-&gt;value(pvDouble)-&gt;create();
+    PVStructurePtr pvStructure = scalar-&gt;getPVStructure();
+</pre>
+
+<h4>Accessing required and optional fields</h4>
+
+<p>Each Normative Type wrapper has offers a slightly more convenient API for
+accessing the fields of the wrapped <code>PVStructure</code>.</p>
+
+<p>The API is dependent on the wrapper class, but typically each wrapper has an accessor function for most, if not all, required or optional Normative Type fields, and typically the names of these functions follow the pattern "get" + field name (with case adjusted). So to get the <code>value</code> field the function <code>getValue()</code> is used.</p>
+
+
+<pre>    NTAggregatePtr aggregate = NTAggregate::createBuilder()-&gt;
+        addDispersion()-&gt;
+        addFirst()-&gt;
+        addLast()-&gt;
+        addMax()-&gt;
+        addMin()-&gt;
+        create();
+    aggregate-&gt;getValue()-&gt;put(2.5);
+    aggregate-&gt;getN()-&gt;put(100);
+    aggregate-&gt;getDispersion()-&gt;put(0.5);
+    aggregate-&gt;getFirst()-&gt;put(2.1);
+    aggregate-&gt;getLast()-&gt;put(3.1);
+    aggregate-&gt;getMax()-&gt;put(3.7);
+    aggregate-&gt;getMin()-&gt;put(1.1);</pre>
+
+<p>In some cases a field of a Normative Type can may be one of a variety of types, in which case a template function is often provided:</p>
+<pre>    NTScalarPtr scalar = NTScalar::createBuilder()-&gt;
+        value(pvDouble)-&gt; create();
+    scalar-&gt;getValue&lt;PVDouble&gt;()-&gt;put(42);</pre>
+
+<p>See the corresponding section for each type for list of accessor functions.</p>
+
+<h3>Property Functions</h3>
+
+<h4>Time stamps</h4>
+
+<p>Most Normative Types have an optional <code>timeStamp</code> field (NTURI is the exception). If a <code>PVStructure</code> conformant to a Normative Type has a <code>timeStamp</code> field, a <code>PVTimeStamp</code> can be attached and an <code>attachTimeStamp</code> function is provided to facilitate this:</p>
+
+<pre>    NTScalarPtr scalar = NTScalar::createBuilder()-&gt;
+        value(pvDouble)-&gt;addTimeStamp()-&gt;create();
+
+    PVTimeStamp pvTimeStamp;
+    scalar-&gt;attachTimeStamp(pvTimeStamp);
+
+    TimeStamp timeStamp;
+    timeStamp.getCurrent();
+    pvTimeStamp.set(timeStamp);</pre>
+
+<h2>NTField</h2>
+
+<p>These are helper classes for creating standard fields for Normative Types.
+There is a single instance of this class, which is obtained via NTField::get().
+</p>
+<pre>class NTField{
+public:
+    static NTFieldPtr get();
+    ~NTField() {}
+
+    bool isEnumerated(FieldConstPtr const &amp; field);
+    bool isTimeStamp(FieldConstPtr const &amp; field);
+    bool isAlarm(FieldConstPtr const &amp; field);
+    bool isDisplay(FieldConstPtr const &amp; field);
+    bool isAlarmLimit(FieldConstPtr const &amp; field);
+    bool isControl(FieldConstPtr const &amp; field);
+
+    StructureConstPtr createEnumerated();
+    StructureConstPtr createTimeStamp();
+    StructureConstPtr createAlarm();
+    StructureConstPtr createDisplay();
+    StructureConstPtr createControl();
+
+    StructureArrayConstPtr createEnumeratedArray();
+    StructureArrayConstPtr createTimeStampArray();
+    StructureArrayConstPtr createAlarmArray();
+};</pre>
+
+<p>where</p>
+<dl>
+  <dt>isEnumerated()</dt>
+    <dd>Is the field an enumerated structure?</dd>
+  <dt>isTimeStamp()</dt>
+    <dd>Is the field an timeStamp structure?</dd>
+  <dt>isAlarm()</dt>
+    <dd>Is the field an alarm structure?</dd>
+  <dt>isDisplay()</dt>
+    <dd>Is the field an display structure?</dd>
+  <dt>isAlarmLimit()</dt>
+    <dd>Is the field an alarmLimit structure?</dd>
+  <dt>isControl()</dt>
+    <dd>Is the field an control structure?</dd>
+  <dt>createEnumerated()</dt>
+    <dd>Create an introspection interface for an enumerated structure.</dd>
+  <dt>createTimeStamp()</dt>
+    <dd>Create an introspection interface for a timeStamp structure.</dd>
+  <dt>createAlarm()</dt>
+    <dd>Create an introspection interface for an alarm structure.</dd>
+  <dt>createDisplay()</dt>
+    <dd>Create an introspection interface for a display structure.</dd>
+  <dt>createControl()</dt>
+    <dd>Create an introspection interface for a control structure.</dd>
+  <dt>createEnumeratedArray()</dt>
+    <dd>Create an introspection interface for an structureArray of enumerated
+      structures.</dd>
+  <dt>createTimeStampArray()</dt>
+    <dd>Create an introspection interface for an structureArray of timeStamp
+      structures.</dd>
+  <dt>createAlarmArray()</dt>
+    <dd>Create an introspection interface for an structureArray of alarm
+      structures.</dd>
+</dl>
+
+
+<h2>Features common to all Normative Types</h2>
+
+<p>This section details features which are common to all Normative Type wrapper classes and their builders.</p> 
+
+<h3>Organisation and Naming Conventions</h3>
+
+<p>The name of the corresponding wrapper class for each Normative Type
+matches the name of the type and the name of the builder class is the name of
+the type + <code>Builder</code>. 
+
+So the wrapper class and builder for NTScalar are <code>NTScalar</code> and <code>NTScalarBuilder</code>. The builder classes are inside the namespace <code>detail</code>.</p>
+
+<p>The header name is that of the Normative Type plus thr ".h" extension, with case suitably adjusted. So NTScalar is defined in "ntscalar.h".</p>
+
+<p>Through the <code>POINTER_DEFINITIONS</code> macro typedefs
+<code><span class="nterm">NTType</span>::shared_pointer</code> and <code>detail::<span class="nterm">NTType</span>Builder::shared_pointer</code>
+are defined to the shared pointers to <code><span class="nterm">NTType</span></code> and <code><span class="nterm">NTType</span>Builder</code>, where <span class="nterm">NTType</span> is the name of the Normative Type.</p>
+
+<p>In turn the typedefs <code><span class="nterm">NTType</span>Ptr</code> and <code><span class="nterm">NTType</span>BuilderPtr</code> are also declared.</p>
+
+<p>So for NTTScalar the typedefs <code>NTScalarPtr</code> and <code>NTScalarBuilderPtr</code> are declared for <code>NTScalar::shared_pointer</code> and <code>detail::NTScalarBuilder::shared_pointer</code>.</p>
+
+<h3>Features common to all Normative Type Builder classes</h3> 
+
+<p>For a NormativeType <span class="nterm">NTType</span> the builder class definition is equivalent to one of the form:</p>
+
+<pre>
+class <span class="nterm">NTType</span>;
+typedef std::tr1::shared_ptr&lt;<span class="nterm">NTType</span>&gt; <span class="nterm">NTType</span>Ptr;
+
+namespace detail {
+
+class <span class="nterm">NTType</span>Builder
+{
+public:
+    POINTER_DEFINITIONS(<span class="nterm">NTType</span>Builder);
+    StructureConstPtr createStructure();
+    PVStructurePtr createPVStructure();
+    <span class="nterm">NTType</span>BuilderPtr create();
+    shared_pointer add(
+         string const &amp; name,
+         FieldConstPtr const &amp; field);
+
+// ... Remainder of class definition
+}
+
+typedef std::tr1::shared_ptr&lt;detail::<span class="nterm">NTType</span>Builder&gt;  <span class="nterm">NTType</span>BuilderPtr;
+
+}
+</pre>
+where
+<dl>
+  <dt>createStructure()</dt>
+    <dd>Creates an <code>Structure</code> for an <span class="nterm">NTType</span>. Resets the builder.</dd>
+  <dt>createPVStructure()</dt>
+     <dd>Create an <code>PVStructure</code> for an <span class="nterm">NTType</span>. Resets the builder.</dd>
+  <dt>create()</dt>
+     <dd>Creates an <code>PVStructure</code> for an  <span class="nterm">NTType</span> and creates an <span class="nterm">NTType</span> wrapper class instance around it. Resets the builder.</dd>
+  <dt>add()</dt>
+     <dd>Adds an additional field. Its name must not be that of a required field nor of an optional field (regardless of whether the optional field has been added). The order of the additional fields matches the order in which the calls of <code>add()</code> are made.</dd>
+</dl>
+
+<p>All builders include the functions to add the optional fields of the normative type. The order of fields in the final created structure is that laid out in the Normative Types specification, not the order that the functions are called.</p>
+
+<p>The optional fields selected in the builder as well as the additional fields are reset by calling <code>create()</code>, <code>createStructure()</code> or <code>createPVStructure()</code>.</p>
+
+<h3>Features common to all Normative Type Wrapper classes</h3> 
+
+<p>For a NormativeType <span class="nterm">NTType</span> the wrapper class definition is equivalent to one of the form:</p>
+
+<pre>
+class <span class="nterm">NTType</span>;
+typedef std::tr1::shared_ptr&lt;<span class="nterm">NTType</span>&gt; <span class="nterm">NTType</span>Ptr;
+
+class <span class="nterm">NTType</span>
+{
+public:
+    POINTER_DEFINITIONS(<span class="nterm">NTType</span>);
+
+    static const string URI;
+
+    static bool is_a(StructureConstPtr const &amp; structure);
+    static bool is_a(PVStructurePtr const &amp; pvStructure);
+
+    static bool isCompatible(StructureConstPtr const &amp; structure);
+    static bool isCompatible(PVStructurePtr const &amp; pvStructure);
+
+    static shared_pointer wrap(PVStructurePtr const &amp; pvStructure);
+    static shared_pointer wrapUnsafe(PVStructurePtr const &amp; pvStructure);
+
+    bool isValid();
+
+    static <span class="nterm">NTType</span>BuilderPtr createBuilder();
+
+    PVStructurePtr getPVStructure() const;
+}
+</pre>
+
+<p>where</p>
+<dl>
+  <dt>URI</dt>
+    <dd>The type ID of any constructed structures. Also used in any compatibility checks.</dd>
+  <dt>is_a()</dt>
+     <dd>Checks if the specified <code>Structure</code>/<code>PVStructure</code> reports compatibility with this version of <span class="nterm">NTType</span> through its type ID, including checking version numbers. The return value does not depend on whether the structure is actually compatible.</dd>
+  <dt>isCompatible()</dt>
+     <dd>Checks whether the supplied <code>Structure</code> or <code>PVStructure</code> is conformant with this version of <span class="nterm">NTType</span> through the introspection interface.</dd>
+  <dt>wrapUnsafe()</dt>
+     <dd>Creates an <span class="nterm">NTType</span> wrapping the specified <code>PVStructure</code>, regardless of the latter's compatibility. No checks are made as to whether the specified <code>PVStructure</code> is compatible with NTScalar or is non-null.</dd>
+  <dt>wrap()</dt>
+     <dd>Creates an <span class="nterm">NTType</span> wrapping the specified
+         <code>PVStructure</code> if the latter is compatible.
+         Checks the supplied PVStructure is compatible with
+         <span class="nterm">NTType</span> and if so returns an
+         <span class="nterm">NTType</span> which wraps it, otherwise it
+         returns null.</dd>
+  <dt>isValid()</dt>
+     <dd>Returns whether the wrapped <code>PVStructure</code> is valid with
+         respect to this version of <span class="nterm">NTType</span>. Unlike
+         <code>isCompatible()</code>, <code>isValid()</code> may perform
+         checks on the value data as well as the introspection data.</dd>
+   <dt>getPVStructure()</dt>
+       <dd>Returns the PVStructure that this instance wraps.</dd>
+</dl>
+
+
+<h2>Normative Type Property Features</h2>
+
+<h3>Normative Type support for descriptor fields</h3>
+
+<p>Most Normative Types have an optional <code>descriptor</code> field of the form</p>
+<pre>
+    string descriptor
+</pre>
+
+<p>The corresponding Normative Type wrapper classes and their builders have support for this field:</p> 
+
+<h4>Builder support</h4>
+
+<p>Each builder class for a Normative Type with a <code>descriptor</code> field has a function</p>
+
+<pre>
+    shared_pointer addDescriptor();
+</pre>
+<p>where</p>
+<dl>
+  <dt>addDescriptor()</dt>
+    <dd>Adds the <code>descriptor</code> field to the structure returned by calling <code>create()</code>, <code>createStructure()</code> or <code>createPVStructure()</code>. Returns the the instance of the builder.
+    </dd>
+</dl>
+
+<p>The effect of calling <code>addDescriptor()</code> is reset by a call of <code>create()</code>, <code>createStructure()</code> or <code>createPVStructure()</code>.</p>
+
+
+<h4>Normative Type class support</h4>
+
+
+<p>Each wrapper class for a Normative Type with a <code>descriptor</code> field has a function</p>
+<pre>
+    PVStringPtr getDescriptor() const;
+</pre>
+
+<p>where</p>
+<dl>
+  <dt>getDescriptor()</dt>
+    <dd>Returns the <code>descriptor</code> field or null if the wrapped
+        <code>PVStructure</code> has no <code>descriptor</code> field.
+    </dd>
+</dl>
+
+
+<h4>Example</h4>
+
+<pre>
+    NTScalarPtr scalar = NTScalar::createBuilder()-&gt;
+        value(pvDouble)-&gt;
+        addDescriptor()-&gt;create();
+
+    scalar-&gt;getDescriptor()-&gt;put("Beam current");
+</pre>
+
+<p>This produces:</p>
+<pre>
+epics:nt/NTScalar:1.0 
+    double value 0
+    string descriptor Beam current
+</pre>
+
+
+<h3>Normative Type support for alarm fields</h3>
+
+<p>Most Normative Types have an optional <code>alarm</code> field of the form</p>
+<pre>
+    alarm_t alarm
+        int severity
+        int status 
+        string message
+</pre>
+
+<p>The corresponding Normative Type wrapper classes and their builders have support for this field:</p> 
+
+<h4>Builder support</h4>
+
+<p>Each builder class for a Normative Type with an <code>alarm</code> field has a function</p>
+
+<pre>
+    shared_pointer addAlarm();
+</pre>
+<p>where</p>
+<dl>
+  <dt>addAlarm()</dt>
+    <dd>Adds the <code>alarm</code> field to the structure returned by calling <code>create()</code>, <code>createStructure()</code> or <code>createPVStructure()</code>. Returns the the instance of the builder.
+    </dd>
+</dl>
+
+<p>The effect of calling <code>addAlarm()</code> is reset by a call of <code>create()</code>, <code>createStructure()</code> or <code>createPVStructure()</code>.</p>
+
+
+<h4>Normative Type class support</h4>
+
+
+<p>Each wrapper class for a Normative Type with an <code>alarm</code> field has a function</p>
+
+<pre>
+    bool attachAlarm(PVAlarm &amp; pvAlarm) const;
+    PVStructurePtr getAlarm() const;
+</pre>
+
+<p>where</p>
+<dl>
+  <dt>attachAlarm()</dt>
+    <dd>Attaches the supplied <code>PVAlarm</code> to the wrapped
+        <code>PVStructure</code>'s <code>alarm</code> field. Does nothing
+        if no <code>alarm</code> field. Returns true if the operation was
+        successful (i.e. the wrapped <code>PVStructure</code> has an
+        <code>alarm</code> field), otherwise false.
+    </dd>
+  <dt>getAlarm()</dt>
+    <dd>Returns the <code>alarm</code> field or null if the wrapped
+        <code>PVStructure</code> has no <code>alarm</code> field.
+    </dd>
+</dl>
+
+<h4>Example</h4>
+
+<pre>
+    NTScalarPtr scalar = NTScalar::createBuilder()-&gt;
+        value(pvDouble)-&gt;
+        addDescriptor()-&gt;create();
+
+    scalar-&gt;getValue&lt;PVDouble&gt;()-&gt;put(100.0);
+
+    PVAlarm pvAlarm;
+    scalar-&gt;attachAlarm(pvAlarm);
+
+    Alarm alarm;
+    alarm.setStatus(clientStatus);
+    alarm.setSeverity(majorAlarm);
+    alarm.setMessage("Too high");
+    pvAlarm.set(alarm);
+</pre>
+
+<p>This produces:</p>
+<pre>
+epics:nt/NTScalar:1.0 
+    double value 100
+    alarm_t alarm
+        int severity 2
+        int status 7
+        string message Too high
+</pre>
+
+<h3>Normative Type support for timeStamp fields</h3>
+
+<p>Most Normative Types have an optional <code>timeStamp</code> field of the form</p>
+<pre>
+    time_t timeStamp
+        long secondsPastEpoch
+        int nanoseconds
+        int userTag
+</pre>
+
+<p>The corresponding Normative Type wrapper classes and their builders have support for this field:</p> 
+
+<h4>Builder support</h4>
+
+<p>Each builder class for a Normative Type with a <code>timeStamp</code> field has a function</p>
+
+<pre>
+    shared_pointer addTimeStamp();
+</pre>
+<p>where</p>
+<dl>
+  <dt>addTimeStamp()</dt>
+    <dd>Adds the <code>timeStamp</code> field to the structure returned by calling <code>create()</code>, <code>createStructure()</code> or <code>createPVStructure()</code>. Returns the the instance of the builder.
+    </dd>
+</dl>
+
+
+<p>The effect of calling <code>addTimeStamp()</code> is reset by a call of <code>create()</code>, <code>createStructure()</code> or <code>createPVStructure()</code>.</p>
+
+
+<h4>Normative Type class support</h4>
+
+<p>Each wrapper class for a Normative Type with a <code>timeStamp</code> field has a function</p>
+
+<pre>
+    bool attachTimeStamp(PVTimeStamp &amp; pvTimeStamp) const;
+    PVStructurePtr getTimeStamp() const;
+</pre>
+
+<p>where</p>
+<dl>
+  <dt>attachTimeStamp()</dt>
+    <dd>Attaches a <code>PVTimeStamp</code> to the wrapped <code>PVStructure</code>'s  <code>timeStamp</code> field. Does nothing if no <code>timeStamp</code> field. Returns  true if the operation was successful (i.e. this instance has a <code>timeStamp</code> field), otherwise false.
+    </dd>
+  <dt>getTimeStamp()</dt>
+    <dd>Returns the <code>timeStamp</code> field or null if no <code>timeStamp</code> field.
+    </dd>
+</dl>
+
+<h4>Example</h4>
+
+<pre>
+    NTScalarPtr scalar = NTScalar::createBuilder()-&gt;
+        value(pvDouble)-&gt;addTimeStamp()-&gt;create();
+    scalar-&gt;getValue&lt;PVDouble&gt;()-&gt;put(42);
+
+    PVTimeStamp pvTimeStamp;
+    scalar-&gt;attachTimeStamp(pvTimeStamp);
+
+    TimeStamp timeStamp;
+    timeStamp.getCurrent();
+    pvTimeStamp.set(timeStamp);
+</pre>
+
+<p>This will produce something like:</p>
+<pre>
+epics:nt/NTScalar:1.0 
+    double value 42
+    time_t timeStamp
+        long secondsPastEpoch 1473694453
+        int nanoseconds 60324002
+        int userTag 0
+</pre>
+
+
+
+
+
+<h3>Normative Type support for display fields</h3>
+
+<p>Some Normative Types have an optional <code>display</code> field of the form</p>
+<pre>
+    display_t display
+        double limitLow
+        double limitHigh
+        string description
+        string format
+        string units
+</pre>
+
+<p>The corresponding Normative Type wrapper classes and their builders have support for this field:</p> 
+
+<h4>Builder support</h4>
+
+<p>Each builder class for a Normative Type with a <code>display</code> field has a function</p>
+
+<pre>
+    shared_pointer addDisplay();
+</pre>
+<p>where</p>
+<dl>
+  <dt>addDisplay()</dt>
+    <dd>Adds the <code>display</code> field to the structure returned by calling <code>create()</code>, <code>createStructure()</code> or <code>createPVStructure()</code>. Returns the the instance of the builder.
+    </dd>
+</dl>
+
+
+<p>The effect of calling <code>addDisplay()</code> is reset by a call of <code>create()</code>, <code>createStructure()</code> or <code>createPVStructure()</code>.</p>
+
+
+<h4>Normative Type class support</h4>
+
+<p>Each wrapper class for a Normative Type with a <code>display</code> field has a function</p>
+
+<pre>
+    bool attachDisplay(PVDisplay &amp; pvDisplay) const;
+    PVStructurePtr getDisplay() const;
+</pre>
+
+<p>where</p>
+<dl>
+  <dt>attachDisplay()</dt>
+    <dd>Attaches a <code>PVDisplay</code> to the wrapped <code>PVDisplay</code>'s  <code>display</code> field. Does nothing if no <code>display</code> field. Returns  true if the operation was successful (i.e. this instance has a <code>display</code> field), otherwise false.
+    </dd>
+  <dt>getDisplay()</dt>
+    <dd>Returns the <code>display</code> field or null if no <code>display</code> field.
+    </dd>
+</dl>
+
+
+<h3>Normative Type support for control fields</h3>
+
+<p>Some Normative Types have an optional <code>control</code> field of the form</p>
+<pre>
+    control_t control
+        double limitLow
+        double limitHigh
+        double minStep
+</pre>
+
+<p>The corresponding Normative Type wrapper classes and their builders have support for this field:</p> 
+
+<h4>Builder support</h4>
+
+<p>Each builder class for a Normative Type with a <code>control</code> field has a function</p>
+
+<pre>
+    shared_pointer addControl();
+</pre>
+<p>where</p>
+<dl>
+  <dt>addControl()</dt>
+    <dd>Adds the <code>control</code> field to the structure returned by calling <code>create()</code>, <code>createStructure()</code> or <code>createPVStructure()</code>. Returns the the instance of the builder.
+    </dd>
+</dl>
+
+
+<p>The effect of calling <code>addControl()</code> is reset by a call of <code>create()</code>, <code>createStructure()</code> or <code>createPVStructure()</code>.</p>
+
+
+<h4>Normative Type class support</h4>
+
+<p>Each wrapper class for a Normative Type with a <code>control</code> field has a function</p>
+
+<pre>
+    bool attachControl(PVControl &amp; pvControl) const;
+    PVStructurePtr getControl() const;
+</pre>
+
+<p>where</p>
+<dl>
+  <dt>attachControl()</dt>
+    <dd>Attaches a <code>PVControl</code> to the wrapped <code>PVControl</code>'s  <code>control</code> field. Does nothing if no <code>control</code> field. Returns  true if the operation was successful (i.e. this instance has a <code>control</code> field), otherwise false.
+    </dd>
+  <dt>getControl()</dt>
+    <dd>Returns the <code>control</code> field or null if no <code>control</code> field.
+    </dd>
+</dl>
+
+
+
+
+<h2>Normative Types NTScalar</h2>
+
+<p>NTScalar is the EPICS V4 Normative Type that describes a single
+scalar value plus metadata:</p>
+
+
+<p>Its structure is defined to be:</p>
+
+<pre>
+epics:nt/NTScalar:1.0
+    <span class="nterm">scalar_t</span>   value   
+    string descriptor                   : optional
+    alarm_t alarm                       : optional
+        int severity
+        int status 
+        string message
+    time_t timeStamp                    : optional
+        long secondsPastEpoch
+        int nanoseconds
+        int userTag
+    display_t display                   : optional
+        double limitLow
+        double limitHigh
+        string description
+        string format
+        string units
+    control_t control                   : optional
+        double limitLow
+        double limitHigh
+        double minStep
+    {&lt;field-type&gt; &lt;field-name&gt;}0+  // additional fields
+</pre>
+
+<p>where <span class="nterm">scalar_t</span> indicates a choice of scalar:</p>
+
+    <pre>
+<span class="nterm">scalar_t</span> :=
+
+   boolean | byte |  ubyte |  short |  ushort | 
+   int |  uint |  long |  ulong |  float |  double |  string
+</pre>
+
+
+<h3>NTScalarBuilder</h3>
+
+<p>This is a class that creates the introspection and data instances for NTScalar and
+an a NTScalar instance itself.</p>
+
+<p><b>ntscalar.h</b> defines the following:</p>
+
+<pre>
+class NTScalar;
+typedef std::tr1::shared_ptr&lt;NTScalar&gt; NTScalarPtr;
+
+class NTScalarBuilder
+{
+public:
+    POINTER_DEFINITIONS(NTScalarBuilder);
+    shared_pointer value(ScalarType scalarType);
+    shared_pointer addDescriptor();
+    shared_pointer addAlarm();
+    shared_pointer addTimeStamp();
+    shared_pointer addDisplay();
+    shared_pointer addControl();
+    StructureConstPtr createStructure();
+    PVStructurePtr createPVStructure();
+    NTScalarPtr create();
+    shared_pointer add(
+         string const &amp; name,
+         FieldConstPtr const &amp; field);
+private:
+    // ... remainder of class definition
+}
+</pre>
+where
+<dl>
+  <dt>value</dt>
+    <dd>Sets the scalar type for the <code>value</code> field.
+     This must be specified or a call of <code>create()</code>,
+     <code>createStructure()</code> or <code>createPVStructure()</code>
+     will throw an exception (<code>std::runtime_error</code>).</dd>
+</dl>
+
+<p>and all other functions are described in the sections <a href="#features_common_to_all_normative_type_builder_classes">Features common to all Normative Type Builder classes</a> and <a href="#normative_type_property_features">Normative Type Property Features</a>.</p>
+
+<p>An <code>NTScalarArrayBuilder</code> can be used to create multiple <code>Structure</code>, <code>PVStructure</code> and/or <code>NTScalar</code> instances.</p>
+
+<p>A call of <code>create()</code>, <code>createStructure()</code> or <code>createPVStructure()</code> clears all internal data. This includes the effect of calling <code>value()</code> as well all calls of optional field/property data functions and additional field functions.</p>
+
+
+
+<h4>NTScalarBuilder Examples</h4>
+<p>An example of creating an NTScalar instance is:</p>
+<pre>
+NTScalarBuilderPtr builder = NTScalar::createBuilder();
+NTScalarPtr ntScalar = builder-&gt;
+    value(pvInt)-&gt;
+    addDescriptor()-&gt;
+    addAlarm()-&gt;
+    addTimeStamp()-&gt;
+    addDisplay()-&gt;
+    addControl()-&gt;
+    create();
+</pre>
+
+<h3>NTScalar</h3>
+<p><b>ntscalar.h</b> defines the following:</p>
+<pre>
+class NTScalar;
+typedef std::tr1::shared_ptr&lt;NTScalar&gt; NTScalarPtr;
+
+class NTScalar
+{
+public:
+    POINTER_DEFINITIONS(NTScalar);
+    ~NTScalar() {}
+    static const string URI;
+    static shared_pointer wrap(PVStructurePtr const &amp; pvStructure);
+    static shared_pointer wrapUnsafe(PVStructurePtr const &amp; pvStructure);
+    static bool is_a(StructureConstPtr const &amp; structure);
+    static bool is_a(PVStructurePtr const &amp; pvStructure);
+    static bool isCompatible(StructureConstPtr const &amp; structure);
+    static bool isCompatible(PVStructurePtr const &amp; pvStructure);
+    static NTScalarBuilderPtr createBuilder();
+
+    bool attachTimeStamp(PVTimeStamp &amp;pvTimeStamp) const;
+    bool attachAlarm(PVAlarm &amp;pvAlarm) const;
+    bool attachDisplay(PVDisplay &amp;pvDisplay) const;
+    bool attachControl(PVControl &amp;pvControl) const;
+
+    PVStructurePtr getPVStructure() const;
+    PVStructurePtr getTimeStamp() const;
+    PVStructurePtr getAlarm() const;
+    PVStructurePtr getDisplay() const;
+    PVStructurePtr getControl() const;
+
+    PVFieldPtr getValue() const;
+
+    template&lt;typename PVT&gt;
+    std::tr1::shared_ptr&lt;PVT&gt; getValue() const
+private:
+    // ... remainder of class definition
+}
+</pre>
+<p>where</p>
+<dl>
+   <dt>getValue()</dt>
+       <dd>Returns the <code>value</code> field. The template version returns the type supplied in the template argument.</dd>
+</dl>
+<p>and all other functions are described in the sections <a href="#features_common_to_all_normative_type_wrapper_classes">Features common to all Normative Type Wrapper classes</a> and <a href="#normative_type_property_features">Normative Type Property Features</a>.</p>
+
+
+<h2>Normative Type NTScalarArray</h2>
+
+    <p>NTScalarArray is the EPICS V4 Normative Type that describes an
+    array of values, plus metadata. All the elements of the array of the
+    same scalar type.</p>
+
+<pre>
+epics:nt/NTScalarArray:1.0
+    <span class="nterm">scalar_t[]</span>   value                    
+    string descriptor              : optional
+    alarm_t alarm                  : optional
+        int severity
+        int status 
+        string message
+    time_t timeStamp               : optional
+        long secondsPastEpoch
+        int nanoseconds
+        int userTag
+    display_t display              : optional
+        double limitLow
+        double limitHigh
+        string description
+        string format
+        string units
+    {&lt;field-type&gt; &lt;field-name&gt;}0+  // additional fields
+</pre>
+
+<p>where <span class="nterm">scalar_t[]</span> indicates a choice of scalar array:</p>
+
+    <pre>
+<span class="nterm">scalar_t[]</span> :=
+
+   boolean[] | byte[] |  ubyte[] |  short[] |  ushort[] | 
+   int[] |  uint[] |  long[] |  ulong[] |  float[] |  double[] |  string[]
+</pre>
+
+
+
+<h3>NTScalarArrayBuilder</h3>
+<p><b>ntscalarArray.h</b> defines the following:</p>
+<pre>
+class NTScalarArray;
+typedef std::tr1::shared_ptr&lt;NTScalarArray&gt; NTScalarArrayPtr;
+
+class NTScalarArrayBuilder
+{
+public:
+    POINTER_DEFINITIONS(NTScalarArrayBuilder);
+    shared_pointer value(ScalarType elementType);
+    shared_pointer addDescriptor();
+    shared_pointer addAlarm();
+    shared_pointer addTimeStamp();
+    shared_pointer addDisplay();
+    shared_pointer addControl();
+    StructureConstPtr createStructure();
+    PVStructurePtr createPVStructure();
+    NTScalarArrayPtr create();
+    shared_pointer add(
+         string const &amp; name,
+         FieldConstPtr const &amp; field);
+private:
+    // ... remainder of class definition
+};
+</pre>
+
+<p>where</p>
+<dl>
+  <dt>value</dt>
+    <dd>Sets the element type for the <code>value</code> field.
+     This must be specified or a call of <code>create()</code>,
+     <code>createStructure()</code> or <code>createPVStructure()</code>
+     will throw an exception (<code>std::runtime_error</code>).</dd>
+</dl>
+
+<p>and all other functions are described in the sections <a href="#features_common_to_all_normative_type_builder_classes">Features common to all Normative Type Builder classes</a> and <a href="#normative_type_property_features">Normative Type Property Features</a>.</p>
+
+<p>An <code>NTScalarArrayBuilder</code> can be used to create multiple <code>Structure</code>, <code>PVStructure</code> and/or <code>NTScalarArray</code> instances.</p>
+
+<p>A call of <code>create()</code>, <code>createStructure()</code> or <code>createPVStructure()</code> clears all internal data. This includes the effect of calling <code>value()</code> as well all calls of optional field/property data functions and additional field functions.</p>
+
+
+<h3>NTScalarArray</h3>
+<p><b>ntscalarArray.h</b> defines the following:</p>
+<pre>
+class NTScalarArray;
+typedef std::tr1::shared_ptr&lt;NTScalarArray&gt; NTScalarArrayPtr;
+
+class NTScalarArray
+{
+public:
+    POINTER_DEFINITIONS(NTScalarArray);
+    ~NTScalarArray() {}
+    static const string URI;
+    static shared_pointer wrap(PVStructurePtr const &amp; pvStructure);
+    static shared_pointer wrapUnsafe(PVStructurePtr const &amp; pvStructure);
+    static bool is_a(StructureConstPtr const &amp; structure);
+    static bool is_a(PVStructurePtr const &amp; pvStructure);
+    static bool isCompatible(StructureConstPtr const &amp; structure);
+    static bool isCompatible(PVStructurePtr const &amp; pvStructure);
+    static NTScalarArrayBuilderPtr createBuilder();
+
+    bool attachTimeStamp(PVTimeStamp &amp;pvTimeStamp) const;
+    bool attachAlarm(PVAlarm &amp;pvAlarm) const;
+    bool attachDisplay(PVDisplay &amp;pvDisplay) const;
+    bool attachControl(PVControl &amp;pvControl) const;
+
+    PVStructurePtr getPVStructure() const;
+    PVStructurePtr getTimeStamp() const;
+    PVStructurePtr getAlarm() const;
+    PVStructurePtr getDisplay() const;
+    PVStructurePtr getControl() const;
+
+    PVFieldPtr getValue() const;
+    template&lt;typename PVT&gt;
+    std::tr1::shared_ptr&lt;PV&gt; getValue() const
+private:
+    // ... remainder of class definition
+};
+</pre>
+where
+<dl>
+   <dt>getValue</dt>
+       <dd>Returns the <code>value</code> field. The template version returns the type supplied in the template argument.</dd>
+</dl>
+
+<p>and all other functions are described in the sections <a href="#features_common_to_all_normative_type_wrapper_classes">Features common to all Normative Type Wrapper classes</a> and <a href="#normative_type_property_features">Normative Type Property Features</a>.</p>
+
+
+
+<h2>Normative Type NTEnum</h2>
+
+<p>NTEnum is an EPICS V4 Normative Type that describes an enumeration
+(a closed set of possible values specified by an n-tuple).</p>
+
+<p>Its structure is defined to be:</p>
+
+<pre>
+epics:nt/NTEnum:1.0
+    enum_t value
+        int index
+        string[] choices
+    string descriptor                : optional
+    alarm_t alarm                    : optional
+        int severity
+        int status 
+        string message
+    time_t timeStamp                 : optional
+        long secondsPastEpoch
+        int nanoseconds
+        int userTag
+    {&lt;field-type&gt; &lt;field-name&gt;}0+ // additional fields
+</pre>
+
+<h3>NTEnumBuilder</h3>
+<p><b>ntscalarArray.h</b> defines the following:</p>
+<pre>
+class NTEnum;
+typedef std::tr1::shared_ptr&lt;NTEnum&gt; NTEnumPtr;
+
+class NTEnumBuilder
+{
+public:
+    POINTER_DEFINITIONS(NTEnumBuilder);
+    shared_pointer addDescriptor();
+    shared_pointer addAlarm();
+    shared_pointer addTimeStamp();
+    StructureConstPtr createStructure();
+    PVStructurePtr createPVStructure();
+    NTEnumPtr create();
+    shared_pointer add(string const &amp; name, FieldConstPtr const &amp; field);
+
+private:
+     // ... remainder of class definition 
+};
+</pre>
+
+<p>where all functions are described in the sections <a href="#features_common_to_all_normative_type_builder_classes">Features common to all Normative Type Builder classes</a> and <a href="#normative_type_property_features">Normative Type Property Features</a>.</p>
+
+<p>An <code>NTEnumBuilder</code> can be used to create multiple <code>Structure</code>, <code>PVStructure</code> and/or <code>NTEnum</code> instances.</p>
+
+<p>A call of <code>create()</code>, <code>createStructure()</code> or <code>createPVStructure()</code> clears all internal data. This includes all calls of optional field/property data functions and additional field functions.</p>
+
+
+<h3>NTEnum</h3>
+
+<p><b>ntenum.h</b> defines the following:</p>
+
+<pre>
+class NTEnum
+{
+public:
+    POINTER_DEFINITIONS(NTEnum);
+    static const string URI;
+    static shared_pointer wrap(PVStructurePtr const &amp; pvStructure);
+    static shared_pointer wrapUnsafe(PVStructurePtr const &amp; pvStructure);
+    static bool is_a(StructureConstPtr const &amp; structure);
+    static bool is_a(PVStructurePtr const &amp; pvStructure);
+    static bool isCompatible(StructureConstPtr const &amp; structure);
+    static bool isCompatible(PVStructurePtr const &amp; pvStructure);
+    static NTEnumBuilderPtr createBuilder();
+    getPVStructure() const;
+
+    attachTimeStamp(PVTimeStamp &amp; pvTimeStamp) const;
+    attachAlarm(PVAlarm &amp; pvAlarm) const;
+    PVStringPtr getDescriptor() const;
+    PVStructurePtr getTimeStamp() const;
+    PVStructurePtr getAlarm() const;
+
+    PVStructurePtr getValue() const;
+
+private:
+    // ... remainder of class definition
+};
+</pre>
+
+<p>where</p>
+
+<dl>
+   <dt>getValue</dt>
+       <dd>Returns the <code>value</code> field.</dd>
+</dl>
+
+<p>and all other functions are described in the sections <a href="#features_common_to_all_normative_type_wrapper_classes">Features common to all Normative Type Wrapper classes</a> and <a href="#normative_type_property_features">Normative Type Property Features</a>.</p>
+
+
+<h2>Normative Type NTMatrix</h2>
+
+<p>NTMatrix is an EPICS V4 Normative Type used to define a matrix,
+specifically a 2-dimensional array of real numbers.</p>
+
+<p>Its structure is defined to be:</p>
+
+<pre>
+epics:nt/NTMatrix:1.0
+    double[]    value
+    int[2]      dim                :optional
+    string      descriptor         :optional
+    alarm_t alarm                  :optional
+        int severity
+        int status 
+        string message
+    time_t timeStamp               : optional
+        long secondsPastEpoch
+        int nanoseconds
+        int userTag
+    display_t display              : optional
+        double limitLow
+        double limitHigh
+        string description
+        string format
+        string units
+    {&lt;field-type&gt; &lt;field-name&gt;}0+  // additional fields
+</pre>
+
+<h3>NTMatrixBuilder</h3>
+
+<p><b>ntmatrix.h</b> defines the following:</p>
+
+<pre>
+class NTMatrixBuilder
+{
+public:
+    POINTER_DEFINITIONS(NTMatrixBuilder);
+
+    shared_pointer addDim();
+
+    shared_pointer addDescriptor();
+    shared_pointer addAlarm();
+    shared_pointer addTimeStamp();
+    shared_pointer addDisplay();
+
+    StructureConstPtr createStructure();
+    PVStructurePtr createPVStructure();
+    shared_pointer add(string const &amp; name, FieldConstPtr const &amp; field);
+
+private:
+    // ... remainder of class definition 
+};
+</pre>
+
+<p>where</p>
+
+<dl>
+  <dt>addDim</dt>
+     <dd>Adds optional <code>dimension</code> field.</dd>
+</dl>
+
+<p>and all other functions are described in the sections <a href="#features_common_to_all_normative_type_builder_classes">Features common to all Normative Type Builder classes</a> and <a href="#normative_type_property_features">Normative Type Property Features</a>.</p>
+
+
+<p>An <code>NTMatrixBuilder</code> can be used to create multiple <code>Structure</code>, <code>PVStructure</code> and/or <code>NTMatrix</code> instances.</p>
+
+<p>A call of <code>create()</code>, <code>createStructure()</code> or <code>createPVStructure()</code> clears all internal data. This includes the effect of calling <code>addDim()</code> as well all calls of optional field/property data functions and additional field functions.</p>
+
+
+
+<h3>NTMatrix</h3>
+
+<p><b>ntmatrix.h</b> defines the following:</p>
+
+<pre>
+class NTMatrix
+{
+public:
+    POINTER_DEFINITIONS(NTMatrix);
+
+    static const string URI;
+    static shared_pointer wrap(PVStructurePtr const &amp; pvStructure);
+    static shared_pointer wrapUnsafe(PVStructurePtr const &amp; pvStructure);
+    static bool is_a(StructureConstPtr const &amp; structure);
+    static bool is_a(PVStructurePtr const &amp; pvStructure);
+    static bool isCompatible(StructureConstPtr const &amp; structure);
+    static bool isCompatible(PVStructurePtr const &amp; pvStructure);
+    static NTMatrixBuilderPtr createBuilder();
+
+    bool attachTimeStamp(PVTimeStamp &amp; pvTimeStamp) const;
+    bool attachAlarm(PVAlarm &amp; pvAlarm) const;
+    bool attachDisplay(PVDisplay &amp; pvDisplay) const;
+
+    PVStructurePtr getPVStructure() const;
+    PVStringPtr getDescriptor() const;
+    PVStructurePtr getTimeStamp() const;
+    PVStructurePtr getAlarm() const;
+    PVStructurePtr getDisplay() const;
+
+    PVDoubleArrayPtr getValue() const;
+    PVIntArrayPtr getDim() const;   
+
+private:
+    // ... remainder of class definition
+};
+</pre>
+
+<p>where</p>
+
+<dl>
+   <dt>getValue</dt>
+       <dd>Returns the <code>value</code> field.</dd>
+   <dt>getDim</dt>
+       <dd>Returns the <code>dim</code> field.</dd>
+</dl>
+
+<p>and all other functions are described in the sections <a href="#features_common_to_all_normative_type_wrapper_classes">Features common to all Normative Type Wrapper classes</a> and <a href="#normative_type_property_features">Normative Type Property Features</a>.</p>
+
+
+
+<h2>Normative Type NTURI</h2>
+
+<p>NTURI is the EPICS V4 Normative Type that describes a Uniform Resource Identifier (URI).</p>
+
+<p>Its structure is defined to be:</p>
+
+<pre>
+epics:nt/NTURI:1.0
+    string scheme      
+    string authority               : optional
+    string path     
+    structure query                : optional
+        {string | double | int &lt;field-name&gt;}0+ 
+    {&lt;field-type&gt; &lt;field-name&gt;}0+  // additional fields
+</pre>
+
+<h3>NTURIBuilder</h3>
+
+<p><b>nturi.h</b> defines the following:</p>
+
+<pre>
+class NTURI;
+typedef std::tr1::shared_ptr&lt;NTURI&gt; NTURIPtr;
+
+classNTURIBuilder
+{
+public:
+    POINTER_DEFINITIONS(NTURIBuilder);
+
+    shared_pointer addAuthority();
+    shared_pointer addQueryString(string const &amp; name);
+    shared_pointer addQueryDouble(string const &amp; name);
+    shared_pointer addQueryInt(string const &amp; name);
+
+    StructureConstPtr createStructure();
+    PVStructurePtr createPVStructure();
+    NTURIPtr create();
+    shared_pointer add(string const &amp; name, FieldConstPtr const &amp; field);
+
+private:
+    // ... remainder of class definition
+};
+</pre>
+
+<p>where</p>
+<dl>
+  <dt>addAuthority</dt>
+     <dd>Adds optional <code>dimension</code> field.</dd>
+  <dt>addQueryString</dt>
+     <dd>Adds a string field of the supplied name to the optional <code>query</code> field.</dd>
+  <dt>addQueryDouble</dt>
+     <dd>Adds a double field of the supplied name to the optional <code>query</code> field.</dd>
+  <dt>addQueryDouble</dt>
+     <dd>Adds an integer field of the supplied name to the optional <code>query</code> field.</dd>
+</dl>
+
+
+<p>and all other functions are described in the sections <a href="#features_common_to_all_normative_type_builder_classes">Features common to all Normative Type Builder classes</a> and <a href="#normative_type_property_features">Normative Type Property Features</a>.</p>
+
+
+<p>An <code>NTURIBuilder</code> can be used to create multiple <code>Structure</code>, <code>PVStructure</code> and/or <code>NTURI</code> instances.</p>
+
+<p>A call of <code>create()</code>, <code>createStructure()</code> or <code>createPVStructure()</code> clears all internal data. This includes the effect of calling <code>addAuthority()</code> and the 3 "add query" functions.</p>
+
+
+<h3>NTURI</h3>
+
+<p><b>nturi.h</b> defines the following:</p>
+
+<pre>
+class NTURI
+{
+public:
+    POINTER_DEFINITIONS(NTURI);
+
+    static const string URI;
+
+    static const string URI;
+    static shared_pointer wrap(PVStructurePtr const &amp; pvStructure);
+    static shared_pointer wrapUnsafe(PVStructurePtr const &amp; pvStructure);
+    static bool is_a(StructureConstPtr const &amp; structure);
+    static bool is_a(PVStructurePtr const &amp; pvStructure);
+    static bool isCompatible(StructureConstPtr const &amp; structure);
+    static bool isCompatible(PVStructurePtr const &amp; pvStructure);
+    static NTURIBuilderPtr createBuilder();
+
+    PVStructurePtr getPVStructure() const;
+    PVStringPtr getScheme() const;
+    PVStringPtr getAuthority() const;
+    PVStringPtr getPath() const;
+    PVStructurePtr getQuery() const;
+
+    StringArray const &amp; getQueryNames() const;
+    PVFieldPtr getQueryField(string const &amp; name) const;
+    template&lt;typename PVT&gt;
+    std::tr1::shared_ptr&lt;PVT&gt; getQueryField(string const &amp; name) const;
+
+private:
+    // ... remainder of class definition
+};
+</pre>
+
+<p>where</p>
+
+<dl>
+   <dt>getScheme()</dt>
+       <dd>Returns the <code>scheme</code> field.</dd>
+   <dt>getAuthority()</dt>
+       <dd>Returns the optional <code>authority</code> field.</dd>
+   <dt>getPath()</dt>
+       <dd>Returns the <code>path</code> field.</dd>
+   <dt>getQuery()</dt>
+       <dd>Returns the optional <code>query</code> field. </dd>
+   <dt>getQueryNames()</dt>
+       <dd>Returns the names of the fields of the <code>query</code> field. </dd>
+   <dt>getQueryField()</dt>
+       <dd>Returns the subfield of the <code>query</code> field with the requested name. The template version returns the type requested in the template argument.</dd>
+</dl>
+
+<p>and all other functions are described in the sections <a href="#features_common_to_all_normative_type_wrapper_classes">Features common to all Normative Type Wrapper classes</a> and <a href="#normative_type_property_features">Normative Type Property Features</a>.</p>
+
+
+
+<h2>Normative Type NTNameValue</h2>
+
+    <p>NTNameValue is the EPICS V4 Normative Type that describes a system
+    of name and scalar values.</p>
+
+<p>Its structure is defined to be:</p>
+
+<pre>
+epics:nt/NTNameValue:1.0
+    string[] name
+    double[] value
+    string descriptor              : optional
+    alarm_t alarm                  : optional
+        int severity
+        int status
+        string message
+    time_t timeStamp               : optional
+        long secondsPastEpoch
+        int nanoseconds
+        int userTag
+    {&lt;field-type&gt; &lt;field-name&gt;}0+  // additional fields
+
+</pre>
+
+<h3>NTNameValueBuilder</h3>
+
+<p><b>ntnameValue.h</b> defines the following:</p>
+
+<pre>
+class NTNameValue;
+typedef std::tr1::shared_ptr&lt;NTNameValue&gt; NTNameValuePtr;
+
+class NTNameValueBuilder
+{
+public:
+    POINTER_DEFINITIONS(NTNameValueBuilder);
+    shared_pointer value(ScalarType scalarType);
+    shared_pointer addDescriptor();
+    shared_pointer addAlarm();
+    shared_pointer addTimeStamp();
+    StructureConstPtr createStructure();
+    PVStructurePtr createPVStructure();
+    NTNameValuePtr create();
+    shared_pointer add(
+         string const &amp; name,
+         FieldConstPtr const &amp; field);
+private:
+    // ... remainder of class definition
+};
+</pre>
+<p>where</p>
+<dl>
+  <dt>value</dt>
+    <dd>Sets the scalar type for the <code>value</code> field.
+     This must be specified or a call of <code>create()</code>,
+     <code>createStructure()</code> or <code>createPVStructure()</code>
+     will throw an exception (<code>std::runtime_error</code>)</dd>
+</dl>
+
+<p>and all other functions are described in the sections <a href="#features_common_to_all_normative_type_builder_classes">Features common to all Normative Type Builder classes</a> and <a href="#normative_type_property_features">Normative Type Property Features</a>.</p>
+
+
+<p>An <code>NTNameValueBuilder</code> can be used to create multiple <code>Structure</code>, <code>PVStructure</code> and/or <code>NTNameValue</code> instances.</p>
+
+<p>A call of <code>create()</code>, <code>createStructure()</code> or <code>createPVStructure()</code> clears all internal data. This includes the effect of calling <code>value()</code> as well all calls of optional field/property data functions and additional field functions.</p>
+
+<h3>NTNameValue</h3>
+
+<p><b>ntnameValue.h</b> defines the following:</p>
+
+<pre>
+class NTNameValue;
+typedef std::tr1::shared_ptr&lt;NTNameValue&gt; NTNameValuePtr;
+
+class NTNameValue
+{
+public:
+    POINTER_DEFINITIONS(NTNameValue);
+    ~NTNameValue() {}
+    static const string URI;
+    static shared_pointer wrap(PVStructurePtr const &amp; pvStructure);
+    static shared_pointer wrapUnsafe(PVStructurePtr const &amp; pvStructure);
+    static bool is_a(StructureConstPtr const &amp; structure);
+    static bool is_a(PVStructurePtr const &amp; pvStructure);
+    static bool isCompatible(StructureConstPtr const &amp; structure);
+    static bool isCompatible(PVStructurePtr const &amp; pvStructure);
+    static NTNameValueBuilderPtr createBuilder();
+
+    bool attachTimeStamp(PVTimeStamp &amp;pvTimeStamp) const;
+    bool attachAlarm(PVAlarm &amp;pvAlarm) const;
+    PVStringPtr getDescriptor() const;
+    PVStructurePtr getPVStructure() const;
+    PVStructurePtr getTimeStamp() const;
+    PVStructurePtr getAlarm() const;
+    PVStringArrayPtr getName() const;
+    PVFieldPtr getValue() const;
+    template&lt;typename PVT&gt;
+    std::tr1::shared_ptr&lt;PV&gt; getValue() const
+private:
+    // ... remainder of class definition
+}
+</pre>
+<p>where</p>
+<dl>
+   <dt>getName</dt>
+       <dd>Returns the <code>name</code> field.</dd>
+   <dt>getValue</dt>
+       <dd>Returns the <code>value</code> field.</dd>
+</dl>
+
+<p>and all other functions are described in the sections <a href="#features_common_to_all_normative_type_wrapper_classes">Features common to all Normative Type Wrapper classes</a> and <a href="#normative_type_property_features">Normative Type Property Features</a>.</p>
+
+<h2>Normative Type NTTable</h2>
+
+    <p>NTTable is the EPICS V4 Normative Type suitable for column-oriented
+    tabular datasets.</p>
+
+<p>Its structure is defined to be:</p>
+
+<pre>
+epics:nt/NTTable:1.0 
+    string[] labels []
+    structure value                              
+        {<span class="nterm">column_t</span>[]  <span class=
+"user">colname</span>}0+ // 0 or more scalar array instances, the column values.
+    string descriptor              : optional
+    alarm_t alarm                  : optional
+        int severity 
+        int status 
+        string
+    time_t timeStamp               : optional
+        long secondsPastEpoch
+        int nanoseconds
+        int userTag
+    {&lt;field-type&gt; &lt;field-name&gt;}0+  // additional fields
+</pre>
+
+
+<h3>NTTableBuilder</h3>
+
+<p><b>nttable.h</b> defines the following:</p>
+
+<pre>
+class NTTable;
+typedef std::tr1::shared_ptr&lt;NTTable&gt; NTTablePtr;
+
+class NTTableBuilder
+{
+public:
+    POINTER_DEFINITIONS(NTTableBuilder);
+    shared_pointer addColumn(string const &amp; name,ScalarType scalarType);
+    shared_pointer addDescriptor();
+    shared_pointer addAlarm();
+    shared_pointer addTimeStamp();
+    StructureConstPtr createStructure();
+    PVStructurePtr createPVStructure();
+    NTTablePtr create();
+    shared_pointer add(
+         string const &amp; name,
+         FieldConstPtr const &amp; field);
+private:
+    // ... remainder of class definition
+}
+</pre>
+
+<p>where</p>
+
+<dl>
+  <dt>addColumn</dt>
+    <dd>Adds a column (subfield of <code>value</code> field) of the specified name and scalar type</dd>
+</dl>
+
+<p>and all other functions are described in the sections <a href="#features_common_to_all_normative_type_builder_classes">Features common to all Normative Type Builder classes</a> and <a href="#normative_type_property_features">Normative Type Property Features</a>.</p>
+
+
+<p>An <code>NTTableBuilder</code> can be used to create multiple <code>Structure</code>, <code>PVStructure</code> and/or <code>NTTable</code> instances.</p>
+
+<p>A call of <code>create()</code>, <code>createStructure()</code> or <code>createPVStructure()</code> clears all internal data. This includes the added columns as well all calls of optional field/property data functions and additional field functions.</p>
+
+
+<h3>NTTable</h3>
+
+<p><b>nttable.h</b> defines the following:</p>
+
+<pre>
+class NTTable;
+typedef std::tr1::shared_ptr&lt;NTTable&gt; NTTablePtr;
+
+class NTTable
+{
+public:
+    POINTER_DEFINITIONS(NTTable);
+    ~NTTable() {}
+    static const string URI;
+    static shared_pointer wrap(PVStructurePtr const &amp; pvStructure);
+    static shared_pointer wrapUnsafe(PVStructurePtr const &amp; pvStructure);
+    static bool is_a(StructureConstPtr const &amp; structure);
+    static bool is_a(PVStructurePtr const &amp; pvStructure);
+    static bool isCompatible(StructureConstPtr const &amp; structure);
+    static bool isCompatible(PVStructurePtr const &amp; pvStructure);
+    static NTTableBuilderPtr createBuilder();
+
+    bool attachTimeStamp(PVTimeStamp &amp;pvTimeStamp) const;
+    bool attachAlarm(PVAlarm &amp;pvAlarm) const;
+    PVStructurePtr getPVStructure() const;
+    PVStringPtr getDescriptor() const;
+    PVStructurePtr getTimeStamp() const;
+    PVStructurePtr getAlarm() const;
+    PVStringArrayPtr getLabels() const;
+    PVFieldPtr getColumn(string const &amp; columnName) const;
+    template&lt;typename PVT&gt;
+    std::tr1::shared_ptr&lt;PV&gt; getColumn(string const &amp; columnName) const;
+private:
+    // ... remainder of class definition
+}
+</pre>
+<p>where</p>
+<dl>
+   <dt>getLabels</dt>
+       <dd>Returns the labels field.</dd>
+   <dt>getColumn</dt>
+       <dd>Returns the column with the specified name.</dd>
+</dl>
+
+<p>and all other functions are described in the sections <a href="#features_common_to_all_normative_type_wrapper_classes">Features common to all Normative Type Wrapper classes</a> and <a href="#normative_type_property_features">Normative Type Property Features</a>.</p>
+
+
+
+<h2>Normative Type NTAttribute</h2>
+
+    <p>NTAttribute is the EPICS V4 Normative Type for a named attribute of
+    any type. It is is essentially a key-value pair which optionally can
+    be tagged with additional strings.</p>
+
+<p>Its structure is defined to be:</p>
+
+<pre>
+epics:nt/NTAttribute:1.0
+    string    name              
+    any       value
+    string[]  tags                 : optional
+    string    descriptor           : optional
+    alarm_t alarm                  : optional
+        int severity 
+        int status 
+        string
+    time_t timeStamp               : optional
+        long secondsPastEpoch
+        int nanoseconds
+        int userTag
+    {&lt;field-type&gt; &lt;field-name&gt;}0+  // additional fields
+</pre>
+
+
+<h3>NTAttributeBuilder</h3>
+
+<p><b>ntattribute.h</b> defines the following:</p>
+
+<pre>
+class NTAttribute;
+typedef std::tr1::shared_ptr&lt;NTAttribute&gt; NTAttributePtr;
+
+class  NTAttributeBuilder
+{
+public:
+    POINTER_DEFINITIONS(NTAttributeBuilder);
+
+    shared_pointer addTags();
+    shared_pointer addDescriptor();
+    shared_pointer addAlarm();
+    shared_pointer addTimeStamp();
+
+    StructureConstPtr createStructure();
+    PVStructurePtr createPVStructure();
+    NTAttributePtr create();
+    shared_pointer add(string const &amp; name, FieldConstPtr const &amp; field);
+
+    protected:
+    // ... remainder of class definition
+}
+</pre>
+
+<p>where</p>
+
+<dl>
+  <dt>addTags</dt>
+    <dd>Adds optional tags field.</dd>
+</dl>
+
+<p>and all other functions are described in the sections <a href="#features_common_to_all_normative_type_builder_classes">Features common to all Normative Type Builder classes</a> and <a href="#normative_type_property_features">Normative Type Property Features</a>.</p>
+
+
+<p>An <code>NTAttribute</code> can be used to create multiple <code>Structure</code>, <code>PVStructure</code> and/or <code>NTAttribute</code> instances.</p>
+
+<p>A call of <code>create()</code>, <code>createStructure()</code> or <code>createPVStructure()</code> clears all internal data. This includes any call of <code>addTags()</code> as well as calls of optional field/property data functions and additional field functions.</p>
+
+
+
+<h3>NTAttribute</h3>
+
+<p><b>ntattribute.h</b> defines the following:</p>
+
+<pre>
+class NTAttribute;
+typedef std::tr1::shared_ptr&lt;NTAttribute&gt; NTAttributePtr;
+
+class NTAttribute
+{
+public:
+    POINTER_DEFINITIONS(NTAttribute);
+
+    static const string URI;
+    static shared_pointer wrap(PVStructurePtr const &amp; pvStructure);
+    static shared_pointer wrapUnsafe(PVStructurePtr const &amp; pvStructure);
+    static bool is_a(StructureConstPtr const &amp; structure);
+    static bool is_a(PVStructurePtr const &amp; pvStructure);
+    static bool isCompatible(
+        StructureConstPtr const &amp; structure);
+    static bool isCompatible(
+        PVStructurePtr const &amp; pvStructure);
+    bool isValid();
+    static NTAttributeBuilderPtr createBuilder();
+    ~NTAttribute() {}
+    bool attachTimeStamp(PVTimeStamp &amp; pvTimeStamp) const;
+    bool attachAlarm(PVAlarm &amp; pvAlarm) const;
+    PVStructurePtr getPVStructure() const;
+    PVStringPtr getDescriptor() const;
+    PVStructurePtr getTimeStamp() const;
+    PVStructurePtr getAlarm() const;
+
+    PVStringPtr getName() const;
+    PVUnionPtr getValue() const;
+    PVStringArrayPtr getTags() const;
+
+private:
+    // ... remainder of class definition
+}
+</pre>
+<p>where</p>
+<dl>
+   <dt>getName()</dt>
+       <dd>Returns the <code>labels</code> field.</dd>
+   <dt>getValue()</dt>
+       <dd>Returns the <code>value</code> field.</dd>
+   <dt>getTags()</dt>
+       <dd>Returns the optional <code>tags</code> field.</dd>
+</dl>
+
+<p>and all other functions are described in the sections <a href="#features_common_to_all_normative_type_wrapper_classes">Features common to all Normative Type Wrapper classes</a> and <a href="#normative_type_property_features">Normative Type Property Features</a>.</p>
+
+
+<h2>NTAttribute extended for NDArray</h2>
+
+<p>Support is provided for the NTAttribute Normative Type extended as required by NTNDArray.</p>
+
+<p>The structure of is defined to be:</p>
+
+<pre>
+epics:nt/NTAttribute:1.0
+    string    name              
+    any       value
+    string[]  tags                 : optional
+    string    descriptor
+    alarm_t alarm                  : optional
+        int severity 
+        int status 
+        string
+    time_t timeStamp               : optional
+        long secondsPastEpoch
+        int nanoseconds
+        int userTag
+    int       sourceType
+    string    source
+    {&lt;field-type&gt; &lt;field-name&gt;}0+  // additional fields
+</pre>
+
+<p>This is as NTAttribute except the standard additional fields <code>sourceType</code> and <code>source</code> have been added and <code>descriptor</code> is no longer optional.</p>
+
+<p>The builder and wrapper classes are <code>NTNDArrayAttributeBuilder</code>
+and <code>NTNDArrayAttribute</code> respectively.</p>
+
+<p>These are defined in <b>ntndarrayAttribute.h</b>.</p>
+
+<p>The class definitions are the same except that:</p>
+<ol>
+<li>
+<code>NTNDArrayAttribute::addDescriptor()</code> is a null-op, as 
+<code>descriptor</code> is no longer optional
+</li>
+<li><code>isCompatible()</code> checks that the the structure is conformant with respect to the extension required by NTNDArray (i.e. it has conformant <code>descriptor</code>, <code>sourceType</code> and <code>source</code> fields) and </li>
+<li> two new functions are provided for accessing the <code>sourceType</code> and <code>source</code> fields:
+</li>
+</ol>
+
+<pre>
+class NTNDArrayAttribute
+{
+public:
+    // ...
+    PVIntPtr getSourceType() const;
+    getSource() const;
+    // ...
+};
+</pre>
+
+
+<h2>Normative Type NTMultiChannel</h2>
+
+    <p>NTMultiChannel is an EPICS V4 Normative Type that aggregates an
+    array of values from different EPICS Process Variable (PV) channel
+    sources, not necessarily of the same type, into a single variable.</p>
+
+<p>Its structure is defined to be:</p>
+
+<pre>
+epics:nt/NTMultiChannel:1.0
+    <span class="nterm">anyunion_t[]</span> value
+    string[] channelName      
+    alarm_t alarm                  : optional
+        int severity 
+        int status 
+        string
+    time_t timeStamp               : optional
+        long secondsPastEpoch
+        int nanoseconds
+        int userTag
+    int[] severity                 : optional
+    int[] status                   : optional
+    string[] message               : optional
+    long[] secondsPastEpoch        : optional
+    int[] nanoseconds              : optional
+    string descriptor              : optional
+    {&lt;field-type&gt; &lt;field-name&gt;}0+  // additional fields
+</pre>
+<p>where <span class="nterm">anyunion_t[]</span> means any union array - either a variant union array or any choice of regular union array.</p>
+
+<h3>NTMultiChannelBuilder</h3>
+
+<p><b>ntmultiChannel.h</b> defines the following:</p>
+
+<pre>
+class NTMultiChannel;
+typedef std::tr1::shared_ptr&lt;NTMultiChannel&gt; NTMultiChannelPtr;
+
+class NTMultiChannelBuilder
+{
+public:
+    POINTER_DEFINITIONS(NTMultiChannelBuilder);
+    shared_pointer value(UnionConstPtr valuePtr);
+    shared_pointer addDescriptor();
+    shared_pointer addAlarm();
+    shared_pointer addTimeStamp();
+    shared_pointer addSeverity();
+    shared_pointer addStatus();
+    shared_pointer addMessage();
+    shared_pointer addSecondsPastEpoch();
+    shared_pointer addNanoseconds();
+    shared_pointer addUserTag();
+    shared_pointer addIsConnected();
+    StructureConstPtr createStructure();
+    PVStructurePtr createPVStructure();
+    NTMultiChannelPtr create();
+    shared_pointer add(
+         string const &amp; name,
+         FieldConstPtr const &amp; field);
+private:
+}
+</pre>
+
+<p>where</p>
+
+<dl>
+  <dt>value</dt>
+    <dd>Sets the element type for the <code>value</code> field.
+    If not specified the type will be a variant union.
+    </dd>
+  <dt>addSeverity()</dt>
+     <dd>Add a field that has the alarm severity for each channel.</dd>
+  <dt>addStatus()</dt>
+     <dd>Add a field that has the alarm status for each channel.</dd>
+  <dt>addMessage()</dt>
+     <dd>Add a field that has the alarm message for each channel.</dd>
+  <dt>addSecondsPastEpoch()</dt>
+     <dd>Add a field that has the secondsPastEpoch for each channel.</dd>
+  <dt>addNanoseconds()</dt>
+     <dd>Add a field that has the nanoseconds for each channel.</dd>
+  <dt>addUserTag()</dt>
+     <dd>Add a field that has the userTag for each channel.</dd>
+  <dt>addIsConnected()</dt>
+     <dd>Add a field that has the connection state for each channel. (Not an optional field of the type, but commonly included.)</dd>
+</dl>
+
+<p>and all other functions are described in the sections <a href="#features_common_to_all_normative_type_builder_classes">Features common to all Normative Type Builder classes</a> and <a href="#normative_type_property_features">Normative Type Property Features</a>.</p>
+
+<p>An <code>NTMultiChannelBuilder</code> can be used to create multiple <code>Structure</code>, <code>PVStructure</code> and/or <code>NTMultiChannel</code> instances.</p>
+
+<p>A call of <code>create()</code>, <code>createStructure()</code> or <code>createPVStructure()</code> clears all internal data. This includes the union specified by <code>value()</code> (which is reset to a variant union) and all calls to add NTMultiChannel optional fields (including all optional field/property data functions) and additional fields.</p>
+
+
+<h3>NTMultiChannel</h3>
+
+<p><b>ntmultiChannel.h</b> defines the following:</p>
+
+<pre>
+class NTMultiChannel;
+typedef std::tr1::shared_ptr&lt;NTMultiChannel&gt; NTMultiChannelPtr;
+
+class NTMultiChannel
+{
+public:
+    POINTER_DEFINITIONS(NTMultiChannel);
+    ~NTMultiChannel() {}
+    static const string URI;
+    static shared_pointer wrap(PVStructurePtr const &amp; pvStructure);
+    static shared_pointer wrapUnsafe(PVStructurePtr const &amp; pvStructure);
+    static bool is_a(StructureConstPtr const &amp; structure);
+    static bool is_a(PVStructurePtr const &amp; pvStructure);
+    static bool isCompatible(StructureConstPtr const &amp; structure);
+    static bool isCompatible(PVStructurePtr const &amp; pvStructure);
+    static NTMultiChannelBuilderPtr createBuilder();
+
+    bool attachTimeStamp(PVTimeStamp &amp;pvTimeStamp) const;
+    bool attachAlarm(PVAlarm &amp;pvAlarm) const;
+    PVStringPtr getDescriptor() const;
+    PVStructurePtr getPVStructure() const;
+    PVStructurePtr getTimeStamp() const;
+    PVStructurePtr getAlarm() const;
+    PVUnionArrayPtr getValue() const;
+    PVStringArrayPtr getChannelName() const;
+    PVBooleanArrayPtr getIsConnected() const;
+    PVIntArrayPtr getSeverity() const;
+    PVIntArrayPtr getStatus() const;
+    PVStringArrayPtr getMessage() const;
+    PVLongArrayPtr getSecondsPastEpoch() const;
+    PVIntArrayPtr getNanoseconds() const;
+    PVIntArrayPtr getUserTag() const;
+private:
+}
+</pre>
+<p>where</p>
+<dl>
+   <dt>getValue()</dt>
+       <dd>Returns the <code>value</code> field.</dd>
+   <dt>getChannelName()</dt>
+       <dd>Returns the <code>name</code> field. (Contains the name of each channel.)</dd>
+   <dt>getIsConnected()</dt>
+       <dd>Returns the additional <code>isConnected</code> field. (Contains the connection state of each channel.) This is not an optional field of the type, but is commonly included.</dd>
+   <dt>getSeverity()</dt>
+       <dd>Returns the <code>severity</code> field. (Contains the alarm severity of each channel.)</dd>
+   <dt>getStatus()</dt>
+       <dd>Returns the <code>status</code> field. (Contains the alarm status of each channel.)</dd>
+   <dt>getMessage()</dt>
+       <dd>Returns the <code>message</code> field. (Contains the alarm message of each channel.)</dd>
+   <dt>getSecondsPastEpoch()</dt>
+       <dd>Returns the <code>secondsPastEpoch</code> field.  (Contains the timeStamp secondsPastEpoch of each channel.)</dd>
+   <dt>getNanoseconds()</dt>
+       <dd>Returns the <code>nanoseconds</code> field.  (Contains the timeStamp nanoseconds of each channel.)</dd>
+   <dt>getUserTag()</dt>
+       <dd>Returns the <code>userTag</code> field.  (Contains the timeStamp userTag of each channel.)</dd>
+</dl>
+
+<p>and all other functions are described in the sections <a href="#features_common_to_all_normative_type_wrapper_classes">Features common to all Normative Type Wrapper classes</a> and <a href="#normative_type_property_features">Normative Type Property Features</a>.</p>
+
+
+<h2>Normative Type NTNDArray</h2>
+
+    <p>NTNDArray is an EPICS Version 4 Normative Type designed to encode
+    data from detectors and cameras, especially <a href=
+    "http://cars9.uchicago.edu/software/epics/areaDetector.html">areaDetector</a>
+    applications. The type is heavily modeled on areaDetector's <a href=
+    "http://cars9.uchicago.edu/software/epics/areaDetectorDoxygenHTML/class_n_d_array.html">
+    NDArray</a> class. One NTNDArray gives one frame.</p>
+
+
+<p>Its structure is defined to be:</p>
+
+<pre>
+epics:nt/NTNDArray:1.0
+    union value
+        boolean[] booleanValue
+        byte[]    byteValue
+        short[]   shortValue
+        int[]     intValue
+        long[]    longValue
+        ubyte[]   ubyteValue
+        ushort[]  ushortValue
+        uint[]    uintValue
+        ulong[]   ulongValue
+        float[]   floatValue
+        double[]  doubleValue
+    codec_t codec
+        string name 
+        any parameters
+    long compressedSize
+    long uncompressedSize
+    dimension_t[] dimension
+        dimension_t[]
+            dimension_t
+                int size
+                int offset
+                int fullSize
+                int binning
+                boolean reverse
+    int uniqueId
+    time_t dataTimeStamp
+        long secondsPastEpoch
+        int nanoseconds
+        int userTag
+    epics:nt/NTAttribute:1.0[] attribute
+        epics:nt/NTAttribute:1.0[]
+            epics:nt/NTAttribute:1.0
+                string name
+                any value
+                string description
+                int sourceType
+                string source
+    string descriptor              : optional
+    time_t timeStamp               : optional
+        long secondsPastEpoch
+        int nanoseconds
+        int userTag
+    alarm_t alarm                  : optional
+        int severity
+        int status
+        string message 
+    display_t display              : optional
+        double limitLow
+        double limitHigh
+        string description 
+        string format 
+        string units 
+    {&lt;field-type&gt; &lt;field-name&gt;}0+  // additional fields
+</pre>
+<h3>NTNDArrayBuilder</h3>
+<p><b>ntndArray.h</b> defines the following:</p>
+<pre>
+class NTNDArray;
+typedef std::tr1::shared_ptr&lt;NTNDArray&gt; NTNDArrayPtr;
+
+class NTNDArrayBuilder
+{
+public:
+    POINTER_DEFINITIONS(NTNDArrayBuilder);
+    shared_pointer addDescriptor();
+    shared_pointer addAlarm();
+    shared_pointer addTimeStamp();
+    shared_pointer addDisplay();
+    StructureConstPtr createStructure();
+    PVStructurePtr createPVStructure();
+    NTNDArrayPtr create();
+    shared_pointer add(
+         string const &amp; name,
+         FieldConstPtr const &amp; field);
+private:
+    // ... remainder of class definition
+}
+</pre>
+
+<p>where all functions are described in the sections <a href="#features_common_to_all_normative_type_builder_classes">Features common to all Normative Type Builder classes</a> and <a href="#normative_type_property_features">Normative Type Property Features</a>.</p>
+
+<h3>NTNDArray</h3>
+
+<pre>
+class NTNDArray;
+typedef std::tr1::shared_ptr&lt;NTNDArray&gt; NTNDArrayPtr;
+
+class NTNDArray
+{
+public:
+    POINTER_DEFINITIONS(NTNDArray);
+    ~NTNDArray() {}
+    static const string URI;
+    static shared_pointer wrap(PVStructurePtr const &amp; pvStructure);
+    static shared_pointer wrapUnsafe(PVStructurePtr const &amp; pvStructure);
+    static bool is_a(StructureConstPtr const &amp; structure);
+    static bool is_a(PVStructurePtr const &amp; pvStructure);
+    static bool isCompatible(StructureConstPtr const &amp; structure);
+    static bool isCompatible(PVStructurePtr const &amp; pvStructure);
+    static NTNDArrayBuilderPtr createBuilder();
+
+    PVStringPtr getDescriptor() const;
+    bool attachTimeStamp(PVTimeStamp &amp;pvTimeStamp) const;
+    bool attachDataTimeStamp(PVTimeStamp &amp;pvTimeStamp) const;
+    bool attachAlarm(PVAlarm &amp;pvAlarm) const;
+    PVStructurePtr getPVStructure() const;
+    PVUnionPtr getValue() const;
+    PVStructurePtr getCodec() const;
+    PVLongPtr getCompressedDataSize() const;
+    PVLongPtr getUncompressedDataSize() const;
+    PVStructureArrayPtr getAttribute() const;
+    PVStructureArrayPtr getDimension() const;
+    PVIntPtr getUniqueId() const;
+    PVStructurePtr getDataTimeStamp() const;
+    PVStringPtr getDescriptor() const;
+    PVStructurePtr getTimeStamp() const;
+    PVStructurePtr getAlarm() const;
+    PVStructurePtr getDisplay() const;
+private:
+    // ... remainder of class definition
+}
+</pre>
+
+<p>where</p>
+
+<dl>
+   <dt>attachDataTimeStamp()</dt>
+    <dd>Attaches a <code>PVTimeStamp</code> to the wrapped <code>PVStructure</code>'s  <code>timeStamp</code> field. Does nothing if no <code>timeStamp</code> field. Returns  true if the operation was successful (i.e. this instance has a <code>timeStamp</code> field), otherwise false.</dd>
+   <dt>getValue()</dt>
+       <dd>Returns the <code>value</code> field.</dd>
+   <dt>getCodec</dt>
+       <dd>Returns <code>codec</code> field.</dd>
+   <dt>getCompressedDataSize</dt>
+       <dd>Returns <code>compressedDataSize</code> field.</dd>
+   <dt>getUncompressedDataSize</dt>
+       <dd>Returns <code>uncompressedDataSize</code> field.</dd>
+   <dt>getAttribute</dt>
+       <dd>Returns the <code>attribute</code> field.</dd>
+   <dt>getDimension</dt>
+       <dd>Returns the <code>dimension</code> field.</dd>
+   <dt>getUniqueId</dt>
+       <dd>Returns the <code>uniqueId</code> field.</dd>
+   <dt>getDataTimeStamp</dt>
+       <dd>Returns the <code>dataTimeStamp</code>.
+       </dd>
+</dl>
+
+<p>and all other functions are described in the sections <a href="#features_common_to_all_normative_type_wrapper_classes">Features common to all Normative Type Wrapper classes</a> and <a href="#normative_type_property_features">Normative Type Property Features</a>.</p>
+
+
+<h2>Normative Type NTContinuum</h2> 
+
+
+    <p>NTContinuum is the EPICS V4 Normative Type used to express a
+    sequence of point values in time or frequency domain. Each point has N
+    values (N&gt;=1) and an additional value which describes the index of
+    the list. The additional value is carried in the <span class=
+    "term">base</span> field. The <span class="term">value</span> field
+    carries the values which make up the point in index order.</p>
+
+<p>Its structure is defined to be:</p>
+
+<pre>
+epics:nt/NTContinuum:1.0
+    double[]   base
+    double[]   value
+    string[]   units
+    string descriptor                : optional
+    alarm_t alarm                    : optional
+        int severity
+        int status 
+        string message
+    time_t timeStamp                 : optional
+        long secondsPastEpoch
+        int nanoseconds
+        int userTag
+</pre>
+
+<h3>NTContinuumBuilder</h3>
+
+<p><b>ntcontinuum.h</b> defines the following:</p>
+
+<pre>
+class NTContinuum;
+typedef std::tr1::shared_ptr&lt;NTContinuum&gt; NTContinuumPtr;
+
+
+class NTContinuumBuilder
+{
+public:
+    POINTER_DEFINITIONS(NTContinuumBuilder);
+
+    shared_pointer addDescriptor();
+    shared_pointer addAlarm();
+    shared_pointer addTimeStamp();
+    StructureConstPtr createStructure();
+    PVStructurePtr createPVStructure();
+    NTContinuumPtr create();
+    shared_pointer add(std::string const &amp; name, FieldConstPtr const &amp; field);
+
+    private:
+    // ... remainder of class definition
+};
+</pre>
+
+<p>where all functions are described in the sections <a href="#features_common_to_all_normative_type_builder_classes">Features common to all Normative Type Builder classes</a> and <a href="#normative_type_property_features">Normative Type Property Features</a>.</p>
+
+<p>An <code>NTContinuumBuilder</code> can be used to create multiple <code>Structure</code>, <code>PVStructure</code> and/or <code>NTContinuum</code> instances.</p>
+
+<p>A call of <code>create()</code>, <code>createStructure()</code> or <code>createPVStructure()</code> clears all internal data. This includes all calls to add optional fields (including property fields) and additional fields.</p>
+
+
+<h3>NTContinuum</h3>
+
+<p><b>ntcontinuum.h</b> defines the following:</p>
+
+<pre>
+class NTContinuum
+{
+public:
+    POINTER_DEFINITIONS(NTContinuum);
+
+    static const std::string URI;
+    static shared_pointer wrap(PVStructurePtr const &amp; pvStructure);
+    static shared_pointer wrapUnsafe(PVStructurePtr const &amp; pvStructure);
+    static bool is_a(StructureConstPtr const &amp; structure);
+    static bool is_a(PVStructurePtr const &amp; pvStructure);
+    static bool isCompatible(
+        StructureConstPtr const &amp;structure);
+    static bool isCompatible(
+        PVStructurePtr const &amp;pvStructure);
+    bool isValid();
+    static NTContinuumBuilderPtr createBuilder();
+    ~NTContinuum() {}
+
+    bool attachTimeStamp(PVTimeStamp &amp;pvTimeStamp) const;
+    bool attachAlarm(PVAlarm &amp;pvAlarm) const;
+
+    PVStructurePtr getPVStructure() const;
+    PVStringPtr getDescriptor() const;
+    PVStructurePtr getTimeStamp() const;
+    PVStructurePtr getAlarm() const;
+    PVDoubleArrayPtr getBase() const;
+    PVDoubleArrayPtr getValue() const;
+    PVStringArrayPtr getUnits() const;   
+
+private:
+    // ... remainder of class definition
+};
+</pre>
+
+<p>where</p>
+
+<dl>
+   <dt>getBase()</dt>
+       <dd>Returns the <code>base</code> field.</dd>
+   <dt>getValue()</dt>
+       <dd>Returns the <code>value</code> field.</dd>
+   <dt>getUnits()</dt>
+       <dd>Returns the <code>units()</code> field.</dd>
+</dl>
+
+<p>and all other functions are described in the sections <a href="#features_common_to_all_normative_type_wrapper_classes">Features common to all Normative Type Wrapper classes</a> and <a href="#normative_type_property_features">Normative Type Property Features</a>.</p>
+
+
+
+<h2>Normative Type NTHistogram</h2> 
+
+    <p>NTHistogram is the EPICS V4 Normative Type used to encode the data
+    and representation of a (1-dimensional) histogram. Specifically, it
+    encapsulates frequency binned data.</p>
+
+<p>Its structure is defined to be:</p>
+
+<pre>
+epics:nt/NTHistogram:1.0
+   double[] ranges
+    (short[] | int[] | long[]) value
+    string descriptor                : optional
+    alarm_t alarm                    : optional
+        int severity
+        int status 
+        string message
+    time_t timeStamp                 : optional
+        long secondsPastEpoch
+        int nanoseconds
+        int userTag
+</pre>
+
+<h3>NTHistogramBuilder</h3>
+
+<p><b>nthistogram.h</b> defines the following:</p>
+
+<pre>
+class NTHistogramBuilder
+{
+public:
+    POINTER_DEFINITIONS(NTHistogramBuilder);
+
+    shared_pointer value(ScalarType scalarType);
+    shared_pointer addDescriptor();
+    shared_pointer addAlarm();
+    shared_pointer addTimeStamp();
+    StructureConstPtr createStructure();
+    PVStructurePtr createPVStructure();
+    NTHistogramPtr create();
+    shared_pointer add(std::string const  &amp;  name, FieldConstPtr const  &amp;  field);
+
+private:
+    // ... remainder of class definition
+};
+</pre>
+
+<p>where</p>
+
+<dl>
+  <dt>value</dt>
+    <dd>This sets the element type for the <code>value</code> field (short, int or long).
+     This must be specified or a call of <code>create()</code>,
+     <code>createStructure()</code> or <code>createPVStructure()</code>
+     will throw an exception (<code>std::runtime_error</code>).
+    </dd>
+</dl>
+
+
+<p>and all other functions are described in the sections <a href="#features_common_to_all_normative_type_builder_classes">Features common to all Normative Type Builder classes</a> and <a href="#normative_type_property_features">Normative Type Property Features</a>.</p>
+
+
+<p>An <code>NTHistogramBuilder</code> can be used to create multiple <code>Structure</code>, <code>PVStructure</code> and/or <code>NTHistogram</code> instances.</p>
+
+<p>A call of <code>create()</code>, <code>createStructure()</code> or <code>createPVStructure()</code> clears all internal data. This includes the scalar type specified by <code>value()</code> and all calls to add optional field/property data functions and additional fields.</p>
+
+
+<h3>NTHistogram</h3>
+
+<p><b>nthistogram.h</b> defines the following:</p>
+
+<pre>
+
+class NTHistogram
+{
+public:
+    POINTER_DEFINITIONS(NTHistogram);
+
+    static const std::string URI;
+    static shared_pointer wrap(PVStructurePtr const  &amp;  pvStructure);
+    static shared_pointer wrapUnsafe(PVStructurePtr const  &amp;  pvStructure);
+    static bool is_a(StructureConstPtr const  &amp;  structure);
+    static bool is_a(PVStructurePtr const  &amp;  pvStructure);
+    static bool isCompatible(StructureConstPtr const  &amp; structure);
+    static bool isCompatible(PVStructurePtr const  &amp; pvStructure);
+    bool isValid();
+    static NTHistogramBuilderPtr createBuilder();
+    ~NTHistogram() {}
+
+    bool attachTimeStamp(PVTimeStamp  &amp; pvTimeStamp) const;
+    bool attachAlarm(PVAlarm  &amp; pvAlarm) const;
+
+    PVStructurePtr getPVStructure() const;
+    PVStringPtr getDescriptor() const;
+    PVStructurePtr getTimeStamp() const;
+    PVStructurePtr getAlarm() const;
+
+    PVDoubleArrayPtr getRanges() const;
+
+    PVScalarArrayPtr getValue() const;
+
+    template&lt;typename PVT&gt;
+    std::tr1::shared_ptr&lt;PVT&gt; getValue() const;
+
+private:
+    // ... remainder of class definition
+};
+</pre>
+<p>where</p>
+<dl>
+   <dt>getRanges()</dt>
+       <dd>Returns the <code>ranges</code> field.</dd>
+   <dt>getValue()</dt>
+       <dd>Returns the <code>value</code> field. The template version returns the type supplied in the template argument.</dd>
+</dl>
+
+<p>and all other functions are described in the sections <a href="#features_common_to_all_normative_type_wrapper_classes">Features common to all Normative Type Wrapper classes</a> and <a href="#normative_type_property_features">Normative Type Property Features</a>.</p>
+
+<h2>Normative Type NTAggregate</h2> 
+
+
+    <p>NTAggregate is the EPICS V4 Normative Type to compactly convey data
+    which combines several measurements or observation. NTAggregate gives
+    simple summary statistic
+    about the central tendency and dispersion of a set of data points.</p>
+
+<p>Its structure is defined to be:</p>
+
+<pre>
+epics:nt/NTAggregate:1.0
+    double value     
+    long N
+    double dispersion              : optional
+    double first                   : optional
+    time_t firstTimeStamp          : optional
+        long secondsPastEpoch
+        int nanoseconds
+        int userTag
+    time_t lastTimeStamp           : optional
+        long secondsPastEpoch
+        int nanoseconds
+        int userTag
+    double max                     :optional
+    double min                     :optional
+    string descriptor                : optional
+    alarm_t alarm                    : optional
+        int severity
+        int status 
+        string message
+    time_t timeStamp                 : optional
+        long secondsPastEpoch
+        int nanoseconds
+        int userTag
+    {&lt;field-type&gt; &lt;field-name&gt;}0+  // additional fields
+</pre>
+
+<h3>NTAggregateBuilder</h3>
+
+<p><b>ntaggregate.h</b> defines the following:</p>
+
+<pre>
+class NTAggregate;
+typedef std::tr1::shared_ptr&lt;NTAggregate&gt; NTAggregatePtr;
+
+class NTAggregateBuilder
+{
+public:
+    POINTER_DEFINITIONS(NTAggregateBuilder);
+    shared_pointer addDispersion();
+    shared_pointer addFirst();
+    shared_pointer addFirstTimeStamp();
+    shared_pointer addLast();
+    shared_pointer addLastTimeStamp();
+    shared_pointer addMax();
+    shared_pointer addMin();
+
+    shared_pointer addDescriptor();
+    shared_pointer addAlarm();
+    shared_pointer addTimeStamp();
+    StructureConstPtr createStructure();
+    PVStructurePtr createPVStructure();
+    NTAggregatePtr create();
+
+    shared_pointer add(std::string const &amp; name, FieldConstPtr const &amp; field);
+
+private:
+    // ... remainder of class definition
+};
+</pre>
+
+<p>where</p>
+
+<dl>
+  <dt>addDispersion()</dt>
+     <dd>Adds optional <code>dispersion</code> field.</dd>
+  <dt>addFirst()</dt>
+     <dd>Adds optional <code>first</code> field.</dd>
+  <dt>addFirstTimeStamp()</dt>
+     <dd>Adds optional <code>firstTimeStamp</code> field.</dd>
+  <dt>addLast()</dt>
+     <dd>Adds optional <code>last</code> field.</dd>
+  <dt>addLastTimeStamp()</dt>
+     <dd>Adds optional <code>lastTimeStamp</code> field.</dd>
+  <dt>addMax()</dt>
+     <dd>Adds optional <code>max</code> field.</dd>
+  <dt>addMin()</dt>
+     <dd>Adds optional <code>min</code> field.</dd>
+</dl>
+
+
+<p>and all other functions are described in the sections <a href="#features_common_to_all_normative_type_builder_classes">Features common to all Normative Type Builder classes</a> and <a href="#normative_type_property_features">Normative Type Property Features</a>.</p>
+
+
+<p>An <code>NTAggregateBuilder</code> can be used to create multiple <code>Structure</code>, <code>PVStructure</code> and/or <code>NTAggregate</code> instances.</p>
+
+<p>A call of <code>create()</code>, <code>createStructure()</code> or <code>createPVStructure()</code> clears all internal data. This includes all calls to add optional fields (including property fields) and additional fields.</p>
+
+
+<h3>NTAggregate</h3>
+
+<p><b>ntaggregate.h</b> defines the following:</p>
+
+<pre>
+class NTAggregate
+{
+public:
+    POINTER_DEFINITIONS(NTAggregate);
+
+    static const std::string URI;
+    static shared_pointer wrap(PVStructurePtr const &amp; pvStructure);
+    static shared_pointer wrapUnsafe(PVStructurePtr const &amp; pvStructure);
+    static bool is_a(StructureConstPtr const &amp; structure);
+    static bool is_a(PVStructurePtr const &amp; pvStructure);
+    static bool isCompatible(
+        StructureConstPtr const &amp;structure);
+    static bool isCompatible(
+        PVStructurePtr const &amp;pvStructure);
+    bool isValid();
+    static NTAggregateBuilderPtr createBuilder();
+
+    ~NTAggregate() {}
+
+    bool attachTimeStamp(PVTimeStamp &amp;pvTimeStamp) const;
+    bool attachAlarm(PVAlarm &amp;pvAlarm) const;
+
+    PVStructurePtr getPVStructure() const;
+    PVStringPtr getDescriptor() const;
+    PVStructurePtr getTimeStamp() const;
+    PVStructurePtr getAlarm() const;
+
+    PVDoublePtr getValue() const;
+    PVLongPtr getN() const;
+    PVDoublePtr getDispersion() const;
+    PVDoublePtr getFirst() const;
+    PVStructurePtr getFirstTimeStamp() const;
+    PVDoublePtr getLast() const;
+    PVStructurePtr getLastTimeStamp() const
+    PVDoublePtr getMax() const;
+    PVDoublePtr getMin() const;
+
+private:
+    // ... remainder of class definition
+};
+</pre>
+
+<p>where</p>
+<dl>
+   <dt>getValue()</dt>
+       <dd>Returns the <code>value</code> field.</dd>
+   <dt>getN()</dt>
+       <dd>Returns the <code>N</code> field.</dd>
+   <dt>getDispersion()</dt>
+   <dt>getFirst()</dt>
+       <dd>Returns the <code>first</code> field.</dd>
+   <dt>getFirstTimeStamp()</dt>
+       <dd>Returns the <code>firstTimeStamp</code> field.</dd>
+   <dt>getLast()</dt>
+       <dd>Returns the <code>last</code> field.</dd>
+   <dt>getLastTimeStamp()</dt>
+       <dd>Returns the <code>lastTimeStamp</code> field.</dd>
+   <dt>getMax()</dt>
+       <dd>Returns the <code>max</code> field.</dd>
+   <dt>getMin()</dt>
+       <dd>Returns the <code>min</code> field.</dd>
+</dl>
+
+<p>and all other functions are described in the sections <a href="#features_common_to_all_normative_type_wrapper_classes">Features common to all Normative Type Wrapper classes</a> and <a href="#normative_type_property_features">Normative Type Property Features</a>.</p>
+
+
+
+
+
+<h2>Normative Type NTUnion</h2> 
+
+    <p>NTUnion is a Normative Type for
+    interoperation of essentially any data structure, plus description,
+    alarm and timestamp fields.</p>
+
+<p>Its structure is defined to be:</p>
+
+<pre>
+epics:nt/NTUnion:1.0
+    <span class="nterm">anyunion_t</span> value
+    string descriptor              : optional
+    alarm_t alarm                  : optional
+        int severity
+        int status 
+        string message
+    time_t timeStamp               : optional
+        long secondsPastEpoch
+        int nanoseconds
+        int userTag
+    {&lt;field-type&gt; &lt;field-name&gt;}0+  // additional fields
+</pre>
+
+
+<h3>NTUnionBuilder</h3>
+
+<p><b>ntunion.h</b> defines the following:</p>
+
+<pre>
+class NTUnion;
+typedef std::tr1::shared_ptr&lt;NTUnion&gt; NTUnionPtr;
+
+class NTUnionBuilder
+{
+public:
+    POINTER_DEFINITIONS(NTUnionBuilder);
+    shared_pointer value(UnionConstPtr valuePtr);
+    shared_pointer addDescriptor();
+    shared_pointer addAlarm();
+    shared_pointer addTimeStamp();
+    StructureConstPtr createStructure();
+    PVStructurePtr createPVStructure();
+    NTUnionPtr create();
+    shared_pointer add( string const &amp; name, FieldConstPtr const &amp; field);
+
+private:
+    // ... remainder of class definition
+}
+</pre>
+
+<p>where</p>
+
+<dl>
+  <dt>value</dt>
+    <dd>This determines the element type for the <code>value</code> field.
+    If not specified the type will be a variant union.
+    </dd>
+</dl>
+
+<p>An <code>NTUnionBuilder</code> can be used to create multiple <code>Structure</code>, <code>PVStructure</code> and/or <code>NTUnion</code> instances.</p>
+
+<p>A call of <code>create()</code>, <code>createStructure()</code> or <code>createPVStructure()</code> clears all internal data. This includes the union specified by <code>value()</code> (which is reset to a variant union) and all calls to add optional field/property data functions and additional fields.</p>
+
+
+<h3>NTUnion</h3>
+
+<p><b>ntunion.h</b> defines the following:</p>
+
+<pre>
+class NTUnion;
+typedef std::tr1::shared_ptr&lt;NTUnion&gt; NTUnionPtr;
+
+class NTUnion
+{
+public:
+    POINTER_DEFINITIONS(NTUnion);
+    ~NTUnion() {}
+    static const string URI;
+    static shared_pointer wrap(PVStructurePtr const &amp; pvStructure);
+    static shared_pointer wrapUnsafe(PVStructurePtr const &amp; pvStructure);
+    static bool is_a(StructureConstPtr const &amp; structure);
+    static bool is_a(PVStructurePtr const &amp; pvStructure);
+    static bool isCompatible(StructureConstPtr const &amp; structure);
+    static bool isCompatible(PVStructurePtr const &amp; pvStructure);
+    bool isValid();
+    static NTUnionBuilderPtr createBuilder();
+    getPVStructure() const;
+
+    attachTimeStamp(PVTimeStamp &amp; pvTimeStamp) const;
+    attachAlarm(PVAlarm &amp; pvAlarm) const;
+    PVStringPtr getDescriptor() const;
+    PVStructurePtr getTimeStamp() const;
+    PVStructurePtr getAlarm() const;
+
+    PVUnionPtr getValue() const;
+private:
+    // ... remainder of class definition
+}
+</pre>
+<p>where</p>
+<dl>
+   <dt>getValue</dt>
+       <dd>Returns the <code>value</code> field.</dd>
+</dl>
+
+<p>and all other functions are described in the sections <a href="#features_common_to_all_normative_type_wrapper_classes">Features common to all Normative Type Wrapper classes</a> and <a href="#normative_type_property_features">Normative Type Property Features</a>.</p>
+
+
+
+
+<h2>Normative Type NTScalarMultiChannel</h2>
+
+    <p>NTScalarMultiChannel is an EPICS V4 Normative Type that aggregates
+    an array of values from different EPICS Process Variable (PV) channel
+    sources of the same scalar type into a single variable.</p>
+
+<p>Its structure is defined to be:</p>
+
+<pre>
+epics:nt/NTScalarMultiChannel:1.0
+    <span class="nterm">scalar_t[]</span> value
+    string[] channelName      
+    alarm_t alarm                  : optional
+        int severity 
+        int status 
+        string
+    time_t timeStamp               : optional
+        long secondsPastEpoch
+        int nanoseconds
+        int userTag
+    int[] severity                 : optional
+    int[] status                   : optional
+    string[] message               : optional
+    long[] secondsPastEpoch        : optional
+    int[] nanoseconds              : optional
+    string descriptor              : optional
+    {&lt;field-type&gt; &lt;field-name&gt;}0+  // additional fields
+</pre>
+
+<p>where <span class="nterm">scalar_t[]</span> indicates a choice of scalar array:</p>
+
+    <pre>
+<span class="nterm">scalar_t[]</span> :=
+
+   boolean[] | byte[] |  ubyte[] |  short[] |  ushort[] | 
+   int[] |  uint[] |  long[] |  ulong[] |  float[] |  double[] |  string[]
+</pre>
+
+
+<h3>NTScalarMultiChannelBuilder</h3>
+
+<p><b>ntscalarMultiChannel.h</b> defines the following:</p>
+
+<pre>
+class NTScalarMultiChannel;
+typedef std::tr1::shared_ptr&lt;NTScalarMultiChannel&gt; NTScalarMultiChannelPtr;
+
+class NTScalarMultiChannelBuilder
+{
+public:
+    POINTER_DEFINITIONS(NTScalarMultiChannelBuilder);
+    shared_pointer value(ScalarType scalarType);
+    shared_pointer addDescriptor();
+    shared_pointer addAlarm();
+    shared_pointer addTimeStamp();
+    shared_pointer addSeverity();
+    shared_pointer addStatus();
+    shared_pointer addMessage();
+    shared_pointer addSecondsPastEpoch();
+    shared_pointer addNanoseconds();
+    shared_pointer addUserTag();
+    StructureConstPtr createStructure();
+    PVStructurePtr createPVStructure();
+    NTScalarMultiChannelPtr create();
+    shared_pointer add(
+         string const &amp; name,
+         FieldConstPtr const &amp; field);
+private:
+}
+</pre>
+
+<p>where</p>
+
+<dl>
+  <dt>value</dt>
+    <dd>This determines the element type for the <code>value</code> field.
+    If not specified the type will double.</dd>
+  <dt>addSeverity()</dt>
+     <dd>Add a field that has the alarm severity for each channel.</dd>
+  <dt>addStatus()</dt>
+     <dd>Add a field that has the alarm status for each channel.</dd>
+  <dt>addMessage()</dt>
+     <dd>Add a field that has the alarm message for each channel.</dd>
+  <dt>addSecondsPastEpoch()</dt>
+     <dd>Add a field that has the secondsPastEpoch for each channel.</dd>
+  <dt>addNanoseconds()</dt>
+     <dd>Add a field that has the nanoseconds for each channel.</dd>
+  <dt>addUserTag()</dt>
+     <dd>Add a field that has the userTag for each channel.</dd>
+  <dt>addIsConnected()</dt>
+     <dd>Add a field that has the connection state for each channel. (Not an optional field of the type, but commonly included.)</dd>
+</dl>
+
+<p>and all other functions are described in the sections <a href="#features_common_to_all_normative_type_builder_classes">Features common to all Normative Type Builder classes</a> and <a href="#normative_type_property_features">Normative Type Property Features</a>.</p>
+
+<p>An <code>NTScalarMultiChannelBuilder</code> can be used to create multiple <code>Structure</code>, <code>PVStructure</code> and/or <code>NTScalarMultiChannel</code> instances.</p>
+
+<p>A call of <code>create()</code>, <code>createStructure()</code> or <code>createPVStructure()</code> clears all internal data. This includes the scalar type specified by <code>value()</code> (which is reset to double) and all calls to add NTScalarMultiChannel optional fields (including all optional field/property data functions) and additional fields.</p>
+
+
+<h3>NTScalarMultiChannel</h3>
+
+<p><b>ntscalarMultiChannel.h</b> defines the following:</p>
+
+<pre>
+class NTScalarMultiChannel;
+typedef std::tr1::shared_ptr&lt;NTScalarMultiChannel&gt; NTScalarMultiChannelPtr;
+
+class NTScalarMultiChannel
+{
+public:
+    POINTER_DEFINITIONS(NTScalarMultiChannel);
+    ~NTScalarMultiChannel() {}
+    static const string URI;
+    static shared_pointer wrap(PVStructurePtr const &amp; pvStructure);
+    static shared_pointer wrapUnsafe(PVStructurePtr const &amp; pvStructure);
+    static bool is_a(StructureConstPtr const &amp; structure);
+    static bool is_a(PVStructurePtr const &amp; pvStructure);
+    static bool isCompatible(StructureConstPtr const &amp; structure);
+    static bool isCompatible(PVStructurePtr const &amp; pvStructure);
+    static NTScalarMultiChannelBuilderPtr createBuilder();
+
+    bool attachTimeStamp(PVTimeStamp &amp;pvTimeStamp) const;
+    bool attachAlarm(PVAlarm &amp;pvAlarm) const;
+    PVStringPtr getDescriptor() const;
+    PVStructurePtr getPVStructure() const;
+    PVStructurePtr getTimeStamp() const;
+    PVStructurePtr getAlarm() const;
+
+
+    PVScalarArrayPtr getValue() const;
+    template&lt;typename PVT&gt;
+    std::tr1::shared_ptr&lt;PVT&gt; getValue() const;
+
+    PVStringArrayPtr getChannelName() const;
+    PVBooleanArrayPtr getIsConnected() const;
+    PVIntArrayPtr getSeverity() const;
+    PVIntArrayPtr getStatus() const;
+    PVStringArrayPtr getMessage() const;
+    PVLongArrayPtr getSecondsPastEpoch() const;
+    PVIntArrayPtr getNanoseconds() const;
+    PVIntArrayPtr getUserTag() const;
+private:
+    // ... remainder of class definition
+}
+</pre>
+<p>where</p>
+
+<dl>
+   <dt>getValue()</dt>
+       <dd>Returns the <code>value</code> field.</dd>
+   <dt>getChannelName()</dt>
+       <dd>Returns the <code>name</code> field. (Contains the name of each channel.)</dd>
+   <dt>getIsConnected()</dt>
+       <dd>Returns the additional <code>isConnected</code> field. (Contains the connection state of each channel.) This is not an optional field of the type, but is commonly included.</dd>
+   <dt>getSeverity()</dt>
+       <dd>Returns the <code>severity</code> field. (Contains the alarm severity of each channel.)</dd>
+   <dt>getStatus()</dt>
+       <dd>Returns the <code>status</code> field. (Contains the alarm status of each channel.)</dd>
+   <dt>getMessage()</dt>
+       <dd>Returns the <code>message</code> field. (Contains the alarm message of each channel.)</dd>
+   <dt>getSecondsPastEpoch()</dt>
+       <dd>Returns the <code>secondsPastEpoch</code> field.  (Contains the timeStamp secondsPastEpoch of each channel.)</dd>
+   <dt>getNanoseconds()</dt>
+       <dd>Returns the <code>nanoseconds</code> field.  (Contains the timeStamp nanoseconds of each channel.)</dd>
+   <dt>getUserTag()</dt>
+       <dd>Returns the <code>userTag</code> field.  (Contains the timeStamp userTag of each channel.)</dd>
+</dl>
+
+
+<p>and all other functions are described in the sections <a href="#features_common_to_all_normative_type_wrapper_classes">Features common to all Normative Type Wrapper classes</a> and <a href="#normative_type_property_features">Normative Type Property Features</a>.</p>
+
+</div>
+</body>
+</html>

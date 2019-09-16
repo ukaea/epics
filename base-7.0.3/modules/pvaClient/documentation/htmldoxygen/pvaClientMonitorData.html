@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+  <title>PvaClientMonitorData</title>
+  <link rel="stylesheet" type="text/css"
+  href="http://epics-pvdata.sourceforge.net/base.css" />
+  <link rel="stylesheet" type="text/css"
+  href="http://epics-pvdata.sourceforge.net/epicsv4.css" />
+  <style type="text/css">
+  /*<![CDATA[*/
+     .about { margin-left: 3em; margin-right: 3em; font-size: .83em}
+     table { margin-left: auto; margin-right: auto }
+     .diagram { text-align: center; margin: 2.5em 0 }
+     span.opt { color: grey }
+     span.nterm { font-style:italic }
+     span.term { font-family:courier }
+     span.user { font-family:courier }
+     span.user:before { content:"<" }
+     span.user:after { content:">" }
+     .nonnorm { font-style:italic }
+     p.ed { color: #AA0000 }
+     span.ed { color: #AA0000 }
+     p.ed.priv { display: inline; }
+     span.ed.priv { display: inline; }
+  /*]]>*/</style>
+  <!-- Script that generates the Table of Contents -->
+  <script type="text/javascript"
+  src="http://epics-pvdata.sourceforge.net/script/tocgen.js">
+  </script>
+</head>
+<body>
+
+<h1>PvaClientMonitorData</h1>
+
+
+<p>This class provides access to the data returned by calls to get data via <b>PvaChannelGet</b>
+It provides methods:</p>
+<pre>
+getStructure          Get the introspection interface for data returned from server
+getPVStructure        Get the complete set of data returned from the server.
+getChangedBitSet      Get the bitSet that shows which fields have a new value since last monitor event.
+getOverrunBitSet      Get the bitSet that shows which fields have changed more than once since last monitor event.
+showChanged           Show all the fields that have changed value since the last monitor event,
+showChanged           Show all the fields that have changed value more than once since last monitor event.
+getAlarm              If a alarm field is available get it.
+getTimeStamp          If a timeStamp field is available get it.
+hasValue              Does the PVStructure have a top level field named value
+NOTE: The following only apply if hasValue is true.
+isValueScalar         Is the value field a scalar?
+isValueScalarArray    Is the value field a scalar array?
+getValue              Get the value field.
+getScalarValue        Get a scalar value field.
+getArrayValue         Get an array value field.
+getScalarArrayValue   Get a scalar array value field.
+getDouble             Get scalar value field as a double.
+getString             Get value field as a string.
+getDoubleArray        Get value field as a double array.
+getStringArray        Get value field as a string array.
+</pre>
+
+</body>
+</html>
+
