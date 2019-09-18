@@ -1,0 +1,516 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="as">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="db">
+      <UniqueIdentifier>{2004ca28-06fc-4871-a5f9-e1db20d2fc8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dbStatic">
+      <UniqueIdentifier>{365c14a7-c4e1-4e73-9122-aab6c10467a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dbtemplate">
+      <UniqueIdentifier>{79e5f551-0fad-498d-8e9e-9cd04c7fd059}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="O.Common">
+      <UniqueIdentifier>{912ed9af-1721-463b-80e1-47eb6918039e}</UniqueIdentifier>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="rsrv">
+      <UniqueIdentifier>{1d930c9a-157d-4ade-b307-4f0afdeda917}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="misc">
+      <UniqueIdentifier>{d7414f33-b0a1-4ca3-a27a-a8f86c526ff8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="registry">
+      <UniqueIdentifier>{f9eef5c6-5478-4121-971b-d26339e2fba1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="dbCore.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="as\asDbLib.c">
+      <Filter>as</Filter>
+    </ClCompile>
+    <ClCompile Include="as\asCa.c">
+      <Filter>as</Filter>
+    </ClCompile>
+    <ClCompile Include="as\asIocRegister.c">
+      <Filter>as</Filter>
+    </ClCompile>
+    <ClCompile Include="db\callback.c">
+      <Filter>db</Filter>
+    </ClCompile>
+    <ClCompile Include="db\chfPlugin.c">
+      <Filter>db</Filter>
+    </ClCompile>
+    <ClCompile Include="db\cvtBpt.c">
+      <Filter>db</Filter>
+    </ClCompile>
+    <ClCompile Include="db\db_access.c">
+      <Filter>db</Filter>
+    </ClCompile>
+    <ClCompile Include="db\db_test.c">
+      <Filter>db</Filter>
+    </ClCompile>
+    <ClCompile Include="db\dbAccess.c">
+      <Filter>db</Filter>
+    </ClCompile>
+    <ClCompile Include="db\dbBkpt.c">
+      <Filter>db</Filter>
+    </ClCompile>
+    <ClCompile Include="db\dbCa.c">
+      <Filter>db</Filter>
+    </ClCompile>
+    <ClCompile Include="db\dbCaTest.c">
+      <Filter>db</Filter>
+    </ClCompile>
+    <ClCompile Include="db\dbChannel.c">
+      <Filter>db</Filter>
+    </ClCompile>
+    <ClCompile Include="db\dbChannelIO.cpp">
+      <Filter>db</Filter>
+    </ClCompile>
+    <ClCompile Include="db\dbContext.cpp">
+      <Filter>db</Filter>
+    </ClCompile>
+    <ClCompile Include="db\dbContextReadNotifyCache.cpp">
+      <Filter>db</Filter>
+    </ClCompile>
+    <ClCompile Include="db\dbConvert.c">
+      <Filter>db</Filter>
+    </ClCompile>
+    <ClCompile Include="db\dbEvent.c">
+      <Filter>db</Filter>
+    </ClCompile>
+    <ClCompile Include="db\dbExtractArray.c">
+      <Filter>db</Filter>
+    </ClCompile>
+    <ClCompile Include="db\dbFastLinkConv.c">
+      <Filter>db</Filter>
+    </ClCompile>
+    <ClCompile Include="db\dbIocRegister.c">
+      <Filter>db</Filter>
+    </ClCompile>
+    <ClCompile Include="db\dbLink.c">
+      <Filter>db</Filter>
+    </ClCompile>
+    <ClCompile Include="db\dbLock.c">
+      <Filter>db</Filter>
+    </ClCompile>
+    <ClCompile Include="db\dbNotify.c">
+      <Filter>db</Filter>
+    </ClCompile>
+    <ClCompile Include="db\dbPutNotifyBlocker.cpp">
+      <Filter>db</Filter>
+    </ClCompile>
+    <ClCompile Include="db\dbScan.c">
+      <Filter>db</Filter>
+    </ClCompile>
+    <ClCompile Include="db\dbState.c">
+      <Filter>db</Filter>
+    </ClCompile>
+    <ClCompile Include="db\dbSubscriptionIO.cpp">
+      <Filter>db</Filter>
+    </ClCompile>
+    <ClCompile Include="db\dbTest.c">
+      <Filter>db</Filter>
+    </ClCompile>
+    <ClCompile Include="db\recGbl.c">
+      <Filter>db</Filter>
+    </ClCompile>
+    <ClCompile Include="dbStatic\dbStaticLib.c">
+      <Filter>dbStatic</Filter>
+    </ClCompile>
+    <ClCompile Include="dbStatic\dbPvdLib.c">
+      <Filter>dbStatic</Filter>
+    </ClCompile>
+    <ClCompile Include="dbStatic\dbStaticRun.c">
+      <Filter>dbStatic</Filter>
+    </ClCompile>
+    <ClCompile Include="dbStatic\dbStaticIocRegister.c">
+      <Filter>dbStatic</Filter>
+    </ClCompile>
+    <ClCompile Include="dbtemplate\dbtoolsIocRegister.c">
+      <Filter>dbtemplate</Filter>
+    </ClCompile>
+    <ClCompile Include="O.Common\dbLoadTemplate.c">
+      <Filter>O.Common</Filter>
+    </ClCompile>
+    <ClCompile Include="misc\epicsRelease.c">
+      <Filter>misc</Filter>
+    </ClCompile>
+    <ClCompile Include="misc\iocInit.c">
+      <Filter>misc</Filter>
+    </ClCompile>
+    <ClCompile Include="misc\miscIocRegister.c">
+      <Filter>misc</Filter>
+    </ClCompile>
+    <ClCompile Include="misc\dlload.c">
+      <Filter>misc</Filter>
+    </ClCompile>
+    <ClCompile Include="misc\iocshRegisterCommon.c">
+      <Filter>misc</Filter>
+    </ClCompile>
+    <ClCompile Include="rsrv\caserverio.c">
+      <Filter>rsrv</Filter>
+    </ClCompile>
+    <ClCompile Include="rsrv\caservertask.c">
+      <Filter>rsrv</Filter>
+    </ClCompile>
+    <ClCompile Include="rsrv\camsgtask.c">
+      <Filter>rsrv</Filter>
+    </ClCompile>
+    <ClCompile Include="rsrv\camessage.c">
+      <Filter>rsrv</Filter>
+    </ClCompile>
+    <ClCompile Include="rsrv\cast_server.c">
+      <Filter>rsrv</Filter>
+    </ClCompile>
+    <ClCompile Include="rsrv\online_notify.c">
+      <Filter>rsrv</Filter>
+    </ClCompile>
+    <ClCompile Include="rsrv\rsrvIocRegister.c">
+      <Filter>rsrv</Filter>
+    </ClCompile>
+    <ClCompile Include="registry\registryRecordType.c">
+      <Filter>registry</Filter>
+    </ClCompile>
+    <ClCompile Include="registry\registryDeviceSupport.c">
+      <Filter>registry</Filter>
+    </ClCompile>
+    <ClCompile Include="registry\registryDriverSupport.c">
+      <Filter>registry</Filter>
+    </ClCompile>
+    <ClCompile Include="registry\registryFunction.c">
+      <Filter>registry</Filter>
+    </ClCompile>
+    <ClCompile Include="registry\registryCommon.c">
+      <Filter>registry</Filter>
+    </ClCompile>
+    <ClCompile Include="registry\registryIocRegister.c">
+      <Filter>registry</Filter>
+    </ClCompile>
+    <ClCompile Include="dbStatic\dbLexRoutines.c">
+      <Filter>dbStatic</Filter>
+    </ClCompile>
+    <ClCompile Include="O.Common\dbYacc.c">
+      <Filter>O.Common</Filter>
+    </ClCompile>
+    <ClCompile Include="db\dbServer.c">
+      <Filter>db</Filter>
+    </ClCompile>
+    <ClCompile Include="db\dbUnitTest.c">
+      <Filter>db</Filter>
+    </ClCompile>
+    <ClCompile Include="db\dbConstLink.c">
+      <Filter>db</Filter>
+    </ClCompile>
+    <ClCompile Include="db\dbConvertJSON.c">
+      <Filter>db</Filter>
+    </ClCompile>
+    <ClCompile Include="db\dbDbLink.c">
+      <Filter>db</Filter>
+    </ClCompile>
+    <ClCompile Include="db\dbJLink.c">
+      <Filter>db</Filter>
+    </ClCompile>
+    <ClCompile Include="registry\registryJLinks.c">
+      <Filter>registry</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="as\asDbLib.h">
+      <Filter>as</Filter>
+    </ClInclude>
+    <ClInclude Include="as\asCa.h">
+      <Filter>as</Filter>
+    </ClInclude>
+    <ClInclude Include="as\asIocRegister.h">
+      <Filter>as</Filter>
+    </ClInclude>
+    <ClInclude Include="db\callback.h">
+      <Filter>db</Filter>
+    </ClInclude>
+    <ClInclude Include="db\chfPlugin.h">
+      <Filter>db</Filter>
+    </ClInclude>
+    <ClInclude Include="db\db_access_routines.h">
+      <Filter>db</Filter>
+    </ClInclude>
+    <ClInclude Include="db\db_convert.h">
+      <Filter>db</Filter>
+    </ClInclude>
+    <ClInclude Include="db\db_field_log.h">
+      <Filter>db</Filter>
+    </ClInclude>
+    <ClInclude Include="db\db_test.h">
+      <Filter>db</Filter>
+    </ClInclude>
+    <ClInclude Include="db\dbAccess.h">
+      <Filter>db</Filter>
+    </ClInclude>
+    <ClInclude Include="db\dbAccessDefs.h">
+      <Filter>db</Filter>
+    </ClInclude>
+    <ClInclude Include="db\dbAddr.h">
+      <Filter>db</Filter>
+    </ClInclude>
+    <ClInclude Include="db\dbBkpt.h">
+      <Filter>db</Filter>
+    </ClInclude>
+    <ClInclude Include="db\dbCa.h">
+      <Filter>db</Filter>
+    </ClInclude>
+    <ClInclude Include="db\dbCAC.h">
+      <Filter>db</Filter>
+    </ClInclude>
+    <ClInclude Include="db\dbCaPvt.h">
+      <Filter>db</Filter>
+    </ClInclude>
+    <ClInclude Include="db\dbCaTest.h">
+      <Filter>db</Filter>
+    </ClInclude>
+    <ClInclude Include="db\dbChannel.h">
+      <Filter>db</Filter>
+    </ClInclude>
+    <ClInclude Include="db\dbChannelIO.h">
+      <Filter>db</Filter>
+    </ClInclude>
+    <ClInclude Include="db\dbConvert.h">
+      <Filter>db</Filter>
+    </ClInclude>
+    <ClInclude Include="db\dbConvertFast.h">
+      <Filter>db</Filter>
+    </ClInclude>
+    <ClInclude Include="db\dbEvent.h">
+      <Filter>db</Filter>
+    </ClInclude>
+    <ClInclude Include="db\dbExtractArray.h">
+      <Filter>db</Filter>
+    </ClInclude>
+    <ClInclude Include="db\dbIocRegister.h">
+      <Filter>db</Filter>
+    </ClInclude>
+    <ClInclude Include="db\dbLink.h">
+      <Filter>db</Filter>
+    </ClInclude>
+    <ClInclude Include="db\dbLock.h">
+      <Filter>db</Filter>
+    </ClInclude>
+    <ClInclude Include="db\dbNotify.h">
+      <Filter>db</Filter>
+    </ClInclude>
+    <ClInclude Include="db\dbPutNotifyBlocker.h">
+      <Filter>db</Filter>
+    </ClInclude>
+    <ClInclude Include="db\dbScan.h">
+      <Filter>db</Filter>
+    </ClInclude>
+    <ClInclude Include="db\dbState.h">
+      <Filter>db</Filter>
+    </ClInclude>
+    <ClInclude Include="db\dbTest.h">
+      <Filter>db</Filter>
+    </ClInclude>
+    <ClInclude Include="db\recGbl.h">
+      <Filter>db</Filter>
+    </ClInclude>
+    <ClInclude Include="dbStatic\dbStaticLib.h">
+      <Filter>dbStatic</Filter>
+    </ClInclude>
+    <ClInclude Include="dbStatic\dbBase.h">
+      <Filter>dbStatic</Filter>
+    </ClInclude>
+    <ClInclude Include="dbStatic\dbFldTypes.h">
+      <Filter>dbStatic</Filter>
+    </ClInclude>
+    <ClInclude Include="dbStatic\dbStaticPvt.h">
+      <Filter>dbStatic</Filter>
+    </ClInclude>
+    <ClInclude Include="dbStatic\link.h">
+      <Filter>dbStatic</Filter>
+    </ClInclude>
+    <ClInclude Include="dbStatic\special.h">
+      <Filter>dbStatic</Filter>
+    </ClInclude>
+    <ClInclude Include="dbStatic\guigroup.h">
+      <Filter>dbStatic</Filter>
+    </ClInclude>
+    <ClInclude Include="dbStatic\devSup.h">
+      <Filter>dbStatic</Filter>
+    </ClInclude>
+    <ClInclude Include="dbStatic\drvSup.h">
+      <Filter>dbStatic</Filter>
+    </ClInclude>
+    <ClInclude Include="dbStatic\recSup.h">
+      <Filter>dbStatic</Filter>
+    </ClInclude>
+    <ClInclude Include="dbStatic\dbStaticIocRegister.h">
+      <Filter>dbStatic</Filter>
+    </ClInclude>
+    <ClInclude Include="dbtemplate\dbtoolsIocRegister.h">
+      <Filter>dbtemplate</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\iocshRegisterCommon.h">
+      <Filter>misc</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\miscIocRegister.h">
+      <Filter>misc</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\iocInit.h">
+      <Filter>misc</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\epicsRelease.h">
+      <Filter>misc</Filter>
+    </ClInclude>
+    <ClInclude Include="rsrv\rsrvIocRegister.h">
+      <Filter>rsrv</Filter>
+    </ClInclude>
+    <ClInclude Include="rsrv\rsrv.h">
+      <Filter>rsrv</Filter>
+    </ClInclude>
+    <ClInclude Include="registry\registryRecordType.h">
+      <Filter>registry</Filter>
+    </ClInclude>
+    <ClInclude Include="registry\registryDeviceSupport.h">
+      <Filter>registry</Filter>
+    </ClInclude>
+    <ClInclude Include="registry\registryDriverSupport.h">
+      <Filter>registry</Filter>
+    </ClInclude>
+    <ClInclude Include="registry\registryFunction.h">
+      <Filter>registry</Filter>
+    </ClInclude>
+    <ClInclude Include="registry\registryCommon.h">
+      <Filter>registry</Filter>
+    </ClInclude>
+    <ClInclude Include="registry\registryIocRegister.h">
+      <Filter>registry</Filter>
+    </ClInclude>
+    <ClInclude Include="dbtemplate\dbLoadTemplate.h">
+      <Filter>dbtemplate</Filter>
+    </ClInclude>
+    <ClInclude Include="rsrv\server.h">
+      <Filter>rsrv</Filter>
+    </ClInclude>
+    <ClInclude Include="db\dbServer.h">
+      <Filter>db</Filter>
+    </ClInclude>
+    <ClInclude Include="db\dbUnitTest.h">
+      <Filter>db</Filter>
+    </ClInclude>
+    <ClInclude Include="db\dbChannelNOOP.h">
+      <Filter>db</Filter>
+    </ClInclude>
+    <ClInclude Include="db\dbCommonPvt.h">
+      <Filter>db</Filter>
+    </ClInclude>
+    <ClInclude Include="db\dbConstLink.h">
+      <Filter>db</Filter>
+    </ClInclude>
+    <ClInclude Include="db\dbConvertJSON.h">
+      <Filter>db</Filter>
+    </ClInclude>
+    <ClInclude Include="db\dbDbLink.h">
+      <Filter>db</Filter>
+    </ClInclude>
+    <ClInclude Include="db\dbJLink.h">
+      <Filter>db</Filter>
+    </ClInclude>
+    <ClInclude Include="db\dbLockPvt.h">
+      <Filter>db</Filter>
+    </ClInclude>
+    <ClInclude Include="registry\registryJLinks.h">
+      <Filter>registry</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="dbtemplate\dbLoadTemplate_lex.l">
+      <Filter>dbtemplate</Filter>
+    </CustomBuild>
+    <CustomBuild Include="dbtemplate\dbLoadTemplate.y">
+      <Filter>dbtemplate</Filter>
+    </CustomBuild>
+    <CustomBuild Include="dbStatic\dbYacc.y">
+      <Filter>dbStatic</Filter>
+    </CustomBuild>
+    <CustomBuild Include="dbStatic\dbLex.l">
+      <Filter>dbStatic</Filter>
+    </CustomBuild>
+    <CustomBuild Include="db\dbCommon.dbd">
+      <Filter>db</Filter>
+    </CustomBuild>
+    <CustomBuild Include="db\menuYesNo.dbd">
+      <Filter>db</Filter>
+    </CustomBuild>
+    <CustomBuild Include="db\dbCommonRecord.dbd">
+      <Filter>db</Filter>
+    </CustomBuild>
+    <CustomBuild Include="db\menuAlarmStat.dbd">
+      <Filter>db</Filter>
+    </CustomBuild>
+    <CustomBuild Include="db\menuFtype.dbd">
+      <Filter>db</Filter>
+    </CustomBuild>
+    <CustomBuild Include="db\menuIvoa.dbd">
+      <Filter>db</Filter>
+    </CustomBuild>
+    <CustomBuild Include="db\menuOmsl.dbd">
+      <Filter>db</Filter>
+    </CustomBuild>
+    <CustomBuild Include="db\menuPini.dbd">
+      <Filter>db</Filter>
+    </CustomBuild>
+    <CustomBuild Include="db\menuPriority.dbd">
+      <Filter>db</Filter>
+    </CustomBuild>
+    <CustomBuild Include="db\menuScan.dbd">
+      <Filter>db</Filter>
+    </CustomBuild>
+    <CustomBuild Include="db\menuSimm.dbd.pod">
+      <Filter>db</Filter>
+    </CustomBuild>
+    <CustomBuild Include="db\menuAlarmSevr.dbd.pod">
+      <Filter>db</Filter>
+    </CustomBuild>
+    <CustomBuild Include="O.Common\menuSimm.dbd">
+      <Filter>O.Common</Filter>
+    </CustomBuild>
+    <CustomBuild Include="misc\dbCore.dbd">
+      <Filter>misc</Filter>
+    </CustomBuild>
+    <CustomBuild Include="misc\system.dbd">
+      <Filter>misc</Filter>
+    </CustomBuild>
+    <CustomBuild Include="misc\dlload.dbd">
+      <Filter>misc</Filter>
+    </CustomBuild>
+    <CustomBuild Include="db\menuPost.dbd">
+      <Filter>db</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="db\Makefile">
+      <Filter>db</Filter>
+    </None>
+    <None Include="db\menuScan.dbd.pod">
+      <Filter>db</Filter>
+    </None>
+    <None Include="db\RULES">
+      <Filter>db</Filter>
+    </None>
+    <None Include="registry\Makefile">
+      <Filter>registry</Filter>
+    </None>
+  </ItemGroup>
+</Project>

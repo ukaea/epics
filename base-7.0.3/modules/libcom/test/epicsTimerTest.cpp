@@ -24,8 +24,12 @@
 #include "epicsUnitTest.h"
 #include "testMain.h"
 
+#ifdef NDEBUG
+#   define verify(ignore) ((void) 0)
+#else /* NDEBUG */
 #define verify(exp) ((exp) ? (void)0 : \
     epicsAssert(__FILE__, __LINE__, #exp, epicsAssertAuthor))
+#endif
 
 class notified : public epicsTimerNotify
 {
