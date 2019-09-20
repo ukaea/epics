@@ -512,5 +512,11 @@
     <None Include="registry\Makefile">
       <Filter>registry</Filter>
     </None>
+    <None Include="rsrv\Makefile">
+      <Filter>rsrv</Filter>
+    </None>
+    <None Include="rsrv\rsrv.dbd">
+      <Filter>rsrv</Filter>
+    </None>
   </ItemGroup>
 </Project>

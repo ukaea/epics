@@ -389,6 +389,7 @@
     <ClInclude Include="taskwd\taskwd.h" />
     <ClInclude Include="timer\epicsTimer.h" />
     <ClInclude Include="timer\timerPrivate.h" />
+    <ClInclude Include="valgrind\valgrind.h" />
     <ClInclude Include="yajl\yajl_alloc.h" />
     <ClInclude Include="yajl\yajl_buf.h" />
     <ClInclude Include="yajl\yajl_bytestack.h" />
@@ -401,27 +402,23 @@
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="env\bldEnvData.pl">
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
-perl -CSD $(OutDir)convertRelease.pl -T ../ $(OutDir)libcomModuleDirs.pm
-cd O.Common
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">cd O.Common
+SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
 perl ../env/%(FileName).pl ..\..\..\..\configure
 cd $(ProjectDir)
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
-perl -CSD $(OutDir)convertRelease.pl -T ../ $(OutDir)libcomModuleDirs.pm
-cd O.Common
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">cd O.Common
+SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
 perl ../env/%(FileName).pl ..\..\..\..\configure
 cd $(ProjectDir)
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
-perl -CSD $(OutDir)convertRelease.pl -T ../ $(OutDir)libcomModuleDirs.pm
-cd O.Common
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">cd O.Common
+SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
 perl ../env/%(FileName).pl ..\..\..\..\configure
 cd $(ProjectDir)
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
-perl -CSD $(OutDir)convertRelease.pl -T ../ $(OutDir)libcomModuleDirs.pm
-cd O.Common
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">cd O.Common
+SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
 perl ../env/%(FileName).pl ..\..\..\..\configure
 cd $(ProjectDir)
 </Command>
@@ -430,27 +427,23 @@ cd $(ProjectDir)
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">O.Common\envdata.c</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">O.Common\envdata.c</Outputs>
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
-perl -CSD $(OutDir)convertRelease.pl -T ../ $(OutDir)libcomModuleDirs.pm
-cd O.Common
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">cd O.Common
+SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
 perl ../env/%(FileName).pl ..\..\..\..\configure
 cd $(ProjectDir)
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
-perl -CSD $(OutDir)convertRelease.pl -T ../ $(OutDir)libcomModuleDirs.pm
-cd O.Common
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">cd O.Common
+SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
 perl ../env/%(FileName).pl ..\..\..\..\configure
 cd $(ProjectDir)
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
-perl -CSD $(OutDir)convertRelease.pl -T ../ $(OutDir)libcomModuleDirs.pm
-cd O.Common
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">cd O.Common
+SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
 perl ../env/%(FileName).pl ..\..\..\..\configure
 cd $(ProjectDir)
 </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
-perl -CSD $(OutDir)convertRelease.pl -T ../ $(OutDir)libcomModuleDirs.pm
-cd O.Common
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">cd O.Common
+SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
 perl ../env/%(FileName).pl ..\..\..\..\configure
 cd $(ProjectDir)
 </Command>
@@ -622,6 +615,7 @@ move /Y lex.yy.c O.Common\asLib_lex.c
     <None Include="iocsh\Makefile" />
     <None Include="libComVersionNum.h%40" />
     <None Include="log\Makefile" />
+    <None Include="macLib\EPICS\macLib.pm" />
     <None Include="Makefile" />
     <None Include="osi\TODOfuture" />
   </ItemGroup>
@@ -631,6 +625,9 @@ move /Y lex.yy.c O.Common\asLib_lex.c
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\tools\tools.vcxproj">
       <Project>{5cce1c6a-2bd5-48bf-99e2-d29b58f91991}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\database\src\tools\dbtools.vcxproj">
+      <Project>{421a512b-4c74-4461-9956-dc5864275d18}</Project>
     </ProjectReference>
     <ProjectReference Include="flex\e_flex.vcxproj">
       <Project>{280222d8-1c6b-430d-8f32-c8a47397525b}</Project>
@@ -767,8 +764,9 @@ move /Y lex.yy.c O.Common\asLib_lex.c
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
 if not exist  $(SolutionDir)include\os md  $(SolutionDir)include\os
 if not exist  $(SolutionDir)include\os\WIN32 md  $(SolutionDir)include\os\WIN32
-if not exist O.Common md O.Common
+if not exist  $(SolutionDir)include\valgrind md  $(SolutionDir)include\valgrind
 
+if not exist O.Common md O.Common
 
 xcopy /Y /Q /D /R as\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R misc\*.h  $(SolutionDir)include &gt; NUL
@@ -788,12 +786,14 @@ xcopy /Y /Q /D /R gpHash\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R bucketLib\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R dbmf\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R macLib\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R macLib\EPICS\*.pm  $(SolutionDir)lib\perl\EPICS
 xcopy /Y /Q /D /R calc\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R ring\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R log\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R yajl\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R pool\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R osi\os\default\*.h $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R valgrind\*.h $(SolutionDir)include\valgrind &gt; NUL
 
 REM required by bldEnvData.pl
 xcopy /Y /Q /D /R ..\..\database\src\ioc\*.h $(SolutionDir)include &gt; NUL
@@ -805,6 +805,12 @@ del  $(SolutionDir)include\os\WIN32\epicsGetopt.h
 
 xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
 xcopy /Y /Q /D /R osi\compiler\msvc\*.h  $(SolutionDir)include\compiler\msvc\ &gt; NUL
+
+SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
+cd $(SolutionDir)
+perl -CSD $(OutDir)convertRelease.pl $(OutDir)libcomModuleDirs.pm
+cd $(ProjectDir)
+
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -834,8 +840,9 @@ xcopy /Y /Q /D /R osi\compiler\msvc\*.h  $(SolutionDir)include\compiler\msvc\ &g
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
 if not exist  $(SolutionDir)include\os md  $(SolutionDir)include\os
 if not exist  $(SolutionDir)include\os\WIN32 md  $(SolutionDir)include\os\WIN32
-if not exist O.Common md O.Common
+if not exist  $(SolutionDir)include\valgrind md  $(SolutionDir)include\valgrind
 
+if not exist O.Common md O.Common
 
 xcopy /Y /Q /D /R as\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R misc\*.h  $(SolutionDir)include &gt; NUL
@@ -855,12 +862,14 @@ xcopy /Y /Q /D /R gpHash\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R bucketLib\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R dbmf\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R macLib\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R macLib\EPICS\*.pm  $(SolutionDir)lib\perl\EPICS
 xcopy /Y /Q /D /R calc\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R ring\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R log\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R yajl\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R pool\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R osi\os\default\*.h $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R valgrind\*.h $(SolutionDir)include\valgrind &gt; NUL
 
 REM required by bldEnvData.pl
 xcopy /Y /Q /D /R ..\..\database\src\ioc\*.h $(SolutionDir)include &gt; NUL
@@ -872,6 +881,12 @@ del  $(SolutionDir)include\os\WIN32\epicsGetopt.h
 
 xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
 xcopy /Y /Q /D /R osi\compiler\msvc\*.h  $(SolutionDir)include\compiler\msvc\ &gt; NUL
+
+SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
+cd $(SolutionDir)
+perl -CSD $(OutDir)convertRelease.pl $(OutDir)libcomModuleDirs.pm
+cd $(ProjectDir)
+
 </Command>
     </PreBuildEvent>
     <Lib>
@@ -905,8 +920,9 @@ xcopy /Y /Q /D /R osi\compiler\msvc\*.h  $(SolutionDir)include\compiler\msvc\ &g
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
 if not exist  $(SolutionDir)include\os md  $(SolutionDir)include\os
 if not exist  $(SolutionDir)include\os\WIN32 md  $(SolutionDir)include\os\WIN32
-if not exist O.Common md O.Common
+if not exist  $(SolutionDir)include\valgrind md  $(SolutionDir)include\valgrind
 
+if not exist O.Common md O.Common
 
 xcopy /Y /Q /D /R as\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R misc\*.h  $(SolutionDir)include &gt; NUL
@@ -926,12 +942,14 @@ xcopy /Y /Q /D /R gpHash\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R bucketLib\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R dbmf\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R macLib\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R macLib\EPICS\*.pm  $(SolutionDir)lib\perl\EPICS
 xcopy /Y /Q /D /R calc\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R ring\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R log\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R yajl\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R pool\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R osi\os\default\*.h $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R valgrind\*.h $(SolutionDir)include\valgrind &gt; NUL
 
 REM required by bldEnvData.pl
 xcopy /Y /Q /D /R ..\..\database\src\ioc\*.h $(SolutionDir)include &gt; NUL
@@ -943,6 +961,12 @@ del  $(SolutionDir)include\os\WIN32\epicsGetopt.h
 
 xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
 xcopy /Y /Q /D /R osi\compiler\msvc\*.h  $(SolutionDir)include\compiler\msvc\ &gt; NUL
+
+SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
+cd $(SolutionDir)
+perl -CSD $(OutDir)convertRelease.pl $(OutDir)libcomModuleDirs.pm
+cd $(ProjectDir)
+
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -972,8 +996,9 @@ xcopy /Y /Q /D /R osi\compiler\msvc\*.h  $(SolutionDir)include\compiler\msvc\ &g
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
 if not exist  $(SolutionDir)include\os md  $(SolutionDir)include\os
 if not exist  $(SolutionDir)include\os\WIN32 md  $(SolutionDir)include\os\WIN32
-if not exist O.Common md O.Common
+if not exist  $(SolutionDir)include\valgrind md  $(SolutionDir)include\valgrind
 
+if not exist O.Common md O.Common
 
 xcopy /Y /Q /D /R as\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R misc\*.h  $(SolutionDir)include &gt; NUL
@@ -993,12 +1018,14 @@ xcopy /Y /Q /D /R gpHash\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R bucketLib\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R dbmf\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R macLib\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R macLib\EPICS\*.pm  $(SolutionDir)lib\perl\EPICS
 xcopy /Y /Q /D /R calc\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R ring\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R log\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R yajl\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R pool\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R osi\os\default\*.h $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R valgrind\*.h $(SolutionDir)include\valgrind &gt; NUL
 
 REM required by bldEnvData.pl
 xcopy /Y /Q /D /R ..\..\database\src\ioc\*.h $(SolutionDir)include &gt; NUL
@@ -1010,6 +1037,12 @@ del  $(SolutionDir)include\os\WIN32\epicsGetopt.h
 
 xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
 xcopy /Y /Q /D /R osi\compiler\msvc\*.h  $(SolutionDir)include\compiler\msvc\ &gt; NUL
+
+SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
+cd $(SolutionDir)
+perl -CSD $(OutDir)convertRelease.pl $(OutDir)libcomModuleDirs.pm
+cd $(ProjectDir)
+
 </Command>
     </PreBuildEvent>
     <Lib>
@@ -1039,8 +1072,9 @@ xcopy /Y /Q /D /R osi\compiler\msvc\*.h  $(SolutionDir)include\compiler\msvc\ &g
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
 if not exist  $(SolutionDir)include\os md  $(SolutionDir)include\os
 if not exist  $(SolutionDir)include\os\WIN32 md  $(SolutionDir)include\os\WIN32
-if not exist O.Common md O.Common
+if not exist  $(SolutionDir)include\valgrind md  $(SolutionDir)include\valgrind
 
+if not exist O.Common md O.Common
 
 xcopy /Y /Q /D /R as\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R misc\*.h  $(SolutionDir)include &gt; NUL
@@ -1060,12 +1094,14 @@ xcopy /Y /Q /D /R gpHash\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R bucketLib\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R dbmf\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R macLib\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R macLib\EPICS\*.pm  $(SolutionDir)lib\perl\EPICS
 xcopy /Y /Q /D /R calc\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R ring\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R log\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R yajl\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R pool\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R osi\os\default\*.h $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R valgrind\*.h $(SolutionDir)include\valgrind &gt; NUL
 
 REM required by bldEnvData.pl
 xcopy /Y /Q /D /R ..\..\database\src\ioc\*.h $(SolutionDir)include &gt; NUL
@@ -1077,6 +1113,12 @@ del  $(SolutionDir)include\os\WIN32\epicsGetopt.h
 
 xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
 xcopy /Y /Q /D /R osi\compiler\msvc\*.h  $(SolutionDir)include\compiler\msvc\ &gt; NUL
+
+SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
+cd $(SolutionDir)
+perl -CSD $(OutDir)convertRelease.pl $(OutDir)libcomModuleDirs.pm
+cd $(ProjectDir)
+
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -1103,8 +1145,9 @@ xcopy /Y /Q /D /R osi\compiler\msvc\*.h  $(SolutionDir)include\compiler\msvc\ &g
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
 if not exist  $(SolutionDir)include\os md  $(SolutionDir)include\os
 if not exist  $(SolutionDir)include\os\WIN32 md  $(SolutionDir)include\os\WIN32
-if not exist O.Common md O.Common
+if not exist  $(SolutionDir)include\valgrind md  $(SolutionDir)include\valgrind
 
+if not exist O.Common md O.Common
 
 xcopy /Y /Q /D /R as\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R misc\*.h  $(SolutionDir)include &gt; NUL
@@ -1124,12 +1167,14 @@ xcopy /Y /Q /D /R gpHash\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R bucketLib\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R dbmf\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R macLib\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R macLib\EPICS\*.pm  $(SolutionDir)lib\perl\EPICS
 xcopy /Y /Q /D /R calc\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R ring\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R log\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R yajl\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R pool\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R osi\os\default\*.h $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R valgrind\*.h $(SolutionDir)include\valgrind &gt; NUL
 
 REM required by bldEnvData.pl
 xcopy /Y /Q /D /R ..\..\database\src\ioc\*.h $(SolutionDir)include &gt; NUL
@@ -1141,6 +1186,12 @@ del  $(SolutionDir)include\os\WIN32\epicsGetopt.h
 
 xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
 xcopy /Y /Q /D /R osi\compiler\msvc\*.h  $(SolutionDir)include\compiler\msvc\ &gt; NUL
+
+SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
+cd $(SolutionDir)
+perl -CSD $(OutDir)convertRelease.pl $(OutDir)libcomModuleDirs.pm
+cd $(ProjectDir)
+
 </Command>
     </PreBuildEvent>
     <Lib>
@@ -1170,8 +1221,9 @@ xcopy /Y /Q /D /R osi\compiler\msvc\*.h  $(SolutionDir)include\compiler\msvc\ &g
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
 if not exist  $(SolutionDir)include\os md  $(SolutionDir)include\os
 if not exist  $(SolutionDir)include\os\WIN32 md  $(SolutionDir)include\os\WIN32
-if not exist O.Common md O.Common
+if not exist  $(SolutionDir)include\valgrind md  $(SolutionDir)include\valgrind
 
+if not exist O.Common md O.Common
 
 xcopy /Y /Q /D /R as\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R misc\*.h  $(SolutionDir)include &gt; NUL
@@ -1191,12 +1243,14 @@ xcopy /Y /Q /D /R gpHash\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R bucketLib\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R dbmf\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R macLib\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R macLib\EPICS\*.pm  $(SolutionDir)lib\perl\EPICS
 xcopy /Y /Q /D /R calc\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R ring\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R log\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R yajl\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R pool\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R osi\os\default\*.h $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R valgrind\*.h $(SolutionDir)include\valgrind &gt; NUL
 
 REM required by bldEnvData.pl
 xcopy /Y /Q /D /R ..\..\database\src\ioc\*.h $(SolutionDir)include &gt; NUL
@@ -1208,6 +1262,12 @@ del  $(SolutionDir)include\os\WIN32\epicsGetopt.h
 
 xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
 xcopy /Y /Q /D /R osi\compiler\msvc\*.h  $(SolutionDir)include\compiler\msvc\ &gt; NUL
+
+SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
+cd $(SolutionDir)
+perl -CSD $(OutDir)convertRelease.pl $(OutDir)libcomModuleDirs.pm
+cd $(ProjectDir)
+
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -1234,8 +1294,9 @@ xcopy /Y /Q /D /R osi\compiler\msvc\*.h  $(SolutionDir)include\compiler\msvc\ &g
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
 if not exist  $(SolutionDir)include\os md  $(SolutionDir)include\os
 if not exist  $(SolutionDir)include\os\WIN32 md  $(SolutionDir)include\os\WIN32
-if not exist O.Common md O.Common
+if not exist  $(SolutionDir)include\valgrind md  $(SolutionDir)include\valgrind
 
+if not exist O.Common md O.Common
 
 xcopy /Y /Q /D /R as\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R misc\*.h  $(SolutionDir)include &gt; NUL
@@ -1255,12 +1316,14 @@ xcopy /Y /Q /D /R gpHash\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R bucketLib\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R dbmf\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R macLib\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R macLib\EPICS\*.pm  $(SolutionDir)lib\perl\EPICS
 xcopy /Y /Q /D /R calc\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R ring\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R log\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R yajl\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R pool\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R osi\os\default\*.h $(SolutionDir)include\os\WIN32 &gt; NUL
+xcopy /Y /Q /D /R valgrind\*.h $(SolutionDir)include\valgrind &gt; NUL
 
 REM required by bldEnvData.pl
 xcopy /Y /Q /D /R ..\..\database\src\ioc\*.h $(SolutionDir)include &gt; NUL
@@ -1272,6 +1335,12 @@ del  $(SolutionDir)include\os\WIN32\epicsGetopt.h
 
 xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
 xcopy /Y /Q /D /R osi\compiler\msvc\*.h  $(SolutionDir)include\compiler\msvc\ &gt; NUL
+
+SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
+cd $(SolutionDir)
+perl -CSD $(OutDir)convertRelease.pl $(OutDir)libcomModuleDirs.pm
+cd $(ProjectDir)
+
 </Command>
     </PreBuildEvent>
     <Lib>

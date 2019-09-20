@@ -1206,6 +1206,8 @@ cd $(ProjectDir)
     <None Include="db\menuScan.dbd.pod" />
     <None Include="db\RULES" />
     <None Include="registry\Makefile" />
+    <None Include="rsrv\Makefile" />
+    <None Include="rsrv\rsrv.dbd" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{422A8C73-836C-48CB-86C8-0591E69C0CA1}</ProjectGuid>
@@ -1357,6 +1359,12 @@ xcopy /Y /Q /D /R rsrv\*.h  $(SolutionDir)include &gt; NUL
 
 xcopy /Y /Q /D /R db\*.dbd  $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R misc\*.dbd  $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R rsrv\*.dbd  $(SolutionDir)dbd &gt; NUL
+
+SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
+cd $(SolutionDir)
+perl -CSD $(OutDir)convertRelease.pl $(OutDir)databaseModuleDirs.pm
+cd $(ProjectDir)
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -1404,6 +1412,12 @@ xcopy /Y /Q /D /R rsrv\*.h  $(SolutionDir)include &gt; NUL
 
 xcopy /Y /Q /D /R db\*.dbd  $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R misc\*.dbd  $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R rsrv\*.dbd  $(SolutionDir)dbd &gt; NUL
+
+SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
+cd $(SolutionDir)
+perl -CSD $(OutDir)convertRelease.pl $(OutDir)databaseModuleDirs.pm
+cd $(ProjectDir)
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -1448,6 +1462,12 @@ xcopy /Y /Q /D /R rsrv\*.h  $(SolutionDir)include &gt; NUL
 
 xcopy /Y /Q /D /R db\*.dbd  $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R misc\*.dbd  $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R rsrv\*.dbd  $(SolutionDir)dbd &gt; NUL
+
+SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
+cd $(SolutionDir)
+perl -CSD $(OutDir)convertRelease.pl $(OutDir)databaseModuleDirs.pm
+cd $(ProjectDir)
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -1495,6 +1515,12 @@ xcopy /Y /Q /D /R rsrv\*.h  $(SolutionDir)include &gt; NUL
 
 xcopy /Y /Q /D /R db\*.dbd  $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R misc\*.dbd  $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R rsrv\*.dbd  $(SolutionDir)dbd &gt; NUL
+
+SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
+cd $(SolutionDir)
+perl -CSD $(OutDir)convertRelease.pl $(OutDir)databaseModuleDirs.pm
+cd $(ProjectDir)
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -1541,6 +1567,12 @@ xcopy /Y /Q /D /R rsrv\*.h  $(SolutionDir)include &gt; NUL
 
 xcopy /Y /Q /D /R db\*.dbd  $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R misc\*.dbd  $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R rsrv\*.dbd  $(SolutionDir)dbd &gt; NUL
+
+SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
+cd $(SolutionDir)
+perl -CSD $(OutDir)convertRelease.pl $(OutDir)databaseModuleDirs.pm
+cd $(ProjectDir)
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -1590,6 +1622,12 @@ xcopy /Y /Q /D /R rsrv\*.h  $(SolutionDir)include &gt; NUL
 
 xcopy /Y /Q /D /R db\*.dbd  $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R misc\*.dbd  $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R rsrv\*.dbd  $(SolutionDir)dbd &gt; NUL
+
+SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
+cd $(SolutionDir)
+perl -CSD $(OutDir)convertRelease.pl $(OutDir)databaseModuleDirs.pm
+cd $(ProjectDir)
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -1636,6 +1674,12 @@ xcopy /Y /Q /D /R rsrv\*.h  $(SolutionDir)include &gt; NUL
 
 xcopy /Y /Q /D /R db\*.dbd  $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R misc\*.dbd  $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R rsrv\*.dbd  $(SolutionDir)dbd &gt; NUL
+
+SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
+cd $(SolutionDir)
+perl -CSD $(OutDir)convertRelease.pl $(OutDir)databaseModuleDirs.pm
+cd $(ProjectDir)
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -1685,6 +1729,12 @@ xcopy /Y /Q /D /R rsrv\*.h  $(SolutionDir)include &gt; NUL
 
 xcopy /Y /Q /D /R db\*.dbd  $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R misc\*.dbd  $(SolutionDir)dbd &gt; NUL
+xcopy /Y /Q /D /R rsrv\*.dbd  $(SolutionDir)dbd &gt; NUL
+
+SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
+cd $(SolutionDir)
+perl -CSD $(OutDir)convertRelease.pl $(OutDir)databaseModuleDirs.pm
+cd $(ProjectDir)
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>

@@ -145,7 +145,6 @@ if not exist $(SolutionDir)lib md $(SolutionDir)lib
 if not exist $(SolutionDir)lib\perl md $(SolutionDir)lib\perl
 
 xcopy /Y /Q /D /R *.pl $(OutDir) &gt; NUL
-xcopy /Y /Q /D /R *.pm $(SolutionDir)lib\perl &gt; NUL
 xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -164,7 +163,6 @@ if not exist $(SolutionDir)lib md $(SolutionDir)lib
 if not exist $(SolutionDir)lib\perl md $(SolutionDir)lib\perl
 
 xcopy /Y /Q /D /R *.pl $(OutDir) &gt; NUL
-xcopy /Y /Q /D /R *.pm $(SolutionDir)lib\perl &gt; NUL
 xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -223,7 +221,6 @@ if not exist $(SolutionDir)lib md $(SolutionDir)lib
 if not exist $(SolutionDir)lib\perl md $(SolutionDir)lib\perl
 
 xcopy /Y /Q /D /R *.pl $(OutDir) &gt; NUL
-xcopy /Y /Q /D /R *.pm $(SolutionDir)lib\perl &gt; NUL
 xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -246,7 +243,6 @@ if not exist $(SolutionDir)lib md $(SolutionDir)lib
 if not exist $(SolutionDir)lib\perl md $(SolutionDir)lib\perl
 
 xcopy /Y /Q /D /R *.pl $(OutDir) &gt; NUL
-xcopy /Y /Q /D /R *.pm $(SolutionDir)lib\perl &gt; NUL
 xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -296,7 +292,9 @@ xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="convertRelease.pl" />
+    <None Include="convertRelease.pl">
+      <FileType>Document</FileType>
+    </None>
     <None Include="cvsclean.pl" />
     <None Include="dos2unix.pl" />
     <None Include="EPICS\Copy.pm" />

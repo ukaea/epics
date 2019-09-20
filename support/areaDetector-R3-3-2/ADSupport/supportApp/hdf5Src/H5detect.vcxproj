@@ -338,19 +338,6 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Com
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <ClCompile>
-      <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
-    </ClCompile>
-    <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd  -o  O.Common\ADURL__registerRecordDeviceDriver.cpp src\ADURL_Include.dbd  ADURL__registerRecordDeviceDriver  $(SolutionDir)
-</Command>
-    </PreBuildEvent>
-  </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

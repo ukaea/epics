@@ -102,12 +102,6 @@
     <PlatformToolset>v141</PlatformToolset>
     <SpectreMitigation>false</SpectreMitigation>
   </PropertyGroup>
-  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <CharacterSet>NotSet</CharacterSet>
-  </PropertyGroup>
-  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <CharacterSet>NotSet</CharacterSet>
-  </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
@@ -337,25 +331,6 @@ xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <ClCompile>
-      <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-    </ClCompile>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <ClCompile>
-      <PreprocessorDefinitions>WIN32;NDEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-    </ClCompile>
-  </ItemDefinitionGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\base-3.15.5\src\ca\client\ca.vcxproj">
-      <Project>{02caf068-a7fc-463e-aa7e-72eeaf665826}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\base-3.15.5\src\libCom\Com.vcxproj">
-      <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
-    </ProjectReference>
-  </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pv.c" />
   </ItemGroup>
@@ -367,6 +342,14 @@ xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
     <ClInclude Include="pvKtl.h" />
     <ClInclude Include="pvKtlCnv.h" />
     <ClInclude Include="pvType.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\base-7.0.3\modules\ca\src\client\ca.vcxproj">
+      <Project>{361bcebd-8b02-4b15-b28b-863f0602cb99}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\base-7.0.3\modules\libcom\src\Com.vcxproj">
+      <Project>{e9d99fc7-e592-472b-b2e2-c3b0d81d8169}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
