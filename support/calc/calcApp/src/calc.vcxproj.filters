@@ -18,6 +18,7 @@
     <ClCompile Include="swaitRecord.c" />
     <ClCompile Include="test_sCalc.c" />
     <ClCompile Include="transformRecord.c" />
+    <ClCompile Include="aCalcMonitorMem.c" />
   </ItemGroup>
   <ItemGroup>
     <None Include="calcSupport_withSNCSEQ.dbd" />
@@ -28,6 +29,12 @@
     <None Include="README" />
     <None Include="test_aCalc.py" />
     <None Include="test_sCalc.py" />
+    <None Include="O.Common\calc.dbd">
+      <Filter>O.Common</Filter>
+    </None>
+    <None Include="O.Common\calcSupport.dbd">
+      <Filter>O.Common</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="aCalcPostfix.h" />
@@ -36,6 +43,21 @@
     <ClInclude Include="myFreeList.h" />
     <ClInclude Include="sCalcPostfix.h" />
     <ClInclude Include="sCalcPostfixPvt.h" />
+    <ClInclude Include="O.Common\aCalcoutRecord.h">
+      <Filter>O.Common</Filter>
+    </ClInclude>
+    <ClInclude Include="O.Common\sCalcoutRecord.h">
+      <Filter>O.Common</Filter>
+    </ClInclude>
+    <ClInclude Include="O.Common\sseqRecord.h">
+      <Filter>O.Common</Filter>
+    </ClInclude>
+    <ClInclude Include="O.Common\swaitRecord.h">
+      <Filter>O.Common</Filter>
+    </ClInclude>
+    <ClInclude Include="O.Common\transformRecord.h">
+      <Filter>O.Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="calcSupport_LOCAL.dbd" />
@@ -45,5 +67,10 @@
     <CustomBuild Include="swaitRecord.dbd" />
     <CustomBuild Include="sCalcoutRecord.dbd" />
     <CustomBuild Include="aCalcoutRecord.dbd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="O.Common">
+      <UniqueIdentifier>{d0532b52-8290-45a4-95c5-16fb5ed4965b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

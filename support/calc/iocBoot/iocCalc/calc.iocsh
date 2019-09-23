@@ -1,0 +1,20 @@
+### Stuff for user programming ###
+epicsEnvSet("PREFIX", "xxx:")
+
+iocshLoad("$(CALC)/iocsh/userCalc.iocsh",       "PREFIX=$(PREFIX)")
+iocshLoad("$(CALC)/iocsh/userCalc_extra.iocsh", "PREFIX=$(PREFIX),N=1")
+iocshLoad("$(CALC)/iocsh/sseq.iocsh",           "PREFIX=$(PREFIX),INSTANCE=ES:")
+
+# interpolation
+#dbLoadRecords("$(CALC)/calcApp/Db/interp.db", "P=$(PREFIX),N=2000")
+dbLoadRecords("$(CALC)/calcApp/Db/interpNew.db", "P=$(PREFIX),Q=1,N=2000")
+
+# pvHistory (in-crate archive of up to three PV's)
+dbLoadRecords("$(STD)/stdApp/Db/pvHistory.db","P=$(PREFIX),N=1,MAXSAMPLES=1440")
+
+# busy record
+dbLoadRecords("$(BUSY)/busyApp/Db/busyRecord.db", "P=$(PREFIX),R=mybusy")
+dbLoadRecords("$(BUSY)/busyApp/Db/busyRecord.db", "P=$(PREFIX),R=mybusy2")
+
+# Soft function generator
+#dbLoadRecords("$(CALC)/calcApp/Db/FuncGen.db","P=$(PREFIX),Q=fgen,OUT=$(PREFIX)m7.VAL")

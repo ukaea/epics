@@ -38,8 +38,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\base-3.15.5\src\ioc\dbCore.vcxproj">
-      <Project>{440c585d-ad66-4738-941c-a87a1817a9be}</Project>
+    <ProjectReference Include="..\..\..\..\base-7.0.3\modules\database\src\ioc\dbCore.vcxproj">
+      <Project>{422a8c73-836c-48cb-86c8-0591e69c0ca1}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\base-7.0.3\modules\libcom\src\Com.vcxproj">
+      <Project>{e9d99fc7-e592-472b-b2e2-c3b0d81d8169}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\asyn4-33\asyn\asyn.vcxproj">
       <Project>{c3ea0ff7-6039-4884-ba91-7b4619befea5}</Project>
@@ -49,6 +52,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="aCalcMonitorMem.c" />
     <ClCompile Include="aCalcoutRecord.c" />
     <ClCompile Include="aCalcPerform.c" />
     <ClCompile Include="aCalcPostfix.c" />
@@ -219,6 +223,8 @@ cd ..
     <None Include="editSseq.dbd" />
     <None Include="editSseq.st" />
     <None Include="Makefile" />
+    <None Include="O.Common\calc.dbd" />
+    <None Include="O.Common\calcSupport.dbd" />
     <None Include="README" />
     <CustomBuild Include="sCalcoutRecord.dbd">
       <FileType>Document</FileType>
@@ -368,6 +374,11 @@ perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I./O.Common -I$(SolutionDir)include -I$
     <ClInclude Include="aCalcPostfixPvt.h" />
     <ClInclude Include="adjustment.h" />
     <ClInclude Include="myFreeList.h" />
+    <ClInclude Include="O.Common\aCalcoutRecord.h" />
+    <ClInclude Include="O.Common\sCalcoutRecord.h" />
+    <ClInclude Include="O.Common\sseqRecord.h" />
+    <ClInclude Include="O.Common\swaitRecord.h" />
+    <ClInclude Include="O.Common\transformRecord.h" />
     <ClInclude Include="sCalcPostfix.h" />
     <ClInclude Include="sCalcPostfixPvt.h" />
   </ItemGroup>
@@ -503,8 +514,8 @@ xcopy /Y /Q /D /R  *.dbd  $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>xcopy /Y /Q /D /R  O.Common\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R  O.Common\*.dbd  $(SolutionDir)dbd &gt; NUL
+      <Command>xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R O.Common\*.dbd  $(SolutionDir)dbd &gt; NUL
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -529,8 +540,8 @@ xcopy /Y /Q /D /R  *.dbd  $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>xcopy /Y /Q /D /R  O.Common\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R  O.Common\*.dbd  $(SolutionDir)dbd &gt; NUL
+      <Command>xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -556,8 +567,8 @@ xcopy /Y /Q /D /R  *.dbd  $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>xcopy /Y /Q /D /R  O.Common\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R  O.Common\*.dbd  $(SolutionDir)dbd &gt; NUL
+      <Command>xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -583,8 +594,8 @@ xcopy /Y /Q /D /R  *.dbd  $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>xcopy /Y /Q /D /R  O.Common\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R  O.Common\*.dbd  $(SolutionDir)dbd &gt; NUL
+      <Command>xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R O.Common\*.dbd  $(SolutionDir)dbd &gt; NUL
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -613,8 +624,8 @@ xcopy /Y /Q /D /R  *.dbd  $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>xcopy /Y /Q /D /R  O.Common\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R  O.Common\*.dbd  $(SolutionDir)dbd &gt; NUL
+      <Command>xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R O.Common\*.dbd  $(SolutionDir)dbd &gt; NUL
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -643,8 +654,8 @@ xcopy /Y /Q /D /R  *.dbd  $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>xcopy /Y /Q /D /R  O.Common\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R  O.Common\*.dbd  $(SolutionDir)dbd &gt; NUL
+      <Command>xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R O.Common\*.dbd  $(SolutionDir)dbd &gt; NUL
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -674,7 +685,7 @@ xcopy /Y /Q /D /R  *.dbd  $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>xcopy /Y /Q /D /R  O.Common\*.h  $(SolutionDir)include &gt; NUL
+      <Command>xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R  O.Common\*.dbd  $(SolutionDir)dbd &gt; NUL
 </Command>
     </PostBuildEvent>
@@ -705,8 +716,8 @@ xcopy /Y /Q /D /R  *.dbd  $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>xcopy /Y /Q /D /R  O.Common\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R  O.Common\*.dbd  $(SolutionDir)dbd &gt; NUL
+      <Command>xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R O.Common\*.dbd  $(SolutionDir)dbd &gt; NUL
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>

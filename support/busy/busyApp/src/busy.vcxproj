@@ -75,7 +75,7 @@ perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I. -I.. -I../O.Common -I../../../dbd -I
     <None Include="busySupport_withASYN.dbd" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\base-3.15.5\src\tools\tools.vcxproj">
+    <ProjectReference Include="..\..\..\..\base-7.0.3\src\tools\tools.vcxproj">
       <Project>{5cce1c6a-2bd5-48bf-99e2-d29b58f91991}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\base-7.0.3\modules\database\src\ioc\dbCore.vcxproj">

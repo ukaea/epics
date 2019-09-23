@@ -18,6 +18,12 @@ include $(TOP)/configure/CONFIG
 # databases, templates, substitutions like this
 #DB += softMotorexample.db
 
+DB += $(patsubst ../%, %, $(wildcard ../*.template))
+DB += $(patsubst ../%, %, $(wildcard ../*.db))
+DB += $(patsubst ../%, %, $(wildcard ../*.vdb))
+
+REQ += $(patsubst ../%, %, $(wildcard ../*.req))
+
 #----------------------------------------------------
 # Declare template files which do not show up in DB
 #USES_TEMPLATE += dbExample2.template

@@ -168,16 +168,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="osi\os\default\osdEnv.c">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
-    </ClCompile>
+    <ClCompile Include="osi\os\default\osdEnv.c" />
     <ClCompile Include="osi\os\default\osdFindAddr.c" />
     <ClCompile Include="osi\os\default\osdFindSymbol.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
@@ -238,7 +229,16 @@
     <ClCompile Include="osi\os\WIN32\epicsTempFile.cpp" />
     <ClCompile Include="osi\os\WIN32\forceBadAllocException.cpp" />
     <ClCompile Include="osi\os\WIN32\osdBackTrace.cpp" />
-    <ClCompile Include="osi\os\WIN32\osdEnv.c" />
+    <ClCompile Include="osi\os\WIN32\osdEnv.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="osi\os\WIN32\osdEvent.c" />
     <ClCompile Include="osi\os\WIN32\osdFindSymbol.c" />
     <ClCompile Include="osi\os\WIN32\osdMonotonic.c" />
@@ -807,9 +807,7 @@ xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
 xcopy /Y /Q /D /R osi\compiler\msvc\*.h  $(SolutionDir)include\compiler\msvc\ &gt; NUL
 
 SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
-cd $(SolutionDir)
-perl -CSD $(OutDir)convertRelease.pl $(OutDir)libcomModuleDirs.pm
-cd $(ProjectDir)
+perl -CSD $(OutDir)convertRelease.pl -T $(SolutionDir)  $(OutDir)libComModuleDirs.pm
 
 </Command>
     </PreBuildEvent>
@@ -883,9 +881,7 @@ xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
 xcopy /Y /Q /D /R osi\compiler\msvc\*.h  $(SolutionDir)include\compiler\msvc\ &gt; NUL
 
 SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
-cd $(SolutionDir)
-perl -CSD $(OutDir)convertRelease.pl $(OutDir)libcomModuleDirs.pm
-cd $(ProjectDir)
+perl -CSD $(OutDir)convertRelease.pl -T $(SolutionDir)  $(OutDir)libComModuleDirs.pm
 
 </Command>
     </PreBuildEvent>
@@ -963,9 +959,7 @@ xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
 xcopy /Y /Q /D /R osi\compiler\msvc\*.h  $(SolutionDir)include\compiler\msvc\ &gt; NUL
 
 SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
-cd $(SolutionDir)
-perl -CSD $(OutDir)convertRelease.pl $(OutDir)libcomModuleDirs.pm
-cd $(ProjectDir)
+perl -CSD $(OutDir)convertRelease.pl -T $(SolutionDir)  $(OutDir)libComModuleDirs.pm
 
 </Command>
     </PreBuildEvent>
@@ -1039,9 +1033,7 @@ xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
 xcopy /Y /Q /D /R osi\compiler\msvc\*.h  $(SolutionDir)include\compiler\msvc\ &gt; NUL
 
 SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
-cd $(SolutionDir)
-perl -CSD $(OutDir)convertRelease.pl $(OutDir)libcomModuleDirs.pm
-cd $(ProjectDir)
+perl -CSD $(OutDir)convertRelease.pl -T $(SolutionDir)  $(OutDir)libComModuleDirs.pm
 
 </Command>
     </PreBuildEvent>
@@ -1115,9 +1107,7 @@ xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
 xcopy /Y /Q /D /R osi\compiler\msvc\*.h  $(SolutionDir)include\compiler\msvc\ &gt; NUL
 
 SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
-cd $(SolutionDir)
-perl -CSD $(OutDir)convertRelease.pl $(OutDir)libcomModuleDirs.pm
-cd $(ProjectDir)
+perl -CSD $(OutDir)convertRelease.pl -T $(SolutionDir)  $(OutDir)libComModuleDirs.pm
 
 </Command>
     </PreBuildEvent>
@@ -1188,9 +1178,7 @@ xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
 xcopy /Y /Q /D /R osi\compiler\msvc\*.h  $(SolutionDir)include\compiler\msvc\ &gt; NUL
 
 SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
-cd $(SolutionDir)
-perl -CSD $(OutDir)convertRelease.pl $(OutDir)libcomModuleDirs.pm
-cd $(ProjectDir)
+perl -CSD $(OutDir)convertRelease.pl -T $(SolutionDir)  $(OutDir)libComModuleDirs.pm
 
 </Command>
     </PreBuildEvent>
@@ -1264,9 +1252,7 @@ xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
 xcopy /Y /Q /D /R osi\compiler\msvc\*.h  $(SolutionDir)include\compiler\msvc\ &gt; NUL
 
 SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
-cd $(SolutionDir)
-perl -CSD $(OutDir)convertRelease.pl $(OutDir)libcomModuleDirs.pm
-cd $(ProjectDir)
+perl -CSD $(OutDir)convertRelease.pl -T $(SolutionDir)  $(OutDir)libComModuleDirs.pm
 
 </Command>
     </PreBuildEvent>
@@ -1337,9 +1323,7 @@ xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
 xcopy /Y /Q /D /R osi\compiler\msvc\*.h  $(SolutionDir)include\compiler\msvc\ &gt; NUL
 
 SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
-cd $(SolutionDir)
-perl -CSD $(OutDir)convertRelease.pl $(OutDir)libcomModuleDirs.pm
-cd $(ProjectDir)
+perl -CSD $(OutDir)convertRelease.pl -T $(SolutionDir)  $(OutDir)libComModuleDirs.pm
 
 </Command>
     </PreBuildEvent>
