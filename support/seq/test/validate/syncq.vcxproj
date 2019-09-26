@@ -35,14 +35,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\base-7.0.3\src\ca\client\ca.vcxproj">
-      <Project>{02caf068-a7fc-463e-aa7e-72eeaf665826}</Project>
+    <ProjectReference Include="..\..\..\..\base-7.0.3\modules\ca\src\client\ca.vcxproj">
+      <Project>{361bcebd-8b02-4b15-b28b-863f0602cb99}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\base-7.0.3\src\ioc\dbCore.vcxproj">
-      <Project>{440c585d-ad66-4738-941c-a87a1817a9be}</Project>
+    <ProjectReference Include="..\..\..\..\base-7.0.3\modules\database\src\ioc\dbCore.vcxproj">
+      <Project>{422a8c73-836c-48cb-86c8-0591e69c0ca1}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\base-7.0.3\src\libCom\Com.vcxproj">
-      <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
+    <ProjectReference Include="..\..\..\..\base-7.0.3\modules\libcom\src\Com.vcxproj">
+      <Project>{e9d99fc7-e592-472b-b2e2-c3b0d81d8169}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\src\pv\pv.vcxproj">
       <Project>{a463e1aa-5c19-4964-8851-c4070a07aeb7}</Project>
@@ -103,43 +103,52 @@ $(OutDir)\snc.exe   +m -i  O.Common\%(FileName).i -o O.Common\%(FileName).c
     <SccLocalPath>Svn</SccLocalPath>
     <SccProvider>SubversionScc</SccProvider>
     <SccAuxPath>Svn</SccAuxPath>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -201,7 +210,7 @@ $(OutDir)\snc.exe   +m -i  O.Common\%(FileName).i -o O.Common\%(FileName).c
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.</AdditionalIncludeDirectories>
-      <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
+      <ProgramDataBaseFileName>$(IntDir)$(ProjectName)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -220,7 +229,7 @@ $(OutDir)\snc.exe   +m -i  O.Common\%(FileName).i -o O.Common\%(FileName).c
       <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
+      <ProgramDataBaseFileName>$(IntDir)$(ProjectName)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -238,7 +247,7 @@ $(OutDir)\snc.exe   +m -i  O.Common\%(FileName).i -o O.Common\%(FileName).c
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.</AdditionalIncludeDirectories>
-      <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
+      <ProgramDataBaseFileName>$(IntDir)$(ProjectName)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -257,7 +266,7 @@ $(OutDir)\snc.exe   +m -i  O.Common\%(FileName).i -o O.Common\%(FileName).c
       <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
+      <ProgramDataBaseFileName>$(IntDir)$(ProjectName)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -277,7 +286,7 @@ $(OutDir)\snc.exe   +m -i  O.Common\%(FileName).i -o O.Common\%(FileName).c
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.</AdditionalIncludeDirectories>
-      <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
+      <ProgramDataBaseFileName>$(IntDir)$(ProjectName)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -300,7 +309,7 @@ $(OutDir)\snc.exe   +m -i  O.Common\%(FileName).i -o O.Common\%(FileName).c
       <PreprocessorDefinitions>WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
+      <ProgramDataBaseFileName>$(IntDir)$(ProjectName)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -322,7 +331,7 @@ $(OutDir)\snc.exe   +m -i  O.Common\%(FileName).i -o O.Common\%(FileName).c
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.</AdditionalIncludeDirectories>
-      <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
+      <ProgramDataBaseFileName>$(IntDir)$(ProjectName)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -345,7 +354,7 @@ $(OutDir)\snc.exe   +m -i  O.Common\%(FileName).i -o O.Common\%(FileName).c
       <PreprocessorDefinitions>WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
+      <ProgramDataBaseFileName>$(IntDir)$(ProjectName)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

@@ -136,14 +136,13 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;$(SolutionDir)include\pv;server</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;$(SolutionDir)include\pv;server;client</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <DisableSpecificWarnings>4251;4275;4309;4290;4101;4244;4250;4996</DisableSpecificWarnings>
-      <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib;Netapi32.lib</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
@@ -167,10 +166,9 @@ xcopy /Y /Q /D /R utils\pv\*.h $(SolutionDir)include\pv &gt; NUL
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;$(SolutionDir)include\pv;server</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;$(SolutionDir)include\pv;server;client</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;EPICS_DLL_NO;WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <DisableSpecificWarnings>4251;4275;4309;4290;4101;4244;4250;4996</DisableSpecificWarnings>
-      <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -199,14 +197,13 @@ xcopy /Y /Q /D /R utils\pv\*.h $(SolutionDir)include\pv &gt; NUL
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;$(SolutionDir)include\pv;server</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;$(SolutionDir)include\pv;server;client</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <DisableSpecificWarnings>4251;4275;4309;4290;4101;4244;4250;4996;4267</DisableSpecificWarnings>
-      <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib;Netapi32.lib</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
@@ -230,10 +227,9 @@ xcopy /Y /Q /D /R utils\pv\*.h $(SolutionDir)include\pv &gt; NUL
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;$(SolutionDir)include\pv;server</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;$(SolutionDir)include\pv;server;client</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;EPICS_DLL_NO;WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <DisableSpecificWarnings>4251;4275;4309;4290;4101;4244;4250;4996;4267</DisableSpecificWarnings>
-      <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -264,15 +260,14 @@ xcopy /Y /Q /D /R utils\pv\*.h $(SolutionDir)include\pv &gt; NUL
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;$(SolutionDir)include\pv;server</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;$(SolutionDir)include\pv;server;client</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;NDEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <DisableSpecificWarnings>4251;4275;4309;4290;4101;4244;4250;4996</DisableSpecificWarnings>
-      <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib;Netapi32.lib</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
@@ -298,10 +293,9 @@ xcopy /Y /Q /D /R utils\pv\*.h $(SolutionDir)include\pv &gt; NUL
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;$(SolutionDir)include\pv;server</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;$(SolutionDir)include\pv;server;client</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;EPICS_DLL_NO;WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <DisableSpecificWarnings>4251;4275;4309;4290;4101;4244;4250;4996</DisableSpecificWarnings>
-      <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -333,15 +327,14 @@ xcopy /Y /Q /D /R utils\pv\*.h $(SolutionDir)include\pv &gt; NUL
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;$(SolutionDir)include\pv;server</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;$(SolutionDir)include\pv;server;client</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;NDEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <DisableSpecificWarnings>4251;4275;4309;4290;4101;4244;4250;4996;4267</DisableSpecificWarnings>
-      <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib;Netapi32.lib</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
@@ -367,10 +360,9 @@ xcopy /Y /Q /D /R utils\pv\*.h $(SolutionDir)include\pv &gt; NUL
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;$(SolutionDir)include\pv;server</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;$(SolutionDir)include\pv;server;client</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;EPICS_DLL_NO;WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <DisableSpecificWarnings>4251;4275;4309;4290;4101;4244;4250;4996;4267</DisableSpecificWarnings>
-      <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -399,6 +391,19 @@ xcopy /Y /Q /D /R utils\pv\*.h $(SolutionDir)include\pv &gt; NUL
   <ItemGroup>
     <ClCompile Include="ca\caChannel.cpp" />
     <ClCompile Include="ca\caProvider.cpp" />
+    <ClCompile Include="ca\channelConnectThread.cpp" />
+    <ClCompile Include="ca\dbdToPv.cpp" />
+    <ClCompile Include="ca\getDoneThread.cpp" />
+    <ClCompile Include="ca\monitorEventThread.cpp" />
+    <ClCompile Include="ca\putDoneThread.cpp" />
+    <ClCompile Include="client\client.cpp" />
+    <ClCompile Include="client\clientGet.cpp" />
+    <ClCompile Include="client\clientInfo.cpp" />
+    <ClCompile Include="client\clientMonitor.cpp" />
+    <ClCompile Include="client\clientPut.cpp" />
+    <ClCompile Include="client\clientRPC.cpp" />
+    <ClCompile Include="client\clientSync.cpp" />
+    <ClCompile Include="client\monitor.cpp" />
     <ClCompile Include="client\pvAccess.cpp" />
     <ClCompile Include="factory\ChannelAccessFactory.cpp" />
     <ClCompile Include="ioc\PVAClientRegister.cpp" />
@@ -414,6 +419,7 @@ xcopy /Y /Q /D /R utils\pv\*.h $(SolutionDir)include\pv &gt; NUL
     <ClCompile Include="remote\blockingTCPConnector.cpp" />
     <ClCompile Include="remote\blockingUDPConnector.cpp" />
     <ClCompile Include="remote\blockingUDPTransport.cpp" />
+    <ClCompile Include="remote\channelSearchManager.cpp" />
     <ClCompile Include="remote\codec.cpp" />
     <ClCompile Include="remote\security.cpp" />
     <ClCompile Include="remote\serializationHelper.cpp" />
@@ -433,17 +439,25 @@ xcopy /Y /Q /D /R utils\pv\*.h $(SolutionDir)include\pv &gt; NUL
     <ClCompile Include="server\sharedstate_pv.cpp" />
     <ClCompile Include="server\sharedstate_rpc.cpp" />
     <ClCompile Include="utils\configuration.cpp" />
+    <ClCompile Include="utils\getgroups.cpp" />
     <ClCompile Include="utils\hexDump.cpp" />
     <ClCompile Include="utils\inetAddressUtil.cpp" />
     <ClCompile Include="utils\introspectionRegistry.cpp" />
     <ClCompile Include="utils\logger.cpp" />
     <ClCompile Include="utils\referenceCountingLock.cpp" />
+    <ClCompile Include="utils\requester.cpp" />
     <ClCompile Include="utils\wildcard.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ca\pv\caChannel.h" />
+    <ClInclude Include="ca\caChannel.h" />
+    <ClInclude Include="ca\caProviderPvt.h" />
+    <ClInclude Include="ca\channelConnectThread.h" />
+    <ClInclude Include="ca\dbdToPv.h" />
+    <ClInclude Include="ca\getDoneThread.h" />
+    <ClInclude Include="ca\monitorEventThread.h" />
+    <ClInclude Include="ca\putDoneThread.h" />
     <ClInclude Include="ca\pv\caProvider.h" />
-    <ClInclude Include="ca\pv\caStatus.h" />
+    <ClInclude Include="client\clientpvt.h" />
     <ClInclude Include="client\pv\pvAccess.h" />
     <ClInclude Include="ioc\pv\syncChannelFind.h" />
     <ClInclude Include="mb\pv\pvAccessMB.h" />
@@ -485,6 +499,9 @@ xcopy /Y /Q /D /R utils\pv\*.h $(SolutionDir)include\pv &gt; NUL
     <ClInclude Include="utils\pv\wildcard.h" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\ca\src\client\ca.vcxproj">
+      <Project>{361bcebd-8b02-4b15-b28b-863f0602cb99}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\libcom\src\Com.vcxproj">
       <Project>{e9d99fc7-e592-472b-b2e2-c3b0d81d8169}</Project>
     </ProjectReference>
@@ -528,14 +545,14 @@ perl -CSD $(OutDir)expandVars.pl -DEPICS_PVA_MAJOR_VERSION="4" -DEPICS_PVA_MINOR
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
 perl -CSD $(OutDir)expandVars.pl -DEPICS_PVA_MAJOR_VERSION="4" -DEPICS_PVA_MINOR_VERSION="2" -DEPICS_PVA_MAINTENANCE_VERSION="0" -DEPICS_PVA_DEVELOPMENT_FLAG="1" -t ../.. -a $(OutDir)  pva\%(FileName).h@  $(SolutionDir)include\pv\pvaVersionNum.h
 </Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">($SolutionDir)include\pv\pvaVersionNum.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">($SolutionDir)include\pv\pvaVersionNum.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">($SolutionDir)include\pv\pvaVersionNum.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">($SolutionDir)include\pv\pvaVersionNum.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">($SolutionDir)include\pv\pvaVersionNum.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">($SolutionDir)include\pv\pvaVersionNum.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">($SolutionDir)include\pv\pvaVersionNum.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">($SolutionDir)include\pv\pvaVersionNum.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">$(SolutionDir)include\pv\pvaVersionNum.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">$(SolutionDir)include\pv\pvaVersionNum.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">$(SolutionDir)include\pv\pvaVersionNum.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">$(SolutionDir)include\pv\pvaVersionNum.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">$(SolutionDir)include\pv\pvaVersionNum.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">$(SolutionDir)include\pv\pvaVersionNum.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">$(SolutionDir)include\pv\pvaVersionNum.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">$(SolutionDir)include\pv\pvaVersionNum.h</Outputs>
     </CustomBuild>
     <None Include="remoteClient\Makefile" />
     <None Include="remote\Makefile" />

@@ -38,20 +38,20 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\base-3.15.5\src\ca\client\ca.vcxproj">
-      <Project>{02caf068-a7fc-463e-aa7e-72eeaf665826}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\base-3.15.5\src\ioc\dbCore.vcxproj">
-      <Project>{440c585d-ad66-4738-941c-a87a1817a9be}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\base-3.15.5\src\std\dbRecStd.vcxproj">
-      <Project>{3b0e3542-cb89-4ffa-b004-eac882b3f277}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\base-3.15.5\src\tools\tools.vcxproj">
       <Project>{5cce1c6a-2bd5-48bf-99e2-d29b58f91991}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\base-3.15.5\src\libCom\Com.vcxproj">
-      <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
+    <ProjectReference Include="..\..\base-7.0.3\modules\ca\src\client\ca.vcxproj">
+      <Project>{361bcebd-8b02-4b15-b28b-863f0602cb99}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\base-7.0.3\modules\database\src\ioc\dbCore.vcxproj">
+      <Project>{422a8c73-836c-48cb-86c8-0591e69c0ca1}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\base-7.0.3\modules\database\src\std\dbRecStd.vcxproj">
+      <Project>{9cf8d9ab-e47d-4923-a251-80e40b4e7144}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\base-7.0.3\modules\libcom\src\Com.vcxproj">
+      <Project>{e9d99fc7-e592-472b-b2e2-c3b0d81d8169}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\support\asyn4-33\asyn\asyn.vcxproj">
       <Project>{c3ea0ff7-6039-4884-ba91-7b4619befea5}</Project>
@@ -81,43 +81,52 @@
     <SccLocalPath>Svn</SccLocalPath>
     <SccProvider>SubversionScc</SccProvider>
     <SccAuxPath>Svn</SccAuxPath>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">

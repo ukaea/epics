@@ -338,12 +338,22 @@ xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="copy\Makefile" />
     <None Include="database\Makefile" />
     <None Include="pvAccess\Makefile" />
     <None Include="pvAccess\registerChannelProviderLocal.dbd" />
     <None Include="special\Makefile" />
+    <None Include="special\processRecordRegister.dbd" />
+    <None Include="special\removeRecordRegister.dbd" />
+    <None Include="special\traceRecordRegister.dbd" />
+    <None Include="support\Makefile" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="copy\pvArrayPlugin.cpp" />
+    <ClCompile Include="copy\pvCopy.cpp" />
+    <ClCompile Include="copy\pvDeadbandPlugin.cpp" />
+    <ClCompile Include="copy\pvPlugin.cpp" />
+    <ClCompile Include="copy\pvTimestampPlugin.cpp" />
     <ClCompile Include="database\pvDatabase.cpp" />
     <ClCompile Include="database\pvRecord.cpp" />
     <ClCompile Include="pvAccess\channelLocal.cpp" />
@@ -360,15 +370,31 @@ xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="pvAccess\registerChannelProviderLocal.cpp" />
+    <ClCompile Include="special\processRecord.cpp" />
+    <ClCompile Include="special\processRecordRegister.cpp" />
     <ClCompile Include="special\removeRecord.cpp" />
+    <ClCompile Include="special\removeRecordRegister.cpp" />
     <ClCompile Include="special\traceRecord.cpp" />
+    <ClCompile Include="special\traceRecordRegister.cpp" />
+    <ClCompile Include="support\controlSupport.cpp" />
+    <ClCompile Include="support\scalarAlarmSupport.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="database\pvDatabase.h" />
     <ClInclude Include="pvAccess\channelProviderLocal.h" />
     <ClInclude Include="pvAccess\pvCopyMonitor.h" />
     <ClInclude Include="pv\channelProviderLocal.h" />
+    <ClInclude Include="pv\controlSupport.h" />
+    <ClInclude Include="pv\processRecord.h" />
+    <ClInclude Include="pv\pvArrayPlugin.h" />
     <ClInclude Include="pv\pvDatabase.h" />
+    <ClInclude Include="pv\pvDeadbandPlugin.h" />
+    <ClInclude Include="pv\pvPlugin.h" />
+    <ClInclude Include="pv\pvStructureCopy.h" />
+    <ClInclude Include="pv\pvSupport.h" />
+    <ClInclude Include="pv\pvTimestampPlugin.h" />
+    <ClInclude Include="pv\removeRecord.h" />
+    <ClInclude Include="pv\scalarAlarmSupport.h" />
     <ClInclude Include="pv\traceRecord.h" />
     <ClInclude Include="special\recordList.h" />
     <ClInclude Include="special\traceRecord.h" />

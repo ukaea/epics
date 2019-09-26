@@ -1368,11 +1368,9 @@ cd $(ProjectDir)
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>
+      <Command>SET PERL5LIB= $(SolutionDir)lib\perl
 perl -CSD $(OutDir)makeIncludeDbd.pl menuAlarmSevr.dbd menuAlarmStat.dbd menuFtype.dbd menuIvoa.dbd menuOmsl.dbd menuPini.dbd menuPost.dbd menuPriority.dbd menuYesNo.dbd menuSimm.dbd O.Common\menuGlobal.dbd
-xcopy /Y /Q /D /R  db\O.Common\*.h  $(SolutionDir)include &gt; NUL
 
-SET PERL5LIB= $(SolutionDir)lib\perl
 xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)DBD &gt; NUL
 </Command>
@@ -1421,11 +1419,9 @@ cd $(ProjectDir)
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>
+      <Command>SET PERL5LIB= $(SolutionDir)lib\perl
 perl -CSD $(OutDir)makeIncludeDbd.pl menuAlarmSevr.dbd menuAlarmStat.dbd menuFtype.dbd menuIvoa.dbd menuOmsl.dbd menuPini.dbd menuPost.dbd menuPriority.dbd menuYesNo.dbd menuSimm.dbd O.Common\menuGlobal.dbd
-xcopy /Y /Q /D /R  db\O.Common\*.h  $(SolutionDir)include &gt; NUL
 
-SET PERL5LIB= $(SolutionDir)lib\perl
 xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)DBD &gt; NUL
 </Command>
@@ -1471,11 +1467,9 @@ cd $(ProjectDir)
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>
+      <Command>SET PERL5LIB= $(SolutionDir)lib\perl
 perl -CSD $(OutDir)makeIncludeDbd.pl menuAlarmSevr.dbd menuAlarmStat.dbd menuFtype.dbd menuIvoa.dbd menuOmsl.dbd menuPini.dbd menuPost.dbd menuPriority.dbd menuYesNo.dbd menuSimm.dbd O.Common\menuGlobal.dbd
-xcopy /Y /Q /D /R  db\O.Common\*.h  $(SolutionDir)include &gt; NUL
 
-SET PERL5LIB= $(SolutionDir)lib\perl
 xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)DBD &gt; NUL
 </Command>
@@ -1524,11 +1518,9 @@ cd $(ProjectDir)
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>
+      <Command>SET PERL5LIB= $(SolutionDir)lib\perl
 perl -CSD $(OutDir)makeIncludeDbd.pl menuAlarmSevr.dbd menuAlarmStat.dbd menuFtype.dbd menuIvoa.dbd menuOmsl.dbd menuPini.dbd menuPost.dbd menuPriority.dbd menuYesNo.dbd menuSimm.dbd O.Common\menuGlobal.dbd
-xcopy /Y /Q /D /R  db\O.Common\*.h  $(SolutionDir)include &gt; NUL
 
-SET PERL5LIB= $(SolutionDir)lib\perl
 xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)DBD &gt; NUL
 </Command>
@@ -1576,11 +1568,9 @@ cd $(ProjectDir)
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>
+      <Command>SET PERL5LIB= $(SolutionDir)lib\perl
 perl -CSD $(OutDir)makeIncludeDbd.pl menuAlarmSevr.dbd menuAlarmStat.dbd menuFtype.dbd menuIvoa.dbd menuOmsl.dbd menuPini.dbd menuPost.dbd menuPriority.dbd menuYesNo.dbd menuSimm.dbd O.Common\menuGlobal.dbd
-xcopy /Y /Q /D /R  db\O.Common\*.h  $(SolutionDir)include &gt; NUL
 
-SET PERL5LIB= $(SolutionDir)lib\perl
 xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)DBD &gt; NUL
 </Command>
@@ -1631,11 +1621,9 @@ cd $(ProjectDir)
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>
+      <Command>SET PERL5LIB= $(SolutionDir)lib\perl
 perl -CSD $(OutDir)makeIncludeDbd.pl menuAlarmSevr.dbd menuAlarmStat.dbd menuFtype.dbd menuIvoa.dbd menuOmsl.dbd menuPini.dbd menuPost.dbd menuPriority.dbd menuYesNo.dbd menuSimm.dbd O.Common\menuGlobal.dbd
-xcopy /Y /Q /D /R  db\O.Common\*.h  $(SolutionDir)include &gt; NUL
 
-SET PERL5LIB= $(SolutionDir)lib\perl
 xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)DBD &gt; NUL
 </Command>
@@ -1683,11 +1671,9 @@ cd $(ProjectDir)
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>
+      <Command>SET PERL5LIB= $(SolutionDir)lib\perl
 perl -CSD $(OutDir)makeIncludeDbd.pl menuAlarmSevr.dbd menuAlarmStat.dbd menuFtype.dbd menuIvoa.dbd menuOmsl.dbd menuPini.dbd menuPost.dbd menuPriority.dbd menuYesNo.dbd menuSimm.dbd O.Common\menuGlobal.dbd
-xcopy /Y /Q /D /R  db\O.Common\*.h  $(SolutionDir)include &gt; NUL
 
-SET PERL5LIB= $(SolutionDir)lib\perl
 xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)DBD &gt; NUL
 </Command>
@@ -1738,11 +1724,9 @@ cd $(ProjectDir)
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>
+      <Command>SET PERL5LIB= $(SolutionDir)lib\perl
 perl -CSD $(OutDir)makeIncludeDbd.pl menuAlarmSevr.dbd menuAlarmStat.dbd menuFtype.dbd menuIvoa.dbd menuOmsl.dbd menuPini.dbd menuPost.dbd menuPriority.dbd menuYesNo.dbd menuSimm.dbd O.Common\menuGlobal.dbd
-xcopy /Y /Q /D /R  db\O.Common\*.h  $(SolutionDir)include &gt; NUL
 
-SET PERL5LIB= $(SolutionDir)lib\perl
 xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)DBD &gt; NUL
 </Command>

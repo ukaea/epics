@@ -204,6 +204,54 @@
     <ClCompile Include="server\sharedstate_rpc.cpp">
       <Filter>server</Filter>
     </ClCompile>
+    <ClCompile Include="ca\channelConnectThread.cpp">
+      <Filter>ca</Filter>
+    </ClCompile>
+    <ClCompile Include="ca\dbdToPv.cpp">
+      <Filter>ca</Filter>
+    </ClCompile>
+    <ClCompile Include="ca\getDoneThread.cpp">
+      <Filter>ca</Filter>
+    </ClCompile>
+    <ClCompile Include="ca\monitorEventThread.cpp">
+      <Filter>ca</Filter>
+    </ClCompile>
+    <ClCompile Include="ca\putDoneThread.cpp">
+      <Filter>ca</Filter>
+    </ClCompile>
+    <ClCompile Include="remote\channelSearchManager.cpp">
+      <Filter>remote</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\getgroups.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\requester.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="client\client.cpp">
+      <Filter>client</Filter>
+    </ClCompile>
+    <ClCompile Include="client\clientGet.cpp">
+      <Filter>client</Filter>
+    </ClCompile>
+    <ClCompile Include="client\clientInfo.cpp">
+      <Filter>client</Filter>
+    </ClCompile>
+    <ClCompile Include="client\clientMonitor.cpp">
+      <Filter>client</Filter>
+    </ClCompile>
+    <ClCompile Include="client\clientPut.cpp">
+      <Filter>client</Filter>
+    </ClCompile>
+    <ClCompile Include="client\clientRPC.cpp">
+      <Filter>client</Filter>
+    </ClCompile>
+    <ClCompile Include="client\clientSync.cpp">
+      <Filter>client</Filter>
+    </ClCompile>
+    <ClCompile Include="client\monitor.cpp">
+      <Filter>client</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="client\pv\pvAccess.h">
@@ -320,17 +368,35 @@
     <ClInclude Include="rpcService\pv\rpcService.h">
       <Filter>rpcService\pv</Filter>
     </ClInclude>
-    <ClInclude Include="ca\pv\caChannel.h">
-      <Filter>ca\pv</Filter>
-    </ClInclude>
     <ClInclude Include="ca\pv\caProvider.h">
-      <Filter>ca\pv</Filter>
-    </ClInclude>
-    <ClInclude Include="ca\pv\caStatus.h">
       <Filter>ca\pv</Filter>
     </ClInclude>
     <ClInclude Include="server\sharedstateimpl.h">
       <Filter>server</Filter>
+    </ClInclude>
+    <ClInclude Include="ca\caChannel.h">
+      <Filter>ca</Filter>
+    </ClInclude>
+    <ClInclude Include="ca\caProviderPvt.h">
+      <Filter>ca</Filter>
+    </ClInclude>
+    <ClInclude Include="ca\channelConnectThread.h">
+      <Filter>ca</Filter>
+    </ClInclude>
+    <ClInclude Include="ca\dbdToPv.h">
+      <Filter>ca</Filter>
+    </ClInclude>
+    <ClInclude Include="ca\getDoneThread.h">
+      <Filter>ca</Filter>
+    </ClInclude>
+    <ClInclude Include="ca\monitorEventThread.h">
+      <Filter>ca</Filter>
+    </ClInclude>
+    <ClInclude Include="ca\putDoneThread.h">
+      <Filter>ca</Filter>
+    </ClInclude>
+    <ClInclude Include="client\clientpvt.h">
+      <Filter>client</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

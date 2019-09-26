@@ -172,6 +172,9 @@ cd $(ProjectDir)
     <ProjectReference Include="..\..\..\..\..\src\tools\tools.vcxproj">
       <Project>{5cce1c6a-2bd5-48bf-99e2-d29b58f91991}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\libcom\src\Com.vcxproj">
+      <Project>{e9d99fc7-e592-472b-b2e2-c3b0d81d8169}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{A17BA797-3CA6-47F9-B47E-673118EABA1A}</ProjectGuid>

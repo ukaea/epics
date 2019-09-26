@@ -135,10 +135,9 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;$(SolutionDir)include\pv</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;$(SolutionDir)include\pv;json;O.Common</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
       <DisableSpecificWarnings>4251;4275;4309;4800;4244;4355;4267;4250</DisableSpecificWarnings>
-      <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -150,21 +149,24 @@ if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
 xcopy /Y /Q /D /R copy\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R factory\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R misc\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R monitor\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R property\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R pvMisc\pv\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
+    <PostBuildEvent />
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q /D /R O.Common\pv\*.h $(SolutionDir)include\pv &gt; NUL
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;$(SolutionDir)include\pv</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;$(SolutionDir)include\pv;json;O.Common</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;EPICS_DLL_NO;WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
       <DisableSpecificWarnings>4251;4275;4309;4800;4244;4355;4267;4250</DisableSpecificWarnings>
-      <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -177,21 +179,23 @@ if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
 xcopy /Y /Q /D /R copy\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R factory\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R misc\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R monitor\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R property\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R pvMisc\pv\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q /D /R O.Common\pv\*.h $(SolutionDir)include\pv &gt; NUL
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;$(SolutionDir)include\pv</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;$(SolutionDir)include\pv;json;O.Common</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
       <DisableSpecificWarnings>4251;4275;4309;4800;4244;4355;4267;4250</DisableSpecificWarnings>
-      <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -203,21 +207,24 @@ if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
 xcopy /Y /Q /D /R copy\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R factory\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R misc\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R monitor\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R property\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R pvMisc\pv\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
+    <PostBuildEvent />
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q /D /R O.Common\pv\*.h $(SolutionDir)include\pv &gt; NUL
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;$(SolutionDir)include\pv</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;$(SolutionDir)include\pv;json;O.Common</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;EPICS_DLL_NO;WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
       <DisableSpecificWarnings>4251;4275;4309;4800;4244;4355;4267;4250</DisableSpecificWarnings>
-      <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -230,12 +237,15 @@ if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
 xcopy /Y /Q /D /R copy\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R factory\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R misc\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R monitor\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R property\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R pvMisc\pv\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q /D /R O.Common\pv\*.h $(SolutionDir)include\pv &gt; NUL
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
     <ClCompile>
@@ -243,10 +253,9 @@ xcopy /Y /Q /D /R pvMisc\pv\*.h $(SolutionDir)include\pv &gt; NUL
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;$(SolutionDir)include\pv</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;$(SolutionDir)include\pv;json;O.Common</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;WIN32;NDEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
       <DisableSpecificWarnings>4251;4275;4309;4800;4244;4355;4267;4250</DisableSpecificWarnings>
-      <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -260,12 +269,15 @@ if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
 xcopy /Y /Q /D /R copy\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R factory\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R misc\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R monitor\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R property\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R pvMisc\pv\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q /D /R O.Common\pv\*.h $(SolutionDir)include\pv &gt; NUL
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
     <ClCompile>
@@ -273,10 +285,9 @@ xcopy /Y /Q /D /R pvMisc\pv\*.h $(SolutionDir)include\pv &gt; NUL
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;$(SolutionDir)include\pv</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;$(SolutionDir)include\pv;json;O.Common</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;EPICS_DLL_NO;WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
       <DisableSpecificWarnings>4251;4275;4309;4800;4244;4355;4267;4250</DisableSpecificWarnings>
-      <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -291,12 +302,15 @@ if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
 xcopy /Y /Q /D /R copy\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R factory\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R misc\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R monitor\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R property\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R pvMisc\pv\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q /D /R O.Common\pv\*.h $(SolutionDir)include\pv &gt; NUL
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
     <ClCompile>
@@ -304,10 +318,9 @@ xcopy /Y /Q /D /R pvMisc\pv\*.h $(SolutionDir)include\pv &gt; NUL
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;$(SolutionDir)include\pv</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;$(SolutionDir)include\pv;json;O.Common</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;WIN32;NDEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
       <DisableSpecificWarnings>4251;4275;4309;4800;4244;4355;4267;4250</DisableSpecificWarnings>
-      <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -321,12 +334,15 @@ if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
 xcopy /Y /Q /D /R copy\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R factory\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R misc\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R monitor\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R property\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R pvMisc\pv\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q /D /R O.Common\pv\*.h $(SolutionDir)include\pv &gt; NUL
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">
     <ClCompile>
@@ -334,10 +350,9 @@ xcopy /Y /Q /D /R pvMisc\pv\*.h $(SolutionDir)include\pv &gt; NUL
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;$(SolutionDir)include\pv</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;$(SolutionDir)include\pv;json;O.Common</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;EPICS_DLL_NO;WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
       <DisableSpecificWarnings>4251;4275;4309;4800;4244;4355;4267;4250</DisableSpecificWarnings>
-      <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -352,12 +367,15 @@ if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
 xcopy /Y /Q /D /R copy\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R factory\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R misc\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R monitor\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R property\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R pvMisc\pv\*.h $(SolutionDir)include\pv &gt; NUL
 </Command>
     </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q /D /R O.Common\pv\*.h $(SolutionDir)include\pv &gt; NUL
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="copy\createRequest.cpp" />
