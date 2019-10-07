@@ -474,9 +474,6 @@
     <CustomBuild Include="db\menuPriority.dbd">
       <Filter>db</Filter>
     </CustomBuild>
-    <CustomBuild Include="db\menuScan.dbd">
-      <Filter>db</Filter>
-    </CustomBuild>
     <CustomBuild Include="db\menuSimm.dbd.pod">
       <Filter>db</Filter>
     </CustomBuild>
@@ -517,6 +514,30 @@
     </None>
     <None Include="rsrv\rsrv.dbd">
       <Filter>rsrv</Filter>
+    </None>
+    <None Include="O.Common\bptTypeJdegC.dbd">
+      <Filter>O.Common</Filter>
+    </None>
+    <None Include="O.Common\bptTypeJdegF.dbd">
+      <Filter>O.Common</Filter>
+    </None>
+    <None Include="O.Common\bptTypeKdegC.dbd">
+      <Filter>O.Common</Filter>
+    </None>
+    <None Include="O.Common\bptTypeKdegF.dbd">
+      <Filter>O.Common</Filter>
+    </None>
+    <None Include="O.Common\menuAlarmSevr.dbd">
+      <Filter>O.Common</Filter>
+    </None>
+    <None Include="O.Common\menuConvert.dbd">
+      <Filter>O.Common</Filter>
+    </None>
+    <None Include="O.Common\menuGlobal.dbd">
+      <Filter>O.Common</Filter>
+    </None>
+    <None Include="O.Common\menuScan.dbd">
+      <Filter>O.Common</Filter>
     </None>
   </ItemGroup>
 </Project>

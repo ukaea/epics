@@ -28,3 +28,6 @@
 	path = support/nds3_epics
 	url = https://git.ccfe.ac.uk/DATAnet/nds3_epics
 	ignore = untracked
+[submodule "epics-tessella-training"]
+	path = epics-tessella-training
+	url = https://git.ccfe.ac.uk/codac_ic/epics-tessella-training

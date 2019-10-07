@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <None Include="Db\Makefile">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="src\Makefile">
+      <Filter>Src</Filter>
+    </None>
+    <None Include="Db\simDetector.template">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="Db\simDetector_settings.req">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="O.Common\simDetectorApp.dbd">
+      <Filter>O.Common</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Src">
+      <UniqueIdentifier>{7845b4a7-f46f-4e61-8292-34ac159a8f1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Db">
+      <UniqueIdentifier>{b433b273-5394-436c-a82f-99da5d0ebc12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="O.Common">
+      <UniqueIdentifier>{b82105b5-fba2-4aa3-8cf9-dec54b196d67}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\simDetector.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\simDetector.h">
+      <Filter>Src</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="src\simDetectorSupport.dbd" />
+  </ItemGroup>
+</Project>
