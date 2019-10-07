@@ -1,5 +1,0 @@
-<Attributes>
-    <Attribute name="CameraManufacturer"  type="PARAM"    source="MANUFACTURER" datatype="STRING"     description="Camera manufacturer"/>
-</Attributes>
-    
-    
