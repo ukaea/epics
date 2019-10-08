@@ -495,12 +495,21 @@
     <CustomBuild Include="db\menuPost.dbd">
       <Filter>db</Filter>
     </CustomBuild>
+    <CustomBuild Include="db\menuScan.dbd.pod">
+      <Filter>db</Filter>
+    </CustomBuild>
+    <CustomBuild Include="O.Common\menuAlarmSevr.dbd">
+      <Filter>O.Common</Filter>
+    </CustomBuild>
+    <CustomBuild Include="O.Common\menuConvert.dbd">
+      <Filter>O.Common</Filter>
+    </CustomBuild>
+    <CustomBuild Include="O.Common\menuScan.dbd">
+      <Filter>O.Common</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <None Include="db\Makefile">
-      <Filter>db</Filter>
-    </None>
-    <None Include="db\menuScan.dbd.pod">
       <Filter>db</Filter>
     </None>
     <None Include="db\RULES">
@@ -525,18 +534,6 @@
       <Filter>O.Common</Filter>
     </None>
     <None Include="O.Common\bptTypeKdegF.dbd">
-      <Filter>O.Common</Filter>
-    </None>
-    <None Include="O.Common\menuAlarmSevr.dbd">
-      <Filter>O.Common</Filter>
-    </None>
-    <None Include="O.Common\menuConvert.dbd">
-      <Filter>O.Common</Filter>
-    </None>
-    <None Include="O.Common\menuGlobal.dbd">
-      <Filter>O.Common</Filter>
-    </None>
-    <None Include="O.Common\menuScan.dbd">
       <Filter>O.Common</Filter>
     </None>
   </ItemGroup>
