@@ -10,9 +10,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{EB5AAB71-887
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Com", "..\..\base-7.0.3\modules\libcom\src\Com.vcxproj", "{E9D99FC7-E592-472B-B2E2-C3B0D81D8169}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "asyn4-33", "asyn4-33", "{F526B712-6357-4ABF-9E19-D4AC8E0ABBA8}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "asyn-R4-36", "asyn-R4-36", "{F526B712-6357-4ABF-9E19-D4AC8E0ABBA8}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "asyn", "..\..\support\asyn4-33\asyn\asyn.vcxproj", "{C3EA0FF7-6039-4884-BA91-7B4619BEFEA5}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "asyn", "..\..\support\asyn-R4-36\asyn\asyn.vcxproj", "{C3EA0FF7-6039-4884-BA91-7B4619BEFEA5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "flex", "flex", "{934DD2BA-B990-40CE-ACB9-812F5C16D832}"
 EndProject

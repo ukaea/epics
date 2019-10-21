@@ -6,7 +6,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "motor", "motorApp\MotorSrc\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PI_GCS2Support", "motorApp\PIGCS2Src\PI_GCS2Support.vcxproj", "{A3EA0C11-220D-4677-B943-904447F032FF}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "asyn", "..\support\asyn4-33\asyn\asyn.vcxproj", "{C3EA0FF7-6039-4884-BA91-7B4619BEFEA5}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "asyn", "..\support\asyn-R4-36\asyn\asyn.vcxproj", "{C3EA0FF7-6039-4884-BA91-7B4619BEFEA5}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Com", "..\base-7.0.3\modules\libCom\src\Com.vcxproj", "{35E6ABA4-E192-497D-BA02-EFB79D1E0336}"
 EndProject
@@ -52,7 +52,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Acs", "motorApp\AcsSrc\Acs.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "acsTech80", "motorApp\AcsTech80Src\acsTech80.vcxproj", "{51D70DC6-9654-4422-B360-F19A35927EDC}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "asyn4-33", "asyn4-33", "{40775D1C-E530-4FAE-A3E9-2121DAAE083D}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "asyn-R4-36", "asyn-R4-36", "{40775D1C-E530-4FAE-A3E9-2121DAAE083D}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Attocube", "motorApp\AttocubeSrc\Attocube.vcxproj", "{8C4D9717-EFF2-457B-BFC4-294A9BDB537A}"
 EndProject

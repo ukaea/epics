@@ -349,7 +349,7 @@ xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
     <ProjectReference Include="..\..\..\base-7.0.3\modules\libcom\src\flex\e_flex.vcxproj">
       <Project>{280222d8-1c6b-430d-8f32-c8a47397525b}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\support\asyn4-33\asyn\asyn.vcxproj">
+    <ProjectReference Include="..\..\..\support\asyn-R4-36\asyn\asyn.vcxproj">
       <Project>{c3ea0ff7-6039-4884-ba91-7b4619befea5}</Project>
     </ProjectReference>
     <ProjectReference Include="..\MotorSrc\motor.vcxproj">
