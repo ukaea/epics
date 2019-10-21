@@ -760,7 +760,7 @@ static void connectAttempt(dpCommon *pdpCommon)
         epicsMutexUnlock(pport->synchronousLock);
         if (status != asynSuccess) {
             reportConnectStatus(pport, portConnectDriver,
-                "%s %d autoConnect could not connect\n", pport->portName, addr);
+                "%s %d autoConnect could not connect: %s\n", pport->portName, addr, pasynUser->errorMessage);
         } else {
             reportConnectStatus(pport, portConnectSuccess,
                 "%s %d port is now connected\n",
@@ -1573,7 +1573,7 @@ static asynStatus queueRequest(asynUser *pasynUser,
     } else {
         puserPvt->timeout = timeout;
         asynPrint(pasynUser,ASYN_TRACE_FLOW,
-            "%s schedule queueRequest timeout\n",puserPvt->pport->portName);
+            "%s schedule queueRequest timeout in %f seconds\n",puserPvt->pport->portName,puserPvt->timeout);
         epicsTimerStartDelay(puserPvt->timer,puserPvt->timeout);
     }
     epicsMutexUnlock(pport->asynManagerLock);

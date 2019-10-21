@@ -653,6 +653,8 @@ xcopy /Y /Q /D /R .\devEpics\*.dbd   $(SolutionDir)dbd &gt; NUL
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="miscellaneous\asynInterposeCom.c" />
+    <ClCompile Include="miscellaneous\asynInterposeDelay.c" />
+    <ClCompile Include="miscellaneous\asynInterposeEcho.c" />
     <ClCompile Include="miscellaneous\asynInterposeEos.c" />
     <ClCompile Include="miscellaneous\asynInterposeFlush.c" />
     <ClCompile Include="miscellaneous\asynShellCommands.c" />

@@ -91,7 +91,7 @@ typedef struct devPvt {
     size_t              bufSize;
     size_t              bufLen;
     /* Following are for ring buffer support */
-    epicsMutexId        ringBufferLock;
+    epicsMutexId        devPvtLock;
     ringBufferElement   *ringBuffer;
     int                 ringHead;
     int                 ringTail;
@@ -108,6 +108,7 @@ typedef struct devPvt {
     CALLBACK            outputCallback;
     int                 newOutputCallbackValue;
     int                 numDeferredOutputCallbacks;
+    int                 asyncProcessingActive;
     IOSCANPVT           ioScanPvt;
     void                *registrarPvt;
     int                 gotValue;
@@ -117,7 +118,7 @@ typedef struct devPvt {
 
 static long initCommon(dbCommon *precord, DBLINK *plink, userCallback callback, 
                 int isOutput, int isWaveform, int useDrvUser, char *pValue, size_t valSize);
-static long createRingBuffer(dbCommon *pr);
+static long createRingBuffer(dbCommon *pr, int minRingSize);
 static long getIoIntInfo(int cmd, dbCommon *pr, IOSCANPVT *iopvt);
 static void outputCallbackCallback(CALLBACK *pcb);
 static void interruptCallback(void *drvPvt, asynUser *pasynUser,
@@ -243,7 +244,7 @@ static long initCommon(dbCommon *precord, DBLINK *plink, userCallback callback,
     if(pdset->get_ioint_info) {
         scanIoInit(&pPvt->ioScanPvt);
     }
-    pPvt->ringBufferLock = epicsMutexCreate();                                                     \
+    pPvt->devPvtLock = epicsMutexCreate();                                                     \
     /* If the drvUser interface should be used initialize it */
     if (useDrvUser) {
         if (initDrvUser(pPvt)) goto bad;
@@ -286,7 +287,9 @@ static long initCommon(dbCommon *precord, DBLINK *plink, userCallback callback,
         readbackString = dbGetInfo(pdbentry, "asyn:READBACK");
         if (readbackString) enableReadbacks = atoi(readbackString);
         if (enableReadbacks) {
-            status = createRingBuffer(precord);
+            /* If enableReabacks is set we will get a deadlock if not using ring buffer.
+               Force ring buffer size to be at least 1. asyn:FIFO can be used to make it larger. */
+            status = createRingBuffer(precord, 1);
             if (status != asynSuccess) goto bad;
             status = pPvt->poctet->registerInterruptUser(
                pPvt->octetPvt, pPvt->pasynUser,
@@ -336,7 +339,7 @@ bad:
 }
 
 
-static long createRingBuffer(dbCommon *pr)
+static long createRingBuffer(dbCommon *pr, int minRingSize)
 {
     devPvt *pPvt = (devPvt *)pr->dpvt;
     asynStatus status;
@@ -353,7 +356,7 @@ static long createRingBuffer(dbCommon *pr)
                 pr->name, driverName, functionName);
             return -1;
         }
-        pPvt->ringSize = DEFAULT_RING_BUFFER_SIZE;
+        pPvt->ringSize = minRingSize;
         sizeString = dbGetInfo(pdbentry, "asyn:FIFO");
         if (sizeString) pPvt->ringSize = atoi(sizeString);
         if (pPvt->ringSize > 0) {
@@ -384,7 +387,7 @@ static long getIoIntInfo(int cmd, dbCommon *pr, IOSCANPVT *iopvt)
         asynPrint(pPvt->pasynUser, ASYN_TRACE_FLOW,
             "%s %s::%s registering interrupt\n",
             pr->name, driverName, functionName);
-        createRingBuffer(pr);
+        createRingBuffer(pr, DEFAULT_RING_BUFFER_SIZE);
         status = pPvt->poctet->registerInterruptUser(
            pPvt->octetPvt,pPvt->pasynUser,
            pPvt->interruptCallback,pPvt,&pPvt->registrarPvt);
@@ -412,11 +415,11 @@ static int getRingBufferValue(devPvt *pPvt)
     int ret = 0;
     static const char *functionName="getRingBufferValue";
 
-    epicsMutexLock(pPvt->ringBufferLock);
+    epicsMutexLock(pPvt->devPvtLock);
     if (pPvt->ringTail != pPvt->ringHead) {
         if (pPvt->ringBufferOverflows > 0) {
             asynPrint(pPvt->pasynUser, ASYN_TRACE_WARNING,
-                "%s %s::%s error, %d ring buffer overflows\n",
+                "%s %s::%s warning, %d ring buffer overflows\n",
                 pPvt->precord->name, driverName, functionName, pPvt->ringBufferOverflows);
             pPvt->ringBufferOverflows = 0;
         }
@@ -424,7 +427,7 @@ static int getRingBufferValue(devPvt *pPvt)
         pPvt->ringTail = (pPvt->ringTail==pPvt->ringSize-1) ? 0 : pPvt->ringTail+1;
         ret = 1;
     }
-    epicsMutexUnlock(pPvt->ringBufferLock);
+    epicsMutexUnlock(pPvt->devPvtLock);
     return ret;
 }
 
@@ -435,7 +438,7 @@ static void interruptCallback(void *drvPvt, asynUser *pasynUser,
     dbCommon *pr = pPvt->precord;
     static const char *functionName="interruptCallback";
 
-    dbScanLock(pr);
+    epicsMutexLock(pPvt->devPvtLock);
     asynPrintIO(pPvt->pasynUser, ASYN_TRACEIO_DEVICE,
         (char *)value, len*sizeof(char),
         "%s %s::%s ringSize=%d, len=%d, callback data:",
@@ -443,9 +446,17 @@ static void interruptCallback(void *drvPvt, asynUser *pasynUser,
     if (len >= pPvt->valSize) len = pPvt->valSize-1;
     if (pPvt->ringSize == 0) {
         /* Not using a ring buffer */ 
-        pr->time = pasynUser->timestamp;
         if (pasynUser->auxStatus == asynSuccess) {
+            /* Note: calling dbScanLock here may to lead to deadlocks when asyn:READBACK is set for output records
+             * and the driver is non-blocking.
+             * This has been fixed in the asynInt32, asynFloat64, and asynUInt32Digital device support.
+             * It cannot be fixed here because when not using ring buffers we need to lock the record to directly copy to it
+             * Maybe we should require at least 1 ring buffer. */
+            epicsMutexUnlock(pPvt->devPvtLock);
+            dbScanLock(pr);
             memcpy(pPvt->pValue, value, len);
+            dbScanUnlock(pr);
+            epicsMutexLock(pPvt->devPvtLock);
             pPvt->pValue[len] = 0;
         }
         pPvt->nord = (epicsUInt32)len;
@@ -455,9 +466,9 @@ static void interruptCallback(void *drvPvt, asynUser *pasynUser,
         pPvt->result.alarmStatus = pasynUser->alarmStatus;
         pPvt->result.alarmSeverity = pasynUser->alarmSeverity;
         if (pPvt->isOutput) {
-            /* If PACT is true then this callback was received during asynchronous record processing
-             * Must defer calling callbackRequest until end of record processing */
-            if (pr->pact) {
+            /* If this callback was received during asynchronous record processing
+             * we must defer calling callbackRequest until end of record processing */
+            if (pPvt->asyncProcessingActive) {
                 pPvt->numDeferredOutputCallbacks++;
             } else { 
                 callbackRequest(&pPvt->outputCallback);
@@ -472,9 +483,10 @@ static void interruptCallback(void *drvPvt, asynUser *pasynUser,
         /* If interruptAccept is false we just return.  This prevents more ring pushes than pops.
          * There will then be nothing in the ring buffer, so the first
          * read will do a read from the driver, which should be OK. */
-        if (!interruptAccept) return;
-
-        epicsMutexLock(pPvt->ringBufferLock);
+        if (!interruptAccept) {
+            epicsMutexUnlock(pPvt->devPvtLock);
+            return;
+        }
         rp = &pPvt->ringBuffer[pPvt->ringHead];
         rp->len = len;
         memcpy(rp->pValue, value, len);        
@@ -494,9 +506,9 @@ static void interruptCallback(void *drvPvt, asynUser *pasynUser,
             /* We only need to request the record to process if we added a new
              * element to the ring buffer, not if we just replaced an element. */
             if (pPvt->isOutput) {
-                /* If PACT is true then this callback was received during asynchronous record processing
-                 * Must defer calling callbackRequest until end of record processing */
-                if (pr->pact) {
+                /* If this callback was received during asynchronous record processing
+                 * we must defer calling callbackRequest until end of record processing */
+                if (pPvt->asyncProcessingActive) {
                     pPvt->numDeferredOutputCallbacks++;
                 } else { 
                     callbackRequest(&pPvt->outputCallback);
@@ -505,9 +517,8 @@ static void interruptCallback(void *drvPvt, asynUser *pasynUser,
                 scanIoRequest(pPvt->ioScanPvt);
             }
         }
-        epicsMutexUnlock(pPvt->ringBufferLock);
     }
-    dbScanUnlock(pr);
+    epicsMutexUnlock(pPvt->devPvtLock);
 }
 
 static void outputCallbackCallback(CALLBACK *pcb)
@@ -519,6 +530,7 @@ static void outputCallbackCallback(CALLBACK *pcb)
     {
         dbCommon *pr = pPvt->precord;
         dbScanLock(pr);
+        epicsMutexLock(pPvt->devPvtLock);
         pPvt->newOutputCallbackValue = 1;
         dbProcess(pr);
         if (pPvt->newOutputCallbackValue != 0) {
@@ -532,6 +544,7 @@ static void outputCallbackCallback(CALLBACK *pcb)
             }
             pPvt->newOutputCallbackValue = 0;
         }
+        epicsMutexUnlock(pPvt->devPvtLock);
         dbScanUnlock(pr);
     }
 }
@@ -683,6 +696,7 @@ static long processCommon(dbCommon *precord)
     asynStatus status;
     static const char *functionName="processCommon";
    
+    epicsMutexLock(pPvt->devPvtLock);
     if (pPvt->isOutput) {
         if (pPvt->ringSize == 0) {
             gotCallbackData = pPvt->newOutputCallbackValue;
@@ -698,11 +712,17 @@ static long processCommon(dbCommon *precord)
     }
 
     if (!gotCallbackData && precord->pact == 0) {
-        if(pPvt->canBlock) precord->pact = 1;
-        status = pasynManager->queueRequest(pPvt->pasynUser, asynQueuePriorityMedium, 0.0);
-        if((status == asynSuccess) && pPvt->canBlock) return 0;
+        if(pPvt->canBlock) {
+            precord->pact = 1;
+            pPvt->asyncProcessingActive = 1;
+        }
+        epicsMutexUnlock(pPvt->devPvtLock);
+        status = pasynManager->queueRequest(pPvt->pasynUser, asynQueuePriorityMedium, 0);
+        if((status==asynSuccess) && pPvt->canBlock) return 0;
         if(pPvt->canBlock) precord->pact = 0;
+        epicsMutexLock(pPvt->devPvtLock);
         reportQueueRequestStatus(pPvt, status);
+
     }
     if (gotCallbackData) {
         int len;
@@ -720,13 +740,13 @@ static long processCommon(dbCommon *precord)
             ringBufferElement *rp = &pPvt->result;
             /* Need to copy the array with the lock because that is shared even though
                pPvt->result is a copy */
-            epicsMutexLock(pPvt->ringBufferLock);
+            epicsMutexLock(pPvt->devPvtLock);
             if (rp->status == asynSuccess) {
                 memcpy(pPvt->pValue, rp->pValue, rp->len);
                 if (pPvt->isWaveform) pwf->nord = rp->len;
             }
             precord->time = rp->time;
-            epicsMutexUnlock(pPvt->ringBufferLock);
+            epicsMutexUnlock(pPvt->devPvtLock);
         }
         len = strlen(pPvt->pValue);
         asynPrintIO(pPvt->pasynUser, ASYN_TRACEIO_DEVICE,
@@ -744,6 +764,8 @@ static long processCommon(dbCommon *precord)
         pPvt->numDeferredOutputCallbacks--;
     }
     pPvt->newOutputCallbackValue = 0;
+    pPvt->asyncProcessingActive = 0;
+    epicsMutexUnlock(pPvt->devPvtLock);
     if (pPvt->result.status == asynSuccess) {
         pPvt->precord->udf = 0;
         return 0;

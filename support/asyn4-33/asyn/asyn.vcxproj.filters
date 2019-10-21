@@ -471,6 +471,12 @@
     <ClCompile Include="vxi11\TDS3000Reboot.c">
       <Filter>vxi11</Filter>
     </ClCompile>
+    <ClCompile Include="miscellaneous\asynInterposeDelay.c">
+      <Filter>miscellaneous</Filter>
+    </ClCompile>
+    <ClCompile Include="miscellaneous\asynInterposeEcho.c">
+      <Filter>miscellaneous</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="asynRecord\asynRecord.db">
