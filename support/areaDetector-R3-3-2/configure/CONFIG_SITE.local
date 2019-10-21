@@ -71,7 +71,7 @@ JPEG_EXTERNAL = NO
 #JPEG_LIB     =
 
 # JPEG is required for the NDFileNetCDF plugin
-WITH_NETCDF     = NO
+WITH_NETCDF     = YES
 NETCDF_EXTERNAL = NO
 #NETCDF_INCLUDE =
 #NETCDF_LIB     =

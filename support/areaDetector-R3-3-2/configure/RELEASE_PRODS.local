@@ -15,7 +15,7 @@
 # ASYN is needed for base classes 
 ASYN=$(SUPPORT)/asyn
 
-AREA_DETECTOR=$(SUPPORT)/areaDetector-R3-3-2
+AREA_DETECTOR=$(SUPPORT)/areaDetector
 
 # ADSupport is needed by ADCore plugins
 ADSUPPORT=$(AREA_DETECTOR)/ADSupport

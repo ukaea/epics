@@ -1177,42 +1177,42 @@ cd $(ProjectDir)
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common\%(FileName)</Outputs>
@@ -1228,42 +1228,42 @@ cd $(ProjectDir)
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common\%(FileName)</Outputs>
@@ -1287,42 +1287,42 @@ cd $(ProjectDir)
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">O.Common\%(FileName)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
     </CustomBuild>
@@ -1330,42 +1330,42 @@ cd $(ProjectDir)
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common\%(FileName)</Outputs>
@@ -1381,42 +1381,42 @@ cd $(ProjectDir)
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common\%(FileName)</Outputs>
@@ -2216,42 +2216,42 @@ cd $(ProjectDir)
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common\%(FileName)</Outputs>
@@ -2267,42 +2267,42 @@ cd $(ProjectDir)
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common\%(FileName)</Outputs>
@@ -2318,42 +2318,42 @@ cd $(ProjectDir)
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common\%(FileName)</Outputs>
@@ -2367,47 +2367,95 @@ cd $(ProjectDir)
     </CustomBuild>
     <CustomBuild Include="rec\calcRecord.dbd.pod">
       <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">cd rec
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">cd rec
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">cd rec
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">cd rec
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">cd rec
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">cd rec
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">cd rec
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">cd rec
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
+cd $(ProjectDir)
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common/%(FileName)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">O.Common/%(FileName)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common/%(FileName)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">O.Common/%(FileName)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">O.Common/%(FileName)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">O.Common/%(FileName)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">O.Common/%(FileName)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">O.Common/%(FileName)</Outputs>
     </CustomBuild>
     <CustomBuild Include="rec\dfanoutRecord.dbd.pod">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common\%(FileName)</Outputs>
@@ -2431,42 +2479,42 @@ cd $(ProjectDir)
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">O.Common\%(FileName)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
     </CustomBuild>
@@ -2474,42 +2522,42 @@ cd $(ProjectDir)
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">cd rec
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I../O.Common -I$(SolutionDir)include -I$(SolutionDir)DBD  -o ../O.Common/%(FileName) %(FileName).pod
+perl -CSD $(OutDir)podRemove.pl  -o ../O.Common/%(FileName) %(FileName).pod
 cd $(ProjectDir)
 </Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common\%(FileName)</Outputs>
@@ -2929,7 +2977,7 @@ if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
 xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
 SET PERL5LIB=$(SolutionDir)lib\perl
 
-perl -CSD $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I$(SolutionDir)dbd -o O.Common/stdRecords.dbd aaiRecord.dbd aaoRecord.dbd O.Common/aiRecord.dbd O.Common/aoRecord.dbd biRecord.dbd boRecord.dbd calcRecord.dbd calcoutRecord.dbd O.Common/compressRecord.dbd dfanoutRecord.dbd eventRecord.dbd fanoutRecord.dbd histogramRecord.dbd longinRecord.dbd longoutRecord.dbd lsiRecord.dbd lsoRecord.dbd mbbiRecord.dbd mbbiDirectRecord.dbd mbboRecord.dbd mbboDirectRecord.dbd permissiveRecord.dbd printfRecord.dbd selRecord.dbd seqRecord.dbd stateRecord.dbd stringinRecord.dbd stringoutRecord.dbd subRecord.dbd subArrayRecord.dbd O.Common/waveformRecord.dbd
+perl -CSD $(OutDir)makeIncludeDbd.pl aaiRecord.dbd aaoRecord.dbd aiRecord.dbd aoRecord.dbd aSubRecord.dbd biRecord.dbd boRecord.dbd calcRecord.dbd calcoutRecord.dbd compressRecord.dbd dfanoutRecord.dbd eventRecord.dbd fanoutRecord.dbd histogramRecord.dbd int64inRecord.dbd int64outRecord.dbd longinRecord.dbd longoutRecord.dbd lsiRecord.dbd lsoRecord.dbd mbbiRecord.dbd mbbiDirectRecord.dbd mbboRecord.dbd mbboDirectRecord.dbd permissiveRecord.dbd printfRecord.dbd selRecord.dbd seqRecord.dbd stateRecord.dbd stringinRecord.dbd stringoutRecord.dbd subRecord.dbd subArrayRecord.dbd waveformRecord.dbd stdRecords.dbd
 
 xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
 </Command>
@@ -2938,6 +2986,7 @@ xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
+xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R dev\*.dbd $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R rec\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
@@ -2967,7 +3016,7 @@ if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
 xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
 SET PERL5LIB=$(SolutionDir)lib\perl
 
-perl -CSD $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I$(SolutionDir)dbd -o O.Common/stdRecords.dbd aaiRecord.dbd aaoRecord.dbd O.Common/aiRecord.dbd O.Common/aoRecord.dbd biRecord.dbd boRecord.dbd calcRecord.dbd calcoutRecord.dbd O.Common/compressRecord.dbd dfanoutRecord.dbd eventRecord.dbd fanoutRecord.dbd histogramRecord.dbd longinRecord.dbd longoutRecord.dbd lsiRecord.dbd lsoRecord.dbd mbbiRecord.dbd mbbiDirectRecord.dbd mbboRecord.dbd mbboDirectRecord.dbd permissiveRecord.dbd printfRecord.dbd selRecord.dbd seqRecord.dbd stateRecord.dbd stringinRecord.dbd stringoutRecord.dbd subRecord.dbd subArrayRecord.dbd O.Common/waveformRecord.dbd
+perl -CSD $(OutDir)makeIncludeDbd.pl aaiRecord.dbd aaoRecord.dbd aiRecord.dbd aoRecord.dbd aSubRecord.dbd biRecord.dbd boRecord.dbd calcRecord.dbd calcoutRecord.dbd compressRecord.dbd dfanoutRecord.dbd eventRecord.dbd fanoutRecord.dbd histogramRecord.dbd int64inRecord.dbd int64outRecord.dbd longinRecord.dbd longoutRecord.dbd lsiRecord.dbd lsoRecord.dbd mbbiRecord.dbd mbbiDirectRecord.dbd mbboRecord.dbd mbboDirectRecord.dbd permissiveRecord.dbd printfRecord.dbd selRecord.dbd seqRecord.dbd stateRecord.dbd stringinRecord.dbd stringoutRecord.dbd subRecord.dbd subArrayRecord.dbd waveformRecord.dbd stdRecords.dbd
 
 xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
 </Command>
@@ -2976,6 +3025,7 @@ xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
+xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R dev\*.dbd $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R rec\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
@@ -3004,7 +3054,7 @@ if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
 xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
 SET PERL5LIB=$(SolutionDir)lib\perl
 
-perl -CSD $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I$(SolutionDir)dbd -o O.Common/stdRecords.dbd aaiRecord.dbd aaoRecord.dbd O.Common/aiRecord.dbd O.Common/aoRecord.dbd biRecord.dbd boRecord.dbd calcRecord.dbd calcoutRecord.dbd O.Common/compressRecord.dbd dfanoutRecord.dbd eventRecord.dbd fanoutRecord.dbd histogramRecord.dbd longinRecord.dbd longoutRecord.dbd lsiRecord.dbd lsoRecord.dbd mbbiRecord.dbd mbbiDirectRecord.dbd mbboRecord.dbd mbboDirectRecord.dbd permissiveRecord.dbd printfRecord.dbd selRecord.dbd seqRecord.dbd stateRecord.dbd stringinRecord.dbd stringoutRecord.dbd subRecord.dbd subArrayRecord.dbd O.Common/waveformRecord.dbd
+perl -CSD $(OutDir)makeIncludeDbd.pl aaiRecord.dbd aaoRecord.dbd aiRecord.dbd aoRecord.dbd aSubRecord.dbd biRecord.dbd boRecord.dbd calcRecord.dbd calcoutRecord.dbd compressRecord.dbd dfanoutRecord.dbd eventRecord.dbd fanoutRecord.dbd histogramRecord.dbd int64inRecord.dbd int64outRecord.dbd longinRecord.dbd longoutRecord.dbd lsiRecord.dbd lsoRecord.dbd mbbiRecord.dbd mbbiDirectRecord.dbd mbboRecord.dbd mbboDirectRecord.dbd permissiveRecord.dbd printfRecord.dbd selRecord.dbd seqRecord.dbd stateRecord.dbd stringinRecord.dbd stringoutRecord.dbd subRecord.dbd subArrayRecord.dbd waveformRecord.dbd stdRecords.dbd
 
 xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
 </Command>
@@ -3013,6 +3063,7 @@ xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
+xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R dev\*.dbd $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R rec\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
@@ -3042,7 +3093,7 @@ if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
 xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
 SET PERL5LIB=$(SolutionDir)lib\perl
 
-perl -CSD $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I$(SolutionDir)dbd -o O.Common/stdRecords.dbd aaiRecord.dbd aaoRecord.dbd O.Common/aiRecord.dbd O.Common/aoRecord.dbd biRecord.dbd boRecord.dbd calcRecord.dbd calcoutRecord.dbd O.Common/compressRecord.dbd dfanoutRecord.dbd eventRecord.dbd fanoutRecord.dbd histogramRecord.dbd longinRecord.dbd longoutRecord.dbd lsiRecord.dbd lsoRecord.dbd mbbiRecord.dbd mbbiDirectRecord.dbd mbboRecord.dbd mbboDirectRecord.dbd permissiveRecord.dbd printfRecord.dbd selRecord.dbd seqRecord.dbd stateRecord.dbd stringinRecord.dbd stringoutRecord.dbd subRecord.dbd subArrayRecord.dbd O.Common/waveformRecord.dbd
+perl -CSD $(OutDir)makeIncludeDbd.pl aaiRecord.dbd aaoRecord.dbd aiRecord.dbd aoRecord.dbd aSubRecord.dbd biRecord.dbd boRecord.dbd calcRecord.dbd calcoutRecord.dbd compressRecord.dbd dfanoutRecord.dbd eventRecord.dbd fanoutRecord.dbd histogramRecord.dbd int64inRecord.dbd int64outRecord.dbd longinRecord.dbd longoutRecord.dbd lsiRecord.dbd lsoRecord.dbd mbbiRecord.dbd mbbiDirectRecord.dbd mbboRecord.dbd mbboDirectRecord.dbd permissiveRecord.dbd printfRecord.dbd selRecord.dbd seqRecord.dbd stateRecord.dbd stringinRecord.dbd stringoutRecord.dbd subRecord.dbd subArrayRecord.dbd waveformRecord.dbd stdRecords.dbd
 
 xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
 </Command>
@@ -3051,6 +3102,7 @@ xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
+xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R dev\*.dbd $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R rec\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
@@ -3082,7 +3134,7 @@ if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
 xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
 SET PERL5LIB=$(SolutionDir)lib\perl
 
-perl -CSD $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I$(SolutionDir)dbd -o O.Common/stdRecords.dbd aaiRecord.dbd aaoRecord.dbd O.Common/aiRecord.dbd O.Common/aoRecord.dbd biRecord.dbd boRecord.dbd calcRecord.dbd calcoutRecord.dbd O.Common/compressRecord.dbd dfanoutRecord.dbd eventRecord.dbd fanoutRecord.dbd histogramRecord.dbd longinRecord.dbd longoutRecord.dbd lsiRecord.dbd lsoRecord.dbd mbbiRecord.dbd mbbiDirectRecord.dbd mbboRecord.dbd mbboDirectRecord.dbd permissiveRecord.dbd printfRecord.dbd selRecord.dbd seqRecord.dbd stateRecord.dbd stringinRecord.dbd stringoutRecord.dbd subRecord.dbd subArrayRecord.dbd O.Common/waveformRecord.dbd
+perl -CSD $(OutDir)makeIncludeDbd.pl aaiRecord.dbd aaoRecord.dbd aiRecord.dbd aoRecord.dbd aSubRecord.dbd biRecord.dbd boRecord.dbd calcRecord.dbd calcoutRecord.dbd compressRecord.dbd dfanoutRecord.dbd eventRecord.dbd fanoutRecord.dbd histogramRecord.dbd int64inRecord.dbd int64outRecord.dbd longinRecord.dbd longoutRecord.dbd lsiRecord.dbd lsoRecord.dbd mbbiRecord.dbd mbbiDirectRecord.dbd mbboRecord.dbd mbboDirectRecord.dbd permissiveRecord.dbd printfRecord.dbd selRecord.dbd seqRecord.dbd stateRecord.dbd stringinRecord.dbd stringoutRecord.dbd subRecord.dbd subArrayRecord.dbd waveformRecord.dbd stdRecords.dbd
 
 xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
 </Command>
@@ -3090,6 +3142,7 @@ xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
+xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R dev\*.dbd $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R rec\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
@@ -3122,7 +3175,7 @@ if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
 xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
 SET PERL5LIB=$(SolutionDir)lib\perl
 
-perl -CSD $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I$(SolutionDir)dbd -o O.Common/stdRecords.dbd aaiRecord.dbd aaoRecord.dbd O.Common/aiRecord.dbd O.Common/aoRecord.dbd biRecord.dbd boRecord.dbd calcRecord.dbd calcoutRecord.dbd O.Common/compressRecord.dbd dfanoutRecord.dbd eventRecord.dbd fanoutRecord.dbd histogramRecord.dbd longinRecord.dbd longoutRecord.dbd lsiRecord.dbd lsoRecord.dbd mbbiRecord.dbd mbbiDirectRecord.dbd mbboRecord.dbd mbboDirectRecord.dbd permissiveRecord.dbd printfRecord.dbd selRecord.dbd seqRecord.dbd stateRecord.dbd stringinRecord.dbd stringoutRecord.dbd subRecord.dbd subArrayRecord.dbd O.Common/waveformRecord.dbd
+perl -CSD $(OutDir)makeIncludeDbd.pl aaiRecord.dbd aaoRecord.dbd aiRecord.dbd aoRecord.dbd aSubRecord.dbd biRecord.dbd boRecord.dbd calcRecord.dbd calcoutRecord.dbd compressRecord.dbd dfanoutRecord.dbd eventRecord.dbd fanoutRecord.dbd histogramRecord.dbd int64inRecord.dbd int64outRecord.dbd longinRecord.dbd longoutRecord.dbd lsiRecord.dbd lsoRecord.dbd mbbiRecord.dbd mbbiDirectRecord.dbd mbboRecord.dbd mbboDirectRecord.dbd permissiveRecord.dbd printfRecord.dbd selRecord.dbd seqRecord.dbd stateRecord.dbd stringinRecord.dbd stringoutRecord.dbd subRecord.dbd subArrayRecord.dbd waveformRecord.dbd stdRecords.dbd
 
 xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
 </Command>
@@ -3130,6 +3183,7 @@ xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
+xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R dev\*.dbd $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R rec\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
@@ -3161,7 +3215,7 @@ if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
 xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
 SET PERL5LIB=$(SolutionDir)lib\perl
 
-perl -CSD $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I$(SolutionDir)dbd -o O.Common/stdRecords.dbd aaiRecord.dbd aaoRecord.dbd O.Common/aiRecord.dbd O.Common/aoRecord.dbd biRecord.dbd boRecord.dbd calcRecord.dbd calcoutRecord.dbd O.Common/compressRecord.dbd dfanoutRecord.dbd eventRecord.dbd fanoutRecord.dbd histogramRecord.dbd longinRecord.dbd longoutRecord.dbd lsiRecord.dbd lsoRecord.dbd mbbiRecord.dbd mbbiDirectRecord.dbd mbboRecord.dbd mbboDirectRecord.dbd permissiveRecord.dbd printfRecord.dbd selRecord.dbd seqRecord.dbd stateRecord.dbd stringinRecord.dbd stringoutRecord.dbd subRecord.dbd subArrayRecord.dbd O.Common/waveformRecord.dbd
+perl -CSD $(OutDir)makeIncludeDbd.pl aaiRecord.dbd aaoRecord.dbd aiRecord.dbd aoRecord.dbd aSubRecord.dbd biRecord.dbd boRecord.dbd calcRecord.dbd calcoutRecord.dbd compressRecord.dbd dfanoutRecord.dbd eventRecord.dbd fanoutRecord.dbd histogramRecord.dbd int64inRecord.dbd int64outRecord.dbd longinRecord.dbd longoutRecord.dbd lsiRecord.dbd lsoRecord.dbd mbbiRecord.dbd mbbiDirectRecord.dbd mbboRecord.dbd mbboDirectRecord.dbd permissiveRecord.dbd printfRecord.dbd selRecord.dbd seqRecord.dbd stateRecord.dbd stringinRecord.dbd stringoutRecord.dbd subRecord.dbd subArrayRecord.dbd waveformRecord.dbd stdRecords.dbd
 
 xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
 </Command>
@@ -3169,6 +3223,7 @@ xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
+xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R dev\*.dbd $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R rec\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
@@ -3201,7 +3256,7 @@ if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
 xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
 SET PERL5LIB=$(SolutionDir)lib\perl
 
-perl -CSD $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I$(SolutionDir)dbd -o O.Common/stdRecords.dbd aaiRecord.dbd aaoRecord.dbd O.Common/aiRecord.dbd O.Common/aoRecord.dbd biRecord.dbd boRecord.dbd calcRecord.dbd calcoutRecord.dbd O.Common/compressRecord.dbd dfanoutRecord.dbd eventRecord.dbd fanoutRecord.dbd histogramRecord.dbd longinRecord.dbd longoutRecord.dbd lsiRecord.dbd lsoRecord.dbd mbbiRecord.dbd mbbiDirectRecord.dbd mbboRecord.dbd mbboDirectRecord.dbd permissiveRecord.dbd printfRecord.dbd selRecord.dbd seqRecord.dbd stateRecord.dbd stringinRecord.dbd stringoutRecord.dbd subRecord.dbd subArrayRecord.dbd O.Common/waveformRecord.dbd
+perl -CSD $(OutDir)makeIncludeDbd.pl aaiRecord.dbd aaoRecord.dbd aiRecord.dbd aoRecord.dbd aSubRecord.dbd biRecord.dbd boRecord.dbd calcRecord.dbd calcoutRecord.dbd compressRecord.dbd dfanoutRecord.dbd eventRecord.dbd fanoutRecord.dbd histogramRecord.dbd int64inRecord.dbd int64outRecord.dbd longinRecord.dbd longoutRecord.dbd lsiRecord.dbd lsoRecord.dbd mbbiRecord.dbd mbbiDirectRecord.dbd mbboRecord.dbd mbboDirectRecord.dbd permissiveRecord.dbd printfRecord.dbd selRecord.dbd seqRecord.dbd stateRecord.dbd stringinRecord.dbd stringoutRecord.dbd subRecord.dbd subArrayRecord.dbd waveformRecord.dbd stdRecords.dbd
 
 xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
 </Command>
@@ -3209,6 +3264,7 @@ xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
 if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
+xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R dev\*.dbd $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R rec\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>

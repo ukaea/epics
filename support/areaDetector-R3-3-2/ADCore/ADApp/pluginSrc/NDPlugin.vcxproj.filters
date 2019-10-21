@@ -80,7 +80,6 @@
     <None Include="NDFileJPEG.dbd" />
     <None Include="NDFileMagick.dbd" />
     <None Include="NDFileNetCDF.dbd" />
-    <None Include="NDFileNexus.dbd" />
     <None Include="NDFileNull.dbd" />
     <None Include="NDFileTIFF.dbd" />
     <None Include="NDPluginAttribute.dbd" />
@@ -100,5 +99,6 @@
     <None Include="NDPluginAttrPlot.dbd" />
     <None Include="NDPluginGather.dbd" />
     <None Include="NDPluginScatter.dbd" />
+    <None Include="NDFileNexus.dbd" />
   </ItemGroup>
 </Project>

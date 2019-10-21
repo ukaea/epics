@@ -178,7 +178,9 @@
     <None Include="NDFileJPEG.dbd" />
     <None Include="NDFileMagick.dbd" />
     <None Include="NDFileNetCDF.dbd" />
-    <None Include="NDFileNexus.dbd" />
+    <None Include="NDFileNexus.dbd">
+      <FileType>Document</FileType>
+    </None>
     <None Include="NDFileNull.dbd" />
     <None Include="NDFileTIFF.dbd" />
     <None Include="NDPluginAttribute.dbd" />
@@ -310,7 +312,6 @@
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
 if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
 if not exist O.Common md O.Common
-cd src
 xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
@@ -339,7 +340,6 @@ xcopy /Y /Q  /D .\O.Common\*.DBD $(SolutionDir)DBD &gt; NUL</Command>
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
 if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
 if not exist O.Common md O.Common
-cd src
 xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
@@ -368,7 +368,6 @@ xcopy /Y /Q  /D .\O.Common\*.DBD $(SolutionDir)DBD &gt; NUL</Command>
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
 if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
 if not exist O.Common md O.Common
-cd src
 xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
@@ -400,7 +399,6 @@ xcopy /Y /Q  /D .\O.Common\*.DBD $(SolutionDir)DBD &gt; NUL</Command>
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
 if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
 if not exist O.Common md O.Common
-cd src
 xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
@@ -442,7 +440,6 @@ xcopy /Y /Q  /D .\O.Common\*.DBD $(SolutionDir)DBD &gt; NUL</Command>
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
 if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
 if not exist O.Common md O.Common
-cd src
 xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
@@ -474,7 +471,6 @@ xcopy /Y /Q  /D .\O.Common\*.DBD $(SolutionDir)DBD &gt; NUL</Command>
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
 if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
 if not exist O.Common md O.Common
-cd src
 xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
@@ -506,7 +502,6 @@ xcopy /Y /Q  /D .\O.Common\*.DBD $(SolutionDir)DBD &gt; NUL</Command>
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
 if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
 if not exist O.Common md O.Common
-cd src
 xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
@@ -541,7 +536,6 @@ xcopy /Y /Q  /D .\O.Common\*.DBD $(SolutionDir)DBD &gt; NUL</Command>
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
 if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
 if not exist O.Common md O.Common
-cd src
 xcopy /Y /Q /D /R *.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
