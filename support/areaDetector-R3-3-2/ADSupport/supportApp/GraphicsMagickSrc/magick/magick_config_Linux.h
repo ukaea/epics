@@ -140,7 +140,7 @@
 #define HAVE_INTTYPES_H 1
 
 /* Define if you have the <lcms2.h> header file. */
-/* #undef HAVE_LCMS2_H */
+#define HAVE_LCMS2_H 1
 
 /* Define if you have the <lcms2/lcms2.h> header file. */
 /* #undef HAVE_LCMS2_LCMS2_H */
@@ -393,16 +393,16 @@
 /* #undef HasGS */
 
 /* Define if you have JBIG library */
-/* #undef HasJBIG */
+#define HasJBIG 1
 
 /* Define if you have JPEG version 2 "Jasper" library */
-/* #undef HasJP2 */
+#define HasJP2 1
 
 /* Define if you have JPEG library */
 #define HasJPEG 1
 
 /* Define if you have LCMS (v2.0 or later) library */
-/* #undef HasLCMS */
+#define HasLCMS 1
 
 /* Define if using libltdl to support dynamically loadable modules */
 /* #undef HasLTDL */
@@ -432,7 +432,7 @@
 /* #undef HasUMEM */
 
 /* Define if you have WEBP library */
-/* #undef HasWEBP */
+#define HasWEBP 1
 
 /* Define to use the Windows GDI32 library */
 /* #undef HasWINGDI32 */

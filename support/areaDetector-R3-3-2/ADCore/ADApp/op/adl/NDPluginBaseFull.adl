@@ -1,14 +1,14 @@
 
 file {
-	name="/home/epics/devel/areaDetector/ADCore/ADApp/op/adl/NDPluginBaseFull.adl"
+	name="/home/epics/devel/areaDetector-3-4-0/ADCore/ADApp/op/adl/NDPluginBaseFull.adl"
 	version=030109
 }
 display {
 	object {
-		x=556
-		y=37
-		width=390
-		height=930
+		x=399
+		y=92
+		width=775
+		height=565
 	}
 	clr=14
 	bclr=4
@@ -91,7 +91,7 @@ rectangle {
 	object {
 		x=0
 		y=0
-		width=390
+		width=775
 		height=26
 	}
 	"basic attribute" {
@@ -102,7 +102,7 @@ text {
 	object {
 		x=0
 		y=0
-		width=390
+		width=775
 		height=25
 	}
 	"basic attribute" {
@@ -318,6 +318,435 @@ text {
 }
 text {
 	object {
+		x=100
+		y=185
+		width=60
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Enable"
+	align="horiz. right"
+}
+menu {
+	object {
+		x=170
+		y=185
+		width=100
+		height=20
+	}
+	control {
+		chan="$(P)$(R)EnableCallbacks"
+		clr=14
+		bclr=51
+	}
+}
+"text update" {
+	object {
+		x=276
+		y=186
+		width=100
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)EnableCallbacks_RBV"
+		clr=54
+		bclr=12
+	}
+	clrmod="alarm"
+	format="string"
+	limits {
+	}
+}
+rectangle {
+	object {
+		x=5
+		y=30
+		width=380
+		height=530
+	}
+	"basic attribute" {
+		clr=14
+		fill="outline"
+	}
+}
+text {
+	object {
+		x=30
+		y=335
+		width=130
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Max # threads"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=170
+		y=336
+		width=100
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)MaxThreads_RBV"
+		clr=54
+		bclr=4
+	}
+	limits {
+	}
+}
+text {
+	object {
+		x=10
+		y=285
+		width=150
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Callbacks block"
+	align="horiz. right"
+}
+menu {
+	object {
+		x=170
+		y=285
+		width=100
+		height=20
+	}
+	control {
+		chan="$(P)$(R)BlockingCallbacks"
+		clr=14
+		bclr=51
+	}
+}
+"text update" {
+	object {
+		x=276
+		y=286
+		width=100
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)BlockingCallbacks_RBV"
+		clr=54
+		bclr=4
+	}
+	format="string"
+	limits {
+	}
+}
+text {
+	object {
+		x=70
+		y=385
+		width=90
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Sort mode"
+	align="horiz. right"
+}
+menu {
+	object {
+		x=170
+		y=385
+		width=100
+		height=20
+	}
+	control {
+		chan="$(P)$(R)SortMode"
+		clr=14
+		bclr=51
+	}
+}
+"text update" {
+	object {
+		x=276
+		y=386
+		width=100
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)SortMode_RBV"
+		clr=54
+		bclr=4
+	}
+	format="string"
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=170
+		y=310
+		width=100
+		height=20
+	}
+	control {
+		chan="$(P)$(R)NumThreads"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=276
+		y=311
+		width=100
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)NumThreads_RBV"
+		clr=54
+		bclr=4
+	}
+	limits {
+	}
+}
+text {
+	object {
+		x=70
+		y=310
+		width=90
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="# threads"
+	align="horiz. right"
+}
+"text entry" {
+	object {
+		x=170
+		y=410
+		width=100
+		height=20
+	}
+	control {
+		chan="$(P)$(R)SortTime"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=276
+		y=411
+		width=100
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)SortTime_RBV"
+		clr=54
+		bclr=4
+	}
+	limits {
+	}
+}
+text {
+	object {
+		x=70
+		y=410
+		width=90
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Sort time"
+	align="horiz. right"
+}
+text {
+	object {
+		x=10
+		y=360
+		width=150
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Queue size/free"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=276
+		y=360
+		width=100
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)QueueFree"
+		clr=54
+		bclr=12
+	}
+	clrmod="alarm"
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=170
+		y=360
+		width=100
+		height=20
+	}
+	control {
+		chan="$(P)$(R)QueueSize"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+text {
+	object {
+		x=20
+		y=435
+		width=140
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Sort size/free"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=276
+		y=435
+		width=100
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)SortFree"
+		clr=54
+		bclr=12
+	}
+	clrmod="alarm"
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=170
+		y=435
+		width=100
+		height=20
+	}
+	control {
+		chan="$(P)$(R)SortSize"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=276
+		y=461
+		width=100
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)DisorderedArrays_RBV"
+		clr=54
+		bclr=4
+	}
+	limits {
+	}
+}
+text {
+	object {
+		x=40
+		y=460
+		width=120
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="# disordered"
+	align="horiz. right"
+}
+"message button" {
+	object {
+		x=170
+		y=460
+		width=100
+		height=20
+	}
+	control {
+		chan="$(P)$(R)DisorderedArrays"
+		clr=14
+		bclr=51
+	}
+	label="Reset to 0"
+	press_msg="0"
+}
+text {
+	object {
+		x=20
+		y=260
+		width=140
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Max. byte rate"
+	align="horiz. right"
+}
+"text entry" {
+	object {
+		x=170
+		y=260
+		width=100
+		height=20
+	}
+	control {
+		chan="$(P)$(R)MaxByteRate"
+		clr=14
+		bclr=51
+	}
+	format="exponential"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=276
+		y=261
+		width=100
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)MaxByteRate_RBV"
+		clr=54
+		bclr=4
+	}
+	format="exponential"
+	limits {
+	}
+}
+text {
+	object {
 		x=70
 		y=210
 		width=90
@@ -361,77 +790,6 @@ text {
 }
 text {
 	object {
-		x=100
-		y=185
-		width=60
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Enable"
-	align="horiz. right"
-}
-menu {
-	object {
-		x=170
-		y=185
-		width=100
-		height=20
-	}
-	control {
-		chan="$(P)$(R)EnableCallbacks"
-		clr=14
-		bclr=51
-	}
-}
-"text update" {
-	object {
-		x=276
-		y=186
-		width=100
-		height=18
-	}
-	monitor {
-		chan="$(P)$(R)EnableCallbacks_RBV"
-		clr=54
-		bclr=12
-	}
-	clrmod="alarm"
-	format="string"
-	limits {
-	}
-}
-text {
-	object {
-		x=30
-		y=285
-		width=130
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Max # threads"
-	align="horiz. right"
-}
-"text update" {
-	object {
-		x=170
-		y=286
-		width=100
-		height=18
-	}
-	monitor {
-		chan="$(P)$(R)MaxThreads_RBV"
-		clr=54
-		bclr=4
-	}
-	limits {
-	}
-}
-text {
-	object {
 		x=10
 		y=235
 		width=150
@@ -440,10 +798,10 @@ text {
 	"basic attribute" {
 		clr=14
 	}
-	textix="Callbacks block"
+	textix="Max. array rate"
 	align="horiz. right"
 }
-menu {
+"text entry" {
 	object {
 		x=170
 		y=235
@@ -451,9 +809,11 @@ menu {
 		height=20
 	}
 	control {
-		chan="$(P)$(R)BlockingCallbacks"
+		chan="$(P)$(R)MaxArrayRate"
 		clr=14
 		bclr=51
+	}
+	limits {
 	}
 }
 "text update" {
@@ -464,262 +824,29 @@ menu {
 		height=18
 	}
 	monitor {
-		chan="$(P)$(R)BlockingCallbacks_RBV"
-		clr=54
-		bclr=4
-	}
-	format="string"
-	limits {
-	}
-}
-text {
-	object {
-		x=70
-		y=335
-		width=90
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Sort mode"
-	align="horiz. right"
-}
-menu {
-	object {
-		x=170
-		y=335
-		width=100
-		height=20
-	}
-	control {
-		chan="$(P)$(R)SortMode"
-		clr=14
-		bclr=51
-	}
-}
-"text update" {
-	object {
-		x=276
-		y=336
-		width=100
-		height=18
-	}
-	monitor {
-		chan="$(P)$(R)SortMode_RBV"
-		clr=54
-		bclr=4
-	}
-	format="string"
-	limits {
-	}
-}
-"text entry" {
-	object {
-		x=170
-		y=260
-		width=100
-		height=20
-	}
-	control {
-		chan="$(P)$(R)NumThreads"
-		clr=14
-		bclr=51
-	}
-	limits {
-	}
-}
-"text update" {
-	object {
-		x=276
-		y=261
-		width=100
-		height=18
-	}
-	monitor {
-		chan="$(P)$(R)NumThreads_RBV"
+		chan="$(P)$(R)MaxArrayRate_RBV"
 		clr=54
 		bclr=4
 	}
 	limits {
 	}
 }
-text {
+rectangle {
 	object {
-		x=70
-		y=260
-		width=90
-		height=20
+		x=390
+		y=30
+		width=380
+		height=530
 	}
 	"basic attribute" {
 		clr=14
-	}
-	textix="# threads"
-	align="horiz. right"
-}
-"text entry" {
-	object {
-		x=170
-		y=360
-		width=100
-		height=20
-	}
-	control {
-		chan="$(P)$(R)SortTime"
-		clr=14
-		bclr=51
-	}
-	limits {
-	}
-}
-"text update" {
-	object {
-		x=276
-		y=361
-		width=100
-		height=18
-	}
-	monitor {
-		chan="$(P)$(R)SortTime_RBV"
-		clr=54
-		bclr=4
-	}
-	limits {
+		fill="outline"
 	}
 }
 text {
 	object {
-		x=70
-		y=360
-		width=90
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Sort time"
-	align="horiz. right"
-}
-text {
-	object {
-		x=10
-		y=310
-		width=150
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Queue size/free"
-	align="horiz. right"
-}
-"text update" {
-	object {
-		x=276
-		y=310
-		width=100
-		height=18
-	}
-	monitor {
-		chan="$(P)$(R)QueueFree"
-		clr=54
-		bclr=12
-	}
-	clrmod="alarm"
-	limits {
-	}
-}
-"text entry" {
-	object {
-		x=170
-		y=310
-		width=100
-		height=20
-	}
-	control {
-		chan="$(P)$(R)QueueSize"
-		clr=14
-		bclr=51
-	}
-	limits {
-	}
-}
-text {
-	object {
-		x=20
-		y=385
-		width=140
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Sort size/free"
-	align="horiz. right"
-}
-"text update" {
-	object {
-		x=276
-		y=385
-		width=100
-		height=18
-	}
-	monitor {
-		chan="$(P)$(R)SortFree"
-		clr=54
-		bclr=12
-	}
-	clrmod="alarm"
-	limits {
-	}
-}
-"text entry" {
-	object {
-		x=170
-		y=385
-		width=100
-		height=20
-	}
-	control {
-		chan="$(P)$(R)SortSize"
-		clr=14
-		bclr=51
-	}
-	limits {
-	}
-}
-"text update" {
-	object {
-		x=276
-		y=411
-		width=100
-		height=18
-	}
-	monitor {
-		chan="$(P)$(R)DisorderedArrays_RBV"
-		clr=54
-		bclr=4
-	}
-	limits {
-	}
-}
-text {
-	object {
-		x=40
-		y=410
-		width=120
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="# disordered"
-	align="horiz. right"
-}
-text {
-	object {
-		x=20
-		y=485
+		x=406
+		y=85
 		width=140
 		height=20
 	}
@@ -731,8 +858,8 @@ text {
 }
 "text update" {
 	object {
-		x=170
-		y=486
+		x=556
+		y=86
 		width=100
 		height=18
 	}
@@ -746,8 +873,8 @@ text {
 }
 text {
 	object {
-		x=276
-		y=485
+		x=662
+		y=85
 		width=40
 		height=20
 	}
@@ -759,8 +886,8 @@ text {
 }
 text {
 	object {
-		x=60
-		y=460
+		x=446
+		y=60
 		width=100
 		height=20
 	}
@@ -772,8 +899,8 @@ text {
 }
 "text update" {
 	object {
-		x=170
-		y=461
+		x=556
+		y=61
 		width=100
 		height=18
 	}
@@ -787,8 +914,8 @@ text {
 }
 "text update" {
 	object {
-		x=276
-		y=436
+		x=662
+		y=36
 		width=100
 		height=18
 	}
@@ -802,8 +929,8 @@ text {
 }
 text {
 	object {
-		x=30
-		y=435
+		x=416
+		y=35
 		width=130
 		height=20
 	}
@@ -813,35 +940,23 @@ text {
 	textix="Array counter"
 	align="horiz. right"
 }
-rectangle {
-	object {
-		x=5
-		y=30
-		width=380
-		height=895
-	}
-	"basic attribute" {
-		clr=14
-		fill="outline"
-	}
-}
 text {
 	object {
-		x=60
-		y=585
+		x=446
+		y=185
 		width=100
 		height=20
 	}
 	"basic attribute" {
 		clr=14
 	}
-	textix="Array Size"
+	textix="Array size"
 	align="horiz. right"
 }
 "text update" {
 	object {
-		x=170
-		y=586
+		x=556
+		y=186
 		width=65
 		height=18
 	}
@@ -856,8 +971,8 @@ text {
 }
 "text update" {
 	object {
-		x=240
-		y=586
+		x=626
+		y=186
 		width=65
 		height=18
 	}
@@ -870,67 +985,10 @@ text {
 	limits {
 	}
 }
-text {
-	object {
-		x=70
-		y=610
-		width=90
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Data type"
-	align="horiz. right"
-}
 "text update" {
 	object {
-		x=170
-		y=611
-		width=79
-		height=18
-	}
-	monitor {
-		chan="$(P)$(R)DataType_RBV"
-		clr=54
-		bclr=4
-	}
-	format="string"
-	limits {
-	}
-}
-text {
-	object {
-		x=40
-		y=560
-		width=120
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="# dimensions"
-	align="horiz. right"
-}
-"text update" {
-	object {
-		x=170
-		y=561
-		width=79
-		height=18
-	}
-	monitor {
-		chan="$(P)$(R)NDimensions_RBV"
-		clr=54
-		bclr=4
-	}
-	limits {
-	}
-}
-"text update" {
-	object {
-		x=310
-		y=586
+		x=696
+		y=186
 		width=65
 		height=18
 	}
@@ -943,111 +1001,10 @@ text {
 	limits {
 	}
 }
-text {
-	object {
-		x=70
-		y=685
-		width=90
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Unique ID"
-	align="horiz. right"
-}
-"text update" {
-	object {
-		x=170
-		y=686
-		width=79
-		height=18
-	}
-	monitor {
-		chan="$(P)$(R)UniqueId_RBV"
-		clr=54
-		bclr=4
-	}
-	limits {
-	}
-}
-text {
-	object {
-		x=60
-		y=635
-		width=100
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Color mode"
-	align="horiz. right"
-}
-"text update" {
-	object {
-		x=170
-		y=636
-		width=79
-		height=18
-	}
-	monitor {
-		chan="$(P)$(R)ColorMode_RBV"
-		clr=54
-		bclr=4
-	}
-	format="string"
-	limits {
-	}
-}
-text {
-	object {
-		x=30
-		y=660
-		width=130
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Bayer pattern"
-	align="horiz. right"
-}
-"text update" {
-	object {
-		x=170
-		y=661
-		width=79
-		height=18
-	}
-	monitor {
-		chan="$(P)$(R)BayerPattern_RBV"
-		clr=54
-		bclr=4
-	}
-	format="string"
-	limits {
-	}
-}
 "message button" {
 	object {
-		x=170
-		y=410
-		width=100
-		height=20
-	}
-	control {
-		chan="$(P)$(R)DisorderedArrays"
-		clr=14
-		bclr=51
-	}
-	label="Reset to 0"
-	press_msg="0"
-}
-"message button" {
-	object {
-		x=170
-		y=435
+		x=556
+		y=35
 		width=100
 		height=20
 	}
@@ -1061,8 +1018,8 @@ text {
 }
 "text update" {
 	object {
-		x=276
-		y=511
+		x=662
+		y=111
 		width=100
 		height=18
 	}
@@ -1076,8 +1033,8 @@ text {
 }
 text {
 	object {
-		x=20
-		y=510
+		x=406
+		y=110
 		width=140
 		height=20
 	}
@@ -1089,8 +1046,8 @@ text {
 }
 "message button" {
 	object {
-		x=170
-		y=510
+		x=556
+		y=110
 		width=100
 		height=20
 	}
@@ -1104,8 +1061,8 @@ text {
 }
 "text update" {
 	object {
-		x=275
-		y=536
+		x=661
+		y=136
 		width=100
 		height=18
 	}
@@ -1119,8 +1076,8 @@ text {
 }
 text {
 	object {
-		x=9
-		y=535
+		x=395
+		y=135
 		width=150
 		height=20
 	}
@@ -1132,8 +1089,8 @@ text {
 }
 "message button" {
 	object {
-		x=169
-		y=535
+		x=555
+		y=135
 		width=100
 		height=20
 	}
@@ -1148,7 +1105,7 @@ text {
 text {
 	object {
 		x=10
-		y=850
+		y=485
 		width=150
 		height=20
 	}
@@ -1161,7 +1118,7 @@ text {
 composite {
 	object {
 		x=50
-		y=900
+		y=535
 		width=220
 		height=20
 	}
@@ -1170,7 +1127,7 @@ composite {
 		"related display" {
 			object {
 				x=170
-				y=900
+				y=535
 				width=100
 				height=20
 			}
@@ -1185,7 +1142,7 @@ composite {
 		text {
 			object {
 				x=50
-				y=900
+				y=535
 				width=110
 				height=20
 			}
@@ -1200,7 +1157,7 @@ composite {
 menu {
 	object {
 		x=170
-		y=850
+		y=485
 		width=100
 		height=20
 	}
@@ -1213,7 +1170,7 @@ menu {
 "text update" {
 	object {
 		x=276
-		y=851
+		y=486
 		width=100
 		height=18
 	}
@@ -1230,7 +1187,7 @@ menu {
 text {
 	object {
 		x=23
-		y=875
+		y=510
 		width=140
 		height=20
 	}
@@ -1243,7 +1200,7 @@ text {
 "message button" {
 	object {
 		x=170
-		y=875
+		y=510
 		width=100
 		height=20
 	}
@@ -1255,10 +1212,125 @@ text {
 	label="Process"
 	press_msg="1"
 }
+text {
+	object {
+		x=456
+		y=260
+		width=90
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Data type"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=556
+		y=261
+		width=79
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)DataType_RBV"
+		clr=54
+		bclr=4
+	}
+	format="string"
+	limits {
+	}
+}
+text {
+	object {
+		x=456
+		y=335
+		width=90
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Unique ID"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=556
+		y=336
+		width=79
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)UniqueId_RBV"
+		clr=54
+		bclr=4
+	}
+	limits {
+	}
+}
+text {
+	object {
+		x=446
+		y=285
+		width=100
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Color mode"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=556
+		y=286
+		width=79
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)ColorMode_RBV"
+		clr=54
+		bclr=4
+	}
+	format="string"
+	limits {
+	}
+}
+text {
+	object {
+		x=416
+		y=310
+		width=130
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Bayer pattern"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=556
+		y=311
+		width=79
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)BayerPattern_RBV"
+		clr=54
+		bclr=4
+	}
+	format="string"
+	limits {
+	}
+}
 composite {
 	object {
-		x=20
-		y=735
+		x=406
+		y=385
 		width=350
 		height=110
 	}
@@ -1267,8 +1339,8 @@ composite {
 }
 text {
 	object {
-		x=60
-		y=710
+		x=446
+		y=360
 		width=100
 		height=20
 	}
@@ -1280,8 +1352,8 @@ text {
 }
 "text update" {
 	object {
-		x=170
-		y=711
+		x=556
+		y=361
 		width=150
 		height=18
 	}
@@ -1292,4 +1364,88 @@ text {
 	}
 	limits {
 	}
+}
+"text update" {
+	object {
+		x=556
+		y=161
+		width=79
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)NDimensions_RBV"
+		clr=54
+		bclr=4
+	}
+	limits {
+	}
+}
+text {
+	object {
+		x=426
+		y=160
+		width=120
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="# dimensions"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=556
+		y=211
+		width=79
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)Codec_RBV"
+		clr=54
+		bclr=4
+	}
+	limits {
+	}
+}
+text {
+	object {
+		x=426
+		y=210
+		width=120
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Codec"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=556
+		y=236
+		width=79
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)CompressedSize_RBV"
+		clr=54
+		bclr=4
+	}
+	limits {
+	}
+}
+text {
+	object {
+		x=426
+		y=235
+		width=120
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Compressed size"
+	align="horiz. right"
 }

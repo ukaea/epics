@@ -9,6 +9,7 @@ file "NDROI_settings.req",          P=$(P),  R=ROI2:
 file "NDROI_settings.req",          P=$(P),  R=ROI3:
 file "NDROI_settings.req",          P=$(P),  R=ROI4:
 file "NDProcess_settings.req",      P=$(P),  R=Proc1:
+file "NDFileTIFF_settings.req",     P=$(P),  R=Proc1:TIFF:
 file "NDScatter_settings.req",      P=$(P),  R=Scatter1:
 file "NDGather_settings.req",       P=$(P),  R=Gather1:
 file "NDGatherN_settings.req",      P=$(P),  R=Gather1:, N=1
@@ -56,9 +57,13 @@ file "NDAttributeN_settings.req",   P=$(P),  R=Attr1:6:
 file "NDAttributeN_settings.req",   P=$(P),  R=Attr1:7:
 file "NDAttributeN_settings.req",   P=$(P),  R=Attr1:8:
 file "NDFFT_settings.req",          P=$(P),  R=FFT1:
+file "NDCodec_settings.req",        P=$(P),  R=Codec1:
+file "NDCodec_settings.req",        P=$(P),  R=Codec2:
 
 # The following files are optional.  Uncomment the ones to be used.
 #file "NDEdge_settings.req",         P=$(P),  R=Edge1:
+#file "NDCV_settings.req",           P=$(P),  R=CV1:
+#file "NDBar_settings.req",          P=$(P),  R=Bar1:
 #file "NDPva_settings.req",          P=$(P),  R=Pva1:
 #file "scan_settings.req",           P=$(P),  S=scan1
 #file "scan_settings.req",           P=$(P),  S=scan2

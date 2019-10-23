@@ -23,6 +23,10 @@ WITH_SZIP=YES
 SZIP_EXTERNAL=NO
 WITH_ZLIB=YES
 ZLIB_EXTERNAL=NO
+WITH_BLOSC=YES
+BLOSC_EXTERNAL=NO
+WITH_BITSHUFFLE=YES
+BITSHUFFLE_EXTERNAL=NO
 
 mkdir external
 
@@ -45,7 +49,7 @@ fi
 
 # Set these flags appropriately
 echo "EPICS_BASE = "     $EPICS_BASE         >  configure/RELEASE.local
-echo "ASYN=`pwd`/external/asyn-R4-32"        >> configure/RELEASE.local
+echo "ASYN=`pwd`/external/asyn"              >> configure/RELEASE.local
 echo "ADSUPPORT=`pwd`/external/ADSupport"    >> configure/RELEASE.local
 echo "WITH_BOOST     ="  $WITH_BOOST         >> configure/CONFIG_SITE.linux-x86_64.Common
 echo "BOOST_EXTERNAL ="  $BOOST_EXTERNAL     >> configure/CONFIG_SITE.linux-x86_64.Common
@@ -64,9 +68,11 @@ echo "WITH_SZIP = "      $WITH_SZIP          >> configure/CONFIG_SITE.linux-x86_
 echo "SZIP_EXTERNAL = "  $SZIP_EXTERNAL      >> configure/CONFIG_SITE.linux-x86_64.Common
 echo "WITH_ZLIB = "      $WITH_ZLIB          >> configure/CONFIG_SITE.linux-x86_64.Common
 echo "ZLIB_EXTERNAL = "  $ZLIB_EXTERNAL      >> configure/CONFIG_SITE.linux-x86_64.Common
-echo "HOST_OPT=NO"                           >> configure/CONFIG_SITE.linux-x86_64.Common 
-echo "USR_CXXFLAGS_Linux=--coverage"         >> configure/CONFIG_SITE.linux-x86_64.Common 
-echo "USR_LDFLAGS_Linux=--coverage"          >> configure/CONFIG_SITE.linux-x86_64.Common 
+echo "WITH_BLOSC= "      $WITH_BLOSC         >> configure/CONFIG_SITE.linux-x86_64.Common
+echo "BLOSC_EXTERNAL = " $BLOSC_EXTERNAL     >> configure/CONFIG_SITE.linux-x86_64.Common
+echo "HOST_OPT=NO"                           >> configure/CONFIG_SITE.linux-x86_64.Common
+echo "USR_CXXFLAGS_Linux=--coverage"         >> configure/CONFIG_SITE.linux-x86_64.Common
+echo "USR_LDFLAGS_Linux=--coverage"          >> configure/CONFIG_SITE.linux-x86_64.Common
 
 echo "======= configure/RELEASE.local ========================================="
 cat configure/RELEASE.local
@@ -81,6 +87,7 @@ sudo apt-get update -qq
 # The following are only installed if WITH_XXX=YES and XXX_EXTERNAL=YES
 if [[ $WITH_BOOST == "YES" && $BOOST_EXTERNAL == "YES" ]]; then
   sudo apt-get install libboost-test-dev
+  sudo apt-get install libboost-system-dev
 fi
 
 if [[ $WITH_HDF5 == "YES" && $HDF5_EXTERNAL == "YES" ]]; then
@@ -95,6 +102,7 @@ if [[ $XML2_EXTERNAL == "YES" ]]; then
   sudo apt-get install libxml2-dev
 fi
 
+sudo apt-get install valgrind
 # TO DO: Install ZLIB, SZIP, JPEG, NEXUS, NETCDF if we want to use package versions
 
 # Installing latest version of code coverage tool lcov (because the ubuntu package is very old)
@@ -105,12 +113,11 @@ gem install coveralls-lcov
 
 cd external
 
-# Install asyn 
-wget -nv https://github.com/epics-modules/asyn/archive/R4-32.tar.gz
-tar -zxf R4-32.tar.gz
-echo "EPICS_BASE="$EPICS_BASE > asyn-R4-32/configure/RELEASE
-#echo "EPICS_LIBCOM_ONLY=YES" >> asyn-R4-32/configure/CONFIG_SITE
-make -sj -C asyn-R4-32/
+# Install asyn.  Use master branch on github
+git clone https://github.com/epics-modules/asyn
+echo "EPICS_BASE="$EPICS_BASE > asyn/configure/RELEASE
+#echo "EPICS_LIBCOM_ONLY=YES" >> asyn/configure/CONFIG_SITE
+make -sj -C asyn/
 
 # Install ADSupport
 git clone https://github.com/areaDetector/ADSupport.git

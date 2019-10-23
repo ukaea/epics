@@ -918,11 +918,13 @@ asynStatus NDPluginFile::writeNDArray(asynUser *pasynUser, void *genericPointer)
   * \param[in] priority The thread priority for the asyn port driver thread if ASYN_CANBLOCK is set in asynFlags.
   * \param[in] stackSize The stack size for the asyn port driver thread if ASYN_CANBLOCK is set in asynFlags.
   * \param[in] maxThreads The maximum number of threads this driver is allowed to use. If 0 then 1 will be used.
+  * \param[in] compressionAware true if this file plugin can handle compressed NDArrays.
   */
 NDPluginFile::NDPluginFile(const char *portName, int queueSize, int blockingCallbacks, 
                            const char *NDArrayPort, int NDArrayAddr, int maxAddr,
                            int maxBuffers, size_t maxMemory, int interfaceMask, int interruptMask,
-                           int asynFlags, int autoConnect, int priority, int stackSize, int maxThreads)
+                           int asynFlags, int autoConnect, int priority, int stackSize, int maxThreads,
+                           bool compressionAware)
 
     /* Invoke the base class constructor.
      * We allocate 1 NDArray of unlimited size in the NDArray pool.
@@ -931,7 +933,7 @@ NDPluginFile::NDPluginFile(const char *portName, int queueSize, int blockingCall
     : NDPluginDriver(portName, queueSize, blockingCallbacks, 
                      NDArrayPort, NDArrayAddr, maxAddr, maxBuffers, maxMemory, 
                      asynGenericPointerMask, asynGenericPointerMask,
-                     asynFlags, autoConnect, priority, stackSize, maxThreads),
+                     asynFlags, autoConnect, priority, stackSize, maxThreads, compressionAware),
     pCapture(NULL), captureBufferSize(0)
 {
     //static const char *functionName = "NDPluginFile";

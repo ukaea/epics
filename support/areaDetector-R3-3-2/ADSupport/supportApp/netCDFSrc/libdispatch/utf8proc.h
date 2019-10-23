@@ -114,6 +114,8 @@ typedef bool nc_utf8proc_bool;
 #else
   #ifdef HAVE_STDINT_H
     #include <stdint.h>
+  #else
+    #include "pstdint.h"
   #endif
 #endif
 typedef int8_t nc_utf8proc_int8_t;
@@ -130,6 +132,11 @@ typedef bool nc_utf8proc_bool;
 
 #ifdef __cplusplus
 extern "C" {
+#endif
+
+#ifdef vxWorks
+#undef SSIZE_MAX
+#define SSIZE_MAX LONG_MAX
 #endif
 
 #ifndef SSIZE_MAX

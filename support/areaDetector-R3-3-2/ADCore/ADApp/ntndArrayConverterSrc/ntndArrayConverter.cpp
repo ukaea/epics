@@ -41,6 +41,18 @@ static const NDAttrDataType_t scalarToNDAttrDataType[pvString+1] = {
         NDAttrString,   // 11: pvString
 };
 
+// Maps NDDataType to ScalarType
+static const ScalarType NDDataTypeToScalar[NDFloat64 + 1] = {
+        pvByte,     // 0:  NDInt8
+        pvUByte,    // 1:  NDUInt8
+        pvShort,    // 2:  NDInt16
+        pvUShort,   // 3:  NDUInt16
+        pvInt,      // 4:  NDInt32
+        pvUInt,     // 5:  NDUInt32
+        pvFloat,    // 6:  NDFloat32
+        pvDouble,   // 7:  NDFloat64
+};
+
 static const PVDataCreatePtr PVDC = getPVDataCreate();
 
 template <typename dataType>
@@ -76,11 +88,16 @@ NDColorMode_t NTNDArrayConverter::getColorMode (void)
     for(PVStructureArray::const_svector::iterator it(attrs.cbegin());
             it != attrs.cend(); ++it)
     {
-        if((*it)->getSubField<PVString>("name")->get() == "ColorMode")
+        PVStringPtr nameFld((*it)->getSubFieldT<PVString>("name"));
+        if(nameFld->get() == "ColorMode")
         {
-            PVUnionPtr field((*it)->getSubField<PVUnion>("value"));
-            int cm = static_pointer_cast<PVInt>(field->get())->get();
-            colorMode = (NDColorMode_t) cm;
+            PVUnionPtr valueUnion((*it)->getSubFieldT<PVUnion>("value"));
+            PVScalar::shared_pointer valueFld(valueUnion->get<PVScalar>());
+            if(valueFld) {
+                int cm = valueFld->getAs<int32>();
+                colorMode = (NDColorMode_t) cm;
+            } else
+                throw std::runtime_error("Error accessing attribute ColorMode");
         }
     }
 
@@ -102,9 +119,23 @@ NTNDArrayInfo_t NTNDArrayConverter::getInfo (void)
         info.nElements *= info.dims[i];
     }
 
+    PVStructurePtr codec(m_array->getCodec());
+
+    info.codec = codec->getSubField<PVString>("name")->get();
+
+    ScalarType dataType;
+
+    if (info.codec.empty())
+        dataType = getValueType();
+    else {
+        // Read uncompressed data type
+        PVIntPtr udt(codec->getSubField<PVUnion>("parameters")->get<PVInt>());
+        dataType = static_cast<ScalarType>(udt->get());
+    }
+
     NDDataType_t dt;
     int bpe;
-    switch(getValueType())
+    switch(dataType)
     {
     case pvByte:    dt = NDInt8;     bpe = sizeof(epicsInt8);    break;
     case pvUByte:   dt = NDUInt8;    bpe = sizeof(epicsUInt8);   break;
@@ -213,8 +244,6 @@ void NTNDArrayConverter::fromArray (NDArray *src)
     fromDataTimeStamp(src);
     fromAttributes(src);
 
-    m_array->getCodec()->getSubField<PVString>("name")->put("");
-
     // getUniqueId not implemented yet
     // m_array->getUniqueId()->put(src->uniqueId);
     PVIntPtr uniqueId(m_array->getPVStructure()->getSubField<PVInt>("uniqueId"));
@@ -230,6 +259,13 @@ void NTNDArrayConverter::toValue (NDArray *dest)
     PVUnionPtr src(m_array->getValue());
     arrayVecType srcVec(src->get<arrayType>()->view());
     memcpy(dest->pData, srcVec.data(), srcVec.size()*sizeof(arrayValType));
+
+    NTNDArrayInfo_t info = getInfo();
+    dest->codec.name = info.codec;
+    dest->dataType = info.dataType;
+
+    if (!info.codec.empty())
+        dest->compressedSize = srcVec.size()*sizeof(arrayValType);
 }
 
 void NTNDArrayConverter::toValue (NDArray *dest)
@@ -252,6 +288,7 @@ void NTNDArrayConverter::toValue (NDArray *dest)
         throw std::runtime_error("invalid value data type");
         break;
     }
+
 }
 
 void NTNDArrayConverter::toDimensions (NDArray *dest)
@@ -377,18 +414,28 @@ void NTNDArrayConverter::fromValue (NDArray *src)
 {
     typedef typename arrayType::value_type arrayValType;
 
-    NDArrayInfo_t arrayInfo;
-    size_t count, nBytes;
-
     string unionField(string(ScalarTypeFunc::name(arrayType::typeCode)) +
             string("Value"));
 
+    NDArrayInfo_t arrayInfo;
     src->getInfo(&arrayInfo);
-    count = arrayInfo.nElements;
-    nBytes = arrayInfo.totalBytes;
 
-    m_array->getCompressedDataSize()->put(static_cast<int64>(nBytes));
-    m_array->getUncompressedDataSize()->put(static_cast<int64>(nBytes));
+    int64 compressedSize = src->compressedSize;
+    int64 uncompressedSize = arrayInfo.totalBytes;
+
+    m_array->getCompressedDataSize()->put(compressedSize);
+    m_array->getUncompressedDataSize()->put(uncompressedSize);
+
+    // The uncompressed data type would be lost when converting to NTNDArray,
+    // so we must store it somewhere. codec.parameters seems like a good place.
+    PVScalarPtr uncompressedType(PVDC->createPVScalar(pvInt));
+    uncompressedType->putFrom<int32>(NDDataTypeToScalar[src->dataType]);
+
+    PVStructurePtr codec(m_array->getCodec());
+    codec->getSubField<PVUnion>("parameters")->set(uncompressedType);
+    codec->getSubField<PVString>("name")->put(src->codec.name);
+
+    size_t count = src->codec.empty() ? arrayInfo.nElements : compressedSize;
 
     src->reserve();
     shared_vector<arrayValType> temp((srcDataType*)src->pData,
@@ -401,16 +448,22 @@ void NTNDArrayConverter::fromValue (NDArray *src)
 
 void NTNDArrayConverter::fromValue (NDArray *src)
 {
-    switch(src->dataType)
-    {
-    case NDInt8:    fromValue<PVByteArray,   int8_t>   (src); break;
-    case NDUInt8:   fromValue<PVUByteArray,  uint8_t>  (src); break;
-    case NDInt16:   fromValue<PVShortArray,  int16_t>  (src); break;
-    case NDUInt16:  fromValue<PVUShortArray, uint16_t> (src); break;
-    case NDInt32:   fromValue<PVIntArray,    int32_t>  (src); break;
-    case NDUInt32:  fromValue<PVUIntArray,   uint32_t> (src); break;
-    case NDFloat32: fromValue<PVFloatArray,  float>    (src); break;
-    case NDFloat64: fromValue<PVDoubleArray, double>   (src); break;
+    // Uncompressed
+    if (src->codec.empty()) {
+        switch(src->dataType)
+        {
+        case NDInt8:    fromValue<PVByteArray,   int8_t>   (src); break;
+        case NDUInt8:   fromValue<PVUByteArray,  uint8_t>  (src); break;
+        case NDInt16:   fromValue<PVShortArray,  int16_t>  (src); break;
+        case NDUInt16:  fromValue<PVUShortArray, uint16_t> (src); break;
+        case NDInt32:   fromValue<PVIntArray,    int32_t>  (src); break;
+        case NDUInt32:  fromValue<PVUIntArray,   uint32_t> (src); break;
+        case NDFloat32: fromValue<PVFloatArray,  float>    (src); break;
+        case NDFloat64: fromValue<PVDoubleArray, double>   (src); break;
+        }
+    // Compressed
+    } else {
+        fromValue<PVUByteArray, uint8_t>(src);
     }
 }
 
@@ -469,12 +522,13 @@ void NTNDArrayConverter::fromAttribute (PVStructurePtr dest, NDAttribute *src)
     valueType value;
     src->getValue(src->getDataType(), (void*)&value);
 
-    PVUnionPtr destUnion(dest->getSubField<PVUnion>("value"));
-
-    if(!destUnion->get())
-        destUnion->set(PVDC->createPVScalar<pvAttrType>());
-
-    static_pointer_cast<pvAttrType>(destUnion->get())->put(value);
+    PVUnionPtr destUnion(dest->getSubFieldT<PVUnion>("value"));
+    typename pvAttrType::shared_pointer valueFld(destUnion->get<pvAttrType>());
+    if(!valueFld) {
+        valueFld = PVDC->createPVScalar<pvAttrType>();
+        destUnion->set(valueFld);
+    }
+    valueFld->put(value);
 }
 
 void NTNDArrayConverter::fromStringAttribute (PVStructurePtr dest, NDAttribute *src)
@@ -483,17 +537,16 @@ void NTNDArrayConverter::fromStringAttribute (PVStructurePtr dest, NDAttribute *
     size_t attrDataSize;
 
     src->getValueInfo(&attrDataType, &attrDataSize);
+    std::vector<char> value(attrDataSize);
+    src->getValue(attrDataType, &value[0], attrDataSize);
 
-    char *value = (char *)malloc(sizeof(char) * attrDataSize);
-    src->getValue(attrDataType, value, attrDataSize);
-
-    PVUnionPtr destUnion(dest->getSubField<PVUnion>("value"));
-
-    if(!destUnion->get())
-        destUnion->set(PVDC->createPVScalar<PVString>());
-
-    static_pointer_cast<PVString>(destUnion->get())->put(value);
-    free(value);
+    PVUnionPtr destUnion(dest->getSubFieldT<PVUnion>("value"));
+    PVStringPtr valueFld(destUnion->get<PVString>());
+    if(!valueFld) {
+        valueFld = PVDC->createPVScalar<PVString>();
+        destUnion->set(valueFld);
+    }
+    valueFld->put(&value[0]);
 }
 
 void NTNDArrayConverter::fromUndefinedAttribute (PVStructurePtr dest)

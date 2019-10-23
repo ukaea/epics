@@ -1,6 +1,9 @@
 #ifndef asynNDArrayDriver_H
 #define asynNDArrayDriver_H
 
+#include <epicsMutex.h>
+#include <epicsEvent.h>
+
 #include "asynPortDriver.h"
 #include "NDArray.h"
 #include "ADCoreVersion.h"
@@ -55,6 +58,8 @@ typedef enum {
 #define NDEpicsTSSecString      "EPICS_TS_SEC"      /**< (asynInt32,    r/o) EPOCS time stamp secPastEpoch of array */
 #define NDEpicsTSNsecString     "EPICS_TS_NSEC"     /**< (asynInt32,    r/o) EPOCS time stamp nsec of array */
 #define NDBayerPatternString    "BAYER_PATTERN"     /**< (asynInt32,    r/o) Bayer pattern of array  (from bayerPattern array attribute if present) */
+#define NDCodecString           "CODEC"             /**< (asynOctet,    r/o) Codec name */
+#define NDCompressedSizeString  "COMPRESSED_SIZE"   /**< (asynInt32,    r/o) Compressed size in bytes */
 
 /* Statistics on number of arrays collected */
 #define NDArrayCounterString    "ARRAY_COUNTER"     /**< (asynInt32,    r/w) Number of arrays since last reset */
@@ -138,6 +143,8 @@ public:
 
     asynStatus incrementQueuedArrayCount();
     asynStatus decrementQueuedArrayCount();
+    int getQueuedArrayCount();
+    void updateQueuedArrayCount();
     
     class NDArrayPool *pNDArrayPool;     /**< An NDArrayPool pointer that is initialized to pNDArrayPoolPvt_ in the constructor.
                                      * Plugins change this pointer to the one passed in NDArray::pNDArrayPool */
@@ -160,6 +167,8 @@ protected:
     int NDEpicsTSSec;
     int NDEpicsTSNsec;
     int NDBayerPattern;
+    int NDCodec;
+    int NDCompressedSize;
     int NDArrayCounter;
     int NDFilePath;
     int NDFilePathExists;
@@ -197,11 +206,18 @@ protected:
 
     class NDArray **pArrays;             /**< An array of NDArray pointers used to store data in the driver */
     class NDAttributeList *pAttributeList;  /**< An NDAttributeList object used to obtain the current values of a set of attributes */
-    NDArrayPool *pNDArrayPoolPvt_;
-    epicsMutex *queuedArrayCountMutex_;
     int threadStackSize_;
     int threadPriority_;
+
+private:
+    NDArrayPool *pNDArrayPoolPvt_;
+    epicsMutex *queuedArrayCountMutex_;
+    epicsEventId queuedArrayEvent_;
+    int queuedArrayCount_;
     
+    bool queuedArrayUpdateRun_;
+    epicsEventId queuedArrayUpdateDone_;
+
     friend class NDArrayPool;
 
 };

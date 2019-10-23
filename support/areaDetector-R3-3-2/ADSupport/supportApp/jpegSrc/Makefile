@@ -12,7 +12,7 @@ ifeq ($(WITH_JPEG),YES)
   INC += jmorecfg.h 
   INC += jerror.h 
 
-  LIBRARY_IOC = jpeg
+  LIBRARY = jpeg
   ifeq ($(SHARED_LIBRARIES),YES)
     USR_CFLAGS_WIN32 += -DDLL_JPEG
     jpeg.dll: USR_CFLAGS_WIN32 += -DDLL_EXPORT
@@ -66,6 +66,21 @@ ifeq ($(WITH_JPEG),YES)
   jpeg_SRCS += jmemnobs.c
 
   endif # ($(JPEG_EXTERNAL),NO)
+
+  LIBRARY  += decompressJPEG
+  decompressJPEG_SRCS += decompressJPEG.c
+  ifeq ($(JPEG_EXTERNAL),NO)
+    decompressJPEG_LIBS += jpeg
+  else
+    ifdef JPEG_LIB
+      jpeg_DIR     = $(JPEG_LIB)
+      decompressJPEG_LIBS += jpeg
+    else
+      decompressJPEG_SYS_LIBS += jpeg
+    endif
+  endif
+  decompressJPEG_SYS_LIBS_WIN32 += ws2_32
+
 endif # ($(WITH_JPEG),YES)
 
 include $(TOP)/configure/RULES

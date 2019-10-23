@@ -34,6 +34,8 @@
     <ClInclude Include="NDPluginTransform.h" />
     <ClInclude Include="NDPosPlugin.h" />
     <ClInclude Include="NDPosPluginFileReader.h" />
+    <ClInclude Include="throttler.h" />
+    <ClInclude Include="NDPluginCodec.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="fft.c" />
@@ -72,6 +74,8 @@
     <ClCompile Include="NDPluginGather.cpp" />
     <ClCompile Include="NDPluginScatter.cpp" />
     <ClCompile Include="test_forward_reference.cpp" />
+    <ClCompile Include="throttler.cpp" />
+    <ClCompile Include="NDPluginCodec.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Makefile" />
@@ -100,5 +104,6 @@
     <None Include="NDPluginGather.dbd" />
     <None Include="NDPluginScatter.dbd" />
     <None Include="NDFileNexus.dbd" />
+    <None Include="NDPluginCodec.dbd" />
   </ItemGroup>
 </Project>

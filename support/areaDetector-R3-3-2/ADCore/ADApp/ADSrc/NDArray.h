@@ -19,6 +19,7 @@
 
 #include "NDAttribute.h"
 #include "NDAttributeList.h"
+#include "Codec.h"
 
 /** The maximum number of dimensions in an NDArray */
 #define ND_ARRAY_MAX_DIMS 10
@@ -124,6 +125,8 @@ public:
                                   * The data is assumed to be stored in the order of dims[0] changing fastest, and 
                                   * dims[ndims-1] changing slowest. */
     NDAttributeList *pAttributeList;  /**< Linked list of attributes */
+    Codec_t codec;              /**< Definition of codec used to compress the data. */
+    size_t compressedSize;      /**< Size of the compressed data. Should be equal to dataSize if pData is uncompressed. */
 };
 
 // This class defines the object that is contained in the std::multilist for sorting NDArrays in the freeList_.
@@ -160,7 +163,7 @@ public:
     NDArrayPool  (class asynNDArrayDriver *pDriver, size_t maxMemory);
     virtual ~NDArrayPool() {}
     NDArray*     alloc(int ndims, size_t *dims, NDDataType_t dataType, size_t dataSize, void *pData);
-    NDArray*     copy(NDArray *pIn, NDArray *pOut, int copyData);
+    NDArray*     copy(NDArray *pIn, NDArray *pOut, bool copyData, bool copyDimensions=true, bool copyDataType=true);
 
     int          reserve(NDArray *pArray);
     int          release(NDArray *pArray);

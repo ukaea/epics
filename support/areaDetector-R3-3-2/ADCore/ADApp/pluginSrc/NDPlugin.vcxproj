@@ -71,6 +71,9 @@
     <ProjectReference Include="..\..\..\ADSupport\supportApp\hdf5Src\hdf5.vcxproj">
       <Project>{a1c1777e-50d2-47dc-91bb-3b328362214a}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\ADSupport\supportApp\hdf5_hlSrc\hdf5_hl.vcxproj">
+      <Project>{91739f78-0aef-404c-b173-317a11441b22}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\ADSupport\supportApp\netCDFSrc\netCDF.vcxproj">
       <Project>{39a57a7c-0399-40d5-bf95-2940fc941e4d}</Project>
     </ProjectReference>
@@ -99,6 +102,7 @@
     <ClInclude Include="NDFileTIFF.h" />
     <ClInclude Include="NDPluginAttribute.h" />
     <ClInclude Include="NDPluginCircularBuff.h" />
+    <ClInclude Include="NDPluginCodec.h" />
     <ClInclude Include="NDPluginColorConvert.h" />
     <ClInclude Include="NDPluginDriver.h" />
     <ClInclude Include="NDPluginFFT.h" />
@@ -115,6 +119,7 @@
     <ClInclude Include="NDPluginTransform.h" />
     <ClInclude Include="NDPosPlugin.h" />
     <ClInclude Include="NDPosPluginFileReader.h" />
+    <ClInclude Include="throttler.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="fft.c" />
@@ -143,6 +148,7 @@
     <ClCompile Include="NDPluginAttribute.cpp" />
     <ClCompile Include="NDPluginAttrPlot.cpp" />
     <ClCompile Include="NDPluginCircularBuff.cpp" />
+    <ClCompile Include="NDPluginCodec.cpp" />
     <ClCompile Include="NDPluginColorConvert.cpp" />
     <ClCompile Include="NDPluginDriver.cpp" />
     <ClCompile Include="NDPluginFFT.cpp" />
@@ -171,6 +177,7 @@
     <ClCompile Include="NDPosPlugin.cpp" />
     <ClCompile Include="NDPosPluginFileReader.cpp" />
     <ClCompile Include="test_forward_reference.cpp" />
+    <ClCompile Include="throttler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Makefile" />
@@ -186,6 +193,7 @@
     <None Include="NDPluginAttribute.dbd" />
     <None Include="NDPluginAttrPlot.dbd" />
     <None Include="NDPluginCircularBuff.dbd" />
+    <None Include="NDPluginCodec.dbd" />
     <None Include="NDPluginColorConvert.dbd" />
     <None Include="NDPluginFFT.dbd" />
     <None Include="NDPluginGather.dbd" />
@@ -299,10 +307,10 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\ADSupport\include\os\WIN32;..\..\..\ADSupport\supportApp\xml2Src\os\default;..\..\..\ADSupport\supportApp\GraphicsMagickSrc\coders;..\..\..\ADSupport\supportApp\GraphicsMagickSrc\Magick++\lib;..\..\..\ADSupport\supportApp\nexusSrc\os\WIN32;..\..\..\ADSupport\supportApp\nexusSrc\os\default;..\..\..\ADSupport\supportApp\GraphicsMagickSrc;..\..\..\ADSupport\supportApp\hdf5Src\os\WIN32;..\..\..\ADSupport\supportApp\hdf5Src\os\default;..\..\..\ADSupport\supportApp\tiffSrc\os\WIN32;..\..\..\ADSupport\supportApp\tiffSrc\os\default;..\..\..\ADSupport\supportApp\jpegSrc\os\WIN32;..\..\..\ADSupport\supportApp\jpegSrc\os\default;..\..\..\ADSupport\supportApp\netCDFSrc\os\default;$(SolutionDir)include\os\win32;$(SolutionDir)include;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\ADSupport\include\os\WIN32;..\..\..\ADSupport\supportApp\xml2Src\os\default;..\..\..\ADSupport\supportApp\GraphicsMagickSrc\coders;..\..\..\ADSupport\supportApp\GraphicsMagickSrc\Magick++\lib;..\..\..\ADSupport\supportApp\nexusSrc\os\WIN32;..\..\..\ADSupport\supportApp\nexusSrc\os\default;..\..\..\ADSupport\supportApp\GraphicsMagickSrc;..\..\..\ADSupport\supportApp\hdf5_hlSrc;..\..\..\ADSupport\supportApp\hdf5Src\os\WIN32;..\..\..\ADSupport\supportApp\hdf5Src\os\default;..\..\..\ADSupport\supportApp\tiffSrc\os\WIN32;..\..\..\ADSupport\supportApp\tiffSrc\os\default;..\..\..\ADSupport\supportApp\jpegSrc\os\WIN32;..\..\..\ADSupport\supportApp\jpegSrc\os\default;..\..\..\ADSupport\supportApp\netCDFSrc\os\default;$(SolutionDir)include\os\win32;$(SolutionDir)include;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;H5_BUILT_AS_DYNAMIC_LIB;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS;</PreprocessorDefinitions>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <DisableSpecificWarnings>4244;4267;4251;4355;4996;4838</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4244;4267;4251;4355;4996;4838;4293</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -318,7 +326,7 @@ xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl   -I../O.Common -I$(SolutionDir)include -I../O.Common -I$(SolutionDir)DBD -o O.Common\NDPluginSupport.dbd NDPluginAttribute.dbd NDPluginCircularBuff.dbd NDPluginColorConvert.dbd NDPluginFFT.dbd NDPluginGather.dbd NDPluginOverlay.dbd NDPluginProcess.dbd NDPluginROI.dbd NDPluginROIStat.dbd NDPluginScatter.dbd NDPluginStats.dbd NDPluginStdArrays.dbd NDPluginTimeSeries.dbd NDPluginTransform.dbd NDPluginAttrPlot.dbd
+perl -CSD $(OutDir)dbdExpand.pl   -I../O.Common -I$(SolutionDir)include -I../O.Common -I$(SolutionDir)DBD -o O.Common\NDPluginSupport.dbd NDPluginCODEC.dbd NDPluginAttribute.dbd NDPluginCircularBuff.dbd NDPluginColorConvert.dbd NDPluginFFT.dbd NDPluginGather.dbd NDPluginOverlay.dbd NDPluginProcess.dbd NDPluginROI.dbd NDPluginROIStat.dbd NDPluginScatter.dbd NDPluginStats.dbd NDPluginStdArrays.dbd NDPluginTimeSeries.dbd NDPluginTransform.dbd NDPluginAttrPlot.dbd
 
 
 xcopy /Y /Q  /D .\O.Common\*.DBD $(SolutionDir)DBD &gt; NUL</Command>
@@ -327,10 +335,10 @@ xcopy /Y /Q  /D .\O.Common\*.DBD $(SolutionDir)DBD &gt; NUL</Command>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\ADSupport\include\os\WIN32;..\..\..\ADSupport\supportApp\xml2Src\os\default;..\..\..\ADSupport\supportApp\GraphicsMagickSrc\coders;..\..\..\ADSupport\supportApp\GraphicsMagickSrc\Magick++\lib;..\..\..\ADSupport\supportApp\nexusSrc\os\WIN32;..\..\..\ADSupport\supportApp\nexusSrc\os\default;..\..\..\ADSupport\supportApp\GraphicsMagickSrc;..\..\..\ADSupport\supportApp\hdf5Src\os\WIN32;..\..\..\ADSupport\supportApp\hdf5Src\os\default;..\..\..\ADSupport\supportApp\tiffSrc\os\WIN32;..\..\..\ADSupport\supportApp\tiffSrc\os\default;..\..\..\ADSupport\supportApp\jpegSrc\os\WIN32;..\..\..\ADSupport\supportApp\jpegSrc\os\default;..\..\..\ADSupport\supportApp\netCDFSrc\os\default;$(SolutionDir)include\os\win32;$(SolutionDir)include;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\ADSupport\include\os\WIN32;..\..\..\ADSupport\supportApp\xml2Src\os\default;..\..\..\ADSupport\supportApp\GraphicsMagickSrc\coders;..\..\..\ADSupport\supportApp\GraphicsMagickSrc\Magick++\lib;..\..\..\ADSupport\supportApp\nexusSrc\os\WIN32;..\..\..\ADSupport\supportApp\nexusSrc\os\default;..\..\..\ADSupport\supportApp\GraphicsMagickSrc;..\..\..\ADSupport\supportApp\hdf5_hlSrc;..\..\..\ADSupport\supportApp\hdf5Src\os\WIN32;..\..\..\ADSupport\supportApp\hdf5Src\os\default;..\..\..\ADSupport\supportApp\tiffSrc\os\WIN32;..\..\..\ADSupport\supportApp\tiffSrc\os\default;..\..\..\ADSupport\supportApp\jpegSrc\os\WIN32;..\..\..\ADSupport\supportApp\jpegSrc\os\default;..\..\..\ADSupport\supportApp\netCDFSrc\os\default;$(SolutionDir)include\os\win32;$(SolutionDir)include;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;H5_BUILT_AS_DYNAMIC_LIB;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS;</PreprocessorDefinitions>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <DisableSpecificWarnings>4244;4267;4251;4355;4996;4838</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4244;4267;4251;4355;4996;4838;4293</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -346,7 +354,7 @@ xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl   -I../O.Common -I$(SolutionDir)include -I../O.Common -I$(SolutionDir)DBD -o O.Common\NDPluginSupport.dbd NDPluginAttribute.dbd NDPluginCircularBuff.dbd NDPluginColorConvert.dbd NDPluginFFT.dbd NDPluginGather.dbd NDPluginOverlay.dbd NDPluginProcess.dbd NDPluginROI.dbd NDPluginROIStat.dbd NDPluginScatter.dbd NDPluginStats.dbd NDPluginStdArrays.dbd NDPluginTimeSeries.dbd NDPluginTransform.dbd NDPluginAttrPlot.dbd
+perl -CSD $(OutDir)dbdExpand.pl   -I../O.Common -I$(SolutionDir)include -I../O.Common -I$(SolutionDir)DBD -o O.Common\NDPluginSupport.dbd NDPluginCODEC.dbd NDPluginAttribute.dbd NDPluginCircularBuff.dbd NDPluginColorConvert.dbd NDPluginFFT.dbd NDPluginGather.dbd NDPluginOverlay.dbd NDPluginProcess.dbd NDPluginROI.dbd NDPluginROIStat.dbd NDPluginScatter.dbd NDPluginStats.dbd NDPluginStdArrays.dbd NDPluginTimeSeries.dbd NDPluginTransform.dbd NDPluginAttrPlot.dbd
 
 
 xcopy /Y /Q  /D .\O.Common\*.DBD $(SolutionDir)DBD &gt; NUL</Command>
@@ -355,10 +363,10 @@ xcopy /Y /Q  /D .\O.Common\*.DBD $(SolutionDir)DBD &gt; NUL</Command>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\ADSupport\include\os\WIN32;..\..\..\ADSupport\supportApp\xml2Src\os\default;..\..\..\ADSupport\supportApp\GraphicsMagickSrc\coders;..\..\..\ADSupport\supportApp\GraphicsMagickSrc\Magick++\lib;..\..\..\ADSupport\supportApp\nexusSrc\os\WIN32;..\..\..\ADSupport\supportApp\nexusSrc\os\default;..\..\..\ADSupport\supportApp\GraphicsMagickSrc;..\..\..\ADSupport\supportApp\hdf5Src\os\WIN32;..\..\..\ADSupport\supportApp\hdf5Src\os\default;..\..\..\ADSupport\supportApp\tiffSrc\os\WIN32;..\..\..\ADSupport\supportApp\tiffSrc\os\default;..\..\..\ADSupport\supportApp\jpegSrc\os\WIN32;..\..\..\ADSupport\supportApp\jpegSrc\os\default;..\..\..\ADSupport\supportApp\netCDFSrc\os\default;$(SolutionDir)include\os\win32;$(SolutionDir)include;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\ADSupport\include\os\WIN32;..\..\..\ADSupport\supportApp\xml2Src\os\default;..\..\..\ADSupport\supportApp\GraphicsMagickSrc\coders;..\..\..\ADSupport\supportApp\GraphicsMagickSrc\Magick++\lib;..\..\..\ADSupport\supportApp\nexusSrc\os\WIN32;..\..\..\ADSupport\supportApp\nexusSrc\os\default;..\..\..\ADSupport\supportApp\GraphicsMagickSrc;..\..\..\ADSupport\supportApp\hdf5_hlSrc;..\..\..\ADSupport\supportApp\hdf5Src\os\WIN32;..\..\..\ADSupport\supportApp\hdf5Src\os\default;..\..\..\ADSupport\supportApp\tiffSrc\os\WIN32;..\..\..\ADSupport\supportApp\tiffSrc\os\default;..\..\..\ADSupport\supportApp\jpegSrc\os\WIN32;..\..\..\ADSupport\supportApp\jpegSrc\os\default;..\..\..\ADSupport\supportApp\netCDFSrc\os\default;$(SolutionDir)include\os\win32;$(SolutionDir)include;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS;_WIN32_WINNT=0X0503</PreprocessorDefinitions>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <DisableSpecificWarnings>4244;4267;4251;4355;4996;4838</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4244;4267;4251;4355;4996;4838;4293</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -374,7 +382,7 @@ xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl   -I../O.Common -I$(SolutionDir)include -I../O.Common -I$(SolutionDir)DBD -o O.Common\NDPluginSupport.dbd NDPluginAttribute.dbd NDPluginCircularBuff.dbd NDPluginColorConvert.dbd NDPluginFFT.dbd NDPluginGather.dbd NDPluginOverlay.dbd NDPluginProcess.dbd NDPluginROI.dbd NDPluginROIStat.dbd NDPluginScatter.dbd NDPluginStats.dbd NDPluginStdArrays.dbd NDPluginTimeSeries.dbd NDPluginTransform.dbd NDPluginAttrPlot.dbd
+perl -CSD $(OutDir)dbdExpand.pl   -I../O.Common -I$(SolutionDir)include -I../O.Common -I$(SolutionDir)DBD -o O.Common\NDPluginSupport.dbd NDPluginCODEC.dbd NDPluginAttribute.dbd NDPluginCircularBuff.dbd NDPluginColorConvert.dbd NDPluginFFT.dbd NDPluginGather.dbd NDPluginOverlay.dbd NDPluginProcess.dbd NDPluginROI.dbd NDPluginROIStat.dbd NDPluginScatter.dbd NDPluginStats.dbd NDPluginStdArrays.dbd NDPluginTimeSeries.dbd NDPluginTransform.dbd NDPluginAttrPlot.dbd
 
 
 xcopy /Y /Q  /D .\O.Common\*.DBD $(SolutionDir)DBD &gt; NUL</Command>
@@ -386,10 +394,10 @@ xcopy /Y /Q  /D .\O.Common\*.DBD $(SolutionDir)DBD &gt; NUL</Command>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\ADSupport\include\os\WIN32;..\..\..\ADSupport\supportApp\xml2Src\os\default;..\..\..\ADSupport\supportApp\GraphicsMagickSrc\coders;..\..\..\ADSupport\supportApp\GraphicsMagickSrc\Magick++\lib;..\..\..\ADSupport\supportApp\nexusSrc\os\WIN32;..\..\..\ADSupport\supportApp\nexusSrc\os\default;..\..\..\ADSupport\supportApp\GraphicsMagickSrc;..\..\..\ADSupport\supportApp\hdf5Src\os\WIN32;..\..\..\ADSupport\supportApp\hdf5Src\os\default;..\..\..\ADSupport\supportApp\tiffSrc\os\WIN32;..\..\..\ADSupport\supportApp\tiffSrc\os\default;..\..\..\ADSupport\supportApp\jpegSrc\os\WIN32;..\..\..\ADSupport\supportApp\jpegSrc\os\default;..\..\..\ADSupport\supportApp\netCDFSrc\os\default;$(SolutionDir)include\os\win32;$(SolutionDir)include;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\ADSupport\include\os\WIN32;..\..\..\ADSupport\supportApp\xml2Src\os\default;..\..\..\ADSupport\supportApp\GraphicsMagickSrc\coders;..\..\..\ADSupport\supportApp\GraphicsMagickSrc\Magick++\lib;..\..\..\ADSupport\supportApp\nexusSrc\os\WIN32;..\..\..\ADSupport\supportApp\nexusSrc\os\default;..\..\..\ADSupport\supportApp\GraphicsMagickSrc;..\..\..\ADSupport\supportApp\hdf5_hlSrc;..\..\..\ADSupport\supportApp\hdf5Src\os\WIN32;..\..\..\ADSupport\supportApp\hdf5Src\os\default;..\..\..\ADSupport\supportApp\tiffSrc\os\WIN32;..\..\..\ADSupport\supportApp\tiffSrc\os\default;..\..\..\ADSupport\supportApp\jpegSrc\os\WIN32;..\..\..\ADSupport\supportApp\jpegSrc\os\default;..\..\..\ADSupport\supportApp\netCDFSrc\os\default;$(SolutionDir)include\os\win32;$(SolutionDir)include;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <DisableSpecificWarnings>4244;4267;4251;4355;4996;4838</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4244;4267;4251;4355;4996;4838;4293</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -405,7 +413,7 @@ xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl   -I../O.Common -I$(SolutionDir)include -I../O.Common -I$(SolutionDir)DBD -o O.Common\NDPluginSupport.dbd NDPluginAttribute.dbd NDPluginCircularBuff.dbd NDPluginColorConvert.dbd NDPluginFFT.dbd NDPluginGather.dbd NDPluginOverlay.dbd NDPluginProcess.dbd NDPluginROI.dbd NDPluginROIStat.dbd NDPluginScatter.dbd NDPluginStats.dbd NDPluginStdArrays.dbd NDPluginTimeSeries.dbd NDPluginTransform.dbd NDPluginAttrPlot.dbd
+perl -CSD $(OutDir)dbdExpand.pl   -I../O.Common -I$(SolutionDir)include -I../O.Common -I$(SolutionDir)DBD -o O.Common\NDPluginSupport.dbd NDPluginCODEC.dbd NDPluginAttribute.dbd NDPluginCircularBuff.dbd NDPluginColorConvert.dbd NDPluginFFT.dbd NDPluginGather.dbd NDPluginOverlay.dbd NDPluginProcess.dbd NDPluginROI.dbd NDPluginROIStat.dbd NDPluginScatter.dbd NDPluginStats.dbd NDPluginStdArrays.dbd NDPluginTimeSeries.dbd NDPluginTransform.dbd NDPluginAttrPlot.dbd
 
 
 xcopy /Y /Q  /D .\O.Common\*.DBD $(SolutionDir)DBD &gt; NUL</Command>
@@ -419,9 +427,9 @@ xcopy /Y /Q  /D .\O.Common\*.DBD $(SolutionDir)DBD &gt; NUL</Command>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>..\..\..\ADSupport\include\os\WIN32;..\..\..\ADSupport\supportApp\xml2Src\os\default;..\..\..\ADSupport\supportApp\GraphicsMagickSrc\coders;..\..\..\ADSupport\supportApp\GraphicsMagickSrc\Magick++\lib;..\..\..\ADSupport\supportApp\nexusSrc\os\WIN32;..\..\..\ADSupport\supportApp\nexusSrc\os\default;..\..\..\ADSupport\supportApp\GraphicsMagickSrc;..\..\..\ADSupport\supportApp\hdf5Src\os\WIN32;..\..\..\ADSupport\supportApp\hdf5Src\os\default;..\..\..\ADSupport\supportApp\tiffSrc\os\WIN32;..\..\..\ADSupport\supportApp\tiffSrc\os\default;..\..\..\ADSupport\supportApp\jpegSrc\os\WIN32;..\..\..\ADSupport\supportApp\jpegSrc\os\default;..\..\..\ADSupport\supportApp\netCDFSrc\os\default;$(SolutionDir)include\os\win32;$(SolutionDir)include;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\ADSupport\include\os\WIN32;..\..\..\ADSupport\supportApp\xml2Src\os\default;..\..\..\ADSupport\supportApp\GraphicsMagickSrc\coders;..\..\..\ADSupport\supportApp\GraphicsMagickSrc\Magick++\lib;..\..\..\ADSupport\supportApp\nexusSrc\os\WIN32;..\..\..\ADSupport\supportApp\nexusSrc\os\default;..\..\..\ADSupport\supportApp\GraphicsMagickSrc;..\..\..\ADSupport\supportApp\hdf5_hlSrc;..\..\..\ADSupport\supportApp\hdf5Src\os\WIN32;..\..\..\ADSupport\supportApp\hdf5Src\os\default;..\..\..\ADSupport\supportApp\tiffSrc\os\WIN32;..\..\..\ADSupport\supportApp\tiffSrc\os\default;..\..\..\ADSupport\supportApp\jpegSrc\os\WIN32;..\..\..\ADSupport\supportApp\jpegSrc\os\default;..\..\..\ADSupport\supportApp\netCDFSrc\os\default;$(SolutionDir)include\os\win32;$(SolutionDir)include;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;H5_BUILT_AS_DYNAMIC_LIB;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS;</PreprocessorDefinitions>
-      <DisableSpecificWarnings>4244;4267;4251;4355;4996;4838</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4244;4267;4251;4355;4996;4838;4293</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -431,7 +439,7 @@ xcopy /Y /Q  /D .\O.Common\*.DBD $(SolutionDir)DBD &gt; NUL</Command>
     </Link>
     <PostBuildEvent>
       <Command>SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl   -I../O.Common -I$(SolutionDir)include -I../O.Common -I$(SolutionDir)DBD -o O.Common\NDPluginSupport.dbd NDPluginAttribute.dbd NDPluginCircularBuff.dbd NDPluginColorConvert.dbd NDPluginFFT.dbd NDPluginGather.dbd NDPluginOverlay.dbd NDPluginProcess.dbd NDPluginROI.dbd NDPluginROIStat.dbd NDPluginScatter.dbd NDPluginStats.dbd NDPluginStdArrays.dbd NDPluginTimeSeries.dbd NDPluginTransform.dbd NDPluginAttrPlot.dbd
+perl -CSD $(OutDir)dbdExpand.pl   -I../O.Common -I$(SolutionDir)include -I../O.Common -I$(SolutionDir)DBD -o O.Common\NDPluginSupport.dbd NDPluginCODEC.dbd NDPluginAttribute.dbd NDPluginCircularBuff.dbd NDPluginColorConvert.dbd NDPluginFFT.dbd NDPluginGather.dbd NDPluginOverlay.dbd NDPluginProcess.dbd NDPluginROI.dbd NDPluginROIStat.dbd NDPluginScatter.dbd NDPluginStats.dbd NDPluginStdArrays.dbd NDPluginTimeSeries.dbd NDPluginTransform.dbd NDPluginAttrPlot.dbd
 
 
 xcopy /Y /Q  /D .\O.Common\*.DBD $(SolutionDir)DBD &gt; NUL</Command>
@@ -451,8 +459,8 @@ xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;H5_BUILT_AS_DYNAMIC_LIB;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS;</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\ADSupport\include\os\WIN32;..\..\..\ADSupport\supportApp\xml2Src\os\default;..\..\..\ADSupport\supportApp\GraphicsMagickSrc\coders;..\..\..\ADSupport\supportApp\GraphicsMagickSrc\Magick++\lib;..\..\..\ADSupport\supportApp\nexusSrc\os\WIN32;..\..\..\ADSupport\supportApp\nexusSrc\os\default;..\..\..\ADSupport\supportApp\GraphicsMagickSrc;..\..\..\ADSupport\supportApp\hdf5Src\os\WIN32;..\..\..\ADSupport\supportApp\hdf5Src\os\default;..\..\..\ADSupport\supportApp\tiffSrc\os\WIN32;..\..\..\ADSupport\supportApp\tiffSrc\os\default;..\..\..\ADSupport\supportApp\jpegSrc\os\WIN32;..\..\..\ADSupport\supportApp\jpegSrc\os\default;..\..\..\ADSupport\supportApp\netCDFSrc\os\default;$(SolutionDir)include\os\win32;$(SolutionDir)include;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>4244;4267;4251;4355;4996;4838</DisableSpecificWarnings>
+      <AdditionalIncludeDirectories>..\..\..\ADSupport\include\os\WIN32;..\..\..\ADSupport\supportApp\xml2Src\os\default;..\..\..\ADSupport\supportApp\GraphicsMagickSrc\coders;..\..\..\ADSupport\supportApp\GraphicsMagickSrc\Magick++\lib;..\..\..\ADSupport\supportApp\nexusSrc\os\WIN32;..\..\..\ADSupport\supportApp\nexusSrc\os\default;..\..\..\ADSupport\supportApp\GraphicsMagickSrc;..\..\..\ADSupport\supportApp\hdf5_hlSrc;..\..\..\ADSupport\supportApp\hdf5Src\os\WIN32;..\..\..\ADSupport\supportApp\hdf5Src\os\default;..\..\..\ADSupport\supportApp\tiffSrc\os\WIN32;..\..\..\ADSupport\supportApp\tiffSrc\os\default;..\..\..\ADSupport\supportApp\jpegSrc\os\WIN32;..\..\..\ADSupport\supportApp\jpegSrc\os\default;..\..\..\ADSupport\supportApp\netCDFSrc\os\default;$(SolutionDir)include\os\win32;$(SolutionDir)include;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4244;4267;4251;4355;4996;4838;4293</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -462,7 +470,7 @@ xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
     </Link>
     <PostBuildEvent>
       <Command>SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl   -I../O.Common -I$(SolutionDir)include -I../O.Common -I$(SolutionDir)DBD -o O.Common\NDPluginSupport.dbd NDPluginAttribute.dbd NDPluginCircularBuff.dbd NDPluginColorConvert.dbd NDPluginFFT.dbd NDPluginGather.dbd NDPluginOverlay.dbd NDPluginProcess.dbd NDPluginROI.dbd NDPluginROIStat.dbd NDPluginScatter.dbd NDPluginStats.dbd NDPluginStdArrays.dbd NDPluginTimeSeries.dbd NDPluginTransform.dbd NDPluginAttrPlot.dbd
+perl -CSD $(OutDir)dbdExpand.pl   -I../O.Common -I$(SolutionDir)include -I../O.Common -I$(SolutionDir)DBD -o O.Common\NDPluginSupport.dbd NDPluginCODEC.dbd NDPluginAttribute.dbd NDPluginCircularBuff.dbd NDPluginColorConvert.dbd NDPluginFFT.dbd NDPluginGather.dbd NDPluginOverlay.dbd NDPluginProcess.dbd NDPluginROI.dbd NDPluginROIStat.dbd NDPluginScatter.dbd NDPluginStats.dbd NDPluginStdArrays.dbd NDPluginTimeSeries.dbd NDPluginTransform.dbd NDPluginAttrPlot.dbd
 
 
 xcopy /Y /Q  /D .\O.Common\*.DBD $(SolutionDir)DBD &gt; NUL</Command>
@@ -481,10 +489,10 @@ xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>..\..\..\ADSupport\include\os\WIN32;..\..\..\ADSupport\supportApp\xml2Src\os\default;..\..\..\ADSupport\supportApp\GraphicsMagickSrc\coders;..\..\..\ADSupport\supportApp\GraphicsMagickSrc\Magick++\lib;..\..\..\ADSupport\supportApp\nexusSrc\os\WIN32;..\..\..\ADSupport\supportApp\nexusSrc\os\default;..\..\..\ADSupport\supportApp\GraphicsMagickSrc;..\..\..\ADSupport\supportApp\hdf5Src\os\WIN32;..\..\..\ADSupport\supportApp\hdf5Src\os\default;..\..\..\ADSupport\supportApp\tiffSrc\os\WIN32;..\..\..\ADSupport\supportApp\tiffSrc\os\default;..\..\..\ADSupport\supportApp\jpegSrc\os\WIN32;..\..\..\ADSupport\supportApp\jpegSrc\os\default;..\..\..\ADSupport\supportApp\netCDFSrc\os\default;$(SolutionDir)include\os\win32;$(SolutionDir)include;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\ADSupport\include\os\WIN32;..\..\..\ADSupport\supportApp\xml2Src\os\default;..\..\..\ADSupport\supportApp\GraphicsMagickSrc\coders;..\..\..\ADSupport\supportApp\GraphicsMagickSrc\Magick++\lib;..\..\..\ADSupport\supportApp\nexusSrc\os\WIN32;..\..\..\ADSupport\supportApp\nexusSrc\os\default;..\..\..\ADSupport\supportApp\GraphicsMagickSrc;..\..\..\ADSupport\supportApp\hdf5_hlSrc;..\..\..\ADSupport\supportApp\hdf5Src\os\WIN32;..\..\..\ADSupport\supportApp\hdf5Src\os\default;..\..\..\ADSupport\supportApp\tiffSrc\os\WIN32;..\..\..\ADSupport\supportApp\tiffSrc\os\default;..\..\..\ADSupport\supportApp\jpegSrc\os\WIN32;..\..\..\ADSupport\supportApp\jpegSrc\os\default;..\..\..\ADSupport\supportApp\netCDFSrc\os\default;$(SolutionDir)include\os\win32;$(SolutionDir)include;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS;_WIN32_WINNT=0X0503</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <DisableSpecificWarnings>4244;4267;4251;4355;4996;4838</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4244;4267;4251;4355;4996;4838;4293</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -493,7 +501,7 @@ xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
     </Link>
     <PostBuildEvent>
       <Command>SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl   -I../O.Common -I$(SolutionDir)include -I../O.Common -I$(SolutionDir)DBD -o O.Common\NDPluginSupport.dbd NDPluginAttribute.dbd NDPluginCircularBuff.dbd NDPluginColorConvert.dbd NDPluginFFT.dbd NDPluginGather.dbd NDPluginOverlay.dbd NDPluginProcess.dbd NDPluginROI.dbd NDPluginROIStat.dbd NDPluginScatter.dbd NDPluginStats.dbd NDPluginStdArrays.dbd NDPluginTimeSeries.dbd NDPluginTransform.dbd NDPluginAttrPlot.dbd
+perl -CSD $(OutDir)dbdExpand.pl   -I../O.Common -I$(SolutionDir)include -I../O.Common -I$(SolutionDir)DBD -o O.Common\NDPluginSupport.dbd NDPluginCODEC.dbd NDPluginAttribute.dbd NDPluginCircularBuff.dbd NDPluginColorConvert.dbd NDPluginFFT.dbd NDPluginGather.dbd NDPluginOverlay.dbd NDPluginProcess.dbd NDPluginROI.dbd NDPluginROIStat.dbd NDPluginScatter.dbd NDPluginStats.dbd NDPluginStdArrays.dbd NDPluginTimeSeries.dbd NDPluginTransform.dbd NDPluginAttrPlot.dbd
 
 
 xcopy /Y /Q  /D .\O.Common\*.DBD $(SolutionDir)DBD &gt; NUL</Command>
@@ -516,8 +524,8 @@ xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\ADSupport\include\os\WIN32;..\..\..\ADSupport\supportApp\xml2Src\os\default;..\..\..\ADSupport\supportApp\GraphicsMagickSrc\coders;..\..\..\ADSupport\supportApp\GraphicsMagickSrc\Magick++\lib;..\..\..\ADSupport\supportApp\nexusSrc\os\WIN32;..\..\..\ADSupport\supportApp\nexusSrc\os\default;..\..\..\ADSupport\supportApp\GraphicsMagickSrc;..\..\..\ADSupport\supportApp\hdf5Src\os\WIN32;..\..\..\ADSupport\supportApp\hdf5Src\os\default;..\..\..\ADSupport\supportApp\tiffSrc\os\WIN32;..\..\..\ADSupport\supportApp\tiffSrc\os\default;..\..\..\ADSupport\supportApp\jpegSrc\os\WIN32;..\..\..\ADSupport\supportApp\jpegSrc\os\default;..\..\..\ADSupport\supportApp\netCDFSrc\os\default;$(SolutionDir)include\os\win32;$(SolutionDir)include;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>4244;4267;4251;4355;4996;4838</DisableSpecificWarnings>
+      <AdditionalIncludeDirectories>..\..\..\ADSupport\include\os\WIN32;..\..\..\ADSupport\supportApp\xml2Src\os\default;..\..\..\ADSupport\supportApp\GraphicsMagickSrc\coders;..\..\..\ADSupport\supportApp\GraphicsMagickSrc\Magick++\lib;..\..\..\ADSupport\supportApp\nexusSrc\os\WIN32;..\..\..\ADSupport\supportApp\nexusSrc\os\default;..\..\..\ADSupport\supportApp\GraphicsMagickSrc;..\..\..\ADSupport\supportApp\hdf5_hlSrc;..\..\..\ADSupport\supportApp\hdf5Src\os\WIN32;..\..\..\ADSupport\supportApp\hdf5Src\os\default;..\..\..\ADSupport\supportApp\tiffSrc\os\WIN32;..\..\..\ADSupport\supportApp\tiffSrc\os\default;..\..\..\ADSupport\supportApp\jpegSrc\os\WIN32;..\..\..\ADSupport\supportApp\jpegSrc\os\default;..\..\..\ADSupport\supportApp\netCDFSrc\os\default;$(SolutionDir)include\os\win32;$(SolutionDir)include;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4244;4267;4251;4355;4996;4838;4293</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -527,7 +535,7 @@ xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
     </Link>
     <PostBuildEvent>
       <Command>SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl   -I../O.Common -I$(SolutionDir)include -I../O.Common -I$(SolutionDir)DBD -o O.Common\NDPluginSupport.dbd NDPluginAttribute.dbd NDPluginCircularBuff.dbd NDPluginColorConvert.dbd NDPluginFFT.dbd NDPluginGather.dbd NDPluginOverlay.dbd NDPluginProcess.dbd NDPluginROI.dbd NDPluginROIStat.dbd NDPluginScatter.dbd NDPluginStats.dbd NDPluginStdArrays.dbd NDPluginTimeSeries.dbd NDPluginTransform.dbd NDPluginAttrPlot.dbd
+perl -CSD $(OutDir)dbdExpand.pl   -I../O.Common -I$(SolutionDir)include -I../O.Common -I$(SolutionDir)DBD -o O.Common\NDPluginSupport.dbd NDPluginCODEC.dbd NDPluginAttribute.dbd NDPluginCircularBuff.dbd NDPluginColorConvert.dbd NDPluginFFT.dbd NDPluginGather.dbd NDPluginOverlay.dbd NDPluginProcess.dbd NDPluginROI.dbd NDPluginROIStat.dbd NDPluginScatter.dbd NDPluginStats.dbd NDPluginStdArrays.dbd NDPluginTimeSeries.dbd NDPluginTransform.dbd NDPluginAttrPlot.dbd
 
 
 xcopy /Y /Q  /D .\O.Common\*.DBD $(SolutionDir)DBD &gt; NUL</Command>

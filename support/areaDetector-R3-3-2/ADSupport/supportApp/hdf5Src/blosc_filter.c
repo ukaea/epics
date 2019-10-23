@@ -227,8 +227,6 @@ size_t blosc_filter(unsigned flags, size_t cd_nelmts,
     /* declare dummy variables */
     size_t cbytes, blocksize;
 
-    free(outbuf);
-
     /* Extract the exact outbuf_size from the buffer header.
      *
      * NOTE: the guess value got from "cd_values" corresponds to the
@@ -258,7 +256,7 @@ size_t blosc_filter(unsigned flags, size_t cd_nelmts,
   } /* compressing vs decompressing */
 
   if (status != 0) {
-    H5free_memory(*buf);
+    free(*buf);
     *buf = outbuf;
     *buf_size = outbuf_size;
     return status;  /* Size of compressed/decompressed data */

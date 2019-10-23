@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <None Include="ACKNOWLEDGMENTS" />
+    <None Include="COPYING" />
+    <None Include="Makefile" />
+    <None Include="README.epics" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="H5DO.c" />
+    <ClCompile Include="H5DS.c" />
+    <ClCompile Include="H5IM.c" />
+    <ClCompile Include="H5LD.c" />
+    <ClCompile Include="H5LT.c" />
+    <ClCompile Include="H5LTanalyze.c" />
+    <ClCompile Include="H5LTparse.c" />
+    <ClCompile Include="H5PT.c" />
+    <ClCompile Include="H5TB.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="H5DOpublic.h" />
+    <ClInclude Include="H5DSprivate.h" />
+    <ClInclude Include="H5DSpublic.h" />
+    <ClInclude Include="H5HLprivate2.h" />
+    <ClInclude Include="H5IMprivate.h" />
+    <ClInclude Include="H5IMpublic.h" />
+    <ClInclude Include="H5LDprivate.h" />
+    <ClInclude Include="H5LDpublic.h" />
+    <ClInclude Include="H5LTparse.h" />
+    <ClInclude Include="H5LTprivate.h" />
+    <ClInclude Include="H5LTpublic.h" />
+    <ClInclude Include="H5PTprivate.h" />
+    <ClInclude Include="H5PTpublic.h" />
+    <ClInclude Include="H5TBprivate.h" />
+    <ClInclude Include="H5TBpublic.h" />
+    <ClInclude Include="hdf5_hl.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="README.txt" />
+  </ItemGroup>
+</Project>

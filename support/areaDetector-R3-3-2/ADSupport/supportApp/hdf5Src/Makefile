@@ -12,6 +12,7 @@ ifeq ($(WITH_HDF5),YES)
     PROD_IOC    = H5detect
 
     USR_CFLAGS += -D NDEBUG
+    USR_CFLAGS_Linux += -std=c99
     ifeq ($(SHARED_LIBRARIES), YES)
       USR_CFLAGS_WIN32 += -D H5_BUILT_AS_DYNAMIC_LIB 
       USR_CFLAGS_WIN32 += -D hdf5_shared_EXPORTS
@@ -65,6 +66,10 @@ ifeq ($(WITH_HDF5),YES)
     INC += H5Zpublic.h
     INC += hdf5.h
     INC += H5pubconf.h
+    INC += blosc_filter.h
+    INC += lz4_h5filter.h
+    INC += bshuf_h5filter.h
+    INC += jpeg_h5filter.h
     INC_Linux +=  H5pubconf_32.h
     INC_Linux +=  H5pubconf_64.h
 
@@ -408,6 +413,46 @@ ifeq ($(WITH_HDF5),YES)
       endif
     endif
 
+    ifeq ($(WITH_BITSHUFFLE),YES)
+      # Note: We are getting the lz4 codec from the bitshuffle source
+      # So they are combined here.  They could be separated at a later time.
+      USR_CFLAGS += -DH5_HAVE_FILTER_BSHUF
+      USR_CFLAGS += -DH5_HAVE_FILTER_LZ4
+      LIB_SRCS += bshuf_h5filter.c
+      LIB_SRCS += H5Zlz4.c
+      ifeq ($(BITSHUFFLE_EXTERNAL),YES)
+        ifdef BITSHUFFLE_INCLUDE
+          USR_INCLUDES += $(addprefix -I, $(BITSHUFFLE_INCLUDE))
+        endif
+        ifdef BITSHUFFLE_LIB
+          bshuf_DIR = $(BITSHUFFLE_LIB)
+          LIB_LIBS += bitshuffle
+        else
+          LIB_SYS_LIBS += bitshuffle
+        endif
+      else
+        LIB_LIBS += bitshuffle
+      endif
+    endif
+
+    ifeq ($(WITH_JPEG),YES)
+      USR_CFLAGS += -DH5_HAVE_FILTER_JPEG
+      LIB_SRCS += jpeg_h5filter.c
+      ifeq ($(JPEG_EXTERNAL),YES)
+        ifdef JPEG_INCLUDE
+          USR_INCLUDES += $(addprefix -I, $(JPEG_INCLUDE))
+        endif
+        ifdef JPEG_LIB
+          jpeg_DIR = $(JPEG_LIB)
+          LIB_LIBS += jpeg
+        else
+          LIB_SYS_LIBS += jpeg
+        endif
+      else
+        LIB_LIBS += jpeg
+      endif
+    endif
+
     LIB_SYS_LIBS_WIN32 += ws2_32
 
     H5detect_SRCS += H5detect.c
@@ -419,4 +464,3 @@ endif # ($(WITH_HDF5),YES)
 include $(TOP)/configure/RULES
 #----------------------------------------
 #  ADD RULES AFTER THIS LINE
-

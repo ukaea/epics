@@ -47,9 +47,9 @@ static const int TIFFTAG_UNIQUEID        = 65001;
 static const int TIFFTAG_EPICSTSSEC      = 65002;
 static const int TIFFTAG_EPICSTSNSEC     = 65003;
 static const int TIFFTAG_FIRST_ATTRIBUTE = 65010;
-static const int TIFFTAG_LAST_ATTRIBUTE  = 65500;
+static const int TIFFTAG_LAST_ATTRIBUTE  = 65535;
 
-#define NUM_CUSTOM_TIFF_TAGS (4 + TIFFTAG_LAST_ATTRIBUTE - TIFFTAG_FIRST_ATTRIBUTE - 1)
+#define NUM_CUSTOM_TIFF_TAGS (4 + TIFFTAG_LAST_ATTRIBUTE - TIFFTAG_FIRST_ATTRIBUTE + 1)
 
 static TIFFFieldInfo tiffFieldInfo[NUM_CUSTOM_TIFF_TAGS] = {
     {TIFFTAG_NDTIMESTAMP, 1, 1, TIFF_DOUBLE,FIELD_CUSTOM, 1, 0, (char *)"NDTimeStamp"},
@@ -93,7 +93,7 @@ asynStatus NDFileTIFF::openFile(const char *fileName, NDFileOpenMode_t openMode,
     int i;
     TIFFFieldInfo fieldInfo = {0, 1, 1, TIFF_ASCII, FIELD_CUSTOM, 1, 0, tagName};
 
-    for (i=TIFFTAG_FIRST_ATTRIBUTE; i<TIFFTAG_LAST_ATTRIBUTE; i++) {
+    for (i=TIFFTAG_FIRST_ATTRIBUTE; i<=TIFFTAG_LAST_ATTRIBUTE; i++) {
         sprintf(tagName, "Attribute_%d", i-TIFFTAG_FIRST_ATTRIBUTE+1);
         fieldInfo.field_tag = i;
         tiffFieldInfo[4+i-TIFFTAG_FIRST_ATTRIBUTE] = fieldInfo;
@@ -176,7 +176,15 @@ asynStatus NDFileTIFF::openFile(const char *fileName, NDFileOpenMode_t openMode,
             bitsPerSample = 64;
             break;
     }
-    if (pArray->ndims == 2) {
+    if (pArray->ndims == 1) {
+        sizeX = pArray->dims[0].size;
+        sizeY = 1;
+        rowsPerStrip = sizeY;
+        samplesPerPixel = 1;
+        photoMetric = PHOTOMETRIC_MINISBLACK;
+        planarConfig = PLANARCONFIG_CONTIG;
+        this->colorMode = NDColorModeMono;
+    } else if (pArray->ndims == 2) {
         sizeX = pArray->dims[0].size;
         sizeY = pArray->dims[1].size;
         rowsPerStrip = sizeY;
@@ -329,7 +337,7 @@ asynStatus NDFileTIFF::openFile(const char *fileName, NDFileOpenMode_t openMode,
             TIFFSetField(this->tiff, tagId, tagString);
             ++count;
             ++tagId;
-            if ((tagId == TIFFTAG_LAST_ATTRIBUTE) || (count > numAttributes_)) {
+            if ((tagId > TIFFTAG_LAST_ATTRIBUTE) || (count > numAttributes_)) {
                 asynPrint(this->pasynUserSelf, ASYN_TRACE_ERROR,
                     "%s:%s error, Too many tags/attributes for file. tagId: %d, count: %d\n",
                     driverName, functionName, tagId, count);
@@ -439,6 +447,14 @@ asynStatus NDFileTIFF::readFile(NDArray **pArray)
     TIFFGetField(this->tiff, TIFFTAG_ROWSPERSTRIP,     &rowsPerStrip);   
     numStrips= TIFFNumberOfStrips(this->tiff);
 
+    if (0 == sampleFormat)
+    {
+        asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
+            "%s::%s Sample format is not defined! Default UINT is used.\n",
+            driverName, __FUNCTION__);
+    	sampleFormat = SAMPLEFORMAT_UINT;
+    }
+
     if      ((bitsPerSample == 8)  && (sampleFormat == SAMPLEFORMAT_INT))     dataType = NDInt8;
     else if ((bitsPerSample == 8)  && (sampleFormat == SAMPLEFORMAT_UINT))    dataType = NDUInt8;
     else if ((bitsPerSample == 16) && (sampleFormat == SAMPLEFORMAT_INT))     dataType = NDInt16;
@@ -453,8 +469,9 @@ asynStatus NDFileTIFF::readFile(NDArray **pArray)
             driverName, functionName, bitsPerSample, sampleFormat);
         return asynError;    
     }
-    if ((photoMetric == PHOTOMETRIC_MINISBLACK) && 
-        (planarConfig == PLANARCONFIG_CONTIG)   &&
+
+    if ((photoMetric == PHOTOMETRIC_MINISBLACK)  &&
+        (planarConfig == PLANARCONFIG_CONTIG) &&
         (samplesPerPixel == 1)) {
         ndims = 2;
         dims[0] = sizeX;
@@ -481,7 +498,7 @@ asynStatus NDFileTIFF::readFile(NDArray **pArray)
     }
     else {
         asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
-            "%s::%s unsupport photoMetric=%dm planarConfig=%d, and samplesPerPixel=%d\n", 
+            "%s::%s unsupport photoMetric=%d, planarConfig=%d, and samplesPerPixel=%d\n",
             driverName, functionName, photoMetric, planarConfig, samplesPerPixel);
         return asynError;    
     }
@@ -490,7 +507,7 @@ asynStatus NDFileTIFF::readFile(NDArray **pArray)
     *pArray = pImage;
     buffer = (char *)pImage->pData;
     for (strip=0; strip < numStrips; strip++) {
-        size = TIFFReadEncodedStrip(this->tiff, strip, buffer, pImage->dataSize-totalSize);
+        size = (int)TIFFReadEncodedStrip(this->tiff, strip, buffer, pImage->dataSize-totalSize);
         if (size == -1) {
             asynPrint(this->pasynUserSelf, ASYN_TRACE_FLOW,
                 "%s::%s, error reading TIFF file\n",
@@ -526,11 +543,11 @@ asynStatus NDFileTIFF::readFile(NDArray **pArray)
     fieldStat = TIFFGetField(this->tiff, TIFFTAG_EPICSTSNSEC, &tempLong);
     if (fieldStat == 1) pImage->epicsTS.nsec = tempLong;
     
-    for (int i=TIFFTAG_FIRST_ATTRIBUTE; i<TIFFTAG_LAST_ATTRIBUTE; i++) {
+    for (int i=TIFFTAG_FIRST_ATTRIBUTE; i<=TIFFTAG_LAST_ATTRIBUTE; i++) {
         fieldStat = TIFFGetField(this->tiff, i, &tempString);
         if (fieldStat == 1) {
             std::string ts = tempString;
-            int pc = ts.find(':');
+            int pc = (int)ts.find(':');
             std::string attrName = ts.substr(0, pc);
             std::string attrValue = ts.substr(pc+1);
             // Don't process ColorMode attribute from the attributes in the TIFF file, already done above.
@@ -562,7 +579,7 @@ asynStatus NDFileTIFF::closeFile()
     return asynSuccess;
 }
 
-
+
 /** Constructor for NDFileTIFF; all parameters are simply passed to NDPluginFile::NDPluginFile.
   * \param[in] portName The name of the asyn port driver to be created.
   * \param[in] queueSize The number of NDArrays that the input queue for this plugin can hold when 
@@ -605,6 +622,10 @@ extern "C" int NDFileTIFFConfigure(const char *portName, int queueSize, int bloc
                                    const char *NDArrayPort, int NDArrayAddr,
                                    int priority, int stackSize)
 {
+    // Stack size must be a minimum of 40000 on vxWorks because of automatic variables in NDFileTIFF::openFile()
+    #ifdef vxWorks
+        if (stackSize < 40000) stackSize = 40000;
+    #endif
     NDFileTIFF *pPlugin = new NDFileTIFF(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr,
                                          priority, stackSize);
     return pPlugin->start();
