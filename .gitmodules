@@ -4,22 +4,6 @@
 	ignore = untracked
 	branch=master
 	
-[submodule "support/areaDetector-R3-3-2/ADURL"]
-	path = support/areaDetector-R3-3-2/ADURL
-	url = https://git.ccfe.ac.uk/DATAnet/adurl
-	ignore = untracked
-[submodule "support/areaDetector-R3-3-2/ADPvCam"]
-	path = support/areaDetector-R3-3-2/ADPvCam
-	url = https://git.ccfe.ac.uk/DATAnet/adpvcam
-	ignore = untracked
-[submodule "support/areaDetector-R3-3-2/ADAndor"]
-	path = support/areaDetector-R3-3-2/ADAndor
-	url = https://github.com/areaDetector/ADAndor
-	ignore = untracked
-[submodule "support/areaDetector-R3-3-2/ADPICam"]
-	path = support/areaDetector-R3-3-2/ADPICam
-	url = https://git.ccfe.ac.uk/DATAnet/adpicam
-	ignore = untracked
 [submodule "iocTops/tspd-adq"]
 	path = iocTops/tspd-adq
 	url = https://git.ccfe.ac.uk/DATAnet/tspd-adq
