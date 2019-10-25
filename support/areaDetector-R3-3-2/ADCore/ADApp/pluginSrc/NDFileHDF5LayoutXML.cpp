@@ -23,7 +23,7 @@
 // Also a problem in Visual Studio.  The warning is:
 // warning LNK4217: locally defined symbol xmlFree imported in function "private: int __cdecl hdf5::LayoutXML::parse_root(void)" 
 #ifdef _MSC_VER
-  #define xmlFree free
+//#define xmlFree free
 #endif
 
 namespace hdf5
@@ -465,7 +465,7 @@ namespace hdf5
     //LOG4CXX_DEBUG(log, "  new_group: " << group_name );
     if (group_name == NULL) return -1;
 
-    std::string str_group_name((char*)group_name);
+    std::string str_group_name((const char*)group_name);
     xmlFree(group_name);
 
     // Initialise the tree if it has not already been done.

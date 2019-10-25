@@ -75,7 +75,7 @@
     <ProjectReference Include="..\..\..\..\..\base-7.0.3\modules\libcom\src\Com.vcxproj">
       <Project>{e9d99fc7-e592-472b-b2e2-c3b0d81d8169}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\asyn-R4-36\asyn\asyn.vcxproj">
+    <ProjectReference Include="..\..\..\..\asyn-R4-37\asyn\asyn.vcxproj">
       <Project>{c3ea0ff7-6039-4884-ba91-7b4619befea5}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\ADSupport\supportApp\GraphicsMagickSrc\VisualMagick\libxml\CORE_libxml.vcxproj">
@@ -244,7 +244,8 @@
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;..\..\..\ADSupport\supportApp\xml2Src\os\default;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS;_WIN32_WINNT=0X0503</PreprocessorDefinitions>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <DisableSpecificWarnings>4244;4267;4251</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4244;4267;4251;4101</DisableSpecificWarnings>
+      <WarningLevel>Level3</WarningLevel>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -271,7 +272,8 @@ xcopy /Y /Q /D ..\Db\*.* ..\..\db &gt; NUL
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;..\..\..\ADSupport\supportApp\xml2Src\os\default;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <DisableSpecificWarnings>4244;4267;4251</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4244;4267;4251;4101</DisableSpecificWarnings>
+      <WarningLevel>Level3</WarningLevel>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -298,8 +300,9 @@ xcopy /Y /Q /D ..\Db\*.* ..\..\db &gt; NUL
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;..\..\..\ADSupport\supportApp\xml2Src\os\default;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS;_WIN32_WINNT=0X0503</PreprocessorDefinitions>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <DisableSpecificWarnings>4244;4267</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4244;4267;4251;4101</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -328,8 +331,9 @@ xcopy /Y /Q /D ..\Db\*.* ..\..\db &gt; NUL
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;..\..\..\ADSupport\supportApp\xml2Src\os\default;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <DisableSpecificWarnings>4244;4267</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4244;4267;4251;4101</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -359,7 +363,9 @@ xcopy /Y /Q /D ..\Db\*.* ..\..\db &gt; NUL
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;..\..\..\ADSupport\supportApp\xml2Src\os\default;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS;_WIN32_WINNT=0X0503</PreprocessorDefinitions>
-      <DisableSpecificWarnings>4244;4267;4251</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4244;4267;4251;4101</DisableSpecificWarnings>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <WarningLevel>Level3</WarningLevel>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -389,7 +395,9 @@ xcopy /Y /Q /D /R ..\Db\*.template $(SolutionDir)db &gt; NUL
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;..\..\..\ADSupport\supportApp\xml2Src\os\default;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>4244;4267;4251</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4244;4267;4251;4101</DisableSpecificWarnings>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <WarningLevel>Level3</WarningLevel>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -420,7 +428,9 @@ xcopy /Y /Q /D /R ..\Db\*.template $(SolutionDir)db &gt; NUL
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;..\..\..\ADSupport\supportApp\xml2Src\os\default;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS;_WIN32_WINNT=0X0503</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <DisableSpecificWarnings>4244;4267</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4244;4267;4251;4101</DisableSpecificWarnings>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <WarningLevel>Level3</WarningLevel>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -452,8 +462,10 @@ xcopy /Y /Q /D /R ..\Db\*.template $(SolutionDir)db &gt; NUL
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;..\..\..\ADSupport\supportApp\xml2Src\os\default;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>4244;4267</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4244;4267;4251;4101</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <WarningLevel>Level3</WarningLevel>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

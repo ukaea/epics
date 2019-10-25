@@ -1,0 +1,294 @@
+
+D:\epics\support\areaDetector>make.exe -j4 -O    
+make.exe -C \epics\support/areaDetector/ADSupport install 
+make.exe -C ./configure install 
+make.exe -C ./supportApp install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../.. \
+    T_A=win32-x86 install
+make.exe -C ./jpegSrc install 
+make.exe -C ./zlibSrc install 
+make.exe -C ./szipSrc install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+perl -CSD D:/epics/base/bin/win32-x86/convertRelease.pl checkRelease
+make.exe -C ./bitshuffleSrc install 
+make.exe[4]: Nothing to be done for 'install'.
+make.exe -C ./cbfSrc install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe -C ./bloscSrc install 
+make.exe[4]: Circular jpeg.lib <- decompressJPEG.dll dependency dropped.
+make.exe -C ./xml2Src install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe[4]: Nothing to be done for 'install'.
+make.exe -C ./tiffSrc install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe[4]: Nothing to be done for 'install'.
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe -C ./hdf5Src install 
+make.exe -C ./GraphicsMagickSrc install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe -C ./bzlib install 
+make.exe -C ./lcms install 
+make.exe -C ./ttf install 
+make.exe -C ./builds install 
+make.exe -C ./src install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../../.. \
+    T_A=win32-x86 install
+make.exe -C ./windows install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../../../.. \
+    T_A=win32-x86 install
+make.exe -C ./src install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../../../../.. \
+    T_A=win32-x86 install
+make.exe -C ./wmf install 
+make.exe -C ./webp install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../../../.. \
+    T_A=win32-x86 install
+make.exe[7]: Nothing to be done for 'install'.
+make.exe -C ./hdf5_hlSrc install 
+make.exe -C ./src install 
+make.exe -C ./src install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../../../.. \
+    T_A=win32-x86 install
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../../../.. \
+    T_A=win32-x86 install
+make.exe -C ./png install 
+make.exe -C ./hdf5PluginSrc install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../../.. \
+    T_A=win32-x86 install
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe -C ./netCDFSrc install 
+make.exe[4]: Nothing to be done for 'install'.
+make.exe -C ./jp2 install 
+make.exe -C ./nexusSrc install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe -C ./src install 
+make.exe -C ./libjasper install 
+make.exe -C ./jbig install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../../../../.. \
+    T_A=win32-x86 install
+make.exe -C ./magick install 
+make.exe -C ./libjbig install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../../.. \
+    T_A=win32-x86 install
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../../../.. \
+    T_A=win32-x86 install
+make.exe -C ./filters install 
+make.exe -C ./coders install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../../.. \
+    T_A=win32-x86 install
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../../.. \
+    T_A=win32-x86 install
+make.exe[5]: Nothing to be done for 'install'.
+make.exe -C ./Magick++ install 
+make.exe -C ./lib install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../../../.. \
+    T_A=win32-x86 install
+make.exe -C \epics\support/areaDetector/ADCore install 
+make.exe -C ./configure install 
+make.exe -C ./ADApp install 
+make.exe -C ./Db install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../.. \
+    T_A=win32-x86 install
+make.exe -C ./ADSrc install 
+make.exe -C ./op install 
+make.exe[3]: Nothing to be done for 'install'.
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+perl -CSD D:/epics/base/bin/win32-x86/convertRelease.pl checkRelease
+make.exe -C ./ntndArrayConverterSrc install 
+make.exe[4]: Nothing to be done for 'install'.
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe -C ./pluginSrc install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe -C ./pluginTests install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe[4]: Nothing to be done for 'install'.
+make.exe -C \epics\support/areaDetector/ADSimDetector install 
+make.exe -C \epics\support/areaDetector/ADAndor install 
+make.exe -C \epics\support/areaDetector/ADPICam install 
+make.exe -C \epics\support/areaDetector/ADPvCam install 
+make.exe -C ./configure install 
+make.exe -C ./configure install 
+make.exe -C ./configure install 
+make.exe -C ./configure install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../.. \
+    T_A=win32-x86 install
+make.exe -C O.win32-x86 -f ../Makefile TOP=../.. \
+    T_A=win32-x86 install
+make.exe -C O.win32-x86 -f ../Makefile TOP=../.. \
+    T_A=win32-x86 install
+make.exe -C O.win32-x86 -f ../Makefile TOP=../.. \
+    T_A=win32-x86 install
+perl -CSD D:/epics/base/bin/win32-x86/convertRelease.pl checkRelease
+perl -CSD D:/epics/base/bin/win32-x86/convertRelease.pl checkRelease
+perl -CSD D:/epics/base/bin/win32-x86/convertRelease.pl checkRelease
+perl -CSD D:/epics/base/bin/win32-x86/convertRelease.pl checkRelease
+make.exe -C ./andorSupport install 
+make.exe -C ./simDetectorApp install 
+make.exe -C ./PICamSupport install 
+make.exe -C ./pvcamSupport install 
+make.exe -C ./src install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../.. \
+    T_A=win32-x86 install
+make.exe -C O.win32-x86 -f ../Makefile TOP=..//.. \
+    T_A=win32-x86 install
+make.exe -C O.win32-x86 -f ../Makefile TOP=../.. \
+    T_A=win32-x86 install
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe[3]: Nothing to be done for 'install'.
+make.exe[3]: Nothing to be done for 'install'.
+make.exe -C ./andorApp install 
+make.exe[3]: Nothing to be done for 'install'.
+make.exe -C ./PICamApp install 
+make.exe -C ./pvcamApp install 
+make.exe -C ./src install 
+make.exe -C ./src install 
+make.exe -C ./src install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe -C ./Db install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe -C ./Db install 
+make.exe -C ./Db install 
+make.exe -C ./Db install 
+make.exe[4]: Nothing to be done for 'install'.
+make.exe -C ./op install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe[3]: Nothing to be done for 'install'.
+make.exe -C ./iocs install 
+make.exe -C ./simDetectorNoIOC install 
+make.exe[4]: Nothing to be done for 'install'.
+make.exe -C ./iocs install 
+make.exe[4]: Nothing to be done for 'install'.
+make.exe -C ./iocs install 
+make.exe[4]: Nothing to be done for 'install'.
+make.exe -C ./iocs install 
+make.exe -C ./configure install 
+make.exe -C ./andorIOC install 
+make.exe -C ./PICamIOC install 
+make.exe -C ./pvcamIOC install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../.. \
+    T_A=win32-x86 install
+make.exe -C ./configure install 
+make.exe -C ./configure install 
+make.exe -C ./configure install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../.. \
+    T_A=win32-x86 install
+make.exe -C O.win32-x86 -f ../Makefile TOP=../.. \
+    T_A=win32-x86 install
+perl -CSD D:/epics/base/bin/win32-x86/convertRelease.pl checkRelease
+make.exe -C O.win32-x86 -f ../Makefile TOP=../.. \
+    T_A=win32-x86 install
+make.exe -C ./simDetectorNoIOCApp install 
+perl -CSD D:/epics/base/bin/win32-x86/convertRelease.pl checkRelease
+perl -CSD D:/epics/base/bin/win32-x86/convertRelease.pl checkRelease
+perl -CSD D:/epics/base/bin/win32-x86/convertRelease.pl checkRelease
+make.exe -C ./src install 
+make.exe -C ./andorApp install 
+make.exe -C ./PICamApp install 
+make.exe -C ./pvcamApp install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe -C ./src install 
+make.exe -C ./src install 
+make.exe -C ./src install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe[6]: Nothing to be done for 'install'.
+make.exe -C ./simDetectorIOC install 
+make.exe -C ./configure install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../.. \
+    T_A=win32-x86 install
+make.exe[6]: Nothing to be done for 'install'.
+make.exe -C ./iocBoot install 
+make.exe[6]: Nothing to be done for 'install'.
+make.exe -C ./iocBoot install 
+make.exe[6]: Nothing to be done for 'install'.
+make.exe -C ./iocBoot install 
+make.exe -C ./iocPICam install 
+make.exe -C ./iocAndor install 
+perl -CSD D:/epics/base/bin/win32-x86/convertRelease.pl checkRelease
+make.exe -C ./iocPvCam install 
+make.exe -C ./simDetectorApp install 
+make.exe[5]: Nothing to be done for 'install'.
+make.exe[5]: Nothing to be done for 'install'.
+make.exe -C ./iocBoot install 
+make.exe -C \epics\support/areaDetector/ADURL install 
+make.exe[5]: Nothing to be done for 'install'.
+make.exe -C ./Db install 
+make.exe -C ./src install 
+make.exe -C ./iocSimDetector install 
+make.exe -C ./configure install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe[5]: Nothing to be done for 'install'.
+make.exe -C ./iocHDF5Test install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../.. \
+    T_A=win32-x86 install
+make.exe[5]: Nothing to be done for 'install'.
+make.exe -C ./urlApp install 
+make.exe[6]: Nothing to be done for 'install'.
+perl -CSD D:/epics/base/bin/win32-x86/convertRelease.pl checkRelease
+make.exe -C ./src install 
+make.exe -C ./Db install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe[6]: Nothing to be done for 'install'.
+make.exe[4]: Nothing to be done for 'install'.
+make.exe[4]: Nothing to be done for 'install'.
+make.exe -C ./iocs install 
+make.exe -C ./urlIOC install 
+make.exe -C ./configure install 
+make.exe -C ./urlApp install 
+make.exe -C ./iocBoot install 
+make.exe -C ./src install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../.. \
+    T_A=win32-x86 install
+make.exe -C ./iocURLDriver install 
+make.exe -C O.win32-x86 -f ../Makefile TOP=../../.. \
+    T_A=win32-x86 install
+make.exe[5]: Nothing to be done for 'install'.
+perl -CSD D:/epics/base/bin/win32-x86/convertRelease.pl checkRelease
+make.exe[6]: Nothing to be done for 'install'.

@@ -119,6 +119,7 @@
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;_LIB;_MAGICKLIB_;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <AdditionalIncludeDirectories>../../;../../lcms/include;../../ttf/include;../../bzlib;../../../zlibSrc/os/default;../../../zlibSrc/os/WIN32;../coders</AdditionalIncludeDirectories>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -141,6 +142,7 @@
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;_DLL;_MAGICKLIB_;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <AdditionalIncludeDirectories>../../;../../lcms/include;../../ttf/include;../../bzlib;../../../zlibSrc/os/default;../../../zlibSrc/os/WIN32;../coders</AdditionalIncludeDirectories>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -163,6 +165,7 @@
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;_LIB;_MAGICKLIB_;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <AdditionalIncludeDirectories>../../;../../lcms/include;../../ttf/include;../../bzlib;../../../zlibSrc/os/default;../../../zlibSrc/os/WIN32;../coders</AdditionalIncludeDirectories>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -185,6 +188,7 @@
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32;_VISUALC_;_DLL;_MAGICKLIB_;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <AdditionalIncludeDirectories>../../;../../lcms/include;../../ttf/include;../../bzlib;../../../zlibSrc/os/default;../../../zlibSrc/os/WIN32;../coders</AdditionalIncludeDirectories>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -207,6 +211,7 @@
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;_LIB;_MAGICKLIB_;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <AdditionalIncludeDirectories>../../;../../lcms/include;../../ttf/include;../../bzlib;../../../zlibSrc/os/default;../../../zlibSrc/os/WIN32;../coders</AdditionalIncludeDirectories>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -229,6 +234,7 @@
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;_DLL;_MAGICKLIB_;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <AdditionalIncludeDirectories>../../;../../lcms/include;../../ttf/include;../../bzlib;../../../zlibSrc/os/default;../../../zlibSrc/os/WIN32;../../coders</AdditionalIncludeDirectories>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -254,6 +260,7 @@
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;_LIB;_MAGICKLIB_;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <AdditionalIncludeDirectories>../../;../../lcms/include;../../ttf/include;../../bzlib;../../../zlibSrc/os/default;../../../zlibSrc/os/WIN32;../coders</AdditionalIncludeDirectories>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -276,6 +283,7 @@
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;WIN32;_VISUALC_;_DLL;_MAGICKLIB_;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <AdditionalIncludeDirectories>../../;../../lcms/include;../../ttf/include;../../bzlib;../../../zlibSrc/os/default;../../../zlibSrc/os/WIN32;../coders</AdditionalIncludeDirectories>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>

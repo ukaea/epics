@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <None Include="asInclude.dbd" />
     <None Include="asSupport.dbd" />
     <None Include="Makefile" />
     <None Include="test.py" />
@@ -41,5 +40,8 @@
     <Filter Include="O.Common">
       <UniqueIdentifier>{3345cc9d-1585-4668-a17c-4341050beb7f}</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="asInclude.dbd" />
   </ItemGroup>
 </Project>

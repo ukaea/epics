@@ -50,7 +50,7 @@
     <ProjectReference Include="..\..\..\..\..\base-7.0.3\modules\libcom\src\Com.vcxproj">
       <Project>{e9d99fc7-e592-472b-b2e2-c3b0d81d8169}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\asyn-R4-36\asyn\asyn.vcxproj">
+    <ProjectReference Include="..\..\..\..\asyn-R4-37\asyn\asyn.vcxproj">
       <Project>{c3ea0ff7-6039-4884-ba91-7b4619befea5}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\ADSupport\supportApp\GraphicsMagickSrc\VisualMagick\coders\CORE_coders.vcxproj">
@@ -310,7 +310,8 @@
       <AdditionalIncludeDirectories>..\..\..\ADSupport\include\os\WIN32;..\..\..\ADSupport\supportApp\xml2Src\os\default;..\..\..\ADSupport\supportApp\GraphicsMagickSrc\coders;..\..\..\ADSupport\supportApp\GraphicsMagickSrc\Magick++\lib;..\..\..\ADSupport\supportApp\nexusSrc\os\WIN32;..\..\..\ADSupport\supportApp\nexusSrc\os\default;..\..\..\ADSupport\supportApp\GraphicsMagickSrc;..\..\..\ADSupport\supportApp\hdf5_hlSrc;..\..\..\ADSupport\supportApp\hdf5Src\os\WIN32;..\..\..\ADSupport\supportApp\hdf5Src\os\default;..\..\..\ADSupport\supportApp\tiffSrc\os\WIN32;..\..\..\ADSupport\supportApp\tiffSrc\os\default;..\..\..\ADSupport\supportApp\jpegSrc\os\WIN32;..\..\..\ADSupport\supportApp\jpegSrc\os\default;..\..\..\ADSupport\supportApp\netCDFSrc\os\default;$(SolutionDir)include\os\win32;$(SolutionDir)include;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;H5_BUILT_AS_DYNAMIC_LIB;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS;</PreprocessorDefinitions>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <DisableSpecificWarnings>4244;4267;4251;4355;4996;4838;4293</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4244;4267;4251;4355;4996;4838;4293;4275</DisableSpecificWarnings>
+      <WarningLevel>Level3</WarningLevel>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -338,7 +339,8 @@ xcopy /Y /Q  /D .\O.Common\*.DBD $(SolutionDir)DBD &gt; NUL</Command>
       <AdditionalIncludeDirectories>..\..\..\ADSupport\include\os\WIN32;..\..\..\ADSupport\supportApp\xml2Src\os\default;..\..\..\ADSupport\supportApp\GraphicsMagickSrc\coders;..\..\..\ADSupport\supportApp\GraphicsMagickSrc\Magick++\lib;..\..\..\ADSupport\supportApp\nexusSrc\os\WIN32;..\..\..\ADSupport\supportApp\nexusSrc\os\default;..\..\..\ADSupport\supportApp\GraphicsMagickSrc;..\..\..\ADSupport\supportApp\hdf5_hlSrc;..\..\..\ADSupport\supportApp\hdf5Src\os\WIN32;..\..\..\ADSupport\supportApp\hdf5Src\os\default;..\..\..\ADSupport\supportApp\tiffSrc\os\WIN32;..\..\..\ADSupport\supportApp\tiffSrc\os\default;..\..\..\ADSupport\supportApp\jpegSrc\os\WIN32;..\..\..\ADSupport\supportApp\jpegSrc\os\default;..\..\..\ADSupport\supportApp\netCDFSrc\os\default;$(SolutionDir)include\os\win32;$(SolutionDir)include;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;H5_BUILT_AS_DYNAMIC_LIB;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS;</PreprocessorDefinitions>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <DisableSpecificWarnings>4244;4267;4251;4355;4996;4838;4293</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4244;4267;4251;4355;4996;4838;4293;4275</DisableSpecificWarnings>
+      <WarningLevel>Level3</WarningLevel>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -366,8 +368,9 @@ xcopy /Y /Q  /D .\O.Common\*.DBD $(SolutionDir)DBD &gt; NUL</Command>
       <AdditionalIncludeDirectories>..\..\..\ADSupport\include\os\WIN32;..\..\..\ADSupport\supportApp\xml2Src\os\default;..\..\..\ADSupport\supportApp\GraphicsMagickSrc\coders;..\..\..\ADSupport\supportApp\GraphicsMagickSrc\Magick++\lib;..\..\..\ADSupport\supportApp\nexusSrc\os\WIN32;..\..\..\ADSupport\supportApp\nexusSrc\os\default;..\..\..\ADSupport\supportApp\GraphicsMagickSrc;..\..\..\ADSupport\supportApp\hdf5_hlSrc;..\..\..\ADSupport\supportApp\hdf5Src\os\WIN32;..\..\..\ADSupport\supportApp\hdf5Src\os\default;..\..\..\ADSupport\supportApp\tiffSrc\os\WIN32;..\..\..\ADSupport\supportApp\tiffSrc\os\default;..\..\..\ADSupport\supportApp\jpegSrc\os\WIN32;..\..\..\ADSupport\supportApp\jpegSrc\os\default;..\..\..\ADSupport\supportApp\netCDFSrc\os\default;$(SolutionDir)include\os\win32;$(SolutionDir)include;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS;_WIN32_WINNT=0X0503</PreprocessorDefinitions>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <DisableSpecificWarnings>4244;4267;4251;4355;4996;4838;4293</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4244;4267;4251;4355;4996;4838;4293;4275</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -397,8 +400,9 @@ xcopy /Y /Q  /D .\O.Common\*.DBD $(SolutionDir)DBD &gt; NUL</Command>
       <AdditionalIncludeDirectories>..\..\..\ADSupport\include\os\WIN32;..\..\..\ADSupport\supportApp\xml2Src\os\default;..\..\..\ADSupport\supportApp\GraphicsMagickSrc\coders;..\..\..\ADSupport\supportApp\GraphicsMagickSrc\Magick++\lib;..\..\..\ADSupport\supportApp\nexusSrc\os\WIN32;..\..\..\ADSupport\supportApp\nexusSrc\os\default;..\..\..\ADSupport\supportApp\GraphicsMagickSrc;..\..\..\ADSupport\supportApp\hdf5_hlSrc;..\..\..\ADSupport\supportApp\hdf5Src\os\WIN32;..\..\..\ADSupport\supportApp\hdf5Src\os\default;..\..\..\ADSupport\supportApp\tiffSrc\os\WIN32;..\..\..\ADSupport\supportApp\tiffSrc\os\default;..\..\..\ADSupport\supportApp\jpegSrc\os\WIN32;..\..\..\ADSupport\supportApp\jpegSrc\os\default;..\..\..\ADSupport\supportApp\netCDFSrc\os\default;$(SolutionDir)include\os\win32;$(SolutionDir)include;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <DisableSpecificWarnings>4244;4267;4251;4355;4996;4838;4293</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4244;4267;4251;4355;4996;4838;4293;4275</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -429,7 +433,9 @@ xcopy /Y /Q  /D .\O.Common\*.DBD $(SolutionDir)DBD &gt; NUL</Command>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <AdditionalIncludeDirectories>..\..\..\ADSupport\include\os\WIN32;..\..\..\ADSupport\supportApp\xml2Src\os\default;..\..\..\ADSupport\supportApp\GraphicsMagickSrc\coders;..\..\..\ADSupport\supportApp\GraphicsMagickSrc\Magick++\lib;..\..\..\ADSupport\supportApp\nexusSrc\os\WIN32;..\..\..\ADSupport\supportApp\nexusSrc\os\default;..\..\..\ADSupport\supportApp\GraphicsMagickSrc;..\..\..\ADSupport\supportApp\hdf5_hlSrc;..\..\..\ADSupport\supportApp\hdf5Src\os\WIN32;..\..\..\ADSupport\supportApp\hdf5Src\os\default;..\..\..\ADSupport\supportApp\tiffSrc\os\WIN32;..\..\..\ADSupport\supportApp\tiffSrc\os\default;..\..\..\ADSupport\supportApp\jpegSrc\os\WIN32;..\..\..\ADSupport\supportApp\jpegSrc\os\default;..\..\..\ADSupport\supportApp\netCDFSrc\os\default;$(SolutionDir)include\os\win32;$(SolutionDir)include;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;H5_BUILT_AS_DYNAMIC_LIB;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS;</PreprocessorDefinitions>
-      <DisableSpecificWarnings>4244;4267;4251;4355;4996;4838;4293</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4244;4267;4251;4355;4996;4838;4293;4275</DisableSpecificWarnings>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <WarningLevel>Level3</WarningLevel>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -460,7 +466,9 @@ xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;H5_BUILT_AS_DYNAMIC_LIB;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS;</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\..\ADSupport\include\os\WIN32;..\..\..\ADSupport\supportApp\xml2Src\os\default;..\..\..\ADSupport\supportApp\GraphicsMagickSrc\coders;..\..\..\ADSupport\supportApp\GraphicsMagickSrc\Magick++\lib;..\..\..\ADSupport\supportApp\nexusSrc\os\WIN32;..\..\..\ADSupport\supportApp\nexusSrc\os\default;..\..\..\ADSupport\supportApp\GraphicsMagickSrc;..\..\..\ADSupport\supportApp\hdf5_hlSrc;..\..\..\ADSupport\supportApp\hdf5Src\os\WIN32;..\..\..\ADSupport\supportApp\hdf5Src\os\default;..\..\..\ADSupport\supportApp\tiffSrc\os\WIN32;..\..\..\ADSupport\supportApp\tiffSrc\os\default;..\..\..\ADSupport\supportApp\jpegSrc\os\WIN32;..\..\..\ADSupport\supportApp\jpegSrc\os\default;..\..\..\ADSupport\supportApp\netCDFSrc\os\default;$(SolutionDir)include\os\win32;$(SolutionDir)include;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>4244;4267;4251;4355;4996;4838;4293</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4244;4267;4251;4355;4996;4838;4293;4275</DisableSpecificWarnings>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <WarningLevel>Level3</WarningLevel>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -492,7 +500,9 @@ xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
       <AdditionalIncludeDirectories>..\..\..\ADSupport\include\os\WIN32;..\..\..\ADSupport\supportApp\xml2Src\os\default;..\..\..\ADSupport\supportApp\GraphicsMagickSrc\coders;..\..\..\ADSupport\supportApp\GraphicsMagickSrc\Magick++\lib;..\..\..\ADSupport\supportApp\nexusSrc\os\WIN32;..\..\..\ADSupport\supportApp\nexusSrc\os\default;..\..\..\ADSupport\supportApp\GraphicsMagickSrc;..\..\..\ADSupport\supportApp\hdf5_hlSrc;..\..\..\ADSupport\supportApp\hdf5Src\os\WIN32;..\..\..\ADSupport\supportApp\hdf5Src\os\default;..\..\..\ADSupport\supportApp\tiffSrc\os\WIN32;..\..\..\ADSupport\supportApp\tiffSrc\os\default;..\..\..\ADSupport\supportApp\jpegSrc\os\WIN32;..\..\..\ADSupport\supportApp\jpegSrc\os\default;..\..\..\ADSupport\supportApp\netCDFSrc\os\default;$(SolutionDir)include\os\win32;$(SolutionDir)include;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS;_WIN32_WINNT=0X0503</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <DisableSpecificWarnings>4244;4267;4251;4355;4996;4838;4293</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4244;4267;4251;4355;4996;4838;4293;4275</DisableSpecificWarnings>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <WarningLevel>Level3</WarningLevel>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -525,8 +535,10 @@ xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\..\ADSupport\include\os\WIN32;..\..\..\ADSupport\supportApp\xml2Src\os\default;..\..\..\ADSupport\supportApp\GraphicsMagickSrc\coders;..\..\..\ADSupport\supportApp\GraphicsMagickSrc\Magick++\lib;..\..\..\ADSupport\supportApp\nexusSrc\os\WIN32;..\..\..\ADSupport\supportApp\nexusSrc\os\default;..\..\..\ADSupport\supportApp\GraphicsMagickSrc;..\..\..\ADSupport\supportApp\hdf5_hlSrc;..\..\..\ADSupport\supportApp\hdf5Src\os\WIN32;..\..\..\ADSupport\supportApp\hdf5Src\os\default;..\..\..\ADSupport\supportApp\tiffSrc\os\WIN32;..\..\..\ADSupport\supportApp\tiffSrc\os\default;..\..\..\ADSupport\supportApp\jpegSrc\os\WIN32;..\..\..\ADSupport\supportApp\jpegSrc\os\default;..\..\..\ADSupport\supportApp\netCDFSrc\os\default;$(SolutionDir)include\os\win32;$(SolutionDir)include;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>4244;4267;4251;4355;4996;4838;4293</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4244;4267;4251;4355;4996;4838;4293;4275</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <WarningLevel>Level3</WarningLevel>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

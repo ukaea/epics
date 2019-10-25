@@ -744,8 +744,9 @@ move /Y lex.yy.c O.Common\asLib_lex.c
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>4244;4018;4996;4355;4267</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4244;4018;4996;4355;4267;4146</DisableSpecificWarnings>
       <BrowseInformation>true</BrowseInformation>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -817,9 +818,10 @@ perl -CSD $(OutDir)convertRelease.pl -T $(SolutionDir)  $(OutDir)libComModuleDir
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>4244;4018;4996;4355;4267</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4244;4018;4996;4355;4267;4146</DisableSpecificWarnings>
       <BrowseInformation>true</BrowseInformation>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -896,8 +898,9 @@ perl -CSD $(OutDir)convertRelease.pl -T $(SolutionDir)  $(OutDir)libComModuleDir
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>4244;4018;4996;4355;4267</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4244;4018;4996;4355;4267;4146</DisableSpecificWarnings>
       <BrowseInformation>true</BrowseInformation>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -969,9 +972,10 @@ perl -CSD $(OutDir)convertRelease.pl -T $(SolutionDir)  $(OutDir)libComModuleDir
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>4244;4018;4996;4355;4267</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4244;4018;4996;4355;4267;4146</DisableSpecificWarnings>
       <BrowseInformation>true</BrowseInformation>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -1049,7 +1053,8 @@ perl -CSD $(OutDir)convertRelease.pl -T $(SolutionDir)  $(OutDir)libComModuleDir
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>4244;4018;4996;4355;4267</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4244;4018;4996;4355;4267;4146</DisableSpecificWarnings>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -1119,8 +1124,9 @@ perl -CSD $(OutDir)convertRelease.pl -T $(SolutionDir)  $(OutDir)libComModuleDir
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>4244;4018;4996;4355;4267</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4244;4018;4996;4355;4267;4146</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -1194,7 +1200,8 @@ perl -CSD $(OutDir)convertRelease.pl -T $(SolutionDir)  $(OutDir)libComModuleDir
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>4244;4018;4996;4355;4267</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4244;4018;4996;4355;4267;4146</DisableSpecificWarnings>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -1264,8 +1271,9 @@ perl -CSD $(OutDir)convertRelease.pl -T $(SolutionDir)  $(OutDir)libComModuleDir
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>4244;4018;4996;4355;4267</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4244;4018;4996;4355;4267;4146</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
