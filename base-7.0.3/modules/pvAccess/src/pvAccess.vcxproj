@@ -147,8 +147,11 @@
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
+if not exist $(SolutionDir)include\pva md $(SolutionDir)include\pva
+if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
 xcopy /Y /Q /D /R ca\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R client\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R client\pva\*.h $(SolutionDir)include\pva &gt; NUL
 xcopy /Y /Q /D /R ioc\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R mb\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R pipelineService\pv\*.h $(SolutionDir)include\pv &gt; NUL
@@ -159,7 +162,7 @@ xcopy /Y /Q /D /R rpcClient\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R rpcService\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R server\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R utils\pv\*.h $(SolutionDir)include\pv &gt; NUL
-</Command>
+xcopy /Y /Q /D /R ioc\*.dbd $(SolutionDir)DBD &gt; NUL</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
@@ -178,8 +181,11 @@ xcopy /Y /Q /D /R utils\pv\*.h $(SolutionDir)include\pv &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
+if not exist $(SolutionDir)include\pva md $(SolutionDir)include\pva
+if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
 xcopy /Y /Q /D /R ca\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R client\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R client\pva\*.h $(SolutionDir)include\pva &gt; NUL
 xcopy /Y /Q /D /R ioc\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R mb\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R pipelineService\pv\*.h $(SolutionDir)include\pv &gt; NUL
@@ -190,8 +196,11 @@ xcopy /Y /Q /D /R rpcClient\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R rpcService\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R server\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R utils\pv\*.h $(SolutionDir)include\pv &gt; NUL
-</Command>
+xcopy /Y /Q /D /R ioc\*.dbd $(SolutionDir)DBD &gt; NUL</Command>
     </PreBuildEvent>
+    <Lib>
+      <TreatLibWarningAsErrors>true</TreatLibWarningAsErrors>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
     <ClCompile>
@@ -208,8 +217,10 @@ xcopy /Y /Q /D /R utils\pv\*.h $(SolutionDir)include\pv &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
+if not exist $(SolutionDir)include\pva md $(SolutionDir)include\pva
+if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
 xcopy /Y /Q /D /R ca\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R client\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R client\pva\*.h $(SolutionDir)include\pva &gt; NUL
 xcopy /Y /Q /D /R ioc\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R mb\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R pipelineService\pv\*.h $(SolutionDir)include\pv &gt; NUL
@@ -220,7 +231,7 @@ xcopy /Y /Q /D /R rpcClient\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R rpcService\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R server\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R utils\pv\*.h $(SolutionDir)include\pv &gt; NUL
-</Command>
+xcopy /Y /Q /D /R ioc\*.dbd $(SolutionDir)DBD &gt; NUL</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
@@ -239,8 +250,10 @@ xcopy /Y /Q /D /R utils\pv\*.h $(SolutionDir)include\pv &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
+if not exist $(SolutionDir)include\pva md $(SolutionDir)include\pva
+if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
 xcopy /Y /Q /D /R ca\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R client\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R client\pva\*.h $(SolutionDir)include\pva &gt; NUL
 xcopy /Y /Q /D /R ioc\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R mb\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R pipelineService\pv\*.h $(SolutionDir)include\pv &gt; NUL
@@ -251,8 +264,11 @@ xcopy /Y /Q /D /R rpcClient\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R rpcService\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R server\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R utils\pv\*.h $(SolutionDir)include\pv &gt; NUL
-</Command>
+xcopy /Y /Q /D /R ioc\*.dbd $(SolutionDir)DBD &gt; NUL</Command>
     </PreBuildEvent>
+    <Lib>
+      <TreatLibWarningAsErrors>true</TreatLibWarningAsErrors>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
     <ClCompile>
@@ -272,8 +288,11 @@ xcopy /Y /Q /D /R utils\pv\*.h $(SolutionDir)include\pv &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
+if not exist $(SolutionDir)include\pva md $(SolutionDir)include\pva
+if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
 xcopy /Y /Q /D /R ca\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R client\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R client\pva\*.h $(SolutionDir)include\pva &gt; NUL
 xcopy /Y /Q /D /R ioc\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R mb\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R pipelineService\pv\*.h $(SolutionDir)include\pv &gt; NUL
@@ -284,7 +303,7 @@ xcopy /Y /Q /D /R rpcClient\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R rpcService\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R server\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R utils\pv\*.h $(SolutionDir)include\pv &gt; NUL
-</Command>
+xcopy /Y /Q /D /R ioc\*.dbd $(SolutionDir)DBD &gt; NUL</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
@@ -306,8 +325,11 @@ xcopy /Y /Q /D /R utils\pv\*.h $(SolutionDir)include\pv &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
+if not exist $(SolutionDir)include\pva md $(SolutionDir)include\pva
+if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
 xcopy /Y /Q /D /R ca\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R client\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R client\pva\*.h $(SolutionDir)include\pva &gt; NUL
 xcopy /Y /Q /D /R ioc\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R mb\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R pipelineService\pv\*.h $(SolutionDir)include\pv &gt; NUL
@@ -318,8 +340,11 @@ xcopy /Y /Q /D /R rpcClient\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R rpcService\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R server\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R utils\pv\*.h $(SolutionDir)include\pv &gt; NUL
-</Command>
+xcopy /Y /Q /D /R ioc\*.dbd $(SolutionDir)DBD &gt; NUL</Command>
     </PreBuildEvent>
+    <Lib>
+      <TreatLibWarningAsErrors>true</TreatLibWarningAsErrors>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
     <ClCompile>
@@ -339,8 +364,10 @@ xcopy /Y /Q /D /R utils\pv\*.h $(SolutionDir)include\pv &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
+if not exist $(SolutionDir)include\pva md $(SolutionDir)include\pva
+if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
 xcopy /Y /Q /D /R ca\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R client\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R client\pva\*.h $(SolutionDir)include\pva &gt; NUL
 xcopy /Y /Q /D /R ioc\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R mb\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R pipelineService\pv\*.h $(SolutionDir)include\pv &gt; NUL
@@ -351,7 +378,7 @@ xcopy /Y /Q /D /R rpcClient\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R rpcService\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R server\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R utils\pv\*.h $(SolutionDir)include\pv &gt; NUL
-</Command>
+xcopy /Y /Q /D /R ioc\*.dbd $(SolutionDir)DBD &gt; NUL</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">
@@ -373,8 +400,10 @@ xcopy /Y /Q /D /R utils\pv\*.h $(SolutionDir)include\pv &gt; NUL
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
 if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
+if not exist $(SolutionDir)include\pva md $(SolutionDir)include\pva
+if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
 xcopy /Y /Q /D /R ca\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R client\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R client\pva\*.h $(SolutionDir)include\pva &gt; NUL
 xcopy /Y /Q /D /R ioc\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R mb\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R pipelineService\pv\*.h $(SolutionDir)include\pv &gt; NUL
@@ -385,8 +414,11 @@ xcopy /Y /Q /D /R rpcClient\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R rpcService\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R server\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R utils\pv\*.h $(SolutionDir)include\pv &gt; NUL
-</Command>
+xcopy /Y /Q /D /R ioc\*.dbd $(SolutionDir)DBD &gt; NUL</Command>
     </PreBuildEvent>
+    <Lib>
+      <TreatLibWarningAsErrors>true</TreatLibWarningAsErrors>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ca\caChannel.cpp" />
@@ -408,8 +440,18 @@ xcopy /Y /Q /D /R utils\pv\*.h $(SolutionDir)include\pv &gt; NUL
     <ClCompile Include="factory\ChannelAccessFactory.cpp" />
     <ClCompile Include="ioc\PVAClientRegister.cpp" />
     <ClCompile Include="ioc\PVAServerRegister.cpp" />
+    <ClCompile Include="ioc\reftrackioc.cpp" />
     <ClCompile Include="pipelineService\pipelineServer.cpp" />
-    <ClCompile Include="pipelineService\pipelineService.cpp" />
+    <ClCompile Include="pipelineService\pipelineService.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="pva\clientFactory.cpp" />
     <ClCompile Include="pva\pvaVersion.cpp" />
     <ClCompile Include="remoteClient\clientContextImpl.cpp" />
@@ -459,6 +501,8 @@ xcopy /Y /Q /D /R utils\pv\*.h $(SolutionDir)include\pv &gt; NUL
     <ClInclude Include="ca\pv\caProvider.h" />
     <ClInclude Include="client\clientpvt.h" />
     <ClInclude Include="client\pv\pvAccess.h" />
+    <ClInclude Include="ioc\pv\iocreftrack.h" />
+    <ClInclude Include="ioc\pv\iocshelper.h" />
     <ClInclude Include="ioc\pv\syncChannelFind.h" />
     <ClInclude Include="mb\pv\pvAccessMB.h" />
     <ClInclude Include="pipelineService\pv\pipelineServer.h" />
@@ -515,6 +559,7 @@ xcopy /Y /Q /D /R utils\pv\*.h $(SolutionDir)include\pv &gt; NUL
     <None Include="factory\Makefile" />
     <None Include="ioc\Makefile" />
     <None Include="ioc\PVAClientRegister.dbd" />
+    <None Include="ioc\PVACommonRegister.dbd" />
     <None Include="ioc\PVAServerRegister.dbd" />
     <None Include="mb\Makefile" />
     <None Include="pipelineService\Makefile" />

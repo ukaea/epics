@@ -37,12 +37,6 @@
     <Filter Include="json">
       <UniqueIdentifier>{d3bb8fe9-9e25-4fa2-89a1-2d3f43374be0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="O.Common">
-      <UniqueIdentifier>{612e5e84-eadf-42ca-8a1e-3c5e8d1cdab4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="O.Common\pv">
-      <UniqueIdentifier>{19624b5b-a3bf-40b7-a684-d3b62462f588}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="factory\Compare.cpp">
@@ -325,9 +319,6 @@
     </ClInclude>
     <ClInclude Include="pv\valueBuilder.h">
       <Filter>pv</Filter>
-    </ClInclude>
-    <ClInclude Include="O.Common\pv\pvdVersionNum.h">
-      <Filter>O.Common\pv</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

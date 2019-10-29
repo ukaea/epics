@@ -2968,6 +2968,7 @@ cd $(ProjectDir)
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
     <PostBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
@@ -3033,6 +3034,10 @@ xcopy /Y /Q /D /R rec\*.dbd $(SolutionDir)dbd &gt; NUL
     <ResourceCompile>
       <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>
     </ResourceCompile>
+    <Lib>
+      <TreatLibWarningAsErrors>true</TreatLibWarningAsErrors>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
     <ClCompile>
@@ -3045,6 +3050,7 @@ xcopy /Y /Q /D /R rec\*.dbd $(SolutionDir)dbd &gt; NUL
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
     <PostBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
@@ -3110,6 +3116,9 @@ xcopy /Y /Q /D /R rec\*.dbd $(SolutionDir)dbd &gt; NUL
     <ResourceCompile>
       <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>
     </ResourceCompile>
+    <Lib>
+      <TreatLibWarningAsErrors>true</TreatLibWarningAsErrors>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
     <ClCompile>
@@ -3124,6 +3133,7 @@ xcopy /Y /Q /D /R rec\*.dbd $(SolutionDir)dbd &gt; NUL
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
     <PreBuildEvent />
     <PostBuildEvent>
@@ -3205,6 +3215,7 @@ xcopy /Y /Q /D /R rec\*.dbd $(SolutionDir)dbd &gt; NUL
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
     <PreBuildEvent />
     <PostBuildEvent>

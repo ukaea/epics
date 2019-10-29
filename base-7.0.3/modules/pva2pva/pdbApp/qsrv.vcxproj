@@ -38,7 +38,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{F4A51415-2981-42EE-87C7-F29D5805583E}</ProjectGuid>
+    <ProjectGuid>{589AB311-372D-4FA2-A3E3-00D530D8C0A8}</ProjectGuid>
     <RootNamespace>src</RootNamespace>
     <SccProjectName>
     </SccProjectName>
@@ -135,41 +135,35 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;$(SolutionDir)include\pv;json;O.Common</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\p2pApp;..\common;O.Common</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
-      <DisableSpecificWarnings>4251;4275;4309;4800;4244;4355;4267;4250</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4250;4003;4244;4309;4101;4251;4275</DisableSpecificWarnings>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
-      <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q /D /R copy\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R json\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R factory\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R misc\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R property\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R pvMisc\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent />
+    <PostBuildEvent />
     <PostBuildEvent>
-      <Command>xcopy /Y /Q /D /R O.Common\pv\*.h $(SolutionDir)include\pv &gt; NUL
-</Command>
+      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;$(SolutionDir)include\pv;json;O.Common</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\p2pApp;..\common;O.Common</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;EPICS_DLL_NO;WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
-      <DisableSpecificWarnings>4251;4275;4309;4800;4244;4355;4267;4250</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4250;4003;4244;4309;4101;4251;4275</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -177,63 +171,47 @@ xcopy /Y /Q /D /R pvMisc\pv\*.h $(SolutionDir)include\pv &gt; NUL
     </Link>
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q /D /R copy\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R json\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R factory\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R misc\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R property\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R pvMisc\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
 </Command>
     </PreBuildEvent>
+    <PostBuildEvent />
     <PostBuildEvent>
-      <Command>xcopy /Y /Q /D /R O.Common\pv\*.h $(SolutionDir)include\pv &gt; NUL
-</Command>
+      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
     </PostBuildEvent>
-    <Lib>
-      <TreatLibWarningAsErrors>true</TreatLibWarningAsErrors>
-    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;$(SolutionDir)include\pv;json;O.Common</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\p2pApp;..\common;O.Common</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
-      <DisableSpecificWarnings>4251;4275;4309;4800;4244;4355;4267;4250</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4250;4003;4244;4309;4101;4251;4275</DisableSpecificWarnings>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
-      <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q /D /R copy\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R json\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R factory\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R misc\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R property\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R pvMisc\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent />
+    <PostBuildEvent />
     <PostBuildEvent>
-      <Command>xcopy /Y /Q /D /R O.Common\pv\*.h $(SolutionDir)include\pv &gt; NUL
-</Command>
+      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;$(SolutionDir)include\pv;json;O.Common</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\p2pApp;..\common;O.Common</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;EPICS_DLL_NO;WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
-      <DisableSpecificWarnings>4251;4275;4309;4800;4244;4355;4267;4250</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4250;4003;4244;4309;4101;4251;4275</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -241,23 +219,13 @@ xcopy /Y /Q /D /R pvMisc\pv\*.h $(SolutionDir)include\pv &gt; NUL
     </Link>
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q /D /R copy\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R json\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R factory\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R misc\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R property\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R pvMisc\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
 </Command>
     </PreBuildEvent>
+    <PostBuildEvent />
     <PostBuildEvent>
-      <Command>xcopy /Y /Q /D /R O.Common\pv\*.h $(SolutionDir)include\pv &gt; NUL
-</Command>
+      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
     </PostBuildEvent>
-    <Lib>
-      <TreatLibWarningAsErrors>true</TreatLibWarningAsErrors>
-    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
     <ClCompile>
@@ -265,32 +233,25 @@ xcopy /Y /Q /D /R pvMisc\pv\*.h $(SolutionDir)include\pv &gt; NUL
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;$(SolutionDir)include\pv;json;O.Common</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\p2pApp;..\common;O.Common</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;WIN32;NDEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
-      <DisableSpecificWarnings>4251;4275;4309;4800;4244;4355;4267;4250</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4250;4003;4244;4309;4101;4251;4275</DisableSpecificWarnings>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <SubSystem>Windows</SubSystem>
-      <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q /D /R copy\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R json\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R factory\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R misc\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R property\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R pvMisc\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
 </Command>
     </PreBuildEvent>
+    <PostBuildEvent />
     <PostBuildEvent>
-      <Command>xcopy /Y /Q /D /R O.Common\pv\*.h $(SolutionDir)include\pv &gt; NUL
-</Command>
+      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
@@ -299,10 +260,11 @@ xcopy /Y /Q /D /R pvMisc\pv\*.h $(SolutionDir)include\pv &gt; NUL
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;$(SolutionDir)include\pv;json;O.Common</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\p2pApp;..\common;O.Common</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;EPICS_DLL_NO;WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
-      <DisableSpecificWarnings>4251;4275;4309;4800;4244;4355;4267;4250</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4250;4003;4244;4309;4101;4251;4275</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -312,23 +274,13 @@ xcopy /Y /Q /D /R pvMisc\pv\*.h $(SolutionDir)include\pv &gt; NUL
     </Link>
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q /D /R copy\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R json\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R factory\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R misc\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R property\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R pvMisc\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
 </Command>
     </PreBuildEvent>
+    <PostBuildEvent />
     <PostBuildEvent>
-      <Command>xcopy /Y /Q /D /R O.Common\pv\*.h $(SolutionDir)include\pv &gt; NUL
-</Command>
+      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
     </PostBuildEvent>
-    <Lib>
-      <TreatLibWarningAsErrors>true</TreatLibWarningAsErrors>
-    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
     <ClCompile>
@@ -336,32 +288,25 @@ xcopy /Y /Q /D /R pvMisc\pv\*.h $(SolutionDir)include\pv &gt; NUL
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;$(SolutionDir)include\pv;json;O.Common</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\p2pApp;..\common;O.Common</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;WIN32;NDEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
-      <DisableSpecificWarnings>4251;4275;4309;4800;4244;4355;4267;4250</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4250;4003;4244;4309;4101;4251;4275</DisableSpecificWarnings>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <SubSystem>Windows</SubSystem>
-      <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q /D /R copy\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R json\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R factory\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R misc\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R property\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R pvMisc\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
 </Command>
     </PreBuildEvent>
+    <PostBuildEvent />
     <PostBuildEvent>
-      <Command>xcopy /Y /Q /D /R O.Common\pv\*.h $(SolutionDir)include\pv &gt; NUL
-</Command>
+      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">
@@ -370,10 +315,11 @@ xcopy /Y /Q /D /R pvMisc\pv\*.h $(SolutionDir)include\pv &gt; NUL
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;$(SolutionDir)include\pv;json;O.Common</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\p2pApp;..\common;O.Common</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;EPICS_DLL_NO;WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
-      <DisableSpecificWarnings>4251;4275;4309;4800;4244;4355;4267;4250</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4250;4003;4244;4309;4101;4251;4275</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -383,51 +329,125 @@ xcopy /Y /Q /D /R pvMisc\pv\*.h $(SolutionDir)include\pv &gt; NUL
     </Link>
     <PreBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-xcopy /Y /Q /D /R copy\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R json\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R factory\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R misc\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R property\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R pvMisc\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
 </Command>
     </PreBuildEvent>
+    <PostBuildEvent />
     <PostBuildEvent>
-      <Command>xcopy /Y /Q /D /R O.Common\pv\*.h $(SolutionDir)include\pv &gt; NUL
-</Command>
+      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
     </PostBuildEvent>
-    <Lib>
-      <TreatLibWarningAsErrors>true</TreatLibWarningAsErrors>
-    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="copy\createRequest.cpp" />
-    <ClCompile Include="copy\requestmapper.cpp" />
-    <ClCompile Include="factory\Compare.cpp" />
-    <ClCompile Include="factory\Convert.cpp" />
-    <ClCompile Include="factory\FieldCreateFactory.cpp" />
-    <ClCompile Include="factory\printer.cpp" />
-    <ClCompile Include="factory\PVArray.cpp" />
-    <ClCompile Include="factory\PVDataCreateFactory.cpp" />
-    <ClCompile Include="factory\PVField.cpp" />
-    <ClCompile Include="factory\PVScalar.cpp" />
-    <ClCompile Include="factory\PVScalarArray.cpp" />
-    <ClCompile Include="factory\PVStructure.cpp" />
-    <ClCompile Include="factory\PVStructureArray.cpp" />
-    <ClCompile Include="factory\pvSubArrayCopy.cpp" />
-    <ClCompile Include="factory\PVUnion.cpp" />
-    <ClCompile Include="factory\PVUnionArray.cpp" />
-    <ClCompile Include="factory\StandardField.cpp" />
-    <ClCompile Include="factory\StandardPVField.cpp" />
-    <ClCompile Include="factory\TypeFunc.cpp" />
-    <ClCompile Include="json\parseany.cpp" />
-    <ClCompile Include="json\parsehelper.cpp" />
-    <ClCompile Include="json\parseinto.cpp" />
-    <ClCompile Include="json\print.cpp" />
-    <ClCompile Include="misc\anyscalar.cpp" />
-    <ClCompile Include="misc\bitSet.cpp" />
-    <ClCompile Include="misc\byteBuffer.cpp">
+    <None Include="Makefile" />
+    <CustomBuild Include="pv\qsrvVersionNum.h%40">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)expandVars.pl -DEPICS_QSRV_MAJOR_VERSION="1" -DEPICS_QSRV_MINOR_VERSION="2" -DEPICS_QSRV_MAINTENANCE_VERSION="1" -DEPICS_QSRV_DEVELOPMENT_FLAG="0" -DEPICS_QSRV_ABI_MAJOR_VERSION="1" -DEPICS_QSRV_ABI_MINOR_VERSION="1" -t $(OutDir)  pv/qsrvVersionNum.h@ O.Common/pv/qsrvVersionNum.h
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)expandVars.pl -DEPICS_QSRV_MAJOR_VERSION="1" -DEPICS_QSRV_MINOR_VERSION="2" -DEPICS_QSRV_MAINTENANCE_VERSION="1" -DEPICS_QSRV_DEVELOPMENT_FLAG="0" -DEPICS_QSRV_ABI_MAJOR_VERSION="1" -DEPICS_QSRV_ABI_MINOR_VERSION="1" -t D:/epics/base -a windows-x64-static   pv/qsrvVersionNum.h@ O.Common/pv/qsrvVersionNum.h
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)expandVars.pl -DEPICS_QSRV_MAJOR_VERSION="1" -DEPICS_QSRV_MINOR_VERSION="2" -DEPICS_QSRV_MAINTENANCE_VERSION="1" -DEPICS_QSRV_DEVELOPMENT_FLAG="0" -DEPICS_QSRV_ABI_MAJOR_VERSION="1" -DEPICS_QSRV_ABI_MINOR_VERSION="1" -t $(OutDir)  pv/qsrvVersionNum.h@ O.Common/pv/qsrvVersionNum.h
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)expandVars.pl -DEPICS_QSRV_MAJOR_VERSION="1" -DEPICS_QSRV_MINOR_VERSION="2" -DEPICS_QSRV_MAINTENANCE_VERSION="1" -DEPICS_QSRV_DEVELOPMENT_FLAG="0" -DEPICS_QSRV_ABI_MAJOR_VERSION="1" -DEPICS_QSRV_ABI_MINOR_VERSION="1" -t D:/epics/base -a windows-x64-static   pv/qsrvVersionNum.h@ O.Common/pv/qsrvVersionNum.h
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)expandVars.pl -DEPICS_QSRV_MAJOR_VERSION="1" -DEPICS_QSRV_MINOR_VERSION="2" -DEPICS_QSRV_MAINTENANCE_VERSION="1" -DEPICS_QSRV_DEVELOPMENT_FLAG="0" -DEPICS_QSRV_ABI_MAJOR_VERSION="1" -DEPICS_QSRV_ABI_MINOR_VERSION="1" -t $(OutDir)  pv/qsrvVersionNum.h@ O.Common/pv/qsrvVersionNum.h
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)expandVars.pl -DEPICS_QSRV_MAJOR_VERSION="1" -DEPICS_QSRV_MINOR_VERSION="2" -DEPICS_QSRV_MAINTENANCE_VERSION="1" -DEPICS_QSRV_DEVELOPMENT_FLAG="0" -DEPICS_QSRV_ABI_MAJOR_VERSION="1" -DEPICS_QSRV_ABI_MINOR_VERSION="1" -t D:/epics/base -a windows-x64-static   pv/qsrvVersionNum.h@ O.Common/pv/qsrvVersionNum.h
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)expandVars.pl -DEPICS_QSRV_MAJOR_VERSION="1" -DEPICS_QSRV_MINOR_VERSION="2" -DEPICS_QSRV_MAINTENANCE_VERSION="1" -DEPICS_QSRV_DEVELOPMENT_FLAG="0" -DEPICS_QSRV_ABI_MAJOR_VERSION="1" -DEPICS_QSRV_ABI_MINOR_VERSION="1" -t $(OutDir)  pv/qsrvVersionNum.h@ O.Common/pv/qsrvVersionNum.h
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)expandVars.pl -DEPICS_QSRV_MAJOR_VERSION="1" -DEPICS_QSRV_MINOR_VERSION="2" -DEPICS_QSRV_MAINTENANCE_VERSION="1" -DEPICS_QSRV_DEVELOPMENT_FLAG="0" -DEPICS_QSRV_ABI_MAJOR_VERSION="1" -DEPICS_QSRV_ABI_MINOR_VERSION="1" -t D:/epics/base -a windows-x64-static   pv/qsrvVersionNum.h@ O.Common/pv/qsrvVersionNum.h
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common/pv/qsrvVersionNum.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">O.Common/pv/qsrvVersionNum.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common/pv/qsrvVersionNum.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">O.Common/pv/qsrvVersionNum.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">O.Common/pv/qsrvVersionNum.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">O.Common/pv/qsrvVersionNum.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">O.Common/pv/qsrvVersionNum.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">O.Common/pv/qsrvVersionNum.h</Outputs>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
+    </CustomBuild>
+    <None Include="O.Common\qsrv.dbd" />
+    <None Include="O.Common\softIocPVA.dbd" />
+    <CustomBuild Include="qsrv-new.dbd">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD -MExtUtils::Command -e cp qsrv-new.dbd O.Common/qsrv.dbd
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD -MExtUtils::Command -e cp qsrv-new.dbd O.Common/qsrv.dbd
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD -MExtUtils::Command -e cp qsrv-new.dbd O.Common/qsrv.dbd
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD -MExtUtils::Command -e cp qsrv-new.dbd O.Common/qsrv.dbd
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD -MExtUtils::Command -e cp qsrv-new.dbd O.Common/qsrv.dbd
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD -MExtUtils::Command -e cp qsrv-new.dbd O.Common/qsrv.dbd
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD -MExtUtils::Command -e cp qsrv-new.dbd O.Common/qsrv.dbd
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD -MExtUtils::Command -e cp qsrv-new.dbd O.Common/qsrv.dbd
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common\qsrv.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">O.Common\qsrv.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common\qsrv.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">O.Common\qsrv.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">O.Common\qsrv.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">O.Common\qsrv.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">O.Common\qsrv.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">O.Common\qsrv.dbd</Outputs>
+    </CustomBuild>
+    <None Include="qsrv-old.dbd" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\support\areaDetector\ADCore\ADApp\ADSrc\ADBase.vcxproj">
+      <Project>{77cbc12c-ae16-40ef-a286-a61535f45a99}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\database\src\ioc\dbCore.vcxproj">
+      <Project>{422a8c73-836c-48cb-86c8-0591e69c0ca1}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\libcom\src\Com.vcxproj">
+      <Project>{e9d99fc7-e592-472b-b2e2-c3b0d81d8169}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\pvAccess\src\pvAccess.vcxproj">
+      <Project>{44ecea7e-d805-49b6-8e89-62ec3994c1f3}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\pvData\src\pvData.vcxproj">
+      <Project>{f4a51415-2981-42ee-87c7-f29d5805583e}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="configparse.cpp" />
+    <ClCompile Include="dbf_copy.cpp" />
+    <ClCompile Include="demo.cpp" />
+    <ClCompile Include="imagedemo.c" />
+    <ClCompile Include="pdb.cpp" />
+    <ClCompile Include="pdbgroup.cpp" />
+    <ClCompile Include="pdbsingle.cpp" />
+    <ClCompile Include="pvalink.cpp" />
+    <ClCompile Include="pvalink_channel.cpp" />
+    <ClCompile Include="pvalink_jlif.cpp" />
+    <ClCompile Include="pvalink_link.cpp" />
+    <ClCompile Include="pvalink_lset.cpp" />
+    <ClCompile Include="pvalink_null.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
@@ -437,133 +457,29 @@ xcopy /Y /Q /D /R pvMisc\pv\*.h $(SolutionDir)include\pv &gt; NUL
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="misc\debugPtr.cpp" />
-    <ClCompile Include="misc\epicsException.cpp" />
-    <ClCompile Include="misc\event.cpp" />
-    <ClCompile Include="misc\parseToPOD.cpp" />
-    <ClCompile Include="misc\pvUnitTest.cpp" />
-    <ClCompile Include="misc\reftrack.cpp" />
-    <ClCompile Include="misc\serializeHelper.cpp" />
-    <ClCompile Include="misc\status.cpp" />
-    <ClCompile Include="misc\thread.cpp" />
-    <ClCompile Include="misc\timer.cpp" />
-    <ClCompile Include="misc\typeCast.cpp" />
-    <ClCompile Include="property\alarm.cpp" />
-    <ClCompile Include="property\pvAlarm.cpp" />
-    <ClCompile Include="property\pvControl.cpp" />
-    <ClCompile Include="property\pvDisplay.cpp" />
-    <ClCompile Include="property\pvEnumerated.cpp" />
-    <ClCompile Include="property\pvTimeStamp.cpp" />
-    <ClCompile Include="property\timeStamp.cpp" />
-    <ClCompile Include="pvMisc\bitSetUtil.cpp" />
-    <ClCompile Include="pv\pvdVersion.cpp" />
-    <ClCompile Include="pv\valueBuilder.cpp" />
+    <ClCompile Include="pvif.cpp" />
+    <ClCompile Include="qsrv.cpp" />
+    <ClCompile Include="softMain.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="tpool.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="copy\pv\createRequest.h" />
-    <ClInclude Include="copy\pv\pvCopy.h" />
-    <ClInclude Include="factory\pv\factory.h" />
-    <ClInclude Include="misc\pv\bitSet.h" />
-    <ClInclude Include="misc\pv\byteBuffer.h" />
-    <ClInclude Include="misc\pv\current_function.h" />
-    <ClInclude Include="misc\pv\destroyable.h" />
-    <ClInclude Include="misc\pv\epicsException.h" />
-    <ClInclude Include="misc\pv\event.h" />
-    <ClInclude Include="misc\pv\executor.h" />
-    <ClInclude Include="misc\pv\localStaticLock.h" />
-    <ClInclude Include="misc\pv\lock.h" />
-    <ClInclude Include="misc\pv\messageQueue.h" />
-    <ClInclude Include="misc\pv\noDefaultMethods.h" />
-    <ClInclude Include="misc\pv\queue.h" />
-    <ClInclude Include="misc\pv\requester.h" />
-    <ClInclude Include="misc\pv\serialize.h" />
-    <ClInclude Include="misc\pv\serializeHelper.h" />
-    <ClInclude Include="misc\pv\sharedPtr.h" />
-    <ClInclude Include="misc\pv\sharedVector.h" />
-    <ClInclude Include="misc\pv\status.h" />
-    <ClInclude Include="misc\pv\templateMeta.h" />
-    <ClInclude Include="misc\pv\thread.h" />
-    <ClInclude Include="misc\pv\timeFunction.h" />
-    <ClInclude Include="misc\pv\timer.h" />
-    <ClInclude Include="misc\pv\typeCast.h" />
-    <ClInclude Include="O.Common\pv\pvdVersionNum.h" />
-    <ClInclude Include="property\pv\alarm.h" />
-    <ClInclude Include="property\pv\control.h" />
-    <ClInclude Include="property\pv\display.h" />
-    <ClInclude Include="property\pv\pvAlarm.h" />
-    <ClInclude Include="property\pv\pvControl.h" />
-    <ClInclude Include="property\pv\pvDisplay.h" />
-    <ClInclude Include="property\pv\pvEnumerated.h" />
-    <ClInclude Include="property\pv\pvTimeStamp.h" />
-    <ClInclude Include="property\pv\timeStamp.h" />
-    <ClInclude Include="pvMisc\pv\bitSetUtil.h" />
-    <ClInclude Include="pv\convert.h" />
-    <ClInclude Include="pv\pvData.h" />
-    <ClInclude Include="pv\pvdVersion.h" />
-    <ClInclude Include="pv\pvIntrospect.h" />
-    <ClInclude Include="pv\pvSubArrayCopy.h" />
-    <ClInclude Include="pv\pvType.h" />
-    <ClInclude Include="pv\standardField.h" />
-    <ClInclude Include="pv\standardPVField.h" />
-    <ClInclude Include="pv\typemap.h" />
-    <ClInclude Include="pv\valueBuilder.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="copy\Makefile" />
-    <None Include="factory\Makefile" />
-    <None Include="json\Makefile" />
-    <None Include="misc\Makefile" />
-    <None Include="property\Makefile" />
-    <None Include="pvMisc\Makefile" />
-    <None Include="pv\Makefile" />
-    <CustomBuild Include="pv\pvdVersionNum.h%40">
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)expandVars.pl -DEPICS_PVD_MAJOR_VERSION="8" -DEPICS_PVD_MINOR_VERSION="0" -DEPICS_PVD_MAINTENANCE_VERSION="0" -DEPICS_PVD_DEVELOPMENT_FLAG="0" -t $(OutDir)  pv\pvdVersionNum.h@ O.Common\pv\pvdVersionNum.h
-
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)expandVars.pl -DEPICS_PVD_MAJOR_VERSION="8" -DEPICS_PVD_MINOR_VERSION="0" -DEPICS_PVD_MAINTENANCE_VERSION="0" -DEPICS_PVD_DEVELOPMENT_FLAG="0" -t $(OutDir)  pv\pvdVersionNum.h@ O.Common\pv\pvdVersionNum.h
-
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)expandVars.pl -DEPICS_PVD_MAJOR_VERSION="8" -DEPICS_PVD_MINOR_VERSION="0" -DEPICS_PVD_MAINTENANCE_VERSION="0" -DEPICS_PVD_DEVELOPMENT_FLAG="0" -t $(OutDir)  pv\pvdVersionNum.h@ O.Common\pv\pvdVersionNum.h
-
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)expandVars.pl -DEPICS_PVD_MAJOR_VERSION="8" -DEPICS_PVD_MINOR_VERSION="0" -DEPICS_PVD_MAINTENANCE_VERSION="0" -DEPICS_PVD_DEVELOPMENT_FLAG="0" -t $(OutDir)  pv\pvdVersionNum.h@ O.Common\pv\pvdVersionNum.h
-
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)expandVars.pl -DEPICS_PVD_MAJOR_VERSION="8" -DEPICS_PVD_MINOR_VERSION="0" -DEPICS_PVD_MAINTENANCE_VERSION="0" -DEPICS_PVD_DEVELOPMENT_FLAG="0" -t $(OutDir)  pv\pvdVersionNum.h@ O.Common\pv\pvdVersionNum.h
-
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)expandVars.pl -DEPICS_PVD_MAJOR_VERSION="8" -DEPICS_PVD_MINOR_VERSION="0" -DEPICS_PVD_MAINTENANCE_VERSION="0" -DEPICS_PVD_DEVELOPMENT_FLAG="0" -t $(OutDir)  pv\pvdVersionNum.h@ O.Common\pv\pvdVersionNum.h
-
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)expandVars.pl -DEPICS_PVD_MAJOR_VERSION="8" -DEPICS_PVD_MINOR_VERSION="0" -DEPICS_PVD_MAINTENANCE_VERSION="0" -DEPICS_PVD_DEVELOPMENT_FLAG="0" -t $(OutDir)  pv\pvdVersionNum.h@ O.Common\pv\pvdVersionNum.h
-
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)expandVars.pl -DEPICS_PVD_MAJOR_VERSION="8" -DEPICS_PVD_MINOR_VERSION="0" -DEPICS_PVD_MAINTENANCE_VERSION="0" -DEPICS_PVD_DEVELOPMENT_FLAG="0" -t $(OutDir)  pv\pvdVersionNum.h@ O.Common\pv\pvdVersionNum.h
-
-</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common/pv/pvdVersionNum.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">O.Common/pv/pvdVersionNum.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common/pv/pvdVersionNum.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">O.Common/pv/pvdVersionNum.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">O.Common/pv/pvdVersionNum.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">O.Common/pv/pvdVersionNum.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">O.Common/pv/pvdVersionNum.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">O.Common/pv/pvdVersionNum.h</Outputs>
-    </CustomBuild>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\libcom\src\Com.vcxproj">
-      <Project>{e9d99fc7-e592-472b-b2e2-c3b0d81d8169}</Project>
-    </ProjectReference>
+    <ClInclude Include="O.Common\pv\qsrvVersionNum.h" />
+    <ClInclude Include="pdb.h" />
+    <ClInclude Include="pdbgroup.h" />
+    <ClInclude Include="pdbsingle.h" />
+    <ClInclude Include="pvalink.h" />
+    <ClInclude Include="pvif.h" />
+    <ClInclude Include="pv\qsrv.h" />
+    <ClInclude Include="tpool.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

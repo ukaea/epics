@@ -308,6 +308,9 @@ xcopy /Y /Q /D /R  *.dbd  $(SolutionDir)dbd &gt; NUL
       <Command>xcopy /Y /Q /D /R  O.Common\*.dbd  $(SolutionDir)include &gt; NUL
 </Command>
     </PostBuildEvent>
+    <Lib>
+      <TreatLibWarningAsErrors>true</TreatLibWarningAsErrors>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
     <ClCompile>
@@ -335,6 +338,9 @@ xcopy /Y /Q /D /R  *.dbd  $(SolutionDir)dbd &gt; NUL
       <Command>xcopy /Y /Q /D /R  O.Common\*.dbd  $(SolutionDir)include &gt; NUL
 </Command>
     </PostBuildEvent>
+    <Lib>
+      <TreatLibWarningAsErrors>true</TreatLibWarningAsErrors>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
     <ClCompile>
@@ -426,6 +432,9 @@ xcopy /Y /Q /D /R  *.dbd  $(SolutionDir)dbd &gt; NUL
       <Command>xcopy /Y /Q /D /R  O.Common\*.dbd  $(SolutionDir)include &gt; NUL
 </Command>
     </PostBuildEvent>
+    <Lib>
+      <TreatLibWarningAsErrors>true</TreatLibWarningAsErrors>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">
     <ClCompile>
@@ -457,6 +466,9 @@ xcopy /Y /Q /D /R  *.dbd  $(SolutionDir)dbd &gt; NUL
       <Command>xcopy /Y /Q /D /R  O.Common\*.dbd  $(SolutionDir)include &gt; NUL
 </Command>
     </PostBuildEvent>
+    <Lib>
+      <TreatLibWarningAsErrors>true</TreatLibWarningAsErrors>
+    </Lib>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

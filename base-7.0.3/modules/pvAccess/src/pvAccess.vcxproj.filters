@@ -252,6 +252,9 @@
     <ClCompile Include="client\monitor.cpp">
       <Filter>client</Filter>
     </ClCompile>
+    <ClCompile Include="ioc\reftrackioc.cpp">
+      <Filter>ioc</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="client\pv\pvAccess.h">
@@ -398,6 +401,12 @@
     <ClInclude Include="client\clientpvt.h">
       <Filter>client</Filter>
     </ClInclude>
+    <ClInclude Include="ioc\pv\iocreftrack.h">
+      <Filter>ioc\pv</Filter>
+    </ClInclude>
+    <ClInclude Include="ioc\pv\iocshelper.h">
+      <Filter>ioc\pv</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ca\Makefile">
@@ -444,6 +453,9 @@
     </None>
     <None Include="pipelineService\Makefile">
       <Filter>pipelineService</Filter>
+    </None>
+    <None Include="ioc\PVACommonRegister.dbd">
+      <Filter>ioc</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

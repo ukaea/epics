@@ -254,6 +254,7 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
     </PostBuildEvent>
     <Lib>
       <AdditionalDependencies>Winmm.lib</AdditionalDependencies>
+      <TreatLibWarningAsErrors>true</TreatLibWarningAsErrors>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
@@ -295,6 +296,7 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
     </PostBuildEvent>
     <Lib>
       <AdditionalDependencies>Winmm.lib</AdditionalDependencies>
+      <TreatLibWarningAsErrors>true</TreatLibWarningAsErrors>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
@@ -424,6 +426,7 @@ xcopy /Y /Q /D /R .\devEpics\*.dbd   $(SolutionDir)dbd &gt; NUL
     </PreBuildEvent>
     <Lib>
       <AdditionalDependencies>Winmm.lib</AdditionalDependencies>
+      <TreatLibWarningAsErrors>true</TreatLibWarningAsErrors>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">
@@ -469,6 +472,7 @@ xcopy /Y /Q /D /R .\devEpics\*.dbd   $(SolutionDir)dbd &gt; NUL
     </PreBuildEvent>
     <Lib>
       <AdditionalDependencies>Winmm.lib</AdditionalDependencies>
+      <TreatLibWarningAsErrors>true</TreatLibWarningAsErrors>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
