@@ -137,7 +137,7 @@
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\p2pApp;..\common;O.Common</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
-      <DisableSpecificWarnings>4250;4003;4244;4309;4101;4251;4275</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4250;4003;4244;4309;4101;4251;4275;4267</DisableSpecificWarnings>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
@@ -161,7 +161,7 @@ xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\p2pApp;..\common;O.Common</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;EPICS_DLL_NO;WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
-      <DisableSpecificWarnings>4250;4003;4244;4309;4101;4251;4275</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4250;4003;4244;4309;4101;4251;4275;4267</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -185,7 +185,7 @@ xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\p2pApp;..\common;O.Common</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
-      <DisableSpecificWarnings>4250;4003;4244;4309;4101;4251;4275</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4250;4003;4244;4309;4101;4251;4275;4267</DisableSpecificWarnings>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
@@ -209,7 +209,7 @@ xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\p2pApp;..\common;O.Common</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;EPICS_DLL_NO;WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
-      <DisableSpecificWarnings>4250;4003;4244;4309;4101;4251;4275</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4250;4003;4244;4309;4101;4251;4275;4267</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -235,7 +235,7 @@ xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\p2pApp;..\common;O.Common</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;WIN32;NDEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
-      <DisableSpecificWarnings>4250;4003;4244;4309;4101;4251;4275</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4250;4003;4244;4309;4101;4251;4275;4267</DisableSpecificWarnings>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
@@ -262,7 +262,7 @@ xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\p2pApp;..\common;O.Common</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;EPICS_DLL_NO;WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
-      <DisableSpecificWarnings>4250;4003;4244;4309;4101;4251;4275</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4250;4003;4244;4309;4101;4251;4275;4267</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -290,7 +290,7 @@ xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\p2pApp;..\common;O.Common</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;WIN32;NDEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
-      <DisableSpecificWarnings>4250;4003;4244;4309;4101;4251;4275</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4250;4003;4244;4309;4101;4251;4275;4267</DisableSpecificWarnings>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
@@ -317,7 +317,7 @@ xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\p2pApp;..\common;O.Common</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;EPICS_DLL_NO;WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
-      <DisableSpecificWarnings>4250;4003;4244;4309;4101;4251;4275</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4250;4003;4244;4309;4101;4251;4275;4267</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
