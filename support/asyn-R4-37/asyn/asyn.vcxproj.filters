@@ -501,6 +501,15 @@
     <ClCompile Include="interfaces\asynInt64SyncIO.c">
       <Filter>interfaces</Filter>
     </ClCompile>
+    <ClCompile Include="devEpics\devAsynInt64.c">
+      <Filter>devEpics</Filter>
+    </ClCompile>
+    <ClCompile Include="devEpics\devAsynInt64Array.c">
+      <Filter>devEpics</Filter>
+    </ClCompile>
+    <ClCompile Include="devEpics\devAsynInt64TimeSeries.c">
+      <Filter>devEpics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="asynRecord\asynRecord.db">
@@ -595,6 +604,15 @@
     </None>
     <None Include="vxi11\vxi11intr.rpcl">
       <Filter>vxi11</Filter>
+    </None>
+    <None Include="devEpics\devAsynInt64.dbd">
+      <Filter>devEpics</Filter>
+    </None>
+    <None Include="devEpics\devAsynInt64Array.dbd">
+      <Filter>devEpics</Filter>
+    </None>
+    <None Include="devEpics\devAsynInt64TimeSeries.dbd">
+      <Filter>devEpics</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

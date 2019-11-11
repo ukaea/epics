@@ -200,6 +200,7 @@ xcopy /Y /Q /D /R ioc\*.dbd $(SolutionDir)DBD &gt; NUL</Command>
     </PreBuildEvent>
     <Lib>
       <TreatLibWarningAsErrors>true</TreatLibWarningAsErrors>
+      <AdditionalDependencies>Netapi32.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
@@ -268,6 +269,7 @@ xcopy /Y /Q /D /R ioc\*.dbd $(SolutionDir)DBD &gt; NUL</Command>
     </PreBuildEvent>
     <Lib>
       <TreatLibWarningAsErrors>true</TreatLibWarningAsErrors>
+      <AdditionalDependencies>Netapi32.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
@@ -344,6 +346,7 @@ xcopy /Y /Q /D /R ioc\*.dbd $(SolutionDir)DBD &gt; NUL</Command>
     </PreBuildEvent>
     <Lib>
       <TreatLibWarningAsErrors>true</TreatLibWarningAsErrors>
+      <AdditionalDependencies>Netapi32.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
@@ -418,6 +421,7 @@ xcopy /Y /Q /D /R ioc\*.dbd $(SolutionDir)DBD &gt; NUL</Command>
     </PreBuildEvent>
     <Lib>
       <TreatLibWarningAsErrors>true</TreatLibWarningAsErrors>
+      <AdditionalDependencies>Netapi32.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>

@@ -574,6 +574,9 @@ xcopy /Y /Q /D /R .\devEpics\*.dbd   $(SolutionDir)dbd &gt; NUL
     <ClCompile Include="devEpics\devAsynInt32.c" />
     <ClCompile Include="devEpics\devAsynInt32Array.c" />
     <ClCompile Include="devEpics\devAsynInt32TimeSeries.c" />
+    <ClCompile Include="devEpics\devAsynInt64.c" />
+    <ClCompile Include="devEpics\devAsynInt64Array.c" />
+    <ClCompile Include="devEpics\devAsynInt64TimeSeries.c" />
     <ClCompile Include="devEpics\devAsynInt8Array.c" />
     <ClCompile Include="devEpics\devAsynOctet.c" />
     <ClCompile Include="devEpics\devAsynUInt32Digital.c" />
@@ -762,6 +765,9 @@ cd $(ProjectDir)
     <None Include="devEpics\devAsynInt32.dbd" />
     <None Include="devEpics\devAsynInt32Array.dbd" />
     <None Include="devEpics\devAsynInt32TimeSeries.dbd" />
+    <None Include="devEpics\devAsynInt64.dbd" />
+    <None Include="devEpics\devAsynInt64Array.dbd" />
+    <None Include="devEpics\devAsynInt64TimeSeries.dbd" />
     <None Include="devEpics\devAsynInt8Array.dbd" />
     <None Include="devEpics\devAsynOctet.dbd" />
     <None Include="devEpics\devAsynUInt32Digital.dbd" />
