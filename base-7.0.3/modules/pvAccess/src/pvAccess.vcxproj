@@ -162,7 +162,8 @@ xcopy /Y /Q /D /R rpcClient\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R rpcService\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R server\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R utils\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R ioc\*.dbd $(SolutionDir)DBD &gt; NUL</Command>
+xcopy /Y /Q /D /R ioc\*.dbd $(SolutionDir)DBD &gt; NUL
+</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
@@ -196,7 +197,8 @@ xcopy /Y /Q /D /R rpcClient\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R rpcService\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R server\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R utils\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R ioc\*.dbd $(SolutionDir)DBD &gt; NUL</Command>
+xcopy /Y /Q /D /R ioc\*.dbd $(SolutionDir)DBD &gt; NUL
+</Command>
     </PreBuildEvent>
     <Lib>
       <TreatLibWarningAsErrors>true</TreatLibWarningAsErrors>
@@ -221,6 +223,7 @@ if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
 if not exist $(SolutionDir)include\pva md $(SolutionDir)include\pva
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
 xcopy /Y /Q /D /R ca\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R client\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R client\pva\*.h $(SolutionDir)include\pva &gt; NUL
 xcopy /Y /Q /D /R ioc\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R mb\pv\*.h $(SolutionDir)include\pv &gt; NUL
@@ -232,7 +235,8 @@ xcopy /Y /Q /D /R rpcClient\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R rpcService\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R server\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R utils\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R ioc\*.dbd $(SolutionDir)DBD &gt; NUL</Command>
+xcopy /Y /Q /D /R ioc\*.dbd $(SolutionDir)DBD &gt; NUL
+</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
@@ -254,6 +258,7 @@ if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
 if not exist $(SolutionDir)include\pva md $(SolutionDir)include\pva
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
 xcopy /Y /Q /D /R ca\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R client\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R client\pva\*.h $(SolutionDir)include\pva &gt; NUL
 xcopy /Y /Q /D /R ioc\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R mb\pv\*.h $(SolutionDir)include\pv &gt; NUL
@@ -265,7 +270,8 @@ xcopy /Y /Q /D /R rpcClient\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R rpcService\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R server\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R utils\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R ioc\*.dbd $(SolutionDir)DBD &gt; NUL</Command>
+xcopy /Y /Q /D /R ioc\*.dbd $(SolutionDir)DBD &gt; NUL
+</Command>
     </PreBuildEvent>
     <Lib>
       <TreatLibWarningAsErrors>true</TreatLibWarningAsErrors>
@@ -305,7 +311,8 @@ xcopy /Y /Q /D /R rpcClient\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R rpcService\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R server\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R utils\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R ioc\*.dbd $(SolutionDir)DBD &gt; NUL</Command>
+xcopy /Y /Q /D /R ioc\*.dbd $(SolutionDir)DBD &gt; NUL
+</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
@@ -342,7 +349,8 @@ xcopy /Y /Q /D /R rpcClient\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R rpcService\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R server\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R utils\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R ioc\*.dbd $(SolutionDir)DBD &gt; NUL</Command>
+xcopy /Y /Q /D /R ioc\*.dbd $(SolutionDir)DBD &gt; NUL
+</Command>
     </PreBuildEvent>
     <Lib>
       <TreatLibWarningAsErrors>true</TreatLibWarningAsErrors>
@@ -370,6 +378,7 @@ if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
 if not exist $(SolutionDir)include\pva md $(SolutionDir)include\pva
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
 xcopy /Y /Q /D /R ca\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R client\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R client\pva\*.h $(SolutionDir)include\pva &gt; NUL
 xcopy /Y /Q /D /R ioc\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R mb\pv\*.h $(SolutionDir)include\pv &gt; NUL
@@ -381,7 +390,8 @@ xcopy /Y /Q /D /R rpcClient\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R rpcService\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R server\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R utils\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R ioc\*.dbd $(SolutionDir)DBD &gt; NUL</Command>
+xcopy /Y /Q /D /R ioc\*.dbd $(SolutionDir)DBD &gt; NUL
+</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">
@@ -406,6 +416,7 @@ if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
 if not exist $(SolutionDir)include\pva md $(SolutionDir)include\pva
 if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
 xcopy /Y /Q /D /R ca\pv\*.h $(SolutionDir)include\pv &gt; NUL
+xcopy /Y /Q /D /R client\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R client\pva\*.h $(SolutionDir)include\pva &gt; NUL
 xcopy /Y /Q /D /R ioc\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R mb\pv\*.h $(SolutionDir)include\pv &gt; NUL
@@ -417,7 +428,8 @@ xcopy /Y /Q /D /R rpcClient\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R rpcService\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R server\pv\*.h $(SolutionDir)include\pv &gt; NUL
 xcopy /Y /Q /D /R utils\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R ioc\*.dbd $(SolutionDir)DBD &gt; NUL</Command>
+xcopy /Y /Q /D /R ioc\*.dbd $(SolutionDir)DBD &gt; NUL
+</Command>
     </PreBuildEvent>
     <Lib>
       <TreatLibWarningAsErrors>true</TreatLibWarningAsErrors>

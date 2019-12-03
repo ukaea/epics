@@ -436,9 +436,6 @@
     <ClInclude Include="osi\os\WIN32\epicsGetopt.h">
       <Filter>osi\os\WIN32</Filter>
     </ClInclude>
-    <ClInclude Include="osi\os\default\epicsGetopt.h">
-      <Filter>osi\os\WIN32</Filter>
-    </ClInclude>
     <ClInclude Include="cxxTemplates\epicsGuard.h">
       <Filter>cxxTemplates</Filter>
     </ClInclude>
@@ -711,6 +708,9 @@
     </ClInclude>
     <ClInclude Include="yajl\yajl_parser.h">
       <Filter>yajl</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\os\default\epicsGetopt.h">
+      <Filter>osi\os\default</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

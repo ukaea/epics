@@ -18,3 +18,7 @@
 [submodule "support/areaDetector"]
 	path = support/areaDetector
 	url = https://git.ccfe.ac.uk/DATAnet/areaDetector
+[submodule "iocTops/CTTSUdp"]
+	path = iocTops/CTTSUdp
+	ignore = untracked
+	url = https://git.ccfe.ac.uk/DATAnet/cttsudp
