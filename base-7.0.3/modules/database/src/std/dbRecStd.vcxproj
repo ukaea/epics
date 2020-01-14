@@ -1896,7 +1896,57 @@ cd $(ProjectDir)
   </ItemGroup>
   <ItemGroup>
     <None Include="dev\Makefile" />
-    <None Include="link\links.dbd.pod" />
+    <CustomBuild Include="link\links.dbd.pod">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">cd link
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)podRemove.pl -o ../O.Common/%(FileName) %(FileName).pod
+cd $(ProjectDir)
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common\%(FileName)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">cd link
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)podRemove.pl -o ../O.Common/%(FileName) %(FileName).pod
+cd $(ProjectDir)
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">O.Common\%(FileName)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">cd link
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)podRemove.pl -o ../O.Common/%(FileName) %(FileName).pod
+cd $(ProjectDir)
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common\%(FileName)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">cd link
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)podRemove.pl -o ../O.Common/%(FileName) %(FileName).pod
+cd $(ProjectDir)
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">O.Common\%(FileName)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">cd link
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)podRemove.pl -o ../O.Common/%(FileName) %(FileName).pod
+cd $(ProjectDir)
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">O.Common\%(FileName)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">cd link
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)podRemove.pl -o ../O.Common/%(FileName) %(FileName).pod
+cd $(ProjectDir)
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">O.Common\%(FileName)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">cd link
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)podRemove.pl -o ../O.Common/%(FileName) %(FileName).pod
+cd $(ProjectDir)
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">O.Common\%(FileName)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">cd link
+SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)podRemove.pl -o ../O.Common/%(FileName) %(FileName).pod
+cd $(ProjectDir)
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">O.Common\%(FileName)</Outputs>
+    </CustomBuild>
     <None Include="link\Makefile" />
     <CustomBuild Include="O.Common\biRecord.dbd">
       <FileType>Document</FileType>
@@ -2978,7 +3028,7 @@ if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
 xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
 SET PERL5LIB=$(SolutionDir)lib\perl
 
-perl -CSD $(OutDir)makeIncludeDbd.pl aaiRecord.dbd aaoRecord.dbd aiRecord.dbd aoRecord.dbd aSubRecord.dbd biRecord.dbd boRecord.dbd calcRecord.dbd calcoutRecord.dbd compressRecord.dbd dfanoutRecord.dbd eventRecord.dbd fanoutRecord.dbd histogramRecord.dbd int64inRecord.dbd int64outRecord.dbd longinRecord.dbd longoutRecord.dbd lsiRecord.dbd lsoRecord.dbd mbbiRecord.dbd mbbiDirectRecord.dbd mbboRecord.dbd mbboDirectRecord.dbd permissiveRecord.dbd printfRecord.dbd selRecord.dbd seqRecord.dbd stateRecord.dbd stringinRecord.dbd stringoutRecord.dbd subRecord.dbd subArrayRecord.dbd waveformRecord.dbd stdRecords.dbd
+perl -CSD $(OutDir)makeIncludeDbd.pl aaiRecord.dbd aaoRecord.dbd aiRecord.dbd aoRecord.dbd aSubRecord.dbd biRecord.dbd boRecord.dbd calcRecord.dbd calcoutRecord.dbd compressRecord.dbd dfanoutRecord.dbd eventRecord.dbd fanoutRecord.dbd histogramRecord.dbd int64inRecord.dbd int64outRecord.dbd longinRecord.dbd longoutRecord.dbd lsiRecord.dbd lsoRecord.dbd mbbiRecord.dbd mbbiDirectRecord.dbd mbboRecord.dbd mbboDirectRecord.dbd permissiveRecord.dbd printfRecord.dbd selRecord.dbd seqRecord.dbd stateRecord.dbd stringinRecord.dbd stringoutRecord.dbd subRecord.dbd subArrayRecord.dbd waveformRecord.dbd O.Common\stdRecords.dbd
 
 xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
 </Command>
@@ -3017,7 +3067,7 @@ if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
 xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
 SET PERL5LIB=$(SolutionDir)lib\perl
 
-perl -CSD $(OutDir)makeIncludeDbd.pl aaiRecord.dbd aaoRecord.dbd aiRecord.dbd aoRecord.dbd aSubRecord.dbd biRecord.dbd boRecord.dbd calcRecord.dbd calcoutRecord.dbd compressRecord.dbd dfanoutRecord.dbd eventRecord.dbd fanoutRecord.dbd histogramRecord.dbd int64inRecord.dbd int64outRecord.dbd longinRecord.dbd longoutRecord.dbd lsiRecord.dbd lsoRecord.dbd mbbiRecord.dbd mbbiDirectRecord.dbd mbboRecord.dbd mbboDirectRecord.dbd permissiveRecord.dbd printfRecord.dbd selRecord.dbd seqRecord.dbd stateRecord.dbd stringinRecord.dbd stringoutRecord.dbd subRecord.dbd subArrayRecord.dbd waveformRecord.dbd stdRecords.dbd
+perl -CSD $(OutDir)makeIncludeDbd.pl aaiRecord.dbd aaoRecord.dbd aiRecord.dbd aoRecord.dbd aSubRecord.dbd biRecord.dbd boRecord.dbd calcRecord.dbd calcoutRecord.dbd compressRecord.dbd dfanoutRecord.dbd eventRecord.dbd fanoutRecord.dbd histogramRecord.dbd int64inRecord.dbd int64outRecord.dbd longinRecord.dbd longoutRecord.dbd lsiRecord.dbd lsoRecord.dbd mbbiRecord.dbd mbbiDirectRecord.dbd mbboRecord.dbd mbboDirectRecord.dbd permissiveRecord.dbd printfRecord.dbd selRecord.dbd seqRecord.dbd stateRecord.dbd stringinRecord.dbd stringoutRecord.dbd subRecord.dbd subArrayRecord.dbd waveformRecord.dbd O.Common\stdRecords.dbd
 
 xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
 </Command>
@@ -3060,7 +3110,7 @@ if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
 xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
 SET PERL5LIB=$(SolutionDir)lib\perl
 
-perl -CSD $(OutDir)makeIncludeDbd.pl aaiRecord.dbd aaoRecord.dbd aiRecord.dbd aoRecord.dbd aSubRecord.dbd biRecord.dbd boRecord.dbd calcRecord.dbd calcoutRecord.dbd compressRecord.dbd dfanoutRecord.dbd eventRecord.dbd fanoutRecord.dbd histogramRecord.dbd int64inRecord.dbd int64outRecord.dbd longinRecord.dbd longoutRecord.dbd lsiRecord.dbd lsoRecord.dbd mbbiRecord.dbd mbbiDirectRecord.dbd mbboRecord.dbd mbboDirectRecord.dbd permissiveRecord.dbd printfRecord.dbd selRecord.dbd seqRecord.dbd stateRecord.dbd stringinRecord.dbd stringoutRecord.dbd subRecord.dbd subArrayRecord.dbd waveformRecord.dbd stdRecords.dbd
+perl -CSD $(OutDir)makeIncludeDbd.pl aaiRecord.dbd aaoRecord.dbd aiRecord.dbd aoRecord.dbd aSubRecord.dbd biRecord.dbd boRecord.dbd calcRecord.dbd calcoutRecord.dbd compressRecord.dbd dfanoutRecord.dbd eventRecord.dbd fanoutRecord.dbd histogramRecord.dbd int64inRecord.dbd int64outRecord.dbd longinRecord.dbd longoutRecord.dbd lsiRecord.dbd lsoRecord.dbd mbbiRecord.dbd mbbiDirectRecord.dbd mbboRecord.dbd mbboDirectRecord.dbd permissiveRecord.dbd printfRecord.dbd selRecord.dbd seqRecord.dbd stateRecord.dbd stringinRecord.dbd stringoutRecord.dbd subRecord.dbd subArrayRecord.dbd waveformRecord.dbd O.Common\stdRecords.dbd
 
 xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
 </Command>
@@ -3099,7 +3149,7 @@ if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
 xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
 SET PERL5LIB=$(SolutionDir)lib\perl
 
-perl -CSD $(OutDir)makeIncludeDbd.pl aaiRecord.dbd aaoRecord.dbd aiRecord.dbd aoRecord.dbd aSubRecord.dbd biRecord.dbd boRecord.dbd calcRecord.dbd calcoutRecord.dbd compressRecord.dbd dfanoutRecord.dbd eventRecord.dbd fanoutRecord.dbd histogramRecord.dbd int64inRecord.dbd int64outRecord.dbd longinRecord.dbd longoutRecord.dbd lsiRecord.dbd lsoRecord.dbd mbbiRecord.dbd mbbiDirectRecord.dbd mbboRecord.dbd mbboDirectRecord.dbd permissiveRecord.dbd printfRecord.dbd selRecord.dbd seqRecord.dbd stateRecord.dbd stringinRecord.dbd stringoutRecord.dbd subRecord.dbd subArrayRecord.dbd waveformRecord.dbd stdRecords.dbd
+perl -CSD $(OutDir)makeIncludeDbd.pl aaiRecord.dbd aaoRecord.dbd aiRecord.dbd aoRecord.dbd aSubRecord.dbd biRecord.dbd boRecord.dbd calcRecord.dbd calcoutRecord.dbd compressRecord.dbd dfanoutRecord.dbd eventRecord.dbd fanoutRecord.dbd histogramRecord.dbd int64inRecord.dbd int64outRecord.dbd longinRecord.dbd longoutRecord.dbd lsiRecord.dbd lsoRecord.dbd mbbiRecord.dbd mbbiDirectRecord.dbd mbboRecord.dbd mbboDirectRecord.dbd permissiveRecord.dbd printfRecord.dbd selRecord.dbd seqRecord.dbd stateRecord.dbd stringinRecord.dbd stringoutRecord.dbd subRecord.dbd subArrayRecord.dbd waveformRecord.dbd O.Common\stdRecords.dbd
 
 xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
 </Command>
@@ -3144,7 +3194,7 @@ if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
 xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
 SET PERL5LIB=$(SolutionDir)lib\perl
 
-perl -CSD $(OutDir)makeIncludeDbd.pl aaiRecord.dbd aaoRecord.dbd aiRecord.dbd aoRecord.dbd aSubRecord.dbd biRecord.dbd boRecord.dbd calcRecord.dbd calcoutRecord.dbd compressRecord.dbd dfanoutRecord.dbd eventRecord.dbd fanoutRecord.dbd histogramRecord.dbd int64inRecord.dbd int64outRecord.dbd longinRecord.dbd longoutRecord.dbd lsiRecord.dbd lsoRecord.dbd mbbiRecord.dbd mbbiDirectRecord.dbd mbboRecord.dbd mbboDirectRecord.dbd permissiveRecord.dbd printfRecord.dbd selRecord.dbd seqRecord.dbd stateRecord.dbd stringinRecord.dbd stringoutRecord.dbd subRecord.dbd subArrayRecord.dbd waveformRecord.dbd stdRecords.dbd
+perl -CSD $(OutDir)makeIncludeDbd.pl aaiRecord.dbd aaoRecord.dbd aiRecord.dbd aoRecord.dbd aSubRecord.dbd biRecord.dbd boRecord.dbd calcRecord.dbd calcoutRecord.dbd compressRecord.dbd dfanoutRecord.dbd eventRecord.dbd fanoutRecord.dbd histogramRecord.dbd int64inRecord.dbd int64outRecord.dbd longinRecord.dbd longoutRecord.dbd lsiRecord.dbd lsoRecord.dbd mbbiRecord.dbd mbbiDirectRecord.dbd mbboRecord.dbd mbboDirectRecord.dbd permissiveRecord.dbd printfRecord.dbd selRecord.dbd seqRecord.dbd stateRecord.dbd stringinRecord.dbd stringoutRecord.dbd subRecord.dbd subArrayRecord.dbd waveformRecord.dbd O.Common\stdRecords.dbd
 
 xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
 </Command>
@@ -3185,7 +3235,7 @@ if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
 xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
 SET PERL5LIB=$(SolutionDir)lib\perl
 
-perl -CSD $(OutDir)makeIncludeDbd.pl aaiRecord.dbd aaoRecord.dbd aiRecord.dbd aoRecord.dbd aSubRecord.dbd biRecord.dbd boRecord.dbd calcRecord.dbd calcoutRecord.dbd compressRecord.dbd dfanoutRecord.dbd eventRecord.dbd fanoutRecord.dbd histogramRecord.dbd int64inRecord.dbd int64outRecord.dbd longinRecord.dbd longoutRecord.dbd lsiRecord.dbd lsoRecord.dbd mbbiRecord.dbd mbbiDirectRecord.dbd mbboRecord.dbd mbboDirectRecord.dbd permissiveRecord.dbd printfRecord.dbd selRecord.dbd seqRecord.dbd stateRecord.dbd stringinRecord.dbd stringoutRecord.dbd subRecord.dbd subArrayRecord.dbd waveformRecord.dbd stdRecords.dbd
+perl -CSD $(OutDir)makeIncludeDbd.pl aaiRecord.dbd aaoRecord.dbd aiRecord.dbd aoRecord.dbd aSubRecord.dbd biRecord.dbd boRecord.dbd calcRecord.dbd calcoutRecord.dbd compressRecord.dbd dfanoutRecord.dbd eventRecord.dbd fanoutRecord.dbd histogramRecord.dbd int64inRecord.dbd int64outRecord.dbd longinRecord.dbd longoutRecord.dbd lsiRecord.dbd lsoRecord.dbd mbbiRecord.dbd mbbiDirectRecord.dbd mbboRecord.dbd mbboDirectRecord.dbd permissiveRecord.dbd printfRecord.dbd selRecord.dbd seqRecord.dbd stateRecord.dbd stringinRecord.dbd stringoutRecord.dbd subRecord.dbd subArrayRecord.dbd waveformRecord.dbd O.Common\stdRecords.dbd
 
 xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
 </Command>
@@ -3226,7 +3276,7 @@ if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
 xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
 SET PERL5LIB=$(SolutionDir)lib\perl
 
-perl -CSD $(OutDir)makeIncludeDbd.pl aaiRecord.dbd aaoRecord.dbd aiRecord.dbd aoRecord.dbd aSubRecord.dbd biRecord.dbd boRecord.dbd calcRecord.dbd calcoutRecord.dbd compressRecord.dbd dfanoutRecord.dbd eventRecord.dbd fanoutRecord.dbd histogramRecord.dbd int64inRecord.dbd int64outRecord.dbd longinRecord.dbd longoutRecord.dbd lsiRecord.dbd lsoRecord.dbd mbbiRecord.dbd mbbiDirectRecord.dbd mbboRecord.dbd mbboDirectRecord.dbd permissiveRecord.dbd printfRecord.dbd selRecord.dbd seqRecord.dbd stateRecord.dbd stringinRecord.dbd stringoutRecord.dbd subRecord.dbd subArrayRecord.dbd waveformRecord.dbd stdRecords.dbd
+perl -CSD $(OutDir)makeIncludeDbd.pl aaiRecord.dbd aaoRecord.dbd aiRecord.dbd aoRecord.dbd aSubRecord.dbd biRecord.dbd boRecord.dbd calcRecord.dbd calcoutRecord.dbd compressRecord.dbd dfanoutRecord.dbd eventRecord.dbd fanoutRecord.dbd histogramRecord.dbd int64inRecord.dbd int64outRecord.dbd longinRecord.dbd longoutRecord.dbd lsiRecord.dbd lsoRecord.dbd mbbiRecord.dbd mbbiDirectRecord.dbd mbboRecord.dbd mbboDirectRecord.dbd permissiveRecord.dbd printfRecord.dbd selRecord.dbd seqRecord.dbd stateRecord.dbd stringinRecord.dbd stringoutRecord.dbd subRecord.dbd subArrayRecord.dbd waveformRecord.dbd O.Common\stdRecords.dbd
 
 xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
 </Command>
@@ -3267,7 +3317,7 @@ if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
 xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
 SET PERL5LIB=$(SolutionDir)lib\perl
 
-perl -CSD $(OutDir)makeIncludeDbd.pl aaiRecord.dbd aaoRecord.dbd aiRecord.dbd aoRecord.dbd aSubRecord.dbd biRecord.dbd boRecord.dbd calcRecord.dbd calcoutRecord.dbd compressRecord.dbd dfanoutRecord.dbd eventRecord.dbd fanoutRecord.dbd histogramRecord.dbd int64inRecord.dbd int64outRecord.dbd longinRecord.dbd longoutRecord.dbd lsiRecord.dbd lsoRecord.dbd mbbiRecord.dbd mbbiDirectRecord.dbd mbboRecord.dbd mbboDirectRecord.dbd permissiveRecord.dbd printfRecord.dbd selRecord.dbd seqRecord.dbd stateRecord.dbd stringinRecord.dbd stringoutRecord.dbd subRecord.dbd subArrayRecord.dbd waveformRecord.dbd stdRecords.dbd
+perl -CSD $(OutDir)makeIncludeDbd.pl aaiRecord.dbd aaoRecord.dbd aiRecord.dbd aoRecord.dbd aSubRecord.dbd biRecord.dbd boRecord.dbd calcRecord.dbd calcoutRecord.dbd compressRecord.dbd dfanoutRecord.dbd eventRecord.dbd fanoutRecord.dbd histogramRecord.dbd int64inRecord.dbd int64outRecord.dbd longinRecord.dbd longoutRecord.dbd lsiRecord.dbd lsoRecord.dbd mbbiRecord.dbd mbbiDirectRecord.dbd mbboRecord.dbd mbboDirectRecord.dbd permissiveRecord.dbd printfRecord.dbd selRecord.dbd seqRecord.dbd stateRecord.dbd stringinRecord.dbd stringoutRecord.dbd subRecord.dbd subArrayRecord.dbd waveformRecord.dbd O.Common\stdRecords.dbd
 
 xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
 </Command>
