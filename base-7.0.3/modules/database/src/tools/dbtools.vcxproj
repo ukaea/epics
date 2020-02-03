@@ -133,6 +133,7 @@ xcopy /Y /Q /D /R *.pl $(OutDir) &gt; NUL
 xcopy /Y /Q /D /R *.pm $(SolutionDir)lib\perl &gt; NUL
 xcopy /Y /Q /D /R DBD\*.pm $(SolutionDir)lib\perl\DBD &gt; NUL
 xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
+perl -CSD $(OutDir)convertRelease.pl -T $(SolutionDir) $(OutDir)databaseModuleDirs.pm
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -153,6 +154,7 @@ xcopy /Y /Q /D /R *.pl $(OutDir) &gt; NUL
 xcopy /Y /Q /D /R *.pm $(SolutionDir)lib\perl &gt; NUL
 xcopy /Y /Q /D /R DBD\*.pm $(SolutionDir)lib\perl\DBD &gt; NUL
 xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
+perl -CSD $(OutDir)convertRelease.pl -T $(SolutionDir) $(OutDir)databaseModuleDirs.pm
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -221,6 +223,7 @@ xcopy /Y /Q /D /R *.pl $(OutDir) &gt; NUL
 xcopy /Y /Q /D /R *.pm $(SolutionDir)lib\perl &gt; NUL
 xcopy /Y /Q /D /R DBD\*.pm $(SolutionDir)lib\perl\DBD &gt; NUL
 xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
+perl -CSD $(OutDir)convertRelease.pl -T $(SolutionDir) $(OutDir)databaseModuleDirs.pm
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -247,6 +250,7 @@ xcopy /Y /Q /D /R *.pl $(OutDir) &gt; NUL
 xcopy /Y /Q /D /R *.pm $(SolutionDir)lib\perl &gt; NUL
 xcopy /Y /Q /D /R DBD\*.pm $(SolutionDir)lib\perl\DBD &gt; NUL
 xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
+perl -CSD $(OutDir)convertRelease.pl -T $(SolutionDir) $(OutDir)databaseModuleDirs.pm
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -332,6 +336,11 @@ perl -CSD $(OutDir)convertRelease.pl -T $(SolutionDir) $(OutDir)databaseModuleDi
     <None Include="Makefile" />
     <None Include="makeIncludeDbd.pl" />
     <None Include="registerRecordDeviceDriver.pl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\src\tools\tools.vcxproj">
+      <Project>{5cce1c6a-2bd5-48bf-99e2-d29b58f91991}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

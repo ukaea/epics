@@ -140,7 +140,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist $(SolutionDir)lib\perl\EPICS md $(SolutionDir)lib\perl\EPICS
+      <Command>if not exist $(SolutionDir)configure mklink /D $(SolutionDir)configure \epics\base-7.0.3\configure
+if not exist $(SolutionDir)lib\perl\EPICS md $(SolutionDir)lib\perl\EPICS
 if not exist $(SolutionDir)lib md $(SolutionDir)lib
 if not exist $(SolutionDir)lib\perl md $(SolutionDir)lib\perl
 
@@ -158,7 +159,8 @@ xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist $(SolutionDir)lib\perl\EPICS md $(SolutionDir)lib\perl\EPICS
+      <Command>if not exist $(SolutionDir)configure mklink /D $(SolutionDir)configure \epics\base-7.0.3\configure
+if not exist $(SolutionDir)lib\perl\EPICS md $(SolutionDir)lib\perl\EPICS
 if not exist $(SolutionDir)lib md $(SolutionDir)lib
 if not exist $(SolutionDir)lib\perl md $(SolutionDir)lib\perl
 
@@ -176,7 +178,8 @@ xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist $(SolutionDir)lib\perl\EPICS md $(SolutionDir)lib\perl\EPICS
+      <Command>if not exist $(SolutionDir)configure mklink /D $(SolutionDir)configure \epics\base-7.0.3\configure
+if not exist $(SolutionDir)lib\perl\EPICS md $(SolutionDir)lib\perl\EPICS
 if not exist $(SolutionDir)lib md $(SolutionDir)lib
 if not exist $(SolutionDir)lib\perl md $(SolutionDir)lib\perl
 
@@ -194,7 +197,8 @@ xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist $(SolutionDir)lib\perl\EPICS md $(SolutionDir)lib\perl\EPICS
+      <Command>if not exist $(SolutionDir)configure mklink /D $(SolutionDir)configure \epics\base-7.0.3\configure
+if not exist $(SolutionDir)lib\perl\EPICS md $(SolutionDir)lib\perl\EPICS
 if not exist $(SolutionDir)lib md $(SolutionDir)lib
 if not exist $(SolutionDir)lib\perl md $(SolutionDir)lib\perl
 
@@ -216,7 +220,8 @@ xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist $(SolutionDir)lib\perl\EPICS md $(SolutionDir)lib\perl\EPICS
+      <Command>if not exist $(SolutionDir)configure mklink /D $(SolutionDir)configure \epics\base-7.0.3\configure
+if not exist $(SolutionDir)lib\perl\EPICS md $(SolutionDir)lib\perl\EPICS
 if not exist $(SolutionDir)lib md $(SolutionDir)lib
 if not exist $(SolutionDir)lib\perl md $(SolutionDir)lib\perl
 
@@ -238,7 +243,8 @@ xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist $(SolutionDir)lib\perl\EPICS md $(SolutionDir)lib\perl\EPICS
+      <Command>if not exist $(SolutionDir)configure mklink /D $(SolutionDir)configure \epics\base-7.0.3\configure
+if not exist $(SolutionDir)lib\perl\EPICS md $(SolutionDir)lib\perl\EPICS
 if not exist $(SolutionDir)lib md $(SolutionDir)lib
 if not exist $(SolutionDir)lib\perl md $(SolutionDir)lib\perl
 
@@ -260,7 +266,8 @@ xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist $(SolutionDir)lib\perl\EPICS md $(SolutionDir)lib\perl\EPICS
+      <Command>if not exist $(SolutionDir)configure mklink /D $(SolutionDir)configure \epics\base-7.0.3\configure
+if not exist $(SolutionDir)lib\perl\EPICS md $(SolutionDir)lib\perl\EPICS
 if not exist $(SolutionDir)lib md $(SolutionDir)lib
 if not exist $(SolutionDir)lib\perl md $(SolutionDir)lib\perl
 
@@ -282,7 +289,8 @@ xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist $(SolutionDir)lib\perl\EPICS md $(SolutionDir)lib\perl\EPICS
+      <Command>if not exist $(SolutionDir)configure mklink /D $(SolutionDir)configure \epics\base-7.0.3\configure
+if not exist $(SolutionDir)lib\perl\EPICS md $(SolutionDir)lib\perl\EPICS
 if not exist $(SolutionDir)lib md $(SolutionDir)lib
 if not exist $(SolutionDir)lib\perl md $(SolutionDir)lib\perl
 
