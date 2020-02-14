@@ -399,7 +399,7 @@ static long processTarget(dbCommon *psrc, dbCommon *pdst)
 
     if (trace && dbServerClient(context, sizeof(context))) {
         /* No client, use thread name */
-        strncpy(context, epicsThreadGetNameSelf(), sizeof(context));
+        strncpy(context, epicsThreadGetNameSelf(), sizeof(context)-1);
         context[sizeof(context) - 1] = 0;
     }
 

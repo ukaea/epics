@@ -31,7 +31,7 @@
 
 /** @page Overview Documentation
  *
- * <a href = "ntCPP.html">ntCPP.html</a>
+ * <a href = "../ntCPP.html">Normative Types (C++) Reference</a>
  *
  */
 

@@ -5,6 +5,7 @@
 
 #include <dbAccess.h>
 #include <dbNotify.h>
+#include <asLib.h>
 
 #include <dbEvent.h>
 
@@ -19,7 +20,7 @@
 
 struct PDBSingleMonitor;
 
-struct epicsShareClass PDBSinglePV : public PDBPV
+struct QSRV_API PDBSinglePV : public PDBPV
 {
     POINTER_DEFINITIONS(PDBSinglePV);
     weak_pointer weakself;
@@ -78,6 +79,9 @@ struct PDBSingleChannel : public BaseChannel,
     POINTER_DEFINITIONS(PDBSingleChannel);
 
     PDBSinglePV::shared_pointer pv;
+    // storage referenced from aspvt
+    ASCred cred;
+    ASCLIENT aspvt;
 
     static size_t num_instances;
 

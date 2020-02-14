@@ -3,6 +3,7 @@
 
 #include <map>
 
+#include <asLib.h>
 #include <dbAccess.h>
 #include <dbChannel.h>
 #include <dbStaticLib.h>
@@ -15,7 +16,7 @@
 #include <pv/pvData.h>
 #include <pv/anyscalar.h>
 
-#include <shareLib.h>
+#include <pv/qsrv.h>
 
 #ifndef VERSION_INT
 #  define VERSION_INT(V,R,M,P) ( ((V)<<24) | ((R)<<16) | ((M)<<8) | (P))
@@ -29,14 +30,20 @@
 #  define USE_MULTILOCK
 #endif
 
+namespace epics {
+namespace pvAccess {
+class ChannelRequester;
+}
+}
+
 short PVD2DBR(epics::pvData::ScalarType pvt);
 
 // copy from PVField (.value sub-field) to DBF buffer
-epicsShareExtern
+QSRV_API
 long copyPVD2DBF(const epics::pvData::PVField::const_shared_pointer& in,
                  void *outbuf, short outdbf, long *outnReq);
 // copy from DBF buffer to PVField (.value sub-field)
-epicsShareExtern
+QSRV_API
 long copyDBF2PVD(const epics::pvData::shared_vector<const void>& buf,
                  const epics::pvData::PVField::shared_pointer& out,
                  epics::pvData::BitSet &changed,
@@ -62,7 +69,7 @@ union dbrbuf {
         char		dbf_STRING[MAX_STRING_SIZE];
 };
 
-struct epicsShareClass DBCH {
+struct QSRV_API DBCH {
     dbChannel *chan;
     DBCH() :chan(0) {}
     explicit DBCH(dbChannel *ch); // calls dbChannelOpen()
@@ -79,6 +86,23 @@ private:
     DBCH(const DBCH&);
     DBCH& operator=(const DBCH&);
     void prepare();
+};
+
+struct ASCred {
+    // string storage must be safely mutable.  cf. asAddClient()
+    std::vector<char> user, host;
+    std::vector<std::vector<char> > groups;
+    void update(const std::tr1::shared_ptr<epics::pvAccess::ChannelRequester>& request);
+};
+
+struct ASCLIENT {
+    ASCLIENTPVT aspvt;
+    std::vector<ASCLIENTPVT> grppvt;
+    ASCLIENT() :aspvt(0) {}
+    ~ASCLIENT();
+    // ASCred storage must remain valid
+    void add(dbChannel* chan, ASCred& cred);
+    bool canWrite();
 };
 
 struct pdbRecordInfo {
@@ -254,7 +278,7 @@ struct DBManyLock
     dbLocker *plock;
     DBManyLock() :plock(NULL) {}
     DBManyLock(const std::vector<dbCommon*>& recs, unsigned flags=0)
-        :plock(dbLockerAlloc((dbCommon**)&recs[0], recs.size(), flags))
+        :plock(dbLockerAlloc( (recs.size() > 0 ? (dbCommon**)&recs[0] : NULL), recs.size(), flags))
     {
         if(!plock) throw std::invalid_argument("Failed to create locker");
     }
@@ -285,7 +309,7 @@ struct DBManyLocker
 };
 #endif
 
-struct epicsShareClass FieldName
+struct QSRV_API FieldName
 {
     struct Component {
         std::string name;
@@ -328,7 +352,7 @@ private:
     FieldName& operator=(const FieldName&);
 };
 
-struct epicsShareClass PVIF {
+struct QSRV_API PVIF {
     PVIF(dbChannel *ch);
     virtual ~PVIF() {}
 
@@ -343,9 +367,9 @@ struct epicsShareClass PVIF {
     //! Copy from PDB record to pvalue (call dbChannelGet())
     //! caller must lock record
     virtual void put(epics::pvData::BitSet& mask, unsigned dbe, db_field_log *pfl) =0;
-    //! Copy from pvalue to PDB record (call dbChannelPut())
+    //! May copy from pvalue to PDB record (call dbChannelPut())
     //! caller must lock record
-    virtual epics::pvData::Status get(const epics::pvData::BitSet& mask, proc_t proc=ProcInhibit) =0;
+    virtual epics::pvData::Status get(const epics::pvData::BitSet& mask, proc_t proc=ProcInhibit, bool permit=true) =0;
     //! Calculate DBE mask from changed bitset
     virtual unsigned dbe(const epics::pvData::BitSet& mask) =0;
 
@@ -354,7 +378,7 @@ private:
     PVIF& operator=(const PVIF&);
 };
 
-struct epicsShareClass PVIFBuilder {
+struct QSRV_API PVIFBuilder {
 
     virtual ~PVIFBuilder() {}
 
@@ -378,7 +402,7 @@ private:
     PVIFBuilder& operator=(const PVIFBuilder&);
 };
 
-struct epicsShareClass ScalarBuilder : public PVIFBuilder
+struct QSRV_API ScalarBuilder : public PVIFBuilder
 {
     virtual ~ScalarBuilder() {}
 

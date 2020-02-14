@@ -29,7 +29,7 @@ epicsShareFunc void epicsShareAPI
 {
 }
 
-epicsShareFunc void epicsShareAPI 
+void epicsShareAPI
     epicsSocketEnableAddressUseForDatagramFanout ( SOCKET s )
 {
     int yes = true;

@@ -68,7 +68,7 @@ static bool getProcess(PVStructurePtr pvRequest,bool processDefault)
         return  pvString->get().compare("true")==0 ? true : false;
     } else if(scalar->getScalarType()==pvBoolean) {
         PVBooleanPtr pvBoolean = static_pointer_cast<PVBoolean>(pvField);
-       	return pvBoolean->get();
+        return pvBoolean->get();
     }
     return processDefault;
 }
@@ -132,7 +132,7 @@ ChannelProcessLocalPtr ChannelProcessLocal::create(
         if(pvField) {
             PVStringPtr pvString = pvOptions->getSubField<PVString>("nProcess");
             if(pvString) {
-                int size;
+                int size=0;
                 std::stringstream ss;
                 ss << pvString->get();
                 ss >> size;

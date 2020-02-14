@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="O.Common\asLib_lex.c">
@@ -339,6 +339,15 @@
     </ClCompile>
     <ClCompile Include="yajl\yajl_parser.c">
       <Filter>yajl</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\os\WIN32\osdFindAddr.c">
+      <Filter>osi\os\WIN32</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\os\WIN32\osdgetexec.c">
+      <Filter>osi\os\WIN32</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\os\WIN32\osdSockUnsentCount.c">
+      <Filter>osi\os\WIN32</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

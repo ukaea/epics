@@ -2,6 +2,10 @@
 
 This document summarizes the changes to the module between releases.
 
+## Release 6.0.1 (EPICS 7.0.3.1, October 2019)
+
+* Doxygen updates and read-the-docs integration.
+
 ## Release 6.0.0 (EPICS 7.0.3, July 2019)
 
 * Reimplement `isCompatible` methods to use a new internal validation API in order to make the implementation uniform, less repetitive and less strict.

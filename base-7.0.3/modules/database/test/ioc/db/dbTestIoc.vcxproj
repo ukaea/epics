@@ -1,0 +1,529 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TrackFileAccess>false</TrackFileAccess>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug_DLL|Win32">
+      <Configuration>Debug_DLL</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug_DLL|x64">
+      <Configuration>Debug_DLL</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug_LIB|Win32">
+      <Configuration>Debug_LIB</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug_LIB|x64">
+      <Configuration>Debug_LIB</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_DLL|Win32">
+      <Configuration>Release_DLL</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_DLL|x64">
+      <Configuration>Release_DLL</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_LIB|Win32">
+      <Configuration>Release_LIB</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_LIB|x64">
+      <Configuration>Release_LIB</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="arrRecord.c" />
+    <ClCompile Include="dbLinkdset.c" />
+    <ClCompile Include="devx.c" />
+    <ClCompile Include="jlinkz.c" />
+    <ClCompile Include="xLink.c" />
+    <ClCompile Include="xRecord.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\ca\src\client\ca.vcxproj">
+      <Project>{361bcebd-8b02-4b15-b28b-863f0602cb99}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\libcom\src\Com.vcxproj">
+      <Project>{e9d99fc7-e592-472b-b2e2-c3b0d81d8169}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\src\ioc\dbCore.vcxproj">
+      <Project>{422a8c73-836c-48cb-86c8-0591e69c0ca1}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="xRecord.dbd">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
+
+perl -CSD $(OutDir)dbdToRecordtypeH.pl   -I. -I.. -I../O.Common -I$(SolutionDir)dbd -o O.Common/xRecord.h %(FileName).dbd
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
+
+perl -CSD $(OutDir)dbdToRecordtypeH.pl   -I. -I.. -I../O.Common -I$(SolutionDir)dbd -o O.Common/xRecord.h %(FileName).dbd
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
+
+perl -CSD $(OutDir)dbdToRecordtypeH.pl   -I. -I.. -I../O.Common -I$(SolutionDir)dbd -o O.Common/xRecord.h %(FileName).dbd
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
+
+perl -CSD $(OutDir)dbdToRecordtypeH.pl   -I. -I.. -I../O.Common -I$(SolutionDir)dbd -o O.Common/xRecord.h %(FileName).dbd
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
+
+perl -CSD $(OutDir)dbdToRecordtypeH.pl   -I. -I.. -I../O.Common -I$(SolutionDir)dbd -o O.Common/xRecord.h %(FileName).dbd
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
+
+perl -CSD $(OutDir)dbdToRecordtypeH.pl   -I. -I.. -I../O.Common -I$(SolutionDir)dbd -o O.Common/xRecord.h %(FileName).dbd
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
+
+perl -CSD $(OutDir)dbdToRecordtypeH.pl   -I. -I.. -I../O.Common -I$(SolutionDir)dbd -o O.Common/xRecord.h %(FileName).dbd
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
+
+perl -CSD $(OutDir)dbdToRecordtypeH.pl   -I. -I.. -I../O.Common -I$(SolutionDir)dbd -o O.Common/xRecord.h %(FileName).dbd
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common/%(fileName).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">O.Common/%(fileName).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common/%(fileName).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">O.Common/%(fileName).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">O.Common/%(fileName).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">O.Common/%(fileName).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">O.Common/%(fileName).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">O.Common/%(fileName).h</Outputs>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="devx.h" />
+    <ClInclude Include="jlinkz.h" />
+    <ClInclude Include="O.Common\arrRecord.h" />
+    <ClInclude Include="O.Common\xRecord.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="arrRecord.dbd">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)dbdToRecordtypeH.pl   -I. -I.. -I../O.Common -I$(SolutionDir)dbd -o O.Common/%(FileName).h %(FileName).dbd
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common\%(FileName).h</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)dbdToRecordtypeH.pl   -I. -I.. -I../O.Common -I$(SolutionDir)dbd -o O.Common/%(FileName).h %(FileName).dbd
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">O.Common\%(FileName).h</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)dbdToRecordtypeH.pl   -I. -I.. -I../O.Common -I$(SolutionDir)dbd -o O.Common/%(FileName).h %(FileName).dbd
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common\%(FileName).h</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)dbdToRecordtypeH.pl   -I. -I.. -I../O.Common -I$(SolutionDir)dbd -o O.Common/%(FileName).h %(FileName).dbd
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">O.Common\%(FileName).h</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)dbdToRecordtypeH.pl   -I. -I.. -I../O.Common -I$(SolutionDir)dbd -o O.Common/%(FileName).h %(FileName).dbd
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">O.Common\%(FileName).h</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)dbdToRecordtypeH.pl   -I. -I.. -I../O.Common -I$(SolutionDir)dbd -o O.Common/%(FileName).h %(FileName).dbd
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">O.Common\%(FileName).h</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)dbdToRecordtypeH.pl   -I. -I.. -I../O.Common -I$(SolutionDir)dbd -o O.Common/%(FileName).h %(FileName).dbd
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">O.Common\%(FileName).h</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)dbdToRecordtypeH.pl   -I. -I.. -I../O.Common -I$(SolutionDir)dbd -o O.Common/%(FileName).h %(FileName).dbd
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">O.Common\%(FileName).h</Outputs>
+    </CustomBuild>
+    <None Include="dbLinkdset.dbd" />
+    <None Include="devx.dbd" />
+    <None Include="jlinkz.dbd" />
+    <None Include="O.Common\dbChArrTest.dbd" />
+    <CustomBuild Include="O.Common\dbTestIoc.dbd">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)registerRecordDeviceDriver.pl   -I$(SolutionDir)dbd   -o O.Common\dbTestIoc_registerRecordDeviceDriver.cpp O.Common\%(FileName).dbd dbTestIoc_registerRecordDeviceDriver
+
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common\dbTestIoc_registerRecordDeviceDriver.cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)registerRecordDeviceDriver.pl   -I$(SolutionDir)dbd   -o O.Common\dbTestIoc_registerRecordDeviceDriver.cpp O.Common\%(FileName).dbd dbTestIoc_registerRecordDeviceDriver
+
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">O.Common\dbTestIoc_registerRecordDeviceDriver.cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)registerRecordDeviceDriver.pl   -I$(SolutionDir)dbd   -o O.Common\dbTestIoc_registerRecordDeviceDriver.cpp O.Common\%(FileName).dbd dbTestIoc_registerRecordDeviceDriver
+
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common\dbTestIoc_registerRecordDeviceDriver.cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)registerRecordDeviceDriver.pl   -I$(SolutionDir)dbd   -o O.Common\dbTestIoc_registerRecordDeviceDriver.cpp O.Common\%(FileName).dbd dbTestIoc_registerRecordDeviceDriver
+
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">O.Common\dbTestIoc_registerRecordDeviceDriver.cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)registerRecordDeviceDriver.pl   -I$(SolutionDir)dbd   -o O.Common\dbTestIoc_registerRecordDeviceDriver.cpp O.Common\%(FileName).dbd dbTestIoc_registerRecordDeviceDriver
+
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">O.Common\dbTestIoc_registerRecordDeviceDriver.cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)registerRecordDeviceDriver.pl   -I$(SolutionDir)dbd   -o O.Common\dbTestIoc_registerRecordDeviceDriver.cpp O.Common\%(FileName).dbd dbTestIoc_registerRecordDeviceDriver
+
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">O.Common\dbTestIoc_registerRecordDeviceDriver.cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)registerRecordDeviceDriver.pl   -I$(SolutionDir)dbd   -o O.Common\dbTestIoc_registerRecordDeviceDriver.cpp O.Common\%(FileName).dbd dbTestIoc_registerRecordDeviceDriver
+
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">O.Common\dbTestIoc_registerRecordDeviceDriver.cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)registerRecordDeviceDriver.pl   -I$(SolutionDir)dbd   -o O.Common\dbTestIoc_registerRecordDeviceDriver.cpp O.Common\%(FileName).dbd dbTestIoc_registerRecordDeviceDriver
+
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">O.Common\dbTestIoc_registerRecordDeviceDriver.cpp</Outputs>
+    </CustomBuild>
+    <None Include="xLink.dbd" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{014A761F-71FC-4081-8670-4B6E49C6214C}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>dbTestIoc</RootNamespace>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
+    <SccAuxPath>
+    </SccAuxPath>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <SpectreMitigation>false</SpectreMitigation>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <SpectreMitigation>false</SpectreMitigation>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <SpectreMitigation>false</SpectreMitigation>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <SpectreMitigation>false</SpectreMitigation>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <SpectreMitigation>false</SpectreMitigation>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <SpectreMitigation>false</SpectreMitigation>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <SpectreMitigation>false</SpectreMitigation>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <SpectreMitigation>false</SpectreMitigation>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;O.Common</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4018;4355;4800;4806;4804;4013;4554;4267;4723;4756</DisableSpecificWarnings>
+      <BrowseInformation>true</BrowseInformation>
+      <ProgramDataBaseFileName>$(IntDir)$(TargetName)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib</AdditionalDependencies>
+    </Link>
+    <PreBuildEvent>
+      <Command>SET PERL5LIB=$(SolutionDir)lib\perl
+if not exist O.Common md O.Common
+perl -CSD $(OutDir)dbdExpand.pl   -I..\O.Common -I..\filters -I$(SolutionDir)dbd  -o O.Common\dbTestIoc.dbd menuGlobal.dbd menuConvert.dbd menuScan.dbd xRecord.dbd arrRecord.dbd xLink.dbd devx.dbd jlinkz.dbd dbLinkdset.dbd
+perl -CSD $(OutDir)dbdExpand.pl   -I..\O.Common -I$(SolutionDir)dbd -o O.Common\dbChArrTest.dbd arrRecord.dbd
+
+</Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;O.Common</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4018;4355;4800;4806;4804;4013;4554;4267;4723;4756</DisableSpecificWarnings>
+      <BrowseInformation>true</BrowseInformation>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <ProgramDataBaseFileName>$(IntDir)$(TargetName)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib</AdditionalDependencies>
+    </Link>
+    <PreBuildEvent>
+      <Command>SET PERL5LIB=$(SolutionDir)lib\perl
+if not exist O.Common md O.Common
+perl -CSD $(OutDir)dbdExpand.pl   -I..\O.Common -I..\filters -I$(SolutionDir)dbd  -o O.Common\dbTestIoc.dbd menuGlobal.dbd menuConvert.dbd menuScan.dbd xRecord.dbd arrRecord.dbd xLink.dbd devx.dbd jlinkz.dbd dbLinkdset.dbd
+perl -CSD $(OutDir)dbdExpand.pl   -I..\O.Common -I$(SolutionDir)dbd -o O.Common\dbChArrTest.dbd arrRecord.dbd
+
+</Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;O.Common</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4018;4355;4800;4806;4804;4013;4554;4267;4723;4756</DisableSpecificWarnings>
+      <BrowseInformation>true</BrowseInformation>
+      <ProgramDataBaseFileName>$(IntDir)$(TargetName)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib</AdditionalDependencies>
+    </Link>
+    <PreBuildEvent>
+      <Command>SET PERL5LIB=$(SolutionDir)lib\perl
+if not exist O.Common md O.Common
+perl -CSD $(OutDir)dbdExpand.pl   -I..\O.Common -I..\filters -I$(SolutionDir)dbd  -o O.Common\dbTestIoc.dbd menuGlobal.dbd menuConvert.dbd menuScan.dbd xRecord.dbd arrRecord.dbd xLink.dbd devx.dbd jlinkz.dbd dbLinkdset.dbd
+perl -CSD $(OutDir)dbdExpand.pl   -I..\O.Common -I$(SolutionDir)dbd -o O.Common\dbChArrTest.dbd arrRecord.dbd
+
+</Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;O.Common</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4018;4355;4800;4806;4804;4013;4554;4267;4723;4756</DisableSpecificWarnings>
+      <BrowseInformation>true</BrowseInformation>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <ProgramDataBaseFileName>$(IntDir)$(TargetName)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib</AdditionalDependencies>
+    </Link>
+    <PreBuildEvent>
+      <Command>SET PERL5LIB=$(SolutionDir)lib\perl
+if not exist O.Common md O.Common
+perl -CSD $(OutDir)dbdExpand.pl   -I..\O.Common -I..\filters -I$(SolutionDir)dbd  -o O.Common\dbTestIoc.dbd menuGlobal.dbd menuConvert.dbd menuScan.dbd xRecord.dbd arrRecord.dbd xLink.dbd devx.dbd jlinkz.dbd dbLinkdset.dbd
+perl -CSD $(OutDir)dbdExpand.pl   -I..\O.Common -I$(SolutionDir)dbd -o O.Common\dbChArrTest.dbd arrRecord.dbd
+
+</Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;O.Common</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4018;4355;4800;4806;4804;4013;4554;4267;4723;4756</DisableSpecificWarnings>
+      <BrowseInformation>true</BrowseInformation>
+      <ProgramDataBaseFileName>$(IntDir)$(TargetName)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib</AdditionalDependencies>
+    </Link>
+    <PreBuildEvent>
+      <Command>SET PERL5LIB=$(SolutionDir)lib\perl
+if not exist O.Common md O.Common
+perl -CSD $(OutDir)dbdExpand.pl   -I..\O.Common -I..\filters -I$(SolutionDir)dbd  -o O.Common\dbTestIoc.dbd menuGlobal.dbd menuConvert.dbd menuScan.dbd xRecord.dbd arrRecord.dbd xLink.dbd devx.dbd jlinkz.dbd dbLinkdset.dbd
+perl -CSD $(OutDir)dbdExpand.pl   -I..\O.Common -I$(SolutionDir)dbd -o O.Common\dbChArrTest.dbd arrRecord.dbd
+
+</Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;O.Common</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4018;4355;4800;4806;4804;4013;4554;4267;4723;4756</DisableSpecificWarnings>
+      <BrowseInformation>true</BrowseInformation>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <ProgramDataBaseFileName>$(IntDir)$(TargetName)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib</AdditionalDependencies>
+    </Link>
+    <PreBuildEvent>
+      <Command>SET PERL5LIB=$(SolutionDir)lib\perl
+if not exist O.Common md O.Common
+perl -CSD $(OutDir)dbdExpand.pl   -I..\O.Common -I..\filters -I$(SolutionDir)dbd  -o O.Common\dbTestIoc.dbd menuGlobal.dbd menuConvert.dbd menuScan.dbd xRecord.dbd arrRecord.dbd xLink.dbd devx.dbd jlinkz.dbd dbLinkdset.dbd
+perl -CSD $(OutDir)dbdExpand.pl   -I..\O.Common -I$(SolutionDir)dbd -o O.Common\dbChArrTest.dbd arrRecord.dbd
+
+</Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;O.Common</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4018;4355;4800;4806;4804;4013;4554;4267;4723;4756</DisableSpecificWarnings>
+      <BrowseInformation>true</BrowseInformation>
+      <ProgramDataBaseFileName>$(IntDir)$(TargetName)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib</AdditionalDependencies>
+    </Link>
+    <PreBuildEvent>
+      <Command>SET PERL5LIB=$(SolutionDir)lib\perl
+if not exist O.Common md O.Common
+perl -CSD $(OutDir)dbdExpand.pl   -I..\O.Common -I..\filters -I$(SolutionDir)dbd  -o O.Common\dbTestIoc.dbd menuGlobal.dbd menuConvert.dbd menuScan.dbd xRecord.dbd arrRecord.dbd xLink.dbd devx.dbd jlinkz.dbd dbLinkdset.dbd
+perl -CSD $(OutDir)dbdExpand.pl   -I..\O.Common -I$(SolutionDir)dbd -o O.Common\dbChArrTest.dbd arrRecord.dbd
+
+</Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;O.Common</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4018;4355;4800;4806;4804;4013;4554;4267;4723;4756</DisableSpecificWarnings>
+      <BrowseInformation>true</BrowseInformation>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <ProgramDataBaseFileName>$(IntDir)$(TargetName)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib</AdditionalDependencies>
+    </Link>
+    <PreBuildEvent>
+      <Command>SET PERL5LIB=$(SolutionDir)lib\perl
+if not exist O.Common md O.Common
+perl -CSD $(OutDir)dbdExpand.pl   -I..\O.Common -I..\filters -I$(SolutionDir)dbd  -o O.Common\dbTestIoc.dbd menuGlobal.dbd menuConvert.dbd menuScan.dbd xRecord.dbd arrRecord.dbd xLink.dbd devx.dbd jlinkz.dbd dbLinkdset.dbd
+perl -CSD $(OutDir)dbdExpand.pl   -I..\O.Common -I$(SolutionDir)dbd -o O.Common\dbChArrTest.dbd arrRecord.dbd
+
+</Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

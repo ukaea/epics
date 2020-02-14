@@ -2,10 +2,16 @@
 
 This document summarizes the changes to the module between releases.
 
+## Release 4.5.1 (EPICS 7.0.3.1, Nov 2019)
+
+* addRecord is new.
+* Doxygen updates and read-the-docs integration.
+
+
 ## Release 4.5.0 (EPICS 7.0.3, Jul 2019)
 
-1) support is a new feature.
-2) processRecord is new
+* support is a new feature.
+* processRecord is new.
 
 
 ## Release 4.4.2 (EPICS 7.0.2.2, Apr 2019)

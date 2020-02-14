@@ -16,13 +16,7 @@
 #include <epicsTime.h>
 #include <epicsThread.h>
 #include <epicsVersion.h>
-
-#ifdef EPICS_VERSION_INT
-#if EPICS_VERSION_INT>=VERSION_INT(3,15,1,0)
 #include <epicsAtomic.h>
-#define PVA_CODEC_USE_ATOMIC
-#endif
-#endif
 
 #include <pv/byteBuffer.h>
 #include <pv/pvType.h>
@@ -71,8 +65,6 @@ class ServerChannel;
 
 namespace detail {
 
-#ifdef PVA_CODEC_USE_ATOMIC
-#undef PVA_CODEC_USE_ATOMIC
 template<typename T>
 class AtomicValue
 {
@@ -106,36 +98,6 @@ public:
         return !!this->realval.get();
     }
 };
-
-#else
-template<typename T>
-class AtomicValue
-{
-public:
-    AtomicValue(): _value(0) {};
-
-    T getAndSet(T value)
-    {
-        mutex.lock();
-        T tmp = _value;
-        _value = value;
-        mutex.unlock();
-        return tmp;
-    }
-
-    T get() {
-        mutex.lock();
-        T tmp = _value;
-        mutex.unlock();
-        return tmp;
-    }
-
-private:
-    T _value;
-    epics::pvData::Mutex mutex;
-};
-#endif
-
 
 
 class io_exception: public std::runtime_error {
@@ -260,7 +222,6 @@ protected:
     int8_t _command;
     int32_t _payloadSize; // TODO why not size_t?
     epics::pvData::int32 _remoteTransportSocketReceiveBufferSize;
-    int64_t _totalBytesSent;
     //TODO initialize union
     osiSockAddr _sendTo;
     epicsThreadId _senderThread;

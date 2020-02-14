@@ -456,18 +456,6 @@
     <CustomBuild Include="db\dbCommonRecord.dbd">
       <Filter>db</Filter>
     </CustomBuild>
-    <CustomBuild Include="db\menuAlarmStat.dbd">
-      <Filter>db</Filter>
-    </CustomBuild>
-    <CustomBuild Include="db\menuFtype.dbd">
-      <Filter>db</Filter>
-    </CustomBuild>
-    <CustomBuild Include="db\menuIvoa.dbd">
-      <Filter>db</Filter>
-    </CustomBuild>
-    <CustomBuild Include="db\menuOmsl.dbd">
-      <Filter>db</Filter>
-    </CustomBuild>
     <CustomBuild Include="db\menuPini.dbd">
       <Filter>db</Filter>
     </CustomBuild>
@@ -534,6 +522,39 @@
       <Filter>O.Common</Filter>
     </None>
     <None Include="O.Common\bptTypeKdegF.dbd">
+      <Filter>O.Common</Filter>
+    </None>
+    <None Include="db\menuAlarmStat.dbd.pod">
+      <Filter>db</Filter>
+    </None>
+    <None Include="db\menuFtype.dbd.pod">
+      <Filter>db</Filter>
+    </None>
+    <None Include="db\menuIvoa.dbd.pod">
+      <Filter>db</Filter>
+    </None>
+    <None Include="db\menuOmsl.dbd.pod">
+      <Filter>db</Filter>
+    </None>
+    <None Include="db\menuYesNo.dbd.pod">
+      <Filter>db</Filter>
+    </None>
+    <None Include="O.Common\menuAlarmStat.dbd">
+      <Filter>O.Common</Filter>
+    </None>
+    <None Include="O.Common\menuFtype.dbd">
+      <Filter>O.Common</Filter>
+    </None>
+    <None Include="O.Common\menuGlobal.dbd">
+      <Filter>O.Common</Filter>
+    </None>
+    <None Include="O.Common\menuIvoa.dbd">
+      <Filter>O.Common</Filter>
+    </None>
+    <None Include="O.Common\menuOmsl.dbd">
+      <Filter>O.Common</Filter>
+    </None>
+    <None Include="O.Common\menuYesNo.dbd">
       <Filter>O.Common</Filter>
     </None>
   </ItemGroup>

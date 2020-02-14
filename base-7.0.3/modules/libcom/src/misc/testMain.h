@@ -33,7 +33,7 @@
   #else
     #define MAIN(prog) int prog(); int main() __attribute__((weak, alias(#prog))); int prog()
   #endif
-#if defined(vxWorks) || defined(__rtems__) || defined(TESTALLATONCE)
+#elif defined(vxWorks)
   #ifdef __cplusplus
     #define MAIN(prog) extern "C" int prog(void)
   #else

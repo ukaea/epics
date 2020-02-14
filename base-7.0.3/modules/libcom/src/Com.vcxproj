@@ -240,7 +240,18 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="osi\os\WIN32\osdEvent.c" />
+    <ClCompile Include="osi\os\WIN32\osdFindAddr.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="osi\os\WIN32\osdFindSymbol.c" />
+    <ClCompile Include="osi\os\WIN32\osdgetexec.c" />
     <ClCompile Include="osi\os\WIN32\osdMonotonic.c" />
     <ClCompile Include="osi\os\WIN32\osdMutex.c" />
     <ClCompile Include="osi\os\WIN32\osdNetIntf.c" />
@@ -249,6 +260,7 @@
     <ClCompile Include="osi\os\WIN32\osdSignal.cpp" />
     <ClCompile Include="osi\os\WIN32\osdSock.c" />
     <ClCompile Include="osi\os\WIN32\osdSockAddrReuse.cpp" />
+    <ClCompile Include="osi\os\WIN32\osdSockUnsentCount.c" />
     <ClCompile Include="osi\os\WIN32\osdStdio.c" />
     <ClCompile Include="osi\os\WIN32\osdThread.c" />
     <ClCompile Include="osi\os\WIN32\osdThreadExtra.c" />

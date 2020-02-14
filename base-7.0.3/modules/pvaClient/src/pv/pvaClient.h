@@ -17,6 +17,7 @@
 
 #include <list>
 #include <iostream>
+#include <ostream>
 #include <sstream>  
 #include <pv/requester.h>
 #include <pv/status.h>
@@ -613,6 +614,7 @@ public:
     void setData(
         epics::pvData::PVStructurePtr const & pvStructureFrom,
         epics::pvData::BitSetPtr const & bitSetFrom);
+
     /** @brief Is there a top level field named value.
      * @return The answer.
      */
@@ -679,6 +681,29 @@ public:
      * @return The timeStamp.
      */
     epics::pvData::TimeStamp getTimeStamp();
+    /** @brief parse from args
+     *
+     * Accepts arguments of the form json or field='value' where value is json syntax.
+     * field is name.name...
+     * @param args The arguments
+     * @throw runtime_error if failure.
+     */
+    void parse(const std::vector<std::string> &args);
+    /** @brief generate JSON output from the current PVStructure
+     *
+     * @param strm output stream
+     * @param ignoreUnprintable false or true; default is true.
+     * @param multiline false or true; default is false
+     *
+     * @throw runtime_error if failure.
+     */
+    void streamJSON(
+               std::ostream& strm,
+               bool ignoreUnprintable = true,
+               bool multiLine = false);
+     /** @brief set length of all array fields to 0
+     */
+    void zeroArrayLength();
     /** @brief Factory method for creating an instance of PvaClientData.
      *
      * NOTE: Not normally called by clients
@@ -691,12 +716,19 @@ protected:
     void checkValue();
     std::string messagePrefix;
 private:
+    void parse(
+        const std::string &arg,
+        const epics::pvData::PVFieldPtr &dest,
+        epics::pvData::BitSetPtr &bitSet);
+    void parse(
+        const std::string &arg,
+        const epics::pvData::PVUnionPtr &dest);
+    void zeroArrayLength(const epics::pvData::PVStructurePtr &pvStructure);
 
     epics::pvData::StructureConstPtr structure;
     epics::pvData::PVStructurePtr pvStructure;
     epics::pvData::BitSetPtr bitSet;
 
-    
     epics::pvData::PVFieldPtr pvValue;
     epics::pvData::PVAlarm pvAlarm;
     epics::pvData::PVTimeStamp pvTimeStamp;

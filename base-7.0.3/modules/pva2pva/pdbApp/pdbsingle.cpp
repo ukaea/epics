@@ -5,15 +5,16 @@
 #include <dbAccess.h>
 #include <dbChannel.h>
 #include <dbStaticLib.h>
-#include <epicsAtomic.h>
 #include <errlog.h>
 #include <dbNotify.h>
+#include <osiSock.h>
+#include <epicsAtomic.h>
 
 #include <pv/epicsException.h>
 #include <pv/pvAccess.h>
+#include <pv/security.h>
 #include <pv/configuration.h>
 
-#define epicsExportSharedSymbols
 #include "helper.h"
 #include "pdbsingle.h"
 #include "pdb.h"
@@ -128,6 +129,11 @@ PDBSinglePV::connect(const std::tr1::shared_ptr<PDBProvider>& prov,
                      const pva::ChannelRequester::shared_pointer& req)
 {
     PDBSingleChannel::shared_pointer ret(new PDBSingleChannel(shared_from_this(), req));
+
+    ret->cred.update(req);
+
+    ret->aspvt.add(chan, ret->cred);
+
     return ret;
 }
 
@@ -200,7 +206,15 @@ PDBSingleChannel::~PDBSingleChannel()
 
 void PDBSingleChannel::printInfo(std::ostream& out)
 {
-    out<<"PDBSingleChannel";
+    if(aspvt.canWrite())
+        out << "RW ";
+    else
+        out << "RO ";
+    out<<(&cred.user[0])<<'@'<<(&cred.host[0]);
+    for(size_t i=0, N=cred.groups.size(); i<N; i++) {
+        out<<", "<<(&cred.groups[i][0]);
+    }
+    out<<"\n";
 }
 
 pva::ChannelPut::shared_pointer
@@ -337,7 +351,10 @@ void PDBSinglePut::put(pvd::PVStructure::shared_pointer const & value,
     dbFldDes *fld = dbChannelFldDes(chan);
 
     pvd::Status ret;
-    if(dbChannelFieldType(chan)>=DBF_INLINK && dbChannelFieldType(chan)<=DBF_FWDLINK) {
+    if(!channel->aspvt.canWrite()) {
+        ret = pvd::Status::error("Put not permitted");
+
+    } else if(dbChannelFieldType(chan)>=DBF_INLINK && dbChannelFieldType(chan)<=DBF_FWDLINK) {
         try{
             std::string lval(value->getSubFieldT<pvd::PVScalar>("value")->getAs<std::string>());
             long status = dbChannelPutField(chan, DBF_STRING, lval.c_str(), 1);
