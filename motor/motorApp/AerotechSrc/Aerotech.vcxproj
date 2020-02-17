@@ -57,13 +57,13 @@
     <ClInclude Include="ParameterId.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\base-7.0.3\modules\ca\src\client\ca.vcxproj">
+    <ProjectReference Include="..\..\..\base-7.0.3.1\modules\ca\src\client\ca.vcxproj">
       <Project>{361bcebd-8b02-4b15-b28b-863f0602cb99}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\base-7.0.3\modules\database\src\ioc\dbCore.vcxproj">
+    <ProjectReference Include="..\..\..\base-7.0.3.1\modules\database\src\ioc\dbCore.vcxproj">
       <Project>{422a8c73-836c-48cb-86c8-0591e69c0ca1}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\base-7.0.3\modules\libcom\src\Com.vcxproj">
+    <ProjectReference Include="..\..\..\base-7.0.3.1\modules\libcom\src\Com.vcxproj">
       <Project>{e9d99fc7-e592-472b-b2e2-c3b0d81d8169}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\support\asyn-R4-37\asyn\asyn.vcxproj">
