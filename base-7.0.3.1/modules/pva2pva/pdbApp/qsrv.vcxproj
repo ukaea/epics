@@ -418,9 +418,6 @@ perl -CSD -MExtUtils::Command -e cp qsrv-new.dbd O.Common/qsrv.dbd
     <None Include="qsrv-old.dbd" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\support\areaDetector\ADCore\ADApp\ADSrc\ADBase.vcxproj">
-      <Project>{77cbc12c-ae16-40ef-a286-a61535f45a99}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\database\src\ioc\dbCore.vcxproj">
       <Project>{422a8c73-836c-48cb-86c8-0591e69c0ca1}</Project>
     </ProjectReference>
