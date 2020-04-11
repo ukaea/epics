@@ -35,7 +35,7 @@
 #include "epicsExit.h"
 
 
-#define BUFFER_SIZE 1280
+#define BUFFER_SIZE 128000
 #define MAX_MESSAGE_SIZE 256
 
 /*Declare storage for errVerbose */
