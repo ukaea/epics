@@ -5,5 +5,5 @@ mklink /D base %1
 goto end
 :blank
 mklink /D base base-7.0.3.1
-mklink /D configure base-7.0.3\configure
+REM mklink /D configure base-7.0.3\configure
 :end
