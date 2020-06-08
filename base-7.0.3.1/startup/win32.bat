@@ -35,15 +35,15 @@ REM    --------------- mingw make ------------------------
 REM set PATH=C:\mingw-make\bin;%PATH%
 REM set PATH=C:\mingw-make82-3\bin;%PATH%
 
-if %PROCESSOR_ARCHITECTURE%==AMD64 goto 64BIT
-set PROGRAM_FILES=C:\Program Files
-goto continue
-:64BIT
 set PROGRAM_FILES=C:\Program Files (x86)
-:continue
 
 REM   --------------- gnuwin32 make ----------------------
 set PATH=%PROGRAM_FILES%\gnuwin32\bin;%PATH%
+
+REM https://stackoverflow.com/questions/16821784/input-line-is-too-long-error-in-bat-file
+set INCLUDE=
+set LIBPATH=
+
 
 REM ======================================================
 REM ---------------- cygwin tools ------------------------

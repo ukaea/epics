@@ -11,9 +11,6 @@
 
 #define VC_EXTRALEAN
 #define STRICT
-#if _WIN64
-#   define _WIN32_WINNT 0x400 /* defining this drops support for W95 */
-#endif
 #include <windows.h>
 
 /*
