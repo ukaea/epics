@@ -1,0 +1,169 @@
+# .appveyor.yml for use with EPICS Base ci-scripts
+# (see: https://github.com/epics-base/ci-scripts)
+
+# This is YAML - indentation levels are crucial
+
+#---------------------------------#
+#       build cache               #
+#---------------------------------#
+# The AppVeyor cache allowance is way too small (1GB per account across all projects, branches and jobs)
+# to be used for the dependency builds.
+
+cache:
+  - C:\Users\appveyor\.tools
+
+#---------------------------------#
+#       repository cloning        #
+#---------------------------------#
+
+# Called at very beginning, before repo cloning
+init:
+  # Set autocrlf to make batch files work
+  - git config --global core.autocrlf true
+  # print the connection info for RDP connections (see 'debugging' below)
+  #- ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+
+# Set clone depth (do not fetch complete history)
+clone_depth: 50
+
+# Skipping commits affecting only specific files
+skip_commits:
+  files:
+    - 'documentation/*'
+    - 'templates/*'
+    - '**/*.html'
+    - '**/*.md'
+    - '.travis.yml'
+
+#---------------------------------#
+#       additional packages       #
+#---------------------------------#
+
+install:
+# fetch submodules (like ci-scripts)
+  - cmd: git submodule update --init --recursive
+# for the sequencer
+  - cinst re2c
+
+#---------------------------------#
+#   build matrix configuration    #
+#---------------------------------#
+
+# Since dependencies cannot be cached and AppVeyor only grants a single builder VM, all jobs
+# are executed sequentially, each one taking 10-15 minutes.
+# Consider this when defining your build matrix. (A full matrix build takes more than 8 hours.)
+
+# Default build worker image
+image: Visual Studio 2015
+
+# Build Configurations: shared/static, optimized/debug
+configuration:
+  - default
+  - static
+  - debug
+  - static-debug
+
+# Environment variables
+
+# Well-known variables to use
+# CMP         compiler to use ('gcc' for native MinGW, 'vs...' for Visual Studio)
+# SET         source setup file
+# ADD_MODULES extra modules (for a specific job)
+# TEST        set to NO to skip running the tests (default: YES)
+# VV          set VV=1 to make build scripts verbose (default: unset)
+# EXTRA       content will be added to make command line
+# EXTRA1..5   more additional arguments for the make command
+#             (one argument per variable)
+
+# Usually from setup files, but may be specified or overridden
+#  on a job line
+# MODULES     list of dependency modules
+# BASE        branch or release tag name of the EPICS Base to use
+# <MODULE>    branch or release tag for a specific module
+# ...         see README for setup file syntax description
+
+# AppVeyor specific
+# APPVEYOR_BUILD_WORKER_IMAGE  run job using specified VM image
+#                              (not the one from the image: line above)
+
+environment:
+  # common / default variables for all jobs
+  SETUP_PATH: .ci-local:.ci
+
+  matrix:
+  - CMP: vs2019
+    SET: base7
+    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+  - CMP: gcc
+    SET: base7
+  - CMP: vs2019
+    SET: base3-15
+    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+  - CMP: vs2019
+    SET: base3-14
+    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+  #- CMP: vs2017
+  #  SET: base7
+  #  APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+  - CMP: vs2015
+    SET: base7
+  #- CMP: vs2013
+  #  SET: base7
+
+# Platform: processor architecture
+platform:
+  - x86
+  - x64
+
+# Matrix configuration: exclude sets of jobs
+matrix:
+  exclude:
+  # Exclude more jobs to reduce build time
+  # E.g., skip 32-bit for newer compilers
+  - platform: x86
+    CMP: vs2019
+  #- platform: x86
+  #  CMP: vs2015
+
+#---------------------------------#
+#     building & testing          #
+#---------------------------------#
+
+build_script:
+  - cmd: python .ci/cue.py prepare
+  - cmd: python .ci/cue.py build
+
+test_script:
+  - cmd: python .ci/cue.py test
+
+on_finish:
+  - ps: Get-ChildItem *.tap -Recurse -Force | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
+  - cmd: python .ci/cue.py test-results
+
+#---------------------------------#
+#         debugging               #
+#---------------------------------#
+
+## if you want to connect by remote desktop to a failed build, uncomment these lines
+## note that you will need to connect within the usual build timeout limit (60 minutes)
+## so you may want to adjust the build matrix above to just build the one of interest
+
+# to print the RDP connection info
+# uncomment the appropriate line in the init: section above
+
+# block a failed build (until the watchdog barks)
+#on_failure:
+#  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+
+#---------------------------------#
+#         notifications           #
+#---------------------------------#
+
+notifications:
+
+  - provider: Email
+    to:
+      - me@example.com
+    on_build_success: false
+
+  - provider: GitHubPullRequest
