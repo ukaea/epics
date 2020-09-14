@@ -57,3 +57,4 @@ record(waveform, "$(P)WfInt64OutRB")
     info(asyn:READBACK,"1")
     info("asyn:FIFO", "$(FIFO)")
 }
+

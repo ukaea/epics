@@ -1,6 +1,6 @@
 /**********************************************************************
 * Asyn device support using TCP stream or UDP datagram port           *
-**********************************************************************/       
+**********************************************************************/
 /***********************************************************************
 * Copyright (c) 2002 The University of Chicago, as Operator of Argonne
 * National Laboratory, and the Regents of the University of
@@ -29,7 +29,7 @@
  * Item 2) was not implemented, because asyn has no mechanism to issue a cancel
  * request to a driver which is blocked on an I/O operation.
  *
- * Since neither of these mechanisms was working as designed, the driver has been 
+ * Since neither of these mechanisms was working as designed, the driver has been
  * re-written to simplify it.  If one or both of these are to be implemented in the future
  * the code as of version 1.29 should be used as the starting point.
  */
@@ -85,6 +85,11 @@
 # endif
 #endif
 
+/* If SO_REUSEPORT is not defined then use SO_REUSEADDR instead.  
+   It is not defined on RTEMS, Windows and older Linux versions. */
+#ifndef SO_REUSEPORT
+# define USE_SO_REUSEADDR
+#endif
 
 /* This delay is needed in cleanup() else sockets are not always really closed cleanly */
 #define CLOSE_SOCKET_DELAY 0.02
@@ -127,6 +132,7 @@ typedef struct {
 #define FLAG_BROADCAST                  0x1
 #define FLAG_CONNECT_PER_TRANSACTION    0x2
 #define FLAG_SHUTDOWN                   0x4
+#define FLAG_SO_REUSEPORT               0x8
 #define FLAG_NEED_LOOKUP                0x100
 #define FLAG_DONE_LOOKUP                0x200
 
@@ -156,7 +162,7 @@ static int poll(struct pollfd fds[], int nfds, int timeout)
     } else {
         ptv = NULL;
     }
-    return select(fds[0].fd + 1, 
+    return select(fds[0].fd + 1,
         (fds[0].events & POLLIN) ? &fdset : NULL,
         (fds[0].events & POLLOUT) ? &fdset : NULL,
         NULL,
@@ -226,7 +232,7 @@ asynCommonReport(void *drvPvt, FILE *fp, int details)
                                                 tty->fd != INVALID_SOCKET ? "C" : "Disc");
     }
     if (details >= 2) {
-        fprintf(fp, "                    fd: %d\n", tty->fd);
+        fprintf(fp, "                    fd: %d\n", (int)tty->fd);
         fprintf(fp, "    Characters written: %lu\n", tty->nWritten);
         fprintf(fp, "       Characters read: %lu\n", tty->nRead);
     }
@@ -351,6 +357,10 @@ static int parseHostInfo(ttyController_t *tty, const char* hostInfo)
          || (epicsStrCaseCmp(protocol, "tcp") == 0)) {
             tty->socketType = SOCK_STREAM;
         }
+        else if (epicsStrCaseCmp(protocol, "tcp&") == 0) {
+            tty->socketType = SOCK_STREAM;
+            tty->flags |= FLAG_SO_REUSEPORT;
+        }
         else if (epicsStrCaseCmp(protocol, "com") == 0) {
             isCom = 1;
             tty->socketType = SOCK_STREAM;
@@ -362,9 +372,18 @@ static int parseHostInfo(ttyController_t *tty, const char* hostInfo)
         else if (epicsStrCaseCmp(protocol, "udp") == 0) {
             tty->socketType = SOCK_DGRAM;
         }
+        else if (epicsStrCaseCmp(protocol, "udp&") == 0) {
+            tty->socketType = SOCK_DGRAM;
+            tty->flags |= FLAG_SO_REUSEPORT;
+        }
         else if (epicsStrCaseCmp(protocol, "udp*") == 0) {
             tty->socketType = SOCK_DGRAM;
             tty->flags |= FLAG_BROADCAST;
+        }
+        else if (epicsStrCaseCmp(protocol, "udp*&") == 0) {
+            tty->socketType = SOCK_DGRAM;
+            tty->flags |= FLAG_BROADCAST;
+            tty->flags |= FLAG_SO_REUSEPORT;
         }
         else {
             printf("%s: Unknown protocol \"%s\".\n", functionName, protocol);
@@ -374,7 +393,7 @@ static int parseHostInfo(ttyController_t *tty, const char* hostInfo)
     if (tty->isCom == ISCOM_UNKNOWN) {
         tty->isCom = isCom;
     } else if (isCom != tty->isCom) {
-        printf("%s: Ignoring attempt to change COM flag to %d from %d\n", 
+        printf("%s: Ignoring attempt to change COM flag to %d from %d\n",
                                                functionName, isCom, tty->isCom);
     }
     /* Successfully parsed socket information, turn off FLAG_SHUTDOWN */
@@ -391,6 +410,7 @@ connectIt(void *drvPvt, asynUser *pasynUser)
     ttyController_t *tty = (ttyController_t *)drvPvt;
     SOCKET fd;
     int i;
+    int sockOpt;
 
     /*
      * Sanity check
@@ -439,6 +459,24 @@ connectIt(void *drvPvt, asynUser *pasynUser)
         }
 
         /*
+         * Enable SO_REUSEPORT if so requested
+         */
+        i = 1;
+        #ifdef USE_SO_REUSEADDR
+          sockOpt = SO_REUSEADDR;
+        #else
+          sockOpt = SO_REUSEPORT;
+        #endif
+        if ((tty->flags & FLAG_SO_REUSEPORT)
+         && (setsockopt(fd, SOL_SOCKET, sockOpt, (void *)&i, sizeof i) < 0)) {
+            epicsSnprintf(pasynUser->errorMessage,pasynUser->errorMessageSize,
+                          "Can't set %s socket SO_REUSEPORT option: %s",
+                          tty->IPDeviceName, strerror(SOCKERRNO));
+            epicsSocketDestroy(fd);
+            return asynError;
+        }
+
+        /*
          * Convert host name/number to IP address.
          * We delay doing this until now in case a device
          * has just appeared in a DNS database.
@@ -453,7 +491,7 @@ connectIt(void *drvPvt, asynUser *pasynUser)
             tty->flags &= ~FLAG_NEED_LOOKUP;
             tty->flags |=  FLAG_DONE_LOOKUP;
         }
-        
+
         /*
          * Bind to the local IP address if it was specified.
          * This is a very unusual configuration
@@ -605,7 +643,7 @@ static asynStatus writeIt(void *drvPvt, asynUser *pasynUser,
                 return asynError;
             }
             epicsTimeGetCurrent(&endTime);
-            if (epicsTimeDiffInSeconds(&endTime, &startTime)*1000 > writePollmsec) break; 
+            if (epicsTimeDiffInSeconds(&endTime, &startTime)*1000 > writePollmsec) break;
         }
         if (pollstatus == 0) {
             epicsSnprintf(pasynUser->errorMessage, pasynUser->errorMessageSize,
@@ -730,7 +768,7 @@ static asynStatus readIt(void *drvPvt, asynUser *pasynUser,
                 return asynError;
             }
             epicsTimeGetCurrent(&endTime);
-            if (epicsTimeDiffInSeconds(&endTime, &startTime)*1000. > readPollmsec) break; 
+            if (epicsTimeDiffInSeconds(&endTime, &startTime)*1000. > readPollmsec) break;
         }
     }
 #endif
@@ -744,7 +782,7 @@ static asynStatus readIt(void *drvPvt, asynUser *pasynUser,
                 char inetBuff[32];
                 ipAddrToDottedIP(&oa.ia, inetBuff, sizeof(inetBuff));
                 asynPrintIO(pasynUser, ASYN_TRACEIO_DRIVER, data, thisRead,
-                          "%s (from %s) read %d\n", 
+                          "%s (from %s) read %d\n",
                           tty->IPDeviceName, inetBuff, thisRead);
             }
             tty->nRead += (unsigned long)thisRead;
@@ -838,6 +876,7 @@ ttyCleanup(ttyController_t *tty)
             epicsSocketDestroy(tty->fd);
         free(tty->portName);
         free(tty->IPDeviceName);
+        free(tty->IPHostName);
         free(tty);
     }
 }
@@ -881,7 +920,7 @@ setOption(void *drvPvt, asynUser *pasynUser, const char *key, const char *val)
     assert(tty);
     asynPrint(pasynUser, ASYN_TRACE_FLOW,
                     "%s setOption key %s val %s\n", tty->portName, key, val);
-    
+
     if (epicsStrCaseCmp(key, "disconnectOnReadTimeout") == 0) {
         if (epicsStrCaseCmp(val, "Y") == 0) {
             tty->disconnectOnReadTimeout = 1;

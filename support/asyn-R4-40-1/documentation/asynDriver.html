@@ -14,12 +14,12 @@
     <h1>
       asynDriver: EPICS Driver Support</h1>
     <p>
-      <span style="font-weight: bold; font-size: 14pt">Release 4-37</span></p>
+      <span style="font-weight: bold; font-size: 14pt">Release 4-40-1</span></p>
     <p>
       <span style="font-weight: bold; font-size: 14pt">Mark Rivers, Eric Norum, and Marty
         Kraimer</span></p>
     <p>
-      <span style="font-weight: bold; font-size: 14pt">October 18, 2019</span></p>
+      <span style="font-weight: bold; font-size: 14pt">August 24, 2020</span></p>
     <h3 style="text-align: center">
       Other Contributers</h3>
     <p>
@@ -909,14 +909,14 @@
       The callback values can be placed in a ring buffer so that values are not lost if
       the callbacks happen faster than the record can process. The size of the ring buffer
       can be controlled with the asyn:FIFO info tag. The default is 10 for scalar records.
-      The default is 0 for waveform records, and for stringout and stringin records. If
-      the ring buffer is in use then each driver callback results in pushing a new value
-      into the buffer and a request to process the record in a separate callback thread.
-      If the ring buffer is full then the oldest value in the queue is discarded and the
-      new value is added. This guarantees that the record will eventually have the value
-      of the most recent callback, but it may skip some before this. If ASYN_TRACE_WARNING
-      is set then a warning message is printed. The driver callbacks do not block waiting
-      for the record to process.</li>
+      The default is 0 for devAsynOctet, waveform, stringin, stringout, lsi, lso, printf
+      and scalcout records. If the ring buffer is in use then each driver callback results
+      in pushing a new value into the buffer and a request to process the record in a
+      separate callback thread. If the ring buffer is full then the oldest value in the
+      queue is discarded and the new value is added. This guarantees that the record will
+      eventually have the value of the most recent callback, but it may skip some before
+      this. If ASYN_TRACE_WARNING is set then a warning message is printed. The driver
+      callbacks do not block waiting for the record to process.</li>
     <li>asynPortDriver. asynPortDriver does not support queueing. It does have a parameter
       library that stores the most recent value of scalar parameters. It does not store
       values for array parameters.</li>
@@ -4613,11 +4613,11 @@ int simDetectorConfig(const char *portName, int maxSizeX, int maxSizeY, int data
     It is possible for the time between driver callbacks to be less than the time for
     record processing. asyn device support provides a ring-buffer (FIFO) mechanism to
     buffer values so that the record will process all callback values from a short burst
-    of callbacks. For all records except stringin, stringout, and waveform records the
-    default buffer size is 10 values. For stringin, stringout, and waveform records
-    the default buffer size is 0, i.e. there is no buffering. For all record types the
-    size of the buffer can be controlled by the following info tag for a record in the
-    database file:
+    of callbacks. For all records except devAsynOctet (stringin, stringout, lsi, lso,
+    printf, sCalcout and waveform) records the default buffer size is 10 values. For
+    stringin, stringout, and waveform records the default buffer size is 0, i.e. there
+    is no buffering. For all record types the size of the buffer can be controlled by
+    the following info tag for a record in the database file:
     <br />
     <code>info(asyn:FIFO, "20")</code><br />
     In this example the buffer size was set to 20. Ring buffer support was added in
@@ -4809,9 +4809,18 @@ nbits &lt; 0  Device is bipolar with a range from -2^(abs(nbits)-1) to 2^((abs(n
   <h3 id="devAsynInt64">
     asynInt64 device support</h3>
   <p>
-    asynInt64 device support is only available in EPICS base 3.16.1 and later. That
-    is when the int64in and int64out records were introduced, and when the waveform
-    record added support for FTVL=Int64. The following support is available:</p>
+    asynInt64 device support is available for the ao, ai, longout, and longin records
+    on all versions of EPICS base. The following support is available in devAsynInt64Misc.dbd.</p>
+  <pre>
+device(longin,INST_IO,asynLiInt64,"asynInt64")
+device(longout,INST_IO,asynLoInt64,"asynInt64")
+device(ai,INST_IO,asynAiInt64,"asynInt64")
+device(ao,INST_IO,asynAoInt64,"asynInt64")</pre>
+  <p>
+    Support for the int64in, int64out, and waveform records is available in EPICS base
+    3.16.1 and later. That is when the int64in, int64out records were added, and when
+    the waveform record added support for FTVL=Int64. The following support is available
+    in devAsynInt64.dbd:</p>
   <pre>
 device(int64in,INST_IO,Int64Out,"asynInt64")
 device(int64out,INST_IO,Int64Out,"asynInt64")</pre>
@@ -4819,25 +4828,51 @@ device(int64out,INST_IO,Int64Out,"asynInt64")</pre>
     devAsynInt64.c provides EPICS device support for drivers that implement interface
     asynInt64.</p>
   <ul>
+    <li>aiRecord
+      <p>
+        A 64-bit integer is read from the driver and converted to a 64-bit float. The 64-bit
+        float can exactly represent integers up to 52 bits. The value is read into the .VAL
+        field, not the .RVAL field. Linear conversion is limited to .EOFF and .ESLO. Each
+        time the record is processed a new value is read. SCAN "I/O Intr" is supported.</p>
+    </li>
+    <li>aoRecord
+      <p>
+        The 64-bit float .VAL is converted to a 64-bit integer and written to the driver.
+        The 64-bit float can exactly represent integers up to 52 bits. The value is read
+        from the .VAL field, not from the .RVAL field. Linear conversion is limited to .EOFF
+        and .ESLO.
+      </p>
+    </li>
+    <li>longinRecord
+      <p>
+        A 64-bit integer is read from the driver and truncated to a 32-bit integer. Each
+        time the record is processed a new value is read. SCAN "I/O Intr" is supported.</p>
+    </li>
+    <li>longoutRecord
+      <p>
+        A 32-bit integer is written to the driver from the .VAL field.</p>
+    </li>
     <li>int64inRecord
       <p>
-        A value is given to val. Each time the record is processed a new value is read.
+        A value is given to .VAL. Each time the record is processed a new value is read.
         SCAN "I/O Intr" is supported similar to aiRecord.</p>
     </li>
     <li>int64outRecord
       <p>
-        val is written.</p>
+        .VAL is written.</p>
     </li>
   </ul>
   <p>
-    Int64 Input Example Records</p>
+    Int64 Input Example Records. The longin and ai records are the same except for the
+    record type.</p>
   <pre>   record(int64in,"Int64In") {
         field(SCAN,"I/O Intr")
         field(DTYP,"asynInt64")
         field(INP,"@asyn($(port),$(addr))")
    }</pre>
   <p>
-    Int64 Output Example Record</p>
+    Int64 Output Example Record. The longout and ao records are the same except for
+    the record type</p>
   <pre>   record(int64out,"Int64Out") {
         field(DTYP,"asynInt64")
         field(OUT,"@asyn($(port),$(addr))")
@@ -5063,10 +5098,19 @@ device(waveform,INST_IO,asynWfOctetCmdResponse,"asynOctetCmdResponse")
 device(waveform,INST_IO,asynWfOctetWriteRead,"asynOctetWriteRead")
 device(waveform,INST_IO,asynWfOctetRead,"asynOctetRead")
 device(waveform,INST_IO,asynWfOctetWrite,"asynOctetWrite")
-device(waveform,INST_IO,asynWfOctetWriteBinary,"asynOctetWriteBinary")</pre>
+device(waveform,INST_IO,asynWfOctetWriteBinary,"asynOctetWriteBinary")
+device(lsi,INST_IO,asynLsiOctetCmdResponse,"asynOctetCmdResponse")
+device(lsi,INST_IO,asynLsiOctetWriteRead,"asynOctetWriteRead")
+device(lsi,INST_IO,asynLsiOctetRead,"asynOctetRead")
+device(lso,INST_IO,asynLsoOctetWrite,"asynOctetWrite")
+device(printf,INST_IO,asynPfOctetWrite,"asynOctetWrite")
+device(scalcout,INST_IO,asynScalcoutOctetWrite,"asynOctetWrite")
+</pre>
   <p>
     Support for drivers that implement interface asynOctet. The support is for stringin/stringout
-    and waveform records. The waveform support is similar to the string support. The
+    lsi/lso, printf, sCalcout, and waveform records. lsi, lso, and printf are only supported
+    on EPICS base 3.15 and higher. sCalcout is only supported if CALC module is defined
+    in configure/RELEASE. The waveform support is similar to the string support. The
     waveform records must define FTVL to be CHAR or UCHAR, i.e. it must be an array
     of octets. The waveform provides the following features not provided by the string
     support:</p>
@@ -5623,10 +5667,13 @@ asynOctetSetOutputEos("A1",0,"\r")
       Possible protocols are
       <ul>
         <li>TCP</li>
+        <li>TCP&amp; -- Like TCP but use the SO_REUSEPORT socket option.</li>
         <li>UDP</li>
+        <li>UDP&amp; -- Like UDP but use the SO_REUSEPORT socket option.</li>
         <li>UDP* -- Send UDP broadcasts. The address portion of the argument must be the network
           broadcast address (e.g. "192.168.1.255:1234 UDP*", or "255.255.255.255:1234 UDP*",
           etc.).</li>
+        <li>UDP*&amp; -- Like UDP* but use the SO_REUSEPORT socket option.</li>
         <li>HTTP -- Like TCP but for servers which close the connection after each transaction.</li>
         <li>COM -- For Ethernet/Serial adapters which use the TELNET RFC 2217 protocol. This
           allows port parameters (speed, parity, etc.) to be set with subsequent asynSetOption
@@ -5636,6 +5683,12 @@ asynOctetSetOutputEos("A1",0,"\r")
       If the hostInfo argument begins wih the characters <span style="font-weight: bold">
         unix://</span> the remainder of the argument is taken to be the name of a UNIX-domain
       stream socket.
+      <br />
+      <a href="https://lwn.net/Articles/542629/">This article</a> explains the use of
+      the SO_REUSEPORT option for both TCP and UDP. The particular use case that motivated
+      the addition of the SO_REUSEPORT to this driver is discussed in <a href="https://github.com/epics-modules/asyn/issues/108">
+        this Github issue</a>. On Windows and RTEMS SO_REUSEADDR is used instead of SO_RESUSEPORT,
+      but it should have the same effect.
       <br />
       To receive UDP broadcasts the localPort is the port to listen on, for example: drvAsynIPPortConfigure("BD","255.255.255.255:1234:3956
       UDP*",0,0,0). If the port is only to be used to receive broadcast messages then
@@ -6051,7 +6104,7 @@ SUBSYSTEM=="usb", ATTRS{idVendor}=="1BFA", ATTRS{idProduct}=="0498", MODE="0666"
     commands:
   </p>
   <pre>
-    drvAsynFTDIPortConfigure("portName",vendor,product,baudrate,latency,priority,noAutoConnect,noProcessEos)
+    drvAsynFTDIPortConfigure("portName",vendor,product,baudrate,latency,priority,noAutoConnect,noProcessEos,mode)
     asynSetOption("portName",addr,"key","value")</pre>
   <p>
     where the arguments are:
@@ -6068,6 +6121,7 @@ SUBSYSTEM=="usb", ATTRS{idVendor}=="1BFA", ATTRS{idProduct}=="0498", MODE="0666"
       connect. Non-zero if explicit connect command must be issued.</li>
     <li>noProcessEos If 0 then asynInterposeEosConfig is called specifying both processEosIn
       and processEosOut.</li>
+    <li>mode: 0 = UART; 1 = FTDI initialized in binary SPI mode.</li>
   </ul>
   <p>
     The setEos and getEos methods have no effect and return asynError. The read method
@@ -6142,6 +6196,111 @@ SUBSYSTEM=="usb", ATTRS{idVendor}=="1BFA", ATTRS{idProduct}=="0498", MODE="0666"
       </tr>
     </tbody>
   </table>
+  <p>
+    The FTDI SPI interface was developed for control of evaluation board, EVAL-AD9915,
+    via Adafruit FT232H. During initial SPI learning it is sufficient to short circuit,
+    (loop-back), FTDI D1(MOSI) - D2(MISO) pins and read back written values. (Note the
+    SPI is synchronous interface, not asynchronous.)
+  </p>
+  <p>
+    AD9915 provides basic control for RF amplitude and phase. In order to use the Adafruit
+    as USB - SPI converter for EVAL-AD9915 the following pins need to be connected:
+  </p>
+  <table border="1">
+    <caption>
+      Adafruit FT232H EVAL-AD9915 connections</caption>
+    <tbody>
+      <tr>
+        <th>
+          Adafruit FT232H
+        </th>
+        <th>
+          EVAL-AD9915
+        </th>
+      </tr>
+      <tr>
+        <td>
+          D0 (SPI Clock, SK) </td>
+        <td>
+          SCLK-BUF </td>
+      </tr>
+      <tr>
+        <td>
+          D1 (Data Out, MOSI) </td>
+        <td>
+          SDIO </td>
+      </tr>
+      <tr>
+        <td>
+          D2 (Data In, MISO) </td>
+        <td>
+          SDO </td>
+      </tr>
+      <tr>
+        <td>
+          D3 (Chip Select, CS) </td>
+        <td>
+          CSB </td>
+      </tr>
+      <tr>
+        <td>
+          D4 </td>
+        <td>
+          IOUPDATE-BUF </td>
+      </tr>
+      <tr>
+        <td>
+          D5 </td>
+        <td>
+          SYNC_IO </td>
+      </tr>
+      <tr>
+        <td>
+          D6 </td>
+        <td>
+          RESET </td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    On EVAL-AD9915 board: 1) The on-board USB-SPI converter, (lacking open source driver),
+    should be disabled by jumpers P203-P205. 2) The following jumpers need to be configured:
+    EXTPDCTL=GND; PS0-BUF=GND; PS1-BUF=GND; PS2-BUF=GND; IOCFG=+5V; IOCFG1...3=GND.
+    The FTDI SPI driver supports raw 32-bit integer reads/writes. MPSSE instruction
+    codes, pin controls, data lengths are currently hard coded in the stream protocol:
+    (WRite Digital Output, WRite PIN, ReaD Digital Input):
+  </p>
+  <pre>  WRDO {
+    # MPSSE_DO_WRITE | MPSSE_WRITE_NEG | MPSSE_DO_READ = 0x31
+    # Length = 0x04 bytes after the instruction code and 2 length bytes:
+    out 0x31 0x04 0x00 $1 "%.4r";
+    }
+
+  WRPIN {
+    # SK = 0x01
+    # DO = 0x02
+    # DI = 0x04
+    # CS = 0x08
+    # IO_UPD = 0x10
+    # SYNCIO = 0x20
+    # RESET  = 0x40
+    # PINDIR = 0x7B
+    # SET_BITS_LOW = 0x80
+    out 0x80 "%r" 0x7B;
+    }
+
+  RDDI {
+    # MPSSE_DO_WRITE | MPSSE_WRITE_NEG | MPSSE_DO_READ = 0x31
+    # Length = 0x04 bytes after the instruction code and 2 length bytes:
+    # Input is clocked in while the 0 bytes are clocked out:
+    out 0x31 0x04 0x00 $1 0x00 0x00 0x00 0x00;
+    in "%5r";
+    }
+  </pre>
+  <p>
+    The sequences are controlled by EPICS database. For further details refer to the
+    respective technical manuals.
+  </p>
   <h3 id="Additional_Drivers">
     Additional Drivers</h3>
   <p>

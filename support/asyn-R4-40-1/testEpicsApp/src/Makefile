@@ -10,11 +10,25 @@ ASYN_LIB = $(TOP)/lib/$(T_A)
 ASYN_BIN = $(TOP)/bin/$(T_A)
 
 DBD += testEpics.dbd
+testEpics_DBD += testEpicsCommon.dbd
+ifdef CALC
+testEpics_DBD += calcSupport.dbd
+testEpics_DBD += asynCalc.dbd
+endif
 
 LIBRARY_IOC += testEpicsSupport
 testEpicsSupport_SRCS += int32Driver.c
 testEpicsSupport_SRCS += uint32DigitalDriver.c
 testEpicsSupport_LIBS += asyn
+ifdef CALC
+testEpicsSupport_LIBS += calc
+endif
+ifdef SSCAN
+testEpicsSupport_LIBS += sscan
+endif
+ifdef SNCSEQ
+testEpicsSupport_LIBS += seq pv
+endif
 testEpicsSupport_LIBS += $(EPICS_BASE_IOC_LIBS)
 
 PROD_IOC += testEpics
@@ -26,6 +40,16 @@ testEpics_SRCS += testEpicsMain.c
 testEpics_LIBS += testEpicsSupport
 testEpics_LIBS += testSupport
 testEpics_LIBS += asyn
+ifdef CALC
+testEpics_LIBS += calc
+endif
+# SSCAN is needed if calc was built with SSCAN support.
+ifdef SSCAN
+testEpics_LIBS += sscan
+endif
+ifdef SNCSEQ
+testEpics_LIBS += seq pv
+endif
 testEpics_LIBS += $(EPICS_BASE_IOC_LIBS)
 
 include $(TOP)/configure/RULES

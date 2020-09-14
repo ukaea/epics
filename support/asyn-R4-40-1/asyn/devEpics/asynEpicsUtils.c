@@ -26,14 +26,14 @@
 #include <shareLib.h>
 #include "asynEpicsUtils.h"
 
-static asynStatus parseLink(asynUser *pasynUser, DBLINK *plink, 
+static asynStatus parseLink(asynUser *pasynUser, DBLINK *plink,
                    char **port, int *addr, char **userParam);
-static asynStatus parseLinkMask(asynUser *pasynUser, DBLINK *plink, 
+static asynStatus parseLinkMask(asynUser *pasynUser, DBLINK *plink,
                    char **port, int *addr, epicsUInt32 *mask,char **userParam);
 static asynStatus parseLinkFree(asynUser *pasynUser,
                    char **port, char **userParam);
-static void asynStatusToEpicsAlarm(asynStatus status, 
-                                   epicsAlarmCondition defaultStat, epicsAlarmCondition *pStat, 
+static void asynStatusToEpicsAlarm(asynStatus status,
+                                   epicsAlarmCondition defaultStat, epicsAlarmCondition *pStat,
                                    epicsAlarmSeverity defaultSevr, epicsAlarmSeverity *pSevr);
 
 static asynEpicsUtils utils = {
@@ -41,7 +41,7 @@ static asynEpicsUtils utils = {
 };
 
 epicsShareDef asynEpicsUtils *pasynEpicsUtils = &utils;
-
+
 /* parseLink syntax is:
    VME_IO "C<ignore> S<addr> @<portName> userParams
    INST_IO @asyn(<portName>ws<addr>ws<timeout>)userParams
@@ -54,7 +54,7 @@ static char *skipWhite(char *pstart,int commaOk){
     return p;
 }
 
-static asynStatus parseLink(asynUser *pasynUser, DBLINK *plink, 
+static asynStatus parseLink(asynUser *pasynUser, DBLINK *plink,
                              char **port, int *addr, char **userParam)
 {
     struct vmeio *pvmeio;
@@ -86,10 +86,7 @@ static asynStatus parseLink(asynUser *pasynUser, DBLINK *plink,
         if(*p) {
             p = skipWhite(p,0);
             if(*p) {
-                len = strlen(p);
-                *userParam = mallocMustSucceed(len+1,"asynEpicsUtils:parseLink");
-                strncpy(*userParam,p,len);
-                (*userParam)[len] = 0;
+                *userParam = epicsStrDup(p);
             }
         }
         break;
@@ -139,10 +136,7 @@ userParams:
         if(*p) {
             p = skipWhite(p,0);
             if(userParam&& *p) {
-                len = strlen(p);
-                *userParam = mallocMustSucceed(len+1,"asynEpicsUtils:parseLink");
-                strncpy(*userParam,p,len);
-                (*userParam)[len] = 0;
+                *userParam = epicsStrDup(p);
             }
         }
         break;
@@ -157,8 +151,8 @@ error:
     }
     return(asynSuccess);
 }
-
-static asynStatus parseLinkMask(asynUser *pasynUser, DBLINK *plink, 
+
+static asynStatus parseLinkMask(asynUser *pasynUser, DBLINK *plink,
                    char **port, int *addr, epicsUInt32 *mask,char **userParam)
 {
     struct instio *pinstio;
@@ -221,10 +215,7 @@ userParams:
     if(*p) {
         p = skipWhite(p,0);
         if(userParam&& *p) {
-            len = strlen(p);
-            *userParam = mallocMustSucceed(len+1,"asynEpicsUtils:parseLink");
-            strncpy(*userParam,p,len);
-            (*userParam)[len] = 0;
+          *userParam = epicsStrDup(p);
         }
     }
     return(asynSuccess);
@@ -242,8 +233,8 @@ static asynStatus parseLinkFree(asynUser *pasynUser,
     return(asynSuccess);
 }
 
-static void asynStatusToEpicsAlarm(asynStatus status, 
-                                   epicsAlarmCondition defaultStat, epicsAlarmCondition *pStat, 
+static void asynStatusToEpicsAlarm(asynStatus status,
+                                   epicsAlarmCondition defaultStat, epicsAlarmCondition *pStat,
                                    epicsAlarmSeverity defaultSevr, epicsAlarmSeverity *pSevr)
 {
     switch (status) {
