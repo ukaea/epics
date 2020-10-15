@@ -48,7 +48,7 @@ void simTask(void *drvPvt);
   * \param[in] maxPoints The maximum  number of points in the volt and time arrays */
 testAsynPortDriver::testAsynPortDriver(const char *portName, int maxPoints)
    : asynPortDriver(portName,
-                    1, /* maxAddr */
+                    2, /* maxAddr */
                     asynInt32Mask | asynFloat64Mask | asynFloat64ArrayMask | asynEnumMask | asynDrvUserMask, /* Interface mask */
                     asynInt32Mask | asynFloat64Mask | asynFloat64ArrayMask | asynEnumMask,  /* Interrupt mask */
                     0, /* asynFlags.  This driver does not block and it is not multi-device, so flag is 0 */
@@ -192,8 +192,8 @@ void testAsynPortDriver::simTask(void)
         setDoubleParam(P_MinValue, minValue);
         setDoubleParam(P_MaxValue, maxValue);
         setDoubleParam(P_MeanValue, meanValue);
-        callParamCallbacks();
-        doCallbacksFloat64Array(pData_, maxPoints, P_Waveform, 0);
+		callParamCallbacks(P_MinValue);
+		doCallbacksFloat64Array(pData_, maxPoints, P_Waveform, 0);
     }
 }
 

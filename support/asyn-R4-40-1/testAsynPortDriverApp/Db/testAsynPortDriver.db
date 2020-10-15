@@ -8,6 +8,7 @@ record(bo, "$(P)$(R)Run")
     field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SCOPE_RUN")
     field(ZNAM, "Stop")
     field(ONAM, "Run")
+    field(VAL,  "1"")
 }
 
 record(bi, "$(P)$(R)Run_RBV")
