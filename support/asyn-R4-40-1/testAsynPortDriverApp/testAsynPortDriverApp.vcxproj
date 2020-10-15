@@ -124,6 +124,8 @@ cd $(ProjectDir)
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Db\testAsynPortDriver.db" />
+    <None Include="Db\testAsynPortDriver.db.deadlock" />
     <None Include="O.Common\TestAsynPortDriver.dbd" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -218,12 +220,8 @@ cd $(ProjectDir)
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
-    <LinkIncremental>true</LinkIncremental>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
-    <LinkIncremental>true</LinkIncremental>
-  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
@@ -253,7 +251,6 @@ cd $(ProjectDir)
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
@@ -276,7 +273,6 @@ xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common

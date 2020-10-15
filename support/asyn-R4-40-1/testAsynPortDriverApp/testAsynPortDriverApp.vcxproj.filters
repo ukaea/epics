@@ -9,6 +9,9 @@
       <UniqueIdentifier>{72689884-7b45-42c9-8bbf-a6d0f3550dc5}</UniqueIdentifier>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
+    <Filter Include="Db">
+      <UniqueIdentifier>{9579333e-3168-43e0-96f6-5bd30f0a97c0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\testAsynPortDriver.cpp">
@@ -34,6 +37,12 @@
   <ItemGroup>
     <None Include="O.Common\TestAsynPortDriver.dbd">
       <Filter>O.Common</Filter>
+    </None>
+    <None Include="Db\testAsynPortDriver.db">
+      <Filter>Db</Filter>
+    </None>
+    <None Include="Db\testAsynPortDriver.db.deadlock">
+      <Filter>Db</Filter>
     </None>
   </ItemGroup>
 </Project>
