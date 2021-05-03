@@ -29,7 +29,8 @@ REM   ---------------- make and perl ---------------------
 REM ======================================================
 
 REM   --------------- ActiveState perl -------------------
-set PATH=C:\Perl\bin;%PATH%
+REM set PATH=C:\Perl\bin;%PATH%
+set PATH=C:\Strawberry\perl\bin;%PATH%
 
 REM    --------------- mingw make ------------------------
 REM set PATH=C:\mingw-make\bin;%PATH%
