@@ -1,6 +1,0 @@
-[submodule "iocTops/VQM_ITMS"]
-	path = iocTops/VQM_ITMS
-	url = https://git.ccfe.ac.uk/DATAnet/VQM_ITMS.git
-	ignore = untracked
-	branch=master
-	
