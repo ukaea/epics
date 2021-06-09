@@ -143,7 +143,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;BUILDING_asyn_API;HAVE_LSREC;HAVE_DEVINT64;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;BUILDING_asyn_API;HAVE_DEVINT64;HAVE_LSREC;HAVE_DEVINT64;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <TreatWarningAsError>true</TreatWarningAsError>
       <DisableSpecificWarnings>4244;4267;4251;4477;4018;4313</DisableSpecificWarnings>
     </ClCompile>
@@ -181,7 +181,7 @@ xcopy /Y /Q  /D .\O.Common\*.h $(SolutionDir)include &gt; NUL
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;BUILDING_asyn_API;HAVE_LSREC;HAVE_DEVINT64;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;BUILDING_asyn_API;HAVE_DEVINT64;HAVE_LSREC;HAVE_DEVINT64;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <TreatWarningAsError>true</TreatWarningAsError>
       <DisableSpecificWarnings>4244;4267;4251;4477;4018;4313</DisableSpecificWarnings>
     </ClCompile>
@@ -219,7 +219,7 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;BUILDING_asyn_API;HAVE_LSREC;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;BUILDING_asyn_API;HAVE_DEVINT64;HAVE_LSREC;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <TreatWarningAsError>true</TreatWarningAsError>
       <DisableSpecificWarnings>4244;4267;4251;4477;4018;4313</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -261,7 +261,7 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;BUILDING_asyn_API;HAVE_LSREC;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;BUILDING_asyn_API;HAVE_DEVINT64;HAVE_LSREC;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <TreatWarningAsError>true</TreatWarningAsError>
       <DisableSpecificWarnings>4244;4267;4251;4477;4018;4313</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -305,7 +305,7 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;BUILDING_asyn_API;HAVE_LSREC;HAVE_DEVINT64;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;BUILDING_asyn_API;HAVE_DEVINT64;HAVE_LSREC;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <DisableSpecificWarnings>4244;4267;4251;4477;4018;4313</DisableSpecificWarnings>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -346,7 +346,7 @@ xcopy /Y /Q /D /R .\devEpics\*.dbd   $(SolutionDir)dbd &gt; NUL
       <WarningLevel>Level3</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;BUILDING_asyn_API;HAVE_LSREC;HAVE_DEVINT64;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;BUILDING_asyn_API;HAVE_DEVINT64;HAVE_LSREC;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4244;4267;4251;4477;4018;4313</DisableSpecificWarnings>
       <TreatWarningAsError>true</TreatWarningAsError>
@@ -389,7 +389,7 @@ xcopy /Y /Q /D /R .\devEpics\*.dbd   $(SolutionDir)dbd &gt; NUL
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;BUILDING_asyn_API;HAVE_LSREC;HAVE_DEVINT64;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;BUILDING_asyn_API;HAVE_DEVINT64;HAVE_LSREC;HAVE_DEVINT64;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <DisableSpecificWarnings>4244;4267;4251;4477;4018;4313</DisableSpecificWarnings>
       <TreatWarningAsError>true</TreatWarningAsError>
@@ -434,7 +434,7 @@ xcopy /Y /Q /D /R .\devEpics\*.dbd   $(SolutionDir)dbd &gt; NUL
       <WarningLevel>Level3</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;BUILDING_asyn_API;HAVE_LSREC;HAVE_DEVINT64;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;BUILDING_asyn_API;HAVE_DEVINT64;HAVE_LSREC;HAVE_DEVINT64;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4244;4267;4251;4477;4018;4313</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>

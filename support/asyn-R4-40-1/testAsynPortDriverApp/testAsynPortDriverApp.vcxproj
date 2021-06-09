@@ -257,6 +257,7 @@ cd $(ProjectDir)
 SET PERL5LIB=$(SolutionDir)lib\perl
 
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd   -o O.Common\testAsynPortDriver_registerRecordDeviceDriver.cpp src\testAsynPortDriverInclude.dbd testAsynPortDriver_registerRecordDeviceDriver  $(SolutionDir)
+xcopy /Y /Q /D /R Db\*.db $(SolutionDir)db &gt; NUL
 xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -279,6 +280,7 @@ xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 SET PERL5LIB=$(SolutionDir)lib\perl
 
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd   -o O.Common\testAsynPortDriver_registerRecordDeviceDriver.cpp src\testAsynPortDriverInclude.dbd testAsynPortDriver_registerRecordDeviceDriver  $(SolutionDir)
+xcopy /Y /Q /D /R Db\*.db $(SolutionDir)db &gt; NUL
 xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -302,6 +304,7 @@ xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 SET PERL5LIB=$(SolutionDir)lib\perl
 
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd   -o O.Common\testAsynPortDriver_registerRecordDeviceDriver.cpp src\testAsynPortDriverInclude.dbd testAsynPortDriver_registerRecordDeviceDriver  $(SolutionDir)
+xcopy /Y /Q /D /R Db\*.db $(SolutionDir)db &gt; NUL
 xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -325,6 +328,7 @@ xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 SET PERL5LIB=$(SolutionDir)lib\perl
 
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd   -o O.Common\testAsynPortDriver_registerRecordDeviceDriver.cpp src\testAsynPortDriverInclude.dbd testAsynPortDriver_registerRecordDeviceDriver  $(SolutionDir)
+xcopy /Y /Q /D /R Db\*.db $(SolutionDir)db &gt; NUL
 xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -351,6 +355,7 @@ xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 SET PERL5LIB=$(SolutionDir)lib\perl
 
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd   -o O.Common\testAsynPortDriver_registerRecordDeviceDriver.cpp src\testAsynPortDriverInclude.dbd testAsynPortDriver_registerRecordDeviceDriver  $(SolutionDir)
+xcopy /Y /Q /D /R Db\*.db $(SolutionDir)db &gt; NUL
 xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -377,6 +382,7 @@ xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 SET PERL5LIB=$(SolutionDir)lib\perl
 
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd   -o O.Common\testAsynPortDriver_registerRecordDeviceDriver.cpp src\testAsynPortDriverInclude.dbd testAsynPortDriver_registerRecordDeviceDriver  $(SolutionDir)
+xcopy /Y /Q /D /R Db\*.db $(SolutionDir)db &gt; NUL
 xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -404,6 +410,7 @@ xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 SET PERL5LIB=$(SolutionDir)lib\perl
 
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd   -o O.Common\testAsynPortDriver_registerRecordDeviceDriver.cpp src\testAsynPortDriverInclude.dbd testAsynPortDriver_registerRecordDeviceDriver  $(SolutionDir)
+xcopy /Y /Q /D /R Db\*.db $(SolutionDir)db &gt; NUL
 xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
@@ -431,6 +438,7 @@ xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 SET PERL5LIB=$(SolutionDir)lib\perl
 
 perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I$(SolutionDir)dbd   -o O.Common\testAsynPortDriver_registerRecordDeviceDriver.cpp src\testAsynPortDriverInclude.dbd testAsynPortDriver_registerRecordDeviceDriver  $(SolutionDir)
+xcopy /Y /Q /D /R Db\*.db $(SolutionDir)db &gt; NUL
 xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
