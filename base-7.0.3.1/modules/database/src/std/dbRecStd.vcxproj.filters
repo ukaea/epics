@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="dev\asSubRecordFunctions.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devAaiSoft.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devAaoSoft.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devAiSoft.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devAiSoftCallback.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devAiSoftRaw.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devAoSoft.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devAoSoftCallback.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devAoSoftRaw.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devBiDbState.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devBiSoft.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devBiSoftCallback.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devBiSoftRaw.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devBoDbState.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devBoSoft.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devBoSoftCallback.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devBoSoftRaw.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devCalcoutSoft.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devCalcoutSoftCallback.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devEnviron.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devEventSoft.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devGeneralTime.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devHistogramSoft.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devI64inSoft.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devI64inSoftCallback.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devI64outSoft.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devI64outSoftCallback.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devLiSoft.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devLiSoftCallback.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devLoSoft.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devLoSoftCallback.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devLsiSoft.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devLsoSoft.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devLsoSoftCallback.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devMbbiDirectSoft.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devMbbiDirectSoftCallback.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devMbbiDirectSoftRaw.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devMbbiSoft.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devMbbiSoftCallback.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devMbbiSoftRaw.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devMbboDirectSoft.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devMbboDirectSoftCallback.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devMbboDirectSoftRaw.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devMbboSoft.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devMbboSoftCallback.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devMbboSoftRaw.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devPrintfSoft.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devPrintfSoftCallback.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devSASoft.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devSiSoft.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devSiSoftCallback.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devSoSoft.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devSoSoftCallback.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devStdio.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devTimestamp.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\devWfSoft.c">
+      <Filter>dev</Filter>
+    </ClCompile>
+    <ClCompile Include="filters\arr.c">
+      <Filter>filters</Filter>
+    </ClCompile>
+    <ClCompile Include="filters\dbnd.c">
+      <Filter>filters</Filter>
+    </ClCompile>
+    <ClCompile Include="filters\sync.c">
+      <Filter>filters</Filter>
+    </ClCompile>
+    <ClCompile Include="filters\ts.c">
+      <Filter>filters</Filter>
+    </ClCompile>
+    <ClCompile Include="link\lnkCalc.c">
+      <Filter>link</Filter>
+    </ClCompile>
+    <ClCompile Include="link\lnkConst.c">
+      <Filter>link</Filter>
+    </ClCompile>
+    <ClCompile Include="link\lnkDebug.c">
+      <Filter>link</Filter>
+    </ClCompile>
+    <ClCompile Include="link\lnkState.c">
+      <Filter>link</Filter>
+    </ClCompile>
+    <ClCompile Include="rec\aiRecord.c">
+      <Filter>rec</Filter>
+    </ClCompile>
+    <ClCompile Include="rec\aoRecord.c">
+      <Filter>rec</Filter>
+    </ClCompile>
+    <ClCompile Include="rec\aSubRecord.c">
+      <Filter>rec</Filter>
+    </ClCompile>
+    <ClCompile Include="rec\biRecord.c">
+      <Filter>rec</Filter>
+    </ClCompile>
+    <ClCompile Include="rec\boRecord.c">
+      <Filter>rec</Filter>
+    </ClCompile>
+    <ClCompile Include="rec\calcoutRecord.c">
+      <Filter>rec</Filter>
+    </ClCompile>
+    <ClCompile Include="rec\calcRecord.c">
+      <Filter>rec</Filter>
+    </ClCompile>
+    <ClCompile Include="rec\compressRecord.c">
+      <Filter>rec</Filter>
+    </ClCompile>
+    <ClCompile Include="rec\dfanoutRecord.c">
+      <Filter>rec</Filter>
+    </ClCompile>
+    <ClCompile Include="rec\eventRecord.c">
+      <Filter>rec</Filter>
+    </ClCompile>
+    <ClCompile Include="rec\fanoutRecord.c">
+      <Filter>rec</Filter>
+    </ClCompile>
+    <ClCompile Include="rec\histogramRecord.c">
+      <Filter>rec</Filter>
+    </ClCompile>
+    <ClCompile Include="rec\int64inRecord.c">
+      <Filter>rec</Filter>
+    </ClCompile>
+    <ClCompile Include="rec\int64outRecord.c">
+      <Filter>rec</Filter>
+    </ClCompile>
+    <ClCompile Include="rec\longinRecord.c">
+      <Filter>rec</Filter>
+    </ClCompile>
+    <ClCompile Include="rec\longoutRecord.c">
+      <Filter>rec</Filter>
+    </ClCompile>
+    <ClCompile Include="rec\lsiRecord.c">
+      <Filter>rec</Filter>
+    </ClCompile>
+    <ClCompile Include="rec\lsoRecord.c">
+      <Filter>rec</Filter>
+    </ClCompile>
+    <ClCompile Include="rec\mbbiDirectRecord.c">
+      <Filter>rec</Filter>
+    </ClCompile>
+    <ClCompile Include="rec\mbbiRecord.c">
+      <Filter>rec</Filter>
+    </ClCompile>
+    <ClCompile Include="rec\mbboDirectRecord.c">
+      <Filter>rec</Filter>
+    </ClCompile>
+    <ClCompile Include="rec\mbboRecord.c">
+      <Filter>rec</Filter>
+    </ClCompile>
+    <ClCompile Include="rec\permissiveRecord.c">
+      <Filter>rec</Filter>
+    </ClCompile>
+    <ClCompile Include="rec\printfRecord.c">
+      <Filter>rec</Filter>
+    </ClCompile>
+    <ClCompile Include="rec\selRecord.c">
+      <Filter>rec</Filter>
+    </ClCompile>
+    <ClCompile Include="rec\seqRecord.c">
+      <Filter>rec</Filter>
+    </ClCompile>
+    <ClCompile Include="rec\stateRecord.c">
+      <Filter>rec</Filter>
+    </ClCompile>
+    <ClCompile Include="rec\stringinRecord.c">
+      <Filter>rec</Filter>
+    </ClCompile>
+    <ClCompile Include="rec\stringoutRecord.c">
+      <Filter>rec</Filter>
+    </ClCompile>
+    <ClCompile Include="rec\subArrayRecord.c">
+      <Filter>rec</Filter>
+    </ClCompile>
+    <ClCompile Include="rec\subRecord.c">
+      <Filter>rec</Filter>
+    </ClCompile>
+    <ClCompile Include="rec\waveformRecord.c">
+      <Filter>rec</Filter>
+    </ClCompile>
+    <ClCompile Include="rec\aaiRecord.c">
+      <Filter>rec</Filter>
+    </ClCompile>
+    <ClCompile Include="rec\aaoRecord.c">
+      <Filter>rec</Filter>
+    </ClCompile>
+    <ClCompile Include="filters\decimate.c">
+      <Filter>filters</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="rec\aaoRecord.dbd">
+      <Filter>rec</Filter>
+    </CustomBuild>
+    <CustomBuild Include="rec\histogramRecord.dbd">
+      <Filter>rec</Filter>
+    </CustomBuild>
+    <CustomBuild Include="dev\devSoft.dbd">
+      <Filter>rec</Filter>
+    </CustomBuild>
+    <CustomBuild Include="rec\aiRecord.dbd.pod">
+      <Filter>rec</Filter>
+    </CustomBuild>
+    <CustomBuild Include="rec\aoRecord.dbd.pod">
+      <Filter>rec</Filter>
+    </CustomBuild>
+    <CustomBuild Include="rec\aSubRecord.dbd.pod">
+      <Filter>rec</Filter>
+    </CustomBuild>
+    <CustomBuild Include="rec\compressRecord.dbd.pod">
+      <Filter>rec</Filter>
+    </CustomBuild>
+    <CustomBuild Include="rec\waveformRecord.dbd.pod">
+      <Filter>rec</Filter>
+    </CustomBuild>
+    <CustomBuild Include="O.Common\aiRecord.dbd">
+      <Filter>O.Common</Filter>
+    </CustomBuild>
+    <CustomBuild Include="O.Common\aoRecord.dbd">
+      <Filter>O.Common</Filter>
+    </CustomBuild>
+    <CustomBuild Include="O.Common\compressRecord.dbd">
+      <Filter>O.Common</Filter>
+    </CustomBuild>
+    <CustomBuild Include="O.Common\waveformRecord.dbd">
+      <Filter>O.Common</Filter>
+    </CustomBuild>
+    <CustomBuild Include="O.Common\aSubRecord.dbd">
+      <Filter>O.Common</Filter>
+    </CustomBuild>
+    <CustomBuild Include="rec\lsiRecord.dbd">
+      <Filter>rec</Filter>
+    </CustomBuild>
+    <CustomBuild Include="rec\lsoRecord.dbd">
+      <Filter>rec</Filter>
+    </CustomBuild>
+    <CustomBuild Include="rec\printfRecord.dbd">
+      <Filter>rec</Filter>
+    </CustomBuild>
+    <CustomBuild Include="filters\filters.dbd.pod">
+      <Filter>filters</Filter>
+    </CustomBuild>
+    <CustomBuild Include="O.Common\biRecord.dbd">
+      <Filter>O.Common</Filter>
+    </CustomBuild>
+    <CustomBuild Include="O.Common\boRecord.dbd">
+      <Filter>O.Common</Filter>
+    </CustomBuild>
+    <CustomBuild Include="O.Common\calcoutRecord.dbd">
+      <Filter>O.Common</Filter>
+    </CustomBuild>
+    <CustomBuild Include="O.Common\calcRecord.dbd">
+      <Filter>O.Common</Filter>
+    </CustomBuild>
+    <CustomBuild Include="O.Common\dfanoutRecord.dbd">
+      <Filter>O.Common</Filter>
+    </CustomBuild>
+    <CustomBuild Include="O.Common\filters.dbd">
+      <Filter>O.Common</Filter>
+    </CustomBuild>
+    <CustomBuild Include="rec\biRecord.dbd.pod">
+      <Filter>rec</Filter>
+    </CustomBuild>
+    <CustomBuild Include="rec\boRecord.dbd.pod">
+      <Filter>rec</Filter>
+    </CustomBuild>
+    <CustomBuild Include="rec\calcoutRecord.dbd.pod">
+      <Filter>rec</Filter>
+    </CustomBuild>
+    <CustomBuild Include="rec\calcRecord.dbd.pod">
+      <Filter>rec</Filter>
+    </CustomBuild>
+    <CustomBuild Include="rec\dfanoutRecord.dbd.pod">
+      <Filter>rec</Filter>
+    </CustomBuild>
+    <CustomBuild Include="rec\int64inRecord.dbd.pod">
+      <Filter>rec</Filter>
+    </CustomBuild>
+    <CustomBuild Include="rec\int64outRecord.dbd.pod">
+      <Filter>rec</Filter>
+    </CustomBuild>
+    <CustomBuild Include="O.Common\int64inRecord.dbd">
+      <Filter>O.Common</Filter>
+    </CustomBuild>
+    <CustomBuild Include="O.Common\int64outRecord.dbd">
+      <Filter>O.Common</Filter>
+    </CustomBuild>
+    <CustomBuild Include="O.Common\links.dbd">
+      <Filter>O.Common</Filter>
+    </CustomBuild>
+    <CustomBuild Include="O.Common\softIoc.dbd">
+      <Filter>O.Common</Filter>
+    </CustomBuild>
+    <CustomBuild Include="O.Common\stdRecords.dbd">
+      <Filter>O.Common</Filter>
+    </CustomBuild>
+    <CustomBuild Include="rec\aaiRecord.dbd">
+      <Filter>rec</Filter>
+    </CustomBuild>
+    <CustomBuild Include="link\links.dbd.pod" />
+    <CustomBuild Include="rec\eventRecord.dbd.pod" />
+    <CustomBuild Include="rec\fanoutRecord.dbd.pod" />
+    <CustomBuild Include="rec\longinRecord.dbd.pod" />
+    <CustomBuild Include="rec\longoutRecord.dbd.pod" />
+    <CustomBuild Include="O.Common\eventRecord.dbd" />
+    <CustomBuild Include="O.Common\fanoutRecord.dbd" />
+    <CustomBuild Include="O.Common\longinRecord.dbd" />
+    <CustomBuild Include="O.Common\longoutRecord.dbd" />
+    <CustomBuild Include="O.Common\mbbiDirectRecord.dbd" />
+    <CustomBuild Include="O.Common\mbboDirectRecord.dbd" />
+    <CustomBuild Include="O.Common\permissiveRecord.dbd" />
+    <CustomBuild Include="O.Common\selRecord.dbd" />
+    <CustomBuild Include="O.Common\seqRecord.dbd" />
+    <CustomBuild Include="O.Common\stateRecord.dbd" />
+    <CustomBuild Include="O.Common\stringinRecord.dbd" />
+    <CustomBuild Include="O.Common\stringoutRecord.dbd" />
+    <CustomBuild Include="O.Common\subArrayRecord.dbd" />
+    <CustomBuild Include="O.Common\subRecord.dbd" />
+    <CustomBuild Include="O.Common\mbbiRecord.dbd" />
+    <CustomBuild Include="O.Common\mbboRecord.dbd" />
+    <CustomBuild Include="rec\mbbiDirectRecord.dbd.pod" />
+    <CustomBuild Include="rec\mbbiRecord.dbd.pod" />
+    <CustomBuild Include="rec\mbboDirectRecord.dbd.pod" />
+    <CustomBuild Include="rec\mbboRecord.dbd.pod" />
+    <CustomBuild Include="rec\permissiveRecord.dbd.pod" />
+    <CustomBuild Include="rec\selRecord.dbd.pod" />
+    <CustomBuild Include="rec\seqRecord.dbd.pod" />
+    <CustomBuild Include="rec\stateRecord.dbd.pod" />
+    <CustomBuild Include="rec\stringinRecord.dbd.pod" />
+    <CustomBuild Include="rec\stringoutRecord.dbd.pod" />
+    <CustomBuild Include="rec\subArrayRecord.dbd.pod" />
+    <CustomBuild Include="rec\subRecord.dbd.pod" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="dev\softDevIoc.rc">
+      <Filter>dev</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="dev\Makefile">
+      <Filter>dev</Filter>
+    </None>
+    <None Include="link\Makefile">
+      <Filter>link</Filter>
+    </None>
+    <None Include="rec\Makefile">
+      <Filter>rec</Filter>
+    </None>
+    <None Include="rec\RULES">
+      <Filter>rec</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="rec">
+      <UniqueIdentifier>{59b99d1e-c081-4154-88ff-21a4c0e32db6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dev">
+      <UniqueIdentifier>{24ecd8d7-a3ba-4ea5-90a3-8c3266db27f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="link">
+      <UniqueIdentifier>{ab66227b-2191-49dc-a972-d8defff7e71d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="filters">
+      <UniqueIdentifier>{1a93d74f-4294-4914-9e81-301c48917168}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="O.Common">
+      <UniqueIdentifier>{a3cee5cb-7cf7-4ba8-b695-12845e7a5e65}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

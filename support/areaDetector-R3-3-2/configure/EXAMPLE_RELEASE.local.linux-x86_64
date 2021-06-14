@@ -1,4 +1,0 @@
-### Uncomment the lines for the drivers that should be built
-
-### ADPointGrey cannot be built on systems without libc 2.14
-ADPOINTGREY=$(AREA_DETECTOR)/ADPointGrey

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+  <title>PvaClientChannelPut</title>
+  <link rel="stylesheet" type="text/css"
+  href="http://epics-pvdata.sourceforge.net/base.css" />
+  <link rel="stylesheet" type="text/css"
+  href="http://epics-pvdata.sourceforge.net/epicsv4.css" />
+  <style type="text/css">
+  /*<![CDATA[*/
+     .about { margin-left: 3em; margin-right: 3em; font-size: .83em}
+     table { margin-left: auto; margin-right: auto }
+     .diagram { text-align: center; margin: 2.5em 0 }
+     span.opt { color: grey }
+     span.nterm { font-style:italic }
+     span.term { font-family:courier }
+     span.user { font-family:courier }
+     span.user:before { content:"<" }
+     span.user:after { content:">" }
+     .nonnorm { font-style:italic }
+     p.ed { color: #AA0000 }
+     span.ed { color: #AA0000 }
+     p.ed.priv { display: inline; }
+     span.ed.priv { display: inline; }
+  /*]]>*/</style>
+  <!-- Script that generates the Table of Contents -->
+  <script type="text/javascript"
+  src="http://epics-pvdata.sourceforge.net/script/tocgen.js">
+  </script>
+</head>
+<body>
+
+<h1>PvaClientChannelPut</h1>s
+
+<p>
+pvaClientPut is a synchronous wrapper for the pvAccess::ChannelPut API, which is a callback based API.
+Thus it is easier to use than pvAccess::ChannelPut itself.
+</p>
+<p>
+<b>NOTE:</b>
+Except for union fields pvaClientPut takes care of modifying the bitSet associated with
+the data sent to the server.
+</p>
+<p>An instance of PvaClientPut is created via a call to one of the followimg:</p>
+<pre>
+class PvaClientChannel
+...
+{
+...
+    PvaClientPutPtr put(std::string const & request = "field(value,alarm,timeStamp)");
+    PvaClientPutPtr createPut(std::string const & request = "");
+    PvaClientPutPtr createPut(epics::pvData::PVStructurePtr const &  pvRequest);
+...
+};
+<p>An instance of <b>PvaClientPut/b> connects to a single channel.
+<b>PvaClientPut</b> has both synchronous methods, which block, and non blocking methods.
+</p>
+<p><b>PvaClientPut</b> has methods:</p>
+<pre>
+connect             Calls issueConnect and then waitConnect.
+issueConnect        issues a request to the server to create the server side of ChannelPut.
+waitConnect         blocks until server responds that it has created the ChannelPut.
+get                 Calls issueGet and then waitGet.
+issueGet            issues a request to the server to get the latest data.
+waitGet             waits until the server send a message that the get is complete.
+put                 Calls issuePut and then waitPut.
+issuePut            issues a put request to the server.
+waitPut             waits until the server send a message that the put is complete.
+getData             get the data.
+</pre>
+<p>
+Note that <b>issueConnect</b>, <b>issueGet</b>  and <b>issuePut</b> do not block but all other methods
+do block.
+</p>
+
+
+</body>
+</html>
+

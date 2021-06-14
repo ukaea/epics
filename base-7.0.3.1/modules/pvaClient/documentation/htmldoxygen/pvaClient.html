@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+  <title>PvaClient</title>
+  <link rel="stylesheet" type="text/css"
+  href="http://epics-pvdata.sourceforge.net/base.css" />
+  <link rel="stylesheet" type="text/css"
+  href="http://epics-pvdata.sourceforge.net/epicsv4.css" />
+  <style type="text/css">
+  /*<![CDATA[*/
+     .about { margin-left: 3em; margin-right: 3em; font-size: .83em}
+     table { margin-left: auto; margin-right: auto }
+     .diagram { text-align: center; margin: 2.5em 0 }
+     span.opt { color: grey }
+     span.nterm { font-style:italic }
+     span.term { font-family:courier }
+     span.user { font-family:courier }
+     span.user:before { content:"<" }
+     span.user:after { content:">" }
+     .nonnorm { font-style:italic }
+     p.ed { color: #AA0000 }
+     span.ed { color: #AA0000 }
+     p.ed.priv { display: inline; }
+     span.ed.priv { display: inline; }
+  /*]]>*/</style>
+  <!-- Script that generates the Table of Contents -->
+  <script type="text/javascript"
+  src="http://epics-pvdata.sourceforge.net/script/tocgen.js">
+  </script>
+</head>
+<body>
+
+<h1>PvaClient</h1>
+
+
+<h2>Overview</h2>
+<p>
+pvaClient is a synchronous wrapper for the pvAccess API, which is a callback based API.
+Thus it is easier to use than pvAccess itself.
+In addition pvaClient provides many convenience methods.
+</p>
+<p>
+Class <b>PvaClient</b> is a class that is used by all the other pvaClient classes.
+An application that uses pvaClient must call:</p>
+<pre>
+PvaClientPtr pvaClient = PvaClient::get(providers);
+</pre>
+<p>
+before it uses any other pvaClient classes.
+</p>
+<p>
+This is a singleton method, i. e. only one instance of PvaClient is created.
+</p>
+<p>
+<b>pvaClient</b> must not be deleted until the client no longer wants to use any part
+of pvaClient.
+</p>
+<p>
+<b>providers</b> is a blank separated set of provider names.
+For example:</p>
+<pre>
+PvaClientPtr pvaClient = PvaClient::get("ca pva");
+</pre>
+<p>
+The providers <b>ca</b> and <b>pva</b> are special.
+For each of these a client context is created when the <b>PvaClient</b>
+is constructed and the context destroyed when <b>PvaClient</b> is deleted.
+</p>
+<h2>Channel Caching</h2>
+<p>
+<b>PvaClient</b> has a method:
+</p>
+<pre>
+PvaClientChannelPtr channel(
+    string const &amp; channelName,
+    string const &amp;providerName = "pva",
+    double timeOut = 5.0);
+</pre>
+<p>
+This method creates a
+<b>PvaClientChannel</b> and then connects to the channel.
+</p>
+<p>
+If a call is successful then multiple calls to the same channelName and providerName
+share the same PvaClientChannel, i. e. the PvaClientChannel is cached.
+</p>
+<p>
+<b>pvaClientChannelGet</b> and <b>pvaClientChannelPut</b> also implement caching.
+</p>
+<p>
+For example consider a client that makes multiple calls like:
+</p>
+<pre>
+double value;
+value =  pva->channel(channelName)->get()->getData()->getDouble();
+...
+value =  pva->channel(channelName)->get()->getData()->getDouble();
+</pre>
+<p>
+Only the first call creates a new PvaClientChannel and a new PvaClientGet.
+The second call reuses the cached PvaClientChannel and PvaClientGet.
+</p>
+<h2>Non Cached Channels</h2>
+<p>
+<b>PvaClient</b> has a method:
+</p>
+<pre>
+PvaClientChannelPtr createChannel(
+    string const &amp; channelName,
+    string const &amp;providerName = "pva");
+</pre>
+<p>
+This method is just creates a new PvaClientChannel and returns it to the caller.
+The caller must call the PvaClientChannel connect methods.
+</p>
+
+<h2>Blocking vs Non-Blocking Methods</h2>
+<p>Each component of pvaClient provides a set of blocking and non-blocking calls.
+For example several components (examples are <b>PvaClientChannel</b> and <b>PvaChannelGet</b>)
+have methods:</p>
+<dl>
+    <dt>connect</dt>
+       <dd>
+        This calls issueConnect and then waitConnect.
+        If waitConnect fails an exception is thrown.
+        Since waitConnect is a blocking method so is this.
+       </dd>
+    <dt>issueConnect</dt>
+       <dd>
+         This is a request to connect, i. e. issue a request to the server to create something
+         on the server. This is a non blocking call.
+       </dd>
+    <dt>waitConnect</dt>
+       <dd>
+         This waits for the server to respond to issueConnect.
+         It blocks until the server responds or a timeout occurs.
+       </dd>
+</dl>
+
+
+</body>
+</html>
+

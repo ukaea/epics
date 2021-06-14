@@ -343,16 +343,13 @@ xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
     <ClCompile Include="translateerror.c" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\base-3.15.5\src\libCom\flex\e_flex.vcxproj">
-      <Project>{285b2dd5-b55e-4195-9b2d-f129cf54a2b4}</Project>
+    <ProjectReference Include="..\..\..\base-7.0.3.1\modules\libcom\src\Com.vcxproj">
+      <Project>{e9d99fc7-e592-472b-b2e2-c3b0d81d8169}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\base-3.15.5\src\tools\tools.vcxproj">
-      <Project>{5cce1c6a-2bd5-48bf-99e2-d29b58f91991}</Project>
+    <ProjectReference Include="..\..\..\base-7.0.3.1\modules\libcom\src\flex\e_flex.vcxproj">
+      <Project>{280222d8-1c6b-430d-8f32-c8a47397525b}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\base-3.15.5\src\libCom\Com.vcxproj">
-      <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\support\asyn4-33\asyn\asyn.vcxproj">
+    <ProjectReference Include="..\..\..\support\asyn-R4-40-1\asyn\asyn.vcxproj">
       <Project>{c3ea0ff7-6039-4884-ba91-7b4619befea5}</Project>
     </ProjectReference>
     <ProjectReference Include="..\MotorSrc\motor.vcxproj">

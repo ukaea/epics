@@ -158,7 +158,7 @@ epicsShareFunc int pvTimeGetCurrentDouble(double *pTime)
 
     assert(pTime);
     *pTime = 0.0;
-    if (epicsTimeGetCurrent(&stamp) == epicsTimeERROR)
+    if (epicsTimeGetCurrent(&stamp) != epicsTimeOK)
         return pvStatERROR;
 
     *pTime = (double) stamp.secPastEpoch +  ((double) stamp.nsec / 1e9);

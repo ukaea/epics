@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="factory">
+      <UniqueIdentifier>{98e42676-b68b-48aa-a549-17aacf5da364}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="misc">
+      <UniqueIdentifier>{ebb4821b-d751-4691-ba49-77f4d93f9179}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="property">
+      <UniqueIdentifier>{c88d6bcf-f503-4938-b3f3-728f70b06a77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="pv">
+      <UniqueIdentifier>{812eeb33-4aaf-4791-8be0-c1ae444cee13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="pvMisc">
+      <UniqueIdentifier>{13670785-559f-427f-9308-b653a7def888}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="copy">
+      <UniqueIdentifier>{5e2a87c6-4184-48f5-a539-ea1f827373d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="copy\pv">
+      <UniqueIdentifier>{85d04c4d-5c9d-4207-afbc-2213a2142389}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="factory\pv">
+      <UniqueIdentifier>{58071a14-65b3-4d68-88d6-1860e5889400}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="misc\pv">
+      <UniqueIdentifier>{0a35bb8b-ecfc-47d9-a83c-63cf7d78c78f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="property\pv">
+      <UniqueIdentifier>{430b666e-dca7-447f-8dc9-0acfebeeaae8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="pvMisc\pv">
+      <UniqueIdentifier>{ce6dbb5e-197f-469e-81ab-2de77476c1cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="json">
+      <UniqueIdentifier>{d3bb8fe9-9e25-4fa2-89a1-2d3f43374be0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="factory\Compare.cpp">
+      <Filter>factory</Filter>
+    </ClCompile>
+    <ClCompile Include="factory\Convert.cpp">
+      <Filter>factory</Filter>
+    </ClCompile>
+    <ClCompile Include="factory\FieldCreateFactory.cpp">
+      <Filter>factory</Filter>
+    </ClCompile>
+    <ClCompile Include="factory\PVArray.cpp">
+      <Filter>factory</Filter>
+    </ClCompile>
+    <ClCompile Include="factory\PVDataCreateFactory.cpp">
+      <Filter>factory</Filter>
+    </ClCompile>
+    <ClCompile Include="factory\PVField.cpp">
+      <Filter>factory</Filter>
+    </ClCompile>
+    <ClCompile Include="factory\PVScalar.cpp">
+      <Filter>factory</Filter>
+    </ClCompile>
+    <ClCompile Include="factory\PVScalarArray.cpp">
+      <Filter>factory</Filter>
+    </ClCompile>
+    <ClCompile Include="factory\PVStructure.cpp">
+      <Filter>factory</Filter>
+    </ClCompile>
+    <ClCompile Include="factory\PVStructureArray.cpp">
+      <Filter>factory</Filter>
+    </ClCompile>
+    <ClCompile Include="factory\StandardField.cpp">
+      <Filter>factory</Filter>
+    </ClCompile>
+    <ClCompile Include="factory\StandardPVField.cpp">
+      <Filter>factory</Filter>
+    </ClCompile>
+    <ClCompile Include="factory\TypeFunc.cpp">
+      <Filter>factory</Filter>
+    </ClCompile>
+    <ClCompile Include="misc\bitSet.cpp">
+      <Filter>misc</Filter>
+    </ClCompile>
+    <ClCompile Include="misc\byteBuffer.cpp">
+      <Filter>misc</Filter>
+    </ClCompile>
+    <ClCompile Include="misc\epicsException.cpp">
+      <Filter>misc</Filter>
+    </ClCompile>
+    <ClCompile Include="misc\event.cpp">
+      <Filter>misc</Filter>
+    </ClCompile>
+    <ClCompile Include="misc\serializeHelper.cpp">
+      <Filter>misc</Filter>
+    </ClCompile>
+    <ClCompile Include="misc\status.cpp">
+      <Filter>misc</Filter>
+    </ClCompile>
+    <ClCompile Include="misc\timer.cpp">
+      <Filter>misc</Filter>
+    </ClCompile>
+    <ClCompile Include="property\alarm.cpp">
+      <Filter>property</Filter>
+    </ClCompile>
+    <ClCompile Include="property\pvAlarm.cpp">
+      <Filter>property</Filter>
+    </ClCompile>
+    <ClCompile Include="property\pvControl.cpp">
+      <Filter>property</Filter>
+    </ClCompile>
+    <ClCompile Include="property\pvDisplay.cpp">
+      <Filter>property</Filter>
+    </ClCompile>
+    <ClCompile Include="property\pvEnumerated.cpp">
+      <Filter>property</Filter>
+    </ClCompile>
+    <ClCompile Include="property\pvTimeStamp.cpp">
+      <Filter>property</Filter>
+    </ClCompile>
+    <ClCompile Include="property\timeStamp.cpp">
+      <Filter>property</Filter>
+    </ClCompile>
+    <ClCompile Include="pvMisc\bitSetUtil.cpp">
+      <Filter>pvMisc</Filter>
+    </ClCompile>
+    <ClCompile Include="copy\createRequest.cpp">
+      <Filter>copy</Filter>
+    </ClCompile>
+    <ClCompile Include="factory\printer.cpp">
+      <Filter>factory</Filter>
+    </ClCompile>
+    <ClCompile Include="factory\pvSubArrayCopy.cpp">
+      <Filter>factory</Filter>
+    </ClCompile>
+    <ClCompile Include="factory\PVUnion.cpp">
+      <Filter>factory</Filter>
+    </ClCompile>
+    <ClCompile Include="factory\PVUnionArray.cpp">
+      <Filter>factory</Filter>
+    </ClCompile>
+    <ClCompile Include="misc\parseToPOD.cpp">
+      <Filter>misc</Filter>
+    </ClCompile>
+    <ClCompile Include="misc\typeCast.cpp">
+      <Filter>misc</Filter>
+    </ClCompile>
+    <ClCompile Include="copy\requestmapper.cpp">
+      <Filter>copy</Filter>
+    </ClCompile>
+    <ClCompile Include="misc\anyscalar.cpp">
+      <Filter>misc</Filter>
+    </ClCompile>
+    <ClCompile Include="misc\debugPtr.cpp">
+      <Filter>misc</Filter>
+    </ClCompile>
+    <ClCompile Include="misc\pvUnitTest.cpp">
+      <Filter>misc</Filter>
+    </ClCompile>
+    <ClCompile Include="misc\reftrack.cpp">
+      <Filter>misc</Filter>
+    </ClCompile>
+    <ClCompile Include="misc\thread.cpp">
+      <Filter>misc</Filter>
+    </ClCompile>
+    <ClCompile Include="json\parseany.cpp">
+      <Filter>json</Filter>
+    </ClCompile>
+    <ClCompile Include="json\parsehelper.cpp">
+      <Filter>json</Filter>
+    </ClCompile>
+    <ClCompile Include="json\parseinto.cpp">
+      <Filter>json</Filter>
+    </ClCompile>
+    <ClCompile Include="json\print.cpp">
+      <Filter>json</Filter>
+    </ClCompile>
+    <ClCompile Include="pv\pvdVersion.cpp">
+      <Filter>pv</Filter>
+    </ClCompile>
+    <ClCompile Include="pv\valueBuilder.cpp">
+      <Filter>pv</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pv\convert.h">
+      <Filter>pv</Filter>
+    </ClInclude>
+    <ClInclude Include="pv\pvData.h">
+      <Filter>pv</Filter>
+    </ClInclude>
+    <ClInclude Include="pv\pvIntrospect.h">
+      <Filter>pv</Filter>
+    </ClInclude>
+    <ClInclude Include="pv\pvType.h">
+      <Filter>pv</Filter>
+    </ClInclude>
+    <ClInclude Include="pv\standardField.h">
+      <Filter>pv</Filter>
+    </ClInclude>
+    <ClInclude Include="pv\standardPVField.h">
+      <Filter>pv</Filter>
+    </ClInclude>
+    <ClInclude Include="pv\pvSubArrayCopy.h">
+      <Filter>pv</Filter>
+    </ClInclude>
+    <ClInclude Include="copy\pv\createRequest.h">
+      <Filter>copy\pv</Filter>
+    </ClInclude>
+    <ClInclude Include="copy\pv\pvCopy.h">
+      <Filter>copy\pv</Filter>
+    </ClInclude>
+    <ClInclude Include="factory\pv\factory.h">
+      <Filter>factory\pv</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\pv\bitSet.h">
+      <Filter>misc\pv</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\pv\byteBuffer.h">
+      <Filter>misc\pv</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\pv\current_function.h">
+      <Filter>misc\pv</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\pv\destroyable.h">
+      <Filter>misc\pv</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\pv\epicsException.h">
+      <Filter>misc\pv</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\pv\event.h">
+      <Filter>misc\pv</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\pv\executor.h">
+      <Filter>misc\pv</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\pv\localStaticLock.h">
+      <Filter>misc\pv</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\pv\lock.h">
+      <Filter>misc\pv</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\pv\messageQueue.h">
+      <Filter>misc\pv</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\pv\noDefaultMethods.h">
+      <Filter>misc\pv</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\pv\queue.h">
+      <Filter>misc\pv</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\pv\requester.h">
+      <Filter>misc\pv</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\pv\serialize.h">
+      <Filter>misc\pv</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\pv\serializeHelper.h">
+      <Filter>misc\pv</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\pv\sharedPtr.h">
+      <Filter>misc\pv</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\pv\sharedVector.h">
+      <Filter>misc\pv</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\pv\status.h">
+      <Filter>misc\pv</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\pv\templateMeta.h">
+      <Filter>misc\pv</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\pv\thread.h">
+      <Filter>misc\pv</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\pv\timeFunction.h">
+      <Filter>misc\pv</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\pv\timer.h">
+      <Filter>misc\pv</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\pv\typeCast.h">
+      <Filter>misc\pv</Filter>
+    </ClInclude>
+    <ClInclude Include="property\pv\alarm.h">
+      <Filter>property\pv</Filter>
+    </ClInclude>
+    <ClInclude Include="property\pv\control.h">
+      <Filter>property\pv</Filter>
+    </ClInclude>
+    <ClInclude Include="property\pv\display.h">
+      <Filter>property\pv</Filter>
+    </ClInclude>
+    <ClInclude Include="property\pv\pvAlarm.h">
+      <Filter>property\pv</Filter>
+    </ClInclude>
+    <ClInclude Include="property\pv\pvControl.h">
+      <Filter>property\pv</Filter>
+    </ClInclude>
+    <ClInclude Include="property\pv\pvDisplay.h">
+      <Filter>property\pv</Filter>
+    </ClInclude>
+    <ClInclude Include="property\pv\pvEnumerated.h">
+      <Filter>property\pv</Filter>
+    </ClInclude>
+    <ClInclude Include="property\pv\pvTimeStamp.h">
+      <Filter>property\pv</Filter>
+    </ClInclude>
+    <ClInclude Include="property\pv\timeStamp.h">
+      <Filter>property\pv</Filter>
+    </ClInclude>
+    <ClInclude Include="pvMisc\pv\bitSetUtil.h">
+      <Filter>pvMisc\pv</Filter>
+    </ClInclude>
+    <ClInclude Include="pv\pvdVersion.h">
+      <Filter>pv</Filter>
+    </ClInclude>
+    <ClInclude Include="pv\typemap.h">
+      <Filter>pv</Filter>
+    </ClInclude>
+    <ClInclude Include="pv\valueBuilder.h">
+      <Filter>pv</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="factory\Makefile">
+      <Filter>factory</Filter>
+    </None>
+    <None Include="misc\Makefile">
+      <Filter>misc</Filter>
+    </None>
+    <None Include="copy\Makefile">
+      <Filter>copy</Filter>
+    </None>
+    <None Include="property\Makefile">
+      <Filter>property</Filter>
+    </None>
+    <None Include="pv\Makefile">
+      <Filter>pv</Filter>
+    </None>
+    <None Include="pvMisc\Makefile">
+      <Filter>pvMisc</Filter>
+    </None>
+    <None Include="json\Makefile">
+      <Filter>json</Filter>
+    </None>
+    <None Include="pv\pvdVersionNum.h%40">
+      <Filter>pv</Filter>
+    </None>
+  </ItemGroup>
+</Project>

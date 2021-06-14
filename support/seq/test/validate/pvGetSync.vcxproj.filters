@@ -14,9 +14,6 @@
     <ClCompile Include="O.Common\pvGetSync.c">
       <Filter>O.Common</Filter>
     </ClCompile>
-    <ClCompile Include="testSupport.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="pvGetSync.st">
