@@ -1,6 +1,0 @@
-# ChannelArchiveService
-
-**To be documented**
-
-
-

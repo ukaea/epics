@@ -9,6 +9,69 @@
 
 <h1 align="center">calc Release Notes</h1>
 
+<h2 align="center">Release 3-7-2</h2>
+
+<ul>
+<li>EPICS v7 compatability changes
+<li>Errors in OCAL expression now set OVAL to -1 instead of VAL
+</ul>
+
+<h2 align="center">Release 3-7-1</h2>
+<ul>
+<li>aCalcout now posts monitors and archive monitors for AVAL and OAV if one or
+    more their elements changes by more than MDEL or ADEL.
+</li>
+</ul>
+
+<h2 align="center">Release 3-7 (12/5/2017)</h2>
+<ul>
+<li>seq and sseq record displays now expose the SELL, SELN, and SELM fields,
+and related .req files autosave those fields.
+<li>Made sCalc and aCalc header files public.
+<li>Modified sseqRecord_settings.req to restore DOn before STRn, because the
+sseq record modifies both when either is written, and this messes up runtime
+restore (manual restore or configMenu restore).  Test: set STRn to "1!", save
+and restore.  Without the fix, STRn gets restored as "1".
+
+<li>Modified the scalcout record's treatment of null characters in strings
+received from DBF_CHAR and DBF_UCHAR PVs.  Previously, one or more trailing
+"\000" fragments were appended (by epicsStrSnPrintEscaped) to the string.
+These fragments are now stripped.
+
+<li>Added iocsh directory, and populated with scripts callable from st.cmd
+
+<li>userArrayCalcs10more_settings.req had incorrect Enable PV
+
+<li>fix verious .adl files for better translation with adl2ui
+
+<li>remake all ui files with adl2ui from caqtdm 4.1.3
+
+<li>userStringCalcs10.db: Update SDIS links to include individual and global enable/disable
+
+<li>Added acalc and scalc unit tests
+
+<li>array calcs monitor and display allocated memory
+
+<li>sCalcoutRecord.c: strcpy -> strNcpy; strcmp -> strncmp; paddr->field_size = STRING_SIZE changed to paddr->field_size = 1 in cvt_dbaddr()
+
+<li>Changed order of STR* and DO* in sCalcout request file, so manual restore
+works (string value overrides numeric value).
+
+<li> Fixes to compile with Visual Studio 2010
+
+<li> aCalcTest.cpp: Restored powl, atan2l, sqrtl to pow, atan2, sqrt; change
+first arg to double to eliminate errors on Windows.
+
+<li> Update CONFIG to use CONFIG_SITE.
+
+</ul>
+
+<h2 align="center">Release 3-6-1</h2>
+<ul>
+<li>Fixed aCalcoutRecord.html, sCalcoutRecord.html, and transformRecord.html so
+that they specify the correct size of calc-expression fields.
+</ul>
+
 <h2 align="center">Release 3-6</h2>
 <ul>
 <li>Restored yySseq.db, added yySseq_settings.req.

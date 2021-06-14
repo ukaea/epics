@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+  <title>pvDatabaseCPP</title>
+  <link rel="stylesheet" type="text/css"
+  href="http://epics-pvdata.sourceforge.net/base.css" />
+  <link rel="stylesheet" type="text/css"
+  href="http://epics-pvdata.sourceforge.net/epicsv4.css" />
+  <style type="text/css">
+  /*<![CDATA[*/
+     .about { margin-left: 3em; margin-right: 3em; font-size: .83em}
+     table { margin-left: auto; margin-right: auto }
+     .diagram { text-align: center; margin: 2.5em 0 }
+     span.opt { color: grey }
+     span.nterm { font-style:italic }
+     span.term { font-family:courier }
+     span.user { font-family:courier }
+     span.user:before { content:"<" }
+     span.user:after { content:">" }
+     .nonnorm { font-style:italic }
+     p.ed { color: #AA0000 }
+     span.ed { color: #AA0000 }
+     p.ed.priv { display: inline; }
+     span.ed.priv { display: inline; }
+  /*]]>*/</style>
+  <!-- Script that generates the Table of Contents -->
+  <script type="text/javascript"
+  src="http://epics-pvdata.sourceforge.net/script/tocgen.js">
+ </script>
+</head>
+
+<body>
+
+<div class="head">
+<h1>pvDatabaseCPP</h1>
+<h2 class="nocount">Release ? - TBD</h2>
+Latest update 2019.09.11.
+
+
+<h2 class="nocount">Abstract</h2>
+
+<p>This document describes pvDatabaseCPP,
+which is a framework for implementing a network accessible database of smart memory resident
+records. Network access is via pvAccess. The data in each record is a top level PVStructure as defined by
+pvData. The framework includes a complete implementation of ChannelProvider as defined by pvAccess.
+The framework can be extended in order to create record instances that implements services.
+The minimum that an extension must provide is a top level PVStructure and a process method.
+</p>
+  <!-- last para of Abstract is boilerplate reference to EPICS -->
+      <p>For more information about EPICS generally, please refer to the home page of the <a
+       href="http://www.aps.anl.gov/epics/">Experimental Physics and Industrial
+      Control System</a>.</p>
+
+
+</div>
+
+<div id="toc">
+  <h2 class="nocount">Table of Contents</h2>
+</div>
+
+<div id="contents" class="contents">
+<hr />
+
+<h2>Overview</h2>
+<p>
+pvDatabaseCPP is one of the components of
+EPICS Version 7
+</p>
+<p>This document is only a guide to help locate code and documentation related to pvDatabaseCPP
+It is intended for developers that want to use pvDatabaseCPP.
+</p>
+<h2>Developer Guide</h2>
+<p>A guide for developers is available at
+<a
+href="https://mrkraimer.github.io/website/developerGuide/developerGuide.html">
+developerGuide
+</a>
+</p>
+<p>This guide discusses all the components that are part of an <b>EPICS V4</b> release.
+Some understanding of the components and how they are related is necessary in order to
+develop code that uses pvDatabaseCPP.
+In particular read everything related to pvDatabase.
+</p>
+<p>pvDatabase has plugin support, which is implemented in <b>pvCopy</b>.
+<b>pvCopy</b> was originally implemented in <b>pvDataCPP</b>,
+but pvDatabaseCPP now implements its own version and adds plugin support.
+</p>
+<p>
+See
+<a
+href="https://mrkraimer.github.io/website/pvRequest/pvRequest.html">
+pvRequest
+</a>
+for details.
+</p>
+<p>The developerGuide discusses code in a way that applies to both CPP and C++.
+For the descriptions of the CPP specific code consult the following sections.
+</p>
+
+<h2>doxygen</h2>
+<p>doxygen documentation is available at
+<a
+href="./html/index.html">doxgen</a>
+</p>
+
+<h2>pvDatabaseCPP</h2>
+<h3>include/pv</h3>
+<p>The header files that describe the various components implemented by pvDatabase.
+</p>
+<dl>
+   <dt>pvDatabase.h</dt>
+   <dd>
+    This describes PVRecord and PVDatabase.
+   </dd>
+   <dt>channelProviderLocal.h </dt>
+   <dd>
+    This describes a channel provider for PVDatabase
+   </dd>
+   <dt>pvSupport.h</dt>
+   <dd>
+    This is the base class for support attached to a field of a record.
+   </dd>
+   <dt>controlSupport.h</dt>
+   <dd>
+    This is support that implements control limits.
+   </dd>
+   <dt>scalarAlarmSupport.h</dt>
+   <dd>
+     This is support for a alarm limits for a scalar numeric field.
+   </dd>
+   <dt>processRecord.h</dt>
+   <dd>
+   This is a PVRecord that periodical processes a set of PVRecords in the local PVDatabase.
+   </dd>
+   <dt>addRecord.h</dt>
+   <dd>
+    This is a PVRecord that adds a new PVRecord to the local PVDatabase.
+   </dd>
+   <dt>removeRecord.h</dt>
+   <dd>
+    This is a PVRecord that removes a PVRecord in the local PVDatabase.
+   </dd>
+   <dt>traceRecord.h</dt>
+   <dd>
+    This is a PVRecord that sets the trace value for another PVRecord in the local PVDatabase.
+   </dd>
+   <dt>pvStructureCopy.h</dt>
+   <dd>
+    This is a facility that allows a client to access a subfield of the fields in a PVRecord.
+    It also provides record and field options an plugin support.
+   </dd>
+   <dt>pvPlugin.h</dt>
+   <dd>
+    This is the base class for a plugin attached to a record or field of PVRecord.
+   </dd>
+   <dt>pvArrayPlugin.h</dt>
+   <dd>
+     A plugin for accessing a subset of the elements in an array field.
+   </dd>
+   <dt>pvDeadbandPlugin.h</dt>
+   <dd>
+    A deadband plugin for monitors.
+   </dd>
+   <dt>pvTimestampPlugin.h</dt>
+   <dd>
+    A plugin for timeStamp.
+   </dd>
+</dl>
+<h3>src/database</h3>
+<p>This has the code that implements pvDatabase and pvRecord.</p>
+<h3>src/pvAccess</h3>
+<p>This has the code for the channel provider for pvDatabase.
+</p>
+<h3>src/support</h3>
+<p>This has the pvSupport code.</p>
+<h3>src/special</h3>
+<p>
+This has the code for processRecord, addRecord, removeRecord, and traceRecord.
+</p>
+<h3>src/copy</h3>
+<p>This has the code for pvStructureCopy and all the plugin support.
+</p> 
+<h2>exampleCPP</h2>
+<p>Example code is available as part of this release.
+<a
+href="https://github.com/epics-base/exampleCPP">
+exampleCPP
+</a>
+</p>
+<p>In particular look at the example code mentioned in the following sub-sections.
+</p>
+
+<h3>database</h3>
+<p>This has many examples of how to create both soft records and records that implement
+other functionality.</p>
+<dl>
+   <dt>exampleDatabase.cpp</dt>
+     <dd>
+      This shows how to create soft records of each pvData type.<br />
+      In addition shows how to create instances of the following two records.
+     </dd>
+   <dt>exampleHelloRecord.cpp</dt>
+     <dd>
+       This is a simple "hello world" that is intentended to be used via a channelPutGet request.
+     </dd>
+   <dt>exampleHelloRPC.cpp</dt>
+     <dd>
+       This is a simple "hello world" that is intentended to be used via a channelRPC request.
+     </dd>
+   <dt>exampleDatabaseMain.cpp</dt>
+     <dd>
+      This shows how to create a standalone IOC.
+     </dd>
+   <dt>ioc and iocBoot</dt>
+     <dd>
+      This has code and examples to create a V3 IOC which also has a PVDatabase.
+     </dd>
+</dl>
+<h3>exampleLink</h3>
+<p>This shows how to implement a record that has a link to another record</p>
+<dl>
+  <dt>exampleMonitorLinkRecord</dt>
+     <dd>
+      This creates a monitor link to another record.
+     </dd>
+  <dt>exampleGetLinkRecord</dt>
+     <dd>
+      This creates a get link to another record.
+     </dd>
+  <dt>examplePutLinkRecord</dt>
+     <dd>
+      This creates a put link to another record.
+     </dd>
+</dl>
+
+<h3>support</h3>
+<p>This creates records that have the following features:</p>
+<dl>
+   <dt>value</dt>
+   <dd>
+    Each record has a value field the is a numeric scalar field.
+    In addition each has the following fields:
+    alarm,timeStamp,control,scalarAlarm, and display.
+   </dd>
+   <dt>support</dt>
+   <dd>
+     Each record uses the control and scalarAlarm support provided by pvDatabaseCPP.
+   </dd>
+</dl>
+<p>
+It also creates records that can be used by clients to show example of the plugin support.
+</p>
+
+<h2>iocshell commands</h2>
+<p>Shell commands are made available via the standard DBD include mechanism
+provided by iocCore.
+The following provide EPICS V4 shell commands:</p>
+<pre>
+pvAccessCPP
+qsrv
+pvDatabaseCPP
+</pre>
+
+<p>pvDatabaseCPP provides the following iocshell command.</p>
+<dl>
+   <dt>registerChannelProviderLocal</dt>
+     <dd>Including <b>registerChannelProviderLocal.dbd</b> as a dbd file automatically starts provider local
+      and also creates the pvdbl shell command.
+     </dd>
+   <dt>pvdbl</dt>
+      <dd>Provides a list of all the pvRecords in database <b>master</b>
+      </dd>
+</dl>
+<p>In addition any code that implements a PVRecord must implement an ioc command.
+Look at the examples in <b>exampleCPP/support</b> to see how to implement shell commands.</p>
+
+</div>
+</body>
+</html>

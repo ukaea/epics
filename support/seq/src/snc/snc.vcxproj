@@ -414,8 +414,8 @@ cd $(ProjectDir)
     <ClInclude Include="var_types.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\base-3.15.5\src\libCom\Com.vcxproj">
-      <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
+    <ProjectReference Include="..\..\..\..\base-7.0.3.1\modules\libcom\src\Com.vcxproj">
+      <Project>{e9d99fc7-e592-472b-b2e2-c3b0d81d8169}</Project>
     </ProjectReference>
     <ProjectReference Include="..\lemon\lemon.vcxproj">
       <Project>{91cdf9cd-71fd-4afe-a824-fb868bf15978}</Project>

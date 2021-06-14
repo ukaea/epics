@@ -1,0 +1,637 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="asynDriver">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="asynGpib">
+      <UniqueIdentifier>{3a3acc82-57ad-434b-bfff-1ec04bc237a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="asynPortDriver">
+      <UniqueIdentifier>{0e14ac4e-32c8-434d-a704-be86306ce6e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="asynRecord">
+      <UniqueIdentifier>{a77191c9-c7c1-4992-b001-c0a89b124a9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="devEpics">
+      <UniqueIdentifier>{3f32b849-aab4-498d-98ce-712377c9a861}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="devGpib">
+      <UniqueIdentifier>{da0ecf04-4c83-4cb7-a802-2b0b87bb4f6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="drvAsynSerial">
+      <UniqueIdentifier>{13b64aab-5a2f-4fa2-874a-815e2544b0d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gsIP488">
+      <UniqueIdentifier>{83088907-ca10-4354-b0d4-1ce34f028636}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="interfaces">
+      <UniqueIdentifier>{4502ac66-3b6d-447a-be91-410b4a028f86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="miscellaneous">
+      <UniqueIdentifier>{7b50cbf7-6eac-4037-be5a-5be9391e0ad1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ni1014">
+      <UniqueIdentifier>{84a6f5cc-e898-4169-8594-fc1ce4586162}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="asynPortDriver\exceptions">
+      <UniqueIdentifier>{adcdf4e1-f45a-495e-9d1c-4ba3e89f2154}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="asynPortClient">
+      <UniqueIdentifier>{7dc8af06-f469-40bb-9c6e-d924486cab4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="drvAsynUSBTMC">
+      <UniqueIdentifier>{93a072ab-5445-4179-bc65-1feb069c3f24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libusb-1.0">
+      <UniqueIdentifier>{18e3fd30-606f-42e7-b2c6-0bdfa41e0435}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libusb-1.0\MS32">
+      <UniqueIdentifier>{61749bee-b74b-4544-be5e-b36f9c9db581}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libusb-1.0\MS64">
+      <UniqueIdentifier>{f4e3a5cf-c757-49fb-86d1-e4f4a0165162}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libusb-1.0\MS32\static">
+      <UniqueIdentifier>{0ed374c4-1857-4c9b-bd08-8ef69c3a1f63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libusb-1.0\MS32\dll">
+      <UniqueIdentifier>{87b89a09-6d16-432e-a778-62629306c785}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libusb-1.0\MS64\dll">
+      <UniqueIdentifier>{07f903e0-b7b3-4ac8-9da1-088a2711fc91}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libusb-1.0\MS64\static">
+      <UniqueIdentifier>{7e79a89e-cce7-4bd7-95ef-50137d2e15a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vxi11">
+      <UniqueIdentifier>{1b658f76-3317-456e-a55e-60cc4f2dd88e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="asynDriver\asynDriver.h">
+      <Filter>asynDriver</Filter>
+    </ClInclude>
+    <ClInclude Include="asynDriver\epicsInterruptibleSyscall.h">
+      <Filter>asynDriver</Filter>
+    </ClInclude>
+    <ClInclude Include="asynGpib\asynGpibDriver.h">
+      <Filter>asynGpib</Filter>
+    </ClInclude>
+    <ClInclude Include="asynPortDriver\asynParamType.h">
+      <Filter>asynPortDriver</Filter>
+    </ClInclude>
+    <ClInclude Include="asynPortDriver\asynPortDriver.h">
+      <Filter>asynPortDriver</Filter>
+    </ClInclude>
+    <ClInclude Include="asynPortDriver\paramErrors.h">
+      <Filter>asynPortDriver</Filter>
+    </ClInclude>
+    <ClInclude Include="asynPortDriver\paramVal.h">
+      <Filter>asynPortDriver</Filter>
+    </ClInclude>
+    <ClInclude Include="devEpics\asynEpicsUtils.h">
+      <Filter>devEpics</Filter>
+    </ClInclude>
+    <ClInclude Include="devEpics\devAsynXXXArray.h">
+      <Filter>devEpics</Filter>
+    </ClInclude>
+    <ClInclude Include="devEpics\devAsynXXXTimeSeries.h">
+      <Filter>devEpics</Filter>
+    </ClInclude>
+    <ClInclude Include="devGpib\devCommonGpib.h">
+      <Filter>devGpib</Filter>
+    </ClInclude>
+    <ClInclude Include="devGpib\devGpib.h">
+      <Filter>devGpib</Filter>
+    </ClInclude>
+    <ClInclude Include="devGpib\devSupportGpib.h">
+      <Filter>devGpib</Filter>
+    </ClInclude>
+    <ClInclude Include="drvAsynSerial\drvAsynIPPort.h">
+      <Filter>drvAsynSerial</Filter>
+    </ClInclude>
+    <ClInclude Include="drvAsynSerial\drvAsynIPServerPort.h">
+      <Filter>drvAsynSerial</Filter>
+    </ClInclude>
+    <ClInclude Include="drvAsynSerial\drvAsynSerialPort.h">
+      <Filter>drvAsynSerial</Filter>
+    </ClInclude>
+    <ClInclude Include="interfaces\asynCommonSyncIO.h">
+      <Filter>interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="interfaces\asynDrvUser.h">
+      <Filter>interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="interfaces\asynEnum.h">
+      <Filter>interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="interfaces\asynEnumSyncIO.h">
+      <Filter>interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="interfaces\asynFloat32Array.h">
+      <Filter>interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="interfaces\asynFloat32ArraySyncIO.h">
+      <Filter>interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="interfaces\asynFloat64.h">
+      <Filter>interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="interfaces\asynFloat64Array.h">
+      <Filter>interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="interfaces\asynFloat64ArraySyncIO.h">
+      <Filter>interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="interfaces\asynFloat64SyncIO.h">
+      <Filter>interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="interfaces\asynGenericPointer.h">
+      <Filter>interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="interfaces\asynGenericPointerSyncIO.h">
+      <Filter>interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="interfaces\asynInt8Array.h">
+      <Filter>interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="interfaces\asynInt8ArraySyncIO.h">
+      <Filter>interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="interfaces\asynInt16Array.h">
+      <Filter>interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="interfaces\asynInt16ArraySyncIO.h">
+      <Filter>interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="interfaces\asynInt32.h">
+      <Filter>interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="interfaces\asynInt32Array.h">
+      <Filter>interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="interfaces\asynInt32ArraySyncIO.h">
+      <Filter>interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="interfaces\asynInt32SyncIO.h">
+      <Filter>interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="interfaces\asynOctet.h">
+      <Filter>interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="interfaces\asynOctetSyncIO.h">
+      <Filter>interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="interfaces\asynOption.h">
+      <Filter>interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="interfaces\asynStandardInterfaces.h">
+      <Filter>interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="interfaces\asynUInt32Digital.h">
+      <Filter>interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="interfaces\asynUInt32DigitalSyncIO.h">
+      <Filter>interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="interfaces\asynXXXArrayBase.h">
+      <Filter>interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="miscellaneous\asynInterposeCom.h">
+      <Filter>miscellaneous</Filter>
+    </ClInclude>
+    <ClInclude Include="miscellaneous\asynInterposeEos.h">
+      <Filter>miscellaneous</Filter>
+    </ClInclude>
+    <ClInclude Include="miscellaneous\asynInterposeFlush.h">
+      <Filter>miscellaneous</Filter>
+    </ClInclude>
+    <ClInclude Include="miscellaneous\asynShellCommands.h">
+      <Filter>miscellaneous</Filter>
+    </ClInclude>
+    <ClInclude Include="asynPortDriver\exceptions\ParamListInvalidIndex.h">
+      <Filter>asynPortDriver\exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="asynPortDriver\exceptions\ParamListParamNotFound.h">
+      <Filter>asynPortDriver\exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="asynPortDriver\exceptions\ParamValNotDefined.h">
+      <Filter>asynPortDriver\exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="asynPortDriver\exceptions\ParamValStringSizeRequestTooBig.h">
+      <Filter>asynPortDriver\exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="asynPortDriver\exceptions\ParamValValueNotChanged.h">
+      <Filter>asynPortDriver\exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="asynPortDriver\exceptions\ParamValWrongType.h">
+      <Filter>asynPortDriver\exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="asynPortClient\asynPortClient.h">
+      <Filter>asynPortClient</Filter>
+    </ClInclude>
+    <ClInclude Include="interfaces\asynOptionSyncIO.h">
+      <Filter>interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="libusb-1.0\libusb.h">
+      <Filter>libusb-1.0</Filter>
+    </ClInclude>
+    <ClInclude Include="vxi11\drvVxi11.h">
+      <Filter>vxi11</Filter>
+    </ClInclude>
+    <ClInclude Include="vxi11\osiRpc.h">
+      <Filter>vxi11</Filter>
+    </ClInclude>
+    <ClInclude Include="vxi11\vxi11.h">
+      <Filter>vxi11</Filter>
+    </ClInclude>
+    <ClInclude Include="interfaces\asynInt64.h">
+      <Filter>interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="interfaces\asynInt64Array.h">
+      <Filter>interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="interfaces\asynInt64ArraySyncIO.h">
+      <Filter>interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="interfaces\asynInt64SyncIO.h">
+      <Filter>interfaces</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="asynDriver\asynManager.c">
+      <Filter>asynDriver</Filter>
+    </ClCompile>
+    <ClCompile Include="asynDriver\epicsInterruptibleSyscall.c">
+      <Filter>asynDriver</Filter>
+    </ClCompile>
+    <ClCompile Include="asynGpib\asynGpib.c">
+      <Filter>asynGpib</Filter>
+    </ClCompile>
+    <ClCompile Include="asynGpib\drvSkeleton.c">
+      <Filter>asynGpib</Filter>
+    </ClCompile>
+    <ClCompile Include="asynPortDriver\asynPortDriver.cpp">
+      <Filter>asynPortDriver</Filter>
+    </ClCompile>
+    <ClCompile Include="asynPortDriver\paramVal.cpp">
+      <Filter>asynPortDriver</Filter>
+    </ClCompile>
+    <ClCompile Include="asynRecord\asynRecord.c">
+      <Filter>asynRecord</Filter>
+    </ClCompile>
+    <ClCompile Include="asynRecord\drvAsyn.c">
+      <Filter>asynRecord</Filter>
+    </ClCompile>
+    <ClCompile Include="devEpics\asynEpicsUtils.c">
+      <Filter>devEpics</Filter>
+    </ClCompile>
+    <ClCompile Include="devEpics\devAsynFloat32Array.c">
+      <Filter>devEpics</Filter>
+    </ClCompile>
+    <ClCompile Include="devEpics\devAsynFloat64.c">
+      <Filter>devEpics</Filter>
+    </ClCompile>
+    <ClCompile Include="devEpics\devAsynFloat64Array.c">
+      <Filter>devEpics</Filter>
+    </ClCompile>
+    <ClCompile Include="devEpics\devAsynFloat64TimeSeries.c">
+      <Filter>devEpics</Filter>
+    </ClCompile>
+    <ClCompile Include="devEpics\devAsynInt8Array.c">
+      <Filter>devEpics</Filter>
+    </ClCompile>
+    <ClCompile Include="devEpics\devAsynInt16Array.c">
+      <Filter>devEpics</Filter>
+    </ClCompile>
+    <ClCompile Include="devEpics\devAsynInt32.c">
+      <Filter>devEpics</Filter>
+    </ClCompile>
+    <ClCompile Include="devEpics\devAsynInt32Array.c">
+      <Filter>devEpics</Filter>
+    </ClCompile>
+    <ClCompile Include="devEpics\devAsynInt32TimeSeries.c">
+      <Filter>devEpics</Filter>
+    </ClCompile>
+    <ClCompile Include="devEpics\devAsynOctet.c">
+      <Filter>devEpics</Filter>
+    </ClCompile>
+    <ClCompile Include="devEpics\devAsynUInt32Digital.c">
+      <Filter>devEpics</Filter>
+    </ClCompile>
+    <ClCompile Include="devGpib\boSRQonOff.c">
+      <Filter>devGpib</Filter>
+    </ClCompile>
+    <ClCompile Include="devGpib\devCommonGpib.c">
+      <Filter>devGpib</Filter>
+    </ClCompile>
+    <ClCompile Include="devGpib\devGpibConvertExample.c">
+      <Filter>devGpib</Filter>
+    </ClCompile>
+    <ClCompile Include="devGpib\devSkeletonGpib.c">
+      <Filter>devGpib</Filter>
+    </ClCompile>
+    <ClCompile Include="devGpib\devSupportGpib.c">
+      <Filter>devGpib</Filter>
+    </ClCompile>
+    <ClCompile Include="drvAsynSerial\drvAsynIPPort.c">
+      <Filter>drvAsynSerial</Filter>
+    </ClCompile>
+    <ClCompile Include="drvAsynSerial\drvAsynIPServerPort.c">
+      <Filter>drvAsynSerial</Filter>
+    </ClCompile>
+    <ClCompile Include="drvAsynSerial\drvAsynSerialPort.c">
+      <Filter>drvAsynSerial</Filter>
+    </ClCompile>
+    <ClCompile Include="drvAsynSerial\drvAsynSerialPortWin32.c">
+      <Filter>drvAsynSerial</Filter>
+    </ClCompile>
+    <ClCompile Include="gsIP488\drvGsIP488.c">
+      <Filter>gsIP488</Filter>
+    </ClCompile>
+    <ClCompile Include="interfaces\asynCommonSyncIO.c">
+      <Filter>interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="interfaces\asynEnumBase.c">
+      <Filter>interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="interfaces\asynEnumSyncIO.c">
+      <Filter>interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="interfaces\asynFloat32ArrayBase.c">
+      <Filter>interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="interfaces\asynFloat32ArraySyncIO.c">
+      <Filter>interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="interfaces\asynFloat64ArrayBase.c">
+      <Filter>interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="interfaces\asynFloat64ArraySyncIO.c">
+      <Filter>interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="interfaces\asynFloat64Base.c">
+      <Filter>interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="interfaces\asynFloat64SyncIO.c">
+      <Filter>interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="interfaces\asynGenericPointerBase.c">
+      <Filter>interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="interfaces\asynGenericPointerSyncIO.c">
+      <Filter>interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="interfaces\asynInt8ArrayBase.c">
+      <Filter>interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="interfaces\asynInt8ArraySyncIO.c">
+      <Filter>interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="interfaces\asynInt16ArrayBase.c">
+      <Filter>interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="interfaces\asynInt16ArraySyncIO.c">
+      <Filter>interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="interfaces\asynInt32ArrayBase.c">
+      <Filter>interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="interfaces\asynInt32ArraySyncIO.c">
+      <Filter>interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="interfaces\asynInt32Base.c">
+      <Filter>interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="interfaces\asynInt32SyncIO.c">
+      <Filter>interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="interfaces\asynOctetBase.c">
+      <Filter>interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="interfaces\asynOctetSyncIO.c">
+      <Filter>interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="interfaces\asynStandardInterfacesBase.c">
+      <Filter>interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="interfaces\asynUInt32DigitalBase.c">
+      <Filter>interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="interfaces\asynUInt32DigitalSyncIO.c">
+      <Filter>interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="interfaces\asynXXXArraySyncIO.c">
+      <Filter>interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="miscellaneous\asynInterposeCom.c">
+      <Filter>miscellaneous</Filter>
+    </ClCompile>
+    <ClCompile Include="miscellaneous\asynInterposeEos.c">
+      <Filter>miscellaneous</Filter>
+    </ClCompile>
+    <ClCompile Include="miscellaneous\asynInterposeFlush.c">
+      <Filter>miscellaneous</Filter>
+    </ClCompile>
+    <ClCompile Include="miscellaneous\asynShellCommands.c">
+      <Filter>miscellaneous</Filter>
+    </ClCompile>
+    <ClCompile Include="ni1014\drvNi1014.c">
+      <Filter>ni1014</Filter>
+    </ClCompile>
+    <ClCompile Include="asynPortDriver\exceptions\ParamListInvalidIndex.cpp">
+      <Filter>asynPortDriver\exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="asynPortDriver\exceptions\ParamListParamNotFound.cpp">
+      <Filter>asynPortDriver\exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="asynPortDriver\exceptions\ParamValNotDefined.cpp">
+      <Filter>asynPortDriver\exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="asynPortDriver\exceptions\ParamValStringSizeRequestTooBig.cpp">
+      <Filter>asynPortDriver\exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="asynPortDriver\exceptions\ParamValValueNotChanged.cpp">
+      <Filter>asynPortDriver\exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="asynPortDriver\exceptions\ParamValWrongType.cpp">
+      <Filter>asynPortDriver\exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="asynPortClient\asynPortClient.cpp">
+      <Filter>asynPortClient</Filter>
+    </ClCompile>
+    <ClCompile Include="drvAsynUSBTMC\drvAsynUSBTMC.c">
+      <Filter>drvAsynUSBTMC</Filter>
+    </ClCompile>
+    <ClCompile Include="interfaces\asynOptionSyncIO.c">
+      <Filter>interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="vxi11\drvVxi11.c">
+      <Filter>vxi11</Filter>
+    </ClCompile>
+    <ClCompile Include="vxi11\drvVxi11Win32.c">
+      <Filter>vxi11</Filter>
+    </ClCompile>
+    <ClCompile Include="vxi11\E2050Reboot.c">
+      <Filter>vxi11</Filter>
+    </ClCompile>
+    <ClCompile Include="vxi11\E5810Reboot.c">
+      <Filter>vxi11</Filter>
+    </ClCompile>
+    <ClCompile Include="vxi11\TDS3000Reboot.c">
+      <Filter>vxi11</Filter>
+    </ClCompile>
+    <ClCompile Include="miscellaneous\asynInterposeDelay.c">
+      <Filter>miscellaneous</Filter>
+    </ClCompile>
+    <ClCompile Include="miscellaneous\asynInterposeEcho.c">
+      <Filter>miscellaneous</Filter>
+    </ClCompile>
+    <ClCompile Include="interfaces\asynInt64ArrayBase.c">
+      <Filter>interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="interfaces\asynInt64ArraySyncIO.c">
+      <Filter>interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="interfaces\asynInt64Base.c">
+      <Filter>interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="interfaces\asynInt64SyncIO.c">
+      <Filter>interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="devEpics\devAsynInt64.c">
+      <Filter>devEpics</Filter>
+    </ClCompile>
+    <ClCompile Include="devEpics\devAsynInt64Array.c">
+      <Filter>devEpics</Filter>
+    </ClCompile>
+    <ClCompile Include="devEpics\devAsynInt64TimeSeries.c">
+      <Filter>devEpics</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="asynRecord\asynRecord.db">
+      <Filter>asynRecord</Filter>
+    </None>
+    <None Include="asynRecord\devAsynRecord.dbd">
+      <Filter>asynRecord</Filter>
+    </None>
+    <None Include="devEpics\asynFloat64TimeSeries.db">
+      <Filter>devEpics</Filter>
+    </None>
+    <None Include="devEpics\asynInt32TimeSeries.db">
+      <Filter>devEpics</Filter>
+    </None>
+    <None Include="devEpics\devAsynFloat32Array.dbd">
+      <Filter>devEpics</Filter>
+    </None>
+    <None Include="devEpics\devAsynFloat64.dbd">
+      <Filter>devEpics</Filter>
+    </None>
+    <None Include="devEpics\devAsynFloat64Array.dbd">
+      <Filter>devEpics</Filter>
+    </None>
+    <None Include="devEpics\devAsynFloat64TimeSeries.dbd">
+      <Filter>devEpics</Filter>
+    </None>
+    <None Include="devEpics\devAsynInt8Array.dbd">
+      <Filter>devEpics</Filter>
+    </None>
+    <None Include="devEpics\devAsynInt16Array.dbd">
+      <Filter>devEpics</Filter>
+    </None>
+    <None Include="devEpics\devAsynInt32.dbd">
+      <Filter>devEpics</Filter>
+    </None>
+    <None Include="devEpics\devAsynInt32Array.dbd">
+      <Filter>devEpics</Filter>
+    </None>
+    <None Include="devEpics\devAsynInt32TimeSeries.dbd">
+      <Filter>devEpics</Filter>
+    </None>
+    <None Include="devEpics\devAsynOctet.dbd">
+      <Filter>devEpics</Filter>
+    </None>
+    <None Include="devEpics\devAsynUInt32Digital.dbd">
+      <Filter>devEpics</Filter>
+    </None>
+    <None Include="devEpics\devEpics.dbd">
+      <Filter>devEpics</Filter>
+    </None>
+    <None Include="devGpib\devGpib.dbd">
+      <Filter>devGpib</Filter>
+    </None>
+    <None Include="drvAsynSerial\drvAsynIPPort.dbd">
+      <Filter>drvAsynSerial</Filter>
+    </None>
+    <None Include="drvAsynSerial\drvAsynSerialPort.dbd">
+      <Filter>drvAsynSerial</Filter>
+    </None>
+    <None Include="gsIP488\drvGsIP488.dbd">
+      <Filter>gsIP488</Filter>
+    </None>
+    <None Include="miscellaneous\asyn.dbd">
+      <Filter>miscellaneous</Filter>
+    </None>
+    <None Include="ni1014\drvNi1014.dbd">
+      <Filter>ni1014</Filter>
+    </None>
+    <None Include="drvAsynUSBTMC\drvAsynUSBTMC.dbd">
+      <Filter>drvAsynUSBTMC</Filter>
+    </None>
+    <None Include="drvAsynUSBTMC\README.txt">
+      <Filter>drvAsynUSBTMC</Filter>
+    </None>
+    <None Include="libusb-1.0\MS32\dll\libusb-1.0.dll">
+      <Filter>libusb-1.0\MS32\dll</Filter>
+    </None>
+    <None Include="libusb-1.0\MS32\dll\libusb-1.0.pdb">
+      <Filter>libusb-1.0\MS32\dll</Filter>
+    </None>
+    <None Include="libusb-1.0\MS64\dll\libusb-1.0.dll">
+      <Filter>libusb-1.0\MS64\dll</Filter>
+    </None>
+    <None Include="libusb-1.0\MS64\dll\libusb-1.0.pdb">
+      <Filter>libusb-1.0\MS64\dll</Filter>
+    </None>
+    <None Include="vxi11\drvVxi11.dbd">
+      <Filter>vxi11</Filter>
+    </None>
+    <None Include="vxi11\vxi11core.rpcl">
+      <Filter>vxi11</Filter>
+    </None>
+    <None Include="vxi11\vxi11intr.rpcl">
+      <Filter>vxi11</Filter>
+    </None>
+    <None Include="devEpics\devAsynInt64.dbd">
+      <Filter>devEpics</Filter>
+    </None>
+    <None Include="devEpics\devAsynInt64Array.dbd">
+      <Filter>devEpics</Filter>
+    </None>
+    <None Include="devEpics\devAsynInt64TimeSeries.dbd">
+      <Filter>devEpics</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="asynRecord\asynRecord.dbd">
+      <Filter>asynRecord</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="libusb-1.0\MS32\static\libusb-1.0.lib">
+      <Filter>libusb-1.0\MS32\static</Filter>
+    </Library>
+    <Library Include="libusb-1.0\MS32\dll\libusb-1.0.lib">
+      <Filter>libusb-1.0\MS32\dll</Filter>
+    </Library>
+    <Library Include="libusb-1.0\MS64\dll\libusb-1.0.lib">
+      <Filter>libusb-1.0\MS64\dll</Filter>
+    </Library>
+    <Library Include="libusb-1.0\MS64\static\libusb-1.0.lib">
+      <Filter>libusb-1.0\MS64\static</Filter>
+    </Library>
+  </ItemGroup>
+</Project>

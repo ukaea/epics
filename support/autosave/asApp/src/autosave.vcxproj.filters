@@ -1,10 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <None Include="asInclude.dbd" />
     <None Include="asSupport.dbd" />
     <None Include="Makefile" />
     <None Include="test.py" />
+    <None Include="O.Common\as.dbd">
+      <Filter>O.Common</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="asMain.cpp" />
@@ -35,5 +37,11 @@
     <Filter Include="os\WIN32">
       <UniqueIdentifier>{97cc38f0-3d44-4aae-8188-95fa0db84588}</UniqueIdentifier>
     </Filter>
+    <Filter Include="O.Common">
+      <UniqueIdentifier>{3345cc9d-1585-4668-a17c-4341050beb7f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="asInclude.dbd" />
   </ItemGroup>
 </Project>

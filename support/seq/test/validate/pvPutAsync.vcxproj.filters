@@ -19,8 +19,5 @@
     <ClCompile Include="O.Common\pvPutAsync.c">
       <Filter>O.Common</Filter>
     </ClCompile>
-    <ClCompile Include="testSupport.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>

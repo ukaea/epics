@@ -1,3 +1,0 @@
-### Uncomment the lines for the drivers that should be built
-
-ADPOINTGREY=$(AREA_DETECTOR)/ADPointGrey

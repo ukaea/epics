@@ -75,16 +75,13 @@ perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I. -I.. -I../O.Common -I../../../dbd -I
     <None Include="busySupport_withASYN.dbd" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\base-3.15.5\src\ioc\dbCore.vcxproj">
-      <Project>{440c585d-ad66-4738-941c-a87a1817a9be}</Project>
+    <ProjectReference Include="..\..\..\..\base-7.0.3.1\modules\database\src\ioc\dbCore.vcxproj">
+      <Project>{422a8c73-836c-48cb-86c8-0591e69c0ca1}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\base-3.15.5\src\libCom\Com.vcxproj">
-      <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
+    <ProjectReference Include="..\..\..\..\base-7.0.3.1\modules\libcom\src\Com.vcxproj">
+      <Project>{e9d99fc7-e592-472b-b2e2-c3b0d81d8169}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\base-3.15.5\src\tools\tools.vcxproj">
-      <Project>{5cce1c6a-2bd5-48bf-99e2-d29b58f91991}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\asyn4-33\asyn\asyn.vcxproj">
+    <ProjectReference Include="..\..\..\asyn-R4-40-1\asyn\asyn.vcxproj">
       <Project>{c3ea0ff7-6039-4884-ba91-7b4619befea5}</Project>
     </ProjectReference>
   </ItemGroup>
@@ -212,6 +209,7 @@ perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I. -I.. -I../O.Common -I../../../dbd -I
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -242,6 +240,7 @@ perl cat.pl busySupport_LOCAL.dbd busySupport_withASYN.dbd   $(SolutionDir)dbd\b
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -273,6 +272,7 @@ perl cat.pl busySupport_LOCAL.dbd busySupport_withASYN.dbd   $(SolutionDir)dbd\b
       <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -297,6 +297,9 @@ perl cat.pl busySupport_LOCAL.dbd busySupport_withASYN.dbd   $(SolutionDir)dbd\b
       <Command>xcopy /Y /Q /D /R  O.Common\*.h  $(SolutionDir)include &gt; NUL
 </Command>
     </PostBuildEvent>
+    <Lib>
+      <TreatLibWarningAsErrors>true</TreatLibWarningAsErrors>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
     <ClCompile>
@@ -304,6 +307,7 @@ perl cat.pl busySupport_LOCAL.dbd busySupport_withASYN.dbd   $(SolutionDir)dbd\b
       <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -328,6 +332,9 @@ perl cat.pl busySupport_LOCAL.dbd busySupport_withASYN.dbd   $(SolutionDir)dbd\b
       <Command>xcopy /Y /Q /D /R  O.Common\*.h  $(SolutionDir)include &gt; NUL
 </Command>
     </PostBuildEvent>
+    <Lib>
+      <TreatLibWarningAsErrors>true</TreatLibWarningAsErrors>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
     <ClCompile>
@@ -336,12 +343,14 @@ perl cat.pl busySupport_LOCAL.dbd busySupport_withASYN.dbd   $(SolutionDir)dbd\b
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
@@ -370,12 +379,14 @@ perl cat.pl busySupport_LOCAL.dbd busySupport_withASYN.dbd   $(SolutionDir)dbd\b
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
@@ -405,6 +416,7 @@ perl cat.pl busySupport_LOCAL.dbd busySupport_withASYN.dbd   $(SolutionDir)dbd\b
       <PreprocessorDefinitions>WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -431,6 +443,9 @@ perl cat.pl busySupport_LOCAL.dbd busySupport_withASYN.dbd   $(SolutionDir)dbd\b
       <Command>xcopy /Y /Q /D /R  O.Common\*.h  $(SolutionDir)include &gt; NUL
 </Command>
     </PostBuildEvent>
+    <Lib>
+      <TreatLibWarningAsErrors>true</TreatLibWarningAsErrors>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">
     <ClCompile>
@@ -440,6 +455,7 @@ perl cat.pl busySupport_LOCAL.dbd busySupport_withASYN.dbd   $(SolutionDir)dbd\b
       <PreprocessorDefinitions>WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -466,6 +482,9 @@ perl cat.pl busySupport_LOCAL.dbd busySupport_withASYN.dbd   $(SolutionDir)dbd\b
       <Command>xcopy /Y /Q /D /R  O.Common\*.h  $(SolutionDir)include &gt; NUL
 </Command>
     </PostBuildEvent>
+    <Lib>
+      <TreatLibWarningAsErrors>true</TreatLibWarningAsErrors>
+    </Lib>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

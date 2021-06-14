@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+  <title>PvaClientMonitor</title>
+  <link rel="stylesheet" type="text/css"
+  href="http://epics-pvdata.sourceforge.net/base.css" />
+  <link rel="stylesheet" type="text/css"
+  href="http://epics-pvdata.sourceforge.net/epicsv4.css" />
+  <style type="text/css">
+  /*<![CDATA[*/
+     .about { margin-left: 3em; margin-right: 3em; font-size: .83em}
+     table { margin-left: auto; margin-right: auto }
+     .diagram { text-align: center; margin: 2.5em 0 }
+     span.opt { color: grey }
+     span.nterm { font-style:italic }
+     span.term { font-family:courier }
+     span.user { font-family:courier }
+     span.user:before { content:"<" }
+     span.user:after { content:">" }
+     .nonnorm { font-style:italic }
+     p.ed { color: #AA0000 }
+     span.ed { color: #AA0000 }
+     p.ed.priv { display: inline; }
+     span.ed.priv { display: inline; }
+  /*]]>*/</style>
+  <!-- Script that generates the Table of Contents -->
+  <script type="text/javascript"
+  src="http://epics-pvdata.sourceforge.net/script/tocgen.js">
+  </script>
+</head>
+<body>
+
+<h1>PvaClientMonitor</h1>
+<p>
+<b>NOTE:</b> This is a work in progress.
+</p>
+<h2>Overview</h2>
+<p>
+This provides an easier way to create a monitor on a channel than to use pvAccessCPP itself.
+It provides two main ways to create a monitor:
+</p>
+<h3>The client first creates a PvaClientMonitorChannel and then creates a monitor</h3>
+The client calls:
+<pre>
+static PvaClientMonitorPtr create(
+    PvaClientMonitorPtr const &amp;PvaClientMonitor,
+    PvaClientMonitorChannelPtr const &amp; PvaClientMonitorChannel,
+    epics::pvData::PVStructurePtr const &amp;pvRequest
+);
+
+where
+
+PvaClientMonitor
+    The PvaClientMonitor.
+
+PvaClientMonitorChannel
+    The PvaClientMonitorChannel that has already been created by the client.
+
+pvRequest
+    The pvRequest for creating the monitor.
+</pre>
+With this method the monitor is created and started.
+This method blocks while the monitor is created.
+<h3>The client provides names for a channel and a provider</h3>
+The client calls:
+<pre>
+static PvaClientMonitorPtr create(
+    PvaClientMonitorPtr const &amp;PvaClientMonitor,
+    std::string const &amp; channelName,
+    std::string const &amp; providerName,
+    std::string const &amp; request,
+    PvaClientMonitorChannelStateChangeRequesterPtr const &amp; stateChangeRequester,
+    PvaClientMonitorRequesterPtr const &amp; monitorRequester
+);
+
+where
+
+PvaClientMonitor
+    The PvaClientMonitor.
+
+channelName
+    The name of the channel.
+
+providerName
+    The name of the provider
+
+request
+    The request for creating the monitor
+
+stateChangeRequester
+    The client supplied state change requester.
+    This will be called each time a state change for the channel occurs.
+
+monitorRequester
+    The client supplied monitor requester.
+    This is called each time a new monitor event is available.
+</pre>
+With this method a pvaChannel is created and after it connects a pvaMonitor is created and started.
+This method never blocks.
+
+</body>
+</html>
+

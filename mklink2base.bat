@@ -4,5 +4,6 @@ if "%1"=="" goto blank
 mklink /D base %1
 goto end
 :blank
-mklink /D base base-3.15.6
+mklink /D base base-7.0.3.1
+REM mklink /D configure base-7.0.3\configure
 :end

@@ -1,0 +1,484 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TrackFileAccess>false</TrackFileAccess>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug_DLL|Win32">
+      <Configuration>Debug_DLL</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug_DLL|x64">
+      <Configuration>Debug_DLL</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug_LIB|Win32">
+      <Configuration>Debug_LIB</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug_LIB|x64">
+      <Configuration>Debug_LIB</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_DLL|Win32">
+      <Configuration>Release_DLL</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_DLL|x64">
+      <Configuration>Release_DLL</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_LIB|Win32">
+      <Configuration>Release_LIB</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_LIB|x64">
+      <Configuration>Release_LIB</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{589AB311-372D-4FA2-A3E3-00D530D8C0A8}</ProjectGuid>
+    <RootNamespace>src</RootNamespace>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
+    <SccAuxPath>
+    </SccAuxPath>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\p2pApp;..\common;O.Common;.</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NOMINMAX;WIN32;QSRV_API_BUILDING;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
+      <DisableSpecificWarnings>4250;4003;4244;4309;4101;4251;4275;4267</DisableSpecificWarnings>
+      <TreatWarningAsError>true</TreatWarningAsError>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+    <PreBuildEvent>
+      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
+xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
+</Command>
+    </PreBuildEvent>
+    <PostBuildEvent />
+    <PostBuildEvent />
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\p2pApp;..\common;O.Common;.</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NOMINMAX;QSRV_API_BUILDING;EPICS_DLL_NO;WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
+      <DisableSpecificWarnings>4250;4003;4244;4309;4101;4251;4275;4267</DisableSpecificWarnings>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <TreatWarningAsError>true</TreatWarningAsError>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+    <PreBuildEvent>
+      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
+xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
+</Command>
+    </PreBuildEvent>
+    <PostBuildEvent />
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\p2pApp;..\common;O.Common;.</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NOMINMAX;WIN32;QSRV_API_BUILDING;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
+      <DisableSpecificWarnings>4250;4003;4244;4309;4101;4251;4275;4267</DisableSpecificWarnings>
+      <TreatWarningAsError>true</TreatWarningAsError>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+    <PreBuildEvent>
+      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
+xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
+</Command>
+    </PreBuildEvent>
+    <PostBuildEvent />
+    <PostBuildEvent />
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\p2pApp;..\common;O.Common;.</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NOMINMAX;QSRV_API_BUILDING;EPICS_DLL_NO;WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
+      <DisableSpecificWarnings>4250;4003;4244;4309;4101;4251;4275;4267</DisableSpecificWarnings>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <TreatWarningAsError>true</TreatWarningAsError>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+    <PreBuildEvent>
+      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
+xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
+</Command>
+    </PreBuildEvent>
+    <PostBuildEvent />
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\p2pApp;..\common;O.Common;.</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NOMINMAX;WIN32;NDEBUG;QSRV_API_BUILDING;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
+      <DisableSpecificWarnings>4250;4003;4244;4309;4101;4251;4275;4267</DisableSpecificWarnings>
+      <TreatWarningAsError>true</TreatWarningAsError>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+    <PreBuildEvent>
+      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
+xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
+</Command>
+    </PreBuildEvent>
+    <PostBuildEvent />
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\p2pApp;..\common;O.Common;.</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NOMINMAX;QSRV_API_BUILDING;EPICS_DLL_NO;WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
+      <DisableSpecificWarnings>4250;4003;4244;4309;4101;4251;4275;4267</DisableSpecificWarnings>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <TreatWarningAsError>true</TreatWarningAsError>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+    <PreBuildEvent>
+      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
+xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
+</Command>
+    </PreBuildEvent>
+    <PostBuildEvent />
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\p2pApp;..\common;O.Common;.</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NOMINMAX;WIN32;NDEBUG;QSRV_API_BUILDING;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
+      <DisableSpecificWarnings>4250;4003;4244;4309;4101;4251;4275;4267</DisableSpecificWarnings>
+      <TreatWarningAsError>true</TreatWarningAsError>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+    <PreBuildEvent>
+      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
+xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
+</Command>
+    </PreBuildEvent>
+    <PostBuildEvent />
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;..\p2pApp;..\common;O.Common;.</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NOMINMAX;QSRV_API_BUILDING;EPICS_DLL_NO;WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
+      <DisableSpecificWarnings>4250;4003;4244;4309;4101;4251;4275;4267</DisableSpecificWarnings>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <TreatWarningAsError>true</TreatWarningAsError>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+    <PreBuildEvent>
+      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
+xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
+</Command>
+    </PreBuildEvent>
+    <PostBuildEvent />
+    <PostBuildEvent>
+      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <None Include="Makefile" />
+    <CustomBuild Include="pv\qsrvVersionNum.h%40">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)expandVars.pl -DEPICS_QSRV_MAJOR_VERSION="1" -DEPICS_QSRV_MINOR_VERSION="2" -DEPICS_QSRV_MAINTENANCE_VERSION="1" -DEPICS_QSRV_DEVELOPMENT_FLAG="0" -DEPICS_QSRV_ABI_MAJOR_VERSION="1" -DEPICS_QSRV_ABI_MINOR_VERSION="1" -t $(OutDir)  pv/qsrvVersionNum.h@ O.Common/pv/qsrvVersionNum.h
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)expandVars.pl -DEPICS_QSRV_MAJOR_VERSION="1" -DEPICS_QSRV_MINOR_VERSION="2" -DEPICS_QSRV_MAINTENANCE_VERSION="1" -DEPICS_QSRV_DEVELOPMENT_FLAG="0" -DEPICS_QSRV_ABI_MAJOR_VERSION="1" -DEPICS_QSRV_ABI_MINOR_VERSION="1" -t D:/epics/base -a windows-x64-static   pv/qsrvVersionNum.h@ O.Common/pv/qsrvVersionNum.h
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)expandVars.pl -DEPICS_QSRV_MAJOR_VERSION="1" -DEPICS_QSRV_MINOR_VERSION="2" -DEPICS_QSRV_MAINTENANCE_VERSION="1" -DEPICS_QSRV_DEVELOPMENT_FLAG="0" -DEPICS_QSRV_ABI_MAJOR_VERSION="1" -DEPICS_QSRV_ABI_MINOR_VERSION="1" -t $(OutDir)  pv/qsrvVersionNum.h@ O.Common/pv/qsrvVersionNum.h
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)expandVars.pl -DEPICS_QSRV_MAJOR_VERSION="1" -DEPICS_QSRV_MINOR_VERSION="2" -DEPICS_QSRV_MAINTENANCE_VERSION="1" -DEPICS_QSRV_DEVELOPMENT_FLAG="0" -DEPICS_QSRV_ABI_MAJOR_VERSION="1" -DEPICS_QSRV_ABI_MINOR_VERSION="1" -t D:/epics/base -a windows-x64-static   pv/qsrvVersionNum.h@ O.Common/pv/qsrvVersionNum.h
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)expandVars.pl -DEPICS_QSRV_MAJOR_VERSION="1" -DEPICS_QSRV_MINOR_VERSION="2" -DEPICS_QSRV_MAINTENANCE_VERSION="1" -DEPICS_QSRV_DEVELOPMENT_FLAG="0" -DEPICS_QSRV_ABI_MAJOR_VERSION="1" -DEPICS_QSRV_ABI_MINOR_VERSION="1" -t $(OutDir)  pv/qsrvVersionNum.h@ O.Common/pv/qsrvVersionNum.h
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)expandVars.pl -DEPICS_QSRV_MAJOR_VERSION="1" -DEPICS_QSRV_MINOR_VERSION="2" -DEPICS_QSRV_MAINTENANCE_VERSION="1" -DEPICS_QSRV_DEVELOPMENT_FLAG="0" -DEPICS_QSRV_ABI_MAJOR_VERSION="1" -DEPICS_QSRV_ABI_MINOR_VERSION="1" -t D:/epics/base -a windows-x64-static   pv/qsrvVersionNum.h@ O.Common/pv/qsrvVersionNum.h
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)expandVars.pl -DEPICS_QSRV_MAJOR_VERSION="1" -DEPICS_QSRV_MINOR_VERSION="2" -DEPICS_QSRV_MAINTENANCE_VERSION="1" -DEPICS_QSRV_DEVELOPMENT_FLAG="0" -DEPICS_QSRV_ABI_MAJOR_VERSION="1" -DEPICS_QSRV_ABI_MINOR_VERSION="1" -t $(OutDir)  pv/qsrvVersionNum.h@ O.Common/pv/qsrvVersionNum.h
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD $(OutDir)expandVars.pl -DEPICS_QSRV_MAJOR_VERSION="1" -DEPICS_QSRV_MINOR_VERSION="2" -DEPICS_QSRV_MAINTENANCE_VERSION="1" -DEPICS_QSRV_DEVELOPMENT_FLAG="0" -DEPICS_QSRV_ABI_MAJOR_VERSION="1" -DEPICS_QSRV_ABI_MINOR_VERSION="1" -t D:/epics/base -a windows-x64-static   pv/qsrvVersionNum.h@ O.Common/pv/qsrvVersionNum.h
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common/pv/qsrvVersionNum.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">O.Common/pv/qsrvVersionNum.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common/pv/qsrvVersionNum.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">O.Common/pv/qsrvVersionNum.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">O.Common/pv/qsrvVersionNum.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">O.Common/pv/qsrvVersionNum.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">O.Common/pv/qsrvVersionNum.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">O.Common/pv/qsrvVersionNum.h</Outputs>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
+    </CustomBuild>
+    <None Include="O.Common\qsrv.dbd" />
+    <None Include="O.Common\softIocPVA.dbd" />
+    <CustomBuild Include="qsrv-new.dbd">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD -MExtUtils::Command -e cp qsrv-new.dbd O.Common/qsrv.dbd
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD -MExtUtils::Command -e cp qsrv-new.dbd O.Common/qsrv.dbd
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD -MExtUtils::Command -e cp qsrv-new.dbd O.Common/qsrv.dbd
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD -MExtUtils::Command -e cp qsrv-new.dbd O.Common/qsrv.dbd
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD -MExtUtils::Command -e cp qsrv-new.dbd O.Common/qsrv.dbd
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD -MExtUtils::Command -e cp qsrv-new.dbd O.Common/qsrv.dbd
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD -MExtUtils::Command -e cp qsrv-new.dbd O.Common/qsrv.dbd
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
+perl -CSD -MExtUtils::Command -e cp qsrv-new.dbd O.Common/qsrv.dbd
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common\qsrv.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">O.Common\qsrv.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common\qsrv.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">O.Common\qsrv.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">O.Common\qsrv.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">O.Common\qsrv.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">O.Common\qsrv.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">O.Common\qsrv.dbd</Outputs>
+    </CustomBuild>
+    <None Include="qsrv-old.dbd" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\database\src\ioc\dbCore.vcxproj">
+      <Project>{422a8c73-836c-48cb-86c8-0591e69c0ca1}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\libcom\src\Com.vcxproj">
+      <Project>{e9d99fc7-e592-472b-b2e2-c3b0d81d8169}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\pvAccess\src\pvAccess.vcxproj">
+      <Project>{44ecea7e-d805-49b6-8e89-62ec3994c1f3}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\pvData\src\pvData.vcxproj">
+      <Project>{f4a51415-2981-42ee-87c7-f29d5805583e}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="configparse.cpp" />
+    <ClCompile Include="dbf_copy.cpp" />
+    <ClCompile Include="demo.cpp" />
+    <ClCompile Include="imagedemo.c" />
+    <ClCompile Include="pdb.cpp" />
+    <ClCompile Include="pdbgroup.cpp" />
+    <ClCompile Include="pdbsingle.cpp" />
+    <ClCompile Include="pvalink.cpp" />
+    <ClCompile Include="pvalink_channel.cpp" />
+    <ClCompile Include="pvalink_jlif.cpp" />
+    <ClCompile Include="pvalink_link.cpp" />
+    <ClCompile Include="pvalink_lset.cpp" />
+    <ClCompile Include="pvalink_null.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="pvif.cpp" />
+    <ClCompile Include="qsrv.cpp" />
+    <ClCompile Include="softMain.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="tpool.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="O.Common\pv\qsrvVersionNum.h" />
+    <ClInclude Include="pdb.h" />
+    <ClInclude Include="pdbgroup.h" />
+    <ClInclude Include="pdbsingle.h" />
+    <ClInclude Include="pvalink.h" />
+    <ClInclude Include="pvif.h" />
+    <ClInclude Include="pv\qsrv.h" />
+    <ClInclude Include="tpool.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

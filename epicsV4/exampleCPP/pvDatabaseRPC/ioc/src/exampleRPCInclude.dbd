@@ -1,6 +1,0 @@
-include "base.dbd"
-include "PVAClientRegister.dbd"
-include "PVAServerRegister.dbd"
-include "registerChannelProviderLocal.dbd"
-include "dbPv.dbd"
-include "exampleRPCRegister.dbd"

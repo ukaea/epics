@@ -38,13 +38,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\base-3.15.5\src\ioc\dbCore.vcxproj">
-      <Project>{440c585d-ad66-4738-941c-a87a1817a9be}</Project>
+    <ProjectReference Include="..\..\..\..\base-7.0.3.1\modules\database\src\ioc\dbCore.vcxproj">
+      <Project>{422a8c73-836c-48cb-86c8-0591e69c0ca1}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\base-3.15.5\src\libCom\Com.vcxproj">
-      <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
+    <ProjectReference Include="..\..\..\..\base-7.0.3.1\modules\libcom\src\Com.vcxproj">
+      <Project>{e9d99fc7-e592-472b-b2e2-c3b0d81d8169}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\asyn4-33\asyn\asyn.vcxproj">
+    <ProjectReference Include="..\..\..\asyn-R4-40-1\asyn\asyn.vcxproj">
       <Project>{c3ea0ff7-6039-4884-ba91-7b4619befea5}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\sscan\sscanApp\src\sscan.vcxproj">
@@ -52,6 +52,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="aCalcMonitorMem.c" />
     <ClCompile Include="aCalcoutRecord.c" />
     <ClCompile Include="aCalcPerform.c" />
     <ClCompile Include="aCalcPostfix.c" />
@@ -209,19 +210,21 @@ cd O.Common
 perl -CSD -MExtUtils::Command -e cat ../calcSupport_LOCAL.dbd ../calcSupport_withSSCAN.dbd &gt; calc.dbd
 cd ..
 </Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'"> O.Common\calc.dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'"> O.Common\calc.dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'"> O.Common\calc.dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'"> O.Common\calc.dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'"> O.Common\calc.dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'"> O.Common\calc.dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'"> O.Common\calc.dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'"> O.Common\calc.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common\calc.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">O.Common\calc.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common\calc.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">O.Common\calc.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">O.Common\calc.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">O.Common\calc.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">O.Common\calc.dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">O.Common\calc.dbd</Outputs>
     </CustomBuild>
     <None Include="cat.pl" />
     <None Include="editSseq.dbd" />
     <None Include="editSseq.st" />
     <None Include="Makefile" />
+    <None Include="O.Common\calc.dbd" />
+    <None Include="O.Common\calcSupport.dbd" />
     <None Include="README" />
     <CustomBuild Include="sCalcoutRecord.dbd">
       <FileType>Document</FileType>
@@ -371,6 +374,11 @@ perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I./O.Common -I$(SolutionDir)include -I$
     <ClInclude Include="aCalcPostfixPvt.h" />
     <ClInclude Include="adjustment.h" />
     <ClInclude Include="myFreeList.h" />
+    <ClInclude Include="O.Common\aCalcoutRecord.h" />
+    <ClInclude Include="O.Common\sCalcoutRecord.h" />
+    <ClInclude Include="O.Common\sseqRecord.h" />
+    <ClInclude Include="O.Common\swaitRecord.h" />
+    <ClInclude Include="O.Common\transformRecord.h" />
     <ClInclude Include="sCalcPostfix.h" />
     <ClInclude Include="sCalcPostfixPvt.h" />
   </ItemGroup>
@@ -491,10 +499,12 @@ perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I./O.Common -I$(SolutionDir)include -I$
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>.;O.Common;$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4244;4018</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
@@ -506,8 +516,8 @@ xcopy /Y /Q /D /R  *.dbd  $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>xcopy /Y /Q /D /R  O.Common\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R  O.Common\*.dbd  $(SolutionDir)dbd &gt; NUL
+      <Command>xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R O.Common\*.dbd  $(SolutionDir)dbd &gt; NUL
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -517,10 +527,12 @@ xcopy /Y /Q /D /R  O.Common\*.dbd  $(SolutionDir)dbd &gt; NUL
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>.;O.Common;$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4244;4018</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
@@ -532,8 +544,8 @@ xcopy /Y /Q /D /R  *.dbd  $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>xcopy /Y /Q /D /R  O.Common\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R  O.Common\*.dbd  $(SolutionDir)dbd &gt; NUL
+      <Command>xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -544,6 +556,7 @@ xcopy /Y /Q /D /R  O.Common\*.dbd  $(SolutionDir)dbd &gt; NUL
       <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>.;O.Common;$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <DisableSpecificWarnings>4244;4018</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -559,10 +572,13 @@ xcopy /Y /Q /D /R  *.dbd  $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>xcopy /Y /Q /D /R  O.Common\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R  O.Common\*.dbd  $(SolutionDir)dbd &gt; NUL
+      <Command>xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 </Command>
     </PostBuildEvent>
+    <Lib>
+      <TreatLibWarningAsErrors>true</TreatLibWarningAsErrors>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
     <ClCompile>
@@ -571,6 +587,7 @@ xcopy /Y /Q /D /R  O.Common\*.dbd  $(SolutionDir)dbd &gt; NUL
       <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>.;O.Common;$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <DisableSpecificWarnings>4244;4018</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -586,10 +603,13 @@ xcopy /Y /Q /D /R  *.dbd  $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>xcopy /Y /Q /D /R  O.Common\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R  O.Common\*.dbd  $(SolutionDir)dbd &gt; NUL
+      <Command>xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R O.Common\*.dbd  $(SolutionDir)dbd &gt; NUL
 </Command>
     </PostBuildEvent>
+    <Lib>
+      <TreatLibWarningAsErrors>true</TreatLibWarningAsErrors>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
     <ClCompile>
@@ -599,12 +619,14 @@ xcopy /Y /Q /D /R  O.Common\*.dbd  $(SolutionDir)dbd &gt; NUL
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>.;O.Common;$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4244;4018</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
@@ -616,8 +638,8 @@ xcopy /Y /Q /D /R  *.dbd  $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>xcopy /Y /Q /D /R  O.Common\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R  O.Common\*.dbd  $(SolutionDir)dbd &gt; NUL
+      <Command>xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R O.Common\*.dbd  $(SolutionDir)dbd &gt; NUL
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -629,12 +651,14 @@ xcopy /Y /Q /D /R  O.Common\*.dbd  $(SolutionDir)dbd &gt; NUL
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>.;O.Common;$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4244;4018</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
     <PreBuildEvent>
       <Command>if not exist O.Common md O.Common
@@ -646,8 +670,8 @@ xcopy /Y /Q /D /R  *.dbd  $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>xcopy /Y /Q /D /R  O.Common\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R  O.Common\*.dbd  $(SolutionDir)dbd &gt; NUL
+      <Command>xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R O.Common\*.dbd  $(SolutionDir)dbd &gt; NUL
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -660,6 +684,7 @@ xcopy /Y /Q /D /R  O.Common\*.dbd  $(SolutionDir)dbd &gt; NUL
       <PreprocessorDefinitions>WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>.;O.Common;$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <DisableSpecificWarnings>4244;4018</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -677,10 +702,13 @@ xcopy /Y /Q /D /R  *.dbd  $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>xcopy /Y /Q /D /R  O.Common\*.h  $(SolutionDir)include &gt; NUL
+      <Command>xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R  O.Common\*.dbd  $(SolutionDir)dbd &gt; NUL
 </Command>
     </PostBuildEvent>
+    <Lib>
+      <TreatLibWarningAsErrors>true</TreatLibWarningAsErrors>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">
     <ClCompile>
@@ -691,6 +719,7 @@ xcopy /Y /Q /D /R  O.Common\*.dbd  $(SolutionDir)dbd &gt; NUL
       <PreprocessorDefinitions>WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>.;O.Common;$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <DisableSpecificWarnings>4244;4018</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -708,10 +737,13 @@ xcopy /Y /Q /D /R  *.dbd  $(SolutionDir)dbd &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>xcopy /Y /Q /D /R  O.Common\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R  O.Common\*.dbd  $(SolutionDir)dbd &gt; NUL
+      <Command>xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
+xcopy /Y /Q /D /R O.Common\*.dbd  $(SolutionDir)dbd &gt; NUL
 </Command>
     </PostBuildEvent>
+    <Lib>
+      <TreatLibWarningAsErrors>true</TreatLibWarningAsErrors>
+    </Lib>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
