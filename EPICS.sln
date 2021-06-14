@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.136
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30621.155
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "base-7.0.3.1", "base-7.0.3.1", "{DED3FCCF-E93F-4875-ABDE-142912292D4C}"
 EndProject
@@ -118,62 +118,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pv", "support\seq\src\pv\pv
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "support", "support", "{A35FC520-4FE8-44FA-8E70-266C3CF86F68}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LeyboldTurbo", "LeyboldTurbo", "{D04ACFD8-B76B-4D6C-BF02-F280CF75ABAA}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LeyboldTurboApp", "LeyboldTurboApp", "{C2A4C477-2BE6-494C-89F3-B51BA1376EBD}"
-	ProjectSection(SolutionItems) = preProject
-		LeyboldTurbo\LeyboldTurboApp\LeyboldTurbo.bat = LeyboldTurbo\LeyboldTurboApp\LeyboldTurbo.bat
-		LeyboldTurbo\LeyboldTurboApp\LeyboldTurbo.py = LeyboldTurbo\LeyboldTurboApp\LeyboldTurbo.py
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "configure", "configure", "{18C9AB30-1CAF-4A41-95A2-0CA2D3E19854}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "iocBoot", "iocBoot", "{73322DE2-4EF3-41A8-86BE-BB9C2EEFDE68}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "iocLeyboldTurbo", "iocLeyboldTurbo", "{13E0B500-742B-401B-AF78-3F6A0201436D}"
-	ProjectSection(SolutionItems) = preProject
-		LeyboldTurbo\iocBoot\iocLeyboldTurbo\dllPath.bat = LeyboldTurbo\iocBoot\iocLeyboldTurbo\dllPath.bat
-		LeyboldTurbo\iocBoot\iocLeyboldTurbo\envPaths = LeyboldTurbo\iocBoot\iocLeyboldTurbo\envPaths
-		LeyboldTurbo\iocBoot\iocLeyboldTurbo\MakeFile = LeyboldTurbo\iocBoot\iocLeyboldTurbo\MakeFile
-		LeyboldTurbo\iocBoot\iocLeyboldTurbo\st1.cmd = LeyboldTurbo\iocBoot\iocLeyboldTurbo\st1.cmd
-		LeyboldTurbo\iocBoot\iocLeyboldTurbo\st1.simulated.cmd = LeyboldTurbo\iocBoot\iocLeyboldTurbo\st1.simulated.cmd
-		LeyboldTurbo\iocBoot\iocLeyboldTurbo\st5.cmd = LeyboldTurbo\iocBoot\iocLeyboldTurbo\st5.cmd
-		LeyboldTurbo\iocBoot\iocLeyboldTurbo\st5.simulated.cmd = LeyboldTurbo\iocBoot\iocLeyboldTurbo\st5.simulated.cmd
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LeyboldSimApp", "LeyboldSimApp", "{36E5CD3A-D134-4077-841A-A26AC2FAAFC0}"
-	ProjectSection(SolutionItems) = preProject
-		LeyboldTurbo\LeyboldSimApp\LeyboldSim.bat = LeyboldTurbo\LeyboldSimApp\LeyboldSim.bat
-		LeyboldTurbo\LeyboldSimApp\LeyboldSim.py = LeyboldTurbo\LeyboldSimApp\LeyboldSim.py
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LeyboldSim", "iocTops\LeyboldTurbo\LeyboldSimApp\LeyboldSim.vcxproj", "{4FBF939A-460F-4ADC-822E-9049AB4DA174}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "iocLeyboldSim", "iocLeyboldSim", "{8687A51C-BA97-4FFE-9B0B-55DACE994618}"
-	ProjectSection(SolutionItems) = preProject
-		LeyboldTurbo\iocBoot\iocLeyboldSim\MakeFile = LeyboldTurbo\iocBoot\iocLeyboldSim\MakeFile
-		LeyboldTurbo\iocBoot\iocLeyboldSim\st1.simulator.cmd = LeyboldTurbo\iocBoot\iocLeyboldSim\st1.simulator.cmd
-		LeyboldTurbo\iocBoot\iocLeyboldSim\st5.simulator.cmd = LeyboldTurbo\iocBoot\iocLeyboldSim\st5.simulator.cmd
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestScripts", "TestScripts", "{3B25DF17-DA76-4505-BB10-99F4E84DFFB1}"
-	ProjectSection(SolutionItems) = preProject
-		LeyboldTurbo\LeyboldSimApp\TestScripts\camonitor.py = LeyboldTurbo\LeyboldSimApp\TestScripts\camonitor.py
-		LeyboldTurbo\LeyboldSimApp\TestScripts\setrunning.py = LeyboldTurbo\LeyboldSimApp\TestScripts\setrunning.py
-		LeyboldTurbo\LeyboldSimApp\TestScripts\testsequence.py = LeyboldTurbo\LeyboldSimApp\TestScripts\testsequence.py
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{4E2E628F-A8C1-488D-811D-964B40C89879}"
-	ProjectSection(SolutionItems) = preProject
-		LeyboldTurbo\LeyboldTurboApp\Scripts\camonitor.py = LeyboldTurbo\LeyboldTurboApp\Scripts\camonitor.py
-		LeyboldTurbo\LeyboldTurboApp\Scripts\Reset.py = LeyboldTurbo\LeyboldTurboApp\Scripts\Reset.py
-		LeyboldTurbo\LeyboldTurboApp\Scripts\SetRunning.py = LeyboldTurbo\LeyboldTurboApp\Scripts\SetRunning.py
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LeyboldTurboDev", "iocTops\LeyboldTurbo\LeyboldTurboApp\LeyboldTurboDev.vcxproj", "{BAE6CE99-140A-4018-8BCB-9D63F54D6F07}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LeyboldTurboApp", "iocTops\LeyboldTurbo\LeyboldTurboApp\LeyboldTurboApp.vcxproj", "{D3311F39-9AE8-4F16-BE04-1D1D31135BA9}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "iocTops", "iocTops", "{8BA6450F-19D0-44A3-90DB-D42ADAC42E4D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "startup", "startup", "{39C4B21C-6CD2-4827-AEE1-829C3A28FFA9}"
@@ -276,10 +220,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "iocLogServer", "base-7.0.3.1\modules\libcom\src\log\iocLogServer.vcxproj", "{CA68ED79-A601-4D35-BD25-04D9187A3123}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "flex", "flex", "{1F266DC5-068D-4C63-A8D3-89D7A47CB98C}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{3CA20DB1-4EEF-4F1A-8E63-BCCDFFA2E446}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "epicsRunLibComTests", "base-7.0.3.1\modules\libcom\test\epicsRunLibComTests.vcxproj", "{18EC8DB7-7FE7-44C9-AC6B-495D6099B421}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "yacc", "yacc", "{45EA4550-C46A-41C9-952D-9127FBAAEE35}"
 EndProject
@@ -1007,54 +947,6 @@ Global
 		{A463E1AA-5C19-4964-8851-C4070A07AEB7}.Release_LIB|Win32.Build.0 = Release_LIB|Win32
 		{A463E1AA-5C19-4964-8851-C4070A07AEB7}.Release_LIB|x64.ActiveCfg = Release_LIB|x64
 		{A463E1AA-5C19-4964-8851-C4070A07AEB7}.Release_LIB|x64.Build.0 = Release_LIB|x64
-		{4FBF939A-460F-4ADC-822E-9049AB4DA174}.Debug_DLL|Win32.ActiveCfg = Debug_DLL|Win32
-		{4FBF939A-460F-4ADC-822E-9049AB4DA174}.Debug_DLL|Win32.Build.0 = Debug_DLL|Win32
-		{4FBF939A-460F-4ADC-822E-9049AB4DA174}.Debug_DLL|x64.ActiveCfg = Debug_DLL|x64
-		{4FBF939A-460F-4ADC-822E-9049AB4DA174}.Debug_DLL|x64.Build.0 = Debug_DLL|x64
-		{4FBF939A-460F-4ADC-822E-9049AB4DA174}.Debug_LIB|Win32.ActiveCfg = Debug_LIB|Win32
-		{4FBF939A-460F-4ADC-822E-9049AB4DA174}.Debug_LIB|Win32.Build.0 = Debug_LIB|Win32
-		{4FBF939A-460F-4ADC-822E-9049AB4DA174}.Debug_LIB|x64.ActiveCfg = Debug_LIB|x64
-		{4FBF939A-460F-4ADC-822E-9049AB4DA174}.Debug_LIB|x64.Build.0 = Debug_LIB|x64
-		{4FBF939A-460F-4ADC-822E-9049AB4DA174}.Release_DLL|Win32.ActiveCfg = Release_DLL|Win32
-		{4FBF939A-460F-4ADC-822E-9049AB4DA174}.Release_DLL|Win32.Build.0 = Release_DLL|Win32
-		{4FBF939A-460F-4ADC-822E-9049AB4DA174}.Release_DLL|x64.ActiveCfg = Release_DLL|x64
-		{4FBF939A-460F-4ADC-822E-9049AB4DA174}.Release_DLL|x64.Build.0 = Release_DLL|x64
-		{4FBF939A-460F-4ADC-822E-9049AB4DA174}.Release_LIB|Win32.ActiveCfg = Release_LIB|Win32
-		{4FBF939A-460F-4ADC-822E-9049AB4DA174}.Release_LIB|Win32.Build.0 = Release_LIB|Win32
-		{4FBF939A-460F-4ADC-822E-9049AB4DA174}.Release_LIB|x64.ActiveCfg = Release_LIB|x64
-		{4FBF939A-460F-4ADC-822E-9049AB4DA174}.Release_LIB|x64.Build.0 = Release_LIB|x64
-		{BAE6CE99-140A-4018-8BCB-9D63F54D6F07}.Debug_DLL|Win32.ActiveCfg = Debug_DLL|Win32
-		{BAE6CE99-140A-4018-8BCB-9D63F54D6F07}.Debug_DLL|Win32.Build.0 = Debug_DLL|Win32
-		{BAE6CE99-140A-4018-8BCB-9D63F54D6F07}.Debug_DLL|x64.ActiveCfg = Debug_DLL|x64
-		{BAE6CE99-140A-4018-8BCB-9D63F54D6F07}.Debug_DLL|x64.Build.0 = Debug_DLL|x64
-		{BAE6CE99-140A-4018-8BCB-9D63F54D6F07}.Debug_LIB|Win32.ActiveCfg = Debug_LIB|Win32
-		{BAE6CE99-140A-4018-8BCB-9D63F54D6F07}.Debug_LIB|Win32.Build.0 = Debug_LIB|Win32
-		{BAE6CE99-140A-4018-8BCB-9D63F54D6F07}.Debug_LIB|x64.ActiveCfg = Debug_LIB|x64
-		{BAE6CE99-140A-4018-8BCB-9D63F54D6F07}.Debug_LIB|x64.Build.0 = Debug_LIB|x64
-		{BAE6CE99-140A-4018-8BCB-9D63F54D6F07}.Release_DLL|Win32.ActiveCfg = Release_DLL|Win32
-		{BAE6CE99-140A-4018-8BCB-9D63F54D6F07}.Release_DLL|Win32.Build.0 = Release_DLL|Win32
-		{BAE6CE99-140A-4018-8BCB-9D63F54D6F07}.Release_DLL|x64.ActiveCfg = Release_DLL|x64
-		{BAE6CE99-140A-4018-8BCB-9D63F54D6F07}.Release_DLL|x64.Build.0 = Release_DLL|x64
-		{BAE6CE99-140A-4018-8BCB-9D63F54D6F07}.Release_LIB|Win32.ActiveCfg = Release_LIB|Win32
-		{BAE6CE99-140A-4018-8BCB-9D63F54D6F07}.Release_LIB|Win32.Build.0 = Release_LIB|Win32
-		{BAE6CE99-140A-4018-8BCB-9D63F54D6F07}.Release_LIB|x64.ActiveCfg = Release_LIB|x64
-		{BAE6CE99-140A-4018-8BCB-9D63F54D6F07}.Release_LIB|x64.Build.0 = Release_LIB|x64
-		{D3311F39-9AE8-4F16-BE04-1D1D31135BA9}.Debug_DLL|Win32.ActiveCfg = Debug_DLL|Win32
-		{D3311F39-9AE8-4F16-BE04-1D1D31135BA9}.Debug_DLL|Win32.Build.0 = Debug_DLL|Win32
-		{D3311F39-9AE8-4F16-BE04-1D1D31135BA9}.Debug_DLL|x64.ActiveCfg = Debug_DLL|x64
-		{D3311F39-9AE8-4F16-BE04-1D1D31135BA9}.Debug_DLL|x64.Build.0 = Debug_DLL|x64
-		{D3311F39-9AE8-4F16-BE04-1D1D31135BA9}.Debug_LIB|Win32.ActiveCfg = Debug_LIB|Win32
-		{D3311F39-9AE8-4F16-BE04-1D1D31135BA9}.Debug_LIB|Win32.Build.0 = Debug_LIB|Win32
-		{D3311F39-9AE8-4F16-BE04-1D1D31135BA9}.Debug_LIB|x64.ActiveCfg = Debug_LIB|x64
-		{D3311F39-9AE8-4F16-BE04-1D1D31135BA9}.Debug_LIB|x64.Build.0 = Debug_LIB|x64
-		{D3311F39-9AE8-4F16-BE04-1D1D31135BA9}.Release_DLL|Win32.ActiveCfg = Release_DLL|Win32
-		{D3311F39-9AE8-4F16-BE04-1D1D31135BA9}.Release_DLL|Win32.Build.0 = Release_DLL|Win32
-		{D3311F39-9AE8-4F16-BE04-1D1D31135BA9}.Release_DLL|x64.ActiveCfg = Release_DLL|x64
-		{D3311F39-9AE8-4F16-BE04-1D1D31135BA9}.Release_DLL|x64.Build.0 = Release_DLL|x64
-		{D3311F39-9AE8-4F16-BE04-1D1D31135BA9}.Release_LIB|Win32.ActiveCfg = Release_LIB|Win32
-		{D3311F39-9AE8-4F16-BE04-1D1D31135BA9}.Release_LIB|Win32.Build.0 = Release_LIB|Win32
-		{D3311F39-9AE8-4F16-BE04-1D1D31135BA9}.Release_LIB|x64.ActiveCfg = Release_LIB|x64
-		{D3311F39-9AE8-4F16-BE04-1D1D31135BA9}.Release_LIB|x64.Build.0 = Release_LIB|x64
 		{5CCE1C6A-2BD5-48BF-99E2-D29B58F91991}.Debug_DLL|Win32.ActiveCfg = Debug_DLL|Win32
 		{5CCE1C6A-2BD5-48BF-99E2-D29B58F91991}.Debug_DLL|Win32.Build.0 = Debug_DLL|Win32
 		{5CCE1C6A-2BD5-48BF-99E2-D29B58F91991}.Debug_DLL|x64.ActiveCfg = Debug_DLL|x64
@@ -1407,22 +1299,6 @@ Global
 		{CA68ED79-A601-4D35-BD25-04D9187A3123}.Release_LIB|Win32.Build.0 = Release_LIB|Win32
 		{CA68ED79-A601-4D35-BD25-04D9187A3123}.Release_LIB|x64.ActiveCfg = Release_LIB|x64
 		{CA68ED79-A601-4D35-BD25-04D9187A3123}.Release_LIB|x64.Build.0 = Release_LIB|x64
-		{18EC8DB7-7FE7-44C9-AC6B-495D6099B421}.Debug_DLL|Win32.ActiveCfg = Debug_DLL|Win32
-		{18EC8DB7-7FE7-44C9-AC6B-495D6099B421}.Debug_DLL|Win32.Build.0 = Debug_DLL|Win32
-		{18EC8DB7-7FE7-44C9-AC6B-495D6099B421}.Debug_DLL|x64.ActiveCfg = Debug_DLL|x64
-		{18EC8DB7-7FE7-44C9-AC6B-495D6099B421}.Debug_DLL|x64.Build.0 = Debug_DLL|x64
-		{18EC8DB7-7FE7-44C9-AC6B-495D6099B421}.Debug_LIB|Win32.ActiveCfg = Debug_LIB|Win32
-		{18EC8DB7-7FE7-44C9-AC6B-495D6099B421}.Debug_LIB|Win32.Build.0 = Debug_LIB|Win32
-		{18EC8DB7-7FE7-44C9-AC6B-495D6099B421}.Debug_LIB|x64.ActiveCfg = Debug_LIB|x64
-		{18EC8DB7-7FE7-44C9-AC6B-495D6099B421}.Debug_LIB|x64.Build.0 = Debug_LIB|x64
-		{18EC8DB7-7FE7-44C9-AC6B-495D6099B421}.Release_DLL|Win32.ActiveCfg = Release_DLL|Win32
-		{18EC8DB7-7FE7-44C9-AC6B-495D6099B421}.Release_DLL|Win32.Build.0 = Release_DLL|Win32
-		{18EC8DB7-7FE7-44C9-AC6B-495D6099B421}.Release_DLL|x64.ActiveCfg = Release_DLL|x64
-		{18EC8DB7-7FE7-44C9-AC6B-495D6099B421}.Release_DLL|x64.Build.0 = Release_DLL|x64
-		{18EC8DB7-7FE7-44C9-AC6B-495D6099B421}.Release_LIB|Win32.ActiveCfg = Release_LIB|Win32
-		{18EC8DB7-7FE7-44C9-AC6B-495D6099B421}.Release_LIB|Win32.Build.0 = Release_LIB|Win32
-		{18EC8DB7-7FE7-44C9-AC6B-495D6099B421}.Release_LIB|x64.ActiveCfg = Release_LIB|x64
-		{18EC8DB7-7FE7-44C9-AC6B-495D6099B421}.Release_LIB|x64.Build.0 = Release_LIB|x64
 		{B06AFD40-69E3-4D78-B401-75A27C869381}.Debug_DLL|Win32.ActiveCfg = Debug_DLL|Win32
 		{B06AFD40-69E3-4D78-B401-75A27C869381}.Debug_DLL|Win32.Build.0 = Debug_DLL|Win32
 		{B06AFD40-69E3-4D78-B401-75A27C869381}.Debug_DLL|x64.ActiveCfg = Debug_DLL|x64
@@ -1931,18 +1807,6 @@ Global
 		{AE5791BC-9233-4F7A-8DEB-A14E4D969C05} = {15059AFC-D67B-40FD-93B1-28744CC7CD98}
 		{C0D982F4-73E1-4EB3-9F0B-2A263078A96C} = {A8E4B967-17F2-4975-A66C-AC3AABCED440}
 		{A463E1AA-5C19-4964-8851-C4070A07AEB7} = {C0D982F4-73E1-4EB3-9F0B-2A263078A96C}
-		{D04ACFD8-B76B-4D6C-BF02-F280CF75ABAA} = {8BA6450F-19D0-44A3-90DB-D42ADAC42E4D}
-		{C2A4C477-2BE6-494C-89F3-B51BA1376EBD} = {D04ACFD8-B76B-4D6C-BF02-F280CF75ABAA}
-		{18C9AB30-1CAF-4A41-95A2-0CA2D3E19854} = {D04ACFD8-B76B-4D6C-BF02-F280CF75ABAA}
-		{73322DE2-4EF3-41A8-86BE-BB9C2EEFDE68} = {D04ACFD8-B76B-4D6C-BF02-F280CF75ABAA}
-		{13E0B500-742B-401B-AF78-3F6A0201436D} = {73322DE2-4EF3-41A8-86BE-BB9C2EEFDE68}
-		{36E5CD3A-D134-4077-841A-A26AC2FAAFC0} = {D04ACFD8-B76B-4D6C-BF02-F280CF75ABAA}
-		{4FBF939A-460F-4ADC-822E-9049AB4DA174} = {36E5CD3A-D134-4077-841A-A26AC2FAAFC0}
-		{8687A51C-BA97-4FFE-9B0B-55DACE994618} = {73322DE2-4EF3-41A8-86BE-BB9C2EEFDE68}
-		{3B25DF17-DA76-4505-BB10-99F4E84DFFB1} = {36E5CD3A-D134-4077-841A-A26AC2FAAFC0}
-		{4E2E628F-A8C1-488D-811D-964B40C89879} = {C2A4C477-2BE6-494C-89F3-B51BA1376EBD}
-		{BAE6CE99-140A-4018-8BCB-9D63F54D6F07} = {C2A4C477-2BE6-494C-89F3-B51BA1376EBD}
-		{D3311F39-9AE8-4F16-BE04-1D1D31135BA9} = {C2A4C477-2BE6-494C-89F3-B51BA1376EBD}
 		{39C4B21C-6CD2-4827-AEE1-829C3A28FFA9} = {DED3FCCF-E93F-4875-ABDE-142912292D4C}
 		{B87B5C3A-63E9-437B-BC46-73B363858F3C} = {DED3FCCF-E93F-4875-ABDE-142912292D4C}
 		{700F0E11-6324-47DE-B9CB-77A8838594BC} = {B87B5C3A-63E9-437B-BC46-73B363858F3C}
@@ -1988,8 +1852,6 @@ Global
 		{0360AF86-94F9-4A45-B811-86F5AFD95D56} = {FC3AAD3B-A6C8-431D-9491-6D0D6DA272EC}
 		{CA68ED79-A601-4D35-BD25-04D9187A3123} = {1D894EAC-A6B1-43D7-A33B-F27FBC1F8EE2}
 		{1F266DC5-068D-4C63-A8D3-89D7A47CB98C} = {0360AF86-94F9-4A45-B811-86F5AFD95D56}
-		{3CA20DB1-4EEF-4F1A-8E63-BCCDFFA2E446} = {FC3AAD3B-A6C8-431D-9491-6D0D6DA272EC}
-		{18EC8DB7-7FE7-44C9-AC6B-495D6099B421} = {3CA20DB1-4EEF-4F1A-8E63-BCCDFFA2E446}
 		{45EA4550-C46A-41C9-952D-9127FBAAEE35} = {0360AF86-94F9-4A45-B811-86F5AFD95D56}
 		{B06AFD40-69E3-4D78-B401-75A27C869381} = {45EA4550-C46A-41C9-952D-9127FBAAEE35}
 		{0771B037-5AB3-43A6-8184-C8DDE359D648} = {04BF0F95-8770-4696-A200-23FFB2C0A738}

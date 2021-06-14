@@ -352,8 +352,8 @@
     <None Include="json\Makefile">
       <Filter>json</Filter>
     </None>
-    <None Include="pv\pvdVersionNum.h%40">
-      <Filter>pv</Filter>
-    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="pv\pvdVersionNum.h%40" />
   </ItemGroup>
 </Project>
