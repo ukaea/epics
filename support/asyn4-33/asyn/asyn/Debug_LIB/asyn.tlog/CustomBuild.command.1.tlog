@@ -1,0 +1,5 @@
+^C:\USERS\KTN98257\SOURCE\REPOS\EPICS.DOTNET\SUPPORT\ASYN4-33\ASYN\ASYNRECORD\ASYNRECORD.DBD
+cd asynRecord
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\Debug_LIB\dbdToRecordtypeH.pl  -I../O.Common -IC:\Users\ktn98257\repos\epics.dotnet\include -IC:\Users\ktn98257\repos\epics.dotnet\dbd -o ../O.Common/asynRecord.h asynRecord.dbd
+cd C:\Users\ktn98257\source\repos\epics.dotnet\support\asyn4-33\asyn\

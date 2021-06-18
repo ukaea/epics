@@ -1,0 +1,19 @@
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-7.0.3.1\MODULES\LIBCOM\SRC\ENV\BLDENVDATA.PL
+cd O.Common
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl;C:\Users\ktn98257\repos\epics.dotnet\x64\Debug_DLL\
+perl ../env/bldEnvData.pl ..\..\..\..\configure
+cd C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\libcom\src\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-7.0.3.1\MODULES\LIBCOM\SRC\ERROR\MAKESTATTBL.PL
+cd O.Common
+perl ..\error\makeStatTbl.pl  C:\Users\ktn98257\repos\epics.dotnet\include\devLib.h C:\Users\ktn98257\repos\epics.dotnet\include\asLib.h C:\Users\ktn98257\repos\epics.dotnet\include\dbAccessDefs.h C:\Users\ktn98257\repos\epics.dotnet\include\devSup.h
+cd C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\libcom\src\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-7.0.3.1\MODULES\LIBCOM\SRC\AS\ASLIB.Y
+cd .\as
+C:\Users\ktn98257\repos\epics.dotnet\x64\Debug_DLL\antelope.exe .\aslib.y
+move /Y y.tab.c ..\O.Common\asLib.c
+cd C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\libcom\src\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-7.0.3.1\MODULES\LIBCOM\SRC\AS\ASLIB_LEX.L
+C:\Users\ktn98257\repos\epics.dotnet\x64\Debug_DLL\e_flex.exe -SC:\Users\ktn98257\repos\epics.dotnet\include\flex.skel.static -8 -I as\asLib_lex.l
+move /Y lex.yy.c O.Common\asLib_lex.c
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-7.0.3.1\MODULES\LIBCOM\SRC\MISC\MAKEEPICSVERSION.PL
+perl misc/makeEpicsVersion.pl -o  C:\Users\ktn98257\repos\epics.dotnet\include/epicsVersion.h ../../../configure/CONFIG_BASE_VERSION

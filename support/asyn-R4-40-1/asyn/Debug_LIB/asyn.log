@@ -1,0 +1,86 @@
+﻿  Performing Custom Build Tools
+  asynManager.c
+  epicsInterruptibleSyscall.c
+  asynGpib.c
+  asynRecord.c
+  drvAsyn.c
+  asynEpicsUtils.c
+  devAsynFloat32Array.c
+  devAsynFloat64.c
+  devAsynFloat64Array.c
+  devAsynFloat64TimeSeries.c
+  devAsynInt16Array.c
+  devAsynInt32.c
+  devAsynInt32Array.c
+  devAsynInt32TimeSeries.c
+  devAsynInt64.c
+  devAsynInt64Array.c
+  devAsynInt64TimeSeries.c
+  devAsynInt8Array.c
+  devAsynOctet.c
+  devAsynUInt32Digital.c
+  Generating Code...
+  Compiling...
+  boSRQonOff.c
+  devCommonGpib.c
+  devSupportGpib.c
+  drvAsynIPPort.c
+  drvAsynIPServerPort.c
+  drvAsynSerialPortWin32.c
+  asynCommonSyncIO.c
+  asynEnumBase.c
+  asynEnumSyncIO.c
+  asynFloat32ArrayBase.c
+  asynFloat32ArraySyncIO.c
+  asynFloat64ArrayBase.c
+  asynFloat64ArraySyncIO.c
+  asynFloat64Base.c
+  asynFloat64SyncIO.c
+  asynGenericPointerBase.c
+  asynGenericPointerSyncIO.c
+  asynInt16ArrayBase.c
+  asynInt16ArraySyncIO.c
+  asynInt32ArrayBase.c
+  Generating Code...
+  Compiling...
+  asynInt32ArraySyncIO.c
+  asynInt32Base.c
+  asynInt32SyncIO.c
+  asynInt64ArrayBase.c
+  asynInt64ArraySyncIO.c
+  asynInt64Base.c
+  asynInt64SyncIO.c
+  asynInt8ArrayBase.c
+  asynInt8ArraySyncIO.c
+  asynOctetBase.c
+  asynOctetSyncIO.c
+  asynOptionSyncIO.c
+  asynStandardInterfacesBase.c
+  asynUInt32DigitalBase.c
+  asynUInt32DigitalSyncIO.c
+  asynInterposeCom.c
+  asynInterposeDelay.c
+  asynInterposeEcho.c
+  asynInterposeEos.c
+  asynInterposeFlush.c
+  Generating Code...
+  Compiling...
+  asynShellCommands.c
+  drvNi1014.c
+  drvVxi11Win32.c
+  E2050Reboot.c
+  E5810Reboot.c
+  TDS3000Reboot.c
+  Generating Code...
+  asynPortClient.cpp
+  asynPortDriver.cpp
+  ParamListInvalidIndex.cpp
+  ParamListParamNotFound.cpp
+  ParamValNotDefined.cpp
+  ParamValStringSizeRequestTooBig.cpp
+  ParamValValueNotChanged.cpp
+  ParamValWrongType.cpp
+  paramVal.cpp
+  Generating Code...
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(491,5): warning MSB8028: The intermediate directory (Debug_LIB\) contains files shared from another project (acctst.vcxproj, caconntest.vcxproj, caEventRate.vcxproj, caRepeater.vcxproj, casw.vcxproj, catime.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  asyn.vcxproj -> C:\Users\ktn98257\repos\epics.dotnet\Debug_LIB\asyn.lib

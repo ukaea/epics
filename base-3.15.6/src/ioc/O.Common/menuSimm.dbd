@@ -1,0 +1,5 @@
+menu(menuSimm) {
+    choice(menuSimmNO, "NO")
+    choice(menuSimmYES, "YES")
+    choice(menuSimmRAW, "RAW")
+}

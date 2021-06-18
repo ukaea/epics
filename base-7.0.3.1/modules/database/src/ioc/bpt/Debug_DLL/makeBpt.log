@@ -1,0 +1,6 @@
+﻿  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Can't open perl script "C:\Users\ktn98257\repos\epics.dotnet\Debug_DLL\dbdToMenuH.pl": No such file or directory
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Microsoft\VC\v160\Microsoft.CppCommon.targets(234,5): warning MSB8065: Custom build for item "O.Common\menuConvert.dbd" succeeded, but specified output "c:\users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\database\src\ioc\bpt\o.common\menuconvert.h" has not been created. This may cause incremental build to work incorrectly.
+  makeBpt.c
+  makeBpt.vcxproj -> C:\Users\ktn98257\repos\epics.dotnet\Debug_DLL\makeBpt.exe

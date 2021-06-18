@@ -219,13 +219,7 @@
       <AdditionalOptions>/ignore:4049 %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I$(SolutionDir)\dbd  -o O.Common\DAQmxBase.dbd base.dbd src/DAQmxBaseSupport.dbd asyn.dbd
-perl -CSD $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_registerRecordDeviceDriver $(SolutionDir) &gt;O.Common\DAQmxBase_registerRecordDeviceDriver.cpp
-
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>xcopy /Y /Q /D /R O.Common\*.DBD $(SolutionDir)DBD &gt; NUL
@@ -249,13 +243,7 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBas
       <AdditionalOptions>/ignore:4049 %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I$(SolutionDir)\dbd  -o O.Common\DAQmxBase.dbd base.dbd src/DAQmxBaseSupport.dbd asyn.dbd
-perl -CSD $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_registerRecordDeviceDriver $(SolutionDir) &gt;O.Common\DAQmxBase_registerRecordDeviceDriver.cpp
-
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>xcopy /Y /Q /D /R O.Common\*.DBD $(SolutionDir)DBD &gt; NUL
@@ -280,13 +268,7 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBas
       <AdditionalOptions>/ignore:4049 %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I$(SolutionDir)\dbd  -o O.Common\DAQmxBase.dbd base.dbd src/DAQmxBaseSupport.dbd asyn.dbd
-perl -CSD $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_registerRecordDeviceDriver $(SolutionDir) &gt;O.Common\DAQmxBase_registerRecordDeviceDriver.cpp
-
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>xcopy /Y /Q /D /R O.Common\*.DBD $(SolutionDir)DBD &gt; NUL
@@ -311,13 +293,7 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBas
       <AdditionalOptions>/ignore:4049 %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I$(SolutionDir)\dbd  -o O.Common\DAQmxBase.dbd base.dbd src/DAQmxBaseSupport.dbd asyn.dbd
-perl -CSD $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_registerRecordDeviceDriver $(SolutionDir) &gt;O.Common\DAQmxBase_registerRecordDeviceDriver.cpp
-
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>xcopy /Y /Q /D /R O.Common\*.DBD $(SolutionDir)DBD &gt; NUL
@@ -344,13 +320,7 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBas
       <AdditionalOptions>/ignore:4049 %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I$(SolutionDir)\dbd  -o O.Common\DAQmxBase.dbd base.dbd src/DAQmxBaseSupport.dbd asyn.dbd
-perl -CSD $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_registerRecordDeviceDriver $(SolutionDir) &gt;O.Common\DAQmxBase_registerRecordDeviceDriver.cpp
-
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>xcopy /Y /Q /D /R O.Common\*.DBD $(SolutionDir)DBD &gt; NUL
@@ -377,13 +347,7 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBas
       <AdditionalOptions>/ignore:4049 %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I$(SolutionDir)\dbd  -o O.Common\DAQmxBase.dbd base.dbd src/DAQmxBaseSupport.dbd asyn.dbd
-perl -CSD $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_registerRecordDeviceDriver $(SolutionDir) &gt;O.Common\DAQmxBase_registerRecordDeviceDriver.cpp
-
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>xcopy /Y /Q /D /R O.Common\*.DBD $(SolutionDir)DBD &gt; NUL
@@ -411,13 +375,7 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBas
       <AdditionalOptions>/ignore:4049 %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I$(SolutionDir)\dbd  -o O.Common\DAQmxBase.dbd base.dbd src/DAQmxBaseSupport.dbd asyn.dbd
-perl -CSD $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_registerRecordDeviceDriver $(SolutionDir) &gt;O.Common\DAQmxBase_registerRecordDeviceDriver.cpp
-
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>xcopy /Y /Q /D /R O.Common\*.DBD $(SolutionDir)DBD &gt; NUL
@@ -445,13 +403,7 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBas
       <AdditionalOptions>/ignore:4049 %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I$(SolutionDir)\dbd  -o O.Common\DAQmxBase.dbd base.dbd src/DAQmxBaseSupport.dbd asyn.dbd
-perl -CSD $(OutDir)registerRecordDeviceDriver.pl O.Common\DAQmxBase.dbd DAQmxBase_registerRecordDeviceDriver $(SolutionDir) &gt;O.Common\DAQmxBase_registerRecordDeviceDriver.cpp
-
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>xcopy /Y /Q /D /R O.Common\*.DBD $(SolutionDir)DBD &gt; NUL

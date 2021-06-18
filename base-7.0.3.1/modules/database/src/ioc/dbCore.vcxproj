@@ -1858,37 +1858,10 @@ cd $(ProjectDir)
       <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
-
-xcopy /Y /Q /D /R as\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R bpt\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R db\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R dbStatic\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R dbtemplate\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R misc\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R registry\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R rsrv\*.h  $(SolutionDir)include &gt; NUL
-
-xcopy /Y /Q /D /R db\*.dbd  $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R misc\*.dbd  $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R rsrv\*.dbd  $(SolutionDir)dbd &gt; NUL
-
-SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
-cd $(SolutionDir)
-perl -CSD $(OutDir)convertRelease.pl $(OutDir)databaseModuleDirs.pm
-cd $(ProjectDir)
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>SET PERL5LIB= $(SolutionDir)lib\perl
-if not exist O.Common\menuGlobal.dbd (
-perl -CSD $(OutDir)makeIncludeDbd.pl menuAlarmSevr.dbd menuAlarmStat.dbd menuFtype.dbd menuIvoa.dbd menuOmsl.dbd menuPini.dbd menuPost.dbd menuPriority.dbd menuYesNo.dbd menuSimm.dbd O.Common\menuGlobal.dbd
-)
-
-xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)DBD &gt; NUL
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_POST.bat</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
@@ -1911,37 +1884,10 @@ xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)DBD &gt; NUL
       <AdditionalOptions>/MACHINE:X86 %(AdditionalOptions)</AdditionalOptions>
     </Lib>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
-
-xcopy /Y /Q /D /R as\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R bpt\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R db\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R dbStatic\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R dbtemplate\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R misc\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R registry\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R rsrv\*.h  $(SolutionDir)include &gt; NUL
-
-xcopy /Y /Q /D /R db\*.dbd  $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R misc\*.dbd  $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R rsrv\*.dbd  $(SolutionDir)dbd &gt; NUL
-
-SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
-cd $(SolutionDir)
-perl -CSD $(OutDir)convertRelease.pl $(OutDir)databaseModuleDirs.pm
-cd $(ProjectDir)
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>SET PERL5LIB= $(SolutionDir)lib\perl
-if not exist O.Common\menuGlobal.dbd (
-perl -CSD $(OutDir)makeIncludeDbd.pl menuAlarmSevr.dbd menuAlarmStat.dbd menuFtype.dbd menuIvoa.dbd menuOmsl.dbd menuPini.dbd menuPost.dbd menuPriority.dbd menuYesNo.dbd menuSimm.dbd O.Common\menuGlobal.dbd
-)
-
-xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)DBD &gt; NUL
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_POST.bat</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
@@ -1961,37 +1907,10 @@ xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)DBD &gt; NUL
       <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
-
-xcopy /Y /Q /D /R as\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R bpt\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R db\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R dbStatic\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R dbtemplate\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R misc\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R registry\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R rsrv\*.h  $(SolutionDir)include &gt; NUL
-
-xcopy /Y /Q /D /R db\*.dbd  $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R misc\*.dbd  $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R rsrv\*.dbd  $(SolutionDir)dbd &gt; NUL
-
-SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
-cd $(SolutionDir)
-perl -CSD $(OutDir)convertRelease.pl $(OutDir)databaseModuleDirs.pm
-cd $(ProjectDir)
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>SET PERL5LIB= $(SolutionDir)lib\perl
-if not exist O.Common\menuGlobal.dbd (
-perl -CSD $(OutDir)makeIncludeDbd.pl menuAlarmSevr.dbd menuAlarmStat.dbd menuFtype.dbd menuIvoa.dbd menuOmsl.dbd menuPini.dbd menuPost.dbd menuPriority.dbd menuYesNo.dbd menuSimm.dbd O.Common\menuGlobal.dbd
-)
-
-xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)DBD &gt; NUL
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_POST.bat</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
@@ -2014,37 +1933,10 @@ xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)DBD &gt; NUL
       <AdditionalOptions>/MACHINE:x64 %(AdditionalOptions)</AdditionalOptions>
     </Lib>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
-
-xcopy /Y /Q /D /R as\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R bpt\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R db\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R dbStatic\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R dbtemplate\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R misc\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R registry\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R rsrv\*.h  $(SolutionDir)include &gt; NUL
-
-xcopy /Y /Q /D /R db\*.dbd  $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R misc\*.dbd  $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R rsrv\*.dbd  $(SolutionDir)dbd &gt; NUL
-
-SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
-cd $(SolutionDir)
-perl -CSD $(OutDir)convertRelease.pl $(OutDir)databaseModuleDirs.pm
-cd $(ProjectDir)
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>SET PERL5LIB= $(SolutionDir)lib\perl
-if not exist O.Common\menuGlobal.dbd (
-perl -CSD $(OutDir)makeIncludeDbd.pl menuAlarmSevr.dbd menuAlarmStat.dbd menuFtype.dbd menuIvoa.dbd menuOmsl.dbd menuPini.dbd menuPost.dbd menuPriority.dbd menuYesNo.dbd menuSimm.dbd O.Common\menuGlobal.dbd
-)
-
-xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)DBD &gt; NUL
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_POST.bat</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
@@ -2066,37 +1958,10 @@ xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)DBD &gt; NUL
       <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
-
-xcopy /Y /Q /D /R as\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R bpt\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R db\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R dbStatic\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R dbtemplate\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R misc\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R registry\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R rsrv\*.h  $(SolutionDir)include &gt; NUL
-
-xcopy /Y /Q /D /R db\*.dbd  $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R misc\*.dbd  $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R rsrv\*.dbd  $(SolutionDir)dbd &gt; NUL
-
-SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
-cd $(SolutionDir)
-perl -CSD $(OutDir)convertRelease.pl $(OutDir)databaseModuleDirs.pm
-cd $(ProjectDir)
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>SET PERL5LIB= $(SolutionDir)lib\perl
-if not exist O.Common\menuGlobal.dbd (
-perl -CSD $(OutDir)makeIncludeDbd.pl menuAlarmSevr.dbd menuAlarmStat.dbd menuFtype.dbd menuIvoa.dbd menuOmsl.dbd menuPini.dbd menuPost.dbd menuPriority.dbd menuYesNo.dbd menuSimm.dbd O.Common\menuGlobal.dbd
-)
-
-xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)DBD &gt; NUL
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_POST.bat</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
@@ -2121,37 +1986,10 @@ xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)DBD &gt; NUL
       <AdditionalOptions>/MACHINE:X86 %(AdditionalOptions)</AdditionalOptions>
     </Lib>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
-
-xcopy /Y /Q /D /R as\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R bpt\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R db\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R dbStatic\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R dbtemplate\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R misc\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R registry\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R rsrv\*.h  $(SolutionDir)include &gt; NUL
-
-xcopy /Y /Q /D /R db\*.dbd  $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R misc\*.dbd  $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R rsrv\*.dbd  $(SolutionDir)dbd &gt; NUL
-
-SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
-cd $(SolutionDir)
-perl -CSD $(OutDir)convertRelease.pl $(OutDir)databaseModuleDirs.pm
-cd $(ProjectDir)
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>SET PERL5LIB= $(SolutionDir)lib\perl
-if not exist O.Common\menuGlobal.dbd (
-perl -CSD $(OutDir)makeIncludeDbd.pl menuAlarmSevr.dbd menuAlarmStat.dbd menuFtype.dbd menuIvoa.dbd menuOmsl.dbd menuPini.dbd menuPost.dbd menuPriority.dbd menuYesNo.dbd menuSimm.dbd O.Common\menuGlobal.dbd
-)
-
-xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)DBD &gt; NUL
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_POST.bat</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
@@ -2173,37 +2011,10 @@ xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)DBD &gt; NUL
       <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
-
-xcopy /Y /Q /D /R as\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R bpt\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R db\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R dbStatic\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R dbtemplate\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R misc\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R registry\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R rsrv\*.h  $(SolutionDir)include &gt; NUL
-
-xcopy /Y /Q /D /R db\*.dbd  $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R misc\*.dbd  $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R rsrv\*.dbd  $(SolutionDir)dbd &gt; NUL
-
-SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
-cd $(SolutionDir)
-perl -CSD $(OutDir)convertRelease.pl $(OutDir)databaseModuleDirs.pm
-cd $(ProjectDir)
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>SET PERL5LIB= $(SolutionDir)lib\perl
-if not exist O.Common\menuGlobal.dbd (
-perl -CSD $(OutDir)makeIncludeDbd.pl menuAlarmSevr.dbd menuAlarmStat.dbd menuFtype.dbd menuIvoa.dbd menuOmsl.dbd menuPini.dbd menuPost.dbd menuPriority.dbd menuYesNo.dbd menuSimm.dbd O.Common\menuGlobal.dbd
-)
-
-xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)DBD &gt; NUL
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_POST.bat</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">
@@ -2228,37 +2039,10 @@ xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)DBD &gt; NUL
       <AdditionalOptions>/MACHINE:x64 %(AdditionalOptions)</AdditionalOptions>
     </Lib>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
-
-xcopy /Y /Q /D /R as\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R bpt\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R db\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R dbStatic\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R dbtemplate\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R misc\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R registry\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R rsrv\*.h  $(SolutionDir)include &gt; NUL
-
-xcopy /Y /Q /D /R db\*.dbd  $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R misc\*.dbd  $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R rsrv\*.dbd  $(SolutionDir)dbd &gt; NUL
-
-SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
-cd $(SolutionDir)
-perl -CSD $(OutDir)convertRelease.pl $(OutDir)databaseModuleDirs.pm
-cd $(ProjectDir)
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>SET PERL5LIB= $(SolutionDir)lib\perl
-if not exist O.Common\menuGlobal.dbd (
-perl -CSD $(OutDir)makeIncludeDbd.pl menuAlarmSevr.dbd menuAlarmStat.dbd menuFtype.dbd menuIvoa.dbd menuOmsl.dbd menuPini.dbd menuPost.dbd menuPriority.dbd menuYesNo.dbd menuSimm.dbd O.Common\menuGlobal.dbd
-)
-
-xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)DBD &gt; NUL
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_POST.bat</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

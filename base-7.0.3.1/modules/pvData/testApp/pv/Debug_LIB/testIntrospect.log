@@ -1,0 +1,12 @@
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Microsoft\VC\v160\Microsoft.CppClean.targets(76,5): warning : The process cannot access the file 'c:\users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\pvdata\testapp\pv\debug_lib\testpvtype.obj' because it is being used by another process.
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(491,5): warning MSB8028: The intermediate directory (Debug_LIB\) contains files shared from another project (testBitSetUtil.vcxproj, testConvert.vcxproj, testOperators.vcxproj, testPVData.vcxproj, testPVScalarArray.vcxproj, testPVStructureArray.vcxproj, testPVType.vcxproj, testStandardField.vcxproj, testStandardPVField.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  testIntrospect.cpp
+C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\pvData\testApp\pv\testIntrospect.cpp(349,5): warning C4101: 'e': unreferenced local variable
+C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\pvData\testApp\pv\testIntrospect.cpp(351,5): warning C4101: 'e': unreferenced local variable
+C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\pvData\testApp\pv\testIntrospect.cpp(353,5): warning C4101: 'e': unreferenced local variable
+C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\pvData\testApp\pv\testIntrospect.cpp(360,5): warning C4101: 'e': unreferenced local variable
+C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\pvData\testApp\pv\testIntrospect.cpp(361,5): warning C4101: 'e': unreferenced local variable
+C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\pvData\testApp\pv\testIntrospect.cpp(367,5): warning C4101: 'e': unreferenced local variable
+C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\pvData\testApp\pv\testIntrospect.cpp(372,5): warning C4101: 'e': unreferenced local variable
+C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\pvData\testApp\pv\testIntrospect.cpp(377,5): warning C4101: 'e': unreferenced local variable
+  testIntrospect.vcxproj -> C:\Users\ktn98257\repos\epics.dotnet\Debug_LIB\testIntrospect.exe

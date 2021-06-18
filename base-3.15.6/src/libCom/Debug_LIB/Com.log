@@ -1,0 +1,396 @@
+﻿  Performing Custom Build Tools
+  bldEnvData.pl: No value given for EPICS_BUILD_COMPILER_CLASS
+  bldEnvData.pl: No value given for EPICS_BUILD_OS_CLASS
+  bldEnvData.pl: No value given for EPICS_BUILD_TARGET_ARCH
+  Generating envData.c
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+          1 file(s) moved.
+  Performing Custom Build Tools
+          1 file(s) moved.
+  Performing Custom Build Tools
+  Building C:\Users\ktn98257\repos\epics.dotnet\include/epicsVersion.h from ../../configure/CONFIG_BASE_VERSION
+  Found EPICS Version 3.15.6
+  asTrapWrite.c
+  bucketLib.c
+  calcPerform.c
+  postfix.c
+  cvtFast.c
+  dbmf.c
+  ellLib.c
+  ellSort.c
+  envSubr.c
+  errlog.c
+  errSymLib.c
+  freeListLib.c
+  gpHashLib.c
+  libComRegister.c
+  registry.c
+  iocLog.c
+  logClient.c
+  macCore.c
+  macEnv.c
+  macUtil.c
+  Generating Code...
+  Compiling...
+  adjustment.c
+  alarmString.c
+  aToIPAddr.c
+  cantProceed.c
+  epicsConvert.c
+  epicsExit.c
+  epicsStdlib.c
+  epicsString.c
+  epicsUnitTest.c
+  truncateFile.c
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\misc\truncateFile.c(70,19): warning C4013: 'epicsTempName' undefined; assuming extern returning int
+  envData.c
+  errSymTbl.c
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(214,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [24]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(214,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(215,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [32]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(215,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(216,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [28]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(216,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(217,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [38]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(217,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(218,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [24]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(218,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(219,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [24]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(219,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(220,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [24]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(220,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(221,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [32]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(221,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(222,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [49]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(222,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(223,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [43]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(223,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(224,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [22]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(224,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(225,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [54]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(225,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(226,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [17]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(226,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(227,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [33]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(227,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(228,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [34]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(228,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(229,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [25]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(229,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(230,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [38]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(230,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(231,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [31]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(231,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(232,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [45]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(232,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(233,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [32]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(233,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(234,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [22]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(234,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(235,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [44]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(235,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(236,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [18]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(236,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(237,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [17]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(237,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(238,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [63]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(238,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(239,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [24]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(239,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(240,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [36]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(240,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(241,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [29]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(241,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(242,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [42]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(242,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(243,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [17]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(243,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(244,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [21]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(244,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(245,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [21]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(245,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(246,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [22]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(246,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(247,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [20]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(247,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(248,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [27]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(248,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(249,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [14]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(249,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(250,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [33]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(250,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(251,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [33]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(251,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(252,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [35]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(252,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(253,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [41]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(253,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(254,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [40]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(254,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(255,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [44]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(255,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(256,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [33]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(256,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(257,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [29]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(257,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(258,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [30]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(258,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(259,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [33]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(259,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(260,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [33]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(260,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(261,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [25]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(261,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(262,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [28]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(262,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(263,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [27]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(263,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(264,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [30]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(264,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(265,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [30]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(265,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(266,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [17]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(266,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(267,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [22]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(267,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(268,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [25]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(268,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(269,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [15]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(269,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(270,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [20]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(270,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(271,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [33]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(271,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(272,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [31]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(272,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(273,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [35]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(273,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(274,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [33]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(274,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(275,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [21]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(275,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(276,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [19]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(276,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(277,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [19]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(277,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(278,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [23]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(278,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(279,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [34]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(279,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(280,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [23]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(280,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(281,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [28]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(281,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(282,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [19]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(282,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(283,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [18]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(283,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(284,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [34]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(284,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(285,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [24]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(285,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(286,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [25]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(286,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(287,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [44]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(287,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(288,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [16]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(288,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(289,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [12]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(289,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(290,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [35]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(290,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(291,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [35]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(291,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(292,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [31]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(292,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(293,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [18]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(293,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(294,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [18]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(294,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(295,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [27]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(295,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(296,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [17]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(296,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(297,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [30]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(297,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(298,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [15]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(298,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(299,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [8]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(299,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(300,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [39]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(300,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(301,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [37]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(301,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(302,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [35]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(302,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(303,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [35]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(303,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(304,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [35]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(304,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(305,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [27]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(305,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(306,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [14]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(306,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(307,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [29]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(307,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(308,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [24]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(308,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(309,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [19]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(309,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(310,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [30]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(310,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(311,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [18]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(311,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(312,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [18]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(312,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(313,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [17]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(313,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(314,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [17]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(314,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(315,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [26]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(315,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(316,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [27]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(316,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(317,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [21]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(317,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(318,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [50]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(318,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(319,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [16]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(319,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(320,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [22]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(320,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(321,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [17]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(321,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(322,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [25]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(322,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(323,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [47]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(323,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(324,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [26]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(324,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(325,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [25]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(325,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(326,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [18]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(326,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(327,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [39]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(327,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(328,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [33]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(328,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(329,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [30]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(329,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(330,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [26]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(330,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(331,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [13]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(331,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(332,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [14]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(332,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(333,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [21]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(333,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(334,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [15]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(334,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(335,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [24]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(335,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(336,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [25]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(336,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(337,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [19]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(337,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(338,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [20]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(338,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(339,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [19]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(339,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(340,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [30]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(340,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(341,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [33]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(341,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(342,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [32]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(342,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(343,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [29]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(343,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(344,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [31]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(344,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(345,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [14]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(345,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(346,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [36]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(346,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(347,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [34]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(347,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(348,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [38]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(348,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(349,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [30]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(349,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(350,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [29]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(350,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(351,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [35]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(351,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(352,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [35]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(352,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(353,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [25]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(353,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(354,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [13]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(354,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(355,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [22]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(355,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(356,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [30]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(356,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(357,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [29]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(357,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(358,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [27]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(358,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(359,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [25]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(359,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(360,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [28]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(360,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(361,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [16]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(361,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(362,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [25]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(362,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(363,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [30]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(363,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(364,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [17]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(364,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(365,1): warning C4047: 'initializing': 'long' differs in levels of indirection from 'char [30]'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(365,1): warning C4047: 'initializing': 'const char *' differs in levels of indirection from 'long'
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(370,11): warning C4013: 'NELEMENTS' undefined; assuming extern returning int
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(369,1): error C2099: initializer is not a constant
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\O.Common\errSymTbl.c(369,1): warning C4047: 'initializing': 'int' differs in levels of indirection from 'ERRSYMBOL *'
+  devLibVME.c
+  epicsGeneralTime.c
+  epicsStackTrace.c
+  epicsStdio.c
+  osiClockTime.c
+  osiSock.c
+  devLibVMEOSD.c
+  epicsReadline.c
+  Generating Code...
+  Compiling...
+  osdAssert.c
+  osdEnv.c
+  osdFindAddr.c
+  osdInterrupt.c
+  osdSpin.c
+  osdThreadHooks.c
+  epicsGetopt.c
+  osdEvent.c
+  osdFindSymbol.c
+  osdMutex.c
+  osdNetIntf.c
+  osdPoolStatus.c
+  osdProcess.c
+  osdSock.c
+  osdStdio.c
+  osdThread.c
+  osdThreadExtra.c
+  poolJob.c
+  threadPool.c
+  epicsRingBytes.c
+  Generating Code...
+  Compiling...
+  taskwd.c
+  yajl.c
+  yajl_alloc.c
+  yajl_buf.c
+  yajl_encode.c
+  yajl_gen.c
+  yajl_lex.c
+  yajl_parser.c
+  Generating Code...

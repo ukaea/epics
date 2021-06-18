@@ -1,0 +1,179 @@
+﻿  File not found - *.dbd
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  asSubRecordFunctions.c
+  devAaiSoft.c
+  devAaoSoft.c
+  devAiSoft.c
+  devAiSoftCallback.c
+  devAiSoftRaw.c
+  devAoSoft.c
+  devAoSoftCallback.c
+  devAoSoftRaw.c
+  devBiDbState.c
+  devBiSoft.c
+  devBiSoftCallback.c
+  devBiSoftRaw.c
+  devBoDbState.c
+  devBoSoft.c
+  devBoSoftCallback.c
+  devBoSoftRaw.c
+  devCalcoutSoft.c
+  devCalcoutSoftCallback.c
+  devEnviron.c
+  Generating Code...
+  Compiling...
+  devEventSoft.c
+  devGeneralTime.c
+  devHistogramSoft.c
+  devI64inSoft.c
+  devI64inSoftCallback.c
+  devI64outSoft.c
+  devI64outSoftCallback.c
+  devLiSoft.c
+  devLiSoftCallback.c
+  devLoSoft.c
+  devLoSoftCallback.c
+  devLsiSoft.c
+  devLsoSoft.c
+  devLsoSoftCallback.c
+  devMbbiDirectSoft.c
+  devMbbiDirectSoftCallback.c
+  devMbbiDirectSoftRaw.c
+  devMbbiSoft.c
+  devMbbiSoftCallback.c
+  devMbbiSoftRaw.c
+  Generating Code...
+  Compiling...
+  devMbboDirectSoft.c
+  devMbboDirectSoftCallback.c
+  devMbboDirectSoftRaw.c
+  devMbboSoft.c
+  devMbboSoftCallback.c
+  devMbboSoftRaw.c
+  devPrintfSoft.c
+  devPrintfSoftCallback.c
+  devSASoft.c
+  devSiSoft.c
+  devSiSoftCallback.c
+  devSoSoft.c
+  devSoSoftCallback.c
+  devStdio.c
+  devTimestamp.c
+  devWfSoft.c
+  arr.c
+  dbnd.c
+  decimate.c
+  sync.c
+  Generating Code...
+  Compiling...
+  ts.c
+  lnkCalc.c
+  lnkConst.c
+  lnkDebug.c
+  lnkState.c
+  aaiRecord.c
+  aaoRecord.c
+  aiRecord.c
+  aoRecord.c
+  aSubRecord.c
+  biRecord.c
+  boRecord.c
+  calcoutRecord.c
+  calcRecord.c
+  compressRecord.c
+  dfanoutRecord.c
+  eventRecord.c
+  fanoutRecord.c
+  histogramRecord.c
+  int64inRecord.c
+  Generating Code...
+  Compiling...
+  int64outRecord.c
+  longinRecord.c
+  longoutRecord.c
+  lsiRecord.c
+C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\database\src\std\rec\lsiRecord.c(50,30): warning C4267: '=': conversion from 'size_t' to 'epicsUInt16', possible loss of data
+  lsoRecord.c
+C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\database\src\std\rec\lsoRecord.c(54,30): warning C4267: '=': conversion from 'size_t' to 'epicsUInt16', possible loss of data
+  mbbiDirectRecord.c
+  mbbiRecord.c
+  mbboDirectRecord.c
+  mbboRecord.c
+  permissiveRecord.c
+  printfRecord.c
+C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\database\src\std\rec\printfRecord.c(327,30): warning C4267: '=': conversion from 'size_t' to 'epicsUInt16', possible loss of data
+  selRecord.c
+  seqRecord.c
+  stateRecord.c
+  stringinRecord.c
+  stringoutRecord.c
+  subArrayRecord.c
+  subRecord.c
+  waveformRecord.c
+  Generating Code...
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(491,5): warning MSB8028: The intermediate directory (Debug_LIB\) contains files shared from another project (acctst.vcxproj, caconntest.vcxproj, caEventRate.vcxproj, caRepeater.vcxproj, casw.vcxproj, catime.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  dbRecStd.vcxproj -> C:\Users\ktn98257\repos\epics.dotnet\Debug_LIB\dbRecStd.lib
+  31 File(s) copied

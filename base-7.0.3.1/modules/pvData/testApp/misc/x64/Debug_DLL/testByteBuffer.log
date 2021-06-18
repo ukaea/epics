@@ -1,0 +1,3 @@
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(491,5): warning MSB8028: The intermediate directory (x64\Debug_DLL\) contains files shared from another project (testBaseException.vcxproj, testBitSet.vcxproj, testSerialization.vcxproj, testThread.vcxproj, testTimer.vcxproj, testTimeStamp.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  testByteBuffer.cpp
+  testByteBuffer.vcxproj -> C:\Users\ktn98257\repos\epics.dotnet\x64\Debug_DLL\testByteBuffer.exe

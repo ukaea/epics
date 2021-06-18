@@ -252,12 +252,7 @@
       <SubSystem>Console</SubSystem>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-
-set PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I$(SolutionDir)dbd  -o O.Common\WithAsyn.dbd base.dbd motorSupport.dbd devAcsMotor.dbd devImsMotor.dbd devMclennanMotor.dbd devMicos.dbd devMicroMo.dbd devNewport.dbd LdevNewportTS.dbd devPIMotor.dbd devOms.dbd devSoftMotor.dbd motorSimSupport.dbd devSmartMotorMotor.dbd devKohzuMotor.dbd devAttocube.dbd devAerotech.dbd ACRMotorSupport.dbd drvAsynSerialPort.dbd drvAsynIPPort.dbd busySupport.dbd
-perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I. -I./O.Common -I$(SolutionDir)dbd -o  O.Common\WithAsyn_registerRecordDeviceDriver.cpp O.Common/WithAsyn.dbd WithAsyn_registerRecordDeviceDriver ..\..\..\
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
@@ -274,12 +269,7 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I. -I./O.Common -I$(SolutionD
       <SubSystem>Console</SubSystem>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-
-set PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I$(SolutionDir)dbd  -o O.Common\WithAsyn.dbd base.dbd motorSupport.dbd devAcsMotor.dbd devImsMotor.dbd devMclennanMotor.dbd devMicos.dbd devMicroMo.dbd devNewport.dbd LdevNewportTS.dbd devPIMotor.dbd devOms.dbd devSoftMotor.dbd motorSimSupport.dbd devSmartMotorMotor.dbd devKohzuMotor.dbd devAttocube.dbd devAerotech.dbd ACRMotorSupport.dbd drvAsynSerialPort.dbd drvAsynIPPort.dbd busySupport.dbd devSequencer.dbd
-perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I. -I./O.Common -I$(SolutionDir)dbd -o  O.Common\WithAsyn_registerRecordDeviceDriver.cpp O.Common/WithAsyn.dbd WithAsyn_registerRecordDeviceDriver ..\..\..\
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd

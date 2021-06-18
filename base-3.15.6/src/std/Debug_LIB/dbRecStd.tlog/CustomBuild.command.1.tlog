@@ -1,0 +1,190 @@
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-3.15.6\SRC\STD\REC\AAIRECORD.DBD
+cd rec
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\Debug_LIB\dbdToRecordtypeH.pl  -I../O.Common -IC:\Users\ktn98257\repos\epics.dotnet\include -IC:\Users\ktn98257\repos\epics.dotnet\DBD -o ../O.Common/aaiRecord.h aaiRecord.dbd
+cd C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\std\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-3.15.6\SRC\STD\REC\AAORECORD.DBD
+cd rec
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\Debug_LIB\dbdToRecordtypeH.pl  -I../O.Common -IC:\Users\ktn98257\repos\epics.dotnet\include -IC:\Users\ktn98257\repos\epics.dotnet\DBD -o ../O.Common/aaoRecord.h aaoRecord.dbd
+cd C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\std\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-3.15.6\SRC\STD\REC\BIRECORD.DBD
+cd rec
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\Debug_LIB\dbdToRecordtypeH.pl  -I../O.Common -IC:\Users\ktn98257\repos\epics.dotnet\include -IC:\Users\ktn98257\repos\epics.dotnet\DBD -o ../O.Common/biRecord.h biRecord.dbd
+cd C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\std\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-3.15.6\SRC\STD\REC\BORECORD.DBD
+cd rec
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\Debug_LIB\dbdToRecordtypeH.pl  -I../O.Common -IC:\Users\ktn98257\repos\epics.dotnet\include -IC:\Users\ktn98257\repos\epics.dotnet\DBD -o ../O.Common/boRecord.h boRecord.dbd
+cd C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\std\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-3.15.6\SRC\STD\REC\CALCOUTRECORD.DBD
+cd rec
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\Debug_LIB\dbdToRecordtypeH.pl  -I../O.Common -IC:\Users\ktn98257\repos\epics.dotnet\include -IC:\Users\ktn98257\repos\epics.dotnet\DBD -o ../O.Common/calcoutRecord.h calcoutRecord.dbd
+cd C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\std\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-3.15.6\SRC\STD\REC\CALCRECORD.DBD
+cd rec
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\Debug_LIB\dbdToRecordtypeH.pl  -I../O.Common -IC:\Users\ktn98257\repos\epics.dotnet\include -IC:\Users\ktn98257\repos\epics.dotnet\DBD -o ../O.Common/calcRecord.h calcRecord.dbd
+cd C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\std\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-3.15.6\SRC\STD\REC\DFANOUTRECORD.DBD
+cd rec
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\Debug_LIB\dbdToRecordtypeH.pl  -I../O.Common -IC:\Users\ktn98257\repos\epics.dotnet\include -IC:\Users\ktn98257\repos\epics.dotnet\DBD -o ../O.Common/dfanoutRecord.h dfanoutRecord.dbd
+cd C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\std\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-3.15.6\SRC\STD\REC\EVENTRECORD.DBD
+cd rec
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\Debug_LIB\dbdToRecordtypeH.pl  -I../O.Common -IC:\Users\ktn98257\repos\epics.dotnet\include -IC:\Users\ktn98257\repos\epics.dotnet\DBD -o ../O.Common/eventRecord.h eventRecord.dbd
+cd C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\std\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-3.15.6\SRC\STD\REC\FANOUTRECORD.DBD
+cd rec
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\Debug_LIB\dbdToRecordtypeH.pl  -I../O.Common -IC:\Users\ktn98257\repos\epics.dotnet\include -IC:\Users\ktn98257\repos\epics.dotnet\DBD -o ../O.Common/fanoutRecord.h fanoutRecord.dbd
+cd C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\std\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-3.15.6\SRC\STD\REC\HISTOGRAMRECORD.DBD
+cd rec
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\Debug_LIB\dbdToRecordtypeH.pl  -I../O.Common -IC:\Users\ktn98257\repos\epics.dotnet\include -IC:\Users\ktn98257\repos\epics.dotnet\DBD -o ../O.Common/histogramRecord.h histogramRecord.dbd
+cd C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\std\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-3.15.6\SRC\STD\REC\LONGINRECORD.DBD
+cd rec
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\Debug_LIB\dbdToRecordtypeH.pl  -I../O.Common -IC:\Users\ktn98257\repos\epics.dotnet\include -IC:\Users\ktn98257\repos\epics.dotnet\DBD -o ../O.Common/longinRecord.h longinRecord.dbd
+cd C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\std\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-3.15.6\SRC\STD\REC\LONGOUTRECORD.DBD
+cd rec
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\Debug_LIB\dbdToRecordtypeH.pl  -I../O.Common -IC:\Users\ktn98257\repos\epics.dotnet\include -IC:\Users\ktn98257\repos\epics.dotnet\DBD -o ../O.Common/longoutRecord.h longoutRecord.dbd
+cd C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\std\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-3.15.6\SRC\STD\REC\MBBIDIRECTRECORD.DBD
+cd rec
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\Debug_LIB\dbdToRecordtypeH.pl  -I../O.Common -IC:\Users\ktn98257\repos\epics.dotnet\include -IC:\Users\ktn98257\repos\epics.dotnet\DBD -o ../O.Common/mbbiDirectRecord.h mbbiDirectRecord.dbd
+cd C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\std\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-3.15.6\SRC\STD\REC\MBBIRECORD.DBD
+cd rec
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\Debug_LIB\dbdToRecordtypeH.pl  -I../O.Common -IC:\Users\ktn98257\repos\epics.dotnet\include -IC:\Users\ktn98257\repos\epics.dotnet\DBD -o ../O.Common/mbbiRecord.h mbbiRecord.dbd
+cd C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\std\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-3.15.6\SRC\STD\REC\MBBODIRECTRECORD.DBD
+cd rec
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\Debug_LIB\dbdToRecordtypeH.pl  -I../O.Common -IC:\Users\ktn98257\repos\epics.dotnet\include -IC:\Users\ktn98257\repos\epics.dotnet\DBD -o ../O.Common/mbboDirectRecord.h mbboDirectRecord.dbd
+cd C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\std\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-3.15.6\SRC\STD\REC\MBBORECORD.DBD
+cd rec
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\Debug_LIB\dbdToRecordtypeH.pl  -I../O.Common -IC:\Users\ktn98257\repos\epics.dotnet\include -IC:\Users\ktn98257\repos\epics.dotnet\DBD -o ../O.Common/mbboRecord.h mbboRecord.dbd
+cd C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\std\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-3.15.6\SRC\STD\REC\PERMISSIVERECORD.DBD
+cd rec
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\Debug_LIB\dbdToRecordtypeH.pl  -I../O.Common -IC:\Users\ktn98257\repos\epics.dotnet\include -IC:\Users\ktn98257\repos\epics.dotnet\DBD -o ../O.Common/permissiveRecord.h permissiveRecord.dbd
+cd C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\std\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-3.15.6\SRC\STD\REC\SELRECORD.DBD
+cd rec
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\Debug_LIB\dbdToRecordtypeH.pl  -I../O.Common -IC:\Users\ktn98257\repos\epics.dotnet\include -IC:\Users\ktn98257\repos\epics.dotnet\DBD -o ../O.Common/selRecord.h selRecord.dbd
+cd C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\std\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-3.15.6\SRC\STD\REC\SEQRECORD.DBD
+cd rec
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\Debug_LIB\dbdToRecordtypeH.pl  -I../O.Common -IC:\Users\ktn98257\repos\epics.dotnet\include -IC:\Users\ktn98257\repos\epics.dotnet\DBD -o ../O.Common/seqRecord.h seqRecord.dbd
+cd C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\std\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-3.15.6\SRC\STD\REC\STATERECORD.DBD
+cd rec
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\Debug_LIB\dbdToRecordtypeH.pl  -I../O.Common -IC:\Users\ktn98257\repos\epics.dotnet\include -IC:\Users\ktn98257\repos\epics.dotnet\DBD -o ../O.Common/stateRecord.h stateRecord.dbd
+cd C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\std\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-3.15.6\SRC\STD\REC\STRINGINRECORD.DBD
+cd rec
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\Debug_LIB\dbdToRecordtypeH.pl  -I../O.Common -IC:\Users\ktn98257\repos\epics.dotnet\include -IC:\Users\ktn98257\repos\epics.dotnet\DBD -o ../O.Common/stringinRecord.h stringinRecord.dbd
+cd C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\std\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-3.15.6\SRC\STD\REC\STRINGOUTRECORD.DBD
+cd rec
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\Debug_LIB\dbdToRecordtypeH.pl  -I../O.Common -IC:\Users\ktn98257\repos\epics.dotnet\include -IC:\Users\ktn98257\repos\epics.dotnet\DBD -o ../O.Common/stringoutRecord.h stringoutRecord.dbd
+cd C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\std\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-3.15.6\SRC\STD\REC\SUBARRAYRECORD.DBD
+cd rec
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\Debug_LIB\dbdToRecordtypeH.pl  -I../O.Common -IC:\Users\ktn98257\repos\epics.dotnet\include -IC:\Users\ktn98257\repos\epics.dotnet\DBD -o ../O.Common/subArrayRecord.h subArrayRecord.dbd
+cd C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\std\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-3.15.6\SRC\STD\REC\SUBRECORD.DBD
+cd rec
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\Debug_LIB\dbdToRecordtypeH.pl  -I../O.Common -IC:\Users\ktn98257\repos\epics.dotnet\include -IC:\Users\ktn98257\repos\epics.dotnet\DBD -o ../O.Common/subRecord.h subRecord.dbd
+cd C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\std\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-3.15.6\SRC\STD\REC\AIRECORD.DBD.POD
+cd rec
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\Debug_LIB\dbdExpand.pl  -I../O.Common -IC:\Users\ktn98257\repos\epics.dotnet\include -IC:\Users\ktn98257\repos\epics.dotnet\DBD  -o ../O.Common/aiRecord.dbd aiRecord.dbd.pod
+cd C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\std\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-3.15.6\SRC\STD\REC\AORECORD.DBD.POD
+cd rec
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\Debug_LIB\dbdExpand.pl  -I../O.Common -IC:\Users\ktn98257\repos\epics.dotnet\include -IC:\Users\ktn98257\repos\epics.dotnet\DBD  -o ../O.Common/aoRecord.dbd aoRecord.dbd.pod
+cd C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\std\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-3.15.6\SRC\STD\REC\ASUBRECORD.DBD.POD
+cd rec
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\Debug_LIB\dbdExpand.pl  -I../O.Common -IC:\Users\ktn98257\repos\epics.dotnet\include -IC:\Users\ktn98257\repos\epics.dotnet\DBD  -o ../O.Common/aSubRecord.dbd aSubRecord.dbd.pod
+cd C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\std\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-3.15.6\SRC\STD\REC\COMPRESSRECORD.DBD.POD
+cd rec
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\Debug_LIB\dbdExpand.pl  -I../O.Common -IC:\Users\ktn98257\repos\epics.dotnet\include -IC:\Users\ktn98257\repos\epics.dotnet\DBD  -o ../O.Common/compressRecord.dbd compressRecord.dbd.pod
+cd C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\std\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-3.15.6\SRC\STD\REC\WAVEFORMRECORD.DBD.POD
+cd rec
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\Debug_LIB\dbdExpand.pl  -I../O.Common -IC:\Users\ktn98257\repos\epics.dotnet\include -IC:\Users\ktn98257\repos\epics.dotnet\DBD  -o ../O.Common/waveformRecord.dbd waveformRecord.dbd.pod
+cd C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\std\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-3.15.6\SRC\STD\O.COMMON\AIRECORD.DBD
+cd O.Common
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\Debug_LIB\dbdToRecordtypeH.pl  -I. -IC:\Users\ktn98257\repos\epics.dotnet\include -IC:\Users\ktn98257\repos\epics.dotnet\DBD -o aiRecord.h aiRecord.dbd
+cd C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\std\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-3.15.6\SRC\STD\O.COMMON\AORECORD.DBD
+cd O.Common
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\Debug_LIB\dbdToRecordtypeH.pl  -I. -IC:\Users\ktn98257\repos\epics.dotnet\include -IC:\Users\ktn98257\repos\epics.dotnet\DBD -o aoRecord.h aoRecord.dbd
+cd C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\std\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-3.15.6\SRC\STD\O.COMMON\COMPRESSRECORD.DBD
+cd O.Common
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\Debug_LIB\dbdToRecordtypeH.pl  -I. -IC:\Users\ktn98257\repos\epics.dotnet\include -IC:\Users\ktn98257\repos\epics.dotnet\DBD -o compressRecord.h compressRecord.dbd
+cd C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\std\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-3.15.6\SRC\STD\O.COMMON\WAVEFORMRECORD.DBD
+cd O.Common
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\Debug_LIB\dbdToRecordtypeH.pl  -I. -IC:\Users\ktn98257\repos\epics.dotnet\include -IC:\Users\ktn98257\repos\epics.dotnet\DBD -o waveformRecord.h waveformRecord.dbd
+cd C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\std\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-3.15.6\SRC\STD\O.COMMON\ASUBRECORD.DBD
+cd O.Common
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\Debug_LIB\dbdToRecordtypeH.pl  -I. -IC:\Users\ktn98257\repos\epics.dotnet\include -IC:\Users\ktn98257\repos\epics.dotnet\DBD -o aSubRecord.h aSubRecord.dbd
+cd C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\std\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-3.15.6\SRC\STD\REC\LSIRECORD.DBD
+cd rec
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\Debug_LIB\dbdToRecordtypeH.pl  -I../O.Common -IC:\Users\ktn98257\repos\epics.dotnet\include -IC:\Users\ktn98257\repos\epics.dotnet\DBD -o ../O.Common/lsiRecord.h lsiRecord.dbd
+cd C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\std\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-3.15.6\SRC\STD\REC\LSORECORD.DBD
+cd rec
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\Debug_LIB\dbdToRecordtypeH.pl  -I../O.Common -IC:\Users\ktn98257\repos\epics.dotnet\include -IC:\Users\ktn98257\repos\epics.dotnet\DBD -o ../O.Common/lsoRecord.h lsoRecord.dbd
+cd C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\std\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-3.15.6\SRC\STD\REC\PRINTFRECORD.DBD
+cd rec
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\Debug_LIB\dbdToRecordtypeH.pl  -I../O.Common -IC:\Users\ktn98257\repos\epics.dotnet\include -IC:\Users\ktn98257\repos\epics.dotnet\DBD -o ../O.Common/printfRecord.h printfRecord.dbd
+cd C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\std\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-3.15.6\SRC\STD\FILTERS\FILTERS.DBD.POD
+cd filters
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\Debug_LIB\dbdExpand.pl  -I../O.Common -IC:\Users\ktn98257\repos\epics.dotnet\include -IC:\Users\ktn98257\repos\epics.dotnet\DBD  -o ../O.Common/filters.dbd filters.dbd.pod
+cd C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\std\

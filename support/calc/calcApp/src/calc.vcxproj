@@ -394,52 +394,52 @@ perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I./O.Common -I$(SolutionDir)include -I$
     </SccProvider>
     <SccAuxPath>
     </SccAuxPath>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -507,13 +507,7 @@ perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I./O.Common -I$(SolutionDir)include -I$
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)include md $(SolutionDir)include
-if not exist $(SolutionDir)dbd md exist $(SolutionDir)dbd
-
-xcopy /Y /Q /D /R  *.dbd  $(SolutionDir)dbd &gt; NUL
-
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
@@ -535,13 +529,7 @@ xcopy /Y /Q /D /R O.Common\*.dbd  $(SolutionDir)dbd &gt; NUL
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)include md $(SolutionDir)include
-if not exist $(SolutionDir)dbd md exist $(SolutionDir)dbd
-
-xcopy /Y /Q /D /R  *.dbd  $(SolutionDir)dbd &gt; NUL
-
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
@@ -563,13 +551,7 @@ xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)include md $(SolutionDir)include
-if not exist $(SolutionDir)dbd md exist $(SolutionDir)dbd
-
-xcopy /Y /Q /D /R  *.dbd  $(SolutionDir)dbd &gt; NUL
-
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
@@ -594,13 +576,7 @@ xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)include md $(SolutionDir)include
-if not exist $(SolutionDir)dbd md exist $(SolutionDir)dbd
-
-xcopy /Y /Q /D /R  *.dbd  $(SolutionDir)dbd &gt; NUL
-
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
@@ -629,13 +605,7 @@ xcopy /Y /Q /D /R O.Common\*.dbd  $(SolutionDir)dbd &gt; NUL
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)include md $(SolutionDir)include
-if not exist $(SolutionDir)dbd md exist $(SolutionDir)dbd
-
-xcopy /Y /Q /D /R  *.dbd  $(SolutionDir)dbd &gt; NUL
-
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
@@ -661,13 +631,7 @@ xcopy /Y /Q /D /R O.Common\*.dbd  $(SolutionDir)dbd &gt; NUL
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)include md $(SolutionDir)include
-if not exist $(SolutionDir)dbd md exist $(SolutionDir)dbd
-
-xcopy /Y /Q /D /R  *.dbd  $(SolutionDir)dbd &gt; NUL
-
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
@@ -693,13 +657,7 @@ xcopy /Y /Q /D /R O.Common\*.dbd  $(SolutionDir)dbd &gt; NUL
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)include md $(SolutionDir)include
-if not exist $(SolutionDir)dbd md exist $(SolutionDir)dbd
-
-xcopy /Y /Q /D /R  *.dbd  $(SolutionDir)dbd &gt; NUL
-
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
@@ -728,13 +686,7 @@ xcopy /Y /Q /D /R  O.Common\*.dbd  $(SolutionDir)dbd &gt; NUL
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)include md $(SolutionDir)include
-if not exist $(SolutionDir)dbd md exist $(SolutionDir)dbd
-
-xcopy /Y /Q /D /R  *.dbd  $(SolutionDir)dbd &gt; NUL
-
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL

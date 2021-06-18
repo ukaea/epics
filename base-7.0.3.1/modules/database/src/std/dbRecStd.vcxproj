@@ -3852,12 +3852,7 @@ xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
     </PostBuildEvent>
     <PreBuildEvent />
     <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
-xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R dev\*.dbd $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R rec\*.dbd $(SolutionDir)dbd &gt; NUL
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
     <ResourceCompile>
       <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>
@@ -3934,12 +3929,7 @@ xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
     </PostBuildEvent>
     <PreBuildEvent />
     <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
-xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R dev\*.dbd $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R rec\*.dbd $(SolutionDir)dbd &gt; NUL
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
     <ResourceCompile>
       <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>
@@ -4058,12 +4048,7 @@ xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
 </Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
-xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R dev\*.dbd $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R rec\*.dbd $(SolutionDir)dbd &gt; NUL
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
     <ResourceCompile>
       <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>

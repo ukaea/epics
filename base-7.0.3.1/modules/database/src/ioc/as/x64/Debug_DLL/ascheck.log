@@ -1,0 +1,2 @@
+﻿  ascheck.c
+LINK : fatal error LNK1104: cannot open file 'C:\Users\ktn98257\repos\epics.dotnet\x64\Debug_DLL\dbCore.lib'

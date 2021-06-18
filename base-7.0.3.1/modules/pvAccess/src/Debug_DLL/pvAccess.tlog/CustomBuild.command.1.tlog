@@ -1,0 +1,3 @@
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-7.0.3.1\MODULES\PVACCESS\SRC\PVA\PVAVERSIONNUM.H@
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\Debug_DLL\expandVars.pl -DEPICS_PVA_MAJOR_VERSION="4" -DEPICS_PVA_MINOR_VERSION="2" -DEPICS_PVA_MAINTENANCE_VERSION="0" -DEPICS_PVA_DEVELOPMENT_FLAG="1" -t ../.. -a C:\Users\ktn98257\repos\epics.dotnet\Debug_DLL\  pva\pvaVersionNum.h@  C:\Users\ktn98257\repos\epics.dotnet\include\pv\pvaVersionNum.h

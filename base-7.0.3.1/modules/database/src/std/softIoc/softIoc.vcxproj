@@ -203,13 +203,7 @@
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
-SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I. -I..\O.Common -I..\filters -I$(SolutionDir)dbd -o O.Common\softIoc.dbd base.dbd dlload.dbd system.dbd
-perl -CSD $(OutDir)registerRecordDeviceDriver.pl O.Common\softIoc.dbd softIoc_registerRecordDeviceDriver $(SolutionDir) &gt;O.Common\softIoc_registerRecordDeviceDriver.cpp
-xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
@@ -229,13 +223,7 @@ xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
-SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I. -I..\O.Common -I..\filters -I$(SolutionDir)dbd -o O.Common\softIoc.dbd base.dbd dlload.dbd system.dbd
-perl -CSD $(OutDir)registerRecordDeviceDriver.pl O.Common\softIoc.dbd softIoc_registerRecordDeviceDriver $(SolutionDir) &gt;O.Common\softIoc_registerRecordDeviceDriver.cpp
-xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
@@ -254,13 +242,7 @@ xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
-SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I. -I..\O.Common -I..\filters -I$(SolutionDir)dbd -o O.Common\softIoc.dbd base.dbd dlload.dbd system.dbd
-perl -CSD $(OutDir)registerRecordDeviceDriver.pl O.Common\softIoc.dbd softIoc_registerRecordDeviceDriver $(SolutionDir) &gt;O.Common\softIoc_registerRecordDeviceDriver.cpp
-xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
@@ -280,13 +262,7 @@ xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
-SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I. -I..\O.Common -I..\filters -I$(SolutionDir)dbd -o O.Common\softIoc.dbd base.dbd dlload.dbd system.dbd
-perl -CSD $(OutDir)registerRecordDeviceDriver.pl O.Common\softIoc.dbd softIoc_registerRecordDeviceDriver $(SolutionDir) &gt;O.Common\softIoc_registerRecordDeviceDriver.cpp
-xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
@@ -308,13 +284,7 @@ xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
     </Link>
     <PreBuildEvent />
     <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
-SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I. -I..\O.Common -I..\filters -I$(SolutionDir)dbd -o O.Common\softIoc.dbd base.dbd dlload.dbd system.dbd
-perl -CSD $(OutDir)registerRecordDeviceDriver.pl O.Common\softIoc.dbd softIoc_registerRecordDeviceDriver $(SolutionDir) &gt;O.Common\softIoc_registerRecordDeviceDriver.cpp
-xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
@@ -337,13 +307,7 @@ xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
     </Link>
     <PreBuildEvent />
     <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
-SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I. -I..\O.Common -I..\filters -I$(SolutionDir)dbd -o O.Common\softIoc.dbd base.dbd dlload.dbd system.dbd
-perl -CSD $(OutDir)registerRecordDeviceDriver.pl O.Common\softIoc.dbd softIoc_registerRecordDeviceDriver $(SolutionDir) &gt;O.Common\softIoc_registerRecordDeviceDriver.cpp
-xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
@@ -365,13 +329,7 @@ xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
     </Link>
     <PreBuildEvent />
     <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
-SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I. -I..\O.Common -I..\filters -I$(SolutionDir)dbd -o O.Common\softIoc.dbd base.dbd dlload.dbd system.dbd
-perl -CSD $(OutDir)registerRecordDeviceDriver.pl O.Common\softIoc.dbd softIoc_registerRecordDeviceDriver $(SolutionDir) &gt;O.Common\softIoc_registerRecordDeviceDriver.cpp
-xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">
@@ -394,13 +352,7 @@ xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
     </Link>
     <PreBuildEvent />
     <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
-SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I. -I..\O.Common -I..\filters -I$(SolutionDir)dbd -o O.Common\softIoc.dbd base.dbd dlload.dbd system.dbd
-perl -CSD $(OutDir)registerRecordDeviceDriver.pl O.Common\softIoc.dbd softIoc_registerRecordDeviceDriver $(SolutionDir) &gt;O.Common\softIoc_registerRecordDeviceDriver.cpp
-xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

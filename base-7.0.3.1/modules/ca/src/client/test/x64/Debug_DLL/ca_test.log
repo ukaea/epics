@@ -1,0 +1,4 @@
+﻿  ca_test.c
+C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\ca\src\client\test\ca_test.c(22,10): fatal error C1083: Cannot open include file: 'cadef.h': No such file or directory
+  ca_test_main.c
+  Generating Code...

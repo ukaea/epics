@@ -1,0 +1,23 @@
+﻿  analysis.c
+C:\Users\ktn98257\repos\epics.dotnet\support\seq\src\snc\var_types.h(11,10): fatal error C1083: Cannot open include file: 'seq_prim_types.h': No such file or directory
+  builtin.c
+  gen_code.c
+C:\Users\ktn98257\repos\epics.dotnet\support\seq\src\snc\var_types.h(11,10): fatal error C1083: Cannot open include file: 'seq_prim_types.h': No such file or directory
+  gen_ss_code.c
+C:\Users\ktn98257\repos\epics.dotnet\support\seq\src\snc\var_types.h(11,10): fatal error C1083: Cannot open include file: 'seq_prim_types.h': No such file or directory
+  gen_tables.c
+C:\Users\ktn98257\repos\epics.dotnet\support\seq\src\snc\var_types.h(11,10): fatal error C1083: Cannot open include file: 'seq_prim_types.h': No such file or directory
+  main.c
+C:\Users\ktn98257\repos\epics.dotnet\support\seq\src\snc\main.c(24,10): fatal error C1083: Cannot open include file: 'seq_release.h': No such file or directory
+  node.c
+  lexer.c
+c1 : fatal error C1083: Cannot open source file: 'O.Common\lexer.c': No such file or directory
+  snl.c
+c1 : fatal error C1083: Cannot open source file: 'O.Common\snl.c': No such file or directory
+  sym_table.c
+C:\Users\ktn98257\repos\epics.dotnet\support\seq\src\snc\sym_table.c(23,22): warning C4133: 'function': incompatible types - from 'void **' to 'gphPvt **'
+  type_check.c
+C:\Users\ktn98257\repos\epics.dotnet\support\seq\src\snc\type_check.c(12,10): fatal error C1083: Cannot open include file: 'snl.h': No such file or directory
+  var_types.c
+C:\Users\ktn98257\repos\epics.dotnet\support\seq\src\snc\var_types.c(17,10): fatal error C1083: Cannot open include file: 'snl.h': No such file or directory
+  Generating Code...

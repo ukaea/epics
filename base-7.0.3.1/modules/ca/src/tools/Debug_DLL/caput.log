@@ -1,0 +1,5 @@
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(491,5): warning MSB8028: The intermediate directory (Debug_DLL\) contains files shared from another project (caget.vcxproj, cainfo.vcxproj, camonitor.vcxproj, catools.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  caput.c
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(491,5): warning MSB8028: The intermediate directory (Debug_DLL\) contains files shared from another project (caget.vcxproj, cainfo.vcxproj, camonitor.vcxproj, caput.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+catools.lib(tool_lib.obj) : warning LNK4099: PDB 'catoolsvc142.pdb' was not found with 'catools.lib(tool_lib.obj)' or at 'C:\Users\ktn98257\repos\epics.dotnet\Debug_DLL\catoolsvc142.pdb'; linking object as if no debug info
+  caput.vcxproj -> C:\Users\ktn98257\repos\epics.dotnet\Debug_DLL\caput.exe

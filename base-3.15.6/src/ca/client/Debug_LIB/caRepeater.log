@@ -1,0 +1,3 @@
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(491,5): warning MSB8028: The intermediate directory (Debug_LIB\) contains files shared from another project (acctst.vcxproj, ca.vcxproj, caconntest.vcxproj, caEventRate.vcxproj, casw.vcxproj, catime.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  caRepeater.cpp
+LINK : fatal error LNK1104: cannot open file 'C:\Users\ktn98257\repos\epics.dotnet\Debug_LIB\Com.lib'

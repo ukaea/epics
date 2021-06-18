@@ -292,20 +292,10 @@ cd $(ProjectDir)
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
-xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
-if not exist O.Common md O.Common
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>$(OutDir)makeBpt.exe bptTypeJdegC.data  O.Common\bptTypeJdegC.dbd
-$(OutDir)makeBpt.exe bptTypeJdegF.data  O.Common\bptTypeJdegF.dbd
-$(OutDir)makeBpt.exe bptTypeKdegC.data  O.Common\bptTypeKdegC.dbd
-$(OutDir)makeBpt.exe bptTypeKdegF.data  O.Common\bptTypeKdegF.dbd
-xcopy /Y /Q  /D O.Common\menuConvert.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_POST.bat</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
@@ -322,20 +312,10 @@ xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
-xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
-if not exist O.Common md O.Common
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>$(OutDir)makeBpt.exe bptTypeJdegC.data  O.Common\bptTypeJdegC.dbd
-$(OutDir)makeBpt.exe bptTypeJdegF.data  O.Common\bptTypeJdegF.dbd
-$(OutDir)makeBpt.exe bptTypeKdegC.data  O.Common\bptTypeKdegC.dbd
-$(OutDir)makeBpt.exe bptTypeKdegF.data  O.Common\bptTypeKdegF.dbd
-xcopy /Y /Q  /D O.Common\menuConvert.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_POST.bat</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
@@ -352,20 +332,10 @@ xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
-xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
-if not exist O.Common md O.Common
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>$(OutDir)makeBpt.exe bptTypeJdegC.data  O.Common\bptTypeJdegC.dbd
-$(OutDir)makeBpt.exe bptTypeJdegF.data  O.Common\bptTypeJdegF.dbd
-$(OutDir)makeBpt.exe bptTypeKdegC.data  O.Common\bptTypeKdegC.dbd
-$(OutDir)makeBpt.exe bptTypeKdegF.data  O.Common\bptTypeKdegF.dbd
-xcopy /Y /Q  /D O.Common\menuConvert.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_POST.bat</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
@@ -383,20 +353,10 @@ xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
-xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
-if not exist O.Common md O.Common
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>$(OutDir)makeBpt.exe bptTypeJdegC.data  O.Common\bptTypeJdegC.dbd
-$(OutDir)makeBpt.exe bptTypeJdegF.data  O.Common\bptTypeJdegF.dbd
-$(OutDir)makeBpt.exe bptTypeKdegC.data  O.Common\bptTypeKdegC.dbd
-$(OutDir)makeBpt.exe bptTypeKdegF.data  O.Common\bptTypeKdegF.dbd
-xcopy /Y /Q  /D O.Common\menuConvert.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_POST.bat</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
@@ -413,20 +373,10 @@ xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
-xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
-if not exist O.Common md O.Common
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>$(OutDir)makeBpt.exe bptTypeJdegC.data  O.Common\bptTypeJdegC.dbd
-$(OutDir)makeBpt.exe bptTypeJdegF.data  O.Common\bptTypeJdegF.dbd
-$(OutDir)makeBpt.exe bptTypeKdegC.data  O.Common\bptTypeKdegC.dbd
-$(OutDir)makeBpt.exe bptTypeKdegF.data  O.Common\bptTypeKdegF.dbd
-xcopy /Y /Q  /D O.Common\menuConvert.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_POST.bat</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
@@ -444,20 +394,10 @@ xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
-xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
-if not exist O.Common md O.Common
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>$(OutDir)makeBpt.exe bptTypeJdegC.data  O.Common\bptTypeJdegC.dbd
-$(OutDir)makeBpt.exe bptTypeJdegF.data  O.Common\bptTypeJdegF.dbd
-$(OutDir)makeBpt.exe bptTypeKdegC.data  O.Common\bptTypeKdegC.dbd
-$(OutDir)makeBpt.exe bptTypeKdegF.data  O.Common\bptTypeKdegF.dbd
-xcopy /Y /Q  /D O.Common\menuConvert.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_POST.bat</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
@@ -475,20 +415,10 @@ xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
-xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
-if not exist O.Common md O.Common
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>$(OutDir)makeBpt.exe bptTypeJdegC.data  O.Common\bptTypeJdegC.dbd
-$(OutDir)makeBpt.exe bptTypeJdegF.data  O.Common\bptTypeJdegF.dbd
-$(OutDir)makeBpt.exe bptTypeKdegC.data  O.Common\bptTypeKdegC.dbd
-$(OutDir)makeBpt.exe bptTypeKdegF.data  O.Common\bptTypeKdegF.dbd
-xcopy /Y /Q  /D O.Common\menuConvert.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_POST.bat</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">
@@ -507,20 +437,10 @@ xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
-xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
-if not exist O.Common md O.Common
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>$(OutDir)makeBpt.exe bptTypeJdegC.data  O.Common\bptTypeJdegC.dbd
-$(OutDir)makeBpt.exe bptTypeJdegF.data  O.Common\bptTypeJdegF.dbd
-$(OutDir)makeBpt.exe bptTypeKdegC.data  O.Common\bptTypeKdegC.dbd
-$(OutDir)makeBpt.exe bptTypeKdegF.data  O.Common\bptTypeKdegF.dbd
-xcopy /Y /Q  /D O.Common\menuConvert.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_POST.bat</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

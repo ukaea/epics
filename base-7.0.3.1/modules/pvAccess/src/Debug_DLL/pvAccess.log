@@ -1,0 +1,98 @@
+﻿  Performing Custom Build Tools
+  caChannel.cpp
+  caProvider.cpp
+  channelConnectThread.cpp
+  dbdToPv.cpp
+  getDoneThread.cpp
+  monitorEventThread.cpp
+  putDoneThread.cpp
+  client.cpp
+  clientGet.cpp
+  clientInfo.cpp
+  clientMonitor.cpp
+  clientPut.cpp
+  clientRPC.cpp
+  clientSync.cpp
+  monitor.cpp
+  pvAccess.cpp
+  ChannelAccessFactory.cpp
+  PVAClientRegister.cpp
+  PVAServerRegister.cpp
+  reftrackioc.cpp
+  Generating Code...
+  Compiling...
+  pipelineServer.cpp
+  clientFactory.cpp
+  pvaVersion.cpp
+  clientContextImpl.cpp
+  abstractResponseHandler.cpp
+  beaconHandler.cpp
+  blockingTCPAcceptor.cpp
+  blockingTCPConnector.cpp
+  blockingUDPConnector.cpp
+  blockingUDPTransport.cpp
+  channelSearchManager.cpp
+  codec.cpp
+C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\pvAccess\src\remote\codec.cpp(606,73): warning C4267: 'argument': conversion from 'size_t' to 'epics::pvData::int8', possible loss of data
+  security.cpp
+  serializationHelper.cpp
+  transportRegistry.cpp
+  rpcClient.cpp
+C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\pvAccess\src\rpcClient\rpcClient.cpp(70,50): warning C4390: ';': empty controlled statement found; is this the intent?
+  rpcServer.cpp
+  rpcService.cpp
+  baseChannelRequester.cpp
+  beaconEmitter.cpp
+  Generating Code...
+  Compiling...
+  beaconServerStatusProvider.cpp
+  responseHandlers.cpp
+  server.cpp
+  serverChannelImpl.cpp
+  serverContext.cpp
+  sharedstate_channel.cpp
+  sharedstate_put.cpp
+  sharedstate_pv.cpp
+  sharedstate_rpc.cpp
+  configuration.cpp
+  getgroups.cpp
+  hexDump.cpp
+  inetAddressUtil.cpp
+  introspectionRegistry.cpp
+  logger.cpp
+  referenceCountingLock.cpp
+  requester.cpp
+  wildcard.cpp
+  Generating Code...
+     Creating library C:\Users\ktn98257\repos\epics.dotnet\Debug_DLL\pvAccess.lib and object C:\Users\ktn98257\repos\epics.dotnet\Debug_DLL\pvAccess.exp
+LINK : warning LNK4217: symbol '?pvAccessLog@pvAccess@epics@@YAXW4pvAccessLogLevel@12@PBDZZ (void __cdecl epics::pvAccess::pvAccessLog(enum epics::pvAccess::pvAccessLogLevel,char const *,...))' defined in 'logger.obj' is imported by 'caChannel.obj' in function '__catch$?activate@CAChannel@ca@pvAccess@epics@@AAEXF@Z$0'
+LINK : warning LNK4286: symbol '?pvAccessLog@pvAccess@epics@@YAXW4pvAccessLogLevel@12@PBDZZ (void __cdecl epics::pvAccess::pvAccessLog(enum epics::pvAccess::pvAccessLogLevel,char const *,...))' defined in 'logger.obj' is imported by 'caProvider.obj'
+LINK : warning LNK4217: symbol '??1Destroyable@pvAccess@epics@@MAE@XZ (protected: virtual __thiscall epics::pvAccess::Destroyable::~Destroyable(void))' defined in 'client.obj' is imported by 'caChannel.obj' in function '__unwindfunclet$??0CAChannelGet@ca@pvAccess@epics@@AAE@ABV?$shared_ptr@VCAChannel@ca@pvAccess@epics@@@std@@ABV?$shared_ptr@VChannelGetRequester@pvAccess@epics@@@5@ABV?$shared_ptr@VPVStructure@pvData@epics@@@5@@Z$0'
+LINK : warning LNK4217: symbol '??0Destroyable@pvAccess@epics@@QAE@XZ (public: __thiscall epics::pvAccess::Destroyable::Destroyable(void))' defined in 'client.obj' is imported by 'caChannel.obj' in function '"private: __thiscall epics::pvAccess::ca::CAChannelGet::CAChannelGet(class std::shared_ptr<class epics::pvAccess::ca::CAChannel> const &,class std::shared_ptr<class epics::pvAccess::ChannelGetRequester> const &,class std::shared_ptr<class epics::pvData::PVStructure> const &)" (??0CAChannelGet@ca@pvAccess@epics@@AAE@ABV?$shared_ptr@VCAChannel@ca@pvAccess@epics@@@std@@ABV?$shared_ptr@VChannelGetRequester@pvAccess@epics@@@5@ABV?$shared_ptr@VPVStructure@pvData@epics@@@5@@Z)'
+LINK : warning LNK4217: symbol '??0MonitorElement@pvAccess@epics@@QAE@ABV?$shared_ptr@VPVStructure@pvData@epics@@@std@@@Z (public: __thiscall epics::pvAccess::MonitorElement::MonitorElement(class std::shared_ptr<class epics::pvData::PVStructure> const &))' defined in 'pvAccess.obj' is imported by 'caChannel.obj' in function '"public: void __thiscall epics::pvAccess::ca::CAChannelMonitor::activate(void)" (?activate@CAChannelMonitor@ca@pvAccess@epics@@QAEXXZ)'
+LINK : warning LNK4217: symbol '??1MonitorElement@pvAccess@epics@@QAE@XZ (public: __thiscall epics::pvAccess::MonitorElement::~MonitorElement(void))' defined in 'client.obj' is imported by 'caChannel.obj' in function '"public: void * __thiscall epics::pvAccess::MonitorElement::`scalar deleting destructor'(unsigned int)" (??_GMonitorElement@pvAccess@epics@@QAEPAXI@Z)'
+LINK : warning LNK4217: symbol '??1Monitor@pvAccess@epics@@UAE@XZ (public: virtual __thiscall epics::pvAccess::Monitor::~Monitor(void))' defined in 'client.obj' is imported by 'caChannel.obj' in function '__unwindfunclet$??0CAChannelMonitor@ca@pvAccess@epics@@AAE@ABV?$shared_ptr@VCAChannel@ca@pvAccess@epics@@@std@@ABV?$shared_ptr@VMonitorRequester@pvAccess@epics@@@5@ABV?$shared_ptr@VPVStructure@pvData@epics@@@5@@Z$1'
+LINK : warning LNK4217: symbol '??0Monitor@pvAccess@epics@@QAE@XZ (public: __thiscall epics::pvAccess::Monitor::Monitor(void))' defined in 'client.obj' is imported by 'caChannel.obj' in function '"private: __thiscall epics::pvAccess::ca::CAChannelMonitor::CAChannelMonitor(class std::shared_ptr<class epics::pvAccess::ca::CAChannel> const &,class std::shared_ptr<class epics::pvAccess::MonitorRequester> const &,class std::shared_ptr<class epics::pvData::PVStructure> const &)" (??0CAChannelMonitor@ca@pvAccess@epics@@AAE@ABV?$shared_ptr@VCAChannel@ca@pvAccess@epics@@@std@@ABV?$shared_ptr@VMonitorRequester@pvAccess@epics@@@5@ABV?$shared_ptr@VPVStructure@pvData@epics@@@5@@Z)'
+LINK : warning LNK4217: symbol '??1ChannelGet@pvAccess@epics@@UAE@XZ (public: virtual __thiscall epics::pvAccess::ChannelGet::~ChannelGet(void))' defined in 'client.obj' is imported by 'caChannel.obj' in function '__unwindfunclet$??0CAChannelGet@ca@pvAccess@epics@@AAE@ABV?$shared_ptr@VCAChannel@ca@pvAccess@epics@@@std@@ABV?$shared_ptr@VChannelGetRequester@pvAccess@epics@@@5@ABV?$shared_ptr@VPVStructure@pvData@epics@@@5@@Z$1'
+LINK : warning LNK4217: symbol '??0ChannelGet@pvAccess@epics@@QAE@XZ (public: __thiscall epics::pvAccess::ChannelGet::ChannelGet(void))' defined in 'client.obj' is imported by 'caChannel.obj' in function '"private: __thiscall epics::pvAccess::ca::CAChannelGet::CAChannelGet(class std::shared_ptr<class epics::pvAccess::ca::CAChannel> const &,class std::shared_ptr<class epics::pvAccess::ChannelGetRequester> const &,class std::shared_ptr<class epics::pvData::PVStructure> const &)" (??0CAChannelGet@ca@pvAccess@epics@@AAE@ABV?$shared_ptr@VCAChannel@ca@pvAccess@epics@@@std@@ABV?$shared_ptr@VChannelGetRequester@pvAccess@epics@@@5@ABV?$shared_ptr@VPVStructure@pvData@epics@@@5@@Z)'
+LINK : warning LNK4217: symbol '??1ChannelPut@pvAccess@epics@@UAE@XZ (public: virtual __thiscall epics::pvAccess::ChannelPut::~ChannelPut(void))' defined in 'client.obj' is imported by 'caChannel.obj' in function '__unwindfunclet$??0CAChannelPut@ca@pvAccess@epics@@AAE@ABV?$shared_ptr@VCAChannel@ca@pvAccess@epics@@@std@@ABV?$shared_ptr@VChannelPutRequester@pvAccess@epics@@@5@ABV?$shared_ptr@VPVStructure@pvData@epics@@@5@@Z$1'
+LINK : warning LNK4217: symbol '??0ChannelPut@pvAccess@epics@@QAE@XZ (public: __thiscall epics::pvAccess::ChannelPut::ChannelPut(void))' defined in 'client.obj' is imported by 'caChannel.obj' in function '"private: __thiscall epics::pvAccess::ca::CAChannelPut::CAChannelPut(class std::shared_ptr<class epics::pvAccess::ca::CAChannel> const &,class std::shared_ptr<class epics::pvAccess::ChannelPutRequester> const &,class std::shared_ptr<class epics::pvData::PVStructure> const &)" (??0CAChannelPut@ca@pvAccess@epics@@AAE@ABV?$shared_ptr@VCAChannel@ca@pvAccess@epics@@@std@@ABV?$shared_ptr@VChannelPutRequester@pvAccess@epics@@@5@ABV?$shared_ptr@VPVStructure@pvData@epics@@@5@@Z)'
+LINK : warning LNK4217: symbol '??0Channel@pvAccess@epics@@QAE@XZ (public: __thiscall epics::pvAccess::Channel::Channel(void))' defined in 'pvAccess.obj' is imported by 'caChannel.obj' in function '"private: __thiscall epics::pvAccess::ca::CAChannel::CAChannel(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > const &,class std::shared_ptr<class epics::pvAccess::ca::CAChannelProvider> const &,class std::shared_ptr<class epics::pvAccess::ChannelRequester> const &)" (??0CAChannel@ca@pvAccess@epics@@AAE@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV?$shared_ptr@VCAChannelProvider@ca@pvAccess@epics@@@5@ABV?$shared_ptr@VChannelRequester@pvAccess@epics@@@5@@Z)'
+LINK : warning LNK4217: symbol '??1Channel@pvAccess@epics@@UAE@XZ (public: virtual __thiscall epics::pvAccess::Channel::~Channel(void))' defined in 'pvAccess.obj' is imported by 'caChannel.obj' in function '__unwindfunclet$??0CAChannel@ca@pvAccess@epics@@AAE@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV?$shared_ptr@VCAChannelProvider@ca@pvAccess@epics@@@5@ABV?$shared_ptr@VChannelRequester@pvAccess@epics@@@5@@Z$0'
+LINK : warning LNK4217: symbol '?ConnectionStateNames@Channel@pvAccess@epics@@2PAPBDA (public: static char const * * epics::pvAccess::Channel::ConnectionStateNames)' defined in 'pvAccess.obj' is imported by 'caChannel.obj' in function '"public: virtual void __thiscall epics::pvAccess::ca::CAChannel::printInfo(class std::basic_ostream<char,struct std::char_traits<char> > &)" (?printInfo@CAChannel@ca@pvAccess@epics@@UAEXAAV?$basic_ostream@DU?$char_traits@D@std@@@std@@@Z)'
+LINK : warning LNK4217: symbol '??0ChannelProvider@pvAccess@epics@@QAE@XZ (public: __thiscall epics::pvAccess::ChannelProvider::ChannelProvider(void))' defined in 'pvAccess.obj' is imported by 'caProvider.obj' in function '"public: __thiscall epics::pvAccess::ca::CAChannelProvider::CAChannelProvider(class std::shared_ptr<class epics::pvAccess::Configuration> const &)" (??0CAChannelProvider@ca@pvAccess@epics@@QAE@ABV?$shared_ptr@VConfiguration@pvAccess@epics@@@std@@@Z)'
+LINK : warning LNK4217: symbol '??1ChannelProvider@pvAccess@epics@@UAE@XZ (public: virtual __thiscall epics::pvAccess::ChannelProvider::~ChannelProvider(void))' defined in 'pvAccess.obj' is imported by 'caProvider.obj' in function '__unwindfunclet$??0CAChannelProvider@ca@pvAccess@epics@@QAE@ABV?$shared_ptr@VConfiguration@pvAccess@epics@@@std@@@Z$0'
+LINK : warning LNK4217: symbol '??0ChannelProviderFactory@pvAccess@epics@@QAE@XZ (public: __thiscall epics::pvAccess::ChannelProviderFactory::ChannelProviderFactory(void))' defined in 'client.obj' is imported by 'caProvider.obj' in function '"public: __thiscall epics::pvAccess::SimpleChannelProviderFactory<class epics::pvAccess::ca::CAChannelProvider>::SimpleChannelProviderFactory<class epics::pvAccess::ca::CAChannelProvider>(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > const &)" (??0?$SimpleChannelProviderFactory@VCAChannelProvider@ca@pvAccess@epics@@@pvAccess@epics@@QAE@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z)'
+LINK : warning LNK4217: symbol '??1ChannelProviderFactory@pvAccess@epics@@UAE@XZ (public: virtual __thiscall epics::pvAccess::ChannelProviderFactory::~ChannelProviderFactory(void))' defined in 'client.obj' is imported by 'caProvider.obj' in function '__unwindfunclet$??0?$SimpleChannelProviderFactory@VCAChannelProvider@ca@pvAccess@epics@@@pvAccess@epics@@QAE@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z$0'
+LINK : warning LNK4217: symbol '?clients@ChannelProviderRegistry@pvAccess@epics@@SA?AV?$shared_ptr@VChannelProviderRegistry@pvAccess@epics@@@std@@XZ (public: static class std::shared_ptr<class epics::pvAccess::ChannelProviderRegistry> __cdecl epics::pvAccess::ChannelProviderRegistry::clients(void))' defined in 'ChannelAccessFactory.obj' is imported by 'caProvider.obj' in function '"public: static void __cdecl epics::pvAccess::ca::CAClientFactory::start(void)" (?start@CAClientFactory@ca@pvAccess@epics@@SAXXZ)'
+LINK : warning LNK4217: symbol '?getProvider@ChannelProviderRegistry@pvAccess@epics@@QAE?AV?$shared_ptr@VChannelProvider@pvAccess@epics@@@std@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@5@@Z (public: class std::shared_ptr<class epics::pvAccess::ChannelProvider> __thiscall epics::pvAccess::ChannelProviderRegistry::getProvider(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > const &))' defined in 'ChannelAccessFactory.obj' is imported by 'caProvider.obj' in function '"public: static void __cdecl epics::pvAccess::ca::CAClientFactory::start(void)" (?start@CAClientFactory@ca@pvAccess@epics@@SAXXZ)'
+LINK : warning LNK4217: symbol '??0ConfigurationBuilder@pvAccess@epics@@QAE@XZ (public: __thiscall epics::pvAccess::ConfigurationBuilder::ConfigurationBuilder(void))' defined in 'configuration.obj' is imported by 'PVAServerRegister.obj' in function '"void __cdecl `anonymous namespace'::startitup(void)" (?startitup@?A0x0eb2e4b6@@YAXXZ)'
+LINK : warning LNK4217: symbol '?push_env@ConfigurationBuilder@pvAccess@epics@@QAEAAU123@XZ (public: struct epics::pvAccess::ConfigurationBuilder & __thiscall epics::pvAccess::ConfigurationBuilder::push_env(void))' defined in 'configuration.obj' is imported by 'PVAServerRegister.obj' in function '"void __cdecl `anonymous namespace'::startitup(void)" (?startitup@?A0x0eb2e4b6@@YAXXZ)'
+LINK : warning LNK4217: symbol '?push_map@ConfigurationBuilder@pvAccess@epics@@QAEAAU123@XZ (public: struct epics::pvAccess::ConfigurationBuilder & __thiscall epics::pvAccess::ConfigurationBuilder::push_map(void))' defined in 'configuration.obj' is imported by 'PVAServerRegister.obj' in function '"void __cdecl `anonymous namespace'::startitup(void)" (?startitup@?A0x0eb2e4b6@@YAXXZ)'
+LINK : warning LNK4217: symbol '?build@ConfigurationBuilder@pvAccess@epics@@QAE?AV?$shared_ptr@VConfiguration@pvAccess@epics@@@std@@XZ (public: class std::shared_ptr<class epics::pvAccess::Configuration> __thiscall epics::pvAccess::ConfigurationBuilder::build(void))' defined in 'configuration.obj' is imported by 'PVAServerRegister.obj' in function '"void __cdecl `anonymous namespace'::startitup(void)" (?startitup@?A0x0eb2e4b6@@YAXXZ)'
+LINK : warning LNK4217: symbol '?_add@ConfigurationBuilder@pvAccess@epics@@AAEAAU123@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0@Z (private: struct epics::pvAccess::ConfigurationBuilder & __thiscall epics::pvAccess::ConfigurationBuilder::_add(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > const &,class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > const &))' defined in 'configuration.obj' is imported by 'PVAServerRegister.obj' in function '"public: struct epics::pvAccess::ConfigurationBuilder & __thiscall epics::pvAccess::ConfigurationBuilder::add<class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > >(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > const &,class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > const &)" (??$add@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@ConfigurationBuilder@pvAccess@epics@@QAEAAU012@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0@Z)'
+LINK : warning LNK4217: symbol '??1ConfigurationBuilder@pvAccess@epics@@QAE@XZ (public: __thiscall epics::pvAccess::ConfigurationBuilder::~ConfigurationBuilder(void))' defined in 'client.obj' is imported by 'PVAServerRegister.obj' in function '"void __cdecl `anonymous namespace'::startitup(void)" (?startitup@?A0x0eb2e4b6@@YAXXZ)'
+LINK : warning LNK4217: symbol '?printInfo@ServerContext@pvAccess@epics@@QAEXH@Z (public: void __thiscall epics::pvAccess::ServerContext::printInfo(int))' defined in 'serverContext.obj' is imported by 'PVAServerRegister.obj' in function '"void __cdecl `anonymous namespace'::pvasr(int)" (?pvasr@?A0x0eb2e4b6@@YAXH@Z)'
+LINK : warning LNK4217: symbol '?create@ServerContext@pvAccess@epics@@SA?AV?$shared_ptr@VServerContext@pvAccess@epics@@@std@@ABVConfig@123@@Z (public: static class std::shared_ptr<class epics::pvAccess::ServerContext> __cdecl epics::pvAccess::ServerContext::create(class epics::pvAccess::ServerContext::Config const &))' defined in 'serverContext.obj' is imported by 'PVAServerRegister.obj' in function '"void __cdecl `anonymous namespace'::startitup(void)" (?startitup@?A0x0eb2e4b6@@YAXXZ)'
+LINK : warning LNK4217: symbol '?PVACCESS_ALL_PROVIDERS@pvAccess@epics@@3V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@B (class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > const epics::pvAccess::PVACCESS_ALL_PROVIDERS)' defined in 'pvaVersion.obj' is imported by 'PVAServerRegister.obj' in function '"void __cdecl `anonymous namespace'::startitup(void)" (?startitup@?A0x0eb2e4b6@@YAXXZ)'
+  pvAccess.vcxproj -> C:\Users\ktn98257\repos\epics.dotnet\Debug_DLL\pvAccess.dll

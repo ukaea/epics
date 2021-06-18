@@ -1,0 +1,54 @@
+﻿  blockingSockTest.cpp
+  cvtFastPerform.cpp
+  epicsAlgorithmTest.cpp
+  epicsAtomicPerform.cpp
+  epicsAtomicTest.cpp
+  epicsCalcTest.cpp
+  epicsEventTest.cpp
+  epicsInlineTest3.cpp
+  epicsInlineTest4.cpp
+  epicsMessageQueueTest.cpp
+  epicsMutexTest.cpp
+  epicsThreadPerform.cpp
+  epicsThreadPriorityTest.cpp
+  epicsThreadPrivateTest.cpp
+  epicsThreadTest.cpp
+  epicsTimerTest.cpp
+  epicsTimeTest.cpp
+  ipAddrToAsciiTest.cpp
+  Generating Code...
+  buckTest.c
+  epicsEllTest.c
+  epicsEnvTest.c
+  epicsErrlogTest.c
+  epicsExitTest.c
+  epicsInlineTest1.c
+  epicsInlineTest2.c
+  epicsMathTest.c
+  epicsMaxThreads.c
+  epicsMMIOTest.c
+  epicsRunLibComTests.c
+  epicsSockResolveTest.c
+  epicsSpinTest.c
+  epicsStackTraceTest.c
+  epicsStdioTest.c
+  epicsStdlibTest.c
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\test\epicsStdlibTest.c(273,38): warning C4146: unary minus operator applied to unsigned type, result still unsigned
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\libCom\test\epicsStdlibTest.c(315,81): warning C4146: unary minus operator applied to unsigned type, result still unsigned
+  epicsStringTest.c
+  epicsThreadHooksTest.c
+  epicsThreadOnceTest.c
+  epicsThreadPoolTest.c
+  Generating Code...
+  Compiling...
+  epicsTimeZoneTest.c
+  epicsTypesTest.c
+  epicsUnitTestTest.c
+  macDefExpandTest.c
+  macLibTest.c
+  osiSockTest.c
+  ringBytesTest.c
+  ringPointerTest.c
+  taskwdTest.c
+  Generating Code...
+LINK : fatal error LNK1104: cannot open file 'C:\Users\ktn98257\repos\epics.dotnet\Debug_LIB\Com.lib'

@@ -1,0 +1,20 @@
+﻿  subThreadSleep.c
+  seq_ca.c
+C:\Users\ktn98257\repos\epics.dotnet\support\seq\src\seq\seq.h(55,10): fatal error C1083: Cannot open include file: 'pv.h': No such file or directory
+  seq_cmd.c
+C:\Users\ktn98257\repos\epics.dotnet\support\seq\src\seq\seq.h(55,10): fatal error C1083: Cannot open include file: 'pv.h': No such file or directory
+  seq_if.c
+C:\Users\ktn98257\repos\epics.dotnet\support\seq\src\seq\seq.h(55,10): fatal error C1083: Cannot open include file: 'pv.h': No such file or directory
+  seq_mac.c
+C:\Users\ktn98257\repos\epics.dotnet\support\seq\src\seq\seq.h(55,10): fatal error C1083: Cannot open include file: 'pv.h': No such file or directory
+  seq_main.c
+C:\Users\ktn98257\repos\epics.dotnet\support\seq\src\seq\seq.h(55,10): fatal error C1083: Cannot open include file: 'pv.h': No such file or directory
+  seq_prog.c
+C:\Users\ktn98257\repos\epics.dotnet\support\seq\src\seq\seq.h(55,10): fatal error C1083: Cannot open include file: 'pv.h': No such file or directory
+  seq_qry.c
+C:\Users\ktn98257\repos\epics.dotnet\support\seq\src\seq\seq.h(55,10): fatal error C1083: Cannot open include file: 'pv.h': No such file or directory
+  seq_queue.c
+C:\Users\ktn98257\repos\epics.dotnet\support\seq\src\seq\seq.h(55,10): fatal error C1083: Cannot open include file: 'pv.h': No such file or directory
+  seq_task.c
+C:\Users\ktn98257\repos\epics.dotnet\support\seq\src\seq\seq.h(55,10): fatal error C1083: Cannot open include file: 'pv.h': No such file or directory
+  Generating Code...

@@ -1,0 +1,6 @@
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Microsoft\VC\v160\Microsoft.CppClean.targets(76,5): warning : The process cannot access the file 'c:\users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\ca\src\client\x64\debug_dll\acctst.sbr' because it is being used by another process.
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(491,5): warning MSB8028: The intermediate directory (x64\Debug_DLL\) contains files shared from another project (acctst.vcxproj, ca.vcxproj, caconntest.vcxproj, catime.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  caEventRate.cpp
+  caEventRateMain.cpp
+  Generating Code...
+  caEventRate.vcxproj -> C:\Users\ktn98257\repos\epics.dotnet\x64\Debug_DLL\caEventRate.exe

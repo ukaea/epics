@@ -1,0 +1,2 @@
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-7.0.3.1\MODULES\DATABASE\SRC\STD\SOFTIOC\MAKEINSTALLDIR.PL
+perl makeInstallDir.pl C:\Users\ktn98257\repos\epics.dotnet\ > O.Common\epicsInstallDir.h

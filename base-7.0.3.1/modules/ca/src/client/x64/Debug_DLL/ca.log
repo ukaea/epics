@@ -1,0 +1,60 @@
+﻿  access.cpp
+  baseNMIU.cpp
+  bhe.cpp
+  cac.cpp
+  cacChannel.cpp
+  cacChannelNotify.cpp
+  cacContextNotify.cpp
+  cacReadNotify.cpp
+  cacStateNotify.cpp
+  cacWriteNotify.cpp
+  CASG.cpp
+  ca_client_context.cpp
+  comBuf.cpp
+  comQueRecv.cpp
+  comQueSend.cpp
+  convert.cpp
+  disconnectGovernorTimer.cpp
+  getCallback.cpp
+  getCopy.cpp
+  hostNameCache.cpp
+  Generating Code...
+  Compiling...
+  iocinf.cpp
+  localHostName.cpp
+  msgForMultiplyDefinedPV.cpp
+  nciu.cpp
+  netiiu.cpp
+  netReadNotifyIO.cpp
+  netSubscription.cpp
+  netWriteNotifyIO.cpp
+  noopiiu.cpp
+  oldChannelNotify.cpp
+  oldSubscription.cpp
+  putCallback.cpp
+  repeater.cpp
+  repeaterSubscribeTimer.cpp
+  searchTimer.cpp
+  syncGroupNotify.cpp
+  syncGroupReadNotify.cpp
+  syncGroupWriteNotify.cpp
+  syncgrp.cpp
+  tcpiiu.cpp
+C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\ca\src\client\tcpiiu.cpp(1061,20): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'const SOCKET'
+C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\ca\src\client\tcpiiu.cpp(1061,20): message : consider using '%lld' in the format string
+C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\ca\src\client\tcpiiu.cpp(1061,20): message : consider using '%Id' in the format string
+C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\ca\src\client\tcpiiu.cpp(1061,20): message : consider using '%I64d' in the format string
+  Generating Code...
+  Compiling...
+  tcpRecvThread.cpp
+  tcpRecvWatchdog.cpp
+  tcpSendWatchdog.cpp
+  test_event.cpp
+  udpiiu.cpp
+C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\ca\src\client\udpiiu.cpp(1165,19): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'const SOCKET'
+C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\ca\src\client\udpiiu.cpp(1165,19): message : consider using '%lld' in the format string
+C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\ca\src\client\udpiiu.cpp(1165,19): message : consider using '%Id' in the format string
+C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\ca\src\client\udpiiu.cpp(1165,19): message : consider using '%I64d' in the format string
+  Generating Code...
+     Creating library C:\Users\ktn98257\repos\epics.dotnet\x64\Debug_DLL\ca.lib and object C:\Users\ktn98257\repos\epics.dotnet\x64\Debug_DLL\ca.exp
+  ca.vcxproj -> C:\Users\ktn98257\repos\epics.dotnet\x64\Debug_DLL\ca.dll

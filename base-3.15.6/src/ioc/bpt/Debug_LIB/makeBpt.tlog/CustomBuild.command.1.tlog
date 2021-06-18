@@ -1,0 +1,7 @@
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-3.15.6\SRC\IOC\BPT\MENUCONVERT.DBD.POD
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib/perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\Debug_LIB\dbdExpand.pl  -I../O.Common -IC:\Users\ktn98257\repos\epics.dotnet\include -IDBD -o O.Common/menuConvert.dbd menuConvert.dbd.pod
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-3.15.6\SRC\IOC\BPT\O.COMMON\MENUCONVERT.DBD
+cd O.Common
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\Debug_LIB\dbdToMenuH.pl -o menuConvert.h menuConvert.dbd
+cd C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\ioc\bpt\

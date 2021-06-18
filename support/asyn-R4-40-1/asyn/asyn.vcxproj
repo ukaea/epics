@@ -152,29 +152,10 @@
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib;Winmm.lib</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
-if not exist O.Common md O.Common
-xcopy /Y /Q /D /R .\asynDriver\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\asynPortDriver\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\asynPortClient\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\asynGpib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\devEpics\*.h   $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\interfaces\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\miscellaneous\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\drvAsynSerial\*.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\devGpib\*.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\asynPortDriver\exceptions $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\drvAsynSerial\*.dbd $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R .\miscellaneous\*.dbd  $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R .\asynRecord\*.dbd  $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R .\devEpics\*.dbd   $(SolutionDir)dbd &gt; NUL
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-xcopy /Y /Q  /D .\O.Common\*.h $(SolutionDir)include &gt; NUL
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); .\Build_INCLUDES.bat</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
@@ -190,24 +171,7 @@ xcopy /Y /Q  /D .\O.Common\*.h $(SolutionDir)include &gt; NUL
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib;Winmm.lib</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
-if not exist O.Common md O.Common
-xcopy /Y /Q /D /R .\asynDriver\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\asynPortDriver\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\asynPortClient\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\asynGpib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\devEpics\*.h   $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\interfaces\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\miscellaneous\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\drvAsynSerial\*.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\devGpib\*.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\asynPortDriver\exceptions $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\drvAsynSerial\*.dbd $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R .\miscellaneous\*.dbd  $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R .\asynRecord\*.dbd  $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R .\devEpics\*.dbd   $(SolutionDir)dbd &gt; NUL
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
@@ -228,24 +192,7 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
-if not exist O.Common md O.Common
-xcopy /Y /Q /D /R .\asynDriver\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\asynPortDriver\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\asynPortClient\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\asynGpib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\devEpics\*.h   $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\interfaces\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\miscellaneous\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\drvAsynSerial\*.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\devGpib\*.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\asynPortDriver\exceptions $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\drvAsynSerial\*.dbd $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R .\miscellaneous\*.dbd  $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R .\asynRecord\*.dbd  $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R .\devEpics\*.dbd   $(SolutionDir)dbd &gt; NUL
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
@@ -270,24 +217,7 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
-if not exist O.Common md O.Common
-xcopy /Y /Q /D /R .\asynDriver\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\asynPortDriver\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\asynPortClient\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\asynGpib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\devEpics\*.h   $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\interfaces\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\miscellaneous\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\drvAsynSerial\*.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\devGpib\*.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\asynPortDriver\exceptions $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\drvAsynSerial\*.dbd $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R .\miscellaneous\*.dbd  $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R .\asynRecord\*.dbd  $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R .\devEpics\*.dbd   $(SolutionDir)dbd &gt; NUL
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
@@ -321,24 +251,7 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
 </Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
-if not exist O.Common md O.Common
-xcopy /Y /Q /D /R .\asynDriver\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\asynPortDriver\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\asynPortClient\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\asynGpib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\devEpics\*.h   $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\interfaces\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\miscellaneous\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\drvAsynSerial\*.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\devGpib\*.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\asynPortDriver\exceptions $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\drvAsynSerial\*.dbd $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R .\miscellaneous\*.dbd  $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R .\asynRecord\*.dbd  $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R .\devEpics\*.dbd   $(SolutionDir)dbd &gt; NUL
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
@@ -363,24 +276,7 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
 </Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
-if not exist O.Common md O.Common
-xcopy /Y /Q /D /R .\asynDriver\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\asynPortDriver\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\asynPortClient\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\asynGpib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\devEpics\*.h   $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\interfaces\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\miscellaneous\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\drvAsynSerial\*.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\devGpib\*.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\asynPortDriver\exceptions $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\drvAsynSerial\*.dbd $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R .\miscellaneous\*.dbd  $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R .\asynRecord\*.dbd  $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R .\devEpics\*.dbd   $(SolutionDir)dbd &gt; NUL
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
@@ -405,24 +301,7 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
 </Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
-if not exist O.Common md O.Common
-xcopy /Y /Q /D /R .\asynDriver\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\asynPortDriver\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\asynPortClient\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\asynGpib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\devEpics\*.h   $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\interfaces\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\miscellaneous\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\drvAsynSerial\*.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\devGpib\*.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\asynPortDriver\exceptions $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\drvAsynSerial\*.dbd $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R .\miscellaneous\*.dbd  $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R .\asynRecord\*.dbd  $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R .\devEpics\*.dbd   $(SolutionDir)dbd &gt; NUL
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
     <Lib>
       <AdditionalDependencies>Winmm.lib</AdditionalDependencies>
@@ -451,24 +330,7 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
 </Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
-if not exist O.Common md O.Common
-xcopy /Y /Q /D /R .\asynDriver\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\asynPortDriver\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\asynPortClient\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\asynGpib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\devEpics\*.h   $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\interfaces\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\miscellaneous\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\drvAsynSerial\*.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\devGpib\*.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\asynPortDriver\exceptions $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\drvAsynSerial\*.dbd $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R .\miscellaneous\*.dbd  $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R .\asynRecord\*.dbd  $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R .\devEpics\*.dbd   $(SolutionDir)dbd &gt; NUL
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
     <Lib>
       <AdditionalDependencies>Winmm.lib</AdditionalDependencies>

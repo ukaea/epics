@@ -179,14 +179,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-cd O.Common
-$(OutDir)lemon.exe o=. ../snl.lem
-..\..\..\re2c.exe -s -b -o lexer.c ../snl.re
-cd $(ProjectDir)
-
-
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
@@ -201,14 +194,7 @@ cd $(ProjectDir)
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-cd O.Common
-$(OutDir)lemon.exe o=. ../snl.lem
-..\..\..\re2c.exe -s -b -o lexer.c ../snl.re
-cd $(ProjectDir)
-
-
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
@@ -223,14 +209,7 @@ cd $(ProjectDir)
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-cd O.Common
-$(OutDir)lemon.exe o=. ../snl.lem
-..\..\..\re2c.exe -s -b -o lexer.c ../snl.re
-cd $(ProjectDir)
-
-
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
@@ -245,14 +224,7 @@ cd $(ProjectDir)
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-cd O.Common
-$(OutDir)lemon.exe o=. ../snl.lem
-..\..\..\re2c.exe -s -b -o lexer.c ../snl.re
-cd $(ProjectDir)
-
-
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
@@ -270,14 +242,7 @@ cd $(ProjectDir)
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-cd O.Common
-$(OutDir)lemon.exe o=. ../snl.lem
-..\..\..\re2c.exe -s -b -o lexer.c ../snl.re
-cd $(ProjectDir)
-
-
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
@@ -296,14 +261,7 @@ cd $(ProjectDir)
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-cd O.Common
-$(OutDir)lemon.exe o=. ../snl.lem
-..\..\..\re2c.exe -s -b -o lexer.c ../snl.re
-cd $(ProjectDir)
-
-
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
@@ -321,14 +279,7 @@ cd $(ProjectDir)
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-cd O.Common
-$(OutDir)lemon.exe o=. ../snl.lem
-..\..\..\re2c.exe -s -b -o lexer.c ../snl.re
-cd $(ProjectDir)
-
-
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">
@@ -347,14 +298,7 @@ cd $(ProjectDir)
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-cd O.Common
-$(OutDir)lemon.exe o=. ../snl.lem
-..\..\..\re2c.exe -s -b -o lexer.c ../snl.re
-cd $(ProjectDir)
-
-
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

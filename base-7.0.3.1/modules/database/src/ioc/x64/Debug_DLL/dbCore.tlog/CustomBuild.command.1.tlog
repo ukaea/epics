@@ -1,0 +1,146 @@
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-7.0.3.1\MODULES\DATABASE\SRC\IOC\DBTEMPLATE\DBLOADTEMPLATE.Y
+cd dbtemplate
+C:\Users\ktn98257\repos\epics.dotnet\x64\Debug_DLL\antelope.exe  -bdbLoadTemplate dbLoadTemplate.y
+move /Y dbLoadTemplate.tab.c ..\O.Common\dbLoadTemplate.c
+cd C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\database\src\ioc\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-7.0.3.1\MODULES\DATABASE\SRC\IOC\DBTEMPLATE\DBLOADTEMPLATE_LEX.L
+C:\Users\ktn98257\repos\epics.dotnet\x64\Debug_DLL\e_flex.exe -SC:\Users\ktn98257\repos\epics.dotnet\include/flex.skel.static -8 -I dbtemplate/dbLoadTemplate_lex.l
+move /Y lex.yy.c O.Common/dbLoadTemplate_lex.c
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-7.0.3.1\MODULES\DATABASE\SRC\IOC\DB\DBCOMMONRECORD.DBD
+cd db
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\x64\Debug_DLL\dbdToRecordtypeH.pl -o ../O.Common/dbCommon.h dbCommonRecord.dbd
+cd C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\database\src\ioc\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-7.0.3.1\MODULES\DATABASE\SRC\IOC\DB\MENUPINI.DBD
+cd db
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\x64\Debug_DLL\dbdToMenuH.pl  -I../O.Common -IC:\Users\ktn98257\repos\epics.dotnet\include -o ../O.Common/menuPini.h menuPini.dbd
+cd C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\database\src\ioc\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-7.0.3.1\MODULES\DATABASE\SRC\IOC\DB\MENUPRIORITY.DBD
+cd db
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\x64\Debug_DLL\dbdToMenuH.pl  -I../O.Common -IC:\Users\ktn98257\repos\epics.dotnet\include -o ../O.Common/menuPriority.h menuPriority.dbd
+cd C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\database\src\ioc\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-7.0.3.1\MODULES\DATABASE\SRC\IOC\DB\MENUYESNO.DBD
+cd db
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\x64\Debug_DLL\dbdToMenuH.pl  -I../O.Common -IC:\Users\ktn98257\repos\epics.dotnet\include -o ../O.Common/menuYesNo.h menuYesNo.dbd
+cd C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\database\src\ioc\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-7.0.3.1\MODULES\DATABASE\SRC\IOC\DBSTATIC\DBYACC.Y
+cd dbstatic
+C:\Users\ktn98257\repos\epics.dotnet\x64\Debug_DLL\antelope.exe  -bdbYacc dbYacc.y
+move /Y dbYacc.tab.c ..\O.Common\dbYacc.c
+cd C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\database\src\ioc\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-7.0.3.1\MODULES\DATABASE\SRC\IOC\DBSTATIC\DBLEX.L
+C:\Users\ktn98257\repos\epics.dotnet\x64\Debug_DLL\e_flex.exe -SC:\Users\ktn98257\repos\epics.dotnet\include/flex.skel.static -8 -I dbstatic/dbLex.l
+move /Y lex.yy.c O.Common/dbLex.c
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-7.0.3.1\MODULES\DATABASE\SRC\IOC\MISC\DBCORE.DBD
+cd misc
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\x64\Debug_DLL\dbdToMenuH.pl  -I../O.Common -IC:\Users\ktn98257\repos\epics.dotnet\include -o ../O.Common/dbCore.h dbCore.dbd
+cd C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\database\src\ioc\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-7.0.3.1\MODULES\DATABASE\SRC\IOC\MISC\DLLOAD.DBD
+cd misc
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\x64\Debug_DLL\dbdToMenuH.pl  -I../O.Common -IC:\Users\ktn98257\repos\epics.dotnet\include -o ../O.Common/dlload.h dlload.dbd
+cd C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\database\src\ioc\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-7.0.3.1\MODULES\DATABASE\SRC\IOC\MISC\SYSTEM.DBD
+cd misc
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\x64\Debug_DLL\dbdToMenuH.pl  -I../O.Common -IC:\Users\ktn98257\repos\epics.dotnet\include -o ../O.Common/system.h system.dbd
+cd C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\database\src\ioc\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-7.0.3.1\MODULES\DATABASE\SRC\IOC\DB\MENUALARMSEVR.DBD.POD
+cd db
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\x64\Debug_DLL\podRemove.pl  -o ../O.Common/menuAlarmSevr.dbd menuAlarmSevr.dbd.pod
+cd C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\database\src\ioc\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-7.0.3.1\MODULES\DATABASE\SRC\IOC\DB\MENUPOST.DBD
+cd db
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\x64\Debug_DLL\dbdToMenuH.pl  -I../O.Common -IC:\Users\ktn98257\repos\epics.dotnet\include -o ../O.Common/menuPost.h menuPost.dbd
+cd C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\database\src\ioc\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-7.0.3.1\MODULES\DATABASE\SRC\IOC\DB\MENUSIMM.DBD.POD
+cd db
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\x64\Debug_DLL\podRemove.pl  -o ../O.Common/menuSimm.dbd menuSimm.dbd.pod
+cd C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\database\src\ioc\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-7.0.3.1\MODULES\DATABASE\SRC\IOC\O.COMMON\MENUSIMM.DBD
+cd O.Common
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\x64\Debug_DLL\dbdToMenuH.pl  -I. -IC:\Users\ktn98257\repos\epics.dotnet\include -IC:\Users\ktn98257\repos\epics.dotnet\DBD -o menuSimm.h menuSimm.dbd
+cd C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\database\src\ioc\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-7.0.3.1\MODULES\DATABASE\SRC\IOC\DB\MENUSCAN.DBD.POD
+cd db
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\x64\Debug_DLL\podRemove.pl  -o ../O.Common/menuScan.dbd menuScan.dbd.pod
+cd C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\database\src\ioc\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-7.0.3.1\MODULES\DATABASE\SRC\IOC\DB\MENUALARMSTAT.DBD.POD
+cd db
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\x64\Debug_DLL\podRemove.pl  -o ../O.Common/menuAlarmStat.dbd menuAlarmStat.dbd.pod
+cd C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\database\src\ioc\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-7.0.3.1\MODULES\DATABASE\SRC\IOC\DB\MENUFTYPE.DBD.POD
+cd db
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\x64\Debug_DLL\podRemove.pl  -o ../O.Common/menuFtype.dbd menuFtype.dbd.pod
+cd C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\database\src\ioc\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-7.0.3.1\MODULES\DATABASE\SRC\IOC\DB\MENUIVOA.DBD.POD
+cd db
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\x64\Debug_DLL\podRemove.pl  -o ../O.Common/menuIvoa.dbd menuIvoa.dbd.pod
+cd C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\database\src\ioc\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-7.0.3.1\MODULES\DATABASE\SRC\IOC\DB\MENUOMSL.DBD.POD
+cd db
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\x64\Debug_DLL\podRemove.pl  -o ../O.Common/menuOmsl.dbd menuOmsl.dbd.pod
+cd C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\database\src\ioc\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-7.0.3.1\MODULES\DATABASE\SRC\IOC\DB\MENUYESNO.DBD.POD
+cd db
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\x64\Debug_DLL\podRemove.pl  -o ../O.Common/menuYesNo.dbd menuYesNo.dbd.pod
+cd C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\database\src\ioc\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-7.0.3.1\MODULES\DATABASE\SRC\IOC\O.COMMON\MENUALARMSEVR.DBD
+cd O.Common
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\x64\Debug_DLL\dbdToMenuH.pl  -I. -IC:\Users\ktn98257\repos\epics.dotnet\include -IC:\Users\ktn98257\repos\epics.dotnet\DBD -o menuAlarmSevr.h menuAlarmSevr.dbd
+cd C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\database\src\ioc\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-7.0.3.1\MODULES\DATABASE\SRC\IOC\O.COMMON\MENUCONVERT.DBD
+cd O.Common
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\x64\Debug_DLL\dbdToMenuH.pl  -I. -IC:\Users\ktn98257\repos\epics.dotnet\include -IC:\Users\ktn98257\repos\epics.dotnet\DBD -o menuConvert.h menuConvert.dbd
+cd C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\database\src\ioc\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-7.0.3.1\MODULES\DATABASE\SRC\IOC\O.COMMON\MENUSCAN.DBD
+cd O.Common
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\x64\Debug_DLL\dbdToMenuH.pl  -I. -IC:\Users\ktn98257\repos\epics.dotnet\include -IC:\Users\ktn98257\repos\epics.dotnet\DBD -o menuScan.h menuScan.dbd
+cd C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\database\src\ioc\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-7.0.3.1\MODULES\DATABASE\SRC\IOC\O.COMMON\MENUALARMSTAT.DBD
+cd O.Common
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\x64\Debug_DLL\dbdToMenuH.pl  -I. -IC:\Users\ktn98257\repos\epics.dotnet\include -IC:\Users\ktn98257\repos\epics.dotnet\DBD -o menuAlarmStat.h menuAlarmStat.dbd
+cd C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\database\src\ioc\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-7.0.3.1\MODULES\DATABASE\SRC\IOC\O.COMMON\MENUFTYPE.DBD
+cd O.Common
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\x64\Debug_DLL\dbdToMenuH.pl  -I. -IC:\Users\ktn98257\repos\epics.dotnet\include -IC:\Users\ktn98257\repos\epics.dotnet\DBD -o menuFtype.h menuFtype.dbd
+cd C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\database\src\ioc\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-7.0.3.1\MODULES\DATABASE\SRC\IOC\O.COMMON\MENUGLOBAL.DBD
+cd O.Common
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\x64\Debug_DLL\dbdToMenuH.pl  -I. -IC:\Users\ktn98257\repos\epics.dotnet\include -IC:\Users\ktn98257\repos\epics.dotnet\DBD -o menuGlobal.h menuGlobal.dbd
+cd C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\database\src\ioc\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-7.0.3.1\MODULES\DATABASE\SRC\IOC\O.COMMON\MENUIVOA.DBD
+cd O.Common
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\x64\Debug_DLL\dbdToMenuH.pl  -I. -IC:\Users\ktn98257\repos\epics.dotnet\include -IC:\Users\ktn98257\repos\epics.dotnet\DBD -o menuIvoa.h menuIvoa.dbd
+cd C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\database\src\ioc\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-7.0.3.1\MODULES\DATABASE\SRC\IOC\O.COMMON\MENUOMSL.DBD
+cd O.Common
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\x64\Debug_DLL\dbdToMenuH.pl  -I. -IC:\Users\ktn98257\repos\epics.dotnet\include -IC:\Users\ktn98257\repos\epics.dotnet\DBD -o menuOmsl.h menuOmsl.dbd
+cd C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\database\src\ioc\
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-7.0.3.1\MODULES\DATABASE\SRC\IOC\O.COMMON\MENUYESNO.DBD
+cd O.Common
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\x64\Debug_DLL\dbdToMenuH.pl  -I. -IC:\Users\ktn98257\repos\epics.dotnet\include -IC:\Users\ktn98257\repos\epics.dotnet\DBD -o menuYesNo.h menuYesNo.dbd
+cd C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\database\src\ioc\

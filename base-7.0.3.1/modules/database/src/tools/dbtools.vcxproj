@@ -124,19 +124,7 @@
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <PreBuildEvent>
-      <Command>if not exist $(SolutionDir)lib\perl\DBD md $(SolutionDir)lib\perl\DBD
-if not exist $(SolutionDir)lib\perl\EPICS md $(SolutionDir)lib\perl\EPICS
-if not exist $(SolutionDir)lib md $(SolutionDir)lib
-if not exist $(SolutionDir)lib\perl md $(SolutionDir)lib\perl
-
-xcopy /Y /Q /D /R *.pl $(OutDir) &gt; NUL
-xcopy /Y /Q /D /R *.pm $(SolutionDir)lib\perl &gt; NUL
-xcopy /Y /Q /D /R DBD\*.pm $(SolutionDir)lib\perl\DBD &gt; NUL
-xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
-
-SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)convertRelease.pl -T $(SolutionDir) $(OutDir)databaseModuleDirs.pm
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
@@ -147,19 +135,7 @@ perl -CSD $(OutDir)convertRelease.pl -T $(SolutionDir) $(OutDir)databaseModuleDi
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <PreBuildEvent>
-      <Command>if not exist $(SolutionDir)lib\perl\DBD md $(SolutionDir)lib\perl\DBD
-if not exist $(SolutionDir)lib\perl\EPICS md $(SolutionDir)lib\perl\EPICS
-if not exist $(SolutionDir)lib md $(SolutionDir)lib
-if not exist $(SolutionDir)lib\perl md $(SolutionDir)lib\perl
-
-xcopy /Y /Q /D /R *.pl $(OutDir) &gt; NUL
-xcopy /Y /Q /D /R *.pm $(SolutionDir)lib\perl &gt; NUL
-xcopy /Y /Q /D /R DBD\*.pm $(SolutionDir)lib\perl\DBD &gt; NUL
-xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
-
-SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)convertRelease.pl -T $(SolutionDir) $(OutDir)databaseModuleDirs.pm
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
@@ -170,19 +146,7 @@ perl -CSD $(OutDir)convertRelease.pl -T $(SolutionDir) $(OutDir)databaseModuleDi
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <PreBuildEvent>
-      <Command>if not exist $(SolutionDir)lib\perl\DBD md $(SolutionDir)lib\perl\DBD
-if not exist $(SolutionDir)lib\perl\EPICS md $(SolutionDir)lib\perl\EPICS
-if not exist $(SolutionDir)lib md $(SolutionDir)lib
-if not exist $(SolutionDir)lib\perl md $(SolutionDir)lib\perl
-
-xcopy /Y /Q /D /R *.pl $(OutDir) &gt; NUL
-xcopy /Y /Q /D /R *.pm $(SolutionDir)lib\perl &gt; NUL
-xcopy /Y /Q /D /R DBD\*.pm $(SolutionDir)lib\perl\DBD &gt; NUL
-xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
-
-SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)convertRelease.pl -T $(SolutionDir) $(OutDir)databaseModuleDirs.pm
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
@@ -193,19 +157,7 @@ perl -CSD $(OutDir)convertRelease.pl -T $(SolutionDir) $(OutDir)databaseModuleDi
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <PreBuildEvent>
-      <Command>if not exist $(SolutionDir)lib\perl\DBD md $(SolutionDir)lib\perl\DBD
-if not exist $(SolutionDir)lib\perl\EPICS md $(SolutionDir)lib\perl\EPICS
-if not exist $(SolutionDir)lib md $(SolutionDir)lib
-if not exist $(SolutionDir)lib\perl md $(SolutionDir)lib\perl
-
-xcopy /Y /Q /D /R *.pl $(OutDir) &gt; NUL
-xcopy /Y /Q /D /R *.pm $(SolutionDir)lib\perl &gt; NUL
-xcopy /Y /Q /D /R DBD\*.pm $(SolutionDir)lib\perl\DBD &gt; NUL
-xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
-
-SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)convertRelease.pl -T $(SolutionDir) $(OutDir)databaseModuleDirs.pm
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
@@ -222,19 +174,7 @@ perl -CSD $(OutDir)convertRelease.pl -T $(SolutionDir) $(OutDir)databaseModuleDi
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist $(SolutionDir)lib\perl\DBD md $(SolutionDir)lib\perl\DBD
-if not exist $(SolutionDir)lib\perl\EPICS md $(SolutionDir)lib\perl\EPICS
-if not exist $(SolutionDir)lib md $(SolutionDir)lib
-if not exist $(SolutionDir)lib\perl md $(SolutionDir)lib\perl
-
-xcopy /Y /Q /D /R *.pl $(OutDir) &gt; NUL
-xcopy /Y /Q /D /R *.pm $(SolutionDir)lib\perl &gt; NUL
-xcopy /Y /Q /D /R DBD\*.pm $(SolutionDir)lib\perl\DBD &gt; NUL
-xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
-
-SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)convertRelease.pl -T $(SolutionDir) $(OutDir)databaseModuleDirs.pm
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
@@ -251,19 +191,7 @@ perl -CSD $(OutDir)convertRelease.pl -T $(SolutionDir) $(OutDir)databaseModuleDi
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist $(SolutionDir)lib\perl\DBD md $(SolutionDir)lib\perl\DBD
-if not exist $(SolutionDir)lib\perl\EPICS md $(SolutionDir)lib\perl\EPICS
-if not exist $(SolutionDir)lib md $(SolutionDir)lib
-if not exist $(SolutionDir)lib\perl md $(SolutionDir)lib\perl
-
-xcopy /Y /Q /D /R *.pl $(OutDir) &gt; NUL
-xcopy /Y /Q /D /R *.pm $(SolutionDir)lib\perl &gt; NUL
-xcopy /Y /Q /D /R DBD\*.pm $(SolutionDir)lib\perl\DBD &gt; NUL
-xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
-
-SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)convertRelease.pl -T $(SolutionDir) $(OutDir)databaseModuleDirs.pm
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
@@ -280,19 +208,7 @@ perl -CSD $(OutDir)convertRelease.pl -T $(SolutionDir) $(OutDir)databaseModuleDi
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist $(SolutionDir)lib\perl\DBD md $(SolutionDir)lib\perl\DBD
-if not exist $(SolutionDir)lib\perl\EPICS md $(SolutionDir)lib\perl\EPICS
-if not exist $(SolutionDir)lib md $(SolutionDir)lib
-if not exist $(SolutionDir)lib\perl md $(SolutionDir)lib\perl
-
-xcopy /Y /Q /D /R *.pl $(OutDir) &gt; NUL
-xcopy /Y /Q /D /R *.pm $(SolutionDir)lib\perl &gt; NUL
-xcopy /Y /Q /D /R DBD\*.pm $(SolutionDir)lib\perl\DBD &gt; NUL
-xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
-
-SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)convertRelease.pl -T $(SolutionDir) $(OutDir)databaseModuleDirs.pm
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">
@@ -309,19 +225,7 @@ perl -CSD $(OutDir)convertRelease.pl -T $(SolutionDir) $(OutDir)databaseModuleDi
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist $(SolutionDir)lib\perl\DBD md $(SolutionDir)lib\perl\DBD
-if not exist $(SolutionDir)lib\perl\EPICS md $(SolutionDir)lib\perl\EPICS
-if not exist $(SolutionDir)lib md $(SolutionDir)lib
-if not exist $(SolutionDir)lib\perl md $(SolutionDir)lib\perl
-
-xcopy /Y /Q /D /R *.pl $(OutDir) &gt; NUL
-xcopy /Y /Q /D /R *.pm $(SolutionDir)lib\perl &gt; NUL
-xcopy /Y /Q /D /R DBD\*.pm $(SolutionDir)lib\perl\DBD &gt; NUL
-xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
-
-SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)convertRelease.pl -T $(SolutionDir) $(OutDir)databaseModuleDirs.pm
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

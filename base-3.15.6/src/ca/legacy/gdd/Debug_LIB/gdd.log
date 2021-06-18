@@ -1,0 +1,16 @@
+﻿  aitConvert.cc
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\ca\legacy\gdd\aitConvert.cc(434,10): fatal error C1083: Cannot open include file: 'aitConvertGenerated.cc': No such file or directory
+  aitHelpers.cc
+  dbMapper.cc
+C:\Users\ktn98257\repos\epics.dotnet\base-3.15.6\src\ca\legacy\gdd\dbMapper.cc(19,10): fatal error C1083: Cannot open include file: 'gddApps.h': No such file or directory
+  gdd.cc
+  gddAppDefs.cc
+  gddAppTable.cc
+  gddArray.cc
+  gddContainer.cc
+  gddEnumStringTable.cc
+  gddErrorCodes.cc
+  gddNewDel.cc
+  gddTest.cc
+  gddUtils.cc
+  Generating Code...

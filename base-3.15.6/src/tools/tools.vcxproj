@@ -38,7 +38,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{5CCE1C6A-2BD5-48BF-99E2-D29B58F91991}</ProjectGuid>
+    <ProjectGuid>{0B90BA63-7B3A-42C4-B44B-6E2B92F5DEFA}</ProjectGuid>
     <RootNamespace>tools</RootNamespace>
     <SccProjectName>
     </SccProjectName>
@@ -140,16 +140,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist $(SolutionDir)lib md $(SolutionDir)lib
-if not exist $(SolutionDir)lib\perl md $(SolutionDir)lib\perl
-if not exist $(SolutionDir)lib\perl\DBD md $(SolutionDir)lib\perl\DBD
-if not exist $(SolutionDir)lib\perl\EPICS md $(SolutionDir)lib\perl\EPICS
-
-xcopy /Y /Q /D /R *.pl $(OutDir) &gt; NUL
-xcopy /Y /Q /D /R *.pm $(SolutionDir)lib\perl &gt; NUL
-xcopy /Y /Q /D /R DBD\*.pm $(SolutionDir)lib\perl\DBD &gt; NUL
-xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
@@ -161,16 +152,7 @@ xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist $(SolutionDir)lib md $(SolutionDir)lib
-if not exist $(SolutionDir)lib\perl md $(SolutionDir)lib\perl
-if not exist $(SolutionDir)lib\perl\DBD md $(SolutionDir)lib\perl\DBD
-if not exist $(SolutionDir)lib\perl\EPICS md $(SolutionDir)lib\perl\EPICS
-
-xcopy /Y /Q /D /R *.pl $(OutDir) &gt; NUL
-xcopy /Y /Q /D /R *.pm $(SolutionDir)lib\perl &gt; NUL
-xcopy /Y /Q /D /R DBD\*.pm $(SolutionDir)lib\perl\DBD &gt; NUL
-xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
@@ -182,16 +164,7 @@ xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist $(SolutionDir)lib md $(SolutionDir)lib
-if not exist $(SolutionDir)lib\perl md $(SolutionDir)lib\perl
-if not exist $(SolutionDir)lib\perl\DBD md $(SolutionDir)lib\perl\DBD
-if not exist $(SolutionDir)lib\perl\EPICS md $(SolutionDir)lib\perl\EPICS
-
-xcopy /Y /Q /D /R *.pl $(OutDir) &gt; NUL
-xcopy /Y /Q /D /R *.pm $(SolutionDir)lib\perl &gt; NUL
-xcopy /Y /Q /D /R DBD\*.pm $(SolutionDir)lib\perl\DBD &gt; NUL
-xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
@@ -203,16 +176,7 @@ xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist $(SolutionDir)lib md $(SolutionDir)lib
-if not exist $(SolutionDir)lib\perl md $(SolutionDir)lib\perl
-if not exist $(SolutionDir)lib\perl\DBD md $(SolutionDir)lib\perl\DBD
-if not exist $(SolutionDir)lib\perl\EPICS md $(SolutionDir)lib\perl\EPICS
-
-xcopy /Y /Q /D /R *.pl $(OutDir) &gt; NUL
-xcopy /Y /Q /D /R *.pm $(SolutionDir)lib\perl &gt; NUL
-xcopy /Y /Q /D /R DBD\*.pm $(SolutionDir)lib\perl\DBD &gt; NUL
-xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
@@ -228,16 +192,7 @@ xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist $(SolutionDir)lib md $(SolutionDir)lib
-if not exist $(SolutionDir)lib\perl md $(SolutionDir)lib\perl
-if not exist $(SolutionDir)lib\perl\DBD md $(SolutionDir)lib\perl\DBD
-if not exist $(SolutionDir)lib\perl\EPICS md $(SolutionDir)lib\perl\EPICS
-
-xcopy /Y /Q /D /R *.pl $(OutDir) &gt; NUL
-xcopy /Y /Q /D /R *.pm $(SolutionDir)lib\perl &gt; NUL
-xcopy /Y /Q /D /R DBD\*.pm $(SolutionDir)lib\perl\DBD &gt; NUL
-xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
@@ -253,16 +208,7 @@ xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist $(SolutionDir)lib md $(SolutionDir)lib
-if not exist $(SolutionDir)lib\perl md $(SolutionDir)lib\perl
-if not exist $(SolutionDir)lib\perl\DBD md $(SolutionDir)lib\perl\DBD
-if not exist $(SolutionDir)lib\perl\EPICS md $(SolutionDir)lib\perl\EPICS
-
-xcopy /Y /Q /D /R *.pl $(OutDir) &gt; NUL
-xcopy /Y /Q /D /R *.pm $(SolutionDir)lib\perl &gt; NUL
-xcopy /Y /Q /D /R DBD\*.pm $(SolutionDir)lib\perl\DBD &gt; NUL
-xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
@@ -278,16 +224,7 @@ xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist $(SolutionDir)lib md $(SolutionDir)lib
-if not exist $(SolutionDir)lib\perl md $(SolutionDir)lib\perl
-if not exist $(SolutionDir)lib\perl\DBD md $(SolutionDir)lib\perl\DBD
-if not exist $(SolutionDir)lib\perl\EPICS md $(SolutionDir)lib\perl\EPICS
-
-xcopy /Y /Q /D /R *.pl $(OutDir) &gt; NUL
-xcopy /Y /Q /D /R *.pm $(SolutionDir)lib\perl &gt; NUL
-xcopy /Y /Q /D /R DBD\*.pm $(SolutionDir)lib\perl\DBD &gt; NUL
-xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">
@@ -303,16 +240,7 @@ xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist $(SolutionDir)lib md $(SolutionDir)lib
-if not exist $(SolutionDir)lib\perl md $(SolutionDir)lib\perl
-if not exist $(SolutionDir)lib\perl\DBD md $(SolutionDir)lib\perl\DBD
-if not exist $(SolutionDir)lib\perl\EPICS md $(SolutionDir)lib\perl\EPICS
-
-xcopy /Y /Q /D /R *.pl $(OutDir) &gt; NUL
-xcopy /Y /Q /D /R *.pm $(SolutionDir)lib\perl &gt; NUL
-xcopy /Y /Q /D /R DBD\*.pm $(SolutionDir)lib\perl\DBD &gt; NUL
-xcopy /Y /Q /D /R EPICS\*.pm $(SolutionDir)lib\perl\EPICS &gt; NUL
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

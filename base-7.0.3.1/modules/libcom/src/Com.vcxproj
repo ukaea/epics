@@ -776,55 +776,7 @@ move /Y lex.yy.c O.Common\asLib_lex.c
     </CustomBuildStep>
     <PreBuildEvent />
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-if not exist  $(SolutionDir)include\os md  $(SolutionDir)include\os
-if not exist  $(SolutionDir)include\os\WIN32 md  $(SolutionDir)include\os\WIN32
-if not exist  $(SolutionDir)include\valgrind md  $(SolutionDir)include\valgrind
-
-if not exist O.Common md O.Common
-
-xcopy /Y /Q /D /R as\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R misc\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R osi\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R env\*.h   $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R iocsh\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R cppStd\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R error\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R ellLib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R cxxTemplates\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R timer\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R freeList\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R cvtFast\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R taskwd\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R fdmgr\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R gpHash\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R bucketLib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R dbmf\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R macLib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R macLib\EPICS\*.pm  $(SolutionDir)lib\perl\EPICS
-xcopy /Y /Q /D /R calc\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R ring\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R log\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R yajl\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R pool\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R osi\os\default\*.h $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q /D /R valgrind\*.h $(SolutionDir)include\valgrind &gt; NUL
-
-REM required by bldEnvData.pl
-xcopy /Y /Q /D /R ..\..\database\src\ioc\*.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R ..\..\database\src\ioc\dbStatic\*.h $(SolutionDir)include &gt; NUL
-
-REM conflict with osi\os\WIN32 header file versions.
-del  $(SolutionDir)include\os\WIN32\osdWireConfig.h
-del  $(SolutionDir)include\os\WIN32\epicsGetopt.h
-
-xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q /D /R osi\compiler\msvc\*.h  $(SolutionDir)include\compiler\msvc\ &gt; NUL
-
-SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
-perl -CSD $(OutDir)convertRelease.pl -T $(SolutionDir)  $(OutDir)libComModuleDirs.pm
-
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
@@ -852,55 +804,7 @@ perl -CSD $(OutDir)convertRelease.pl -T $(SolutionDir)  $(OutDir)libComModuleDir
     </CustomBuildStep>
     <PreBuildEvent />
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-if not exist  $(SolutionDir)include\os md  $(SolutionDir)include\os
-if not exist  $(SolutionDir)include\os\WIN32 md  $(SolutionDir)include\os\WIN32
-if not exist  $(SolutionDir)include\valgrind md  $(SolutionDir)include\valgrind
-
-if not exist O.Common md O.Common
-
-xcopy /Y /Q /D /R as\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R misc\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R osi\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R env\*.h   $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R iocsh\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R cppStd\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R error\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R ellLib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R cxxTemplates\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R timer\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R freeList\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R cvtFast\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R taskwd\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R fdmgr\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R gpHash\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R bucketLib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R dbmf\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R macLib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R macLib\EPICS\*.pm  $(SolutionDir)lib\perl\EPICS
-xcopy /Y /Q /D /R calc\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R ring\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R log\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R yajl\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R pool\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R osi\os\default\*.h $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q /D /R valgrind\*.h $(SolutionDir)include\valgrind &gt; NUL
-
-REM required by bldEnvData.pl
-xcopy /Y /Q /D /R ..\..\database\src\ioc\*.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R ..\..\database\src\ioc\dbStatic\*.h $(SolutionDir)include &gt; NUL
-
-REM conflict with osi\os\WIN32 header file versions.
-del  $(SolutionDir)include\os\WIN32\osdWireConfig.h
-del  $(SolutionDir)include\os\WIN32\epicsGetopt.h
-
-xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q /D /R osi\compiler\msvc\*.h  $(SolutionDir)include\compiler\msvc\ &gt; NUL
-
-SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
-perl -CSD $(OutDir)convertRelease.pl -T $(SolutionDir)  $(OutDir)libComModuleDirs.pm
-
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
     <Lib>
       <SubSystem>Windows</SubSystem>
@@ -934,55 +838,7 @@ perl -CSD $(OutDir)convertRelease.pl -T $(SolutionDir)  $(OutDir)libComModuleDir
     </CustomBuildStep>
     <PreBuildEvent />
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-if not exist  $(SolutionDir)include\os md  $(SolutionDir)include\os
-if not exist  $(SolutionDir)include\os\WIN32 md  $(SolutionDir)include\os\WIN32
-if not exist  $(SolutionDir)include\valgrind md  $(SolutionDir)include\valgrind
-
-if not exist O.Common md O.Common
-
-xcopy /Y /Q /D /R as\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R misc\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R osi\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R env\*.h   $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R iocsh\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R cppStd\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R error\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R ellLib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R cxxTemplates\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R timer\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R freeList\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R cvtFast\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R taskwd\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R fdmgr\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R gpHash\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R bucketLib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R dbmf\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R macLib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R macLib\EPICS\*.pm  $(SolutionDir)lib\perl\EPICS
-xcopy /Y /Q /D /R calc\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R ring\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R log\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R yajl\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R pool\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R osi\os\default\*.h $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q /D /R valgrind\*.h $(SolutionDir)include\valgrind &gt; NUL
-
-REM required by bldEnvData.pl
-xcopy /Y /Q /D /R ..\..\database\src\ioc\*.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R ..\..\database\src\ioc\dbStatic\*.h $(SolutionDir)include &gt; NUL
-
-REM conflict with osi\os\WIN32 header file versions.
-del  $(SolutionDir)include\os\WIN32\osdWireConfig.h
-del  $(SolutionDir)include\os\WIN32\epicsGetopt.h
-
-xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q /D /R osi\compiler\msvc\*.h  $(SolutionDir)include\compiler\msvc\ &gt; NUL
-
-SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
-perl -CSD $(OutDir)convertRelease.pl -T $(SolutionDir)  $(OutDir)libComModuleDirs.pm
-
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
@@ -1010,55 +866,7 @@ perl -CSD $(OutDir)convertRelease.pl -T $(SolutionDir)  $(OutDir)libComModuleDir
     </CustomBuildStep>
     <PreBuildEvent />
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-if not exist  $(SolutionDir)include\os md  $(SolutionDir)include\os
-if not exist  $(SolutionDir)include\os\WIN32 md  $(SolutionDir)include\os\WIN32
-if not exist  $(SolutionDir)include\valgrind md  $(SolutionDir)include\valgrind
-
-if not exist O.Common md O.Common
-
-xcopy /Y /Q /D /R as\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R misc\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R osi\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R env\*.h   $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R iocsh\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R cppStd\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R error\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R ellLib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R cxxTemplates\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R timer\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R freeList\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R cvtFast\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R taskwd\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R fdmgr\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R gpHash\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R bucketLib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R dbmf\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R macLib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R macLib\EPICS\*.pm  $(SolutionDir)lib\perl\EPICS
-xcopy /Y /Q /D /R calc\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R ring\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R log\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R yajl\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R pool\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R osi\os\default\*.h $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q /D /R valgrind\*.h $(SolutionDir)include\valgrind &gt; NUL
-
-REM required by bldEnvData.pl
-xcopy /Y /Q /D /R ..\..\database\src\ioc\*.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R ..\..\database\src\ioc\dbStatic\*.h $(SolutionDir)include &gt; NUL
-
-REM conflict with osi\os\WIN32 header file versions.
-del  $(SolutionDir)include\os\WIN32\osdWireConfig.h
-del  $(SolutionDir)include\os\WIN32\epicsGetopt.h
-
-xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q /D /R osi\compiler\msvc\*.h  $(SolutionDir)include\compiler\msvc\ &gt; NUL
-
-SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
-perl -CSD $(OutDir)convertRelease.pl -T $(SolutionDir)  $(OutDir)libComModuleDirs.pm
-
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
     <Lib>
       <AdditionalOptions>/MACHINE:x64 %(AdditionalOptions)</AdditionalOptions>
@@ -1236,55 +1044,7 @@ perl -CSD $(OutDir)convertRelease.pl -T $(SolutionDir)  $(OutDir)libComModuleDir
       <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-if not exist  $(SolutionDir)include\os md  $(SolutionDir)include\os
-if not exist  $(SolutionDir)include\os\WIN32 md  $(SolutionDir)include\os\WIN32
-if not exist  $(SolutionDir)include\valgrind md  $(SolutionDir)include\valgrind
-
-if not exist O.Common md O.Common
-
-xcopy /Y /Q /D /R as\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R misc\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R osi\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R env\*.h   $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R iocsh\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R cppStd\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R error\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R ellLib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R cxxTemplates\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R timer\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R freeList\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R cvtFast\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R taskwd\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R fdmgr\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R gpHash\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R bucketLib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R dbmf\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R macLib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R macLib\EPICS\*.pm  $(SolutionDir)lib\perl\EPICS
-xcopy /Y /Q /D /R calc\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R ring\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R log\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R yajl\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R pool\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R osi\os\default\*.h $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q /D /R valgrind\*.h $(SolutionDir)include\valgrind &gt; NUL
-
-REM required by bldEnvData.pl
-xcopy /Y /Q /D /R ..\..\database\src\ioc\*.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R ..\..\database\src\ioc\dbStatic\*.h $(SolutionDir)include &gt; NUL
-
-REM conflict with osi\os\WIN32 header file versions.
-del  $(SolutionDir)include\os\WIN32\osdWireConfig.h
-del  $(SolutionDir)include\os\WIN32\epicsGetopt.h
-
-xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q /D /R osi\compiler\msvc\*.h  $(SolutionDir)include\compiler\msvc\ &gt; NUL
-
-SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
-perl -CSD $(OutDir)convertRelease.pl -T $(SolutionDir)  $(OutDir)libComModuleDirs.pm
-
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">
@@ -1308,55 +1068,7 @@ perl -CSD $(OutDir)convertRelease.pl -T $(SolutionDir)  $(OutDir)libComModuleDir
       <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-if not exist  $(SolutionDir)include\os md  $(SolutionDir)include\os
-if not exist  $(SolutionDir)include\os\WIN32 md  $(SolutionDir)include\os\WIN32
-if not exist  $(SolutionDir)include\valgrind md  $(SolutionDir)include\valgrind
-
-if not exist O.Common md O.Common
-
-xcopy /Y /Q /D /R as\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R misc\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R osi\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R env\*.h   $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R iocsh\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R cppStd\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R error\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R ellLib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R cxxTemplates\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R timer\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R freeList\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R cvtFast\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R taskwd\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R fdmgr\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R gpHash\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R bucketLib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R dbmf\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R macLib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R macLib\EPICS\*.pm  $(SolutionDir)lib\perl\EPICS
-xcopy /Y /Q /D /R calc\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R ring\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R log\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R yajl\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R pool\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R osi\os\default\*.h $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q /D /R valgrind\*.h $(SolutionDir)include\valgrind &gt; NUL
-
-REM required by bldEnvData.pl
-xcopy /Y /Q /D /R ..\..\database\src\ioc\*.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R ..\..\database\src\ioc\dbStatic\*.h $(SolutionDir)include &gt; NUL
-
-REM conflict with osi\os\WIN32 header file versions.
-del  $(SolutionDir)include\os\WIN32\osdWireConfig.h
-del  $(SolutionDir)include\os\WIN32\epicsGetopt.h
-
-xcopy /Y /Q /D /R osi\os\WIN32\*.h  $(SolutionDir)include\os\WIN32 &gt; NUL
-xcopy /Y /Q /D /R osi\compiler\msvc\*.h  $(SolutionDir)include\compiler\msvc\ &gt; NUL
-
-SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
-perl -CSD $(OutDir)convertRelease.pl -T $(SolutionDir)  $(OutDir)libComModuleDirs.pm
-
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
     <Lib>
       <AdditionalOptions>/MACHINE:x64 %(AdditionalOptions)</AdditionalOptions>

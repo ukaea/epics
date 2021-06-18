@@ -1,0 +1,9 @@
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\SUPPORT\SSCAN\SSCANAPP\SRC\MENUSSCAN.DBD
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\Debug_LIB\dbdToMenuH.pl  -IC:\Users\ktn98257\repos\epics.dotnet\include -o ./O.Common/menuSscan.h menuSscan.dbd
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\SUPPORT\SSCAN\SSCANAPP\SRC\SCANPARMRECORD.DBD
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\Debug_LIB\dbdToRecordtypeH.pl  -I./O.Common -IC:\Users\ktn98257\repos\epics.dotnet\include -IC:\Users\ktn98257\repos\epics.dotnet\dbd -o ./O.Common/scanparmRecord.h scanparmRecord.dbd
+^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\SUPPORT\SSCAN\SSCANAPP\SRC\SSCANRECORD.DBD
+SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
+perl -CSD C:\Users\ktn98257\repos\epics.dotnet\Debug_LIB\dbdToRecordtypeH.pl  -I./O.Common -IC:\Users\ktn98257\repos\epics.dotnet\include -IC:\Users\ktn98257\repos\epics.dotnet\dbd -o ./O.Common/sscanRecord.h sscanRecord.dbd

@@ -264,11 +264,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-xcopy /Y /Q  /D /R *.h $(SolutionDir)include &gt; NUL
-attrib -r $(OutDir)ca.lib
-attrib -r $(OutDir)ca.exp
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>attrib +r $(OutDir)ca.lib
@@ -297,9 +293,7 @@ attrib +r $(OutDir)ca.exp
       <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-xcopy /Y /Q  /D /R *.h $(SolutionDir)include &gt; NUL
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
     <Lib>
       <AdditionalDependencies>ws2_32.lib</AdditionalDependencies>
@@ -328,9 +322,7 @@ xcopy /Y /Q  /D /R *.h $(SolutionDir)include &gt; NUL
       <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-xcopy /Y /Q  /D /R *.h $(SolutionDir)include &gt; NUL
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
@@ -354,9 +346,7 @@ xcopy /Y /Q  /D /R *.h $(SolutionDir)include &gt; NUL
       <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-xcopy /Y /Q  /D /R *.h $(SolutionDir)include &gt; NUL
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
     <Lib>
       <AdditionalDependencies>ws2_32.lib</AdditionalDependencies>
@@ -385,9 +375,7 @@ xcopy /Y /Q  /D /R *.h $(SolutionDir)include &gt; NUL
       <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-xcopy /Y /Q  /D /R *.h $(SolutionDir)include &gt; NUL
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
@@ -411,9 +399,7 @@ xcopy /Y /Q  /D /R *.h $(SolutionDir)include &gt; NUL
       <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-xcopy /Y /Q  /D /R *.h $(SolutionDir)include &gt; NUL
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
     <Lib>
       <AdditionalDependencies>ws2_32.lib</AdditionalDependencies>
@@ -442,9 +428,7 @@ xcopy /Y /Q  /D /R *.h $(SolutionDir)include &gt; NUL
       <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-xcopy /Y /Q  /D /R *.h $(SolutionDir)include &gt; NUL
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">
@@ -468,9 +452,7 @@ xcopy /Y /Q  /D /R *.h $(SolutionDir)include &gt; NUL
       <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-xcopy /Y /Q  /D /R *.h $(SolutionDir)include &gt; NUL
-</Command>
+      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
     <Lib>
       <AdditionalDependencies>ws2_32.lib</AdditionalDependencies>

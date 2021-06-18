@@ -1,0 +1,267 @@
+﻿  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Can't find file 'menuFtype.dbd'
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+  Can't find file 'menuIvoa.dbd'
+  Performing Custom Build Tools
+  Performing Custom Build Tools
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Microsoft\VC\v160\Microsoft.CppCommon.targets(234,5): warning MSB8065: Custom build for item "O.Common\waveformRecord.dbd" succeeded, but specified output "c:\users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\database\src\std\o.common\waveformrecord.h" has not been created. This may cause incremental build to work incorrectly.
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Microsoft\VC\v160\Microsoft.CppCommon.targets(234,5): warning MSB8065: Custom build for item "O.Common\stringoutRecord.dbd" succeeded, but specified output "c:\users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\database\src\std\o.common\stringoutrecord.h" has not been created. This may cause incremental build to work incorrectly.
+  asSubRecordFunctions.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  devAaiSoft.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  devAaoSoft.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  devAiSoft.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  devAiSoftCallback.c
+C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\database\src\std\dev\devAiSoftCallback.c(20,10): fatal error C1083: Cannot open include file: 'dbCommon.h': No such file or directory
+  devAiSoftRaw.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  devAoSoft.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  devAoSoftCallback.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  devAoSoftRaw.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  devBiDbState.c
+  devBiSoft.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  devBiSoftCallback.c
+C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\database\src\std\dev\devBiSoftCallback.c(20,10): fatal error C1083: Cannot open include file: 'dbCommon.h': No such file or directory
+  devBiSoftRaw.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  devBoDbState.c
+  devBoSoft.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  devBoSoftCallback.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  devBoSoftRaw.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  devCalcoutSoft.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  devCalcoutSoftCallback.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  devEnviron.c
+C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\database\src\std\dev\devEnviron.c(14,10): fatal error C1083: Cannot open include file: 'dbCommon.h': No such file or directory
+  Generating Code...
+  Compiling...
+  devEventSoft.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  devGeneralTime.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  devHistogramSoft.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  devI64inSoft.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  devI64inSoftCallback.c
+C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\database\src\std\dev\devI64inSoftCallback.c(20,10): fatal error C1083: Cannot open include file: 'dbCommon.h': No such file or directory
+  devI64outSoft.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  devI64outSoftCallback.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  devLiSoft.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  devLiSoftCallback.c
+C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\database\src\std\dev\devLiSoftCallback.c(20,10): fatal error C1083: Cannot open include file: 'dbCommon.h': No such file or directory
+  devLoSoft.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  devLoSoftCallback.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  devLsiSoft.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  devLsoSoft.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  devLsoSoftCallback.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  devMbbiDirectSoft.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  devMbbiDirectSoftCallback.c
+C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\database\src\std\dev\devMbbiDirectSoftCallback.c(20,10): fatal error C1083: Cannot open include file: 'dbCommon.h': No such file or directory
+  devMbbiDirectSoftRaw.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  devMbbiSoft.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  devMbbiSoftCallback.c
+C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\database\src\std\dev\devMbbiSoftCallback.c(20,10): fatal error C1083: Cannot open include file: 'dbCommon.h': No such file or directory
+  devMbbiSoftRaw.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  Generating Code...
+  Compiling...
+  devMbboDirectSoft.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  devMbboDirectSoftCallback.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  devMbboDirectSoftRaw.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  devMbboSoft.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  devMbboSoftCallback.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  devMbboSoftRaw.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  devPrintfSoft.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  devPrintfSoftCallback.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  devSASoft.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  devSiSoft.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  devSiSoftCallback.c
+C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\database\src\std\dev\devSiSoftCallback.c(21,10): fatal error C1083: Cannot open include file: 'dbCommon.h': No such file or directory
+  devSoSoft.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  devSoSoftCallback.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  devStdio.c
+C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\database\src\std\dev\devStdio.c(11,10): fatal error C1083: Cannot open include file: 'dbCommon.h': No such file or directory
+  devTimestamp.c
+C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\database\src\std\dev\devTimestamp.c(61,74): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+  devWfSoft.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  arr.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  dbnd.c
+  decimate.c
+  sync.c
+  Generating Code...
+  Compiling...
+  ts.c
+  lnkCalc.c
+C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\database\src\std\link\lnkCalc.c(27,10): fatal error C1083: Cannot open include file: 'dbCommon.h': No such file or directory
+  lnkConst.c
+  lnkDebug.c
+  lnkState.c
+C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\database\src\std\link\lnkState.c(25,10): fatal error C1083: Cannot open include file: 'dbCommon.h': No such file or directory
+  aaiRecord.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  aaoRecord.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  aiRecord.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  aoRecord.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  aSubRecord.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  biRecord.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  boRecord.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  calcoutRecord.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  calcRecord.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  compressRecord.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  dfanoutRecord.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  eventRecord.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  fanoutRecord.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  histogramRecord.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  int64inRecord.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  Generating Code...
+  Compiling...
+  int64outRecord.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  longinRecord.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  longoutRecord.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  lsiRecord.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  lsoRecord.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  mbbiDirectRecord.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  mbbiRecord.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  mbboDirectRecord.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  mbboRecord.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  permissiveRecord.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  printfRecord.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  selRecord.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  seqRecord.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  stateRecord.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  stringinRecord.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  stringoutRecord.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  subArrayRecord.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  subRecord.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  waveformRecord.c
+C:\Users\ktn98257\repos\epics.dotnet\include\dbAccess.h(16,10): fatal error C1083: Cannot open include file: 'caeventmask.h': No such file or directory
+  Generating Code...
