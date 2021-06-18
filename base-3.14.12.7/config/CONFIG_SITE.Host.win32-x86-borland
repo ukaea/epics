@@ -1,3 +1,0 @@
-
-# win32-x86-borland is the new name for Borland
--include $(EPICS_BASE)/config/CONFIG_SITE.Host.Borland

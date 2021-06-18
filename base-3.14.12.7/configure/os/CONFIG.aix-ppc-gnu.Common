@@ -1,9 +1,0 @@
-# CONFIG.aix-ppc-gnu.Common
-#
-# Definitions for aix-ppc gnu compiler host builds
-# Sites may override these definitions in CONFIG_SITE.aix-ppc-gnu.Common
-#-------------------------------------------------------
-
-#Include definitions common to aix-ppc hosts
-include $(CONFIG)/os/CONFIG.aix-ppc.Common
-

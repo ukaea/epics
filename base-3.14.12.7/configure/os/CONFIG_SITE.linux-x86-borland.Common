@@ -1,9 +1,0 @@
-# CONFIG_SITE.linux-x86-borland.Common
-#
-# Site override definitions for linux-x86-borland host builds
-#-------------------------------------------------------
-
-#CROSS_COMPILER_TARGET_ARCHS = vxWorks-68040 solaris-sparc
-#CROSS_COMPILER_TARGET_ARCHS = vxWorks-68040
-
-BORLAND = /share2/kylix3

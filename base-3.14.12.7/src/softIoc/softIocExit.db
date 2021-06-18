@@ -1,7 +1,0 @@
-# softIocExit.db
-#
-record(sub,"$(IOC):exit") {
-	field(DESC,"Exit subroutine")
-	field(SCAN,"Passive")
-	field(SNAM,"exit")
-}
