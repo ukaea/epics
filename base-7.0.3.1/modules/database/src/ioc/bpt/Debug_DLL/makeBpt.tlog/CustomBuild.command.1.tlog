@@ -1,7 +1,0 @@
-^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-7.0.3.1\MODULES\DATABASE\SRC\IOC\BPT\MENUCONVERT.DBD.POD
-SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib/perl
-perl -CSD C:\Users\ktn98257\repos\epics.dotnet\Debug_DLL\podRemove.pl  -o O.Common/menuConvert.dbd menuConvert.dbd.pod
-^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-7.0.3.1\MODULES\DATABASE\SRC\IOC\BPT\O.COMMON\MENUCONVERT.DBD
-cd O.Common
-perl -CSD C:\Users\ktn98257\repos\epics.dotnet\Debug_DLL\dbdToMenuH.pl -o menuConvert.h menuConvert.dbd
-cd C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\database\src\ioc\bpt\

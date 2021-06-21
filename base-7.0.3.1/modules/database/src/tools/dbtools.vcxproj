@@ -126,6 +126,9 @@
     <PreBuildEvent>
       <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>SET TOPLEVEL=$(SolutionDir); .\Build_POST.bat</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
     <ClCompile>
@@ -137,6 +140,9 @@
     <PreBuildEvent>
       <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>SET TOPLEVEL=$(SolutionDir); .\Build_POST.bat</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
     <ClCompile>
@@ -148,6 +154,9 @@
     <PreBuildEvent>
       <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>SET TOPLEVEL=$(SolutionDir); .\Build_POST.bat</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
     <ClCompile>
@@ -159,6 +168,9 @@
     <PreBuildEvent>
       <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>SET TOPLEVEL=$(SolutionDir); .\Build_POST.bat</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
     <ClCompile>
@@ -176,6 +188,9 @@
     <PreBuildEvent>
       <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>SET TOPLEVEL=$(SolutionDir); .\Build_POST.bat</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
     <ClCompile>
@@ -193,6 +208,9 @@
     <PreBuildEvent>
       <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>SET TOPLEVEL=$(SolutionDir); .\Build_POST.bat</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
     <ClCompile>
@@ -210,6 +228,9 @@
     <PreBuildEvent>
       <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>SET TOPLEVEL=$(SolutionDir); .\Build_POST.bat</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">
     <ClCompile>
@@ -227,6 +248,9 @@
     <PreBuildEvent>
       <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>SET TOPLEVEL=$(SolutionDir); .\Build_POST.bat</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="DBD.pm" />

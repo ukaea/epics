@@ -1,6 +1,0 @@
-﻿  testSerialization.cpp
-C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\pvData\testApp\misc\testSerialization.cpp(510,35): warning C4101: 'ia': unreferenced local variable
-C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\pvData\testApp\misc\testSerialization.cpp(521,35): warning C4101: 'ia': unreferenced local variable
-C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\pvData\testApp\misc\testSerialization.cpp(532,35): warning C4101: 'ia': unreferenced local variable
-C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\pvData\testApp\misc\testSerialization.cpp(543,35): warning C4101: 'ia': unreferenced local variable
-  testSerialization.vcxproj -> C:\Users\ktn98257\repos\epics.dotnet\x64\Debug_DLL\testSerialization.exe

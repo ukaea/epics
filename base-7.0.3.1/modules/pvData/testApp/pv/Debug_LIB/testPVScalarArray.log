@@ -1,6 +1,0 @@
-﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Microsoft\VC\v160\Microsoft.CppClean.targets(76,5): warning : The process cannot access the file 'c:\users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\pvdata\testapp\pv\debug_lib\testoperators.obj' because it is being used by another process.
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(491,5): warning MSB8028: The intermediate directory (Debug_LIB\) contains files shared from another project (testBitSetUtil.vcxproj, testConvert.vcxproj, testIntrospect.vcxproj, testOperators.vcxproj, testPVData.vcxproj, testPVStructureArray.vcxproj, testPVType.vcxproj, testStandardField.vcxproj, testStandardPVField.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  testPVScalarArray.cpp
-C:\Users\ktn98257\repos\epics.dotnet\include\pv\pvData.h(539,1): warning C4250: 'epics::pvData::PVString': inherits 'epics::pvData::PVScalarValue<std::string>::epics::pvData::PVScalarValue<std::string>::deserialize' via dominance
-C:\Users\ktn98257\repos\epics.dotnet\include\pv\pvData.h(440): message : see declaration of 'epics::pvData::PVScalarValue<std::string>::deserialize'
-  testPVScalarArray.vcxproj -> C:\Users\ktn98257\repos\epics.dotnet\Debug_LIB\testPVScalarArray.exe

@@ -1,3 +1,0 @@
-﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(491,5): warning MSB8028: The intermediate directory (x64\Debug_DLL\) contains files shared from another project (caget.vcxproj, cainfo.vcxproj, camonitor.vcxproj, catools.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  caput.c
-C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\ca\src\tools\caput.c(36,10): fatal error C1083: Cannot open include file: 'cadef.h': No such file or directory

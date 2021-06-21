@@ -1,5 +1,0 @@
-^C:\EPICS\SUPPORT\ASYN4-33\ASYN\ASYNRECORD\ASYNRECORD.DBD
-cd asynRecord
-SET PERL5LIB=C:\epics\lib\perl
-perl -CSD C:\epics\Debug_DLL\dbdToRecordtypeH.pl  -I../O.Common -IC:\epics\include -IC:\epics\dbd -o ../O.Common/asynRecord.h asynRecord.dbd
-cd C:\epics\support\asyn4-33\asyn\

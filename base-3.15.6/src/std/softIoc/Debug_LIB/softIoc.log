@@ -1,6 +1,0 @@
-﻿  Performing Custom Build Tools
-  softIoc_registerRecordDeviceDriver.cpp
-  softMain.cpp
-  Generating Code...
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(491,5): warning MSB8028: The intermediate directory (Debug_LIB\) contains files shared from another project (acctst.vcxproj, caconntest.vcxproj, caEventRate.vcxproj, caRepeater.vcxproj, casw.vcxproj, catime.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-LINK : fatal error LNK1104: cannot open file 'C:\Users\ktn98257\repos\epics.dotnet\Debug_LIB\Com.lib'

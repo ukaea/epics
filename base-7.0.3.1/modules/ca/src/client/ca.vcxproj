@@ -267,9 +267,8 @@
       <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>attrib +r $(OutDir)ca.lib
-attrib +r $(OutDir)ca.exp
-</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">

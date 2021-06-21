@@ -1,4 +1,0 @@
-﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(491,5): warning MSB8028: The intermediate directory (x64\Debug_DLL\) contains files shared from another project (testBaseException.vcxproj, testSerialization.vcxproj, testThread.vcxproj, testTimer.vcxproj, testTimeStamp.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  testBitSet.cpp
-C:\Users\ktn98257\repos\epics.dotnet\base-7.0.3.1\modules\pvData\testApp\misc\testBitSet.cpp(227,32): warning C4101: 'e': unreferenced local variable
-  testBitSet.vcxproj -> C:\Users\ktn98257\repos\epics.dotnet\x64\Debug_DLL\testBitSet.exe

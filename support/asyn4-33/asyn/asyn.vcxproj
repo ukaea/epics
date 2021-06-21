@@ -38,7 +38,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{C3EA0FF7-6039-4884-BA91-7B4619BEFEA5}</ProjectGuid>
+    <ProjectGuid>{DEE026B1-EA70-4D15-A5EC-6B8D3908854E}</ProjectGuid>
     <RootNamespace>asyn</RootNamespace>
     <SccProjectName>
     </SccProjectName>

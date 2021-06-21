@@ -1,4 +1,0 @@
-^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-7.0.3.1\MODULES\LIBCOM\SRC\FLEX\PARSE.Y
-C:\Users\ktn98257\repos\epics.dotnet\x64\Debug_DLL\antelope.exe  -l -d parse.y
-move /Y y.tab.c O.Common\parse.c
-move /Y y.tab.h O.Common\parse.h

@@ -1,6 +1,0 @@
-﻿  Performing Custom Build Tools
-  softIoc_registerRecordDeviceDriver.cpp
-  softMain.cpp
-  Generating Code...
-dbCore.lib(camessage.obj) : error LNK2019: unresolved external symbol _CA_VSUPPORTED referenced in function _tcp_version_action
-C:\Users\ktn98257\repos\epics.dotnet\Debug_LIB\softIoc.exe : fatal error LNK1120: 1 unresolved externals

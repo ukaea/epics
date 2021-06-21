@@ -2,8 +2,8 @@
  * status code symbol table
  *
  * CREATED BY makeStatTbl.pl
- *       FROM C:/Users/ktn98257/repos/epics.dotnet/base-3.15.6/src/libCom/O.Common
- *         ON Thu Jun 17 14:53:20 2021
+ *       FROM C:/Users/ktn98257/source/repos/epics.dotnet/base-3.15.6/src/libCom/O.Common
+ *         ON Fri Jun 18 12:42:32 2021
  */
 
 #include "errMdef.h"

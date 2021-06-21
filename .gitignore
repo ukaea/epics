@@ -23,7 +23,7 @@ mono_crash.*
 
 # Build results
 **[Dd]ebug_LIB/
-**[Dd]elease_LIB/
+**[Rr]elease_LIB/
 **[Dd]ebug_DLL/
 **[Rr]elease_DLL/
 [Dd]ebug/

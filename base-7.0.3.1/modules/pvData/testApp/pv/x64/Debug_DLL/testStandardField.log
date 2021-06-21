@@ -1,5 +1,0 @@
-﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(491,5): warning MSB8028: The intermediate directory (x64\Debug_DLL\) contains files shared from another project (testBitSetUtil.vcxproj, testConvert.vcxproj, testIntrospect.vcxproj, testOperators.vcxproj, testPVData.vcxproj, testPVScalarArray.vcxproj, testPVStructureArray.vcxproj, testPVType.vcxproj, testStandardPVField.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  testStandardField.cpp
-C:\Users\ktn98257\repos\epics.dotnet\include\pv\pvData.h(539,1): warning C4250: 'epics::pvData::PVString': inherits 'epics::pvData::PVScalarValue<std::string>::epics::pvData::PVScalarValue<std::string>::deserialize' via dominance
-C:\Users\ktn98257\repos\epics.dotnet\include\pv\pvData.h(440): message : see declaration of 'epics::pvData::PVScalarValue<std::string>::deserialize'
-  testStandardField.vcxproj -> C:\Users\ktn98257\repos\epics.dotnet\x64\Debug_DLL\testStandardField.exe

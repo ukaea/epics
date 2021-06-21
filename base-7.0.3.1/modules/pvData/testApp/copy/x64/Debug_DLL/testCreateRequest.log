@@ -1,4 +1,0 @@
-﻿  testCreateRequest.cpp
-C:\Users\ktn98257\repos\epics.dotnet\include\pv\pvData.h(539,1): warning C4250: 'epics::pvData::PVString': inherits 'epics::pvData::PVScalarValue<std::string>::epics::pvData::PVScalarValue<std::string>::deserialize' via dominance
-C:\Users\ktn98257\repos\epics.dotnet\include\pv\pvData.h(440): message : see declaration of 'epics::pvData::PVScalarValue<std::string>::deserialize'
-LINK : fatal error LNK1104: cannot open file 'C:\Users\ktn98257\repos\epics.dotnet\x64\Debug_DLL\pvAccess.lib'

@@ -1,3 +1,0 @@
-^C:\USERS\KTN98257\REPOS\EPICS.DOTNET\BASE-7.0.3.1\MODULES\PVDATA\SRC\PV\PVDVERSIONNUM.H@
-SET PERL5LIB=C:\Users\ktn98257\repos\epics.dotnet\lib\perl
-perl -CSD C:\Users\ktn98257\repos\epics.dotnet\x64\Debug_DLL\expandVars.pl -DEPICS_PVD_MAJOR_VERSION="8" -DEPICS_PVD_MINOR_VERSION="0" -DEPICS_PVD_MAINTENANCE_VERSION="0" -DEPICS_PVD_DEVELOPMENT_FLAG="0" -t C:\Users\ktn98257\repos\epics.dotnet\x64\Debug_DLL\  pv\pvdVersionNum.h@ O.Common\pv\pvdVersionNum.h

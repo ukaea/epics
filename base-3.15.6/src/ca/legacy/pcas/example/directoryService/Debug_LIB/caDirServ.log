@@ -1,4 +1,0 @@
-﻿  directoryServer.cc
-  main.cc
-  Generating Code...
-LINK : fatal error LNK1104: cannot open file 'C:\Users\ktn98257\repos\epics.dotnet\Debug_LIB\Com.lib'
