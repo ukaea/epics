@@ -26,6 +26,9 @@ mono_crash.*
 **[Rr]elease_LIB/
 **[Dd]ebug_DLL/
 **[Rr]elease_DLL/
+**/lib/perl/
+**/lib/perl/DBD/*
+**/lib/perl/EPICS/*
 [Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/
