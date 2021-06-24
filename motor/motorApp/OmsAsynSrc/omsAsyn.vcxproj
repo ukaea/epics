@@ -176,27 +176,35 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
     <ClCompile>
@@ -210,9 +218,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
-xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
-</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir)</Command>
+      <Message>PRE BUILD</Message>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
@@ -227,9 +234,8 @@ xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
-xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
-</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir)</Command>
+      <Message>PRE BUILD</Message>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
@@ -244,9 +250,8 @@ xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
-xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
-</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir)</Command>
+      <Message>PRE BUILD</Message>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
@@ -261,9 +266,8 @@ xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
-xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
-</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir)</Command>
+      <Message>PRE BUILD</Message>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
@@ -281,9 +285,8 @@ xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
-xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
-</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir)</Command>
+      <Message>PRE BUILD</Message>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
@@ -302,9 +305,8 @@ xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
-xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
-</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir)</Command>
+      <Message>PRE BUILD</Message>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
@@ -322,9 +324,8 @@ xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
-xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
-</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir)</Command>
+      <Message>PRE BUILD</Message>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">
@@ -343,9 +344,8 @@ xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
-xcopy /Y /Q /D /R *.dbd  $(SolutionDir)dbd &gt; NUL
-</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir)</Command>
+      <Message>PRE BUILD</Message>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

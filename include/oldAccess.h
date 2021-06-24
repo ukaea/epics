@@ -26,13 +26,14 @@
 #ifndef oldAccessh
 #define oldAccessh
 
+#include <memory>
+
 #ifdef epicsExportSharedSymbols
 #   define oldAccessh_restore_epicsExportSharedSymbols
 #   undef epicsExportSharedSymbols
 #endif
 
 #include "tsFreeList.h"
-#include "epicsMemory.h"
 #include "compilerDependencies.h"
 #include "osiSock.h"
 
@@ -288,7 +289,6 @@ private:
 };
 
 extern "C" void cacOnceFunc ( void * );
-extern "C" void cacExitHandler ( void *);
 
 struct ca_client_context : public cacContextNotify
 {
@@ -402,8 +402,8 @@ private:
     epicsEvent ioDone;
     epicsEvent callbackThreadActivityComplete;
     epicsThreadId createdByThread;
-    epics_auto_ptr < CallbackGuard > pCallbackGuard;
-    epics_auto_ptr < cacContext > pServiceContext;
+    std::auto_ptr < CallbackGuard > pCallbackGuard;
+    std::auto_ptr < cacContext > pServiceContext;
     caExceptionHandler * ca_exception_func;
     void * ca_exception_arg;
     caPrintfFunc * pVPrintfFunc;
@@ -428,7 +428,6 @@ private:
     ca_client_context & operator = ( const ca_client_context & );
 
     friend void cacOnceFunc ( void * );
-    friend void cacExitHandler ( void *);
     static cacService * pDefaultService;
     static epicsMutex * pDefaultServiceInstallMutex;
     static const unsigned flushBlockThreshold;

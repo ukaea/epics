@@ -1,7 +1,11 @@
-if not exist  %TOPLEVEL%\include md  %TOPLEVEL%\include
-if not exist  %TOPLEVEL%\include\os md  %TOPLEVEL%\include\os
-if not exist  %TOPLEVEL%\include\os\WIN32 md  %TOPLEVEL%\include\os\WIN32
-if not exist  %TOPLEVEL%\include\valgrind md  %TOPLEVEL%\include\valgrind
+SET TOPLEVEL=%1
+SET BUILDIR=%2
+SET DLLDIR=%3
+
+if not exist  %TOPLEVEL%\include  md %TOPLEVEL%\include
+if not exist  %TOPLEVEL%\include\os  md %TOPLEVEL%\include\os
+if not exist  %TOPLEVEL%\include\os\WIN32  md %TOPLEVEL%\include\os\WIN32
+if not exist  %TOPLEVEL%\include\valgrind  md %TOPLEVEL%\include\valgrind
 
 if not exist O.Common md O.Common
 
@@ -23,7 +27,7 @@ xcopy /Y /Q /D /R gpHash\*.h  %TOPLEVEL%\include > NUL
 xcopy /Y /Q /D /R bucketLib\*.h  %TOPLEVEL%\include > NUL
 xcopy /Y /Q /D /R dbmf\*.h  %TOPLEVEL%\include > NUL
 xcopy /Y /Q /D /R macLib\*.h  %TOPLEVEL%\include > NUL
-xcopy /Y /Q /D /R macLib\EPICS\*.pm  %TOPLEVEL%\lib\perl\EPICS
+xcopy /Y /Q /D /R macLib\EPICS\*.pm  %TOPLEVEL%\lib\perl\EPICS > NUL
 xcopy /Y /Q /D /R calc\*.h  %TOPLEVEL%\include > NUL
 xcopy /Y /Q /D /R ring\*.h  %TOPLEVEL%\include > NUL
 xcopy /Y /Q /D /R log\*.h  %TOPLEVEL%\include > NUL
@@ -43,6 +47,12 @@ del  %TOPLEVEL%\include\os\WIN32\epicsGetopt.h
 xcopy /Y /Q /D /R osi\os\WIN32\*.h  %TOPLEVEL%\include\os\WIN32 > NUL
 xcopy /Y /Q /D /R osi\compiler\msvc\*.h  %TOPLEVEL%\include\compiler\msvc\ > NUL
 
-SET PERL5LIB=C:\Strawberry\lib\perl
-perl -CSD %DLLDIR%\convertRelease.pl -T %TOPLEVEL%\  %DLLDIR%\libComModuleDirs.pm
+REM Copy convertRelease.pl to the DLL build folder
+xcopy /Y /Q /D /R %TARGETDIR%\base-7.0.3.1\src\tools\convertRelease.pl %DLLDIR%
 
+SET PERL5LIB=C:\Strawberry\lib\perl
+cd %TOPLEVEL%
+perl -CSD %DLLDIR%\convertRelease.pl -T %TOPLEVEL% %DLLDIR%\libComModuleDirs.pm
+cd %BUILDIR%
+
+echo BatchCompleted: %ERRORLEVEL%

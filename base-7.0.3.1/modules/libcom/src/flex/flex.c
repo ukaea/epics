@@ -52,9 +52,9 @@ static char flex_version[] = "2.3";
 
 /* declare functions that have forward references */
 
-void flexinit (int, char**);
-void readin (void);
-void set_up_initial_allocations (void);
+void flexinit(int, char**);
+void readin(void);
+void set_up_initial_allocations(void);
 
 
 /* these globals are all defined and commented in flexdef.h */
@@ -64,115 +64,115 @@ int fullspd, gen_line_dirs, performance_report, backtrack_report, csize;
 int yymore_used, reject, real_reject, continued_action;
 int yymore_really_used, reject_really_used;
 int datapos, dataline, linenum;
-FILE *skelfile = NULL;
-char *infilename = NULL;
+FILE* skelfile = NULL;
+char* infilename = NULL;
 int onestate[ONE_STACK_SIZE], onesym[ONE_STACK_SIZE];
 int onenext[ONE_STACK_SIZE], onedef[ONE_STACK_SIZE], onesp;
 int current_mns, num_rules, current_max_rules, lastnfa;
-int *firstst, *lastst, *finalst, *transchar, *trans1, *trans2;
-int *accptnum, *assoc_rule, *state_type, *rule_type, *rule_linenum;
+int* firstst, * lastst, * finalst, * transchar, * trans1, * trans2;
+int* accptnum, * assoc_rule, * state_type, * rule_type, * rule_linenum;
 int current_state_type;
 int variable_trailing_context_rules;
 int numtemps, numprots, protprev[MSP], protnext[MSP], prottbl[MSP];
 int protcomst[MSP], firstprot, lastprot, protsave[PROT_SAVE_SIZE];
 int numecs, nextecm[CSIZE + 1], ecgroup[CSIZE + 1], nummecs, tecfwd[CSIZE + 1];
 int tecbck[CSIZE + 1];
-int *xlation = (int *) 0;
+int* xlation = (int*)0;
 int num_xlations;
-int lastsc, current_max_scs, *scset, *scbol, *scxclu, *sceof, *actvsc;
-char **scname;
+int lastsc, current_max_scs, * scset, * scbol, * scxclu, * sceof, * actvsc;
+char** scname;
 int current_max_dfa_size, current_max_xpairs;
 int current_max_template_xpairs, current_max_dfas;
-int lastdfa, *nxt, *chk, *tnxt;
-int *base, *def, *nultrans, NUL_ec, tblend, firstfree, **dss, *dfasiz;
-union dfaacc_union *dfaacc;
-int *accsiz, *dhash, numas;
+int lastdfa, * nxt, * chk, * tnxt;
+int* base, * def, * nultrans, NUL_ec, tblend, firstfree, ** dss, * dfasiz;
+union dfaacc_union* dfaacc;
+int* accsiz, * dhash, numas;
 int numsnpairs, jambase, jamstate;
-int lastccl, current_maxccls, *cclmap, *ccllen, *cclng, cclreuse;
+int lastccl, current_maxccls, * cclmap, * ccllen, * cclng, cclreuse;
 int current_max_ccl_tbl_size;
-Char *ccltbl;
-char *starttime, *endtime, nmstr[MAXLINE];
+Char* ccltbl;
+char* starttime, * endtime, nmstr[MAXLINE];
 int sectnum, nummt, hshcol, dfaeql, numeps, eps2, num_reallocs;
 int tmpuses, totnst, peakpairs, numuniq, numdup, hshsave;
 int num_backtracking, bol_needed;
-FILE *temp_action_file;
-FILE *backtrack_file;
+FILE* temp_action_file;
+FILE* backtrack_file;
 int end_of_buffer_state;
-char **input_files;
+char** input_files;
 int num_input_files;
-char *program_name;
+char* program_name;
 
 #ifndef SHORT_FILE_NAMES
-static char *outfile = "lex.yy.c";
+static char* outfile = "lex.yy.c";
 #else
-static char *outfile = "lexyy.c";
+static char* outfile = "lexyy.c";
 #endif
 static int outfile_created = 0;
 static int use_stdout;
-static char *skelname = NULL;
+static char* skelname = NULL;
 
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
-    flexinit( argc, argv );
+	flexinit(argc, argv);
 
-    readin();
+	readin();
 
-    if ( syntaxerror )
-	flexend( 1 );
+	if (syntaxerror)
+		flexend(1);
 
-    if ( yymore_really_used == REALLY_USED )
-	yymore_used = true;
-    else if ( yymore_really_used == REALLY_NOT_USED )
-	yymore_used = false;
+	if (yymore_really_used == REALLY_USED)
+		yymore_used = true;
+	else if (yymore_really_used == REALLY_NOT_USED)
+		yymore_used = false;
 
-    if ( reject_really_used == REALLY_USED )
-	reject = true;
-    else if ( reject_really_used == REALLY_NOT_USED )
-	reject = false;
+	if (reject_really_used == REALLY_USED)
+		reject = true;
+	else if (reject_really_used == REALLY_NOT_USED)
+		reject = false;
 
-    if ( performance_report )
+	if (performance_report)
 	{
-	if ( interactive )
-	    fprintf( stderr,
-		     "-I (interactive) entails a minor performance penalty\n" );
+		if (interactive)
+			fprintf(stderr,
+				"-I (interactive) entails a minor performance penalty\n");
 
-	if ( yymore_used )
-	    fprintf( stderr, "yymore() entails a minor performance penalty\n" );
+		if (yymore_used)
+			fprintf(stderr, "yymore() entails a minor performance penalty\n");
 
-	if ( reject )
-	    fprintf( stderr, "REJECT entails a large performance penalty\n" );
+		if (reject)
+			fprintf(stderr, "REJECT entails a large performance penalty\n");
 
-	if ( variable_trailing_context_rules )
-	    fprintf( stderr,
-"Variable trailing context rules entail a large performance penalty\n" );
+		if (variable_trailing_context_rules)
+			fprintf(stderr,
+				"Variable trailing context rules entail a large performance penalty\n");
 	}
 
-    if ( reject )
-	real_reject = true;
+	if (reject)
+		real_reject = true;
 
-    if ( variable_trailing_context_rules )
-	reject = true;
+	if (variable_trailing_context_rules)
+		reject = true;
 
-    if ( (fulltbl || fullspd) && reject )
+	if ((fulltbl || fullspd) && reject)
 	{
-	if ( real_reject )
-	    flexerror( "REJECT cannot be used with -f or -F" );
-	else
-	    flexerror(
-	"variable trailing context rules cannot be used with -f or -F" );
+		if (real_reject)
+			flexerror("REJECT cannot be used with -f or -F");
+		else
+			flexerror(
+				"variable trailing context rules cannot be used with -f or -F");
 	}
 
-    ntod();
+	ntod();
 
-    /* generate the C state transition tables from the DFA */
-    make_tables();
+	/* generate the C state transition tables from the DFA */
+	make_tables();
 
-    /* note, flexend does not return.  It exits with its argument as status. */
+	/* note, flexend does not return.  It exits with its argument as status. */
 
-    flexend( 0 );
+	flexend(0);
 
-    /*NOTREACHED*/
+	/*NOTREACHED*/
 }
 
 
@@ -190,187 +190,187 @@ int main(int argc, char *argv[])
 
 void flexend(int status)
 {
-    int tblsiz;
-    char *flex_gettime();
+	int tblsiz;
+	char* flex_gettime();
 
-    if ( skelfile != NULL )
+	if (skelfile != NULL)
 	{
-	if ( ferror( skelfile ) )
-	    flexfatal( "error occurred when writing skeleton file" );
+		if (ferror(skelfile))
+			flexfatal("error occurred when writing skeleton file");
 
-	else if ( fclose( skelfile ) )
-	    flexfatal( "error occurred when closing skeleton file" );
+		else if (fclose(skelfile))
+			flexfatal("error occurred when closing skeleton file");
 	}
 
-    if ( temp_action_file )
+	if (temp_action_file)
 	{
-	if ( ferror( temp_action_file ) )
-	    flexfatal( "error occurred when writing temporary action file" );
+		if (ferror(temp_action_file))
+			flexfatal("error occurred when writing temporary action file");
 
-	else if ( fclose( temp_action_file ) )
-	    flexfatal( "error occurred when closing temporary action file" );
-    }
-
-    if ( status != 0 && outfile_created )
-	{
-	if ( ferror( stdout ) )
-	    flexfatal( "error occurred when writing output file" );
-
-	else if ( fclose( stdout ) )
-	    flexfatal( "error occurred when closing output file" );
-
-	else if ( unlink( outfile ) )
-	    flexfatal( "error occurred when deleting output file" );
+		else if (fclose(temp_action_file))
+			flexfatal("error occurred when closing temporary action file");
 	}
 
-    if ( backtrack_report && backtrack_file )
+	if (status != 0 && outfile_created)
 	{
-	if ( num_backtracking == 0 )
-	    fprintf( backtrack_file, "No backtracking.\n" );
-	else if ( fullspd || fulltbl )
-	    fprintf( backtrack_file,
-		     "%d backtracking (non-accepting) states.\n",
-		     num_backtracking );
-	else
-	    fprintf( backtrack_file, "Compressed tables always backtrack.\n" );
+		if (ferror(stdout))
+			flexfatal("error occurred when writing output file");
 
-	if ( ferror( backtrack_file ) )
-	    flexfatal( "error occurred when writing backtracking file" );
+		else if (fclose(stdout))
+			flexfatal("error occurred when closing output file");
 
-	else if ( fclose( backtrack_file ) )
-	    flexfatal( "error occurred when closing backtracking file" );
+		else if (unlink(outfile))
+			flexfatal("error occurred when deleting output file");
 	}
 
-    if ( printstats )
+	if (backtrack_report && backtrack_file)
 	{
-	endtime = flex_gettime();
+		if (num_backtracking == 0)
+			fprintf(backtrack_file, "No backtracking.\n");
+		else if (fullspd || fulltbl)
+			fprintf(backtrack_file,
+				"%d backtracking (non-accepting) states.\n",
+				num_backtracking);
+		else
+			fprintf(backtrack_file, "Compressed tables always backtrack.\n");
 
-	fprintf( stderr, "%s version %s usage statistics:\n", program_name,
-		 flex_version );
-	fprintf( stderr, "  started at %s, finished at %s\n",
-		 starttime, endtime );
+		if (ferror(backtrack_file))
+			flexfatal("error occurred when writing backtracking file");
 
-	fprintf( stderr, "  scanner options: -" );
-
-	if ( backtrack_report )
-	    putc( 'b', stderr );
-	if ( ddebug )
-	    putc( 'd', stderr );
-	if ( interactive )
-	    putc( 'I', stderr );
-	if ( caseins )
-	    putc( 'i', stderr );
-	if ( ! gen_line_dirs )
-	    putc( 'L', stderr );
-	if ( performance_report )
-	    putc( 'p', stderr );
-	if ( spprdflt )
-	    putc( 's', stderr );
-	if ( use_stdout )
-	    putc( 't', stderr );
-	if ( trace )
-	    putc( 'T', stderr );
-	if ( printstats )
-	    putc( 'v', stderr );	/* always true! */
-	if ( csize == 256 )
-	    putc( '8', stderr );
-
-	fprintf( stderr, " -C" );
-
-	if ( fulltbl )
-	    putc( 'f', stderr );
-	if ( fullspd )
-	    putc( 'F', stderr );
-	if ( useecs )
-	    putc( 'e', stderr );
-	if ( usemecs )
-	    putc( 'm', stderr );
-
-	if ( strcmp( skelname, ENQUOTE(DEFAULT_SKELETON_FILE) ) )
-	    fprintf( stderr, " -S%s", skelname );
-
-	putc( '\n', stderr );
-
-	fprintf( stderr, "  %d/%d NFA states\n", lastnfa, current_mns );
-	fprintf( stderr, "  %d/%d DFA states (%d words)\n", lastdfa,
-		 current_max_dfas, totnst );
-	fprintf( stderr,
-		 "  %d rules\n", num_rules - 1 /* - 1 for def. rule */ );
-
-	if ( num_backtracking == 0 )
-	    fprintf( stderr, "  No backtracking\n" );
-	else if ( fullspd || fulltbl )
-	    fprintf( stderr, "  %d backtracking (non-accepting) states\n",
-		     num_backtracking );
-	else
-	    fprintf( stderr, "  compressed tables always backtrack\n" );
-
-	if ( bol_needed )
-	    fprintf( stderr, "  Beginning-of-line patterns used\n" );
-
-	fprintf( stderr, "  %d/%d start conditions\n", lastsc,
-		 current_max_scs );
-	fprintf( stderr, "  %d epsilon states, %d double epsilon states\n",
-		 numeps, eps2 );
-
-	if ( lastccl == 0 )
-	    fprintf( stderr, "  no character classes\n" );
-	else
-	    fprintf( stderr,
-	"  %d/%d character classes needed %d/%d words of storage, %d reused\n",
-		     lastccl, current_maxccls,
-		     cclmap[lastccl] + ccllen[lastccl],
-		     current_max_ccl_tbl_size, cclreuse );
-
-	fprintf( stderr, "  %d state/nextstate pairs created\n", numsnpairs );
-	fprintf( stderr, "  %d/%d unique/duplicate transitions\n",
-		 numuniq, numdup );
-
-	if ( fulltbl )
-	    {
-	    tblsiz = lastdfa * numecs;
-	    fprintf( stderr, "  %d table entries\n", tblsiz );
-	    }
-
-	else
-	    {
-	    tblsiz = 2 * (lastdfa + numtemps) + 2 * tblend;
-
-	    fprintf( stderr, "  %d/%d base-def entries created\n",
-		     lastdfa + numtemps, current_max_dfas );
-	    fprintf( stderr, "  %d/%d (peak %d) nxt-chk entries created\n",
-		     tblend, current_max_xpairs, peakpairs );
-	    fprintf( stderr,
-		     "  %d/%d (peak %d) template nxt-chk entries created\n",
-		     numtemps * nummecs, current_max_template_xpairs,
-		     numtemps * numecs );
-	    fprintf( stderr, "  %d empty table entries\n", nummt );
-	    fprintf( stderr, "  %d protos created\n", numprots );
-	    fprintf( stderr, "  %d templates created, %d uses\n",
-		     numtemps, tmpuses );
-	    }
-
-	if ( useecs )
-	    {
-	    tblsiz = tblsiz + csize;
-	    fprintf( stderr, "  %d/%d equivalence classes created\n",
-		     numecs, csize );
-	    }
-
-	if ( usemecs )
-	    {
-	    tblsiz = tblsiz + numecs;
-	    fprintf( stderr, "  %d/%d meta-equivalence classes created\n",
-		     nummecs, csize );
-	    }
-
-	fprintf( stderr, "  %d (%d saved) hash collisions, %d DFAs equal\n",
-		 hshcol, hshsave, dfaeql );
-	fprintf( stderr, "  %d sets of reallocations needed\n", num_reallocs );
-	fprintf( stderr, "  %d total table entries needed\n", tblsiz );
+		else if (fclose(backtrack_file))
+			flexfatal("error occurred when closing backtracking file");
 	}
 
-    exit( status );
+	if (printstats)
+	{
+		endtime = flex_gettime();
+
+		fprintf(stderr, "%s version %s usage statistics:\n", program_name,
+			flex_version);
+		fprintf(stderr, "  started at %s, finished at %s\n",
+			starttime, endtime);
+
+		fprintf(stderr, "  scanner options: -");
+
+		if (backtrack_report)
+			putc('b', stderr);
+		if (ddebug)
+			putc('d', stderr);
+		if (interactive)
+			putc('I', stderr);
+		if (caseins)
+			putc('i', stderr);
+		if (!gen_line_dirs)
+			putc('L', stderr);
+		if (performance_report)
+			putc('p', stderr);
+		if (spprdflt)
+			putc('s', stderr);
+		if (use_stdout)
+			putc('t', stderr);
+		if (trace)
+			putc('T', stderr);
+		if (printstats)
+			putc('v', stderr);	/* always true! */
+		if (csize == 256)
+			putc('8', stderr);
+
+		fprintf(stderr, " -C");
+
+		if (fulltbl)
+			putc('f', stderr);
+		if (fullspd)
+			putc('F', stderr);
+		if (useecs)
+			putc('e', stderr);
+		if (usemecs)
+			putc('m', stderr);
+
+		if (strcmp(skelname, ENQUOTE(DEFAULT_SKELETON_FILE)))
+			fprintf(stderr, " -S%s", skelname);
+
+		putc('\n', stderr);
+
+		fprintf(stderr, "  %d/%d NFA states\n", lastnfa, current_mns);
+		fprintf(stderr, "  %d/%d DFA states (%d words)\n", lastdfa,
+			current_max_dfas, totnst);
+		fprintf(stderr,
+			"  %d rules\n", num_rules - 1 /* - 1 for def. rule */);
+
+		if (num_backtracking == 0)
+			fprintf(stderr, "  No backtracking\n");
+		else if (fullspd || fulltbl)
+			fprintf(stderr, "  %d backtracking (non-accepting) states\n",
+				num_backtracking);
+		else
+			fprintf(stderr, "  compressed tables always backtrack\n");
+
+		if (bol_needed)
+			fprintf(stderr, "  Beginning-of-line patterns used\n");
+
+		fprintf(stderr, "  %d/%d start conditions\n", lastsc,
+			current_max_scs);
+		fprintf(stderr, "  %d epsilon states, %d double epsilon states\n",
+			numeps, eps2);
+
+		if (lastccl == 0)
+			fprintf(stderr, "  no character classes\n");
+		else
+			fprintf(stderr,
+				"  %d/%d character classes needed %d/%d words of storage, %d reused\n",
+				lastccl, current_maxccls,
+				cclmap[lastccl] + ccllen[lastccl],
+				current_max_ccl_tbl_size, cclreuse);
+
+		fprintf(stderr, "  %d state/nextstate pairs created\n", numsnpairs);
+		fprintf(stderr, "  %d/%d unique/duplicate transitions\n",
+			numuniq, numdup);
+
+		if (fulltbl)
+		{
+			tblsiz = lastdfa * numecs;
+			fprintf(stderr, "  %d table entries\n", tblsiz);
+		}
+
+		else
+		{
+			tblsiz = 2 * (lastdfa + numtemps) + 2 * tblend;
+
+			fprintf(stderr, "  %d/%d base-def entries created\n",
+				lastdfa + numtemps, current_max_dfas);
+			fprintf(stderr, "  %d/%d (peak %d) nxt-chk entries created\n",
+				tblend, current_max_xpairs, peakpairs);
+			fprintf(stderr,
+				"  %d/%d (peak %d) template nxt-chk entries created\n",
+				numtemps * nummecs, current_max_template_xpairs,
+				numtemps * numecs);
+			fprintf(stderr, "  %d empty table entries\n", nummt);
+			fprintf(stderr, "  %d protos created\n", numprots);
+			fprintf(stderr, "  %d templates created, %d uses\n",
+				numtemps, tmpuses);
+		}
+
+		if (useecs)
+		{
+			tblsiz = tblsiz + csize;
+			fprintf(stderr, "  %d/%d equivalence classes created\n",
+				numecs, csize);
+		}
+
+		if (usemecs)
+		{
+			tblsiz = tblsiz + numecs;
+			fprintf(stderr, "  %d/%d meta-equivalence classes created\n",
+				nummecs, csize);
+		}
+
+		fprintf(stderr, "  %d (%d saved) hash collisions, %d DFAs equal\n",
+			hshcol, hshsave, dfaeql);
+		fprintf(stderr, "  %d sets of reallocations needed\n", num_reallocs);
+		fprintf(stderr, "  %d total table entries needed\n", tblsiz);
+	}
+
+	exit(status);
 }
 
 
@@ -382,263 +382,263 @@ void flexend(int status)
  *    flexinit( argc, argv );
  */
 
-void flexinit(int argc, char **argv)
+void flexinit(int argc, char** argv)
 {
-    int i, sawcmpflag;
-    char *arg, *flex_gettime(), *mktemp();
+	int i, sawcmpflag;
+	char* arg, * flex_gettime(), * mktemp();
 
-    printstats = syntaxerror = trace = spprdflt = interactive = caseins = false;
-    backtrack_report = performance_report = ddebug = fulltbl = fullspd = false;
-    yymore_used = continued_action = reject = false;
-    yymore_really_used = reject_really_used = false;
-    gen_line_dirs = usemecs = useecs = true;
+	printstats = syntaxerror = trace = spprdflt = interactive = caseins = false;
+	backtrack_report = performance_report = ddebug = fulltbl = fullspd = false;
+	yymore_used = continued_action = reject = false;
+	yymore_really_used = reject_really_used = false;
+	gen_line_dirs = usemecs = useecs = true;
 
-    sawcmpflag = false;
-    use_stdout = false;
+	sawcmpflag = false;
+	use_stdout = false;
 
-    csize = DEFAULT_CSIZE;
+	csize = DEFAULT_CSIZE;
 
-    program_name = argv[0];
+	program_name = argv[0];
 
-    /* read flags */
-    for ( --argc, ++argv; argc ; --argc, ++argv )
+	/* read flags */
+	for (--argc, ++argv; argc; --argc, ++argv)
 	{
-	if ( argv[0][0] != '-' || argv[0][1] == '\0' )
-	    break;
+		if (argv[0][0] != '-' || argv[0][1] == '\0')
+			break;
 
-	arg = argv[0];
+		arg = argv[0];
 
-	for ( i = 1; arg[i] != '\0'; ++i )
-	    switch ( arg[i] )
-		{
-		case 'b':
-		    backtrack_report = true;
-		    break;
-
-		case 'c':
-		    fprintf( stderr,
-	"%s: Assuming use of deprecated -c flag is really intended to be -C\n",
-			     program_name );
-
-		    /* fall through */
-
-		case 'C':
-		    if ( i != 1 )
-			flexerror( "-C flag must be given separately" );
-
-		    if ( ! sawcmpflag )
+		for (i = 1; arg[i] != '\0'; ++i)
+			switch (arg[i])
 			{
-			useecs = false;
-			usemecs = false;
-			fulltbl = false;
-			sawcmpflag = true;
-			}
-
-		    for ( ++i; arg[i] != '\0'; ++i )
-			switch ( arg[i] )
-			    {
-			    case 'e':
-				useecs = true;
+			case 'b':
+				backtrack_report = true;
 				break;
 
-			    case 'F':
-				fullspd = true;
+			case 'c':
+				fprintf(stderr,
+					"%s: Assuming use of deprecated -c flag is really intended to be -C\n",
+					program_name);
+
+				/* fall through */
+
+			case 'C':
+				if (i != 1)
+					flexerror("-C flag must be given separately");
+
+				if (!sawcmpflag)
+				{
+					useecs = false;
+					usemecs = false;
+					fulltbl = false;
+					sawcmpflag = true;
+				}
+
+				for (++i; arg[i] != '\0'; ++i)
+					switch (arg[i])
+					{
+					case 'e':
+						useecs = true;
+						break;
+
+					case 'F':
+						fullspd = true;
+						break;
+
+					case 'f':
+						fulltbl = true;
+						break;
+
+					case 'm':
+						usemecs = true;
+						break;
+
+					default:
+						lerrif("unknown -C option '%c'",
+							(int)arg[i]);
+						break;
+					}
+
+				goto get_next_arg;
+
+			case 'd':
+				ddebug = true;
 				break;
 
-			    case 'f':
+			case 'f':
+				useecs = usemecs = false;
 				fulltbl = true;
 				break;
 
-			    case 'm':
-				usemecs = true;
+			case 'F':
+				useecs = usemecs = false;
+				fullspd = true;
 				break;
 
-			    default:
-				lerrif( "unknown -C option '%c'",
-					(int) arg[i] );
+			case 'I':
+				interactive = true;
 				break;
-			    }
 
-		    goto get_next_arg;
+			case 'i':
+				caseins = true;
+				break;
 
-		case 'd':
-		    ddebug = true;
-		    break;
+			case 'L':
+				gen_line_dirs = false;
+				break;
 
-		case 'f':
-		    useecs = usemecs = false;
-		    fulltbl = true;
-		    break;
+			case 'n':
+				/* stupid do-nothing deprecated option */
+				break;
 
-		case 'F':
-		    useecs = usemecs = false;
-		    fullspd = true;
-		    break;
+			case 'o':
+				if (i != 1)
+					flexerror("-o flag must be given separately");
 
-		case 'I':
-		    interactive = true;
-		    break;
+				outfile = arg + i + 1;
+				goto get_next_arg;
 
-		case 'i':
-		    caseins = true;
-		    break;
+			case 'p':
+				performance_report = true;
+				break;
 
-		case 'L':
-		    gen_line_dirs = false;
-		    break;
+			case 'S':
+				if (i != 1)
+					flexerror("-S flag must be given separately");
 
-		case 'n':
-		    /* stupid do-nothing deprecated option */
-		    break;
+				skelname = arg + i + 1;
+				goto get_next_arg;
 
-		case 'o':
-		    if ( i != 1 )
-			flexerror( "-o flag must be given separately" );
+			case 's':
+				spprdflt = true;
+				break;
 
-		    outfile = arg + i + 1;
-		    goto get_next_arg;
+			case 't':
+				use_stdout = true;
+				break;
 
-		case 'p':
-		    performance_report = true;
-		    break;
+			case 'T':
+				trace = true;
+				break;
 
-		case 'S':
-		    if ( i != 1 )
-			flexerror( "-S flag must be given separately" );
+			case 'v':
+				printstats = true;
+				break;
 
-		    skelname = arg + i + 1;
-		    goto get_next_arg;
+			case '8':
+				csize = CSIZE;
+				break;
 
-		case 's':
-		    spprdflt = true;
-		    break;
+			default:
+				lerrif("unknown flag '%c'", (int)arg[i]);
+				break;
+			}
 
-		case 't':
-		    use_stdout = true;
-		    break;
-
-		case 'T':
-		    trace = true;
-		    break;
-
-		case 'v':
-		    printstats = true;
-		    break;
-
-		case '8':
-		    csize = CSIZE;
-		    break;
-
-		default:
-		    lerrif( "unknown flag '%c'", (int) arg[i] );
-		    break;
-		}
-
-get_next_arg: /* used by -C and -S flags in lieu of a "continue 2" control */
-	;
+	get_next_arg: /* used by -C and -S flags in lieu of a "continue 2" control */
+		;
 	}
 
-    if ( (fulltbl || fullspd) && usemecs )
-	flexerror( "full table and -Cm don't make sense together" );
+	if ((fulltbl || fullspd) && usemecs)
+		flexerror("full table and -Cm don't make sense together");
 
-    if ( (fulltbl || fullspd) && interactive )
-	flexerror( "full table and -I are (currently) incompatible" );
+	if ((fulltbl || fullspd) && interactive)
+		flexerror("full table and -I are (currently) incompatible");
 
-    if ( fulltbl && fullspd )
-	flexerror( "full table and -F are mutually exclusive" );
+	if (fulltbl && fullspd)
+		flexerror("full table and -F are mutually exclusive");
 
-    if ( ! skelname )
+	if (!skelname)
 	{
-	static char skeleton_name_storage[400];
+		static char skeleton_name_storage[400];
 
-	skelname = skeleton_name_storage;
-	(void) strcpy( skelname, ENQUOTE(DEFAULT_SKELETON_FILE) );
+		skelname = skeleton_name_storage;
+		(void)strcpy(skelname, ENQUOTE(DEFAULT_SKELETON_FILE));
 	}
 
-    if ( ! use_stdout )
+	if (!use_stdout)
 	{
-	FILE *prev_stdout = freopen( outfile, "w", stdout );
+		FILE* prev_stdout = freopen(outfile, "w", stdout);
 
-	if ( prev_stdout == NULL )
-	    lerrsf( "could not create %s", outfile );
+		if (prev_stdout == NULL)
+			lerrsf("could not create %s", outfile);
 
-	outfile_created = 1;
+		outfile_created = 1;
 	}
 
-    num_input_files = argc;
-    input_files = argv;
-    set_input_file( num_input_files > 0 ? input_files[0] : NULL );
+	num_input_files = argc;
+	input_files = argv;
+	set_input_file(num_input_files > 0 ? input_files[0] : NULL);
 
-    if ( backtrack_report )
+	if (backtrack_report)
 	{
 #ifndef SHORT_FILE_NAMES
-	backtrack_file = fopen( "lex.backtrack", "w" );
+		backtrack_file = fopen("lex.backtrack", "w");
 #else
-	backtrack_file = fopen( "lex.bck", "w" );
+		backtrack_file = fopen("lex.bck", "w");
 #endif
 
-	if ( backtrack_file == NULL )
-	    flexerror( "could not create lex.backtrack" );
+		if (backtrack_file == NULL)
+			flexerror("could not create lex.backtrack");
 	}
 
-    else
-	backtrack_file = NULL;
+	else
+		backtrack_file = NULL;
 
 
-    lastccl = 0;
-    lastsc = 0;
+	lastccl = 0;
+	lastsc = 0;
 
-    /* initialize the statistics */
-    starttime = flex_gettime();
+	/* initialize the statistics */
+	starttime = flex_gettime();
 
-    if ( (skelfile = fopen( skelname, "r" )) == NULL )
-	lerrsf( "can't open skeleton file %s", skelname );
+	if ((skelfile = fopen(skelname, "r")) == NULL)
+		lerrsf("can't open skeleton file %s", skelname);
 
-    if ( ( temp_action_file = epicsTempFile () ) == NULL )
-    {
-        lerrsf( "can't create temporary action file", "" );
-    }
+	if ((temp_action_file = epicsTempFile()) == NULL)
+	{
+		lerrsf("can't create temporary action file", "");
+	}
 
-    lastdfa = lastnfa = num_rules = numas = numsnpairs = tmpuses = 0;
-    numecs = numeps = eps2 = num_reallocs = hshcol = dfaeql = totnst = 0;
-    numuniq = numdup = hshsave = eofseen = datapos = dataline = 0;
-    num_backtracking = onesp = numprots = 0;
-    variable_trailing_context_rules = bol_needed = false;
+	lastdfa = lastnfa = num_rules = numas = numsnpairs = tmpuses = 0;
+	numecs = numeps = eps2 = num_reallocs = hshcol = dfaeql = totnst = 0;
+	numuniq = numdup = hshsave = eofseen = datapos = dataline = 0;
+	num_backtracking = onesp = numprots = 0;
+	variable_trailing_context_rules = bol_needed = false;
 
-    linenum = sectnum = 1;
-    firstprot = NIL;
+	linenum = sectnum = 1;
+	firstprot = NIL;
 
-    /* used in mkprot() so that the first proto goes in slot 1
-     * of the proto queue
-     */
-    lastprot = 1;
+	/* used in mkprot() so that the first proto goes in slot 1
+	 * of the proto queue
+	 */
+	lastprot = 1;
 
-    if ( useecs )
+	if (useecs)
 	{ /* set up doubly-linked equivalence classes */
 	/* We loop all the way up to csize, since ecgroup[csize] is the
 	 * position used for NUL characters
 	 */
-	ecgroup[1] = NIL;
+		ecgroup[1] = NIL;
 
-	for ( i = 2; i <= csize; ++i )
-	    {
-	    ecgroup[i] = i - 1;
-	    nextecm[i - 1] = i;
-	    }
+		for (i = 2; i <= csize; ++i)
+		{
+			ecgroup[i] = i - 1;
+			nextecm[i - 1] = i;
+		}
 
-	nextecm[csize] = NIL;
+		nextecm[csize] = NIL;
 	}
 
-    else
+	else
 	{ /* put everything in its own equivalence class */
-	for ( i = 1; i <= csize; ++i )
-	    {
-	    ecgroup[i] = i;
-	    nextecm[i] = BAD_SUBSCRIPT;	/* to catch errors */
-	    }
+		for (i = 1; i <= csize; ++i)
+		{
+			ecgroup[i] = i;
+			nextecm[i] = BAD_SUBSCRIPT;	/* to catch errors */
+		}
 	}
 
-    set_up_initial_allocations();
+	set_up_initial_allocations();
 }
 
 
@@ -650,42 +650,42 @@ get_next_arg: /* used by -C and -S flags in lieu of a "continue 2" control */
 
 void readin(void)
 {
-    skelout();
+	skelout();
 
-    if ( ddebug )
-	puts( "#define FLEX_DEBUG" );
+	if (ddebug)
+		puts("#define FLEX_DEBUG");
 
-    if ( csize == 256 )
-	puts( "#define YY_CHAR unsigned char" );
-    else
-	puts( "#define YY_CHAR char" );
+	if (csize == 256)
+		puts("#define YY_CHAR unsigned char");
+	else
+		puts("#define YY_CHAR char");
 
-    line_directive_out( stdout );
+	line_directive_out(stdout);
 
-    if ( yyparse() )
+	if (yyparse())
 	{
-	pinpoint_message( "fatal parse error" );
-	flexend( 1 );
+		pinpoint_message("fatal parse error");
+		flexend(1);
 	}
 
-    if ( xlation )
+	if (xlation)
 	{
-	numecs = ecs_from_xlation( ecgroup );
-	useecs = true;
+		numecs = ecs_from_xlation(ecgroup);
+		useecs = true;
 	}
 
-    else if ( useecs )
-	numecs = cre8ecs( nextecm, ecgroup, csize );
+	else if (useecs)
+		numecs = cre8ecs(nextecm, ecgroup, csize);
 
-    else
-	numecs = csize;
+	else
+		numecs = csize;
 
-    /* now map the equivalence class for NUL to its expected place */
-    ecgroup[0] = ecgroup[csize];
-    NUL_ec = abs( ecgroup[0] );
+	/* now map the equivalence class for NUL to its expected place */
+	ecgroup[0] = ecgroup[csize];
+	NUL_ec = abs(ecgroup[0]);
 
-    if ( useecs )
-	ccl2ecl();
+	if (useecs)
+		ccl2ecl();
 }
 
 
@@ -694,54 +694,54 @@ void readin(void)
 
 void set_up_initial_allocations(void)
 {
-    current_mns = INITIAL_MNS;
-    firstst = allocate_integer_array( current_mns );
-    lastst = allocate_integer_array( current_mns );
-    finalst = allocate_integer_array( current_mns );
-    transchar = allocate_integer_array( current_mns );
-    trans1 = allocate_integer_array( current_mns );
-    trans2 = allocate_integer_array( current_mns );
-    accptnum = allocate_integer_array( current_mns );
-    assoc_rule = allocate_integer_array( current_mns );
-    state_type = allocate_integer_array( current_mns );
+	current_mns = INITIAL_MNS;
+	firstst = allocate_integer_array(current_mns);
+	lastst = allocate_integer_array(current_mns);
+	finalst = allocate_integer_array(current_mns);
+	transchar = allocate_integer_array(current_mns);
+	trans1 = allocate_integer_array(current_mns);
+	trans2 = allocate_integer_array(current_mns);
+	accptnum = allocate_integer_array(current_mns);
+	assoc_rule = allocate_integer_array(current_mns);
+	state_type = allocate_integer_array(current_mns);
 
-    current_max_rules = INITIAL_MAX_RULES;
-    rule_type = allocate_integer_array( current_max_rules );
-    rule_linenum = allocate_integer_array( current_max_rules );
+	current_max_rules = INITIAL_MAX_RULES;
+	rule_type = allocate_integer_array(current_max_rules);
+	rule_linenum = allocate_integer_array(current_max_rules);
 
-    current_max_scs = INITIAL_MAX_SCS;
-    scset = allocate_integer_array( current_max_scs );
-    scbol = allocate_integer_array( current_max_scs );
-    scxclu = allocate_integer_array( current_max_scs );
-    sceof = allocate_integer_array( current_max_scs );
-    scname = allocate_char_ptr_array( current_max_scs );
-    actvsc = allocate_integer_array( current_max_scs );
+	current_max_scs = INITIAL_MAX_SCS;
+	scset = allocate_integer_array(current_max_scs);
+	scbol = allocate_integer_array(current_max_scs);
+	scxclu = allocate_integer_array(current_max_scs);
+	sceof = allocate_integer_array(current_max_scs);
+	scname = allocate_char_ptr_array(current_max_scs);
+	actvsc = allocate_integer_array(current_max_scs);
 
-    current_maxccls = INITIAL_MAX_CCLS;
-    cclmap = allocate_integer_array( current_maxccls );
-    ccllen = allocate_integer_array( current_maxccls );
-    cclng = allocate_integer_array( current_maxccls );
+	current_maxccls = INITIAL_MAX_CCLS;
+	cclmap = allocate_integer_array(current_maxccls);
+	ccllen = allocate_integer_array(current_maxccls);
+	cclng = allocate_integer_array(current_maxccls);
 
-    current_max_ccl_tbl_size = INITIAL_MAX_CCL_TBL_SIZE;
-    ccltbl = allocate_character_array( current_max_ccl_tbl_size );
+	current_max_ccl_tbl_size = INITIAL_MAX_CCL_TBL_SIZE;
+	ccltbl = allocate_character_array(current_max_ccl_tbl_size);
 
-    current_max_dfa_size = INITIAL_MAX_DFA_SIZE;
+	current_max_dfa_size = INITIAL_MAX_DFA_SIZE;
 
-    current_max_xpairs = INITIAL_MAX_XPAIRS;
-    nxt = allocate_integer_array( current_max_xpairs );
-    chk = allocate_integer_array( current_max_xpairs );
+	current_max_xpairs = INITIAL_MAX_XPAIRS;
+	nxt = allocate_integer_array(current_max_xpairs);
+	chk = allocate_integer_array(current_max_xpairs);
 
-    current_max_template_xpairs = INITIAL_MAX_TEMPLATE_XPAIRS;
-    tnxt = allocate_integer_array( current_max_template_xpairs );
+	current_max_template_xpairs = INITIAL_MAX_TEMPLATE_XPAIRS;
+	tnxt = allocate_integer_array(current_max_template_xpairs);
 
-    current_max_dfas = INITIAL_MAX_DFAS;
-    base = allocate_integer_array( current_max_dfas );
-    def = allocate_integer_array( current_max_dfas );
-    dfasiz = allocate_integer_array( current_max_dfas );
-    accsiz = allocate_integer_array( current_max_dfas );
-    dhash = allocate_integer_array( current_max_dfas );
-    dss = allocate_int_ptr_array( current_max_dfas );
-    dfaacc = allocate_dfaacc_union( current_max_dfas );
+	current_max_dfas = INITIAL_MAX_DFAS;
+	base = allocate_integer_array(current_max_dfas);
+	def = allocate_integer_array(current_max_dfas);
+	dfasiz = allocate_integer_array(current_max_dfas);
+	accsiz = allocate_integer_array(current_max_dfas);
+	dhash = allocate_integer_array(current_max_dfas);
+	dss = allocate_int_ptr_array(current_max_dfas);
+	dfaacc = allocate_dfaacc_union(current_max_dfas);
 
-    nultrans = (int *) 0;
+	nultrans = (int*)0;
 }

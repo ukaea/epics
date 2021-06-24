@@ -1,3 +1,5 @@
+SET TOPLEVEL=%1
+
 if not exist  %TOPLEVEL%\include md  %TOPLEVEL%\include
 if not exist  %TOPLEVEL%\DBD md  %TOPLEVEL%\DBD
 
@@ -12,3 +14,5 @@ xcopy /Y /Q /D /R rsrv\*.h  %TOPLEVEL%\include > NUL
 
 xcopy /Y /Q /D /R db\*.dbd  %TOPLEVEL%\dbd > NUL
 xcopy /Y /Q /D /R misc\*.dbd  %TOPLEVEL%\dbd > NUL
+
+echo BatchCompleted: %ERRORLEVEL%

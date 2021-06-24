@@ -69,53 +69,14 @@
     <ProjectReference Include="..\..\..\support\seq\src\snc\snc.vcxproj">
       <Project>{71608fb9-8dbe-42ad-93a1-0b521a6fb6aa}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\motorApp\ACRSrc\ACRMotor.vcxproj">
-      <Project>{03917320-016d-4430-b8f1-4428b8b7d8bb}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\motorApp\AcsSrc\Acs.vcxproj">
-      <Project>{d08cb5e7-0426-4a6d-9407-4def9959d76a}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\motorApp\AerotechSrc\Aerotech.vcxproj">
       <Project>{4ea30c3f-89e2-4da5-8aaf-bdecc5f819e4}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\motorApp\AttocubeSrc\Attocube.vcxproj">
-      <Project>{8c4d9717-eff2-457b-bfc4-294a9bdb537a}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\motorApp\ImsSrc\Ims.vcxproj">
-      <Project>{8f50c372-e2fe-4120-b10e-8a64b93326d5}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\motorApp\KohzuSrc\KohzuMotor.vcxproj">
-      <Project>{475ed315-1ede-4a6a-ac74-8473f2f36810}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\motorApp\MclennanSrc\Mclennan.vcxproj">
-      <Project>{a91c828f-2d6c-4c72-9cce-cbb0728d6f5d}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\motorApp\MicosSrc\Micos.vcxproj">
-      <Project>{12e42356-ee63-4e0b-a20a-7b8b429578c1}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\motorApp\MicroMoSrc\MicroMo.vcxproj">
-      <Project>{dcddd0cb-4afa-4f0c-a109-a7b0705fb920}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\motorApp\MotorSimSrc\motorSimSupport.vcxproj">
-      <Project>{4d47582a-09dd-45a9-b652-921cbbb31a5e}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\motorApp\MotorSrc\motor.vcxproj">
       <Project>{9ea7bd8e-c551-4874-85ed-abbfcfe7a7d4}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\motorApp\NewportSrc\Newport.vcxproj">
       <Project>{5b74a0bf-2aa3-4db0-8738-9730021d6097}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\motorApp\OmsSrc\oms.vcxproj">
-      <Project>{9c63c890-bbe4-4891-bb8e-ca91374d770d}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\motorApp\PiSrc\PI.vcxproj">
-      <Project>{607cd440-574a-4823-b0fd-4df3ec5f402c}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\motorApp\SmartMotorSrc\SmartMotor.vcxproj">
-      <Project>{1b0e5c1f-dfe8-4464-846c-8fa4b989ae78}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\motorApp\SoftMotorSrc\softMotor.vcxproj">
-      <Project>{532ed83c-468b-41bf-9b39-5ad3b7880a54}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -232,6 +193,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -334,12 +296,8 @@ perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I. -I./O.Common -I$(SolutionD
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-
-set PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I. -I.. -I../O.Common -I$(SolutionDir)dbd  -o O.Common\WithAsyn.dbd base.dbd motorSupport.dbd devAcsMotor.dbd devImsMotor.dbd devMclennanMotor.dbd devMicos.dbd devMicroMo.dbd devNewport.dbd LdevNewportTS.dbd devPIMotor.dbd devOms.dbd devSoftMotor.dbd motorSimSupport.dbd devSmartMotorMotor.dbd devKohzuMotor.dbd devAttocube.dbd devAerotech.dbd ACRMotorSupport.dbd drvAsynSerialPort.dbd drvAsynIPPort.dbd busySupport.dbd devSequencer.dbd
-perl -CSD $(OutDir)registerRecordDeviceDriver.pl  -I. -I./O.Common -I$(SolutionDir)dbd -o  O.Common\WithAsyn_registerRecordDeviceDriver.cpp O.Common/WithAsyn.dbd WithAsyn_registerRecordDeviceDriver ..\..\..\
-</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
+      <Message>PRE BUILD</Message>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd

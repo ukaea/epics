@@ -272,14 +272,30 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
+    <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
+    <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
+    <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
+    <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
+    <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
+    <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
+    <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">
+    <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -299,9 +315,8 @@
       <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-xcopy /Y /Q /D /R generic\*.h  $(SolutionDir)include &gt; NUL
-</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir)</Command>
+      <Message>PRE BUILD</Message>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
@@ -324,9 +339,8 @@ xcopy /Y /Q /D /R generic\*.h  $(SolutionDir)include &gt; NUL
       <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-xcopy /Y /Q /D /R generic\*.h  $(SolutionDir)include &gt; NUL
-</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir)</Command>
+      <Message>PRE BUILD</Message>
     </PreBuildEvent>
     <Lib>
       <AdditionalLibraryDirectories>ws2_32.lib</AdditionalLibraryDirectories>
@@ -352,9 +366,8 @@ xcopy /Y /Q /D /R generic\*.h  $(SolutionDir)include &gt; NUL
       <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-xcopy /Y /Q /D /R generic\*.h  $(SolutionDir)include &gt; NUL
-</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir)</Command>
+      <Message>PRE BUILD</Message>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
@@ -377,9 +390,8 @@ xcopy /Y /Q /D /R generic\*.h  $(SolutionDir)include &gt; NUL
       <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-xcopy /Y /Q /D /R generic\*.h  $(SolutionDir)include &gt; NUL
-</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir)</Command>
+      <Message>PRE BUILD</Message>
     </PreBuildEvent>
     <Lib>
       <AdditionalLibraryDirectories>ws2_32.lib</AdditionalLibraryDirectories>
@@ -405,9 +417,8 @@ xcopy /Y /Q /D /R generic\*.h  $(SolutionDir)include &gt; NUL
       <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-xcopy /Y /Q /D /R generic\*.h  $(SolutionDir)include &gt; NUL
-</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir)</Command>
+      <Message>PRE BUILD</Message>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
@@ -430,9 +441,8 @@ xcopy /Y /Q /D /R generic\*.h  $(SolutionDir)include &gt; NUL
       <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-xcopy /Y /Q /D /R generic\*.h  $(SolutionDir)include &gt; NUL
-</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir)</Command>
+      <Message>PRE BUILD</Message>
     </PreBuildEvent>
     <Lib>
       <AdditionalLibraryDirectories>ws2_32.lib</AdditionalLibraryDirectories>
@@ -458,9 +468,8 @@ xcopy /Y /Q /D /R generic\*.h  $(SolutionDir)include &gt; NUL
       <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-xcopy /Y /Q /D /R generic\*.h  $(SolutionDir)include &gt; NUL
-</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir)</Command>
+      <Message>PRE BUILD</Message>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">
@@ -483,9 +492,8 @@ xcopy /Y /Q /D /R generic\*.h  $(SolutionDir)include &gt; NUL
       <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-xcopy /Y /Q /D /R generic\*.h  $(SolutionDir)include &gt; NUL
-</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir)</Command>
+      <Message>PRE BUILD</Message>
     </PreBuildEvent>
     <Lib>
       <AdditionalLibraryDirectories>ws2_32.lib</AdditionalLibraryDirectories>

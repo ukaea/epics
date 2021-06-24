@@ -124,14 +124,30 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
+    <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
+    <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
+    <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
+    <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
+    <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
+    <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
+    <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">
+    <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -145,25 +161,8 @@
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib;Netapi32.lib</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-if not exist $(SolutionDir)include\pva md $(SolutionDir)include\pva
-if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-xcopy /Y /Q /D /R ca\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R client\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R client\pva\*.h $(SolutionDir)include\pva &gt; NUL
-xcopy /Y /Q /D /R ioc\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R mb\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R pipelineService\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R pva\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R remote\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R remoteClient\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R rpcClient\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R rpcService\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R server\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R utils\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R ioc\*.dbd $(SolutionDir)DBD &gt; NUL
-</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
+      <Message>PRE BUILD</Message>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
@@ -180,25 +179,8 @@ xcopy /Y /Q /D /R ioc\*.dbd $(SolutionDir)DBD &gt; NUL
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-if not exist $(SolutionDir)include\pva md $(SolutionDir)include\pva
-if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-xcopy /Y /Q /D /R ca\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R client\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R client\pva\*.h $(SolutionDir)include\pva &gt; NUL
-xcopy /Y /Q /D /R ioc\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R mb\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R pipelineService\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R pva\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R remote\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R remoteClient\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R rpcClient\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R rpcService\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R server\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R utils\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R ioc\*.dbd $(SolutionDir)DBD &gt; NUL
-</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
+      <Message>PRE BUILD</Message>
     </PreBuildEvent>
     <Lib>
       <TreatLibWarningAsErrors>true</TreatLibWarningAsErrors>
@@ -218,25 +200,8 @@ xcopy /Y /Q /D /R ioc\*.dbd $(SolutionDir)DBD &gt; NUL
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib;Netapi32.lib</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-if not exist $(SolutionDir)include\pva md $(SolutionDir)include\pva
-if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-xcopy /Y /Q /D /R ca\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R client\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R client\pva\*.h $(SolutionDir)include\pva &gt; NUL
-xcopy /Y /Q /D /R ioc\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R mb\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R pipelineService\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R pva\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R remote\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R remoteClient\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R rpcClient\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R rpcService\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R server\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R utils\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R ioc\*.dbd $(SolutionDir)DBD &gt; NUL
-</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
+      <Message>PRE BUILD</Message>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
@@ -253,25 +218,8 @@ xcopy /Y /Q /D /R ioc\*.dbd $(SolutionDir)DBD &gt; NUL
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-if not exist $(SolutionDir)include\pva md $(SolutionDir)include\pva
-if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-xcopy /Y /Q /D /R ca\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R client\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R client\pva\*.h $(SolutionDir)include\pva &gt; NUL
-xcopy /Y /Q /D /R ioc\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R mb\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R pipelineService\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R pva\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R remote\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R remoteClient\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R rpcClient\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R rpcService\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R server\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R utils\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R ioc\*.dbd $(SolutionDir)DBD &gt; NUL
-</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
+      <Message>PRE BUILD</Message>
     </PreBuildEvent>
     <Lib>
       <TreatLibWarningAsErrors>true</TreatLibWarningAsErrors>
@@ -294,25 +242,8 @@ xcopy /Y /Q /D /R ioc\*.dbd $(SolutionDir)DBD &gt; NUL
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib;Netapi32.lib</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-if not exist $(SolutionDir)include\pva md $(SolutionDir)include\pva
-if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-xcopy /Y /Q /D /R ca\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R client\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R client\pva\*.h $(SolutionDir)include\pva &gt; NUL
-xcopy /Y /Q /D /R ioc\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R mb\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R pipelineService\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R pva\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R remote\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R remoteClient\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R rpcClient\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R rpcService\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R server\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R utils\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R ioc\*.dbd $(SolutionDir)DBD &gt; NUL
-</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
+      <Message>PRE BUILD</Message>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
@@ -332,25 +263,8 @@ xcopy /Y /Q /D /R ioc\*.dbd $(SolutionDir)DBD &gt; NUL
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-if not exist $(SolutionDir)include\pva md $(SolutionDir)include\pva
-if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-xcopy /Y /Q /D /R ca\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R client\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R client\pva\*.h $(SolutionDir)include\pva &gt; NUL
-xcopy /Y /Q /D /R ioc\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R mb\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R pipelineService\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R pva\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R remote\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R remoteClient\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R rpcClient\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R rpcService\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R server\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R utils\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R ioc\*.dbd $(SolutionDir)DBD &gt; NUL
-</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
+      <Message>PRE BUILD</Message>
     </PreBuildEvent>
     <Lib>
       <TreatLibWarningAsErrors>true</TreatLibWarningAsErrors>
@@ -373,25 +287,8 @@ xcopy /Y /Q /D /R ioc\*.dbd $(SolutionDir)DBD &gt; NUL
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib;Netapi32.lib</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-if not exist $(SolutionDir)include\pva md $(SolutionDir)include\pva
-if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-xcopy /Y /Q /D /R ca\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R client\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R client\pva\*.h $(SolutionDir)include\pva &gt; NUL
-xcopy /Y /Q /D /R ioc\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R mb\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R pipelineService\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R pva\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R remote\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R remoteClient\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R rpcClient\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R rpcService\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R server\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R utils\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R ioc\*.dbd $(SolutionDir)DBD &gt; NUL
-</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
+      <Message>PRE BUILD</Message>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">
@@ -411,25 +308,8 @@ xcopy /Y /Q /D /R ioc\*.dbd $(SolutionDir)DBD &gt; NUL
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-if not exist $(SolutionDir)include\pv md $(SolutionDir)include\pv
-if not exist $(SolutionDir)include\pva md $(SolutionDir)include\pva
-if not exist $(SolutionDir)DBD md $(SolutionDir)DBD
-xcopy /Y /Q /D /R ca\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R client\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R client\pva\*.h $(SolutionDir)include\pva &gt; NUL
-xcopy /Y /Q /D /R ioc\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R mb\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R pipelineService\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R pva\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R remote\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R remoteClient\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R rpcClient\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R rpcService\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R server\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R utils\pv\*.h $(SolutionDir)include\pv &gt; NUL
-xcopy /Y /Q /D /R ioc\*.dbd $(SolutionDir)DBD &gt; NUL
-</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
+      <Message>PRE BUILD</Message>
     </PreBuildEvent>
     <Lib>
       <TreatLibWarningAsErrors>true</TreatLibWarningAsErrors>

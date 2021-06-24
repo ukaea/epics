@@ -4,7 +4,7 @@
 * Copyright (c) 2002 The Regents of the University of California, as
 *     Operator of Los Alamos National Laboratory.
 * EPICS BASE is distributed subject to a Software License Agreement found
-* in file LICENSE that is included with this distribution. 
+* in file LICENSE that is included with this distribution.
 \*************************************************************************/
 /* ccl - routines for character classes */
 
@@ -14,7 +14,7 @@
  *
  * This code is derived from software contributed to Berkeley by
  * Vern Paxson.
- * 
+ *
  * The United States Government has rights in this work pursuant
  * to contract no. DE-AC03-76SF00098 between the United States
  * Department of Energy and the University of California.
@@ -36,41 +36,41 @@
 
 #include "flexdef.h"
 
-/* ccladd - add a single character to a ccl
- *
- * synopsis
- *    int cclp;
- *    int ch;
- *    ccladd( cclp, ch );
- */
+ /* ccladd - add a single character to a ccl
+  *
+  * synopsis
+  *    int cclp;
+  *    int ch;
+  *    ccladd( cclp, ch );
+  */
 
 void ccladd(int cclp, int ch)
 {
-    int ind, len, newpos, i;
+	int ind, len, newpos, i;
 
-    len = ccllen[cclp];
-    ind = cclmap[cclp];
+	len = ccllen[cclp];
+	ind = cclmap[cclp];
 
-    /* check to see if the character is already in the ccl */
+	/* check to see if the character is already in the ccl */
 
-    for ( i = 0; i < len; ++i )
-	if ( ccltbl[ind + i] == ch )
-	    return;
+	for (i = 0; i < len; ++i)
+		if (ccltbl[ind + i] == ch)
+			return;
 
-    newpos = ind + len;
+	newpos = ind + len;
 
-    if ( newpos >= current_max_ccl_tbl_size )
+	if (newpos >= current_max_ccl_tbl_size)
 	{
-	current_max_ccl_tbl_size += MAX_CCL_TBL_SIZE_INCREMENT;
+		current_max_ccl_tbl_size += MAX_CCL_TBL_SIZE_INCREMENT;
 
-	++num_reallocs;
+		++num_reallocs;
 
-	ccltbl = reallocate_character_array( ccltbl, current_max_ccl_tbl_size );
+		ccltbl = reallocate_character_array(ccltbl, current_max_ccl_tbl_size);
 	}
 
-    ccllen[cclp] = len + 1;
-    ccltbl[newpos] = ch;
-    }
+	ccllen[cclp] = len + 1;
+	ccltbl[newpos] = ch;
+}
 
 
 /* cclinit - make an empty ccl
@@ -82,34 +82,34 @@ void ccladd(int cclp, int ch)
 
 int cclinit(void)
 {
-    if ( ++lastccl >= current_maxccls )
+	if (++lastccl >= current_maxccls)
 	{
-	current_maxccls += MAX_CCLS_INCREMENT;
+		current_maxccls += MAX_CCLS_INCREMENT;
 
-	++num_reallocs;
+		++num_reallocs;
 
-	cclmap = reallocate_integer_array( cclmap, current_maxccls );
-	ccllen = reallocate_integer_array( ccllen, current_maxccls );
-	cclng = reallocate_integer_array( cclng, current_maxccls );
+		cclmap = reallocate_integer_array(cclmap, current_maxccls);
+		ccllen = reallocate_integer_array(ccllen, current_maxccls);
+		cclng = reallocate_integer_array(cclng, current_maxccls);
 	}
 
-    if ( lastccl == 1 )
-	/* we're making the first ccl */
-	cclmap[lastccl] = 0;
+	if (lastccl == 1)
+		/* we're making the first ccl */
+		cclmap[lastccl] = 0;
 
-    else
-	/* the new pointer is just past the end of the last ccl.  Since
-	 * the cclmap points to the \first/ character of a ccl, adding the
-	 * length of the ccl to the cclmap pointer will produce a cursor
-	 * to the first free space
-	 */
-	cclmap[lastccl] = cclmap[lastccl - 1] + ccllen[lastccl - 1];
+	else
+		/* the new pointer is just past the end of the last ccl.  Since
+		 * the cclmap points to the \first/ character of a ccl, adding the
+		 * length of the ccl to the cclmap pointer will produce a cursor
+		 * to the first free space
+		 */
+		cclmap[lastccl] = cclmap[lastccl - 1] + ccllen[lastccl - 1];
 
-    ccllen[lastccl] = 0;
-    cclng[lastccl] = 0;	/* ccl's start out life un-negated */
+	ccllen[lastccl] = 0;
+	cclng[lastccl] = 0;	/* ccl's start out life un-negated */
 
-    return ( lastccl );
-    }
+	return (lastccl);
+}
 
 
 /* cclnegate - negate a ccl
@@ -121,8 +121,8 @@ int cclinit(void)
 
 void cclnegate(int cclp)
 {
-    cclng[cclp] = 1;
-    }
+	cclng[cclp] = 1;
+}
 
 
 /* list_character_set - list the members of a set of characters in CCL form
@@ -137,33 +137,33 @@ void cclnegate(int cclp)
  * has a non-zero value in the set array.
  */
 
-void list_character_set(FILE *file, int cset[])
+void list_character_set(FILE* file, int cset[])
 {
-    int i;
-    char *readable_form();
+	int i;
+	char* readable_form();
 
-    putc( '[', file );
+	putc('[', file);
 
-    for ( i = 0; i < csize; ++i )
+	for (i = 0; i < csize; ++i)
 	{
-	if ( cset[i] )
-	    {
-	    int start_char = i;
+		if (cset[i])
+		{
+			int start_char = i;
 
-	    putc( ' ', file );
+			putc(' ', file);
 
-	    fputs( readable_form( i ), file );
+			fputs(readable_form(i), file);
 
-	    while ( ++i < csize && cset[i] )
-		;
+			while (++i < csize && cset[i])
+				;
 
-	    if ( i - 1 > start_char )
-		/* this was a run */
-		fprintf( file, "-%s", readable_form( i - 1 ) );
+			if (i - 1 > start_char)
+				/* this was a run */
+				fprintf(file, "-%s", readable_form(i - 1));
 
-	    putc( ' ', file );
-	    }
+			putc(' ', file);
+		}
 	}
 
-    putc( ']', file );
-    }
+	putc(']', file);
+}

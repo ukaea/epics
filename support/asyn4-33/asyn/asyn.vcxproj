@@ -131,14 +131,38 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
+    <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
+    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
+    <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
+    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
+    <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
+    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
+    <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
+    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
+    <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
+    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
+    <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
+    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">
+    <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
+    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
+    <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
+    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -152,28 +176,12 @@
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib;Winmm.lib</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
-if not exist O.Common md O.Common
-xcopy /Y /Q /D /R .\asynDriver\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\asynPortDriver\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\asynGpib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\devEpics\*.h   $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\interfaces\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\miscellaneous\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\drvAsynSerial\*.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\devGpib\*.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\asynPortDriver\exceptions $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\drvAsynSerial\*.dbd $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R .\miscellaneous\*.dbd  $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R .\asynRecord\*.dbd  $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R .\devEpics\*.dbd   $(SolutionDir)dbd &gt; NUL
-</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
+      <Message>PRE BUILD</Message>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-xcopy /Y /Q  /D .\O.Common\*.h $(SolutionDir)include &gt; NUL
-</Command>
+      <Command>call .\Build_POST.bat $(SolutionDir)</Command>
+      <Message>POST BUILD</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
@@ -189,28 +197,12 @@ xcopy /Y /Q  /D .\O.Common\*.h $(SolutionDir)include &gt; NUL
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib;Winmm.lib</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
-if not exist O.Common md O.Common
-xcopy /Y /Q /D /R .\asynDriver\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\asynPortDriver\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\asynGpib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\devEpics\*.h   $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\interfaces\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\miscellaneous\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\drvAsynSerial\*.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\devGpib\*.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\asynPortDriver\exceptions $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\drvAsynSerial\*.dbd $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R .\miscellaneous\*.dbd  $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R .\asynRecord\*.dbd  $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R .\devEpics\*.dbd   $(SolutionDir)dbd &gt; NUL
-</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
+      <Message>PRE BUILD</Message>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
-</Command>
+      <Command>call .\Build_POST.bat $(SolutionDir)</Command>
+      <Message>POST BUILD</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
@@ -226,28 +218,12 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
-if not exist O.Common md O.Common
-xcopy /Y /Q /D /R .\asynDriver\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\asynPortDriver\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\asynGpib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\devEpics\*.h   $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\interfaces\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\miscellaneous\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\drvAsynSerial\*.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\devGpib\*.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\asynPortDriver\exceptions $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\drvAsynSerial\*.dbd $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R .\miscellaneous\*.dbd  $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R .\asynRecord\*.dbd  $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R .\devEpics\*.dbd   $(SolutionDir)dbd &gt; NUL
-</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
+      <Message>PRE BUILD</Message>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
-</Command>
+      <Command>call .\Build_POST.bat $(SolutionDir)</Command>
+      <Message>POST BUILD</Message>
     </PostBuildEvent>
     <Lib>
       <AdditionalDependencies>Winmm.lib</AdditionalDependencies>
@@ -266,28 +242,12 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
-if not exist O.Common md O.Common
-xcopy /Y /Q /D /R .\asynDriver\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\asynPortDriver\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\asynGpib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\devEpics\*.h   $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\interfaces\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\miscellaneous\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\drvAsynSerial\*.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\devGpib\*.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\asynPortDriver\exceptions $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\drvAsynSerial\*.dbd $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R .\miscellaneous\*.dbd  $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R .\asynRecord\*.dbd  $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R .\devEpics\*.dbd   $(SolutionDir)dbd &gt; NUL
-</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
+      <Message>PRE BUILD</Message>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
-</Command>
+      <Command>call .\Build_POST.bat $(SolutionDir)</Command>
+      <Message>POST BUILD</Message>
     </PostBuildEvent>
     <Lib>
       <AdditionalDependencies>Winmm.lib</AdditionalDependencies>
@@ -309,28 +269,12 @@ xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib;Winmm.lib</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
-</Command>
+      <Command>call .\Build_POST.bat $(SolutionDir)</Command>
+      <Message>POST BUILD</Message>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
-if not exist O.Common md O.Common
-xcopy /Y /Q /D /R .\asynDriver\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\asynPortDriver\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\asynGpib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\devEpics\*.h   $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\interfaces\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\miscellaneous\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\drvAsynSerial\*.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\devGpib\*.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\asynPortDriver\exceptions $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\drvAsynSerial\*.dbd $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R .\miscellaneous\*.dbd  $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R .\asynRecord\*.dbd  $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R .\devEpics\*.dbd   $(SolutionDir)dbd &gt; NUL
-</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
+      <Message>PRE BUILD</Message>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
@@ -349,28 +293,12 @@ xcopy /Y /Q /D /R .\devEpics\*.dbd   $(SolutionDir)dbd &gt; NUL
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib;Winmm.lib</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
-</Command>
+      <Command>call .\Build_POST.bat $(SolutionDir)</Command>
+      <Message>POST BUILD</Message>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
-if not exist O.Common md O.Common
-xcopy /Y /Q /D /R .\asynDriver\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\asynPortDriver\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\asynGpib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\devEpics\*.h   $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\interfaces\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\miscellaneous\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\drvAsynSerial\*.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\devGpib\*.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\asynPortDriver\exceptions $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\drvAsynSerial\*.dbd $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R .\miscellaneous\*.dbd  $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R .\asynRecord\*.dbd  $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R .\devEpics\*.dbd   $(SolutionDir)dbd &gt; NUL
-</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
+      <Message>PRE BUILD</Message>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
@@ -389,28 +317,12 @@ xcopy /Y /Q /D /R .\devEpics\*.dbd   $(SolutionDir)dbd &gt; NUL
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PostBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
-</Command>
+      <Command>call .\Build_POST.bat $(SolutionDir)</Command>
+      <Message>POST BUILD</Message>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
-if not exist O.Common md O.Common
-xcopy /Y /Q /D /R .\asynDriver\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\asynPortDriver\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\asynGpib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\devEpics\*.h   $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\interfaces\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\miscellaneous\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\drvAsynSerial\*.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\devGpib\*.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\asynPortDriver\exceptions $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\drvAsynSerial\*.dbd $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R .\miscellaneous\*.dbd  $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R .\asynRecord\*.dbd  $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R .\devEpics\*.dbd   $(SolutionDir)dbd &gt; NUL
-</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
+      <Message>PRE BUILD</Message>
     </PreBuildEvent>
     <Lib>
       <AdditionalDependencies>Winmm.lib</AdditionalDependencies>
@@ -432,28 +344,12 @@ xcopy /Y /Q /D /R .\devEpics\*.dbd   $(SolutionDir)dbd &gt; NUL
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PostBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
-</Command>
+      <Command>call .\Build_POST.bat $(SolutionDir)</Command>
+      <Message>POST BUILD</Message>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
-if not exist  $(SolutionDir)dbd md  $(SolutionDir)dbd
-if not exist O.Common md O.Common
-xcopy /Y /Q /D /R .\asynDriver\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\asynPortDriver\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\asynGpib\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\devEpics\*.h   $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\interfaces\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\miscellaneous\*.h  $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\drvAsynSerial\*.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\devGpib\*.h $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\asynPortDriver\exceptions $(SolutionDir)include &gt; NUL
-xcopy /Y /Q /D /R .\drvAsynSerial\*.dbd $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R .\miscellaneous\*.dbd  $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R .\asynRecord\*.dbd  $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R .\devEpics\*.dbd   $(SolutionDir)dbd &gt; NUL
-</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
+      <Message>PRE BUILD</Message>
     </PreBuildEvent>
     <Lib>
       <AdditionalDependencies>Winmm.lib</AdditionalDependencies>

@@ -3816,14 +3816,38 @@ cd $(ProjectDir)
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
+    <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
+    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
+    <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
+    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
+    <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
+    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
+    <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
+    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
+    <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
+    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
+    <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
+    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
+    <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
+    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">
+    <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
+    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -3838,21 +3862,13 @@ cd $(ProjectDir)
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
     <PostBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-
-if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
-
-xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
-SET PERL5LIB=$(SolutionDir)lib\perl
-
-perl -CSD $(OutDir)makeIncludeDbd.pl aaiRecord.dbd aaoRecord.dbd aiRecord.dbd aoRecord.dbd aSubRecord.dbd biRecord.dbd boRecord.dbd calcRecord.dbd calcoutRecord.dbd compressRecord.dbd dfanoutRecord.dbd eventRecord.dbd fanoutRecord.dbd histogramRecord.dbd int64inRecord.dbd int64outRecord.dbd longinRecord.dbd longoutRecord.dbd lsiRecord.dbd lsoRecord.dbd mbbiRecord.dbd mbbiDirectRecord.dbd mbboRecord.dbd mbboDirectRecord.dbd permissiveRecord.dbd printfRecord.dbd selRecord.dbd seqRecord.dbd stateRecord.dbd stringinRecord.dbd stringoutRecord.dbd subRecord.dbd subArrayRecord.dbd waveformRecord.dbd O.Common\stdRecords.dbd
-
-xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
-</Command>
+      <Command>call .\Build_POST.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
+      <Message>POST BUILD</Message>
     </PostBuildEvent>
     <PreBuildEvent />
     <PreBuildEvent>
-      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
+      <Message>PRE BUILD</Message>
     </PreBuildEvent>
     <ResourceCompile>
       <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>
@@ -3872,26 +3888,13 @@ xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-
-if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
-
-xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
-SET PERL5LIB=$(SolutionDir)lib\perl
-
-perl -CSD $(OutDir)makeIncludeDbd.pl aaiRecord.dbd aaoRecord.dbd aiRecord.dbd aoRecord.dbd aSubRecord.dbd biRecord.dbd boRecord.dbd calcRecord.dbd calcoutRecord.dbd compressRecord.dbd dfanoutRecord.dbd eventRecord.dbd fanoutRecord.dbd histogramRecord.dbd int64inRecord.dbd int64outRecord.dbd longinRecord.dbd longoutRecord.dbd lsiRecord.dbd lsoRecord.dbd mbbiRecord.dbd mbbiDirectRecord.dbd mbboRecord.dbd mbboDirectRecord.dbd permissiveRecord.dbd printfRecord.dbd selRecord.dbd seqRecord.dbd stateRecord.dbd stringinRecord.dbd stringoutRecord.dbd subRecord.dbd subArrayRecord.dbd waveformRecord.dbd O.Common\stdRecords.dbd
-
-xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
-</Command>
+      <Command>call .\Build_POST.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
+      <Message>POST BUILD</Message>
     </PostBuildEvent>
     <PreBuildEvent />
     <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
-xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R dev\*.dbd $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R rec\*.dbd $(SolutionDir)dbd &gt; NUL
-</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
+      <Message>PRE BUILD</Message>
     </PreBuildEvent>
     <ResourceCompile>
       <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>
@@ -3915,21 +3918,13 @@ xcopy /Y /Q /D /R rec\*.dbd $(SolutionDir)dbd &gt; NUL
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
     <PostBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-
-if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
-
-xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
-SET PERL5LIB=$(SolutionDir)lib\perl
-
-perl -CSD $(OutDir)makeIncludeDbd.pl aaiRecord.dbd aaoRecord.dbd aiRecord.dbd aoRecord.dbd aSubRecord.dbd biRecord.dbd boRecord.dbd calcRecord.dbd calcoutRecord.dbd compressRecord.dbd dfanoutRecord.dbd eventRecord.dbd fanoutRecord.dbd histogramRecord.dbd int64inRecord.dbd int64outRecord.dbd longinRecord.dbd longoutRecord.dbd lsiRecord.dbd lsoRecord.dbd mbbiRecord.dbd mbbiDirectRecord.dbd mbboRecord.dbd mbboDirectRecord.dbd permissiveRecord.dbd printfRecord.dbd selRecord.dbd seqRecord.dbd stateRecord.dbd stringinRecord.dbd stringoutRecord.dbd subRecord.dbd subArrayRecord.dbd waveformRecord.dbd O.Common\stdRecords.dbd
-
-xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
-</Command>
+      <Command>call .\Build_POST.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
+      <Message>POST BUILD</Message>
     </PostBuildEvent>
     <PreBuildEvent />
     <PreBuildEvent>
-      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
+      <Message>PRE BUILD</Message>
     </PreBuildEvent>
     <ResourceCompile>
       <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>
@@ -3949,26 +3944,13 @@ xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-
-if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
-
-xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
-SET PERL5LIB=$(SolutionDir)lib\perl
-
-perl -CSD $(OutDir)makeIncludeDbd.pl aaiRecord.dbd aaoRecord.dbd aiRecord.dbd aoRecord.dbd aSubRecord.dbd biRecord.dbd boRecord.dbd calcRecord.dbd calcoutRecord.dbd compressRecord.dbd dfanoutRecord.dbd eventRecord.dbd fanoutRecord.dbd histogramRecord.dbd int64inRecord.dbd int64outRecord.dbd longinRecord.dbd longoutRecord.dbd lsiRecord.dbd lsoRecord.dbd mbbiRecord.dbd mbbiDirectRecord.dbd mbboRecord.dbd mbboDirectRecord.dbd permissiveRecord.dbd printfRecord.dbd selRecord.dbd seqRecord.dbd stateRecord.dbd stringinRecord.dbd stringoutRecord.dbd subRecord.dbd subArrayRecord.dbd waveformRecord.dbd O.Common\stdRecords.dbd
-
-xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
-</Command>
+      <Command>call .\Build_POST.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
+      <Message>POST BUILD</Message>
     </PostBuildEvent>
     <PreBuildEvent />
     <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
-xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R dev\*.dbd $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R rec\*.dbd $(SolutionDir)dbd &gt; NUL
-</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
+      <Message>PRE BUILD</Message>
     </PreBuildEvent>
     <ResourceCompile>
       <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>
@@ -3994,25 +3976,12 @@ xcopy /Y /Q /D /R rec\*.dbd $(SolutionDir)dbd &gt; NUL
     </Link>
     <PreBuildEvent />
     <PostBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-
-if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
-
-xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
-SET PERL5LIB=$(SolutionDir)lib\perl
-
-perl -CSD $(OutDir)makeIncludeDbd.pl aaiRecord.dbd aaoRecord.dbd aiRecord.dbd aoRecord.dbd aSubRecord.dbd biRecord.dbd boRecord.dbd calcRecord.dbd calcoutRecord.dbd compressRecord.dbd dfanoutRecord.dbd eventRecord.dbd fanoutRecord.dbd histogramRecord.dbd int64inRecord.dbd int64outRecord.dbd longinRecord.dbd longoutRecord.dbd lsiRecord.dbd lsoRecord.dbd mbbiRecord.dbd mbbiDirectRecord.dbd mbboRecord.dbd mbboDirectRecord.dbd permissiveRecord.dbd printfRecord.dbd selRecord.dbd seqRecord.dbd stateRecord.dbd stringinRecord.dbd stringoutRecord.dbd subRecord.dbd subArrayRecord.dbd waveformRecord.dbd O.Common\stdRecords.dbd
-
-xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
-</Command>
+      <Command>call .\Build_POST.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
+      <Message>POST BUILD</Message>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
-xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R dev\*.dbd $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R rec\*.dbd $(SolutionDir)dbd &gt; NUL
-</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
+      <Message>PRE BUILD</Message>
     </PreBuildEvent>
     <ResourceCompile>
       <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>
@@ -4035,20 +4004,12 @@ xcopy /Y /Q /D /R rec\*.dbd $(SolutionDir)dbd &gt; NUL
     </Link>
     <PreBuildEvent />
     <PostBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-
-if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
-
-xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
-SET PERL5LIB=$(SolutionDir)lib\perl
-
-perl -CSD $(OutDir)makeIncludeDbd.pl aaiRecord.dbd aaoRecord.dbd aiRecord.dbd aoRecord.dbd aSubRecord.dbd biRecord.dbd boRecord.dbd calcRecord.dbd calcoutRecord.dbd compressRecord.dbd dfanoutRecord.dbd eventRecord.dbd fanoutRecord.dbd histogramRecord.dbd int64inRecord.dbd int64outRecord.dbd longinRecord.dbd longoutRecord.dbd lsiRecord.dbd lsoRecord.dbd mbbiRecord.dbd mbbiDirectRecord.dbd mbboRecord.dbd mbboDirectRecord.dbd permissiveRecord.dbd printfRecord.dbd selRecord.dbd seqRecord.dbd stateRecord.dbd stringinRecord.dbd stringoutRecord.dbd subRecord.dbd subArrayRecord.dbd waveformRecord.dbd O.Common\stdRecords.dbd
-
-xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
-</Command>
+      <Command>call .\Build_POST.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
+      <Message>POST BUILD</Message>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>SET TOPLEVEL=$(SolutionDir); SET BUILDIR=$(ProjectDir);SET DLLDIR=$(OutDir);.\Build_DBDs.bat</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
+      <Message>PRE BUILD</Message>
     </PreBuildEvent>
     <ResourceCompile>
       <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>
@@ -4071,25 +4032,12 @@ xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
     </Link>
     <PreBuildEvent />
     <PostBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-
-if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
-
-xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
-SET PERL5LIB=$(SolutionDir)lib\perl
-
-perl -CSD $(OutDir)makeIncludeDbd.pl aaiRecord.dbd aaoRecord.dbd aiRecord.dbd aoRecord.dbd aSubRecord.dbd biRecord.dbd boRecord.dbd calcRecord.dbd calcoutRecord.dbd compressRecord.dbd dfanoutRecord.dbd eventRecord.dbd fanoutRecord.dbd histogramRecord.dbd int64inRecord.dbd int64outRecord.dbd longinRecord.dbd longoutRecord.dbd lsiRecord.dbd lsoRecord.dbd mbbiRecord.dbd mbbiDirectRecord.dbd mbboRecord.dbd mbboDirectRecord.dbd permissiveRecord.dbd printfRecord.dbd selRecord.dbd seqRecord.dbd stateRecord.dbd stringinRecord.dbd stringoutRecord.dbd subRecord.dbd subArrayRecord.dbd waveformRecord.dbd O.Common\stdRecords.dbd
-
-xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
-</Command>
+      <Command>call .\Build_POST.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
+      <Message>POST BUILD</Message>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
-xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R dev\*.dbd $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R rec\*.dbd $(SolutionDir)dbd &gt; NUL
-</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
+      <Message>PRE BUILD</Message>
     </PreBuildEvent>
     <ResourceCompile>
       <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>
@@ -4112,25 +4060,12 @@ xcopy /Y /Q /D /R rec\*.dbd $(SolutionDir)dbd &gt; NUL
     </Link>
     <PreBuildEvent />
     <PostBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-
-if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
-
-xcopy /Y /Q  /D O.Common\*.h $(SolutionDir)include &gt; NUL
-SET PERL5LIB=$(SolutionDir)lib\perl
-
-perl -CSD $(OutDir)makeIncludeDbd.pl aaiRecord.dbd aaoRecord.dbd aiRecord.dbd aoRecord.dbd aSubRecord.dbd biRecord.dbd boRecord.dbd calcRecord.dbd calcoutRecord.dbd compressRecord.dbd dfanoutRecord.dbd eventRecord.dbd fanoutRecord.dbd histogramRecord.dbd int64inRecord.dbd int64outRecord.dbd longinRecord.dbd longoutRecord.dbd lsiRecord.dbd lsoRecord.dbd mbbiRecord.dbd mbbiDirectRecord.dbd mbboRecord.dbd mbboDirectRecord.dbd permissiveRecord.dbd printfRecord.dbd selRecord.dbd seqRecord.dbd stateRecord.dbd stringinRecord.dbd stringoutRecord.dbd subRecord.dbd subArrayRecord.dbd waveformRecord.dbd O.Common\stdRecords.dbd
-
-xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd
-</Command>
+      <Command>call .\Build_POST.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
+      <Message>POST BUILD</Message>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>if not exist O.Common md O.Common
-if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
-xcopy /Y /Q /D /R *.dbd $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R dev\*.dbd $(SolutionDir)dbd &gt; NUL
-xcopy /Y /Q /D /R rec\*.dbd $(SolutionDir)dbd &gt; NUL
-</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
+      <Message>PRE BUILD</Message>
     </PreBuildEvent>
     <ResourceCompile>
       <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>

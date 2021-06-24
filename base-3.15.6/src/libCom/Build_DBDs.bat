@@ -1,7 +1,12 @@
+SET TOPLEVEL=%1
+SET BUILDIR=%2
+SET DLLDIR=%3
+
 if not exist  %TOPLEVEL%\include md  %TOPLEVEL%\include
 if not exist  %TOPLEVEL%\include\os md  %TOPLEVEL%\include\os
 if not exist  %TOPLEVEL%\include\os\WIN32 md  %TOPLEVEL%\include\os\WIN32
 if not exist O.Common md O.Common
+
 xcopy /Y /Q /D /R as\*.h  %TOPLEVEL%\include > NUL
 xcopy /Y /Q /D /R misc\*.h  %TOPLEVEL%\include > NUL
 xcopy /Y /Q /D /R osi\*.h  %TOPLEVEL%\include > NUL
@@ -39,3 +44,5 @@ del  %TOPLEVEL%\include\os\WIN32\epicsGetopt.h
 
 xcopy /Y /Q /D /R osi\os\WIN32\*.h  %TOPLEVEL%\include\os\WIN32 > NUL
 xcopy /Y /Q /D /R osi\compiler\msvc\*.h  %TOPLEVEL%\include\compiler\msvc\ > NUL
+
+echo BatchCompleted: %ERRORLEVEL%
