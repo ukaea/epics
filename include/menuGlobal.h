@@ -3,16 +3,39 @@
 #ifndef INC_menuGlobal_H
 #define INC_menuGlobal_H
 
-#ifndef menuPini_NUM_CHOICES
+#ifndef menuOmsl_NUM_CHOICES
 typedef enum {
-    menuPiniNO                      /* NO */,
-    menuPiniYES                     /* YES */,
-    menuPiniRUN                     /* RUN */,
-    menuPiniRUNNING                 /* RUNNING */,
-    menuPiniPAUSE                   /* PAUSE */,
-    menuPiniPAUSED                  /* PAUSED */
-} menuPini;
-#define menuPini_NUM_CHOICES 6
+    menuOmslsupervisory             /* supervisory */,
+    menuOmslclosed_loop             /* closed_loop */
+} menuOmsl;
+#define menuOmsl_NUM_CHOICES 2
+#endif
+
+#ifndef menuSimm_NUM_CHOICES
+typedef enum {
+    menuSimmNO                      /* NO */,
+    menuSimmYES                     /* YES */,
+    menuSimmRAW                     /* RAW */
+} menuSimm;
+#define menuSimm_NUM_CHOICES 3
+#endif
+
+#ifndef menuFtype_NUM_CHOICES
+typedef enum {
+    menuFtypeSTRING                 /* STRING */,
+    menuFtypeCHAR                   /* CHAR */,
+    menuFtypeUCHAR                  /* UCHAR */,
+    menuFtypeSHORT                  /* SHORT */,
+    menuFtypeUSHORT                 /* USHORT */,
+    menuFtypeLONG                   /* LONG */,
+    menuFtypeULONG                  /* ULONG */,
+    menuFtypeINT64                  /* INT64 */,
+    menuFtypeUINT64                 /* UINT64 */,
+    menuFtypeFLOAT                  /* FLOAT */,
+    menuFtypeDOUBLE                 /* DOUBLE */,
+    menuFtypeENUM                   /* ENUM */
+} menuFtype;
+#define menuFtype_NUM_CHOICES 12
 #endif
 
 #ifndef menuAlarmStat_NUM_CHOICES
@@ -43,22 +66,12 @@ typedef enum {
 #define menuAlarmStat_NUM_CHOICES 22
 #endif
 
-#ifndef menuOmsl_NUM_CHOICES
+#ifndef menuYesNo_NUM_CHOICES
 typedef enum {
-    menuOmslsupervisory             /* supervisory */,
-    menuOmslclosed_loop             /* closed_loop */
-} menuOmsl;
-#define menuOmsl_NUM_CHOICES 2
-#endif
-
-#ifndef menuAlarmSevr_NUM_CHOICES
-typedef enum {
-    menuAlarmSevrNO_ALARM           /* NO_ALARM */,
-    menuAlarmSevrMINOR              /* MINOR */,
-    menuAlarmSevrMAJOR              /* MAJOR */,
-    menuAlarmSevrINVALID            /* INVALID */
-} menuAlarmSevr;
-#define menuAlarmSevr_NUM_CHOICES 4
+    menuYesNoNO                     /* NO */,
+    menuYesNoYES                    /* YES */
+} menuYesNo;
+#define menuYesNo_NUM_CHOICES 2
 #endif
 
 #ifndef menuPost_NUM_CHOICES
@@ -69,13 +82,16 @@ typedef enum {
 #define menuPost_NUM_CHOICES 2
 #endif
 
-#ifndef menuSimm_NUM_CHOICES
+#ifndef menuPini_NUM_CHOICES
 typedef enum {
-    menuSimmNO                      /* NO */,
-    menuSimmYES                     /* YES */,
-    menuSimmRAW                     /* RAW */
-} menuSimm;
-#define menuSimm_NUM_CHOICES 3
+    menuPiniNO                      /* NO */,
+    menuPiniYES                     /* YES */,
+    menuPiniRUN                     /* RUN */,
+    menuPiniRUNNING                 /* RUNNING */,
+    menuPiniPAUSE                   /* PAUSE */,
+    menuPiniPAUSED                  /* PAUSED */
+} menuPini;
+#define menuPini_NUM_CHOICES 6
 #endif
 
 #ifndef menuPriority_NUM_CHOICES
@@ -87,24 +103,6 @@ typedef enum {
 #define menuPriority_NUM_CHOICES 3
 #endif
 
-#ifndef menuFtype_NUM_CHOICES
-typedef enum {
-    menuFtypeSTRING                 /* STRING */,
-    menuFtypeCHAR                   /* CHAR */,
-    menuFtypeUCHAR                  /* UCHAR */,
-    menuFtypeSHORT                  /* SHORT */,
-    menuFtypeUSHORT                 /* USHORT */,
-    menuFtypeLONG                   /* LONG */,
-    menuFtypeULONG                  /* ULONG */,
-    menuFtypeINT64                  /* INT64 */,
-    menuFtypeUINT64                 /* UINT64 */,
-    menuFtypeFLOAT                  /* FLOAT */,
-    menuFtypeDOUBLE                 /* DOUBLE */,
-    menuFtypeENUM                   /* ENUM */
-} menuFtype;
-#define menuFtype_NUM_CHOICES 12
-#endif
-
 #ifndef menuIvoa_NUM_CHOICES
 typedef enum {
     menuIvoaContinue_normally       /* Continue normally */,
@@ -114,12 +112,14 @@ typedef enum {
 #define menuIvoa_NUM_CHOICES 3
 #endif
 
-#ifndef menuYesNo_NUM_CHOICES
+#ifndef menuAlarmSevr_NUM_CHOICES
 typedef enum {
-    menuYesNoNO                     /* NO */,
-    menuYesNoYES                    /* YES */
-} menuYesNo;
-#define menuYesNo_NUM_CHOICES 2
+    menuAlarmSevrNO_ALARM           /* NO_ALARM */,
+    menuAlarmSevrMINOR              /* MINOR */,
+    menuAlarmSevrMAJOR              /* MAJOR */,
+    menuAlarmSevrINVALID            /* INVALID */
+} menuAlarmSevr;
+#define menuAlarmSevr_NUM_CHOICES 4
 #endif
 
 
