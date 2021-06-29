@@ -17,7 +17,7 @@ if not exist C:\strawberry\perl\lib\DBD  mklink /d C:\strawberry\perl\lib\DBD %T
 if not exist C:\strawberry\perl\lib\EPICS  mklink /d C:\strawberry\perl\lib\EPICS %TOPLEVEL%lib\perl\EPICS
 
 perl -CSD %DLLDIR%\dbdExpand.pl  -I ./O.Common -I. -I.. -I./O.Common -I%TOPLEVEL%DBD -I%TOPLEVEL%lib\perl -o O.Common\seqSoftIoc.dbd base.dbd ..\..\test\validate\testSupport.dbd
-perl -CSD %DLLDIR%\registerRecordDeviceDriver.pl  -I ./O.Common -I. -I%TOPLEVEL%DBD -I%TOPLEVEL%lib\perl -o ./O.Common/seqSoftIoc_registerRecordDeviceDriver.cpp ./O.Common/seqSoftIoc.dbd seqSoftIoc_registerRecordDeviceDriver %TOPLEVEL%\
+perl -CSD %DLLDIR%\registerRecordDeviceDriver.pl  -I ./O.Common -I. -I%TOPLEVEL%DBD -I%TOPLEVEL%lib\perl -o ./O.Common/seqSoftIoc_registerRecordDeviceDriver.cpp ./O.Common/seqSoftIoc.dbd seqSoftIoc_registerRecordDeviceDriver %TOPLEVEL%
 perl -CSD seq_release.pl 2.1.15 > O.Common/seq_release.h
 
 echo BatchCompleted: %ERRORLEVEL%

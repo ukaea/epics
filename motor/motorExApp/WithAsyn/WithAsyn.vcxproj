@@ -69,17 +69,11 @@
     <ProjectReference Include="..\..\..\support\seq\src\snc\snc.vcxproj">
       <Project>{71608fb9-8dbe-42ad-93a1-0b521a6fb6aa}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\motorApp\AerotechSrc\Aerotech.vcxproj">
-      <Project>{4ea30c3f-89e2-4da5-8aaf-bdecc5f819e4}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\motorApp\MotorSrc\motor.vcxproj">
       <Project>{9ea7bd8e-c551-4874-85ed-abbfcfe7a7d4}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\motorApp\NewportSrc\Newport.vcxproj">
       <Project>{5b74a0bf-2aa3-4db0-8738-9730021d6097}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\motorApp\Parker6K8Src\Parker6K8.vcxproj">
-      <Project>{ef124fc1-0635-4640-8edf-8871f5312691}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

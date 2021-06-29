@@ -3,6 +3,42 @@
 #ifndef INC_menuGlobal_H
 #define INC_menuGlobal_H
 
+#ifndef menuPriority_NUM_CHOICES
+typedef enum {
+    menuPriorityLOW                 /* LOW */,
+    menuPriorityMEDIUM              /* MEDIUM */,
+    menuPriorityHIGH                /* HIGH */
+} menuPriority;
+#define menuPriority_NUM_CHOICES 3
+#endif
+
+#ifndef menuIvoa_NUM_CHOICES
+typedef enum {
+    menuIvoaContinue_normally       /* Continue normally */,
+    menuIvoaDon_t_drive_outputs     /* Don't drive outputs */,
+    menuIvoaSet_output_to_IVOV      /* Set output to IVOV */
+} menuIvoa;
+#define menuIvoa_NUM_CHOICES 3
+#endif
+
+#ifndef menuAlarmSevr_NUM_CHOICES
+typedef enum {
+    menuAlarmSevrNO_ALARM           /* NO_ALARM */,
+    menuAlarmSevrMINOR              /* MINOR */,
+    menuAlarmSevrMAJOR              /* MAJOR */,
+    menuAlarmSevrINVALID            /* INVALID */
+} menuAlarmSevr;
+#define menuAlarmSevr_NUM_CHOICES 4
+#endif
+
+#ifndef menuOmsl_NUM_CHOICES
+typedef enum {
+    menuOmslsupervisory             /* supervisory */,
+    menuOmslclosed_loop             /* closed_loop */
+} menuOmsl;
+#define menuOmsl_NUM_CHOICES 2
+#endif
+
 #ifndef menuFtype_NUM_CHOICES
 typedef enum {
     menuFtypeSTRING                 /* STRING */,
@@ -21,16 +57,21 @@ typedef enum {
 #define menuFtype_NUM_CHOICES 12
 #endif
 
-#ifndef menuPini_NUM_CHOICES
+#ifndef menuSimm_NUM_CHOICES
 typedef enum {
-    menuPiniNO                      /* NO */,
-    menuPiniYES                     /* YES */,
-    menuPiniRUN                     /* RUN */,
-    menuPiniRUNNING                 /* RUNNING */,
-    menuPiniPAUSE                   /* PAUSE */,
-    menuPiniPAUSED                  /* PAUSED */
-} menuPini;
-#define menuPini_NUM_CHOICES 6
+    menuSimmNO                      /* NO */,
+    menuSimmYES                     /* YES */,
+    menuSimmRAW                     /* RAW */
+} menuSimm;
+#define menuSimm_NUM_CHOICES 3
+#endif
+
+#ifndef menuYesNo_NUM_CHOICES
+typedef enum {
+    menuYesNoNO                     /* NO */,
+    menuYesNoYES                    /* YES */
+} menuYesNo;
+#define menuYesNo_NUM_CHOICES 2
 #endif
 
 #ifndef menuAlarmStat_NUM_CHOICES
@@ -61,32 +102,6 @@ typedef enum {
 #define menuAlarmStat_NUM_CHOICES 22
 #endif
 
-#ifndef menuSimm_NUM_CHOICES
-typedef enum {
-    menuSimmNO                      /* NO */,
-    menuSimmYES                     /* YES */,
-    menuSimmRAW                     /* RAW */
-} menuSimm;
-#define menuSimm_NUM_CHOICES 3
-#endif
-
-#ifndef menuIvoa_NUM_CHOICES
-typedef enum {
-    menuIvoaContinue_normally       /* Continue normally */,
-    menuIvoaDon_t_drive_outputs     /* Don't drive outputs */,
-    menuIvoaSet_output_to_IVOV      /* Set output to IVOV */
-} menuIvoa;
-#define menuIvoa_NUM_CHOICES 3
-#endif
-
-#ifndef menuOmsl_NUM_CHOICES
-typedef enum {
-    menuOmslsupervisory             /* supervisory */,
-    menuOmslclosed_loop             /* closed_loop */
-} menuOmsl;
-#define menuOmsl_NUM_CHOICES 2
-#endif
-
 #ifndef menuPost_NUM_CHOICES
 typedef enum {
     menuPost_OnChange               /* On Change */,
@@ -95,31 +110,16 @@ typedef enum {
 #define menuPost_NUM_CHOICES 2
 #endif
 
-#ifndef menuYesNo_NUM_CHOICES
+#ifndef menuPini_NUM_CHOICES
 typedef enum {
-    menuYesNoNO                     /* NO */,
-    menuYesNoYES                    /* YES */
-} menuYesNo;
-#define menuYesNo_NUM_CHOICES 2
-#endif
-
-#ifndef menuAlarmSevr_NUM_CHOICES
-typedef enum {
-    menuAlarmSevrNO_ALARM           /* NO_ALARM */,
-    menuAlarmSevrMINOR              /* MINOR */,
-    menuAlarmSevrMAJOR              /* MAJOR */,
-    menuAlarmSevrINVALID            /* INVALID */
-} menuAlarmSevr;
-#define menuAlarmSevr_NUM_CHOICES 4
-#endif
-
-#ifndef menuPriority_NUM_CHOICES
-typedef enum {
-    menuPriorityLOW                 /* LOW */,
-    menuPriorityMEDIUM              /* MEDIUM */,
-    menuPriorityHIGH                /* HIGH */
-} menuPriority;
-#define menuPriority_NUM_CHOICES 3
+    menuPiniNO                      /* NO */,
+    menuPiniYES                     /* YES */,
+    menuPiniRUN                     /* RUN */,
+    menuPiniRUNNING                 /* RUNNING */,
+    menuPiniPAUSE                   /* PAUSE */,
+    menuPiniPAUSED                  /* PAUSED */
+} menuPini;
+#define menuPini_NUM_CHOICES 6
 #endif
 
 

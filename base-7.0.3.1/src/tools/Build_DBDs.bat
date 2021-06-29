@@ -7,7 +7,7 @@ if not exist %TOPLEVEL%\lib\perl\EPICS  md %TOPLEVEL%\lib\perl\EPICS
 if not exist %TOPLEVEL%\lib  md %TOPLEVEL%\lib
 if not exist %TOPLEVEL%\lib\perl  md %TOPLEVEL%\lib\perl
 
-xcopy /Y /Q /D /R *.pl %DLLDIR%\ > NUL
-xcopy /Y /Q /D /R EPICS\*.pm %TOPLEVEL%\lib\perl\EPICS > NUL
+xcopy /Y /Q /D /R *.pl %DLLDIR% > NUL
+xcopy /Y /Q /D /R EPICS\*.pm %TOPLEVEL%lib\perl\EPICS > NUL
 
 echo BatchCompleted: %ERRORLEVEL%

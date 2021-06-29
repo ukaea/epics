@@ -78,12 +78,4 @@
       <Filter>O.Common</Filter>
     </ClInclude>
   </ItemGroup>
-  <ItemGroup>
-    <CustomBuild Include="motorRecord.dbd">
-      <Filter>Source Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="motorSupport.dbd">
-      <Filter>Source Files</Filter>
-    </CustomBuild>
-  </ItemGroup>
 </Project>
