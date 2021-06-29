@@ -1,0 +1,48 @@
+file "$(MOTOR)/db/basic_asyn_motor.db"
+{
+pattern
+{P,	          N,   M,         DTYP,     PORT, ADDR, 	DESC,      EGU,  DIR,    VELO,  VBAS, ACCL, BDST, BVEL, BACC,    MRES, PREC,  DHLM,  DLLM, INIT, ERES, RDBD}
+{XPS_PREFIX:, 1, "m$(N)", "asynMotor",  XPS1,  0, "XPS_M1_NAME",    mm,  Pos,    50.0,    0,   3,    0,    1,   .2,    .001,     4,    20,     0,   "",    0,     0}
+{XPS_PREFIX:, 2, "m$(N)", "asynMotor",  XPS1,  1, "XPS_M2_NAME",    mm,  Pos,    50.0,    0,   3,    0,    1,   .2,    .001,     4,    20,     0,   "",    0,     0}
+
+}
+
+
+file "$(MOTOR)/db/XPS_extra.db"
+{
+pattern
+{P,     R,  PORT,  ADDR}
+{XPS_PREFIX:,  m1, XPS1,  0}
+{XPS_PREFIX:,  m2, XPS1   1}
+
+}
+
+file "$(MOTOR)/db/profileMoveController.template"
+{
+pattern
+{P,		R,     PORT,  NAXES, NPOINTS, NPULSES, TIMEOUT}
+{XPS_PREFIX:,  Prof1:, XPS1,     1,    2000,    2000,       1}
+}
+
+file "$(MOTOR)/db/profileMoveControllerXPS.template"
+{
+pattern
+{P,     R,      PORT, NAXES, NPOINTS, NPULSES, TIMEOUT}
+{XPS_PREFIX:,  Prof1:, XPS1,     1,    2000,    2000,       1}
+}
+
+file "$(MOTOR)/db/profileMoveAxis.template"
+{
+pattern
+{P,     R,      M,  PORT, ADDR,NPOINTS, NREADBACK,  MOTOR, PREC, TIMEOUT}
+{XPS_PREFIX:,  Prof1:, 1,  XPS1,    0,   2000,      2000, XPS_PREFIX:m1,   3,       1}
+{XPS_PREFIX:,  Prof1:, 2,  XPS1,    1,   2000,      2000, XPS_PREFIX:m2,   4,       1}
+}
+
+file "$(MOTOR)/db/profileMoveAxisXPS.template"
+{
+pattern
+{P,     R,      M,  PORT, ADDR,NPOINTS, NREADBACK, PREC, TIMEOUT}
+{XPS_PREFIX:,  Prof1:, 1,  XPS1,    0,   2000,      2000,    3,       1}
+{XPS_PREFIX:,  Prof1:, 2,  XPS1,    1,   2000,      2000,    4,       1}
+}

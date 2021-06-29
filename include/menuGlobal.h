@@ -3,30 +3,32 @@
 #ifndef INC_menuGlobal_H
 #define INC_menuGlobal_H
 
-#ifndef menuOmsl_NUM_CHOICES
+#ifndef menuAlarmStat_NUM_CHOICES
 typedef enum {
-    menuOmslsupervisory             /* supervisory */,
-    menuOmslclosed_loop             /* closed_loop */
-} menuOmsl;
-#define menuOmsl_NUM_CHOICES 2
-#endif
-
-#ifndef menuYesNo_NUM_CHOICES
-typedef enum {
-    menuYesNoNO                     /* NO */,
-    menuYesNoYES                    /* YES */
-} menuYesNo;
-#define menuYesNo_NUM_CHOICES 2
-#endif
-
-#ifndef menuAlarmSevr_NUM_CHOICES
-typedef enum {
-    menuAlarmSevrNO_ALARM           /* NO_ALARM */,
-    menuAlarmSevrMINOR              /* MINOR */,
-    menuAlarmSevrMAJOR              /* MAJOR */,
-    menuAlarmSevrINVALID            /* INVALID */
-} menuAlarmSevr;
-#define menuAlarmSevr_NUM_CHOICES 4
+    menuAlarmStatNO_ALARM           /* NO_ALARM */,
+    menuAlarmStatREAD               /* READ */,
+    menuAlarmStatWRITE              /* WRITE */,
+    menuAlarmStatHIHI               /* HIHI */,
+    menuAlarmStatHIGH               /* HIGH */,
+    menuAlarmStatLOLO               /* LOLO */,
+    menuAlarmStatLOW                /* LOW */,
+    menuAlarmStatSTATE              /* STATE */,
+    menuAlarmStatCOS                /* COS */,
+    menuAlarmStatCOMM               /* COMM */,
+    menuAlarmStatTIMEOUT            /* TIMEOUT */,
+    menuAlarmStatHWLIMIT            /* HWLIMIT */,
+    menuAlarmStatCALC               /* CALC */,
+    menuAlarmStatSCAN               /* SCAN */,
+    menuAlarmStatLINK               /* LINK */,
+    menuAlarmStatSOFT               /* SOFT */,
+    menuAlarmStatBAD_SUB            /* BAD_SUB */,
+    menuAlarmStatUDF                /* UDF */,
+    menuAlarmStatDISABLE            /* DISABLE */,
+    menuAlarmStatSIMM               /* SIMM */,
+    menuAlarmStatREAD_ACCESS        /* READ_ACCESS */,
+    menuAlarmStatWRITE_ACCESS       /* WRITE_ACCESS */
+} menuAlarmStat;
+#define menuAlarmStat_NUM_CHOICES 22
 #endif
 
 #ifndef menuIvoa_NUM_CHOICES
@@ -36,6 +38,14 @@ typedef enum {
     menuIvoaSet_output_to_IVOV      /* Set output to IVOV */
 } menuIvoa;
 #define menuIvoa_NUM_CHOICES 3
+#endif
+
+#ifndef menuYesNo_NUM_CHOICES
+typedef enum {
+    menuYesNoNO                     /* NO */,
+    menuYesNoYES                    /* YES */
+} menuYesNo;
+#define menuYesNo_NUM_CHOICES 2
 #endif
 
 #ifndef menuFtype_NUM_CHOICES
@@ -65,46 +75,6 @@ typedef enum {
 #define menuPriority_NUM_CHOICES 3
 #endif
 
-#ifndef menuAlarmStat_NUM_CHOICES
-typedef enum {
-    menuAlarmStatNO_ALARM           /* NO_ALARM */,
-    menuAlarmStatREAD               /* READ */,
-    menuAlarmStatWRITE              /* WRITE */,
-    menuAlarmStatHIHI               /* HIHI */,
-    menuAlarmStatHIGH               /* HIGH */,
-    menuAlarmStatLOLO               /* LOLO */,
-    menuAlarmStatLOW                /* LOW */,
-    menuAlarmStatSTATE              /* STATE */,
-    menuAlarmStatCOS                /* COS */,
-    menuAlarmStatCOMM               /* COMM */,
-    menuAlarmStatTIMEOUT            /* TIMEOUT */,
-    menuAlarmStatHWLIMIT            /* HWLIMIT */,
-    menuAlarmStatCALC               /* CALC */,
-    menuAlarmStatSCAN               /* SCAN */,
-    menuAlarmStatLINK               /* LINK */,
-    menuAlarmStatSOFT               /* SOFT */,
-    menuAlarmStatBAD_SUB            /* BAD_SUB */,
-    menuAlarmStatUDF                /* UDF */,
-    menuAlarmStatDISABLE            /* DISABLE */,
-    menuAlarmStatSIMM               /* SIMM */,
-    menuAlarmStatREAD_ACCESS        /* READ_ACCESS */,
-    menuAlarmStatWRITE_ACCESS       /* WRITE_ACCESS */
-} menuAlarmStat;
-#define menuAlarmStat_NUM_CHOICES 22
-#endif
-
-#ifndef menuPini_NUM_CHOICES
-typedef enum {
-    menuPiniNO                      /* NO */,
-    menuPiniYES                     /* YES */,
-    menuPiniRUN                     /* RUN */,
-    menuPiniRUNNING                 /* RUNNING */,
-    menuPiniPAUSE                   /* PAUSE */,
-    menuPiniPAUSED                  /* PAUSED */
-} menuPini;
-#define menuPini_NUM_CHOICES 6
-#endif
-
 #ifndef menuSimm_NUM_CHOICES
 typedef enum {
     menuSimmNO                      /* NO */,
@@ -120,6 +90,36 @@ typedef enum {
     menuPost_Always                 /* Always */
 } menuPost;
 #define menuPost_NUM_CHOICES 2
+#endif
+
+#ifndef menuOmsl_NUM_CHOICES
+typedef enum {
+    menuOmslsupervisory             /* supervisory */,
+    menuOmslclosed_loop             /* closed_loop */
+} menuOmsl;
+#define menuOmsl_NUM_CHOICES 2
+#endif
+
+#ifndef menuPini_NUM_CHOICES
+typedef enum {
+    menuPiniNO                      /* NO */,
+    menuPiniYES                     /* YES */,
+    menuPiniRUN                     /* RUN */,
+    menuPiniRUNNING                 /* RUNNING */,
+    menuPiniPAUSE                   /* PAUSE */,
+    menuPiniPAUSED                  /* PAUSED */
+} menuPini;
+#define menuPini_NUM_CHOICES 6
+#endif
+
+#ifndef menuAlarmSevr_NUM_CHOICES
+typedef enum {
+    menuAlarmSevrNO_ALARM           /* NO_ALARM */,
+    menuAlarmSevrMINOR              /* MINOR */,
+    menuAlarmSevrMAJOR              /* MAJOR */,
+    menuAlarmSevrINVALID            /* INVALID */
+} menuAlarmSevr;
+#define menuAlarmSevr_NUM_CHOICES 4
 #endif
 
 

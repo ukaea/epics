@@ -1,0 +1,101 @@
+record(ai, $(DEVICE):m1-POS1) {
+}
+
+record(ai, $(DEVICE):m1-POS2) {
+}
+
+record(ai, $(DEVICE):m1-POS3) {
+}
+
+record(dfanout, $(DEVICE):m1_POS1) {
+  
+  field(OUTA, "$(DEVICE):m1 CA")
+  field(DOL, "$(DEVICE):m1-POS1")
+  field(OMSL, "closed_loop")
+}
+
+record(dfanout, $(DEVICE):m1_POS2) {
+  
+  field(OUTA, "$(DEVICE):m1 CA")
+  field(DOL, "$(DEVICE):m1-POS2 PP")
+  field(OMSL, "closed_loop")
+}
+
+record(dfanout, $(DEVICE):m1_POS3) {
+  
+  field(OUTA, "$(DEVICE):m1 CA")
+  field(DOL, "$(DEVICE):m1-POS3 PP")
+  field(OMSL, "closed_loop")
+}
+
+record(ai, $(DEVICE):m2-POS1) {
+}
+
+record(ai, $(DEVICE):m2-POS2) {
+}
+
+record(ai, $(DEVICE):m2-POS3) {
+}
+
+record(dfanout, $(DEVICE):m2_POS1) {
+  
+  field(OUTA, "$(DEVICE):m2 CA")
+  field(DOL, "$(DEVICE):m2-POS1")
+  field(OMSL, "closed_loop")
+}
+
+record(dfanout, $(DEVICE):m2_POS2) {
+  
+  field(OUTA, "$(DEVICE):m2 CA")
+  field(DOL, "$(DEVICE):m2-POS2")
+  field(OMSL, "closed_loop")
+}
+
+record(dfanout, $(DEVICE):m2_POS3) {
+  
+  field(OUTA, "$(DEVICE):m2 CA")
+  field(DOL, "$(DEVICE):m2-POS3")
+  field(OMSL, "closed_loop")
+}
+
+record(sscan, "$(DEVICE):seqMove") {
+  field(DESC, "sequence movement")
+  field(PINI, "YES")
+  field(NPTS, "4") # number of points
+  field(PASM, "STAY") # action after scan
+  field(FPTS, "NO") # Freeze flag for NPTS
+  field(R1PV, "$(DEVICE):m2") ## RBV
+  field(P1PV, "$(DEVICE):m2") # Positioner, First stage
+  field(P1SM, "TABLE") # step mode
+
+  ## This is needed for linear mode, NOT USED ATM
+  field(P1HR, "5") ## High range
+  field(P1PR, "4") ## Precision
+  field(P1AR, "RELATIVE") # movement mode
+  field(P1SP, "0") # start position, TO BE CHANGED TO REFLECT THE CURRENT POSITION
+  #field(P1EP, "1") # end point
+  field(P1SI, "1") # step size
+  
+  ## change to m2.RLV when second stage is available
+  field(T1PV, "$(DEVICE):m1.RLV") # Trig to move second stage, Number of lines-1
+  field(T1CD, "1") # Jog value for Y axis, updated through CSS script
+  #field(P1PA, "") # array table move, values refrence the starting position
+
+  ## After scan action, move X stage one step
+  field(ASPV, "$(DEVICE):m1.RLV")
+  field(ASCD, "-1")
+}
+
+# Test record to be removed when the second stage is delivered
+record(calc, "IOC:m2"){
+
+}
+
+record(calc, "$(DEVICE):LineCount"){
+  field(DESC, "Remaining seq move lines")
+  field(SCAN, ".1 second")
+  field(INPA, "$(DEVICE):seqMove.CPT")
+  field(INPB, "$(DEVICE):seqMove.NPTS")
+  field(INPC, "$(DEVICE):m1.DMOV")
+  field(CALC, "C == 1 && B-A == 0?0:B-A+1")
+}
