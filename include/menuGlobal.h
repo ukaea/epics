@@ -3,22 +3,20 @@
 #ifndef INC_menuGlobal_H
 #define INC_menuGlobal_H
 
-#ifndef menuPriority_NUM_CHOICES
+#ifndef menuOmsl_NUM_CHOICES
 typedef enum {
-    menuPriorityLOW                 /* LOW */,
-    menuPriorityMEDIUM              /* MEDIUM */,
-    menuPriorityHIGH                /* HIGH */
-} menuPriority;
-#define menuPriority_NUM_CHOICES 3
+    menuOmslsupervisory             /* supervisory */,
+    menuOmslclosed_loop             /* closed_loop */
+} menuOmsl;
+#define menuOmsl_NUM_CHOICES 2
 #endif
 
-#ifndef menuIvoa_NUM_CHOICES
+#ifndef menuYesNo_NUM_CHOICES
 typedef enum {
-    menuIvoaContinue_normally       /* Continue normally */,
-    menuIvoaDon_t_drive_outputs     /* Don't drive outputs */,
-    menuIvoaSet_output_to_IVOV      /* Set output to IVOV */
-} menuIvoa;
-#define menuIvoa_NUM_CHOICES 3
+    menuYesNoNO                     /* NO */,
+    menuYesNoYES                    /* YES */
+} menuYesNo;
+#define menuYesNo_NUM_CHOICES 2
 #endif
 
 #ifndef menuAlarmSevr_NUM_CHOICES
@@ -31,12 +29,13 @@ typedef enum {
 #define menuAlarmSevr_NUM_CHOICES 4
 #endif
 
-#ifndef menuOmsl_NUM_CHOICES
+#ifndef menuIvoa_NUM_CHOICES
 typedef enum {
-    menuOmslsupervisory             /* supervisory */,
-    menuOmslclosed_loop             /* closed_loop */
-} menuOmsl;
-#define menuOmsl_NUM_CHOICES 2
+    menuIvoaContinue_normally       /* Continue normally */,
+    menuIvoaDon_t_drive_outputs     /* Don't drive outputs */,
+    menuIvoaSet_output_to_IVOV      /* Set output to IVOV */
+} menuIvoa;
+#define menuIvoa_NUM_CHOICES 3
 #endif
 
 #ifndef menuFtype_NUM_CHOICES
@@ -57,21 +56,13 @@ typedef enum {
 #define menuFtype_NUM_CHOICES 12
 #endif
 
-#ifndef menuSimm_NUM_CHOICES
+#ifndef menuPriority_NUM_CHOICES
 typedef enum {
-    menuSimmNO                      /* NO */,
-    menuSimmYES                     /* YES */,
-    menuSimmRAW                     /* RAW */
-} menuSimm;
-#define menuSimm_NUM_CHOICES 3
-#endif
-
-#ifndef menuYesNo_NUM_CHOICES
-typedef enum {
-    menuYesNoNO                     /* NO */,
-    menuYesNoYES                    /* YES */
-} menuYesNo;
-#define menuYesNo_NUM_CHOICES 2
+    menuPriorityLOW                 /* LOW */,
+    menuPriorityMEDIUM              /* MEDIUM */,
+    menuPriorityHIGH                /* HIGH */
+} menuPriority;
+#define menuPriority_NUM_CHOICES 3
 #endif
 
 #ifndef menuAlarmStat_NUM_CHOICES
@@ -102,14 +93,6 @@ typedef enum {
 #define menuAlarmStat_NUM_CHOICES 22
 #endif
 
-#ifndef menuPost_NUM_CHOICES
-typedef enum {
-    menuPost_OnChange               /* On Change */,
-    menuPost_Always                 /* Always */
-} menuPost;
-#define menuPost_NUM_CHOICES 2
-#endif
-
 #ifndef menuPini_NUM_CHOICES
 typedef enum {
     menuPiniNO                      /* NO */,
@@ -120,6 +103,23 @@ typedef enum {
     menuPiniPAUSED                  /* PAUSED */
 } menuPini;
 #define menuPini_NUM_CHOICES 6
+#endif
+
+#ifndef menuSimm_NUM_CHOICES
+typedef enum {
+    menuSimmNO                      /* NO */,
+    menuSimmYES                     /* YES */,
+    menuSimmRAW                     /* RAW */
+} menuSimm;
+#define menuSimm_NUM_CHOICES 3
+#endif
+
+#ifndef menuPost_NUM_CHOICES
+typedef enum {
+    menuPost_OnChange               /* On Change */,
+    menuPost_Always                 /* Always */
+} menuPost;
+#define menuPost_NUM_CHOICES 2
 #endif
 
 
