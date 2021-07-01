@@ -249,7 +249,7 @@ static struct iocshVarDef vardefs[] = {
 int softIoc_registerRecordDeviceDriver(DBBASE *pbase)
 {
     static int executed = 0;
-    const char *bldTop = "C:/Users/ktn98257/source/repos/epics.dotnet/";
+    const char *bldTop = "C:/Users/ubx69493/source/repos/epics.dotnet/";
     const char *envTop = getenv("TOP");
 
     if (envTop && strcmp(envTop, bldTop)) {
