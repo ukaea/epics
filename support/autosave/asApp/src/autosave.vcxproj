@@ -52,41 +52,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="asInclude.dbd">
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I$(SolutionDir)DBD -o O.Common/as.dbd %(FileName).dbd
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I$(SolutionDir)DBD -o O.Common/as.dbd %(FileName).dbd
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I$(SolutionDir)DBD -o O.Common/as.dbd %(FileName).dbd
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I$(SolutionDir)DBD -o O.Common/as.dbd %(FileName).dbd
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I$(SolutionDir)DBD -o O.Common/as.dbd %(FileName).dbd
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I$(SolutionDir)DBD -o O.Common/as.dbd %(FileName).dbd
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I$(SolutionDir)DBD -o O.Common/as.dbd %(FileName).dbd
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdExpand.pl  -I$(SolutionDir)DBD -o O.Common/as.dbd %(FileName).dbd
-</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common/as.dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">O.Common/as.dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common/as.dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">O.Common/as.dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">O.Common/as.dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">O.Common/as.dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">O.Common/as.dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">O.Common/as.dbd</Outputs>
-    </CustomBuild>
     <None Include="asSupport.dbd" />
     <None Include="Makefile" />
     <None Include="O.Common\as.dbd" />

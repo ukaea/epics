@@ -6,6 +6,25 @@ if not exist O.Common  md O.Common
 if not exist %TOPLEVEL%\include  md %TOPLEVEL%\include
 if not exist %TOPLEVEL%\dbd  md %TOPLEVEL%\dbd
 
+SET PERL5LIB=C:\Strawberry\lib\perl
+if not exist C:\strawberry\perl\lib\DBD.pm  mklink /h C:\strawberry\perl\lib\DBD.pm %TOPLEVEL%lib\perl\DBD.pm
+if not exist C:\strawberry\perl\lib\DBD  mklink /d C:\strawberry\perl\lib\DBD %TOPLEVEL%lib\perl\DBD
+if not exist C:\strawberry\perl\lib\EPICS  mklink /d C:\strawberry\perl\lib\EPICS %TOPLEVEL%lib\perl\EPICS
+
+cd %TOPLEVEL%
+
+perl -CSD %DLLDIR%dbdToRecordtypeH.pl  -I./O.Common -I%TOPLEVEL%include -I%TOPLEVEL%dbd -o ./O.Common/aCalcoutRecord.h aCalcoutRecord.dbd
+perl -CSD %DLLDIR%dbdToRecordtypeH.pl  -I./O.Common -I%TOPLEVEL%include -I%TOPLEVEL%dbd -o ./O.Common/sseqRecord.h sseqRecord.dbd
+perl -CSD %DLLDIR%dbdToRecordtypeH.pl  -I./O.Common -I%TOPLEVEL%include -I%TOPLEVEL%dbd -o ./O.Common/sseqRecord.h sseqRecord.dbd
+perl -CSD %DLLDIR%dbdToRecordtypeH.pl  -I./O.Common -I%TOPLEVEL%include -I%TOPLEVEL%dbd -o ./O.Common/swaitRecord.h swaitRecord.dbd
+perl -CSD %DLLDIR%dbdToRecordtypeH.pl  -I./O.Common -I%TOPLEVEL%include -I%TOPLEVEL%dbd -o ./O.Common/transformRecord.h transformRecord.dbd
+
+perl -CSD -MExtUtils::Command -e cat ../calcSupport_LOCAL.dbd ../calcSupport_withSSCAN.dbd > calcSupport.dbd
+
+cd O.Common
+perl -CSD -MExtUtils::Command -e cat ../calcSupport_LOCAL.dbd ../calcSupport_withSSCAN.dbd > calc.dbd
+cd %BUILDIR%
+
 xcopy /Y /Q /D /R  *.dbd  %TOPLEVEL%\dbd > NUL
 
 echo BatchCompleted: %ERRORLEVEL%

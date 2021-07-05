@@ -44,33 +44,6 @@
     <ClCompile Include="devBusySoftRaw.c" />
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="busyRecord.dbd">
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I. -I.. -I../O.Common -I../../../dbd -I$(SolutionDir)dbd -o O.Common/%(FileName).h %(FileName).dbd</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common/%(FileName).h</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I. -I.. -I../O.Common -I../../../dbd -I$(SolutionDir)dbd -o O.Common/%(FileName).h %(FileName).dbd</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I. -I.. -I../O.Common -I../../../dbd -I$(SolutionDir)dbd -o O.Common/%(FileName).h %(FileName).dbd</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I. -I.. -I../O.Common -I../../../dbd -I$(SolutionDir)dbd -o O.Common/%(FileName).h %(FileName).dbd</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I. -I.. -I../O.Common -I../../../dbd -I$(SolutionDir)dbd -o O.Common/%(FileName).h %(FileName).dbd</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I. -I.. -I../O.Common -I../../../dbd -I$(SolutionDir)dbd -o O.Common/%(FileName).h %(FileName).dbd</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I. -I.. -I../O.Common -I../../../dbd -I$(SolutionDir)dbd -o O.Common/%(FileName).h %(FileName).dbd</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I. -I.. -I../O.Common -I../../../dbd -I$(SolutionDir)dbd -o O.Common/%(FileName).h %(FileName).dbd</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">O.Common/%(FileName).h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common/%(FileName).h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">O.Common/%(FileName).h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">O.Common/%(FileName).h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">O.Common/%(FileName).h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">O.Common/%(FileName).h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">O.Common/%(FileName).h</Outputs>
-    </CustomBuild>
     <None Include="busySupport_LOCAL.dbd" />
     <None Include="busySupport_withASYN.dbd" />
   </ItemGroup>
@@ -236,7 +209,7 @@ perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I. -I.. -I../O.Common -I../../../dbd -I
       <Message>PRE BUILD</Message>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>call .\Build_POST.bat $(SolutionDir)</Command>
+      <Command>call .\Build_POST.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
       <Message>POST BUILD</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -256,7 +229,7 @@ perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I. -I.. -I../O.Common -I../../../dbd -I
       <Message>PRE BUILD</Message>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>call .\Build_POST.bat $(SolutionDir)</Command>
+      <Command>call .\Build_POST.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
       <Message>POST BUILD</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -277,7 +250,7 @@ perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I. -I.. -I../O.Common -I../../../dbd -I
       <Message>PRE BUILD</Message>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>call .\Build_POST.bat $(SolutionDir)</Command>
+      <Command>call .\Build_POST.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
       <Message>POST BUILD</Message>
     </PostBuildEvent>
     <Lib>
@@ -301,7 +274,7 @@ perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I. -I.. -I../O.Common -I../../../dbd -I
       <Message>PRE BUILD</Message>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>call .\Build_POST.bat $(SolutionDir)</Command>
+      <Command>call .\Build_POST.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
       <Message>POST BUILD</Message>
     </PostBuildEvent>
     <Lib>
@@ -329,7 +302,7 @@ perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I. -I.. -I../O.Common -I../../../dbd -I
       <Message>PRE BUILD</Message>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>call .\Build_POST.bat $(SolutionDir)</Command>
+      <Command>call .\Build_POST.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
       <Message>POST BUILD</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -354,7 +327,7 @@ perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I. -I.. -I../O.Common -I../../../dbd -I
       <Message>PRE BUILD</Message>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>call .\Build_POST.bat $(SolutionDir)</Command>
+      <Command>call .\Build_POST.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
       <Message>POST BUILD</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -379,7 +352,7 @@ perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I. -I.. -I../O.Common -I../../../dbd -I
       <Message>PRE BUILD</Message>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>call .\Build_POST.bat $(SolutionDir)</Command>
+      <Command>call .\Build_POST.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
       <Message>POST BUILD</Message>
     </PostBuildEvent>
     <Lib>
@@ -407,7 +380,7 @@ perl -CSD $(OutDir)dbdToRecordtypeH.pl  -I. -I.. -I../O.Common -I../../../dbd -I
       <Message>PRE BUILD</Message>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>call .\Build_POST.bat $(SolutionDir)</Command>
+      <Command>call .\Build_POST.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
       <Message>POST BUILD</Message>
     </PostBuildEvent>
     <Lib>

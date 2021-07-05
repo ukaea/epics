@@ -76,43 +76,6 @@
       <Project>{9ea7bd8e-c551-4874-85ed-abbfcfe7a7d4}</Project>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <CustomBuild Include="EnsembleTrajectoryScan.st">
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
-$(OutDir)snc.exe     O.Common\%(Filename).i -o O.Common\%(Filename).c
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
-$(OutDir)snc.exe     O.Common\%(Filename).i -o O.Common\%(Filename).c
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
-$(OutDir)snc.exe     O.Common\%(Filename).i -o O.Common\%(Filename).c
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
-$(OutDir)snc.exe     O.Common\%(Filename).i -o O.Common\%(Filename).c
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
-$(OutDir)snc.exe     O.Common\%(Filename).i -o O.Common\%(Filename).c
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
-$(OutDir)snc.exe     O.Common\%(Filename).i -o O.Common\%(Filename).c
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
-$(OutDir)snc.exe     O.Common\%(Filename).i -o O.Common\%(Filename).c
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">cl -C -E               -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -I./O.Common -I$(SolutionDir)include/compiler/msvc -I$(SolutionDir)include/os/WIN32 -I$(SolutionDir)include -I$(SolutionDir)include/os/WIN32  %(Filename).st &gt; O.Common\%(Filename).i
-$(OutDir)snc.exe     O.Common\%(Filename).i -o O.Common\%(Filename).c
-</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common\%(Filename).c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">O.Common\%(Filename).c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common\%(Filename).c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">O.Common\%(Filename).c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">O.Common\%(Filename).c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">O.Common\%(Filename).c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">O.Common\%(Filename).c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">O.Common\%(Filename).c</Outputs>
-    </CustomBuild>
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{4EA30C3F-89E2-4DA5-8AAF-BDECC5F819E4}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>

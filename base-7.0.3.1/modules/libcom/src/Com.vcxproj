@@ -413,213 +413,6 @@
     <ClInclude Include="yajl\yajl_parser.h" />
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="env\bldEnvData.pl">
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">cd O.Common
-SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
-perl ../env/%(FileName).pl ..\..\..\..\configure
-cd $(ProjectDir)
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">cd O.Common
-SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
-perl ../env/%(FileName).pl ..\..\..\..\configure
-cd $(ProjectDir)
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">cd O.Common
-SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
-perl ../env/%(FileName).pl ..\..\..\..\configure
-cd $(ProjectDir)
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">cd O.Common
-SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
-perl ../env/%(FileName).pl ..\..\..\..\configure
-cd $(ProjectDir)
-</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common\envdata.c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">O.Common\envdata.c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">O.Common\envdata.c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">O.Common\envdata.c</Outputs>
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">cd O.Common
-SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
-perl ../env/%(FileName).pl ..\..\..\..\configure
-cd $(ProjectDir)
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">cd O.Common
-SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
-perl ../env/%(FileName).pl ..\..\..\..\configure
-cd $(ProjectDir)
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">cd O.Common
-SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
-perl ../env/%(FileName).pl ..\..\..\..\configure
-cd $(ProjectDir)
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">cd O.Common
-SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
-perl ../env/%(FileName).pl ..\..\..\..\configure
-cd $(ProjectDir)
-</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common\envdata.c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">O.Common\envdata.c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">O.Common\envdata.c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">O.Common\envdata.c</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="error\makeStatTbl.pl">
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">cd O.Common
-perl ..\error\%(FileName).pl  $(SolutionDir)include\devLib.h $(SolutionDir)include\asLib.h $(SolutionDir)include\dbAccessDefs.h $(SolutionDir)include\devSup.h
-cd $(ProjectDir)
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">cd O.Common
-perl ..\error\%(FileName).pl  $(SolutionDir)include\devLib.h $(SolutionDir)include\asLib.h $(SolutionDir)include\dbAccessDefs.h $(SolutionDir)include\devSup.h
-cd $(ProjectDir)
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">cd O.Common
-perl ..\error\%(FileName).pl  $(SolutionDir)include\devLib.h $(SolutionDir)include\asLib.h $(SolutionDir)include\dbAccessDefs.h $(SolutionDir)include\devSup.h
-cd $(ProjectDir)
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">cd O.Common
-perl ..\error\%(FileName).pl  $(SolutionDir)include\devLib.h $(SolutionDir)include\asLib.h $(SolutionDir)include\dbAccessDefs.h $(SolutionDir)include\devSup.h
-cd $(ProjectDir)
-</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common\errSymTbl.c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">O.Common\errSymTbl.c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">O.Common\errSymTbl.c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">O.Common\errSymTbl.c</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">cd O.Common
-perl ..\error\%(FileName).pl  $(SolutionDir)include\devLib.h $(SolutionDir)include\asLib.h $(SolutionDir)include\dbAccessDefs.h $(SolutionDir)include\devSup.h
-cd $(ProjectDir)
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">cd O.Common
-perl ..\error\%(FileName).pl  $(SolutionDir)include\devLib.h $(SolutionDir)include\asLib.h $(SolutionDir)include\dbAccessDefs.h $(SolutionDir)include\devSup.h
-cd $(ProjectDir)
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">cd O.Common
-perl ..\error\%(FileName).pl  $(SolutionDir)include\devLib.h $(SolutionDir)include\asLib.h $(SolutionDir)include\dbAccessDefs.h $(SolutionDir)include\devSup.h
-cd $(ProjectDir)
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">cd O.Common
-perl ..\error\%(FileName).pl  $(SolutionDir)include\devLib.h $(SolutionDir)include\asLib.h $(SolutionDir)include\dbAccessDefs.h $(SolutionDir)include\devSup.h
-cd $(ProjectDir)
-</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common\errSymTbl.c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">O.Common\errSymTbl.c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">O.Common\errSymTbl.c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">O.Common\errSymTbl.c</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="as\asLib.y">
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">cd .\as
-$(OutDir)antelope.exe .\aslib.y
-move /Y y.tab.c ..\O.Common\asLib.c
-cd $(ProjectDir)
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">cd .\as
-$(OutDir)antelope.exe .\aslib.y
-move /Y y.tab.c ..\O.Common\asLib.c
-cd $(ProjectDir)
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">cd .\as
-$(OutDir)antelope.exe .\aslib.y
-move /Y y.tab.c ..\O.Common\asLib.c
-cd $(ProjectDir)
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">cd .\as
-$(OutDir)antelope.exe .\aslib.y
-move /Y y.tab.c ..\O.Common\asLib.c
-cd $(ProjectDir)
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">cd .\as
-$(OutDir)antelope.exe .\aslib.y
-move /Y y.tab.c ..\O.Common\asLib.c
-cd $(ProjectDir)
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">cd .\as
-$(OutDir)antelope.exe .\aslib.y
-move /Y y.tab.c ..\O.Common\asLib.c
-cd $(ProjectDir)
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">cd .\as
-$(OutDir)antelope.exe .\aslib.y
-move /Y y.tab.c ..\O.Common\asLib.c
-cd $(ProjectDir)
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">cd .\as
-$(OutDir)antelope.exe .\aslib.y
-move /Y y.tab.c ..\O.Common\asLib.c
-cd $(ProjectDir)
-</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common\%(FileName).c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">O.Common\%(FileName).c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common\%(FileName).c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">O.Common\%(FileName).c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">O.Common\%(FileName).c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">O.Common\%(FileName).c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">O.Common\%(FileName).c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">O.Common\%(FileName).c</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="as\asLib_lex.l">
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">$(OutDir)e_flex.exe -S$(SolutionDir)include\flex.skel.static -8 -I as\%(FileName).l
-move /Y lex.yy.c O.Common\asLib_lex.c
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">$(OutDir)e_flex.exe -S$(SolutionDir)include\flex.skel.static -8 -I as\%(FileName).l
-move /Y lex.yy.c O.Common\asLib_lex.c
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">$(OutDir)e_flex.exe -S$(SolutionDir)include\flex.skel.static -8 -I as\%(FileName).l
-move /Y lex.yy.c O.Common\asLib_lex.c
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">$(OutDir)e_flex.exe -S$(SolutionDir)include\flex.skel.static -8 -I as\%(FileName).l
-move /Y lex.yy.c O.Common\asLib_lex.c
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">$(OutDir)e_flex.exe -S$(SolutionDir)include\flex.skel.static -8 -I as\%(FileName).l
-move /Y lex.yy.c O.Common\asLib_lex.c
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">$(OutDir)e_flex.exe -S$(SolutionDir)include\flex.skel.static -8 -I as\%(FileName).l
-move /Y lex.yy.c O.Common\asLib_lex.c
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">$(OutDir)e_flex.exe -S$(SolutionDir)include\flex.skel.static -8 -I as\%(FileName).l
-move /Y lex.yy.c O.Common\asLib_lex.c
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">$(OutDir)e_flex.exe -S$(SolutionDir)include\flex.skel.static -8 -I as\%(FileName).l
-move /Y lex.yy.c O.Common\asLib_lex.c
-</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common\asLib_lex.c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">O.Common\asLib_lex.c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common\asLib_lex.c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">O.Common\asLib_lex.c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">O.Common\asLib_lex.c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">O.Common\asLib_lex.c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">O.Common\asLib_lex.c</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">O.Common\asLib_lex.c</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="misc\makeEpicsVersion.pl">
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">perl misc/%(FileName).pl -o  $(SolutionDir)include/epicsVersion.h ../../../configure/CONFIG_BASE_VERSION
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">perl misc/%(FileName).pl -o  $(SolutionDir)include/epicsVersion.h ../../../configure/CONFIG_BASE_VERSION
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">perl misc/%(FileName).pl -o  $(SolutionDir)include/epicsVersion.h ../../../configure/CONFIG_BASE_VERSION
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">perl misc/%(FileName).pl -o  $(SolutionDir)include/epicsVersion.h ../../../configure/CONFIG_BASE_VERSION
-</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">$(SolutionDir)include\epicsVersion.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">$(SolutionDir)include\epicsVersion.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">$(SolutionDir)include\epicsVersion.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">$(SolutionDir)include\epicsVersion.h</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">perl misc/%(FileName).pl -o  $(SolutionDir)include/epicsVersion.h ../../../configure/CONFIG_BASE_VERSION
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">perl misc/%(FileName).pl -o  $(SolutionDir)include/epicsVersion.h ../../../configure/CONFIG_BASE_VERSION
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">perl misc/%(FileName).pl -o  $(SolutionDir)include/epicsVersion.h ../../../configure/CONFIG_BASE_VERSION
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">perl misc/%(FileName).pl -o  $(SolutionDir)include/epicsVersion.h ../../../configure/CONFIG_BASE_VERSION
-</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">$(SolutionDir)include\epicsVersion.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">$(SolutionDir)include\epicsVersion.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">$(SolutionDir)include\epicsVersion.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">$(SolutionDir)include\epicsVersion.h</Outputs>
-    </CustomBuild>
     <None Include="as\Makefile" />
     <None Include="as\RULES" />
     <None Include="error\Makefile" />
@@ -786,10 +579,6 @@ move /Y lex.yy.c O.Common\asLib_lex.c
     <ResourceCompile>
       <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>
     </ResourceCompile>
-    <CustomBuildStep>
-      <Command>
-      </Command>
-    </CustomBuildStep>
     <PreBuildEvent />
     <PreBuildEvent>
       <Command>call .\Build_DBDs.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
@@ -815,10 +604,6 @@ move /Y lex.yy.c O.Common\asLib_lex.c
     <ResourceCompile>
       <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>
     </ResourceCompile>
-    <CustomBuildStep>
-      <Command>
-      </Command>
-    </CustomBuildStep>
     <PreBuildEvent />
     <PreBuildEvent>
       <Command>call .\Build_DBDs.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
@@ -850,10 +635,6 @@ move /Y lex.yy.c O.Common\asLib_lex.c
     <ResourceCompile>
       <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>
     </ResourceCompile>
-    <CustomBuildStep>
-      <Command>
-      </Command>
-    </CustomBuildStep>
     <PreBuildEvent />
     <PreBuildEvent>
       <Command>call .\Build_DBDs.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
@@ -879,10 +660,6 @@ move /Y lex.yy.c O.Common\asLib_lex.c
     <ResourceCompile>
       <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>
     </ResourceCompile>
-    <CustomBuildStep>
-      <Command>
-      </Command>
-    </CustomBuildStep>
     <PreBuildEvent />
     <PreBuildEvent>
       <Command>call .\Build_DBDs.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>

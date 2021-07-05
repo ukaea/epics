@@ -32,9 +32,4 @@
       <Filter>Source Files</Filter>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <CustomBuild Include="busyRecord.dbd">
-      <Filter>Source Files</Filter>
-    </CustomBuild>
-  </ItemGroup>
 </Project>
