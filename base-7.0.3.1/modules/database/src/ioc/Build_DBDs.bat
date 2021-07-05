@@ -50,7 +50,7 @@ cd %BUILDIR%dbtemplate
 %DLLDIR%antelope.exe -bdbLoadTemplate dbLoadTemplate.y
 move /Y dbLoadTemplate.tab.c ..\O.Common\dbLoadTemplate.c
 %DLLDIR%e_flex.exe -S%TOPLEVEL%include\flex.skel.static -8 -I dbLoadTemplate_lex.l
-move /Y lex.yy.c ..\O.Common\dbYacc.c
+move /Y lex.yy.c ..\O.Common\dbLoadTemplate_lex.c
 
 cd %BUILDIR%dbstatic
 %DLLDIR%antelope.exe  -bdbYacc dbYacc.y

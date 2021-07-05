@@ -3,6 +3,22 @@
 #ifndef INC_menuGlobal_H
 #define INC_menuGlobal_H
 
+#ifndef menuOmsl_NUM_CHOICES
+typedef enum {
+    menuOmslsupervisory             /* supervisory */,
+    menuOmslclosed_loop             /* closed_loop */
+} menuOmsl;
+#define menuOmsl_NUM_CHOICES 2
+#endif
+
+#ifndef menuPost_NUM_CHOICES
+typedef enum {
+    menuPost_OnChange               /* On Change */,
+    menuPost_Always                 /* Always */
+} menuPost;
+#define menuPost_NUM_CHOICES 2
+#endif
+
 #ifndef menuAlarmSevr_NUM_CHOICES
 typedef enum {
     menuAlarmSevrNO_ALARM           /* NO_ALARM */,
@@ -13,13 +29,12 @@ typedef enum {
 #define menuAlarmSevr_NUM_CHOICES 4
 #endif
 
-#ifndef menuIvoa_NUM_CHOICES
+#ifndef menuYesNo_NUM_CHOICES
 typedef enum {
-    menuIvoaContinue_normally       /* Continue normally */,
-    menuIvoaDon_t_drive_outputs     /* Don't drive outputs */,
-    menuIvoaSet_output_to_IVOV      /* Set output to IVOV */
-} menuIvoa;
-#define menuIvoa_NUM_CHOICES 3
+    menuYesNoNO                     /* NO */,
+    menuYesNoYES                    /* YES */
+} menuYesNo;
+#define menuYesNo_NUM_CHOICES 2
 #endif
 
 #ifndef menuSimm_NUM_CHOICES
@@ -31,12 +46,31 @@ typedef enum {
 #define menuSimm_NUM_CHOICES 3
 #endif
 
-#ifndef menuOmsl_NUM_CHOICES
+#ifndef menuFtype_NUM_CHOICES
 typedef enum {
-    menuOmslsupervisory             /* supervisory */,
-    menuOmslclosed_loop             /* closed_loop */
-} menuOmsl;
-#define menuOmsl_NUM_CHOICES 2
+    menuFtypeSTRING                 /* STRING */,
+    menuFtypeCHAR                   /* CHAR */,
+    menuFtypeUCHAR                  /* UCHAR */,
+    menuFtypeSHORT                  /* SHORT */,
+    menuFtypeUSHORT                 /* USHORT */,
+    menuFtypeLONG                   /* LONG */,
+    menuFtypeULONG                  /* ULONG */,
+    menuFtypeINT64                  /* INT64 */,
+    menuFtypeUINT64                 /* UINT64 */,
+    menuFtypeFLOAT                  /* FLOAT */,
+    menuFtypeDOUBLE                 /* DOUBLE */,
+    menuFtypeENUM                   /* ENUM */
+} menuFtype;
+#define menuFtype_NUM_CHOICES 12
+#endif
+
+#ifndef menuIvoa_NUM_CHOICES
+typedef enum {
+    menuIvoaContinue_normally       /* Continue normally */,
+    menuIvoaDon_t_drive_outputs     /* Don't drive outputs */,
+    menuIvoaSet_output_to_IVOV      /* Set output to IVOV */
+} menuIvoa;
+#define menuIvoa_NUM_CHOICES 3
 #endif
 
 #ifndef menuPini_NUM_CHOICES
@@ -86,40 +120,6 @@ typedef enum {
     menuPriorityHIGH                /* HIGH */
 } menuPriority;
 #define menuPriority_NUM_CHOICES 3
-#endif
-
-#ifndef menuFtype_NUM_CHOICES
-typedef enum {
-    menuFtypeSTRING                 /* STRING */,
-    menuFtypeCHAR                   /* CHAR */,
-    menuFtypeUCHAR                  /* UCHAR */,
-    menuFtypeSHORT                  /* SHORT */,
-    menuFtypeUSHORT                 /* USHORT */,
-    menuFtypeLONG                   /* LONG */,
-    menuFtypeULONG                  /* ULONG */,
-    menuFtypeINT64                  /* INT64 */,
-    menuFtypeUINT64                 /* UINT64 */,
-    menuFtypeFLOAT                  /* FLOAT */,
-    menuFtypeDOUBLE                 /* DOUBLE */,
-    menuFtypeENUM                   /* ENUM */
-} menuFtype;
-#define menuFtype_NUM_CHOICES 12
-#endif
-
-#ifndef menuYesNo_NUM_CHOICES
-typedef enum {
-    menuYesNoNO                     /* NO */,
-    menuYesNoYES                    /* YES */
-} menuYesNo;
-#define menuYesNo_NUM_CHOICES 2
-#endif
-
-#ifndef menuPost_NUM_CHOICES
-typedef enum {
-    menuPost_OnChange               /* On Change */,
-    menuPost_Always                 /* Always */
-} menuPost;
-#define menuPost_NUM_CHOICES 2
 #endif
 
 
