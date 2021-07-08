@@ -46,6 +46,13 @@ int timezone = 0;
 } while (0)
 #endif
 
+#if defined(__MINGW32__)
+/* MinGW has no re-entrant localtime. How about other environments? */
+/* Just let's hope for the best */
+#undef localtime_r
+#define localtime_r(timet,tm) (*(tm)=*localtime(timet))
+#endif
+
 class TimestampConverter : public StreamFormatConverter
 {
     int parse(const StreamFormat&, StreamBuffer&, const char*&, bool);
@@ -366,7 +373,7 @@ startover:
                         debug ("TimestampConverter::scantime: %s hour = %d\n", pm?"PM":"AM", tm->tm_hour);
                         break;
                     case 'M': /* minute */
-                        i = nummatch(input, 1, 59);
+                        i = nummatch(input, 0, 59);
                         if (i < 0)
                         {
                             error ("error parsing minute: '%.20s'\n", input);
@@ -376,7 +383,7 @@ startover:
                         debug ("TimestampConverter::scantime: min = %d\n", tm->tm_min);
                         break;
                     case 'S': /* second */
-                        i = nummatch(input, 1, 60);
+                        i = nummatch(input, 0, 60);
                         if (i < 0)
                         {
                             error ("error parsing week second: '%.20s'\n", input);

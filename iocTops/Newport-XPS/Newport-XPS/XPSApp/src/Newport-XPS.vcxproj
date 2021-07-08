@@ -53,7 +53,7 @@
     <ProjectReference Include="..\..\..\..\..\motor\motorApp\MotorSrc\motor.vcxproj">
       <Project>{9ea7bd8e-c551-4874-85ed-abbfcfe7a7d4}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\support\asyn-R4-40-1\asyn\asyn.vcxproj">
+    <ProjectReference Include="..\..\..\..\..\support\asyn\asyn\asyn.vcxproj">
       <Project>{c3ea0ff7-6039-4884-ba91-7b4619befea5}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\support\autosave\asApp\src\autosave.vcxproj">

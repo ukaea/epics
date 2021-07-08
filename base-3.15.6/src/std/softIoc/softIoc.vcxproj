@@ -38,27 +38,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="makeInstallDir.pl">
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">perl makeInstallDir.pl $(SolutionDir) &gt; O.Common\epicsInstallDir.h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">perl makeInstallDir.pl $(SolutionDir) &gt; O.Common\epicsInstallDir.h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">perl makeInstallDir.pl $(SolutionDir) &gt; O.Common\epicsInstallDir.h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">perl makeInstallDir.pl $(SolutionDir) &gt; O.Common\epicsInstallDir.h</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'"> O.Common\epicsInstallDir.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'"> O.Common\epicsInstallDir.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'"> O.Common\epicsInstallDir.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'"> O.Common\epicsInstallDir.h</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">perl makeInstallDir.pl $(SolutionDir) &gt; O.Common\epicsInstallDir.h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">perl makeInstallDir.pl $(SolutionDir) &gt; O.Common\epicsInstallDir.h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">perl makeInstallDir.pl $(SolutionDir) &gt; O.Common\epicsInstallDir.h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">perl makeInstallDir.pl $(SolutionDir) &gt; O.Common\epicsInstallDir.h</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'"> O.Common\epicsInstallDir.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'"> O.Common\epicsInstallDir.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'"> O.Common\epicsInstallDir.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'"> O.Common\epicsInstallDir.h</Outputs>
-    </CustomBuild>
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="O.Common\softIoc_registerRecordDeviceDriver.cpp" />
     <ClCompile Include="softMain.cpp" />
   </ItemGroup>

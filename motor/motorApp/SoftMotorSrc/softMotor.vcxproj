@@ -57,7 +57,7 @@
     <ProjectReference Include="..\..\..\base-7.0.3.1\modules\libcom\src\Com.vcxproj">
       <Project>{e9d99fc7-e592-472b-b2e2-c3b0d81d8169}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\support\asyn-R4-40-1\asyn\asyn.vcxproj">
+    <ProjectReference Include="..\..\..\support\asyn\asyn\asyn.vcxproj">
       <Project>{c3ea0ff7-6039-4884-ba91-7b4619befea5}</Project>
     </ProjectReference>
     <ProjectReference Include="..\MotorSrc\motor.vcxproj">
@@ -211,7 +211,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir)</Command>
       <Message>PRE BUILD</Message>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -227,7 +227,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir)</Command>
       <Message>PRE BUILD</Message>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -243,7 +243,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir)</Command>
       <Message>PRE BUILD</Message>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -259,7 +259,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir)</Command>
       <Message>PRE BUILD</Message>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -278,7 +278,7 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir)</Command>
       <Message>PRE BUILD</Message>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -298,7 +298,7 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir)</Command>
       <Message>PRE BUILD</Message>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -317,7 +317,7 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir)</Command>
       <Message>PRE BUILD</Message>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -337,7 +337,7 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir)</Command>
       <Message>PRE BUILD</Message>
     </PreBuildEvent>
   </ItemDefinitionGroup>

@@ -4,30 +4,30 @@
 # do a "gnumake rebuild" in this application's top level
 # directory.
 #
-# The build process does not check dependencies against files
-# that are outside this application, thus you should do a
-# "gnumake rebuild" in the top level directory after EPICS_BASE
-# or any other external module pointed to below is rebuilt.
-#
-# Host- or target-specific settings can be given in files named
-#  RELEASE.$(EPICS_HOST_ARCH).Common
-#  RELEASE.Common.$(T_A)
-#  RELEASE.$(EPICS_HOST_ARCH).$(T_A)
-#
-# This file should ONLY define paths to other support modules,
-# or include statements that pull in similar RELEASE files.
-# Build settings that are NOT module paths should appear in a
-# CONFIG_SITE file.
+# NOTE: The build does not check dependencies on files
+# external to this application. Thus you should run
+# "gnumake clean uninstall install" in the top directory
+# each time EPICS_BASE, SNCSEQ, or any other external
+# module defined in the RELEASE file is rebuilt.
 
 TEMPLATE_TOP=$(EPICS_BASE)/templates/makeBaseApp/top
 
-# If using the sequencer, point SNCSEQ at its top directory:
-#SNCSEQ=$(EPICS_BASE)/../modules/soft/seq
-ASYN=\epics/support/asyn
+# If you don't want to install into $(TOP) then
+# define INSTALL_LOCATION_APP here
+#INSTALL_LOCATION_APP=<fullpathname>
+
+SUPPORT=C:/epics/support
+-include $(TOP)/../configure/SUPPORT.$(EPICS_HOST_ARCH)
+
+ASYN=$(SUPPORT)/asyn4-36
+CALC=$(SUPPORT)/calc-3-7
+PCRE=$(SUPPORT)/pcre-7-2
 
 # EPICS_BASE usually appears last so other apps can override stuff:
-EPICS_BASE=\epics/base
+EPICS_BASE=C:/epics/base
 
-# Set RULES here if you want to take build rules from somewhere
-# other than EPICS_BASE:
-#RULES=/path/to/epics/support/module/rules/x-y
+# These lines allow developers to override these RELEASE settings
+# without having to modify this file directly.
+-include $(TOP)/../RELEASE.local
+-include $(TOP)/../RELEASE.$(EPICS_HOST_ARCH).local
+-include $(TOP)/configure/RELEASE.local

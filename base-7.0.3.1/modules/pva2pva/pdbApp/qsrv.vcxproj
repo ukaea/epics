@@ -48,52 +48,52 @@
     </SccProvider>
     <SccAuxPath>
     </SccAuxPath>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -123,14 +123,38 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
+    <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
+    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
+    <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
+    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
+    <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
+    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
+    <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
+    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
+    <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
+    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
+    <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
+    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
+    <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
+    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">
+    <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
+    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -145,14 +169,12 @@
       <SubSystem>Windows</SubSystem>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
-</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
+      <Message>PRE BUILD</Message>
     </PreBuildEvent>
-    <PostBuildEvent />
-    <PostBuildEvent />
     <PostBuildEvent>
-      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
+      <Command>call .\Build_POST.bat $(SolutionDir)</Command>
+      <Message>POST BUILD</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
@@ -170,13 +192,12 @@ xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
       <SubSystem>Windows</SubSystem>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
-</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
+      <Message>PRE BUILD</Message>
     </PreBuildEvent>
-    <PostBuildEvent />
     <PostBuildEvent>
-      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
+      <Command>call .\Build_POST.bat $(SolutionDir)</Command>
+      <Message>POST BUILD</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
@@ -193,14 +214,12 @@ xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
       <SubSystem>Windows</SubSystem>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
-</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
+      <Message>PRE BUILD</Message>
     </PreBuildEvent>
-    <PostBuildEvent />
-    <PostBuildEvent />
     <PostBuildEvent>
-      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
+      <Command>call .\Build_POST.bat $(SolutionDir)</Command>
+      <Message>POST BUILD</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
@@ -218,13 +237,12 @@ xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
       <SubSystem>Windows</SubSystem>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
-</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
+      <Message>PRE BUILD</Message>
     </PreBuildEvent>
-    <PostBuildEvent />
     <PostBuildEvent>
-      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
+      <Command>call .\Build_POST.bat $(SolutionDir)</Command>
+      <Message>POST BUILD</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
@@ -245,13 +263,13 @@ xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
       <SubSystem>Windows</SubSystem>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
-</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
+      <Message>PRE BUILD</Message>
     </PreBuildEvent>
     <PostBuildEvent />
     <PostBuildEvent>
-      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
+      <Command>call .\Build_POST.bat $(SolutionDir)</Command>
+      <Message>POST BUILD</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
@@ -273,13 +291,12 @@ xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
       <SubSystem>Windows</SubSystem>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
-</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
+      <Message>PRE BUILD</Message>
     </PreBuildEvent>
-    <PostBuildEvent />
     <PostBuildEvent>
-      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
+      <Command>call .\Build_POST.bat $(SolutionDir)</Command>
+      <Message>POST BUILD</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
@@ -300,13 +317,12 @@ xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
       <SubSystem>Windows</SubSystem>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
-</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
+      <Message>PRE BUILD</Message>
     </PreBuildEvent>
-    <PostBuildEvent />
     <PostBuildEvent>
-      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
+      <Command>call .\Build_POST.bat $(SolutionDir)</Command>
+      <Message>POST BUILD</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">
@@ -328,93 +344,18 @@ xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
       <SubSystem>Windows</SubSystem>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist $(SolutionDir)include md $(SolutionDir)include
-xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
-</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
+      <Message>PRE BUILD</Message>
     </PreBuildEvent>
-    <PostBuildEvent />
     <PostBuildEvent>
-      <Command>xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd</Command>
+      <Command>call .\Build_POST.bat $(SolutionDir)</Command>
+      <Message>POST BUILD</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="Makefile" />
-    <CustomBuild Include="pv\qsrvVersionNum.h%40">
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)expandVars.pl -DEPICS_QSRV_MAJOR_VERSION="1" -DEPICS_QSRV_MINOR_VERSION="2" -DEPICS_QSRV_MAINTENANCE_VERSION="1" -DEPICS_QSRV_DEVELOPMENT_FLAG="0" -DEPICS_QSRV_ABI_MAJOR_VERSION="1" -DEPICS_QSRV_ABI_MINOR_VERSION="1" -t $(OutDir)  pv/qsrvVersionNum.h@ O.Common/pv/qsrvVersionNum.h
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)expandVars.pl -DEPICS_QSRV_MAJOR_VERSION="1" -DEPICS_QSRV_MINOR_VERSION="2" -DEPICS_QSRV_MAINTENANCE_VERSION="1" -DEPICS_QSRV_DEVELOPMENT_FLAG="0" -DEPICS_QSRV_ABI_MAJOR_VERSION="1" -DEPICS_QSRV_ABI_MINOR_VERSION="1" -t D:/epics/base -a windows-x64-static   pv/qsrvVersionNum.h@ O.Common/pv/qsrvVersionNum.h
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)expandVars.pl -DEPICS_QSRV_MAJOR_VERSION="1" -DEPICS_QSRV_MINOR_VERSION="2" -DEPICS_QSRV_MAINTENANCE_VERSION="1" -DEPICS_QSRV_DEVELOPMENT_FLAG="0" -DEPICS_QSRV_ABI_MAJOR_VERSION="1" -DEPICS_QSRV_ABI_MINOR_VERSION="1" -t $(OutDir)  pv/qsrvVersionNum.h@ O.Common/pv/qsrvVersionNum.h
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)expandVars.pl -DEPICS_QSRV_MAJOR_VERSION="1" -DEPICS_QSRV_MINOR_VERSION="2" -DEPICS_QSRV_MAINTENANCE_VERSION="1" -DEPICS_QSRV_DEVELOPMENT_FLAG="0" -DEPICS_QSRV_ABI_MAJOR_VERSION="1" -DEPICS_QSRV_ABI_MINOR_VERSION="1" -t D:/epics/base -a windows-x64-static   pv/qsrvVersionNum.h@ O.Common/pv/qsrvVersionNum.h
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)expandVars.pl -DEPICS_QSRV_MAJOR_VERSION="1" -DEPICS_QSRV_MINOR_VERSION="2" -DEPICS_QSRV_MAINTENANCE_VERSION="1" -DEPICS_QSRV_DEVELOPMENT_FLAG="0" -DEPICS_QSRV_ABI_MAJOR_VERSION="1" -DEPICS_QSRV_ABI_MINOR_VERSION="1" -t $(OutDir)  pv/qsrvVersionNum.h@ O.Common/pv/qsrvVersionNum.h
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)expandVars.pl -DEPICS_QSRV_MAJOR_VERSION="1" -DEPICS_QSRV_MINOR_VERSION="2" -DEPICS_QSRV_MAINTENANCE_VERSION="1" -DEPICS_QSRV_DEVELOPMENT_FLAG="0" -DEPICS_QSRV_ABI_MAJOR_VERSION="1" -DEPICS_QSRV_ABI_MINOR_VERSION="1" -t D:/epics/base -a windows-x64-static   pv/qsrvVersionNum.h@ O.Common/pv/qsrvVersionNum.h
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)expandVars.pl -DEPICS_QSRV_MAJOR_VERSION="1" -DEPICS_QSRV_MINOR_VERSION="2" -DEPICS_QSRV_MAINTENANCE_VERSION="1" -DEPICS_QSRV_DEVELOPMENT_FLAG="0" -DEPICS_QSRV_ABI_MAJOR_VERSION="1" -DEPICS_QSRV_ABI_MINOR_VERSION="1" -t $(OutDir)  pv/qsrvVersionNum.h@ O.Common/pv/qsrvVersionNum.h
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)expandVars.pl -DEPICS_QSRV_MAJOR_VERSION="1" -DEPICS_QSRV_MINOR_VERSION="2" -DEPICS_QSRV_MAINTENANCE_VERSION="1" -DEPICS_QSRV_DEVELOPMENT_FLAG="0" -DEPICS_QSRV_ABI_MAJOR_VERSION="1" -DEPICS_QSRV_ABI_MINOR_VERSION="1" -t D:/epics/base -a windows-x64-static   pv/qsrvVersionNum.h@ O.Common/pv/qsrvVersionNum.h
-</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common/pv/qsrvVersionNum.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">O.Common/pv/qsrvVersionNum.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common/pv/qsrvVersionNum.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">O.Common/pv/qsrvVersionNum.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">O.Common/pv/qsrvVersionNum.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">O.Common/pv/qsrvVersionNum.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">O.Common/pv/qsrvVersionNum.h</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">O.Common/pv/qsrvVersionNum.h</Outputs>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
-    </CustomBuild>
     <None Include="O.Common\qsrv.dbd" />
     <None Include="O.Common\softIocPVA.dbd" />
-    <CustomBuild Include="qsrv-new.dbd">
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD -MExtUtils::Command -e cp qsrv-new.dbd O.Common/qsrv.dbd
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD -MExtUtils::Command -e cp qsrv-new.dbd O.Common/qsrv.dbd
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD -MExtUtils::Command -e cp qsrv-new.dbd O.Common/qsrv.dbd
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD -MExtUtils::Command -e cp qsrv-new.dbd O.Common/qsrv.dbd
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD -MExtUtils::Command -e cp qsrv-new.dbd O.Common/qsrv.dbd
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD -MExtUtils::Command -e cp qsrv-new.dbd O.Common/qsrv.dbd
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD -MExtUtils::Command -e cp qsrv-new.dbd O.Common/qsrv.dbd
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD -MExtUtils::Command -e cp qsrv-new.dbd O.Common/qsrv.dbd
-</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common\qsrv.dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">O.Common\qsrv.dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common\qsrv.dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">O.Common\qsrv.dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">O.Common\qsrv.dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">O.Common\qsrv.dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">O.Common\qsrv.dbd</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">O.Common\qsrv.dbd</Outputs>
-    </CustomBuild>
     <None Include="qsrv-old.dbd" />
   </ItemGroup>
   <ItemGroup>

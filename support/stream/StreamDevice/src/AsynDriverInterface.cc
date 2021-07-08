@@ -1216,7 +1216,7 @@ acceptEvent(unsigned long mask, unsigned long replytimeout_ms)
     }
     eventMask = mask;
     ioAction = ReceiveEvent;
-    startTimer(replytimeout_ms*0.001);
+    if (replytimeout_ms) startTimer(replytimeout_ms*0.001);
     return true;
 }
 
