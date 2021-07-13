@@ -38,52 +38,101 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src/pcre2_dftables.c" />
-    <ClCompile Include="src/pcre2posix.c" />
-    <ClCompile Include="src/pcre2_auto_possess.c" />
-    <ClCompile Include="src/pcre2_compile.c" />
-    <ClCompile Include="src/pcre2_config.c" />
-    <ClCompile Include="src/pcre2_context.c" />
-    <ClCompile Include="src/pcre2_convert.c" />
-    <ClCompile Include="src/pcre2_dfa_match.c" />
-    <ClCompile Include="src/pcre2_error.c" />
-    <ClCompile Include="src/pcre2_extuni.c" />
-    <ClCompile Include="src/pcre2_find_bracket.c" />
-    <ClCompile Include="src/pcre2_jit_compile.c" />
-    <ClCompile Include="src/pcre2_jit_match.c" />
-    <ClCompile Include="src/pcre2_jit_misc.c" />
-    <ClCompile Include="src/pcre2_maketables.c" />
-    <ClCompile Include="src/pcre2_match.c" />
-    <ClCompile Include="src/pcre2_match_data.c" />
-    <ClCompile Include="src/pcre2_newline.c" />
-    <ClCompile Include="src/pcre2_ord2utf.c" />
-    <ClCompile Include="src/pcre2_pattern_info.c" />
-    <ClCompile Include="src/pcre2_script_run.c" />
-    <ClCompile Include="src/pcre2_serialize.c" />
-    <ClCompile Include="src/pcre2_string_utils.c" />
-    <ClCompile Include="src/pcre2_study.c" />
-    <ClCompile Include="src/pcre2_substitute.c" />
-    <ClCompile Include="src/pcre2_substring.c" />
-    <ClCompile Include="src/pcre2_tables.c" />
-    <ClCompile Include="src/pcre2_ucd.c" />
-    <ClCompile Include="src/pcre2_valid_utf.c" />
-    <ClCompile Include="src/pcre2_xclass.c" />
-    <ClCompile Include="src/pcre2_printint.c" />
-    <ClCompile Include="src/pcre2_fuzzsupport.c" />
-    <ClCompile Include="src/config.h.in" />
-    <ClCompile Include="src/pcre2.h.in" />
-    <ClCompile Include="src/pcre2posix.h" />
-    <ClCompile Include="src/pcre2_internal.h" />
-    <ClCompile Include="src/pcre2_intmodedep.h" />
-    <ClCompile Include="src/pcre2_ucp.h" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\..\..\base-7.0.3.1\modules\database\src\ioc\dbCore.vcxproj">
       <Project>{422a8c73-836c-48cb-86c8-0591e69c0ca1}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\base-7.0.3.1\modules\libcom\src\Com.vcxproj">
       <Project>{e9d99fc7-e592-472b-b2e2-c3b0d81d8169}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="dftables.c" />
+    <ClCompile Include="pcre16_byte_order.c" />
+    <ClCompile Include="pcre16_chartables.c" />
+    <ClCompile Include="pcre16_compile.c" />
+    <ClCompile Include="pcre16_config.c" />
+    <ClCompile Include="pcre16_dfa_exec.c" />
+    <ClCompile Include="pcre16_exec.c" />
+    <ClCompile Include="pcre16_fullinfo.c" />
+    <ClCompile Include="pcre16_get.c" />
+    <ClCompile Include="pcre16_globals.c" />
+    <ClCompile Include="pcre16_jit_compile.c" />
+    <ClCompile Include="pcre16_maketables.c" />
+    <ClCompile Include="pcre16_newline.c" />
+    <ClCompile Include="pcre16_ord2utf16.c" />
+    <ClCompile Include="pcre16_printint.c" />
+    <ClCompile Include="pcre16_refcount.c" />
+    <ClCompile Include="pcre16_string_utils.c" />
+    <ClCompile Include="pcre16_study.c" />
+    <ClCompile Include="pcre16_tables.c" />
+    <ClCompile Include="pcre16_ucd.c" />
+    <ClCompile Include="pcre16_utf16_utils.c" />
+    <ClCompile Include="pcre16_valid_utf16.c" />
+    <ClCompile Include="pcre16_version.c" />
+    <ClCompile Include="pcre16_xclass.c" />
+    <ClCompile Include="pcre32_byte_order.c" />
+    <ClCompile Include="pcre32_chartables.c" />
+    <ClCompile Include="pcre32_compile.c" />
+    <ClCompile Include="pcre32_config.c" />
+    <ClCompile Include="pcre32_dfa_exec.c" />
+    <ClCompile Include="pcre32_exec.c" />
+    <ClCompile Include="pcre32_fullinfo.c" />
+    <ClCompile Include="pcre32_get.c" />
+    <ClCompile Include="pcre32_globals.c" />
+    <ClCompile Include="pcre32_jit_compile.c" />
+    <ClCompile Include="pcre32_maketables.c" />
+    <ClCompile Include="pcre32_newline.c" />
+    <ClCompile Include="pcre32_ord2utf32.c" />
+    <ClCompile Include="pcre32_printint.c" />
+    <ClCompile Include="pcre32_refcount.c" />
+    <ClCompile Include="pcre32_string_utils.c" />
+    <ClCompile Include="pcre32_study.c" />
+    <ClCompile Include="pcre32_tables.c" />
+    <ClCompile Include="pcre32_ucd.c" />
+    <ClCompile Include="pcre32_utf32_utils.c" />
+    <ClCompile Include="pcre32_valid_utf32.c" />
+    <ClCompile Include="pcre32_version.c" />
+    <ClCompile Include="pcre32_xclass.c" />
+    <ClCompile Include="pcrecpp.cc" />
+    <ClCompile Include="pcrecpp_unittest.cc" />
+    <ClCompile Include="pcredemo.c" />
+    <ClCompile Include="pcregrep.c" />
+    <ClCompile Include="pcreposix.c" />
+    <ClCompile Include="pcretest.c" />
+    <ClCompile Include="pcre_byte_order.c" />
+    <ClCompile Include="pcre_compile.c" />
+    <ClCompile Include="pcre_config.c" />
+    <ClCompile Include="pcre_dfa_exec.c" />
+    <ClCompile Include="pcre_exec.c" />
+    <ClCompile Include="pcre_fullinfo.c" />
+    <ClCompile Include="pcre_get.c" />
+    <ClCompile Include="pcre_globals.c" />
+    <ClCompile Include="pcre_jit_compile.c" />
+    <ClCompile Include="pcre_jit_test.c" />
+    <ClCompile Include="pcre_maketables.c" />
+    <ClCompile Include="pcre_newline.c" />
+    <ClCompile Include="pcre_ord2utf8.c" />
+    <ClCompile Include="pcre_printint.c" />
+    <ClCompile Include="pcre_refcount.c" />
+    <ClCompile Include="pcre_scanner.cc" />
+    <ClCompile Include="pcre_scanner_unittest.cc" />
+    <ClCompile Include="pcre_stringpiece.cc" />
+    <ClCompile Include="pcre_stringpiece_unittest.cc" />
+    <ClCompile Include="pcre_string_utils.c" />
+    <ClCompile Include="pcre_study.c" />
+    <ClCompile Include="pcre_tables.c" />
+    <ClCompile Include="pcre_ucd.c" />
+    <ClCompile Include="pcre_valid_utf8.c" />
+    <ClCompile Include="pcre_version.c" />
+    <ClCompile Include="pcre_xclass.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pcrecpp.h" />
+    <ClInclude Include="pcrecpp_internal.h" />
+    <ClInclude Include="pcreposix.h" />
+    <ClInclude Include="pcre_internal.h" />
+    <ClInclude Include="pcre_scanner.h" />
+    <ClInclude Include="ucp.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{cdf3ee64-4522-4382-9c9b-0c30c314335e}</ProjectGuid>
@@ -232,11 +281,13 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>call .\Build_DBDs.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
+      <Command>
+      </Command>
       <Message>PRE BUILD</Message>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>call .\Build_POST.bat $(SolutionDir)</Command>
+      <Command>
+      </Command>
       <Message>POST BUILD</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -252,11 +303,13 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>call .\Build_DBDs.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
+      <Command>
+      </Command>
       <Message>PRE BUILD</Message>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>call .\Build_POST.bat $(SolutionDir)</Command>
+      <Command>
+      </Command>
       <Message>POST BUILD</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -273,11 +326,13 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>call .\Build_DBDs.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
+      <Command>
+      </Command>
       <Message>PRE BUILD</Message>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>call .\Build_POST.bat $(SolutionDir)</Command>
+      <Command>
+      </Command>
       <Message>POST BUILD</Message>
     </PostBuildEvent>
     <Lib>
@@ -297,11 +352,13 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>call .\Build_DBDs.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
+      <Command>
+      </Command>
       <Message>PRE BUILD</Message>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>call .\Build_POST.bat $(SolutionDir)</Command>
+      <Command>
+      </Command>
       <Message>POST BUILD</Message>
     </PostBuildEvent>
     <Lib>
@@ -325,11 +382,13 @@
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
     <PreBuildEvent>
-      <Command>call .\Build_DBDs.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
+      <Command>
+      </Command>
       <Message>PRE BUILD</Message>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>call .\Build_POST.bat $(SolutionDir)</Command>
+      <Command>
+      </Command>
       <Message>POST BUILD</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -350,11 +409,13 @@
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
     <PreBuildEvent>
-      <Command>call .\Build_DBDs.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
+      <Command>
+      </Command>
       <Message>PRE BUILD</Message>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>call .\Build_POST.bat $(SolutionDir)</Command>
+      <Command>
+      </Command>
       <Message>POST BUILD</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -375,11 +436,13 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PreBuildEvent>
-      <Command>call .\Build_DBDs.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
+      <Command>
+      </Command>
       <Message>PRE BUILD</Message>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>call .\Build_POST.bat $(SolutionDir)</Command>
+      <Command>
+      </Command>
       <Message>POST BUILD</Message>
     </PostBuildEvent>
     <Lib>
@@ -403,11 +466,13 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PreBuildEvent>
-      <Command>call .\Build_DBDs.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
+      <Command>
+      </Command>
       <Message>PRE BUILD</Message>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>call .\Build_POST.bat $(SolutionDir)</Command>
+      <Command>
+      </Command>
       <Message>POST BUILD</Message>
     </PostBuildEvent>
     <Lib>

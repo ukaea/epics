@@ -1,7 +1,7 @@
-/* scanparmRecord.h generated from scanparmRecord.dbd */
+/* sscanparmRecord.h generated from scanparmRecord.dbd */
 
-#ifndef INC_scanparmRecord_H
-#define INC_scanparmRecord_H
+#ifndef INC_sscanparmRecord_H
+#define INC_sscanparmRecord_H
 
 #include "epicsTypes.h"
 #include "link.h"
@@ -373,4 +373,4 @@ epicsExportRegistrar(scanparmRecordSizeOffset);
 #endif
 #endif /* GEN_SIZE_OFFSET */
 
-#endif /* INC_scanparmRecord_H */
+#endif /* INC_sscanparmRecord_H */
