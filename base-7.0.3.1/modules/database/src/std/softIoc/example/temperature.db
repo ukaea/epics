@@ -1,1 +1,211 @@
-record(ai, "Centigrade") {}
+#
+# xx.db
+#
+# Setting up PV's of various data types.
+#
+
+# 
+# This set of record definitions is in a file called 'xx.db',
+# and we're going to use 'xx' as the 'prefix' for the PV names.
+# When we run this using 'softIoc' we can think of the IOC 
+# being named 'xx', and its published PV's having names based on that.
+#
+
+#
+# Note : if you edit this file in Visual Studio, be sure to configure
+# the file encoding as 'UTF8 without signature'. The default is to include
+# a byte-order-mark as the first character, and that confuses softIoc.
+# This can be done via 'File/Save-As'.
+#
+
+#
+# We can access the 'value' of a PV as
+# 'xx:pv_name.VAL' ; the '.VAL' is optional.
+#
+
+#
+# These are the data types we want to exercise :
+#
+#   DBF_CHAR  
+#   DBF_SHORT 
+#   DBF_LONG  
+#   DBF_FLOAT 
+#   DBF_DOUBLE
+#   DBF_STRING
+#
+#   DBF_ENUM  
+#
+
+record(waveform,"xx:one_char")
+{
+  field(DESC,"One 8-bit byte value")
+  field(FTVL,"CHAR")
+  field(NELM,"1")
+  # field(VAL,"7")
+}
+
+record(waveform,"xx:one_short")
+{
+  field(DESC,"One 16-bit integer value")
+  field(FTVL,"SHORT")
+  field(NELM,"1")
+}
+
+record(waveform,"xx:one_long")
+{
+  field(DESC,"One 32-bit integer value")
+  field(FTVL,"LONG")
+  field(NELM,"1")
+}
+
+record(waveform,"xx:one_float")
+{
+  field(DESC,"One 32 bit floating point value")
+  field(FTVL,"FLOAT")
+  field(NELM,"1")
+}
+
+record(waveform,"xx:one_double")
+{
+  field(DESC,"One double-precision value")
+  field(FTVL,"DOUBLE")
+  field(NELM,"1")
+}
+
+record(waveform,"xx:one_string")
+{
+  field(DESC,"One value of type STRING")
+  field(FTVL,"STRING")
+  field(NELM,"1")
+}
+
+record(waveform,"xx:four_chars")
+{
+  field(DESC,"Array of 4 'byte' values")
+  field(FTVL,"CHAR")
+  field(NELM,"4")
+}
+
+record(waveform,"xx:four_shorts")
+{
+  field(DESC,"Array of 4 16-bit integer values")
+  field(FTVL,"SHORT")
+  field(NELM,"4")
+}
+
+record(waveform,"xx:four_longs")
+{
+  field(DESC,"Array of 4 32-bit integer values")
+  field(FTVL,"LONG")
+  field(NELM,"4")
+}
+
+record(waveform,"xx:four_floats")
+{
+  field(DESC,"Array of 4 'float' values")
+  field(FTVL,"FLOAT")
+  field(NELM,"4")
+}
+
+record(waveform,"xx:four_doubles")
+{
+  field(DESC,"Array of 4 'double' values")
+  field(FTVL,"DOUBLE")
+  field(NELM,"4")
+}
+
+record(waveform,"xx:four_strings")
+{
+  field(DESC,"Array of 4 'string' values")
+  field(FTVL,"STRING")
+  field(NELM,"4")
+}
+
+record(ao,"xx:ao_a")
+{
+  # field(DTYP,"Soft Channel")
+  # field(DESC, "A simple analogue output")
+  # field(EGU, "Deg")
+  # field(HOPR, "3.14159")
+  # field(DRVH, "3.14159")
+  # field(DRVL, "-3.14159")
+  # field(LOPR, "-3.14159")
+  # field(PINI, "YES")
+  # field(VAL,"0")
+}
+
+record(stringout,"stringout_a")
+{       
+  field(DTYP,"Soft Channel")
+  field(DESC,"String out example")
+  field(VAL,"This is a string")
+}
+
+record(ao,"ao_b")
+{       
+  # field(DTYP,"Soft Channel")
+  # field(DESC, "PS $(device) Setpoint")
+  # field(EGU, "A")
+  # field(HOPR, "10000")
+  # field(DRVH, "10000")
+  # field(DRVL, "0")
+  # field(LOPR, "0")
+  # field(HIHI, "8000")
+  # field(HIGH, "6000")
+  # field(LOW, "4000")
+  # field(LOLO, "2000")
+  # field(HHSV, "MAJOR")
+  # field(HSV, "MINOR")
+  # field(LSV, "MINOR")
+  # field(LLSV, "MAJOR")
+  # field(VAL,"5000")
+}
+
+record(ai,"xx:ai")
+{
+}
+
+record(ai,"xx:weirdly_named_-+[]<>;")
+{
+}
+
+record(mbbi,"xx:one_enum") 
+{
+  field(DESC, "A single enum with 16 options")
+  field(ZRST, "option 0")    field(ZRVL, "0")
+  field(ONST, "option 1")    field(ONVL, "1")
+  field(TWST, "option 2")    field(TWVL, "2")
+  field(THST, "option 3")    field(THVL, "3")
+  field(FRST, "option 4")    field(FRVL, "4")
+  field(FVST, "option 5")    field(FVVL, "5")
+  field(SXST, "option 6")    field(SXVL, "6")
+  field(SVST, "option 7")    field(SVVL, "7")
+  field(EIST, "option 8")    field(EIVL, "8")
+  field(NIST, "option 9")    field(NIVL, "9")
+  field(TEST, "option 10")   field(TEVL, "10")
+  field(ELST, "option 11")   field(ELVL, "11")
+  field(TVST, "option 12")   field(TVVL, "12")
+  field(TTST, "option 13")   field(TTVL, "13")
+  field(FTST, "option 14")   field(FTVL, "14")
+  field(FFST, "option 15")   field(FFVL, "15")
+}
+
+# Do these only work in v4 ??
+
+record(lso,xx:lsi)
+{
+  # https://epics-base.github.io/epics-base/lsoRecord.html
+  field(SIZV,"100")
+  field(OMSL,"supervisory")
+  field(DTYP,"Soft Channel")
+  # field(VAL,"This is a long string")
+}
+
+record(lso,xx:lso)
+{
+  # https://epics-base.github.io/epics-base/lsoRecord.html
+  field(SIZV,"100")
+  field(OMSL,"supervisory")
+  field(DTYP,"Soft Channel")
+  # field(VAL,"This is a long string")
+}
