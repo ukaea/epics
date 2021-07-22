@@ -23,6 +23,14 @@ typedef enum {
 #define calcoutOOPT_NUM_CHOICES 6
 #endif
 
+#ifndef calcoutDOPT_NUM_CHOICES
+typedef enum {
+    calcoutDOPT_Use_VAL             /* Use CALC */,
+    calcoutDOPT_Use_OVAL            /* Use OCAL */
+} calcoutDOPT;
+#define calcoutDOPT_NUM_CHOICES 2
+#endif
+
 #ifndef calcoutINAV_NUM_CHOICES
 typedef enum {
     calcoutINAV_EXT_NC              /* Ext PV NC */,
@@ -31,14 +39,6 @@ typedef enum {
     calcoutINAV_CON                 /* Constant */
 } calcoutINAV;
 #define calcoutINAV_NUM_CHOICES 4
-#endif
-
-#ifndef calcoutDOPT_NUM_CHOICES
-typedef enum {
-    calcoutDOPT_Use_VAL             /* Use CALC */,
-    calcoutDOPT_Use_OVAL            /* Use OCAL */
-} calcoutDOPT;
-#define calcoutDOPT_NUM_CHOICES 2
 #endif
 
 typedef struct calcoutRecord {

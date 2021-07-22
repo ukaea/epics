@@ -91,7 +91,7 @@ include $(TOP)/configure/RULES
 
 # Can't use EXPAND as generated headers must appear
 # in O.Common, but EXPAND emits rules for O.$(T_A)
-../O.Common/pv/qsrvVersionNum.h: ../pv/qsrvVersionNum.h@
+../O.Common/pv/qsrvVersionNum.h: ../pv/qsrvVersionNum.h
 	$(MKDIR) $(COMMON_DIR)/pv
 	$(EXPAND_TOOL) $(EXPANDFLAGS) $($@_EXPANDFLAGS) $< $@
 

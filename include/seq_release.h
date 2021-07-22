@@ -1,2 +1,2 @@
-#define SEQ_RELEASE "Sequencer release 2.1.15, compiled Fri Jul  9 14:06:26 2021"
+#define SEQ_RELEASE "Sequencer release 2.1.15, compiled Thu Jul 22 10:02:24 2021"
 #define MAGIC 2001015
