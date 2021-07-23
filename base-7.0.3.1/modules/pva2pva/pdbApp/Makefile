@@ -60,7 +60,9 @@ qsrv_LIBS += $(EPICS_BASE_IOC_LIBS)
 
 FINAL_LOCATION ?= $(shell $(PERL) $(TOOLS)/fullPathName.pl $(INSTALL_LOCATION))
 
-USR_CPPFLAGS += -DFINAL_LOCATION="\"$(FINAL_LOCATION)\""
+# since we copy softMain.cpp from Base, use the same
+# EPICS_BASE macro for our location
+USR_CPPFLAGS += -DEPICS_BASE="\"$(FINAL_LOCATION)\""
 
 PROD_IOC += softIocPVA
 
@@ -91,7 +93,7 @@ include $(TOP)/configure/RULES
 
 # Can't use EXPAND as generated headers must appear
 # in O.Common, but EXPAND emits rules for O.$(T_A)
-../O.Common/pv/qsrvVersionNum.h: ../pv/qsrvVersionNum.h
+../O.Common/pv/qsrvVersionNum.h: ../pv/qsrvVersionNum.h@
 	$(MKDIR) $(COMMON_DIR)/pv
 	$(EXPAND_TOOL) $(EXPANDFLAGS) $($@_EXPANDFLAGS) $< $@
 

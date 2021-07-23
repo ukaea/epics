@@ -410,13 +410,13 @@
     <ClCompile Include="tpool.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="O.Common\pv\qsrvVersionNum.h" />
     <ClInclude Include="pdb.h" />
     <ClInclude Include="pdbgroup.h" />
     <ClInclude Include="pdbsingle.h" />
     <ClInclude Include="pvalink.h" />
     <ClInclude Include="pvif.h" />
     <ClInclude Include="pv\qsrv.h" />
+    <ClInclude Include="pv\qsrvVersionNum.h" />
     <ClInclude Include="tpool.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

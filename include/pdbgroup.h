@@ -17,8 +17,6 @@
 #include "pvif.h"
 #include "pdb.h"
 
-#include <shareLib.h>
-
 struct QSRV_API GroupConfig
 {
     struct QSRV_API Field {
@@ -61,7 +59,7 @@ struct QSRV_API GroupConfig
         std::swap(warning, o.warning);
     }
 
-    static void parse(const char *txt,
+    static void parse(const char *txt, const char *recname,
                       GroupConfig& result);
 };
 
@@ -89,6 +87,8 @@ struct QSRV_API PDBGroupPV : public PDBPV
 
     struct Info {
         DBCH chan;
+        // used for DBE_PROPERTY subscription when chan has filters
+        DBCH chan2;
         std::tr1::shared_ptr<PVIFBuilder> builder;
         FieldName attachment;
         typedef std::vector<size_t> triggers_t;

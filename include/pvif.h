@@ -254,6 +254,7 @@ struct LocalFL
                 if(pfl) pfl = dbChannelRunPostChain(pchan, pfl);
             }
         }
+        this->pfl = pfl;
     }
     ~LocalFL() {
         if(ours) db_delete_field_log(pfl);
@@ -378,25 +379,39 @@ private:
     PVIF& operator=(const PVIF&);
 };
 
-struct QSRV_API PVIFBuilder {
+/** Factory for PVIF instances.
+ *
+ * Caller first passes a mapping type (eg. "scalar") to PVIFBuilder::create()
+ * to obtain a PVIFBuilder which may then by used to create PVIF instances
+ * for specific dbChannel.
+ *
+ * Caller than uses PVIFBuilder::dtype() to obtain (sub)Field descriptions.
+ * eg. more than one of these may be composed into an overall Structure description.
+ *
+ * Caller than creates a PVStructure and uses PVIFBuilder::attach() to
+ * build mappings for each dbChannel in the composed locations.
+ */
+struct QSRV_API PVIFBuilder
+{
+    dbChannel* const channel;
 
     virtual ~PVIFBuilder() {}
 
     // fetch the structure description
-    virtual epics::pvData::FieldConstPtr dtype(dbChannel *channel) =0;
+    virtual epics::pvData::FieldConstPtr dtype() =0;
 
     virtual epics::pvData::FieldBuilderPtr dtype(epics::pvData::FieldBuilderPtr& builder,
-                                                 const std::string& fld,
-                                                 dbChannel *channel);
+                                                 const std::string& fld);
 
     // Attach to a structure instance.
     // must be of the type returned by dtype().
     // must be the root structure
-    virtual PVIF* attach(dbChannel *channel, const epics::pvData::PVStructurePtr& root, const FieldName& fld) =0;
+    virtual PVIF* attach(const epics::pvData::PVStructurePtr& root, const FieldName& fld) =0;
 
-    static PVIFBuilder* create(const std::string& name);
+    // entry point for Builder
+    static PVIFBuilder* create(const std::string& mapname, dbChannel* chan);
 protected:
-    PVIFBuilder() {}
+    explicit PVIFBuilder(dbChannel* chan) : channel(chan) {}
 private:
     PVIFBuilder(const PVIFBuilder&);
     PVIFBuilder& operator=(const PVIFBuilder&);
@@ -404,10 +419,11 @@ private:
 
 struct QSRV_API ScalarBuilder : public PVIFBuilder
 {
+    explicit ScalarBuilder(dbChannel* chan) :PVIFBuilder(chan) {}
     virtual ~ScalarBuilder() {}
 
-    virtual epics::pvData::FieldConstPtr dtype(dbChannel *channel) OVERRIDE FINAL;
-    virtual PVIF* attach(dbChannel *channel, const epics::pvData::PVStructurePtr& root, const FieldName& fld) OVERRIDE FINAL;
+    virtual epics::pvData::FieldConstPtr dtype() OVERRIDE FINAL;
+    virtual PVIF* attach(const epics::pvData::PVStructurePtr& root, const FieldName& fld) OVERRIDE FINAL;
 };
 
 

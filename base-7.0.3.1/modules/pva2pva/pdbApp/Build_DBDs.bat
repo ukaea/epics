@@ -6,8 +6,8 @@ if not exist %TOPLEVEL%DBD  md exist %TOPLEVEL%DBD
 if not exist %TOPLEVEL%include  md %TOPLEVEL%include
 
 SET PERL5LIB=C:\Strawberry\lib\perl
-perl -CSD %DLLDIR%expandVars.pl -DEPICS_QSRV_MAJOR_VERSION="1" -DEPICS_QSRV_MINOR_VERSION="2" -DEPICS_QSRV_MAINTENANCE_VERSION="1" -DEPICS_QSRV_DEVELOPMENT_FLAG="0" -DEPICS_QSRV_ABI_MAJOR_VERSION="1" -DEPICS_QSRV_ABI_MINOR_VERSION="1" -t %DLLDIR% pv/qsrvVersionNum.h@ O.Common/pv/qsrvVersionNum.h
-perl -CSD -MExtUtils::Command -e cp qsrv-new.dbd O.Common/qsrv.dbd
+perl -CSD %DLLDIR%expandVars.pl -DEPICS_QSRV_MAJOR_VERSION="1" -DEPICS_QSRV_MINOR_VERSION="3" -DEPICS_QSRV_MAINTENANCE_VERSION="1" -DEPICS_QSRV_DEVELOPMENT_FLAG="0" -DEPICS_QSRV_ABI_MAJOR_VERSION="1" -DEPICS_QSRV_ABI_MINOR_VERSION="1" -t %DLLDIR% pv/qsrvVersionNum.h O.Common/pv/qsrvVersionNum.h
+perl -CSD -MExtUtils::Command -e cp qsrv-new.dbd DBD/qsrv.dbd
 
 xcopy /Y /Q /D /R *.h %TOPLEVEL%include > NUL
 

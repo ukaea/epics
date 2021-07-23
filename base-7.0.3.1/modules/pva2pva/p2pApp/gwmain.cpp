@@ -139,7 +139,7 @@ GWServerChannelProvider::shared_pointer configure_client(ServerConfig& arg, cons
 
     pva::Configuration::shared_pointer C(pva::ConfigurationBuilder()
                                          .add("EPICS_PVA_ADDR_LIST", conf->getSubFieldT<pvd::PVString>("addrlist")->get())
-                                         .add("EPICS_PVA_AUTO_ADDR_LIST", conf->getSubFieldT<pvd::PVBoolean>("autoaddrlist")->get())
+                                         .add("EPICS_PVA_AUTO_ADDR_LIST", conf->getSubFieldT<pvd::PVScalar>("autoaddrlist")->getAs<std::string>())
                                          .add("EPICS_PVA_SERVER_PORT", conf->getSubFieldT<pvd::PVScalar>("serverport")->getAs<pvd::uint16>())
                                          .add("EPICS_PVA_BROADCAST_PORT", conf->getSubFieldT<pvd::PVScalar>("bcastport")->getAs<pvd::uint16>())
                                          .add("EPICS_PVA_DEBUG", arg.debug>=5 ? 5 : 0)
@@ -163,7 +163,7 @@ pva::ServerContext::shared_pointer configure_server(ServerConfig& arg, const pvd
     pva::Configuration::shared_pointer C(pva::ConfigurationBuilder()
                                          .add("EPICS_PVAS_INTF_ADDR_LIST", conf->getSubFieldT<pvd::PVString>("interface")->get())
                                          .add("EPICS_PVAS_BEACON_ADDR_LIST", conf->getSubFieldT<pvd::PVString>("addrlist")->get())
-                                         .add("EPICS_PVAS_AUTO_BEACON_ADDR_LIST", conf->getSubFieldT<pvd::PVBoolean>("autoaddrlist")->get())
+                                         .add("EPICS_PVAS_AUTO_BEACON_ADDR_LIST", conf->getSubFieldT<pvd::PVScalar>("autoaddrlist")->getAs<std::string>())
                                          .add("EPICS_PVAS_SERVER_PORT", conf->getSubFieldT<pvd::PVScalar>("serverport")->getAs<pvd::uint16>())
                                          .add("EPICS_PVAS_BROADCAST_PORT", conf->getSubFieldT<pvd::PVScalar>("bcastport")->getAs<pvd::uint16>())
                                          .add("EPICS_PVA_DEBUG", arg.debug>=5 ? 5 : 0)
@@ -257,6 +257,17 @@ int main(int argc, char *argv[])
         ServerConfig arg;
         theserver = &arg;
         getargs(arg, argc, argv);
+
+        if(arg.debug>0)
+            std::cout<<"Notice: This p2p gateway prototype has been superceded by the p4p.gw gateway\n"
+                       "        which has exciting new features including granular access control,\n"
+                       "        and status PVs including bandwidth usage reports.\n"
+                       "        p2p is considered deprecated by its author, and will receive\n"
+                       "        minimal maintainance effort going forward.\n"
+                       "        Users are encouraged to migrate to p4p.gw.\n"
+                       "\n"
+                       "        https://mdavidsaver.github.io/p4p/gw.html\n"
+                       "\n";
 
         pva::pvAccessLogLevel lvl;
         if(arg.debug<0)

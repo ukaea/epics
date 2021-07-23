@@ -641,6 +641,14 @@ void findFormat(pvTimeAlarm& pvmeta, pdbRecordIterator& info, const epics::pvDat
     }
 }
 
+pvd::Status checkDISP(dbChannel *chan)
+{
+    dbCommon *prec = dbChannelRecord(chan);
+    pvd::Status ret;
+    if(prec->disp && dbChannelField(chan)!=&prec->disp)
+        ret = pvd::Status::error("Put Disabled");
+    return ret;
+}
 
 template<typename PVX, typename META>
 struct PVIFScalarNumeric : public PVIF
@@ -698,7 +706,10 @@ struct PVIFScalarNumeric : public PVIF
 
     virtual pvd::Status get(const epics::pvData::BitSet& mask, proc_t proc, bool permit) OVERRIDE FINAL
     {
-        pvd::Status ret;
+        pvd::Status ret = checkDISP(chan);
+        if(!ret)
+            return ret;
+
         bool newval = mask.logical_and(pvmeta.maskVALUEPut);
         if(newval) {
             if(permit)
@@ -764,7 +775,7 @@ short PVD2DBR(pvd::ScalarType pvt)
 }
 
 epics::pvData::FieldConstPtr
-ScalarBuilder::dtype(dbChannel *channel)
+ScalarBuilder::dtype()
 {
     short dbr = dbChannelFinalFieldType(channel);
     const long maxelem = dbChannelFinalElements(channel);
@@ -819,7 +830,7 @@ ScalarBuilder::dtype(dbChannel *channel)
 }
 
 PVIF*
-ScalarBuilder::attach(dbChannel *channel, const epics::pvData::PVStructurePtr& root, const FieldName& fldname)
+ScalarBuilder::attach(const epics::pvData::PVStructurePtr& root, const FieldName& fldname)
 {
     if(!channel)
         throw std::runtime_error("+type:\"scalar\" requires +channel:");
@@ -906,7 +917,10 @@ struct PVIFPlain : public PVIF
 
     virtual pvd::Status get(const epics::pvData::BitSet& mask, proc_t proc, bool permit) OVERRIDE FINAL
     {
-        pvd::Status ret;
+        pvd::Status ret = checkDISP(chan);
+        if(!ret)
+            return ret;
+
         bool newval = mask.get(fieldOffset);
         if(newval) {
             if(permit)
@@ -936,10 +950,11 @@ struct PVIFPlain : public PVIF
 
 struct PlainBuilder : public PVIFBuilder
 {
+    explicit PlainBuilder(dbChannel* chan) :PVIFBuilder(chan) {}
     virtual ~PlainBuilder() {}
 
     // fetch the structure description
-    virtual epics::pvData::FieldConstPtr dtype(dbChannel *channel) OVERRIDE FINAL {
+    virtual epics::pvData::FieldConstPtr dtype() OVERRIDE FINAL {
         const short dbr = dbChannelFinalFieldType(channel);
         const long maxelem = dbChannelFinalElements(channel);
         const pvd::ScalarType pvt = DBR2PVD(dbr);
@@ -956,8 +971,7 @@ struct PlainBuilder : public PVIFBuilder
     // Attach to a structure instance.
     // must be of the type returned by dtype().
     // need not be the root structure
-    virtual PVIF* attach(dbChannel *channel,
-                         const epics::pvData::PVStructurePtr& root,
+    virtual PVIF* attach(const epics::pvData::PVStructurePtr& root,
                          const FieldName& fldname) OVERRIDE FINAL
     {
         if(!channel)
@@ -976,10 +990,11 @@ struct PlainBuilder : public PVIFBuilder
 
 struct AnyScalarBuilder : public PVIFBuilder
 {
+    explicit AnyScalarBuilder(dbChannel* chan) :PVIFBuilder(chan) {}
     virtual ~AnyScalarBuilder() {}
 
     // fetch the structure description
-    virtual epics::pvData::FieldConstPtr dtype(dbChannel *channel) OVERRIDE FINAL {
+    virtual epics::pvData::FieldConstPtr dtype() OVERRIDE FINAL {
         (void)channel; //ignored
         return pvd::getFieldCreate()->createVariantUnion();
     }
@@ -987,8 +1002,7 @@ struct AnyScalarBuilder : public PVIFBuilder
     // Attach to a structure instance.
     // must be of the type returned by dtype().
     // need not be the root structure
-    virtual PVIF* attach(dbChannel *channel,
-                         const epics::pvData::PVStructurePtr& root,
+    virtual PVIF* attach(const epics::pvData::PVStructurePtr& root,
                          const FieldName& fldname) OVERRIDE FINAL
     {
         if(!channel)
@@ -1074,16 +1088,16 @@ struct PVIFMeta : public PVIF
 
 struct MetaBuilder : public PVIFBuilder
 {
+    explicit MetaBuilder(dbChannel* chan) :PVIFBuilder(chan) {}
     virtual ~MetaBuilder() {}
 
     // fetch the structure description
-    virtual epics::pvData::FieldConstPtr dtype(dbChannel *channel) OVERRIDE FINAL {
+    virtual epics::pvData::FieldConstPtr dtype() OVERRIDE FINAL {
         throw std::logic_error("Don't call me");
     }
 
     virtual epics::pvData::FieldBuilderPtr dtype(epics::pvData::FieldBuilderPtr& builder,
-                                                 const std::string& fld,
-                                                 dbChannel *channel)
+                                                 const std::string& fld) OVERRIDE FINAL
     {
         pvd::StandardFieldPtr std(pvd::getStandardField());
         if(fld.empty()) {
@@ -1100,8 +1114,7 @@ struct MetaBuilder : public PVIFBuilder
     // Attach to a structure instance.
     // must be of the type returned by dtype().
     // need not be the root structure
-    virtual PVIF* attach(dbChannel *channel,
-                         const epics::pvData::PVStructurePtr& root,
+    virtual PVIF* attach(const epics::pvData::PVStructurePtr& root,
                          const FieldName& fldname) OVERRIDE FINAL
     {
         if(!channel)
@@ -1138,20 +1151,21 @@ struct PVIFProc : public PVIF
 
 struct ProcBuilder : public PVIFBuilder
 {
+    explicit ProcBuilder(dbChannel* chan) :PVIFBuilder(chan) {}
+    virtual ~ProcBuilder() {}
+
     // fetch the structure description
-    virtual epics::pvData::FieldConstPtr dtype(dbChannel *channel) OVERRIDE FINAL {
+    virtual epics::pvData::FieldConstPtr dtype() OVERRIDE FINAL {
         throw std::logic_error("Don't call me");
     }
 
     virtual epics::pvData::FieldBuilderPtr dtype(epics::pvData::FieldBuilderPtr& builder,
-                                                 const std::string& fld,
-                                                 dbChannel *channel) OVERRIDE FINAL
+                                                 const std::string& fld) OVERRIDE FINAL
     {
         // invisible
         return builder;
     }
-    virtual PVIF* attach(dbChannel *channel,
-                         const epics::pvData::PVStructurePtr& root,
+    virtual PVIF* attach(const epics::pvData::PVStructurePtr& root,
                          const FieldName& fldname) OVERRIDE FINAL
     {
         if(!channel)
@@ -1202,31 +1216,30 @@ pvd::Status PVIF::get(const epics::pvData::BitSet& mask, proc_t proc, bool permi
 
 epics::pvData::FieldBuilderPtr
 PVIFBuilder::dtype(epics::pvData::FieldBuilderPtr& builder,
-                   const std::string &fld,
-                   dbChannel *channel)
+                   const std::string &fld)
 {
     if(fld.empty())
-        throw std::runtime_error("Can't attach this +type to root");
+        throw std::runtime_error(SB()<<"Can't attach +type "<<typeid(*this).name()<<" to root");
 
-    epics::pvData::FieldConstPtr ftype(this->dtype(channel));
+    epics::pvData::FieldConstPtr ftype(this->dtype());
     if(ftype)
         builder = builder->add(fld, ftype);
 
     return builder;
 }
 
-PVIFBuilder* PVIFBuilder::create(const std::string& type)
+PVIFBuilder* PVIFBuilder::create(const std::string& type, dbChannel* chan)
 {
     if(type.empty() || type=="scalar")
-        return new ScalarBuilder;
+        return new ScalarBuilder(chan);
     else if(type=="plain")
-        return new PlainBuilder;
+        return new PlainBuilder(chan);
     else if(type=="any")
-        return new AnyScalarBuilder;
+        return new AnyScalarBuilder(chan);
     else if(type=="meta")
-        return new MetaBuilder;
+        return new MetaBuilder(chan);
     else if(type=="proc")
-        return new ProcBuilder;
+        return new ProcBuilder(chan);
     else
         throw std::runtime_error(std::string("Unknown +type=")+type);
 }
