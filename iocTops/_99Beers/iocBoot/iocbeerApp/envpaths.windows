@@ -1,0 +1,5 @@
+epicsEnvSet("ARCH","win64-x86-static")
+epicsEnvSet("IOC","iocBeers")
+epicsEnvSet("TOP","C:/EPICS/iocBeers")
+epicsEnvSet("ASYN","C:/epics/support/asyn")
+epicsEnvSet("EPICS_BASE","C:/EPICS/base")
