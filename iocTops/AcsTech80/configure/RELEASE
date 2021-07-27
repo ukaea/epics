@@ -1,0 +1,23 @@
+# RELEASE - Location of external support modules
+
+# Use motor/module's generated release file when buidling inside motor
+-include $(TOP)/../../../RELEASE.$(EPICS_HOST_ARCH).local
+# Use motorAcsTech80's release file when building inside motorAcsTech80, but outside motor
+-include $(TOP)/../../configure/RELEASE.local
+# Use acsTech80IOC's RELEASE.local when building outside motorAcsTech80
+-include $(TOP)/configure/RELEASE.local
+
+SUPPORT =/usr/local/epics/support
+EPICS_BASE =/usr/local/epics/base
+MOTOR = $(SUPPORT)/motor/current
+ASYN = $(SUPPORT)/asyn/current
+MOTOR_ACSMOTION=/usr/local/epics/support/motor/current/modules/motorAcsMotion
+SNCSEQ=$(SUPPORT)/seq/current
+BUSY=$(SUPPORT)/busy/current
+IPAC=$(SUPPORT)/ipac/current
+AUTOSAVE=$(SUPPORT)/autosave/current
+SSCAN=$(SUPPORT)/sscan/current
+
+
+
+

@@ -1,0 +1,5 @@
+# Example substitutions file
+
+file "db/dbExample1.db" {
+    { user = "ktn98257" }
+}

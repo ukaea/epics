@@ -83,6 +83,18 @@
     <None Include="base.dbd">
       <FileType>Document</FileType>
     </None>
+    <None Include="example\exercise.db" />
+    <None Include="example\temperature.db" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="examples.txt" />
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="softIoc.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon1.ico" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{CE14B4D8-C63F-4EA6-9DE4-CACE48EA092C}</ProjectGuid>

@@ -11,16 +11,14 @@
 #include "dbScan.h"
 #include "postfix.h"
 
-#ifndef calcoutOOPT_NUM_CHOICES
+#ifndef calcoutINAV_NUM_CHOICES
 typedef enum {
-    calcoutOOPT_Every_Time          /* Every Time */,
-    calcoutOOPT_On_Change           /* On Change */,
-    calcoutOOPT_When_Zero           /* When Zero */,
-    calcoutOOPT_When_Non_zero       /* When Non-zero */,
-    calcoutOOPT_Transition_To_Zero  /* Transition To Zero */,
-    calcoutOOPT_Transition_To_Non_zero /* Transition To Non-zero */
-} calcoutOOPT;
-#define calcoutOOPT_NUM_CHOICES 6
+    calcoutINAV_EXT_NC              /* Ext PV NC */,
+    calcoutINAV_EXT                 /* Ext PV OK */,
+    calcoutINAV_LOC                 /* Local PV */,
+    calcoutINAV_CON                 /* Constant */
+} calcoutINAV;
+#define calcoutINAV_NUM_CHOICES 4
 #endif
 
 #ifndef calcoutDOPT_NUM_CHOICES
@@ -31,14 +29,16 @@ typedef enum {
 #define calcoutDOPT_NUM_CHOICES 2
 #endif
 
-#ifndef calcoutINAV_NUM_CHOICES
+#ifndef calcoutOOPT_NUM_CHOICES
 typedef enum {
-    calcoutINAV_EXT_NC              /* Ext PV NC */,
-    calcoutINAV_EXT                 /* Ext PV OK */,
-    calcoutINAV_LOC                 /* Local PV */,
-    calcoutINAV_CON                 /* Constant */
-} calcoutINAV;
-#define calcoutINAV_NUM_CHOICES 4
+    calcoutOOPT_Every_Time          /* Every Time */,
+    calcoutOOPT_On_Change           /* On Change */,
+    calcoutOOPT_When_Zero           /* When Zero */,
+    calcoutOOPT_When_Non_zero       /* When Non-zero */,
+    calcoutOOPT_Transition_To_Zero  /* Transition To Zero */,
+    calcoutOOPT_Transition_To_Non_zero /* Transition To Non-zero */
+} calcoutOOPT;
+#define calcoutOOPT_NUM_CHOICES 6
 #endif
 
 typedef struct calcoutRecord {

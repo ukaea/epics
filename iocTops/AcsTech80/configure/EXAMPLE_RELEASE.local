@@ -1,0 +1,6 @@
+# Use the following lines if motorAcsTech80 was built inside motor
+MOTOR=
+-include $(MOTOR)/configure/RELEASE
+# Use the following lines if motorAcsTech80 was built outside motor
+#!MOTOR_ACSTECH80=
+#!-include $(MOTOR_ACSTECH80)/configure/RELEASE.local

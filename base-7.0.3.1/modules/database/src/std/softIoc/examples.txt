@@ -1,0 +1,11 @@
+DEBUG
+=====
+NOTE: You can specify a link to a DBD folder with '-D'. For a quick test use -d and specify the full path of the EPICS DB
+
+
+Right Click top project for softIoc
+At Properties dialogue natigate to Debug section add a command line parameter >>
+
+  -d "C:\EPICS_src\repos\epics.dotnet\base-7.0.3.1\modules\database\src\std\softIoc\example\temperature.db""
+
+Set softIOC to be the startup project for the solution or alternatively right click softIOC and choose debug and play button.
