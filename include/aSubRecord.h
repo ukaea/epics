@@ -10,14 +10,6 @@
 #include "epicsTime.h"
 struct aSubRecord;
 
-#ifndef aSubLFLG_NUM_CHOICES
-typedef enum {
-    aSubLFLG_IGNORE                 /* IGNORE */,
-    aSubLFLG_READ                   /* READ */
-} aSubLFLG;
-#define aSubLFLG_NUM_CHOICES 2
-#endif
-
 #ifndef aSubEFLG_NUM_CHOICES
 typedef enum {
     aSubEFLG_NEVER                  /* NEVER */,
@@ -25,6 +17,14 @@ typedef enum {
     aSubEFLG_ALWAYS                 /* ALWAYS */
 } aSubEFLG;
 #define aSubEFLG_NUM_CHOICES 3
+#endif
+
+#ifndef aSubLFLG_NUM_CHOICES
+typedef enum {
+    aSubLFLG_IGNORE                 /* IGNORE */,
+    aSubLFLG_READ                   /* READ */
+} aSubLFLG;
+#define aSubLFLG_NUM_CHOICES 2
 #endif
 
 typedef struct aSubRecord {

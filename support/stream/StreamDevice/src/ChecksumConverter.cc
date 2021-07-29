@@ -18,6 +18,8 @@
 *                                                              *
 ***************************************************************/
 
+#pragma warning(disable:4267)
+
 #include "StreamFormatConverter.h"
 #include "StreamError.h"
 #if defined(__vxworks) || defined(vxWorks) || defined(_WIN32) || defined(__rtems__)

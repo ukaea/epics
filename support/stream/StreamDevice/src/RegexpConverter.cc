@@ -1,4 +1,4 @@
-/***************************************************************
+/* * **************************************************************
 * StreamDevice Support                                         *
 *                                                              *
 * (C) 1999 Dirk Zimoch (zimoch@delta.uni-dortmund.de)          *
@@ -21,7 +21,7 @@
 #include "StreamFormatConverter.h"
 #include "StreamError.h"
 #include "string.h"
-#include "pcre.h"
+
 
 // Perl regular expressions (PCRE)   %/regexp/
 
@@ -34,7 +34,7 @@
    be the result of the match.
  - vxWorks and maybe other OS don't have a PCRE library. Provide one?
 */
-
+/*
 class RegexpConverter : public StreamFormatConverter
 {
     int parse (const StreamFormat&, StreamBuffer&, const char*&, bool);
@@ -79,8 +79,9 @@ parse(const StreamFormat& fmt, StreamBuffer& info,
     debug("regexp = \"%s\"\n", pattern());
     const char* errormsg;
     int eoffset;
-    pcre* code = pcre_compile(pattern(), 0, 
-        &errormsg, &eoffset, NULL);
+
+	pcre* code = pcre_compile(pattern(), 0, &errormsg, &eoffset, NULL);
+	
     if (!code)
     {
         error("%s after \"%s\"\n", errormsg, pattern.expand(0, eoffset)());
@@ -95,6 +96,7 @@ scanString(const StreamFormat& fmt, const char* input,
     char* value, size_t maxlen)
 {
     pcre* code;
+	
     size_t len;
     int ovector[30];
     int rc;
@@ -123,3 +125,4 @@ scanString(const StreamFormat& fmt, const char* input,
 }
 
 RegisterConverter (RegexpConverter, "/");
+*/

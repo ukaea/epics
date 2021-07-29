@@ -1733,5 +1733,3 @@ disconnectCallback(StreamIoStatus status)
             return;
     }
 }
-
-#include "streamReferences"

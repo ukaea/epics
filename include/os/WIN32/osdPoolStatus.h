@@ -8,7 +8,7 @@
 * in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 
-#ifdef osdPoolStatush
+#ifndef osdPoolStatush
 #define osdPoolStatush
 
 #endif /* osdPoolStatush */
