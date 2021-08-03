@@ -17,6 +17,8 @@
 *                                                              *
 ***************************************************************/
 
+// ReSharper disable CppClangTidyBugproneNarrowingConversions
+// ReSharper disable CppClangTidyClangDiagnosticShorten64To32
 #ifndef StreamBuffer_h
 #define StreamBuffer_h
 
@@ -194,9 +196,9 @@ public:
     // find: get index of data in buffer or -1
     long find(char c, long start=0) const
         {char* p;
-         return (p = static_cast<char*>(
-            memchr(buffer+offs+(start<0?start+len:start),
-                c, start<0?-start:len-start)))?
+         return ((p = static_cast<char*>(
+	                memchr(buffer+offs+(start<0?start+len:start),
+	                       c, start<0?-start:len-start))))?
             p-(buffer+offs) : -1;}
 
     long find(const void* s, long size, long start=0) const;

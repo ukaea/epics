@@ -125,35 +125,43 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
     <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
-    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
+    <PostBuildEventUseInBuild>
+    </PostBuildEventUseInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
     <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
-    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
+    <PostBuildEventUseInBuild>
+    </PostBuildEventUseInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
     <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
-    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
+    <PostBuildEventUseInBuild>
+    </PostBuildEventUseInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
     <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
-    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
+    <PostBuildEventUseInBuild>
+    </PostBuildEventUseInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
     <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
-    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
+    <PostBuildEventUseInBuild>
+    </PostBuildEventUseInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
     <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
-    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
+    <PostBuildEventUseInBuild>
+    </PostBuildEventUseInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
     <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
-    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
+    <PostBuildEventUseInBuild>
+    </PostBuildEventUseInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">
     <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
-    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
+    <PostBuildEventUseInBuild>
+    </PostBuildEventUseInBuild>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
     <ClCompile>
@@ -173,8 +181,10 @@
       <Message>PRE BUILD</Message>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>call .\Build_POST.bat $(SolutionDir)</Command>
-      <Message>POST BUILD</Message>
+      <Command>
+      </Command>
+      <Message>
+      </Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
@@ -196,8 +206,10 @@
       <Message>PRE BUILD</Message>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>call .\Build_POST.bat $(SolutionDir)</Command>
-      <Message>POST BUILD</Message>
+      <Command>
+      </Command>
+      <Message>
+      </Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
@@ -218,8 +230,10 @@
       <Message>PRE BUILD</Message>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>call .\Build_POST.bat $(SolutionDir)</Command>
-      <Message>POST BUILD</Message>
+      <Command>
+      </Command>
+      <Message>
+      </Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
@@ -241,8 +255,10 @@
       <Message>PRE BUILD</Message>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>call .\Build_POST.bat $(SolutionDir)</Command>
-      <Message>POST BUILD</Message>
+      <Command>
+      </Command>
+      <Message>
+      </Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
@@ -268,8 +284,10 @@
     </PreBuildEvent>
     <PostBuildEvent />
     <PostBuildEvent>
-      <Command>call .\Build_POST.bat $(SolutionDir)</Command>
-      <Message>POST BUILD</Message>
+      <Command>
+      </Command>
+      <Message>
+      </Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
@@ -295,8 +313,10 @@
       <Message>PRE BUILD</Message>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>call .\Build_POST.bat $(SolutionDir)</Command>
-      <Message>POST BUILD</Message>
+      <Command>
+      </Command>
+      <Message>
+      </Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
@@ -321,8 +341,10 @@
       <Message>PRE BUILD</Message>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>call .\Build_POST.bat $(SolutionDir)</Command>
-      <Message>POST BUILD</Message>
+      <Command>
+      </Command>
+      <Message>
+      </Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">
@@ -348,8 +370,10 @@
       <Message>PRE BUILD</Message>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>call .\Build_POST.bat $(SolutionDir)</Command>
-      <Message>POST BUILD</Message>
+      <Command>
+      </Command>
+      <Message>
+      </Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
