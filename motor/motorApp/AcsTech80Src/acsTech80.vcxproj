@@ -242,7 +242,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>call .\Build_DBDs.bat $(SolutionDir)</Command>
+      <Command>call .\Build_DBDs.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
       <Message>PRE BUILD</Message>
     </PreBuildEvent>
   </ItemDefinitionGroup>

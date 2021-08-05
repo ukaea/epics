@@ -9,38 +9,12 @@
 #include "ellLib.h"
 #include "epicsTime.h"
 
-#ifndef motorFOFF_NUM_CHOICES
-typedef enum {
-    motorFOFF_Variable              /* Variable */,
-    motorFOFF_Frozen                /* Frozen */
-} motorFOFF;
-#define motorFOFF_NUM_CHOICES 2
-#endif
-
-#ifndef motorSPMG_NUM_CHOICES
-typedef enum {
-    motorSPMG_Stop                  /* Stop */,
-    motorSPMG_Pause                 /* Pause */,
-    motorSPMG_Move                  /* Move */,
-    motorSPMG_Go                    /* Go */
-} motorSPMG;
-#define motorSPMG_NUM_CHOICES 4
-#endif
-
 #ifndef menuOmsl_NUM_CHOICES
 typedef enum {
     menuOmslsupervisory             /* supervisory */,
     menuOmslclosed_loop             /* closed_loop */
 } menuOmsl;
 #define menuOmsl_NUM_CHOICES 2
-#endif
-
-#ifndef motorTORQ_NUM_CHOICES
-typedef enum {
-    motorTORQ_Disable               /* Disable */,
-    motorTORQ_Enable                /* Enable */
-} motorTORQ;
-#define motorTORQ_NUM_CHOICES 2
 #endif
 
 #ifndef menuYesNo_NUM_CHOICES
@@ -59,6 +33,33 @@ typedef enum {
 #define motorUEIP_NUM_CHOICES 2
 #endif
 
+#ifndef motorSTUP_NUM_CHOICES
+typedef enum {
+    motorSTUP_OFF                   /* OFF */,
+    motorSTUP_ON                    /* ON */,
+    motorSTUP_BUSY                  /* BUSY */
+} motorSTUP;
+#define motorSTUP_NUM_CHOICES 3
+#endif
+
+#ifndef motorSPMG_NUM_CHOICES
+typedef enum {
+    motorSPMG_Stop                  /* Stop */,
+    motorSPMG_Pause                 /* Pause */,
+    motorSPMG_Move                  /* Move */,
+    motorSPMG_Go                    /* Go */
+} motorSPMG;
+#define motorSPMG_NUM_CHOICES 4
+#endif
+
+#ifndef motorTORQ_NUM_CHOICES
+typedef enum {
+    motorTORQ_Disable               /* Disable */,
+    motorTORQ_Enable                /* Enable */
+} motorTORQ;
+#define motorTORQ_NUM_CHOICES 2
+#endif
+
 #ifndef motorDIR_NUM_CHOICES
 typedef enum {
     motorDIR_Pos                    /* Pos */,
@@ -67,13 +68,20 @@ typedef enum {
 #define motorDIR_NUM_CHOICES 2
 #endif
 
-#ifndef motorSTUP_NUM_CHOICES
+#ifndef motorFOFF_NUM_CHOICES
 typedef enum {
-    motorSTUP_OFF                   /* OFF */,
-    motorSTUP_ON                    /* ON */,
-    motorSTUP_BUSY                  /* BUSY */
-} motorSTUP;
-#define motorSTUP_NUM_CHOICES 3
+    motorFOFF_Variable              /* Variable */,
+    motorFOFF_Frozen                /* Frozen */
+} motorFOFF;
+#define motorFOFF_NUM_CHOICES 2
+#endif
+
+#ifndef motorMODE_NUM_CHOICES
+typedef enum {
+    motorMODE_Position              /* Position */,
+    motorMODE_Velocity              /* Velocity */
+} motorMODE;
+#define motorMODE_NUM_CHOICES 2
 #endif
 
 #ifndef motorSET_NUM_CHOICES
@@ -92,14 +100,6 @@ typedef enum {
     motorRMOD_I                     /* In-Position */
 } motorRMOD;
 #define motorRMOD_NUM_CHOICES 4
-#endif
-
-#ifndef motorMODE_NUM_CHOICES
-typedef enum {
-    motorMODE_Position              /* Position */,
-    motorMODE_Velocity              /* Velocity */
-} motorMODE;
-#define motorMODE_NUM_CHOICES 2
 #endif
 
 typedef struct motorRecord {
