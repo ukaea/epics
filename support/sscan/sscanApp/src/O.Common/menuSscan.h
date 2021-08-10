@@ -3,42 +3,20 @@
 #ifndef INC_menuSscan_H
 #define INC_menuSscan_H
 
-#ifndef sscanFAZE_NUM_CHOICES
+#ifndef sscanFFO_NUM_CHOICES
 typedef enum {
-    sscanFAZE_IDLE                  /* IDLE */,
-    sscanFAZE_INIT_SCAN             /* INIT_SCAN */,
-    sscanFAZE_BEFORE_SCAN           /* DO:BEFORE_SCAN */,
-    sscanFAZE_BEFORE_SCAN_WAIT      /* WAIT:BEFORE_SCAN */,
-    sscanFAZE_MOVE_MOTORS           /* MOVE_MOTORS */,
-    sscanFAZE_CHECK_MOTORS          /* WAIT:MOTORS */,
-    sscanFAZE_TRIG_DETCTRS          /* TRIG_DETCTRS */,
-    sscanFAZE_READ_DETCTRS          /* WAIT:DETCTRS */,
-    sscanFAZE_RETRACE_MOVE          /* RETRACE_MOVE */,
-    sscanFAZE_RETRACE_WAIT          /* WAIT:RETRACE */,
-    sscanFAZE_AFTER_SCAN_DO         /* DO:AFTER_SCAN */,
-    sscanFAZE_AFTER_SCAN_WAIT       /* WAIT:AFTER_SCAN */,
-    sscanFAZE_SCAN_DONE             /* SCAN_DONE */,
-    sscanFAZE_SCAN_PENDING          /* SCAN_PENDING */,
-    sscanFAZE_PREVIEW               /* PREVIEW */,
-    sscanFAZE_RECORD_SCALAR_DATA    /* RECORD SCALAR DATA */
-} sscanFAZE;
-#define sscanFAZE_NUM_CHOICES 16
+    sscanFFO_Use_F_Flags            /* USE F-FLAGS */,
+    sscanFFO_Override               /* OVERRIDE */
+} sscanFFO;
+#define sscanFFO_NUM_CHOICES 2
 #endif
 
-#ifndef sscanFPTS_NUM_CHOICES
+#ifndef sscanPAUS_NUM_CHOICES
 typedef enum {
-    sscanFPTS_No                    /* NO */,
-    sscanFPTS_Freeze                /* FREEZE */
-} sscanFPTS;
-#define sscanFPTS_NUM_CHOICES 2
-#endif
-
-#ifndef sscanLINKWAIT_NUM_CHOICES
-typedef enum {
-    sscanLINKWAIT_YES               /* Wait */,
-    sscanLINKWAIT_NO                /* NoWait */
-} sscanLINKWAIT;
-#define sscanLINKWAIT_NUM_CHOICES 2
+    sscanPAUS_Go                    /* GO */,
+    sscanPAUS_Pause                 /* PAUSE */
+} sscanPAUS;
+#define sscanPAUS_NUM_CHOICES 2
 #endif
 
 #ifndef sscanCMND_NUM_CHOICES
@@ -55,12 +33,34 @@ typedef enum {
 #define sscanCMND_NUM_CHOICES 8
 #endif
 
+#ifndef sscanDSTATE_NUM_CHOICES
+typedef enum {
+    sscanDSTATE_UNPACKED            /* UNPACKED */,
+    sscanDSTATE_TRIG_ARRAY_READ     /* TRIG_ARRAY_READ */,
+    sscanDSTATE_ARRAY_READ_WAIT     /* ARRAY_READ_WAIT */,
+    sscanDSTATE_ARRAY_GET_CALLBACK_WAIT /* ARRAY_GET_CALLBACK_WAIT */,
+    sscanDSTATE_RECORD_ARRAY_DATA   /* RECORD_ARRAY_DATA */,
+    sscanDSTATE_SAVE_DATA_WAIT      /* SAVE_DATA_WAIT */,
+    sscanDSTATE_PACKED              /* PACKED */,
+    sscanDSTATE_POSTED              /* POSTED */
+} sscanDSTATE;
+#define sscanDSTATE_NUM_CHOICES 8
+#endif
+
 #ifndef sscanNOYES_NUM_CHOICES
 typedef enum {
     sscanNOYES_NO                   /* NO */,
     sscanNOYES_YES                  /* YES */
 } sscanNOYES;
 #define sscanNOYES_NUM_CHOICES 2
+#endif
+
+#ifndef sscanACQT_NUM_CHOICES
+typedef enum {
+    sscanACQT_SCALAR                /* SCALAR */,
+    sscanACQT_1D_ARRAY              /* 1D ARRAY */
+} sscanACQT;
+#define sscanACQT_NUM_CHOICES 2
 #endif
 
 #ifndef sscanP1NV_NUM_CHOICES
@@ -90,14 +90,6 @@ typedef enum {
 #define sscanPASM_NUM_CHOICES 8
 #endif
 
-#ifndef sscanPAUS_NUM_CHOICES
-typedef enum {
-    sscanPAUS_Go                    /* GO */,
-    sscanPAUS_Pause                 /* PAUSE */
-} sscanPAUS;
-#define sscanPAUS_NUM_CHOICES 2
-#endif
-
 #ifndef sscanACQM_NUM_CHOICES
 typedef enum {
     sscanACQM_NORMAL                /* NORMAL */,
@@ -105,6 +97,22 @@ typedef enum {
     sscanACQM_ADD                   /* ADD TO PREV */
 } sscanACQM;
 #define sscanACQM_NUM_CHOICES 3
+#endif
+
+#ifndef sscanLINKWAIT_NUM_CHOICES
+typedef enum {
+    sscanLINKWAIT_YES               /* Wait */,
+    sscanLINKWAIT_NO                /* NoWait */
+} sscanLINKWAIT;
+#define sscanLINKWAIT_NUM_CHOICES 2
+#endif
+
+#ifndef sscanP1AR_NUM_CHOICES
+typedef enum {
+    sscanP1AR_Absolute              /* ABSOLUTE */,
+    sscanP1AR_Relative              /* RELATIVE */
+} sscanP1AR;
+#define sscanP1AR_NUM_CHOICES 2
 #endif
 
 #ifndef sscanP1SM_NUM_CHOICES
@@ -116,42 +124,34 @@ typedef enum {
 #define sscanP1SM_NUM_CHOICES 3
 #endif
 
-#ifndef sscanP1AR_NUM_CHOICES
+#ifndef sscanFAZE_NUM_CHOICES
 typedef enum {
-    sscanP1AR_Absolute              /* ABSOLUTE */,
-    sscanP1AR_Relative              /* RELATIVE */
-} sscanP1AR;
-#define sscanP1AR_NUM_CHOICES 2
+    sscanFAZE_IDLE                  /* IDLE */,
+    sscanFAZE_INIT_SCAN             /* INIT_SCAN */,
+    sscanFAZE_BEFORE_SCAN           /* DO:BEFORE_SCAN */,
+    sscanFAZE_BEFORE_SCAN_WAIT      /* WAIT:BEFORE_SCAN */,
+    sscanFAZE_MOVE_MOTORS           /* MOVE_MOTORS */,
+    sscanFAZE_CHECK_MOTORS          /* WAIT:MOTORS */,
+    sscanFAZE_TRIG_DETCTRS          /* TRIG_DETCTRS */,
+    sscanFAZE_READ_DETCTRS          /* WAIT:DETCTRS */,
+    sscanFAZE_RETRACE_MOVE          /* RETRACE_MOVE */,
+    sscanFAZE_RETRACE_WAIT          /* WAIT:RETRACE */,
+    sscanFAZE_AFTER_SCAN_DO         /* DO:AFTER_SCAN */,
+    sscanFAZE_AFTER_SCAN_WAIT       /* WAIT:AFTER_SCAN */,
+    sscanFAZE_SCAN_DONE             /* SCAN_DONE */,
+    sscanFAZE_SCAN_PENDING          /* SCAN_PENDING */,
+    sscanFAZE_PREVIEW               /* PREVIEW */,
+    sscanFAZE_RECORD_SCALAR_DATA    /* RECORD SCALAR DATA */
+} sscanFAZE;
+#define sscanFAZE_NUM_CHOICES 16
 #endif
 
-#ifndef sscanDSTATE_NUM_CHOICES
+#ifndef sscanFPTS_NUM_CHOICES
 typedef enum {
-    sscanDSTATE_UNPACKED            /* UNPACKED */,
-    sscanDSTATE_TRIG_ARRAY_READ     /* TRIG_ARRAY_READ */,
-    sscanDSTATE_ARRAY_READ_WAIT     /* ARRAY_READ_WAIT */,
-    sscanDSTATE_ARRAY_GET_CALLBACK_WAIT /* ARRAY_GET_CALLBACK_WAIT */,
-    sscanDSTATE_RECORD_ARRAY_DATA   /* RECORD_ARRAY_DATA */,
-    sscanDSTATE_SAVE_DATA_WAIT      /* SAVE_DATA_WAIT */,
-    sscanDSTATE_PACKED              /* PACKED */,
-    sscanDSTATE_POSTED              /* POSTED */
-} sscanDSTATE;
-#define sscanDSTATE_NUM_CHOICES 8
-#endif
-
-#ifndef sscanACQT_NUM_CHOICES
-typedef enum {
-    sscanACQT_SCALAR                /* SCALAR */,
-    sscanACQT_1D_ARRAY              /* 1D ARRAY */
-} sscanACQT;
-#define sscanACQT_NUM_CHOICES 2
-#endif
-
-#ifndef sscanFFO_NUM_CHOICES
-typedef enum {
-    sscanFFO_Use_F_Flags            /* USE F-FLAGS */,
-    sscanFFO_Override               /* OVERRIDE */
-} sscanFFO;
-#define sscanFFO_NUM_CHOICES 2
+    sscanFPTS_No                    /* NO */,
+    sscanFPTS_Freeze                /* FREEZE */
+} sscanFPTS;
+#define sscanFPTS_NUM_CHOICES 2
 #endif
 
 

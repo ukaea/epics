@@ -16,9 +16,10 @@
 * someone, it's your problem.                                  *
 *                                                              *
 ***************************************************************/
+// ReSharper disable All
+#pragma warning(disable:4244)
+#pragma warning(disable:4267)
 
-// ReSharper disable CppClangTidyBugproneNarrowingConversions
-// ReSharper disable CppClangTidyClangDiagnosticShorten64To32
 #ifndef StreamBuffer_h
 #define StreamBuffer_h
 

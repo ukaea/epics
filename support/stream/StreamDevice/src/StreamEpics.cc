@@ -17,6 +17,8 @@
 * someone, it's your problem.                                  *
 *                                                              *
 ***************************************************************/
+// ReSharper disable All
+#pragma warning(disable:4273)
 
 #include "devStream.h"
 #include "StreamCore.h"

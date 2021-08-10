@@ -18,6 +18,9 @@
 * someone, it's your problem.                                  *
 *                                                              *
 ***************************************************************/
+// ReSharper disable CppUnusedIncludeDirective
+// ReSharper disable CppClangTidyBugproneNarrowingConversions
+// ReSharper disable CppClangTidyClangDiagnosticShorten64To32
 
 #include <stdlib.h>
 #include <ctype.h>

@@ -17,7 +17,8 @@
 * someone, it's your problem.                                  *
 *                                                              *
 ***************************************************************/
-
+// ReSharper disable All
+#pragma warning(disable:4244)
 #pragma warning(disable:4267)
 
 #include "StreamFormatConverter.h"

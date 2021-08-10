@@ -8,6 +8,7 @@
  *  Created on: Oct 20, 2010
  *      Author: Miha Vitorovic
  */
+ // ReSharper disable All
 
 #include <iostream>
 #include <fstream>

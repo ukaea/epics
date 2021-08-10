@@ -4,6 +4,7 @@
  * found in the file LICENSE that is included with the distribution
  */
 /* Author:  Matej Sekoranja Date: 2010.10.18 */
+// ReSharper disable All
 
 #include <iostream>
 #include <iomanip>
