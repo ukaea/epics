@@ -1,0 +1,73 @@
+record(calcout,"$(F):$(user):songsinger") {
+  field(SCAN,"5 second")
+  field(DESC,"Main record")
+  field(INPA,"$(F):bottlecount")
+  field(CALC,"A>0?A+1:0")
+  field(OOPT,"When Non-zero")
+  field(OCAL,"A-1")
+  field(DOPT,"Use OCAL")
+  field(OUT,"$(F):bottlecount PP")
+}
+record(ai,"$(F):bottlecount") {
+  field(FLNK,"$(F):textseq PP")
+}
+#record(scalcout,"$(F):bottleline") {
+  #field(AA," bottles")
+  #field(BB,"1 bottle")
+  #field(CC,"no more bottles")
+  #field(CALC,"(A>1)?(PRINTF('%i',A)+AA):(A?BB:CC)")
+#}
+record(calc,"$(F):bottlecount-1") {
+  field(INPA,"$(F):bottlecount NPP")
+  field(CALC,"A>0?A-1:99")
+}
+record(seq,"$(F):textseq") {
+  field(DOL1,"$(F):bottlecount NPP")
+  field(LNK1,"$(F):bottleline.A PP")
+  field(DLY1,"0.1")
+  field(DO2,"1")
+  field(LNK2,"$(F):textline1.B PP")
+  field(DLY2,"0.1")
+  field(DO3,"0")
+  field(LNK3,"$(F):textline1.B PP")
+  field(DLY3,"0.1")
+  field(DOL4,"$(F):bottlecount-1 PP")
+  field(LNK4,"$(F):bottleline.A PP")
+  field(DLY4,"2.1")
+  field(DOL5,"$(F):bottlecount NPP")
+  field(LNK5,"$(F):textline2a.A PP")
+  field(DLY5,"0.1")
+  field(DOL6,"$(F):bottlecount-1 NPP")
+  field(LNK6,"$(F):textline2b.A PP")
+  field(DLY6,"0.1")
+  field(LNK7,"$(F):linefeed PP")
+  field(DLY7,"0.1")
+}
+#record(scalcout,"$(F):textline1") {
+#  field(INPA,"$(F):bottlecount.VAL NPP")
+#  field(INAA,"$(F):bottleline.SVAL")
+#  field(CC," of beer on the wall,")
+#  field(DD," of beer.")
+#  field(CALC,"AA+(B?CC:DD)")
+#  field(OUT,"$(F):printer CPP")
+#}
+#record(scalcout,"$(F):textline2a") {
+#  field(INPA,"$(F):bottlecount.VAL NPP")
+#  field(AA,"Take one down and pass it around, ")
+#  field(BB,"Go to the store and buy some more, ")
+#  field(CALC,"A?AA:BB")
+#  field(OUT,"$(F):printer CPP")
+#}
+#record(scalcout,"$(F):textline2b") {
+#  field(INPA,"$(F):bottlecount.VAL NPP")
+#  field(INAA,"$(F):bottleline.SVAL PP")
+#  field(BB," of beer on the wall.")
+#  field(CALC,"AA+BB")
+#  field(OUT,"$(F):printer CPP")
+#}
+#record(scalcout,"$(F):linefeed") {
+#  field(CALC,"")
+#  field(OUT,"$(F):printer CPP")
+#}
+record(stringin,"$(F):printer") {
+}

@@ -38,7 +38,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Db\beer.db" />
+    <None Include="..\iocBoot\iocbottles\st.cmd" />
+    <None Include="Db\bottles.db" />
     <None Include="src\Makefile" />
   </ItemGroup>
   <ItemGroup>
@@ -54,20 +55,15 @@
     <ProjectReference Include="..\..\..\support\calc\calcApp\src\calc.vcxproj">
       <Project>{704a182e-faea-4e59-b5f4-9dc799f4556a}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\support\seq\src\seq\seq.vcxproj">
-      <Project>{ae5791bc-9233-4f7a-8deb-a14e4d969c05}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\support\seq\src\snc\snc.vcxproj">
-      <Project>{71608fb9-8dbe-42ad-93a1-0b521a6fb6aa}</Project>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\beerMain.cpp" />
+    <ClCompile Include="O.Common\bottles_registerRecordDeviceDriver.cpp" />
+    <ClCompile Include="src\bottlesMain.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{00099B33-0000-0000-0000-000000000000}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>Parker6K8App</RootNamespace>
+    <RootNamespace>bottlesApp</RootNamespace>
     <SccProjectName>
     </SccProjectName>
     <SccLocalPath>
