@@ -1,5 +1,0 @@
-include "base.dbd"
-include "menuScan.dbd"
-include "asyn.dbd"
-registrar(drvAsynIPServerPortRegisterCommands)
-registrar(LeyboldSimRegistrar)
