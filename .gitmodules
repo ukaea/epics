@@ -36,3 +36,6 @@
 [submodule "iocTops/rgamv2"]
 	path = iocTops/rgamv2
 	url = https://git.ccfe.ac.uk/DATAnet/rgamv2
+[submodule "iocTops/DAQmxBase"]
+	path = iocTops/DAQmxBase
+	url = https://git.ccfe.ac.uk/DATAnet/daqmxbase
