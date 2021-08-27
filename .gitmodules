@@ -30,3 +30,6 @@
 	path = iocTops/PrincetonSpectro
 	url = https://git.ccfe.ac.uk/DATAnet/princetonspectro
 	branch=master
+[submodule "iocTops/LeyboldTurbo"]
+	path = iocTops/LeyboldTurbo
+	url = https://git.ccfe.ac.uk/DATAnet/LeyboldTurbo
