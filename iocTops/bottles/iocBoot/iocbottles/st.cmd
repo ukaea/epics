@@ -5,13 +5,13 @@
 
 ## Not for WinEPICS just use TARGET dirs
 #- < envPaths
-epicsEnvSet("TOP","C:/Users/ktn98257/source/repos/epics.dotnet//")
+epicsEnvSet("TOP","C:\Users\ktn98257\source\repos\epics.dotnet\")
 epicsEnvSet("IOC","NinetyNineBeers")
 
 #- cd "${TOP}"
 
 ## Register all support components
-dbLoadDatabase "C:/Users/ktn98257/source/repos/epics.dotnet/DBD/bottles.dbd"
+dbLoadDatabase "C:\Users\ktn98257\source\repos\epics.dotnet\DBD\bottles.dbd"
 bottles_registerRecordDeviceDriver pdbbase
 
 ## Macros
