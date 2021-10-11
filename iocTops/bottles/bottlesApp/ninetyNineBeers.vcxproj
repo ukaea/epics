@@ -39,6 +39,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\iocBoot\iocbottles\st.cmd" />
+    <None Include="..\iocBoot\iocbottles\vsPath.bat" />
     <None Include="Db\bottles.db" />
     <None Include="src\Makefile" />
   </ItemGroup>

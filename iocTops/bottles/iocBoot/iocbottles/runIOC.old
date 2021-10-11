@@ -1,3 +1,0 @@
-@echo off
-call dllPath.bat
-..\..\bin\windows-x64\bottles st.cmd

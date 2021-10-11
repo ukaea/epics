@@ -26,9 +26,7 @@
 #MYMODULE = $(MODULES)/my-module
 
 # If using the sequencer, point SNCSEQ at its top directory:
-#SNCSEQ = $(MODULES)/seq-ver
 SUPPORT=C:/epics/support
-#SNCSEQ=$(SUPPORT)/seq
 CALC=$(SUPPORT)/calc
 
 # EPICS_BASE should appear last so earlier modules can override stuff:

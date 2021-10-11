@@ -19,10 +19,9 @@ perl -CSD %DLLDIR%dbdToRecordtypeH.pl  -I./O.Common -I%TOPLEVEL%include -I%TOPLE
 perl -CSD %DLLDIR%dbdToRecordtypeH.pl  -I./O.Common -I%TOPLEVEL%include -I%TOPLEVEL%dbd -o ./O.Common/swaitRecord.h swaitRecord.dbd
 perl -CSD %DLLDIR%dbdToRecordtypeH.pl  -I./O.Common -I%TOPLEVEL%include -I%TOPLEVEL%dbd -o ./O.Common/transformRecord.h transformRecord.dbd
 
-perl -CSD -MExtUtils::Command -e cat ../calcSupport_LOCAL.dbd ../calcSupport_withSSCAN.dbd > calcSupport.dbd
+perl cat.pl calcSupport_LOCAL.dbd calcSupport_withSSCAN.dbd   %TOPLEVEL%dbd\calcSupport.dbd
+perl cat.pl calcSupport_LOCAL.dbd calcSupport_withSSCAN.dbd   %TOPLEVEL%dbd\calc.dbd
 
-cd O.Common
-perl -CSD -MExtUtils::Command -e cat ../calcSupport_LOCAL.dbd ../calcSupport_withSSCAN.dbd > calc.dbd
 cd %BUILDIR%
 
 xcopy /Y /Q /D /R  *.dbd  %TOPLEVEL%\dbd > NUL

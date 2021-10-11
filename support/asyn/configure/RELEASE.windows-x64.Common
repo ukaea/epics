@@ -1,5 +1,7 @@
 #RELEASE Location of external products
 
+EPICS_LIBCOM_ONLY=YES
+
 SUPPORT=\epics\support
 -include $(TOP)/../configure/SUPPORT.$(EPICS_HOST_ARCH)
 
