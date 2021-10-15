@@ -26,7 +26,7 @@
 
 #ifdef remoteEpicsExportSharedSymbols
 #   define epicsExportSharedSymbols
-#	undef remoteEpicsExportSharedSymbols
+#       undef remoteEpicsExportSharedSymbols
 #endif
 
 #include <pv/pvaConstants.h>
@@ -113,6 +113,8 @@ enum ControlCommands {
     CMD_ACK_MARKER = 1,
     CMD_SET_ENDIANESS = 2
 };
+
+void hackAroundRTEMSSocketInterrupt();
 
 /**
  * Interface defining transport send control.

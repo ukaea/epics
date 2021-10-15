@@ -4,7 +4,7 @@
 # Copyright (c) 2002 The Regents of the University of California, as
 #     Operator of Los Alamos National Laboratory.
 # EPICS BASE is distributed subject to a Software License Agreement found
-# in file LICENSE that is included with this distribution. 
+# in file LICENSE that is included with this distribution.
 #*************************************************************************
 
 
@@ -16,7 +16,17 @@ menu(aoOIF) {
 recordtype(ao) {
 
 
-    include "dbCommon.dbd" 
+    include "dbCommon.dbd"
+    %
+    %/* Declare Device Support Entry Table */
+    %struct aoRecord;
+    %typedef struct aodset {
+    %    dset common; /*init_record returns: (0,2)=>(success,success no convert)*/
+    %    long (*write_ao)(struct aoRecord *prec); /*(0)=>(success ) */
+    %    long (*special_linconv)(struct aoRecord *prec, int after);
+    %} aodset;
+    %#define HAS_aodset
+    %
     field(VAL,DBF_DOUBLE) {
         prompt("Desired Output")
         promptgroup("50 - Output")

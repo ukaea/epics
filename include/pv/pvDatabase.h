@@ -16,7 +16,7 @@
 
 #include <shareLib.h>
 
-namespace epics { namespace pvDatabase { 
+namespace epics { namespace pvDatabase {
 
 class PVRecord;
 typedef std::tr1::shared_ptr<PVRecord> PVRecordPtr;
@@ -59,6 +59,7 @@ class epicsShareClass PVRecord :
 {
 public:
     POINTER_DEFINITIONS(PVRecord);
+    
     /**
      * The Destructor.
      */
@@ -87,13 +88,9 @@ public:
      */
     virtual void process();
     /**
-     *  @brief DEPRECATED
-     */
-    virtual void destroy() {}
-    /**
      *  @brief remove record from database.
      *
-     * Remove the PVRecord. Release any resources used and 
+     * Remove the PVRecord. Release any resources used and
      *  get rid of listeners and requesters.
      *  If derived class overrides this then it must call PVRecord::remove()
      *  after it has destroyed any resorces it uses.
@@ -103,7 +100,7 @@ public:
      *  @brief Optional method for derived class.
      *
      * Return a service corresponding to the specified request PVStructure.
-     * @param pvRequest The request PVStructure 
+     * @param pvRequest The request PVStructure
      * @return The corresponding service
      */
     virtual epics::pvAccess::RPCServiceAsync::shared_pointer getService(
@@ -112,15 +109,18 @@ public:
         return epics::pvAccess::RPCServiceAsync::shared_pointer();
     }
     /**
-     * @brief Creates a <b>soft</b> record. 
+     * @brief Creates a <b>soft</b> record.
      *
      * @param recordName The name of the record, which is also the channelName.
      * @param pvStructure The top level structure.
+     * @param asLevel AS level (default: ASL0)
+     * @param asGroup AS group (default: DEFAULT)
      * @return A shared pointer to the newly created record.
      */
     static PVRecordPtr create(
         std::string const & recordName,
-        epics::pvData::PVStructurePtr const & pvStructure);
+        epics::pvData::PVStructurePtr const & pvStructure,
+        int asLevel = 0, const std::string& asGroup = "DEFAULT");
     /**
      * @brief  Get the name of the record.
      *
@@ -236,26 +236,53 @@ public:
      * @param level The level
      */
     void setTraceLevel(int level) {traceLevel = level;}
+    /**
+     * @brief Get the ASlevel 
+     *
+     * @return The level.
+     */
+    int getAsLevel() const {return asLevel;}
+    /**
+     * @brief Get the AS group name 
+     *
+     * @return The name.
+     */
+    std::string getAsGroup() const {return asGroup;}
+    /**
+     * @brief set access security level.
+     * @param level The level
+     */
+    void setAsLevel(int level) {asLevel=level;}
+    /**
+     * @brief set access security group
+     * @param group The group name
+     */
+    void setAsGroup(const std::string& group) {asGroup = group;}
 protected:
     /**
      * @brief Constructor
      * @param recordName The name of the record
      * @param pvStructure The top level PVStructutre
+     * @param asLevel AS level (default: ASL0)
+     * @param asGroup AS group (default: DEFAULT)
      */
     PVRecord(
         std::string const & recordName,
-        epics::pvData::PVStructurePtr const & pvStructure);
+        epics::pvData::PVStructurePtr const & pvStructure,
+        int asLevel = 0, const std::string& asGroup = "DEFAULT");
     /**
      * @brief Initializes the base class.
-     * 
+     *
      * Must be called by derived classes.
      */
     void initPVRecord();
 private:
+    friend class PVDatabase;
+    void unlistenClients();
+
     PVRecordFieldPtr findPVRecordField(
         PVRecordStructurePtr const & pvrs,
         epics::pvData::PVFieldPtr const & pvField);
-    void notifyClients();
 
     std::string recordName;
     epics::pvData::PVStructurePtr pvStructure;
@@ -271,6 +298,9 @@ private:
 
     epics::pvData::PVTimeStamp pvTimeStamp;
     epics::pvData::TimeStamp timeStamp;
+
+    int asLevel;
+    std::string asGroup;
 };
 
 epicsShareFunc std::ostream& operator<<(std::ostream& o, const PVRecord& record);
@@ -499,6 +529,7 @@ public:
     /**
      * @brief Remove a record.
      * @param record The record to remove.
+     *
      * @return <b>true</b> if record was removed.
      */
     bool removeRecord(PVRecordPtr const & record);
@@ -508,6 +539,9 @@ public:
      */
     epics::pvData::PVStringArrayPtr getRecordNames();
 private:
+    friend class PVRecord;
+
+    PVRecordWPtr removeFromMap(PVRecordPtr const & record);
     PVDatabase();
     void lock();
     void unlock();
@@ -519,4 +553,3 @@ private:
 }}
 
 #endif  /* PVDATABASE_H */
-

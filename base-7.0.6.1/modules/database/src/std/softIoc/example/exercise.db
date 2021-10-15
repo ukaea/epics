@@ -1,0 +1,387 @@
+#
+# exercise.db
+#
+# Setting up PV's of various data types.
+#
+
+# 
+# This set of record definitions is in a file called 'xx.db',
+# and we're going to use 'xx' as the 'prefix' for the PV names.
+# When we run this using 'softIoc' we can think of the IOC 
+# being named 'xx', and its published PV's having names based on that.
+#
+
+#
+# Note : if you edit this file in Visual Studio, be sure to configure
+# the file encoding as 'UTF8 without signature'. The default is to include
+# a byte-order-mark as the first character, and that confuses softIoc.
+# This can be done via 'File/Save-As'.
+#
+
+#
+# We can access the 'value' of a PV as
+# 'xx:pv_name.VAL' ; the '.VAL' is optional.
+#
+
+#
+# These are the data types we want to exercise :
+#
+#   DBF_CHAR  
+#   DBF_SHORT 
+#   DBF_LONG  
+#   DBF_FLOAT 
+#   DBF_DOUBLE
+#   DBF_STRING
+#
+#   DBF_ENUM  
+#
+
+#
+# Empty arrays have undefined behavior !!!
+# https://bugs.launchpad.net/epics-base/+bug/1881563
+#
+
+#
+# Constant Links ?? Hmm, not in v3.
+# https://epics.anl.gov/base/R3-16/2-docs/links.html
+#
+# Being able to initialise a field is a 'v7' feature, not available in v3.
+# Best solution is to run a command file that uses 'dbpf xx:name value'
+# to set values. Note however that the 'dbpf' doesn't have a syntax 
+# for setting array elements - you can only set the first one.
+#
+#  > softIoc -d xx.db initialise_xx.cmd
+#
+# Syntax reference : https://epics.anl.gov/base/R3-14/12-docs/AppDevGuide/node10.html#SECTION001020000000000000000
+#
+
+#
+# A waveform record always provides a 'NORD' field
+# that tells us how many elements have been populated.
+# Short for 'Number of elements Read', makes sense when
+# your waveform record is being read from a device.
+#
+# The 'NELM' field defines the number of available elements.
+# Zero if no elements have been written.
+#
+
+# record(waveform, "wfm")
+# {
+#   field(DTYP, "Soft Channel")
+#   field(PINI, "YES")
+#   field(FTVL, "FLOAT")
+#   field(NELM, 9)
+#   field(INP, [1, 2, 3, 4, 5, 6, 7, 8, 9])
+# }
+
+record(waveform,"xx:one_short")
+{
+  field(DESC,"One 16-bit integer value")
+  field(FTVL,"SHORT")
+  field(NELM,"1")
+  # field(PINI, "YES")
+  # Neither of these work !! Initial value is still zero
+  #field(INP,"123") # Seems to be accepted, no syntax error ...
+  field(INP,[123])
+  #field(INP,"{const:[100]}") # No syntax error, but we still get an initial zero value
+}
+
+record(waveform,"xx:four_shorts")
+{
+  field(DESC,"Array of 4 16-bit integer values")
+  field(FTVL,"SHORT")
+  field(NELM,"4")
+  #field(PINI,"YES")
+  #field(INP,[1,2,3,4])
+  #field(INP,{const:[1;2;3;4]})
+}
+
+record(waveform,"xx:one_char")
+{
+  field(DESC,"One 8-bit byte value")
+  #Strings over 40 chars should be supported, accessed via .DESC$ ???
+  #field(DESC,"One 8-bit byte value ; with lots more interesting information")
+  field(FTVL,"CHAR")
+  field(NELM,"1")
+  field(INP,[123])
+  #field(INP,"{const:65}")
+}
+
+record(waveform,"xx:one_long")
+{
+  field(DESC,"One 32-bit integer value")
+  field(FTVL,"LONG")
+  field(NELM,"1")
+  #field(INP,{const:[100]}) # Syntax error
+}
+
+record(waveform,"xx:one_float")
+{
+  field(DESC,"One 32 bit floating point value")
+  field(FTVL,"FLOAT")
+  field(NELM,"1")
+  #field(INP,{const:[1.234]})
+}
+
+record(waveform,"xx:one_double")
+{
+  field(DESC,"One double-precision value")
+  field(FTVL,"DOUBLE")
+  field(NELM,"1")
+  #field(INP,{const:[1.234]})
+}
+
+record(waveform,"xx:one_string")
+{
+  field(DESC,"One value of type STRING")
+  field(FTVL,"STRING")
+  #field(NELM,"1")
+}
+
+record(waveform,"xx:four_chars")
+{
+  field(DESC,"Array of 4 'byte' values")
+  field(FTVL,"CHAR")
+  field(NELM,"4")
+  #field(INP,{const:[65;66;67;68]})
+}
+
+record(waveform,"xx:ten_chars")
+{
+  field(DESC,"Array of 10 'byte' values")
+  field(FTVL,"CHAR")
+  field(NELM,"10")
+  #field(INP,{const:[65;66;67;68;69;70;71;72;73;74]})
+}
+
+record(waveform,"xx:four_longs")
+{
+  field(DESC,"Array of 4 32-bit integer values")
+  field(FTVL,"LONG")
+  field(NELM,"4")
+  #field(INP,{const:[1;2;3;4]})
+}
+
+record(waveform,"xx:four_floats")
+{
+  field(DESC,"Array of 4 'float' values")
+  field(FTVL,"FLOAT")
+  field(NELM,"4")
+  #field(INP,{const:[1;2;3;4]})
+}
+
+record(waveform,"xx:four_doubles")
+{
+  field(DESC,"Array of 4 'double' values")
+  field(FTVL,"DOUBLE")
+  field(NELM,"4")
+  #field(INP,{const:[1;2;3;4]})
+}
+
+record(waveform,"xx:four_strings")
+{
+  field(DESC,"Array of 4 'string' values")
+  field(FTVL,"STRING")
+  field(NELM,"4")
+}
+
+# To prove that all these are valid characters
+# in a 'base' name
+
+record(ai,"xx:Weirdly_Named_123-+[]<>;")
+{
+}
+
+record(ai,"xx:long_name_26_a_________")
+{
+}
+
+record(ai,"xx:long_name_27_b_________")
+{
+}
+
+# Arrays of various types and lengths,
+# for experiments with max lengths ...
+
+record(waveform,"xx:char_N")
+{
+  field(DESC,"Array of 'char' values")
+  field(FTVL,"CHAR")
+  field(NELM,"32768")
+}
+
+record(waveform,"xx:short_N")
+{
+  field(DESC,"Array of 'short' values")
+  field(FTVL,"SHORT")
+  field(NELM,"32768")
+}
+
+record(waveform,"xx:double_N")
+{
+  field(DESC,"Array of 'double' values")
+  field(FTVL,"DOUBLE")
+  field(NELM,"100000")
+}
+
+# Long arrays of shorts
+
+record(waveform,"xx:short_100")
+{
+  field(DESC,"Array of 100 'short' values")
+  field(FTVL,"SHORT")
+  field(NELM,"100")
+}
+
+record(waveform,"xx:short_16383")
+{
+  field(DESC,"Array of 16383 'short' values")
+  field(FTVL,"SHORT")
+  field(NELM,"16383")
+}
+
+record(waveform,"xx:short_16384")
+{
+  field(DESC,"Array of 16384 'short' values")
+  field(FTVL,"SHORT")
+  field(NELM,"16384")
+}
+
+record(waveform,"xx:short_16385")
+{
+  field(DESC,"Array of 16385 'short' values (TOO LONG)")
+  field(FTVL,"SHORT")
+  field(NELM,"16385")
+}
+
+# Long arrays of char
+
+record(waveform,"xx:char_100")
+{
+  field(DESC,"Array of 100 'char' values")
+  field(FTVL,"CHAR")
+  field(NELM,"100")
+}
+
+record(waveform,"xx:char_16383")
+{
+  field(DESC,"Array of 16383 'char' values")
+  field(FTVL,"CHAR")
+  field(NELM,"16383")
+}
+
+record(waveform,"xx:char_16384")
+{
+  field(DESC,"Array of 16384 'char' values")
+  field(FTVL,"CHAR")
+  field(NELM,"16384")
+}
+
+record(waveform,"xx:char_16385")
+{
+  field(DESC,"Array of 16385 'char' values (TOO LONG)")
+  field(FTVL,"CHAR")
+  field(NELM,"16385")
+}
+
+record(waveform,"xx:char_32767")
+{
+  field(DESC,"Array of 32767 'char' values (TOO LONG)")
+  field(FTVL,"CHAR")
+  field(NELM,"32767")
+}
+
+record(waveform,"xx:char_32768")
+{
+  field(DESC,"Array of 32768 'char' values (TOO LONG)")
+  field(FTVL,"CHAR")
+  field(NELM,"32768")
+}
+
+# Enum - arrays not supported
+
+record(mbbi,"xx:one_enum") 
+{
+  field(DESC, "A single enum with 16 options")
+  field(ZRST, "option 0")    field(ZRVL, "0")
+  field(ONST, "option 1")    field(ONVL, "1")
+  field(TWST, "option 2")    field(TWVL, "2")
+  field(THST, "option 3")    field(THVL, "3")
+  field(FRST, "option 4")    field(FRVL, "4")
+  field(FVST, "option 5")    field(FVVL, "5")
+  field(SXST, "option 6")    field(SXVL, "6")
+  field(SVST, "option 7")    field(SVVL, "7")
+  field(EIST, "option 8")    field(EIVL, "8")
+  field(NIST, "option 9")    field(NIVL, "9")
+  field(TEST, "option 10")   field(TEVL, "10")
+  field(ELST, "option 11")   field(ELVL, "11")
+  field(TVST, "option 12")   field(TVVL, "12")
+  field(TTST, "option 13")   field(TTVL, "13")
+  field(FTST, "option 14")   field(FTVL, "14")
+  field(FFST, "option 15")   field(FFVL, "15")
+}
+
+# Not currently used in the C# tests ...
+
+record(ao,"xx:ao_a")
+{
+  # field(DTYP,"Soft Channel")
+  # field(DESC, "A simple analogue output")
+  # field(EGU, "Deg")
+  # field(HOPR, "3.14159")
+  # field(DRVH, "3.14159")
+  # field(DRVL, "-3.14159")
+  # field(LOPR, "-3.14159")
+  # field(PINI, "YES")
+  # field(VAL,"0")
+}
+
+record(stringout,"stringout_a")
+{       
+  field(DTYP,"Soft Channel")
+  field(DESC,"String out example")
+  field(VAL,"This is a string")
+}
+
+record(ao,"ao_b")
+{       
+  # field(DTYP,"Soft Channel")
+  # field(DESC, "PS $(device) Setpoint")
+  # field(EGU, "A")
+  # field(HOPR, "10000")
+  # field(DRVH, "10000")
+  # field(DRVL, "0")
+  # field(LOPR, "0")
+  # field(HIHI, "8000")
+  # field(HIGH, "6000")
+  # field(LOW, "4000")
+  # field(LOLO, "2000")
+  # field(HHSV, "MAJOR")
+  # field(HSV, "MINOR")
+  # field(LSV, "MINOR")
+  # field(LLSV, "MAJOR")
+  # field(VAL,"5000")
+}
+
+record(ai,"xx:ai")
+{
+}
+
+# Do these only work in v4 ??
+
+record(lsi,xx:lsi)
+{
+  # https://epics-base.github.io/epics-base/lsoRecord.html
+  field(SIZV,"100")
+  field(DTYP,"Soft Channel")
+  # field(VAL,"This is a long string")
+}
+
+record(lso,xx:lso)
+{
+  # https://epics-base.github.io/epics-base/lsoRecord.html
+  field(SIZV,"100")
+  field(OMSL,"supervisory")
+  field(DTYP,"Soft Channel")
+  # field(VAL,"This is a long string")
+}

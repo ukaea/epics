@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="O.Common\softIoc_registerRecordDeviceDriver.cpp" />
+    <ClCompile Include="softMain.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="makeInstallDir.pl" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="base.dbd" />
+    <None Include="example\temperature.db">
+      <Filter>examples</Filter>
+    </None>
+    <None Include="example\exercise.db">
+      <Filter>examples</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="examples">
+      <UniqueIdentifier>{aa447f28-0819-4ba3-b2f7-dd83d06719d3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="examples.txt" />
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="softIoc.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon1.ico" />
+  </ItemGroup>
+</Project>

@@ -2,22 +2,23 @@
 # Copyright (c) 2012 UChicago Argonne LLC, as Operator of Argonne
 #     National Laboratory.
 # EPICS BASE is distributed subject to a Software License Agreement found
-# in file LICENSE that is included with this distribution. 
+# in file LICENSE that is included with this distribution.
 #*************************************************************************
 
+
+
 recordtype(printf) {
+
+
     include "dbCommon.dbd"
-    %#include "devSup.h"
     %
     %/* Declare Device Support Entry Table */
+    %struct printfRecord;
     %typedef struct printfdset {
-    %    long number;
-    %    DEVSUPFUN report;
-    %    DEVSUPFUN init;
-    %    DEVSUPFUN init_record;
-    %    DEVSUPFUN get_ioint_info;
-    %    DEVSUPFUN write_string;
+    %    dset common;
+    %    long (*write_string)(struct printfRecord *prec);
     %} printfdset;
+    %#define HAS_printfdset
     %
     field(VAL,DBF_NOACCESS) {
         prompt("Result")
@@ -25,6 +26,9 @@ recordtype(printf) {
         pp(TRUE)
         special(SPC_DBADDR)
         extra("char *val")
+        #=type STRING[SIZV]
+        #=read Yes
+        #=write Yes
     }
     field(SIZV,DBF_USHORT) {
         prompt("Size of VAL buffer")
@@ -48,6 +52,9 @@ recordtype(printf) {
         pp(TRUE)
         size(81)
     }
+
+
+
     field(IVLS,DBF_STRING) {
         prompt("Invalid Link String")
         promptgroup("30 - Action")
@@ -107,3 +114,5 @@ recordtype(printf) {
     %/* Number of INPx fields defined */
     %#define PRINTF_NLINKS 10
 }
+
+

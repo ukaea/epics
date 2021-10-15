@@ -16,7 +16,7 @@
 
 #include <shareLib.h>
 
-namespace epics { namespace pvCopy{ 
+namespace epics { namespace pvCopy{
 
 class PVPlugin;
 class PVFilter;
@@ -36,7 +36,7 @@ typedef std::map<std::string,PVPluginPtr> PVPluginMap;
  * PVCopy looks for plugins defined in pvRequest and calls the filter when a pvCopy is updated.
  * @author mrk
  * @since 2017.03.17
- * 
+ *
  * Interface for a filter plugin for PVCopy.
  *
  */

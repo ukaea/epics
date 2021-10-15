@@ -1,3 +1,9 @@
+######################################################################
+# SPDX-License-Identifier: EPICS
+# EPICS BASE is distributed subject to a Software License Agreement
+# found in file LICENSE that is included with this distribution.
+######################################################################
+
 package DBD::Recordtype;
 use DBD::Base;
 our @ISA = qw(DBD::Base);
@@ -126,10 +132,15 @@ sub toDeclaration {
         $_->toDeclaration
     } $this->fields;
     my $name = $this->name;
-    $name .= "Record" unless $name eq "dbCommon";
-    return "typedef struct $name {\n" .
-               join("\n", @fields) .
-           "\n} $name;\n\n";
+    my $doc = $name;
+    if ($name ne 'dbCommon') {
+        $name .= 'Record';
+        $doc .= ' record type.';
+    }
+    return "/** \@brief Declaration of $doc */\n" .
+        "typedef struct $name {\n" .
+        join("\n", @fields) .
+        "\n} $name;\n\n";
 }
 
 1;

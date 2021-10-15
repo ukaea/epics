@@ -1,0 +1,27 @@
+---------------------------------------------------------
+EPICS Base - the central core of a control system toolkit
+---------------------------------------------------------
+
+Copyright UChicago Argonne LLC, as Operator of Argonne
+National Laboratory.
+Copyright (c) 1991-2003 The Regents of the University of
+California, as Operator of Los Alamos National Laboratory.
+
+EPICS Base is distributed subject to a Software License
+Agreement found in the file LICENSE that is included with
+this distribution.
+
+---------------------------------------------------------
+
+Installation and release information can be found in the
+various files in the documentation subdirectory.
+
+Additional information about EPICS including mailing list
+archives and subscription instructions, documentation and
+training materials, additional components, links to other
+websites etc. is available on the EPICS home page at
+	https://epics.anl.gov/
+
+Wed, 6 Oct 2021 20:11:17 -0500
+abfe30ef13ad60b43ae6f257994c8e7a503d4f3a
+https://code.launchpad.net/epics-base

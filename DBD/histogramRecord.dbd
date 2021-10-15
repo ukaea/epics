@@ -6,6 +6,8 @@
 # EPICS BASE is distributed subject to a Software License Agreement found
 # in file LICENSE that is included with this distribution.
 #*************************************************************************
+
+
 menu(histogramCMD) {
 	choice(histogramCMD_Read,"Read")
 	choice(histogramCMD_Clear,"Clear")
@@ -13,7 +15,19 @@ menu(histogramCMD) {
 	choice(histogramCMD_Stop,"Stop")
 }
 recordtype(histogram) {
-	include "dbCommon.dbd" 
+
+
+	include "dbCommon.dbd"
+    %
+    %/* Declare Device Support Entry Table */
+    %struct histogramRecord;
+    %typedef struct histogramdset {
+    %    dset common; /*init_record returns: (-1,0)=>(failure,success)*/
+    %    long (*read_histogram)(struct histogramRecord *prec); /*(0,2)=> success and add_count, don't add_count); if add_count then sgnl added to array*/
+    %    long (*special_linconv)(struct histogramRecord *prec, int after);
+    %} histogramdset;
+    %#define HAS_histogramdset
+    %
 	field(VAL,DBF_NOACCESS) {
 		prompt("Value")
 		asl(ASL0)
@@ -168,6 +182,8 @@ recordtype(histogram) {
 		interest(1)
 		prop(YES)
 	}
+
+
 }
 
 variable(histogramSDELprecision, int)

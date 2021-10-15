@@ -1,0 +1,848 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="O.Common\asLib_lex.c">
+      <Filter>O.Common</Filter>
+    </ClCompile>
+    <ClCompile Include="misc\adjustment.c">
+      <Filter>misc</Filter>
+    </ClCompile>
+    <ClCompile Include="misc\alarmString.c">
+      <Filter>misc</Filter>
+    </ClCompile>
+    <ClCompile Include="O.Common\asLib.c">
+      <Filter>O.Common</Filter>
+    </ClCompile>
+    <ClCompile Include="as\asLibRoutines.c">
+      <Filter>as</Filter>
+    </ClCompile>
+    <ClCompile Include="as\asTrapWrite.c">
+      <Filter>as</Filter>
+    </ClCompile>
+    <ClCompile Include="misc\aToIPAddr.c">
+      <Filter>misc</Filter>
+    </ClCompile>
+    <ClCompile Include="bucketLib\bucketLib.c">
+      <Filter>bucketLib</Filter>
+    </ClCompile>
+    <ClCompile Include="calc\calcPerform.c">
+      <Filter>calc</Filter>
+    </ClCompile>
+    <ClCompile Include="misc\cantProceed.c">
+      <Filter>misc</Filter>
+    </ClCompile>
+    <ClCompile Include="cvtFast\cvtFast.c">
+      <Filter>cvtFast</Filter>
+    </ClCompile>
+    <ClCompile Include="dbmf\dbmf.c">
+      <Filter>dbmf</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\devLibVME.c">
+      <Filter>osi</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\os\default\devLibVMEOSD.c">
+      <Filter>osi\os\default</Filter>
+    </ClCompile>
+    <ClCompile Include="ellLib\ellLib.c">
+      <Filter>ellLib</Filter>
+    </ClCompile>
+    <ClCompile Include="ellLib\ellSort.c">
+      <Filter>ellLib</Filter>
+    </ClCompile>
+    <ClCompile Include="O.Common\envData.c">
+      <Filter>O.Common</Filter>
+    </ClCompile>
+    <ClCompile Include="env\envSubr.c">
+      <Filter>env</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\os\default\epicsAtomicOSD.cpp">
+      <Filter>osi\os\default</Filter>
+    </ClCompile>
+    <ClCompile Include="misc\epicsConvert.c">
+      <Filter>misc</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\epicsEvent.cpp">
+      <Filter>osi</Filter>
+    </ClCompile>
+    <ClCompile Include="misc\epicsExit.c">
+      <Filter>misc</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\epicsGeneralTime.c">
+      <Filter>osi</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\os\WIN32\epicsGetopt.c">
+      <Filter>osi\os\WIN32</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\epicsMath.cpp">
+      <Filter>osi</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\epicsMessageQueue.cpp">
+      <Filter>osi</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\epicsMutex.cpp">
+      <Filter>osi</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\epicsReadline.c">
+      <Filter>osi</Filter>
+    </ClCompile>
+    <ClCompile Include="ring\epicsRingBytes.c">
+      <Filter>ring</Filter>
+    </ClCompile>
+    <ClCompile Include="ring\epicsRingPointer.cpp">
+      <Filter>ring</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\os\default\epicsSocketConvertErrnoToString.cpp">
+      <Filter>osi\os\default</Filter>
+    </ClCompile>
+    <ClCompile Include="cxxTemplates\epicsSingletonMutex.cpp">
+      <Filter>cxxTemplates</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\os\WIN32\epicsSocketConvertErrnoToString.cpp">
+      <Filter>osi\os\WIN32</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\epicsStackTrace.c">
+      <Filter>osi</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\epicsStdio.c">
+      <Filter>osi</Filter>
+    </ClCompile>
+    <ClCompile Include="misc\epicsStdlib.c">
+      <Filter>misc</Filter>
+    </ClCompile>
+    <ClCompile Include="misc\epicsString.c">
+      <Filter>misc</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\epicsThread.cpp">
+      <Filter>osi</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\epicsTime.cpp">
+      <Filter>osi</Filter>
+    </ClCompile>
+    <ClCompile Include="timer\epicsTimer.cpp">
+      <Filter>timer</Filter>
+    </ClCompile>
+    <ClCompile Include="misc\epicsUnitTest.c">
+      <Filter>misc</Filter>
+    </ClCompile>
+    <ClCompile Include="error\errlog.c">
+      <Filter>error</Filter>
+    </ClCompile>
+    <ClCompile Include="error\errSymLib.c">
+      <Filter>error</Filter>
+    </ClCompile>
+    <ClCompile Include="O.Common\errSymTbl.c">
+      <Filter>O.Common</Filter>
+    </ClCompile>
+    <ClCompile Include="fdmgr\fdManager.cpp">
+      <Filter>fdmgr</Filter>
+    </ClCompile>
+    <ClCompile Include="fdmgr\fdmgr.cpp">
+      <Filter>fdmgr</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\os\WIN32\forceBadAllocException.cpp">
+      <Filter>osi\os\WIN32</Filter>
+    </ClCompile>
+    <ClCompile Include="freeList\freeListLib.c">
+      <Filter>freeList</Filter>
+    </ClCompile>
+    <ClCompile Include="gpHash\gpHashLib.c">
+      <Filter>gpHash</Filter>
+    </ClCompile>
+    <ClCompile Include="iocsh\initHooks.c">
+      <Filter>iocsh</Filter>
+    </ClCompile>
+    <ClCompile Include="log\iocLog.c">
+      <Filter>log</Filter>
+    </ClCompile>
+    <ClCompile Include="log\iocLogServer.c">
+      <Filter>log</Filter>
+    </ClCompile>
+    <ClCompile Include="iocsh\iocsh.cpp">
+      <Filter>iocsh</Filter>
+    </ClCompile>
+    <ClCompile Include="misc\ipAddrToAsciiAsynchronous.cpp">
+      <Filter>misc</Filter>
+    </ClCompile>
+    <ClCompile Include="iocsh\libComRegister.c">
+      <Filter>iocsh</Filter>
+    </ClCompile>
+    <ClCompile Include="log\logClient.c">
+      <Filter>log</Filter>
+    </ClCompile>
+    <ClCompile Include="macLib\macCore.c">
+      <Filter>macLib</Filter>
+    </ClCompile>
+    <ClCompile Include="macLib\macEnv.c">
+      <Filter>macLib</Filter>
+    </ClCompile>
+    <ClCompile Include="macLib\macUtil.c">
+      <Filter>macLib</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\os\default\osdAssert.c">
+      <Filter>osi\os\default</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\os\default\osdBackTrace.cpp">
+      <Filter>osi\os\default</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\os\WIN32\osdBackTrace.cpp">
+      <Filter>osi\os\WIN32</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\os\WIN32\osdEnv.c">
+      <Filter>osi\os\default</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\os\WIN32\osdEvent.c">
+      <Filter>osi\os\WIN32</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\os\default\osdFindAddr.c">
+      <Filter>osi\os\default</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\os\WIN32\osdFindSymbol.c">
+      <Filter>osi\os\WIN32</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\os\default\osdFindSymbol.c">
+      <Filter>osi\os\default</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\os\default\osdInterrupt.c">
+      <Filter>osi\os\default</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\os\default\osdMessageQueue.cpp">
+      <Filter>osi\os\default</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\os\WIN32\osdMonotonic.c">
+      <Filter>osi\os\WIN32</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\os\WIN32\osdMutex.c">
+      <Filter>osi\os\WIN32</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\os\WIN32\osdNetIntf.c">
+      <Filter>osi\os\WIN32</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\os\default\osdNetIntf.c">
+      <Filter>osi\os\default</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\os\WIN32\osdPoolStatus.c">
+      <Filter>osi\os\WIN32</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\os\default\osdPoolStatus.c">
+      <Filter>osi\os\default</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\os\default\osdSignal.cpp">
+      <Filter>osi\os\default</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\os\WIN32\osdProcess.c">
+      <Filter>osi\os\WIN32</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\os\WIN32\osdSignal.cpp">
+      <Filter>osi\os\WIN32</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\os\WIN32\osdSock.c">
+      <Filter>osi\os\WIN32</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\os\default\osdSpin.c">
+      <Filter>osi\os\default</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\os\WIN32\osdStdio.c">
+      <Filter>osi\os\WIN32</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\os\WIN32\osdThread.c">
+      <Filter>osi\os\WIN32</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\os\WIN32\osdThreadExtra.c">
+      <Filter>osi\os\WIN32</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\os\default\osdThreadExtra.c">
+      <Filter>osi\os\default</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\os\default\osdThreadHooks.c">
+      <Filter>osi\os\default</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\os\WIN32\osdTime.cpp">
+      <Filter>osi\os\WIN32</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\osiClockTime.c">
+      <Filter>osi</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\osiNTPTime.c">
+      <Filter>osi</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\osiSock.c">
+      <Filter>osi</Filter>
+    </ClCompile>
+    <ClCompile Include="pool\poolJob.c">
+      <Filter>pool</Filter>
+    </ClCompile>
+    <ClCompile Include="calc\postfix.c">
+      <Filter>calc</Filter>
+    </ClCompile>
+    <ClCompile Include="iocsh\registry.c">
+      <Filter>iocsh</Filter>
+    </ClCompile>
+    <ClCompile Include="cxxTemplates\resourceLib.cpp">
+      <Filter>cxxTemplates</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\os\WIN32\setThreadName.cpp">
+      <Filter>osi\os\WIN32</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\os\WIN32\systemCallIntMech.cpp">
+      <Filter>osi\os\WIN32</Filter>
+    </ClCompile>
+    <ClCompile Include="taskwd\taskwd.c">
+      <Filter>taskwd</Filter>
+    </ClCompile>
+    <ClCompile Include="pool\threadPool.c">
+      <Filter>pool</Filter>
+    </ClCompile>
+    <ClCompile Include="timer\timer.cpp">
+      <Filter>timer</Filter>
+    </ClCompile>
+    <ClCompile Include="timer\timerQueue.cpp">
+      <Filter>timer</Filter>
+    </ClCompile>
+    <ClCompile Include="timer\timerQueueActive.cpp">
+      <Filter>timer</Filter>
+    </ClCompile>
+    <ClCompile Include="timer\timerQueueActiveMgr.cpp">
+      <Filter>timer</Filter>
+    </ClCompile>
+    <ClCompile Include="timer\timerQueuePassive.cpp">
+      <Filter>timer</Filter>
+    </ClCompile>
+    <ClCompile Include="misc\truncateFile.c">
+      <Filter>misc</Filter>
+    </ClCompile>
+    <ClCompile Include="yajl\yajl.c">
+      <Filter>yajl</Filter>
+    </ClCompile>
+    <ClCompile Include="yajl\yajl_alloc.c">
+      <Filter>yajl</Filter>
+    </ClCompile>
+    <ClCompile Include="yajl\yajl_buf.c">
+      <Filter>yajl</Filter>
+    </ClCompile>
+    <ClCompile Include="yajl\yajl_encode.c">
+      <Filter>yajl</Filter>
+    </ClCompile>
+    <ClCompile Include="yajl\yajl_gen.c">
+      <Filter>yajl</Filter>
+    </ClCompile>
+    <ClCompile Include="yajl\yajl_lex.c">
+      <Filter>yajl</Filter>
+    </ClCompile>
+    <ClCompile Include="yajl\yajl_parser.c">
+      <Filter>yajl</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\os\WIN32\osdFindAddr.c">
+      <Filter>osi\os\WIN32</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\os\WIN32\osdgetexec.c">
+      <Filter>osi\os\WIN32</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\os\WIN32\osdSockUnsentCount.c">
+      <Filter>osi\os\WIN32</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\os\WIN32\epicsTempFile.c">
+      <Filter>osi\os\WIN32</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\os\default\osdSockAddrReuse.cpp">
+      <Filter>osi\os\default</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="libComVersion.h" />
+    <ClInclude Include="as\asLib.h">
+      <Filter>as</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\adjustment.h">
+      <Filter>misc</Filter>
+    </ClInclude>
+    <ClInclude Include="as\asTrapWrite.h">
+      <Filter>as</Filter>
+    </ClInclude>
+    <ClInclude Include="bucketLib\bucketLib.h">
+      <Filter>bucketLib</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\cantProceed.h">
+      <Filter>misc</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\compilerDependencies.h">
+      <Filter>osi</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\compiler\msvc\compilerSpecific.h">
+      <Filter>osi\compiler\msvc</Filter>
+    </ClInclude>
+    <ClInclude Include="cvtFast\cvtFast.h">
+      <Filter>cvtFast</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\dbDefs.h">
+      <Filter>misc</Filter>
+    </ClInclude>
+    <ClInclude Include="dbmf\dbmf.h">
+      <Filter>dbmf</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\devLib.h">
+      <Filter>osi</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\devLibVME.h">
+      <Filter>osi</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\devLibVMEImpl.h">
+      <Filter>osi</Filter>
+    </ClInclude>
+    <ClInclude Include="ellLib\ellLib.h">
+      <Filter>ellLib</Filter>
+    </ClInclude>
+    <ClInclude Include="env\envDefs.h">
+      <Filter>env</Filter>
+    </ClInclude>
+    <ClInclude Include="cppStd\epicsAlgorithm.h">
+      <Filter>cppStd</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\epicsAssert.h">
+      <Filter>osi</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\epicsAtomic.h">
+      <Filter>osi</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\compiler\msvc\epicsAtomicCD.h">
+      <Filter>osi\compiler\msvc</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\epicsAtomicDefault.h">
+      <Filter>osi\compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\os\WIN32\epicsAtomicMS.h">
+      <Filter>osi\os\WIN32</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\os\WIN32\epicsAtomicOSD.h">
+      <Filter>osi\os\WIN32</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\epicsConvert.h">
+      <Filter>misc</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\epicsEndian.h">
+      <Filter>osi</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\epicsEvent.h">
+      <Filter>osi</Filter>
+    </ClInclude>
+    <ClInclude Include="cppStd\epicsExcept.h">
+      <Filter>cppStd</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\epicsExit.h">
+      <Filter>misc</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\epicsExport.h">
+      <Filter>misc</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\epicsFindSymbol.h">
+      <Filter>osi</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\epicsGeneralTime.h">
+      <Filter>osi</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\os\WIN32\epicsGetopt.h">
+      <Filter>osi\os\WIN32</Filter>
+    </ClInclude>
+    <ClInclude Include="cxxTemplates\epicsGuard.h">
+      <Filter>cxxTemplates</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\epicsInterrupt.h">
+      <Filter>osi</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\os\WIN32\epicsMath.h">
+      <Filter>osi\os\WIN32</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\epicsMessageQueue.h">
+      <Filter>osi</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\os\default\epicsMMIODef.h">
+      <Filter>osi\os\default</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\epicsMutex.h">
+      <Filter>osi</Filter>
+    </ClInclude>
+    <ClInclude Include="error\epicsPrint.h">
+      <Filter>error</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\epicsReadline.h">
+      <Filter>osi</Filter>
+    </ClInclude>
+    <ClInclude Include="ring\epicsRingBytes.h">
+      <Filter>ring</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\os\default\epicsMMIO.h">
+      <Filter>osi\os\default</Filter>
+    </ClInclude>
+    <ClInclude Include="ring\epicsRingPointer.h">
+      <Filter>ring</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\epicsSignal.h">
+      <Filter>osi</Filter>
+    </ClInclude>
+    <ClInclude Include="cxxTemplates\epicsSingleton.h">
+      <Filter>cxxTemplates</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\epicsSpin.h">
+      <Filter>osi</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\epicsStackTrace.h">
+      <Filter>osi</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\epicsStackTracePvt.h">
+      <Filter>osi</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\epicsStdio.h">
+      <Filter>osi</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\epicsStdioRedirect.h">
+      <Filter>osi</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\epicsStdlib.h">
+      <Filter>misc</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\epicsString.h">
+      <Filter>misc</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\epicsTempFile.h">
+      <Filter>osi</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\epicsThread.h">
+      <Filter>osi</Filter>
+    </ClInclude>
+    <ClInclude Include="pool\epicsThreadPool.h">
+      <Filter>pool</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\epicsTime.h">
+      <Filter>osi</Filter>
+    </ClInclude>
+    <ClInclude Include="timer\epicsTimer.h">
+      <Filter>timer</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\epicsTypes.h">
+      <Filter>misc</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\epicsUnitTest.h">
+      <Filter>misc</Filter>
+    </ClInclude>
+    <ClInclude Include="O.Common\epicsVersion.h">
+      <Filter>O.Common</Filter>
+    </ClInclude>
+    <ClInclude Include="error\errlog.h">
+      <Filter>error</Filter>
+    </ClInclude>
+    <ClInclude Include="error\errMdef.h">
+      <Filter>error</Filter>
+    </ClInclude>
+    <ClInclude Include="error\errSymTbl.h">
+      <Filter>error</Filter>
+    </ClInclude>
+    <ClInclude Include="fdmgr\fdManager.h">
+      <Filter>fdmgr</Filter>
+    </ClInclude>
+    <ClInclude Include="fdmgr\fdmgr.h">
+      <Filter>fdmgr</Filter>
+    </ClInclude>
+    <ClInclude Include="freeList\freeList.h">
+      <Filter>freeList</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\generalTimeSup.h">
+      <Filter>osi</Filter>
+    </ClInclude>
+    <ClInclude Include="gpHash\gpHash.h">
+      <Filter>gpHash</Filter>
+    </ClInclude>
+    <ClInclude Include="iocsh\initHooks.h">
+      <Filter>iocsh</Filter>
+    </ClInclude>
+    <ClInclude Include="log\iocLog.h">
+      <Filter>log</Filter>
+    </ClInclude>
+    <ClInclude Include="iocsh\iocsh.h">
+      <Filter>iocsh</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\ipAddrToAsciiAsynchronous.h">
+      <Filter>misc</Filter>
+    </ClInclude>
+    <ClInclude Include="iocsh\libComRegister.h">
+      <Filter>iocsh</Filter>
+    </ClInclude>
+    <ClInclude Include="O.Common\libComVersionNum.h">
+      <Filter>O.Common</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\locationException.h">
+      <Filter>misc</Filter>
+    </ClInclude>
+    <ClInclude Include="log\logClient.h">
+      <Filter>log</Filter>
+    </ClInclude>
+    <ClInclude Include="macLib\macLib.h">
+      <Filter>macLib</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\os\WIN32\osdEvent.h">
+      <Filter>osi\os\WIN32</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\os\default\osdInterrupt.h">
+      <Filter>osi\os\default</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\os\default\osdMessageQueue.h">
+      <Filter>osi\os\default</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\os\WIN32\osdMutex.h">
+      <Filter>osi\os\WIN32</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\os\default\osdPoolStatus.h">
+      <Filter>osi\os\default</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\os\WIN32\osdPoolStatus.h">
+      <Filter>osi\os\WIN32</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\os\WIN32\osdSock.h">
+      <Filter>osi\os\WIN32</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\os\WIN32\osdStrtod.h">
+      <Filter>osi\os\WIN32</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\os\WIN32\osdThread.h">
+      <Filter>osi\os\WIN32</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\os\WIN32\osdTime.h">
+      <Filter>osi\os\WIN32</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\os\default\osdWireConfig.h">
+      <Filter>osi\os\default</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\os\WIN32\osdWireConfig.h">
+      <Filter>osi\os\WIN32</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\os\default\osdVME.h">
+      <Filter>osi\os\default</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\os\default\osdWireFormat.h">
+      <Filter>osi\os\default</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\osiClockTime.h">
+      <Filter>osi</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\os\WIN32\osiFileName.h">
+      <Filter>osi\os\WIN32</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\osiNTPTime.h">
+      <Filter>osi</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\osiPoolStatus.h">
+      <Filter>osi</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\osiProcess.h">
+      <Filter>osi</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\osiSock.h">
+      <Filter>osi</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\os\WIN32\osiUnistd.h">
+      <Filter>osi\os\WIN32</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\osiWireFormat.h">
+      <Filter>osi</Filter>
+    </ClInclude>
+    <ClInclude Include="pool\poolPriv.h">
+      <Filter>pool</Filter>
+    </ClInclude>
+    <ClInclude Include="calc\postfix.h">
+      <Filter>calc</Filter>
+    </ClInclude>
+    <ClInclude Include="calc\postfixPvt.h">
+      <Filter>calc</Filter>
+    </ClInclude>
+    <ClInclude Include="iocsh\registry.h">
+      <Filter>iocsh</Filter>
+    </ClInclude>
+    <ClInclude Include="cxxTemplates\resourceLib.h">
+      <Filter>cxxTemplates</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\shareLib.h">
+      <Filter>misc</Filter>
+    </ClInclude>
+    <ClInclude Include="taskwd\taskwd.h">
+      <Filter>taskwd</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\testMain.h">
+      <Filter>taskwd</Filter>
+    </ClInclude>
+    <ClInclude Include="timer\timerPrivate.h">
+      <Filter>timer</Filter>
+    </ClInclude>
+    <ClInclude Include="cxxTemplates\tsDLList.h">
+      <Filter>cxxTemplates</Filter>
+    </ClInclude>
+    <ClInclude Include="cxxTemplates\tsFreeList.h">
+      <Filter>cxxTemplates</Filter>
+    </ClInclude>
+    <ClInclude Include="cxxTemplates\tsMinMax.h">
+      <Filter>cxxTemplates</Filter>
+    </ClInclude>
+    <ClInclude Include="cxxTemplates\tsSLList.h">
+      <Filter>cxxTemplates</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\unixFileName.h">
+      <Filter>misc</Filter>
+    </ClInclude>
+    <ClInclude Include="valgrind\valgrind.h">
+      <Filter>valdrind</Filter>
+    </ClInclude>
+    <ClInclude Include="yajl\yajl_alloc.h">
+      <Filter>yajl</Filter>
+    </ClInclude>
+    <ClInclude Include="yajl\yajl_buf.h">
+      <Filter>yajl</Filter>
+    </ClInclude>
+    <ClInclude Include="yajl\yajl_bytestack.h">
+      <Filter>yajl</Filter>
+    </ClInclude>
+    <ClInclude Include="yajl\yajl_common.h">
+      <Filter>yajl</Filter>
+    </ClInclude>
+    <ClInclude Include="yajl\yajl_encode.h">
+      <Filter>yajl</Filter>
+    </ClInclude>
+    <ClInclude Include="yajl\yajl_gen.h">
+      <Filter>yajl</Filter>
+    </ClInclude>
+    <ClInclude Include="yajl\yajl_lex.h">
+      <Filter>yajl</Filter>
+    </ClInclude>
+    <ClInclude Include="yajl\yajl_parse.h">
+      <Filter>yajl</Filter>
+    </ClInclude>
+    <ClInclude Include="yajl\yajl_parser.h">
+      <Filter>yajl</Filter>
+    </ClInclude>
+    <ClInclude Include="osi\os\default\epicsGetopt.h">
+      <Filter>osi\os\default</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Com.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="libComVersionNum.h%40" />
+    <None Include="Makefile" />
+    <None Include="macLib\EPICS\macLib.pm">
+      <Filter>macLib\EPICS</Filter>
+    </None>
+    <None Include="as\Makefile">
+      <Filter>as</Filter>
+    </None>
+    <None Include="error\Makefile">
+      <Filter>error</Filter>
+    </None>
+    <None Include="log\Makefile">
+      <Filter>log</Filter>
+    </None>
+    <None Include="iocsh\Makefile">
+      <Filter>iocsh</Filter>
+    </None>
+    <None Include="as\RULES">
+      <Filter>as</Filter>
+    </None>
+    <None Include="error\RULES">
+      <Filter>error</Filter>
+    </None>
+    <None Include="osi\TODOfuture">
+      <Filter>osi</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="as">
+      <UniqueIdentifier>{bde9addd-0d90-4a81-90d3-08be1be130fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="O.Common">
+      <UniqueIdentifier>{072d554a-21f1-4529-9291-8541791efcfb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="misc">
+      <UniqueIdentifier>{8ceedf4e-6d62-4c2d-acd6-173489bbf4da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="env">
+      <UniqueIdentifier>{268dfaab-f94d-43ee-af58-507b5f735e45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bucketLib">
+      <UniqueIdentifier>{a598c27c-36c2-4f28-8758-c9ef20190800}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="calc">
+      <UniqueIdentifier>{58a194e7-7c0a-46ee-917d-6b88230b4342}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="osi">
+      <UniqueIdentifier>{cfd9a84d-9ebd-4b44-8ad8-248db8b3380a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="osi\compiler">
+      <UniqueIdentifier>{e6341abc-79d9-4863-95a5-11f3ba095bd6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="osi\compiler\msvc">
+      <UniqueIdentifier>{5dfb8280-8922-4199-bc7f-5f1b36c09f24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cvtFast">
+      <UniqueIdentifier>{0411aec3-0a71-42c6-b308-a30877c42c2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dbmf">
+      <UniqueIdentifier>{393812a6-1117-4471-8b84-a0a32309a35e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="osi\os">
+      <UniqueIdentifier>{4a35e272-b007-4524-a23d-5f86c34eaa48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="osi\os\default">
+      <UniqueIdentifier>{c8808baf-fec7-429f-96ff-2a4aa171d7a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ellLib">
+      <UniqueIdentifier>{8ba6594e-6fa2-419f-982a-2b8282fe4319}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cppStd">
+      <UniqueIdentifier>{46755796-24d1-405f-a5c1-1686f29d5efe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="osi\os\WIN32">
+      <UniqueIdentifier>{6808bef3-3529-499a-88ce-7ad22b16be8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cxxTemplates">
+      <UniqueIdentifier>{f190020f-a88d-4840-aa7a-5a7e0343ac48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="error">
+      <UniqueIdentifier>{62333e7f-f972-4688-ac04-c57074431f70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ring">
+      <UniqueIdentifier>{89936476-b08b-4f8e-8d72-f2e07ac055fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="pool">
+      <UniqueIdentifier>{3b8f9d10-3276-4e60-a536-6ce9517d61bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="timer">
+      <UniqueIdentifier>{323b8a3b-8a5a-481f-bffd-00bc6bf0fc62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="fdmgr">
+      <UniqueIdentifier>{b6100498-8529-49aa-aa1c-becbb5d00a6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="freeList">
+      <UniqueIdentifier>{39bf0caf-969d-43aa-80d3-1344a16c752f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gpHash">
+      <UniqueIdentifier>{2037cb9e-1f85-4d87-be0e-805793fcfafd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="iocsh">
+      <UniqueIdentifier>{30fa3281-f8e2-48be-9bd1-d22442a211fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="log">
+      <UniqueIdentifier>{a855112b-296c-4a86-9adb-d166bd2b25ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="macLib">
+      <UniqueIdentifier>{f71e319e-7257-42f8-9951-ff0729915f87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="macLib\EPICS">
+      <UniqueIdentifier>{7892ed6b-a14f-43d8-8c28-2f460044eb37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="taskwd">
+      <UniqueIdentifier>{5fa453c7-c159-4b2b-9021-b5316d570684}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="valdrind">
+      <UniqueIdentifier>{2a5bb1a1-f0be-4fce-8664-879d604aa4ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="yajl">
+      <UniqueIdentifier>{0679b5d2-81da-4903-a071-db3048328bfe}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
