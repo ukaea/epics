@@ -2,8 +2,6 @@ SET TOPLEVEL=%1
 SET BUILDIR=%2
 SET DLLDIR=%3
 
-SET USE_TYPED_DSET=false
-
 if not exist O.Common md O.Common
 if not exist %TOPLEVEL%\dbd md %TOPLEVEL%\dbd
 
@@ -68,46 +66,48 @@ perl -CSD %DLLDIR%dbdToRecordtypeH.pl  -I..\O.Common -I%TOPLEVEL%include -I%TOPL
 perl -CSD %DLLDIR%dbdToRecordtypeH.pl  -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\permissiveRecord.h permissiveRecord.dbd
 perl -CSD %DLLDIR%dbdToRecordtypeH.pl  -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\printfRecord.h printfRecord.dbd
 
-perl -CSD %DLLDIR%podRemove.pl  -o ..\O.Common\aiRecord.dbd .\aiRecord.dbd.pod
-perl -CSD %DLLDIR%podRemove.pl  -o ..\O.Common\aoRecord.dbd .\aoRecord.dbd.pod
-perl -CSD %DLLDIR%podRemove.pl  -o ..\O.Common\aSubRecord.dbd .\aSubRecord.dbd.pod
-perl -CSD %DLLDIR%podRemove.pl  -o ..\O.Common\biRecord.dbd .\biRecord.dbd.pod
-perl -CSD %DLLDIR%podRemove.pl  -o ..\O.Common\boRecord.dbd .\boRecord.dbd.pod
-perl -CSD %DLLDIR%podRemove.pl  -o ..\O.Common\calcoutRecord.dbd .\calcoutRecord.dbd.pod
-perl -CSD %DLLDIR%podRemove.pl  -o ..\O.Common\calcRecord.dbd .\calcRecord.dbd.pod
-perl -CSD %DLLDIR%podRemove.pl  -o ..\O.Common\compressRecord.dbd .\compressRecord.dbd.pod
-perl -CSD %DLLDIR%podRemove.pl  -o ..\O.Common\dfanoutRecord.dbd .\dfanoutRecord.dbd.pod
-perl -CSD %DLLDIR%podRemove.pl  -o ..\O.Common\eventRecord.dbd .\eventRecord.dbd.pod
-perl -CSD %DLLDIR%podRemove.pl  -o ..\O.Common\fanoutRecord.dbd .\fanoutRecord.dbd.pod
-perl -CSD %DLLDIR%podRemove.pl  -o ..\O.Common\filters.dbd ..\filters\filters.dbd.pod
-perl -CSD %DLLDIR%podRemove.pl  -o ..\O.Common\int64inRecord.dbd .\int64inRecord.dbd.pod
-perl -CSD %DLLDIR%podRemove.pl  -o ..\O.Common\int64outRecord.dbd .\int64outRecord.dbd.pod
-perl -CSD %DLLDIR%podRemove.pl  -o ..\O.Common\links.dbd ..\link\links.dbd.pod
-perl -CSD %DLLDIR%podRemove.pl  -o ..\O.Common\lsiRecord.dbd .\lsiRecord.dbd.pod
-perl -CSD %DLLDIR%podRemove.pl  -o ..\O.Common\lsoRecord.dbd .\lsoRecord.dbd.pod
-perl -CSD %DLLDIR%podRemove.pl  -o ..\O.Common\longinRecord.dbd .\longinRecord.dbd.pod
-perl -CSD %DLLDIR%podRemove.pl  -o ..\O.Common\longoutRecord.dbd .\longoutRecord.dbd.pod
-perl -CSD %DLLDIR%podRemove.pl  -o ..\O.Common\mbbiDirectRecord.dbd .\mbbiDirectRecord.dbd.pod
-perl -CSD %DLLDIR%podRemove.pl  -o ..\O.Common\mbboDirectRecord.dbd .\mbboDirectRecord.dbd.pod
-perl -CSD %DLLDIR%podRemove.pl  -o ..\O.Common\mbbiRecord.dbd .\mbbiRecord.dbd.pod
-perl -CSD %DLLDIR%podRemove.pl  -o ..\O.Common\mbboRecord.dbd .\mbboRecord.dbd.pod
-perl -CSD %DLLDIR%podRemove.pl  -o ..\O.Common\permissiveRecord.dbd .\permissiveRecord.dbd.pod
-perl -CSD %DLLDIR%podRemove.pl  -o ..\O.Common\selRecord.dbd .\selRecord.dbd.pod
-perl -CSD %DLLDIR%podRemove.pl  -o ..\O.Common\seqRecord.dbd .\seqRecord.dbd.pod
-perl -CSD %DLLDIR%podRemove.pl  -o ..\O.Common\stateRecord.dbd .\stateRecord.dbd.pod
-perl -CSD %DLLDIR%podRemove.pl  -o ..\O.Common\stringinRecord.dbd .\stringinRecord.dbd.pod
-perl -CSD %DLLDIR%podRemove.pl  -o ..\O.Common\stringoutRecord.dbd .\stringoutRecord.dbd.pod
-perl -CSD %DLLDIR%podRemove.pl  -o ..\O.Common\subArrayRecord.dbd .\subArrayRecord.dbd.pod
-perl -CSD %DLLDIR%podRemove.pl  -o ..\O.Common\subRecord.dbd .\subRecord.dbd.pod
-perl -CSD %DLLDIR%podRemove.pl  -o ..\O.Common\waveformRecord.dbd .\waveformRecord.dbd.pod
+cd %BUILDIR%\O.Common
+perl -CSD %DLLDIR%podRemove.pl -o .\aiRecord.dbd ..\rec\aiRecord.dbd.pod
+perl -CSD %DLLDIR%podRemove.pl -o .\aoRecord.dbd ..\rec\aoRecord.dbd.pod
+perl -CSD %DLLDIR%podRemove.pl -o .\aSubRecord.dbd ..\rec\aSubRecord.dbd.pod
+perl -CSD %DLLDIR%podRemove.pl -o .\biRecord.dbd ..\rec\biRecord.dbd.pod
+perl -CSD %DLLDIR%podRemove.pl -o .\boRecord.dbd ..\rec\boRecord.dbd.pod
+perl -CSD %DLLDIR%podRemove.pl -o .\calcRecord.dbd ..\rec\calcRecord.dbd.pod
+perl -CSD %DLLDIR%podRemove.pl -o .\compressRecord.dbd ..\rec\compressRecord.dbd.pod
+perl -CSD %DLLDIR%podRemove.pl -o .\dfanoutRecord.dbd ..\rec\dfanoutRecord.dbd.pod
+perl -CSD %DLLDIR%podRemove.pl -o .\eventRecord.dbd ..\rec\eventRecord.dbd.pod
+perl -CSD %DLLDIR%podRemove.pl -o .\fanoutRecord.dbd ..\rec\fanoutRecord.dbd.pod
+perl -CSD %DLLDIR%podRemove.pl -o .\filters.dbd ..\filters\filters.dbd.pod
+perl -CSD %DLLDIR%podRemove.pl -o .\int64inRecord.dbd ..\rec\int64inRecord.dbd.pod
+perl -CSD %DLLDIR%podRemove.pl -o .\int64outRecord.dbd ..\rec\int64outRecord.dbd.pod
+perl -CSD %DLLDIR%podRemove.pl -o .\links.dbd ..\link\links.dbd.pod
+perl -CSD %DLLDIR%podRemove.pl -o .\lsiRecord.dbd ..\rec\lsiRecord.dbd.pod
+perl -CSD %DLLDIR%podRemove.pl -o .\lsoRecord.dbd ..\rec\lsoRecord.dbd.pod
+perl -CSD %DLLDIR%podRemove.pl -o .\longinRecord.dbd ..\rec\longinRecord.dbd.pod
+perl -CSD %DLLDIR%podRemove.pl -o .\longoutRecord.dbd ..\rec\longoutRecord.dbd.pod
+perl -CSD %DLLDIR%podRemove.pl -o .\mbbiDirectRecord.dbd ..\rec\mbbiDirectRecord.dbd.pod
+perl -CSD %DLLDIR%podRemove.pl -o .\mbboDirectRecord.dbd ..\rec\mbboDirectRecord.dbd.pod
+perl -CSD %DLLDIR%podRemove.pl -o .\mbbiRecord.dbd ..\rec\mbbiRecord.dbd.pod
+perl -CSD %DLLDIR%podRemove.pl -o .\mbboRecord.dbd ..\rec\mbboRecord.dbd.pod
+perl -CSD %DLLDIR%podRemove.pl -o .\permissiveRecord.dbd ..\rec\permissiveRecord.dbd.pod
+perl -CSD %DLLDIR%podRemove.pl -o .\selRecord.dbd ..\rec\selRecord.dbd.pod
+perl -CSD %DLLDIR%podRemove.pl -o .\seqRecord.dbd ..\rec\seqRecord.dbd.pod
+perl -CSD %DLLDIR%podRemove.pl -o .\stateRecord.dbd ..\rec\stateRecord.dbd.pod
+perl -CSD %DLLDIR%podRemove.pl -o .\stringinRecord.dbd ..\rec\stringinRecord.dbd.pod
+perl -CSD %DLLDIR%podRemove.pl -o .\stringoutRecord.dbd ..\rec\stringoutRecord.dbd.pod
+perl -CSD %DLLDIR%podRemove.pl -o .\subArrayRecord.dbd ..\rec\subArrayRecord.dbd.pod
+perl -CSD %DLLDIR%podRemove.pl -o .\subRecord.dbd ..\rec\subRecord.dbd.pod
+perl -CSD %DLLDIR%podRemove.pl -o .\waveformRecord.dbd ..\rec\waveformRecord.dbd.pod
 
 cd %BUILDIR%\dev
 perl -CSD %DLLDIR%dbdToRecordtypeH.pl  -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\devSoft.h devSoft.dbd
 
 cd %BUILDIR%\O.Common
-REM xcopy /y /q *.dbd %TOPLEVEL%DBD > NUL
+xcopy /y /q *.dbd %TOPLEVEL%DBD > NUL
 
 cd %BUILDIR%\
-REM xcopy /y /q  dev\*.dbd %TOPLEVEL%DBD > NUL
+xcopy /y /q  dev\*.dbd %TOPLEVEL%DBD > NUL
+
+xcopy /y /q  dev\*.dbd %TOPLEVEL%DBD > NUL
 
 echo BatchCompleted: %ERRORLEVEL%

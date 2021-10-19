@@ -12,17 +12,14 @@
 #include "epicsMutex.h"
 #include "ellLib.h"
 #include "epicsTime.h"
-#include "devSup.h"
 
 /* Declare Device Support Entry Table */
+struct lsoRecord;
 typedef struct lsodset {
-    long number;
-    DEVSUPFUN report;
-    DEVSUPFUN init;
-    DEVSUPFUN init_record;
-    DEVSUPFUN get_ioint_info;
-    DEVSUPFUN write_string;
+    dset common;
+    long (*write_string)(struct lsoRecord *prec);
 } lsodset;
+#define HAS_lsodset
 
 #include "callback.h"
 

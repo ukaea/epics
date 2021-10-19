@@ -1,14 +1,6 @@
-######################################################################
-# SPDX-License-Identifier: EPICS
-# EPICS BASE is distributed subject to a Software License Agreement
-# found in file LICENSE that is included with this distribution.
-######################################################################
-
 package DBD::Menu;
 use DBD::Base;
-our @ISA = qw(DBD::Base);
-
-use strict;
+@ISA = qw(DBD::Base);
 
 sub init {
     my ($this, $name) = @_;
@@ -21,8 +13,9 @@ sub init {
 
 sub add_choice {
     my ($this, $name, $value) = @_;
-    $name = $this->identifier($name, "Choice name");
-    foreach my $pair ($this->choices) {
+    $name = identifier($name, "Choice name");
+    unquote $value;
+    foreach $pair ($this->choices) {
         dieContext("Duplicate menu choice name '$name'")
             if ($pair->[0] eq $name);
         dieContext("Duplicate menu choice string '$value'")
@@ -43,6 +36,7 @@ sub choice {
 
 sub legal_choice {
     my ($this, $value) = @_;
+    unquote $value;
     return exists $this->{CHOICE_INDEX}->{$value};
 }
 
@@ -67,16 +61,13 @@ sub toDeclaration {
     my $name = $this->name;
     my $macro_name = "${name}_NUM_CHOICES";
     my @choices = map {
-        sprintf "    %-31s /**< \@brief State string \"%s\" */",
-            @{$_}[0], escapeCcomment(@{$_}[1]);
+        sprintf "    %-31s /* %s */", @{$_}[0], escapeCcomment(@{$_}[1]);
     } $this->choices;
     my $num = scalar @choices;
     return "#ifndef $macro_name\n" .
-           "/** \@brief Enumerated type from menu $name */\n" .
            "typedef enum {\n" .
                join(",\n", @choices) .
            "\n} $name;\n" .
-           "/** \@brief Number of states defined for menu $name */\n" .
            "#define $macro_name $num\n" .
            "#endif\n\n";
 }

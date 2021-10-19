@@ -616,11 +616,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="asynRecord\asynRecord.dbd">
-      <Filter>asynRecord</Filter>
-    </CustomBuild>
-  </ItemGroup>
-  <ItemGroup>
     <Library Include="libusb-1.0\MS32\static\libusb-1.0.lib">
       <Filter>libusb-1.0\MS32\static</Filter>
     </Library>

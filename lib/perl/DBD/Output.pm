@@ -1,48 +1,31 @@
-######################################################################
-# SPDX-License-Identifier: EPICS
-# EPICS BASE is distributed subject to a Software License Agreement
-# found in file LICENSE that is included with this distribution.
-######################################################################
-
 package DBD::Output;
-
-use strict;
-use warnings;
 
 require Exporter;
 
-our @ISA = qw(Exporter);
-our @EXPORT = qw(&OutputDBD &OutputDB);
+@ISA = qw(Exporter);
+@EXPORT = qw(&OutputDBD);
 
 use DBD;
 use DBD::Base;
 use DBD::Breaktable;
 use DBD::Device;
 use DBD::Driver;
-use DBD::Link;
 use DBD::Menu;
 use DBD::Recordtype;
 use DBD::Recfield;
-use DBD::Record;
 use DBD::Registrar;
 use DBD::Function;
 use DBD::Variable;
 
 sub OutputDBD {
     my ($out, $dbd) = @_;
-    OutputMenus($out, $dbd->menus);
-    OutputRecordtypes($out, $dbd->recordtypes);
-    OutputDrivers($out, $dbd->drivers);
-    OutputLinks($out, $dbd->links);
-    OutputRegistrars($out, $dbd->registrars);
-    OutputFunctions($out, $dbd->functions);
-    OutputVariables($out, $dbd->variables);
-    OutputBreaktables($out, $dbd->breaktables);
-}
-
-sub OutputDB {
-    my ($out, $dbd) = @_;
-    OutputRecords($out, $dbd->records);
+    &OutputMenus($out, $dbd->menus);
+    &OutputRecordtypes($out, $dbd->recordtypes);
+    &OutputDrivers($out, $dbd->drivers);
+    &OutputRegistrars($out, $dbd->registrars);
+    &OutputFunctions($out, $dbd->functions);
+    &OutputVariables($out, $dbd->variables);
+    &OutputBreaktables($out, $dbd->breaktables);
 }
 
 sub OutputMenus {
@@ -61,12 +44,12 @@ sub OutputRecordtypes {
         printf $out "recordtype(%s) {\n", $name;
         print $out "    %$_\n"
             foreach $recordtype->cdefs;
-        foreach my $field ($recordtype->fields) {
+        foreach $field ($recordtype->fields) {
             printf $out "    field(%s, %s) {\n",
                 $field->name, $field->dbf_type;
             while (my ($attr, $val) = each %{$field->attributes}) {
                 $val = "\"$val\""
-                    if $val !~ m/^$RXname$/x
+                    if $val !~ m/^$RXname$/ox
                        || $attr eq 'prompt'
                        || $attr eq 'initial';
                 printf $out "        %s(%s)\n", $attr, $val;
@@ -84,13 +67,6 @@ sub OutputDrivers {
     my ($out, $drivers) = @_;
     printf $out "driver(%s)\n", $_
         foreach keys %{$drivers};
-}
-
-sub OutputLinks {
-    my ($out, $links) = @_;
-    while (my ($name, $link) = each %{$links}) {
-        printf $out "link(%s, %s)\n", $link->key, $name;
-    }
 }
 
 sub OutputRegistrars {
@@ -118,25 +94,6 @@ sub OutputBreaktables {
         printf $out "breaktable(\"%s\") {\n", $name;
         printf $out "    %s, %s\n", @{$_}
             foreach $breaktable->points;
-        print $out "}\n";
-    }
-}
-
-sub OutputRecords {
-    my ($out, $records) = @_;
-    while (my ($name, $rec) = each %{$records}) {
-        next if $name ne $rec->name; # Alias
-        printf $out "record(%s, \"%s\") {\n", $rec->recordtype->name, $name;
-        printf $out "    alias(\"%s\")\n", $_
-            foreach $rec->aliases;
-        foreach my $recfield ($rec->recfields) {
-            my $field_name = $recfield->name;
-            my $value = $rec->get_field($field_name);
-            printf $out "    field(%s, \"%s\")\n", $field_name, $value
-                if defined $value;
-        }
-        printf $out "    info(\"%s\", \"%s\")\n", $_, $rec->info_value($_)
-            foreach $rec->info_names;
         print $out "}\n";
     }
 }

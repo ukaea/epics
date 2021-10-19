@@ -34,9 +34,6 @@
     <ClCompile Include="libmain.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="misc.c">
       <Filter>Source Files</Filter>
     </ClCompile>

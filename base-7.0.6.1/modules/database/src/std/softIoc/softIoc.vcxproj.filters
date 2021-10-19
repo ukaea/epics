@@ -26,9 +26,6 @@
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="softIoc.rc" />
-  </ItemGroup>
-  <ItemGroup>
     <Image Include="icon1.ico" />
   </ItemGroup>
 </Project>

@@ -38,7 +38,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\osi\os\WIN32\epicsTempFile.c" />
+    <ClCompile Include="..\osi\os\WIN32\epicsTempfile.cpp" />
     <ClCompile Include="antelope.c" />
     <ClCompile Include="closure.c" />
     <ClCompile Include="error.c" />
@@ -190,7 +190,6 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>WIN32;_DEBUG;epicsStdioStdStreams;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\osi;..\misc;..\osi\compiler\msvc;</AdditionalIncludeDirectories>
       <BrowseInformation>true</BrowseInformation>
       <DisableSpecificWarnings>4244;4267;4996</DisableSpecificWarnings>

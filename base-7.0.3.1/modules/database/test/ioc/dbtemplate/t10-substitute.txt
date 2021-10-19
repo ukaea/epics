@@ -1,8 +1,0 @@
-file t10-template.txt {
-    {}
-}
-
-global { a=gbl }
-file t10-template.txt {
-    {}
-}

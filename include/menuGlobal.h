@@ -5,6 +5,28 @@
 #ifndef INC_menuGlobal_H
 #define INC_menuGlobal_H
 
+#ifndef menuPriority_NUM_CHOICES
+/** @brief Enumerated type from menu menuPriority */
+typedef enum {
+    menuPriorityLOW                 /**< @brief State string "LOW" */,
+    menuPriorityMEDIUM              /**< @brief State string "MEDIUM" */,
+    menuPriorityHIGH                /**< @brief State string "HIGH" */
+} menuPriority;
+/** @brief Number of states defined for menu menuPriority */
+#define menuPriority_NUM_CHOICES 3
+#endif
+
+#ifndef menuIvoa_NUM_CHOICES
+/** @brief Enumerated type from menu menuIvoa */
+typedef enum {
+    menuIvoaContinue_normally       /**< @brief State string "Continue normally" */,
+    menuIvoaDon_t_drive_outputs     /**< @brief State string "Don't drive outputs" */,
+    menuIvoaSet_output_to_IVOV      /**< @brief State string "Set output to IVOV" */
+} menuIvoa;
+/** @brief Number of states defined for menu menuIvoa */
+#define menuIvoa_NUM_CHOICES 3
+#endif
+
 #ifndef menuFtype_NUM_CHOICES
 /** @brief Enumerated type from menu menuFtype */
 typedef enum {
@@ -35,6 +57,41 @@ typedef enum {
 #define menuPost_NUM_CHOICES 2
 #endif
 
+#ifndef menuOmsl_NUM_CHOICES
+/** @brief Enumerated type from menu menuOmsl */
+typedef enum {
+    menuOmslsupervisory             /**< @brief State string "supervisory" */,
+    menuOmslclosed_loop             /**< @brief State string "closed_loop" */
+} menuOmsl;
+/** @brief Number of states defined for menu menuOmsl */
+#define menuOmsl_NUM_CHOICES 2
+#endif
+
+#ifndef menuPini_NUM_CHOICES
+/** @brief Enumerated type from menu menuPini */
+typedef enum {
+    menuPiniNO                      /**< @brief State string "NO" */,
+    menuPiniYES                     /**< @brief State string "YES" */,
+    menuPiniRUN                     /**< @brief State string "RUN" */,
+    menuPiniRUNNING                 /**< @brief State string "RUNNING" */,
+    menuPiniPAUSE                   /**< @brief State string "PAUSE" */,
+    menuPiniPAUSED                  /**< @brief State string "PAUSED" */
+} menuPini;
+/** @brief Number of states defined for menu menuPini */
+#define menuPini_NUM_CHOICES 6
+#endif
+
+#ifndef menuSimm_NUM_CHOICES
+/** @brief Enumerated type from menu menuSimm */
+typedef enum {
+    menuSimmNO                      /**< @brief State string "NO" */,
+    menuSimmYES                     /**< @brief State string "YES" */,
+    menuSimmRAW                     /**< @brief State string "RAW" */
+} menuSimm;
+/** @brief Number of states defined for menu menuSimm */
+#define menuSimm_NUM_CHOICES 3
+#endif
+
 #ifndef menuAlarmSevr_NUM_CHOICES
 /** @brief Enumerated type from menu menuAlarmSevr */
 typedef enum {
@@ -55,63 +112,6 @@ typedef enum {
 } menuYesNo;
 /** @brief Number of states defined for menu menuYesNo */
 #define menuYesNo_NUM_CHOICES 2
-#endif
-
-#ifndef menuPini_NUM_CHOICES
-/** @brief Enumerated type from menu menuPini */
-typedef enum {
-    menuPiniNO                      /**< @brief State string "NO" */,
-    menuPiniYES                     /**< @brief State string "YES" */,
-    menuPiniRUN                     /**< @brief State string "RUN" */,
-    menuPiniRUNNING                 /**< @brief State string "RUNNING" */,
-    menuPiniPAUSE                   /**< @brief State string "PAUSE" */,
-    menuPiniPAUSED                  /**< @brief State string "PAUSED" */
-} menuPini;
-/** @brief Number of states defined for menu menuPini */
-#define menuPini_NUM_CHOICES 6
-#endif
-
-#ifndef menuIvoa_NUM_CHOICES
-/** @brief Enumerated type from menu menuIvoa */
-typedef enum {
-    menuIvoaContinue_normally       /**< @brief State string "Continue normally" */,
-    menuIvoaDon_t_drive_outputs     /**< @brief State string "Don't drive outputs" */,
-    menuIvoaSet_output_to_IVOV      /**< @brief State string "Set output to IVOV" */
-} menuIvoa;
-/** @brief Number of states defined for menu menuIvoa */
-#define menuIvoa_NUM_CHOICES 3
-#endif
-
-#ifndef menuOmsl_NUM_CHOICES
-/** @brief Enumerated type from menu menuOmsl */
-typedef enum {
-    menuOmslsupervisory             /**< @brief State string "supervisory" */,
-    menuOmslclosed_loop             /**< @brief State string "closed_loop" */
-} menuOmsl;
-/** @brief Number of states defined for menu menuOmsl */
-#define menuOmsl_NUM_CHOICES 2
-#endif
-
-#ifndef menuSimm_NUM_CHOICES
-/** @brief Enumerated type from menu menuSimm */
-typedef enum {
-    menuSimmNO                      /**< @brief State string "NO" */,
-    menuSimmYES                     /**< @brief State string "YES" */,
-    menuSimmRAW                     /**< @brief State string "RAW" */
-} menuSimm;
-/** @brief Number of states defined for menu menuSimm */
-#define menuSimm_NUM_CHOICES 3
-#endif
-
-#ifndef menuPriority_NUM_CHOICES
-/** @brief Enumerated type from menu menuPriority */
-typedef enum {
-    menuPriorityLOW                 /**< @brief State string "LOW" */,
-    menuPriorityMEDIUM              /**< @brief State string "MEDIUM" */,
-    menuPriorityHIGH                /**< @brief State string "HIGH" */
-} menuPriority;
-/** @brief Number of states defined for menu menuPriority */
-#define menuPriority_NUM_CHOICES 3
 #endif
 
 #ifndef menuAlarmStat_NUM_CHOICES

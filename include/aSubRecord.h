@@ -14,6 +14,16 @@
 #include "epicsTime.h"
 struct aSubRecord;
 
+#ifndef aSubLFLG_NUM_CHOICES
+/** @brief Enumerated type from menu aSubLFLG */
+typedef enum {
+    aSubLFLG_IGNORE                 /**< @brief State string "IGNORE" */,
+    aSubLFLG_READ                   /**< @brief State string "READ" */
+} aSubLFLG;
+/** @brief Number of states defined for menu aSubLFLG */
+#define aSubLFLG_NUM_CHOICES 2
+#endif
+
 #ifndef aSubEFLG_NUM_CHOICES
 /** @brief Enumerated type from menu aSubEFLG */
 typedef enum {
@@ -23,16 +33,6 @@ typedef enum {
 } aSubEFLG;
 /** @brief Number of states defined for menu aSubEFLG */
 #define aSubEFLG_NUM_CHOICES 3
-#endif
-
-#ifndef aSubLFLG_NUM_CHOICES
-/** @brief Enumerated type from menu aSubLFLG */
-typedef enum {
-    aSubLFLG_IGNORE                 /**< @brief State string "IGNORE" */,
-    aSubLFLG_READ                   /**< @brief State string "READ" */
-} aSubLFLG;
-/** @brief Number of states defined for menu aSubLFLG */
-#define aSubLFLG_NUM_CHOICES 2
 #endif
 
 /** @brief Declaration of aSub record type. */

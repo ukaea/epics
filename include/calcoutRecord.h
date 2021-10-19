@@ -23,6 +23,16 @@ typedef struct calcoutdset {
 #include "dbScan.h"
 #include "postfix.h"
 
+#ifndef calcoutDOPT_NUM_CHOICES
+/** @brief Enumerated type from menu calcoutDOPT */
+typedef enum {
+    calcoutDOPT_Use_VAL             /**< @brief State string "Use CALC" */,
+    calcoutDOPT_Use_OVAL            /**< @brief State string "Use OCAL" */
+} calcoutDOPT;
+/** @brief Number of states defined for menu calcoutDOPT */
+#define calcoutDOPT_NUM_CHOICES 2
+#endif
+
 #ifndef calcoutINAV_NUM_CHOICES
 /** @brief Enumerated type from menu calcoutINAV */
 typedef enum {
@@ -33,16 +43,6 @@ typedef enum {
 } calcoutINAV;
 /** @brief Number of states defined for menu calcoutINAV */
 #define calcoutINAV_NUM_CHOICES 4
-#endif
-
-#ifndef calcoutDOPT_NUM_CHOICES
-/** @brief Enumerated type from menu calcoutDOPT */
-typedef enum {
-    calcoutDOPT_Use_VAL             /**< @brief State string "Use CALC" */,
-    calcoutDOPT_Use_OVAL            /**< @brief State string "Use OCAL" */
-} calcoutDOPT;
-/** @brief Number of states defined for menu calcoutDOPT */
-#define calcoutDOPT_NUM_CHOICES 2
 #endif
 
 #ifndef calcoutOOPT_NUM_CHOICES

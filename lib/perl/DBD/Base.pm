@@ -1,38 +1,27 @@
-######################################################################
-# SPDX-License-Identifier: EPICS
-# EPICS BASE is distributed subject to a Software License Agreement
-# found in file LICENSE that is included with this distribution.
-######################################################################
-
 # Common utility functions used by the DBD components
 
 package DBD::Base;
 
-use strict;
-use warnings;
-
 use Carp;
 require Exporter;
 
-our @ISA = qw(Exporter);
-
-our @EXPORT = qw(&pushContext &popContext &dieContext &warnContext &is_reserved
-    &escapeCcomment &escapeCstring $RXident $RXname $RXuint $RXint $RXhex $RXoct
-    $RXuintx $RXintx $RXnum $RXdqs $RXstr);
+@ISA = qw(Exporter);
+@EXPORT = qw(&pushContext &popContext &dieContext &warnContext &is_reserved
+    &identifier &unquote &escapeCcomment &escapeCstring $RXident $RXname
+    $RXuint $RXint $RXhex $RXoct $RXuintx $RXintx $RXnum $RXdqs $RXstr);
 
 
 our $RXident = qr/ [a-zA-Z] [a-zA-Z0-9_]* /x;
-our $RXnchr =  qr/ [a-zA-Z0-9_\-:.\[\]<>;] /x;
-our $RXname =  qr/ $RXnchr+ (?: [{}] $RXnchr+ )* /x;
+our $RXname =  qr/ [a-zA-Z0-9_\-:.<>;]+ /x;
 our $RXhex =   qr/ (?: 0 [xX] [0-9A-Fa-f]+ ) /x;
 our $RXoct =   qr/ 0 [0-7]* /x;
-our $RXuint =  qr/ [0-9]+ /x;
-our $RXint =   qr/ -? $RXuint /x;
-our $RXuintx = qr/ ( $RXhex | $RXoct | $RXuint ) /x;
-our $RXintx =  qr/ ( $RXhex | $RXoct | $RXint ) /x;
-our $RXnum =   qr/ -? (?: [0-9]+ | [0-9]* \. [0-9]+ ) (?: [eE] [-+]? [0-9]+ )? /x;
-our $RXdqs =   qr/ " (?> \\. | [^"\\] )* " /x;
-our $RXstr =   qr/ ( $RXname | $RXnum | $RXdqs ) /x;
+our $RXuint =  qr/ \d+ /x;
+our $RXint =   qr/ -? $RXuint /ox;
+our $RXuintx = qr/ ( $RXhex | $RXoct | $RXuint ) /ox;
+our $RXintx =  qr/ ( $RXhex | $RXoct | $RXint ) /ox;
+our $RXnum =   qr/ -? (?: \d+ | \d* \. \d+ ) (?: [eE] [-+]? \d+ )? /x;
+our $RXdqs =   qr/" (?: [^"] | \\" )* " /x;
+our $RXstr =   qr/ ( $RXname | $RXnum | $RXdqs ) /ox;
 
 our @context;
 
@@ -61,6 +50,14 @@ sub warnContext {
 }
 
 
+# Input checking
+
+sub unquote (\$) {
+    my ($s) = @_;
+    $$s =~ s/^"(.*)"$/$1/o;
+    return $$s;
+}
+
 # Reserved words from C++ and the DB/DBD file parser
 my %reserved = map { $_ => undef } qw(and and_eq asm auto bitand bitor bool
     break case catch char class compl const const_cast continue default delete
@@ -77,10 +74,11 @@ sub is_reserved {
 }
 
 sub identifier {
-    my ($this, $id, $what) = @_;
+    my ($id, $what) = @_;
+    unquote $id;
     confess "DBD::Base::identifier: $what undefined!"
         unless defined $id;
-    $id =~ m/^$RXident$/ or dieContext("Illegal $what '$id'",
+    $id =~ m/^$RXident$/o or dieContext("Illegal $what '$id'",
         "Identifiers are used in C code so must start with a letter, followed",
         "by letters, digits and/or underscore characters only.");
     dieContext("Illegal $what '$id'",
@@ -100,7 +98,7 @@ sub escapeCcomment {
 
 sub escapeCstring {
     ($_) = @_;
-    # FIXME: How to do this?
+    # How to do this?
     return $_;
 }
 
@@ -116,7 +114,7 @@ sub new {
 
 sub init {
     my ($this, $name, $what) = @_;
-    $this->{NAME} = $this->identifier($name, "$what name");
+    $this->{NAME} = identifier($name, "$what name");
     $this->{WHAT} = $what;
     return $this;
 }

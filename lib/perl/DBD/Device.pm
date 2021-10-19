@@ -1,32 +1,24 @@
-######################################################################
-# SPDX-License-Identifier: EPICS
-# EPICS BASE is distributed subject to a Software License Agreement
-# found in file LICENSE that is included with this distribution.
-######################################################################
-
 package DBD::Device;
 use DBD::Base;
-our @ISA = qw(DBD::Base);
-
-use strict;
+@ISA = qw(DBD::Base);
 
 my %link_types = (
-    CONSTANT  => qr/$RXnum/,
-    PV_LINK   => qr/$RXname \s+ [.NPCAMS ]*/x,
-    JSON_LINK => qr/\{ .* \}/x,
-    VME_IO    => qr/\# (?: \s* [CS] \s* $RXintx)* \s* (?: @ .*)?/x,
-    CAMAC_IO  => qr/\# (?: \s* [BCNAF] \s* $RXintx)* \s* (?: @ .*)?/x,
-    RF_IO     => qr/\# (?: \s* [RMDE] \s* $RXintx)*/x,
-    AB_IO     => qr/\# (?: \s* [LACS] \s* $RXintx)* \s* (?: @ .*)?/x,
-    GPIB_IO   => qr/\# (?: \s* [LA] \s* $RXintx)* \s* (?: @ .*)?/x,
-    BITBUS_IO => qr/\# (?: \s* [LNPS] \s* $RXuintx)* \s* (?: @ .*)?/x,
-    BBGPIB_IO => qr/\# (?: \s* [LBG] \s* $RXuintx)* \s* (?: @ .*)?/x,
-    VXI_IO    => qr/\# (?: \s* [VCS] \s* $RXintx)* \s* (?: @ .*)?/x,
+    CONSTANT  => qr/$RXnum/o,
+    PV_LINK   => qr/$RXname \s+ [.NPCAMS ]*/ox,
+    VME_IO    => qr/\# (?: \s* [CS] \s* $RXintx)* \s* (?: @ .*)?/ox,
+    CAMAC_IO  => qr/\# (?: \s* [BCNAF] \s* $RXintx)* \s* (?: @ .*)?/ox,
+    RF_IO     => qr/\# (?: \s* [RMDE] \s* $RXintx)*/ox,
+    AB_IO     => qr/\# (?: \s* [LACS] \s* $RXintx)* \s* (?: @ .*)?/ox,
+    GPIB_IO   => qr/\# (?: \s* [LA] \s* $RXintx)* \s* (?: @ .*)?/ox,
+    BITBUS_IO => qr/\# (?: \s* [LNPS] \s* $RXuintx)* \s* (?: @ .*)?/ox,
+    BBGPIB_IO => qr/\# (?: \s* [LBG] \s* $RXuintx)* \s* (?: @ .*)?/ox,
+    VXI_IO    => qr/\# (?: \s* [VCS] \s* $RXintx)* \s* (?: @ .*)?/ox,
     INST_IO   => qr/@.*/
 );
 
 sub init {
     my ($this, $link_type, $dset, $choice) = @_;
+    unquote $choice;
     dieContext("Unknown link type '$link_type', valid types are:",
         sort keys %link_types) unless exists $link_types{$link_type};
     $this->SUPER::init($dset, "device support (dset)");
@@ -46,6 +38,7 @@ sub choice {
 sub legal_addr {
     my ($this, $addr) = @_;
     my $rx = $link_types{$this->{LINK_TYPE}};
+    unquote $addr;
     return $addr =~ m/^ $rx $/x;
 }
 

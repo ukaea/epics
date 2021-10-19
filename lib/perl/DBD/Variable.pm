@@ -1,14 +1,6 @@
-######################################################################
-# SPDX-License-Identifier: EPICS
-# EPICS BASE is distributed subject to a Software License Agreement
-# found in file LICENSE that is included with this distribution.
-######################################################################
-
 package DBD::Variable;
 use DBD::Base;
-our @ISA = qw(DBD::Base);
-
-use strict;
+@ISA = qw(DBD::Base);
 
 my %valid_types = (
     # C type name => corresponding iocshArg type identifier
@@ -18,7 +10,11 @@ my %valid_types = (
 
 sub init {
     my ($this, $name, $type) = @_;
-    $type = "int" unless defined $type;
+    if (defined $type) {
+        unquote $type;
+    } else {
+        $type = "int";
+    }
     exists $valid_types{$type} or
         dieContext("Unknown variable type '$type', valid types are:",
             sort keys %valid_types);

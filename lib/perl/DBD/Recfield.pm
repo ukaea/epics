@@ -1,14 +1,6 @@
-######################################################################
-# SPDX-License-Identifier: EPICS
-# EPICS BASE is distributed subject to a Software License Agreement
-# found in file LICENSE that is included with this distribution.
-######################################################################
-
 package DBD::Recfield;
 use DBD::Base;
-our @ISA = qw(DBD::Base);
-
-use strict;
+@ISA = qw(DBD::Base);
 
 # The hash value is a regexp that matches all legal values of this field
 # NB: The regexps are not currently used, and are wrong for some types.
@@ -20,8 +12,6 @@ our %field_types = (
     DBF_USHORT   => $RXuintx,
     DBF_LONG     => $RXintx,
     DBF_ULONG    => $RXuintx,
-    DBF_INT64    => $RXintx,
-    DBF_UINT64   => $RXuintx,
     DBF_FLOAT    => $RXnum,
     DBF_DOUBLE   => $RXnum,
     DBF_ENUM     => qr/.*/,
@@ -45,7 +35,7 @@ our %field_attrs = (
     base        => qr/^(?:DECIMAL|HEX)$/,
     size        => qr/^\d+$/,
     extra       => qr/^.*$/,
-    menu        => qr/^$RXident$/,
+    menu        => qr/^$RXident$/o,
     prop        => qr/^(?:YES|NO)$/
 );
 
@@ -89,6 +79,7 @@ sub new {
 
 sub init {
     my ($this, $name, $type) = @_;
+    unquote $type;
     $this->SUPER::init($name, "record field");
     dieContext("Illegal field type '$type', valid field types are:",
         sort keys %field_types) unless exists $field_types{$type};
@@ -113,6 +104,7 @@ sub number {
 
 sub add_attribute {
     my ($this, $attr, $value) = @_;
+    unquote $value;
     $value = $promptgroupMap{$value}
         if $attr eq 'promptgroup' && exists $promptgroupMap{$value};
     my $match = $field_attrs{$attr};
@@ -185,7 +177,7 @@ sub toDeclaration {
     my $name = $this->C_name;
     my $result = sprintf "    %-19s %-12s", $ctype, "$name;";
     my $prompt = $this->attribute('prompt');
-    $result .= "/**< \@brief $prompt */" if defined $prompt;
+    $result .= "/* $prompt */" if defined $prompt;
     return $result;
 }
 
@@ -195,7 +187,7 @@ sub toDeclaration {
 package DBD::Recfield::DBF_STRING;
 
 use DBD::Base;
-our @ISA = qw(DBD::Recfield);
+@ISA = qw(DBD::Recfield);
 
 sub legal_value {
     my ($this, $value) = @_;
@@ -205,7 +197,6 @@ sub legal_value {
 
 sub check_valid {
     my ($this) = @_;
-    my $name = $this->name;
     dieContext("Size missing for DBF_STRING field '$name'")
         unless exists $this->attributes->{'size'};
     $this->SUPER::check_valid;
@@ -217,7 +208,7 @@ sub toDeclaration {
     my $size = $this->attribute('size');
     my $result = sprintf "    %-19s %-12s", 'char', "${name}[${size}];";
     my $prompt = $this->attribute('prompt');
-    $result .= "/**< \@brief $prompt */" if defined $prompt;
+    $result .= "/* $prompt */" if defined $prompt;
     return $result;
 }
 
@@ -227,7 +218,7 @@ sub toDeclaration {
 package DBD::Recfield::DBF_CHAR;
 
 use DBD::Base;
-our @ISA = qw(DBD::Recfield);
+@ISA = qw(DBD::Recfield);
 
 sub legal_value {
     my ($this, $value) = @_;
@@ -247,7 +238,7 @@ sub toDeclaration {
 package DBD::Recfield::DBF_UCHAR;
 
 use DBD::Base;
-our @ISA = qw(DBD::Recfield);
+@ISA = qw(DBD::Recfield);
 
 sub legal_value {
     my ($this, $value) = @_;
@@ -267,7 +258,7 @@ sub toDeclaration {
 package DBD::Recfield::DBF_SHORT;
 
 use DBD::Base;
-our @ISA = qw(DBD::Recfield);
+@ISA = qw(DBD::Recfield);
 
 sub legal_value {
     my ($this, $value) = @_;
@@ -287,7 +278,7 @@ sub toDeclaration {
 package DBD::Recfield::DBF_USHORT;
 
 use DBD::Base;
-our @ISA = qw(DBD::Recfield);
+@ISA = qw(DBD::Recfield);
 
 sub legal_value {
     my ($this, $value) = @_;
@@ -307,7 +298,7 @@ sub toDeclaration {
 package DBD::Recfield::DBF_LONG;
 
 use DBD::Base;
-our @ISA = qw(DBD::Recfield);
+@ISA = qw(DBD::Recfield);
 
 sub legal_value {
     my ($this, $value) = @_;
@@ -325,7 +316,7 @@ sub toDeclaration {
 package DBD::Recfield::DBF_ULONG;
 
 use DBD::Base;
-our @ISA = qw(DBD::Recfield);
+@ISA = qw(DBD::Recfield);
 
 sub legal_value {
     my ($this, $value) = @_;
@@ -341,47 +332,10 @@ sub toDeclaration {
 
 ################################################################################
 
-package DBD::Recfield::DBF_INT64;
-
-use DBD::Base;
-our @ISA = qw(DBD::Recfield);
-
-sub legal_value {
-    my ($this, $value) = @_;
-    $value =~ s/^ ( $RXhex | $RXoct ) $/ oct($1) /xe;
-    return ($value =~ m/^ $RXint $/x);
-}
-
-sub toDeclaration {
-    return shift->SUPER::toDeclaration("epicsInt64");
-}
-
-
-################################################################################
-
-package DBD::Recfield::DBF_UINT64;
-
-use DBD::Base;
-our @ISA = qw(DBD::Recfield);
-
-sub legal_value {
-    my ($this, $value) = @_;
-    $value =~ s/^ ( $RXhex | $RXoct ) $/ oct($1) /xe;
-    return ($value =~ m/^ $RXuint $/x and
-            $value >= 0);
-}
-
-sub toDeclaration {
-    return shift->SUPER::toDeclaration("epicsUInt64");
-}
-
-
-################################################################################
-
 package DBD::Recfield::DBF_FLOAT;
 
 use DBD::Base;
-our @ISA = qw(DBD::Recfield);
+@ISA = qw(DBD::Recfield);
 
 sub legal_value {
     my ($this, $value) = @_;
@@ -398,7 +352,7 @@ sub toDeclaration {
 package DBD::Recfield::DBF_DOUBLE;
 
 use DBD::Base;
-our @ISA = qw(DBD::Recfield);
+@ISA = qw(DBD::Recfield);
 
 sub legal_value {
     my ($this, $value) = @_;
@@ -415,7 +369,7 @@ sub toDeclaration {
 package DBD::Recfield::DBF_ENUM;
 
 use DBD::Base;
-our @ISA = qw(DBD::Recfield);
+@ISA = qw(DBD::Recfield);
 
 sub legal_value {
     return 1;
@@ -431,7 +385,7 @@ sub toDeclaration {
 package DBD::Recfield::DBF_MENU;
 
 use DBD::Base;
-our @ISA = qw(DBD::Recfield);
+@ISA = qw(DBD::Recfield);
 
 sub legal_value {
     # FIXME: If we know the menu name and the menu exists, check further
@@ -440,7 +394,6 @@ sub legal_value {
 
 sub check_valid {
     my ($this) = @_;
-    my $name = $this->name;
     dieContext("Menu name missing for DBF_MENU field '$name'")
         unless defined($this->attribute("menu"));
     $this->SUPER::check_valid;
@@ -456,7 +409,7 @@ sub toDeclaration {
 package DBD::Recfield::DBF_DEVICE;
 
 use DBD::Base;
-our @ISA = qw(DBD::Recfield);
+@ISA = qw(DBD::Recfield);
 
 sub legal_value {
     return 1;
@@ -472,7 +425,7 @@ sub toDeclaration {
 package DBD::Recfield::DBF_INLINK;
 
 use DBD::Base;
-our @ISA = qw(DBD::Recfield);
+@ISA = qw(DBD::Recfield);
 
 sub legal_value {
     return 1;
@@ -488,7 +441,7 @@ sub toDeclaration {
 package DBD::Recfield::DBF_OUTLINK;
 
 use DBD::Base;
-our @ISA = qw(DBD::Recfield);
+@ISA = qw(DBD::Recfield);
 
 sub legal_value {
     return 1;
@@ -504,7 +457,7 @@ sub toDeclaration {
 package DBD::Recfield::DBF_FWDLINK;
 
 use DBD::Base;
-our @ISA = qw(DBD::Recfield);
+@ISA = qw(DBD::Recfield);
 
 sub legal_value {
     return 1;
@@ -520,7 +473,7 @@ sub toDeclaration {
 package DBD::Recfield::DBF_NOACCESS;
 
 use DBD::Base;
-our @ISA = qw(DBD::Recfield);
+@ISA = qw(DBD::Recfield);
 
 sub legal_value {
     my ($this, $value) = @_;
@@ -529,7 +482,6 @@ sub legal_value {
 
 sub check_valid {
     my ($this) = @_;
-    my $name = $this->name;
     dieContext("Type information missing for DBF_NOACCESS field '$name'")
         unless defined($this->attribute("extra"));
     $this->SUPER::check_valid;
@@ -540,7 +492,7 @@ sub toDeclaration {
     my $extra = $this->attribute('extra');
     my $result = sprintf "    %-31s ", "$extra;";
     my $prompt = $this->attribute('prompt');
-    $result .= "/**< \@brief $prompt */" if defined $prompt;
+    $result .= "/* $prompt */" if defined $prompt;
     return $result;
 }
 

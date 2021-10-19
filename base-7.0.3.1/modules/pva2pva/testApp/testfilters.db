@@ -1,4 +1,0 @@
-record (waveform, "TEST") {
-field(FTVL, "SHORT")
-field(NELM, "10")
-}

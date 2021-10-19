@@ -1,22 +1,14 @@
-######################################################################
-# SPDX-License-Identifier: EPICS
-# EPICS BASE is distributed subject to a Software License Agreement
-# found in file LICENSE that is included with this distribution.
-######################################################################
-
 package DBD::Breaktable;
 use DBD::Base;
-our @ISA = qw(DBD::Base);
+@ISA = qw(DBD::Base);
 
 use Carp;
-use strict;
 
 sub init {
     my ($this, $name) = @_;
     $this->SUPER::init($name, "breakpoint table");
     $this->{POINT_LIST} = [];
     $this->{COMMENTS} = [];
-    $this->{POD} = [];
     return $this;
 }
 
@@ -26,6 +18,8 @@ sub add_point {
         unless defined $raw;
     confess "DBD::Breaktable::add_point: Engineering value undefined!"
         unless defined $eng;
+    unquote $raw;
+    unquote $eng;
     push @{$this->{POINT_LIST}}, [$raw, $eng];
 }
 
@@ -45,15 +39,6 @@ sub add_comment {
 
 sub comments {
     return @{shift->{COMMENTS}};
-}
-
-sub add_pod {
-    my $this = shift;
-    push @{$this->{POD}}, @_;
-}
-
-sub pod {
-    return @{shift->{POD}};
 }
 
 sub equals {

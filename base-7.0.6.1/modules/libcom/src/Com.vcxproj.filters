@@ -686,7 +686,7 @@
       <Filter>misc</Filter>
     </ClInclude>
     <ClInclude Include="valgrind\valgrind.h">
-      <Filter>valdrind</Filter>
+      <Filter>timer\valdrind</Filter>
     </ClInclude>
     <ClInclude Include="yajl\yajl_alloc.h">
       <Filter>yajl</Filter>
@@ -838,11 +838,11 @@
     <Filter Include="taskwd">
       <UniqueIdentifier>{5fa453c7-c159-4b2b-9021-b5316d570684}</UniqueIdentifier>
     </Filter>
-    <Filter Include="valdrind">
-      <UniqueIdentifier>{2a5bb1a1-f0be-4fce-8664-879d604aa4ec}</UniqueIdentifier>
-    </Filter>
     <Filter Include="yajl">
       <UniqueIdentifier>{0679b5d2-81da-4903-a071-db3048328bfe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="timer\valdrind">
+      <UniqueIdentifier>{2a5bb1a1-f0be-4fce-8664-879d604aa4ec}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

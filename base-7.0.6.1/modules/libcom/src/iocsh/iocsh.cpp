@@ -34,7 +34,7 @@
 #include "cantProceed.h"
 #include "iocsh.h"
 
-extern "C" {
+/*extern "C" {*/
 
 /*
  * Global link to pdbbase
@@ -1278,7 +1278,7 @@ static void localRegister (void)
     iocshRegister(&onFuncDef, onCallFunc);
 }
 
-} /* extern "C" */
+//} /* extern "C" */
 
 /*
  * Register local commands on application startup

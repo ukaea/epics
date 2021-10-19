@@ -34,18 +34,18 @@ char copyright[] =
  All rights reserved.\n";
 #endif /* not lint */
 
-
-#ifdef EPICS_BUILD_DLL
-#  undef EPICS_BUILD_DLL
-#endif
-#ifdef EPICS_CALL_DLL
-#  undef EPICS_CALL_DLL
+#ifdef BUILDING_libCom_API
+ #ifdef EPICS_BUILD_DLL
+  #undef EPICS_BUILD_DLL
+ #endif
+ #ifdef EPICS_CALL_DLL
+  #undef EPICS_CALL_DLL
+ #endif
 #endif
 
 #include "epicsTempFile.h"
-
+#include "flexdef.h"
 static char flex_version[] = "2.3";
-
 
 /* declare functions that have forward references */
 
@@ -591,7 +591,7 @@ get_next_arg: /* used by -C and -S flags in lieu of a "continue 2" control */
     if ( (skelfile = fopen( skelname, "r" )) == NULL )
         lerrsf( "can't open skeleton file %s", skelname );
 
-    if ( ( temp_action_file = epicsTempFile () ) == NULL )
+    if ((temp_action_file = epicsTempFile()) == NULL)
     {
         lerrsf( "can't create temporary action file", "" );
     }
@@ -742,3 +742,8 @@ void set_up_initial_allocations(void)
 
     nultrans = (int *) 0;
 }
+
+#ifdef BUILDING_libCom_API
+  #define EPICS_BUILD_DLL
+  #define EPICS_CALL_DLL
+#endif
