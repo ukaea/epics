@@ -428,6 +428,10 @@
     <ClCompile Include="ellLib\ellSort.c">
       <Filter>ellLib</Filter>
     </ClCompile>
+    <ClCompile Include="osi\os\WIN32\osdSockUnsentCount.c">
+      <Filter>osi\os\Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="osi\os\WIN32\osdEnv.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bucketLib\bucketLib.h">
@@ -646,9 +650,6 @@
     <ClInclude Include="osi\os\WIN32\epicsMath.h">
       <Filter>osi\os\Win32</Filter>
     </ClInclude>
-    <ClInclude Include="osi\os\WIN32\osdEvent.h">
-      <Filter>osi\os\Win32</Filter>
-    </ClInclude>
     <ClInclude Include="osi\os\WIN32\osdMutex.h">
       <Filter>osi\os\Win32</Filter>
     </ClInclude>
@@ -793,6 +794,8 @@
     <ClInclude Include="pool\poolPriv.h">
       <Filter>pool</Filter>
     </ClInclude>
+    <ClInclude Include="osi\os\WIN32\osdThreadPvt.h" />
+    <ClInclude Include="osi\os\WIN32\osdEvent.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="freeList\freeList.html">

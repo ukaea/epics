@@ -3,8 +3,8 @@
 *     National Laboratory.
 * Copyright (c) 2002 The Regents of the University of California, as
 *     Operator of Los Alamos National Laboratory.
-* SPDX-License-Identifier: EPICS
-* EPICS BASE is distributed subject to a Software License Agreement found
+* EPICS BASE Versions 3.13.7
+* and higher are distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
 /*
@@ -17,13 +17,13 @@
  *  Copyright, 1986, The Regents of the University of California.
  *
  *
- *  Author Jeffrey O. Hill
- *  johill@lanl.gov
- *  505 665 1831
+ *	Author Jeffrey O. Hill
+ *	johill@lanl.gov
+ *	505 665 1831
  */
 
-#ifndef INC_cacIO_H
-#define INC_cacIO_H
+#ifndef cacIOh
+#define cacIOh
 
 //
 // Open Issues
@@ -47,12 +47,20 @@
 #include <new>
 #include <stdarg.h>
 
+#ifdef epicsExportSharedSymbols
+#   define cacIOh_restore_epicsExportSharedSymbols
+#   undef epicsExportSharedSymbols
+#endif
+
 #include "tsDLList.h"
 #include "epicsMutex.h"
 #include "epicsGuard.h"
 #include "epicsThread.h"
 
-#include "libCaAPI.h"
+#ifdef cacIOh_restore_epicsExportSharedSymbols
+#   define epicsExportSharedSymbols
+#   include "shareLib.h"
+#endif
 
 
 class cacChannel;
@@ -61,7 +69,7 @@ typedef unsigned long arrayElementCount;
 
 // 1) this should not be passing caerr.h status to the exception callback
 // 2) needless-to-say the data should be passed here using the new data access API
-class LIBCA_API cacWriteNotify {
+class epicsShareClass cacWriteNotify {
 public:
     virtual ~cacWriteNotify () = 0;
     virtual void completion ( epicsGuard < epicsMutex > & ) = 0;
@@ -74,7 +82,7 @@ public:
 
 // 1) this should not be passing caerr.h status to the exception callback
 // 2) needless-to-say the data should be passed here using the new data access API
-class LIBCA_API cacReadNotify {
+class epicsShareClass cacReadNotify {
 public:
     virtual ~cacReadNotify () = 0;
     virtual void completion (
@@ -89,7 +97,7 @@ public:
 
 // 1) this should not be passing caerr.h status to the exception callback
 // 2) needless-to-say the data should be passed here using the new data access API
-class LIBCA_API cacStateNotify {
+class epicsShareClass cacStateNotify {
 public:
     virtual ~cacStateNotify () = 0;
     virtual void current (
@@ -123,7 +131,7 @@ private:
     bool f_operatorConfirmationRequest:1;
 };
 
-class LIBCA_API cacChannelNotify {
+class epicsShareClass cacChannelNotify {
 public:
     virtual ~cacChannelNotify () = 0;
     virtual void connectNotify ( epicsGuard < epicsMutex > & ) = 0;
@@ -161,7 +169,7 @@ private:
 // but perhaps is a bad practice that should be eliminated? If so,
 // then the IO should not store or use a pointer to the channel.
 //
-class LIBCA_API cacChannel {
+class epicsShareClass cacChannel {
 public:
     typedef unsigned priLev;
     static const priLev priorityMax;
@@ -265,11 +273,11 @@ protected:
 
 private:
     cacChannelNotify & callback;
-    cacChannel ( const cacChannel & );
-    cacChannel & operator = ( const cacChannel & );
+	cacChannel ( const cacChannel & );
+	cacChannel & operator = ( const cacChannel & );
 };
 
-class LIBCA_API cacContext {
+class epicsShareClass cacContext {
 public:
     virtual ~cacContext ();
     virtual cacChannel & createChannel (
@@ -288,7 +296,7 @@ public:
         epicsGuard < epicsMutex > &, unsigned level ) const = 0;
 };
 
-class LIBCA_API cacContextNotify {
+class epicsShareClass cacContextNotify {
 public:
     virtual ~cacContextNotify () = 0;
     virtual cacContext & createNetworkContext (
@@ -308,7 +316,7 @@ public:
 // **** Lock Hierarchy ****
 // callbackControl must be taken before mutualExclusion if both are held at
 // the same time
-class LIBCA_API cacService {
+class epicsShareClass cacService {
 public:
     virtual ~cacService () = 0;
     virtual cacContext & contextCreate (
@@ -317,9 +325,9 @@ public:
         cacContextNotify & ) = 0;
 };
 
-LIBCA_API void epicsStdCall caInstallDefaultService ( cacService & service );
+epicsShareFunc void epicsShareAPI caInstallDefaultService ( cacService & service );
 
-LIBCA_API extern epicsThreadPrivateId caClientCallbackThreadId;
+epicsShareExtern epicsThreadPrivateId caClientCallbackThreadId;
 
 inline cacChannel::cacChannel ( cacChannelNotify & notify ) :
     callback ( notify )
@@ -381,4 +389,4 @@ inline bool caAccessRights::operatorConfirmationRequest () const
     return this->f_operatorConfirmationRequest;
 }
 
-#endif // ifndef INC_cacIO_H
+#endif // ifndef cacIOh

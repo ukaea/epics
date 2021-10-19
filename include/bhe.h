@@ -3,12 +3,12 @@
 *     National Laboratory.
 * Copyright (c) 2002 The Regents of the University of California, as
 *     Operator of Los Alamos National Laboratory.
-* SPDX-License-Identifier: EPICS
-* EPICS BASE is distributed subject to a Software License Agreement found
-* in file LICENSE that is included with this distribution.
+* EPICS BASE Versions 3.13.7
+* and higher are distributed subject to a Software License Agreement found
+* in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 
-/*
+/*  
  *
  *                    L O S  A L A M O S
  *              Los Alamos National Laboratory
@@ -19,15 +19,24 @@
  *  Author: Jeff Hill
  */
 
-#ifndef INC_bhe_H
-#define INC_bhe_H
+#ifndef bheh
+#define bheh
+
+#ifdef epicsExportSharedSymbols
+#   define bhehEpicsExportSharedSymbols
+#   undef epicsExportSharedSymbols
+#endif
 
 #include "tsDLList.h"
 #include "tsFreeList.h"
 #include "epicsTime.h"
 #include "compilerDependencies.h"
 
-#include "libCaAPI.h"
+#ifdef bhehEpicsExportSharedSymbols
+#   define epicsExportSharedSymbols
+#   include "shareLib.h"
+#endif
+
 #include "inetAddrID.h"
 #include "caProto.h"
 
@@ -36,7 +45,7 @@ class bheMemoryManager;
 
 // using a pure abstract wrapper class around the free list avoids
 // Tornado 2.0.1 GNU compiler bugs
-class LIBCA_API bheMemoryManager {
+class epicsShareClass bheMemoryManager {
 public:
     virtual ~bheMemoryManager ();
     virtual void * allocate ( size_t ) = 0;
@@ -45,24 +54,24 @@ public:
 
 class bhe : public tsSLNode < bhe >, public inetAddrID {
 public:
-    LIBCA_API bhe (
-        epicsMutex &, const epicsTime & initialTimeStamp,
+    epicsShareFunc bhe ( 
+        epicsMutex &, const epicsTime & initialTimeStamp, 
         unsigned initialBeaconNumber, const inetAddrID & addr );
-    LIBCA_API ~bhe ();
-    LIBCA_API bool updatePeriod (
+    epicsShareFunc ~bhe (); 
+    epicsShareFunc bool updatePeriod ( 
         epicsGuard < epicsMutex > &,
-        const epicsTime & programBeginTime,
-        const epicsTime & currentTime, ca_uint32_t beaconNumber,
+        const epicsTime & programBeginTime, 
+        const epicsTime & currentTime, ca_uint32_t beaconNumber, 
         unsigned protocolRevision );
-    LIBCA_API double period ( epicsGuard < epicsMutex > & ) const;
-    LIBCA_API epicsTime updateTime ( epicsGuard < epicsMutex > & ) const;
-    LIBCA_API void show ( unsigned level ) const;
-    LIBCA_API void show ( epicsGuard < epicsMutex > &, unsigned /* level */ ) const;
-    LIBCA_API void registerIIU ( epicsGuard < epicsMutex > &, tcpiiu & );
-    LIBCA_API void unregisterIIU ( epicsGuard < epicsMutex > &, tcpiiu & );
-    LIBCA_API void * operator new ( size_t size, bheMemoryManager & );
+    epicsShareFunc double period ( epicsGuard < epicsMutex > & ) const;
+    epicsShareFunc epicsTime updateTime ( epicsGuard < epicsMutex > & ) const;
+    epicsShareFunc void show ( unsigned level ) const;
+    epicsShareFunc void show ( epicsGuard < epicsMutex > &, unsigned /* level */ ) const;
+    epicsShareFunc void registerIIU ( epicsGuard < epicsMutex > &, tcpiiu & );
+    epicsShareFunc void unregisterIIU ( epicsGuard < epicsMutex > &, tcpiiu & );
+    epicsShareFunc void * operator new ( size_t size, bheMemoryManager & );
 #ifdef CXX_PLACEMENT_DELETE
-    LIBCA_API void operator delete ( void *, bheMemoryManager & );
+    epicsShareFunc void operator delete ( void *, bheMemoryManager & );
 #endif
 private:
     epicsTime timeStamp;
@@ -71,14 +80,14 @@ private:
     tcpiiu * pIIU;
     ca_uint32_t lastBeaconNumber;
     void beaconAnomalyNotify ( epicsGuard < epicsMutex > & );
-    void logBeacon ( const char * pDiagnostic,
+    void logBeacon ( const char * pDiagnostic, 
                      const double & currentPeriod,
                      const epicsTime & currentTime );
     void logBeaconDiscard ( unsigned beaconAdvance,
                      const epicsTime & currentTime );
-    bhe ( const bhe & );
-    bhe & operator = ( const bhe & );
-    LIBCA_API void operator delete ( void * );
+	bhe ( const bhe & );
+	bhe & operator = ( const bhe & );
+    epicsShareFunc void operator delete ( void * );
 };
 
 // using a wrapper class around the free list avoids
@@ -90,24 +99,24 @@ public:
     void release ( void * );
 private:
     tsFreeList < bhe, 0x100 > freeList;
-    bheFreeStore ( const bheFreeStore & );
-    bheFreeStore & operator = ( const bheFreeStore & );
+	bheFreeStore ( const bheFreeStore & );
+	bheFreeStore & operator = ( const bheFreeStore & );
 };
 
-inline void * bhe::operator new ( size_t size,
+inline void * bhe::operator new ( size_t size, 
         bheMemoryManager & mgr )
-{
+{ 
     return mgr.allocate ( size );
 }
 
 #ifdef CXX_PLACEMENT_DELETE
-inline void bhe::operator delete ( void * pCadaver,
+inline void bhe::operator delete ( void * pCadaver, 
         bheMemoryManager & mgr )
-{
+{ 
     mgr.release ( pCadaver );
 }
 #endif
 
-#endif // ifndef INC_bhe_H
+#endif // ifdef bheh
 
 

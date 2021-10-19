@@ -229,6 +229,7 @@
     <ClCompile Include="osi\os\WIN32\epicsTempFile.cpp" />
     <ClCompile Include="osi\os\WIN32\forceBadAllocException.cpp" />
     <ClCompile Include="osi\os\WIN32\osdBackTrace.cpp" />
+    <ClCompile Include="osi\os\WIN32\osdEnv.c" />
     <ClCompile Include="osi\os\WIN32\osdEvent.c" />
     <ClCompile Include="osi\os\WIN32\osdFindSymbol.c" />
     <ClCompile Include="osi\os\WIN32\osdMutex.c" />
@@ -238,6 +239,7 @@
     <ClCompile Include="osi\os\WIN32\osdSignal.cpp" />
     <ClCompile Include="osi\os\WIN32\osdSock.c" />
     <ClCompile Include="osi\os\WIN32\osdSockAddrReuse.cpp" />
+    <ClCompile Include="osi\os\WIN32\osdSockUnsentCount.c" />
     <ClCompile Include="osi\os\WIN32\osdStdio.c" />
     <ClCompile Include="osi\os\WIN32\osdThread.c" />
     <ClCompile Include="osi\os\WIN32\osdThreadExtra.c" />
@@ -365,6 +367,7 @@
     <ClInclude Include="osi\os\WIN32\osdSock.h" />
     <ClInclude Include="osi\os\WIN32\osdStrtod.h" />
     <ClInclude Include="osi\os\WIN32\osdThread.h" />
+    <ClInclude Include="osi\os\WIN32\osdThreadPvt.h" />
     <ClInclude Include="osi\os\WIN32\osdTime.h" />
     <ClInclude Include="osi\os\WIN32\osdWireConfig.h" />
     <ClInclude Include="osi\os\WIN32\osiFileName.h" />
@@ -698,6 +701,7 @@ move /Y lex.yy.c O.Common\asLib_lex.c
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
     <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
+    <IncludePath>$(SolutionDir)\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
     <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>

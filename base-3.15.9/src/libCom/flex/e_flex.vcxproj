@@ -300,6 +300,7 @@ move /Y y.tab.h O.Common\parse.h
       <AdditionalIncludeDirectories>.;..\osi;..\misc;..\osi\compiler\msvc</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
       <BrowseInformation>true</BrowseInformation>
+      <UndefinePreprocessorDefinitions>%(UndefinePreprocessorDefinitions)</UndefinePreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

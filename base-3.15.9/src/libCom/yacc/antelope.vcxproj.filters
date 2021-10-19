@@ -48,10 +48,10 @@
     <ClCompile Include="warshall.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\osi\os\WIN32\epicsTempFile.cpp">
+    <ClCompile Include="antelope.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="antelope.c">
+    <ClCompile Include="..\osi\os\WIN32\epicsTempFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -3,9 +3,9 @@
 *     National Laboratory.
 * Copyright (c) 2002 The Regents of the University of California, as
 *     Operator of Los Alamos National Laboratory.
-* SPDX-License-Identifier: EPICS
-* EPICS BASE is distributed subject to a Software License Agreement found
-* in file LICENSE that is included with this distribution.
+* EPICS BASE Versions 3.13.7
+* and higher are distributed subject to a Software License Agreement found
+* in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 /*
  *
@@ -14,26 +14,22 @@
  *              505 665 1831
  */
 
-#ifndef INC_caProto_H
-#define INC_caProto_H
-
-// Pick up definition of IPPORT_USERRESERVED
-#include <osiSock.h>
+#ifndef __CAPROTO__
+#define __CAPROTO__ 
 
 #define capStrOf(A) #A
 #define capStrOfX(A) capStrOf ( A )
 
-/*
+/* 
  * CA protocol revision
- * TCP/UDP port number (bumped each major protocol change)
+ * TCP/UDP port number (bumped each major protocol change) 
  */
 #define CA_MAJOR_PROTOCOL_REVISION 4
 #define CA_VERSION_STRING( MINOR_REVISION ) \
 ( capStrOfX ( CA_MAJOR_PROTOCOL_REVISION ) "." capStrOfX ( MINOR_REVISION ) )
 #define CA_UKN_MINOR_VERSION    0u /* unknown minor version */
-#define CA_MINIMUM_SUPPORTED_VERSION 4u
-#   define CA_VSUPPORTED(MINOR) ((MINOR)>=CA_MINIMUM_SUPPORTED_VERSION)
-#   define CA_V41(MINOR) ((MINOR)>=1u)
+#if CA_MAJOR_PROTOCOL_REVISION == 4u
+#   define CA_V41(MINOR) ((MINOR)>=1u) 
 #   define CA_V42(MINOR) ((MINOR)>=2u)
 #   define CA_V43(MINOR) ((MINOR)>=3u)
 #   define CA_V44(MINOR) ((MINOR)>=4u)
@@ -46,10 +42,39 @@
 #   define CA_V411(MINOR) ((MINOR)>=11u)  /* sequence numbers in UDP version command */
 #   define CA_V412(MINOR) ((MINOR)>=12u)  /* TCP-based search requests */
 #   define CA_V413(MINOR) ((MINOR)>=13u)  /* Allow zero length in requests. */
+#elif CA_MAJOR_PROTOCOL_REVISION > 4u
+#   define CA_V41(MINOR) ( 1u )
+#   define CA_V42(MINOR) ( 1u )
+#   define CA_V43(MINOR) ( 1u )
+#   define CA_V44(MINOR) ( 1u )
+#   define CA_V45(MINOR) ( 1u )
+#   define CA_V46(MINOR) ( 1u )
+#   define CA_V47(MINOR) ( 1u )
+#   define CA_V48(MINOR) ( 1u )
+#   define CA_V49(MINOR) ( 1u )
+#   define CA_V410(MINOR) ( 1u )
+#   define CA_V411(MINOR) ( 1u )
+#   define CA_V412(MINOR) ( 1u )
+#   define CA_V413(MINOR) ( 1u )
+#else
+#   define CA_V41(MINOR) ( 0u )
+#   define CA_V42(MINOR) ( 0u )
+#   define CA_V43(MINOR) ( 0u )
+#   define CA_V44(MINOR) ( 0u )
+#   define CA_V45(MINOR) ( 0u )
+#   define CA_V46(MINOR) ( 0u )
+#   define CA_V47(MINOR) ( 0u )
+#   define CA_V48(MINOR) ( 0u )
+#   define CA_V49(MINOR) ( 0u )
+#   define CA_V410(MINOR) ( 0u )
+#   define CA_V411(MINOR) ( 0u )
+#   define CA_V412(MINOR) ( 0u )
+#   define CA_V413(MINOR) ( 0u )
+#endif
 
 /*
- * These port numbers are only used if the CA repeater and
- * CA server port numbers cant be obtained from the EPICS
+ * These port numbers are only used if the CA repeater and 
+ * CA server port numbers cant be obtained from the EPICS 
  * environment variables "EPICS_CA_REPEATER_PORT" and
  * "EPICS_CA_SERVER_PORT"
  */
@@ -57,9 +82,9 @@
 #define CA_SERVER_PORT          (CA_PORT_BASE+CA_MAJOR_PROTOCOL_REVISION*2u)
 #define CA_REPEATER_PORT        (CA_PORT_BASE+CA_MAJOR_PROTOCOL_REVISION*2u+1u)
 
-/*
- * 1500 (max of Ethernet and 802.{2,3} MTU) - 20(IP) - 8(UDP)
- * (the MTU of Ethernet is currently independent of its speed variant)
+/* 
+ * 1500 (max of ethernet and 802.{2,3} MTU) - 20(IP) - 8(UDP) 
+ * (the MTU of Ethernet is currently independent of its speed varient)
  */
 #define ETHERNET_MAX_UDP        ( 1500u - 20u - 8u )
 #define MAX_UDP_RECV            ( 0xffff + 16u ) /* allow large frames to be received in the future */
@@ -92,10 +117,10 @@ typedef ca_uint32_t     caResId;
 #define CA_PROTO_SNAPSHOT       5u  /* snapshot of the system */
 #define CA_PROTO_SEARCH         6u  /* IOC channel search */
 #define CA_PROTO_BUILD          7u  /* build - obsolete */
-#define CA_PROTO_EVENTS_OFF     8u  /* flow control */
-#define CA_PROTO_EVENTS_ON      9u  /* flow control */
-#define CA_PROTO_READ_SYNC      10u /* purge old reads */
-#define CA_PROTO_ERROR          11u /* an operation failed */
+#define CA_PROTO_EVENTS_OFF     8u  /* flow control */ 
+#define CA_PROTO_EVENTS_ON      9u  /* flow control */ 
+#define CA_PROTO_READ_SYNC      10u /* purge old reads */ 
+#define CA_PROTO_ERROR          11u /* an operation failed */ 
 #define CA_PROTO_CLEAR_CHANNEL  12u /* free chan resources */
 #define CA_PROTO_RSRV_IS_UP     13u /* CA server has joined the net */
 #define CA_PROTO_NOT_FOUND      14u /* channel not found */
@@ -117,7 +142,7 @@ typedef ca_uint32_t     caResId;
 
 /*
  * for use with search and not_found (if search fails and
- * its not a broadcast tell the client to look elsewhere)
+ * its not a broadcast tell the client to look elesewhere)
  */
 #define DOREPLY     10u
 #define DONTREPLY   5u
@@ -175,8 +200,8 @@ typedef struct ca_hdr {
  */
 struct  mon_info {
     ca_float32_t    m_lval;     /* low delta */
-    ca_float32_t    m_hval;     /* high delta */
-    ca_float32_t    m_toval;    /* period between samples */
+    ca_float32_t    m_hval;     /* high delta */ 
+    ca_float32_t    m_toval;    /* period btween samples */
     ca_uint16_t     m_mask;     /* event select mask */
     ca_uint16_t     m_pad;      /* extend to 32 bits */
 };
@@ -186,5 +211,5 @@ struct  mon_info {
  */
 #define unreasonablePVNameSize 500u
 
-#endif /* ifndef INC_caProto_H */
+#endif /* __CAPROTO__ */
 

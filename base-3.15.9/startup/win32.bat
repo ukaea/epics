@@ -53,7 +53,7 @@ rem Strawberry Perl will be added to PATH.
 set _strawberry_perl_home=C:\Strawberry
 
 rem The location of Microsoft Visual Studio (pathname).
-set _visual_studio_home=C:\Program Files (x86)\Microsoft Visual Studio\2019\Community
+set _visual_studio_home=C:\Program Files (x86)\Microsoft Visual Studio 14.0
 
 rem The EPICS host architecture specification for EPICS_HOST_ARCH
 rem (<os>-<arch>[-<toolset>] as defined in configure/CONFIG_SITE).

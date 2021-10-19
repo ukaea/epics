@@ -3,8 +3,8 @@
 *     National Laboratory.
 * Copyright (c) 2002 The Regents of the University of California, as
 *     Operator of Los Alamos National Laboratory.
-* SPDX-License-Identifier: EPICS
-* EPICS BASE is distributed subject to a Software License Agreement found
+* EPICS BASE Versions 3.13.7
+* and higher are distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
 
@@ -18,36 +18,33 @@
  *  Copyright, The Regents of the University of California.
  *
  *
- *  Author Jeffrey O. Hill
- *  johill@lanl.gov
- *  505 665 1831
+ *	Author Jeffrey O. Hill
+ *	johill@lanl.gov
+ *	505 665 1831
  */
 
-#ifndef INC_oldAccess_H
-#define INC_oldAccess_H
+#ifndef oldAccessh
+#define oldAccessh
 
-#include <memory>
+#ifdef epicsExportSharedSymbols
+#   define oldAccessh_restore_epicsExportSharedSymbols
+#   undef epicsExportSharedSymbols
+#endif
 
 #include "tsFreeList.h"
+#include "epicsMemory.h"
 #include "compilerDependencies.h"
 #include "osiSock.h"
 
-#include "libCaAPI.h"
+#ifdef oldAccessh_restore_epicsExportSharedSymbols
+#   define epicsExportSharedSymbols
+#   include "shareLib.h"
+#endif
+
 #include "caProto.h"
 #include "cacIO.h"
 #include "cadef.h"
 #include "syncGroup.h"
-
-namespace ca {
-#if __cplusplus>=201103L
-template<typename T>
-using auto_ptr = std::unique_ptr<T>;
-#define PTRMOVE(AUTO) std::move(AUTO)
-#else
-using std::auto_ptr;
-#define PTRMOVE(AUTO) (AUTO)
-#endif
-}
 
 struct oldChannelNotify : private cacChannelNotify {
 public:
@@ -60,53 +57,53 @@ public:
         epicsGuard < epicsMutex > & mutexGuard );
 
     // legacy C API
-    friend unsigned epicsStdCall ca_get_host_name (
+    friend unsigned epicsShareAPI ca_get_host_name (
         chid pChan, char * pBuf, unsigned bufLength );
-    friend const char * epicsStdCall ca_host_name (
+    friend const char * epicsShareAPI ca_host_name (
         chid pChan );
-    friend const char * epicsStdCall ca_name (
+    friend const char * epicsShareAPI ca_name (
         chid pChan );
-    friend void epicsStdCall ca_set_puser (
+    friend void epicsShareAPI ca_set_puser (
         chid pChan, void * puser );
-    friend void * epicsStdCall ca_puser (
+    friend void * epicsShareAPI ca_puser (
         chid pChan );
-    friend int epicsStdCall ca_change_connection_event (
+    friend int epicsShareAPI ca_change_connection_event (
         chid pChan, caCh * pfunc );
-    friend int epicsStdCall ca_replace_access_rights_event (
+    friend int epicsShareAPI ca_replace_access_rights_event (
         chid pChan, caArh *pfunc );
-    friend int epicsStdCall ca_array_get ( chtype type,
+    friend int epicsShareAPI ca_array_get ( chtype type,
         arrayElementCount count, chid pChan, void * pValue );
-    friend int epicsStdCall ca_array_get_callback ( chtype type,
+    friend int epicsShareAPI ca_array_get_callback ( chtype type,
         arrayElementCount count, chid pChan,
         caEventCallBackFunc *pfunc, void *arg );
-    friend int epicsStdCall ca_array_put (
+    friend int epicsShareAPI ca_array_put (
         chtype type, arrayElementCount count,
         chid pChan, const void * pValue );
-    friend int epicsStdCall ca_array_put_callback (
+    friend int epicsShareAPI ca_array_put_callback (
         chtype type, arrayElementCount count,
         chid pChan, const void *pValue,
         caEventCallBackFunc *pfunc, void *usrarg );
-    friend double epicsStdCall ca_beacon_period (
+    friend double epicsShareAPI ca_beacon_period (
         chid pChan );
-    friend unsigned epicsStdCall ca_search_attempts (
+    friend unsigned epicsShareAPI ca_search_attempts (
         chid pChan );
-    friend unsigned epicsStdCall ca_write_access (
+    friend unsigned epicsShareAPI ca_write_access (
         chid pChan );
-    friend unsigned epicsStdCall ca_read_access (
+    friend unsigned epicsShareAPI ca_read_access (
         chid pChan );
-    friend short epicsStdCall ca_field_type (
+    friend short epicsShareAPI ca_field_type (
         chid pChan );
-    friend arrayElementCount epicsStdCall ca_element_count (
+    friend arrayElementCount epicsShareAPI ca_element_count (
         chid pChan );
-    friend int epicsStdCall ca_v42_ok (
+    friend int epicsShareAPI ca_v42_ok (
         chid pChan );
-    friend int epicsStdCall ca_create_subscription (
+    friend int epicsShareAPI ca_create_subscription (
         chtype type, arrayElementCount count, chid pChan,
         long mask, caEventCallBackFunc * pCallBack,
         void * pCallBackArg, evid * monixptr );
-    friend enum channel_state epicsStdCall ca_state (
+    friend enum channel_state epicsShareAPI ca_state (
         chid pChan );
-    friend double epicsStdCall ca_receive_watchdog_delay (
+    friend double epicsShareAPI ca_receive_watchdog_delay (
         chid pChan );
 
     unsigned getName (
@@ -197,8 +194,8 @@ private:
     void exception (
         epicsGuard < epicsMutex > &, int status,
         const char *pContext, unsigned type, arrayElementCount count );
-    getCopy ( const getCopy & );
-    getCopy & operator = ( const getCopy & );
+	getCopy ( const getCopy & );
+	getCopy & operator = ( const getCopy & );
     void operator delete ( void * );
 };
 
@@ -222,8 +219,8 @@ private:
     void exception (
         epicsGuard < epicsMutex > &, int status,
         const char * pContext, unsigned type, arrayElementCount count );
-    getCallback ( const getCallback & );
-    getCallback & operator = ( const getCallback & );
+	getCallback ( const getCallback & );
+	getCallback & operator = ( const getCallback & );
     void operator delete ( void * );
 };
 
@@ -245,8 +242,8 @@ private:
     void exception (
         epicsGuard < epicsMutex > &, int status, const char *pContext,
         unsigned type, arrayElementCount count );
-    putCallback ( const putCallback & );
-    putCallback & operator = ( const putCallback & );
+	putCallback ( const putCallback & );
+	putCallback & operator = ( const putCallback & );
     void operator delete ( void * );
 };
 
@@ -285,8 +282,8 @@ private:
     void exception (
         epicsGuard < epicsMutex > &, int status,
         const char *pContext, unsigned type, arrayElementCount count );
-    oldSubscription ( const oldSubscription & );
-    oldSubscription & operator = ( const oldSubscription & );
+	oldSubscription ( const oldSubscription & );
+	oldSubscription & operator = ( const oldSubscription & );
     void operator delete ( void * );
 };
 
@@ -352,41 +349,41 @@ public:
     void whenThereIsAnExceptionDestroySyncGroupIO ( epicsGuard < epicsMutex > &, T & );
 
     // legacy C API
-    friend int epicsStdCall ca_create_channel (
+    friend int epicsShareAPI ca_create_channel (
         const char * name_str, caCh * conn_func, void * puser,
         capri priority, chid * chanptr );
-    friend int epicsStdCall ca_clear_channel ( chid pChan );
-    friend int epicsStdCall ca_array_get ( chtype type,
+    friend int epicsShareAPI ca_clear_channel ( chid pChan );
+    friend int epicsShareAPI ca_array_get ( chtype type,
         arrayElementCount count, chid pChan, void * pValue );
-    friend int epicsStdCall ca_array_get_callback ( chtype type,
+    friend int epicsShareAPI ca_array_get_callback ( chtype type,
         arrayElementCount count, chid pChan,
         caEventCallBackFunc *pfunc, void *arg );
-    friend int epicsStdCall ca_array_put ( chtype type,
+    friend int epicsShareAPI ca_array_put ( chtype type,
         arrayElementCount count, chid pChan, const void * pValue );
-    friend int epicsStdCall ca_array_put_callback ( chtype type,
+    friend int epicsShareAPI ca_array_put_callback ( chtype type,
         arrayElementCount count, chid pChan, const void * pValue,
         caEventCallBackFunc *pfunc, void *usrarg );
-    friend int epicsStdCall ca_create_subscription (
+    friend int epicsShareAPI ca_create_subscription (
         chtype type, arrayElementCount count, chid pChan,
         long mask, caEventCallBackFunc * pCallBack, void * pCallBackArg,
         evid *monixptr );
-    friend int epicsStdCall ca_flush_io ();
-    friend int epicsStdCall ca_clear_subscription ( evid pMon );
-    friend int epicsStdCall ca_sg_create ( CA_SYNC_GID * pgid );
-    friend int epicsStdCall ca_sg_delete ( const CA_SYNC_GID gid );
-    friend int epicsStdCall ca_sg_block ( const CA_SYNC_GID gid, ca_real timeout );
-    friend int epicsStdCall ca_sg_reset ( const CA_SYNC_GID gid );
-    friend int epicsStdCall ca_sg_test ( const CA_SYNC_GID gid );
-    friend int epicsStdCall ca_sg_array_get ( const CA_SYNC_GID gid,
+    friend int epicsShareAPI ca_flush_io ();
+    friend int epicsShareAPI ca_clear_subscription ( evid pMon );
+    friend int epicsShareAPI ca_sg_create ( CA_SYNC_GID * pgid );
+    friend int epicsShareAPI ca_sg_delete ( const CA_SYNC_GID gid );
+    friend int epicsShareAPI ca_sg_block ( const CA_SYNC_GID gid, ca_real timeout );
+    friend int epicsShareAPI ca_sg_reset ( const CA_SYNC_GID gid );
+    friend int epicsShareAPI ca_sg_test ( const CA_SYNC_GID gid );
+    friend int epicsShareAPI ca_sg_array_get ( const CA_SYNC_GID gid,
                               chtype type, arrayElementCount count,
                               chid pChan, void *pValue );
-    friend int epicsStdCall ca_sg_array_put ( const CA_SYNC_GID gid,
+    friend int epicsShareAPI ca_sg_array_put ( const CA_SYNC_GID gid,
                               chtype type, arrayElementCount count,
                               chid pChan, const void *pValue );
     friend int ca_sync_group_destroy ( CallbackGuard & cbGuard,
                                  epicsGuard < epicsMutex > & guard,
                                 ca_client_context & cac, const CA_SYNC_GID gid );
-    friend void sync_group_reset ( ca_client_context & client,
+    friend void sync_group_reset ( ca_client_context & client, 
                                                   CASG & sg );
 
     // exceptions
@@ -404,8 +401,8 @@ private:
     epicsEvent ioDone;
     epicsEvent callbackThreadActivityComplete;
     epicsThreadId createdByThread;
-    ca::auto_ptr < CallbackGuard > pCallbackGuard;
-    ca::auto_ptr < cacContext > pServiceContext;
+    epics_auto_ptr < CallbackGuard > pCallbackGuard;
+    epics_auto_ptr < cacContext > pServiceContext;
     caExceptionHandler * ca_exception_func;
     void * ca_exception_arg;
     caPrintfFunc * pVPrintfFunc;
@@ -583,7 +580,7 @@ inline unsigned ca_client_context::sequenceNumberOfOutstandingIO (
 }
 
 template < class T >
-void ca_client_context :: whenThereIsAnExceptionDestroySyncGroupIO (
+void ca_client_context :: whenThereIsAnExceptionDestroySyncGroupIO ( 
                             epicsGuard < epicsMutex > & guard, T & io )
 {
     if ( this->pCallbackGuard.get() &&
@@ -591,16 +588,16 @@ void ca_client_context :: whenThereIsAnExceptionDestroySyncGroupIO (
         io.destroy ( *this->pCallbackGuard.get(), guard );
     }
     else {
-        // don't reverse the lock hierarchy
+        // dont reverse the lock hierarchy
         epicsGuardRelease < epicsMutex > guardRelease ( guard );
         {
             //
             // we will definately stall out here if all of the
             // following are true
             //
-            // o user creates non-preemptive mode client library context
+            // o user creates non-preemtive mode client library context
             // o user doesnt periodically call a ca function
-            // o user calls this function from an auxiliary thread
+            // o user calls this function from an auxiillary thread
             //
             CallbackGuard cbGuard ( this->cbMutex );
             epicsGuard < epicsMutex > guard ( this->mutex );
@@ -609,4 +606,4 @@ void ca_client_context :: whenThereIsAnExceptionDestroySyncGroupIO (
     }
 }
 
-#endif // ifndef INC_oldAccess_H
+#endif // ifndef oldAccessh
