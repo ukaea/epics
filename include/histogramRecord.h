@@ -7,8 +7,8 @@
 #ifndef INC_histogramRecord_H
 #define INC_histogramRecord_H
 
-#include "epicsTypes.h"
-#include "link.h"
+ #include "epicsTypes.h"
+ #include "link.h"
 #include "epicsMutex.h"
 #include "ellLib.h"
 #include "epicsTime.h"
@@ -25,90 +25,86 @@ typedef struct histogramdset {
 #include "callback.h"
 
 #ifndef histogramCMD_NUM_CHOICES
-/** @brief Enumerated type from menu histogramCMD */
 typedef enum {
-    histogramCMD_Read               /**< @brief State string "Read" */,
-    histogramCMD_Clear              /**< @brief State string "Clear" */,
-    histogramCMD_Start              /**< @brief State string "Start" */,
-    histogramCMD_Stop               /**< @brief State string "Stop" */
+    histogramCMD_Read               /* Read */,
+    histogramCMD_Clear              /* Clear */,
+    histogramCMD_Start              /* Start */,
+    histogramCMD_Stop               /* Stop */
 } histogramCMD;
-/** @brief Number of states defined for menu histogramCMD */
 #define histogramCMD_NUM_CHOICES 4
 #endif
 
-/** @brief Declaration of histogram record type. */
 typedef struct histogramRecord {
-    char                name[61];   /**< @brief Record Name */
-    char                desc[41];   /**< @brief Descriptor */
-    char                asg[29];    /**< @brief Access Security Group */
-    epicsEnum16         scan;       /**< @brief Scan Mechanism */
-    epicsEnum16         pini;       /**< @brief Process at iocInit */
-    epicsInt16          phas;       /**< @brief Scan Phase */
-    char                evnt[40];   /**< @brief Event Name */
-    epicsInt16          tse;        /**< @brief Time Stamp Event */
-    DBLINK              tsel;       /**< @brief Time Stamp Link */
-    epicsEnum16         dtyp;       /**< @brief Device Type */
-    epicsInt16          disv;       /**< @brief Disable Value */
-    epicsInt16          disa;       /**< @brief Disable */
-    DBLINK              sdis;       /**< @brief Scanning Disable */
-    epicsMutexId        mlok;       /**< @brief Monitor lock */
-    ELLLIST             mlis;       /**< @brief Monitor List */
-    ELLLIST             bklnk;      /**< @brief Backwards link tracking */
-    epicsUInt8          disp;       /**< @brief Disable putField */
-    epicsUInt8          proc;       /**< @brief Force Processing */
-    epicsEnum16         stat;       /**< @brief Alarm Status */
-    epicsEnum16         sevr;       /**< @brief Alarm Severity */
-    epicsEnum16         nsta;       /**< @brief New Alarm Status */
-    epicsEnum16         nsev;       /**< @brief New Alarm Severity */
-    epicsEnum16         acks;       /**< @brief Alarm Ack Severity */
-    epicsEnum16         ackt;       /**< @brief Alarm Ack Transient */
-    epicsEnum16         diss;       /**< @brief Disable Alarm Sevrty */
-    epicsUInt8          lcnt;       /**< @brief Lock Count */
-    epicsUInt8          pact;       /**< @brief Record active */
-    epicsUInt8          putf;       /**< @brief dbPutField process */
-    epicsUInt8          rpro;       /**< @brief Reprocess  */
-    struct asgMember    *asp;       /**< @brief Access Security Pvt */
-    struct processNotify *ppn;      /**< @brief pprocessNotify */
-    struct processNotifyRecord *ppnr; /**< @brief pprocessNotifyRecord */
-    struct scan_element *spvt;      /**< @brief Scan Private */
-    struct typed_rset   *rset;      /**< @brief Address of RSET */
-    struct dset         *dset;      /**< @brief DSET address */
-    void                *dpvt;      /**< @brief Device Private */
-    struct dbRecordType *rdes;      /**< @brief Address of dbRecordType */
-    struct lockRecord   *lset;      /**< @brief Lock Set */
-    epicsEnum16         prio;       /**< @brief Scheduling Priority */
-    epicsUInt8          tpro;       /**< @brief Trace Processing */
-    char                bkpt;       /**< @brief Break Point */
-    epicsUInt8          udf;        /**< @brief Undefined */
-    epicsEnum16         udfs;       /**< @brief Undefined Alarm Sevrty */
-    epicsTimeStamp      time;       /**< @brief Time */
-    DBLINK              flnk;       /**< @brief Forward Process Link */
-    void *	val;                     /**< @brief Value */
-    epicsUInt16         nelm;       /**< @brief Num of Array Elements */
-    epicsInt16          csta;       /**< @brief Collection Status */
-    epicsEnum16         cmd;        /**< @brief Collection Control */
-    epicsFloat64        ulim;       /**< @brief Upper Signal Limit */
-    epicsFloat64        llim;       /**< @brief Lower Signal Limit  */
-    epicsFloat64        wdth;       /**< @brief Element Width */
-    epicsFloat64        sgnl;       /**< @brief Signal Value */
-    epicsInt16          prec;       /**< @brief Display Precision */
-    DBLINK              svl;        /**< @brief Signal Value Location */
-    epicsUInt32 *bptr;              /**< @brief Buffer Pointer */
-    void *  wdog;                   /**< @brief Watchdog callback */
-    epicsInt16          mdel;       /**< @brief Monitor Count Deadband */
-    epicsInt16          mcnt;       /**< @brief Counts Since Monitor */
-    epicsFloat64        sdel;       /**< @brief Monitor Seconds Dband */
-    DBLINK              siol;       /**< @brief Simulation Input Link */
-    epicsFloat64        sval;       /**< @brief Simulation Value */
-    DBLINK              siml;       /**< @brief Simulation Mode Link */
-    epicsEnum16         simm;       /**< @brief Simulation Mode */
-    epicsEnum16         sims;       /**< @brief Simulation Mode Severity */
-    epicsEnum16         oldsimm;    /**< @brief Prev. Simulation Mode */
-    epicsEnum16         sscn;       /**< @brief Sim. Mode Scan */
-    epicsFloat64        sdly;       /**< @brief Sim. Mode Async Delay */
-    epicsCallback            *simpvt; /**< @brief Sim. Mode Private */
-    epicsUInt32         hopr;       /**< @brief High Operating Range */
-    epicsUInt32         lopr;       /**< @brief Low Operating Range */
+    char                name[61];   /* Record Name */
+    char                desc[41];   /* Descriptor */
+    char                asg[29];    /* Access Security Group */
+    epicsEnum16         scan;       /* Scan Mechanism */
+    epicsEnum16         pini;       /* Process at iocInit */
+    epicsInt16          phas;       /* Scan Phase */
+    char                evnt[40];   /* Event Name */
+    epicsInt16          tse;        /* Time Stamp Event */
+    DBLINK              tsel;       /* Time Stamp Link */
+    epicsEnum16         dtyp;       /* Device Type */
+    epicsInt16          disv;       /* Disable Value */
+    epicsInt16          disa;       /* Disable */
+    DBLINK              sdis;       /* Scanning Disable */
+    epicsMutexId        mlok;       /* Monitor lock */
+    ELLLIST             mlis;       /* Monitor List */
+    epicsUInt8          disp;       /* Disable putField */
+    epicsUInt8          proc;       /* Force Processing */
+    epicsEnum16         stat;       /* Alarm Status */
+    epicsEnum16         sevr;       /* Alarm Severity */
+    epicsEnum16         nsta;       /* New Alarm Status */
+    epicsEnum16         nsev;       /* New Alarm Severity */
+    epicsEnum16         acks;       /* Alarm Ack Severity */
+    epicsEnum16         ackt;       /* Alarm Ack Transient */
+    epicsEnum16         diss;       /* Disable Alarm Sevrty */
+    epicsUInt8          lcnt;       /* Lock Count */
+    epicsUInt8          pact;       /* Record active */
+    epicsUInt8          putf;       /* dbPutField process */
+    epicsUInt8          rpro;       /* Reprocess  */
+    struct asgMember    *asp;       /* Access Security Pvt */
+    struct processNotify *ppn;      /* pprocessNotify */
+    struct processNotifyRecord *ppnr; /* pprocessNotifyRecord */
+    struct scan_element *spvt;      /* Scan Private */
+    struct rset         *rset;      /* Address of RSET */
+    struct dset         *dset;      /* DSET address */
+    void                *dpvt;      /* Device Private */
+    struct dbRecordType *rdes;      /* Address of dbRecordType */
+    struct lockRecord   *lset;      /* Lock Set */
+    epicsEnum16         prio;       /* Scheduling Priority */
+    epicsUInt8          tpro;       /* Trace Processing */
+    char                bkpt;       /* Break Point */
+    epicsUInt8          udf;        /* Undefined */
+    epicsEnum16         udfs;       /* Undefined Alarm Sevrty */
+    epicsTimeStamp      time;       /* Time */
+    DBLINK              flnk;       /* Forward Process Link */
+    void *	val;                     /* Value */
+    epicsUInt16         nelm;       /* Num of Array Elements */
+    epicsInt16          csta;       /* Collection Status */
+    epicsEnum16         cmd;        /* Collection Control */
+    epicsFloat64        ulim;       /* Upper Signal Limit */
+    epicsFloat64        llim;       /* Lower Signal Limit  */
+    epicsFloat64        wdth;       /* Element Width */
+    epicsFloat64        sgnl;       /* Signal Value */
+    epicsInt16          prec;       /* Display Precision */
+    DBLINK              svl;        /* Signal Value Location */
+    epicsUInt32 *bptr;              /* Buffer Pointer */
+    void *  wdog;                   /* Watchdog callback */
+    epicsInt16          mdel;       /* Monitor Count Deadband */
+    epicsInt16          mcnt;       /* Counts Since Monitor */
+    epicsFloat64        sdel;       /* Monitor Seconds Dband */
+    DBLINK              siol;       /* Simulation Input Link */
+    epicsFloat64        sval;       /* Simulation Value */
+    DBLINK              siml;       /* Simulation Mode Link */
+    epicsEnum16         simm;       /* Simulation Mode */
+    epicsEnum16         sims;       /* Simulation Mode Severity */
+    epicsEnum16         oldsimm;    /* Prev. Simulation Mode */
+    epicsEnum16         sscn;       /* Sim. Mode Scan */
+    epicsFloat64        sdly;       /* Sim. Mode Async Delay */
+    epicsCallback            *simpvt; /* Sim. Mode Private */
+    epicsUInt32         hopr;       /* High Operating Range */
+    epicsUInt32         lopr;       /* Low Operating Range */
 } histogramRecord;
 
 typedef enum {
@@ -127,62 +123,61 @@ typedef enum {
 	histogramRecordSDIS = 12,
 	histogramRecordMLOK = 13,
 	histogramRecordMLIS = 14,
-	histogramRecordBKLNK = 15,
-	histogramRecordDISP = 16,
-	histogramRecordPROC = 17,
-	histogramRecordSTAT = 18,
-	histogramRecordSEVR = 19,
-	histogramRecordNSTA = 20,
-	histogramRecordNSEV = 21,
-	histogramRecordACKS = 22,
-	histogramRecordACKT = 23,
-	histogramRecordDISS = 24,
-	histogramRecordLCNT = 25,
-	histogramRecordPACT = 26,
-	histogramRecordPUTF = 27,
-	histogramRecordRPRO = 28,
-	histogramRecordASP = 29,
-	histogramRecordPPN = 30,
-	histogramRecordPPNR = 31,
-	histogramRecordSPVT = 32,
-	histogramRecordRSET = 33,
-	histogramRecordDSET = 34,
-	histogramRecordDPVT = 35,
-	histogramRecordRDES = 36,
-	histogramRecordLSET = 37,
-	histogramRecordPRIO = 38,
-	histogramRecordTPRO = 39,
-	histogramRecordBKPT = 40,
-	histogramRecordUDF = 41,
-	histogramRecordUDFS = 42,
-	histogramRecordTIME = 43,
-	histogramRecordFLNK = 44,
-	histogramRecordVAL = 45,
-	histogramRecordNELM = 46,
-	histogramRecordCSTA = 47,
-	histogramRecordCMD = 48,
-	histogramRecordULIM = 49,
-	histogramRecordLLIM = 50,
-	histogramRecordWDTH = 51,
-	histogramRecordSGNL = 52,
-	histogramRecordPREC = 53,
-	histogramRecordSVL = 54,
-	histogramRecordBPTR = 55,
-	histogramRecordWDOG = 56,
-	histogramRecordMDEL = 57,
-	histogramRecordMCNT = 58,
-	histogramRecordSDEL = 59,
-	histogramRecordSIOL = 60,
-	histogramRecordSVAL = 61,
-	histogramRecordSIML = 62,
-	histogramRecordSIMM = 63,
-	histogramRecordSIMS = 64,
-	histogramRecordOLDSIMM = 65,
-	histogramRecordSSCN = 66,
-	histogramRecordSDLY = 67,
-	histogramRecordSIMPVT = 68,
-	histogramRecordHOPR = 69,
-	histogramRecordLOPR = 70
+	histogramRecordDISP = 15,
+	histogramRecordPROC = 16,
+	histogramRecordSTAT = 17,
+	histogramRecordSEVR = 18,
+	histogramRecordNSTA = 19,
+	histogramRecordNSEV = 20,
+	histogramRecordACKS = 21,
+	histogramRecordACKT = 22,
+	histogramRecordDISS = 23,
+	histogramRecordLCNT = 24,
+	histogramRecordPACT = 25,
+	histogramRecordPUTF = 26,
+	histogramRecordRPRO = 27,
+	histogramRecordASP = 28,
+	histogramRecordPPN = 29,
+	histogramRecordPPNR = 30,
+	histogramRecordSPVT = 31,
+	histogramRecordRSET = 32,
+	histogramRecordDSET = 33,
+	histogramRecordDPVT = 34,
+	histogramRecordRDES = 35,
+	histogramRecordLSET = 36,
+	histogramRecordPRIO = 37,
+	histogramRecordTPRO = 38,
+	histogramRecordBKPT = 39,
+	histogramRecordUDF = 40,
+	histogramRecordUDFS = 41,
+	histogramRecordTIME = 42,
+	histogramRecordFLNK = 43,
+	histogramRecordVAL = 44,
+	histogramRecordNELM = 45,
+	histogramRecordCSTA = 46,
+	histogramRecordCMD = 47,
+	histogramRecordULIM = 48,
+	histogramRecordLLIM = 49,
+	histogramRecordWDTH = 50,
+	histogramRecordSGNL = 51,
+	histogramRecordPREC = 52,
+	histogramRecordSVL = 53,
+	histogramRecordBPTR = 54,
+	histogramRecordWDOG = 55,
+	histogramRecordMDEL = 56,
+	histogramRecordMCNT = 57,
+	histogramRecordSDEL = 58,
+	histogramRecordSIOL = 59,
+	histogramRecordSVAL = 60,
+	histogramRecordSIML = 61,
+	histogramRecordSIMM = 62,
+	histogramRecordSIMS = 63,
+	histogramRecordOLDSIMM = 64,
+	histogramRecordSSCN = 65,
+	histogramRecordSDLY = 66,
+	histogramRecordSIMPVT = 67,
+	histogramRecordHOPR = 68,
+	histogramRecordLOPR = 69
 } histogramFieldIndex;
 
 #ifdef GEN_SIZE_OFFSET
@@ -196,10 +191,10 @@ static int histogramRecordSizeOffset(dbRecordType *prt)
 {
     histogramRecord *prec = 0;
 
-    if (prt->no_fields != 71) {
+    if (prt->no_fields != 70) {
         cantProceed("IOC build or installation error:\n"
             "    The histogramRecord defined in the DBD file has %d fields,\n"
-            "    but the record support code was built with 71.\n",
+            "    but the record support code was built with 70.\n",
             prt->no_fields);
     }
     prt->papFldDes[histogramRecordNAME]->size = sizeof(prec->name);
@@ -232,8 +227,6 @@ static int histogramRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[histogramRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[histogramRecordMLIS]->size = sizeof(prec->mlis);
     prt->papFldDes[histogramRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
-    prt->papFldDes[histogramRecordBKLNK]->size = sizeof(prec->bklnk);
-    prt->papFldDes[histogramRecordBKLNK]->offset = (unsigned short)((char *)&prec->bklnk - (char *)prec);
     prt->papFldDes[histogramRecordDISP]->size = sizeof(prec->disp);
     prt->papFldDes[histogramRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[histogramRecordPROC]->size = sizeof(prec->proc);

@@ -7,18 +7,23 @@
 
 
 
+include "menuIvoa.dbd"
+
 recordtype(lso) {
 
 
     include "dbCommon.dbd"
+    %#include "devSup.h"
     %
     %/* Declare Device Support Entry Table */
-    %struct lsoRecord;
     %typedef struct lsodset {
-    %    dset common;
-    %    long (*write_string)(struct lsoRecord *prec);
+    %    long number;
+    %    DEVSUPFUN report;
+    %    DEVSUPFUN init;
+    %    DEVSUPFUN init_record;
+    %    DEVSUPFUN get_ioint_info;
+    %    DEVSUPFUN write_string;
     %} lsodset;
-    %#define HAS_lsodset
     %
     field(VAL,DBF_NOACCESS) {
         prompt("Current Value")
@@ -26,7 +31,7 @@ recordtype(lso) {
         pp(TRUE)
         special(SPC_DBADDR)
         extra("char *val")
-        #=type STRING or CHAR[SIZV]
+        #=type STRING[SIZV]
         #=read Yes
         #=write Yes
     }
@@ -35,7 +40,7 @@ recordtype(lso) {
         special(SPC_DBADDR)
         interest(3)
         extra("char *oval")
-        #=type STRING or [SIZV]
+        #=type STRING[SIZV]
         #=read Yes
         #=write No
     }
@@ -99,53 +104,27 @@ recordtype(lso) {
 
 
     field(SIML,DBF_INLINK) {
-        prompt("Simulation Mode link")
+        prompt("Sim Mode link")
         promptgroup("90 - Simulate")
         interest(1)
     }
     field(SIMM,DBF_MENU) {
         prompt("Simulation Mode")
-        special(SPC_MOD)
         interest(1)
         menu(menuYesNo)
     }
     field(SIMS,DBF_MENU) {
-        prompt("Simulation Mode Severity")
+        prompt("Sim mode Alarm Svrty")
         promptgroup("90 - Simulate")
         interest(2)
         menu(menuAlarmSevr)
     }
     field(SIOL,DBF_OUTLINK) {
-        prompt("Simulation Output Link")
+        prompt("Sim Output Specifctn")
         promptgroup("90 - Simulate")
         interest(1)
-    }
-    field(OLDSIMM,DBF_MENU) {
-        prompt("Prev. Simulation Mode")
-        special(SPC_NOMOD)
-        interest(4)
-        menu(menuSimm)
-    }
-    field(SSCN,DBF_MENU) {
-        prompt("Sim. Mode Scan")
-        promptgroup("90 - Simulate")
-        interest(1)
-        menu(menuScan)
-        initial("65535")
-    }
-    field(SDLY,DBF_DOUBLE) {
-        prompt("Sim. Mode Async Delay")
-        promptgroup("90 - Simulate")
-        interest(2)
-        initial("-1.0")
-    }
-    %#include "callback.h"
-    field(SIMPVT,DBF_NOACCESS) {
-        prompt("Sim. Mode Private")
-        special(SPC_NOMOD)
-        interest(4)
-        extra("epicsCallback            *simpvt")
     }
 }
+
 
 

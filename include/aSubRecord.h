@@ -7,345 +7,339 @@
 #ifndef INC_aSubRecord_H
 #define INC_aSubRecord_H
 
-#include "epicsTypes.h"
-#include "link.h"
+ #include "epicsTypes.h"
+ #include "link.h"
 #include "epicsMutex.h"
 #include "ellLib.h"
 #include "epicsTime.h"
 struct aSubRecord;
 
-#ifndef aSubLFLG_NUM_CHOICES
-/** @brief Enumerated type from menu aSubLFLG */
-typedef enum {
-    aSubLFLG_IGNORE                 /**< @brief State string "IGNORE" */,
-    aSubLFLG_READ                   /**< @brief State string "READ" */
-} aSubLFLG;
-/** @brief Number of states defined for menu aSubLFLG */
-#define aSubLFLG_NUM_CHOICES 2
-#endif
-
 #ifndef aSubEFLG_NUM_CHOICES
-/** @brief Enumerated type from menu aSubEFLG */
 typedef enum {
-    aSubEFLG_NEVER                  /**< @brief State string "NEVER" */,
-    aSubEFLG_ON_CHANGE              /**< @brief State string "ON CHANGE" */,
-    aSubEFLG_ALWAYS                 /**< @brief State string "ALWAYS" */
+    aSubEFLG_NEVER                  /* NEVER */,
+    aSubEFLG_ON_CHANGE              /* ON CHANGE */,
+    aSubEFLG_ALWAYS                 /* ALWAYS */
 } aSubEFLG;
-/** @brief Number of states defined for menu aSubEFLG */
 #define aSubEFLG_NUM_CHOICES 3
 #endif
 
-/** @brief Declaration of aSub record type. */
+#ifndef aSubLFLG_NUM_CHOICES
+typedef enum {
+    aSubLFLG_IGNORE                 /* IGNORE */,
+    aSubLFLG_READ                   /* READ */
+} aSubLFLG;
+#define aSubLFLG_NUM_CHOICES 2
+#endif
+
 typedef struct aSubRecord {
-    char                name[61];   /**< @brief Record Name */
-    char                desc[41];   /**< @brief Descriptor */
-    char                asg[29];    /**< @brief Access Security Group */
-    epicsEnum16         scan;       /**< @brief Scan Mechanism */
-    epicsEnum16         pini;       /**< @brief Process at iocInit */
-    epicsInt16          phas;       /**< @brief Scan Phase */
-    char                evnt[40];   /**< @brief Event Name */
-    epicsInt16          tse;        /**< @brief Time Stamp Event */
-    DBLINK              tsel;       /**< @brief Time Stamp Link */
-    epicsEnum16         dtyp;       /**< @brief Device Type */
-    epicsInt16          disv;       /**< @brief Disable Value */
-    epicsInt16          disa;       /**< @brief Disable */
-    DBLINK              sdis;       /**< @brief Scanning Disable */
-    epicsMutexId        mlok;       /**< @brief Monitor lock */
-    ELLLIST             mlis;       /**< @brief Monitor List */
-    ELLLIST             bklnk;      /**< @brief Backwards link tracking */
-    epicsUInt8          disp;       /**< @brief Disable putField */
-    epicsUInt8          proc;       /**< @brief Force Processing */
-    epicsEnum16         stat;       /**< @brief Alarm Status */
-    epicsEnum16         sevr;       /**< @brief Alarm Severity */
-    epicsEnum16         nsta;       /**< @brief New Alarm Status */
-    epicsEnum16         nsev;       /**< @brief New Alarm Severity */
-    epicsEnum16         acks;       /**< @brief Alarm Ack Severity */
-    epicsEnum16         ackt;       /**< @brief Alarm Ack Transient */
-    epicsEnum16         diss;       /**< @brief Disable Alarm Sevrty */
-    epicsUInt8          lcnt;       /**< @brief Lock Count */
-    epicsUInt8          pact;       /**< @brief Record active */
-    epicsUInt8          putf;       /**< @brief dbPutField process */
-    epicsUInt8          rpro;       /**< @brief Reprocess  */
-    struct asgMember    *asp;       /**< @brief Access Security Pvt */
-    struct processNotify *ppn;      /**< @brief pprocessNotify */
-    struct processNotifyRecord *ppnr; /**< @brief pprocessNotifyRecord */
-    struct scan_element *spvt;      /**< @brief Scan Private */
-    struct typed_rset   *rset;      /**< @brief Address of RSET */
-    struct dset         *dset;      /**< @brief DSET address */
-    void                *dpvt;      /**< @brief Device Private */
-    struct dbRecordType *rdes;      /**< @brief Address of dbRecordType */
-    struct lockRecord   *lset;      /**< @brief Lock Set */
-    epicsEnum16         prio;       /**< @brief Scheduling Priority */
-    epicsUInt8          tpro;       /**< @brief Trace Processing */
-    char                bkpt;       /**< @brief Break Point */
-    epicsUInt8          udf;        /**< @brief Undefined */
-    epicsEnum16         udfs;       /**< @brief Undefined Alarm Sevrty */
-    epicsTimeStamp      time;       /**< @brief Time */
-    DBLINK              flnk;       /**< @brief Forward Process Link */
-    epicsInt32          val;        /**< @brief Subr. return value */
-    epicsInt32          oval;       /**< @brief Old return value */
-    char                inam[41];   /**< @brief Initialize Subr. Name */
-    epicsEnum16         lflg;       /**< @brief Subr. Input Enable */
-    DBLINK              subl;       /**< @brief Subroutine Name Link */
-    char                snam[41];   /**< @brief Process Subr. Name */
-    char                onam[41];   /**< @brief Old Subr. Name */
-    long (*sadr)(struct aSubRecord *); /**< @brief Subroutine Address */
-    void (*cadr)(struct aSubRecord *); /**< @brief Subroutine Cleanup Address */
-    epicsEnum16         brsv;       /**< @brief Bad Return Severity */
-    epicsInt16          prec;       /**< @brief Display Precision */
-    epicsEnum16         eflg;       /**< @brief Output Event Flag */
-    DBLINK              inpa;       /**< @brief Input Link A */
-    DBLINK              inpb;       /**< @brief Input Link B */
-    DBLINK              inpc;       /**< @brief Input Link C */
-    DBLINK              inpd;       /**< @brief Input Link D */
-    DBLINK              inpe;       /**< @brief Input Link E */
-    DBLINK              inpf;       /**< @brief Input Link F */
-    DBLINK              inpg;       /**< @brief Input Link G */
-    DBLINK              inph;       /**< @brief Input Link H */
-    DBLINK              inpi;       /**< @brief Input Link I */
-    DBLINK              inpj;       /**< @brief Input Link J */
-    DBLINK              inpk;       /**< @brief Input Link K */
-    DBLINK              inpl;       /**< @brief Input Link L */
-    DBLINK              inpm;       /**< @brief Input Link M */
-    DBLINK              inpn;       /**< @brief Input Link N */
-    DBLINK              inpo;       /**< @brief Input Link O */
-    DBLINK              inpp;       /**< @brief Input Link P */
-    DBLINK              inpq;       /**< @brief Input Link Q */
-    DBLINK              inpr;       /**< @brief Input Link R */
-    DBLINK              inps;       /**< @brief Input Link S */
-    DBLINK              inpt;       /**< @brief Input Link T */
-    DBLINK              inpu;       /**< @brief Input Link U */
-    void *a;                        /**< @brief Input value A */
-    void *b;                        /**< @brief Input value B */
-    void *c;                        /**< @brief Input value C */
-    void *d;                        /**< @brief Input value D */
-    void *e;                        /**< @brief Input value E */
-    void *f;                        /**< @brief Input value F */
-    void *g;                        /**< @brief Input value G */
-    void *h;                        /**< @brief Input value H */
-    void *i;                        /**< @brief Input value I */
-    void *j;                        /**< @brief Input value J */
-    void *k;                        /**< @brief Input value K */
-    void *l;                        /**< @brief Input value L */
-    void *m;                        /**< @brief Input value M */
-    void *n;                        /**< @brief Input value N */
-    void *o;                        /**< @brief Input value O */
-    void *p;                        /**< @brief Input value P */
-    void *q;                        /**< @brief Input value Q */
-    void *r;                        /**< @brief Input value R */
-    void *s;                        /**< @brief Input value S */
-    void *t;                        /**< @brief Input value T */
-    void *u;                        /**< @brief Input value U */
-    epicsEnum16         fta;        /**< @brief Type of A */
-    epicsEnum16         ftb;        /**< @brief Type of B */
-    epicsEnum16         ftc;        /**< @brief Type of C */
-    epicsEnum16         ftd;        /**< @brief Type of D */
-    epicsEnum16         fte;        /**< @brief Type of E */
-    epicsEnum16         ftf;        /**< @brief Type of F */
-    epicsEnum16         ftg;        /**< @brief Type of G */
-    epicsEnum16         fth;        /**< @brief Type of H */
-    epicsEnum16         fti;        /**< @brief Type of I */
-    epicsEnum16         ftj;        /**< @brief Type of J */
-    epicsEnum16         ftk;        /**< @brief Type of K */
-    epicsEnum16         ftl;        /**< @brief Type of L */
-    epicsEnum16         ftm;        /**< @brief Type of M */
-    epicsEnum16         ftn;        /**< @brief Type of N */
-    epicsEnum16         fto;        /**< @brief Type of O */
-    epicsEnum16         ftp;        /**< @brief Type of P */
-    epicsEnum16         ftq;        /**< @brief Type of Q */
-    epicsEnum16         ftr;        /**< @brief Type of R */
-    epicsEnum16         fts;        /**< @brief Type of S */
-    epicsEnum16         ftt;        /**< @brief Type of T */
-    epicsEnum16         ftu;        /**< @brief Type of U */
-    epicsUInt32         noa;        /**< @brief Max. elements in A */
-    epicsUInt32         nob;        /**< @brief Max. elements in B */
-    epicsUInt32         noc;        /**< @brief Max. elements in C */
-    epicsUInt32         nod;        /**< @brief Max. elements in D */
-    epicsUInt32         noe;        /**< @brief Max. elements in E */
-    epicsUInt32         nof;        /**< @brief Max. elements in F */
-    epicsUInt32         nog;        /**< @brief Max. elements in G */
-    epicsUInt32         noh;        /**< @brief Max. elements in H */
-    epicsUInt32         noi;        /**< @brief Max. elements in I */
-    epicsUInt32         noj;        /**< @brief Max. elements in J */
-    epicsUInt32         nok;        /**< @brief Max. elements in K */
-    epicsUInt32         nol;        /**< @brief Max. elements in L */
-    epicsUInt32         nom;        /**< @brief Max. elements in M */
-    epicsUInt32         non;        /**< @brief Max. elements in N */
-    epicsUInt32         noo;        /**< @brief Max. elements in O */
-    epicsUInt32         nop;        /**< @brief Max. elements in P */
-    epicsUInt32         noq;        /**< @brief Max. elements in Q */
-    epicsUInt32         nor;        /**< @brief Max. elements in R */
-    epicsUInt32         nos;        /**< @brief Max. elements in S */
-    epicsUInt32         NOT;        /**< @brief Max. elements in T */
-    epicsUInt32         nou;        /**< @brief Max. elements in U */
-    epicsUInt32         nea;        /**< @brief Num. elements in A */
-    epicsUInt32         neb;        /**< @brief Num. elements in B */
-    epicsUInt32         nec;        /**< @brief Num. elements in C */
-    epicsUInt32         ned;        /**< @brief Num. elements in D */
-    epicsUInt32         nee;        /**< @brief Num. elements in E */
-    epicsUInt32         nef;        /**< @brief Num. elements in F */
-    epicsUInt32         neg;        /**< @brief Num. elements in G */
-    epicsUInt32         neh;        /**< @brief Num. elements in H */
-    epicsUInt32         nei;        /**< @brief Num. elements in I */
-    epicsUInt32         nej;        /**< @brief Num. elements in J */
-    epicsUInt32         nek;        /**< @brief Num. elements in K */
-    epicsUInt32         nel;        /**< @brief Num. elements in L */
-    epicsUInt32         nem;        /**< @brief Num. elements in M */
-    epicsUInt32         nen;        /**< @brief Num. elements in N */
-    epicsUInt32         neo;        /**< @brief Num. elements in O */
-    epicsUInt32         nep;        /**< @brief Num. elements in P */
-    epicsUInt32         neq;        /**< @brief Num. elements in Q */
-    epicsUInt32         ner;        /**< @brief Num. elements in R */
-    epicsUInt32         nes;        /**< @brief Num. elements in S */
-    epicsUInt32         net;        /**< @brief Num. elements in T */
-    epicsUInt32         neu;        /**< @brief Num. elements in U */
-    DBLINK              outa;       /**< @brief Output Link A */
-    DBLINK              outb;       /**< @brief Output Link B */
-    DBLINK              outc;       /**< @brief Output Link C */
-    DBLINK              outd;       /**< @brief Output Link D */
-    DBLINK              oute;       /**< @brief Output Link E */
-    DBLINK              outf;       /**< @brief Output Link F */
-    DBLINK              outg;       /**< @brief Output Link G */
-    DBLINK              outh;       /**< @brief Output Link H */
-    DBLINK              outi;       /**< @brief Output Link I */
-    DBLINK              outj;       /**< @brief Output Link J */
-    DBLINK              outk;       /**< @brief Output Link K */
-    DBLINK              outl;       /**< @brief Output Link L */
-    DBLINK              outm;       /**< @brief Output Link M */
-    DBLINK              outn;       /**< @brief Output Link N */
-    DBLINK              outo;       /**< @brief Output Link O */
-    DBLINK              outp;       /**< @brief Output Link P */
-    DBLINK              outq;       /**< @brief Output Link Q */
-    DBLINK              outr;       /**< @brief Output Link R */
-    DBLINK              outs;       /**< @brief Output Link S */
-    DBLINK              outt;       /**< @brief Output Link T */
-    DBLINK              outu;       /**< @brief Output Link U */
-    void *vala;                     /**< @brief Output value A */
-    void *valb;                     /**< @brief Output value B */
-    void *valc;                     /**< @brief Output value C */
-    void *vald;                     /**< @brief Output value D */
-    void *vale;                     /**< @brief Output value E */
-    void *valf;                     /**< @brief Output value F */
-    void *valg;                     /**< @brief Output value G */
-    void *valh;                     /**< @brief Output value H */
-    void *vali;                     /**< @brief Output value I */
-    void *valj;                     /**< @brief Output value J */
-    void *valk;                     /**< @brief Output value K */
-    void *vall;                     /**< @brief Output value L */
-    void *valm;                     /**< @brief Output value M */
-    void *valn;                     /**< @brief Output value N */
-    void *valo;                     /**< @brief Output value O */
-    void *valp;                     /**< @brief Output value P */
-    void *valq;                     /**< @brief Output value Q */
-    void *valr;                     /**< @brief Output value R */
-    void *vals;                     /**< @brief Output value S */
-    void *valt;                     /**< @brief Output value T */
-    void *valu;                     /**< @brief Output value U */
-    void *ovla;                     /**< @brief Old Output A */
-    void *ovlb;                     /**< @brief Old Output B */
-    void *ovlc;                     /**< @brief Old Output C */
-    void *ovld;                     /**< @brief Old Output D */
-    void *ovle;                     /**< @brief Old Output E */
-    void *ovlf;                     /**< @brief Old Output F */
-    void *ovlg;                     /**< @brief Old Output G */
-    void *ovlh;                     /**< @brief Old Output H */
-    void *ovli;                     /**< @brief Old Output I */
-    void *ovlj;                     /**< @brief Old Output J */
-    void *ovlk;                     /**< @brief Old Output K */
-    void *ovll;                     /**< @brief Old Output L */
-    void *ovlm;                     /**< @brief Old Output M */
-    void *ovln;                     /**< @brief Old Output N */
-    void *ovlo;                     /**< @brief Old Output O */
-    void *ovlp;                     /**< @brief Old Output P */
-    void *ovlq;                     /**< @brief Old Output Q */
-    void *ovlr;                     /**< @brief Old Output R */
-    void *ovls;                     /**< @brief Old Output S */
-    void *ovlt;                     /**< @brief Old Output T */
-    void *ovlu;                     /**< @brief Old Output U */
-    epicsEnum16         ftva;       /**< @brief Type of VALA */
-    epicsEnum16         ftvb;       /**< @brief Type of VALB */
-    epicsEnum16         ftvc;       /**< @brief Type of VALC */
-    epicsEnum16         ftvd;       /**< @brief Type of VALD */
-    epicsEnum16         ftve;       /**< @brief Type of VALE */
-    epicsEnum16         ftvf;       /**< @brief Type of VALF */
-    epicsEnum16         ftvg;       /**< @brief Type of VALG */
-    epicsEnum16         ftvh;       /**< @brief Type of VALH */
-    epicsEnum16         ftvi;       /**< @brief Type of VALI */
-    epicsEnum16         ftvj;       /**< @brief Type of VALJ */
-    epicsEnum16         ftvk;       /**< @brief Type of VALK */
-    epicsEnum16         ftvl;       /**< @brief Type of VALL */
-    epicsEnum16         ftvm;       /**< @brief Type of VALM */
-    epicsEnum16         ftvn;       /**< @brief Type of VALN */
-    epicsEnum16         ftvo;       /**< @brief Type of VALO */
-    epicsEnum16         ftvp;       /**< @brief Type of VALP */
-    epicsEnum16         ftvq;       /**< @brief Type of VALQ */
-    epicsEnum16         ftvr;       /**< @brief Type of VALR */
-    epicsEnum16         ftvs;       /**< @brief Type of VALS */
-    epicsEnum16         ftvt;       /**< @brief Type of VALT */
-    epicsEnum16         ftvu;       /**< @brief Type of VALU */
-    epicsUInt32         nova;       /**< @brief Max. elements in VALA */
-    epicsUInt32         novb;       /**< @brief Max. elements in VALB */
-    epicsUInt32         novc;       /**< @brief Max. elements in VALC */
-    epicsUInt32         novd;       /**< @brief Max. elements in VALD */
-    epicsUInt32         nove;       /**< @brief Max. elements in VALE */
-    epicsUInt32         novf;       /**< @brief Max. elements in VALF */
-    epicsUInt32         novg;       /**< @brief Max. elements in VALG */
-    epicsUInt32         novh;       /**< @brief Max. elements in VAlH */
-    epicsUInt32         novi;       /**< @brief Max. elements in VALI */
-    epicsUInt32         novj;       /**< @brief Max. elements in VALJ */
-    epicsUInt32         novk;       /**< @brief Max. elements in VALK */
-    epicsUInt32         novl;       /**< @brief Max. elements in VALL */
-    epicsUInt32         novm;       /**< @brief Max. elements in VALM */
-    epicsUInt32         novn;       /**< @brief Max. elements in VALN */
-    epicsUInt32         novo;       /**< @brief Max. elements in VALO */
-    epicsUInt32         novp;       /**< @brief Max. elements in VALP */
-    epicsUInt32         novq;       /**< @brief Max. elements in VALQ */
-    epicsUInt32         novr;       /**< @brief Max. elements in VALR */
-    epicsUInt32         novs;       /**< @brief Max. elements in VALS */
-    epicsUInt32         novt;       /**< @brief Max. elements in VALT */
-    epicsUInt32         novu;       /**< @brief Max. elements in VALU */
-    epicsUInt32         neva;       /**< @brief Num. elements in VALA */
-    epicsUInt32         nevb;       /**< @brief Num. elements in VALB */
-    epicsUInt32         nevc;       /**< @brief Num. elements in VALC */
-    epicsUInt32         nevd;       /**< @brief Num. elements in VALD */
-    epicsUInt32         neve;       /**< @brief Num. elements in VALE */
-    epicsUInt32         nevf;       /**< @brief Num. elements in VALF */
-    epicsUInt32         nevg;       /**< @brief Num. elements in VALG */
-    epicsUInt32         nevh;       /**< @brief Num. elements in VAlH */
-    epicsUInt32         nevi;       /**< @brief Num. elements in VALI */
-    epicsUInt32         nevj;       /**< @brief Num. elements in VALJ */
-    epicsUInt32         nevk;       /**< @brief Num. elements in VALK */
-    epicsUInt32         nevl;       /**< @brief Num. elements in VALL */
-    epicsUInt32         nevm;       /**< @brief Num. elements in VALM */
-    epicsUInt32         nevn;       /**< @brief Num. elements in VALN */
-    epicsUInt32         nevo;       /**< @brief Num. elements in VALO */
-    epicsUInt32         nevp;       /**< @brief Num. elements in VALP */
-    epicsUInt32         nevq;       /**< @brief Num. elements in VALQ */
-    epicsUInt32         nevr;       /**< @brief Num. elements in VALR */
-    epicsUInt32         nevs;       /**< @brief Num. elements in VALS */
-    epicsUInt32         nevt;       /**< @brief Num. elements in VALT */
-    epicsUInt32         nevu;       /**< @brief Num. elements in VALU */
-    epicsUInt32         onva;       /**< @brief Num. elements in OVLA */
-    epicsUInt32         onvb;       /**< @brief Num. elements in OVLB */
-    epicsUInt32         onvc;       /**< @brief Num. elements in OVLC */
-    epicsUInt32         onvd;       /**< @brief Num. elements in OVLD */
-    epicsUInt32         onve;       /**< @brief Num. elements in OVLE */
-    epicsUInt32         onvf;       /**< @brief Num. elements in OVLF */
-    epicsUInt32         onvg;       /**< @brief Num. elements in OVLG */
-    epicsUInt32         onvh;       /**< @brief Num. elements in VAlH */
-    epicsUInt32         onvi;       /**< @brief Num. elements in OVLI */
-    epicsUInt32         onvj;       /**< @brief Num. elements in OVLJ */
-    epicsUInt32         onvk;       /**< @brief Num. elements in OVLK */
-    epicsUInt32         onvl;       /**< @brief Num. elements in OVLL */
-    epicsUInt32         onvm;       /**< @brief Num. elements in OVLM */
-    epicsUInt32         onvn;       /**< @brief Num. elements in OVLN */
-    epicsUInt32         onvo;       /**< @brief Num. elements in OVLO */
-    epicsUInt32         onvp;       /**< @brief Num. elements in OVLP */
-    epicsUInt32         onvq;       /**< @brief Num. elements in OVLQ */
-    epicsUInt32         onvr;       /**< @brief Num. elements in OVLR */
-    epicsUInt32         onvs;       /**< @brief Num. elements in OVLS */
-    epicsUInt32         onvt;       /**< @brief Num. elements in OVLT */
-    epicsUInt32         onvu;       /**< @brief Num. elements in OVLU */
+    char                name[61];   /* Record Name */
+    char                desc[41];   /* Descriptor */
+    char                asg[29];    /* Access Security Group */
+    epicsEnum16         scan;       /* Scan Mechanism */
+    epicsEnum16         pini;       /* Process at iocInit */
+    epicsInt16          phas;       /* Scan Phase */
+    char                evnt[40];   /* Event Name */
+    epicsInt16          tse;        /* Time Stamp Event */
+    DBLINK              tsel;       /* Time Stamp Link */
+    epicsEnum16         dtyp;       /* Device Type */
+    epicsInt16          disv;       /* Disable Value */
+    epicsInt16          disa;       /* Disable */
+    DBLINK              sdis;       /* Scanning Disable */
+    epicsMutexId        mlok;       /* Monitor lock */
+    ELLLIST             mlis;       /* Monitor List */
+    epicsUInt8          disp;       /* Disable putField */
+    epicsUInt8          proc;       /* Force Processing */
+    epicsEnum16         stat;       /* Alarm Status */
+    epicsEnum16         sevr;       /* Alarm Severity */
+    epicsEnum16         nsta;       /* New Alarm Status */
+    epicsEnum16         nsev;       /* New Alarm Severity */
+    epicsEnum16         acks;       /* Alarm Ack Severity */
+    epicsEnum16         ackt;       /* Alarm Ack Transient */
+    epicsEnum16         diss;       /* Disable Alarm Sevrty */
+    epicsUInt8          lcnt;       /* Lock Count */
+    epicsUInt8          pact;       /* Record active */
+    epicsUInt8          putf;       /* dbPutField process */
+    epicsUInt8          rpro;       /* Reprocess  */
+    struct asgMember    *asp;       /* Access Security Pvt */
+    struct processNotify *ppn;      /* pprocessNotify */
+    struct processNotifyRecord *ppnr; /* pprocessNotifyRecord */
+    struct scan_element *spvt;      /* Scan Private */
+    struct rset         *rset;      /* Address of RSET */
+    struct dset         *dset;      /* DSET address */
+    void                *dpvt;      /* Device Private */
+    struct dbRecordType *rdes;      /* Address of dbRecordType */
+    struct lockRecord   *lset;      /* Lock Set */
+    epicsEnum16         prio;       /* Scheduling Priority */
+    epicsUInt8          tpro;       /* Trace Processing */
+    char                bkpt;       /* Break Point */
+    epicsUInt8          udf;        /* Undefined */
+    epicsEnum16         udfs;       /* Undefined Alarm Sevrty */
+    epicsTimeStamp      time;       /* Time */
+    DBLINK              flnk;       /* Forward Process Link */
+    epicsInt32          val;        /* Subr. return value */
+    epicsInt32          oval;       /* Old return value */
+    char                inam[41];   /* Initialize Subr. Name */
+    epicsEnum16         lflg;       /* Subr. Input Enable */
+    DBLINK              subl;       /* Subroutine Name Link */
+    char                snam[41];   /* Process Subr. Name */
+    char                onam[41];   /* Old Subr. Name */
+    long (*sadr)(struct aSubRecord *); /* Subroutine Address */
+    void (*cadr)(struct aSubRecord *); /* Subroutine Cleanup Address */
+    epicsEnum16         brsv;       /* Bad Return Severity */
+    epicsInt16          prec;       /* Display Precision */
+    epicsEnum16         eflg;       /* Output Event Flag */
+    DBLINK              inpa;       /* Input Link A */
+    DBLINK              inpb;       /* Input Link B */
+    DBLINK              inpc;       /* Input Link C */
+    DBLINK              inpd;       /* Input Link D */
+    DBLINK              inpe;       /* Input Link E */
+    DBLINK              inpf;       /* Input Link F */
+    DBLINK              inpg;       /* Input Link G */
+    DBLINK              inph;       /* Input Link H */
+    DBLINK              inpi;       /* Input Link I */
+    DBLINK              inpj;       /* Input Link J */
+    DBLINK              inpk;       /* Input Link K */
+    DBLINK              inpl;       /* Input Link L */
+    DBLINK              inpm;       /* Input Link M */
+    DBLINK              inpn;       /* Input Link N */
+    DBLINK              inpo;       /* Input Link O */
+    DBLINK              inpp;       /* Input Link P */
+    DBLINK              inpq;       /* Input Link Q */
+    DBLINK              inpr;       /* Input Link R */
+    DBLINK              inps;       /* Input Link S */
+    DBLINK              inpt;       /* Input Link T */
+    DBLINK              inpu;       /* Input Link U */
+    void *a;                        /* Input value A */
+    void *b;                        /* Input value B */
+    void *c;                        /* Input value C */
+    void *d;                        /* Input value D */
+    void *e;                        /* Input value E */
+    void *f;                        /* Input value F */
+    void *g;                        /* Input value G */
+    void *h;                        /* Input value H */
+    void *i;                        /* Input value I */
+    void *j;                        /* Input value J */
+    void *k;                        /* Input value K */
+    void *l;                        /* Input value L */
+    void *m;                        /* Input value M */
+    void *n;                        /* Input value N */
+    void *o;                        /* Input value O */
+    void *p;                        /* Input value P */
+    void *q;                        /* Input value Q */
+    void *r;                        /* Input value R */
+    void *s;                        /* Input value S */
+    void *t;                        /* Input value T */
+    void *u;                        /* Input value U */
+    epicsEnum16         fta;        /* Type of A */
+    epicsEnum16         ftb;        /* Type of B */
+    epicsEnum16         ftc;        /* Type of C */
+    epicsEnum16         ftd;        /* Type of D */
+    epicsEnum16         fte;        /* Type of E */
+    epicsEnum16         ftf;        /* Type of F */
+    epicsEnum16         ftg;        /* Type of G */
+    epicsEnum16         fth;        /* Type of H */
+    epicsEnum16         fti;        /* Type of I */
+    epicsEnum16         ftj;        /* Type of J */
+    epicsEnum16         ftk;        /* Type of K */
+    epicsEnum16         ftl;        /* Type of L */
+    epicsEnum16         ftm;        /* Type of M */
+    epicsEnum16         ftn;        /* Type of N */
+    epicsEnum16         fto;        /* Type of O */
+    epicsEnum16         ftp;        /* Type of P */
+    epicsEnum16         ftq;        /* Type of Q */
+    epicsEnum16         ftr;        /* Type of R */
+    epicsEnum16         fts;        /* Type of S */
+    epicsEnum16         ftt;        /* Type of T */
+    epicsEnum16         ftu;        /* Type of U */
+    epicsUInt32         noa;        /* Max. elements in A */
+    epicsUInt32         nob;        /* Max. elements in B */
+    epicsUInt32         noc;        /* Max. elements in C */
+    epicsUInt32         nod;        /* Max. elements in D */
+    epicsUInt32         noe;        /* Max. elements in E */
+    epicsUInt32         nof;        /* Max. elements in F */
+    epicsUInt32         nog;        /* Max. elements in G */
+    epicsUInt32         noh;        /* Max. elements in H */
+    epicsUInt32         noi;        /* Max. elements in I */
+    epicsUInt32         noj;        /* Max. elements in J */
+    epicsUInt32         nok;        /* Max. elements in K */
+    epicsUInt32         nol;        /* Max. elements in L */
+    epicsUInt32         nom;        /* Max. elements in M */
+    epicsUInt32         non;        /* Max. elements in N */
+    epicsUInt32         noo;        /* Max. elements in O */
+    epicsUInt32         nop;        /* Max. elements in P */
+    epicsUInt32         noq;        /* Max. elements in Q */
+    epicsUInt32         nor;        /* Max. elements in R */
+    epicsUInt32         nos;        /* Max. elements in S */
+    epicsUInt32         NOT;        /* Max. elements in T */
+    epicsUInt32         nou;        /* Max. elements in U */
+    epicsUInt32         nea;        /* Num. elements in A */
+    epicsUInt32         neb;        /* Num. elements in B */
+    epicsUInt32         nec;        /* Num. elements in C */
+    epicsUInt32         ned;        /* Num. elements in D */
+    epicsUInt32         nee;        /* Num. elements in E */
+    epicsUInt32         nef;        /* Num. elements in F */
+    epicsUInt32         neg;        /* Num. elements in G */
+    epicsUInt32         neh;        /* Num. elements in H */
+    epicsUInt32         nei;        /* Num. elements in I */
+    epicsUInt32         nej;        /* Num. elements in J */
+    epicsUInt32         nek;        /* Num. elements in K */
+    epicsUInt32         nel;        /* Num. elements in L */
+    epicsUInt32         nem;        /* Num. elements in M */
+    epicsUInt32         nen;        /* Num. elements in N */
+    epicsUInt32         neo;        /* Num. elements in O */
+    epicsUInt32         nep;        /* Num. elements in P */
+    epicsUInt32         neq;        /* Num. elements in Q */
+    epicsUInt32         ner;        /* Num. elements in R */
+    epicsUInt32         nes;        /* Num. elements in S */
+    epicsUInt32         net;        /* Num. elements in T */
+    epicsUInt32         neu;        /* Num. elements in U */
+    DBLINK              outa;       /* Output Link A */
+    DBLINK              outb;       /* Output Link B */
+    DBLINK              outc;       /* Output Link C */
+    DBLINK              outd;       /* Output Link D */
+    DBLINK              oute;       /* Output Link E */
+    DBLINK              outf;       /* Output Link F */
+    DBLINK              outg;       /* Output Link G */
+    DBLINK              outh;       /* Output Link H */
+    DBLINK              outi;       /* Output Link I */
+    DBLINK              outj;       /* Output Link J */
+    DBLINK              outk;       /* Output Link K */
+    DBLINK              outl;       /* Output Link L */
+    DBLINK              outm;       /* Output Link M */
+    DBLINK              outn;       /* Output Link N */
+    DBLINK              outo;       /* Output Link O */
+    DBLINK              outp;       /* Output Link P */
+    DBLINK              outq;       /* Output Link Q */
+    DBLINK              outr;       /* Output Link R */
+    DBLINK              outs;       /* Output Link S */
+    DBLINK              outt;       /* Output Link T */
+    DBLINK              outu;       /* Output Link U */
+    void *vala;                     /* Output value A */
+    void *valb;                     /* Output value B */
+    void *valc;                     /* Output value C */
+    void *vald;                     /* Output value D */
+    void *vale;                     /* Output value E */
+    void *valf;                     /* Output value F */
+    void *valg;                     /* Output value G */
+    void *valh;                     /* Output value H */
+    void *vali;                     /* Output value I */
+    void *valj;                     /* Output value J */
+    void *valk;                     /* Output value K */
+    void *vall;                     /* Output value L */
+    void *valm;                     /* Output value M */
+    void *valn;                     /* Output value N */
+    void *valo;                     /* Output value O */
+    void *valp;                     /* Output value P */
+    void *valq;                     /* Output value Q */
+    void *valr;                     /* Output value R */
+    void *vals;                     /* Output value S */
+    void *valt;                     /* Output value T */
+    void *valu;                     /* Output value U */
+    void *ovla;                     /* Old Output A */
+    void *ovlb;                     /* Old Output B */
+    void *ovlc;                     /* Old Output C */
+    void *ovld;                     /* Old Output D */
+    void *ovle;                     /* Old Output E */
+    void *ovlf;                     /* Old Output F */
+    void *ovlg;                     /* Old Output G */
+    void *ovlh;                     /* Old Output H */
+    void *ovli;                     /* Old Output I */
+    void *ovlj;                     /* Old Output J */
+    void *ovlk;                     /* Old Output K */
+    void *ovll;                     /* Old Output L */
+    void *ovlm;                     /* Old Output M */
+    void *ovln;                     /* Old Output N */
+    void *ovlo;                     /* Old Output O */
+    void *ovlp;                     /* Old Output P */
+    void *ovlq;                     /* Old Output Q */
+    void *ovlr;                     /* Old Output R */
+    void *ovls;                     /* Old Output S */
+    void *ovlt;                     /* Old Output T */
+    void *ovlu;                     /* Old Output U */
+    epicsEnum16         ftva;       /* Type of VALA */
+    epicsEnum16         ftvb;       /* Type of VALB */
+    epicsEnum16         ftvc;       /* Type of VALC */
+    epicsEnum16         ftvd;       /* Type of VALD */
+    epicsEnum16         ftve;       /* Type of VALE */
+    epicsEnum16         ftvf;       /* Type of VALF */
+    epicsEnum16         ftvg;       /* Type of VALG */
+    epicsEnum16         ftvh;       /* Type of VALH */
+    epicsEnum16         ftvi;       /* Type of VALI */
+    epicsEnum16         ftvj;       /* Type of VALJ */
+    epicsEnum16         ftvk;       /* Type of VALK */
+    epicsEnum16         ftvl;       /* Type of VALL */
+    epicsEnum16         ftvm;       /* Type of VALM */
+    epicsEnum16         ftvn;       /* Type of VALN */
+    epicsEnum16         ftvo;       /* Type of VALO */
+    epicsEnum16         ftvp;       /* Type of VALP */
+    epicsEnum16         ftvq;       /* Type of VALQ */
+    epicsEnum16         ftvr;       /* Type of VALR */
+    epicsEnum16         ftvs;       /* Type of VALS */
+    epicsEnum16         ftvt;       /* Type of VALT */
+    epicsEnum16         ftvu;       /* Type of VALU */
+    epicsUInt32         nova;       /* Max. elements in VALA */
+    epicsUInt32         novb;       /* Max. elements in VALB */
+    epicsUInt32         novc;       /* Max. elements in VALC */
+    epicsUInt32         novd;       /* Max. elements in VALD */
+    epicsUInt32         nove;       /* Max. elements in VALE */
+    epicsUInt32         novf;       /* Max. elements in VALF */
+    epicsUInt32         novg;       /* Max. elements in VALG */
+    epicsUInt32         novh;       /* Max. elements in VAlH */
+    epicsUInt32         novi;       /* Max. elements in VALI */
+    epicsUInt32         novj;       /* Max. elements in VALJ */
+    epicsUInt32         novk;       /* Max. elements in VALK */
+    epicsUInt32         novl;       /* Max. elements in VALL */
+    epicsUInt32         novm;       /* Max. elements in VALM */
+    epicsUInt32         novn;       /* Max. elements in VALN */
+    epicsUInt32         novo;       /* Max. elements in VALO */
+    epicsUInt32         novp;       /* Max. elements in VALP */
+    epicsUInt32         novq;       /* Max. elements in VALQ */
+    epicsUInt32         novr;       /* Max. elements in VALR */
+    epicsUInt32         novs;       /* Max. elements in VALS */
+    epicsUInt32         novt;       /* Max. elements in VALT */
+    epicsUInt32         novu;       /* Max. elements in VALU */
+    epicsUInt32         neva;       /* Num. elements in VALA */
+    epicsUInt32         nevb;       /* Num. elements in VALB */
+    epicsUInt32         nevc;       /* Num. elements in VALC */
+    epicsUInt32         nevd;       /* Num. elements in VALD */
+    epicsUInt32         neve;       /* Num. elements in VALE */
+    epicsUInt32         nevf;       /* Num. elements in VALF */
+    epicsUInt32         nevg;       /* Num. elements in VALG */
+    epicsUInt32         nevh;       /* Num. elements in VAlH */
+    epicsUInt32         nevi;       /* Num. elements in VALI */
+    epicsUInt32         nevj;       /* Num. elements in VALJ */
+    epicsUInt32         nevk;       /* Num. elements in VALK */
+    epicsUInt32         nevl;       /* Num. elements in VALL */
+    epicsUInt32         nevm;       /* Num. elements in VALM */
+    epicsUInt32         nevn;       /* Num. elements in VALN */
+    epicsUInt32         nevo;       /* Num. elements in VALO */
+    epicsUInt32         nevp;       /* Num. elements in VALP */
+    epicsUInt32         nevq;       /* Num. elements in VALQ */
+    epicsUInt32         nevr;       /* Num. elements in VALR */
+    epicsUInt32         nevs;       /* Num. elements in VALS */
+    epicsUInt32         nevt;       /* Num. elements in VALT */
+    epicsUInt32         nevu;       /* Num. elements in VALU */
+    epicsUInt32         onva;       /* Num. elements in OVLA */
+    epicsUInt32         onvb;       /* Num. elements in OVLB */
+    epicsUInt32         onvc;       /* Num. elements in OVLC */
+    epicsUInt32         onvd;       /* Num. elements in OVLD */
+    epicsUInt32         onve;       /* Num. elements in OVLE */
+    epicsUInt32         onvf;       /* Num. elements in OVLF */
+    epicsUInt32         onvg;       /* Num. elements in OVLG */
+    epicsUInt32         onvh;       /* Num. elements in VAlH */
+    epicsUInt32         onvi;       /* Num. elements in OVLI */
+    epicsUInt32         onvj;       /* Num. elements in OVLJ */
+    epicsUInt32         onvk;       /* Num. elements in OVLK */
+    epicsUInt32         onvl;       /* Num. elements in OVLL */
+    epicsUInt32         onvm;       /* Num. elements in OVLM */
+    epicsUInt32         onvn;       /* Num. elements in OVLN */
+    epicsUInt32         onvo;       /* Num. elements in OVLO */
+    epicsUInt32         onvp;       /* Num. elements in OVLP */
+    epicsUInt32         onvq;       /* Num. elements in OVLQ */
+    epicsUInt32         onvr;       /* Num. elements in OVLR */
+    epicsUInt32         onvs;       /* Num. elements in OVLS */
+    epicsUInt32         onvt;       /* Num. elements in OVLT */
+    epicsUInt32         onvu;       /* Num. elements in OVLU */
 } aSubRecord;
 
 typedef enum {
@@ -364,300 +358,299 @@ typedef enum {
 	aSubRecordSDIS = 12,
 	aSubRecordMLOK = 13,
 	aSubRecordMLIS = 14,
-	aSubRecordBKLNK = 15,
-	aSubRecordDISP = 16,
-	aSubRecordPROC = 17,
-	aSubRecordSTAT = 18,
-	aSubRecordSEVR = 19,
-	aSubRecordNSTA = 20,
-	aSubRecordNSEV = 21,
-	aSubRecordACKS = 22,
-	aSubRecordACKT = 23,
-	aSubRecordDISS = 24,
-	aSubRecordLCNT = 25,
-	aSubRecordPACT = 26,
-	aSubRecordPUTF = 27,
-	aSubRecordRPRO = 28,
-	aSubRecordASP = 29,
-	aSubRecordPPN = 30,
-	aSubRecordPPNR = 31,
-	aSubRecordSPVT = 32,
-	aSubRecordRSET = 33,
-	aSubRecordDSET = 34,
-	aSubRecordDPVT = 35,
-	aSubRecordRDES = 36,
-	aSubRecordLSET = 37,
-	aSubRecordPRIO = 38,
-	aSubRecordTPRO = 39,
-	aSubRecordBKPT = 40,
-	aSubRecordUDF = 41,
-	aSubRecordUDFS = 42,
-	aSubRecordTIME = 43,
-	aSubRecordFLNK = 44,
-	aSubRecordVAL = 45,
-	aSubRecordOVAL = 46,
-	aSubRecordINAM = 47,
-	aSubRecordLFLG = 48,
-	aSubRecordSUBL = 49,
-	aSubRecordSNAM = 50,
-	aSubRecordONAM = 51,
-	aSubRecordSADR = 52,
-	aSubRecordCADR = 53,
-	aSubRecordBRSV = 54,
-	aSubRecordPREC = 55,
-	aSubRecordEFLG = 56,
-	aSubRecordINPA = 57,
-	aSubRecordINPB = 58,
-	aSubRecordINPC = 59,
-	aSubRecordINPD = 60,
-	aSubRecordINPE = 61,
-	aSubRecordINPF = 62,
-	aSubRecordINPG = 63,
-	aSubRecordINPH = 64,
-	aSubRecordINPI = 65,
-	aSubRecordINPJ = 66,
-	aSubRecordINPK = 67,
-	aSubRecordINPL = 68,
-	aSubRecordINPM = 69,
-	aSubRecordINPN = 70,
-	aSubRecordINPO = 71,
-	aSubRecordINPP = 72,
-	aSubRecordINPQ = 73,
-	aSubRecordINPR = 74,
-	aSubRecordINPS = 75,
-	aSubRecordINPT = 76,
-	aSubRecordINPU = 77,
-	aSubRecordA = 78,
-	aSubRecordB = 79,
-	aSubRecordC = 80,
-	aSubRecordD = 81,
-	aSubRecordE = 82,
-	aSubRecordF = 83,
-	aSubRecordG = 84,
-	aSubRecordH = 85,
-	aSubRecordI = 86,
-	aSubRecordJ = 87,
-	aSubRecordK = 88,
-	aSubRecordL = 89,
-	aSubRecordM = 90,
-	aSubRecordN = 91,
-	aSubRecordO = 92,
-	aSubRecordP = 93,
-	aSubRecordQ = 94,
-	aSubRecordR = 95,
-	aSubRecordS = 96,
-	aSubRecordT = 97,
-	aSubRecordU = 98,
-	aSubRecordFTA = 99,
-	aSubRecordFTB = 100,
-	aSubRecordFTC = 101,
-	aSubRecordFTD = 102,
-	aSubRecordFTE = 103,
-	aSubRecordFTF = 104,
-	aSubRecordFTG = 105,
-	aSubRecordFTH = 106,
-	aSubRecordFTI = 107,
-	aSubRecordFTJ = 108,
-	aSubRecordFTK = 109,
-	aSubRecordFTL = 110,
-	aSubRecordFTM = 111,
-	aSubRecordFTN = 112,
-	aSubRecordFTO = 113,
-	aSubRecordFTP = 114,
-	aSubRecordFTQ = 115,
-	aSubRecordFTR = 116,
-	aSubRecordFTS = 117,
-	aSubRecordFTT = 118,
-	aSubRecordFTU = 119,
-	aSubRecordNOA = 120,
-	aSubRecordNOB = 121,
-	aSubRecordNOC = 122,
-	aSubRecordNOD = 123,
-	aSubRecordNOE = 124,
-	aSubRecordNOF = 125,
-	aSubRecordNOG = 126,
-	aSubRecordNOH = 127,
-	aSubRecordNOI = 128,
-	aSubRecordNOJ = 129,
-	aSubRecordNOK = 130,
-	aSubRecordNOL = 131,
-	aSubRecordNOM = 132,
-	aSubRecordNON = 133,
-	aSubRecordNOO = 134,
-	aSubRecordNOP = 135,
-	aSubRecordNOQ = 136,
-	aSubRecordNOR = 137,
-	aSubRecordNOS = 138,
-	aSubRecordNOT = 139,
-	aSubRecordNOU = 140,
-	aSubRecordNEA = 141,
-	aSubRecordNEB = 142,
-	aSubRecordNEC = 143,
-	aSubRecordNED = 144,
-	aSubRecordNEE = 145,
-	aSubRecordNEF = 146,
-	aSubRecordNEG = 147,
-	aSubRecordNEH = 148,
-	aSubRecordNEI = 149,
-	aSubRecordNEJ = 150,
-	aSubRecordNEK = 151,
-	aSubRecordNEL = 152,
-	aSubRecordNEM = 153,
-	aSubRecordNEN = 154,
-	aSubRecordNEO = 155,
-	aSubRecordNEP = 156,
-	aSubRecordNEQ = 157,
-	aSubRecordNER = 158,
-	aSubRecordNES = 159,
-	aSubRecordNET = 160,
-	aSubRecordNEU = 161,
-	aSubRecordOUTA = 162,
-	aSubRecordOUTB = 163,
-	aSubRecordOUTC = 164,
-	aSubRecordOUTD = 165,
-	aSubRecordOUTE = 166,
-	aSubRecordOUTF = 167,
-	aSubRecordOUTG = 168,
-	aSubRecordOUTH = 169,
-	aSubRecordOUTI = 170,
-	aSubRecordOUTJ = 171,
-	aSubRecordOUTK = 172,
-	aSubRecordOUTL = 173,
-	aSubRecordOUTM = 174,
-	aSubRecordOUTN = 175,
-	aSubRecordOUTO = 176,
-	aSubRecordOUTP = 177,
-	aSubRecordOUTQ = 178,
-	aSubRecordOUTR = 179,
-	aSubRecordOUTS = 180,
-	aSubRecordOUTT = 181,
-	aSubRecordOUTU = 182,
-	aSubRecordVALA = 183,
-	aSubRecordVALB = 184,
-	aSubRecordVALC = 185,
-	aSubRecordVALD = 186,
-	aSubRecordVALE = 187,
-	aSubRecordVALF = 188,
-	aSubRecordVALG = 189,
-	aSubRecordVALH = 190,
-	aSubRecordVALI = 191,
-	aSubRecordVALJ = 192,
-	aSubRecordVALK = 193,
-	aSubRecordVALL = 194,
-	aSubRecordVALM = 195,
-	aSubRecordVALN = 196,
-	aSubRecordVALO = 197,
-	aSubRecordVALP = 198,
-	aSubRecordVALQ = 199,
-	aSubRecordVALR = 200,
-	aSubRecordVALS = 201,
-	aSubRecordVALT = 202,
-	aSubRecordVALU = 203,
-	aSubRecordOVLA = 204,
-	aSubRecordOVLB = 205,
-	aSubRecordOVLC = 206,
-	aSubRecordOVLD = 207,
-	aSubRecordOVLE = 208,
-	aSubRecordOVLF = 209,
-	aSubRecordOVLG = 210,
-	aSubRecordOVLH = 211,
-	aSubRecordOVLI = 212,
-	aSubRecordOVLJ = 213,
-	aSubRecordOVLK = 214,
-	aSubRecordOVLL = 215,
-	aSubRecordOVLM = 216,
-	aSubRecordOVLN = 217,
-	aSubRecordOVLO = 218,
-	aSubRecordOVLP = 219,
-	aSubRecordOVLQ = 220,
-	aSubRecordOVLR = 221,
-	aSubRecordOVLS = 222,
-	aSubRecordOVLT = 223,
-	aSubRecordOVLU = 224,
-	aSubRecordFTVA = 225,
-	aSubRecordFTVB = 226,
-	aSubRecordFTVC = 227,
-	aSubRecordFTVD = 228,
-	aSubRecordFTVE = 229,
-	aSubRecordFTVF = 230,
-	aSubRecordFTVG = 231,
-	aSubRecordFTVH = 232,
-	aSubRecordFTVI = 233,
-	aSubRecordFTVJ = 234,
-	aSubRecordFTVK = 235,
-	aSubRecordFTVL = 236,
-	aSubRecordFTVM = 237,
-	aSubRecordFTVN = 238,
-	aSubRecordFTVO = 239,
-	aSubRecordFTVP = 240,
-	aSubRecordFTVQ = 241,
-	aSubRecordFTVR = 242,
-	aSubRecordFTVS = 243,
-	aSubRecordFTVT = 244,
-	aSubRecordFTVU = 245,
-	aSubRecordNOVA = 246,
-	aSubRecordNOVB = 247,
-	aSubRecordNOVC = 248,
-	aSubRecordNOVD = 249,
-	aSubRecordNOVE = 250,
-	aSubRecordNOVF = 251,
-	aSubRecordNOVG = 252,
-	aSubRecordNOVH = 253,
-	aSubRecordNOVI = 254,
-	aSubRecordNOVJ = 255,
-	aSubRecordNOVK = 256,
-	aSubRecordNOVL = 257,
-	aSubRecordNOVM = 258,
-	aSubRecordNOVN = 259,
-	aSubRecordNOVO = 260,
-	aSubRecordNOVP = 261,
-	aSubRecordNOVQ = 262,
-	aSubRecordNOVR = 263,
-	aSubRecordNOVS = 264,
-	aSubRecordNOVT = 265,
-	aSubRecordNOVU = 266,
-	aSubRecordNEVA = 267,
-	aSubRecordNEVB = 268,
-	aSubRecordNEVC = 269,
-	aSubRecordNEVD = 270,
-	aSubRecordNEVE = 271,
-	aSubRecordNEVF = 272,
-	aSubRecordNEVG = 273,
-	aSubRecordNEVH = 274,
-	aSubRecordNEVI = 275,
-	aSubRecordNEVJ = 276,
-	aSubRecordNEVK = 277,
-	aSubRecordNEVL = 278,
-	aSubRecordNEVM = 279,
-	aSubRecordNEVN = 280,
-	aSubRecordNEVO = 281,
-	aSubRecordNEVP = 282,
-	aSubRecordNEVQ = 283,
-	aSubRecordNEVR = 284,
-	aSubRecordNEVS = 285,
-	aSubRecordNEVT = 286,
-	aSubRecordNEVU = 287,
-	aSubRecordONVA = 288,
-	aSubRecordONVB = 289,
-	aSubRecordONVC = 290,
-	aSubRecordONVD = 291,
-	aSubRecordONVE = 292,
-	aSubRecordONVF = 293,
-	aSubRecordONVG = 294,
-	aSubRecordONVH = 295,
-	aSubRecordONVI = 296,
-	aSubRecordONVJ = 297,
-	aSubRecordONVK = 298,
-	aSubRecordONVL = 299,
-	aSubRecordONVM = 300,
-	aSubRecordONVN = 301,
-	aSubRecordONVO = 302,
-	aSubRecordONVP = 303,
-	aSubRecordONVQ = 304,
-	aSubRecordONVR = 305,
-	aSubRecordONVS = 306,
-	aSubRecordONVT = 307,
-	aSubRecordONVU = 308
+	aSubRecordDISP = 15,
+	aSubRecordPROC = 16,
+	aSubRecordSTAT = 17,
+	aSubRecordSEVR = 18,
+	aSubRecordNSTA = 19,
+	aSubRecordNSEV = 20,
+	aSubRecordACKS = 21,
+	aSubRecordACKT = 22,
+	aSubRecordDISS = 23,
+	aSubRecordLCNT = 24,
+	aSubRecordPACT = 25,
+	aSubRecordPUTF = 26,
+	aSubRecordRPRO = 27,
+	aSubRecordASP = 28,
+	aSubRecordPPN = 29,
+	aSubRecordPPNR = 30,
+	aSubRecordSPVT = 31,
+	aSubRecordRSET = 32,
+	aSubRecordDSET = 33,
+	aSubRecordDPVT = 34,
+	aSubRecordRDES = 35,
+	aSubRecordLSET = 36,
+	aSubRecordPRIO = 37,
+	aSubRecordTPRO = 38,
+	aSubRecordBKPT = 39,
+	aSubRecordUDF = 40,
+	aSubRecordUDFS = 41,
+	aSubRecordTIME = 42,
+	aSubRecordFLNK = 43,
+	aSubRecordVAL = 44,
+	aSubRecordOVAL = 45,
+	aSubRecordINAM = 46,
+	aSubRecordLFLG = 47,
+	aSubRecordSUBL = 48,
+	aSubRecordSNAM = 49,
+	aSubRecordONAM = 50,
+	aSubRecordSADR = 51,
+	aSubRecordCADR = 52,
+	aSubRecordBRSV = 53,
+	aSubRecordPREC = 54,
+	aSubRecordEFLG = 55,
+	aSubRecordINPA = 56,
+	aSubRecordINPB = 57,
+	aSubRecordINPC = 58,
+	aSubRecordINPD = 59,
+	aSubRecordINPE = 60,
+	aSubRecordINPF = 61,
+	aSubRecordINPG = 62,
+	aSubRecordINPH = 63,
+	aSubRecordINPI = 64,
+	aSubRecordINPJ = 65,
+	aSubRecordINPK = 66,
+	aSubRecordINPL = 67,
+	aSubRecordINPM = 68,
+	aSubRecordINPN = 69,
+	aSubRecordINPO = 70,
+	aSubRecordINPP = 71,
+	aSubRecordINPQ = 72,
+	aSubRecordINPR = 73,
+	aSubRecordINPS = 74,
+	aSubRecordINPT = 75,
+	aSubRecordINPU = 76,
+	aSubRecordA = 77,
+	aSubRecordB = 78,
+	aSubRecordC = 79,
+	aSubRecordD = 80,
+	aSubRecordE = 81,
+	aSubRecordF = 82,
+	aSubRecordG = 83,
+	aSubRecordH = 84,
+	aSubRecordI = 85,
+	aSubRecordJ = 86,
+	aSubRecordK = 87,
+	aSubRecordL = 88,
+	aSubRecordM = 89,
+	aSubRecordN = 90,
+	aSubRecordO = 91,
+	aSubRecordP = 92,
+	aSubRecordQ = 93,
+	aSubRecordR = 94,
+	aSubRecordS = 95,
+	aSubRecordT = 96,
+	aSubRecordU = 97,
+	aSubRecordFTA = 98,
+	aSubRecordFTB = 99,
+	aSubRecordFTC = 100,
+	aSubRecordFTD = 101,
+	aSubRecordFTE = 102,
+	aSubRecordFTF = 103,
+	aSubRecordFTG = 104,
+	aSubRecordFTH = 105,
+	aSubRecordFTI = 106,
+	aSubRecordFTJ = 107,
+	aSubRecordFTK = 108,
+	aSubRecordFTL = 109,
+	aSubRecordFTM = 110,
+	aSubRecordFTN = 111,
+	aSubRecordFTO = 112,
+	aSubRecordFTP = 113,
+	aSubRecordFTQ = 114,
+	aSubRecordFTR = 115,
+	aSubRecordFTS = 116,
+	aSubRecordFTT = 117,
+	aSubRecordFTU = 118,
+	aSubRecordNOA = 119,
+	aSubRecordNOB = 120,
+	aSubRecordNOC = 121,
+	aSubRecordNOD = 122,
+	aSubRecordNOE = 123,
+	aSubRecordNOF = 124,
+	aSubRecordNOG = 125,
+	aSubRecordNOH = 126,
+	aSubRecordNOI = 127,
+	aSubRecordNOJ = 128,
+	aSubRecordNOK = 129,
+	aSubRecordNOL = 130,
+	aSubRecordNOM = 131,
+	aSubRecordNON = 132,
+	aSubRecordNOO = 133,
+	aSubRecordNOP = 134,
+	aSubRecordNOQ = 135,
+	aSubRecordNOR = 136,
+	aSubRecordNOS = 137,
+	aSubRecordNOT = 138,
+	aSubRecordNOU = 139,
+	aSubRecordNEA = 140,
+	aSubRecordNEB = 141,
+	aSubRecordNEC = 142,
+	aSubRecordNED = 143,
+	aSubRecordNEE = 144,
+	aSubRecordNEF = 145,
+	aSubRecordNEG = 146,
+	aSubRecordNEH = 147,
+	aSubRecordNEI = 148,
+	aSubRecordNEJ = 149,
+	aSubRecordNEK = 150,
+	aSubRecordNEL = 151,
+	aSubRecordNEM = 152,
+	aSubRecordNEN = 153,
+	aSubRecordNEO = 154,
+	aSubRecordNEP = 155,
+	aSubRecordNEQ = 156,
+	aSubRecordNER = 157,
+	aSubRecordNES = 158,
+	aSubRecordNET = 159,
+	aSubRecordNEU = 160,
+	aSubRecordOUTA = 161,
+	aSubRecordOUTB = 162,
+	aSubRecordOUTC = 163,
+	aSubRecordOUTD = 164,
+	aSubRecordOUTE = 165,
+	aSubRecordOUTF = 166,
+	aSubRecordOUTG = 167,
+	aSubRecordOUTH = 168,
+	aSubRecordOUTI = 169,
+	aSubRecordOUTJ = 170,
+	aSubRecordOUTK = 171,
+	aSubRecordOUTL = 172,
+	aSubRecordOUTM = 173,
+	aSubRecordOUTN = 174,
+	aSubRecordOUTO = 175,
+	aSubRecordOUTP = 176,
+	aSubRecordOUTQ = 177,
+	aSubRecordOUTR = 178,
+	aSubRecordOUTS = 179,
+	aSubRecordOUTT = 180,
+	aSubRecordOUTU = 181,
+	aSubRecordVALA = 182,
+	aSubRecordVALB = 183,
+	aSubRecordVALC = 184,
+	aSubRecordVALD = 185,
+	aSubRecordVALE = 186,
+	aSubRecordVALF = 187,
+	aSubRecordVALG = 188,
+	aSubRecordVALH = 189,
+	aSubRecordVALI = 190,
+	aSubRecordVALJ = 191,
+	aSubRecordVALK = 192,
+	aSubRecordVALL = 193,
+	aSubRecordVALM = 194,
+	aSubRecordVALN = 195,
+	aSubRecordVALO = 196,
+	aSubRecordVALP = 197,
+	aSubRecordVALQ = 198,
+	aSubRecordVALR = 199,
+	aSubRecordVALS = 200,
+	aSubRecordVALT = 201,
+	aSubRecordVALU = 202,
+	aSubRecordOVLA = 203,
+	aSubRecordOVLB = 204,
+	aSubRecordOVLC = 205,
+	aSubRecordOVLD = 206,
+	aSubRecordOVLE = 207,
+	aSubRecordOVLF = 208,
+	aSubRecordOVLG = 209,
+	aSubRecordOVLH = 210,
+	aSubRecordOVLI = 211,
+	aSubRecordOVLJ = 212,
+	aSubRecordOVLK = 213,
+	aSubRecordOVLL = 214,
+	aSubRecordOVLM = 215,
+	aSubRecordOVLN = 216,
+	aSubRecordOVLO = 217,
+	aSubRecordOVLP = 218,
+	aSubRecordOVLQ = 219,
+	aSubRecordOVLR = 220,
+	aSubRecordOVLS = 221,
+	aSubRecordOVLT = 222,
+	aSubRecordOVLU = 223,
+	aSubRecordFTVA = 224,
+	aSubRecordFTVB = 225,
+	aSubRecordFTVC = 226,
+	aSubRecordFTVD = 227,
+	aSubRecordFTVE = 228,
+	aSubRecordFTVF = 229,
+	aSubRecordFTVG = 230,
+	aSubRecordFTVH = 231,
+	aSubRecordFTVI = 232,
+	aSubRecordFTVJ = 233,
+	aSubRecordFTVK = 234,
+	aSubRecordFTVL = 235,
+	aSubRecordFTVM = 236,
+	aSubRecordFTVN = 237,
+	aSubRecordFTVO = 238,
+	aSubRecordFTVP = 239,
+	aSubRecordFTVQ = 240,
+	aSubRecordFTVR = 241,
+	aSubRecordFTVS = 242,
+	aSubRecordFTVT = 243,
+	aSubRecordFTVU = 244,
+	aSubRecordNOVA = 245,
+	aSubRecordNOVB = 246,
+	aSubRecordNOVC = 247,
+	aSubRecordNOVD = 248,
+	aSubRecordNOVE = 249,
+	aSubRecordNOVF = 250,
+	aSubRecordNOVG = 251,
+	aSubRecordNOVH = 252,
+	aSubRecordNOVI = 253,
+	aSubRecordNOVJ = 254,
+	aSubRecordNOVK = 255,
+	aSubRecordNOVL = 256,
+	aSubRecordNOVM = 257,
+	aSubRecordNOVN = 258,
+	aSubRecordNOVO = 259,
+	aSubRecordNOVP = 260,
+	aSubRecordNOVQ = 261,
+	aSubRecordNOVR = 262,
+	aSubRecordNOVS = 263,
+	aSubRecordNOVT = 264,
+	aSubRecordNOVU = 265,
+	aSubRecordNEVA = 266,
+	aSubRecordNEVB = 267,
+	aSubRecordNEVC = 268,
+	aSubRecordNEVD = 269,
+	aSubRecordNEVE = 270,
+	aSubRecordNEVF = 271,
+	aSubRecordNEVG = 272,
+	aSubRecordNEVH = 273,
+	aSubRecordNEVI = 274,
+	aSubRecordNEVJ = 275,
+	aSubRecordNEVK = 276,
+	aSubRecordNEVL = 277,
+	aSubRecordNEVM = 278,
+	aSubRecordNEVN = 279,
+	aSubRecordNEVO = 280,
+	aSubRecordNEVP = 281,
+	aSubRecordNEVQ = 282,
+	aSubRecordNEVR = 283,
+	aSubRecordNEVS = 284,
+	aSubRecordNEVT = 285,
+	aSubRecordNEVU = 286,
+	aSubRecordONVA = 287,
+	aSubRecordONVB = 288,
+	aSubRecordONVC = 289,
+	aSubRecordONVD = 290,
+	aSubRecordONVE = 291,
+	aSubRecordONVF = 292,
+	aSubRecordONVG = 293,
+	aSubRecordONVH = 294,
+	aSubRecordONVI = 295,
+	aSubRecordONVJ = 296,
+	aSubRecordONVK = 297,
+	aSubRecordONVL = 298,
+	aSubRecordONVM = 299,
+	aSubRecordONVN = 300,
+	aSubRecordONVO = 301,
+	aSubRecordONVP = 302,
+	aSubRecordONVQ = 303,
+	aSubRecordONVR = 304,
+	aSubRecordONVS = 305,
+	aSubRecordONVT = 306,
+	aSubRecordONVU = 307
 } aSubFieldIndex;
 
 #ifdef GEN_SIZE_OFFSET
@@ -671,10 +664,10 @@ static int aSubRecordSizeOffset(dbRecordType *prt)
 {
     aSubRecord *prec = 0;
 
-    if (prt->no_fields != 309) {
+    if (prt->no_fields != 308) {
         cantProceed("IOC build or installation error:\n"
             "    The aSubRecord defined in the DBD file has %d fields,\n"
-            "    but the record support code was built with 309.\n",
+            "    but the record support code was built with 308.\n",
             prt->no_fields);
     }
     prt->papFldDes[aSubRecordNAME]->size = sizeof(prec->name);
@@ -707,8 +700,6 @@ static int aSubRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[aSubRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[aSubRecordMLIS]->size = sizeof(prec->mlis);
     prt->papFldDes[aSubRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
-    prt->papFldDes[aSubRecordBKLNK]->size = sizeof(prec->bklnk);
-    prt->papFldDes[aSubRecordBKLNK]->offset = (unsigned short)((char *)&prec->bklnk - (char *)prec);
     prt->papFldDes[aSubRecordDISP]->size = sizeof(prec->disp);
     prt->papFldDes[aSubRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[aSubRecordPROC]->size = sizeof(prec->proc);

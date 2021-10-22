@@ -218,6 +218,9 @@
     <ClCompile Include="db\dbUnitTest.c">
       <Filter>db</Filter>
     </ClCompile>
+    <ClCompile Include="as\ascheck.c">
+      <Filter>as</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="as\asDbLib.h">

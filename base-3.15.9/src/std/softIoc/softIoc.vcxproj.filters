@@ -27,11 +27,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="makeInstallDir.pl">
-      <Filter>Source Files</Filter>
-    </CustomBuild>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="base.dbd" />
   </ItemGroup>
 </Project>

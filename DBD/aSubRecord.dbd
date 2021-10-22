@@ -4,7 +4,7 @@
 # Copyright (c) 2002 The Regents of the University of California, as
 #     Operator of Los Alamos National Laboratory.
 # EPICS BASE is distributed subject to a Software License Agreement found
-# in file LICENSE that is included with this distribution.
+# in file LICENSE that is included with this distribution. 
 #*************************************************************************
 
 
@@ -13,18 +13,14 @@ menu(aSubLFLG) {
 	choice(aSubLFLG_READ,"READ")
 }
 
-
 menu(aSubEFLG) {
 	choice(aSubEFLG_NEVER,"NEVER")
 	choice(aSubEFLG_ON_CHANGE,"ON CHANGE")
 	choice(aSubEFLG_ALWAYS,"ALWAYS")
 }
 
-
 recordtype(aSub) {
 	include "dbCommon.dbd"
-
-
 	field(VAL,DBF_LONG) {
 		prompt("Subr. return value")
 		asl(ASL0)
@@ -87,16 +83,12 @@ recordtype(aSub) {
 		interest(1)
 		menu(menuAlarmSevr)
 	}
-
-
 	field(PREC,DBF_SHORT) {
 		prompt("Display Precision")
 		promptgroup("80 - Display")
 		interest(1)
 		prop(YES)
 	}
-
-
 	field(EFLG,DBF_MENU) {
 		prompt("Output Event Flag")
 		promptgroup("50 - Output")
@@ -104,8 +96,6 @@ recordtype(aSub) {
 		menu(aSubEFLG)
 		initial("1")
 	}
-
-
 	field(INPA,DBF_INLINK) {
 		prompt("Input Link A")
 		promptgroup("41 - Input A-G")
@@ -423,8 +413,6 @@ recordtype(aSub) {
 		#=write Yes
 		#=type Set by FTU
 	}
-
-
 	field(FTA,DBF_MENU) {
 		prompt("Type of A")
 		promptgroup("41 - Input A-G")
@@ -593,8 +581,6 @@ recordtype(aSub) {
 		initial("DOUBLE")
 		menu(menuFtype)
 	}
-
-
 	field(NOA,DBF_ULONG) {
 		prompt("Max. elements in A")
 		promptgroup("41 - Input A-G")
@@ -742,8 +728,6 @@ recordtype(aSub) {
 		interest(1)
 		initial("1")
 	}
-
-
 	field(NEA,DBF_ULONG) {
 		prompt("Num. elements in A")
 		special(SPC_NOMOD)
@@ -870,7 +854,6 @@ recordtype(aSub) {
 		interest(3)
 		initial("1")
 	}
-
 	field(OUTA,DBF_OUTLINK) {
 		prompt("Output Link A")
 		promptgroup("51 - Output A-G")
@@ -1188,8 +1171,6 @@ recordtype(aSub) {
 		#=write Yes
 		#=type Set by FTVU
 	}
-
-
 	field(OVLA,DBF_NOACCESS) {
 		prompt("Old Output A")
 		asl(ASL0)
@@ -1337,8 +1318,6 @@ recordtype(aSub) {
 		interest(4)
 		extra("void *ovlu")
 	}
-
-
 	field(FTVA,DBF_MENU) {
 		prompt("Type of VALA")
 		promptgroup("51 - Output A-G")
@@ -1507,8 +1486,6 @@ recordtype(aSub) {
 		initial("DOUBLE")
 		menu(menuFtype)
 	}
-
-
 	field(NOVA,DBF_ULONG) {
 		prompt("Max. elements in VALA")
 		promptgroup("51 - Output A-G")
@@ -1656,8 +1633,6 @@ recordtype(aSub) {
 		interest(1)
 		initial("1")
 	}
-
-
 	field(NEVA,DBF_ULONG) {
 		prompt("Num. elements in VALA")
 		special(SPC_NOMOD)
@@ -1784,8 +1759,6 @@ recordtype(aSub) {
 		interest(3)
 		initial("1")
 	}
-
-
 	field(ONVA,DBF_ULONG) {
 		prompt("Num. elements in OVLA")
 		special(SPC_NOMOD)
@@ -1912,6 +1885,4 @@ recordtype(aSub) {
 		interest(4)
 		initial("1")
 	}
-
-
 }

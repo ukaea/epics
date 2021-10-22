@@ -12,15 +12,6 @@ recordtype(longout) {
 
 
 	include "dbCommon.dbd"
-    %
-    %/* Declare Device Support Entry Table */
-    %struct longoutRecord;
-    %typedef struct longoutdset {
-    %    dset common; /*init_record returns: (-1,0)=>(failure,success)*/
-    %    long (*write_longout)(struct longoutRecord *prec); /*(-1,0)=>(failure,success*/
-    %} longoutdset;
-    %#define HAS_longoutdset
-    %
 	field(VAL,DBF_LONG) {
 		prompt("Desired Output")
 		promptgroup("50 - Output")
@@ -170,7 +161,7 @@ recordtype(longout) {
 	}
 
 
-        field(SIOL,DBF_OUTLINK) {
+	field(SIOL,DBF_OUTLINK) {
 		prompt("Sim Output Specifctn")
 		promptgroup("90 - Simulate")
 		interest(1)
@@ -182,7 +173,6 @@ recordtype(longout) {
 	}
 	field(SIMM,DBF_MENU) {
 		prompt("Simulation Mode")
-		special(SPC_MOD)
 		interest(1)
 		menu(menuYesNo)
 	}
@@ -191,32 +181,6 @@ recordtype(longout) {
 		promptgroup("90 - Simulate")
 		interest(2)
 		menu(menuAlarmSevr)
-	}
-	field(OLDSIMM,DBF_MENU) {
-		prompt("Prev. Simulation Mode")
-		special(SPC_NOMOD)
-		interest(4)
-		menu(menuSimm)
-	}
-	field(SSCN,DBF_MENU) {
-		prompt("Sim. Mode Scan")
-		promptgroup("90 - Simulate")
-		interest(1)
-		menu(menuScan)
-		initial("65535")
-	}
-	field(SDLY,DBF_DOUBLE) {
-		prompt("Sim. Mode Async Delay")
-		promptgroup("90 - Simulate")
-		interest(2)
-		initial("-1.0")
-	}
-	%#include "callback.h"
-	field(SIMPVT,DBF_NOACCESS) {
-		prompt("Sim. Mode Private")
-		special(SPC_NOMOD)
-		interest(4)
-		extra("epicsCallback            *simpvt")
 	}
 	field(IVOA,DBF_MENU) {
 		prompt("INVALID output action")

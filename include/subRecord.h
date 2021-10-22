@@ -7,120 +7,118 @@
 #ifndef INC_subRecord_H
 #define INC_subRecord_H
 
-#include "epicsTypes.h"
-#include "link.h"
+ #include "epicsTypes.h"
+ #include "link.h"
 #include "epicsMutex.h"
 #include "ellLib.h"
 #include "epicsTime.h"
 struct subRecord;
 typedef long (*SUBFUNCPTR)(struct subRecord *);
 
-/** @brief Declaration of sub record type. */
 typedef struct subRecord {
-    char                name[61];   /**< @brief Record Name */
-    char                desc[41];   /**< @brief Descriptor */
-    char                asg[29];    /**< @brief Access Security Group */
-    epicsEnum16         scan;       /**< @brief Scan Mechanism */
-    epicsEnum16         pini;       /**< @brief Process at iocInit */
-    epicsInt16          phas;       /**< @brief Scan Phase */
-    char                evnt[40];   /**< @brief Event Name */
-    epicsInt16          tse;        /**< @brief Time Stamp Event */
-    DBLINK              tsel;       /**< @brief Time Stamp Link */
-    epicsEnum16         dtyp;       /**< @brief Device Type */
-    epicsInt16          disv;       /**< @brief Disable Value */
-    epicsInt16          disa;       /**< @brief Disable */
-    DBLINK              sdis;       /**< @brief Scanning Disable */
-    epicsMutexId        mlok;       /**< @brief Monitor lock */
-    ELLLIST             mlis;       /**< @brief Monitor List */
-    ELLLIST             bklnk;      /**< @brief Backwards link tracking */
-    epicsUInt8          disp;       /**< @brief Disable putField */
-    epicsUInt8          proc;       /**< @brief Force Processing */
-    epicsEnum16         stat;       /**< @brief Alarm Status */
-    epicsEnum16         sevr;       /**< @brief Alarm Severity */
-    epicsEnum16         nsta;       /**< @brief New Alarm Status */
-    epicsEnum16         nsev;       /**< @brief New Alarm Severity */
-    epicsEnum16         acks;       /**< @brief Alarm Ack Severity */
-    epicsEnum16         ackt;       /**< @brief Alarm Ack Transient */
-    epicsEnum16         diss;       /**< @brief Disable Alarm Sevrty */
-    epicsUInt8          lcnt;       /**< @brief Lock Count */
-    epicsUInt8          pact;       /**< @brief Record active */
-    epicsUInt8          putf;       /**< @brief dbPutField process */
-    epicsUInt8          rpro;       /**< @brief Reprocess  */
-    struct asgMember    *asp;       /**< @brief Access Security Pvt */
-    struct processNotify *ppn;      /**< @brief pprocessNotify */
-    struct processNotifyRecord *ppnr; /**< @brief pprocessNotifyRecord */
-    struct scan_element *spvt;      /**< @brief Scan Private */
-    struct typed_rset   *rset;      /**< @brief Address of RSET */
-    struct dset         *dset;      /**< @brief DSET address */
-    void                *dpvt;      /**< @brief Device Private */
-    struct dbRecordType *rdes;      /**< @brief Address of dbRecordType */
-    struct lockRecord   *lset;      /**< @brief Lock Set */
-    epicsEnum16         prio;       /**< @brief Scheduling Priority */
-    epicsUInt8          tpro;       /**< @brief Trace Processing */
-    char                bkpt;       /**< @brief Break Point */
-    epicsUInt8          udf;        /**< @brief Undefined */
-    epicsEnum16         udfs;       /**< @brief Undefined Alarm Sevrty */
-    epicsTimeStamp      time;       /**< @brief Time */
-    DBLINK              flnk;       /**< @brief Forward Process Link */
-    epicsFloat64        val;        /**< @brief Result */
-    char                inam[40];   /**< @brief Init Routine Name */
-    char                snam[40];   /**< @brief Subroutine Name */
-    SUBFUNCPTR sadr;                /**< @brief Subroutine Address */
-    DBLINK              inpa;       /**< @brief Input A */
-    DBLINK              inpb;       /**< @brief Input B */
-    DBLINK              inpc;       /**< @brief Input C */
-    DBLINK              inpd;       /**< @brief Input D */
-    DBLINK              inpe;       /**< @brief Input E */
-    DBLINK              inpf;       /**< @brief Input F */
-    DBLINK              inpg;       /**< @brief Input G */
-    DBLINK              inph;       /**< @brief Input H */
-    DBLINK              inpi;       /**< @brief Input I */
-    DBLINK              inpj;       /**< @brief Input J */
-    DBLINK              inpk;       /**< @brief Input K */
-    DBLINK              inpl;       /**< @brief Input L */
-    char                egu[16];    /**< @brief Engineering Units */
-    epicsFloat64        hopr;       /**< @brief High Operating Range */
-    epicsFloat64        lopr;       /**< @brief Low Operating Range */
-    epicsFloat64        hihi;       /**< @brief Hihi Alarm Limit */
-    epicsFloat64        lolo;       /**< @brief Lolo Alarm Limit */
-    epicsFloat64        high;       /**< @brief High Alarm Limit */
-    epicsFloat64        low;        /**< @brief Low Alarm Limit */
-    epicsInt16          prec;       /**< @brief Display Precision */
-    epicsEnum16         brsv;       /**< @brief Bad Return Severity */
-    epicsEnum16         hhsv;       /**< @brief Hihi Severity */
-    epicsEnum16         llsv;       /**< @brief Lolo Severity */
-    epicsEnum16         hsv;        /**< @brief High Severity */
-    epicsEnum16         lsv;        /**< @brief Low Severity */
-    epicsFloat64        hyst;       /**< @brief Alarm Deadband */
-    epicsFloat64        adel;       /**< @brief Archive Deadband */
-    epicsFloat64        mdel;       /**< @brief Monitor Deadband */
-    epicsFloat64        a;          /**< @brief Value of Input A */
-    epicsFloat64        b;          /**< @brief Value of Input B */
-    epicsFloat64        c;          /**< @brief Value of Input C */
-    epicsFloat64        d;          /**< @brief Value of Input D */
-    epicsFloat64        e;          /**< @brief Value of Input E */
-    epicsFloat64        f;          /**< @brief Value of Input F */
-    epicsFloat64        g;          /**< @brief Value of Input G */
-    epicsFloat64        h;          /**< @brief Value of Input H */
-    epicsFloat64        i;          /**< @brief Value of Input I */
-    epicsFloat64        j;          /**< @brief Value of Input J */
-    epicsFloat64        k;          /**< @brief Value of Input K */
-    epicsFloat64        l;          /**< @brief Value of Input L */
-    epicsFloat64        la;         /**< @brief Prev Value of A */
-    epicsFloat64        lb;         /**< @brief Prev Value of B */
-    epicsFloat64        lc;         /**< @brief Prev Value of C */
-    epicsFloat64        ld;         /**< @brief Prev Value of D */
-    epicsFloat64        le;         /**< @brief Prev Value of E */
-    epicsFloat64        lf;         /**< @brief Prev Value of F */
-    epicsFloat64        lg;         /**< @brief Prev Value of G */
-    epicsFloat64        lh;         /**< @brief Prev Value of H */
-    epicsFloat64        li;         /**< @brief Prev Value of I */
-    epicsFloat64        lj;         /**< @brief Prev Value of J */
-    epicsFloat64        lk;         /**< @brief Prev Value of K */
-    epicsFloat64        ll;         /**< @brief Prev Value of L */
-    epicsFloat64        lalm;       /**< @brief Last Value Alarmed */
-    epicsFloat64        alst;       /**< @brief Last Value Archived */
-    epicsFloat64        mlst;       /**< @brief Last Value Monitored */
+    char                name[61];   /* Record Name */
+    char                desc[41];   /* Descriptor */
+    char                asg[29];    /* Access Security Group */
+    epicsEnum16         scan;       /* Scan Mechanism */
+    epicsEnum16         pini;       /* Process at iocInit */
+    epicsInt16          phas;       /* Scan Phase */
+    char                evnt[40];   /* Event Name */
+    epicsInt16          tse;        /* Time Stamp Event */
+    DBLINK              tsel;       /* Time Stamp Link */
+    epicsEnum16         dtyp;       /* Device Type */
+    epicsInt16          disv;       /* Disable Value */
+    epicsInt16          disa;       /* Disable */
+    DBLINK              sdis;       /* Scanning Disable */
+    epicsMutexId        mlok;       /* Monitor lock */
+    ELLLIST             mlis;       /* Monitor List */
+    epicsUInt8          disp;       /* Disable putField */
+    epicsUInt8          proc;       /* Force Processing */
+    epicsEnum16         stat;       /* Alarm Status */
+    epicsEnum16         sevr;       /* Alarm Severity */
+    epicsEnum16         nsta;       /* New Alarm Status */
+    epicsEnum16         nsev;       /* New Alarm Severity */
+    epicsEnum16         acks;       /* Alarm Ack Severity */
+    epicsEnum16         ackt;       /* Alarm Ack Transient */
+    epicsEnum16         diss;       /* Disable Alarm Sevrty */
+    epicsUInt8          lcnt;       /* Lock Count */
+    epicsUInt8          pact;       /* Record active */
+    epicsUInt8          putf;       /* dbPutField process */
+    epicsUInt8          rpro;       /* Reprocess  */
+    struct asgMember    *asp;       /* Access Security Pvt */
+    struct processNotify *ppn;      /* pprocessNotify */
+    struct processNotifyRecord *ppnr; /* pprocessNotifyRecord */
+    struct scan_element *spvt;      /* Scan Private */
+    struct rset         *rset;      /* Address of RSET */
+    struct dset         *dset;      /* DSET address */
+    void                *dpvt;      /* Device Private */
+    struct dbRecordType *rdes;      /* Address of dbRecordType */
+    struct lockRecord   *lset;      /* Lock Set */
+    epicsEnum16         prio;       /* Scheduling Priority */
+    epicsUInt8          tpro;       /* Trace Processing */
+    char                bkpt;       /* Break Point */
+    epicsUInt8          udf;        /* Undefined */
+    epicsEnum16         udfs;       /* Undefined Alarm Sevrty */
+    epicsTimeStamp      time;       /* Time */
+    DBLINK              flnk;       /* Forward Process Link */
+    epicsFloat64        val;        /* Result */
+    char                inam[40];   /* Init Routine Name */
+    char                snam[40];   /* Subroutine Name */
+    SUBFUNCPTR sadr;                /* Subroutine Address */
+    DBLINK              inpa;       /* Input A */
+    DBLINK              inpb;       /* Input B */
+    DBLINK              inpc;       /* Input C */
+    DBLINK              inpd;       /* Input D */
+    DBLINK              inpe;       /* Input E */
+    DBLINK              inpf;       /* Input F */
+    DBLINK              inpg;       /* Input G */
+    DBLINK              inph;       /* Input H */
+    DBLINK              inpi;       /* Input I */
+    DBLINK              inpj;       /* Input J */
+    DBLINK              inpk;       /* Input K */
+    DBLINK              inpl;       /* Input L */
+    char                egu[16];    /* Engineering Units */
+    epicsFloat64        hopr;       /* High Operating Range */
+    epicsFloat64        lopr;       /* Low Operating Range */
+    epicsFloat64        hihi;       /* Hihi Alarm Limit */
+    epicsFloat64        lolo;       /* Lolo Alarm Limit */
+    epicsFloat64        high;       /* High Alarm Limit */
+    epicsFloat64        low;        /* Low Alarm Limit */
+    epicsInt16          prec;       /* Display Precision */
+    epicsEnum16         brsv;       /* Bad Return Severity */
+    epicsEnum16         hhsv;       /* Hihi Severity */
+    epicsEnum16         llsv;       /* Lolo Severity */
+    epicsEnum16         hsv;        /* High Severity */
+    epicsEnum16         lsv;        /* Low Severity */
+    epicsFloat64        hyst;       /* Alarm Deadband */
+    epicsFloat64        adel;       /* Archive Deadband */
+    epicsFloat64        mdel;       /* Monitor Deadband */
+    epicsFloat64        a;          /* Value of Input A */
+    epicsFloat64        b;          /* Value of Input B */
+    epicsFloat64        c;          /* Value of Input C */
+    epicsFloat64        d;          /* Value of Input D */
+    epicsFloat64        e;          /* Value of Input E */
+    epicsFloat64        f;          /* Value of Input F */
+    epicsFloat64        g;          /* Value of Input G */
+    epicsFloat64        h;          /* Value of Input H */
+    epicsFloat64        i;          /* Value of Input I */
+    epicsFloat64        j;          /* Value of Input J */
+    epicsFloat64        k;          /* Value of Input K */
+    epicsFloat64        l;          /* Value of Input L */
+    epicsFloat64        la;         /* Prev Value of A */
+    epicsFloat64        lb;         /* Prev Value of B */
+    epicsFloat64        lc;         /* Prev Value of C */
+    epicsFloat64        ld;         /* Prev Value of D */
+    epicsFloat64        le;         /* Prev Value of E */
+    epicsFloat64        lf;         /* Prev Value of F */
+    epicsFloat64        lg;         /* Prev Value of G */
+    epicsFloat64        lh;         /* Prev Value of H */
+    epicsFloat64        li;         /* Prev Value of I */
+    epicsFloat64        lj;         /* Prev Value of J */
+    epicsFloat64        lk;         /* Prev Value of K */
+    epicsFloat64        ll;         /* Prev Value of L */
+    epicsFloat64        lalm;       /* Last Value Alarmed */
+    epicsFloat64        alst;       /* Last Value Archived */
+    epicsFloat64        mlst;       /* Last Value Monitored */
 } subRecord;
 
 typedef enum {
@@ -139,95 +137,94 @@ typedef enum {
 	subRecordSDIS = 12,
 	subRecordMLOK = 13,
 	subRecordMLIS = 14,
-	subRecordBKLNK = 15,
-	subRecordDISP = 16,
-	subRecordPROC = 17,
-	subRecordSTAT = 18,
-	subRecordSEVR = 19,
-	subRecordNSTA = 20,
-	subRecordNSEV = 21,
-	subRecordACKS = 22,
-	subRecordACKT = 23,
-	subRecordDISS = 24,
-	subRecordLCNT = 25,
-	subRecordPACT = 26,
-	subRecordPUTF = 27,
-	subRecordRPRO = 28,
-	subRecordASP = 29,
-	subRecordPPN = 30,
-	subRecordPPNR = 31,
-	subRecordSPVT = 32,
-	subRecordRSET = 33,
-	subRecordDSET = 34,
-	subRecordDPVT = 35,
-	subRecordRDES = 36,
-	subRecordLSET = 37,
-	subRecordPRIO = 38,
-	subRecordTPRO = 39,
-	subRecordBKPT = 40,
-	subRecordUDF = 41,
-	subRecordUDFS = 42,
-	subRecordTIME = 43,
-	subRecordFLNK = 44,
-	subRecordVAL = 45,
-	subRecordINAM = 46,
-	subRecordSNAM = 47,
-	subRecordSADR = 48,
-	subRecordINPA = 49,
-	subRecordINPB = 50,
-	subRecordINPC = 51,
-	subRecordINPD = 52,
-	subRecordINPE = 53,
-	subRecordINPF = 54,
-	subRecordINPG = 55,
-	subRecordINPH = 56,
-	subRecordINPI = 57,
-	subRecordINPJ = 58,
-	subRecordINPK = 59,
-	subRecordINPL = 60,
-	subRecordEGU = 61,
-	subRecordHOPR = 62,
-	subRecordLOPR = 63,
-	subRecordHIHI = 64,
-	subRecordLOLO = 65,
-	subRecordHIGH = 66,
-	subRecordLOW = 67,
-	subRecordPREC = 68,
-	subRecordBRSV = 69,
-	subRecordHHSV = 70,
-	subRecordLLSV = 71,
-	subRecordHSV = 72,
-	subRecordLSV = 73,
-	subRecordHYST = 74,
-	subRecordADEL = 75,
-	subRecordMDEL = 76,
-	subRecordA = 77,
-	subRecordB = 78,
-	subRecordC = 79,
-	subRecordD = 80,
-	subRecordE = 81,
-	subRecordF = 82,
-	subRecordG = 83,
-	subRecordH = 84,
-	subRecordI = 85,
-	subRecordJ = 86,
-	subRecordK = 87,
-	subRecordL = 88,
-	subRecordLA = 89,
-	subRecordLB = 90,
-	subRecordLC = 91,
-	subRecordLD = 92,
-	subRecordLE = 93,
-	subRecordLF = 94,
-	subRecordLG = 95,
-	subRecordLH = 96,
-	subRecordLI = 97,
-	subRecordLJ = 98,
-	subRecordLK = 99,
-	subRecordLL = 100,
-	subRecordLALM = 101,
-	subRecordALST = 102,
-	subRecordMLST = 103
+	subRecordDISP = 15,
+	subRecordPROC = 16,
+	subRecordSTAT = 17,
+	subRecordSEVR = 18,
+	subRecordNSTA = 19,
+	subRecordNSEV = 20,
+	subRecordACKS = 21,
+	subRecordACKT = 22,
+	subRecordDISS = 23,
+	subRecordLCNT = 24,
+	subRecordPACT = 25,
+	subRecordPUTF = 26,
+	subRecordRPRO = 27,
+	subRecordASP = 28,
+	subRecordPPN = 29,
+	subRecordPPNR = 30,
+	subRecordSPVT = 31,
+	subRecordRSET = 32,
+	subRecordDSET = 33,
+	subRecordDPVT = 34,
+	subRecordRDES = 35,
+	subRecordLSET = 36,
+	subRecordPRIO = 37,
+	subRecordTPRO = 38,
+	subRecordBKPT = 39,
+	subRecordUDF = 40,
+	subRecordUDFS = 41,
+	subRecordTIME = 42,
+	subRecordFLNK = 43,
+	subRecordVAL = 44,
+	subRecordINAM = 45,
+	subRecordSNAM = 46,
+	subRecordSADR = 47,
+	subRecordINPA = 48,
+	subRecordINPB = 49,
+	subRecordINPC = 50,
+	subRecordINPD = 51,
+	subRecordINPE = 52,
+	subRecordINPF = 53,
+	subRecordINPG = 54,
+	subRecordINPH = 55,
+	subRecordINPI = 56,
+	subRecordINPJ = 57,
+	subRecordINPK = 58,
+	subRecordINPL = 59,
+	subRecordEGU = 60,
+	subRecordHOPR = 61,
+	subRecordLOPR = 62,
+	subRecordHIHI = 63,
+	subRecordLOLO = 64,
+	subRecordHIGH = 65,
+	subRecordLOW = 66,
+	subRecordPREC = 67,
+	subRecordBRSV = 68,
+	subRecordHHSV = 69,
+	subRecordLLSV = 70,
+	subRecordHSV = 71,
+	subRecordLSV = 72,
+	subRecordHYST = 73,
+	subRecordADEL = 74,
+	subRecordMDEL = 75,
+	subRecordA = 76,
+	subRecordB = 77,
+	subRecordC = 78,
+	subRecordD = 79,
+	subRecordE = 80,
+	subRecordF = 81,
+	subRecordG = 82,
+	subRecordH = 83,
+	subRecordI = 84,
+	subRecordJ = 85,
+	subRecordK = 86,
+	subRecordL = 87,
+	subRecordLA = 88,
+	subRecordLB = 89,
+	subRecordLC = 90,
+	subRecordLD = 91,
+	subRecordLE = 92,
+	subRecordLF = 93,
+	subRecordLG = 94,
+	subRecordLH = 95,
+	subRecordLI = 96,
+	subRecordLJ = 97,
+	subRecordLK = 98,
+	subRecordLL = 99,
+	subRecordLALM = 100,
+	subRecordALST = 101,
+	subRecordMLST = 102
 } subFieldIndex;
 
 #ifdef GEN_SIZE_OFFSET
@@ -241,10 +238,10 @@ static int subRecordSizeOffset(dbRecordType *prt)
 {
     subRecord *prec = 0;
 
-    if (prt->no_fields != 104) {
+    if (prt->no_fields != 103) {
         cantProceed("IOC build or installation error:\n"
             "    The subRecord defined in the DBD file has %d fields,\n"
-            "    but the record support code was built with 104.\n",
+            "    but the record support code was built with 103.\n",
             prt->no_fields);
     }
     prt->papFldDes[subRecordNAME]->size = sizeof(prec->name);
@@ -277,8 +274,6 @@ static int subRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[subRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[subRecordMLIS]->size = sizeof(prec->mlis);
     prt->papFldDes[subRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
-    prt->papFldDes[subRecordBKLNK]->size = sizeof(prec->bklnk);
-    prt->papFldDes[subRecordBKLNK]->offset = (unsigned short)((char *)&prec->bklnk - (char *)prec);
     prt->papFldDes[subRecordDISP]->size = sizeof(prec->disp);
     prt->papFldDes[subRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[subRecordPROC]->size = sizeof(prec->proc);

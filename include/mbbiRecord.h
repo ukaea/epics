@@ -7,139 +7,124 @@
 #ifndef INC_mbbiRecord_H
 #define INC_mbbiRecord_H
 
-#include "epicsTypes.h"
-#include "link.h"
+ #include "epicsTypes.h"
+ #include "link.h"
 #include "epicsMutex.h"
 #include "ellLib.h"
 #include "epicsTime.h"
-/* Declare Device Support Entry Table */
-struct mbbiRecord;
-typedef struct mbbidset {
-    dset common; /* init_record returns: (-1,0) => (failure, success)*/
-    long (*read_mbbi)(struct mbbiRecord *prec); /* (0, 2) => (success, success no convert)*/
-} mbbidset;
-#define HAS_mbbidset
 
-#include "callback.h"
-
-/** @brief Declaration of mbbi record type. */
 typedef struct mbbiRecord {
-    char                name[61];   /**< @brief Record Name */
-    char                desc[41];   /**< @brief Descriptor */
-    char                asg[29];    /**< @brief Access Security Group */
-    epicsEnum16         scan;       /**< @brief Scan Mechanism */
-    epicsEnum16         pini;       /**< @brief Process at iocInit */
-    epicsInt16          phas;       /**< @brief Scan Phase */
-    char                evnt[40];   /**< @brief Event Name */
-    epicsInt16          tse;        /**< @brief Time Stamp Event */
-    DBLINK              tsel;       /**< @brief Time Stamp Link */
-    epicsEnum16         dtyp;       /**< @brief Device Type */
-    epicsInt16          disv;       /**< @brief Disable Value */
-    epicsInt16          disa;       /**< @brief Disable */
-    DBLINK              sdis;       /**< @brief Scanning Disable */
-    epicsMutexId        mlok;       /**< @brief Monitor lock */
-    ELLLIST             mlis;       /**< @brief Monitor List */
-    ELLLIST             bklnk;      /**< @brief Backwards link tracking */
-    epicsUInt8          disp;       /**< @brief Disable putField */
-    epicsUInt8          proc;       /**< @brief Force Processing */
-    epicsEnum16         stat;       /**< @brief Alarm Status */
-    epicsEnum16         sevr;       /**< @brief Alarm Severity */
-    epicsEnum16         nsta;       /**< @brief New Alarm Status */
-    epicsEnum16         nsev;       /**< @brief New Alarm Severity */
-    epicsEnum16         acks;       /**< @brief Alarm Ack Severity */
-    epicsEnum16         ackt;       /**< @brief Alarm Ack Transient */
-    epicsEnum16         diss;       /**< @brief Disable Alarm Sevrty */
-    epicsUInt8          lcnt;       /**< @brief Lock Count */
-    epicsUInt8          pact;       /**< @brief Record active */
-    epicsUInt8          putf;       /**< @brief dbPutField process */
-    epicsUInt8          rpro;       /**< @brief Reprocess  */
-    struct asgMember    *asp;       /**< @brief Access Security Pvt */
-    struct processNotify *ppn;      /**< @brief pprocessNotify */
-    struct processNotifyRecord *ppnr; /**< @brief pprocessNotifyRecord */
-    struct scan_element *spvt;      /**< @brief Scan Private */
-    struct typed_rset   *rset;      /**< @brief Address of RSET */
-    struct dset         *dset;      /**< @brief DSET address */
-    void                *dpvt;      /**< @brief Device Private */
-    struct dbRecordType *rdes;      /**< @brief Address of dbRecordType */
-    struct lockRecord   *lset;      /**< @brief Lock Set */
-    epicsEnum16         prio;       /**< @brief Scheduling Priority */
-    epicsUInt8          tpro;       /**< @brief Trace Processing */
-    char                bkpt;       /**< @brief Break Point */
-    epicsUInt8          udf;        /**< @brief Undefined */
-    epicsEnum16         udfs;       /**< @brief Undefined Alarm Sevrty */
-    epicsTimeStamp      time;       /**< @brief Time */
-    DBLINK              flnk;       /**< @brief Forward Process Link */
-    epicsEnum16         val;        /**< @brief Current Value */
-    epicsUInt16         nobt;       /**< @brief Number of Bits */
-    DBLINK              inp;        /**< @brief Input Specification */
-    epicsUInt32         zrvl;       /**< @brief Zero Value */
-    epicsUInt32         onvl;       /**< @brief One Value */
-    epicsUInt32         twvl;       /**< @brief Two Value */
-    epicsUInt32         thvl;       /**< @brief Three Value */
-    epicsUInt32         frvl;       /**< @brief Four Value */
-    epicsUInt32         fvvl;       /**< @brief Five Value */
-    epicsUInt32         sxvl;       /**< @brief Six Value */
-    epicsUInt32         svvl;       /**< @brief Seven Value */
-    epicsUInt32         eivl;       /**< @brief Eight Value */
-    epicsUInt32         nivl;       /**< @brief Nine Value */
-    epicsUInt32         tevl;       /**< @brief Ten Value */
-    epicsUInt32         elvl;       /**< @brief Eleven Value */
-    epicsUInt32         tvvl;       /**< @brief Twelve Value */
-    epicsUInt32         ttvl;       /**< @brief Thirteen Value */
-    epicsUInt32         ftvl;       /**< @brief Fourteen Value */
-    epicsUInt32         ffvl;       /**< @brief Fifteen Value */
-    char                zrst[26];   /**< @brief Zero String */
-    char                onst[26];   /**< @brief One String */
-    char                twst[26];   /**< @brief Two String */
-    char                thst[26];   /**< @brief Three String */
-    char                frst[26];   /**< @brief Four String */
-    char                fvst[26];   /**< @brief Five String */
-    char                sxst[26];   /**< @brief Six String */
-    char                svst[26];   /**< @brief Seven String */
-    char                eist[26];   /**< @brief Eight String */
-    char                nist[26];   /**< @brief Nine String */
-    char                test[26];   /**< @brief Ten String */
-    char                elst[26];   /**< @brief Eleven String */
-    char                tvst[26];   /**< @brief Twelve String */
-    char                ttst[26];   /**< @brief Thirteen String */
-    char                ftst[26];   /**< @brief Fourteen String */
-    char                ffst[26];   /**< @brief Fifteen String */
-    epicsEnum16         zrsv;       /**< @brief State Zero Severity */
-    epicsEnum16         onsv;       /**< @brief State One Severity */
-    epicsEnum16         twsv;       /**< @brief State Two Severity */
-    epicsEnum16         thsv;       /**< @brief State Three Severity */
-    epicsEnum16         frsv;       /**< @brief State Four Severity */
-    epicsEnum16         fvsv;       /**< @brief State Five Severity */
-    epicsEnum16         sxsv;       /**< @brief State Six Severity */
-    epicsEnum16         svsv;       /**< @brief State Seven Severity */
-    epicsEnum16         eisv;       /**< @brief State Eight Severity */
-    epicsEnum16         nisv;       /**< @brief State Nine Severity */
-    epicsEnum16         tesv;       /**< @brief State Ten Severity */
-    epicsEnum16         elsv;       /**< @brief State Eleven Severity */
-    epicsEnum16         tvsv;       /**< @brief State Twelve Severity */
-    epicsEnum16         ttsv;       /**< @brief State Thirteen Sevr */
-    epicsEnum16         ftsv;       /**< @brief State Fourteen Sevr */
-    epicsEnum16         ffsv;       /**< @brief State Fifteen Severity */
-    epicsFloat64        aftc;       /**< @brief Alarm Filter Time Constant */
-    epicsFloat64        afvl;       /**< @brief Alarm Filter Value */
-    epicsEnum16         unsv;       /**< @brief Unknown State Severity */
-    epicsEnum16         cosv;       /**< @brief Change of State Svr */
-    epicsUInt32         rval;       /**< @brief Raw Value */
-    epicsUInt32         oraw;       /**< @brief Prev Raw Value */
-    epicsUInt32         mask;       /**< @brief Hardware Mask */
-    epicsUInt16         mlst;       /**< @brief Last Value Monitored */
-    epicsUInt16         lalm;       /**< @brief Last Value Alarmed */
-    epicsInt16          sdef;       /**< @brief States Defined */
-    epicsUInt16         shft;       /**< @brief Shift */
-    DBLINK              siol;       /**< @brief Simulation Input Link */
-    epicsUInt32         sval;       /**< @brief Simulation Value */
-    DBLINK              siml;       /**< @brief Simulation Mode Link */
-    epicsEnum16         simm;       /**< @brief Simulation Mode */
-    epicsEnum16         sims;       /**< @brief Simulation Mode Severity */
-    epicsEnum16         oldsimm;    /**< @brief Prev. Simulation Mode */
-    epicsEnum16         sscn;       /**< @brief Sim. Mode Scan */
-    epicsFloat64        sdly;       /**< @brief Sim. Mode Async Delay */
-    epicsCallback            *simpvt; /**< @brief Sim. Mode Private */
+    char                name[61];   /* Record Name */
+    char                desc[41];   /* Descriptor */
+    char                asg[29];    /* Access Security Group */
+    epicsEnum16         scan;       /* Scan Mechanism */
+    epicsEnum16         pini;       /* Process at iocInit */
+    epicsInt16          phas;       /* Scan Phase */
+    char                evnt[40];   /* Event Name */
+    epicsInt16          tse;        /* Time Stamp Event */
+    DBLINK              tsel;       /* Time Stamp Link */
+    epicsEnum16         dtyp;       /* Device Type */
+    epicsInt16          disv;       /* Disable Value */
+    epicsInt16          disa;       /* Disable */
+    DBLINK              sdis;       /* Scanning Disable */
+    epicsMutexId        mlok;       /* Monitor lock */
+    ELLLIST             mlis;       /* Monitor List */
+    epicsUInt8          disp;       /* Disable putField */
+    epicsUInt8          proc;       /* Force Processing */
+    epicsEnum16         stat;       /* Alarm Status */
+    epicsEnum16         sevr;       /* Alarm Severity */
+    epicsEnum16         nsta;       /* New Alarm Status */
+    epicsEnum16         nsev;       /* New Alarm Severity */
+    epicsEnum16         acks;       /* Alarm Ack Severity */
+    epicsEnum16         ackt;       /* Alarm Ack Transient */
+    epicsEnum16         diss;       /* Disable Alarm Sevrty */
+    epicsUInt8          lcnt;       /* Lock Count */
+    epicsUInt8          pact;       /* Record active */
+    epicsUInt8          putf;       /* dbPutField process */
+    epicsUInt8          rpro;       /* Reprocess  */
+    struct asgMember    *asp;       /* Access Security Pvt */
+    struct processNotify *ppn;      /* pprocessNotify */
+    struct processNotifyRecord *ppnr; /* pprocessNotifyRecord */
+    struct scan_element *spvt;      /* Scan Private */
+    struct rset         *rset;      /* Address of RSET */
+    struct dset         *dset;      /* DSET address */
+    void                *dpvt;      /* Device Private */
+    struct dbRecordType *rdes;      /* Address of dbRecordType */
+    struct lockRecord   *lset;      /* Lock Set */
+    epicsEnum16         prio;       /* Scheduling Priority */
+    epicsUInt8          tpro;       /* Trace Processing */
+    char                bkpt;       /* Break Point */
+    epicsUInt8          udf;        /* Undefined */
+    epicsEnum16         udfs;       /* Undefined Alarm Sevrty */
+    epicsTimeStamp      time;       /* Time */
+    DBLINK              flnk;       /* Forward Process Link */
+    epicsEnum16         val;        /* Current Value */
+    epicsUInt16         nobt;       /* Number of Bits */
+    DBLINK              inp;        /* Input Specification */
+    epicsUInt32         zrvl;       /* Zero Value */
+    epicsUInt32         onvl;       /* One Value */
+    epicsUInt32         twvl;       /* Two Value */
+    epicsUInt32         thvl;       /* Three Value */
+    epicsUInt32         frvl;       /* Four Value */
+    epicsUInt32         fvvl;       /* Five Value */
+    epicsUInt32         sxvl;       /* Six Value */
+    epicsUInt32         svvl;       /* Seven Value */
+    epicsUInt32         eivl;       /* Eight Value */
+    epicsUInt32         nivl;       /* Nine Value */
+    epicsUInt32         tevl;       /* Ten Value */
+    epicsUInt32         elvl;       /* Eleven Value */
+    epicsUInt32         tvvl;       /* Twelve Value */
+    epicsUInt32         ttvl;       /* Thirteen Value */
+    epicsUInt32         ftvl;       /* Fourteen Value */
+    epicsUInt32         ffvl;       /* Fifteen Value */
+    char                zrst[26];   /* Zero String */
+    char                onst[26];   /* One String */
+    char                twst[26];   /* Two String */
+    char                thst[26];   /* Three String */
+    char                frst[26];   /* Four String */
+    char                fvst[26];   /* Five String */
+    char                sxst[26];   /* Six String */
+    char                svst[26];   /* Seven String */
+    char                eist[26];   /* Eight String */
+    char                nist[26];   /* Nine String */
+    char                test[26];   /* Ten String */
+    char                elst[26];   /* Eleven String */
+    char                tvst[26];   /* Twelve String */
+    char                ttst[26];   /* Thirteen String */
+    char                ftst[26];   /* Fourteen String */
+    char                ffst[26];   /* Fifteen String */
+    epicsEnum16         zrsv;       /* State Zero Severity */
+    epicsEnum16         onsv;       /* State One Severity */
+    epicsEnum16         twsv;       /* State Two Severity */
+    epicsEnum16         thsv;       /* State Three Severity */
+    epicsEnum16         frsv;       /* State Four Severity */
+    epicsEnum16         fvsv;       /* State Five Severity */
+    epicsEnum16         sxsv;       /* State Six Severity */
+    epicsEnum16         svsv;       /* State Seven Severity */
+    epicsEnum16         eisv;       /* State Eight Severity */
+    epicsEnum16         nisv;       /* State Nine Severity */
+    epicsEnum16         tesv;       /* State Ten Severity */
+    epicsEnum16         elsv;       /* State Eleven Severity */
+    epicsEnum16         tvsv;       /* State Twelve Severity */
+    epicsEnum16         ttsv;       /* State Thirteen Sevr */
+    epicsEnum16         ftsv;       /* State Fourteen Sevr */
+    epicsEnum16         ffsv;       /* State Fifteen Severity */
+    epicsFloat64        aftc;       /* Alarm Filter Time Constant */
+    epicsFloat64        afvl;       /* Alarm Filter Value */
+    epicsEnum16         unsv;       /* Unknown State Severity */
+    epicsEnum16         cosv;       /* Change of State Svr */
+    epicsUInt32         rval;       /* Raw Value */
+    epicsUInt32         oraw;       /* Prev Raw Value */
+    epicsUInt32         mask;       /* Hardware Mask */
+    epicsUInt16         mlst;       /* Last Value Monitored */
+    epicsUInt16         lalm;       /* Last Value Alarmed */
+    epicsInt16          sdef;       /* States Defined */
+    epicsUInt16         shft;       /* Shift */
+    DBLINK              siol;       /* Sim Input Specifctn */
+    epicsUInt32         sval;       /* Simulation Value */
+    DBLINK              siml;       /* Sim Mode Location */
+    epicsEnum16         simm;       /* Simulation Mode */
+    epicsEnum16         sims;       /* Sim mode Alarm Svrty */
 } mbbiRecord;
 
 typedef enum {
@@ -158,107 +143,102 @@ typedef enum {
 	mbbiRecordSDIS = 12,
 	mbbiRecordMLOK = 13,
 	mbbiRecordMLIS = 14,
-	mbbiRecordBKLNK = 15,
-	mbbiRecordDISP = 16,
-	mbbiRecordPROC = 17,
-	mbbiRecordSTAT = 18,
-	mbbiRecordSEVR = 19,
-	mbbiRecordNSTA = 20,
-	mbbiRecordNSEV = 21,
-	mbbiRecordACKS = 22,
-	mbbiRecordACKT = 23,
-	mbbiRecordDISS = 24,
-	mbbiRecordLCNT = 25,
-	mbbiRecordPACT = 26,
-	mbbiRecordPUTF = 27,
-	mbbiRecordRPRO = 28,
-	mbbiRecordASP = 29,
-	mbbiRecordPPN = 30,
-	mbbiRecordPPNR = 31,
-	mbbiRecordSPVT = 32,
-	mbbiRecordRSET = 33,
-	mbbiRecordDSET = 34,
-	mbbiRecordDPVT = 35,
-	mbbiRecordRDES = 36,
-	mbbiRecordLSET = 37,
-	mbbiRecordPRIO = 38,
-	mbbiRecordTPRO = 39,
-	mbbiRecordBKPT = 40,
-	mbbiRecordUDF = 41,
-	mbbiRecordUDFS = 42,
-	mbbiRecordTIME = 43,
-	mbbiRecordFLNK = 44,
-	mbbiRecordVAL = 45,
-	mbbiRecordNOBT = 46,
-	mbbiRecordINP = 47,
-	mbbiRecordZRVL = 48,
-	mbbiRecordONVL = 49,
-	mbbiRecordTWVL = 50,
-	mbbiRecordTHVL = 51,
-	mbbiRecordFRVL = 52,
-	mbbiRecordFVVL = 53,
-	mbbiRecordSXVL = 54,
-	mbbiRecordSVVL = 55,
-	mbbiRecordEIVL = 56,
-	mbbiRecordNIVL = 57,
-	mbbiRecordTEVL = 58,
-	mbbiRecordELVL = 59,
-	mbbiRecordTVVL = 60,
-	mbbiRecordTTVL = 61,
-	mbbiRecordFTVL = 62,
-	mbbiRecordFFVL = 63,
-	mbbiRecordZRST = 64,
-	mbbiRecordONST = 65,
-	mbbiRecordTWST = 66,
-	mbbiRecordTHST = 67,
-	mbbiRecordFRST = 68,
-	mbbiRecordFVST = 69,
-	mbbiRecordSXST = 70,
-	mbbiRecordSVST = 71,
-	mbbiRecordEIST = 72,
-	mbbiRecordNIST = 73,
-	mbbiRecordTEST = 74,
-	mbbiRecordELST = 75,
-	mbbiRecordTVST = 76,
-	mbbiRecordTTST = 77,
-	mbbiRecordFTST = 78,
-	mbbiRecordFFST = 79,
-	mbbiRecordZRSV = 80,
-	mbbiRecordONSV = 81,
-	mbbiRecordTWSV = 82,
-	mbbiRecordTHSV = 83,
-	mbbiRecordFRSV = 84,
-	mbbiRecordFVSV = 85,
-	mbbiRecordSXSV = 86,
-	mbbiRecordSVSV = 87,
-	mbbiRecordEISV = 88,
-	mbbiRecordNISV = 89,
-	mbbiRecordTESV = 90,
-	mbbiRecordELSV = 91,
-	mbbiRecordTVSV = 92,
-	mbbiRecordTTSV = 93,
-	mbbiRecordFTSV = 94,
-	mbbiRecordFFSV = 95,
-	mbbiRecordAFTC = 96,
-	mbbiRecordAFVL = 97,
-	mbbiRecordUNSV = 98,
-	mbbiRecordCOSV = 99,
-	mbbiRecordRVAL = 100,
-	mbbiRecordORAW = 101,
-	mbbiRecordMASK = 102,
-	mbbiRecordMLST = 103,
-	mbbiRecordLALM = 104,
-	mbbiRecordSDEF = 105,
-	mbbiRecordSHFT = 106,
-	mbbiRecordSIOL = 107,
-	mbbiRecordSVAL = 108,
-	mbbiRecordSIML = 109,
-	mbbiRecordSIMM = 110,
-	mbbiRecordSIMS = 111,
-	mbbiRecordOLDSIMM = 112,
-	mbbiRecordSSCN = 113,
-	mbbiRecordSDLY = 114,
-	mbbiRecordSIMPVT = 115
+	mbbiRecordDISP = 15,
+	mbbiRecordPROC = 16,
+	mbbiRecordSTAT = 17,
+	mbbiRecordSEVR = 18,
+	mbbiRecordNSTA = 19,
+	mbbiRecordNSEV = 20,
+	mbbiRecordACKS = 21,
+	mbbiRecordACKT = 22,
+	mbbiRecordDISS = 23,
+	mbbiRecordLCNT = 24,
+	mbbiRecordPACT = 25,
+	mbbiRecordPUTF = 26,
+	mbbiRecordRPRO = 27,
+	mbbiRecordASP = 28,
+	mbbiRecordPPN = 29,
+	mbbiRecordPPNR = 30,
+	mbbiRecordSPVT = 31,
+	mbbiRecordRSET = 32,
+	mbbiRecordDSET = 33,
+	mbbiRecordDPVT = 34,
+	mbbiRecordRDES = 35,
+	mbbiRecordLSET = 36,
+	mbbiRecordPRIO = 37,
+	mbbiRecordTPRO = 38,
+	mbbiRecordBKPT = 39,
+	mbbiRecordUDF = 40,
+	mbbiRecordUDFS = 41,
+	mbbiRecordTIME = 42,
+	mbbiRecordFLNK = 43,
+	mbbiRecordVAL = 44,
+	mbbiRecordNOBT = 45,
+	mbbiRecordINP = 46,
+	mbbiRecordZRVL = 47,
+	mbbiRecordONVL = 48,
+	mbbiRecordTWVL = 49,
+	mbbiRecordTHVL = 50,
+	mbbiRecordFRVL = 51,
+	mbbiRecordFVVL = 52,
+	mbbiRecordSXVL = 53,
+	mbbiRecordSVVL = 54,
+	mbbiRecordEIVL = 55,
+	mbbiRecordNIVL = 56,
+	mbbiRecordTEVL = 57,
+	mbbiRecordELVL = 58,
+	mbbiRecordTVVL = 59,
+	mbbiRecordTTVL = 60,
+	mbbiRecordFTVL = 61,
+	mbbiRecordFFVL = 62,
+	mbbiRecordZRST = 63,
+	mbbiRecordONST = 64,
+	mbbiRecordTWST = 65,
+	mbbiRecordTHST = 66,
+	mbbiRecordFRST = 67,
+	mbbiRecordFVST = 68,
+	mbbiRecordSXST = 69,
+	mbbiRecordSVST = 70,
+	mbbiRecordEIST = 71,
+	mbbiRecordNIST = 72,
+	mbbiRecordTEST = 73,
+	mbbiRecordELST = 74,
+	mbbiRecordTVST = 75,
+	mbbiRecordTTST = 76,
+	mbbiRecordFTST = 77,
+	mbbiRecordFFST = 78,
+	mbbiRecordZRSV = 79,
+	mbbiRecordONSV = 80,
+	mbbiRecordTWSV = 81,
+	mbbiRecordTHSV = 82,
+	mbbiRecordFRSV = 83,
+	mbbiRecordFVSV = 84,
+	mbbiRecordSXSV = 85,
+	mbbiRecordSVSV = 86,
+	mbbiRecordEISV = 87,
+	mbbiRecordNISV = 88,
+	mbbiRecordTESV = 89,
+	mbbiRecordELSV = 90,
+	mbbiRecordTVSV = 91,
+	mbbiRecordTTSV = 92,
+	mbbiRecordFTSV = 93,
+	mbbiRecordFFSV = 94,
+	mbbiRecordAFTC = 95,
+	mbbiRecordAFVL = 96,
+	mbbiRecordUNSV = 97,
+	mbbiRecordCOSV = 98,
+	mbbiRecordRVAL = 99,
+	mbbiRecordORAW = 100,
+	mbbiRecordMASK = 101,
+	mbbiRecordMLST = 102,
+	mbbiRecordLALM = 103,
+	mbbiRecordSDEF = 104,
+	mbbiRecordSHFT = 105,
+	mbbiRecordSIOL = 106,
+	mbbiRecordSVAL = 107,
+	mbbiRecordSIML = 108,
+	mbbiRecordSIMM = 109,
+	mbbiRecordSIMS = 110
 } mbbiFieldIndex;
 
 #ifdef GEN_SIZE_OFFSET
@@ -272,10 +252,10 @@ static int mbbiRecordSizeOffset(dbRecordType *prt)
 {
     mbbiRecord *prec = 0;
 
-    if (prt->no_fields != 116) {
+    if (prt->no_fields != 111) {
         cantProceed("IOC build or installation error:\n"
             "    The mbbiRecord defined in the DBD file has %d fields,\n"
-            "    but the record support code was built with 116.\n",
+            "    but the record support code was built with 111.\n",
             prt->no_fields);
     }
     prt->papFldDes[mbbiRecordNAME]->size = sizeof(prec->name);
@@ -308,8 +288,6 @@ static int mbbiRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[mbbiRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[mbbiRecordMLIS]->size = sizeof(prec->mlis);
     prt->papFldDes[mbbiRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
-    prt->papFldDes[mbbiRecordBKLNK]->size = sizeof(prec->bklnk);
-    prt->papFldDes[mbbiRecordBKLNK]->offset = (unsigned short)((char *)&prec->bklnk - (char *)prec);
     prt->papFldDes[mbbiRecordDISP]->size = sizeof(prec->disp);
     prt->papFldDes[mbbiRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[mbbiRecordPROC]->size = sizeof(prec->proc);
@@ -502,14 +480,6 @@ static int mbbiRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[mbbiRecordSIMM]->offset = (unsigned short)((char *)&prec->simm - (char *)prec);
     prt->papFldDes[mbbiRecordSIMS]->size = sizeof(prec->sims);
     prt->papFldDes[mbbiRecordSIMS]->offset = (unsigned short)((char *)&prec->sims - (char *)prec);
-    prt->papFldDes[mbbiRecordOLDSIMM]->size = sizeof(prec->oldsimm);
-    prt->papFldDes[mbbiRecordOLDSIMM]->offset = (unsigned short)((char *)&prec->oldsimm - (char *)prec);
-    prt->papFldDes[mbbiRecordSSCN]->size = sizeof(prec->sscn);
-    prt->papFldDes[mbbiRecordSSCN]->offset = (unsigned short)((char *)&prec->sscn - (char *)prec);
-    prt->papFldDes[mbbiRecordSDLY]->size = sizeof(prec->sdly);
-    prt->papFldDes[mbbiRecordSDLY]->offset = (unsigned short)((char *)&prec->sdly - (char *)prec);
-    prt->papFldDes[mbbiRecordSIMPVT]->size = sizeof(prec->simpvt);
-    prt->papFldDes[mbbiRecordSIMPVT]->offset = (unsigned short)((char *)&prec->simpvt - (char *)prec);
     prt->rec_size = sizeof(*prec);
     return 0;
 }

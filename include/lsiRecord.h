@@ -7,85 +7,81 @@
 #ifndef INC_lsiRecord_H
 #define INC_lsiRecord_H
 
-#include "epicsTypes.h"
-#include "link.h"
+ #include "epicsTypes.h"
+ #include "link.h"
 #include "epicsMutex.h"
 #include "ellLib.h"
 #include "epicsTime.h"
+#include "devSup.h"
 
 /* Declare Device Support Entry Table */
-struct lsiRecord;
 typedef struct lsidset {
-    dset common;
-    long (*read_string)(struct lsiRecord *prec);
+    long number;
+    DEVSUPFUN report;
+    DEVSUPFUN init;
+    DEVSUPFUN init_record;
+    DEVSUPFUN get_ioint_info;
+    DEVSUPFUN read_string;
 } lsidset;
-#define HAS_lsidset
 
-#include "callback.h"
 
-/** @brief Declaration of lsi record type. */
 typedef struct lsiRecord {
-    char                name[61];   /**< @brief Record Name */
-    char                desc[41];   /**< @brief Descriptor */
-    char                asg[29];    /**< @brief Access Security Group */
-    epicsEnum16         scan;       /**< @brief Scan Mechanism */
-    epicsEnum16         pini;       /**< @brief Process at iocInit */
-    epicsInt16          phas;       /**< @brief Scan Phase */
-    char                evnt[40];   /**< @brief Event Name */
-    epicsInt16          tse;        /**< @brief Time Stamp Event */
-    DBLINK              tsel;       /**< @brief Time Stamp Link */
-    epicsEnum16         dtyp;       /**< @brief Device Type */
-    epicsInt16          disv;       /**< @brief Disable Value */
-    epicsInt16          disa;       /**< @brief Disable */
-    DBLINK              sdis;       /**< @brief Scanning Disable */
-    epicsMutexId        mlok;       /**< @brief Monitor lock */
-    ELLLIST             mlis;       /**< @brief Monitor List */
-    ELLLIST             bklnk;      /**< @brief Backwards link tracking */
-    epicsUInt8          disp;       /**< @brief Disable putField */
-    epicsUInt8          proc;       /**< @brief Force Processing */
-    epicsEnum16         stat;       /**< @brief Alarm Status */
-    epicsEnum16         sevr;       /**< @brief Alarm Severity */
-    epicsEnum16         nsta;       /**< @brief New Alarm Status */
-    epicsEnum16         nsev;       /**< @brief New Alarm Severity */
-    epicsEnum16         acks;       /**< @brief Alarm Ack Severity */
-    epicsEnum16         ackt;       /**< @brief Alarm Ack Transient */
-    epicsEnum16         diss;       /**< @brief Disable Alarm Sevrty */
-    epicsUInt8          lcnt;       /**< @brief Lock Count */
-    epicsUInt8          pact;       /**< @brief Record active */
-    epicsUInt8          putf;       /**< @brief dbPutField process */
-    epicsUInt8          rpro;       /**< @brief Reprocess  */
-    struct asgMember    *asp;       /**< @brief Access Security Pvt */
-    struct processNotify *ppn;      /**< @brief pprocessNotify */
-    struct processNotifyRecord *ppnr; /**< @brief pprocessNotifyRecord */
-    struct scan_element *spvt;      /**< @brief Scan Private */
-    struct typed_rset   *rset;      /**< @brief Address of RSET */
-    struct dset         *dset;      /**< @brief DSET address */
-    void                *dpvt;      /**< @brief Device Private */
-    struct dbRecordType *rdes;      /**< @brief Address of dbRecordType */
-    struct lockRecord   *lset;      /**< @brief Lock Set */
-    epicsEnum16         prio;       /**< @brief Scheduling Priority */
-    epicsUInt8          tpro;       /**< @brief Trace Processing */
-    char                bkpt;       /**< @brief Break Point */
-    epicsUInt8          udf;        /**< @brief Undefined */
-    epicsEnum16         udfs;       /**< @brief Undefined Alarm Sevrty */
-    epicsTimeStamp      time;       /**< @brief Time */
-    DBLINK              flnk;       /**< @brief Forward Process Link */
-    char *val;                      /**< @brief Current Value */
-    char *oval;                     /**< @brief Old Value */
-    epicsUInt16         sizv;       /**< @brief Size of buffers */
-    epicsUInt32         len;        /**< @brief Length of VAL */
-    epicsUInt32         olen;       /**< @brief Length of OVAL */
-    DBLINK              inp;        /**< @brief Input Specification */
-    epicsEnum16         mpst;       /**< @brief Post Value Monitors */
-    epicsEnum16         apst;       /**< @brief Post Archive Monitors */
-    DBLINK              siml;       /**< @brief Simulation Mode Link */
-    epicsEnum16         simm;       /**< @brief Simulation Mode */
-    epicsEnum16         sims;       /**< @brief Simulation Mode Severity */
-    DBLINK              siol;       /**< @brief Simulation Input Link */
-    epicsEnum16         oldsimm;    /**< @brief Prev. Simulation Mode */
-    epicsEnum16         sscn;       /**< @brief Sim. Mode Scan */
-    epicsFloat64        sdly;       /**< @brief Sim. Mode Async Delay */
-    epicsCallback            *simpvt; /**< @brief Sim. Mode Private */
+    char                name[61];   /* Record Name */
+    char                desc[41];   /* Descriptor */
+    char                asg[29];    /* Access Security Group */
+    epicsEnum16         scan;       /* Scan Mechanism */
+    epicsEnum16         pini;       /* Process at iocInit */
+    epicsInt16          phas;       /* Scan Phase */
+    char                evnt[40];   /* Event Name */
+    epicsInt16          tse;        /* Time Stamp Event */
+    DBLINK              tsel;       /* Time Stamp Link */
+    epicsEnum16         dtyp;       /* Device Type */
+    epicsInt16          disv;       /* Disable Value */
+    epicsInt16          disa;       /* Disable */
+    DBLINK              sdis;       /* Scanning Disable */
+    epicsMutexId        mlok;       /* Monitor lock */
+    ELLLIST             mlis;       /* Monitor List */
+    epicsUInt8          disp;       /* Disable putField */
+    epicsUInt8          proc;       /* Force Processing */
+    epicsEnum16         stat;       /* Alarm Status */
+    epicsEnum16         sevr;       /* Alarm Severity */
+    epicsEnum16         nsta;       /* New Alarm Status */
+    epicsEnum16         nsev;       /* New Alarm Severity */
+    epicsEnum16         acks;       /* Alarm Ack Severity */
+    epicsEnum16         ackt;       /* Alarm Ack Transient */
+    epicsEnum16         diss;       /* Disable Alarm Sevrty */
+    epicsUInt8          lcnt;       /* Lock Count */
+    epicsUInt8          pact;       /* Record active */
+    epicsUInt8          putf;       /* dbPutField process */
+    epicsUInt8          rpro;       /* Reprocess  */
+    struct asgMember    *asp;       /* Access Security Pvt */
+    struct processNotify *ppn;      /* pprocessNotify */
+    struct processNotifyRecord *ppnr; /* pprocessNotifyRecord */
+    struct scan_element *spvt;      /* Scan Private */
+    struct rset         *rset;      /* Address of RSET */
+    struct dset         *dset;      /* DSET address */
+    void                *dpvt;      /* Device Private */
+    struct dbRecordType *rdes;      /* Address of dbRecordType */
+    struct lockRecord   *lset;      /* Lock Set */
+    epicsEnum16         prio;       /* Scheduling Priority */
+    epicsUInt8          tpro;       /* Trace Processing */
+    char                bkpt;       /* Break Point */
+    epicsUInt8          udf;        /* Undefined */
+    epicsEnum16         udfs;       /* Undefined Alarm Sevrty */
+    epicsTimeStamp      time;       /* Time */
+    DBLINK              flnk;       /* Forward Process Link */
+    char *val;                      /* Current Value */
+    char *oval;                     /* Old Value */
+    epicsUInt16         sizv;       /* Size of buffers */
+    epicsUInt32         len;        /* Length of VAL */
+    epicsUInt32         olen;       /* Length of OVAL */
+    DBLINK              inp;        /* Input Specification */
+    epicsEnum16         mpst;       /* Post Value Monitors */
+    epicsEnum16         apst;       /* Post Archive Monitors */
+    DBLINK              siml;       /* Simulation Mode Link */
+    epicsEnum16         simm;       /* Simulation Mode */
+    epicsEnum16         sims;       /* Simulation Mode Severity */
+    DBLINK              siol;       /* Sim Input Specifctn */
 } lsiRecord;
 
 typedef enum {
@@ -104,52 +100,47 @@ typedef enum {
 	lsiRecordSDIS = 12,
 	lsiRecordMLOK = 13,
 	lsiRecordMLIS = 14,
-	lsiRecordBKLNK = 15,
-	lsiRecordDISP = 16,
-	lsiRecordPROC = 17,
-	lsiRecordSTAT = 18,
-	lsiRecordSEVR = 19,
-	lsiRecordNSTA = 20,
-	lsiRecordNSEV = 21,
-	lsiRecordACKS = 22,
-	lsiRecordACKT = 23,
-	lsiRecordDISS = 24,
-	lsiRecordLCNT = 25,
-	lsiRecordPACT = 26,
-	lsiRecordPUTF = 27,
-	lsiRecordRPRO = 28,
-	lsiRecordASP = 29,
-	lsiRecordPPN = 30,
-	lsiRecordPPNR = 31,
-	lsiRecordSPVT = 32,
-	lsiRecordRSET = 33,
-	lsiRecordDSET = 34,
-	lsiRecordDPVT = 35,
-	lsiRecordRDES = 36,
-	lsiRecordLSET = 37,
-	lsiRecordPRIO = 38,
-	lsiRecordTPRO = 39,
-	lsiRecordBKPT = 40,
-	lsiRecordUDF = 41,
-	lsiRecordUDFS = 42,
-	lsiRecordTIME = 43,
-	lsiRecordFLNK = 44,
-	lsiRecordVAL = 45,
-	lsiRecordOVAL = 46,
-	lsiRecordSIZV = 47,
-	lsiRecordLEN = 48,
-	lsiRecordOLEN = 49,
-	lsiRecordINP = 50,
-	lsiRecordMPST = 51,
-	lsiRecordAPST = 52,
-	lsiRecordSIML = 53,
-	lsiRecordSIMM = 54,
-	lsiRecordSIMS = 55,
-	lsiRecordSIOL = 56,
-	lsiRecordOLDSIMM = 57,
-	lsiRecordSSCN = 58,
-	lsiRecordSDLY = 59,
-	lsiRecordSIMPVT = 60
+	lsiRecordDISP = 15,
+	lsiRecordPROC = 16,
+	lsiRecordSTAT = 17,
+	lsiRecordSEVR = 18,
+	lsiRecordNSTA = 19,
+	lsiRecordNSEV = 20,
+	lsiRecordACKS = 21,
+	lsiRecordACKT = 22,
+	lsiRecordDISS = 23,
+	lsiRecordLCNT = 24,
+	lsiRecordPACT = 25,
+	lsiRecordPUTF = 26,
+	lsiRecordRPRO = 27,
+	lsiRecordASP = 28,
+	lsiRecordPPN = 29,
+	lsiRecordPPNR = 30,
+	lsiRecordSPVT = 31,
+	lsiRecordRSET = 32,
+	lsiRecordDSET = 33,
+	lsiRecordDPVT = 34,
+	lsiRecordRDES = 35,
+	lsiRecordLSET = 36,
+	lsiRecordPRIO = 37,
+	lsiRecordTPRO = 38,
+	lsiRecordBKPT = 39,
+	lsiRecordUDF = 40,
+	lsiRecordUDFS = 41,
+	lsiRecordTIME = 42,
+	lsiRecordFLNK = 43,
+	lsiRecordVAL = 44,
+	lsiRecordOVAL = 45,
+	lsiRecordSIZV = 46,
+	lsiRecordLEN = 47,
+	lsiRecordOLEN = 48,
+	lsiRecordINP = 49,
+	lsiRecordMPST = 50,
+	lsiRecordAPST = 51,
+	lsiRecordSIML = 52,
+	lsiRecordSIMM = 53,
+	lsiRecordSIMS = 54,
+	lsiRecordSIOL = 55
 } lsiFieldIndex;
 
 #ifdef GEN_SIZE_OFFSET
@@ -163,10 +154,10 @@ static int lsiRecordSizeOffset(dbRecordType *prt)
 {
     lsiRecord *prec = 0;
 
-    if (prt->no_fields != 61) {
+    if (prt->no_fields != 56) {
         cantProceed("IOC build or installation error:\n"
             "    The lsiRecord defined in the DBD file has %d fields,\n"
-            "    but the record support code was built with 61.\n",
+            "    but the record support code was built with 56.\n",
             prt->no_fields);
     }
     prt->papFldDes[lsiRecordNAME]->size = sizeof(prec->name);
@@ -199,8 +190,6 @@ static int lsiRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[lsiRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[lsiRecordMLIS]->size = sizeof(prec->mlis);
     prt->papFldDes[lsiRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
-    prt->papFldDes[lsiRecordBKLNK]->size = sizeof(prec->bklnk);
-    prt->papFldDes[lsiRecordBKLNK]->offset = (unsigned short)((char *)&prec->bklnk - (char *)prec);
     prt->papFldDes[lsiRecordDISP]->size = sizeof(prec->disp);
     prt->papFldDes[lsiRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[lsiRecordPROC]->size = sizeof(prec->proc);
@@ -283,14 +272,6 @@ static int lsiRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[lsiRecordSIMS]->offset = (unsigned short)((char *)&prec->sims - (char *)prec);
     prt->papFldDes[lsiRecordSIOL]->size = sizeof(prec->siol);
     prt->papFldDes[lsiRecordSIOL]->offset = (unsigned short)((char *)&prec->siol - (char *)prec);
-    prt->papFldDes[lsiRecordOLDSIMM]->size = sizeof(prec->oldsimm);
-    prt->papFldDes[lsiRecordOLDSIMM]->offset = (unsigned short)((char *)&prec->oldsimm - (char *)prec);
-    prt->papFldDes[lsiRecordSSCN]->size = sizeof(prec->sscn);
-    prt->papFldDes[lsiRecordSSCN]->offset = (unsigned short)((char *)&prec->sscn - (char *)prec);
-    prt->papFldDes[lsiRecordSDLY]->size = sizeof(prec->sdly);
-    prt->papFldDes[lsiRecordSDLY]->offset = (unsigned short)((char *)&prec->sdly - (char *)prec);
-    prt->papFldDes[lsiRecordSIMPVT]->size = sizeof(prec->simpvt);
-    prt->papFldDes[lsiRecordSIMPVT]->offset = (unsigned short)((char *)&prec->simpvt - (char *)prec);
     prt->rec_size = sizeof(*prec);
     return 0;
 }

@@ -3,15 +3,14 @@
 *     National Laboratory.
 * Copyright (c) 2002 The Regents of the University of California, as
 *     Operator of Los Alamos National Laboratory.
-* SPDX-License-Identifier: EPICS
 * EPICS BASE is distributed subject to a Software License Agreement found
-* in file LICENSE that is included with this distribution.
+* in file LICENSE that is included with this distribution. 
 \*************************************************************************/
 
 #ifndef INC_registryFunction_H
 #define INC_registryFunction_H
 
-#include "dbCoreAPI.h"
+#include "shareLib.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -25,11 +24,11 @@ typedef struct registryFunctionRef {
 } registryFunctionRef;
 
 
-DBCORE_API int registryFunctionAdd(
+epicsShareFunc int registryFunctionAdd(
     const char *name, REGISTRYFUNCTION func);
-DBCORE_API REGISTRYFUNCTION registryFunctionFind(
+epicsShareFunc REGISTRYFUNCTION registryFunctionFind(
     const char *name);
-DBCORE_API int registryFunctionRefAdd(
+epicsShareFunc int registryFunctionRefAdd(
    registryFunctionRef ref[], int nfunctions);
 
 #ifdef __cplusplus

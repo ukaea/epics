@@ -7,105 +7,90 @@
 #ifndef INC_compressRecord_H
 #define INC_compressRecord_H
 
-#include "epicsTypes.h"
-#include "link.h"
+ #include "epicsTypes.h"
+ #include "link.h"
 #include "epicsMutex.h"
 #include "ellLib.h"
 #include "epicsTime.h"
 
 #ifndef compressALG_NUM_CHOICES
-/** @brief Enumerated type from menu compressALG */
 typedef enum {
-    compressALG_N_to_1_Low_Value    /**< @brief State string "N to 1 Low Value" */,
-    compressALG_N_to_1_High_Value   /**< @brief State string "N to 1 High Value" */,
-    compressALG_N_to_1_Average      /**< @brief State string "N to 1 Average" */,
-    compressALG_Average             /**< @brief State string "Average" */,
-    compressALG_Circular_Buffer     /**< @brief State string "Circular Buffer" */,
-    compressALG_N_to_1_Median       /**< @brief State string "N to 1 Median" */
+    compressALG_N_to_1_Low_Value    /* N to 1 Low Value */,
+    compressALG_N_to_1_High_Value   /* N to 1 High Value */,
+    compressALG_N_to_1_Average      /* N to 1 Average */,
+    compressALG_Average             /* Average */,
+    compressALG_Circular_Buffer     /* Circular Buffer */,
+    compressALG_N_to_1_Median       /* N to 1 Median */
 } compressALG;
-/** @brief Number of states defined for menu compressALG */
 #define compressALG_NUM_CHOICES 6
 #endif
 
-#ifndef bufferingALG_NUM_CHOICES
-/** @brief Enumerated type from menu bufferingALG */
-typedef enum {
-    bufferingALG_FIFO               /**< @brief State string "FIFO Buffer" */,
-    bufferingALG_LIFO               /**< @brief State string "LIFO Buffer" */
-} bufferingALG;
-/** @brief Number of states defined for menu bufferingALG */
-#define bufferingALG_NUM_CHOICES 2
-#endif
-
-/** @brief Declaration of compress record type. */
 typedef struct compressRecord {
-    char                name[61];   /**< @brief Record Name */
-    char                desc[41];   /**< @brief Descriptor */
-    char                asg[29];    /**< @brief Access Security Group */
-    epicsEnum16         scan;       /**< @brief Scan Mechanism */
-    epicsEnum16         pini;       /**< @brief Process at iocInit */
-    epicsInt16          phas;       /**< @brief Scan Phase */
-    char                evnt[40];   /**< @brief Event Name */
-    epicsInt16          tse;        /**< @brief Time Stamp Event */
-    DBLINK              tsel;       /**< @brief Time Stamp Link */
-    epicsEnum16         dtyp;       /**< @brief Device Type */
-    epicsInt16          disv;       /**< @brief Disable Value */
-    epicsInt16          disa;       /**< @brief Disable */
-    DBLINK              sdis;       /**< @brief Scanning Disable */
-    epicsMutexId        mlok;       /**< @brief Monitor lock */
-    ELLLIST             mlis;       /**< @brief Monitor List */
-    ELLLIST             bklnk;      /**< @brief Backwards link tracking */
-    epicsUInt8          disp;       /**< @brief Disable putField */
-    epicsUInt8          proc;       /**< @brief Force Processing */
-    epicsEnum16         stat;       /**< @brief Alarm Status */
-    epicsEnum16         sevr;       /**< @brief Alarm Severity */
-    epicsEnum16         nsta;       /**< @brief New Alarm Status */
-    epicsEnum16         nsev;       /**< @brief New Alarm Severity */
-    epicsEnum16         acks;       /**< @brief Alarm Ack Severity */
-    epicsEnum16         ackt;       /**< @brief Alarm Ack Transient */
-    epicsEnum16         diss;       /**< @brief Disable Alarm Sevrty */
-    epicsUInt8          lcnt;       /**< @brief Lock Count */
-    epicsUInt8          pact;       /**< @brief Record active */
-    epicsUInt8          putf;       /**< @brief dbPutField process */
-    epicsUInt8          rpro;       /**< @brief Reprocess  */
-    struct asgMember    *asp;       /**< @brief Access Security Pvt */
-    struct processNotify *ppn;      /**< @brief pprocessNotify */
-    struct processNotifyRecord *ppnr; /**< @brief pprocessNotifyRecord */
-    struct scan_element *spvt;      /**< @brief Scan Private */
-    struct typed_rset   *rset;      /**< @brief Address of RSET */
-    struct dset         *dset;      /**< @brief DSET address */
-    void                *dpvt;      /**< @brief Device Private */
-    struct dbRecordType *rdes;      /**< @brief Address of dbRecordType */
-    struct lockRecord   *lset;      /**< @brief Lock Set */
-    epicsEnum16         prio;       /**< @brief Scheduling Priority */
-    epicsUInt8          tpro;       /**< @brief Trace Processing */
-    char                bkpt;       /**< @brief Break Point */
-    epicsUInt8          udf;        /**< @brief Undefined */
-    epicsEnum16         udfs;       /**< @brief Undefined Alarm Sevrty */
-    epicsTimeStamp      time;       /**< @brief Time */
-    DBLINK              flnk;       /**< @brief Forward Process Link */
-    void *		val;                    /**< @brief Value */
-    DBLINK              inp;        /**< @brief Input Specification */
-    epicsInt16          res;        /**< @brief Reset */
-    epicsEnum16         alg;        /**< @brief Compression Algorithm */
-    epicsEnum16         balg;       /**< @brief Buffering Algorithm */
-    epicsUInt32         nsam;       /**< @brief Number of Values */
-    epicsUInt32         n;          /**< @brief N to 1 Compression */
-    epicsFloat64        ihil;       /**< @brief Init High Interest Lim */
-    epicsFloat64        ilil;       /**< @brief Init Low Interest Lim */
-    epicsFloat64        hopr;       /**< @brief High Operating Range */
-    epicsFloat64        lopr;       /**< @brief Low Operating Range */
-    epicsInt16          prec;       /**< @brief Display Precision */
-    char                egu[16];    /**< @brief Engineering Units */
-    epicsUInt32         off;        /**< @brief Offset */
-    epicsUInt32         nuse;       /**< @brief Number Used */
-    epicsUInt32         ouse;       /**< @brief Old Number Used */
-    double		*bptr;                  /**< @brief Buffer Pointer */
-    double		*sptr;                  /**< @brief Summing Buffer Ptr */
-    double		*wptr;                  /**< @brief Working Buffer Ptr */
-    epicsInt32          inpn;       /**< @brief Number of elements in Working Buffer */
-    epicsFloat64        cvb;        /**< @brief Compress Value Buffer */
-    epicsUInt32         inx;        /**< @brief Compressed Array Inx */
+    char                name[61];   /* Record Name */
+    char                desc[41];   /* Descriptor */
+    char                asg[29];    /* Access Security Group */
+    epicsEnum16         scan;       /* Scan Mechanism */
+    epicsEnum16         pini;       /* Process at iocInit */
+    epicsInt16          phas;       /* Scan Phase */
+    char                evnt[40];   /* Event Name */
+    epicsInt16          tse;        /* Time Stamp Event */
+    DBLINK              tsel;       /* Time Stamp Link */
+    epicsEnum16         dtyp;       /* Device Type */
+    epicsInt16          disv;       /* Disable Value */
+    epicsInt16          disa;       /* Disable */
+    DBLINK              sdis;       /* Scanning Disable */
+    epicsMutexId        mlok;       /* Monitor lock */
+    ELLLIST             mlis;       /* Monitor List */
+    epicsUInt8          disp;       /* Disable putField */
+    epicsUInt8          proc;       /* Force Processing */
+    epicsEnum16         stat;       /* Alarm Status */
+    epicsEnum16         sevr;       /* Alarm Severity */
+    epicsEnum16         nsta;       /* New Alarm Status */
+    epicsEnum16         nsev;       /* New Alarm Severity */
+    epicsEnum16         acks;       /* Alarm Ack Severity */
+    epicsEnum16         ackt;       /* Alarm Ack Transient */
+    epicsEnum16         diss;       /* Disable Alarm Sevrty */
+    epicsUInt8          lcnt;       /* Lock Count */
+    epicsUInt8          pact;       /* Record active */
+    epicsUInt8          putf;       /* dbPutField process */
+    epicsUInt8          rpro;       /* Reprocess  */
+    struct asgMember    *asp;       /* Access Security Pvt */
+    struct processNotify *ppn;      /* pprocessNotify */
+    struct processNotifyRecord *ppnr; /* pprocessNotifyRecord */
+    struct scan_element *spvt;      /* Scan Private */
+    struct rset         *rset;      /* Address of RSET */
+    struct dset         *dset;      /* DSET address */
+    void                *dpvt;      /* Device Private */
+    struct dbRecordType *rdes;      /* Address of dbRecordType */
+    struct lockRecord   *lset;      /* Lock Set */
+    epicsEnum16         prio;       /* Scheduling Priority */
+    epicsUInt8          tpro;       /* Trace Processing */
+    char                bkpt;       /* Break Point */
+    epicsUInt8          udf;        /* Undefined */
+    epicsEnum16         udfs;       /* Undefined Alarm Sevrty */
+    epicsTimeStamp      time;       /* Time */
+    DBLINK              flnk;       /* Forward Process Link */
+    void *		val;                    /* Value */
+    DBLINK              inp;        /* Input Specification */
+    epicsInt16          res;        /* Reset */
+    epicsEnum16         alg;        /* Compression Algorithm */
+    epicsUInt32         nsam;       /* Number of Values */
+    epicsUInt32         n;          /* N to 1 Compression */
+    epicsFloat64        ihil;       /* Init High Interest Lim */
+    epicsFloat64        ilil;       /* Init Low Interest Lim */
+    epicsFloat64        hopr;       /* High Operating Range */
+    epicsFloat64        lopr;       /* Low Operating Range */
+    epicsInt16          prec;       /* Display Precision */
+    char                egu[16];    /* Engineering Units */
+    epicsUInt32         off;        /* Offset */
+    epicsUInt32         nuse;       /* Number Used */
+    epicsUInt32         ouse;       /* Old Number Used */
+    double		*bptr;                  /* Buffer Pointer */
+    double		*sptr;                  /* Summing Buffer Ptr */
+    double		*wptr;                  /* Working Buffer Ptr */
+    epicsInt32          inpn;       /* Number of elements in Working Buffer */
+    epicsFloat64        cvb;        /* Compress Value Buffer */
+    epicsUInt32         inx;        /* Compressed Array Inx */
 } compressRecord;
 
 typedef enum {
@@ -124,58 +109,56 @@ typedef enum {
 	compressRecordSDIS = 12,
 	compressRecordMLOK = 13,
 	compressRecordMLIS = 14,
-	compressRecordBKLNK = 15,
-	compressRecordDISP = 16,
-	compressRecordPROC = 17,
-	compressRecordSTAT = 18,
-	compressRecordSEVR = 19,
-	compressRecordNSTA = 20,
-	compressRecordNSEV = 21,
-	compressRecordACKS = 22,
-	compressRecordACKT = 23,
-	compressRecordDISS = 24,
-	compressRecordLCNT = 25,
-	compressRecordPACT = 26,
-	compressRecordPUTF = 27,
-	compressRecordRPRO = 28,
-	compressRecordASP = 29,
-	compressRecordPPN = 30,
-	compressRecordPPNR = 31,
-	compressRecordSPVT = 32,
-	compressRecordRSET = 33,
-	compressRecordDSET = 34,
-	compressRecordDPVT = 35,
-	compressRecordRDES = 36,
-	compressRecordLSET = 37,
-	compressRecordPRIO = 38,
-	compressRecordTPRO = 39,
-	compressRecordBKPT = 40,
-	compressRecordUDF = 41,
-	compressRecordUDFS = 42,
-	compressRecordTIME = 43,
-	compressRecordFLNK = 44,
-	compressRecordVAL = 45,
-	compressRecordINP = 46,
-	compressRecordRES = 47,
-	compressRecordALG = 48,
-	compressRecordBALG = 49,
-	compressRecordNSAM = 50,
-	compressRecordN = 51,
-	compressRecordIHIL = 52,
-	compressRecordILIL = 53,
-	compressRecordHOPR = 54,
-	compressRecordLOPR = 55,
-	compressRecordPREC = 56,
-	compressRecordEGU = 57,
-	compressRecordOFF = 58,
-	compressRecordNUSE = 59,
-	compressRecordOUSE = 60,
-	compressRecordBPTR = 61,
-	compressRecordSPTR = 62,
-	compressRecordWPTR = 63,
-	compressRecordINPN = 64,
-	compressRecordCVB = 65,
-	compressRecordINX = 66
+	compressRecordDISP = 15,
+	compressRecordPROC = 16,
+	compressRecordSTAT = 17,
+	compressRecordSEVR = 18,
+	compressRecordNSTA = 19,
+	compressRecordNSEV = 20,
+	compressRecordACKS = 21,
+	compressRecordACKT = 22,
+	compressRecordDISS = 23,
+	compressRecordLCNT = 24,
+	compressRecordPACT = 25,
+	compressRecordPUTF = 26,
+	compressRecordRPRO = 27,
+	compressRecordASP = 28,
+	compressRecordPPN = 29,
+	compressRecordPPNR = 30,
+	compressRecordSPVT = 31,
+	compressRecordRSET = 32,
+	compressRecordDSET = 33,
+	compressRecordDPVT = 34,
+	compressRecordRDES = 35,
+	compressRecordLSET = 36,
+	compressRecordPRIO = 37,
+	compressRecordTPRO = 38,
+	compressRecordBKPT = 39,
+	compressRecordUDF = 40,
+	compressRecordUDFS = 41,
+	compressRecordTIME = 42,
+	compressRecordFLNK = 43,
+	compressRecordVAL = 44,
+	compressRecordINP = 45,
+	compressRecordRES = 46,
+	compressRecordALG = 47,
+	compressRecordNSAM = 48,
+	compressRecordN = 49,
+	compressRecordIHIL = 50,
+	compressRecordILIL = 51,
+	compressRecordHOPR = 52,
+	compressRecordLOPR = 53,
+	compressRecordPREC = 54,
+	compressRecordEGU = 55,
+	compressRecordOFF = 56,
+	compressRecordNUSE = 57,
+	compressRecordOUSE = 58,
+	compressRecordBPTR = 59,
+	compressRecordSPTR = 60,
+	compressRecordWPTR = 61,
+	compressRecordINPN = 62,
+	compressRecordCVB = 63,
+	compressRecordINX = 64
 } compressFieldIndex;
 
 #ifdef GEN_SIZE_OFFSET
@@ -189,10 +172,10 @@ static int compressRecordSizeOffset(dbRecordType *prt)
 {
     compressRecord *prec = 0;
 
-    if (prt->no_fields != 67) {
+    if (prt->no_fields != 65) {
         cantProceed("IOC build or installation error:\n"
             "    The compressRecord defined in the DBD file has %d fields,\n"
-            "    but the record support code was built with 67.\n",
+            "    but the record support code was built with 65.\n",
             prt->no_fields);
     }
     prt->papFldDes[compressRecordNAME]->size = sizeof(prec->name);
@@ -225,8 +208,6 @@ static int compressRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[compressRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[compressRecordMLIS]->size = sizeof(prec->mlis);
     prt->papFldDes[compressRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
-    prt->papFldDes[compressRecordBKLNK]->size = sizeof(prec->bklnk);
-    prt->papFldDes[compressRecordBKLNK]->offset = (unsigned short)((char *)&prec->bklnk - (char *)prec);
     prt->papFldDes[compressRecordDISP]->size = sizeof(prec->disp);
     prt->papFldDes[compressRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[compressRecordPROC]->size = sizeof(prec->proc);
@@ -293,8 +274,6 @@ static int compressRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[compressRecordRES]->offset = (unsigned short)((char *)&prec->res - (char *)prec);
     prt->papFldDes[compressRecordALG]->size = sizeof(prec->alg);
     prt->papFldDes[compressRecordALG]->offset = (unsigned short)((char *)&prec->alg - (char *)prec);
-    prt->papFldDes[compressRecordBALG]->size = sizeof(prec->balg);
-    prt->papFldDes[compressRecordBALG]->offset = (unsigned short)((char *)&prec->balg - (char *)prec);
     prt->papFldDes[compressRecordNSAM]->size = sizeof(prec->nsam);
     prt->papFldDes[compressRecordNSAM]->offset = (unsigned short)((char *)&prec->nsam - (char *)prec);
     prt->papFldDes[compressRecordN]->size = sizeof(prec->n);

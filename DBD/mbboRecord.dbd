@@ -11,15 +11,7 @@
 recordtype(mbbo) {
 
 
-        include "dbCommon.dbd"
-    %/* Declare Device Support Entry Table */
-    %struct mbboRecord;
-    %typedef struct mbbodset {
-    %    dset common; /*init_record returns: (0, 2) => (success, success no convert)*/
-    %    long (*write_mbbo)(struct mbboRecord *prec); /*returns: (0, 2) => (success, success no convert)*/
-    %} mbbodset;
-    %#define HAS_mbbodset
-    %
+	include "dbCommon.dbd"
 	field(VAL,DBF_ENUM) {
 		prompt("Desired Value")
 		promptgroup("50 - Output")
@@ -477,53 +469,26 @@ recordtype(mbbo) {
 		interest(1)
 	}
 	field(SIOL,DBF_OUTLINK) {
-		prompt("Simulation Output Link")
+		prompt("Sim Output Specifctn")
 		promptgroup("90 - Simulate")
 		interest(1)
 	}
 	field(SIML,DBF_INLINK) {
-		prompt("Simulation Mode Link")
+		prompt("Sim Mode Location")
 		promptgroup("90 - Simulate")
 		interest(1)
 	}
 	field(SIMM,DBF_MENU) {
 		prompt("Simulation Mode")
-		special(SPC_MOD)
 		interest(1)
 		menu(menuYesNo)
 	}
 	field(SIMS,DBF_MENU) {
-		prompt("Simulation Mode Severity")
+		prompt("Sim mode Alarm Svrty")
 		promptgroup("90 - Simulate")
 		interest(2)
 		menu(menuAlarmSevr)
 	}
-    field(OLDSIMM,DBF_MENU) {
-        prompt("Prev. Simulation Mode")
-        special(SPC_NOMOD)
-        interest(4)
-        menu(menuSimm)
-    }
-    field(SSCN,DBF_MENU) {
-        prompt("Sim. Mode Scan")
-        promptgroup("90 - Simulate")
-        interest(1)
-        menu(menuScan)
-        initial("65535")
-    }
-    field(SDLY,DBF_DOUBLE) {
-        prompt("Sim. Mode Async Delay")
-        promptgroup("90 - Simulate")
-        interest(2)
-        initial("-1.0")
-    }
-    %#include "callback.h"
-    field(SIMPVT,DBF_NOACCESS) {
-        prompt("Sim. Mode Private")
-        special(SPC_NOMOD)
-        interest(4)
-        extra("epicsCallback            *simpvt")
-    }
 	field(IVOA,DBF_MENU) {
 		prompt("INVALID outpt action")
 		promptgroup("50 - Output")
@@ -535,5 +500,5 @@ recordtype(mbbo) {
 		promptgroup("50 - Output")
 		interest(2)
 	}
-
 }
+

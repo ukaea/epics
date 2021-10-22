@@ -7,92 +7,88 @@
 #ifndef INC_fanoutRecord_H
 #define INC_fanoutRecord_H
 
-#include "epicsTypes.h"
-#include "link.h"
+ #include "epicsTypes.h"
+ #include "link.h"
 #include "epicsMutex.h"
 #include "ellLib.h"
 #include "epicsTime.h"
 
 #ifndef fanoutSELM_NUM_CHOICES
-/** @brief Enumerated type from menu fanoutSELM */
 typedef enum {
-    fanoutSELM_All                  /**< @brief State string "All" */,
-    fanoutSELM_Specified            /**< @brief State string "Specified" */,
-    fanoutSELM_Mask                 /**< @brief State string "Mask" */
+    fanoutSELM_All                  /* All */,
+    fanoutSELM_Specified            /* Specified */,
+    fanoutSELM_Mask                 /* Mask */
 } fanoutSELM;
-/** @brief Number of states defined for menu fanoutSELM */
 #define fanoutSELM_NUM_CHOICES 3
 #endif
 
-/** @brief Declaration of fanout record type. */
 typedef struct fanoutRecord {
-    char                name[61];   /**< @brief Record Name */
-    char                desc[41];   /**< @brief Descriptor */
-    char                asg[29];    /**< @brief Access Security Group */
-    epicsEnum16         scan;       /**< @brief Scan Mechanism */
-    epicsEnum16         pini;       /**< @brief Process at iocInit */
-    epicsInt16          phas;       /**< @brief Scan Phase */
-    char                evnt[40];   /**< @brief Event Name */
-    epicsInt16          tse;        /**< @brief Time Stamp Event */
-    DBLINK              tsel;       /**< @brief Time Stamp Link */
-    epicsEnum16         dtyp;       /**< @brief Device Type */
-    epicsInt16          disv;       /**< @brief Disable Value */
-    epicsInt16          disa;       /**< @brief Disable */
-    DBLINK              sdis;       /**< @brief Scanning Disable */
-    epicsMutexId        mlok;       /**< @brief Monitor lock */
-    ELLLIST             mlis;       /**< @brief Monitor List */
-    ELLLIST             bklnk;      /**< @brief Backwards link tracking */
-    epicsUInt8          disp;       /**< @brief Disable putField */
-    epicsUInt8          proc;       /**< @brief Force Processing */
-    epicsEnum16         stat;       /**< @brief Alarm Status */
-    epicsEnum16         sevr;       /**< @brief Alarm Severity */
-    epicsEnum16         nsta;       /**< @brief New Alarm Status */
-    epicsEnum16         nsev;       /**< @brief New Alarm Severity */
-    epicsEnum16         acks;       /**< @brief Alarm Ack Severity */
-    epicsEnum16         ackt;       /**< @brief Alarm Ack Transient */
-    epicsEnum16         diss;       /**< @brief Disable Alarm Sevrty */
-    epicsUInt8          lcnt;       /**< @brief Lock Count */
-    epicsUInt8          pact;       /**< @brief Record active */
-    epicsUInt8          putf;       /**< @brief dbPutField process */
-    epicsUInt8          rpro;       /**< @brief Reprocess  */
-    struct asgMember    *asp;       /**< @brief Access Security Pvt */
-    struct processNotify *ppn;      /**< @brief pprocessNotify */
-    struct processNotifyRecord *ppnr; /**< @brief pprocessNotifyRecord */
-    struct scan_element *spvt;      /**< @brief Scan Private */
-    struct typed_rset   *rset;      /**< @brief Address of RSET */
-    struct dset         *dset;      /**< @brief DSET address */
-    void                *dpvt;      /**< @brief Device Private */
-    struct dbRecordType *rdes;      /**< @brief Address of dbRecordType */
-    struct lockRecord   *lset;      /**< @brief Lock Set */
-    epicsEnum16         prio;       /**< @brief Scheduling Priority */
-    epicsUInt8          tpro;       /**< @brief Trace Processing */
-    char                bkpt;       /**< @brief Break Point */
-    epicsUInt8          udf;        /**< @brief Undefined */
-    epicsEnum16         udfs;       /**< @brief Undefined Alarm Sevrty */
-    epicsTimeStamp      time;       /**< @brief Time */
-    DBLINK              flnk;       /**< @brief Forward Process Link */
-    epicsInt32          val;        /**< @brief Used to trigger */
-    epicsEnum16         selm;       /**< @brief Select Mechanism */
-    epicsUInt16         seln;       /**< @brief Link Selection */
-    DBLINK              sell;       /**< @brief Link Selection Loc */
-    epicsInt16          offs;       /**< @brief Offset for Specified */
-    epicsInt16          shft;       /**< @brief Shift for Mask mode */
-    DBLINK              lnk0;       /**< @brief Forward Link 0 */
-    DBLINK              lnk1;       /**< @brief Forward Link 1 */
-    DBLINK              lnk2;       /**< @brief Forward Link 2 */
-    DBLINK              lnk3;       /**< @brief Forward Link 3 */
-    DBLINK              lnk4;       /**< @brief Forward Link 4 */
-    DBLINK              lnk5;       /**< @brief Forward Link 5 */
-    DBLINK              lnk6;       /**< @brief Forward Link 6 */
-    DBLINK              lnk7;       /**< @brief Forward Link 7 */
-    DBLINK              lnk8;       /**< @brief Forward Link 8 */
-    DBLINK              lnk9;       /**< @brief Forward Link 9 */
-    DBLINK              lnka;       /**< @brief Forward Link 10 */
-    DBLINK              lnkb;       /**< @brief Forward Link 11 */
-    DBLINK              lnkc;       /**< @brief Forward Link 12 */
-    DBLINK              lnkd;       /**< @brief Forward Link 13 */
-    DBLINK              lnke;       /**< @brief Forward Link 14 */
-    DBLINK              lnkf;       /**< @brief Forward Link 15 */
+    char                name[61];   /* Record Name */
+    char                desc[41];   /* Descriptor */
+    char                asg[29];    /* Access Security Group */
+    epicsEnum16         scan;       /* Scan Mechanism */
+    epicsEnum16         pini;       /* Process at iocInit */
+    epicsInt16          phas;       /* Scan Phase */
+    char                evnt[40];   /* Event Name */
+    epicsInt16          tse;        /* Time Stamp Event */
+    DBLINK              tsel;       /* Time Stamp Link */
+    epicsEnum16         dtyp;       /* Device Type */
+    epicsInt16          disv;       /* Disable Value */
+    epicsInt16          disa;       /* Disable */
+    DBLINK              sdis;       /* Scanning Disable */
+    epicsMutexId        mlok;       /* Monitor lock */
+    ELLLIST             mlis;       /* Monitor List */
+    epicsUInt8          disp;       /* Disable putField */
+    epicsUInt8          proc;       /* Force Processing */
+    epicsEnum16         stat;       /* Alarm Status */
+    epicsEnum16         sevr;       /* Alarm Severity */
+    epicsEnum16         nsta;       /* New Alarm Status */
+    epicsEnum16         nsev;       /* New Alarm Severity */
+    epicsEnum16         acks;       /* Alarm Ack Severity */
+    epicsEnum16         ackt;       /* Alarm Ack Transient */
+    epicsEnum16         diss;       /* Disable Alarm Sevrty */
+    epicsUInt8          lcnt;       /* Lock Count */
+    epicsUInt8          pact;       /* Record active */
+    epicsUInt8          putf;       /* dbPutField process */
+    epicsUInt8          rpro;       /* Reprocess  */
+    struct asgMember    *asp;       /* Access Security Pvt */
+    struct processNotify *ppn;      /* pprocessNotify */
+    struct processNotifyRecord *ppnr; /* pprocessNotifyRecord */
+    struct scan_element *spvt;      /* Scan Private */
+    struct rset         *rset;      /* Address of RSET */
+    struct dset         *dset;      /* DSET address */
+    void                *dpvt;      /* Device Private */
+    struct dbRecordType *rdes;      /* Address of dbRecordType */
+    struct lockRecord   *lset;      /* Lock Set */
+    epicsEnum16         prio;       /* Scheduling Priority */
+    epicsUInt8          tpro;       /* Trace Processing */
+    char                bkpt;       /* Break Point */
+    epicsUInt8          udf;        /* Undefined */
+    epicsEnum16         udfs;       /* Undefined Alarm Sevrty */
+    epicsTimeStamp      time;       /* Time */
+    DBLINK              flnk;       /* Forward Process Link */
+    epicsInt32          val;        /* Used to trigger */
+    epicsEnum16         selm;       /* Select Mechanism */
+    epicsUInt16         seln;       /* Link Selection */
+    DBLINK              sell;       /* Link Selection Loc */
+    epicsInt16          offs;       /* Offset for Specified */
+    epicsInt16          shft;       /* Shift for Mask mode */
+    DBLINK              lnk0;       /* Forward Link 0 */
+    DBLINK              lnk1;       /* Forward Link 1 */
+    DBLINK              lnk2;       /* Forward Link 2 */
+    DBLINK              lnk3;       /* Forward Link 3 */
+    DBLINK              lnk4;       /* Forward Link 4 */
+    DBLINK              lnk5;       /* Forward Link 5 */
+    DBLINK              lnk6;       /* Forward Link 6 */
+    DBLINK              lnk7;       /* Forward Link 7 */
+    DBLINK              lnk8;       /* Forward Link 8 */
+    DBLINK              lnk9;       /* Forward Link 9 */
+    DBLINK              lnka;       /* Forward Link 10 */
+    DBLINK              lnkb;       /* Forward Link 11 */
+    DBLINK              lnkc;       /* Forward Link 12 */
+    DBLINK              lnkd;       /* Forward Link 13 */
+    DBLINK              lnke;       /* Forward Link 14 */
+    DBLINK              lnkf;       /* Forward Link 15 */
 } fanoutRecord;
 
 typedef enum {
@@ -111,58 +107,57 @@ typedef enum {
 	fanoutRecordSDIS = 12,
 	fanoutRecordMLOK = 13,
 	fanoutRecordMLIS = 14,
-	fanoutRecordBKLNK = 15,
-	fanoutRecordDISP = 16,
-	fanoutRecordPROC = 17,
-	fanoutRecordSTAT = 18,
-	fanoutRecordSEVR = 19,
-	fanoutRecordNSTA = 20,
-	fanoutRecordNSEV = 21,
-	fanoutRecordACKS = 22,
-	fanoutRecordACKT = 23,
-	fanoutRecordDISS = 24,
-	fanoutRecordLCNT = 25,
-	fanoutRecordPACT = 26,
-	fanoutRecordPUTF = 27,
-	fanoutRecordRPRO = 28,
-	fanoutRecordASP = 29,
-	fanoutRecordPPN = 30,
-	fanoutRecordPPNR = 31,
-	fanoutRecordSPVT = 32,
-	fanoutRecordRSET = 33,
-	fanoutRecordDSET = 34,
-	fanoutRecordDPVT = 35,
-	fanoutRecordRDES = 36,
-	fanoutRecordLSET = 37,
-	fanoutRecordPRIO = 38,
-	fanoutRecordTPRO = 39,
-	fanoutRecordBKPT = 40,
-	fanoutRecordUDF = 41,
-	fanoutRecordUDFS = 42,
-	fanoutRecordTIME = 43,
-	fanoutRecordFLNK = 44,
-	fanoutRecordVAL = 45,
-	fanoutRecordSELM = 46,
-	fanoutRecordSELN = 47,
-	fanoutRecordSELL = 48,
-	fanoutRecordOFFS = 49,
-	fanoutRecordSHFT = 50,
-	fanoutRecordLNK0 = 51,
-	fanoutRecordLNK1 = 52,
-	fanoutRecordLNK2 = 53,
-	fanoutRecordLNK3 = 54,
-	fanoutRecordLNK4 = 55,
-	fanoutRecordLNK5 = 56,
-	fanoutRecordLNK6 = 57,
-	fanoutRecordLNK7 = 58,
-	fanoutRecordLNK8 = 59,
-	fanoutRecordLNK9 = 60,
-	fanoutRecordLNKA = 61,
-	fanoutRecordLNKB = 62,
-	fanoutRecordLNKC = 63,
-	fanoutRecordLNKD = 64,
-	fanoutRecordLNKE = 65,
-	fanoutRecordLNKF = 66
+	fanoutRecordDISP = 15,
+	fanoutRecordPROC = 16,
+	fanoutRecordSTAT = 17,
+	fanoutRecordSEVR = 18,
+	fanoutRecordNSTA = 19,
+	fanoutRecordNSEV = 20,
+	fanoutRecordACKS = 21,
+	fanoutRecordACKT = 22,
+	fanoutRecordDISS = 23,
+	fanoutRecordLCNT = 24,
+	fanoutRecordPACT = 25,
+	fanoutRecordPUTF = 26,
+	fanoutRecordRPRO = 27,
+	fanoutRecordASP = 28,
+	fanoutRecordPPN = 29,
+	fanoutRecordPPNR = 30,
+	fanoutRecordSPVT = 31,
+	fanoutRecordRSET = 32,
+	fanoutRecordDSET = 33,
+	fanoutRecordDPVT = 34,
+	fanoutRecordRDES = 35,
+	fanoutRecordLSET = 36,
+	fanoutRecordPRIO = 37,
+	fanoutRecordTPRO = 38,
+	fanoutRecordBKPT = 39,
+	fanoutRecordUDF = 40,
+	fanoutRecordUDFS = 41,
+	fanoutRecordTIME = 42,
+	fanoutRecordFLNK = 43,
+	fanoutRecordVAL = 44,
+	fanoutRecordSELM = 45,
+	fanoutRecordSELN = 46,
+	fanoutRecordSELL = 47,
+	fanoutRecordOFFS = 48,
+	fanoutRecordSHFT = 49,
+	fanoutRecordLNK0 = 50,
+	fanoutRecordLNK1 = 51,
+	fanoutRecordLNK2 = 52,
+	fanoutRecordLNK3 = 53,
+	fanoutRecordLNK4 = 54,
+	fanoutRecordLNK5 = 55,
+	fanoutRecordLNK6 = 56,
+	fanoutRecordLNK7 = 57,
+	fanoutRecordLNK8 = 58,
+	fanoutRecordLNK9 = 59,
+	fanoutRecordLNKA = 60,
+	fanoutRecordLNKB = 61,
+	fanoutRecordLNKC = 62,
+	fanoutRecordLNKD = 63,
+	fanoutRecordLNKE = 64,
+	fanoutRecordLNKF = 65
 } fanoutFieldIndex;
 
 #ifdef GEN_SIZE_OFFSET
@@ -176,10 +171,10 @@ static int fanoutRecordSizeOffset(dbRecordType *prt)
 {
     fanoutRecord *prec = 0;
 
-    if (prt->no_fields != 67) {
+    if (prt->no_fields != 66) {
         cantProceed("IOC build or installation error:\n"
             "    The fanoutRecord defined in the DBD file has %d fields,\n"
-            "    but the record support code was built with 67.\n",
+            "    but the record support code was built with 66.\n",
             prt->no_fields);
     }
     prt->papFldDes[fanoutRecordNAME]->size = sizeof(prec->name);
@@ -212,8 +207,6 @@ static int fanoutRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[fanoutRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[fanoutRecordMLIS]->size = sizeof(prec->mlis);
     prt->papFldDes[fanoutRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
-    prt->papFldDes[fanoutRecordBKLNK]->size = sizeof(prec->bklnk);
-    prt->papFldDes[fanoutRecordBKLNK]->offset = (unsigned short)((char *)&prec->bklnk - (char *)prec);
     prt->papFldDes[fanoutRecordDISP]->size = sizeof(prec->disp);
     prt->papFldDes[fanoutRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[fanoutRecordPROC]->size = sizeof(prec->proc);

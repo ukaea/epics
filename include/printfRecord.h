@@ -7,8 +7,8 @@
 #ifndef INC_printfRecord_H
 #define INC_printfRecord_H
 
-#include "epicsTypes.h"
-#include "link.h"
+ #include "epicsTypes.h"
+ #include "link.h"
 #include "epicsMutex.h"
 #include "ellLib.h"
 #include "epicsTime.h"
@@ -24,69 +24,67 @@ typedef struct printfdset {
 /* Number of INPx fields defined */
 #define PRINTF_NLINKS 10
 
-/** @brief Declaration of printf record type. */
 typedef struct printfRecord {
-    char                name[61];   /**< @brief Record Name */
-    char                desc[41];   /**< @brief Descriptor */
-    char                asg[29];    /**< @brief Access Security Group */
-    epicsEnum16         scan;       /**< @brief Scan Mechanism */
-    epicsEnum16         pini;       /**< @brief Process at iocInit */
-    epicsInt16          phas;       /**< @brief Scan Phase */
-    char                evnt[40];   /**< @brief Event Name */
-    epicsInt16          tse;        /**< @brief Time Stamp Event */
-    DBLINK              tsel;       /**< @brief Time Stamp Link */
-    epicsEnum16         dtyp;       /**< @brief Device Type */
-    epicsInt16          disv;       /**< @brief Disable Value */
-    epicsInt16          disa;       /**< @brief Disable */
-    DBLINK              sdis;       /**< @brief Scanning Disable */
-    epicsMutexId        mlok;       /**< @brief Monitor lock */
-    ELLLIST             mlis;       /**< @brief Monitor List */
-    ELLLIST             bklnk;      /**< @brief Backwards link tracking */
-    epicsUInt8          disp;       /**< @brief Disable putField */
-    epicsUInt8          proc;       /**< @brief Force Processing */
-    epicsEnum16         stat;       /**< @brief Alarm Status */
-    epicsEnum16         sevr;       /**< @brief Alarm Severity */
-    epicsEnum16         nsta;       /**< @brief New Alarm Status */
-    epicsEnum16         nsev;       /**< @brief New Alarm Severity */
-    epicsEnum16         acks;       /**< @brief Alarm Ack Severity */
-    epicsEnum16         ackt;       /**< @brief Alarm Ack Transient */
-    epicsEnum16         diss;       /**< @brief Disable Alarm Sevrty */
-    epicsUInt8          lcnt;       /**< @brief Lock Count */
-    epicsUInt8          pact;       /**< @brief Record active */
-    epicsUInt8          putf;       /**< @brief dbPutField process */
-    epicsUInt8          rpro;       /**< @brief Reprocess  */
-    struct asgMember    *asp;       /**< @brief Access Security Pvt */
-    struct processNotify *ppn;      /**< @brief pprocessNotify */
-    struct processNotifyRecord *ppnr; /**< @brief pprocessNotifyRecord */
-    struct scan_element *spvt;      /**< @brief Scan Private */
-    struct typed_rset   *rset;      /**< @brief Address of RSET */
-    struct dset         *dset;      /**< @brief DSET address */
-    void                *dpvt;      /**< @brief Device Private */
-    struct dbRecordType *rdes;      /**< @brief Address of dbRecordType */
-    struct lockRecord   *lset;      /**< @brief Lock Set */
-    epicsEnum16         prio;       /**< @brief Scheduling Priority */
-    epicsUInt8          tpro;       /**< @brief Trace Processing */
-    char                bkpt;       /**< @brief Break Point */
-    epicsUInt8          udf;        /**< @brief Undefined */
-    epicsEnum16         udfs;       /**< @brief Undefined Alarm Sevrty */
-    epicsTimeStamp      time;       /**< @brief Time */
-    DBLINK              flnk;       /**< @brief Forward Process Link */
-    char *val;                      /**< @brief Result */
-    epicsUInt16         sizv;       /**< @brief Size of VAL buffer */
-    epicsUInt32         len;        /**< @brief Length of VAL */
-    DBLINK              out;        /**< @brief Output Specification */
-    char                fmt[81];    /**< @brief Format String */
-    char                ivls[16];   /**< @brief Invalid Link String */
-    DBLINK              inp0;       /**< @brief Input 0 */
-    DBLINK              inp1;       /**< @brief Input 1 */
-    DBLINK              inp2;       /**< @brief Input 2 */
-    DBLINK              inp3;       /**< @brief Input 3 */
-    DBLINK              inp4;       /**< @brief Input 4 */
-    DBLINK              inp5;       /**< @brief Input 5 */
-    DBLINK              inp6;       /**< @brief Input 6 */
-    DBLINK              inp7;       /**< @brief Input 7 */
-    DBLINK              inp8;       /**< @brief Input 8 */
-    DBLINK              inp9;       /**< @brief Input 9 */
+    char                name[61];   /* Record Name */
+    char                desc[41];   /* Descriptor */
+    char                asg[29];    /* Access Security Group */
+    epicsEnum16         scan;       /* Scan Mechanism */
+    epicsEnum16         pini;       /* Process at iocInit */
+    epicsInt16          phas;       /* Scan Phase */
+    char                evnt[40];   /* Event Name */
+    epicsInt16          tse;        /* Time Stamp Event */
+    DBLINK              tsel;       /* Time Stamp Link */
+    epicsEnum16         dtyp;       /* Device Type */
+    epicsInt16          disv;       /* Disable Value */
+    epicsInt16          disa;       /* Disable */
+    DBLINK              sdis;       /* Scanning Disable */
+    epicsMutexId        mlok;       /* Monitor lock */
+    ELLLIST             mlis;       /* Monitor List */
+    epicsUInt8          disp;       /* Disable putField */
+    epicsUInt8          proc;       /* Force Processing */
+    epicsEnum16         stat;       /* Alarm Status */
+    epicsEnum16         sevr;       /* Alarm Severity */
+    epicsEnum16         nsta;       /* New Alarm Status */
+    epicsEnum16         nsev;       /* New Alarm Severity */
+    epicsEnum16         acks;       /* Alarm Ack Severity */
+    epicsEnum16         ackt;       /* Alarm Ack Transient */
+    epicsEnum16         diss;       /* Disable Alarm Sevrty */
+    epicsUInt8          lcnt;       /* Lock Count */
+    epicsUInt8          pact;       /* Record active */
+    epicsUInt8          putf;       /* dbPutField process */
+    epicsUInt8          rpro;       /* Reprocess  */
+    struct asgMember    *asp;       /* Access Security Pvt */
+    struct processNotify *ppn;      /* pprocessNotify */
+    struct processNotifyRecord *ppnr; /* pprocessNotifyRecord */
+    struct scan_element *spvt;      /* Scan Private */
+    struct rset         *rset;      /* Address of RSET */
+    struct dset         *dset;      /* DSET address */
+    void                *dpvt;      /* Device Private */
+    struct dbRecordType *rdes;      /* Address of dbRecordType */
+    struct lockRecord   *lset;      /* Lock Set */
+    epicsEnum16         prio;       /* Scheduling Priority */
+    epicsUInt8          tpro;       /* Trace Processing */
+    char                bkpt;       /* Break Point */
+    epicsUInt8          udf;        /* Undefined */
+    epicsEnum16         udfs;       /* Undefined Alarm Sevrty */
+    epicsTimeStamp      time;       /* Time */
+    DBLINK              flnk;       /* Forward Process Link */
+    char *val;                      /* Result */
+    epicsUInt16         sizv;       /* Size of VAL buffer */
+    epicsUInt32         len;        /* Length of VAL */
+    DBLINK              out;        /* Output Specification */
+    char                fmt[81];    /* Format String */
+    char                ivls[16];   /* Invalid Link String */
+    DBLINK              inp0;       /* Input 0 */
+    DBLINK              inp1;       /* Input 1 */
+    DBLINK              inp2;       /* Input 2 */
+    DBLINK              inp3;       /* Input 3 */
+    DBLINK              inp4;       /* Input 4 */
+    DBLINK              inp5;       /* Input 5 */
+    DBLINK              inp6;       /* Input 6 */
+    DBLINK              inp7;       /* Input 7 */
+    DBLINK              inp8;       /* Input 8 */
+    DBLINK              inp9;       /* Input 9 */
 } printfRecord;
 
 typedef enum {
@@ -105,52 +103,51 @@ typedef enum {
 	printfRecordSDIS = 12,
 	printfRecordMLOK = 13,
 	printfRecordMLIS = 14,
-	printfRecordBKLNK = 15,
-	printfRecordDISP = 16,
-	printfRecordPROC = 17,
-	printfRecordSTAT = 18,
-	printfRecordSEVR = 19,
-	printfRecordNSTA = 20,
-	printfRecordNSEV = 21,
-	printfRecordACKS = 22,
-	printfRecordACKT = 23,
-	printfRecordDISS = 24,
-	printfRecordLCNT = 25,
-	printfRecordPACT = 26,
-	printfRecordPUTF = 27,
-	printfRecordRPRO = 28,
-	printfRecordASP = 29,
-	printfRecordPPN = 30,
-	printfRecordPPNR = 31,
-	printfRecordSPVT = 32,
-	printfRecordRSET = 33,
-	printfRecordDSET = 34,
-	printfRecordDPVT = 35,
-	printfRecordRDES = 36,
-	printfRecordLSET = 37,
-	printfRecordPRIO = 38,
-	printfRecordTPRO = 39,
-	printfRecordBKPT = 40,
-	printfRecordUDF = 41,
-	printfRecordUDFS = 42,
-	printfRecordTIME = 43,
-	printfRecordFLNK = 44,
-	printfRecordVAL = 45,
-	printfRecordSIZV = 46,
-	printfRecordLEN = 47,
-	printfRecordOUT = 48,
-	printfRecordFMT = 49,
-	printfRecordIVLS = 50,
-	printfRecordINP0 = 51,
-	printfRecordINP1 = 52,
-	printfRecordINP2 = 53,
-	printfRecordINP3 = 54,
-	printfRecordINP4 = 55,
-	printfRecordINP5 = 56,
-	printfRecordINP6 = 57,
-	printfRecordINP7 = 58,
-	printfRecordINP8 = 59,
-	printfRecordINP9 = 60
+	printfRecordDISP = 15,
+	printfRecordPROC = 16,
+	printfRecordSTAT = 17,
+	printfRecordSEVR = 18,
+	printfRecordNSTA = 19,
+	printfRecordNSEV = 20,
+	printfRecordACKS = 21,
+	printfRecordACKT = 22,
+	printfRecordDISS = 23,
+	printfRecordLCNT = 24,
+	printfRecordPACT = 25,
+	printfRecordPUTF = 26,
+	printfRecordRPRO = 27,
+	printfRecordASP = 28,
+	printfRecordPPN = 29,
+	printfRecordPPNR = 30,
+	printfRecordSPVT = 31,
+	printfRecordRSET = 32,
+	printfRecordDSET = 33,
+	printfRecordDPVT = 34,
+	printfRecordRDES = 35,
+	printfRecordLSET = 36,
+	printfRecordPRIO = 37,
+	printfRecordTPRO = 38,
+	printfRecordBKPT = 39,
+	printfRecordUDF = 40,
+	printfRecordUDFS = 41,
+	printfRecordTIME = 42,
+	printfRecordFLNK = 43,
+	printfRecordVAL = 44,
+	printfRecordSIZV = 45,
+	printfRecordLEN = 46,
+	printfRecordOUT = 47,
+	printfRecordFMT = 48,
+	printfRecordIVLS = 49,
+	printfRecordINP0 = 50,
+	printfRecordINP1 = 51,
+	printfRecordINP2 = 52,
+	printfRecordINP3 = 53,
+	printfRecordINP4 = 54,
+	printfRecordINP5 = 55,
+	printfRecordINP6 = 56,
+	printfRecordINP7 = 57,
+	printfRecordINP8 = 58,
+	printfRecordINP9 = 59
 } printfFieldIndex;
 
 #ifdef GEN_SIZE_OFFSET
@@ -164,10 +161,10 @@ static int printfRecordSizeOffset(dbRecordType *prt)
 {
     printfRecord *prec = 0;
 
-    if (prt->no_fields != 61) {
+    if (prt->no_fields != 60) {
         cantProceed("IOC build or installation error:\n"
             "    The printfRecord defined in the DBD file has %d fields,\n"
-            "    but the record support code was built with 61.\n",
+            "    but the record support code was built with 60.\n",
             prt->no_fields);
     }
     prt->papFldDes[printfRecordNAME]->size = sizeof(prec->name);
@@ -200,8 +197,6 @@ static int printfRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[printfRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[printfRecordMLIS]->size = sizeof(prec->mlis);
     prt->papFldDes[printfRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
-    prt->papFldDes[printfRecordBKLNK]->size = sizeof(prec->bklnk);
-    prt->papFldDes[printfRecordBKLNK]->offset = (unsigned short)((char *)&prec->bklnk - (char *)prec);
     prt->papFldDes[printfRecordDISP]->size = sizeof(prec->disp);
     prt->papFldDes[printfRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[printfRecordPROC]->size = sizeof(prec->proc);

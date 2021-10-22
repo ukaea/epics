@@ -7,102 +7,102 @@
 #ifndef INC_waveformRecord_H
 #define INC_waveformRecord_H
 
-#include "epicsTypes.h"
-#include "link.h"
+ #include "epicsTypes.h"
+ #include "link.h"
 #include "epicsMutex.h"
 #include "ellLib.h"
 #include "epicsTime.h"
 
-/* Declare Device Support Entry Table */
-struct waveformRecord;
-typedef struct wfdset {
-    dset common; /*init_record returns: (-1,0)=>(failure,success)*/
-    long (*read_wf)(struct waveformRecord *prec); /*returns: (-1,0)=>(failure,success)*/
-} wfdset;
-#define HAS_wfdset
-
-#include "callback.h"
-
 #ifndef waveformPOST_NUM_CHOICES
-/** @brief Enumerated type from menu waveformPOST */
 typedef enum {
-    waveformPOST_Always             /**< @brief State string "Always" */,
-    waveformPOST_OnChange           /**< @brief State string "On Change" */
+    waveformPOST_Always             /* Always */,
+    waveformPOST_OnChange           /* On Change */
 } waveformPOST;
-/** @brief Number of states defined for menu waveformPOST */
 #define waveformPOST_NUM_CHOICES 2
 #endif
 
-/** @brief Declaration of waveform record type. */
+#ifndef menuFtype_NUM_CHOICES
+typedef enum {
+    menuFtypeSTRING                 /* STRING */,
+    menuFtypeCHAR                   /* CHAR */,
+    menuFtypeUCHAR                  /* UCHAR */,
+    menuFtypeSHORT                  /* SHORT */,
+    menuFtypeUSHORT                 /* USHORT */,
+    menuFtypeLONG                   /* LONG */,
+    menuFtypeULONG                  /* ULONG */,
+    menuFtypeINT64                  /* INT64 */,
+    menuFtypeUINT64                 /* UINT64 */,
+    menuFtypeFLOAT                  /* FLOAT */,
+    menuFtypeDOUBLE                 /* DOUBLE */,
+    menuFtypeENUM                   /* ENUM */
+} menuFtype;
+#define menuFtype_NUM_CHOICES 12
+#endif
+
 typedef struct waveformRecord {
-    char                name[61];   /**< @brief Record Name */
-    char                desc[41];   /**< @brief Descriptor */
-    char                asg[29];    /**< @brief Access Security Group */
-    epicsEnum16         scan;       /**< @brief Scan Mechanism */
-    epicsEnum16         pini;       /**< @brief Process at iocInit */
-    epicsInt16          phas;       /**< @brief Scan Phase */
-    char                evnt[40];   /**< @brief Event Name */
-    epicsInt16          tse;        /**< @brief Time Stamp Event */
-    DBLINK              tsel;       /**< @brief Time Stamp Link */
-    epicsEnum16         dtyp;       /**< @brief Device Type */
-    epicsInt16          disv;       /**< @brief Disable Value */
-    epicsInt16          disa;       /**< @brief Disable */
-    DBLINK              sdis;       /**< @brief Scanning Disable */
-    epicsMutexId        mlok;       /**< @brief Monitor lock */
-    ELLLIST             mlis;       /**< @brief Monitor List */
-    ELLLIST             bklnk;      /**< @brief Backwards link tracking */
-    epicsUInt8          disp;       /**< @brief Disable putField */
-    epicsUInt8          proc;       /**< @brief Force Processing */
-    epicsEnum16         stat;       /**< @brief Alarm Status */
-    epicsEnum16         sevr;       /**< @brief Alarm Severity */
-    epicsEnum16         nsta;       /**< @brief New Alarm Status */
-    epicsEnum16         nsev;       /**< @brief New Alarm Severity */
-    epicsEnum16         acks;       /**< @brief Alarm Ack Severity */
-    epicsEnum16         ackt;       /**< @brief Alarm Ack Transient */
-    epicsEnum16         diss;       /**< @brief Disable Alarm Sevrty */
-    epicsUInt8          lcnt;       /**< @brief Lock Count */
-    epicsUInt8          pact;       /**< @brief Record active */
-    epicsUInt8          putf;       /**< @brief dbPutField process */
-    epicsUInt8          rpro;       /**< @brief Reprocess  */
-    struct asgMember    *asp;       /**< @brief Access Security Pvt */
-    struct processNotify *ppn;      /**< @brief pprocessNotify */
-    struct processNotifyRecord *ppnr; /**< @brief pprocessNotifyRecord */
-    struct scan_element *spvt;      /**< @brief Scan Private */
-    struct typed_rset   *rset;      /**< @brief Address of RSET */
-    struct dset         *dset;      /**< @brief DSET address */
-    void                *dpvt;      /**< @brief Device Private */
-    struct dbRecordType *rdes;      /**< @brief Address of dbRecordType */
-    struct lockRecord   *lset;      /**< @brief Lock Set */
-    epicsEnum16         prio;       /**< @brief Scheduling Priority */
-    epicsUInt8          tpro;       /**< @brief Trace Processing */
-    char                bkpt;       /**< @brief Break Point */
-    epicsUInt8          udf;        /**< @brief Undefined */
-    epicsEnum16         udfs;       /**< @brief Undefined Alarm Sevrty */
-    epicsTimeStamp      time;       /**< @brief Time */
-    DBLINK              flnk;       /**< @brief Forward Process Link */
-    void *		val;                    /**< @brief Value */
-    epicsInt16          rarm;       /**< @brief Rearm the waveform */
-    epicsInt16          prec;       /**< @brief Display Precision */
-    DBLINK              inp;        /**< @brief Input Specification */
-    char                egu[16];    /**< @brief Engineering Units */
-    epicsFloat64        hopr;       /**< @brief High Operating Range */
-    epicsFloat64        lopr;       /**< @brief Low Operating Range */
-    epicsUInt32         nelm;       /**< @brief Number of Elements */
-    epicsEnum16         ftvl;       /**< @brief Field Type of Value */
-    epicsInt16          busy;       /**< @brief Busy Indicator */
-    epicsUInt32         nord;       /**< @brief Number elements read */
-    void *		bptr;                   /**< @brief Buffer Pointer */
-    DBLINK              siol;       /**< @brief Simulation Input Link */
-    DBLINK              siml;       /**< @brief Simulation Mode Link */
-    epicsEnum16         simm;       /**< @brief Simulation Mode */
-    epicsEnum16         sims;       /**< @brief Simulation Mode Severity */
-    epicsEnum16         oldsimm;    /**< @brief Prev. Simulation Mode */
-    epicsEnum16         sscn;       /**< @brief Sim. Mode Scan */
-    epicsFloat64        sdly;       /**< @brief Sim. Mode Async Delay */
-    epicsCallback            *simpvt; /**< @brief Sim. Mode Private */
-    epicsEnum16         mpst;       /**< @brief Post Value Monitors */
-    epicsEnum16         apst;       /**< @brief Post Archive Monitors */
-    epicsUInt32         hash;       /**< @brief Hash of OnChange data. */
+    char                name[61];   /* Record Name */
+    char                desc[41];   /* Descriptor */
+    char                asg[29];    /* Access Security Group */
+    epicsEnum16         scan;       /* Scan Mechanism */
+    epicsEnum16         pini;       /* Process at iocInit */
+    epicsInt16          phas;       /* Scan Phase */
+    char                evnt[40];   /* Event Name */
+    epicsInt16          tse;        /* Time Stamp Event */
+    DBLINK              tsel;       /* Time Stamp Link */
+    epicsEnum16         dtyp;       /* Device Type */
+    epicsInt16          disv;       /* Disable Value */
+    epicsInt16          disa;       /* Disable */
+    DBLINK              sdis;       /* Scanning Disable */
+    epicsMutexId        mlok;       /* Monitor lock */
+    ELLLIST             mlis;       /* Monitor List */
+    epicsUInt8          disp;       /* Disable putField */
+    epicsUInt8          proc;       /* Force Processing */
+    epicsEnum16         stat;       /* Alarm Status */
+    epicsEnum16         sevr;       /* Alarm Severity */
+    epicsEnum16         nsta;       /* New Alarm Status */
+    epicsEnum16         nsev;       /* New Alarm Severity */
+    epicsEnum16         acks;       /* Alarm Ack Severity */
+    epicsEnum16         ackt;       /* Alarm Ack Transient */
+    epicsEnum16         diss;       /* Disable Alarm Sevrty */
+    epicsUInt8          lcnt;       /* Lock Count */
+    epicsUInt8          pact;       /* Record active */
+    epicsUInt8          putf;       /* dbPutField process */
+    epicsUInt8          rpro;       /* Reprocess  */
+    struct asgMember    *asp;       /* Access Security Pvt */
+    struct processNotify *ppn;      /* pprocessNotify */
+    struct processNotifyRecord *ppnr; /* pprocessNotifyRecord */
+    struct scan_element *spvt;      /* Scan Private */
+    struct rset         *rset;      /* Address of RSET */
+    struct dset         *dset;      /* DSET address */
+    void                *dpvt;      /* Device Private */
+    struct dbRecordType *rdes;      /* Address of dbRecordType */
+    struct lockRecord   *lset;      /* Lock Set */
+    epicsEnum16         prio;       /* Scheduling Priority */
+    epicsUInt8          tpro;       /* Trace Processing */
+    char                bkpt;       /* Break Point */
+    epicsUInt8          udf;        /* Undefined */
+    epicsEnum16         udfs;       /* Undefined Alarm Sevrty */
+    epicsTimeStamp      time;       /* Time */
+    DBLINK              flnk;       /* Forward Process Link */
+    void *		val;                    /* Value */
+    epicsInt16          rarm;       /* Rearm the waveform */
+    epicsInt16          prec;       /* Display Precision */
+    DBLINK              inp;        /* Input Specification */
+    char                egu[16];    /* Engineering Units */
+    epicsFloat64        hopr;       /* High Operating Range */
+    epicsFloat64        lopr;       /* Low Operating Range */
+    epicsUInt32         nelm;       /* Number of Elements */
+    epicsEnum16         ftvl;       /* Field Type of Value */
+    epicsInt16          busy;       /* Busy Indicator */
+    epicsUInt32         nord;       /* Number elements read */
+    void *		bptr;                   /* Buffer Pointer */
+    DBLINK              siol;       /* Sim Input Specifctn */
+    DBLINK              siml;       /* Sim Mode Location */
+    epicsEnum16         simm;       /* Simulation Mode */
+    epicsEnum16         sims;       /* Sim mode Alarm Svrty */
+    epicsEnum16         mpst;       /* Post Value Monitors */
+    epicsEnum16         apst;       /* Post Archive Monitors */
+    epicsUInt32         hash;       /* Hash of OnChange data. */
 } waveformRecord;
 
 typedef enum {
@@ -121,59 +121,54 @@ typedef enum {
 	waveformRecordSDIS = 12,
 	waveformRecordMLOK = 13,
 	waveformRecordMLIS = 14,
-	waveformRecordBKLNK = 15,
-	waveformRecordDISP = 16,
-	waveformRecordPROC = 17,
-	waveformRecordSTAT = 18,
-	waveformRecordSEVR = 19,
-	waveformRecordNSTA = 20,
-	waveformRecordNSEV = 21,
-	waveformRecordACKS = 22,
-	waveformRecordACKT = 23,
-	waveformRecordDISS = 24,
-	waveformRecordLCNT = 25,
-	waveformRecordPACT = 26,
-	waveformRecordPUTF = 27,
-	waveformRecordRPRO = 28,
-	waveformRecordASP = 29,
-	waveformRecordPPN = 30,
-	waveformRecordPPNR = 31,
-	waveformRecordSPVT = 32,
-	waveformRecordRSET = 33,
-	waveformRecordDSET = 34,
-	waveformRecordDPVT = 35,
-	waveformRecordRDES = 36,
-	waveformRecordLSET = 37,
-	waveformRecordPRIO = 38,
-	waveformRecordTPRO = 39,
-	waveformRecordBKPT = 40,
-	waveformRecordUDF = 41,
-	waveformRecordUDFS = 42,
-	waveformRecordTIME = 43,
-	waveformRecordFLNK = 44,
-	waveformRecordVAL = 45,
-	waveformRecordRARM = 46,
-	waveformRecordPREC = 47,
-	waveformRecordINP = 48,
-	waveformRecordEGU = 49,
-	waveformRecordHOPR = 50,
-	waveformRecordLOPR = 51,
-	waveformRecordNELM = 52,
-	waveformRecordFTVL = 53,
-	waveformRecordBUSY = 54,
-	waveformRecordNORD = 55,
-	waveformRecordBPTR = 56,
-	waveformRecordSIOL = 57,
-	waveformRecordSIML = 58,
-	waveformRecordSIMM = 59,
-	waveformRecordSIMS = 60,
-	waveformRecordOLDSIMM = 61,
-	waveformRecordSSCN = 62,
-	waveformRecordSDLY = 63,
-	waveformRecordSIMPVT = 64,
-	waveformRecordMPST = 65,
-	waveformRecordAPST = 66,
-	waveformRecordHASH = 67
+	waveformRecordDISP = 15,
+	waveformRecordPROC = 16,
+	waveformRecordSTAT = 17,
+	waveformRecordSEVR = 18,
+	waveformRecordNSTA = 19,
+	waveformRecordNSEV = 20,
+	waveformRecordACKS = 21,
+	waveformRecordACKT = 22,
+	waveformRecordDISS = 23,
+	waveformRecordLCNT = 24,
+	waveformRecordPACT = 25,
+	waveformRecordPUTF = 26,
+	waveformRecordRPRO = 27,
+	waveformRecordASP = 28,
+	waveformRecordPPN = 29,
+	waveformRecordPPNR = 30,
+	waveformRecordSPVT = 31,
+	waveformRecordRSET = 32,
+	waveformRecordDSET = 33,
+	waveformRecordDPVT = 34,
+	waveformRecordRDES = 35,
+	waveformRecordLSET = 36,
+	waveformRecordPRIO = 37,
+	waveformRecordTPRO = 38,
+	waveformRecordBKPT = 39,
+	waveformRecordUDF = 40,
+	waveformRecordUDFS = 41,
+	waveformRecordTIME = 42,
+	waveformRecordFLNK = 43,
+	waveformRecordVAL = 44,
+	waveformRecordRARM = 45,
+	waveformRecordPREC = 46,
+	waveformRecordINP = 47,
+	waveformRecordEGU = 48,
+	waveformRecordHOPR = 49,
+	waveformRecordLOPR = 50,
+	waveformRecordNELM = 51,
+	waveformRecordFTVL = 52,
+	waveformRecordBUSY = 53,
+	waveformRecordNORD = 54,
+	waveformRecordBPTR = 55,
+	waveformRecordSIOL = 56,
+	waveformRecordSIML = 57,
+	waveformRecordSIMM = 58,
+	waveformRecordSIMS = 59,
+	waveformRecordMPST = 60,
+	waveformRecordAPST = 61,
+	waveformRecordHASH = 62
 } waveformFieldIndex;
 
 #ifdef GEN_SIZE_OFFSET
@@ -187,10 +182,10 @@ static int waveformRecordSizeOffset(dbRecordType *prt)
 {
     waveformRecord *prec = 0;
 
-    if (prt->no_fields != 68) {
+    if (prt->no_fields != 63) {
         cantProceed("IOC build or installation error:\n"
             "    The waveformRecord defined in the DBD file has %d fields,\n"
-            "    but the record support code was built with 68.\n",
+            "    but the record support code was built with 63.\n",
             prt->no_fields);
     }
     prt->papFldDes[waveformRecordNAME]->size = sizeof(prec->name);
@@ -223,8 +218,6 @@ static int waveformRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[waveformRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[waveformRecordMLIS]->size = sizeof(prec->mlis);
     prt->papFldDes[waveformRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
-    prt->papFldDes[waveformRecordBKLNK]->size = sizeof(prec->bklnk);
-    prt->papFldDes[waveformRecordBKLNK]->offset = (unsigned short)((char *)&prec->bklnk - (char *)prec);
     prt->papFldDes[waveformRecordDISP]->size = sizeof(prec->disp);
     prt->papFldDes[waveformRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[waveformRecordPROC]->size = sizeof(prec->proc);
@@ -315,14 +308,6 @@ static int waveformRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[waveformRecordSIMM]->offset = (unsigned short)((char *)&prec->simm - (char *)prec);
     prt->papFldDes[waveformRecordSIMS]->size = sizeof(prec->sims);
     prt->papFldDes[waveformRecordSIMS]->offset = (unsigned short)((char *)&prec->sims - (char *)prec);
-    prt->papFldDes[waveformRecordOLDSIMM]->size = sizeof(prec->oldsimm);
-    prt->papFldDes[waveformRecordOLDSIMM]->offset = (unsigned short)((char *)&prec->oldsimm - (char *)prec);
-    prt->papFldDes[waveformRecordSSCN]->size = sizeof(prec->sscn);
-    prt->papFldDes[waveformRecordSSCN]->offset = (unsigned short)((char *)&prec->sscn - (char *)prec);
-    prt->papFldDes[waveformRecordSDLY]->size = sizeof(prec->sdly);
-    prt->papFldDes[waveformRecordSDLY]->offset = (unsigned short)((char *)&prec->sdly - (char *)prec);
-    prt->papFldDes[waveformRecordSIMPVT]->size = sizeof(prec->simpvt);
-    prt->papFldDes[waveformRecordSIMPVT]->offset = (unsigned short)((char *)&prec->simpvt - (char *)prec);
     prt->papFldDes[waveformRecordMPST]->size = sizeof(prec->mpst);
     prt->papFldDes[waveformRecordMPST]->offset = (unsigned short)((char *)&prec->mpst - (char *)prec);
     prt->papFldDes[waveformRecordAPST]->size = sizeof(prec->apst);

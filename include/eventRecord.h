@@ -7,82 +7,66 @@
 #ifndef INC_eventRecord_H
 #define INC_eventRecord_H
 
-#include "epicsTypes.h"
-#include "link.h"
+ #include "epicsTypes.h"
+ #include "link.h"
 #include "epicsMutex.h"
 #include "ellLib.h"
 #include "epicsTime.h"
-
-/* Declare Device Support Entry Table */
-struct eventRecord;
-typedef struct eventdset {
-    dset common; /*init_record returns: (-1,0)=>(failure,success)*/
-    long (*read_event)(struct eventRecord *prec); /*(0)=> success */
-} eventdset;
-#define HAS_eventdset
-
 #include "dbScan.h"
-#include "callback.h"
 
-/** @brief Declaration of event record type. */
 typedef struct eventRecord {
-    char                name[61];   /**< @brief Record Name */
-    char                desc[41];   /**< @brief Descriptor */
-    char                asg[29];    /**< @brief Access Security Group */
-    epicsEnum16         scan;       /**< @brief Scan Mechanism */
-    epicsEnum16         pini;       /**< @brief Process at iocInit */
-    epicsInt16          phas;       /**< @brief Scan Phase */
-    char                evnt[40];   /**< @brief Event Name */
-    epicsInt16          tse;        /**< @brief Time Stamp Event */
-    DBLINK              tsel;       /**< @brief Time Stamp Link */
-    epicsEnum16         dtyp;       /**< @brief Device Type */
-    epicsInt16          disv;       /**< @brief Disable Value */
-    epicsInt16          disa;       /**< @brief Disable */
-    DBLINK              sdis;       /**< @brief Scanning Disable */
-    epicsMutexId        mlok;       /**< @brief Monitor lock */
-    ELLLIST             mlis;       /**< @brief Monitor List */
-    ELLLIST             bklnk;      /**< @brief Backwards link tracking */
-    epicsUInt8          disp;       /**< @brief Disable putField */
-    epicsUInt8          proc;       /**< @brief Force Processing */
-    epicsEnum16         stat;       /**< @brief Alarm Status */
-    epicsEnum16         sevr;       /**< @brief Alarm Severity */
-    epicsEnum16         nsta;       /**< @brief New Alarm Status */
-    epicsEnum16         nsev;       /**< @brief New Alarm Severity */
-    epicsEnum16         acks;       /**< @brief Alarm Ack Severity */
-    epicsEnum16         ackt;       /**< @brief Alarm Ack Transient */
-    epicsEnum16         diss;       /**< @brief Disable Alarm Sevrty */
-    epicsUInt8          lcnt;       /**< @brief Lock Count */
-    epicsUInt8          pact;       /**< @brief Record active */
-    epicsUInt8          putf;       /**< @brief dbPutField process */
-    epicsUInt8          rpro;       /**< @brief Reprocess  */
-    struct asgMember    *asp;       /**< @brief Access Security Pvt */
-    struct processNotify *ppn;      /**< @brief pprocessNotify */
-    struct processNotifyRecord *ppnr; /**< @brief pprocessNotifyRecord */
-    struct scan_element *spvt;      /**< @brief Scan Private */
-    struct typed_rset   *rset;      /**< @brief Address of RSET */
-    struct dset         *dset;      /**< @brief DSET address */
-    void                *dpvt;      /**< @brief Device Private */
-    struct dbRecordType *rdes;      /**< @brief Address of dbRecordType */
-    struct lockRecord   *lset;      /**< @brief Lock Set */
-    epicsEnum16         prio;       /**< @brief Scheduling Priority */
-    epicsUInt8          tpro;       /**< @brief Trace Processing */
-    char                bkpt;       /**< @brief Break Point */
-    epicsUInt8          udf;        /**< @brief Undefined */
-    epicsEnum16         udfs;       /**< @brief Undefined Alarm Sevrty */
-    epicsTimeStamp      time;       /**< @brief Time */
-    DBLINK              flnk;       /**< @brief Forward Process Link */
-    char                val[40];    /**< @brief Event Name To Post */
-    EVENTPVT epvt;                  /**< @brief Event private */
-    DBLINK              inp;        /**< @brief Input Specification */
-    DBLINK              siol;       /**< @brief Sim Input Specifctn */
-    char                sval[40];   /**< @brief Simulation Value */
-    DBLINK              siml;       /**< @brief Sim Mode Location */
-    epicsEnum16         simm;       /**< @brief Simulation Mode */
-    epicsEnum16         sims;       /**< @brief Sim mode Alarm Svrty */
-    epicsEnum16         oldsimm;    /**< @brief Prev. Simulation Mode */
-    epicsEnum16         sscn;       /**< @brief Sim. Mode Scan */
-    epicsFloat64        sdly;       /**< @brief Sim. Mode Async Delay */
-    epicsCallback            *simpvt; /**< @brief Sim. Mode Private */
+    char                name[61];   /* Record Name */
+    char                desc[41];   /* Descriptor */
+    char                asg[29];    /* Access Security Group */
+    epicsEnum16         scan;       /* Scan Mechanism */
+    epicsEnum16         pini;       /* Process at iocInit */
+    epicsInt16          phas;       /* Scan Phase */
+    char                evnt[40];   /* Event Name */
+    epicsInt16          tse;        /* Time Stamp Event */
+    DBLINK              tsel;       /* Time Stamp Link */
+    epicsEnum16         dtyp;       /* Device Type */
+    epicsInt16          disv;       /* Disable Value */
+    epicsInt16          disa;       /* Disable */
+    DBLINK              sdis;       /* Scanning Disable */
+    epicsMutexId        mlok;       /* Monitor lock */
+    ELLLIST             mlis;       /* Monitor List */
+    epicsUInt8          disp;       /* Disable putField */
+    epicsUInt8          proc;       /* Force Processing */
+    epicsEnum16         stat;       /* Alarm Status */
+    epicsEnum16         sevr;       /* Alarm Severity */
+    epicsEnum16         nsta;       /* New Alarm Status */
+    epicsEnum16         nsev;       /* New Alarm Severity */
+    epicsEnum16         acks;       /* Alarm Ack Severity */
+    epicsEnum16         ackt;       /* Alarm Ack Transient */
+    epicsEnum16         diss;       /* Disable Alarm Sevrty */
+    epicsUInt8          lcnt;       /* Lock Count */
+    epicsUInt8          pact;       /* Record active */
+    epicsUInt8          putf;       /* dbPutField process */
+    epicsUInt8          rpro;       /* Reprocess  */
+    struct asgMember    *asp;       /* Access Security Pvt */
+    struct processNotify *ppn;      /* pprocessNotify */
+    struct processNotifyRecord *ppnr; /* pprocessNotifyRecord */
+    struct scan_element *spvt;      /* Scan Private */
+    struct rset         *rset;      /* Address of RSET */
+    struct dset         *dset;      /* DSET address */
+    void                *dpvt;      /* Device Private */
+    struct dbRecordType *rdes;      /* Address of dbRecordType */
+    struct lockRecord   *lset;      /* Lock Set */
+    epicsEnum16         prio;       /* Scheduling Priority */
+    epicsUInt8          tpro;       /* Trace Processing */
+    char                bkpt;       /* Break Point */
+    epicsUInt8          udf;        /* Undefined */
+    epicsEnum16         udfs;       /* Undefined Alarm Sevrty */
+    epicsTimeStamp      time;       /* Time */
+    DBLINK              flnk;       /* Forward Process Link */
+    char                val[40];    /* Event Name To Post */
+    EVENTPVT epvt;                  /* Event private */
+    DBLINK              inp;        /* Input Specification */
+    DBLINK              siol;       /* Sim Input Specifctn */
+    char                sval[40];   /* Simulation Value */
+    DBLINK              siml;       /* Sim Mode Location */
+    epicsEnum16         simm;       /* Simulation Mode */
+    epicsEnum16         sims;       /* Sim mode Alarm Svrty */
 } eventRecord;
 
 typedef enum {
@@ -101,48 +85,43 @@ typedef enum {
 	eventRecordSDIS = 12,
 	eventRecordMLOK = 13,
 	eventRecordMLIS = 14,
-	eventRecordBKLNK = 15,
-	eventRecordDISP = 16,
-	eventRecordPROC = 17,
-	eventRecordSTAT = 18,
-	eventRecordSEVR = 19,
-	eventRecordNSTA = 20,
-	eventRecordNSEV = 21,
-	eventRecordACKS = 22,
-	eventRecordACKT = 23,
-	eventRecordDISS = 24,
-	eventRecordLCNT = 25,
-	eventRecordPACT = 26,
-	eventRecordPUTF = 27,
-	eventRecordRPRO = 28,
-	eventRecordASP = 29,
-	eventRecordPPN = 30,
-	eventRecordPPNR = 31,
-	eventRecordSPVT = 32,
-	eventRecordRSET = 33,
-	eventRecordDSET = 34,
-	eventRecordDPVT = 35,
-	eventRecordRDES = 36,
-	eventRecordLSET = 37,
-	eventRecordPRIO = 38,
-	eventRecordTPRO = 39,
-	eventRecordBKPT = 40,
-	eventRecordUDF = 41,
-	eventRecordUDFS = 42,
-	eventRecordTIME = 43,
-	eventRecordFLNK = 44,
-	eventRecordVAL = 45,
-	eventRecordEPVT = 46,
-	eventRecordINP = 47,
-	eventRecordSIOL = 48,
-	eventRecordSVAL = 49,
-	eventRecordSIML = 50,
-	eventRecordSIMM = 51,
-	eventRecordSIMS = 52,
-	eventRecordOLDSIMM = 53,
-	eventRecordSSCN = 54,
-	eventRecordSDLY = 55,
-	eventRecordSIMPVT = 56
+	eventRecordDISP = 15,
+	eventRecordPROC = 16,
+	eventRecordSTAT = 17,
+	eventRecordSEVR = 18,
+	eventRecordNSTA = 19,
+	eventRecordNSEV = 20,
+	eventRecordACKS = 21,
+	eventRecordACKT = 22,
+	eventRecordDISS = 23,
+	eventRecordLCNT = 24,
+	eventRecordPACT = 25,
+	eventRecordPUTF = 26,
+	eventRecordRPRO = 27,
+	eventRecordASP = 28,
+	eventRecordPPN = 29,
+	eventRecordPPNR = 30,
+	eventRecordSPVT = 31,
+	eventRecordRSET = 32,
+	eventRecordDSET = 33,
+	eventRecordDPVT = 34,
+	eventRecordRDES = 35,
+	eventRecordLSET = 36,
+	eventRecordPRIO = 37,
+	eventRecordTPRO = 38,
+	eventRecordBKPT = 39,
+	eventRecordUDF = 40,
+	eventRecordUDFS = 41,
+	eventRecordTIME = 42,
+	eventRecordFLNK = 43,
+	eventRecordVAL = 44,
+	eventRecordEPVT = 45,
+	eventRecordINP = 46,
+	eventRecordSIOL = 47,
+	eventRecordSVAL = 48,
+	eventRecordSIML = 49,
+	eventRecordSIMM = 50,
+	eventRecordSIMS = 51
 } eventFieldIndex;
 
 #ifdef GEN_SIZE_OFFSET
@@ -156,10 +135,10 @@ static int eventRecordSizeOffset(dbRecordType *prt)
 {
     eventRecord *prec = 0;
 
-    if (prt->no_fields != 57) {
+    if (prt->no_fields != 52) {
         cantProceed("IOC build or installation error:\n"
             "    The eventRecord defined in the DBD file has %d fields,\n"
-            "    but the record support code was built with 57.\n",
+            "    but the record support code was built with 52.\n",
             prt->no_fields);
     }
     prt->papFldDes[eventRecordNAME]->size = sizeof(prec->name);
@@ -192,8 +171,6 @@ static int eventRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[eventRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[eventRecordMLIS]->size = sizeof(prec->mlis);
     prt->papFldDes[eventRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
-    prt->papFldDes[eventRecordBKLNK]->size = sizeof(prec->bklnk);
-    prt->papFldDes[eventRecordBKLNK]->offset = (unsigned short)((char *)&prec->bklnk - (char *)prec);
     prt->papFldDes[eventRecordDISP]->size = sizeof(prec->disp);
     prt->papFldDes[eventRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[eventRecordPROC]->size = sizeof(prec->proc);
@@ -268,14 +245,6 @@ static int eventRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[eventRecordSIMM]->offset = (unsigned short)((char *)&prec->simm - (char *)prec);
     prt->papFldDes[eventRecordSIMS]->size = sizeof(prec->sims);
     prt->papFldDes[eventRecordSIMS]->offset = (unsigned short)((char *)&prec->sims - (char *)prec);
-    prt->papFldDes[eventRecordOLDSIMM]->size = sizeof(prec->oldsimm);
-    prt->papFldDes[eventRecordOLDSIMM]->offset = (unsigned short)((char *)&prec->oldsimm - (char *)prec);
-    prt->papFldDes[eventRecordSSCN]->size = sizeof(prec->sscn);
-    prt->papFldDes[eventRecordSSCN]->offset = (unsigned short)((char *)&prec->sscn - (char *)prec);
-    prt->papFldDes[eventRecordSDLY]->size = sizeof(prec->sdly);
-    prt->papFldDes[eventRecordSDLY]->offset = (unsigned short)((char *)&prec->sdly - (char *)prec);
-    prt->papFldDes[eventRecordSIMPVT]->size = sizeof(prec->simpvt);
-    prt->papFldDes[eventRecordSIMPVT]->offset = (unsigned short)((char *)&prec->simpvt - (char *)prec);
     prt->rec_size = sizeof(*prec);
     return 0;
 }

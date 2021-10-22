@@ -1,11 +1,11 @@
-/** @file dbCommon.h
+/** @file dbCommonRecord.h
  * @brief Declarations for the @ref dbCommon "dbCommon" record type.
  *
  * This header was generated from dbCommonRecord.dbd
  */
 
-#ifndef INC_dbCommon_H
-#define INC_dbCommon_H
+#ifndef INC_dbCommonRecord_H
+#define INC_dbCommonRecord_H
 
  #include "epicsTypes.h"
  #include "link.h"
@@ -61,4 +61,4 @@ typedef struct dbCommon {
 } dbCommon;
 
 
-#endif /* INC_dbCommon_H */
+#endif /* INC_dbCommonRecord_H */

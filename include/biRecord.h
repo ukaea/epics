@@ -7,90 +7,74 @@
 #ifndef INC_biRecord_H
 #define INC_biRecord_H
 
-#include "epicsTypes.h"
-#include "link.h"
+ #include "epicsTypes.h"
+ #include "link.h"
 #include "epicsMutex.h"
 #include "ellLib.h"
 #include "epicsTime.h"
 
-/* Declare Device Support Entry Table */
-struct biRecord;
-typedef struct bidset {
-    dset common;
-    long (*read_bi)(struct biRecord *prec);
-} bidset;
-#define HAS_bidset
-
-#include "callback.h"
-
-/** @brief Declaration of bi record type. */
 typedef struct biRecord {
-    char                name[61];   /**< @brief Record Name */
-    char                desc[41];   /**< @brief Descriptor */
-    char                asg[29];    /**< @brief Access Security Group */
-    epicsEnum16         scan;       /**< @brief Scan Mechanism */
-    epicsEnum16         pini;       /**< @brief Process at iocInit */
-    epicsInt16          phas;       /**< @brief Scan Phase */
-    char                evnt[40];   /**< @brief Event Name */
-    epicsInt16          tse;        /**< @brief Time Stamp Event */
-    DBLINK              tsel;       /**< @brief Time Stamp Link */
-    epicsEnum16         dtyp;       /**< @brief Device Type */
-    epicsInt16          disv;       /**< @brief Disable Value */
-    epicsInt16          disa;       /**< @brief Disable */
-    DBLINK              sdis;       /**< @brief Scanning Disable */
-    epicsMutexId        mlok;       /**< @brief Monitor lock */
-    ELLLIST             mlis;       /**< @brief Monitor List */
-    ELLLIST             bklnk;      /**< @brief Backwards link tracking */
-    epicsUInt8          disp;       /**< @brief Disable putField */
-    epicsUInt8          proc;       /**< @brief Force Processing */
-    epicsEnum16         stat;       /**< @brief Alarm Status */
-    epicsEnum16         sevr;       /**< @brief Alarm Severity */
-    epicsEnum16         nsta;       /**< @brief New Alarm Status */
-    epicsEnum16         nsev;       /**< @brief New Alarm Severity */
-    epicsEnum16         acks;       /**< @brief Alarm Ack Severity */
-    epicsEnum16         ackt;       /**< @brief Alarm Ack Transient */
-    epicsEnum16         diss;       /**< @brief Disable Alarm Sevrty */
-    epicsUInt8          lcnt;       /**< @brief Lock Count */
-    epicsUInt8          pact;       /**< @brief Record active */
-    epicsUInt8          putf;       /**< @brief dbPutField process */
-    epicsUInt8          rpro;       /**< @brief Reprocess  */
-    struct asgMember    *asp;       /**< @brief Access Security Pvt */
-    struct processNotify *ppn;      /**< @brief pprocessNotify */
-    struct processNotifyRecord *ppnr; /**< @brief pprocessNotifyRecord */
-    struct scan_element *spvt;      /**< @brief Scan Private */
-    struct typed_rset   *rset;      /**< @brief Address of RSET */
-    struct dset         *dset;      /**< @brief DSET address */
-    void                *dpvt;      /**< @brief Device Private */
-    struct dbRecordType *rdes;      /**< @brief Address of dbRecordType */
-    struct lockRecord   *lset;      /**< @brief Lock Set */
-    epicsEnum16         prio;       /**< @brief Scheduling Priority */
-    epicsUInt8          tpro;       /**< @brief Trace Processing */
-    char                bkpt;       /**< @brief Break Point */
-    epicsUInt8          udf;        /**< @brief Undefined */
-    epicsEnum16         udfs;       /**< @brief Undefined Alarm Sevrty */
-    epicsTimeStamp      time;       /**< @brief Time */
-    DBLINK              flnk;       /**< @brief Forward Process Link */
-    DBLINK              inp;        /**< @brief Input Specification */
-    epicsEnum16         val;        /**< @brief Current Value */
-    epicsEnum16         zsv;        /**< @brief Zero Error Severity */
-    epicsEnum16         osv;        /**< @brief One Error Severity */
-    epicsEnum16         cosv;       /**< @brief Change of State Svr */
-    char                znam[26];   /**< @brief Zero Name */
-    char                onam[26];   /**< @brief One Name */
-    epicsUInt32         rval;       /**< @brief Raw Value */
-    epicsUInt32         oraw;       /**< @brief prev Raw Value */
-    epicsUInt32         mask;       /**< @brief Hardware Mask */
-    epicsUInt16         lalm;       /**< @brief Last Value Alarmed */
-    epicsUInt16         mlst;       /**< @brief Last Value Monitored */
-    DBLINK              siol;       /**< @brief Simulation Input Link */
-    epicsUInt32         sval;       /**< @brief Simulation Value */
-    DBLINK              siml;       /**< @brief Simulation Mode Link */
-    epicsEnum16         simm;       /**< @brief Simulation Mode */
-    epicsEnum16         sims;       /**< @brief Simulation Mode Severity */
-    epicsEnum16         oldsimm;    /**< @brief Prev. Simulation Mode */
-    epicsEnum16         sscn;       /**< @brief Sim. Mode Scan */
-    epicsFloat64        sdly;       /**< @brief Sim. Mode Async Delay */
-    epicsCallback            *simpvt; /**< @brief Sim. Mode Private */
+    char                name[61];   /* Record Name */
+    char                desc[41];   /* Descriptor */
+    char                asg[29];    /* Access Security Group */
+    epicsEnum16         scan;       /* Scan Mechanism */
+    epicsEnum16         pini;       /* Process at iocInit */
+    epicsInt16          phas;       /* Scan Phase */
+    char                evnt[40];   /* Event Name */
+    epicsInt16          tse;        /* Time Stamp Event */
+    DBLINK              tsel;       /* Time Stamp Link */
+    epicsEnum16         dtyp;       /* Device Type */
+    epicsInt16          disv;       /* Disable Value */
+    epicsInt16          disa;       /* Disable */
+    DBLINK              sdis;       /* Scanning Disable */
+    epicsMutexId        mlok;       /* Monitor lock */
+    ELLLIST             mlis;       /* Monitor List */
+    epicsUInt8          disp;       /* Disable putField */
+    epicsUInt8          proc;       /* Force Processing */
+    epicsEnum16         stat;       /* Alarm Status */
+    epicsEnum16         sevr;       /* Alarm Severity */
+    epicsEnum16         nsta;       /* New Alarm Status */
+    epicsEnum16         nsev;       /* New Alarm Severity */
+    epicsEnum16         acks;       /* Alarm Ack Severity */
+    epicsEnum16         ackt;       /* Alarm Ack Transient */
+    epicsEnum16         diss;       /* Disable Alarm Sevrty */
+    epicsUInt8          lcnt;       /* Lock Count */
+    epicsUInt8          pact;       /* Record active */
+    epicsUInt8          putf;       /* dbPutField process */
+    epicsUInt8          rpro;       /* Reprocess  */
+    struct asgMember    *asp;       /* Access Security Pvt */
+    struct processNotify *ppn;      /* pprocessNotify */
+    struct processNotifyRecord *ppnr; /* pprocessNotifyRecord */
+    struct scan_element *spvt;      /* Scan Private */
+    struct rset         *rset;      /* Address of RSET */
+    struct dset         *dset;      /* DSET address */
+    void                *dpvt;      /* Device Private */
+    struct dbRecordType *rdes;      /* Address of dbRecordType */
+    struct lockRecord   *lset;      /* Lock Set */
+    epicsEnum16         prio;       /* Scheduling Priority */
+    epicsUInt8          tpro;       /* Trace Processing */
+    char                bkpt;       /* Break Point */
+    epicsUInt8          udf;        /* Undefined */
+    epicsEnum16         udfs;       /* Undefined Alarm Sevrty */
+    epicsTimeStamp      time;       /* Time */
+    DBLINK              flnk;       /* Forward Process Link */
+    DBLINK              inp;        /* Input Specification */
+    epicsEnum16         val;        /* Current Value */
+    epicsEnum16         zsv;        /* Zero Error Severity */
+    epicsEnum16         osv;        /* One Error Severity */
+    epicsEnum16         cosv;       /* Change of State Svr */
+    char                znam[26];   /* Zero Name */
+    char                onam[26];   /* One Name */
+    epicsUInt32         rval;       /* Raw Value */
+    epicsUInt32         oraw;       /* prev Raw Value */
+    epicsUInt32         mask;       /* Hardware Mask */
+    epicsUInt16         lalm;       /* Last Value Alarmed */
+    epicsUInt16         mlst;       /* Last Value Monitored */
+    DBLINK              siol;       /* Sim Input Specifctn */
+    epicsUInt32         sval;       /* Simulation Value */
+    DBLINK              siml;       /* Sim Mode Location */
+    epicsEnum16         simm;       /* Simulation Mode */
+    epicsEnum16         sims;       /* Sim mode Alarm Svrty */
 } biRecord;
 
 typedef enum {
@@ -109,57 +93,52 @@ typedef enum {
 	biRecordSDIS = 12,
 	biRecordMLOK = 13,
 	biRecordMLIS = 14,
-	biRecordBKLNK = 15,
-	biRecordDISP = 16,
-	biRecordPROC = 17,
-	biRecordSTAT = 18,
-	biRecordSEVR = 19,
-	biRecordNSTA = 20,
-	biRecordNSEV = 21,
-	biRecordACKS = 22,
-	biRecordACKT = 23,
-	biRecordDISS = 24,
-	biRecordLCNT = 25,
-	biRecordPACT = 26,
-	biRecordPUTF = 27,
-	biRecordRPRO = 28,
-	biRecordASP = 29,
-	biRecordPPN = 30,
-	biRecordPPNR = 31,
-	biRecordSPVT = 32,
-	biRecordRSET = 33,
-	biRecordDSET = 34,
-	biRecordDPVT = 35,
-	biRecordRDES = 36,
-	biRecordLSET = 37,
-	biRecordPRIO = 38,
-	biRecordTPRO = 39,
-	biRecordBKPT = 40,
-	biRecordUDF = 41,
-	biRecordUDFS = 42,
-	biRecordTIME = 43,
-	biRecordFLNK = 44,
-	biRecordINP = 45,
-	biRecordVAL = 46,
-	biRecordZSV = 47,
-	biRecordOSV = 48,
-	biRecordCOSV = 49,
-	biRecordZNAM = 50,
-	biRecordONAM = 51,
-	biRecordRVAL = 52,
-	biRecordORAW = 53,
-	biRecordMASK = 54,
-	biRecordLALM = 55,
-	biRecordMLST = 56,
-	biRecordSIOL = 57,
-	biRecordSVAL = 58,
-	biRecordSIML = 59,
-	biRecordSIMM = 60,
-	biRecordSIMS = 61,
-	biRecordOLDSIMM = 62,
-	biRecordSSCN = 63,
-	biRecordSDLY = 64,
-	biRecordSIMPVT = 65
+	biRecordDISP = 15,
+	biRecordPROC = 16,
+	biRecordSTAT = 17,
+	biRecordSEVR = 18,
+	biRecordNSTA = 19,
+	biRecordNSEV = 20,
+	biRecordACKS = 21,
+	biRecordACKT = 22,
+	biRecordDISS = 23,
+	biRecordLCNT = 24,
+	biRecordPACT = 25,
+	biRecordPUTF = 26,
+	biRecordRPRO = 27,
+	biRecordASP = 28,
+	biRecordPPN = 29,
+	biRecordPPNR = 30,
+	biRecordSPVT = 31,
+	biRecordRSET = 32,
+	biRecordDSET = 33,
+	biRecordDPVT = 34,
+	biRecordRDES = 35,
+	biRecordLSET = 36,
+	biRecordPRIO = 37,
+	biRecordTPRO = 38,
+	biRecordBKPT = 39,
+	biRecordUDF = 40,
+	biRecordUDFS = 41,
+	biRecordTIME = 42,
+	biRecordFLNK = 43,
+	biRecordINP = 44,
+	biRecordVAL = 45,
+	biRecordZSV = 46,
+	biRecordOSV = 47,
+	biRecordCOSV = 48,
+	biRecordZNAM = 49,
+	biRecordONAM = 50,
+	biRecordRVAL = 51,
+	biRecordORAW = 52,
+	biRecordMASK = 53,
+	biRecordLALM = 54,
+	biRecordMLST = 55,
+	biRecordSIOL = 56,
+	biRecordSVAL = 57,
+	biRecordSIML = 58,
+	biRecordSIMM = 59,
+	biRecordSIMS = 60
 } biFieldIndex;
 
 #ifdef GEN_SIZE_OFFSET
@@ -173,10 +152,10 @@ static int biRecordSizeOffset(dbRecordType *prt)
 {
     biRecord *prec = 0;
 
-    if (prt->no_fields != 66) {
+    if (prt->no_fields != 61) {
         cantProceed("IOC build or installation error:\n"
             "    The biRecord defined in the DBD file has %d fields,\n"
-            "    but the record support code was built with 66.\n",
+            "    but the record support code was built with 61.\n",
             prt->no_fields);
     }
     prt->papFldDes[biRecordNAME]->size = sizeof(prec->name);
@@ -209,8 +188,6 @@ static int biRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[biRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[biRecordMLIS]->size = sizeof(prec->mlis);
     prt->papFldDes[biRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
-    prt->papFldDes[biRecordBKLNK]->size = sizeof(prec->bklnk);
-    prt->papFldDes[biRecordBKLNK]->offset = (unsigned short)((char *)&prec->bklnk - (char *)prec);
     prt->papFldDes[biRecordDISP]->size = sizeof(prec->disp);
     prt->papFldDes[biRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[biRecordPROC]->size = sizeof(prec->proc);
@@ -303,14 +280,6 @@ static int biRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[biRecordSIMM]->offset = (unsigned short)((char *)&prec->simm - (char *)prec);
     prt->papFldDes[biRecordSIMS]->size = sizeof(prec->sims);
     prt->papFldDes[biRecordSIMS]->offset = (unsigned short)((char *)&prec->sims - (char *)prec);
-    prt->papFldDes[biRecordOLDSIMM]->size = sizeof(prec->oldsimm);
-    prt->papFldDes[biRecordOLDSIMM]->offset = (unsigned short)((char *)&prec->oldsimm - (char *)prec);
-    prt->papFldDes[biRecordSSCN]->size = sizeof(prec->sscn);
-    prt->papFldDes[biRecordSSCN]->offset = (unsigned short)((char *)&prec->sscn - (char *)prec);
-    prt->papFldDes[biRecordSDLY]->size = sizeof(prec->sdly);
-    prt->papFldDes[biRecordSDLY]->offset = (unsigned short)((char *)&prec->sdly - (char *)prec);
-    prt->papFldDes[biRecordSIMPVT]->size = sizeof(prec->simpvt);
-    prt->papFldDes[biRecordSIMPVT]->offset = (unsigned short)((char *)&prec->simpvt - (char *)prec);
     prt->rec_size = sizeof(*prec);
     return 0;
 }

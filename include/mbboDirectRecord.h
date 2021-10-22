@@ -7,122 +7,91 @@
 #ifndef INC_mbboDirectRecord_H
 #define INC_mbboDirectRecord_H
 
-#include "epicsTypes.h"
-#include "link.h"
+ #include "epicsTypes.h"
+ #include "link.h"
 #include "epicsMutex.h"
 #include "ellLib.h"
 #include "epicsTime.h"
-/* Declare Device Support Entry Table */
-struct mbboDirectRecord;
-typedef struct mbbodirectdset {
-    dset common; /*init_record returns: (0, 2)=>(success, success no convert)*/
-    long (*write_mbbo)(struct mbboDirectRecord *prec); /*returns: (0, 2)=>(success, success no convert)*/
-} mbbodirectdset;
-#define HAS_mbbodirectdset
 
-#include "callback.h"
-
-/** @brief Declaration of mbboDirect record type. */
 typedef struct mbboDirectRecord {
-    char                name[61];   /**< @brief Record Name */
-    char                desc[41];   /**< @brief Descriptor */
-    char                asg[29];    /**< @brief Access Security Group */
-    epicsEnum16         scan;       /**< @brief Scan Mechanism */
-    epicsEnum16         pini;       /**< @brief Process at iocInit */
-    epicsInt16          phas;       /**< @brief Scan Phase */
-    char                evnt[40];   /**< @brief Event Name */
-    epicsInt16          tse;        /**< @brief Time Stamp Event */
-    DBLINK              tsel;       /**< @brief Time Stamp Link */
-    epicsEnum16         dtyp;       /**< @brief Device Type */
-    epicsInt16          disv;       /**< @brief Disable Value */
-    epicsInt16          disa;       /**< @brief Disable */
-    DBLINK              sdis;       /**< @brief Scanning Disable */
-    epicsMutexId        mlok;       /**< @brief Monitor lock */
-    ELLLIST             mlis;       /**< @brief Monitor List */
-    ELLLIST             bklnk;      /**< @brief Backwards link tracking */
-    epicsUInt8          disp;       /**< @brief Disable putField */
-    epicsUInt8          proc;       /**< @brief Force Processing */
-    epicsEnum16         stat;       /**< @brief Alarm Status */
-    epicsEnum16         sevr;       /**< @brief Alarm Severity */
-    epicsEnum16         nsta;       /**< @brief New Alarm Status */
-    epicsEnum16         nsev;       /**< @brief New Alarm Severity */
-    epicsEnum16         acks;       /**< @brief Alarm Ack Severity */
-    epicsEnum16         ackt;       /**< @brief Alarm Ack Transient */
-    epicsEnum16         diss;       /**< @brief Disable Alarm Sevrty */
-    epicsUInt8          lcnt;       /**< @brief Lock Count */
-    epicsUInt8          pact;       /**< @brief Record active */
-    epicsUInt8          putf;       /**< @brief dbPutField process */
-    epicsUInt8          rpro;       /**< @brief Reprocess  */
-    struct asgMember    *asp;       /**< @brief Access Security Pvt */
-    struct processNotify *ppn;      /**< @brief pprocessNotify */
-    struct processNotifyRecord *ppnr; /**< @brief pprocessNotifyRecord */
-    struct scan_element *spvt;      /**< @brief Scan Private */
-    struct typed_rset   *rset;      /**< @brief Address of RSET */
-    struct dset         *dset;      /**< @brief DSET address */
-    void                *dpvt;      /**< @brief Device Private */
-    struct dbRecordType *rdes;      /**< @brief Address of dbRecordType */
-    struct lockRecord   *lset;      /**< @brief Lock Set */
-    epicsEnum16         prio;       /**< @brief Scheduling Priority */
-    epicsUInt8          tpro;       /**< @brief Trace Processing */
-    char                bkpt;       /**< @brief Break Point */
-    epicsUInt8          udf;        /**< @brief Undefined */
-    epicsEnum16         udfs;       /**< @brief Undefined Alarm Sevrty */
-    epicsTimeStamp      time;       /**< @brief Time */
-    DBLINK              flnk;       /**< @brief Forward Process Link */
-    epicsInt32          val;        /**< @brief Word */
-    epicsEnum16         omsl;       /**< @brief Output Mode Select */
-    epicsInt16          nobt;       /**< @brief Number of Bits */
-    DBLINK              dol;        /**< @brief Desired Output Loc */
-    DBLINK              out;        /**< @brief Output Specification */
-    epicsUInt32         rval;       /**< @brief Raw Value */
-    epicsUInt32         oraw;       /**< @brief Prev Raw Value */
-    epicsUInt32         rbv;        /**< @brief Readback Value */
-    epicsUInt32         orbv;       /**< @brief Prev Readback Value */
-    epicsUInt32         mask;       /**< @brief Hardware Mask */
-    epicsInt32          mlst;       /**< @brief Last Value Monitored */
-    epicsUInt16         shft;       /**< @brief Shift */
-    DBLINK              siol;       /**< @brief Simulation Output Link */
-    DBLINK              siml;       /**< @brief Simulation Mode Link */
-    epicsEnum16         simm;       /**< @brief Simulation Mode */
-    epicsEnum16         sims;       /**< @brief Simulation Mode Severity */
-    epicsEnum16         oldsimm;    /**< @brief Prev. Simulation Mode */
-    epicsEnum16         sscn;       /**< @brief Sim. Mode Scan */
-    epicsFloat64        sdly;       /**< @brief Sim. Mode Async Delay */
-    epicsCallback            *simpvt; /**< @brief Sim. Mode Private */
-    epicsEnum16         ivoa;       /**< @brief INVALID outpt action */
-    epicsInt32          ivov;       /**< @brief INVALID output value */
-    epicsUInt8          b0;         /**< @brief Bit 0 */
-    epicsUInt8          b1;         /**< @brief Bit 1 */
-    epicsUInt8          b2;         /**< @brief Bit 2 */
-    epicsUInt8          b3;         /**< @brief Bit 3 */
-    epicsUInt8          b4;         /**< @brief Bit 4 */
-    epicsUInt8          b5;         /**< @brief Bit 5 */
-    epicsUInt8          b6;         /**< @brief Bit 6 */
-    epicsUInt8          b7;         /**< @brief Bit 7 */
-    epicsUInt8          b8;         /**< @brief Bit 8 */
-    epicsUInt8          b9;         /**< @brief Bit 9 */
-    epicsUInt8          ba;         /**< @brief Bit 10 */
-    epicsUInt8          bb;         /**< @brief Bit 11 */
-    epicsUInt8          bc;         /**< @brief Bit 12 */
-    epicsUInt8          bd;         /**< @brief Bit 13 */
-    epicsUInt8          be;         /**< @brief Bit 14 */
-    epicsUInt8          bf;         /**< @brief Bit 15 */
-    epicsUInt8          b10;        /**< @brief Bit 16 */
-    epicsUInt8          b11;        /**< @brief Bit 17 */
-    epicsUInt8          b12;        /**< @brief Bit 18 */
-    epicsUInt8          b13;        /**< @brief Bit 19 */
-    epicsUInt8          b14;        /**< @brief Bit 20 */
-    epicsUInt8          b15;        /**< @brief Bit 21 */
-    epicsUInt8          b16;        /**< @brief Bit 22 */
-    epicsUInt8          b17;        /**< @brief Bit 23 */
-    epicsUInt8          b18;        /**< @brief Bit 24 */
-    epicsUInt8          b19;        /**< @brief Bit 25 */
-    epicsUInt8          b1a;        /**< @brief Bit 26 */
-    epicsUInt8          b1b;        /**< @brief Bit 27 */
-    epicsUInt8          b1c;        /**< @brief Bit 28 */
-    epicsUInt8          b1d;        /**< @brief Bit 29 */
-    epicsUInt8          b1e;        /**< @brief Bit 30 */
-    epicsUInt8          b1f;        /**< @brief Bit 31 */
+    char                name[61];   /* Record Name */
+    char                desc[41];   /* Descriptor */
+    char                asg[29];    /* Access Security Group */
+    epicsEnum16         scan;       /* Scan Mechanism */
+    epicsEnum16         pini;       /* Process at iocInit */
+    epicsInt16          phas;       /* Scan Phase */
+    char                evnt[40];   /* Event Name */
+    epicsInt16          tse;        /* Time Stamp Event */
+    DBLINK              tsel;       /* Time Stamp Link */
+    epicsEnum16         dtyp;       /* Device Type */
+    epicsInt16          disv;       /* Disable Value */
+    epicsInt16          disa;       /* Disable */
+    DBLINK              sdis;       /* Scanning Disable */
+    epicsMutexId        mlok;       /* Monitor lock */
+    ELLLIST             mlis;       /* Monitor List */
+    epicsUInt8          disp;       /* Disable putField */
+    epicsUInt8          proc;       /* Force Processing */
+    epicsEnum16         stat;       /* Alarm Status */
+    epicsEnum16         sevr;       /* Alarm Severity */
+    epicsEnum16         nsta;       /* New Alarm Status */
+    epicsEnum16         nsev;       /* New Alarm Severity */
+    epicsEnum16         acks;       /* Alarm Ack Severity */
+    epicsEnum16         ackt;       /* Alarm Ack Transient */
+    epicsEnum16         diss;       /* Disable Alarm Sevrty */
+    epicsUInt8          lcnt;       /* Lock Count */
+    epicsUInt8          pact;       /* Record active */
+    epicsUInt8          putf;       /* dbPutField process */
+    epicsUInt8          rpro;       /* Reprocess  */
+    struct asgMember    *asp;       /* Access Security Pvt */
+    struct processNotify *ppn;      /* pprocessNotify */
+    struct processNotifyRecord *ppnr; /* pprocessNotifyRecord */
+    struct scan_element *spvt;      /* Scan Private */
+    struct rset         *rset;      /* Address of RSET */
+    struct dset         *dset;      /* DSET address */
+    void                *dpvt;      /* Device Private */
+    struct dbRecordType *rdes;      /* Address of dbRecordType */
+    struct lockRecord   *lset;      /* Lock Set */
+    epicsEnum16         prio;       /* Scheduling Priority */
+    epicsUInt8          tpro;       /* Trace Processing */
+    char                bkpt;       /* Break Point */
+    epicsUInt8          udf;        /* Undefined */
+    epicsEnum16         udfs;       /* Undefined Alarm Sevrty */
+    epicsTimeStamp      time;       /* Time */
+    DBLINK              flnk;       /* Forward Process Link */
+    epicsUInt16         val;        /* Word */
+    epicsEnum16         omsl;       /* Output Mode Select */
+    epicsInt16          nobt;       /* Number of Bits */
+    DBLINK              dol;        /* Desired Output Loc */
+    DBLINK              out;        /* Output Specification */
+    epicsUInt8          b0;         /* Bit 0 */
+    epicsUInt8          b1;         /* Bit 1 */
+    epicsUInt8          b2;         /* Bit 2 */
+    epicsUInt8          b3;         /* Bit 3 */
+    epicsUInt8          b4;         /* Bit 4 */
+    epicsUInt8          b5;         /* Bit 5 */
+    epicsUInt8          b6;         /* Bit 6 */
+    epicsUInt8          b7;         /* Bit 7 */
+    epicsUInt8          b8;         /* Bit 8 */
+    epicsUInt8          b9;         /* Bit 9 */
+    epicsUInt8          ba;         /* Bit 10 */
+    epicsUInt8          bb;         /* Bit 11 */
+    epicsUInt8          bc;         /* Bit 12 */
+    epicsUInt8          bd;         /* Bit 13 */
+    epicsUInt8          be;         /* Bit 14 */
+    epicsUInt8          bf;         /* Bit 15 */
+    epicsUInt32         rval;       /* Raw Value */
+    epicsUInt32         oraw;       /* Prev Raw Value */
+    epicsUInt32         rbv;        /* Readback Value */
+    epicsUInt32         orbv;       /* Prev Readback Value */
+    epicsUInt32         mask;       /* Hardware Mask */
+    epicsUInt32         mlst;       /* Last Value Monitored */
+    epicsUInt32         shft;       /* Shift */
+    DBLINK              siol;       /* Sim Output Specifctn */
+    DBLINK              siml;       /* Sim Mode Location */
+    epicsEnum16         simm;       /* Simulation Mode */
+    epicsEnum16         sims;       /* Sim mode Alarm Svrty */
+    epicsEnum16         ivoa;       /* INVALID outpt action */
+    epicsUInt16         ivov;       /* INVALID output value */
 } mbboDirectRecord;
 
 typedef enum {
@@ -141,90 +110,69 @@ typedef enum {
 	mbboDirectRecordSDIS = 12,
 	mbboDirectRecordMLOK = 13,
 	mbboDirectRecordMLIS = 14,
-	mbboDirectRecordBKLNK = 15,
-	mbboDirectRecordDISP = 16,
-	mbboDirectRecordPROC = 17,
-	mbboDirectRecordSTAT = 18,
-	mbboDirectRecordSEVR = 19,
-	mbboDirectRecordNSTA = 20,
-	mbboDirectRecordNSEV = 21,
-	mbboDirectRecordACKS = 22,
-	mbboDirectRecordACKT = 23,
-	mbboDirectRecordDISS = 24,
-	mbboDirectRecordLCNT = 25,
-	mbboDirectRecordPACT = 26,
-	mbboDirectRecordPUTF = 27,
-	mbboDirectRecordRPRO = 28,
-	mbboDirectRecordASP = 29,
-	mbboDirectRecordPPN = 30,
-	mbboDirectRecordPPNR = 31,
-	mbboDirectRecordSPVT = 32,
-	mbboDirectRecordRSET = 33,
-	mbboDirectRecordDSET = 34,
-	mbboDirectRecordDPVT = 35,
-	mbboDirectRecordRDES = 36,
-	mbboDirectRecordLSET = 37,
-	mbboDirectRecordPRIO = 38,
-	mbboDirectRecordTPRO = 39,
-	mbboDirectRecordBKPT = 40,
-	mbboDirectRecordUDF = 41,
-	mbboDirectRecordUDFS = 42,
-	mbboDirectRecordTIME = 43,
-	mbboDirectRecordFLNK = 44,
-	mbboDirectRecordVAL = 45,
-	mbboDirectRecordOMSL = 46,
-	mbboDirectRecordNOBT = 47,
-	mbboDirectRecordDOL = 48,
-	mbboDirectRecordOUT = 49,
-	mbboDirectRecordRVAL = 50,
-	mbboDirectRecordORAW = 51,
-	mbboDirectRecordRBV = 52,
-	mbboDirectRecordORBV = 53,
-	mbboDirectRecordMASK = 54,
-	mbboDirectRecordMLST = 55,
-	mbboDirectRecordSHFT = 56,
-	mbboDirectRecordSIOL = 57,
-	mbboDirectRecordSIML = 58,
-	mbboDirectRecordSIMM = 59,
-	mbboDirectRecordSIMS = 60,
-	mbboDirectRecordOLDSIMM = 61,
-	mbboDirectRecordSSCN = 62,
-	mbboDirectRecordSDLY = 63,
-	mbboDirectRecordSIMPVT = 64,
-	mbboDirectRecordIVOA = 65,
-	mbboDirectRecordIVOV = 66,
-	mbboDirectRecordB0 = 67,
-	mbboDirectRecordB1 = 68,
-	mbboDirectRecordB2 = 69,
-	mbboDirectRecordB3 = 70,
-	mbboDirectRecordB4 = 71,
-	mbboDirectRecordB5 = 72,
-	mbboDirectRecordB6 = 73,
-	mbboDirectRecordB7 = 74,
-	mbboDirectRecordB8 = 75,
-	mbboDirectRecordB9 = 76,
-	mbboDirectRecordBA = 77,
-	mbboDirectRecordBB = 78,
-	mbboDirectRecordBC = 79,
-	mbboDirectRecordBD = 80,
-	mbboDirectRecordBE = 81,
-	mbboDirectRecordBF = 82,
-	mbboDirectRecordB10 = 83,
-	mbboDirectRecordB11 = 84,
-	mbboDirectRecordB12 = 85,
-	mbboDirectRecordB13 = 86,
-	mbboDirectRecordB14 = 87,
-	mbboDirectRecordB15 = 88,
-	mbboDirectRecordB16 = 89,
-	mbboDirectRecordB17 = 90,
-	mbboDirectRecordB18 = 91,
-	mbboDirectRecordB19 = 92,
-	mbboDirectRecordB1A = 93,
-	mbboDirectRecordB1B = 94,
-	mbboDirectRecordB1C = 95,
-	mbboDirectRecordB1D = 96,
-	mbboDirectRecordB1E = 97,
-	mbboDirectRecordB1F = 98
+	mbboDirectRecordDISP = 15,
+	mbboDirectRecordPROC = 16,
+	mbboDirectRecordSTAT = 17,
+	mbboDirectRecordSEVR = 18,
+	mbboDirectRecordNSTA = 19,
+	mbboDirectRecordNSEV = 20,
+	mbboDirectRecordACKS = 21,
+	mbboDirectRecordACKT = 22,
+	mbboDirectRecordDISS = 23,
+	mbboDirectRecordLCNT = 24,
+	mbboDirectRecordPACT = 25,
+	mbboDirectRecordPUTF = 26,
+	mbboDirectRecordRPRO = 27,
+	mbboDirectRecordASP = 28,
+	mbboDirectRecordPPN = 29,
+	mbboDirectRecordPPNR = 30,
+	mbboDirectRecordSPVT = 31,
+	mbboDirectRecordRSET = 32,
+	mbboDirectRecordDSET = 33,
+	mbboDirectRecordDPVT = 34,
+	mbboDirectRecordRDES = 35,
+	mbboDirectRecordLSET = 36,
+	mbboDirectRecordPRIO = 37,
+	mbboDirectRecordTPRO = 38,
+	mbboDirectRecordBKPT = 39,
+	mbboDirectRecordUDF = 40,
+	mbboDirectRecordUDFS = 41,
+	mbboDirectRecordTIME = 42,
+	mbboDirectRecordFLNK = 43,
+	mbboDirectRecordVAL = 44,
+	mbboDirectRecordOMSL = 45,
+	mbboDirectRecordNOBT = 46,
+	mbboDirectRecordDOL = 47,
+	mbboDirectRecordOUT = 48,
+	mbboDirectRecordB0 = 49,
+	mbboDirectRecordB1 = 50,
+	mbboDirectRecordB2 = 51,
+	mbboDirectRecordB3 = 52,
+	mbboDirectRecordB4 = 53,
+	mbboDirectRecordB5 = 54,
+	mbboDirectRecordB6 = 55,
+	mbboDirectRecordB7 = 56,
+	mbboDirectRecordB8 = 57,
+	mbboDirectRecordB9 = 58,
+	mbboDirectRecordBA = 59,
+	mbboDirectRecordBB = 60,
+	mbboDirectRecordBC = 61,
+	mbboDirectRecordBD = 62,
+	mbboDirectRecordBE = 63,
+	mbboDirectRecordBF = 64,
+	mbboDirectRecordRVAL = 65,
+	mbboDirectRecordORAW = 66,
+	mbboDirectRecordRBV = 67,
+	mbboDirectRecordORBV = 68,
+	mbboDirectRecordMASK = 69,
+	mbboDirectRecordMLST = 70,
+	mbboDirectRecordSHFT = 71,
+	mbboDirectRecordSIOL = 72,
+	mbboDirectRecordSIML = 73,
+	mbboDirectRecordSIMM = 74,
+	mbboDirectRecordSIMS = 75,
+	mbboDirectRecordIVOA = 76,
+	mbboDirectRecordIVOV = 77
 } mbboDirectFieldIndex;
 
 #ifdef GEN_SIZE_OFFSET
@@ -238,10 +186,10 @@ static int mbboDirectRecordSizeOffset(dbRecordType *prt)
 {
     mbboDirectRecord *prec = 0;
 
-    if (prt->no_fields != 99) {
+    if (prt->no_fields != 78) {
         cantProceed("IOC build or installation error:\n"
             "    The mbboDirectRecord defined in the DBD file has %d fields,\n"
-            "    but the record support code was built with 99.\n",
+            "    but the record support code was built with 78.\n",
             prt->no_fields);
     }
     prt->papFldDes[mbboDirectRecordNAME]->size = sizeof(prec->name);
@@ -274,8 +222,6 @@ static int mbboDirectRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[mbboDirectRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[mbboDirectRecordMLIS]->size = sizeof(prec->mlis);
     prt->papFldDes[mbboDirectRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
-    prt->papFldDes[mbboDirectRecordBKLNK]->size = sizeof(prec->bklnk);
-    prt->papFldDes[mbboDirectRecordBKLNK]->offset = (unsigned short)((char *)&prec->bklnk - (char *)prec);
     prt->papFldDes[mbboDirectRecordDISP]->size = sizeof(prec->disp);
     prt->papFldDes[mbboDirectRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[mbboDirectRecordPROC]->size = sizeof(prec->proc);
@@ -344,40 +290,6 @@ static int mbboDirectRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[mbboDirectRecordDOL]->offset = (unsigned short)((char *)&prec->dol - (char *)prec);
     prt->papFldDes[mbboDirectRecordOUT]->size = sizeof(prec->out);
     prt->papFldDes[mbboDirectRecordOUT]->offset = (unsigned short)((char *)&prec->out - (char *)prec);
-    prt->papFldDes[mbboDirectRecordRVAL]->size = sizeof(prec->rval);
-    prt->papFldDes[mbboDirectRecordRVAL]->offset = (unsigned short)((char *)&prec->rval - (char *)prec);
-    prt->papFldDes[mbboDirectRecordORAW]->size = sizeof(prec->oraw);
-    prt->papFldDes[mbboDirectRecordORAW]->offset = (unsigned short)((char *)&prec->oraw - (char *)prec);
-    prt->papFldDes[mbboDirectRecordRBV]->size = sizeof(prec->rbv);
-    prt->papFldDes[mbboDirectRecordRBV]->offset = (unsigned short)((char *)&prec->rbv - (char *)prec);
-    prt->papFldDes[mbboDirectRecordORBV]->size = sizeof(prec->orbv);
-    prt->papFldDes[mbboDirectRecordORBV]->offset = (unsigned short)((char *)&prec->orbv - (char *)prec);
-    prt->papFldDes[mbboDirectRecordMASK]->size = sizeof(prec->mask);
-    prt->papFldDes[mbboDirectRecordMASK]->offset = (unsigned short)((char *)&prec->mask - (char *)prec);
-    prt->papFldDes[mbboDirectRecordMLST]->size = sizeof(prec->mlst);
-    prt->papFldDes[mbboDirectRecordMLST]->offset = (unsigned short)((char *)&prec->mlst - (char *)prec);
-    prt->papFldDes[mbboDirectRecordSHFT]->size = sizeof(prec->shft);
-    prt->papFldDes[mbboDirectRecordSHFT]->offset = (unsigned short)((char *)&prec->shft - (char *)prec);
-    prt->papFldDes[mbboDirectRecordSIOL]->size = sizeof(prec->siol);
-    prt->papFldDes[mbboDirectRecordSIOL]->offset = (unsigned short)((char *)&prec->siol - (char *)prec);
-    prt->papFldDes[mbboDirectRecordSIML]->size = sizeof(prec->siml);
-    prt->papFldDes[mbboDirectRecordSIML]->offset = (unsigned short)((char *)&prec->siml - (char *)prec);
-    prt->papFldDes[mbboDirectRecordSIMM]->size = sizeof(prec->simm);
-    prt->papFldDes[mbboDirectRecordSIMM]->offset = (unsigned short)((char *)&prec->simm - (char *)prec);
-    prt->papFldDes[mbboDirectRecordSIMS]->size = sizeof(prec->sims);
-    prt->papFldDes[mbboDirectRecordSIMS]->offset = (unsigned short)((char *)&prec->sims - (char *)prec);
-    prt->papFldDes[mbboDirectRecordOLDSIMM]->size = sizeof(prec->oldsimm);
-    prt->papFldDes[mbboDirectRecordOLDSIMM]->offset = (unsigned short)((char *)&prec->oldsimm - (char *)prec);
-    prt->papFldDes[mbboDirectRecordSSCN]->size = sizeof(prec->sscn);
-    prt->papFldDes[mbboDirectRecordSSCN]->offset = (unsigned short)((char *)&prec->sscn - (char *)prec);
-    prt->papFldDes[mbboDirectRecordSDLY]->size = sizeof(prec->sdly);
-    prt->papFldDes[mbboDirectRecordSDLY]->offset = (unsigned short)((char *)&prec->sdly - (char *)prec);
-    prt->papFldDes[mbboDirectRecordSIMPVT]->size = sizeof(prec->simpvt);
-    prt->papFldDes[mbboDirectRecordSIMPVT]->offset = (unsigned short)((char *)&prec->simpvt - (char *)prec);
-    prt->papFldDes[mbboDirectRecordIVOA]->size = sizeof(prec->ivoa);
-    prt->papFldDes[mbboDirectRecordIVOA]->offset = (unsigned short)((char *)&prec->ivoa - (char *)prec);
-    prt->papFldDes[mbboDirectRecordIVOV]->size = sizeof(prec->ivov);
-    prt->papFldDes[mbboDirectRecordIVOV]->offset = (unsigned short)((char *)&prec->ivov - (char *)prec);
     prt->papFldDes[mbboDirectRecordB0]->size = sizeof(prec->b0);
     prt->papFldDes[mbboDirectRecordB0]->offset = (unsigned short)((char *)&prec->b0 - (char *)prec);
     prt->papFldDes[mbboDirectRecordB1]->size = sizeof(prec->b1);
@@ -410,38 +322,32 @@ static int mbboDirectRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[mbboDirectRecordBE]->offset = (unsigned short)((char *)&prec->be - (char *)prec);
     prt->papFldDes[mbboDirectRecordBF]->size = sizeof(prec->bf);
     prt->papFldDes[mbboDirectRecordBF]->offset = (unsigned short)((char *)&prec->bf - (char *)prec);
-    prt->papFldDes[mbboDirectRecordB10]->size = sizeof(prec->b10);
-    prt->papFldDes[mbboDirectRecordB10]->offset = (unsigned short)((char *)&prec->b10 - (char *)prec);
-    prt->papFldDes[mbboDirectRecordB11]->size = sizeof(prec->b11);
-    prt->papFldDes[mbboDirectRecordB11]->offset = (unsigned short)((char *)&prec->b11 - (char *)prec);
-    prt->papFldDes[mbboDirectRecordB12]->size = sizeof(prec->b12);
-    prt->papFldDes[mbboDirectRecordB12]->offset = (unsigned short)((char *)&prec->b12 - (char *)prec);
-    prt->papFldDes[mbboDirectRecordB13]->size = sizeof(prec->b13);
-    prt->papFldDes[mbboDirectRecordB13]->offset = (unsigned short)((char *)&prec->b13 - (char *)prec);
-    prt->papFldDes[mbboDirectRecordB14]->size = sizeof(prec->b14);
-    prt->papFldDes[mbboDirectRecordB14]->offset = (unsigned short)((char *)&prec->b14 - (char *)prec);
-    prt->papFldDes[mbboDirectRecordB15]->size = sizeof(prec->b15);
-    prt->papFldDes[mbboDirectRecordB15]->offset = (unsigned short)((char *)&prec->b15 - (char *)prec);
-    prt->papFldDes[mbboDirectRecordB16]->size = sizeof(prec->b16);
-    prt->papFldDes[mbboDirectRecordB16]->offset = (unsigned short)((char *)&prec->b16 - (char *)prec);
-    prt->papFldDes[mbboDirectRecordB17]->size = sizeof(prec->b17);
-    prt->papFldDes[mbboDirectRecordB17]->offset = (unsigned short)((char *)&prec->b17 - (char *)prec);
-    prt->papFldDes[mbboDirectRecordB18]->size = sizeof(prec->b18);
-    prt->papFldDes[mbboDirectRecordB18]->offset = (unsigned short)((char *)&prec->b18 - (char *)prec);
-    prt->papFldDes[mbboDirectRecordB19]->size = sizeof(prec->b19);
-    prt->papFldDes[mbboDirectRecordB19]->offset = (unsigned short)((char *)&prec->b19 - (char *)prec);
-    prt->papFldDes[mbboDirectRecordB1A]->size = sizeof(prec->b1a);
-    prt->papFldDes[mbboDirectRecordB1A]->offset = (unsigned short)((char *)&prec->b1a - (char *)prec);
-    prt->papFldDes[mbboDirectRecordB1B]->size = sizeof(prec->b1b);
-    prt->papFldDes[mbboDirectRecordB1B]->offset = (unsigned short)((char *)&prec->b1b - (char *)prec);
-    prt->papFldDes[mbboDirectRecordB1C]->size = sizeof(prec->b1c);
-    prt->papFldDes[mbboDirectRecordB1C]->offset = (unsigned short)((char *)&prec->b1c - (char *)prec);
-    prt->papFldDes[mbboDirectRecordB1D]->size = sizeof(prec->b1d);
-    prt->papFldDes[mbboDirectRecordB1D]->offset = (unsigned short)((char *)&prec->b1d - (char *)prec);
-    prt->papFldDes[mbboDirectRecordB1E]->size = sizeof(prec->b1e);
-    prt->papFldDes[mbboDirectRecordB1E]->offset = (unsigned short)((char *)&prec->b1e - (char *)prec);
-    prt->papFldDes[mbboDirectRecordB1F]->size = sizeof(prec->b1f);
-    prt->papFldDes[mbboDirectRecordB1F]->offset = (unsigned short)((char *)&prec->b1f - (char *)prec);
+    prt->papFldDes[mbboDirectRecordRVAL]->size = sizeof(prec->rval);
+    prt->papFldDes[mbboDirectRecordRVAL]->offset = (unsigned short)((char *)&prec->rval - (char *)prec);
+    prt->papFldDes[mbboDirectRecordORAW]->size = sizeof(prec->oraw);
+    prt->papFldDes[mbboDirectRecordORAW]->offset = (unsigned short)((char *)&prec->oraw - (char *)prec);
+    prt->papFldDes[mbboDirectRecordRBV]->size = sizeof(prec->rbv);
+    prt->papFldDes[mbboDirectRecordRBV]->offset = (unsigned short)((char *)&prec->rbv - (char *)prec);
+    prt->papFldDes[mbboDirectRecordORBV]->size = sizeof(prec->orbv);
+    prt->papFldDes[mbboDirectRecordORBV]->offset = (unsigned short)((char *)&prec->orbv - (char *)prec);
+    prt->papFldDes[mbboDirectRecordMASK]->size = sizeof(prec->mask);
+    prt->papFldDes[mbboDirectRecordMASK]->offset = (unsigned short)((char *)&prec->mask - (char *)prec);
+    prt->papFldDes[mbboDirectRecordMLST]->size = sizeof(prec->mlst);
+    prt->papFldDes[mbboDirectRecordMLST]->offset = (unsigned short)((char *)&prec->mlst - (char *)prec);
+    prt->papFldDes[mbboDirectRecordSHFT]->size = sizeof(prec->shft);
+    prt->papFldDes[mbboDirectRecordSHFT]->offset = (unsigned short)((char *)&prec->shft - (char *)prec);
+    prt->papFldDes[mbboDirectRecordSIOL]->size = sizeof(prec->siol);
+    prt->papFldDes[mbboDirectRecordSIOL]->offset = (unsigned short)((char *)&prec->siol - (char *)prec);
+    prt->papFldDes[mbboDirectRecordSIML]->size = sizeof(prec->siml);
+    prt->papFldDes[mbboDirectRecordSIML]->offset = (unsigned short)((char *)&prec->siml - (char *)prec);
+    prt->papFldDes[mbboDirectRecordSIMM]->size = sizeof(prec->simm);
+    prt->papFldDes[mbboDirectRecordSIMM]->offset = (unsigned short)((char *)&prec->simm - (char *)prec);
+    prt->papFldDes[mbboDirectRecordSIMS]->size = sizeof(prec->sims);
+    prt->papFldDes[mbboDirectRecordSIMS]->offset = (unsigned short)((char *)&prec->sims - (char *)prec);
+    prt->papFldDes[mbboDirectRecordIVOA]->size = sizeof(prec->ivoa);
+    prt->papFldDes[mbboDirectRecordIVOA]->offset = (unsigned short)((char *)&prec->ivoa - (char *)prec);
+    prt->papFldDes[mbboDirectRecordIVOV]->size = sizeof(prec->ivov);
+    prt->papFldDes[mbboDirectRecordIVOV]->offset = (unsigned short)((char *)&prec->ivov - (char *)prec);
     prt->rec_size = sizeof(*prec);
     return 0;
 }

@@ -7,8 +7,8 @@
 #ifndef INC_aaiRecord_H
 #define INC_aaiRecord_H
 
-#include "epicsTypes.h"
-#include "link.h"
+ #include "epicsTypes.h"
+ #include "link.h"
 #include "epicsMutex.h"
 #include "ellLib.h"
 #include "epicsTime.h"
@@ -25,83 +25,79 @@ typedef struct aaidset {
 #include "callback.h"
 
 #ifndef aaiPOST_NUM_CHOICES
-/** @brief Enumerated type from menu aaiPOST */
 typedef enum {
-    aaiPOST_Always                  /**< @brief State string "Always" */,
-    aaiPOST_OnChange                /**< @brief State string "On Change" */
+    aaiPOST_Always                  /* Always */,
+    aaiPOST_OnChange                /* On Change */
 } aaiPOST;
-/** @brief Number of states defined for menu aaiPOST */
 #define aaiPOST_NUM_CHOICES 2
 #endif
 
-/** @brief Declaration of aai record type. */
 typedef struct aaiRecord {
-    char                name[61];   /**< @brief Record Name */
-    char                desc[41];   /**< @brief Descriptor */
-    char                asg[29];    /**< @brief Access Security Group */
-    epicsEnum16         scan;       /**< @brief Scan Mechanism */
-    epicsEnum16         pini;       /**< @brief Process at iocInit */
-    epicsInt16          phas;       /**< @brief Scan Phase */
-    char                evnt[40];   /**< @brief Event Name */
-    epicsInt16          tse;        /**< @brief Time Stamp Event */
-    DBLINK              tsel;       /**< @brief Time Stamp Link */
-    epicsEnum16         dtyp;       /**< @brief Device Type */
-    epicsInt16          disv;       /**< @brief Disable Value */
-    epicsInt16          disa;       /**< @brief Disable */
-    DBLINK              sdis;       /**< @brief Scanning Disable */
-    epicsMutexId        mlok;       /**< @brief Monitor lock */
-    ELLLIST             mlis;       /**< @brief Monitor List */
-    ELLLIST             bklnk;      /**< @brief Backwards link tracking */
-    epicsUInt8          disp;       /**< @brief Disable putField */
-    epicsUInt8          proc;       /**< @brief Force Processing */
-    epicsEnum16         stat;       /**< @brief Alarm Status */
-    epicsEnum16         sevr;       /**< @brief Alarm Severity */
-    epicsEnum16         nsta;       /**< @brief New Alarm Status */
-    epicsEnum16         nsev;       /**< @brief New Alarm Severity */
-    epicsEnum16         acks;       /**< @brief Alarm Ack Severity */
-    epicsEnum16         ackt;       /**< @brief Alarm Ack Transient */
-    epicsEnum16         diss;       /**< @brief Disable Alarm Sevrty */
-    epicsUInt8          lcnt;       /**< @brief Lock Count */
-    epicsUInt8          pact;       /**< @brief Record active */
-    epicsUInt8          putf;       /**< @brief dbPutField process */
-    epicsUInt8          rpro;       /**< @brief Reprocess  */
-    struct asgMember    *asp;       /**< @brief Access Security Pvt */
-    struct processNotify *ppn;      /**< @brief pprocessNotify */
-    struct processNotifyRecord *ppnr; /**< @brief pprocessNotifyRecord */
-    struct scan_element *spvt;      /**< @brief Scan Private */
-    struct typed_rset   *rset;      /**< @brief Address of RSET */
-    struct dset         *dset;      /**< @brief DSET address */
-    void                *dpvt;      /**< @brief Device Private */
-    struct dbRecordType *rdes;      /**< @brief Address of dbRecordType */
-    struct lockRecord   *lset;      /**< @brief Lock Set */
-    epicsEnum16         prio;       /**< @brief Scheduling Priority */
-    epicsUInt8          tpro;       /**< @brief Trace Processing */
-    char                bkpt;       /**< @brief Break Point */
-    epicsUInt8          udf;        /**< @brief Undefined */
-    epicsEnum16         udfs;       /**< @brief Undefined Alarm Sevrty */
-    epicsTimeStamp      time;       /**< @brief Time */
-    DBLINK              flnk;       /**< @brief Forward Process Link */
-    void *		val;                    /**< @brief Value */
-    epicsInt16          prec;       /**< @brief Display Precision */
-    DBLINK              inp;        /**< @brief Input Specification */
-    char                egu[16];    /**< @brief Engineering Units */
-    epicsFloat64        hopr;       /**< @brief High Operating Range */
-    epicsFloat64        lopr;       /**< @brief Low Operating Range */
-    epicsUInt32         nelm;       /**< @brief Number of Elements */
-    epicsEnum16         ftvl;       /**< @brief Field Type of Value */
-    epicsUInt32         nord;       /**< @brief Number elements read */
-    void *		bptr;                   /**< @brief Buffer Pointer */
-    DBLINK              siml;       /**< @brief Simulation Mode Link */
-    epicsEnum16         simm;       /**< @brief Simulation Mode */
-    epicsEnum16         sims;       /**< @brief Simulation Mode Severity */
-    DBLINK              siol;       /**< @brief Simulation Input Link */
-    epicsEnum16         oldsimm;    /**< @brief Prev. Simulation Mode */
-    epicsEnum16         sscn;       /**< @brief Sim. Mode Scan */
-    epicsFloat64        sdly;       /**< @brief Sim. Mode Async Delay */
-    epicsCallback            *simpvt; /**< @brief Sim. Mode Private */
-    epicsEnum16         mpst;       /**< @brief Post Value Monitors */
-    epicsEnum16         apst;       /**< @brief Post Archive Monitors */
-    epicsUInt32         hash;       /**< @brief Hash of OnChange data. */
+    char                name[61];   /* Record Name */
+    char                desc[41];   /* Descriptor */
+    char                asg[29];    /* Access Security Group */
+    epicsEnum16         scan;       /* Scan Mechanism */
+    epicsEnum16         pini;       /* Process at iocInit */
+    epicsInt16          phas;       /* Scan Phase */
+    char                evnt[40];   /* Event Name */
+    epicsInt16          tse;        /* Time Stamp Event */
+    DBLINK              tsel;       /* Time Stamp Link */
+    epicsEnum16         dtyp;       /* Device Type */
+    epicsInt16          disv;       /* Disable Value */
+    epicsInt16          disa;       /* Disable */
+    DBLINK              sdis;       /* Scanning Disable */
+    epicsMutexId        mlok;       /* Monitor lock */
+    ELLLIST             mlis;       /* Monitor List */
+    epicsUInt8          disp;       /* Disable putField */
+    epicsUInt8          proc;       /* Force Processing */
+    epicsEnum16         stat;       /* Alarm Status */
+    epicsEnum16         sevr;       /* Alarm Severity */
+    epicsEnum16         nsta;       /* New Alarm Status */
+    epicsEnum16         nsev;       /* New Alarm Severity */
+    epicsEnum16         acks;       /* Alarm Ack Severity */
+    epicsEnum16         ackt;       /* Alarm Ack Transient */
+    epicsEnum16         diss;       /* Disable Alarm Sevrty */
+    epicsUInt8          lcnt;       /* Lock Count */
+    epicsUInt8          pact;       /* Record active */
+    epicsUInt8          putf;       /* dbPutField process */
+    epicsUInt8          rpro;       /* Reprocess  */
+    struct asgMember    *asp;       /* Access Security Pvt */
+    struct processNotify *ppn;      /* pprocessNotify */
+    struct processNotifyRecord *ppnr; /* pprocessNotifyRecord */
+    struct scan_element *spvt;      /* Scan Private */
+    struct rset         *rset;      /* Address of RSET */
+    struct dset         *dset;      /* DSET address */
+    void                *dpvt;      /* Device Private */
+    struct dbRecordType *rdes;      /* Address of dbRecordType */
+    struct lockRecord   *lset;      /* Lock Set */
+    epicsEnum16         prio;       /* Scheduling Priority */
+    epicsUInt8          tpro;       /* Trace Processing */
+    char                bkpt;       /* Break Point */
+    epicsUInt8          udf;        /* Undefined */
+    epicsEnum16         udfs;       /* Undefined Alarm Sevrty */
+    epicsTimeStamp      time;       /* Time */
+    DBLINK              flnk;       /* Forward Process Link */
+    void *		val;                    /* Value */
+    epicsInt16          prec;       /* Display Precision */
+    DBLINK              inp;        /* Input Specification */
+    char                egu[16];    /* Engineering Units */
+    epicsFloat64        hopr;       /* High Operating Range */
+    epicsFloat64        lopr;       /* Low Operating Range */
+    epicsUInt32         nelm;       /* Number of Elements */
+    epicsEnum16         ftvl;       /* Field Type of Value */
+    epicsUInt32         nord;       /* Number elements read */
+    void *		bptr;                   /* Buffer Pointer */
+    DBLINK              siml;       /* Simulation Mode Link */
+    epicsEnum16         simm;       /* Simulation Mode */
+    epicsEnum16         sims;       /* Simulation Mode Severity */
+    DBLINK              siol;       /* Simulation Input Link */
+    epicsEnum16         oldsimm;    /* Prev. Simulation Mode */
+    epicsEnum16         sscn;       /* Sim. Mode Scan */
+    epicsFloat64        sdly;       /* Sim. Mode Async Delay */
+    epicsCallback            *simpvt; /* Sim. Mode Private */
+    epicsEnum16         mpst;       /* Post Value Monitors */
+    epicsEnum16         apst;       /* Post Archive Monitors */
+    epicsUInt32         hash;       /* Hash of OnChange data. */
 } aaiRecord;
 
 typedef enum {
@@ -120,57 +116,56 @@ typedef enum {
 	aaiRecordSDIS = 12,
 	aaiRecordMLOK = 13,
 	aaiRecordMLIS = 14,
-	aaiRecordBKLNK = 15,
-	aaiRecordDISP = 16,
-	aaiRecordPROC = 17,
-	aaiRecordSTAT = 18,
-	aaiRecordSEVR = 19,
-	aaiRecordNSTA = 20,
-	aaiRecordNSEV = 21,
-	aaiRecordACKS = 22,
-	aaiRecordACKT = 23,
-	aaiRecordDISS = 24,
-	aaiRecordLCNT = 25,
-	aaiRecordPACT = 26,
-	aaiRecordPUTF = 27,
-	aaiRecordRPRO = 28,
-	aaiRecordASP = 29,
-	aaiRecordPPN = 30,
-	aaiRecordPPNR = 31,
-	aaiRecordSPVT = 32,
-	aaiRecordRSET = 33,
-	aaiRecordDSET = 34,
-	aaiRecordDPVT = 35,
-	aaiRecordRDES = 36,
-	aaiRecordLSET = 37,
-	aaiRecordPRIO = 38,
-	aaiRecordTPRO = 39,
-	aaiRecordBKPT = 40,
-	aaiRecordUDF = 41,
-	aaiRecordUDFS = 42,
-	aaiRecordTIME = 43,
-	aaiRecordFLNK = 44,
-	aaiRecordVAL = 45,
-	aaiRecordPREC = 46,
-	aaiRecordINP = 47,
-	aaiRecordEGU = 48,
-	aaiRecordHOPR = 49,
-	aaiRecordLOPR = 50,
-	aaiRecordNELM = 51,
-	aaiRecordFTVL = 52,
-	aaiRecordNORD = 53,
-	aaiRecordBPTR = 54,
-	aaiRecordSIML = 55,
-	aaiRecordSIMM = 56,
-	aaiRecordSIMS = 57,
-	aaiRecordSIOL = 58,
-	aaiRecordOLDSIMM = 59,
-	aaiRecordSSCN = 60,
-	aaiRecordSDLY = 61,
-	aaiRecordSIMPVT = 62,
-	aaiRecordMPST = 63,
-	aaiRecordAPST = 64,
-	aaiRecordHASH = 65
+	aaiRecordDISP = 15,
+	aaiRecordPROC = 16,
+	aaiRecordSTAT = 17,
+	aaiRecordSEVR = 18,
+	aaiRecordNSTA = 19,
+	aaiRecordNSEV = 20,
+	aaiRecordACKS = 21,
+	aaiRecordACKT = 22,
+	aaiRecordDISS = 23,
+	aaiRecordLCNT = 24,
+	aaiRecordPACT = 25,
+	aaiRecordPUTF = 26,
+	aaiRecordRPRO = 27,
+	aaiRecordASP = 28,
+	aaiRecordPPN = 29,
+	aaiRecordPPNR = 30,
+	aaiRecordSPVT = 31,
+	aaiRecordRSET = 32,
+	aaiRecordDSET = 33,
+	aaiRecordDPVT = 34,
+	aaiRecordRDES = 35,
+	aaiRecordLSET = 36,
+	aaiRecordPRIO = 37,
+	aaiRecordTPRO = 38,
+	aaiRecordBKPT = 39,
+	aaiRecordUDF = 40,
+	aaiRecordUDFS = 41,
+	aaiRecordTIME = 42,
+	aaiRecordFLNK = 43,
+	aaiRecordVAL = 44,
+	aaiRecordPREC = 45,
+	aaiRecordINP = 46,
+	aaiRecordEGU = 47,
+	aaiRecordHOPR = 48,
+	aaiRecordLOPR = 49,
+	aaiRecordNELM = 50,
+	aaiRecordFTVL = 51,
+	aaiRecordNORD = 52,
+	aaiRecordBPTR = 53,
+	aaiRecordSIML = 54,
+	aaiRecordSIMM = 55,
+	aaiRecordSIMS = 56,
+	aaiRecordSIOL = 57,
+	aaiRecordOLDSIMM = 58,
+	aaiRecordSSCN = 59,
+	aaiRecordSDLY = 60,
+	aaiRecordSIMPVT = 61,
+	aaiRecordMPST = 62,
+	aaiRecordAPST = 63,
+	aaiRecordHASH = 64
 } aaiFieldIndex;
 
 #ifdef GEN_SIZE_OFFSET
@@ -184,10 +179,10 @@ static int aaiRecordSizeOffset(dbRecordType *prt)
 {
     aaiRecord *prec = 0;
 
-    if (prt->no_fields != 66) {
+    if (prt->no_fields != 65) {
         cantProceed("IOC build or installation error:\n"
             "    The aaiRecord defined in the DBD file has %d fields,\n"
-            "    but the record support code was built with 66.\n",
+            "    but the record support code was built with 65.\n",
             prt->no_fields);
     }
     prt->papFldDes[aaiRecordNAME]->size = sizeof(prec->name);
@@ -220,8 +215,6 @@ static int aaiRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[aaiRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[aaiRecordMLIS]->size = sizeof(prec->mlis);
     prt->papFldDes[aaiRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
-    prt->papFldDes[aaiRecordBKLNK]->size = sizeof(prec->bklnk);
-    prt->papFldDes[aaiRecordBKLNK]->offset = (unsigned short)((char *)&prec->bklnk - (char *)prec);
     prt->papFldDes[aaiRecordDISP]->size = sizeof(prec->disp);
     prt->papFldDes[aaiRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[aaiRecordPROC]->size = sizeof(prec->proc);
