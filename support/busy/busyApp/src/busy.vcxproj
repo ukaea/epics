@@ -48,11 +48,11 @@
     <None Include="busySupport_withASYN.dbd" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\base-7.0.6.1\modules\database\src\ioc\dbCore.vcxproj">
-      <Project>{208d8cb9-879f-4c62-bc36-18a88906d5c6}</Project>
+    <ProjectReference Include="..\..\..\..\base-3.15.9\src\ioc\dbCore.vcxproj">
+      <Project>{440c585d-ad66-4738-941c-a87a1817a9be}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\base-7.0.6.1\modules\libcom\src\Com.vcxproj">
-      <Project>{f6d724c9-851c-4efe-881d-4c64c4f2cc29}</Project>
+    <ProjectReference Include="..\..\..\..\base-3.15.9\src\libCom\Com.vcxproj">
+      <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\asyn\asyn\asyn.vcxproj">
       <Project>{c3ea0ff7-6039-4884-ba91-7b4619befea5}</Project>

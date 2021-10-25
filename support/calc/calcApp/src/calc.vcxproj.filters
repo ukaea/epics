@@ -60,15 +60,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="calcSupport_LOCAL.dbd" />
-    <CustomBuild Include="calcSupport_withSSCAN.dbd" />
-    <CustomBuild Include="transformRecord.dbd" />
-    <CustomBuild Include="sseqRecord.dbd" />
-    <CustomBuild Include="swaitRecord.dbd" />
-    <CustomBuild Include="sCalcoutRecord.dbd" />
-    <CustomBuild Include="aCalcoutRecord.dbd" />
-  </ItemGroup>
-  <ItemGroup>
     <Filter Include="O.Common">
       <UniqueIdentifier>{d0532b52-8290-45a4-95c5-16fb5ed4965b}</UniqueIdentifier>
     </Filter>

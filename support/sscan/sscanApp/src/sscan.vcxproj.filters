@@ -29,9 +29,4 @@
     <ClInclude Include="xdr_lib.h" />
     <ClInclude Include="xdr_stdio.h" />
   </ItemGroup>
-  <ItemGroup>
-    <CustomBuild Include="menuSscan.dbd" />
-    <CustomBuild Include="sscanRecord.dbd" />
-    <CustomBuild Include="scanparmRecord.dbd" />
-  </ItemGroup>
 </Project>

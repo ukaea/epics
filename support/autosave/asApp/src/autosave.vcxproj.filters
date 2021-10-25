@@ -41,7 +41,4 @@
       <UniqueIdentifier>{3345cc9d-1585-4668-a17c-4341050beb7f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
-  <ItemGroup>
-    <CustomBuild Include="asInclude.dbd" />
-  </ItemGroup>
 </Project>
