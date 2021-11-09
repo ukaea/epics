@@ -3,8 +3,8 @@
 #ifndef INC_sseqRecord_H
 #define INC_sseqRecord_H
 
-#include "epicsTypes.h"
-#include "link.h"
+ #include "epicsTypes.h"
+ #include "link.h"
 #include "epicsMutex.h"
 #include "ellLib.h"
 #include "epicsTime.h"
@@ -16,16 +16,6 @@ typedef enum {
     sseqSELM_Mask                   /* Mask */
 } sseqSELM;
 #define sseqSELM_NUM_CHOICES 3
-#endif
-
-#ifndef sseqLNKV_NUM_CHOICES
-typedef enum {
-    sseqLNKV_EXT_NC                 /* Ext PV NC */,
-    sseqLNKV_EXT                    /* Ext PV OK */,
-    sseqLNKV_LOC                    /* Local PV */,
-    sseqLNKV_CON                    /* Constant */
-} sseqLNKV;
-#define sseqLNKV_NUM_CHOICES 4
 #endif
 
 #ifndef sseqWAIT_NUM_CHOICES
@@ -46,6 +36,16 @@ typedef enum {
 #define sseqWAIT_NUM_CHOICES 12
 #endif
 
+#ifndef sseqLNKV_NUM_CHOICES
+typedef enum {
+    sseqLNKV_EXT_NC                 /* Ext PV NC */,
+    sseqLNKV_EXT                    /* Ext PV OK */,
+    sseqLNKV_LOC                    /* Local PV */,
+    sseqLNKV_CON                    /* Constant */
+} sseqLNKV;
+#define sseqLNKV_NUM_CHOICES 4
+#endif
+
 typedef struct sseqRecord {
     char                name[61];   /* Record Name */
     char                desc[41];   /* Descriptor */
@@ -62,7 +62,6 @@ typedef struct sseqRecord {
     DBLINK              sdis;       /* Scanning Disable */
     epicsMutexId        mlok;       /* Monitor lock */
     ELLLIST             mlis;       /* Monitor List */
-    ELLLIST             bklnk;      /* Backwards link tracking */
     epicsUInt8          disp;       /* Disable putField */
     epicsUInt8          proc;       /* Force Processing */
     epicsEnum16         stat;       /* Alarm Status */
@@ -80,7 +79,7 @@ typedef struct sseqRecord {
     struct processNotify *ppn;      /* pprocessNotify */
     struct processNotifyRecord *ppnr; /* pprocessNotifyRecord */
     struct scan_element *spvt;      /* Scan Private */
-    struct typed_rset   *rset;      /* Address of RSET */
+    struct rset         *rset;      /* Address of RSET */
     struct dset         *dset;      /* DSET address */
     void                *dpvt;      /* Device Private */
     struct dbRecordType *rdes;      /* Address of dbRecordType */
@@ -248,174 +247,173 @@ typedef enum {
 	sseqRecordSDIS = 12,
 	sseqRecordMLOK = 13,
 	sseqRecordMLIS = 14,
-	sseqRecordBKLNK = 15,
-	sseqRecordDISP = 16,
-	sseqRecordPROC = 17,
-	sseqRecordSTAT = 18,
-	sseqRecordSEVR = 19,
-	sseqRecordNSTA = 20,
-	sseqRecordNSEV = 21,
-	sseqRecordACKS = 22,
-	sseqRecordACKT = 23,
-	sseqRecordDISS = 24,
-	sseqRecordLCNT = 25,
-	sseqRecordPACT = 26,
-	sseqRecordPUTF = 27,
-	sseqRecordRPRO = 28,
-	sseqRecordASP = 29,
-	sseqRecordPPN = 30,
-	sseqRecordPPNR = 31,
-	sseqRecordSPVT = 32,
-	sseqRecordRSET = 33,
-	sseqRecordDSET = 34,
-	sseqRecordDPVT = 35,
-	sseqRecordRDES = 36,
-	sseqRecordLSET = 37,
-	sseqRecordPRIO = 38,
-	sseqRecordTPRO = 39,
-	sseqRecordBKPT = 40,
-	sseqRecordUDF = 41,
-	sseqRecordUDFS = 42,
-	sseqRecordTIME = 43,
-	sseqRecordFLNK = 44,
-	sseqRecordVAL = 45,
-	sseqRecordSELM = 46,
-	sseqRecordSELN = 47,
-	sseqRecordSELL = 48,
-	sseqRecordPREC = 49,
-	sseqRecordDLY1 = 50,
-	sseqRecordDOL1 = 51,
-	sseqRecordDO1 = 52,
-	sseqRecordLNK1 = 53,
-	sseqRecordSTR1 = 54,
-	sseqRecordDT1 = 55,
-	sseqRecordLT1 = 56,
-	sseqRecordWAIT1 = 57,
-	sseqRecordWERR1 = 58,
-	sseqRecordWTG1 = 59,
-	sseqRecordIX1 = 60,
-	sseqRecordDOL1V = 61,
-	sseqRecordLNK1V = 62,
-	sseqRecordDLY2 = 63,
-	sseqRecordDOL2 = 64,
-	sseqRecordDO2 = 65,
-	sseqRecordLNK2 = 66,
-	sseqRecordSTR2 = 67,
-	sseqRecordDT2 = 68,
-	sseqRecordLT2 = 69,
-	sseqRecordWAIT2 = 70,
-	sseqRecordWERR2 = 71,
-	sseqRecordWTG2 = 72,
-	sseqRecordIX2 = 73,
-	sseqRecordDOL2V = 74,
-	sseqRecordLNK2V = 75,
-	sseqRecordDLY3 = 76,
-	sseqRecordDOL3 = 77,
-	sseqRecordDO3 = 78,
-	sseqRecordLNK3 = 79,
-	sseqRecordSTR3 = 80,
-	sseqRecordDT3 = 81,
-	sseqRecordLT3 = 82,
-	sseqRecordWAIT3 = 83,
-	sseqRecordWERR3 = 84,
-	sseqRecordWTG3 = 85,
-	sseqRecordIX3 = 86,
-	sseqRecordDOL3V = 87,
-	sseqRecordLNK3V = 88,
-	sseqRecordDLY4 = 89,
-	sseqRecordDOL4 = 90,
-	sseqRecordDO4 = 91,
-	sseqRecordLNK4 = 92,
-	sseqRecordSTR4 = 93,
-	sseqRecordDT4 = 94,
-	sseqRecordLT4 = 95,
-	sseqRecordWAIT4 = 96,
-	sseqRecordWERR4 = 97,
-	sseqRecordWTG4 = 98,
-	sseqRecordIX4 = 99,
-	sseqRecordDOL4V = 100,
-	sseqRecordLNK4V = 101,
-	sseqRecordDLY5 = 102,
-	sseqRecordDOL5 = 103,
-	sseqRecordDO5 = 104,
-	sseqRecordLNK5 = 105,
-	sseqRecordSTR5 = 106,
-	sseqRecordDT5 = 107,
-	sseqRecordLT5 = 108,
-	sseqRecordWAIT5 = 109,
-	sseqRecordWERR5 = 110,
-	sseqRecordWTG5 = 111,
-	sseqRecordIX5 = 112,
-	sseqRecordDOL5V = 113,
-	sseqRecordLNK5V = 114,
-	sseqRecordDLY6 = 115,
-	sseqRecordDOL6 = 116,
-	sseqRecordDO6 = 117,
-	sseqRecordLNK6 = 118,
-	sseqRecordSTR6 = 119,
-	sseqRecordDT6 = 120,
-	sseqRecordLT6 = 121,
-	sseqRecordWAIT6 = 122,
-	sseqRecordWERR6 = 123,
-	sseqRecordWTG6 = 124,
-	sseqRecordIX6 = 125,
-	sseqRecordDOL6V = 126,
-	sseqRecordLNK6V = 127,
-	sseqRecordDLY7 = 128,
-	sseqRecordDOL7 = 129,
-	sseqRecordDO7 = 130,
-	sseqRecordLNK7 = 131,
-	sseqRecordSTR7 = 132,
-	sseqRecordDT7 = 133,
-	sseqRecordLT7 = 134,
-	sseqRecordWAIT7 = 135,
-	sseqRecordWERR7 = 136,
-	sseqRecordWTG7 = 137,
-	sseqRecordIX7 = 138,
-	sseqRecordDOL7V = 139,
-	sseqRecordLNK7V = 140,
-	sseqRecordDLY8 = 141,
-	sseqRecordDOL8 = 142,
-	sseqRecordDO8 = 143,
-	sseqRecordLNK8 = 144,
-	sseqRecordSTR8 = 145,
-	sseqRecordDT8 = 146,
-	sseqRecordLT8 = 147,
-	sseqRecordWAIT8 = 148,
-	sseqRecordWERR8 = 149,
-	sseqRecordWTG8 = 150,
-	sseqRecordIX8 = 151,
-	sseqRecordDOL8V = 152,
-	sseqRecordLNK8V = 153,
-	sseqRecordDLY9 = 154,
-	sseqRecordDOL9 = 155,
-	sseqRecordDO9 = 156,
-	sseqRecordLNK9 = 157,
-	sseqRecordSTR9 = 158,
-	sseqRecordDT9 = 159,
-	sseqRecordLT9 = 160,
-	sseqRecordWAIT9 = 161,
-	sseqRecordWERR9 = 162,
-	sseqRecordWTG9 = 163,
-	sseqRecordIX9 = 164,
-	sseqRecordDOL9V = 165,
-	sseqRecordLNK9V = 166,
-	sseqRecordDLYA = 167,
-	sseqRecordDOLA = 168,
-	sseqRecordDOA = 169,
-	sseqRecordLNKA = 170,
-	sseqRecordSTRA = 171,
-	sseqRecordDTA = 172,
-	sseqRecordLTA = 173,
-	sseqRecordWAITA = 174,
-	sseqRecordWERRA = 175,
-	sseqRecordWTGA = 176,
-	sseqRecordIXA = 177,
-	sseqRecordDOLAV = 178,
-	sseqRecordLNKAV = 179,
-	sseqRecordABORT = 180,
-	sseqRecordABORTING = 181,
-	sseqRecordBUSY = 182
+	sseqRecordDISP = 15,
+	sseqRecordPROC = 16,
+	sseqRecordSTAT = 17,
+	sseqRecordSEVR = 18,
+	sseqRecordNSTA = 19,
+	sseqRecordNSEV = 20,
+	sseqRecordACKS = 21,
+	sseqRecordACKT = 22,
+	sseqRecordDISS = 23,
+	sseqRecordLCNT = 24,
+	sseqRecordPACT = 25,
+	sseqRecordPUTF = 26,
+	sseqRecordRPRO = 27,
+	sseqRecordASP = 28,
+	sseqRecordPPN = 29,
+	sseqRecordPPNR = 30,
+	sseqRecordSPVT = 31,
+	sseqRecordRSET = 32,
+	sseqRecordDSET = 33,
+	sseqRecordDPVT = 34,
+	sseqRecordRDES = 35,
+	sseqRecordLSET = 36,
+	sseqRecordPRIO = 37,
+	sseqRecordTPRO = 38,
+	sseqRecordBKPT = 39,
+	sseqRecordUDF = 40,
+	sseqRecordUDFS = 41,
+	sseqRecordTIME = 42,
+	sseqRecordFLNK = 43,
+	sseqRecordVAL = 44,
+	sseqRecordSELM = 45,
+	sseqRecordSELN = 46,
+	sseqRecordSELL = 47,
+	sseqRecordPREC = 48,
+	sseqRecordDLY1 = 49,
+	sseqRecordDOL1 = 50,
+	sseqRecordDO1 = 51,
+	sseqRecordLNK1 = 52,
+	sseqRecordSTR1 = 53,
+	sseqRecordDT1 = 54,
+	sseqRecordLT1 = 55,
+	sseqRecordWAIT1 = 56,
+	sseqRecordWERR1 = 57,
+	sseqRecordWTG1 = 58,
+	sseqRecordIX1 = 59,
+	sseqRecordDOL1V = 60,
+	sseqRecordLNK1V = 61,
+	sseqRecordDLY2 = 62,
+	sseqRecordDOL2 = 63,
+	sseqRecordDO2 = 64,
+	sseqRecordLNK2 = 65,
+	sseqRecordSTR2 = 66,
+	sseqRecordDT2 = 67,
+	sseqRecordLT2 = 68,
+	sseqRecordWAIT2 = 69,
+	sseqRecordWERR2 = 70,
+	sseqRecordWTG2 = 71,
+	sseqRecordIX2 = 72,
+	sseqRecordDOL2V = 73,
+	sseqRecordLNK2V = 74,
+	sseqRecordDLY3 = 75,
+	sseqRecordDOL3 = 76,
+	sseqRecordDO3 = 77,
+	sseqRecordLNK3 = 78,
+	sseqRecordSTR3 = 79,
+	sseqRecordDT3 = 80,
+	sseqRecordLT3 = 81,
+	sseqRecordWAIT3 = 82,
+	sseqRecordWERR3 = 83,
+	sseqRecordWTG3 = 84,
+	sseqRecordIX3 = 85,
+	sseqRecordDOL3V = 86,
+	sseqRecordLNK3V = 87,
+	sseqRecordDLY4 = 88,
+	sseqRecordDOL4 = 89,
+	sseqRecordDO4 = 90,
+	sseqRecordLNK4 = 91,
+	sseqRecordSTR4 = 92,
+	sseqRecordDT4 = 93,
+	sseqRecordLT4 = 94,
+	sseqRecordWAIT4 = 95,
+	sseqRecordWERR4 = 96,
+	sseqRecordWTG4 = 97,
+	sseqRecordIX4 = 98,
+	sseqRecordDOL4V = 99,
+	sseqRecordLNK4V = 100,
+	sseqRecordDLY5 = 101,
+	sseqRecordDOL5 = 102,
+	sseqRecordDO5 = 103,
+	sseqRecordLNK5 = 104,
+	sseqRecordSTR5 = 105,
+	sseqRecordDT5 = 106,
+	sseqRecordLT5 = 107,
+	sseqRecordWAIT5 = 108,
+	sseqRecordWERR5 = 109,
+	sseqRecordWTG5 = 110,
+	sseqRecordIX5 = 111,
+	sseqRecordDOL5V = 112,
+	sseqRecordLNK5V = 113,
+	sseqRecordDLY6 = 114,
+	sseqRecordDOL6 = 115,
+	sseqRecordDO6 = 116,
+	sseqRecordLNK6 = 117,
+	sseqRecordSTR6 = 118,
+	sseqRecordDT6 = 119,
+	sseqRecordLT6 = 120,
+	sseqRecordWAIT6 = 121,
+	sseqRecordWERR6 = 122,
+	sseqRecordWTG6 = 123,
+	sseqRecordIX6 = 124,
+	sseqRecordDOL6V = 125,
+	sseqRecordLNK6V = 126,
+	sseqRecordDLY7 = 127,
+	sseqRecordDOL7 = 128,
+	sseqRecordDO7 = 129,
+	sseqRecordLNK7 = 130,
+	sseqRecordSTR7 = 131,
+	sseqRecordDT7 = 132,
+	sseqRecordLT7 = 133,
+	sseqRecordWAIT7 = 134,
+	sseqRecordWERR7 = 135,
+	sseqRecordWTG7 = 136,
+	sseqRecordIX7 = 137,
+	sseqRecordDOL7V = 138,
+	sseqRecordLNK7V = 139,
+	sseqRecordDLY8 = 140,
+	sseqRecordDOL8 = 141,
+	sseqRecordDO8 = 142,
+	sseqRecordLNK8 = 143,
+	sseqRecordSTR8 = 144,
+	sseqRecordDT8 = 145,
+	sseqRecordLT8 = 146,
+	sseqRecordWAIT8 = 147,
+	sseqRecordWERR8 = 148,
+	sseqRecordWTG8 = 149,
+	sseqRecordIX8 = 150,
+	sseqRecordDOL8V = 151,
+	sseqRecordLNK8V = 152,
+	sseqRecordDLY9 = 153,
+	sseqRecordDOL9 = 154,
+	sseqRecordDO9 = 155,
+	sseqRecordLNK9 = 156,
+	sseqRecordSTR9 = 157,
+	sseqRecordDT9 = 158,
+	sseqRecordLT9 = 159,
+	sseqRecordWAIT9 = 160,
+	sseqRecordWERR9 = 161,
+	sseqRecordWTG9 = 162,
+	sseqRecordIX9 = 163,
+	sseqRecordDOL9V = 164,
+	sseqRecordLNK9V = 165,
+	sseqRecordDLYA = 166,
+	sseqRecordDOLA = 167,
+	sseqRecordDOA = 168,
+	sseqRecordLNKA = 169,
+	sseqRecordSTRA = 170,
+	sseqRecordDTA = 171,
+	sseqRecordLTA = 172,
+	sseqRecordWAITA = 173,
+	sseqRecordWERRA = 174,
+	sseqRecordWTGA = 175,
+	sseqRecordIXA = 176,
+	sseqRecordDOLAV = 177,
+	sseqRecordLNKAV = 178,
+	sseqRecordABORT = 179,
+	sseqRecordABORTING = 180,
+	sseqRecordBUSY = 181
 } sseqFieldIndex;
 
 #ifdef GEN_SIZE_OFFSET
@@ -429,7 +427,7 @@ static int sseqRecordSizeOffset(dbRecordType *prt)
 {
     sseqRecord *prec = 0;
 
-    assert(prt->no_fields == 183);
+    assert(prt->no_fields == 182);
     prt->papFldDes[sseqRecordNAME]->size = sizeof(prec->name);
     prt->papFldDes[sseqRecordDESC]->size = sizeof(prec->desc);
     prt->papFldDes[sseqRecordASG]->size = sizeof(prec->asg);
@@ -445,7 +443,6 @@ static int sseqRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[sseqRecordSDIS]->size = sizeof(prec->sdis);
     prt->papFldDes[sseqRecordMLOK]->size = sizeof(prec->mlok);
     prt->papFldDes[sseqRecordMLIS]->size = sizeof(prec->mlis);
-    prt->papFldDes[sseqRecordBKLNK]->size = sizeof(prec->bklnk);
     prt->papFldDes[sseqRecordDISP]->size = sizeof(prec->disp);
     prt->papFldDes[sseqRecordPROC]->size = sizeof(prec->proc);
     prt->papFldDes[sseqRecordSTAT]->size = sizeof(prec->stat);
@@ -628,7 +625,6 @@ static int sseqRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[sseqRecordSDIS]->offset = (unsigned short)((char *)&prec->sdis - (char *)prec);
     prt->papFldDes[sseqRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[sseqRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
-    prt->papFldDes[sseqRecordBKLNK]->offset = (unsigned short)((char *)&prec->bklnk - (char *)prec);
     prt->papFldDes[sseqRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[sseqRecordPROC]->offset = (unsigned short)((char *)&prec->proc - (char *)prec);
     prt->papFldDes[sseqRecordSTAT]->offset = (unsigned short)((char *)&prec->stat - (char *)prec);

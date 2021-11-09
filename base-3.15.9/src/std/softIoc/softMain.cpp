@@ -72,8 +72,9 @@
 
 extern "C" int softIoc_registerRecordDeviceDriver(struct dbBase *pdbbase);
 
-#define DBD_FILE EPICS_BASE "/dbd/softIoc.dbd"
-#define EXIT_FILE EPICS_BASE "/db/softIocExit.db"
+/*IF MSDOS*/
+#define DBD_FILE EPICS_BASE "dbd\\softIoc.dbd"
+#define EXIT_FILE EPICS_BASE "db\\softIocExit.db"
 
 const char *arg0;
 const char *base_dbd = DBD_FILE;

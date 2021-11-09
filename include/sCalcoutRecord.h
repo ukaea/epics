@@ -3,21 +3,11 @@
 #ifndef INC_sCalcoutRecord_H
 #define INC_sCalcoutRecord_H
 
-#include "epicsTypes.h"
-#include "link.h"
+ #include "epicsTypes.h"
+ #include "link.h"
 #include "epicsMutex.h"
 #include "ellLib.h"
 #include "epicsTime.h"
-
-#ifndef scalcoutINAV_NUM_CHOICES
-typedef enum {
-    scalcoutINAV_EXT_NC             /* Ext PV NC */,
-    scalcoutINAV_EXT                /* Ext PV OK */,
-    scalcoutINAV_LOC                /* Local PV */,
-    scalcoutINAV_CON                /* Constant */
-} scalcoutINAV;
-#define scalcoutINAV_NUM_CHOICES 4
-#endif
 
 #ifndef scalcoutINAP_NUM_CHOICES
 typedef enum {
@@ -27,17 +17,14 @@ typedef enum {
 #define scalcoutINAP_NUM_CHOICES 2
 #endif
 
-#ifndef scalcoutOOPT_NUM_CHOICES
+#ifndef scalcoutINAV_NUM_CHOICES
 typedef enum {
-    scalcoutOOPT_Every_Time         /* Every Time */,
-    scalcoutOOPT_On_Change          /* On Change */,
-    scalcoutOOPT_When_Zero          /* When Zero */,
-    scalcoutOOPT_When_Non_zero      /* When Non-zero */,
-    scalcoutOOPT_Transition_To_Zero /* Transition To Zero */,
-    scalcoutOOPT_Transition_To_Non_zero /* Transition To Non-zero */,
-    scalcoutOOPT_Never              /* Never */
-} scalcoutOOPT;
-#define scalcoutOOPT_NUM_CHOICES 7
+    scalcoutINAV_EXT_NC             /* Ext PV NC */,
+    scalcoutINAV_EXT                /* Ext PV OK */,
+    scalcoutINAV_LOC                /* Local PV */,
+    scalcoutINAV_CON                /* Constant */
+} scalcoutINAV;
+#define scalcoutINAV_NUM_CHOICES 4
 #endif
 
 #ifndef scalcoutWAIT_NUM_CHOICES
@@ -56,6 +43,19 @@ typedef enum {
 #define scalcoutDOPT_NUM_CHOICES 2
 #endif
 
+#ifndef scalcoutOOPT_NUM_CHOICES
+typedef enum {
+    scalcoutOOPT_Every_Time         /* Every Time */,
+    scalcoutOOPT_On_Change          /* On Change */,
+    scalcoutOOPT_When_Zero          /* When Zero */,
+    scalcoutOOPT_When_Non_zero      /* When Non-zero */,
+    scalcoutOOPT_Transition_To_Zero /* Transition To Zero */,
+    scalcoutOOPT_Transition_To_Non_zero /* Transition To Non-zero */,
+    scalcoutOOPT_Never              /* Never */
+} scalcoutOOPT;
+#define scalcoutOOPT_NUM_CHOICES 7
+#endif
+
 typedef struct scalcoutRecord {
     char                name[61];   /* Record Name */
     char                desc[41];   /* Descriptor */
@@ -72,7 +72,6 @@ typedef struct scalcoutRecord {
     DBLINK              sdis;       /* Scanning Disable */
     epicsMutexId        mlok;       /* Monitor lock */
     ELLLIST             mlis;       /* Monitor List */
-    ELLLIST             bklnk;      /* Backwards link tracking */
     epicsUInt8          disp;       /* Disable putField */
     epicsUInt8          proc;       /* Force Processing */
     epicsEnum16         stat;       /* Alarm Status */
@@ -90,7 +89,7 @@ typedef struct scalcoutRecord {
     struct processNotify *ppn;      /* pprocessNotify */
     struct processNotifyRecord *ppnr; /* pprocessNotifyRecord */
     struct scan_element *spvt;      /* Scan Private */
-    struct typed_rset   *rset;      /* Address of RSET */
+    struct rset         *rset;      /* Address of RSET */
     struct dset         *dset;      /* DSET address */
     void                *dpvt;      /* Device Private */
     struct dbRecordType *rdes;      /* Address of dbRecordType */
@@ -261,177 +260,176 @@ typedef enum {
 	scalcoutRecordSDIS = 12,
 	scalcoutRecordMLOK = 13,
 	scalcoutRecordMLIS = 14,
-	scalcoutRecordBKLNK = 15,
-	scalcoutRecordDISP = 16,
-	scalcoutRecordPROC = 17,
-	scalcoutRecordSTAT = 18,
-	scalcoutRecordSEVR = 19,
-	scalcoutRecordNSTA = 20,
-	scalcoutRecordNSEV = 21,
-	scalcoutRecordACKS = 22,
-	scalcoutRecordACKT = 23,
-	scalcoutRecordDISS = 24,
-	scalcoutRecordLCNT = 25,
-	scalcoutRecordPACT = 26,
-	scalcoutRecordPUTF = 27,
-	scalcoutRecordRPRO = 28,
-	scalcoutRecordASP = 29,
-	scalcoutRecordPPN = 30,
-	scalcoutRecordPPNR = 31,
-	scalcoutRecordSPVT = 32,
-	scalcoutRecordRSET = 33,
-	scalcoutRecordDSET = 34,
-	scalcoutRecordDPVT = 35,
-	scalcoutRecordRDES = 36,
-	scalcoutRecordLSET = 37,
-	scalcoutRecordPRIO = 38,
-	scalcoutRecordTPRO = 39,
-	scalcoutRecordBKPT = 40,
-	scalcoutRecordUDF = 41,
-	scalcoutRecordUDFS = 42,
-	scalcoutRecordTIME = 43,
-	scalcoutRecordFLNK = 44,
-	scalcoutRecordVERS = 45,
-	scalcoutRecordRPVT = 46,
-	scalcoutRecordVAL = 47,
-	scalcoutRecordSVAL = 48,
-	scalcoutRecordPVAL = 49,
-	scalcoutRecordPSVL = 50,
-	scalcoutRecordCALC = 51,
-	scalcoutRecordCLCV = 52,
-	scalcoutRecordINPA = 53,
-	scalcoutRecordINPB = 54,
-	scalcoutRecordINPC = 55,
-	scalcoutRecordINPD = 56,
-	scalcoutRecordINPE = 57,
-	scalcoutRecordINPF = 58,
-	scalcoutRecordINPG = 59,
-	scalcoutRecordINPH = 60,
-	scalcoutRecordINPI = 61,
-	scalcoutRecordINPJ = 62,
-	scalcoutRecordINPK = 63,
-	scalcoutRecordINPL = 64,
-	scalcoutRecordINAA = 65,
-	scalcoutRecordINBB = 66,
-	scalcoutRecordINCC = 67,
-	scalcoutRecordINDD = 68,
-	scalcoutRecordINEE = 69,
-	scalcoutRecordINFF = 70,
-	scalcoutRecordINGG = 71,
-	scalcoutRecordINHH = 72,
-	scalcoutRecordINII = 73,
-	scalcoutRecordINJJ = 74,
-	scalcoutRecordINKK = 75,
-	scalcoutRecordINLL = 76,
-	scalcoutRecordOUT = 77,
-	scalcoutRecordINAV = 78,
-	scalcoutRecordINBV = 79,
-	scalcoutRecordINCV = 80,
-	scalcoutRecordINDV = 81,
-	scalcoutRecordINEV = 82,
-	scalcoutRecordINFV = 83,
-	scalcoutRecordINGV = 84,
-	scalcoutRecordINHV = 85,
-	scalcoutRecordINIV = 86,
-	scalcoutRecordINJV = 87,
-	scalcoutRecordINKV = 88,
-	scalcoutRecordINLV = 89,
-	scalcoutRecordIAAV = 90,
-	scalcoutRecordIBBV = 91,
-	scalcoutRecordICCV = 92,
-	scalcoutRecordIDDV = 93,
-	scalcoutRecordIEEV = 94,
-	scalcoutRecordIFFV = 95,
-	scalcoutRecordIGGV = 96,
-	scalcoutRecordIHHV = 97,
-	scalcoutRecordIIIV = 98,
-	scalcoutRecordIJJV = 99,
-	scalcoutRecordIKKV = 100,
-	scalcoutRecordILLV = 101,
-	scalcoutRecordOUTV = 102,
-	scalcoutRecordOOPT = 103,
-	scalcoutRecordODLY = 104,
-	scalcoutRecordWAIT = 105,
-	scalcoutRecordDLYA = 106,
-	scalcoutRecordDOPT = 107,
-	scalcoutRecordOCAL = 108,
-	scalcoutRecordOCLV = 109,
-	scalcoutRecordOEVT = 110,
-	scalcoutRecordIVOA = 111,
-	scalcoutRecordIVOV = 112,
-	scalcoutRecordEGU = 113,
-	scalcoutRecordPREC = 114,
-	scalcoutRecordHOPR = 115,
-	scalcoutRecordLOPR = 116,
-	scalcoutRecordHIHI = 117,
-	scalcoutRecordLOLO = 118,
-	scalcoutRecordHIGH = 119,
-	scalcoutRecordLOW = 120,
-	scalcoutRecordHHSV = 121,
-	scalcoutRecordLLSV = 122,
-	scalcoutRecordHSV = 123,
-	scalcoutRecordLSV = 124,
-	scalcoutRecordHYST = 125,
-	scalcoutRecordADEL = 126,
-	scalcoutRecordMDEL = 127,
-	scalcoutRecordA = 128,
-	scalcoutRecordB = 129,
-	scalcoutRecordC = 130,
-	scalcoutRecordD = 131,
-	scalcoutRecordE = 132,
-	scalcoutRecordF = 133,
-	scalcoutRecordG = 134,
-	scalcoutRecordH = 135,
-	scalcoutRecordI = 136,
-	scalcoutRecordJ = 137,
-	scalcoutRecordK = 138,
-	scalcoutRecordL = 139,
-	scalcoutRecordSTRS = 140,
-	scalcoutRecordAA = 141,
-	scalcoutRecordBB = 142,
-	scalcoutRecordCC = 143,
-	scalcoutRecordDD = 144,
-	scalcoutRecordEE = 145,
-	scalcoutRecordFF = 146,
-	scalcoutRecordGG = 147,
-	scalcoutRecordHH = 148,
-	scalcoutRecordII = 149,
-	scalcoutRecordJJ = 150,
-	scalcoutRecordKK = 151,
-	scalcoutRecordLL = 152,
-	scalcoutRecordPAA = 153,
-	scalcoutRecordPBB = 154,
-	scalcoutRecordPCC = 155,
-	scalcoutRecordPDD = 156,
-	scalcoutRecordPEE = 157,
-	scalcoutRecordPFF = 158,
-	scalcoutRecordPGG = 159,
-	scalcoutRecordPHH = 160,
-	scalcoutRecordPII = 161,
-	scalcoutRecordPJJ = 162,
-	scalcoutRecordPKK = 163,
-	scalcoutRecordPLL = 164,
-	scalcoutRecordOVAL = 165,
-	scalcoutRecordOSV = 166,
-	scalcoutRecordPOSV = 167,
-	scalcoutRecordPA = 168,
-	scalcoutRecordPB = 169,
-	scalcoutRecordPC = 170,
-	scalcoutRecordPD = 171,
-	scalcoutRecordPE = 172,
-	scalcoutRecordPF = 173,
-	scalcoutRecordPG = 174,
-	scalcoutRecordPH = 175,
-	scalcoutRecordPI = 176,
-	scalcoutRecordPJ = 177,
-	scalcoutRecordPK = 178,
-	scalcoutRecordPL = 179,
-	scalcoutRecordPOVL = 180,
-	scalcoutRecordLALM = 181,
-	scalcoutRecordALST = 182,
-	scalcoutRecordMLST = 183,
-	scalcoutRecordRPCL = 184,
-	scalcoutRecordORPC = 185
+	scalcoutRecordDISP = 15,
+	scalcoutRecordPROC = 16,
+	scalcoutRecordSTAT = 17,
+	scalcoutRecordSEVR = 18,
+	scalcoutRecordNSTA = 19,
+	scalcoutRecordNSEV = 20,
+	scalcoutRecordACKS = 21,
+	scalcoutRecordACKT = 22,
+	scalcoutRecordDISS = 23,
+	scalcoutRecordLCNT = 24,
+	scalcoutRecordPACT = 25,
+	scalcoutRecordPUTF = 26,
+	scalcoutRecordRPRO = 27,
+	scalcoutRecordASP = 28,
+	scalcoutRecordPPN = 29,
+	scalcoutRecordPPNR = 30,
+	scalcoutRecordSPVT = 31,
+	scalcoutRecordRSET = 32,
+	scalcoutRecordDSET = 33,
+	scalcoutRecordDPVT = 34,
+	scalcoutRecordRDES = 35,
+	scalcoutRecordLSET = 36,
+	scalcoutRecordPRIO = 37,
+	scalcoutRecordTPRO = 38,
+	scalcoutRecordBKPT = 39,
+	scalcoutRecordUDF = 40,
+	scalcoutRecordUDFS = 41,
+	scalcoutRecordTIME = 42,
+	scalcoutRecordFLNK = 43,
+	scalcoutRecordVERS = 44,
+	scalcoutRecordRPVT = 45,
+	scalcoutRecordVAL = 46,
+	scalcoutRecordSVAL = 47,
+	scalcoutRecordPVAL = 48,
+	scalcoutRecordPSVL = 49,
+	scalcoutRecordCALC = 50,
+	scalcoutRecordCLCV = 51,
+	scalcoutRecordINPA = 52,
+	scalcoutRecordINPB = 53,
+	scalcoutRecordINPC = 54,
+	scalcoutRecordINPD = 55,
+	scalcoutRecordINPE = 56,
+	scalcoutRecordINPF = 57,
+	scalcoutRecordINPG = 58,
+	scalcoutRecordINPH = 59,
+	scalcoutRecordINPI = 60,
+	scalcoutRecordINPJ = 61,
+	scalcoutRecordINPK = 62,
+	scalcoutRecordINPL = 63,
+	scalcoutRecordINAA = 64,
+	scalcoutRecordINBB = 65,
+	scalcoutRecordINCC = 66,
+	scalcoutRecordINDD = 67,
+	scalcoutRecordINEE = 68,
+	scalcoutRecordINFF = 69,
+	scalcoutRecordINGG = 70,
+	scalcoutRecordINHH = 71,
+	scalcoutRecordINII = 72,
+	scalcoutRecordINJJ = 73,
+	scalcoutRecordINKK = 74,
+	scalcoutRecordINLL = 75,
+	scalcoutRecordOUT = 76,
+	scalcoutRecordINAV = 77,
+	scalcoutRecordINBV = 78,
+	scalcoutRecordINCV = 79,
+	scalcoutRecordINDV = 80,
+	scalcoutRecordINEV = 81,
+	scalcoutRecordINFV = 82,
+	scalcoutRecordINGV = 83,
+	scalcoutRecordINHV = 84,
+	scalcoutRecordINIV = 85,
+	scalcoutRecordINJV = 86,
+	scalcoutRecordINKV = 87,
+	scalcoutRecordINLV = 88,
+	scalcoutRecordIAAV = 89,
+	scalcoutRecordIBBV = 90,
+	scalcoutRecordICCV = 91,
+	scalcoutRecordIDDV = 92,
+	scalcoutRecordIEEV = 93,
+	scalcoutRecordIFFV = 94,
+	scalcoutRecordIGGV = 95,
+	scalcoutRecordIHHV = 96,
+	scalcoutRecordIIIV = 97,
+	scalcoutRecordIJJV = 98,
+	scalcoutRecordIKKV = 99,
+	scalcoutRecordILLV = 100,
+	scalcoutRecordOUTV = 101,
+	scalcoutRecordOOPT = 102,
+	scalcoutRecordODLY = 103,
+	scalcoutRecordWAIT = 104,
+	scalcoutRecordDLYA = 105,
+	scalcoutRecordDOPT = 106,
+	scalcoutRecordOCAL = 107,
+	scalcoutRecordOCLV = 108,
+	scalcoutRecordOEVT = 109,
+	scalcoutRecordIVOA = 110,
+	scalcoutRecordIVOV = 111,
+	scalcoutRecordEGU = 112,
+	scalcoutRecordPREC = 113,
+	scalcoutRecordHOPR = 114,
+	scalcoutRecordLOPR = 115,
+	scalcoutRecordHIHI = 116,
+	scalcoutRecordLOLO = 117,
+	scalcoutRecordHIGH = 118,
+	scalcoutRecordLOW = 119,
+	scalcoutRecordHHSV = 120,
+	scalcoutRecordLLSV = 121,
+	scalcoutRecordHSV = 122,
+	scalcoutRecordLSV = 123,
+	scalcoutRecordHYST = 124,
+	scalcoutRecordADEL = 125,
+	scalcoutRecordMDEL = 126,
+	scalcoutRecordA = 127,
+	scalcoutRecordB = 128,
+	scalcoutRecordC = 129,
+	scalcoutRecordD = 130,
+	scalcoutRecordE = 131,
+	scalcoutRecordF = 132,
+	scalcoutRecordG = 133,
+	scalcoutRecordH = 134,
+	scalcoutRecordI = 135,
+	scalcoutRecordJ = 136,
+	scalcoutRecordK = 137,
+	scalcoutRecordL = 138,
+	scalcoutRecordSTRS = 139,
+	scalcoutRecordAA = 140,
+	scalcoutRecordBB = 141,
+	scalcoutRecordCC = 142,
+	scalcoutRecordDD = 143,
+	scalcoutRecordEE = 144,
+	scalcoutRecordFF = 145,
+	scalcoutRecordGG = 146,
+	scalcoutRecordHH = 147,
+	scalcoutRecordII = 148,
+	scalcoutRecordJJ = 149,
+	scalcoutRecordKK = 150,
+	scalcoutRecordLL = 151,
+	scalcoutRecordPAA = 152,
+	scalcoutRecordPBB = 153,
+	scalcoutRecordPCC = 154,
+	scalcoutRecordPDD = 155,
+	scalcoutRecordPEE = 156,
+	scalcoutRecordPFF = 157,
+	scalcoutRecordPGG = 158,
+	scalcoutRecordPHH = 159,
+	scalcoutRecordPII = 160,
+	scalcoutRecordPJJ = 161,
+	scalcoutRecordPKK = 162,
+	scalcoutRecordPLL = 163,
+	scalcoutRecordOVAL = 164,
+	scalcoutRecordOSV = 165,
+	scalcoutRecordPOSV = 166,
+	scalcoutRecordPA = 167,
+	scalcoutRecordPB = 168,
+	scalcoutRecordPC = 169,
+	scalcoutRecordPD = 170,
+	scalcoutRecordPE = 171,
+	scalcoutRecordPF = 172,
+	scalcoutRecordPG = 173,
+	scalcoutRecordPH = 174,
+	scalcoutRecordPI = 175,
+	scalcoutRecordPJ = 176,
+	scalcoutRecordPK = 177,
+	scalcoutRecordPL = 178,
+	scalcoutRecordPOVL = 179,
+	scalcoutRecordLALM = 180,
+	scalcoutRecordALST = 181,
+	scalcoutRecordMLST = 182,
+	scalcoutRecordRPCL = 183,
+	scalcoutRecordORPC = 184
 } scalcoutFieldIndex;
 
 #ifdef GEN_SIZE_OFFSET
@@ -445,7 +443,7 @@ static int scalcoutRecordSizeOffset(dbRecordType *prt)
 {
     scalcoutRecord *prec = 0;
 
-    assert(prt->no_fields == 186);
+    assert(prt->no_fields == 185);
     prt->papFldDes[scalcoutRecordNAME]->size = sizeof(prec->name);
     prt->papFldDes[scalcoutRecordDESC]->size = sizeof(prec->desc);
     prt->papFldDes[scalcoutRecordASG]->size = sizeof(prec->asg);
@@ -461,7 +459,6 @@ static int scalcoutRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[scalcoutRecordSDIS]->size = sizeof(prec->sdis);
     prt->papFldDes[scalcoutRecordMLOK]->size = sizeof(prec->mlok);
     prt->papFldDes[scalcoutRecordMLIS]->size = sizeof(prec->mlis);
-    prt->papFldDes[scalcoutRecordBKLNK]->size = sizeof(prec->bklnk);
     prt->papFldDes[scalcoutRecordDISP]->size = sizeof(prec->disp);
     prt->papFldDes[scalcoutRecordPROC]->size = sizeof(prec->proc);
     prt->papFldDes[scalcoutRecordSTAT]->size = sizeof(prec->stat);
@@ -647,7 +644,6 @@ static int scalcoutRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[scalcoutRecordSDIS]->offset = (unsigned short)((char *)&prec->sdis - (char *)prec);
     prt->papFldDes[scalcoutRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[scalcoutRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
-    prt->papFldDes[scalcoutRecordBKLNK]->offset = (unsigned short)((char *)&prec->bklnk - (char *)prec);
     prt->papFldDes[scalcoutRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[scalcoutRecordPROC]->offset = (unsigned short)((char *)&prec->proc - (char *)prec);
     prt->papFldDes[scalcoutRecordSTAT]->offset = (unsigned short)((char *)&prec->stat - (char *)prec);

@@ -1,9 +1,7 @@
-/** @file dlload.h
- * @brief Declarations generated from dlload.dbd
- */
+/* dlLoad.h generated from dlLoad.dbd */
 
-#ifndef INC_dlload_H
-#define INC_dlload_H
+#ifndef INC_dlLoad_H
+#define INC_dlLoad_H
 
 
-#endif /* INC_dlload_H */
+#endif /* INC_dlLoad_H */

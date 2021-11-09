@@ -62,6 +62,7 @@
     <None Include="base.dbd">
       <FileType>Document</FileType>
     </None>
+    <None Include="example\temperature.db" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{0DF29C1B-6C17-4D60-8B78-27FE8714DC11}</ProjectGuid>

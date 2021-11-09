@@ -70,7 +70,7 @@ static long init_record(lsiRecord *prec, int pass)
     }
 
     if (pdset->init_record) {
-        long status = pdset->init_record(prec);
+        long status = pdset->init_record();
 
         if (status)
             return status;
@@ -222,7 +222,7 @@ static long readValue(lsiRecord *prec)
     switch (prec->simm) {
     case menuYesNoNO:
 read:
-        status = pdset->read_string(prec);
+        status = pdset->read_string();
         break;
 
     case menuYesNoYES:

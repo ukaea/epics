@@ -1,8 +1,4 @@
-/** @file stateRecord.h
- * @brief Declarations for the @ref stateRecord "state" record type.
- *
- * This header was generated from stateRecord.dbd
- */
+/* stateRecord.h generated from stateRecord.dbd */
 
 #ifndef INC_stateRecord_H
 #define INC_stateRecord_H
@@ -113,8 +109,8 @@ typedef enum {
 
 #ifdef GEN_SIZE_OFFSET
 
+#include <epicsAssert.h>
 #include <epicsExport.h>
-#include <cantProceed.h>
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -122,103 +118,98 @@ static int stateRecordSizeOffset(dbRecordType *prt)
 {
     stateRecord *prec = 0;
 
-    if (prt->no_fields != 46) {
-        cantProceed("IOC build or installation error:\n"
-            "    The stateRecord defined in the DBD file has %d fields,\n"
-            "    but the record support code was built with 46.\n",
-            prt->no_fields);
-    }
+    assert(prt->no_fields == 46);
     prt->papFldDes[stateRecordNAME]->size = sizeof(prec->name);
-    prt->papFldDes[stateRecordNAME]->offset = (unsigned short)((char *)&prec->name - (char *)prec);
     prt->papFldDes[stateRecordDESC]->size = sizeof(prec->desc);
-    prt->papFldDes[stateRecordDESC]->offset = (unsigned short)((char *)&prec->desc - (char *)prec);
     prt->papFldDes[stateRecordASG]->size = sizeof(prec->asg);
-    prt->papFldDes[stateRecordASG]->offset = (unsigned short)((char *)&prec->asg - (char *)prec);
     prt->papFldDes[stateRecordSCAN]->size = sizeof(prec->scan);
-    prt->papFldDes[stateRecordSCAN]->offset = (unsigned short)((char *)&prec->scan - (char *)prec);
     prt->papFldDes[stateRecordPINI]->size = sizeof(prec->pini);
-    prt->papFldDes[stateRecordPINI]->offset = (unsigned short)((char *)&prec->pini - (char *)prec);
     prt->papFldDes[stateRecordPHAS]->size = sizeof(prec->phas);
-    prt->papFldDes[stateRecordPHAS]->offset = (unsigned short)((char *)&prec->phas - (char *)prec);
     prt->papFldDes[stateRecordEVNT]->size = sizeof(prec->evnt);
-    prt->papFldDes[stateRecordEVNT]->offset = (unsigned short)((char *)&prec->evnt - (char *)prec);
     prt->papFldDes[stateRecordTSE]->size = sizeof(prec->tse);
-    prt->papFldDes[stateRecordTSE]->offset = (unsigned short)((char *)&prec->tse - (char *)prec);
     prt->papFldDes[stateRecordTSEL]->size = sizeof(prec->tsel);
-    prt->papFldDes[stateRecordTSEL]->offset = (unsigned short)((char *)&prec->tsel - (char *)prec);
     prt->papFldDes[stateRecordDTYP]->size = sizeof(prec->dtyp);
-    prt->papFldDes[stateRecordDTYP]->offset = (unsigned short)((char *)&prec->dtyp - (char *)prec);
     prt->papFldDes[stateRecordDISV]->size = sizeof(prec->disv);
-    prt->papFldDes[stateRecordDISV]->offset = (unsigned short)((char *)&prec->disv - (char *)prec);
     prt->papFldDes[stateRecordDISA]->size = sizeof(prec->disa);
-    prt->papFldDes[stateRecordDISA]->offset = (unsigned short)((char *)&prec->disa - (char *)prec);
     prt->papFldDes[stateRecordSDIS]->size = sizeof(prec->sdis);
-    prt->papFldDes[stateRecordSDIS]->offset = (unsigned short)((char *)&prec->sdis - (char *)prec);
     prt->papFldDes[stateRecordMLOK]->size = sizeof(prec->mlok);
-    prt->papFldDes[stateRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[stateRecordMLIS]->size = sizeof(prec->mlis);
-    prt->papFldDes[stateRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
     prt->papFldDes[stateRecordDISP]->size = sizeof(prec->disp);
-    prt->papFldDes[stateRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[stateRecordPROC]->size = sizeof(prec->proc);
-    prt->papFldDes[stateRecordPROC]->offset = (unsigned short)((char *)&prec->proc - (char *)prec);
     prt->papFldDes[stateRecordSTAT]->size = sizeof(prec->stat);
-    prt->papFldDes[stateRecordSTAT]->offset = (unsigned short)((char *)&prec->stat - (char *)prec);
     prt->papFldDes[stateRecordSEVR]->size = sizeof(prec->sevr);
-    prt->papFldDes[stateRecordSEVR]->offset = (unsigned short)((char *)&prec->sevr - (char *)prec);
     prt->papFldDes[stateRecordNSTA]->size = sizeof(prec->nsta);
-    prt->papFldDes[stateRecordNSTA]->offset = (unsigned short)((char *)&prec->nsta - (char *)prec);
     prt->papFldDes[stateRecordNSEV]->size = sizeof(prec->nsev);
-    prt->papFldDes[stateRecordNSEV]->offset = (unsigned short)((char *)&prec->nsev - (char *)prec);
     prt->papFldDes[stateRecordACKS]->size = sizeof(prec->acks);
-    prt->papFldDes[stateRecordACKS]->offset = (unsigned short)((char *)&prec->acks - (char *)prec);
     prt->papFldDes[stateRecordACKT]->size = sizeof(prec->ackt);
-    prt->papFldDes[stateRecordACKT]->offset = (unsigned short)((char *)&prec->ackt - (char *)prec);
     prt->papFldDes[stateRecordDISS]->size = sizeof(prec->diss);
-    prt->papFldDes[stateRecordDISS]->offset = (unsigned short)((char *)&prec->diss - (char *)prec);
     prt->papFldDes[stateRecordLCNT]->size = sizeof(prec->lcnt);
-    prt->papFldDes[stateRecordLCNT]->offset = (unsigned short)((char *)&prec->lcnt - (char *)prec);
     prt->papFldDes[stateRecordPACT]->size = sizeof(prec->pact);
-    prt->papFldDes[stateRecordPACT]->offset = (unsigned short)((char *)&prec->pact - (char *)prec);
     prt->papFldDes[stateRecordPUTF]->size = sizeof(prec->putf);
-    prt->papFldDes[stateRecordPUTF]->offset = (unsigned short)((char *)&prec->putf - (char *)prec);
     prt->papFldDes[stateRecordRPRO]->size = sizeof(prec->rpro);
-    prt->papFldDes[stateRecordRPRO]->offset = (unsigned short)((char *)&prec->rpro - (char *)prec);
     prt->papFldDes[stateRecordASP]->size = sizeof(prec->asp);
-    prt->papFldDes[stateRecordASP]->offset = (unsigned short)((char *)&prec->asp - (char *)prec);
     prt->papFldDes[stateRecordPPN]->size = sizeof(prec->ppn);
-    prt->papFldDes[stateRecordPPN]->offset = (unsigned short)((char *)&prec->ppn - (char *)prec);
     prt->papFldDes[stateRecordPPNR]->size = sizeof(prec->ppnr);
-    prt->papFldDes[stateRecordPPNR]->offset = (unsigned short)((char *)&prec->ppnr - (char *)prec);
     prt->papFldDes[stateRecordSPVT]->size = sizeof(prec->spvt);
-    prt->papFldDes[stateRecordSPVT]->offset = (unsigned short)((char *)&prec->spvt - (char *)prec);
     prt->papFldDes[stateRecordRSET]->size = sizeof(prec->rset);
-    prt->papFldDes[stateRecordRSET]->offset = (unsigned short)((char *)&prec->rset - (char *)prec);
     prt->papFldDes[stateRecordDSET]->size = sizeof(prec->dset);
-    prt->papFldDes[stateRecordDSET]->offset = (unsigned short)((char *)&prec->dset - (char *)prec);
     prt->papFldDes[stateRecordDPVT]->size = sizeof(prec->dpvt);
-    prt->papFldDes[stateRecordDPVT]->offset = (unsigned short)((char *)&prec->dpvt - (char *)prec);
     prt->papFldDes[stateRecordRDES]->size = sizeof(prec->rdes);
-    prt->papFldDes[stateRecordRDES]->offset = (unsigned short)((char *)&prec->rdes - (char *)prec);
     prt->papFldDes[stateRecordLSET]->size = sizeof(prec->lset);
-    prt->papFldDes[stateRecordLSET]->offset = (unsigned short)((char *)&prec->lset - (char *)prec);
     prt->papFldDes[stateRecordPRIO]->size = sizeof(prec->prio);
-    prt->papFldDes[stateRecordPRIO]->offset = (unsigned short)((char *)&prec->prio - (char *)prec);
     prt->papFldDes[stateRecordTPRO]->size = sizeof(prec->tpro);
-    prt->papFldDes[stateRecordTPRO]->offset = (unsigned short)((char *)&prec->tpro - (char *)prec);
     prt->papFldDes[stateRecordBKPT]->size = sizeof(prec->bkpt);
-    prt->papFldDes[stateRecordBKPT]->offset = (unsigned short)((char *)&prec->bkpt - (char *)prec);
     prt->papFldDes[stateRecordUDF]->size = sizeof(prec->udf);
-    prt->papFldDes[stateRecordUDF]->offset = (unsigned short)((char *)&prec->udf - (char *)prec);
     prt->papFldDes[stateRecordUDFS]->size = sizeof(prec->udfs);
-    prt->papFldDes[stateRecordUDFS]->offset = (unsigned short)((char *)&prec->udfs - (char *)prec);
     prt->papFldDes[stateRecordTIME]->size = sizeof(prec->time);
-    prt->papFldDes[stateRecordTIME]->offset = (unsigned short)((char *)&prec->time - (char *)prec);
     prt->papFldDes[stateRecordFLNK]->size = sizeof(prec->flnk);
-    prt->papFldDes[stateRecordFLNK]->offset = (unsigned short)((char *)&prec->flnk - (char *)prec);
     prt->papFldDes[stateRecordVAL]->size = sizeof(prec->val);
-    prt->papFldDes[stateRecordVAL]->offset = (unsigned short)((char *)&prec->val - (char *)prec);
     prt->papFldDes[stateRecordOVAL]->size = sizeof(prec->oval);
+    prt->papFldDes[stateRecordNAME]->offset = (unsigned short)((char *)&prec->name - (char *)prec);
+    prt->papFldDes[stateRecordDESC]->offset = (unsigned short)((char *)&prec->desc - (char *)prec);
+    prt->papFldDes[stateRecordASG]->offset = (unsigned short)((char *)&prec->asg - (char *)prec);
+    prt->papFldDes[stateRecordSCAN]->offset = (unsigned short)((char *)&prec->scan - (char *)prec);
+    prt->papFldDes[stateRecordPINI]->offset = (unsigned short)((char *)&prec->pini - (char *)prec);
+    prt->papFldDes[stateRecordPHAS]->offset = (unsigned short)((char *)&prec->phas - (char *)prec);
+    prt->papFldDes[stateRecordEVNT]->offset = (unsigned short)((char *)&prec->evnt - (char *)prec);
+    prt->papFldDes[stateRecordTSE]->offset = (unsigned short)((char *)&prec->tse - (char *)prec);
+    prt->papFldDes[stateRecordTSEL]->offset = (unsigned short)((char *)&prec->tsel - (char *)prec);
+    prt->papFldDes[stateRecordDTYP]->offset = (unsigned short)((char *)&prec->dtyp - (char *)prec);
+    prt->papFldDes[stateRecordDISV]->offset = (unsigned short)((char *)&prec->disv - (char *)prec);
+    prt->papFldDes[stateRecordDISA]->offset = (unsigned short)((char *)&prec->disa - (char *)prec);
+    prt->papFldDes[stateRecordSDIS]->offset = (unsigned short)((char *)&prec->sdis - (char *)prec);
+    prt->papFldDes[stateRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
+    prt->papFldDes[stateRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
+    prt->papFldDes[stateRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
+    prt->papFldDes[stateRecordPROC]->offset = (unsigned short)((char *)&prec->proc - (char *)prec);
+    prt->papFldDes[stateRecordSTAT]->offset = (unsigned short)((char *)&prec->stat - (char *)prec);
+    prt->papFldDes[stateRecordSEVR]->offset = (unsigned short)((char *)&prec->sevr - (char *)prec);
+    prt->papFldDes[stateRecordNSTA]->offset = (unsigned short)((char *)&prec->nsta - (char *)prec);
+    prt->papFldDes[stateRecordNSEV]->offset = (unsigned short)((char *)&prec->nsev - (char *)prec);
+    prt->papFldDes[stateRecordACKS]->offset = (unsigned short)((char *)&prec->acks - (char *)prec);
+    prt->papFldDes[stateRecordACKT]->offset = (unsigned short)((char *)&prec->ackt - (char *)prec);
+    prt->papFldDes[stateRecordDISS]->offset = (unsigned short)((char *)&prec->diss - (char *)prec);
+    prt->papFldDes[stateRecordLCNT]->offset = (unsigned short)((char *)&prec->lcnt - (char *)prec);
+    prt->papFldDes[stateRecordPACT]->offset = (unsigned short)((char *)&prec->pact - (char *)prec);
+    prt->papFldDes[stateRecordPUTF]->offset = (unsigned short)((char *)&prec->putf - (char *)prec);
+    prt->papFldDes[stateRecordRPRO]->offset = (unsigned short)((char *)&prec->rpro - (char *)prec);
+    prt->papFldDes[stateRecordASP]->offset = (unsigned short)((char *)&prec->asp - (char *)prec);
+    prt->papFldDes[stateRecordPPN]->offset = (unsigned short)((char *)&prec->ppn - (char *)prec);
+    prt->papFldDes[stateRecordPPNR]->offset = (unsigned short)((char *)&prec->ppnr - (char *)prec);
+    prt->papFldDes[stateRecordSPVT]->offset = (unsigned short)((char *)&prec->spvt - (char *)prec);
+    prt->papFldDes[stateRecordRSET]->offset = (unsigned short)((char *)&prec->rset - (char *)prec);
+    prt->papFldDes[stateRecordDSET]->offset = (unsigned short)((char *)&prec->dset - (char *)prec);
+    prt->papFldDes[stateRecordDPVT]->offset = (unsigned short)((char *)&prec->dpvt - (char *)prec);
+    prt->papFldDes[stateRecordRDES]->offset = (unsigned short)((char *)&prec->rdes - (char *)prec);
+    prt->papFldDes[stateRecordLSET]->offset = (unsigned short)((char *)&prec->lset - (char *)prec);
+    prt->papFldDes[stateRecordPRIO]->offset = (unsigned short)((char *)&prec->prio - (char *)prec);
+    prt->papFldDes[stateRecordTPRO]->offset = (unsigned short)((char *)&prec->tpro - (char *)prec);
+    prt->papFldDes[stateRecordBKPT]->offset = (unsigned short)((char *)&prec->bkpt - (char *)prec);
+    prt->papFldDes[stateRecordUDF]->offset = (unsigned short)((char *)&prec->udf - (char *)prec);
+    prt->papFldDes[stateRecordUDFS]->offset = (unsigned short)((char *)&prec->udfs - (char *)prec);
+    prt->papFldDes[stateRecordTIME]->offset = (unsigned short)((char *)&prec->time - (char *)prec);
+    prt->papFldDes[stateRecordFLNK]->offset = (unsigned short)((char *)&prec->flnk - (char *)prec);
+    prt->papFldDes[stateRecordVAL]->offset = (unsigned short)((char *)&prec->val - (char *)prec);
     prt->papFldDes[stateRecordOVAL]->offset = (unsigned short)((char *)&prec->oval - (char *)prec);
     prt->rec_size = sizeof(*prec);
     return 0;

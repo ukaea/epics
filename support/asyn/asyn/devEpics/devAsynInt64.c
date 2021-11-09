@@ -33,9 +33,11 @@
 #include <dbCommon.h>
 #include <dbScan.h>
 #include <callback.h>
+#ifdef EPICS_3_16
 #ifdef HAVE_DEVINT64
-#include <int64inRecord.h>
-#include <int64outRecord.h>
+ #include <int64inRecord.h>
+  #include <int64outRecord.h>
+  #endif
 #endif
 #include <longinRecord.h>
 #include <longoutRecord.h>
@@ -132,6 +134,7 @@ typedef struct analogDset { /* analog  dset */
     DEVSUPFUN     special_linconv;
 } analogDset;
 
+#ifdef EPICS_3_16
 #ifdef HAVE_DEVINT64
 static long initLLi(int64inRecord *pli);
 static long initLLo(int64outRecord *plo);
@@ -144,6 +147,7 @@ analogDset asynInt64Out = {
     5,0,0,initLLo,       getIoIntInfo, processLLo };
 epicsExportAddress(dset, asynInt64In);
 epicsExportAddress(dset, asynInt64Out);
+#endif
 #endif
 
 static long initAi(aiRecord *pai);
@@ -650,6 +654,7 @@ static void reportQueueRequestStatus(devPvt *pPvt, asynStatus status)
     }
 }
 
+#ifdef EPICS_3_16
 #ifdef HAVE_DEVINT64
 static long initLLi(int64inRecord *pr)
 {
@@ -754,6 +759,7 @@ static long processLLo(int64outRecord *pr)
     }
 }
 #endif  /* HAVE_DEVINT64 */
+#endif
 
 static long initAi(aiRecord *pr)
 {

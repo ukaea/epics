@@ -17,6 +17,9 @@
       <UniqueIdentifier>{b2a60c7e-b809-4416-817a-f507fce49ee3}</UniqueIdentifier>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
+    <Filter Include="Examples">
+      <UniqueIdentifier>{59f0e0f1-3ae7-411c-b369-137e6347bfef}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="softMain.cpp">
@@ -28,5 +31,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="base.dbd" />
+    <None Include="example\temperature.db">
+      <Filter>Examples</Filter>
+    </None>
   </ItemGroup>
 </Project>

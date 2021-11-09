@@ -1,8 +1,4 @@
-/** @file histogramRecord.h
- * @brief Declarations for the @ref histogramRecord "histogram" record type.
- *
- * This header was generated from histogramRecord.dbd
- */
+/* histogramRecord.h generated from histogramRecord.dbd */
 
 #ifndef INC_histogramRecord_H
 #define INC_histogramRecord_H
@@ -182,8 +178,8 @@ typedef enum {
 
 #ifdef GEN_SIZE_OFFSET
 
+#include <epicsAssert.h>
 #include <epicsExport.h>
-#include <cantProceed.h>
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -191,151 +187,146 @@ static int histogramRecordSizeOffset(dbRecordType *prt)
 {
     histogramRecord *prec = 0;
 
-    if (prt->no_fields != 70) {
-        cantProceed("IOC build or installation error:\n"
-            "    The histogramRecord defined in the DBD file has %d fields,\n"
-            "    but the record support code was built with 70.\n",
-            prt->no_fields);
-    }
+    assert(prt->no_fields == 70);
     prt->papFldDes[histogramRecordNAME]->size = sizeof(prec->name);
-    prt->papFldDes[histogramRecordNAME]->offset = (unsigned short)((char *)&prec->name - (char *)prec);
     prt->papFldDes[histogramRecordDESC]->size = sizeof(prec->desc);
-    prt->papFldDes[histogramRecordDESC]->offset = (unsigned short)((char *)&prec->desc - (char *)prec);
     prt->papFldDes[histogramRecordASG]->size = sizeof(prec->asg);
-    prt->papFldDes[histogramRecordASG]->offset = (unsigned short)((char *)&prec->asg - (char *)prec);
     prt->papFldDes[histogramRecordSCAN]->size = sizeof(prec->scan);
-    prt->papFldDes[histogramRecordSCAN]->offset = (unsigned short)((char *)&prec->scan - (char *)prec);
     prt->papFldDes[histogramRecordPINI]->size = sizeof(prec->pini);
-    prt->papFldDes[histogramRecordPINI]->offset = (unsigned short)((char *)&prec->pini - (char *)prec);
     prt->papFldDes[histogramRecordPHAS]->size = sizeof(prec->phas);
-    prt->papFldDes[histogramRecordPHAS]->offset = (unsigned short)((char *)&prec->phas - (char *)prec);
     prt->papFldDes[histogramRecordEVNT]->size = sizeof(prec->evnt);
-    prt->papFldDes[histogramRecordEVNT]->offset = (unsigned short)((char *)&prec->evnt - (char *)prec);
     prt->papFldDes[histogramRecordTSE]->size = sizeof(prec->tse);
-    prt->papFldDes[histogramRecordTSE]->offset = (unsigned short)((char *)&prec->tse - (char *)prec);
     prt->papFldDes[histogramRecordTSEL]->size = sizeof(prec->tsel);
-    prt->papFldDes[histogramRecordTSEL]->offset = (unsigned short)((char *)&prec->tsel - (char *)prec);
     prt->papFldDes[histogramRecordDTYP]->size = sizeof(prec->dtyp);
-    prt->papFldDes[histogramRecordDTYP]->offset = (unsigned short)((char *)&prec->dtyp - (char *)prec);
     prt->papFldDes[histogramRecordDISV]->size = sizeof(prec->disv);
-    prt->papFldDes[histogramRecordDISV]->offset = (unsigned short)((char *)&prec->disv - (char *)prec);
     prt->papFldDes[histogramRecordDISA]->size = sizeof(prec->disa);
-    prt->papFldDes[histogramRecordDISA]->offset = (unsigned short)((char *)&prec->disa - (char *)prec);
     prt->papFldDes[histogramRecordSDIS]->size = sizeof(prec->sdis);
-    prt->papFldDes[histogramRecordSDIS]->offset = (unsigned short)((char *)&prec->sdis - (char *)prec);
     prt->papFldDes[histogramRecordMLOK]->size = sizeof(prec->mlok);
-    prt->papFldDes[histogramRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[histogramRecordMLIS]->size = sizeof(prec->mlis);
-    prt->papFldDes[histogramRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
     prt->papFldDes[histogramRecordDISP]->size = sizeof(prec->disp);
-    prt->papFldDes[histogramRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[histogramRecordPROC]->size = sizeof(prec->proc);
-    prt->papFldDes[histogramRecordPROC]->offset = (unsigned short)((char *)&prec->proc - (char *)prec);
     prt->papFldDes[histogramRecordSTAT]->size = sizeof(prec->stat);
-    prt->papFldDes[histogramRecordSTAT]->offset = (unsigned short)((char *)&prec->stat - (char *)prec);
     prt->papFldDes[histogramRecordSEVR]->size = sizeof(prec->sevr);
-    prt->papFldDes[histogramRecordSEVR]->offset = (unsigned short)((char *)&prec->sevr - (char *)prec);
     prt->papFldDes[histogramRecordNSTA]->size = sizeof(prec->nsta);
-    prt->papFldDes[histogramRecordNSTA]->offset = (unsigned short)((char *)&prec->nsta - (char *)prec);
     prt->papFldDes[histogramRecordNSEV]->size = sizeof(prec->nsev);
-    prt->papFldDes[histogramRecordNSEV]->offset = (unsigned short)((char *)&prec->nsev - (char *)prec);
     prt->papFldDes[histogramRecordACKS]->size = sizeof(prec->acks);
-    prt->papFldDes[histogramRecordACKS]->offset = (unsigned short)((char *)&prec->acks - (char *)prec);
     prt->papFldDes[histogramRecordACKT]->size = sizeof(prec->ackt);
-    prt->papFldDes[histogramRecordACKT]->offset = (unsigned short)((char *)&prec->ackt - (char *)prec);
     prt->papFldDes[histogramRecordDISS]->size = sizeof(prec->diss);
-    prt->papFldDes[histogramRecordDISS]->offset = (unsigned short)((char *)&prec->diss - (char *)prec);
     prt->papFldDes[histogramRecordLCNT]->size = sizeof(prec->lcnt);
-    prt->papFldDes[histogramRecordLCNT]->offset = (unsigned short)((char *)&prec->lcnt - (char *)prec);
     prt->papFldDes[histogramRecordPACT]->size = sizeof(prec->pact);
-    prt->papFldDes[histogramRecordPACT]->offset = (unsigned short)((char *)&prec->pact - (char *)prec);
     prt->papFldDes[histogramRecordPUTF]->size = sizeof(prec->putf);
-    prt->papFldDes[histogramRecordPUTF]->offset = (unsigned short)((char *)&prec->putf - (char *)prec);
     prt->papFldDes[histogramRecordRPRO]->size = sizeof(prec->rpro);
-    prt->papFldDes[histogramRecordRPRO]->offset = (unsigned short)((char *)&prec->rpro - (char *)prec);
     prt->papFldDes[histogramRecordASP]->size = sizeof(prec->asp);
-    prt->papFldDes[histogramRecordASP]->offset = (unsigned short)((char *)&prec->asp - (char *)prec);
     prt->papFldDes[histogramRecordPPN]->size = sizeof(prec->ppn);
-    prt->papFldDes[histogramRecordPPN]->offset = (unsigned short)((char *)&prec->ppn - (char *)prec);
     prt->papFldDes[histogramRecordPPNR]->size = sizeof(prec->ppnr);
-    prt->papFldDes[histogramRecordPPNR]->offset = (unsigned short)((char *)&prec->ppnr - (char *)prec);
     prt->papFldDes[histogramRecordSPVT]->size = sizeof(prec->spvt);
-    prt->papFldDes[histogramRecordSPVT]->offset = (unsigned short)((char *)&prec->spvt - (char *)prec);
     prt->papFldDes[histogramRecordRSET]->size = sizeof(prec->rset);
-    prt->papFldDes[histogramRecordRSET]->offset = (unsigned short)((char *)&prec->rset - (char *)prec);
     prt->papFldDes[histogramRecordDSET]->size = sizeof(prec->dset);
-    prt->papFldDes[histogramRecordDSET]->offset = (unsigned short)((char *)&prec->dset - (char *)prec);
     prt->papFldDes[histogramRecordDPVT]->size = sizeof(prec->dpvt);
-    prt->papFldDes[histogramRecordDPVT]->offset = (unsigned short)((char *)&prec->dpvt - (char *)prec);
     prt->papFldDes[histogramRecordRDES]->size = sizeof(prec->rdes);
-    prt->papFldDes[histogramRecordRDES]->offset = (unsigned short)((char *)&prec->rdes - (char *)prec);
     prt->papFldDes[histogramRecordLSET]->size = sizeof(prec->lset);
-    prt->papFldDes[histogramRecordLSET]->offset = (unsigned short)((char *)&prec->lset - (char *)prec);
     prt->papFldDes[histogramRecordPRIO]->size = sizeof(prec->prio);
-    prt->papFldDes[histogramRecordPRIO]->offset = (unsigned short)((char *)&prec->prio - (char *)prec);
     prt->papFldDes[histogramRecordTPRO]->size = sizeof(prec->tpro);
-    prt->papFldDes[histogramRecordTPRO]->offset = (unsigned short)((char *)&prec->tpro - (char *)prec);
     prt->papFldDes[histogramRecordBKPT]->size = sizeof(prec->bkpt);
-    prt->papFldDes[histogramRecordBKPT]->offset = (unsigned short)((char *)&prec->bkpt - (char *)prec);
     prt->papFldDes[histogramRecordUDF]->size = sizeof(prec->udf);
-    prt->papFldDes[histogramRecordUDF]->offset = (unsigned short)((char *)&prec->udf - (char *)prec);
     prt->papFldDes[histogramRecordUDFS]->size = sizeof(prec->udfs);
-    prt->papFldDes[histogramRecordUDFS]->offset = (unsigned short)((char *)&prec->udfs - (char *)prec);
     prt->papFldDes[histogramRecordTIME]->size = sizeof(prec->time);
-    prt->papFldDes[histogramRecordTIME]->offset = (unsigned short)((char *)&prec->time - (char *)prec);
     prt->papFldDes[histogramRecordFLNK]->size = sizeof(prec->flnk);
-    prt->papFldDes[histogramRecordFLNK]->offset = (unsigned short)((char *)&prec->flnk - (char *)prec);
     prt->papFldDes[histogramRecordVAL]->size = sizeof(prec->val);
-    prt->papFldDes[histogramRecordVAL]->offset = (unsigned short)((char *)&prec->val - (char *)prec);
     prt->papFldDes[histogramRecordNELM]->size = sizeof(prec->nelm);
-    prt->papFldDes[histogramRecordNELM]->offset = (unsigned short)((char *)&prec->nelm - (char *)prec);
     prt->papFldDes[histogramRecordCSTA]->size = sizeof(prec->csta);
-    prt->papFldDes[histogramRecordCSTA]->offset = (unsigned short)((char *)&prec->csta - (char *)prec);
     prt->papFldDes[histogramRecordCMD]->size = sizeof(prec->cmd);
-    prt->papFldDes[histogramRecordCMD]->offset = (unsigned short)((char *)&prec->cmd - (char *)prec);
     prt->papFldDes[histogramRecordULIM]->size = sizeof(prec->ulim);
-    prt->papFldDes[histogramRecordULIM]->offset = (unsigned short)((char *)&prec->ulim - (char *)prec);
     prt->papFldDes[histogramRecordLLIM]->size = sizeof(prec->llim);
-    prt->papFldDes[histogramRecordLLIM]->offset = (unsigned short)((char *)&prec->llim - (char *)prec);
     prt->papFldDes[histogramRecordWDTH]->size = sizeof(prec->wdth);
-    prt->papFldDes[histogramRecordWDTH]->offset = (unsigned short)((char *)&prec->wdth - (char *)prec);
     prt->papFldDes[histogramRecordSGNL]->size = sizeof(prec->sgnl);
-    prt->papFldDes[histogramRecordSGNL]->offset = (unsigned short)((char *)&prec->sgnl - (char *)prec);
     prt->papFldDes[histogramRecordPREC]->size = sizeof(prec->prec);
-    prt->papFldDes[histogramRecordPREC]->offset = (unsigned short)((char *)&prec->prec - (char *)prec);
     prt->papFldDes[histogramRecordSVL]->size = sizeof(prec->svl);
-    prt->papFldDes[histogramRecordSVL]->offset = (unsigned short)((char *)&prec->svl - (char *)prec);
     prt->papFldDes[histogramRecordBPTR]->size = sizeof(prec->bptr);
-    prt->papFldDes[histogramRecordBPTR]->offset = (unsigned short)((char *)&prec->bptr - (char *)prec);
     prt->papFldDes[histogramRecordWDOG]->size = sizeof(prec->wdog);
-    prt->papFldDes[histogramRecordWDOG]->offset = (unsigned short)((char *)&prec->wdog - (char *)prec);
     prt->papFldDes[histogramRecordMDEL]->size = sizeof(prec->mdel);
-    prt->papFldDes[histogramRecordMDEL]->offset = (unsigned short)((char *)&prec->mdel - (char *)prec);
     prt->papFldDes[histogramRecordMCNT]->size = sizeof(prec->mcnt);
-    prt->papFldDes[histogramRecordMCNT]->offset = (unsigned short)((char *)&prec->mcnt - (char *)prec);
     prt->papFldDes[histogramRecordSDEL]->size = sizeof(prec->sdel);
-    prt->papFldDes[histogramRecordSDEL]->offset = (unsigned short)((char *)&prec->sdel - (char *)prec);
     prt->papFldDes[histogramRecordSIOL]->size = sizeof(prec->siol);
-    prt->papFldDes[histogramRecordSIOL]->offset = (unsigned short)((char *)&prec->siol - (char *)prec);
     prt->papFldDes[histogramRecordSVAL]->size = sizeof(prec->sval);
-    prt->papFldDes[histogramRecordSVAL]->offset = (unsigned short)((char *)&prec->sval - (char *)prec);
     prt->papFldDes[histogramRecordSIML]->size = sizeof(prec->siml);
-    prt->papFldDes[histogramRecordSIML]->offset = (unsigned short)((char *)&prec->siml - (char *)prec);
     prt->papFldDes[histogramRecordSIMM]->size = sizeof(prec->simm);
-    prt->papFldDes[histogramRecordSIMM]->offset = (unsigned short)((char *)&prec->simm - (char *)prec);
     prt->papFldDes[histogramRecordSIMS]->size = sizeof(prec->sims);
-    prt->papFldDes[histogramRecordSIMS]->offset = (unsigned short)((char *)&prec->sims - (char *)prec);
     prt->papFldDes[histogramRecordOLDSIMM]->size = sizeof(prec->oldsimm);
-    prt->papFldDes[histogramRecordOLDSIMM]->offset = (unsigned short)((char *)&prec->oldsimm - (char *)prec);
     prt->papFldDes[histogramRecordSSCN]->size = sizeof(prec->sscn);
-    prt->papFldDes[histogramRecordSSCN]->offset = (unsigned short)((char *)&prec->sscn - (char *)prec);
     prt->papFldDes[histogramRecordSDLY]->size = sizeof(prec->sdly);
-    prt->papFldDes[histogramRecordSDLY]->offset = (unsigned short)((char *)&prec->sdly - (char *)prec);
     prt->papFldDes[histogramRecordSIMPVT]->size = sizeof(prec->simpvt);
-    prt->papFldDes[histogramRecordSIMPVT]->offset = (unsigned short)((char *)&prec->simpvt - (char *)prec);
     prt->papFldDes[histogramRecordHOPR]->size = sizeof(prec->hopr);
-    prt->papFldDes[histogramRecordHOPR]->offset = (unsigned short)((char *)&prec->hopr - (char *)prec);
     prt->papFldDes[histogramRecordLOPR]->size = sizeof(prec->lopr);
+    prt->papFldDes[histogramRecordNAME]->offset = (unsigned short)((char *)&prec->name - (char *)prec);
+    prt->papFldDes[histogramRecordDESC]->offset = (unsigned short)((char *)&prec->desc - (char *)prec);
+    prt->papFldDes[histogramRecordASG]->offset = (unsigned short)((char *)&prec->asg - (char *)prec);
+    prt->papFldDes[histogramRecordSCAN]->offset = (unsigned short)((char *)&prec->scan - (char *)prec);
+    prt->papFldDes[histogramRecordPINI]->offset = (unsigned short)((char *)&prec->pini - (char *)prec);
+    prt->papFldDes[histogramRecordPHAS]->offset = (unsigned short)((char *)&prec->phas - (char *)prec);
+    prt->papFldDes[histogramRecordEVNT]->offset = (unsigned short)((char *)&prec->evnt - (char *)prec);
+    prt->papFldDes[histogramRecordTSE]->offset = (unsigned short)((char *)&prec->tse - (char *)prec);
+    prt->papFldDes[histogramRecordTSEL]->offset = (unsigned short)((char *)&prec->tsel - (char *)prec);
+    prt->papFldDes[histogramRecordDTYP]->offset = (unsigned short)((char *)&prec->dtyp - (char *)prec);
+    prt->papFldDes[histogramRecordDISV]->offset = (unsigned short)((char *)&prec->disv - (char *)prec);
+    prt->papFldDes[histogramRecordDISA]->offset = (unsigned short)((char *)&prec->disa - (char *)prec);
+    prt->papFldDes[histogramRecordSDIS]->offset = (unsigned short)((char *)&prec->sdis - (char *)prec);
+    prt->papFldDes[histogramRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
+    prt->papFldDes[histogramRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
+    prt->papFldDes[histogramRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
+    prt->papFldDes[histogramRecordPROC]->offset = (unsigned short)((char *)&prec->proc - (char *)prec);
+    prt->papFldDes[histogramRecordSTAT]->offset = (unsigned short)((char *)&prec->stat - (char *)prec);
+    prt->papFldDes[histogramRecordSEVR]->offset = (unsigned short)((char *)&prec->sevr - (char *)prec);
+    prt->papFldDes[histogramRecordNSTA]->offset = (unsigned short)((char *)&prec->nsta - (char *)prec);
+    prt->papFldDes[histogramRecordNSEV]->offset = (unsigned short)((char *)&prec->nsev - (char *)prec);
+    prt->papFldDes[histogramRecordACKS]->offset = (unsigned short)((char *)&prec->acks - (char *)prec);
+    prt->papFldDes[histogramRecordACKT]->offset = (unsigned short)((char *)&prec->ackt - (char *)prec);
+    prt->papFldDes[histogramRecordDISS]->offset = (unsigned short)((char *)&prec->diss - (char *)prec);
+    prt->papFldDes[histogramRecordLCNT]->offset = (unsigned short)((char *)&prec->lcnt - (char *)prec);
+    prt->papFldDes[histogramRecordPACT]->offset = (unsigned short)((char *)&prec->pact - (char *)prec);
+    prt->papFldDes[histogramRecordPUTF]->offset = (unsigned short)((char *)&prec->putf - (char *)prec);
+    prt->papFldDes[histogramRecordRPRO]->offset = (unsigned short)((char *)&prec->rpro - (char *)prec);
+    prt->papFldDes[histogramRecordASP]->offset = (unsigned short)((char *)&prec->asp - (char *)prec);
+    prt->papFldDes[histogramRecordPPN]->offset = (unsigned short)((char *)&prec->ppn - (char *)prec);
+    prt->papFldDes[histogramRecordPPNR]->offset = (unsigned short)((char *)&prec->ppnr - (char *)prec);
+    prt->papFldDes[histogramRecordSPVT]->offset = (unsigned short)((char *)&prec->spvt - (char *)prec);
+    prt->papFldDes[histogramRecordRSET]->offset = (unsigned short)((char *)&prec->rset - (char *)prec);
+    prt->papFldDes[histogramRecordDSET]->offset = (unsigned short)((char *)&prec->dset - (char *)prec);
+    prt->papFldDes[histogramRecordDPVT]->offset = (unsigned short)((char *)&prec->dpvt - (char *)prec);
+    prt->papFldDes[histogramRecordRDES]->offset = (unsigned short)((char *)&prec->rdes - (char *)prec);
+    prt->papFldDes[histogramRecordLSET]->offset = (unsigned short)((char *)&prec->lset - (char *)prec);
+    prt->papFldDes[histogramRecordPRIO]->offset = (unsigned short)((char *)&prec->prio - (char *)prec);
+    prt->papFldDes[histogramRecordTPRO]->offset = (unsigned short)((char *)&prec->tpro - (char *)prec);
+    prt->papFldDes[histogramRecordBKPT]->offset = (unsigned short)((char *)&prec->bkpt - (char *)prec);
+    prt->papFldDes[histogramRecordUDF]->offset = (unsigned short)((char *)&prec->udf - (char *)prec);
+    prt->papFldDes[histogramRecordUDFS]->offset = (unsigned short)((char *)&prec->udfs - (char *)prec);
+    prt->papFldDes[histogramRecordTIME]->offset = (unsigned short)((char *)&prec->time - (char *)prec);
+    prt->papFldDes[histogramRecordFLNK]->offset = (unsigned short)((char *)&prec->flnk - (char *)prec);
+    prt->papFldDes[histogramRecordVAL]->offset = (unsigned short)((char *)&prec->val - (char *)prec);
+    prt->papFldDes[histogramRecordNELM]->offset = (unsigned short)((char *)&prec->nelm - (char *)prec);
+    prt->papFldDes[histogramRecordCSTA]->offset = (unsigned short)((char *)&prec->csta - (char *)prec);
+    prt->papFldDes[histogramRecordCMD]->offset = (unsigned short)((char *)&prec->cmd - (char *)prec);
+    prt->papFldDes[histogramRecordULIM]->offset = (unsigned short)((char *)&prec->ulim - (char *)prec);
+    prt->papFldDes[histogramRecordLLIM]->offset = (unsigned short)((char *)&prec->llim - (char *)prec);
+    prt->papFldDes[histogramRecordWDTH]->offset = (unsigned short)((char *)&prec->wdth - (char *)prec);
+    prt->papFldDes[histogramRecordSGNL]->offset = (unsigned short)((char *)&prec->sgnl - (char *)prec);
+    prt->papFldDes[histogramRecordPREC]->offset = (unsigned short)((char *)&prec->prec - (char *)prec);
+    prt->papFldDes[histogramRecordSVL]->offset = (unsigned short)((char *)&prec->svl - (char *)prec);
+    prt->papFldDes[histogramRecordBPTR]->offset = (unsigned short)((char *)&prec->bptr - (char *)prec);
+    prt->papFldDes[histogramRecordWDOG]->offset = (unsigned short)((char *)&prec->wdog - (char *)prec);
+    prt->papFldDes[histogramRecordMDEL]->offset = (unsigned short)((char *)&prec->mdel - (char *)prec);
+    prt->papFldDes[histogramRecordMCNT]->offset = (unsigned short)((char *)&prec->mcnt - (char *)prec);
+    prt->papFldDes[histogramRecordSDEL]->offset = (unsigned short)((char *)&prec->sdel - (char *)prec);
+    prt->papFldDes[histogramRecordSIOL]->offset = (unsigned short)((char *)&prec->siol - (char *)prec);
+    prt->papFldDes[histogramRecordSVAL]->offset = (unsigned short)((char *)&prec->sval - (char *)prec);
+    prt->papFldDes[histogramRecordSIML]->offset = (unsigned short)((char *)&prec->siml - (char *)prec);
+    prt->papFldDes[histogramRecordSIMM]->offset = (unsigned short)((char *)&prec->simm - (char *)prec);
+    prt->papFldDes[histogramRecordSIMS]->offset = (unsigned short)((char *)&prec->sims - (char *)prec);
+    prt->papFldDes[histogramRecordOLDSIMM]->offset = (unsigned short)((char *)&prec->oldsimm - (char *)prec);
+    prt->papFldDes[histogramRecordSSCN]->offset = (unsigned short)((char *)&prec->sscn - (char *)prec);
+    prt->papFldDes[histogramRecordSDLY]->offset = (unsigned short)((char *)&prec->sdly - (char *)prec);
+    prt->papFldDes[histogramRecordSIMPVT]->offset = (unsigned short)((char *)&prec->simpvt - (char *)prec);
+    prt->papFldDes[histogramRecordHOPR]->offset = (unsigned short)((char *)&prec->hopr - (char *)prec);
     prt->papFldDes[histogramRecordLOPR]->offset = (unsigned short)((char *)&prec->lopr - (char *)prec);
     prt->rec_size = sizeof(*prec);
     return 0;

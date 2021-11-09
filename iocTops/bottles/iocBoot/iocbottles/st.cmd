@@ -4,9 +4,9 @@
 #- everywhere it appears in this file
 
 ## Not for WinEPICS just use TARGET dirs
-
+epicsEnvSet("INSTALLDIR", ${USERPROFILE})
 epicsEnvSet("TOP","C:\Users\ktn98257\source\repos\epics.dotnet\iocTops\bottles")
-epicsEnvSet("IOC","NinetyNineBeers")
+epicsEnvSet("IOC","bottles")
 
 ## Register all support components
 dbLoadDatabase "C:\Users\ktn98257\source\repos\epics.dotnet\DBD\bottles.dbd"

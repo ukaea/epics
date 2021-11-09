@@ -1,0 +1,78 @@
+#Simple database with conversion
+
+record(ai, "centigrade") {
+  field(DESC, "Process Value")
+	field(PREC, "1")
+	field(LINR, "SLOPE")
+	field(EGU,  "Celsius")	
+	field(SCAN, "Passive")
+	field(FLNK, "temp_fan")
+	field(LSV,  "INVALID")		
+	field(HSV,  "MINOR")
+	field(HHSV, "MAJOR")
+	field(LOLO, "0.1")
+	field(LOW,  "0")
+	field(HIGH, "60")
+	field(HIHI, "100")
+}
+
+#record(ao, "set_Centigrade") {
+# 	field(OUT, "asyn-port")
+# 	field(FLNK, "centigrade_RBV")
+#}
+
+#Input values did they take on the device?
+record(ai, "centigrade_RBV") {
+  field(DESC, "Process Value")
+	field(PREC, "1")	
+	field(LINR, "SLOPE")
+	field(EGU,  "Celsius")
+	field(INP, "centigrade PP")
+}
+
+#Polling scan
+record(ai, "centigrade_SCAN") {
+  field(DESC, "Process Value")
+	field(PREC, "1")
+	field(SCAN, "1 second")
+	field(LINR, "SLOPE")
+	field(EGU,  "Celsius")
+	field(INP, "centigrade PP")		
+}
+
+#Actively process both FLNK's
+record(fanout, "temp_fan") {  
+	field(LNK1, "celsius")
+	field(LNK2, "fahrenheit")	
+}
+
+#Representative value from fanout
+record(ai, "celsius") {
+  field(DESC, "Process Value")
+	field(SCAN, "Passive")
+	field(EGU,  "Celsius")
+	field(INP, "centigrade")
+}
+
+#Calculated or conversion record
+record(calc, "fahrenheit") {
+	field(DESC, "Process Value")
+	field(EGU,  "Fahrenheit")
+	field(INPA, "celsius")
+	field(CALC, "(9*A/5)+32")
+}
+
+#Another alias for fahrenheit
+record(ai, "F") {
+	field(DESC, "Process Value")
+	field(EGU,  "F")
+	field(INP, "fahrenheit CP")
+}
+
+#Representative value ~stale vals and TPRO to proactively debug process time to console
+record(ai, "C") {
+  field(DESC, "Process Value")	
+	field(EGU,  "C")
+	field(INP, "centigrade_SCAN")  #still needs a CP or a put to its PROC
+	field(TPRO, "1")
+}

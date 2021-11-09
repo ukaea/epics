@@ -14,6 +14,7 @@
 #include "recGbl.h"
 #include "printfRecord.h"
 #include "epicsExport.h"
+#include "devSup.h"
 
 static long write_string(printfRecord *prec)
 {

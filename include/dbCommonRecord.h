@@ -1,8 +1,4 @@
-/** @file dbCommonRecord.h
- * @brief Declarations for the @ref dbCommon "dbCommon" record type.
- *
- * This header was generated from dbCommonRecord.dbd
- */
+/* dbCommonRecord.h generated from dbCommonRecord.dbd */
 
 #ifndef INC_dbCommonRecord_H
 #define INC_dbCommonRecord_H

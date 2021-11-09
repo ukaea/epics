@@ -3,8 +3,8 @@
 #ifndef INC_scanparmRecord_H
 #define INC_scanparmRecord_H
 
-#include "epicsTypes.h"
-#include "link.h"
+ #include "epicsTypes.h"
+ #include "link.h"
 #include "epicsMutex.h"
 #include "ellLib.h"
 #include "epicsTime.h"
@@ -25,7 +25,6 @@ typedef struct scanparmRecord {
     DBLINK              sdis;       /* Scanning Disable */
     epicsMutexId        mlok;       /* Monitor lock */
     ELLLIST             mlis;       /* Monitor List */
-    ELLLIST             bklnk;      /* Backwards link tracking */
     epicsUInt8          disp;       /* Disable putField */
     epicsUInt8          proc;       /* Force Processing */
     epicsEnum16         stat;       /* Alarm Status */
@@ -43,7 +42,7 @@ typedef struct scanparmRecord {
     struct processNotify *ppn;      /* pprocessNotify */
     struct processNotifyRecord *ppnr; /* pprocessNotifyRecord */
     struct scan_element *spvt;      /* Scan Private */
-    struct typed_rset   *rset;      /* Address of RSET */
+    struct rset         *rset;      /* Address of RSET */
     struct dset         *dset;      /* DSET address */
     void                *dpvt;      /* Device Private */
     struct dbRecordType *rdes;      /* Address of dbRecordType */
@@ -112,75 +111,74 @@ typedef enum {
 	scanparmRecordSDIS = 12,
 	scanparmRecordMLOK = 13,
 	scanparmRecordMLIS = 14,
-	scanparmRecordBKLNK = 15,
-	scanparmRecordDISP = 16,
-	scanparmRecordPROC = 17,
-	scanparmRecordSTAT = 18,
-	scanparmRecordSEVR = 19,
-	scanparmRecordNSTA = 20,
-	scanparmRecordNSEV = 21,
-	scanparmRecordACKS = 22,
-	scanparmRecordACKT = 23,
-	scanparmRecordDISS = 24,
-	scanparmRecordLCNT = 25,
-	scanparmRecordPACT = 26,
-	scanparmRecordPUTF = 27,
-	scanparmRecordRPRO = 28,
-	scanparmRecordASP = 29,
-	scanparmRecordPPN = 30,
-	scanparmRecordPPNR = 31,
-	scanparmRecordSPVT = 32,
-	scanparmRecordRSET = 33,
-	scanparmRecordDSET = 34,
-	scanparmRecordDPVT = 35,
-	scanparmRecordRDES = 36,
-	scanparmRecordLSET = 37,
-	scanparmRecordPRIO = 38,
-	scanparmRecordTPRO = 39,
-	scanparmRecordBKPT = 40,
-	scanparmRecordUDF = 41,
-	scanparmRecordUDFS = 42,
-	scanparmRecordTIME = 43,
-	scanparmRecordFLNK = 44,
-	scanparmRecordVERS = 45,
-	scanparmRecordVAL = 46,
-	scanparmRecordPREC = 47,
-	scanparmRecordPRE = 48,
-	scanparmRecordOPRE = 49,
-	scanparmRecordSM = 50,
-	scanparmRecordOSM = 51,
-	scanparmRecordAR = 52,
-	scanparmRecordOAR = 53,
-	scanparmRecordAFT = 54,
-	scanparmRecordOAFT = 55,
-	scanparmRecordPPV = 56,
-	scanparmRecordRPV = 57,
-	scanparmRecordDPV = 58,
-	scanparmRecordTPV = 59,
-	scanparmRecordOPPV = 60,
-	scanparmRecordORPV = 61,
-	scanparmRecordODPV = 62,
-	scanparmRecordOTPV = 63,
-	scanparmRecordSP = 64,
-	scanparmRecordOSP = 65,
-	scanparmRecordEP = 66,
-	scanparmRecordOEP = 67,
-	scanparmRecordNP = 68,
-	scanparmRecordONP = 69,
-	scanparmRecordSC = 70,
-	scanparmRecordOSC = 71,
-	scanparmRecordAQT = 72,
-	scanparmRecordOAQT = 73,
-	scanparmRecordMP = 74,
-	scanparmRecordIMP = 75,
-	scanparmRecordACT = 76,
-	scanparmRecordIACT = 77,
-	scanparmRecordLOAD = 78,
-	scanparmRecordOLOAD = 79,
-	scanparmRecordGO = 80,
-	scanparmRecordOGO = 81,
-	scanparmRecordSTEP = 82,
-	scanparmRecordLSTP = 83
+	scanparmRecordDISP = 15,
+	scanparmRecordPROC = 16,
+	scanparmRecordSTAT = 17,
+	scanparmRecordSEVR = 18,
+	scanparmRecordNSTA = 19,
+	scanparmRecordNSEV = 20,
+	scanparmRecordACKS = 21,
+	scanparmRecordACKT = 22,
+	scanparmRecordDISS = 23,
+	scanparmRecordLCNT = 24,
+	scanparmRecordPACT = 25,
+	scanparmRecordPUTF = 26,
+	scanparmRecordRPRO = 27,
+	scanparmRecordASP = 28,
+	scanparmRecordPPN = 29,
+	scanparmRecordPPNR = 30,
+	scanparmRecordSPVT = 31,
+	scanparmRecordRSET = 32,
+	scanparmRecordDSET = 33,
+	scanparmRecordDPVT = 34,
+	scanparmRecordRDES = 35,
+	scanparmRecordLSET = 36,
+	scanparmRecordPRIO = 37,
+	scanparmRecordTPRO = 38,
+	scanparmRecordBKPT = 39,
+	scanparmRecordUDF = 40,
+	scanparmRecordUDFS = 41,
+	scanparmRecordTIME = 42,
+	scanparmRecordFLNK = 43,
+	scanparmRecordVERS = 44,
+	scanparmRecordVAL = 45,
+	scanparmRecordPREC = 46,
+	scanparmRecordPRE = 47,
+	scanparmRecordOPRE = 48,
+	scanparmRecordSM = 49,
+	scanparmRecordOSM = 50,
+	scanparmRecordAR = 51,
+	scanparmRecordOAR = 52,
+	scanparmRecordAFT = 53,
+	scanparmRecordOAFT = 54,
+	scanparmRecordPPV = 55,
+	scanparmRecordRPV = 56,
+	scanparmRecordDPV = 57,
+	scanparmRecordTPV = 58,
+	scanparmRecordOPPV = 59,
+	scanparmRecordORPV = 60,
+	scanparmRecordODPV = 61,
+	scanparmRecordOTPV = 62,
+	scanparmRecordSP = 63,
+	scanparmRecordOSP = 64,
+	scanparmRecordEP = 65,
+	scanparmRecordOEP = 66,
+	scanparmRecordNP = 67,
+	scanparmRecordONP = 68,
+	scanparmRecordSC = 69,
+	scanparmRecordOSC = 70,
+	scanparmRecordAQT = 71,
+	scanparmRecordOAQT = 72,
+	scanparmRecordMP = 73,
+	scanparmRecordIMP = 74,
+	scanparmRecordACT = 75,
+	scanparmRecordIACT = 76,
+	scanparmRecordLOAD = 77,
+	scanparmRecordOLOAD = 78,
+	scanparmRecordGO = 79,
+	scanparmRecordOGO = 80,
+	scanparmRecordSTEP = 81,
+	scanparmRecordLSTP = 82
 } scanparmFieldIndex;
 
 #ifdef GEN_SIZE_OFFSET
@@ -194,7 +192,7 @@ static int scanparmRecordSizeOffset(dbRecordType *prt)
 {
     scanparmRecord *prec = 0;
 
-    assert(prt->no_fields == 84);
+    assert(prt->no_fields == 83);
     prt->papFldDes[scanparmRecordNAME]->size = sizeof(prec->name);
     prt->papFldDes[scanparmRecordDESC]->size = sizeof(prec->desc);
     prt->papFldDes[scanparmRecordASG]->size = sizeof(prec->asg);
@@ -210,7 +208,6 @@ static int scanparmRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[scanparmRecordSDIS]->size = sizeof(prec->sdis);
     prt->papFldDes[scanparmRecordMLOK]->size = sizeof(prec->mlok);
     prt->papFldDes[scanparmRecordMLIS]->size = sizeof(prec->mlis);
-    prt->papFldDes[scanparmRecordBKLNK]->size = sizeof(prec->bklnk);
     prt->papFldDes[scanparmRecordDISP]->size = sizeof(prec->disp);
     prt->papFldDes[scanparmRecordPROC]->size = sizeof(prec->proc);
     prt->papFldDes[scanparmRecordSTAT]->size = sizeof(prec->stat);
@@ -294,7 +291,6 @@ static int scanparmRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[scanparmRecordSDIS]->offset = (unsigned short)((char *)&prec->sdis - (char *)prec);
     prt->papFldDes[scanparmRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[scanparmRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
-    prt->papFldDes[scanparmRecordBKLNK]->offset = (unsigned short)((char *)&prec->bklnk - (char *)prec);
     prt->papFldDes[scanparmRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[scanparmRecordPROC]->offset = (unsigned short)((char *)&prec->proc - (char *)prec);
     prt->papFldDes[scanparmRecordSTAT]->offset = (unsigned short)((char *)&prec->stat - (char *)prec);

@@ -1,6 +1,4 @@
-/** @file menuConvert.h
- * @brief Declarations generated from menuConvert.dbd
- */
+/* menuConvert.h generated from menuConvert.dbd */
 
 #ifndef INC_menuConvert_H
 #define INC_menuConvert_H

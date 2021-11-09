@@ -1,8 +1,4 @@
-/** @file longoutRecord.h
- * @brief Declarations for the @ref longoutRecord "longout" record type.
- *
- * This header was generated from longoutRecord.dbd
- */
+/* longoutRecord.h generated from longoutRecord.dbd */
 
 #ifndef INC_longoutRecord_H
 #define INC_longoutRecord_H
@@ -167,8 +163,8 @@ typedef enum {
 
 #ifdef GEN_SIZE_OFFSET
 
+#include <epicsAssert.h>
 #include <epicsExport.h>
-#include <cantProceed.h>
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -176,157 +172,152 @@ static int longoutRecordSizeOffset(dbRecordType *prt)
 {
     longoutRecord *prec = 0;
 
-    if (prt->no_fields != 73) {
-        cantProceed("IOC build or installation error:\n"
-            "    The longoutRecord defined in the DBD file has %d fields,\n"
-            "    but the record support code was built with 73.\n",
-            prt->no_fields);
-    }
+    assert(prt->no_fields == 73);
     prt->papFldDes[longoutRecordNAME]->size = sizeof(prec->name);
-    prt->papFldDes[longoutRecordNAME]->offset = (unsigned short)((char *)&prec->name - (char *)prec);
     prt->papFldDes[longoutRecordDESC]->size = sizeof(prec->desc);
-    prt->papFldDes[longoutRecordDESC]->offset = (unsigned short)((char *)&prec->desc - (char *)prec);
     prt->papFldDes[longoutRecordASG]->size = sizeof(prec->asg);
-    prt->papFldDes[longoutRecordASG]->offset = (unsigned short)((char *)&prec->asg - (char *)prec);
     prt->papFldDes[longoutRecordSCAN]->size = sizeof(prec->scan);
-    prt->papFldDes[longoutRecordSCAN]->offset = (unsigned short)((char *)&prec->scan - (char *)prec);
     prt->papFldDes[longoutRecordPINI]->size = sizeof(prec->pini);
-    prt->papFldDes[longoutRecordPINI]->offset = (unsigned short)((char *)&prec->pini - (char *)prec);
     prt->papFldDes[longoutRecordPHAS]->size = sizeof(prec->phas);
-    prt->papFldDes[longoutRecordPHAS]->offset = (unsigned short)((char *)&prec->phas - (char *)prec);
     prt->papFldDes[longoutRecordEVNT]->size = sizeof(prec->evnt);
-    prt->papFldDes[longoutRecordEVNT]->offset = (unsigned short)((char *)&prec->evnt - (char *)prec);
     prt->papFldDes[longoutRecordTSE]->size = sizeof(prec->tse);
-    prt->papFldDes[longoutRecordTSE]->offset = (unsigned short)((char *)&prec->tse - (char *)prec);
     prt->papFldDes[longoutRecordTSEL]->size = sizeof(prec->tsel);
-    prt->papFldDes[longoutRecordTSEL]->offset = (unsigned short)((char *)&prec->tsel - (char *)prec);
     prt->papFldDes[longoutRecordDTYP]->size = sizeof(prec->dtyp);
-    prt->papFldDes[longoutRecordDTYP]->offset = (unsigned short)((char *)&prec->dtyp - (char *)prec);
     prt->papFldDes[longoutRecordDISV]->size = sizeof(prec->disv);
-    prt->papFldDes[longoutRecordDISV]->offset = (unsigned short)((char *)&prec->disv - (char *)prec);
     prt->papFldDes[longoutRecordDISA]->size = sizeof(prec->disa);
-    prt->papFldDes[longoutRecordDISA]->offset = (unsigned short)((char *)&prec->disa - (char *)prec);
     prt->papFldDes[longoutRecordSDIS]->size = sizeof(prec->sdis);
-    prt->papFldDes[longoutRecordSDIS]->offset = (unsigned short)((char *)&prec->sdis - (char *)prec);
     prt->papFldDes[longoutRecordMLOK]->size = sizeof(prec->mlok);
-    prt->papFldDes[longoutRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[longoutRecordMLIS]->size = sizeof(prec->mlis);
-    prt->papFldDes[longoutRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
     prt->papFldDes[longoutRecordDISP]->size = sizeof(prec->disp);
-    prt->papFldDes[longoutRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[longoutRecordPROC]->size = sizeof(prec->proc);
-    prt->papFldDes[longoutRecordPROC]->offset = (unsigned short)((char *)&prec->proc - (char *)prec);
     prt->papFldDes[longoutRecordSTAT]->size = sizeof(prec->stat);
-    prt->papFldDes[longoutRecordSTAT]->offset = (unsigned short)((char *)&prec->stat - (char *)prec);
     prt->papFldDes[longoutRecordSEVR]->size = sizeof(prec->sevr);
-    prt->papFldDes[longoutRecordSEVR]->offset = (unsigned short)((char *)&prec->sevr - (char *)prec);
     prt->papFldDes[longoutRecordNSTA]->size = sizeof(prec->nsta);
-    prt->papFldDes[longoutRecordNSTA]->offset = (unsigned short)((char *)&prec->nsta - (char *)prec);
     prt->papFldDes[longoutRecordNSEV]->size = sizeof(prec->nsev);
-    prt->papFldDes[longoutRecordNSEV]->offset = (unsigned short)((char *)&prec->nsev - (char *)prec);
     prt->papFldDes[longoutRecordACKS]->size = sizeof(prec->acks);
-    prt->papFldDes[longoutRecordACKS]->offset = (unsigned short)((char *)&prec->acks - (char *)prec);
     prt->papFldDes[longoutRecordACKT]->size = sizeof(prec->ackt);
-    prt->papFldDes[longoutRecordACKT]->offset = (unsigned short)((char *)&prec->ackt - (char *)prec);
     prt->papFldDes[longoutRecordDISS]->size = sizeof(prec->diss);
-    prt->papFldDes[longoutRecordDISS]->offset = (unsigned short)((char *)&prec->diss - (char *)prec);
     prt->papFldDes[longoutRecordLCNT]->size = sizeof(prec->lcnt);
-    prt->papFldDes[longoutRecordLCNT]->offset = (unsigned short)((char *)&prec->lcnt - (char *)prec);
     prt->papFldDes[longoutRecordPACT]->size = sizeof(prec->pact);
-    prt->papFldDes[longoutRecordPACT]->offset = (unsigned short)((char *)&prec->pact - (char *)prec);
     prt->papFldDes[longoutRecordPUTF]->size = sizeof(prec->putf);
-    prt->papFldDes[longoutRecordPUTF]->offset = (unsigned short)((char *)&prec->putf - (char *)prec);
     prt->papFldDes[longoutRecordRPRO]->size = sizeof(prec->rpro);
-    prt->papFldDes[longoutRecordRPRO]->offset = (unsigned short)((char *)&prec->rpro - (char *)prec);
     prt->papFldDes[longoutRecordASP]->size = sizeof(prec->asp);
-    prt->papFldDes[longoutRecordASP]->offset = (unsigned short)((char *)&prec->asp - (char *)prec);
     prt->papFldDes[longoutRecordPPN]->size = sizeof(prec->ppn);
-    prt->papFldDes[longoutRecordPPN]->offset = (unsigned short)((char *)&prec->ppn - (char *)prec);
     prt->papFldDes[longoutRecordPPNR]->size = sizeof(prec->ppnr);
-    prt->papFldDes[longoutRecordPPNR]->offset = (unsigned short)((char *)&prec->ppnr - (char *)prec);
     prt->papFldDes[longoutRecordSPVT]->size = sizeof(prec->spvt);
-    prt->papFldDes[longoutRecordSPVT]->offset = (unsigned short)((char *)&prec->spvt - (char *)prec);
     prt->papFldDes[longoutRecordRSET]->size = sizeof(prec->rset);
-    prt->papFldDes[longoutRecordRSET]->offset = (unsigned short)((char *)&prec->rset - (char *)prec);
     prt->papFldDes[longoutRecordDSET]->size = sizeof(prec->dset);
-    prt->papFldDes[longoutRecordDSET]->offset = (unsigned short)((char *)&prec->dset - (char *)prec);
     prt->papFldDes[longoutRecordDPVT]->size = sizeof(prec->dpvt);
-    prt->papFldDes[longoutRecordDPVT]->offset = (unsigned short)((char *)&prec->dpvt - (char *)prec);
     prt->papFldDes[longoutRecordRDES]->size = sizeof(prec->rdes);
-    prt->papFldDes[longoutRecordRDES]->offset = (unsigned short)((char *)&prec->rdes - (char *)prec);
     prt->papFldDes[longoutRecordLSET]->size = sizeof(prec->lset);
-    prt->papFldDes[longoutRecordLSET]->offset = (unsigned short)((char *)&prec->lset - (char *)prec);
     prt->papFldDes[longoutRecordPRIO]->size = sizeof(prec->prio);
-    prt->papFldDes[longoutRecordPRIO]->offset = (unsigned short)((char *)&prec->prio - (char *)prec);
     prt->papFldDes[longoutRecordTPRO]->size = sizeof(prec->tpro);
-    prt->papFldDes[longoutRecordTPRO]->offset = (unsigned short)((char *)&prec->tpro - (char *)prec);
     prt->papFldDes[longoutRecordBKPT]->size = sizeof(prec->bkpt);
-    prt->papFldDes[longoutRecordBKPT]->offset = (unsigned short)((char *)&prec->bkpt - (char *)prec);
     prt->papFldDes[longoutRecordUDF]->size = sizeof(prec->udf);
-    prt->papFldDes[longoutRecordUDF]->offset = (unsigned short)((char *)&prec->udf - (char *)prec);
     prt->papFldDes[longoutRecordUDFS]->size = sizeof(prec->udfs);
-    prt->papFldDes[longoutRecordUDFS]->offset = (unsigned short)((char *)&prec->udfs - (char *)prec);
     prt->papFldDes[longoutRecordTIME]->size = sizeof(prec->time);
-    prt->papFldDes[longoutRecordTIME]->offset = (unsigned short)((char *)&prec->time - (char *)prec);
     prt->papFldDes[longoutRecordFLNK]->size = sizeof(prec->flnk);
-    prt->papFldDes[longoutRecordFLNK]->offset = (unsigned short)((char *)&prec->flnk - (char *)prec);
     prt->papFldDes[longoutRecordVAL]->size = sizeof(prec->val);
-    prt->papFldDes[longoutRecordVAL]->offset = (unsigned short)((char *)&prec->val - (char *)prec);
     prt->papFldDes[longoutRecordOUT]->size = sizeof(prec->out);
-    prt->papFldDes[longoutRecordOUT]->offset = (unsigned short)((char *)&prec->out - (char *)prec);
     prt->papFldDes[longoutRecordDOL]->size = sizeof(prec->dol);
-    prt->papFldDes[longoutRecordDOL]->offset = (unsigned short)((char *)&prec->dol - (char *)prec);
     prt->papFldDes[longoutRecordOMSL]->size = sizeof(prec->omsl);
-    prt->papFldDes[longoutRecordOMSL]->offset = (unsigned short)((char *)&prec->omsl - (char *)prec);
     prt->papFldDes[longoutRecordEGU]->size = sizeof(prec->egu);
-    prt->papFldDes[longoutRecordEGU]->offset = (unsigned short)((char *)&prec->egu - (char *)prec);
     prt->papFldDes[longoutRecordDRVH]->size = sizeof(prec->drvh);
-    prt->papFldDes[longoutRecordDRVH]->offset = (unsigned short)((char *)&prec->drvh - (char *)prec);
     prt->papFldDes[longoutRecordDRVL]->size = sizeof(prec->drvl);
-    prt->papFldDes[longoutRecordDRVL]->offset = (unsigned short)((char *)&prec->drvl - (char *)prec);
     prt->papFldDes[longoutRecordHOPR]->size = sizeof(prec->hopr);
-    prt->papFldDes[longoutRecordHOPR]->offset = (unsigned short)((char *)&prec->hopr - (char *)prec);
     prt->papFldDes[longoutRecordLOPR]->size = sizeof(prec->lopr);
-    prt->papFldDes[longoutRecordLOPR]->offset = (unsigned short)((char *)&prec->lopr - (char *)prec);
     prt->papFldDes[longoutRecordHIHI]->size = sizeof(prec->hihi);
-    prt->papFldDes[longoutRecordHIHI]->offset = (unsigned short)((char *)&prec->hihi - (char *)prec);
     prt->papFldDes[longoutRecordLOLO]->size = sizeof(prec->lolo);
-    prt->papFldDes[longoutRecordLOLO]->offset = (unsigned short)((char *)&prec->lolo - (char *)prec);
     prt->papFldDes[longoutRecordHIGH]->size = sizeof(prec->high);
-    prt->papFldDes[longoutRecordHIGH]->offset = (unsigned short)((char *)&prec->high - (char *)prec);
     prt->papFldDes[longoutRecordLOW]->size = sizeof(prec->low);
-    prt->papFldDes[longoutRecordLOW]->offset = (unsigned short)((char *)&prec->low - (char *)prec);
     prt->papFldDes[longoutRecordHHSV]->size = sizeof(prec->hhsv);
-    prt->papFldDes[longoutRecordHHSV]->offset = (unsigned short)((char *)&prec->hhsv - (char *)prec);
     prt->papFldDes[longoutRecordLLSV]->size = sizeof(prec->llsv);
-    prt->papFldDes[longoutRecordLLSV]->offset = (unsigned short)((char *)&prec->llsv - (char *)prec);
     prt->papFldDes[longoutRecordHSV]->size = sizeof(prec->hsv);
-    prt->papFldDes[longoutRecordHSV]->offset = (unsigned short)((char *)&prec->hsv - (char *)prec);
     prt->papFldDes[longoutRecordLSV]->size = sizeof(prec->lsv);
-    prt->papFldDes[longoutRecordLSV]->offset = (unsigned short)((char *)&prec->lsv - (char *)prec);
     prt->papFldDes[longoutRecordHYST]->size = sizeof(prec->hyst);
-    prt->papFldDes[longoutRecordHYST]->offset = (unsigned short)((char *)&prec->hyst - (char *)prec);
     prt->papFldDes[longoutRecordADEL]->size = sizeof(prec->adel);
-    prt->papFldDes[longoutRecordADEL]->offset = (unsigned short)((char *)&prec->adel - (char *)prec);
     prt->papFldDes[longoutRecordMDEL]->size = sizeof(prec->mdel);
-    prt->papFldDes[longoutRecordMDEL]->offset = (unsigned short)((char *)&prec->mdel - (char *)prec);
     prt->papFldDes[longoutRecordLALM]->size = sizeof(prec->lalm);
-    prt->papFldDes[longoutRecordLALM]->offset = (unsigned short)((char *)&prec->lalm - (char *)prec);
     prt->papFldDes[longoutRecordALST]->size = sizeof(prec->alst);
-    prt->papFldDes[longoutRecordALST]->offset = (unsigned short)((char *)&prec->alst - (char *)prec);
     prt->papFldDes[longoutRecordMLST]->size = sizeof(prec->mlst);
-    prt->papFldDes[longoutRecordMLST]->offset = (unsigned short)((char *)&prec->mlst - (char *)prec);
     prt->papFldDes[longoutRecordSIOL]->size = sizeof(prec->siol);
-    prt->papFldDes[longoutRecordSIOL]->offset = (unsigned short)((char *)&prec->siol - (char *)prec);
     prt->papFldDes[longoutRecordSIML]->size = sizeof(prec->siml);
-    prt->papFldDes[longoutRecordSIML]->offset = (unsigned short)((char *)&prec->siml - (char *)prec);
     prt->papFldDes[longoutRecordSIMM]->size = sizeof(prec->simm);
-    prt->papFldDes[longoutRecordSIMM]->offset = (unsigned short)((char *)&prec->simm - (char *)prec);
     prt->papFldDes[longoutRecordSIMS]->size = sizeof(prec->sims);
-    prt->papFldDes[longoutRecordSIMS]->offset = (unsigned short)((char *)&prec->sims - (char *)prec);
     prt->papFldDes[longoutRecordIVOA]->size = sizeof(prec->ivoa);
-    prt->papFldDes[longoutRecordIVOA]->offset = (unsigned short)((char *)&prec->ivoa - (char *)prec);
     prt->papFldDes[longoutRecordIVOV]->size = sizeof(prec->ivov);
+    prt->papFldDes[longoutRecordNAME]->offset = (unsigned short)((char *)&prec->name - (char *)prec);
+    prt->papFldDes[longoutRecordDESC]->offset = (unsigned short)((char *)&prec->desc - (char *)prec);
+    prt->papFldDes[longoutRecordASG]->offset = (unsigned short)((char *)&prec->asg - (char *)prec);
+    prt->papFldDes[longoutRecordSCAN]->offset = (unsigned short)((char *)&prec->scan - (char *)prec);
+    prt->papFldDes[longoutRecordPINI]->offset = (unsigned short)((char *)&prec->pini - (char *)prec);
+    prt->papFldDes[longoutRecordPHAS]->offset = (unsigned short)((char *)&prec->phas - (char *)prec);
+    prt->papFldDes[longoutRecordEVNT]->offset = (unsigned short)((char *)&prec->evnt - (char *)prec);
+    prt->papFldDes[longoutRecordTSE]->offset = (unsigned short)((char *)&prec->tse - (char *)prec);
+    prt->papFldDes[longoutRecordTSEL]->offset = (unsigned short)((char *)&prec->tsel - (char *)prec);
+    prt->papFldDes[longoutRecordDTYP]->offset = (unsigned short)((char *)&prec->dtyp - (char *)prec);
+    prt->papFldDes[longoutRecordDISV]->offset = (unsigned short)((char *)&prec->disv - (char *)prec);
+    prt->papFldDes[longoutRecordDISA]->offset = (unsigned short)((char *)&prec->disa - (char *)prec);
+    prt->papFldDes[longoutRecordSDIS]->offset = (unsigned short)((char *)&prec->sdis - (char *)prec);
+    prt->papFldDes[longoutRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
+    prt->papFldDes[longoutRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
+    prt->papFldDes[longoutRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
+    prt->papFldDes[longoutRecordPROC]->offset = (unsigned short)((char *)&prec->proc - (char *)prec);
+    prt->papFldDes[longoutRecordSTAT]->offset = (unsigned short)((char *)&prec->stat - (char *)prec);
+    prt->papFldDes[longoutRecordSEVR]->offset = (unsigned short)((char *)&prec->sevr - (char *)prec);
+    prt->papFldDes[longoutRecordNSTA]->offset = (unsigned short)((char *)&prec->nsta - (char *)prec);
+    prt->papFldDes[longoutRecordNSEV]->offset = (unsigned short)((char *)&prec->nsev - (char *)prec);
+    prt->papFldDes[longoutRecordACKS]->offset = (unsigned short)((char *)&prec->acks - (char *)prec);
+    prt->papFldDes[longoutRecordACKT]->offset = (unsigned short)((char *)&prec->ackt - (char *)prec);
+    prt->papFldDes[longoutRecordDISS]->offset = (unsigned short)((char *)&prec->diss - (char *)prec);
+    prt->papFldDes[longoutRecordLCNT]->offset = (unsigned short)((char *)&prec->lcnt - (char *)prec);
+    prt->papFldDes[longoutRecordPACT]->offset = (unsigned short)((char *)&prec->pact - (char *)prec);
+    prt->papFldDes[longoutRecordPUTF]->offset = (unsigned short)((char *)&prec->putf - (char *)prec);
+    prt->papFldDes[longoutRecordRPRO]->offset = (unsigned short)((char *)&prec->rpro - (char *)prec);
+    prt->papFldDes[longoutRecordASP]->offset = (unsigned short)((char *)&prec->asp - (char *)prec);
+    prt->papFldDes[longoutRecordPPN]->offset = (unsigned short)((char *)&prec->ppn - (char *)prec);
+    prt->papFldDes[longoutRecordPPNR]->offset = (unsigned short)((char *)&prec->ppnr - (char *)prec);
+    prt->papFldDes[longoutRecordSPVT]->offset = (unsigned short)((char *)&prec->spvt - (char *)prec);
+    prt->papFldDes[longoutRecordRSET]->offset = (unsigned short)((char *)&prec->rset - (char *)prec);
+    prt->papFldDes[longoutRecordDSET]->offset = (unsigned short)((char *)&prec->dset - (char *)prec);
+    prt->papFldDes[longoutRecordDPVT]->offset = (unsigned short)((char *)&prec->dpvt - (char *)prec);
+    prt->papFldDes[longoutRecordRDES]->offset = (unsigned short)((char *)&prec->rdes - (char *)prec);
+    prt->papFldDes[longoutRecordLSET]->offset = (unsigned short)((char *)&prec->lset - (char *)prec);
+    prt->papFldDes[longoutRecordPRIO]->offset = (unsigned short)((char *)&prec->prio - (char *)prec);
+    prt->papFldDes[longoutRecordTPRO]->offset = (unsigned short)((char *)&prec->tpro - (char *)prec);
+    prt->papFldDes[longoutRecordBKPT]->offset = (unsigned short)((char *)&prec->bkpt - (char *)prec);
+    prt->papFldDes[longoutRecordUDF]->offset = (unsigned short)((char *)&prec->udf - (char *)prec);
+    prt->papFldDes[longoutRecordUDFS]->offset = (unsigned short)((char *)&prec->udfs - (char *)prec);
+    prt->papFldDes[longoutRecordTIME]->offset = (unsigned short)((char *)&prec->time - (char *)prec);
+    prt->papFldDes[longoutRecordFLNK]->offset = (unsigned short)((char *)&prec->flnk - (char *)prec);
+    prt->papFldDes[longoutRecordVAL]->offset = (unsigned short)((char *)&prec->val - (char *)prec);
+    prt->papFldDes[longoutRecordOUT]->offset = (unsigned short)((char *)&prec->out - (char *)prec);
+    prt->papFldDes[longoutRecordDOL]->offset = (unsigned short)((char *)&prec->dol - (char *)prec);
+    prt->papFldDes[longoutRecordOMSL]->offset = (unsigned short)((char *)&prec->omsl - (char *)prec);
+    prt->papFldDes[longoutRecordEGU]->offset = (unsigned short)((char *)&prec->egu - (char *)prec);
+    prt->papFldDes[longoutRecordDRVH]->offset = (unsigned short)((char *)&prec->drvh - (char *)prec);
+    prt->papFldDes[longoutRecordDRVL]->offset = (unsigned short)((char *)&prec->drvl - (char *)prec);
+    prt->papFldDes[longoutRecordHOPR]->offset = (unsigned short)((char *)&prec->hopr - (char *)prec);
+    prt->papFldDes[longoutRecordLOPR]->offset = (unsigned short)((char *)&prec->lopr - (char *)prec);
+    prt->papFldDes[longoutRecordHIHI]->offset = (unsigned short)((char *)&prec->hihi - (char *)prec);
+    prt->papFldDes[longoutRecordLOLO]->offset = (unsigned short)((char *)&prec->lolo - (char *)prec);
+    prt->papFldDes[longoutRecordHIGH]->offset = (unsigned short)((char *)&prec->high - (char *)prec);
+    prt->papFldDes[longoutRecordLOW]->offset = (unsigned short)((char *)&prec->low - (char *)prec);
+    prt->papFldDes[longoutRecordHHSV]->offset = (unsigned short)((char *)&prec->hhsv - (char *)prec);
+    prt->papFldDes[longoutRecordLLSV]->offset = (unsigned short)((char *)&prec->llsv - (char *)prec);
+    prt->papFldDes[longoutRecordHSV]->offset = (unsigned short)((char *)&prec->hsv - (char *)prec);
+    prt->papFldDes[longoutRecordLSV]->offset = (unsigned short)((char *)&prec->lsv - (char *)prec);
+    prt->papFldDes[longoutRecordHYST]->offset = (unsigned short)((char *)&prec->hyst - (char *)prec);
+    prt->papFldDes[longoutRecordADEL]->offset = (unsigned short)((char *)&prec->adel - (char *)prec);
+    prt->papFldDes[longoutRecordMDEL]->offset = (unsigned short)((char *)&prec->mdel - (char *)prec);
+    prt->papFldDes[longoutRecordLALM]->offset = (unsigned short)((char *)&prec->lalm - (char *)prec);
+    prt->papFldDes[longoutRecordALST]->offset = (unsigned short)((char *)&prec->alst - (char *)prec);
+    prt->papFldDes[longoutRecordMLST]->offset = (unsigned short)((char *)&prec->mlst - (char *)prec);
+    prt->papFldDes[longoutRecordSIOL]->offset = (unsigned short)((char *)&prec->siol - (char *)prec);
+    prt->papFldDes[longoutRecordSIML]->offset = (unsigned short)((char *)&prec->siml - (char *)prec);
+    prt->papFldDes[longoutRecordSIMM]->offset = (unsigned short)((char *)&prec->simm - (char *)prec);
+    prt->papFldDes[longoutRecordSIMS]->offset = (unsigned short)((char *)&prec->sims - (char *)prec);
+    prt->papFldDes[longoutRecordIVOA]->offset = (unsigned short)((char *)&prec->ivoa - (char *)prec);
     prt->papFldDes[longoutRecordIVOV]->offset = (unsigned short)((char *)&prec->ivov - (char *)prec);
     prt->rec_size = sizeof(*prec);
     return 0;

@@ -1,8 +1,4 @@
-/** @file lsiRecord.h
- * @brief Declarations for the @ref lsiRecord "lsi" record type.
- *
- * This header was generated from lsiRecord.dbd
- */
+/* lsiRecord.h generated from lsiRecord.dbd */
 
 #ifndef INC_lsiRecord_H
 #define INC_lsiRecord_H
@@ -145,8 +141,8 @@ typedef enum {
 
 #ifdef GEN_SIZE_OFFSET
 
+#include <epicsAssert.h>
 #include <epicsExport.h>
-#include <cantProceed.h>
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -154,123 +150,118 @@ static int lsiRecordSizeOffset(dbRecordType *prt)
 {
     lsiRecord *prec = 0;
 
-    if (prt->no_fields != 56) {
-        cantProceed("IOC build or installation error:\n"
-            "    The lsiRecord defined in the DBD file has %d fields,\n"
-            "    but the record support code was built with 56.\n",
-            prt->no_fields);
-    }
+    assert(prt->no_fields == 56);
     prt->papFldDes[lsiRecordNAME]->size = sizeof(prec->name);
-    prt->papFldDes[lsiRecordNAME]->offset = (unsigned short)((char *)&prec->name - (char *)prec);
     prt->papFldDes[lsiRecordDESC]->size = sizeof(prec->desc);
-    prt->papFldDes[lsiRecordDESC]->offset = (unsigned short)((char *)&prec->desc - (char *)prec);
     prt->papFldDes[lsiRecordASG]->size = sizeof(prec->asg);
-    prt->papFldDes[lsiRecordASG]->offset = (unsigned short)((char *)&prec->asg - (char *)prec);
     prt->papFldDes[lsiRecordSCAN]->size = sizeof(prec->scan);
-    prt->papFldDes[lsiRecordSCAN]->offset = (unsigned short)((char *)&prec->scan - (char *)prec);
     prt->papFldDes[lsiRecordPINI]->size = sizeof(prec->pini);
-    prt->papFldDes[lsiRecordPINI]->offset = (unsigned short)((char *)&prec->pini - (char *)prec);
     prt->papFldDes[lsiRecordPHAS]->size = sizeof(prec->phas);
-    prt->papFldDes[lsiRecordPHAS]->offset = (unsigned short)((char *)&prec->phas - (char *)prec);
     prt->papFldDes[lsiRecordEVNT]->size = sizeof(prec->evnt);
-    prt->papFldDes[lsiRecordEVNT]->offset = (unsigned short)((char *)&prec->evnt - (char *)prec);
     prt->papFldDes[lsiRecordTSE]->size = sizeof(prec->tse);
-    prt->papFldDes[lsiRecordTSE]->offset = (unsigned short)((char *)&prec->tse - (char *)prec);
     prt->papFldDes[lsiRecordTSEL]->size = sizeof(prec->tsel);
-    prt->papFldDes[lsiRecordTSEL]->offset = (unsigned short)((char *)&prec->tsel - (char *)prec);
     prt->papFldDes[lsiRecordDTYP]->size = sizeof(prec->dtyp);
-    prt->papFldDes[lsiRecordDTYP]->offset = (unsigned short)((char *)&prec->dtyp - (char *)prec);
     prt->papFldDes[lsiRecordDISV]->size = sizeof(prec->disv);
-    prt->papFldDes[lsiRecordDISV]->offset = (unsigned short)((char *)&prec->disv - (char *)prec);
     prt->papFldDes[lsiRecordDISA]->size = sizeof(prec->disa);
-    prt->papFldDes[lsiRecordDISA]->offset = (unsigned short)((char *)&prec->disa - (char *)prec);
     prt->papFldDes[lsiRecordSDIS]->size = sizeof(prec->sdis);
-    prt->papFldDes[lsiRecordSDIS]->offset = (unsigned short)((char *)&prec->sdis - (char *)prec);
     prt->papFldDes[lsiRecordMLOK]->size = sizeof(prec->mlok);
-    prt->papFldDes[lsiRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[lsiRecordMLIS]->size = sizeof(prec->mlis);
-    prt->papFldDes[lsiRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
     prt->papFldDes[lsiRecordDISP]->size = sizeof(prec->disp);
-    prt->papFldDes[lsiRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[lsiRecordPROC]->size = sizeof(prec->proc);
-    prt->papFldDes[lsiRecordPROC]->offset = (unsigned short)((char *)&prec->proc - (char *)prec);
     prt->papFldDes[lsiRecordSTAT]->size = sizeof(prec->stat);
-    prt->papFldDes[lsiRecordSTAT]->offset = (unsigned short)((char *)&prec->stat - (char *)prec);
     prt->papFldDes[lsiRecordSEVR]->size = sizeof(prec->sevr);
-    prt->papFldDes[lsiRecordSEVR]->offset = (unsigned short)((char *)&prec->sevr - (char *)prec);
     prt->papFldDes[lsiRecordNSTA]->size = sizeof(prec->nsta);
-    prt->papFldDes[lsiRecordNSTA]->offset = (unsigned short)((char *)&prec->nsta - (char *)prec);
     prt->papFldDes[lsiRecordNSEV]->size = sizeof(prec->nsev);
-    prt->papFldDes[lsiRecordNSEV]->offset = (unsigned short)((char *)&prec->nsev - (char *)prec);
     prt->papFldDes[lsiRecordACKS]->size = sizeof(prec->acks);
-    prt->papFldDes[lsiRecordACKS]->offset = (unsigned short)((char *)&prec->acks - (char *)prec);
     prt->papFldDes[lsiRecordACKT]->size = sizeof(prec->ackt);
-    prt->papFldDes[lsiRecordACKT]->offset = (unsigned short)((char *)&prec->ackt - (char *)prec);
     prt->papFldDes[lsiRecordDISS]->size = sizeof(prec->diss);
-    prt->papFldDes[lsiRecordDISS]->offset = (unsigned short)((char *)&prec->diss - (char *)prec);
     prt->papFldDes[lsiRecordLCNT]->size = sizeof(prec->lcnt);
-    prt->papFldDes[lsiRecordLCNT]->offset = (unsigned short)((char *)&prec->lcnt - (char *)prec);
     prt->papFldDes[lsiRecordPACT]->size = sizeof(prec->pact);
-    prt->papFldDes[lsiRecordPACT]->offset = (unsigned short)((char *)&prec->pact - (char *)prec);
     prt->papFldDes[lsiRecordPUTF]->size = sizeof(prec->putf);
-    prt->papFldDes[lsiRecordPUTF]->offset = (unsigned short)((char *)&prec->putf - (char *)prec);
     prt->papFldDes[lsiRecordRPRO]->size = sizeof(prec->rpro);
-    prt->papFldDes[lsiRecordRPRO]->offset = (unsigned short)((char *)&prec->rpro - (char *)prec);
     prt->papFldDes[lsiRecordASP]->size = sizeof(prec->asp);
-    prt->papFldDes[lsiRecordASP]->offset = (unsigned short)((char *)&prec->asp - (char *)prec);
     prt->papFldDes[lsiRecordPPN]->size = sizeof(prec->ppn);
-    prt->papFldDes[lsiRecordPPN]->offset = (unsigned short)((char *)&prec->ppn - (char *)prec);
     prt->papFldDes[lsiRecordPPNR]->size = sizeof(prec->ppnr);
-    prt->papFldDes[lsiRecordPPNR]->offset = (unsigned short)((char *)&prec->ppnr - (char *)prec);
     prt->papFldDes[lsiRecordSPVT]->size = sizeof(prec->spvt);
-    prt->papFldDes[lsiRecordSPVT]->offset = (unsigned short)((char *)&prec->spvt - (char *)prec);
     prt->papFldDes[lsiRecordRSET]->size = sizeof(prec->rset);
-    prt->papFldDes[lsiRecordRSET]->offset = (unsigned short)((char *)&prec->rset - (char *)prec);
     prt->papFldDes[lsiRecordDSET]->size = sizeof(prec->dset);
-    prt->papFldDes[lsiRecordDSET]->offset = (unsigned short)((char *)&prec->dset - (char *)prec);
     prt->papFldDes[lsiRecordDPVT]->size = sizeof(prec->dpvt);
-    prt->papFldDes[lsiRecordDPVT]->offset = (unsigned short)((char *)&prec->dpvt - (char *)prec);
     prt->papFldDes[lsiRecordRDES]->size = sizeof(prec->rdes);
-    prt->papFldDes[lsiRecordRDES]->offset = (unsigned short)((char *)&prec->rdes - (char *)prec);
     prt->papFldDes[lsiRecordLSET]->size = sizeof(prec->lset);
-    prt->papFldDes[lsiRecordLSET]->offset = (unsigned short)((char *)&prec->lset - (char *)prec);
     prt->papFldDes[lsiRecordPRIO]->size = sizeof(prec->prio);
-    prt->papFldDes[lsiRecordPRIO]->offset = (unsigned short)((char *)&prec->prio - (char *)prec);
     prt->papFldDes[lsiRecordTPRO]->size = sizeof(prec->tpro);
-    prt->papFldDes[lsiRecordTPRO]->offset = (unsigned short)((char *)&prec->tpro - (char *)prec);
     prt->papFldDes[lsiRecordBKPT]->size = sizeof(prec->bkpt);
-    prt->papFldDes[lsiRecordBKPT]->offset = (unsigned short)((char *)&prec->bkpt - (char *)prec);
     prt->papFldDes[lsiRecordUDF]->size = sizeof(prec->udf);
-    prt->papFldDes[lsiRecordUDF]->offset = (unsigned short)((char *)&prec->udf - (char *)prec);
     prt->papFldDes[lsiRecordUDFS]->size = sizeof(prec->udfs);
-    prt->papFldDes[lsiRecordUDFS]->offset = (unsigned short)((char *)&prec->udfs - (char *)prec);
     prt->papFldDes[lsiRecordTIME]->size = sizeof(prec->time);
-    prt->papFldDes[lsiRecordTIME]->offset = (unsigned short)((char *)&prec->time - (char *)prec);
     prt->papFldDes[lsiRecordFLNK]->size = sizeof(prec->flnk);
-    prt->papFldDes[lsiRecordFLNK]->offset = (unsigned short)((char *)&prec->flnk - (char *)prec);
     prt->papFldDes[lsiRecordVAL]->size = sizeof(prec->val);
-    prt->papFldDes[lsiRecordVAL]->offset = (unsigned short)((char *)&prec->val - (char *)prec);
     prt->papFldDes[lsiRecordOVAL]->size = sizeof(prec->oval);
-    prt->papFldDes[lsiRecordOVAL]->offset = (unsigned short)((char *)&prec->oval - (char *)prec);
     prt->papFldDes[lsiRecordSIZV]->size = sizeof(prec->sizv);
-    prt->papFldDes[lsiRecordSIZV]->offset = (unsigned short)((char *)&prec->sizv - (char *)prec);
     prt->papFldDes[lsiRecordLEN]->size = sizeof(prec->len);
-    prt->papFldDes[lsiRecordLEN]->offset = (unsigned short)((char *)&prec->len - (char *)prec);
     prt->papFldDes[lsiRecordOLEN]->size = sizeof(prec->olen);
-    prt->papFldDes[lsiRecordOLEN]->offset = (unsigned short)((char *)&prec->olen - (char *)prec);
     prt->papFldDes[lsiRecordINP]->size = sizeof(prec->inp);
-    prt->papFldDes[lsiRecordINP]->offset = (unsigned short)((char *)&prec->inp - (char *)prec);
     prt->papFldDes[lsiRecordMPST]->size = sizeof(prec->mpst);
-    prt->papFldDes[lsiRecordMPST]->offset = (unsigned short)((char *)&prec->mpst - (char *)prec);
     prt->papFldDes[lsiRecordAPST]->size = sizeof(prec->apst);
-    prt->papFldDes[lsiRecordAPST]->offset = (unsigned short)((char *)&prec->apst - (char *)prec);
     prt->papFldDes[lsiRecordSIML]->size = sizeof(prec->siml);
-    prt->papFldDes[lsiRecordSIML]->offset = (unsigned short)((char *)&prec->siml - (char *)prec);
     prt->papFldDes[lsiRecordSIMM]->size = sizeof(prec->simm);
-    prt->papFldDes[lsiRecordSIMM]->offset = (unsigned short)((char *)&prec->simm - (char *)prec);
     prt->papFldDes[lsiRecordSIMS]->size = sizeof(prec->sims);
-    prt->papFldDes[lsiRecordSIMS]->offset = (unsigned short)((char *)&prec->sims - (char *)prec);
     prt->papFldDes[lsiRecordSIOL]->size = sizeof(prec->siol);
+    prt->papFldDes[lsiRecordNAME]->offset = (unsigned short)((char *)&prec->name - (char *)prec);
+    prt->papFldDes[lsiRecordDESC]->offset = (unsigned short)((char *)&prec->desc - (char *)prec);
+    prt->papFldDes[lsiRecordASG]->offset = (unsigned short)((char *)&prec->asg - (char *)prec);
+    prt->papFldDes[lsiRecordSCAN]->offset = (unsigned short)((char *)&prec->scan - (char *)prec);
+    prt->papFldDes[lsiRecordPINI]->offset = (unsigned short)((char *)&prec->pini - (char *)prec);
+    prt->papFldDes[lsiRecordPHAS]->offset = (unsigned short)((char *)&prec->phas - (char *)prec);
+    prt->papFldDes[lsiRecordEVNT]->offset = (unsigned short)((char *)&prec->evnt - (char *)prec);
+    prt->papFldDes[lsiRecordTSE]->offset = (unsigned short)((char *)&prec->tse - (char *)prec);
+    prt->papFldDes[lsiRecordTSEL]->offset = (unsigned short)((char *)&prec->tsel - (char *)prec);
+    prt->papFldDes[lsiRecordDTYP]->offset = (unsigned short)((char *)&prec->dtyp - (char *)prec);
+    prt->papFldDes[lsiRecordDISV]->offset = (unsigned short)((char *)&prec->disv - (char *)prec);
+    prt->papFldDes[lsiRecordDISA]->offset = (unsigned short)((char *)&prec->disa - (char *)prec);
+    prt->papFldDes[lsiRecordSDIS]->offset = (unsigned short)((char *)&prec->sdis - (char *)prec);
+    prt->papFldDes[lsiRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
+    prt->papFldDes[lsiRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
+    prt->papFldDes[lsiRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
+    prt->papFldDes[lsiRecordPROC]->offset = (unsigned short)((char *)&prec->proc - (char *)prec);
+    prt->papFldDes[lsiRecordSTAT]->offset = (unsigned short)((char *)&prec->stat - (char *)prec);
+    prt->papFldDes[lsiRecordSEVR]->offset = (unsigned short)((char *)&prec->sevr - (char *)prec);
+    prt->papFldDes[lsiRecordNSTA]->offset = (unsigned short)((char *)&prec->nsta - (char *)prec);
+    prt->papFldDes[lsiRecordNSEV]->offset = (unsigned short)((char *)&prec->nsev - (char *)prec);
+    prt->papFldDes[lsiRecordACKS]->offset = (unsigned short)((char *)&prec->acks - (char *)prec);
+    prt->papFldDes[lsiRecordACKT]->offset = (unsigned short)((char *)&prec->ackt - (char *)prec);
+    prt->papFldDes[lsiRecordDISS]->offset = (unsigned short)((char *)&prec->diss - (char *)prec);
+    prt->papFldDes[lsiRecordLCNT]->offset = (unsigned short)((char *)&prec->lcnt - (char *)prec);
+    prt->papFldDes[lsiRecordPACT]->offset = (unsigned short)((char *)&prec->pact - (char *)prec);
+    prt->papFldDes[lsiRecordPUTF]->offset = (unsigned short)((char *)&prec->putf - (char *)prec);
+    prt->papFldDes[lsiRecordRPRO]->offset = (unsigned short)((char *)&prec->rpro - (char *)prec);
+    prt->papFldDes[lsiRecordASP]->offset = (unsigned short)((char *)&prec->asp - (char *)prec);
+    prt->papFldDes[lsiRecordPPN]->offset = (unsigned short)((char *)&prec->ppn - (char *)prec);
+    prt->papFldDes[lsiRecordPPNR]->offset = (unsigned short)((char *)&prec->ppnr - (char *)prec);
+    prt->papFldDes[lsiRecordSPVT]->offset = (unsigned short)((char *)&prec->spvt - (char *)prec);
+    prt->papFldDes[lsiRecordRSET]->offset = (unsigned short)((char *)&prec->rset - (char *)prec);
+    prt->papFldDes[lsiRecordDSET]->offset = (unsigned short)((char *)&prec->dset - (char *)prec);
+    prt->papFldDes[lsiRecordDPVT]->offset = (unsigned short)((char *)&prec->dpvt - (char *)prec);
+    prt->papFldDes[lsiRecordRDES]->offset = (unsigned short)((char *)&prec->rdes - (char *)prec);
+    prt->papFldDes[lsiRecordLSET]->offset = (unsigned short)((char *)&prec->lset - (char *)prec);
+    prt->papFldDes[lsiRecordPRIO]->offset = (unsigned short)((char *)&prec->prio - (char *)prec);
+    prt->papFldDes[lsiRecordTPRO]->offset = (unsigned short)((char *)&prec->tpro - (char *)prec);
+    prt->papFldDes[lsiRecordBKPT]->offset = (unsigned short)((char *)&prec->bkpt - (char *)prec);
+    prt->papFldDes[lsiRecordUDF]->offset = (unsigned short)((char *)&prec->udf - (char *)prec);
+    prt->papFldDes[lsiRecordUDFS]->offset = (unsigned short)((char *)&prec->udfs - (char *)prec);
+    prt->papFldDes[lsiRecordTIME]->offset = (unsigned short)((char *)&prec->time - (char *)prec);
+    prt->papFldDes[lsiRecordFLNK]->offset = (unsigned short)((char *)&prec->flnk - (char *)prec);
+    prt->papFldDes[lsiRecordVAL]->offset = (unsigned short)((char *)&prec->val - (char *)prec);
+    prt->papFldDes[lsiRecordOVAL]->offset = (unsigned short)((char *)&prec->oval - (char *)prec);
+    prt->papFldDes[lsiRecordSIZV]->offset = (unsigned short)((char *)&prec->sizv - (char *)prec);
+    prt->papFldDes[lsiRecordLEN]->offset = (unsigned short)((char *)&prec->len - (char *)prec);
+    prt->papFldDes[lsiRecordOLEN]->offset = (unsigned short)((char *)&prec->olen - (char *)prec);
+    prt->papFldDes[lsiRecordINP]->offset = (unsigned short)((char *)&prec->inp - (char *)prec);
+    prt->papFldDes[lsiRecordMPST]->offset = (unsigned short)((char *)&prec->mpst - (char *)prec);
+    prt->papFldDes[lsiRecordAPST]->offset = (unsigned short)((char *)&prec->apst - (char *)prec);
+    prt->papFldDes[lsiRecordSIML]->offset = (unsigned short)((char *)&prec->siml - (char *)prec);
+    prt->papFldDes[lsiRecordSIMM]->offset = (unsigned short)((char *)&prec->simm - (char *)prec);
+    prt->papFldDes[lsiRecordSIMS]->offset = (unsigned short)((char *)&prec->sims - (char *)prec);
     prt->papFldDes[lsiRecordSIOL]->offset = (unsigned short)((char *)&prec->siol - (char *)prec);
     prt->rec_size = sizeof(*prec);
     return 0;

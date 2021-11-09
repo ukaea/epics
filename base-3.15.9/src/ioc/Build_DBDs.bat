@@ -1,6 +1,7 @@
-SET TOPLEVEL=C:\Users\ktn98257\source\repos\epics.dotnet\
-SET BUILDIR=C:\Users\ktn98257\source\repos\epics.dotnet\base-3.15.9\src\ioc\
-SET DLLDIR=C:\Users\ktn98257\source\repos\epics.dotnet\x64\Debug_DLL\
+REM DBcore
+SET TOPLEVEL=%1
+SET BUILDIR=%2
+SET DLLDIR=%3
 
 if not exist  %TOPLEVEL%include  md %TOPLEVEL%include
 if not exist  %TOPLEVEL%DBD  md %TOPLEVEL%DBD
@@ -11,21 +12,7 @@ if not exist C:\strawberry\perl\lib\DBD.pm  mklink /h C:\strawberry\perl\lib\DBD
 if not exist C:\strawberry\perl\lib\DBD  mklink /d C:\strawberry\perl\lib\DBD %TOPLEVEL%lib\perl\DBD
 if not exist C:\strawberry\perl\lib\EPICS  mklink /d C:\strawberry\perl\lib\EPICS %TOPLEVEL%lib\perl\EPICS
 
-cd db
-perl -CSD %DLLDIR%dbdToRecordtypeH.pl -o ..\O.Common\dbCommon.h dbCommon.dbd
-perl -CSD %DLLDIR%dbdToRecordtypeH.pl -o ..\O.Common\dbCommonRecord.h dbCommonRecord.dbd
-perl -CSD %DLLDIR%dbdToRecordtypeH.pl -o ..\O.Common\menuAlarmStat.h menuAlarmStat.dbd
-perl -CSD %DLLDIR%dbdToRecordtypeH.pl -o ..\O.Common\menuFtype.h menuFtype.dbd
-perl -CSD %DLLDIR%dbdToRecordtypeH.pl -o ..\O.Common\menuIvoa.h menuIvoa.dbd
-perl -CSD %DLLDIR%dbdToRecordtypeH.pl -o ..\O.Common\menuOmsl.h menuOmsl.dbd
-perl -CSD %DLLDIR%dbdToRecordtypeH.pl -o ..\O.Common\menuPini.h menuPini.dbd
-perl -CSD %DLLDIR%dbdToRecordtypeH.pl -o ..\O.Common\menuPriority.h menuPriority.dbd
-perl -CSD %DLLDIR%dbdToRecordtypeH.pl -o ..\O.Common\menuScan.h menuScan.dbd
-perl -CSD %DLLDIR%dbdToRecordtypeH.pl -o ..\O.Common\menuYesNo.h menuYesNo.dbd
-perl -CSD %DLLDIR%dbdToMenuH.pl -I../O.Common -I%TOPLEVEL%include -o ..\O.Common\menuPost.h menuPost.dbd
-perl -CSD %DLLDIR%dbdToMenuH.pl -I../O.Common -I%TOPLEVEL%include -o ..\O.Common\menuSimm.h menuSimm.dbd
-
-cd ..\dbstatic
+cd dbstatic
 %DLLDIR%antelope.exe -bdbYacc.y dbYacc.y
 move /Y dbYacc.tab.c ..\O.Common\dbYacc.c
 %DLLDIR%e_flex.exe -S%TOPLEVEL%include/flex.skel.static -8 -I dbLex.l
@@ -39,12 +26,35 @@ move /Y lex.yy.c ..\O.Common\dbLoadTemplate_lex.c
 
 cd ..\misc
 perl -CSD %DLLDIR%dbdToMenuH.pl -I../O.Common -I%TOPLEVEL%include -o ..\O.Common\dbCore.h dbCore.dbd
-perl -CSD %DLLDIR%dbdToMenuH.pl -I../O.Common -I%TOPLEVEL%include -o ..\O.Common\dllLoad.h dllLoad.dbd
+perl -CSD %DLLDIR%dbdToMenuH.pl -I../O.Common -I%TOPLEVEL%include -o ..\O.Common\dlLoad.h dlLoad.dbd
 perl -CSD %DLLDIR%dbdToMenuH.pl -I../O.Common -I%TOPLEVEL%include -o ..\O.Common\system.h system.dbd
 
 cd ..\db
-perl -CSD %DLLDIR%dbdExpand.pl  -I../O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ../O.Common/menuAlarmSevr.dbd menuAlarmSevr.dbd.pod
-perl -CSD %DLLDIR%dbdExpand.pl  -I../O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ../O.Common/menuSimm.dbd menuSimm.dbd.pod
+perl -CSD %DLLDIR%dbdExpand.pl  -I../O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o menuAlarmSevr.dbd menuAlarmSevr.dbd.pod
+perl -CSD %DLLDIR%dbdExpand.pl  -I../O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o menuSimm.dbd menuSimm.dbd.pod
+perl -CSD %DLLDIR%dbdExpand.pl  -I../O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o menuAlarmStat.dbd menuAlarmStat.dbd.pod
+perl -CSD %DLLDIR%dbdExpand.pl  -I../O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o menuFtype.dbd menuFtype.dbd.pod
+perl -CSD %DLLDIR%dbdExpand.pl  -I../O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o menuIvoa.dbd menuIvoa.dbd.pod
+perl -CSD %DLLDIR%dbdExpand.pl  -I../O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o menuOmsl.dbd menuOmsl.dbd.pod
+perl -CSD %DLLDIR%dbdExpand.pl  -I../O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o menuPini.dbd menuPini.dbd.pod
+perl -CSD %DLLDIR%dbdExpand.pl  -I../O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o menuPriority.dbd menuPriority.dbd.pod
+perl -CSD %DLLDIR%dbdExpand.pl  -I../O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o menuScan.dbd menuScan.dbd.pod
+xcopy /Y /Q menu*.dbd ..\O.Common
+
+perl -CSD %DLLDIR%dbdToRecordtypeH.pl -o ..\O.Common\dbCommon.h dbCommon.dbd
+perl -CSD %DLLDIR%dbdToRecordtypeH.pl -o ..\O.Common\dbCommonRecord.h dbCommonRecord.dbd
+perl -CSD %DLLDIR%dbdToRecordtypeH.pl -o ..\O.Common\menuAlarmStat.h menuAlarmStat.dbd
+perl -CSD %DLLDIR%dbdToRecordtypeH.pl -o ..\O.Common\menuFtype.h menuFtype.dbd
+perl -CSD %DLLDIR%dbdToRecordtypeH.pl -o ..\O.Common\menuIvoa.h menuIvoa.dbd
+perl -CSD %DLLDIR%dbdToRecordtypeH.pl -o ..\O.Common\menuOmsl.h menuOmsl.dbd
+perl -CSD %DLLDIR%dbdToRecordtypeH.pl -o ..\O.Common\menuPini.h menuPini.dbd
+perl -CSD %DLLDIR%dbdToRecordtypeH.pl -o ..\O.Common\menuPriority.h menuPriority.dbd
+perl -CSD %DLLDIR%dbdToRecordtypeH.pl -o ..\O.Common\menuScan.h menuScan.dbd
+perl -CSD %DLLDIR%dbdToRecordtypeH.pl -o ..\O.Common\menuYesNo.h menuYesNo.dbd
+perl -CSD %DLLDIR%dbdToRecordtypeH.pl -o ..\O.Common\menuPost.h menuPost.dbd
+
+perl -CSD %DLLDIR%dbdToMenuH.pl -I../O.Common -I%TOPLEVEL%include -o ..\O.Common\menuPost.h menuPost.dbd
+perl -CSD %DLLDIR%dbdToMenuH.pl -I../O.Common -I%TOPLEVEL%include -o ..\O.Common\menuSimm.h menuSimm.dbd
 
 cd ..
 

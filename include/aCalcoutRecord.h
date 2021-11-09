@@ -3,35 +3,11 @@
 #ifndef INC_aCalcoutRecord_H
 #define INC_aCalcoutRecord_H
 
-#include "epicsTypes.h"
-#include "link.h"
+ #include "epicsTypes.h"
+ #include "link.h"
 #include "epicsMutex.h"
 #include "ellLib.h"
 #include "epicsTime.h"
-
-#ifndef acalcoutWAIT_NUM_CHOICES
-typedef enum {
-    acalcoutWAIT_NoWait             /* NoWait */,
-    acalcoutWAIT_Wait               /* Wait */
-} acalcoutWAIT;
-#define acalcoutWAIT_NUM_CHOICES 2
-#endif
-
-#ifndef acalcoutSIZE_NUM_CHOICES
-typedef enum {
-    acalcoutSIZE_NELM               /* NELM */,
-    acalcoutSIZE_NUSE               /* NUSE */
-} acalcoutSIZE;
-#define acalcoutSIZE_NUM_CHOICES 2
-#endif
-
-#ifndef acalcoutINAP_NUM_CHOICES
-typedef enum {
-    acalcoutINAP_No                 /* No PROC on Change */,
-    acalcoutINAP_Yes                /* PROC on Change */
-} acalcoutINAP;
-#define acalcoutINAP_NUM_CHOICES 2
-#endif
 
 #ifndef acalcoutOOPT_NUM_CHOICES
 typedef enum {
@@ -46,12 +22,28 @@ typedef enum {
 #define acalcoutOOPT_NUM_CHOICES 7
 #endif
 
+#ifndef acalcoutINAP_NUM_CHOICES
+typedef enum {
+    acalcoutINAP_No                 /* No PROC on Change */,
+    acalcoutINAP_Yes                /* PROC on Change */
+} acalcoutINAP;
+#define acalcoutINAP_NUM_CHOICES 2
+#endif
+
 #ifndef acalcoutDOPT_NUM_CHOICES
 typedef enum {
     acalcoutDOPT_Use_VAL            /* Use CALC */,
     acalcoutDOPT_Use_OVAL           /* Use OCAL */
 } acalcoutDOPT;
 #define acalcoutDOPT_NUM_CHOICES 2
+#endif
+
+#ifndef acalcoutSIZE_NUM_CHOICES
+typedef enum {
+    acalcoutSIZE_NELM               /* NELM */,
+    acalcoutSIZE_NUSE               /* NUSE */
+} acalcoutSIZE;
+#define acalcoutSIZE_NUM_CHOICES 2
 #endif
 
 #ifndef acalcoutINAV_NUM_CHOICES
@@ -62,6 +54,14 @@ typedef enum {
     acalcoutINAV_CON                /* Constant */
 } acalcoutINAV;
 #define acalcoutINAV_NUM_CHOICES 4
+#endif
+
+#ifndef acalcoutWAIT_NUM_CHOICES
+typedef enum {
+    acalcoutWAIT_NoWait             /* NoWait */,
+    acalcoutWAIT_Wait               /* Wait */
+} acalcoutWAIT;
+#define acalcoutWAIT_NUM_CHOICES 2
 #endif
 
 typedef struct acalcoutRecord {
@@ -80,7 +80,6 @@ typedef struct acalcoutRecord {
     DBLINK              sdis;       /* Scanning Disable */
     epicsMutexId        mlok;       /* Monitor lock */
     ELLLIST             mlis;       /* Monitor List */
-    ELLLIST             bklnk;      /* Backwards link tracking */
     epicsUInt8          disp;       /* Disable putField */
     epicsUInt8          proc;       /* Force Processing */
     epicsEnum16         stat;       /* Alarm Status */
@@ -98,7 +97,7 @@ typedef struct acalcoutRecord {
     struct processNotify *ppn;      /* pprocessNotify */
     struct processNotifyRecord *ppnr; /* pprocessNotifyRecord */
     struct scan_element *spvt;      /* Scan Private */
-    struct typed_rset   *rset;      /* Address of RSET */
+    struct rset         *rset;      /* Address of RSET */
     struct dset         *dset;      /* DSET address */
     void                *dpvt;      /* Device Private */
     struct dbRecordType *rdes;      /* Address of dbRecordType */
@@ -266,174 +265,173 @@ typedef enum {
 	acalcoutRecordSDIS = 12,
 	acalcoutRecordMLOK = 13,
 	acalcoutRecordMLIS = 14,
-	acalcoutRecordBKLNK = 15,
-	acalcoutRecordDISP = 16,
-	acalcoutRecordPROC = 17,
-	acalcoutRecordSTAT = 18,
-	acalcoutRecordSEVR = 19,
-	acalcoutRecordNSTA = 20,
-	acalcoutRecordNSEV = 21,
-	acalcoutRecordACKS = 22,
-	acalcoutRecordACKT = 23,
-	acalcoutRecordDISS = 24,
-	acalcoutRecordLCNT = 25,
-	acalcoutRecordPACT = 26,
-	acalcoutRecordPUTF = 27,
-	acalcoutRecordRPRO = 28,
-	acalcoutRecordASP = 29,
-	acalcoutRecordPPN = 30,
-	acalcoutRecordPPNR = 31,
-	acalcoutRecordSPVT = 32,
-	acalcoutRecordRSET = 33,
-	acalcoutRecordDSET = 34,
-	acalcoutRecordDPVT = 35,
-	acalcoutRecordRDES = 36,
-	acalcoutRecordLSET = 37,
-	acalcoutRecordPRIO = 38,
-	acalcoutRecordTPRO = 39,
-	acalcoutRecordBKPT = 40,
-	acalcoutRecordUDF = 41,
-	acalcoutRecordUDFS = 42,
-	acalcoutRecordTIME = 43,
-	acalcoutRecordFLNK = 44,
-	acalcoutRecordVERS = 45,
-	acalcoutRecordRPVT = 46,
-	acalcoutRecordVAL = 47,
-	acalcoutRecordAVAL = 48,
-	acalcoutRecordNELM = 49,
-	acalcoutRecordNUSE = 50,
-	acalcoutRecordPVAL = 51,
-	acalcoutRecordPAVL = 52,
-	acalcoutRecordCALC = 53,
-	acalcoutRecordCLCV = 54,
-	acalcoutRecordINPA = 55,
-	acalcoutRecordINPB = 56,
-	acalcoutRecordINPC = 57,
-	acalcoutRecordINPD = 58,
-	acalcoutRecordINPE = 59,
-	acalcoutRecordINPF = 60,
-	acalcoutRecordINPG = 61,
-	acalcoutRecordINPH = 62,
-	acalcoutRecordINPI = 63,
-	acalcoutRecordINPJ = 64,
-	acalcoutRecordINPK = 65,
-	acalcoutRecordINPL = 66,
-	acalcoutRecordINAA = 67,
-	acalcoutRecordINBB = 68,
-	acalcoutRecordINCC = 69,
-	acalcoutRecordINDD = 70,
-	acalcoutRecordINEE = 71,
-	acalcoutRecordINFF = 72,
-	acalcoutRecordINGG = 73,
-	acalcoutRecordINHH = 74,
-	acalcoutRecordINII = 75,
-	acalcoutRecordINJJ = 76,
-	acalcoutRecordINKK = 77,
-	acalcoutRecordINLL = 78,
-	acalcoutRecordOUT = 79,
-	acalcoutRecordINAV = 80,
-	acalcoutRecordINBV = 81,
-	acalcoutRecordINCV = 82,
-	acalcoutRecordINDV = 83,
-	acalcoutRecordINEV = 84,
-	acalcoutRecordINFV = 85,
-	acalcoutRecordINGV = 86,
-	acalcoutRecordINHV = 87,
-	acalcoutRecordINIV = 88,
-	acalcoutRecordINJV = 89,
-	acalcoutRecordINKV = 90,
-	acalcoutRecordINLV = 91,
-	acalcoutRecordIAAV = 92,
-	acalcoutRecordIBBV = 93,
-	acalcoutRecordICCV = 94,
-	acalcoutRecordIDDV = 95,
-	acalcoutRecordIEEV = 96,
-	acalcoutRecordIFFV = 97,
-	acalcoutRecordIGGV = 98,
-	acalcoutRecordIHHV = 99,
-	acalcoutRecordIIIV = 100,
-	acalcoutRecordIJJV = 101,
-	acalcoutRecordIKKV = 102,
-	acalcoutRecordILLV = 103,
-	acalcoutRecordOUTV = 104,
-	acalcoutRecordOOPT = 105,
-	acalcoutRecordODLY = 106,
-	acalcoutRecordWAIT = 107,
-	acalcoutRecordDLYA = 108,
-	acalcoutRecordDOPT = 109,
-	acalcoutRecordOCAL = 110,
-	acalcoutRecordOCLV = 111,
-	acalcoutRecordOEVT = 112,
-	acalcoutRecordIVOA = 113,
-	acalcoutRecordIVOV = 114,
-	acalcoutRecordEGU = 115,
-	acalcoutRecordPREC = 116,
-	acalcoutRecordHOPR = 117,
-	acalcoutRecordLOPR = 118,
-	acalcoutRecordHIHI = 119,
-	acalcoutRecordLOLO = 120,
-	acalcoutRecordHIGH = 121,
-	acalcoutRecordLOW = 122,
-	acalcoutRecordHHSV = 123,
-	acalcoutRecordLLSV = 124,
-	acalcoutRecordHSV = 125,
-	acalcoutRecordLSV = 126,
-	acalcoutRecordHYST = 127,
-	acalcoutRecordADEL = 128,
-	acalcoutRecordMDEL = 129,
-	acalcoutRecordA = 130,
-	acalcoutRecordB = 131,
-	acalcoutRecordC = 132,
-	acalcoutRecordD = 133,
-	acalcoutRecordE = 134,
-	acalcoutRecordF = 135,
-	acalcoutRecordG = 136,
-	acalcoutRecordH = 137,
-	acalcoutRecordI = 138,
-	acalcoutRecordJ = 139,
-	acalcoutRecordK = 140,
-	acalcoutRecordL = 141,
-	acalcoutRecordAA = 142,
-	acalcoutRecordBB = 143,
-	acalcoutRecordCC = 144,
-	acalcoutRecordDD = 145,
-	acalcoutRecordEE = 146,
-	acalcoutRecordFF = 147,
-	acalcoutRecordGG = 148,
-	acalcoutRecordHH = 149,
-	acalcoutRecordII = 150,
-	acalcoutRecordJJ = 151,
-	acalcoutRecordKK = 152,
-	acalcoutRecordLL = 153,
-	acalcoutRecordPAA = 154,
-	acalcoutRecordNEWM = 155,
-	acalcoutRecordOVAL = 156,
-	acalcoutRecordOAV = 157,
-	acalcoutRecordPOAV = 158,
-	acalcoutRecordPA = 159,
-	acalcoutRecordPB = 160,
-	acalcoutRecordPC = 161,
-	acalcoutRecordPD = 162,
-	acalcoutRecordPE = 163,
-	acalcoutRecordPF = 164,
-	acalcoutRecordPG = 165,
-	acalcoutRecordPH = 166,
-	acalcoutRecordPI = 167,
-	acalcoutRecordPJ = 168,
-	acalcoutRecordPK = 169,
-	acalcoutRecordPL = 170,
-	acalcoutRecordPOVL = 171,
-	acalcoutRecordLALM = 172,
-	acalcoutRecordALST = 173,
-	acalcoutRecordMLST = 174,
-	acalcoutRecordRPCL = 175,
-	acalcoutRecordORPC = 176,
-	acalcoutRecordCACT = 177,
-	acalcoutRecordCSTAT = 178,
-	acalcoutRecordAMASK = 179,
-	acalcoutRecordSIZE = 180,
-	acalcoutRecordAMEM = 181,
-	acalcoutRecordPMEM = 182
+	acalcoutRecordDISP = 15,
+	acalcoutRecordPROC = 16,
+	acalcoutRecordSTAT = 17,
+	acalcoutRecordSEVR = 18,
+	acalcoutRecordNSTA = 19,
+	acalcoutRecordNSEV = 20,
+	acalcoutRecordACKS = 21,
+	acalcoutRecordACKT = 22,
+	acalcoutRecordDISS = 23,
+	acalcoutRecordLCNT = 24,
+	acalcoutRecordPACT = 25,
+	acalcoutRecordPUTF = 26,
+	acalcoutRecordRPRO = 27,
+	acalcoutRecordASP = 28,
+	acalcoutRecordPPN = 29,
+	acalcoutRecordPPNR = 30,
+	acalcoutRecordSPVT = 31,
+	acalcoutRecordRSET = 32,
+	acalcoutRecordDSET = 33,
+	acalcoutRecordDPVT = 34,
+	acalcoutRecordRDES = 35,
+	acalcoutRecordLSET = 36,
+	acalcoutRecordPRIO = 37,
+	acalcoutRecordTPRO = 38,
+	acalcoutRecordBKPT = 39,
+	acalcoutRecordUDF = 40,
+	acalcoutRecordUDFS = 41,
+	acalcoutRecordTIME = 42,
+	acalcoutRecordFLNK = 43,
+	acalcoutRecordVERS = 44,
+	acalcoutRecordRPVT = 45,
+	acalcoutRecordVAL = 46,
+	acalcoutRecordAVAL = 47,
+	acalcoutRecordNELM = 48,
+	acalcoutRecordNUSE = 49,
+	acalcoutRecordPVAL = 50,
+	acalcoutRecordPAVL = 51,
+	acalcoutRecordCALC = 52,
+	acalcoutRecordCLCV = 53,
+	acalcoutRecordINPA = 54,
+	acalcoutRecordINPB = 55,
+	acalcoutRecordINPC = 56,
+	acalcoutRecordINPD = 57,
+	acalcoutRecordINPE = 58,
+	acalcoutRecordINPF = 59,
+	acalcoutRecordINPG = 60,
+	acalcoutRecordINPH = 61,
+	acalcoutRecordINPI = 62,
+	acalcoutRecordINPJ = 63,
+	acalcoutRecordINPK = 64,
+	acalcoutRecordINPL = 65,
+	acalcoutRecordINAA = 66,
+	acalcoutRecordINBB = 67,
+	acalcoutRecordINCC = 68,
+	acalcoutRecordINDD = 69,
+	acalcoutRecordINEE = 70,
+	acalcoutRecordINFF = 71,
+	acalcoutRecordINGG = 72,
+	acalcoutRecordINHH = 73,
+	acalcoutRecordINII = 74,
+	acalcoutRecordINJJ = 75,
+	acalcoutRecordINKK = 76,
+	acalcoutRecordINLL = 77,
+	acalcoutRecordOUT = 78,
+	acalcoutRecordINAV = 79,
+	acalcoutRecordINBV = 80,
+	acalcoutRecordINCV = 81,
+	acalcoutRecordINDV = 82,
+	acalcoutRecordINEV = 83,
+	acalcoutRecordINFV = 84,
+	acalcoutRecordINGV = 85,
+	acalcoutRecordINHV = 86,
+	acalcoutRecordINIV = 87,
+	acalcoutRecordINJV = 88,
+	acalcoutRecordINKV = 89,
+	acalcoutRecordINLV = 90,
+	acalcoutRecordIAAV = 91,
+	acalcoutRecordIBBV = 92,
+	acalcoutRecordICCV = 93,
+	acalcoutRecordIDDV = 94,
+	acalcoutRecordIEEV = 95,
+	acalcoutRecordIFFV = 96,
+	acalcoutRecordIGGV = 97,
+	acalcoutRecordIHHV = 98,
+	acalcoutRecordIIIV = 99,
+	acalcoutRecordIJJV = 100,
+	acalcoutRecordIKKV = 101,
+	acalcoutRecordILLV = 102,
+	acalcoutRecordOUTV = 103,
+	acalcoutRecordOOPT = 104,
+	acalcoutRecordODLY = 105,
+	acalcoutRecordWAIT = 106,
+	acalcoutRecordDLYA = 107,
+	acalcoutRecordDOPT = 108,
+	acalcoutRecordOCAL = 109,
+	acalcoutRecordOCLV = 110,
+	acalcoutRecordOEVT = 111,
+	acalcoutRecordIVOA = 112,
+	acalcoutRecordIVOV = 113,
+	acalcoutRecordEGU = 114,
+	acalcoutRecordPREC = 115,
+	acalcoutRecordHOPR = 116,
+	acalcoutRecordLOPR = 117,
+	acalcoutRecordHIHI = 118,
+	acalcoutRecordLOLO = 119,
+	acalcoutRecordHIGH = 120,
+	acalcoutRecordLOW = 121,
+	acalcoutRecordHHSV = 122,
+	acalcoutRecordLLSV = 123,
+	acalcoutRecordHSV = 124,
+	acalcoutRecordLSV = 125,
+	acalcoutRecordHYST = 126,
+	acalcoutRecordADEL = 127,
+	acalcoutRecordMDEL = 128,
+	acalcoutRecordA = 129,
+	acalcoutRecordB = 130,
+	acalcoutRecordC = 131,
+	acalcoutRecordD = 132,
+	acalcoutRecordE = 133,
+	acalcoutRecordF = 134,
+	acalcoutRecordG = 135,
+	acalcoutRecordH = 136,
+	acalcoutRecordI = 137,
+	acalcoutRecordJ = 138,
+	acalcoutRecordK = 139,
+	acalcoutRecordL = 140,
+	acalcoutRecordAA = 141,
+	acalcoutRecordBB = 142,
+	acalcoutRecordCC = 143,
+	acalcoutRecordDD = 144,
+	acalcoutRecordEE = 145,
+	acalcoutRecordFF = 146,
+	acalcoutRecordGG = 147,
+	acalcoutRecordHH = 148,
+	acalcoutRecordII = 149,
+	acalcoutRecordJJ = 150,
+	acalcoutRecordKK = 151,
+	acalcoutRecordLL = 152,
+	acalcoutRecordPAA = 153,
+	acalcoutRecordNEWM = 154,
+	acalcoutRecordOVAL = 155,
+	acalcoutRecordOAV = 156,
+	acalcoutRecordPOAV = 157,
+	acalcoutRecordPA = 158,
+	acalcoutRecordPB = 159,
+	acalcoutRecordPC = 160,
+	acalcoutRecordPD = 161,
+	acalcoutRecordPE = 162,
+	acalcoutRecordPF = 163,
+	acalcoutRecordPG = 164,
+	acalcoutRecordPH = 165,
+	acalcoutRecordPI = 166,
+	acalcoutRecordPJ = 167,
+	acalcoutRecordPK = 168,
+	acalcoutRecordPL = 169,
+	acalcoutRecordPOVL = 170,
+	acalcoutRecordLALM = 171,
+	acalcoutRecordALST = 172,
+	acalcoutRecordMLST = 173,
+	acalcoutRecordRPCL = 174,
+	acalcoutRecordORPC = 175,
+	acalcoutRecordCACT = 176,
+	acalcoutRecordCSTAT = 177,
+	acalcoutRecordAMASK = 178,
+	acalcoutRecordSIZE = 179,
+	acalcoutRecordAMEM = 180,
+	acalcoutRecordPMEM = 181
 } acalcoutFieldIndex;
 
 #ifdef GEN_SIZE_OFFSET
@@ -447,7 +445,7 @@ static int acalcoutRecordSizeOffset(dbRecordType *prt)
 {
     acalcoutRecord *prec = 0;
 
-    assert(prt->no_fields == 183);
+    assert(prt->no_fields == 182);
     prt->papFldDes[acalcoutRecordNAME]->size = sizeof(prec->name);
     prt->papFldDes[acalcoutRecordDESC]->size = sizeof(prec->desc);
     prt->papFldDes[acalcoutRecordASG]->size = sizeof(prec->asg);
@@ -463,7 +461,6 @@ static int acalcoutRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[acalcoutRecordSDIS]->size = sizeof(prec->sdis);
     prt->papFldDes[acalcoutRecordMLOK]->size = sizeof(prec->mlok);
     prt->papFldDes[acalcoutRecordMLIS]->size = sizeof(prec->mlis);
-    prt->papFldDes[acalcoutRecordBKLNK]->size = sizeof(prec->bklnk);
     prt->papFldDes[acalcoutRecordDISP]->size = sizeof(prec->disp);
     prt->papFldDes[acalcoutRecordPROC]->size = sizeof(prec->proc);
     prt->papFldDes[acalcoutRecordSTAT]->size = sizeof(prec->stat);
@@ -646,7 +643,6 @@ static int acalcoutRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[acalcoutRecordSDIS]->offset = (unsigned short)((char *)&prec->sdis - (char *)prec);
     prt->papFldDes[acalcoutRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[acalcoutRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
-    prt->papFldDes[acalcoutRecordBKLNK]->offset = (unsigned short)((char *)&prec->bklnk - (char *)prec);
     prt->papFldDes[acalcoutRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[acalcoutRecordPROC]->offset = (unsigned short)((char *)&prec->proc - (char *)prec);
     prt->papFldDes[acalcoutRecordSTAT]->offset = (unsigned short)((char *)&prec->stat - (char *)prec);

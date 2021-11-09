@@ -88,15 +88,6 @@ rset aaiRSET={
 };
 epicsExportAddress(rset,aaiRSET);
 
-struct aaidset { /* aai dset */
-    long      number;
-    DEVSUPFUN dev_report;
-    DEVSUPFUN init;
-    DEVSUPFUN init_record; /*returns: (-1,0)=>(failure,success)*/
-    DEVSUPFUN get_ioint_info;
-    DEVSUPFUN read_aai; /*returns: (-1,0)=>(failure,success)*/
-};
-
 static void monitor(aaiRecord *);
 static long readValue(aaiRecord *);
 
@@ -127,9 +118,9 @@ static long init_record(aaiRecord *prec, int pass)
            not change after links are established before pass 1
         */
 
-        if (pdset->init_record) {
+        if (pdset->common.init_record) {
             /* init_record may set the bptr to point to the data */
-            if ((status = pdset->init_record(prec)))
+            if ((status = pdset->common.init_record()))
                 return status;
         }
         if (!prec->bptr) {
@@ -146,7 +137,7 @@ static long init_record(aaiRecord *prec, int pass)
     }
 
     /* must have read_aai function defined */
-    if (pdset->number < 5 || pdset->read_aai == NULL) {
+    if (pdset->common.number < 5 || pdset->read_aai == NULL) {
         recGblRecordError(S_dev_missingSup, prec, "aai: init_record");
         return S_dev_missingSup;
     }

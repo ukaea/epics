@@ -138,8 +138,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "acsTech80", "acsTech80", "{
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "acsTechSupport", "iocTops\AcsTech80\acsTech80App\src\acsTech80.vcxproj", "{1FD0707C-07F6-477C-B579-099088AB6313}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Parker6K8", "iocTops\Parker6k8\parker6k8App\src\Parker6K8.vcxproj", "{398C01B3-2EDF-47D6-8AE9-E2215EE417CE}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ParkerAsyn3", "motor\motorApp\Parker6K8Src\Parker6K8.vcxproj", "{EF124FC1-0635-4640-8EDF-8871F5312691}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ninetyNineBeers", "iocTops\bottles\bottlesApp\ninetyNineBeers.vcxproj", "{00099B33-0000-0000-0000-000000000000}"
@@ -283,34 +281,12 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "property", "property", "{07CB379B-E6B9-4E60-9610-521045F9EF96}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "pv", "pv", "{6034D422-D8B1-4DE7-A6BC-2A93B86D7130}"
-	ProjectSection(SolutionItems) = preProject
-		base-7.0.6.1\modules\pvData\testApp\pv\testBitSetUtil.vcxproj = base-7.0.6.1\modules\pvData\testApp\pv\testBitSetUtil.vcxproj
-		base-7.0.6.1\modules\pvData\testApp\pv\testConvert.vcxproj = base-7.0.6.1\modules\pvData\testApp\pv\testConvert.vcxproj
-		base-7.0.6.1\modules\pvData\testApp\pv\testIntrospect.vcxproj = base-7.0.6.1\modules\pvData\testApp\pv\testIntrospect.vcxproj
-		base-7.0.6.1\modules\pvData\testApp\pv\testOperators.vcxproj = base-7.0.6.1\modules\pvData\testApp\pv\testOperators.vcxproj
-		base-7.0.6.1\modules\pvData\testApp\pv\testPVData.vcxproj = base-7.0.6.1\modules\pvData\testApp\pv\testPVData.vcxproj
-		base-7.0.6.1\modules\pvData\testApp\pv\testPVScalarArray.vcxproj = base-7.0.6.1\modules\pvData\testApp\pv\testPVScalarArray.vcxproj
-		base-7.0.6.1\modules\pvData\testApp\pv\testPVStructureArray.vcxproj = base-7.0.6.1\modules\pvData\testApp\pv\testPVStructureArray.vcxproj
-		base-7.0.6.1\modules\pvData\testApp\pv\testPVType.vcxproj = base-7.0.6.1\modules\pvData\testApp\pv\testPVType.vcxproj
-		base-7.0.6.1\modules\pvData\testApp\pv\testStandardField.vcxproj = base-7.0.6.1\modules\pvData\testApp\pv\testStandardField.vcxproj
-		base-7.0.6.1\modules\pvData\testApp\pv\testStandardPVField.vcxproj = base-7.0.6.1\modules\pvData\testApp\pv\testStandardPVField.vcxproj
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "testApp", "testApp", "{BE82EAEB-6854-4671-9CDA-F33BDBD6C517}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "copy", "copy", "{D12F0779-6FD1-4DA3-996F-B15C32050A4A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{434BD0CE-8C11-44C2-9572-DB2DF1F03769}"
-	ProjectSection(SolutionItems) = preProject
-		base-7.0.6.1\modules\pvData\testApp\misc\testBaseException.vcxproj = base-7.0.6.1\modules\pvData\testApp\misc\testBaseException.vcxproj
-		base-7.0.6.1\modules\pvData\testApp\misc\testBitSet.vcxproj = base-7.0.6.1\modules\pvData\testApp\misc\testBitSet.vcxproj
-		base-7.0.6.1\modules\pvData\testApp\misc\testByteBuffer.vcxproj = base-7.0.6.1\modules\pvData\testApp\misc\testByteBuffer.vcxproj
-		base-7.0.6.1\modules\pvData\testApp\misc\testByteOrder.vcxproj = base-7.0.6.1\modules\pvData\testApp\misc\testByteOrder.vcxproj
-		base-7.0.6.1\modules\pvData\testApp\misc\testSerialization.vcxproj = base-7.0.6.1\modules\pvData\testApp\misc\testSerialization.vcxproj
-		base-7.0.6.1\modules\pvData\testApp\misc\testThread.vcxproj = base-7.0.6.1\modules\pvData\testApp\misc\testThread.vcxproj
-		base-7.0.6.1\modules\pvData\testApp\misc\testTimer.vcxproj = base-7.0.6.1\modules\pvData\testApp\misc\testTimer.vcxproj
-		base-7.0.6.1\modules\pvData\testApp\misc\testTimeStamp.vcxproj = base-7.0.6.1\modules\pvData\testApp\misc\testTimeStamp.vcxproj
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pvData", "base-7.0.6.1\modules\pvData\src\pvData.vcxproj", "{F4A51415-2981-42EE-87C7-F29D5805583E}"
 EndProject
@@ -1166,22 +1142,6 @@ Global
 		{1FD0707C-07F6-477C-B579-099088AB6313}.Release_LIB|Win32.Build.0 = Release_LIB|Win32
 		{1FD0707C-07F6-477C-B579-099088AB6313}.Release_LIB|x64.ActiveCfg = Release_LIB|x64
 		{1FD0707C-07F6-477C-B579-099088AB6313}.Release_LIB|x64.Build.0 = Release_LIB|x64
-		{398C01B3-2EDF-47D6-8AE9-E2215EE417CE}.Debug_DLL|Win32.ActiveCfg = Debug_DLL|Win32
-		{398C01B3-2EDF-47D6-8AE9-E2215EE417CE}.Debug_DLL|Win32.Build.0 = Debug_DLL|Win32
-		{398C01B3-2EDF-47D6-8AE9-E2215EE417CE}.Debug_DLL|x64.ActiveCfg = Debug_DLL|x64
-		{398C01B3-2EDF-47D6-8AE9-E2215EE417CE}.Debug_DLL|x64.Build.0 = Debug_DLL|x64
-		{398C01B3-2EDF-47D6-8AE9-E2215EE417CE}.Debug_LIB|Win32.ActiveCfg = Debug_LIB|Win32
-		{398C01B3-2EDF-47D6-8AE9-E2215EE417CE}.Debug_LIB|Win32.Build.0 = Debug_LIB|Win32
-		{398C01B3-2EDF-47D6-8AE9-E2215EE417CE}.Debug_LIB|x64.ActiveCfg = Debug_LIB|x64
-		{398C01B3-2EDF-47D6-8AE9-E2215EE417CE}.Debug_LIB|x64.Build.0 = Debug_LIB|x64
-		{398C01B3-2EDF-47D6-8AE9-E2215EE417CE}.Release_DLL|Win32.ActiveCfg = Release_DLL|Win32
-		{398C01B3-2EDF-47D6-8AE9-E2215EE417CE}.Release_DLL|Win32.Build.0 = Release_DLL|Win32
-		{398C01B3-2EDF-47D6-8AE9-E2215EE417CE}.Release_DLL|x64.ActiveCfg = Release_DLL|x64
-		{398C01B3-2EDF-47D6-8AE9-E2215EE417CE}.Release_DLL|x64.Build.0 = Release_DLL|x64
-		{398C01B3-2EDF-47D6-8AE9-E2215EE417CE}.Release_LIB|Win32.ActiveCfg = Release_LIB|Win32
-		{398C01B3-2EDF-47D6-8AE9-E2215EE417CE}.Release_LIB|Win32.Build.0 = Release_LIB|Win32
-		{398C01B3-2EDF-47D6-8AE9-E2215EE417CE}.Release_LIB|x64.ActiveCfg = Release_LIB|x64
-		{398C01B3-2EDF-47D6-8AE9-E2215EE417CE}.Release_LIB|x64.Build.0 = Release_LIB|x64
 		{EF124FC1-0635-4640-8EDF-8871F5312691}.Debug_DLL|Win32.ActiveCfg = Debug_DLL|Win32
 		{EF124FC1-0635-4640-8EDF-8871F5312691}.Debug_DLL|Win32.Build.0 = Debug_DLL|Win32
 		{EF124FC1-0635-4640-8EDF-8871F5312691}.Debug_DLL|x64.ActiveCfg = Debug_DLL|x64
@@ -2340,7 +2300,6 @@ Global
 		{E17BC784-3B28-464C-A2EF-C2722D7D856F} = {8BA6450F-19D0-44A3-90DB-D42ADAC42E4D}
 		{D2266A22-D4B3-4447-8551-B778A40CE6EA} = {8BA6450F-19D0-44A3-90DB-D42ADAC42E4D}
 		{1FD0707C-07F6-477C-B579-099088AB6313} = {D2266A22-D4B3-4447-8551-B778A40CE6EA}
-		{398C01B3-2EDF-47D6-8AE9-E2215EE417CE} = {E17BC784-3B28-464C-A2EF-C2722D7D856F}
 		{EF124FC1-0635-4640-8EDF-8871F5312691} = {B21CDB68-073F-409E-B445-8BF865DBBC59}
 		{00099B33-0000-0000-0000-000000000000} = {493C491E-D2DC-4929-824D-AF818E774A9C}
 		{D3311F39-9AE8-4F16-BE04-1D1D31135BA9} = {8BA6450F-19D0-44A3-90DB-D42ADAC42E4D}

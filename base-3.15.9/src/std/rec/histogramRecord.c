@@ -87,17 +87,6 @@ epicsExportAddress(rset,histogramRSET);
 int histogramSDELprecision = 2;
 epicsExportAddress(int, histogramSDELprecision);
 
-struct histogramdset { /* histogram input dset */
-     long          number;
-     DEVSUPFUN     dev_report;
-     DEVSUPFUN     init;
-     DEVSUPFUN     init_record; /*returns: (-1,0)=>(failure,success)*/
-     DEVSUPFUN     get_ioint_info;
-     DEVSUPFUN     read_histogram;/*(0,2)=> success and add_count, don't add_count)*/
-               /* if add_count then sgnl added to array */
-     DEVSUPFUN     special_linconv;
-};
-
 /* control block for callback*/
 typedef struct myCallback {
     epicsCallback callback;
@@ -186,20 +175,21 @@ static long init_record(histogramRecord *prec, int pass)
 
     /* must have device support defined */
     pdset = (struct histogramdset *) prec->dset;
+    
     if (!pdset) {
         recGblRecordError(S_dev_noDSET, prec, "histogram: init_record");
         return S_dev_noDSET;
     }
 
     /* must have read_histogram function defined */
-    if (pdset->number < 6 || !pdset->read_histogram) {
+    if (pdset->common.number < 6 || !pdset->read_histogram) {
         recGblRecordError(S_dev_missingSup, prec, "histogram: init_record");
         return S_dev_missingSup;
     }
 
     /* call device support init_record */
-    if (pdset->init_record) {
-        long status = pdset->init_record(prec);
+    if (pdset->common.init_record) {
+        long status = pdset->common.init_record(prec);
 
         if (status)
             return status;

@@ -1,5 +1,7 @@
 SET TOPLEVEL=%1
 
-xcopy /Y /Q  /D O.Common\*.dbd %TOPLEVEL%\dbd
+if not exist %TOPLEVEL%DBD  md %TOPLEVEL%DBD
+
+xcopy /Y /Q *.dbd %TOPLEVEL%DBD > NUL
 
 echo BatchCompleted: %ERRORLEVEL%

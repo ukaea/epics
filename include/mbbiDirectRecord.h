@@ -1,8 +1,4 @@
-/** @file mbbiDirectRecord.h
- * @brief Declarations for the @ref mbbiDirectRecord "mbbiDirect" record type.
- *
- * This header was generated from mbbiDirectRecord.dbd
- */
+/* mbbiDirectRecord.h generated from mbbiDirectRecord.dbd */
 
 #ifndef INC_mbbiDirectRecord_H
 #define INC_mbbiDirectRecord_H
@@ -167,8 +163,8 @@ typedef enum {
 
 #ifdef GEN_SIZE_OFFSET
 
+#include <epicsAssert.h>
 #include <epicsExport.h>
-#include <cantProceed.h>
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -176,157 +172,152 @@ static int mbbiDirectRecordSizeOffset(dbRecordType *prt)
 {
     mbbiDirectRecord *prec = 0;
 
-    if (prt->no_fields != 73) {
-        cantProceed("IOC build or installation error:\n"
-            "    The mbbiDirectRecord defined in the DBD file has %d fields,\n"
-            "    but the record support code was built with 73.\n",
-            prt->no_fields);
-    }
+    assert(prt->no_fields == 73);
     prt->papFldDes[mbbiDirectRecordNAME]->size = sizeof(prec->name);
-    prt->papFldDes[mbbiDirectRecordNAME]->offset = (unsigned short)((char *)&prec->name - (char *)prec);
     prt->papFldDes[mbbiDirectRecordDESC]->size = sizeof(prec->desc);
-    prt->papFldDes[mbbiDirectRecordDESC]->offset = (unsigned short)((char *)&prec->desc - (char *)prec);
     prt->papFldDes[mbbiDirectRecordASG]->size = sizeof(prec->asg);
-    prt->papFldDes[mbbiDirectRecordASG]->offset = (unsigned short)((char *)&prec->asg - (char *)prec);
     prt->papFldDes[mbbiDirectRecordSCAN]->size = sizeof(prec->scan);
-    prt->papFldDes[mbbiDirectRecordSCAN]->offset = (unsigned short)((char *)&prec->scan - (char *)prec);
     prt->papFldDes[mbbiDirectRecordPINI]->size = sizeof(prec->pini);
-    prt->papFldDes[mbbiDirectRecordPINI]->offset = (unsigned short)((char *)&prec->pini - (char *)prec);
     prt->papFldDes[mbbiDirectRecordPHAS]->size = sizeof(prec->phas);
-    prt->papFldDes[mbbiDirectRecordPHAS]->offset = (unsigned short)((char *)&prec->phas - (char *)prec);
     prt->papFldDes[mbbiDirectRecordEVNT]->size = sizeof(prec->evnt);
-    prt->papFldDes[mbbiDirectRecordEVNT]->offset = (unsigned short)((char *)&prec->evnt - (char *)prec);
     prt->papFldDes[mbbiDirectRecordTSE]->size = sizeof(prec->tse);
-    prt->papFldDes[mbbiDirectRecordTSE]->offset = (unsigned short)((char *)&prec->tse - (char *)prec);
     prt->papFldDes[mbbiDirectRecordTSEL]->size = sizeof(prec->tsel);
-    prt->papFldDes[mbbiDirectRecordTSEL]->offset = (unsigned short)((char *)&prec->tsel - (char *)prec);
     prt->papFldDes[mbbiDirectRecordDTYP]->size = sizeof(prec->dtyp);
-    prt->papFldDes[mbbiDirectRecordDTYP]->offset = (unsigned short)((char *)&prec->dtyp - (char *)prec);
     prt->papFldDes[mbbiDirectRecordDISV]->size = sizeof(prec->disv);
-    prt->papFldDes[mbbiDirectRecordDISV]->offset = (unsigned short)((char *)&prec->disv - (char *)prec);
     prt->papFldDes[mbbiDirectRecordDISA]->size = sizeof(prec->disa);
-    prt->papFldDes[mbbiDirectRecordDISA]->offset = (unsigned short)((char *)&prec->disa - (char *)prec);
     prt->papFldDes[mbbiDirectRecordSDIS]->size = sizeof(prec->sdis);
-    prt->papFldDes[mbbiDirectRecordSDIS]->offset = (unsigned short)((char *)&prec->sdis - (char *)prec);
     prt->papFldDes[mbbiDirectRecordMLOK]->size = sizeof(prec->mlok);
-    prt->papFldDes[mbbiDirectRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[mbbiDirectRecordMLIS]->size = sizeof(prec->mlis);
-    prt->papFldDes[mbbiDirectRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
     prt->papFldDes[mbbiDirectRecordDISP]->size = sizeof(prec->disp);
-    prt->papFldDes[mbbiDirectRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[mbbiDirectRecordPROC]->size = sizeof(prec->proc);
-    prt->papFldDes[mbbiDirectRecordPROC]->offset = (unsigned short)((char *)&prec->proc - (char *)prec);
     prt->papFldDes[mbbiDirectRecordSTAT]->size = sizeof(prec->stat);
-    prt->papFldDes[mbbiDirectRecordSTAT]->offset = (unsigned short)((char *)&prec->stat - (char *)prec);
     prt->papFldDes[mbbiDirectRecordSEVR]->size = sizeof(prec->sevr);
-    prt->papFldDes[mbbiDirectRecordSEVR]->offset = (unsigned short)((char *)&prec->sevr - (char *)prec);
     prt->papFldDes[mbbiDirectRecordNSTA]->size = sizeof(prec->nsta);
-    prt->papFldDes[mbbiDirectRecordNSTA]->offset = (unsigned short)((char *)&prec->nsta - (char *)prec);
     prt->papFldDes[mbbiDirectRecordNSEV]->size = sizeof(prec->nsev);
-    prt->papFldDes[mbbiDirectRecordNSEV]->offset = (unsigned short)((char *)&prec->nsev - (char *)prec);
     prt->papFldDes[mbbiDirectRecordACKS]->size = sizeof(prec->acks);
-    prt->papFldDes[mbbiDirectRecordACKS]->offset = (unsigned short)((char *)&prec->acks - (char *)prec);
     prt->papFldDes[mbbiDirectRecordACKT]->size = sizeof(prec->ackt);
-    prt->papFldDes[mbbiDirectRecordACKT]->offset = (unsigned short)((char *)&prec->ackt - (char *)prec);
     prt->papFldDes[mbbiDirectRecordDISS]->size = sizeof(prec->diss);
-    prt->papFldDes[mbbiDirectRecordDISS]->offset = (unsigned short)((char *)&prec->diss - (char *)prec);
     prt->papFldDes[mbbiDirectRecordLCNT]->size = sizeof(prec->lcnt);
-    prt->papFldDes[mbbiDirectRecordLCNT]->offset = (unsigned short)((char *)&prec->lcnt - (char *)prec);
     prt->papFldDes[mbbiDirectRecordPACT]->size = sizeof(prec->pact);
-    prt->papFldDes[mbbiDirectRecordPACT]->offset = (unsigned short)((char *)&prec->pact - (char *)prec);
     prt->papFldDes[mbbiDirectRecordPUTF]->size = sizeof(prec->putf);
-    prt->papFldDes[mbbiDirectRecordPUTF]->offset = (unsigned short)((char *)&prec->putf - (char *)prec);
     prt->papFldDes[mbbiDirectRecordRPRO]->size = sizeof(prec->rpro);
-    prt->papFldDes[mbbiDirectRecordRPRO]->offset = (unsigned short)((char *)&prec->rpro - (char *)prec);
     prt->papFldDes[mbbiDirectRecordASP]->size = sizeof(prec->asp);
-    prt->papFldDes[mbbiDirectRecordASP]->offset = (unsigned short)((char *)&prec->asp - (char *)prec);
     prt->papFldDes[mbbiDirectRecordPPN]->size = sizeof(prec->ppn);
-    prt->papFldDes[mbbiDirectRecordPPN]->offset = (unsigned short)((char *)&prec->ppn - (char *)prec);
     prt->papFldDes[mbbiDirectRecordPPNR]->size = sizeof(prec->ppnr);
-    prt->papFldDes[mbbiDirectRecordPPNR]->offset = (unsigned short)((char *)&prec->ppnr - (char *)prec);
     prt->papFldDes[mbbiDirectRecordSPVT]->size = sizeof(prec->spvt);
-    prt->papFldDes[mbbiDirectRecordSPVT]->offset = (unsigned short)((char *)&prec->spvt - (char *)prec);
     prt->papFldDes[mbbiDirectRecordRSET]->size = sizeof(prec->rset);
-    prt->papFldDes[mbbiDirectRecordRSET]->offset = (unsigned short)((char *)&prec->rset - (char *)prec);
     prt->papFldDes[mbbiDirectRecordDSET]->size = sizeof(prec->dset);
-    prt->papFldDes[mbbiDirectRecordDSET]->offset = (unsigned short)((char *)&prec->dset - (char *)prec);
     prt->papFldDes[mbbiDirectRecordDPVT]->size = sizeof(prec->dpvt);
-    prt->papFldDes[mbbiDirectRecordDPVT]->offset = (unsigned short)((char *)&prec->dpvt - (char *)prec);
     prt->papFldDes[mbbiDirectRecordRDES]->size = sizeof(prec->rdes);
-    prt->papFldDes[mbbiDirectRecordRDES]->offset = (unsigned short)((char *)&prec->rdes - (char *)prec);
     prt->papFldDes[mbbiDirectRecordLSET]->size = sizeof(prec->lset);
-    prt->papFldDes[mbbiDirectRecordLSET]->offset = (unsigned short)((char *)&prec->lset - (char *)prec);
     prt->papFldDes[mbbiDirectRecordPRIO]->size = sizeof(prec->prio);
-    prt->papFldDes[mbbiDirectRecordPRIO]->offset = (unsigned short)((char *)&prec->prio - (char *)prec);
     prt->papFldDes[mbbiDirectRecordTPRO]->size = sizeof(prec->tpro);
-    prt->papFldDes[mbbiDirectRecordTPRO]->offset = (unsigned short)((char *)&prec->tpro - (char *)prec);
     prt->papFldDes[mbbiDirectRecordBKPT]->size = sizeof(prec->bkpt);
-    prt->papFldDes[mbbiDirectRecordBKPT]->offset = (unsigned short)((char *)&prec->bkpt - (char *)prec);
     prt->papFldDes[mbbiDirectRecordUDF]->size = sizeof(prec->udf);
-    prt->papFldDes[mbbiDirectRecordUDF]->offset = (unsigned short)((char *)&prec->udf - (char *)prec);
     prt->papFldDes[mbbiDirectRecordUDFS]->size = sizeof(prec->udfs);
-    prt->papFldDes[mbbiDirectRecordUDFS]->offset = (unsigned short)((char *)&prec->udfs - (char *)prec);
     prt->papFldDes[mbbiDirectRecordTIME]->size = sizeof(prec->time);
-    prt->papFldDes[mbbiDirectRecordTIME]->offset = (unsigned short)((char *)&prec->time - (char *)prec);
     prt->papFldDes[mbbiDirectRecordFLNK]->size = sizeof(prec->flnk);
-    prt->papFldDes[mbbiDirectRecordFLNK]->offset = (unsigned short)((char *)&prec->flnk - (char *)prec);
     prt->papFldDes[mbbiDirectRecordVAL]->size = sizeof(prec->val);
-    prt->papFldDes[mbbiDirectRecordVAL]->offset = (unsigned short)((char *)&prec->val - (char *)prec);
     prt->papFldDes[mbbiDirectRecordNOBT]->size = sizeof(prec->nobt);
-    prt->papFldDes[mbbiDirectRecordNOBT]->offset = (unsigned short)((char *)&prec->nobt - (char *)prec);
     prt->papFldDes[mbbiDirectRecordINP]->size = sizeof(prec->inp);
-    prt->papFldDes[mbbiDirectRecordINP]->offset = (unsigned short)((char *)&prec->inp - (char *)prec);
     prt->papFldDes[mbbiDirectRecordRVAL]->size = sizeof(prec->rval);
-    prt->papFldDes[mbbiDirectRecordRVAL]->offset = (unsigned short)((char *)&prec->rval - (char *)prec);
     prt->papFldDes[mbbiDirectRecordORAW]->size = sizeof(prec->oraw);
-    prt->papFldDes[mbbiDirectRecordORAW]->offset = (unsigned short)((char *)&prec->oraw - (char *)prec);
     prt->papFldDes[mbbiDirectRecordMASK]->size = sizeof(prec->mask);
-    prt->papFldDes[mbbiDirectRecordMASK]->offset = (unsigned short)((char *)&prec->mask - (char *)prec);
     prt->papFldDes[mbbiDirectRecordMLST]->size = sizeof(prec->mlst);
-    prt->papFldDes[mbbiDirectRecordMLST]->offset = (unsigned short)((char *)&prec->mlst - (char *)prec);
     prt->papFldDes[mbbiDirectRecordSHFT]->size = sizeof(prec->shft);
-    prt->papFldDes[mbbiDirectRecordSHFT]->offset = (unsigned short)((char *)&prec->shft - (char *)prec);
     prt->papFldDes[mbbiDirectRecordSIOL]->size = sizeof(prec->siol);
-    prt->papFldDes[mbbiDirectRecordSIOL]->offset = (unsigned short)((char *)&prec->siol - (char *)prec);
     prt->papFldDes[mbbiDirectRecordSVAL]->size = sizeof(prec->sval);
-    prt->papFldDes[mbbiDirectRecordSVAL]->offset = (unsigned short)((char *)&prec->sval - (char *)prec);
     prt->papFldDes[mbbiDirectRecordSIML]->size = sizeof(prec->siml);
-    prt->papFldDes[mbbiDirectRecordSIML]->offset = (unsigned short)((char *)&prec->siml - (char *)prec);
     prt->papFldDes[mbbiDirectRecordSIMM]->size = sizeof(prec->simm);
-    prt->papFldDes[mbbiDirectRecordSIMM]->offset = (unsigned short)((char *)&prec->simm - (char *)prec);
     prt->papFldDes[mbbiDirectRecordSIMS]->size = sizeof(prec->sims);
-    prt->papFldDes[mbbiDirectRecordSIMS]->offset = (unsigned short)((char *)&prec->sims - (char *)prec);
     prt->papFldDes[mbbiDirectRecordB0]->size = sizeof(prec->b0);
-    prt->papFldDes[mbbiDirectRecordB0]->offset = (unsigned short)((char *)&prec->b0 - (char *)prec);
     prt->papFldDes[mbbiDirectRecordB1]->size = sizeof(prec->b1);
-    prt->papFldDes[mbbiDirectRecordB1]->offset = (unsigned short)((char *)&prec->b1 - (char *)prec);
     prt->papFldDes[mbbiDirectRecordB2]->size = sizeof(prec->b2);
-    prt->papFldDes[mbbiDirectRecordB2]->offset = (unsigned short)((char *)&prec->b2 - (char *)prec);
     prt->papFldDes[mbbiDirectRecordB3]->size = sizeof(prec->b3);
-    prt->papFldDes[mbbiDirectRecordB3]->offset = (unsigned short)((char *)&prec->b3 - (char *)prec);
     prt->papFldDes[mbbiDirectRecordB4]->size = sizeof(prec->b4);
-    prt->papFldDes[mbbiDirectRecordB4]->offset = (unsigned short)((char *)&prec->b4 - (char *)prec);
     prt->papFldDes[mbbiDirectRecordB5]->size = sizeof(prec->b5);
-    prt->papFldDes[mbbiDirectRecordB5]->offset = (unsigned short)((char *)&prec->b5 - (char *)prec);
     prt->papFldDes[mbbiDirectRecordB6]->size = sizeof(prec->b6);
-    prt->papFldDes[mbbiDirectRecordB6]->offset = (unsigned short)((char *)&prec->b6 - (char *)prec);
     prt->papFldDes[mbbiDirectRecordB7]->size = sizeof(prec->b7);
-    prt->papFldDes[mbbiDirectRecordB7]->offset = (unsigned short)((char *)&prec->b7 - (char *)prec);
     prt->papFldDes[mbbiDirectRecordB8]->size = sizeof(prec->b8);
-    prt->papFldDes[mbbiDirectRecordB8]->offset = (unsigned short)((char *)&prec->b8 - (char *)prec);
     prt->papFldDes[mbbiDirectRecordB9]->size = sizeof(prec->b9);
-    prt->papFldDes[mbbiDirectRecordB9]->offset = (unsigned short)((char *)&prec->b9 - (char *)prec);
     prt->papFldDes[mbbiDirectRecordBA]->size = sizeof(prec->ba);
-    prt->papFldDes[mbbiDirectRecordBA]->offset = (unsigned short)((char *)&prec->ba - (char *)prec);
     prt->papFldDes[mbbiDirectRecordBB]->size = sizeof(prec->bb);
-    prt->papFldDes[mbbiDirectRecordBB]->offset = (unsigned short)((char *)&prec->bb - (char *)prec);
     prt->papFldDes[mbbiDirectRecordBC]->size = sizeof(prec->bc);
-    prt->papFldDes[mbbiDirectRecordBC]->offset = (unsigned short)((char *)&prec->bc - (char *)prec);
     prt->papFldDes[mbbiDirectRecordBD]->size = sizeof(prec->bd);
-    prt->papFldDes[mbbiDirectRecordBD]->offset = (unsigned short)((char *)&prec->bd - (char *)prec);
     prt->papFldDes[mbbiDirectRecordBE]->size = sizeof(prec->be);
-    prt->papFldDes[mbbiDirectRecordBE]->offset = (unsigned short)((char *)&prec->be - (char *)prec);
     prt->papFldDes[mbbiDirectRecordBF]->size = sizeof(prec->bf);
+    prt->papFldDes[mbbiDirectRecordNAME]->offset = (unsigned short)((char *)&prec->name - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordDESC]->offset = (unsigned short)((char *)&prec->desc - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordASG]->offset = (unsigned short)((char *)&prec->asg - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordSCAN]->offset = (unsigned short)((char *)&prec->scan - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordPINI]->offset = (unsigned short)((char *)&prec->pini - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordPHAS]->offset = (unsigned short)((char *)&prec->phas - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordEVNT]->offset = (unsigned short)((char *)&prec->evnt - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordTSE]->offset = (unsigned short)((char *)&prec->tse - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordTSEL]->offset = (unsigned short)((char *)&prec->tsel - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordDTYP]->offset = (unsigned short)((char *)&prec->dtyp - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordDISV]->offset = (unsigned short)((char *)&prec->disv - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordDISA]->offset = (unsigned short)((char *)&prec->disa - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordSDIS]->offset = (unsigned short)((char *)&prec->sdis - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordPROC]->offset = (unsigned short)((char *)&prec->proc - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordSTAT]->offset = (unsigned short)((char *)&prec->stat - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordSEVR]->offset = (unsigned short)((char *)&prec->sevr - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordNSTA]->offset = (unsigned short)((char *)&prec->nsta - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordNSEV]->offset = (unsigned short)((char *)&prec->nsev - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordACKS]->offset = (unsigned short)((char *)&prec->acks - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordACKT]->offset = (unsigned short)((char *)&prec->ackt - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordDISS]->offset = (unsigned short)((char *)&prec->diss - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordLCNT]->offset = (unsigned short)((char *)&prec->lcnt - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordPACT]->offset = (unsigned short)((char *)&prec->pact - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordPUTF]->offset = (unsigned short)((char *)&prec->putf - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordRPRO]->offset = (unsigned short)((char *)&prec->rpro - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordASP]->offset = (unsigned short)((char *)&prec->asp - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordPPN]->offset = (unsigned short)((char *)&prec->ppn - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordPPNR]->offset = (unsigned short)((char *)&prec->ppnr - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordSPVT]->offset = (unsigned short)((char *)&prec->spvt - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordRSET]->offset = (unsigned short)((char *)&prec->rset - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordDSET]->offset = (unsigned short)((char *)&prec->dset - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordDPVT]->offset = (unsigned short)((char *)&prec->dpvt - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordRDES]->offset = (unsigned short)((char *)&prec->rdes - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordLSET]->offset = (unsigned short)((char *)&prec->lset - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordPRIO]->offset = (unsigned short)((char *)&prec->prio - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordTPRO]->offset = (unsigned short)((char *)&prec->tpro - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordBKPT]->offset = (unsigned short)((char *)&prec->bkpt - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordUDF]->offset = (unsigned short)((char *)&prec->udf - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordUDFS]->offset = (unsigned short)((char *)&prec->udfs - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordTIME]->offset = (unsigned short)((char *)&prec->time - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordFLNK]->offset = (unsigned short)((char *)&prec->flnk - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordVAL]->offset = (unsigned short)((char *)&prec->val - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordNOBT]->offset = (unsigned short)((char *)&prec->nobt - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordINP]->offset = (unsigned short)((char *)&prec->inp - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordRVAL]->offset = (unsigned short)((char *)&prec->rval - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordORAW]->offset = (unsigned short)((char *)&prec->oraw - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordMASK]->offset = (unsigned short)((char *)&prec->mask - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordMLST]->offset = (unsigned short)((char *)&prec->mlst - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordSHFT]->offset = (unsigned short)((char *)&prec->shft - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordSIOL]->offset = (unsigned short)((char *)&prec->siol - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordSVAL]->offset = (unsigned short)((char *)&prec->sval - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordSIML]->offset = (unsigned short)((char *)&prec->siml - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordSIMM]->offset = (unsigned short)((char *)&prec->simm - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordSIMS]->offset = (unsigned short)((char *)&prec->sims - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordB0]->offset = (unsigned short)((char *)&prec->b0 - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordB1]->offset = (unsigned short)((char *)&prec->b1 - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordB2]->offset = (unsigned short)((char *)&prec->b2 - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordB3]->offset = (unsigned short)((char *)&prec->b3 - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordB4]->offset = (unsigned short)((char *)&prec->b4 - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordB5]->offset = (unsigned short)((char *)&prec->b5 - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordB6]->offset = (unsigned short)((char *)&prec->b6 - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordB7]->offset = (unsigned short)((char *)&prec->b7 - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordB8]->offset = (unsigned short)((char *)&prec->b8 - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordB9]->offset = (unsigned short)((char *)&prec->b9 - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordBA]->offset = (unsigned short)((char *)&prec->ba - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordBB]->offset = (unsigned short)((char *)&prec->bb - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordBC]->offset = (unsigned short)((char *)&prec->bc - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordBD]->offset = (unsigned short)((char *)&prec->bd - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordBE]->offset = (unsigned short)((char *)&prec->be - (char *)prec);
     prt->papFldDes[mbbiDirectRecordBF]->offset = (unsigned short)((char *)&prec->bf - (char *)prec);
     prt->rec_size = sizeof(*prec);
     return 0;

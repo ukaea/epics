@@ -3,8 +3,8 @@
 #ifndef INC_busyRecord_H
 #define INC_busyRecord_H
 
-#include "epicsTypes.h"
-#include "link.h"
+ #include "epicsTypes.h"
+ #include "link.h"
 #include "epicsMutex.h"
 #include "ellLib.h"
 #include "epicsTime.h"
@@ -25,7 +25,6 @@ typedef struct busyRecord {
     DBLINK              sdis;       /* Scanning Disable */
     epicsMutexId        mlok;       /* Monitor lock */
     ELLLIST             mlis;       /* Monitor List */
-    ELLLIST             bklnk;      /* Backwards link tracking */
     epicsUInt8          disp;       /* Disable putField */
     epicsUInt8          proc;       /* Force Processing */
     epicsEnum16         stat;       /* Alarm Status */
@@ -43,7 +42,7 @@ typedef struct busyRecord {
     struct processNotify *ppn;      /* pprocessNotify */
     struct processNotifyRecord *ppnr; /* pprocessNotifyRecord */
     struct scan_element *spvt;      /* Scan Private */
-    struct typed_rset   *rset;      /* Address of RSET */
+    struct rset         *rset;      /* Address of RSET */
     struct dset         *dset;      /* DSET address */
     void                *dpvt;      /* Device Private */
     struct dbRecordType *rdes;      /* Address of dbRecordType */
@@ -99,62 +98,61 @@ typedef enum {
 	busyRecordSDIS = 12,
 	busyRecordMLOK = 13,
 	busyRecordMLIS = 14,
-	busyRecordBKLNK = 15,
-	busyRecordDISP = 16,
-	busyRecordPROC = 17,
-	busyRecordSTAT = 18,
-	busyRecordSEVR = 19,
-	busyRecordNSTA = 20,
-	busyRecordNSEV = 21,
-	busyRecordACKS = 22,
-	busyRecordACKT = 23,
-	busyRecordDISS = 24,
-	busyRecordLCNT = 25,
-	busyRecordPACT = 26,
-	busyRecordPUTF = 27,
-	busyRecordRPRO = 28,
-	busyRecordASP = 29,
-	busyRecordPPN = 30,
-	busyRecordPPNR = 31,
-	busyRecordSPVT = 32,
-	busyRecordRSET = 33,
-	busyRecordDSET = 34,
-	busyRecordDPVT = 35,
-	busyRecordRDES = 36,
-	busyRecordLSET = 37,
-	busyRecordPRIO = 38,
-	busyRecordTPRO = 39,
-	busyRecordBKPT = 40,
-	busyRecordUDF = 41,
-	busyRecordUDFS = 42,
-	busyRecordTIME = 43,
-	busyRecordFLNK = 44,
-	busyRecordVAL = 45,
-	busyRecordOMSL = 46,
-	busyRecordDOL = 47,
-	busyRecordOUT = 48,
-	busyRecordHIGH = 49,
-	busyRecordZNAM = 50,
-	busyRecordONAM = 51,
-	busyRecordRVAL = 52,
-	busyRecordORAW = 53,
-	busyRecordOVAL = 54,
-	busyRecordMASK = 55,
-	busyRecordRPVT = 56,
-	busyRecordWDPT = 57,
-	busyRecordZSV = 58,
-	busyRecordOSV = 59,
-	busyRecordCOSV = 60,
-	busyRecordRBV = 61,
-	busyRecordORBV = 62,
-	busyRecordMLST = 63,
-	busyRecordLALM = 64,
-	busyRecordSIOL = 65,
-	busyRecordSIML = 66,
-	busyRecordSIMM = 67,
-	busyRecordSIMS = 68,
-	busyRecordIVOA = 69,
-	busyRecordIVOV = 70
+	busyRecordDISP = 15,
+	busyRecordPROC = 16,
+	busyRecordSTAT = 17,
+	busyRecordSEVR = 18,
+	busyRecordNSTA = 19,
+	busyRecordNSEV = 20,
+	busyRecordACKS = 21,
+	busyRecordACKT = 22,
+	busyRecordDISS = 23,
+	busyRecordLCNT = 24,
+	busyRecordPACT = 25,
+	busyRecordPUTF = 26,
+	busyRecordRPRO = 27,
+	busyRecordASP = 28,
+	busyRecordPPN = 29,
+	busyRecordPPNR = 30,
+	busyRecordSPVT = 31,
+	busyRecordRSET = 32,
+	busyRecordDSET = 33,
+	busyRecordDPVT = 34,
+	busyRecordRDES = 35,
+	busyRecordLSET = 36,
+	busyRecordPRIO = 37,
+	busyRecordTPRO = 38,
+	busyRecordBKPT = 39,
+	busyRecordUDF = 40,
+	busyRecordUDFS = 41,
+	busyRecordTIME = 42,
+	busyRecordFLNK = 43,
+	busyRecordVAL = 44,
+	busyRecordOMSL = 45,
+	busyRecordDOL = 46,
+	busyRecordOUT = 47,
+	busyRecordHIGH = 48,
+	busyRecordZNAM = 49,
+	busyRecordONAM = 50,
+	busyRecordRVAL = 51,
+	busyRecordORAW = 52,
+	busyRecordOVAL = 53,
+	busyRecordMASK = 54,
+	busyRecordRPVT = 55,
+	busyRecordWDPT = 56,
+	busyRecordZSV = 57,
+	busyRecordOSV = 58,
+	busyRecordCOSV = 59,
+	busyRecordRBV = 60,
+	busyRecordORBV = 61,
+	busyRecordMLST = 62,
+	busyRecordLALM = 63,
+	busyRecordSIOL = 64,
+	busyRecordSIML = 65,
+	busyRecordSIMM = 66,
+	busyRecordSIMS = 67,
+	busyRecordIVOA = 68,
+	busyRecordIVOV = 69
 } busyFieldIndex;
 
 #ifdef GEN_SIZE_OFFSET
@@ -168,7 +166,7 @@ static int busyRecordSizeOffset(dbRecordType *prt)
 {
     busyRecord *prec = 0;
 
-    assert(prt->no_fields == 71);
+    assert(prt->no_fields == 70);
     prt->papFldDes[busyRecordNAME]->size = sizeof(prec->name);
     prt->papFldDes[busyRecordDESC]->size = sizeof(prec->desc);
     prt->papFldDes[busyRecordASG]->size = sizeof(prec->asg);
@@ -184,7 +182,6 @@ static int busyRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[busyRecordSDIS]->size = sizeof(prec->sdis);
     prt->papFldDes[busyRecordMLOK]->size = sizeof(prec->mlok);
     prt->papFldDes[busyRecordMLIS]->size = sizeof(prec->mlis);
-    prt->papFldDes[busyRecordBKLNK]->size = sizeof(prec->bklnk);
     prt->papFldDes[busyRecordDISP]->size = sizeof(prec->disp);
     prt->papFldDes[busyRecordPROC]->size = sizeof(prec->proc);
     prt->papFldDes[busyRecordSTAT]->size = sizeof(prec->stat);
@@ -255,7 +252,6 @@ static int busyRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[busyRecordSDIS]->offset = (unsigned short)((char *)&prec->sdis - (char *)prec);
     prt->papFldDes[busyRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[busyRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
-    prt->papFldDes[busyRecordBKLNK]->offset = (unsigned short)((char *)&prec->bklnk - (char *)prec);
     prt->papFldDes[busyRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[busyRecordPROC]->offset = (unsigned short)((char *)&prec->proc - (char *)prec);
     prt->papFldDes[busyRecordSTAT]->offset = (unsigned short)((char *)&prec->stat - (char *)prec);

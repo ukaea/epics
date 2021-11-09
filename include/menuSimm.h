@@ -1,6 +1,4 @@
-/** @file menuSimm.h
- * @brief Declarations generated from menuSimm.dbd
- */
+/* menuSimm.h generated from menuSimm.dbd */
 
 #ifndef INC_menuSimm_H
 #define INC_menuSimm_H

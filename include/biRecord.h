@@ -1,8 +1,4 @@
-/** @file biRecord.h
- * @brief Declarations for the @ref biRecord "bi" record type.
- *
- * This header was generated from biRecord.dbd
- */
+/* biRecord.h generated from biRecord.dbd */
 
 #ifndef INC_biRecord_H
 #define INC_biRecord_H
@@ -143,8 +139,8 @@ typedef enum {
 
 #ifdef GEN_SIZE_OFFSET
 
+#include <epicsAssert.h>
 #include <epicsExport.h>
-#include <cantProceed.h>
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -152,133 +148,128 @@ static int biRecordSizeOffset(dbRecordType *prt)
 {
     biRecord *prec = 0;
 
-    if (prt->no_fields != 61) {
-        cantProceed("IOC build or installation error:\n"
-            "    The biRecord defined in the DBD file has %d fields,\n"
-            "    but the record support code was built with 61.\n",
-            prt->no_fields);
-    }
+    assert(prt->no_fields == 61);
     prt->papFldDes[biRecordNAME]->size = sizeof(prec->name);
-    prt->papFldDes[biRecordNAME]->offset = (unsigned short)((char *)&prec->name - (char *)prec);
     prt->papFldDes[biRecordDESC]->size = sizeof(prec->desc);
-    prt->papFldDes[biRecordDESC]->offset = (unsigned short)((char *)&prec->desc - (char *)prec);
     prt->papFldDes[biRecordASG]->size = sizeof(prec->asg);
-    prt->papFldDes[biRecordASG]->offset = (unsigned short)((char *)&prec->asg - (char *)prec);
     prt->papFldDes[biRecordSCAN]->size = sizeof(prec->scan);
-    prt->papFldDes[biRecordSCAN]->offset = (unsigned short)((char *)&prec->scan - (char *)prec);
     prt->papFldDes[biRecordPINI]->size = sizeof(prec->pini);
-    prt->papFldDes[biRecordPINI]->offset = (unsigned short)((char *)&prec->pini - (char *)prec);
     prt->papFldDes[biRecordPHAS]->size = sizeof(prec->phas);
-    prt->papFldDes[biRecordPHAS]->offset = (unsigned short)((char *)&prec->phas - (char *)prec);
     prt->papFldDes[biRecordEVNT]->size = sizeof(prec->evnt);
-    prt->papFldDes[biRecordEVNT]->offset = (unsigned short)((char *)&prec->evnt - (char *)prec);
     prt->papFldDes[biRecordTSE]->size = sizeof(prec->tse);
-    prt->papFldDes[biRecordTSE]->offset = (unsigned short)((char *)&prec->tse - (char *)prec);
     prt->papFldDes[biRecordTSEL]->size = sizeof(prec->tsel);
-    prt->papFldDes[biRecordTSEL]->offset = (unsigned short)((char *)&prec->tsel - (char *)prec);
     prt->papFldDes[biRecordDTYP]->size = sizeof(prec->dtyp);
-    prt->papFldDes[biRecordDTYP]->offset = (unsigned short)((char *)&prec->dtyp - (char *)prec);
     prt->papFldDes[biRecordDISV]->size = sizeof(prec->disv);
-    prt->papFldDes[biRecordDISV]->offset = (unsigned short)((char *)&prec->disv - (char *)prec);
     prt->papFldDes[biRecordDISA]->size = sizeof(prec->disa);
-    prt->papFldDes[biRecordDISA]->offset = (unsigned short)((char *)&prec->disa - (char *)prec);
     prt->papFldDes[biRecordSDIS]->size = sizeof(prec->sdis);
-    prt->papFldDes[biRecordSDIS]->offset = (unsigned short)((char *)&prec->sdis - (char *)prec);
     prt->papFldDes[biRecordMLOK]->size = sizeof(prec->mlok);
-    prt->papFldDes[biRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[biRecordMLIS]->size = sizeof(prec->mlis);
-    prt->papFldDes[biRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
     prt->papFldDes[biRecordDISP]->size = sizeof(prec->disp);
-    prt->papFldDes[biRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[biRecordPROC]->size = sizeof(prec->proc);
-    prt->papFldDes[biRecordPROC]->offset = (unsigned short)((char *)&prec->proc - (char *)prec);
     prt->papFldDes[biRecordSTAT]->size = sizeof(prec->stat);
-    prt->papFldDes[biRecordSTAT]->offset = (unsigned short)((char *)&prec->stat - (char *)prec);
     prt->papFldDes[biRecordSEVR]->size = sizeof(prec->sevr);
-    prt->papFldDes[biRecordSEVR]->offset = (unsigned short)((char *)&prec->sevr - (char *)prec);
     prt->papFldDes[biRecordNSTA]->size = sizeof(prec->nsta);
-    prt->papFldDes[biRecordNSTA]->offset = (unsigned short)((char *)&prec->nsta - (char *)prec);
     prt->papFldDes[biRecordNSEV]->size = sizeof(prec->nsev);
-    prt->papFldDes[biRecordNSEV]->offset = (unsigned short)((char *)&prec->nsev - (char *)prec);
     prt->papFldDes[biRecordACKS]->size = sizeof(prec->acks);
-    prt->papFldDes[biRecordACKS]->offset = (unsigned short)((char *)&prec->acks - (char *)prec);
     prt->papFldDes[biRecordACKT]->size = sizeof(prec->ackt);
-    prt->papFldDes[biRecordACKT]->offset = (unsigned short)((char *)&prec->ackt - (char *)prec);
     prt->papFldDes[biRecordDISS]->size = sizeof(prec->diss);
-    prt->papFldDes[biRecordDISS]->offset = (unsigned short)((char *)&prec->diss - (char *)prec);
     prt->papFldDes[biRecordLCNT]->size = sizeof(prec->lcnt);
-    prt->papFldDes[biRecordLCNT]->offset = (unsigned short)((char *)&prec->lcnt - (char *)prec);
     prt->papFldDes[biRecordPACT]->size = sizeof(prec->pact);
-    prt->papFldDes[biRecordPACT]->offset = (unsigned short)((char *)&prec->pact - (char *)prec);
     prt->papFldDes[biRecordPUTF]->size = sizeof(prec->putf);
-    prt->papFldDes[biRecordPUTF]->offset = (unsigned short)((char *)&prec->putf - (char *)prec);
     prt->papFldDes[biRecordRPRO]->size = sizeof(prec->rpro);
-    prt->papFldDes[biRecordRPRO]->offset = (unsigned short)((char *)&prec->rpro - (char *)prec);
     prt->papFldDes[biRecordASP]->size = sizeof(prec->asp);
-    prt->papFldDes[biRecordASP]->offset = (unsigned short)((char *)&prec->asp - (char *)prec);
     prt->papFldDes[biRecordPPN]->size = sizeof(prec->ppn);
-    prt->papFldDes[biRecordPPN]->offset = (unsigned short)((char *)&prec->ppn - (char *)prec);
     prt->papFldDes[biRecordPPNR]->size = sizeof(prec->ppnr);
-    prt->papFldDes[biRecordPPNR]->offset = (unsigned short)((char *)&prec->ppnr - (char *)prec);
     prt->papFldDes[biRecordSPVT]->size = sizeof(prec->spvt);
-    prt->papFldDes[biRecordSPVT]->offset = (unsigned short)((char *)&prec->spvt - (char *)prec);
     prt->papFldDes[biRecordRSET]->size = sizeof(prec->rset);
-    prt->papFldDes[biRecordRSET]->offset = (unsigned short)((char *)&prec->rset - (char *)prec);
     prt->papFldDes[biRecordDSET]->size = sizeof(prec->dset);
-    prt->papFldDes[biRecordDSET]->offset = (unsigned short)((char *)&prec->dset - (char *)prec);
     prt->papFldDes[biRecordDPVT]->size = sizeof(prec->dpvt);
-    prt->papFldDes[biRecordDPVT]->offset = (unsigned short)((char *)&prec->dpvt - (char *)prec);
     prt->papFldDes[biRecordRDES]->size = sizeof(prec->rdes);
-    prt->papFldDes[biRecordRDES]->offset = (unsigned short)((char *)&prec->rdes - (char *)prec);
     prt->papFldDes[biRecordLSET]->size = sizeof(prec->lset);
-    prt->papFldDes[biRecordLSET]->offset = (unsigned short)((char *)&prec->lset - (char *)prec);
     prt->papFldDes[biRecordPRIO]->size = sizeof(prec->prio);
-    prt->papFldDes[biRecordPRIO]->offset = (unsigned short)((char *)&prec->prio - (char *)prec);
     prt->papFldDes[biRecordTPRO]->size = sizeof(prec->tpro);
-    prt->papFldDes[biRecordTPRO]->offset = (unsigned short)((char *)&prec->tpro - (char *)prec);
     prt->papFldDes[biRecordBKPT]->size = sizeof(prec->bkpt);
-    prt->papFldDes[biRecordBKPT]->offset = (unsigned short)((char *)&prec->bkpt - (char *)prec);
     prt->papFldDes[biRecordUDF]->size = sizeof(prec->udf);
-    prt->papFldDes[biRecordUDF]->offset = (unsigned short)((char *)&prec->udf - (char *)prec);
     prt->papFldDes[biRecordUDFS]->size = sizeof(prec->udfs);
-    prt->papFldDes[biRecordUDFS]->offset = (unsigned short)((char *)&prec->udfs - (char *)prec);
     prt->papFldDes[biRecordTIME]->size = sizeof(prec->time);
-    prt->papFldDes[biRecordTIME]->offset = (unsigned short)((char *)&prec->time - (char *)prec);
     prt->papFldDes[biRecordFLNK]->size = sizeof(prec->flnk);
-    prt->papFldDes[biRecordFLNK]->offset = (unsigned short)((char *)&prec->flnk - (char *)prec);
     prt->papFldDes[biRecordINP]->size = sizeof(prec->inp);
-    prt->papFldDes[biRecordINP]->offset = (unsigned short)((char *)&prec->inp - (char *)prec);
     prt->papFldDes[biRecordVAL]->size = sizeof(prec->val);
-    prt->papFldDes[biRecordVAL]->offset = (unsigned short)((char *)&prec->val - (char *)prec);
     prt->papFldDes[biRecordZSV]->size = sizeof(prec->zsv);
-    prt->papFldDes[biRecordZSV]->offset = (unsigned short)((char *)&prec->zsv - (char *)prec);
     prt->papFldDes[biRecordOSV]->size = sizeof(prec->osv);
-    prt->papFldDes[biRecordOSV]->offset = (unsigned short)((char *)&prec->osv - (char *)prec);
     prt->papFldDes[biRecordCOSV]->size = sizeof(prec->cosv);
-    prt->papFldDes[biRecordCOSV]->offset = (unsigned short)((char *)&prec->cosv - (char *)prec);
     prt->papFldDes[biRecordZNAM]->size = sizeof(prec->znam);
-    prt->papFldDes[biRecordZNAM]->offset = (unsigned short)((char *)&prec->znam - (char *)prec);
     prt->papFldDes[biRecordONAM]->size = sizeof(prec->onam);
-    prt->papFldDes[biRecordONAM]->offset = (unsigned short)((char *)&prec->onam - (char *)prec);
     prt->papFldDes[biRecordRVAL]->size = sizeof(prec->rval);
-    prt->papFldDes[biRecordRVAL]->offset = (unsigned short)((char *)&prec->rval - (char *)prec);
     prt->papFldDes[biRecordORAW]->size = sizeof(prec->oraw);
-    prt->papFldDes[biRecordORAW]->offset = (unsigned short)((char *)&prec->oraw - (char *)prec);
     prt->papFldDes[biRecordMASK]->size = sizeof(prec->mask);
-    prt->papFldDes[biRecordMASK]->offset = (unsigned short)((char *)&prec->mask - (char *)prec);
     prt->papFldDes[biRecordLALM]->size = sizeof(prec->lalm);
-    prt->papFldDes[biRecordLALM]->offset = (unsigned short)((char *)&prec->lalm - (char *)prec);
     prt->papFldDes[biRecordMLST]->size = sizeof(prec->mlst);
-    prt->papFldDes[biRecordMLST]->offset = (unsigned short)((char *)&prec->mlst - (char *)prec);
     prt->papFldDes[biRecordSIOL]->size = sizeof(prec->siol);
-    prt->papFldDes[biRecordSIOL]->offset = (unsigned short)((char *)&prec->siol - (char *)prec);
     prt->papFldDes[biRecordSVAL]->size = sizeof(prec->sval);
-    prt->papFldDes[biRecordSVAL]->offset = (unsigned short)((char *)&prec->sval - (char *)prec);
     prt->papFldDes[biRecordSIML]->size = sizeof(prec->siml);
-    prt->papFldDes[biRecordSIML]->offset = (unsigned short)((char *)&prec->siml - (char *)prec);
     prt->papFldDes[biRecordSIMM]->size = sizeof(prec->simm);
-    prt->papFldDes[biRecordSIMM]->offset = (unsigned short)((char *)&prec->simm - (char *)prec);
     prt->papFldDes[biRecordSIMS]->size = sizeof(prec->sims);
+    prt->papFldDes[biRecordNAME]->offset = (unsigned short)((char *)&prec->name - (char *)prec);
+    prt->papFldDes[biRecordDESC]->offset = (unsigned short)((char *)&prec->desc - (char *)prec);
+    prt->papFldDes[biRecordASG]->offset = (unsigned short)((char *)&prec->asg - (char *)prec);
+    prt->papFldDes[biRecordSCAN]->offset = (unsigned short)((char *)&prec->scan - (char *)prec);
+    prt->papFldDes[biRecordPINI]->offset = (unsigned short)((char *)&prec->pini - (char *)prec);
+    prt->papFldDes[biRecordPHAS]->offset = (unsigned short)((char *)&prec->phas - (char *)prec);
+    prt->papFldDes[biRecordEVNT]->offset = (unsigned short)((char *)&prec->evnt - (char *)prec);
+    prt->papFldDes[biRecordTSE]->offset = (unsigned short)((char *)&prec->tse - (char *)prec);
+    prt->papFldDes[biRecordTSEL]->offset = (unsigned short)((char *)&prec->tsel - (char *)prec);
+    prt->papFldDes[biRecordDTYP]->offset = (unsigned short)((char *)&prec->dtyp - (char *)prec);
+    prt->papFldDes[biRecordDISV]->offset = (unsigned short)((char *)&prec->disv - (char *)prec);
+    prt->papFldDes[biRecordDISA]->offset = (unsigned short)((char *)&prec->disa - (char *)prec);
+    prt->papFldDes[biRecordSDIS]->offset = (unsigned short)((char *)&prec->sdis - (char *)prec);
+    prt->papFldDes[biRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
+    prt->papFldDes[biRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
+    prt->papFldDes[biRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
+    prt->papFldDes[biRecordPROC]->offset = (unsigned short)((char *)&prec->proc - (char *)prec);
+    prt->papFldDes[biRecordSTAT]->offset = (unsigned short)((char *)&prec->stat - (char *)prec);
+    prt->papFldDes[biRecordSEVR]->offset = (unsigned short)((char *)&prec->sevr - (char *)prec);
+    prt->papFldDes[biRecordNSTA]->offset = (unsigned short)((char *)&prec->nsta - (char *)prec);
+    prt->papFldDes[biRecordNSEV]->offset = (unsigned short)((char *)&prec->nsev - (char *)prec);
+    prt->papFldDes[biRecordACKS]->offset = (unsigned short)((char *)&prec->acks - (char *)prec);
+    prt->papFldDes[biRecordACKT]->offset = (unsigned short)((char *)&prec->ackt - (char *)prec);
+    prt->papFldDes[biRecordDISS]->offset = (unsigned short)((char *)&prec->diss - (char *)prec);
+    prt->papFldDes[biRecordLCNT]->offset = (unsigned short)((char *)&prec->lcnt - (char *)prec);
+    prt->papFldDes[biRecordPACT]->offset = (unsigned short)((char *)&prec->pact - (char *)prec);
+    prt->papFldDes[biRecordPUTF]->offset = (unsigned short)((char *)&prec->putf - (char *)prec);
+    prt->papFldDes[biRecordRPRO]->offset = (unsigned short)((char *)&prec->rpro - (char *)prec);
+    prt->papFldDes[biRecordASP]->offset = (unsigned short)((char *)&prec->asp - (char *)prec);
+    prt->papFldDes[biRecordPPN]->offset = (unsigned short)((char *)&prec->ppn - (char *)prec);
+    prt->papFldDes[biRecordPPNR]->offset = (unsigned short)((char *)&prec->ppnr - (char *)prec);
+    prt->papFldDes[biRecordSPVT]->offset = (unsigned short)((char *)&prec->spvt - (char *)prec);
+    prt->papFldDes[biRecordRSET]->offset = (unsigned short)((char *)&prec->rset - (char *)prec);
+    prt->papFldDes[biRecordDSET]->offset = (unsigned short)((char *)&prec->dset - (char *)prec);
+    prt->papFldDes[biRecordDPVT]->offset = (unsigned short)((char *)&prec->dpvt - (char *)prec);
+    prt->papFldDes[biRecordRDES]->offset = (unsigned short)((char *)&prec->rdes - (char *)prec);
+    prt->papFldDes[biRecordLSET]->offset = (unsigned short)((char *)&prec->lset - (char *)prec);
+    prt->papFldDes[biRecordPRIO]->offset = (unsigned short)((char *)&prec->prio - (char *)prec);
+    prt->papFldDes[biRecordTPRO]->offset = (unsigned short)((char *)&prec->tpro - (char *)prec);
+    prt->papFldDes[biRecordBKPT]->offset = (unsigned short)((char *)&prec->bkpt - (char *)prec);
+    prt->papFldDes[biRecordUDF]->offset = (unsigned short)((char *)&prec->udf - (char *)prec);
+    prt->papFldDes[biRecordUDFS]->offset = (unsigned short)((char *)&prec->udfs - (char *)prec);
+    prt->papFldDes[biRecordTIME]->offset = (unsigned short)((char *)&prec->time - (char *)prec);
+    prt->papFldDes[biRecordFLNK]->offset = (unsigned short)((char *)&prec->flnk - (char *)prec);
+    prt->papFldDes[biRecordINP]->offset = (unsigned short)((char *)&prec->inp - (char *)prec);
+    prt->papFldDes[biRecordVAL]->offset = (unsigned short)((char *)&prec->val - (char *)prec);
+    prt->papFldDes[biRecordZSV]->offset = (unsigned short)((char *)&prec->zsv - (char *)prec);
+    prt->papFldDes[biRecordOSV]->offset = (unsigned short)((char *)&prec->osv - (char *)prec);
+    prt->papFldDes[biRecordCOSV]->offset = (unsigned short)((char *)&prec->cosv - (char *)prec);
+    prt->papFldDes[biRecordZNAM]->offset = (unsigned short)((char *)&prec->znam - (char *)prec);
+    prt->papFldDes[biRecordONAM]->offset = (unsigned short)((char *)&prec->onam - (char *)prec);
+    prt->papFldDes[biRecordRVAL]->offset = (unsigned short)((char *)&prec->rval - (char *)prec);
+    prt->papFldDes[biRecordORAW]->offset = (unsigned short)((char *)&prec->oraw - (char *)prec);
+    prt->papFldDes[biRecordMASK]->offset = (unsigned short)((char *)&prec->mask - (char *)prec);
+    prt->papFldDes[biRecordLALM]->offset = (unsigned short)((char *)&prec->lalm - (char *)prec);
+    prt->papFldDes[biRecordMLST]->offset = (unsigned short)((char *)&prec->mlst - (char *)prec);
+    prt->papFldDes[biRecordSIOL]->offset = (unsigned short)((char *)&prec->siol - (char *)prec);
+    prt->papFldDes[biRecordSVAL]->offset = (unsigned short)((char *)&prec->sval - (char *)prec);
+    prt->papFldDes[biRecordSIML]->offset = (unsigned short)((char *)&prec->siml - (char *)prec);
+    prt->papFldDes[biRecordSIMM]->offset = (unsigned short)((char *)&prec->simm - (char *)prec);
     prt->papFldDes[biRecordSIMS]->offset = (unsigned short)((char *)&prec->sims - (char *)prec);
     prt->rec_size = sizeof(*prec);
     return 0;

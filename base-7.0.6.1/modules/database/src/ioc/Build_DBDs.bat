@@ -2,21 +2,21 @@ SET TOPLEVEL=%1
 SET BUILDIR=%2
 SET DLLDIR=%3
 
-if not exist %TOPLEVEL%\include  md %TOPLEVEL%\include
-if not exist %TOPLEVEL%\DBD  md %TOPLEVEL%\DBD
+if not exist %TOPLEVEL%include  md %TOPLEVEL%include
+if not exist %TOPLEVEL%DBD  md %TOPLEVEL%DBD
 
-xcopy /Y /Q /D /R as\*.h  %TOPLEVEL%include > NUL
-xcopy /Y /Q /D /R bpt\*.h  %TOPLEVEL%include > NUL
-xcopy /Y /Q /D /R db\*.h  %TOPLEVEL%include > NUL
-xcopy /Y /Q /D /R dbStatic\*.h  %TOPLEVEL%include > NUL
-xcopy /Y /Q /D /R dbtemplate\*.h  %TOPLEVEL%include > NUL
-xcopy /Y /Q /D /R misc\*.h  %TOPLEVEL%include > NUL
-xcopy /Y /Q /D /R registry\*.h  %TOPLEVEL%include > NUL
-xcopy /Y /Q /D /R rsrv\*.h  %TOPLEVEL%include > NUL
+xcopy /Y /Q as\*.h  %TOPLEVEL%include > NUL
+xcopy /Y /Q bpt\*.h  %TOPLEVEL%include > NUL
+xcopy /Y /Q db\*.h  %TOPLEVEL%include > NUL
+xcopy /Y /Q dbStatic\*.h  %TOPLEVEL%include > NUL
+xcopy /Y /Q dbtemplate\*.h  %TOPLEVEL%include > NUL
+xcopy /Y /Q misc\*.h  %TOPLEVEL%include > NUL
+xcopy /Y /Q registry\*.h  %TOPLEVEL%include > NUL
+xcopy /Y /Q rsrv\*.h  %TOPLEVEL%include > NUL
 
-xcopy /Y /Q /D /R db\*.dbd  %TOPLEVEL%\dbd > NUL
-xcopy /Y /Q /D /R misc\*.dbd  %TOPLEVEL%\dbd > NUL
-xcopy /Y /Q /D /R rsrv\*.dbd  %TOPLEVEL%\dbd > NUL
+xcopy /Y /Q db\*.dbd  %TOPLEVEL%\dbd > NUL
+xcopy /Y /Q misc\*.dbd  %TOPLEVEL%\dbd > NUL
+xcopy /Y /Q rsrv\*.dbd  %TOPLEVEL%\dbd > NUL
 
 SET PERL5LIB=C:\Strawberry\lib\perl
 if not exist C:\strawberry\perl\lib\DBD.pm  mklink /h C:\strawberry\perl\lib\DBD.pm %TOPLEVEL%lib\perl\DBD.pm

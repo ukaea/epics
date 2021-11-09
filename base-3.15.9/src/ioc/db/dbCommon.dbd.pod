@@ -22,8 +22,7 @@ record's purpose. Maximum length is 40 characters.
 
 =fields NAME, DESC
 
-=cut
-
+=cut	
 	%#include "epicsTypes.h"
 	%#include "link.h"
 	field(NAME,DBF_STRING) {

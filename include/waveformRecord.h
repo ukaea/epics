@@ -1,8 +1,4 @@
-/** @file waveformRecord.h
- * @brief Declarations for the @ref waveformRecord "waveform" record type.
- *
- * This header was generated from waveformRecord.dbd
- */
+/* waveformRecord.h generated from waveformRecord.dbd */
 
 #ifndef INC_waveformRecord_H
 #define INC_waveformRecord_H
@@ -13,14 +9,6 @@
 #include "ellLib.h"
 #include "epicsTime.h"
 
-#ifndef waveformPOST_NUM_CHOICES
-typedef enum {
-    waveformPOST_Always             /* Always */,
-    waveformPOST_OnChange           /* On Change */
-} waveformPOST;
-#define waveformPOST_NUM_CHOICES 2
-#endif
-
 #ifndef menuFtype_NUM_CHOICES
 typedef enum {
     menuFtypeSTRING                 /* STRING */,
@@ -30,13 +18,19 @@ typedef enum {
     menuFtypeUSHORT                 /* USHORT */,
     menuFtypeLONG                   /* LONG */,
     menuFtypeULONG                  /* ULONG */,
-    menuFtypeINT64                  /* INT64 */,
-    menuFtypeUINT64                 /* UINT64 */,
     menuFtypeFLOAT                  /* FLOAT */,
     menuFtypeDOUBLE                 /* DOUBLE */,
     menuFtypeENUM                   /* ENUM */
 } menuFtype;
-#define menuFtype_NUM_CHOICES 12
+#define menuFtype_NUM_CHOICES 10
+#endif
+
+#ifndef waveformPOST_NUM_CHOICES
+typedef enum {
+    waveformPOST_Always             /* Always */,
+    waveformPOST_OnChange           /* On Change */
+} waveformPOST;
+#define waveformPOST_NUM_CHOICES 2
 #endif
 
 typedef struct waveformRecord {
@@ -173,8 +167,8 @@ typedef enum {
 
 #ifdef GEN_SIZE_OFFSET
 
+#include <epicsAssert.h>
 #include <epicsExport.h>
-#include <cantProceed.h>
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -182,137 +176,132 @@ static int waveformRecordSizeOffset(dbRecordType *prt)
 {
     waveformRecord *prec = 0;
 
-    if (prt->no_fields != 63) {
-        cantProceed("IOC build or installation error:\n"
-            "    The waveformRecord defined in the DBD file has %d fields,\n"
-            "    but the record support code was built with 63.\n",
-            prt->no_fields);
-    }
+    assert(prt->no_fields == 63);
     prt->papFldDes[waveformRecordNAME]->size = sizeof(prec->name);
-    prt->papFldDes[waveformRecordNAME]->offset = (unsigned short)((char *)&prec->name - (char *)prec);
     prt->papFldDes[waveformRecordDESC]->size = sizeof(prec->desc);
-    prt->papFldDes[waveformRecordDESC]->offset = (unsigned short)((char *)&prec->desc - (char *)prec);
     prt->papFldDes[waveformRecordASG]->size = sizeof(prec->asg);
-    prt->papFldDes[waveformRecordASG]->offset = (unsigned short)((char *)&prec->asg - (char *)prec);
     prt->papFldDes[waveformRecordSCAN]->size = sizeof(prec->scan);
-    prt->papFldDes[waveformRecordSCAN]->offset = (unsigned short)((char *)&prec->scan - (char *)prec);
     prt->papFldDes[waveformRecordPINI]->size = sizeof(prec->pini);
-    prt->papFldDes[waveformRecordPINI]->offset = (unsigned short)((char *)&prec->pini - (char *)prec);
     prt->papFldDes[waveformRecordPHAS]->size = sizeof(prec->phas);
-    prt->papFldDes[waveformRecordPHAS]->offset = (unsigned short)((char *)&prec->phas - (char *)prec);
     prt->papFldDes[waveformRecordEVNT]->size = sizeof(prec->evnt);
-    prt->papFldDes[waveformRecordEVNT]->offset = (unsigned short)((char *)&prec->evnt - (char *)prec);
     prt->papFldDes[waveformRecordTSE]->size = sizeof(prec->tse);
-    prt->papFldDes[waveformRecordTSE]->offset = (unsigned short)((char *)&prec->tse - (char *)prec);
     prt->papFldDes[waveformRecordTSEL]->size = sizeof(prec->tsel);
-    prt->papFldDes[waveformRecordTSEL]->offset = (unsigned short)((char *)&prec->tsel - (char *)prec);
     prt->papFldDes[waveformRecordDTYP]->size = sizeof(prec->dtyp);
-    prt->papFldDes[waveformRecordDTYP]->offset = (unsigned short)((char *)&prec->dtyp - (char *)prec);
     prt->papFldDes[waveformRecordDISV]->size = sizeof(prec->disv);
-    prt->papFldDes[waveformRecordDISV]->offset = (unsigned short)((char *)&prec->disv - (char *)prec);
     prt->papFldDes[waveformRecordDISA]->size = sizeof(prec->disa);
-    prt->papFldDes[waveformRecordDISA]->offset = (unsigned short)((char *)&prec->disa - (char *)prec);
     prt->papFldDes[waveformRecordSDIS]->size = sizeof(prec->sdis);
-    prt->papFldDes[waveformRecordSDIS]->offset = (unsigned short)((char *)&prec->sdis - (char *)prec);
     prt->papFldDes[waveformRecordMLOK]->size = sizeof(prec->mlok);
-    prt->papFldDes[waveformRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[waveformRecordMLIS]->size = sizeof(prec->mlis);
-    prt->papFldDes[waveformRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
     prt->papFldDes[waveformRecordDISP]->size = sizeof(prec->disp);
-    prt->papFldDes[waveformRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[waveformRecordPROC]->size = sizeof(prec->proc);
-    prt->papFldDes[waveformRecordPROC]->offset = (unsigned short)((char *)&prec->proc - (char *)prec);
     prt->papFldDes[waveformRecordSTAT]->size = sizeof(prec->stat);
-    prt->papFldDes[waveformRecordSTAT]->offset = (unsigned short)((char *)&prec->stat - (char *)prec);
     prt->papFldDes[waveformRecordSEVR]->size = sizeof(prec->sevr);
-    prt->papFldDes[waveformRecordSEVR]->offset = (unsigned short)((char *)&prec->sevr - (char *)prec);
     prt->papFldDes[waveformRecordNSTA]->size = sizeof(prec->nsta);
-    prt->papFldDes[waveformRecordNSTA]->offset = (unsigned short)((char *)&prec->nsta - (char *)prec);
     prt->papFldDes[waveformRecordNSEV]->size = sizeof(prec->nsev);
-    prt->papFldDes[waveformRecordNSEV]->offset = (unsigned short)((char *)&prec->nsev - (char *)prec);
     prt->papFldDes[waveformRecordACKS]->size = sizeof(prec->acks);
-    prt->papFldDes[waveformRecordACKS]->offset = (unsigned short)((char *)&prec->acks - (char *)prec);
     prt->papFldDes[waveformRecordACKT]->size = sizeof(prec->ackt);
-    prt->papFldDes[waveformRecordACKT]->offset = (unsigned short)((char *)&prec->ackt - (char *)prec);
     prt->papFldDes[waveformRecordDISS]->size = sizeof(prec->diss);
-    prt->papFldDes[waveformRecordDISS]->offset = (unsigned short)((char *)&prec->diss - (char *)prec);
     prt->papFldDes[waveformRecordLCNT]->size = sizeof(prec->lcnt);
-    prt->papFldDes[waveformRecordLCNT]->offset = (unsigned short)((char *)&prec->lcnt - (char *)prec);
     prt->papFldDes[waveformRecordPACT]->size = sizeof(prec->pact);
-    prt->papFldDes[waveformRecordPACT]->offset = (unsigned short)((char *)&prec->pact - (char *)prec);
     prt->papFldDes[waveformRecordPUTF]->size = sizeof(prec->putf);
-    prt->papFldDes[waveformRecordPUTF]->offset = (unsigned short)((char *)&prec->putf - (char *)prec);
     prt->papFldDes[waveformRecordRPRO]->size = sizeof(prec->rpro);
-    prt->papFldDes[waveformRecordRPRO]->offset = (unsigned short)((char *)&prec->rpro - (char *)prec);
     prt->papFldDes[waveformRecordASP]->size = sizeof(prec->asp);
-    prt->papFldDes[waveformRecordASP]->offset = (unsigned short)((char *)&prec->asp - (char *)prec);
     prt->papFldDes[waveformRecordPPN]->size = sizeof(prec->ppn);
-    prt->papFldDes[waveformRecordPPN]->offset = (unsigned short)((char *)&prec->ppn - (char *)prec);
     prt->papFldDes[waveformRecordPPNR]->size = sizeof(prec->ppnr);
-    prt->papFldDes[waveformRecordPPNR]->offset = (unsigned short)((char *)&prec->ppnr - (char *)prec);
     prt->papFldDes[waveformRecordSPVT]->size = sizeof(prec->spvt);
-    prt->papFldDes[waveformRecordSPVT]->offset = (unsigned short)((char *)&prec->spvt - (char *)prec);
     prt->papFldDes[waveformRecordRSET]->size = sizeof(prec->rset);
-    prt->papFldDes[waveformRecordRSET]->offset = (unsigned short)((char *)&prec->rset - (char *)prec);
     prt->papFldDes[waveformRecordDSET]->size = sizeof(prec->dset);
-    prt->papFldDes[waveformRecordDSET]->offset = (unsigned short)((char *)&prec->dset - (char *)prec);
     prt->papFldDes[waveformRecordDPVT]->size = sizeof(prec->dpvt);
-    prt->papFldDes[waveformRecordDPVT]->offset = (unsigned short)((char *)&prec->dpvt - (char *)prec);
     prt->papFldDes[waveformRecordRDES]->size = sizeof(prec->rdes);
-    prt->papFldDes[waveformRecordRDES]->offset = (unsigned short)((char *)&prec->rdes - (char *)prec);
     prt->papFldDes[waveformRecordLSET]->size = sizeof(prec->lset);
-    prt->papFldDes[waveformRecordLSET]->offset = (unsigned short)((char *)&prec->lset - (char *)prec);
     prt->papFldDes[waveformRecordPRIO]->size = sizeof(prec->prio);
-    prt->papFldDes[waveformRecordPRIO]->offset = (unsigned short)((char *)&prec->prio - (char *)prec);
     prt->papFldDes[waveformRecordTPRO]->size = sizeof(prec->tpro);
-    prt->papFldDes[waveformRecordTPRO]->offset = (unsigned short)((char *)&prec->tpro - (char *)prec);
     prt->papFldDes[waveformRecordBKPT]->size = sizeof(prec->bkpt);
-    prt->papFldDes[waveformRecordBKPT]->offset = (unsigned short)((char *)&prec->bkpt - (char *)prec);
     prt->papFldDes[waveformRecordUDF]->size = sizeof(prec->udf);
-    prt->papFldDes[waveformRecordUDF]->offset = (unsigned short)((char *)&prec->udf - (char *)prec);
     prt->papFldDes[waveformRecordUDFS]->size = sizeof(prec->udfs);
-    prt->papFldDes[waveformRecordUDFS]->offset = (unsigned short)((char *)&prec->udfs - (char *)prec);
     prt->papFldDes[waveformRecordTIME]->size = sizeof(prec->time);
-    prt->papFldDes[waveformRecordTIME]->offset = (unsigned short)((char *)&prec->time - (char *)prec);
     prt->papFldDes[waveformRecordFLNK]->size = sizeof(prec->flnk);
-    prt->papFldDes[waveformRecordFLNK]->offset = (unsigned short)((char *)&prec->flnk - (char *)prec);
     prt->papFldDes[waveformRecordVAL]->size = sizeof(prec->val);
-    prt->papFldDes[waveformRecordVAL]->offset = (unsigned short)((char *)&prec->val - (char *)prec);
     prt->papFldDes[waveformRecordRARM]->size = sizeof(prec->rarm);
-    prt->papFldDes[waveformRecordRARM]->offset = (unsigned short)((char *)&prec->rarm - (char *)prec);
     prt->papFldDes[waveformRecordPREC]->size = sizeof(prec->prec);
-    prt->papFldDes[waveformRecordPREC]->offset = (unsigned short)((char *)&prec->prec - (char *)prec);
     prt->papFldDes[waveformRecordINP]->size = sizeof(prec->inp);
-    prt->papFldDes[waveformRecordINP]->offset = (unsigned short)((char *)&prec->inp - (char *)prec);
     prt->papFldDes[waveformRecordEGU]->size = sizeof(prec->egu);
-    prt->papFldDes[waveformRecordEGU]->offset = (unsigned short)((char *)&prec->egu - (char *)prec);
     prt->papFldDes[waveformRecordHOPR]->size = sizeof(prec->hopr);
-    prt->papFldDes[waveformRecordHOPR]->offset = (unsigned short)((char *)&prec->hopr - (char *)prec);
     prt->papFldDes[waveformRecordLOPR]->size = sizeof(prec->lopr);
-    prt->papFldDes[waveformRecordLOPR]->offset = (unsigned short)((char *)&prec->lopr - (char *)prec);
     prt->papFldDes[waveformRecordNELM]->size = sizeof(prec->nelm);
-    prt->papFldDes[waveformRecordNELM]->offset = (unsigned short)((char *)&prec->nelm - (char *)prec);
     prt->papFldDes[waveformRecordFTVL]->size = sizeof(prec->ftvl);
-    prt->papFldDes[waveformRecordFTVL]->offset = (unsigned short)((char *)&prec->ftvl - (char *)prec);
     prt->papFldDes[waveformRecordBUSY]->size = sizeof(prec->busy);
-    prt->papFldDes[waveformRecordBUSY]->offset = (unsigned short)((char *)&prec->busy - (char *)prec);
     prt->papFldDes[waveformRecordNORD]->size = sizeof(prec->nord);
-    prt->papFldDes[waveformRecordNORD]->offset = (unsigned short)((char *)&prec->nord - (char *)prec);
     prt->papFldDes[waveformRecordBPTR]->size = sizeof(prec->bptr);
-    prt->papFldDes[waveformRecordBPTR]->offset = (unsigned short)((char *)&prec->bptr - (char *)prec);
     prt->papFldDes[waveformRecordSIOL]->size = sizeof(prec->siol);
-    prt->papFldDes[waveformRecordSIOL]->offset = (unsigned short)((char *)&prec->siol - (char *)prec);
     prt->papFldDes[waveformRecordSIML]->size = sizeof(prec->siml);
-    prt->papFldDes[waveformRecordSIML]->offset = (unsigned short)((char *)&prec->siml - (char *)prec);
     prt->papFldDes[waveformRecordSIMM]->size = sizeof(prec->simm);
-    prt->papFldDes[waveformRecordSIMM]->offset = (unsigned short)((char *)&prec->simm - (char *)prec);
     prt->papFldDes[waveformRecordSIMS]->size = sizeof(prec->sims);
-    prt->papFldDes[waveformRecordSIMS]->offset = (unsigned short)((char *)&prec->sims - (char *)prec);
     prt->papFldDes[waveformRecordMPST]->size = sizeof(prec->mpst);
-    prt->papFldDes[waveformRecordMPST]->offset = (unsigned short)((char *)&prec->mpst - (char *)prec);
     prt->papFldDes[waveformRecordAPST]->size = sizeof(prec->apst);
-    prt->papFldDes[waveformRecordAPST]->offset = (unsigned short)((char *)&prec->apst - (char *)prec);
     prt->papFldDes[waveformRecordHASH]->size = sizeof(prec->hash);
+    prt->papFldDes[waveformRecordNAME]->offset = (unsigned short)((char *)&prec->name - (char *)prec);
+    prt->papFldDes[waveformRecordDESC]->offset = (unsigned short)((char *)&prec->desc - (char *)prec);
+    prt->papFldDes[waveformRecordASG]->offset = (unsigned short)((char *)&prec->asg - (char *)prec);
+    prt->papFldDes[waveformRecordSCAN]->offset = (unsigned short)((char *)&prec->scan - (char *)prec);
+    prt->papFldDes[waveformRecordPINI]->offset = (unsigned short)((char *)&prec->pini - (char *)prec);
+    prt->papFldDes[waveformRecordPHAS]->offset = (unsigned short)((char *)&prec->phas - (char *)prec);
+    prt->papFldDes[waveformRecordEVNT]->offset = (unsigned short)((char *)&prec->evnt - (char *)prec);
+    prt->papFldDes[waveformRecordTSE]->offset = (unsigned short)((char *)&prec->tse - (char *)prec);
+    prt->papFldDes[waveformRecordTSEL]->offset = (unsigned short)((char *)&prec->tsel - (char *)prec);
+    prt->papFldDes[waveformRecordDTYP]->offset = (unsigned short)((char *)&prec->dtyp - (char *)prec);
+    prt->papFldDes[waveformRecordDISV]->offset = (unsigned short)((char *)&prec->disv - (char *)prec);
+    prt->papFldDes[waveformRecordDISA]->offset = (unsigned short)((char *)&prec->disa - (char *)prec);
+    prt->papFldDes[waveformRecordSDIS]->offset = (unsigned short)((char *)&prec->sdis - (char *)prec);
+    prt->papFldDes[waveformRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
+    prt->papFldDes[waveformRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
+    prt->papFldDes[waveformRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
+    prt->papFldDes[waveformRecordPROC]->offset = (unsigned short)((char *)&prec->proc - (char *)prec);
+    prt->papFldDes[waveformRecordSTAT]->offset = (unsigned short)((char *)&prec->stat - (char *)prec);
+    prt->papFldDes[waveformRecordSEVR]->offset = (unsigned short)((char *)&prec->sevr - (char *)prec);
+    prt->papFldDes[waveformRecordNSTA]->offset = (unsigned short)((char *)&prec->nsta - (char *)prec);
+    prt->papFldDes[waveformRecordNSEV]->offset = (unsigned short)((char *)&prec->nsev - (char *)prec);
+    prt->papFldDes[waveformRecordACKS]->offset = (unsigned short)((char *)&prec->acks - (char *)prec);
+    prt->papFldDes[waveformRecordACKT]->offset = (unsigned short)((char *)&prec->ackt - (char *)prec);
+    prt->papFldDes[waveformRecordDISS]->offset = (unsigned short)((char *)&prec->diss - (char *)prec);
+    prt->papFldDes[waveformRecordLCNT]->offset = (unsigned short)((char *)&prec->lcnt - (char *)prec);
+    prt->papFldDes[waveformRecordPACT]->offset = (unsigned short)((char *)&prec->pact - (char *)prec);
+    prt->papFldDes[waveformRecordPUTF]->offset = (unsigned short)((char *)&prec->putf - (char *)prec);
+    prt->papFldDes[waveformRecordRPRO]->offset = (unsigned short)((char *)&prec->rpro - (char *)prec);
+    prt->papFldDes[waveformRecordASP]->offset = (unsigned short)((char *)&prec->asp - (char *)prec);
+    prt->papFldDes[waveformRecordPPN]->offset = (unsigned short)((char *)&prec->ppn - (char *)prec);
+    prt->papFldDes[waveformRecordPPNR]->offset = (unsigned short)((char *)&prec->ppnr - (char *)prec);
+    prt->papFldDes[waveformRecordSPVT]->offset = (unsigned short)((char *)&prec->spvt - (char *)prec);
+    prt->papFldDes[waveformRecordRSET]->offset = (unsigned short)((char *)&prec->rset - (char *)prec);
+    prt->papFldDes[waveformRecordDSET]->offset = (unsigned short)((char *)&prec->dset - (char *)prec);
+    prt->papFldDes[waveformRecordDPVT]->offset = (unsigned short)((char *)&prec->dpvt - (char *)prec);
+    prt->papFldDes[waveformRecordRDES]->offset = (unsigned short)((char *)&prec->rdes - (char *)prec);
+    prt->papFldDes[waveformRecordLSET]->offset = (unsigned short)((char *)&prec->lset - (char *)prec);
+    prt->papFldDes[waveformRecordPRIO]->offset = (unsigned short)((char *)&prec->prio - (char *)prec);
+    prt->papFldDes[waveformRecordTPRO]->offset = (unsigned short)((char *)&prec->tpro - (char *)prec);
+    prt->papFldDes[waveformRecordBKPT]->offset = (unsigned short)((char *)&prec->bkpt - (char *)prec);
+    prt->papFldDes[waveformRecordUDF]->offset = (unsigned short)((char *)&prec->udf - (char *)prec);
+    prt->papFldDes[waveformRecordUDFS]->offset = (unsigned short)((char *)&prec->udfs - (char *)prec);
+    prt->papFldDes[waveformRecordTIME]->offset = (unsigned short)((char *)&prec->time - (char *)prec);
+    prt->papFldDes[waveformRecordFLNK]->offset = (unsigned short)((char *)&prec->flnk - (char *)prec);
+    prt->papFldDes[waveformRecordVAL]->offset = (unsigned short)((char *)&prec->val - (char *)prec);
+    prt->papFldDes[waveformRecordRARM]->offset = (unsigned short)((char *)&prec->rarm - (char *)prec);
+    prt->papFldDes[waveformRecordPREC]->offset = (unsigned short)((char *)&prec->prec - (char *)prec);
+    prt->papFldDes[waveformRecordINP]->offset = (unsigned short)((char *)&prec->inp - (char *)prec);
+    prt->papFldDes[waveformRecordEGU]->offset = (unsigned short)((char *)&prec->egu - (char *)prec);
+    prt->papFldDes[waveformRecordHOPR]->offset = (unsigned short)((char *)&prec->hopr - (char *)prec);
+    prt->papFldDes[waveformRecordLOPR]->offset = (unsigned short)((char *)&prec->lopr - (char *)prec);
+    prt->papFldDes[waveformRecordNELM]->offset = (unsigned short)((char *)&prec->nelm - (char *)prec);
+    prt->papFldDes[waveformRecordFTVL]->offset = (unsigned short)((char *)&prec->ftvl - (char *)prec);
+    prt->papFldDes[waveformRecordBUSY]->offset = (unsigned short)((char *)&prec->busy - (char *)prec);
+    prt->papFldDes[waveformRecordNORD]->offset = (unsigned short)((char *)&prec->nord - (char *)prec);
+    prt->papFldDes[waveformRecordBPTR]->offset = (unsigned short)((char *)&prec->bptr - (char *)prec);
+    prt->papFldDes[waveformRecordSIOL]->offset = (unsigned short)((char *)&prec->siol - (char *)prec);
+    prt->papFldDes[waveformRecordSIML]->offset = (unsigned short)((char *)&prec->siml - (char *)prec);
+    prt->papFldDes[waveformRecordSIMM]->offset = (unsigned short)((char *)&prec->simm - (char *)prec);
+    prt->papFldDes[waveformRecordSIMS]->offset = (unsigned short)((char *)&prec->sims - (char *)prec);
+    prt->papFldDes[waveformRecordMPST]->offset = (unsigned short)((char *)&prec->mpst - (char *)prec);
+    prt->papFldDes[waveformRecordAPST]->offset = (unsigned short)((char *)&prec->apst - (char *)prec);
     prt->papFldDes[waveformRecordHASH]->offset = (unsigned short)((char *)&prec->hash - (char *)prec);
     prt->rec_size = sizeof(*prec);
     return 0;
