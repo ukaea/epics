@@ -14,13 +14,14 @@ if not exist C:\strawberry\perl\lib\EPICS  mklink /d C:\strawberry\perl\lib\EPIC
 
 cd dbstatic
 %DLLDIR%antelope.exe -bdbYacc.y dbYacc.y
-move /Y dbYacc.tab.c ..\O.Common\dbYacc.c
+move /Y dbYacc.y.tab.c ..\O.Common\dbYacc.c
 %DLLDIR%e_flex.exe -S%TOPLEVEL%include/flex.skel.static -8 -I dbLex.l
 move /Y lex.yy.c ..\O.Common\dbLex.c
+xcopy /Y /Q dbLexRoutines.c ..\O.Common
 
 cd ..\dbtemplate
-%DLLDIR%antelope.exe  -bdbLoadTemplate.y dbLoadTemplate.y
-move /Y dbLoadTemplate.tab.c ..\O.Common\dbLoadTemplate.c
+%DLLDIR%antelope.exe -bdbLoadTemplate.y dbLoadTemplate.y
+move /Y dbLoadTemplate.y.tab.c ..\O.Common\dbLoadTemplate.c
 %DLLDIR%e_flex.exe -S%TOPLEVEL%include/flex.skel.static -8 -I dbLoadTemplate_lex.l
 move /Y lex.yy.c ..\O.Common\dbLoadTemplate_lex.c
 
@@ -39,7 +40,10 @@ perl -CSD %DLLDIR%dbdExpand.pl  -I../O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DB
 perl -CSD %DLLDIR%dbdExpand.pl  -I../O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o menuPini.dbd menuPini.dbd.pod
 perl -CSD %DLLDIR%dbdExpand.pl  -I../O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o menuPriority.dbd menuPriority.dbd.pod
 perl -CSD %DLLDIR%dbdExpand.pl  -I../O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o menuScan.dbd menuScan.dbd.pod
+perl -CSD %DLLDIR%dbdExpand.pl  -I../O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o menuPost.dbd menuPost.dbd.pod
+perl -CSD %DLLDIR%dbdExpand.pl  -I../O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o menuYesNo.dbd menuYesNo.dbd.pod
 xcopy /Y /Q menu*.dbd ..\O.Common
+xcopy /Y /Q softIoc.dbd %TOPLEVEL%DBD
 
 perl -CSD %DLLDIR%dbdToRecordtypeH.pl -o ..\O.Common\dbCommon.h dbCommon.dbd
 perl -CSD %DLLDIR%dbdToRecordtypeH.pl -o ..\O.Common\dbCommonRecord.h dbCommonRecord.dbd

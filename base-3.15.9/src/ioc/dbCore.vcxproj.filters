@@ -149,9 +149,6 @@
     <ClCompile Include="dbtemplate\dbtoolsIocRegister.c">
       <Filter>dbtemplate</Filter>
     </ClCompile>
-    <ClCompile Include="O.Common\dbLoadTemplate.c">
-      <Filter>O.Common</Filter>
-    </ClCompile>
     <ClCompile Include="misc\epicsRelease.c">
       <Filter>misc</Filter>
     </ClCompile>
@@ -209,9 +206,6 @@
     <ClCompile Include="dbStatic\dbLexRoutines.c">
       <Filter>dbStatic</Filter>
     </ClCompile>
-    <ClCompile Include="O.Common\dbYacc.c">
-      <Filter>O.Common</Filter>
-    </ClCompile>
     <ClCompile Include="db\dbServer.c">
       <Filter>db</Filter>
     </ClCompile>
@@ -220,6 +214,12 @@
     </ClCompile>
     <ClCompile Include="as\ascheck.c">
       <Filter>as</Filter>
+    </ClCompile>
+    <ClCompile Include="O.Common\dbLoadTemplate.c">
+      <Filter>O.Common</Filter>
+    </ClCompile>
+    <ClCompile Include="O.Common\dbYacc.c">
+      <Filter>O.Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -406,5 +406,9 @@
     <ClInclude Include="db\dbUnitTest.h">
       <Filter>db</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="dbStatic\dbLex.l" />
+    <None Include="dbStatic\dbYacc.y" />
   </ItemGroup>
 </Project>

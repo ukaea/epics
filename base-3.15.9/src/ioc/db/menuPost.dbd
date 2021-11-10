@@ -1,0 +1,4 @@
+menu(menuPost) {
+    choice(menuPost_OnChange, "On Change")
+    choice(menuPost_Always, "Always")
+}

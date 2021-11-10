@@ -108,16 +108,7 @@
     <ClCompile Include="misc\iocshRegisterCommon.c" />
     <ClCompile Include="misc\miscIocRegister.c" />
     <ClCompile Include="O.Common\dbLoadTemplate.c" />
-    <ClCompile Include="O.Common\dbYacc.c">
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.\dbStatic</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.\dbStatic</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.\dbStatic</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.\dbStatic</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.\dbStatic</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.\dbStatic</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.\dbStatic</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.\dbStatic</AdditionalIncludeDirectories>
-    </ClCompile>
+    <ClCompile Include="O.Common\dbYacc.c" />
     <ClCompile Include="registry\registryCommon.c" />
     <ClCompile Include="registry\registryDeviceSupport.c" />
     <ClCompile Include="registry\registryDriverSupport.c" />
@@ -194,6 +185,10 @@
     <ClInclude Include="rsrv\rsrv.h" />
     <ClInclude Include="rsrv\rsrvIocRegister.h" />
     <ClInclude Include="rsrv\server.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="dbStatic\dbLex.l" />
+    <None Include="dbStatic\dbYacc.y" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{440C585D-AD66-4738-941C-A87A1817A9BE}</ProjectGuid>
@@ -294,6 +289,7 @@
     <LinkIncremental>true</LinkIncremental>
     <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
     <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
+    <IncludePath>$(SolutionDir)\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
     <LinkIncremental>true</LinkIncremental>
@@ -325,6 +321,7 @@
     <LinkIncremental>false</LinkIncremental>
     <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
     <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
+    <IncludePath>$(SolutionDir)\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">
     <LinkIncremental>false</LinkIncremental>

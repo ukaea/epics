@@ -37,7 +37,6 @@
 #include "special.h"
 #include "iocInit.h"
 
-
 
 /*global declarations*/
 epicsShareDef char *makeDbdDepends=0;
@@ -116,7 +115,7 @@ typedef struct tempListNode {
 static ELLLIST tempList = ELLLIST_INIT;
 static void *freeListPvt = NULL;
 static int duplicate = FALSE;
-
+
 static void yyerrorAbort(char *str)
 {
     yyerror(str);
