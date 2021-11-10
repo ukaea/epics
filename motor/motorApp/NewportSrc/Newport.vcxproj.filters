@@ -114,6 +114,9 @@
     <ClCompile Include="O.Common\xpsSlave.c">
       <Filter>O.Common</Filter>
     </ClCompile>
+    <ClCompile Include="XPSGatheringMain.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AG_CONEX.h">
@@ -190,16 +193,5 @@
     <None Include="devNewport.dbd">
       <Filter>Source Files</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <CustomBuild Include="XPS_trajectoryScan.st">
-      <Filter>Source Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="MM4005_trajectoryScan.st">
-      <Filter>Source Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="xpsSlave.st">
-      <Filter>Source Files</Filter>
-    </CustomBuild>
   </ItemGroup>
 </Project>

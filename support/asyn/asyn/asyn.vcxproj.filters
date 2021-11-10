@@ -259,6 +259,7 @@
     <ClInclude Include="interfaces\asynInt64SyncIO.h">
       <Filter>interfaces</Filter>
     </ClInclude>
+    <ClInclude Include="asynPortDriver\asynParamSet.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="asynDriver\asynManager.c">

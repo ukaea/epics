@@ -1,6 +1,0 @@
-include "base.dbd"
-include "menuScan.dbd"
-include "asyn.dbd"
-registrar(drvAsynIPPortRegisterCommands)
-registrar(drvAsynSerialPortRegisterCommands)
-registrar(LeyboldTurboRegistrar)

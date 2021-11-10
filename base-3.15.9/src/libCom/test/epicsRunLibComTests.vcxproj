@@ -55,6 +55,7 @@
     <ClCompile Include="epicsCalcTest.cpp" />
     <ClCompile Include="epicsEllTest.c" />
     <ClCompile Include="epicsEnvTest.c" />
+    <ClCompile Include="epicsEnvUnsetTest.c" />
     <ClCompile Include="epicsErrlogTest.c" />
     <ClCompile Include="epicsEventTest.cpp" />
     <ClCompile Include="epicsExitTest.c" />
@@ -74,6 +75,7 @@
     <ClCompile Include="epicsStdioTest.c" />
     <ClCompile Include="epicsStdlibTest.c" />
     <ClCompile Include="epicsStringTest.c" />
+    <ClCompile Include="epicsThreadClassTest.cpp" />
     <ClCompile Include="epicsThreadHooksTest.c" />
     <ClCompile Include="epicsThreadOnceTest.c" />
     <ClCompile Include="epicsThreadPerform.cpp" />

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>Parker 8 Axes</name>
+  <macros>
+    <M>P6K1</M>
+    <M2>P6K2</M2>
+    <M3>P6K3</M3>
+    <M4>P6K4</M4>
+    <M5>P6K5</M5>
+    <M6>P6K6</M6>
+    <M7>P6K7</M7>
+    <M8>P6K8</M8>
+    <P>TS:Mot:</P>
+  </macros>
+  <width>1200</width>
+  <height>350</height>
+  <widget type="embedded" version="2.0.0">
+    <name>Embedded Display</name>
+    <macros>
+      <M>P6K1</M>
+      <N>1</N>
+      <P>TS:Mot:</P>
+    </macros>
+    <file>ParkerSingleMotor.bob</file>
+    <x>10</x>
+    <width>150</width>
+    <height>550</height>
+  </widget>
+  <widget type="embedded" version="2.0.0">
+    <name>Embedded Display_1</name>
+    <macros>
+      <M>P6K2</M>
+      <N>2</N>
+      <P>TS:Mot:</P>
+    </macros>
+    <file>ParkerSingleMotor.bob</file>
+    <x>160</x>
+    <width>150</width>
+    <height>550</height>
+  </widget>
+  <widget type="embedded" version="2.0.0">
+    <name>Embedded Display_2</name>
+    <macros>
+      <M>P6K3</M>
+      <N>3</N>
+      <P>TS:Mot:</P>
+    </macros>
+    <file>ParkerSingleMotor.bob</file>
+    <x>310</x>
+    <width>150</width>
+    <height>550</height>
+  </widget>
+  <widget type="embedded" version="2.0.0">
+    <name>Embedded Display_3</name>
+    <macros>
+      <M>P6K4</M>
+      <N>4</N>
+      <P>TS:Mot:</P>
+    </macros>
+    <file>ParkerSingleMotor.bob</file>
+    <x>460</x>
+    <width>150</width>
+    <height>550</height>
+  </widget>
+  <widget type="embedded" version="2.0.0">
+    <name>Embedded Display_4</name>
+    <macros>
+      <M>P6K5</M>
+      <N>5</N>
+      <P>TS:Mot:</P>
+    </macros>
+    <file>ParkerSingleMotor.bob</file>
+    <x>610</x>
+    <width>150</width>
+    <height>550</height>
+  </widget>
+  <widget type="embedded" version="2.0.0">
+    <name>Embedded Display_5</name>
+    <macros>
+      <M>P6K6</M>
+      <N>6</N>
+      <P>TS:Mot:</P>
+    </macros>
+    <file>ParkerSingleMotor.bob</file>
+    <x>760</x>
+    <width>150</width>
+    <height>550</height>
+  </widget>
+  <widget type="embedded" version="2.0.0">
+    <name>Embedded Display_6</name>
+    <macros>
+      <M>P6K7</M>
+      <N>7</N>
+      <P>TS:Mot:</P>
+    </macros>
+    <file>ParkerSingleMotor.bob</file>
+    <x>910</x>
+    <width>150</width>
+    <height>550</height>
+  </widget>
+  <widget type="embedded" version="2.0.0">
+    <name>Embedded Display_7</name>
+    <macros>
+      <M>P6K8</M>
+      <N>8</N>
+      <P>TS:Mot:</P>
+    </macros>
+    <file>ParkerSingleMotor.bob</file>
+    <x>1060</x>
+    <width>150</width>
+    <height>550</height>
+  </widget>
+</display>

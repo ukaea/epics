@@ -4,7 +4,6 @@
 #- everywhere it appears in this file
 
 ## Not for WinEPICS just use TARGET dirs
-epicsEnvSet("INSTALLDIR", ${USERPROFILE})
 epicsEnvSet("TOP","C:\Users\ktn98257\source\repos\epics.dotnet\iocTops\bottles")
 epicsEnvSet("IOC","bottles")
 
@@ -17,7 +16,7 @@ epicsEnvSet("U","${USERNAME}")
 epicsEnvSet("F","beer")
 
 ## Load record instances
-dbLoadRecords("C:/Users/ktn98257/source/repos/epics.dotnet/iocTops/bottles/bottlesApp/Db/bottles.db","F=$(F), user=$(U)")
+dbLoadRecords("C:/Users/ktn98257/source/repos/epics.dotnet/iocTops/bottles/db/bottles.db","F=$(F), user=$(U)")
 
 #- Run this to trace the stages of iocInit
 #traceIocInit
@@ -27,3 +26,5 @@ dbLoadRecords("C:/Users/ktn98257/source/repos/epics.dotnet/iocTops/bottles/bottl
 sleep(5)
 
 iocInit
+
+## Type dbl to list loaded variables

@@ -9,20 +9,20 @@
 #include "ellLib.h"
 #include "epicsTime.h"
 
-#ifndef transformIVLA_NUM_CHOICES
-typedef enum {
-    transformIVLA_IGNORE            /* Ignore error */,
-    transformIVLA_DO_NOTHING        /* Do Nothing */
-} transformIVLA;
-#define transformIVLA_NUM_CHOICES 2
-#endif
-
 #ifndef transformCOPT_NUM_CHOICES
 typedef enum {
     transformCOPT_CONDITIONAL       /* Conditional */,
     transformCOPT_ALWAYS            /* Always */
 } transformCOPT;
 #define transformCOPT_NUM_CHOICES 2
+#endif
+
+#ifndef transformIVLA_NUM_CHOICES
+typedef enum {
+    transformIVLA_IGNORE            /* Ignore error */,
+    transformIVLA_DO_NOTHING        /* Do Nothing */
+} transformIVLA;
+#define transformIVLA_NUM_CHOICES 2
 #endif
 
 #ifndef transformIAV_NUM_CHOICES

@@ -368,6 +368,7 @@
     <ClInclude Include="asynDriver\epicsInterruptibleSyscall.h" />
     <ClInclude Include="asynGpib\asynGpibDriver.h" />
     <ClInclude Include="asynPortClient\asynPortClient.h" />
+    <ClInclude Include="asynPortDriver\asynParamSet.h" />
     <ClInclude Include="asynPortDriver\asynParamType.h" />
     <ClInclude Include="asynPortDriver\asynPortDriver.h" />
     <ClInclude Include="asynPortDriver\exceptions\ParamListInvalidIndex.h" />

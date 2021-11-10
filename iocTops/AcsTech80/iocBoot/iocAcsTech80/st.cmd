@@ -1,4 +1,4 @@
-#!../../bin/linux-x86_64/acsTech80
+#!../../bin/windows-x64/acsTech80
 
 < envPaths
 

@@ -9,19 +9,6 @@
 #include "ellLib.h"
 #include "epicsTime.h"
 
-#ifndef swaitOOPT_NUM_CHOICES
-typedef enum {
-    swaitOOPT_Every_Time            /* Every Time */,
-    swaitOOPT_On_Change             /* On Change */,
-    swaitOOPT_When_Zero             /* When Zero */,
-    swaitOOPT_When_Non_zero         /* When Non-zero */,
-    swaitOOPT_Transition_To_Zero    /* Transition To Zero */,
-    swaitOOPT_Transition_To_Non_zero /* Transition To Non-zero */,
-    swaitOOPT_Never                 /* Never */
-} swaitOOPT;
-#define swaitOOPT_NUM_CHOICES 7
-#endif
-
 #ifndef swaitINAV_NUM_CHOICES
 typedef enum {
     swaitINAV_PV_OK                 /* PV OK */,
@@ -37,6 +24,19 @@ typedef enum {
     swaitINAP_Yes                   /* Yes */
 } swaitINAP;
 #define swaitINAP_NUM_CHOICES 2
+#endif
+
+#ifndef swaitOOPT_NUM_CHOICES
+typedef enum {
+    swaitOOPT_Every_Time            /* Every Time */,
+    swaitOOPT_On_Change             /* On Change */,
+    swaitOOPT_When_Zero             /* When Zero */,
+    swaitOOPT_When_Non_zero         /* When Non-zero */,
+    swaitOOPT_Transition_To_Zero    /* Transition To Zero */,
+    swaitOOPT_Transition_To_Non_zero /* Transition To Non-zero */,
+    swaitOOPT_Never                 /* Never */
+} swaitOOPT;
+#define swaitOOPT_NUM_CHOICES 7
 #endif
 
 #ifndef swaitDOPT_NUM_CHOICES

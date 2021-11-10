@@ -154,6 +154,12 @@
     <ClCompile Include="osiSockTest.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="epicsThreadClassTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="epicsEnvUnsetTest.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Makefile">

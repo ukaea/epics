@@ -1,0 +1,1 @@
+SAVE_DIR=$HOME/repos/parker6k8/ioc/iocBoot/iocparker6k8/p6k8Logs; export SAVE_DIR

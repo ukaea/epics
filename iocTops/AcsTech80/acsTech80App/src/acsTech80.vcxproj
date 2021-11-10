@@ -38,20 +38,20 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\acsTech80Main.cpp" />
+    <ClCompile Include="acsTech80Main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Makefile" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\base-7.0.3.1\modules\database\src\ioc\dbCore.vcxproj">
-      <Project>{422a8c73-836c-48cb-86c8-0591e69c0ca1}</Project>
+    <ProjectReference Include="..\..\..\..\base-3.15.9\src\ioc\dbCore.vcxproj">
+      <Project>{440c585d-ad66-4738-941c-a87a1817a9be}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\base-7.0.3.1\modules\database\src\std\dbRecStd.vcxproj">
-      <Project>{9cf8d9ab-e47d-4923-a251-80e40b4e7144}</Project>
+    <ProjectReference Include="..\..\..\..\base-3.15.9\src\libCom\Com.vcxproj">
+      <Project>{35e6aba4-e192-497d-ba02-efb79d1e0336}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\base-7.0.3.1\modules\libcom\src\Com.vcxproj">
-      <Project>{e9d99fc7-e592-472b-b2e2-c3b0d81d8169}</Project>
+    <ProjectReference Include="..\..\..\..\base-3.15.9\src\std\dbRecStd.vcxproj">
+      <Project>{3b0e3542-cb89-4ffa-b004-eac882b3f277}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\support\asyn\asyn\asyn.vcxproj">
       <Project>{c3ea0ff7-6039-4884-ba91-7b4619befea5}</Project>
@@ -66,7 +66,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{1FD0707C-07F6-477C-B579-099088AB6313}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>Parker6K8App</RootNamespace>
+    <RootNamespace>acsTechSupport</RootNamespace>
     <SccProjectName>
     </SccProjectName>
     <SccLocalPath>

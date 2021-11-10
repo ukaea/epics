@@ -1,0 +1,60 @@
+# VMAX = Max Velocity (EGU/s). Valid range; 0 <= VMAX.  VMAX=0 disables maximum velocity range checking.
+# VELO = Velocity (EGU/s). Valid range; VBAS <= VELO <= VMAX
+# VBAS = Base Velocity (EGU/s)
+# ACCL = Acceleration time. Seconds to Velocity
+# BDST = backlash distance. BL Distance (EGU)
+# BVEL = backlash speed. BL Velocity (EGU/s)
+# BACC = backlash acceleration time. BL Seconds to Veloc.
+# MRES = Motor Step Size (EGU). (MRES = UREV/SREV)
+# PREC = Display Precision. The number of digits to the right of the decimal that are to be displayed by MEDM and other channel-access clients.
+# UREV = EGU's per Revolution
+# SREV = Steps per Revolution
+# RRES = Readback Step Size (EGU). 
+# DHLM = Dial High Limit. The maximum allowed value of the DVAL field
+# DLLM = Dial Low Limit. The minimum allowed value of the DVAL field
+# HLSV = HW Limit Switch Violation Severity
+# TWV = Tweak Step Size (EGU)
+# ERES = Encoder resolution. Encoder Step Size (EGU)
+# UEIP = Use Encoder If Present. Switch: nonzero value tells the record to read the encoder (if the hardware indicates an encoder is present) and to ignore the value read back from the hardware's step-count register.
+# JAR = Jog Acceleration (EGU/s^2). Default value: VELO / ACCL
+# OFF = User Offset (EGU)
+# RDBD = Retry Deadband (EGU)
+# FOFF = Offset-Freeze Switch. (0:"Variable", 1:"Frozen")
+# ADEL = Archive Deadband
+# NTM = New Target Monitor
+
+# NB:EGU = enum Precision µm or mm
+
+#file basic_asyn_motor_clf.db ~autosave ver
+file basic_asyn_motor.db
+{
+pattern {P,   M,        DESC, DTYP,      DIR, VELO, VBAS, RTRY, ACCL,  BDST, BVEL, BACC, PORT, ADDR, MRES,       PREC, EGU, DHLM, DLLM, HLSV, INIT, SREV,  RRES, TWV, ERES,    JAR, UEIP, VMAX,  OFF, RDBD, FOFF, ADEL, NTM}
+        {TS:, Mot:P6K1, "P1", asynMotor, Pos, 2.5,  0,    0,    5.0,   0,    0,    0,    P6K,  1,    3.90625e-5, 5,    mm,  50,   -50,  MAJOR, "",  25600, 0,    1.0, 0.00050, 0,   1,    50,    0,  0.005, 0,    0.0,  YES}
+        {TS:, Mot:P6K2, "P2", asynMotor, Pos, 2.5,  0,    0,    5.0,   0,    0,    0,    P6K,  2,    3.90625e-5, 5,    mm,  50,   -50,  MAJOR, "",  25600, 0,    1.0, 0.00050, 0,   0,    50,    0,  0.005, 0,    0.0,  YES}
+        {TS:, Mot:P6K3, "P3", asynMotor, Pos, 2.5,  0,    0,    5.0,   0,    0,    0,    P6K,  3,    3.90625e-5, 5,    mm,  0,     0,   MAJOR, "",  25600, 0,    1.0, 0.00050, 0,   0,    50,    0,  0.005, 0,    0.0,  YES}
+        {TS:, Mot:P6K4, "P4", asynMotor, Pos, 2.5,  0,    0,    5.0,   0,    0,    0,    P6K,  4,    3.90625e-5, 5,    mm,  0,     0,   MAJOR, "",  25600, 0,    1.0, 0.00050, 0,   0,    50,    0,  0.005, 0,    0.0,  YES}
+        {TS:, Mot:P6K5, "P5", asynMotor, Pos, 2.5,  0,    0,    5.0,   0,    0,    0,    P6K,  5,    0.00050,    5,    mm,  0,     0,   MAJOR, "",  2000,  0,    1.0, 0.00050, 0,   0,    50,    0,  0.005, 0,    0.0,  YES}
+        {TS:, Mot:P6K6, "P6", asynMotor, Pos, 2.5,  0,    0,    5.0,   0,    0,    0,    P6K,  6,    0.00050,    5,    mm,  0,     0,   MAJOR, "",  2000,  0,    1.0, 0.00050, 0,   1,    50,    0,  0.005, 0,    0.0,  YES}
+        {TS:, Mot:P6K7, "P7", asynMotor, Pos, 2.5,  0,    0,    5.0,   0,    0,    0,    P6K,  7,    0.00050,    5,    mm,  50,    0,   MAJOR, "",  2000,  0,    1.0, 0.00050, 0,   1,    50,    0,  0.005, 0,    0.0,  YES}
+        {TS:, Mot:P6K8, "P8", asynMotor, Pos, 2.5,  0,    0,    5.0,   0,    0,    0,    P6K,  8,    0.00050,    5,    mm,  0,     0,   MAJOR, "",  2000,  0,    1.0, 0.00050, 0,   1,    50,    0,  0.005, 0,    0.0,  YES}
+}
+
+file p6k_controller.template
+{
+pattern {S, PORT, ADDR, TIMEOUT, COMMSPORT, COMMSADDR}
+	{TS:Mot:Controller1, P6K, 0, 1, 6K, 0}
+}
+
+# DCH - Servo hold value default to zero
+file p6k_axis.template
+{
+pattern {M, C, PORT, ADDR, TIMEOUT, DCTP, DCH}
+        {TS:Mot:P6K1, TS:Mot:Controller1, P6K, 1, 1, 0, 0}
+        {TS:Mot:P6K2, TS:Mot:Controller1, P6K, 2, 1, 0, 0}
+        {TS:Mot:P6K3, TS:Mot:Controller1, P6K, 3, 1, 0, 0}
+        {TS:Mot:P6K4, TS:Mot:Controller1, P6K, 4, 1, 1, 0}
+        {TS:Mot:P6K5, TS:Mot:Controller1, P6K, 5, 1, 1, 0}
+        {TS:Mot:P6K6, TS:Mot:Controller1, P6K, 6, 1, 1, 0}
+        {TS:Mot:P6K7, TS:Mot:Controller1, P6K, 7, 1, 1, 0}
+        {TS:Mot:P6K8, TS:Mot:Controller1, P6K, 8, 1, 1, 0}
+}
