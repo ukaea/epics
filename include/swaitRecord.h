@@ -18,20 +18,20 @@ typedef enum {
 #define swaitINAV_NUM_CHOICES 3
 #endif
 
-#ifndef swaitDOPT_NUM_CHOICES
-typedef enum {
-    swaitDOPT_Use_VAL               /* Use VAL */,
-    swaitDOPT_Use_DOL               /* Use DOL */
-} swaitDOPT;
-#define swaitDOPT_NUM_CHOICES 2
-#endif
-
 #ifndef swaitINAP_NUM_CHOICES
 typedef enum {
     swaitINAP_No                    /* No */,
     swaitINAP_Yes                   /* Yes */
 } swaitINAP;
 #define swaitINAP_NUM_CHOICES 2
+#endif
+
+#ifndef swaitDOPT_NUM_CHOICES
+typedef enum {
+    swaitDOPT_Use_VAL               /* Use VAL */,
+    swaitDOPT_Use_DOL               /* Use DOL */
+} swaitDOPT;
+#define swaitDOPT_NUM_CHOICES 2
 #endif
 
 #ifndef swaitOOPT_NUM_CHOICES

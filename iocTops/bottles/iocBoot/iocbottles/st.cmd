@@ -23,8 +23,5 @@ dbLoadRecords("C:/Users/ktn98257/source/repos/epics.dotnet/iocTops/bottles/db/bo
 
 #- cd "${TOP}/iocBoot/${IOC}"
 
-sleep(5)
-
 iocInit
-
 ## Type dbl to list loaded variables

@@ -1,2 +1,2 @@
 @ECHO OFF
-SET "PATH=C:/epics/iocTops/bottles/bin/windows-x64;C:/epics/support/calc/bin/windows-x64;C:/epics/base/bin/windows-x64;%PATH%"
+SET "PATH=%USERPROFILE%\source\repos\epics.dotnet\iocTops\AcsTech80\bin\windows-x64;%USERPROFILE%\source\repos\epics.dotnet\support\calc\bin\windows-x64;%USERPROFILE%\source\repos\epics.dotnet\base\bin\windows-x64;%PATH%"

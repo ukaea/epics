@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "InstantiateEpicsCa": {
+      "commandName": "Project",
+      "workingDirectory": "C:\\Users\\ktn98257\\source\\repos\\epics.dotnet\\x64\\Debug_DLL"
+    }
+  }
+}

@@ -1,5 +1,5 @@
-epicsEnvSet("IOC","iocbottles")
-epicsEnvSet("TOP","C:/epics/iocTops/bottles")
+epicsEnvSet("IOC","iocAcsTech")
+epicsEnvSet("TOP","C:/epics/iocTops/AcsTech80")
 epicsEnvSet("SUPPORT","C:/epics/support")
-epicsEnvSet("CALC","C:/epics/support/calc")
+epicsEnvSet("ASYN","C:/epics/support/asyn")
 epicsEnvSet("EPICS_BASE","C:/epics/base")

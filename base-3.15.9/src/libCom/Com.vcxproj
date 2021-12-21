@@ -36,6 +36,14 @@
       <Configuration>Release_LIB</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
+	    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="as\asLibRoutines.c">
@@ -432,6 +440,8 @@ cd $(ProjectDir)
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">O.Common\envdata.c</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">O.Common\envdata.c</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">O.Common\envdata.c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">O.Common\envdata.c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">O.Common\envdata.c</Outputs>
     </CustomBuild>
     <CustomBuild Include="error\makeStatTbl.pl">
       <FileType>Document</FileType>
@@ -471,10 +481,20 @@ cd $(ProjectDir)
 perl ../../../src/libCom/error/makeStatTbl.pl  $(SolutionDir)include\devLib.h $(SolutionDir)include\asLib.h $(SolutionDir)include\dbAccessDefs.h $(SolutionDir)include\devSup.h $(SolutionDir)include\drvSup.h $(SolutionDir)include\recSup.h $(SolutionDir)include\dbStaticLib.h $(SolutionDir)include\errMdef.h $(SolutionDir)include\casdef.h $(SolutionDir)include\gddAppFuncTable.h
 cd $(ProjectDir)
 </Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd O.Common
+perl ../../../src/libCom/error/makeStatTbl.pl $(SolutionDir)include\devLib.h $(SolutionDir)include\asLib.h $(SolutionDir)include\dbAccessDefs.h $(SolutionDir)include\devSup.h $(SolutionDir)include\drvSup.h $(SolutionDir)include\recSup.h $(SolutionDir)include\dbStaticLib.h $(SolutionDir)include\errMdef.h $(SolutionDir)include\casdef.h $(SolutionDir)include\gddAppFuncTable.h
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">cd O.Common
+perl ../../../src/libCom/error/makeStatTbl.pl $(SolutionDir)include\devLib.h $(SolutionDir)include\asLib.h $(SolutionDir)include\dbAccessDefs.h $(SolutionDir)include\devSup.h $(SolutionDir)include\drvSup.h $(SolutionDir)include\recSup.h $(SolutionDir)include\dbStaticLib.h $(SolutionDir)include\errMdef.h $(SolutionDir)include\casdef.h $(SolutionDir)include\gddAppFuncTable.h
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common\errSymTbl.c</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">O.Common\errSymTbl.c</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">O.Common\errSymTbl.c</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">O.Common\errSymTbl.c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">O.Common\errSymTbl.c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">O.Common\errSymTbl.c</Outputs>
     </CustomBuild>
     <CustomBuild Include="as\asLib.y">
       <FileType>Document</FileType>
@@ -518,6 +538,16 @@ $(OutDir)antelope.exe .\aslib.y
 move /Y y.tab.c ..\O.Common\asLib.c
 cd $(ProjectDir)
 </Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd .\as
+$(OutDir)antelope.exe .\aslib.y
+move /Y y.tab.c ..\O.Common\asLib.c
+cd $(ProjectDir)
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">cd .\as
+$(OutDir)antelope.exe .\aslib.y
+move /Y y.tab.c ..\O.Common\asLib.c
+cd $(ProjectDir)
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common\%(FileName).c</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">O.Common\%(FileName).c</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common\%(FileName).c</Outputs>
@@ -526,6 +556,8 @@ cd $(ProjectDir)
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">O.Common\%(FileName).c</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">O.Common\%(FileName).c</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">O.Common\%(FileName).c</Outputs>
+	  <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">O.Common\%(FileName).c</Outputs>
+	  <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">O.Common\%(FileName).c</Outputs>
     </CustomBuild>
     <CustomBuild Include="as\asLib_lex.l">
       <FileType>Document</FileType>
@@ -550,6 +582,12 @@ move /Y lex.yy.c O.Common\asLib_lex.c
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">$(OutDir)e_flex.exe -S$(SolutionDir)include/flex.skel.static -8 -I as\asLib_lex.l
 move /Y lex.yy.c O.Common\asLib_lex.c
 </Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)e_flex.exe -S$(SolutionDir)include/flex.skel.static -8 -I as\asLib_lex.l
+move /Y lex.yy.c O.Common\asLib_lex.c
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)e_flex.exe -S$(SolutionDir)include/flex.skel.static -8 -I as\asLib_lex.l
+move /Y lex.yy.c O.Common\asLib_lex.c
+</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">$(OutDir)e_flex.exe -S$(SolutionDir)include/flex.skel.static -8 -I as\asLib_lex.l
 move /Y lex.yy.c O.Common\asLib_lex.c
 </Command>
@@ -561,6 +599,8 @@ move /Y lex.yy.c O.Common\asLib_lex.c
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">O.Common\asLib_lex.c</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">O.Common\asLib_lex.c</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">O.Common\asLib_lex.c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">O.Common\asLib_lex.c</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">O.Common\asLib_lex.c</Outputs>
     </CustomBuild>
     <None Include="freeList\freeList.html" />
     <None Include="gpHash\gpHash.html" />
@@ -586,10 +626,16 @@ move /Y lex.yy.c O.Common\asLib_lex.c
 </Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">perl misc/%(FileName).pl -o  $(SolutionDir)include/epicsVersion.h ../../configure/CONFIG_BASE_VERSION
 </Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">perl misc/%(FileName).pl -o  $(SolutionDir)include/epicsVersion.h ../../configure/CONFIG_BASE_VERSION
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">perl misc/%(FileName).pl -o  $(SolutionDir)include/epicsVersion.h ../../configure/CONFIG_BASE_VERSION
+</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">$(SolutionDir)include\epicsVersion.h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">$(SolutionDir)include\epicsVersion.h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">$(SolutionDir)include\epicsVersion.h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">$(SolutionDir)include\epicsVersion.h</Outputs>
+	  <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)include\epicsVersion.h</Outputs>
+	  <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)include\epicsVersion.h</Outputs>
     </CustomBuild>
     <None Include="osi\TODOfuture" />
   </ItemGroup>
@@ -664,6 +710,20 @@ move /Y lex.yy.c O.Common\asLib_lex.c
     <PlatformToolset>v142</PlatformToolset>
     <SpectreMitigation>false</SpectreMitigation>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v142</PlatformToolset>
+    <SpectreMitigation>false</SpectreMitigation>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v142</PlatformToolset>
+    <SpectreMitigation>false</SpectreMitigation>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
@@ -686,7 +746,7 @@ move /Y lex.yy.c O.Common\asLib_lex.c
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'" Label="PropertySheets">
@@ -696,6 +756,12 @@ move /Y lex.yy.c O.Common\asLib_lex.c
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
@@ -726,6 +792,17 @@ move /Y lex.yy.c O.Common\asLib_lex.c
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
     <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
     <IncludePath>$(SolutionDir)include;$(IncludePath)</IncludePath>
+    <OutDir>$(ProjectDir)\bin\Release</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
+    <IncludePath>$(SolutionDir)include;$(IncludePath)</IncludePath>
+    <OutDir>$(ProjectDir)\bin\Release</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
+    <IncludePath>$(SolutionDir)include;$(IncludePath)</IncludePath>
+    <OutDir>$(ProjectDir)\bin\Release</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">
     <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
@@ -948,6 +1025,53 @@ move /Y lex.yy.c O.Common\asLib_lex.c
       <AdditionalOptions>/MACHINE:x64 %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>ws2_32.lib</AdditionalDependencies>
     </Lib>
+  </ItemDefinitionGroup>
+  
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4244;4018;4996;4355;4267</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib</AdditionalDependencies>
+    </Link>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <PreBuildEvent>
+      <Command>call .\Build_DBDs.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
+      <Message>PRE BUILD</Message>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4244;4018;4996;4355;4267</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib</AdditionalDependencies>
+    </Link>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <PreBuildEvent>
+      <Command>call .\Build_DBDs.bat $(SolutionDir) $(ProjectDir) $(OutDir)</Command>
+      <Message>PRE BUILD</Message>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

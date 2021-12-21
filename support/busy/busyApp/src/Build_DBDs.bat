@@ -14,7 +14,7 @@ if not exist C:\strawberry\perl\lib\EPICS  mklink /d C:\strawberry\perl\lib\EPIC
 perl -CSD %DLLDIR%dbdToRecordtypeH.pl -I. -I.. -I../O.Common -I%TOPLEVEL%DBD -o  O.Common\busyRecord.h busyRecord.dbd
 xcopy /Y /Q O.Common\*.h  %TOPLEVEL%include > NUL
 
-perl cat.pl busySupport_LOCAL.dbd busySupport_withASYN.dbd  %TOPLEVEL%dbd\busySupport.dbd
+perl %DLLDIR%cat.pl busySupport_LOCAL.dbd busySupport_withASYN.dbd  %TOPLEVEL%dbd\busySupport.dbd
 
 xcopy /Y /Q *.dbd  %TOPLEVEL%DBD > NUL
 

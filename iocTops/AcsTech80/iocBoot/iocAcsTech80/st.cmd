@@ -1,11 +1,14 @@
 #!../../bin/windows-x64/acsTech80
 
-< envPaths
+## Not for WinEPICS just use TARGET dirs
+epicsEnvSet("TOP","C:/Users/ktn98257/source/repos/epics.dotnet/iocTops/AcsTech80")
+epicsEnvSet("IOC","iocAcsTech80")
+epicsEnvSet("MOTOR","C:/Users/ktn98257/source/repos/epics.dotnet/motor/motorApp")
 
 cd "${TOP}"
 
 ## Register all support components
-dbLoadDatabase "dbd/acsTech80.dbd"
+dbLoadDatabase "C:/Users/ktn98257/source/repos/epics.dotnet/DBD/acsTechIOC.dbd"
 acsTech80_registerRecordDeviceDriver pdbbase
 
 cd "${TOP}/iocBoot/${IOC}"
