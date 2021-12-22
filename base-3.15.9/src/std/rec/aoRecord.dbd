@@ -10,49 +10,49 @@ recordtype(ao) {
     %#include "epicsTime.h"
     field(NAME, DBF_STRING) {
         prompt("Record Name")
-        size(61)
         special(SPC_NOMOD)
+        size(61)
     }
     field(DESC, DBF_STRING) {
-        prompt("Descriptor")
-        promptgroup("10 - Common")
         size(41)
+        promptgroup("10 - Common")
+        prompt("Descriptor")
     }
     field(ASG, DBF_STRING) {
         special(SPC_AS)
-        promptgroup("10 - Common")
         size(29)
+        promptgroup("10 - Common")
         prompt("Access Security Group")
     }
     field(SCAN, DBF_MENU) {
-        menu(menuScan)
+        promptgroup("20 - Scan")
         special(SPC_SCAN)
         interest(1)
-        promptgroup("20 - Scan")
         prompt("Scan Mechanism")
+        menu(menuScan)
     }
     field(PINI, DBF_MENU) {
-        interest(1)
         menu(menuPini)
-        prompt("Process at iocInit")
         promptgroup("20 - Scan")
+        prompt("Process at iocInit")
+        interest(1)
     }
     field(PHAS, DBF_SHORT) {
         promptgroup("20 - Scan")
-        prompt("Scan Phase")
         special(SPC_SCAN)
         interest(1)
+        prompt("Scan Phase")
     }
     field(EVNT, DBF_STRING) {
+        prompt("Event Name")
+        interest(1)
+        special(SPC_SCAN)
         size(40)
         promptgroup("20 - Scan")
-        prompt("Event Name")
-        special(SPC_SCAN)
-        interest(1)
     }
     field(TSE, DBF_SHORT) {
-        interest(1)
         promptgroup("20 - Scan")
+        interest(1)
         prompt("Time Stamp Event")
     }
     field(TSEL, DBF_INLINK) {
@@ -61,34 +61,34 @@ recordtype(ao) {
         interest(1)
     }
     field(DTYP, DBF_DEVICE) {
-        interest(1)
         promptgroup("10 - Common")
+        interest(1)
         prompt("Device Type")
     }
     field(DISV, DBF_SHORT) {
+        prompt("Disable Value")
         promptgroup("20 - Scan")
         initial("1")
-        prompt("Disable Value")
     }
     field(DISA, DBF_SHORT) {
         prompt("Disable")
     }
     field(SDIS, DBF_INLINK) {
-        interest(1)
         prompt("Scanning Disable")
+        interest(1)
         promptgroup("20 - Scan")
     }
     field(MLOK, DBF_NOACCESS) {
-        special(SPC_NOMOD)
         interest(4)
         prompt("Monitor lock")
         extra("epicsMutexId        mlok")
+        special(SPC_NOMOD)
     }
     field(MLIS, DBF_NOACCESS) {
-        prompt("Monitor List")
-        extra("ELLLIST             mlis")
-        interest(4)
         special(SPC_NOMOD)
+        extra("ELLLIST             mlis")
+        prompt("Monitor List")
+        interest(4)
     }
     field(DISP, DBF_UCHAR) {
         prompt("Disable putField")
@@ -99,156 +99,156 @@ recordtype(ao) {
         interest(3)
     }
     field(STAT, DBF_MENU) {
-        prompt("Alarm Status")
         initial("UDF")
         menu(menuAlarmStat)
+        prompt("Alarm Status")
         special(SPC_NOMOD)
     }
     field(SEVR, DBF_MENU) {
-        prompt("Alarm Severity")
         special(SPC_NOMOD)
+        prompt("Alarm Severity")
         menu(menuAlarmSevr)
     }
     field(NSTA, DBF_MENU) {
         menu(menuAlarmStat)
         special(SPC_NOMOD)
-        interest(2)
         prompt("New Alarm Status")
+        interest(2)
     }
     field(NSEV, DBF_MENU) {
-        interest(2)
         menu(menuAlarmSevr)
-        special(SPC_NOMOD)
+        interest(2)
         prompt("New Alarm Severity")
+        special(SPC_NOMOD)
     }
     field(ACKS, DBF_MENU) {
-        prompt("Alarm Ack Severity")
-        interest(2)
         menu(menuAlarmSevr)
         special(SPC_NOMOD)
+        prompt("Alarm Ack Severity")
+        interest(2)
     }
     field(ACKT, DBF_MENU) {
-        interest(2)
+        promptgroup("70 - Alarm")
         special(SPC_NOMOD)
+        interest(2)
+        prompt("Alarm Ack Transient")
         menu(menuYesNo)
         initial("YES")
-        prompt("Alarm Ack Transient")
-        promptgroup("70 - Alarm")
     }
     field(DISS, DBF_MENU) {
-        prompt("Disable Alarm Sevrty")
         promptgroup("70 - Alarm")
         interest(1)
+        prompt("Disable Alarm Sevrty")
         menu(menuAlarmSevr)
     }
     field(LCNT, DBF_UCHAR) {
+        prompt("Lock Count")
         interest(2)
         special(SPC_NOMOD)
-        prompt("Lock Count")
     }
     field(PACT, DBF_UCHAR) {
-        prompt("Record active")
         special(SPC_NOMOD)
         interest(1)
+        prompt("Record active")
     }
     field(PUTF, DBF_UCHAR) {
-        prompt("dbPutField process")
         special(SPC_NOMOD)
+        prompt("dbPutField process")
         interest(1)
     }
     field(RPRO, DBF_UCHAR) {
-        prompt("Reprocess ")
         interest(1)
+        prompt("Reprocess ")
         special(SPC_NOMOD)
     }
     field(ASP, DBF_NOACCESS) {
-        extra("struct asgMember    *asp")
-        prompt("Access Security Pvt")
         interest(4)
+        prompt("Access Security Pvt")
+        extra("struct asgMember    *asp")
         special(SPC_NOMOD)
     }
     field(PPN, DBF_NOACCESS) {
+        prompt("pprocessNotify")
         interest(4)
         special(SPC_NOMOD)
         extra("struct processNotify *ppn")
-        prompt("pprocessNotify")
     }
     field(PPNR, DBF_NOACCESS) {
         extra("struct processNotifyRecord *ppnr")
-        prompt("pprocessNotifyRecord")
-        interest(4)
         special(SPC_NOMOD)
+        interest(4)
+        prompt("pprocessNotifyRecord")
     }
     field(SPVT, DBF_NOACCESS) {
-        special(SPC_NOMOD)
         interest(4)
         prompt("Scan Private")
         extra("struct scan_element *spvt")
+        special(SPC_NOMOD)
     }
     field(RSET, DBF_NOACCESS) {
         special(SPC_NOMOD)
-        interest(4)
         extra("struct rset         *rset")
         prompt("Address of RSET")
+        interest(4)
     }
     field(DSET, DBF_NOACCESS) {
-        interest(4)
-        special(SPC_NOMOD)
-        prompt("DSET address")
         extra("struct dset         *dset")
+        special(SPC_NOMOD)
+        interest(4)
+        prompt("DSET address")
     }
     field(DPVT, DBF_NOACCESS) {
         prompt("Device Private")
-        extra("void                *dpvt")
         interest(4)
         special(SPC_NOMOD)
+        extra("void                *dpvt")
     }
     field(RDES, DBF_NOACCESS) {
+        prompt("Address of dbRecordType")
         interest(4)
         special(SPC_NOMOD)
-        prompt("Address of dbRecordType")
         extra("struct dbRecordType *rdes")
     }
     field(LSET, DBF_NOACCESS) {
         interest(4)
-        special(SPC_NOMOD)
-        extra("struct lockRecord   *lset")
         prompt("Lock Set")
+        extra("struct lockRecord   *lset")
+        special(SPC_NOMOD)
     }
     field(PRIO, DBF_MENU) {
         menu(menuPriority)
-        special(SPC_SCAN)
         interest(1)
-        promptgroup("20 - Scan")
         prompt("Scheduling Priority")
+        promptgroup("20 - Scan")
+        special(SPC_SCAN)
     }
     field(TPRO, DBF_UCHAR) {
         prompt("Trace Processing")
     }
     field(BKPT, DBF_NOACCESS) {
-        prompt("Break Point")
         extra("char                bkpt")
-        interest(1)
         special(SPC_NOMOD)
+        interest(1)
+        prompt("Break Point")
     }
     field(UDF, DBF_UCHAR) {
-        interest(1)
-        prompt("Undefined")
         initial("1")
-        promptgroup("10 - Common")
         pp(TRUE)
+        prompt("Undefined")
+        interest(1)
+        promptgroup("10 - Common")
     }
     field(UDFS, DBF_MENU) {
-        menu(menuAlarmSevr)
+        prompt("Undefined Alarm Sevrty")
         interest(1)
         promptgroup("70 - Alarm")
         initial("INVALID")
-        prompt("Undefined Alarm Sevrty")
+        menu(menuAlarmSevr)
     }
     field(TIME, DBF_NOACCESS) {
+        extra("epicsTimeStamp      time")
         special(SPC_NOMOD)
         interest(2)
-        extra("epicsTimeStamp      time")
         prompt("Time")
     }
     field(FLNK, DBF_FWDLINK) {
@@ -257,206 +257,206 @@ recordtype(ao) {
         promptgroup("20 - Scan")
     }
     field(VAL, DBF_DOUBLE) {
+        prompt("Desired Output")
+        promptgroup("50 - Output")
         asl(ASL0)
         pp(TRUE)
-        promptgroup("50 - Output")
-        prompt("Desired Output")
     }
     field(OVAL, DBF_DOUBLE) {
         prompt("Output Value")
     }
     field(OUT, DBF_OUTLINK) {
-        prompt("Output Specification")
         promptgroup("50 - Output")
+        prompt("Output Specification")
         interest(1)
     }
     field(OROC, DBF_DOUBLE) {
+        prompt("Output Rate of Change")
         interest(1)
         promptgroup("50 - Output")
-        prompt("Output Rate of Change")
     }
     field(DOL, DBF_INLINK) {
         prompt("Desired Output Loc")
-        promptgroup("40 - Input")
         interest(1)
+        promptgroup("40 - Input")
     }
     field(OMSL, DBF_MENU) {
         menu(menuOmsl)
         interest(1)
-        promptgroup("50 - Output")
         prompt("Output Mode Select")
+        promptgroup("50 - Output")
     }
     field(OIF, DBF_MENU) {
-        promptgroup("50 - Output")
-        prompt("Out Full/Incremental")
         menu(aoOIF)
         interest(1)
+        prompt("Out Full/Incremental")
+        promptgroup("50 - Output")
     }
     field(PREC, DBF_SHORT) {
-        interest(1)
         prop(YES)
         prompt("Display Precision")
+        interest(1)
         promptgroup("80 - Display")
     }
     field(LINR, DBF_MENU) {
-        promptgroup("60 - Convert")
         pp(TRUE)
-        prompt("Linearization")
-        special(SPC_LINCONV)
         menu(menuConvert)
+        special(SPC_LINCONV)
+        prompt("Linearization")
+        promptgroup("60 - Convert")
         interest(1)
     }
     field(EGUF, DBF_DOUBLE) {
-        prompt("Eng Units Full")
         pp(TRUE)
-        promptgroup("60 - Convert")
         interest(1)
+        prompt("Eng Units Full")
+        promptgroup("60 - Convert")
         special(SPC_LINCONV)
     }
     field(EGUL, DBF_DOUBLE) {
-        promptgroup("60 - Convert")
         pp(TRUE)
         prompt("Eng Units Low")
-        special(SPC_LINCONV)
         interest(1)
+        special(SPC_LINCONV)
+        promptgroup("60 - Convert")
     }
     field(EGU, DBF_STRING) {
-        size(16)
-        promptgroup("80 - Display")
         prompt("Engineering Units")
         prop(YES)
         interest(1)
+        promptgroup("80 - Display")
+        size(16)
     }
     field(ROFF, DBF_ULONG) {
-        interest(2)
         pp(TRUE)
+        interest(2)
         prompt("Raw Offset")
     }
     field(EOFF, DBF_DOUBLE) {
-        prompt("EGU to Raw Offset")
         pp(TRUE)
         promptgroup("60 - Convert")
         interest(2)
+        prompt("EGU to Raw Offset")
     }
     field(ESLO, DBF_DOUBLE) {
         interest(2)
-        promptgroup("60 - Convert")
-        pp(TRUE)
         prompt("EGU to Raw Slope")
+        promptgroup("60 - Convert")
         initial("1")
+        pp(TRUE)
     }
     field(DRVH, DBF_DOUBLE) {
+        promptgroup("30 - Action")
         prop(YES)
+        prompt("Drive High Limit")
         interest(1)
         pp(TRUE)
-        promptgroup("30 - Action")
-        prompt("Drive High Limit")
     }
     field(DRVL, DBF_DOUBLE) {
-        pp(TRUE)
         promptgroup("30 - Action")
-        prompt("Drive Low Limit")
         prop(YES)
+        prompt("Drive Low Limit")
         interest(1)
+        pp(TRUE)
     }
     field(HOPR, DBF_DOUBLE) {
-        interest(1)
         prop(YES)
         prompt("High Operating Range")
+        interest(1)
         promptgroup("80 - Display")
     }
     field(LOPR, DBF_DOUBLE) {
-        prop(YES)
         interest(1)
-        promptgroup("80 - Display")
+        prop(YES)
         prompt("Low Operating Range")
+        promptgroup("80 - Display")
     }
     field(AOFF, DBF_DOUBLE) {
         pp(TRUE)
-        promptgroup("60 - Convert")
-        prompt("Adjustment Offset")
         interest(1)
+        prompt("Adjustment Offset")
+        promptgroup("60 - Convert")
     }
     field(ASLO, DBF_DOUBLE) {
-        prompt("Adjustment Slope")
         pp(TRUE)
         promptgroup("60 - Convert")
         interest(1)
+        prompt("Adjustment Slope")
     }
     field(HIHI, DBF_DOUBLE) {
-        interest(1)
-        prop(YES)
-        prompt("Hihi Alarm Limit")
-        promptgroup("70 - Alarm")
         pp(TRUE)
+        interest(1)
+        prompt("Hihi Alarm Limit")
+        prop(YES)
+        promptgroup("70 - Alarm")
     }
     field(LOLO, DBF_DOUBLE) {
-        prompt("Lolo Alarm Limit")
-        promptgroup("70 - Alarm")
         pp(TRUE)
-        interest(1)
+        promptgroup("70 - Alarm")
         prop(YES)
+        prompt("Lolo Alarm Limit")
+        interest(1)
     }
     field(HIGH, DBF_DOUBLE) {
         prop(YES)
+        prompt("High Alarm Limit")
         interest(1)
         promptgroup("70 - Alarm")
         pp(TRUE)
-        prompt("High Alarm Limit")
     }
     field(LOW, DBF_DOUBLE) {
-        pp(TRUE)
-        promptgroup("70 - Alarm")
         prompt("Low Alarm Limit")
         prop(YES)
         interest(1)
+        promptgroup("70 - Alarm")
+        pp(TRUE)
     }
     field(HHSV, DBF_MENU) {
-        prop(YES)
-        promptgroup("70 - Alarm")
-        prompt("Hihi Severity")
-        menu(menuAlarmSevr)
-        interest(1)
         pp(TRUE)
+        menu(menuAlarmSevr)
+        prompt("Hihi Severity")
+        prop(YES)
+        interest(1)
+        promptgroup("70 - Alarm")
     }
     field(LLSV, DBF_MENU) {
-        menu(menuAlarmSevr)
-        interest(1)
-        pp(TRUE)
         prop(YES)
-        promptgroup("70 - Alarm")
         prompt("Lolo Severity")
+        pp(TRUE)
+        menu(menuAlarmSevr)
+        promptgroup("70 - Alarm")
+        interest(1)
     }
     field(HSV, DBF_MENU) {
-        prompt("High Severity")
         promptgroup("70 - Alarm")
-        prop(YES)
-        pp(TRUE)
         interest(1)
         menu(menuAlarmSevr)
+        pp(TRUE)
+        prop(YES)
+        prompt("High Severity")
     }
     field(LSV, DBF_MENU) {
-        prompt("Low Severity")
         promptgroup("70 - Alarm")
+        interest(1)
+        prompt("Low Severity")
         prop(YES)
         pp(TRUE)
-        interest(1)
         menu(menuAlarmSevr)
     }
     field(HYST, DBF_DOUBLE) {
+        interest(1)
         prompt("Alarm Deadband")
         promptgroup("70 - Alarm")
-        interest(1)
     }
     field(ADEL, DBF_DOUBLE) {
-        interest(1)
         prompt("Archive Deadband")
+        interest(1)
         promptgroup("80 - Display")
     }
     field(MDEL, DBF_DOUBLE) {
-        promptgroup("80 - Display")
         prompt("Monitor Deadband")
         interest(1)
+        promptgroup("80 - Display")
     }
     field(RVAL, DBF_LONG) {
         pp(TRUE)
@@ -464,17 +464,17 @@ recordtype(ao) {
     }
     field(ORAW, DBF_LONG) {
         prompt("Previous Raw Value")
-        special(SPC_NOMOD)
         interest(3)
+        special(SPC_NOMOD)
     }
     field(RBV, DBF_LONG) {
-        special(SPC_NOMOD)
         prompt("Readback Value")
+        special(SPC_NOMOD)
     }
     field(ORBV, DBF_LONG) {
-        interest(3)
         special(SPC_NOMOD)
         prompt("Prev Readback Value")
+        interest(3)
     }
     field(PVAL, DBF_DOUBLE) {
         special(SPC_NOMOD)
@@ -483,8 +483,8 @@ recordtype(ao) {
     }
     field(LALM, DBF_DOUBLE) {
         special(SPC_NOMOD)
-        interest(3)
         prompt("Last Value Alarmed")
+        interest(3)
     }
     field(ALST, DBF_DOUBLE) {
         prompt("Last Value Archived")
@@ -492,30 +492,30 @@ recordtype(ao) {
         special(SPC_NOMOD)
     }
     field(MLST, DBF_DOUBLE) {
+        prompt("Last Val Monitored")
         interest(3)
         special(SPC_NOMOD)
-        prompt("Last Val Monitored")
     }
     field(PBRK, DBF_NOACCESS) {
-        special(SPC_NOMOD)
         interest(4)
-        extra("void *   pbrk")
         prompt("Ptrto brkTable")
+        extra("void *   pbrk")
+        special(SPC_NOMOD)
     }
     field(INIT, DBF_SHORT) {
-        special(SPC_NOMOD)
-        interest(3)
         prompt("Initialized?")
+        interest(3)
+        special(SPC_NOMOD)
     }
     field(LBRK, DBF_SHORT) {
+        special(SPC_NOMOD)
         prompt("LastBreak Point")
         interest(3)
-        special(SPC_NOMOD)
     }
     field(SIOL, DBF_OUTLINK) {
         promptgroup("90 - Simulate")
-        prompt("Sim Output Specifctn")
         interest(1)
+        prompt("Sim Output Specifctn")
     }
     field(SIML, DBF_INLINK) {
         promptgroup("90 - Simulate")
@@ -523,21 +523,21 @@ recordtype(ao) {
         interest(1)
     }
     field(SIMM, DBF_MENU) {
-        interest(1)
         menu(menuYesNo)
+        interest(1)
         prompt("Simulation Mode")
     }
     field(SIMS, DBF_MENU) {
-        prompt("Sim mode Alarm Svrty")
-        promptgroup("90 - Simulate")
-        interest(2)
         menu(menuAlarmSevr)
+        prompt("Sim mode Alarm Svrty")
+        interest(2)
+        promptgroup("90 - Simulate")
     }
     field(IVOA, DBF_MENU) {
-        interest(2)
         menu(menuIvoa)
-        prompt("INVALID output action")
         promptgroup("50 - Output")
+        prompt("INVALID output action")
+        interest(2)
     }
     field(IVOV, DBF_DOUBLE) {
         interest(2)
@@ -545,7 +545,7 @@ recordtype(ao) {
         promptgroup("50 - Output")
     }
     field(OMOD, DBF_UCHAR) {
-        prompt("Was OVAL modified?")
         special(SPC_NOMOD)
+        prompt("Was OVAL modified?")
     }
 }
