@@ -9,6 +9,24 @@
 #include "ellLib.h"
 #include "epicsTime.h"
 
+#ifndef sseqWAIT_NUM_CHOICES
+typedef enum {
+    sseqWAIT_NoWait                 /* NoWait */,
+    sseqWAIT_Wait                   /* Wait */,
+    sseqWAIT_Wait1                  /* After1 */,
+    sseqWAIT_Wait2                  /* After2 */,
+    sseqWAIT_Wait3                  /* After3 */,
+    sseqWAIT_Wait4                  /* After4 */,
+    sseqWAIT_Wait5                  /* After5 */,
+    sseqWAIT_Wait6                  /* After6 */,
+    sseqWAIT_Wait7                  /* After7 */,
+    sseqWAIT_Wait8                  /* After8 */,
+    sseqWAIT_Wait9                  /* After9 */,
+    sseqWAIT_Wait10                 /* AfterA */
+} sseqWAIT;
+#define sseqWAIT_NUM_CHOICES 12
+#endif
+
 #ifndef sseqSELM_NUM_CHOICES
 typedef enum {
     sseqSELM_All                    /* All */,
@@ -26,24 +44,6 @@ typedef enum {
     sseqLNKV_CON                    /* Constant */
 } sseqLNKV;
 #define sseqLNKV_NUM_CHOICES 4
-#endif
-
-#ifndef sseqWAIT_NUM_CHOICES
-typedef enum {
-    sseqWAIT_NoWait                 /* NoWait */,
-    sseqWAIT_Wait                   /* Wait */,
-    sseqWAIT_Wait1                  /* After1 */,
-    sseqWAIT_Wait2                  /* After2 */,
-    sseqWAIT_Wait3                  /* After3 */,
-    sseqWAIT_Wait4                  /* After4 */,
-    sseqWAIT_Wait5                  /* After5 */,
-    sseqWAIT_Wait6                  /* After6 */,
-    sseqWAIT_Wait7                  /* After7 */,
-    sseqWAIT_Wait8                  /* After8 */,
-    sseqWAIT_Wait9                  /* After9 */,
-    sseqWAIT_Wait10                 /* AfterA */
-} sseqWAIT;
-#define sseqWAIT_NUM_CHOICES 12
 #endif
 
 typedef struct sseqRecord {

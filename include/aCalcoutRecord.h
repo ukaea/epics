@@ -9,12 +9,38 @@
 #include "ellLib.h"
 #include "epicsTime.h"
 
+#ifndef acalcoutWAIT_NUM_CHOICES
+typedef enum {
+    acalcoutWAIT_NoWait             /* NoWait */,
+    acalcoutWAIT_Wait               /* Wait */
+} acalcoutWAIT;
+#define acalcoutWAIT_NUM_CHOICES 2
+#endif
+
+#ifndef acalcoutDOPT_NUM_CHOICES
+typedef enum {
+    acalcoutDOPT_Use_VAL            /* Use CALC */,
+    acalcoutDOPT_Use_OVAL           /* Use OCAL */
+} acalcoutDOPT;
+#define acalcoutDOPT_NUM_CHOICES 2
+#endif
+
 #ifndef acalcoutINAP_NUM_CHOICES
 typedef enum {
     acalcoutINAP_No                 /* No PROC on Change */,
     acalcoutINAP_Yes                /* PROC on Change */
 } acalcoutINAP;
 #define acalcoutINAP_NUM_CHOICES 2
+#endif
+
+#ifndef acalcoutINAV_NUM_CHOICES
+typedef enum {
+    acalcoutINAV_EXT_NC             /* Ext PV NC */,
+    acalcoutINAV_EXT                /* Ext PV OK */,
+    acalcoutINAV_LOC                /* Local PV */,
+    acalcoutINAV_CON                /* Constant */
+} acalcoutINAV;
+#define acalcoutINAV_NUM_CHOICES 4
 #endif
 
 #ifndef acalcoutOOPT_NUM_CHOICES
@@ -30,38 +56,12 @@ typedef enum {
 #define acalcoutOOPT_NUM_CHOICES 7
 #endif
 
-#ifndef acalcoutINAV_NUM_CHOICES
-typedef enum {
-    acalcoutINAV_EXT_NC             /* Ext PV NC */,
-    acalcoutINAV_EXT                /* Ext PV OK */,
-    acalcoutINAV_LOC                /* Local PV */,
-    acalcoutINAV_CON                /* Constant */
-} acalcoutINAV;
-#define acalcoutINAV_NUM_CHOICES 4
-#endif
-
 #ifndef acalcoutSIZE_NUM_CHOICES
 typedef enum {
     acalcoutSIZE_NELM               /* NELM */,
     acalcoutSIZE_NUSE               /* NUSE */
 } acalcoutSIZE;
 #define acalcoutSIZE_NUM_CHOICES 2
-#endif
-
-#ifndef acalcoutDOPT_NUM_CHOICES
-typedef enum {
-    acalcoutDOPT_Use_VAL            /* Use CALC */,
-    acalcoutDOPT_Use_OVAL           /* Use OCAL */
-} acalcoutDOPT;
-#define acalcoutDOPT_NUM_CHOICES 2
-#endif
-
-#ifndef acalcoutWAIT_NUM_CHOICES
-typedef enum {
-    acalcoutWAIT_NoWait             /* NoWait */,
-    acalcoutWAIT_Wait               /* Wait */
-} acalcoutWAIT;
-#define acalcoutWAIT_NUM_CHOICES 2
 #endif
 
 typedef struct acalcoutRecord {
