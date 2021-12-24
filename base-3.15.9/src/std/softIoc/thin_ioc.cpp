@@ -97,9 +97,35 @@ static void usage(int status) {
 }
 
 extern "C" __declspec(dllexport) 
+int thin_ioc_start_xx ( short nSecs )
+{
+  if ( dbLoadDatabase(base_dbd,NULL,NULL) ) 
+	{
+    return -1 ;
+	}
+  softIoc_registerRecordDeviceDriver(pdbbase);
+  registryFunctionAdd("exit", (REGISTRYFUNCTION) exitSubroutine);
+	char *macros = NULL ;
+	if ( dbLoadRecords("C:\\tmp\\xx.db", macros)) 
+	{
+		return -2 ;
+	}
+	iocInit() ;
+	epicsThreadSleep(0.2) ;
+	for ( int i = 0 ; i < nSecs ; i++ )
+	{
+	  epicsThreadSleep(1.0) ; 
+		printf("Sleeping %d",i) ;
+	}
+  // iocsh(NULL) ;
+	return 0 ;
+}
+
+extern "C" __declspec(dllexport) 
 int thin_ioc_div ( int a, int b )
 {
-  return a / b ;
+  return thin_ioc_start_xx() ;
+  // return a / b ;
 }
 
 int main(int argc, char *argv[])

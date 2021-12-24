@@ -13,6 +13,8 @@ namespace TestThinIoc_ConsoleApp
 
       System.Console.WriteLine("Invoking 'thin_ioc'") ;
 
+      int x = thin_ioc_func() ;
+
       string version = ca_version() ;
 
       int sum = thin_ioc_add(1,2) ;
@@ -21,10 +23,18 @@ namespace TestThinIoc_ConsoleApp
 
       int div = thin_ioc_div(12,3) ;
 
-      int x = thin_ioc_func() ;
+      System.Threading.Tasks.Task.Run(
+        () => {
+          int started = thin_ioc_start_xx() ;
+        }
+      ) ;
 
+      System.Console.WriteLine("Waiting ...") ;
+      System.Console.ReadLine() ;
     }
 
+    // In VS2022 command prompt :
+    // > dumpbin /EXPORTS mydll.dll
 
     private const string THIN_IOC_DLL_path = (
       // @"C:\Users\steve\source\repos\epics.dotnet\x64\thin_ioc" 
@@ -42,6 +52,9 @@ namespace TestThinIoc_ConsoleApp
 
     [System.Runtime.InteropServices.DllImport(THIN_IOC_DLL_path)]
     static extern short thin_ioc_func ( ) ;
+
+    [System.Runtime.InteropServices.DllImport(THIN_IOC_DLL_path)]
+    static extern short thin_ioc_start_xx ( short nSecs = 60 ) ;
 
     public static string ca_version ( )
     {
