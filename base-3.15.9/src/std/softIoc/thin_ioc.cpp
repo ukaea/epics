@@ -58,6 +58,9 @@
 #include <string.h>
 #include <stdio.h>
 
+// STEVET
+// #define epicsExportSharedSymbols
+
 #include "registryFunction.h"
 #include "epicsThread.h"
 #include "epicsExit.h"
@@ -79,7 +82,6 @@ extern "C" int softIoc_registerRecordDeviceDriver(struct dbBase *pdbbase);
 const char *arg0;
 const char *base_dbd = DBD_FILE;
 const char *exit_db = EXIT_FILE;
-
 
 static void exitSubroutine(subRecord *precord) {
     epicsExitLater((precord->a == 0.0) ? EXIT_SUCCESS : EXIT_FAILURE);

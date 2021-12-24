@@ -39,7 +39,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="O.Common\softIoc_registerRecordDeviceDriver.cpp" />
-    <ClCompile Include="softMain.cpp" />
+    <ClCompile Include="thin_ioc.cpp" />
+    <ClCompile Include="thin_ioc_exports.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ca\client\ca.vcxproj">
