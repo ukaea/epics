@@ -5,6 +5,13 @@
 namespace TestThinIoc_ConsoleApp
 {
 
+  //
+  // The 'thin_ioc' project builds the dll to x64\Debug_DLL.
+  // This has to be manually copied to the project directory
+  // alongside this program (which also contains the support dll's).
+  // These all get copied to the same directory as out EXE.
+  //
+
   public class Program
   {
 
@@ -13,19 +20,20 @@ namespace TestThinIoc_ConsoleApp
 
       System.Console.WriteLine("Invoking 'thin_ioc'") ;
 
-      int x = thin_ioc_func() ;
-
-      string version = ca_version() ;
-
-      int sum = thin_ioc_add(1,2) ;
-
-      int product = thin_ioc_mul(2,3) ;
-
-      int div = thin_ioc_div(12,3) ;
+      {
+        // Just testing that we can invoke DLL functions
+        int x = thin_ioc_func() ;
+        string version = ca_version() ;
+        int sum = thin_ioc_add(1,2) ;
+        int product = thin_ioc_mul(2,3) ;
+        int div = thin_ioc_div(12,3) ;
+      }
 
       System.Threading.Tasks.Task.Run(
         () => {
-          int started = thin_ioc_start_xx() ;
+          int started = thin_ioc_start_xx(
+            nSecs : 60
+          ) ;
         }
       ) ;
 
