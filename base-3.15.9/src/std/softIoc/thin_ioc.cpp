@@ -96,6 +96,11 @@ static void usage(int status) {
     epicsExit(status);
 }
 
+extern "C" __declspec(dllexport) 
+int thin_ioc_div ( int a, int b )
+{
+  return a / b ;
+}
 
 int main(int argc, char *argv[])
 {

@@ -11,19 +11,23 @@
 
 extern "C" {
 
-__declspec(dllexport) int thin_ioc_add ( int a, int b ) ;
+  __declspec(dllexport) int thin_ioc_add ( int a, int b ) ;
 
-int thin_ioc_add ( int a, int b )
-{
-  return a + b ;
+  int thin_ioc_add ( int a, int b )
+  {
+    return a + b ;
+  }
+
+  __declspec(dllexport) int thin_ioc_func ( )
+  {
+    return 123 ;
+  }
+
 }
 
-__declspec(dllexport) int thin_ioc_func ( ) ;
-
-int thin_ioc_func ( )
+extern "C" __declspec(dllexport) 
+int thin_ioc_mul ( int a, int b )
 {
-  return 123 ;
-}
-
+  return a * b ;
 }
 

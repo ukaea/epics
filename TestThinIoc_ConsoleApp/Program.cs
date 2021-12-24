@@ -17,6 +17,12 @@ namespace TestThinIoc_ConsoleApp
 
       int sum = thin_ioc_add(1,2) ;
 
+      int product = thin_ioc_mul(2,3) ;
+
+      int div = thin_ioc_div(12,3) ;
+
+      int x = thin_ioc_func() ;
+
     }
 
 
@@ -27,6 +33,15 @@ namespace TestThinIoc_ConsoleApp
 
     [System.Runtime.InteropServices.DllImport(THIN_IOC_DLL_path)]
     static extern short thin_ioc_add ( short a, short b ) ;
+
+    [System.Runtime.InteropServices.DllImport(THIN_IOC_DLL_path)]
+    static extern short thin_ioc_mul ( short a, short b ) ;
+
+    [System.Runtime.InteropServices.DllImport(THIN_IOC_DLL_path)]
+    static extern short thin_ioc_div ( short a, short b ) ;
+
+    [System.Runtime.InteropServices.DllImport(THIN_IOC_DLL_path)]
+    static extern short thin_ioc_func ( ) ;
 
     public static string ca_version ( )
     {
