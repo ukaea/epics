@@ -34,7 +34,12 @@ const char *base_dbd = DBD_FILE;
 extern "C" __declspec(dllexport) 
 int thin_ioc_start_xx ( short nSecs )
 {
-  if ( dbLoadDatabase(base_dbd,NULL,NULL) ) 
+  base_dbd = EPICS_BASE "dbd\\base.dbd" ;
+	const char * path = (
+	  EPICS_BASE "dbd\\"
+	  // NULL 
+  ) ;
+  if ( dbLoadDatabase(base_dbd,path,NULL) ) 
 	{
     return -1 ;
 	}
@@ -51,6 +56,7 @@ int thin_ioc_start_xx ( short nSecs )
 	  epicsThreadSleep(1.0) ; 
 		printf("Sleeping %d\n",i) ;
 	}
+	epicsExit(EXIT_SUCCESS) ;
   // iocsh(NULL) ;
 	return 0 ;
 }
@@ -61,6 +67,27 @@ int thin_ioc_div ( int a, int b )
   // return thin_ioc_start_xx() ;
   return a / b ;
 }
+
+struct DbDescriptor 
+{
+  char * PathToDbFile ;
+  char * Macros ;
+} ;
+
+extern "C" __declspec(dllexport) 
+int thin_ioc_start(
+	char *         pathToDbdFile,
+	DbDescriptor * dbDescriptors,
+	int            nDbDescriptors,
+	char *         pathToCmdFile
+) {
+  for ( int iDbDescriptor = 0 ; iDbDescriptor < nDbDescriptors ; iDbDescriptor++ )
+	{
+	}
+	return 123 ;
+}
+
+
 
 #if 0
 

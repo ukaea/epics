@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "TestThinIoc_ConsoleApp": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}
