@@ -77,10 +77,10 @@ namespace TestThinIoc_ConsoleApp
   //   Add path to PDB files
   //
 
-  public class Program
+  public class Program_old_01
   {
 
-    public static void Main ( string[] args ) 
+    public static void Main_old_01 ( string[] args ) 
     {
 
       System.Console.WriteLine("Invoking 'thin_ioc'") ;
@@ -92,15 +92,13 @@ namespace TestThinIoc_ConsoleApp
       {
         // Just testing that we can invoke DLL functions
         int x = thin_ioc_func() ;
+        string version = ca_version() ;
         int sum = thin_ioc_add(1,2) ;
         int product = thin_ioc_mul(2,3) ;
-        string version = ca_version() ;
+        int div = thin_ioc_div(12,3) ;
       }
 
-      // Hmm, we can really only invoke 'thin_ioc_start' once,
-      // because it allocates lots of memory etc for the db's and so on,
-      // whch don't get released unless you call a complicated sequence.
-
+     run:
       {
         var dbDescriptors = new DbDescriptor[]{
           new DbDescriptor("C:\\tmp\\xx.db"),
@@ -120,6 +118,16 @@ namespace TestThinIoc_ConsoleApp
         ) ;
       }
 
+
+
+      // System.Threading.Tasks.Task.Run(
+      //   () => {
+      //     int started = thin_ioc_start_xx(
+      //       nSecs : 60
+      //     ) ;
+      //   }
+      // ) ;
+
       while ( thin_ioc_is_running() != 0 )
       {
         System.Console.WriteLine("Waiting ...") ;
@@ -131,6 +139,8 @@ namespace TestThinIoc_ConsoleApp
       }
       System.Console.WriteLine("Stopped ...") ;
       System.Console.ReadLine() ;
+
+      goto run ;
 
     }
 
