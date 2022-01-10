@@ -8,26 +8,21 @@
 #include <string.h>
 #include <stdio.h>
 
-#include "registryFunction.h"
+//#include "registryFunction.h"
 #include "epicsThread.h"
 #include "epicsExit.h"
 #include "epicsStdio.h"
 #include "dbStaticLib.h"
-#include "subRecord.h"
+//#include "subRecord.h"
 #include "dbAccess.h"
-#include "asDbLib.h"
+//#include "asDbLib.h"
 #include "iocInit.h"
 #include "iocsh.h"
 #include "epicsInstallDir.h"
 
 extern "C" int softIoc_registerRecordDeviceDriver(struct dbBase *pdbbase) ;
 
-// ???????????????????
-// extern "C" int base_registerRecordDeviceDriver(struct dbBase *pdbbase) ;
-
-#define DBD_FILE EPICS_BASE  "dbd\\softIoc.dbd"
-
-// #define EXIT_FILE EPICS_BASE "db\\softIocExit.db"
+#define DBD_FILE EPICS_BASE "dbd\\softIoc.dbd"
 
 struct DbDescriptor 
 {
@@ -66,15 +61,14 @@ int thin_ioc_start(
 	{
     return -1 ;
 	}
-	// Hmm, this code is generated from 'softIoc' ... DISCUSS_WITH_TINE
-	// CALLING IT IS NECESSARY, OTHERWISE NOTHING WORKS ...
+	// Hmm, this code is generated from 'softIoc'
+	// CALLING IT IS NECESSARY, OTHERWISE NOTHING WORKS
   softIoc_registerRecordDeviceDriver(pdbbase) ;
-  // base_registerRecordDeviceDriver(pdbbase) ; // ????????????????
   for ( int iDbDescriptor = 0 ; iDbDescriptor < nDbDescriptors ; iDbDescriptor++ )
 	{
-	  DbDescriptor & dbDescriptor = dbDescriptors[iDbDescriptor] ;
-		char * dbFilePath = dbDescriptor.PathToDbFile ;
-		char * macros     = dbDescriptor.Macros ;
+		const DbDescriptor & dbDescriptor = dbDescriptors[iDbDescriptor] ;
+		const char * dbFilePath = dbDescriptor.PathToDbFile ;
+		const char * macros     = dbDescriptor.Macros ;
 		if ( dbLoadRecords(dbFilePath,macros) != 0 ) 
 		{
 			return iDbDescriptor + 1 ;
@@ -95,7 +89,6 @@ int thin_ioc_start(
 	}
 	epicsThreadSleep(0.2) ;
 
-	// _is_running = 1 ;
 	int iSecs = 1 ;
 	do
 	{
@@ -106,19 +99,29 @@ int thin_ioc_start(
 	  _stop_requested == 0
   ) ;
 	fprintf(epicsGetStdout(),"THIN_IOC STOPPING\n") ;
+	epicsExitCallAtExits() ;
+	epicsThreadSleep(0.1) ;
 	// Hmm, this KILLS THE ENTIRE PROCESS !!!
 	// epicsExit(EXIT_SUCCESS) ;
   _is_running = 0 ;
+	fprintf(epicsGetStdout(),"THIN_IOC RETURNING\n") ;
 	return 0 ;
 }
 
-extern "C" __declspec(dllexport) 
-int thin_ioc_is_running ( )
+extern "C" __declspec(dllexport)
+void thin_ioc_call_atExits ( )
 {
-	return _is_running ;
+	epicsExitCallAtExits() ;
+	// epicsThreadSleep(0.1) ;
 }
 
-extern "C" __declspec(dllexport) 
+extern "C" __declspec(dllexport)
+int thin_ioc_is_running()
+{
+	return _is_running;
+}
+
+extern "C" __declspec(dllexport)
 void thin_ioc_set_is_running ( )
 {
 	_is_running = 1 ;

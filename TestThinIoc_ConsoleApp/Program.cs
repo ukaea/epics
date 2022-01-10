@@ -11,9 +11,22 @@ namespace TestThinIoc_ConsoleApp
   // The 'thin_ioc' project builds the dll to x64\Debug_DLL.
   // This dll (together with the necessary support dll's) has to be
   // manually copied to the console app project directory, alongside Program.cs.
+  //
   // These DLL's need to be configured as 'Copy to output directory'.
   // so that they'll get copied to the same directory as our EXE.
   //
+  //   thin_ioc.dll
+  //   ca.dll
+  //   com.dll
+  //   dbCore.dll
+  //   dbRecStd.dll
+  //
+  // ALTERNATIVELY (and much more conventiently) call 
+  //   SetDllDirectory
+  // to configure the P/Invoke search path to look for DLL's in the
+  // standard place (eg x64/Debug_DLL) that they have been built to.
+  //
+
   // To enable single-stepping into the DLL code :
   // - copy the .pdb file alongside the .dll
   //   [ note that this doesn't have to be copied to the output directory ]
@@ -87,7 +100,7 @@ namespace TestThinIoc_ConsoleApp
 
       // If the function fails, the return value is zero.
       // To get extended error information, call GetLastError.
-      bool ok = SetDllDirectory("C:\\Users\\steve\\source\\repos\\epics.dotnet\\x64\\Debug_DLL") ;
+      bool ok = SetDllDirectory("C:\\Users\\steve\\source\\repos\\epics.dotnet\\x64\\Release_DLL") ;
 
       {
         // Just testing that we can invoke DLL functions
@@ -158,9 +171,6 @@ namespace TestThinIoc_ConsoleApp
     [System.Runtime.InteropServices.DllImport(THIN_IOC_DLL_path)]
     static extern short thin_ioc_func ( ) ;
 
-    [System.Runtime.InteropServices.DllImport(THIN_IOC_DLL_path)]
-    static extern short thin_ioc_start_xx ( short nSecs = 60 ) ;
-
     struct DbDescriptor 
     {
       [MarshalAs(UnmanagedType.LPStr)] public string  PathToDbFile ;
@@ -190,6 +200,9 @@ namespace TestThinIoc_ConsoleApp
 
     [System.Runtime.InteropServices.DllImport(THIN_IOC_DLL_path)]
     static extern void thin_ioc_request_stop ( ) ;
+
+    [System.Runtime.InteropServices.DllImport(THIN_IOC_DLL_path)]
+    static extern void thin_ioc_call_atExits ( ) ;
 
     public static string ca_version ( )
     {
