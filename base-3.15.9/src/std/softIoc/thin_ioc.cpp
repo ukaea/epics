@@ -34,25 +34,29 @@ static volatile int _is_running     = 1 ;
 static volatile int _stop_requested = 0 ;
 
 extern "C" __declspec(dllexport) 
-int thin_ioc_start(
+int thin_ioc_start (
 	const DbDescriptor * dbDescriptors,
 	int                  nDbDescriptors,
-	const char *         pathToCmdFile,
-	const char *         pathToDbdFile
+	const char *         pathToCmdFile
+	// const char *         pathToDbdFile
 ) {
-	fprintf(epicsGetStdout(),"THIN_IOC STARTING\n") ;
-	if ( pathToDbdFile == NULL )
-	{
-	  // Hmm, using 'base.dbd' instead of 'softIoc.dbd'
-		// seems to work, but maybe not a good idea as
-		// we have to rely on calling 'softIoc_registerRecordDeviceDriver'
-	  // pathToDbdFile = EPICS_BASE "dbd\\base.dbd" ;
-	  pathToDbdFile = EPICS_BASE "dbd\\softIoc.dbd" ;
-	}
+	// fprintf(epicsGetStdout(),"THIN_IOC STARTING\n") ;
+	// if ( pathToDbdFile == NULL )
+	// {
+	//   // Hmm, using 'base.dbd' here instead of 'softIoc.dbd'
+	// 	// seems to work, but that is probaby not a good idea
+	// 	// as we have to rely on calling 'softIoc_registerRecordDeviceDriver'
+	// 	// which has been auto-generated from 'softIoc.dbd' ...
+	//   // pathToDbdFile = EPICS_BASE "dbd\\base.dbd" ;
+	//   pathToDbdFile = EPICS_BASE "dbd\\softIoc.dbd" ;
+	// }
 	// Note that if we use 'base.dbd' instead of 'softIoc.dbd'
-	// it's necessary to specify the 'path' argument, otherwise
-	// the 'includes' are not found ...
-	const char * path = EPICS_BASE "dbd\\" ;
+	// it'll be necessary to specify the 'path' argument,
+	// otherwise the 'includes' won't be found ...
+	const char * path = (
+	  NULL
+	  // EPICS_BASE "dbd\\" 
+  ) ;
 	const char * base_dbd = DBD_FILE ;
   if ( dbLoadDatabase(base_dbd,path,NULL) != 0 ) 
 	{
@@ -75,7 +79,7 @@ int thin_ioc_start(
 	{
 	  return -2 ;
 	}
-	epicsThreadSleep(0.2) ;
+	// epicsThreadSleep(0.2) ;
 	if ( pathToCmdFile != NULL )
 	{
 	  if ( iocsh(pathToCmdFile) ) 
@@ -84,25 +88,26 @@ int thin_ioc_start(
 			return -3 ;
 		}
 	}
-	epicsThreadSleep(0.2) ;
-
-	int iSecs = 1 ;
-	do
-	{
-	  epicsThreadSleep(1.0) ; 
-	  fprintf(epicsGetStdout(),"THIN_IOC Running %d\n",iSecs++) ;
-	}
-	while ( 
-	  _stop_requested == 0
-  ) ;
-	fprintf(epicsGetStdout(),"THIN_IOC STOPPING\n") ;
-	epicsExitCallAtExits() ;
-	epicsThreadSleep(0.1) ;
-	// Hmm, this KILLS THE ENTIRE PROCESS !!!
-	// epicsExit(EXIT_SUCCESS) ;
-  _is_running = 0 ;
-	fprintf(epicsGetStdout(),"THIN_IOC RETURNING\n") ;
+	// epicsThreadSleep(0.2) ;
 	return 0 ;
+
+	// int iSecs = 1 ;
+	// do
+	// {
+	//   epicsThreadSleep(1.0) ; 
+	//   fprintf(epicsGetStdout(),"THIN_IOC Running %d\n",iSecs++) ;
+	// }
+	// while ( 
+	//   _stop_requested == 0
+  // ) ;
+	// fprintf(epicsGetStdout(),"THIN_IOC STOPPING\n") ;
+	// epicsExitCallAtExits() ;
+	// epicsThreadSleep(0.1) ;
+	// // Hmm, this KILLS THE ENTIRE PROCESS !!!
+	// // epicsExit(EXIT_SUCCESS) ;
+  // _is_running = 0 ;
+	// fprintf(epicsGetStdout(),"THIN_IOC RETURNING\n") ;
+	// return 0 ;
 }
 
 extern "C" __declspec(dllexport)
@@ -111,23 +116,23 @@ int thin_ioc_get_version ( )
 	return 100 ;
 }
 
-extern "C" __declspec(dllexport)
-int thin_ioc_is_running()
-{
-	return _is_running;
-}
-
-extern "C" __declspec(dllexport)
-void thin_ioc_set_is_running ( )
-{
-	_is_running = 1 ;
-}
-
-extern "C" __declspec(dllexport) 
-void thin_ioc_request_stop ( )
-{
-	_stop_requested = 1 ;
-}
+// extern "C" __declspec(dllexport)
+// int thin_ioc_is_running()
+// {
+// 	return _is_running;
+// }
+// 
+// extern "C" __declspec(dllexport)
+// void thin_ioc_set_is_running ( )
+// {
+// 	_is_running = 1 ;
+// }
+// 
+// extern "C" __declspec(dllexport) 
+// void thin_ioc_request_stop ( )
+// {
+// 	_stop_requested = 1 ;
+// }
 
 extern "C" __declspec(dllexport)
 void thin_ioc_call_atExits ( )

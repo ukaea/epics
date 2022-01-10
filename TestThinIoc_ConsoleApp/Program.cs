@@ -102,18 +102,22 @@ namespace TestThinIoc_ConsoleApp
       // To get extended error information, call GetLastError.
       bool ok = SetDllDirectory("C:\\Users\\steve\\source\\repos\\epics.dotnet\\x64\\Debug_DLL") ;
 
+      int thin_ioc_version = thin_ioc_get_version() ;
+
       {
         // Just testing that we can invoke DLL functions
-        int thin_ioc_version = thin_ioc_get_version() ;
-        int x = thin_ioc_func() ;
-        int sum = thin_ioc_add(1,2) ;
-        int product = thin_ioc_mul(2,3) ;
-        string caVersion = ca_version() ;
+        // int x = thin_ioc_func() ;
+        // int sum = thin_ioc_add(1,2) ;
+        // int product = thin_ioc_mul(2,3) ;
+        // string caVersion = ca_version() ;
       }
 
       // Hmm, we can really only invoke 'thin_ioc_start' once,
       // because it allocates lots of memory etc for the db's and so on,
       // whch don't get released unless you call a complicated sequence.
+
+      // bool enabled = true ;
+      System.Threading.ManualResetEvent stopThinIoc_event = new(false) ;
 
       {
         var dbDescriptors = new DbDescriptor[]{
@@ -121,29 +125,52 @@ namespace TestThinIoc_ConsoleApp
           //new DbDescriptor("db_B","macros_for_B"),
           //new DbDescriptor("db_C")
         } ;
-        thin_ioc_set_is_running() ;
+        // thin_ioc_set_is_running() ;
         System.Threading.Tasks.Task.Run(
           () => {
+            System.Console.WriteLine("ThinIoc thread is starting") ;
             int x = thin_ioc_start(
               dbDescriptors,
               dbDescriptors.Length
               // "pathToCmdFile",
               // "pathToDbdFile"
             ) ;
+            if ( x != 0 )
+            {
+              System.Console.WriteLine($"thin_ioc_start failed : {x}") ;
+              System.Console.WriteLine("Waiting for ENTER ...") ;
+              System.Console.ReadLine() ;
+              return ;
+            }
+            System.Console.WriteLine("Waiting for 'stopThinIoc_event'") ;
+            stopThinIoc_event.WaitOne() ;
+            System.Console.WriteLine("'stopThinIoc_event' has been signalled") ;
+            // while ( enabled )
+            // {
+            //   System.Threading.Thread.Sleep(1000) ;
+            // }
+            // System.Console.WriteLine("Enabled is false ; calling 'atExits'") ;
+            thin_ioc_call_atExits() ;
+            System.Console.WriteLine("ThinIoc thread is terminating") ;
           }
         ) ;
       }
 
-      while ( thin_ioc_is_running() != 0 )
+      // while ( enabled )
+      while ( true )
       {
-        System.Console.WriteLine("Waiting ...") ;
+        System.Console.WriteLine("Enter 'x' to disable ...") ;
         string? line = System.Console.ReadLine() ;
         if ( line?.StartsWith("x") == true )
         {
-          thin_ioc_request_stop() ;
+          System.Console.WriteLine("Signalling 'stopThinIoc_event") ;
+          stopThinIoc_event.Set() ;
+          break ;
+          // enabled = false ;
+          // thin_ioc_request_stop() ;
         }
       }
-      System.Console.WriteLine("Stopped ...") ;
+      System.Console.WriteLine("Waiting for ENTER ...") ;
       System.Console.ReadLine() ;
 
     }
@@ -192,31 +219,31 @@ namespace TestThinIoc_ConsoleApp
     static extern int thin_ioc_start ( 
       [In] DbDescriptor[]                           dbDescriptors,
       [In] int                                      nDbDescriptors,
-      [In] [MarshalAs(UnmanagedType.LPStr)] string? pathToCmdFile   = null,
-      [In] [MarshalAs(UnmanagedType.LPStr)] string? pathToDbdFile   = null
+      [In] [MarshalAs(UnmanagedType.LPStr)] string? pathToCmdFile   = null
+      // [In] [MarshalAs(UnmanagedType.LPStr)] string? pathToDbdFile   = null
     ) ;
-
-    [System.Runtime.InteropServices.DllImport(THIN_IOC_DLL_path)]
-    static extern int thin_ioc_is_running ( ) ;
-
-    [System.Runtime.InteropServices.DllImport(THIN_IOC_DLL_path)]
-    static extern void thin_ioc_set_is_running ( ) ;
-
-    [System.Runtime.InteropServices.DllImport(THIN_IOC_DLL_path)]
-    static extern void thin_ioc_request_stop ( ) ;
 
     [System.Runtime.InteropServices.DllImport(THIN_IOC_DLL_path)]
     static extern void thin_ioc_call_atExits ( ) ;
 
-    public static string ca_version ( )
-    {
-      return System.Runtime.InteropServices.Marshal.PtrToStringAnsi(
-        ca_version()
-      )! ;
-      [System.Runtime.InteropServices.DllImport("ca")]
-      // https://epics.anl.gov/base/R3-15/9-docs/CAref.html#ca_version
-      static extern System.IntPtr ca_version ( ) ;
-    }
+    // [System.Runtime.InteropServices.DllImport(THIN_IOC_DLL_path)]
+    // static extern int thin_ioc_is_running ( ) ;
+    // 
+    // [System.Runtime.InteropServices.DllImport(THIN_IOC_DLL_path)]
+    // static extern void thin_ioc_set_is_running ( ) ;
+    // 
+    // [System.Runtime.InteropServices.DllImport(THIN_IOC_DLL_path)]
+    // static extern void thin_ioc_request_stop ( ) ;
+
+    // public static string ca_version ( )
+    // {
+    //   return System.Runtime.InteropServices.Marshal.PtrToStringAnsi(
+    //     ca_version()
+    //   )! ;
+    //   [System.Runtime.InteropServices.DllImport("ca")]
+    //   // https://epics.anl.gov/base/R3-15/9-docs/CAref.html#ca_version
+    //   static extern System.IntPtr ca_version ( ) ;
+    // }
 
   }
 
