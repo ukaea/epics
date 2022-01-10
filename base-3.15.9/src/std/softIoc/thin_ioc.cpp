@@ -34,7 +34,7 @@ static volatile int _is_running     = 1 ;
 static volatile int _stop_requested = 0 ;
 
 extern "C" __declspec(dllexport) 
-int thin_ioc_start (
+int thin_ioc_start_ex_old (
 	const DbDescriptor * dbDescriptors,
 	int                  nDbDescriptors,
 	const char *         pathToCmdFile
@@ -115,6 +115,139 @@ int thin_ioc_get_version ( )
 {
 	return 100 ;
 }
+
+static bool dbdHasBeenLoaded = 0 ;
+
+extern "C" __declspec(dllexport)
+int thin_ioc_load_db_file (
+	const char * dbFilePath,
+	const char * macros
+) {
+  if ( ! dbdHasBeenLoaded )
+	{
+		const char * base_dbd = DBD_FILE ;
+		if ( dbLoadDatabase(base_dbd, NULL, NULL) != 0 )
+		{
+			return -1 ;
+		}
+    dbdHasBeenLoaded = 1 ;
+		// Hmm, this code is generated from 'softIoc'
+		// CALLING IT IS NECESSARY, OTHERWISE NOTHING WORKS
+		if ( softIoc_registerRecordDeviceDriver(pdbbase) != 0 )
+		{
+			return -2 ;
+		}
+	}
+  if ( dbLoadRecords(dbFilePath,macros) != 0 )
+	{
+	  return -3 ;
+	}
+	return 0 ;
+}
+
+extern "C" __declspec(dllexport)
+int thin_ioc_start ( ) 
+{
+	return iocInit() ;
+}
+
+//
+// Hmm, calling 'iocshLoad' seems to start an infinite loop
+// on the current thread, which we don't return from ... ???
+// 
+
+// extern "C" __declspec(dllexport)
+// int thin_ioc_execute_command_file ( const char * pathToCmdFile, const char* macros )
+// {
+// 	return iocshLoad(pathToCmdFile,macros) ;
+// }
+// 
+// extern "C" __declspec(dllexport)
+// int thin_ioc_execute_command ( const char * command, const char * macros )
+// {
+// 	return iocshRun(command,macros) ;
+// }
+
+// Hmm, this seemed to work but maybe it's not a good idea
+// to try and support a 'command file' ... ???
+
+extern "C" __declspec(dllexport)
+int thin_ioc_start_ex (
+	const DbDescriptor * dbDescriptors,
+	int                  nDbDescriptors,
+	const char *         pathToCmdFile
+	// const char *         pathToDbdFile
+) {
+	// fprintf(epicsGetStdout(),"THIN_IOC STARTING\n") ;
+	// if ( pathToDbdFile == NULL )
+	// {
+	//   // Hmm, using 'base.dbd' here instead of 'softIoc.dbd'
+	// 	// seems to work, but that is probaby not a good idea
+	// 	// as we have to rely on calling 'softIoc_registerRecordDeviceDriver'
+	// 	// which has been auto-generated from 'softIoc.dbd' ...
+	//   // pathToDbdFile = EPICS_BASE "dbd\\base.dbd" ;
+	//   pathToDbdFile = EPICS_BASE "dbd\\softIoc.dbd" ;
+	// }
+	// Note that if we use 'base.dbd' instead of 'softIoc.dbd'
+	// it'll be necessary to specify the 'path' argument,
+	// otherwise the 'includes' won't be found ...
+	const char* path = (
+		NULL
+		// EPICS_BASE "dbd\\" 
+		);
+	const char* base_dbd = DBD_FILE;
+	if (dbLoadDatabase(base_dbd, path, NULL) != 0)
+	{
+		return -1;
+	}
+	// Hmm, this code is generated from 'softIoc'
+	// CALLING IT IS NECESSARY, OTHERWISE NOTHING WORKS
+	softIoc_registerRecordDeviceDriver(pdbbase);
+	for (int iDbDescriptor = 0; iDbDescriptor < nDbDescriptors; iDbDescriptor++)
+	{
+		const DbDescriptor& dbDescriptor = dbDescriptors[iDbDescriptor];
+		const char* dbFilePath = dbDescriptor.PathToDbFile;
+		const char* macros = dbDescriptor.Macros;
+		if (dbLoadRecords(dbFilePath, macros) != 0)
+		{
+			return iDbDescriptor + 1;
+		}
+	}
+	if ( iocInit() != 0 )
+	{
+		return -2;
+	}
+	// epicsThreadSleep(0.2) ;
+	if ( pathToCmdFile != NULL )
+	{
+		if ( iocsh(pathToCmdFile) )
+		{
+			// epicsExit(EXIT_FAILURE) ;
+			return -3 ;
+		}
+	}
+	// epicsThreadSleep(0.2) ;
+	return 0;
+
+	// int iSecs = 1 ;
+	// do
+	// {
+	//   epicsThreadSleep(1.0) ; 
+	//   fprintf(epicsGetStdout(),"THIN_IOC Running %d\n",iSecs++) ;
+	// }
+	// while ( 
+	//   _stop_requested == 0
+	// ) ;
+	// fprintf(epicsGetStdout(),"THIN_IOC STOPPING\n") ;
+	// epicsExitCallAtExits() ;
+	// epicsThreadSleep(0.1) ;
+	// // Hmm, this KILLS THE ENTIRE PROCESS !!!
+	// // epicsExit(EXIT_SUCCESS) ;
+	// _is_running = 0 ;
+	// fprintf(epicsGetStdout(),"THIN_IOC RETURNING\n") ;
+	// return 0 ;
+}
+
 
 // extern "C" __declspec(dllexport)
 // int thin_ioc_is_running()

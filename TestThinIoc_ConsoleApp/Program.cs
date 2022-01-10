@@ -129,9 +129,12 @@ namespace TestThinIoc_ConsoleApp
         System.Threading.Tasks.Task.Run(
           () => {
             System.Console.WriteLine("ThinIoc thread is starting") ;
-            int x = thin_ioc_start(
-              dbDescriptors,
-              dbDescriptors.Length
+            int x = thin_ioc_load_db_file(
+              "C:\\tmp\\xx.db"
+            ) ;
+            x = thin_ioc_start(
+              //dbDescriptors,
+              //dbDescriptors.Length
               // "pathToCmdFile",
               // "pathToDbdFile"
             ) ;
@@ -202,6 +205,14 @@ namespace TestThinIoc_ConsoleApp
     [System.Runtime.InteropServices.DllImport(THIN_IOC_DLL_path)]
     static extern short thin_ioc_get_version ( ) ;
 
+    [System.Runtime.InteropServices.DllImport(THIN_IOC_DLL_path)]
+    static extern short thin_ioc_load_db_file ( 
+      [In] [MarshalAs(UnmanagedType.LPStr)] string pathTodbFile 
+    ) ;
+
+    [System.Runtime.InteropServices.DllImport(THIN_IOC_DLL_path)]
+    static extern short thin_ioc_start ( ) ;
+
     struct DbDescriptor 
     {
       [MarshalAs(UnmanagedType.LPStr)] public string  PathToDbFile ;
@@ -216,7 +227,7 @@ namespace TestThinIoc_ConsoleApp
     }
 
     [System.Runtime.InteropServices.DllImport(THIN_IOC_DLL_path)]
-    static extern int thin_ioc_start ( 
+    static extern int thin_ioc_start_ex ( 
       [In] DbDescriptor[]                           dbDescriptors,
       [In] int                                      nDbDescriptors,
       [In] [MarshalAs(UnmanagedType.LPStr)] string? pathToCmdFile   = null
