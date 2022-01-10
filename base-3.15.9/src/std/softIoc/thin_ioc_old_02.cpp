@@ -2,29 +2,34 @@
 // thin_ioc.cpp
 //
 
+#if 0
+
 #include <stddef.h>
 #include <stdlib.h>
 #include <stddef.h>
 #include <string.h>
 #include <stdio.h>
 
+//#include "registryFunction.h"
 #include "epicsThread.h"
 #include "epicsExit.h"
 #include "epicsStdio.h"
 #include "dbStaticLib.h"
+//#include "subRecord.h"
 #include "dbAccess.h"
+//#include "asDbLib.h"
 #include "iocInit.h"
 #include "iocsh.h"
 #include "epicsInstallDir.h"
 
-extern "C" int softIoc_registerRecordDeviceDriver ( struct dbBase * pdbbase ) ;
+extern "C" int softIoc_registerRecordDeviceDriver(struct dbBase *pdbbase) ;
 
 #define DBD_FILE EPICS_BASE "dbd\\softIoc.dbd"
 
 struct DbDescriptor 
 {
-  const char * PathToDbFile ;
-  const char * Macros ;
+  char * PathToDbFile ;
+  char * Macros ;
 } ;
 
 // Cheap and cheerful flags that will be accessed by the C# thread
@@ -35,10 +40,10 @@ static volatile int _stop_requested = 0 ;
 
 extern "C" __declspec(dllexport) 
 int thin_ioc_start(
-	const DbDescriptor * dbDescriptors,
-	int                  nDbDescriptors,
-	const char *         pathToCmdFile,
-	const char *         pathToDbdFile
+	DbDescriptor * dbDescriptors,
+	int            nDbDescriptors,
+	char *         pathToCmdFile,
+	char *         pathToDbdFile
 ) {
 	fprintf(epicsGetStdout(),"THIN_IOC STARTING\n") ;
 	if ( pathToDbdFile == NULL )
@@ -106,9 +111,10 @@ int thin_ioc_start(
 }
 
 extern "C" __declspec(dllexport)
-int thin_ioc_get_version ( )
+void thin_ioc_call_atExits ( )
 {
-	return 100 ;
+	epicsExitCallAtExits() ;
+	// epicsThreadSleep(0.1) ;
 }
 
 extern "C" __declspec(dllexport)
@@ -129,10 +135,5 @@ void thin_ioc_request_stop ( )
 	_stop_requested = 1 ;
 }
 
-extern "C" __declspec(dllexport)
-void thin_ioc_call_atExits ( )
-{
-	epicsExitCallAtExits() ;
-	// epicsThreadSleep(0.1) ;
-}
+#endif
 

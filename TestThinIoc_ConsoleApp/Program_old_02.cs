@@ -2,6 +2,8 @@
 // Program.cs
 //
 
+#if false
+
 using System.Runtime.InteropServices;
 
 namespace TestThinIoc_ConsoleApp
@@ -100,15 +102,14 @@ namespace TestThinIoc_ConsoleApp
 
       // If the function fails, the return value is zero.
       // To get extended error information, call GetLastError.
-      bool ok = SetDllDirectory("C:\\Users\\steve\\source\\repos\\epics.dotnet\\x64\\Debug_DLL") ;
+      bool ok = SetDllDirectory("C:\\Users\\steve\\source\\repos\\epics.dotnet\\x64\\Release_DLL") ;
 
       {
         // Just testing that we can invoke DLL functions
-        int thin_ioc_version = thin_ioc_get_version() ;
         int x = thin_ioc_func() ;
         int sum = thin_ioc_add(1,2) ;
         int product = thin_ioc_mul(2,3) ;
-        string caVersion = ca_version() ;
+        string version = ca_version() ;
       }
 
       // Hmm, we can really only invoke 'thin_ioc_start' once,
@@ -172,9 +173,6 @@ namespace TestThinIoc_ConsoleApp
     [System.Runtime.InteropServices.DllImport(THIN_IOC_DLL_path)]
     static extern short thin_ioc_func ( ) ;
 
-    [System.Runtime.InteropServices.DllImport(THIN_IOC_DLL_path)]
-    static extern short thin_ioc_get_version ( ) ;
-
     struct DbDescriptor 
     {
       [MarshalAs(UnmanagedType.LPStr)] public string  PathToDbFile ;
@@ -221,3 +219,5 @@ namespace TestThinIoc_ConsoleApp
   }
 
 }
+
+#endif

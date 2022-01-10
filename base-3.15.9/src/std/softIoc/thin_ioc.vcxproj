@@ -43,6 +43,7 @@
     <ClCompile Include="thin_ioc.cpp" />
     <ClCompile Include="thin_ioc_exports.cpp" />
     <ClCompile Include="thin_ioc_old_01.cpp" />
+    <ClCompile Include="thin_ioc_old_02.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ca\client\ca.vcxproj">
