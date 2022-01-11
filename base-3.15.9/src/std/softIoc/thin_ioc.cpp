@@ -118,37 +118,57 @@ int thin_ioc_get_version ( )
 
 static bool dbdHasBeenLoaded = 0 ;
 
+// Returns 0 if sucessful, otherwise an error code.
+
+const int THIN_IOC_SUCCESS                        = 0 ;
+const int THIN_IOC_FAILED_TO_LOAD_DBD_FILE        = 1 ;
+const int THIN_IOC_FAILED_TO_REGISTER_DRIVER      = 2 ;
+const int THIN_IOC_FAILED_TO_LOAD_DB_FILE         = 3 ;
+const int THIN_IOC_DBD_NOT_LOADED                 = 4 ;
+const int THIN_IOC_INIT_FAILED                    = 5 ;
+
 extern "C" __declspec(dllexport)
 int thin_ioc_load_db_file (
 	const char * dbFilePath,
 	const char * macros
 ) {
+  // If this is the first time we've been called,
+	// it's necessary to load the 'dbd' database that
+	// defines all the 'record' types
   if ( ! dbdHasBeenLoaded )
 	{
 		const char * base_dbd = DBD_FILE ;
-		if ( dbLoadDatabase(base_dbd, NULL, NULL) != 0 )
+		if ( dbLoadDatabase(base_dbd,NULL,NULL) != 0 )
 		{
-			return -1 ;
+			return THIN_IOC_FAILED_TO_LOAD_DBD_FILE ;
 		}
-    dbdHasBeenLoaded = 1 ;
-		// Hmm, this code is generated from 'softIoc'
+		// The code for this function has been generated from 'softIoc'
 		// CALLING IT IS NECESSARY, OTHERWISE NOTHING WORKS
 		if ( softIoc_registerRecordDeviceDriver(pdbbase) != 0 )
 		{
-			return -2 ;
+			return THIN_IOC_FAILED_TO_REGISTER_DRIVER ;
 		}
+    dbdHasBeenLoaded = 1 ;
 	}
   if ( dbLoadRecords(dbFilePath,macros) != 0 )
 	{
-	  return -3 ;
+	  return THIN_IOC_FAILED_TO_LOAD_DB_FILE ;
 	}
-	return 0 ;
+	return THIN_IOC_SUCCESS ;
 }
 
 extern "C" __declspec(dllexport)
 int thin_ioc_start ( ) 
 {
-	return iocInit() ;
+  if ( ! dbdHasBeenLoaded )
+	{
+	  return THIN_IOC_DBD_NOT_LOADED ;
+	}
+	if ( iocInit() != 0 )
+	{
+	  return THIN_IOC_INIT_FAILED ;
+	}
+	return THIN_IOC_SUCCESS ;
 }
 
 //
@@ -182,9 +202,9 @@ int thin_ioc_start_ex (
 	// if ( pathToDbdFile == NULL )
 	// {
 	//   // Hmm, using 'base.dbd' here instead of 'softIoc.dbd'
-	// 	// seems to work, but that is probaby not a good idea
-	// 	// as we have to rely on calling 'softIoc_registerRecordDeviceDriver'
-	// 	// which has been auto-generated from 'softIoc.dbd' ...
+	// 	 // seems to work, but that is probaby not a good idea
+	// 	 // as we have to rely on calling 'softIoc_registerRecordDeviceDriver'
+	// 	 // which has been auto-generated from 'softIoc.dbd' ...
 	//   // pathToDbdFile = EPICS_BASE "dbd\\base.dbd" ;
 	//   pathToDbdFile = EPICS_BASE "dbd\\softIoc.dbd" ;
 	// }
@@ -203,7 +223,7 @@ int thin_ioc_start_ex (
 	// Hmm, this code is generated from 'softIoc'
 	// CALLING IT IS NECESSARY, OTHERWISE NOTHING WORKS
 	softIoc_registerRecordDeviceDriver(pdbbase);
-	for (int iDbDescriptor = 0; iDbDescriptor < nDbDescriptors; iDbDescriptor++)
+	for ( int iDbDescriptor = 0; iDbDescriptor < nDbDescriptors; iDbDescriptor++)
 	{
 		const DbDescriptor& dbDescriptor = dbDescriptors[iDbDescriptor];
 		const char* dbFilePath = dbDescriptor.PathToDbFile;
