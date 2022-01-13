@@ -1,6 +1,8 @@
 ﻿//
-// Program.cs
+// Program_old_03.cs
 //
+
+#if false
 
 using System.Runtime.InteropServices;
 
@@ -27,7 +29,6 @@ namespace TestThinIoc_ConsoleApp
   // standard place (eg x64/Debug_DLL) that they have been built to.
   //
 
-  //
   // To enable single-stepping into the DLL code :
   // - copy the .pdb file alongside the .dll
   //   [ note that this doesn't have to be copied to the output directory ]
@@ -101,10 +102,7 @@ namespace TestThinIoc_ConsoleApp
 
       // If the function fails, the return value is zero.
       // To get extended error information, call GetLastError.
-      bool ok = SetDllDirectory(
-        "C:\\Users\\steve\\source\\repos\\epics.dotnet\\x64\\Release_DLL"
-        // "C:\\Users\\steve\\source\\repos\\epics.dotnet\\x64\\Debug_DLL"
-      ) ;
+      bool ok = SetDllDirectory("C:\\Users\\steve\\source\\repos\\epics.dotnet\\x64\\Debug_DLL") ;
 
       int thin_ioc_version = thin_ioc_get_version() ;
 
@@ -118,42 +116,52 @@ namespace TestThinIoc_ConsoleApp
 
       // Hmm, we can really only invoke 'thin_ioc_start' once,
       // because it allocates lots of memory etc for the db's and so on,
-      // which don't get released unless you make a complicated sequence
-      // of API calls.
+      // whch don't get released unless you call a complicated sequence.
 
+      // bool enabled = true ;
       System.Threading.ManualResetEvent stopThinIoc_event = new(false) ;
 
-      var task_ignored = System.Threading.Tasks.Task.Run(
-        () => {
-          System.Console.WriteLine("ThinIoc thread is starting") ;
-          ApiCallResult result = thin_ioc_load_db_file(
-            "C:\\tmp\\xx.db"
-          ) ;
-          if ( result != ApiCallResult.SUCCESS )
-          {
-            System.Console.WriteLine($"thin_ioc_start failed : {result}") ;
-            return ;
-          }
-          result = thin_ioc_start() ;
-          if ( result is ApiCallResult.SUCCESS )
-          {
-            System.Console.WriteLine($"thin_ioc_start succeeded") ;
+      {
+        var dbDescriptors = new DbDescriptor[]{
+          new DbDescriptor("C:\\tmp\\xx.db"),
+          //new DbDescriptor("db_B","macros_for_B"),
+          //new DbDescriptor("db_C")
+        } ;
+        // thin_ioc_set_is_running() ;
+        System.Threading.Tasks.Task.Run(
+          () => {
+            System.Console.WriteLine("ThinIoc thread is starting") ;
+            int x = thin_ioc_load_db_file(
+              "C:\\tmp\\xx.db"
+            ) ;
+            x = thin_ioc_start(
+              //dbDescriptors,
+              //dbDescriptors.Length
+              // "pathToCmdFile",
+              // "pathToDbdFile"
+            ) ;
+            if ( x != 0 )
+            {
+              System.Console.WriteLine($"thin_ioc_start failed : {x}") ;
+              System.Console.WriteLine("Waiting for ENTER ...") ;
+              System.Console.ReadLine() ;
+              return ;
+            }
             System.Console.WriteLine("Waiting for 'stopThinIoc_event'") ;
             stopThinIoc_event.WaitOne() ;
             System.Console.WriteLine("'stopThinIoc_event' has been signalled") ;
+            // while ( enabled )
+            // {
+            //   System.Threading.Thread.Sleep(1000) ;
+            // }
+            // System.Console.WriteLine("Enabled is false ; calling 'atExits'") ;
             thin_ioc_call_atExits() ;
             System.Console.WriteLine("ThinIoc thread is terminating") ;
           }
-          else
-          {
-            System.Console.WriteLine($"thin_ioc_start failed : {result}") ;
-            System.Console.WriteLine("Waiting for ENTER ...") ;
-            System.Console.ReadLine() ;
-            return ;
-          }
-        }
-      ) ;
+        ) ;
+      }
 
+      // while ( enabled )
       while ( true )
       {
         System.Console.WriteLine("Enter 'x' to disable ...") ;
@@ -163,6 +171,8 @@ namespace TestThinIoc_ConsoleApp
           System.Console.WriteLine("Signalling 'stopThinIoc_event") ;
           stopThinIoc_event.Set() ;
           break ;
+          // enabled = false ;
+          // thin_ioc_request_stop() ;
         }
       }
       System.Console.WriteLine("Waiting for ENTER ...") ;
@@ -173,36 +183,83 @@ namespace TestThinIoc_ConsoleApp
     // In VS2022 command prompt :
     // > dumpbin /EXPORTS mydll.dll
 
-    private const string THIN_IOC_DLL_path = "thin_ioc" ;
+    private const string THIN_IOC_DLL_path = (
+      // @"C:\Users\steve\source\repos\epics.dotnet\x64\thin_ioc" 
+      "thin_ioc" 
+    ) ;
 
     [System.Runtime.InteropServices.DllImport("Kernel32")]
     // https://docs.microsoft.com/en-gb/windows/win32/api/winbase/nf-winbase-setdlldirectorya
     static extern bool SetDllDirectory ( [In] [Optional] [MarshalAs(UnmanagedType.LPStr)] string? pathToSearch ) ;
 
-    public enum ApiCallResult : short {
-      SUCCESS                   = 0,
-      FAILED_TO_LOAD_DBD_FILE   = 1,
-      FAILED_TO_REGISTER_DRIVER = 2,
-      FAILED_TO_LOAD_DB_FILE    = 3,
-      DBD_NOT_LOADED            = 4,
-      INIT_FAILED               = 5,
-    }
+    [System.Runtime.InteropServices.DllImport(THIN_IOC_DLL_path)]
+    static extern short thin_ioc_add ( short a, short b ) ;
+
+    [System.Runtime.InteropServices.DllImport(THIN_IOC_DLL_path)]
+    static extern short thin_ioc_mul ( short a, short b ) ;
+
+    [System.Runtime.InteropServices.DllImport(THIN_IOC_DLL_path)]
+    static extern short thin_ioc_div ( short a, short b ) ;
+
+    [System.Runtime.InteropServices.DllImport(THIN_IOC_DLL_path)]
+    static extern short thin_ioc_func ( ) ;
 
     [System.Runtime.InteropServices.DllImport(THIN_IOC_DLL_path)]
     static extern short thin_ioc_get_version ( ) ;
 
     [System.Runtime.InteropServices.DllImport(THIN_IOC_DLL_path)]
-    static extern ApiCallResult thin_ioc_load_db_file ( 
-      [In] [MarshalAs(UnmanagedType.LPStr)] string  pathTodbFile, 
-      [In] [MarshalAs(UnmanagedType.LPStr)] string? macros = null
+    static extern short thin_ioc_load_db_file ( 
+      [In] [MarshalAs(UnmanagedType.LPStr)] string pathTodbFile 
     ) ;
 
     [System.Runtime.InteropServices.DllImport(THIN_IOC_DLL_path)]
-    static extern ApiCallResult thin_ioc_start ( ) ;
+    static extern short thin_ioc_start ( ) ;
+
+    struct DbDescriptor 
+    {
+      [MarshalAs(UnmanagedType.LPStr)] public string  PathToDbFile ;
+      [MarshalAs(UnmanagedType.LPStr)] public string? Macros ;
+      public DbDescriptor (
+        string  pathToDbFile,
+        string? macros = null
+      ) {
+        PathToDbFile = pathToDbFile ;
+        Macros       = macros ; 
+      }
+    }
+
+    [System.Runtime.InteropServices.DllImport(THIN_IOC_DLL_path)]
+    static extern int thin_ioc_start_ex ( 
+      [In] DbDescriptor[]                           dbDescriptors,
+      [In] int                                      nDbDescriptors,
+      [In] [MarshalAs(UnmanagedType.LPStr)] string? pathToCmdFile   = null
+      // [In] [MarshalAs(UnmanagedType.LPStr)] string? pathToDbdFile   = null
+    ) ;
 
     [System.Runtime.InteropServices.DllImport(THIN_IOC_DLL_path)]
     static extern void thin_ioc_call_atExits ( ) ;
 
+    // [System.Runtime.InteropServices.DllImport(THIN_IOC_DLL_path)]
+    // static extern int thin_ioc_is_running ( ) ;
+    // 
+    // [System.Runtime.InteropServices.DllImport(THIN_IOC_DLL_path)]
+    // static extern void thin_ioc_set_is_running ( ) ;
+    // 
+    // [System.Runtime.InteropServices.DllImport(THIN_IOC_DLL_path)]
+    // static extern void thin_ioc_request_stop ( ) ;
+
+    // public static string ca_version ( )
+    // {
+    //   return System.Runtime.InteropServices.Marshal.PtrToStringAnsi(
+    //     ca_version()
+    //   )! ;
+    //   [System.Runtime.InteropServices.DllImport("ca")]
+    //   // https://epics.anl.gov/base/R3-15/9-docs/CAref.html#ca_version
+    //   static extern System.IntPtr ca_version ( ) ;
+    // }
+
   }
 
 }
+
+#endif
