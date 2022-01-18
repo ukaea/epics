@@ -16,6 +16,7 @@
 #include "iocInit.h"
 #include "iocsh.h"
 #include "epicsInstallDir.h"
+#include "envDefs.h"
 
 extern "C" int softIoc_registerRecordDeviceDriver ( struct dbBase * pdbbase ) ;
 
@@ -24,7 +25,7 @@ extern "C" int softIoc_registerRecordDeviceDriver ( struct dbBase * pdbbase ) ;
 extern "C" __declspec(dllexport)
 int thin_ioc_get_version ( )
 {
-	return 100 ; 
+	return 102 ; 
 }
 
 static bool dbdHasBeenLoaded = 0 ;
@@ -32,34 +33,65 @@ static bool dbdHasBeenLoaded = 0 ;
 // Returns 0 if sucessful, otherwise an error code.
 
 const int THIN_IOC_SUCCESS                        = 0 ;
-const int THIN_IOC_FAILED_TO_LOAD_DBD_FILE        = 1 ;
-const int THIN_IOC_FAILED_TO_REGISTER_DRIVER      = 2 ;
-const int THIN_IOC_FAILED_TO_LOAD_DB_FILE         = 3 ;
-const int THIN_IOC_DBD_NOT_LOADED                 = 4 ;
-const int THIN_IOC_INIT_FAILED                    = 5 ;
+const int THIN_ALREADY_INITIALISED                = 1 ;
+const int THIN_IOC_FAILED_TO_LOAD_DBD_FILE        = 2 ;
+const int THIN_IOC_FAILED_TO_REGISTER_DRIVER      = 3 ;
+const int THIN_IOC_NOT_INITIALISED                = 4 ;
+const int THIN_IOC_FAILED_TO_LOAD_DB_FILE         = 5 ;
+const int THIN_IOC_DBD_NOT_LOADED                 = 6 ;
+const int THIN_IOC_START_FAILED                   = 7 ;
+
+extern "C" __declspec(dllexport)
+void thin_ioc_set_env ( 
+  const char * name,
+	const char * value
+) {
+  epicsEnvSet(name,value) ;
+}
+
+extern "C" __declspec(dllexport)
+const char * thin_ioc_get_env ( 
+  const char * name
+) {
+  return getenv(name) ;
+}
+
+extern "C" __declspec(dllexport)
+int thin_ioc_initialise ( ) 
+{
+  if ( dbdHasBeenLoaded )
+	{
+	  return THIN_ALREADY_INITIALISED ;
+	}
+	// Load the 'dbd' database that defines 
+	// the supported 'record' types
+	const char * base_dbd = DBD_FILE ;
+	if ( dbLoadDatabase(base_dbd,NULL,NULL) != 0 )
+	{
+		return THIN_IOC_FAILED_TO_LOAD_DBD_FILE ;
+	}
+	// The code for this function has been generated from 'softIoc'
+	// CALLING IT IS NECESSARY, OTHERWISE NOTHING WORKS
+	if ( softIoc_registerRecordDeviceDriver(pdbbase) != 0 )
+	{
+		return THIN_IOC_FAILED_TO_REGISTER_DRIVER ;
+	}
+  dbdHasBeenLoaded = 1 ;
+	return THIN_IOC_SUCCESS ;
+}
 
 extern "C" __declspec(dllexport)
 int thin_ioc_load_db_file (
 	const char * dbFilePath,
 	const char * macros
 ) {
-  // If this is the first time we've been called,
-	// it's necessary to load the 'dbd' database that
-	// defines all the 'record' types
   if ( ! dbdHasBeenLoaded )
 	{
-		const char * base_dbd = DBD_FILE ;
-		if ( dbLoadDatabase(base_dbd,NULL,NULL) != 0 )
+	  int init_result = thin_ioc_initialise() ;
+		if ( init_result != THIN_IOC_SUCCESS )
 		{
-			return THIN_IOC_FAILED_TO_LOAD_DBD_FILE ;
+		  return init_result ;
 		}
-		// The code for this function has been generated from 'softIoc'
-		// CALLING IT IS NECESSARY, OTHERWISE NOTHING WORKS
-		if ( softIoc_registerRecordDeviceDriver(pdbbase) != 0 )
-		{
-			return THIN_IOC_FAILED_TO_REGISTER_DRIVER ;
-		}
-    dbdHasBeenLoaded = 1 ;
 	}
   if ( dbLoadRecords(dbFilePath,macros) != 0 )
 	{
@@ -77,7 +109,7 @@ int thin_ioc_start ( )
 	}
 	if ( iocInit() != 0 )
 	{
-	  return THIN_IOC_INIT_FAILED ;
+	  return THIN_IOC_START_FAILED ;
 	}
 	return THIN_IOC_SUCCESS ;
 }

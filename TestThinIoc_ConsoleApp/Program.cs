@@ -21,7 +21,7 @@ namespace TestThinIoc_ConsoleApp
   //   dbCore.dll
   //   dbRecStd.dll
   //
-  // ALTERNATIVELY (and much more conventiently) call 
+  // ALTERNATIVELY (and much more conveniently) call 
   //   SetDllDirectory
   // to configure the P/Invoke search path to look for DLL's in the
   // standard place (eg x64/Debug_DLL) that they have been built to.
