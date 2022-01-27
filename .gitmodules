@@ -9,9 +9,9 @@
 	url = https://git.ccfe.ac.uk/DATAnet/tspd-adq
 	ignore = untracked
 	branch=master
-[submodule "support/nds3_epics"]
-	path = support/nds3_epics
-	url = https://git.ccfe.ac.uk/DATAnet/nds3_epics
+[submodule "support/nds-epics"]
+	path = support/nds-epics
+	url = https://git.ccfe.ac.uk/DATAnet/nds-epics
 	ignore = untracked
 	branch=master
 [submodule "epics-tessella-training"]
