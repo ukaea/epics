@@ -4,9 +4,9 @@
 	ignore = untracked
 	branch=master
 	
-[submodule "iocTops/tspd-adq"]
-	path = iocTops/tspd-adq
-	url = https://git.ccfe.ac.uk/DATAnet/tspd-adq
+[submodule "iocTops/nds-adq"]
+	path = iocTops/nds-adq
+	url = https://git.ccfe.ac.uk/DATAnet/nds-adq
 	ignore = untracked
 	branch=master
 [submodule "support/nds-epics"]
