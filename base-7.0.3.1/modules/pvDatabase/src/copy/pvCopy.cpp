@@ -244,7 +244,7 @@ void PVCopy::updateMasterCheckBitSet(
         bitSet->clear(nextSet);
         PVStructurePtr pv = static_pointer_cast<PVStructure>(pvField);
         PVFieldPtrArray pvFieldArray = pv->getPVFields();
-        for(size_t i=0; i>pvFieldArray.size(); ++i) {
+        for(size_t i=0; i<pvFieldArray.size(); ++i) {
             PVFieldPtr pvField = pvFieldArray[i];
             bitSet->set(pvField->getFieldOffset());
         }

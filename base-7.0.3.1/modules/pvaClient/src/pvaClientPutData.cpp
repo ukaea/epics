@@ -74,34 +74,12 @@ PvaClientPutData::PvaClientPutData(StructureConstPtr const & structure)
 void PvaClientPutData::putDouble(double value)
 {
     if(PvaClient::getDebug()) cout << "PvaClientPutData::putDouble\n";
-    PVScalarPtr pvScalar;
-    PVStructurePtr pvStructure = getPVStructure();
-    PVFieldPtr pvValue  = pvStructure->getSubField("value");
-    if(pvValue) {
-        Type type = pvValue->getField()->getType();
-        if(type==scalar) pvScalar = static_pointer_cast<PVScalar>(pvValue);
+    PVFieldPtr pvField = getSinglePVField();
+    Type type = pvField->getField()->getType();
+    if(type!=scalar) {
+        throw std::logic_error("PvaClientData::putDouble() did not find a scalar field");
     }
-    if(!pvScalar) {
-        while(true) {
-             const PVFieldPtrArray fieldPtrArray(pvStructure->getPVFields());
-             if(fieldPtrArray.size()!=1) {
-                  throw std::logic_error(
-                      "PvaClientData::putDouble() pvRequest for multiple fields");
-             }
-             PVFieldPtr pvField(fieldPtrArray[0]);
-             Type type = pvField->getField()->getType();
-             if(type==scalar) {
-                 pvScalar = static_pointer_cast<PVScalar>(pvField);
-                 break;
-             }
-             if(pvField->getField()->getType()!=epics::pvData::structure) break;
-             pvStructure = static_pointer_cast<PVStructure>(pvField);
-        }
-    }
-    if(!pvScalar) {
-        throw std::logic_error(
-            "PvaClientData::putDouble() did not find a scalar field");
-    }
+    PVScalarPtr pvScalar = static_pointer_cast<PVScalar>(pvField);
     ScalarType scalarType = pvScalar->getScalar()->getScalarType();
     if(scalarType==pvDouble) {
         PVDoublePtr pvDouble = static_pointer_cast<PVDouble>(pvScalar);
@@ -118,70 +96,24 @@ void PvaClientPutData::putDouble(double value)
 void PvaClientPutData::putString(std::string const & value)
 {
     if(PvaClient::getDebug()) cout << "PvaClientPutData::putString\n";
-    PVScalarPtr pvScalar;
-    PVStructurePtr pvStructure = getPVStructure();
-    PVFieldPtr pvValue  = pvStructure->getSubField("value");
-    if(pvValue) {
-        Type type = pvValue->getField()->getType();
-        if(type==scalar) pvScalar = static_pointer_cast<PVScalar>(pvValue);
+    PVFieldPtr pvField = getSinglePVField();
+    Type type = pvField->getField()->getType();
+    if(type!=scalar) {
+        throw std::logic_error("PvaClientData::putString() did not find a scalar field");
     }
-    if(!pvScalar) {
-        while(true) {
-             const PVFieldPtrArray fieldPtrArray(pvStructure->getPVFields());
-             if(fieldPtrArray.size()!=1) {
-                  throw std::logic_error(
-                      "PvaClientData::putString() pvRequest for multiple fields");
-             }
-             PVFieldPtr pvField(fieldPtrArray[0]);
-             Type type = pvField->getField()->getType();
-             if(type==scalar) {
-                 pvScalar = static_pointer_cast<PVScalar>(pvField);
-                 break;
-             }
-             if(pvField->getField()->getType()!=epics::pvData::structure) break;
-             pvStructure = static_pointer_cast<PVStructure>(pvField);
-        }
-    }
-    if(!pvScalar) {
-        throw std::logic_error(
-            "PvaClientData::putString() did not find a scalar field");
-    }
+    PVScalarPtr pvScalar = static_pointer_cast<PVScalar>(pvField);
     convert->fromString(pvScalar,value);
 }
 
 void PvaClientPutData::putDoubleArray(shared_vector<const double> const & value)
 {
     if(PvaClient::getDebug()) cout << "PvaClientPutData::putDoubleArray\n";
-    PVScalarArrayPtr pvScalarArray;
-    PVStructurePtr pvStructure = getPVStructure();
-    PVFieldPtr pvValue  = pvStructure->getSubField("value");
-    if(pvValue) {
-        Type type = pvValue->getField()->getType();
-        if(type==scalarArray) {
-             pvScalarArray = static_pointer_cast<PVScalarArray>(pvValue);
-        }
+    PVFieldPtr pvField = getSinglePVField();
+    Type type = pvField->getField()->getType();
+    if(type!=scalarArray) {
+        throw std::logic_error("PvaClientData::putDoubleArray() did not find a scalarArray field");
     }
-    if(!pvScalarArray) {
-        while(true) {
-             const PVFieldPtrArray fieldPtrArray(pvStructure->getPVFields());
-             if(fieldPtrArray.size()!=1) {
-                  throw std::logic_error(
-                      "PvaClientData::putDoubleArray() pvRequest for multiple fields");
-             }
-             PVFieldPtr pvField(fieldPtrArray[0]);
-             Type type = pvField->getField()->getType();
-             if(type==scalarArray) {
-                 PVScalarArrayPtr pvScalarArray = static_pointer_cast<PVScalarArray>(pvField);
-                 break;
-             }
-             if(pvField->getField()->getType()!=epics::pvData::structure) break;
-             pvStructure = static_pointer_cast<PVStructure>(pvField);
-        }
-    }
-    if(!pvScalarArray) {
-        throw std::logic_error(
-            "PvaClientData::putDoubleArray() did not find a scalarArray field");
-    }
+    PVScalarArrayPtr pvScalarArray = static_pointer_cast<PVScalarArray>(pvField);
     ScalarType scalarType = pvScalarArray->getScalarArray()->getElementType();
     if(!ScalarTypeFunc::isNumeric(scalarType)) {
         throw std::logic_error(
@@ -193,36 +125,12 @@ void PvaClientPutData::putDoubleArray(shared_vector<const double> const & value)
 void PvaClientPutData::putStringArray(shared_vector<const std::string> const & value)
 {
     if(PvaClient::getDebug()) cout << "PvaClientPutData::putStringArray\n";
-    PVScalarArrayPtr pvScalarArray;
-    PVStructurePtr pvStructure = getPVStructure();
-    PVFieldPtr pvValue  = pvStructure->getSubField("value");
-    if(pvValue) {
-       Type type = pvValue->getField()->getType();
-        if(type==scalarArray) {
-             pvScalarArray = static_pointer_cast<PVScalarArray>(pvValue);
-        }
+    PVFieldPtr pvField = getSinglePVField();
+    Type type = pvField->getField()->getType();
+    if(type!=scalarArray) {
+        throw std::logic_error("PvaClientData::putStringArray() did not find a scalarArray field");
     }
-    if(!pvScalarArray) {
-        while(true) {
-             const PVFieldPtrArray fieldPtrArray(pvStructure->getPVFields());
-             if(fieldPtrArray.size()!=1) {
-                  throw std::logic_error(
-                      "PvaClientData::putStringArray() pvRequest for multiple fields");
-             }
-             PVFieldPtr pvField(fieldPtrArray[0]);
-             Type type = pvField->getField()->getType();
-             if(type==scalarArray) {
-                 pvScalarArray = static_pointer_cast<PVScalarArray>(pvField);
-                 break;
-             }
-             if(pvField->getField()->getType()!=epics::pvData::structure) break;
-             pvStructure = static_pointer_cast<PVStructure>(pvField);
-        }
-    }
-    if(!pvScalarArray) {
-        throw std::logic_error(
-            "PvaClientData::putStringArray() did not find a scalarArray field");
-    }
+    PVScalarArrayPtr pvScalarArray = static_pointer_cast<PVScalarArray>(pvField);
     pvScalarArray->putFrom<const string>(value);
     return;
 }

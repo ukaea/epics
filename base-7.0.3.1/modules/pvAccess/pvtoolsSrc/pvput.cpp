@@ -240,12 +240,17 @@ int main (int argc, char *argv[])
                 break;
             case 'V':               /* Print version */
             {
-                pva::Version version("pvput", "cpp",
-                                     EPICS_PVA_MAJOR_VERSION,
-                                     EPICS_PVA_MINOR_VERSION,
-                                     EPICS_PVA_MAINTENANCE_VERSION,
-                                     EPICS_PVA_DEVELOPMENT_FLAG);
-                fprintf(stdout, "%s\n", version.getVersionString().c_str());
+                fprintf(stdout, "pvAccess %u.%u.%u%s\n",
+                        EPICS_PVA_MAJOR_VERSION,
+                        EPICS_PVA_MINOR_VERSION,
+                        EPICS_PVA_MAINTENANCE_VERSION,
+                        (EPICS_PVA_DEVELOPMENT_FLAG)?"-SNAPSHOT":"");
+                fprintf(stdout, "pvData %u.%u.%u%s\n",
+                        EPICS_PVD_MAJOR_VERSION,
+                        EPICS_PVD_MINOR_VERSION,
+                        EPICS_PVD_MAINTENANCE_VERSION,
+                        (EPICS_PVD_DEVELOPMENT_FLAG)?"-SNAPSHOT":"");
+                fprintf(stdout, "Base %s\n", EPICS_VERSION_FULL);
                 return 0;
             }
             case 'M':
@@ -341,18 +346,9 @@ int main (int argc, char *argv[])
             size_t sep = values[i].find_first_of('=');
             if(sep==std::string::npos) {
                 thework.bare.push_back(values[i]);
-                if(!thework.bare.back().empty() && thework.bare.back()[0]=='{') {
-                    fprintf(stderr, "JSON syntax not supported by this build.\n");
-                    return 1;
-                }
             } else {
                 thework.pairs.push_back(std::make_pair(values[i].substr(0, sep),
                                                        values[i].substr(sep+1)));
-
-                if(!thework.pairs.back().second.empty() && thework.pairs.back().second[0]=='{') {
-                    fprintf(stderr, "JSON syntax not supported by this build.\n");
-                    return 1;
-                }
             }
         }
 

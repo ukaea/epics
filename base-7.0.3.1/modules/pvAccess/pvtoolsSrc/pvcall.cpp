@@ -93,12 +93,17 @@ int MAIN (int argc, char *argv[])
                 break;
             case 'V':               /* Print version */
             {
-                pva::Version version(EXECNAME, "cpp",
-                                     EPICS_PVA_MAJOR_VERSION,
-                                     EPICS_PVA_MINOR_VERSION,
-                                     EPICS_PVA_MAINTENANCE_VERSION,
-                                     EPICS_PVA_DEVELOPMENT_FLAG);
-                fprintf(stdout, "%s\n", version.getVersionString().c_str());
+                fprintf(stdout, "pvAccess %u.%u.%u%s\n",
+                        EPICS_PVA_MAJOR_VERSION,
+                        EPICS_PVA_MINOR_VERSION,
+                        EPICS_PVA_MAINTENANCE_VERSION,
+                        (EPICS_PVA_DEVELOPMENT_FLAG)?"-SNAPSHOT":"");
+                fprintf(stdout, "pvData %u.%u.%u%s\n",
+                        EPICS_PVD_MAJOR_VERSION,
+                        EPICS_PVD_MINOR_VERSION,
+                        EPICS_PVD_MAINTENANCE_VERSION,
+                        (EPICS_PVD_DEVELOPMENT_FLAG)?"-SNAPSHOT":"");
+                fprintf(stdout, "Base %s\n", EPICS_VERSION_FULL);
                 return 0;
             }
                 break;
@@ -232,11 +237,11 @@ int MAIN (int argc, char *argv[])
             std::cerr<<"Error: "<<e.what()<<"\n";
             return 1;
         }
-        assert(ret);
 
         if(verbosity>=1)
             std::cout<<"# Result\n";
-        std::cout<<ret->stream().format(outmode);
+        if(ret)
+            std::cout<<ret->stream().format(outmode);
 
         return 0;
     } catch(std::exception& e) {

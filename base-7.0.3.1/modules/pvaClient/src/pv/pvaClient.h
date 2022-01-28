@@ -713,6 +713,7 @@ public:
     static PvaClientDataPtr create(epics::pvData::StructureConstPtr const & structure);
 protected:
     PvaClientData(epics::pvData::StructureConstPtr const & structure);
+    epics::pvData::PVFieldPtr getSinglePVField();
     void checkValue();
     std::string messagePrefix;
 private:
