@@ -28,7 +28,7 @@ extern "C" int softIoc_registerRecordDeviceDriver ( struct dbBase * pdbbase ) ;
 extern "C" __declspec(dllexport)
 int thin_ioc_get_version ( )
 {
-	return 102 ; 
+	return 103 ; 
 }
 
 static bool dbdHasBeenLoaded = 0 ;
@@ -36,13 +36,18 @@ static bool dbdHasBeenLoaded = 0 ;
 // Returns 0 if sucessful, otherwise an error code.
 
 const int THIN_IOC_SUCCESS                        = 0 ;
-const int THIN_ALREADY_INITIALISED                = 1 ;
+const int THIN_IOC_ALREADY_INITIALISED            = 1 ;
 const int THIN_IOC_FAILED_TO_LOAD_DBD_FILE        = 2 ;
 const int THIN_IOC_FAILED_TO_REGISTER_DRIVER      = 3 ;
 const int THIN_IOC_NOT_INITIALISED                = 4 ;
 const int THIN_IOC_FAILED_TO_LOAD_DB_FILE         = 5 ;
 const int THIN_IOC_DBD_NOT_LOADED                 = 6 ;
 const int THIN_IOC_START_FAILED                   = 7 ;
+const int THIN_IOC_DBD_OPTION_NOT_SUPPORTED       = 8 ;
+
+// DBD file options
+
+const int THIN_IOC_DBD_OPTION_SoftIoc = 0 ;
 
 extern "C" __declspec(dllexport)
 void thin_ioc_set_env ( 
@@ -60,11 +65,37 @@ const char * thin_ioc_get_env (
 }
 
 extern "C" __declspec(dllexport)
-int thin_ioc_initialise ( ) 
+int thin_ioc_how_many_dbd_options ( ) 
 {
+  return 1 ;
+}
+
+extern "C" __declspec(dllexport)
+const char * thin_ioc_get_dbd_option_name ( int dbdOption ) 
+{
+  switch ( dbdOption )
+	{
+	case THIN_IOC_DBD_OPTION_SoftIoc:
+	  return "SoftIoc" ;
+	default:
+	  return NULL ;
+	}
+}
+
+extern "C" __declspec(dllexport)
+int thin_ioc_initialise ( int dbdOption ) 
+{
+  // At present we only support a single 'dbd' option ('softIoc')
+	// but the 'dbdOption' argument gives us the possibility of
+	// loading different definitions eg accommodating motor records
+	// or whatever.
+	if ( dbdOption != THIN_IOC_DBD_OPTION_SoftIoc )
+	{
+	  return THIN_IOC_DBD_OPTION_NOT_SUPPORTED ;
+	}
   if ( dbdHasBeenLoaded )
 	{
-	  return THIN_ALREADY_INITIALISED ;
+	  return THIN_IOC_ALREADY_INITIALISED ;
 	}
 	// Load the 'dbd' database that defines 
 	// the supported 'record' types
@@ -90,11 +121,7 @@ int thin_ioc_load_db_file (
 ) {
   if ( ! dbdHasBeenLoaded )
 	{
-	  int init_result = thin_ioc_initialise() ;
-		if ( init_result != THIN_IOC_SUCCESS )
-		{
-		  return init_result ;
-		}
+    return THIN_IOC_NOT_INITIALISED ;
 	}
   if ( dbLoadRecords(dbFilePath,macros) != 0 )
 	{
@@ -106,6 +133,10 @@ int thin_ioc_load_db_file (
 extern "C" __declspec(dllexport)
 int thin_ioc_start ( ) 
 {
+  if ( ! dbdHasBeenLoaded )
+	{
+    return THIN_IOC_NOT_INITIALISED ;
+	}
   if ( ! dbdHasBeenLoaded )
 	{
 	  return THIN_IOC_DBD_NOT_LOADED ;
