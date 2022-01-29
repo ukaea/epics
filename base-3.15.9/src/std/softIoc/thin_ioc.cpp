@@ -22,6 +22,9 @@ extern "C" int softIoc_registerRecordDeviceDriver ( struct dbBase * pdbbase ) ;
 
 #define DBD_FILE EPICS_BASE "dbd\\softIoc.dbd"
 
+// This function is useful when we want to verify that the P/Invoke Wrapper
+// is expecting the version of the DLL that gets loaded via 'LoadLibrary'.
+
 extern "C" __declspec(dllexport)
 int thin_ioc_get_version ( )
 {
