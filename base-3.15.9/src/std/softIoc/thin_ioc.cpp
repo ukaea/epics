@@ -91,6 +91,9 @@ const char * thin_ioc_get_dbd_option_name ( int dbdOption )
 //
 //  int register_record_device_driver ( struct dbBase * pdbbase ) ;
 //
+// As well as the 'driver' dll, you need the full path
+// to the corresponding '.dbd' file.
+//
 
 extern "C" __declspec(dllexport)
 int thin_ioc_initialise_with_custom_dbd ( 
@@ -139,6 +142,14 @@ int thin_ioc_initialise_with_custom_dbd (
 		return THIN_IOC_SUCCESS ;
 	}
 }
+
+//
+// Alternative scheme :
+//
+//   The 'driver' DLL would package not one but several dbd's,
+//   and as well as the generated code for the 'driver' file,
+//   it would contain the text of the '.dbd' definition ; so everything
+//   you need is available in the DLL.
 
 extern "C" __declspec(dllexport)
 int thin_ioc_initialise ( int dbdOption ) 

@@ -41,6 +41,7 @@
     <ClCompile Include="ca_wrapper_test_helpers.cpp" />
     <ClCompile Include="O.Common\softIoc_registerRecordDeviceDriver.cpp" />
     <ClCompile Include="thin_ioc.cpp" />
+    <ClCompile Include="thin_ioc_dbd_driver_01.cpp" />
     <ClCompile Include="thin_ioc_exports.cpp" />
     <ClCompile Include="thin_ioc_old_01.cpp" />
     <ClCompile Include="thin_ioc_old_02.cpp" />
