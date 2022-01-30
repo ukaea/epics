@@ -18,6 +18,8 @@
 #include "epicsInstallDir.h"
 #include "envDefs.h"
 
+#include <windows.h> // Required for 'LoadLibrary'
+
 extern "C" int softIoc_registerRecordDeviceDriver ( struct dbBase * pdbbase ) ;
 
 #define DBD_FILE EPICS_BASE "dbd\\softIoc.dbd"
@@ -79,6 +81,62 @@ const char * thin_ioc_get_dbd_option_name ( int dbdOption )
 	  return "SoftIoc" ;
 	default:
 	  return NULL ;
+	}
+}
+
+//
+// We can configure our ThinIoc to work with a 'DBD' definition
+// that is defined by (A) a .dbd file, and (B) a generated 'C' function
+// that is packaged as a DLL, with an entry point defined as
+//
+//  int register_record_device_driver ( struct dbBase * pdbbase ) ;
+//
+
+extern "C" __declspec(dllexport)
+int thin_ioc_initialise_with_custom_dbd ( 
+  const char * dbdFile,
+	const char * driverRegistrationDll
+) {
+  if ( dbdHasBeenLoaded )
+	{
+	  return THIN_IOC_ALREADY_INITIALISED ;
+	}
+	// Load the 'dbd' database that defines 
+	// the supported 'record' types
+	if ( dbLoadDatabase(dbdFile,NULL,NULL) != 0 )
+	{
+		return THIN_IOC_FAILED_TO_LOAD_DBD_FILE ;
+	}
+  // Load the DLL that hosts our custom registraion function
+  HMODULE hDLL = LoadLibrary(driverRegistrationDll) ;
+	if ( hDLL == NULL )
+	{
+	  return -1 ;
+	}
+	// Look up the 'register_record_device_driver' in the DLL
+	// https://docs.microsoft.com/en-gb/windows/win32/dlls/using-run-time-dynamic-linking?redirectedfrom=MSDN
+	typedef int ( __cdecl * DriverRegistrationFunc) ( struct dbBase * pdbbase ) ;
+  DriverRegistrationFunc driverRegistrationFunc = (DriverRegistrationFunc) (
+	  GetProcAddress(
+		  hDLL,
+			"register_record_device_driver"
+		)
+	) ;
+	if ( driverRegistrationFunc == NULL )
+	{
+	  return -1 ;
+	}
+	// Invoke the registration function
+	int driverRegistrationResult = driverRegistrationFunc(pdbbase) ;
+	FreeLibrary(hDLL) ;
+	if ( driverRegistrationResult != 0 )
+	{
+		return THIN_IOC_FAILED_TO_REGISTER_DRIVER ;
+	}
+	else
+	{
+		dbdHasBeenLoaded = 1 ;
+		return THIN_IOC_SUCCESS ;
 	}
 }
 
