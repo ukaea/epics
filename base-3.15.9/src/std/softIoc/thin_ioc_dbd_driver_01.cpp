@@ -20,7 +20,7 @@
 
 #include <windows.h> // Required for 'LoadLibrary'
 
-extern "C" int generated_registerRecordDeviceDriver ( struct dbBase * pdbbase ) ;
+//// extern "C" int generated_registerRecordDeviceDriver ( struct dbBase * pdbbase ) ;
 
 //
 // We can configure our ThinIoc to work with a 'DBD' definition
@@ -43,7 +43,8 @@ int register_record_device_driver ( )
 {
   // No need to provide this ???
   // struct dbBase * pdbbase
-  return generated_registerRecordDeviceDriver(pdbbase) ;
+  //// return generated_registerRecordDeviceDriver(pdbbase) ;
+  return -1 ;
 }
 
 extern "C" __declspec(dllexport)

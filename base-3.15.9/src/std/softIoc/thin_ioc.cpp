@@ -150,6 +150,7 @@ int thin_ioc_initialise_with_custom_dbd (
 //   and as well as the generated code for the 'driver' file,
 //   it would contain the text of the '.dbd' definition ; so everything
 //   you need is available in the DLL.
+//
 
 extern "C" __declspec(dllexport)
 int thin_ioc_initialise ( int dbdOption ) 
