@@ -37,15 +37,31 @@ static bool dbdHasBeenLoaded = 0 ;
 
 // Returns 0 if sucessful, otherwise an error code.
 
-const int THIN_IOC_SUCCESS                        = 0 ;
-const int THIN_IOC_ALREADY_INITIALISED            = 1 ;
-const int THIN_IOC_FAILED_TO_LOAD_DBD_FILE        = 2 ;
-const int THIN_IOC_FAILED_TO_REGISTER_DRIVER      = 3 ;
-const int THIN_IOC_NOT_INITIALISED                = 4 ;
-const int THIN_IOC_FAILED_TO_LOAD_DB_FILE         = 5 ;
-const int THIN_IOC_DBD_NOT_LOADED                 = 6 ;
-const int THIN_IOC_START_FAILED                   = 7 ;
-const int THIN_IOC_DBD_OPTION_NOT_SUPPORTED       = 8 ;
+// const int THIN_IOC_SUCCESS                        = 0 ;
+// const int THIN_IOC_ALREADY_INITIALISED            = 1 ;
+// const int THIN_IOC_FAILED_TO_LOAD_DBD_FILE        = 2 ;
+// const int THIN_IOC_FAILED_TO_REGISTER_DRIVER      = 3 ;
+// const int THIN_IOC_NOT_INITIALISED                = 4 ;
+// const int THIN_IOC_FAILED_TO_LOAD_DB_FILE         = 5 ;
+// const int THIN_IOC_DBD_NOT_LOADED                 = 6 ;
+// const int THIN_IOC_START_FAILED                   = 7 ;
+// const int THIN_IOC_DBD_OPTION_NOT_SUPPORTED       = 8 ;
+
+// Better to declare these as enums, so that
+// the values can just be copied-and-pasted 
+// into the equivalent C# definition
+
+enum THIN_IOC_STATUS : int {
+	THIN_IOC_SUCCESS                        = 0,
+	THIN_IOC_ALREADY_INITIALISED            = 1,
+	THIN_IOC_FAILED_TO_LOAD_DBD_FILE        = 2,
+	THIN_IOC_FAILED_TO_REGISTER_DRIVER      = 3,
+	THIN_IOC_NOT_INITIALISED                = 4,
+	THIN_IOC_FAILED_TO_LOAD_DB_FILE         = 5,
+	THIN_IOC_DBD_NOT_LOADED                 = 6,
+	THIN_IOC_START_FAILED                   = 7,
+	THIN_IOC_DBD_OPTION_NOT_SUPPORTED       = 8
+} ;
 
 // DBD file options
 
