@@ -70,7 +70,9 @@ static long init_record(lsiRecord *prec, int pass)
     }
 
     if (pdset->init_record) {
-        long status = pdset->init_record();
+        long status = pdset->init_record(
+          prec // STEVET_FIX : this 'prec' argument was missing ...
+        );
 
         if (status)
             return status;
