@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31702.278
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.31911.260
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "asyn", "asyn", "{1E22D567-DE95-4057-98E3-55F01A99D61F}"
 EndProject
@@ -3613,7 +3613,6 @@ Global
 		{1B240A93-F71A-4E3D-A724-382ACEB07550}.Release_DLL|Win32.ActiveCfg = Release|Any CPU
 		{1B240A93-F71A-4E3D-A724-382ACEB07550}.Release_DLL|Win32.Build.0 = Release|Any CPU
 		{1B240A93-F71A-4E3D-A724-382ACEB07550}.Release_DLL|x64.ActiveCfg = Release|Any CPU
-		{1B240A93-F71A-4E3D-A724-382ACEB07550}.Release_DLL|x64.Build.0 = Release|Any CPU
 		{1B240A93-F71A-4E3D-A724-382ACEB07550}.Release_LIB|Any CPU.ActiveCfg = Release|Any CPU
 		{1B240A93-F71A-4E3D-A724-382ACEB07550}.Release_LIB|Any CPU.Build.0 = Release|Any CPU
 		{1B240A93-F71A-4E3D-A724-382ACEB07550}.Release_LIB|Win32.ActiveCfg = Release|Any CPU

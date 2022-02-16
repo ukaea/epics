@@ -33,12 +33,12 @@
 #undef GEN_SIZE_OFFSET
 #include "epicsExport.h"
 
-static void monitor(lsiRecord *);
-static long readValue(lsiRecord *);
+static void monitor(lsiRecord*);
+static long readValue(lsiRecord*);
 
-static long init_record(lsiRecord *prec, int pass)
+static long init_record(lsiRecord* prec, int pass)
 {
-    lsidset *pdset;
+    lsidset* pdset;
 
     if (pass == 0) {
         size_t sizv = prec->sizv;
@@ -57,7 +57,7 @@ static long init_record(lsiRecord *prec, int pass)
 
     dbLoadLink(&prec->siml, DBF_USHORT, &prec->simm);
 
-    pdset = (lsidset *) prec->dset;
+    pdset = (lsidset*)prec->dset;
     if (!pdset) {
         recGblRecordError(S_dev_noDSET, prec, "lsi: init_record");
         return S_dev_noDSET;
@@ -70,7 +70,7 @@ static long init_record(lsiRecord *prec, int pass)
     }
 
     if (pdset->init_record) {
-        long status = pdset->init_record();
+        long status = pdset->init_record(prec);
 
         if (status)
             return status;
@@ -85,10 +85,10 @@ static long init_record(lsiRecord *prec, int pass)
     return 0;
 }
 
-static long process(lsiRecord *prec)
+static long process(lsiRecord* prec)
 {
     int pact = prec->pact;
-    lsidset *pdset = (lsidset *) prec->dset;
+    lsidset* pdset = (lsidset*)prec->dset;
     long status = 0;
 
     if (!pdset || !pdset->read_string) {
@@ -112,9 +112,9 @@ static long process(lsiRecord *prec)
     return status;
 }
 
-static long cvt_dbaddr(DBADDR *paddr)
+static long cvt_dbaddr(DBADDR* paddr)
 {
-    lsiRecord *prec = (lsiRecord *) paddr->precord;
+    lsiRecord* prec = (lsiRecord*)paddr->precord;
     int fieldIndex = dbGetFieldIndex(paddr);
 
     if (fieldIndex == lsiRecordVAL) {
@@ -122,7 +122,7 @@ static long cvt_dbaddr(DBADDR *paddr)
         paddr->special = SPC_MOD;
     }
     else if (fieldIndex == lsiRecordOVAL) {
-        paddr->pfield  = prec->oval;
+        paddr->pfield = prec->oval;
         paddr->special = SPC_NOMOD;
     }
     else {
@@ -131,16 +131,16 @@ static long cvt_dbaddr(DBADDR *paddr)
         return -1;
     }
 
-    paddr->no_elements    = 1;
-    paddr->field_type     = DBF_STRING;
+    paddr->no_elements = 1;
+    paddr->field_type = DBF_STRING;
     paddr->dbr_field_type = DBF_STRING;
-    paddr->field_size     = prec->sizv;
+    paddr->field_size = prec->sizv;
     return 0;
 }
 
-static long get_array_info(DBADDR *paddr, long *no_elements, long *offset)
+static long get_array_info(DBADDR* paddr, long* no_elements, long* offset)
 {
-    lsiRecord *prec = (lsiRecord *) paddr->precord;
+    lsiRecord* prec = (lsiRecord*)paddr->precord;
     int fieldIndex = dbGetFieldIndex(paddr);
 
     if (fieldIndex == lsiRecordVAL)
@@ -154,9 +154,9 @@ static long get_array_info(DBADDR *paddr, long *no_elements, long *offset)
     return 0;
 }
 
-static long put_array_info(DBADDR *paddr, long nNew)
+static long put_array_info(DBADDR* paddr, long nNew)
 {
-    lsiRecord *prec = (lsiRecord *) paddr->precord;
+    lsiRecord* prec = (lsiRecord*)paddr->precord;
 
     if (nNew >= prec->sizv)
         nNew = prec->sizv - 1; /* truncated string */
@@ -166,9 +166,9 @@ static long put_array_info(DBADDR *paddr, long nNew)
     return 0;
 }
 
-static long special(DBADDR *paddr, int after)
+static long special(DBADDR* paddr, int after)
 {
-    lsiRecord *prec = (lsiRecord *) paddr->precord;
+    lsiRecord* prec = (lsiRecord*)paddr->precord;
 
     if (!after)
         return 0;
@@ -183,7 +183,7 @@ static long special(DBADDR *paddr, int after)
     return 0;
 }
 
-static void monitor(lsiRecord *prec)
+static void monitor(lsiRecord* prec)
 {
     epicsUInt16 events = recGblResetAlarms(prec);
 
@@ -207,10 +207,10 @@ static void monitor(lsiRecord *prec)
         db_post_events(prec, prec->val, events);
 }
 
-static long readValue(lsiRecord *prec)
+static long readValue(lsiRecord* prec)
 {
     long status;
-    lsidset *pdset = (lsidset *) prec->dset;
+    lsidset* pdset = (lsidset*)prec->dset;
 
     if (prec->pact)
         goto read;
@@ -221,8 +221,8 @@ static long readValue(lsiRecord *prec)
 
     switch (prec->simm) {
     case menuYesNoNO:
-read:
-        status = pdset->read_string();
+    read:
+        status = pdset->read_string(prec);
         break;
 
     case menuYesNoYES:
