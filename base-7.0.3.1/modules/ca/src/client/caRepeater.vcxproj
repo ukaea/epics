@@ -41,6 +41,9 @@
     <ClCompile Include="caRepeater.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\libcom\src\Com.vcxproj">
+      <Project>{e9d99fc7-e592-472b-b2e2-c3b0d81d8169}</Project>
+    </ProjectReference>
     <ProjectReference Include="ca.vcxproj">
       <Project>{361bcebd-8b02-4b15-b28b-863f0602cb99}</Project>
     </ProjectReference>

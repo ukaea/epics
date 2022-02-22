@@ -282,14 +282,14 @@ move /Y lex.yy.c O.Common/%(Filename).c
     </CustomBuild>
     <CustomBuild Include="db\dbCommon.dbd">
       <FileType>Document</FileType>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">true</ExcludedFromBuild>
     </CustomBuild>
     <CustomBuild Include="db\dbCommonRecord.dbd">
       <FileType>Document</FileType>
@@ -1860,6 +1860,7 @@ cd $(ProjectDir)
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
 if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
+if not exist O.Common md O.Common
 
 xcopy /Y /Q /D /R as\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R bpt\*.h  $(SolutionDir)include &gt; NUL
@@ -1878,15 +1879,11 @@ SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
 cd $(SolutionDir)
 perl -CSD $(OutDir)convertRelease.pl $(OutDir)databaseModuleDirs.pm
 cd $(ProjectDir)
-</Command>
+perl -CSD $(OutDir)makeIncludeDbd.pl menuAlarmSevr.dbd menuAlarmStat.dbd menuFtype.dbd menuIvoa.dbd menuOmsl.dbd menuPini.dbd menuPost.dbd menuPriority.dbd menuYesNo.dbd menuSimm.dbd O.Common\menuGlobal.dbd
+perl -CSD $(OutDir)genVersionHeader.pl   -t ../../../../.. -N EPICS_VCS_VERSION -V "" O.Common/epicsVCS.h</Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>SET PERL5LIB= $(SolutionDir)lib\perl
-if not exist O.Common\menuGlobal.dbd (
-perl -CSD $(OutDir)makeIncludeDbd.pl menuAlarmSevr.dbd menuAlarmStat.dbd menuFtype.dbd menuIvoa.dbd menuOmsl.dbd menuPini.dbd menuPost.dbd menuPriority.dbd menuYesNo.dbd menuSimm.dbd O.Common\menuGlobal.dbd
-)
-
-xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
+      <Command>xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)DBD &gt; NUL
 </Command>
     </PostBuildEvent>
@@ -1913,6 +1910,7 @@ xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)DBD &gt; NUL
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
 if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
+if not exist O.Common md O.Common
 
 xcopy /Y /Q /D /R as\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R bpt\*.h  $(SolutionDir)include &gt; NUL
@@ -1931,15 +1929,11 @@ SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
 cd $(SolutionDir)
 perl -CSD $(OutDir)convertRelease.pl $(OutDir)databaseModuleDirs.pm
 cd $(ProjectDir)
-</Command>
+perl -CSD $(OutDir)makeIncludeDbd.pl menuAlarmSevr.dbd menuAlarmStat.dbd menuFtype.dbd menuIvoa.dbd menuOmsl.dbd menuPini.dbd menuPost.dbd menuPriority.dbd menuYesNo.dbd menuSimm.dbd O.Common\menuGlobal.dbd
+perl -CSD $(OutDir)genVersionHeader.pl   -t ../../../../.. -N EPICS_VCS_VERSION -V "" O.Common/epicsVCS.h</Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>SET PERL5LIB= $(SolutionDir)lib\perl
-if not exist O.Common\menuGlobal.dbd (
-perl -CSD $(OutDir)makeIncludeDbd.pl menuAlarmSevr.dbd menuAlarmStat.dbd menuFtype.dbd menuIvoa.dbd menuOmsl.dbd menuPini.dbd menuPost.dbd menuPriority.dbd menuYesNo.dbd menuSimm.dbd O.Common\menuGlobal.dbd
-)
-
-xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
+      <Command>xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)DBD &gt; NUL
 </Command>
     </PostBuildEvent>
@@ -1963,6 +1957,7 @@ xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)DBD &gt; NUL
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
 if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
+if not exist O.Common md O.Common
 
 xcopy /Y /Q /D /R as\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R bpt\*.h  $(SolutionDir)include &gt; NUL
@@ -1981,15 +1976,11 @@ SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
 cd $(SolutionDir)
 perl -CSD $(OutDir)convertRelease.pl $(OutDir)databaseModuleDirs.pm
 cd $(ProjectDir)
-</Command>
+perl -CSD $(OutDir)makeIncludeDbd.pl menuAlarmSevr.dbd menuAlarmStat.dbd menuFtype.dbd menuIvoa.dbd menuOmsl.dbd menuPini.dbd menuPost.dbd menuPriority.dbd menuYesNo.dbd menuSimm.dbd O.Common\menuGlobal.dbd
+perl -CSD $(OutDir)genVersionHeader.pl   -t ../../../../.. -N EPICS_VCS_VERSION -V "" O.Common/epicsVCS.h</Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>SET PERL5LIB= $(SolutionDir)lib\perl
-if not exist O.Common\menuGlobal.dbd (
-perl -CSD $(OutDir)makeIncludeDbd.pl menuAlarmSevr.dbd menuAlarmStat.dbd menuFtype.dbd menuIvoa.dbd menuOmsl.dbd menuPini.dbd menuPost.dbd menuPriority.dbd menuYesNo.dbd menuSimm.dbd O.Common\menuGlobal.dbd
-)
-
-xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
+      <Command>xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)DBD &gt; NUL
 </Command>
     </PostBuildEvent>
@@ -2016,6 +2007,7 @@ xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)DBD &gt; NUL
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
 if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
+if not exist O.Common md O.Common
 
 xcopy /Y /Q /D /R as\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R bpt\*.h  $(SolutionDir)include &gt; NUL
@@ -2034,15 +2026,11 @@ SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
 cd $(SolutionDir)
 perl -CSD $(OutDir)convertRelease.pl $(OutDir)databaseModuleDirs.pm
 cd $(ProjectDir)
-</Command>
+perl -CSD $(OutDir)makeIncludeDbd.pl menuAlarmSevr.dbd menuAlarmStat.dbd menuFtype.dbd menuIvoa.dbd menuOmsl.dbd menuPini.dbd menuPost.dbd menuPriority.dbd menuYesNo.dbd menuSimm.dbd O.Common\menuGlobal.dbd
+perl -CSD $(OutDir)genVersionHeader.pl   -t ../../../../.. -N EPICS_VCS_VERSION -V "" O.Common/epicsVCS.h</Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>SET PERL5LIB= $(SolutionDir)lib\perl
-if not exist O.Common\menuGlobal.dbd (
-perl -CSD $(OutDir)makeIncludeDbd.pl menuAlarmSevr.dbd menuAlarmStat.dbd menuFtype.dbd menuIvoa.dbd menuOmsl.dbd menuPini.dbd menuPost.dbd menuPriority.dbd menuYesNo.dbd menuSimm.dbd O.Common\menuGlobal.dbd
-)
-
-xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
+      <Command>xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)DBD &gt; NUL
 </Command>
     </PostBuildEvent>
@@ -2068,6 +2056,7 @@ xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)DBD &gt; NUL
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
 if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
+if not exist O.Common md O.Common
 
 xcopy /Y /Q /D /R as\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R bpt\*.h  $(SolutionDir)include &gt; NUL
@@ -2086,15 +2075,11 @@ SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
 cd $(SolutionDir)
 perl -CSD $(OutDir)convertRelease.pl $(OutDir)databaseModuleDirs.pm
 cd $(ProjectDir)
-</Command>
+perl -CSD $(OutDir)makeIncludeDbd.pl menuAlarmSevr.dbd menuAlarmStat.dbd menuFtype.dbd menuIvoa.dbd menuOmsl.dbd menuPini.dbd menuPost.dbd menuPriority.dbd menuYesNo.dbd menuSimm.dbd O.Common\menuGlobal.dbd
+perl -CSD $(OutDir)genVersionHeader.pl   -t ../../../../.. -N EPICS_VCS_VERSION -V "" O.Common/epicsVCS.h</Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>SET PERL5LIB= $(SolutionDir)lib\perl
-if not exist O.Common\menuGlobal.dbd (
-perl -CSD $(OutDir)makeIncludeDbd.pl menuAlarmSevr.dbd menuAlarmStat.dbd menuFtype.dbd menuIvoa.dbd menuOmsl.dbd menuPini.dbd menuPost.dbd menuPriority.dbd menuYesNo.dbd menuSimm.dbd O.Common\menuGlobal.dbd
-)
-
-xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
+      <Command>xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)DBD &gt; NUL
 </Command>
     </PostBuildEvent>
@@ -2123,6 +2108,7 @@ xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)DBD &gt; NUL
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
 if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
+if not exist O.Common md O.Common
 
 xcopy /Y /Q /D /R as\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R bpt\*.h  $(SolutionDir)include &gt; NUL
@@ -2141,15 +2127,11 @@ SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
 cd $(SolutionDir)
 perl -CSD $(OutDir)convertRelease.pl $(OutDir)databaseModuleDirs.pm
 cd $(ProjectDir)
-</Command>
+perl -CSD $(OutDir)makeIncludeDbd.pl menuAlarmSevr.dbd menuAlarmStat.dbd menuFtype.dbd menuIvoa.dbd menuOmsl.dbd menuPini.dbd menuPost.dbd menuPriority.dbd menuYesNo.dbd menuSimm.dbd O.Common\menuGlobal.dbd
+perl -CSD $(OutDir)genVersionHeader.pl   -t ../../../../.. -N EPICS_VCS_VERSION -V "" O.Common/epicsVCS.h</Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>SET PERL5LIB= $(SolutionDir)lib\perl
-if not exist O.Common\menuGlobal.dbd (
-perl -CSD $(OutDir)makeIncludeDbd.pl menuAlarmSevr.dbd menuAlarmStat.dbd menuFtype.dbd menuIvoa.dbd menuOmsl.dbd menuPini.dbd menuPost.dbd menuPriority.dbd menuYesNo.dbd menuSimm.dbd O.Common\menuGlobal.dbd
-)
-
-xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
+      <Command>xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)DBD &gt; NUL
 </Command>
     </PostBuildEvent>
@@ -2175,6 +2157,7 @@ xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)DBD &gt; NUL
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
 if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
+if not exist O.Common md O.Common
 
 xcopy /Y /Q /D /R as\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R bpt\*.h  $(SolutionDir)include &gt; NUL
@@ -2193,15 +2176,11 @@ SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
 cd $(SolutionDir)
 perl -CSD $(OutDir)convertRelease.pl $(OutDir)databaseModuleDirs.pm
 cd $(ProjectDir)
-</Command>
+perl -CSD $(OutDir)makeIncludeDbd.pl menuAlarmSevr.dbd menuAlarmStat.dbd menuFtype.dbd menuIvoa.dbd menuOmsl.dbd menuPini.dbd menuPost.dbd menuPriority.dbd menuYesNo.dbd menuSimm.dbd O.Common\menuGlobal.dbd
+perl -CSD $(OutDir)genVersionHeader.pl   -t ../../../../.. -N EPICS_VCS_VERSION -V "" O.Common/epicsVCS.h</Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>SET PERL5LIB= $(SolutionDir)lib\perl
-if not exist O.Common\menuGlobal.dbd (
-perl -CSD $(OutDir)makeIncludeDbd.pl menuAlarmSevr.dbd menuAlarmStat.dbd menuFtype.dbd menuIvoa.dbd menuOmsl.dbd menuPini.dbd menuPost.dbd menuPriority.dbd menuYesNo.dbd menuSimm.dbd O.Common\menuGlobal.dbd
-)
-
-xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
+      <Command>xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)DBD &gt; NUL
 </Command>
     </PostBuildEvent>
@@ -2230,6 +2209,7 @@ xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)DBD &gt; NUL
     <PreBuildEvent>
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
 if not exist  $(SolutionDir)DBD md  $(SolutionDir)DBD
+if not exist O.Common md O.Common
 
 xcopy /Y /Q /D /R as\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R bpt\*.h  $(SolutionDir)include &gt; NUL
@@ -2248,15 +2228,11 @@ SET PERL5LIB=$(SolutionDir)lib\perl;$(OutDir)
 cd $(SolutionDir)
 perl -CSD $(OutDir)convertRelease.pl $(OutDir)databaseModuleDirs.pm
 cd $(ProjectDir)
-</Command>
+perl -CSD $(OutDir)makeIncludeDbd.pl menuAlarmSevr.dbd menuAlarmStat.dbd menuFtype.dbd menuIvoa.dbd menuOmsl.dbd menuPini.dbd menuPost.dbd menuPriority.dbd menuYesNo.dbd menuSimm.dbd O.Common\menuGlobal.dbd
+perl -CSD $(OutDir)genVersionHeader.pl   -t ../../../../.. -N EPICS_VCS_VERSION -V "" O.Common/epicsVCS.h</Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>SET PERL5LIB= $(SolutionDir)lib\perl
-if not exist O.Common\menuGlobal.dbd (
-perl -CSD $(OutDir)makeIncludeDbd.pl menuAlarmSevr.dbd menuAlarmStat.dbd menuFtype.dbd menuIvoa.dbd menuOmsl.dbd menuPini.dbd menuPost.dbd menuPriority.dbd menuYesNo.dbd menuSimm.dbd O.Common\menuGlobal.dbd
-)
-
-xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
+      <Command>xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R O.Common\*.dbd $(SolutionDir)DBD &gt; NUL
 </Command>
     </PostBuildEvent>
