@@ -201,6 +201,38 @@ int thin_ioc_initialise ( int dbdOption )
 }
 
 extern "C" __declspec(dllexport)
+int thin_ioc_initialise_with_dbd_path ( const char * dbdFile ) 
+{
+  // At present we only support a single 'dbd' option ('softIoc')
+	// but the 'dbdOption' argument gives us the possibility of
+	// loading different definitions eg accommodating motor records
+	// or whatever.
+  if ( dbdHasBeenLoaded )
+	{
+	  return THIN_IOC_ALREADY_INITIALISED ;
+	}
+	// Load the 'dbd' database that defines 
+	// the supported 'record' types
+	const char * base_dbd = (
+	  dbdFile == NULL
+		? DBD_FILE 
+		: dbdFile
+	) ;
+	if ( dbLoadDatabase(base_dbd,NULL,NULL) != 0 )
+	{
+		return THIN_IOC_FAILED_TO_LOAD_DBD_FILE ;
+	}
+	// The code for this function has been generated from 'softIoc'
+	// CALLING IT IS NECESSARY, OTHERWISE NOTHING WORKS
+	if ( softIoc_registerRecordDeviceDriver(pdbbase) != 0 )
+	{
+		return THIN_IOC_FAILED_TO_REGISTER_DRIVER ;
+	}
+  dbdHasBeenLoaded = 1 ;
+	return THIN_IOC_SUCCESS ;
+}
+
+extern "C" __declspec(dllexport)
 int thin_ioc_load_db_file (
 	const char * dbFilePath,
 	const char * macros
