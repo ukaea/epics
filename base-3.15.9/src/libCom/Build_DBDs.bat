@@ -49,4 +49,10 @@ del  %TOPLEVEL%include\os\WIN32\epicsGetopt.h
 xcopy /Y /Q osi\os\WIN32\*.h  %TOPLEVEL%include\os\WIN32 > NUL
 xcopy /Y /Q osi\compiler\msvc\*.h  %TOPLEVEL%include\compiler\msvc\ > NUL
 
+REM build asLib + lex include with flex & antelope
+%DLLDIR%antelope.exe -bas\ycomp .\as\aslib.y
+move /Y .\as\ycomp.tab.c .\O.Common\asLib.c
+%DLLDIR%e_flex.exe -S%TOPLEVEL%include/flex.skel.static -8 -I .\as\asLib_lex.l
+move /Y lex.yy.c O.Common\asLib_lex.c
+
 echo BatchCompleted: %ERRORLEVEL%

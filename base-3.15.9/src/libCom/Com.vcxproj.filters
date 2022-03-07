@@ -432,6 +432,7 @@
       <Filter>osi\os\Win32</Filter>
     </ClCompile>
     <ClCompile Include="osi\os\WIN32\osdEnv.c" />
+    <ClCompile Include="as\asLib.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bucketLib\bucketLib.h">

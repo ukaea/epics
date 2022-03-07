@@ -50,14 +50,16 @@ bool getStringAsDouble ( const char * pString,
         ftmp = itmp;
     }
     else {
-	    int j = epicsScanDouble( pString, &ftmp );
-	    if ( j != 1 ) {
-		    j = sscanf ( pString,"%x", &itmp );
-            if ( j == 1 ) {
-                ftmp = itmp;
-            }
-            else {
-                return false;
+        int j = epicsScanDouble ( pString, &ftmp );
+        if ( j != 1 ) {
+            j = sscanf ( pString, "%lf", &ftmp );
+            if ( j != 1 ) {
+                j = sscanf ( pString, "%x", &itmp );
+                if ( j == 1 ) {
+                    ftmp = itmp;
+                } else {
+                    return false;
+                }
             }
         }
     }
@@ -446,4 +448,3 @@ static int aitConvertFromNetEnum16String(void* d,const void* s,
 #undef AIT_FROM_NET_CONVERT
 
 #endif
-
