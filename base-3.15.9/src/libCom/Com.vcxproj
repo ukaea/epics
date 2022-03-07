@@ -45,8 +45,7 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="as\asLib.c" />
+  <ItemGroup>    
     <ClCompile Include="as\asLibRoutines.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
@@ -776,7 +775,7 @@ move /Y lex.yy.c O.Common\asLib_lex.c
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
     <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
-    <IncludePath>$(SolutionDir)include</IncludePath>
+    <IncludePath>$(SolutionDir)include</IncludePath>    
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">
     <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
@@ -793,17 +792,14 @@ move /Y lex.yy.c O.Common\asLib_lex.c
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
     <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
     <IncludePath>$(SolutionDir)include;$(IncludePath)</IncludePath>
-    <OutDir>$(ProjectDir)\bin\Release</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
     <IncludePath>$(SolutionDir)include;$(IncludePath)</IncludePath>
-    <OutDir>$(ProjectDir)\bin\Release</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
     <IncludePath>$(SolutionDir)include;$(IncludePath)</IncludePath>
-    <OutDir>$(ProjectDir)\bin\Release</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">
     <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
