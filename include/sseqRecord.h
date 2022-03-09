@@ -9,6 +9,16 @@
 #include "ellLib.h"
 #include "epicsTime.h"
 
+#ifndef sseqLNKV_NUM_CHOICES
+typedef enum {
+    sseqLNKV_EXT_NC                 /* Ext PV NC */,
+    sseqLNKV_EXT                    /* Ext PV OK */,
+    sseqLNKV_LOC                    /* Local PV */,
+    sseqLNKV_CON                    /* Constant */
+} sseqLNKV;
+#define sseqLNKV_NUM_CHOICES 4
+#endif
+
 #ifndef sseqWAIT_NUM_CHOICES
 typedef enum {
     sseqWAIT_NoWait                 /* NoWait */,
@@ -34,16 +44,6 @@ typedef enum {
     sseqSELM_Mask                   /* Mask */
 } sseqSELM;
 #define sseqSELM_NUM_CHOICES 3
-#endif
-
-#ifndef sseqLNKV_NUM_CHOICES
-typedef enum {
-    sseqLNKV_EXT_NC                 /* Ext PV NC */,
-    sseqLNKV_EXT                    /* Ext PV OK */,
-    sseqLNKV_LOC                    /* Local PV */,
-    sseqLNKV_CON                    /* Constant */
-} sseqLNKV;
-#define sseqLNKV_NUM_CHOICES 4
 #endif
 
 typedef struct sseqRecord {
