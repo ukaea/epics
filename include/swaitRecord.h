@@ -9,6 +9,14 @@
 #include "ellLib.h"
 #include "epicsTime.h"
 
+#ifndef swaitINAP_NUM_CHOICES
+typedef enum {
+    swaitINAP_No                    /* No */,
+    swaitINAP_Yes                   /* Yes */
+} swaitINAP;
+#define swaitINAP_NUM_CHOICES 2
+#endif
+
 #ifndef swaitOOPT_NUM_CHOICES
 typedef enum {
     swaitOOPT_Every_Time            /* Every Time */,
@@ -29,14 +37,6 @@ typedef enum {
     swaitINAV_No_PV                 /* No PV */
 } swaitINAV;
 #define swaitINAV_NUM_CHOICES 3
-#endif
-
-#ifndef swaitINAP_NUM_CHOICES
-typedef enum {
-    swaitINAP_No                    /* No */,
-    swaitINAP_Yes                   /* Yes */
-} swaitINAP;
-#define swaitINAP_NUM_CHOICES 2
 #endif
 
 #ifndef swaitDOPT_NUM_CHOICES

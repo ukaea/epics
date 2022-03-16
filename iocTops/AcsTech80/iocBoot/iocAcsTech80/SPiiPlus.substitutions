@@ -2,8 +2,8 @@ file "$(MOTOR)/db/motor.db"
 {
 pattern
 #{P,           N,  M,        DTYP,        C,  S,  DESC,            EGU,  DIR,  VELO,  VBAS,  ACCL,  BDST,  BVEL,  BACC,  MRES,    PREC,  DHLM,  DLLM}
-#{acsTech80:,  1,  "m$(N)",  "SPiiPlus",  0,  0,  "Motor M$(N)",   mm,   Pos,  10,     0,    1,    0,     1,     .2,   1e-3,     3,     100,   -100}
-#{acsTech80:,  2,  "m$(N)",  "SPiiPlus",  0,  1,  "Motor M$(N)",   mm,   Pos,  10,     0.,    1.,    0,     1,     .2,   1e-3,     3,     100,   -100,  ""}
+#{acsTech80:,  1,  "m$(N)",  "SPiiPlus",  0,  0,  "Mod1_M$(N)",   mm,   Pos,  10,     0,    1,    0,     1,     .2,   1e-3,     3,     100,   -100}
+#{acsTech80:,  2,  "m$(N)",  "SPiiPlus",  0,  1,  "Mod2_M$(N)",   mm,   Pos,  10,     0.,    1.,    0,     1,     .2,   1e-3,     3,     100,   -100,  ""}
 
 
 {P,    N,   M,         DTYP,     PORT, ADDR,    DESC,          EGU,  DIR,   VELO,  VBAS, ACCL, BDST, BVEL, BACC,    MRES, PREC,   DHLM,   DLLM, INIT, ERES, RDBD, C,S}

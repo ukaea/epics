@@ -14,6 +14,7 @@ SRCS += ACSTech80Register.cc
 SRCS += devSPiiPlus.cc drvSPiiPlus.cc
 
 acsTech80_LIBS += motor asyn
+# ???  ^^^^^^   ?????
 acsTech80_LIBS += $(EPICS_BASE_IOC_LIBS)
 
 include $(TOP)/configure/RULES
