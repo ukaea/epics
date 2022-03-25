@@ -2,7 +2,7 @@
 #/ Date = 08/08/2006 17:03
 #/ User remarks = #0
 ! X-AXIS
-! Ibex dual rotary stage, 4xHR2 Nanomotiion motors per axis, AB5 amplifier, firmware 3.2
+! Ibex dual rotary stage, 4xHR2 Nanomotion motors per axis, AB5 amplifier, firmware 3.2
 ! Renishaw encoders, 20 micron pitch, X2000 interpolator, 1 count = 10 nm, 15 counts = 1 micro-radian
 ! ACS-Tech80 SpiPlus PCI-4 controller, firmware 5.0
 !Note: Set dcEnable flag in AUTOEXEC routine to select AB2 or AB5 amplifier
@@ -201,7 +201,7 @@ RET
 
 !To switch from DC to AC you must disable the motor
 AC_TUNED_PAR: ! FOR LONG MOVE
-! Switching only neccessary if DC mode enabled
+! Switching only necessary if DC mode enabled
 if dcEnable(Axis) > 0
   DISABLE(Axis);
   !SET DC_MODE to 0 and SET Nanomotion bit to 1 resp.
@@ -250,7 +250,7 @@ DISABLE (Axis)
 ! Configuration Parameters
 MFLAGS(Axis).#OPEN = 0
 DCOM(Axis)= 0 
-MFLAGS(Axis).12=0 ! Encoder Direction, 0 = direct, 1 = invereted
+MFLAGS(Axis).12=0 ! Encoder Direction, 0 = direct, 1 = inverted
 MFLAGS(Axis).13=0 ! Driver Output, 0 = direct, 1 = inverted
 SLCPRD(Axis) = 1E9  
 ! Safety Parameters
@@ -283,7 +283,7 @@ ACC(Axis)= 1E5    ! Accel
 DEC(Axis)= 1E5    ! Decel
 KDEC(Axis)= 1E9   ! Kill decel 
 JERK(Axis)= 1E8 !  
-! Servo Parameters, relaexed
+! Servo Parameters, relaxed
 SLPKP(Axis)=40   ! KP (POSITION GAIN)
 SLVKP(Axis)=2000   ! KV (VELOCITY GAIN)
 SLVKI(Axis)=500  ! KI (INTEGRATOR GAIN)

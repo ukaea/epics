@@ -1,11 +1,36 @@
-file "$(MOTOR)/db/motor.db"
+## EPICS AutoSave substitutions file
+
+# VMAX = Max Velocity (EGU/s). Valid range; 0 <= VMAX.  VMAX=0 disables maximum velocity range checking.
+# VELO = Velocity (EGU/s). Valid range; VBAS <= VELO <= VMAX
+# VBAS = Base Velocity (EGU/s)
+# ACCL = Acceleration time. Seconds to Velocity
+# BDST = backlash distance. BL Distance (EGU)
+# BVEL = backlash speed. BL Velocity (EGU/s)
+# BACC = backlash acceleration time. BL Seconds to Veloc.
+# MRES = Motor Step Size (EGU). (MRES = UREV/SREV)
+# PREC = Display Precision. The number of digits to the right of the decimal that are to be displayed by MEDM and other channel-access clients.
+# UREV = EGU's per Revolution
+# SREV = Steps per Revolution
+# RRES = Readback Step Size (EGU). 
+# DHLM = Dial High Limit. The maximum allowed value of the DVAL field
+# DLLM = Dial Low Limit. The minimum allowed value of the DVAL field
+# HLSV = HW Limit Switch Violation Severity
+# TWV = Tweak Step Size (EGU)
+# ERES = Encoder resolution. Encoder Step Size (EGU)
+# UEIP = Use Encoder If Present. Switch: nonzero value tells the record to read the encoder (if the hardware indicates an encoder is present) and to ignore the value read back from the hardware's step-count register.
+# JAR = Jog Acceleration (EGU/s^2). Default value: VELO / ACCL
+# OFF = User Offset (EGU)
+# RDBD = Retry Deadband (EGU)
+# FOFF = Offset-Freeze Switch. (0:"Variable", 1:"Frozen")
+# ADEL = Archive Deadband
+# NTM = New Target Monitor
+
+#file "$(MOTOR)/db/motor.db" ~basic non-autosave version
+
+file basic_asyn_motor_clf.db  
 {
 pattern
-#{P,           N,  M,        DTYP,        C,  S,  DESC,            EGU,  DIR,  VELO,  VBAS,  ACCL,  BDST,  BVEL,  BACC,  MRES,    PREC,  DHLM,  DLLM}
-#{acsTech80:,  1,  "m$(N)",  "SPiiPlus",  0,  0,  "Mod1_M$(N)",   mm,   Pos,  10,     0,    1,    0,     1,     .2,   1e-3,     3,     100,   -100}
-#{acsTech80:,  2,  "m$(N)",  "SPiiPlus",  0,  1,  "Mod2_M$(N)",   mm,   Pos,  10,     0.,    1.,    0,     1,     .2,   1e-3,     3,     100,   -100,  ""}
-
-
-{P,    N,   M,         DTYP,     PORT, ADDR,    DESC,          EGU,  DIR,   VELO,  VBAS, ACCL, BDST, BVEL, BACC,    MRES, PREC,   DHLM,   DLLM, INIT, ERES, RDBD, C,S}
-{IOC:, 1, "m$(N)", "SPiiPlus",  serial6,  0, "DRV11_IMS300",      mm,  Pos,    4.0,   0.1,  .25,    0,    1,   .2,    .001,     3,    180,   0, "",0,0,0,0}
+        {P,             N,  M,        DTYP,        C,  S,  DESC,           EGU,  DIR,  VELO,  VBAS,    ACCL,  BDST,  BVEL,   BACC,       MRES,     ERES,  PREC,  DHLM,   DLLM,  UEIP,  VMAX}
+        {acsTimBENCH:,  1,  "m$(N)",  "SPiiPlus",  0,  0,  "Mod1_M$(N)",   mm,   Pos,  4.0,     0,     0.25,     0,     1,     .2,    0.00050,  0.00010,  5,     100,   -100,   0,     50}
+        {acsTimBENCH:,  2,  "m$(N)",  "SPiiPlus",  0,  1,  "Mod1_M$(N)",   mm,   Pos,  4.0,     0,     0.25,     0,     1,     .2,    0.00050,  0.00010,  5,     100,   -100,   1,     50}
 }

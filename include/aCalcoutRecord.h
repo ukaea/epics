@@ -17,6 +17,19 @@ typedef enum {
 #define acalcoutDOPT_NUM_CHOICES 2
 #endif
 
+#ifndef acalcoutOOPT_NUM_CHOICES
+typedef enum {
+    acalcoutOOPT_Every_Time         /* Every Time */,
+    acalcoutOOPT_On_Change          /* On Change */,
+    acalcoutOOPT_When_Zero          /* When Zero */,
+    acalcoutOOPT_When_Non_zero      /* When Non-zero */,
+    acalcoutOOPT_Transition_To_Zero /* Transition To Zero */,
+    acalcoutOOPT_Transition_To_Non_zero /* Transition To Non-zero */,
+    acalcoutOOPT_Never              /* Never */
+} acalcoutOOPT;
+#define acalcoutOOPT_NUM_CHOICES 7
+#endif
+
 #ifndef acalcoutINAV_NUM_CHOICES
 typedef enum {
     acalcoutINAV_EXT_NC             /* Ext PV NC */,
@@ -35,33 +48,20 @@ typedef enum {
 #define acalcoutINAP_NUM_CHOICES 2
 #endif
 
-#ifndef acalcoutWAIT_NUM_CHOICES
-typedef enum {
-    acalcoutWAIT_NoWait             /* NoWait */,
-    acalcoutWAIT_Wait               /* Wait */
-} acalcoutWAIT;
-#define acalcoutWAIT_NUM_CHOICES 2
-#endif
-
-#ifndef acalcoutOOPT_NUM_CHOICES
-typedef enum {
-    acalcoutOOPT_Every_Time         /* Every Time */,
-    acalcoutOOPT_On_Change          /* On Change */,
-    acalcoutOOPT_When_Zero          /* When Zero */,
-    acalcoutOOPT_When_Non_zero      /* When Non-zero */,
-    acalcoutOOPT_Transition_To_Zero /* Transition To Zero */,
-    acalcoutOOPT_Transition_To_Non_zero /* Transition To Non-zero */,
-    acalcoutOOPT_Never              /* Never */
-} acalcoutOOPT;
-#define acalcoutOOPT_NUM_CHOICES 7
-#endif
-
 #ifndef acalcoutSIZE_NUM_CHOICES
 typedef enum {
     acalcoutSIZE_NELM               /* NELM */,
     acalcoutSIZE_NUSE               /* NUSE */
 } acalcoutSIZE;
 #define acalcoutSIZE_NUM_CHOICES 2
+#endif
+
+#ifndef acalcoutWAIT_NUM_CHOICES
+typedef enum {
+    acalcoutWAIT_NoWait             /* NoWait */,
+    acalcoutWAIT_Wait               /* Wait */
+} acalcoutWAIT;
+#define acalcoutWAIT_NUM_CHOICES 2
 #endif
 
 typedef struct acalcoutRecord {

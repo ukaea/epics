@@ -90,7 +90,7 @@ static msg_types SPiiPlus_table[] = {
     IMMEDIATE,	/* SET_IGAIN */
     IMMEDIATE,	/* SET_DGAIN */
     IMMEDIATE,	/* ENABLE_TORQUE */
-    IMMEDIATE,	/* DISABL_TORQUE */
+    IMMEDIATE,	/* DISABLE_TORQUE */
     IMMEDIATE,	/* PRIMITIVE */
     IMMEDIATE,	/* SET_HIGH_LIMIT */
     IMMEDIATE,	/* SET_LOW_LIMIT */
@@ -161,7 +161,7 @@ STATIC RTN_STATUS SPiiPlus_build_trans(motor_cmnd command, double *parms, struct
     rtnval = OK;
     buff[0] = '\0';
 
-    /* Protect against NULL pointer with WRTITE_MSG(GO/STOP_AXIS/GET_INFO, NULL). */
+    /* Protect against NULL pointer with WRITE_MSG(GO/STOP_AXIS/GET_INFO, NULL). */
     intval = (parms == NULL) ? 0 : NINT(parms[0]);
     dval = (parms == NULL) ? 0 : *parms;
 

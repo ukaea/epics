@@ -100,20 +100,6 @@ record(bo, "$(P)$(M):Stop")
 	field(ASG, "ALWAYS")
 }
 
-#Set this to non-zero if the driver should delay its done moving callbacks
-#This has to be implemented in the driver axis poller function.
-# record(ao, "$(P)$(M):PostMoveDelay")
-# {
-#    field(DESC, "Post Move Delay")
-#    field(DTYP, "asynFloat64")
-#    field(OUT,  "@asyn($(PORT),$(ADDR))MOTOR_POST_MOVE_DELAY")
-#    field(VAL, "0")
-#    field(PINI, "YES")
-#    field(EGU, "s")
-#    field(PREC, "1")
-#    info(autosaveFields, "VAL")
-# }
-
 #Include record to provide calculated error
 include "error_calc.db"
 

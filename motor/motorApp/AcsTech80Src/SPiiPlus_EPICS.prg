@@ -53,7 +53,7 @@ dcEnable(Axis) = 0
 
 DISP "Buffer 0: Axis:", Axis
 
-! Set all axis configuration parmeters
+! Set all axis configuration parameters
 call AXIS_CFG
 acpar(Axis)=1; TILL acpar(Axis)=0
 if dcEnable(Axis) > 0
@@ -169,7 +169,7 @@ PTP (Axis), 0
 TILL ^MST(Axis).#MOVE
 
 FDEF(Axis).#CL = 1  !re-enable default response of Current Limit fault
-FDEF(Axis).#CPE = 1  !re-enable default response of Critical Postion Error fault
+FDEF(Axis).#CPE = 1  !re-enable default response of Critical Position Error fault
 FDEF(Axis).#SRL = 1  !re-enable default response of Software Right Limit fault
 FDEF(Axis).#SLL = 1  !re-enable default response of Software Left Limit fault
 
@@ -201,7 +201,7 @@ RET
 
 !To switch from DC to AC you must disable the motor
 AC_TUNED_PAR: ! FOR LONG MOVE
-! Switching only neccessary if DC mode enabled
+! Switching only necessary if DC mode enabled
 if dcEnable(Axis) > 0
   DISABLE(Axis);
   !SET DC_MODE to 0 and SET Nanomotion bit to 1 resp.
@@ -250,7 +250,7 @@ DISABLE (Axis)
 ! Configuration Parameters
 MFLAGS(Axis).#OPEN = 0
 DCOM(Axis)= 0 
-MFLAGS(Axis).12=0 ! Encoder Direction, 0 = direct, 1 = invereted
+MFLAGS(Axis).12=0 ! Encoder Direction, 0 = direct, 1 = inverted
 MFLAGS(Axis).13=0 ! Driver Output, 0 = direct, 1 = inverted
 SLCPRD(Axis) = 1E9  
 ! Safety Parameters
