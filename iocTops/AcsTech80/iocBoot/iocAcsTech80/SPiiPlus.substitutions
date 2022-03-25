@@ -25,9 +25,9 @@
 # ADEL = Archive Deadband
 # NTM = New Target Monitor
 
-#file "$(MOTOR)/db/motor.db" ~basic non-autosave version
+#file "$(MOTOR)/db/motor.db" ~basic non-autosave version OVERRIDDEN with defaulting template
 
-file basic_asyn_motor_clf.db  
+file basic_asyn_motor_clf.template
 {
 pattern
         {P,             N,  M,        DTYP,        C,  S,  DESC,           EGU,  DIR,  VELO,  VBAS,    ACCL,  BDST,  BVEL,   BACC,       MRES,     ERES,  PREC,  DHLM,   DLLM,  UEIP,  VMAX}
