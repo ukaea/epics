@@ -9,12 +9,12 @@
 #include "ellLib.h"
 #include "epicsTime.h"
 
-#ifndef swaitINAP_NUM_CHOICES
+#ifndef swaitDOPT_NUM_CHOICES
 typedef enum {
-    swaitINAP_No                    /* No */,
-    swaitINAP_Yes                   /* Yes */
-} swaitINAP;
-#define swaitINAP_NUM_CHOICES 2
+    swaitDOPT_Use_VAL               /* Use VAL */,
+    swaitDOPT_Use_DOL               /* Use DOL */
+} swaitDOPT;
+#define swaitDOPT_NUM_CHOICES 2
 #endif
 
 #ifndef swaitOOPT_NUM_CHOICES
@@ -30,12 +30,12 @@ typedef enum {
 #define swaitOOPT_NUM_CHOICES 7
 #endif
 
-#ifndef swaitDOPT_NUM_CHOICES
+#ifndef swaitINAP_NUM_CHOICES
 typedef enum {
-    swaitDOPT_Use_VAL               /* Use VAL */,
-    swaitDOPT_Use_DOL               /* Use DOL */
-} swaitDOPT;
-#define swaitDOPT_NUM_CHOICES 2
+    swaitINAP_No                    /* No */,
+    swaitINAP_Yes                   /* Yes */
+} swaitINAP;
+#define swaitINAP_NUM_CHOICES 2
 #endif
 
 #ifndef swaitINAV_NUM_CHOICES

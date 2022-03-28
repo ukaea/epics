@@ -9,14 +9,12 @@
 #include "ellLib.h"
 #include "epicsTime.h"
 
-#ifndef transformIAV_NUM_CHOICES
+#ifndef transformCOPT_NUM_CHOICES
 typedef enum {
-    transformIAV_EXT_NC             /* Ext PV NC */,
-    transformIAV_EXT                /* Ext PV OK */,
-    transformIAV_LOC                /* Local PV */,
-    transformIAV_CON                /* Constant */
-} transformIAV;
-#define transformIAV_NUM_CHOICES 4
+    transformCOPT_CONDITIONAL       /* Conditional */,
+    transformCOPT_ALWAYS            /* Always */
+} transformCOPT;
+#define transformCOPT_NUM_CHOICES 2
 #endif
 
 #ifndef transformIVLA_NUM_CHOICES
@@ -27,12 +25,14 @@ typedef enum {
 #define transformIVLA_NUM_CHOICES 2
 #endif
 
-#ifndef transformCOPT_NUM_CHOICES
+#ifndef transformIAV_NUM_CHOICES
 typedef enum {
-    transformCOPT_CONDITIONAL       /* Conditional */,
-    transformCOPT_ALWAYS            /* Always */
-} transformCOPT;
-#define transformCOPT_NUM_CHOICES 2
+    transformIAV_EXT_NC             /* Ext PV NC */,
+    transformIAV_EXT                /* Ext PV OK */,
+    transformIAV_LOC                /* Local PV */,
+    transformIAV_CON                /* Constant */
+} transformIAV;
+#define transformIAV_NUM_CHOICES 4
 #endif
 
 typedef struct transformRecord {

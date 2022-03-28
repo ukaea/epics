@@ -14,7 +14,7 @@ acsTech80_registerRecordDeviceDriver pdbbase
 cd "${TOP}/iocBoot/${IOC}"
 
 ## motorUtil (allstop & alldone)
-dbLoadRecords("$(MOTOR)/db/motorUtil.db", "P=acsTech80:")
+dbLoadRecords("$(MOTOR)/db/motorUtil.db", "P=acsTimBENCH:")
 
 ## 
 < SPiiPlus.cmd
@@ -22,6 +22,6 @@ dbLoadRecords("$(MOTOR)/db/motorUtil.db", "P=acsTech80:")
 iocInit
 
 ## motorUtil (allstop & alldone)
-motorUtilInit("acsTech80:")
+motorUtilInit("acsTimBENCH:")
 
 # Boot complete

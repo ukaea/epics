@@ -11,7 +11,7 @@ if not exist C:\strawberry\perl\lib\DBD.pm  mklink /h C:\strawberry\perl\lib\DBD
 if not exist C:\strawberry\perl\lib\DBD  mklink /d C:\strawberry\perl\lib\DBD %TOPLEVEL%lib\perl\DBD
 if not exist C:\strawberry\perl\lib\EPICS  mklink /d C:\strawberry\perl\lib\EPICS %TOPLEVEL%lib\perl\EPICS
 
-perl -CSD %DLLDIR%dbdExpand.pl -I. -I.. -I..\O.Common -I%TOPLEVEL%DBD -o .\O.Common\acsTechIOC.dbd  base.dbd calcSupport.dbd asSupport.dbd asyn.dbd motorSupport.dbd motorRecord.dbd drvAsynIPPort.dbd devSpiiPlus.dbd asSupport.dbd
+perl -CSD %DLLDIR%dbdExpand.pl -I. -I.. -I..\O.Common -I%TOPLEVEL%DBD -o .\O.Common\acsTechIOC.dbd  base.dbd calcSupport.dbd asSupport.dbd asyn.dbd motorSupport.dbd motorRecord.dbd drvAsynIPPort.dbd devSpiiPlus.dbd
 perl -CSD %DLLDIR%registerRecordDeviceDriver.pl O.Common\acsTechIOC.dbd acsTech80_registerRecordDeviceDriver %TOPLEVEL% > O.Common\acsTech80_registerRecordDeviceDriver.cpp
 
 

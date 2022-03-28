@@ -17,29 +17,6 @@ typedef enum {
 #define acalcoutDOPT_NUM_CHOICES 2
 #endif
 
-#ifndef acalcoutOOPT_NUM_CHOICES
-typedef enum {
-    acalcoutOOPT_Every_Time         /* Every Time */,
-    acalcoutOOPT_On_Change          /* On Change */,
-    acalcoutOOPT_When_Zero          /* When Zero */,
-    acalcoutOOPT_When_Non_zero      /* When Non-zero */,
-    acalcoutOOPT_Transition_To_Zero /* Transition To Zero */,
-    acalcoutOOPT_Transition_To_Non_zero /* Transition To Non-zero */,
-    acalcoutOOPT_Never              /* Never */
-} acalcoutOOPT;
-#define acalcoutOOPT_NUM_CHOICES 7
-#endif
-
-#ifndef acalcoutINAV_NUM_CHOICES
-typedef enum {
-    acalcoutINAV_EXT_NC             /* Ext PV NC */,
-    acalcoutINAV_EXT                /* Ext PV OK */,
-    acalcoutINAV_LOC                /* Local PV */,
-    acalcoutINAV_CON                /* Constant */
-} acalcoutINAV;
-#define acalcoutINAV_NUM_CHOICES 4
-#endif
-
 #ifndef acalcoutINAP_NUM_CHOICES
 typedef enum {
     acalcoutINAP_No                 /* No PROC on Change */,
@@ -62,6 +39,29 @@ typedef enum {
     acalcoutWAIT_Wait               /* Wait */
 } acalcoutWAIT;
 #define acalcoutWAIT_NUM_CHOICES 2
+#endif
+
+#ifndef acalcoutINAV_NUM_CHOICES
+typedef enum {
+    acalcoutINAV_EXT_NC             /* Ext PV NC */,
+    acalcoutINAV_EXT                /* Ext PV OK */,
+    acalcoutINAV_LOC                /* Local PV */,
+    acalcoutINAV_CON                /* Constant */
+} acalcoutINAV;
+#define acalcoutINAV_NUM_CHOICES 4
+#endif
+
+#ifndef acalcoutOOPT_NUM_CHOICES
+typedef enum {
+    acalcoutOOPT_Every_Time         /* Every Time */,
+    acalcoutOOPT_On_Change          /* On Change */,
+    acalcoutOOPT_When_Zero          /* When Zero */,
+    acalcoutOOPT_When_Non_zero      /* When Non-zero */,
+    acalcoutOOPT_Transition_To_Zero /* Transition To Zero */,
+    acalcoutOOPT_Transition_To_Non_zero /* Transition To Non-zero */,
+    acalcoutOOPT_Never              /* Never */
+} acalcoutOOPT;
+#define acalcoutOOPT_NUM_CHOICES 7
 #endif
 
 typedef struct acalcoutRecord {

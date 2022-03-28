@@ -9,17 +9,12 @@
 #include "ellLib.h"
 #include "epicsTime.h"
 
-#ifndef scalcoutOOPT_NUM_CHOICES
+#ifndef scalcoutINAP_NUM_CHOICES
 typedef enum {
-    scalcoutOOPT_Every_Time         /* Every Time */,
-    scalcoutOOPT_On_Change          /* On Change */,
-    scalcoutOOPT_When_Zero          /* When Zero */,
-    scalcoutOOPT_When_Non_zero      /* When Non-zero */,
-    scalcoutOOPT_Transition_To_Zero /* Transition To Zero */,
-    scalcoutOOPT_Transition_To_Non_zero /* Transition To Non-zero */,
-    scalcoutOOPT_Never              /* Never */
-} scalcoutOOPT;
-#define scalcoutOOPT_NUM_CHOICES 7
+    scalcoutINAP_No                 /* No PROC on Change */,
+    scalcoutINAP_Yes                /* PROC on Change */
+} scalcoutINAP;
+#define scalcoutINAP_NUM_CHOICES 2
 #endif
 
 #ifndef scalcoutWAIT_NUM_CHOICES
@@ -40,12 +35,17 @@ typedef enum {
 #define scalcoutINAV_NUM_CHOICES 4
 #endif
 
-#ifndef scalcoutINAP_NUM_CHOICES
+#ifndef scalcoutOOPT_NUM_CHOICES
 typedef enum {
-    scalcoutINAP_No                 /* No PROC on Change */,
-    scalcoutINAP_Yes                /* PROC on Change */
-} scalcoutINAP;
-#define scalcoutINAP_NUM_CHOICES 2
+    scalcoutOOPT_Every_Time         /* Every Time */,
+    scalcoutOOPT_On_Change          /* On Change */,
+    scalcoutOOPT_When_Zero          /* When Zero */,
+    scalcoutOOPT_When_Non_zero      /* When Non-zero */,
+    scalcoutOOPT_Transition_To_Zero /* Transition To Zero */,
+    scalcoutOOPT_Transition_To_Non_zero /* Transition To Non-zero */,
+    scalcoutOOPT_Never              /* Never */
+} scalcoutOOPT;
+#define scalcoutOOPT_NUM_CHOICES 7
 #endif
 
 #ifndef scalcoutDOPT_NUM_CHOICES

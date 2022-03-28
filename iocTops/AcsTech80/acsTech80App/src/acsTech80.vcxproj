@@ -42,6 +42,7 @@
     <ClCompile Include="O.Common\acsTech80_registerRecordDeviceDriver.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\iocBoot\iocAcsTech80\st.cmd" />
     <None Include="src\Makefile" />
   </ItemGroup>
   <ItemGroup>
