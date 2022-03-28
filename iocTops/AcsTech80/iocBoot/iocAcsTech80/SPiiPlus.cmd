@@ -2,9 +2,6 @@
 #drvAsynIPPortConfigure("portName","hostInfo",priority,noAutoConnect,
 #                        noProcessEos)
 
-#epicsEnvSet("PORT","serial61")
-#epicsEnvSet("ADDR","0")
-
 drvAsynIPPortConfigure("serial61", "10.0.0.100:701", 0, 0, 0)
 #asynOctetSetInputEos("serial61",0,"\r")
 #asynOctetSetOutputEos("serial61",0,"\r")

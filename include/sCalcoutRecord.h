@@ -9,6 +9,14 @@
 #include "ellLib.h"
 #include "epicsTime.h"
 
+#ifndef scalcoutWAIT_NUM_CHOICES
+typedef enum {
+    scalcoutWAIT_NoWait             /* NoWait */,
+    scalcoutWAIT_Wait               /* Wait */
+} scalcoutWAIT;
+#define scalcoutWAIT_NUM_CHOICES 2
+#endif
+
 #ifndef scalcoutDOPT_NUM_CHOICES
 typedef enum {
     scalcoutDOPT_Use_VAL            /* Use CALC */,
@@ -28,14 +36,6 @@ typedef enum {
     scalcoutOOPT_Never              /* Never */
 } scalcoutOOPT;
 #define scalcoutOOPT_NUM_CHOICES 7
-#endif
-
-#ifndef scalcoutWAIT_NUM_CHOICES
-typedef enum {
-    scalcoutWAIT_NoWait             /* NoWait */,
-    scalcoutWAIT_Wait               /* Wait */
-} scalcoutWAIT;
-#define scalcoutWAIT_NUM_CHOICES 2
 #endif
 
 #ifndef scalcoutINAV_NUM_CHOICES

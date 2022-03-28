@@ -35,14 +35,6 @@ typedef enum {
 #define acalcoutINAV_NUM_CHOICES 4
 #endif
 
-#ifndef acalcoutINAP_NUM_CHOICES
-typedef enum {
-    acalcoutINAP_No                 /* No PROC on Change */,
-    acalcoutINAP_Yes                /* PROC on Change */
-} acalcoutINAP;
-#define acalcoutINAP_NUM_CHOICES 2
-#endif
-
 #ifndef acalcoutWAIT_NUM_CHOICES
 typedef enum {
     acalcoutWAIT_NoWait             /* NoWait */,
@@ -62,6 +54,14 @@ typedef enum {
     acalcoutOOPT_Never              /* Never */
 } acalcoutOOPT;
 #define acalcoutOOPT_NUM_CHOICES 7
+#endif
+
+#ifndef acalcoutINAP_NUM_CHOICES
+typedef enum {
+    acalcoutINAP_No                 /* No PROC on Change */,
+    acalcoutINAP_Yes                /* PROC on Change */
+} acalcoutINAP;
+#define acalcoutINAP_NUM_CHOICES 2
 #endif
 
 typedef struct acalcoutRecord {

@@ -17,6 +17,14 @@ typedef enum {
 #define transformCOPT_NUM_CHOICES 2
 #endif
 
+#ifndef transformIVLA_NUM_CHOICES
+typedef enum {
+    transformIVLA_IGNORE            /* Ignore error */,
+    transformIVLA_DO_NOTHING        /* Do Nothing */
+} transformIVLA;
+#define transformIVLA_NUM_CHOICES 2
+#endif
+
 #ifndef transformIAV_NUM_CHOICES
 typedef enum {
     transformIAV_EXT_NC             /* Ext PV NC */,
@@ -25,14 +33,6 @@ typedef enum {
     transformIAV_CON                /* Constant */
 } transformIAV;
 #define transformIAV_NUM_CHOICES 4
-#endif
-
-#ifndef transformIVLA_NUM_CHOICES
-typedef enum {
-    transformIVLA_IGNORE            /* Ignore error */,
-    transformIVLA_DO_NOTHING        /* Do Nothing */
-} transformIVLA;
-#define transformIVLA_NUM_CHOICES 2
 #endif
 
 typedef struct transformRecord {
