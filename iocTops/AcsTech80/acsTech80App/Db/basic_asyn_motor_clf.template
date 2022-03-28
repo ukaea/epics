@@ -39,7 +39,6 @@ record(motor,"$(P)$(M)")
 	field(MDEL, "$(MDEL=0)")
     field(NTM, "$(NTM=1)")
     field(HLSV, "$(HLSV=MAJOR)")
-    field(SPDB, "$(SPDB=0)")
     field(SDIS, "$(P)$(M):SDIS.VAL") 
 	field(PCOF, "$(PCOF)")
     field(ICOF, "$(ICOF)")
@@ -68,8 +67,7 @@ record(calcout, "$(P)$(M):SDIS") {
 }
 
 #Record to stop the motor record with ASG=ALWAYS
-record(bo, "$(P)$(M):Stop")
-{
+record(bo, "$(P)$(M):Stop") {
     field(DESC,"Stop the motor")
     field(DTYP,"Soft Channel")
     field(OUT, "$(P)$(M).STOP PP")

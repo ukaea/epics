@@ -16,7 +16,7 @@ include $(TOP)/configure/CONFIG
 DB += error_calc.template
 DB += home_button_visibility.template
 DB += basic_asyn_motor_clf.template
-
+DB += SPiiPlus.substitutions
 
 #----------------------------------------------------
 # If <anyname>.db template is not named <anyname>*.template add

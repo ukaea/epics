@@ -2,7 +2,7 @@
 #/ Date = 08/08/2006 17:03
 #/ User remarks = #0
 ! X-AXIS
-! Ibex dual rotary stage, 4xHR2 Nanomotiion motors per axis, AB5 amplifier, firmware 3.2
+! Ibex dual rotary stage, 4xHR2 Nanomotion motors per axis, AB5 amplifier, firmware 3.2
 ! Renishaw encoders, 20 micron pitch, X2000 interpolator, 1 count = 10 nm, 15 counts = 1 micro-radian
 ! ACS-Tech80 SpiPlus PCI-4 controller, firmware 5.0
 !Note: Set dcEnable flag in AUTOEXEC routine to select AB2 or AB5 amplifier

@@ -1,0 +1,90 @@
+#################################################################################
+# General purpose Asyn motor template for stepper based systems.
+# Required macros: P, M, PORT, ADDR, DESC, VELO, MRES, PREC, EGU, DHLM, DLLM, TWV
+
+record(motor,"$(P)$(M)")
+{
+	field(DESC,"$(DESC)")
+	field(DTYP,"$(DTYP=asynMotor)")
+	field(DIR,"$(DIR=0)")
+	field(VELO,"$(VELO)")
+	field(VBAS,"$(VBAS=0)")
+	field(ACCL,"$(ACCL=0.5)")
+	field(BDST,"$(BDST=0)")
+	field(BVEL,"$(BVEL=0)")
+	field(BACC,"$(BACC=0.5)")
+	field(OUT,"@asyn($(PORT),$(ADDR))")
+	field(MRES,"$(MRES)")
+	field(PREC,"$(PREC)")
+	field(EGU,"$(EGU)")
+	field(DHLM,"$(DHLM)")
+	field(DLLM,"$(DLLM)")
+	field(INIT,"$(INIT=)")
+	field(RTRY,"$(RTRY=1)")
+    field(DLY,"$(DLY=0)")   
+    field(HVEL,"$(HVEL=$(VELO))")
+    field(SREV, "$(SREV=1000)")
+    field(RRES, "$(RRES=)")
+    field(TWV, "$(TWV=1)")
+    field(ERES, "$(ERES=)")
+    field(JAR, "$(JAR=)")
+    field(UEIP, "$(UEIP=0)")
+    field(URIP, "$(URIP=0)")        
+    field(RDBL, "$(RDBL=)")         
+    field(VMAX, "$(VMAX=$(VELO))")
+    field(OFF, "$(OFF=0)")
+    field(RDBD, "$(RDBD=)")
+    field(FOFF, "$(FOFF=0)")
+    field(ADEL, "$(ADEL=0)")
+	field(MDEL, "$(MDEL=0)")
+    field(NTM, "$(NTM=1)")
+    field(HLSV, "$(HLSV=MAJOR)")
+    field(SDIS, "$(P)$(M):SDIS.VAL") 
+    info(autosaveFields_pass0, "DVAL OFF MRES ERES")
+    info(autosaveFields, "DIR DHLM DLLM TWV VELO ACCL BDST BVEL BACC EGU RTRY PREC MRES ERES RDBD DESC UEIP")
+	info(archive, "Monitor, 00:00:01, VAL OFF RBV DMOV MISS MSTA STAT LVIO HLS LLS RCNT MOVN CNEN")
+}
+
+#Enable/Disable channel access for the motor record
+record(bo, "$(P)$(M):Disable") {
+  field(VAL, "0")
+  field(PINI, "YES")
+  field(ZNAM, "Enabled")
+  field(ONAM, "Disabled")
+  info(autosaveFields_pass0, "VAL")
+  field(OUT, "$(P)$(M):SDIS.A PP")
+}
+
+#Record that will disable and re-enable record if any of its inputs are non-zero
+record(calcout, "$(P)$(M):SDIS") {
+  field(DESC, "Disable on non-zero input")
+  field(VAL, "0")
+  field(CALC, "(A|B|C|D|E|F|G|H|I|J|K|L)>0")
+  field(OUT, "$(P)$(M).DISP PP")
+}
+
+#Record to stop the motor record with ASG=ALWAYS
+record(bo, "$(P)$(M):Stop")
+{
+    field(DESC,"Stop the motor")
+    field(DTYP,"Soft Channel")
+    field(OUT, "$(P)$(M).STOP PP")
+    field(VAL, "1")
+	field(ASG, "ALWAYS")
+}
+
+#Include record to provide calculated error
+include "error_calc.template"
+
+#Include records to control the visibility of the home buttons on motor_detail.db
+include "home_button_visibility.template"
+
+# Provide an easy way for the user to set the desired position
+# by adjusting the user offset field. Write to the .A field to do this.
+record(calcout, "$(P)$(M):Calibrate") {
+   field(INPB, "$(P)$(M).DRBV")
+   field(CALC, "A-B")
+   field(OOPT, "Every Time")
+   field(DOPT, "Use CALC")
+   field(OUT, "$(P)$(M).OFF PP")
+}

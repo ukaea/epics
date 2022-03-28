@@ -15,6 +15,7 @@ perl -CSD %DLLDIR%dbdExpand.pl -I. -I.. -I..\O.Common -I%TOPLEVEL%DBD -o .\O.Com
 perl -CSD %DLLDIR%registerRecordDeviceDriver.pl O.Common\acsTechIOC.dbd acsTech80_registerRecordDeviceDriver %TOPLEVEL% > O.Common\acsTech80_registerRecordDeviceDriver.cpp
 
 
+xcopy /Y /Q basic_asyn_motor_clf.template %BUILDIR%iocBoot\iocAcsTech80
 xcopy /Y /Q O.Common\*.dbd  %TOPLEVEL%DBD > NUL
 
 echo BatchCompleted: %ERRORLEVEL%

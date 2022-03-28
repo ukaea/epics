@@ -6,7 +6,7 @@
 # ACCL = Acceleration time. Seconds to Velocity
 # BDST = backlash distance. BL Distance (EGU)
 # BVEL = backlash speed. BL Velocity (EGU/s)
-# BACC = backlash acceleration time. BL Seconds to Veloc.
+# BACC = backlash acceleration time. BL Seconds to Velocity.
 # MRES = Motor Step Size (EGU). (MRES = UREV/SREV)
 # PREC = Display Precision. The number of digits to the right of the decimal that are to be displayed by MEDM and other channel-access clients.
 # UREV = EGU's per Revolution
@@ -28,7 +28,7 @@
 file basic_asyn_motor_clf.template
 {
 pattern
-        {P,             N,  M,        DTYP,        C,  S,  DESC,           EGU,  DIR,  VELO,  VBAS,    ACCL,  BDST,  BVEL,   BACC,       MRES,     ERES,  PREC,  DHLM,   DLLM,  UEIP,  VMAX}
-        {acsTimBENCH:,  1,  "m$(N)",  "SPiiPlus",  0,  0,  "Mod1_M$(N)",   mm,   Pos,  4.0,     0,     0.25,     0,     1,     .2,    0.00050,  0.00010,  5,     100,   -100,   0,     50}
-        {acsTimBENCH:,  2,  "m$(N)",  "SPiiPlus",  0,  1,  "Mod1_M$(N)",   mm,   Pos,  4.0,     0,     0.25,     0,     1,     .2,    0.00050,  0.00010,  5,     100,   -100,   1,     50}
+  {P,            N,  M,        DTYP,        C,  S,  DESC,           EGU,  DIR,  VELO,  VBAS,    ACCL,  BDST,  BVEL,   BACC,       MRES,     ERES, PREC, DHLM, DLLM, UEIP, VMAX}
+  {acsTimBENCH:, 1,  "m$(N)",  "SPiiPlus",  0,  0,  "Mod1_M$(N)",   mm,   Pos,  4.0,     0,     0.25,     0,     1,     .2,    0.00050,  0.00010, 5,    100, -100,  0,    50}
+  {acsTimBENCH:, 2,  "m$(N)",  "SPiiPlus",  0,  1,  "Mod1_M$(N)",   mm,   Pos,  4.0,     0,     0.25,     0,     1,     .2,    0.00050,  0.00010, 5,    100, -100,  1,    50}
 }

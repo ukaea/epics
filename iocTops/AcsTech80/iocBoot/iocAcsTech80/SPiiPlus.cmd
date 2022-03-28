@@ -1,9 +1,19 @@
 # serial 61 is connected to the SPiiPlus Motor Controller
 #drvAsynIPPortConfigure("portName","hostInfo",priority,noAutoConnect,
 #                        noProcessEos)
+
+#epicsEnvSet("PORT","serial61")
+#epicsEnvSet("ADDR","0")
+
 drvAsynIPPortConfigure("serial61", "10.0.0.100:701", 0, 0, 0)
 #asynOctetSetInputEos("serial61",0,"\r")
 #asynOctetSetOutputEos("serial61",0,"\r")
+
+#DEBUG
+#asynSetTraceMask("serial61",0,0x9)
+#asynSetTraceIOMask("serial61",0,0x2)
+# asynSetTraceMask("serial61",0,0xFF)
+# asynSetTraceIOMask("serial61",0,0xFF)
 
 dbLoadTemplate("SPiiPlus.substitutions")
 
