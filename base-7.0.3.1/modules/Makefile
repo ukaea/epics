@@ -34,6 +34,9 @@ pvDatabase_DEPEND_DIRS = pvAccess
 SUBMODULES += pva2pva
 pva2pva_DEPEND_DIRS = pvAccess
 
+SUBMODULES += pcas
+pcas_DEPEND_DIRS = libcom
+
 SUBMODULES += example
 example_DEPEND_DIRS = pva2pva pvaClient
 
