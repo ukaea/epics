@@ -90,12 +90,7 @@ struct Putter : public pvac::ClientChannel::PutCallback
 
     Putter() :done(false) {}
 
-    typedef pvd::shared_vector<std::string> bare_t;
-    bare_t bare;
-
-    typedef std::pair<std::string, std::string> KV_t;
-    typedef std::vector<KV_t> pairs_t;
-    pairs_t pairs;
+    std::vector<std::string> values;
 
     pvd::shared_vector<std::string> jarr;
 
@@ -103,6 +98,54 @@ struct Putter : public pvac::ClientChannel::PutCallback
     {
         if(debugFlag) std::cerr<<"Server defined structure\n"<<build;
         pvd::PVStructurePtr root(pvd::getPVDataCreate()->createPVStructure(build));
+
+        typedef pvd::shared_vector<std::string> bare_t;
+        bare_t bare;
+
+        typedef std::pair<std::string, std::string> KV_t;
+        typedef std::vector<KV_t> pairs_t;
+        pairs_t pairs;
+
+        for(size_t i=0, N=values.size(); i<N; i++) {
+            // Try to break the input value into a field=value pair
+            size_t sep = values[i].find_first_of('=');
+            if(sep==std::string::npos) {
+                // If the value does not contain a "=", it is a bare value
+                bare.push_back(values[i]);
+            } else {
+                // Verify if the "field" exists in the PV structure
+                std::string fname(values[i].substr(0, sep));
+                pvd::PVFieldPtr fld(root->getSubField(fname));
+                if(fld) {
+                    // The "field" exist. Treat this input as a filed=value pair.
+                    pairs.push_back(std::make_pair(fname, values[i].substr(sep+1)));
+                } else {
+                    // If the "field" does not exist, this could be a bare value containing a "=" char.
+                    // The ".value" field must exist and be of type "string". Otherwise, the field was
+                    // incorrect and we ignore it.
+                    pvd::PVFieldPtr fldv(root->getSubFieldT("value"));
+                    if (fldv) {
+                        if ((pvd::scalar==fldv->getField()->getType()) && (0==fldv->getField()->getID().compare("string")))
+                            // Tread it as a bare value
+                            bare.push_back(values[i]);
+                        else
+                            // Ignore it
+                            fprintf(stderr, "%s : Warning: no such field. Ignoring it.\n", fname.c_str());
+                    }
+                }
+            }
+        }
+
+        if(!bare.empty() && !pairs.empty()) {
+            throw std::runtime_error("Can't mix bare values and field=value pairs");
+        } else if(bare.empty() && pairs.empty()) {
+            // We could have ignored all the value at this point
+            throw std::runtime_error("No valid value(s) specified");
+        } else if(bare.size()==1 && bare[0][0]=='[') {
+            // treat plain "[...]" as "value=[...]"
+            pairs.push_back(std::make_pair("value", bare[0]));
+            bare.clear();
+        }
 
         if(bare.size()==1 && bare[0][0]=='{') {
             if(debugFlag) fprintf(stderr, "In JSON top mode\n");
@@ -322,10 +365,9 @@ int main (int argc, char *argv[])
             fprintf(stderr, "No pv name specified. ('pvput -h' for help.)\n");
             return 1;
         }
-        std::string pv = argv[optind++];
+        std::string pvName(argv[optind++]);
 
         std::string providerName(defaultProvider);
-        std::string pvName(pv);
 
         int nVals = argc - optind;       /* Remaining arg list are PV names */
         if (nVals < 1)
@@ -334,34 +376,11 @@ int main (int argc, char *argv[])
             return 1;
         }
 
-        std::vector<std::string> values;
-        // copy values from command line
-        for (int n = 0; optind < argc; n++, optind++)
-            values.push_back(argv[optind]);
-
         Putter thework;
 
-        for(size_t i=0, N=values.size(); i<N; i++)
-        {
-            size_t sep = values[i].find_first_of('=');
-            if(sep==std::string::npos) {
-                thework.bare.push_back(values[i]);
-            } else {
-                thework.pairs.push_back(std::make_pair(values[i].substr(0, sep),
-                                                       values[i].substr(sep+1)));
-            }
-        }
-
-        if(!thework.bare.empty() && !thework.pairs.empty()) {
-            usage();
-            fprintf(stderr, "\nCan't mix bare values and field=value pairs\n");
-            return 1;
-
-        } else if(thework.bare.size()==1 && thework.bare[0][0]=='[') {
-            // treat plain "[...]" as "value=[...]"
-            thework.pairs.push_back(std::make_pair("value", thework.bare[0]));
-            thework.bare.clear();
-        }
+        // copy values from command line
+        for (int n = 0; optind < argc; n++, optind++)
+            thework.values.push_back(argv[optind]);
 
         pvd::PVStructure::shared_pointer pvRequest;
         try {

@@ -26,7 +26,13 @@ INC += cacIO.h
 INC += caDiagnostics.h
 INC += net_convert.h
 INC += caVersion.h
-INC += caVersionNum.h
+
+EXPAND_COMMON += caVersion.h@
+
+EXPAND_ME += EPICS_CA_MAJOR_VERSION
+EXPAND_ME += EPICS_CA_MINOR_VERSION
+EXPAND_ME += EPICS_CA_MAINTENANCE_VERSION
+EXPAND_ME += EPICS_CA_DEVELOPMENT_FLAG
 
 LIBSRCS += cac.cpp
 LIBSRCS += cacChannel.cpp
@@ -73,6 +79,9 @@ LIBSRCS += comBuf.cpp
 LIBSRCS += hostNameCache.cpp
 LIBSRCS += msgForMultiplyDefinedPV.cpp
 
+API_HEADER = libCaAPI.h
+ca_API = libCa
+
 LIBRARY=ca
 
 ca_RCS = ca.rc
@@ -86,10 +95,7 @@ PROD_LIBS = ca Com
 # needed when its an object library build
 PROD_SYS_LIBS_WIN32 = ws2_32 advapi32 user32
 
-PROD_DEFAULT += caRepeater catime acctst caConnTest casw caEventRate
-PROD_vxWorks = -nil-
-PROD_RTEMS = -nil-
-PROD_iOS = -nil-
+PROD_CMD += caRepeater catime acctst caConnTest casw caEventRate
 
 OBJS_vxWorks = catime acctst caConnTest casw caEventRate acctstRegister
 
@@ -107,7 +113,7 @@ SCRIPTS_Linux = caRepeater.service
 
 EXPAND += S99caRepeater@
 EXPAND += caRepeater.service@
-EXPAND_VARS = INSTALL_BIN=$(abspath $(INSTALL_BIN))
+EXPAND_VARS = INSTALL_BIN=$(FINAL_LOCATION)/bin/$(T_A)
 
 SRC_DIRS += $(CURDIR)/test
 PROD_HOST += ca_test
@@ -117,20 +123,7 @@ ca_test_SYS_LIBS_WIN32 = ws2_32 advapi32 user32
 
 OBJS_vxWorks += ca_test
 
-EXPANDVARS += EPICS_CA_MAJOR_VERSION
-EXPANDVARS += EPICS_CA_MINOR_VERSION
-EXPANDVARS += EPICS_CA_MAINTENANCE_VERSION
-EXPANDVARS += EPICS_CA_DEVELOPMENT_FLAG
-
-EXPANDFLAGS += $(foreach var,$(EXPANDVARS),-D$(var)="$(strip $($(var)))")
-
 # shared library ABI version.
 SHRLIB_VERSION = $(EPICS_CA_MAJOR_VERSION).$(EPICS_CA_MINOR_VERSION).$(EPICS_CA_MAINTENANCE_VERSION)
 
 include $(TOP)/configure/RULES
-
-
-# Can't use EXPAND as generated headers must appear
-# in O.Common, but EXPAND emits rules for O.$(T_A)
-../O.Common/caVersionNum.h: ../caVersionNum.h@
-	$(EXPAND_TOOL) $(EXPANDFLAGS) $($@_EXPANDFLAGS) $< $@

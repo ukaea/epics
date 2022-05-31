@@ -45,14 +45,14 @@ public:
         return clientRPC->getRequesterName();
     }
 
-    virtual void message(std::string const & message, epics::pvData::MessageType messageType) {
+    virtual void message(std::string const & message, MessageType messageType) {
         PvaClientRPCPtr clientRPC(pvaClientRPC.lock());
         if(!clientRPC) return;
         clientRPC->message(message,messageType);
     }
 
     virtual void channelRPCConnect(
-        const epics::pvData::Status& status,
+        const Status& status,
         ChannelRPC::shared_pointer const & channelRPC)
     {
         PvaClientRPCPtr clientRPC(pvaClientRPC.lock());
@@ -94,7 +94,7 @@ PvaClientRPC::PvaClientRPC(
         PvaClientPtr const &pvaClient,
         Channel::shared_pointer const & channel,
         PVStructurePtr const &pvRequest)
-: 
+:
   connectState(connectIdle),
   pvaClient(pvaClient),
   channel(channel),
@@ -104,7 +104,7 @@ PvaClientRPC::PvaClientRPC(
 {
     if(PvaClient::getDebug()) {
          cout<< "PvaClientRPC::PvaClientRPC()"
-             << " channelName " << channel->getChannelName() 
+             << " channelName " << channel->getChannelName()
              << endl;
     }
 }
@@ -170,7 +170,7 @@ void PvaClientRPC::rpcConnect(
          cout << "PvaClientRPC::rpcConnect calling waitForConnect.signal\n";
     }
     waitForConnect.signal();
-    
+
 }
 
 void PvaClientRPC::requestDone(
@@ -195,7 +195,7 @@ void PvaClientRPC::requestDone(
              Channel::shared_pointer chan(channel.lock());
              if(chan) channelName = chan->getChannelName();
              string message = "channel "
-                 + channelName 
+                 + channelName
                  +" PvaClientRPC::requestDone"
                  + " but not active";
              throw std::runtime_error(message);
@@ -222,7 +222,7 @@ void PvaClientRPC::connect()
     Channel::shared_pointer chan(channel.lock());
     string channelName("disconnected");
     if(chan) channelName = chan->getChannelName();
-    string message = string("channel ") 
+    string message = string("channel ")
         + channelName
         + " PvaClientRPC::connect "
         + status.getMessage();
@@ -237,7 +237,7 @@ void PvaClientRPC::issueConnect()
         string channelName("disconnected");
         if(chan) channelName = chan->getChannelName();
         string message = string("channel ")
-            + channelName 
+            + channelName
             + " pvaClientRPC already connected ";
         throw std::runtime_error(message);
     }
@@ -326,7 +326,7 @@ void PvaClientRPC::request(
     PVStructure::shared_pointer const & pvArgument,
     PvaClientRPCRequesterPtr const & pvaClientRPCRequester)
 {
-    checkRPCState();   
+    checkRPCState();
     this->pvaClientRPCRequester = pvaClientRPCRequester;
     if(responseTimeout<=0.0) {
          {

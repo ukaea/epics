@@ -273,7 +273,7 @@ static void testPVScalarArray(
         cout << endl;
     }
 }
-    
+
 static void scalarTest()
 {
     if(debug) {cout << endl << endl << "****scalarTest****" << endl;}
@@ -401,4 +401,3 @@ MAIN(testPVCopy)
     powerSupplyTest();
     return 0;
 }
-

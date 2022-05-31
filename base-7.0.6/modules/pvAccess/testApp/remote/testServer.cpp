@@ -2503,7 +2503,7 @@ private:
 };
 
 
-class MockServerChannelProvider : 	public ChannelProvider,
+class MockServerChannelProvider :   public ChannelProvider,
     public std::tr1::enable_shared_from_this<MockServerChannelProvider>
 {
 public:
@@ -2819,7 +2819,7 @@ int main(int argc, char *argv[])
                                    .build()));
     TestServer::ctx = srv;
     srv->context->printInfo();
-    srv->context->run(epics::pvData::castUnsafe<epicsUInt32>(timeToRun));
+    srv->context->run(epics::pvData::castUnsafe<uint32>(timeToRun));
 
     cout << "Done" << endl;
 

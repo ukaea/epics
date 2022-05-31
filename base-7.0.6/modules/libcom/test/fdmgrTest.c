@@ -3,6 +3,7 @@
 *     National Laboratory.
 * Copyright (c) 2002 The Regents of the University of California, as
 *     Operator of Los Alamos National Laboratory.
+* SPDX-License-Identifier: EPICS
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
@@ -88,7 +89,7 @@ void testTimer (fdctx *pfdm, double delay)
 
     measuredDelay = epicsTimeDiffInSeconds (&cbs.time, &begin);
     measuredError = fabs (measuredDelay-delay);
-    printf ("measured delay for %lf sec was off by %lf sec (%lf %%)\n", 
+    printf ("measured delay for %lf sec was off by %lf sec (%lf %%)\n",
         delay, measuredError, 100.0*measuredError/delay);
 }
 
@@ -119,7 +120,7 @@ int main (int argc, char **argv)
          SEVCHK(ca_search (argv[1], &chan), NULL);
     }
 
-    for(int loop=0; loop < 5; loop++)  {
+    while (1) {
         tmo.tv_sec = 0;
         tmo.tv_usec = 100000;
         cbsfd.trig = 0;
@@ -130,9 +131,9 @@ int main (int argc, char **argv)
 
     status = fdmgr_delete (pfdm);
     verify (status==0);
-    
+
     printf ( "Test Complete\n" );
-    
+
     return 0;
 }
 

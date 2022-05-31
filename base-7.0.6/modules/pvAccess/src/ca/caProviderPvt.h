@@ -13,28 +13,29 @@
 #define CAPROVIDERPVT_H
 
 #include <cadef.h>
+#include <epicsMutex.h>
+
+#include <pv/logger.h>
+#include <pv/pvAccess.h>
 
 #include <pv/caProvider.h>
-#include <pv/pvAccess.h>
+#include "caContext.h"
+#include "notifierConveyor.h"
 
 
 namespace epics {
 namespace pvAccess {
 namespace ca {
 
-#define DEBUG_LEVEL 0
-
-class ChannelConnectThread;
-typedef std::tr1::shared_ptr<ChannelConnectThread> ChannelConnectThreadPtr;
-
-class MonitorEventThread;
-typedef std::tr1::shared_ptr<MonitorEventThread> MonitorEventThreadPtr;
-
-class GetDoneThread;
-typedef std::tr1::shared_ptr<GetDoneThread> GetDoneThreadPtr;
-
-class PutDoneThread;
-typedef std::tr1::shared_ptr<PutDoneThread> PutDoneThreadPtr;
+#define EXCEPTION_GUARD(code) try { code; } \
+    catch (std::exception &e) { \
+        LOG(logLevelError, "Unhandled exception from client code at %s:%d: %s", \
+            __FILE__, __LINE__, e.what()); \
+    } \
+    catch (...) { \
+        LOG(logLevelError, "Unhandled exception from client code at %s:%d.", \
+            __FILE__, __LINE__); \
+    }
 
 class CAChannel;
 typedef std::tr1::shared_ptr<CAChannel> CAChannelPtr;
@@ -50,7 +51,6 @@ class CAChannelProvider :
 {
 public:
     POINTER_DEFINITIONS(CAChannelProvider);
-    CAChannelProvider();
     CAChannelProvider(const std::tr1::shared_ptr<Configuration>&);
     virtual ~CAChannelProvider();
 
@@ -80,19 +80,24 @@ public:
     virtual void flush();
     virtual void poll();
 
-    void attachContext();
     void addChannel(const CAChannelPtr & channel);
+
+    CAContextPtr caContext() {
+        return ca_context;
+    }
+    void notifyConnection(NotificationPtr const &notificationPtr) {
+        connectNotifier.notifyClient(notificationPtr);
+    }
+    void notifyResult(NotificationPtr const &notificationPtr) {
+        resultNotifier.notifyClient(notificationPtr);
+    }
 private:
-    
-    virtual void destroy() EPICS_DEPRECATED {}
-    void initialize();
-    ca_client_context* current_context;
-    epics::pvData::Mutex channelListMutex;
+    CAContextPtr ca_context;
+    epicsMutex channelListMutex;
     std::vector<CAChannelWPtr> caChannelList;
-    ChannelConnectThreadPtr channelConnectThread;
-    MonitorEventThreadPtr monitorEventThread;
-    GetDoneThreadPtr getDoneThread;
-    PutDoneThreadPtr putDoneThread;
+
+    NotifierConveyor connectNotifier;
+    NotifierConveyor resultNotifier;
 };
 
 }}}

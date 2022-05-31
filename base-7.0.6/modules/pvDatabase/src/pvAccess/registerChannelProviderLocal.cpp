@@ -46,7 +46,6 @@ extern "C" void pvdbl(const iocshArgBuf *args)
 static void registerChannelProviderLocal(void)
 {
     static int firstTime = 1;
-cout << "registerChannelProviderLocal firstTime " << (firstTime ? "true" : "false") << endl;
     if (firstTime) {
         firstTime = 0;
         iocshRegister(&pvdblFuncDef, pvdbl);

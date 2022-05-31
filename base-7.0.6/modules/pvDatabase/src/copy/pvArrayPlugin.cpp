@@ -76,9 +76,19 @@ static vector<string> split(string const & colonSeparatedList) {
 
 PVArrayFilterPtr PVArrayFilter::create(
      const std::string & requestValue,
-     const PVFieldPtr & master)
+     const PVFieldPtr & masterField)
 {
-    Type type = master->getField()->getType();
+    bool masterIsUnion = false;
+    PVUnionPtr pvUnion;
+    Type type = masterField->getField()->getType();
+    if(type==epics::pvData::union_) {
+        pvUnion = std::tr1::static_pointer_cast<PVUnion>(masterField);
+        PVFieldPtr pvField = pvUnion->get();
+        if(pvField) {
+            masterIsUnion = true;
+            type = pvField->getField()->getType();
+        }
+    }
     if(type!=scalarArray) {
         PVArrayFilterPtr filter = PVArrayFilterPtr();
         return filter;
@@ -112,60 +122,82 @@ PVArrayFilterPtr PVArrayFilter::create(
         PVArrayFilterPtr filter = PVArrayFilterPtr();
         return filter;
     }
+    PVScalarArrayPtr masterArray;
+    if(masterIsUnion) {
+        masterArray = static_pointer_cast<PVScalarArray>(pvUnion->get());
+    } else {
+        masterArray = static_pointer_cast<PVScalarArray>(masterField);
+    }
     PVArrayFilterPtr filter =
          PVArrayFilterPtr(
-             new PVArrayFilter(
-                 start,increment,end,static_pointer_cast<PVScalarArray>(master))); 
+             new PVArrayFilter(start,increment,end,masterField,masterArray));
     return filter;
 }
 
-PVArrayFilter::PVArrayFilter(long start,long increment,long end,const PVScalarArrayPtr & masterArray)
+PVArrayFilter::PVArrayFilter(
+    long start,long increment,long end,
+    const PVFieldPtr & masterField,
+    const epics::pvData::PVScalarArrayPtr masterArray)
 : start(start),
   increment(increment),
   end(end),
+  masterField(masterField),
   masterArray(masterArray)
 {
 }
 
 
-bool PVArrayFilter::filter(const PVFieldPtr & pvCopy,const BitSetPtr & bitSet,bool toCopy)
+bool PVArrayFilter::filter(const PVFieldPtr & pvField,const BitSetPtr & bitSet,bool toCopy)
 {
-    PVScalarArrayPtr copyArray = static_pointer_cast<PVScalarArray>(pvCopy);
+    PVFieldPtr pvCopy = pvField;
+    PVScalarArrayPtr copyArray;
+    bool isUnion = false;
+    Type type = masterField->getField()->getType();
+    if(type==epics::pvData::union_) {
+        isUnion = true;
+        PVUnionPtr pvMasterUnion = std::tr1::static_pointer_cast<PVUnion>(masterField);
+        PVUnionPtr pvCopyUnion = std::tr1::static_pointer_cast<PVUnion>(pvCopy);
+        if(toCopy) pvCopyUnion->copy(*pvMasterUnion);
+        PVFieldPtr pvField = pvCopyUnion->get();
+        copyArray = static_pointer_cast<PVScalarArray>(pvField);
+    } else {
+       copyArray = static_pointer_cast<PVScalarArray>(pvCopy);
+    }
     long len = 0;
     long start = this->start;
     long end = this->end;
     long no_elements = masterArray->getLength();
     if(start<0) {
-    	start = no_elements+start;
-    	if(start<0) start = 0;
+        start = no_elements+start;
+        if(start<0) start = 0;
     }
     if (end < 0) {
-    	end = no_elements + end;
-    	if (end < 0) end = 0;
+        end = no_elements + end;
+        if (end < 0) end = 0;
 
     }
-    if(toCopy) {	
-    	if (end >= no_elements) end = no_elements - 1;
-    	if (end - start >= 0) len = 1 + (end - start) / increment;
-    	if(len<=0 || start>=no_elements) {
-    		copyArray->setLength(0);
-    		return true;
-    	}
-    	long indfrom = start;
-    	long indto = 0;
-    	copyArray->setCapacity(len);
-    	if(increment==1) {
+    if(toCopy) {
+        if (end >= no_elements) end = no_elements - 1;
+        if (end - start >= 0) len = 1 + (end - start) / increment;
+        if(len<=0 || start>=no_elements) {
+            copyArray->setLength(0);
+            return true;
+        }
+        long indfrom = start;
+        long indto = 0;
+        copyArray->setCapacity(len);
+        if(increment==1) {
             copy(*masterArray,indfrom,1,*copyArray,indto,1,len);
-    	} else {
-    	    for(long i=0; i<len; ++i) {
-    	        copy(*masterArray,indfrom,1,*copyArray,indto,1,1);
-    	        indfrom += increment;
-    	         indto += 1;
-    	    }
-    	}
-    	copyArray->setLength(len);
-    	bitSet->set(pvCopy->getFieldOffset());
-    	return true;
+        } else {
+            for(long i=0; i<len; ++i) {
+                copy(*masterArray,indfrom,1,*copyArray,indto,1,1);
+                indfrom += increment;
+                 indto += 1;
+            }
+        }
+        copyArray->setLength(len);
+        bitSet->set(pvField->getFieldOffset());
+        return true;
     }
     if (end - start >= 0) len = 1 + (end - start) / increment;
     if(len<=0) return true;
@@ -173,21 +205,21 @@ bool PVArrayFilter::filter(const PVFieldPtr & pvCopy,const BitSetPtr & bitSet,bo
     long indfrom = 0;
     long indto = start;
     if(increment==1) {
-    	copy(*copyArray,indfrom,1,*masterArray,indto,1,len);
+        copy(*copyArray,indfrom,1,*masterArray,indto,1,len);
     } else {
-    	for(long i=0; i<len; ++i) {
-    	    copy(*copyArray,indfrom,1,*masterArray,indto,1,1);
-    	    indfrom += 1;
-    	     indto += increment;
-    	}
+        for(long i=0; i<len; ++i) {
+            copy(*copyArray,indfrom,1,*masterArray,indto,1,1);
+            indfrom += 1;
+             indto += increment;
+        }
     }
+    if(isUnion) masterField->postPut();
     return true;
 }
 
 string PVArrayFilter::getName()
 {
-	return name;
+    return name;
 }
 
 }}
-

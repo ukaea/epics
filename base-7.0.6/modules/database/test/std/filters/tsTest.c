@@ -2,6 +2,7 @@
 * Copyright (c) 2010 Brookhaven National Laboratory.
 * Copyright (c) 2010 Helmholtz-Zentrum Berlin
 *     fuer Materialien und Energie GmbH.
+* SPDX-License-Identifier: EPICS
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
@@ -73,7 +74,7 @@ MAIN(tsTest)
 
     testOk(!!(plug = dbFindFilter(ts, strlen(ts))), "plugin ts registered correctly");
 
-    testOk(!!(pch = dbChannelCreate("x.VAL{\"ts\":{}}")), "dbChannel with plugin ts created");
+    testOk(!!(pch = dbChannelCreate("x.VAL{ts:{}}")), "dbChannel with plugin ts created");
     testOk((ellCount(&pch->filters) == 1), "channel has one plugin");
 
     memset(&fl, PATTERN, sizeof(fl));

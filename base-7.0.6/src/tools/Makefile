@@ -16,6 +16,8 @@ PERL_MODULES += EPICS/Path.pm
 PERL_MODULES += EPICS/Release.pm
 PERL_MODULES += EPICS/Readfile.pm
 PERL_MODULES += EPICS/Getopts.pm
+PERL_MODULES += EPICS/PodHtml.pm
+PERL_MODULES += EPICS/PodXHtml.pm
 
 # This goes into lib/perl, not bin/<host>
 PERL_MODULES += EpicsHostArch.pl
@@ -29,6 +31,7 @@ PERL_SCRIPTS += epicsProve.pl
 PERL_SCRIPTS += expandVars.pl
 PERL_SCRIPTS += fullPathName.pl
 PERL_SCRIPTS += installEpics.pl
+PERL_SCRIPTS += makeAPIheader.pl
 PERL_SCRIPTS += makeMakefile.pl
 PERL_SCRIPTS += makeTestfile.pl
 PERL_SCRIPTS += mkmf.pl
@@ -37,6 +40,7 @@ PERL_SCRIPTS += podToHtml.pl
 PERL_SCRIPTS += podRemove.pl
 PERL_SCRIPTS += replaceVAR.pl
 PERL_SCRIPTS += tap-to-junit-xml.pl
+PERL_SCRIPTS += testFailures.pl
 PERL_SCRIPTS += useManifestTool.pl
 PERL_SCRIPTS += genVersionHeader.pl
 
@@ -47,6 +51,7 @@ HTMLS += EPICS/Getopts.html
 HTMLS += EPICS/Path.html
 HTMLS += EPICS/Readfile.html
 HTMLS += fullPathName.html
+HTMLS += makeAPIheader.html
 HTMLS += munch.html
 HTMLS += podToHtml.html
 HTMLS += podRemove.html

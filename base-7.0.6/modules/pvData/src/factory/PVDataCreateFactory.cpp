@@ -144,8 +144,7 @@ PVString::PVString(ScalarConstPtr const & scalar)
 
 std::ostream& PVString::dumpValue(std::ostream& o) const
 {
-    // we escape, but do not quote, for scalar string
-    o<<escape(get());
+    o<<maybeQuote(get());
     return o;
 }
 
@@ -160,17 +159,17 @@ void PVString::serialize(ByteBuffer *pbuffer,
 void PVString::serialize(ByteBuffer *pbuffer,
     SerializableControl *pflusher, size_t offset, size_t count) const
 {
-	// check bounds
+    // check bounds
     const size_t length = storage.value.length();
-	/*if (offset < 0) offset = 0;
-	else*/ if (offset > length) offset = length;
-	//if (count < 0) count = length;
+    /*if (offset < 0) offset = 0;
+    else*/ if (offset > length) offset = length;
+    //if (count < 0) count = length;
 
-	const size_t maxCount = length - offset;
-	if (count > maxCount)
-		count = maxCount;
-	
-	// write
+    const size_t maxCount = length - offset;
+    if (count > maxCount)
+        count = maxCount;
+
+    // write
     SerializeHelper::serializeSubstring(storage.value, offset, count, pbuffer, pflusher);
 }
 
@@ -191,7 +190,7 @@ template<typename T>
 PVValueArray<T>::PVValueArray(ScalarArrayConstPtr const & scalarArray)
     :base_t(scalarArray)
     ,value()
-  
+
 {}
 
 PVValueArray<PVStructurePtr>::PVValueArray(StructureArrayConstPtr const & structureArray)
@@ -233,7 +232,7 @@ std::ostream& PVValueArray<T>::dumpValue(std::ostream& o) const
 template<>
 std::ostream& PVValueArray<std::string>::dumpValue(std::ostream& o, size_t index) const
 {
-    return o << '"' << escape(this->view().at(index)) << '"';
+    return o << maybeQuote(this->view().at(index));
 }
 
 template<>
@@ -244,9 +243,9 @@ std::ostream& PVValueArray<std::string>::dumpValue(std::ostream& o) const
                                   end(v.end());
     o << '[';
     if(it!=end) {
-        o << '"' << escape(*it++) << '"';
+        o << maybeQuote(*it++);
         for(; it!=end; ++it)
-            o << ", \"" << escape(*it) << '"';
+            o << ", " << maybeQuote(*it);
 
     }
     return o << ']';
@@ -627,7 +626,7 @@ PVScalarArrayPtr PVDataCreate::createPVScalarArray(
            return PVScalarArrayPtr(new PVStringArray(scalarArray));
      }
      throw std::logic_error("PVDataCreate::createPVScalarArray should never get here");
-     
+
 }
 
 PVScalarArrayPtr PVDataCreate::createPVScalarArray(
@@ -780,4 +779,3 @@ namespace std{
         return o << "nullptr";
     }
 }
-

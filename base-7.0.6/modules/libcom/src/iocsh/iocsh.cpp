@@ -3,8 +3,9 @@
 *     National Laboratory.
 * Copyright (c) 2002 The Regents of the University of California, as
 *     Operator of Los Alamos National Laboratory.
+* SPDX-License-Identifier: EPICS
 * EPICS BASE is distributed subject to a Software License Agreement found
-* in file LICENSE that is included with this distribution. 
+* in file LICENSE that is included with this distribution.
 \*************************************************************************/
 /* iocsh.cpp */
 /* Author:  Marty Kraimer Date: 27APR2000 */
@@ -19,7 +20,6 @@
 #include <ctype.h>
 #include <errno.h>
 
-#define epicsExportSharedSymbols
 #include "epicsMath.h"
 #include "errlog.h"
 #include "macLib.h"
@@ -39,7 +39,7 @@ extern "C" {
 /*
  * Global link to pdbbase
  */
-epicsShareDef struct dbBase **iocshPpdbbase;
+struct dbBase **iocshPpdbbase;
 
 /*
  * File-local information
@@ -109,7 +109,7 @@ iocshTableUnlock (void)
 /*
  * Register a command
  */
-void epicsShareAPI iocshRegister (const iocshFuncDef *piocshFuncDef,
+void epicsStdCall iocshRegister (const iocshFuncDef *piocshFuncDef,
     iocshCallFunc func)
 {
     struct iocshCommand *l, *p, *n;
@@ -152,7 +152,7 @@ void epicsShareAPI iocshRegister (const iocshFuncDef *piocshFuncDef,
 /*
  * Retrieves a previously registered function with the given name.
  */
-const iocshCmdDef * epicsShareAPI iocshFindCommand(const char *name)
+const iocshCmdDef * epicsStdCall iocshFindCommand(const char *name)
 {
     return (iocshCmdDef *) registryFind(iocshCmdID, name);
 }
@@ -163,9 +163,14 @@ const iocshCmdDef * epicsShareAPI iocshFindCommand(const char *name)
 static const iocshArg varCmdArg0 = { "[variable", iocshArgString};
 static const iocshArg varCmdArg1 = { "[value]]", iocshArgString};
 static const iocshArg *varCmdArgs[2] = {&varCmdArg0, &varCmdArg1};
-static const iocshFuncDef varFuncDef = {"var", 2, varCmdArgs};
+static const iocshFuncDef varFuncDef = {"var", 2, varCmdArgs,
+                                        "Print all, print single variable or set value to single variable\n"
+                                        "  (default) - print all variables and their values"
+                                        " defined in database definitions files\n"
+                                        "  variable  - if only parameter print value for this variable\n"
+                                        "  value     - set the value to variable\n"};
 
-void epicsShareAPI iocshRegisterVariable (const iocshVarDef *piocshVarDef)
+void epicsStdCall iocshRegisterVariable (const iocshVarDef *piocshVarDef)
 {
     struct iocshVariable *l, *p, *n;
     int i;
@@ -181,7 +186,7 @@ void epicsShareAPI iocshRegisterVariable (const iocshVarDef *piocshVarDef)
         for (l = NULL, p = iocshVariableHead ; p != NULL ; l = p, p = p->next) {
             i = strcmp (piocshVarDef->name, p->pVarDef->name);
             if (i == 0) {
-                if (p->pVarDef != piocshVarDef) {
+                if ((p->pVarDef->type != piocshVarDef->type) && (p->pVarDef->pval != piocshVarDef->pval)) {
                     errlogPrintf("Warning: iocshRegisterVariable redefining %s.\n",
                         piocshVarDef->name);
                     p->pVarDef = piocshVarDef;
@@ -220,7 +225,7 @@ void epicsShareAPI iocshRegisterVariable (const iocshVarDef *piocshVarDef)
 /*
  * Retrieves a previously registered variable with the given name.
  */
-const iocshVarDef * epicsShareAPI iocshFindVariable(const char *name)
+const iocshVarDef * epicsStdCall iocshFindVariable(const char *name)
 {
     struct iocshVariable *temp = (iocshVariable *) registryFind(iocshVarID, name);
     return temp ? temp->pVarDef : 0;
@@ -229,7 +234,7 @@ const iocshVarDef * epicsShareAPI iocshFindVariable(const char *name)
 /*
  * Free storage created by iocshRegister/iocshRegisterVariable
  */
-void epicsShareAPI iocshFree(void) 
+void epicsStdCall iocshFree(void) 
 {
     struct iocshCommand *pc;
     struct iocshVariable *pv;
@@ -322,7 +327,7 @@ cvtArg (const char *filename, int lineno, char *arg, iocshArgBuf *argBuf,
             }
             strcpy(argBuf->sval, arg);
         } else {
-            argBuf->sval = NULL;
+          argBuf->sval = NULL;
         }
         break;
 
@@ -442,7 +447,10 @@ stopRedirect(const char *filename, int lineno, struct iocshRedirect *redirect)
 static const iocshArg helpArg0 = { "[command ...]",iocshArgArgv};
 static const iocshArg *helpArgs[1] = {&helpArg0};
 static const iocshFuncDef helpFuncDef =
-    {"help",1,helpArgs};
+    {"help",1,helpArgs,
+    "With no arguments, list available command names.\n"
+    "With arguments, list arguments and usage for command(s).\n"
+    "Command names may contain wildcards\n"};
 static void helpCallFunc(const iocshArgBuf *args)
 {
     int argc = args[0].aval.ac;
@@ -485,6 +493,9 @@ static void helpCallFunc(const iocshArgBuf *args)
             for (pcmd = iocshCommandHead ; pcmd != NULL ; pcmd = pcmd->next) {
                 piocshFuncDef = pcmd->def.pFuncDef;
                 if (epicsStrGlobMatch(piocshFuncDef->name, argv[iarg]) != 0) {
+                    if(piocshFuncDef->usage) {
+                        fputs("\nUsage: ", epicsGetStdout());
+                    }
                     fputs(piocshFuncDef->name, epicsGetStdout());
                     for (int a = 0 ; a < piocshFuncDef->nargs ; a++) {
                         const char *cp = piocshFuncDef->arg[a]->name;
@@ -497,6 +508,9 @@ static void helpCallFunc(const iocshArgBuf *args)
                         }
                     }
                     fprintf(epicsGetStdout(),"\n");;
+                    if(piocshFuncDef->usage) {
+                        fprintf(epicsGetStdout(), "\n%s", piocshFuncDef->usage);
+                    }
                 }
             }
         }
@@ -568,7 +582,7 @@ iocshBody (const char *pathname, const char *commandLine, const char *macros)
     iocshContext *context;
     char ** defines = NULL;
     int ret = 0;
-    
+
     iocshInit();
 
     /*
@@ -616,23 +630,21 @@ iocshBody (const char *pathname, const char *commandLine, const char *macros)
     redirects = (struct iocshRedirect *)calloc(NREDIRECTS, sizeof *redirects);
     if (redirects == NULL) {
         fprintf(epicsGetStderr(), "Out of memory!\n");
-        if (fp) fclose(fp);
         return -1;
     }
-    
+
     /*
      * Parse macro definitions, this check occurs before creating the
      * macro handle to simplify cleanup.
      */
-    
+
     if (macros) {
         if (macParseDefns(NULL, macros, &defines) < 0) {
             free(redirects);
-            if (fp) fclose(fp);
             return -1;
         }
     }
-    
+
     // Check for existing context or construct a new one.
     context = (iocshContext *) epicsThreadPrivateGet(iocshContextId);
 
@@ -642,10 +654,9 @@ iocshBody (const char *pathname, const char *commandLine, const char *macros)
             errlogMessage("iocsh: macCreateHandle failed.");
             free(redirects);
             free(context);
-            if (fp) fclose(fp);
             return -1;
         }
-        
+
         epicsThreadPrivateSet(iocshContextId, (void *) context);
     }
     MAC_HANDLE *handle = context->handle;
@@ -655,7 +666,7 @@ iocshBody (const char *pathname, const char *commandLine, const char *macros)
 
     macPushScope(handle);
     macInstallMacros(handle, defines);
-    
+
     wasOkToBlock = epicsThreadIsOkToBlock();
     epicsThreadSetOkToBlock(1);
 
@@ -975,7 +986,7 @@ iocshBody (const char *pathname, const char *commandLine, const char *macros)
         stopRedirect(filename, lineno, redirects);
     }
     macPopScope(handle);
-    
+
     if (!scope.outer) {
         macDeleteHandle(handle);
         free(context);
@@ -1002,19 +1013,19 @@ iocshBody (const char *pathname, const char *commandLine, const char *macros)
 /*
  * External access to the command interpreter
  */
-int epicsShareAPI
+int epicsStdCall
 iocsh (const char *pathname)
 {
     return iocshLoad(pathname, NULL);
 }
 
-int epicsShareAPI
+int epicsStdCall
 iocshCmd (const char *cmd)
 {
     return iocshRun(cmd, NULL);
 }
 
-int epicsShareAPI
+int epicsStdCall
 iocshLoad(const char *pathname, const char *macros)
 {
     if (pathname)
@@ -1022,7 +1033,7 @@ iocshLoad(const char *pathname, const char *macros)
     return iocshBody(pathname, NULL, macros);
 }
 
-int epicsShareAPI
+int epicsStdCall
 iocshRun(const char *cmd, const char *macros)
 {
     if (cmd == NULL)
@@ -1034,25 +1045,25 @@ iocshRun(const char *cmd, const char *macros)
  * Needed to work around the necessary limitations of macLib and
  * environment variables. In every other case of macro expansion
  * it is the expected outcome that defined macros override any
- * environment variables. 
+ * environment variables.
  *
- * iocshLoad/Run turn this on its head as it is very likely that 
- * an epicsEnvSet command may be run within the context of their 
- * calls. Thus, it would be expected that the new value would be 
+ * iocshLoad/Run turn this on its head as it is very likely that
+ * an epicsEnvSet command may be run within the context of their
+ * calls. Thus, it would be expected that the new value would be
  * returned in any future macro expansion.
  *
  * To do so, the epicsEnvSet command needs to be able to access
  * and update the shared MAC_HANDLE that the iocsh uses. Which is
  * what this function is provided for.
  */
-void epicsShareAPI
+void epicsStdCall
 iocshEnvClear(const char *name)
 {
     iocshContext *context;
-    
+
     if (iocshContextId) {
         context = (iocshContext *) epicsThreadPrivateGet(iocshContextId);
-    
+
         if (context != NULL) {
             macPutValue(context->handle, name, NULL);
         }
@@ -1115,17 +1126,26 @@ static void varHandler(const iocshVarDef *v, const char *setString)
 static void varCallFunc(const iocshArgBuf *args)
 {
     struct iocshVariable *v;
-    if(args[0].sval == NULL) {
+    const char *name = args[0].sval;
+    const char *value = args[1].sval;
+
+    if (!value) {
+        int found = 0;
         for (v = iocshVariableHead ; v != NULL ; v = v->next)
-            varHandler(v->pVarDef, args[1].sval);
+            if (!name || epicsStrGlobMatch(v->pVarDef->name, name) != 0) {
+                varHandler(v->pVarDef, NULL);
+                found = 1;
+            }
+        if (!found && name != NULL)
+            fprintf(epicsGetStderr(), "No var matching %s found.\n", name);
     }
     else {
         v = (iocshVariable *)registryFind(iocshVarID, args[0].sval);
         if (v == NULL) {
-            fprintf(epicsGetStderr(), "Var %s not found.\n", args[0].sval);
+            fprintf(epicsGetStderr(), "Var %s not found.\n", name);
         }
         else {
-            varHandler(v->pVarDef, args[1].sval);
+            varHandler(v->pVarDef, value);
         }
     }
 }
@@ -1133,7 +1153,10 @@ static void varCallFunc(const iocshArgBuf *args)
 /* iocshCmd */
 static const iocshArg iocshCmdArg0 = { "command",iocshArgString};
 static const iocshArg *iocshCmdArgs[1] = {&iocshCmdArg0};
-static const iocshFuncDef iocshCmdFuncDef = {"iocshCmd",1,iocshCmdArgs};
+static const iocshFuncDef iocshCmdFuncDef = {"iocshCmd",1,iocshCmdArgs,
+                                             "Takes a single IOC shell command and executes it\n"
+                                             "  * This function is most useful to execute a single IOC shell command\n"
+                                             "    from vxWorks or RTEMS startup script (or command line)\n"};
 static void iocshCmdCallFunc(const iocshArgBuf *args)
 {
     iocshCmd(args[0].sval);
@@ -1143,7 +1166,9 @@ static void iocshCmdCallFunc(const iocshArgBuf *args)
 static const iocshArg iocshLoadArg0 = { "pathname",iocshArgString};
 static const iocshArg iocshLoadArg1 = { "macros", iocshArgString};
 static const iocshArg *iocshLoadArgs[2] = {&iocshLoadArg0, &iocshLoadArg1};
-static const iocshFuncDef iocshLoadFuncDef = {"iocshLoad",2,iocshLoadArgs};
+static const iocshFuncDef iocshLoadFuncDef = {"iocshLoad",2,iocshLoadArgs,
+                                              "Execute IOC shell commands provided in file from first parameter\n"
+                                              "  * (optional) replace macros within the file with provided values\n"};
 static void iocshLoadCallFunc(const iocshArgBuf *args)
 {
     iocshLoad(args[0].sval, args[1].sval);
@@ -1153,7 +1178,10 @@ static void iocshLoadCallFunc(const iocshArgBuf *args)
 static const iocshArg iocshRunArg0 = { "command",iocshArgString};
 static const iocshArg iocshRunArg1 = { "macros", iocshArgString};
 static const iocshArg *iocshRunArgs[2] = {&iocshRunArg0, &iocshRunArg1};
-static const iocshFuncDef iocshRunFuncDef = {"iocshRun",2,iocshRunArgs};
+static const iocshFuncDef iocshRunFuncDef = {"iocshRun",2,iocshRunArgs,
+                                             "Takes a single IOC shell command, replaces macros and executes it\n"
+                                             "  * This function is most useful to execute a single IOC shell command\n"
+                                             "    from vxWorks or RTEMS startup script (or command line)\n"};
 static void iocshRunCallFunc(const iocshArgBuf *args)
 {
     iocshRun(args[0].sval, args[1].sval);
@@ -1162,7 +1190,12 @@ static void iocshRunCallFunc(const iocshArgBuf *args)
 /* on */
 static const iocshArg onArg0 = { "'error' 'continue' | 'break' | 'wait' [value] | 'halt'", iocshArgArgv };
 static const iocshArg *onArgs[1] = {&onArg0};
-static const iocshFuncDef onFuncDef = {"on", 1, onArgs};
+static const iocshFuncDef onFuncDef = {"on", 1, onArgs,
+                                       "Change IOC shell error handling.\n"
+                                       "  continue (default) - Ignores error and continue with next commands.\n"
+                                       "  break - Return to caller without executing futher commands.\n"
+                                       "  halt - Suspend process.\n"
+                                       "  wait - stall process for [value] seconds, the continue.\n"};
 static void onCallFunc(const iocshArgBuf *args)
 {
     iocshContext *context = (iocshContext *) epicsThreadPrivateGet(iocshContextId);
@@ -1228,7 +1261,8 @@ static void commentCallFunc(const iocshArgBuf *)
 
 /* exit */
 static const iocshFuncDef exitFuncDef =
-    {"exit",0,0};
+    {"exit",0,0,
+     "Return to caller.  IOCs exit() from process.\n"};
 static void exitCallFunc(const iocshArgBuf *)
 {
 }

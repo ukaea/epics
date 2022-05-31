@@ -18,7 +18,7 @@
 #include <list>
 #include <iostream>
 #include <ostream>
-#include <sstream>  
+#include <sstream>
 #include <pv/requester.h>
 #include <pv/status.h>
 #include <pv/event.h>
@@ -36,12 +36,12 @@
 
 #ifdef pvaClientEpicsExportSharedSymbols
 #   define epicsExportSharedSymbols
-#	undef pvaClientEpicsExportSharedSymbols
+#   undef pvaClientEpicsExportSharedSymbols
 #endif
 
 #include <shareLib.h>
 
-namespace epics { namespace pvaClient { 
+namespace epics { namespace pvaClient {
 
 class PvaClient;
 typedef std::tr1::shared_ptr<PvaClient> PvaClientPtr;
@@ -58,8 +58,6 @@ typedef std::tr1::shared_ptr<PvaClientChannelStateChangeRequester> PvaClientChan
 typedef std::tr1::weak_ptr<PvaClientChannelStateChangeRequester> PvaClientChannelStateChangeRequesterWPtr;
 class PvaClientChannel;
 typedef std::tr1::shared_ptr<PvaClientChannel> PvaClientChannelPtr;
-class PvaClientField;
-typedef std::tr1::shared_ptr<PvaClientField> PvaClientFieldPtr;
 class PvaClientProcessRequester;
 typedef std::tr1::shared_ptr<PvaClientProcessRequester> PvaClientProcessRequesterPtr;
 typedef std::tr1::weak_ptr<PvaClientProcessRequester> PvaClientProcessRequesterWPtr;
@@ -85,8 +83,6 @@ typedef std::tr1::shared_ptr<PvaClientMonitor> PvaClientMonitorPtr;
 class PvaClientMonitorRequester;
 typedef std::tr1::shared_ptr<PvaClientMonitorRequester> PvaClientMonitorRequesterPtr;
 typedef std::tr1::weak_ptr<PvaClientMonitorRequester> PvaClientMonitorRequesterWPtr;
-class PvaClientArray;
-typedef std::tr1::shared_ptr<PvaClientArray> PvaClientArrayPtr;
 class PvaClientRPC;
 typedef std::tr1::shared_ptr<PvaClientRPC> PvaClientRPCPtr;
 class PvaClientRPCRequester;
@@ -101,7 +97,6 @@ typedef std::tr1::shared_ptr<PvaClientChannelCache> PvaClientChannelCachePtr;
 /**
  * @brief  pvaClient is a synchronous wrapper for the pvAccess API, which is a callback based API.
  *
- *  <a href = "../htmldoxygen/pvaClient.html">Overview of PvaClient</a>
  */
 class epicsShareClass PvaClient :
      public epics::pvData::Requester,
@@ -119,16 +114,11 @@ public:
      * @return shared pointer to the single instance.
      */
     static PvaClientPtr get(std::string const & providerNames = "pva ca");
-    /** @brief Get the requester name.
-     * @return The name.
-     */
-     /** @brief Create an instance of PvaClient with providerName "pva ca".
+    /** @brief Create an instance of PvaClient with providerName "pva ca".
      * @return shared pointer to the single instance
      * @deprecated This method will go away in future versions. Use get instead.
      */
     static PvaClientPtr create() EPICS_DEPRECATED;
-
-    std::string getRequesterName();
     /** @brief A new message.
      *
      * If a requester is set then it is called otherwise message is displayed
@@ -156,18 +146,24 @@ public:
      * @param channelName The channelName.
      * @param providerName The provider.
      * @return The interface.
-     * @throw runtime_error if connection fails.
      */
     PvaClientChannelPtr createChannel(
        std::string const & channelName,
        std::string const & providerName = "pva");
-    
+
     /** @brief Set a requester.
      *
      * The default is for PvaClient to handle messages by printing to System.out.
      * @param requester The requester.
      */
     void setRequester(epics::pvData::RequesterPtr const & requester);
+    /** @brief Get the requester name.
+     *
+     * If client calls setRequester then the client supplies the name.
+     * Otherwise the name is pvaClient.
+     * @return The name.
+     */
+    std::string getRequesterName();
     /** @brief Clear the requester. PvaClient will handle messages.
      */
     void clearRequester();
@@ -204,10 +200,9 @@ class PvaClientPutCache;
 typedef std::tr1::shared_ptr<PvaClientPutCache> PvaClientPutCachePtr;
 
 
-/** 
+/**
  * @brief A callback for change in connection status.
  *
- * <a href = "../htmldoxygen/pvaClientChannelStateChangeRequester.html">Overview of PvaClientChannelStateChangeRequester</a>
  *
  */
 class epicsShareClass PvaClientChannelStateChangeRequester
@@ -228,10 +223,9 @@ public:
     virtual void channelStateChange(PvaClientChannelPtr const & channel, bool isConnected) = 0;
 };
 
-/** 
+/**
  * @brief An easy to use alternative to directly calling the Channel methods of pvAccess.
  *
- * <a href = "../htmldoxygen/pvaClientChannel.html">Overview of PvaClientChannel</a>
  */
 
 class epicsShareClass PvaClientChannel :
@@ -245,7 +239,7 @@ public:
      */
     ~PvaClientChannel();
     /** @brief Set a client stateChangeRequester.
-     * 
+     *
      * @param stateChangeRequester The client stateChangeRequester implementation.
      */
     void setStateChangeRequester(PvaClientChannelStateChangeRequesterPtr const &stateChangeRequester);
@@ -276,13 +270,6 @@ public:
      * @return status.
      */
     epics::pvData::Status waitConnect(double timeout = 5.0);
-    /**  @brief Create a PvaClientField for the specified subField.
-     *
-     * @param subField The desired subField, i. e. "field.field...."
-     * An empty string, i. e. "", asks for the entire top level struture as defined by the server.
-     * @return The interface.
-     */
-    PvaClientFieldPtr createField(std::string const & subField = "");
     /** @brief First call createRequest as implemented by pvDataCPP and then call the next method.
      *
      * @param request The syntax of request is defined by the copy facility of pvData.
@@ -290,7 +277,7 @@ public:
      * @throw runtime_error if failure.
      */
     PvaClientProcessPtr createProcess(std::string const & request = "");
-    /** Creates a PvaClientProcess. 
+    /** Creates a PvaClientProcess.
      *
      * @param pvRequest The syntax of pvRequest is defined by the copy facility of pvData.
      * @return The interface.
@@ -351,7 +338,7 @@ public:
     epics::pvData::shared_vector<const std::string>  getStringArray(
         std::string const & request = "field(value)");
     /** @brief create a PvaClientPut.
-     * 
+     *
      * Get a cached PvaClientPut or create and connect to a new PvaClientPut.
      * Then call it's get method.
      * @param request The syntax of request is defined by the copy facility of pvData.
@@ -397,7 +384,7 @@ public:
         epics::pvData::shared_vector<const double> const & value,
         std::string const & request = "field(value)");
     /** @brief Copy array to the value field.
-     * 
+     *
      * @param value The new value.
      * @param request The syntax of request is defined by the copy facility of pvData.
      * @throw runtime_error if failure.
@@ -426,20 +413,6 @@ public:
      * @return The interface.
      */
     PvaClientPutGetPtr createPutGet(epics::pvData::PVStructurePtr const & pvRequest);
-    /** @brief Create a PvaClientArray.
-     *
-     * First call createRequest as implemented by pvDataJava and then call the next method.
-     * @param request The syntax of request is defined by the copy facility of pvData.
-     * @return The interface.
-     * @throw runtime_error if failure.
-     */
-    PvaClientArrayPtr createArray(std::string const & request = "field(value)");
-    /** @brief Create a PvaClientArray.
-     * @param pvRequest The syntax of pvRequest is defined by the copy facility of pvData.
-     * @return The interface.
-     * @throw runtime_error if failure.
-     */
-    PvaClientArrayPtr createArray(epics::pvData::PVStructurePtr const &  pvRequest);
     /** @brief Create a PvaClientMonitor.
      *
      * Create and connect to a new PvaClientMonitor.
@@ -450,7 +423,7 @@ public:
      * @throw runtime_error if failure.
      */
     PvaClientMonitorPtr monitor(std::string const & request = "field(value,alarm,timeStamp)");
-    /** @brief Call the next method with request =  "field(value,alarm,timeStamp)" 
+    /** @brief Call the next method with request =  "field(value,alarm,timeStamp)"
       *
       * @param pvaClientMonitorRequester The client callback.
       * @return The interface.
@@ -539,7 +512,7 @@ private:
     std::string channelName;
     std::string providerName;
     ConnectState connectState;
-    
+
     epics::pvData::CreateRequest::shared_pointer createRequest;
     PvaClientGetCachePtr pvaClientGetCache;
     PvaClientPutCachePtr pvaClientPutCache;
@@ -561,10 +534,9 @@ public:
     friend class PvaClient;
 };
 
-/** 
+/**
  *  @brief A base class for PvaClientGetData, PvaClientPutData, and PvaClientMonitorData.
  *
- * <a href = "../htmldoxygen/pvaClientData.html">Overview of PvaClientData</a>
  */
 class epicsShareClass PvaClientData
 {
@@ -685,15 +657,15 @@ public:
      *
      * Accepts arguments of the form json or field='value' where value is json syntax.
      * field is name.name...
-     * @param args The arguments
+     * @param args The arguments.
      * @throw runtime_error if failure.
      */
     void parse(const std::vector<std::string> &args);
-    /** @brief generate JSON output from the current PVStructure
+    /** @brief generate JSON output from the current PVStructure and displays it on the output stream.
      *
-     * @param strm output stream
-     * @param ignoreUnprintable false or true; default is true.
-     * @param multiline false or true; default is false
+     * @param strm The output stream.
+     * @param ignoreUnprintable false or true; The default is true.
+     * @param multiline false or true; The default is false.
      *
      * @throw runtime_error if failure.
      */
@@ -704,14 +676,8 @@ public:
      /** @brief set length of all array fields to 0
      */
     void zeroArrayLength();
-    /** @brief Factory method for creating an instance of PvaClientData.
-     *
-     * NOTE: Not normally called by clients
-     * @param structure Introspection interface
-     * @throw runtime_error if failure.
-     */
-    static PvaClientDataPtr create(epics::pvData::StructureConstPtr const & structure);
 protected:
+    static PvaClientDataPtr create(epics::pvData::StructureConstPtr const & structure);
     PvaClientData(epics::pvData::StructureConstPtr const & structure);
     epics::pvData::PVFieldPtr getSinglePVField();
     void checkValue();
@@ -737,10 +703,9 @@ private:
     friend class PvaClientPutGet;
 };
 
-/** 
+/**
  *  @brief A class that holds data returned by PvaClientGet or PvaClientPutGet
  *
- * <a href = "../htmldoxygen/pvaClientGetData.html">Overview of PvaClientGetData</a>
  */
 class epicsShareClass PvaClientGetData : public PvaClientData
 {
@@ -764,10 +729,9 @@ private:
 };
 
 class PvaClientPostHandlerPvt; // private to PvaClientPutData
-/** 
+/**
  *  @brief A class that holds data given to  by PvaClientPut or PvaClientPutGet
  *
- * <a href = "../htmldoxygen/pvaClientPutData.html">Overview of PvaClientPutData</a>
  */
 class epicsShareClass PvaClientPutData : public PvaClientData
 {
@@ -775,7 +739,7 @@ public:
     POINTER_DEFINITIONS(PvaClientPutData);
     /**
      * @brief Destructor
-     */    
+     */
     ~PvaClientPutData() {}
     /** @brief Put the value as a double.
      * @param value The new value.
@@ -819,8 +783,6 @@ private:
 
 /**
  * @brief A class that holds data returned by PvaClientMonitor
- *
- * <a href = "../htmldoxygen/pvaClientMonitorData.html">Overview of PvaClientMonitorData</a>
  */
 class epicsShareClass PvaClientMonitorData : public PvaClientData
 {
@@ -828,7 +790,7 @@ public:
     POINTER_DEFINITIONS(PvaClientMonitorData);
     /**
      * @brief Destructor
-     */    
+     */
     ~PvaClientMonitorData() {}
     /** @brief Get the overrun BitSet for the pvStructure
      * This shows which fields have had more than one change.
@@ -861,7 +823,6 @@ private:
 /**
  * @brief Optional client callback.
  *
- * <a href = "../htmldoxygen/pvaClientProcessRequester.html">Overview of PvaClientProcessRequester</a>
  */
 class epicsShareClass PvaClientProcessRequester
 {
@@ -896,7 +857,6 @@ typedef std::tr1::shared_ptr<ChannelProcessRequesterImpl> ChannelProcessRequeste
 /**
  * @brief An easy to use alternative to ChannelProcess.
  *
- * <a href = "../htmldoxygen/pvaClientProcess.html">Overview of PvaClientProcess</a>
  */
 class epicsShareClass PvaClientProcess :
     public std::tr1::enable_shared_from_this<PvaClientProcess>
@@ -914,7 +874,7 @@ public:
         PvaClientChannelPtr const & pvaClientChannel,
         epics::pvData::PVStructurePtr const &pvRequest
     );
-    
+
     /** @brief Destructor
      */
     ~PvaClientProcess();
@@ -968,7 +928,7 @@ private:
         PvaClientPtr const &pvaClient,
         PvaClientChannelPtr const & pvaClientChannel,
         epics::pvData::PVStructurePtr const &pvRequest);
-    
+
     void checkProcessState();
     enum ProcessConnectState {connectIdle,connectActive,connected};
 
@@ -1001,7 +961,6 @@ typedef std::tr1::shared_ptr<ChannelGetRequesterImpl> ChannelGetRequesterImplPtr
 /**
  * @brief Optional client callback.
  *
- * <a href = "../htmldoxygen/pvaClientGetRequester.html">Overview of PvaClientGetRequester</a>
  */
 class epicsShareClass PvaClientGetRequester
 {
@@ -1030,7 +989,6 @@ public:
 /**
  * @brief An easy to use alternative to ChannelGet.
  *
- * <a href = "../htmldoxygen/pvaClientGet.html">Overview of PvaClientGet</a>
  */
 class epicsShareClass PvaClientGet :
     public std::tr1::enable_shared_from_this<PvaClientGet>
@@ -1146,7 +1104,6 @@ typedef std::tr1::shared_ptr<ChannelPutRequesterImpl> ChannelPutRequesterImplPtr
 /**
  * @brief Optional client callback.
  *
- * <a href = "../htmldoxygen/pvaClientPutRequester.html">Overview of PvaClientPutRequester</a>
  */
 class epicsShareClass PvaClientPutRequester
 {
@@ -1186,7 +1143,6 @@ public:
 /**
  * @brief An easy to use alternative to ChannelPut.
  *
- * <a href = "../htmldoxygen/pvaClientPut.html">Overview of PvaClientPut</a>
  */
 class epicsShareClass PvaClientPut :
     public std::tr1::enable_shared_from_this<PvaClientPut>
@@ -1279,7 +1235,7 @@ private :
         PvaClientPtr const &pvaClient,
         PvaClientChannelPtr const & pvaClientChannel,
         epics::pvData::PVStructurePtr const &pvRequest);
-    
+
     void checkConnectState();
     enum PutConnectState {connectIdle,connectActive,connected};
 
@@ -1312,7 +1268,6 @@ typedef std::tr1::shared_ptr<ChannelPutGetRequesterImpl> ChannelPutGetRequesterI
 /**
  * @brief Optional client callback.
  *
- * <a href = "../htmldoxygen/pvaClientPutGetRequester.html">Overview of PvaClientPutGetRequester</a>
  */
 class epicsShareClass PvaClientPutGetRequester
 {
@@ -1357,14 +1312,13 @@ public:
         PvaClientPutGetPtr const & clientPutGet)
     {
     }
-    
+
 };
 
 
-/** 
+/**
  * @brief An easy to use alternative to ChannelPutGet.
  *
- * <a href = "../htmldoxygen/pvaClientPutGet.html">Overview of PvaClientPutGet</a>
  */
 class epicsShareClass PvaClientPutGet :
     public std::tr1::enable_shared_from_this<PvaClientPutGet>
@@ -1448,11 +1402,11 @@ public:
     /** @brief Get the put data.
      * @return The interface.
      */
-    PvaClientPutDataPtr getPutData();   
+    PvaClientPutDataPtr getPutData();
     /** @brief Get the get data.
      * @return The interface.
      */
-    PvaClientGetDataPtr getGetData(); 
+    PvaClientGetDataPtr getGetData();
     /** @brief Get the PvaClientChannel;
      *
      * @return The interface.
@@ -1511,11 +1465,9 @@ public:
     friend class ChannelPutGetRequesterImpl;
 };
 
-//class ChannelMonitorRequester; // private to PvaClientMonitor
 /**
  * @brief Optional client callback.
  *
- * <a href = "../htmldoxygen/pvaClientMonitorRequester.html">Overview of PvaClientMonitorRequester</a>
  */
 class epicsShareClass PvaClientMonitorRequester
 {
@@ -1556,7 +1508,6 @@ typedef std::tr1::shared_ptr<MonitorRequesterImpl> MonitorRequesterImplPtr;
 /**
  * @brief An easy to use alternative to Monitor.
  *
- *  <a href = "../htmldoxygen/pvaClientMonitor.html">Overview of PvaClientMonitor</a>
  */
 class epicsShareClass PvaClientMonitor :
     public PvaClientChannelStateChangeRequester,   // remove when deprecated create removed
@@ -1593,7 +1544,7 @@ public:
         std::string const & request,
         PvaClientChannelStateChangeRequesterPtr const & stateChangeRequester
             = PvaClientChannelStateChangeRequesterPtr(),
-        PvaClientMonitorRequesterPtr const & monitorRequester 
+        PvaClientMonitorRequesterPtr const & monitorRequester
             = PvaClientMonitorRequesterPtr()
     ) EPICS_DEPRECATED;
     /** @brief Destructor
@@ -1656,7 +1607,7 @@ public:
      *
      * @return The interface.
      */
-    PvaClientMonitorDataPtr getData();   
+    PvaClientMonitorDataPtr getData();
 private:
     std::string getRequesterName();
     void message(std::string const & message,epics::pvData::MessageType messageType);
@@ -1687,7 +1638,7 @@ private:
     epics::pvData::Status monitorConnectStatus;
     epics::pvData::MonitorPtr monitor;
     epics::pvData::MonitorElementPtr monitorElement;
-    
+
     PvaClientMonitorRequesterWPtr pvaClientMonitorRequester;
     MonitorConnectState connectState;
     bool userPoll;
@@ -1705,7 +1656,6 @@ public:
 /**
  * @brief Optional client callback.
  *
- * <a href = "../htmldoxygen/pvaClientRPCRequester.html">Overview of PvaClientRPCRequester</a>
  */
 class PvaClientRPCRequester
 {
@@ -1731,7 +1681,6 @@ typedef std::tr1::shared_ptr<RPCRequesterImpl> RPCRequesterImplPtr;
 /**
  * @brief An easy to use alternative to RPC.
  *
- * <a href = "../htmldoxygen/pvaClientRPC.html">Overview of PvaClientRPC</a>
  */
 class epicsShareClass PvaClientRPC :
     public std::tr1::enable_shared_from_this<PvaClientRPC>
@@ -1764,7 +1713,7 @@ public:
      * @brief Set a timeout for a request.
      * @param responseTimeout The time in seconds to wait for a request to complete.
      */
-    void setResponseTimeout(double responseTimeout) 
+    void setResponseTimeout(double responseTimeout)
     {
         this->responseTimeout = responseTimeout;
     }
@@ -1834,12 +1783,12 @@ private:
     PvaClient::weak_pointer pvaClient;
     epics::pvAccess::Channel::weak_pointer channel;
     epics::pvData::PVStructurePtr pvRequest;
-    
+
     epics::pvData::Mutex mutex;
     epics::pvData::Event waitForConnect;
     epics::pvData::Event waitForDone;
 
-    PvaClientRPCRequesterWPtr pvaClientRPCRequester;    
+    PvaClientRPCRequesterWPtr pvaClientRPCRequester;
     RPCRequesterImplPtr rpcRequester;
     epics::pvAccess::ChannelRPC::shared_pointer channelRPC;
     epics::pvData::PVStructurePtr pvResponse;
@@ -1854,10 +1803,3 @@ private:
 }}
 
 #endif  /* PVACLIENT_H */
-
-/** @page Overview Documentation
- *
- * <a href = "../pvaClientCPP.html">pvaClientCPP.html</a>
- *  
- */
-

@@ -19,7 +19,7 @@
 
 #include <shareLib.h>
 
-namespace epics { namespace pvDatabase { 
+namespace epics { namespace pvDatabase {
 
 class ScalarAlarmSupport;
 typedef std::tr1::shared_ptr<ScalarAlarmSupport> ScalarAlarmSupportPtr;
@@ -61,19 +61,19 @@ public:
      *
      */
     virtual void reset();
-    /** 
+    /**
      * @brief create a ScalarAlarm
      *
      * @param pvRecord - The pvRecord to which the support is attached.
      * @return The new ScalarAlarm
      */
     static ScalarAlarmSupportPtr create(PVRecordPtr const & pvRecord);
-    /** 
+    /**
      * @brief create a scalarAlarm required by ScalarAlarm
      *
      * @return The scalarAlarmField introspection structure.
      */
-    static epics::pvData::StructureConstPtr scalarAlarmField(); 
+    static epics::pvData::StructureConstPtr scalarAlarmField();
 private:
 
     ScalarAlarmSupport(PVRecordPtr const & pvRecord);
@@ -108,4 +108,3 @@ private:
 }}
 
 #endif  /* SCALARALARMSUPPORT_H */
-

@@ -1,6 +1,7 @@
 /*************************************************************************\
 * Copyright (c) 2011 UChicago Argonne LLC, as Operator of Argonne
 *     National Laboratory.
+* SPDX-License-Identifier: EPICS
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
@@ -29,6 +30,7 @@ int dbLockTest(void);
 int dbPutLinkTest(void);
 int dbStaticTest(void);
 int dbCaLinkTest(void);
+int dbDbLinkTest(void);
 int testDbChannel(void);
 int chfPluginTest(void);
 int arrShorthandTest(void);
@@ -51,6 +53,7 @@ void epicsRunDbTests(void)
     runTest(dbPutLinkTest);
     runTest(dbStaticTest);
     runTest(dbCaLinkTest);
+    runTest(dbDbLinkTest);
     runTest(testDbChannel);
     runTest(arrShorthandTest);
     runTest(recGblCheckDeadbandTest);

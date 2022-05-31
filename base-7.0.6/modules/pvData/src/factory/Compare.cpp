@@ -84,7 +84,7 @@ bool compare(const Structure& a, const Structure& b)
     if(&a==&b)
         return true;
     if (a.getID()!=b.getID())
-    	return false;
+        return false;
     size_t nflds=a.getNumberFields();
     if (b.getNumberFields()!=nflds)
         return false;
@@ -111,7 +111,7 @@ bool compare(const Union& a, const Union& b)
     if(&a==&b)
         return true;
     if (a.getID()!=b.getID())
-    	return false;
+        return false;
     size_t nflds=a.getNumberFields();
     if (b.getNumberFields()!=nflds)
         return false;
@@ -268,7 +268,7 @@ bool compareField(const PVUnion* left, const PVUnion* right)
 
     if(*ls!=*right->getUnion())
         return false;
-        
+
     if (ls->isVariant())
     {
         const PVField::const_shared_pointer& lval = left->get();

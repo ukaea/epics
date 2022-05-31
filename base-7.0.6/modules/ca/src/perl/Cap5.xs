@@ -1,3 +1,11 @@
+/*************************************************************************\
+* Copyright (c) 2005 UChicago Argonne LLC, as Operator of Argonne
+*     National Laboratory.
+* SPDX-License-Identifier: EPICS
+* EPICS BASE is distributed subject to a Software License Agreement found
+* in file LICENSE that is included with this distribution.
+\*************************************************************************/
+
 /* Provides an EPICS Channel Access client interface for Perl5. */
 
 /* This macro disables perl's reentr.inc file, which we don't need
@@ -598,12 +606,12 @@ void CA_put(SV *ca_ref, SV *val, ...) {
         }
     } else {
         union {
+            void         *dbr;
             dbr_char_t   *dbr_char;
             dbr_long_t   *dbr_long;
             dbr_double_t *dbr_double;
             char         *dbr_string;
-            void         *dbr;
-        } p;
+        } p = {0};
         int i;
         chtype type = best_type(pch);
 
@@ -691,12 +699,12 @@ void CA_put_callback(SV *ca_ref, SV *sub, SV *val, ...) {
         }
     } else {
         union {
+            void         *dbr;
             dbr_char_t   *dbr_char;
             dbr_long_t   *dbr_long;
             dbr_double_t *dbr_double;
             char         *dbr_string;
-            void         *dbr;
-        } p;
+        } p = {0};
         int i;
         chtype type = best_type(pch);
 

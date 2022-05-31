@@ -1,6 +1,7 @@
 /*************************************************************************\
 * Copyright (c) 2014 Brookhaven Science Assoc. as operator of Brookhaven
 *               National Laboratory.
+* SPDX-License-Identifier: EPICS
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution.
  \*************************************************************************/
@@ -66,6 +67,7 @@ static const struct testParseDataT {
     {" #B111 C112 N113 @cparam", {CAMAC_IO, "cparam", 0, "BCN", {111, 112, 113}}},
     {" @hello world ", {INST_IO, "hello world", 0, "", /*{}*/}},
     {" {\"x\":true} ", {JSON_LINK, "{\"x\":true}", 0, "", /*{}*/}},
+    {" {'x':true} ", {JSON_LINK, "{'x':true}", 0, "", /*{}*/}},
     {NULL}
 };
 
@@ -254,7 +256,7 @@ typedef struct {
 } testHWDataT;
 
 static const testHWDataT testHWData[] = {
-    {"rJSON_LINK", JSON_LINK, "{\"x\":true}", {0}, "{\"x\":true}"},
+    {"rJSON_LINK", JSON_LINK, "{x:true}", {0}, "{x:true}"},
     {"rVME_IO", VME_IO, "#C100 S101 @parm VME_IO", {100, 101}, "parm VME_IO"},
     {"rCAMAC_IO", CAMAC_IO, "#B11 C12 N13 A14 F15 @parm CAMAC_IO", {11, 12, 13, 14, 15}, "parm CAMAC_IO"},
     {"rAB_IO", AB_IO, "#L21 A22 C23 S24 @parm AB_IO", {21, 22, 23, 24}, "parm AB_IO"},
@@ -459,7 +461,7 @@ static void testLinkInitFail(void)
     eltc(0);
     testOk(dbReadDatabase(&pdbbase, "dbBadLink.db", "." OSI_PATH_LIST_SEPARATOR
         ".." OSI_PATH_LIST_SEPARATOR "../O.Common" OSI_PATH_LIST_SEPARATOR
-	"O.Common", NULL) != 0, "dbReadDatabase returned error (expected)");
+        "O.Common", NULL) != 0, "dbReadDatabase returned error (expected)");
 
     testIocInitOk();
     eltc(1);
@@ -584,9 +586,11 @@ void testJLink(void)
     testdbPutFieldOk("j2.PROC", DBF_LONG, 1);
     testdbPutFieldOk("j3.PROC", DBF_LONG, 1);
 
-    testdbGetFieldEqual("j1.INP", DBF_STRING, "{\"z\":{\"good\":1}}");
+    testdbGetFieldEqual("j1.INP", DBF_STRING, "{z:{good:1}}");
     testdbGetFieldEqual("j1.VAL", DBF_LONG, 1);
+    testdbGetFieldEqual("j2.INP", DBF_STRING, "{\"z\":{'good':2}}");
     testdbGetFieldEqual("j2.VAL", DBF_LONG, 2);
+    testdbGetFieldEqual("j2.TSEL", DBF_STRING, "j1.TIME NPP NMS");
     testdbGetFieldEqual("j3.VAL", DBF_LONG, 3);
 
     testNumZ(6);
@@ -595,7 +599,7 @@ void testJLink(void)
     testdbPutFieldOk("j1.PROC", DBF_LONG, 1);
     testdbGetFieldEqual("j1.VAL", DBF_LONG, 4);
 
-    testdbPutFieldOk("j2.TSEL", DBF_STRING, "{\"z\":{\"good\":0}}");
+    testdbPutFieldOk("j2.TSEL", DBF_STRING, "{'z':{good:0}}");
     testdbPutFieldOk("j2.PROC", DBF_LONG, 1);
 
     testNumZ(7);
@@ -610,8 +614,8 @@ void testJLink(void)
     testNumZ(7);
 
     /* Check SDIS using a JSON link prevents processing */
-    testdbPutFieldOk("j1.SDIS", DBF_STRING, "{\"z\":{\"good\":1}}");
-    testdbPutFieldOk("j1.INP", DBF_STRING, "{\"z\":{\"good\":1}}");
+    testdbPutFieldOk("j1.SDIS", DBF_STRING, "{z:{good:1}}");
+    testdbPutFieldOk("j1.INP", DBF_STRING, "{z:{good:1}}");
     testdbPutFieldOk("j1.PROC", DBF_LONG, 1);
     testdbGetFieldEqual("j1.VAL", DBF_LONG, 4);
 
@@ -696,7 +700,7 @@ void testTSEL(void)
 
 MAIN(dbPutLinkTest)
 {
-    testPlan(337);
+    testPlan(342);
     testLinkParse();
     testLinkFailParse();
     testCADBSet();

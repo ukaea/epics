@@ -23,12 +23,12 @@ using namespace epics::pvAccess;
 using namespace epics::nt;
 using namespace std;
 
-namespace epics { namespace pvaClient { 
+namespace epics { namespace pvaClient {
 
 PvaClientNTMultiMonitorPtr PvaClientNTMultiMonitor::create(
     PvaClientMultiChannelPtr const &pvaMultiChannel,
          PvaClientChannelArray const &pvaClientChannelArray,
-         epics::pvData::PVStructurePtr const &  pvRequest)
+         PVStructurePtr const &  pvRequest)
 {
     UnionConstPtr u = getFieldCreate()->createVariantUnion();
     PvaClientNTMultiMonitorPtr pvaClientNTMultiMonitor(
@@ -79,7 +79,7 @@ void PvaClientNTMultiMonitor::connect()
          if(isConnected[i]) {
                Status status = pvaClientMonitor[i]->waitConnect();
                if(status.isOK()) continue;
-               string message = string("channel ") +pvaClientChannelArray[i]->getChannelName() 
+               string message = string("channel ") +pvaClientChannelArray[i]->getChannelName()
                     + " PvaChannelMonitor::waitConnect " + status.getMessage();
                throw std::runtime_error(message);
          }
@@ -95,20 +95,25 @@ bool PvaClientNTMultiMonitor::poll(bool valueOnly)
 {
     if(!isConnected) connect();
     bool result = false;
-    shared_vector<epics::pvData::boolean> isConnected = pvaClientMultiChannel->getIsConnected();
-    pvaClientNTMultiData->startDeltaTime();
+    shared_vector<epics::pvData::boolean> isConnected = pvaClientMultiChannel->getIsConnected(); 
+    pvaClientNTMultiData->startDeltaTime();  
     for(size_t i=0; i<nchannel; ++i)
     {
          if(isConnected[i]) {
-              if(pvaClientMonitor[i]->poll()) {
+             if(!pvaClientMonitor[i]){
+                  pvaClientMonitor[i]=pvaClientChannelArray[i]->createMonitor(pvRequest);
+                  pvaClientMonitor[i]->connect();
+                  pvaClientMonitor[i]->start();
+              }    
+              if(pvaClientMonitor[i]->poll()) {  
                    pvaClientNTMultiData->setPVStructure(
-                       pvaClientMonitor[i]->getData()->getPVStructure(),i);
+                       pvaClientMonitor[i]->getData()->getPVStructure(),i);    
                    pvaClientMonitor[i]->releaseEvent();
                    result = true;
               }
          }
-    }
-    if(result) pvaClientNTMultiData->endDeltaTime(valueOnly);
+    } 
+    if(result) pvaClientNTMultiData->endDeltaTime(valueOnly);  
     return result;
 }
 

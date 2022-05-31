@@ -1,5 +1,6 @@
 /*************************************************************************\
 * Copyright (c) 2014 ITER Organization.
+* SPDX-License-Identifier: EPICS
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
@@ -179,7 +180,7 @@ MAIN(analogMonitorTest)
     for (irec = 0; irec < NO_OF_RECORD_TYPES; irec++) {
         strcpy(cval, t_Record[irec]);
         strcpy(chan, cval);
-        strcat(chan, ".VAL{\"test\":{}}");
+        strcat(chan, ".VAL{test:{}}");
         if ((strcmp(t_Record[irec], "sel") == 0)
                 || (strcmp(t_Record[irec], "calc") == 0)
                 || (strcmp(t_Record[irec], "calcout") == 0)) {

@@ -96,7 +96,6 @@ public:
     static const Status otherRequestPendingStatus;
     static const Status invalidPutStructureStatus;
     static const Status invalidPutArrayStatus;
-    static const Status invalidBitSetLengthStatus;
     static const Status pvRequestNull;
 
     static BitSet::shared_pointer createBitSetFor(
@@ -104,11 +103,9 @@ public:
         BitSet::shared_pointer const & existingBitSet)
     {
         assert(pvStructure);
-        int pvStructureSize = pvStructure->getNumberFields();
-        if (existingBitSet.get() && static_cast<int32>(existingBitSet->size()) >= pvStructureSize)
+        size_t pvStructureSize = pvStructure->getNumberFields();
+        if (existingBitSet)
         {
-            // clear existing BitSet
-            // also necessary if larger BitSet is reused
             existingBitSet->clear();
             return existingBitSet;
         }
@@ -438,7 +435,6 @@ const Status BaseRequestImpl::channelDestroyed(Status::STATUSTYPE_ERROR, "channe
 const Status BaseRequestImpl::otherRequestPendingStatus(Status::STATUSTYPE_ERROR, "other request pending");
 const Status BaseRequestImpl::invalidPutStructureStatus(Status::STATUSTYPE_ERROR, "incompatible put structure");
 const Status BaseRequestImpl::invalidPutArrayStatus(Status::STATUSTYPE_ERROR, "incompatible put array");
-const Status BaseRequestImpl::invalidBitSetLengthStatus(Status::STATUSTYPE_ERROR, "invalid bit-set length");
 const Status BaseRequestImpl::pvRequestNull(Status::STATUSTYPE_ERROR, "pvRequest == 0");
 
 
@@ -927,12 +923,6 @@ public:
             return;
         }
 
-        if (pvPutBitSet->size() < m_bitSet->size())
-        {
-            EXCEPTION_GUARD3(m_callback, cb, cb->putDone(invalidBitSetLengthStatus, thisPtr));
-            return;
-        }
-
         if (!startRequest(m_lastRequest.get() ? QOS_DESTROY : QOS_DEFAULT)) {
             EXCEPTION_GUARD3(m_callback, cb, cb->putDone(otherRequestPendingStatus, thisPtr));
             return;
@@ -1174,12 +1164,6 @@ public:
         if (!(*m_putData->getStructure() == *pvPutStructure->getStructure()))
         {
             EXCEPTION_GUARD3(m_callback, cb, cb->putGetDone(invalidPutStructureStatus, thisPtr, PVStructurePtr(), BitSetPtr()));
-            return;
-        }
-
-        if (bitSet->size() < m_putDataBitSet->size())
-        {
-            EXCEPTION_GUARD3(m_callback, cb, cb->putGetDone(invalidBitSetLengthStatus, thisPtr, PVStructurePtr(), BitSetPtr()));
             return;
         }
 
@@ -2945,8 +2929,9 @@ public:
         AbstractClientResponseHandler::handleResponse(responseFrom, transport, version, command, payloadSize, payloadBuffer);
 
         transport->ensureData(8);
+        pvAccessID sid = payloadBuffer->getInt();
         pvAccessID cid = payloadBuffer->getInt();
-        /*pvAccessID sid =*/ payloadBuffer->getInt();
+        (void)sid;
 
         // TODO optimize
         ClientChannelImpl::shared_pointer channel = static_pointer_cast<ClientChannelImpl>(_context.lock()->getChannel(cid));
@@ -3972,7 +3957,8 @@ public:
     InternalClientContextImpl(const Configuration::shared_pointer& conf) :
         m_addressList(""), m_autoAddressList(true), m_connectionTimeout(30.0f), m_beaconPeriod(15.0f),
         m_broadcastPort(PVA_BROADCAST_PORT), m_receiveBufferSize(MAX_TCP_RECV),
-        m_lastCID(0), m_lastIOID(0),
+        m_lastCID(0x10203040),
+        m_lastIOID(0x80706050),
         m_version("pvAccess Client", "cpp",
                   EPICS_PVA_MAJOR_VERSION,
                   EPICS_PVA_MINOR_VERSION,
@@ -4775,4 +4761,3 @@ ChannelProvider::shared_pointer createClientProvider(const Configuration::shared
 
 }
 };
-

@@ -1,10 +1,11 @@
 /*************************************************************************\
 * Copyright (c) 2011 LANS LLC, as Operator of
 *     Los Alamos National Laboratory.
-* Copyright (c) 2011 UChicago Argonne, LLC, as Operator of 
+* Copyright (c) 2011 UChicago Argonne, LLC, as Operator of
 *     Argonne National Laboratory.
+* SPDX-License-Identifier: EPICS
 * EPICS BASE is distributed subject to a Software License Agreement found
-* in file LICENSE that is included with this distribution. 
+* in file LICENSE that is included with this distribution.
 \*************************************************************************/
 
 /*
@@ -22,6 +23,33 @@
 
 #include "vxWorks.h" /* obtain the version of vxWorks */
 #include "epicsAssert.h"
+
+#include "vxLib.h"
+#include "intLib.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
+#ifndef EPICS_ATOMIC_LOCK
+#define EPICS_ATOMIC_LOCK
+
+typedef struct EpicsAtomicLockKey { int m_key; } EpicsAtomicLockKey;
+
+EPICS_ATOMIC_INLINE void epicsAtomicLock ( EpicsAtomicLockKey * pKey )
+{
+    pKey->m_key = intLock ();
+}
+
+EPICS_ATOMIC_INLINE void epicsAtomicUnlock ( EpicsAtomicLockKey * pKey )
+{
+    intUnlock ( pKey->m_key );
+}
+#endif
+
+#ifdef __cplusplus
+} /* end of extern "C" */
+#endif /* __cplusplus */
 
 /*
  * With vxWorks 6.6 and later we need to use vxAtomicLib
@@ -55,13 +83,13 @@ EPICS_ATOMIC_INLINE void epicsAtomicWriteMemoryBarrier (void)
 #endif
 
 /*
- * we make the probably correct guess that if ULONG_MAX 
+ * we make the probably correct guess that if ULONG_MAX
  * is the same as UINT_MAX then sizeof ( atomic_t )
  * will be the same as sizeof ( size_t )
  *
  * if ULONG_MAX != UINT_MAX then its 64 bit vxWorks and
- * WRS doesnt not supply at this time the atomic interface 
- * for 8 byte integers that is needed - so that architecture 
+ * WRS doesnt not supply at this time the atomic interface
+ * for 8 byte integers that is needed - so that architecture
  * receives the lock synchronized version
  */
 #if ULONG_MAX == UINT_MAX
@@ -94,8 +122,8 @@ EPICS_ATOMIC_INLINE size_t epicsAtomicDecrSizeT ( size_t * pTarget )
 #define EPICS_ATOMIC_ADD_SIZET
 EPICS_ATOMIC_INLINE size_t epicsAtomicAddSizeT ( size_t * pTarget, size_t delta )
 {
-    /* 
-     * vxAtomicLib doc indicates that vxAtomicAdd is 
+    /*
+     * vxAtomicLib doc indicates that vxAtomicAdd is
      * implemented using signed arithmetic, but it
      * does not change the end result because twos
      * complement addition is used in either case
@@ -103,15 +131,15 @@ EPICS_ATOMIC_INLINE size_t epicsAtomicAddSizeT ( size_t * pTarget, size_t delta 
     atomic_t * const pTarg = ( atomic_t * ) ( pTarget );
     const atomic_t oldVal = vxAtomicAdd ( pTarg, (atomic_t) delta );
     return delta + ( size_t ) oldVal;
-} 
-#endif 
+}
+#endif
 
 #ifndef EPICS_ATOMIC_SUB_SIZET
 #define EPICS_ATOMIC_SUB_SIZET
 EPICS_ATOMIC_INLINE size_t epicsAtomicSubSizeT ( size_t * pTarget, size_t delta )
 {
-    /* 
-     * vxAtomicLib doc indicates that vxAtomicSub is 
+    /*
+     * vxAtomicLib doc indicates that vxAtomicSub is
      * implemented using signed arithmetic, but it
      * does not change the end result because twos
      * complement subtraction is used in either case
@@ -122,35 +150,15 @@ EPICS_ATOMIC_INLINE size_t epicsAtomicSubSizeT ( size_t * pTarget, size_t delta 
 }
 #endif
 
-#ifndef EPICS_ATOMIC_CAS_SIZET
-#define EPICS_ATOMIC_CAS_SIZET
-EPICS_ATOMIC_INLINE size_t epicsAtomicCmpAndSwapSizeT ( size_t * pTarget, 
-                            size_t oldVal, size_t newVal )
-{
-    atomic_t * const pTarg = ( atomic_t * ) ( pTarget );
-    return ( size_t ) vxCas ( pTarg, (atomic_t) oldVal, (atomic_t) newVal );
-}
-#endif
-
-#ifndef EPICS_ATOMIC_CAS_PTRT
-#define EPICS_ATOMIC_CAS_PTRT
-EPICS_ATOMIC_INLINE EpicsAtomicPtrT epicsAtomicCmpAndSwapPtrT ( EpicsAtomicPtrT * pTarget, 
-                            EpicsAtomicPtrT oldVal, EpicsAtomicPtrT newVal )
-{
-    atomic_t * const pTarg = ( atomic_t * ) ( pTarget );
-    return (EpicsAtomicPtrT) vxCas ( pTarg, (atomic_t) oldVal, (atomic_t) newVal );
-}
-#endif
-
 #else /* ULONG_MAX == UINT_MAX */
 
 /*
  * if its 64 bit SMP vxWorks and the compiler doesnt
- * have an intrinsic then maybe there isnt any way to 
- * implement these without using a global lock because 
+ * have an intrinsic then maybe there isnt any way to
+ * implement these without using a global lock because
  * size_t is maybe bigger than atomic_t
  *
- * I dont yet have access to vxWorks manuals for 
+ * I dont yet have access to vxWorks manuals for
  * 64 bit systems so this is still undecided, but is
  * defaulting now to a global lock
  */
@@ -189,15 +197,6 @@ EPICS_ATOMIC_INLINE int epicsAtomicAddIntT ( int * pTarget, int delta )
 }
 #endif
 
-#ifndef EPICS_ATOMIC_CAS_INTT
-#define EPICS_ATOMIC_CAS_INTT
-EPICS_ATOMIC_INLINE int epicsAtomicCmpAndSwapIntT ( int * pTarget, 
-                                            int oldVal, int newVal )
-{
-    atomic_t * const pTarg = ( atomic_t * ) ( pTarget );
-    return ( int ) vxCas ( pTarg, (atomic_t) oldVal, (atomic_t) newVal );
-}
-#endif
 
 #ifdef __cplusplus
 } /* end of extern "C" */
@@ -214,26 +213,10 @@ EPICS_ATOMIC_INLINE int epicsAtomicCmpAndSwapIntT ( int * pTarget,
 extern "C" {
 #endif /* __cplusplus */
 
-#ifndef EPICS_ATOMIC_LOCK
-#define EPICS_ATOMIC_LOCK
-
-typedef struct EpicsAtomicLockKey { int m_key; } EpicsAtomicLockKey;
-
-EPICS_ATOMIC_INLINE void epicsAtomicLock ( EpicsAtomicLockKey * pKey )
-{
-    pKey->m_key = intLock ();
-}
-
-EPICS_ATOMIC_INLINE void epicsAtomicUnlock ( EpicsAtomicLockKey * pKey )
-{
-    intUnlock ( pKey->m_key );
-}
-#endif
-
 #ifndef EPICS_ATOMIC_READ_MEMORY_BARRIER
 #define EPICS_ATOMIC_READ_MEMORY_BARRIER
-/* 
- * no need for memory barrior since prior to vxWorks 6.6 it is a single cpu system 
+/*
+ * no need for memory barrior since prior to vxWorks 6.6 it is a single cpu system
  * (we are not protecting against multiple access to memory mapped IO)
  */
 EPICS_ATOMIC_INLINE void epicsAtomicReadMemoryBarrier (void) {}
@@ -241,8 +224,8 @@ EPICS_ATOMIC_INLINE void epicsAtomicReadMemoryBarrier (void) {}
 
 #ifndef EPICS_ATOMIC_WRITE_MEMORY_BARRIER
 #define EPICS_ATOMIC_WRITE_MEMORY_BARRIER
-/* 
- * no need for memory barrior since prior to vxWorks 6.6 it is a single cpu system 
+/*
+ * no need for memory barrior since prior to vxWorks 6.6 it is a single cpu system
  * (we are not protecting against multiple access to memory mapped IO)
  */
 EPICS_ATOMIC_INLINE void epicsAtomicWriteMemoryBarrier (void) {}

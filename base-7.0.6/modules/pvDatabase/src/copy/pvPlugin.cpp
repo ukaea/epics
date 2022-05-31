@@ -14,7 +14,7 @@
 
 using namespace epics::pvData;
 
-namespace epics { namespace pvCopy{ 
+namespace epics { namespace pvCopy{
 
 typedef std::map<std::string,PVPluginPtr> PVPluginMap;
 
@@ -38,4 +38,3 @@ PVPluginPtr PVPluginRegistry::find(const std::string & name)
 }
 
 }}
-

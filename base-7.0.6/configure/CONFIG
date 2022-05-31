@@ -16,6 +16,10 @@ ifneq ($(wildcard $(TOP)/configure/CONFIG_BASE_VERSION),)
   CONFIG = $(TOP)/configure
   BASE_TOP=YES
 else
+  ifneq ($(origin EPICS_BASE),file)
+    # Essential for the EPICS build system, see convertRelease.pl
+    $(error EPICS_BASE must be set in a configure/RELEASE file)
+  endif
   CONFIG ?= $(EPICS_BASE)/configure
 endif
 
@@ -58,14 +62,13 @@ include $(CONFIG)/CONFIG_BASE_VERSION
 include $(CONFIG)/os/CONFIG.$(EPICS_HOST_ARCH).Common
 -include $(CONFIG)/os/CONFIG_SITE.$(EPICS_HOST_ARCH).Common
 
-# Parse configure/RELEASE
-# except when building Base itself, where this file is empty,
-# and would error in src/tools/ anyway.
-ifndef BASE_TOP
+# Parse configure/RELEASE to find all upstream modules
 RELEASE_TOPS := $(shell $(CONVERTRELEASE) -T $(TOP) releaseTops)
-endif
 
 ifdef T_A
+  # Information from the target's compiler
+  #
+  -include $(EPICS_BASE)/cfg/TOOLCHAIN.$(EPICS_HOST_ARCH).$(T_A)
 
   #  Cross compile specific definitions
   #

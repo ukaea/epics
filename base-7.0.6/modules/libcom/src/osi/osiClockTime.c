@@ -1,8 +1,9 @@
 /*************************************************************************\
 * Copyright (c) 2008 UChicago Argonne LLC, as Operator of Argonne
 *     National Laboratory.
+* SPDX-License-Identifier: EPICS
 * EPICS BASE is distributed subject to a Software License Agreement found
-* in file LICENSE that is included with this distribution. 
+* in file LICENSE that is included with this distribution.
 \*************************************************************************/
 
 #include <stddef.h>
@@ -10,7 +11,6 @@
 #include <stdio.h>
 #include <string.h>
 
-#define epicsExportSharedSymbols
 #include "epicsEvent.h"
 #include "epicsExit.h"
 #include "epicsMutex.h"
@@ -58,14 +58,26 @@ static void ClockTimeSync(void *dummy);
 /* ClockTime_Report iocsh command */
 static const iocshArg ReportArg0 = { "interest_level", iocshArgArgv};
 static const iocshArg * const ReportArgs[1] = { &ReportArg0 };
-static const iocshFuncDef ReportFuncDef = {"ClockTime_Report", 1, ReportArgs};
+static const iocshFuncDef ReportFuncDef = {"ClockTime_Report", 1, ReportArgs,
+                                           "Reports clock synchronization status:\n"
+                                           "  - On vxWorks and RTEMS:\n"
+                                           "      * synchronization state\n"
+                                           "      * last synchronization time with provider\n"
+                                           "      * synchronization interval\n"
+                                           "  - On workstation (WIN,*NIX):\n"
+                                           "      * minimal report\n"};
 static void ReportCallFunc(const iocshArgBuf *args)
 {
     ClockTime_Report(args[0].ival);
 }
 
 /* ClockTime_Shutdown iocsh command */
-static const iocshFuncDef ShutdownFuncDef = {"ClockTime_Shutdown", 0, NULL};
+static const iocshFuncDef ShutdownFuncDef = {"ClockTime_Shutdown", 0, NULL,
+                                             "Stops the OS synchronization thread\n"
+                                             "  - On vxWorks and RTEMS:\n"
+                                             "     * OS clock will free run\n"
+                                             "  - On workstation (WIN,*NIX):\n"
+                                             "     * no change\n"};
 static void ShutdownCallFunc(const iocshArgBuf *args)
 {
     ClockTime_Shutdown(NULL);
@@ -101,7 +113,7 @@ void ClockTime_Init(int synchronize)
 
     if (synchronize == CLOCKTIME_SYNC) {
         if (ClockTimePvt.synchronize == CLOCKTIME_NOSYNC) {
-            
+
 #if defined(vxWorks) || defined(__rtems__)
             /* Start synchronizing */
             ClockTimePvt.synchronize = synchronize;
@@ -229,7 +241,11 @@ int osdTimeGetCurrent(epicsTimeStamp *pDest)
     return 0;
 }
 
-#endif /* CLOCK_REALTIME */
+/* Used in Report function below: */
+#define UNINIT_ERROR "initialized"
+#else
+#define UNINIT_ERROR "available"
+#endif /* CLOCK_REALTIME && !WIN32 */
 
 /* Allow the following report routine to be compiled anyway
  * to avoid getting a build warning from ranlib.
@@ -242,13 +258,7 @@ int ClockTime_Report(int level)
     char timebuf[32];
 
     if (onceId == EPICS_THREAD_ONCE_INIT) {
-        printf("OS Clock driver not %s.\n",
-#ifdef CLOCK_REALTIME
-            "initialized"
-#else
-            "available"
-#endif /* CLOCK_REALTIME */
-            );
+        puts("OS Clock driver not " UNINIT_ERROR);
     }
     else if (ClockTimePvt.synchronize == CLOCKTIME_SYNC) {
         int synchronized, syncFromPriority;

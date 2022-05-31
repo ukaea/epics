@@ -3,13 +3,13 @@
 *     National Laboratory.
 * Copyright (c) 2002 The Regents of the University of California, as
 *     Operator of Los Alamos National Laboratory.
-* EPICS BASE Versions 3.13.7
-* and higher are distributed subject to a Software License Agreement found
+* SPDX-License-Identifier: EPICS
+* EPICS Base is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
 /*  dbStaticPvt.h */
 /*
- *	Author:		Marty Kraimer
+ *      Author:         Marty Kraimer
  *      Date:           06Jun95
  */
 
@@ -35,6 +35,10 @@ char *dbRecordName(DBENTRY *pdbentry);
 
 char *dbGetStringNum(DBENTRY *pdbentry);
 long dbPutStringNum(DBENTRY *pdbentry,const char *pstring);
+
+void dbMsgPrint(DBENTRY *pdbentry, const char *fmt, ...) EPICS_PRINTF_STYLE(2,3);
+
+void dbPutStringSuggest(DBENTRY *pdbentry, const char *pstring);
 
 struct jlink;
 
@@ -62,7 +66,7 @@ long dbInitRecordLinks(dbRecordType *rtyp, struct dbCommon *prec);
 /* Parse link string.  no record locks needed.
  * on success caller must free pinfo->target
  */
-epicsShareFunc long dbParseLink(const char *str, short ftype, dbLinkInfo *pinfo);
+DBCORE_API long dbParseLink(const char *str, short ftype, dbLinkInfo *pinfo);
 /* Check if link type allow the parsed link value pinfo
  * to be assigned to the given link.
  * Record containing plink must be locked.
@@ -75,12 +79,12 @@ long dbCanSetLink(DBLINK *plink, dbLinkInfo *pinfo, devSup *devsup);
  */
 long dbSetLink(DBLINK *plink, dbLinkInfo *pinfo, devSup *dset);
 /* Free dbLinkInfo storage */
-epicsShareFunc void dbFreeLinkInfo(dbLinkInfo *pinfo);
+DBCORE_API void dbFreeLinkInfo(dbLinkInfo *pinfo);
 
 /* The following is for path */
 typedef struct dbPathNode {
-	ELLNODE		node;
-	char		*directory;
+    ELLNODE     node;
+    char        *directory;
 } dbPathNode;
 
 /* Element of the global gui group list */
@@ -93,13 +97,13 @@ typedef struct dbGuiGroup {
 /*The following are in dbPvdLib.c*/
 /*directory*/
 typedef struct{
-	ELLNODE		node;
-	dbRecordType	*precordType;
-	dbRecordNode	*precnode;
+    ELLNODE         node;
+    dbRecordType    *precordType;
+    dbRecordNode    *precnode;
 }PVDENTRY;
-epicsShareFunc int dbPvdTableSize(int size);
+DBCORE_API int dbPvdTableSize(int size);
 extern int dbStaticDebug;
-void	dbPvdInitPvt(DBBASE *pdbbase);
+void dbPvdInitPvt(DBBASE *pdbbase);
 PVDENTRY *dbPvdFind(DBBASE *pdbbase,const char *name,size_t lenname);
 PVDENTRY *dbPvdAdd(DBBASE *pdbbase,dbRecordType *precordType,dbRecordNode *precnode);
 void dbPvdDelete(DBBASE *pdbbase,dbRecordNode *precnode);

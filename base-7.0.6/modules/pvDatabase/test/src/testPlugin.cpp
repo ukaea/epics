@@ -107,7 +107,7 @@ static void arrayTest()
     uint32 nset = 0;
     size_t n = 10;
     shared_vector<double> values(n);
-    
+
     PVStructurePtr pvRecordStructure(getStandardPVField()->scalarArray(pvDouble,""));
     PVRecordPtr pvRecord(PVRecord::create("doubleArrayRecord",pvRecordStructure));
     PVStructurePtr pvRequest(CreateRequest::create()->createRequest("value[array=1:3]"));
@@ -139,6 +139,73 @@ static void arrayTest()
              << " bitSet " << *bitSet
              << " pvStructureCopy\n" << pvStructureCopy
              << " pvRecordStructure\n" << pvRecordStructure
+             << "\n";
+    }
+    testOk1(result==true);
+    testOk1(nset==1);
+}
+
+static void unionArrayTest()
+{
+    if(debug) {cout << endl << endl << "****unionArrayTest****" << endl;}
+    bool result = false;
+    uint32 nset = 0;
+    size_t n = 10;
+    shared_vector<double> values(n);
+    for(size_t i=0; i<n; i++) values[i] = i + .06;
+    PVDoubleArrayPtr pvDoubleArray =
+        static_pointer_cast<PVDoubleArray>(PVDataCreate::getPVDataCreate()->createPVScalarArray(pvDouble));
+    const shared_vector<const double> yyy(freeze(values));
+    pvDoubleArray->putFrom(yyy);
+
+    StandardFieldPtr standardField = getStandardField();
+    FieldCreatePtr fieldCreate = getFieldCreate();
+    StructureConstPtr top = fieldCreate->createFieldBuilder()->
+        add("value",fieldCreate->createVariantUnion()) ->
+        add("timeStamp", standardField->timeStamp()) ->
+        addNestedStructure("subfield") ->
+           add("value",fieldCreate->createVariantUnion()) ->
+           endNested()->
+        createStructure();
+    PVStructurePtr pvRecordStructure(PVDataCreate::getPVDataCreate()->createPVStructure(top));
+    PVRecordPtr pvRecord(PVRecord::create("unionArrayRecord",pvRecordStructure));
+    PVUnionPtr pvUnion = pvRecord->getPVStructure()->getSubField<PVUnion>("value");
+    pvUnion->set(pvDoubleArray);
+    pvUnion = pvRecord->getPVStructure()->getSubField<PVUnion>("subfield.value");
+    pvUnion->set(pvDoubleArray);
+    if(debug) { cout << "initial\n" << pvRecordStructure << "\n";}
+
+    PVStructurePtr pvRequest(CreateRequest::create()->createRequest("value[array=1:3]"));
+    PVCopyPtr pvCopy(PVCopy::create(pvRecordStructure,pvRequest,""));
+    PVStructurePtr pvStructureCopy(pvCopy->createPVStructure());
+    BitSetPtr bitSet(new BitSet(pvStructureCopy->getNumberFields()));
+    PVDoubleArrayPtr pvValue(pvRecordStructure->getSubField<PVDoubleArray>("value"));
+    result = pvCopy->updateCopySetBitSet(pvStructureCopy,bitSet);
+    nset = bitSet->cardinality();
+    if(debug) {
+        cout << "after get value"
+             << " result " << (result ? "true" : "false")
+             << " nset " << nset
+             << " bitSet " << *bitSet
+             << " pvStructureCopy\n" << pvStructureCopy
+             << "\n";
+    }
+    testOk1(result==true);
+    testOk1(nset==1);
+
+    pvRequest = CreateRequest::create()->createRequest("subfield.value[array=1:3]");
+    pvCopy = PVCopy::create(pvRecordStructure,pvRequest,"");
+    pvStructureCopy = pvCopy->createPVStructure();
+    bitSet = BitSetPtr(new BitSet(pvStructureCopy->getNumberFields()));
+    pvValue = pvRecordStructure->getSubField<PVDoubleArray>("subfield.value");
+    result = pvCopy->updateCopySetBitSet(pvStructureCopy,bitSet);
+    nset = bitSet->cardinality();
+    if(debug) {
+        cout << "after get subfield.value"
+             << " result " << (result ? "true" : "false")
+             << " nset " << nset
+             << " bitSet " << *bitSet
+             << " pvStructureCopy\n" << pvStructureCopy
              << "\n";
     }
     testOk1(result==true);
@@ -267,12 +334,12 @@ static void ignoreTest()
 
 MAIN(testPlugin)
 {
-    testPlan(22);
+    testPlan(26);
     PVDatabasePtr pvDatabase(PVDatabase::getMaster());
     deadbandTest();
     arrayTest();
+    unionArrayTest();
     timeStampTest();
     ignoreTest();
     return 0;
 }
-

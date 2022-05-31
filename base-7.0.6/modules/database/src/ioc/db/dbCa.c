@@ -3,8 +3,9 @@
 *     National Laboratory.
 * Copyright (c) 2002 The Regents of the University of California, as
 *     Operator of Los Alamos National Laboratory.
+* SPDX-License-Identifier: EPICS
 * EPICS BASE is distributed subject to a Software License Agreement found
-* in file LICENSE that is included with this distribution. 
+* in file LICENSE that is included with this distribution.
 \*************************************************************************/
 
 /*
@@ -39,7 +40,6 @@
 /* We can't include dbStaticLib.h here */
 #define dbCalloc(nobj,size) callocMustSucceed(nobj,size,"dbCalloc")
 
-#define epicsExportSharedSymbols
 #include "db_access_routines.h"
 #include "dbCa.h"
 #include "dbCaPvt.h"
@@ -51,6 +51,9 @@
 #include "link.h"
 #include "recGbl.h"
 #include "recSup.h"
+
+/* from dbAccessDefs.h which can't be included here */
+#define S_db_badDbrtype (M_dbAccess| 3)
 
 /* defined in dbContext.cpp
  * Setup local CA access
@@ -229,7 +232,7 @@ void dbCaSync(void)
     epicsEventDestroy(wake);
 }
 
-epicsShareFunc unsigned long dbCaGetUpdateCount(struct link *plink)
+DBCORE_API unsigned long dbCaGetUpdateCount(struct link *plink)
 {
     caLink *pca = (caLink *)plink->value.pv_link.pvt;
     unsigned long ret;
@@ -407,9 +410,15 @@ long dbCaGetLink(struct link *plink, short dbrType, void *pdest,
         goto done;
     }
     newType = dbDBRoldToDBFnew[pca->dbrType];
-    if (!nelements || *nelements == 1) {
+    if (!nelements) {
         long (*fConvert)(const void *from, void *to, struct dbAddr *paddr);
 
+        if (pca->usedelements < 1) {
+            pca->sevr = INVALID_ALARM;
+            pca->stat = LINK_ALARM;
+            status = -1;
+            goto done;
+        }
         fConvert = dbFastGetConvertRoutine[newType][dbrType];
         assert(pca->pgetNative);
         status = fConvert(pca->pgetNative, pdest, 0);
@@ -456,6 +465,9 @@ long dbCaPutLinkCallback(struct link *plink,short dbrType,
     caLink *pca = (caLink *)plink->value.pv_link.pvt;
     long   status = 0;
     short  link_action = 0;
+
+    if(INVALID_DB_REQ(dbrType))
+        return S_db_badDbrtype;
 
     assert(pca);
     /* put the new value in */
@@ -641,7 +653,7 @@ static long getControlLimits(const struct link *plink,
         *low  = pca->controlLimits[0];
         *high = pca->controlLimits[1];
     }
-    epicsMutexUnlock(pca->lock); 
+    epicsMutexUnlock(pca->lock);
     return gotAttributes ? 0 : -1;
 }
 
@@ -657,7 +669,7 @@ static long getGraphicLimits(const struct link *plink,
         *low  = pca->displayLimits[0];
         *high = pca->displayLimits[1];
     }
-    epicsMutexUnlock(pca->lock); 
+    epicsMutexUnlock(pca->lock);
     return gotAttributes ? 0 : -1;
 }
 
@@ -687,7 +699,7 @@ static long getPrecision(const struct link *plink, short *precision)
     pcaGetCheck
     gotAttributes = pca->gotAttributes;
     if (gotAttributes) *precision = pca->precision;
-    epicsMutexUnlock(pca->lock); 
+    epicsMutexUnlock(pca->lock);
     return gotAttributes ? 0 : -1;
 }
 
@@ -890,8 +902,8 @@ static void eventCallback(struct event_handler_args arg)
         /* Disable the record scan if we also have a string monitor */
         doScan = !(plink->value.pv_link.pvlMask & pvlOptInpString);
         /* fall through */
-    case DBR_TIME_STRING: 
-    case DBR_TIME_SHORT: 
+    case DBR_TIME_STRING:
+    case DBR_TIME_SHORT:
     case DBR_TIME_FLOAT:
     case DBR_TIME_CHAR:
     case DBR_TIME_LONG:
@@ -970,7 +982,7 @@ done:
 static void accessRightsCallback(struct access_rights_handler_args arg)
 {
     caLink *pca = (caLink *)ca_puser(arg.chid);
-    struct link	*plink;
+    struct link *plink;
     struct pv_link *ppv_link;
     dbCommon *precord;
 

@@ -3,6 +3,7 @@
 *     Brookhaven National Laboratory.
 * Copyright (c) 2010 UChicago Argonne LLC, as Operator of Argonne
 *     National Laboratory.
+* SPDX-License-Identifier: EPICS
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
@@ -139,7 +140,7 @@ void logClient(void* raw, const char* msg)
         strcat(show + 25, msg + len - 20);
     }
     else {
-        strncpy(show, msg, sizeof(show)-1);
+        strcpy(show, msg);
     }
 
     if (pvt->checkLen)

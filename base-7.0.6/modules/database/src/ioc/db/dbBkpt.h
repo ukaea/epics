@@ -3,11 +3,11 @@
 *     National Laboratory.
 * Copyright (c) 2002 The Regents of the University of California, as
 *     Operator of Los Alamos National Laboratory.
-* EPICS BASE Versions 3.13.7
-* and higher are distributed subject to a Software License Agreement found
-* in file LICENSE that is included with this distribution. 
+* SPDX-License-Identifier: EPICS
+* EPICS Base is distributed subject to a Software License Agreement found
+* in file LICENSE that is included with this distribution.
 \*************************************************************************/
-/* dbBkpt.h			*/
+/* dbBkpt.h                     */
 /*
  *      Author:          Matthew Needes
  *      Date:            8-30-93
@@ -20,7 +20,7 @@
 #include "epicsEvent.h"
 #include "epicsThread.h"
 #include "epicsTime.h"
-#include "shareLib.h"
+#include "dbCoreAPI.h"
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -32,7 +32,7 @@ extern "C" {
 
 struct BP_LIST {
    ELLNODE *next_list;
-   ELLNODE *prev_list; 
+   ELLNODE *prev_list;
    struct dbCommon *precord;
 };
 
@@ -41,7 +41,7 @@ struct BP_LIST {
  *    detected for a lockset.
  */
 struct EP_LIST {
-   ELLNODE *next_list; 
+   ELLNODE *next_list;
    ELLNODE *prev_list;
    struct dbCommon *entrypoint;  /* pointer to entry point in lockset */
    unsigned long count;          /* number of times record processed */
@@ -81,18 +81,18 @@ struct LS_LIST {
 
 #define MAX_EP_COUNT         99999
 
-epicsShareFunc void dbBkptInit(void);
-epicsShareFunc long dbb(const char *recordname);
-epicsShareFunc long dbd(const char *recordname);
-epicsShareFunc long dbc(const char *recordname);
-epicsShareFunc long dbs(const char *recordname);
-epicsShareFunc long dbstat(void);
-epicsShareFunc long dbp(
+DBCORE_API void dbBkptInit(void);
+DBCORE_API long dbb(const char *recordname);
+DBCORE_API long dbd(const char *recordname);
+DBCORE_API long dbc(const char *recordname);
+DBCORE_API long dbs(const char *recordname);
+DBCORE_API long dbstat(void);
+DBCORE_API long dbp(
     const char *record_name, int interest_level);
-epicsShareFunc long dbap(const char *record_name);
-epicsShareFunc int  dbBkpt(struct dbCommon *precord);
-epicsShareFunc void dbPrint(struct dbCommon *precord);
-epicsShareFunc long dbprc(char *record_name);
+DBCORE_API long dbap(const char *record_name);
+DBCORE_API int  dbBkpt(struct dbCommon *precord);
+DBCORE_API void dbPrint(struct dbCommon *precord);
+DBCORE_API long dbprc(char *record_name);
 
 extern long lset_stack_count;
 

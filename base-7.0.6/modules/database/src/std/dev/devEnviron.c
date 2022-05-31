@@ -1,8 +1,9 @@
 /*************************************************************************\
 * Copyright (c) 2016 UChicago Argonne LLC, as Operator of Argonne
 *     National Laboratory.
+* SPDX-License-Identifier: EPICS
 * EPICS BASE is distributed subject to a Software License Agreement found
-* in file LICENSE that is included with this distribution. 
+* in file LICENSE that is included with this distribution.
 \*************************************************************************/
 
 /* devEnviron.c */
@@ -62,14 +63,14 @@ static long read_lsi(lsiRecord *prec)
         prec->val[0] = 0;
         prec->len = 1;
         prec->udf = TRUE;
-        recGblSetSevr(prec, UDF_ALARM, prec->udfs);
+        recGblSetSevrMsg(prec, UDF_ALARM, prec->udfs, "No such ENV");
     }
 
     return 0;
 }
 
 lsidset devLsiEnviron = {
-    5, NULL, init_lsi, NULL, NULL, read_lsi
+    {5, NULL, init_lsi, NULL, NULL }, read_lsi
 };
 epicsExportAddress(dset, devLsiEnviron);
 
@@ -113,16 +114,14 @@ static long read_stringin(stringinRecord *prec)
     else {
         prec->val[0] = 0;
         prec->udf = TRUE;
-        recGblSetSevr(prec, UDF_ALARM, prec->udfs);
+        recGblSetSevrMsg(prec, UDF_ALARM, prec->udfs, "No such ENV");
     }
 
     return 0;
 }
 
-static struct {
-    dset common;
-    DEVSUPFUN read;
-} devSiEnviron = {
-    {5, NULL, init_stringin, NULL, NULL}, read_stringin
+stringindset devSiEnviron = {
+    {5, NULL, init_stringin, NULL, NULL},
+    read_stringin
 };
 epicsExportAddress(dset, devSiEnviron);

@@ -3,6 +3,7 @@
 *     National Laboratory.
 * Copyright (c) 2002 The Regents of the University of California, as
 *     Operator of Los Alamos National Laboratory.
+* SPDX-License-Identifier: EPICS
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
@@ -12,7 +13,6 @@
 #include "iocsh.h"
 #include "libComRegister.h"
 
-#define epicsExportSharedSymbols
 #include "asIocRegister.h"
 #include "dbAccess.h"
 #include "dbIocRegister.h"
@@ -24,6 +24,16 @@
 
 #define quote(v) #v
 #define str(v) quote(v)
+
+/* registerAllRecordDeviceDrivers */
+static const iocshArg rrddArg0 = {"pdbbase", iocshArgPdbbase};
+static const iocshArg *rrddArgs[] = {&rrddArg0};
+static const iocshFuncDef rrddFuncDef =
+    {"registerAllRecordDeviceDrivers", 1, rrddArgs};
+static void rrddCallFunc(const iocshArgBuf *args)
+{
+    iocshSetError(registerAllRecordDeviceDrivers(*iocshPpdbbase));
+}
 
 void iocshRegisterCommon(void)
 {
@@ -52,4 +62,5 @@ void iocshRegisterCommon(void)
     asIocRegister();
     miscIocRegister();
     libComRegister();
+    iocshRegister(&rrddFuncDef, rrddCallFunc);
 }

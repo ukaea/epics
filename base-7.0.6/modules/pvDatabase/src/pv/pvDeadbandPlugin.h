@@ -66,7 +66,7 @@ private:
     epics::pvData::PVScalarPtr master;
     bool firstTime;
     double lastReportedValue;
-    
+
 
     PVDeadbandFilter(bool absolute,double deadband,epics::pvData::PVScalarPtr const & master);
 public:
@@ -100,4 +100,3 @@ public:
 
 }}
 #endif  /* PVDEADBANDPLUGIN_H */
-

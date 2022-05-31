@@ -30,7 +30,7 @@ static FieldCreatePtr fieldCreate = getFieldCreate();
 
 struct CreateRequestImpl {
 
-    struct Node 
+    struct Node
     {
         string name;
         vector<Node> nodes;
@@ -55,7 +55,7 @@ struct CreateRequestImpl {
 
 
     CreateRequestImpl() {}
-         
+
 
     void removeBlanks(string& str)
     {
@@ -129,7 +129,7 @@ struct CreateRequestImpl {
             if(pos==string::npos) break;
             numValues++;
             index = pos +1;
-	}
+        }
         vector<string> valueList(numValues,"");
         index=0;
         for(size_t i=0; i<numValues; i++) {
@@ -483,4 +483,3 @@ PVStructure::shared_pointer createRequest(std::string const & request)
 
 
 }} // namespace
-

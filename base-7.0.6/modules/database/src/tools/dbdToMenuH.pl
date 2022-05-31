@@ -3,12 +3,15 @@
 #*************************************************************************
 # Copyright (c) 2010 UChicago Argonne LLC, as Operator of Argonne
 #     National Laboratory.
+# SPDX-License-Identifier: EPICS
 # EPICS BASE is distributed subject to a Software License Agreement found
 # in file LICENSE that is included with this distribution.
 #*************************************************************************
 
 use FindBin qw($Bin);
 use lib ("$Bin/../../lib/perl");
+
+use strict;
 
 use EPICS::Getopts;
 use File::Basename;
@@ -56,7 +59,9 @@ if ($opt_D) {
     print map { "$_:\n" } @uniqfiles;
 } else {
     open OUTFILE, ">$outfile" or die "$tool: Can't open $outfile: $!\n";
-    print OUTFILE "/* $outbase generated from $inbase */\n\n",
+    print OUTFILE "/** \@file $outbase\n",
+        " * \@brief Declarations generated from $inbase\n",
+        " */\n\n",
         "#ifndef $guard_name\n",
         "#define $guard_name\n\n";
     my $menus = $dbd->menus;

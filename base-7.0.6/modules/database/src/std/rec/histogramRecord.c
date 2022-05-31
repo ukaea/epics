@@ -3,8 +3,9 @@
 *     National Laboratory.
 * Copyright (c) 2002 The Regents of the University of California, as
 *     Operator of Los Alamos National Laboratory.
+* SPDX-License-Identifier: EPICS
 * EPICS BASE is distributed subject to a Software License Agreement found
-* in file LICENSE that is included with this distribution. 
+* in file LICENSE that is included with this distribution.
 \*************************************************************************/
 
 /* histogramRecord.c - Record Support Routines for Histogram records */
@@ -87,17 +88,6 @@ epicsExportAddress(rset,histogramRSET);
 int histogramSDELprecision = 2;
 epicsExportAddress(int, histogramSDELprecision);
 
-struct histogramdset { /* histogram input dset */
-     long          number;
-     DEVSUPFUN     dev_report;
-     DEVSUPFUN     init;
-     DEVSUPFUN     init_record; /*returns: (-1,0)=>(failure,success)*/
-     DEVSUPFUN     get_ioint_info;
-     DEVSUPFUN     read_histogram;/*(0,2)=> success and add_count, don't add_count)*/
-               /* if add_count then sgnl added to array */
-     DEVSUPFUN     special_linconv;
-};
-
 /* control block for callback*/
 typedef struct myCallback {
     epicsCallback callback;
@@ -121,7 +111,7 @@ static void wdogCallback(epicsCallback *arg)
     if (prec->mcnt > 0){
         dbScanLock((struct dbCommon *)prec);
         recGblGetTimeStamp(prec);
-        db_post_events(prec, prec->bptr, DBE_VALUE | DBE_LOG);
+        db_post_events(prec, (void*)&prec->val, DBE_VALUE | DBE_LOG);
         prec->mcnt = 0;
         dbScanUnlock((struct dbCommon *)prec);
     }
@@ -133,39 +123,34 @@ static void wdogCallback(epicsCallback *arg)
 
     return;
 }
-static long wdogInit(histogramRecord *prec)
+
+static void wdogInit(histogramRecord *prec)
 {
-    myCallback *pcallback;
-
-    if (!prec->wdog && prec->sdel > 0) {
-        /* initialize a callback object */
-        pcallback = calloc(1, sizeof(myCallback));
-        if (!pcallback)
-            return -1;
-        pcallback->prec = prec;
-
-        callbackSetCallback(wdogCallback, &pcallback->callback);
-        callbackSetUser(pcallback, &pcallback->callback);
-        callbackSetPriority(priorityLow, &pcallback->callback);
-        prec->wdog = pcallback;
-    }
-
-    if (!prec->wdog)
-        return -1;
-    pcallback = prec->wdog;
-    if (!pcallback)
-        return -1;
     if (prec->sdel > 0) {
+        myCallback *pcallback = prec->wdog;
+
+        if (!pcallback) {
+            /* initialize a callback object */
+            pcallback = calloc(1, sizeof(myCallback));
+            if (!pcallback)
+                return;
+
+            pcallback->prec = prec;
+            callbackSetCallback(wdogCallback, &pcallback->callback);
+            callbackSetUser(pcallback, &pcallback->callback);
+            callbackSetPriority(priorityLow, &pcallback->callback);
+            prec->wdog = pcallback;
+        }
+
         /* start new timer on monitor */
         callbackRequestDelayed(&pcallback->callback, prec->sdel);
     }
-    return 0;
 }
 
 static long init_record(struct dbCommon *pcommon, int pass)
 {
     struct histogramRecord *prec = (struct histogramRecord *)pcommon;
-    struct histogramdset *pdset;
+    histogramdset *pdset;
 
     if (pass == 0) {
         /* allocate space for histogram array */
@@ -186,21 +171,21 @@ static long init_record(struct dbCommon *pcommon, int pass)
     recGblInitConstantLink(&prec->siol, DBF_DOUBLE, &prec->sval);
 
     /* must have device support defined */
-    pdset = (struct histogramdset *) prec->dset;
+    pdset = (histogramdset *) prec->dset;
     if (!pdset) {
         recGblRecordError(S_dev_noDSET, prec, "histogram: init_record");
         return S_dev_noDSET;
     }
 
     /* must have read_histogram function defined */
-    if (pdset->number < 6 || !pdset->read_histogram) {
+    if (pdset->common.number < 6 || !pdset->read_histogram) {
         recGblRecordError(S_dev_missingSup, prec, "histogram: init_record");
         return S_dev_missingSup;
     }
 
     /* call device support init_record */
-    if (pdset->init_record) {
-        long status = pdset->init_record(prec);
+    if (pdset->common.init_record) {
+        long status = pdset->common.init_record(pcommon);
 
         if (status)
             return status;
@@ -211,7 +196,7 @@ static long init_record(struct dbCommon *pcommon, int pass)
 static long process(struct dbCommon *pcommon)
 {
     struct histogramRecord *prec = (struct histogramRecord *)pcommon;
-    struct histogramdset  *pdset = (struct histogramdset *) prec->dset;
+    histogramdset  *pdset = (histogramdset *) prec->dset;
     int pact = prec->pact;
     long status;
 
@@ -306,7 +291,7 @@ static void monitor(histogramRecord *prec)
     }
     /* send out monitors connected to the value field */
     if (monitor_mask)
-        db_post_events(prec, prec->bptr, monitor_mask);
+        db_post_events(prec, (void*)&prec->val, monitor_mask);
 
     return;
 }
@@ -315,7 +300,6 @@ static long cvt_dbaddr(DBADDR *paddr)
 {
     histogramRecord *prec = (histogramRecord *) paddr->precord;
 
-    paddr->pfield = prec->bptr;
     paddr->no_elements = prec->nelm;
     paddr->field_type = DBF_ULONG;
     paddr->field_size = sizeof(epicsUInt32);
@@ -327,6 +311,7 @@ static long get_array_info(DBADDR *paddr, long *no_elements, long *offset)
 {
     histogramRecord *prec = (histogramRecord *) paddr->precord;
 
+    paddr->pfield = prec->bptr;
     *no_elements =  prec->nelm;
     *offset = 0;
     return 0;
@@ -380,7 +365,7 @@ static long clear_histogram(histogramRecord *prec)
 
 static long readValue(histogramRecord *prec)
 {
-    struct histogramdset *pdset = (struct histogramdset *) prec->dset;
+    histogramdset *pdset = (histogramdset *) prec->dset;
     long status = 0;
 
     if (!prec->pact) {

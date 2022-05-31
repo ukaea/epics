@@ -6,19 +6,13 @@
 
 #include <cadef.h>
 #include <epicsSignal.h>
-#include <epicsThread.h>
-#include <epicsExit.h>
+#include <epicsMutex.h>
+#include <epicsGuard.h>     // Needed for 3.15 builds
 #include <pv/logger.h>
 #include <pv/pvAccess.h>
 
-#include "channelConnectThread.h"
-#include "monitorEventThread.h"
-#include "getDoneThread.h"
-#include "putDoneThread.h"
-
 #define epicsExportSharedSymbols
-#include <pv/caProvider.h>
-#include "caProviderPvt.h"
+#include "pv/caProvider.h"
 #include "caChannel.h"
 
 
@@ -28,64 +22,31 @@ namespace ca {
 
 using namespace epics::pvData;
 
-#define EXCEPTION_GUARD(code) try { code; } \
-        catch (std::exception &e) { LOG(logLevelError, "Unhandled exception caught from client code at %s:%d: %s", __FILE__, __LINE__, e.what()); } \
-                catch (...) { LOG(logLevelError, "Unhandled exception caught from client code at %s:%d.", __FILE__, __LINE__); }
-
-CAChannelProvider::CAChannelProvider() 
-    : current_context(0)
+CAChannelProvider::CAChannelProvider(const std::tr1::shared_ptr<Configuration> &)
+    : ca_context(CAContextPtr(new CAContext()))
 {
-    initialize();
-}
-
-CAChannelProvider::CAChannelProvider(const std::tr1::shared_ptr<Configuration>&)
-    :  current_context(0),
-       channelConnectThread(ChannelConnectThread::get()),
-       monitorEventThread(MonitorEventThread::get()),
-       getDoneThread(GetDoneThread::get()),
-       putDoneThread(PutDoneThread::get())
-{
-    if(DEBUG_LEVEL>0) {
-          std::cout<< "CAChannelProvider::CAChannelProvider\n";
-    }
-    initialize();
+    connectNotifier.start();
+    resultNotifier.start();
 }
 
 CAChannelProvider::~CAChannelProvider()
 {
-    if(DEBUG_LEVEL>0) {
-         std::cout << "CAChannelProvider::~CAChannelProvider()"
-            << " caChannelList.size() " << caChannelList.size()
-            << std::endl;
-    }
     std::queue<CAChannelPtr> channelQ;
     {
-         Lock lock(channelListMutex);
-         for(size_t i=0; i< caChannelList.size(); ++i)
-         {
-             CAChannelPtr caChannel(caChannelList[i].lock());
-             if(caChannel) channelQ.push(caChannel);
-         }
-         caChannelList.clear();
+        epicsGuard<epicsMutex> G(channelListMutex);
+        for (size_t i = 0; i < caChannelList.size(); ++i)
+        {
+            CAChannelPtr caChannel(caChannelList[i].lock());
+            if (caChannel)
+                channelQ.push(caChannel);
+        }
+        caChannelList.clear();
     }
-    while(!channelQ.empty()) {
-       if(DEBUG_LEVEL>0) {
-           std::cout << "~CAChannelProvider() calling disconnectChannel "
-                     << channelQ.front()->getChannelName()
-                      << std::endl;
-       }  
-       channelQ.front()->disconnectChannel();
-       channelQ.pop();
+    while (!channelQ.empty())
+    {
+        channelQ.front()->disconnectChannel();
+        channelQ.pop();
     }
-    putDoneThread->stop();
-    getDoneThread->stop();
-    monitorEventThread->stop();
-    channelConnectThread->stop();
-    if(DEBUG_LEVEL>0) {
-        std::cout << "CAChannelProvider::~CAChannelProvider() calling ca_context_destroy\n";
-    }
-    ca_context_destroy();
-//std::cout << "CAChannelProvider::~CAChannelProvider() returning\n";
 }
 
 std::string CAChannelProvider::getProviderName()
@@ -94,8 +55,8 @@ std::string CAChannelProvider::getProviderName()
 }
 
 ChannelFind::shared_pointer CAChannelProvider::channelFind(
-    std::string const & channelName,
-    ChannelFindRequester::shared_pointer const & channelFindRequester)
+    std::string const &channelName,
+    ChannelFindRequester::shared_pointer const &channelFindRequester)
 {
     if (channelName.empty())
         throw std::invalid_argument("CAChannelProvider::channelFind empty channel name");
@@ -110,7 +71,7 @@ ChannelFind::shared_pointer CAChannelProvider::channelFind(
 }
 
 ChannelFind::shared_pointer CAChannelProvider::channelList(
-    ChannelListRequester::shared_pointer const & channelListRequester)
+    ChannelListRequester::shared_pointer const &channelListRequester)
 {
     if (!channelListRequester.get())
         throw std::runtime_error("CAChannelProvider::channelList null requester");
@@ -123,8 +84,8 @@ ChannelFind::shared_pointer CAChannelProvider::channelList(
 }
 
 Channel::shared_pointer CAChannelProvider::createChannel(
-    std::string const & channelName,
-    ChannelRequester::shared_pointer const & channelRequester,
+    std::string const &channelName,
+    ChannelRequester::shared_pointer const &channelRequester,
     short priority)
 {
     Channel::shared_pointer channel(
@@ -133,10 +94,10 @@ Channel::shared_pointer CAChannelProvider::createChannel(
 }
 
 Channel::shared_pointer CAChannelProvider::createChannel(
-    std::string const & channelName,
-    ChannelRequester::shared_pointer const & channelRequester,
+    std::string const &channelName,
+    ChannelRequester::shared_pointer const &channelRequester,
     short priority,
-    std::string const & address)
+    std::string const &address)
 {
     if (!address.empty())
         throw std::invalid_argument("CAChannelProvider::createChannel does not support 'address' parameter");
@@ -144,19 +105,16 @@ Channel::shared_pointer CAChannelProvider::createChannel(
     return CAChannel::create(shared_from_this(), channelName, priority, channelRequester);
 }
 
-void CAChannelProvider::addChannel(const CAChannelPtr & channel)
+void CAChannelProvider::addChannel(const CAChannelPtr &channel)
 {
-    if(DEBUG_LEVEL>0) {
-         std::cout << "CAChannelProvider::addChannel "
-             << channel->getChannelName()
-             << std::endl;
-    }
-    Lock lock(channelListMutex);
-    for(size_t i=0; i< caChannelList.size(); ++i) {
-         if(!(caChannelList[i].lock())) {
-             caChannelList[i] = channel;
-             return;
-         }
+    epicsGuard<epicsMutex> G(channelListMutex);
+    for (size_t i = 0; i < caChannelList.size(); ++i)
+    {
+        if (!(caChannelList[i].lock()))
+        {
+            caChannelList[i] = channel;
+            return;
+        }
     }
     caChannelList.push_back(channel);
 }
@@ -173,49 +131,20 @@ void CAChannelProvider::poll()
 {
 }
 
-void CAChannelProvider::attachContext()
-{
-    ca_client_context* thread_context = ca_current_context();
-    if (thread_context == current_context) return;
-    int result = ca_attach_context(current_context);
-    if(result==ECA_ISATTACHED) return;
-    if (result != ECA_NORMAL) {
-        std::string mess("CAChannelProvider::attachContext error  calling ca_attach_context ");
-        mess += ca_message(result);
-        throw std::runtime_error(mess);
-    }
-}
-
-void CAChannelProvider::initialize()
-{
-    if(DEBUG_LEVEL>0) std::cout << "CAChannelProvider::initialize()\n";
-    int result = ca_context_create(ca_enable_preemptive_callback);
-    if (result != ECA_NORMAL) {
-        std::string mess("CAChannelProvider::initialize error calling ca_context_create ");
-        mess += ca_message(result);
-        throw std::runtime_error(mess);
-    }
-    current_context = ca_current_context();
-}
+// ---------------- CAClientFactory ----------------
 
 void CAClientFactory::start()
 {
-    if(DEBUG_LEVEL>0) std::cout << "CAClientFactory::start()\n";
-    if(ChannelProviderRegistry::clients()->getProvider("ca")) {
-         return;
-    }
+    if (ChannelProviderRegistry::clients()->getProvider("ca"))
+        return;
     epicsSignalInstallSigAlarmIgnore();
     epicsSignalInstallSigPipeIgnore();
-    if(!ChannelProviderRegistry::clients()->add<CAChannelProvider>("ca", true))
-    {
-         throw std::runtime_error("CAClientFactory::start failed");
-    }
+    if (!ChannelProviderRegistry::clients()->add<CAChannelProvider>("ca", true))
+        throw std::runtime_error("CAClientFactory::start failed");
 }
 
 void CAClientFactory::stop()
 {
-    // unregister now done with exit hook
 }
 
 }}}
-

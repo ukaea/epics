@@ -6,6 +6,7 @@
 *     National Laboratory.
 * Copyright (c) 2003 The Regents of the University of California, as
 *     Operator of Los Alamos National Laboratory.
+* SPDX-License-Identifier: EPICS
 * EPICS BASE is distributed subject to the Software License Agreement
 * found in the file LICENSE that is included with this distribution.
 \*************************************************************************/
@@ -130,7 +131,7 @@ static void check(short dbr_type) {
     memset(buf, 0, sizeof(buf)); \
     (void) dbPutField(&offaddr, DBR_LONG, &off, 1); \
     pfl = db_create_read_log(pch); \
-    testOk(pfl && pfl->type == dbfl_type_rec, "Valid pfl, type = rec"); \
+    testOk(pfl && pfl->type == dbfl_type_ref, "Valid pfl, type = ref"); \
     testOk(!dbChannelGetField(pch, DBR_LONG, buf, NULL, &req, pfl), "Got Field value"); \
     testOk(req == Size, "Got %ld elements (expected %d)", req, Size); \
     if (!testOk(!memcmp(buf, Expected, sizeof(Expected)), "Data correct")) \

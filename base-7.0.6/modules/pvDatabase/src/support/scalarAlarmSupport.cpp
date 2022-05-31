@@ -26,11 +26,11 @@ using namespace epics::pvData;
 using namespace epics::pvAccess;
 using namespace std;
 
-namespace epics { namespace pvDatabase { 
+namespace epics { namespace pvDatabase {
 
 ScalarAlarmSupport::~ScalarAlarmSupport()
 {
-cout << "ScalarAlarmSupport::~ScalarAlarmSupport()\n";
+//cout << "ScalarAlarmSupport::~ScalarAlarmSupport()\n";
 }
 
 
@@ -48,6 +48,7 @@ epics::pvData::StructureConstPtr ScalarAlarmSupport::scalarAlarmField()
 
 ScalarAlarmSupportPtr ScalarAlarmSupport::create(PVRecordPtr const & pvRecord)
 {
+   cerr << "ScalarAlarmSupport IS DEPRECATED\n";
    ScalarAlarmSupportPtr support(new ScalarAlarmSupport(pvRecord));
    return support;
 }
@@ -83,7 +84,7 @@ bool ScalarAlarmSupport::init(
        pvHysteresis = pvScalarAlarm->getSubField<PVDouble>("hysteresis");
     }
     if(!pvScalarAlarm
-       || !pvLowAlarmLimit || !pvLowWarningLimit 
+       || !pvLowAlarmLimit || !pvLowWarningLimit
        || !pvLowWarningLimit || !pvHighAlarmLimit
        || !pvHysteresis)
     {
@@ -216,4 +217,3 @@ void ScalarAlarmSupport::setAlarm(
 
 
 }}
-

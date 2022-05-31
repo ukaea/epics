@@ -66,7 +66,7 @@ private:
     bool current;
     bool copy;
     epics::pvData::PVFieldPtr master;
-    
+
 
     PVTimestampFilter(bool current,bool copy,epics::pvData::PVFieldPtr const & pvField);
 public:
@@ -98,4 +98,3 @@ public:
 
 }}
 #endif  /* PVTIMESTAMPPLUGIN_H */
-

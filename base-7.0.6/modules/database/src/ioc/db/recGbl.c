@@ -3,6 +3,7 @@
 *     National Laboratory.
 * Copyright (c) 2002 The Regents of the University of California, as
 *     Operator of Los Alamos National Laboratory.
+* SPDX-License-Identifier: EPICS
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
@@ -23,12 +24,12 @@
 #include "epicsMath.h"
 #include "epicsPrint.h"
 #include "epicsStdlib.h"
+#include "epicsStdio.h"
 #include "epicsTime.h"
 #include "errlog.h"
 
 #include "caeventmask.h"
 
-#define epicsExportSharedSymbols
 #include "dbAccessDefs.h"
 #include "dbStaticLib.h"
 #include "dbAddr.h"
@@ -48,7 +49,7 @@
 
 /* Hook Routines */
 
-epicsShareDef RECGBL_ALARM_HOOK_ROUTINE recGblAlarmHook = NULL;
+RECGBL_ALARM_HOOK_ROUTINE recGblAlarmHook = NULL;
 
 /* local routines */
 static void getMaxRangeValues(short field_type, double *pupper_limit,
@@ -59,8 +60,8 @@ static void getMaxRangeValues(short field_type, double *pupper_limit,
 void recGblDbaddrError(long status, const struct dbAddr *paddr,
     const char *pmessage)
 {
-    dbCommon *precord = 0;
-    dbFldDes	*pdbFldDes = 0;
+    dbCommon    *precord = 0;
+    dbFldDes    *pdbFldDes = 0;
 
     if(paddr) {
         pdbFldDes = paddr->pfldDes;
@@ -69,7 +70,7 @@ void recGblDbaddrError(long status, const struct dbAddr *paddr,
     errPrintf(status,0,0,
         "PV: %s.%s "
         "error detected in routine: %s\n",
-        (paddr ? precord->name : "Unknown"),
+        (precord ? precord->name : "Unknown"),
         (pdbFldDes ? pdbFldDes->name : ""),
         (pmessage ? pmessage : "Unknown"));
     return;
@@ -78,7 +79,7 @@ void recGblDbaddrError(long status, const struct dbAddr *paddr,
 void recGblRecordError(long status, void *pdbc,
     const char *pmessage)
 {
-    dbCommon	*precord = pdbc;
+    dbCommon    *precord = pdbc;
 
     errPrintf(status,0,0,
         "PV: %s %s\n",
@@ -106,7 +107,7 @@ void recGblRecSupError(long status, const struct dbAddr *paddr,
         " %s\n",
         (psupport_name ? psupport_name : "Unknown"),
         (pdbRecordType ? pdbRecordType->name : "Unknown"),
-        (paddr ? precord->name : "Unknown"),
+        (precord ? precord->name : "Unknown"),
         (pdbFldDes ? pdbFldDes->name : ""),
         (pmessage ? pmessage : ""));
     return;
@@ -184,43 +185,75 @@ unsigned short recGblResetAlarms(void *precord)
     if (new_sevr > INVALID_ALARM)
         new_sevr = INVALID_ALARM;
 
+    if(strcmp(pdbc->namsg, pdbc->amsg)!=0) {
+        strcpy(pdbc->amsg, pdbc->namsg);
+        stat_mask = DBE_ALARM;
+    }
+
     pdbc->stat = new_stat;
     pdbc->sevr = new_sevr;
     pdbc->nsta = 0;
     pdbc->nsev = 0;
 
     if (prev_sevr != new_sevr) {
-	stat_mask = DBE_ALARM;
-	db_post_events(pdbc, &pdbc->sevr, DBE_VALUE);
+        stat_mask = DBE_ALARM;
+        db_post_events(pdbc, &pdbc->sevr, DBE_VALUE);
     }
     if (prev_stat != new_stat) {
-	stat_mask |= DBE_VALUE;
+        stat_mask |= DBE_VALUE;
     }
     if (stat_mask) {
-	db_post_events(pdbc, &pdbc->stat, stat_mask);
-	val_mask = DBE_ALARM;
+        db_post_events(pdbc, &pdbc->stat, stat_mask);
+        db_post_events(pdbc, &pdbc->amsg, stat_mask);
+        val_mask = DBE_ALARM;
 
-	if (!pdbc->ackt || new_sevr >= pdbc->acks) {
-	    pdbc->acks = new_sevr;
-	    db_post_events(pdbc, &pdbc->acks, DBE_VALUE);
-	}
+        if (!pdbc->ackt || new_sevr >= pdbc->acks) {
+            pdbc->acks = new_sevr;
+            db_post_events(pdbc, &pdbc->acks, DBE_VALUE);
+        }
 
-	if (recGblAlarmHook) {
-	    (*recGblAlarmHook)(pdbc, prev_sevr, prev_stat);
-	}
+        if (recGblAlarmHook) {
+            (*recGblAlarmHook)(pdbc, prev_sevr, prev_stat);
+        }
     }
     return val_mask;
 }
+int recGblSetSevrMsg(void *precord, epicsEnum16 new_stat,
+                     epicsEnum16 new_sevr,
+                     const char *msg, ...)
+{
+    int ret;
+    va_list args;
+    va_start(args, msg);
+    ret = recGblSetSevrVMsg(precord, new_stat, new_sevr, msg, args);
+    va_end(args);
+    return ret;
+}
 
-int recGblSetSevr(void *precord, epicsEnum16 new_stat, epicsEnum16 new_sevr)
+int recGblSetSevrVMsg(void *precord, epicsEnum16 new_stat,
+                     epicsEnum16 new_sevr,
+                     const char *msg, va_list args)
 {
     struct dbCommon *prec = precord;
     if (prec->nsev < new_sevr) {
         prec->nsta = new_stat;
-	prec->nsev = new_sevr;
-	return TRUE;
+        prec->nsev = new_sevr;
+        if(msg) {
+            epicsVsnprintf(prec->namsg, sizeof(prec->namsg)-1, msg, args);
+            prec->namsg[sizeof(prec->namsg)-1] = '\0';
+
+        } else {
+            prec->namsg[0] = '\0';
+        }
+        prec->namsg[sizeof(prec->namsg)-1] = '\0';
+        return TRUE;
     }
     return FALSE;
+}
+
+int recGblSetSevr(void *precord, epicsEnum16 new_stat, epicsEnum16 new_sevr)
+{
+    return recGblSetSevrMsg(precord, new_stat, new_sevr, NULL);
 }
 
 void recGblInheritSevr(int msMode, void *precord, epicsEnum16 stat,
@@ -228,17 +261,17 @@ void recGblInheritSevr(int msMode, void *precord, epicsEnum16 stat,
 {
     switch (msMode) {
     case pvlOptNMS:
-	break;
+        break;
     case pvlOptMSI:
         if (sevr < INVALID_ALARM)
-	    break;
-	/* Fall through */
+            break;
+        /* Fall through */
     case pvlOptMS:
-	recGblSetSevr(precord, LINK_ALARM, sevr);
-	break;
+        recGblSetSevr(precord, LINK_ALARM, sevr);
+        break;
     case pvlOptMSS:
         recGblSetSevr(precord, stat, sevr);
-	break;
+        break;
     }
 }
 
@@ -251,9 +284,9 @@ void recGblFwdLink(void *precord)
     /*Handle dbPutFieldNotify record completions*/
     if(pdbc->ppn) dbNotifyCompletion(pdbc);
     if(pdbc->rpro) {
-	/*If anyone requested reprocessing do it*/
-	pdbc->rpro = FALSE;
-	scanOnce(pdbc);
+        /*If anyone requested reprocessing do it*/
+        pdbc->rpro = FALSE;
+        scanOnce(pdbc);
     }
     /*In case putField caused put we are all done */
     pdbc->putf = FALSE;
@@ -271,8 +304,8 @@ void recGblGetTimeStampSimm(void *pvoid, const epicsEnum16 simm, struct link *si
 
     if (!dbLinkIsConstant(plink)) {
         if (plink->flags & DBLINK_FLAG_TSELisTIME) {
-            if (dbGetTimeStamp(plink, &prec->time))
-                errlogPrintf("recGblGetTimeStamp: dbGetTimeStamp failed for %s.TSEL",
+            if (dbGetTimeStampTag(plink, &prec->time, &prec->utag))
+                errlogPrintf("recGblGetTimeStamp: dbGetTimeStamp failed for %s.TSEL\n",
                     prec->name);
             return;
         }

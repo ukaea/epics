@@ -1,6 +1,7 @@
 /*************************************************************************\
 * Copyright (c) 2008 UChicago Argonne LLC, as Operator of Argonne
 *     National Laboratory.
+* SPDX-License-Identifier: EPICS
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
@@ -11,7 +12,9 @@
 #include <netinet/in.h>
 #include <fcntl.h>
 #include <unistd.h>
+#ifdef RTEMS_LEGACY_STACK
 #include <rtems/rtems_bsdnet.h>
+#endif
 #include <bsp.h>
 #include <string.h>
 #include <ctype.h>
@@ -25,6 +28,7 @@ char *env_nfsServer;
 char *env_nfsPath;
 char *env_nfsMountPoint;
 
+extern char* rtems_bsdnet_bootp_cmdline;
 /*
  * Split argument string of form nfs_server:nfs_export:<path>
  * The nfs_export component will be used as:

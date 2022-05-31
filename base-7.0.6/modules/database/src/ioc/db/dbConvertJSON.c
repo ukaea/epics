@@ -1,8 +1,9 @@
 /*************************************************************************\
 * Copyright (c) 2016 UChicago Argonne LLC, as Operator of Argonne
 *     National Laboratory.
+* SPDX-License-Identifier: EPICS
 * EPICS BASE is distributed subject to a Software License Agreement found
-* in file LICENSE that is included with this distribution. 
+* in file LICENSE that is included with this distribution.
 \*************************************************************************/
 /* dbConvertJSON.c */
 
@@ -14,7 +15,6 @@
 #include "yajl_alloc.h"
 #include "yajl_parse.h"
 
-#define epicsExportSharedSymbols
 #include "dbAccessDefs.h"
 #include "dbConvertFast.h"
 #include "dbConvertJSON.h"
@@ -129,7 +129,7 @@ static int dbcj_end_map(void *ctx) {
 static int dbcj_start_array(void *ctx) {
     parseContext *parser = (parseContext *) ctx;
 
-    if (++parser->depth > 1) 
+    if (++parser->depth > 1)
         errlogPrintf("dbConvertJSON: Embedded arrays not supported\n");
 
     return (parser->depth == 1);
@@ -158,6 +158,9 @@ long dbPutConvertJSON(const char *json, short dbrType,
     yajl_status ys;
     size_t jlen = strlen(json);
     long status;
+
+    if(INVALID_DB_REQ(dbrType))
+        return S_db_badDbrtype;
 
     parser->depth = 0;
     parser->dbrType = dbrType;

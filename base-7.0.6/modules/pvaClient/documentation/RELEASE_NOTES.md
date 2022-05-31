@@ -2,6 +2,20 @@
 
 This document summarizes the changes to the module between releases.
 
+## Release 4.8.0 (EPICS 7.0.6 Jul 2021)
+
+* PvaClientNTMultiData::getChannelChangeFlags is a new method. It fixes issue #66.
+* Fix for issue #68. Both PvaClientArray and PvaClientField are not longer present. Neither was previously implemented.
+* Several public methods are now protected. They were never meant to be called by clients.
+* Issue #70 has been fixed.
+* Changes was made to increase the performance of pvaMultiChannel.
+* doxygen changes were made.
+
+## Release 4.7.1 (EPICS 7.0.3.2 May 2020)
+
+* support access to a union field that is a scalar or scalarArray
+* fixed issues #62 and #63
+
 ## Release 4.7.0 (EPICS 7.0.3.1, Nov 2019)
 
 * added JSON support for put and putGet

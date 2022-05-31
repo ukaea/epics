@@ -3,6 +3,7 @@
 *     National Laboratory.
 * Copyright (c) 2002 The Regents of the University of California, as
 *     Operator of Los Alamos National Laboratory.
+* SPDX-License-Identifier: EPICS
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
@@ -10,20 +11,19 @@
 
 /* Author:  Marty Kraimer Date:    08JUN99 */
 
-#define epicsExportSharedSymbols
 #include "registry.h"
 #include "registryRecordType.h"
 
 static void * const registryID = "record type";
 
 
-epicsShareFunc int registryRecordTypeAdd(
+DBCORE_API int registryRecordTypeAdd(
     const char *name, const recordTypeLocation *prtl)
 {
     return registryAdd(registryID, name, (void *)prtl);
 }
 
-epicsShareFunc recordTypeLocation * registryRecordTypeFind(
+DBCORE_API recordTypeLocation * registryRecordTypeFind(
     const char *name)
 {
     return registryFind(registryID, name);

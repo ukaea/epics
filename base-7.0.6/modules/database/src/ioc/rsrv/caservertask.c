@@ -6,6 +6,7 @@
 *     National Laboratory.
 * Copyright (c) 2002 The Regents of the University of California, as
 *     Operator of Los Alamos National Laboratory.
+* SPDX-License-Identifier: EPICS
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
@@ -36,7 +37,6 @@
 
 #include "epicsExport.h"
 
-#define epicsExportSharedSymbols
 #include "dbChannel.h"
 #include "dbCommon.h"
 #include "dbEvent.h"
@@ -68,24 +68,12 @@ static void req_server (void *pParm)
 
     IOC_sock = conf->tcp;
 
-    /* listen and accept new connections */
-    if ( listen ( IOC_sock, 20 ) < 0 ) {
-        char sockErrBuf[64];
-        epicsSocketConvertErrnoToString (
-            sockErrBuf, sizeof ( sockErrBuf ) );
-        errlogPrintf ( "CAS: Listen error: %s\n",
-            sockErrBuf );
-        epicsSocketDestroy (IOC_sock);
-        epicsThreadSuspendSelf ();
-    }
-
     epicsEventSignal(castcp_startStopEvent);
 
     while (TRUE) {
         SOCKET clientSock;
         osiSockAddr         sockAddr;
         osiSocklen_t        addLen = sizeof(sockAddr);
-        memset(&sockAddr, 0, sizeof(sockAddr));
 
         while (castcp_ctl == ctlPause) {
             epicsThreadSleep(0.1);
@@ -199,7 +187,7 @@ SOCKET* rsrv_grab_tcp(unsigned short *port)
 
             epicsSocketEnableAddressReuseDuringTimeWaitState ( tcpsock );
 
-            if(bind(tcpsock, &scratch.sa, sizeof(scratch))==0) {
+            if(bind(tcpsock, &scratch.sa, sizeof(scratch))==0 && listen(tcpsock, 20)==0) {
                 if(scratch.ia.sin_port==0) {
                     /* use first socket to pick a random port */
                     osiSocklen_t alen = sizeof(ifaceAddr);
@@ -336,7 +324,7 @@ void rsrv_build_addr_lists(void)
             char sockErrBuf[64];
             epicsSocketConvertErrnoToString (
                 sockErrBuf, sizeof ( sockErrBuf ) );
-            errlogPrintf("rsrv: failed to set mcast ttl %d\n", ttl);
+            errlogPrintf("rsrv: failed to set mcast ttl %d\n", (int)ttl);
         }
     }
 #endif

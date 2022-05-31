@@ -25,11 +25,11 @@ using namespace epics::pvData;
 using namespace epics::pvAccess;
 using namespace std;
 
-namespace epics { namespace pvDatabase { 
+namespace epics { namespace pvDatabase {
 
 ControlSupport::~ControlSupport()
 {
-cout << "ControlSupport::~ControlSupport()\n";
+//cout << "ControlSupport::~ControlSupport()\n";
 }
 
 epics::pvData::StructureConstPtr ControlSupport::controlField(ScalarType scalarType)
@@ -46,6 +46,7 @@ epics::pvData::StructureConstPtr ControlSupport::controlField(ScalarType scalarT
 
 ControlSupportPtr ControlSupport::create(PVRecordPtr const & pvRecord)
 {
+   cerr << "ControlSupport IS DEPRECATED\n";
    ControlSupportPtr support(new ControlSupport(pvRecord));
    return support;
 }
@@ -135,4 +136,3 @@ void ControlSupport::reset()
 
 
 }}
-

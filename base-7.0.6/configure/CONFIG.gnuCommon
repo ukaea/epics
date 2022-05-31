@@ -3,8 +3,7 @@
 #     National Laboratory.
 # Copyright (c) 2002 The Regents of the University of California, as
 #     Operator of Los Alamos National Laboratory.
-# EPICS BASE Versions 3.13.7
-# and higher are distributed subject to a Software License Agreement found
+# EPICS Base is distributed subject to a Software License Agreement found
 # in file LICENSE that is included with this distribution. 
 #*************************************************************************
 
@@ -32,7 +31,7 @@ PROF_CFLAGS_YES = -p
 GPROF_CFLAGS_YES = -pg
 CODE_CFLAGS = $(PROF_CFLAGS_$(PROFILE)) $(GPROF_CFLAGS_$(GPROF))
 CODE_CFLAGS += $(ASAN_FLAGS_$(ENABLE_ASAN))
-WARN_CFLAGS_YES = -Wall
+WARN_CFLAGS_YES = -Wall -Werror-implicit-function-declaration
 WARN_CFLAGS_NO = -w
 OPT_CFLAGS_YES = -O3
 OPT_CFLAGS_NO = -g
@@ -51,14 +50,13 @@ CODE_LDFLAGS += $(ASAN_LDFLAGS_$(ENABLE_ASAN))
 
 PIPE_CFLAGS_YES_YES = -pipe
 PIPE_CFLAGS = $(PIPE_CFLAGS_$(GCC_PIPE)_$(GNU))
-PIPE_CXXFLAGS = $(PIPE_CFLAGS)
 
 STATIC_LDFLAGS_YES = -static
 STATIC_LDFLAGS_NO =
 
 SHRLIB_CFLAGS = -fPIC
-SHRLIB_LDFLAGS = -shared -fPIC
-LOADABLE_SHRLIB_LDFLAGS = -shared -fPIC
+SHRLIB_LDFLAGS = -shared -fPIC -Wl,-h$@
+LOADABLE_SHRLIB_LDFLAGS = -shared -fPIC -Wl,-h$@
 
 GNU_LDLIBS_YES = -lgcc
 

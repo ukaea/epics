@@ -6,6 +6,7 @@
 *     National Laboratory.
 * Copyright (c) 2003 The Regents of the University of California, as
 *     Operator of Los Alamos National Laboratory.
+* SPDX-License-Identifier: EPICS
 * EPICS BASE is distributed subject to the Software License Agreement
 * found in the file LICENSE that is included with this distribution.
 \*************************************************************************/
@@ -72,9 +73,9 @@ static int fl_equals_array(short type, const db_field_log *pfl1, void *p2) {
             }
             break;
         case DBR_STRING:
-            if (strtol(&((const char*)pfl1->u.r.field)[i*MAX_STRING_SIZE], NULL, 0) != ((epicsInt32*)p2)[i]) {
+            if (strtol(&((const char*)pfl1->u.r.field)[i*pfl1->field_size], NULL, 0) != ((epicsInt32*)p2)[i]) {
                 testDiag("at index=%d: field log has '%s', should be '%d'",
-                         i, &((const char*)pfl1->u.r.field)[i*MAX_STRING_SIZE], ((epicsInt32*)p2)[i]);
+                         i, &((const char*)pfl1->u.r.field)[i*pfl1->field_size], ((epicsInt32*)p2)[i]);
                 return 0;
             }
             break;
@@ -119,7 +120,7 @@ static void testHead (const char *title, const char *typ = "") {
     off = Offset; \
     (void) dbPutField(&offaddr, DBR_LONG, &off, 1); \
     pfl = db_create_read_log(pch); \
-    testOk(pfl->type == dbfl_type_rec, "original field log has type rec"); \
+    testOk(pfl->type == dbfl_type_ref, "original field log has type ref"); \
     pfl2 = dbChannelRunPostChain(pch, pfl); \
     testOk(pfl2 == pfl, "call does not drop or replace field_log"); \
     testOk(pfl->type == dbfl_type_ref, "filtered field log has type ref"); \
@@ -177,7 +178,7 @@ static void check(short dbr_type) {
     /* Default: should not change anything */
 
     testHead("Ten %s elements from rec, increment 1, full size (default)", typname);
-    createAndOpen(valname, "{\"arr\":{}}", "(default)", &pch, 1);
+    createAndOpen(valname, "{arr:{}}", "(default)", &pch, 1);
     testOk(pch->final_type == valaddr.field_type,
            "final type unchanged (%d->%d)", valaddr.field_type, pch->final_type);
     testOk(pch->final_no_elements == valaddr.no_elements,
@@ -187,7 +188,7 @@ static void check(short dbr_type) {
     dbChannelDelete(pch);
 
     testHead("Ten %s elements from rec, increment 1, out-of-bound start parameter", typname);
-    createAndOpen(valname, "{\"arr\":{\"s\":-500}}", "out-of-bound start", &pch, 1);
+    createAndOpen(valname, "{arr:{s:-500}}", "out-of-bound start", &pch, 1);
     testOk(pch->final_type == valaddr.field_type,
            "final type unchanged (%d->%d)", valaddr.field_type, pch->final_type);
     testOk(pch->final_no_elements == valaddr.no_elements,
@@ -196,7 +197,7 @@ static void check(short dbr_type) {
     dbChannelDelete(pch);
 
     testHead("Ten %s elements from rec, increment 1, out-of-bound end parameter", typname);
-    createAndOpen(valname, "{\"arr\":{\"e\":500}}", "out-of-bound end", &pch, 1);
+    createAndOpen(valname, "{arr:{e:500}}", "out-of-bound end", &pch, 1);
     testOk(pch->final_type == valaddr.field_type,
            "final type unchanged (%d->%d)", valaddr.field_type, pch->final_type);
     testOk(pch->final_no_elements == valaddr.no_elements,
@@ -205,7 +206,7 @@ static void check(short dbr_type) {
     dbChannelDelete(pch);
 
     testHead("Ten %s elements from rec, increment 1, zero increment parameter", typname);
-    createAndOpen(valname, "{\"arr\":{\"i\":0}}", "zero increment", &pch, 1);
+    createAndOpen(valname, "{arr:{i:0}}", "zero increment", &pch, 1);
     testOk(pch->final_type == valaddr.field_type,
            "final type unchanged (%d->%d)", valaddr.field_type, pch->final_type);
     testOk(pch->final_no_elements == valaddr.no_elements,
@@ -214,7 +215,7 @@ static void check(short dbr_type) {
     dbChannelDelete(pch);
 
     testHead("Ten %s elements from rec, increment 1, invalid increment parameter", typname);
-    createAndOpen(valname, "{\"arr\":{\"i\":-30}}", "invalid increment", &pch, 1);
+    createAndOpen(valname, "{arr:{i:-30}}", "invalid increment", &pch, 1);
     testOk(pch->final_type == valaddr.field_type,
            "final type unchanged (%d->%d)", valaddr.field_type, pch->final_type);
     testOk(pch->final_no_elements == valaddr.no_elements,
@@ -224,7 +225,7 @@ static void check(short dbr_type) {
 
 #define TEST5(Incr, Left, Right, Type) \
     testHead("Five %s elements from rec, increment " #Incr ", " Type " addressing", typname); \
-    createAndOpen(valname, "{\"arr\":{\"s\":" #Left ",\"e\":" #Right ",\"i\":" #Incr "}}", \
+    createAndOpen(valname, "{arr:{s:" #Left ",e:" #Right ",i:" #Incr "}}", \
                   "(" #Left ":" #Incr ":" #Right ")", &pch, 1); \
     testOk(pch->final_type == valaddr.field_type, \
            "final type unchanged (%d->%d)", valaddr.field_type, pch->final_type); \
@@ -261,7 +262,7 @@ static void check(short dbr_type) {
 
 #define TEST5B(Incr, Left, Right, Type) \
     testHead("Five %s elements from buffer, increment " #Incr ", " Type " addressing", typname); \
-    createAndOpen(valname, "{\"arr\":{},\"arr\":{\"s\":" #Left ",\"e\":" #Right ",\"i\":" #Incr "}}", \
+    createAndOpen(valname, "{arr:{},arr:{s:" #Left ",e:" #Right ",i:" #Incr "}}", \
                   "(" #Left ":" #Incr ":" #Right ")", &pch, 2); \
     testOk(pch->final_type == valaddr.field_type, \
            "final type unchanged (%d->%d)", valaddr.field_type, pch->final_type); \

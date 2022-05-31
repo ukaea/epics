@@ -8,7 +8,7 @@
 
 #include "weakmap.h"
 
-#include <shareLib.h>
+#include <pv/qsrv.h>
 
 struct PDBProvider;
 
@@ -63,6 +63,9 @@ struct QSRV_API PDBProvider : public epics::pvAccess::ChannelProvider,
     transient_pv_map_t transient_pv_map;
 
     dbEventCtx event_context;
+
+    typedef std::list<std::string> group_files_t;
+    static group_files_t group_files;
 
     static size_t num_instances;
 };

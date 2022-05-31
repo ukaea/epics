@@ -3,6 +3,7 @@
 #*************************************************************************
 # Copyright (c) 2012 UChicago Argonne LLC, as Operator of Argonne
 #     National Laboratory.
+# SPDX-License-Identifier: EPICS
 # EPICS BASE is distributed subject to a Software License Agreement found
 # in file LICENSE that is included with this distribution.
 #*************************************************************************
@@ -19,26 +20,9 @@ use EPICS::macLib;
 use EPICS::Readfile;
 
 BEGIN {
-    $::XHTML = eval "require Pod::Simple::XHTML; 1";
-    $::ENTITIES = eval "require HTML::Entities; 1";
+    $::XHTML = eval "require EPICS::PodXHtml; 1";
     if (!$::XHTML) {
-        require Pod::Simple::HTML;
-    }
-    if (!$::ENTITIES) {
-        my %entities = (
-            q{>} => 'gt',
-            q{<} => 'lt',
-            q{'} => '#39',
-            q{"} => 'quot',
-            q{&} => 'amp',
-        );
-
-        sub encode_entities {
-            my $str = shift;
-            my $ents = join '', keys %entities;
-            $str =~ s/([ $ents ])/'&' . ($entities{$1} || sprintf '#x%X', ord $1) . ';'/xge;
-            return $str;
-        }
+        require EPICS::PodHtml;
     }
 }
 
@@ -125,13 +109,19 @@ if ($opt_D) {   # Output dependencies only
 open my $out, '>', $opt_o or
     die "Can't create $opt_o: $!\n";
 
+$SIG{__DIE__} = sub {
+    die @_ if $^S;  # Ignore eval deaths
+    close $out;
+    unlink $opt_o;
+};
+
 my $podHtml;
 my $idify;
 my $contentType =
     '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >';
 
 if ($::XHTML) {
-    $podHtml = Pod::Simple::XHTML->new();
+    $podHtml = EPICS::PodXHtml->new();
     $podHtml->html_doctype(<< '__END_DOCTYPE');
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN'
@@ -153,7 +143,7 @@ __END_DOCTYPE
     }
 } else { # Fall back to HTML
     $Pod::Simple::HTML::Content_decl = $contentType;
-    $podHtml = Pod::Simple::HTML->new();
+    $podHtml = EPICS::PodHtml->new();
     $podHtml->html_css('style.css');
 
     $idify = sub {
@@ -191,7 +181,7 @@ my $pod = join "\n", '=for html <div class="pod">', '',
     } $dbd->pod,
     '=for html </div>', '';
 
-$podHtml->force_title(encode_entities($title));
+$podHtml->force_title($podHtml->encode_entities($title));
 $podHtml->perldoc_url_prefix('');
 $podHtml->perldoc_url_postfix('.html');
 $podHtml->output_fh($out);

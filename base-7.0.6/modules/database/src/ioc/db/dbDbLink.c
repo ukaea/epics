@@ -3,6 +3,7 @@
 *     National Laboratory.
 * Copyright (c) 2002 The Regents of the University of California, as
 *     Operator of Los Alamos National Laboratory.
+* SPDX-License-Identifier: EPICS
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
@@ -51,7 +52,6 @@
 
 #include "caeventmask.h"
 
-#define epicsExportSharedSymbols
 #include "dbAccessDefs.h"
 #include "dbAddr.h"
 #include "dbBase.h"
@@ -60,6 +60,7 @@
 #include "dbConvertFast.h"
 #include "dbConvert.h"
 #include "db_field_log.h"
+#include "db_access_routines.h"
 #include "dbFldTypes.h"
 #include "dbLink.h"
 #include "dbLockPvt.h"
@@ -73,7 +74,7 @@
 #include "recSup.h"
 #include "special.h"
 #include "dbDbLink.h"
-
+#include "dbChannel.h"
 
 /***************************** Database Links *****************************/
 
@@ -82,45 +83,51 @@ static lset dbDb_lset;
 
 static long processTarget(dbCommon *psrc, dbCommon *pdst);
 
+#define linkChannel(plink) ((dbChannel *) (plink)->value.pv_link.pvt)
+
 long dbDbInitLink(struct link *plink, short dbfType)
 {
-    DBADDR dbaddr;
     long status;
-    DBADDR *pdbAddr;
+    dbChannel *chan;
+    dbCommon *precord;
 
-    status = dbNameToAddr(plink->value.pv_link.pvname, &dbaddr);
+    chan = dbChannelCreate(plink->value.pv_link.pvname);
+    if (!chan)
+        return S_db_notFound;
+    status = dbChannelOpen(chan);
     if (status)
         return status;
 
+    precord = dbChannelRecord(chan);
+
     plink->lset = &dbDb_lset;
     plink->type = DB_LINK;
-    pdbAddr = dbCalloc(1, sizeof(struct dbAddr));
-    *pdbAddr = dbaddr; /* structure copy */
-    plink->value.pv_link.pvt = pdbAddr;
-    ellAdd(&dbaddr.precord->bklnk, &plink->value.pv_link.backlinknode);
+    plink->value.pv_link.pvt = chan;
+    ellAdd(&precord->bklnk, &plink->value.pv_link.backlinknode);
     /* merging into the same lockset is deferred to the caller.
      * cf. initPVLinks()
      */
-    dbLockSetMerge(NULL, plink->precord, dbaddr.precord);
-    assert(plink->precord->lset->plockSet == dbaddr.precord->lset->plockSet);
+    dbLockSetMerge(NULL, plink->precord, precord);
+    assert(plink->precord->lset->plockSet == precord->lset->plockSet);
     return 0;
 }
 
 void dbDbAddLink(struct dbLocker *locker, struct link *plink, short dbfType,
-    DBADDR *ptarget)
+    dbChannel *chan)
 {
     plink->lset = &dbDb_lset;
     plink->type = DB_LINK;
-    plink->value.pv_link.pvt = ptarget;
-    ellAdd(&ptarget->precord->bklnk, &plink->value.pv_link.backlinknode);
+    plink->value.pv_link.pvt = chan;
+    ellAdd(&dbChannelRecord(chan)->bklnk, &plink->value.pv_link.backlinknode);
 
     /* target record is already locked in dbPutFieldLink() */
-    dbLockSetMerge(locker, plink->precord, ptarget->precord);
+    dbLockSetMerge(locker, plink->precord, dbChannelRecord(chan));
 }
 
 static void dbDbRemoveLink(struct dbLocker *locker, struct link *plink)
 {
-    DBADDR *pdbAddr = (DBADDR *) plink->value.pv_link.pvt;
+    dbChannel *chan = linkChannel(plink);
+    dbCommon *precord = dbChannelRecord(chan);
 
     plink->type = PV_LINK;
 
@@ -130,10 +137,10 @@ static void dbDbRemoveLink(struct dbLocker *locker, struct link *plink)
         plink->value.pv_link.getCvt = 0;
         plink->value.pv_link.pvlMask = 0;
         plink->value.pv_link.lastGetdbrType = 0;
-        ellDelete(&pdbAddr->precord->bklnk, &plink->value.pv_link.backlinknode);
-        dbLockSetSplit(locker, plink->precord, pdbAddr->precord);
+        ellDelete(&precord->bklnk, &plink->value.pv_link.backlinknode);
+        dbLockSetSplit(locker, plink->precord, precord);
     }
-    free(pdbAddr);
+    dbChannelDelete(chan);
 }
 
 static int dbDbIsConnected(const struct link *plink)
@@ -143,16 +150,14 @@ static int dbDbIsConnected(const struct link *plink)
 
 static int dbDbGetDBFtype(const struct link *plink)
 {
-    DBADDR *paddr = (DBADDR *) plink->value.pv_link.pvt;
-
-    return paddr->field_type;
+    dbChannel *chan = linkChannel(plink);
+    return dbChannelFinalFieldType(chan);
 }
 
 static long dbDbGetElements(const struct link *plink, long *nelements)
 {
-    DBADDR *paddr = (DBADDR *) plink->value.pv_link.pvt;
-
-    *nelements = paddr->no_elements;
+    dbChannel *chan = linkChannel(plink);
+    *nelements = dbChannelFinalElements(chan);
     return 0;
 }
 
@@ -160,47 +165,75 @@ static long dbDbGetValue(struct link *plink, short dbrType, void *pbuffer,
         long *pnRequest)
 {
     struct pv_link *ppv_link = &plink->value.pv_link;
-    DBADDR *paddr = ppv_link->pvt;
+    dbChannel *chan = linkChannel(plink);
+    DBADDR *paddr = &chan->addr;
     dbCommon *precord = plink->precord;
+    db_field_log *pfl = NULL;
     long status;
 
     /* scan passive records if link is process passive  */
     if (ppv_link->pvlMask & pvlOptPP) {
-        status = dbScanPassive(precord, paddr->precord);
+        status = dbScanPassive(precord, dbChannelRecord(chan));
         if (status)
             return status;
     }
 
-    if (ppv_link->getCvt && ppv_link->lastGetdbrType == dbrType) {
-        status = ppv_link->getCvt(paddr->pfield, pbuffer, paddr);
-    } else {
-        unsigned short dbfType = paddr->field_type;
+    if (ppv_link->getCvt && ppv_link->lastGetdbrType == dbrType)
+    {
+        /* shortcut: scalar with known conversion, no filter */
+        status = ppv_link->getCvt(dbChannelField(chan), pbuffer, paddr);
+    }
+    else if (dbChannelFinalElements(chan) == 1 && (!pnRequest || *pnRequest == 1)
+                && dbChannelSpecial(chan) != SPC_DBADDR
+                && dbChannelSpecial(chan) != SPC_ATTRIBUTE
+                && ellCount(&chan->filters) == 0)
+    {
+        /* simple scalar: set up shortcut */
+        unsigned short dbfType = dbChannelFinalFieldType(chan);
 
         if (dbrType < 0 || dbrType > DBR_ENUM || dbfType > DBF_DEVICE)
             return S_db_badDbrtype;
 
-        if (paddr->no_elements == 1 && (!pnRequest || *pnRequest == 1)
-                && paddr->special != SPC_DBADDR
-                && paddr->special != SPC_ATTRIBUTE) {
-            ppv_link->getCvt = dbFastGetConvertRoutine[dbfType][dbrType];
-            status = ppv_link->getCvt(paddr->pfield, pbuffer, paddr);
-        } else {
-            ppv_link->getCvt = NULL;
-            status = dbGet(paddr, dbrType, pbuffer, NULL, pnRequest, NULL);
-        }
+        ppv_link->getCvt = dbFastGetConvertRoutine[dbfType][dbrType];
         ppv_link->lastGetdbrType = dbrType;
+        status = ppv_link->getCvt(dbChannelField(chan), pbuffer, paddr);
+    }
+    else
+    {
+        /* filter, array, or special */
+        ppv_link->getCvt = NULL;
+
+        if (ellCount(&chan->filters)) {
+            /* If filters are involved in a read, create field log and run filters */
+            pfl = db_create_read_log(chan);
+            if (!pfl)
+                return S_db_noMemory;
+
+            pfl = dbChannelRunPreChain(chan, pfl);
+            pfl = dbChannelRunPostChain(chan, pfl);
+        }
+
+        status = dbChannelGet(chan, dbrType, pbuffer, NULL, pnRequest, pfl);
+
+        if (pfl)
+            db_delete_field_log(pfl);
+
+        if (status)
+            return status;
     }
 
-    if (!status && precord != paddr->precord)
+    if (!status && precord != dbChannelRecord(chan))
         recGblInheritSevr(plink->value.pv_link.pvlMask & pvlOptMsMode,
-            plink->precord, paddr->precord->stat, paddr->precord->sevr);
+            plink->precord,
+            dbChannelRecord(chan)->stat, dbChannelRecord(chan)->sevr);
     return status;
 }
 
 static long dbDbGetControlLimits(const struct link *plink, double *low,
         double *high)
 {
-    DBADDR *paddr = (DBADDR *) plink->value.pv_link.pvt;
+    dbChannel *chan = linkChannel(plink);
+    DBADDR *paddr = &chan->addr;
     struct buffer {
         DBRctrlDouble
         double value;
@@ -221,7 +254,8 @@ static long dbDbGetControlLimits(const struct link *plink, double *low,
 static long dbDbGetGraphicLimits(const struct link *plink, double *low,
         double *high)
 {
-    DBADDR *paddr = (DBADDR *) plink->value.pv_link.pvt;
+    dbChannel *chan = linkChannel(plink);
+    DBADDR *paddr = &chan->addr;
     struct buffer {
         DBRgrDouble
         double value;
@@ -242,7 +276,8 @@ static long dbDbGetGraphicLimits(const struct link *plink, double *low,
 static long dbDbGetAlarmLimits(const struct link *plink, double *lolo,
         double *low, double *high, double *hihi)
 {
-    DBADDR *paddr = (DBADDR *) plink->value.pv_link.pvt;
+    dbChannel *chan = linkChannel(plink);
+    DBADDR *paddr = &chan->addr;
     struct buffer {
         DBRalDouble
         double value;
@@ -264,7 +299,8 @@ static long dbDbGetAlarmLimits(const struct link *plink, double *lolo,
 
 static long dbDbGetPrecision(const struct link *plink, short *precision)
 {
-    DBADDR *paddr = (DBADDR *) plink->value.pv_link.pvt;
+    dbChannel *chan = linkChannel(plink);
+    DBADDR *paddr = &chan->addr;
     struct buffer {
         DBRprecision
         double value;
@@ -283,7 +319,8 @@ static long dbDbGetPrecision(const struct link *plink, short *precision)
 
 static long dbDbGetUnits(const struct link *plink, char *units, int unitsSize)
 {
-    DBADDR *paddr = (DBADDR *) plink->value.pv_link.pvt;
+    dbChannel *chan = linkChannel(plink);
+    DBADDR *paddr = &chan->addr;
     struct buffer {
         DBRunits
         double value;
@@ -300,23 +337,29 @@ static long dbDbGetUnits(const struct link *plink, char *units, int unitsSize)
     return 0;
 }
 
-static long dbDbGetAlarm(const struct link *plink, epicsEnum16 *status,
-        epicsEnum16 *severity)
+static long dbDbGetAlarmMsg(const struct link *plink, epicsEnum16 *status,
+                            epicsEnum16 *severity, char *msgbuf, size_t msgbuflen)
 {
-    DBADDR *paddr = (DBADDR *) plink->value.pv_link.pvt;
-
+    dbChannel *chan = linkChannel(plink);
+    dbCommon *precord = dbChannelRecord(chan);
     if (status)
-        *status = paddr->precord->stat;
+        *status = precord->stat;
     if (severity)
-        *severity = paddr->precord->sevr;
+        *severity = precord->sevr;
+    if (msgbuf && msgbuflen) {
+        strncpy(msgbuf, precord->amsg, msgbuflen-1);
+        msgbuf[msgbuflen-1] = '\0';
+    }
     return 0;
 }
 
-static long dbDbGetTimeStamp(const struct link *plink, epicsTimeStamp *pstamp)
+static long dbDbGetTimeStampTag(const struct link *plink, epicsTimeStamp *pstamp, epicsUTag *ptag)
 {
-    DBADDR *paddr = (DBADDR *) plink->value.pv_link.pvt;
-
-    *pstamp = paddr->precord->time;
+    dbChannel *chan = linkChannel(plink);
+    dbCommon *precord = dbChannelRecord(chan);
+    *pstamp = precord->time;
+    if(ptag)
+        *ptag = precord->utag;
     return 0;
 }
 
@@ -324,9 +367,10 @@ static long dbDbPutValue(struct link *plink, short dbrType,
         const void *pbuffer, long nRequest)
 {
     struct pv_link *ppv_link = &plink->value.pv_link;
+    dbChannel *chan = linkChannel(plink);
     struct dbCommon *psrce = plink->precord;
-    DBADDR *paddr = (DBADDR *) ppv_link->pvt;
-    dbCommon *pdest = paddr->precord;
+    DBADDR *paddr = &chan->addr;
+    dbCommon *pdest = dbChannelRecord(chan);
     long status = dbPut(paddr, dbrType, pbuffer, nRequest);
 
     recGblInheritSevr(ppv_link->pvlMask & pvlOptMsMode, pdest, psrce->nsta,
@@ -334,7 +378,7 @@ static long dbDbPutValue(struct link *plink, short dbrType,
     if (status)
         return status;
 
-    if (paddr->pfield == (void *) &pdest->proc ||
+    if (dbChannelField(chan) == (void *) &pdest->proc ||
         (ppv_link->pvlMask & pvlOptPP && pdest->scan == 0)) {
         status = processTarget(psrce, pdest);
     }
@@ -345,9 +389,8 @@ static long dbDbPutValue(struct link *plink, short dbrType,
 static void dbDbScanFwdLink(struct link *plink)
 {
     dbCommon *precord = plink->precord;
-    dbAddr *paddr = (dbAddr *) plink->value.pv_link.pvt;
-
-    dbScanPassive(precord, paddr->precord);
+    dbChannel *chan = linkChannel(plink);
+    dbScanPassive(precord, dbChannelRecord(chan));
 }
 
 static long doLocked(struct link *plink, dbLinkUserCallback rtn, void *priv)
@@ -364,9 +407,11 @@ static lset dbDb_lset = {
     dbDbGetValue,
     dbDbGetControlLimits, dbDbGetGraphicLimits, dbDbGetAlarmLimits,
     dbDbGetPrecision, dbDbGetUnits,
-    dbDbGetAlarm, dbDbGetTimeStamp,
+    NULL, NULL,
     dbDbPutValue, NULL,
-    dbDbScanFwdLink, doLocked
+    dbDbScanFwdLink, doLocked,
+    dbDbGetAlarmMsg,
+    dbDbGetTimeStampTag,
 };
 
 
@@ -394,12 +439,12 @@ static long processTarget(dbCommon *psrc, dbCommon *pdst)
 
     psrc->pact = TRUE;
 
-    if (psrc && psrc->ppn)
+    if (psrc->ppn)
         dbNotifyAdd(psrc, pdst);
 
     if (trace && dbServerClient(context, sizeof(context))) {
         /* No client, use thread name */
-        strncpy(context, epicsThreadGetNameSelf(), sizeof(context)-1);
+        strncpy(context, epicsThreadGetNameSelf(), sizeof(context));
         context[sizeof(context) - 1] = 0;
     }
 

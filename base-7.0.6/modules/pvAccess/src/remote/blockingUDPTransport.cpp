@@ -151,6 +151,7 @@ void BlockingUDPTransport::close(bool waitForThreadToComplete) {
     case esscimqi_socketBothShutdownRequired:
     {
         /*int status =*/ ::shutdown ( _channel, SHUT_RDWR );
+        hackAroundRTEMSSocketInterrupt();
         /*
         if ( status ) {
             char sockErrBuf[64];
@@ -727,7 +728,6 @@ void initializeUDPTransports(bool serverFlag,
             node.validBcast ? inetAddressToString(node.mask, false).c_str() : "<none>",
             node.validBcast ? inetAddressToString(node.bcast, false).c_str() : "<none>",
             node.validP2P ? inetAddressToString(node.peer, false).c_str() : "<none>");
-        try
         {
             // where to bind (listen) address
             osiSockAddr listenLocalAddress;
@@ -799,14 +799,6 @@ void initializeUDPTransports(bool serverFlag,
                 transport2->start();
                 udpTransports.push_back(transport2);
             }
-        }
-        catch (std::exception& e)
-        {
-            THROW_BASE_EXCEPTION_CAUSE("Failed to initialize UDP transport.", e);
-        }
-        catch (...)
-        {
-            THROW_BASE_EXCEPTION("Failed to initialize UDP transport.");
         }
     }
 

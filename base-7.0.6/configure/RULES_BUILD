@@ -32,12 +32,12 @@ vpath %.l $(USR_VPATH) $(ALL_SRC_DIRS)
 include $(CONFIG)/CONFIG_ADDONS
 
 #---------------------------------------------------------------
-# Set PROD, TESTPROD, OBJS, and LIBRARY
 
 SCRIPTS_HOST += $(PERL_SCRIPTS)
 # PERL_SCRIPTS are installed into existing $(INSTALL_BIN) for Host systems
 
-ifeq ($(findstring Host,$(VALID_BUILDS)),Host)
+# Host targets can compile and run programs
+ifneq (,$(findstring Host,$(VALID_BUILDS)))
 LIBRARY += $(LIBRARY_HOST)
 LOADABLE_LIBRARY += $(LOADABLE_LIBRARY_HOST)
 OBJS += $(OBJS_HOST)
@@ -49,7 +49,21 @@ TESTSCRIPTS += $(TESTSCRIPTS_HOST)
 TESTPROD += $(TESTPROD_HOST)
 endif
 
-ifeq ($(findstring Ioc,$(VALID_BUILDS)),Ioc)
+# Command targets have a command line and support main()
+ifneq (,$(findstring Command,$(VALID_BUILDS)))
+LIBRARY += $(LIBRARY_CMD)
+LOADABLE_LIBRARY += $(LOADABLE_LIBRARY_CMD)
+OBJS += $(OBJS_CMD)
+PROD += $(PROD_CMD)
+SCRIPTS += $(SCRIPTS_CMD)
+TARGETS += $(TARGETS_CMD)
+TESTLIBRARY += $(TESTLIBRARY_CMD)
+TESTSCRIPTS += $(TESTSCRIPTS_CMD)
+TESTPROD += $(TESTPROD_CMD)
+endif
+
+# Ioc targets can run IOCs
+ifneq (,$(findstring Ioc,$(VALID_BUILDS)))
 LIBRARY += $(LIBRARY_IOC)
 LOADABLE_LIBRARY += $(LOADABLE_LIBRARY_IOC)
 OBJS += $(OBJS_IOC)
@@ -89,16 +103,19 @@ include $(CONFIG)/RULES.Db
 #---------------------------------------------------------------
 # Include defines and rules for prod, library and test* targets
 
-#ifneq (,$(strip $(PROD) $(TESTPROD) $(LIBRARY) $(TESTLIBRARY) $(LOADABLE_LIBRARY) ))
+ifneq (,$(strip $(PROD) $(TESTPROD) $(LIBRARY) $(TESTLIBRARY) \
+        $(LOADABLE_LIBRARY)))
 include $(CONFIG)/RULES_TARGET
-#endif
+endif
 
 #---------------------------------------------------------------
 # Read dependency files
 
+ifneq (inc,$(strip $(MAKECMDGOALS)))
 ifneq (,$(strip $(HDEPENDS_FILES)))
 $(filter-out $(wildcard *$(DEP)), $(HDEPENDS_FILES)): | $(COMMON_INC)
 -include $(HDEPENDS_FILES)
+endif
 endif
 
 #---------------------------------------------------------------
@@ -108,17 +125,17 @@ PRODTARGETS += $(PRODNAME) $(MUNCHNAME) $(CTDT_SRCS) $(CTDT_OBJS) $(NMS)
 TESTPRODTARGETS += $(TESTPRODNAME) $(TESTMUNCHNAME)
 
 #---------------------------------------------------------------
-#   Test specifications and test result files
+#   Test result files
 #
-ifneq (,$(strip $(TESTS)))
-TARGETS += testspec
-endif
 
-# Enable testing if this host can run tests on the current target
-ifneq (,$(findstring $(T_A),$(EPICS_HOST_ARCH) $(CROSS_COMPILER_RUNTEST_ARCHS)))
+# Enable testing if this host can run tests for the current target
+ifneq (,$(filter $(T_A), $(EPICS_HOST_ARCH) $(CROSS_COMPILER_RUNTEST_ARCHS)))
 RUNTESTS_ENABLED = YES
-TAPFILES += $(TESTSCRIPTS:.t=.tap)
-JUNITFILES += $(TAPFILES:.tap=.xml)
+TESTSCRIPTS.t = $(filter %.t, $(TESTSCRIPTS))
+TAPFILES.t += $(TESTSCRIPTS.t:.t=.tap)
+JUNITFILES.t += $(TESTSCRIPTS.t:.t=-results.xml)
+TAPFILES += $(TAPFILES.t)
+JUNITFILES += $(JUNITFILES.t)
 endif
 
 #---------------------------------------------------------------
@@ -147,12 +164,13 @@ build: inc
 build: $(OBJSNAME) $(LIBTARGETS) $(PRODTARGETS) $(TESTPRODTARGETS) \
 	$(TARGETS) $(TESTSCRIPTS) $(INSTALL_LIB_INSTALLS)
 
-inc: $(COMMON_INC) $(INSTALL_INC) $(INSTALL_CONFIGS)
+inc: $(COMMON_INC) $(INSTALL_INC) $(INSTALL_CONFIGS) $(INSTALLS_CFG) \
+	$(INSTALL_HTMLS) $(INSTALLS_PERL_MODULES) $(INSTALL_SCRIPTS)
 
 buildInstall: \
-	$(INSTALL_SCRIPTS) $(INSTALL_PROD) $(INSTALL_MUNCHS) \
+	$(INSTALL_PROD) $(INSTALL_MUNCHS) \
 	$(INSTALL_TCLLIBS) $(INSTALL_TCLINDEX) \
-	$(INSTALL_HTMLS) $(INSTALL_DOCS) \
+	$(INSTALL_DOCS) \
 	$(INSTALL_OBJS) \
 	$(INSTALL_TEMPLATE) \
 	$(INSTALL_BIN_INSTALLS)
@@ -354,23 +372,24 @@ $(MODNAME): %$(MODEXT): %$(EXE)
 #---------------------------------------------------------------
 # Automated testing
 
-runtests: $(TESTSCRIPTS)
+runtests: run-tap-tests
+run-tap-tests: $(TESTSCRIPTS.t)
+ifneq ($(TESTSCRIPTS.t),)
 ifdef RUNTESTS_ENABLED
-	$(PERL) -MTest::Harness -e 'runtests @ARGV if @ARGV;' $^
+	$(ECHO) "$(PROVE) $^"
+	@$(PROVE) $^ || $(PROVE_FAILURE)
+endif
 endif
 
-testspec: $(TESTSCRIPTS)
-	@$(RM) $@
-	@echo OS-class: $(OS_CLASS) > $@
-	@echo Target-arch: $(T_A) >> $@
-	$(if $^, @echo Tests: $^ >> $@)
-	$(if $(TESTFILES), @echo Files: $(TESTFILES) >> $@)
-	$(if $(TESTSPEC_$(OS_CLASS)), @echo "Harness: $(TESTSPEC_$(OS_CLASS))" >> $@)
+tapfiles: $(TAPFILES)
+junitfiles: $(JUNITFILES)
 
-test-results: tapfiles
-ifneq ($(TAPFILES),)
+test-results: tap-results
+tap-results: $(TAPFILES)
+ifneq ($(strip $(TAPFILES)),)
 ifdef RUNTESTS_ENABLED
-	$(PROVE) --failures --ext .tap --exec "$(CAT)" --color $(TAPFILES)
+	$(ECHO) "$(PROVE.tap) $^"
+	@$(PROVE.tap) $^ || $(PROVE_FAILURE)
 endif
 
 CURRENT_TAPFILES := $(wildcard $(TAPFILES))
@@ -378,23 +397,21 @@ CURRENT_JUNITFILES := $(wildcard $(JUNITFILES))
 endif
 
 clean-tests:
-ifneq ($(CURRENT_TAPFILES),)
-	$(RM) $(CURRENT_TAPFILES)
+ifneq ($(CURRENT_TAPFILES)$(TAPS_FAILED_LOG),)
+	$(RM) $(CURRENT_TAPFILES) $(TAPS_FAILED_LOG)
 endif
 ifneq ($(CURRENT_JUNITFILES),)
 	$(RM) $(CURRENT_JUNITFILES)
 endif
 
-tapfiles: $(TESTSCRIPTS) $(TAPFILES)
-junitfiles: $(JUNITFILES)
-
 # A .tap file is the output from running the associated test script
-%.tap: %.t
+$(TAPFILES.t): %.tap: %.t
 ifdef RUNTESTS_ENABLED
-	$(PERL) $< -tap > $@
+	$(ECHO) "$(PERL) $< -tap > $@"
+	@$(PERL) $< -tap > $@ || $(TAPFILE_FAILURE)
 endif
 
-%.xml: %.tap
+$(JUNITFILES.t): %-results.xml: %.tap
 	$(TAPTOJUNIT) --puretap --output $@ --input $< $*
 
 # If there's a perl test script (.plt) available, use it
@@ -409,6 +426,23 @@ endif
 	$(PERL) $(TOOLS)/makeTestfile.pl $(T_A) $(EPICS_HOST_ARCH) $@ $<
 
 #---------------------------------------------------------------
+# Generate $(API_HEADER) files on request (%API.h)
+
+ifdef API_HEADER
+# Install them
+INC += $(API_HEADER)
+
+# Ensure we generate them early enough
+INSTALL_API_HEADERS = $(addprefix $(INSTALL_INCLUDE)/,$(API_HEADER))
+$(filter-out $(INSTALL_API_HEADERS), $(INSTALL_INC)) $(HDEPENDS_FILES): \
+    | $(INSTALL_API_HEADERS)
+
+# How to make one
+$(COMMON_DIR)/%API.h: $(TOOLS)/makeAPIheader.pl
+	@$(RM) $@
+	$(PERL) $(TOOLS)/makeAPIheader.pl -o $@ $(@:$(COMMON_DIR)/%API.h=%)
+endif
+
 # Generate header with version number from VCS
 
 ifneq ($(GENVERSION),)
@@ -553,8 +587,8 @@ include $(CONFIG)/RULES_EXPAND
 .PRECIOUS: $(COMMON_INC)
 
 .PHONY: all host inc build install clean rebuild buildInstall build_clean
-.PHONY: runtests tapfiles clean-tests test-results junitfiles
-.PHONY: checkRelease warnRelease noCheckRelease FORCE
+.PHONY: runtests run-tap-tests tapfiles junitfiles test-results tap-results
+.PHONY: clean-tests checkRelease warnRelease noCheckRelease FORCE
 
 include $(CONFIG)/RULES_COMMON
 

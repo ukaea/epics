@@ -3,6 +3,7 @@
 *     National Laboratory.
 * Copyright (c) 2002 The Regents of the University of California, as
 *     Operator of Los Alamos National Laboratory.
+* SPDX-License-Identifier: EPICS
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
@@ -14,11 +15,6 @@
 
 #ifndef INCLserverh
 #define INCLserverh
-
-#ifdef epicsExportSharedSymbols
-#   define rsrvRestore_epicsExportSharedSymbols
-#   undef epicsExportSharedSymbols
-#endif /* ifdef epicsExportSharedSymbols */
 
 #include "epicsThread.h"
 #include "epicsMutex.h"
@@ -33,10 +29,6 @@
 #include "epicsTime.h"
 #include "epicsAssert.h"
 #include "osiSock.h"
-
-#ifdef rsrvRestore_epicsExportSharedSymbols
-#define epicsExportSharedSymbols
-#endif
 
 /* a modified ca header with capacity for large arrays */
 typedef struct caHdrLargeArray {

@@ -3,6 +3,7 @@
 *     National Laboratory.
 * Copyright (c) 2002 The Regents of the University of California, as
 *     Operator of Los Alamos National Laboratory.
+* SPDX-License-Identifier: EPICS
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
@@ -30,7 +31,7 @@ typedef struct info {
     epicsEventId terminate;
     epicsEventId terminated;
 }info;
- 
+
 static void atExit(void *pvt)
 {
     info *pinfo = (info *)pvt;
@@ -55,7 +56,7 @@ static void thread(void *arg)
 {
     info *pinfo = (info *)arg;
 
-    strncpy(pinfo->name, epicsThreadGetNameSelf(), sizeof(pinfo->name)-1);
+    strcpy(pinfo->name, epicsThreadGetNameSelf());
     testDiag("%s starting", pinfo->name);
     pinfo->terminate = epicsEventMustCreate(epicsEventEmpty);
     pinfo->terminated = epicsEventMustCreate(epicsEventEmpty);

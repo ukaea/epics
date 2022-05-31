@@ -18,7 +18,7 @@
 
 #include <shareLib.h>
 
-namespace epics { namespace pvCopy{ 
+namespace epics { namespace pvCopy{
 
 class PVCopyTraverseMasterCallback;
 typedef std::tr1::shared_ptr<PVCopyTraverseMasterCallback> PVCopyTraverseMasterCallbackPtr;
@@ -62,7 +62,7 @@ typedef std::tr1::shared_ptr<CopyStructureNode> CopyStructureNodePtr;
  * Class that manages one or more PVStructures that holds an arbitrary subset of the fields
  * in another PVStructure called master.
  */
-class epicsShareClass PVCopy : 
+class epicsShareClass PVCopy :
     public std::tr1::enable_shared_from_this<PVCopy>
 {
 public:
@@ -79,7 +79,6 @@ public:
         epics::pvData::PVStructurePtr const &pvRequest,
         std::string const & structureName);
     virtual ~PVCopy(){}
-    virtual void destroy();
     /**
      * Get the top-level structure of master
      * @returns The master top-level structure.
@@ -173,12 +172,12 @@ public:
      */
     std::string dump();
 private:
-    
+
     PVCopyPtr getPtrSelf()
     {
         return shared_from_this();
     }
-    
+
     epics::pvData::PVStructurePtr pvMaster;
     epics::pvData::StructureConstPtr structure;
     CopyNodePtr headNode;

@@ -6,8 +6,9 @@
 *     Operator of Los Alamos National Laboratory.
 * Copyright (c) 2002 Berliner Elektronenspeicherringgesellschaft fuer
 *     Synchrotronstrahlung.
+* SPDX-License-Identifier: EPICS
 * EPICS BASE is distributed subject to a Software License Agreement found
-* in file LICENSE that is included with this distribution. 
+* in file LICENSE that is included with this distribution.
 \*************************************************************************/
 
 /*
@@ -95,12 +96,12 @@ void usage (void)
 
 /*+**************************************************************************
  *
- * Function:	event_handler
+ * Function:    event_handler
  *
- * Description:	CA event_handler for request type callback
- * 		Prints the event data
+ * Description: CA event_handler for request type callback
+ *              Prints the event data
  *
- * Arg(s) In:	args  -  event handler args (see CA manual)
+ * Arg(s) In:   args  -  event handler args (see CA manual)
  *
  **************************************************************************-*/
 
@@ -125,11 +126,11 @@ static void event_handler (evargs args)
 
 /*+**************************************************************************
  *
- * Function:	connection_handler
+ * Function:    connection_handler
  *
- * Description:	CA connection_handler 
+ * Description: CA connection_handler
  *
- * Arg(s) In:	args  -  connection_handler_args (see CA manual)
+ * Arg(s) In:   args  -  connection_handler_args (see CA manual)
  *
  **************************************************************************-*/
 
@@ -138,7 +139,14 @@ static void connection_handler ( struct connection_handler_args args )
     pv *ppv = ( pv * ) ca_puser ( args.chid );
     if ( args.op == CA_OP_CONN_UP ) {
         nConn++;
-        if (!ppv->onceConnected) {
+
+        if (ppv->onceConnected && ppv->dbfType != ca_field_type(ppv->chid)) {
+            /* Data type has changed. Rebuild connection with new type. */
+            ca_clear_subscription(ppv->evid);
+            ppv->evid = NULL;
+        }
+
+        if (!ppv->evid) {
             ppv->onceConnected = 1;
                                 /* Set up pv structure */
                                 /* ------------------- */
@@ -169,7 +177,7 @@ static void connection_handler ( struct connection_handler_args args )
                                                 eventMask,
                                                 event_handler,
                                                 (void*)ppv,
-                                                NULL);
+                                                &ppv->evid);
         }
     }
     else if ( args.op == CA_OP_CONN_DOWN ) {
@@ -182,17 +190,17 @@ static void connection_handler ( struct connection_handler_args args )
 
 /*+**************************************************************************
  *
- * Function:	main
+ * Function:    main
  *
- * Description:	camonitor main()
- * 		Evaluate command line options, set up CA, connect the
- * 		channels, collect and print the data as requested
+ * Description: camonitor main()
+ *              Evaluate command line options, set up CA, connect the
+ *              channels, collect and print the data as requested
  *
- * Arg(s) In:	[options] <pv-name> ...
+ * Arg(s) In:   [options] <pv-name> ...
  *
- * Arg(s) Out:	none
+ * Arg(s) Out:  none
  *
- * Return(s):	Standard return code (0=success, 1=error)
+ * Return(s):   Standard return code (0=success, 1=error)
  *
  **************************************************************************-*/
 
@@ -296,7 +304,7 @@ int main (int argc, char *argv[])
         case 'f':
         case 'g':
             if (sscanf(optarg, "%d", &digits) != 1)
-                fprintf(stderr, 
+                fprintf(stderr,
                         "Invalid precision argument '%s' "
                         "for option '-%c' - ignored.\n", optarg, opt);
             else

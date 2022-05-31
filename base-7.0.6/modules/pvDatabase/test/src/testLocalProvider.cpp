@@ -79,4 +79,3 @@ MAIN(testLocalProvider)
     test();
     return 0;
 }
-

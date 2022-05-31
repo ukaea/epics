@@ -38,7 +38,7 @@ PVStructure::PVStructure(StructureConstPtr const & structurePtr)
         pvFields.push_back(pvDataCreate->createPVField(fields[i]));
     }
     for(size_t i=0; i<numberFields; i++) {
-    	pvFields[i]->setParentAndName(this,fieldNames[i]);
+        pvFields[i]->setParentAndName(this,fieldNames[i]);
     }
 }
 
@@ -168,7 +168,7 @@ PVFieldPtr PVStructure::getSubFieldImpl(const char *name, bool throws) const
                 std::stringstream ss;
                 ss << "Failed to get field: " << fullName << " ("
                    << std::string(fullName, sep) << " not found)";
-                throw std::runtime_error(ss.str());   
+                throw std::runtime_error(ss.str());
             }
             else
                 return PVFieldPtr();
@@ -184,7 +184,7 @@ PVFieldPtr PVStructure::getSubFieldImpl(const char *name, bool throws) const
                     std::stringstream ss;
                     ss << "Failed to get field: " << fullName
                        << " (" << std::string(fullName, sep)
-                       <<  " is not a structure)"; 
+                       <<  " is not a structure)";
                     throw std::runtime_error(ss.str());
                 }
                 else
@@ -307,22 +307,22 @@ std::ostream& PVStructure::dumpValue(std::ostream& o) const
     o << format::indent() << getStructure()->getID() << ' ' << getFieldName();
     o << std::endl;
     {
-    	format::indent_scope s(o);
+        format::indent_scope s(o);
 
-		PVFieldPtrArray const & fieldsData = getPVFields();
-		if (fieldsData.size() != 0) {
-			size_t length = getStructure()->getNumberFields();
-			for(size_t i=0; i<length; i++) {
-				PVFieldPtr fieldField = fieldsData[i];
-				Type type = fieldField->getField()->getType();
-				if (type == scalar || type == scalarArray)
-					o << format::indent() << fieldField->getField()->getID() << ' ' << fieldField->getFieldName() << ' ' << *(fieldField.get()) << std::endl;
-				else
-					o << *(fieldField.get());
-			}
-		}
+        PVFieldPtrArray const & fieldsData = getPVFields();
+        if (fieldsData.size() != 0) {
+            size_t length = getStructure()->getNumberFields();
+            for(size_t i=0; i<length; i++) {
+                PVFieldPtr fieldField = fieldsData[i];
+                Type type = fieldField->getField()->getType();
+                if (type == scalar || type == scalarArray)
+                    o << format::indent() << fieldField->getField()->getID() << ' ' << fieldField->getFieldName() << ' ' << *(fieldField.get()) << std::endl;
+                else
+                    o << *(fieldField.get());
+            }
+        }
     }
- 	return o;
+    return o;
 }
 
 

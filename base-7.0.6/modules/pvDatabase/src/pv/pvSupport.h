@@ -20,7 +20,7 @@
 
 #include <shareLib.h>
 
-namespace epics { namespace pvDatabase { 
+namespace epics { namespace pvDatabase {
 
 class PVSupport;
 typedef std::tr1::shared_ptr<PVSupport> PVSupportPtr;
@@ -29,7 +29,7 @@ typedef std::tr1::shared_ptr<PVSupport> PVSupportPtr;
  * @brief Base interface for a PVSupport.
  *
  */
-class epicsShareClass PVSupport 
+class epicsShareClass PVSupport
 {
 public:
     POINTER_DEFINITIONS(PVSupport);
@@ -75,4 +75,3 @@ public:
 }}
 
 #endif  /* PVSUPPORT_H */
-

@@ -103,4 +103,3 @@ MAIN(testPVRecord)
     powerSupplyTest();
     return 0;
 }
-

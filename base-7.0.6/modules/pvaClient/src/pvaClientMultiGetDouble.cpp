@@ -21,7 +21,7 @@ using namespace epics::pvAccess;
 using namespace epics::nt;
 using namespace std;
 
-namespace epics { namespace pvaClient { 
+namespace epics { namespace pvaClient {
 
 
 PvaClientMultiGetDoublePtr PvaClientMultiGetDouble::create(
@@ -39,7 +39,7 @@ PvaClientMultiGetDouble::PvaClientMultiGetDouble(
 : pvaClientMultiChannel(pvaClientMultiChannel),
   pvaClientChannelArray(pvaClientChannelArray),
   nchannel(pvaClientChannelArray.size()),
-  doubleValue(shared_vector<double>(nchannel)),
+  doubleValue( shared_vector<double>(nchannel)),
   pvaClientGet(std::vector<PvaClientGetPtr>(nchannel,PvaClientGetPtr())),
   isGetConnected(false)
 {
@@ -53,7 +53,7 @@ PvaClientMultiGetDouble::~PvaClientMultiGetDouble()
 
 void PvaClientMultiGetDouble::connect()
 {
-    shared_vector<epics::pvData::boolean> isConnected = pvaClientMultiChannel->getIsConnected();
+    shared_vector<epics::pvData::boolean>isConnected = pvaClientMultiChannel->getIsConnected();
     string request = "value";
     for(size_t i=0; i<nchannel; ++i)
     {
@@ -75,14 +75,14 @@ void PvaClientMultiGetDouble::connect()
     isGetConnected = true;
 }
 
-epics::pvData::shared_vector<double> PvaClientMultiGetDouble::get()
+shared_vector<double> PvaClientMultiGetDouble::get()
 {
     if(!isGetConnected) connect();
     shared_vector<epics::pvData::boolean> isConnected = pvaClientMultiChannel->getIsConnected();
-    
     for(size_t i=0; i<nchannel; ++i)
     {
          if(isConnected[i]) {
+               if(!pvaClientGet[i]) pvaClientGet[i]=pvaClientChannelArray[i]->createGet("value");
                pvaClientGet[i]->issueGet();
          }
     }
@@ -96,13 +96,22 @@ epics::pvData::shared_vector<double> PvaClientMultiGetDouble::get()
                throw std::runtime_error(message);
          }
     }
-    
     for(size_t i=0; i<nchannel; ++i)
     {
         if(isConnected[i])
         {
             PVStructurePtr pvStructure = pvaClientGet[i]->getData()->getPVStructure();
-            doubleValue[i] = getConvert()->toDouble(pvStructure->getSubField<PVScalar>("value"));
+            PVScalarPtr pvScalar(pvStructure->getSubField<PVScalar>("value"));
+            if(pvScalar) {
+                ScalarType scalarType = pvScalar->getScalar()->getScalarType();
+                if(ScalarTypeFunc::isNumeric(scalarType)) {
+                    doubleValue[i] = getConvert()->toDouble(pvScalar);
+                } else {
+                    doubleValue[i] = epicsNAN;
+                }
+            } else {
+                doubleValue[i] = epicsNAN;
+            }
         } else {
             doubleValue[i] = epicsNAN;
         }

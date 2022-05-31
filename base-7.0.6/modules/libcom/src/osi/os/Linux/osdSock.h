@@ -3,6 +3,7 @@
 *     National Laboratory.
 * Copyright (c) 2002 The Regents of the University of California, as
 *     Operator of Los Alamos National Laboratory.
+* SPDX-License-Identifier: EPICS
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
@@ -28,6 +29,9 @@
 #include <netdb.h>
 #include <unistd.h> /* close() and others */
 
+#ifndef IPPORT_USERRESERVED
+#define IPPORT_USERRESERVED 5000
+#endif
 
 typedef int                     SOCKET;
 #define INVALID_SOCKET          (-1)
@@ -59,6 +63,7 @@ typedef int osiSockOptMcastTTL_t;
 #define SOCK_SHUTDOWN ESHUTDOWN
 #define SOCK_ENOTSOCK ENOTSOCK
 #define SOCK_EBADF EBADF
+#define SOCK_EMSGSIZE EMSGSIZE
 
 #ifndef SHUT_RD
 #   define SHUT_RD 0

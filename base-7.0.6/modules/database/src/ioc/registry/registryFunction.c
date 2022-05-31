@@ -3,6 +3,7 @@
 *     National Laboratory.
 * Copyright (c) 2002 The Regents of the University of California, as
 *     Operator of Los Alamos National Laboratory.
+* SPDX-License-Identifier: EPICS
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
@@ -12,20 +13,19 @@
 
 #include <stdio.h>
 
-#define epicsExportSharedSymbols
 #include "registry.h"
 #include "registryFunction.h"
 
 static void * const registryID = "function";
 
 
-epicsShareFunc int registryFunctionAdd(
+DBCORE_API int registryFunctionAdd(
     const char *name, REGISTRYFUNCTION func)
 {
     return registryAdd(registryID, name, func);
 }
 
-epicsShareFunc REGISTRYFUNCTION registryFunctionFind(
+DBCORE_API REGISTRYFUNCTION registryFunctionFind(
     const char *name)
 {
     REGISTRYFUNCTION func = registryFind(registryID, name);
@@ -37,7 +37,7 @@ epicsShareFunc REGISTRYFUNCTION registryFunctionFind(
     return func;
 }
 
-epicsShareFunc int registryFunctionRefAdd(
+DBCORE_API int registryFunctionRefAdd(
    registryFunctionRef ref[], int nfunctions)
 {
     int i;

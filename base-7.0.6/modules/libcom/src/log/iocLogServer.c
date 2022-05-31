@@ -3,37 +3,38 @@
 *     National Laboratory.
 * Copyright (c) 2002 The Regents of the University of California, as
 *     Operator of Los Alamos National Laboratory.
+* SPDX-License-Identifier: EPICS
 * EPICS BASE is distributed subject to a Software License Agreement found
-* in file LICENSE that is included with this distribution. 
+* in file LICENSE that is included with this distribution.
 \*************************************************************************/
 /* iocLogServer.c */
 
 /*
- *	archive logMsg() from several IOC's to a common rotating file
+ *  archive logMsg() from several IOC's to a common rotating file
  *
  *
- * 	    Author: 	Jeffrey O. Hill 
- *      Date:       080791 
+ *      Author:     Jeffrey O. Hill
+ *      Date:       080791
  */
 
-#include	<stdlib.h>
-#include	<string.h>
-#include	<errno.h>
-#include 	<stdio.h>
-#include	<limits.h>
-#include	<time.h>
+#include    <stdlib.h>
+#include    <string.h>
+#include    <errno.h>
+#include    <stdio.h>
+#include    <limits.h>
+#include    <time.h>
 
 #ifdef UNIX
-#include 	<unistd.h>
-#include	<signal.h>
+#include    <unistd.h>
+#include    <signal.h>
 #endif
 
-#include        "dbDefs.h"
-#include	"epicsAssert.h"
-#include 	"fdmgr.h"
-#include 	"envDefs.h"
-#include 	"osiSock.h"
-#include	"epicsStdio.h"
+#include    "dbDefs.h"
+#include    "epicsAssert.h"
+#include    "fdmgr.h"
+#include    "envDefs.h"
+#include    "osiSock.h"
+#include    "epicsStdio.h"
 
 static unsigned short ioc_log_port;
 static long ioc_log_file_limit;
@@ -81,7 +82,7 @@ static int sighupPipe[2];
 #endif
 
 
- 
+
 /*
  *
  * main()
@@ -103,7 +104,7 @@ int main(void)
         return IOCLS_ERROR;
     }
 
-    pserver = (struct ioc_log_server *) 
+    pserver = (struct ioc_log_server *)
             calloc(1, sizeof *pserver);
     if (!pserver) {
         fprintf(stderr, "iocLogServer: %s\n", strerror(errno));
@@ -128,7 +129,7 @@ int main(void)
         free(pserver);
         return IOCLS_ERROR;
     }
-    
+
     epicsSocketEnableAddressReuseDuringTimeWaitState ( pserver->sock );
 
     /* Zero the sock_addr structure */
@@ -137,15 +138,15 @@ int main(void)
     serverAddr.sin_port = htons(ioc_log_port);
 
     /* get server's Internet address */
-    status = bind ( pserver->sock, 
-            (struct sockaddr *)&serverAddr, 
+    status = bind ( pserver->sock,
+            (struct sockaddr *)&serverAddr,
             sizeof (serverAddr) );
     if (status < 0) {
         char sockErrBuf[64];
         epicsSocketConvertErrnoToString ( sockErrBuf, sizeof ( sockErrBuf ) );
         fprintf(stderr, "iocLogServer: bind err: %s\n", sockErrBuf );
         fprintf (stderr,
-            "iocLogServer: a server is already installed on port %u?\n", 
+            "iocLogServer: a server is already installed on port %u?\n",
             (unsigned)ioc_log_port);
         return IOCLS_ERROR;
     }
@@ -185,15 +186,15 @@ int main(void)
     status = openLogFile(pserver);
     if (status < 0) {
         fprintf(stderr,
-            "File access problems to `%s' because `%s'\n", 
+            "File access problems to `%s' because `%s'\n",
             ioc_log_file_name,
             strerror(errno));
         return IOCLS_ERROR;
     }
 
     status = fdmgr_add_callback(
-            pserver->pfdctx, 
-            pserver->sock, 
+            pserver->pfdctx,
+            pserver->sock,
             fdi_read,
             acceptNewClient,
             pserver);
@@ -210,7 +211,6 @@ int main(void)
         fdmgr_pend_event(pserver->pfdctx, &timeout);
         fflush(pserver->poutfile);
     }
-    return 0;
 }
 
 /*
@@ -241,7 +241,7 @@ static int seekLatestLine (struct ioc_log_server *pserver)
          */
         convertStatus = fscanf (
             pserver->poutfile, " %*s %*s %15s %d %d:%d:%d %d %*[^\n] ",
-            month, &theDate.tm_mday, &theDate.tm_hour, 
+            month, &theDate.tm_mday, &theDate.tm_hour,
             &theDate.tm_min, &theDate.tm_sec, &theDate.tm_year);
         if (convertStatus==6) {
             static const char *pMonths[] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun",
@@ -263,7 +263,7 @@ static int seekLatestLine (struct ioc_log_server *pserver)
                     theDate.tm_isdst = -1; /* dont know */
                     lineTime = mktime (&theDate);
                     if ( lineTime != invalidTime ) {
-                        if (theLatestTime == invalidTime || 
+                        if (theLatestTime == invalidTime ||
                             difftime(lineTime, theLatestTime)>=0) {
                             latestFilePos =  ftell (pserver->poutfile);
                             theLatestTime = lineTime;
@@ -291,7 +291,7 @@ static int seekLatestLine (struct ioc_log_server *pserver)
         }
         else {
             int c = fgetc (pserver->poutfile);
- 
+
             /*
              * bypass the line if it does not match the expected format
              */
@@ -330,7 +330,7 @@ static int seekLatestLine (struct ioc_log_server *pserver)
     if (theLatestTime==invalidTime) {
         if (pserver->filePos!=0) {
             fprintf (stderr, "iocLogServer: **** Warning ****\n");
-            fprintf (stderr, "iocLogServer: no recognizable dates in \"%s\"\n", 
+            fprintf (stderr, "iocLogServer: no recognizable dates in \"%s\"\n",
                 ioc_log_file_name);
             fprintf (stderr, "iocLogServer: logging at end of file\n");
         }
@@ -339,9 +339,9 @@ static int seekLatestLine (struct ioc_log_server *pserver)
     return IOCLS_OK;
 }
 
- 
+
 /*
- *	openLogFile()
+ *  openLogFile()
  *
  */
 static int openLogFile (struct ioc_log_server *pserver)
@@ -371,35 +371,35 @@ static int openLogFile (struct ioc_log_server *pserver)
         pserver->poutfile = stderr;
         return IOCLS_ERROR;
     }
-    strncpy (pserver->outfile, ioc_log_file_name, sizeof(pserver->outfile)-1);
+    strcpy (pserver->outfile, ioc_log_file_name);
     pserver->max_file_size = ioc_log_file_limit;
 
     return seekLatestLine (pserver);
 }
 
- 
+
 /*
- *	handleLogFileError()
+ *  handleLogFileError()
  *
  */
 static void handleLogFileError(void)
 {
     fprintf(stderr,
-        "iocLogServer: log file access problem (errno=%s)\n", 
+        "iocLogServer: log file access problem (errno=%s)\n",
         strerror(errno));
     exit(IOCLS_ERROR);
 }
-        
 
- 
+
+
 /*
- *	acceptNewClient()
+ *  acceptNewClient()
  *
  */
 static void acceptNewClient ( void *pParam )
 {
     struct ioc_log_server *pserver = (struct ioc_log_server *) pParam;
-    struct iocLogClient	*pclient;
+    struct iocLogClient *pclient;
     osiSocklen_t addrSize;
     struct sockaddr_in addr;
     int status;
@@ -444,7 +444,7 @@ static void acceptNewClient ( void *pParam )
     if(status<0){
         char sockErrBuf[64];
         epicsSocketConvertErrnoToString ( sockErrBuf, sizeof ( sockErrBuf ) );
-        fprintf(stderr, "%s:%d ioctl FBIO client er %s\n", 
+        fprintf(stderr, "%s:%d ioctl FBIO client er %s\n",
             __FILE__, __LINE__, sockErrBuf);
         epicsSocketDestroy ( pclient->insock );
         free(pclient);
@@ -457,7 +457,7 @@ static void acceptNewClient ( void *pParam )
     ipAddrToA (&addr, pclient->name, sizeof(pclient->name));
 
     logTime(pclient);
-    
+
 #if 0
     status = fprintf(
         pclient->pserver->poutfile,
@@ -500,33 +500,33 @@ static void acceptNewClient ( void *pParam )
     }
 
     status = fdmgr_add_callback(
-            pserver->pfdctx, 
-            pclient->insock, 
+            pserver->pfdctx,
+            pclient->insock,
             fdi_read,
             readFromClient,
             pclient);
     if (status<0) {
         epicsSocketDestroy ( pclient->insock );
         free(pclient);
-        fprintf(stderr, "%s:%d client fdmgr_add_callback() failed\n", 
+        fprintf(stderr, "%s:%d client fdmgr_add_callback() failed\n",
             __FILE__, __LINE__);
         return;
     }
 }
 
 
- 
+
 /*
  * readFromClient()
- * 
+ *
  */
 #define NITEMS 1
 
 static void readFromClient(void *pParam)
 {
-    struct iocLogClient	*pclient = (struct iocLogClient *)pParam;
-    int             	recvLength;
-    int			size;
+    struct iocLogClient *pclient = (struct iocLogClient *)pParam;
+    int                 recvLength;
+    int                 size;
 
     logTime(pclient);
 
@@ -548,9 +548,9 @@ static void readFromClient(void *pParam)
                 ) {
                 char sockErrBuf[64];
                 epicsSocketConvertErrnoToString ( sockErrBuf, sizeof ( sockErrBuf ) );
-                fprintf(stderr, 
+                fprintf(stderr,
         "%s:%d socket=%d size=%d read error=%s\n",
-                    __FILE__, __LINE__, pclient->insock, 
+                    __FILE__, __LINE__, pclient->insock,
                     size, sockErrBuf);
             }
         }
@@ -573,7 +573,7 @@ static void writeMessagesToLog (struct iocLogClient *pclient)
 {
     int status;
     size_t lineIndex = 0;
-    
+
     while (TRUE) {
         size_t nchar;
         size_t nTotChar;
@@ -588,11 +588,11 @@ static void writeMessagesToLog (struct iocLogClient *pclient)
         /*
          * find the first carrage return and create
          * an entry in the log for the message associated
-         * with it. If a carrage return does not exist and 
-         * the buffer isnt full then move the partial message 
-         * to the front of the buffer and wait for a carrage 
+         * with it. If a carrage return does not exist and
+         * the buffer isnt full then move the partial message
+         * to the front of the buffer and wait for a carrage
          * return to arrive. If the buffer is full and there
-         * is no carrage return then force the message out and 
+         * is no carrage return then force the message out and
          * insert an artificial carrage return.
          */
         nchar = pclient->nChar - lineIndex;
@@ -609,7 +609,7 @@ static void writeMessagesToLog (struct iocLogClient *pclient)
             if ( nchar < sizeof ( pclient->recvbuf ) ) {
                 if ( lineIndex != 0 ) {
                     pclient->nChar = nchar;
-                    memmove ( pclient->recvbuf, 
+                    memmove ( pclient->recvbuf,
                         & pclient->recvbuf[lineIndex], nchar);
                 }
                 break;
@@ -638,15 +638,15 @@ static void writeMessagesToLog (struct iocLogClient *pclient)
                 }
             }
 
-#			ifdef DEBUG
+#           ifdef DEBUG
                 fprintf ( stderr,
                     "ioc log server: resetting the file pointer\n" );
-#			endif
+#           endif
             fflush ( pclient->pserver->poutfile );
             rewind ( pclient->pserver->poutfile );
             pclient->pserver->filePos = ftell ( pclient->pserver->poutfile );
         }
-    
+
         /*
          * NOTE: !! change format string here then must
          * change nTotChar calc above !!
@@ -672,19 +672,19 @@ static void writeMessagesToLog (struct iocLogClient *pclient)
     }
 }
 
- 
+
 /*
  * freeLogClient ()
  */
 static void freeLogClient(struct iocLogClient     *pclient)
 {
-    int		status;
+    int     status;
 
-#	ifdef	DEBUG
+#   ifdef   DEBUG
     if(length == 0){
         fprintf(stderr, "iocLogServer: nil message disconnect\n");
     }
-#	endif
+#   endif
 
     /*
      * flush any left overs
@@ -715,23 +715,23 @@ static void freeLogClient(struct iocLogClient     *pclient)
     return;
 }
 
- 
+
 /*
  *
- *	logTime()
+ *  logTime()
  *
  */
 static void logTime(struct iocLogClient *pclient)
 {
-    time_t		sec;
-    char		*pcr;
-    char		*pTimeString;
+    time_t      sec;
+    char        *pcr;
+    char        *pTimeString;
 
     sec = time (NULL);
     pTimeString = ctime (&sec);
-    strncpy (pclient->ascii_time, 
-        pTimeString, 
-        sizeof (pclient->ascii_time)-1 );
+    strncpy (pclient->ascii_time,
+        pTimeString,
+        sizeof (pclient->ascii_time) );
     pclient->ascii_time[sizeof(pclient->ascii_time)-1] = '\0';
     pcr = strchr(pclient->ascii_time, '\n');
     if (pcr) {
@@ -739,22 +739,22 @@ static void logTime(struct iocLogClient *pclient)
     }
 }
 
- 
+
 /*
  *
- *	getConfig()
- *	Get Server Configuration
+ *  getConfig()
+ *  Get Server Configuration
  *
  *
  */
 static int getConfig(void)
 {
-    int	status;
-    char	*pstring;
-    long	param;
+    int     status;
+    char    *pstring;
+    long    param;
 
     status = envGetLongConfigParam(
-            &EPICS_IOC_LOG_PORT, 
+            &EPICS_IOC_LOG_PORT,
             &param);
     if(status>=0){
         ioc_log_port = (unsigned short) param;
@@ -764,7 +764,7 @@ static int getConfig(void)
     }
 
     status = envGetLongConfigParam(
-            &EPICS_IOC_LOG_FILE_LIMIT, 
+            &EPICS_IOC_LOG_FILE_LIMIT,
             &ioc_log_file_limit);
     if(status>=0){
         if (ioc_log_file_limit < 0) {
@@ -777,7 +777,7 @@ static int getConfig(void)
     }
 
     pstring = envGetConfigParam(
-            &EPICS_IOC_LOG_FILE_NAME, 
+            &EPICS_IOC_LOG_FILE_NAME,
             sizeof ioc_log_file_name,
             ioc_log_file_name);
     if(pstring == NULL){
@@ -789,17 +789,17 @@ static int getConfig(void)
      * its ok to not specify the IOC_LOG_FILE_COMMAND
      */
     pstring = envGetConfigParam(
-            &EPICS_IOC_LOG_FILE_COMMAND, 
+            &EPICS_IOC_LOG_FILE_COMMAND,
             sizeof ioc_log_file_command,
             ioc_log_file_command);
     return IOCLS_OK;
 }
 
 
- 
+
 /*
  *
- *	failureNotify()
+ *  failureNotify()
  *
  *
  */
@@ -811,7 +811,7 @@ static void envFailureNotify(const ENV_PARAM *pparam)
 }
 
 
- 
+
 #ifdef UNIX
 static int setupSIGHUP(struct ioc_log_server *pserver)
 {
@@ -836,7 +836,7 @@ static int setupSIGHUP(struct ioc_log_server *pserver)
         fprintf(stderr, "iocLogServer: %s\n", strerror(errno));
         return IOCLS_ERROR;
     }
-    
+
     status = pipe(sighupPipe);
     if(status<0){
                 fprintf(stderr,
@@ -846,8 +846,8 @@ static int setupSIGHUP(struct ioc_log_server *pserver)
         }
 
     status = fdmgr_add_callback(
-            pserver->pfdctx, 
-            sighupPipe[0], 
+            pserver->pfdctx,
+            sighupPipe[0],
             fdi_read,
             serviceSighupRequest,
             pserver);
@@ -861,7 +861,7 @@ static int setupSIGHUP(struct ioc_log_server *pserver)
 
 /*
  *
- *	sighupHandler()
+ *  sighupHandler()
  *
  *
  */
@@ -876,16 +876,16 @@ static void sighupHandler(int signo)
 }
 
 
- 
+
 /*
- *	serviceSighupRequest()
+ *  serviceSighupRequest()
  *
  */
 static void serviceSighupRequest(void *pParam)
 {
-    struct ioc_log_server	*pserver = (struct ioc_log_server *)pParam;
-    char			buff[256];
-    int			status;
+    struct ioc_log_server   *pserver = (struct ioc_log_server *)pParam;
+    char                    buff[256];
+    int                     status;
 
     /*
      * Read and discard message from pipe.
@@ -911,7 +911,7 @@ static void serviceSighupRequest(void *pParam)
     status = openLogFile(pserver);
     if(status<0){
         fprintf(stderr,
-            "File access problems to `%s' because `%s'\n", 
+            "File access problems to `%s' because `%s'\n",
             ioc_log_file_name,
             strerror(errno));
         /* Revert to old filename */
@@ -938,18 +938,18 @@ static void serviceSighupRequest(void *pParam)
 }
 
 
- 
+
 /*
  *
- *	getDirectory()
+ *  getDirectory()
  *
  *
  */
 static int getDirectory(void)
 {
-    FILE		*pipe;
-    char		dir[256];
-    int		i;
+    FILE        *pipe;
+    char        dir[256];
+    int         i;
 
     if (ioc_log_file_command[0] != '\0') {
 
@@ -959,14 +959,14 @@ static int getDirectory(void)
         pipe = popen(ioc_log_file_command, "r");
         if (pipe == NULL) {
             fprintf(stderr,
-                "Problem executing `%s' because `%s'\n", 
+                "Problem executing `%s' because `%s'\n",
                 ioc_log_file_command,
                 strerror(errno));
             return IOCLS_ERROR;
         }
         if (fgets(dir, sizeof(dir), pipe) == NULL) {
             fprintf(stderr,
-                "Problem reading o/p from `%s' because `%s'\n", 
+                "Problem reading o/p from `%s' because `%s'\n",
                 ioc_log_file_command,
                 strerror(errno));
             (void) pclose(pipe);

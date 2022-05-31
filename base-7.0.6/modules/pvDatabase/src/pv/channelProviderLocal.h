@@ -27,8 +27,9 @@
 #include <pv/pvDatabase.h>
 
 #include <shareLib.h>
+#include <asLib.h>
 
-namespace epics { namespace pvDatabase { 
+namespace epics { namespace pvDatabase {
 
 class ChannelProviderLocal;
 typedef std::tr1::shared_ptr<ChannelProviderLocal> ChannelProviderLocalPtr;
@@ -59,6 +60,19 @@ class epicsShareClass ChannelProviderLocal :
 public:
     POINTER_DEFINITIONS(ChannelProviderLocal);
     /**
+     * @brief Initialize access security configuration
+     * @param filePath AS definition file path 
+     * @param substitutions macro substitutions
+     * @throws std::runtime_error in case of configuration problem 
+     */
+    static void initAs(const std::string& filePath, const std::string& substitutions="");
+    /**
+     * @brief Is access security active?
+     * @return true is AS is active
+     */
+    static bool isAsActive();
+
+    /**
      * @brief Constructor
      */
     ChannelProviderLocal();
@@ -66,11 +80,6 @@ public:
      * @brief Destructor
      */
     virtual ~ChannelProviderLocal();
-    /**
-     * @brief DEPRECATED
-     *
-     */
-    virtual void destroy(){};
     /**
      * @brief Returns the channel provider name.
      *
@@ -93,7 +102,7 @@ public:
     virtual epics::pvAccess::ChannelFind::shared_pointer channelFind(
         std::string const &channelName,
         epics::pvAccess::ChannelFindRequester::shared_pointer const & channelFindRequester);
-    /** 
+    /**
      * @brief Calls method channelListRequester::channelListResult.
      *
      * This provides the caller with a list of the record names on the PVDatabase.
@@ -101,7 +110,7 @@ public:
      * @param channelListRequester The client callback.
      * @return shared pointer to ChannelFind.
      * The interface for SyncChannelFind is defined by pvAccessCPP.
-     */ 
+     */
     virtual epics::pvAccess::ChannelFind::shared_pointer channelList(
         epics::pvAccess::ChannelListRequester::shared_pointer const & channelListRequester);
     /**
@@ -163,6 +172,7 @@ private:
     friend class ChannelProviderLocalRun;
 };
 
+
 /**
  * @brief Channel for accessing a PVRecord.
  *
@@ -186,28 +196,23 @@ public:
         epics::pvAccess::ChannelRequester::shared_pointer const & requester,
         PVRecordPtr const & pvRecord
     );
-    /** 
+    /**
      * @brief Destructor
      */
     virtual ~ChannelLocal();
-    /** 
-     * @brief DEPRECATED
-     *
-     */
-    virtual void destroy() {};
-    /** 
+    /**
      * @brief Detach from the record.
      *
      * This is called when a record is being removed from the database.
      * @param pvRecord The record being removed.
      */
     virtual void detach(PVRecordPtr const &pvRecord);
-    /** 
+    /**
      * @brief Get the requester name.
      * @return returns the name of the channel requester.
      */
     virtual std::string getRequesterName();
-    /** 
+    /**
      * @brief Passes the message to the channel requester.
      * @param message The message.
      * @param messageType The message type.
@@ -215,37 +220,37 @@ public:
     virtual void message(
         std::string const & message,
         epics::pvData::MessageType messageType);
-    /** 
+    /**
      * @brief Get the channel provider
      * @return The provider.
      */
     virtual epics::pvAccess::ChannelProvider::shared_pointer getProvider();
-    /** 
+    /**
      * @brief Get the remote address
      * @return <b>local</b>
      */
     virtual std::string getRemoteAddress();
-    /** 
+    /**
      * Get the connection state.
      * @return Channel::CONNECTED.
      */
     virtual epics::pvAccess::Channel::ConnectionState getConnectionState();
-    /** 
+    /**
      * @brief Get the channel name.
      * @return the record name.
      */
     virtual std::string getChannelName();
-    /** 
+    /**
      * @brief Get the channel requester
      * @return The channel requester.
      */
     virtual epics::pvAccess::ChannelRequester::shared_pointer getChannelRequester();
-    /** 
+    /**
      * @brief Is the channel connected?
      * @return true.
      */
     virtual bool isConnected();
-    /** 
+    /**
      * @brief Get the introspection interface for subField.
      *
      * The introspection interface is given via GetFieldRequester::getDone.
@@ -257,14 +262,14 @@ public:
     virtual void getField(
         epics::pvAccess::GetFieldRequester::shared_pointer const &requester,
         std::string const & subField);
-    /** 
+    /**
      * Get the access rights for the record.
      * This throws an exception because it is assumed that access rights are
      * handled by a higher level.
      */
     virtual epics::pvAccess::AccessRights getAccessRights(
         epics::pvData::PVField::shared_pointer const &pvField);
-    /** 
+    /**
      * @brief Create a channelProcess.
      *
      * @param requester The client callback.
@@ -275,9 +280,9 @@ public:
     virtual epics::pvAccess::ChannelProcess::shared_pointer createChannelProcess(
         epics::pvAccess::ChannelProcessRequester::shared_pointer const &requester,
         epics::pvData::PVStructurePtr const &pvRequest);
-    /** 
+    /**
      * @brief Create a channelGet.
-     * 
+     *
      * @param requester The client callback.
      * @param pvRequest The options specified by the client.
      * @return A shared pointer to the newly created implementation.
@@ -286,7 +291,7 @@ public:
     virtual epics::pvAccess::ChannelGet::shared_pointer createChannelGet(
         epics::pvAccess::ChannelGetRequester::shared_pointer const &requester,
         epics::pvData::PVStructurePtr const &pvRequest);
-    /** 
+    /**
      * @brief Create a channelPut.
      *
      * @param requester The client callback.
@@ -297,9 +302,9 @@ public:
     virtual epics::pvAccess::ChannelPut::shared_pointer createChannelPut(
         epics::pvAccess::ChannelPutRequester::shared_pointer const &requester,
         epics::pvData::PVStructurePtr const &pvRequest);
-    /** 
+    /**
      * @brief Create a channelPutGet.
-     * 
+     *
      * @param requester The client callback.
      * @param pvRequest The options specified by the client.
      * @return A shared pointer to the newly created implementation.
@@ -308,7 +313,7 @@ public:
     virtual epics::pvAccess::ChannelPutGet::shared_pointer createChannelPutGet(
         epics::pvAccess::ChannelPutGetRequester::shared_pointer const &requester,
         epics::pvData::PVStructurePtr const &pvRequest);
-    /** 
+    /**
      * @brief Create a channelRPC.
      *
      * The PVRecord must implement <b>getService</b> or an empty shared pointer is returned.
@@ -319,9 +324,9 @@ public:
     virtual epics::pvAccess::ChannelRPC::shared_pointer createChannelRPC(
         epics::pvAccess::ChannelRPCRequester::shared_pointer const &requester,
         epics::pvData::PVStructurePtr const &pvRequest);
-    /** 
+    /**
      * @brief Create a monitor.
-     * 
+     *
      * @param requester The client callback.
      * @param pvRequest The options specified by the client.
      * @return A shared pointer to the newly created implementation.
@@ -330,9 +335,9 @@ public:
     virtual epics::pvData::Monitor::shared_pointer createMonitor(
         epics::pvData::MonitorRequester::shared_pointer const &requester,
         epics::pvData::PVStructurePtr const &pvRequest);
-    /** 
+    /**
      * @brief Create a channelArray.
-     * 
+     *
      * @param requester The client callback.
      * @param pvRequest The options specified by the client.
      * @return A shared pointer to the newly created implementation.
@@ -341,16 +346,28 @@ public:
     virtual epics::pvAccess::ChannelArray::shared_pointer createChannelArray(
         epics::pvAccess::ChannelArrayRequester::shared_pointer const &requester,
         epics::pvData::PVStructurePtr const &pvRequest);
-    /** 
+    /**
      *  @brief calls printInfo(std::cout);
      */
     virtual void printInfo();
-    /** 
+    /**
      * @brief displays a message
-     * 
+     *
      * @param out the stream on which the message is displayed.
      */
     virtual void printInfo(std::ostream& out);
+    /**
+     * @brief determines if client can write
+     *
+     * @return true if client can write
+     */
+    virtual bool canWrite();
+    /**
+     * @brief determines if client can read
+     *
+     * @return true if client can read
+     */
+    virtual bool canRead();
 protected:
     shared_pointer getPtrSelf()
     {
@@ -361,6 +378,19 @@ private:
     ChannelProviderLocalWPtr provider;
     PVRecordWPtr pvRecord;
     epics::pvData::Mutex mutex;
+
+    // AS-specific variables/methods
+    std::vector<char> toCharArray(const std::string& s);
+    std::vector<char> getAsGroup(const PVRecordPtr& pvRecord);
+    std::vector<char> getAsUser(const epics::pvAccess::ChannelRequester::shared_pointer& requester);
+    std::vector<char> getAsHost(const epics::pvAccess::ChannelRequester::shared_pointer& requester);
+
+    int asLevel;
+    std::vector<char> asGroup;
+    std::vector<char> asUser;
+    std::vector<char> asHost;
+    ASMEMBERPVT asMemberPvt;
+    ASCLIENTPVT asClientPvt;
 };
 
 }}

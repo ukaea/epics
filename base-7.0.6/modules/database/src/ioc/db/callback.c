@@ -4,15 +4,16 @@
 * Copyright (c) 2002 The Regents of the University of California, as
 *     Operator of Los Alamos National Laboratory.
 * Copyright (c) 2013 ITER Organization.
+* SPDX-License-Identifier: EPICS
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
 /* callback.c */
 
-/* general purpose callback tasks		*/
+/* general purpose callback tasks               */
 /*
  *      Original Author:        Marty Kraimer
- *      Date:   	        07-18-91
+ *      Date:                   07-18-91
 */
 
 #include <stddef.h>
@@ -33,7 +34,6 @@
 #include "errMdef.h"
 #include "taskwd.h"
 
-#define epicsExportSharedSymbols
 #include "callback.h"
 #include "dbAccessDefs.h"
 #include "dbAddr.h"
@@ -65,7 +65,7 @@ static cbQueueSet callbackQueue[NUM_CALLBACK_PRIORITIES];
 int callbackThreadsDefault = 1;
 /* Don't know what a reasonable default is (yet).
  * For the time being: parallel means 2 if not explicitly specified */
-epicsShareDef int callbackParallelThreadsDefault = 2;
+int callbackParallelThreadsDefault = 2;
 epicsExportAddress(int,callbackParallelThreadsDefault);
 
 /* Timer for Delayed Requests */
@@ -263,7 +263,9 @@ void callbackCleanup(void)
 
         assert(epicsAtomicGetIntT(&mySet->threadsRunning)==0);
         epicsEventDestroy(mySet->semWakeUp);
+        mySet->semWakeUp = NULL;
         epicsRingPointerDelete(mySet->queue);
+        mySet->queue = NULL;
     }
 
     epicsTimerQueueRelease(timerQueue);
@@ -333,6 +335,10 @@ int callbackRequest(epicsCallback *pcallback)
         return S_db_badChoice;
     }
     mySet = &callbackQueue[priority];
+    if (!mySet->queue) {
+        epicsInterruptContextMessage("callbackRequest: Callbacks not initialized\n");
+        return S_db_notInit;
+    }
     if (mySet->queueOverflow) return S_db_bufFull;
 
     pushOK = epicsRingPointerPush(mySet->queue, pcallback);

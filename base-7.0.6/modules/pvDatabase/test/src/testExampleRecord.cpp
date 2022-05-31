@@ -134,4 +134,3 @@ MAIN(testExampleRecord)
     test();
     return 0;
 }
-

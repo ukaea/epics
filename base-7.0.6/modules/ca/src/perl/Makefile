@@ -13,11 +13,11 @@ ifdef T_A
   PERL_ARCHNAME = $(shell $(PERL) ../perlConfig.pl archname)
   PERL_ARCHPATH := $(PERL_VERSION)/$(PERL_ARCHNAME)
 
-  PERL_ARCHLIB  := $(shell $(PERL) ../perlConfig.pl archlib)
+  PERL_ARCHLIB  := $(shell $(PERL) ../perlConfig.pl archlibexp)
   PERL_h = $(PERL_ARCHLIB)/CORE/perl.h
 
-  EXTUTILS := $(shell $(PERL) ../perlConfig.pl privlib)/ExtUtils
-  PERLBIN := $(shell $(PERL) ../perlConfig.pl bin)
+  EXTUTILS := $(shell $(PERL) ../perlConfig.pl privlibexp)/ExtUtils
+  PERLBIN := $(shell $(PERL) ../perlConfig.pl binexp)
   XSUBPP := $(firstword $(wildcard $(PERLBIN)/xsubpp $(EXTUTILS)/xsubpp))
 
 # Special settings for Darwin:
@@ -38,6 +38,7 @@ ifeq ($(wildcard $(PERL_h)),)
 endif
 endif
 
+ifneq (inc,$(strip $(MAKECMDGOALS)))
 ifeq ($(T_A),$(EPICS_HOST_ARCH))                 # No cross-builds (wrong Perl!)
 ifeq ($(strip $(XSUBPP)),)
   $(warning Perl's xsubpp program was not found.)
@@ -57,6 +58,7 @@ ifeq ($(findstring $(OS_CLASS),WIN32 cygwin32),) # Doesn't build on WIN32
 
   HTMLS_DIR = .
   HTMLS = CA.html
+endif
 endif
 endif
 endif

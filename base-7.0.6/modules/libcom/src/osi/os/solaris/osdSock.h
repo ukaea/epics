@@ -3,6 +3,7 @@
 *     National Laboratory.
 * Copyright (c) 2002 The Regents of the University of California, as
 *     Operator of Los Alamos National Laboratory.
+* SPDX-License-Identifier: EPICS
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
@@ -68,6 +69,7 @@ typedef unsigned char osiSockOptMcastTTL_t;
 #define SOCK_SHUTDOWN ESHUTDOWN
 #define SOCK_ENOTSOCK ENOTSOCK
 #define SOCK_EBADF EBADF
+#define SOCK_EMSGSIZE EMSGSIZE
 
 #ifndef SHUT_RD
 #   define SHUT_RD 0

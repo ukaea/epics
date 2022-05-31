@@ -31,7 +31,7 @@ static StandardPVFieldPtr standardPVField;
 static void test()
 {
     std::ostringstream oss;
-    
+
     testDiag("\ntestBitSetUtil\n");
     StringArray fieldNames;
     PVFieldPtrArray pvFields;
@@ -127,4 +127,3 @@ MAIN(testBitSetUtil)
     test();
     return testDone();
 }
-

@@ -23,7 +23,7 @@ using namespace epics::pvAccess;
 using namespace epics::pvAccess::ca;
 using namespace std;
 
-namespace epics { namespace pvaClient { 
+namespace epics { namespace pvaClient {
 
 
 class epicsShareClass PvaClientChannelCache
@@ -42,7 +42,7 @@ public:
 private:
     map<string,PvaClientChannelPtr> pvaClientChannelMap;
 };
-   
+
 PvaClientChannelPtr PvaClientChannelCache::getChannel(
     string const & channelName,
     string const & providerName)
@@ -77,7 +77,7 @@ void PvaClientChannelCache::showCache()
          string providerName = channel->getProvider()->getProviderName();
          cout << "channel " << channelName << " provider " << providerName << endl;
          pvaChannel->showCache();
-    } 
+    }
 }
 
 size_t PvaClientChannelCache::cacheSize()
@@ -137,7 +137,7 @@ PvaClient::PvaClient(std::string const & providerNames)
               }
              CAClientFactory::start();
              caStarted = true;
-         } else { 
+         } else {
              if(!channelRegistry->getProvider(providerName)) {
                  cerr << "PvaClient::get provider " << providerName  << " not known" << endl;
              }
@@ -191,7 +191,7 @@ PvaClientChannelPtr PvaClient::channel(
         std::string const & providerName,
         double timeOut)
 {
-    PvaClientChannelPtr pvaClientChannel = 
+    PvaClientChannelPtr pvaClientChannel =
         pvaClientChannelCache->getChannel(channelName,providerName);
     if(pvaClientChannel) return pvaClientChannel;
     pvaClientChannel = createChannel(channelName,providerName);
@@ -231,4 +231,3 @@ size_t PvaClient::cacheSize()
 }
 
 }}
- 

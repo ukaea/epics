@@ -42,7 +42,7 @@ public:
         return clientProcess->getRequesterName();
     }
 
-    virtual void message(std::string const & message, epics::pvData::MessageType messageType) {
+    virtual void message(std::string const & message, MessageType messageType) {
         PvaClientProcessPtr clientProcess(pvaClientProcess.lock());
         if(!clientProcess) return;
         clientProcess->message(message,messageType);
@@ -54,7 +54,7 @@ public:
     {
         PvaClientProcessPtr clientProcess(pvaClientProcess.lock());
         if(!clientProcess) return;
-        clientProcess->channelProcessConnect(status,channelProcess);  
+        clientProcess->channelProcessConnect(status,channelProcess);
     }
 
     virtual void processDone(
@@ -111,19 +111,14 @@ PvaClientProcess::~PvaClientProcess()
     }
 }
 
-// from ChannelProcessRequester
 string PvaClientProcess::getRequesterName()
 {
-     PvaClientPtr yyy = pvaClient.lock();
-     if(!yyy) throw std::runtime_error("pvaClient was destroyed");
-     return yyy->getRequesterName();
+     return pvaClientChannel->getRequesterName();
 }
 
 void PvaClientProcess::message(string const & message,MessageType messageType)
 {
-    PvaClientPtr yyy = pvaClient.lock();
-    if(!yyy) throw std::runtime_error("pvaClient was destroyed");
-    yyy->message(message, messageType);
+    pvaClientChannel->message(message,messageType);
 }
 
 void PvaClientProcess::channelProcessConnect(
@@ -138,25 +133,17 @@ void PvaClientProcess::channelProcessConnect(
     }
     {
         Lock xx(mutex);
-        this->channelProcess = channelProcess;
+        channelProcessConnectStatus = status;
         if(status.isOK()) {
-            channelProcessConnectStatus = status;
+            this->channelProcess = channelProcess;
             connectState = connected;
-        } else {
-             stringstream ss;
-             ss << pvRequest;
-             string message = string("PvaClientProcess::channelProcessConnect")
-               + "\npvRequest\n" + ss.str()
-               + "\nerror\n" + status.getMessage();
-             channelProcessConnectStatus = Status(Status::STATUSTYPE_ERROR,message);
-        }
+        }    
+        waitForConnect.signal();
     }
     PvaClientProcessRequesterPtr  req(pvaClientProcessRequester.lock());
     if(req) {
           req->channelProcessConnect(status,shared_from_this());
     }
-    waitForConnect.signal();
-    
 }
 
 void PvaClientProcess::processDone(
@@ -173,13 +160,12 @@ void PvaClientProcess::processDone(
         Lock xx(mutex);
         channelProcessStatus = status;
         processState = processComplete;
+        waitForProcess.signal();
     }
-    
     PvaClientProcessRequesterPtr  req(pvaClientProcessRequester.lock());
     if(req) {
           req->processDone(status,shared_from_this());
     }
-    waitForProcess.signal();
 }
 
 void PvaClientProcess::connect()
@@ -221,17 +207,7 @@ Status PvaClientProcess::waitConnect()
            << " channelName " << pvaClientChannel->getChannel()->getChannelName()
            << endl;
     }
-    if(connectState==connected) {
-         if(!channelProcessConnectStatus.isOK()) connectState = connectIdle;
-         return channelProcessConnectStatus;
-    }
-    if(connectState!=connectActive) {
-        string message = string("channel ") + pvaClientChannel->getChannel()->getChannelName()
-            + " pvaClientProcess illegal connect state ";
-        throw std::runtime_error(message);
-    }
     waitForConnect.wait();
-    if(!channelProcessConnectStatus.isOK()) connectState = connectIdle;
     return channelProcessConnectStatus;
 }
 
@@ -273,18 +249,6 @@ Status PvaClientProcess::waitProcess()
         cout << "PvaClientProcess::waitProcess"
            << " channelName " << pvaClientChannel->getChannel()->getChannelName()
            << endl;
-    }
-    {
-        Lock xx(mutex);
-        if(processState==processComplete) {
-            processState = processIdle;
-            return channelProcessStatus;
-        }
-        if(processState!=processActive){
-            string message = string("channel ") + pvaClientChannel->getChannel()->getChannelName()
-                 + " PvaClientProcess::waitProcess llegal process state";
-            throw std::runtime_error(message);
-        }
     }
     waitForProcess.wait();
     processState = processComplete;

@@ -34,7 +34,7 @@ using std::cout;
 using std::endl;
 using std::string;
 
-namespace epics { namespace pvDatabase { 
+namespace epics { namespace pvDatabase {
 
 class MonitorLocal;
 typedef std::tr1::shared_ptr<MonitorLocal> MonitorLocalPtr;
@@ -88,7 +88,7 @@ public:
         nextGetUsed = 0;
         nextReleaseUsed = 0;
     }
-    
+
     MonitorElementPtr getFree()
     {
         if(numberFree==0) return MonitorElementPtr();
@@ -98,7 +98,7 @@ public:
         if(nextGetFree>=size) nextGetFree = 0;
         return elements[ind];
     }
-    
+
     void setUsed(MonitorElementPtr const &element)
     {
        if(element!=elements[nextSetUsed++]) {
@@ -107,7 +107,7 @@ public:
         numberUsed++;
         if(nextSetUsed>=size) nextSetUsed = 0;
     }
-    
+
     MonitorElementPtr getUsed()
     {
         if(numberUsed==0) return MonitorElementPtr();
@@ -131,7 +131,7 @@ public:
 
 typedef std::tr1::shared_ptr<MonitorRequester> MonitorRequesterPtr;
 
-    
+
 class MonitorLocal :
     public Monitor,
     public PVListener,
@@ -141,7 +141,6 @@ class MonitorLocal :
 public:
     POINTER_DEFINITIONS(MonitorLocal);
     virtual ~MonitorLocal();
-    virtual void destroy() {} // DEPRECATED
     virtual Status start();
     virtual Status stop();
     virtual MonitorElementPtr poll();
@@ -191,10 +190,7 @@ MonitorLocal::MonitorLocal(
 
 MonitorLocal::~MonitorLocal()
 {
-    if(pvRecord->getTraceLevel()>0)
-    {
-        cout << "MonitorLocal::~MonitorLocal()" << endl;
-    }
+//cout << "MonitorLocal::~MonitorLocal()" << endl;
 }
 
 
@@ -294,7 +290,7 @@ void MonitorLocal::dataPut(PVRecordFieldPtr const & pvRecordField)
 {
     if(pvRecord->getTraceLevel()>1)
     {
-        cout << "PVCopyMonitor::dataPut(pvRecordField)" << endl;
+        cout << "MonitorLocal::dataPut(pvRecordField)" << endl;
     }
     if(state!=active) return;
     {
@@ -319,7 +315,7 @@ void MonitorLocal::dataPut(
 {
     if(pvRecord->getTraceLevel()>1)
     {
-        cout << "PVCopyMonitor::dataPut(requested,pvRecordField)" << endl;
+        cout << "MonitorLocal::dataPut(requested,pvRecordField)" << endl;
     }
     if(state!=active) return;
     {
@@ -346,7 +342,7 @@ void MonitorLocal::beginGroupPut(PVRecordPtr const & pvRecord)
 {
     if(pvRecord->getTraceLevel()>1)
     {
-        cout << "PVCopyMonitor::beginGroupPut()" << endl;
+        cout << "MonitorLocal::beginGroupPut()" << endl;
     }
     if(state!=active) return;
     {
@@ -360,7 +356,7 @@ void MonitorLocal::endGroupPut(PVRecordPtr const & pvRecord)
 {
     if(pvRecord->getTraceLevel()>1)
     {
-        cout << "PVCopyMonitor::endGroupPut dataChanged " << dataChanged << endl;
+        cout << "MonitorLocal::endGroupPut dataChanged " << dataChanged << endl;
     }
     if(state!=active) return;
     {
@@ -377,7 +373,7 @@ void MonitorLocal::unlisten(PVRecordPtr const & pvRecord)
 {
     if(pvRecord->getTraceLevel()>1)
     {
-        cout << "PVCopyMonitor::unlisten\n";
+        cout << "MonitorLocal::unlisten\n";
     }
     {
         Lock xx(mutex);
@@ -387,7 +383,7 @@ void MonitorLocal::unlisten(PVRecordPtr const & pvRecord)
     if(requester) {
         if(pvRecord->getTraceLevel()>1)
         {
-            cout << "PVCopyMonitor::unlisten calling requester->unlisten\n";
+            cout << "MonitorLocal::unlisten calling requester->unlisten\n";
         }
         requester->unlisten(getPtrSelf());
     }

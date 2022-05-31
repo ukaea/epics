@@ -3,14 +3,14 @@
 *     National Laboratory.
 * Copyright (c) 2002 The Regents of the University of California, as
 *     Operator of Los Alamos National Laboratory.
-* EPICS BASE Versions 3.13.7
-* and higher are distributed subject to a Software License Agreement found
-* in file LICENSE that is included with this distribution. 
+* SPDX-License-Identifier: EPICS
+* EPICS Base is distributed subject to a Software License Agreement found
+* in file LICENSE that is included with this distribution.
 \*************************************************************************/
 /* osdSock.c */
 /*
- *      Author:		Jeff Hill 
- *      Date:          	04-05-94 
+ *      Author:         Jeff Hill
+ *      Date:           04-05-94
  *
  */
 
@@ -21,7 +21,6 @@
 #include <errno.h>
 #include <fcntl.h>
 
-#define epicsExportSharedSymbols
 #include "epicsThread.h"
 #include "epicsEvent.h"
 #include "epicsMutex.h"
@@ -29,24 +28,36 @@
 #include "epicsAssert.h"
 #include "errlog.h"
 
+/* Linux and *BSD (at least) specific way to atomically set O_CLOEXEC.
+ * RTEMS 5.1 provides SOCK_CLOEXEC, but doesn't implement accept4()
+ * no point anyway since neither RTEMS nor vxWorks can execv().
+ */
+#if defined(SOCK_CLOEXEC) && !defined(__rtems__) && !defined(vxWorks)
+/* with glibc, SOCK_CLOEXEC does not expand to a simple constant */
+#  define HAVE_SOCK_CLOEXEC
+#else
+#  undef SOCK_CLOEXEC
+#  define SOCK_CLOEXEC (0)
+#endif
+
 /*
  * Protect some routines which are not thread-safe
  */
 static epicsMutexId infoMutex;
 static void createInfoMutex (void *unused)
 {
-	infoMutex = epicsMutexMustCreate ();
+    infoMutex = epicsMutexMustCreate ();
 }
 static void lockInfo (void)
 {
     static epicsThreadOnceId infoMutexOnceFlag = EPICS_THREAD_ONCE_INIT;
 
     epicsThreadOnce (&infoMutexOnceFlag, createInfoMutex, NULL);
-	epicsMutexMustLock (infoMutex);
+    epicsMutexMustLock (infoMutex);
 }
 static void unlockInfo (void)
 {
-	epicsMutexUnlock (infoMutex);
+    epicsMutexUnlock (infoMutex);
 }
 
 /*
@@ -54,7 +65,7 @@ static void unlockInfo (void)
  */
 int osiSockAttach()
 {
-	return 1;
+    return 1;
 }
 
 /*
@@ -69,10 +80,10 @@ void osiSockRelease()
  * the socket will be closed if the user uses exec()
  * as is the case with third party tools such as TCL/TK
  */
-epicsShareFunc SOCKET epicsShareAPI epicsSocketCreate ( 
+LIBCOM_API SOCKET epicsStdCall epicsSocketCreate ( 
     int domain, int type, int protocol )
 {
-    SOCKET sock = socket ( domain, type, protocol );
+    SOCKET sock = socket ( domain, type | SOCK_CLOEXEC, protocol );
     if ( sock < 0 ) {
         sock = INVALID_SOCKET;
     }
@@ -81,7 +92,7 @@ epicsShareFunc SOCKET epicsShareAPI epicsSocketCreate (
         if ( status < 0 ) {
             char buf [ 64 ];
             epicsSocketConvertErrnoToString (  buf, sizeof ( buf ) );
-            errlogPrintf ( 
+            errlogPrintf (
                 "epicsSocketCreate: failed to "
                 "fcntl FD_CLOEXEC because \"%s\"\n",
                 buf );
@@ -92,10 +103,14 @@ epicsShareFunc SOCKET epicsShareAPI epicsSocketCreate (
     return sock;
 }
 
-epicsShareFunc int epicsShareAPI epicsSocketAccept ( 
+LIBCOM_API int epicsStdCall epicsSocketAccept ( 
     int sock, struct sockaddr * pAddr, osiSocklen_t * addrlen )
 {
+#ifndef HAVE_SOCK_CLOEXEC
     int newSock = accept ( sock, pAddr, addrlen );
+#else
+    int newSock = accept4 ( sock, pAddr, addrlen, SOCK_CLOEXEC );
+#endif
     if ( newSock < 0 ) {
         newSock = INVALID_SOCKET;
     }
@@ -104,7 +119,7 @@ epicsShareFunc int epicsShareAPI epicsSocketAccept (
         if ( status < 0 ) {
             char buf [ 64 ];
             epicsSocketConvertErrnoToString (  buf, sizeof ( buf ) );
-            errlogPrintf ( 
+            errlogPrintf (
                 "epicsSocketCreate: failed to "
                 "fcntl FD_CLOEXEC because \"%s\"\n",
                 buf );
@@ -115,13 +130,13 @@ epicsShareFunc int epicsShareAPI epicsSocketAccept (
     return newSock;
 }
 
-epicsShareFunc void epicsShareAPI epicsSocketDestroy ( SOCKET s )
+LIBCOM_API void epicsStdCall epicsSocketDestroy ( SOCKET s )
 {
     int status = close ( s );
     if ( status < 0 ) {
         char buf [ 64 ];
         epicsSocketConvertErrnoToString (  buf, sizeof ( buf ) );
-        errlogPrintf ( 
+        errlogPrintf (
             "epicsSocketDestroy: failed to "
             "close a socket because \"%s\"\n",
             buf );
@@ -133,24 +148,24 @@ epicsShareFunc void epicsShareAPI epicsSocketDestroy ( SOCKET s )
  * On many systems, gethostbyaddr must be protected by a
  * mutex since the routine is not thread-safe.
  */
-epicsShareFunc unsigned epicsShareAPI ipAddrToHostName 
+LIBCOM_API unsigned epicsStdCall ipAddrToHostName 
             (const struct in_addr *pAddr, char *pBuf, unsigned bufSize)
 {
-	struct hostent *ent;
-	int ret = 0;
+    struct hostent *ent;
+    int ret = 0;
 
-	if (bufSize<1) {
-		return 0;
-	}
+    if (bufSize<1) {
+        return 0;
+    }
 
-	lockInfo ();
-	ent = gethostbyaddr((const char *) pAddr, sizeof (*pAddr), AF_INET);
-	if (ent) {
+    lockInfo ();
+    ent = gethostbyaddr((const char *) pAddr, sizeof (*pAddr), AF_INET);
+    if (ent) {
         strncpy (pBuf, ent->h_name, bufSize);
         pBuf[bufSize-1] = '\0';
         ret = strlen (pBuf);
-	}
-	unlockInfo ();
+    }
+    unlockInfo ();
     return ret;
 }
 
@@ -159,24 +174,24 @@ epicsShareFunc unsigned epicsShareAPI ipAddrToHostName
  * On many systems, gethostbyname must be protected by a
  * mutex since the routine is not thread-safe.
  */
-epicsShareFunc int epicsShareAPI hostToIPAddr 
-				(const char *pHostName, struct in_addr *pIPA)
+LIBCOM_API int epicsStdCall hostToIPAddr 
+                (const char *pHostName, struct in_addr *pIPA)
 {
-	struct hostent *phe;
-	int ret = -1;
+    struct hostent *phe;
+    int ret = -1;
 
-	lockInfo ();
-	phe = gethostbyname (pHostName);
-	if (phe && phe->h_addr_list[0]) {
-		if (phe->h_addrtype==AF_INET && phe->h_length<=sizeof(struct in_addr)) {
-			struct in_addr *pInAddrIn = (struct in_addr *) phe->h_addr_list[0];
-			
-			*pIPA = *pInAddrIn;
-			ret = 0;
-		}
-	}
-	unlockInfo ();
-	return ret;
+    lockInfo ();
+    phe = gethostbyname (pHostName);
+    if (phe && phe->h_addr_list[0]) {
+        if (phe->h_addrtype==AF_INET && phe->h_length<=sizeof(struct in_addr)) {
+            struct in_addr *pInAddrIn = (struct in_addr *) phe->h_addr_list[0];
+
+            *pIPA = *pInAddrIn;
+            ret = 0;
+        }
+    }
+    unlockInfo ();
+    return ret;
 }
 
 

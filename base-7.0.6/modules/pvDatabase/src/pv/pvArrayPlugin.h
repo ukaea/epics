@@ -63,9 +63,13 @@ private:
     long start;
     long increment;
     long end;
+    epics::pvData::PVFieldPtr masterField;
     epics::pvData::PVScalarArrayPtr masterArray;
 
-    PVArrayFilter(long start,long increment,long end,const epics::pvData::PVScalarArrayPtr & masterArray);
+    PVArrayFilter(
+        long start,long increment,long end,
+        const epics::pvData::PVFieldPtr & masterField,
+        const epics::pvData::PVScalarArrayPtr masterArray);
 public:
     POINTER_DEFINITIONS(PVArrayFilter);
     virtual ~PVArrayFilter();
@@ -95,4 +99,3 @@ public:
 
 }}
 #endif  /* PVARRAYPLUGIN_H */
-

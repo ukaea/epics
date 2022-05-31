@@ -9,6 +9,7 @@
 #include <sstream>
 #include <alarm.h>
 #include <alarmString.h>
+#include <cadef.h>
 
 #include <pv/alarm.h>
 #include <pv/standardField.h>
@@ -17,8 +18,8 @@
 #include <pv/reftrack.h>
 #include <pv/convert.h>
 #include <pv/timeStamp.h>
-#include "caChannel.h"
 #define epicsExportSharedSymbols
+#include "caChannel.h"
 #include "dbdToPv.h"
 
 using namespace epics::pvData;
@@ -147,7 +148,7 @@ void DbdToPv::activate(
         string mess(caChannel->getChannelName());
             mess += " DbdToPv::activate pvRequest is null";
             throw  std::runtime_error(mess);
-    } 
+    }
     PVStructurePtr fieldPVStructure;
     if(pvRequest->getPVFields().size()==0) {
          fieldPVStructure = pvRequest;
@@ -159,8 +160,8 @@ void DbdToPv::activate(
         mess << caChannel->getChannelName()
           << " DbdToPv::activate illegal pvRequest " << pvRequest;
         throw std::runtime_error(mess.str());
-    } 
-    if(fieldPVStructure->getPVFields().size()==0) 
+    }
+    if(fieldPVStructure->getPVFields().size()==0)
     {
         valueRequested = true;
         alarmRequested = true;
@@ -308,7 +309,7 @@ void DbdToPv::activate(
     caRequestType = caValueType;
     if(displayRequested || controlRequested || valueAlarmRequested)
     {
-       caRequestType = dbf_type_to_DBR_CTRL(caValueType); 
+       caRequestType = dbf_type_to_DBR_CTRL(caValueType);
     } else if(timeStampRequested || alarmRequested) {
        caRequestType = dbf_type_to_DBR_TIME(caValueType);
     } else {
@@ -349,19 +350,18 @@ void DbdToPv::getChoicesDone(struct event_handler_args &args)
     size_t num = dbr_enum_p->no_str;
     choices.reserve(num);
     for(size_t i=0; i<num; ++i) choices.push_back(string(&dbr_enum_p->strs[i][0]));
-    choicesEvent.signal();
-} 
+    choicesEvent.trigger();
+}
 
 
 void DbdToPv::getChoices(CAChannelPtr const & caChannel)
 {
     if(caRequestType==DBR_ENUM||caRequestType==DBR_TIME_ENUM)
     {
-        caChannel->attachContext();
         chid channelID = caChannel->getChannelID();
-        int result = ca_array_get_callback(DBR_GR_ENUM,
-               1,
-               channelID, enumChoicesHandler, this);
+        Attach to(caChannel->caContext());
+        int result = ca_array_get_callback(DBR_GR_ENUM, 1,
+            channelID, enumChoicesHandler, this);
         if (result == ECA_NORMAL) {
             result = ca_flush_io();
             choicesEvent.wait();
@@ -522,7 +522,7 @@ Status DbdToPv::getFromDBD(
                      ConvertPtr convert = getConvert();
                      size_t n = choices.size();
                      pvChoices->setLength(n);
-                     convert->fromStringArray(pvChoices,0,n,choices,0);       
+                     convert->fromStringArray(pvChoices,0,n,choices,0);
                      bitSet->set(pvStructure->getSubField("value")->getFieldOffset());
                 } else {
                      bitSet->set(value->getFieldOffset());
@@ -552,7 +552,7 @@ Status DbdToPv::getFromDBD(
                 }
                 copy_DBRScalar<dbr_long_t,PVInt>(value,pvValue); break;
            case DBR_FLOAT: copy_DBRScalar<dbr_float_t,PVFloat>(value,pvValue); break;
-           case DBR_DOUBLE: 
+           case DBR_DOUBLE:
                 if(dbfIsINT64)
                 {
                    copy_DBRScalar<dbr_double_t,PVLong>(value,pvValue);
@@ -575,7 +575,7 @@ Status DbdToPv::getFromDBD(
        }
     }
     if(alarmRequested) {
-        // Note that status and severity are aways the first two members of DBR_ 
+        // Note that status and severity are aways the first two members of DBR_
         const dbr_sts_string *data = static_cast<const dbr_sts_string *>(args.dbr);
         dbr_short_t status = data->status;
         dbr_short_t severity = data->severity;
@@ -927,21 +927,21 @@ Status DbdToPv::putToDBD(
                break;
            }
            case DBR_STRING: pValue = pvStructure->getSubField<PVString>("value")->get().c_str(); break;
-           case DBR_CHAR: 
+           case DBR_CHAR:
                if(dbfIsUCHAR)
                {
                     pValue = put_DBRScalar<dbr_char_t,PVUByte>(&bvalue,pvValue);
                     break;
                }
                pValue = put_DBRScalar<dbr_char_t,PVByte>(&bvalue,pvValue); break;
-           case DBR_SHORT: 
+           case DBR_SHORT:
                if(dbfIsUSHORT)
                {
                     pValue = put_DBRScalar<dbr_short_t,PVUShort>(&svalue,pvValue);
                     break;
                }
                pValue = put_DBRScalar<dbr_short_t,PVShort>(&svalue,pvValue); break;
-           case DBR_LONG: 
+           case DBR_LONG:
                if(dbfIsULONG)
                {
                     pValue = put_DBRScalar<dbr_long_t,PVUInt>(&lvalue,pvValue);
@@ -949,7 +949,7 @@ Status DbdToPv::putToDBD(
                }
                pValue = put_DBRScalar<dbr_long_t,PVInt>(&lvalue,pvValue); break;
            case DBR_FLOAT: pValue = put_DBRScalar<dbr_float_t,PVFloat>(&fvalue,pvValue); break;
-           case DBR_DOUBLE: 
+           case DBR_DOUBLE:
                if(dbfIsINT64)
                {
                     pValue = put_DBRScalar<dbr_double_t,PVLong>(&dvalue,pvValue);
@@ -969,19 +969,22 @@ Status DbdToPv::putToDBD(
     }
     Status status = Status::Ok;
     int result = 0;
-    caChannel->attachContext();
-    if(block) {
+    Attach to(caChannel->caContext());
+    if (block) {
         result = ca_array_put_callback(caValueType,count,channelID,pValue,putHandler,userarg);
-    } else {
+    }
+    else {
         result = ca_array_put(caValueType,count,channelID,pValue);
     }
-    if(result==ECA_NORMAL) {
-         ca_flush_io();
-    } else {
-         status = Status(Status::STATUSTYPE_ERROR, string(ca_message(result)));
+    if (result == ECA_NORMAL) {
+        ca_flush_io();
     }
-    if(ca_stringBuffer!=NULL) delete[] ca_stringBuffer;
+    else {
+        status = Status(Status::STATUSTYPE_ERROR, string(ca_message(result)));
+    }
+    if (ca_stringBuffer != NULL)
+        delete[] ca_stringBuffer;
     return status;
-}    
+}
 
 }}}

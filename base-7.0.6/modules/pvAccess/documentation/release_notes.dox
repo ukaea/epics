@@ -1,12 +1,44 @@
 /** @page pvarelease_notes Release Notes
 
-Release X.Y.Z (XXX 2020)
+Release 7.1.4 (June 2021)
+=========================
+
+- Changes
+  - Adjust argument parsing with pvput (Jesus Vasquez).
+
+Release 7.1.3 (Feb. 2021)
+=========================
+
+- Bug fixes
+  - Increase default TCP timeout to 40 seconds.
+    Applies a 4/3 multiplier on \$EPICS_PVA_CONN_TMO for compatibility.
+  - CA Provider implementation restructured to simplify, reduce duplication and fix issues #163 and #165.
+- Changes
+  - Enable building of pvtools to all except vxWorks, RTEMS and iOS.
+
+Release 7.1.2 (July 2020)
+=========================
+
+- Changes
+  - Destroyable::destroy() is optional
+- Bug fixes
+  - SharedPV::post() handle bad_weak_ptr
+
+Release 7.1.1 (May 2020)
+========================
 
 - Changes
   - Add 'pval' iocsh command to list names from all providers of the running server.
+  - Start protocol CID, SID, and IOID from different non-zero values.
 - Bug fixes
+  - client: fix mixed up CID/SID in CMD_DESTROY_CHANNEL handler.
+    Protocol decode error effecting all previous versions.
   - pvput fix JSON mode regression
   - Some error messages incorrectly showed "<IPA>" instead of an actual IP+port.
+  - pvcall handle NULL return
+  - pv* tools: '-V' shows dependency versions.
+  - client unconditionally clear existingBitSet
+  - no "invalid bit-set length" https://github.com/epics-base/pvAccessCPP/issues/158
 
 Release 7.1.0 (Nov 2019)
 ========================

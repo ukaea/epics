@@ -89,7 +89,7 @@ PVTimestampFilter::PVTimestampFilter(bool current,bool copy,PVFieldPtr const & m
 
 bool PVTimestampFilter::filter(const PVFieldPtr & pvCopy,const BitSetPtr & bitSet,bool toCopy)
 {
-    if(current) {	
+    if(current) {
         timeStamp.getCurrent();
         if(toCopy) {
             if(!pvTimeStamp.attach(pvCopy)) return false;
@@ -100,7 +100,7 @@ bool PVTimestampFilter::filter(const PVFieldPtr & pvCopy,const BitSetPtr & bitSe
         bitSet->set(pvCopy->getFieldOffset());
         return true;
      }
-     if(copy) {	
+     if(copy) {
         if(toCopy) {
             if(!pvTimeStamp.attach(master)) return false;
             pvTimeStamp.get(timeStamp);
@@ -120,8 +120,7 @@ bool PVTimestampFilter::filter(const PVFieldPtr & pvCopy,const BitSetPtr & bitSe
 
 string PVTimestampFilter::getName()
 {
-	return name;
+    return name;
 }
 
 }}
-

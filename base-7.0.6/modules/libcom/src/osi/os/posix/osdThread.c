@@ -4,8 +4,9 @@
 * Copyright (c) 2002 The Regents of the University of California, as
 *     Operator of Los Alamos National Laboratory.
 * Copyright (c) 2013 ITER Organization.
+* SPDX-License-Identifier: EPICS
 * EPICS BASE is distributed subject to a Software License Agreement found
-* in file LICENSE that is included with this distribution. 
+* in file LICENSE that is included with this distribution.
 \*************************************************************************/
 
 /* Author:  Marty Kraimer Date:    18JAN2000 */
@@ -23,15 +24,21 @@
 #include <sched.h>
 #include <unistd.h>
 
-#if defined(_POSIX_MEMLOCK) && _POSIX_MEMLOCK > 0
-#include <sys/mman.h>
+#if (defined(_POSIX_MEMLOCK) && (_POSIX_MEMLOCK > 0) && !defined(__rtems__))
+#  define USE_MEMLOCK 1
+#else
+#  define USE_MEMLOCK 0
 #endif
 
-#define epicsExportSharedSymbols
+#if USE_MEMLOCK
+#include <sys/mman.h> 
+#endif
+
 #include "epicsStdio.h"
 #include "ellLib.h"
 #include "epicsEvent.h"
 #include "epicsMutex.h"
+#include "osdPosixMutexPriv.h"
 #include "epicsString.h"
 #include "epicsThread.h"
 #include "cantProceed.h"
@@ -40,9 +47,9 @@
 #include "epicsExit.h"
 #include "epicsAtomic.h"
 
-epicsShareFunc void epicsThreadShowInfo(epicsThreadOSD *pthreadInfo, unsigned int level);
-epicsShareFunc void osdThreadHooksRun(epicsThreadId id);
-epicsShareFunc void osdThreadHooksRunMain(epicsThreadId id);
+LIBCOM_API void epicsThreadShowInfo(epicsThreadOSD *pthreadInfo, unsigned int level);
+LIBCOM_API void osdThreadHooksRun(epicsThreadId id);
+LIBCOM_API void osdThreadHooksRunMain(epicsThreadId id);
 
 static int mutexLock(pthread_mutex_t *id)
 {
@@ -113,7 +120,7 @@ if(status) { \
 }
 
 
-epicsShareFunc int epicsThreadGetPosixPriority(epicsThreadId pthreadInfo)
+LIBCOM_API int epicsThreadGetPosixPriority(epicsThreadId pthreadInfo)
 {
 #if defined(_POSIX_THREAD_PRIORITY_SCHEDULING) && _POSIX_THREAD_PRIORITY_SCHEDULING > 0
     double maxPriority,minPriority,slope,oss;
@@ -185,7 +192,7 @@ static epicsThreadOSD * init_threadInfo(const char *name,
         return NULL;
     pthreadInfo->createFunc = funptr;
     pthreadInfo->createArg = parm;
-    pthreadInfo->joinable = joinable;
+    pthreadInfo->joinable = !!joinable; /* ensure 0 or 1 for later atomic compare+swap */
     status = pthread_attr_init(&pthreadInfo->attr);
     checkStatusOnce(status,"pthread_attr_init");
     if(status) return 0;
@@ -309,10 +316,10 @@ int          status;
     arg.ok = 0;
 
     status = pthread_create(&id, 0, find_pri_range, &arg);
-    checkStatusQuit(status, "pthread_create","epicsThreadInit");
+    checkStatusOnceQuit(status, "pthread_create","epicsThreadInit");
 
     status = pthread_join(id, &dummy);
-    checkStatusQuit(status, "pthread_join","epicsThreadInit");
+    checkStatusOnceQuit(status, "pthread_join","epicsThreadInit");
 
     a_p->minPriority = arg.min_pri;
     a_p->maxPriority = arg.max_pri;
@@ -327,10 +334,10 @@ static void once(void)
     int status;
 
     pthread_key_create(&getpthreadInfo,0);
-    status = pthread_mutex_init(&onceLock,0);
-    checkStatusQuit(status,"pthread_mutex_init","epicsThreadInit");
-    status = pthread_mutex_init(&listLock,0);
-    checkStatusQuit(status,"pthread_mutex_init","epicsThreadInit");
+    status = osdPosixMutexInit(&onceLock,PTHREAD_MUTEX_DEFAULT);
+    checkStatusOnceQuit(status,"osdPosixMutexInit","epicsThreadInit");
+    status = osdPosixMutexInit(&listLock,PTHREAD_MUTEX_DEFAULT);
+    checkStatusOnceQuit(status,"osdPosixMutexInit","epicsThreadInit");
     pcommonAttr = calloc(1,sizeof(commonAttr));
     if(!pcommonAttr) checkStatusOnceQuit(errno,"calloc","epicsThreadInit");
     status = pthread_attr_init(&pcommonAttr->attr);
@@ -422,10 +429,11 @@ static void epicsThreadInit(void)
     checkStatusQuit(status,"pthread_once","epicsThreadInit");
 }
 
-epicsShareFunc
+LIBCOM_API
 void epicsThreadRealtimeLock(void)
 {
-#if defined(_POSIX_MEMLOCK) && _POSIX_MEMLOCK > 0
+#if USE_MEMLOCK
+#ifndef RTEMS_LEGACY_STACK // seems to be part of libbsd?
     if (pcommonAttr->maxPriority > pcommonAttr->minPriority) {
         int status = mlockall(MCL_CURRENT | MCL_FUTURE);
 
@@ -450,6 +458,7 @@ void epicsThreadRealtimeLock(void)
             }
         }
     }
+#endif // LEGACY STACK
 #endif
 }
 
@@ -464,7 +473,7 @@ void epicsThreadRealtimeLock(void)
 #define STACK_SIZE(f) (0)
 #endif /*_POSIX_THREAD_ATTR_STACKSIZE*/
 
-epicsShareFunc unsigned int epicsShareAPI epicsThreadGetStackSize (epicsThreadStackSizeClass stackSizeClass)
+LIBCOM_API unsigned int epicsStdCall epicsThreadGetStackSize (epicsThreadStackSizeClass stackSizeClass)
 {
 #if defined (OSITHREAD_USE_DEFAULT_STACK)
     return 0;
@@ -485,7 +494,7 @@ epicsShareFunc unsigned int epicsShareAPI epicsThreadGetStackSize (epicsThreadSt
 #endif /*_POSIX_THREAD_ATTR_STACKSIZE*/
 }
 
-epicsShareFunc void epicsShareAPI epicsThreadOnce(epicsThreadOnceId *id, void (*func)(void *), void *arg)
+LIBCOM_API void epicsStdCall epicsThreadOnce(epicsThreadOnceId *id, void (*func)(void *), void *arg)
 {
     static struct epicsThreadOSD threadOnceComplete;
     #define EPICS_THREAD_ONCE_DONE &threadOnceComplete
@@ -558,6 +567,11 @@ epicsThreadCreateOpt(const char * name,
     setSchedulingPolicy(pthreadInfo, SCHED_FIFO);
     pthreadInfo->isRealTimeScheduled = 1;
 
+    if (pthreadInfo->joinable) {
+        /* extra ref for epicsThreadMustJoin() */
+        epicsAtomicIncrIntT(&pthreadInfo->refcnt);
+    }
+
     status = pthread_create(&pthreadInfo->tid, &pthreadInfo->attr,
         start_routine, pthreadInfo);
     if (status==EPERM) {
@@ -575,16 +589,17 @@ epicsThreadCreateOpt(const char * name,
     }
     checkStatusOnce(status, "pthread_create");
     if (status) {
+        if (pthreadInfo->joinable) {
+            /* release extra ref which would have been for epicsThreadMustJoin() */
+            epicsAtomicDecrIntT(&pthreadInfo->refcnt);
+        }
+
         free_threadInfo(pthreadInfo);
         return 0;
     }
 
     status = pthread_sigmask(SIG_SETMASK, &oldSig, NULL);
     checkStatusOnce(status, "pthread_sigmask");
-    if (pthreadInfo->joinable) {
-        /* extra ref for epicsThreadMustJoin() */
-        epicsAtomicIncrIntT(&pthreadInfo->refcnt);
-    }
     return pthreadInfo;
 }
 
@@ -612,7 +627,7 @@ static epicsThreadOSD *createImplicit(void)
                  (pthreadInfo->schedParam.sched_priority - pcommonAttr->minPriority) * 100.0 /
                     (pcommonAttr->maxPriority - pcommonAttr->minPriority + 1);
         }
-	}
+    }
 #endif /* _POSIX_THREAD_PRIORITY_SCHEDULING */
 
     status = pthread_setspecific(getpthreadInfo,(void *)pthreadInfo);
@@ -631,7 +646,7 @@ void epicsThreadMustJoin(epicsThreadId id)
 
     if(!id) {
         return;
-    } else if(!id->joinable) {
+    } else if(epicsAtomicCmpAndSwapIntT(&id->joinable, 1, 0)!=1) {
         if(epicsThreadGetIdSelf()==id) {
             errlogPrintf("Warning: %s thread self-join of unjoinable\n", id->name);
 
@@ -653,11 +668,10 @@ void epicsThreadMustJoin(epicsThreadId id)
         status = pthread_detach(id->tid);
         checkStatusOnce(status, "pthread_detach");
     } else checkStatusOnce(status, "pthread_join");
-    id->joinable = 0;
     free_threadInfo(id);
 }
 
-epicsShareFunc void epicsShareAPI epicsThreadSuspendSelf(void)
+LIBCOM_API void epicsStdCall epicsThreadSuspendSelf(void)
 {
     epicsThreadOSD *pthreadInfo;
 
@@ -669,18 +683,22 @@ epicsShareFunc void epicsShareAPI epicsThreadSuspendSelf(void)
     epicsEventWait(pthreadInfo->suspendEvent);
 }
 
-epicsShareFunc void epicsShareAPI epicsThreadResume(epicsThreadOSD *pthreadInfo)
+LIBCOM_API void epicsStdCall epicsThreadResume(epicsThreadOSD *pthreadInfo)
 {
     assert(epicsThreadOnceCalled);
     pthreadInfo->isSuspended = 0;
     epicsEventSignal(pthreadInfo->suspendEvent);
 }
 
-epicsShareFunc void epicsShareAPI epicsThreadExitMain(void)
+LIBCOM_API void epicsStdCall epicsThreadExitMain(void)
 {
     epicsThreadOSD *pthreadInfo;
 
     epicsThreadInit();
+
+    cantProceed("epicsThreadExitMain() has been deprecated for lack of usage."
+                "  Please report if you see this message.");
+
     pthreadInfo = (epicsThreadOSD *)pthread_getspecific(getpthreadInfo);
     if(pthreadInfo==NULL)
         pthreadInfo = createImplicit();
@@ -694,19 +712,19 @@ epicsShareFunc void epicsShareAPI epicsThreadExitMain(void)
     }
 }
 
-epicsShareFunc unsigned int epicsShareAPI epicsThreadGetPriority(epicsThreadId pthreadInfo)
+LIBCOM_API unsigned int epicsStdCall epicsThreadGetPriority(epicsThreadId pthreadInfo)
 {
     assert(epicsThreadOnceCalled);
     return(pthreadInfo->osiPriority);
 }
 
-epicsShareFunc unsigned int epicsShareAPI epicsThreadGetPrioritySelf(void)
+LIBCOM_API unsigned int epicsStdCall epicsThreadGetPrioritySelf(void)
 {
     epicsThreadInit();
     return(epicsThreadGetPriority(epicsThreadGetIdSelf()));
 }
 
-epicsShareFunc void epicsShareAPI epicsThreadSetPriority(epicsThreadId pthreadInfo,unsigned int priority)
+LIBCOM_API void epicsStdCall epicsThreadSetPriority(epicsThreadId pthreadInfo,unsigned int priority)
 {
 #if defined(_POSIX_THREAD_PRIORITY_SCHEDULING) && _POSIX_THREAD_PRIORITY_SCHEDULING > 0
     int status;
@@ -733,7 +751,7 @@ epicsShareFunc void epicsShareAPI epicsThreadSetPriority(epicsThreadId pthreadIn
 #endif /* _POSIX_THREAD_PRIORITY_SCHEDULING */
 }
 
-epicsShareFunc epicsThreadBooleanStatus epicsShareAPI epicsThreadHighestPriorityLevelBelow(
+LIBCOM_API epicsThreadBooleanStatus epicsStdCall epicsThreadHighestPriorityLevelBelow(
     unsigned int priority, unsigned *pPriorityJustBelow)
 {
     unsigned newPriority = priority - 1;
@@ -750,7 +768,7 @@ epicsShareFunc epicsThreadBooleanStatus epicsShareAPI epicsThreadHighestPriority
     return epicsThreadBooleanStatusFail;
 }
 
-epicsShareFunc epicsThreadBooleanStatus epicsShareAPI epicsThreadLowestPriorityLevelAbove(
+LIBCOM_API epicsThreadBooleanStatus epicsStdCall epicsThreadLowestPriorityLevelAbove(
     unsigned int priority, unsigned *pPriorityJustAbove)
 {
     unsigned newPriority = priority + 1;
@@ -769,7 +787,7 @@ epicsShareFunc epicsThreadBooleanStatus epicsShareAPI epicsThreadLowestPriorityL
     return epicsThreadBooleanStatusFail;
 }
 
-epicsShareFunc int epicsShareAPI epicsThreadIsEqual(epicsThreadId p1, epicsThreadId p2)
+LIBCOM_API int epicsStdCall epicsThreadIsEqual(epicsThreadId p1, epicsThreadId p2)
 {
     assert(epicsThreadOnceCalled);
     assert(p1);
@@ -777,13 +795,13 @@ epicsShareFunc int epicsShareAPI epicsThreadIsEqual(epicsThreadId p1, epicsThrea
     return(pthread_equal(p1->tid,p2->tid));
 }
 
-epicsShareFunc int epicsShareAPI epicsThreadIsSuspended(epicsThreadId pthreadInfo) {
+LIBCOM_API int epicsStdCall epicsThreadIsSuspended(epicsThreadId pthreadInfo) {
     assert(epicsThreadOnceCalled);
     assert(pthreadInfo);
     return(pthreadInfo->isSuspended ? 1 : 0);
 }
 
-epicsShareFunc void epicsShareAPI epicsThreadSleep(double seconds)
+LIBCOM_API void epicsStdCall epicsThreadSleep(double seconds)
 {
     struct timespec delayTime;
     struct timespec remainingTime;
@@ -803,7 +821,7 @@ epicsShareFunc void epicsShareAPI epicsThreadSleep(double seconds)
         delayTime = remainingTime;
 }
 
-epicsShareFunc epicsThreadId epicsShareAPI epicsThreadGetIdSelf(void) {
+LIBCOM_API epicsThreadId epicsStdCall epicsThreadGetIdSelf(void) {
     epicsThreadOSD *pthreadInfo;
 
     epicsThreadInit();
@@ -814,12 +832,12 @@ epicsShareFunc epicsThreadId epicsShareAPI epicsThreadGetIdSelf(void) {
     return(pthreadInfo);
 }
 
-epicsShareFunc pthread_t epicsThreadGetPosixThreadId ( epicsThreadId threadId )
+LIBCOM_API pthread_t epicsThreadGetPosixThreadId ( epicsThreadId threadId )
 {
     return threadId->tid;
 }
 
-epicsShareFunc epicsThreadId epicsShareAPI epicsThreadGetId(const char *name) {
+LIBCOM_API epicsThreadId epicsStdCall epicsThreadGetId(const char *name) {
     epicsThreadOSD *pthreadInfo;
     int status;
 
@@ -839,7 +857,7 @@ epicsShareFunc epicsThreadId epicsShareAPI epicsThreadGetId(const char *name) {
     return(pthreadInfo);
 }
 
-epicsShareFunc const char epicsShareAPI *epicsThreadGetNameSelf()
+LIBCOM_API const char epicsStdCall *epicsThreadGetNameSelf()
 {
     epicsThreadOSD *pthreadInfo;
 
@@ -850,14 +868,14 @@ epicsShareFunc const char epicsShareAPI *epicsThreadGetNameSelf()
     return(pthreadInfo->name);
 }
 
-epicsShareFunc void epicsShareAPI epicsThreadGetName(epicsThreadId pthreadInfo, char *name, size_t size)
+LIBCOM_API void epicsStdCall epicsThreadGetName(epicsThreadId pthreadInfo, char *name, size_t size)
 {
     assert(epicsThreadOnceCalled);
     strncpy(name, pthreadInfo->name, size-1);
     name[size-1] = '\0';
 }
 
-epicsShareFunc void epicsThreadMap(EPICS_THREAD_HOOK_ROUTINE func)
+LIBCOM_API void epicsThreadMap(EPICS_THREAD_HOOK_ROUTINE func)
 {
     epicsThreadOSD *pthreadInfo;
     int status;
@@ -876,7 +894,7 @@ epicsShareFunc void epicsThreadMap(EPICS_THREAD_HOOK_ROUTINE func)
     checkStatus(status, "pthread_mutex_unlock epicsThreadMap");
 }
 
-epicsShareFunc void epicsShareAPI epicsThreadShowAll(unsigned int level)
+LIBCOM_API void epicsStdCall epicsThreadShowAll(unsigned int level)
 {
     epicsThreadOSD *pthreadInfo;
     int status;
@@ -896,7 +914,7 @@ epicsShareFunc void epicsShareAPI epicsThreadShowAll(unsigned int level)
     checkStatus(status,"pthread_mutex_unlock epicsThreadShowAll");
 }
 
-epicsShareFunc void epicsShareAPI epicsThreadShow(epicsThreadId showThread, unsigned int level)
+LIBCOM_API void epicsStdCall epicsThreadShow(epicsThreadId showThread, unsigned int level)
 {
     epicsThreadOSD *pthreadInfo;
     int status;
@@ -927,7 +945,7 @@ epicsShareFunc void epicsShareAPI epicsThreadShow(epicsThreadId showThread, unsi
         printf("Thread %#lx (%lu) not found.\n", (unsigned long)showThread, (unsigned long)showThread);
 }
 
-epicsShareFunc epicsThreadPrivateId epicsShareAPI epicsThreadPrivateCreate(void)
+LIBCOM_API epicsThreadPrivateId epicsStdCall epicsThreadPrivateCreate(void)
 {
     pthread_key_t *key;
     int status;
@@ -943,7 +961,7 @@ epicsShareFunc epicsThreadPrivateId epicsShareAPI epicsThreadPrivateCreate(void)
     return((epicsThreadPrivateId)key);
 }
 
-epicsShareFunc void epicsShareAPI epicsThreadPrivateDelete(epicsThreadPrivateId id)
+LIBCOM_API void epicsStdCall epicsThreadPrivateDelete(epicsThreadPrivateId id)
 {
     pthread_key_t *key = (pthread_key_t *)id;
     int status;
@@ -954,7 +972,7 @@ epicsShareFunc void epicsShareAPI epicsThreadPrivateDelete(epicsThreadPrivateId 
     free((void *)key);
 }
 
-epicsShareFunc void epicsShareAPI epicsThreadPrivateSet (epicsThreadPrivateId id, void *value)
+LIBCOM_API void epicsStdCall epicsThreadPrivateSet (epicsThreadPrivateId id, void *value)
 {
     pthread_key_t *key = (pthread_key_t *)id;
     int status;
@@ -966,7 +984,7 @@ epicsShareFunc void epicsShareAPI epicsThreadPrivateSet (epicsThreadPrivateId id
     checkStatusQuit(status,"pthread_setspecific","epicsThreadPrivateSet");
 }
 
-epicsShareFunc void epicsShareAPI *epicsThreadPrivateGet(epicsThreadPrivateId id)
+LIBCOM_API void epicsStdCall *epicsThreadPrivateGet(epicsThreadPrivateId id)
 {
     pthread_key_t *key = (pthread_key_t *)id;
 
@@ -974,7 +992,7 @@ epicsShareFunc void epicsShareAPI *epicsThreadPrivateGet(epicsThreadPrivateId id
     return pthread_getspecific(*key);
 }
 
-epicsShareFunc double epicsShareAPI epicsThreadSleepQuantum ()
+LIBCOM_API double epicsStdCall epicsThreadSleepQuantum ()
 {
     double hz;
     hz = sysconf ( _SC_CLK_TCK );
@@ -983,7 +1001,7 @@ epicsShareFunc double epicsShareAPI epicsThreadSleepQuantum ()
     return 1.0 / hz;
 }
 
-epicsShareFunc int epicsThreadGetCPUs(void)
+LIBCOM_API int epicsThreadGetCPUs(void)
 {
     long ret;
 #ifdef _SC_NPROCESSORS_ONLN

@@ -2,6 +2,7 @@
 * Copyright (c) 2010 Brookhaven National Laboratory.
 * Copyright (c) 2010 Helmholtz-Zentrum Berlin
 *     fuer Materialien und Energie GmbH.
+* SPDX-License-Identifier: EPICS
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
@@ -18,7 +19,6 @@
 #include "epicsString.h"
 #include "iocsh.h"
 
-#define epicsExportSharedSymbols
 #include "dbDefs.h"
 #include "dbState.h"
 #include "dbStaticLib.h"

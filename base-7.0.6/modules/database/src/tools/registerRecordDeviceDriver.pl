@@ -5,6 +5,7 @@
 #     National Laboratory.
 # Copyright (c) 2002 The Regents of the University of California, as
 #     Operator of Los Alamos National Laboratory.
+# SPDX-License-Identifier: EPICS
 # EPICS BASE is distributed subject to a Software License Agreement found
 # in file LICENSE that is included with this distribution.
 #*************************************************************************
@@ -29,6 +30,9 @@ getopts('Dlo:I@') or
 my @path = map { split /[:;]/ } @opt_I; # FIXME: Broken on Win32?
 
 my ($file, $subname, $bldTop) = @ARGV;
+
+# Auto-declaration of record types is needed to build loadable modules
+$DBD::Parser::allowAutoDeclarations = 1;
 
 my $dbd = DBD->new();
 ParseDBD($dbd, Readfile($file, "", \@path));
@@ -73,6 +77,7 @@ print $out (<< "END");
 #include "iocshRegisterCommon.h"
 #include "registryCommon.h"
 #include "recSup.h"
+#include "shareLib.h"
 
 END
 
@@ -257,7 +262,7 @@ print $out (<< 'END') if %links;
 END
 
 print $out (<< "END") for @registrars;
-    pvar_func_$_();
+    runRegistrarOnce(pvar_func_$_);
 END
 
 print $out (<< 'END') if %variables;

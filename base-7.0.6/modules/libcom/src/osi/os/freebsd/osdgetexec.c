@@ -1,10 +1,15 @@
+/*************************************************************************\
+* SPDX-License-Identifier: EPICS
+* EPICS BASE is distributed subject to a Software License Agreement found
+* in file LICENSE that is included with this distribution.
+\*************************************************************************/
 
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <limits.h>
+#include <sys/sysctl.h>
 
-#define epicsExportSharedSymbols
 #include <osiFileName.h>
 
 char *epicsGetExecName(void)
@@ -39,6 +44,7 @@ char *epicsGetExecName(void)
 
     if(!ret) {
         int mib[4];
+        size_t cb = max;
         mib[0] = CTL_KERN;
         mib[1] = KERN_PROC;
         mib[2] = KERN_PROC_PATHNAME;

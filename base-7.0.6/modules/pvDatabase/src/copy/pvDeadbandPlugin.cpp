@@ -82,7 +82,7 @@ PVDeadbandFilterPtr PVDeadbandFilter::create(
     PVDeadbandFilterPtr filter =
          PVDeadbandFilterPtr(
              new PVDeadbandFilter(
-                 absolute,deadband,static_pointer_cast<PVScalar>(master))); 
+                 absolute,deadband,static_pointer_cast<PVScalar>(master)));
     return filter;
 }
 
@@ -91,7 +91,7 @@ PVDeadbandFilter::PVDeadbandFilter(bool absolute,double deadband,PVScalarPtr con
   deadband(deadband),
   master(master),
   firstTime(true),
-  lastReportedValue(0.0) 
+  lastReportedValue(0.0)
 {
 }
 
@@ -128,8 +128,7 @@ bool PVDeadbandFilter::filter(const PVFieldPtr & pvCopy,const BitSetPtr & bitSet
 
 string PVDeadbandFilter::getName()
 {
-	return name;
+    return name;
 }
 
 }}
-

@@ -42,7 +42,7 @@ public:
         return clientPut->getRequesterName();
     }
 
-    virtual void message(std::string const & message, epics::pvData::MessageType messageType) {
+    virtual void message(std::string const & message, MessageType messageType) {
         PvaClientPutPtr clientPut(pvaClientPut.lock());
         if(!clientPut) return;
         clientPut->message(message,messageType);
@@ -55,7 +55,7 @@ public:
     {
         PvaClientPutPtr clientPut(pvaClientPut.lock());
         if(!clientPut) return;
-        clientPut->channelPutConnect(status,channelPut,structure);  
+        clientPut->channelPutConnect(status,channelPut,structure);
     }
 
     virtual void getDone(
@@ -138,16 +138,12 @@ void PvaClientPut::checkConnectState()
 
 string PvaClientPut::getRequesterName()
 {
-     PvaClientPtr yyy = pvaClient.lock();
-     if(!yyy) return string("PvaClientPut::getRequesterName() PvaClient isDestroyed");
-     return yyy->getRequesterName();
+     return pvaClientChannel->getRequesterName();
 }
 
 void PvaClientPut::message(string const & message,MessageType messageType)
 {
-    PvaClientPtr yyy = pvaClient.lock();
-    if(!yyy) return;
-    yyy->message(message, messageType);
+    pvaClientChannel->message(message,messageType);
 }
 
 void PvaClientPut::channelPutConnect(
@@ -163,27 +159,19 @@ void PvaClientPut::channelPutConnect(
     }
     {
         Lock xx(mutex);
-        this->channelPut = channelPut;
+        channelPutConnectStatus = status;
         if(status.isOK()) {
-            channelPutConnectStatus = status;
+            this->channelPut = channelPut;
             connectState = connected;
             pvaClientData = PvaClientPutData::create(structure);
             pvaClientData->setMessagePrefix(channelPut->getChannel()->getChannelName());
-        } else {
-             stringstream ss;
-             ss << pvRequest;
-             string message = string("\nPvaClientPut::channelPutConnect)")
-               + "\npvRequest\n" + ss.str()
-               + "\nerror\n" + status.getMessage();
-             channelPutConnectStatus = Status(Status::STATUSTYPE_ERROR,message);
-        }
+        }    
+        waitForConnect.signal();
     }
     PvaClientPutRequesterPtr  req(pvaClientPutRequester.lock());
     if(req) {
           req->channelPutConnect(status,shared_from_this());
     }
-    waitForConnect.signal();
-    
 }
 
 void PvaClientPut::getDone(
@@ -207,14 +195,14 @@ void PvaClientPut::getDone(
             BitSetPtr bs = pvaClientData->getChangedBitSet();
             bs->clear();
             *bs |= *bitSet;
-            putState = putComplete;
-        }
+        }    
+        putState = putComplete;
+        waitForGetPut.signal();
     }
     PvaClientPutRequesterPtr  req(pvaClientPutRequester.lock());
     if(req) {
           req->getDone(status,shared_from_this());
     }
-    waitForGetPut.signal();
 }
 
 void PvaClientPut::putDone(
@@ -231,12 +219,10 @@ void PvaClientPut::putDone(
         Lock xx(mutex);
         channelGetPutStatus = status;
         putState = putComplete;
+        waitForGetPut.signal();
     }
     PvaClientPutRequesterPtr  req(pvaClientPutRequester.lock());
-    if(req) {
-          req->putDone(status,shared_from_this());
-    }
-    waitForGetPut.signal();
+    if(req) { req->putDone(status,shared_from_this());}
 }
 
 void PvaClientPut::connect()
@@ -249,7 +235,7 @@ void PvaClientPut::connect()
     issueConnect();
     Status status = waitConnect();
     if(status.isOK()) return;
-    string message = string("channel ") 
+    string message = string("channel ")
         + pvaClientChannel->getChannel()->getChannelName()
         + " PvaClientPut::connect "
         + status.getMessage();
@@ -271,7 +257,7 @@ void PvaClientPut::issueConnect()
     connectState = connectActive;
     channelPutConnectStatus = Status(Status::STATUSTYPE_ERROR, "connect active");
     channelPut = pvaClientChannel->getChannel()->createChannelPut(channelPutRequester,pvRequest);
-       
+
 }
 
 Status PvaClientPut::waitConnect()
@@ -281,20 +267,7 @@ Status PvaClientPut::waitConnect()
            << " channelName " << pvaClientChannel->getChannel()->getChannelName()
            << endl;
     }
-    {
-        Lock xx(mutex);
-        if(connectState==connected) {
-             if(!channelPutConnectStatus.isOK()) connectState = connectIdle;
-             return channelPutConnectStatus;
-        }
-        if(connectState!=connectActive) {
-            string message = string("channel ") + pvaClientChannel->getChannel()->getChannelName()
-                + " PvaClientPut::waitConnect illegal connect state ";
-            throw std::runtime_error(message);
-        }
-    }
     waitForConnect.wait();
-    if(!channelPutConnectStatus.isOK()) connectState = connectIdle;
     return channelPutConnectStatus;
 }
 
@@ -308,7 +281,7 @@ void PvaClientPut::get()
     issueGet();
     Status status = waitGet();
     if(status.isOK()) return;
-    string message = string("channel ") 
+    string message = string("channel ")
         +  pvaClientChannel->getChannel()->getChannelName()
         + " PvaClientPut::get "
         + status.getMessage();
@@ -340,17 +313,8 @@ Status PvaClientPut::waitGet()
            << " channelName " << pvaClientChannel->getChannel()->getChannelName()
            << endl;
     }
-    {
-        Lock xx(mutex);
-        if(putState==putComplete) return channelGetPutStatus;
-        if(putState!=getActive){
-            string message = string("channel ")
-                + pvaClientChannel->getChannel()->getChannelName()
-                +  " PvaClientPut::waitGet illegal put state";
-            throw std::runtime_error(message);
-        }
-    }
     waitForGetPut.wait();
+    putState = putComplete;
     return channelGetPutStatus;
 }
 
@@ -376,15 +340,15 @@ void PvaClientPut::issuePut()
     if(PvaClient::getDebug()) {
         cout << "PvaClientPut::issuePut"
            << " channelName " << pvaClientChannel->getChannel()->getChannelName()
-           << " pvStructure\n" << pvaClientData->getPVStructure() 
+           << " pvStructure\n" << pvaClientData->getPVStructure()
            << " bitSet " << *pvaClientData->getChangedBitSet() << endl
            << endl;
-    }
+    }   
     if(connectState==connectIdle) connect();
     if(putState==getActive || putState==putActive) {
          string message = string("channel ")
             + pvaClientChannel->getChannel()->getChannelName()
-            +  "PvaClientPut::issuePut get or put aleady active ";
+            +  " PvaClientPut::issuePut get or put aleady active ";
          throw std::runtime_error(message);
     }
     putState = putActive;
@@ -398,17 +362,8 @@ Status PvaClientPut::waitPut()
            << " channelName " << pvaClientChannel->getChannel()->getChannelName()
            << endl;
     }
-    {
-        Lock xx(mutex);
-        if(putState==putComplete) return channelGetPutStatus;
-        if(putState!=putActive){
-            string message = string("channel ")
-                + pvaClientChannel->getChannel()->getChannelName()
-                +  " PvaClientPut::waitPut illegal put state";
-            throw std::runtime_error(message);
-        }
-    }
     waitForGetPut.wait();
+    putState = putComplete;
     if(channelGetPutStatus.isOK()) pvaClientData->getChangedBitSet()->clear();
     return channelGetPutStatus;
 }

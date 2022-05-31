@@ -182,10 +182,6 @@ void PvaClientChannel::channelCreated(const Status& status, Channel::shared_poin
             + " status " +  status.getMessage() + " why??";
         throw std::runtime_error(message);
     }
-    if(channel->isConnected()) {
-        connectState = connected; 
-        waitForConnect.signal();
-    }
 }
 
 void PvaClientChannel::channelStateChange(
@@ -202,9 +198,6 @@ void PvaClientChannel::channelStateChange(
     if(connectState==connectActive) waitingForConnect = true;
     if(connectionState!=Channel::CONNECTED) {
         Lock xx(mutex);
-        string mess(channelName +
-                " connection state " + Channel::ConnectionStateNames[connectionState]);
-        message(mess,errorMessage);
         connectState = notConnected;
     } else {
         Lock xx(mutex);
@@ -267,7 +260,7 @@ void PvaClientChannel::connect(double timeout)
     Status status = waitConnect(timeout);
     if(status.isOK()) return;
     if(PvaClient::getDebug()) cout << "PvaClientChannel::connect  waitConnect failed\n";
-    string message = string("channel ") + channelName 
+    string message = string("channel ") + channelName
                     + " PvaClientChannel::connect " + status.getMessage();
     throw std::runtime_error(message);
 }
@@ -319,18 +312,11 @@ Status PvaClientChannel::waitConnect(double timeout)
     return Status(Status::STATUSTYPE_ERROR," not connected");
 }
 
-
-PvaClientFieldPtr PvaClientChannel::createField(string const & subField)
-{
-    if(connectState!=connected) connect(5.0);
-    throw std::runtime_error("PvaClientChannel::createField not implemented");
-}
-
 PvaClientProcessPtr PvaClientChannel::createProcess(string const & request)
 {
     PVStructurePtr pvRequest = createRequest->createRequest(request);
     if(!pvRequest) {
-        string message = string("channel ") + channelName 
+        string message = string("channel ") + channelName
             + " PvaClientChannel::createProcess invalid pvRequest: "
             + createRequest->getMessage();
         throw std::runtime_error(message);
@@ -364,7 +350,7 @@ PvaClientGetPtr PvaClientChannel::createGet(string const & request)
 {
     PVStructurePtr pvRequest = createRequest->createRequest(request);
     if(!pvRequest) {
-        string message = string("channel ") + channelName 
+        string message = string("channel ") + channelName
             + " PvaClientChannel::createGet invalid pvRequest: "
             + createRequest->getMessage();
         throw std::runtime_error(message);
@@ -419,7 +405,7 @@ PvaClientPutPtr PvaClientChannel::createPut(string const & request)
 {
     PVStructurePtr pvRequest = createRequest->createRequest(request);
     if(!pvRequest) {
-        string message = string("channel ") + channelName 
+        string message = string("channel ") + channelName
             + " PvaClientChannel::createPut invalid pvRequest: "
             + createRequest->getMessage();
         throw std::runtime_error(message);
@@ -477,7 +463,7 @@ PvaClientPutGetPtr PvaClientChannel::createPutGet(string const & request)
 {
     PVStructurePtr pvRequest = createRequest->createRequest(request);
     if(!pvRequest) {
-        string message = string("channel ") + channelName 
+        string message = string("channel ") + channelName
             + " PvaClientChannel::createPutGet invalid pvRequest: "
             + createRequest->getMessage();
         throw std::runtime_error(message);
@@ -492,27 +478,6 @@ PvaClientPutGetPtr PvaClientChannel::createPutGet(PVStructurePtr const & pvReque
     if(!yyy) throw std::runtime_error("PvaClient was destroyed");
     return PvaClientPutGet::create(yyy,shared_from_this(),pvRequest);
 }
-
-
-
-PvaClientArrayPtr PvaClientChannel::createArray(string const & request)
-{
-    PVStructurePtr pvRequest = createRequest->createRequest(request);
-    if(!pvRequest) {
-        string message = string("channel ") + channelName 
-            + " PvaClientChannel::createArray invalid pvRequest: "
-            + createRequest->getMessage();
-        throw std::runtime_error(message);
-    }
-    return createArray(pvRequest);
-}
-
-PvaClientArrayPtr PvaClientChannel::createArray(PVStructurePtr const &  pvRequest)
-{
-    if(connectState!=connected) connect(5.0);
-    throw std::runtime_error("PvaClientChannel::createArray not implemented");
-}
-
 
 PvaClientMonitorPtr PvaClientChannel::monitor(string const & request)
 {
@@ -541,7 +506,7 @@ PvaClientMonitorPtr PvaClientChannel::createMonitor(string const & request)
 {
     PVStructurePtr pvRequest = createRequest->createRequest(request);
     if(!pvRequest) {
-        string message = string("channel ") + channelName 
+        string message = string("channel ") + channelName
             + " PvaClientChannel::createMonitor invalid pvRequest: "
             + createRequest->getMessage();
         throw std::runtime_error(message);
@@ -561,7 +526,7 @@ PVStructurePtr PvaClientChannel::rpc(
     PVStructurePtr const &  pvRequest,
     PVStructurePtr const & pvArgument)
 {
-    
+
     PvaClientRPCPtr rpc = createRPC(pvRequest);
     return rpc->request(pvArgument);
 }

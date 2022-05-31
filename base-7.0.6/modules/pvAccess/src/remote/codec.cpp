@@ -58,6 +58,29 @@ struct BreakTransport : TransportSender
 namespace epics {
 namespace pvAccess {
 
+/* HACK!
+ * RTEMS allows blocking sockets to be interrupted by shutdown() (aka. esscimqi_socketBothShutdownRequired).
+ * However, a concurrent close() is a race which can leave a send()/recv() call permanently stuck!
+ * The _right_ way to handle this (aside from fixing the stack) would be to sequence
+ * shutdown() -> exitWait() -> destroy()
+ * This is hard to handle since this must be done for _both_ sender and receiver thread,
+ * which presents difficulties owing to how the Transport hierarchy since Transport::close()
+ * can happen on either worker, or a user thread.
+ * Rather than try to straighten this mess out properly, we add this "wait" in-between
+ * shutdown() and close() to hopefully wait for the workers (or other worker) to return
+ * from send()/recv().
+ */
+void hackAroundRTEMSSocketInterrupt()
+{
+#ifdef __rtems__
+    epicsThreadId self = epicsThreadGetIdSelf();
+    unsigned orig = epicsThreadGetPrioritySelf();
+    epicsThreadSetPriority(self, epicsThreadPriorityMin);
+    epicsThreadSleep(0.0000001);
+    epicsThreadSetPriority(self, orig);
+#endif
+}
+
 size_t Transport::num_instances;
 
 Transport::Transport()
@@ -363,7 +386,7 @@ bool AbstractCodec::readToBuffer(
     }
 
     // assumption: remainingBytes < MAX_ENSURE_DATA_BUFFER_SIZE &&
-    //			   requiredBytes < (socketBuffer.capacity() - 1)
+    //             requiredBytes < (socketBuffer.capacity() - 1)
 
     //
     // copy unread part to the beginning of the buffer
@@ -427,7 +450,7 @@ void AbstractCodec::ensureData(std::size_t size) {
         return;
 
     // to large for buffer...
-    if (size > MAX_ENSURE_DATA_SIZE)	{// half for SPLIT, half for SEGMENTED
+    if (size > MAX_ENSURE_DATA_SIZE)    {// half for SPLIT, half for SEGMENTED
         std::ostringstream msg;
         msg << "requested for buffer size " << size
             << ", but maximum " << MAX_ENSURE_DATA_SIZE << " is allowed.";
@@ -471,7 +494,7 @@ void AbstractCodec::ensureData(std::size_t size) {
         {
             // TODO check flags
             //if (flags && SEGMENTED_FLAGS_MASK == 0)
-            //	throw IllegalStateException("segmented message expected,
+            //  throw IllegalStateException("segmented message expected,
             //but current message flag does not indicate it");
 
 
@@ -542,29 +565,6 @@ std::size_t AbstractCodec::alignedValue(
     return (value + k) & (~k);
 }
 
-
-void AbstractCodec::alignData(std::size_t alignment) {
-
-    std::size_t k = (alignment - 1);
-    std::size_t pos = _socketBuffer.getPosition();
-    std::size_t newpos = (pos + k) & (~k);
-    if (pos == newpos)
-        return;
-
-    std::size_t diff = _socketBuffer.getLimit() - newpos;
-    if (diff > 0)
-    {
-        _socketBuffer.setPosition(newpos);
-        return;
-    }
-
-    ensureData(diff);
-
-    // position has changed, recalculate
-    newpos = (_socketBuffer.getPosition() + k) & (~k);
-    _socketBuffer.setPosition(newpos);
-}
-
 static const char PADDING_BYTES[] =
 {
     static_cast<char>(0xFF),
@@ -577,34 +577,21 @@ static const char PADDING_BYTES[] =
     static_cast<char>(0xFF)
 };
 
-void AbstractCodec::alignBuffer(std::size_t alignment) {
-
-    std::size_t k = (alignment - 1);
-    std::size_t pos = _sendBuffer.getPosition();
-    std::size_t newpos = (pos + k) & (~k);
-    if (pos == newpos)
-        return;
-
-    // for safety reasons we really pad (override previous message data)
-    std::size_t padCount = newpos - pos;
-    _sendBuffer.put(PADDING_BYTES, 0, padCount);
-}
-
 
 void AbstractCodec::startMessage(
     epics::pvData::int8 command,
     std::size_t ensureCapacity,
     epics::pvData::int32 payloadSize) {
     _lastMessageStartPosition =
-        std::numeric_limits<size_t>::max();		// TODO revise this
+        std::numeric_limits<size_t>::max();     // TODO revise this
     ensureBuffer(
         PVA_MESSAGE_HEADER_SIZE + ensureCapacity + _nextMessagePayloadOffset);
     _lastMessageStartPosition = _sendBuffer.getPosition();
     _sendBuffer.putByte(PVA_MAGIC);
     _sendBuffer.putByte(_clientServerFlag ? PVA_SERVER_PROTOCOL_REVISION : PVA_CLIENT_PROTOCOL_REVISION);
     _sendBuffer.putByte(
-        (_lastSegmentedMessageType | _byteOrderFlag | _clientServerFlag));	// data message
-    _sendBuffer.putByte(command);	// command
+        (_lastSegmentedMessageType | _byteOrderFlag | _clientServerFlag));  // data message
+    _sendBuffer.putByte(command);   // command
     _sendBuffer.putInt(payloadSize);
 
     // apply offset
@@ -619,13 +606,13 @@ void AbstractCodec::putControlMessage(
     epics::pvData::int32 data) {
 
     _lastMessageStartPosition =
-        std::numeric_limits<size_t>::max();		// TODO revise this
+        std::numeric_limits<size_t>::max();     // TODO revise this
     ensureBuffer(PVA_MESSAGE_HEADER_SIZE);
     _sendBuffer.putByte(PVA_MAGIC);
     _sendBuffer.putByte(_clientServerFlag ? PVA_SERVER_PROTOCOL_REVISION : PVA_CLIENT_PROTOCOL_REVISION);
-    _sendBuffer.putByte((0x01 | _byteOrderFlag | _clientServerFlag));	// control message
-    _sendBuffer.putByte(command);	// command
-    _sendBuffer.putInt(data);		// data
+    _sendBuffer.putByte((0x01 | _byteOrderFlag | _clientServerFlag));   // control message
+    _sendBuffer.putByte(command);   // command
+    _sendBuffer.putInt(data);       // data
 }
 
 
@@ -687,8 +674,8 @@ void AbstractCodec::endMessage(bool hasMoreSegments) {
         {
         sendBuffer.put(PVAConstants.PVA_MAGIC);
         sendBuffer.put(PVAConstants.PVA_VERSION);
-        sendBuffer.put((byte)(0x01 | byteOrderFlag));	// control data
-        sendBuffer.put((byte)0);	// marker
+        sendBuffer.put((byte)(0x01 | byteOrderFlag));   // control data
+        sendBuffer.put((byte)0);    // marker
         sendBuffer.putInt((int)(totalBytesSent + position +
         PVAConstants.PVA_MESSAGE_HEADER_SIZE));
         nextMarkerPosition = position + markerPeriodBytes;
@@ -845,9 +832,9 @@ void AbstractCodec::processSendQueue()
                 if (_sendBuffer.getPosition() > 0)
                     flush(true);
 
-                sendCompleted();	// do not schedule sending
+                sendCompleted();    // do not schedule sending
 
-                if (terminated())			// termination
+                if (terminated())   // termination
                     break;
                 // termination (we want to process even if shutdown)
                 _sendQueue.pop_front(sender);
@@ -1067,6 +1054,7 @@ void BlockingTCPTransportCodec::internalClose()
         case esscimqi_socketBothShutdownRequired:
         {
             /*int status =*/ ::shutdown ( _channel, SHUT_RDWR );
+            hackAroundRTEMSSocketInterrupt();
             /*
             if ( status ) {
                 char sockErrBuf[64];
@@ -1188,7 +1176,18 @@ void BlockingTCPTransportCodec::sendThread()
 
 void BlockingTCPTransportCodec::setRxTimeout(bool ena)
 {
-    double timeout = !ena ? 0.0 : std::max(0.0, _context->getConfiguration()->getPropertyAsDouble("EPICS_PVA_CONN_TMO", 30.0));
+    /* Inactivity timeouts with PVA have a long (and growing) history.
+     *
+     * - Originally pvAccessCPP clients didn't send CMD_ECHO, and servers would never timeout.
+     * - Since module version 7.0.0 (in Base 7.0.3) clients send echo every 15 seconds, and
+     *   either peer will timeout after 30 seconds of inactivity.
+     * - pvAccessJava clients send CMD_ECHO every 30 seconds, and timeout after 60 seconds.
+     *
+     * So this was a bug, with c++ server timeout racing with Java client echo.
+     *
+     * - As a compromise, continue to send echo every 15 seconds, but increase default timeout to 40.
+     */
+    double timeout = !ena ? 0.0 : 4.0/3.0*std::max(0.0, _context->getConfiguration()->getPropertyAsDouble("EPICS_PVA_CONN_TMO", 30.0));
 #ifdef _WIN32
     DWORD timo = DWORD(timeout*1000); // in milliseconds
 #else
@@ -1439,7 +1438,7 @@ BlockingServerTCPTransportCodec::BlockingServerTCPTransportCodec(
     int32_t receiveBufferSize)
     :BlockingTCPTransportCodec(true, context, channel, responseHandler,
                                sendBufferSize, receiveBufferSize, PVA_DEFAULT_PRIORITY)
-    ,_lastChannelSID(0)
+    ,_lastChannelSID(0x12003400)
     ,_verificationStatus(pvData::Status::fatal("Uninitialized error"))
     ,_verifyOrVerified(false)
 {
@@ -1528,8 +1527,8 @@ void BlockingServerTCPTransportCodec::send(ByteBuffer* buffer,
         buffer->putByte(PVA_SERVER_PROTOCOL_REVISION);
         buffer->putByte(
             0x01 | 0x40 | ((EPICS_BYTE_ORDER == EPICS_ENDIAN_BIG)
-                           ? 0x80 : 0x00));		// control + server + endian
-        buffer->putByte(CMD_SET_ENDIANESS);		// set byte order
+                           ? 0x80 : 0x00));     // control + server + endian
+        buffer->putByte(CMD_SET_ENDIANESS);     // set byte order
         buffer->putInt(0);
 
 

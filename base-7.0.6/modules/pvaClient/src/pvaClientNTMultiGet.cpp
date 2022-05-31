@@ -20,7 +20,7 @@ using namespace epics::pvAccess;
 using namespace epics::nt;
 using namespace std;
 
-namespace epics { namespace pvaClient { 
+namespace epics { namespace pvaClient {
 
 
 PvaClientNTMultiGetPtr PvaClientNTMultiGet::create(
@@ -38,7 +38,7 @@ PvaClientNTMultiGet::PvaClientNTMultiGet(
          UnionConstPtr const & u,
          PvaClientMultiChannelPtr const &pvaClientMultiChannel,
          PvaClientChannelArray const &pvaClientChannelArray,
-         epics::pvData::PVStructurePtr const &  pvRequest)
+         PVStructurePtr const &  pvRequest)
 : pvaClientMultiChannel(pvaClientMultiChannel),
   pvaClientChannelArray(pvaClientChannelArray),
   pvRequest(pvRequest),
@@ -75,7 +75,7 @@ void PvaClientNTMultiGet::connect()
          if(isConnected[i]) {
                Status status = pvaClientGet[i]->waitConnect();
                if(status.isOK()) continue;
-               string message = string("channel ") +pvaClientChannelArray[i]->getChannelName() 
+               string message = string("channel ") +pvaClientChannelArray[i]->getChannelName()
                     + " PvaChannelGet::waitConnect " + status.getMessage();
                throw std::runtime_error(message);
          }
@@ -87,10 +87,14 @@ void PvaClientNTMultiGet::get(bool valueOnly)
 {
     if(!isConnected) connect();
     shared_vector<epics::pvData::boolean> isConnected = pvaClientMultiChannel->getIsConnected();
-    
+
     for(size_t i=0; i<nchannel; ++i)
     {
          if(isConnected[i]) {
+               if(!pvaClientGet[i]){
+                   pvaClientGet[i]=pvaClientChannelArray[i]->createGet(pvRequest);
+                   pvaClientGet[i]->connect();
+               }    
                pvaClientGet[i]->issueGet();
          }
     }
@@ -99,7 +103,7 @@ void PvaClientNTMultiGet::get(bool valueOnly)
          if(isConnected[i]) {
                Status status = pvaClientGet[i]->waitGet();
                if(status.isOK()) continue;
-               string message = string("channel ") +pvaClientChannelArray[i]->getChannelName() 
+               string message = string("channel ") +pvaClientChannelArray[i]->getChannelName()
                     + " PvaChannelGet::waitGet " + status.getMessage();
                throw std::runtime_error(message);
          }

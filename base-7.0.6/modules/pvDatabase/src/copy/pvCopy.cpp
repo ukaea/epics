@@ -29,7 +29,7 @@ using std::endl;
 using std::vector;
 using namespace epics::pvData;
 
-namespace epics { namespace pvCopy { 
+namespace epics { namespace pvCopy {
 
 /**
  * Convenience method for implementing dump.
@@ -60,19 +60,19 @@ struct CopyNode {
     PVStructurePtr options;
     vector<PVFilterPtr> pvFilters;
 };
-    
+
 static CopyNodePtr NULLCopyNode;
 
 typedef std::vector<CopyNodePtr> CopyNodePtrArray;
 typedef std::tr1::shared_ptr<CopyNodePtrArray> CopyNodePtrArrayPtr;
-    
+
 struct CopyStructureNode : public  CopyNode {
     CopyNodePtrArrayPtr nodes;
 };
 
 PVCopyPtr PVCopy::create(
-    PVStructurePtr const &pvMaster, 
-    PVStructurePtr const &pvRequest, 
+    PVStructurePtr const &pvMaster,
+    PVStructurePtr const &pvRequest,
     string const & structureName)
 {
     PVStructurePtr pvStructure(pvRequest);
@@ -114,7 +114,7 @@ PVStructurePtr PVCopy::createPVStructure()
         cacheInitStructure.reset();
         return save;
     }
-    PVStructurePtr pvStructure = 
+    PVStructurePtr pvStructure =
         getPVDataCreate()->createPVStructure(structure);
     return pvStructure;
 }
@@ -296,7 +296,7 @@ void PVCopy::updateMaster(
         bitSet->clear(nextSet);
     }
 }
- 
+
 PVStructurePtr PVCopy::getOptions(std::size_t fieldOffset)
 {
     if(fieldOffset==0) return headNode->options;
@@ -414,7 +414,7 @@ void PVCopy::updateCopyFromBitSet(
     size_t offset = structureNode->structureOffset;
     size_t nextSet = bitSet->nextSetBit(offset);
     if(nextSet==string::npos) return;
-    if(offset>=pvCopy->getNextFieldOffset()) return;  
+    if(offset>=pvCopy->getNextFieldOffset()) return;
     PVStructurePtr pvCopyStructure = static_pointer_cast<PVStructure>(pvCopy);
     PVFieldPtrArray const & pvCopyFields = pvCopyStructure->getPVFields();
     for(size_t i=0; i<pvCopyFields.size(); ++i) {
@@ -426,11 +426,6 @@ PVCopy::PVCopy(
     PVStructurePtr const &pvMaster)
 : pvMaster(pvMaster)
 {
-}
-
-void PVCopy::destroy()
-{
-    headNode.reset();
 }
 
 bool PVCopy::init(epics::pvData::PVStructurePtr const &pvRequest)
@@ -529,9 +524,9 @@ CopyNodePtr PVCopy::createStructureNodes(
     for(size_t i=0; i<number; i++) {
         PVFieldPtr copyPVField = copyPVFields[i];
         string fieldName = copyPVField->getFieldName();
-        PVStructurePtr requestPVStructure = 
+        PVStructurePtr requestPVStructure =
              pvFromRequest->getSubField<PVStructure>(fieldName);
-        PVStructurePtr pvSubFieldOptions = 
+        PVStructurePtr pvSubFieldOptions =
             requestPVStructure->getSubField<PVStructure>("_options");
         PVFieldPtr pvMasterField = pvMasterStructure->getSubField(fieldName);
         if(!pvMasterField) {
@@ -641,14 +636,14 @@ void PVCopy::initPlugin(
 
 void PVCopy::traverseMasterInitPlugin()
 {
-    traverseMasterInitPlugin(headNode); 
+    traverseMasterInitPlugin(headNode);
 }
 
 void PVCopy::traverseMasterInitPlugin(CopyNodePtr const & node)
 {
     PVFieldPtr pvField = node->masterPVField;
     PVStructurePtr pvOptions = node->options;
-    if(pvOptions) initPlugin(node,pvOptions,pvField);	
+    if(pvOptions) initPlugin(node,pvOptions,pvField);
     if(!node->isStructure) return;
     CopyStructureNodePtr structureNode = static_pointer_cast<CopyStructureNode>(node);
     CopyNodePtrArrayPtr nodes = structureNode->nodes;
@@ -667,7 +662,7 @@ CopyNodePtr PVCopy::getCopyOffset(
         CopyNodePtr node = (*nodes)[i];
         if(!node->isStructure) {
             size_t off = node->masterPVField->getFieldOffset();
-            size_t nextOffset = node->masterPVField->getNextFieldOffset(); 
+            size_t nextOffset = node->masterPVField->getNextFieldOffset();
             if(offset>= off && offset<nextOffset) return node;
         } else {
             CopyStructureNodePtr subNode =
@@ -710,7 +705,7 @@ void PVCopy::setIgnore(CopyNodePtr const &node) {
          CopyNodePtrArrayPtr nodes = structureNode->nodes;
          for(size_t i=0; i<nodes->size(); ++i) {
             CopyNodePtr node = (*nodes)[i];
-            setIgnore(node);		}
+            setIgnore(node);        }
     } else {
         size_t num = node->masterPVField->getNumberFields();
         if(num>1) {

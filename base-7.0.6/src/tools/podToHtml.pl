@@ -2,6 +2,7 @@
 #*************************************************************************
 # Copyright (c) 2013 UChicago Argonne LLC, as Operator of Argonne
 #     National Laboratory.
+# SPDX-License-Identifier: EPICS
 # EPICS BASE is distributed subject to a Software License Agreement found
 # in file LICENSE that is included with this distribution.
 #*************************************************************************
@@ -9,10 +10,16 @@
 use strict;
 use warnings;
 
-use Getopt::Std;
-$Getopt::Std::STANDARD_HELP_VERSION = 1;
+# To find the EPICS::PodHtml module used below we need to add our lib/perl to
+# the lib search path. If the script is running from the src/tools directory
+# before everything has been installed though, the search path must include
+# our source directory (i.e. $Bin), so we add both here.
+use FindBin qw($Bin);
+use lib ("$Bin/../../lib/perl", $Bin);
 
-use Pod::Simple::HTML;
+use EPICS::Getopts;
+
+use EPICS::PodHtml;
 
 use Pod::Usage;
 
@@ -45,9 +52,10 @@ Help, display this document as text.
 
 =item B<-s>
 
-Indicates that the first component of the input file path is not part of the
+Indicates that one leading component of the input file path is not part of the
 final installation path, thus should be removed before calculating the relative
-path to the style-sheet file.
+path to the style-sheet file. This flag may be repeated as many times as needed
+to remove multiple leading components from the path to the style sheet.
 
 =item B<-o> file.html
 
@@ -80,13 +88,19 @@ if (!$opt_o) {
 }
 
 # Calculate path to style.css file
-shift @inpath if $opt_s; # Remove leading ..
+shift @inpath while $opt_s--; # Remove leading ..
 my $root = '../' x scalar @inpath;
 
 open my $out, '>', $opt_o or
     die "Can't create $opt_o: $!\n";
 
-my $podHtml = Pod::Simple::HTML->new();
+$SIG{__DIE__} = sub {
+    die @_ if $^S;  # Ignore eval deaths
+    close $out;
+    unlink $opt_o;
+};
+
+my $podHtml = EPICS::PodHtml->new();
 
 $podHtml->html_css($root . 'style.css');
 $podHtml->perldoc_url_prefix('');

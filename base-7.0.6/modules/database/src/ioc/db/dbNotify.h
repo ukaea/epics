@@ -3,15 +3,16 @@
 *     National Laboratory.
 * Copyright (c) 2002 The Regents of the University of California, as
 *     Operator of Los Alamos National Laboratory.
+* SPDX-License-Identifier: EPICS
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
-/* dbNotify.h	*/
+/* dbNotify.h   */
 
 #ifndef INCdbNotifyh
 #define INCdbNotifyh
 
-#include "shareLib.h"
+#include "dbCoreAPI.h"
 #include "ellLib.h"
 
 #ifdef __cplusplus
@@ -69,36 +70,36 @@ typedef struct processNotify {
 
 
 /* dbProcessNotify and dbNotifyCancel are called by user*/
-epicsShareFunc void dbProcessNotify(processNotify *pprocessNotify);
-epicsShareFunc void dbNotifyCancel(processNotify *pprocessNotify);
+DBCORE_API void dbProcessNotify(processNotify *pprocessNotify);
+DBCORE_API void dbNotifyCancel(processNotify *pprocessNotify);
 
 /* dbProcessNotifyInit called by iocInit */
-epicsShareFunc void dbProcessNotifyInit(void);
-epicsShareFunc void dbProcessNotifyExit(void);
+DBCORE_API void dbProcessNotifyInit(void);
+DBCORE_API void dbProcessNotifyExit(void);
 
 /*dbNotifyAdd called by dbScanPassive and dbScanLink*/
-epicsShareFunc void dbNotifyAdd(
+DBCORE_API void dbNotifyAdd(
     struct dbCommon *pfrom,struct dbCommon *pto);
 /*dbNotifyCompletion called by recGblFwdLink  or dbAccess*/
-epicsShareFunc void dbNotifyCompletion(struct dbCommon *precord);
+DBCORE_API void dbNotifyCompletion(struct dbCommon *precord);
 
 /* db_put_process defined here since it requires dbNotify.
  * src_type is the old DBR type
  * This is called by a dbNotify putCallback that uses oldDbr types
  */
-epicsShareFunc int db_put_process(
+DBCORE_API int db_put_process(
     processNotify *processNotify,notifyPutType type,
     int src_type,const void *psrc, int no_elements);
- 
+
 /* dbtpn is test routine for dbNotify putProcessRequest */
-epicsShareFunc long dbtpn(char *recordname,char *value);
+DBCORE_API long dbtpn(char *recordname,char *value);
 
 /* dbNotifyDump is an INVASIVE debug utility. Don't use this needlessly*/
-epicsShareFunc int dbNotifyDump(void);
+DBCORE_API int dbNotifyDump(void);
 
 /* This module provides code to handle process notify.
  * client code semantics are:
- * 1) The client code allocates storage for a processNotify structure. 
+ * 1) The client code allocates storage for a processNotify structure.
  *    This structure can be used for multiple calls to dbProcessNotify.
  *    The client is responsible for setting the following fields :
  *    requestType - The type of request.
@@ -107,7 +108,7 @@ epicsShareFunc int dbNotifyDump(void);
  *    getCallback - If request is processGetRequest or putProcessGetRequest
  *    doneCallback - Must be set
  *    usrPvt - For exclusive use of client. dbNotify does not access this field
- * 2) The client calls dbProcessNotify. 
+ * 2) The client calls dbProcessNotify.
  * 3) putCallback is called after dbNotify has claimed the record instance
  *    but before a potential process is requested.
  *    The putCallback MUST issue the correct put request
@@ -140,22 +141,22 @@ epicsShareFunc int dbNotifyDump(void);
  * The other global routines (dbNotifyAdd and dbNotifyCompletion) are called by:
  *
  *  dbAccess.c
- *	dbScanPassive and dbScanLink
- *		call dbNotifyAdd just before calling dbProcess
- *	dbProcess
- *		Calls dbNotifyCompletion if dbProcess does not call process
+ *      dbScanPassive and dbScanLink
+ *              call dbNotifyAdd just before calling dbProcess
+ *      dbProcess
+ *              Calls dbNotifyCompletion if dbProcess does not call process
  *              Unless pact is already true.
- *	recGbl
- *		recGblFwdLink calls dbNotifyCompletion
+ *      recGbl
+ *              recGblFwdLink calls dbNotifyCompletion
  *
  * Two fields in dbCommon are used for put notify.
- *	ppn     pointer to processNotify
- *		If a record is part of a put notify group,
- *		This field is the address of the associated processNotify.
- *		As soon as a record completes processing the field is set NULL
- *	ppnr    pointer to processNotifyRecord, which is a private structure
+ *      ppn     pointer to processNotify
+ *              If a record is part of a put notify group,
+ *              This field is the address of the associated processNotify.
+ *              As soon as a record completes processing the field is set NULL
+ *      ppnr    pointer to processNotifyRecord, which is a private structure
  *              owned by dbNotify.
- *		dbNotify is reponsible for this structure.
+ *              dbNotify is reponsible for this structure.
  *
  */
 #ifdef __cplusplus

@@ -44,7 +44,7 @@ PVDatabasePtr PVDatabase::getMaster()
         PVArrayPlugin::create();
         PVTimestampPlugin::create();
         PVDeadbandPlugin::create();
-    }    
+    }
     return pvDatabaseMaster;
 }
 
@@ -56,14 +56,6 @@ PVDatabase::PVDatabase()
 PVDatabase::~PVDatabase()
 {
     if(DEBUG_LEVEL>0) cout << "PVDatabase::~PVDatabase()\n";
-    size_t len = recordMap.size();
-    shared_vector<string> names(len);
-    PVRecordMap::iterator iter;
-    size_t i = 0;
-    for(iter = recordMap.begin(); iter!=recordMap.end(); ++iter) {
-        names[i++] = (*iter).first;
-    }
-    for(size_t i=0; i<len; ++i) removeRecord(findRecord(names[i]));
 }
 
 void PVDatabase::lock() {
@@ -100,17 +92,28 @@ bool PVDatabase::addRecord(PVRecordPtr const & record)
     return true;
 }
 
-bool PVDatabase::removeRecord(PVRecordPtr const & record)
+PVRecordWPtr PVDatabase::removeFromMap(PVRecordPtr const & record)
 {
-    if(record->getTraceLevel()>0) {
-        cout << "PVDatabase::removeRecord " << record->getRecordName() << endl;
-    }
     epicsGuard<epics::pvData::Mutex> guard(mutex);
     string recordName = record->getRecordName();
     PVRecordMap::iterator iter = recordMap.find(recordName);
     if(iter!=recordMap.end())  {
         PVRecordPtr pvRecord = (*iter).second;
         recordMap.erase(iter);
+        return pvRecord->shared_from_this();
+    }
+    return PVRecordWPtr();
+}
+
+bool PVDatabase::removeRecord(PVRecordPtr const & record)
+{
+    if(record->getTraceLevel()>0) {
+        cout << "PVDatabase::removeRecord " << record->getRecordName() << endl;
+    }
+    epicsGuard<epics::pvData::Mutex> guard(mutex);
+    PVRecordWPtr pvRecord = removeFromMap(record);
+    if(pvRecord.use_count()!=0) {
+        pvRecord.lock()->unlistenClients();
         return true;
     }
     return false;

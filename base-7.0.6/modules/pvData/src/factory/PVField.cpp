@@ -62,7 +62,7 @@ size_t PVField::getNumberFields() const
 
 void PVField::setImmutable() {immutable = true;}
 
-void PVField::postPut() 
+void PVField::postPut()
 {
    if(postHandler) postHandler->postPut();
 }
@@ -91,7 +91,7 @@ bool PVField::equals(PVField &pv)
 
 std::ostream& operator<<(std::ostream& o, const PVField& f)
 {
-	return f.dumpValue(o);
+    return f.dumpValue(o);
 };
 
 string PVField::getFullName() const

@@ -21,7 +21,7 @@ using namespace epics::pvAccess;
 using namespace epics::nt;
 using namespace std;
 
-namespace epics { namespace pvaClient { 
+namespace epics { namespace pvaClient {
 
 
 PvaClientMultiMonitorDoublePtr PvaClientMultiMonitorDouble::create(
@@ -90,6 +90,17 @@ bool PvaClientMultiMonitorDouble::poll()
     for(size_t i=0; i<nchannel; ++i)
     {
          if(isConnected[i]) {
+              if(!pvaClientMonitor[i]){
+                  pvaClientMonitor[i] = pvaClientChannelArray[i]->createMonitor("value");
+                  pvaClientMonitor[i]->issueConnect();
+                  Status status = pvaClientMonitor[i]->waitConnect();
+                  if(!status.isOK()) {
+                     string message = string("channel ") + pvaClientChannelArray[i]->getChannelName()
+                        + " PvaChannelMonitor::waitConnect " + status.getMessage();
+                     throw std::runtime_error(message);
+                  }   
+                  pvaClientMonitor[i]->start();
+              }    
               if(pvaClientMonitor[i]->poll()) {
                    doubleValue[i] = pvaClientMonitor[i]->getData()->getDouble();
                    pvaClientMonitor[i]->releaseEvent();
@@ -116,7 +127,7 @@ bool PvaClientMultiMonitorDouble::waitEvent(double waitForEvent)
     return false;
 }
 
-epics::pvData::shared_vector<double> PvaClientMultiMonitorDouble::get()
+shared_vector<double> PvaClientMultiMonitorDouble::get()
 {
     return doubleValue;
 }

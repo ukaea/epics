@@ -34,7 +34,6 @@ public:
     void setRecipient(const osiSockAddr& /*sendTo*/) {}
     void startMessage(epics::pvData::int8 /*command*/, std::size_t /*ensureCapacity*/, epics::pvData::int32 /*payloadSize*/) {}
     void ensureBuffer(std::size_t /*size*/) {}
-    void alignBuffer(std::size_t /*alignment*/) {}
     void flushSerializeBuffer() {}
     void cachedSerialize(const std::tr1::shared_ptr<const epics::pvData::Field>& field, epics::pvData::ByteBuffer* buffer)
     {
@@ -209,7 +208,7 @@ void ChannelSearchManager::initializeSendBuffer()
     m_sendBuffer.putByte(PVA_CLIENT_PROTOCOL_REVISION);
     m_sendBuffer.putByte((EPICS_BYTE_ORDER == EPICS_ENDIAN_BIG) ? 0x80 : 0x00); // data + 7-bit endianess
     m_sendBuffer.putByte(CMD_SEARCH);
-    m_sendBuffer.putInt(4+1+3+16+2+1);		// "zero" payload
+    m_sendBuffer.putInt(4+1+3+16+2+1);      // "zero" payload
     m_sendBuffer.putInt(m_sequenceNumber);
 
     // multicast vs unicast mask
@@ -230,7 +229,7 @@ void ChannelSearchManager::initializeSendBuffer()
 
     MockTransportSendControl control;
     SerializeHelper::serializeString("tcp", &m_sendBuffer, &control);
-    m_sendBuffer.putShort((int16_t)0);	// count
+    m_sendBuffer.putShort((int16_t)0);  // count
 }
 
 void ChannelSearchManager::flushSendBuffer()
@@ -392,4 +391,3 @@ void ChannelSearchManager::timerStopped()
 
 }
 }
-

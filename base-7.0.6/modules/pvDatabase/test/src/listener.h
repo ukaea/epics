@@ -26,14 +26,14 @@
 
 #ifdef listenerEpicsExportSharedSymbols
 #   define epicsExportSharedSymbols
-#	undef listenerEpicsExportSharedSymbols
+#       undef listenerEpicsExportSharedSymbols
 #endif
 
 #include <shareLib.h>
 
 //epicsShareFunc epics::pvData::PVStructurePtr createListener();
 
-namespace epics { namespace pvDatabase { 
+namespace epics { namespace pvDatabase {
 using namespace epics::pvData;
 using namespace std;
 
@@ -59,7 +59,7 @@ public:
     }
     virtual void dataPut(PVRecordFieldPtr const & pvRecordField)
     {
-        cout << "Listener::dataPut record " << recordName 
+        cout << "Listener::dataPut record " << recordName
         << " pvRecordField " << pvRecordField->getPVField()->getFullName()
         << endl;
     }
@@ -67,7 +67,7 @@ public:
         PVRecordStructurePtr const & requested,
         PVRecordFieldPtr const & pvRecordField)
     {
-        cout << "Listener::dataPut record " << recordName 
+        cout << "Listener::dataPut record " << recordName
         << " requested " << requested->getPVStructure()->getFullName()
         << " pvRecordField " << pvRecordField->getPVField()->getFullName()
         << endl;
@@ -84,7 +84,7 @@ public:
     {
          cout << "Listener::unlisten record " << recordName << endl;
     }
-   
+
 private:
     Listener(PVRecordPtr const & pvRecord)
     : pvCopy(

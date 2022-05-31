@@ -3,6 +3,7 @@
 *     National Laboratory.
 * Copyright (c) 2002 The Regents of the University of California, as
 *     Operator of Los Alamos National Laboratory.
+* SPDX-License-Identifier: EPICS
 * EPICS BASE is distributed subject to a Software License Agreement found
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
@@ -14,11 +15,10 @@
 #include "epicsStdio.h"
 #include "epicsVersion.h"
 
-#define epicsExportSharedSymbols
 #include "epicsRelease.h"
 #include "epicsVCS.h"
 
-epicsShareFunc int coreRelease(void)
+DBCORE_API int coreRelease(void)
 {
     printf ( "############################################################################\n" );
     printf ( "## %s\n", epicsReleaseVersion );
