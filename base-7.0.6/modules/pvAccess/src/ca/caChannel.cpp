@@ -159,7 +159,7 @@ void CAChannel::disconnectChannel()
     }
     std::vector<CAChannelMonitorWPtr>::iterator it;
     for (it = monitorlist.begin(); it!=monitorlist.end(); ++it) {
-        CAChannelMonitorPtr mon = (*it).lock();
+        CAChannelMonitorPtr mon = it->lock();
         if (!mon) continue;
         mon->stop();
     }
@@ -300,10 +300,10 @@ void CAChannel::addMonitor(CAChannelMonitorPtr const & monitor)
 {
     std::vector<CAChannelMonitorWPtr>::iterator it;
     for (it = monitorlist.begin(); it!=monitorlist.end(); ++it) {
-        CAChannelMonitorWPtr mon = *it;
-        if (mon.lock()) continue;
-        mon = monitor;
-        return;
+        if (it->expired()) {
+            *it = monitor;
+            return;
+        }
     }
     monitorlist.push_back(monitor);
 }

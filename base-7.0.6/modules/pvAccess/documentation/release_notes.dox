@@ -1,5 +1,13 @@
 /** @page pvarelease_notes Release Notes
 
+Release 7.1.5 (October 2021)
+==========================
+
+- Changes to caProvider
+  - Resolve issues with pv structures that don't have a value field
+  - Add NULL checks for handling unusual structures
+  - Speed up channel creation when using large numbers of channels
+
 Release 7.1.4 (June 2021)
 =========================
 
