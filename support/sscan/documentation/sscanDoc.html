@@ -7,7 +7,7 @@
 <meta name="author" content="Tim Mooney">
 </head>
 <body>
-<img src="http://www.aps.anl.gov/bcda/Images/logo101.gif" alt=
+<img src="https://epics.anl.gov/icons/logo101.gif" alt=
 "EPICS" hspace="5" height="101" width="101" align="right">
 <h1>The sscan module</h1>
 
@@ -21,7 +21,7 @@ client program that writes scan data to disk.
 <dd>The scanparm record documentation.
 <dt><a href="saveData_fileFormat.txt">saveData_fileFormat.txt</a>
 <dd>description of the 'MDA' (multidimensional archive) file format written by saveData.
-This file format uses the XDR standard for cross-platform compatibility. 
+This file format uses the XDR standard for cross-platform compatibility.
 <dt><a href="saveData.req">saveData.req</a>
 <dd>Sample copy of the file that tells saveData what to do.
 <dt><a href="XDR_RFC1014.txt">XDR_RFC1014.txt</a>
@@ -105,7 +105,7 @@ file saveData_settings.req P=$(P)
 <li>Tell saveData how to initialize by editing the file <code>saveData.req</code>,
 and placing it in the ioc's startup directory.  Usually, the only part of this
 file that you modify is the section marked <code>[extraPV]</code>.  In this section, enter
-the names of the PV's you want saveData to include in every scan-data file. 
+the names of the PV's you want saveData to include in every scan-data file.
 If a PV is not well described by it's record's <code>.DESC</code> field, you can
 append your own description.<P>
 

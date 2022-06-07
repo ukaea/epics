@@ -14,10 +14,12 @@
    <string>
 
 QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
+QPushButton::menu-indicator {image: url(none.png); width: 0}
 
 </string>
   </property>
   <widget class="QWidget" name="centralWidget">
+
    <widget class="caRelatedDisplay" name="caRelatedDisplay_tmm">
     <property name="geometry">
      <rect>
@@ -28,7 +30,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string>scan2D</string>
+     <string>-scan2D</string>
     </property>
     <property name="foreground">
      <color>
@@ -68,6 +70,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      <string>false;false;false;false;false;false;false;false</string>
     </property>
    </widget>
+
   </widget>
  </widget>
  <customwidgets>

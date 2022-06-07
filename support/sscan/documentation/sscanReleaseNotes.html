@@ -10,6 +10,78 @@ content="text/html; charset=iso-8859-1">
 
 <h1 align="center">sscan Release Notes</h1>
 
+<h2 algin="center">Release 2-11-5 - Oct 19, 2021</h2>
+<ul>
+<li>Fixed build issues with newer versions of base</li>
+</ul>
+    
+<h2 align="center">Release 2-11-4 - Oct 5, 2020</h2>
+<ul>
+<li>Fixed an issue where vxWorks was failing to save to netApps appliances</li>
+<li>Added bob files, updated ui and edl files.
+</ul>
+    
+<h2 align="center">Release 2-11-3 - Jun 14, 2019</h2>
+<ul>
+<li>Req files now installed to top level db folder.</li>
+</ul>
+    
+<h2 align="center">Release 2-11-2 - Feb 28, 2019</h2>
+<ul>
+<li>Fixes to build with EPICS base 3.16 and 7.0
+</ul>
+    
+<h2 align="center">Release 2-11-1 - Dec 8, 2017</h2>
+<ul>
+<li>Check return code from fclose(), and retry if it failed.
+</ul>
+
+<h2 align="center">Release 2-11 - Nov 30, 2017</h2>
+<ul>
+
+<li>Introduce end-of-line normalization
+
+<li>fix -Wformat
+
+<li>Added sscan iocsh script
+
+<li>EPICS-base-version dependent definition of dbNameToAddr
+
+<li>display each HTML file (on github main page)
+
+<li>progressBar: Included Jon Tischler's new hangWait stuff.
+
+<li>Kevin Peterson's fixes for compatibility with Visual Studio 2010
+
+<li>Modified .adl files to better convert for caQtDM
+
+<li> New version of *Main.cpp file from base 3.15.5; contains epicsExit() after iocsh(NULL) which is needed for epicsAtExit() to work on Windows
+
+<li>Enable Travis CI
+
+<li>Converted CRLF to LF
+
+</ul>
+
+<h2 align="center">Release 2-10-2 - Nov 6, 2015</h2>
+<ul>
+
+<li>documented PnPP field
+
+</ul>
+
+<h2 align="center">Release 2-10-1 - Mar 27, 2015</h2>
+<ul>
+
+<li>saveData: minor bug fix
+
+<li>saveData_writeXDR.c, writeXDR.c: small changes to support minGW compilation
+
+<li>If a detector was connected to a remote array, the sscanRecord did not
+wait for retrace motion to finish before declaring itself done.
+
+</ul>
+
 <h2 align="center">Release 2-10 - Oct 22, 2014</h2>
 <ul>
 

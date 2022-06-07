@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="label">
-     <string notr="true">$(DET)</string>
+     <string notr="true">-$(DET)</string>
     </property>
     <property name="foreground">
      <color>

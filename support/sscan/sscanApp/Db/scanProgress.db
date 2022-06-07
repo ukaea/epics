@@ -1,4 +1,5 @@
 #  databse used with scanProgress.st,   version 1.1
+#  version 1.2, added hangWaitSec and hungTimeStr, hungWaitSec
 #
 grecord(mbbo,"$(P)debug")
 {
@@ -85,6 +86,23 @@ grecord(longout,"$(P)pauseSec")
 	field(DESC,"time spent paused")
 	field(EGU,"sec")
 	field(VAL,"0")
+}
+grecord(longout,"$(P)hangWaitSec")
+{
+	field(DESC,"wait time before declaring a hang")
+	field(EGU,"sec")
+	field(VAL,"600")
+}
+grecord(longout,"$(P)hungSec")
+{
+	field(DESC,"time spent hung")
+	field(EGU,"sec")
+	field(VAL,"0")
+}
+grecord(stringout,"$(P)hungTimeStr")
+{
+	field(VAL,"")
+	field(DESC,"how long scan has been hung")
 }
 grecord(longout,"$(P)Ntotal")
 {

@@ -41,7 +41,7 @@
     <ClCompile Include="motorSimMain.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\base-7.0.3.1\modules\libcom\src\Com.vcxproj">
+    <ProjectReference Include="..\..\..\base-7.0.6.1\modules\libcom\src\Com.vcxproj">
       <Project>{e9d99fc7-e592-472b-b2e2-c3b0d81d8169}</Project>
     </ProjectReference>
     <ProjectReference Include="motorSimSupport.vcxproj">

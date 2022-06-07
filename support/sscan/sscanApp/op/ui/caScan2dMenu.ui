@@ -28,7 +28,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D01</string>
+     <string notr="true">-D01</string>
     </property>
     <property name="foreground">
      <color>
@@ -67,7 +67,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D02</string>
+     <string notr="true">-D02</string>
     </property>
     <property name="foreground">
      <color>
@@ -106,7 +106,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D03</string>
+     <string notr="true">-D03</string>
     </property>
     <property name="foreground">
      <color>
@@ -145,7 +145,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D04</string>
+     <string notr="true">-D04</string>
     </property>
     <property name="foreground">
      <color>
@@ -184,7 +184,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D05</string>
+     <string notr="true">-D05</string>
     </property>
     <property name="foreground">
      <color>
@@ -223,7 +223,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D06</string>
+     <string notr="true">-D06</string>
     </property>
     <property name="foreground">
      <color>
@@ -262,7 +262,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D07</string>
+     <string notr="true">-D07</string>
     </property>
     <property name="foreground">
      <color>
@@ -301,7 +301,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D08</string>
+     <string notr="true">-D08</string>
     </property>
     <property name="foreground">
      <color>
@@ -340,7 +340,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D09</string>
+     <string notr="true">-D09</string>
     </property>
     <property name="foreground">
      <color>
@@ -379,7 +379,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D10</string>
+     <string notr="true">-D10</string>
     </property>
     <property name="foreground">
      <color>
@@ -418,7 +418,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D18</string>
+     <string notr="true">-D18</string>
     </property>
     <property name="foreground">
      <color>
@@ -457,7 +457,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D16</string>
+     <string notr="true">-D16</string>
     </property>
     <property name="foreground">
      <color>
@@ -496,7 +496,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D11</string>
+     <string notr="true">-D11</string>
     </property>
     <property name="foreground">
      <color>
@@ -535,7 +535,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D20</string>
+     <string notr="true">-D20</string>
     </property>
     <property name="foreground">
      <color>
@@ -574,7 +574,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D14</string>
+     <string notr="true">-D14</string>
     </property>
     <property name="foreground">
      <color>
@@ -613,7 +613,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D19</string>
+     <string notr="true">-D19</string>
     </property>
     <property name="foreground">
      <color>
@@ -652,7 +652,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D15</string>
+     <string notr="true">-D15</string>
     </property>
     <property name="foreground">
      <color>
@@ -691,7 +691,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D17</string>
+     <string notr="true">-D17</string>
     </property>
     <property name="foreground">
      <color>
@@ -730,7 +730,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D13</string>
+     <string notr="true">-D13</string>
     </property>
     <property name="foreground">
      <color>
@@ -769,7 +769,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D12</string>
+     <string notr="true">-D12</string>
     </property>
     <property name="foreground">
      <color>
@@ -808,7 +808,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D28</string>
+     <string notr="true">-D28</string>
     </property>
     <property name="foreground">
      <color>
@@ -847,7 +847,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D26</string>
+     <string notr="true">-D26</string>
     </property>
     <property name="foreground">
      <color>
@@ -886,7 +886,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D21</string>
+     <string notr="true">-D21</string>
     </property>
     <property name="foreground">
      <color>
@@ -925,7 +925,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D30</string>
+     <string notr="true">-D30</string>
     </property>
     <property name="foreground">
      <color>
@@ -964,7 +964,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D24</string>
+     <string notr="true">-D24</string>
     </property>
     <property name="foreground">
      <color>
@@ -1003,7 +1003,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D29</string>
+     <string notr="true">-D29</string>
     </property>
     <property name="foreground">
      <color>
@@ -1042,7 +1042,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D25</string>
+     <string notr="true">-D25</string>
     </property>
     <property name="foreground">
      <color>
@@ -1081,7 +1081,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D27</string>
+     <string notr="true">-D27</string>
     </property>
     <property name="foreground">
      <color>
@@ -1120,7 +1120,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D23</string>
+     <string notr="true">-D23</string>
     </property>
     <property name="foreground">
      <color>
@@ -1159,7 +1159,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D22</string>
+     <string notr="true">-D22</string>
     </property>
     <property name="foreground">
      <color>
@@ -1198,7 +1198,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D38</string>
+     <string notr="true">-D38</string>
     </property>
     <property name="foreground">
      <color>
@@ -1237,7 +1237,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D36</string>
+     <string notr="true">-D36</string>
     </property>
     <property name="foreground">
      <color>
@@ -1276,7 +1276,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D31</string>
+     <string notr="true">-D31</string>
     </property>
     <property name="foreground">
      <color>
@@ -1315,7 +1315,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D40</string>
+     <string notr="true">-D40</string>
     </property>
     <property name="foreground">
      <color>
@@ -1354,7 +1354,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D34</string>
+     <string notr="true">-D34</string>
     </property>
     <property name="foreground">
      <color>
@@ -1393,7 +1393,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D39</string>
+     <string notr="true">-D39</string>
     </property>
     <property name="foreground">
      <color>
@@ -1432,7 +1432,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D35</string>
+     <string notr="true">-D35</string>
     </property>
     <property name="foreground">
      <color>
@@ -1471,7 +1471,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D37</string>
+     <string notr="true">-D37</string>
     </property>
     <property name="foreground">
      <color>
@@ -1510,7 +1510,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D33</string>
+     <string notr="true">-D33</string>
     </property>
     <property name="foreground">
      <color>
@@ -1549,7 +1549,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D32</string>
+     <string notr="true">-D32</string>
     </property>
     <property name="foreground">
      <color>
@@ -1588,7 +1588,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D48</string>
+     <string notr="true">-D48</string>
     </property>
     <property name="foreground">
      <color>
@@ -1627,7 +1627,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D46</string>
+     <string notr="true">-D46</string>
     </property>
     <property name="foreground">
      <color>
@@ -1666,7 +1666,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D41</string>
+     <string notr="true">-D41</string>
     </property>
     <property name="foreground">
      <color>
@@ -1705,7 +1705,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D50</string>
+     <string notr="true">-D50</string>
     </property>
     <property name="foreground">
      <color>
@@ -1744,7 +1744,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D44</string>
+     <string notr="true">-D44</string>
     </property>
     <property name="foreground">
      <color>
@@ -1783,7 +1783,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D49</string>
+     <string notr="true">-D49</string>
     </property>
     <property name="foreground">
      <color>
@@ -1822,7 +1822,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D45</string>
+     <string notr="true">-D45</string>
     </property>
     <property name="foreground">
      <color>
@@ -1861,7 +1861,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D47</string>
+     <string notr="true">-D47</string>
     </property>
     <property name="foreground">
      <color>
@@ -1900,7 +1900,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D43</string>
+     <string notr="true">-D43</string>
     </property>
     <property name="foreground">
      <color>
@@ -1939,7 +1939,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D42</string>
+     <string notr="true">-D42</string>
     </property>
     <property name="foreground">
      <color>
@@ -1978,7 +1978,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D58</string>
+     <string notr="true">-D58</string>
     </property>
     <property name="foreground">
      <color>
@@ -2017,7 +2017,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D56</string>
+     <string notr="true">-D56</string>
     </property>
     <property name="foreground">
      <color>
@@ -2056,7 +2056,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D51</string>
+     <string notr="true">-D51</string>
     </property>
     <property name="foreground">
      <color>
@@ -2095,7 +2095,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D60</string>
+     <string notr="true">-D60</string>
     </property>
     <property name="foreground">
      <color>
@@ -2134,7 +2134,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D54</string>
+     <string notr="true">-D54</string>
     </property>
     <property name="foreground">
      <color>
@@ -2173,7 +2173,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D59</string>
+     <string notr="true">-D59</string>
     </property>
     <property name="foreground">
      <color>
@@ -2212,7 +2212,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D55</string>
+     <string notr="true">-D55</string>
     </property>
     <property name="foreground">
      <color>
@@ -2251,7 +2251,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D57</string>
+     <string notr="true">-D57</string>
     </property>
     <property name="foreground">
      <color>
@@ -2290,7 +2290,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D53</string>
+     <string notr="true">-D53</string>
     </property>
     <property name="foreground">
      <color>
@@ -2329,7 +2329,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D52</string>
+     <string notr="true">-D52</string>
     </property>
     <property name="foreground">
      <color>
@@ -2368,7 +2368,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D68</string>
+     <string notr="true">-D68</string>
     </property>
     <property name="foreground">
      <color>
@@ -2407,7 +2407,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D66</string>
+     <string notr="true">-D66</string>
     </property>
     <property name="foreground">
      <color>
@@ -2446,7 +2446,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D61</string>
+     <string notr="true">-D61</string>
     </property>
     <property name="foreground">
      <color>
@@ -2485,7 +2485,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D70</string>
+     <string notr="true">-D70</string>
     </property>
     <property name="foreground">
      <color>
@@ -2524,7 +2524,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D64</string>
+     <string notr="true">-D64</string>
     </property>
     <property name="foreground">
      <color>
@@ -2563,7 +2563,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D69</string>
+     <string notr="true">-D69</string>
     </property>
     <property name="foreground">
      <color>
@@ -2602,7 +2602,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D65</string>
+     <string notr="true">-D65</string>
     </property>
     <property name="foreground">
      <color>
@@ -2641,7 +2641,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D67</string>
+     <string notr="true">-D67</string>
     </property>
     <property name="foreground">
      <color>
@@ -2680,7 +2680,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D63</string>
+     <string notr="true">-D63</string>
     </property>
     <property name="foreground">
      <color>
@@ -2719,7 +2719,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">D62</string>
+     <string notr="true">-D62</string>
     </property>
     <property name="foreground">
      <color>
@@ -2758,7 +2758,7 @@ QWidget#centralWidget {background: rgba(236, 236, 236, 255);}
      </rect>
     </property>
     <property name="label">
-     <string notr="true">More</string>
+     <string notr="true">-More</string>
     </property>
     <property name="foreground">
      <color>

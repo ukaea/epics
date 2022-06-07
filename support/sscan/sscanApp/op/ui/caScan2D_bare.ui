@@ -60,14 +60,20 @@ caTable {
     <property name="channelHeight" stdset="0">
      <string notr="true">$(P)$(YSCAN).NPTS</string>
     </property>
+    <property name="simpleZoomedView" stdset="0">
+     <bool>true</bool>
+    </property>
+    <property name="Zoom" stdset="0">
+     <enum>caScan2D::Yes</enum>
+    </property>
     <property name="channelYCPT" stdset="0">
-     <string notr="true">$(P)$(YSCAN).CPT{&quot;monitor&quot;:{&quot;maxdisplayrate&quot;:10}}</string>
+     <string notr="true">$(P)$(YSCAN).CPT{&quot;monitor&quot;:{&quot;maxdisplayrate&quot;:20}}</string>
     </property>
     <property name="channelXNEWDATA" stdset="0">
-     <string notr="true">$(P)$(XSCAN).DATA{&quot;monitor&quot;:{&quot;maxdisplayrate&quot;:10}}</string>
+     <string notr="true">$(P)$(XSCAN).DATA{&quot;monitor&quot;:{&quot;maxdisplayrate&quot;:20}}</string>
     </property>
     <property name="channelYNEWDATA" stdset="0">
-     <string notr="true">$(P)$(YSCAN).DATA{&quot;monitor&quot;:{&quot;maxdisplayrate&quot;:10}}</string>
+     <string notr="true">$(P)$(YSCAN).DATA{&quot;monitor&quot;:{&quot;maxdisplayrate&quot;:20}}</string>
     </property>
     <property name="channelSAVEDATA_PATH" stdset="0">
      <string>$(SAVEDATAPATH)</string>
@@ -78,12 +84,6 @@ caTable {
     <property name="channelSAVEDATA_FILENAME" stdset="0">
      <string>$(P)saveData_fileName</string>
     </property>
-    <property name="Zoom">
-     <enum>caScan2D::Yes</enum>
-    </property>
-    <property name="ColorMap" stdset="0">
-     <enum>caScan2D::spectrum</enum>
-    </property>
     <property name="automaticLevels" stdset="0">
      <bool>false</bool>
     </property>
@@ -92,6 +92,9 @@ caTable {
     </property>
     <property name="maxLevel">
      <string notr="true">65535</string>
+    </property>
+    <property name="ColorMap" stdset="0">
+     <enum>caScan2D::spectrum_wavelength</enum>
     </property>
    </widget>
    <widget class="caLabel" name="calabel">

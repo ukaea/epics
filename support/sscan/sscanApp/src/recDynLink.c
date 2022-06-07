@@ -33,6 +33,7 @@ of this distribution.
 #include <epicsMutex.h>
 #include <epicsThread.h>
 #include <epicsEvent.h>
+#include <epicsVersion.h>
 
 #include <stdio.h>
 #include <string.h>
@@ -42,8 +43,8 @@ of this distribution.
 #include <dbDefs.h>
 
 #include <dbAddr.h>
-#include <dbAccessDefs.h>
-//epicsShareFunc long epicsShareAPI dbNameToAddr(const char *pname,struct dbAddr *); 
+/* #include <dbAccessDefs.h> Can't include this.  See by-hand definition of
+dbNameToAddr below. */
 
 #include <epicsPrint.h>
 #include <db_access.h>
@@ -66,6 +67,18 @@ volatile int recDynOUTCallFlush = 1;
 volatile int recDynLinkDebug = 0;
 epicsExportAddress(int, recDynLinkDebug);
 
+/* Less than EPICS base version test.*/
+#ifndef EPICS_VERSION_INT
+#define VERSION_INT(V,R,M,P) ( ((V)<<24) | ((R)<<16) | ((M)<<8) | (P))
+#define EPICS_VERSION_INT VERSION_INT(EPICS_VERSION, EPICS_REVISION, EPICS_MODIFICATION, EPICS_PATCH_LEVEL)
+#endif
+
+#if EPICS_VERSION_INT < VERSION_INT(3,15,0,0)
+	epicsShareFunc long epicsShareAPI dbNameToAddr(const char *pname,struct dbAddr *); 
+#else
+	epicsShareFunc long dbNameToAddr(const char *pname,struct dbAddr *); 
+#endif
+
 /*Definitions to map between old and new database access*/
 /*because we are using CA must include db_access.h*/
 /* new field types */
@@ -76,9 +89,17 @@ epicsExportAddress(int, recDynLinkDebug);
 #define	newDBF_USHORT	4
 #define	newDBF_LONG	5
 #define	newDBF_ULONG	6
-#define	newDBF_FLOAT	7
-#define	newDBF_DOUBLE	8
-#define	newDBF_ENUM	9
+#if (EPICS_VERSION_INT < VERSION_INT(3,16,1,0))
+    #define newDBF_FLOAT    7
+    #define newDBF_DOUBLE   8
+    #define newDBF_ENUM     9
+#else
+    #define newDBF_INT64    7
+    #define newDBF_UINT64   8
+    #define newDBF_FLOAT    9
+    #define newDBF_DOUBLE  10
+    #define newDBF_ENUM    11
+#endif
 
 /* new data request buffer types */
 #define newDBR_STRING      newDBF_STRING
@@ -90,13 +111,19 @@ epicsExportAddress(int, recDynLinkDebug);
 #define newDBR_ULONG       newDBF_ULONG
 #define newDBR_FLOAT       newDBF_FLOAT
 #define newDBR_DOUBLE      newDBF_DOUBLE
-#ifndef newDBR_ENUM
 #define newDBR_ENUM        newDBF_ENUM
-#endif
 #define VALID_newDB_REQ(x) ((x >= 0) && (x <= newDBR_ENUM))
 static short mapNewToOld[newDBR_ENUM+1] = {
-	DBF_STRING,DBF_CHAR,DBF_CHAR,DBF_SHORT,DBF_SHORT,
-	DBF_LONG,DBF_LONG,DBF_FLOAT,DBF_DOUBLE,DBF_ENUM};
+    DBF_STRING,
+    DBF_CHAR,DBF_CHAR,
+    DBF_SHORT,DBF_SHORT,
+    DBF_LONG,DBF_LONG,
+#if (EPICS_VERSION_INT >= VERSION_INT(3,16,1,0))
+    DBF_DOUBLE,DBF_DOUBLE,  /* Mapping for INT64 types */
+#endif
+    DBF_FLOAT,DBF_DOUBLE,
+    DBF_ENUM
+};
 
 int   recDynLinkQsize = 256;
 epicsExportAddress(int, recDynLinkQsize);
@@ -127,7 +154,7 @@ typedef struct dynLinkPvt{
     short		severity;
     void		*pbuffer;
     size_t		nRequest;
-    short		dbrType;
+    short		caType;
     double		graphicLow,graphHigh;
     double		controlLow,controlHigh;
     char		units[MAX_UNITS_SIZE];
@@ -197,6 +224,10 @@ long epicsShareAPI recDynLinkAddInput(recDynLink *precDynLink,char *pvname,
 		printf("recDynLinkAddInput: pvname is blank\n");
 		return(-1);
 	}
+	if (!VALID_newDB_REQ(dbrType)) {
+		printf("recDynLinkAddInput: invalid dbrType %d\n", dbrType);
+		return(-1);
+	}
 	if (options&rdlDBONLY  && dbNameToAddr(pvname,&dbaddr)) return(-1);
 	if (!inpTaskId) recDynLinkStartTasks();
 	if (precDynLink->pdynLinkPvt) {
@@ -212,7 +243,7 @@ long epicsShareAPI recDynLinkAddInput(recDynLink *precDynLink,char *pvname,
 	pdynLinkPvt->lock = epicsMutexMustCreate();
 	precDynLink->pdynLinkPvt = pdynLinkPvt;
 	pdynLinkPvt->pvname = pvname;
-	pdynLinkPvt->dbrType = dbrType;
+	pdynLinkPvt->caType = mapNewToOld[dbrType];
 	pdynLinkPvt->searchCallback = searchCallback;
 	pdynLinkPvt->monitorCallback = monitorCallback;
 	pdynLinkPvt->io = ioInput;
@@ -250,6 +281,10 @@ long epicsShareAPI recDynLinkAddOutput(recDynLink *precDynLink,char *pvname,
 		printf("recDynLinkAddOutput: pvname is empty\n");
 		return(-1);
 	}
+	if (!VALID_newDB_REQ(dbrType)) {
+		printf("recDynLinkAddInput: invalid dbrType %d\n", dbrType);
+		return(-1);
+	}
 	if (options&rdlDBONLY  && dbNameToAddr(pvname,&dbaddr)) return(-1);
 	if (!outTaskId) recDynLinkStartTasks();
 	if (precDynLink->pdynLinkPvt) {
@@ -265,7 +300,7 @@ long epicsShareAPI recDynLinkAddOutput(recDynLink *precDynLink,char *pvname,
 	pdynLinkPvt->lock = epicsMutexMustCreate();
 	precDynLink->pdynLinkPvt = pdynLinkPvt;
 	pdynLinkPvt->pvname = pvname;
-	pdynLinkPvt->dbrType = dbrType;
+	pdynLinkPvt->caType = mapNewToOld[dbrType];
 	pdynLinkPvt->searchCallback = searchCallback;
 	pdynLinkPvt->io = ioOutput;
 	pdynLinkPvt->scalar = (options&rdlSCALAR) ? TRUE : FALSE;
@@ -417,7 +452,7 @@ long epicsShareAPI recDynLinkGet(recDynLink *precDynLink,void *pbuffer,size_t *n
 	}
 	epicsMutexMustLock(pdynLinkPvt->lock);
 	memcpy(pbuffer,pdynLinkPvt->pbuffer,
-		(*nRequest * dbr_size[mapNewToOld[pdynLinkPvt->dbrType]]));
+		(*nRequest * dbr_size[pdynLinkPvt->caType]));
 	if (recDynLinkDebug > 5) 
             printf("recDynLinkGet: PV=%s, user asked for=%ld, got %ld\n", pdynLinkPvt->pvname,
 		save_nRequest, (long)*nRequest);
@@ -506,7 +541,7 @@ long epicsShareAPI recDynLinkPutCallback(recDynLink *precDynLink,void *pbuffer,s
 	nRequest = ca_element_count(pdynLinkPvt->chid);
 	pdynLinkPvt->nRequest = nRequest;
 	memcpy(pdynLinkPvt->pbuffer,pbuffer,
-		(nRequest * dbr_size[mapNewToOld[pdynLinkPvt->dbrType]]));
+		(nRequest * dbr_size[pdynLinkPvt->caType]));
 	cmd.data.precDynLink = precDynLink;
 	cmd.cmd = notifyCallback ? cmdPutCallback : cmdPut;
 	precDynLink->onQueue++;
@@ -576,7 +611,7 @@ LOCAL void getCallback(struct event_handler_args eha)
 	size_t					nRequest;
    
     if (eha.status != ECA_NORMAL) {
-		printf("recDynLink:getCallback: CA returns eha.status=%d\n", eha.status);
+		printf("recDynLink:getCallback: CA returns eha.status=%d (%s)\n", eha.status, ca_message(eha.status));
 		return;
 	}
 	precDynLink = (recDynLink *)ca_puser(eha.chid);
@@ -597,12 +632,12 @@ LOCAL void getCallback(struct event_handler_args eha)
 	}
 	nRequest = pdynLinkPvt->nRequest;
 	pdynLinkPvt->pbuffer = calloc(nRequest,
-		dbr_size[mapNewToOld[pdynLinkPvt->dbrType]]);
+		dbr_size[pdynLinkPvt->caType]);
 	pdynLinkPvt->state = stateConnected;
 	if (pdynLinkPvt->searchCallback) (pdynLinkPvt->searchCallback)(precDynLink);
 	if (pdynLinkPvt->io==ioInput) {
 		SEVCHK(ca_add_array_event(
-			dbf_type_to_DBR_TIME(mapNewToOld[pdynLinkPvt->dbrType]),
+			dbf_type_to_DBR_TIME(pdynLinkPvt->caType),
 			pdynLinkPvt->nRequest,
 			pdynLinkPvt->chid,monitorCallback,precDynLink,
 			0.0,0.0,0.0,
@@ -626,7 +661,7 @@ LOCAL void monitorCallback(struct event_handler_args eha)
 	double		*pdouble;
    
     if (eha.status != ECA_NORMAL) {
-		printf("recDynLink:monitorCallback: CA returns eha.status=%d\n", eha.status);
+		printf("recDynLink:monitorCallback: CA returns eha.status=%d (%s)\n", eha.status, ca_message(eha.status));
 		return;
 	}
 	precDynLink = (recDynLink *)ca_puser(eha.chid);
@@ -636,8 +671,8 @@ LOCAL void monitorCallback(struct event_handler_args eha)
 		printf("recDynLink:monitorCallback:  PV=%s, nRequest=%ld, status=%d\n",
 			pdynLinkPvt->pvname, (long)pdynLinkPvt->nRequest, eha.status);
 		if (recDynLinkDebug >= 15) {
-			printf("recDynLink:monitorCallback:  eha.usr=%p, .chid=%p, .type=%ld, .count=%ld, .dbr=%p, .status=%d\n",
-				(void *)eha.usr, (void *)eha.chid, eha.type, eha.count, (void *)eha.dbr, eha.status);
+			printf("recDynLink:monitorCallback:  eha.usr=%p, .chid=%p, .type=%ld, .count=%ld, .dbr=%p, .status=%d (%s)\n",
+				(void *)eha.usr, (void *)eha.chid, eha.type, eha.count, (void *)eha.dbr, eha.status, ca_message(eha.status));
 		}
 	}
 	if (pdynLinkPvt->pbuffer) {
@@ -645,7 +680,7 @@ LOCAL void monitorCallback(struct event_handler_args eha)
 		if (count>=pdynLinkPvt->nRequest) count = pdynLinkPvt->nRequest;
 		pdbr_time_string = (struct dbr_time_string *)pbuffer;
 		if (recDynLinkDebug >= 15) {printf("recDynLink:monitorCallback: pdbr_time_string=%p\n", (void *)pdbr_time_string); epicsThreadSleep(.1);}
-		timeType = dbf_type_to_DBR_TIME(mapNewToOld[pdynLinkPvt->dbrType]);
+		timeType = dbf_type_to_DBR_TIME(pdynLinkPvt->caType);
 		pdata = (void *)((char *)pbuffer + dbr_value_offset[timeType]);
 		if (recDynLinkDebug >= 15) {printf("recDynLink:monitorCallback: copying time stamp\n"); epicsThreadSleep(.1);}
 		pdynLinkPvt->timestamp = pdbr_time_string->stamp; /*array copy*/
@@ -654,11 +689,11 @@ LOCAL void monitorCallback(struct event_handler_args eha)
 		pdynLinkPvt->severity = pdbr_time_string->severity;
 		if (recDynLinkDebug >= 15) printf("recDynLink:monitorCallback: calling memcpy\n");
 		memcpy(pdynLinkPvt->pbuffer,pdata,
-			(count * dbr_size[mapNewToOld[pdynLinkPvt->dbrType]]));
+			(count * dbr_size[pdynLinkPvt->caType]));
 		epicsMutexUnlock(pdynLinkPvt->lock);
 		if ((count > 1) && (recDynLinkDebug >= 5)) {
 			printf("recDynLink:monitorCallback: array of %ld elements\n", (long)pdynLinkPvt->nRequest);
-			switch (mapNewToOld[pdynLinkPvt->dbrType]) {
+			switch (pdynLinkPvt->caType) {
 			case DBF_STRING: case DBF_CHAR:
 				if (recDynLinkDebug >= 15) printf("recDynLink:monitorCallback: case DBF_STRING\n");
 				pchar = (char *)pdata;
@@ -706,7 +741,7 @@ LOCAL void userGetCallback(struct event_handler_args eha)
 	short		timeType;
 
     if (eha.status != ECA_NORMAL) {
-		printf("recDynLink:userGetCallback: CA returns eha.status=%d\n", eha.status);
+		printf("recDynLink:userGetCallback: CA returns eha.status=%d (%s)\n", eha.status, ca_message(eha.status));
 		return;
 	}
 	precDynLink = (recDynLink *)ca_puser(eha.chid);
@@ -720,13 +755,13 @@ LOCAL void userGetCallback(struct event_handler_args eha)
 		epicsMutexMustLock(pdynLinkPvt->lock);
 		if (count>=pdynLinkPvt->nRequest) count = pdynLinkPvt->nRequest;
 		pdbr_time_string = (struct dbr_time_string *)pbuffer;
-		timeType = dbf_type_to_DBR_TIME(mapNewToOld[pdynLinkPvt->dbrType]);
+		timeType = dbf_type_to_DBR_TIME(pdynLinkPvt->caType);
 		pdata = (void *)((char *)pbuffer + dbr_value_offset[timeType]);
 		pdynLinkPvt->timestamp = pdbr_time_string->stamp; /*array copy*/
 		pdynLinkPvt->status = pdbr_time_string->status;
 		pdynLinkPvt->severity = pdbr_time_string->severity;
 		memcpy(pdynLinkPvt->pbuffer,pdata,
-			(count * dbr_size[mapNewToOld[pdynLinkPvt->dbrType]]));
+			(count * dbr_size[pdynLinkPvt->caType]));
 		epicsMutexUnlock(pdynLinkPvt->lock);
 	}
 	if (pdynLinkPvt->userGetCallback)
@@ -832,7 +867,7 @@ LOCAL void recDynLinkInp(void)
 			case (cmdGetCallback):
 				didGetCallback = 1;
 				status = ca_array_get_callback(
-					dbf_type_to_DBR_TIME(mapNewToOld[pdynLinkPvt->dbrType]),
+					dbf_type_to_DBR_TIME(pdynLinkPvt->caType),
 					pdynLinkPvt->nRequest,pdynLinkPvt->chid, userGetCallback, precDynLink);
 				if (status!=ECA_NORMAL) {
 					epicsPrintf("recDynLinkTask pv=%s CA Error %s\n",
@@ -858,6 +893,7 @@ LOCAL void recDynLinkInp(void)
 			SEVCHK(status,"ca_pend_event");
 		}
 	}
+	taskwdRemove(0);
 }
 
 /*
@@ -937,8 +973,7 @@ LOCAL void recDynLinkOut(void)
 				precDynLink->onQueue--;
 				break;
 			case (cmdPut):
-				caStatus = ca_array_put(
-					mapNewToOld[pdynLinkPvt->dbrType],
+				caStatus = ca_array_put(pdynLinkPvt->caType,
 					pdynLinkPvt->nRequest,pdynLinkPvt->chid,
 					pdynLinkPvt->pbuffer);
 				if (caStatus!=ECA_NORMAL) {
@@ -949,8 +984,7 @@ LOCAL void recDynLinkOut(void)
 				break;
 			case (cmdPutCallback):
 				pdynLinkPvt->notifyInProgress = 1;
-				caStatus = ca_array_put_callback(
-					mapNewToOld[pdynLinkPvt->dbrType],
+				caStatus = ca_array_put_callback(pdynLinkPvt->caType,
 					pdynLinkPvt->nRequest,pdynLinkPvt->chid,
 					pdynLinkPvt->pbuffer, notifyCallback, precDynLink);
 				if (caStatus!=ECA_NORMAL) {
@@ -969,7 +1003,7 @@ LOCAL void recDynLinkOut(void)
 					pdynLinkPvt->pvname, (long)pdynLinkPvt->nRequest); 
 
 				status = ca_array_get_callback(
-					dbf_type_to_DBR_TIME(mapNewToOld[pdynLinkPvt->dbrType]),
+					dbf_type_to_DBR_TIME(pdynLinkPvt->caType),
 					pdynLinkPvt->nRequest,pdynLinkPvt->chid, userGetCallback, precDynLink);
 				if (status!=ECA_NORMAL) {
 					epicsPrintf("recDynLinkTask pv=%s CA Error %s\n",
@@ -992,4 +1026,5 @@ LOCAL void recDynLinkOut(void)
 			SEVCHK(status,"ca_pend_event");
 		}
 	}
+	taskwdRemove(0);
 }

@@ -1,5 +1,5 @@
 program scanProgress ("S=34ide:, P=34ide:scanProgress:")
-#define PROG_BAR_VERSION 2.1
+#define PROG_BAR_VERSION 2.3
 /*
  *	program to provide a progress bar information for a scan record
  *	by Jon Tischler, ORNL
@@ -9,6 +9,8 @@ program scanProgress ("S=34ide:, P=34ide:scanProgress:")
 /* 
  *	v1.7, added a separate pause for each of the scans, pause1, pause2, pause3, pause4
  *			so if you pause a single scan it will behave as if it is paused
+ *
+ *	March 2017, added hungSec and hungTimeStr tho show if scan appears to be hung
  */
 /*
 		usage (VxWorks command):
@@ -44,10 +46,10 @@ program scanProgress ("S=34ide:, P=34ide:scanProgress:")
 #define NULL 0L
 #endif
 
-#define TodayFMT "%T Today (%A)"				/* for today use:		"22:23:44 Today (Wednesday)" */
-#define TomorrowFMT "%T Tomorrow (%A)"			/* for tomorrow use:	"22:23:44 Tomorrow (Thursday)" */
-#define YesterdayFMT "%T Yesterday (%A)"		/* for yesterday use:	"22:23:44 Yesterday (Tuesday)" */
-#define GeneralDateFMT "%T  (%a) %b %e, %Y"		/* for all others use:	"22:23:44  (Thu) Nov  8, 2011" */
+#define TodayFMT "%H:%M:%S Today (%A)"				/* for today use:		"22:23:44 Today (Wednesday)" */
+#define TomorrowFMT "%H:%M:%S Tomorrow (%A)"			/* for tomorrow use:	"22:23:44 Tomorrow (Thursday)" */
+#define YesterdayFMT "%H:%M:%S Yesterday (%A)"		/* for yesterday use:	"22:23:44 Yesterday (Tuesday)" */
+#define GeneralDateFMT "%H:%M:%S  (%a) %b %d, %Y"		/* for all others use:	"22:23:44  (Thu) Nov  8, 2011" */
 
 /*   ------------------------   assignments   ------------------------ */
 
@@ -67,6 +69,9 @@ PV (int,	cpt,				"{P}Nfinished", NoMon);			/* number of scan points completed */
 PV (short,	running,			"{P}running", NoMon);			/* flag, scan is running, an echo of (busy1||busy2||busy3||busy4) */
 PV (short,	paused,				"{P}paused", NoMon);			/* flag, scan is paused, is true when the scan is actually paused */
 PV (int,	Npauses,			"{P}Npauses", NoMon);			/* number of times scan was paused */
+PV (int,	hangWaitSec,		"{P}hangWaitSec", EvFlag);		/* must wait this long before declaring a hang, probalby ~10min = 600sec  */
+PV (int,	hungSec,			"{P}hungSec", NoMon);			/* seconds spent hung, reset if scan un-hangs, either 0 or >hangWaitSec */
+PV (string,	hungTimeStr,		"{P}hungTimeStr", NoMon);		/* string version of hungSec */
 PV (double,	version,			"{P}version", NoMon);			/* version number */
 
 PV (int,	npts1,				"{S}scan1.NPTS", NoMon);		/* # of points in scan 1 */
@@ -95,6 +100,8 @@ long	predictEnd;		/* predicted epoch of end */
 long	startTime;		/* starting time of scan (seconds),  startTime = time(NULL); */
 long	pauseStart;		/* epoch of the start of a pause */
 long	now;
+long	cptAtLastOK;	/* number of points completed at last check, used to check for hang */
+long	timeOfLastOK;	/* epoch of when cptAtLastOK was last updated, used to check for hang */ 
 char	tStr[100];
 char	tStr1[100];
 int		beginPause;		/* flags the start of a pause in duringScanPause */
@@ -104,7 +111,7 @@ int		aPause;
 int		scanDim;		/* dimension of scan, {1,2,3,4} */
 
 %% static void clocks2str(long isec, char *str);
-%% static void formatTimeStr(char *tStr, int tStrLen, long final, int full);
+%% static void formatTimeStr(char *tStr, int tStrLen, time_t final, int full);
 %% static long calc_cpt(void);
 %% static int allStopped(void);
 
@@ -127,18 +134,23 @@ ss scanProgress {
 			PVPUTSTR(startingTimeStr,"")
 			PVPUTSTR(totalElapsedTimeStr,"")
 			PVPUTSTR(totalActiveTimeStr,"")
+			PVPUTSTR(hungTimeStr,"")
+			PVPUT(hungSec,0)
 			PVPUT(pauseSec,0)
 			PVPUT(remainingSec,0)
 			PVPUT(npts,0)
 			PVPUT(cpt,0)
 			PVPUT(Npauses,0)
 			PVPUT(running,0)
+			pvGet(hangWaitSec);
 			pvGet(busy1);
 			pvGet(busy2);
 			pvGet(busy3);
 			pvGet(busy4);
 			beginPause = 0;
+			cptAtLastOK = 0;
 			efClear(scanProgressDebug_mon);			/* clear all event flags */
+			efClear(hangWaitSec_mon);
 			DEBUG_PRINT(1, "init complete in state init");
 		} state idle
 	}
@@ -149,6 +161,12 @@ ss scanProgress {
 			sprintf(new_msg, "changed debug flag to %d", scanProgressDebug);
 			DEBUG_PRINT(1, new_msg);
 			efClear(scanProgressDebug_mon);
+		} state idle
+
+		when (efTest(hangWaitSec_mon)) {			/* length of time do declare a hang changed */
+			sprintf(new_msg, "changed requred time for a hang to %d (sec)", hangWaitSec);
+			DEBUG_PRINT(1, new_msg);
+			efClear(hangWaitSec_mon);
 		} state idle
 
 		when (busy1||busy2||busy3||busy4) {			/* a scan has started */
@@ -185,7 +203,11 @@ ss scanProgress {
 				}
 			}
 			pvPut(npts);
-/*			efSet(pause1_mon);						/* force processing of the scan pause calculation */
+/*			efSet(pause1_mon);						// force processing of the scan pause calculation */
+			cptAtLastOK = 0;						/* initialize hang parameters */
+			timeOfLastOK = startTime;				/* epoch of when cptAtLastOK was last updated, used to check for hang */ 
+			PVPUT(hungSec,0)
+			PVPUTSTR(hungTimeStr,"")
 		} state duringScan							/* go to loop during a scan */
 	}
 
@@ -219,8 +241,8 @@ ss scanProgress {
 			DEBUG_PRINT(4, new_msg);
 			if (fractionDone>1.0) fractionDone = 1.0;/* limit fractionDone to range [0,1] */
 			else if (fractionDone<=0.0) fractionDone = 0.0;	/* no negative fractions */
+%%			now = time(NULL);
 			if (fractionDone>0.0) {
-%%				now = time(NULL);
 %%				remainingSec = (1.0-fractionDone)/fractionDone * (double)(now-startTime-pauseSec);
 				pvPut(remainingSec);
 				predictEnd = now + remainingSec;	/* add remaining seconds to now */
@@ -246,6 +268,20 @@ ss scanProgress {
 			}
 			pvPut(fractionDone);
 			PVPUT(percentDone,100.0*fractionDone)
+
+			if (cpt != cptAtLastOK) {				/* NOT hung, cpt is changing */
+				cptAtLastOK = cpt;					/* reset all hang parameters to now */
+				timeOfLastOK = now;					/* set timeOfLastOK to now */
+				PVPUT(hungSec,0)
+				PVPUTSTR(hungTimeStr,"")
+			}
+			else if ( (now - timeOfLastOK) > hangWaitSec ) {	/* HUNG, cptAtLastOK unchanged in hangWaitSec */
+				hungSec = now - timeOfLastOK;		/* number of seonds hung */
+				pvPut(hungSec);
+%%				clocks2str(hungSec,tStr);
+				PVPUTSTR(hungTimeStr,tStr)			/* time spent hung */
+			}
+
 		} state duringScan
 	}
 
@@ -260,14 +296,19 @@ ss scanProgress {
 %%			pauseStart = time(NULL);				/* time at start of pause */
 			PVPUT(Npauses,Npauses+1)				/* at start of a pause, increment Npauses */
 			DEBUG_PRINT(2, "in duringScanPause, started a scan pause");
+			timeOfLastOK = pauseStart;				/* at a pause, you cannot be hanging */
+			PVPUT(hungSec,0)
+			PVPUTSTR(hungTimeStr,"")
 		} state duringScanPause
 
 		when (!paused) {							/* scan just resumed from a pause */
-%%			pauseSec += time(NULL) - pauseStart;	/* add to time spent paused */
+%%			now = time(NULL);
+			pauseSec += now - pauseStart;			/* add to time spent paused */
 			pvPut(pauseSec);
 %%			clocks2str(pauseSec,tStr);				/* total elapsed time spent paused */
 			PVPUTSTR(pauseTimeStr,tStr)				/* includes scanning time and pause time */
 			DEBUG_PRINT(2, "in duringScanPause, scan pause rescinded");
+			timeOfLastOK = now;						/* restart from a pause with no hang time accumulated */
 		} state duringScan							/* done with this pause state, got back to the regular scan state */
 
 		when (delay(UPDATE_DELAY)) {				/* regular updates during a paused scan */
@@ -321,6 +362,8 @@ ss scanProgress {
 			if (fractionDone>1.0) fractionDone = 1.0;/* limit fractionDone to range [0,1] */
 			pvPut(fractionDone);
 			PVPUT(percentDone,100.0*fractionDone)
+			PVPUT(hungSec,0)
+			PVPUTSTR(hungTimeStr,"")
 			DEBUG_PRINT(2, "no scan is busy in duringScan, back to idle");
 		} state idle
 	}
@@ -346,7 +389,7 @@ ss scanPauseUpdate {
 
 	state idlePause {								/* loop for maintaining paused */
 		when (efTest(pause1_mon) || efTest(pause2_mon) || efTest(pause3_mon) || efTest(pause4_mon)) {
-			sprintf(new_msg, "at top of state idlePause, monitors are : =%d,  %d,  %d,  %d",pause1_mon,pause2_mon,pause3_mon,pause4_mon);
+			sprintf(new_msg, "at top of state idlePause, monitors are : %p,  %p,  %p,  %p",pause1_mon,pause2_mon,pause3_mon,pause4_mon);
 			DEBUG_PRINT(7, new_msg);
 			/* one of the pause states has changed, so reset paused */
 			efClear(pause1_mon);
@@ -450,18 +493,19 @@ static void clocks2str(long isec, char *str)
 static void formatTimeStr(
 char *tStr,			/* string to recieve the result */
 int tStrLen,		/* maximum length of tStr */
-long final,			/* final time as a time_t, this is what's given */
+time_t final,			/* final time as a time_t, this is what's given */
 int full)			/* when true, always use GeneralDateFMT */
 {
-	long	now;
+	time_t	now;
 	struct tm *tm1;
 	int	isToday=0;
 	int	isTomorrow=0;
 	int	isYesterday=0;
 	int	hh,mm,ss;
+	time_t final_t = (time_t)final;
 
 	if (!full) {
-		tm1 = localtime(&final);
+		tm1 = localtime(&final_t);
 		hh = tm1->tm_hour;				/* save time of day */
 		mm = tm1->tm_min;
 		ss = tm1->tm_sec;
@@ -471,18 +515,18 @@ int full)			/* when true, always use GeneralDateFMT */
 		tm1->tm_hour = hh;				/* make tm1 the same time of day as final, but on today */
 		tm1->tm_min = mm;
 		tm1->tm_sec = ss;
-		isToday = (final==mktime(tm1));
+		isToday = (final_t==mktime(tm1));
 		if (!isToday) {					/* not today, maybe tomorrow */
 			tm1->tm_mday++;				/* increment the day */
-			isTomorrow = (final==mktime(tm1));
+			isTomorrow = (final_t==mktime(tm1));
 		}
 		if (!isToday && !isTomorrow) {	/* not today or tomorrow, maybe yesterday */
 			tm1->tm_mday -= 2;			/* decrement the day by 2 */
-			isYesterday = (final==mktime(tm1));
+			isYesterday = (final_t==mktime(tm1));
 		}
 	}
 
-	tm1 = localtime(&final);
+	tm1 = localtime(&final_t);
 	if (isToday)			strftime(tStr,tStrLen, TodayFMT,tm1);
 	else if (isTomorrow)	strftime(tStr,tStrLen, TomorrowFMT,tm1);
 	else if (isYesterday)	strftime(tStr,tStrLen, YesterdayFMT,tm1);

@@ -1,0 +1,47 @@
+# ### sscan.iocsh ###
+
+#- ###################################################
+#- PREFIX         - IOC Prefix
+#- SSCAN          - Location of sscan module
+#- MAX_PTS        - Optional: Maximum number of scan points 
+#-                            for all dimensions
+#-                  Default: 1000
+#-
+#- MAX_PTS1       - Optional: Maximum number of scan points
+#-                            for first dimension
+#-                  Default: $(MAX_PTS)
+#-
+#- MAX_PTS2       - Optional: Maximum number of scan points
+#-                            for second dimension
+#-                  Default: $(MAX_PTS)
+#-
+#- MAX_PTS3       - Optional: Maximum number of scan points
+#-                            for third dimension
+#-                  Default: $(MAX_PTS)
+#-
+#- MAX_PTS4       - Optional: Maximum number of scan points
+#-                            for fourth dimension
+#-                  Default: $(MAX_PTS)
+#-
+#- MAX_PTSH       - Optional: Maximum number of scan points
+#-                            for H dimension
+#-                  Default: $(MAX_PTS)
+#-
+#- REQ_FILE       - Optional: Name of saveData req file
+#-                  Default: saveData.req
+#- ###################################################
+
+#- ### Scan-support software
+#- crate-resident scan.  This executes 1D, 2D, 3D, and 4D scans, and caches
+#- 1D data, but it doesn't store anything to disk.  (See 'saveData' below for that.)
+dbLoadRecords("$(SSCAN)/sscanApp/Db/standardScans.db","P=$(PREFIX),MAXPTS1=$(MAX_PTS1=$(MAX_PTS=1000)),MAXPTS2=$(MAX_PTS2=$(MAX_PTS=1000)),MAXPTS3=$(MAX_PTS3=$(MAX_PTS=1000)),MAXPTS4=$(MAX_PTS4=$(MAX_PTS=1000)),MAXPTSH=$(MAX_PTSH=$(MAX_PTS=1000))")
+
+
+#- Start the saveData task.  If you start this task, scan records mentioned
+#- in saveData.req will *always* write data files.  There is no programmable
+#- disable for this software.
+dbLoadRecords("$(SSCAN)/sscanApp/Db/saveData.db","P=$(PREFIX)")
+doAfterIocInit("saveData_Init('$(REQ_FILE=saveData.req)', 'P=$(PREFIX)')")
+
+dbLoadRecords("$(SSCAN)/sscanApp/Db/scanProgress.db","P=$(PREFIX)scanProgress:")
+doAfterIocInit("seq &scanProgress, 'S=$(PREFIX), P=$(PREFIX)scanProgress:'")

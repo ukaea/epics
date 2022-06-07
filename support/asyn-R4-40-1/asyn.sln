@@ -4,17 +4,17 @@ VisualStudioVersion = 15.0.28307.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "asyn", "asyn\asyn.vcxproj", "{C3EA0FF7-6039-4884-BA91-7B4619BEFEA5}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Com", "..\..\base-7.0.3.1\modules\libcom\src\Com.vcxproj", "{E9D99FC7-E592-472B-B2E2-C3B0D81D8169}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Com", "..\..\base-7.0.6.1\modules\libcom\src\Com.vcxproj", "{E9D99FC7-E592-472B-B2E2-C3B0D81D8169}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ca", "..\..\base-7.0.3.1\modules\ca\src\client\ca.vcxproj", "{361BCEBD-8B02-4B15-B28B-863F0602CB99}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ca", "..\..\base-7.0.6.1\modules\ca\src\client\ca.vcxproj", "{361BCEBD-8B02-4B15-B28B-863F0602CB99}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "e_flex", "..\..\base-7.0.3.1\modules\libcom\src\flex\e_flex.vcxproj", "{280222D8-1C6B-430D-8F32-C8A47397525B}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "e_flex", "..\..\base-7.0.6.1\modules\libcom\src\flex\e_flex.vcxproj", "{280222D8-1C6B-430D-8F32-C8A47397525B}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "antelope", "..\..\base-7.0.3.1\modules\libcom\src\yacc\antelope.vcxproj", "{B06AFD40-69E3-4D78-B401-75A27C869381}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "antelope", "..\..\base-7.0.6.1\modules\libcom\src\yacc\antelope.vcxproj", "{B06AFD40-69E3-4D78-B401-75A27C869381}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "casw", "..\..\base-7.0.3.1\modules\ca\src\client\casw.vcxproj", "{47F3063C-378C-4511-9B71-DC3DA8F7BAA9}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "casw", "..\..\base-7.0.6.1\modules\ca\src\client\casw.vcxproj", "{47F3063C-378C-4511-9B71-DC3DA8F7BAA9}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "base-7.0.3.1", "base-7.0.3.1", "{D772CB17-6D38-48F4-958E-6A721026C056}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "base-7.0.6.1", "base-7.0.6.1", "{D772CB17-6D38-48F4-958E-6A721026C056}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{AF70446C-3E93-42DF-9943-18DDCFA4991A}"
 EndProject
@@ -24,13 +24,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "yacc", "yacc", "{D915C7BF-E
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{72F51F37-2669-43E0-A166-04E8FD34B294}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tools", "..\..\base-7.0.3.1\src\tools\tools.vcxproj", "{5CCE1C6A-2BD5-48BF-99E2-D29B58F91991}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tools", "..\..\base-7.0.6.1\src\tools\tools.vcxproj", "{5CCE1C6A-2BD5-48BF-99E2-D29B58F91991}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dbCore", "..\..\base-7.0.3.1\modules\database\src\ioc\dbCore.vcxproj", "{422A8C73-836C-48CB-86C8-0591E69C0CA1}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dbCore", "..\..\base-7.0.6.1\modules\database\src\ioc\dbCore.vcxproj", "{422A8C73-836C-48CB-86C8-0591E69C0CA1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "std", "std", "{06A4CD01-E81E-4372-A9D4-34C4F3C5ABEC}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dbRecStd", "..\..\base-7.0.3.1\modules\database\src\std\dbRecStd.vcxproj", "{9CF8D9AB-E47D-4923-A251-80E40B4E7144}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dbRecStd", "..\..\base-7.0.6.1\modules\database\src\std\dbRecStd.vcxproj", "{9CF8D9AB-E47D-4923-A251-80E40B4E7144}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "testApp", "testApp", "{A7F48E7D-516E-4576-9022-AEACDFB49B90}"
 EndProject
@@ -74,9 +74,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testGpibSerial", "testGpibS
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "softIoc", "softIoc", "{BA5F5A20-2C40-4066-AE19-9853DFF82EEE}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "softIoc", "..\..\base-7.0.3.1\modules\database\src\std\softIoc\softIoc.vcxproj", "{CE14B4D8-C63F-4EA6-9DE4-CACE48EA092C}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "softIoc", "..\..\base-7.0.6.1\modules\database\src\std\softIoc\softIoc.vcxproj", "{CE14B4D8-C63F-4EA6-9DE4-CACE48EA092C}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "makeBpt", "..\..\base-7.0.3.1\modules\database\src\ioc\bpt\makeBpt.vcxproj", "{A17BA797-3CA6-47F9-B47E-673118EABA1A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "makeBpt", "..\..\base-7.0.6.1\modules\database\src\ioc\bpt\makeBpt.vcxproj", "{A17BA797-3CA6-47F9-B47E-673118EABA1A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "seq", "seq", "{D048E6F6-CD0B-4FF4-9B5A-12950FEE3E27}"
 EndProject
@@ -118,7 +118,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "bpt", "bpt", "{A14D7946-F98
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{03B47C83-F335-4225-B1DA-1BBA615BE314}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dbtools", "..\..\base-7.0.3.1\modules\database\src\tools\dbtools.vcxproj", "{421A512B-4C74-4461-9956-DC5864275D18}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dbtools", "..\..\base-7.0.6.1\modules\database\src\tools\dbtools.vcxproj", "{421A512B-4C74-4461-9956-DC5864275D18}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "libCom", "libCom", "{63C8E397-CAA5-46D3-9909-28F33262E64C}"
 EndProject

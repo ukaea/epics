@@ -2,6 +2,7 @@
 /* #include <asm/byteorder.h> */
 
 #include <string.h>
+#include <errno.h>
 
 #include "writeXDR.h"
 
@@ -51,6 +52,9 @@ int writeXDR_long(FILE *fd, long *longp) {
 }
 
 int writeXDR_epicsInt32(FILE *fd, epicsInt32 *lp) {
+	int retval;
+	int status;
+	
 	union {
 		epicsUInt32 l;
 		unsigned char c[4];
@@ -61,9 +65,17 @@ int writeXDR_epicsInt32(FILE *fd, epicsInt32 *lp) {
 		u.l = ((u.c[0]<<8 | u.c[1])<<8 | u.c[2])<<8 | u.c[3];
 		lp = (epicsInt32 *)&u.l;
 	}
-	if (fwrite((char *)lp, sizeof(epicsInt32), 1, fd) != 1)
-		return (0);
-	return (1);
+	
+	status = fwrite((char *)lp, sizeof(epicsInt32), 1, fd);
+	
+	if (status != 1) {
+		printf("writeXDR_epicsInt32: fwrite failed, status=%d, errno=%d, ('%s')\n", status, errno, strerror(errno));
+		retval = 0;
+	} else {
+		retval = 1;
+	}
+	
+	return retval;
 }
 
 int writeXDR_float(FILE *fd, float *fp) {
@@ -126,11 +138,22 @@ int writeXDR_opaque(FILE *fd, char *cp, int cnt) {
 	return (writeXDR_bytes(fd, zero, 4 - nPad));
 }
 
-int writeXDR_bytes(FILE *fd, char *addr, size_t len) {
-
-	if ((len != 0) && (fwrite(addr, len, 1, fd) != 1))
-		return (0);
-	return (1);
+int writeXDR_bytes(FILE *fd, void *addr, size_t len) {
+	int retval;
+	int status;
+	
+	if (len != 0) {
+		status = fwrite(addr, len, 1, fd);
+		if (status != 1) {
+			printf("writeXDR_bytes: fwrite failed, status=%d, errno=%d, ('%s')\n", status, errno, strerror(errno));
+			retval = 0;
+		} else {
+			retval = 1;
+		}
+	} else {
+		retval = 1;
+	}
+	return retval;
 }
 
 int writeXDR_vector(FILE *fd, char *basep, int nelem, int elemsize, xdrproc_t xdr_elem) {
@@ -148,11 +171,30 @@ int writeXDR_vector(FILE *fd, char *basep, int nelem, int elemsize, xdrproc_t xd
 }
 
 long writeXDR_getpos(FILE *fd) {
+	long retval;
 
-	return (ftell(fd));
+	retval = ftell(fd);
+	if (retval < 0)
+		printf("writeXDR_getpos: ftell failed, retval = %ld, errno=%d, ('%s')\n", retval, errno, strerror(errno));
+	return retval;
 }
 
 int writeXDR_setpos(FILE *fd, long pos) { 
-
-	return ((fseek(fd, pos, 0) < 0) ? 0 : 1);
+	int retval;
+	int status;
+	
+	status = fflush(fd);
+	if (status != 0)
+	{
+		printf("writeXDR_setpos: fflush failed, status = %d, errno=%d, ('%s')\n", status, errno, strerror(errno));
+	}
+	
+	status = fseek(fd, pos, 0);
+	if (status < 0) {
+		printf("writeXDR_setpos: fseek failed, status = %d, errno=%d, ('%s')\n", status, errno, strerror(errno));
+		retval = 0;
+	} else {
+		retval = 1;
+	}
+	return retval;
 }

@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="database">
+      <UniqueIdentifier>{e05b20a8-47e1-41fc-8d5c-cee664d2c37c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="special">
+      <UniqueIdentifier>{8d604ae7-4519-4eff-a617-9c1a3024823b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="pvAccess">
+      <UniqueIdentifier>{3f3fa801-e1f4-4d19-bd9f-331389f07e21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="pv">
+      <UniqueIdentifier>{ff2d7afc-32b8-4562-b054-4552a476266a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="copy">
+      <UniqueIdentifier>{040020f6-02df-4346-a6a0-3234bc95338f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="support">
+      <UniqueIdentifier>{41a43a0d-6ab9-4bf7-9791-470136126cbf}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="database\Makefile">
+      <Filter>database</Filter>
+    </None>
+    <None Include="pvAccess\Makefile">
+      <Filter>pvAccess</Filter>
+    </None>
+    <None Include="pvAccess\registerChannelProviderLocal.dbd">
+      <Filter>pvAccess</Filter>
+    </None>
+    <None Include="special\Makefile">
+      <Filter>special</Filter>
+    </None>
+    <None Include="copy\Makefile">
+      <Filter>copy</Filter>
+    </None>
+    <None Include="support\Makefile">
+      <Filter>support</Filter>
+    </None>
+    <None Include="special\pvdbcrAddRecord.dbd">
+      <Filter>special</Filter>
+    </None>
+    <None Include="special\pvdbcrAllRecords.dbd">
+      <Filter>special</Filter>
+    </None>
+    <None Include="special\pvdbcrProcessRecord.dbd">
+      <Filter>special</Filter>
+    </None>
+    <None Include="special\pvdbcrRemoveRecord.dbd">
+      <Filter>special</Filter>
+    </None>
+    <None Include="special\pvdbcrScalarArrayRecord.dbd">
+      <Filter>special</Filter>
+    </None>
+    <None Include="special\pvdbcrScalarRecord.dbd">
+      <Filter>special</Filter>
+    </None>
+    <None Include="special\pvdbcrTraceRecord.dbd">
+      <Filter>special</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="database\pvDatabase.cpp">
+      <Filter>database</Filter>
+    </ClCompile>
+    <ClCompile Include="database\pvRecord.cpp">
+      <Filter>database</Filter>
+    </ClCompile>
+    <ClCompile Include="pvAccess\channelLocal.cpp">
+      <Filter>pvAccess</Filter>
+    </ClCompile>
+    <ClCompile Include="pvAccess\channelProviderLocal.cpp">
+      <Filter>pvAccess</Filter>
+    </ClCompile>
+    <ClCompile Include="pvAccess\monitorFactory.cpp">
+      <Filter>pvAccess</Filter>
+    </ClCompile>
+    <ClCompile Include="pvAccess\pvCopyMonitor.cpp">
+      <Filter>pvAccess</Filter>
+    </ClCompile>
+    <ClCompile Include="pvAccess\registerChannelProviderLocal.cpp">
+      <Filter>pvAccess</Filter>
+    </ClCompile>
+    <ClCompile Include="copy\pvArrayPlugin.cpp">
+      <Filter>copy</Filter>
+    </ClCompile>
+    <ClCompile Include="copy\pvCopy.cpp">
+      <Filter>copy</Filter>
+    </ClCompile>
+    <ClCompile Include="copy\pvDeadbandPlugin.cpp">
+      <Filter>copy</Filter>
+    </ClCompile>
+    <ClCompile Include="copy\pvPlugin.cpp">
+      <Filter>copy</Filter>
+    </ClCompile>
+    <ClCompile Include="copy\pvTimestampPlugin.cpp">
+      <Filter>copy</Filter>
+    </ClCompile>
+    <ClCompile Include="support\controlSupport.cpp">
+      <Filter>support</Filter>
+    </ClCompile>
+    <ClCompile Include="support\scalarAlarmSupport.cpp">
+      <Filter>support</Filter>
+    </ClCompile>
+    <ClCompile Include="special\pvdbcrAddRecord.cpp">
+      <Filter>special</Filter>
+    </ClCompile>
+    <ClCompile Include="special\pvdbcrProcessRecord.cpp">
+      <Filter>special</Filter>
+    </ClCompile>
+    <ClCompile Include="special\pvdbcrRemoveRecord.cpp">
+      <Filter>special</Filter>
+    </ClCompile>
+    <ClCompile Include="special\pvdbcrScalarArrayRecord.cpp">
+      <Filter>special</Filter>
+    </ClCompile>
+    <ClCompile Include="special\pvdbcrScalarRecord.cpp">
+      <Filter>special</Filter>
+    </ClCompile>
+    <ClCompile Include="special\pvdbcrTraceRecord.cpp">
+      <Filter>special</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="database\pvDatabase.h">
+      <Filter>database</Filter>
+    </ClInclude>
+    <ClInclude Include="pvAccess\channelProviderLocal.h">
+      <Filter>pvAccess</Filter>
+    </ClInclude>
+    <ClInclude Include="pvAccess\pvCopyMonitor.h">
+      <Filter>pvAccess</Filter>
+    </ClInclude>
+    <ClInclude Include="pv\channelProviderLocal.h">
+      <Filter>pv</Filter>
+    </ClInclude>
+    <ClInclude Include="pv\pvDatabase.h">
+      <Filter>pv</Filter>
+    </ClInclude>
+    <ClInclude Include="pv\traceRecord.h">
+      <Filter>pv</Filter>
+    </ClInclude>
+    <ClInclude Include="pv\controlSupport.h">
+      <Filter>pv</Filter>
+    </ClInclude>
+    <ClInclude Include="pv\processRecord.h">
+      <Filter>pv</Filter>
+    </ClInclude>
+    <ClInclude Include="pv\pvArrayPlugin.h">
+      <Filter>pv</Filter>
+    </ClInclude>
+    <ClInclude Include="pv\pvDeadbandPlugin.h">
+      <Filter>pv</Filter>
+    </ClInclude>
+    <ClInclude Include="pv\pvPlugin.h">
+      <Filter>pv</Filter>
+    </ClInclude>
+    <ClInclude Include="pv\pvStructureCopy.h">
+      <Filter>pv</Filter>
+    </ClInclude>
+    <ClInclude Include="pv\pvSupport.h">
+      <Filter>pv</Filter>
+    </ClInclude>
+    <ClInclude Include="pv\pvTimestampPlugin.h">
+      <Filter>pv</Filter>
+    </ClInclude>
+    <ClInclude Include="pv\removeRecord.h">
+      <Filter>pv</Filter>
+    </ClInclude>
+    <ClInclude Include="pv\scalarAlarmSupport.h">
+      <Filter>pv</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

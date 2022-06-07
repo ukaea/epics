@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>startProgress</name>
+  <x>509</x>
+  <y>44</y>
+  <width>180</width>
+  <height>60</height>
+  <background_color>
+    <color red="187" green="187" blue="187">
+    </color>
+  </background_color>
+  <grid_visible>false</grid_visible>
+  <grid_step_x>5</grid_step_x>
+  <widget type="action_button" version="3.0.0">
+    <name>related display #6</name>
+    <actions>
+      <action type="open_display">
+        <file>ProgressBar.opi</file>
+        <macros>
+          <B>ornlefrc:scanProgress:</B>
+          <P>scanRecordName</P>
+        </macros>
+        <target>tab</target>
+        <description>progress</description>
+      </action>
+    </actions>
+    <text>Progress Bar</text>
+    <x>20</x>
+    <y>20</y>
+    <width>130</width>
+    <height>22</height>
+    <background_color>
+      <color red="187" green="187" blue="187">
+      </color>
+    </background_color>
+  </widget>
+</display>

@@ -2,7 +2,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "base-7.0.3.1", "base-7.0.3.1", "{DED3FCCF-E93F-4875-ABDE-142912292D4C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "base-7.0.6.1", "base-7.0.6.1", "{DED3FCCF-E93F-4875-ABDE-142912292D4C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DAQmxBase", "DAQmxBase", "{4B195F07-0BF2-457B-9FC7-94553D28B259}"
 EndProject
@@ -178,19 +178,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "iocTops", "iocTops", "{8BA6
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "startup", "startup", "{39C4B21C-6CD2-4827-AEE1-829C3A28FFA9}"
 	ProjectSection(SolutionItems) = preProject
-		base-7.0.3.1\startup\win32.bat = base-7.0.3.1\startup\win32.bat
+		base-7.0.6.1\startup\win32.bat = base-7.0.6.1\startup\win32.bat
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "configure", "configure", "{B87B5C3A-63E9-437B-BC46-73B363858F3C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "os", "os", "{700F0E11-6324-47DE-B9CB-77A8838594BC}"
 	ProjectSection(SolutionItems) = preProject
-		base-7.0.3.1\configure\os\CONFIG.Common.cygwin-x86 = base-7.0.3.1\configure\os\CONFIG.Common.cygwin-x86
-		base-7.0.3.1\configure\os\CONFIG.Common.win32-x86-mingw = base-7.0.3.1\configure\os\CONFIG.Common.win32-x86-mingw
-		base-7.0.3.1\configure\os\CONFIG.win32-x86.win32-x86 = base-7.0.3.1\configure\os\CONFIG.win32-x86.win32-x86
+		base-7.0.6.1\configure\os\CONFIG.Common.cygwin-x86 = base-7.0.6.1\configure\os\CONFIG.Common.cygwin-x86
+		base-7.0.6.1\configure\os\CONFIG.Common.win32-x86-mingw = base-7.0.6.1\configure\os\CONFIG.Common.win32-x86-mingw
+		base-7.0.6.1\configure\os\CONFIG.win32-x86.win32-x86 = base-7.0.6.1\configure\os\CONFIG.win32-x86.win32-x86
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tools", "base-7.0.3.1\src\tools\tools.vcxproj", "{5CCE1C6A-2BD5-48BF-99E2-D29B58F91991}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tools", "base-7.0.6.1\src\tools\tools.vcxproj", "{5CCE1C6A-2BD5-48BF-99E2-D29B58F91991}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{51AEB88A-B90B-4906-AC6C-389D6C07C493}"
 EndProject
@@ -198,54 +198,54 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "template", "template", "{9D
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "base", "base", "{92A07C6D-4B7E-41B5-9913-BC058E2F145F}"
 	ProjectSection(SolutionItems) = preProject
-		base-7.0.3.1\src\template\base\makeBaseApp.pl = base-7.0.3.1\src\template\base\makeBaseApp.pl
+		base-7.0.6.1\src\template\base\makeBaseApp.pl = base-7.0.6.1\src\template\base\makeBaseApp.pl
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{0CB5629E-7D2E-4798-B2B9-B7FEB4B2F016}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "configure", "base-7.0.3.1\configure\configure.vcxproj", "{4B0CE8EE-60F4-44D7-8303-269032990B9B}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "configure", "base-7.0.6.1\configure\configure.vcxproj", "{4B0CE8EE-60F4-44D7-8303-269032990B9B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "modules", "modules", "{5F08EE40-5901-43D2-BB13-74C58D07B52F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ca", "ca", "{531674B6-29A3-40C3-95AE-CDE417AE0411}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "catime", "base-7.0.3.1\modules\ca\src\client\catime.vcxproj", "{73482612-3B09-4046-8436-DD2B1AEDB3AC}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "catime", "base-7.0.6.1\modules\ca\src\client\catime.vcxproj", "{73482612-3B09-4046-8436-DD2B1AEDB3AC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "client", "client", "{681FEE5B-7EC2-4FE8-AAC6-5D09B67BCF2A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9902428E-1630-4CD2-877B-67B69E6767C5}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "acctst", "base-7.0.3.1\modules\ca\src\client\acctst.vcxproj", "{78CE4C0D-8650-4D64-9869-58989B9E7345}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "acctst", "base-7.0.6.1\modules\ca\src\client\acctst.vcxproj", "{78CE4C0D-8650-4D64-9869-58989B9E7345}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ca", "base-7.0.3.1\modules\ca\src\client\ca.vcxproj", "{361BCEBD-8B02-4B15-B28B-863F0602CB99}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ca", "base-7.0.6.1\modules\ca\src\client\ca.vcxproj", "{361BCEBD-8B02-4B15-B28B-863F0602CB99}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "caconntest", "base-7.0.3.1\modules\ca\src\client\caconntest.vcxproj", "{E880BC69-A228-47BA-9D19-E8F412A1A371}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "caconntest", "base-7.0.6.1\modules\ca\src\client\caconntest.vcxproj", "{E880BC69-A228-47BA-9D19-E8F412A1A371}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "caEventRate", "base-7.0.3.1\modules\ca\src\client\caEventRate.vcxproj", "{1FABD3DA-6567-47FF-9013-157CFAC8730A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "caEventRate", "base-7.0.6.1\modules\ca\src\client\caEventRate.vcxproj", "{1FABD3DA-6567-47FF-9013-157CFAC8730A}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "caRepeater", "base-7.0.3.1\modules\ca\src\client\caRepeater.vcxproj", "{E6CC0752-2C5F-4A3F-B11F-535D3D232590}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "caRepeater", "base-7.0.6.1\modules\ca\src\client\caRepeater.vcxproj", "{E6CC0752-2C5F-4A3F-B11F-535D3D232590}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "casw", "base-7.0.3.1\modules\ca\src\client\casw.vcxproj", "{47F3063C-378C-4511-9B71-DC3DA8F7BAA9}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "casw", "base-7.0.6.1\modules\ca\src\client\casw.vcxproj", "{47F3063C-378C-4511-9B71-DC3DA8F7BAA9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "perl", "perl", "{DFD74565-3FDF-4B83-9F2A-6486CD6DF693}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cap5", "base-7.0.3.1\modules\ca\src\perl\cap5.vcxproj", "{0E01DCCC-23CB-4BEB-BC94-FD37EF3C539E}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cap5", "base-7.0.6.1\modules\ca\src\perl\cap5.vcxproj", "{0E01DCCC-23CB-4BEB-BC94-FD37EF3C539E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{88D6A7BD-E186-4867-BD24-8829DA5285E3}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ca_test", "base-7.0.3.1\modules\ca\src\client\test\ca_test.vcxproj", "{2079CFA2-C44B-4090-8981-A9B2EA8090A9}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ca_test", "base-7.0.6.1\modules\ca\src\client\test\ca_test.vcxproj", "{2079CFA2-C44B-4090-8981-A9B2EA8090A9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{67EEAD3C-5FB6-48C1-80E0-E1889230125D}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "caget", "base-7.0.3.1\modules\ca\src\tools\caget.vcxproj", "{3934CDA8-9AFE-4FB6-AC6D-33C9C6B7C6C0}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "caget", "base-7.0.6.1\modules\ca\src\tools\caget.vcxproj", "{3934CDA8-9AFE-4FB6-AC6D-33C9C6B7C6C0}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cainfo", "base-7.0.3.1\modules\ca\src\tools\cainfo.vcxproj", "{F6DD3ABE-80DC-412A-94FC-6061DDBA5D14}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cainfo", "base-7.0.6.1\modules\ca\src\tools\cainfo.vcxproj", "{F6DD3ABE-80DC-412A-94FC-6061DDBA5D14}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "camonitor", "base-7.0.3.1\modules\ca\src\tools\camonitor.vcxproj", "{3C3EE2EF-99D7-4843-A951-A2B397639461}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "camonitor", "base-7.0.6.1\modules\ca\src\tools\camonitor.vcxproj", "{3C3EE2EF-99D7-4843-A951-A2B397639461}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "caput", "base-7.0.3.1\modules\ca\src\tools\caput.vcxproj", "{74BEF8A3-9F28-4E0C-86D9-9CC9C2BC6398}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "caput", "base-7.0.6.1\modules\ca\src\tools\caput.vcxproj", "{74BEF8A3-9F28-4E0C-86D9-9CC9C2BC6398}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "catools", "base-7.0.3.1\modules\ca\src\tools\catools.vcxproj", "{F85427A2-D542-4A6A-9480-28C42EF34E32}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "catools", "base-7.0.6.1\modules\ca\src\tools\catools.vcxproj", "{F85427A2-D542-4A6A-9480-28C42EF34E32}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "database", "database", "{1DC2C174-3D06-4B2C-8C69-83CFB1B1BDC0}"
 EndProject
@@ -255,121 +255,121 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ioc", "ioc", "{D43C63DB-F2E
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "as", "as", "{0C39558F-691E-4298-BDCC-46C863FBDABB}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ascheck", "base-7.0.3.1\modules\database\src\ioc\as\ascheck.vcxproj", "{CF4E04E7-620E-4012-A00E-3C5D4B126200}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ascheck", "base-7.0.6.1\modules\database\src\ioc\as\ascheck.vcxproj", "{CF4E04E7-620E-4012-A00E-3C5D4B126200}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "bpt", "bpt", "{8299D7FC-0AC8-4CDE-AFDC-E56C46CC18D7}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "makeBpt", "base-7.0.3.1\modules\database\src\ioc\bpt\makeBpt.vcxproj", "{A17BA797-3CA6-47F9-B47E-673118EABA1A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "makeBpt", "base-7.0.6.1\modules\database\src\ioc\bpt\makeBpt.vcxproj", "{A17BA797-3CA6-47F9-B47E-673118EABA1A}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dbCore", "base-7.0.3.1\modules\database\src\ioc\dbCore.vcxproj", "{422A8C73-836C-48CB-86C8-0591E69C0CA1}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dbCore", "base-7.0.6.1\modules\database\src\ioc\dbCore.vcxproj", "{422A8C73-836C-48CB-86C8-0591E69C0CA1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "libcom", "libcom", "{FC3AAD3B-A6C8-431D-9491-6D0D6DA272EC}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "e_flex", "base-7.0.3.1\modules\libcom\src\flex\e_flex.vcxproj", "{280222D8-1C6B-430D-8F32-C8A47397525B}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "e_flex", "base-7.0.6.1\modules\libcom\src\flex\e_flex.vcxproj", "{280222D8-1C6B-430D-8F32-C8A47397525B}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Com", "base-7.0.3.1\modules\libcom\src\Com.vcxproj", "{E9D99FC7-E592-472B-B2E2-C3B0D81D8169}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Com", "base-7.0.6.1\modules\libcom\src\Com.vcxproj", "{E9D99FC7-E592-472B-B2E2-C3B0D81D8169}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "log", "log", "{1D894EAC-A6B1-43D7-A33B-F27FBC1F8EE2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{0360AF86-94F9-4A45-B811-86F5AFD95D56}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "iocLogServer", "base-7.0.3.1\modules\libcom\src\log\iocLogServer.vcxproj", "{CA68ED79-A601-4D35-BD25-04D9187A3123}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "iocLogServer", "base-7.0.6.1\modules\libcom\src\log\iocLogServer.vcxproj", "{CA68ED79-A601-4D35-BD25-04D9187A3123}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "flex", "flex", "{1F266DC5-068D-4C63-A8D3-89D7A47CB98C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{3CA20DB1-4EEF-4F1A-8E63-BCCDFFA2E446}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "epicsRunLibComTests", "base-7.0.3.1\modules\libcom\test\epicsRunLibComTests.vcxproj", "{18EC8DB7-7FE7-44C9-AC6B-495D6099B421}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "epicsRunLibComTests", "base-7.0.6.1\modules\libcom\test\epicsRunLibComTests.vcxproj", "{18EC8DB7-7FE7-44C9-AC6B-495D6099B421}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "yacc", "yacc", "{45EA4550-C46A-41C9-952D-9127FBAAEE35}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "antelope", "base-7.0.3.1\modules\libcom\src\yacc\antelope.vcxproj", "{B06AFD40-69E3-4D78-B401-75A27C869381}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "antelope", "base-7.0.6.1\modules\libcom\src\yacc\antelope.vcxproj", "{B06AFD40-69E3-4D78-B401-75A27C869381}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "std", "std", "{0771B037-5AB3-43A6-8184-C8DDE359D648}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "softIoc", "softIoc", "{2003041F-0D2F-4A79-ADE4-0233971C3FB0}"
 	ProjectSection(SolutionItems) = preProject
-		base-7.0.3.1\modules\database\src\std\rec\lsiRecord.c = base-7.0.3.1\modules\database\src\std\rec\lsiRecord.c
-		base-7.0.3.1\modules\database\src\std\rec\permissiveRecord.dbd = base-7.0.3.1\modules\database\src\std\rec\permissiveRecord.dbd
+		base-7.0.6.1\modules\database\src\std\rec\lsiRecord.c = base-7.0.6.1\modules\database\src\std\rec\lsiRecord.c
+		base-7.0.6.1\modules\database\src\std\rec\permissiveRecord.dbd = base-7.0.6.1\modules\database\src\std\rec\permissiveRecord.dbd
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "softIoc", "base-7.0.3.1\modules\database\src\std\softIoc\softIoc.vcxproj", "{CE14B4D8-C63F-4EA6-9DE4-CACE48EA092C}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "softIoc", "base-7.0.6.1\modules\database\src\std\softIoc\softIoc.vcxproj", "{CE14B4D8-C63F-4EA6-9DE4-CACE48EA092C}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dbRecStd", "base-7.0.3.1\modules\database\src\std\dbRecStd.vcxproj", "{9CF8D9AB-E47D-4923-A251-80E40B4E7144}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dbRecStd", "base-7.0.6.1\modules\database\src\std\dbRecStd.vcxproj", "{9CF8D9AB-E47D-4923-A251-80E40B4E7144}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "normativeTypes", "normativeTypes", "{986BB1BF-40F9-4C76-A8C3-AB91B49E0C3B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9F1B39A4-7AC8-4FC9-A475-F9B63AB550D8}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nt", "base-7.0.3.1\modules\normativeTypes\src\nt.vcxproj", "{EE16ABBD-8C46-4901-9623-77B571FA180D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nt", "base-7.0.6.1\modules\normativeTypes\src\nt.vcxproj", "{EE16ABBD-8C46-4901-9623-77B571FA180D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "pvDatabase", "pvDatabase", "{A34CBCE6-F4F1-4755-9D7A-B6D68BFDB598}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{460C4292-76A5-4D09-AE73-5FA08684E1C8}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pvDatabase", "base-7.0.3.1\modules\pvDatabase\src\pvDatabase.vcxproj", "{664DC48A-2783-48F6-BCFB-DA5FA36886F6}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pvDatabase", "base-7.0.6.1\modules\pvDatabase\src\pvDatabase.vcxproj", "{664DC48A-2783-48F6-BCFB-DA5FA36886F6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "pvData", "pvData", "{39F3C57E-C556-49D6-BF59-2141EF7E2AB8}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pvData", "base-7.0.3.1\modules\pvData\src\pvData.vcxproj", "{F4A51415-2981-42EE-87C7-F29D5805583E}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pvData", "base-7.0.6.1\modules\pvData\src\pvData.vcxproj", "{F4A51415-2981-42EE-87C7-F29D5805583E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "pvAccess", "pvAccess", "{8BECF405-C94B-491F-993B-81711C40EC55}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pvAccess", "base-7.0.3.1\modules\pvAccess\src\pvAccess.vcxproj", "{44ECEA7E-D805-49B6-8E89-62EC3994C1F3}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pvAccess", "base-7.0.6.1\modules\pvAccess\src\pvAccess.vcxproj", "{44ECEA7E-D805-49B6-8E89-62EC3994C1F3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "testApp", "testApp", "{53E3E3C5-25A7-4A69-BBE0-6D312852BDEC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "copy", "copy", "{3D265E97-DD2B-4719-8FEE-7838402D4657}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testCreateRequest", "base-7.0.3.1\modules\pvData\testApp\copy\testCreateRequest.vcxproj", "{B29CDFE4-17E5-4786-8D20-BE280B055587}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testCreateRequest", "base-7.0.6.1\modules\pvData\testApp\copy\testCreateRequest.vcxproj", "{B29CDFE4-17E5-4786-8D20-BE280B055587}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{33092E69-5535-4FD5-A4E2-1D651ACF6B75}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testSerialization", "base-7.0.3.1\modules\pvData\testApp\misc\testSerialization.vcxproj", "{EF23A60F-E7E4-45C4-A834-1978C0573C0E}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testSerialization", "base-7.0.6.1\modules\pvData\testApp\misc\testSerialization.vcxproj", "{EF23A60F-E7E4-45C4-A834-1978C0573C0E}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testThread", "base-7.0.3.1\modules\pvData\testApp\misc\testThread.vcxproj", "{A71CD1F4-BEFE-49E2-826F-ADE4A5EAFD08}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testThread", "base-7.0.6.1\modules\pvData\testApp\misc\testThread.vcxproj", "{A71CD1F4-BEFE-49E2-826F-ADE4A5EAFD08}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testTimer", "base-7.0.3.1\modules\pvData\testApp\misc\testTimer.vcxproj", "{AFE373D6-3B98-4EB0-B139-CC77F21EB48E}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testTimer", "base-7.0.6.1\modules\pvData\testApp\misc\testTimer.vcxproj", "{AFE373D6-3B98-4EB0-B139-CC77F21EB48E}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testTimeStamp", "base-7.0.3.1\modules\pvData\testApp\misc\testTimeStamp.vcxproj", "{7B7CF431-B90C-4BAC-B035-EEB3B3EE07A1}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testTimeStamp", "base-7.0.6.1\modules\pvData\testApp\misc\testTimeStamp.vcxproj", "{7B7CF431-B90C-4BAC-B035-EEB3B3EE07A1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "property", "property", "{0FE0E817-94C2-48BB-8C6B-CDE0F65D12C7}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testProperty", "base-7.0.3.1\modules\pvData\testApp\property\testProperty.vcxproj", "{B56D0E05-C8F9-463D-8863-945D5FD049F7}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testProperty", "base-7.0.6.1\modules\pvData\testApp\property\testProperty.vcxproj", "{B56D0E05-C8F9-463D-8863-945D5FD049F7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "pv", "pv", "{EBE22F4B-C035-4EAB-B72E-BF89C70592E0}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testBitSetUtil", "base-7.0.3.1\modules\pvData\testApp\pv\testBitSetUtil.vcxproj", "{41F30D56-4193-4DAC-BE75-1B29BF5D2A58}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testBitSetUtil", "base-7.0.6.1\modules\pvData\testApp\pv\testBitSetUtil.vcxproj", "{41F30D56-4193-4DAC-BE75-1B29BF5D2A58}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testConvert", "base-7.0.3.1\modules\pvData\testApp\pv\testConvert.vcxproj", "{DD8644DF-5EDB-4C7B-8DF9-F83A76398057}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testConvert", "base-7.0.6.1\modules\pvData\testApp\pv\testConvert.vcxproj", "{DD8644DF-5EDB-4C7B-8DF9-F83A76398057}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testIntrospect", "base-7.0.3.1\modules\pvData\testApp\pv\testIntrospect.vcxproj", "{4B95D146-380F-4FFE-B2E6-B75C4EDECA5E}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testIntrospect", "base-7.0.6.1\modules\pvData\testApp\pv\testIntrospect.vcxproj", "{4B95D146-380F-4FFE-B2E6-B75C4EDECA5E}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testOperators", "base-7.0.3.1\modules\pvData\testApp\pv\testOperators.vcxproj", "{331FBEB6-3F75-4DC8-8604-8EBC1B684FBE}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testOperators", "base-7.0.6.1\modules\pvData\testApp\pv\testOperators.vcxproj", "{331FBEB6-3F75-4DC8-8604-8EBC1B684FBE}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testPVData", "base-7.0.3.1\modules\pvData\testApp\pv\testPVData.vcxproj", "{D82348A9-1F76-4A0E-81A9-DD075104645D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testPVData", "base-7.0.6.1\modules\pvData\testApp\pv\testPVData.vcxproj", "{D82348A9-1F76-4A0E-81A9-DD075104645D}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testPVScalarArray", "base-7.0.3.1\modules\pvData\testApp\pv\testPVScalarArray.vcxproj", "{85080223-1568-4B0A-8804-4CFAC54AED53}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testPVScalarArray", "base-7.0.6.1\modules\pvData\testApp\pv\testPVScalarArray.vcxproj", "{85080223-1568-4B0A-8804-4CFAC54AED53}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testPVStructureArray", "base-7.0.3.1\modules\pvData\testApp\pv\testPVStructureArray.vcxproj", "{49571811-F6A3-4C30-8A0C-7A28D0DF8544}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testPVStructureArray", "base-7.0.6.1\modules\pvData\testApp\pv\testPVStructureArray.vcxproj", "{49571811-F6A3-4C30-8A0C-7A28D0DF8544}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testPVType", "base-7.0.3.1\modules\pvData\testApp\pv\testPVType.vcxproj", "{230412B9-88DA-421E-B69B-7370409CF12C}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testPVType", "base-7.0.6.1\modules\pvData\testApp\pv\testPVType.vcxproj", "{230412B9-88DA-421E-B69B-7370409CF12C}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testStandardField", "base-7.0.3.1\modules\pvData\testApp\pv\testStandardField.vcxproj", "{6F6C728A-25CC-4667-8764-4A1E4B19E7AF}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testStandardField", "base-7.0.6.1\modules\pvData\testApp\pv\testStandardField.vcxproj", "{6F6C728A-25CC-4667-8764-4A1E4B19E7AF}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testStandardPVField", "base-7.0.3.1\modules\pvData\testApp\pv\testStandardPVField.vcxproj", "{B0AF864C-6B8E-423E-9D64-24B19742D54A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testStandardPVField", "base-7.0.6.1\modules\pvData\testApp\pv\testStandardPVField.vcxproj", "{B0AF864C-6B8E-423E-9D64-24B19742D54A}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testBaseException", "base-7.0.3.1\modules\pvData\testApp\misc\testBaseException.vcxproj", "{6952B732-9284-4F02-B60A-A691383C5F7D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testBaseException", "base-7.0.6.1\modules\pvData\testApp\misc\testBaseException.vcxproj", "{6952B732-9284-4F02-B60A-A691383C5F7D}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testBitSet", "base-7.0.3.1\modules\pvData\testApp\misc\testBitSet.vcxproj", "{638B4FB7-A39A-456A-91D3-CD18DC267CDD}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testBitSet", "base-7.0.6.1\modules\pvData\testApp\misc\testBitSet.vcxproj", "{638B4FB7-A39A-456A-91D3-CD18DC267CDD}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testByteBuffer", "base-7.0.3.1\modules\pvData\testApp\misc\testByteBuffer.vcxproj", "{F43B099B-0006-4CF3-A672-2017413581C2}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testByteBuffer", "base-7.0.6.1\modules\pvData\testApp\misc\testByteBuffer.vcxproj", "{F43B099B-0006-4CF3-A672-2017413581C2}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testByteOrder", "base-7.0.3.1\modules\pvData\testApp\misc\testByteOrder.vcxproj", "{D7E8BBC4-AB16-441D-9245-3DA3E8FD5CFC}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testByteOrder", "base-7.0.6.1\modules\pvData\testApp\misc\testByteOrder.vcxproj", "{D7E8BBC4-AB16-441D-9245-3DA3E8FD5CFC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{5A43C773-3DF2-4D21-AC76-BF6147941186}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dbtools", "base-7.0.3.1\modules\database\src\tools\dbtools.vcxproj", "{421A512B-4C74-4461-9956-DC5864275D18}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dbtools", "base-7.0.6.1\modules\database\src\tools\dbtools.vcxproj", "{421A512B-4C74-4461-9956-DC5864275D18}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

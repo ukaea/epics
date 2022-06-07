@@ -198,6 +198,10 @@ extern STATUS nfsUnmount(char *localName);
 #include <epicsThread.h>
 #include <dbDefs.h>         /* for PVNAME_STRINGSZ */
 #include <epicsTypes.h>     /* for MAX_STRING_SIZE */
+#include <epicsStdio.h>		/* for epicsSnprintf() */
+
+#define MAX(a,b) ((a)>(b)?(a):(b))
+#define MIN(a,b) ((a)<(b)?(a):(b))
 
 #define DESC_SIZE 30
 #define EGU_SIZE 16
@@ -344,13 +348,14 @@ LOCAL const char  save_data_version[]=SAVE_DATA_VERSION;
 #define HANDSHAKE_BUSY 1
 #define HANDSHAKE_DONE 0
 
+#define FNAMELEN 100
 typedef struct scan {
 	/*========================= PRIVATE FIELDS ===========================*/
 	short        state;       /* state of the structure                   */
 	char         name[PVNAME_STRINGSZ];    /* name of the scan            */
 	short        scan_dim;    /* dimension of this scan                   */
-	char         fname[100];  /* filename                                 */
-	char         ffname[100]; /* full filename                            */
+	char         fname[FNAMELEN+1];  /* filename                          */
+	char         ffname[FNAMELEN+1]; /* full filename                     */
 	int          first_scan;  /* true if this is the first scan           */
 	struct scan* nxt;         /* link to the inner scan                   */
 	long         savedSeekPos; /* position at which failed write started  */
@@ -728,24 +733,25 @@ LOCAL int checkRWpermission(char* path) {
 	int  file;
 	char tmpfile[100];
 
-	strcpy(tmpfile, path);
-	strcat(tmpfile, "/rix_");
+	strncpy(tmpfile, path, 100);
+	if (tmpfile[strlen(tmpfile)-1] == '/') {
+		strncat(tmpfile, "rix_", 100-strlen(tmpfile));
+	} else {
+		strncat(tmpfile, "/rix_", 100-strlen(tmpfile));
+	}
 
 	while (fileStatus(tmpfile)==OK && strlen(tmpfile)<100) {
-		strcat(tmpfile, "_");
+		strncat(tmpfile, "_", 100-strlen(tmpfile));
 	}
 
 	if (fileStatus(tmpfile)==OK) {
 		return ERROR;
 	}
 
-#ifdef vxWorks
 	file = open (tmpfile, O_CREAT | O_RDWR, 0666);
-#else
-	file= creat(tmpfile, O_RDWR);
-#endif
 
 	if (fileStatus(tmpfile)!=OK) {
+		if (debug_saveData) printf("saveData:checkRWpermission: can't create test file '%s'\n", tmpfile);
 		return ERROR;
 	}
 
@@ -843,7 +849,7 @@ void saveData_Info() {
 		printf("  links:");
 		cur= scan;
 		while (cur) {
-			printf(cur->name);
+			printf("%s", cur->name);
 			cur= cur->nxt;
 			if (cur) printf("->");
 		}
@@ -887,6 +893,7 @@ LOCAL int connectScan(char* name, char* handShake, char* autoHandShake)
 	pscan->data= -1;
 
 	pscan->first_scan= TRUE;
+	Debug2(5,"proc_scan_data(%s): setting first_scan to 0 for scan %s\n", pscan->name, pscan->name);
 	pscan->scan_dim= 1;
 	strncpy(pscan->name, name, PVNAME_STRINGSZ-1);
 	pscan->name[PVNAME_STRINGSZ-1]='\0';
@@ -913,23 +920,23 @@ LOCAL int connectScan(char* name, char* handShake, char* autoHandShake)
 
 
 	/* try to connect to the scan record */
-	strcpy(pvname, pscan->name);
-	strcat(pvname, ".");
+	strncpy(pvname, pscan->name, 80);
+	strncat(pvname, ".", 80-strlen(pvname));
 	field= &pvname[strlen(pvname)];
 
-	strcpy(field, "DATA");
+	strncpy(field, "DATA", 80-strlen(pvname));
 	ca_search_and_connect(pvname, &(pscan->cdata), NULL, (void*)pscan);
 
-	strcpy(field, "MPTS");
+	strncpy(field, "MPTS", 80-strlen(pvname));
 	ca_search_and_connect(pvname, &(pscan->cmpts), NULL, (void*)pscan);
 
-	strcpy(field, "NPTS");
+	strncpy(field, "NPTS", 80-strlen(pvname));
 	ca_search_and_connect(pvname, &(pscan->cnpts), NULL, (void*)pscan);
 
-	strcpy(field, "CPT");
+	strncpy(field, "CPT", 80-strlen(pvname));
 	ca_search_and_connect(pvname, &(pscan->ccpt), NULL, (void*)pscan);
 
-	strcpy(field, "BCPT");
+	strncpy(field, "BCPT", 80-strlen(pvname));
 	ca_search_and_connect(pvname, &(pscan->cbcpt), NULL, (void*)pscan);
 
 	if (ca_pend_io(5.0)!= ECA_NORMAL) {
@@ -943,33 +950,33 @@ LOCAL int connectScan(char* name, char* handShake, char* autoHandShake)
 	/*---------------------- POSITIONERS & READBACKS ---------------------*/
 	for (i=0; i<SCAN_NBP; i++) {
 		pscan->pxnv[i]= XXNV_NOPV;
-		strcpy(field, pxnv[i]);
+		strncpy(field, pxnv[i], 80-strlen(pvname));
 		ca_search_and_connect(pvname, &(pscan->cpxnv[i]), NULL, (void*)pscan);
-		strcpy(field, pxpv[i]);
+		strncpy(field, pxpv[i], 80-strlen(pvname));
 		ca_search_and_connect(pvname, &(pscan->cpxpv[i]), NULL, (void*)pscan);
-		strcpy(field, pxsm[i]);
+		strncpy(field, pxsm[i], 80-strlen(pvname));
 		ca_search_and_connect(pvname, &(pscan->cpxsm[i]), NULL, (void*)pscan);
 		pscan->rxnv[i]= XXNV_NOPV;
-		strcpy(field, rxnv[i]);
+		strncpy(field, rxnv[i], 80-strlen(pvname));
 		ca_search_and_connect(pvname, &(pscan->crxnv[i]), NULL, (void*)pscan);
-		strcpy(field, rxpv[i]);
+		strncpy(field, rxpv[i], 80-strlen(pvname));
 		ca_search_and_connect(pvname, &(pscan->crxpv[i]), NULL, (void*)pscan);
-		strcpy(field, pxra[i]);
+		strncpy(field, pxra[i], 80-strlen(pvname));
 		ca_search_and_connect(pvname, &(pscan->cpxra[i]), NULL, (void*)pscan);
-		strcpy(field, rxcv[i]);
+		strncpy(field, rxcv[i], 80-strlen(pvname));
 		ca_search_and_connect(pvname, &(pscan->crxcv[i]), NULL, (void*)pscan);
 	}
 
 	/*------------------------- DETECTORS --------------------------------*/
 	for (i=0; i<SCAN_NBD; i++) {
 		pscan->dxnv[i]= XXNV_NOPV;
-		strcpy(field, dxnv[i]);
+		strncpy(field, dxnv[i], 80-strlen(pvname));
 		ca_search_and_connect(pvname, &(pscan->cdxnv[i]), NULL, (void*)pscan);
-		strcpy(field, dxpv[i]);
+		strncpy(field, dxpv[i], 80-strlen(pvname));
 		ca_search_and_connect(pvname, &(pscan->cdxpv[i]), NULL, (void*)pscan);
-		strcpy(field, dxda[i]);
+		strncpy(field, dxda[i], 80-strlen(pvname));
 		ca_search_and_connect(pvname, &(pscan->cdxda[i]), NULL, (void*)pscan);
-		strcpy(field, dxcv[i]);
+		strncpy(field, dxcv[i], 80-strlen(pvname));
 		ca_search_and_connect(pvname, &(pscan->cdxcv[i]), NULL, (void*)pscan);
 	}
 
@@ -977,11 +984,11 @@ LOCAL int connectScan(char* name, char* handShake, char* autoHandShake)
 	for (i=0; i<SCAN_NBT; i++) {
 		pscan->txnv[i]= XXNV_NOPV;
 		pscan->txsc[i]= 1;	/* presume NOT linked to another sscan record */
-		strcpy(field, txnv[i]);
+		strncpy(field, txnv[i], 80-strlen(pvname));
 		ca_search_and_connect(pvname, &(pscan->ctxnv[i]), NULL, (void*)pscan);
-		strcpy(field, txpv[i]);
+		strncpy(field, txpv[i], 80-strlen(pvname));
 		ca_search_and_connect(pvname, &(pscan->ctxpv[i]), NULL, (void*)pscan);
-		strcpy(field, txcd[i]);
+		strncpy(field, txcd[i], 80-strlen(pvname));
 		ca_search_and_connect(pvname, &(pscan->ctxcd[i]), NULL, (void*)pscan);
 	}
 
@@ -1153,7 +1160,7 @@ LOCAL int disconnectScan(SCAN* pscan)
 		if (pscan->cpxeu[i]) ca_clear_channel(pscan->cpxeu[i]);
 		if (pscan->cpxsm[i]) ca_clear_channel(pscan->cpxsm[i]);
 
-		if (pscan->crxnv) ca_clear_channel(pscan->crxnv[i]);
+		if (pscan->crxnv[i]) ca_clear_channel(pscan->crxnv[i]);
 		if (pscan->crxpv[i]) ca_clear_channel(pscan->crxpv[i]);
 		if (pscan->crxds[i]) ca_clear_channel(pscan->crxds[i]);
 		if (pscan->crxeu[i]) ca_clear_channel(pscan->crxeu[i]);
@@ -1410,6 +1417,8 @@ LOCAL void infoScan(SCAN* pscan)
 
 	printf("scan name: %s\n", pscan->name);
 
+	printf("first_scan = %d\n", pscan->first_scan);
+
 	if (pscan->chandShake) {
 		printf("hand shake: %s\n", ca_name(pscan->chandShake));
 	} else {
@@ -1502,7 +1511,7 @@ LOCAL void dataMonitor(struct event_handler_args eha)
 
 if (pscan->nxt) {
 	pscan->nxt->first_scan = FALSE;
-	pscan->nxt->scan_dim = pscan->scan_dim-1;
+	Debug2(5,"dataMonitor(%s): setting first_scan to 0 for scan %s\n", pscan->name, pscan->nxt->name);
 }
 	pval = (struct dbr_time_short *) eha.dbr;
 	sval = pval->value;
@@ -1685,7 +1694,7 @@ LOCAL int connectFileSystem(char* fs)
 	char fs_disp[80];
 	file_system_state= FS_NOT_MOUNTED;
 
-	sprintf(fs_disp, "%s.DISP", fs);
+	epicsSnprintf(fs_disp, 80, "%s.DISP", fs);
 
 	ca_search(fs, &file_system_chid);
 	ca_search(fs_disp, &file_system_disp_chid);
@@ -1707,7 +1716,7 @@ LOCAL int connectSubdir(char* sd)
 {
 	char sd_disp[80];
 
-	sprintf(sd_disp, "%s.DISP", sd);
+	epicsSnprintf(sd_disp, 80, "%s.DISP", sd);
 	ca_search(sd, &file_subdir_chid);
 	ca_search(sd_disp, &file_subdir_disp_chid);
 	if (ca_pend_io(0.5)!=ECA_NORMAL) {
@@ -1728,7 +1737,7 @@ LOCAL int connectBasename(char* bn)
 {
 	char bn_disp[80];
 
-	sprintf(bn_disp, "%s.DISP", bn);
+	epicsSnprintf(bn_disp, 80, "%s.DISP", bn);
 	ca_search(bn, &file_basename_chid);
 	ca_search(bn_disp, &file_basename_disp_chid);
 	if (ca_pend_io(0.5)!=ECA_NORMAL) {
@@ -1792,19 +1801,24 @@ LOCAL int connectRetryPVs(char *prefix)
 {
 	char pvName[PVNAME_STRINGSZ];
 
-	strcpy(pvName, prefix); strcat(pvName, "saveData_currRetries");
+	strncpy(pvName, prefix, PVNAME_STRINGSZ);
+	strncat(pvName, "saveData_currRetries", PVNAME_STRINGSZ-strlen(pvName));
 	ca_search(pvName, &currRetries_chid);
 
-	strcpy(pvName, prefix); strcat(pvName, "saveData_maxAllowedRetries");
+	strncpy(pvName, prefix, PVNAME_STRINGSZ);
+	strncat(pvName, "saveData_maxAllowedRetries", PVNAME_STRINGSZ-strlen(pvName));
 	ca_search(pvName, &maxAllowedRetries_chid);
 
-	strcpy(pvName, prefix); strcat(pvName, "saveData_totalRetries");
+	strncpy(pvName, prefix, PVNAME_STRINGSZ);
+	strncat(pvName, "saveData_totalRetries", PVNAME_STRINGSZ-strlen(pvName));
 	ca_search(pvName, &totalRetries_chid);
 
-	strcpy(pvName, prefix); strcat(pvName, "saveData_retryWaitInSecs");
+	strncpy(pvName, prefix, PVNAME_STRINGSZ);
+	strncat(pvName, "saveData_retryWaitInSecs", PVNAME_STRINGSZ-strlen(pvName));
 	ca_search(pvName, &retryWaitInSecs_chid);
 
-	strcpy(pvName, prefix); strcat(pvName, "saveData_abandonedWrites");
+	strncpy(pvName, prefix, PVNAME_STRINGSZ);
+	strncat(pvName, "saveData_abandonedWrites", PVNAME_STRINGSZ-strlen(pvName));
 	ca_search(pvName, &abandonedWrites_chid);
 
 	if (ca_pend_io(0.5)!=ECA_NORMAL) {
@@ -1881,7 +1895,7 @@ LOCAL void extraDescCallback(struct event_handler_args eha)
 
 	epicsMutexLock(pnode->lock);
 
-	strcpy(pnode->desc, (char *)pval);
+	strncpy(pnode->desc, (char *)pval, MAX_STRING_SIZE);
 	if (pnode->desc_chid) ca_clear_channel(pnode->desc_chid);
 
 	epicsMutexUnlock(pnode->lock);
@@ -1978,7 +1992,7 @@ LOCAL int connectPV(char* pv, char* desc)
 		len= strcspn(pv, ".");
 		strncpy(buff, pv, len);
 		buff[len]='\0';
-		strcat(buff, ".DESC");
+		strncat(buff, ".DESC", PVNAME_STRINGSZ-len);
 		ca_search(buff, &pnode->desc_chid);
 		pnode->desc[0]='\0';
 		if (ca_pend_io(10)!=ECA_NORMAL) {
@@ -2019,7 +2033,7 @@ LOCAL int initSaveDataTask()
 
 	server_pathname[0]= '\0';
 	server_subdir= server_pathname;
-	strcpy(local_pathname, "/data/");
+	strncpy(local_pathname, "/data/", 200);
 	local_subdir= &local_pathname[strlen(local_pathname)];
 
 	rf= req_open_file(req_file, req_macros);
@@ -2164,10 +2178,10 @@ LOCAL int initSaveDataTask()
 			} else {
 				buff2[0]= '\0';
 			}
-			strcpy(buff2, buff1);
-			strcat(buff2, ".AWAIT");
-			strcpy(buff3, buff1);
-			strcat(buff3, ".AAWAIT");
+			strncpy(buff2, buff1, PVNAME_STRINGSZ);
+			strncat(buff2, ".AWAIT", PVNAME_STRINGSZ-strlen(buff2));
+			strncpy(buff3, buff1, PVNAME_STRINGSZ);
+			strncat(buff3, ".AAWAIT", PVNAME_STRINGSZ-strlen(buff3));
 			Debug2(2,"saveData: call connectScan(%s,%s)\n", buff1, buff2);
 			connectScan(buff1, buff2, buff3);
 		}
@@ -2230,6 +2244,7 @@ LOCAL void getExtraPV()
 			channel, extraValCallback, (void*)pcur);
 		pcur= pcur->nxt;
 	}
+	ca_flush_io()
 }
 
 /*
@@ -2342,7 +2357,7 @@ LOCAL int writeScanRecInProgress(SCAN *pscan, epicsTimeStamp stamp, int isRetry)
 			fclose(fd);
 		}
 		printf("saveData:writeScanRecInProgress(%s): can't open data file!!\n", pscan->name);
-		sprintf(msg, "!! Can't open file %s", pscan->fname);
+		epicsSnprintf(msg, 200, "!! Can't open file %s", pscan->fname);
 		msg[MAX_STRING_SIZE-1] = '\0';
 		sendUserMessage(msg);
 		save_status = STATUS_ERROR;
@@ -2570,11 +2585,11 @@ LOCAL int writeScanRecInProgress(SCAN *pscan, epicsTimeStamp stamp, int isRetry)
 	}
 	if (isRetry) {
 		printf("saveData:writeScanRecInProgress(%s): retry succeeded\n", pscan->name);
-		sprintf(msg, "Retry succeeded for %s", pscan->fname);
+		epicsSnprintf(msg, 200, "Retry succeeded for %s", pscan->fname);
 		msg[MAX_STRING_SIZE-1]= '\0';
 		sendUserMessage(msg);
 	} else {
-		sprintf(msg,"Wrote data to %s", pscan->fname);
+		epicsSnprintf(msg, 200, "Wrote data to %s", pscan->fname);
 		sendUserMessage(msg);
 	}
 
@@ -2597,7 +2612,7 @@ LOCAL int writeScanRecCompleted(SCAN *pscan, int isRetry)
 	fd = fopen(pscan->ffname, "rb+");
 	if ((fd == NULL) || (fileStatus(pscan->ffname) == ERROR)) {
 		printf("saveData:writeScanRecCompleted(%s): can't open data file!!\n", pscan->name);
-		sprintf(msg, "!! Can't open file %s", pscan->fname);
+		epicsSnprintf(msg, 200, "!! Can't open file %s", pscan->fname);
 		msg[MAX_STRING_SIZE-1]= '\0';
 		sendUserMessage(msg);
 		save_status = STATUS_ERROR;
@@ -2650,10 +2665,10 @@ LOCAL int writeScanRecCompleted(SCAN *pscan, int isRetry)
 				if (!pscan->dxda[i]) {
 					if ((pscan->dxda[i] = (float*)calloc(pscan->mpts, sizeof(float))) != NULL) {
 						printf("saveData:writeScanRecCompleted: Allocated array for det %s.%s\n", pscan->name, dxda[i]);
-						sprintf(msg, "Allocated mem for %s.%s", pscan->name, dxda[i]);
+						epicsSnprintf(msg, 200, "Allocated mem for %s.%s", pscan->name, dxda[i]);
 					} else {
 						printf("saveData:writeScanRecCompleted: Can't alloc array for det %s.%s\n", pscan->name, dxda[i]);
-						sprintf(msg, "!! No mem for %s.%s", pscan->name, dxda[i]);
+						epicsSnprintf(msg, 200, "!! No mem for %s.%s", pscan->name, dxda[i]);
 					}
 					msg[MAX_STRING_SIZE-1] = '\0';
 					sendUserMessage(msg);
@@ -2679,7 +2694,7 @@ LOCAL int writeScanRecCompleted(SCAN *pscan, int isRetry)
 	}
 	if (ca_pend_io(1.0)!=ECA_NORMAL) {
 		Debug0(3, "saveData:writeScanRecCompleted: unable to get all valid arrays \n");
-		sprintf(msg, "!! Can't get data");
+		epicsSnprintf(msg, 200, "!! Can't get data");
 		msg[MAX_STRING_SIZE-1] = '\0';
 		sendUserMessage(msg);
 		return(-1);
@@ -2740,7 +2755,7 @@ LOCAL int writeScanRecCompleted(SCAN *pscan, int isRetry)
 		if (writeFailed) goto cleanup;
 		writeFailed |= !xdr_long(&xdrs, &lval);
 
-		sprintf(msg,"Done writing %s", pscan->fname);
+		epicsSnprintf(msg, 200, "Done writing %s", pscan->fname);
 		sendUserMessage(msg);
 	}
 
@@ -2750,11 +2765,11 @@ LOCAL int writeScanRecCompleted(SCAN *pscan, int isRetry)
 	}
 	if (isRetry) {
 		printf("saveData:writeScanRecCompleted(%s): retry succeeded\n", pscan->name);
-		sprintf(msg, "Retry succeeded for '%s'", pscan->name);
+		epicsSnprintf(msg, 200, "Retry succeeded for '%s'", pscan->name);
 		msg[MAX_STRING_SIZE-1]= '\0';
 		sendUserMessage(msg);
 	} else {
-		sprintf(msg,"Wrote data to %s", pscan->fname);
+		epicsSnprintf(msg, 200, "Wrote data to %s", pscan->fname);
 		sendUserMessage(msg);
 	}
 
@@ -2876,30 +2891,28 @@ LOCAL void proc_scan_data(SCAN_TS_SHORT_MSG* pmsg)
 			if (scanFile_basename[0] == '\0') {
 				strncpy(scanFile_basename, ioc_prefix, BASENAME_SIZE);
 			}
-			sprintf(pscan->fname, "%s%.4d.mda", scanFile_basename, (int)pscan->counter);
+			epicsSnprintf(pscan->fname, FNAMELEN, "%s%.4d.mda", scanFile_basename, (int)pscan->counter);
 #ifdef vxWorks
-			sprintf(pscan->ffname, "%s%s", local_pathname, pscan->fname);
+			epicsSnprintf(pscan->ffname, FNAMELEN, "%s%s", local_pathname, pscan->fname);
 #else
-			sprintf(pscan->ffname, "%s%s", server_pathname, pscan->fname);
+			epicsSnprintf(pscan->ffname, FNAMELEN, "%s%s", server_pathname, pscan->fname);
 #endif
 
 			/* If pscan->ffname already exists, insert '_nn' into file name and try again */
 			duplicate_scan_number = 0;
 			while ((fileStatus(pscan->ffname) == 0) && (duplicate_scan_number < 99)) {
 #ifdef vxWorks
-				sprintf(pscan->ffname, "%s%s%.4d_%.2d.mda", local_pathname, scanFile_basename, (int)pscan->counter, ++duplicate_scan_number);
+				epicsSnprintf(pscan->ffname, FNAMELEN, "%s%s%.4d_%.2d.mda", local_pathname, scanFile_basename, (int)pscan->counter, ++duplicate_scan_number);
 #else
-				sprintf(pscan->ffname, "%s%s%.4d_%.2d.mda", server_pathname, scanFile_basename, (int)pscan->counter, ++duplicate_scan_number);
+				epicsSnprintf(pscan->ffname, FNAMELEN, "%s%s%.4d_%.2d.mda", server_pathname, scanFile_basename, (int)pscan->counter, ++duplicate_scan_number);
 #endif
 			}
 			if (duplicate_scan_number) {
-				/* sprintf(&pscan->fname[strlen(pscan->fname)], "_%.2d", duplicate_scan_number); */
-				sprintf(pscan->fname, "%s%.4d_%.2d.mda", scanFile_basename, (int)pscan->counter, duplicate_scan_number);
-
+				epicsSnprintf(pscan->fname, FNAMELEN, "%s%.4d_%.2d.mda", scanFile_basename, (int)pscan->counter, duplicate_scan_number);
 			}
 
 			/* Tell user what we're doing */
-			sprintf(msg, "Writing to %s", pscan->fname);
+			epicsSnprintf(msg, 200, "Writing to %s", pscan->fname);
 			msg[MAX_STRING_SIZE-1]= '\0';
 			sendUserMessage(msg);
 
@@ -2920,6 +2933,8 @@ LOCAL void proc_scan_data(SCAN_TS_SHORT_MSG* pmsg)
 		/* If an inner scan dimension exists, set it up. */
 		if (pscan->nxt) {
 			pscan->nxt->first_scan= FALSE;
+			Debug2(5,"proc_scan_data(%s): setting first_scan to 0 for scan %s\n", pscan->name, pscan->nxt->name);
+
 			pscan->nxt->scan_dim= pscan->scan_dim-1;
 			/*
 			 * This is no longer a good way to set dims_offset or regular_offset. If this
@@ -2932,8 +2947,8 @@ LOCAL void proc_scan_data(SCAN_TS_SHORT_MSG* pmsg)
 				pscan->name, pscan->scan_dim, pscan->dims_offset);
 			pscan->nxt->regular_offset= pscan->regular_offset;
 #endif
-			strcpy(pscan->nxt->fname, pscan->fname);
-			strcpy(pscan->nxt->ffname, pscan->ffname);
+			strncpy(pscan->nxt->fname, pscan->fname, FNAMELEN);
+			strncpy(pscan->nxt->ffname, pscan->ffname, FNAMELEN);
 		}
 
 		pscan->savedSeekPos = 0;
@@ -3003,6 +3018,7 @@ LOCAL void proc_scan_data(SCAN_TS_SHORT_MSG* pmsg)
 		if (pscan->first_scan) {
 			for (pnxt=pscan->nxt; pnxt; pnxt=pnxt->nxt) {
 				pnxt->first_scan=TRUE;
+				Debug2(5,"proc_scan_data(%s): setting first_scan to 1 for scan %s\n", pscan->name, pnxt->name);
 			}
 		}
 
@@ -3091,7 +3107,7 @@ LOCAL void proc_scan_cpt(SCAN_LONG_MSG* pmsg)
 	fd = fopen(pscan->ffname, "rb+");
 	if (fd == NULL) {
 			printf("saveData:proc_scan_cpt(%s): can't open data file!!\n", pscan->name);
-			sprintf(msg, "!! Can't open file %s", pscan->fname);
+			epicsSnprintf(msg, 200, "!! Can't open file %s", pscan->fname);
 			msg[MAX_STRING_SIZE-1] = '\0';
 			sendUserMessage(msg);
 			save_status = STATUS_ERROR;
@@ -3131,7 +3147,7 @@ LOCAL void proc_scan_cpt(SCAN_LONG_MSG* pmsg)
 	}
 
 	if (save_status == STATUS_ERROR) {
-			sprintf(msg, "Wrote data to %s", pscan->fname);
+			epicsSnprintf(msg, 200, "Wrote data to %s", pscan->fname);
 			msg[MAX_STRING_SIZE-1] = '\0';
 			sendUserMessage(msg);
 			save_status = STATUS_ACTIVE_OK;
@@ -3185,13 +3201,13 @@ LOCAL void proc_scan_pxnv(SCAN_INDEX_MSG* pmsg)
 		}
 		if (!got_it) {
 			Debug2(2, "Unable to get %s.%s\n", pscan->name, pxpv[i]);
-			strcpy(pscan->pxpv[i], "ERROR");
+			strncpy(pscan->pxpv[i], "ERROR", PVNAME_STRINGSZ);
 		} else {
 			/* Try to connect the positioner DESC field */
-			len= strcspn(pscan->pxpv[i], ".");
+			len= MIN(PVNAME_STRINGSZ, strcspn(pscan->pxpv[i], "."));
 			strncpy(buff, pscan->pxpv[i], len);
 			buff[len]='\0';
-			strcat(buff, ".DESC");
+			strncat(buff, ".DESC", PVNAME_STRINGSZ-strlen(buff));
 			ca_search(buff, &pscan->cpxds[i]);
 			if (ca_pend_io(2.0)!=ECA_NORMAL) {
 				Debug1(2, "Unable to connect %s\n", buff);
@@ -3277,15 +3293,15 @@ LOCAL void proc_scan_rxnv(SCAN_INDEX_MSG* pmsg)
 	}
 	if (!got_it) {
 		Debug2(2, "Unable to get %s.%s\n", pscan->name, rxpv[i]);
-		strcpy(pscan->rxpv[i], "ERROR");
+		strncpy(pscan->rxpv[i], "ERROR", PVNAME_STRINGSZ);
 	} else {
 		if (val==XXNV_OK) {
 			/* The pvname is valid                                            */
 			/* Try to connect the readback DESC field                         */
-			len= strcspn(pscan->rxpv[i], ".");
+			len= MIN(PVNAME_STRINGSZ, strcspn(pscan->rxpv[i], "."));
 			strncpy(buff, pscan->rxpv[i], len);
 			buff[len]='\0';
-			strcat(buff, ".DESC");
+			strncat(buff, ".DESC", PVNAME_STRINGSZ-strlen(buff));
 			ca_search(buff, &pscan->crxds[i]);
 			if (ca_pend_io(2.0)!=ECA_NORMAL) {
 				Debug1(2, "Unable to connect %s\n", buff);
@@ -3311,7 +3327,7 @@ LOCAL void proc_scan_rxnv(SCAN_INDEX_MSG* pmsg)
 			if ((strcmp(pscan->rxpv[i], "time")==0) || 
 				 (strcmp(pscan->rxpv[i], "TIME")==0)) {
 				pscan->rxnv[i]=XXNV_OK;
-				strcpy(pscan->rxeu[i].units, "second");
+				strncpy(pscan->rxeu[i].units, "second", MAX_UNITS_SIZE);
 			} else {
 				pscan->rxpv[i][0]='\0';
 			}
@@ -3358,7 +3374,7 @@ LOCAL void proc_scan_dxnv(SCAN_INDEX_MSG* pmsg)
 		if (pscan->dxda[i] == NULL) pscan->dxda[i]=(float*)calloc(pscan->mpts, sizeof(float));
 		if (pscan->dxda[i] == NULL) {
 			printf("saveData: Can't alloc array for det %s.%s\n", pscan->name, dxda[i]);
-			sprintf(msg, "!! No mem for %s.%s", pscan->name, dxda[i]);
+			epicsSnprintf(msg, 200, "!! No mem for %s.%s", pscan->name, dxda[i]);
 			msg[MAX_STRING_SIZE-1]= '\0';
 			sendUserMessage(msg);
 		}
@@ -3370,13 +3386,13 @@ LOCAL void proc_scan_dxnv(SCAN_INDEX_MSG* pmsg)
 		}
 		if (!got_it) {
 			Debug2(2, "Unable to get %s.%s\n", pscan->name, dxpv[i]);
-			strcpy(pscan->dxpv[i], "ERROR");
+			strncpy(pscan->dxpv[i], "ERROR", PVNAME_STRINGSZ);
 		} else {
 			/* Try to connect the detector DESC field                         */
 			len= strcspn(pscan->dxpv[i], ".");
 			strncpy(buff, pscan->dxpv[i], len);
 			buff[len]='\0';
-			strcat(buff, ".DESC");
+			strncat(buff, ".DESC", PVNAME_STRINGSZ-len);
 			ca_search(buff, &pscan->cdxds[i]);
 			if (ca_pend_io(2.0)!=ECA_NORMAL) {
 				Debug1(2, "Unable to connect %s\n", buff);
@@ -3432,7 +3448,7 @@ LOCAL void proc_scan_txnv(SCAN_INDEX_MSG* pmsg)
 			pscan->txpv[i][0]='\0';
 			pscan->txpvRec[i][0]='\0';
 		} else {
-			strcpy(pscan->txpvRec[i], pscan->txpv[i]);
+			strncpy(pscan->txpvRec[i], pscan->txpv[i], PVNAME_STRINGSZ);
 			len= strcspn(pscan->txpvRec[i], ".");
 			pscan->txsc[i]= strncmp(&pscan->txpv[i][len], ".EXSC", 6);
 			pscan->txpvRec[i][len]='\0';
@@ -3501,6 +3517,7 @@ LOCAL void remount_file_system(char* filesystem)
 {
 	char  msg[MAX_STRING_SIZE];
 	char *path = local_pathname;
+	int i;
 #ifdef vxWorks
 	char  hostname[40];
 	char *cout;
@@ -3524,17 +3541,20 @@ LOCAL void remount_file_system(char* filesystem)
 #ifdef vxWorks
 
 	if ((*(filesystem++)!='/') || (*(filesystem++)!='/')) {
-		strcpy(msg, "Invalid file system !!!");
+		strncpy(msg, "Invalid file system !!!", MAX_STRING_SIZE);
 	} else {
 		/* extract the host name */
 		cout= hostname;
-		while ((*filesystem!='\0') && (*filesystem!='/'))
+		i = 0;
+		while ((*filesystem!='\0') && (*filesystem!='/') && i<40) {
 			*(cout++)= *(filesystem++);
+			i++;
+		}
 		*cout='\0';
 		
 		/* Mount the new file system */
 		if (nfsMount(hostname, filesystem, "/data")==ERROR) {
-			strcpy(msg, "Unable to mount file system !!!!");
+			strncpy(msg, "Unable to mount file system !!!!", MAX_STRING_SIZE);
 		} else {
 			file_system_state= FS_MOUNTED;
 			path = local_pathname;
@@ -3549,14 +3569,14 @@ LOCAL void remount_file_system(char* filesystem)
 #endif
 
 	if (file_system_state == FS_MOUNTED) {
-		strcpy(server_pathname, filesystem);
-		strcat(server_pathname, "/");
+		strncpy(server_pathname, filesystem, 200);
+		strncat(server_pathname, "/", 200-strlen(server_pathname));
 		server_subdir= &server_pathname[strlen(server_pathname)];  
 
 		if (checkRWpermission(path)!=OK) {
-			strcpy(msg, "RW permission denied !!!");
+			strncpy(msg, "RW permission denied !!!", MAX_STRING_SIZE);
 		} else {
-			strcpy(msg, "saveData OK");
+			strncpy(msg, "saveData OK", MAX_STRING_SIZE);
 			save_status= STATUS_ACTIVE_OK;
 		}
 	}
@@ -3625,13 +3645,13 @@ LOCAL void proc_file_subdir(STRING_MSG* pmsg)
 		}
 
 		if (fileStatus(path)!=OK) {
-			strcpy(msg, "Invalid directory !!!");
+			strncpy(msg, "Invalid directory !!!", MAX_STRING_SIZE);
 			*server_subdir=*local_subdir= '\0';
 		} else if (checkRWpermission(path)!=OK) {
-			strcpy(msg, "RW permission denied !!!");
+			strncpy(msg, "RW permission denied !!!", MAX_STRING_SIZE);
 			*server_subdir=*local_subdir= '\0';
 		} else {
-			strcpy(msg, "saveData OK");
+			strncpy(msg, "saveData OK", MAX_STRING_SIZE);
 			save_status= STATUS_ACTIVE_OK;
 		}
 

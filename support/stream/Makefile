@@ -1,32 +1,38 @@
-# Makefile at top of application tree
+##########################################################################
+# This is an EPICS Makefile for StreamDevice.
+# Normally it should not be necessary to modify this file.
+# All configuration can be done in CONFIG_STREAM
+#
+# (C) 2007,2018 Dirk Zimoch (dirk.zimoch@psi.ch)
+#
+# This file is part of StreamDevice.
+#
+# StreamDevice is free software: You can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published
+# by the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# StreamDevice is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with StreamDevice. If not, see https://www.gnu.org/licenses/.
+#########################################################################/
+
 TOP = .
+DIRS = configure
+src_DEPEND_DIRS := $(DIRS)
 include $(TOP)/configure/CONFIG
 
-# Directories to build, any order
-DIRS += configure
-DIRS += $(wildcard *Sup)
-DIRS += $(wildcard *App)
-DIRS += $(wildcard *Top)
-DIRS += $(wildcard iocBoot)
-DIRS += StreamDevice
+DIRS += src
+DIRS += streamApp
+streamApp_DEPEND_DIRS = src
 
-# The build order is controlled by these dependency rules:
+include $(CONFIG)/RULES_TOP
 
-# All dirs except configure depend on configure
-$(foreach dir, $(filter-out configure, $(DIRS)), \
-    $(eval $(dir)_DEPEND_DIRS += configure))
+docs/stream.pdf: docs/*.html docs/*.css docs/*.png
+	cd docs; makepdf
 
-# Any *App dirs depend on all *Sup dirs
-$(foreach dir, $(filter %App, $(DIRS)), \
-    $(eval $(dir)_DEPEND_DIRS += $(filter %Sup, $(DIRS))))
-
-# Any *Top dirs depend on all *Sup and *App dirs
-$(foreach dir, $(filter %Top, $(DIRS)), \
-    $(eval $(dir)_DEPEND_DIRS += $(filter %Sup %App, $(DIRS))))
-
-# iocBoot depends on all *App dirs
-iocBoot_DEPEND_DIRS += $(filter %App,$(DIRS))
-
-# Add any additional dependency rules here:
-
-include $(TOP)/configure/RULES_TOP
+pdf: docs/stream.pdf
