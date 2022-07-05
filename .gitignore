@@ -400,3 +400,4 @@ FodyWeavers.xsd
 /lib/perl/EPICS/Path.pm
 /lib/perl/EPICS/Readfile.pm
 /lib/perl/EPICS/Release.pm
+**/*.dbd
