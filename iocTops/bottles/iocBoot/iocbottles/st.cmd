@@ -6,7 +6,7 @@
 epicsEnvSet("U","${USERNAME}")
 epicsEnvSet("F","beer")
 
-## Not for WinEPICS just use TARGET dirs
+## Not for WinEPICS just use TARGET dirs... to be moved to C:\ProgramFiles\epics
 epicsEnvSet("TOP","C:\Users\${USERNAME}\Documents\0.repos\epics.dotnet\iocTops\bottles")
 cd "${TOP}/iocBoot/${IOC}"
 
@@ -20,6 +20,7 @@ bottles_registerRecordDeviceDriver pdbbase
 dbLoadRecords("../../db/bottles.db","F=$(F), user=$(U)")
 
 #- Run this to trace the stages of iocInit
+
 #traceIocInit
 
 iocInit
