@@ -29,6 +29,7 @@ mono_crash.*
 **/lib/perl/
 **/lib/perl/DBD/*
 **/lib/perl/EPICS/*
+**/O.Common/*
 [Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/
