@@ -9,6 +9,15 @@
 #include "ellLib.h"
 #include "epicsTime.h"
 
+#ifndef sseqSELM_NUM_CHOICES
+typedef enum {
+    sseqSELM_All                    /* All */,
+    sseqSELM_Specified              /* Specified */,
+    sseqSELM_Mask                   /* Mask */
+} sseqSELM;
+#define sseqSELM_NUM_CHOICES 3
+#endif
+
 #ifndef sseqWAIT_NUM_CHOICES
 typedef enum {
     sseqWAIT_NoWait                 /* NoWait */,
@@ -25,15 +34,6 @@ typedef enum {
     sseqWAIT_Wait10                 /* AfterA */
 } sseqWAIT;
 #define sseqWAIT_NUM_CHOICES 12
-#endif
-
-#ifndef sseqSELM_NUM_CHOICES
-typedef enum {
-    sseqSELM_All                    /* All */,
-    sseqSELM_Specified              /* Specified */,
-    sseqSELM_Mask                   /* Mask */
-} sseqSELM;
-#define sseqSELM_NUM_CHOICES 3
 #endif
 
 #ifndef sseqLNKV_NUM_CHOICES

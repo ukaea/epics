@@ -57,9 +57,6 @@
     <ProjectReference Include="..\..\..\..\base-3.15.9\src\std\dbRecStd.vcxproj">
       <Project>{3b0e3542-cb89-4ffa-b004-eac882b3f277}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\motor\motorApp\AcsTech80Src\acsTech80.vcxproj">
-      <Project>{51d70dc6-9654-4422-b360-f19a35927edc}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\..\motor\motorApp\MotorSrc\motor.vcxproj">
       <Project>{9ea7bd8e-c551-4874-85ed-abbfcfe7a7d4}</Project>
     </ProjectReference>

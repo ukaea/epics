@@ -2,6 +2,9 @@ SET TOPLEVEL=%1
 SET BUILDIR=%2
 SET DLLDIR=%3
 
+echo Symbol DLL build probs. TS 18 Jul 2022?
+SET EPICS_BUILD_COMPILER_CLASS=cl
+
 SET PERL5LIB=C:\Strawberry\lib\perl
 
 if not exist C:\strawberry\perl\lib\DBD.pm  mklink /h C:\strawberry\perl\lib\DBD.pm %TOPLEVEL%lib\perl\DBD.pm

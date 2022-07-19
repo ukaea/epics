@@ -12,6 +12,67 @@
   <div style="text-align: center">
     <hr />
     <h2>
+      Release 4-42</h2>
+    <h2>
+      May 10, 2021</h2>
+  </div>
+  <h3>
+    drvProligixGPIB
+  </h3>
+  <ul>
+    <li>New driver for the Proligix GPIB-Ethernet controller. Thanks to Eric Norum for
+      this. This $200 device makes GPIB devices available over Ethernet. It uses a proprietary
+      protocol, not VXI-11. </li>
+  </ul>
+  <h3>
+    asynPortDriver</h3>
+  <ul>
+    <li>Added checks for invalid list (<0 or >=maxAddr).</li>
+    <li>Added new error code asynParamInvalidList that is returned if the list passed
+      is not valid.</li>
+  </ul>
+  <h3>
+    devCommonGPIB.c</h3>
+  <ul>
+    <li>Added 0 termination after strncpy().</li>
+  </ul>
+  <h3>
+    asynInterposeEos</h3>
+  <ul>
+    <li>Improve efficiency when eosOutLen is 0.</li>
+  </ul>
+  <h3>
+    asynRecord</h3>
+  <ul>
+    <li>Minor changes to avoid compiler warnings.</li>
+  </ul>
+  <div style="text-align: center">
+    <hr />
+    <h2>
+      Release 4-41</h2>
+    <h2>
+      September 19, 2020</h2>
+  </div>
+  <h3>
+    Many files</h3>
+  <ul>
+    <li>Changed the code and the Makefile to avoid using shareLib.h from EPICS base. Added
+      a new header file asynAPI.h that is used to control whether functions, classes,
+      and variables are definined internally to the asyn library or externally. This is
+      the mechanism now used in EPICS base 7. It makes it much easier to avoid mistakes
+      in the order of include files that cause external functions to be accidentally exported
+      in the asyn DLL or shareable library. This should work on all versions of base,
+      and have no impact on user code.</li>
+  </ul>
+  <h3>
+    devAsynInt32.c, devAsynUInt32Digital.c</h3>
+  <ul>
+    <li>Replaced strncpy()) with memcpy() to avoid compiler warnings on newer versions
+      of gcc (e.g. 8.3.1).</li>
+  </ul>
+  <div style="text-align: center">
+    <hr />
+    <h2>
       Release 4-40-1</h2>
     <h2>
       August 24, 2020</h2>

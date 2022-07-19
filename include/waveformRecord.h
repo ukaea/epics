@@ -18,11 +18,13 @@ typedef enum {
     menuFtypeUSHORT                 /* USHORT */,
     menuFtypeLONG                   /* LONG */,
     menuFtypeULONG                  /* ULONG */,
+    menuFtypeINT64                  /* INT64 */,
+    menuFtypeUINT64                 /* UINT64 */,
     menuFtypeFLOAT                  /* FLOAT */,
     menuFtypeDOUBLE                 /* DOUBLE */,
     menuFtypeENUM                   /* ENUM */
 } menuFtype;
-#define menuFtype_NUM_CHOICES 10
+#define menuFtype_NUM_CHOICES 12
 #endif
 
 #ifndef waveformPOST_NUM_CHOICES
