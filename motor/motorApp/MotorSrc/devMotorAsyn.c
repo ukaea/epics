@@ -667,6 +667,8 @@ static void asynCallback(asynUser *pasynUser)
         commandIsMove = 1;
         /* Intentional fall-through */
         default:
+            asynPrint(pasynUser, ASYN_TRACE_WARNING, "Build %s\n", pmsg->interface); //64 bit build. TS: 30-Mar-22
+
             if (pmsg->interface == int32Type) {
                 status = pPvt->pasynInt32->write(pPvt->asynInt32Pvt, pasynUser,
                              pmsg->ivalue);

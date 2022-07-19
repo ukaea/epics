@@ -16,8 +16,12 @@ cd "${TOP}/iocBoot/${IOC}"
 ## motorUtil (allstop & alldone)
 dbLoadRecords("$(MOTOR)/db/motorUtil.db", "P=acsTimBENCH:")
 
-## 
+## st.cmd specifics for ACS motion control devices
 < SPiiPlus.cmd
+
+#DEBUG
+asynReport 10
+var drvSPiiPlusdebug 1
 
 iocInit
 
@@ -25,3 +29,10 @@ iocInit
 motorUtilInit("acsTimBENCH:")
 
 # Boot complete
+epicsThreadSleep(5)
+
+# AUTOSAVE > Create request file and start periodic stash of PV's
+makeAutosaveFileFromDbInfo("$(SAVE_DIR)/$(IOCNAME).req", "autosaveFields")
+makeAutosaveFileFromDbInfo("$(SAVE_DIR)/$(IOCNAME)_pass0.req", "autosaveFields_pass0")
+create_monitor_set("$(IOCNAME).req", 5)
+create_monitor_set("$(IOCNAME)_pass0.req", 30)

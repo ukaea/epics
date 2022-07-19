@@ -188,7 +188,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc;.\O.Common</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;BUILDING_asyn_API;HAVE_DEVINT64=0;HAVE_LSREC;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;EPICS_CALL_DLL;EPICS_BUILD_DLL;BUILDING_asyn_API;HAVE_LSREC;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <TreatWarningAsError>true</TreatWarningAsError>
       <DisableSpecificWarnings>4244;4267;4251;4477;4018;4313</DisableSpecificWarnings>
     </ClCompile>
@@ -364,6 +364,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="asynDriver\asynAPI.h" />
     <ClInclude Include="asynDriver\asynDriver.h" />
     <ClInclude Include="asynDriver\epicsInterruptibleSyscall.h" />
     <ClInclude Include="asynGpib\asynGpibDriver.h" />
@@ -406,7 +407,6 @@
     <ClInclude Include="interfaces\asynInt32Array.h" />
     <ClInclude Include="interfaces\asynInt32ArraySyncIO.h" />
     <ClInclude Include="interfaces\asynInt32SyncIO.h" />
-    <ClInclude Include="interfaces\asynInt64.h" />
     <ClInclude Include="interfaces\asynInt64Array.h" />
     <ClInclude Include="interfaces\asynInt64ArraySyncIO.h" />
     <ClInclude Include="interfaces\asynInt64SyncIO.h" />
@@ -519,6 +519,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="drvPrologixGPIB\drvPrologixGPIB.c" />
     <ClCompile Include="gsIP488\drvGsIP488.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
@@ -592,7 +593,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="asynRecord\asynRecord.db" />
+    <None Include="asynRecord\asynRecord.dbd" />
     <None Include="asynRecord\devAsynRecord.dbd" />
+    <None Include="devEpics\asynCalc.dbd" />
     <None Include="devEpics\asynFloat64TimeSeries.db" />
     <None Include="devEpics\asynInt32TimeSeries.db" />
     <None Include="devEpics\devAsynFloat32Array.dbd" />
@@ -605,9 +608,11 @@
     <None Include="devEpics\devAsynInt32TimeSeries.dbd" />
     <None Include="devEpics\devAsynInt64.dbd" />
     <None Include="devEpics\devAsynInt64Array.dbd" />
+    <None Include="devEpics\devAsynInt64Misc.dbd" />
     <None Include="devEpics\devAsynInt64TimeSeries.dbd" />
     <None Include="devEpics\devAsynInt8Array.dbd" />
     <None Include="devEpics\devAsynOctet.dbd" />
+    <None Include="devEpics\devAsynOctetLs.dbd" />
     <None Include="devEpics\devAsynUInt32Digital.dbd" />
     <None Include="devEpics\devEpics.dbd" />
     <None Include="devGpib\devGpib.dbd" />
@@ -615,6 +620,7 @@
     <None Include="drvAsynSerial\drvAsynSerialPort.dbd" />
     <None Include="drvAsynUSBTMC\drvAsynUSBTMC.dbd" />
     <None Include="drvAsynUSBTMC\README.txt" />
+    <None Include="drvPrologixGPIB\drvPrologixGPIB.dbd" />
     <None Include="gsIP488\drvGsIP488.dbd" />
     <None Include="libusb-1.0\MS32\dll\libusb-1.0.dll" />
     <None Include="libusb-1.0\MS32\dll\libusb-1.0.pdb" />

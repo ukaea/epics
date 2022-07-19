@@ -1,5 +1,6 @@
 #RELEASE Location of external products
-SUPPORT=/corvette/home/epics/devel
+
+SUPPORT=C:/epics/support
 
 #  IPAC is only necessary if support for Greensprings IP488 is required
 #  IPAC release V2-7 or later is required.
@@ -15,11 +16,9 @@ SNCSEQ=$(SUPPORT)/seq-2-2-5
 #SSCAN=$(SUPPORT)/sscan-2-11-3
 
 #  EPICS_BASE 3.14.6 or later is required
-EPICS_BASE=/corvette/usr/local/epics-devel/base-7.0.4
+EPICS_BASE=C:/epics/base
 
 -include $(TOP)/../RELEASE.local
 -include $(TOP)/../RELEASE.$(EPICS_HOST_ARCH).local
 -include $(TOP)/configure/RELEASE.local
-
-
 

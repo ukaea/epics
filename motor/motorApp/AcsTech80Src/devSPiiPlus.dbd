@@ -2,4 +2,4 @@
 device(motor,VME_IO,devSPiiPlus,"SPiiPlus")
 driver(drvSPiiPlus)
 registrar(ACSTech80Register)
-#variable(drvSPiiPlusdebug)
+variable(drvSPiiPlusdebug)

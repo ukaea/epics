@@ -2,7 +2,8 @@
 #drvAsynIPPortConfigure("portName","hostInfo",priority,noAutoConnect,
 #                        noProcessEos)
 
-drvAsynIPPortConfigure("serial61", "10.0.0.100:701", 0, 0, 0)
+drvAsynIPPortConfigure("serial61", "10.0.0.100:701", 0, 0, 1)
+
 #asynOctetSetInputEos("serial61",0,"\r")
 #asynOctetSetOutputEos("serial61",0,"\r")
 
@@ -16,8 +17,9 @@ dbLoadTemplate("SPiiPlus.substitutions")
 
 # ACS Tech80 - SPiiPlus driver setup parameters:
 #     (1) maximum number of controllers in system
+
 #     (2) motor task polling rate (min=1Hz, max=60Hz)
-SPiiPlusSetup(1, 60)
+SPiiPlusSetup(2, 60)
 
 # ACS Tech80 - SPiiPlus driver configuration parameters:
 #     (1) controller being configured
@@ -27,3 +29,9 @@ SPiiPlusSetup(1, 60)
 #		CONNECT - ACSPL 'CONNECT' (kinematics) interface (ie: Alio Hexapod)
 #	        DIRECT  - ACSPL command interpreter interface to the physical motors
 SPiiPlusConfig(0, "serial61", "BUF")
+
+#PerBuffer?
+#SPiiPlusConfig(1, "serial61", "BUF")  #2nd loaded buffer???
+
+
+Tune MTU to 8999
