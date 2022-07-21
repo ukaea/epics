@@ -42,7 +42,6 @@
     <ClCompile Include="simmTest.c" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="O.Common\simmTest.db" />
     <None Include="O.Common\simmTest.dbd" />
     <None Include="simmTest.substitutions" />
   </ItemGroup>

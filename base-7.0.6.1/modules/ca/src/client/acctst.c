@@ -143,7 +143,7 @@ void monitorSubscriptionFirstUpdateTest ( const char *pName, chid chan, unsigned
         epicsThreadSleep ( 0.1 );
         ca_poll (); /* emulate typical GUI */
     }
-    verify ( eventCount > 0 );
+    assert ( eventCount > 0 );
 
     /* clear any knowledge of old gets */
     ca_pend_io ( 1e-5 );

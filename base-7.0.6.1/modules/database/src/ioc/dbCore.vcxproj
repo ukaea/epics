@@ -44,6 +44,7 @@
     <ClCompile Include="as\asCa.c" />
     <ClCompile Include="as\asDbLib.c" />
     <ClCompile Include="as\asIocRegister.c" />
+    <ClCompile Include="bpt\makeBpt.c" />
     <ClCompile Include="dbStatic\dbLexRoutines.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">true</ExcludedFromBuild>
@@ -128,6 +129,7 @@
     <ClInclude Include="as\asCa.h" />
     <ClInclude Include="as\asDbLib.h" />
     <ClInclude Include="as\asIocRegister.h" />
+    <ClInclude Include="bpt\cvtTable.h" />
     <ClInclude Include="dbStatic\dbBase.h" />
     <ClInclude Include="dbStatic\dbFldTypes.h" />
     <ClInclude Include="dbStatic\dbStaticIocRegister.h" />
@@ -688,6 +690,9 @@ cd $(ProjectDir)
     <ProjectReference Include="..\tools\dbtools.vcxproj">
       <Project>{421a512b-4c74-4461-9956-dc5864275d18}</Project>
     </ProjectReference>
+    <ProjectReference Include="bpt\makeBpt.vcxproj">
+      <Project>{a17ba797-3ca6-47f9-b47e-673118eaba1a}</Project>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="db\dbCommon.dbd.pod">
@@ -894,6 +899,85 @@ cd $(ProjectDir)
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">O.Common\%(FileName)</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">O.Common\%(FileName)</Outputs>
     </CustomBuild>
+    <CustomBuild Include="bpt\bptTypeJdegC.data">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">$(OutDir)makeBpt.exe bpt\%(Filename).data O.Common\%(Filename).dbd</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">$(OutDir)makeBpt.exe bpt\%(Filename).data O.Common\%(Filename).dbd</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">$(OutDir)makeBpt.exe bpt\%(Filename).data O.Common\%(Filename).dbd</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">$(OutDir)makeBpt.exe bpt\%(Filename).data O.Common\%(Filename).dbd</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">$(OutDir)makeBpt.exe bpt\%(Filename).data O.Common\%(Filename).dbd</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">$(OutDir)makeBpt.exe bpt\%(Filename).data O.Common\%(Filename).dbd</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">$(OutDir)makeBpt.exe bpt\%(Filename).data O.Common\%(Filename).dbd</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">$(OutDir)makeBpt.exe bpt\%(Filename).data O.Common\%(Filename).dbd</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common\%(Filename).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">O.Common\%(Filename).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common\%(Filename).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">O.Common\%(Filename).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">O.Common\%(Filename).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">O.Common\%(Filename).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">O.Common\%(Filename).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">O.Common\%(Filename).dbd</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="bpt\bptTypeJdegF.data">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">$(OutDir)makeBpt.exe bpt\%(Filename).data O.Common\%(Filename).dbd</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">$(OutDir)makeBpt.exe bpt\%(Filename).data O.Common\%(Filename).dbd</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">$(OutDir)makeBpt.exe bpt\%(Filename).data O.Common\%(Filename).dbd</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">$(OutDir)makeBpt.exe bpt\%(Filename).data O.Common\%(Filename).dbd</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">$(OutDir)makeBpt.exe bpt\%(Filename).data O.Common\%(Filename).dbd</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">$(OutDir)makeBpt.exe bpt\%(Filename).data O.Common\%(Filename).dbd</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">$(OutDir)makeBpt.exe bpt\%(Filename).data O.Common\%(Filename).dbd</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">$(OutDir)makeBpt.exe bpt\%(Filename).data O.Common\%(Filename).dbd</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common\%(Filename).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">O.Common\%(Filename).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common\%(Filename).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">O.Common\%(Filename).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">O.Common\%(Filename).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">O.Common\%(Filename).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">O.Common\%(Filename).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">O.Common\%(Filename).dbd</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="bpt\bptTypeKdegC.data">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">$(OutDir)makeBpt.exe bpt\%(Filename).data O.Common\%(Filename).dbd</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">$(OutDir)makeBpt.exe bpt\%(Filename).data O.Common\%(Filename).dbd</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">$(OutDir)makeBpt.exe bpt\%(Filename).data O.Common\%(Filename).dbd</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">$(OutDir)makeBpt.exe bpt\%(Filename).data O.Common\%(Filename).dbd</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">$(OutDir)makeBpt.exe bpt\%(Filename).data O.Common\%(Filename).dbd</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">$(OutDir)makeBpt.exe bpt\%(Filename).data O.Common\%(Filename).dbd</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">$(OutDir)makeBpt.exe bpt\%(Filename).data O.Common\%(Filename).dbd</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">$(OutDir)makeBpt.exe bpt\%(Filename).data O.Common\%(Filename).dbd</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common\%(Filename).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">O.Common\%(Filename).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common\%(Filename).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">O.Common\%(Filename).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">O.Common\%(Filename).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">O.Common\%(Filename).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">O.Common\%(Filename).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">O.Common\%(Filename).dbd</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="bpt\bptTypeKdegF.data">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">$(OutDir)makeBpt.exe bpt\%(Filename).data O.Common\%(Filename).dbd</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">$(OutDir)makeBpt.exe bpt\%(Filename).data O.Common\%(Filename).dbd</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">$(OutDir)makeBpt.exe bpt\%(Filename).data O.Common\%(Filename).dbd</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">$(OutDir)makeBpt.exe bpt\%(Filename).data O.Common\%(Filename).dbd</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">$(OutDir)makeBpt.exe bpt\%(Filename).data O.Common\%(Filename).dbd</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">$(OutDir)makeBpt.exe bpt\%(Filename).data O.Common\%(Filename).dbd</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">$(OutDir)makeBpt.exe bpt\%(Filename).data O.Common\%(Filename).dbd</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">$(OutDir)makeBpt.exe bpt\%(Filename).data O.Common\%(Filename).dbd</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common\%(Filename).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">O.Common\%(Filename).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">O.Common\%(Filename).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">O.Common\%(Filename).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">O.Common\%(Filename).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">O.Common\%(Filename).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">O.Common\%(Filename).dbd</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">O.Common\%(Filename).dbd</Outputs>
+    </CustomBuild>
+    <None Include="bpt\Makefile" />
+    <None Include="bpt\menuConvert.dbd.pod" />
+    <None Include="bpt\RULES" />
     <None Include="db\Makefile" />
     <CustomBuild Include="db\menuScan.dbd.pod">
       <FileType>Document</FileType>
@@ -2021,37 +2105,37 @@ cd $(ProjectDir)
     </CustomBuild>
     <CustomBuild Include="O.Common\dbCommonRecord.dbd">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">cd O.Common
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">cd db
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdToRecordtypeH.pl -o ../O.Common/dbCommon.h %(FileName).dbd
+perl -CSD $(OutDir)dbdToRecordtypeH.pl -o ../O.Common/dbCommon.h ../O.Common/%(FileName).dbd
 cd $(ProjectDir)</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">cd O.Common
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">cd db
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdToRecordtypeH.pl -o ../O.Common/dbCommon.h %(FileName).dbd
+perl -CSD $(OutDir)dbdToRecordtypeH.pl -o ../O.Common/dbCommon.h ../O.Common/%(FileName).dbd
 cd $(ProjectDir)</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">cd O.Common
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">cd db
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdToRecordtypeH.pl -o ../O.Common/dbCommon.h %(FileName).dbd
+perl -CSD $(OutDir)dbdToRecordtypeH.pl -o ../O.Common/dbCommon.h ../O.Common/%(FileName).dbd
 cd $(ProjectDir)</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">cd O.Common
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">cd db
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdToRecordtypeH.pl -o ../O.Common/dbCommon.h %(FileName).dbd
+perl -CSD $(OutDir)dbdToRecordtypeH.pl -o ../O.Common/dbCommon.h ../O.Common/%(FileName).dbd
 cd $(ProjectDir)</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">cd O.Common
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">cd db
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdToRecordtypeH.pl -o ../O.Common/dbCommon.h %(FileName).dbd
+perl -CSD $(OutDir)dbdToRecordtypeH.pl -o ../O.Common/dbCommon.h ../O.Common/%(FileName).dbd
 cd $(ProjectDir)</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">cd O.Common
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">cd db
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdToRecordtypeH.pl -o ../O.Common/dbCommon.h %(FileName).dbd
+perl -CSD $(OutDir)dbdToRecordtypeH.pl -o ../O.Common/dbCommon.h ../O.Common/%(FileName).dbd
 cd $(ProjectDir)</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">cd O.Common
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">cd db
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdToRecordtypeH.pl -o ../O.Common/dbCommon.h %(FileName).dbd
+perl -CSD $(OutDir)dbdToRecordtypeH.pl -o ../O.Common/dbCommon.h ../O.Common/%(FileName).dbd
 cd $(ProjectDir)</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">cd O.Common
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|x64'">cd db
 SET PERL5LIB=$(SolutionDir)lib\perl
-perl -CSD $(OutDir)dbdToRecordtypeH.pl -o ../O.Common/dbCommon.h %(FileName).dbd
+perl -CSD $(OutDir)dbdToRecordtypeH.pl -o ../O.Common/dbCommon.h ../O.Common/%(FileName).dbd
 cd $(ProjectDir)</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">O.Common\dbCommon.h</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">O.Common\dbCommon.h</Outputs>
@@ -2368,7 +2452,6 @@ xcopy /Y /Q /D /R misc\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R registry\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R rsrv\*.h  $(SolutionDir)include &gt; NUL
 
-xcopy /Y /Q /D /R db\*.dbd  $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R misc\*.dbd  $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R rsrv\*.dbd  $(SolutionDir)dbd &gt; NUL
 
@@ -2378,8 +2461,7 @@ perl -CSD $(OutDir)convertRelease.pl $(OutDir)databaseModuleDirs.pm
 cd $(ProjectDir)
 perl -CSD $(OutDir)makeIncludeDbd.pl menuAlarmSevr.dbd menuAlarmStat.dbd menuFtype.dbd menuIvoa.dbd menuOmsl.dbd menuPini.dbd menuPost.dbd menuPriority.dbd menuYesNo.dbd menuSimm.dbd O.Common\menuGlobal.dbd
 perl -CSD $(OutDir)genVersionHeader.pl   -t ../../../../.. -N EPICS_VCS_VERSION -V "" O.Common/epicsVCS.h
-$(OutDir)\makeAPIheader.pl -o O.Common\dbCoreAPI.h dbCore
-copy O.Common\dbCoreAPI.h $(SolutionDir)include &gt; NUL</Command>
+</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
@@ -2420,7 +2502,6 @@ xcopy /Y /Q /D /R misc\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R registry\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R rsrv\*.h  $(SolutionDir)include &gt; NUL
 
-xcopy /Y /Q /D /R db\*.dbd  $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R misc\*.dbd  $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R rsrv\*.dbd  $(SolutionDir)dbd &gt; NUL
 
@@ -2430,8 +2511,7 @@ perl -CSD $(OutDir)convertRelease.pl $(OutDir)databaseModuleDirs.pm
 cd $(ProjectDir)
 perl -CSD $(OutDir)makeIncludeDbd.pl menuAlarmSevr.dbd menuAlarmStat.dbd menuFtype.dbd menuIvoa.dbd menuOmsl.dbd menuPini.dbd menuPost.dbd menuPriority.dbd menuYesNo.dbd menuSimm.dbd O.Common\menuGlobal.dbd
 perl -CSD $(OutDir)genVersionHeader.pl   -t ../../../../.. -N EPICS_VCS_VERSION -V "" O.Common/epicsVCS.h
-$(OutDir)\makeAPIheader.pl -o O.Common\dbCoreAPI.h dbCore
-copy O.Common\dbCoreAPI.h $(SolutionDir)include &gt; NUL</Command>
+</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
@@ -2469,7 +2549,6 @@ xcopy /Y /Q /D /R misc\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R registry\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R rsrv\*.h  $(SolutionDir)include &gt; NUL
 
-xcopy /Y /Q /D /R db\*.dbd  $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R misc\*.dbd  $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R rsrv\*.dbd  $(SolutionDir)dbd &gt; NUL
 
@@ -2479,8 +2558,7 @@ perl -CSD $(OutDir)convertRelease.pl $(OutDir)databaseModuleDirs.pm
 cd $(ProjectDir)
 perl -CSD $(OutDir)makeIncludeDbd.pl menuAlarmSevr.dbd menuAlarmStat.dbd menuFtype.dbd menuIvoa.dbd menuOmsl.dbd menuPini.dbd menuPost.dbd menuPriority.dbd menuYesNo.dbd menuSimm.dbd O.Common\menuGlobal.dbd
 perl -CSD $(OutDir)genVersionHeader.pl   -t ../../../../.. -N EPICS_VCS_VERSION -V "" O.Common/epicsVCS.h
-$(OutDir)\makeAPIheader.pl -o O.Common\dbCoreAPI.h dbCore
-copy O.Common\dbCoreAPI.h $(SolutionDir)include &gt; NUL</Command>
+</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
@@ -2521,7 +2599,6 @@ xcopy /Y /Q /D /R misc\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R registry\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R rsrv\*.h  $(SolutionDir)include &gt; NUL
 
-xcopy /Y /Q /D /R db\*.dbd  $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R misc\*.dbd  $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R rsrv\*.dbd  $(SolutionDir)dbd &gt; NUL
 
@@ -2531,8 +2608,7 @@ perl -CSD $(OutDir)convertRelease.pl $(OutDir)databaseModuleDirs.pm
 cd $(ProjectDir)
 perl -CSD $(OutDir)makeIncludeDbd.pl menuAlarmSevr.dbd menuAlarmStat.dbd menuFtype.dbd menuIvoa.dbd menuOmsl.dbd menuPini.dbd menuPost.dbd menuPriority.dbd menuYesNo.dbd menuSimm.dbd O.Common\menuGlobal.dbd
 perl -CSD $(OutDir)genVersionHeader.pl   -t ../../../../.. -N EPICS_VCS_VERSION -V "" O.Common/epicsVCS.h
-$(OutDir)\makeAPIheader.pl -o O.Common\dbCoreAPI.h dbCore
-copy O.Common\dbCoreAPI.h $(SolutionDir)include &gt; NUL</Command>
+</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
@@ -2572,7 +2648,6 @@ xcopy /Y /Q /D /R misc\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R registry\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R rsrv\*.h  $(SolutionDir)include &gt; NUL
 
-xcopy /Y /Q /D /R db\*.dbd  $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R misc\*.dbd  $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R rsrv\*.dbd  $(SolutionDir)dbd &gt; NUL
 
@@ -2582,8 +2657,7 @@ perl -CSD $(OutDir)convertRelease.pl $(OutDir)databaseModuleDirs.pm
 cd $(ProjectDir)
 perl -CSD $(OutDir)makeIncludeDbd.pl menuAlarmSevr.dbd menuAlarmStat.dbd menuFtype.dbd menuIvoa.dbd menuOmsl.dbd menuPini.dbd menuPost.dbd menuPriority.dbd menuYesNo.dbd menuSimm.dbd O.Common\menuGlobal.dbd
 perl -CSD $(OutDir)genVersionHeader.pl   -t ../../../../.. -N EPICS_VCS_VERSION -V "" O.Common/epicsVCS.h
-$(OutDir)\makeAPIheader.pl -o O.Common\dbCoreAPI.h dbCore
-copy O.Common\dbCoreAPI.h $(SolutionDir)include &gt; NUL</Command>
+</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
@@ -2626,7 +2700,6 @@ xcopy /Y /Q /D /R misc\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R registry\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R rsrv\*.h  $(SolutionDir)include &gt; NUL
 
-xcopy /Y /Q /D /R db\*.dbd  $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R misc\*.dbd  $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R rsrv\*.dbd  $(SolutionDir)dbd &gt; NUL
 
@@ -2636,8 +2709,7 @@ perl -CSD $(OutDir)convertRelease.pl $(OutDir)databaseModuleDirs.pm
 cd $(ProjectDir)
 perl -CSD $(OutDir)makeIncludeDbd.pl menuAlarmSevr.dbd menuAlarmStat.dbd menuFtype.dbd menuIvoa.dbd menuOmsl.dbd menuPini.dbd menuPost.dbd menuPriority.dbd menuYesNo.dbd menuSimm.dbd O.Common\menuGlobal.dbd
 perl -CSD $(OutDir)genVersionHeader.pl   -t ../../../../.. -N EPICS_VCS_VERSION -V "" O.Common/epicsVCS.h
-$(OutDir)\makeAPIheader.pl -o O.Common\dbCoreAPI.h dbCore
-copy O.Common\dbCoreAPI.h $(SolutionDir)include &gt; NUL</Command>
+</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
@@ -2677,7 +2749,6 @@ xcopy /Y /Q /D /R misc\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R registry\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R rsrv\*.h  $(SolutionDir)include &gt; NUL
 
-xcopy /Y /Q /D /R db\*.dbd  $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R misc\*.dbd  $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R rsrv\*.dbd  $(SolutionDir)dbd &gt; NUL
 
@@ -2687,8 +2758,7 @@ perl -CSD $(OutDir)convertRelease.pl $(OutDir)databaseModuleDirs.pm
 cd $(ProjectDir)
 perl -CSD $(OutDir)makeIncludeDbd.pl menuAlarmSevr.dbd menuAlarmStat.dbd menuFtype.dbd menuIvoa.dbd menuOmsl.dbd menuPini.dbd menuPost.dbd menuPriority.dbd menuYesNo.dbd menuSimm.dbd O.Common\menuGlobal.dbd
 perl -CSD $(OutDir)genVersionHeader.pl   -t ../../../../.. -N EPICS_VCS_VERSION -V "" O.Common/epicsVCS.h
-$(OutDir)\makeAPIheader.pl -o O.Common\dbCoreAPI.h dbCore
-copy O.Common\dbCoreAPI.h $(SolutionDir)include &gt; NUL</Command>
+</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL
@@ -2731,7 +2801,6 @@ xcopy /Y /Q /D /R misc\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R registry\*.h  $(SolutionDir)include &gt; NUL
 xcopy /Y /Q /D /R rsrv\*.h  $(SolutionDir)include &gt; NUL
 
-xcopy /Y /Q /D /R db\*.dbd  $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R misc\*.dbd  $(SolutionDir)dbd &gt; NUL
 xcopy /Y /Q /D /R rsrv\*.dbd  $(SolutionDir)dbd &gt; NUL
 
@@ -2741,8 +2810,7 @@ perl -CSD $(OutDir)convertRelease.pl $(OutDir)databaseModuleDirs.pm
 cd $(ProjectDir)
 perl -CSD $(OutDir)makeIncludeDbd.pl menuAlarmSevr.dbd menuAlarmStat.dbd menuFtype.dbd menuIvoa.dbd menuOmsl.dbd menuPini.dbd menuPost.dbd menuPriority.dbd menuYesNo.dbd menuSimm.dbd O.Common\menuGlobal.dbd
 perl -CSD $(OutDir)genVersionHeader.pl   -t ../../../../.. -N EPICS_VCS_VERSION -V "" O.Common/epicsVCS.h
-$(OutDir)\makeAPIheader.pl -o O.Common\dbCoreAPI.h dbCore
-copy O.Common\dbCoreAPI.h $(SolutionDir)include &gt; NUL</Command>
+</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>xcopy /Y /Q /D /R O.Common\*.h  $(SolutionDir)include &gt; NUL

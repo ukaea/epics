@@ -25,9 +25,6 @@
 #include "epicsUnitTest.h"
 #include "testMain.h"
 
-#define verify(exp) ((exp) ? (void)0 : \
-    epicsAssert(__FILE__, __LINE__, #exp, epicsAssertAuthor))
-
 class notified : public epicsTimerNotify
 {
 public:
@@ -404,7 +401,7 @@ epicsTimerNotify::expireStatus periodicVerify::expire ( const epicsTime & )
     for ( unsigned i = 0u; i < 1000; i++ ) {
         root = sqrt ( root );
     }
-    verify ( ! this->cancelCalled );
+    assert ( ! this->cancelCalled );
     double delay = rand ();
     delay = delay / RAND_MAX;
     delay /= 10.0;

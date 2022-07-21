@@ -175,9 +175,6 @@ cd $(ProjectDir)
     <ProjectReference Include="..\..\..\..\libcom\src\Com.vcxproj">
       <Project>{e9d99fc7-e592-472b-b2e2-c3b0d81d8169}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\dbCore.vcxproj">
-      <Project>{422a8c73-836c-48cb-86c8-0591e69c0ca1}</Project>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{A17BA797-3CA6-47F9-B47E-673118EABA1A}</ProjectGuid>
@@ -300,6 +297,8 @@ cd $(ProjectDir)
 if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
 xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
 if not exist O.Common md O.Common
+$(OutDir)\makeAPIheader.pl -o O.Common\dbCoreAPI.h dbCore
+copy O.Common\dbCoreAPI.h $(SolutionDir)include &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -331,6 +330,8 @@ xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
 xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
 if not exist O.Common md O.Common
+$(OutDir)\makeAPIheader.pl -o O.Common\dbCoreAPI.h dbCore
+copy O.Common\dbCoreAPI.h $(SolutionDir)include &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -362,6 +363,8 @@ xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
 xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
 if not exist O.Common md O.Common
+$(OutDir)\makeAPIheader.pl -o O.Common\dbCoreAPI.h dbCore
+copy O.Common\dbCoreAPI.h $(SolutionDir)include &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -394,6 +397,8 @@ xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
 xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
 if not exist O.Common md O.Common
+$(OutDir)\makeAPIheader.pl -o O.Common\dbCoreAPI.h dbCore
+copy O.Common\dbCoreAPI.h $(SolutionDir)include &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -425,6 +430,8 @@ xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
 xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
 if not exist O.Common md O.Common
+$(OutDir)\makeAPIheader.pl -o O.Common\dbCoreAPI.h dbCore
+copy O.Common\dbCoreAPI.h $(SolutionDir)include &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -457,6 +464,8 @@ xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
 xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
 if not exist O.Common md O.Common
+$(OutDir)\makeAPIheader.pl -o O.Common\dbCoreAPI.h dbCore
+copy O.Common\dbCoreAPI.h $(SolutionDir)include &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -489,6 +498,8 @@ xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
 xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
 if not exist O.Common md O.Common
+$(OutDir)\makeAPIheader.pl -o O.Common\dbCoreAPI.h dbCore
+copy O.Common\dbCoreAPI.h $(SolutionDir)include &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -522,6 +533,8 @@ xcopy /Y /Q  /D O.Common\*.dbd $(SolutionDir)dbd &gt; NUL
 if not exist $(SolutionDir)dbd md $(SolutionDir)dbd
 xcopy /Y /Q /D /R *.h $(SolutionDir)include &gt; NUL
 if not exist O.Common md O.Common
+$(OutDir)\makeAPIheader.pl -o O.Common\dbCoreAPI.h dbCore
+copy O.Common\dbCoreAPI.h $(SolutionDir)include &gt; NUL
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>

@@ -50,6 +50,7 @@ USAGE...	This file contains definitions and structures that
 #include <epicsEvent.h>
 #include <epicsTime.h>
 #include <epicsMessageQueue.h>
+#include <shareLib.h>
 
 #include "motor.h"
 

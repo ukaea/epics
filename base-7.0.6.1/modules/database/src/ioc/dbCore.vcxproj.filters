@@ -31,6 +31,9 @@
     <Filter Include="registry">
       <UniqueIdentifier>{f9eef5c6-5478-4121-971b-d26339e2fba1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="bpt">
+      <UniqueIdentifier>{0d0460a3-ceb4-4eb2-a720-3b112895781d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="dbCore.rc">
@@ -229,6 +232,9 @@
     </ClCompile>
     <ClCompile Include="misc\registerAllRecordDeviceDrivers.cpp">
       <Filter>misc</Filter>
+    </ClCompile>
+    <ClCompile Include="bpt\makeBpt.c">
+      <Filter>bpt</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -436,6 +442,9 @@
     <ClInclude Include="registry\registryJLinks.h">
       <Filter>registry</Filter>
     </ClInclude>
+    <ClInclude Include="bpt\cvtTable.h">
+      <Filter>bpt</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="dbtemplate\dbLoadTemplate_lex.l">
@@ -480,11 +489,6 @@
     <CustomBuild Include="O.Common\menuScan.dbd">
       <Filter>O.Common</Filter>
     </CustomBuild>
-    <CustomBuild Include="db\menuAlarmStat.dbd.pod" />
-    <CustomBuild Include="db\menuFtype.dbd.pod" />
-    <CustomBuild Include="db\menuIvoa.dbd.pod" />
-    <CustomBuild Include="db\menuOmsl.dbd.pod" />
-    <CustomBuild Include="db\menuYesNo.dbd.pod" />
     <CustomBuild Include="O.Common\menuYesNo.dbd">
       <Filter>O.Common</Filter>
     </CustomBuild>
@@ -503,18 +507,64 @@
     <CustomBuild Include="O.Common\menuAlarmStat.dbd">
       <Filter>O.Common</Filter>
     </CustomBuild>
-    <CustomBuild Include="db\dbCommon.dbd.pod" />
-    <CustomBuild Include="db\dbCommonInput.pod" />
-    <CustomBuild Include="db\dbCommonOutput.pod" />
-    <CustomBuild Include="db\dbCommonRecord.dbd.pod" />
-    <CustomBuild Include="O.Common\bptTypeJdegC.dbd" />
-    <CustomBuild Include="O.Common\bptTypeJdegF.dbd" />
-    <CustomBuild Include="O.Common\bptTypeKdegC.dbd" />
-    <CustomBuild Include="O.Common\bptTypeKdegF.dbd" />
-    <CustomBuild Include="O.Common\dbCommonRecord.dbd" />
-    <CustomBuild Include="O.Common\menuPini.dbd" />
-    <CustomBuild Include="O.Common\menuPost.dbd" />
-    <CustomBuild Include="O.Common\menuPriority.dbd" />
+    <CustomBuild Include="db\menuPini.dbd.pod" />
+    <CustomBuild Include="db\menuPost.dbd.pod" />
+    <CustomBuild Include="db\menuPriority.dbd.pod" />
+    <CustomBuild Include="db\menuYesNo.dbd.pod">
+      <Filter>db</Filter>
+    </CustomBuild>
+    <CustomBuild Include="O.Common\menuPriority.dbd">
+      <Filter>O.Common</Filter>
+    </CustomBuild>
+    <CustomBuild Include="O.Common\menuPost.dbd">
+      <Filter>O.Common</Filter>
+    </CustomBuild>
+    <CustomBuild Include="O.Common\menuPini.dbd">
+      <Filter>O.Common</Filter>
+    </CustomBuild>
+    <CustomBuild Include="db\menuOmsl.dbd.pod">
+      <Filter>db</Filter>
+    </CustomBuild>
+    <CustomBuild Include="db\menuIvoa.dbd.pod">
+      <Filter>db</Filter>
+    </CustomBuild>
+    <CustomBuild Include="db\menuFtype.dbd.pod">
+      <Filter>db</Filter>
+    </CustomBuild>
+    <CustomBuild Include="db\menuAlarmStat.dbd.pod">
+      <Filter>db</Filter>
+    </CustomBuild>
+    <CustomBuild Include="db\dbCommonRecord.dbd.pod">
+      <Filter>db</Filter>
+    </CustomBuild>
+    <CustomBuild Include="O.Common\dbCommonRecord.dbd">
+      <Filter>O.Common</Filter>
+    </CustomBuild>
+    <CustomBuild Include="db\dbCommonOutput.pod">
+      <Filter>db</Filter>
+    </CustomBuild>
+    <CustomBuild Include="db\dbCommonInput.pod">
+      <Filter>db</Filter>
+    </CustomBuild>
+    <CustomBuild Include="db\dbCommon.dbd.pod">
+      <Filter>db</Filter>
+    </CustomBuild>
+    <CustomBuild Include="O.Common\bptTypeKdegF.dbd">
+      <Filter>O.Common</Filter>
+    </CustomBuild>
+    <CustomBuild Include="O.Common\bptTypeKdegC.dbd">
+      <Filter>O.Common</Filter>
+    </CustomBuild>
+    <CustomBuild Include="O.Common\bptTypeJdegF.dbd">
+      <Filter>O.Common</Filter>
+    </CustomBuild>
+    <CustomBuild Include="O.Common\bptTypeJdegC.dbd">
+      <Filter>O.Common</Filter>
+    </CustomBuild>
+    <CustomBuild Include="bpt\bptTypeJdegC.data" />
+    <CustomBuild Include="bpt\bptTypeJdegF.data" />
+    <CustomBuild Include="bpt\bptTypeKdegC.data" />
+    <CustomBuild Include="bpt\bptTypeKdegF.data" />
   </ItemGroup>
   <ItemGroup>
     <None Include="db\Makefile">
@@ -535,14 +585,14 @@
     <None Include="misc\Makefile">
       <Filter>misc</Filter>
     </None>
-    <None Include="db\menuPini.dbd.pod">
-      <Filter>db</Filter>
+    <None Include="bpt\Makefile">
+      <Filter>bpt</Filter>
     </None>
-    <None Include="db\menuPost.dbd.pod">
-      <Filter>db</Filter>
+    <None Include="bpt\menuConvert.dbd.pod">
+      <Filter>bpt</Filter>
     </None>
-    <None Include="db\menuPriority.dbd.pod">
-      <Filter>db</Filter>
+    <None Include="bpt\RULES">
+      <Filter>bpt</Filter>
     </None>
   </ItemGroup>
 </Project>

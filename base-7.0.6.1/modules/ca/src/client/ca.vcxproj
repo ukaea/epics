@@ -249,9 +249,8 @@
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
       <UndefinePreprocessorDefinitions>
       </UndefinePreprocessorDefinitions>
-      <BrowseInformation>true</BrowseInformation>
       <DisableSpecificWarnings>4244;4267;4800</DisableSpecificWarnings>
-      <ProgramDataBaseFileName>$(IntDir)$(TargetName)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+      <AdditionalOptions>/FS %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -266,18 +265,12 @@
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
 if not exist O.Common md O.Common
 xcopy /Y /Q  /D /R *.h $(SolutionDir)include &gt; NUL
-attrib -r $(OutDir)ca.lib
-attrib -r $(OutDir)ca.exp
 $(OutDir)\makeAPIheader.pl -o O.Common\libCaAPI.h libCa
 copy O.Common\libCaAPI.h $(SolutionDir)include &gt; NUL
 
 </Command>
     </PreBuildEvent>
-    <PostBuildEvent>
-      <Command>attrib +r $(OutDir)ca.lib
-attrib +r $(OutDir)ca.exp
-</Command>
-    </PostBuildEvent>
+    <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_LIB|Win32'">
     <ClCompile>
@@ -286,10 +279,9 @@ attrib +r $(OutDir)ca.exp
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
       <UndefinePreprocessorDefinitions>
       </UndefinePreprocessorDefinitions>
-      <BrowseInformation>true</BrowseInformation>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <DisableSpecificWarnings>4244;4267;4800</DisableSpecificWarnings>
-      <ProgramDataBaseFileName>$(IntDir)$(TargetName)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+      <AdditionalOptions>/FS %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -303,8 +295,6 @@ attrib +r $(OutDir)ca.exp
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
 if not exist O.Common md O.Common
 xcopy /Y /Q  /D /R *.h $(SolutionDir)include &gt; NUL
-attrib -r $(OutDir)ca.lib
-attrib -r $(OutDir)ca.exp
 $(OutDir)\makeAPIheader.pl -o O.Common\libCaAPI.h libCa
 copy O.Common\libCaAPI.h $(SolutionDir)include &gt; NUL
 
@@ -324,8 +314,7 @@ copy O.Common\libCaAPI.h $(SolutionDir)include &gt; NUL
       <UndefinePreprocessorDefinitions>
       </UndefinePreprocessorDefinitions>
       <DisableSpecificWarnings>4244;4267;4800</DisableSpecificWarnings>
-      <BrowseInformation>true</BrowseInformation>
-      <ProgramDataBaseFileName>$(IntDir)$(TargetName)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+      <AdditionalOptions>/FS %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -340,8 +329,6 @@ copy O.Common\libCaAPI.h $(SolutionDir)include &gt; NUL
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
 if not exist O.Common md O.Common
 xcopy /Y /Q  /D /R *.h $(SolutionDir)include &gt; NUL
-attrib -r $(OutDir)ca.lib
-attrib -r $(OutDir)ca.exp
 $(OutDir)\makeAPIheader.pl -o O.Common\libCaAPI.h libCa
 copy O.Common\libCaAPI.h $(SolutionDir)include &gt; NUL
 
@@ -356,9 +343,8 @@ copy O.Common\libCaAPI.h $(SolutionDir)include &gt; NUL
       <UndefinePreprocessorDefinitions>
       </UndefinePreprocessorDefinitions>
       <DisableSpecificWarnings>4244;4267;4800</DisableSpecificWarnings>
-      <BrowseInformation>true</BrowseInformation>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <ProgramDataBaseFileName>$(IntDir)$(TargetName)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+      <AdditionalOptions>/FS %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -372,8 +358,6 @@ copy O.Common\libCaAPI.h $(SolutionDir)include &gt; NUL
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
 if not exist O.Common md O.Common
 xcopy /Y /Q  /D /R *.h $(SolutionDir)include &gt; NUL
-attrib -r $(OutDir)ca.lib
-attrib -r $(OutDir)ca.exp
 $(OutDir)\makeAPIheader.pl -o O.Common\libCaAPI.h libCa
 copy O.Common\libCaAPI.h $(SolutionDir)include &gt; NUL
 
@@ -388,12 +372,10 @@ copy O.Common\libCaAPI.h $(SolutionDir)include &gt; NUL
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
       <PreprocessorDefinitions>WIN32;NDEBUG;BUILDING_libCa_API;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS;epicsStdioStdPrintfEtc</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4244;4267;4800</DisableSpecificWarnings>
-      <ProgramDataBaseFileName>$(IntDir)$(TargetName)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
-      <DebugInformationFormat>None</DebugInformationFormat>
+      <AdditionalOptions>/FS %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -409,8 +391,6 @@ copy O.Common\libCaAPI.h $(SolutionDir)include &gt; NUL
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
 if not exist O.Common md O.Common
 xcopy /Y /Q  /D /R *.h $(SolutionDir)include &gt; NUL
-attrib -r $(OutDir)ca.lib
-attrib -r $(OutDir)ca.exp
 $(OutDir)\makeAPIheader.pl -o O.Common\libCaAPI.h libCa
 copy O.Common\libCaAPI.h $(SolutionDir)include &gt; NUL
 
@@ -420,13 +400,11 @@ copy O.Common\libCaAPI.h $(SolutionDir)include &gt; NUL
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
       <PreprocessorDefinitions>WIN32;NDEBUG;BUILDING_libCa_API;_CRT_SECURE_NO_WARNINGS;epicsStdioStdPrintfEtc</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <DisableSpecificWarnings>4244;4267;4800</DisableSpecificWarnings>
-      <ProgramDataBaseFileName>$(IntDir)$(TargetName)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
-      <DebugInformationFormat>None</DebugInformationFormat>
+      <AdditionalOptions>/FS %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -441,8 +419,6 @@ copy O.Common\libCaAPI.h $(SolutionDir)include &gt; NUL
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
 if not exist O.Common md O.Common
 xcopy /Y /Q  /D /R *.h $(SolutionDir)include &gt; NUL
-attrib -r $(OutDir)ca.lib
-attrib -r $(OutDir)ca.exp
 $(OutDir)\makeAPIheader.pl -o O.Common\libCaAPI.h libCa
 copy O.Common\libCaAPI.h $(SolutionDir)include &gt; NUL
 
@@ -457,12 +433,10 @@ copy O.Common\libCaAPI.h $(SolutionDir)include &gt; NUL
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
       <PreprocessorDefinitions>WIN32;NDEBUG;BUILDING_libCa_API;EPICS_CALL_DLL;EPICS_BUILD_DLL;_CRT_SECURE_NO_WARNINGS;epicsStdioStdPrintfEtc</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4244;4267;4800</DisableSpecificWarnings>
-      <ProgramDataBaseFileName>$(IntDir)$(TargetName)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
-      <DebugInformationFormat>None</DebugInformationFormat>
+      <AdditionalOptions>/FS %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -478,8 +452,6 @@ copy O.Common\libCaAPI.h $(SolutionDir)include &gt; NUL
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
 if not exist O.Common md O.Common
 xcopy /Y /Q  /D /R *.h $(SolutionDir)include &gt; NUL
-attrib -r $(OutDir)ca.lib
-attrib -r $(OutDir)ca.exp
 $(OutDir)\makeAPIheader.pl -o O.Common\libCaAPI.h libCa
 copy O.Common\libCaAPI.h $(SolutionDir)include &gt; NUL
 
@@ -489,13 +461,11 @@ copy O.Common\libCaAPI.h $(SolutionDir)include &gt; NUL
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LIB|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
       <PreprocessorDefinitions>WIN32;NDEBUG;BUILDING_libCa_API;_CRT_SECURE_NO_WARNINGS;epicsStdioStdPrintfEtc</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\os\win32;$(SolutionDir)include\compiler\msvc</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4244;4267;4800</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <ProgramDataBaseFileName>$(IntDir)$(TargetName)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
-      <DebugInformationFormat>None</DebugInformationFormat>
+      <AdditionalOptions>/FS %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -510,8 +480,6 @@ copy O.Common\libCaAPI.h $(SolutionDir)include &gt; NUL
       <Command>if not exist  $(SolutionDir)include md  $(SolutionDir)include
 if not exist O.Common md O.Common
 xcopy /Y /Q  /D /R *.h $(SolutionDir)include &gt; NUL
-attrib -r $(OutDir)ca.lib
-attrib -r $(OutDir)ca.exp
 $(OutDir)\makeAPIheader.pl -o O.Common\libCaAPI.h libCa
 copy O.Common\libCaAPI.h $(SolutionDir)include &gt; NUL
 

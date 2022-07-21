@@ -303,12 +303,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="rec\aaoRecord.dbd">
-      <Filter>rec</Filter>
-    </CustomBuild>
-    <CustomBuild Include="rec\histogramRecord.dbd">
-      <Filter>rec</Filter>
-    </CustomBuild>
     <CustomBuild Include="dev\devSoft.dbd">
       <Filter>rec</Filter>
     </CustomBuild>
@@ -341,15 +335,6 @@
     </CustomBuild>
     <CustomBuild Include="O.Common\aSubRecord.dbd">
       <Filter>O.Common</Filter>
-    </CustomBuild>
-    <CustomBuild Include="rec\lsiRecord.dbd">
-      <Filter>rec</Filter>
-    </CustomBuild>
-    <CustomBuild Include="rec\lsoRecord.dbd">
-      <Filter>rec</Filter>
-    </CustomBuild>
-    <CustomBuild Include="rec\printfRecord.dbd">
-      <Filter>rec</Filter>
     </CustomBuild>
     <CustomBuild Include="filters\filters.dbd.pod">
       <Filter>filters</Filter>
@@ -408,9 +393,6 @@
     <CustomBuild Include="O.Common\stdRecords.dbd">
       <Filter>O.Common</Filter>
     </CustomBuild>
-    <CustomBuild Include="rec\aaiRecord.dbd">
-      <Filter>rec</Filter>
-    </CustomBuild>
     <CustomBuild Include="link\links.dbd.pod" />
     <CustomBuild Include="rec\eventRecord.dbd.pod" />
     <CustomBuild Include="rec\fanoutRecord.dbd.pod" />
@@ -424,11 +406,6 @@
     <CustomBuild Include="O.Common\mbboDirectRecord.dbd" />
     <CustomBuild Include="O.Common\permissiveRecord.dbd" />
     <CustomBuild Include="O.Common\selRecord.dbd" />
-    <CustomBuild Include="O.Common\seqRecord.dbd" />
-    <CustomBuild Include="O.Common\stateRecord.dbd" />
-    <CustomBuild Include="O.Common\stringinRecord.dbd" />
-    <CustomBuild Include="O.Common\stringoutRecord.dbd" />
-    <CustomBuild Include="O.Common\subArrayRecord.dbd" />
     <CustomBuild Include="O.Common\subRecord.dbd" />
     <CustomBuild Include="O.Common\mbbiRecord.dbd" />
     <CustomBuild Include="O.Common\mbboRecord.dbd" />
@@ -465,6 +442,57 @@
     </None>
     <None Include="filters\Makefile">
       <Filter>filters</Filter>
+    </None>
+    <None Include="rec\aaiRecord.dbd.pod">
+      <Filter>rec</Filter>
+    </None>
+    <None Include="rec\aaoRecord.dbd.pod">
+      <Filter>rec</Filter>
+    </None>
+    <None Include="rec\histogramRecord.dbd.pod">
+      <Filter>rec</Filter>
+    </None>
+    <None Include="rec\lsiRecord.dbd.pod">
+      <Filter>rec</Filter>
+    </None>
+    <None Include="rec\lsoRecord.dbd.pod">
+      <Filter>rec</Filter>
+    </None>
+    <None Include="rec\printfRecord.dbd.pod">
+      <Filter>rec</Filter>
+    </None>
+    <None Include="O.Common\histogramRecord.dbd">
+      <Filter>O.Common</Filter>
+    </None>
+    <None Include="O.Common\aaiRecord.dbd">
+      <Filter>O.Common</Filter>
+    </None>
+    <None Include="O.Common\aaoRecord.dbd">
+      <Filter>O.Common</Filter>
+    </None>
+    <None Include="O.Common\lsiRecord.dbd">
+      <Filter>O.Common</Filter>
+    </None>
+    <None Include="O.Common\lsoRecord.dbd">
+      <Filter>O.Common</Filter>
+    </None>
+    <None Include="O.Common\printfRecord.dbd">
+      <Filter>O.Common</Filter>
+    </None>
+    <None Include="O.Common\seqRecord.dbd">
+      <Filter>O.Common</Filter>
+    </None>
+    <None Include="O.Common\stateRecord.dbd">
+      <Filter>O.Common</Filter>
+    </None>
+    <None Include="O.Common\stringinRecord.dbd">
+      <Filter>O.Common</Filter>
+    </None>
+    <None Include="O.Common\stringoutRecord.dbd">
+      <Filter>O.Common</Filter>
+    </None>
+    <None Include="O.Common\subArrayRecord.dbd">
+      <Filter>O.Common</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
