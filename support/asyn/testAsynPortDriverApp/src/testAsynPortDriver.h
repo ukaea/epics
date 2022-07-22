@@ -45,8 +45,7 @@
   * but they should really all be private. */
 class testAsynPortDriver : public asynPortDriver {
 public:
-    testAsynPortDriver(const char *portName, int maxAddr, int maxPoints);
-	~testAsynPortDriver();
+    testAsynPortDriver(const char *portName, int maxArraySize);
 
     /* These are the methods that we override from asynPortDriver */
     virtual asynStatus writeInt32(asynUser *pasynUser, epicsInt32 value);
@@ -61,34 +60,34 @@ public:
 
 protected:
     /** Values used for pasynUser->reason, and indexes into the parameter library. */
-	std::vector<int> P_Run;
-	std::vector<int> P_MaxPoints;
-	std::vector<int> P_TimePerDiv;
-	std::vector<int> P_TimePerDivSelect;
-	std::vector<int> P_VertGain;
-	std::vector<int> P_VertGainSelect;
-	std::vector<int> P_VoltsPerDiv;
-	std::vector<int> P_VoltsPerDivSelect;
-	std::vector<int> P_VoltOffset;
-	std::vector<int> P_TriggerDelay;
-	std::vector<int> P_NoiseAmplitude;
-	std::vector<int> P_UpdateTime;
-	std::vector<int> P_Waveform;
-	std::vector<int> P_TimeBase;
-	std::vector<int> P_MinValue;
-	std::vector<int> P_MaxValue;
-	std::vector<int> P_MeanValue;
+    int P_Run;
+    int P_MaxPoints;
+    int P_TimePerDiv;
+    int P_TimePerDivSelect;
+    int P_VertGain;
+    int P_VertGainSelect;
+    int P_VoltsPerDiv;
+    int P_VoltsPerDivSelect;
+    int P_VoltOffset;
+    int P_TriggerDelay;
+    int P_NoiseAmplitude;
+    int P_UpdateTime;
+    int P_Waveform;
+    int P_TimeBase;
+    int P_MinValue;
+    int P_MaxValue;
+    int P_MeanValue;
 
 private:
     /* Our data */
     epicsEventId eventId_;
-	std::vector<epicsFloat64*> pData_;
-	std::vector <epicsFloat64*> pTimeBase_;
+    epicsFloat64 *pData_;
+    epicsFloat64 *pTimeBase_;
     // Actual volts per division are these values divided by vertical gain
     char *voltsPerDivStrings_[NUM_VERT_SELECTIONS];
     int voltsPerDivValues_[NUM_VERT_SELECTIONS];
     int voltsPerDivSeverities_[NUM_VERT_SELECTIONS];
-    void setVertGain(int Addr);
-    void setVoltsPerDiv(int Addr);
-    void setTimePerDiv(int Addr);
+    void setVertGain();
+    void setVoltsPerDiv();
+    void setTimePerDiv();
 };

@@ -6,6 +6,8 @@ menu(menuFtype) {
     choice(menuFtypeUSHORT, "USHORT")
     choice(menuFtypeLONG, "LONG")
     choice(menuFtypeULONG, "ULONG")
+    choice(menuFtypeINT64, "INT64")
+    choice(menuFtypeUINT64, "UINT64")
     choice(menuFtypeFLOAT, "FLOAT")
     choice(menuFtypeDOUBLE, "DOUBLE")
     choice(menuFtypeENUM, "ENUM")
