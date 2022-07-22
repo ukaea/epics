@@ -17,12 +17,13 @@ typedef enum {
 #define swaitINAP_NUM_CHOICES 2
 #endif
 
-#ifndef swaitDOPT_NUM_CHOICES
+#ifndef swaitINAV_NUM_CHOICES
 typedef enum {
-    swaitDOPT_Use_VAL               /* Use VAL */,
-    swaitDOPT_Use_DOL               /* Use DOL */
-} swaitDOPT;
-#define swaitDOPT_NUM_CHOICES 2
+    swaitINAV_PV_OK                 /* PV OK */,
+    swaitINAV_PV_BAD                /* PV BAD */,
+    swaitINAV_No_PV                 /* No PV */
+} swaitINAV;
+#define swaitINAV_NUM_CHOICES 3
 #endif
 
 #ifndef swaitOOPT_NUM_CHOICES
@@ -38,13 +39,12 @@ typedef enum {
 #define swaitOOPT_NUM_CHOICES 7
 #endif
 
-#ifndef swaitINAV_NUM_CHOICES
+#ifndef swaitDOPT_NUM_CHOICES
 typedef enum {
-    swaitINAV_PV_OK                 /* PV OK */,
-    swaitINAV_PV_BAD                /* PV BAD */,
-    swaitINAV_No_PV                 /* No PV */
-} swaitINAV;
-#define swaitINAV_NUM_CHOICES 3
+    swaitDOPT_Use_VAL               /* Use VAL */,
+    swaitDOPT_Use_DOL               /* Use DOL */
+} swaitDOPT;
+#define swaitDOPT_NUM_CHOICES 2
 #endif
 
 typedef struct swaitRecord {

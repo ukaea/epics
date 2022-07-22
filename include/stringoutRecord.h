@@ -9,14 +9,6 @@
 #include "ellLib.h"
 #include "epicsTime.h"
 
-#ifndef stringoutPOST_NUM_CHOICES
-typedef enum {
-    stringoutPOST_OnChange          /* On Change */,
-    stringoutPOST_Always            /* Always */
-} stringoutPOST;
-#define stringoutPOST_NUM_CHOICES 2
-#endif
-
 #ifndef menuIvoa_NUM_CHOICES
 typedef enum {
     menuIvoaContinue_normally       /* Continue normally */,
@@ -24,6 +16,14 @@ typedef enum {
     menuIvoaSet_output_to_IVOV      /* Set output to IVOV */
 } menuIvoa;
 #define menuIvoa_NUM_CHOICES 3
+#endif
+
+#ifndef stringoutPOST_NUM_CHOICES
+typedef enum {
+    stringoutPOST_OnChange          /* On Change */,
+    stringoutPOST_Always            /* Always */
+} stringoutPOST;
+#define stringoutPOST_NUM_CHOICES 2
 #endif
 
 typedef struct stringoutRecord {

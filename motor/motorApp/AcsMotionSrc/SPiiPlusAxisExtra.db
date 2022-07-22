@@ -1,0 +1,18 @@
+record(bi,"$(P)$(M):STO") {
+    field(DESC, "Safe Torque Off")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR))SPIIPLUS_SAFE_TORQUE_OFF")
+    field(ZNAM, "OK")
+    field(ONAM, "Fault")
+    field(SCAN, "I/O Intr")
+}
+
+record(bi,"$(P)$(M):HOMED") {
+    field(DESC, "Homing Procedure Done")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR))SPIIPLUS_HOMING_DONE")
+    field(ZNAM, "False")
+    field(ONAM, "True")
+    field(SCAN, "I/O Intr")
+}
+
