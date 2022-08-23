@@ -17,6 +17,14 @@ typedef enum {
 #define scalcoutWAIT_NUM_CHOICES 2
 #endif
 
+#ifndef scalcoutINAP_NUM_CHOICES
+typedef enum {
+    scalcoutINAP_No                 /* No PROC on Change */,
+    scalcoutINAP_Yes                /* PROC on Change */
+} scalcoutINAP;
+#define scalcoutINAP_NUM_CHOICES 2
+#endif
+
 #ifndef scalcoutDOPT_NUM_CHOICES
 typedef enum {
     scalcoutDOPT_Use_VAL            /* Use CALC */,
@@ -33,14 +41,6 @@ typedef enum {
     scalcoutINAV_CON                /* Constant */
 } scalcoutINAV;
 #define scalcoutINAV_NUM_CHOICES 4
-#endif
-
-#ifndef scalcoutINAP_NUM_CHOICES
-typedef enum {
-    scalcoutINAP_No                 /* No PROC on Change */,
-    scalcoutINAP_Yes                /* PROC on Change */
-} scalcoutINAP;
-#define scalcoutINAP_NUM_CHOICES 2
 #endif
 
 #ifndef scalcoutOOPT_NUM_CHOICES

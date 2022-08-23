@@ -9,14 +9,6 @@
 #include "ellLib.h"
 #include "epicsTime.h"
 
-#ifndef waveformPOST_NUM_CHOICES
-typedef enum {
-    waveformPOST_Always             /* Always */,
-    waveformPOST_OnChange           /* On Change */
-} waveformPOST;
-#define waveformPOST_NUM_CHOICES 2
-#endif
-
 #ifndef menuFtype_NUM_CHOICES
 typedef enum {
     menuFtypeSTRING                 /* STRING */,
@@ -33,6 +25,14 @@ typedef enum {
     menuFtypeENUM                   /* ENUM */
 } menuFtype;
 #define menuFtype_NUM_CHOICES 12
+#endif
+
+#ifndef waveformPOST_NUM_CHOICES
+typedef enum {
+    waveformPOST_Always             /* Always */,
+    waveformPOST_OnChange           /* On Change */
+} waveformPOST;
+#define waveformPOST_NUM_CHOICES 2
 #endif
 
 typedef struct waveformRecord {

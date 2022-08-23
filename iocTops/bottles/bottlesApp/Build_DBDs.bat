@@ -14,6 +14,6 @@ if not exist C:\strawberry\perl\lib\EPICS  mklink /d C:\strawberry\perl\lib\EPIC
 perl -CSD %DLLDIR%dbdExpand.pl -I. -I.. -I..\O.Common -I%TOPLEVEL%DBD -o O.Common\bottles.dbd  base.dbd calcSupport.dbd
 perl -CSD %DLLDIR%registerRecordDeviceDriver.pl O.Common\bottles.dbd bottles_registerRecordDeviceDriver %TOPLEVEL% > O.Common\bottles_registerRecordDeviceDriver.cpp
 
-xcopy /Y /Q %BUILDIR%O.Common\*.dbd  %TOPLEVEL%DBD > NUL
-
+rem xcopy /Y /Q %BUILDIR%O.Common\*.dbd  %TOPLEVEL%DBD > NUL
+ xcopy /Y /Q %BUILDIR%O.Common\*.dbd C:\Users\ktn98257\source\repos\epics.dotnet\iocTops\bottles > NUL
 echo BatchCompleted: %ERRORLEVEL%

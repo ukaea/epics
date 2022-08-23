@@ -7,12 +7,16 @@ epicsEnvSet("U","${USERNAME}")
 epicsEnvSet("F","beer")
 
 ## Not for WinEPICS just use TARGET dirs... to be moved to C:\ProgramFiles\epics
-epicsEnvSet("TOP","C:\Users\${USERNAME}\source\repos\epics.dotnet\iocTops\bottles")
-cd "${TOP}/iocBoot/${IOC}"
+epicsEnvSet("IOC","iocbottles")
+epicsEnvSet("TOP","C:\Users\ktn98257\source\repos\epics.dotnet\iocTops\bottles")
+epicsEnvSet("SUPPORT","C:\Users\ktn98257\source\repos\epics.dotnet\support")
+epicsEnvSet("CALC","C:\Users\ktn98257\source\repos\epics.dotnet\support\calc")
+epicsEnvSet("EPICS_BASE","C:\Users\ktn98257\source\repos\epics.dotnet\base-3.15.9")
 
-epicsEnvSet("IOC","bottles")
+
 ## Register all support components
-dbLoadDatabase "..\..\..\..\DBD\bottles.dbd"
+#dbLoadDatabase "..\..\..\..\DBD\bottles.dbd"
+dbLoadDatabase "C:\Users\ktn98257\source\repos\epics.dotnet\iocTops\bottles\bottles.dbd"
 
 bottles_registerRecordDeviceDriver pdbbase
 

@@ -1,5 +1,5 @@
-registrar(arrInitialize)
 registrar(tsInitialize)
-registrar(syncInitialize)
 registrar(dbndInitialize)
+registrar(syncInitialize)
+registrar(arrInitialize)
 registrar(decInitialize)

@@ -9,31 +9,6 @@
 #include "ellLib.h"
 #include "epicsTime.h"
 
-#ifndef swaitINAV_NUM_CHOICES
-typedef enum {
-    swaitINAV_PV_OK                 /* PV OK */,
-    swaitINAV_PV_BAD                /* PV BAD */,
-    swaitINAV_No_PV                 /* No PV */
-} swaitINAV;
-#define swaitINAV_NUM_CHOICES 3
-#endif
-
-#ifndef swaitDOPT_NUM_CHOICES
-typedef enum {
-    swaitDOPT_Use_VAL               /* Use VAL */,
-    swaitDOPT_Use_DOL               /* Use DOL */
-} swaitDOPT;
-#define swaitDOPT_NUM_CHOICES 2
-#endif
-
-#ifndef swaitINAP_NUM_CHOICES
-typedef enum {
-    swaitINAP_No                    /* No */,
-    swaitINAP_Yes                   /* Yes */
-} swaitINAP;
-#define swaitINAP_NUM_CHOICES 2
-#endif
-
 #ifndef swaitOOPT_NUM_CHOICES
 typedef enum {
     swaitOOPT_Every_Time            /* Every Time */,
@@ -45,6 +20,31 @@ typedef enum {
     swaitOOPT_Never                 /* Never */
 } swaitOOPT;
 #define swaitOOPT_NUM_CHOICES 7
+#endif
+
+#ifndef swaitDOPT_NUM_CHOICES
+typedef enum {
+    swaitDOPT_Use_VAL               /* Use VAL */,
+    swaitDOPT_Use_DOL               /* Use DOL */
+} swaitDOPT;
+#define swaitDOPT_NUM_CHOICES 2
+#endif
+
+#ifndef swaitINAV_NUM_CHOICES
+typedef enum {
+    swaitINAV_PV_OK                 /* PV OK */,
+    swaitINAV_PV_BAD                /* PV BAD */,
+    swaitINAV_No_PV                 /* No PV */
+} swaitINAV;
+#define swaitINAV_NUM_CHOICES 3
+#endif
+
+#ifndef swaitINAP_NUM_CHOICES
+typedef enum {
+    swaitINAP_No                    /* No */,
+    swaitINAP_Yes                   /* Yes */
+} swaitINAP;
+#define swaitINAP_NUM_CHOICES 2
 #endif
 
 typedef struct swaitRecord {
