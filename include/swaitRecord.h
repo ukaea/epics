@@ -3,11 +3,36 @@
 #ifndef INC_swaitRecord_H
 #define INC_swaitRecord_H
 
- #include "epicsTypes.h"
- #include "link.h"
-#include "epicsMutex.h"
+#include "epicsTypes.h"
+#include "link.h"
+ #include "epicsMutex.h"
 #include "ellLib.h"
 #include "epicsTime.h"
+
+#ifndef swaitINAV_NUM_CHOICES
+typedef enum {
+    swaitINAV_PV_OK                 /* PV OK */,
+    swaitINAV_PV_BAD                /* PV BAD */,
+    swaitINAV_No_PV                 /* No PV */
+} swaitINAV;
+#define swaitINAV_NUM_CHOICES 3
+#endif
+
+#ifndef swaitDOPT_NUM_CHOICES
+typedef enum {
+    swaitDOPT_Use_VAL               /* Use VAL */,
+    swaitDOPT_Use_DOL               /* Use DOL */
+} swaitDOPT;
+#define swaitDOPT_NUM_CHOICES 2
+#endif
+
+#ifndef swaitINAP_NUM_CHOICES
+typedef enum {
+    swaitINAP_No                    /* No */,
+    swaitINAP_Yes                   /* Yes */
+} swaitINAP;
+#define swaitINAP_NUM_CHOICES 2
+#endif
 
 #ifndef swaitOOPT_NUM_CHOICES
 typedef enum {
@@ -20,31 +45,6 @@ typedef enum {
     swaitOOPT_Never                 /* Never */
 } swaitOOPT;
 #define swaitOOPT_NUM_CHOICES 7
-#endif
-
-#ifndef swaitDOPT_NUM_CHOICES
-typedef enum {
-    swaitDOPT_Use_VAL               /* Use VAL */,
-    swaitDOPT_Use_DOL               /* Use DOL */
-} swaitDOPT;
-#define swaitDOPT_NUM_CHOICES 2
-#endif
-
-#ifndef swaitINAV_NUM_CHOICES
-typedef enum {
-    swaitINAV_PV_OK                 /* PV OK */,
-    swaitINAV_PV_BAD                /* PV BAD */,
-    swaitINAV_No_PV                 /* No PV */
-} swaitINAV;
-#define swaitINAV_NUM_CHOICES 3
-#endif
-
-#ifndef swaitINAP_NUM_CHOICES
-typedef enum {
-    swaitINAP_No                    /* No */,
-    swaitINAP_Yes                   /* Yes */
-} swaitINAP;
-#define swaitINAP_NUM_CHOICES 2
 #endif
 
 typedef struct swaitRecord {
@@ -63,12 +63,15 @@ typedef struct swaitRecord {
     DBLINK              sdis;       /* Scanning Disable */
     epicsMutexId        mlok;       /* Monitor lock */
     ELLLIST             mlis;       /* Monitor List */
+    ELLLIST             bklnk;      /* Backwards link tracking */
     epicsUInt8          disp;       /* Disable putField */
     epicsUInt8          proc;       /* Force Processing */
     epicsEnum16         stat;       /* Alarm Status */
     epicsEnum16         sevr;       /* Alarm Severity */
+    char                amsg[40];   /* Alarm Message */
     epicsEnum16         nsta;       /* New Alarm Status */
     epicsEnum16         nsev;       /* New Alarm Severity */
+    char                namsg[40];  /* New Alarm Message */
     epicsEnum16         acks;       /* Alarm Ack Severity */
     epicsEnum16         ackt;       /* Alarm Ack Transient */
     epicsEnum16         diss;       /* Disable Alarm Sevrty */
@@ -199,124 +202,127 @@ typedef enum {
 	swaitRecordSDIS = 12,
 	swaitRecordMLOK = 13,
 	swaitRecordMLIS = 14,
-	swaitRecordDISP = 15,
-	swaitRecordPROC = 16,
-	swaitRecordSTAT = 17,
-	swaitRecordSEVR = 18,
-	swaitRecordNSTA = 19,
-	swaitRecordNSEV = 20,
-	swaitRecordACKS = 21,
-	swaitRecordACKT = 22,
-	swaitRecordDISS = 23,
-	swaitRecordLCNT = 24,
-	swaitRecordPACT = 25,
-	swaitRecordPUTF = 26,
-	swaitRecordRPRO = 27,
-	swaitRecordASP = 28,
-	swaitRecordPPN = 29,
-	swaitRecordPPNR = 30,
-	swaitRecordSPVT = 31,
-	swaitRecordRSET = 32,
-	swaitRecordDSET = 33,
-	swaitRecordDPVT = 34,
-	swaitRecordRDES = 35,
-	swaitRecordLSET = 36,
-	swaitRecordPRIO = 37,
-	swaitRecordTPRO = 38,
-	swaitRecordBKPT = 39,
-	swaitRecordUDF = 40,
-	swaitRecordUDFS = 41,
-	swaitRecordTIME = 42,
-	swaitRecordFLNK = 43,
-	swaitRecordVERS = 44,
-	swaitRecordHOPR = 45,
-	swaitRecordLOPR = 46,
-	swaitRecordINIT = 47,
-	swaitRecordCBST = 48,
-	swaitRecordINAN = 49,
-	swaitRecordINBN = 50,
-	swaitRecordINCN = 51,
-	swaitRecordINDN = 52,
-	swaitRecordINEN = 53,
-	swaitRecordINFN = 54,
-	swaitRecordINGN = 55,
-	swaitRecordINHN = 56,
-	swaitRecordININ = 57,
-	swaitRecordINJN = 58,
-	swaitRecordINKN = 59,
-	swaitRecordINLN = 60,
-	swaitRecordDOLN = 61,
-	swaitRecordOUTN = 62,
-	swaitRecordINAV = 63,
-	swaitRecordINBV = 64,
-	swaitRecordINCV = 65,
-	swaitRecordINDV = 66,
-	swaitRecordINEV = 67,
-	swaitRecordINFV = 68,
-	swaitRecordINGV = 69,
-	swaitRecordINHV = 70,
-	swaitRecordINIV = 71,
-	swaitRecordINJV = 72,
-	swaitRecordINKV = 73,
-	swaitRecordINLV = 74,
-	swaitRecordDOLV = 75,
-	swaitRecordOUTV = 76,
-	swaitRecordA = 77,
-	swaitRecordB = 78,
-	swaitRecordC = 79,
-	swaitRecordD = 80,
-	swaitRecordE = 81,
-	swaitRecordF = 82,
-	swaitRecordG = 83,
-	swaitRecordH = 84,
-	swaitRecordI = 85,
-	swaitRecordJ = 86,
-	swaitRecordK = 87,
-	swaitRecordL = 88,
-	swaitRecordLA = 89,
-	swaitRecordLB = 90,
-	swaitRecordLC = 91,
-	swaitRecordLD = 92,
-	swaitRecordLE = 93,
-	swaitRecordLF = 94,
-	swaitRecordLG = 95,
-	swaitRecordLH = 96,
-	swaitRecordLI = 97,
-	swaitRecordLJ = 98,
-	swaitRecordLK = 99,
-	swaitRecordLL = 100,
-	swaitRecordINAP = 101,
-	swaitRecordINBP = 102,
-	swaitRecordINCP = 103,
-	swaitRecordINDP = 104,
-	swaitRecordINEP = 105,
-	swaitRecordINFP = 106,
-	swaitRecordINGP = 107,
-	swaitRecordINHP = 108,
-	swaitRecordINIP = 109,
-	swaitRecordINJP = 110,
-	swaitRecordINKP = 111,
-	swaitRecordINLP = 112,
-	swaitRecordCALC = 113,
-	swaitRecordRPCL = 114,
-	swaitRecordCLCV = 115,
-	swaitRecordVAL = 116,
-	swaitRecordOVAL = 117,
-	swaitRecordPREC = 118,
-	swaitRecordOOPT = 119,
-	swaitRecordODLY = 120,
-	swaitRecordDOPT = 121,
-	swaitRecordDOLD = 122,
-	swaitRecordOEVT = 123,
-	swaitRecordADEL = 124,
-	swaitRecordMDEL = 125,
-	swaitRecordALST = 126,
-	swaitRecordMLST = 127,
-	swaitRecordSIOL = 128,
-	swaitRecordSVAL = 129,
-	swaitRecordSIML = 130,
-	swaitRecordSIMM = 131,
-	swaitRecordSIMS = 132
+	swaitRecordBKLNK = 15,
+	swaitRecordDISP = 16,
+	swaitRecordPROC = 17,
+	swaitRecordSTAT = 18,
+	swaitRecordSEVR = 19,
+	swaitRecordAMSG = 20,
+	swaitRecordNSTA = 21,
+	swaitRecordNSEV = 22,
+	swaitRecordNAMSG = 23,
+	swaitRecordACKS = 24,
+	swaitRecordACKT = 25,
+	swaitRecordDISS = 26,
+	swaitRecordLCNT = 27,
+	swaitRecordPACT = 28,
+	swaitRecordPUTF = 29,
+	swaitRecordRPRO = 30,
+	swaitRecordASP = 31,
+	swaitRecordPPN = 32,
+	swaitRecordPPNR = 33,
+	swaitRecordSPVT = 34,
+	swaitRecordRSET = 35,
+	swaitRecordDSET = 36,
+	swaitRecordDPVT = 37,
+	swaitRecordRDES = 38,
+	swaitRecordLSET = 39,
+	swaitRecordPRIO = 40,
+	swaitRecordTPRO = 41,
+	swaitRecordBKPT = 42,
+	swaitRecordUDF = 43,
+	swaitRecordUDFS = 44,
+	swaitRecordTIME = 45,
+	swaitRecordFLNK = 46,
+	swaitRecordVERS = 47,
+	swaitRecordHOPR = 48,
+	swaitRecordLOPR = 49,
+	swaitRecordINIT = 50,
+	swaitRecordCBST = 51,
+	swaitRecordINAN = 52,
+	swaitRecordINBN = 53,
+	swaitRecordINCN = 54,
+	swaitRecordINDN = 55,
+	swaitRecordINEN = 56,
+	swaitRecordINFN = 57,
+	swaitRecordINGN = 58,
+	swaitRecordINHN = 59,
+	swaitRecordININ = 60,
+	swaitRecordINJN = 61,
+	swaitRecordINKN = 62,
+	swaitRecordINLN = 63,
+	swaitRecordDOLN = 64,
+	swaitRecordOUTN = 65,
+	swaitRecordINAV = 66,
+	swaitRecordINBV = 67,
+	swaitRecordINCV = 68,
+	swaitRecordINDV = 69,
+	swaitRecordINEV = 70,
+	swaitRecordINFV = 71,
+	swaitRecordINGV = 72,
+	swaitRecordINHV = 73,
+	swaitRecordINIV = 74,
+	swaitRecordINJV = 75,
+	swaitRecordINKV = 76,
+	swaitRecordINLV = 77,
+	swaitRecordDOLV = 78,
+	swaitRecordOUTV = 79,
+	swaitRecordA = 80,
+	swaitRecordB = 81,
+	swaitRecordC = 82,
+	swaitRecordD = 83,
+	swaitRecordE = 84,
+	swaitRecordF = 85,
+	swaitRecordG = 86,
+	swaitRecordH = 87,
+	swaitRecordI = 88,
+	swaitRecordJ = 89,
+	swaitRecordK = 90,
+	swaitRecordL = 91,
+	swaitRecordLA = 92,
+	swaitRecordLB = 93,
+	swaitRecordLC = 94,
+	swaitRecordLD = 95,
+	swaitRecordLE = 96,
+	swaitRecordLF = 97,
+	swaitRecordLG = 98,
+	swaitRecordLH = 99,
+	swaitRecordLI = 100,
+	swaitRecordLJ = 101,
+	swaitRecordLK = 102,
+	swaitRecordLL = 103,
+	swaitRecordINAP = 104,
+	swaitRecordINBP = 105,
+	swaitRecordINCP = 106,
+	swaitRecordINDP = 107,
+	swaitRecordINEP = 108,
+	swaitRecordINFP = 109,
+	swaitRecordINGP = 110,
+	swaitRecordINHP = 111,
+	swaitRecordINIP = 112,
+	swaitRecordINJP = 113,
+	swaitRecordINKP = 114,
+	swaitRecordINLP = 115,
+	swaitRecordCALC = 116,
+	swaitRecordRPCL = 117,
+	swaitRecordCLCV = 118,
+	swaitRecordVAL = 119,
+	swaitRecordOVAL = 120,
+	swaitRecordPREC = 121,
+	swaitRecordOOPT = 122,
+	swaitRecordODLY = 123,
+	swaitRecordDOPT = 124,
+	swaitRecordDOLD = 125,
+	swaitRecordOEVT = 126,
+	swaitRecordADEL = 127,
+	swaitRecordMDEL = 128,
+	swaitRecordALST = 129,
+	swaitRecordMLST = 130,
+	swaitRecordSIOL = 131,
+	swaitRecordSVAL = 132,
+	swaitRecordSIML = 133,
+	swaitRecordSIMM = 134,
+	swaitRecordSIMS = 135
 } swaitFieldIndex;
 
 #ifdef GEN_SIZE_OFFSET
@@ -330,7 +336,7 @@ static int swaitRecordSizeOffset(dbRecordType *prt)
 {
     swaitRecord *prec = 0;
 
-    assert(prt->no_fields == 133);
+    assert(prt->no_fields == 136);
     prt->papFldDes[swaitRecordNAME]->size = sizeof(prec->name);
     prt->papFldDes[swaitRecordDESC]->size = sizeof(prec->desc);
     prt->papFldDes[swaitRecordASG]->size = sizeof(prec->asg);
@@ -346,12 +352,15 @@ static int swaitRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[swaitRecordSDIS]->size = sizeof(prec->sdis);
     prt->papFldDes[swaitRecordMLOK]->size = sizeof(prec->mlok);
     prt->papFldDes[swaitRecordMLIS]->size = sizeof(prec->mlis);
+    prt->papFldDes[swaitRecordBKLNK]->size = sizeof(prec->bklnk);
     prt->papFldDes[swaitRecordDISP]->size = sizeof(prec->disp);
     prt->papFldDes[swaitRecordPROC]->size = sizeof(prec->proc);
     prt->papFldDes[swaitRecordSTAT]->size = sizeof(prec->stat);
     prt->papFldDes[swaitRecordSEVR]->size = sizeof(prec->sevr);
+    prt->papFldDes[swaitRecordAMSG]->size = sizeof(prec->amsg);
     prt->papFldDes[swaitRecordNSTA]->size = sizeof(prec->nsta);
     prt->papFldDes[swaitRecordNSEV]->size = sizeof(prec->nsev);
+    prt->papFldDes[swaitRecordNAMSG]->size = sizeof(prec->namsg);
     prt->papFldDes[swaitRecordACKS]->size = sizeof(prec->acks);
     prt->papFldDes[swaitRecordACKT]->size = sizeof(prec->ackt);
     prt->papFldDes[swaitRecordDISS]->size = sizeof(prec->diss);
@@ -479,12 +488,15 @@ static int swaitRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[swaitRecordSDIS]->offset = (unsigned short)((char *)&prec->sdis - (char *)prec);
     prt->papFldDes[swaitRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[swaitRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
+    prt->papFldDes[swaitRecordBKLNK]->offset = (unsigned short)((char *)&prec->bklnk - (char *)prec);
     prt->papFldDes[swaitRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[swaitRecordPROC]->offset = (unsigned short)((char *)&prec->proc - (char *)prec);
     prt->papFldDes[swaitRecordSTAT]->offset = (unsigned short)((char *)&prec->stat - (char *)prec);
     prt->papFldDes[swaitRecordSEVR]->offset = (unsigned short)((char *)&prec->sevr - (char *)prec);
+    prt->papFldDes[swaitRecordAMSG]->offset = (unsigned short)((char *)&prec->amsg - (char *)prec);
     prt->papFldDes[swaitRecordNSTA]->offset = (unsigned short)((char *)&prec->nsta - (char *)prec);
     prt->papFldDes[swaitRecordNSEV]->offset = (unsigned short)((char *)&prec->nsev - (char *)prec);
+    prt->papFldDes[swaitRecordNAMSG]->offset = (unsigned short)((char *)&prec->namsg - (char *)prec);
     prt->papFldDes[swaitRecordACKS]->offset = (unsigned short)((char *)&prec->acks - (char *)prec);
     prt->papFldDes[swaitRecordACKT]->offset = (unsigned short)((char *)&prec->ackt - (char *)prec);
     prt->papFldDes[swaitRecordDISS]->offset = (unsigned short)((char *)&prec->diss - (char *)prec);

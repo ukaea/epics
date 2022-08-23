@@ -4,7 +4,7 @@
 * Copyright (c) 2002 The Regents of the University of California, as
 *     Operator of Los Alamos National Laboratory.
 * EPICS BASE is distributed subject to a Software License Agreement found
-* in file LICENSE that is included with this distribution. 
+* in file LICENSE that is included with this distribution.
 \*************************************************************************/
 /* devAiSoftCallback.c */
 /*
@@ -42,16 +42,16 @@ typedef struct devPvt {
     int smooth;
     struct {
         DBRstatus
-        DBRtime
-        epicsFloat64 value;
+            DBRtime
+            epicsFloat64 value;
     } buffer;
 } devPvt;
 
 
-static void getCallback(processNotify *ppn, notifyGetType type)
+static void getCallback(processNotify* ppn, notifyGetType type)
 {
-    aiRecord *prec = (aiRecord *)ppn->usrPvt;
-    devPvt *pdevPvt = (devPvt *)prec->dpvt;
+    aiRecord* prec = (aiRecord*)ppn->usrPvt;
+    devPvt* pdevPvt = (devPvt*)prec->dpvt;
     long no_elements = 1;
 
     if (ppn->status == notifyCanceled) {
@@ -64,37 +64,37 @@ static void getCallback(processNotify *ppn, notifyGetType type)
         &pdevPvt->buffer, &pdevPvt->options, &no_elements, 0);
 }
 
-static void doneCallback(processNotify *ppn)
+static void doneCallback(processNotify* ppn)
 {
-    aiRecord *prec = (aiRecord *)ppn->usrPvt;
-    devPvt *pdevPvt = (devPvt *)prec->dpvt;
+    aiRecord* prec = (aiRecord*)ppn->usrPvt;
+    devPvt* pdevPvt = (devPvt*)prec->dpvt;
 
     callbackRequestProcessCallback(&pdevPvt->callback, prec->prio, prec);
 }
 
-static long add_record(dbCommon *pcommon)
+static long add_record(dbCommon* pcommon)
 {
-    aiRecord *prec = (aiRecord *)pcommon;
-    DBLINK *plink = &prec->inp;
-    dbChannel *chan;
-    devPvt *pdevPvt;
-    processNotify *ppn;
+    aiRecord* prec = (aiRecord*)pcommon;
+    DBLINK* plink = &prec->inp;
+    dbChannel* chan;
+    devPvt* pdevPvt;
+    processNotify* ppn;
 
     if (plink->type == CONSTANT) return 0;
 
     if (plink->type != PV_LINK) {
-	long status = S_db_badField;
+        long status = S_db_badField;
 
-        recGblRecordError(status, (void *)prec,
+        recGblRecordError(status, (void*)prec,
             "devAiSoftCallback (add_record) Illegal INP field");
         return status;
     }
 
     chan = dbChannelCreate(plink->value.pv_link.pvname);
     if (!chan) {
-	long status = S_db_notFound;
+        long status = S_db_notFound;
 
-        recGblRecordError(status, (void *)prec,
+        recGblRecordError(status, (void*)prec,
             "devAiSoftCallback (add_record) link target not found");
         return status;
     }
@@ -103,7 +103,7 @@ static long add_record(dbCommon *pcommon)
     if (!pdevPvt) {
         long status = S_db_noMemory;
 
-        recGblRecordError(status, (void *)prec,
+        recGblRecordError(status, (void*)prec,
             "devAiSoftCallback (add_record) out of memory, calloc() failed");
         return status;
     }
@@ -125,10 +125,10 @@ static long add_record(dbCommon *pcommon)
     return 0;
 }
 
-static long del_record(dbCommon *pcommon) {
-    aiRecord *prec = (aiRecord *)pcommon;
-    DBLINK *plink = &prec->inp;
-    devPvt *pdevPvt = (devPvt *)prec->dpvt;
+static long del_record(dbCommon* pcommon) {
+    aiRecord* prec = (aiRecord*)pcommon;
+    DBLINK* plink = &prec->inp;
+    devPvt* pdevPvt = (devPvt*)prec->dpvt;
 
     if (plink->type == CONSTANT) return 0;
     assert(plink->type == PN_LINK);
@@ -151,7 +151,7 @@ static long init(int pass)
     return 0;
 }
 
-static long init_record(aiRecord *prec)
+static long init_record(aiRecord* prec)
 {
     /* INP must be CONSTANT or PN_LINK */
     switch (prec->inp.type) {
@@ -163,7 +163,7 @@ static long init_record(aiRecord *prec)
         /* Handled by add_record */
         break;
     default:
-        recGblRecordError(S_db_badField, (void *)prec,
+        recGblRecordError(S_db_badField, (void*)prec,
             "devAiSoftCallback (init_record) Illegal INP field");
         prec->pact = TRUE;
         return S_db_badField;
@@ -171,9 +171,9 @@ static long init_record(aiRecord *prec)
     return 0;
 }
 
-static long read_ai(aiRecord *prec)
+static long read_ai(aiRecord* prec)
 {
-    devPvt *pdevPvt = (devPvt *)prec->dpvt;
+    devPvt* pdevPvt = (devPvt*)prec->dpvt;
 
     if (!prec->dpvt)
         return 2;
@@ -193,26 +193,26 @@ static long read_ai(aiRecord *prec)
     /* Apply smoothing algorithm */
     if (prec->smoo != 0.0 && pdevPvt->smooth && finite(prec->val))
         prec->val = prec->val * prec->smoo +
-            pdevPvt->buffer.value * (1.0 - prec->smoo);
+        pdevPvt->buffer.value * (1.0 - prec->smoo);
     else
         prec->val = pdevPvt->buffer.value;
     prec->udf = FALSE;
     pdevPvt->smooth = TRUE;
 
     switch (prec->inp.value.pv_link.pvlMask & pvlOptMsMode) {
-        case pvlOptNMS:
+    case pvlOptNMS:
+        break;
+    case pvlOptMSI:
+        if (pdevPvt->buffer.severity < INVALID_ALARM)
             break;
-        case pvlOptMSI:
-            if (pdevPvt->buffer.severity < INVALID_ALARM)
-                break;
-            /* else fall through */
-        case pvlOptMS:
-            recGblSetSevr(prec, LINK_ALARM, pdevPvt->buffer.severity);
-            break;
-        case pvlOptMSS:
-            recGblSetSevr(prec, pdevPvt->buffer.status,
-                pdevPvt->buffer.severity);
-            break;
+        /* else fall through */
+    case pvlOptMS:
+        recGblSetSevr(prec, LINK_ALARM, pdevPvt->buffer.severity);
+        break;
+    case pvlOptMSS:
+        recGblSetSevr(prec, pdevPvt->buffer.status,
+            pdevPvt->buffer.severity);
+        break;
     }
 
     if (prec->tsel.type == CONSTANT &&

@@ -3,21 +3,29 @@
 #ifndef INC_aaoRecord_H
 #define INC_aaoRecord_H
 
- #include "epicsTypes.h"
- #include "link.h"
-#include "epicsMutex.h"
+#include "epicsTypes.h"
+#include "link.h"
+ #include "epicsMutex.h"
 #include "ellLib.h"
 #include "epicsTime.h"
 
-/* Declare Device Support Entry Table */
-struct aaoRecord;
-typedef struct aaodset {
-    dset common; /*init_record returns: (-1,0)=>(failure,success)*/
-    long (*write_aao)(struct aaoRecord *prec); /*returns: (-1,0)=>(failure,success)*/
-} aaodset;
-#define HAS_aaodset
-
-#include "callback.h"
+#ifndef menuFtype_NUM_CHOICES
+typedef enum {
+    menuFtypeSTRING                 /* STRING */,
+    menuFtypeCHAR                   /* CHAR */,
+    menuFtypeUCHAR                  /* UCHAR */,
+    menuFtypeSHORT                  /* SHORT */,
+    menuFtypeUSHORT                 /* USHORT */,
+    menuFtypeLONG                   /* LONG */,
+    menuFtypeULONG                  /* ULONG */,
+    menuFtypeINT64                  /* INT64 */,
+    menuFtypeUINT64                 /* UINT64 */,
+    menuFtypeFLOAT                  /* FLOAT */,
+    menuFtypeDOUBLE                 /* DOUBLE */,
+    menuFtypeENUM                   /* ENUM */
+} menuFtype;
+#define menuFtype_NUM_CHOICES 12
+#endif
 
 #ifndef aaoPOST_NUM_CHOICES
 typedef enum {
@@ -43,12 +51,15 @@ typedef struct aaoRecord {
     DBLINK              sdis;       /* Scanning Disable */
     epicsMutexId        mlok;       /* Monitor lock */
     ELLLIST             mlis;       /* Monitor List */
+    ELLLIST             bklnk;      /* Backwards link tracking */
     epicsUInt8          disp;       /* Disable putField */
     epicsUInt8          proc;       /* Force Processing */
     epicsEnum16         stat;       /* Alarm Status */
     epicsEnum16         sevr;       /* Alarm Severity */
+    char                amsg[40];   /* Alarm Message */
     epicsEnum16         nsta;       /* New Alarm Status */
     epicsEnum16         nsev;       /* New Alarm Severity */
+    char                namsg[40];  /* New Alarm Message */
     epicsEnum16         acks;       /* Alarm Ack Severity */
     epicsEnum16         ackt;       /* Alarm Ack Transient */
     epicsEnum16         diss;       /* Disable Alarm Sevrty */
@@ -82,14 +93,10 @@ typedef struct aaoRecord {
     epicsEnum16         ftvl;       /* Field Type of Value */
     epicsUInt32         nord;       /* Number elements read */
     void *		bptr;                   /* Buffer Pointer */
-    DBLINK              siml;       /* Simulation Mode Link */
+    DBLINK              siml;       /* Sim Mode Location */
     epicsEnum16         simm;       /* Simulation Mode */
-    epicsEnum16         sims;       /* Simulation Mode Severity */
-    DBLINK              siol;       /* Simulation Output Link */
-    epicsEnum16         oldsimm;    /* Prev. Simulation Mode */
-    epicsEnum16         sscn;       /* Sim. Mode Scan */
-    epicsFloat64        sdly;       /* Sim. Mode Async Delay */
-    epicsCallback            *simpvt; /* Sim. Mode Private */
+    epicsEnum16         sims;       /* Sim mode Alarm Svrty */
+    DBLINK              siol;       /* Sim Output Specifctn */
     epicsEnum16         mpst;       /* Post Value Monitors */
     epicsEnum16         apst;       /* Post Archive Monitors */
     epicsUInt32         hash;       /* Hash of OnChange data. */
@@ -111,56 +118,55 @@ typedef enum {
 	aaoRecordSDIS = 12,
 	aaoRecordMLOK = 13,
 	aaoRecordMLIS = 14,
-	aaoRecordDISP = 15,
-	aaoRecordPROC = 16,
-	aaoRecordSTAT = 17,
-	aaoRecordSEVR = 18,
-	aaoRecordNSTA = 19,
-	aaoRecordNSEV = 20,
-	aaoRecordACKS = 21,
-	aaoRecordACKT = 22,
-	aaoRecordDISS = 23,
-	aaoRecordLCNT = 24,
-	aaoRecordPACT = 25,
-	aaoRecordPUTF = 26,
-	aaoRecordRPRO = 27,
-	aaoRecordASP = 28,
-	aaoRecordPPN = 29,
-	aaoRecordPPNR = 30,
-	aaoRecordSPVT = 31,
-	aaoRecordRSET = 32,
-	aaoRecordDSET = 33,
-	aaoRecordDPVT = 34,
-	aaoRecordRDES = 35,
-	aaoRecordLSET = 36,
-	aaoRecordPRIO = 37,
-	aaoRecordTPRO = 38,
-	aaoRecordBKPT = 39,
-	aaoRecordUDF = 40,
-	aaoRecordUDFS = 41,
-	aaoRecordTIME = 42,
-	aaoRecordFLNK = 43,
-	aaoRecordVAL = 44,
-	aaoRecordPREC = 45,
-	aaoRecordOUT = 46,
-	aaoRecordEGU = 47,
-	aaoRecordHOPR = 48,
-	aaoRecordLOPR = 49,
-	aaoRecordNELM = 50,
-	aaoRecordFTVL = 51,
-	aaoRecordNORD = 52,
-	aaoRecordBPTR = 53,
-	aaoRecordSIML = 54,
-	aaoRecordSIMM = 55,
-	aaoRecordSIMS = 56,
-	aaoRecordSIOL = 57,
-	aaoRecordOLDSIMM = 58,
-	aaoRecordSSCN = 59,
-	aaoRecordSDLY = 60,
-	aaoRecordSIMPVT = 61,
-	aaoRecordMPST = 62,
-	aaoRecordAPST = 63,
-	aaoRecordHASH = 64
+	aaoRecordBKLNK = 15,
+	aaoRecordDISP = 16,
+	aaoRecordPROC = 17,
+	aaoRecordSTAT = 18,
+	aaoRecordSEVR = 19,
+	aaoRecordAMSG = 20,
+	aaoRecordNSTA = 21,
+	aaoRecordNSEV = 22,
+	aaoRecordNAMSG = 23,
+	aaoRecordACKS = 24,
+	aaoRecordACKT = 25,
+	aaoRecordDISS = 26,
+	aaoRecordLCNT = 27,
+	aaoRecordPACT = 28,
+	aaoRecordPUTF = 29,
+	aaoRecordRPRO = 30,
+	aaoRecordASP = 31,
+	aaoRecordPPN = 32,
+	aaoRecordPPNR = 33,
+	aaoRecordSPVT = 34,
+	aaoRecordRSET = 35,
+	aaoRecordDSET = 36,
+	aaoRecordDPVT = 37,
+	aaoRecordRDES = 38,
+	aaoRecordLSET = 39,
+	aaoRecordPRIO = 40,
+	aaoRecordTPRO = 41,
+	aaoRecordBKPT = 42,
+	aaoRecordUDF = 43,
+	aaoRecordUDFS = 44,
+	aaoRecordTIME = 45,
+	aaoRecordFLNK = 46,
+	aaoRecordVAL = 47,
+	aaoRecordPREC = 48,
+	aaoRecordOUT = 49,
+	aaoRecordEGU = 50,
+	aaoRecordHOPR = 51,
+	aaoRecordLOPR = 52,
+	aaoRecordNELM = 53,
+	aaoRecordFTVL = 54,
+	aaoRecordNORD = 55,
+	aaoRecordBPTR = 56,
+	aaoRecordSIML = 57,
+	aaoRecordSIMM = 58,
+	aaoRecordSIMS = 59,
+	aaoRecordSIOL = 60,
+	aaoRecordMPST = 61,
+	aaoRecordAPST = 62,
+	aaoRecordHASH = 63
 } aaoFieldIndex;
 
 #ifdef GEN_SIZE_OFFSET
@@ -174,7 +180,7 @@ static int aaoRecordSizeOffset(dbRecordType *prt)
 {
     aaoRecord *prec = 0;
 
-    assert(prt->no_fields == 65);
+    assert(prt->no_fields == 64);
     prt->papFldDes[aaoRecordNAME]->size = sizeof(prec->name);
     prt->papFldDes[aaoRecordDESC]->size = sizeof(prec->desc);
     prt->papFldDes[aaoRecordASG]->size = sizeof(prec->asg);
@@ -190,12 +196,15 @@ static int aaoRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[aaoRecordSDIS]->size = sizeof(prec->sdis);
     prt->papFldDes[aaoRecordMLOK]->size = sizeof(prec->mlok);
     prt->papFldDes[aaoRecordMLIS]->size = sizeof(prec->mlis);
+    prt->papFldDes[aaoRecordBKLNK]->size = sizeof(prec->bklnk);
     prt->papFldDes[aaoRecordDISP]->size = sizeof(prec->disp);
     prt->papFldDes[aaoRecordPROC]->size = sizeof(prec->proc);
     prt->papFldDes[aaoRecordSTAT]->size = sizeof(prec->stat);
     prt->papFldDes[aaoRecordSEVR]->size = sizeof(prec->sevr);
+    prt->papFldDes[aaoRecordAMSG]->size = sizeof(prec->amsg);
     prt->papFldDes[aaoRecordNSTA]->size = sizeof(prec->nsta);
     prt->papFldDes[aaoRecordNSEV]->size = sizeof(prec->nsev);
+    prt->papFldDes[aaoRecordNAMSG]->size = sizeof(prec->namsg);
     prt->papFldDes[aaoRecordACKS]->size = sizeof(prec->acks);
     prt->papFldDes[aaoRecordACKT]->size = sizeof(prec->ackt);
     prt->papFldDes[aaoRecordDISS]->size = sizeof(prec->diss);
@@ -233,10 +242,6 @@ static int aaoRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[aaoRecordSIMM]->size = sizeof(prec->simm);
     prt->papFldDes[aaoRecordSIMS]->size = sizeof(prec->sims);
     prt->papFldDes[aaoRecordSIOL]->size = sizeof(prec->siol);
-    prt->papFldDes[aaoRecordOLDSIMM]->size = sizeof(prec->oldsimm);
-    prt->papFldDes[aaoRecordSSCN]->size = sizeof(prec->sscn);
-    prt->papFldDes[aaoRecordSDLY]->size = sizeof(prec->sdly);
-    prt->papFldDes[aaoRecordSIMPVT]->size = sizeof(prec->simpvt);
     prt->papFldDes[aaoRecordMPST]->size = sizeof(prec->mpst);
     prt->papFldDes[aaoRecordAPST]->size = sizeof(prec->apst);
     prt->papFldDes[aaoRecordHASH]->size = sizeof(prec->hash);
@@ -255,12 +260,15 @@ static int aaoRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[aaoRecordSDIS]->offset = (unsigned short)((char *)&prec->sdis - (char *)prec);
     prt->papFldDes[aaoRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[aaoRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
+    prt->papFldDes[aaoRecordBKLNK]->offset = (unsigned short)((char *)&prec->bklnk - (char *)prec);
     prt->papFldDes[aaoRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[aaoRecordPROC]->offset = (unsigned short)((char *)&prec->proc - (char *)prec);
     prt->papFldDes[aaoRecordSTAT]->offset = (unsigned short)((char *)&prec->stat - (char *)prec);
     prt->papFldDes[aaoRecordSEVR]->offset = (unsigned short)((char *)&prec->sevr - (char *)prec);
+    prt->papFldDes[aaoRecordAMSG]->offset = (unsigned short)((char *)&prec->amsg - (char *)prec);
     prt->papFldDes[aaoRecordNSTA]->offset = (unsigned short)((char *)&prec->nsta - (char *)prec);
     prt->papFldDes[aaoRecordNSEV]->offset = (unsigned short)((char *)&prec->nsev - (char *)prec);
+    prt->papFldDes[aaoRecordNAMSG]->offset = (unsigned short)((char *)&prec->namsg - (char *)prec);
     prt->papFldDes[aaoRecordACKS]->offset = (unsigned short)((char *)&prec->acks - (char *)prec);
     prt->papFldDes[aaoRecordACKT]->offset = (unsigned short)((char *)&prec->ackt - (char *)prec);
     prt->papFldDes[aaoRecordDISS]->offset = (unsigned short)((char *)&prec->diss - (char *)prec);
@@ -298,10 +306,6 @@ static int aaoRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[aaoRecordSIMM]->offset = (unsigned short)((char *)&prec->simm - (char *)prec);
     prt->papFldDes[aaoRecordSIMS]->offset = (unsigned short)((char *)&prec->sims - (char *)prec);
     prt->papFldDes[aaoRecordSIOL]->offset = (unsigned short)((char *)&prec->siol - (char *)prec);
-    prt->papFldDes[aaoRecordOLDSIMM]->offset = (unsigned short)((char *)&prec->oldsimm - (char *)prec);
-    prt->papFldDes[aaoRecordSSCN]->offset = (unsigned short)((char *)&prec->sscn - (char *)prec);
-    prt->papFldDes[aaoRecordSDLY]->offset = (unsigned short)((char *)&prec->sdly - (char *)prec);
-    prt->papFldDes[aaoRecordSIMPVT]->offset = (unsigned short)((char *)&prec->simpvt - (char *)prec);
     prt->papFldDes[aaoRecordMPST]->offset = (unsigned short)((char *)&prec->mpst - (char *)prec);
     prt->papFldDes[aaoRecordAPST]->offset = (unsigned short)((char *)&prec->apst - (char *)prec);
     prt->papFldDes[aaoRecordHASH]->offset = (unsigned short)((char *)&prec->hash - (char *)prec);

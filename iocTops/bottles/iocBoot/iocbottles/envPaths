@@ -1,5 +1,5 @@
 epicsEnvSet("IOC","iocbottles")
-epicsEnvSet("TOP","C:/epics/iocTops/bottles")
-epicsEnvSet("SUPPORT","C:/epics/support")
-epicsEnvSet("CALC","C:/epics/support/calc")
+epicsEnvSet("TOP","C:\Users\ktn98257\source\repos\epics.dotnet\iocTops\bottles")
+epicsEnvSet("SUPPORT","C:\Users\ktn98257\source\repos\epics.dotnet\support")
+epicsEnvSet("CALC","C:\Users\ktn98257\source\repos\epics.dotnet\support\calc")
 epicsEnvSet("EPICS_BASE","C:/epics/base")

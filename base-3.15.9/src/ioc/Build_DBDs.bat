@@ -3,6 +3,10 @@ SET TOPLEVEL=%1
 SET BUILDIR=%2
 SET DLLDIR=%3
 
+SET TOPLEVEL=C:\Users\ktn98257\source\repos\epics.dotnet\
+SET DLLDIR=C:\Users\ktn98257\source\repos\epics.dotnet\x64\Release_DLL\
+SET BUILDIR=C:\Users\ktn98257\source\repos\epics.dotnet\base-3.15.9\src\ioc
+
 if not exist  %TOPLEVEL%include  md %TOPLEVEL%include
 if not exist  %TOPLEVEL%DBD  md %TOPLEVEL%DBD
 if not exist  O.Common  md O.Common
@@ -45,17 +49,17 @@ perl -CSD %DLLDIR%dbdExpand.pl  -I../O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DB
 xcopy /Y /Q menu*.dbd ..\O.Common
 xcopy /Y /Q softIoc.dbd %TOPLEVEL%DBD
 
-perl -CSD %DLLDIR%dbdToRecordtypeH.pl -o ..\O.Common\dbCommon.h dbCommon.dbd
-perl -CSD %DLLDIR%dbdToRecordtypeH.pl -o ..\O.Common\dbCommonRecord.h dbCommonRecord.dbd
-perl -CSD %DLLDIR%dbdToRecordtypeH.pl -o ..\O.Common\menuAlarmStat.h menuAlarmStat.dbd
-perl -CSD %DLLDIR%dbdToRecordtypeH.pl -o ..\O.Common\menuFtype.h menuFtype.dbd
-perl -CSD %DLLDIR%dbdToRecordtypeH.pl -o ..\O.Common\menuIvoa.h menuIvoa.dbd
-perl -CSD %DLLDIR%dbdToRecordtypeH.pl -o ..\O.Common\menuOmsl.h menuOmsl.dbd
-perl -CSD %DLLDIR%dbdToRecordtypeH.pl -o ..\O.Common\menuPini.h menuPini.dbd
-perl -CSD %DLLDIR%dbdToRecordtypeH.pl -o ..\O.Common\menuPriority.h menuPriority.dbd
-perl -CSD %DLLDIR%dbdToRecordtypeH.pl -o ..\O.Common\menuScan.h menuScan.dbd
-perl -CSD %DLLDIR%dbdToRecordtypeH.pl -o ..\O.Common\menuYesNo.h menuYesNo.dbd
-perl -CSD %DLLDIR%dbdToRecordtypeH.pl -o ..\O.Common\menuPost.h menuPost.dbd
+perl -CSD %DLLDIR%dbdToRecordtypeH.pl -I%TOPLEVEL%include -o ..\O.Common\dbCommon.h dbCommon.dbd
+perl -CSD %DLLDIR%dbdToRecordtypeH.pl -I%TOPLEVEL%include -o ..\O.Common\dbCommonRecord.h dbCommonRecord.dbd
+perl -CSD %DLLDIR%dbdToRecordtypeH.pl -I%TOPLEVEL%include -o ..\O.Common\menuAlarmStat.h menuAlarmStat.dbd
+perl -CSD %DLLDIR%dbdToRecordtypeH.pl -I%TOPLEVEL%include -o ..\O.Common\menuFtype.h menuFtype.dbd
+perl -CSD %DLLDIR%dbdToRecordtypeH.pl -I%TOPLEVEL%include -o ..\O.Common\menuIvoa.h menuIvoa.dbd
+perl -CSD %DLLDIR%dbdToRecordtypeH.pl -I%TOPLEVEL%include -o ..\O.Common\menuOmsl.h menuOmsl.dbd
+perl -CSD %DLLDIR%dbdToRecordtypeH.pl -I%TOPLEVEL%include -o ..\O.Common\menuPini.h menuPini.dbd
+perl -CSD %DLLDIR%dbdToRecordtypeH.pl -I%TOPLEVEL%include -o ..\O.Common\menuPriority.h menuPriority.dbd
+perl -CSD %DLLDIR%dbdToRecordtypeH.pl -I%TOPLEVEL%include -o ..\O.Common\menuScan.h menuScan.dbd
+perl -CSD %DLLDIR%dbdToRecordtypeH.pl -I%TOPLEVEL%include -o ..\O.Common\menuYesNo.h menuYesNo.dbd
+perl -CSD %DLLDIR%dbdToRecordtypeH.pl -I%TOPLEVEL%include -o ..\O.Common\menuPost.h menuPost.dbd
 
 perl -CSD %DLLDIR%dbdToMenuH.pl -I../O.Common -I%TOPLEVEL%include -o ..\O.Common\menuPost.h menuPost.dbd
 perl -CSD %DLLDIR%dbdToMenuH.pl -I../O.Common -I%TOPLEVEL%include -o ..\O.Common\menuSimm.h menuSimm.dbd

@@ -117,5 +117,3 @@ recordtype(printf) {
     %/* Number of INPx fields defined */
     %#define PRINTF_NLINKS 10
 }
-
-

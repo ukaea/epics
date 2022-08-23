@@ -3,9 +3,9 @@
 #ifndef INC_stringinRecord_H
 #define INC_stringinRecord_H
 
- #include "epicsTypes.h"
- #include "link.h"
-#include "epicsMutex.h"
+#include "epicsTypes.h"
+#include "link.h"
+ #include "epicsMutex.h"
 #include "ellLib.h"
 #include "epicsTime.h"
 
@@ -33,12 +33,15 @@ typedef struct stringinRecord {
     DBLINK              sdis;       /* Scanning Disable */
     epicsMutexId        mlok;       /* Monitor lock */
     ELLLIST             mlis;       /* Monitor List */
+    ELLLIST             bklnk;      /* Backwards link tracking */
     epicsUInt8          disp;       /* Disable putField */
     epicsUInt8          proc;       /* Force Processing */
     epicsEnum16         stat;       /* Alarm Status */
     epicsEnum16         sevr;       /* Alarm Severity */
+    char                amsg[40];   /* Alarm Message */
     epicsEnum16         nsta;       /* New Alarm Status */
     epicsEnum16         nsev;       /* New Alarm Severity */
+    char                namsg[40];  /* New Alarm Message */
     epicsEnum16         acks;       /* Alarm Ack Severity */
     epicsEnum16         ackt;       /* Alarm Ack Transient */
     epicsEnum16         diss;       /* Disable Alarm Sevrty */
@@ -90,45 +93,48 @@ typedef enum {
 	stringinRecordSDIS = 12,
 	stringinRecordMLOK = 13,
 	stringinRecordMLIS = 14,
-	stringinRecordDISP = 15,
-	stringinRecordPROC = 16,
-	stringinRecordSTAT = 17,
-	stringinRecordSEVR = 18,
-	stringinRecordNSTA = 19,
-	stringinRecordNSEV = 20,
-	stringinRecordACKS = 21,
-	stringinRecordACKT = 22,
-	stringinRecordDISS = 23,
-	stringinRecordLCNT = 24,
-	stringinRecordPACT = 25,
-	stringinRecordPUTF = 26,
-	stringinRecordRPRO = 27,
-	stringinRecordASP = 28,
-	stringinRecordPPN = 29,
-	stringinRecordPPNR = 30,
-	stringinRecordSPVT = 31,
-	stringinRecordRSET = 32,
-	stringinRecordDSET = 33,
-	stringinRecordDPVT = 34,
-	stringinRecordRDES = 35,
-	stringinRecordLSET = 36,
-	stringinRecordPRIO = 37,
-	stringinRecordTPRO = 38,
-	stringinRecordBKPT = 39,
-	stringinRecordUDF = 40,
-	stringinRecordUDFS = 41,
-	stringinRecordTIME = 42,
-	stringinRecordFLNK = 43,
-	stringinRecordVAL = 44,
-	stringinRecordINP = 45,
-	stringinRecordMPST = 46,
-	stringinRecordAPST = 47,
-	stringinRecordOVAL = 48,
-	stringinRecordSIOL = 49,
-	stringinRecordSVAL = 50,
-	stringinRecordSIML = 51,
-	stringinRecordSIMM = 52,
-	stringinRecordSIMS = 53
+	stringinRecordBKLNK = 15,
+	stringinRecordDISP = 16,
+	stringinRecordPROC = 17,
+	stringinRecordSTAT = 18,
+	stringinRecordSEVR = 19,
+	stringinRecordAMSG = 20,
+	stringinRecordNSTA = 21,
+	stringinRecordNSEV = 22,
+	stringinRecordNAMSG = 23,
+	stringinRecordACKS = 24,
+	stringinRecordACKT = 25,
+	stringinRecordDISS = 26,
+	stringinRecordLCNT = 27,
+	stringinRecordPACT = 28,
+	stringinRecordPUTF = 29,
+	stringinRecordRPRO = 30,
+	stringinRecordASP = 31,
+	stringinRecordPPN = 32,
+	stringinRecordPPNR = 33,
+	stringinRecordSPVT = 34,
+	stringinRecordRSET = 35,
+	stringinRecordDSET = 36,
+	stringinRecordDPVT = 37,
+	stringinRecordRDES = 38,
+	stringinRecordLSET = 39,
+	stringinRecordPRIO = 40,
+	stringinRecordTPRO = 41,
+	stringinRecordBKPT = 42,
+	stringinRecordUDF = 43,
+	stringinRecordUDFS = 44,
+	stringinRecordTIME = 45,
+	stringinRecordFLNK = 46,
+	stringinRecordVAL = 47,
+	stringinRecordINP = 48,
+	stringinRecordMPST = 49,
+	stringinRecordAPST = 50,
+	stringinRecordOVAL = 51,
+	stringinRecordSIOL = 52,
+	stringinRecordSVAL = 53,
+	stringinRecordSIML = 54,
+	stringinRecordSIMM = 55,
+	stringinRecordSIMS = 56
 } stringinFieldIndex;
 
 #ifdef GEN_SIZE_OFFSET
@@ -142,7 +148,7 @@ static int stringinRecordSizeOffset(dbRecordType *prt)
 {
     stringinRecord *prec = 0;
 
-    assert(prt->no_fields == 54);
+    assert(prt->no_fields == 57);
     prt->papFldDes[stringinRecordNAME]->size = sizeof(prec->name);
     prt->papFldDes[stringinRecordDESC]->size = sizeof(prec->desc);
     prt->papFldDes[stringinRecordASG]->size = sizeof(prec->asg);
@@ -158,12 +164,15 @@ static int stringinRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[stringinRecordSDIS]->size = sizeof(prec->sdis);
     prt->papFldDes[stringinRecordMLOK]->size = sizeof(prec->mlok);
     prt->papFldDes[stringinRecordMLIS]->size = sizeof(prec->mlis);
+    prt->papFldDes[stringinRecordBKLNK]->size = sizeof(prec->bklnk);
     prt->papFldDes[stringinRecordDISP]->size = sizeof(prec->disp);
     prt->papFldDes[stringinRecordPROC]->size = sizeof(prec->proc);
     prt->papFldDes[stringinRecordSTAT]->size = sizeof(prec->stat);
     prt->papFldDes[stringinRecordSEVR]->size = sizeof(prec->sevr);
+    prt->papFldDes[stringinRecordAMSG]->size = sizeof(prec->amsg);
     prt->papFldDes[stringinRecordNSTA]->size = sizeof(prec->nsta);
     prt->papFldDes[stringinRecordNSEV]->size = sizeof(prec->nsev);
+    prt->papFldDes[stringinRecordNAMSG]->size = sizeof(prec->namsg);
     prt->papFldDes[stringinRecordACKS]->size = sizeof(prec->acks);
     prt->papFldDes[stringinRecordACKT]->size = sizeof(prec->ackt);
     prt->papFldDes[stringinRecordDISS]->size = sizeof(prec->diss);
@@ -212,12 +221,15 @@ static int stringinRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[stringinRecordSDIS]->offset = (unsigned short)((char *)&prec->sdis - (char *)prec);
     prt->papFldDes[stringinRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[stringinRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
+    prt->papFldDes[stringinRecordBKLNK]->offset = (unsigned short)((char *)&prec->bklnk - (char *)prec);
     prt->papFldDes[stringinRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[stringinRecordPROC]->offset = (unsigned short)((char *)&prec->proc - (char *)prec);
     prt->papFldDes[stringinRecordSTAT]->offset = (unsigned short)((char *)&prec->stat - (char *)prec);
     prt->papFldDes[stringinRecordSEVR]->offset = (unsigned short)((char *)&prec->sevr - (char *)prec);
+    prt->papFldDes[stringinRecordAMSG]->offset = (unsigned short)((char *)&prec->amsg - (char *)prec);
     prt->papFldDes[stringinRecordNSTA]->offset = (unsigned short)((char *)&prec->nsta - (char *)prec);
     prt->papFldDes[stringinRecordNSEV]->offset = (unsigned short)((char *)&prec->nsev - (char *)prec);
+    prt->papFldDes[stringinRecordNAMSG]->offset = (unsigned short)((char *)&prec->namsg - (char *)prec);
     prt->papFldDes[stringinRecordACKS]->offset = (unsigned short)((char *)&prec->acks - (char *)prec);
     prt->papFldDes[stringinRecordACKT]->offset = (unsigned short)((char *)&prec->ackt - (char *)prec);
     prt->papFldDes[stringinRecordDISS]->offset = (unsigned short)((char *)&prec->diss - (char *)prec);

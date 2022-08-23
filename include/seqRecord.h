@@ -3,9 +3,9 @@
 #ifndef INC_seqRecord_H
 #define INC_seqRecord_H
 
- #include "epicsTypes.h"
- #include "link.h"
-#include "epicsMutex.h"
+#include "epicsTypes.h"
+#include "link.h"
+ #include "epicsMutex.h"
 #include "ellLib.h"
 #include "epicsTime.h"
 
@@ -34,12 +34,15 @@ typedef struct seqRecord {
     DBLINK              sdis;       /* Scanning Disable */
     epicsMutexId        mlok;       /* Monitor lock */
     ELLLIST             mlis;       /* Monitor List */
+    ELLLIST             bklnk;      /* Backwards link tracking */
     epicsUInt8          disp;       /* Disable putField */
     epicsUInt8          proc;       /* Force Processing */
     epicsEnum16         stat;       /* Alarm Status */
     epicsEnum16         sevr;       /* Alarm Severity */
+    char                amsg[40];   /* Alarm Message */
     epicsEnum16         nsta;       /* New Alarm Status */
     epicsEnum16         nsev;       /* New Alarm Severity */
+    char                namsg[40];  /* New Alarm Message */
     epicsEnum16         acks;       /* Alarm Ack Severity */
     epicsEnum16         ackt;       /* Alarm Ack Transient */
     epicsEnum16         diss;       /* Disable Alarm Sevrty */
@@ -153,107 +156,110 @@ typedef enum {
 	seqRecordSDIS = 12,
 	seqRecordMLOK = 13,
 	seqRecordMLIS = 14,
-	seqRecordDISP = 15,
-	seqRecordPROC = 16,
-	seqRecordSTAT = 17,
-	seqRecordSEVR = 18,
-	seqRecordNSTA = 19,
-	seqRecordNSEV = 20,
-	seqRecordACKS = 21,
-	seqRecordACKT = 22,
-	seqRecordDISS = 23,
-	seqRecordLCNT = 24,
-	seqRecordPACT = 25,
-	seqRecordPUTF = 26,
-	seqRecordRPRO = 27,
-	seqRecordASP = 28,
-	seqRecordPPN = 29,
-	seqRecordPPNR = 30,
-	seqRecordSPVT = 31,
-	seqRecordRSET = 32,
-	seqRecordDSET = 33,
-	seqRecordDPVT = 34,
-	seqRecordRDES = 35,
-	seqRecordLSET = 36,
-	seqRecordPRIO = 37,
-	seqRecordTPRO = 38,
-	seqRecordBKPT = 39,
-	seqRecordUDF = 40,
-	seqRecordUDFS = 41,
-	seqRecordTIME = 42,
-	seqRecordFLNK = 43,
-	seqRecordVAL = 44,
-	seqRecordSELM = 45,
-	seqRecordSELN = 46,
-	seqRecordSELL = 47,
-	seqRecordOFFS = 48,
-	seqRecordSHFT = 49,
-	seqRecordOLDN = 50,
-	seqRecordPREC = 51,
-	seqRecordDLY0 = 52,
-	seqRecordDOL0 = 53,
-	seqRecordDO0 = 54,
-	seqRecordLNK0 = 55,
-	seqRecordDLY1 = 56,
-	seqRecordDOL1 = 57,
-	seqRecordDO1 = 58,
-	seqRecordLNK1 = 59,
-	seqRecordDLY2 = 60,
-	seqRecordDOL2 = 61,
-	seqRecordDO2 = 62,
-	seqRecordLNK2 = 63,
-	seqRecordDLY3 = 64,
-	seqRecordDOL3 = 65,
-	seqRecordDO3 = 66,
-	seqRecordLNK3 = 67,
-	seqRecordDLY4 = 68,
-	seqRecordDOL4 = 69,
-	seqRecordDO4 = 70,
-	seqRecordLNK4 = 71,
-	seqRecordDLY5 = 72,
-	seqRecordDOL5 = 73,
-	seqRecordDO5 = 74,
-	seqRecordLNK5 = 75,
-	seqRecordDLY6 = 76,
-	seqRecordDOL6 = 77,
-	seqRecordDO6 = 78,
-	seqRecordLNK6 = 79,
-	seqRecordDLY7 = 80,
-	seqRecordDOL7 = 81,
-	seqRecordDO7 = 82,
-	seqRecordLNK7 = 83,
-	seqRecordDLY8 = 84,
-	seqRecordDOL8 = 85,
-	seqRecordDO8 = 86,
-	seqRecordLNK8 = 87,
-	seqRecordDLY9 = 88,
-	seqRecordDOL9 = 89,
-	seqRecordDO9 = 90,
-	seqRecordLNK9 = 91,
-	seqRecordDLYA = 92,
-	seqRecordDOLA = 93,
-	seqRecordDOA = 94,
-	seqRecordLNKA = 95,
-	seqRecordDLYB = 96,
-	seqRecordDOLB = 97,
-	seqRecordDOB = 98,
-	seqRecordLNKB = 99,
-	seqRecordDLYC = 100,
-	seqRecordDOLC = 101,
-	seqRecordDOC = 102,
-	seqRecordLNKC = 103,
-	seqRecordDLYD = 104,
-	seqRecordDOLD = 105,
-	seqRecordDOD = 106,
-	seqRecordLNKD = 107,
-	seqRecordDLYE = 108,
-	seqRecordDOLE = 109,
-	seqRecordDOE = 110,
-	seqRecordLNKE = 111,
-	seqRecordDLYF = 112,
-	seqRecordDOLF = 113,
-	seqRecordDOF = 114,
-	seqRecordLNKF = 115
+	seqRecordBKLNK = 15,
+	seqRecordDISP = 16,
+	seqRecordPROC = 17,
+	seqRecordSTAT = 18,
+	seqRecordSEVR = 19,
+	seqRecordAMSG = 20,
+	seqRecordNSTA = 21,
+	seqRecordNSEV = 22,
+	seqRecordNAMSG = 23,
+	seqRecordACKS = 24,
+	seqRecordACKT = 25,
+	seqRecordDISS = 26,
+	seqRecordLCNT = 27,
+	seqRecordPACT = 28,
+	seqRecordPUTF = 29,
+	seqRecordRPRO = 30,
+	seqRecordASP = 31,
+	seqRecordPPN = 32,
+	seqRecordPPNR = 33,
+	seqRecordSPVT = 34,
+	seqRecordRSET = 35,
+	seqRecordDSET = 36,
+	seqRecordDPVT = 37,
+	seqRecordRDES = 38,
+	seqRecordLSET = 39,
+	seqRecordPRIO = 40,
+	seqRecordTPRO = 41,
+	seqRecordBKPT = 42,
+	seqRecordUDF = 43,
+	seqRecordUDFS = 44,
+	seqRecordTIME = 45,
+	seqRecordFLNK = 46,
+	seqRecordVAL = 47,
+	seqRecordSELM = 48,
+	seqRecordSELN = 49,
+	seqRecordSELL = 50,
+	seqRecordOFFS = 51,
+	seqRecordSHFT = 52,
+	seqRecordOLDN = 53,
+	seqRecordPREC = 54,
+	seqRecordDLY0 = 55,
+	seqRecordDOL0 = 56,
+	seqRecordDO0 = 57,
+	seqRecordLNK0 = 58,
+	seqRecordDLY1 = 59,
+	seqRecordDOL1 = 60,
+	seqRecordDO1 = 61,
+	seqRecordLNK1 = 62,
+	seqRecordDLY2 = 63,
+	seqRecordDOL2 = 64,
+	seqRecordDO2 = 65,
+	seqRecordLNK2 = 66,
+	seqRecordDLY3 = 67,
+	seqRecordDOL3 = 68,
+	seqRecordDO3 = 69,
+	seqRecordLNK3 = 70,
+	seqRecordDLY4 = 71,
+	seqRecordDOL4 = 72,
+	seqRecordDO4 = 73,
+	seqRecordLNK4 = 74,
+	seqRecordDLY5 = 75,
+	seqRecordDOL5 = 76,
+	seqRecordDO5 = 77,
+	seqRecordLNK5 = 78,
+	seqRecordDLY6 = 79,
+	seqRecordDOL6 = 80,
+	seqRecordDO6 = 81,
+	seqRecordLNK6 = 82,
+	seqRecordDLY7 = 83,
+	seqRecordDOL7 = 84,
+	seqRecordDO7 = 85,
+	seqRecordLNK7 = 86,
+	seqRecordDLY8 = 87,
+	seqRecordDOL8 = 88,
+	seqRecordDO8 = 89,
+	seqRecordLNK8 = 90,
+	seqRecordDLY9 = 91,
+	seqRecordDOL9 = 92,
+	seqRecordDO9 = 93,
+	seqRecordLNK9 = 94,
+	seqRecordDLYA = 95,
+	seqRecordDOLA = 96,
+	seqRecordDOA = 97,
+	seqRecordLNKA = 98,
+	seqRecordDLYB = 99,
+	seqRecordDOLB = 100,
+	seqRecordDOB = 101,
+	seqRecordLNKB = 102,
+	seqRecordDLYC = 103,
+	seqRecordDOLC = 104,
+	seqRecordDOC = 105,
+	seqRecordLNKC = 106,
+	seqRecordDLYD = 107,
+	seqRecordDOLD = 108,
+	seqRecordDOD = 109,
+	seqRecordLNKD = 110,
+	seqRecordDLYE = 111,
+	seqRecordDOLE = 112,
+	seqRecordDOE = 113,
+	seqRecordLNKE = 114,
+	seqRecordDLYF = 115,
+	seqRecordDOLF = 116,
+	seqRecordDOF = 117,
+	seqRecordLNKF = 118
 } seqFieldIndex;
 
 #ifdef GEN_SIZE_OFFSET
@@ -267,7 +273,7 @@ static int seqRecordSizeOffset(dbRecordType *prt)
 {
     seqRecord *prec = 0;
 
-    assert(prt->no_fields == 116);
+    assert(prt->no_fields == 119);
     prt->papFldDes[seqRecordNAME]->size = sizeof(prec->name);
     prt->papFldDes[seqRecordDESC]->size = sizeof(prec->desc);
     prt->papFldDes[seqRecordASG]->size = sizeof(prec->asg);
@@ -283,12 +289,15 @@ static int seqRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[seqRecordSDIS]->size = sizeof(prec->sdis);
     prt->papFldDes[seqRecordMLOK]->size = sizeof(prec->mlok);
     prt->papFldDes[seqRecordMLIS]->size = sizeof(prec->mlis);
+    prt->papFldDes[seqRecordBKLNK]->size = sizeof(prec->bklnk);
     prt->papFldDes[seqRecordDISP]->size = sizeof(prec->disp);
     prt->papFldDes[seqRecordPROC]->size = sizeof(prec->proc);
     prt->papFldDes[seqRecordSTAT]->size = sizeof(prec->stat);
     prt->papFldDes[seqRecordSEVR]->size = sizeof(prec->sevr);
+    prt->papFldDes[seqRecordAMSG]->size = sizeof(prec->amsg);
     prt->papFldDes[seqRecordNSTA]->size = sizeof(prec->nsta);
     prt->papFldDes[seqRecordNSEV]->size = sizeof(prec->nsev);
+    prt->papFldDes[seqRecordNAMSG]->size = sizeof(prec->namsg);
     prt->papFldDes[seqRecordACKS]->size = sizeof(prec->acks);
     prt->papFldDes[seqRecordACKT]->size = sizeof(prec->ackt);
     prt->papFldDes[seqRecordDISS]->size = sizeof(prec->diss);
@@ -399,12 +408,15 @@ static int seqRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[seqRecordSDIS]->offset = (unsigned short)((char *)&prec->sdis - (char *)prec);
     prt->papFldDes[seqRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[seqRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
+    prt->papFldDes[seqRecordBKLNK]->offset = (unsigned short)((char *)&prec->bklnk - (char *)prec);
     prt->papFldDes[seqRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[seqRecordPROC]->offset = (unsigned short)((char *)&prec->proc - (char *)prec);
     prt->papFldDes[seqRecordSTAT]->offset = (unsigned short)((char *)&prec->stat - (char *)prec);
     prt->papFldDes[seqRecordSEVR]->offset = (unsigned short)((char *)&prec->sevr - (char *)prec);
+    prt->papFldDes[seqRecordAMSG]->offset = (unsigned short)((char *)&prec->amsg - (char *)prec);
     prt->papFldDes[seqRecordNSTA]->offset = (unsigned short)((char *)&prec->nsta - (char *)prec);
     prt->papFldDes[seqRecordNSEV]->offset = (unsigned short)((char *)&prec->nsev - (char *)prec);
+    prt->papFldDes[seqRecordNAMSG]->offset = (unsigned short)((char *)&prec->namsg - (char *)prec);
     prt->papFldDes[seqRecordACKS]->offset = (unsigned short)((char *)&prec->acks - (char *)prec);
     prt->papFldDes[seqRecordACKT]->offset = (unsigned short)((char *)&prec->ackt - (char *)prec);
     prt->papFldDes[seqRecordDISS]->offset = (unsigned short)((char *)&prec->diss - (char *)prec);

@@ -3,9 +3,9 @@
 #ifndef INC_lsiRecord_H
 #define INC_lsiRecord_H
 
- #include "epicsTypes.h"
- #include "link.h"
-#include "epicsMutex.h"
+#include "epicsTypes.h"
+#include "link.h"
+ #include "epicsMutex.h"
 #include "ellLib.h"
 #include "epicsTime.h"
 #include "devSup.h"
@@ -37,12 +37,15 @@ typedef struct lsiRecord {
     DBLINK              sdis;       /* Scanning Disable */
     epicsMutexId        mlok;       /* Monitor lock */
     ELLLIST             mlis;       /* Monitor List */
+    ELLLIST             bklnk;      /* Backwards link tracking */
     epicsUInt8          disp;       /* Disable putField */
     epicsUInt8          proc;       /* Force Processing */
     epicsEnum16         stat;       /* Alarm Status */
     epicsEnum16         sevr;       /* Alarm Severity */
+    char                amsg[40];   /* Alarm Message */
     epicsEnum16         nsta;       /* New Alarm Status */
     epicsEnum16         nsev;       /* New Alarm Severity */
+    char                namsg[40];  /* New Alarm Message */
     epicsEnum16         acks;       /* Alarm Ack Severity */
     epicsEnum16         ackt;       /* Alarm Ack Transient */
     epicsEnum16         diss;       /* Disable Alarm Sevrty */
@@ -96,47 +99,50 @@ typedef enum {
 	lsiRecordSDIS = 12,
 	lsiRecordMLOK = 13,
 	lsiRecordMLIS = 14,
-	lsiRecordDISP = 15,
-	lsiRecordPROC = 16,
-	lsiRecordSTAT = 17,
-	lsiRecordSEVR = 18,
-	lsiRecordNSTA = 19,
-	lsiRecordNSEV = 20,
-	lsiRecordACKS = 21,
-	lsiRecordACKT = 22,
-	lsiRecordDISS = 23,
-	lsiRecordLCNT = 24,
-	lsiRecordPACT = 25,
-	lsiRecordPUTF = 26,
-	lsiRecordRPRO = 27,
-	lsiRecordASP = 28,
-	lsiRecordPPN = 29,
-	lsiRecordPPNR = 30,
-	lsiRecordSPVT = 31,
-	lsiRecordRSET = 32,
-	lsiRecordDSET = 33,
-	lsiRecordDPVT = 34,
-	lsiRecordRDES = 35,
-	lsiRecordLSET = 36,
-	lsiRecordPRIO = 37,
-	lsiRecordTPRO = 38,
-	lsiRecordBKPT = 39,
-	lsiRecordUDF = 40,
-	lsiRecordUDFS = 41,
-	lsiRecordTIME = 42,
-	lsiRecordFLNK = 43,
-	lsiRecordVAL = 44,
-	lsiRecordOVAL = 45,
-	lsiRecordSIZV = 46,
-	lsiRecordLEN = 47,
-	lsiRecordOLEN = 48,
-	lsiRecordINP = 49,
-	lsiRecordMPST = 50,
-	lsiRecordAPST = 51,
-	lsiRecordSIML = 52,
-	lsiRecordSIMM = 53,
-	lsiRecordSIMS = 54,
-	lsiRecordSIOL = 55
+	lsiRecordBKLNK = 15,
+	lsiRecordDISP = 16,
+	lsiRecordPROC = 17,
+	lsiRecordSTAT = 18,
+	lsiRecordSEVR = 19,
+	lsiRecordAMSG = 20,
+	lsiRecordNSTA = 21,
+	lsiRecordNSEV = 22,
+	lsiRecordNAMSG = 23,
+	lsiRecordACKS = 24,
+	lsiRecordACKT = 25,
+	lsiRecordDISS = 26,
+	lsiRecordLCNT = 27,
+	lsiRecordPACT = 28,
+	lsiRecordPUTF = 29,
+	lsiRecordRPRO = 30,
+	lsiRecordASP = 31,
+	lsiRecordPPN = 32,
+	lsiRecordPPNR = 33,
+	lsiRecordSPVT = 34,
+	lsiRecordRSET = 35,
+	lsiRecordDSET = 36,
+	lsiRecordDPVT = 37,
+	lsiRecordRDES = 38,
+	lsiRecordLSET = 39,
+	lsiRecordPRIO = 40,
+	lsiRecordTPRO = 41,
+	lsiRecordBKPT = 42,
+	lsiRecordUDF = 43,
+	lsiRecordUDFS = 44,
+	lsiRecordTIME = 45,
+	lsiRecordFLNK = 46,
+	lsiRecordVAL = 47,
+	lsiRecordOVAL = 48,
+	lsiRecordSIZV = 49,
+	lsiRecordLEN = 50,
+	lsiRecordOLEN = 51,
+	lsiRecordINP = 52,
+	lsiRecordMPST = 53,
+	lsiRecordAPST = 54,
+	lsiRecordSIML = 55,
+	lsiRecordSIMM = 56,
+	lsiRecordSIMS = 57,
+	lsiRecordSIOL = 58
 } lsiFieldIndex;
 
 #ifdef GEN_SIZE_OFFSET
@@ -150,7 +156,7 @@ static int lsiRecordSizeOffset(dbRecordType *prt)
 {
     lsiRecord *prec = 0;
 
-    assert(prt->no_fields == 56);
+    assert(prt->no_fields == 59);
     prt->papFldDes[lsiRecordNAME]->size = sizeof(prec->name);
     prt->papFldDes[lsiRecordDESC]->size = sizeof(prec->desc);
     prt->papFldDes[lsiRecordASG]->size = sizeof(prec->asg);
@@ -166,12 +172,15 @@ static int lsiRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[lsiRecordSDIS]->size = sizeof(prec->sdis);
     prt->papFldDes[lsiRecordMLOK]->size = sizeof(prec->mlok);
     prt->papFldDes[lsiRecordMLIS]->size = sizeof(prec->mlis);
+    prt->papFldDes[lsiRecordBKLNK]->size = sizeof(prec->bklnk);
     prt->papFldDes[lsiRecordDISP]->size = sizeof(prec->disp);
     prt->papFldDes[lsiRecordPROC]->size = sizeof(prec->proc);
     prt->papFldDes[lsiRecordSTAT]->size = sizeof(prec->stat);
     prt->papFldDes[lsiRecordSEVR]->size = sizeof(prec->sevr);
+    prt->papFldDes[lsiRecordAMSG]->size = sizeof(prec->amsg);
     prt->papFldDes[lsiRecordNSTA]->size = sizeof(prec->nsta);
     prt->papFldDes[lsiRecordNSEV]->size = sizeof(prec->nsev);
+    prt->papFldDes[lsiRecordNAMSG]->size = sizeof(prec->namsg);
     prt->papFldDes[lsiRecordACKS]->size = sizeof(prec->acks);
     prt->papFldDes[lsiRecordACKT]->size = sizeof(prec->ackt);
     prt->papFldDes[lsiRecordDISS]->size = sizeof(prec->diss);
@@ -222,12 +231,15 @@ static int lsiRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[lsiRecordSDIS]->offset = (unsigned short)((char *)&prec->sdis - (char *)prec);
     prt->papFldDes[lsiRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[lsiRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
+    prt->papFldDes[lsiRecordBKLNK]->offset = (unsigned short)((char *)&prec->bklnk - (char *)prec);
     prt->papFldDes[lsiRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[lsiRecordPROC]->offset = (unsigned short)((char *)&prec->proc - (char *)prec);
     prt->papFldDes[lsiRecordSTAT]->offset = (unsigned short)((char *)&prec->stat - (char *)prec);
     prt->papFldDes[lsiRecordSEVR]->offset = (unsigned short)((char *)&prec->sevr - (char *)prec);
+    prt->papFldDes[lsiRecordAMSG]->offset = (unsigned short)((char *)&prec->amsg - (char *)prec);
     prt->papFldDes[lsiRecordNSTA]->offset = (unsigned short)((char *)&prec->nsta - (char *)prec);
     prt->papFldDes[lsiRecordNSEV]->offset = (unsigned short)((char *)&prec->nsev - (char *)prec);
+    prt->papFldDes[lsiRecordNAMSG]->offset = (unsigned short)((char *)&prec->namsg - (char *)prec);
     prt->papFldDes[lsiRecordACKS]->offset = (unsigned short)((char *)&prec->acks - (char *)prec);
     prt->papFldDes[lsiRecordACKT]->offset = (unsigned short)((char *)&prec->ackt - (char *)prec);
     prt->papFldDes[lsiRecordDISS]->offset = (unsigned short)((char *)&prec->diss - (char *)prec);

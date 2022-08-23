@@ -3,9 +3,9 @@
 #ifndef INC_dfanoutRecord_H
 #define INC_dfanoutRecord_H
 
- #include "epicsTypes.h"
- #include "link.h"
-#include "epicsMutex.h"
+#include "epicsTypes.h"
+#include "link.h"
+ #include "epicsMutex.h"
 #include "ellLib.h"
 #include "epicsTime.h"
 
@@ -34,12 +34,15 @@ typedef struct dfanoutRecord {
     DBLINK              sdis;       /* Scanning Disable */
     epicsMutexId        mlok;       /* Monitor lock */
     ELLLIST             mlis;       /* Monitor List */
+    ELLLIST             bklnk;      /* Backwards link tracking */
     epicsUInt8          disp;       /* Disable putField */
     epicsUInt8          proc;       /* Force Processing */
     epicsEnum16         stat;       /* Alarm Status */
     epicsEnum16         sevr;       /* Alarm Severity */
+    char                amsg[40];   /* Alarm Message */
     epicsEnum16         nsta;       /* New Alarm Status */
     epicsEnum16         nsev;       /* New Alarm Severity */
+    char                namsg[40];  /* New Alarm Message */
     epicsEnum16         acks;       /* Alarm Ack Severity */
     epicsEnum16         ackt;       /* Alarm Ack Transient */
     epicsEnum16         diss;       /* Disable Alarm Sevrty */
@@ -113,67 +116,70 @@ typedef enum {
 	dfanoutRecordSDIS = 12,
 	dfanoutRecordMLOK = 13,
 	dfanoutRecordMLIS = 14,
-	dfanoutRecordDISP = 15,
-	dfanoutRecordPROC = 16,
-	dfanoutRecordSTAT = 17,
-	dfanoutRecordSEVR = 18,
-	dfanoutRecordNSTA = 19,
-	dfanoutRecordNSEV = 20,
-	dfanoutRecordACKS = 21,
-	dfanoutRecordACKT = 22,
-	dfanoutRecordDISS = 23,
-	dfanoutRecordLCNT = 24,
-	dfanoutRecordPACT = 25,
-	dfanoutRecordPUTF = 26,
-	dfanoutRecordRPRO = 27,
-	dfanoutRecordASP = 28,
-	dfanoutRecordPPN = 29,
-	dfanoutRecordPPNR = 30,
-	dfanoutRecordSPVT = 31,
-	dfanoutRecordRSET = 32,
-	dfanoutRecordDSET = 33,
-	dfanoutRecordDPVT = 34,
-	dfanoutRecordRDES = 35,
-	dfanoutRecordLSET = 36,
-	dfanoutRecordPRIO = 37,
-	dfanoutRecordTPRO = 38,
-	dfanoutRecordBKPT = 39,
-	dfanoutRecordUDF = 40,
-	dfanoutRecordUDFS = 41,
-	dfanoutRecordTIME = 42,
-	dfanoutRecordFLNK = 43,
-	dfanoutRecordVAL = 44,
-	dfanoutRecordSELM = 45,
-	dfanoutRecordSELN = 46,
-	dfanoutRecordSELL = 47,
-	dfanoutRecordOUTA = 48,
-	dfanoutRecordOUTB = 49,
-	dfanoutRecordOUTC = 50,
-	dfanoutRecordOUTD = 51,
-	dfanoutRecordOUTE = 52,
-	dfanoutRecordOUTF = 53,
-	dfanoutRecordOUTG = 54,
-	dfanoutRecordOUTH = 55,
-	dfanoutRecordDOL = 56,
-	dfanoutRecordOMSL = 57,
-	dfanoutRecordEGU = 58,
-	dfanoutRecordPREC = 59,
-	dfanoutRecordHOPR = 60,
-	dfanoutRecordLOPR = 61,
-	dfanoutRecordHIHI = 62,
-	dfanoutRecordLOLO = 63,
-	dfanoutRecordHIGH = 64,
-	dfanoutRecordLOW = 65,
-	dfanoutRecordHHSV = 66,
-	dfanoutRecordLLSV = 67,
-	dfanoutRecordHSV = 68,
-	dfanoutRecordLSV = 69,
-	dfanoutRecordHYST = 70,
-	dfanoutRecordADEL = 71,
-	dfanoutRecordMDEL = 72,
-	dfanoutRecordLALM = 73,
-	dfanoutRecordALST = 74,
-	dfanoutRecordMLST = 75
+	dfanoutRecordBKLNK = 15,
+	dfanoutRecordDISP = 16,
+	dfanoutRecordPROC = 17,
+	dfanoutRecordSTAT = 18,
+	dfanoutRecordSEVR = 19,
+	dfanoutRecordAMSG = 20,
+	dfanoutRecordNSTA = 21,
+	dfanoutRecordNSEV = 22,
+	dfanoutRecordNAMSG = 23,
+	dfanoutRecordACKS = 24,
+	dfanoutRecordACKT = 25,
+	dfanoutRecordDISS = 26,
+	dfanoutRecordLCNT = 27,
+	dfanoutRecordPACT = 28,
+	dfanoutRecordPUTF = 29,
+	dfanoutRecordRPRO = 30,
+	dfanoutRecordASP = 31,
+	dfanoutRecordPPN = 32,
+	dfanoutRecordPPNR = 33,
+	dfanoutRecordSPVT = 34,
+	dfanoutRecordRSET = 35,
+	dfanoutRecordDSET = 36,
+	dfanoutRecordDPVT = 37,
+	dfanoutRecordRDES = 38,
+	dfanoutRecordLSET = 39,
+	dfanoutRecordPRIO = 40,
+	dfanoutRecordTPRO = 41,
+	dfanoutRecordBKPT = 42,
+	dfanoutRecordUDF = 43,
+	dfanoutRecordUDFS = 44,
+	dfanoutRecordTIME = 45,
+	dfanoutRecordFLNK = 46,
+	dfanoutRecordVAL = 47,
+	dfanoutRecordSELM = 48,
+	dfanoutRecordSELN = 49,
+	dfanoutRecordSELL = 50,
+	dfanoutRecordOUTA = 51,
+	dfanoutRecordOUTB = 52,
+	dfanoutRecordOUTC = 53,
+	dfanoutRecordOUTD = 54,
+	dfanoutRecordOUTE = 55,
+	dfanoutRecordOUTF = 56,
+	dfanoutRecordOUTG = 57,
+	dfanoutRecordOUTH = 58,
+	dfanoutRecordDOL = 59,
+	dfanoutRecordOMSL = 60,
+	dfanoutRecordEGU = 61,
+	dfanoutRecordPREC = 62,
+	dfanoutRecordHOPR = 63,
+	dfanoutRecordLOPR = 64,
+	dfanoutRecordHIHI = 65,
+	dfanoutRecordLOLO = 66,
+	dfanoutRecordHIGH = 67,
+	dfanoutRecordLOW = 68,
+	dfanoutRecordHHSV = 69,
+	dfanoutRecordLLSV = 70,
+	dfanoutRecordHSV = 71,
+	dfanoutRecordLSV = 72,
+	dfanoutRecordHYST = 73,
+	dfanoutRecordADEL = 74,
+	dfanoutRecordMDEL = 75,
+	dfanoutRecordLALM = 76,
+	dfanoutRecordALST = 77,
+	dfanoutRecordMLST = 78
 } dfanoutFieldIndex;
 
 #ifdef GEN_SIZE_OFFSET
@@ -187,7 +193,7 @@ static int dfanoutRecordSizeOffset(dbRecordType *prt)
 {
     dfanoutRecord *prec = 0;
 
-    assert(prt->no_fields == 76);
+    assert(prt->no_fields == 79);
     prt->papFldDes[dfanoutRecordNAME]->size = sizeof(prec->name);
     prt->papFldDes[dfanoutRecordDESC]->size = sizeof(prec->desc);
     prt->papFldDes[dfanoutRecordASG]->size = sizeof(prec->asg);
@@ -203,12 +209,15 @@ static int dfanoutRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[dfanoutRecordSDIS]->size = sizeof(prec->sdis);
     prt->papFldDes[dfanoutRecordMLOK]->size = sizeof(prec->mlok);
     prt->papFldDes[dfanoutRecordMLIS]->size = sizeof(prec->mlis);
+    prt->papFldDes[dfanoutRecordBKLNK]->size = sizeof(prec->bklnk);
     prt->papFldDes[dfanoutRecordDISP]->size = sizeof(prec->disp);
     prt->papFldDes[dfanoutRecordPROC]->size = sizeof(prec->proc);
     prt->papFldDes[dfanoutRecordSTAT]->size = sizeof(prec->stat);
     prt->papFldDes[dfanoutRecordSEVR]->size = sizeof(prec->sevr);
+    prt->papFldDes[dfanoutRecordAMSG]->size = sizeof(prec->amsg);
     prt->papFldDes[dfanoutRecordNSTA]->size = sizeof(prec->nsta);
     prt->papFldDes[dfanoutRecordNSEV]->size = sizeof(prec->nsev);
+    prt->papFldDes[dfanoutRecordNAMSG]->size = sizeof(prec->namsg);
     prt->papFldDes[dfanoutRecordACKS]->size = sizeof(prec->acks);
     prt->papFldDes[dfanoutRecordACKT]->size = sizeof(prec->ackt);
     prt->papFldDes[dfanoutRecordDISS]->size = sizeof(prec->diss);
@@ -279,12 +288,15 @@ static int dfanoutRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[dfanoutRecordSDIS]->offset = (unsigned short)((char *)&prec->sdis - (char *)prec);
     prt->papFldDes[dfanoutRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[dfanoutRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
+    prt->papFldDes[dfanoutRecordBKLNK]->offset = (unsigned short)((char *)&prec->bklnk - (char *)prec);
     prt->papFldDes[dfanoutRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[dfanoutRecordPROC]->offset = (unsigned short)((char *)&prec->proc - (char *)prec);
     prt->papFldDes[dfanoutRecordSTAT]->offset = (unsigned short)((char *)&prec->stat - (char *)prec);
     prt->papFldDes[dfanoutRecordSEVR]->offset = (unsigned short)((char *)&prec->sevr - (char *)prec);
+    prt->papFldDes[dfanoutRecordAMSG]->offset = (unsigned short)((char *)&prec->amsg - (char *)prec);
     prt->papFldDes[dfanoutRecordNSTA]->offset = (unsigned short)((char *)&prec->nsta - (char *)prec);
     prt->papFldDes[dfanoutRecordNSEV]->offset = (unsigned short)((char *)&prec->nsev - (char *)prec);
+    prt->papFldDes[dfanoutRecordNAMSG]->offset = (unsigned short)((char *)&prec->namsg - (char *)prec);
     prt->papFldDes[dfanoutRecordACKS]->offset = (unsigned short)((char *)&prec->acks - (char *)prec);
     prt->papFldDes[dfanoutRecordACKT]->offset = (unsigned short)((char *)&prec->ackt - (char *)prec);
     prt->papFldDes[dfanoutRecordDISS]->offset = (unsigned short)((char *)&prec->diss - (char *)prec);

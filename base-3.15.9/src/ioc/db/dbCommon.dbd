@@ -6,8 +6,9 @@
 # EPICS BASE is distributed subject to a Software License Agreement found
 # in file LICENSE that is included with this distribution.
 #*************************************************************************
-	% #include "epicsTypes.h"
-	% #include "link.h"
+
+	%#include "epicsTypes.h"
+	%#include "link.h"
 	field(NAME,DBF_STRING) {
 		prompt("Record Name")
 		special(SPC_NOMOD)
@@ -24,6 +25,8 @@
 		special(SPC_AS)
 		size(29)
 	}
+
+
 	field(SCAN,DBF_MENU) {
 		prompt("Scan Mechanism")
 		promptgroup("20 - Scan")
@@ -78,7 +81,7 @@
 		promptgroup("20 - Scan")
 		interest(1)
 	}
-	%#include "epicsMutex.h"
+	% #include "epicsMutex.h"
 	field(MLOK,DBF_NOACCESS) {
 		prompt("Monitor lock")
 		special(SPC_NOMOD)
@@ -91,6 +94,12 @@
 		special(SPC_NOMOD)
 		interest(4)
 		extra("ELLLIST             mlis")
+	}
+	field(BKLNK,DBF_NOACCESS) {
+		prompt("Backwards link tracking")
+		special(SPC_NOMOD)
+		interest(4)
+		extra("ELLLIST             bklnk")
 	}
 	field(DISP,DBF_UCHAR) {
 		prompt("Disable putField")
@@ -111,6 +120,11 @@
 		special(SPC_NOMOD)
 		menu(menuAlarmSevr)
 	}
+	field(AMSG,DBF_STRING) {
+		prompt("Alarm Message")
+		special(SPC_NOMOD)
+                size(40)
+	}
 	field(NSTA,DBF_MENU) {
 		prompt("New Alarm Status")
 		special(SPC_NOMOD)
@@ -122,6 +136,11 @@
 		special(SPC_NOMOD)
 		interest(2)
 		menu(menuAlarmSevr)
+	}
+	field(NAMSG,DBF_STRING) {
+		prompt("New Alarm Message")
+		special(SPC_NOMOD)
+		size(40)
 	}
 	field(ACKS,DBF_MENU) {
 		prompt("Alarm Ack Severity")
@@ -187,12 +206,15 @@
 		interest(4)
 		extra("struct scan_element *spvt")
 	}
+
+
 	field(RSET,DBF_NOACCESS) {
 		prompt("Address of RSET")
 		special(SPC_NOMOD)
 		interest(4)
 		extra("struct rset         *rset")
 	}
+
 	field(DSET,DBF_NOACCESS) {
 		prompt("DSET address")
 		special(SPC_NOMOD)
@@ -224,6 +246,8 @@
 		interest(1)
 		menu(menuPriority)
 	}
+
+
 	field(TPRO,DBF_UCHAR) {
 		prompt("Trace Processing")
 	}
@@ -231,7 +255,7 @@
 		prompt("Break Point")
 		special(SPC_NOMOD)
 		interest(1)
-		extra("char                bkpt")
+                extra("char                bkpt")
 	}
 	field(UDF,DBF_UCHAR) {
 		prompt("Undefined")
@@ -254,6 +278,7 @@
 		interest(2)
 		extra("epicsTimeStamp      time")
 	}
+
 	field(FLNK,DBF_FWDLINK) {
 		prompt("Forward Process Link")
 		promptgroup("20 - Scan")

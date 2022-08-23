@@ -3,9 +3,9 @@
 #ifndef INC_lsoRecord_H
 #define INC_lsoRecord_H
 
- #include "epicsTypes.h"
- #include "link.h"
-#include "epicsMutex.h"
+#include "epicsTypes.h"
+#include "link.h"
+ #include "epicsMutex.h"
 #include "ellLib.h"
 #include "epicsTime.h"
 #include "devSup.h"
@@ -46,12 +46,15 @@ typedef struct lsoRecord {
     DBLINK              sdis;       /* Scanning Disable */
     epicsMutexId        mlok;       /* Monitor lock */
     ELLLIST             mlis;       /* Monitor List */
+    ELLLIST             bklnk;      /* Backwards link tracking */
     epicsUInt8          disp;       /* Disable putField */
     epicsUInt8          proc;       /* Force Processing */
     epicsEnum16         stat;       /* Alarm Status */
     epicsEnum16         sevr;       /* Alarm Severity */
+    char                amsg[40];   /* Alarm Message */
     epicsEnum16         nsta;       /* New Alarm Status */
     epicsEnum16         nsev;       /* New Alarm Severity */
+    char                namsg[40];  /* New Alarm Message */
     epicsEnum16         acks;       /* Alarm Ack Severity */
     epicsEnum16         ackt;       /* Alarm Ack Transient */
     epicsEnum16         diss;       /* Disable Alarm Sevrty */
@@ -109,51 +112,54 @@ typedef enum {
 	lsoRecordSDIS = 12,
 	lsoRecordMLOK = 13,
 	lsoRecordMLIS = 14,
-	lsoRecordDISP = 15,
-	lsoRecordPROC = 16,
-	lsoRecordSTAT = 17,
-	lsoRecordSEVR = 18,
-	lsoRecordNSTA = 19,
-	lsoRecordNSEV = 20,
-	lsoRecordACKS = 21,
-	lsoRecordACKT = 22,
-	lsoRecordDISS = 23,
-	lsoRecordLCNT = 24,
-	lsoRecordPACT = 25,
-	lsoRecordPUTF = 26,
-	lsoRecordRPRO = 27,
-	lsoRecordASP = 28,
-	lsoRecordPPN = 29,
-	lsoRecordPPNR = 30,
-	lsoRecordSPVT = 31,
-	lsoRecordRSET = 32,
-	lsoRecordDSET = 33,
-	lsoRecordDPVT = 34,
-	lsoRecordRDES = 35,
-	lsoRecordLSET = 36,
-	lsoRecordPRIO = 37,
-	lsoRecordTPRO = 38,
-	lsoRecordBKPT = 39,
-	lsoRecordUDF = 40,
-	lsoRecordUDFS = 41,
-	lsoRecordTIME = 42,
-	lsoRecordFLNK = 43,
-	lsoRecordVAL = 44,
-	lsoRecordOVAL = 45,
-	lsoRecordSIZV = 46,
-	lsoRecordLEN = 47,
-	lsoRecordOLEN = 48,
-	lsoRecordDOL = 49,
-	lsoRecordIVOA = 50,
-	lsoRecordIVOV = 51,
-	lsoRecordOMSL = 52,
-	lsoRecordOUT = 53,
-	lsoRecordMPST = 54,
-	lsoRecordAPST = 55,
-	lsoRecordSIML = 56,
-	lsoRecordSIMM = 57,
-	lsoRecordSIMS = 58,
-	lsoRecordSIOL = 59
+	lsoRecordBKLNK = 15,
+	lsoRecordDISP = 16,
+	lsoRecordPROC = 17,
+	lsoRecordSTAT = 18,
+	lsoRecordSEVR = 19,
+	lsoRecordAMSG = 20,
+	lsoRecordNSTA = 21,
+	lsoRecordNSEV = 22,
+	lsoRecordNAMSG = 23,
+	lsoRecordACKS = 24,
+	lsoRecordACKT = 25,
+	lsoRecordDISS = 26,
+	lsoRecordLCNT = 27,
+	lsoRecordPACT = 28,
+	lsoRecordPUTF = 29,
+	lsoRecordRPRO = 30,
+	lsoRecordASP = 31,
+	lsoRecordPPN = 32,
+	lsoRecordPPNR = 33,
+	lsoRecordSPVT = 34,
+	lsoRecordRSET = 35,
+	lsoRecordDSET = 36,
+	lsoRecordDPVT = 37,
+	lsoRecordRDES = 38,
+	lsoRecordLSET = 39,
+	lsoRecordPRIO = 40,
+	lsoRecordTPRO = 41,
+	lsoRecordBKPT = 42,
+	lsoRecordUDF = 43,
+	lsoRecordUDFS = 44,
+	lsoRecordTIME = 45,
+	lsoRecordFLNK = 46,
+	lsoRecordVAL = 47,
+	lsoRecordOVAL = 48,
+	lsoRecordSIZV = 49,
+	lsoRecordLEN = 50,
+	lsoRecordOLEN = 51,
+	lsoRecordDOL = 52,
+	lsoRecordIVOA = 53,
+	lsoRecordIVOV = 54,
+	lsoRecordOMSL = 55,
+	lsoRecordOUT = 56,
+	lsoRecordMPST = 57,
+	lsoRecordAPST = 58,
+	lsoRecordSIML = 59,
+	lsoRecordSIMM = 60,
+	lsoRecordSIMS = 61,
+	lsoRecordSIOL = 62
 } lsoFieldIndex;
 
 #ifdef GEN_SIZE_OFFSET
@@ -167,7 +173,7 @@ static int lsoRecordSizeOffset(dbRecordType *prt)
 {
     lsoRecord *prec = 0;
 
-    assert(prt->no_fields == 60);
+    assert(prt->no_fields == 63);
     prt->papFldDes[lsoRecordNAME]->size = sizeof(prec->name);
     prt->papFldDes[lsoRecordDESC]->size = sizeof(prec->desc);
     prt->papFldDes[lsoRecordASG]->size = sizeof(prec->asg);
@@ -183,12 +189,15 @@ static int lsoRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[lsoRecordSDIS]->size = sizeof(prec->sdis);
     prt->papFldDes[lsoRecordMLOK]->size = sizeof(prec->mlok);
     prt->papFldDes[lsoRecordMLIS]->size = sizeof(prec->mlis);
+    prt->papFldDes[lsoRecordBKLNK]->size = sizeof(prec->bklnk);
     prt->papFldDes[lsoRecordDISP]->size = sizeof(prec->disp);
     prt->papFldDes[lsoRecordPROC]->size = sizeof(prec->proc);
     prt->papFldDes[lsoRecordSTAT]->size = sizeof(prec->stat);
     prt->papFldDes[lsoRecordSEVR]->size = sizeof(prec->sevr);
+    prt->papFldDes[lsoRecordAMSG]->size = sizeof(prec->amsg);
     prt->papFldDes[lsoRecordNSTA]->size = sizeof(prec->nsta);
     prt->papFldDes[lsoRecordNSEV]->size = sizeof(prec->nsev);
+    prt->papFldDes[lsoRecordNAMSG]->size = sizeof(prec->namsg);
     prt->papFldDes[lsoRecordACKS]->size = sizeof(prec->acks);
     prt->papFldDes[lsoRecordACKT]->size = sizeof(prec->ackt);
     prt->papFldDes[lsoRecordDISS]->size = sizeof(prec->diss);
@@ -243,12 +252,15 @@ static int lsoRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[lsoRecordSDIS]->offset = (unsigned short)((char *)&prec->sdis - (char *)prec);
     prt->papFldDes[lsoRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[lsoRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
+    prt->papFldDes[lsoRecordBKLNK]->offset = (unsigned short)((char *)&prec->bklnk - (char *)prec);
     prt->papFldDes[lsoRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[lsoRecordPROC]->offset = (unsigned short)((char *)&prec->proc - (char *)prec);
     prt->papFldDes[lsoRecordSTAT]->offset = (unsigned short)((char *)&prec->stat - (char *)prec);
     prt->papFldDes[lsoRecordSEVR]->offset = (unsigned short)((char *)&prec->sevr - (char *)prec);
+    prt->papFldDes[lsoRecordAMSG]->offset = (unsigned short)((char *)&prec->amsg - (char *)prec);
     prt->papFldDes[lsoRecordNSTA]->offset = (unsigned short)((char *)&prec->nsta - (char *)prec);
     prt->papFldDes[lsoRecordNSEV]->offset = (unsigned short)((char *)&prec->nsev - (char *)prec);
+    prt->papFldDes[lsoRecordNAMSG]->offset = (unsigned short)((char *)&prec->namsg - (char *)prec);
     prt->papFldDes[lsoRecordACKS]->offset = (unsigned short)((char *)&prec->acks - (char *)prec);
     prt->papFldDes[lsoRecordACKT]->offset = (unsigned short)((char *)&prec->ackt - (char *)prec);
     prt->papFldDes[lsoRecordDISS]->offset = (unsigned short)((char *)&prec->diss - (char *)prec);

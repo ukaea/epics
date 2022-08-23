@@ -3,9 +3,9 @@
 #ifndef INC_transformRecord_H
 #define INC_transformRecord_H
 
- #include "epicsTypes.h"
- #include "link.h"
-#include "epicsMutex.h"
+#include "epicsTypes.h"
+#include "link.h"
+ #include "epicsMutex.h"
 #include "ellLib.h"
 #include "epicsTime.h"
 
@@ -17,6 +17,14 @@ typedef enum {
 #define transformIVLA_NUM_CHOICES 2
 #endif
 
+#ifndef transformCOPT_NUM_CHOICES
+typedef enum {
+    transformCOPT_CONDITIONAL       /* Conditional */,
+    transformCOPT_ALWAYS            /* Always */
+} transformCOPT;
+#define transformCOPT_NUM_CHOICES 2
+#endif
+
 #ifndef transformIAV_NUM_CHOICES
 typedef enum {
     transformIAV_EXT_NC             /* Ext PV NC */,
@@ -25,14 +33,6 @@ typedef enum {
     transformIAV_CON                /* Constant */
 } transformIAV;
 #define transformIAV_NUM_CHOICES 4
-#endif
-
-#ifndef transformCOPT_NUM_CHOICES
-typedef enum {
-    transformCOPT_CONDITIONAL       /* Conditional */,
-    transformCOPT_ALWAYS            /* Always */
-} transformCOPT;
-#define transformCOPT_NUM_CHOICES 2
 #endif
 
 typedef struct transformRecord {
@@ -51,12 +51,15 @@ typedef struct transformRecord {
     DBLINK              sdis;       /* Scanning Disable */
     epicsMutexId        mlok;       /* Monitor lock */
     ELLLIST             mlis;       /* Monitor List */
+    ELLLIST             bklnk;      /* Backwards link tracking */
     epicsUInt8          disp;       /* Disable putField */
     epicsUInt8          proc;       /* Force Processing */
     epicsEnum16         stat;       /* Alarm Status */
     epicsEnum16         sevr;       /* Alarm Severity */
+    char                amsg[40];   /* Alarm Message */
     epicsEnum16         nsta;       /* New Alarm Status */
     epicsEnum16         nsev;       /* New Alarm Severity */
+    char                namsg[40];  /* New Alarm Message */
     epicsEnum16         acks;       /* Alarm Ack Severity */
     epicsEnum16         ackt;       /* Alarm Ack Transient */
     epicsEnum16         diss;       /* Disable Alarm Sevrty */
@@ -266,203 +269,206 @@ typedef enum {
 	transformRecordSDIS = 12,
 	transformRecordMLOK = 13,
 	transformRecordMLIS = 14,
-	transformRecordDISP = 15,
-	transformRecordPROC = 16,
-	transformRecordSTAT = 17,
-	transformRecordSEVR = 18,
-	transformRecordNSTA = 19,
-	transformRecordNSEV = 20,
-	transformRecordACKS = 21,
-	transformRecordACKT = 22,
-	transformRecordDISS = 23,
-	transformRecordLCNT = 24,
-	transformRecordPACT = 25,
-	transformRecordPUTF = 26,
-	transformRecordRPRO = 27,
-	transformRecordASP = 28,
-	transformRecordPPN = 29,
-	transformRecordPPNR = 30,
-	transformRecordSPVT = 31,
-	transformRecordRSET = 32,
-	transformRecordDSET = 33,
-	transformRecordDPVT = 34,
-	transformRecordRDES = 35,
-	transformRecordLSET = 36,
-	transformRecordPRIO = 37,
-	transformRecordTPRO = 38,
-	transformRecordBKPT = 39,
-	transformRecordUDF = 40,
-	transformRecordUDFS = 41,
-	transformRecordTIME = 42,
-	transformRecordFLNK = 43,
-	transformRecordVERS = 44,
-	transformRecordRPVT = 45,
-	transformRecordIVLA = 46,
-	transformRecordCOPT = 47,
-	transformRecordVAL = 48,
-	transformRecordCLCA = 49,
-	transformRecordCLCB = 50,
-	transformRecordCLCC = 51,
-	transformRecordCLCD = 52,
-	transformRecordCLCE = 53,
-	transformRecordCLCF = 54,
-	transformRecordCLCG = 55,
-	transformRecordCLCH = 56,
-	transformRecordCLCI = 57,
-	transformRecordCLCJ = 58,
-	transformRecordCLCK = 59,
-	transformRecordCLCL = 60,
-	transformRecordCLCM = 61,
-	transformRecordCLCN = 62,
-	transformRecordCLCO = 63,
-	transformRecordCLCP = 64,
-	transformRecordCAV = 65,
-	transformRecordCBV = 66,
-	transformRecordCCV = 67,
-	transformRecordCDV = 68,
-	transformRecordCEV = 69,
-	transformRecordCFV = 70,
-	transformRecordCGV = 71,
-	transformRecordCHV = 72,
-	transformRecordCIV = 73,
-	transformRecordCJV = 74,
-	transformRecordCKV = 75,
-	transformRecordCLV = 76,
-	transformRecordCMV = 77,
-	transformRecordCNV = 78,
-	transformRecordCOV = 79,
-	transformRecordCPV = 80,
-	transformRecordINPA = 81,
-	transformRecordINPB = 82,
-	transformRecordINPC = 83,
-	transformRecordINPD = 84,
-	transformRecordINPE = 85,
-	transformRecordINPF = 86,
-	transformRecordINPG = 87,
-	transformRecordINPH = 88,
-	transformRecordINPI = 89,
-	transformRecordINPJ = 90,
-	transformRecordINPK = 91,
-	transformRecordINPL = 92,
-	transformRecordINPM = 93,
-	transformRecordINPN = 94,
-	transformRecordINPO = 95,
-	transformRecordINPP = 96,
-	transformRecordOUTA = 97,
-	transformRecordOUTB = 98,
-	transformRecordOUTC = 99,
-	transformRecordOUTD = 100,
-	transformRecordOUTE = 101,
-	transformRecordOUTF = 102,
-	transformRecordOUTG = 103,
-	transformRecordOUTH = 104,
-	transformRecordOUTI = 105,
-	transformRecordOUTJ = 106,
-	transformRecordOUTK = 107,
-	transformRecordOUTL = 108,
-	transformRecordOUTM = 109,
-	transformRecordOUTN = 110,
-	transformRecordOUTO = 111,
-	transformRecordOUTP = 112,
-	transformRecordEGU = 113,
-	transformRecordPREC = 114,
-	transformRecordA = 115,
-	transformRecordB = 116,
-	transformRecordC = 117,
-	transformRecordD = 118,
-	transformRecordE = 119,
-	transformRecordF = 120,
-	transformRecordG = 121,
-	transformRecordH = 122,
-	transformRecordI = 123,
-	transformRecordJ = 124,
-	transformRecordK = 125,
-	transformRecordL = 126,
-	transformRecordM = 127,
-	transformRecordN = 128,
-	transformRecordO = 129,
-	transformRecordP = 130,
-	transformRecordLA = 131,
-	transformRecordLB = 132,
-	transformRecordLC = 133,
-	transformRecordLD = 134,
-	transformRecordLE = 135,
-	transformRecordLF = 136,
-	transformRecordLG = 137,
-	transformRecordLH = 138,
-	transformRecordLI = 139,
-	transformRecordLJ = 140,
-	transformRecordLK = 141,
-	transformRecordLL = 142,
-	transformRecordLM = 143,
-	transformRecordLN = 144,
-	transformRecordLO = 145,
-	transformRecordLP = 146,
-	transformRecordRPCA = 147,
-	transformRecordRPCB = 148,
-	transformRecordRPCC = 149,
-	transformRecordRPCD = 150,
-	transformRecordRPCE = 151,
-	transformRecordRPCF = 152,
-	transformRecordRPCG = 153,
-	transformRecordRPCH = 154,
-	transformRecordRPCI = 155,
-	transformRecordRPCJ = 156,
-	transformRecordRPCK = 157,
-	transformRecordRPCL = 158,
-	transformRecordRPCM = 159,
-	transformRecordRPCN = 160,
-	transformRecordRPCO = 161,
-	transformRecordRPCP = 162,
-	transformRecordCMTA = 163,
-	transformRecordCMTB = 164,
-	transformRecordCMTC = 165,
-	transformRecordCMTD = 166,
-	transformRecordCMTE = 167,
-	transformRecordCMTF = 168,
-	transformRecordCMTG = 169,
-	transformRecordCMTH = 170,
-	transformRecordCMTI = 171,
-	transformRecordCMTJ = 172,
-	transformRecordCMTK = 173,
-	transformRecordCMTL = 174,
-	transformRecordCMTM = 175,
-	transformRecordCMTN = 176,
-	transformRecordCMTO = 177,
-	transformRecordCMTP = 178,
-	transformRecordMAP = 179,
-	transformRecordIAV = 180,
-	transformRecordIBV = 181,
-	transformRecordICV = 182,
-	transformRecordIDV = 183,
-	transformRecordIEV = 184,
-	transformRecordIFV = 185,
-	transformRecordIGV = 186,
-	transformRecordIHV = 187,
-	transformRecordIIV = 188,
-	transformRecordIJV = 189,
-	transformRecordIKV = 190,
-	transformRecordILV = 191,
-	transformRecordIMV = 192,
-	transformRecordINV = 193,
-	transformRecordIOV = 194,
-	transformRecordIPV = 195,
-	transformRecordOAV = 196,
-	transformRecordOBV = 197,
-	transformRecordOCV = 198,
-	transformRecordODV = 199,
-	transformRecordOEV = 200,
-	transformRecordOFV = 201,
-	transformRecordOGV = 202,
-	transformRecordOHV = 203,
-	transformRecordOIV = 204,
-	transformRecordOJV = 205,
-	transformRecordOKV = 206,
-	transformRecordOLV = 207,
-	transformRecordOMV = 208,
-	transformRecordONV = 209,
-	transformRecordOOV = 210,
-	transformRecordOPV = 211
+	transformRecordBKLNK = 15,
+	transformRecordDISP = 16,
+	transformRecordPROC = 17,
+	transformRecordSTAT = 18,
+	transformRecordSEVR = 19,
+	transformRecordAMSG = 20,
+	transformRecordNSTA = 21,
+	transformRecordNSEV = 22,
+	transformRecordNAMSG = 23,
+	transformRecordACKS = 24,
+	transformRecordACKT = 25,
+	transformRecordDISS = 26,
+	transformRecordLCNT = 27,
+	transformRecordPACT = 28,
+	transformRecordPUTF = 29,
+	transformRecordRPRO = 30,
+	transformRecordASP = 31,
+	transformRecordPPN = 32,
+	transformRecordPPNR = 33,
+	transformRecordSPVT = 34,
+	transformRecordRSET = 35,
+	transformRecordDSET = 36,
+	transformRecordDPVT = 37,
+	transformRecordRDES = 38,
+	transformRecordLSET = 39,
+	transformRecordPRIO = 40,
+	transformRecordTPRO = 41,
+	transformRecordBKPT = 42,
+	transformRecordUDF = 43,
+	transformRecordUDFS = 44,
+	transformRecordTIME = 45,
+	transformRecordFLNK = 46,
+	transformRecordVERS = 47,
+	transformRecordRPVT = 48,
+	transformRecordIVLA = 49,
+	transformRecordCOPT = 50,
+	transformRecordVAL = 51,
+	transformRecordCLCA = 52,
+	transformRecordCLCB = 53,
+	transformRecordCLCC = 54,
+	transformRecordCLCD = 55,
+	transformRecordCLCE = 56,
+	transformRecordCLCF = 57,
+	transformRecordCLCG = 58,
+	transformRecordCLCH = 59,
+	transformRecordCLCI = 60,
+	transformRecordCLCJ = 61,
+	transformRecordCLCK = 62,
+	transformRecordCLCL = 63,
+	transformRecordCLCM = 64,
+	transformRecordCLCN = 65,
+	transformRecordCLCO = 66,
+	transformRecordCLCP = 67,
+	transformRecordCAV = 68,
+	transformRecordCBV = 69,
+	transformRecordCCV = 70,
+	transformRecordCDV = 71,
+	transformRecordCEV = 72,
+	transformRecordCFV = 73,
+	transformRecordCGV = 74,
+	transformRecordCHV = 75,
+	transformRecordCIV = 76,
+	transformRecordCJV = 77,
+	transformRecordCKV = 78,
+	transformRecordCLV = 79,
+	transformRecordCMV = 80,
+	transformRecordCNV = 81,
+	transformRecordCOV = 82,
+	transformRecordCPV = 83,
+	transformRecordINPA = 84,
+	transformRecordINPB = 85,
+	transformRecordINPC = 86,
+	transformRecordINPD = 87,
+	transformRecordINPE = 88,
+	transformRecordINPF = 89,
+	transformRecordINPG = 90,
+	transformRecordINPH = 91,
+	transformRecordINPI = 92,
+	transformRecordINPJ = 93,
+	transformRecordINPK = 94,
+	transformRecordINPL = 95,
+	transformRecordINPM = 96,
+	transformRecordINPN = 97,
+	transformRecordINPO = 98,
+	transformRecordINPP = 99,
+	transformRecordOUTA = 100,
+	transformRecordOUTB = 101,
+	transformRecordOUTC = 102,
+	transformRecordOUTD = 103,
+	transformRecordOUTE = 104,
+	transformRecordOUTF = 105,
+	transformRecordOUTG = 106,
+	transformRecordOUTH = 107,
+	transformRecordOUTI = 108,
+	transformRecordOUTJ = 109,
+	transformRecordOUTK = 110,
+	transformRecordOUTL = 111,
+	transformRecordOUTM = 112,
+	transformRecordOUTN = 113,
+	transformRecordOUTO = 114,
+	transformRecordOUTP = 115,
+	transformRecordEGU = 116,
+	transformRecordPREC = 117,
+	transformRecordA = 118,
+	transformRecordB = 119,
+	transformRecordC = 120,
+	transformRecordD = 121,
+	transformRecordE = 122,
+	transformRecordF = 123,
+	transformRecordG = 124,
+	transformRecordH = 125,
+	transformRecordI = 126,
+	transformRecordJ = 127,
+	transformRecordK = 128,
+	transformRecordL = 129,
+	transformRecordM = 130,
+	transformRecordN = 131,
+	transformRecordO = 132,
+	transformRecordP = 133,
+	transformRecordLA = 134,
+	transformRecordLB = 135,
+	transformRecordLC = 136,
+	transformRecordLD = 137,
+	transformRecordLE = 138,
+	transformRecordLF = 139,
+	transformRecordLG = 140,
+	transformRecordLH = 141,
+	transformRecordLI = 142,
+	transformRecordLJ = 143,
+	transformRecordLK = 144,
+	transformRecordLL = 145,
+	transformRecordLM = 146,
+	transformRecordLN = 147,
+	transformRecordLO = 148,
+	transformRecordLP = 149,
+	transformRecordRPCA = 150,
+	transformRecordRPCB = 151,
+	transformRecordRPCC = 152,
+	transformRecordRPCD = 153,
+	transformRecordRPCE = 154,
+	transformRecordRPCF = 155,
+	transformRecordRPCG = 156,
+	transformRecordRPCH = 157,
+	transformRecordRPCI = 158,
+	transformRecordRPCJ = 159,
+	transformRecordRPCK = 160,
+	transformRecordRPCL = 161,
+	transformRecordRPCM = 162,
+	transformRecordRPCN = 163,
+	transformRecordRPCO = 164,
+	transformRecordRPCP = 165,
+	transformRecordCMTA = 166,
+	transformRecordCMTB = 167,
+	transformRecordCMTC = 168,
+	transformRecordCMTD = 169,
+	transformRecordCMTE = 170,
+	transformRecordCMTF = 171,
+	transformRecordCMTG = 172,
+	transformRecordCMTH = 173,
+	transformRecordCMTI = 174,
+	transformRecordCMTJ = 175,
+	transformRecordCMTK = 176,
+	transformRecordCMTL = 177,
+	transformRecordCMTM = 178,
+	transformRecordCMTN = 179,
+	transformRecordCMTO = 180,
+	transformRecordCMTP = 181,
+	transformRecordMAP = 182,
+	transformRecordIAV = 183,
+	transformRecordIBV = 184,
+	transformRecordICV = 185,
+	transformRecordIDV = 186,
+	transformRecordIEV = 187,
+	transformRecordIFV = 188,
+	transformRecordIGV = 189,
+	transformRecordIHV = 190,
+	transformRecordIIV = 191,
+	transformRecordIJV = 192,
+	transformRecordIKV = 193,
+	transformRecordILV = 194,
+	transformRecordIMV = 195,
+	transformRecordINV = 196,
+	transformRecordIOV = 197,
+	transformRecordIPV = 198,
+	transformRecordOAV = 199,
+	transformRecordOBV = 200,
+	transformRecordOCV = 201,
+	transformRecordODV = 202,
+	transformRecordOEV = 203,
+	transformRecordOFV = 204,
+	transformRecordOGV = 205,
+	transformRecordOHV = 206,
+	transformRecordOIV = 207,
+	transformRecordOJV = 208,
+	transformRecordOKV = 209,
+	transformRecordOLV = 210,
+	transformRecordOMV = 211,
+	transformRecordONV = 212,
+	transformRecordOOV = 213,
+	transformRecordOPV = 214
 } transformFieldIndex;
 
 #ifdef GEN_SIZE_OFFSET
@@ -476,7 +482,7 @@ static int transformRecordSizeOffset(dbRecordType *prt)
 {
     transformRecord *prec = 0;
 
-    assert(prt->no_fields == 212);
+    assert(prt->no_fields == 215);
     prt->papFldDes[transformRecordNAME]->size = sizeof(prec->name);
     prt->papFldDes[transformRecordDESC]->size = sizeof(prec->desc);
     prt->papFldDes[transformRecordASG]->size = sizeof(prec->asg);
@@ -492,12 +498,15 @@ static int transformRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[transformRecordSDIS]->size = sizeof(prec->sdis);
     prt->papFldDes[transformRecordMLOK]->size = sizeof(prec->mlok);
     prt->papFldDes[transformRecordMLIS]->size = sizeof(prec->mlis);
+    prt->papFldDes[transformRecordBKLNK]->size = sizeof(prec->bklnk);
     prt->papFldDes[transformRecordDISP]->size = sizeof(prec->disp);
     prt->papFldDes[transformRecordPROC]->size = sizeof(prec->proc);
     prt->papFldDes[transformRecordSTAT]->size = sizeof(prec->stat);
     prt->papFldDes[transformRecordSEVR]->size = sizeof(prec->sevr);
+    prt->papFldDes[transformRecordAMSG]->size = sizeof(prec->amsg);
     prt->papFldDes[transformRecordNSTA]->size = sizeof(prec->nsta);
     prt->papFldDes[transformRecordNSEV]->size = sizeof(prec->nsev);
+    prt->papFldDes[transformRecordNAMSG]->size = sizeof(prec->namsg);
     prt->papFldDes[transformRecordACKS]->size = sizeof(prec->acks);
     prt->papFldDes[transformRecordACKT]->size = sizeof(prec->ackt);
     prt->papFldDes[transformRecordDISS]->size = sizeof(prec->diss);
@@ -704,12 +713,15 @@ static int transformRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[transformRecordSDIS]->offset = (unsigned short)((char *)&prec->sdis - (char *)prec);
     prt->papFldDes[transformRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[transformRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
+    prt->papFldDes[transformRecordBKLNK]->offset = (unsigned short)((char *)&prec->bklnk - (char *)prec);
     prt->papFldDes[transformRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[transformRecordPROC]->offset = (unsigned short)((char *)&prec->proc - (char *)prec);
     prt->papFldDes[transformRecordSTAT]->offset = (unsigned short)((char *)&prec->stat - (char *)prec);
     prt->papFldDes[transformRecordSEVR]->offset = (unsigned short)((char *)&prec->sevr - (char *)prec);
+    prt->papFldDes[transformRecordAMSG]->offset = (unsigned short)((char *)&prec->amsg - (char *)prec);
     prt->papFldDes[transformRecordNSTA]->offset = (unsigned short)((char *)&prec->nsta - (char *)prec);
     prt->papFldDes[transformRecordNSEV]->offset = (unsigned short)((char *)&prec->nsev - (char *)prec);
+    prt->papFldDes[transformRecordNAMSG]->offset = (unsigned short)((char *)&prec->namsg - (char *)prec);
     prt->papFldDes[transformRecordACKS]->offset = (unsigned short)((char *)&prec->acks - (char *)prec);
     prt->papFldDes[transformRecordACKT]->offset = (unsigned short)((char *)&prec->ackt - (char *)prec);
     prt->papFldDes[transformRecordDISS]->offset = (unsigned short)((char *)&prec->diss - (char *)prec);

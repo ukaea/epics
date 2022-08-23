@@ -3,9 +3,9 @@
 #ifndef INC_subRecord_H
 #define INC_subRecord_H
 
- #include "epicsTypes.h"
- #include "link.h"
-#include "epicsMutex.h"
+#include "epicsTypes.h"
+#include "link.h"
+ #include "epicsMutex.h"
 #include "ellLib.h"
 #include "epicsTime.h"
 struct subRecord;
@@ -27,12 +27,15 @@ typedef struct subRecord {
     DBLINK              sdis;       /* Scanning Disable */
     epicsMutexId        mlok;       /* Monitor lock */
     ELLLIST             mlis;       /* Monitor List */
+    ELLLIST             bklnk;      /* Backwards link tracking */
     epicsUInt8          disp;       /* Disable putField */
     epicsUInt8          proc;       /* Force Processing */
     epicsEnum16         stat;       /* Alarm Status */
     epicsEnum16         sevr;       /* Alarm Severity */
+    char                amsg[40];   /* Alarm Message */
     epicsEnum16         nsta;       /* New Alarm Status */
     epicsEnum16         nsev;       /* New Alarm Severity */
+    char                namsg[40];  /* New Alarm Message */
     epicsEnum16         acks;       /* Alarm Ack Severity */
     epicsEnum16         ackt;       /* Alarm Ack Transient */
     epicsEnum16         diss;       /* Disable Alarm Sevrty */
@@ -133,94 +136,97 @@ typedef enum {
 	subRecordSDIS = 12,
 	subRecordMLOK = 13,
 	subRecordMLIS = 14,
-	subRecordDISP = 15,
-	subRecordPROC = 16,
-	subRecordSTAT = 17,
-	subRecordSEVR = 18,
-	subRecordNSTA = 19,
-	subRecordNSEV = 20,
-	subRecordACKS = 21,
-	subRecordACKT = 22,
-	subRecordDISS = 23,
-	subRecordLCNT = 24,
-	subRecordPACT = 25,
-	subRecordPUTF = 26,
-	subRecordRPRO = 27,
-	subRecordASP = 28,
-	subRecordPPN = 29,
-	subRecordPPNR = 30,
-	subRecordSPVT = 31,
-	subRecordRSET = 32,
-	subRecordDSET = 33,
-	subRecordDPVT = 34,
-	subRecordRDES = 35,
-	subRecordLSET = 36,
-	subRecordPRIO = 37,
-	subRecordTPRO = 38,
-	subRecordBKPT = 39,
-	subRecordUDF = 40,
-	subRecordUDFS = 41,
-	subRecordTIME = 42,
-	subRecordFLNK = 43,
-	subRecordVAL = 44,
-	subRecordINAM = 45,
-	subRecordSNAM = 46,
-	subRecordSADR = 47,
-	subRecordINPA = 48,
-	subRecordINPB = 49,
-	subRecordINPC = 50,
-	subRecordINPD = 51,
-	subRecordINPE = 52,
-	subRecordINPF = 53,
-	subRecordINPG = 54,
-	subRecordINPH = 55,
-	subRecordINPI = 56,
-	subRecordINPJ = 57,
-	subRecordINPK = 58,
-	subRecordINPL = 59,
-	subRecordEGU = 60,
-	subRecordHOPR = 61,
-	subRecordLOPR = 62,
-	subRecordHIHI = 63,
-	subRecordLOLO = 64,
-	subRecordHIGH = 65,
-	subRecordLOW = 66,
-	subRecordPREC = 67,
-	subRecordBRSV = 68,
-	subRecordHHSV = 69,
-	subRecordLLSV = 70,
-	subRecordHSV = 71,
-	subRecordLSV = 72,
-	subRecordHYST = 73,
-	subRecordADEL = 74,
-	subRecordMDEL = 75,
-	subRecordA = 76,
-	subRecordB = 77,
-	subRecordC = 78,
-	subRecordD = 79,
-	subRecordE = 80,
-	subRecordF = 81,
-	subRecordG = 82,
-	subRecordH = 83,
-	subRecordI = 84,
-	subRecordJ = 85,
-	subRecordK = 86,
-	subRecordL = 87,
-	subRecordLA = 88,
-	subRecordLB = 89,
-	subRecordLC = 90,
-	subRecordLD = 91,
-	subRecordLE = 92,
-	subRecordLF = 93,
-	subRecordLG = 94,
-	subRecordLH = 95,
-	subRecordLI = 96,
-	subRecordLJ = 97,
-	subRecordLK = 98,
-	subRecordLL = 99,
-	subRecordLALM = 100,
-	subRecordALST = 101,
-	subRecordMLST = 102
+	subRecordBKLNK = 15,
+	subRecordDISP = 16,
+	subRecordPROC = 17,
+	subRecordSTAT = 18,
+	subRecordSEVR = 19,
+	subRecordAMSG = 20,
+	subRecordNSTA = 21,
+	subRecordNSEV = 22,
+	subRecordNAMSG = 23,
+	subRecordACKS = 24,
+	subRecordACKT = 25,
+	subRecordDISS = 26,
+	subRecordLCNT = 27,
+	subRecordPACT = 28,
+	subRecordPUTF = 29,
+	subRecordRPRO = 30,
+	subRecordASP = 31,
+	subRecordPPN = 32,
+	subRecordPPNR = 33,
+	subRecordSPVT = 34,
+	subRecordRSET = 35,
+	subRecordDSET = 36,
+	subRecordDPVT = 37,
+	subRecordRDES = 38,
+	subRecordLSET = 39,
+	subRecordPRIO = 40,
+	subRecordTPRO = 41,
+	subRecordBKPT = 42,
+	subRecordUDF = 43,
+	subRecordUDFS = 44,
+	subRecordTIME = 45,
+	subRecordFLNK = 46,
+	subRecordVAL = 47,
+	subRecordINAM = 48,
+	subRecordSNAM = 49,
+	subRecordSADR = 50,
+	subRecordINPA = 51,
+	subRecordINPB = 52,
+	subRecordINPC = 53,
+	subRecordINPD = 54,
+	subRecordINPE = 55,
+	subRecordINPF = 56,
+	subRecordINPG = 57,
+	subRecordINPH = 58,
+	subRecordINPI = 59,
+	subRecordINPJ = 60,
+	subRecordINPK = 61,
+	subRecordINPL = 62,
+	subRecordEGU = 63,
+	subRecordHOPR = 64,
+	subRecordLOPR = 65,
+	subRecordHIHI = 66,
+	subRecordLOLO = 67,
+	subRecordHIGH = 68,
+	subRecordLOW = 69,
+	subRecordPREC = 70,
+	subRecordBRSV = 71,
+	subRecordHHSV = 72,
+	subRecordLLSV = 73,
+	subRecordHSV = 74,
+	subRecordLSV = 75,
+	subRecordHYST = 76,
+	subRecordADEL = 77,
+	subRecordMDEL = 78,
+	subRecordA = 79,
+	subRecordB = 80,
+	subRecordC = 81,
+	subRecordD = 82,
+	subRecordE = 83,
+	subRecordF = 84,
+	subRecordG = 85,
+	subRecordH = 86,
+	subRecordI = 87,
+	subRecordJ = 88,
+	subRecordK = 89,
+	subRecordL = 90,
+	subRecordLA = 91,
+	subRecordLB = 92,
+	subRecordLC = 93,
+	subRecordLD = 94,
+	subRecordLE = 95,
+	subRecordLF = 96,
+	subRecordLG = 97,
+	subRecordLH = 98,
+	subRecordLI = 99,
+	subRecordLJ = 100,
+	subRecordLK = 101,
+	subRecordLL = 102,
+	subRecordLALM = 103,
+	subRecordALST = 104,
+	subRecordMLST = 105
 } subFieldIndex;
 
 #ifdef GEN_SIZE_OFFSET
@@ -234,7 +240,7 @@ static int subRecordSizeOffset(dbRecordType *prt)
 {
     subRecord *prec = 0;
 
-    assert(prt->no_fields == 103);
+    assert(prt->no_fields == 106);
     prt->papFldDes[subRecordNAME]->size = sizeof(prec->name);
     prt->papFldDes[subRecordDESC]->size = sizeof(prec->desc);
     prt->papFldDes[subRecordASG]->size = sizeof(prec->asg);
@@ -250,12 +256,15 @@ static int subRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[subRecordSDIS]->size = sizeof(prec->sdis);
     prt->papFldDes[subRecordMLOK]->size = sizeof(prec->mlok);
     prt->papFldDes[subRecordMLIS]->size = sizeof(prec->mlis);
+    prt->papFldDes[subRecordBKLNK]->size = sizeof(prec->bklnk);
     prt->papFldDes[subRecordDISP]->size = sizeof(prec->disp);
     prt->papFldDes[subRecordPROC]->size = sizeof(prec->proc);
     prt->papFldDes[subRecordSTAT]->size = sizeof(prec->stat);
     prt->papFldDes[subRecordSEVR]->size = sizeof(prec->sevr);
+    prt->papFldDes[subRecordAMSG]->size = sizeof(prec->amsg);
     prt->papFldDes[subRecordNSTA]->size = sizeof(prec->nsta);
     prt->papFldDes[subRecordNSEV]->size = sizeof(prec->nsev);
+    prt->papFldDes[subRecordNAMSG]->size = sizeof(prec->namsg);
     prt->papFldDes[subRecordACKS]->size = sizeof(prec->acks);
     prt->papFldDes[subRecordACKT]->size = sizeof(prec->ackt);
     prt->papFldDes[subRecordDISS]->size = sizeof(prec->diss);
@@ -353,12 +362,15 @@ static int subRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[subRecordSDIS]->offset = (unsigned short)((char *)&prec->sdis - (char *)prec);
     prt->papFldDes[subRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[subRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
+    prt->papFldDes[subRecordBKLNK]->offset = (unsigned short)((char *)&prec->bklnk - (char *)prec);
     prt->papFldDes[subRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[subRecordPROC]->offset = (unsigned short)((char *)&prec->proc - (char *)prec);
     prt->papFldDes[subRecordSTAT]->offset = (unsigned short)((char *)&prec->stat - (char *)prec);
     prt->papFldDes[subRecordSEVR]->offset = (unsigned short)((char *)&prec->sevr - (char *)prec);
+    prt->papFldDes[subRecordAMSG]->offset = (unsigned short)((char *)&prec->amsg - (char *)prec);
     prt->papFldDes[subRecordNSTA]->offset = (unsigned short)((char *)&prec->nsta - (char *)prec);
     prt->papFldDes[subRecordNSEV]->offset = (unsigned short)((char *)&prec->nsev - (char *)prec);
+    prt->papFldDes[subRecordNAMSG]->offset = (unsigned short)((char *)&prec->namsg - (char *)prec);
     prt->papFldDes[subRecordACKS]->offset = (unsigned short)((char *)&prec->acks - (char *)prec);
     prt->papFldDes[subRecordACKT]->offset = (unsigned short)((char *)&prec->ackt - (char *)prec);
     prt->papFldDes[subRecordDISS]->offset = (unsigned short)((char *)&prec->diss - (char *)prec);

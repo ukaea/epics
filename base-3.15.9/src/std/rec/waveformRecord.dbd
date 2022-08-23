@@ -1,7 +1,3 @@
-menu(waveformPOST) {
-    choice(waveformPOST_Always, "Always")
-    choice(waveformPOST_OnChange, "On Change")
-}
 menu(menuFtype) {
     choice(menuFtypeSTRING, "STRING")
     choice(menuFtypeCHAR, "CHAR")
@@ -16,6 +12,10 @@ menu(menuFtype) {
     choice(menuFtypeDOUBLE, "DOUBLE")
     choice(menuFtypeENUM, "ENUM")
 }
+menu(waveformPOST) {
+    choice(waveformPOST_Always, "Always")
+    choice(waveformPOST_OnChange, "On Change")
+}
 recordtype(waveform) {
     % #include "epicsTypes.h"
     % #include "link.h"
@@ -23,51 +23,51 @@ recordtype(waveform) {
     %#include "ellLib.h"
     %#include "epicsTime.h"
     field(NAME, DBF_STRING) {
-        size(61)
-        special(SPC_NOMOD)
         prompt("Record Name")
+        special(SPC_NOMOD)
+        size(61)
     }
     field(DESC, DBF_STRING) {
-        prompt("Descriptor")
         promptgroup("10 - Common")
+        prompt("Descriptor")
         size(41)
     }
     field(ASG, DBF_STRING) {
         prompt("Access Security Group")
-        promptgroup("10 - Common")
-        size(29)
         special(SPC_AS)
+        size(29)
+        promptgroup("10 - Common")
     }
     field(SCAN, DBF_MENU) {
         prompt("Scan Mechanism")
+        special(SPC_SCAN)
+        promptgroup("20 - Scan")
         menu(menuScan)
         interest(1)
-        promptgroup("20 - Scan")
-        special(SPC_SCAN)
     }
     field(PINI, DBF_MENU) {
-        interest(1)
-        promptgroup("20 - Scan")
         prompt("Process at iocInit")
         menu(menuPini)
+        promptgroup("20 - Scan")
+        interest(1)
     }
     field(PHAS, DBF_SHORT) {
-        prompt("Scan Phase")
-        interest(1)
         promptgroup("20 - Scan")
+        interest(1)
+        prompt("Scan Phase")
         special(SPC_SCAN)
     }
     field(EVNT, DBF_STRING) {
+        size(40)
+        prompt("Event Name")
+        special(SPC_SCAN)
         interest(1)
         promptgroup("20 - Scan")
-        size(40)
-        special(SPC_SCAN)
-        prompt("Event Name")
     }
     field(TSE, DBF_SHORT) {
-        interest(1)
-        promptgroup("20 - Scan")
         prompt("Time Stamp Event")
+        promptgroup("20 - Scan")
+        interest(1)
     }
     field(TSEL, DBF_INLINK) {
         interest(1)
@@ -75,95 +75,95 @@ recordtype(waveform) {
         prompt("Time Stamp Link")
     }
     field(DTYP, DBF_DEVICE) {
-        interest(1)
         promptgroup("10 - Common")
+        interest(1)
         prompt("Device Type")
     }
     field(DISV, DBF_SHORT) {
-        promptgroup("20 - Scan")
-        initial("1")
         prompt("Disable Value")
+        initial("1")
+        promptgroup("20 - Scan")
     }
     field(DISA, DBF_SHORT) {
         prompt("Disable")
     }
     field(SDIS, DBF_INLINK) {
-        prompt("Scanning Disable")
-        interest(1)
         promptgroup("20 - Scan")
+        interest(1)
+        prompt("Scanning Disable")
     }
     field(MLOK, DBF_NOACCESS) {
-        prompt("Monitor lock")
-        interest(4)
         special(SPC_NOMOD)
+        prompt("Monitor lock")
         extra("epicsMutexId        mlok")
+        interest(4)
     }
     field(MLIS, DBF_NOACCESS) {
+        prompt("Monitor List")
+        special(SPC_NOMOD)
         extra("ELLLIST             mlis")
         interest(4)
-        special(SPC_NOMOD)
-        prompt("Monitor List")
     }
     field(DISP, DBF_UCHAR) {
         prompt("Disable putField")
     }
     field(PROC, DBF_UCHAR) {
         prompt("Force Processing")
-        interest(3)
         pp(TRUE)
+        interest(3)
     }
     field(STAT, DBF_MENU) {
         prompt("Alarm Status")
-        menu(menuAlarmStat)
-        special(SPC_NOMOD)
         initial("UDF")
+        special(SPC_NOMOD)
+        menu(menuAlarmStat)
     }
     field(SEVR, DBF_MENU) {
         prompt("Alarm Severity")
-        menu(menuAlarmSevr)
         special(SPC_NOMOD)
+        menu(menuAlarmSevr)
     }
     field(NSTA, DBF_MENU) {
-        special(SPC_NOMOD)
-        interest(2)
-        menu(menuAlarmStat)
         prompt("New Alarm Status")
+        special(SPC_NOMOD)
+        menu(menuAlarmStat)
+        interest(2)
     }
     field(NSEV, DBF_MENU) {
         menu(menuAlarmSevr)
-        prompt("New Alarm Severity")
-        special(SPC_NOMOD)
         interest(2)
+        special(SPC_NOMOD)
+        prompt("New Alarm Severity")
     }
     field(ACKS, DBF_MENU) {
-        special(SPC_NOMOD)
         interest(2)
         menu(menuAlarmSevr)
         prompt("Alarm Ack Severity")
+        special(SPC_NOMOD)
     }
     field(ACKT, DBF_MENU) {
+        special(SPC_NOMOD)
+        interest(2)
+        promptgroup("70 - Alarm")
         initial("YES")
         prompt("Alarm Ack Transient")
         menu(menuYesNo)
-        interest(2)
-        promptgroup("70 - Alarm")
-        special(SPC_NOMOD)
     }
     field(DISS, DBF_MENU) {
-        interest(1)
-        promptgroup("70 - Alarm")
         prompt("Disable Alarm Sevrty")
         menu(menuAlarmSevr)
+        promptgroup("70 - Alarm")
+        interest(1)
     }
     field(LCNT, DBF_UCHAR) {
-        special(SPC_NOMOD)
         interest(2)
         prompt("Lock Count")
+        special(SPC_NOMOD)
     }
     field(PACT, DBF_UCHAR) {
-        prompt("Record active")
-        special(SPC_NOMOD)
         interest(1)
+        special(SPC_NOMOD)
+        prompt("Record active")
     }
     field(PUTF, DBF_UCHAR) {
         prompt("dbPutField process")
@@ -171,135 +171,135 @@ recordtype(waveform) {
         interest(1)
     }
     field(RPRO, DBF_UCHAR) {
-        interest(1)
         special(SPC_NOMOD)
         prompt("Reprocess ")
+        interest(1)
     }
     field(ASP, DBF_NOACCESS) {
         extra("struct asgMember    *asp")
         interest(4)
-        special(SPC_NOMOD)
         prompt("Access Security Pvt")
+        special(SPC_NOMOD)
     }
     field(PPN, DBF_NOACCESS) {
+        extra("struct processNotify *ppn")
         interest(4)
         special(SPC_NOMOD)
-        extra("struct processNotify *ppn")
         prompt("pprocessNotify")
     }
     field(PPNR, DBF_NOACCESS) {
+        extra("struct processNotifyRecord *ppnr")
         interest(4)
         special(SPC_NOMOD)
-        extra("struct processNotifyRecord *ppnr")
         prompt("pprocessNotifyRecord")
     }
     field(SPVT, DBF_NOACCESS) {
+        extra("struct scan_element *spvt")
         interest(4)
         special(SPC_NOMOD)
-        extra("struct scan_element *spvt")
         prompt("Scan Private")
     }
     field(RSET, DBF_NOACCESS) {
-        prompt("Address of RSET")
-        extra("struct rset         *rset")
         interest(4)
+        extra("struct rset         *rset")
+        prompt("Address of RSET")
         special(SPC_NOMOD)
     }
     field(DSET, DBF_NOACCESS) {
-        prompt("DSET address")
-        interest(4)
-        special(SPC_NOMOD)
         extra("struct dset         *dset")
+        interest(4)
+        prompt("DSET address")
+        special(SPC_NOMOD)
     }
     field(DPVT, DBF_NOACCESS) {
-        extra("void                *dpvt")
-        interest(4)
-        special(SPC_NOMOD)
         prompt("Device Private")
+        special(SPC_NOMOD)
+        interest(4)
+        extra("void                *dpvt")
     }
     field(RDES, DBF_NOACCESS) {
         prompt("Address of dbRecordType")
-        interest(4)
         special(SPC_NOMOD)
         extra("struct dbRecordType *rdes")
+        interest(4)
     }
     field(LSET, DBF_NOACCESS) {
-        prompt("Lock Set")
         special(SPC_NOMOD)
-        interest(4)
+        prompt("Lock Set")
         extra("struct lockRecord   *lset")
+        interest(4)
     }
     field(PRIO, DBF_MENU) {
-        special(SPC_SCAN)
-        interest(1)
-        promptgroup("20 - Scan")
         menu(menuPriority)
+        promptgroup("20 - Scan")
+        interest(1)
+        special(SPC_SCAN)
         prompt("Scheduling Priority")
     }
     field(TPRO, DBF_UCHAR) {
         prompt("Trace Processing")
     }
     field(BKPT, DBF_NOACCESS) {
+        prompt("Break Point")
+        special(SPC_NOMOD)
         extra("char                bkpt")
         interest(1)
-        special(SPC_NOMOD)
-        prompt("Break Point")
     }
     field(UDF, DBF_UCHAR) {
         initial("1")
+        prompt("Undefined")
         interest(1)
         promptgroup("10 - Common")
         pp(TRUE)
-        prompt("Undefined")
     }
     field(UDFS, DBF_MENU) {
-        initial("INVALID")
-        promptgroup("70 - Alarm")
-        interest(1)
         prompt("Undefined Alarm Sevrty")
+        initial("INVALID")
+        interest(1)
         menu(menuAlarmSevr)
+        promptgroup("70 - Alarm")
     }
     field(TIME, DBF_NOACCESS) {
-        extra("epicsTimeStamp      time")
         special(SPC_NOMOD)
-        interest(2)
         prompt("Time")
+        interest(2)
+        extra("epicsTimeStamp      time")
     }
     field(FLNK, DBF_FWDLINK) {
-        promptgroup("20 - Scan")
         interest(1)
+        promptgroup("20 - Scan")
         prompt("Forward Process Link")
     }
     field(VAL, DBF_NOACCESS) {
         pp(TRUE)
-        special(SPC_DBADDR)
         extra("void *		val")
         asl(ASL0)
         prompt("Value")
+        special(SPC_DBADDR)
     }
     field(RARM, DBF_SHORT) {
         prompt("Rearm the waveform")
-        pp(TRUE)
-        interest(1)
         promptgroup("30 - Action")
+        interest(1)
+        pp(TRUE)
     }
     field(PREC, DBF_SHORT) {
-        prop(YES)
-        prompt("Display Precision")
-        promptgroup("80 - Display")
         interest(1)
+        promptgroup("80 - Display")
+        prompt("Display Precision")
+        prop(YES)
     }
     field(INP, DBF_INLINK) {
         prompt("Input Specification")
-        promptgroup("40 - Input")
         interest(1)
+        promptgroup("40 - Input")
     }
     field(EGU, DBF_STRING) {
-        prop(YES)
-        prompt("Engineering Units")
-        size(16)
         interest(1)
         promptgroup("80 - Display")
+        prompt("Engineering Units")
+        prop(YES)
+        size(16)
     }
     field(HOPR, DBF_DOUBLE) {
         interest(1)
@@ -308,24 +308,24 @@ recordtype(waveform) {
         prop(YES)
     }
     field(LOPR, DBF_DOUBLE) {
+        prompt("Low Operating Range")
+        prop(YES)
         interest(1)
         promptgroup("80 - Display")
-        prop(YES)
-        prompt("Low Operating Range")
     }
     field(NELM, DBF_ULONG) {
         special(SPC_NOMOD)
-        interest(1)
         initial("1")
-        promptgroup("30 - Action")
         prompt("Number of Elements")
+        interest(1)
+        promptgroup("30 - Action")
     }
     field(FTVL, DBF_MENU) {
-        interest(1)
-        promptgroup("30 - Action")
-        special(SPC_NOMOD)
-        prompt("Field Type of Value")
         menu(menuFtype)
+        promptgroup("30 - Action")
+        interest(1)
+        prompt("Field Type of Value")
+        special(SPC_NOMOD)
     }
     field(BUSY, DBF_SHORT) {
         prompt("Busy Indicator")
@@ -336,46 +336,46 @@ recordtype(waveform) {
         special(SPC_NOMOD)
     }
     field(BPTR, DBF_NOACCESS) {
-        extra("void *		bptr")
         special(SPC_NOMOD)
-        interest(4)
         prompt("Buffer Pointer")
+        extra("void *		bptr")
+        interest(4)
     }
     field(SIOL, DBF_INLINK) {
         prompt("Sim Input Specifctn")
-        promptgroup("90 - Simulate")
         interest(1)
+        promptgroup("90 - Simulate")
     }
     field(SIML, DBF_INLINK) {
-        prompt("Sim Mode Location")
         interest(1)
         promptgroup("90 - Simulate")
+        prompt("Sim Mode Location")
     }
     field(SIMM, DBF_MENU) {
+        interest(1)
         menu(menuYesNo)
         prompt("Simulation Mode")
-        interest(1)
     }
     field(SIMS, DBF_MENU) {
+        prompt("Sim mode Alarm Svrty")
+        menu(menuAlarmSevr)
         interest(2)
         promptgroup("90 - Simulate")
-        menu(menuAlarmSevr)
-        prompt("Sim mode Alarm Svrty")
     }
     field(MPST, DBF_MENU) {
-        menu(waveformPOST)
         prompt("Post Value Monitors")
         interest(1)
+        menu(waveformPOST)
         promptgroup("80 - Display")
     }
     field(APST, DBF_MENU) {
         prompt("Post Archive Monitors")
         menu(waveformPOST)
-        promptgroup("80 - Display")
         interest(1)
+        promptgroup("80 - Display")
     }
     field(HASH, DBF_ULONG) {
-        prompt("Hash of OnChange data.")
         interest(3)
+        prompt("Hash of OnChange data.")
     }
 }

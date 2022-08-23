@@ -3,9 +3,9 @@
 #ifndef INC_selRecord_H
 #define INC_selRecord_H
 
- #include "epicsTypes.h"
- #include "link.h"
-#include "epicsMutex.h"
+#include "epicsTypes.h"
+#include "link.h"
+ #include "epicsMutex.h"
 #include "ellLib.h"
 #include "epicsTime.h"
 
@@ -35,12 +35,15 @@ typedef struct selRecord {
     DBLINK              sdis;       /* Scanning Disable */
     epicsMutexId        mlok;       /* Monitor lock */
     ELLLIST             mlis;       /* Monitor List */
+    ELLLIST             bklnk;      /* Backwards link tracking */
     epicsUInt8          disp;       /* Disable putField */
     epicsUInt8          proc;       /* Force Processing */
     epicsEnum16         stat;       /* Alarm Status */
     epicsEnum16         sevr;       /* Alarm Severity */
+    char                amsg[40];   /* Alarm Message */
     epicsEnum16         nsta;       /* New Alarm Status */
     epicsEnum16         nsev;       /* New Alarm Severity */
+    char                namsg[40];  /* New Alarm Message */
     epicsEnum16         acks;       /* Alarm Ack Severity */
     epicsEnum16         ackt;       /* Alarm Ack Transient */
     epicsEnum16         diss;       /* Disable Alarm Sevrty */
@@ -141,94 +144,97 @@ typedef enum {
 	selRecordSDIS = 12,
 	selRecordMLOK = 13,
 	selRecordMLIS = 14,
-	selRecordDISP = 15,
-	selRecordPROC = 16,
-	selRecordSTAT = 17,
-	selRecordSEVR = 18,
-	selRecordNSTA = 19,
-	selRecordNSEV = 20,
-	selRecordACKS = 21,
-	selRecordACKT = 22,
-	selRecordDISS = 23,
-	selRecordLCNT = 24,
-	selRecordPACT = 25,
-	selRecordPUTF = 26,
-	selRecordRPRO = 27,
-	selRecordASP = 28,
-	selRecordPPN = 29,
-	selRecordPPNR = 30,
-	selRecordSPVT = 31,
-	selRecordRSET = 32,
-	selRecordDSET = 33,
-	selRecordDPVT = 34,
-	selRecordRDES = 35,
-	selRecordLSET = 36,
-	selRecordPRIO = 37,
-	selRecordTPRO = 38,
-	selRecordBKPT = 39,
-	selRecordUDF = 40,
-	selRecordUDFS = 41,
-	selRecordTIME = 42,
-	selRecordFLNK = 43,
-	selRecordVAL = 44,
-	selRecordSELM = 45,
-	selRecordSELN = 46,
-	selRecordPREC = 47,
-	selRecordNVL = 48,
-	selRecordINPA = 49,
-	selRecordINPB = 50,
-	selRecordINPC = 51,
-	selRecordINPD = 52,
-	selRecordINPE = 53,
-	selRecordINPF = 54,
-	selRecordINPG = 55,
-	selRecordINPH = 56,
-	selRecordINPI = 57,
-	selRecordINPJ = 58,
-	selRecordINPK = 59,
-	selRecordINPL = 60,
-	selRecordEGU = 61,
-	selRecordHOPR = 62,
-	selRecordLOPR = 63,
-	selRecordHIHI = 64,
-	selRecordLOLO = 65,
-	selRecordHIGH = 66,
-	selRecordLOW = 67,
-	selRecordHHSV = 68,
-	selRecordLLSV = 69,
-	selRecordHSV = 70,
-	selRecordLSV = 71,
-	selRecordHYST = 72,
-	selRecordADEL = 73,
-	selRecordMDEL = 74,
-	selRecordA = 75,
-	selRecordB = 76,
-	selRecordC = 77,
-	selRecordD = 78,
-	selRecordE = 79,
-	selRecordF = 80,
-	selRecordG = 81,
-	selRecordH = 82,
-	selRecordI = 83,
-	selRecordJ = 84,
-	selRecordK = 85,
-	selRecordL = 86,
-	selRecordLA = 87,
-	selRecordLB = 88,
-	selRecordLC = 89,
-	selRecordLD = 90,
-	selRecordLE = 91,
-	selRecordLF = 92,
-	selRecordLG = 93,
-	selRecordLH = 94,
-	selRecordLI = 95,
-	selRecordLJ = 96,
-	selRecordLK = 97,
-	selRecordLL = 98,
-	selRecordLALM = 99,
-	selRecordALST = 100,
-	selRecordMLST = 101,
-	selRecordNLST = 102
+	selRecordBKLNK = 15,
+	selRecordDISP = 16,
+	selRecordPROC = 17,
+	selRecordSTAT = 18,
+	selRecordSEVR = 19,
+	selRecordAMSG = 20,
+	selRecordNSTA = 21,
+	selRecordNSEV = 22,
+	selRecordNAMSG = 23,
+	selRecordACKS = 24,
+	selRecordACKT = 25,
+	selRecordDISS = 26,
+	selRecordLCNT = 27,
+	selRecordPACT = 28,
+	selRecordPUTF = 29,
+	selRecordRPRO = 30,
+	selRecordASP = 31,
+	selRecordPPN = 32,
+	selRecordPPNR = 33,
+	selRecordSPVT = 34,
+	selRecordRSET = 35,
+	selRecordDSET = 36,
+	selRecordDPVT = 37,
+	selRecordRDES = 38,
+	selRecordLSET = 39,
+	selRecordPRIO = 40,
+	selRecordTPRO = 41,
+	selRecordBKPT = 42,
+	selRecordUDF = 43,
+	selRecordUDFS = 44,
+	selRecordTIME = 45,
+	selRecordFLNK = 46,
+	selRecordVAL = 47,
+	selRecordSELM = 48,
+	selRecordSELN = 49,
+	selRecordPREC = 50,
+	selRecordNVL = 51,
+	selRecordINPA = 52,
+	selRecordINPB = 53,
+	selRecordINPC = 54,
+	selRecordINPD = 55,
+	selRecordINPE = 56,
+	selRecordINPF = 57,
+	selRecordINPG = 58,
+	selRecordINPH = 59,
+	selRecordINPI = 60,
+	selRecordINPJ = 61,
+	selRecordINPK = 62,
+	selRecordINPL = 63,
+	selRecordEGU = 64,
+	selRecordHOPR = 65,
+	selRecordLOPR = 66,
+	selRecordHIHI = 67,
+	selRecordLOLO = 68,
+	selRecordHIGH = 69,
+	selRecordLOW = 70,
+	selRecordHHSV = 71,
+	selRecordLLSV = 72,
+	selRecordHSV = 73,
+	selRecordLSV = 74,
+	selRecordHYST = 75,
+	selRecordADEL = 76,
+	selRecordMDEL = 77,
+	selRecordA = 78,
+	selRecordB = 79,
+	selRecordC = 80,
+	selRecordD = 81,
+	selRecordE = 82,
+	selRecordF = 83,
+	selRecordG = 84,
+	selRecordH = 85,
+	selRecordI = 86,
+	selRecordJ = 87,
+	selRecordK = 88,
+	selRecordL = 89,
+	selRecordLA = 90,
+	selRecordLB = 91,
+	selRecordLC = 92,
+	selRecordLD = 93,
+	selRecordLE = 94,
+	selRecordLF = 95,
+	selRecordLG = 96,
+	selRecordLH = 97,
+	selRecordLI = 98,
+	selRecordLJ = 99,
+	selRecordLK = 100,
+	selRecordLL = 101,
+	selRecordLALM = 102,
+	selRecordALST = 103,
+	selRecordMLST = 104,
+	selRecordNLST = 105
 } selFieldIndex;
 
 #ifdef GEN_SIZE_OFFSET
@@ -242,7 +248,7 @@ static int selRecordSizeOffset(dbRecordType *prt)
 {
     selRecord *prec = 0;
 
-    assert(prt->no_fields == 103);
+    assert(prt->no_fields == 106);
     prt->papFldDes[selRecordNAME]->size = sizeof(prec->name);
     prt->papFldDes[selRecordDESC]->size = sizeof(prec->desc);
     prt->papFldDes[selRecordASG]->size = sizeof(prec->asg);
@@ -258,12 +264,15 @@ static int selRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[selRecordSDIS]->size = sizeof(prec->sdis);
     prt->papFldDes[selRecordMLOK]->size = sizeof(prec->mlok);
     prt->papFldDes[selRecordMLIS]->size = sizeof(prec->mlis);
+    prt->papFldDes[selRecordBKLNK]->size = sizeof(prec->bklnk);
     prt->papFldDes[selRecordDISP]->size = sizeof(prec->disp);
     prt->papFldDes[selRecordPROC]->size = sizeof(prec->proc);
     prt->papFldDes[selRecordSTAT]->size = sizeof(prec->stat);
     prt->papFldDes[selRecordSEVR]->size = sizeof(prec->sevr);
+    prt->papFldDes[selRecordAMSG]->size = sizeof(prec->amsg);
     prt->papFldDes[selRecordNSTA]->size = sizeof(prec->nsta);
     prt->papFldDes[selRecordNSEV]->size = sizeof(prec->nsev);
+    prt->papFldDes[selRecordNAMSG]->size = sizeof(prec->namsg);
     prt->papFldDes[selRecordACKS]->size = sizeof(prec->acks);
     prt->papFldDes[selRecordACKT]->size = sizeof(prec->ackt);
     prt->papFldDes[selRecordDISS]->size = sizeof(prec->diss);
@@ -361,12 +370,15 @@ static int selRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[selRecordSDIS]->offset = (unsigned short)((char *)&prec->sdis - (char *)prec);
     prt->papFldDes[selRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[selRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
+    prt->papFldDes[selRecordBKLNK]->offset = (unsigned short)((char *)&prec->bklnk - (char *)prec);
     prt->papFldDes[selRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[selRecordPROC]->offset = (unsigned short)((char *)&prec->proc - (char *)prec);
     prt->papFldDes[selRecordSTAT]->offset = (unsigned short)((char *)&prec->stat - (char *)prec);
     prt->papFldDes[selRecordSEVR]->offset = (unsigned short)((char *)&prec->sevr - (char *)prec);
+    prt->papFldDes[selRecordAMSG]->offset = (unsigned short)((char *)&prec->amsg - (char *)prec);
     prt->papFldDes[selRecordNSTA]->offset = (unsigned short)((char *)&prec->nsta - (char *)prec);
     prt->papFldDes[selRecordNSEV]->offset = (unsigned short)((char *)&prec->nsev - (char *)prec);
+    prt->papFldDes[selRecordNAMSG]->offset = (unsigned short)((char *)&prec->namsg - (char *)prec);
     prt->papFldDes[selRecordACKS]->offset = (unsigned short)((char *)&prec->acks - (char *)prec);
     prt->papFldDes[selRecordACKT]->offset = (unsigned short)((char *)&prec->ackt - (char *)prec);
     prt->papFldDes[selRecordDISS]->offset = (unsigned short)((char *)&prec->diss - (char *)prec);

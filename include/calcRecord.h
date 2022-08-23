@@ -3,9 +3,9 @@
 #ifndef INC_calcRecord_H
 #define INC_calcRecord_H
 
- #include "epicsTypes.h"
- #include "link.h"
-#include "epicsMutex.h"
+#include "epicsTypes.h"
+#include "link.h"
+ #include "epicsMutex.h"
 #include "ellLib.h"
 #include "epicsTime.h"
 #include "postfix.h"
@@ -26,12 +26,15 @@ typedef struct calcRecord {
     DBLINK              sdis;       /* Scanning Disable */
     epicsMutexId        mlok;       /* Monitor lock */
     ELLLIST             mlis;       /* Monitor List */
+    ELLLIST             bklnk;      /* Backwards link tracking */
     epicsUInt8          disp;       /* Disable putField */
     epicsUInt8          proc;       /* Force Processing */
     epicsEnum16         stat;       /* Alarm Status */
     epicsEnum16         sevr;       /* Alarm Severity */
+    char                amsg[40];   /* Alarm Message */
     epicsEnum16         nsta;       /* New Alarm Status */
     epicsEnum16         nsev;       /* New Alarm Severity */
+    char                namsg[40];  /* New Alarm Message */
     epicsEnum16         acks;       /* Alarm Ack Severity */
     epicsEnum16         ackt;       /* Alarm Ack Transient */
     epicsEnum16         diss;       /* Disable Alarm Sevrty */
@@ -132,94 +135,97 @@ typedef enum {
 	calcRecordSDIS = 12,
 	calcRecordMLOK = 13,
 	calcRecordMLIS = 14,
-	calcRecordDISP = 15,
-	calcRecordPROC = 16,
-	calcRecordSTAT = 17,
-	calcRecordSEVR = 18,
-	calcRecordNSTA = 19,
-	calcRecordNSEV = 20,
-	calcRecordACKS = 21,
-	calcRecordACKT = 22,
-	calcRecordDISS = 23,
-	calcRecordLCNT = 24,
-	calcRecordPACT = 25,
-	calcRecordPUTF = 26,
-	calcRecordRPRO = 27,
-	calcRecordASP = 28,
-	calcRecordPPN = 29,
-	calcRecordPPNR = 30,
-	calcRecordSPVT = 31,
-	calcRecordRSET = 32,
-	calcRecordDSET = 33,
-	calcRecordDPVT = 34,
-	calcRecordRDES = 35,
-	calcRecordLSET = 36,
-	calcRecordPRIO = 37,
-	calcRecordTPRO = 38,
-	calcRecordBKPT = 39,
-	calcRecordUDF = 40,
-	calcRecordUDFS = 41,
-	calcRecordTIME = 42,
-	calcRecordFLNK = 43,
-	calcRecordVAL = 44,
-	calcRecordCALC = 45,
-	calcRecordINPA = 46,
-	calcRecordINPB = 47,
-	calcRecordINPC = 48,
-	calcRecordINPD = 49,
-	calcRecordINPE = 50,
-	calcRecordINPF = 51,
-	calcRecordINPG = 52,
-	calcRecordINPH = 53,
-	calcRecordINPI = 54,
-	calcRecordINPJ = 55,
-	calcRecordINPK = 56,
-	calcRecordINPL = 57,
-	calcRecordEGU = 58,
-	calcRecordPREC = 59,
-	calcRecordHOPR = 60,
-	calcRecordLOPR = 61,
-	calcRecordHIHI = 62,
-	calcRecordLOLO = 63,
-	calcRecordHIGH = 64,
-	calcRecordLOW = 65,
-	calcRecordHHSV = 66,
-	calcRecordLLSV = 67,
-	calcRecordHSV = 68,
-	calcRecordLSV = 69,
-	calcRecordAFTC = 70,
-	calcRecordAFVL = 71,
-	calcRecordHYST = 72,
-	calcRecordADEL = 73,
-	calcRecordMDEL = 74,
-	calcRecordA = 75,
-	calcRecordB = 76,
-	calcRecordC = 77,
-	calcRecordD = 78,
-	calcRecordE = 79,
-	calcRecordF = 80,
-	calcRecordG = 81,
-	calcRecordH = 82,
-	calcRecordI = 83,
-	calcRecordJ = 84,
-	calcRecordK = 85,
-	calcRecordL = 86,
-	calcRecordLA = 87,
-	calcRecordLB = 88,
-	calcRecordLC = 89,
-	calcRecordLD = 90,
-	calcRecordLE = 91,
-	calcRecordLF = 92,
-	calcRecordLG = 93,
-	calcRecordLH = 94,
-	calcRecordLI = 95,
-	calcRecordLJ = 96,
-	calcRecordLK = 97,
-	calcRecordLL = 98,
-	calcRecordLALM = 99,
-	calcRecordALST = 100,
-	calcRecordMLST = 101,
-	calcRecordRPCL = 102
+	calcRecordBKLNK = 15,
+	calcRecordDISP = 16,
+	calcRecordPROC = 17,
+	calcRecordSTAT = 18,
+	calcRecordSEVR = 19,
+	calcRecordAMSG = 20,
+	calcRecordNSTA = 21,
+	calcRecordNSEV = 22,
+	calcRecordNAMSG = 23,
+	calcRecordACKS = 24,
+	calcRecordACKT = 25,
+	calcRecordDISS = 26,
+	calcRecordLCNT = 27,
+	calcRecordPACT = 28,
+	calcRecordPUTF = 29,
+	calcRecordRPRO = 30,
+	calcRecordASP = 31,
+	calcRecordPPN = 32,
+	calcRecordPPNR = 33,
+	calcRecordSPVT = 34,
+	calcRecordRSET = 35,
+	calcRecordDSET = 36,
+	calcRecordDPVT = 37,
+	calcRecordRDES = 38,
+	calcRecordLSET = 39,
+	calcRecordPRIO = 40,
+	calcRecordTPRO = 41,
+	calcRecordBKPT = 42,
+	calcRecordUDF = 43,
+	calcRecordUDFS = 44,
+	calcRecordTIME = 45,
+	calcRecordFLNK = 46,
+	calcRecordVAL = 47,
+	calcRecordCALC = 48,
+	calcRecordINPA = 49,
+	calcRecordINPB = 50,
+	calcRecordINPC = 51,
+	calcRecordINPD = 52,
+	calcRecordINPE = 53,
+	calcRecordINPF = 54,
+	calcRecordINPG = 55,
+	calcRecordINPH = 56,
+	calcRecordINPI = 57,
+	calcRecordINPJ = 58,
+	calcRecordINPK = 59,
+	calcRecordINPL = 60,
+	calcRecordEGU = 61,
+	calcRecordPREC = 62,
+	calcRecordHOPR = 63,
+	calcRecordLOPR = 64,
+	calcRecordHIHI = 65,
+	calcRecordLOLO = 66,
+	calcRecordHIGH = 67,
+	calcRecordLOW = 68,
+	calcRecordHHSV = 69,
+	calcRecordLLSV = 70,
+	calcRecordHSV = 71,
+	calcRecordLSV = 72,
+	calcRecordAFTC = 73,
+	calcRecordAFVL = 74,
+	calcRecordHYST = 75,
+	calcRecordADEL = 76,
+	calcRecordMDEL = 77,
+	calcRecordA = 78,
+	calcRecordB = 79,
+	calcRecordC = 80,
+	calcRecordD = 81,
+	calcRecordE = 82,
+	calcRecordF = 83,
+	calcRecordG = 84,
+	calcRecordH = 85,
+	calcRecordI = 86,
+	calcRecordJ = 87,
+	calcRecordK = 88,
+	calcRecordL = 89,
+	calcRecordLA = 90,
+	calcRecordLB = 91,
+	calcRecordLC = 92,
+	calcRecordLD = 93,
+	calcRecordLE = 94,
+	calcRecordLF = 95,
+	calcRecordLG = 96,
+	calcRecordLH = 97,
+	calcRecordLI = 98,
+	calcRecordLJ = 99,
+	calcRecordLK = 100,
+	calcRecordLL = 101,
+	calcRecordLALM = 102,
+	calcRecordALST = 103,
+	calcRecordMLST = 104,
+	calcRecordRPCL = 105
 } calcFieldIndex;
 
 #ifdef GEN_SIZE_OFFSET
@@ -233,7 +239,7 @@ static int calcRecordSizeOffset(dbRecordType *prt)
 {
     calcRecord *prec = 0;
 
-    assert(prt->no_fields == 103);
+    assert(prt->no_fields == 106);
     prt->papFldDes[calcRecordNAME]->size = sizeof(prec->name);
     prt->papFldDes[calcRecordDESC]->size = sizeof(prec->desc);
     prt->papFldDes[calcRecordASG]->size = sizeof(prec->asg);
@@ -249,12 +255,15 @@ static int calcRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[calcRecordSDIS]->size = sizeof(prec->sdis);
     prt->papFldDes[calcRecordMLOK]->size = sizeof(prec->mlok);
     prt->papFldDes[calcRecordMLIS]->size = sizeof(prec->mlis);
+    prt->papFldDes[calcRecordBKLNK]->size = sizeof(prec->bklnk);
     prt->papFldDes[calcRecordDISP]->size = sizeof(prec->disp);
     prt->papFldDes[calcRecordPROC]->size = sizeof(prec->proc);
     prt->papFldDes[calcRecordSTAT]->size = sizeof(prec->stat);
     prt->papFldDes[calcRecordSEVR]->size = sizeof(prec->sevr);
+    prt->papFldDes[calcRecordAMSG]->size = sizeof(prec->amsg);
     prt->papFldDes[calcRecordNSTA]->size = sizeof(prec->nsta);
     prt->papFldDes[calcRecordNSEV]->size = sizeof(prec->nsev);
+    prt->papFldDes[calcRecordNAMSG]->size = sizeof(prec->namsg);
     prt->papFldDes[calcRecordACKS]->size = sizeof(prec->acks);
     prt->papFldDes[calcRecordACKT]->size = sizeof(prec->ackt);
     prt->papFldDes[calcRecordDISS]->size = sizeof(prec->diss);
@@ -352,12 +361,15 @@ static int calcRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[calcRecordSDIS]->offset = (unsigned short)((char *)&prec->sdis - (char *)prec);
     prt->papFldDes[calcRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[calcRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
+    prt->papFldDes[calcRecordBKLNK]->offset = (unsigned short)((char *)&prec->bklnk - (char *)prec);
     prt->papFldDes[calcRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[calcRecordPROC]->offset = (unsigned short)((char *)&prec->proc - (char *)prec);
     prt->papFldDes[calcRecordSTAT]->offset = (unsigned short)((char *)&prec->stat - (char *)prec);
     prt->papFldDes[calcRecordSEVR]->offset = (unsigned short)((char *)&prec->sevr - (char *)prec);
+    prt->papFldDes[calcRecordAMSG]->offset = (unsigned short)((char *)&prec->amsg - (char *)prec);
     prt->papFldDes[calcRecordNSTA]->offset = (unsigned short)((char *)&prec->nsta - (char *)prec);
     prt->papFldDes[calcRecordNSEV]->offset = (unsigned short)((char *)&prec->nsev - (char *)prec);
+    prt->papFldDes[calcRecordNAMSG]->offset = (unsigned short)((char *)&prec->namsg - (char *)prec);
     prt->papFldDes[calcRecordACKS]->offset = (unsigned short)((char *)&prec->acks - (char *)prec);
     prt->papFldDes[calcRecordACKT]->offset = (unsigned short)((char *)&prec->ackt - (char *)prec);
     prt->papFldDes[calcRecordDISS]->offset = (unsigned short)((char *)&prec->diss - (char *)prec);

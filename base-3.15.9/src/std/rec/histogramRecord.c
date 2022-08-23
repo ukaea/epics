@@ -4,7 +4,7 @@
 * Copyright (c) 2002 The Regents of the University of California, as
 *     Operator of Los Alamos National Laboratory.
 * EPICS BASE is distributed subject to a Software License Agreement found
-* in file LICENSE that is included with this distribution. 
+* in file LICENSE that is included with this distribution.
 \*************************************************************************/
 
 /* histogramRecord.c - Record Support Routines for Histogram records */
@@ -43,24 +43,24 @@
 
 #define indexof(field) histogramRecord##field
 
-/* Create RSET - Record Support Entry Table*/
+ /* Create RSET - Record Support Entry Table*/
 #define report NULL
 #define initialize NULL
-static long init_record(histogramRecord *, int);
-static long process(histogramRecord *);
-static long special(DBADDR *, int);
+static long init_record(histogramRecord*, int);
+static long process(histogramRecord*);
+static long special(DBADDR*, int);
 #define get_value NULL
-static long cvt_dbaddr(DBADDR *);
-static long get_array_info(DBADDR *, long *, long *);
+static long cvt_dbaddr(DBADDR*);
+static long get_array_info(DBADDR*, long*, long*);
 #define  put_array_info NULL
-static long get_units(DBADDR *, char *);
-static long get_precision(DBADDR *paddr,long *precision);
+static long get_units(DBADDR*, char*);
+static long get_precision(DBADDR* paddr, long* precision);
 #define get_enum_str NULL
 #define get_enum_strs NULL
 #define put_enum_str NULL
 #define get_alarm_double NULL
-static long get_graphic_double(DBADDR *paddr,struct dbr_grDouble *pgd);
-static long get_control_double(DBADDR *paddr,struct dbr_ctrlDouble *pcd);
+static long get_graphic_double(DBADDR* paddr, struct dbr_grDouble* pgd);
+static long get_control_double(DBADDR* paddr, struct dbr_ctrlDouble* pcd);
 
 rset histogramRSET = {
     RSETNUMBER,
@@ -82,37 +82,48 @@ rset histogramRSET = {
     get_control_double,
     get_alarm_double
 };
-epicsExportAddress(rset,histogramRSET);
+epicsExportAddress(rset, histogramRSET);
 
 int histogramSDELprecision = 2;
 epicsExportAddress(int, histogramSDELprecision);
 
+struct histogramdset { /* histogram input dset */
+    long          number;
+    DEVSUPFUN     dev_report;
+    DEVSUPFUN     init;
+    DEVSUPFUN     init_record; /*returns: (-1,0)=>(failure,success)*/
+    DEVSUPFUN     get_ioint_info;
+    DEVSUPFUN     read_histogram;/*(0,2)=> success and add_count, don't add_count)*/
+    /* if add_count then sgnl added to array */
+    DEVSUPFUN     special_linconv;
+};
+
 /* control block for callback*/
 typedef struct myCallback {
     epicsCallback callback;
-    histogramRecord *prec;
+    histogramRecord* prec;
 } myCallback;
 
-static long add_count(histogramRecord *);
-static long clear_histogram(histogramRecord *);
-static void monitor(histogramRecord *);
-static long readValue(histogramRecord *);
+static long add_count(histogramRecord*);
+static long clear_histogram(histogramRecord*);
+static void monitor(histogramRecord*);
+static long readValue(histogramRecord*);
 
 
-static void wdogCallback(epicsCallback *arg)
+static void wdogCallback(epicsCallback* arg)
 {
-    myCallback *pcallback;
-    histogramRecord *prec;
+    myCallback* pcallback;
+    histogramRecord* prec;
 
     callbackGetUser(pcallback, arg);
     prec = pcallback->prec;
     /* force post events for any count change */
-    if (prec->mcnt > 0){
-        dbScanLock((struct dbCommon *)prec);
+    if (prec->mcnt > 0) {
+        dbScanLock((struct dbCommon*)prec);
         recGblGetTimeStamp(prec);
         db_post_events(prec, prec->bptr, DBE_VALUE | DBE_LOG);
         prec->mcnt = 0;
-        dbScanUnlock((struct dbCommon *)prec);
+        dbScanUnlock((struct dbCommon*)prec);
     }
 
     if (prec->sdel > 0) {
@@ -123,10 +134,10 @@ static void wdogCallback(epicsCallback *arg)
     return;
 }
 
-static void wdogInit(histogramRecord *prec)
+static void wdogInit(histogramRecord* prec)
 {
     if (prec->sdel > 0) {
-        myCallback *pcallback = prec->wdog;
+        myCallback* pcallback = prec->wdog;
 
         if (!pcallback) {
             /* initialize a callback object */
@@ -145,10 +156,11 @@ static void wdogInit(histogramRecord *prec)
         callbackRequestDelayed(&pcallback->callback, prec->sdel);
     }
 }
-
-static long init_record(histogramRecord *prec, int pass)
+
+
+static long init_record(histogramRecord* prec, int pass)
 {
-    struct histogramdset *pdset;
+    struct histogramdset* pdset;
 
     if (pass == 0) {
         /* allocate space for histogram array */
@@ -174,32 +186,32 @@ static long init_record(histogramRecord *prec, int pass)
     }
 
     /* must have device support defined */
-    pdset = (struct histogramdset *) prec->dset;
-    
+    pdset = (struct histogramdset*)prec->dset;
     if (!pdset) {
         recGblRecordError(S_dev_noDSET, prec, "histogram: init_record");
         return S_dev_noDSET;
     }
 
     /* must have read_histogram function defined */
-    if (pdset->common.number < 6 || !pdset->read_histogram) {
+    if (pdset->number < 6 || !pdset->read_histogram) {
         recGblRecordError(S_dev_missingSup, prec, "histogram: init_record");
         return S_dev_missingSup;
     }
 
     /* call device support init_record */
-    if (pdset->common.init_record) {
-        long status = pdset->common.init_record(prec);
+    if (pdset->init_record) {
+        long status = pdset->init_record(prec);
 
         if (status)
             return status;
     }
     return 0;
 }
-
-static long process(histogramRecord *prec)
+
+
+static long process(histogramRecord* prec)
 {
-    struct histogramdset *pdset = (struct histogramdset *) prec->dset;
+    struct histogramdset* pdset = (struct histogramdset*)prec->dset;
     int pact = prec->pact;
     long status;
 
@@ -226,13 +238,14 @@ static long process(histogramRecord *prec)
     monitor(prec);
     recGblFwdLink(prec);
 
-    prec->pact=FALSE;
+    prec->pact = FALSE;
     return status;
 }
-
-static long special(DBADDR *paddr, int after)
+
+
+static long special(DBADDR* paddr, int after)
 {
-    histogramRecord *prec = (histogramRecord *) paddr->precord;
+    histogramRecord* prec = (histogramRecord*)paddr->precord;
 
     if (!after)
         return 0;
@@ -269,17 +282,18 @@ static long special(DBADDR *paddr, int after)
         return 0;
 
     default:
-         recGblDbaddrError(S_db_badChoice, paddr, "histogram: special");
-         return S_db_badChoice;
+        recGblDbaddrError(S_db_badChoice, paddr, "histogram: special");
+        return S_db_badChoice;
     }
 }
-
-static void monitor(histogramRecord *prec)
+
+
+static void monitor(histogramRecord* prec)
 {
     unsigned short monitor_mask = recGblResetAlarms(prec);
 
     /* post events for count change */
-    if (prec->mcnt > prec->mdel){
+    if (prec->mcnt > prec->mdel) {
         monitor_mask |= DBE_VALUE | DBE_LOG;
         /* reset counts since monitor */
         prec->mcnt = 0;
@@ -290,10 +304,11 @@ static void monitor(histogramRecord *prec)
 
     return;
 }
-
-static long cvt_dbaddr(DBADDR *paddr)
+
+
+static long cvt_dbaddr(DBADDR* paddr)
 {
-    histogramRecord *prec = (histogramRecord *) paddr->precord;
+    histogramRecord* prec = (histogramRecord*)paddr->precord;
 
     paddr->pfield = prec->bptr;
     paddr->no_elements = prec->nelm;
@@ -303,19 +318,20 @@ static long cvt_dbaddr(DBADDR *paddr)
     return 0;
 }
 
-static long get_array_info(DBADDR *paddr, long *no_elements, long *offset)
+static long get_array_info(DBADDR* paddr, long* no_elements, long* offset)
 {
-    histogramRecord *prec = (histogramRecord *) paddr->precord;
+    histogramRecord* prec = (histogramRecord*)paddr->precord;
 
-    *no_elements =  prec->nelm;
+    *no_elements = prec->nelm;
     *offset = 0;
     return 0;
 }
-
-static long add_count(histogramRecord *prec)
+
+
+static long add_count(histogramRecord* prec)
 {
     double temp;
-    epicsUInt32 *pdest;
+    epicsUInt32* pdest;
     int i;
 
     if (prec->csta == FALSE)
@@ -333,12 +349,12 @@ static long add_count(histogramRecord *prec)
         return 0;
 
     temp = prec->sgnl - prec->llim;
-    for (i = 1; i <= prec->nelm; i++){
-        if (temp <= (double) i * prec->wdth)
+    for (i = 1; i <= prec->nelm; i++) {
+        if (temp <= (double)i * prec->wdth)
             break;
     }
     pdest = prec->bptr + i - 1;
-    if (*pdest == (epicsUInt32) UINT_MAX)
+    if (*pdest == (epicsUInt32)UINT_MAX)
         *pdest = 0;
     (*pdest)++;
     prec->mcnt++;
@@ -346,7 +362,7 @@ static long add_count(histogramRecord *prec)
     return 0;
 }
 
-static long clear_histogram(histogramRecord *prec)
+static long clear_histogram(histogramRecord* prec)
 {
     int i;
 
@@ -358,9 +374,9 @@ static long clear_histogram(histogramRecord *prec)
     return 0;
 }
 
-static long readValue(histogramRecord *prec)
+static long readValue(histogramRecord* prec)
 {
-    struct histogramdset *pdset = (struct histogramdset *) prec->dset;
+    struct histogramdset* pdset = (struct histogramdset*)prec->dset;
     long status;
 
     if (prec->pact) {
@@ -377,7 +393,7 @@ static long readValue(histogramRecord *prec)
         return status;
     }
     if (prec->simm == menuYesNoYES) {
-        status = dbGetLink(&prec->siol,DBR_DOUBLE, &prec->sval, 0, 0);
+        status = dbGetLink(&prec->siol, DBR_DOUBLE, &prec->sval, 0, 0);
         if (status == 0)
             prec->sgnl = prec->sval;
     }
@@ -391,69 +407,69 @@ static long readValue(histogramRecord *prec)
     return status;
 }
 
-static long get_units(DBADDR *paddr, char *units)
+static long get_units(DBADDR* paddr, char* units)
 {
     if (dbGetFieldIndex(paddr) == indexof(SDEL)) {
-        strcpy(units,"s");
+        strcpy(units, "s");
     }
     /* We should have EGU for other DOUBLE values or probably get it from input link SVL */
     return 0;
 }
 
-static long get_precision(DBADDR *paddr,long *precision)
+static long get_precision(DBADDR* paddr, long* precision)
 {
-    histogramRecord *prec = (histogramRecord *) paddr->precord;
+    histogramRecord* prec = (histogramRecord*)paddr->precord;
 
     switch (dbGetFieldIndex(paddr)) {
-        case indexof(ULIM):
-        case indexof(LLIM):
-        case indexof(SGNL):
-        case indexof(SVAL):
-        case indexof(WDTH):
-            *precision = prec->prec;
-            break;
-        case indexof(SDEL):
-            *precision = histogramSDELprecision;
-            break;
-        default:
-            recGblGetPrec(paddr,precision);
+    case indexof(ULIM):
+    case indexof(LLIM):
+    case indexof(SGNL):
+    case indexof(SVAL):
+    case indexof(WDTH):
+        *precision = prec->prec;
+        break;
+    case indexof(SDEL):
+        *precision = histogramSDELprecision;
+        break;
+    default:
+        recGblGetPrec(paddr, precision);
     }
     return 0;
 }
 
-static long get_graphic_double(DBADDR *paddr,struct dbr_grDouble *pgd)
+static long get_graphic_double(DBADDR* paddr, struct dbr_grDouble* pgd)
 {
-    histogramRecord *prec = (histogramRecord *) paddr->precord;
+    histogramRecord* prec = (histogramRecord*)paddr->precord;
 
     switch (dbGetFieldIndex(paddr)) {
-        case indexof(VAL):
-            pgd->upper_disp_limit = prec->hopr;
-            pgd->lower_disp_limit = prec->lopr;
-            break;
-        case indexof(WDTH):
-            pgd->upper_disp_limit = prec->ulim - prec->llim;
-            pgd->lower_disp_limit = 0.0;
-            break;
-        default:
-            recGblGetGraphicDouble(paddr,pgd);
+    case indexof(VAL):
+        pgd->upper_disp_limit = prec->hopr;
+        pgd->lower_disp_limit = prec->lopr;
+        break;
+    case indexof(WDTH):
+        pgd->upper_disp_limit = prec->ulim - prec->llim;
+        pgd->lower_disp_limit = 0.0;
+        break;
+    default:
+        recGblGetGraphicDouble(paddr, pgd);
     }
     return 0;
 }
-static long get_control_double(DBADDR *paddr,struct dbr_ctrlDouble *pcd)
+static long get_control_double(DBADDR* paddr, struct dbr_ctrlDouble* pcd)
 {
-    histogramRecord *prec = (histogramRecord *) paddr->precord;
+    histogramRecord* prec = (histogramRecord*)paddr->precord;
 
     switch (dbGetFieldIndex(paddr)) {
-        case indexof(VAL):
-            pcd->upper_ctrl_limit = prec->hopr;
-            pcd->lower_ctrl_limit = prec->lopr;
-            break;
-        case indexof(WDTH):
-            pcd->upper_ctrl_limit = prec->ulim - prec->llim;
-            pcd->lower_ctrl_limit = 0.0;
-            break;
-        default:
-            recGblGetControlDouble(paddr, pcd);
+    case indexof(VAL):
+        pcd->upper_ctrl_limit = prec->hopr;
+        pcd->lower_ctrl_limit = prec->lopr;
+        break;
+    case indexof(WDTH):
+        pcd->upper_ctrl_limit = prec->ulim - prec->llim;
+        pcd->lower_ctrl_limit = 0.0;
+        break;
+    default:
+        recGblGetControlDouble(paddr, pcd);
     }
     return 0;
 }

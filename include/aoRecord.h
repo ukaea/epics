@@ -3,9 +3,9 @@
 #ifndef INC_aoRecord_H
 #define INC_aoRecord_H
 
- #include "epicsTypes.h"
- #include "link.h"
-#include "epicsMutex.h"
+#include "epicsTypes.h"
+#include "link.h"
+ #include "epicsMutex.h"
 #include "ellLib.h"
 #include "epicsTime.h"
 
@@ -33,12 +33,15 @@ typedef struct aoRecord {
     DBLINK              sdis;       /* Scanning Disable */
     epicsMutexId        mlok;       /* Monitor lock */
     ELLLIST             mlis;       /* Monitor List */
+    ELLLIST             bklnk;      /* Backwards link tracking */
     epicsUInt8          disp;       /* Disable putField */
     epicsUInt8          proc;       /* Force Processing */
     epicsEnum16         stat;       /* Alarm Status */
     epicsEnum16         sevr;       /* Alarm Severity */
+    char                amsg[40];   /* Alarm Message */
     epicsEnum16         nsta;       /* New Alarm Status */
     epicsEnum16         nsev;       /* New Alarm Severity */
+    char                namsg[40];  /* New Alarm Message */
     epicsEnum16         acks;       /* Alarm Ack Severity */
     epicsEnum16         ackt;       /* Alarm Ack Transient */
     epicsEnum16         diss;       /* Disable Alarm Sevrty */
@@ -130,85 +133,88 @@ typedef enum {
 	aoRecordSDIS = 12,
 	aoRecordMLOK = 13,
 	aoRecordMLIS = 14,
-	aoRecordDISP = 15,
-	aoRecordPROC = 16,
-	aoRecordSTAT = 17,
-	aoRecordSEVR = 18,
-	aoRecordNSTA = 19,
-	aoRecordNSEV = 20,
-	aoRecordACKS = 21,
-	aoRecordACKT = 22,
-	aoRecordDISS = 23,
-	aoRecordLCNT = 24,
-	aoRecordPACT = 25,
-	aoRecordPUTF = 26,
-	aoRecordRPRO = 27,
-	aoRecordASP = 28,
-	aoRecordPPN = 29,
-	aoRecordPPNR = 30,
-	aoRecordSPVT = 31,
-	aoRecordRSET = 32,
-	aoRecordDSET = 33,
-	aoRecordDPVT = 34,
-	aoRecordRDES = 35,
-	aoRecordLSET = 36,
-	aoRecordPRIO = 37,
-	aoRecordTPRO = 38,
-	aoRecordBKPT = 39,
-	aoRecordUDF = 40,
-	aoRecordUDFS = 41,
-	aoRecordTIME = 42,
-	aoRecordFLNK = 43,
-	aoRecordVAL = 44,
-	aoRecordOVAL = 45,
-	aoRecordOUT = 46,
-	aoRecordOROC = 47,
-	aoRecordDOL = 48,
-	aoRecordOMSL = 49,
-	aoRecordOIF = 50,
-	aoRecordPREC = 51,
-	aoRecordLINR = 52,
-	aoRecordEGUF = 53,
-	aoRecordEGUL = 54,
-	aoRecordEGU = 55,
-	aoRecordROFF = 56,
-	aoRecordEOFF = 57,
-	aoRecordESLO = 58,
-	aoRecordDRVH = 59,
-	aoRecordDRVL = 60,
-	aoRecordHOPR = 61,
-	aoRecordLOPR = 62,
-	aoRecordAOFF = 63,
-	aoRecordASLO = 64,
-	aoRecordHIHI = 65,
-	aoRecordLOLO = 66,
-	aoRecordHIGH = 67,
-	aoRecordLOW = 68,
-	aoRecordHHSV = 69,
-	aoRecordLLSV = 70,
-	aoRecordHSV = 71,
-	aoRecordLSV = 72,
-	aoRecordHYST = 73,
-	aoRecordADEL = 74,
-	aoRecordMDEL = 75,
-	aoRecordRVAL = 76,
-	aoRecordORAW = 77,
-	aoRecordRBV = 78,
-	aoRecordORBV = 79,
-	aoRecordPVAL = 80,
-	aoRecordLALM = 81,
-	aoRecordALST = 82,
-	aoRecordMLST = 83,
-	aoRecordPBRK = 84,
-	aoRecordINIT = 85,
-	aoRecordLBRK = 86,
-	aoRecordSIOL = 87,
-	aoRecordSIML = 88,
-	aoRecordSIMM = 89,
-	aoRecordSIMS = 90,
-	aoRecordIVOA = 91,
-	aoRecordIVOV = 92,
-	aoRecordOMOD = 93
+	aoRecordBKLNK = 15,
+	aoRecordDISP = 16,
+	aoRecordPROC = 17,
+	aoRecordSTAT = 18,
+	aoRecordSEVR = 19,
+	aoRecordAMSG = 20,
+	aoRecordNSTA = 21,
+	aoRecordNSEV = 22,
+	aoRecordNAMSG = 23,
+	aoRecordACKS = 24,
+	aoRecordACKT = 25,
+	aoRecordDISS = 26,
+	aoRecordLCNT = 27,
+	aoRecordPACT = 28,
+	aoRecordPUTF = 29,
+	aoRecordRPRO = 30,
+	aoRecordASP = 31,
+	aoRecordPPN = 32,
+	aoRecordPPNR = 33,
+	aoRecordSPVT = 34,
+	aoRecordRSET = 35,
+	aoRecordDSET = 36,
+	aoRecordDPVT = 37,
+	aoRecordRDES = 38,
+	aoRecordLSET = 39,
+	aoRecordPRIO = 40,
+	aoRecordTPRO = 41,
+	aoRecordBKPT = 42,
+	aoRecordUDF = 43,
+	aoRecordUDFS = 44,
+	aoRecordTIME = 45,
+	aoRecordFLNK = 46,
+	aoRecordVAL = 47,
+	aoRecordOVAL = 48,
+	aoRecordOUT = 49,
+	aoRecordOROC = 50,
+	aoRecordDOL = 51,
+	aoRecordOMSL = 52,
+	aoRecordOIF = 53,
+	aoRecordPREC = 54,
+	aoRecordLINR = 55,
+	aoRecordEGUF = 56,
+	aoRecordEGUL = 57,
+	aoRecordEGU = 58,
+	aoRecordROFF = 59,
+	aoRecordEOFF = 60,
+	aoRecordESLO = 61,
+	aoRecordDRVH = 62,
+	aoRecordDRVL = 63,
+	aoRecordHOPR = 64,
+	aoRecordLOPR = 65,
+	aoRecordAOFF = 66,
+	aoRecordASLO = 67,
+	aoRecordHIHI = 68,
+	aoRecordLOLO = 69,
+	aoRecordHIGH = 70,
+	aoRecordLOW = 71,
+	aoRecordHHSV = 72,
+	aoRecordLLSV = 73,
+	aoRecordHSV = 74,
+	aoRecordLSV = 75,
+	aoRecordHYST = 76,
+	aoRecordADEL = 77,
+	aoRecordMDEL = 78,
+	aoRecordRVAL = 79,
+	aoRecordORAW = 80,
+	aoRecordRBV = 81,
+	aoRecordORBV = 82,
+	aoRecordPVAL = 83,
+	aoRecordLALM = 84,
+	aoRecordALST = 85,
+	aoRecordMLST = 86,
+	aoRecordPBRK = 87,
+	aoRecordINIT = 88,
+	aoRecordLBRK = 89,
+	aoRecordSIOL = 90,
+	aoRecordSIML = 91,
+	aoRecordSIMM = 92,
+	aoRecordSIMS = 93,
+	aoRecordIVOA = 94,
+	aoRecordIVOV = 95,
+	aoRecordOMOD = 96
 } aoFieldIndex;
 
 #ifdef GEN_SIZE_OFFSET
@@ -222,7 +228,7 @@ static int aoRecordSizeOffset(dbRecordType *prt)
 {
     aoRecord *prec = 0;
 
-    assert(prt->no_fields == 94);
+    assert(prt->no_fields == 97);
     prt->papFldDes[aoRecordNAME]->size = sizeof(prec->name);
     prt->papFldDes[aoRecordDESC]->size = sizeof(prec->desc);
     prt->papFldDes[aoRecordASG]->size = sizeof(prec->asg);
@@ -238,12 +244,15 @@ static int aoRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[aoRecordSDIS]->size = sizeof(prec->sdis);
     prt->papFldDes[aoRecordMLOK]->size = sizeof(prec->mlok);
     prt->papFldDes[aoRecordMLIS]->size = sizeof(prec->mlis);
+    prt->papFldDes[aoRecordBKLNK]->size = sizeof(prec->bklnk);
     prt->papFldDes[aoRecordDISP]->size = sizeof(prec->disp);
     prt->papFldDes[aoRecordPROC]->size = sizeof(prec->proc);
     prt->papFldDes[aoRecordSTAT]->size = sizeof(prec->stat);
     prt->papFldDes[aoRecordSEVR]->size = sizeof(prec->sevr);
+    prt->papFldDes[aoRecordAMSG]->size = sizeof(prec->amsg);
     prt->papFldDes[aoRecordNSTA]->size = sizeof(prec->nsta);
     prt->papFldDes[aoRecordNSEV]->size = sizeof(prec->nsev);
+    prt->papFldDes[aoRecordNAMSG]->size = sizeof(prec->namsg);
     prt->papFldDes[aoRecordACKS]->size = sizeof(prec->acks);
     prt->papFldDes[aoRecordACKT]->size = sizeof(prec->ackt);
     prt->papFldDes[aoRecordDISS]->size = sizeof(prec->diss);
@@ -332,12 +341,15 @@ static int aoRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[aoRecordSDIS]->offset = (unsigned short)((char *)&prec->sdis - (char *)prec);
     prt->papFldDes[aoRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[aoRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
+    prt->papFldDes[aoRecordBKLNK]->offset = (unsigned short)((char *)&prec->bklnk - (char *)prec);
     prt->papFldDes[aoRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[aoRecordPROC]->offset = (unsigned short)((char *)&prec->proc - (char *)prec);
     prt->papFldDes[aoRecordSTAT]->offset = (unsigned short)((char *)&prec->stat - (char *)prec);
     prt->papFldDes[aoRecordSEVR]->offset = (unsigned short)((char *)&prec->sevr - (char *)prec);
+    prt->papFldDes[aoRecordAMSG]->offset = (unsigned short)((char *)&prec->amsg - (char *)prec);
     prt->papFldDes[aoRecordNSTA]->offset = (unsigned short)((char *)&prec->nsta - (char *)prec);
     prt->papFldDes[aoRecordNSEV]->offset = (unsigned short)((char *)&prec->nsev - (char *)prec);
+    prt->papFldDes[aoRecordNAMSG]->offset = (unsigned short)((char *)&prec->namsg - (char *)prec);
     prt->papFldDes[aoRecordACKS]->offset = (unsigned short)((char *)&prec->acks - (char *)prec);
     prt->papFldDes[aoRecordACKT]->offset = (unsigned short)((char *)&prec->ackt - (char *)prec);
     prt->papFldDes[aoRecordDISS]->offset = (unsigned short)((char *)&prec->diss - (char *)prec);

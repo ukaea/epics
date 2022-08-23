@@ -3,9 +3,9 @@
 #ifndef INC_permissiveRecord_H
 #define INC_permissiveRecord_H
 
- #include "epicsTypes.h"
- #include "link.h"
-#include "epicsMutex.h"
+#include "epicsTypes.h"
+#include "link.h"
+ #include "epicsMutex.h"
 #include "ellLib.h"
 #include "epicsTime.h"
 
@@ -25,12 +25,15 @@ typedef struct permissiveRecord {
     DBLINK              sdis;       /* Scanning Disable */
     epicsMutexId        mlok;       /* Monitor lock */
     ELLLIST             mlis;       /* Monitor List */
+    ELLLIST             bklnk;      /* Backwards link tracking */
     epicsUInt8          disp;       /* Disable putField */
     epicsUInt8          proc;       /* Force Processing */
     epicsEnum16         stat;       /* Alarm Status */
     epicsEnum16         sevr;       /* Alarm Severity */
+    char                amsg[40];   /* Alarm Message */
     epicsEnum16         nsta;       /* New Alarm Status */
     epicsEnum16         nsev;       /* New Alarm Severity */
+    char                namsg[40];  /* New Alarm Message */
     epicsEnum16         acks;       /* Alarm Ack Severity */
     epicsEnum16         ackt;       /* Alarm Ack Transient */
     epicsEnum16         diss;       /* Disable Alarm Sevrty */
@@ -77,40 +80,43 @@ typedef enum {
 	permissiveRecordSDIS = 12,
 	permissiveRecordMLOK = 13,
 	permissiveRecordMLIS = 14,
-	permissiveRecordDISP = 15,
-	permissiveRecordPROC = 16,
-	permissiveRecordSTAT = 17,
-	permissiveRecordSEVR = 18,
-	permissiveRecordNSTA = 19,
-	permissiveRecordNSEV = 20,
-	permissiveRecordACKS = 21,
-	permissiveRecordACKT = 22,
-	permissiveRecordDISS = 23,
-	permissiveRecordLCNT = 24,
-	permissiveRecordPACT = 25,
-	permissiveRecordPUTF = 26,
-	permissiveRecordRPRO = 27,
-	permissiveRecordASP = 28,
-	permissiveRecordPPN = 29,
-	permissiveRecordPPNR = 30,
-	permissiveRecordSPVT = 31,
-	permissiveRecordRSET = 32,
-	permissiveRecordDSET = 33,
-	permissiveRecordDPVT = 34,
-	permissiveRecordRDES = 35,
-	permissiveRecordLSET = 36,
-	permissiveRecordPRIO = 37,
-	permissiveRecordTPRO = 38,
-	permissiveRecordBKPT = 39,
-	permissiveRecordUDF = 40,
-	permissiveRecordUDFS = 41,
-	permissiveRecordTIME = 42,
-	permissiveRecordFLNK = 43,
-	permissiveRecordVAL = 44,
-	permissiveRecordWFLG = 45,
-	permissiveRecordLABL = 46,
-	permissiveRecordOVAL = 47,
-	permissiveRecordOFLG = 48
+	permissiveRecordBKLNK = 15,
+	permissiveRecordDISP = 16,
+	permissiveRecordPROC = 17,
+	permissiveRecordSTAT = 18,
+	permissiveRecordSEVR = 19,
+	permissiveRecordAMSG = 20,
+	permissiveRecordNSTA = 21,
+	permissiveRecordNSEV = 22,
+	permissiveRecordNAMSG = 23,
+	permissiveRecordACKS = 24,
+	permissiveRecordACKT = 25,
+	permissiveRecordDISS = 26,
+	permissiveRecordLCNT = 27,
+	permissiveRecordPACT = 28,
+	permissiveRecordPUTF = 29,
+	permissiveRecordRPRO = 30,
+	permissiveRecordASP = 31,
+	permissiveRecordPPN = 32,
+	permissiveRecordPPNR = 33,
+	permissiveRecordSPVT = 34,
+	permissiveRecordRSET = 35,
+	permissiveRecordDSET = 36,
+	permissiveRecordDPVT = 37,
+	permissiveRecordRDES = 38,
+	permissiveRecordLSET = 39,
+	permissiveRecordPRIO = 40,
+	permissiveRecordTPRO = 41,
+	permissiveRecordBKPT = 42,
+	permissiveRecordUDF = 43,
+	permissiveRecordUDFS = 44,
+	permissiveRecordTIME = 45,
+	permissiveRecordFLNK = 46,
+	permissiveRecordVAL = 47,
+	permissiveRecordWFLG = 48,
+	permissiveRecordLABL = 49,
+	permissiveRecordOVAL = 50,
+	permissiveRecordOFLG = 51
 } permissiveFieldIndex;
 
 #ifdef GEN_SIZE_OFFSET
@@ -124,7 +130,7 @@ static int permissiveRecordSizeOffset(dbRecordType *prt)
 {
     permissiveRecord *prec = 0;
 
-    assert(prt->no_fields == 49);
+    assert(prt->no_fields == 52);
     prt->papFldDes[permissiveRecordNAME]->size = sizeof(prec->name);
     prt->papFldDes[permissiveRecordDESC]->size = sizeof(prec->desc);
     prt->papFldDes[permissiveRecordASG]->size = sizeof(prec->asg);
@@ -140,12 +146,15 @@ static int permissiveRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[permissiveRecordSDIS]->size = sizeof(prec->sdis);
     prt->papFldDes[permissiveRecordMLOK]->size = sizeof(prec->mlok);
     prt->papFldDes[permissiveRecordMLIS]->size = sizeof(prec->mlis);
+    prt->papFldDes[permissiveRecordBKLNK]->size = sizeof(prec->bklnk);
     prt->papFldDes[permissiveRecordDISP]->size = sizeof(prec->disp);
     prt->papFldDes[permissiveRecordPROC]->size = sizeof(prec->proc);
     prt->papFldDes[permissiveRecordSTAT]->size = sizeof(prec->stat);
     prt->papFldDes[permissiveRecordSEVR]->size = sizeof(prec->sevr);
+    prt->papFldDes[permissiveRecordAMSG]->size = sizeof(prec->amsg);
     prt->papFldDes[permissiveRecordNSTA]->size = sizeof(prec->nsta);
     prt->papFldDes[permissiveRecordNSEV]->size = sizeof(prec->nsev);
+    prt->papFldDes[permissiveRecordNAMSG]->size = sizeof(prec->namsg);
     prt->papFldDes[permissiveRecordACKS]->size = sizeof(prec->acks);
     prt->papFldDes[permissiveRecordACKT]->size = sizeof(prec->ackt);
     prt->papFldDes[permissiveRecordDISS]->size = sizeof(prec->diss);
@@ -189,12 +198,15 @@ static int permissiveRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[permissiveRecordSDIS]->offset = (unsigned short)((char *)&prec->sdis - (char *)prec);
     prt->papFldDes[permissiveRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[permissiveRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
+    prt->papFldDes[permissiveRecordBKLNK]->offset = (unsigned short)((char *)&prec->bklnk - (char *)prec);
     prt->papFldDes[permissiveRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[permissiveRecordPROC]->offset = (unsigned short)((char *)&prec->proc - (char *)prec);
     prt->papFldDes[permissiveRecordSTAT]->offset = (unsigned short)((char *)&prec->stat - (char *)prec);
     prt->papFldDes[permissiveRecordSEVR]->offset = (unsigned short)((char *)&prec->sevr - (char *)prec);
+    prt->papFldDes[permissiveRecordAMSG]->offset = (unsigned short)((char *)&prec->amsg - (char *)prec);
     prt->papFldDes[permissiveRecordNSTA]->offset = (unsigned short)((char *)&prec->nsta - (char *)prec);
     prt->papFldDes[permissiveRecordNSEV]->offset = (unsigned short)((char *)&prec->nsev - (char *)prec);
+    prt->papFldDes[permissiveRecordNAMSG]->offset = (unsigned short)((char *)&prec->namsg - (char *)prec);
     prt->papFldDes[permissiveRecordACKS]->offset = (unsigned short)((char *)&prec->acks - (char *)prec);
     prt->papFldDes[permissiveRecordACKT]->offset = (unsigned short)((char *)&prec->ackt - (char *)prec);
     prt->papFldDes[permissiveRecordDISS]->offset = (unsigned short)((char *)&prec->diss - (char *)prec);

@@ -3,20 +3,22 @@
 #ifndef INC_printfRecord_H
 #define INC_printfRecord_H
 
- #include "epicsTypes.h"
- #include "link.h"
-#include "epicsMutex.h"
+#include "epicsTypes.h"
+#include "link.h"
+ #include "epicsMutex.h"
 #include "ellLib.h"
 #include "epicsTime.h"
 #include "devSup.h"
 
 /* Declare Device Support Entry Table */
-struct printfRecord;
 typedef struct printfdset {
-    dset common;
-    long (*write_string)(struct printfRecord *prec);
+    long number;
+    DEVSUPFUN report;
+    DEVSUPFUN init;
+    DEVSUPFUN init_record;
+    DEVSUPFUN get_ioint_info;
+    DEVSUPFUN write_string;
 } printfdset;
-#define HAS_printfdset
 
 /* Number of INPx fields defined */
 #define PRINTF_NLINKS 10
@@ -37,12 +39,15 @@ typedef struct printfRecord {
     DBLINK              sdis;       /* Scanning Disable */
     epicsMutexId        mlok;       /* Monitor lock */
     ELLLIST             mlis;       /* Monitor List */
+    ELLLIST             bklnk;      /* Backwards link tracking */
     epicsUInt8          disp;       /* Disable putField */
     epicsUInt8          proc;       /* Force Processing */
     epicsEnum16         stat;       /* Alarm Status */
     epicsEnum16         sevr;       /* Alarm Severity */
+    char                amsg[40];   /* Alarm Message */
     epicsEnum16         nsta;       /* New Alarm Status */
     epicsEnum16         nsev;       /* New Alarm Severity */
+    char                namsg[40];  /* New Alarm Message */
     epicsEnum16         acks;       /* Alarm Ack Severity */
     epicsEnum16         ackt;       /* Alarm Ack Transient */
     epicsEnum16         diss;       /* Disable Alarm Sevrty */
@@ -100,51 +105,54 @@ typedef enum {
 	printfRecordSDIS = 12,
 	printfRecordMLOK = 13,
 	printfRecordMLIS = 14,
-	printfRecordDISP = 15,
-	printfRecordPROC = 16,
-	printfRecordSTAT = 17,
-	printfRecordSEVR = 18,
-	printfRecordNSTA = 19,
-	printfRecordNSEV = 20,
-	printfRecordACKS = 21,
-	printfRecordACKT = 22,
-	printfRecordDISS = 23,
-	printfRecordLCNT = 24,
-	printfRecordPACT = 25,
-	printfRecordPUTF = 26,
-	printfRecordRPRO = 27,
-	printfRecordASP = 28,
-	printfRecordPPN = 29,
-	printfRecordPPNR = 30,
-	printfRecordSPVT = 31,
-	printfRecordRSET = 32,
-	printfRecordDSET = 33,
-	printfRecordDPVT = 34,
-	printfRecordRDES = 35,
-	printfRecordLSET = 36,
-	printfRecordPRIO = 37,
-	printfRecordTPRO = 38,
-	printfRecordBKPT = 39,
-	printfRecordUDF = 40,
-	printfRecordUDFS = 41,
-	printfRecordTIME = 42,
-	printfRecordFLNK = 43,
-	printfRecordVAL = 44,
-	printfRecordSIZV = 45,
-	printfRecordLEN = 46,
-	printfRecordOUT = 47,
-	printfRecordFMT = 48,
-	printfRecordIVLS = 49,
-	printfRecordINP0 = 50,
-	printfRecordINP1 = 51,
-	printfRecordINP2 = 52,
-	printfRecordINP3 = 53,
-	printfRecordINP4 = 54,
-	printfRecordINP5 = 55,
-	printfRecordINP6 = 56,
-	printfRecordINP7 = 57,
-	printfRecordINP8 = 58,
-	printfRecordINP9 = 59
+	printfRecordBKLNK = 15,
+	printfRecordDISP = 16,
+	printfRecordPROC = 17,
+	printfRecordSTAT = 18,
+	printfRecordSEVR = 19,
+	printfRecordAMSG = 20,
+	printfRecordNSTA = 21,
+	printfRecordNSEV = 22,
+	printfRecordNAMSG = 23,
+	printfRecordACKS = 24,
+	printfRecordACKT = 25,
+	printfRecordDISS = 26,
+	printfRecordLCNT = 27,
+	printfRecordPACT = 28,
+	printfRecordPUTF = 29,
+	printfRecordRPRO = 30,
+	printfRecordASP = 31,
+	printfRecordPPN = 32,
+	printfRecordPPNR = 33,
+	printfRecordSPVT = 34,
+	printfRecordRSET = 35,
+	printfRecordDSET = 36,
+	printfRecordDPVT = 37,
+	printfRecordRDES = 38,
+	printfRecordLSET = 39,
+	printfRecordPRIO = 40,
+	printfRecordTPRO = 41,
+	printfRecordBKPT = 42,
+	printfRecordUDF = 43,
+	printfRecordUDFS = 44,
+	printfRecordTIME = 45,
+	printfRecordFLNK = 46,
+	printfRecordVAL = 47,
+	printfRecordSIZV = 48,
+	printfRecordLEN = 49,
+	printfRecordOUT = 50,
+	printfRecordFMT = 51,
+	printfRecordIVLS = 52,
+	printfRecordINP0 = 53,
+	printfRecordINP1 = 54,
+	printfRecordINP2 = 55,
+	printfRecordINP3 = 56,
+	printfRecordINP4 = 57,
+	printfRecordINP5 = 58,
+	printfRecordINP6 = 59,
+	printfRecordINP7 = 60,
+	printfRecordINP8 = 61,
+	printfRecordINP9 = 62
 } printfFieldIndex;
 
 #ifdef GEN_SIZE_OFFSET
@@ -158,7 +166,7 @@ static int printfRecordSizeOffset(dbRecordType *prt)
 {
     printfRecord *prec = 0;
 
-    assert(prt->no_fields == 60);
+    assert(prt->no_fields == 63);
     prt->papFldDes[printfRecordNAME]->size = sizeof(prec->name);
     prt->papFldDes[printfRecordDESC]->size = sizeof(prec->desc);
     prt->papFldDes[printfRecordASG]->size = sizeof(prec->asg);
@@ -174,12 +182,15 @@ static int printfRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[printfRecordSDIS]->size = sizeof(prec->sdis);
     prt->papFldDes[printfRecordMLOK]->size = sizeof(prec->mlok);
     prt->papFldDes[printfRecordMLIS]->size = sizeof(prec->mlis);
+    prt->papFldDes[printfRecordBKLNK]->size = sizeof(prec->bklnk);
     prt->papFldDes[printfRecordDISP]->size = sizeof(prec->disp);
     prt->papFldDes[printfRecordPROC]->size = sizeof(prec->proc);
     prt->papFldDes[printfRecordSTAT]->size = sizeof(prec->stat);
     prt->papFldDes[printfRecordSEVR]->size = sizeof(prec->sevr);
+    prt->papFldDes[printfRecordAMSG]->size = sizeof(prec->amsg);
     prt->papFldDes[printfRecordNSTA]->size = sizeof(prec->nsta);
     prt->papFldDes[printfRecordNSEV]->size = sizeof(prec->nsev);
+    prt->papFldDes[printfRecordNAMSG]->size = sizeof(prec->namsg);
     prt->papFldDes[printfRecordACKS]->size = sizeof(prec->acks);
     prt->papFldDes[printfRecordACKT]->size = sizeof(prec->ackt);
     prt->papFldDes[printfRecordDISS]->size = sizeof(prec->diss);
@@ -234,12 +245,15 @@ static int printfRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[printfRecordSDIS]->offset = (unsigned short)((char *)&prec->sdis - (char *)prec);
     prt->papFldDes[printfRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[printfRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
+    prt->papFldDes[printfRecordBKLNK]->offset = (unsigned short)((char *)&prec->bklnk - (char *)prec);
     prt->papFldDes[printfRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[printfRecordPROC]->offset = (unsigned short)((char *)&prec->proc - (char *)prec);
     prt->papFldDes[printfRecordSTAT]->offset = (unsigned short)((char *)&prec->stat - (char *)prec);
     prt->papFldDes[printfRecordSEVR]->offset = (unsigned short)((char *)&prec->sevr - (char *)prec);
+    prt->papFldDes[printfRecordAMSG]->offset = (unsigned short)((char *)&prec->amsg - (char *)prec);
     prt->papFldDes[printfRecordNSTA]->offset = (unsigned short)((char *)&prec->nsta - (char *)prec);
     prt->papFldDes[printfRecordNSEV]->offset = (unsigned short)((char *)&prec->nsev - (char *)prec);
+    prt->papFldDes[printfRecordNAMSG]->offset = (unsigned short)((char *)&prec->namsg - (char *)prec);
     prt->papFldDes[printfRecordACKS]->offset = (unsigned short)((char *)&prec->acks - (char *)prec);
     prt->papFldDes[printfRecordACKT]->offset = (unsigned short)((char *)&prec->ackt - (char *)prec);
     prt->papFldDes[printfRecordDISS]->offset = (unsigned short)((char *)&prec->diss - (char *)prec);

@@ -1,7 +1,12 @@
 REM DBRecStd
+REM ========
 SET TOPLEVEL=%1
 SET BUILDIR=%2
 SET DLLDIR=%3
+
+REM SET TOPLEVEL=C:\Users\ktn98257\source\repos\epics.dotnet\
+REM SET DLLDIR=C:\Users\ktn98257\source\repos\epics.dotnet\x64\Release_DLL\
+REM SET BUILDIR=C:\Users\ktn98257\source\repos\epics.dotnet\base-3.15.9\src\std\
 
 if not exist O.Common  md O.Common
 if not exist %TOPLEVEL%dbd  md %TOPLEVEL%dbd
@@ -11,45 +16,17 @@ if not exist C:\strawberry\perl\lib\DBD.pm  mklink /h C:\strawberry\perl\lib\DBD
 if not exist C:\strawberry\perl\lib\DBD  mklink /d C:\strawberry\perl\lib\DBD %TOPLEVEL%lib\perl\DBD
 if not exist C:\strawberry\perl\lib\EPICS  mklink /d C:\strawberry\perl\lib\EPICS %TOPLEVEL%lib\perl\EPICS
 
-cd %BUILDIR%\O.Common
-perl -CSD %DLLDIR%dbdToRecordtypeH.pl -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\aaiRecord.h aaiRecord.dbd
-perl -CSD %DLLDIR%dbdToRecordtypeH.pl -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\aaoRecord.h aaoRecord.dbd
-perl -CSD %DLLDIR%dbdToRecordtypeH.pl -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\aiRecord.h aiRecord.dbd
-perl -CSD %DLLDIR%dbdToRecordtypeH.pl -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\aoRecord.h aoRecord.dbd
-perl -CSD %DLLDIR%dbdToRecordtypeH.pl -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\aSubRecord.h aSubRecord.dbd
-perl -CSD %DLLDIR%dbdToRecordtypeH.pl -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\biRecord.h biRecord.dbd
-perl -CSD %DLLDIR%dbdToRecordtypeH.pl -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\boRecord.h boRecord.dbd
-perl -CSD %DLLDIR%dbdToRecordtypeH.pl -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\calcoutRecord.h calcoutRecord.dbd
-perl -CSD %DLLDIR%dbdToRecordtypeH.pl -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\calcRecord.h calcRecord.dbd
-perl -CSD %DLLDIR%dbdToRecordtypeH.pl -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\compressRecord.h compressRecord.dbd
-perl -CSD %DLLDIR%dbdToRecordtypeH.pl -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\dfanoutRecord.h dfanoutRecord.dbd
-perl -CSD %DLLDIR%dbdToRecordtypeH.pl -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\eventRecord.h eventRecord.dbd
-perl -CSD %DLLDIR%dbdToRecordtypeH.pl -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\fanoutRecord.h fanoutRecord.dbd
-perl -CSD %DLLDIR%dbdToRecordtypeH.pl -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\histogramRecord.h histogramRecord.dbd
-perl -CSD %DLLDIR%dbdToRecordtypeH.pl -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\longinRecord.h longinRecord.dbd
-perl -CSD %DLLDIR%dbdToRecordtypeH.pl -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\longoutRecord.h longoutRecord.dbd
-perl -CSD %DLLDIR%dbdToRecordtypeH.pl -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\lsiRecord.h lsiRecord.dbd
-perl -CSD %DLLDIR%dbdToRecordtypeH.pl -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\lsoRecord.h lsoRecord.dbd
-perl -CSD %DLLDIR%dbdToRecordtypeH.pl -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\mbbiRecord.h mbbiRecord.dbd
-perl -CSD %DLLDIR%dbdToRecordtypeH.pl -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\mbboRecord.h mbboRecord.dbd
-perl -CSD %DLLDIR%dbdToRecordtypeH.pl -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\mbbiDirectRecord.h mbbiDirectRecord.dbd
-perl -CSD %DLLDIR%dbdToRecordtypeH.pl -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\mbboDirectRecord.h mbboDirectRecord.dbd
-perl -CSD %DLLDIR%dbdToRecordtypeH.pl -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\selRecord.h selRecord.dbd
-perl -CSD %DLLDIR%dbdToRecordtypeH.pl -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\seqRecord.h seqRecord.dbd
-perl -CSD %DLLDIR%dbdToRecordtypeH.pl -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\stateRecord.h stateRecord.dbd
-perl -CSD %DLLDIR%dbdToRecordtypeH.pl -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\stringinRecord.h stringinRecord.dbd
-perl -CSD %DLLDIR%dbdToRecordtypeH.pl -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\stringoutRecord.h stringoutRecord.dbd
-perl -CSD %DLLDIR%dbdToRecordtypeH.pl -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\subArrayRecord.h subArrayRecord.dbd
-perl -CSD %DLLDIR%dbdToRecordtypeH.pl -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\subRecord.h subRecord.dbd
-perl -CSD %DLLDIR%dbdToRecordtypeH.pl -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\waveformRecord.h waveformRecord.dbd
-
 cd %BUILDIR%\rec
+perl -CSD %DLLDIR%dbdToRecordtypeH.pl  -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\aiRecord.h aiRecord.dbd
+perl -CSD %DLLDIR%dbdToRecordtypeH.pl  -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\aoRecord.h aoRecord.dbd
+perl -CSD %DLLDIR%dbdToRecordtypeH.pl  -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\aSubRecord.h aSubRecord.dbd
 perl -CSD %DLLDIR%dbdToRecordtypeH.pl  -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\aaiRecord.h aaiRecord.dbd
 perl -CSD %DLLDIR%dbdToRecordtypeH.pl  -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\aaoRecord.h aaoRecord.dbd
 perl -CSD %DLLDIR%dbdToRecordtypeH.pl  -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\biRecord.h biRecord.dbd
 perl -CSD %DLLDIR%dbdToRecordtypeH.pl  -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\boRecord.h boRecord.dbd
 perl -CSD %DLLDIR%dbdToRecordtypeH.pl  -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\calcoutRecord.h calcoutRecord.dbd
 perl -CSD %DLLDIR%dbdToRecordtypeH.pl  -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\calcRecord.h calcRecord.dbd
+perl -CSD %DLLDIR%dbdToRecordtypeH.pl  -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\compressRecord.h compressRecord.dbd
 perl -CSD %DLLDIR%dbdToRecordtypeH.pl  -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\dfanoutRecord.h dfanoutRecord.dbd
 perl -CSD %DLLDIR%dbdToRecordtypeH.pl  -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\eventRecord.h eventRecord.dbd
 perl -CSD %DLLDIR%dbdToRecordtypeH.pl  -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\fanoutRecord.h fanoutRecord.dbd
@@ -58,16 +35,20 @@ perl -CSD %DLLDIR%dbdToRecordtypeH.pl  -I..\O.Common -I%TOPLEVEL%include -I%TOPL
 perl -CSD %DLLDIR%dbdToRecordtypeH.pl  -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\longoutRecord.h longoutRecord.dbd
 perl -CSD %DLLDIR%dbdToRecordtypeH.pl  -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\lsiRecord.h lsiRecord.dbd
 perl -CSD %DLLDIR%dbdToRecordtypeH.pl  -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\lsoRecord.h lsoRecord.dbd
+perl -CSD %DLLDIR%dbdToRecordtypeH.pl  -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\mbbiRecord.h mbbiRecord.dbd
+perl -CSD %DLLDIR%dbdToRecordtypeH.pl  -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\mbboRecord.h mbboRecord.dbd
 perl -CSD %DLLDIR%dbdToRecordtypeH.pl  -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\mbbiDirectRecord.h mbbiDirectRecord.dbd
 perl -CSD %DLLDIR%dbdToRecordtypeH.pl  -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\mbboDirectRecord.h mbboDirectRecord.dbd
 perl -CSD %DLLDIR%dbdToRecordtypeH.pl  -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\permissiveRecord.h permissiveRecord.dbd
-REM  perl -CSD %DLLDIR%dbdToRecordtypeH.pl  -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\printfRecord.h printfRecord.dbd
-
-perl -CSD %DLLDIR%dbdExpand.pl -I../O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o aiRecord.dbd aiRecord.dbd.pod
-perl -CSD %DLLDIR%dbdExpand.pl -I../O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o aoRecord.dbd aoRecord.dbd.pod
-perl -CSD %DLLDIR%dbdExpand.pl -I../O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o aSubRecord.dbd aSubRecord.dbd.pod
-perl -CSD %DLLDIR%dbdExpand.pl -I../O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o compressRecord.dbd compressRecord.dbd.pod
-perl -CSD %DLLDIR%dbdExpand.pl -I../O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o waveformRecord.dbd waveformRecord.dbd.pod
+perl -CSD %DLLDIR%dbdToRecordtypeH.pl  -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\printfRecord.h printfRecord.dbd
+perl -CSD %DLLDIR%dbdToRecordtypeH.pl  -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\subArrayRecord.h subArrayRecord.dbd
+perl -CSD %DLLDIR%dbdToRecordtypeH.pl  -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\selRecord.h selRecord.dbd
+perl -CSD %DLLDIR%dbdToRecordtypeH.pl  -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\seqRecord.h seqRecord.dbd
+perl -CSD %DLLDIR%dbdToRecordtypeH.pl  -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\stateRecord.h stateRecord.dbd
+perl -CSD %DLLDIR%dbdToRecordtypeH.pl  -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\stringinRecord.h stringinRecord.dbd
+perl -CSD %DLLDIR%dbdToRecordtypeH.pl  -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\stringoutRecord.h stringoutRecord.dbd
+perl -CSD %DLLDIR%dbdToRecordtypeH.pl  -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\subRecord.h subRecord.dbd
+perl -CSD %DLLDIR%dbdToRecordtypeH.pl  -I..\O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o ..\O.Common\waveformRecord.h waveformRecord.dbd
 
 cd %BUILDIR%\filters
 perl -CSD %DLLDIR%dbdExpand.pl -I../O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o filters.dbd filters.dbd.pod
@@ -75,6 +56,8 @@ perl -CSD %DLLDIR%dbdExpand.pl -I../O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD
 cd %BUILDIR%\O.Common
 perl -CSD %DLLDIR%podRemove.pl -o .\aiRecord.dbd ..\rec\aiRecord.dbd.pod
 perl -CSD %DLLDIR%podRemove.pl -o .\aoRecord.dbd ..\rec\aoRecord.dbd.pod
+perl -CSD %DLLDIR%podRemove.pl -o .\aaiRecord.dbd ..\rec\aaiRecord.dbd.pod
+perl -CSD %DLLDIR%podRemove.pl -o .\aaoRecord.dbd ..\rec\aaoRecord.dbd.pod
 perl -CSD %DLLDIR%podRemove.pl -o .\aSubRecord.dbd ..\rec\aSubRecord.dbd.pod
 perl -CSD %DLLDIR%podRemove.pl -o .\biRecord.dbd ..\rec\biRecord.dbd.pod
 perl -CSD %DLLDIR%podRemove.pl -o .\boRecord.dbd ..\rec\boRecord.dbd.pod
@@ -102,8 +85,9 @@ perl -CSD %DLLDIR%podRemove.pl -o .\subArrayRecord.dbd ..\rec\subArrayRecord.dbd
 perl -CSD %DLLDIR%podRemove.pl -o .\subRecord.dbd ..\rec\subRecord.dbd.pod
 perl -CSD %DLLDIR%podRemove.pl -o .\waveformRecord.dbd ..\rec\waveformRecord.dbd.pod
 
-cd %BUILDIR%O.Common
+cd %BUILDIR%\O.Common
 xcopy /y /q *.dbd %TOPLEVEL%DBD > NUL
+xcopy /y /q *.h %TOPLEVEL%include > NUL
 
 cd %BUILDIR%
 xcopy /y /q .\dev\*.dbd %TOPLEVEL%DBD > NUL

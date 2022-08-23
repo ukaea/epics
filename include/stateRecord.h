@@ -3,9 +3,9 @@
 #ifndef INC_stateRecord_H
 #define INC_stateRecord_H
 
- #include "epicsTypes.h"
- #include "link.h"
-#include "epicsMutex.h"
+#include "epicsTypes.h"
+#include "link.h"
+ #include "epicsMutex.h"
 #include "ellLib.h"
 #include "epicsTime.h"
 
@@ -25,12 +25,15 @@ typedef struct stateRecord {
     DBLINK              sdis;       /* Scanning Disable */
     epicsMutexId        mlok;       /* Monitor lock */
     ELLLIST             mlis;       /* Monitor List */
+    ELLLIST             bklnk;      /* Backwards link tracking */
     epicsUInt8          disp;       /* Disable putField */
     epicsUInt8          proc;       /* Force Processing */
     epicsEnum16         stat;       /* Alarm Status */
     epicsEnum16         sevr;       /* Alarm Severity */
+    char                amsg[40];   /* Alarm Message */
     epicsEnum16         nsta;       /* New Alarm Status */
     epicsEnum16         nsev;       /* New Alarm Severity */
+    char                namsg[40];  /* New Alarm Message */
     epicsEnum16         acks;       /* Alarm Ack Severity */
     epicsEnum16         ackt;       /* Alarm Ack Transient */
     epicsEnum16         diss;       /* Disable Alarm Sevrty */
@@ -74,37 +77,40 @@ typedef enum {
 	stateRecordSDIS = 12,
 	stateRecordMLOK = 13,
 	stateRecordMLIS = 14,
-	stateRecordDISP = 15,
-	stateRecordPROC = 16,
-	stateRecordSTAT = 17,
-	stateRecordSEVR = 18,
-	stateRecordNSTA = 19,
-	stateRecordNSEV = 20,
-	stateRecordACKS = 21,
-	stateRecordACKT = 22,
-	stateRecordDISS = 23,
-	stateRecordLCNT = 24,
-	stateRecordPACT = 25,
-	stateRecordPUTF = 26,
-	stateRecordRPRO = 27,
-	stateRecordASP = 28,
-	stateRecordPPN = 29,
-	stateRecordPPNR = 30,
-	stateRecordSPVT = 31,
-	stateRecordRSET = 32,
-	stateRecordDSET = 33,
-	stateRecordDPVT = 34,
-	stateRecordRDES = 35,
-	stateRecordLSET = 36,
-	stateRecordPRIO = 37,
-	stateRecordTPRO = 38,
-	stateRecordBKPT = 39,
-	stateRecordUDF = 40,
-	stateRecordUDFS = 41,
-	stateRecordTIME = 42,
-	stateRecordFLNK = 43,
-	stateRecordVAL = 44,
-	stateRecordOVAL = 45
+	stateRecordBKLNK = 15,
+	stateRecordDISP = 16,
+	stateRecordPROC = 17,
+	stateRecordSTAT = 18,
+	stateRecordSEVR = 19,
+	stateRecordAMSG = 20,
+	stateRecordNSTA = 21,
+	stateRecordNSEV = 22,
+	stateRecordNAMSG = 23,
+	stateRecordACKS = 24,
+	stateRecordACKT = 25,
+	stateRecordDISS = 26,
+	stateRecordLCNT = 27,
+	stateRecordPACT = 28,
+	stateRecordPUTF = 29,
+	stateRecordRPRO = 30,
+	stateRecordASP = 31,
+	stateRecordPPN = 32,
+	stateRecordPPNR = 33,
+	stateRecordSPVT = 34,
+	stateRecordRSET = 35,
+	stateRecordDSET = 36,
+	stateRecordDPVT = 37,
+	stateRecordRDES = 38,
+	stateRecordLSET = 39,
+	stateRecordPRIO = 40,
+	stateRecordTPRO = 41,
+	stateRecordBKPT = 42,
+	stateRecordUDF = 43,
+	stateRecordUDFS = 44,
+	stateRecordTIME = 45,
+	stateRecordFLNK = 46,
+	stateRecordVAL = 47,
+	stateRecordOVAL = 48
 } stateFieldIndex;
 
 #ifdef GEN_SIZE_OFFSET
@@ -118,7 +124,7 @@ static int stateRecordSizeOffset(dbRecordType *prt)
 {
     stateRecord *prec = 0;
 
-    assert(prt->no_fields == 46);
+    assert(prt->no_fields == 49);
     prt->papFldDes[stateRecordNAME]->size = sizeof(prec->name);
     prt->papFldDes[stateRecordDESC]->size = sizeof(prec->desc);
     prt->papFldDes[stateRecordASG]->size = sizeof(prec->asg);
@@ -134,12 +140,15 @@ static int stateRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[stateRecordSDIS]->size = sizeof(prec->sdis);
     prt->papFldDes[stateRecordMLOK]->size = sizeof(prec->mlok);
     prt->papFldDes[stateRecordMLIS]->size = sizeof(prec->mlis);
+    prt->papFldDes[stateRecordBKLNK]->size = sizeof(prec->bklnk);
     prt->papFldDes[stateRecordDISP]->size = sizeof(prec->disp);
     prt->papFldDes[stateRecordPROC]->size = sizeof(prec->proc);
     prt->papFldDes[stateRecordSTAT]->size = sizeof(prec->stat);
     prt->papFldDes[stateRecordSEVR]->size = sizeof(prec->sevr);
+    prt->papFldDes[stateRecordAMSG]->size = sizeof(prec->amsg);
     prt->papFldDes[stateRecordNSTA]->size = sizeof(prec->nsta);
     prt->papFldDes[stateRecordNSEV]->size = sizeof(prec->nsev);
+    prt->papFldDes[stateRecordNAMSG]->size = sizeof(prec->namsg);
     prt->papFldDes[stateRecordACKS]->size = sizeof(prec->acks);
     prt->papFldDes[stateRecordACKT]->size = sizeof(prec->ackt);
     prt->papFldDes[stateRecordDISS]->size = sizeof(prec->diss);
@@ -180,12 +189,15 @@ static int stateRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[stateRecordSDIS]->offset = (unsigned short)((char *)&prec->sdis - (char *)prec);
     prt->papFldDes[stateRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[stateRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
+    prt->papFldDes[stateRecordBKLNK]->offset = (unsigned short)((char *)&prec->bklnk - (char *)prec);
     prt->papFldDes[stateRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[stateRecordPROC]->offset = (unsigned short)((char *)&prec->proc - (char *)prec);
     prt->papFldDes[stateRecordSTAT]->offset = (unsigned short)((char *)&prec->stat - (char *)prec);
     prt->papFldDes[stateRecordSEVR]->offset = (unsigned short)((char *)&prec->sevr - (char *)prec);
+    prt->papFldDes[stateRecordAMSG]->offset = (unsigned short)((char *)&prec->amsg - (char *)prec);
     prt->papFldDes[stateRecordNSTA]->offset = (unsigned short)((char *)&prec->nsta - (char *)prec);
     prt->papFldDes[stateRecordNSEV]->offset = (unsigned short)((char *)&prec->nsev - (char *)prec);
+    prt->papFldDes[stateRecordNAMSG]->offset = (unsigned short)((char *)&prec->namsg - (char *)prec);
     prt->papFldDes[stateRecordACKS]->offset = (unsigned short)((char *)&prec->acks - (char *)prec);
     prt->papFldDes[stateRecordACKT]->offset = (unsigned short)((char *)&prec->ackt - (char *)prec);
     prt->papFldDes[stateRecordDISS]->offset = (unsigned short)((char *)&prec->diss - (char *)prec);

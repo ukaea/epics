@@ -47,26 +47,26 @@
 #undef  GEN_SIZE_OFFSET
 #include "epicsExport.h"
 
-/* Create RSET - Record Support Entry Table*/
+ /* Create RSET - Record Support Entry Table*/
 #define report NULL
 #define initialize NULL
-static long init_record(aaoRecord *, int);
-static long process(aaoRecord *);
+static long init_record(aaoRecord*, int);
+static long process(aaoRecord*);
 #define special NULL
 #define get_value NULL
-static long cvt_dbaddr(DBADDR *);
-static long get_array_info(DBADDR *, long *, long *);
-static long put_array_info(DBADDR *, long);
-static long get_units(DBADDR *, char *);
-static long get_precision(DBADDR *, long *);
+static long cvt_dbaddr(DBADDR*);
+static long get_array_info(DBADDR*, long*, long*);
+static long put_array_info(DBADDR*, long);
+static long get_units(DBADDR*, char*);
+static long get_precision(DBADDR*, long*);
 #define get_enum_str NULL
 #define get_enum_strs NULL
 #define put_enum_str NULL
-static long get_graphic_double(DBADDR *, struct dbr_grDouble *);
-static long get_control_double(DBADDR *, struct dbr_ctrlDouble *);
+static long get_graphic_double(DBADDR*, struct dbr_grDouble*);
+static long get_control_double(DBADDR*, struct dbr_ctrlDouble*);
 #define get_alarm_double NULL
 
-rset aaoRSET={
+rset aaoRSET = {
     RSETNUMBER,
     report,
     initialize,
@@ -86,15 +86,24 @@ rset aaoRSET={
     get_control_double,
     get_alarm_double
 };
-epicsExportAddress(rset,aaoRSET);
+epicsExportAddress(rset, aaoRSET);
 
-static void monitor(aaoRecord *);
-static long writeValue(aaoRecord *);
+struct aaodset { /* aao dset */
+    long      number;
+    DEVSUPFUN dev_report;
+    DEVSUPFUN init;
+    DEVSUPFUN init_record; /*returns: (-1,0)=>(failure,success)*/
+    DEVSUPFUN get_ioint_info;
+    DEVSUPFUN write_aao; /*returns: (-1,0)=>(failure,success)*/
+};
 
-static long init_record(aaoRecord *prec, int pass)
+static void monitor(aaoRecord*);
+static long writeValue(aaoRecord*);
+
+static long init_record(aaoRecord* prec, int pass)
 {
     long status;
-    struct aaodset *pdset = (struct aaodset *)(prec->dset);
+    struct aaodset* pdset = (struct aaodset*)(prec->dset);
 
     /* must have dset defined */
     if (!pdset) {
@@ -109,7 +118,8 @@ static long init_record(aaoRecord *prec, int pass)
             prec->ftvl = DBF_UCHAR;
         if (prec->nelm == 1) {
             prec->nord = 1;
-        } else {
+        }
+        else {
             prec->nord = 0;
         }
 
@@ -118,9 +128,9 @@ static long init_record(aaoRecord *prec, int pass)
            not change after links are established before pass 1
         */
 
-        if (pdset->common.init_record) {
+        if (pdset->init_record) {
             /* init_record may set the bptr to point to the data */
-            if ((status = pdset->common.init_record()))
+            if ((status = pdset->init_record()))
                 return status;
         }
         if (!prec->bptr) {
@@ -133,20 +143,20 @@ static long init_record(aaoRecord *prec, int pass)
 
     /* SIML must be a CONSTANT or a PV_LINK or a DB_LINK */
     if (prec->siml.type == CONSTANT) {
-        recGblInitConstantLink(&prec->siml,DBF_USHORT,&prec->simm);
+        recGblInitConstantLink(&prec->siml, DBF_USHORT, &prec->simm);
     }
 
     /* must have write_aao function defined */
-    if (pdset->common.number < 5 || pdset->write_aao == NULL) {
+    if (pdset->number < 5 || pdset->write_aao == NULL) {
         recGblRecordError(S_dev_missingSup, prec, "aao: init_record");
         return S_dev_missingSup;
     }
     return 0;
 }
 
-static long process(aaoRecord *prec)
+static long process(aaoRecord* prec)
 {
-    struct aaodset *pdset = (struct aaodset *)(prec->dset);
+    struct aaodset* pdset = (struct aaodset*)(prec->dset);
     long status;
     unsigned char pact = prec->pact;
 
@@ -171,30 +181,30 @@ static long process(aaoRecord *prec)
     return status;
 }
 
-static long cvt_dbaddr(DBADDR *paddr)
+static long cvt_dbaddr(DBADDR* paddr)
 {
-    aaoRecord *prec = (aaoRecord *)paddr->precord;
+    aaoRecord* prec = (aaoRecord*)paddr->precord;
 
-    paddr->no_elements    = prec->nelm;
-    paddr->field_type     = prec->ftvl;
-    paddr->field_size     = dbValueSize(prec->ftvl);
+    paddr->no_elements = prec->nelm;
+    paddr->field_type = prec->ftvl;
+    paddr->field_size = dbValueSize(prec->ftvl);
     paddr->dbr_field_type = prec->ftvl;
     return 0;
 }
 
-static long get_array_info(DBADDR *paddr, long *no_elements, long *offset)
+static long get_array_info(DBADDR* paddr, long* no_elements, long* offset)
 {
-    aaoRecord *prec = (aaoRecord *)paddr->precord;
+    aaoRecord* prec = (aaoRecord*)paddr->precord;
 
     paddr->pfield = prec->bptr;
-    *no_elements =  prec->nord;
+    *no_elements = prec->nord;
     *offset = 0;
     return 0;
 }
 
-static long put_array_info(DBADDR *paddr, long nNew)
+static long put_array_info(DBADDR* paddr, long nNew)
 {
-    aaoRecord *prec = (aaoRecord *)paddr->precord;
+    aaoRecord* prec = (aaoRecord*)paddr->precord;
     epicsUInt32 nord = prec->nord;
 
     prec->nord = nNew;
@@ -208,24 +218,24 @@ static long put_array_info(DBADDR *paddr, long nNew)
 
 #define indexof(field) aaoRecord##field
 
-static long get_units(DBADDR *paddr, char *units)
+static long get_units(DBADDR* paddr, char* units)
 {
-    aaoRecord *prec = (aaoRecord *)paddr->precord;
+    aaoRecord* prec = (aaoRecord*)paddr->precord;
 
     switch (dbGetFieldIndex(paddr)) {
-        case indexof(VAL):
-            if (prec->ftvl == DBF_STRING || prec->ftvl == DBF_ENUM)
-                break;
-        case indexof(HOPR):
-        case indexof(LOPR):
-            strncpy(units,prec->egu,DB_UNITS_SIZE);
+    case indexof(VAL):
+        if (prec->ftvl == DBF_STRING || prec->ftvl == DBF_ENUM)
+            break;
+    case indexof(HOPR):
+    case indexof(LOPR):
+        strncpy(units, prec->egu, DB_UNITS_SIZE);
     }
     return 0;
 }
 
-static long get_precision(DBADDR *paddr, long *precision)
+static long get_precision(DBADDR* paddr, long* precision)
 {
-    aaoRecord *prec = (aaoRecord *)paddr->precord;
+    aaoRecord* prec = (aaoRecord*)paddr->precord;
 
     *precision = prec->prec;
     if (dbGetFieldIndex(paddr) != indexof(VAL))
@@ -233,45 +243,45 @@ static long get_precision(DBADDR *paddr, long *precision)
     return 0;
 }
 
-static long get_graphic_double(DBADDR *paddr, struct dbr_grDouble *pgd)
+static long get_graphic_double(DBADDR* paddr, struct dbr_grDouble* pgd)
 {
-    aaoRecord *prec = (aaoRecord *)paddr->precord;
+    aaoRecord* prec = (aaoRecord*)paddr->precord;
 
     switch (dbGetFieldIndex(paddr)) {
-        case indexof(VAL):
-            pgd->upper_disp_limit = prec->hopr;
-            pgd->lower_disp_limit = prec->lopr;
-            break;
-        case indexof(NORD):
-            pgd->upper_disp_limit = prec->nelm;
-            pgd->lower_disp_limit = 0;
-            break;
-        default:
-            recGblGetGraphicDouble(paddr, pgd);
+    case indexof(VAL):
+        pgd->upper_disp_limit = prec->hopr;
+        pgd->lower_disp_limit = prec->lopr;
+        break;
+    case indexof(NORD):
+        pgd->upper_disp_limit = prec->nelm;
+        pgd->lower_disp_limit = 0;
+        break;
+    default:
+        recGblGetGraphicDouble(paddr, pgd);
     }
     return 0;
 }
 
-static long get_control_double(DBADDR *paddr, struct dbr_ctrlDouble *pcd)
+static long get_control_double(DBADDR* paddr, struct dbr_ctrlDouble* pcd)
 {
-    aaoRecord *prec = (aaoRecord *)paddr->precord;
+    aaoRecord* prec = (aaoRecord*)paddr->precord;
 
     switch (dbGetFieldIndex(paddr)) {
-        case indexof(VAL):
-            pcd->upper_ctrl_limit = prec->hopr;
-            pcd->lower_ctrl_limit = prec->lopr;
-            break;
-        case indexof(NORD):
-            pcd->upper_ctrl_limit = prec->nelm;
-            pcd->lower_ctrl_limit = 0;
-            break;
-        default:
-            recGblGetControlDouble(paddr, pcd);
+    case indexof(VAL):
+        pcd->upper_ctrl_limit = prec->hopr;
+        pcd->lower_ctrl_limit = prec->lopr;
+        break;
+    case indexof(NORD):
+        pcd->upper_ctrl_limit = prec->nelm;
+        pcd->lower_ctrl_limit = 0;
+        break;
+    default:
+        recGblGetControlDouble(paddr, pcd);
     }
     return 0;
 }
 
-static void monitor(aaoRecord *prec)
+static void monitor(aaoRecord* prec)
 {
     unsigned short monitor_mask;
     unsigned int hash = 0;
@@ -307,10 +317,10 @@ static void monitor(aaoRecord *prec)
         db_post_events(prec, &prec->val, monitor_mask);
 }
 
-static long writeValue(aaoRecord *prec)
+static long writeValue(aaoRecord* prec)
 {
     long status;
-    struct aaodset *pdset = (struct aaodset *)prec->dset;
+    struct aaodset* pdset = (struct aaodset*)prec->dset;
 
     if (prec->pact == TRUE) {
         /* no asyn allowed, pact true means do not process */
@@ -322,7 +332,7 @@ static long writeValue(aaoRecord *prec)
         return status;
 
     if (prec->simm == menuYesNoNO) {
-        return pdset->write_aao(prec);
+        return pdset->write_aao();
     }
     if (prec->simm == menuYesNoYES) {
         /* Device suport is responsible for buffer
@@ -333,7 +343,7 @@ static long writeValue(aaoRecord *prec)
            Thus call device now.
         */
         recGblSetSevr(prec, SIMM_ALARM, prec->sims);
-        return pdset->write_aao(prec);
+        return pdset->write_aao();
     }
     recGblSetSevr(prec, SOFT_ALARM, INVALID_ALARM);
     return -1;

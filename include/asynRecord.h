@@ -3,141 +3,11 @@
 #ifndef INC_asynRecord_H
 #define INC_asynRecord_H
 
- #include "epicsTypes.h"
- #include "link.h"
-#include "epicsMutex.h"
+#include "epicsTypes.h"
+#include "link.h"
+ #include "epicsMutex.h"
 #include "ellLib.h"
 #include "epicsTime.h"
-
-#ifndef serialPRTY_NUM_CHOICES
-typedef enum {
-    serialPRTY_unknown              /* Unknown */,
-    serialPRTY_None                 /* None */,
-    serialPRTY_Even                 /* Even */,
-    serialPRTY_Odd                  /* Odd */
-} serialPRTY;
-#define serialPRTY_NUM_CHOICES 4
-#endif
-
-#ifndef asynFMT_NUM_CHOICES
-typedef enum {
-    asynFMT_ASCII                   /* ASCII */,
-    asynFMT_Hybrid                  /* Hybrid */,
-    asynFMT_Binary                  /* Binary */
-} asynFMT;
-#define asynFMT_NUM_CHOICES 3
-#endif
-
-#ifndef ipDRTO_NUM_CHOICES
-typedef enum {
-    ipDRTO_unknown                  /* Unknown */,
-    ipDRTO_No                       /* No */,
-    ipDRTO_Yes                      /* Yes */
-} ipDRTO;
-#define ipDRTO_NUM_CHOICES 3
-#endif
-
-#ifndef asynEOMREASON_NUM_CHOICES
-typedef enum {
-    asynEOMREASONNone               /* None */,
-    asynEOMREASONCNT                /* Count */,
-    asynEOMREASONEOS                /* Eos */,
-    asynEOMREASONCNTEOS             /* Count Eos */,
-    asynEOMREASONEND                /* End */,
-    asynEOMREASONCNTEND             /* Count End */,
-    asynEOMREASONEOSEND             /* Eos End */,
-    asynEOMREASONCNTEOSEND          /* Count Eos End */
-} asynEOMREASON;
-#define asynEOMREASON_NUM_CHOICES 8
-#endif
-
-#ifndef gpibACMD_NUM_CHOICES
-typedef enum {
-    gpibACMD_None                   /* None */,
-    gpibACMD_Group_Execute_Trig___GET_ /* Group Execute Trig. (GET) */,
-    gpibACMD_Go_To_Local__GTL_      /* Go To Local (GTL) */,
-    gpibACMD_Selected_Dev__Clear__SDC_ /* Selected Dev. Clear (SDC) */,
-    gpibACMD_Take_Control__TCT_     /* Take Control (TCT) */,
-    gpibACMD_Serial_Poll            /* Serial Poll */
-} gpibACMD;
-#define gpibACMD_NUM_CHOICES 6
-#endif
-
-#ifndef serialIX_NUM_CHOICES
-typedef enum {
-    serialIX_unknown                /* Unknown */,
-    serialIX_No                     /* No */,
-    serialIX_Yes                    /* Yes */
-} serialIX;
-#define serialIX_NUM_CHOICES 3
-#endif
-
-#ifndef asynINTERFACE_NUM_CHOICES
-typedef enum {
-    asynINTERFACE_OCTET             /* asynOctet */,
-    asynINTERFACE_INT32             /* asynInt32 */,
-    asynINTERFACE_UINT32            /* asynUInt32Digital */,
-    asynINTERFACE_FLOAT64           /* asynFloat64 */
-} asynINTERFACE;
-#define asynINTERFACE_NUM_CHOICES 4
-#endif
-
-#ifndef asynENABLE_NUM_CHOICES
-typedef enum {
-    asynENABLE_Disable              /* Disable */,
-    asynENABLE_Enable               /* Enable */
-} asynENABLE;
-#define asynENABLE_NUM_CHOICES 2
-#endif
-
-#ifndef asynTRACE_NUM_CHOICES
-typedef enum {
-    asynTRACE_Off                   /* Off */,
-    asynTRACE_On                    /* On */
-} asynTRACE;
-#define asynTRACE_NUM_CHOICES 2
-#endif
-
-#ifndef asynCONNECT_NUM_CHOICES
-typedef enum {
-    asynCONNECT_Disconnect          /* Disconnect */,
-    asynCONNECT_Connect             /* Connect */
-} asynCONNECT;
-#define asynCONNECT_NUM_CHOICES 2
-#endif
-
-#ifndef serialMCTL_NUM_CHOICES
-typedef enum {
-    serialMCTL_unknown              /* Unknown */,
-    serialMCTL_CLOCAL               /* CLOCAL */,
-    serialMCTL_Yes                  /* YES */
-} serialMCTL;
-#define serialMCTL_NUM_CHOICES 3
-#endif
-
-#ifndef gpibUCMD_NUM_CHOICES
-typedef enum {
-    gpibUCMD_None                   /* None */,
-    gpibUCMD_Device_Clear__DCL_     /* Device Clear (DCL) */,
-    gpibUCMD_Local_Lockout__LL0_    /* Local Lockout (LL0) */,
-    gpibUCMD_Serial_Poll_Disable__SPD_ /* Serial Poll Disable (SPD) */,
-    gpibUCMD_Serial_Poll_Enable__SPE_ /* Serial Poll Enable (SPE) */,
-    gpibUCMD_Unlisten__UNL_         /* Unlisten (UNL) */,
-    gpibUCMD_Untalk__UNT_           /* Untalk (UNT) */
-} gpibUCMD;
-#define gpibUCMD_NUM_CHOICES 7
-#endif
-
-#ifndef asynTMOD_NUM_CHOICES
-typedef enum {
-    asynTMOD_Write_Read             /* Write/Read */,
-    asynTMOD_Write                  /* Write */,
-    asynTMOD_Read                   /* Read */,
-    asynTMOD_Flush                  /* Flush */,
-    asynTMOD_NoIO                   /* NoI/O */
-} asynTMOD;
-#define asynTMOD_NUM_CHOICES 5
-#endif
 
 #ifndef serialDBIT_NUM_CHOICES
 typedef enum {
@@ -150,13 +20,15 @@ typedef enum {
 #define serialDBIT_NUM_CHOICES 5
 #endif
 
-#ifndef serialFCTL_NUM_CHOICES
+#ifndef asynTMOD_NUM_CHOICES
 typedef enum {
-    serialFCTL_unknown              /* Unknown */,
-    serialFCTL_None                 /* None */,
-    serialFCTL_Hardware             /* Hardware */
-} serialFCTL;
-#define serialFCTL_NUM_CHOICES 3
+    asynTMOD_Write_Read             /* Write/Read */,
+    asynTMOD_Write                  /* Write */,
+    asynTMOD_Read                   /* Read */,
+    asynTMOD_Flush                  /* Flush */,
+    asynTMOD_NoIO                   /* NoI/O */
+} asynTMOD;
+#define asynTMOD_NUM_CHOICES 5
 #endif
 
 #ifndef serialBAUD_NUM_CHOICES
@@ -181,6 +53,83 @@ typedef enum {
 #define serialBAUD_NUM_CHOICES 16
 #endif
 
+#ifndef ipDRTO_NUM_CHOICES
+typedef enum {
+    ipDRTO_unknown                  /* Unknown */,
+    ipDRTO_No                       /* No */,
+    ipDRTO_Yes                      /* Yes */
+} ipDRTO;
+#define ipDRTO_NUM_CHOICES 3
+#endif
+
+#ifndef gpibACMD_NUM_CHOICES
+typedef enum {
+    gpibACMD_None                   /* None */,
+    gpibACMD_Group_Execute_Trig___GET_ /* Group Execute Trig. (GET) */,
+    gpibACMD_Go_To_Local__GTL_      /* Go To Local (GTL) */,
+    gpibACMD_Selected_Dev__Clear__SDC_ /* Selected Dev. Clear (SDC) */,
+    gpibACMD_Take_Control__TCT_     /* Take Control (TCT) */,
+    gpibACMD_Serial_Poll            /* Serial Poll */
+} gpibACMD;
+#define gpibACMD_NUM_CHOICES 6
+#endif
+
+#ifndef asynENABLE_NUM_CHOICES
+typedef enum {
+    asynENABLE_Disable              /* Disable */,
+    asynENABLE_Enable               /* Enable */
+} asynENABLE;
+#define asynENABLE_NUM_CHOICES 2
+#endif
+
+#ifndef asynFMT_NUM_CHOICES
+typedef enum {
+    asynFMT_ASCII                   /* ASCII */,
+    asynFMT_Hybrid                  /* Hybrid */,
+    asynFMT_Binary                  /* Binary */
+} asynFMT;
+#define asynFMT_NUM_CHOICES 3
+#endif
+
+#ifndef asynTRACE_NUM_CHOICES
+typedef enum {
+    asynTRACE_Off                   /* Off */,
+    asynTRACE_On                    /* On */
+} asynTRACE;
+#define asynTRACE_NUM_CHOICES 2
+#endif
+
+#ifndef gpibUCMD_NUM_CHOICES
+typedef enum {
+    gpibUCMD_None                   /* None */,
+    gpibUCMD_Device_Clear__DCL_     /* Device Clear (DCL) */,
+    gpibUCMD_Local_Lockout__LL0_    /* Local Lockout (LL0) */,
+    gpibUCMD_Serial_Poll_Disable__SPD_ /* Serial Poll Disable (SPD) */,
+    gpibUCMD_Serial_Poll_Enable__SPE_ /* Serial Poll Enable (SPE) */,
+    gpibUCMD_Unlisten__UNL_         /* Unlisten (UNL) */,
+    gpibUCMD_Untalk__UNT_           /* Untalk (UNT) */
+} gpibUCMD;
+#define gpibUCMD_NUM_CHOICES 7
+#endif
+
+#ifndef serialMCTL_NUM_CHOICES
+typedef enum {
+    serialMCTL_unknown              /* Unknown */,
+    serialMCTL_CLOCAL               /* CLOCAL */,
+    serialMCTL_Yes                  /* YES */
+} serialMCTL;
+#define serialMCTL_NUM_CHOICES 3
+#endif
+
+#ifndef serialFCTL_NUM_CHOICES
+typedef enum {
+    serialFCTL_unknown              /* Unknown */,
+    serialFCTL_None                 /* None */,
+    serialFCTL_Hardware             /* Hardware */
+} serialFCTL;
+#define serialFCTL_NUM_CHOICES 3
+#endif
+
 #ifndef serialSBIT_NUM_CHOICES
 typedef enum {
     serialSBIT_unknown              /* Unknown */,
@@ -190,12 +139,63 @@ typedef enum {
 #define serialSBIT_NUM_CHOICES 3
 #endif
 
+#ifndef asynCONNECT_NUM_CHOICES
+typedef enum {
+    asynCONNECT_Disconnect          /* Disconnect */,
+    asynCONNECT_Connect             /* Connect */
+} asynCONNECT;
+#define asynCONNECT_NUM_CHOICES 2
+#endif
+
 #ifndef asynAUTOCONNECT_NUM_CHOICES
 typedef enum {
     asynAUTOCONNECT_noAutoConnect   /* noAutoConnect */,
     asynAUTOCONNECT_autoConnect     /* autoConnect */
 } asynAUTOCONNECT;
 #define asynAUTOCONNECT_NUM_CHOICES 2
+#endif
+
+#ifndef asynINTERFACE_NUM_CHOICES
+typedef enum {
+    asynINTERFACE_OCTET             /* asynOctet */,
+    asynINTERFACE_INT32             /* asynInt32 */,
+    asynINTERFACE_UINT32            /* asynUInt32Digital */,
+    asynINTERFACE_FLOAT64           /* asynFloat64 */
+} asynINTERFACE;
+#define asynINTERFACE_NUM_CHOICES 4
+#endif
+
+#ifndef asynEOMREASON_NUM_CHOICES
+typedef enum {
+    asynEOMREASONNone               /* None */,
+    asynEOMREASONCNT                /* Count */,
+    asynEOMREASONEOS                /* Eos */,
+    asynEOMREASONCNTEOS             /* Count Eos */,
+    asynEOMREASONEND                /* End */,
+    asynEOMREASONCNTEND             /* Count End */,
+    asynEOMREASONEOSEND             /* Eos End */,
+    asynEOMREASONCNTEOSEND          /* Count Eos End */
+} asynEOMREASON;
+#define asynEOMREASON_NUM_CHOICES 8
+#endif
+
+#ifndef serialPRTY_NUM_CHOICES
+typedef enum {
+    serialPRTY_unknown              /* Unknown */,
+    serialPRTY_None                 /* None */,
+    serialPRTY_Even                 /* Even */,
+    serialPRTY_Odd                  /* Odd */
+} serialPRTY;
+#define serialPRTY_NUM_CHOICES 4
+#endif
+
+#ifndef serialIX_NUM_CHOICES
+typedef enum {
+    serialIX_unknown                /* Unknown */,
+    serialIX_No                     /* No */,
+    serialIX_Yes                    /* Yes */
+} serialIX;
+#define serialIX_NUM_CHOICES 3
 #endif
 
 typedef struct asynRecord {
@@ -214,12 +214,15 @@ typedef struct asynRecord {
     DBLINK              sdis;       /* Scanning Disable */
     epicsMutexId        mlok;       /* Monitor lock */
     ELLLIST             mlis;       /* Monitor List */
+    ELLLIST             bklnk;      /* Backwards link tracking */
     epicsUInt8          disp;       /* Disable putField */
     epicsUInt8          proc;       /* Force Processing */
     epicsEnum16         stat;       /* Alarm Status */
     epicsEnum16         sevr;       /* Alarm Severity */
+    char                amsg[40];   /* Alarm Message */
     epicsEnum16         nsta;       /* New Alarm Status */
     epicsEnum16         nsev;       /* New Alarm Severity */
+    char                namsg[40];  /* New Alarm Message */
     epicsEnum16         acks;       /* Alarm Ack Severity */
     epicsEnum16         ackt;       /* Alarm Ack Transient */
     epicsEnum16         diss;       /* Disable Alarm Sevrty */
@@ -339,113 +342,116 @@ typedef enum {
 	asynRecordSDIS = 12,
 	asynRecordMLOK = 13,
 	asynRecordMLIS = 14,
-	asynRecordDISP = 15,
-	asynRecordPROC = 16,
-	asynRecordSTAT = 17,
-	asynRecordSEVR = 18,
-	asynRecordNSTA = 19,
-	asynRecordNSEV = 20,
-	asynRecordACKS = 21,
-	asynRecordACKT = 22,
-	asynRecordDISS = 23,
-	asynRecordLCNT = 24,
-	asynRecordPACT = 25,
-	asynRecordPUTF = 26,
-	asynRecordRPRO = 27,
-	asynRecordASP = 28,
-	asynRecordPPN = 29,
-	asynRecordPPNR = 30,
-	asynRecordSPVT = 31,
-	asynRecordRSET = 32,
-	asynRecordDSET = 33,
-	asynRecordDPVT = 34,
-	asynRecordRDES = 35,
-	asynRecordLSET = 36,
-	asynRecordPRIO = 37,
-	asynRecordTPRO = 38,
-	asynRecordBKPT = 39,
-	asynRecordUDF = 40,
-	asynRecordUDFS = 41,
-	asynRecordTIME = 42,
-	asynRecordFLNK = 43,
-	asynRecordVAL = 44,
-	asynRecordPORT = 45,
-	asynRecordADDR = 46,
-	asynRecordPCNCT = 47,
-	asynRecordDRVINFO = 48,
-	asynRecordREASON = 49,
-	asynRecordTMOD = 50,
-	asynRecordTMOT = 51,
-	asynRecordIFACE = 52,
-	asynRecordOCTETIV = 53,
-	asynRecordOPTIONIV = 54,
-	asynRecordGPIBIV = 55,
-	asynRecordI32IV = 56,
-	asynRecordUI32IV = 57,
-	asynRecordF64IV = 58,
-	asynRecordAOUT = 59,
-	asynRecordOEOS = 60,
-	asynRecordBOUT = 61,
-	asynRecordOPTR = 62,
-	asynRecordOMAX = 63,
-	asynRecordNOWT = 64,
-	asynRecordNAWT = 65,
-	asynRecordOFMT = 66,
-	asynRecordAINP = 67,
-	asynRecordTINP = 68,
-	asynRecordIEOS = 69,
-	asynRecordBINP = 70,
-	asynRecordIPTR = 71,
-	asynRecordIMAX = 72,
-	asynRecordNRRD = 73,
-	asynRecordNORD = 74,
-	asynRecordIFMT = 75,
-	asynRecordEOMR = 76,
-	asynRecordI32INP = 77,
-	asynRecordI32OUT = 78,
-	asynRecordUI32INP = 79,
-	asynRecordUI32OUT = 80,
-	asynRecordUI32MASK = 81,
-	asynRecordF64INP = 82,
-	asynRecordF64OUT = 83,
-	asynRecordBAUD = 84,
-	asynRecordLBAUD = 85,
-	asynRecordPRTY = 86,
-	asynRecordDBIT = 87,
-	asynRecordSBIT = 88,
-	asynRecordMCTL = 89,
-	asynRecordFCTL = 90,
-	asynRecordIXON = 91,
-	asynRecordIXOFF = 92,
-	asynRecordIXANY = 93,
-	asynRecordHOSTINFO = 94,
-	asynRecordDRTO = 95,
-	asynRecordUCMD = 96,
-	asynRecordACMD = 97,
-	asynRecordSPR = 98,
-	asynRecordTMSK = 99,
-	asynRecordTB0 = 100,
-	asynRecordTB1 = 101,
-	asynRecordTB2 = 102,
-	asynRecordTB3 = 103,
-	asynRecordTB4 = 104,
-	asynRecordTB5 = 105,
-	asynRecordTIOM = 106,
-	asynRecordTIB0 = 107,
-	asynRecordTIB1 = 108,
-	asynRecordTIB2 = 109,
-	asynRecordTINM = 110,
-	asynRecordTINB0 = 111,
-	asynRecordTINB1 = 112,
-	asynRecordTINB2 = 113,
-	asynRecordTINB3 = 114,
-	asynRecordTSIZ = 115,
-	asynRecordTFIL = 116,
-	asynRecordAUCT = 117,
-	asynRecordCNCT = 118,
-	asynRecordENBL = 119,
-	asynRecordERRS = 120,
-	asynRecordAQR = 121
+	asynRecordBKLNK = 15,
+	asynRecordDISP = 16,
+	asynRecordPROC = 17,
+	asynRecordSTAT = 18,
+	asynRecordSEVR = 19,
+	asynRecordAMSG = 20,
+	asynRecordNSTA = 21,
+	asynRecordNSEV = 22,
+	asynRecordNAMSG = 23,
+	asynRecordACKS = 24,
+	asynRecordACKT = 25,
+	asynRecordDISS = 26,
+	asynRecordLCNT = 27,
+	asynRecordPACT = 28,
+	asynRecordPUTF = 29,
+	asynRecordRPRO = 30,
+	asynRecordASP = 31,
+	asynRecordPPN = 32,
+	asynRecordPPNR = 33,
+	asynRecordSPVT = 34,
+	asynRecordRSET = 35,
+	asynRecordDSET = 36,
+	asynRecordDPVT = 37,
+	asynRecordRDES = 38,
+	asynRecordLSET = 39,
+	asynRecordPRIO = 40,
+	asynRecordTPRO = 41,
+	asynRecordBKPT = 42,
+	asynRecordUDF = 43,
+	asynRecordUDFS = 44,
+	asynRecordTIME = 45,
+	asynRecordFLNK = 46,
+	asynRecordVAL = 47,
+	asynRecordPORT = 48,
+	asynRecordADDR = 49,
+	asynRecordPCNCT = 50,
+	asynRecordDRVINFO = 51,
+	asynRecordREASON = 52,
+	asynRecordTMOD = 53,
+	asynRecordTMOT = 54,
+	asynRecordIFACE = 55,
+	asynRecordOCTETIV = 56,
+	asynRecordOPTIONIV = 57,
+	asynRecordGPIBIV = 58,
+	asynRecordI32IV = 59,
+	asynRecordUI32IV = 60,
+	asynRecordF64IV = 61,
+	asynRecordAOUT = 62,
+	asynRecordOEOS = 63,
+	asynRecordBOUT = 64,
+	asynRecordOPTR = 65,
+	asynRecordOMAX = 66,
+	asynRecordNOWT = 67,
+	asynRecordNAWT = 68,
+	asynRecordOFMT = 69,
+	asynRecordAINP = 70,
+	asynRecordTINP = 71,
+	asynRecordIEOS = 72,
+	asynRecordBINP = 73,
+	asynRecordIPTR = 74,
+	asynRecordIMAX = 75,
+	asynRecordNRRD = 76,
+	asynRecordNORD = 77,
+	asynRecordIFMT = 78,
+	asynRecordEOMR = 79,
+	asynRecordI32INP = 80,
+	asynRecordI32OUT = 81,
+	asynRecordUI32INP = 82,
+	asynRecordUI32OUT = 83,
+	asynRecordUI32MASK = 84,
+	asynRecordF64INP = 85,
+	asynRecordF64OUT = 86,
+	asynRecordBAUD = 87,
+	asynRecordLBAUD = 88,
+	asynRecordPRTY = 89,
+	asynRecordDBIT = 90,
+	asynRecordSBIT = 91,
+	asynRecordMCTL = 92,
+	asynRecordFCTL = 93,
+	asynRecordIXON = 94,
+	asynRecordIXOFF = 95,
+	asynRecordIXANY = 96,
+	asynRecordHOSTINFO = 97,
+	asynRecordDRTO = 98,
+	asynRecordUCMD = 99,
+	asynRecordACMD = 100,
+	asynRecordSPR = 101,
+	asynRecordTMSK = 102,
+	asynRecordTB0 = 103,
+	asynRecordTB1 = 104,
+	asynRecordTB2 = 105,
+	asynRecordTB3 = 106,
+	asynRecordTB4 = 107,
+	asynRecordTB5 = 108,
+	asynRecordTIOM = 109,
+	asynRecordTIB0 = 110,
+	asynRecordTIB1 = 111,
+	asynRecordTIB2 = 112,
+	asynRecordTINM = 113,
+	asynRecordTINB0 = 114,
+	asynRecordTINB1 = 115,
+	asynRecordTINB2 = 116,
+	asynRecordTINB3 = 117,
+	asynRecordTSIZ = 118,
+	asynRecordTFIL = 119,
+	asynRecordAUCT = 120,
+	asynRecordCNCT = 121,
+	asynRecordENBL = 122,
+	asynRecordERRS = 123,
+	asynRecordAQR = 124
 } asynFieldIndex;
 
 #ifdef GEN_SIZE_OFFSET
@@ -459,7 +465,7 @@ static int asynRecordSizeOffset(dbRecordType *prt)
 {
     asynRecord *prec = 0;
 
-    assert(prt->no_fields == 122);
+    assert(prt->no_fields == 125);
     prt->papFldDes[asynRecordNAME]->size = sizeof(prec->name);
     prt->papFldDes[asynRecordDESC]->size = sizeof(prec->desc);
     prt->papFldDes[asynRecordASG]->size = sizeof(prec->asg);
@@ -475,12 +481,15 @@ static int asynRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[asynRecordSDIS]->size = sizeof(prec->sdis);
     prt->papFldDes[asynRecordMLOK]->size = sizeof(prec->mlok);
     prt->papFldDes[asynRecordMLIS]->size = sizeof(prec->mlis);
+    prt->papFldDes[asynRecordBKLNK]->size = sizeof(prec->bklnk);
     prt->papFldDes[asynRecordDISP]->size = sizeof(prec->disp);
     prt->papFldDes[asynRecordPROC]->size = sizeof(prec->proc);
     prt->papFldDes[asynRecordSTAT]->size = sizeof(prec->stat);
     prt->papFldDes[asynRecordSEVR]->size = sizeof(prec->sevr);
+    prt->papFldDes[asynRecordAMSG]->size = sizeof(prec->amsg);
     prt->papFldDes[asynRecordNSTA]->size = sizeof(prec->nsta);
     prt->papFldDes[asynRecordNSEV]->size = sizeof(prec->nsev);
+    prt->papFldDes[asynRecordNAMSG]->size = sizeof(prec->namsg);
     prt->papFldDes[asynRecordACKS]->size = sizeof(prec->acks);
     prt->papFldDes[asynRecordACKT]->size = sizeof(prec->ackt);
     prt->papFldDes[asynRecordDISS]->size = sizeof(prec->diss);
@@ -597,12 +606,15 @@ static int asynRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[asynRecordSDIS]->offset = (unsigned short)((char *)&prec->sdis - (char *)prec);
     prt->papFldDes[asynRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[asynRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
+    prt->papFldDes[asynRecordBKLNK]->offset = (unsigned short)((char *)&prec->bklnk - (char *)prec);
     prt->papFldDes[asynRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[asynRecordPROC]->offset = (unsigned short)((char *)&prec->proc - (char *)prec);
     prt->papFldDes[asynRecordSTAT]->offset = (unsigned short)((char *)&prec->stat - (char *)prec);
     prt->papFldDes[asynRecordSEVR]->offset = (unsigned short)((char *)&prec->sevr - (char *)prec);
+    prt->papFldDes[asynRecordAMSG]->offset = (unsigned short)((char *)&prec->amsg - (char *)prec);
     prt->papFldDes[asynRecordNSTA]->offset = (unsigned short)((char *)&prec->nsta - (char *)prec);
     prt->papFldDes[asynRecordNSEV]->offset = (unsigned short)((char *)&prec->nsev - (char *)prec);
+    prt->papFldDes[asynRecordNAMSG]->offset = (unsigned short)((char *)&prec->namsg - (char *)prec);
     prt->papFldDes[asynRecordACKS]->offset = (unsigned short)((char *)&prec->acks - (char *)prec);
     prt->papFldDes[asynRecordACKT]->offset = (unsigned short)((char *)&prec->ackt - (char *)prec);
     prt->papFldDes[asynRecordDISS]->offset = (unsigned short)((char *)&prec->diss - (char *)prec);

@@ -3,9 +3,9 @@
 #ifndef INC_longinRecord_H
 #define INC_longinRecord_H
 
- #include "epicsTypes.h"
- #include "link.h"
-#include "epicsMutex.h"
+#include "epicsTypes.h"
+#include "link.h"
+ #include "epicsMutex.h"
 #include "ellLib.h"
 #include "epicsTime.h"
 
@@ -25,12 +25,15 @@ typedef struct longinRecord {
     DBLINK              sdis;       /* Scanning Disable */
     epicsMutexId        mlok;       /* Monitor lock */
     ELLLIST             mlis;       /* Monitor List */
+    ELLLIST             bklnk;      /* Backwards link tracking */
     epicsUInt8          disp;       /* Disable putField */
     epicsUInt8          proc;       /* Force Processing */
     epicsEnum16         stat;       /* Alarm Status */
     epicsEnum16         sevr;       /* Alarm Severity */
+    char                amsg[40];   /* Alarm Message */
     epicsEnum16         nsta;       /* New Alarm Status */
     epicsEnum16         nsev;       /* New Alarm Severity */
+    char                namsg[40];  /* New Alarm Message */
     epicsEnum16         acks;       /* Alarm Ack Severity */
     epicsEnum16         ackt;       /* Alarm Ack Transient */
     epicsEnum16         diss;       /* Disable Alarm Sevrty */
@@ -98,61 +101,64 @@ typedef enum {
 	longinRecordSDIS = 12,
 	longinRecordMLOK = 13,
 	longinRecordMLIS = 14,
-	longinRecordDISP = 15,
-	longinRecordPROC = 16,
-	longinRecordSTAT = 17,
-	longinRecordSEVR = 18,
-	longinRecordNSTA = 19,
-	longinRecordNSEV = 20,
-	longinRecordACKS = 21,
-	longinRecordACKT = 22,
-	longinRecordDISS = 23,
-	longinRecordLCNT = 24,
-	longinRecordPACT = 25,
-	longinRecordPUTF = 26,
-	longinRecordRPRO = 27,
-	longinRecordASP = 28,
-	longinRecordPPN = 29,
-	longinRecordPPNR = 30,
-	longinRecordSPVT = 31,
-	longinRecordRSET = 32,
-	longinRecordDSET = 33,
-	longinRecordDPVT = 34,
-	longinRecordRDES = 35,
-	longinRecordLSET = 36,
-	longinRecordPRIO = 37,
-	longinRecordTPRO = 38,
-	longinRecordBKPT = 39,
-	longinRecordUDF = 40,
-	longinRecordUDFS = 41,
-	longinRecordTIME = 42,
-	longinRecordFLNK = 43,
-	longinRecordVAL = 44,
-	longinRecordINP = 45,
-	longinRecordEGU = 46,
-	longinRecordHOPR = 47,
-	longinRecordLOPR = 48,
-	longinRecordHIHI = 49,
-	longinRecordLOLO = 50,
-	longinRecordHIGH = 51,
-	longinRecordLOW = 52,
-	longinRecordHHSV = 53,
-	longinRecordLLSV = 54,
-	longinRecordHSV = 55,
-	longinRecordLSV = 56,
-	longinRecordHYST = 57,
-	longinRecordAFTC = 58,
-	longinRecordAFVL = 59,
-	longinRecordADEL = 60,
-	longinRecordMDEL = 61,
-	longinRecordLALM = 62,
-	longinRecordALST = 63,
-	longinRecordMLST = 64,
-	longinRecordSIOL = 65,
-	longinRecordSVAL = 66,
-	longinRecordSIML = 67,
-	longinRecordSIMM = 68,
-	longinRecordSIMS = 69
+	longinRecordBKLNK = 15,
+	longinRecordDISP = 16,
+	longinRecordPROC = 17,
+	longinRecordSTAT = 18,
+	longinRecordSEVR = 19,
+	longinRecordAMSG = 20,
+	longinRecordNSTA = 21,
+	longinRecordNSEV = 22,
+	longinRecordNAMSG = 23,
+	longinRecordACKS = 24,
+	longinRecordACKT = 25,
+	longinRecordDISS = 26,
+	longinRecordLCNT = 27,
+	longinRecordPACT = 28,
+	longinRecordPUTF = 29,
+	longinRecordRPRO = 30,
+	longinRecordASP = 31,
+	longinRecordPPN = 32,
+	longinRecordPPNR = 33,
+	longinRecordSPVT = 34,
+	longinRecordRSET = 35,
+	longinRecordDSET = 36,
+	longinRecordDPVT = 37,
+	longinRecordRDES = 38,
+	longinRecordLSET = 39,
+	longinRecordPRIO = 40,
+	longinRecordTPRO = 41,
+	longinRecordBKPT = 42,
+	longinRecordUDF = 43,
+	longinRecordUDFS = 44,
+	longinRecordTIME = 45,
+	longinRecordFLNK = 46,
+	longinRecordVAL = 47,
+	longinRecordINP = 48,
+	longinRecordEGU = 49,
+	longinRecordHOPR = 50,
+	longinRecordLOPR = 51,
+	longinRecordHIHI = 52,
+	longinRecordLOLO = 53,
+	longinRecordHIGH = 54,
+	longinRecordLOW = 55,
+	longinRecordHHSV = 56,
+	longinRecordLLSV = 57,
+	longinRecordHSV = 58,
+	longinRecordLSV = 59,
+	longinRecordHYST = 60,
+	longinRecordAFTC = 61,
+	longinRecordAFVL = 62,
+	longinRecordADEL = 63,
+	longinRecordMDEL = 64,
+	longinRecordLALM = 65,
+	longinRecordALST = 66,
+	longinRecordMLST = 67,
+	longinRecordSIOL = 68,
+	longinRecordSVAL = 69,
+	longinRecordSIML = 70,
+	longinRecordSIMM = 71,
+	longinRecordSIMS = 72
 } longinFieldIndex;
 
 #ifdef GEN_SIZE_OFFSET
@@ -166,7 +172,7 @@ static int longinRecordSizeOffset(dbRecordType *prt)
 {
     longinRecord *prec = 0;
 
-    assert(prt->no_fields == 70);
+    assert(prt->no_fields == 73);
     prt->papFldDes[longinRecordNAME]->size = sizeof(prec->name);
     prt->papFldDes[longinRecordDESC]->size = sizeof(prec->desc);
     prt->papFldDes[longinRecordASG]->size = sizeof(prec->asg);
@@ -182,12 +188,15 @@ static int longinRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[longinRecordSDIS]->size = sizeof(prec->sdis);
     prt->papFldDes[longinRecordMLOK]->size = sizeof(prec->mlok);
     prt->papFldDes[longinRecordMLIS]->size = sizeof(prec->mlis);
+    prt->papFldDes[longinRecordBKLNK]->size = sizeof(prec->bklnk);
     prt->papFldDes[longinRecordDISP]->size = sizeof(prec->disp);
     prt->papFldDes[longinRecordPROC]->size = sizeof(prec->proc);
     prt->papFldDes[longinRecordSTAT]->size = sizeof(prec->stat);
     prt->papFldDes[longinRecordSEVR]->size = sizeof(prec->sevr);
+    prt->papFldDes[longinRecordAMSG]->size = sizeof(prec->amsg);
     prt->papFldDes[longinRecordNSTA]->size = sizeof(prec->nsta);
     prt->papFldDes[longinRecordNSEV]->size = sizeof(prec->nsev);
+    prt->papFldDes[longinRecordNAMSG]->size = sizeof(prec->namsg);
     prt->papFldDes[longinRecordACKS]->size = sizeof(prec->acks);
     prt->papFldDes[longinRecordACKT]->size = sizeof(prec->ackt);
     prt->papFldDes[longinRecordDISS]->size = sizeof(prec->diss);
@@ -252,12 +261,15 @@ static int longinRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[longinRecordSDIS]->offset = (unsigned short)((char *)&prec->sdis - (char *)prec);
     prt->papFldDes[longinRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[longinRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
+    prt->papFldDes[longinRecordBKLNK]->offset = (unsigned short)((char *)&prec->bklnk - (char *)prec);
     prt->papFldDes[longinRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[longinRecordPROC]->offset = (unsigned short)((char *)&prec->proc - (char *)prec);
     prt->papFldDes[longinRecordSTAT]->offset = (unsigned short)((char *)&prec->stat - (char *)prec);
     prt->papFldDes[longinRecordSEVR]->offset = (unsigned short)((char *)&prec->sevr - (char *)prec);
+    prt->papFldDes[longinRecordAMSG]->offset = (unsigned short)((char *)&prec->amsg - (char *)prec);
     prt->papFldDes[longinRecordNSTA]->offset = (unsigned short)((char *)&prec->nsta - (char *)prec);
     prt->papFldDes[longinRecordNSEV]->offset = (unsigned short)((char *)&prec->nsev - (char *)prec);
+    prt->papFldDes[longinRecordNAMSG]->offset = (unsigned short)((char *)&prec->namsg - (char *)prec);
     prt->papFldDes[longinRecordACKS]->offset = (unsigned short)((char *)&prec->acks - (char *)prec);
     prt->papFldDes[longinRecordACKT]->offset = (unsigned short)((char *)&prec->ackt - (char *)prec);
     prt->papFldDes[longinRecordDISS]->offset = (unsigned short)((char *)&prec->diss - (char *)prec);

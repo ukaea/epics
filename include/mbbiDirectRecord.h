@@ -3,9 +3,9 @@
 #ifndef INC_mbbiDirectRecord_H
 #define INC_mbbiDirectRecord_H
 
- #include "epicsTypes.h"
- #include "link.h"
-#include "epicsMutex.h"
+#include "epicsTypes.h"
+#include "link.h"
+ #include "epicsMutex.h"
 #include "ellLib.h"
 #include "epicsTime.h"
 
@@ -25,12 +25,15 @@ typedef struct mbbiDirectRecord {
     DBLINK              sdis;       /* Scanning Disable */
     epicsMutexId        mlok;       /* Monitor lock */
     ELLLIST             mlis;       /* Monitor List */
+    ELLLIST             bklnk;      /* Backwards link tracking */
     epicsUInt8          disp;       /* Disable putField */
     epicsUInt8          proc;       /* Force Processing */
     epicsEnum16         stat;       /* Alarm Status */
     epicsEnum16         sevr;       /* Alarm Severity */
+    char                amsg[40];   /* Alarm Message */
     epicsEnum16         nsta;       /* New Alarm Status */
     epicsEnum16         nsev;       /* New Alarm Severity */
+    char                namsg[40];  /* New Alarm Message */
     epicsEnum16         acks;       /* Alarm Ack Severity */
     epicsEnum16         ackt;       /* Alarm Ack Transient */
     epicsEnum16         diss;       /* Disable Alarm Sevrty */
@@ -101,64 +104,67 @@ typedef enum {
 	mbbiDirectRecordSDIS = 12,
 	mbbiDirectRecordMLOK = 13,
 	mbbiDirectRecordMLIS = 14,
-	mbbiDirectRecordDISP = 15,
-	mbbiDirectRecordPROC = 16,
-	mbbiDirectRecordSTAT = 17,
-	mbbiDirectRecordSEVR = 18,
-	mbbiDirectRecordNSTA = 19,
-	mbbiDirectRecordNSEV = 20,
-	mbbiDirectRecordACKS = 21,
-	mbbiDirectRecordACKT = 22,
-	mbbiDirectRecordDISS = 23,
-	mbbiDirectRecordLCNT = 24,
-	mbbiDirectRecordPACT = 25,
-	mbbiDirectRecordPUTF = 26,
-	mbbiDirectRecordRPRO = 27,
-	mbbiDirectRecordASP = 28,
-	mbbiDirectRecordPPN = 29,
-	mbbiDirectRecordPPNR = 30,
-	mbbiDirectRecordSPVT = 31,
-	mbbiDirectRecordRSET = 32,
-	mbbiDirectRecordDSET = 33,
-	mbbiDirectRecordDPVT = 34,
-	mbbiDirectRecordRDES = 35,
-	mbbiDirectRecordLSET = 36,
-	mbbiDirectRecordPRIO = 37,
-	mbbiDirectRecordTPRO = 38,
-	mbbiDirectRecordBKPT = 39,
-	mbbiDirectRecordUDF = 40,
-	mbbiDirectRecordUDFS = 41,
-	mbbiDirectRecordTIME = 42,
-	mbbiDirectRecordFLNK = 43,
-	mbbiDirectRecordVAL = 44,
-	mbbiDirectRecordNOBT = 45,
-	mbbiDirectRecordINP = 46,
-	mbbiDirectRecordRVAL = 47,
-	mbbiDirectRecordORAW = 48,
-	mbbiDirectRecordMASK = 49,
-	mbbiDirectRecordMLST = 50,
-	mbbiDirectRecordSHFT = 51,
-	mbbiDirectRecordSIOL = 52,
-	mbbiDirectRecordSVAL = 53,
-	mbbiDirectRecordSIML = 54,
-	mbbiDirectRecordSIMM = 55,
-	mbbiDirectRecordSIMS = 56,
-	mbbiDirectRecordB0 = 57,
-	mbbiDirectRecordB1 = 58,
-	mbbiDirectRecordB2 = 59,
-	mbbiDirectRecordB3 = 60,
-	mbbiDirectRecordB4 = 61,
-	mbbiDirectRecordB5 = 62,
-	mbbiDirectRecordB6 = 63,
-	mbbiDirectRecordB7 = 64,
-	mbbiDirectRecordB8 = 65,
-	mbbiDirectRecordB9 = 66,
-	mbbiDirectRecordBA = 67,
-	mbbiDirectRecordBB = 68,
-	mbbiDirectRecordBC = 69,
-	mbbiDirectRecordBD = 70,
-	mbbiDirectRecordBE = 71,
-	mbbiDirectRecordBF = 72
+	mbbiDirectRecordBKLNK = 15,
+	mbbiDirectRecordDISP = 16,
+	mbbiDirectRecordPROC = 17,
+	mbbiDirectRecordSTAT = 18,
+	mbbiDirectRecordSEVR = 19,
+	mbbiDirectRecordAMSG = 20,
+	mbbiDirectRecordNSTA = 21,
+	mbbiDirectRecordNSEV = 22,
+	mbbiDirectRecordNAMSG = 23,
+	mbbiDirectRecordACKS = 24,
+	mbbiDirectRecordACKT = 25,
+	mbbiDirectRecordDISS = 26,
+	mbbiDirectRecordLCNT = 27,
+	mbbiDirectRecordPACT = 28,
+	mbbiDirectRecordPUTF = 29,
+	mbbiDirectRecordRPRO = 30,
+	mbbiDirectRecordASP = 31,
+	mbbiDirectRecordPPN = 32,
+	mbbiDirectRecordPPNR = 33,
+	mbbiDirectRecordSPVT = 34,
+	mbbiDirectRecordRSET = 35,
+	mbbiDirectRecordDSET = 36,
+	mbbiDirectRecordDPVT = 37,
+	mbbiDirectRecordRDES = 38,
+	mbbiDirectRecordLSET = 39,
+	mbbiDirectRecordPRIO = 40,
+	mbbiDirectRecordTPRO = 41,
+	mbbiDirectRecordBKPT = 42,
+	mbbiDirectRecordUDF = 43,
+	mbbiDirectRecordUDFS = 44,
+	mbbiDirectRecordTIME = 45,
+	mbbiDirectRecordFLNK = 46,
+	mbbiDirectRecordVAL = 47,
+	mbbiDirectRecordNOBT = 48,
+	mbbiDirectRecordINP = 49,
+	mbbiDirectRecordRVAL = 50,
+	mbbiDirectRecordORAW = 51,
+	mbbiDirectRecordMASK = 52,
+	mbbiDirectRecordMLST = 53,
+	mbbiDirectRecordSHFT = 54,
+	mbbiDirectRecordSIOL = 55,
+	mbbiDirectRecordSVAL = 56,
+	mbbiDirectRecordSIML = 57,
+	mbbiDirectRecordSIMM = 58,
+	mbbiDirectRecordSIMS = 59,
+	mbbiDirectRecordB0 = 60,
+	mbbiDirectRecordB1 = 61,
+	mbbiDirectRecordB2 = 62,
+	mbbiDirectRecordB3 = 63,
+	mbbiDirectRecordB4 = 64,
+	mbbiDirectRecordB5 = 65,
+	mbbiDirectRecordB6 = 66,
+	mbbiDirectRecordB7 = 67,
+	mbbiDirectRecordB8 = 68,
+	mbbiDirectRecordB9 = 69,
+	mbbiDirectRecordBA = 70,
+	mbbiDirectRecordBB = 71,
+	mbbiDirectRecordBC = 72,
+	mbbiDirectRecordBD = 73,
+	mbbiDirectRecordBE = 74,
+	mbbiDirectRecordBF = 75
 } mbbiDirectFieldIndex;
 
 #ifdef GEN_SIZE_OFFSET
@@ -172,7 +178,7 @@ static int mbbiDirectRecordSizeOffset(dbRecordType *prt)
 {
     mbbiDirectRecord *prec = 0;
 
-    assert(prt->no_fields == 73);
+    assert(prt->no_fields == 76);
     prt->papFldDes[mbbiDirectRecordNAME]->size = sizeof(prec->name);
     prt->papFldDes[mbbiDirectRecordDESC]->size = sizeof(prec->desc);
     prt->papFldDes[mbbiDirectRecordASG]->size = sizeof(prec->asg);
@@ -188,12 +194,15 @@ static int mbbiDirectRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[mbbiDirectRecordSDIS]->size = sizeof(prec->sdis);
     prt->papFldDes[mbbiDirectRecordMLOK]->size = sizeof(prec->mlok);
     prt->papFldDes[mbbiDirectRecordMLIS]->size = sizeof(prec->mlis);
+    prt->papFldDes[mbbiDirectRecordBKLNK]->size = sizeof(prec->bklnk);
     prt->papFldDes[mbbiDirectRecordDISP]->size = sizeof(prec->disp);
     prt->papFldDes[mbbiDirectRecordPROC]->size = sizeof(prec->proc);
     prt->papFldDes[mbbiDirectRecordSTAT]->size = sizeof(prec->stat);
     prt->papFldDes[mbbiDirectRecordSEVR]->size = sizeof(prec->sevr);
+    prt->papFldDes[mbbiDirectRecordAMSG]->size = sizeof(prec->amsg);
     prt->papFldDes[mbbiDirectRecordNSTA]->size = sizeof(prec->nsta);
     prt->papFldDes[mbbiDirectRecordNSEV]->size = sizeof(prec->nsev);
+    prt->papFldDes[mbbiDirectRecordNAMSG]->size = sizeof(prec->namsg);
     prt->papFldDes[mbbiDirectRecordACKS]->size = sizeof(prec->acks);
     prt->papFldDes[mbbiDirectRecordACKT]->size = sizeof(prec->ackt);
     prt->papFldDes[mbbiDirectRecordDISS]->size = sizeof(prec->diss);
@@ -261,12 +270,15 @@ static int mbbiDirectRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[mbbiDirectRecordSDIS]->offset = (unsigned short)((char *)&prec->sdis - (char *)prec);
     prt->papFldDes[mbbiDirectRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[mbbiDirectRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordBKLNK]->offset = (unsigned short)((char *)&prec->bklnk - (char *)prec);
     prt->papFldDes[mbbiDirectRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[mbbiDirectRecordPROC]->offset = (unsigned short)((char *)&prec->proc - (char *)prec);
     prt->papFldDes[mbbiDirectRecordSTAT]->offset = (unsigned short)((char *)&prec->stat - (char *)prec);
     prt->papFldDes[mbbiDirectRecordSEVR]->offset = (unsigned short)((char *)&prec->sevr - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordAMSG]->offset = (unsigned short)((char *)&prec->amsg - (char *)prec);
     prt->papFldDes[mbbiDirectRecordNSTA]->offset = (unsigned short)((char *)&prec->nsta - (char *)prec);
     prt->papFldDes[mbbiDirectRecordNSEV]->offset = (unsigned short)((char *)&prec->nsev - (char *)prec);
+    prt->papFldDes[mbbiDirectRecordNAMSG]->offset = (unsigned short)((char *)&prec->namsg - (char *)prec);
     prt->papFldDes[mbbiDirectRecordACKS]->offset = (unsigned short)((char *)&prec->acks - (char *)prec);
     prt->papFldDes[mbbiDirectRecordACKT]->offset = (unsigned short)((char *)&prec->ackt - (char *)prec);
     prt->papFldDes[mbbiDirectRecordDISS]->offset = (unsigned short)((char *)&prec->diss - (char *)prec);

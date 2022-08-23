@@ -3,9 +3,9 @@
 #ifndef INC_biRecord_H
 #define INC_biRecord_H
 
- #include "epicsTypes.h"
- #include "link.h"
-#include "epicsMutex.h"
+#include "epicsTypes.h"
+#include "link.h"
+ #include "epicsMutex.h"
 #include "ellLib.h"
 #include "epicsTime.h"
 
@@ -25,12 +25,15 @@ typedef struct biRecord {
     DBLINK              sdis;       /* Scanning Disable */
     epicsMutexId        mlok;       /* Monitor lock */
     ELLLIST             mlis;       /* Monitor List */
+    ELLLIST             bklnk;      /* Backwards link tracking */
     epicsUInt8          disp;       /* Disable putField */
     epicsUInt8          proc;       /* Force Processing */
     epicsEnum16         stat;       /* Alarm Status */
     epicsEnum16         sevr;       /* Alarm Severity */
+    char                amsg[40];   /* Alarm Message */
     epicsEnum16         nsta;       /* New Alarm Status */
     epicsEnum16         nsev;       /* New Alarm Severity */
+    char                namsg[40];  /* New Alarm Message */
     epicsEnum16         acks;       /* Alarm Ack Severity */
     epicsEnum16         ackt;       /* Alarm Ack Transient */
     epicsEnum16         diss;       /* Disable Alarm Sevrty */
@@ -89,52 +92,55 @@ typedef enum {
 	biRecordSDIS = 12,
 	biRecordMLOK = 13,
 	biRecordMLIS = 14,
-	biRecordDISP = 15,
-	biRecordPROC = 16,
-	biRecordSTAT = 17,
-	biRecordSEVR = 18,
-	biRecordNSTA = 19,
-	biRecordNSEV = 20,
-	biRecordACKS = 21,
-	biRecordACKT = 22,
-	biRecordDISS = 23,
-	biRecordLCNT = 24,
-	biRecordPACT = 25,
-	biRecordPUTF = 26,
-	biRecordRPRO = 27,
-	biRecordASP = 28,
-	biRecordPPN = 29,
-	biRecordPPNR = 30,
-	biRecordSPVT = 31,
-	biRecordRSET = 32,
-	biRecordDSET = 33,
-	biRecordDPVT = 34,
-	biRecordRDES = 35,
-	biRecordLSET = 36,
-	biRecordPRIO = 37,
-	biRecordTPRO = 38,
-	biRecordBKPT = 39,
-	biRecordUDF = 40,
-	biRecordUDFS = 41,
-	biRecordTIME = 42,
-	biRecordFLNK = 43,
-	biRecordINP = 44,
-	biRecordVAL = 45,
-	biRecordZSV = 46,
-	biRecordOSV = 47,
-	biRecordCOSV = 48,
-	biRecordZNAM = 49,
-	biRecordONAM = 50,
-	biRecordRVAL = 51,
-	biRecordORAW = 52,
-	biRecordMASK = 53,
-	biRecordLALM = 54,
-	biRecordMLST = 55,
-	biRecordSIOL = 56,
-	biRecordSVAL = 57,
-	biRecordSIML = 58,
-	biRecordSIMM = 59,
-	biRecordSIMS = 60
+	biRecordBKLNK = 15,
+	biRecordDISP = 16,
+	biRecordPROC = 17,
+	biRecordSTAT = 18,
+	biRecordSEVR = 19,
+	biRecordAMSG = 20,
+	biRecordNSTA = 21,
+	biRecordNSEV = 22,
+	biRecordNAMSG = 23,
+	biRecordACKS = 24,
+	biRecordACKT = 25,
+	biRecordDISS = 26,
+	biRecordLCNT = 27,
+	biRecordPACT = 28,
+	biRecordPUTF = 29,
+	biRecordRPRO = 30,
+	biRecordASP = 31,
+	biRecordPPN = 32,
+	biRecordPPNR = 33,
+	biRecordSPVT = 34,
+	biRecordRSET = 35,
+	biRecordDSET = 36,
+	biRecordDPVT = 37,
+	biRecordRDES = 38,
+	biRecordLSET = 39,
+	biRecordPRIO = 40,
+	biRecordTPRO = 41,
+	biRecordBKPT = 42,
+	biRecordUDF = 43,
+	biRecordUDFS = 44,
+	biRecordTIME = 45,
+	biRecordFLNK = 46,
+	biRecordINP = 47,
+	biRecordVAL = 48,
+	biRecordZSV = 49,
+	biRecordOSV = 50,
+	biRecordCOSV = 51,
+	biRecordZNAM = 52,
+	biRecordONAM = 53,
+	biRecordRVAL = 54,
+	biRecordORAW = 55,
+	biRecordMASK = 56,
+	biRecordLALM = 57,
+	biRecordMLST = 58,
+	biRecordSIOL = 59,
+	biRecordSVAL = 60,
+	biRecordSIML = 61,
+	biRecordSIMM = 62,
+	biRecordSIMS = 63
 } biFieldIndex;
 
 #ifdef GEN_SIZE_OFFSET
@@ -148,7 +154,7 @@ static int biRecordSizeOffset(dbRecordType *prt)
 {
     biRecord *prec = 0;
 
-    assert(prt->no_fields == 61);
+    assert(prt->no_fields == 64);
     prt->papFldDes[biRecordNAME]->size = sizeof(prec->name);
     prt->papFldDes[biRecordDESC]->size = sizeof(prec->desc);
     prt->papFldDes[biRecordASG]->size = sizeof(prec->asg);
@@ -164,12 +170,15 @@ static int biRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[biRecordSDIS]->size = sizeof(prec->sdis);
     prt->papFldDes[biRecordMLOK]->size = sizeof(prec->mlok);
     prt->papFldDes[biRecordMLIS]->size = sizeof(prec->mlis);
+    prt->papFldDes[biRecordBKLNK]->size = sizeof(prec->bklnk);
     prt->papFldDes[biRecordDISP]->size = sizeof(prec->disp);
     prt->papFldDes[biRecordPROC]->size = sizeof(prec->proc);
     prt->papFldDes[biRecordSTAT]->size = sizeof(prec->stat);
     prt->papFldDes[biRecordSEVR]->size = sizeof(prec->sevr);
+    prt->papFldDes[biRecordAMSG]->size = sizeof(prec->amsg);
     prt->papFldDes[biRecordNSTA]->size = sizeof(prec->nsta);
     prt->papFldDes[biRecordNSEV]->size = sizeof(prec->nsev);
+    prt->papFldDes[biRecordNAMSG]->size = sizeof(prec->namsg);
     prt->papFldDes[biRecordACKS]->size = sizeof(prec->acks);
     prt->papFldDes[biRecordACKT]->size = sizeof(prec->ackt);
     prt->papFldDes[biRecordDISS]->size = sizeof(prec->diss);
@@ -225,12 +234,15 @@ static int biRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[biRecordSDIS]->offset = (unsigned short)((char *)&prec->sdis - (char *)prec);
     prt->papFldDes[biRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[biRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
+    prt->papFldDes[biRecordBKLNK]->offset = (unsigned short)((char *)&prec->bklnk - (char *)prec);
     prt->papFldDes[biRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[biRecordPROC]->offset = (unsigned short)((char *)&prec->proc - (char *)prec);
     prt->papFldDes[biRecordSTAT]->offset = (unsigned short)((char *)&prec->stat - (char *)prec);
     prt->papFldDes[biRecordSEVR]->offset = (unsigned short)((char *)&prec->sevr - (char *)prec);
+    prt->papFldDes[biRecordAMSG]->offset = (unsigned short)((char *)&prec->amsg - (char *)prec);
     prt->papFldDes[biRecordNSTA]->offset = (unsigned short)((char *)&prec->nsta - (char *)prec);
     prt->papFldDes[biRecordNSEV]->offset = (unsigned short)((char *)&prec->nsev - (char *)prec);
+    prt->papFldDes[biRecordNAMSG]->offset = (unsigned short)((char *)&prec->namsg - (char *)prec);
     prt->papFldDes[biRecordACKS]->offset = (unsigned short)((char *)&prec->acks - (char *)prec);
     prt->papFldDes[biRecordACKT]->offset = (unsigned short)((char *)&prec->ackt - (char *)prec);
     prt->papFldDes[biRecordDISS]->offset = (unsigned short)((char *)&prec->diss - (char *)prec);

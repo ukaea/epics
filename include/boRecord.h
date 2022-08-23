@@ -3,9 +3,9 @@
 #ifndef INC_boRecord_H
 #define INC_boRecord_H
 
- #include "epicsTypes.h"
- #include "link.h"
-#include "epicsMutex.h"
+#include "epicsTypes.h"
+#include "link.h"
+ #include "epicsMutex.h"
 #include "ellLib.h"
 #include "epicsTime.h"
 
@@ -25,12 +25,15 @@ typedef struct boRecord {
     DBLINK              sdis;       /* Scanning Disable */
     epicsMutexId        mlok;       /* Monitor lock */
     ELLLIST             mlis;       /* Monitor List */
+    ELLLIST             bklnk;      /* Backwards link tracking */
     epicsUInt8          disp;       /* Disable putField */
     epicsUInt8          proc;       /* Force Processing */
     epicsEnum16         stat;       /* Alarm Status */
     epicsEnum16         sevr;       /* Alarm Severity */
+    char                amsg[40];   /* Alarm Message */
     epicsEnum16         nsta;       /* New Alarm Status */
     epicsEnum16         nsev;       /* New Alarm Severity */
+    char                namsg[40];  /* New Alarm Message */
     epicsEnum16         acks;       /* Alarm Ack Severity */
     epicsEnum16         ackt;       /* Alarm Ack Transient */
     epicsEnum16         diss;       /* Disable Alarm Sevrty */
@@ -97,60 +100,63 @@ typedef enum {
 	boRecordSDIS = 12,
 	boRecordMLOK = 13,
 	boRecordMLIS = 14,
-	boRecordDISP = 15,
-	boRecordPROC = 16,
-	boRecordSTAT = 17,
-	boRecordSEVR = 18,
-	boRecordNSTA = 19,
-	boRecordNSEV = 20,
-	boRecordACKS = 21,
-	boRecordACKT = 22,
-	boRecordDISS = 23,
-	boRecordLCNT = 24,
-	boRecordPACT = 25,
-	boRecordPUTF = 26,
-	boRecordRPRO = 27,
-	boRecordASP = 28,
-	boRecordPPN = 29,
-	boRecordPPNR = 30,
-	boRecordSPVT = 31,
-	boRecordRSET = 32,
-	boRecordDSET = 33,
-	boRecordDPVT = 34,
-	boRecordRDES = 35,
-	boRecordLSET = 36,
-	boRecordPRIO = 37,
-	boRecordTPRO = 38,
-	boRecordBKPT = 39,
-	boRecordUDF = 40,
-	boRecordUDFS = 41,
-	boRecordTIME = 42,
-	boRecordFLNK = 43,
-	boRecordVAL = 44,
-	boRecordOMSL = 45,
-	boRecordDOL = 46,
-	boRecordOUT = 47,
-	boRecordHIGH = 48,
-	boRecordZNAM = 49,
-	boRecordONAM = 50,
-	boRecordRVAL = 51,
-	boRecordORAW = 52,
-	boRecordMASK = 53,
-	boRecordRPVT = 54,
-	boRecordWDPT = 55,
-	boRecordZSV = 56,
-	boRecordOSV = 57,
-	boRecordCOSV = 58,
-	boRecordRBV = 59,
-	boRecordORBV = 60,
-	boRecordMLST = 61,
-	boRecordLALM = 62,
-	boRecordSIOL = 63,
-	boRecordSIML = 64,
-	boRecordSIMM = 65,
-	boRecordSIMS = 66,
-	boRecordIVOA = 67,
-	boRecordIVOV = 68
+	boRecordBKLNK = 15,
+	boRecordDISP = 16,
+	boRecordPROC = 17,
+	boRecordSTAT = 18,
+	boRecordSEVR = 19,
+	boRecordAMSG = 20,
+	boRecordNSTA = 21,
+	boRecordNSEV = 22,
+	boRecordNAMSG = 23,
+	boRecordACKS = 24,
+	boRecordACKT = 25,
+	boRecordDISS = 26,
+	boRecordLCNT = 27,
+	boRecordPACT = 28,
+	boRecordPUTF = 29,
+	boRecordRPRO = 30,
+	boRecordASP = 31,
+	boRecordPPN = 32,
+	boRecordPPNR = 33,
+	boRecordSPVT = 34,
+	boRecordRSET = 35,
+	boRecordDSET = 36,
+	boRecordDPVT = 37,
+	boRecordRDES = 38,
+	boRecordLSET = 39,
+	boRecordPRIO = 40,
+	boRecordTPRO = 41,
+	boRecordBKPT = 42,
+	boRecordUDF = 43,
+	boRecordUDFS = 44,
+	boRecordTIME = 45,
+	boRecordFLNK = 46,
+	boRecordVAL = 47,
+	boRecordOMSL = 48,
+	boRecordDOL = 49,
+	boRecordOUT = 50,
+	boRecordHIGH = 51,
+	boRecordZNAM = 52,
+	boRecordONAM = 53,
+	boRecordRVAL = 54,
+	boRecordORAW = 55,
+	boRecordMASK = 56,
+	boRecordRPVT = 57,
+	boRecordWDPT = 58,
+	boRecordZSV = 59,
+	boRecordOSV = 60,
+	boRecordCOSV = 61,
+	boRecordRBV = 62,
+	boRecordORBV = 63,
+	boRecordMLST = 64,
+	boRecordLALM = 65,
+	boRecordSIOL = 66,
+	boRecordSIML = 67,
+	boRecordSIMM = 68,
+	boRecordSIMS = 69,
+	boRecordIVOA = 70,
+	boRecordIVOV = 71
 } boFieldIndex;
 
 #ifdef GEN_SIZE_OFFSET
@@ -164,7 +170,7 @@ static int boRecordSizeOffset(dbRecordType *prt)
 {
     boRecord *prec = 0;
 
-    assert(prt->no_fields == 69);
+    assert(prt->no_fields == 72);
     prt->papFldDes[boRecordNAME]->size = sizeof(prec->name);
     prt->papFldDes[boRecordDESC]->size = sizeof(prec->desc);
     prt->papFldDes[boRecordASG]->size = sizeof(prec->asg);
@@ -180,12 +186,15 @@ static int boRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[boRecordSDIS]->size = sizeof(prec->sdis);
     prt->papFldDes[boRecordMLOK]->size = sizeof(prec->mlok);
     prt->papFldDes[boRecordMLIS]->size = sizeof(prec->mlis);
+    prt->papFldDes[boRecordBKLNK]->size = sizeof(prec->bklnk);
     prt->papFldDes[boRecordDISP]->size = sizeof(prec->disp);
     prt->papFldDes[boRecordPROC]->size = sizeof(prec->proc);
     prt->papFldDes[boRecordSTAT]->size = sizeof(prec->stat);
     prt->papFldDes[boRecordSEVR]->size = sizeof(prec->sevr);
+    prt->papFldDes[boRecordAMSG]->size = sizeof(prec->amsg);
     prt->papFldDes[boRecordNSTA]->size = sizeof(prec->nsta);
     prt->papFldDes[boRecordNSEV]->size = sizeof(prec->nsev);
+    prt->papFldDes[boRecordNAMSG]->size = sizeof(prec->namsg);
     prt->papFldDes[boRecordACKS]->size = sizeof(prec->acks);
     prt->papFldDes[boRecordACKT]->size = sizeof(prec->ackt);
     prt->papFldDes[boRecordDISS]->size = sizeof(prec->diss);
@@ -249,12 +258,15 @@ static int boRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[boRecordSDIS]->offset = (unsigned short)((char *)&prec->sdis - (char *)prec);
     prt->papFldDes[boRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[boRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
+    prt->papFldDes[boRecordBKLNK]->offset = (unsigned short)((char *)&prec->bklnk - (char *)prec);
     prt->papFldDes[boRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[boRecordPROC]->offset = (unsigned short)((char *)&prec->proc - (char *)prec);
     prt->papFldDes[boRecordSTAT]->offset = (unsigned short)((char *)&prec->stat - (char *)prec);
     prt->papFldDes[boRecordSEVR]->offset = (unsigned short)((char *)&prec->sevr - (char *)prec);
+    prt->papFldDes[boRecordAMSG]->offset = (unsigned short)((char *)&prec->amsg - (char *)prec);
     prt->papFldDes[boRecordNSTA]->offset = (unsigned short)((char *)&prec->nsta - (char *)prec);
     prt->papFldDes[boRecordNSEV]->offset = (unsigned short)((char *)&prec->nsev - (char *)prec);
+    prt->papFldDes[boRecordNAMSG]->offset = (unsigned short)((char *)&prec->namsg - (char *)prec);
     prt->papFldDes[boRecordACKS]->offset = (unsigned short)((char *)&prec->acks - (char *)prec);
     prt->papFldDes[boRecordACKT]->offset = (unsigned short)((char *)&prec->ackt - (char *)prec);
     prt->papFldDes[boRecordDISS]->offset = (unsigned short)((char *)&prec->diss - (char *)prec);

@@ -3,31 +3,13 @@
 #ifndef INC_calcoutRecord_H
 #define INC_calcoutRecord_H
 
- #include "epicsTypes.h"
- #include "link.h"
-#include "epicsMutex.h"
+#include "epicsTypes.h"
+#include "link.h"
+ #include "epicsMutex.h"
 #include "ellLib.h"
 #include "epicsTime.h"
-/* Declare Device Support Entry Table */
-struct calcoutRecord;
-typedef struct calcoutdset {
-    dset common;
-    long (*write)(struct calcoutRecord *prec);
-} calcoutdset;
-#define HAS_calcoutdset
-
 #include "dbScan.h"
 #include "postfix.h"
-
-#ifndef calcoutINAV_NUM_CHOICES
-typedef enum {
-    calcoutINAV_EXT_NC              /* Ext PV NC */,
-    calcoutINAV_EXT                 /* Ext PV OK */,
-    calcoutINAV_LOC                 /* Local PV */,
-    calcoutINAV_CON                 /* Constant */
-} calcoutINAV;
-#define calcoutINAV_NUM_CHOICES 4
-#endif
 
 #ifndef calcoutDOPT_NUM_CHOICES
 typedef enum {
@@ -49,6 +31,16 @@ typedef enum {
 #define calcoutOOPT_NUM_CHOICES 6
 #endif
 
+#ifndef calcoutINAV_NUM_CHOICES
+typedef enum {
+    calcoutINAV_EXT_NC              /* Ext PV NC */,
+    calcoutINAV_EXT                 /* Ext PV OK */,
+    calcoutINAV_LOC                 /* Local PV */,
+    calcoutINAV_CON                 /* Constant */
+} calcoutINAV;
+#define calcoutINAV_NUM_CHOICES 4
+#endif
+
 typedef struct calcoutRecord {
     char                name[61];   /* Record Name */
     char                desc[41];   /* Descriptor */
@@ -65,12 +57,15 @@ typedef struct calcoutRecord {
     DBLINK              sdis;       /* Scanning Disable */
     epicsMutexId        mlok;       /* Monitor lock */
     ELLLIST             mlis;       /* Monitor List */
+    ELLLIST             bklnk;      /* Backwards link tracking */
     epicsUInt8          disp;       /* Disable putField */
     epicsUInt8          proc;       /* Force Processing */
     epicsEnum16         stat;       /* Alarm Status */
     epicsEnum16         sevr;       /* Alarm Severity */
+    char                amsg[40];   /* Alarm Message */
     epicsEnum16         nsta;       /* New Alarm Status */
     epicsEnum16         nsev;       /* New Alarm Severity */
+    char                namsg[40];  /* New Alarm Message */
     epicsEnum16         acks;       /* Alarm Ack Severity */
     epicsEnum16         ackt;       /* Alarm Ack Transient */
     epicsEnum16         diss;       /* Disable Alarm Sevrty */
@@ -179,8 +174,8 @@ typedef struct calcoutRecord {
     epicsFloat64        lalm;       /* Last Value Alarmed */
     epicsFloat64        alst;       /* Last Value Archived */
     epicsFloat64        mlst;       /* Last Val Monitored */
-    char	rpcl[INFIX_TO_POSTFIX_SIZE(80)]; /* Reverse Polish Calc */
-    char	orpc[INFIX_TO_POSTFIX_SIZE(80)]; /* Reverse Polish OCalc */
+    char     rpcl[INFIX_TO_POSTFIX_SIZE(80)]; /* Reverse Polish Calc */
+    char     orpc[INFIX_TO_POSTFIX_SIZE(80)]; /* Reverse Polish OCalc */
 } calcoutRecord;
 
 typedef enum {
@@ -199,122 +194,125 @@ typedef enum {
 	calcoutRecordSDIS = 12,
 	calcoutRecordMLOK = 13,
 	calcoutRecordMLIS = 14,
-	calcoutRecordDISP = 15,
-	calcoutRecordPROC = 16,
-	calcoutRecordSTAT = 17,
-	calcoutRecordSEVR = 18,
-	calcoutRecordNSTA = 19,
-	calcoutRecordNSEV = 20,
-	calcoutRecordACKS = 21,
-	calcoutRecordACKT = 22,
-	calcoutRecordDISS = 23,
-	calcoutRecordLCNT = 24,
-	calcoutRecordPACT = 25,
-	calcoutRecordPUTF = 26,
-	calcoutRecordRPRO = 27,
-	calcoutRecordASP = 28,
-	calcoutRecordPPN = 29,
-	calcoutRecordPPNR = 30,
-	calcoutRecordSPVT = 31,
-	calcoutRecordRSET = 32,
-	calcoutRecordDSET = 33,
-	calcoutRecordDPVT = 34,
-	calcoutRecordRDES = 35,
-	calcoutRecordLSET = 36,
-	calcoutRecordPRIO = 37,
-	calcoutRecordTPRO = 38,
-	calcoutRecordBKPT = 39,
-	calcoutRecordUDF = 40,
-	calcoutRecordUDFS = 41,
-	calcoutRecordTIME = 42,
-	calcoutRecordFLNK = 43,
-	calcoutRecordRPVT = 44,
-	calcoutRecordVAL = 45,
-	calcoutRecordPVAL = 46,
-	calcoutRecordCALC = 47,
-	calcoutRecordCLCV = 48,
-	calcoutRecordINPA = 49,
-	calcoutRecordINPB = 50,
-	calcoutRecordINPC = 51,
-	calcoutRecordINPD = 52,
-	calcoutRecordINPE = 53,
-	calcoutRecordINPF = 54,
-	calcoutRecordINPG = 55,
-	calcoutRecordINPH = 56,
-	calcoutRecordINPI = 57,
-	calcoutRecordINPJ = 58,
-	calcoutRecordINPK = 59,
-	calcoutRecordINPL = 60,
-	calcoutRecordOUT = 61,
-	calcoutRecordINAV = 62,
-	calcoutRecordINBV = 63,
-	calcoutRecordINCV = 64,
-	calcoutRecordINDV = 65,
-	calcoutRecordINEV = 66,
-	calcoutRecordINFV = 67,
-	calcoutRecordINGV = 68,
-	calcoutRecordINHV = 69,
-	calcoutRecordINIV = 70,
-	calcoutRecordINJV = 71,
-	calcoutRecordINKV = 72,
-	calcoutRecordINLV = 73,
-	calcoutRecordOUTV = 74,
-	calcoutRecordOOPT = 75,
-	calcoutRecordODLY = 76,
-	calcoutRecordDLYA = 77,
-	calcoutRecordDOPT = 78,
-	calcoutRecordOCAL = 79,
-	calcoutRecordOCLV = 80,
-	calcoutRecordOEVT = 81,
-	calcoutRecordEPVT = 82,
-	calcoutRecordIVOA = 83,
-	calcoutRecordIVOV = 84,
-	calcoutRecordEGU = 85,
-	calcoutRecordPREC = 86,
-	calcoutRecordHOPR = 87,
-	calcoutRecordLOPR = 88,
-	calcoutRecordHIHI = 89,
-	calcoutRecordLOLO = 90,
-	calcoutRecordHIGH = 91,
-	calcoutRecordLOW = 92,
-	calcoutRecordHHSV = 93,
-	calcoutRecordLLSV = 94,
-	calcoutRecordHSV = 95,
-	calcoutRecordLSV = 96,
-	calcoutRecordHYST = 97,
-	calcoutRecordADEL = 98,
-	calcoutRecordMDEL = 99,
-	calcoutRecordA = 100,
-	calcoutRecordB = 101,
-	calcoutRecordC = 102,
-	calcoutRecordD = 103,
-	calcoutRecordE = 104,
-	calcoutRecordF = 105,
-	calcoutRecordG = 106,
-	calcoutRecordH = 107,
-	calcoutRecordI = 108,
-	calcoutRecordJ = 109,
-	calcoutRecordK = 110,
-	calcoutRecordL = 111,
-	calcoutRecordOVAL = 112,
-	calcoutRecordLA = 113,
-	calcoutRecordLB = 114,
-	calcoutRecordLC = 115,
-	calcoutRecordLD = 116,
-	calcoutRecordLE = 117,
-	calcoutRecordLF = 118,
-	calcoutRecordLG = 119,
-	calcoutRecordLH = 120,
-	calcoutRecordLI = 121,
-	calcoutRecordLJ = 122,
-	calcoutRecordLK = 123,
-	calcoutRecordLL = 124,
-	calcoutRecordPOVL = 125,
-	calcoutRecordLALM = 126,
-	calcoutRecordALST = 127,
-	calcoutRecordMLST = 128,
-	calcoutRecordRPCL = 129,
-	calcoutRecordORPC = 130
+	calcoutRecordBKLNK = 15,
+	calcoutRecordDISP = 16,
+	calcoutRecordPROC = 17,
+	calcoutRecordSTAT = 18,
+	calcoutRecordSEVR = 19,
+	calcoutRecordAMSG = 20,
+	calcoutRecordNSTA = 21,
+	calcoutRecordNSEV = 22,
+	calcoutRecordNAMSG = 23,
+	calcoutRecordACKS = 24,
+	calcoutRecordACKT = 25,
+	calcoutRecordDISS = 26,
+	calcoutRecordLCNT = 27,
+	calcoutRecordPACT = 28,
+	calcoutRecordPUTF = 29,
+	calcoutRecordRPRO = 30,
+	calcoutRecordASP = 31,
+	calcoutRecordPPN = 32,
+	calcoutRecordPPNR = 33,
+	calcoutRecordSPVT = 34,
+	calcoutRecordRSET = 35,
+	calcoutRecordDSET = 36,
+	calcoutRecordDPVT = 37,
+	calcoutRecordRDES = 38,
+	calcoutRecordLSET = 39,
+	calcoutRecordPRIO = 40,
+	calcoutRecordTPRO = 41,
+	calcoutRecordBKPT = 42,
+	calcoutRecordUDF = 43,
+	calcoutRecordUDFS = 44,
+	calcoutRecordTIME = 45,
+	calcoutRecordFLNK = 46,
+	calcoutRecordRPVT = 47,
+	calcoutRecordVAL = 48,
+	calcoutRecordPVAL = 49,
+	calcoutRecordCALC = 50,
+	calcoutRecordCLCV = 51,
+	calcoutRecordINPA = 52,
+	calcoutRecordINPB = 53,
+	calcoutRecordINPC = 54,
+	calcoutRecordINPD = 55,
+	calcoutRecordINPE = 56,
+	calcoutRecordINPF = 57,
+	calcoutRecordINPG = 58,
+	calcoutRecordINPH = 59,
+	calcoutRecordINPI = 60,
+	calcoutRecordINPJ = 61,
+	calcoutRecordINPK = 62,
+	calcoutRecordINPL = 63,
+	calcoutRecordOUT = 64,
+	calcoutRecordINAV = 65,
+	calcoutRecordINBV = 66,
+	calcoutRecordINCV = 67,
+	calcoutRecordINDV = 68,
+	calcoutRecordINEV = 69,
+	calcoutRecordINFV = 70,
+	calcoutRecordINGV = 71,
+	calcoutRecordINHV = 72,
+	calcoutRecordINIV = 73,
+	calcoutRecordINJV = 74,
+	calcoutRecordINKV = 75,
+	calcoutRecordINLV = 76,
+	calcoutRecordOUTV = 77,
+	calcoutRecordOOPT = 78,
+	calcoutRecordODLY = 79,
+	calcoutRecordDLYA = 80,
+	calcoutRecordDOPT = 81,
+	calcoutRecordOCAL = 82,
+	calcoutRecordOCLV = 83,
+	calcoutRecordOEVT = 84,
+	calcoutRecordEPVT = 85,
+	calcoutRecordIVOA = 86,
+	calcoutRecordIVOV = 87,
+	calcoutRecordEGU = 88,
+	calcoutRecordPREC = 89,
+	calcoutRecordHOPR = 90,
+	calcoutRecordLOPR = 91,
+	calcoutRecordHIHI = 92,
+	calcoutRecordLOLO = 93,
+	calcoutRecordHIGH = 94,
+	calcoutRecordLOW = 95,
+	calcoutRecordHHSV = 96,
+	calcoutRecordLLSV = 97,
+	calcoutRecordHSV = 98,
+	calcoutRecordLSV = 99,
+	calcoutRecordHYST = 100,
+	calcoutRecordADEL = 101,
+	calcoutRecordMDEL = 102,
+	calcoutRecordA = 103,
+	calcoutRecordB = 104,
+	calcoutRecordC = 105,
+	calcoutRecordD = 106,
+	calcoutRecordE = 107,
+	calcoutRecordF = 108,
+	calcoutRecordG = 109,
+	calcoutRecordH = 110,
+	calcoutRecordI = 111,
+	calcoutRecordJ = 112,
+	calcoutRecordK = 113,
+	calcoutRecordL = 114,
+	calcoutRecordOVAL = 115,
+	calcoutRecordLA = 116,
+	calcoutRecordLB = 117,
+	calcoutRecordLC = 118,
+	calcoutRecordLD = 119,
+	calcoutRecordLE = 120,
+	calcoutRecordLF = 121,
+	calcoutRecordLG = 122,
+	calcoutRecordLH = 123,
+	calcoutRecordLI = 124,
+	calcoutRecordLJ = 125,
+	calcoutRecordLK = 126,
+	calcoutRecordLL = 127,
+	calcoutRecordPOVL = 128,
+	calcoutRecordLALM = 129,
+	calcoutRecordALST = 130,
+	calcoutRecordMLST = 131,
+	calcoutRecordRPCL = 132,
+	calcoutRecordORPC = 133
 } calcoutFieldIndex;
 
 #ifdef GEN_SIZE_OFFSET
@@ -328,7 +326,7 @@ static int calcoutRecordSizeOffset(dbRecordType *prt)
 {
     calcoutRecord *prec = 0;
 
-    assert(prt->no_fields == 131);
+    assert(prt->no_fields == 134);
     prt->papFldDes[calcoutRecordNAME]->size = sizeof(prec->name);
     prt->papFldDes[calcoutRecordDESC]->size = sizeof(prec->desc);
     prt->papFldDes[calcoutRecordASG]->size = sizeof(prec->asg);
@@ -344,12 +342,15 @@ static int calcoutRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[calcoutRecordSDIS]->size = sizeof(prec->sdis);
     prt->papFldDes[calcoutRecordMLOK]->size = sizeof(prec->mlok);
     prt->papFldDes[calcoutRecordMLIS]->size = sizeof(prec->mlis);
+    prt->papFldDes[calcoutRecordBKLNK]->size = sizeof(prec->bklnk);
     prt->papFldDes[calcoutRecordDISP]->size = sizeof(prec->disp);
     prt->papFldDes[calcoutRecordPROC]->size = sizeof(prec->proc);
     prt->papFldDes[calcoutRecordSTAT]->size = sizeof(prec->stat);
     prt->papFldDes[calcoutRecordSEVR]->size = sizeof(prec->sevr);
+    prt->papFldDes[calcoutRecordAMSG]->size = sizeof(prec->amsg);
     prt->papFldDes[calcoutRecordNSTA]->size = sizeof(prec->nsta);
     prt->papFldDes[calcoutRecordNSEV]->size = sizeof(prec->nsev);
+    prt->papFldDes[calcoutRecordNAMSG]->size = sizeof(prec->namsg);
     prt->papFldDes[calcoutRecordACKS]->size = sizeof(prec->acks);
     prt->papFldDes[calcoutRecordACKT]->size = sizeof(prec->ackt);
     prt->papFldDes[calcoutRecordDISS]->size = sizeof(prec->diss);
@@ -475,12 +476,15 @@ static int calcoutRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[calcoutRecordSDIS]->offset = (unsigned short)((char *)&prec->sdis - (char *)prec);
     prt->papFldDes[calcoutRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[calcoutRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
+    prt->papFldDes[calcoutRecordBKLNK]->offset = (unsigned short)((char *)&prec->bklnk - (char *)prec);
     prt->papFldDes[calcoutRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[calcoutRecordPROC]->offset = (unsigned short)((char *)&prec->proc - (char *)prec);
     prt->papFldDes[calcoutRecordSTAT]->offset = (unsigned short)((char *)&prec->stat - (char *)prec);
     prt->papFldDes[calcoutRecordSEVR]->offset = (unsigned short)((char *)&prec->sevr - (char *)prec);
+    prt->papFldDes[calcoutRecordAMSG]->offset = (unsigned short)((char *)&prec->amsg - (char *)prec);
     prt->papFldDes[calcoutRecordNSTA]->offset = (unsigned short)((char *)&prec->nsta - (char *)prec);
     prt->papFldDes[calcoutRecordNSEV]->offset = (unsigned short)((char *)&prec->nsev - (char *)prec);
+    prt->papFldDes[calcoutRecordNAMSG]->offset = (unsigned short)((char *)&prec->namsg - (char *)prec);
     prt->papFldDes[calcoutRecordACKS]->offset = (unsigned short)((char *)&prec->acks - (char *)prec);
     prt->papFldDes[calcoutRecordACKT]->offset = (unsigned short)((char *)&prec->ackt - (char *)prec);
     prt->papFldDes[calcoutRecordDISS]->offset = (unsigned short)((char *)&prec->diss - (char *)prec);

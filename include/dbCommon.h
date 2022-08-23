@@ -1,14 +1,10 @@
-/** @file dbCommon.h
- * @brief Declarations for the @ref dbCommon "dbCommon" record type.
- *
- * This header was generated from dbCommonRecord.dbd
- */
+/* dbCommon.h generated from dbCommonRecord.dbd */
 
 #ifndef INC_dbCommon_H
 #define INC_dbCommon_H
 
- #include "epicsTypes.h"
- #include "link.h"
+#include "epicsTypes.h"
+#include "link.h"
 #include "epicsMutex.h"
 #include "ellLib.h"
 #include "epicsTime.h"

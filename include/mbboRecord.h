@@ -3,9 +3,9 @@
 #ifndef INC_mbboRecord_H
 #define INC_mbboRecord_H
 
- #include "epicsTypes.h"
- #include "link.h"
-#include "epicsMutex.h"
+#include "epicsTypes.h"
+#include "link.h"
+ #include "epicsMutex.h"
 #include "ellLib.h"
 #include "epicsTime.h"
 
@@ -25,12 +25,15 @@ typedef struct mbboRecord {
     DBLINK              sdis;       /* Scanning Disable */
     epicsMutexId        mlok;       /* Monitor lock */
     ELLLIST             mlis;       /* Monitor List */
+    ELLLIST             bklnk;      /* Backwards link tracking */
     epicsUInt8          disp;       /* Disable putField */
     epicsUInt8          proc;       /* Force Processing */
     epicsEnum16         stat;       /* Alarm Status */
     epicsEnum16         sevr;       /* Alarm Severity */
+    char                amsg[40];   /* Alarm Message */
     epicsEnum16         nsta;       /* New Alarm Status */
     epicsEnum16         nsev;       /* New Alarm Severity */
+    char                namsg[40];  /* New Alarm Message */
     epicsEnum16         acks;       /* Alarm Ack Severity */
     epicsEnum16         ackt;       /* Alarm Ack Transient */
     epicsEnum16         diss;       /* Disable Alarm Sevrty */
@@ -142,105 +145,108 @@ typedef enum {
 	mbboRecordSDIS = 12,
 	mbboRecordMLOK = 13,
 	mbboRecordMLIS = 14,
-	mbboRecordDISP = 15,
-	mbboRecordPROC = 16,
-	mbboRecordSTAT = 17,
-	mbboRecordSEVR = 18,
-	mbboRecordNSTA = 19,
-	mbboRecordNSEV = 20,
-	mbboRecordACKS = 21,
-	mbboRecordACKT = 22,
-	mbboRecordDISS = 23,
-	mbboRecordLCNT = 24,
-	mbboRecordPACT = 25,
-	mbboRecordPUTF = 26,
-	mbboRecordRPRO = 27,
-	mbboRecordASP = 28,
-	mbboRecordPPN = 29,
-	mbboRecordPPNR = 30,
-	mbboRecordSPVT = 31,
-	mbboRecordRSET = 32,
-	mbboRecordDSET = 33,
-	mbboRecordDPVT = 34,
-	mbboRecordRDES = 35,
-	mbboRecordLSET = 36,
-	mbboRecordPRIO = 37,
-	mbboRecordTPRO = 38,
-	mbboRecordBKPT = 39,
-	mbboRecordUDF = 40,
-	mbboRecordUDFS = 41,
-	mbboRecordTIME = 42,
-	mbboRecordFLNK = 43,
-	mbboRecordVAL = 44,
-	mbboRecordDOL = 45,
-	mbboRecordOMSL = 46,
-	mbboRecordNOBT = 47,
-	mbboRecordOUT = 48,
-	mbboRecordZRVL = 49,
-	mbboRecordONVL = 50,
-	mbboRecordTWVL = 51,
-	mbboRecordTHVL = 52,
-	mbboRecordFRVL = 53,
-	mbboRecordFVVL = 54,
-	mbboRecordSXVL = 55,
-	mbboRecordSVVL = 56,
-	mbboRecordEIVL = 57,
-	mbboRecordNIVL = 58,
-	mbboRecordTEVL = 59,
-	mbboRecordELVL = 60,
-	mbboRecordTVVL = 61,
-	mbboRecordTTVL = 62,
-	mbboRecordFTVL = 63,
-	mbboRecordFFVL = 64,
-	mbboRecordZRST = 65,
-	mbboRecordONST = 66,
-	mbboRecordTWST = 67,
-	mbboRecordTHST = 68,
-	mbboRecordFRST = 69,
-	mbboRecordFVST = 70,
-	mbboRecordSXST = 71,
-	mbboRecordSVST = 72,
-	mbboRecordEIST = 73,
-	mbboRecordNIST = 74,
-	mbboRecordTEST = 75,
-	mbboRecordELST = 76,
-	mbboRecordTVST = 77,
-	mbboRecordTTST = 78,
-	mbboRecordFTST = 79,
-	mbboRecordFFST = 80,
-	mbboRecordZRSV = 81,
-	mbboRecordONSV = 82,
-	mbboRecordTWSV = 83,
-	mbboRecordTHSV = 84,
-	mbboRecordFRSV = 85,
-	mbboRecordFVSV = 86,
-	mbboRecordSXSV = 87,
-	mbboRecordSVSV = 88,
-	mbboRecordEISV = 89,
-	mbboRecordNISV = 90,
-	mbboRecordTESV = 91,
-	mbboRecordELSV = 92,
-	mbboRecordTVSV = 93,
-	mbboRecordTTSV = 94,
-	mbboRecordFTSV = 95,
-	mbboRecordFFSV = 96,
-	mbboRecordUNSV = 97,
-	mbboRecordCOSV = 98,
-	mbboRecordRVAL = 99,
-	mbboRecordORAW = 100,
-	mbboRecordRBV = 101,
-	mbboRecordORBV = 102,
-	mbboRecordMASK = 103,
-	mbboRecordMLST = 104,
-	mbboRecordLALM = 105,
-	mbboRecordSDEF = 106,
-	mbboRecordSHFT = 107,
-	mbboRecordSIOL = 108,
-	mbboRecordSIML = 109,
-	mbboRecordSIMM = 110,
-	mbboRecordSIMS = 111,
-	mbboRecordIVOA = 112,
-	mbboRecordIVOV = 113
+	mbboRecordBKLNK = 15,
+	mbboRecordDISP = 16,
+	mbboRecordPROC = 17,
+	mbboRecordSTAT = 18,
+	mbboRecordSEVR = 19,
+	mbboRecordAMSG = 20,
+	mbboRecordNSTA = 21,
+	mbboRecordNSEV = 22,
+	mbboRecordNAMSG = 23,
+	mbboRecordACKS = 24,
+	mbboRecordACKT = 25,
+	mbboRecordDISS = 26,
+	mbboRecordLCNT = 27,
+	mbboRecordPACT = 28,
+	mbboRecordPUTF = 29,
+	mbboRecordRPRO = 30,
+	mbboRecordASP = 31,
+	mbboRecordPPN = 32,
+	mbboRecordPPNR = 33,
+	mbboRecordSPVT = 34,
+	mbboRecordRSET = 35,
+	mbboRecordDSET = 36,
+	mbboRecordDPVT = 37,
+	mbboRecordRDES = 38,
+	mbboRecordLSET = 39,
+	mbboRecordPRIO = 40,
+	mbboRecordTPRO = 41,
+	mbboRecordBKPT = 42,
+	mbboRecordUDF = 43,
+	mbboRecordUDFS = 44,
+	mbboRecordTIME = 45,
+	mbboRecordFLNK = 46,
+	mbboRecordVAL = 47,
+	mbboRecordDOL = 48,
+	mbboRecordOMSL = 49,
+	mbboRecordNOBT = 50,
+	mbboRecordOUT = 51,
+	mbboRecordZRVL = 52,
+	mbboRecordONVL = 53,
+	mbboRecordTWVL = 54,
+	mbboRecordTHVL = 55,
+	mbboRecordFRVL = 56,
+	mbboRecordFVVL = 57,
+	mbboRecordSXVL = 58,
+	mbboRecordSVVL = 59,
+	mbboRecordEIVL = 60,
+	mbboRecordNIVL = 61,
+	mbboRecordTEVL = 62,
+	mbboRecordELVL = 63,
+	mbboRecordTVVL = 64,
+	mbboRecordTTVL = 65,
+	mbboRecordFTVL = 66,
+	mbboRecordFFVL = 67,
+	mbboRecordZRST = 68,
+	mbboRecordONST = 69,
+	mbboRecordTWST = 70,
+	mbboRecordTHST = 71,
+	mbboRecordFRST = 72,
+	mbboRecordFVST = 73,
+	mbboRecordSXST = 74,
+	mbboRecordSVST = 75,
+	mbboRecordEIST = 76,
+	mbboRecordNIST = 77,
+	mbboRecordTEST = 78,
+	mbboRecordELST = 79,
+	mbboRecordTVST = 80,
+	mbboRecordTTST = 81,
+	mbboRecordFTST = 82,
+	mbboRecordFFST = 83,
+	mbboRecordZRSV = 84,
+	mbboRecordONSV = 85,
+	mbboRecordTWSV = 86,
+	mbboRecordTHSV = 87,
+	mbboRecordFRSV = 88,
+	mbboRecordFVSV = 89,
+	mbboRecordSXSV = 90,
+	mbboRecordSVSV = 91,
+	mbboRecordEISV = 92,
+	mbboRecordNISV = 93,
+	mbboRecordTESV = 94,
+	mbboRecordELSV = 95,
+	mbboRecordTVSV = 96,
+	mbboRecordTTSV = 97,
+	mbboRecordFTSV = 98,
+	mbboRecordFFSV = 99,
+	mbboRecordUNSV = 100,
+	mbboRecordCOSV = 101,
+	mbboRecordRVAL = 102,
+	mbboRecordORAW = 103,
+	mbboRecordRBV = 104,
+	mbboRecordORBV = 105,
+	mbboRecordMASK = 106,
+	mbboRecordMLST = 107,
+	mbboRecordLALM = 108,
+	mbboRecordSDEF = 109,
+	mbboRecordSHFT = 110,
+	mbboRecordSIOL = 111,
+	mbboRecordSIML = 112,
+	mbboRecordSIMM = 113,
+	mbboRecordSIMS = 114,
+	mbboRecordIVOA = 115,
+	mbboRecordIVOV = 116
 } mbboFieldIndex;
 
 #ifdef GEN_SIZE_OFFSET
@@ -254,7 +260,7 @@ static int mbboRecordSizeOffset(dbRecordType *prt)
 {
     mbboRecord *prec = 0;
 
-    assert(prt->no_fields == 114);
+    assert(prt->no_fields == 117);
     prt->papFldDes[mbboRecordNAME]->size = sizeof(prec->name);
     prt->papFldDes[mbboRecordDESC]->size = sizeof(prec->desc);
     prt->papFldDes[mbboRecordASG]->size = sizeof(prec->asg);
@@ -270,12 +276,15 @@ static int mbboRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[mbboRecordSDIS]->size = sizeof(prec->sdis);
     prt->papFldDes[mbboRecordMLOK]->size = sizeof(prec->mlok);
     prt->papFldDes[mbboRecordMLIS]->size = sizeof(prec->mlis);
+    prt->papFldDes[mbboRecordBKLNK]->size = sizeof(prec->bklnk);
     prt->papFldDes[mbboRecordDISP]->size = sizeof(prec->disp);
     prt->papFldDes[mbboRecordPROC]->size = sizeof(prec->proc);
     prt->papFldDes[mbboRecordSTAT]->size = sizeof(prec->stat);
     prt->papFldDes[mbboRecordSEVR]->size = sizeof(prec->sevr);
+    prt->papFldDes[mbboRecordAMSG]->size = sizeof(prec->amsg);
     prt->papFldDes[mbboRecordNSTA]->size = sizeof(prec->nsta);
     prt->papFldDes[mbboRecordNSEV]->size = sizeof(prec->nsev);
+    prt->papFldDes[mbboRecordNAMSG]->size = sizeof(prec->namsg);
     prt->papFldDes[mbboRecordACKS]->size = sizeof(prec->acks);
     prt->papFldDes[mbboRecordACKT]->size = sizeof(prec->ackt);
     prt->papFldDes[mbboRecordDISS]->size = sizeof(prec->diss);
@@ -384,12 +393,15 @@ static int mbboRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[mbboRecordSDIS]->offset = (unsigned short)((char *)&prec->sdis - (char *)prec);
     prt->papFldDes[mbboRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[mbboRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
+    prt->papFldDes[mbboRecordBKLNK]->offset = (unsigned short)((char *)&prec->bklnk - (char *)prec);
     prt->papFldDes[mbboRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[mbboRecordPROC]->offset = (unsigned short)((char *)&prec->proc - (char *)prec);
     prt->papFldDes[mbboRecordSTAT]->offset = (unsigned short)((char *)&prec->stat - (char *)prec);
     prt->papFldDes[mbboRecordSEVR]->offset = (unsigned short)((char *)&prec->sevr - (char *)prec);
+    prt->papFldDes[mbboRecordAMSG]->offset = (unsigned short)((char *)&prec->amsg - (char *)prec);
     prt->papFldDes[mbboRecordNSTA]->offset = (unsigned short)((char *)&prec->nsta - (char *)prec);
     prt->papFldDes[mbboRecordNSEV]->offset = (unsigned short)((char *)&prec->nsev - (char *)prec);
+    prt->papFldDes[mbboRecordNAMSG]->offset = (unsigned short)((char *)&prec->namsg - (char *)prec);
     prt->papFldDes[mbboRecordACKS]->offset = (unsigned short)((char *)&prec->acks - (char *)prec);
     prt->papFldDes[mbboRecordACKT]->offset = (unsigned short)((char *)&prec->ackt - (char *)prec);
     prt->papFldDes[mbboRecordDISS]->offset = (unsigned short)((char *)&prec->diss - (char *)prec);

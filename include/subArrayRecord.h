@@ -3,9 +3,9 @@
 #ifndef INC_subArrayRecord_H
 #define INC_subArrayRecord_H
 
- #include "epicsTypes.h"
- #include "link.h"
-#include "epicsMutex.h"
+#include "epicsTypes.h"
+#include "link.h"
+ #include "epicsMutex.h"
 #include "ellLib.h"
 #include "epicsTime.h"
 
@@ -25,12 +25,15 @@ typedef struct subArrayRecord {
     DBLINK              sdis;       /* Scanning Disable */
     epicsMutexId        mlok;       /* Monitor lock */
     ELLLIST             mlis;       /* Monitor List */
+    ELLLIST             bklnk;      /* Backwards link tracking */
     epicsUInt8          disp;       /* Disable putField */
     epicsUInt8          proc;       /* Force Processing */
     epicsEnum16         stat;       /* Alarm Status */
     epicsEnum16         sevr;       /* Alarm Severity */
+    char                amsg[40];   /* Alarm Message */
     epicsEnum16         nsta;       /* New Alarm Status */
     epicsEnum16         nsev;       /* New Alarm Severity */
+    char                namsg[40];  /* New Alarm Message */
     epicsEnum16         acks;       /* Alarm Ack Severity */
     epicsEnum16         ackt;       /* Alarm Ack Transient */
     epicsEnum16         diss;       /* Disable Alarm Sevrty */
@@ -85,48 +88,51 @@ typedef enum {
 	subArrayRecordSDIS = 12,
 	subArrayRecordMLOK = 13,
 	subArrayRecordMLIS = 14,
-	subArrayRecordDISP = 15,
-	subArrayRecordPROC = 16,
-	subArrayRecordSTAT = 17,
-	subArrayRecordSEVR = 18,
-	subArrayRecordNSTA = 19,
-	subArrayRecordNSEV = 20,
-	subArrayRecordACKS = 21,
-	subArrayRecordACKT = 22,
-	subArrayRecordDISS = 23,
-	subArrayRecordLCNT = 24,
-	subArrayRecordPACT = 25,
-	subArrayRecordPUTF = 26,
-	subArrayRecordRPRO = 27,
-	subArrayRecordASP = 28,
-	subArrayRecordPPN = 29,
-	subArrayRecordPPNR = 30,
-	subArrayRecordSPVT = 31,
-	subArrayRecordRSET = 32,
-	subArrayRecordDSET = 33,
-	subArrayRecordDPVT = 34,
-	subArrayRecordRDES = 35,
-	subArrayRecordLSET = 36,
-	subArrayRecordPRIO = 37,
-	subArrayRecordTPRO = 38,
-	subArrayRecordBKPT = 39,
-	subArrayRecordUDF = 40,
-	subArrayRecordUDFS = 41,
-	subArrayRecordTIME = 42,
-	subArrayRecordFLNK = 43,
-	subArrayRecordVAL = 44,
-	subArrayRecordPREC = 45,
-	subArrayRecordFTVL = 46,
-	subArrayRecordINP = 47,
-	subArrayRecordEGU = 48,
-	subArrayRecordHOPR = 49,
-	subArrayRecordLOPR = 50,
-	subArrayRecordMALM = 51,
-	subArrayRecordNELM = 52,
-	subArrayRecordINDX = 53,
-	subArrayRecordBUSY = 54,
-	subArrayRecordNORD = 55,
-	subArrayRecordBPTR = 56
+	subArrayRecordBKLNK = 15,
+	subArrayRecordDISP = 16,
+	subArrayRecordPROC = 17,
+	subArrayRecordSTAT = 18,
+	subArrayRecordSEVR = 19,
+	subArrayRecordAMSG = 20,
+	subArrayRecordNSTA = 21,
+	subArrayRecordNSEV = 22,
+	subArrayRecordNAMSG = 23,
+	subArrayRecordACKS = 24,
+	subArrayRecordACKT = 25,
+	subArrayRecordDISS = 26,
+	subArrayRecordLCNT = 27,
+	subArrayRecordPACT = 28,
+	subArrayRecordPUTF = 29,
+	subArrayRecordRPRO = 30,
+	subArrayRecordASP = 31,
+	subArrayRecordPPN = 32,
+	subArrayRecordPPNR = 33,
+	subArrayRecordSPVT = 34,
+	subArrayRecordRSET = 35,
+	subArrayRecordDSET = 36,
+	subArrayRecordDPVT = 37,
+	subArrayRecordRDES = 38,
+	subArrayRecordLSET = 39,
+	subArrayRecordPRIO = 40,
+	subArrayRecordTPRO = 41,
+	subArrayRecordBKPT = 42,
+	subArrayRecordUDF = 43,
+	subArrayRecordUDFS = 44,
+	subArrayRecordTIME = 45,
+	subArrayRecordFLNK = 46,
+	subArrayRecordVAL = 47,
+	subArrayRecordPREC = 48,
+	subArrayRecordFTVL = 49,
+	subArrayRecordINP = 50,
+	subArrayRecordEGU = 51,
+	subArrayRecordHOPR = 52,
+	subArrayRecordLOPR = 53,
+	subArrayRecordMALM = 54,
+	subArrayRecordNELM = 55,
+	subArrayRecordINDX = 56,
+	subArrayRecordBUSY = 57,
+	subArrayRecordNORD = 58,
+	subArrayRecordBPTR = 59
 } subArrayFieldIndex;
 
 #ifdef GEN_SIZE_OFFSET
@@ -140,7 +146,7 @@ static int subArrayRecordSizeOffset(dbRecordType *prt)
 {
     subArrayRecord *prec = 0;
 
-    assert(prt->no_fields == 57);
+    assert(prt->no_fields == 60);
     prt->papFldDes[subArrayRecordNAME]->size = sizeof(prec->name);
     prt->papFldDes[subArrayRecordDESC]->size = sizeof(prec->desc);
     prt->papFldDes[subArrayRecordASG]->size = sizeof(prec->asg);
@@ -156,12 +162,15 @@ static int subArrayRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[subArrayRecordSDIS]->size = sizeof(prec->sdis);
     prt->papFldDes[subArrayRecordMLOK]->size = sizeof(prec->mlok);
     prt->papFldDes[subArrayRecordMLIS]->size = sizeof(prec->mlis);
+    prt->papFldDes[subArrayRecordBKLNK]->size = sizeof(prec->bklnk);
     prt->papFldDes[subArrayRecordDISP]->size = sizeof(prec->disp);
     prt->papFldDes[subArrayRecordPROC]->size = sizeof(prec->proc);
     prt->papFldDes[subArrayRecordSTAT]->size = sizeof(prec->stat);
     prt->papFldDes[subArrayRecordSEVR]->size = sizeof(prec->sevr);
+    prt->papFldDes[subArrayRecordAMSG]->size = sizeof(prec->amsg);
     prt->papFldDes[subArrayRecordNSTA]->size = sizeof(prec->nsta);
     prt->papFldDes[subArrayRecordNSEV]->size = sizeof(prec->nsev);
+    prt->papFldDes[subArrayRecordNAMSG]->size = sizeof(prec->namsg);
     prt->papFldDes[subArrayRecordACKS]->size = sizeof(prec->acks);
     prt->papFldDes[subArrayRecordACKT]->size = sizeof(prec->ackt);
     prt->papFldDes[subArrayRecordDISS]->size = sizeof(prec->diss);
@@ -213,12 +222,15 @@ static int subArrayRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[subArrayRecordSDIS]->offset = (unsigned short)((char *)&prec->sdis - (char *)prec);
     prt->papFldDes[subArrayRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[subArrayRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
+    prt->papFldDes[subArrayRecordBKLNK]->offset = (unsigned short)((char *)&prec->bklnk - (char *)prec);
     prt->papFldDes[subArrayRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[subArrayRecordPROC]->offset = (unsigned short)((char *)&prec->proc - (char *)prec);
     prt->papFldDes[subArrayRecordSTAT]->offset = (unsigned short)((char *)&prec->stat - (char *)prec);
     prt->papFldDes[subArrayRecordSEVR]->offset = (unsigned short)((char *)&prec->sevr - (char *)prec);
+    prt->papFldDes[subArrayRecordAMSG]->offset = (unsigned short)((char *)&prec->amsg - (char *)prec);
     prt->papFldDes[subArrayRecordNSTA]->offset = (unsigned short)((char *)&prec->nsta - (char *)prec);
     prt->papFldDes[subArrayRecordNSEV]->offset = (unsigned short)((char *)&prec->nsev - (char *)prec);
+    prt->papFldDes[subArrayRecordNAMSG]->offset = (unsigned short)((char *)&prec->namsg - (char *)prec);
     prt->papFldDes[subArrayRecordACKS]->offset = (unsigned short)((char *)&prec->acks - (char *)prec);
     prt->papFldDes[subArrayRecordACKT]->offset = (unsigned short)((char *)&prec->ackt - (char *)prec);
     prt->papFldDes[subArrayRecordDISS]->offset = (unsigned short)((char *)&prec->diss - (char *)prec);

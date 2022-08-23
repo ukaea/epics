@@ -14,7 +14,7 @@
 #  RELEASE.$(EPICS_HOST_ARCH).$(T_A)
 #
 # This file is parsed by both GNUmake and an EPICS Perl script,
-# so it may ONLY contain definititions of paths to other support
+# so it may ONLY contain definitions of paths to other support
 # modules, variable definitions that are used in module paths,
 # and include statements that pull in other RELEASE files.
 # Variables may be used before their values have been set.
@@ -30,7 +30,7 @@ SUPPORT=C:/epics/support
 CALC=$(SUPPORT)/calc
 
 # EPICS_BASE should appear last so earlier modules can override stuff:
-EPICS_BASE = C:/epics/base
+EPICS_BASE = C:/Users/ktn98257/source/repos/epics.dotnet/base-3.15.9
 
 # Set RULES here if you want to use build rules from somewhere
 # other than EPICS_BASE:

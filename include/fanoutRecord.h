@@ -3,9 +3,9 @@
 #ifndef INC_fanoutRecord_H
 #define INC_fanoutRecord_H
 
- #include "epicsTypes.h"
- #include "link.h"
-#include "epicsMutex.h"
+#include "epicsTypes.h"
+#include "link.h"
+ #include "epicsMutex.h"
 #include "ellLib.h"
 #include "epicsTime.h"
 
@@ -34,12 +34,15 @@ typedef struct fanoutRecord {
     DBLINK              sdis;       /* Scanning Disable */
     epicsMutexId        mlok;       /* Monitor lock */
     ELLLIST             mlis;       /* Monitor List */
+    ELLLIST             bklnk;      /* Backwards link tracking */
     epicsUInt8          disp;       /* Disable putField */
     epicsUInt8          proc;       /* Force Processing */
     epicsEnum16         stat;       /* Alarm Status */
     epicsEnum16         sevr;       /* Alarm Severity */
+    char                amsg[40];   /* Alarm Message */
     epicsEnum16         nsta;       /* New Alarm Status */
     epicsEnum16         nsev;       /* New Alarm Severity */
+    char                namsg[40];  /* New Alarm Message */
     epicsEnum16         acks;       /* Alarm Ack Severity */
     epicsEnum16         ackt;       /* Alarm Ack Transient */
     epicsEnum16         diss;       /* Disable Alarm Sevrty */
@@ -103,57 +106,60 @@ typedef enum {
 	fanoutRecordSDIS = 12,
 	fanoutRecordMLOK = 13,
 	fanoutRecordMLIS = 14,
-	fanoutRecordDISP = 15,
-	fanoutRecordPROC = 16,
-	fanoutRecordSTAT = 17,
-	fanoutRecordSEVR = 18,
-	fanoutRecordNSTA = 19,
-	fanoutRecordNSEV = 20,
-	fanoutRecordACKS = 21,
-	fanoutRecordACKT = 22,
-	fanoutRecordDISS = 23,
-	fanoutRecordLCNT = 24,
-	fanoutRecordPACT = 25,
-	fanoutRecordPUTF = 26,
-	fanoutRecordRPRO = 27,
-	fanoutRecordASP = 28,
-	fanoutRecordPPN = 29,
-	fanoutRecordPPNR = 30,
-	fanoutRecordSPVT = 31,
-	fanoutRecordRSET = 32,
-	fanoutRecordDSET = 33,
-	fanoutRecordDPVT = 34,
-	fanoutRecordRDES = 35,
-	fanoutRecordLSET = 36,
-	fanoutRecordPRIO = 37,
-	fanoutRecordTPRO = 38,
-	fanoutRecordBKPT = 39,
-	fanoutRecordUDF = 40,
-	fanoutRecordUDFS = 41,
-	fanoutRecordTIME = 42,
-	fanoutRecordFLNK = 43,
-	fanoutRecordVAL = 44,
-	fanoutRecordSELM = 45,
-	fanoutRecordSELN = 46,
-	fanoutRecordSELL = 47,
-	fanoutRecordOFFS = 48,
-	fanoutRecordSHFT = 49,
-	fanoutRecordLNK0 = 50,
-	fanoutRecordLNK1 = 51,
-	fanoutRecordLNK2 = 52,
-	fanoutRecordLNK3 = 53,
-	fanoutRecordLNK4 = 54,
-	fanoutRecordLNK5 = 55,
-	fanoutRecordLNK6 = 56,
-	fanoutRecordLNK7 = 57,
-	fanoutRecordLNK8 = 58,
-	fanoutRecordLNK9 = 59,
-	fanoutRecordLNKA = 60,
-	fanoutRecordLNKB = 61,
-	fanoutRecordLNKC = 62,
-	fanoutRecordLNKD = 63,
-	fanoutRecordLNKE = 64,
-	fanoutRecordLNKF = 65
+	fanoutRecordBKLNK = 15,
+	fanoutRecordDISP = 16,
+	fanoutRecordPROC = 17,
+	fanoutRecordSTAT = 18,
+	fanoutRecordSEVR = 19,
+	fanoutRecordAMSG = 20,
+	fanoutRecordNSTA = 21,
+	fanoutRecordNSEV = 22,
+	fanoutRecordNAMSG = 23,
+	fanoutRecordACKS = 24,
+	fanoutRecordACKT = 25,
+	fanoutRecordDISS = 26,
+	fanoutRecordLCNT = 27,
+	fanoutRecordPACT = 28,
+	fanoutRecordPUTF = 29,
+	fanoutRecordRPRO = 30,
+	fanoutRecordASP = 31,
+	fanoutRecordPPN = 32,
+	fanoutRecordPPNR = 33,
+	fanoutRecordSPVT = 34,
+	fanoutRecordRSET = 35,
+	fanoutRecordDSET = 36,
+	fanoutRecordDPVT = 37,
+	fanoutRecordRDES = 38,
+	fanoutRecordLSET = 39,
+	fanoutRecordPRIO = 40,
+	fanoutRecordTPRO = 41,
+	fanoutRecordBKPT = 42,
+	fanoutRecordUDF = 43,
+	fanoutRecordUDFS = 44,
+	fanoutRecordTIME = 45,
+	fanoutRecordFLNK = 46,
+	fanoutRecordVAL = 47,
+	fanoutRecordSELM = 48,
+	fanoutRecordSELN = 49,
+	fanoutRecordSELL = 50,
+	fanoutRecordOFFS = 51,
+	fanoutRecordSHFT = 52,
+	fanoutRecordLNK0 = 53,
+	fanoutRecordLNK1 = 54,
+	fanoutRecordLNK2 = 55,
+	fanoutRecordLNK3 = 56,
+	fanoutRecordLNK4 = 57,
+	fanoutRecordLNK5 = 58,
+	fanoutRecordLNK6 = 59,
+	fanoutRecordLNK7 = 60,
+	fanoutRecordLNK8 = 61,
+	fanoutRecordLNK9 = 62,
+	fanoutRecordLNKA = 63,
+	fanoutRecordLNKB = 64,
+	fanoutRecordLNKC = 65,
+	fanoutRecordLNKD = 66,
+	fanoutRecordLNKE = 67,
+	fanoutRecordLNKF = 68
 } fanoutFieldIndex;
 
 #ifdef GEN_SIZE_OFFSET
@@ -167,7 +173,7 @@ static int fanoutRecordSizeOffset(dbRecordType *prt)
 {
     fanoutRecord *prec = 0;
 
-    assert(prt->no_fields == 66);
+    assert(prt->no_fields == 69);
     prt->papFldDes[fanoutRecordNAME]->size = sizeof(prec->name);
     prt->papFldDes[fanoutRecordDESC]->size = sizeof(prec->desc);
     prt->papFldDes[fanoutRecordASG]->size = sizeof(prec->asg);
@@ -183,12 +189,15 @@ static int fanoutRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[fanoutRecordSDIS]->size = sizeof(prec->sdis);
     prt->papFldDes[fanoutRecordMLOK]->size = sizeof(prec->mlok);
     prt->papFldDes[fanoutRecordMLIS]->size = sizeof(prec->mlis);
+    prt->papFldDes[fanoutRecordBKLNK]->size = sizeof(prec->bklnk);
     prt->papFldDes[fanoutRecordDISP]->size = sizeof(prec->disp);
     prt->papFldDes[fanoutRecordPROC]->size = sizeof(prec->proc);
     prt->papFldDes[fanoutRecordSTAT]->size = sizeof(prec->stat);
     prt->papFldDes[fanoutRecordSEVR]->size = sizeof(prec->sevr);
+    prt->papFldDes[fanoutRecordAMSG]->size = sizeof(prec->amsg);
     prt->papFldDes[fanoutRecordNSTA]->size = sizeof(prec->nsta);
     prt->papFldDes[fanoutRecordNSEV]->size = sizeof(prec->nsev);
+    prt->papFldDes[fanoutRecordNAMSG]->size = sizeof(prec->namsg);
     prt->papFldDes[fanoutRecordACKS]->size = sizeof(prec->acks);
     prt->papFldDes[fanoutRecordACKT]->size = sizeof(prec->ackt);
     prt->papFldDes[fanoutRecordDISS]->size = sizeof(prec->diss);
@@ -249,12 +258,15 @@ static int fanoutRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[fanoutRecordSDIS]->offset = (unsigned short)((char *)&prec->sdis - (char *)prec);
     prt->papFldDes[fanoutRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[fanoutRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
+    prt->papFldDes[fanoutRecordBKLNK]->offset = (unsigned short)((char *)&prec->bklnk - (char *)prec);
     prt->papFldDes[fanoutRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[fanoutRecordPROC]->offset = (unsigned short)((char *)&prec->proc - (char *)prec);
     prt->papFldDes[fanoutRecordSTAT]->offset = (unsigned short)((char *)&prec->stat - (char *)prec);
     prt->papFldDes[fanoutRecordSEVR]->offset = (unsigned short)((char *)&prec->sevr - (char *)prec);
+    prt->papFldDes[fanoutRecordAMSG]->offset = (unsigned short)((char *)&prec->amsg - (char *)prec);
     prt->papFldDes[fanoutRecordNSTA]->offset = (unsigned short)((char *)&prec->nsta - (char *)prec);
     prt->papFldDes[fanoutRecordNSEV]->offset = (unsigned short)((char *)&prec->nsev - (char *)prec);
+    prt->papFldDes[fanoutRecordNAMSG]->offset = (unsigned short)((char *)&prec->namsg - (char *)prec);
     prt->papFldDes[fanoutRecordACKS]->offset = (unsigned short)((char *)&prec->acks - (char *)prec);
     prt->papFldDes[fanoutRecordACKT]->offset = (unsigned short)((char *)&prec->ackt - (char *)prec);
     prt->papFldDes[fanoutRecordDISS]->offset = (unsigned short)((char *)&prec->diss - (char *)prec);

@@ -3,9 +3,9 @@
 #ifndef INC_waveformRecord_H
 #define INC_waveformRecord_H
 
- #include "epicsTypes.h"
- #include "link.h"
-#include "epicsMutex.h"
+#include "epicsTypes.h"
+#include "link.h"
+ #include "epicsMutex.h"
 #include "ellLib.h"
 #include "epicsTime.h"
 
@@ -51,12 +51,15 @@ typedef struct waveformRecord {
     DBLINK              sdis;       /* Scanning Disable */
     epicsMutexId        mlok;       /* Monitor lock */
     ELLLIST             mlis;       /* Monitor List */
+    ELLLIST             bklnk;      /* Backwards link tracking */
     epicsUInt8          disp;       /* Disable putField */
     epicsUInt8          proc;       /* Force Processing */
     epicsEnum16         stat;       /* Alarm Status */
     epicsEnum16         sevr;       /* Alarm Severity */
+    char                amsg[40];   /* Alarm Message */
     epicsEnum16         nsta;       /* New Alarm Status */
     epicsEnum16         nsev;       /* New Alarm Severity */
+    char                namsg[40];  /* New Alarm Message */
     epicsEnum16         acks;       /* Alarm Ack Severity */
     epicsEnum16         ackt;       /* Alarm Ack Transient */
     epicsEnum16         diss;       /* Disable Alarm Sevrty */
@@ -117,54 +120,57 @@ typedef enum {
 	waveformRecordSDIS = 12,
 	waveformRecordMLOK = 13,
 	waveformRecordMLIS = 14,
-	waveformRecordDISP = 15,
-	waveformRecordPROC = 16,
-	waveformRecordSTAT = 17,
-	waveformRecordSEVR = 18,
-	waveformRecordNSTA = 19,
-	waveformRecordNSEV = 20,
-	waveformRecordACKS = 21,
-	waveformRecordACKT = 22,
-	waveformRecordDISS = 23,
-	waveformRecordLCNT = 24,
-	waveformRecordPACT = 25,
-	waveformRecordPUTF = 26,
-	waveformRecordRPRO = 27,
-	waveformRecordASP = 28,
-	waveformRecordPPN = 29,
-	waveformRecordPPNR = 30,
-	waveformRecordSPVT = 31,
-	waveformRecordRSET = 32,
-	waveformRecordDSET = 33,
-	waveformRecordDPVT = 34,
-	waveformRecordRDES = 35,
-	waveformRecordLSET = 36,
-	waveformRecordPRIO = 37,
-	waveformRecordTPRO = 38,
-	waveformRecordBKPT = 39,
-	waveformRecordUDF = 40,
-	waveformRecordUDFS = 41,
-	waveformRecordTIME = 42,
-	waveformRecordFLNK = 43,
-	waveformRecordVAL = 44,
-	waveformRecordRARM = 45,
-	waveformRecordPREC = 46,
-	waveformRecordINP = 47,
-	waveformRecordEGU = 48,
-	waveformRecordHOPR = 49,
-	waveformRecordLOPR = 50,
-	waveformRecordNELM = 51,
-	waveformRecordFTVL = 52,
-	waveformRecordBUSY = 53,
-	waveformRecordNORD = 54,
-	waveformRecordBPTR = 55,
-	waveformRecordSIOL = 56,
-	waveformRecordSIML = 57,
-	waveformRecordSIMM = 58,
-	waveformRecordSIMS = 59,
-	waveformRecordMPST = 60,
-	waveformRecordAPST = 61,
-	waveformRecordHASH = 62
+	waveformRecordBKLNK = 15,
+	waveformRecordDISP = 16,
+	waveformRecordPROC = 17,
+	waveformRecordSTAT = 18,
+	waveformRecordSEVR = 19,
+	waveformRecordAMSG = 20,
+	waveformRecordNSTA = 21,
+	waveformRecordNSEV = 22,
+	waveformRecordNAMSG = 23,
+	waveformRecordACKS = 24,
+	waveformRecordACKT = 25,
+	waveformRecordDISS = 26,
+	waveformRecordLCNT = 27,
+	waveformRecordPACT = 28,
+	waveformRecordPUTF = 29,
+	waveformRecordRPRO = 30,
+	waveformRecordASP = 31,
+	waveformRecordPPN = 32,
+	waveformRecordPPNR = 33,
+	waveformRecordSPVT = 34,
+	waveformRecordRSET = 35,
+	waveformRecordDSET = 36,
+	waveformRecordDPVT = 37,
+	waveformRecordRDES = 38,
+	waveformRecordLSET = 39,
+	waveformRecordPRIO = 40,
+	waveformRecordTPRO = 41,
+	waveformRecordBKPT = 42,
+	waveformRecordUDF = 43,
+	waveformRecordUDFS = 44,
+	waveformRecordTIME = 45,
+	waveformRecordFLNK = 46,
+	waveformRecordVAL = 47,
+	waveformRecordRARM = 48,
+	waveformRecordPREC = 49,
+	waveformRecordINP = 50,
+	waveformRecordEGU = 51,
+	waveformRecordHOPR = 52,
+	waveformRecordLOPR = 53,
+	waveformRecordNELM = 54,
+	waveformRecordFTVL = 55,
+	waveformRecordBUSY = 56,
+	waveformRecordNORD = 57,
+	waveformRecordBPTR = 58,
+	waveformRecordSIOL = 59,
+	waveformRecordSIML = 60,
+	waveformRecordSIMM = 61,
+	waveformRecordSIMS = 62,
+	waveformRecordMPST = 63,
+	waveformRecordAPST = 64,
+	waveformRecordHASH = 65
 } waveformFieldIndex;
 
 #ifdef GEN_SIZE_OFFSET
@@ -178,7 +184,7 @@ static int waveformRecordSizeOffset(dbRecordType *prt)
 {
     waveformRecord *prec = 0;
 
-    assert(prt->no_fields == 63);
+    assert(prt->no_fields == 66);
     prt->papFldDes[waveformRecordNAME]->size = sizeof(prec->name);
     prt->papFldDes[waveformRecordDESC]->size = sizeof(prec->desc);
     prt->papFldDes[waveformRecordASG]->size = sizeof(prec->asg);
@@ -194,12 +200,15 @@ static int waveformRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[waveformRecordSDIS]->size = sizeof(prec->sdis);
     prt->papFldDes[waveformRecordMLOK]->size = sizeof(prec->mlok);
     prt->papFldDes[waveformRecordMLIS]->size = sizeof(prec->mlis);
+    prt->papFldDes[waveformRecordBKLNK]->size = sizeof(prec->bklnk);
     prt->papFldDes[waveformRecordDISP]->size = sizeof(prec->disp);
     prt->papFldDes[waveformRecordPROC]->size = sizeof(prec->proc);
     prt->papFldDes[waveformRecordSTAT]->size = sizeof(prec->stat);
     prt->papFldDes[waveformRecordSEVR]->size = sizeof(prec->sevr);
+    prt->papFldDes[waveformRecordAMSG]->size = sizeof(prec->amsg);
     prt->papFldDes[waveformRecordNSTA]->size = sizeof(prec->nsta);
     prt->papFldDes[waveformRecordNSEV]->size = sizeof(prec->nsev);
+    prt->papFldDes[waveformRecordNAMSG]->size = sizeof(prec->namsg);
     prt->papFldDes[waveformRecordACKS]->size = sizeof(prec->acks);
     prt->papFldDes[waveformRecordACKT]->size = sizeof(prec->ackt);
     prt->papFldDes[waveformRecordDISS]->size = sizeof(prec->diss);
@@ -257,12 +266,15 @@ static int waveformRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[waveformRecordSDIS]->offset = (unsigned short)((char *)&prec->sdis - (char *)prec);
     prt->papFldDes[waveformRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[waveformRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
+    prt->papFldDes[waveformRecordBKLNK]->offset = (unsigned short)((char *)&prec->bklnk - (char *)prec);
     prt->papFldDes[waveformRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[waveformRecordPROC]->offset = (unsigned short)((char *)&prec->proc - (char *)prec);
     prt->papFldDes[waveformRecordSTAT]->offset = (unsigned short)((char *)&prec->stat - (char *)prec);
     prt->papFldDes[waveformRecordSEVR]->offset = (unsigned short)((char *)&prec->sevr - (char *)prec);
+    prt->papFldDes[waveformRecordAMSG]->offset = (unsigned short)((char *)&prec->amsg - (char *)prec);
     prt->papFldDes[waveformRecordNSTA]->offset = (unsigned short)((char *)&prec->nsta - (char *)prec);
     prt->papFldDes[waveformRecordNSEV]->offset = (unsigned short)((char *)&prec->nsev - (char *)prec);
+    prt->papFldDes[waveformRecordNAMSG]->offset = (unsigned short)((char *)&prec->namsg - (char *)prec);
     prt->papFldDes[waveformRecordACKS]->offset = (unsigned short)((char *)&prec->acks - (char *)prec);
     prt->papFldDes[waveformRecordACKT]->offset = (unsigned short)((char *)&prec->ackt - (char *)prec);
     prt->papFldDes[waveformRecordDISS]->offset = (unsigned short)((char *)&prec->diss - (char *)prec);

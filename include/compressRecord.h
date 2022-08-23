@@ -3,9 +3,9 @@
 #ifndef INC_compressRecord_H
 #define INC_compressRecord_H
 
- #include "epicsTypes.h"
- #include "link.h"
-#include "epicsMutex.h"
+#include "epicsTypes.h"
+#include "link.h"
+ #include "epicsMutex.h"
 #include "ellLib.h"
 #include "epicsTime.h"
 
@@ -37,12 +37,15 @@ typedef struct compressRecord {
     DBLINK              sdis;       /* Scanning Disable */
     epicsMutexId        mlok;       /* Monitor lock */
     ELLLIST             mlis;       /* Monitor List */
+    ELLLIST             bklnk;      /* Backwards link tracking */
     epicsUInt8          disp;       /* Disable putField */
     epicsUInt8          proc;       /* Force Processing */
     epicsEnum16         stat;       /* Alarm Status */
     epicsEnum16         sevr;       /* Alarm Severity */
+    char                amsg[40];   /* Alarm Message */
     epicsEnum16         nsta;       /* New Alarm Status */
     epicsEnum16         nsev;       /* New Alarm Severity */
+    char                namsg[40];  /* New Alarm Message */
     epicsEnum16         acks;       /* Alarm Ack Severity */
     epicsEnum16         ackt;       /* Alarm Ack Transient */
     epicsEnum16         diss;       /* Disable Alarm Sevrty */
@@ -105,56 +108,59 @@ typedef enum {
 	compressRecordSDIS = 12,
 	compressRecordMLOK = 13,
 	compressRecordMLIS = 14,
-	compressRecordDISP = 15,
-	compressRecordPROC = 16,
-	compressRecordSTAT = 17,
-	compressRecordSEVR = 18,
-	compressRecordNSTA = 19,
-	compressRecordNSEV = 20,
-	compressRecordACKS = 21,
-	compressRecordACKT = 22,
-	compressRecordDISS = 23,
-	compressRecordLCNT = 24,
-	compressRecordPACT = 25,
-	compressRecordPUTF = 26,
-	compressRecordRPRO = 27,
-	compressRecordASP = 28,
-	compressRecordPPN = 29,
-	compressRecordPPNR = 30,
-	compressRecordSPVT = 31,
-	compressRecordRSET = 32,
-	compressRecordDSET = 33,
-	compressRecordDPVT = 34,
-	compressRecordRDES = 35,
-	compressRecordLSET = 36,
-	compressRecordPRIO = 37,
-	compressRecordTPRO = 38,
-	compressRecordBKPT = 39,
-	compressRecordUDF = 40,
-	compressRecordUDFS = 41,
-	compressRecordTIME = 42,
-	compressRecordFLNK = 43,
-	compressRecordVAL = 44,
-	compressRecordINP = 45,
-	compressRecordRES = 46,
-	compressRecordALG = 47,
-	compressRecordNSAM = 48,
-	compressRecordN = 49,
-	compressRecordIHIL = 50,
-	compressRecordILIL = 51,
-	compressRecordHOPR = 52,
-	compressRecordLOPR = 53,
-	compressRecordPREC = 54,
-	compressRecordEGU = 55,
-	compressRecordOFF = 56,
-	compressRecordNUSE = 57,
-	compressRecordOUSE = 58,
-	compressRecordBPTR = 59,
-	compressRecordSPTR = 60,
-	compressRecordWPTR = 61,
-	compressRecordINPN = 62,
-	compressRecordCVB = 63,
-	compressRecordINX = 64
+	compressRecordBKLNK = 15,
+	compressRecordDISP = 16,
+	compressRecordPROC = 17,
+	compressRecordSTAT = 18,
+	compressRecordSEVR = 19,
+	compressRecordAMSG = 20,
+	compressRecordNSTA = 21,
+	compressRecordNSEV = 22,
+	compressRecordNAMSG = 23,
+	compressRecordACKS = 24,
+	compressRecordACKT = 25,
+	compressRecordDISS = 26,
+	compressRecordLCNT = 27,
+	compressRecordPACT = 28,
+	compressRecordPUTF = 29,
+	compressRecordRPRO = 30,
+	compressRecordASP = 31,
+	compressRecordPPN = 32,
+	compressRecordPPNR = 33,
+	compressRecordSPVT = 34,
+	compressRecordRSET = 35,
+	compressRecordDSET = 36,
+	compressRecordDPVT = 37,
+	compressRecordRDES = 38,
+	compressRecordLSET = 39,
+	compressRecordPRIO = 40,
+	compressRecordTPRO = 41,
+	compressRecordBKPT = 42,
+	compressRecordUDF = 43,
+	compressRecordUDFS = 44,
+	compressRecordTIME = 45,
+	compressRecordFLNK = 46,
+	compressRecordVAL = 47,
+	compressRecordINP = 48,
+	compressRecordRES = 49,
+	compressRecordALG = 50,
+	compressRecordNSAM = 51,
+	compressRecordN = 52,
+	compressRecordIHIL = 53,
+	compressRecordILIL = 54,
+	compressRecordHOPR = 55,
+	compressRecordLOPR = 56,
+	compressRecordPREC = 57,
+	compressRecordEGU = 58,
+	compressRecordOFF = 59,
+	compressRecordNUSE = 60,
+	compressRecordOUSE = 61,
+	compressRecordBPTR = 62,
+	compressRecordSPTR = 63,
+	compressRecordWPTR = 64,
+	compressRecordINPN = 65,
+	compressRecordCVB = 66,
+	compressRecordINX = 67
 } compressFieldIndex;
 
 #ifdef GEN_SIZE_OFFSET
@@ -168,7 +174,7 @@ static int compressRecordSizeOffset(dbRecordType *prt)
 {
     compressRecord *prec = 0;
 
-    assert(prt->no_fields == 65);
+    assert(prt->no_fields == 68);
     prt->papFldDes[compressRecordNAME]->size = sizeof(prec->name);
     prt->papFldDes[compressRecordDESC]->size = sizeof(prec->desc);
     prt->papFldDes[compressRecordASG]->size = sizeof(prec->asg);
@@ -184,12 +190,15 @@ static int compressRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[compressRecordSDIS]->size = sizeof(prec->sdis);
     prt->papFldDes[compressRecordMLOK]->size = sizeof(prec->mlok);
     prt->papFldDes[compressRecordMLIS]->size = sizeof(prec->mlis);
+    prt->papFldDes[compressRecordBKLNK]->size = sizeof(prec->bklnk);
     prt->papFldDes[compressRecordDISP]->size = sizeof(prec->disp);
     prt->papFldDes[compressRecordPROC]->size = sizeof(prec->proc);
     prt->papFldDes[compressRecordSTAT]->size = sizeof(prec->stat);
     prt->papFldDes[compressRecordSEVR]->size = sizeof(prec->sevr);
+    prt->papFldDes[compressRecordAMSG]->size = sizeof(prec->amsg);
     prt->papFldDes[compressRecordNSTA]->size = sizeof(prec->nsta);
     prt->papFldDes[compressRecordNSEV]->size = sizeof(prec->nsev);
+    prt->papFldDes[compressRecordNAMSG]->size = sizeof(prec->namsg);
     prt->papFldDes[compressRecordACKS]->size = sizeof(prec->acks);
     prt->papFldDes[compressRecordACKT]->size = sizeof(prec->ackt);
     prt->papFldDes[compressRecordDISS]->size = sizeof(prec->diss);
@@ -249,12 +258,15 @@ static int compressRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[compressRecordSDIS]->offset = (unsigned short)((char *)&prec->sdis - (char *)prec);
     prt->papFldDes[compressRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[compressRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
+    prt->papFldDes[compressRecordBKLNK]->offset = (unsigned short)((char *)&prec->bklnk - (char *)prec);
     prt->papFldDes[compressRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[compressRecordPROC]->offset = (unsigned short)((char *)&prec->proc - (char *)prec);
     prt->papFldDes[compressRecordSTAT]->offset = (unsigned short)((char *)&prec->stat - (char *)prec);
     prt->papFldDes[compressRecordSEVR]->offset = (unsigned short)((char *)&prec->sevr - (char *)prec);
+    prt->papFldDes[compressRecordAMSG]->offset = (unsigned short)((char *)&prec->amsg - (char *)prec);
     prt->papFldDes[compressRecordNSTA]->offset = (unsigned short)((char *)&prec->nsta - (char *)prec);
     prt->papFldDes[compressRecordNSEV]->offset = (unsigned short)((char *)&prec->nsev - (char *)prec);
+    prt->papFldDes[compressRecordNAMSG]->offset = (unsigned short)((char *)&prec->namsg - (char *)prec);
     prt->papFldDes[compressRecordACKS]->offset = (unsigned short)((char *)&prec->acks - (char *)prec);
     prt->papFldDes[compressRecordACKT]->offset = (unsigned short)((char *)&prec->ackt - (char *)prec);
     prt->papFldDes[compressRecordDISS]->offset = (unsigned short)((char *)&prec->diss - (char *)prec);

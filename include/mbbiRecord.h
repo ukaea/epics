@@ -3,9 +3,9 @@
 #ifndef INC_mbbiRecord_H
 #define INC_mbbiRecord_H
 
- #include "epicsTypes.h"
- #include "link.h"
-#include "epicsMutex.h"
+#include "epicsTypes.h"
+#include "link.h"
+ #include "epicsMutex.h"
 #include "ellLib.h"
 #include "epicsTime.h"
 
@@ -25,12 +25,15 @@ typedef struct mbbiRecord {
     DBLINK              sdis;       /* Scanning Disable */
     epicsMutexId        mlok;       /* Monitor lock */
     ELLLIST             mlis;       /* Monitor List */
+    ELLLIST             bklnk;      /* Backwards link tracking */
     epicsUInt8          disp;       /* Disable putField */
     epicsUInt8          proc;       /* Force Processing */
     epicsEnum16         stat;       /* Alarm Status */
     epicsEnum16         sevr;       /* Alarm Severity */
+    char                amsg[40];   /* Alarm Message */
     epicsEnum16         nsta;       /* New Alarm Status */
     epicsEnum16         nsev;       /* New Alarm Severity */
+    char                namsg[40];  /* New Alarm Message */
     epicsEnum16         acks;       /* Alarm Ack Severity */
     epicsEnum16         ackt;       /* Alarm Ack Transient */
     epicsEnum16         diss;       /* Disable Alarm Sevrty */
@@ -139,102 +142,105 @@ typedef enum {
 	mbbiRecordSDIS = 12,
 	mbbiRecordMLOK = 13,
 	mbbiRecordMLIS = 14,
-	mbbiRecordDISP = 15,
-	mbbiRecordPROC = 16,
-	mbbiRecordSTAT = 17,
-	mbbiRecordSEVR = 18,
-	mbbiRecordNSTA = 19,
-	mbbiRecordNSEV = 20,
-	mbbiRecordACKS = 21,
-	mbbiRecordACKT = 22,
-	mbbiRecordDISS = 23,
-	mbbiRecordLCNT = 24,
-	mbbiRecordPACT = 25,
-	mbbiRecordPUTF = 26,
-	mbbiRecordRPRO = 27,
-	mbbiRecordASP = 28,
-	mbbiRecordPPN = 29,
-	mbbiRecordPPNR = 30,
-	mbbiRecordSPVT = 31,
-	mbbiRecordRSET = 32,
-	mbbiRecordDSET = 33,
-	mbbiRecordDPVT = 34,
-	mbbiRecordRDES = 35,
-	mbbiRecordLSET = 36,
-	mbbiRecordPRIO = 37,
-	mbbiRecordTPRO = 38,
-	mbbiRecordBKPT = 39,
-	mbbiRecordUDF = 40,
-	mbbiRecordUDFS = 41,
-	mbbiRecordTIME = 42,
-	mbbiRecordFLNK = 43,
-	mbbiRecordVAL = 44,
-	mbbiRecordNOBT = 45,
-	mbbiRecordINP = 46,
-	mbbiRecordZRVL = 47,
-	mbbiRecordONVL = 48,
-	mbbiRecordTWVL = 49,
-	mbbiRecordTHVL = 50,
-	mbbiRecordFRVL = 51,
-	mbbiRecordFVVL = 52,
-	mbbiRecordSXVL = 53,
-	mbbiRecordSVVL = 54,
-	mbbiRecordEIVL = 55,
-	mbbiRecordNIVL = 56,
-	mbbiRecordTEVL = 57,
-	mbbiRecordELVL = 58,
-	mbbiRecordTVVL = 59,
-	mbbiRecordTTVL = 60,
-	mbbiRecordFTVL = 61,
-	mbbiRecordFFVL = 62,
-	mbbiRecordZRST = 63,
-	mbbiRecordONST = 64,
-	mbbiRecordTWST = 65,
-	mbbiRecordTHST = 66,
-	mbbiRecordFRST = 67,
-	mbbiRecordFVST = 68,
-	mbbiRecordSXST = 69,
-	mbbiRecordSVST = 70,
-	mbbiRecordEIST = 71,
-	mbbiRecordNIST = 72,
-	mbbiRecordTEST = 73,
-	mbbiRecordELST = 74,
-	mbbiRecordTVST = 75,
-	mbbiRecordTTST = 76,
-	mbbiRecordFTST = 77,
-	mbbiRecordFFST = 78,
-	mbbiRecordZRSV = 79,
-	mbbiRecordONSV = 80,
-	mbbiRecordTWSV = 81,
-	mbbiRecordTHSV = 82,
-	mbbiRecordFRSV = 83,
-	mbbiRecordFVSV = 84,
-	mbbiRecordSXSV = 85,
-	mbbiRecordSVSV = 86,
-	mbbiRecordEISV = 87,
-	mbbiRecordNISV = 88,
-	mbbiRecordTESV = 89,
-	mbbiRecordELSV = 90,
-	mbbiRecordTVSV = 91,
-	mbbiRecordTTSV = 92,
-	mbbiRecordFTSV = 93,
-	mbbiRecordFFSV = 94,
-	mbbiRecordAFTC = 95,
-	mbbiRecordAFVL = 96,
-	mbbiRecordUNSV = 97,
-	mbbiRecordCOSV = 98,
-	mbbiRecordRVAL = 99,
-	mbbiRecordORAW = 100,
-	mbbiRecordMASK = 101,
-	mbbiRecordMLST = 102,
-	mbbiRecordLALM = 103,
-	mbbiRecordSDEF = 104,
-	mbbiRecordSHFT = 105,
-	mbbiRecordSIOL = 106,
-	mbbiRecordSVAL = 107,
-	mbbiRecordSIML = 108,
-	mbbiRecordSIMM = 109,
-	mbbiRecordSIMS = 110
+	mbbiRecordBKLNK = 15,
+	mbbiRecordDISP = 16,
+	mbbiRecordPROC = 17,
+	mbbiRecordSTAT = 18,
+	mbbiRecordSEVR = 19,
+	mbbiRecordAMSG = 20,
+	mbbiRecordNSTA = 21,
+	mbbiRecordNSEV = 22,
+	mbbiRecordNAMSG = 23,
+	mbbiRecordACKS = 24,
+	mbbiRecordACKT = 25,
+	mbbiRecordDISS = 26,
+	mbbiRecordLCNT = 27,
+	mbbiRecordPACT = 28,
+	mbbiRecordPUTF = 29,
+	mbbiRecordRPRO = 30,
+	mbbiRecordASP = 31,
+	mbbiRecordPPN = 32,
+	mbbiRecordPPNR = 33,
+	mbbiRecordSPVT = 34,
+	mbbiRecordRSET = 35,
+	mbbiRecordDSET = 36,
+	mbbiRecordDPVT = 37,
+	mbbiRecordRDES = 38,
+	mbbiRecordLSET = 39,
+	mbbiRecordPRIO = 40,
+	mbbiRecordTPRO = 41,
+	mbbiRecordBKPT = 42,
+	mbbiRecordUDF = 43,
+	mbbiRecordUDFS = 44,
+	mbbiRecordTIME = 45,
+	mbbiRecordFLNK = 46,
+	mbbiRecordVAL = 47,
+	mbbiRecordNOBT = 48,
+	mbbiRecordINP = 49,
+	mbbiRecordZRVL = 50,
+	mbbiRecordONVL = 51,
+	mbbiRecordTWVL = 52,
+	mbbiRecordTHVL = 53,
+	mbbiRecordFRVL = 54,
+	mbbiRecordFVVL = 55,
+	mbbiRecordSXVL = 56,
+	mbbiRecordSVVL = 57,
+	mbbiRecordEIVL = 58,
+	mbbiRecordNIVL = 59,
+	mbbiRecordTEVL = 60,
+	mbbiRecordELVL = 61,
+	mbbiRecordTVVL = 62,
+	mbbiRecordTTVL = 63,
+	mbbiRecordFTVL = 64,
+	mbbiRecordFFVL = 65,
+	mbbiRecordZRST = 66,
+	mbbiRecordONST = 67,
+	mbbiRecordTWST = 68,
+	mbbiRecordTHST = 69,
+	mbbiRecordFRST = 70,
+	mbbiRecordFVST = 71,
+	mbbiRecordSXST = 72,
+	mbbiRecordSVST = 73,
+	mbbiRecordEIST = 74,
+	mbbiRecordNIST = 75,
+	mbbiRecordTEST = 76,
+	mbbiRecordELST = 77,
+	mbbiRecordTVST = 78,
+	mbbiRecordTTST = 79,
+	mbbiRecordFTST = 80,
+	mbbiRecordFFST = 81,
+	mbbiRecordZRSV = 82,
+	mbbiRecordONSV = 83,
+	mbbiRecordTWSV = 84,
+	mbbiRecordTHSV = 85,
+	mbbiRecordFRSV = 86,
+	mbbiRecordFVSV = 87,
+	mbbiRecordSXSV = 88,
+	mbbiRecordSVSV = 89,
+	mbbiRecordEISV = 90,
+	mbbiRecordNISV = 91,
+	mbbiRecordTESV = 92,
+	mbbiRecordELSV = 93,
+	mbbiRecordTVSV = 94,
+	mbbiRecordTTSV = 95,
+	mbbiRecordFTSV = 96,
+	mbbiRecordFFSV = 97,
+	mbbiRecordAFTC = 98,
+	mbbiRecordAFVL = 99,
+	mbbiRecordUNSV = 100,
+	mbbiRecordCOSV = 101,
+	mbbiRecordRVAL = 102,
+	mbbiRecordORAW = 103,
+	mbbiRecordMASK = 104,
+	mbbiRecordMLST = 105,
+	mbbiRecordLALM = 106,
+	mbbiRecordSDEF = 107,
+	mbbiRecordSHFT = 108,
+	mbbiRecordSIOL = 109,
+	mbbiRecordSVAL = 110,
+	mbbiRecordSIML = 111,
+	mbbiRecordSIMM = 112,
+	mbbiRecordSIMS = 113
 } mbbiFieldIndex;
 
 #ifdef GEN_SIZE_OFFSET
@@ -248,7 +254,7 @@ static int mbbiRecordSizeOffset(dbRecordType *prt)
 {
     mbbiRecord *prec = 0;
 
-    assert(prt->no_fields == 111);
+    assert(prt->no_fields == 114);
     prt->papFldDes[mbbiRecordNAME]->size = sizeof(prec->name);
     prt->papFldDes[mbbiRecordDESC]->size = sizeof(prec->desc);
     prt->papFldDes[mbbiRecordASG]->size = sizeof(prec->asg);
@@ -264,12 +270,15 @@ static int mbbiRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[mbbiRecordSDIS]->size = sizeof(prec->sdis);
     prt->papFldDes[mbbiRecordMLOK]->size = sizeof(prec->mlok);
     prt->papFldDes[mbbiRecordMLIS]->size = sizeof(prec->mlis);
+    prt->papFldDes[mbbiRecordBKLNK]->size = sizeof(prec->bklnk);
     prt->papFldDes[mbbiRecordDISP]->size = sizeof(prec->disp);
     prt->papFldDes[mbbiRecordPROC]->size = sizeof(prec->proc);
     prt->papFldDes[mbbiRecordSTAT]->size = sizeof(prec->stat);
     prt->papFldDes[mbbiRecordSEVR]->size = sizeof(prec->sevr);
+    prt->papFldDes[mbbiRecordAMSG]->size = sizeof(prec->amsg);
     prt->papFldDes[mbbiRecordNSTA]->size = sizeof(prec->nsta);
     prt->papFldDes[mbbiRecordNSEV]->size = sizeof(prec->nsev);
+    prt->papFldDes[mbbiRecordNAMSG]->size = sizeof(prec->namsg);
     prt->papFldDes[mbbiRecordACKS]->size = sizeof(prec->acks);
     prt->papFldDes[mbbiRecordACKT]->size = sizeof(prec->ackt);
     prt->papFldDes[mbbiRecordDISS]->size = sizeof(prec->diss);
@@ -375,12 +384,15 @@ static int mbbiRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[mbbiRecordSDIS]->offset = (unsigned short)((char *)&prec->sdis - (char *)prec);
     prt->papFldDes[mbbiRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[mbbiRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
+    prt->papFldDes[mbbiRecordBKLNK]->offset = (unsigned short)((char *)&prec->bklnk - (char *)prec);
     prt->papFldDes[mbbiRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[mbbiRecordPROC]->offset = (unsigned short)((char *)&prec->proc - (char *)prec);
     prt->papFldDes[mbbiRecordSTAT]->offset = (unsigned short)((char *)&prec->stat - (char *)prec);
     prt->papFldDes[mbbiRecordSEVR]->offset = (unsigned short)((char *)&prec->sevr - (char *)prec);
+    prt->papFldDes[mbbiRecordAMSG]->offset = (unsigned short)((char *)&prec->amsg - (char *)prec);
     prt->papFldDes[mbbiRecordNSTA]->offset = (unsigned short)((char *)&prec->nsta - (char *)prec);
     prt->papFldDes[mbbiRecordNSEV]->offset = (unsigned short)((char *)&prec->nsev - (char *)prec);
+    prt->papFldDes[mbbiRecordNAMSG]->offset = (unsigned short)((char *)&prec->namsg - (char *)prec);
     prt->papFldDes[mbbiRecordACKS]->offset = (unsigned short)((char *)&prec->acks - (char *)prec);
     prt->papFldDes[mbbiRecordACKT]->offset = (unsigned short)((char *)&prec->ackt - (char *)prec);
     prt->papFldDes[mbbiRecordDISS]->offset = (unsigned short)((char *)&prec->diss - (char *)prec);

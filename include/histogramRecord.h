@@ -3,22 +3,11 @@
 #ifndef INC_histogramRecord_H
 #define INC_histogramRecord_H
 
- #include "epicsTypes.h"
- #include "link.h"
-#include "epicsMutex.h"
+#include "epicsTypes.h"
+#include "link.h"
+ #include "epicsMutex.h"
 #include "ellLib.h"
 #include "epicsTime.h"
-
-/* Declare Device Support Entry Table */
-struct histogramRecord;
-typedef struct histogramdset {
-    dset common; /*init_record returns: (-1,0)=>(failure,success)*/
-    long (*read_histogram)(struct histogramRecord *prec); /*(0,2)=> success and add_count, don't add_count); if add_count then sgnl added to array*/
-    long (*special_linconv)(struct histogramRecord *prec, int after);
-} histogramdset;
-#define HAS_histogramdset
-
-#include "callback.h"
 
 #ifndef histogramCMD_NUM_CHOICES
 typedef enum {
@@ -46,12 +35,15 @@ typedef struct histogramRecord {
     DBLINK              sdis;       /* Scanning Disable */
     epicsMutexId        mlok;       /* Monitor lock */
     ELLLIST             mlis;       /* Monitor List */
+    ELLLIST             bklnk;      /* Backwards link tracking */
     epicsUInt8          disp;       /* Disable putField */
     epicsUInt8          proc;       /* Force Processing */
     epicsEnum16         stat;       /* Alarm Status */
     epicsEnum16         sevr;       /* Alarm Severity */
+    char                amsg[40];   /* Alarm Message */
     epicsEnum16         nsta;       /* New Alarm Status */
     epicsEnum16         nsev;       /* New Alarm Severity */
+    char                namsg[40];  /* New Alarm Message */
     epicsEnum16         acks;       /* Alarm Ack Severity */
     epicsEnum16         ackt;       /* Alarm Ack Transient */
     epicsEnum16         diss;       /* Disable Alarm Sevrty */
@@ -75,7 +67,7 @@ typedef struct histogramRecord {
     epicsEnum16         udfs;       /* Undefined Alarm Sevrty */
     epicsTimeStamp      time;       /* Time */
     DBLINK              flnk;       /* Forward Process Link */
-    void *	val;                     /* Value */
+    void *   val;                   /* Value */
     epicsUInt16         nelm;       /* Num of Array Elements */
     epicsInt16          csta;       /* Collection Status */
     epicsEnum16         cmd;        /* Collection Control */
@@ -90,15 +82,11 @@ typedef struct histogramRecord {
     epicsInt16          mdel;       /* Monitor Count Deadband */
     epicsInt16          mcnt;       /* Counts Since Monitor */
     epicsFloat64        sdel;       /* Monitor Seconds Dband */
-    DBLINK              siol;       /* Simulation Input Link */
+    DBLINK              siol;       /* Sim Input Specifctn */
     epicsFloat64        sval;       /* Simulation Value */
-    DBLINK              siml;       /* Simulation Mode Link */
+    DBLINK              siml;       /* Sim Mode Location */
     epicsEnum16         simm;       /* Simulation Mode */
-    epicsEnum16         sims;       /* Simulation Mode Severity */
-    epicsEnum16         oldsimm;    /* Prev. Simulation Mode */
-    epicsEnum16         sscn;       /* Sim. Mode Scan */
-    epicsFloat64        sdly;       /* Sim. Mode Async Delay */
-    epicsCallback            *simpvt; /* Sim. Mode Private */
+    epicsEnum16         sims;       /* Sim mode Alarm Svrty */
     epicsUInt32         hopr;       /* High Operating Range */
     epicsUInt32         lopr;       /* Low Operating Range */
 } histogramRecord;
@@ -119,61 +107,60 @@ typedef enum {
 	histogramRecordSDIS = 12,
 	histogramRecordMLOK = 13,
 	histogramRecordMLIS = 14,
-	histogramRecordDISP = 15,
-	histogramRecordPROC = 16,
-	histogramRecordSTAT = 17,
-	histogramRecordSEVR = 18,
-	histogramRecordNSTA = 19,
-	histogramRecordNSEV = 20,
-	histogramRecordACKS = 21,
-	histogramRecordACKT = 22,
-	histogramRecordDISS = 23,
-	histogramRecordLCNT = 24,
-	histogramRecordPACT = 25,
-	histogramRecordPUTF = 26,
-	histogramRecordRPRO = 27,
-	histogramRecordASP = 28,
-	histogramRecordPPN = 29,
-	histogramRecordPPNR = 30,
-	histogramRecordSPVT = 31,
-	histogramRecordRSET = 32,
-	histogramRecordDSET = 33,
-	histogramRecordDPVT = 34,
-	histogramRecordRDES = 35,
-	histogramRecordLSET = 36,
-	histogramRecordPRIO = 37,
-	histogramRecordTPRO = 38,
-	histogramRecordBKPT = 39,
-	histogramRecordUDF = 40,
-	histogramRecordUDFS = 41,
-	histogramRecordTIME = 42,
-	histogramRecordFLNK = 43,
-	histogramRecordVAL = 44,
-	histogramRecordNELM = 45,
-	histogramRecordCSTA = 46,
-	histogramRecordCMD = 47,
-	histogramRecordULIM = 48,
-	histogramRecordLLIM = 49,
-	histogramRecordWDTH = 50,
-	histogramRecordSGNL = 51,
-	histogramRecordPREC = 52,
-	histogramRecordSVL = 53,
-	histogramRecordBPTR = 54,
-	histogramRecordWDOG = 55,
-	histogramRecordMDEL = 56,
-	histogramRecordMCNT = 57,
-	histogramRecordSDEL = 58,
-	histogramRecordSIOL = 59,
-	histogramRecordSVAL = 60,
-	histogramRecordSIML = 61,
-	histogramRecordSIMM = 62,
-	histogramRecordSIMS = 63,
-	histogramRecordOLDSIMM = 64,
-	histogramRecordSSCN = 65,
-	histogramRecordSDLY = 66,
-	histogramRecordSIMPVT = 67,
-	histogramRecordHOPR = 68,
-	histogramRecordLOPR = 69
+	histogramRecordBKLNK = 15,
+	histogramRecordDISP = 16,
+	histogramRecordPROC = 17,
+	histogramRecordSTAT = 18,
+	histogramRecordSEVR = 19,
+	histogramRecordAMSG = 20,
+	histogramRecordNSTA = 21,
+	histogramRecordNSEV = 22,
+	histogramRecordNAMSG = 23,
+	histogramRecordACKS = 24,
+	histogramRecordACKT = 25,
+	histogramRecordDISS = 26,
+	histogramRecordLCNT = 27,
+	histogramRecordPACT = 28,
+	histogramRecordPUTF = 29,
+	histogramRecordRPRO = 30,
+	histogramRecordASP = 31,
+	histogramRecordPPN = 32,
+	histogramRecordPPNR = 33,
+	histogramRecordSPVT = 34,
+	histogramRecordRSET = 35,
+	histogramRecordDSET = 36,
+	histogramRecordDPVT = 37,
+	histogramRecordRDES = 38,
+	histogramRecordLSET = 39,
+	histogramRecordPRIO = 40,
+	histogramRecordTPRO = 41,
+	histogramRecordBKPT = 42,
+	histogramRecordUDF = 43,
+	histogramRecordUDFS = 44,
+	histogramRecordTIME = 45,
+	histogramRecordFLNK = 46,
+	histogramRecordVAL = 47,
+	histogramRecordNELM = 48,
+	histogramRecordCSTA = 49,
+	histogramRecordCMD = 50,
+	histogramRecordULIM = 51,
+	histogramRecordLLIM = 52,
+	histogramRecordWDTH = 53,
+	histogramRecordSGNL = 54,
+	histogramRecordPREC = 55,
+	histogramRecordSVL = 56,
+	histogramRecordBPTR = 57,
+	histogramRecordWDOG = 58,
+	histogramRecordMDEL = 59,
+	histogramRecordMCNT = 60,
+	histogramRecordSDEL = 61,
+	histogramRecordSIOL = 62,
+	histogramRecordSVAL = 63,
+	histogramRecordSIML = 64,
+	histogramRecordSIMM = 65,
+	histogramRecordSIMS = 66,
+	histogramRecordHOPR = 67,
+	histogramRecordLOPR = 68
 } histogramFieldIndex;
 
 #ifdef GEN_SIZE_OFFSET
@@ -187,7 +174,7 @@ static int histogramRecordSizeOffset(dbRecordType *prt)
 {
     histogramRecord *prec = 0;
 
-    assert(prt->no_fields == 70);
+    assert(prt->no_fields == 69);
     prt->papFldDes[histogramRecordNAME]->size = sizeof(prec->name);
     prt->papFldDes[histogramRecordDESC]->size = sizeof(prec->desc);
     prt->papFldDes[histogramRecordASG]->size = sizeof(prec->asg);
@@ -203,12 +190,15 @@ static int histogramRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[histogramRecordSDIS]->size = sizeof(prec->sdis);
     prt->papFldDes[histogramRecordMLOK]->size = sizeof(prec->mlok);
     prt->papFldDes[histogramRecordMLIS]->size = sizeof(prec->mlis);
+    prt->papFldDes[histogramRecordBKLNK]->size = sizeof(prec->bklnk);
     prt->papFldDes[histogramRecordDISP]->size = sizeof(prec->disp);
     prt->papFldDes[histogramRecordPROC]->size = sizeof(prec->proc);
     prt->papFldDes[histogramRecordSTAT]->size = sizeof(prec->stat);
     prt->papFldDes[histogramRecordSEVR]->size = sizeof(prec->sevr);
+    prt->papFldDes[histogramRecordAMSG]->size = sizeof(prec->amsg);
     prt->papFldDes[histogramRecordNSTA]->size = sizeof(prec->nsta);
     prt->papFldDes[histogramRecordNSEV]->size = sizeof(prec->nsev);
+    prt->papFldDes[histogramRecordNAMSG]->size = sizeof(prec->namsg);
     prt->papFldDes[histogramRecordACKS]->size = sizeof(prec->acks);
     prt->papFldDes[histogramRecordACKT]->size = sizeof(prec->ackt);
     prt->papFldDes[histogramRecordDISS]->size = sizeof(prec->diss);
@@ -252,10 +242,6 @@ static int histogramRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[histogramRecordSIML]->size = sizeof(prec->siml);
     prt->papFldDes[histogramRecordSIMM]->size = sizeof(prec->simm);
     prt->papFldDes[histogramRecordSIMS]->size = sizeof(prec->sims);
-    prt->papFldDes[histogramRecordOLDSIMM]->size = sizeof(prec->oldsimm);
-    prt->papFldDes[histogramRecordSSCN]->size = sizeof(prec->sscn);
-    prt->papFldDes[histogramRecordSDLY]->size = sizeof(prec->sdly);
-    prt->papFldDes[histogramRecordSIMPVT]->size = sizeof(prec->simpvt);
     prt->papFldDes[histogramRecordHOPR]->size = sizeof(prec->hopr);
     prt->papFldDes[histogramRecordLOPR]->size = sizeof(prec->lopr);
     prt->papFldDes[histogramRecordNAME]->offset = (unsigned short)((char *)&prec->name - (char *)prec);
@@ -273,12 +259,15 @@ static int histogramRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[histogramRecordSDIS]->offset = (unsigned short)((char *)&prec->sdis - (char *)prec);
     prt->papFldDes[histogramRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[histogramRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
+    prt->papFldDes[histogramRecordBKLNK]->offset = (unsigned short)((char *)&prec->bklnk - (char *)prec);
     prt->papFldDes[histogramRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[histogramRecordPROC]->offset = (unsigned short)((char *)&prec->proc - (char *)prec);
     prt->papFldDes[histogramRecordSTAT]->offset = (unsigned short)((char *)&prec->stat - (char *)prec);
     prt->papFldDes[histogramRecordSEVR]->offset = (unsigned short)((char *)&prec->sevr - (char *)prec);
+    prt->papFldDes[histogramRecordAMSG]->offset = (unsigned short)((char *)&prec->amsg - (char *)prec);
     prt->papFldDes[histogramRecordNSTA]->offset = (unsigned short)((char *)&prec->nsta - (char *)prec);
     prt->papFldDes[histogramRecordNSEV]->offset = (unsigned short)((char *)&prec->nsev - (char *)prec);
+    prt->papFldDes[histogramRecordNAMSG]->offset = (unsigned short)((char *)&prec->namsg - (char *)prec);
     prt->papFldDes[histogramRecordACKS]->offset = (unsigned short)((char *)&prec->acks - (char *)prec);
     prt->papFldDes[histogramRecordACKT]->offset = (unsigned short)((char *)&prec->ackt - (char *)prec);
     prt->papFldDes[histogramRecordDISS]->offset = (unsigned short)((char *)&prec->diss - (char *)prec);
@@ -322,10 +311,6 @@ static int histogramRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[histogramRecordSIML]->offset = (unsigned short)((char *)&prec->siml - (char *)prec);
     prt->papFldDes[histogramRecordSIMM]->offset = (unsigned short)((char *)&prec->simm - (char *)prec);
     prt->papFldDes[histogramRecordSIMS]->offset = (unsigned short)((char *)&prec->sims - (char *)prec);
-    prt->papFldDes[histogramRecordOLDSIMM]->offset = (unsigned short)((char *)&prec->oldsimm - (char *)prec);
-    prt->papFldDes[histogramRecordSSCN]->offset = (unsigned short)((char *)&prec->sscn - (char *)prec);
-    prt->papFldDes[histogramRecordSDLY]->offset = (unsigned short)((char *)&prec->sdly - (char *)prec);
-    prt->papFldDes[histogramRecordSIMPVT]->offset = (unsigned short)((char *)&prec->simpvt - (char *)prec);
     prt->papFldDes[histogramRecordHOPR]->offset = (unsigned short)((char *)&prec->hopr - (char *)prec);
     prt->papFldDes[histogramRecordLOPR]->offset = (unsigned short)((char *)&prec->lopr - (char *)prec);
     prt->rec_size = sizeof(*prec);

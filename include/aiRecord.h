@@ -3,9 +3,9 @@
 #ifndef INC_aiRecord_H
 #define INC_aiRecord_H
 
- #include "epicsTypes.h"
- #include "link.h"
-#include "epicsMutex.h"
+#include "epicsTypes.h"
+#include "link.h"
+ #include "epicsMutex.h"
 #include "ellLib.h"
 #include "epicsTime.h"
 
@@ -25,12 +25,15 @@ typedef struct aiRecord {
     DBLINK              sdis;       /* Scanning Disable */
     epicsMutexId        mlok;       /* Monitor lock */
     ELLLIST             mlis;       /* Monitor List */
+    ELLLIST             bklnk;      /* Backwards link tracking */
     epicsUInt8          disp;       /* Disable putField */
     epicsUInt8          proc;       /* Force Processing */
     epicsEnum16         stat;       /* Alarm Status */
     epicsEnum16         sevr;       /* Alarm Severity */
+    char                amsg[40];   /* Alarm Message */
     epicsEnum16         nsta;       /* New Alarm Status */
     epicsEnum16         nsev;       /* New Alarm Severity */
+    char                namsg[40];  /* New Alarm Message */
     epicsEnum16         acks;       /* Alarm Ack Severity */
     epicsEnum16         ackt;       /* Alarm Ack Transient */
     epicsEnum16         diss;       /* Disable Alarm Sevrty */
@@ -113,76 +116,79 @@ typedef enum {
 	aiRecordSDIS = 12,
 	aiRecordMLOK = 13,
 	aiRecordMLIS = 14,
-	aiRecordDISP = 15,
-	aiRecordPROC = 16,
-	aiRecordSTAT = 17,
-	aiRecordSEVR = 18,
-	aiRecordNSTA = 19,
-	aiRecordNSEV = 20,
-	aiRecordACKS = 21,
-	aiRecordACKT = 22,
-	aiRecordDISS = 23,
-	aiRecordLCNT = 24,
-	aiRecordPACT = 25,
-	aiRecordPUTF = 26,
-	aiRecordRPRO = 27,
-	aiRecordASP = 28,
-	aiRecordPPN = 29,
-	aiRecordPPNR = 30,
-	aiRecordSPVT = 31,
-	aiRecordRSET = 32,
-	aiRecordDSET = 33,
-	aiRecordDPVT = 34,
-	aiRecordRDES = 35,
-	aiRecordLSET = 36,
-	aiRecordPRIO = 37,
-	aiRecordTPRO = 38,
-	aiRecordBKPT = 39,
-	aiRecordUDF = 40,
-	aiRecordUDFS = 41,
-	aiRecordTIME = 42,
-	aiRecordFLNK = 43,
-	aiRecordVAL = 44,
-	aiRecordINP = 45,
-	aiRecordPREC = 46,
-	aiRecordLINR = 47,
-	aiRecordEGUF = 48,
-	aiRecordEGUL = 49,
-	aiRecordEGU = 50,
-	aiRecordHOPR = 51,
-	aiRecordLOPR = 52,
-	aiRecordAOFF = 53,
-	aiRecordASLO = 54,
-	aiRecordSMOO = 55,
-	aiRecordHIHI = 56,
-	aiRecordLOLO = 57,
-	aiRecordHIGH = 58,
-	aiRecordLOW = 59,
-	aiRecordHHSV = 60,
-	aiRecordLLSV = 61,
-	aiRecordHSV = 62,
-	aiRecordLSV = 63,
-	aiRecordHYST = 64,
-	aiRecordAFTC = 65,
-	aiRecordADEL = 66,
-	aiRecordMDEL = 67,
-	aiRecordLALM = 68,
-	aiRecordAFVL = 69,
-	aiRecordALST = 70,
-	aiRecordMLST = 71,
-	aiRecordESLO = 72,
-	aiRecordEOFF = 73,
-	aiRecordROFF = 74,
-	aiRecordPBRK = 75,
-	aiRecordINIT = 76,
-	aiRecordLBRK = 77,
-	aiRecordRVAL = 78,
-	aiRecordORAW = 79,
-	aiRecordSIOL = 80,
-	aiRecordSVAL = 81,
-	aiRecordSIML = 82,
-	aiRecordSIMM = 83,
-	aiRecordSIMS = 84
+	aiRecordBKLNK = 15,
+	aiRecordDISP = 16,
+	aiRecordPROC = 17,
+	aiRecordSTAT = 18,
+	aiRecordSEVR = 19,
+	aiRecordAMSG = 20,
+	aiRecordNSTA = 21,
+	aiRecordNSEV = 22,
+	aiRecordNAMSG = 23,
+	aiRecordACKS = 24,
+	aiRecordACKT = 25,
+	aiRecordDISS = 26,
+	aiRecordLCNT = 27,
+	aiRecordPACT = 28,
+	aiRecordPUTF = 29,
+	aiRecordRPRO = 30,
+	aiRecordASP = 31,
+	aiRecordPPN = 32,
+	aiRecordPPNR = 33,
+	aiRecordSPVT = 34,
+	aiRecordRSET = 35,
+	aiRecordDSET = 36,
+	aiRecordDPVT = 37,
+	aiRecordRDES = 38,
+	aiRecordLSET = 39,
+	aiRecordPRIO = 40,
+	aiRecordTPRO = 41,
+	aiRecordBKPT = 42,
+	aiRecordUDF = 43,
+	aiRecordUDFS = 44,
+	aiRecordTIME = 45,
+	aiRecordFLNK = 46,
+	aiRecordVAL = 47,
+	aiRecordINP = 48,
+	aiRecordPREC = 49,
+	aiRecordLINR = 50,
+	aiRecordEGUF = 51,
+	aiRecordEGUL = 52,
+	aiRecordEGU = 53,
+	aiRecordHOPR = 54,
+	aiRecordLOPR = 55,
+	aiRecordAOFF = 56,
+	aiRecordASLO = 57,
+	aiRecordSMOO = 58,
+	aiRecordHIHI = 59,
+	aiRecordLOLO = 60,
+	aiRecordHIGH = 61,
+	aiRecordLOW = 62,
+	aiRecordHHSV = 63,
+	aiRecordLLSV = 64,
+	aiRecordHSV = 65,
+	aiRecordLSV = 66,
+	aiRecordHYST = 67,
+	aiRecordAFTC = 68,
+	aiRecordADEL = 69,
+	aiRecordMDEL = 70,
+	aiRecordLALM = 71,
+	aiRecordAFVL = 72,
+	aiRecordALST = 73,
+	aiRecordMLST = 74,
+	aiRecordESLO = 75,
+	aiRecordEOFF = 76,
+	aiRecordROFF = 77,
+	aiRecordPBRK = 78,
+	aiRecordINIT = 79,
+	aiRecordLBRK = 80,
+	aiRecordRVAL = 81,
+	aiRecordORAW = 82,
+	aiRecordSIOL = 83,
+	aiRecordSVAL = 84,
+	aiRecordSIML = 85,
+	aiRecordSIMM = 86,
+	aiRecordSIMS = 87
 } aiFieldIndex;
 
 #ifdef GEN_SIZE_OFFSET
@@ -196,7 +202,7 @@ static int aiRecordSizeOffset(dbRecordType *prt)
 {
     aiRecord *prec = 0;
 
-    assert(prt->no_fields == 85);
+    assert(prt->no_fields == 88);
     prt->papFldDes[aiRecordNAME]->size = sizeof(prec->name);
     prt->papFldDes[aiRecordDESC]->size = sizeof(prec->desc);
     prt->papFldDes[aiRecordASG]->size = sizeof(prec->asg);
@@ -212,12 +218,15 @@ static int aiRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[aiRecordSDIS]->size = sizeof(prec->sdis);
     prt->papFldDes[aiRecordMLOK]->size = sizeof(prec->mlok);
     prt->papFldDes[aiRecordMLIS]->size = sizeof(prec->mlis);
+    prt->papFldDes[aiRecordBKLNK]->size = sizeof(prec->bklnk);
     prt->papFldDes[aiRecordDISP]->size = sizeof(prec->disp);
     prt->papFldDes[aiRecordPROC]->size = sizeof(prec->proc);
     prt->papFldDes[aiRecordSTAT]->size = sizeof(prec->stat);
     prt->papFldDes[aiRecordSEVR]->size = sizeof(prec->sevr);
+    prt->papFldDes[aiRecordAMSG]->size = sizeof(prec->amsg);
     prt->papFldDes[aiRecordNSTA]->size = sizeof(prec->nsta);
     prt->papFldDes[aiRecordNSEV]->size = sizeof(prec->nsev);
+    prt->papFldDes[aiRecordNAMSG]->size = sizeof(prec->namsg);
     prt->papFldDes[aiRecordACKS]->size = sizeof(prec->acks);
     prt->papFldDes[aiRecordACKT]->size = sizeof(prec->ackt);
     prt->papFldDes[aiRecordDISS]->size = sizeof(prec->diss);
@@ -297,12 +306,15 @@ static int aiRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[aiRecordSDIS]->offset = (unsigned short)((char *)&prec->sdis - (char *)prec);
     prt->papFldDes[aiRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[aiRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
+    prt->papFldDes[aiRecordBKLNK]->offset = (unsigned short)((char *)&prec->bklnk - (char *)prec);
     prt->papFldDes[aiRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[aiRecordPROC]->offset = (unsigned short)((char *)&prec->proc - (char *)prec);
     prt->papFldDes[aiRecordSTAT]->offset = (unsigned short)((char *)&prec->stat - (char *)prec);
     prt->papFldDes[aiRecordSEVR]->offset = (unsigned short)((char *)&prec->sevr - (char *)prec);
+    prt->papFldDes[aiRecordAMSG]->offset = (unsigned short)((char *)&prec->amsg - (char *)prec);
     prt->papFldDes[aiRecordNSTA]->offset = (unsigned short)((char *)&prec->nsta - (char *)prec);
     prt->papFldDes[aiRecordNSEV]->offset = (unsigned short)((char *)&prec->nsev - (char *)prec);
+    prt->papFldDes[aiRecordNAMSG]->offset = (unsigned short)((char *)&prec->namsg - (char *)prec);
     prt->papFldDes[aiRecordACKS]->offset = (unsigned short)((char *)&prec->acks - (char *)prec);
     prt->papFldDes[aiRecordACKT]->offset = (unsigned short)((char *)&prec->ackt - (char *)prec);
     prt->papFldDes[aiRecordDISS]->offset = (unsigned short)((char *)&prec->diss - (char *)prec);

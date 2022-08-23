@@ -3,9 +3,9 @@
 #ifndef INC_eventRecord_H
 #define INC_eventRecord_H
 
- #include "epicsTypes.h"
- #include "link.h"
-#include "epicsMutex.h"
+#include "epicsTypes.h"
+#include "link.h"
+ #include "epicsMutex.h"
 #include "ellLib.h"
 #include "epicsTime.h"
 #include "dbScan.h"
@@ -26,12 +26,15 @@ typedef struct eventRecord {
     DBLINK              sdis;       /* Scanning Disable */
     epicsMutexId        mlok;       /* Monitor lock */
     ELLLIST             mlis;       /* Monitor List */
+    ELLLIST             bklnk;      /* Backwards link tracking */
     epicsUInt8          disp;       /* Disable putField */
     epicsUInt8          proc;       /* Force Processing */
     epicsEnum16         stat;       /* Alarm Status */
     epicsEnum16         sevr;       /* Alarm Severity */
+    char                amsg[40];   /* Alarm Message */
     epicsEnum16         nsta;       /* New Alarm Status */
     epicsEnum16         nsev;       /* New Alarm Severity */
+    char                namsg[40];  /* New Alarm Message */
     epicsEnum16         acks;       /* Alarm Ack Severity */
     epicsEnum16         ackt;       /* Alarm Ack Transient */
     epicsEnum16         diss;       /* Disable Alarm Sevrty */
@@ -81,43 +84,46 @@ typedef enum {
 	eventRecordSDIS = 12,
 	eventRecordMLOK = 13,
 	eventRecordMLIS = 14,
-	eventRecordDISP = 15,
-	eventRecordPROC = 16,
-	eventRecordSTAT = 17,
-	eventRecordSEVR = 18,
-	eventRecordNSTA = 19,
-	eventRecordNSEV = 20,
-	eventRecordACKS = 21,
-	eventRecordACKT = 22,
-	eventRecordDISS = 23,
-	eventRecordLCNT = 24,
-	eventRecordPACT = 25,
-	eventRecordPUTF = 26,
-	eventRecordRPRO = 27,
-	eventRecordASP = 28,
-	eventRecordPPN = 29,
-	eventRecordPPNR = 30,
-	eventRecordSPVT = 31,
-	eventRecordRSET = 32,
-	eventRecordDSET = 33,
-	eventRecordDPVT = 34,
-	eventRecordRDES = 35,
-	eventRecordLSET = 36,
-	eventRecordPRIO = 37,
-	eventRecordTPRO = 38,
-	eventRecordBKPT = 39,
-	eventRecordUDF = 40,
-	eventRecordUDFS = 41,
-	eventRecordTIME = 42,
-	eventRecordFLNK = 43,
-	eventRecordVAL = 44,
-	eventRecordEPVT = 45,
-	eventRecordINP = 46,
-	eventRecordSIOL = 47,
-	eventRecordSVAL = 48,
-	eventRecordSIML = 49,
-	eventRecordSIMM = 50,
-	eventRecordSIMS = 51
+	eventRecordBKLNK = 15,
+	eventRecordDISP = 16,
+	eventRecordPROC = 17,
+	eventRecordSTAT = 18,
+	eventRecordSEVR = 19,
+	eventRecordAMSG = 20,
+	eventRecordNSTA = 21,
+	eventRecordNSEV = 22,
+	eventRecordNAMSG = 23,
+	eventRecordACKS = 24,
+	eventRecordACKT = 25,
+	eventRecordDISS = 26,
+	eventRecordLCNT = 27,
+	eventRecordPACT = 28,
+	eventRecordPUTF = 29,
+	eventRecordRPRO = 30,
+	eventRecordASP = 31,
+	eventRecordPPN = 32,
+	eventRecordPPNR = 33,
+	eventRecordSPVT = 34,
+	eventRecordRSET = 35,
+	eventRecordDSET = 36,
+	eventRecordDPVT = 37,
+	eventRecordRDES = 38,
+	eventRecordLSET = 39,
+	eventRecordPRIO = 40,
+	eventRecordTPRO = 41,
+	eventRecordBKPT = 42,
+	eventRecordUDF = 43,
+	eventRecordUDFS = 44,
+	eventRecordTIME = 45,
+	eventRecordFLNK = 46,
+	eventRecordVAL = 47,
+	eventRecordEPVT = 48,
+	eventRecordINP = 49,
+	eventRecordSIOL = 50,
+	eventRecordSVAL = 51,
+	eventRecordSIML = 52,
+	eventRecordSIMM = 53,
+	eventRecordSIMS = 54
 } eventFieldIndex;
 
 #ifdef GEN_SIZE_OFFSET
@@ -131,7 +137,7 @@ static int eventRecordSizeOffset(dbRecordType *prt)
 {
     eventRecord *prec = 0;
 
-    assert(prt->no_fields == 52);
+    assert(prt->no_fields == 55);
     prt->papFldDes[eventRecordNAME]->size = sizeof(prec->name);
     prt->papFldDes[eventRecordDESC]->size = sizeof(prec->desc);
     prt->papFldDes[eventRecordASG]->size = sizeof(prec->asg);
@@ -147,12 +153,15 @@ static int eventRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[eventRecordSDIS]->size = sizeof(prec->sdis);
     prt->papFldDes[eventRecordMLOK]->size = sizeof(prec->mlok);
     prt->papFldDes[eventRecordMLIS]->size = sizeof(prec->mlis);
+    prt->papFldDes[eventRecordBKLNK]->size = sizeof(prec->bklnk);
     prt->papFldDes[eventRecordDISP]->size = sizeof(prec->disp);
     prt->papFldDes[eventRecordPROC]->size = sizeof(prec->proc);
     prt->papFldDes[eventRecordSTAT]->size = sizeof(prec->stat);
     prt->papFldDes[eventRecordSEVR]->size = sizeof(prec->sevr);
+    prt->papFldDes[eventRecordAMSG]->size = sizeof(prec->amsg);
     prt->papFldDes[eventRecordNSTA]->size = sizeof(prec->nsta);
     prt->papFldDes[eventRecordNSEV]->size = sizeof(prec->nsev);
+    prt->papFldDes[eventRecordNAMSG]->size = sizeof(prec->namsg);
     prt->papFldDes[eventRecordACKS]->size = sizeof(prec->acks);
     prt->papFldDes[eventRecordACKT]->size = sizeof(prec->ackt);
     prt->papFldDes[eventRecordDISS]->size = sizeof(prec->diss);
@@ -199,12 +208,15 @@ static int eventRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[eventRecordSDIS]->offset = (unsigned short)((char *)&prec->sdis - (char *)prec);
     prt->papFldDes[eventRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[eventRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
+    prt->papFldDes[eventRecordBKLNK]->offset = (unsigned short)((char *)&prec->bklnk - (char *)prec);
     prt->papFldDes[eventRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[eventRecordPROC]->offset = (unsigned short)((char *)&prec->proc - (char *)prec);
     prt->papFldDes[eventRecordSTAT]->offset = (unsigned short)((char *)&prec->stat - (char *)prec);
     prt->papFldDes[eventRecordSEVR]->offset = (unsigned short)((char *)&prec->sevr - (char *)prec);
+    prt->papFldDes[eventRecordAMSG]->offset = (unsigned short)((char *)&prec->amsg - (char *)prec);
     prt->papFldDes[eventRecordNSTA]->offset = (unsigned short)((char *)&prec->nsta - (char *)prec);
     prt->papFldDes[eventRecordNSEV]->offset = (unsigned short)((char *)&prec->nsev - (char *)prec);
+    prt->papFldDes[eventRecordNAMSG]->offset = (unsigned short)((char *)&prec->namsg - (char *)prec);
     prt->papFldDes[eventRecordACKS]->offset = (unsigned short)((char *)&prec->acks - (char *)prec);
     prt->papFldDes[eventRecordACKT]->offset = (unsigned short)((char *)&prec->ackt - (char *)prec);
     prt->papFldDes[eventRecordDISS]->offset = (unsigned short)((char *)&prec->diss - (char *)prec);

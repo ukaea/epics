@@ -3,22 +3,11 @@
 #ifndef INC_aaiRecord_H
 #define INC_aaiRecord_H
 
- #include "epicsTypes.h"
- #include "link.h"
-#include "epicsMutex.h"
+#include "epicsTypes.h"
+#include "link.h"
+ #include "epicsMutex.h"
 #include "ellLib.h"
 #include "epicsTime.h"
-
-/* Declare Device Support Entry Table */
-struct aaiRecord;
-typedef struct aaidset {
-    dset common; /*init_record returns: (-1,0,AAI_DEVINIT_PASS1)=>(failure,success,callback)*/
-    long (*read_aai)(struct aaiRecord *prec); /*returns: (-1,0)=>(failure,success)*/
-} aaidset;
-#define HAS_aaidset
-#define AAI_DEVINIT_PASS1 2
-
-#include "callback.h"
 
 #ifndef aaiPOST_NUM_CHOICES
 typedef enum {
@@ -26,6 +15,24 @@ typedef enum {
     aaiPOST_OnChange                /* On Change */
 } aaiPOST;
 #define aaiPOST_NUM_CHOICES 2
+#endif
+
+#ifndef menuFtype_NUM_CHOICES
+typedef enum {
+    menuFtypeSTRING                 /* STRING */,
+    menuFtypeCHAR                   /* CHAR */,
+    menuFtypeUCHAR                  /* UCHAR */,
+    menuFtypeSHORT                  /* SHORT */,
+    menuFtypeUSHORT                 /* USHORT */,
+    menuFtypeLONG                   /* LONG */,
+    menuFtypeULONG                  /* ULONG */,
+    menuFtypeINT64                  /* INT64 */,
+    menuFtypeUINT64                 /* UINT64 */,
+    menuFtypeFLOAT                  /* FLOAT */,
+    menuFtypeDOUBLE                 /* DOUBLE */,
+    menuFtypeENUM                   /* ENUM */
+} menuFtype;
+#define menuFtype_NUM_CHOICES 12
 #endif
 
 typedef struct aaiRecord {
@@ -44,12 +51,15 @@ typedef struct aaiRecord {
     DBLINK              sdis;       /* Scanning Disable */
     epicsMutexId        mlok;       /* Monitor lock */
     ELLLIST             mlis;       /* Monitor List */
+    ELLLIST             bklnk;      /* Backwards link tracking */
     epicsUInt8          disp;       /* Disable putField */
     epicsUInt8          proc;       /* Force Processing */
     epicsEnum16         stat;       /* Alarm Status */
     epicsEnum16         sevr;       /* Alarm Severity */
+    char                amsg[40];   /* Alarm Message */
     epicsEnum16         nsta;       /* New Alarm Status */
     epicsEnum16         nsev;       /* New Alarm Severity */
+    char                namsg[40];  /* New Alarm Message */
     epicsEnum16         acks;       /* Alarm Ack Severity */
     epicsEnum16         ackt;       /* Alarm Ack Transient */
     epicsEnum16         diss;       /* Disable Alarm Sevrty */
@@ -83,14 +93,10 @@ typedef struct aaiRecord {
     epicsEnum16         ftvl;       /* Field Type of Value */
     epicsUInt32         nord;       /* Number elements read */
     void *		bptr;                   /* Buffer Pointer */
-    DBLINK              siml;       /* Simulation Mode Link */
+    DBLINK              siml;       /* Sim Mode Location */
     epicsEnum16         simm;       /* Simulation Mode */
-    epicsEnum16         sims;       /* Simulation Mode Severity */
-    DBLINK              siol;       /* Simulation Input Link */
-    epicsEnum16         oldsimm;    /* Prev. Simulation Mode */
-    epicsEnum16         sscn;       /* Sim. Mode Scan */
-    epicsFloat64        sdly;       /* Sim. Mode Async Delay */
-    epicsCallback            *simpvt; /* Sim. Mode Private */
+    epicsEnum16         sims;       /* Sim mode Alarm Svrty */
+    DBLINK              siol;       /* Sim Input Specifctn */
     epicsEnum16         mpst;       /* Post Value Monitors */
     epicsEnum16         apst;       /* Post Archive Monitors */
     epicsUInt32         hash;       /* Hash of OnChange data. */
@@ -112,56 +118,55 @@ typedef enum {
 	aaiRecordSDIS = 12,
 	aaiRecordMLOK = 13,
 	aaiRecordMLIS = 14,
-	aaiRecordDISP = 15,
-	aaiRecordPROC = 16,
-	aaiRecordSTAT = 17,
-	aaiRecordSEVR = 18,
-	aaiRecordNSTA = 19,
-	aaiRecordNSEV = 20,
-	aaiRecordACKS = 21,
-	aaiRecordACKT = 22,
-	aaiRecordDISS = 23,
-	aaiRecordLCNT = 24,
-	aaiRecordPACT = 25,
-	aaiRecordPUTF = 26,
-	aaiRecordRPRO = 27,
-	aaiRecordASP = 28,
-	aaiRecordPPN = 29,
-	aaiRecordPPNR = 30,
-	aaiRecordSPVT = 31,
-	aaiRecordRSET = 32,
-	aaiRecordDSET = 33,
-	aaiRecordDPVT = 34,
-	aaiRecordRDES = 35,
-	aaiRecordLSET = 36,
-	aaiRecordPRIO = 37,
-	aaiRecordTPRO = 38,
-	aaiRecordBKPT = 39,
-	aaiRecordUDF = 40,
-	aaiRecordUDFS = 41,
-	aaiRecordTIME = 42,
-	aaiRecordFLNK = 43,
-	aaiRecordVAL = 44,
-	aaiRecordPREC = 45,
-	aaiRecordINP = 46,
-	aaiRecordEGU = 47,
-	aaiRecordHOPR = 48,
-	aaiRecordLOPR = 49,
-	aaiRecordNELM = 50,
-	aaiRecordFTVL = 51,
-	aaiRecordNORD = 52,
-	aaiRecordBPTR = 53,
-	aaiRecordSIML = 54,
-	aaiRecordSIMM = 55,
-	aaiRecordSIMS = 56,
-	aaiRecordSIOL = 57,
-	aaiRecordOLDSIMM = 58,
-	aaiRecordSSCN = 59,
-	aaiRecordSDLY = 60,
-	aaiRecordSIMPVT = 61,
-	aaiRecordMPST = 62,
-	aaiRecordAPST = 63,
-	aaiRecordHASH = 64
+	aaiRecordBKLNK = 15,
+	aaiRecordDISP = 16,
+	aaiRecordPROC = 17,
+	aaiRecordSTAT = 18,
+	aaiRecordSEVR = 19,
+	aaiRecordAMSG = 20,
+	aaiRecordNSTA = 21,
+	aaiRecordNSEV = 22,
+	aaiRecordNAMSG = 23,
+	aaiRecordACKS = 24,
+	aaiRecordACKT = 25,
+	aaiRecordDISS = 26,
+	aaiRecordLCNT = 27,
+	aaiRecordPACT = 28,
+	aaiRecordPUTF = 29,
+	aaiRecordRPRO = 30,
+	aaiRecordASP = 31,
+	aaiRecordPPN = 32,
+	aaiRecordPPNR = 33,
+	aaiRecordSPVT = 34,
+	aaiRecordRSET = 35,
+	aaiRecordDSET = 36,
+	aaiRecordDPVT = 37,
+	aaiRecordRDES = 38,
+	aaiRecordLSET = 39,
+	aaiRecordPRIO = 40,
+	aaiRecordTPRO = 41,
+	aaiRecordBKPT = 42,
+	aaiRecordUDF = 43,
+	aaiRecordUDFS = 44,
+	aaiRecordTIME = 45,
+	aaiRecordFLNK = 46,
+	aaiRecordVAL = 47,
+	aaiRecordPREC = 48,
+	aaiRecordINP = 49,
+	aaiRecordEGU = 50,
+	aaiRecordHOPR = 51,
+	aaiRecordLOPR = 52,
+	aaiRecordNELM = 53,
+	aaiRecordFTVL = 54,
+	aaiRecordNORD = 55,
+	aaiRecordBPTR = 56,
+	aaiRecordSIML = 57,
+	aaiRecordSIMM = 58,
+	aaiRecordSIMS = 59,
+	aaiRecordSIOL = 60,
+	aaiRecordMPST = 61,
+	aaiRecordAPST = 62,
+	aaiRecordHASH = 63
 } aaiFieldIndex;
 
 #ifdef GEN_SIZE_OFFSET
@@ -175,7 +180,7 @@ static int aaiRecordSizeOffset(dbRecordType *prt)
 {
     aaiRecord *prec = 0;
 
-    assert(prt->no_fields == 65);
+    assert(prt->no_fields == 64);
     prt->papFldDes[aaiRecordNAME]->size = sizeof(prec->name);
     prt->papFldDes[aaiRecordDESC]->size = sizeof(prec->desc);
     prt->papFldDes[aaiRecordASG]->size = sizeof(prec->asg);
@@ -191,12 +196,15 @@ static int aaiRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[aaiRecordSDIS]->size = sizeof(prec->sdis);
     prt->papFldDes[aaiRecordMLOK]->size = sizeof(prec->mlok);
     prt->papFldDes[aaiRecordMLIS]->size = sizeof(prec->mlis);
+    prt->papFldDes[aaiRecordBKLNK]->size = sizeof(prec->bklnk);
     prt->papFldDes[aaiRecordDISP]->size = sizeof(prec->disp);
     prt->papFldDes[aaiRecordPROC]->size = sizeof(prec->proc);
     prt->papFldDes[aaiRecordSTAT]->size = sizeof(prec->stat);
     prt->papFldDes[aaiRecordSEVR]->size = sizeof(prec->sevr);
+    prt->papFldDes[aaiRecordAMSG]->size = sizeof(prec->amsg);
     prt->papFldDes[aaiRecordNSTA]->size = sizeof(prec->nsta);
     prt->papFldDes[aaiRecordNSEV]->size = sizeof(prec->nsev);
+    prt->papFldDes[aaiRecordNAMSG]->size = sizeof(prec->namsg);
     prt->papFldDes[aaiRecordACKS]->size = sizeof(prec->acks);
     prt->papFldDes[aaiRecordACKT]->size = sizeof(prec->ackt);
     prt->papFldDes[aaiRecordDISS]->size = sizeof(prec->diss);
@@ -234,10 +242,6 @@ static int aaiRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[aaiRecordSIMM]->size = sizeof(prec->simm);
     prt->papFldDes[aaiRecordSIMS]->size = sizeof(prec->sims);
     prt->papFldDes[aaiRecordSIOL]->size = sizeof(prec->siol);
-    prt->papFldDes[aaiRecordOLDSIMM]->size = sizeof(prec->oldsimm);
-    prt->papFldDes[aaiRecordSSCN]->size = sizeof(prec->sscn);
-    prt->papFldDes[aaiRecordSDLY]->size = sizeof(prec->sdly);
-    prt->papFldDes[aaiRecordSIMPVT]->size = sizeof(prec->simpvt);
     prt->papFldDes[aaiRecordMPST]->size = sizeof(prec->mpst);
     prt->papFldDes[aaiRecordAPST]->size = sizeof(prec->apst);
     prt->papFldDes[aaiRecordHASH]->size = sizeof(prec->hash);
@@ -256,12 +260,15 @@ static int aaiRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[aaiRecordSDIS]->offset = (unsigned short)((char *)&prec->sdis - (char *)prec);
     prt->papFldDes[aaiRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[aaiRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
+    prt->papFldDes[aaiRecordBKLNK]->offset = (unsigned short)((char *)&prec->bklnk - (char *)prec);
     prt->papFldDes[aaiRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[aaiRecordPROC]->offset = (unsigned short)((char *)&prec->proc - (char *)prec);
     prt->papFldDes[aaiRecordSTAT]->offset = (unsigned short)((char *)&prec->stat - (char *)prec);
     prt->papFldDes[aaiRecordSEVR]->offset = (unsigned short)((char *)&prec->sevr - (char *)prec);
+    prt->papFldDes[aaiRecordAMSG]->offset = (unsigned short)((char *)&prec->amsg - (char *)prec);
     prt->papFldDes[aaiRecordNSTA]->offset = (unsigned short)((char *)&prec->nsta - (char *)prec);
     prt->papFldDes[aaiRecordNSEV]->offset = (unsigned short)((char *)&prec->nsev - (char *)prec);
+    prt->papFldDes[aaiRecordNAMSG]->offset = (unsigned short)((char *)&prec->namsg - (char *)prec);
     prt->papFldDes[aaiRecordACKS]->offset = (unsigned short)((char *)&prec->acks - (char *)prec);
     prt->papFldDes[aaiRecordACKT]->offset = (unsigned short)((char *)&prec->ackt - (char *)prec);
     prt->papFldDes[aaiRecordDISS]->offset = (unsigned short)((char *)&prec->diss - (char *)prec);
@@ -299,10 +306,6 @@ static int aaiRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[aaiRecordSIMM]->offset = (unsigned short)((char *)&prec->simm - (char *)prec);
     prt->papFldDes[aaiRecordSIMS]->offset = (unsigned short)((char *)&prec->sims - (char *)prec);
     prt->papFldDes[aaiRecordSIOL]->offset = (unsigned short)((char *)&prec->siol - (char *)prec);
-    prt->papFldDes[aaiRecordOLDSIMM]->offset = (unsigned short)((char *)&prec->oldsimm - (char *)prec);
-    prt->papFldDes[aaiRecordSSCN]->offset = (unsigned short)((char *)&prec->sscn - (char *)prec);
-    prt->papFldDes[aaiRecordSDLY]->offset = (unsigned short)((char *)&prec->sdly - (char *)prec);
-    prt->papFldDes[aaiRecordSIMPVT]->offset = (unsigned short)((char *)&prec->simpvt - (char *)prec);
     prt->papFldDes[aaiRecordMPST]->offset = (unsigned short)((char *)&prec->mpst - (char *)prec);
     prt->papFldDes[aaiRecordAPST]->offset = (unsigned short)((char *)&prec->apst - (char *)prec);
     prt->papFldDes[aaiRecordHASH]->offset = (unsigned short)((char *)&prec->hash - (char *)prec);

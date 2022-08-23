@@ -47,26 +47,26 @@
 #undef  GEN_SIZE_OFFSET
 #include "epicsExport.h"
 
-/* Create RSET - Record Support Entry Table*/
+ /* Create RSET - Record Support Entry Table*/
 #define report NULL
 #define initialize NULL
-static long init_record(aaiRecord *, int);
-static long process(aaiRecord *);
+static long init_record(aaiRecord*, int);
+static long process(aaiRecord*);
 #define special NULL
 #define get_value NULL
-static long cvt_dbaddr(DBADDR *);
-static long get_array_info(DBADDR *, long *, long *);
-static long put_array_info(DBADDR *, long);
-static long get_units(DBADDR *, char *);
-static long get_precision(DBADDR *, long *);
+static long cvt_dbaddr(DBADDR*);
+static long get_array_info(DBADDR*, long*, long*);
+static long put_array_info(DBADDR*, long);
+static long get_units(DBADDR*, char*);
+static long get_precision(DBADDR*, long*);
 #define get_enum_str NULL
 #define get_enum_strs NULL
 #define put_enum_str NULL
-static long get_graphic_double(DBADDR *, struct dbr_grDouble *);
-static long get_control_double(DBADDR *, struct dbr_ctrlDouble *);
+static long get_graphic_double(DBADDR*, struct dbr_grDouble*);
+static long get_control_double(DBADDR*, struct dbr_ctrlDouble*);
 #define get_alarm_double NULL
 
-rset aaiRSET={
+rset aaiRSET = {
     RSETNUMBER,
     report,
     initialize,
@@ -86,15 +86,24 @@ rset aaiRSET={
     get_control_double,
     get_alarm_double
 };
-epicsExportAddress(rset,aaiRSET);
+epicsExportAddress(rset, aaiRSET);
 
-static void monitor(aaiRecord *);
-static long readValue(aaiRecord *);
+struct aaidset { /* aai dset */
+    long      number;
+    DEVSUPFUN dev_report;
+    DEVSUPFUN init;
+    DEVSUPFUN init_record; /*returns: (-1,0)=>(failure,success)*/
+    DEVSUPFUN get_ioint_info;
+    DEVSUPFUN read_aai; /*returns: (-1,0)=>(failure,success)*/
+};
 
-static long init_record(aaiRecord *prec, int pass)
+static void monitor(aaiRecord*);
+static long readValue(aaiRecord*);
+
+static long init_record(aaiRecord* prec, int pass)
 {
     long status;
-    struct aaidset *pdset = (struct aaidset *)(prec->dset);
+    struct aaidset* pdset = (struct aaidset*)(prec->dset);
 
     /* must have dset defined */
     if (!pdset) {
@@ -109,7 +118,8 @@ static long init_record(aaiRecord *prec, int pass)
             prec->ftvl = DBF_UCHAR;
         if (prec->nelm == 1) {
             prec->nord = 1;
-        } else {
+        }
+        else {
             prec->nord = 0;
         }
 
@@ -118,9 +128,9 @@ static long init_record(aaiRecord *prec, int pass)
            not change after links are established before pass 1
         */
 
-        if (pdset->common.init_record) {
+        if (pdset->init_record) {
             /* init_record may set the bptr to point to the data */
-            if ((status = pdset->common.init_record()))
+            if ((status = pdset->init_record(prec)))
                 return status;
         }
         if (!prec->bptr) {
@@ -133,20 +143,20 @@ static long init_record(aaiRecord *prec, int pass)
 
     /* SIML must be a CONSTANT or a PV_LINK or a DB_LINK */
     if (prec->siml.type == CONSTANT) {
-        recGblInitConstantLink(&prec->siml,DBF_USHORT,&prec->simm);
+        recGblInitConstantLink(&prec->siml, DBF_USHORT, &prec->simm);
     }
 
     /* must have read_aai function defined */
-    if (pdset->common.number < 5 || pdset->read_aai == NULL) {
+    if (pdset->number < 5 || pdset->read_aai == NULL) {
         recGblRecordError(S_dev_missingSup, prec, "aai: init_record");
         return S_dev_missingSup;
     }
     return 0;
 }
 
-static long process(aaiRecord *prec)
+static long process(aaiRecord* prec)
 {
-    struct aaidset *pdset = (struct aaidset *)(prec->dset);
+    struct aaidset* pdset = (struct aaidset*)(prec->dset);
     long status;
     unsigned char pact = prec->pact;
 
@@ -171,30 +181,30 @@ static long process(aaiRecord *prec)
     return status;
 }
 
-static long cvt_dbaddr(DBADDR *paddr)
+static long cvt_dbaddr(DBADDR* paddr)
 {
-    aaiRecord *prec = (aaiRecord *)paddr->precord;
+    aaiRecord* prec = (aaiRecord*)paddr->precord;
 
-    paddr->no_elements    = prec->nelm;
-    paddr->field_type     = prec->ftvl;
-    paddr->field_size     = dbValueSize(prec->ftvl);
+    paddr->no_elements = prec->nelm;
+    paddr->field_type = prec->ftvl;
+    paddr->field_size = dbValueSize(prec->ftvl);
     paddr->dbr_field_type = prec->ftvl;
     return 0;
 }
 
-static long get_array_info(DBADDR *paddr, long *no_elements, long *offset)
+static long get_array_info(DBADDR* paddr, long* no_elements, long* offset)
 {
-    aaiRecord *prec = (aaiRecord *)paddr->precord;
+    aaiRecord* prec = (aaiRecord*)paddr->precord;
 
     paddr->pfield = prec->bptr;
-    *no_elements =  prec->nord;
+    *no_elements = prec->nord;
     *offset = 0;
     return 0;
 }
 
-static long put_array_info(DBADDR *paddr, long nNew)
+static long put_array_info(DBADDR* paddr, long nNew)
 {
-    aaiRecord *prec = (aaiRecord *)paddr->precord;
+    aaiRecord* prec = (aaiRecord*)paddr->precord;
     epicsUInt32 nord = prec->nord;
 
     prec->nord = nNew;
@@ -208,24 +218,24 @@ static long put_array_info(DBADDR *paddr, long nNew)
 
 #define indexof(field) aaiRecord##field
 
-static long get_units(DBADDR *paddr, char *units)
+static long get_units(DBADDR* paddr, char* units)
 {
-    aaiRecord *prec = (aaiRecord *)paddr->precord;
+    aaiRecord* prec = (aaiRecord*)paddr->precord;
 
     switch (dbGetFieldIndex(paddr)) {
-        case indexof(VAL):
-            if (prec->ftvl == DBF_STRING || prec->ftvl == DBF_ENUM)
-                break;
-        case indexof(HOPR):
-        case indexof(LOPR):
-            strncpy(units,prec->egu,DB_UNITS_SIZE);
+    case indexof(VAL):
+        if (prec->ftvl == DBF_STRING || prec->ftvl == DBF_ENUM)
+            break;
+    case indexof(HOPR):
+    case indexof(LOPR):
+        strncpy(units, prec->egu, DB_UNITS_SIZE);
     }
     return 0;
 }
 
-static long get_precision(DBADDR *paddr, long *precision)
+static long get_precision(DBADDR* paddr, long* precision)
 {
-    aaiRecord *prec = (aaiRecord *)paddr->precord;
+    aaiRecord* prec = (aaiRecord*)paddr->precord;
 
     *precision = prec->prec;
     if (dbGetFieldIndex(paddr) != indexof(VAL))
@@ -233,45 +243,45 @@ static long get_precision(DBADDR *paddr, long *precision)
     return 0;
 }
 
-static long get_graphic_double(DBADDR *paddr, struct dbr_grDouble *pgd)
+static long get_graphic_double(DBADDR* paddr, struct dbr_grDouble* pgd)
 {
-    aaiRecord *prec = (aaiRecord *)paddr->precord;
+    aaiRecord* prec = (aaiRecord*)paddr->precord;
 
     switch (dbGetFieldIndex(paddr)) {
-        case indexof(VAL):
-            pgd->upper_disp_limit = prec->hopr;
-            pgd->lower_disp_limit = prec->lopr;
-            break;
-        case indexof(NORD):
-            pgd->upper_disp_limit = prec->nelm;
-            pgd->lower_disp_limit = 0;
-            break;
-        default:
-            recGblGetGraphicDouble(paddr, pgd);
+    case indexof(VAL):
+        pgd->upper_disp_limit = prec->hopr;
+        pgd->lower_disp_limit = prec->lopr;
+        break;
+    case indexof(NORD):
+        pgd->upper_disp_limit = prec->nelm;
+        pgd->lower_disp_limit = 0;
+        break;
+    default:
+        recGblGetGraphicDouble(paddr, pgd);
     }
     return 0;
 }
 
-static long get_control_double(DBADDR *paddr, struct dbr_ctrlDouble *pcd)
+static long get_control_double(DBADDR* paddr, struct dbr_ctrlDouble* pcd)
 {
-    aaiRecord *prec = (aaiRecord *)paddr->precord;
+    aaiRecord* prec = (aaiRecord*)paddr->precord;
 
     switch (dbGetFieldIndex(paddr)) {
-        case indexof(VAL):
-            pcd->upper_ctrl_limit = prec->hopr;
-            pcd->lower_ctrl_limit = prec->lopr;
-            break;
-        case indexof(NORD):
-            pcd->upper_ctrl_limit = prec->nelm;
-            pcd->lower_ctrl_limit = 0;
-            break;
-        default:
-            recGblGetControlDouble(paddr, pcd);
+    case indexof(VAL):
+        pcd->upper_ctrl_limit = prec->hopr;
+        pcd->lower_ctrl_limit = prec->lopr;
+        break;
+    case indexof(NORD):
+        pcd->upper_ctrl_limit = prec->nelm;
+        pcd->lower_ctrl_limit = 0;
+        break;
+    default:
+        recGblGetControlDouble(paddr, pcd);
     }
     return 0;
 }
 
-static void monitor(aaiRecord *prec)
+static void monitor(aaiRecord* prec)
 {
     unsigned short monitor_mask;
     unsigned int hash = 0;
@@ -307,12 +317,12 @@ static void monitor(aaiRecord *prec)
         db_post_events(prec, &prec->val, monitor_mask);
 }
 
-static long readValue(aaiRecord *prec)
+static long readValue(aaiRecord* prec)
 {
-    struct aaidset *pdset = (struct aaidset *)prec->dset;
+    struct aaidset* pdset = (struct aaidset*)prec->dset;
     long status;
 
-    if (prec->pact == TRUE){
+    if (prec->pact == TRUE) {
         return pdset->read_aai(prec);
     }
 
@@ -320,16 +330,16 @@ static long readValue(aaiRecord *prec)
     if (status)
         return status;
 
-    if (prec->simm == menuYesNoNO){
+    if (prec->simm == menuYesNoNO) {
         epicsUInt32 nord = prec->nord;
 
-        status = pdset->read_aai(prec);
+        status = pdset->read_aai();
         if (nord != prec->nord)
             db_post_events(prec, &prec->nord, DBE_VALUE | DBE_LOG);
         return status;
     }
 
-    if (prec->simm == menuYesNoYES){
+    if (prec->simm == menuYesNoYES) {
         epicsUInt32 nord = prec->nord;
         /* Device suport is responsible for buffer
            which might be read-only so we may not be
@@ -340,7 +350,7 @@ static long readValue(aaiRecord *prec)
         */
         recGblSetSevr(prec, SIMM_ALARM, prec->sims);
 
-        status = pdset->read_aai(prec);
+        status = pdset->read_aai();
         if (nord != prec->nord)
             db_post_events(prec, &prec->nord, DBE_VALUE | DBE_LOG);
         return status;

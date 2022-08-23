@@ -3,9 +3,9 @@
 #ifndef INC_mbboDirectRecord_H
 #define INC_mbboDirectRecord_H
 
- #include "epicsTypes.h"
- #include "link.h"
-#include "epicsMutex.h"
+#include "epicsTypes.h"
+#include "link.h"
+ #include "epicsMutex.h"
 #include "ellLib.h"
 #include "epicsTime.h"
 
@@ -25,12 +25,15 @@ typedef struct mbboDirectRecord {
     DBLINK              sdis;       /* Scanning Disable */
     epicsMutexId        mlok;       /* Monitor lock */
     ELLLIST             mlis;       /* Monitor List */
+    ELLLIST             bklnk;      /* Backwards link tracking */
     epicsUInt8          disp;       /* Disable putField */
     epicsUInt8          proc;       /* Force Processing */
     epicsEnum16         stat;       /* Alarm Status */
     epicsEnum16         sevr;       /* Alarm Severity */
+    char                amsg[40];   /* Alarm Message */
     epicsEnum16         nsta;       /* New Alarm Status */
     epicsEnum16         nsev;       /* New Alarm Severity */
+    char                namsg[40];  /* New Alarm Message */
     epicsEnum16         acks;       /* Alarm Ack Severity */
     epicsEnum16         ackt;       /* Alarm Ack Transient */
     epicsEnum16         diss;       /* Disable Alarm Sevrty */
@@ -106,69 +109,72 @@ typedef enum {
 	mbboDirectRecordSDIS = 12,
 	mbboDirectRecordMLOK = 13,
 	mbboDirectRecordMLIS = 14,
-	mbboDirectRecordDISP = 15,
-	mbboDirectRecordPROC = 16,
-	mbboDirectRecordSTAT = 17,
-	mbboDirectRecordSEVR = 18,
-	mbboDirectRecordNSTA = 19,
-	mbboDirectRecordNSEV = 20,
-	mbboDirectRecordACKS = 21,
-	mbboDirectRecordACKT = 22,
-	mbboDirectRecordDISS = 23,
-	mbboDirectRecordLCNT = 24,
-	mbboDirectRecordPACT = 25,
-	mbboDirectRecordPUTF = 26,
-	mbboDirectRecordRPRO = 27,
-	mbboDirectRecordASP = 28,
-	mbboDirectRecordPPN = 29,
-	mbboDirectRecordPPNR = 30,
-	mbboDirectRecordSPVT = 31,
-	mbboDirectRecordRSET = 32,
-	mbboDirectRecordDSET = 33,
-	mbboDirectRecordDPVT = 34,
-	mbboDirectRecordRDES = 35,
-	mbboDirectRecordLSET = 36,
-	mbboDirectRecordPRIO = 37,
-	mbboDirectRecordTPRO = 38,
-	mbboDirectRecordBKPT = 39,
-	mbboDirectRecordUDF = 40,
-	mbboDirectRecordUDFS = 41,
-	mbboDirectRecordTIME = 42,
-	mbboDirectRecordFLNK = 43,
-	mbboDirectRecordVAL = 44,
-	mbboDirectRecordOMSL = 45,
-	mbboDirectRecordNOBT = 46,
-	mbboDirectRecordDOL = 47,
-	mbboDirectRecordOUT = 48,
-	mbboDirectRecordB0 = 49,
-	mbboDirectRecordB1 = 50,
-	mbboDirectRecordB2 = 51,
-	mbboDirectRecordB3 = 52,
-	mbboDirectRecordB4 = 53,
-	mbboDirectRecordB5 = 54,
-	mbboDirectRecordB6 = 55,
-	mbboDirectRecordB7 = 56,
-	mbboDirectRecordB8 = 57,
-	mbboDirectRecordB9 = 58,
-	mbboDirectRecordBA = 59,
-	mbboDirectRecordBB = 60,
-	mbboDirectRecordBC = 61,
-	mbboDirectRecordBD = 62,
-	mbboDirectRecordBE = 63,
-	mbboDirectRecordBF = 64,
-	mbboDirectRecordRVAL = 65,
-	mbboDirectRecordORAW = 66,
-	mbboDirectRecordRBV = 67,
-	mbboDirectRecordORBV = 68,
-	mbboDirectRecordMASK = 69,
-	mbboDirectRecordMLST = 70,
-	mbboDirectRecordSHFT = 71,
-	mbboDirectRecordSIOL = 72,
-	mbboDirectRecordSIML = 73,
-	mbboDirectRecordSIMM = 74,
-	mbboDirectRecordSIMS = 75,
-	mbboDirectRecordIVOA = 76,
-	mbboDirectRecordIVOV = 77
+	mbboDirectRecordBKLNK = 15,
+	mbboDirectRecordDISP = 16,
+	mbboDirectRecordPROC = 17,
+	mbboDirectRecordSTAT = 18,
+	mbboDirectRecordSEVR = 19,
+	mbboDirectRecordAMSG = 20,
+	mbboDirectRecordNSTA = 21,
+	mbboDirectRecordNSEV = 22,
+	mbboDirectRecordNAMSG = 23,
+	mbboDirectRecordACKS = 24,
+	mbboDirectRecordACKT = 25,
+	mbboDirectRecordDISS = 26,
+	mbboDirectRecordLCNT = 27,
+	mbboDirectRecordPACT = 28,
+	mbboDirectRecordPUTF = 29,
+	mbboDirectRecordRPRO = 30,
+	mbboDirectRecordASP = 31,
+	mbboDirectRecordPPN = 32,
+	mbboDirectRecordPPNR = 33,
+	mbboDirectRecordSPVT = 34,
+	mbboDirectRecordRSET = 35,
+	mbboDirectRecordDSET = 36,
+	mbboDirectRecordDPVT = 37,
+	mbboDirectRecordRDES = 38,
+	mbboDirectRecordLSET = 39,
+	mbboDirectRecordPRIO = 40,
+	mbboDirectRecordTPRO = 41,
+	mbboDirectRecordBKPT = 42,
+	mbboDirectRecordUDF = 43,
+	mbboDirectRecordUDFS = 44,
+	mbboDirectRecordTIME = 45,
+	mbboDirectRecordFLNK = 46,
+	mbboDirectRecordVAL = 47,
+	mbboDirectRecordOMSL = 48,
+	mbboDirectRecordNOBT = 49,
+	mbboDirectRecordDOL = 50,
+	mbboDirectRecordOUT = 51,
+	mbboDirectRecordB0 = 52,
+	mbboDirectRecordB1 = 53,
+	mbboDirectRecordB2 = 54,
+	mbboDirectRecordB3 = 55,
+	mbboDirectRecordB4 = 56,
+	mbboDirectRecordB5 = 57,
+	mbboDirectRecordB6 = 58,
+	mbboDirectRecordB7 = 59,
+	mbboDirectRecordB8 = 60,
+	mbboDirectRecordB9 = 61,
+	mbboDirectRecordBA = 62,
+	mbboDirectRecordBB = 63,
+	mbboDirectRecordBC = 64,
+	mbboDirectRecordBD = 65,
+	mbboDirectRecordBE = 66,
+	mbboDirectRecordBF = 67,
+	mbboDirectRecordRVAL = 68,
+	mbboDirectRecordORAW = 69,
+	mbboDirectRecordRBV = 70,
+	mbboDirectRecordORBV = 71,
+	mbboDirectRecordMASK = 72,
+	mbboDirectRecordMLST = 73,
+	mbboDirectRecordSHFT = 74,
+	mbboDirectRecordSIOL = 75,
+	mbboDirectRecordSIML = 76,
+	mbboDirectRecordSIMM = 77,
+	mbboDirectRecordSIMS = 78,
+	mbboDirectRecordIVOA = 79,
+	mbboDirectRecordIVOV = 80
 } mbboDirectFieldIndex;
 
 #ifdef GEN_SIZE_OFFSET
@@ -182,7 +188,7 @@ static int mbboDirectRecordSizeOffset(dbRecordType *prt)
 {
     mbboDirectRecord *prec = 0;
 
-    assert(prt->no_fields == 78);
+    assert(prt->no_fields == 81);
     prt->papFldDes[mbboDirectRecordNAME]->size = sizeof(prec->name);
     prt->papFldDes[mbboDirectRecordDESC]->size = sizeof(prec->desc);
     prt->papFldDes[mbboDirectRecordASG]->size = sizeof(prec->asg);
@@ -198,12 +204,15 @@ static int mbboDirectRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[mbboDirectRecordSDIS]->size = sizeof(prec->sdis);
     prt->papFldDes[mbboDirectRecordMLOK]->size = sizeof(prec->mlok);
     prt->papFldDes[mbboDirectRecordMLIS]->size = sizeof(prec->mlis);
+    prt->papFldDes[mbboDirectRecordBKLNK]->size = sizeof(prec->bklnk);
     prt->papFldDes[mbboDirectRecordDISP]->size = sizeof(prec->disp);
     prt->papFldDes[mbboDirectRecordPROC]->size = sizeof(prec->proc);
     prt->papFldDes[mbboDirectRecordSTAT]->size = sizeof(prec->stat);
     prt->papFldDes[mbboDirectRecordSEVR]->size = sizeof(prec->sevr);
+    prt->papFldDes[mbboDirectRecordAMSG]->size = sizeof(prec->amsg);
     prt->papFldDes[mbboDirectRecordNSTA]->size = sizeof(prec->nsta);
     prt->papFldDes[mbboDirectRecordNSEV]->size = sizeof(prec->nsev);
+    prt->papFldDes[mbboDirectRecordNAMSG]->size = sizeof(prec->namsg);
     prt->papFldDes[mbboDirectRecordACKS]->size = sizeof(prec->acks);
     prt->papFldDes[mbboDirectRecordACKT]->size = sizeof(prec->ackt);
     prt->papFldDes[mbboDirectRecordDISS]->size = sizeof(prec->diss);
@@ -276,12 +285,15 @@ static int mbboDirectRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[mbboDirectRecordSDIS]->offset = (unsigned short)((char *)&prec->sdis - (char *)prec);
     prt->papFldDes[mbboDirectRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[mbboDirectRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
+    prt->papFldDes[mbboDirectRecordBKLNK]->offset = (unsigned short)((char *)&prec->bklnk - (char *)prec);
     prt->papFldDes[mbboDirectRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[mbboDirectRecordPROC]->offset = (unsigned short)((char *)&prec->proc - (char *)prec);
     prt->papFldDes[mbboDirectRecordSTAT]->offset = (unsigned short)((char *)&prec->stat - (char *)prec);
     prt->papFldDes[mbboDirectRecordSEVR]->offset = (unsigned short)((char *)&prec->sevr - (char *)prec);
+    prt->papFldDes[mbboDirectRecordAMSG]->offset = (unsigned short)((char *)&prec->amsg - (char *)prec);
     prt->papFldDes[mbboDirectRecordNSTA]->offset = (unsigned short)((char *)&prec->nsta - (char *)prec);
     prt->papFldDes[mbboDirectRecordNSEV]->offset = (unsigned short)((char *)&prec->nsev - (char *)prec);
+    prt->papFldDes[mbboDirectRecordNAMSG]->offset = (unsigned short)((char *)&prec->namsg - (char *)prec);
     prt->papFldDes[mbboDirectRecordACKS]->offset = (unsigned short)((char *)&prec->acks - (char *)prec);
     prt->papFldDes[mbboDirectRecordACKT]->offset = (unsigned short)((char *)&prec->ackt - (char *)prec);
     prt->papFldDes[mbboDirectRecordDISS]->offset = (unsigned short)((char *)&prec->diss - (char *)prec);

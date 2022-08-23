@@ -3,9 +3,9 @@
 #ifndef INC_longoutRecord_H
 #define INC_longoutRecord_H
 
- #include "epicsTypes.h"
- #include "link.h"
-#include "epicsMutex.h"
+#include "epicsTypes.h"
+#include "link.h"
+ #include "epicsMutex.h"
 #include "ellLib.h"
 #include "epicsTime.h"
 
@@ -25,12 +25,15 @@ typedef struct longoutRecord {
     DBLINK              sdis;       /* Scanning Disable */
     epicsMutexId        mlok;       /* Monitor lock */
     ELLLIST             mlis;       /* Monitor List */
+    ELLLIST             bklnk;      /* Backwards link tracking */
     epicsUInt8          disp;       /* Disable putField */
     epicsUInt8          proc;       /* Force Processing */
     epicsEnum16         stat;       /* Alarm Status */
     epicsEnum16         sevr;       /* Alarm Severity */
+    char                amsg[40];   /* Alarm Message */
     epicsEnum16         nsta;       /* New Alarm Status */
     epicsEnum16         nsev;       /* New Alarm Severity */
+    char                namsg[40];  /* New Alarm Message */
     epicsEnum16         acks;       /* Alarm Ack Severity */
     epicsEnum16         ackt;       /* Alarm Ack Transient */
     epicsEnum16         diss;       /* Disable Alarm Sevrty */
@@ -101,64 +104,67 @@ typedef enum {
 	longoutRecordSDIS = 12,
 	longoutRecordMLOK = 13,
 	longoutRecordMLIS = 14,
-	longoutRecordDISP = 15,
-	longoutRecordPROC = 16,
-	longoutRecordSTAT = 17,
-	longoutRecordSEVR = 18,
-	longoutRecordNSTA = 19,
-	longoutRecordNSEV = 20,
-	longoutRecordACKS = 21,
-	longoutRecordACKT = 22,
-	longoutRecordDISS = 23,
-	longoutRecordLCNT = 24,
-	longoutRecordPACT = 25,
-	longoutRecordPUTF = 26,
-	longoutRecordRPRO = 27,
-	longoutRecordASP = 28,
-	longoutRecordPPN = 29,
-	longoutRecordPPNR = 30,
-	longoutRecordSPVT = 31,
-	longoutRecordRSET = 32,
-	longoutRecordDSET = 33,
-	longoutRecordDPVT = 34,
-	longoutRecordRDES = 35,
-	longoutRecordLSET = 36,
-	longoutRecordPRIO = 37,
-	longoutRecordTPRO = 38,
-	longoutRecordBKPT = 39,
-	longoutRecordUDF = 40,
-	longoutRecordUDFS = 41,
-	longoutRecordTIME = 42,
-	longoutRecordFLNK = 43,
-	longoutRecordVAL = 44,
-	longoutRecordOUT = 45,
-	longoutRecordDOL = 46,
-	longoutRecordOMSL = 47,
-	longoutRecordEGU = 48,
-	longoutRecordDRVH = 49,
-	longoutRecordDRVL = 50,
-	longoutRecordHOPR = 51,
-	longoutRecordLOPR = 52,
-	longoutRecordHIHI = 53,
-	longoutRecordLOLO = 54,
-	longoutRecordHIGH = 55,
-	longoutRecordLOW = 56,
-	longoutRecordHHSV = 57,
-	longoutRecordLLSV = 58,
-	longoutRecordHSV = 59,
-	longoutRecordLSV = 60,
-	longoutRecordHYST = 61,
-	longoutRecordADEL = 62,
-	longoutRecordMDEL = 63,
-	longoutRecordLALM = 64,
-	longoutRecordALST = 65,
-	longoutRecordMLST = 66,
-	longoutRecordSIOL = 67,
-	longoutRecordSIML = 68,
-	longoutRecordSIMM = 69,
-	longoutRecordSIMS = 70,
-	longoutRecordIVOA = 71,
-	longoutRecordIVOV = 72
+	longoutRecordBKLNK = 15,
+	longoutRecordDISP = 16,
+	longoutRecordPROC = 17,
+	longoutRecordSTAT = 18,
+	longoutRecordSEVR = 19,
+	longoutRecordAMSG = 20,
+	longoutRecordNSTA = 21,
+	longoutRecordNSEV = 22,
+	longoutRecordNAMSG = 23,
+	longoutRecordACKS = 24,
+	longoutRecordACKT = 25,
+	longoutRecordDISS = 26,
+	longoutRecordLCNT = 27,
+	longoutRecordPACT = 28,
+	longoutRecordPUTF = 29,
+	longoutRecordRPRO = 30,
+	longoutRecordASP = 31,
+	longoutRecordPPN = 32,
+	longoutRecordPPNR = 33,
+	longoutRecordSPVT = 34,
+	longoutRecordRSET = 35,
+	longoutRecordDSET = 36,
+	longoutRecordDPVT = 37,
+	longoutRecordRDES = 38,
+	longoutRecordLSET = 39,
+	longoutRecordPRIO = 40,
+	longoutRecordTPRO = 41,
+	longoutRecordBKPT = 42,
+	longoutRecordUDF = 43,
+	longoutRecordUDFS = 44,
+	longoutRecordTIME = 45,
+	longoutRecordFLNK = 46,
+	longoutRecordVAL = 47,
+	longoutRecordOUT = 48,
+	longoutRecordDOL = 49,
+	longoutRecordOMSL = 50,
+	longoutRecordEGU = 51,
+	longoutRecordDRVH = 52,
+	longoutRecordDRVL = 53,
+	longoutRecordHOPR = 54,
+	longoutRecordLOPR = 55,
+	longoutRecordHIHI = 56,
+	longoutRecordLOLO = 57,
+	longoutRecordHIGH = 58,
+	longoutRecordLOW = 59,
+	longoutRecordHHSV = 60,
+	longoutRecordLLSV = 61,
+	longoutRecordHSV = 62,
+	longoutRecordLSV = 63,
+	longoutRecordHYST = 64,
+	longoutRecordADEL = 65,
+	longoutRecordMDEL = 66,
+	longoutRecordLALM = 67,
+	longoutRecordALST = 68,
+	longoutRecordMLST = 69,
+	longoutRecordSIOL = 70,
+	longoutRecordSIML = 71,
+	longoutRecordSIMM = 72,
+	longoutRecordSIMS = 73,
+	longoutRecordIVOA = 74,
+	longoutRecordIVOV = 75
 } longoutFieldIndex;
 
 #ifdef GEN_SIZE_OFFSET
@@ -172,7 +178,7 @@ static int longoutRecordSizeOffset(dbRecordType *prt)
 {
     longoutRecord *prec = 0;
 
-    assert(prt->no_fields == 73);
+    assert(prt->no_fields == 76);
     prt->papFldDes[longoutRecordNAME]->size = sizeof(prec->name);
     prt->papFldDes[longoutRecordDESC]->size = sizeof(prec->desc);
     prt->papFldDes[longoutRecordASG]->size = sizeof(prec->asg);
@@ -188,12 +194,15 @@ static int longoutRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[longoutRecordSDIS]->size = sizeof(prec->sdis);
     prt->papFldDes[longoutRecordMLOK]->size = sizeof(prec->mlok);
     prt->papFldDes[longoutRecordMLIS]->size = sizeof(prec->mlis);
+    prt->papFldDes[longoutRecordBKLNK]->size = sizeof(prec->bklnk);
     prt->papFldDes[longoutRecordDISP]->size = sizeof(prec->disp);
     prt->papFldDes[longoutRecordPROC]->size = sizeof(prec->proc);
     prt->papFldDes[longoutRecordSTAT]->size = sizeof(prec->stat);
     prt->papFldDes[longoutRecordSEVR]->size = sizeof(prec->sevr);
+    prt->papFldDes[longoutRecordAMSG]->size = sizeof(prec->amsg);
     prt->papFldDes[longoutRecordNSTA]->size = sizeof(prec->nsta);
     prt->papFldDes[longoutRecordNSEV]->size = sizeof(prec->nsev);
+    prt->papFldDes[longoutRecordNAMSG]->size = sizeof(prec->namsg);
     prt->papFldDes[longoutRecordACKS]->size = sizeof(prec->acks);
     prt->papFldDes[longoutRecordACKT]->size = sizeof(prec->ackt);
     prt->papFldDes[longoutRecordDISS]->size = sizeof(prec->diss);
@@ -261,12 +270,15 @@ static int longoutRecordSizeOffset(dbRecordType *prt)
     prt->papFldDes[longoutRecordSDIS]->offset = (unsigned short)((char *)&prec->sdis - (char *)prec);
     prt->papFldDes[longoutRecordMLOK]->offset = (unsigned short)((char *)&prec->mlok - (char *)prec);
     prt->papFldDes[longoutRecordMLIS]->offset = (unsigned short)((char *)&prec->mlis - (char *)prec);
+    prt->papFldDes[longoutRecordBKLNK]->offset = (unsigned short)((char *)&prec->bklnk - (char *)prec);
     prt->papFldDes[longoutRecordDISP]->offset = (unsigned short)((char *)&prec->disp - (char *)prec);
     prt->papFldDes[longoutRecordPROC]->offset = (unsigned short)((char *)&prec->proc - (char *)prec);
     prt->papFldDes[longoutRecordSTAT]->offset = (unsigned short)((char *)&prec->stat - (char *)prec);
     prt->papFldDes[longoutRecordSEVR]->offset = (unsigned short)((char *)&prec->sevr - (char *)prec);
+    prt->papFldDes[longoutRecordAMSG]->offset = (unsigned short)((char *)&prec->amsg - (char *)prec);
     prt->papFldDes[longoutRecordNSTA]->offset = (unsigned short)((char *)&prec->nsta - (char *)prec);
     prt->papFldDes[longoutRecordNSEV]->offset = (unsigned short)((char *)&prec->nsev - (char *)prec);
+    prt->papFldDes[longoutRecordNAMSG]->offset = (unsigned short)((char *)&prec->namsg - (char *)prec);
     prt->papFldDes[longoutRecordACKS]->offset = (unsigned short)((char *)&prec->acks - (char *)prec);
     prt->papFldDes[longoutRecordACKT]->offset = (unsigned short)((char *)&prec->ackt - (char *)prec);
     prt->papFldDes[longoutRecordDISS]->offset = (unsigned short)((char *)&prec->diss - (char *)prec);
