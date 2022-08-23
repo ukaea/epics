@@ -3,9 +3,9 @@ SET TOPLEVEL=%1
 SET BUILDIR=%2
 SET DLLDIR=%3
 
-SET TOPLEVEL=C:\Users\ktn98257\source\repos\epics.dotnet\
-SET DLLDIR=C:\Users\ktn98257\source\repos\epics.dotnet\x64\Release_DLL\
-SET BUILDIR=C:\Users\ktn98257\source\repos\epics.dotnet\base-3.15.9\src\ioc
+REM SET TOPLEVEL=C:\Users\ktn98257\source\repos\epics.dotnet\
+REM SET DLLDIR=C:\Users\ktn98257\source\repos\epics.dotnet\x64\Release_DLL\
+REM SET BUILDIR=C:\Users\ktn98257\source\repos\epics.dotnet\base-3.15.9\src\ioc
 
 if not exist  %TOPLEVEL%include  md %TOPLEVEL%include
 if not exist  %TOPLEVEL%DBD  md %TOPLEVEL%DBD

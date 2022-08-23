@@ -62,8 +62,10 @@ perl -CSD %DLLDIR%podRemove.pl -o .\aSubRecord.dbd ..\rec\aSubRecord.dbd.pod
 perl -CSD %DLLDIR%podRemove.pl -o .\biRecord.dbd ..\rec\biRecord.dbd.pod
 perl -CSD %DLLDIR%podRemove.pl -o .\boRecord.dbd ..\rec\boRecord.dbd.pod
 perl -CSD %DLLDIR%podRemove.pl -o .\calcRecord.dbd ..\rec\calcRecord.dbd.pod
+perl -CSD %DLLDIR%podRemove.pl -o .\calcoutRecord.dbd ..\rec\calcoutRecord.dbd.pod
 perl -CSD %DLLDIR%podRemove.pl -o .\compressRecord.dbd ..\rec\compressRecord.dbd.pod
 perl -CSD %DLLDIR%podRemove.pl -o .\dfanoutRecord.dbd ..\rec\dfanoutRecord.dbd.pod
+perl -CSD %DLLDIR%podRemove.pl -o .\histogramRecord.dbd ..\rec\histogramRecord.dbd.pod
 perl -CSD %DLLDIR%podRemove.pl -o .\eventRecord.dbd ..\rec\eventRecord.dbd.pod
 perl -CSD %DLLDIR%podRemove.pl -o .\fanoutRecord.dbd ..\rec\fanoutRecord.dbd.pod
 perl -CSD %DLLDIR%podRemove.pl -o .\filters.dbd ..\filters\filters.dbd.pod
@@ -76,6 +78,7 @@ perl -CSD %DLLDIR%podRemove.pl -o .\mbboDirectRecord.dbd ..\rec\mbboDirectRecord
 perl -CSD %DLLDIR%podRemove.pl -o .\mbbiRecord.dbd ..\rec\mbbiRecord.dbd.pod
 perl -CSD %DLLDIR%podRemove.pl -o .\mbboRecord.dbd ..\rec\mbboRecord.dbd.pod
 perl -CSD %DLLDIR%podRemove.pl -o .\permissiveRecord.dbd ..\rec\permissiveRecord.dbd.pod
+perl -CSD %DLLDIR%podRemove.pl -o .\printfRecord.dbd ..\rec\printfRecord.dbd.pod
 perl -CSD %DLLDIR%podRemove.pl -o .\selRecord.dbd ..\rec\selRecord.dbd.pod
 perl -CSD %DLLDIR%podRemove.pl -o .\seqRecord.dbd ..\rec\seqRecord.dbd.pod
 perl -CSD %DLLDIR%podRemove.pl -o .\stateRecord.dbd ..\rec\stateRecord.dbd.pod
