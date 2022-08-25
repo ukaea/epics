@@ -11,14 +11,6 @@
 #include "dbScan.h"
 #include "postfix.h"
 
-#ifndef calcoutDOPT_NUM_CHOICES
-typedef enum {
-    calcoutDOPT_Use_VAL             /* Use CALC */,
-    calcoutDOPT_Use_OVAL            /* Use OCAL */
-} calcoutDOPT;
-#define calcoutDOPT_NUM_CHOICES 2
-#endif
-
 #ifndef calcoutINAV_NUM_CHOICES
 typedef enum {
     calcoutINAV_EXT_NC              /* Ext PV NC */,
@@ -39,6 +31,14 @@ typedef enum {
     calcoutOOPT_Transition_To_Non_zero /* Transition To Non-zero */
 } calcoutOOPT;
 #define calcoutOOPT_NUM_CHOICES 6
+#endif
+
+#ifndef calcoutDOPT_NUM_CHOICES
+typedef enum {
+    calcoutDOPT_Use_VAL             /* Use CALC */,
+    calcoutDOPT_Use_OVAL            /* Use OCAL */
+} calcoutDOPT;
+#define calcoutDOPT_NUM_CHOICES 2
 #endif
 
 typedef struct calcoutRecord {
@@ -174,8 +174,8 @@ typedef struct calcoutRecord {
     epicsFloat64        lalm;       /* Last Value Alarmed */
     epicsFloat64        alst;       /* Last Value Archived */
     epicsFloat64        mlst;       /* Last Val Monitored */
-    char     rpcl[INFIX_TO_POSTFIX_SIZE(80)]; /* Reverse Polish Calc */
-    char     orpc[INFIX_TO_POSTFIX_SIZE(80)]; /* Reverse Polish OCalc */
+    char	rpcl[INFIX_TO_POSTFIX_SIZE(80)]; /* Reverse Polish Calc */
+    char	orpc[INFIX_TO_POSTFIX_SIZE(80)]; /* Reverse Polish OCalc */
 } calcoutRecord;
 
 typedef enum {

@@ -9,6 +9,14 @@
 #include "ellLib.h"
 #include "epicsTime.h"
 
+#ifndef aaoPOST_NUM_CHOICES
+typedef enum {
+    aaoPOST_Always                  /* Always */,
+    aaoPOST_OnChange                /* On Change */
+} aaoPOST;
+#define aaoPOST_NUM_CHOICES 2
+#endif
+
 #ifndef menuFtype_NUM_CHOICES
 typedef enum {
     menuFtypeSTRING                 /* STRING */,
@@ -25,14 +33,6 @@ typedef enum {
     menuFtypeENUM                   /* ENUM */
 } menuFtype;
 #define menuFtype_NUM_CHOICES 12
-#endif
-
-#ifndef aaoPOST_NUM_CHOICES
-typedef enum {
-    aaoPOST_Always                  /* Always */,
-    aaoPOST_OnChange                /* On Change */
-} aaoPOST;
-#define aaoPOST_NUM_CHOICES 2
 #endif
 
 typedef struct aaoRecord {

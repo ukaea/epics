@@ -67,7 +67,7 @@ typedef struct histogramRecord {
     epicsEnum16         udfs;       /* Undefined Alarm Sevrty */
     epicsTimeStamp      time;       /* Time */
     DBLINK              flnk;       /* Forward Process Link */
-    void *   val;                   /* Value */
+    void *	val;                     /* Value */
     epicsUInt16         nelm;       /* Num of Array Elements */
     epicsInt16          csta;       /* Collection Status */
     epicsEnum16         cmd;        /* Collection Control */

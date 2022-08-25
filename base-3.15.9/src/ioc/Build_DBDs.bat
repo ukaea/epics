@@ -47,7 +47,6 @@ perl -CSD %DLLDIR%dbdExpand.pl  -I../O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DB
 perl -CSD %DLLDIR%dbdExpand.pl  -I../O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o menuPost.dbd menuPost.dbd.pod
 perl -CSD %DLLDIR%dbdExpand.pl  -I../O.Common -I%TOPLEVEL%include -I%TOPLEVEL%DBD -o menuYesNo.dbd menuYesNo.dbd.pod
 xcopy /Y /Q menu*.dbd ..\O.Common
-xcopy /Y /Q softIoc.dbd %TOPLEVEL%DBD
 
 perl -CSD %DLLDIR%dbdToRecordtypeH.pl -I%TOPLEVEL%include -o ..\O.Common\dbCommon.h dbCommon.dbd
 perl -CSD %DLLDIR%dbdToRecordtypeH.pl -I%TOPLEVEL%include -o ..\O.Common\dbCommonRecord.h dbCommonRecord.dbd

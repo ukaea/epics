@@ -10,6 +10,8 @@ if not exist C:\strawberry\perl\lib\DBD.pm  mklink /h C:\strawberry\perl\lib\DBD
 if not exist C:\strawberry\perl\lib\DBD  mklink /d C:\strawberry\perl\lib\DBD %TOPLEVEL%lib\perl\DBD
 if not exist C:\strawberry\perl\lib\EPICS  mklink /d C:\strawberry\perl\lib\EPICS %TOPLEVEL%lib\perl\EPICS
 
+xcopy /Y /Q base.dbd %TOPLEVEL%DBD
+
 xcopy /Y /Q makeInstallDir.pl %DLLDIR% > NUL
 perl %DLLDIR%makeInstallDir.pl %TOPLEVEL% > O.Common\epicsInstallDir.h
 

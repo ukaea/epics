@@ -9,16 +9,13 @@
 #include "ellLib.h"
 #include "epicsTime.h"
 #include "devSup.h"
-
 /* Declare Device Support Entry Table */
+struct printfRecord;
 typedef struct printfdset {
-    long number;
-    DEVSUPFUN report;
-    DEVSUPFUN init;
-    DEVSUPFUN init_record;
-    DEVSUPFUN get_ioint_info;
-    DEVSUPFUN write_string;
+    dset common;
+    long (*write_string)(struct printfRecord *prec);
 } printfdset;
+#define HAS_printfdset
 
 /* Number of INPx fields defined */
 #define PRINTF_NLINKS 10
