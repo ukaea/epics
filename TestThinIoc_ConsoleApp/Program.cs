@@ -102,7 +102,7 @@ namespace TestThinIoc_ConsoleApp
       // If the function fails, the return value is zero.
       // To get extended error information, call GetLastError.
       bool ok = SetDllDirectory(
-        "C:\\Users\\steve\\source\\repos\\epics.dotnet\\x64\\Release_DLL"
+        "C:\\_repos\\epics.dotnet\\x64\\Debug_DLL"
         // "C:\\Users\\steve\\source\\repos\\epics.dotnet\\x64\\Debug_DLL"
       ) ;
 
@@ -126,7 +126,13 @@ namespace TestThinIoc_ConsoleApp
       var task_ignored = System.Threading.Tasks.Task.Run(
         () => {
           System.Console.WriteLine("ThinIoc thread is starting") ;
-          ApiCallResult result = thin_ioc_load_db_file(
+          ApiCallResult result = thin_ioc_initialise() ;
+          if ( result != ApiCallResult.SUCCESS )
+          {
+            System.Console.WriteLine($"thin_ioc_initialise failed : {result}") ;
+            return ;
+          }
+          result = thin_ioc_load_db_file(
             "C:\\tmp\\xx.db"
           ) ;
           if ( result != ApiCallResult.SUCCESS )
@@ -199,6 +205,9 @@ namespace TestThinIoc_ConsoleApp
 
     [System.Runtime.InteropServices.DllImport(THIN_IOC_DLL_path)]
     static extern ApiCallResult thin_ioc_start ( ) ;
+
+    [System.Runtime.InteropServices.DllImport(THIN_IOC_DLL_path)]
+    static extern ApiCallResult thin_ioc_initialise ( int dbdOption = 0 ) ;
 
     [System.Runtime.InteropServices.DllImport(THIN_IOC_DLL_path)]
     static extern void thin_ioc_call_atExits ( ) ;
