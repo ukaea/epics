@@ -13,7 +13,7 @@
  *      Date:            7-14-89
  *
  */
-
+
 #include <stddef.h>
 #include <stdlib.h>
 #include <stdarg.h>
@@ -101,7 +101,7 @@ static void checkAlarms(aiRecord *prec, epicsTimeStamp *lastTime);
 static void convert(aiRecord *prec);
 static void monitor(aiRecord *prec);
 static long readValue(aiRecord *prec);
-
+
 static long init_record(void *precord,int pass)
 {
     aiRecord	*prec = (aiRecord *)precord;
@@ -149,7 +149,7 @@ static long init_record(void *precord,int pass)
     prec->oraw = prec->rval;
     return(0);
 }
-
+
 static long process(void *precord)
 {
 	aiRecord	*prec = (aiRecord *)precord;
@@ -185,7 +185,7 @@ static long process(void *precord)
 	prec->pact=FALSE;
 	return(status);
 }
-
+
 static long special(DBADDR *paddr,int after)
 {
     aiRecord  	*prec = (aiRecord *)(paddr->precord);
@@ -217,7 +217,7 @@ static long special(DBADDR *paddr,int after)
 	return(S_db_badChoice);
     }
 }
-
+
 #define indexof(field) aiRecord##field
 
 static long get_units(DBADDR *paddr, char *units)
@@ -305,7 +305,7 @@ static long get_alarm_double(DBADDR *paddr,struct dbr_alDouble *pad)
     } else recGblGetAlarmDouble(paddr,pad);
     return(0);
 }
-
+
 static void checkAlarms(aiRecord *prec, epicsTimeStamp *lastTime)
 {
     enum {
@@ -415,7 +415,7 @@ static void checkAlarms(aiRecord *prec, epicsTimeStamp *lastTime)
         prec->lalm = val;
     }
 }
-
+
 static void convert(aiRecord *prec)
 {
 	double val;
@@ -452,7 +452,7 @@ static void convert(aiRecord *prec)
 	prec->udf = isnan(prec->val);
 	return;
 }
-
+
 static void monitor(aiRecord *prec)
 {
     unsigned monitor_mask = recGblResetAlarms(prec);
@@ -473,7 +473,7 @@ static void monitor(aiRecord *prec)
 	}
 	return;
 }
-
+
 static long readValue(aiRecord *prec)
 {
 	long		status;

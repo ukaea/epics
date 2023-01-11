@@ -191,7 +191,7 @@ void devExtend(dsxt *pdsxt)
         pthisDevSup->pdsxt = pdsxt;
     }
 }
-
+
 long dbAllocRecord(DBENTRY *pdbentry,const char *precordName)
 {
     dbRecordType	*pdbRecordType = pdbentry->precordType;

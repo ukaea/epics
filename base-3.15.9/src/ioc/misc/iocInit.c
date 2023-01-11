@@ -13,7 +13,6 @@
  *      Date:            06-01-91
  */
 
-
 #include <stddef.h>
 #include <stdlib.h>
 #include <stdarg.h>
@@ -361,7 +360,6 @@ static void checkGeneralTime(void)
     epicsTimeGetEvent(&ts, 1);  /* Prime gtPvt.lastEventProvider for ISRs */
 }
 
-
 static void initDrvSup(void) /* Locate all driver support entry tables */
 {
     drvSup *pdrvSup;
@@ -447,7 +445,7 @@ static void finishDevSup(void)
         }
     }
 }
-
+
 /*
  * Iterate through all record instances (but not aliases),
  * calling a function for each one.
@@ -477,7 +475,7 @@ static void iterateRecords(recIterFunc func, void *user)
     }
     return;
 }
-
+
 static void doInitRecord0(dbRecordType *pdbRecordType, dbCommon *precord,
     void *user)
 {
@@ -556,7 +554,7 @@ static void initDatabase(void)
     epicsAtExit(exitDatabase, NULL);
     return;
 }
-
+
 /*
  *  Process database records at initialization ordered by phase
  *     if their pini (process at init) field is set.
@@ -633,7 +631,6 @@ static void initialProcess(void)
     piniProcess(menuPiniYES);
 }
 
-
 /*
  * set DB_LINK and CA_LINK to PV_LINK
  * Delete record scans

@@ -38,11 +38,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\db\bottles.db" />
     <None Include="..\iocBoot\iocbottles\envPaths" />
     <None Include="..\iocBoot\iocbottles\st.cmd" />
     <None Include="..\iocBoot\iocbottles\vsPath.bat" />
     <None Include="Build_DBDs.bat" />
-    <None Include="Db\bottles.db" />
     <None Include="src\Makefile" />
   </ItemGroup>
   <ItemGroup>

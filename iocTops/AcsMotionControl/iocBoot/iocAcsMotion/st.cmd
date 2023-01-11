@@ -2,13 +2,19 @@
 
 epicsEnvSet("TOP","C:\Users\ktn98257\source\repos\epics.dotnet\iocTops\acsMotionControl")
 epicsEnvSet("IOC","iocAcsMotion")
-cd "${TOP}\iocBoot\${IOC}"
+~~~~~~~~~
+epicsEnvSet("SUPPORT","C:\Users\ktn98257\source\repos\epics.dotnet\support")
+epicsEnvSet("EPICS_BASE","C:\Users\ktn98257\source\repos\epics.dotnet\base-3.15.9")
+epicsEnvSet("ASYN","C:\Users\ktn98257\source\repos\epics.dotnet\support\asyn")
+epicsEnvSet("SNCSEQ","C:\Users\ktn98257\source\repos\epics.dotnet\support\seq")
+epicsEnvSet("AUTOSAVE","C:\Users\ktn98257\source\repos\epics.dotnet\support\autosave")
+epicsEnvSet("MOTOR","C:\Users\ktn98257\source\repos\epics.dotnet\motor")
 
-< envPaths
 < envVars
 
 ## Register all support components
-dbLoadDatabase "..\..\..\..\DBD\acsMotionIOC.dbd"
+#dbLoadDatabase "..\..\..\..\DBD\acsMotionIOC.dbd"
+dbLoadDatabase "C:\Users\ktn98257\source\repos\epics.dotnet\DBD\acsMotionIOC.dbd"
 acsMotion_registerRecordDeviceDriver pdbbase
 
 cd "${TOP}/iocBoot/${IOC}"

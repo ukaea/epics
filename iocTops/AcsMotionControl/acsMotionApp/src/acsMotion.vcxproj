@@ -50,6 +50,7 @@
     <None Include="..\..\iocBoot\iocAcsMotion\st.cmd" />
     <None Include="..\..\iocBoot\iocAcsMotion\vsPath.bat" />
     <None Include="Build_DBDs.bat" />
+    <None Include="Makefile" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\base-3.15.9\src\ioc\dbCore.vcxproj">

@@ -9,32 +9,6 @@
 #include "ellLib.h"
 #include "epicsTime.h"
 
-#ifndef scalcoutWAIT_NUM_CHOICES
-typedef enum {
-    scalcoutWAIT_NoWait             /* NoWait */,
-    scalcoutWAIT_Wait               /* Wait */
-} scalcoutWAIT;
-#define scalcoutWAIT_NUM_CHOICES 2
-#endif
-
-#ifndef scalcoutINAP_NUM_CHOICES
-typedef enum {
-    scalcoutINAP_No                 /* No PROC on Change */,
-    scalcoutINAP_Yes                /* PROC on Change */
-} scalcoutINAP;
-#define scalcoutINAP_NUM_CHOICES 2
-#endif
-
-#ifndef scalcoutINAV_NUM_CHOICES
-typedef enum {
-    scalcoutINAV_EXT_NC             /* Ext PV NC */,
-    scalcoutINAV_EXT                /* Ext PV OK */,
-    scalcoutINAV_LOC                /* Local PV */,
-    scalcoutINAV_CON                /* Constant */
-} scalcoutINAV;
-#define scalcoutINAV_NUM_CHOICES 4
-#endif
-
 #ifndef scalcoutOOPT_NUM_CHOICES
 typedef enum {
     scalcoutOOPT_Every_Time         /* Every Time */,
@@ -48,12 +22,38 @@ typedef enum {
 #define scalcoutOOPT_NUM_CHOICES 7
 #endif
 
+#ifndef scalcoutINAV_NUM_CHOICES
+typedef enum {
+    scalcoutINAV_EXT_NC             /* Ext PV NC */,
+    scalcoutINAV_EXT                /* Ext PV OK */,
+    scalcoutINAV_LOC                /* Local PV */,
+    scalcoutINAV_CON                /* Constant */
+} scalcoutINAV;
+#define scalcoutINAV_NUM_CHOICES 4
+#endif
+
+#ifndef scalcoutWAIT_NUM_CHOICES
+typedef enum {
+    scalcoutWAIT_NoWait             /* NoWait */,
+    scalcoutWAIT_Wait               /* Wait */
+} scalcoutWAIT;
+#define scalcoutWAIT_NUM_CHOICES 2
+#endif
+
 #ifndef scalcoutDOPT_NUM_CHOICES
 typedef enum {
     scalcoutDOPT_Use_VAL            /* Use CALC */,
     scalcoutDOPT_Use_OVAL           /* Use OCAL */
 } scalcoutDOPT;
 #define scalcoutDOPT_NUM_CHOICES 2
+#endif
+
+#ifndef scalcoutINAP_NUM_CHOICES
+typedef enum {
+    scalcoutINAP_No                 /* No PROC on Change */,
+    scalcoutINAP_Yes                /* PROC on Change */
+} scalcoutINAP;
+#define scalcoutINAP_NUM_CHOICES 2
 #endif
 
 typedef struct scalcoutRecord {

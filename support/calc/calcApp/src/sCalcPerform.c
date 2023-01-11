@@ -392,8 +392,7 @@ epicsShareFunc long
 	}
 #endif
 
-	if (*post == END_EXPRESSION) 
-		return(-1);
+	if (*post == END_EXPRESSION) return(-1);
 
 
 	if (*post++ != USES_STRING) {

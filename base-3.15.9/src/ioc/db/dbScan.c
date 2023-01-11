@@ -13,7 +13,7 @@
 /*
  *      Original Authors: Bob Dalesio & Marty Kraimer
  */
-
+
 #include <stddef.h>
 #include <stdio.h>
 #include <string.h>
@@ -150,7 +150,7 @@ static void scanList(scan_list *psl);
 static void buildScanLists(void);
 static void addToList(struct dbCommon *precord, scan_list *psl);
 static void deleteFromList(struct dbCommon *precord, scan_list *psl);
-
+
 void scanStop(void)
 {
     int i;
@@ -300,7 +300,7 @@ void scanAdd(struct dbCommon *precord)
             addToList(precord, &ppsl->scan_list);
     }
 }
-
+
 void scanDelete(struct dbCommon *precord)
 {
     short scan;
@@ -447,7 +447,7 @@ int scanpiol(void)                  /* print pioscan_list */
     epicsMutexUnlock(ioscan_lock);
     return 0;
 }
-
+
 static void eventCallback(epicsCallback *pcallback)
 {
     scan_list *psl;
@@ -691,7 +691,7 @@ static void initOnce(void)
 
     epicsEventWait(startStopEvent);
 }
-
+
 static void periodicTask(void *arg)
 {
     periodic_scan_list *ppsl = (periodic_scan_list *)arg;
@@ -862,7 +862,7 @@ static void spawnPeriodic(int ind)
 
     epicsEventWait(startStopEvent);
 }
-
+
 static void ioscanCallback(epicsCallback *pcallback)
 {
     ioscan_head *piosh = (ioscan_head *) pcallback->user;
@@ -897,7 +897,7 @@ static void printList(scan_list *psl, char *message)
         epicsMutexUnlock(psl->lock);
     }
 }
-
+
 static void scanList(scan_list *psl)
 {
     /* When reading this code remember that the call to dbProcess can result
@@ -954,7 +954,7 @@ static void scanList(scan_list *psl)
         epicsMutexUnlock(psl->lock);
     }
 }
-
+
 static void buildScanLists(void)
 {
     dbRecordType *pdbRecordType;
