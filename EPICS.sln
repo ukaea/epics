@@ -105,9 +105,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "support", "support", "{A35FC520-4FE8-44FA-8E70-266C3CF86F68}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "iocTops", "iocTops", "{8BA6450F-19D0-44A3-90DB-D42ADAC42E4D}"
-	ProjectSection(SolutionItems) = preProject
-		iocTops\AcsMotionControl\acsMotionApp\src\acsMotion.vcxproj = iocTops\AcsMotionControl\acsMotionApp\src\acsMotion.vcxproj
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "autosave", "autosave", "{D0E668FC-9744-4756-8156-CE0A7612E338}"
 EndProject

@@ -4,7 +4,7 @@
 * Copyright (c) 2002 The Regents of the University of California, as
 *     Operator of Los Alamos National Laboratory.
 * EPICS BASE is distributed subject to a Software License Agreement found
-* in file LICENSE that is included with this distribution. 
+* in file LICENSE that is included with this distribution.
 \*************************************************************************/
 /* devSup.h	Device Support		*/
 /*
@@ -18,36 +18,36 @@
 #include "errMdef.h"
 #include "shareLib.h"
 
-/* structures defined elsewhere */
+ /* structures defined elsewhere */
 struct dbCommon;
 struct devSup;
 
 #ifdef __cplusplus
 extern "C" {
-    typedef long (*DEVSUPFUN)(void *);	/* ptr to device support function*/
+  typedef long (*DEVSUPFUN)(void*);	/* ptr to device support function*/
 #else
-    typedef long (*DEVSUPFUN)();	/* ptr to device support function*/
+typedef long (*DEVSUPFUN)();	/* ptr to device support function*/
 #endif
 
 typedef struct dset {   /* device support entry table */
-    long	number;		/*number of support routines*/
-    DEVSUPFUN	report;		/*print report*/
-    DEVSUPFUN	init;		/*init support layer*/
-    DEVSUPFUN	init_record;	/*init device for particular record*/
-    DEVSUPFUN	get_ioint_info;	/* get io interrupt information*/
-    /*other functions are record dependent*/
+  long	number;		/*number of support routines*/
+  DEVSUPFUN	report;		/*print report*/
+  DEVSUPFUN	init;		/*init support layer*/
+  DEVSUPFUN	init_record;	/*init device for particular record*/
+  DEVSUPFUN	get_ioint_info;	/* get io interrupt information*/
+  /*other functions are record dependent*/
 } dset;
 
 typedef struct dsxt {   /* device support extension table */
-    long (*add_record)(struct dbCommon *precord);
-    long (*del_record)(struct dbCommon *precord);
-    /* Recordtypes are *not* allowed to extend this table */
+  long (*add_record)(struct dbCommon* precord);
+  long (*del_record)(struct dbCommon* precord);
+  /* Recordtypes are *not* allowed to extend this table */
 } dsxt;
 
 epicsShareExtern dsxt devSoft_DSXT;  /* Allow anything table */
 
-epicsShareFunc void devExtend(dsxt *pdsxt);
-epicsShareFunc void dbInitDevSup(struct devSup *pdevSup, dset *pdset);
+epicsShareFunc void devExtend(dsxt* pdsxt);
+epicsShareFunc void dbInitDevSup(struct devSup* pdevSup, dset* pdset);
 
 
 #define S_dev_noDevSup      (M_devSup| 1) /*SDR_DEVSUP: Device support missing*/

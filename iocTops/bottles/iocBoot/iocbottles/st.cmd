@@ -19,7 +19,7 @@ dbLoadDatabase "C:\Users\ktn98257\source\repos\epics.dotnet\DBD\bottles.dbd"
 bottles_registerRecordDeviceDriver pdbbase
 
 ## Load record instances
-dbLoadRecords("../../db/bottles.db","F=$(F), user=$(U)")
+dbLoadRecords("./db/bottles.db","F=$(F), user=$(U)")
 
 #- Run this to trace the stages of iocInit
 #traceIocInit
