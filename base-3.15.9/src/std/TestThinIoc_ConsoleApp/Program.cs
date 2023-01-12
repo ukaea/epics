@@ -2,7 +2,7 @@
 // Program.cs
 //
 
-using System.Runtime.InteropServices;
+using System.Runtime.InteropServices ;
 
 namespace TestThinIoc_ConsoleApp
 {
@@ -97,80 +97,120 @@ namespace TestThinIoc_ConsoleApp
     public static void Main ( string[] args ) 
     {
 
-      System.Console.WriteLine("Invoking 'thin_ioc'") ;
+      // We can make a good guess at the DLL location 
+      // by working back from the directory holding this source code ...
 
-      // If the function fails, the return value is zero.
-      // To get extended error information, call GetLastError.
+      string pathToDirectoryHoldingThisProjectCode = System.IO.Path.GetDirectoryName(
+        GetFullPathToThisSourceFile()
+      )! ;
+      string pathToSolutionDirectory = System.IO.Path.GetFullPath(
+        path     : @"..\..\..\..\",
+        basePath : pathToDirectoryHoldingThisProjectCode
+      ) ;
+      string pathToDllDirectory = (
+        #if DEBUG
+          pathToSolutionDirectory + "x64\\Debug_DLL"
+        #else
+          pathToSolutionDirectory + "x64\\Release_DLL"
+        #endif
+      ) ;
+
+      // EDIT THIS TO EXPLICITLY SPECIFY THE DIRECTORY CONTAINING THE THINIOC DLL'S :
+
       bool ok = SetDllDirectory(
-        "C:\\Users\\ktn98257\\source\\repos\\epics.dotnet\\x64\\Debug_DLL"
+        pathToDllDirectory
+        // "C:\\Users\\ktn98257\\source\\repos\\epics.dotnet\\x64\\Debug_DLL"
         // "C:\\Users\\steve\\source\\repos\\epics.dotnet\\x64\\Debug_DLL"
       ) ;
 
-      int thin_ioc_version = thin_ioc_get_version() ;
-
+      try
       {
-        // Just testing that we can invoke DLL functions
-        // int x = thin_ioc_func() ;
-        // int sum = thin_ioc_add(1,2) ;
-        // int product = thin_ioc_mul(2,3) ;
-        // string caVersion = ca_version() ;
-      }
 
-      // Hmm, we can really only invoke 'thin_ioc_start' once,
-      // because it allocates lots of memory etc for the db's and so on,
-      // which don't get released unless you make a complicated sequence
-      // of API calls.
+        System.Console.WriteLine("Invoking 'thin_ioc' with 'xx.db'") ;
 
-      System.Threading.ManualResetEvent stopThinIoc_event = new(false) ;
+        // The db file we'll load is called 'xx.db' (as it defines various PV's
+        // that all have the prefix 'xx:') and it's located in the same directory
+        // as this 'Program.cs' file.
 
-      var task_ignored = System.Threading.Tasks.Task.Run(
-        () => {
-          System.Console.WriteLine("ThinIoc thread is starting") ;
-          ApiCallResult result = thin_ioc_initialise() ;
-          if ( result != ApiCallResult.SUCCESS )
-          {
-            System.Console.WriteLine($"thin_ioc_initialise failed : {result}") ;
-            return ;
-          }
-          result = thin_ioc_load_db_file(
-            "C:\\tmp\\xx.db"
-          ) ;
-          if ( result != ApiCallResult.SUCCESS )
-          {
-            System.Console.WriteLine($"thin_ioc_start failed : {result}") ;
-            return ;
-          }
-          result = thin_ioc_start() ;
-          if ( result is ApiCallResult.SUCCESS )
-          {
-            System.Console.WriteLine($"thin_ioc_start succeeded") ;
-            System.Console.WriteLine("Waiting for 'stopThinIoc_event'") ;
-            stopThinIoc_event.WaitOne() ;
-            System.Console.WriteLine("'stopThinIoc_event' has been signalled") ;
-            thin_ioc_call_atExits() ;
-            System.Console.WriteLine("ThinIoc thread is terminating") ;
-          }
-          else
-          {
-            System.Console.WriteLine($"thin_ioc_start failed : {result}") ;
-            System.Console.WriteLine("Waiting for ENTER ...") ;
-            System.Console.ReadLine() ;
-            return ;
-          }
-        }
-      ) ;
+        string pathToDbFileToLoad = GetFullPathToThisSourceFile().Replace(
+          "Program.cs",
+          "xx.db"
+        ) ;
 
-      while ( true )
-      {
-        System.Console.WriteLine("Enter 'x' to disable ...") ;
-        string? line = System.Console.ReadLine() ;
-        if ( line?.StartsWith("x") == true )
+        int thin_ioc_version = thin_ioc_get_version() ;
+
         {
-          System.Console.WriteLine("Signalling 'stopThinIoc_event") ;
-          stopThinIoc_event.Set() ;
-          break ;
+          // OLD CODE - just testing that we can invoke DLL functions
+          // int x = thin_ioc_func() ;
+          // int sum = thin_ioc_add(1,2) ;
+          // int product = thin_ioc_mul(2,3) ;
+          // string caVersion = ca_version() ;
         }
+
+        // Hmm, we can really only invoke 'thin_ioc_start' once,
+        // because it allocates lots of memory etc for the db's and so on,
+        // which don't get released unless you make a complicated sequence
+        // of API calls.
+
+        System.Threading.ManualResetEvent stopThinIoc_event = new(false) ;
+
+        var task_ignored = System.Threading.Tasks.Task.Run(
+          () => {
+            System.Console.WriteLine("ThinIoc thread is starting") ;
+            ApiCallResult result = thin_ioc_initialise() ;
+            if ( result != ApiCallResult.SUCCESS )
+            {
+              System.Console.WriteLine($"thin_ioc_initialise failed : {result}") ;
+              return ;
+            }
+            result = thin_ioc_load_db_file(
+              pathToDbFileToLoad
+            ) ;
+            if ( result != ApiCallResult.SUCCESS )
+            {
+              System.Console.WriteLine($"thin_ioc_start failed : {result}") ;
+              return ;
+            }
+            result = thin_ioc_start() ;
+            if ( result is ApiCallResult.SUCCESS )
+            {
+              System.Console.WriteLine($"thin_ioc_start succeeded") ;
+              System.Console.WriteLine("Waiting for 'stopThinIoc_event'") ;
+              stopThinIoc_event.WaitOne() ;
+              System.Console.WriteLine("'stopThinIoc_event' has been signalled") ;
+              thin_ioc_call_atExits() ;
+              System.Console.WriteLine("ThinIoc thread is terminating") ;
+            }
+            else
+            {
+              System.Console.WriteLine($"thin_ioc_start failed : {result}") ;
+              System.Console.WriteLine("Waiting for ENTER ...") ;
+              System.Console.ReadLine() ;
+              return ;
+            }
+          }
+        ) ;
+
+        while ( true )
+        {
+          System.Console.WriteLine("Enter 'x' to issue 'stop' request ...") ;
+          string? line = System.Console.ReadLine() ;
+          if ( line?.StartsWith("x") == true )
+          {
+            System.Console.WriteLine("Signalling 'stopThinIoc_event") ;
+            stopThinIoc_event.Set() ;
+            break ;
+          }
+        }
+
       }
+      catch ( System.Exception x )
+      {
+        System.Console.WriteLine(
+          x.Message
+        ) ;
+      }
+
       System.Console.WriteLine("Waiting for ENTER ...") ;
       System.Console.ReadLine() ;
 
@@ -211,6 +251,13 @@ namespace TestThinIoc_ConsoleApp
 
     [System.Runtime.InteropServices.DllImport(THIN_IOC_DLL_path)]
     static extern void thin_ioc_call_atExits ( ) ;
+
+    // This helper function returns the path to the directory
+    // that contains this 'Program.cs' file.
+
+    private static string GetFullPathToThisSourceFile ( 
+      [System.Runtime.CompilerServices.CallerFilePath] string? pathUtilitiesSourceCodePath = null 
+    ) => pathUtilitiesSourceCodePath! ;
 
   }
 
