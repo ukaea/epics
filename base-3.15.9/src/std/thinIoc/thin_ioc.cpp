@@ -17,6 +17,7 @@
 #include "iocsh.h"
 #include "epicsInstallDir.h"
 #include "envDefs.h"
+#include "epicsString.h"
 
 #include <windows.h> // Required for 'LoadLibrary'
 
@@ -267,8 +268,245 @@ int thin_ioc_start ( )
 }
 
 extern "C" __declspec(dllexport)
-void thin_ioc_call_atExits ( )
+void thin_ioc_call_atExits()
 {
-	epicsExitCallAtExits() ;
-	// epicsThreadSleep(0.1) ;
+  epicsExitCallAtExits();
+  // epicsThreadSleep(0.1) ;
+}
+
+enum THINIOC_DBL_STATUS {
+  THINIOC_DBL_SUCCESS = 0,
+  THINIOC_DBL_NO_DB = 1,
+  THINIOC_DBL_NO_RECORDS = 2,
+  THINIOC_DBL_INSUFFICIENT_SPACE = 3
+} ;
+
+extern "C" __declspec(dllexport)
+int thin_ioc_dbl ( char * resultBuffer, int nCharsAllocated )
+{
+  resultBuffer[0] = 0 ;
+  if ( pdbbase == 0 )
+  {
+    return THINIOC_DBL_NO_DB;
+  }
+
+  DBENTRY dbentry ;
+  DBENTRY* pdbentry = &dbentry ;
+  dbInitEntry(pdbbase, pdbentry) ;
+  long status = dbFirstRecordType(pdbentry) ;
+  if ( status != 0 )
+  {
+    return THINIOC_DBL_NO_RECORDS ;
+  }
+
+  while ( status == 0 )
+  {
+    status = dbFirstRecord(pdbentry) ;
+    while ( status == 0 )
+    {
+      if ( strlen(resultBuffer) != 0 )
+      {
+        // This isn't the first item, 
+        // so append a ','
+        errno_t errorFlag = strncat_s(
+          resultBuffer,
+          nCharsAllocated,
+          ",",
+          1
+        ) ;
+        if ( errorFlag != 0 )
+        {
+          dbFinishEntry(pdbentry) ;
+          return THINIOC_DBL_INSUFFICIENT_SPACE ;
+        }
+      }
+      const char * recordName = dbGetRecordName(pdbentry) ;
+      errno_t errorFlag = strncat_s(
+        resultBuffer,
+        nCharsAllocated,
+        recordName,
+        strlen(recordName)
+      ) ;
+      if ( errorFlag != 0 )
+      {
+        dbFinishEntry(pdbentry);
+        return THINIOC_DBL_INSUFFICIENT_SPACE ;
+      }
+      status = dbNextRecord(pdbentry) ;
+    }
+    status = dbNextRecordType(pdbentry) ;
+  }
+  dbFinishEntry(pdbentry) ;
+  return THINIOC_DBL_SUCCESS ;
+}
+
+long dbl_simplified_01 ( )
+{
+  if ( !pdbbase )
+  {
+    printf("No database loaded\n") ;
+    return 0 ;
+  }
+
+  DBENTRY dbentry ;
+  DBENTRY* pdbentry = &dbentry ;
+  dbInitEntry(pdbbase,pdbentry) ;
+  long status = dbFirstRecordType(pdbentry) ;
+  if ( status )
+  {
+    printf("No record type\n");
+  }
+
+  while ( !status )
+  {
+    status = dbFirstRecord(pdbentry) ;
+    while ( !status )
+    {
+      printf("%s",dbGetRecordName(pdbentry));
+      status = dbNextRecord(pdbentry);
+    }
+    status = dbNextRecordType(pdbentry) ;
+  }
+  dbFinishEntry(pdbentry) ;
+  return 0 ;
+}
+
+////////////////////////////////////////////////
+
+
+
+//
+// Cloned from 'dbTest.c'
+//
+// Here's how the 'dbl' command is installed in 'dblocRegister.c :
+// 
+//   static const iocshArg dblArg0 = { "record type",iocshArgString };
+//   static const iocshArg dblArg1 = { "fields",iocshArgString };
+//   static const iocshArg* const dblArgs[] = { &dblArg0,&dblArg1 };
+//   static const iocshFuncDef dblFuncDef = { 
+//     "dbl",2,dblArgs,
+//     "Database list.\n"
+//     "List record/field names.\n"
+//     "With no arguments, lists all record names.\n"
+//   };
+//   static void dblCallFunc(const iocshArgBuf* args)
+//   {
+//     dbl(args[0].sval, args[1].sval);
+//   }
+// 
+
+long dbl_original_01 ( const char* precordTypename, const char* fields )
+{
+  DBENTRY dbentry ;
+  DBENTRY* pdbentry = &dbentry ;
+  long status ;
+  int nfields = 0 ;
+  int ifield ;
+  char* fieldnames = 0 ;
+  char** papfields = 0 ;
+
+  if ( !pdbbase ) 
+  {
+    printf("No database loaded\n") ;
+    return 0 ;
+  }
+
+  if (
+     precordTypename 
+  && (
+        (*precordTypename == '\0') 
+     || !strcmp(precordTypename,"*")
+     )
+  ) {
+    precordTypename = NULL ;
+  }
+
+  if ( 
+     fields 
+  && (*fields == '\0') 
+  ) {
+    fields = NULL ;
+  }
+
+  if ( fields ) 
+  {
+    char* pnext;
+    fieldnames = epicsStrDup(fields);
+    nfields = 1;
+    pnext = fieldnames;
+    while ( *pnext && (pnext = strchr(pnext, ' ')) ) 
+    {
+      nfields++;
+      while (*pnext == ' ') 
+        pnext++;
+    }
+    papfields = (char**) dbCalloc(nfields, sizeof(char*)); // ???????????????????
+    pnext = fieldnames;
+    for ( ifield = 0; ifield < nfields; ifield++) 
+    {
+      papfields[ifield] = pnext;
+      if ( ifield < nfields - 1 ) 
+      {
+        pnext = strchr(pnext, ' ');
+        *pnext++ = 0;
+        while (*pnext == ' ') pnext++;
+      }
+    }
+  }
+
+  dbInitEntry(pdbbase,pdbentry) ;
+  if ( !precordTypename )
+    status = dbFirstRecordType(pdbentry);
+  else
+    status = dbFindRecordType(pdbentry, precordTypename);
+  if ( status ) 
+  {
+    printf("No record type\n");
+  }
+
+  while ( !status ) 
+  {
+    status = dbFirstRecord(pdbentry) ;
+    while (!status) 
+    {
+      printf("%s", dbGetRecordName(pdbentry)) ;
+      for ( ifield = 0 ; ifield < nfields ; ifield++ ) 
+      {
+        char* pvalue ;
+        status = dbFindField(pdbentry,papfields[ifield]) ;
+        if  (status ) 
+        {
+          if ( !strcmp(papfields[ifield], "recordType") ) 
+          {
+            pvalue = dbGetRecordTypeName(pdbentry) ;
+          }
+          else 
+          {
+            printf(", ") ;
+            continue ;
+          }
+        }
+        else 
+        {
+          pvalue = dbGetString(pdbentry) ;
+        }
+        printf(", \"%s\"", pvalue ? pvalue : "") ;
+      }
+      printf("\n") ;
+      status = dbNextRecord(pdbentry) ;
+    }
+    if ( precordTypename )
+      break ;
+
+    status = dbNextRecordType(pdbentry) ;
+  }
+
+  if ( nfields > 0 ) 
+  {
+    free((void*)papfields) ;
+    free((void*)fieldnames) ;
+  }
+  dbFinishEntry(pdbentry) ;
+  return 0 ;
+
 }

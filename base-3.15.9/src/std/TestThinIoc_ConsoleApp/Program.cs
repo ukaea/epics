@@ -2,7 +2,10 @@
 // Program.cs
 //
 
+using System.Collections.Generic ;
+using System.Linq;
 using System.Runtime.InteropServices ;
+using System.Threading.Channels;
 
 namespace TestThinIoc_ConsoleApp
 {
@@ -175,6 +178,16 @@ namespace TestThinIoc_ConsoleApp
             if ( result is ApiCallResult.SUCCESS )
             {
               System.Console.WriteLine($"thin_ioc_start succeeded") ;
+              if ( 
+                CanGetPvNames(
+                  out var pvNames
+                ) 
+              ) {
+                foreach ( string pvName in pvNames )
+                {
+                  System.Console.WriteLine($"  PV : {pvName}") ;
+                }
+              }
               System.Console.WriteLine("Waiting for 'stopThinIoc_event'") ;
               stopThinIoc_event.WaitOne() ;
               System.Console.WriteLine("'stopThinIoc_event' has been signalled") ;
@@ -216,6 +229,27 @@ namespace TestThinIoc_ConsoleApp
 
     }
 
+    private static unsafe bool CanGetPvNames ( out IEnumerable<string> pvNames )
+    {
+      int nBufferBytes = 10*1024 ;
+      byte[] buffer = new byte[nBufferBytes] ;
+      fixed ( byte * pBuffer = buffer ) 
+      {
+        int status = thin_ioc_dbl(pBuffer,nBufferBytes) ;
+        if ( status == 0 )
+        {
+          // string commaSeparatedPvNames = System.Text.Encoding.ASCII.GetString(buffer) ;
+          string commaSeparatedPvNames = Marshal.PtrToStringAnsi(
+            (nint) pBuffer
+          ) ?? "" ;
+          pvNames = commaSeparatedPvNames.Split(',') ;
+          return true ;
+        }
+      }
+      pvNames = Enumerable.Empty<string>() ;
+      return false ;
+    }
+
     // In VS2022 command prompt :
     // > dumpbin /EXPORTS mydll.dll
 
@@ -251,6 +285,9 @@ namespace TestThinIoc_ConsoleApp
 
     [System.Runtime.InteropServices.DllImport(THIN_IOC_DLL_path)]
     static extern void thin_ioc_call_atExits ( ) ;
+
+    [System.Runtime.InteropServices.DllImport(THIN_IOC_DLL_path)]
+    static extern unsafe int thin_ioc_dbl ( byte * resultBuffer, int nBytesAllocated ) ;
 
     // This helper function returns the path to the directory
     // that contains this 'Program.cs' file.
