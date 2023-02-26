@@ -8,6 +8,8 @@
 #include <string.h>
 #include <stdio.h>
 
+#include <string>
+
 #include "epicsThread.h"
 #include "epicsExit.h"
 #include "epicsStdio.h"
@@ -275,36 +277,44 @@ void thin_ioc_call_atExits()
 }
 
 enum THINIOC_DBL_STATUS {
-  THINIOC_DBL_SUCCESS = 0,
-  THINIOC_DBL_NO_DB = 1,
-  THINIOC_DBL_NO_RECORDS = 2,
-  THINIOC_DBL_INSUFFICIENT_SPACE = 3
+  THINIOC_DBL_SUCCESS            = 0,
+  THINIOC_DBL_INSUFFICIENT_SPACE = 1,
+  THINIOC_DBL_NO_DB              = 2,
+  THINIOC_DBL_NO_RECORDS         = 3,
 } ;
 
 extern "C" __declspec(dllexport)
-int thin_ioc_dbl ( char * resultBuffer, int nCharsAllocated )
+int thin_ioc_dbl_old_01(char* resultBuffer, int nCharsAllocated)
 {
-  resultBuffer[0] = 0 ;
+  resultBuffer[0] = 0;
   if ( pdbbase == 0 )
   {
     return THINIOC_DBL_NO_DB;
   }
 
-  DBENTRY dbentry ;
-  DBENTRY* pdbentry = &dbentry ;
-  dbInitEntry(pdbbase, pdbentry) ;
-  long status = dbFirstRecordType(pdbentry) ;
-  if ( status != 0 )
+  DBENTRY dbentry;
+  DBENTRY* pdbentry = &dbentry;
+  dbInitEntry(pdbbase, pdbentry);
+
+  long status = dbFirstRecordType(pdbentry);
+  if (status != 0)
   {
-    return THINIOC_DBL_NO_RECORDS ;
+    return THINIOC_DBL_NO_RECORDS;
   }
 
-  while ( status == 0 )
+  while (status == 0)
   {
-    status = dbFirstRecord(pdbentry) ;
-    while ( status == 0 )
+    status = dbFirstRecord(pdbentry);
+    while (status == 0)
     {
-      if ( strlen(resultBuffer) != 0 )
+      const char* recordName = dbGetRecordName(pdbentry);
+      int nChararactersToBeAdded = strlen(recordName) + 1;
+      if (strlen(resultBuffer) + nChararactersToBeAdded > nCharsAllocated)
+      {
+        dbFinishEntry(pdbentry);
+        return THINIOC_DBL_INSUFFICIENT_SPACE;
+      }
+      if (strlen(resultBuffer) != 0)
       {
         // This isn't the first item, 
         // so append a ','
@@ -313,31 +323,78 @@ int thin_ioc_dbl ( char * resultBuffer, int nCharsAllocated )
           nCharsAllocated,
           ",",
           1
-        ) ;
-        if ( errorFlag != 0 )
+        );
+        if (errorFlag != 0)
         {
-          dbFinishEntry(pdbentry) ;
-          return THINIOC_DBL_INSUFFICIENT_SPACE ;
+          dbFinishEntry(pdbentry);
+          return THINIOC_DBL_INSUFFICIENT_SPACE;
         }
       }
-      const char * recordName = dbGetRecordName(pdbentry) ;
+      // This throws an exception unexpectedly !!
       errno_t errorFlag = strncat_s(
         resultBuffer,
         nCharsAllocated,
         recordName,
         strlen(recordName)
-      ) ;
-      if ( errorFlag != 0 )
+      );
+      if (errorFlag != 0)
       {
         dbFinishEntry(pdbentry);
-        return THINIOC_DBL_INSUFFICIENT_SPACE ;
+        return THINIOC_DBL_INSUFFICIENT_SPACE;
       }
-      status = dbNextRecord(pdbentry) ;
+      status = dbNextRecord(pdbentry);
     }
-    status = dbNextRecordType(pdbentry) ;
+    status = dbNextRecordType(pdbentry);
   }
-  dbFinishEntry(pdbentry) ;
-  return THINIOC_DBL_SUCCESS ;
+  dbFinishEntry(pdbentry);
+  return THINIOC_DBL_SUCCESS;
+}
+
+//
+// TINE :
+//  - Rename to 'thin_ioc_get_pv_names' ?
+//  - Provide a status return via a ref arg, in case of error ???
+//    But just as good to return an empty result ??
+//
+
+extern "C" __declspec(dllexport)
+const char * thin_ioc_dbl ( )
+{
+  static std::string pvNames_commaSeparated ;
+  if ( pdbbase == 0 )
+  {
+    return "" ; // THINIOC_DBL_NO_DB;
+  }
+
+  DBENTRY dbentry;
+  DBENTRY* pdbentry = &dbentry;
+  dbInitEntry(pdbbase, pdbentry);
+
+  long status = dbFirstRecordType(pdbentry);
+  if ( status != 0 )
+  {
+    return "" ; // THINIOC_DBL_NO_RECORDS;
+  }
+
+  while (status == 0)
+  {
+    status = dbFirstRecord(pdbentry);
+    while (status == 0)
+    {
+      const char* recordName = dbGetRecordName(pdbentry);
+      if ( pvNames_commaSeparated.length() != 0 )
+      {
+        // This isn't the first item, 
+        // so append a ','
+        pvNames_commaSeparated += ',' ;
+      }
+      pvNames_commaSeparated += dbGetRecordName(pdbentry) ;
+      status = dbNextRecord(pdbentry);
+    }
+    status = dbNextRecordType(pdbentry);
+  }
+  dbFinishEntry(pdbentry);
+  return pvNames_commaSeparated.c_str() ;
 }
 
 long dbl_simplified_01 ( )
@@ -372,8 +429,6 @@ long dbl_simplified_01 ( )
 }
 
 ////////////////////////////////////////////////
-
-
 
 //
 // Cloned from 'dbTest.c'

@@ -4,6 +4,7 @@
 
 using System.Collections.Generic ;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Runtime.InteropServices ;
 using System.Threading.Channels;
 
@@ -188,6 +189,10 @@ namespace TestThinIoc_ConsoleApp
                   System.Console.WriteLine($"  PV : {pvName}") ;
                 }
               }
+              else
+              {
+                System.Console.WriteLine($"  Failed to get PV names") ;
+              }
               System.Console.WriteLine("Waiting for 'stopThinIoc_event'") ;
               stopThinIoc_event.WaitOne() ;
               System.Console.WriteLine("'stopThinIoc_event' has been signalled") ;
@@ -231,19 +236,36 @@ namespace TestThinIoc_ConsoleApp
 
     private static unsafe bool CanGetPvNames ( out IEnumerable<string> pvNames )
     {
-      int nBufferBytes = 10*1024 ;
-      byte[] buffer = new byte[nBufferBytes] ;
-      fixed ( byte * pBuffer = buffer ) 
+      string commaSeparatedPvNames = Marshal.PtrToStringAnsi(
+        (nint) thin_ioc_dbl() 
+      )! ;
+      pvNames = commaSeparatedPvNames.Split(',') ;
+      return true ;
+    }
+
+    private static unsafe bool CanGetPvNames_old_01 ( out IEnumerable<string> pvNames )
+    {
+      int nBufferBytes = 64 ;
+      while ( nBufferBytes <= 4096 ) 
       {
-        int status = thin_ioc_dbl(pBuffer,nBufferBytes) ;
-        if ( status == 0 )
+        byte[] buffer = new byte[nBufferBytes] ;
+        fixed ( byte * pBuffer = buffer ) 
         {
-          // string commaSeparatedPvNames = System.Text.Encoding.ASCII.GetString(buffer) ;
-          string commaSeparatedPvNames = Marshal.PtrToStringAnsi(
-            (nint) pBuffer
-          ) ?? "" ;
-          pvNames = commaSeparatedPvNames.Split(',') ;
-          return true ;
+          int status = thin_ioc_dbl_old_01(pBuffer,nBufferBytes) ;
+          if ( status == 0 )
+          {
+            // string commaSeparatedPvNames = System.Text.Encoding.ASCII.GetString(buffer) ;
+            string commaSeparatedPvNames = Marshal.PtrToStringAnsi(
+              (nint) pBuffer
+            )! ;
+            pvNames = commaSeparatedPvNames.Split(',') ;
+            return true ;
+          }
+          else if ( status == 1 ) 
+          {
+            // Try again with an increased buffer size
+            nBufferBytes += nBufferBytes ; 
+          }
         }
       }
       pvNames = Enumerable.Empty<string>() ;
@@ -287,7 +309,10 @@ namespace TestThinIoc_ConsoleApp
     static extern void thin_ioc_call_atExits ( ) ;
 
     [System.Runtime.InteropServices.DllImport(THIN_IOC_DLL_path)]
-    static extern unsafe int thin_ioc_dbl ( byte * resultBuffer, int nBytesAllocated ) ;
+    static extern unsafe byte * thin_ioc_dbl ( ) ;
+
+    [System.Runtime.InteropServices.DllImport(THIN_IOC_DLL_path)]
+    static extern unsafe int thin_ioc_dbl_old_01 ( byte * resultBuffer, int nBytesAllocated ) ;
 
     // This helper function returns the path to the directory
     // that contains this 'Program.cs' file.
