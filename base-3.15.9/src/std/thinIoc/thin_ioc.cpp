@@ -276,6 +276,61 @@ void thin_ioc_call_atExits()
   // epicsThreadSleep(0.1) ;
 }
 
+//
+// Enumerate the names of the PV's that have been created.
+// Equivalent to the 'dbl' command.
+// 
+// If an error occurs, an empty string is returned.
+//
+// Based on code found in 'dbTest.c'
+//
+
+extern "C" __declspec(dllexport)
+const char * thin_ioc_get_pv_names ( )
+{
+  static std::string pvNames_commaSeparated ;
+  if ( pdbbase == NULL )
+  {
+    return "" ; // THINIOC_DBL_NO_DB;
+  }
+
+  DBENTRY dbentry;
+  DBENTRY* pdbentry = &dbentry;
+  dbInitEntry(pdbbase, pdbentry);
+
+  long status = dbFirstRecordType(pdbentry);
+  if ( status != 0 )
+  {
+    return "" ; // THINIOC_DBL_NO_RECORDS;
+  }
+
+  int nPvNamesCollected = 0 ;
+  while ( status == 0 )
+  {
+    status = dbFirstRecord(pdbentry) ;
+    while ( status == 0 )
+    {
+      const char * recordName = dbGetRecordName(pdbentry) ;
+      if ( nPvNamesCollected != 0 )
+      {
+        // This isn't the first item, 
+        // so append a ','
+        pvNames_commaSeparated += ',' ;
+      }
+      pvNames_commaSeparated += dbGetRecordName(pdbentry) ;
+      nPvNamesCollected++ ;
+      status = dbNextRecord(pdbentry) ;
+    }
+    status = dbNextRecordType(pdbentry) ;
+  }
+  dbFinishEntry(pdbentry) ;
+  return pvNames_commaSeparated.c_str() ;
+}
+
+#if 0
+
+// Old experimental code relating to 'dbl'
+
 enum THINIOC_DBL_STATUS {
   THINIOC_DBL_SUCCESS            = 0,
   THINIOC_DBL_INSUFFICIENT_SPACE = 1,
@@ -348,53 +403,6 @@ int thin_ioc_dbl_old_01(char* resultBuffer, int nCharsAllocated)
   }
   dbFinishEntry(pdbentry);
   return THINIOC_DBL_SUCCESS;
-}
-
-//
-// TINE :
-//  - Rename to 'thin_ioc_get_pv_names' ?
-//  - Provide a status return via a ref arg, in case of error ???
-//    But just as good to return an empty result ??
-//
-
-extern "C" __declspec(dllexport)
-const char * thin_ioc_dbl ( )
-{
-  static std::string pvNames_commaSeparated ;
-  if ( pdbbase == 0 )
-  {
-    return "" ; // THINIOC_DBL_NO_DB;
-  }
-
-  DBENTRY dbentry;
-  DBENTRY* pdbentry = &dbentry;
-  dbInitEntry(pdbbase, pdbentry);
-
-  long status = dbFirstRecordType(pdbentry);
-  if ( status != 0 )
-  {
-    return "" ; // THINIOC_DBL_NO_RECORDS;
-  }
-
-  while (status == 0)
-  {
-    status = dbFirstRecord(pdbentry);
-    while (status == 0)
-    {
-      const char* recordName = dbGetRecordName(pdbentry);
-      if ( pvNames_commaSeparated.length() != 0 )
-      {
-        // This isn't the first item, 
-        // so append a ','
-        pvNames_commaSeparated += ',' ;
-      }
-      pvNames_commaSeparated += dbGetRecordName(pdbentry) ;
-      status = dbNextRecord(pdbentry);
-    }
-    status = dbNextRecordType(pdbentry);
-  }
-  dbFinishEntry(pdbentry);
-  return pvNames_commaSeparated.c_str() ;
 }
 
 long dbl_simplified_01 ( )
@@ -565,3 +573,6 @@ long dbl_original_01 ( const char* precordTypename, const char* fields )
   return 0 ;
 
 }
+
+#endif
+
